@@ -1,0 +1,17 @@
+[package]
+name = "block_reader_speedy"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+atty = "0.2.14"
+clap = "2.33.3"
+itertools = "0.10.1"
+debug_print = "1.0.0"
+more-asserts = "0.2.1"
+lru = "0.6.6"
+rand = "0.8.4"
+backtrace = "0.3.61"
+termcolor = "1.1.2"
