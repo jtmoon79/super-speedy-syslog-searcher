@@ -2589,7 +2589,7 @@ pub struct Sysline {
     dt: DateTimeL_Opt,
 }
 
-/// a signifier value for "not set" or "null"
+/// a signifier value for "not set" or "null" - because sometimes Option is a PitA
 const LI_NULL: LineIndex = LineIndex::MAX;
 
 impl fmt::Debug for Sysline {
@@ -3402,6 +3402,11 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let mut fo_a: FileOffset = fileoffset; // begin "range cursor" marker
         let mut fo_b: FileOffset = fo_end;     // end "range cursor" marker
         loop {
+            // TODO: [2021/09/26]
+            //       this could be faster.
+            //       currently it narrowing down to byte offset
+            //       but it only needs to narrow down to range of a sysline
+            //       so if `fo_a` and `fo_b` are in same sysline range, then this can return that sysline.
             debug_eprintln!("{}{}: loop(…)!", so(), _fname);
             let result = self.find_sysline(try_fo);
             let eof = result.is_eof();
