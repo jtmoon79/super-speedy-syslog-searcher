@@ -2096,6 +2096,9 @@ impl<'linereader> LineReader<'linereader> {
             debug_eprintln!("{}find_line: return ResultS4_LineFind::Ok_Done; file is empty", sx());
             return ResultS4_LineFind::Ok_Done;
         } else if fileoffset > filesz {
+            // TODO: need to decide on consistent behavior for passing fileoffset > filesz
+            //       should it really Error or be Ok_Done?
+            //       Make that consisetent among all LineReader and SyslineReader `find_*` functions
             let err = Error::new(ErrorKind::AddrNotAvailable, format!("Passed fileoffset {} past file size {}", fileoffset, filesz));
             debug_eprintln!("{}find_line: return ResultS4_LineFind::Err({}); fileoffset was too big!", sx(), err);
             return ResultS4_LineFind::Err(err);
@@ -2104,6 +2107,8 @@ impl<'linereader> LineReader<'linereader> {
             return ResultS4_LineFind::Ok_Done;
         }
 
+        // TODO: add a RangeMap like SyslineReader has
+        
         // first check if there is a line already known at this fileoffset
         if self.lines.contains_key(&fileoffset) {
             debug_eprintln!("{}find_line: hit cache for FileOffset {}", so(), fileoffset);
