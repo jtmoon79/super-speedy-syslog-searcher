@@ -12,7 +12,7 @@ set -x
 cargo build && cargo build --release
 )
 
-prog="./target/release/block_reader_speedy"
+prog="./target/release/super_speedy_syslog_searcher"
 if ! [[ -x "${prog}" ]]; then
     echo "ERROR: cannot find or exec '$prog'" >&2
     exit 1
@@ -31,26 +31,26 @@ function filesz () {
 }
 
 
-# file_=/mnt/c/Users/ulug/Projects/syslog-datetime-searcher/logs/debian9/syslog
-rootd="/mnt/c/Users/ulug/Projects/syslog-datetime-searcher"
+# file_=/mnt/c/Users/user1/Projects/syslog-datetime-searcher/logs/debian9/syslog
+rootd="."
 
 declare -a files=(
-#    "${rootd}/logs/other/tests/zero.log"
-#    "${rootd}/logs/other/tests/test0-nlx1.log"
-#    "${rootd}/logs/other/tests/test0-nlx1_Win.log"
-#    "${rootd}/logs/other/tests/test0-nlx2.log"
-#    "${rootd}/logs/other/tests/test0-nlx2_Win.log"
-#    "${rootd}/logs/other/tests/test0-nlx3.log"
-#    "${rootd}/logs/other/tests/test0-nlx3_Win.log"
-#    "${rootd}/logs/other/tests/test0-no-nl.log"
-#    "${rootd}/logs/other/tests/test0-no-nl_Win.log"
-#    "${rootd}/logs/other/tests/test1-nl.log"
-#    "${rootd}/logs/other/tests/test1-nl_Win.log"
-#    "${rootd}/logs/other/tests/test1-no-nl.log"
-#    "${rootd}/logs/other/tests/test2.log"
-#    "${rootd}/logs/other/tests/test3-hex.log"
-#    "${rootd}/logs/other/tests/basic-dt.log"
-    "${rootd}/logs/debian9/syslog"
+    "${rootd}/logs/other/tests/zero.log"
+    "${rootd}/logs/other/tests/test0-nlx1.log"
+    "${rootd}/logs/other/tests/test0-nlx1_Win.log"
+    "${rootd}/logs/other/tests/test0-nlx2.log"
+    "${rootd}/logs/other/tests/test0-nlx2_Win.log"
+    "${rootd}/logs/other/tests/test0-nlx3.log"
+    "${rootd}/logs/other/tests/test0-nlx3_Win.log"
+    "${rootd}/logs/other/tests/test0-no-nl.log"
+    "${rootd}/logs/other/tests/test1-nl.log"
+    "${rootd}/logs/other/tests/test1-nl_Win.log"
+    "${rootd}/logs/other/tests/test1-no-nl.log"
+    "${rootd}/logs/other/tests/test2.log"
+    "${rootd}/logs/other/tests/test3-hex.log"
+    "${rootd}/logs/other/tests/basic-dt.log"
+    "${rootd}/logs/Ubuntu18/samba/log.10.7.220.19"  # multiline syslines
+    "${rootd}/logs/debian9/syslog"  # very large file!
 )
 
 for file_ in "${files[@]}"; do
