@@ -5,13 +5,20 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+# enable for flamegraph (https://github.com/flamegraph-rs/flamegraph#usage-with-benchmarks)
+#[profile.bench]
+#debug = true
+
 [dependencies]
 atty = "0.2.14"
-clap = "2.33.3"
-itertools = "0.10.1"
-debug_print = "1.0.0"
-more-asserts = "0.2.1"
-lru = "0.6.6"
-rand = "0.8.4"
 backtrace = "0.3.61"
+chrono = "0.4"
+clap = "2.33.3"
+debug_print = "1.0.0"
+itertools = "0.10.1"
+lru = "0.6.6"
+more-asserts = "0.2.1"
+rand = "0.8.4"
+rangemap = "0.1.13"
+tempfile = "3.2.0"
 termcolor = "1.1.2"
