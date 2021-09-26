@@ -1,0 +1,593 @@
+[2020/03/05 12:21:13.776489,  3] ../source3/smbd/oplock.c:1340(init_oplocks)
+  init_oplocks: initializing messages.
+[2020/03/05 12:21:13.776588,  3] ../source3/smbd/process.c:1959(process_smb)
+  Transaction 0 of length 216 (0 toread)
+[2020/03/05 12:21:13.776619,  3] ../source3/smbd/process.c:1539(switch_message)
+  switch message SMBnegprot (pid 30809) conn 0x0
+[2020/03/05 12:21:13.776651,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:13.777765,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [PC NETWORK PROGRAM 1.0]
+[2020/03/05 12:21:13.777796,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [MICROSOFT NETWORKS 1.03]
+[2020/03/05 12:21:13.777811,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [MICROSOFT NETWORKS 3.0]
+[2020/03/05 12:21:13.777824,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [LANMAN1.0]
+[2020/03/05 12:21:13.777838,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [LM1.2X002]
+[2020/03/05 12:21:13.777851,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [DOS LANMAN2.1]
+[2020/03/05 12:21:13.777864,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [LANMAN2.1]
+[2020/03/05 12:21:13.777877,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [Samba]
+[2020/03/05 12:21:13.777891,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [NT LANMAN 1.0]
+[2020/03/05 12:21:13.777904,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [NT LM 0.12]
+[2020/03/05 12:21:13.777917,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [SMB 2.002]
+[2020/03/05 12:21:13.777930,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [SMB 2.???]
+[2020/03/05 12:21:13.778012,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:13.778072,  3] ../source3/smbd/smb2_negprot.c:290(smbd_smb2_request_process_negprot)
+  Selected protocol SMB2_FF
+[2020/03/05 12:21:13.780209,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'gssapi_spnego' registered
+[2020/03/05 12:21:13.780245,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'gssapi_krb5' registered
+[2020/03/05 12:21:13.780262,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'gssapi_krb5_sasl' registered
+[2020/03/05 12:21:13.780277,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'spnego' registered
+[2020/03/05 12:21:13.780290,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'schannel' registered
+[2020/03/05 12:21:13.780304,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'naclrpc_as_system' registered
+[2020/03/05 12:21:13.780317,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'sasl-EXTERNAL' registered
+[2020/03/05 12:21:13.780331,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'ntlmssp' registered
+[2020/03/05 12:21:13.780349,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'ntlmssp_resume_ccache' registered
+[2020/03/05 12:21:13.780363,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'http_basic' registered
+[2020/03/05 12:21:13.780376,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'http_ntlm' registered
+[2020/03/05 12:21:13.780397,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'krb5' registered
+[2020/03/05 12:21:13.780413,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+  GENSEC backend 'fake_gssapi_krb5' registered
+[2020/03/05 12:21:13.780674,  3] ../source3/smbd/negprot.c:770(reply_negprot)
+  Selected protocol SMB 2.???
+[2020/03/05 12:21:13.780862,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:13.780913,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:13.780954,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:13.780977,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:13.781065,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:13.781113,  3] ../source3/smbd/smb2_negprot.c:290(smbd_smb2_request_process_negprot)
+  Selected protocol SMB3_11
+[2020/03/05 12:21:17.863306,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.863878,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.863929,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.863958,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.864068,  3] ../auth/ntlmssp/ntlmssp_util.c:69(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62088215
+    NTLMSSP_NEGOTIATE_UNICODE
+    NTLMSSP_REQUEST_TARGET
+    NTLMSSP_NEGOTIATE_SIGN
+    NTLMSSP_NEGOTIATE_NTLM
+    NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+    NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+    NTLMSSP_NEGOTIATE_VERSION
+    NTLMSSP_NEGOTIATE_128
+    NTLMSSP_NEGOTIATE_KEY_EXCH
+[2020/03/05 12:21:17.864314,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.864404,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.864438,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.864464,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.864539,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.865084,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.865193,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.865230,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.865257,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.865318,  3] ../auth/ntlmssp/ntlmssp_server.c:454(ntlmssp_server_preauth)
+  Got user=[jmoon] domain=[DESKTOP] workstation=[WKSTN-JMOON] len1=24 len2=260
+[2020/03/05 12:21:17.865405,  3] ../source3/param/loadparm.c:3860(lp_load_ex)
+  lp_load_ex: refreshing parameters
+[2020/03/05 12:21:17.865518,  3] ../source3/param/loadparm.c:549(init_globals)
+  Initialising global parameters
+[2020/03/05 12:21:17.865694,  3] ../source3/param/loadparm.c:2774(lp_do_section)
+  Processing section "[global]"
+  doing parameter workgroup = DESKTOP
+  doing parameter server string = %h server (Samba, Ubuntu)
+  doing parameter dns proxy = no
+  doing parameter local master = no
+  doing parameter os level = 333
+  doing parameter preferred master = no
+  doing parameter domain master = no
+  doing parameter log level = 4
+  doing parameter log file = /var/log/samba/log.%m
+  doing parameter max log size = 1000
+  doing parameter syslog = 0
+[2020/03/05 12:21:17.865998,  1] ../lib/param/loadparm.c:1823(lpcfg_do_global_parameter)
+  WARNING: The "syslog" option is deprecated
+  doing parameter panic action = /usr/share/samba/panic-action %d
+  doing parameter server role = standalone server
+  doing parameter passdb backend = tdbsam
+  doing parameter obey pam restrictions = yes
+  doing parameter unix password sync = yes
+  doing parameter passwd program = /usr/bin/passwd %u
+  doing parameter passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+  doing parameter pam password change = yes
+  doing parameter map to guest = bad user
+  doing parameter usershare allow guests = no
+[2020/03/05 12:21:17.866364,  2] ../source3/param/loadparm.c:2791(lp_do_section)
+  Processing section "[home]"
+  doing parameter path = /home
+  doing parameter browseable = yes
+  doing parameter guest ok = no
+[2020/03/05 12:21:17.866483,  4] ../source3/param/loadparm.c:3902(lp_load_ex)
+  pm_process() returned Yes
+[2020/03/05 12:21:17.866527,  3] ../source3/param/loadparm.c:1609(lp_add_ipc)
+  adding IPC service
+[2020/03/05 12:21:17.866619,  3] ../source3/auth/auth.c:189(auth_check_ntlm_password)
+  check_ntlm_password:  Checking password for unmapped user [DESKTOP]\[jmoon]@[WKSTN-JMOON] with the new password interface
+[2020/03/05 12:21:17.866654,  3] ../source3/auth/auth.c:192(auth_check_ntlm_password)
+  check_ntlm_password:  mapped user is: [DESKTOP]\[jmoon]@[WKSTN-JMOON]
+[2020/03/05 12:21:17.866686,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.866715,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.866739,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.866853,  4] ../source3/lib/substitute.c:435(automount_server)
+  Home server: wkstn-jmoon
+[2020/03/05 12:21:17.866894,  4] ../source3/lib/substitute.c:435(automount_server)
+  Home server: wkstn-jmoon
+[2020/03/05 12:21:17.866929,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.866957,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.866980,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.867053,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.867097,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.867124,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.867147,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.867203,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.867320,  3] ../source3/passdb/lookup_sid.c:1680(get_primary_group_sid)
+  Forcing Primary Group to 'Domain Users' for jmoon
+[2020/03/05 12:21:17.867358,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.867386,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.867409,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.867478,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.867540,  4] ../source3/lib/substitute.c:435(automount_server)
+  Home server: wkstn-jmoon
+[2020/03/05 12:21:17.867580,  4] ../source3/lib/substitute.c:435(automount_server)
+  Home server: wkstn-jmoon
+[2020/03/05 12:21:17.867616,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.867644,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.867668,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.867727,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.867778,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.867812,  4] ../libcli/auth/ntlm_check.c:364(ntlm_password_check)
+  ntlm_password_check: Checking NTLMv2 password with domain [DESKTOP]
+[2020/03/05 12:21:17.867879,  4] ../source3/auth/check_samsec.c:183(sam_account_ok)
+  sam_account_ok: Checking SMB password for user jmoon
+[2020/03/05 12:21:17.867928,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.867955,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.867978,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.868036,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.868068,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.868093,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.868116,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.868166,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.868194,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.868218,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.868272,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.868303,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.868328,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.868352,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.868405,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.868668,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.868717,  3] ../source3/auth/auth.c:256(auth_check_ntlm_password)
+  auth_check_ntlm_password: sam_ignoredomain authentication for user [jmoon] succeeded
+[2020/03/05 12:21:17.868751,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.868778,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.868802,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.868841,  4] ../source3/auth/pampass.c:483(smb_pam_start)
+  smb_pam_start: PAM: Init user: jmoon
+[2020/03/05 12:21:17.875529,  4] ../source3/auth/pampass.c:492(smb_pam_start)
+  smb_pam_start: PAM: setting rhost to: 10.7.220.19
+[2020/03/05 12:21:17.875555,  4] ../source3/auth/pampass.c:501(smb_pam_start)
+  smb_pam_start: PAM: setting tty
+[2020/03/05 12:21:17.875569,  4] ../source3/auth/pampass.c:509(smb_pam_start)
+  smb_pam_start: PAM: Init passed for user: jmoon
+[2020/03/05 12:21:17.875582,  4] ../source3/auth/pampass.c:567(smb_pam_account)
+  smb_pam_account: PAM: Account Management for User: jmoon
+[2020/03/05 12:21:17.876018,  4] ../source3/auth/pampass.c:586(smb_pam_account)
+  smb_pam_account: PAM: Account OK for User: jmoon
+[2020/03/05 12:21:17.876439,  4] ../source3/auth/pampass.c:465(smb_pam_end)
+  smb_pam_end: PAM: PAM_END OK.
+[2020/03/05 12:21:17.876478,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.876528,  3] ../auth/auth_log.c:760(log_authentication_event_human_readable)
+  Auth: [SMB2,(null)] user [DESKTOP]\[jmoon] at [Thu, 05 Mar 2020 12:21:17.876497 PST] with [NTLMv2] status [NT_STATUS_OK] workstation [WKSTN-JMOON] remote host [ipv4:10.7.220.19:41688] became [WKSTN-JMOON]\[jmoon] [S-1-5-21-2412491261-1813860541-2630839681-1000]. local host [ipv4:10.7.220.19:445] 
+[2020/03/05 12:21:17.876647,  3] ../auth/auth_log.c:220(log_json)
+  JSON Authentication: {"timestamp": "2020-03-05T12:21:17.876589-0800", "type": "Authentication", "Authentication": {"version": {"major": 1, "minor": 0}, "status": "NT_STATUS_OK", "localAddress": "ipv4:10.7.220.19:445", "remoteAddress": "ipv4:10.7.220.19:41688", "serviceDescription": "SMB2", "authDescription": null, "clientDomain": "DESKTOP", "clientAccount": "jmoon", "workstation": "WKSTN-JMOON", "becameAccount": "jmoon", "becameDomain": "WKSTN-JMOON", "becameSid": "S-1-5-21-2412491261-1813860541-2630839681-1000", "mappedAccount": "jmoon", "mappedDomain": "DESKTOP", "netlogonComputer": null, "netlogonTrustAccount": null, "netlogonNegotiateFlags": "0x00000000", "netlogonSecureChannelType": 0, "netlogonTrustAccountSid": "(NULL SID)", "passwordType": "NTLMv2"}}
+[2020/03/05 12:21:17.876684,  2] ../source3/auth/auth.c:314(auth_check_ntlm_password)
+  check_ntlm_password:  authentication for user [jmoon] -> [jmoon] -> [jmoon] succeeded
+[2020/03/05 12:21:17.876804,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.876839,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.876855,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.876902,  3] ../source3/auth/token_util.c:559(finalize_local_nt_token)
+  Failed to fetch domain sid for DESKTOP
+[2020/03/05 12:21:17.876924,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.876947,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.876961,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.876973,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.876997,  3] ../source3/auth/token_util.c:591(finalize_local_nt_token)
+  Failed to fetch domain sid for DESKTOP
+[2020/03/05 12:21:17.877016,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877032,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877045,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877057,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877193,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877215,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-5-21-2412491261-1813860541-2630839681-1000]
+[2020/03/05 12:21:17.877236,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-5-21-2412491261-1813860541-2630839681-513]
+[2020/03/05 12:21:17.877255,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-1000]
+[2020/03/05 12:21:17.877273,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-4]
+[2020/03/05 12:21:17.877291,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-24]
+[2020/03/05 12:21:17.877310,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-27]
+[2020/03/05 12:21:17.877328,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-30]
+[2020/03/05 12:21:17.877346,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-46]
+[2020/03/05 12:21:17.877364,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-118]
+[2020/03/05 12:21:17.877382,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-128]
+[2020/03/05 12:21:17.877408,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-133]
+[2020/03/05 12:21:17.877427,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-1001]
+[2020/03/05 12:21:17.877449,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-5-2]
+[2020/03/05 12:21:17.877467,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-5-11]
+[2020/03/05 12:21:17.877559,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877578,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877590,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877616,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.877630,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877642,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.877681,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877703,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877718,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877731,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877743,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877764,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.877778,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877790,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 3
+[2020/03/05 12:21:17.877824,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877851,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877867,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877880,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877892,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877918,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877934,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877946,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877959,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.877984,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.877999,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.878012,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878024,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.878050,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878072,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.878086,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878098,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.878123,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878138,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.878151,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878163,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.878187,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878203,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.878216,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878228,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.878252,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878289,  3] ../auth/ntlmssp/ntlmssp_sign.c:509(ntlmssp_sign_reset)
+  NTLMSSP Sign/Seal - Initialising with flags:
+[2020/03/05 12:21:17.878304,  3] ../auth/ntlmssp/ntlmssp_util.c:69(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62088215
+    NTLMSSP_NEGOTIATE_UNICODE
+    NTLMSSP_REQUEST_TARGET
+    NTLMSSP_NEGOTIATE_SIGN
+    NTLMSSP_NEGOTIATE_NTLM
+    NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+    NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+    NTLMSSP_NEGOTIATE_VERSION
+    NTLMSSP_NEGOTIATE_128
+    NTLMSSP_NEGOTIATE_KEY_EXCH
+[2020/03/05 12:21:17.878372,  3] ../auth/ntlmssp/ntlmssp_sign.c:509(ntlmssp_sign_reset)
+  NTLMSSP Sign/Seal - Initialising with flags:
+[2020/03/05 12:21:17.878387,  3] ../auth/ntlmssp/ntlmssp_util.c:69(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62088215
+    NTLMSSP_NEGOTIATE_UNICODE
+    NTLMSSP_REQUEST_TARGET
+    NTLMSSP_NEGOTIATE_SIGN
+    NTLMSSP_NEGOTIATE_NTLM
+    NTLMSSP_NEGOTIATE_ALWAYS_SIGN
+    NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+    NTLMSSP_NEGOTIATE_VERSION
+    NTLMSSP_NEGOTIATE_128
+    NTLMSSP_NEGOTIATE_KEY_EXCH
+[2020/03/05 12:21:17.878449,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.878478,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878495,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.878507,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878537,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.878611,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878629,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.878642,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878668,  3] ../source3/auth/token_util.c:559(finalize_local_nt_token)
+  Failed to fetch domain sid for DESKTOP
+[2020/03/05 12:21:17.878688,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.878709,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878723,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.878742,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878768,  3] ../source3/auth/token_util.c:591(finalize_local_nt_token)
+  Failed to fetch domain sid for DESKTOP
+[2020/03/05 12:21:17.878788,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.878804,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878817,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.878829,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.878961,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.878982,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-5-21-2412491261-1813860541-2630839681-1000]
+[2020/03/05 12:21:17.879002,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-5-21-2412491261-1813860541-2630839681-513]
+[2020/03/05 12:21:17.879021,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-1000]
+[2020/03/05 12:21:17.879038,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-4]
+[2020/03/05 12:21:17.879056,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-24]
+[2020/03/05 12:21:17.879074,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-27]
+[2020/03/05 12:21:17.879092,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-30]
+[2020/03/05 12:21:17.879110,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-46]
+[2020/03/05 12:21:17.879128,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-118]
+[2020/03/05 12:21:17.879146,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-128]
+[2020/03/05 12:21:17.879164,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-133]
+[2020/03/05 12:21:17.879182,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-22-2-1001]
+[2020/03/05 12:21:17.879204,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-5-2]
+[2020/03/05 12:21:17.879221,  4] ../source3/lib/privileges.c:98(get_privileges)
+  get_privileges: No privileges assigned to SID [S-1-5-11]
+[2020/03/05 12:21:17.879261,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879276,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879289,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879312,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.879326,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879338,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.879374,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879396,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879412,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879425,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879443,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879465,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.879479,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879491,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 2
+[2020/03/05 12:21:17.879531,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879554,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879570,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17]
+[2020/03/05 12:21:17]
+[2020/03/05 12:21:17.879621,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879636,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879649,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879661,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879685,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879701,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879714,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879726,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879750,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879766,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879779,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879791,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879815,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879831,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879844,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879856,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879880,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879896,  4] ../source3/smbd/sec_ctx.c:216(push_sec_ctx)
+  push_sec_ctx(0, 0) : sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879909,  4] ../source3/smbd/uid.c:491(push_conn_ctx)
+  push_conn_ctx(0) : conn_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879922,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 1
+[2020/03/05 12:21:17.879946,  4] ../source3/smbd/sec_ctx.c:438(pop_sec_ctx)
+  pop_sec_ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:17.879982,  4] ../auth/auth_log.c:860(log_successful_authz_event_human_readable)
+  Successful AuthZ: [SMB2,NTLMSSP] user [WKSTN-JMOON]\[jmoon] [S-1-5-21-2412491261-1813860541-2630839681-1000] at [Thu, 05 Mar 2020 12:21:17.879971 PST] Remote host [ipv4:10.7.220.19:41688] local host [ipv4:10.7.220.19:445]
+[2020/03/05 12:21:17.880033,  4] ../auth/auth_log.c:220(log_json)
+  JSON Authorization: {"timestamp": "2020-03-05T12:21:17.880005-0800", "type": "Authorization", "Authorization": {"version": {"major": 1, "minor": 0}, "localAddress": "ipv4:10.7.220.19:445", "remoteAddress": "ipv4:10.7.220.19:41688", "serviceDescription": "SMB2", "authType": "NTLMSSP", "domain": "WKSTN-JMOON", "account": "jmoon", "sid": "S-1-5-21-2412491261-1813860541-2630839681-1000", "logonServer": "WKSTN-JMOON", "transportProtection": "SMB", "accountFlags": "0x00000010"}}
+[2020/03/05 12:21:17.880104,  3] ../source3/smbd/password.c:144(register_homes_share)
+  Adding homes service for user 'jmoon' using home directory: '/home/jmoon'
+[2020/03/05 12:21:17.893031,  3] ../source3/smbd/oplock.c:1340(init_oplocks)
+  init_oplocks: initializing messages.
+[2020/03/05 12:21:17.893099,  3] ../source3/smbd/process.c:1959(process_smb)
+  Transaction 0 of length 72 (0 toread)
+[2020/03/05 12:21:17.893139,  2] ../source3/smbd/reply.c:705(reply_special)
+  netbios connect: name1=10.7.220.19    0x20 name2=WKSTN-JMOON    0x0
+[2020/03/05 12:21:17.893180,  2] ../source3/smbd/reply.c:746(reply_special)
+  netbios connect: local=10.7.220.19 remote=wkstn-jmoon, name type = 0
