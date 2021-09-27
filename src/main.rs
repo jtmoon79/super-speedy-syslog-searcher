@@ -384,7 +384,7 @@ impl<T, E> ResultS4<T, E> {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// stackdepth in `main`, should set once, use `stackdepth_main` to read
-static mut _STACKDEPTH_MAIN: usize = 0;
+static mut _STACKDEPTH_MAIN: usize = usize::MAX;
 
 /// wrapper for accessing `_STACKDEPTH_MAIN`
 fn stackdepth_main() -> usize {
@@ -393,6 +393,7 @@ fn stackdepth_main() -> usize {
 
 /// return current stack depth according to `backtrace::trace`, including this
 /// function
+#[allow(dead_code)]
 fn stack_depth() -> usize {
     let mut sd: usize = 0;
     backtrace::trace(|_| {
@@ -403,6 +404,7 @@ fn stack_depth() -> usize {
 }
 
 /// return stack offset compared to stack depth `_STACKDEPTH_MAIN` recorded in `main`
+#[allow(dead_code)]
 fn stack_offset() -> usize {
     let mut sd: usize = stack_depth() - 1;
     unsafe {
@@ -412,6 +414,14 @@ fn stack_offset() -> usize {
         sd -= _STACKDEPTH_MAIN;
     }
     return sd;
+}
+
+/// set _STACKDEPTH_MAIN, once do this once
+fn stackdepth_main_set() {
+    unsafe {
+        assert_eq!(usize::MAX, _STACKDEPTH_MAIN, "_STACKDEPTH_MAIN has already been set; must only be set once");
+        _STACKDEPTH_MAIN = stack_offset();
+    }
 }
 
 #[allow(dead_code)]
@@ -445,6 +455,7 @@ fn test_stack_offset() {
 
 /// return a string of spaces as long as `stack_offset`
 /// for use in `print` calls, so short function name and not perfect
+#[allow(dead_code)]
 fn so() -> &'static str {
     let so_ = stack_offset();
     return match so_ {
@@ -473,6 +484,7 @@ fn so() -> &'static str {
 }
 
 /// `print` helper, a `s`tring for e`n`tering a function
+#[allow(dead_code)]
 fn sn() -> &'static str {
     let so_ = stack_offset();
     return match so_ {
@@ -501,6 +513,7 @@ fn sn() -> &'static str {
 }
 
 /// `print` helper, a `s`tring for e`x`iting a function
+#[allow(dead_code)]
 fn sx() -> &'static str {
     let so_ = stack_offset();
     return match so_ {
@@ -553,6 +566,7 @@ fn fno() -> () {
 */
 
 /// quickie test for debug helpers `sn`, `so`, `sx`
+#[allow(dead_code)]
 pub fn test_sn_so_sx() {
     fn depth1() {
         debug_eprintln!("{}depth1 enter", sn());
@@ -637,6 +651,7 @@ fn char_to_nonraw_char(c: char) -> char {
 
 /// tranform utf-8 byte (presumably) to non-raw char
 /// only intended for debugging
+#[allow(dead_code)]
 fn byte_to_nonraw_char(byte: u8) -> char {
     return char_to_nonraw_char(byte as char);
 }
@@ -663,7 +678,7 @@ fn buffer_to_nonraw_String(buffer: &[u8]) -> String {
 
 /// transform str to non-raw String version
 /// only intended for debugging
-#[allow(non_snake_case)]
+#[allow(non_snake_case, dead_code)]
 fn str_to_nonraw_String(str_buf: &str) -> String {
     let mut s2 = String::with_capacity(str_buf.len() + 1);
     for c in str_buf.chars() {
@@ -913,21 +928,25 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
     }
 
     // set `_STACKDEPTH_MAIN` once, use `stackdepth_main` to access `_STACKDEPTH_MAIN`
-    unsafe {
-        _STACKDEPTH_MAIN = stack_offset();
+    if cfg!(debug_assertions) {
+        stackdepth_main_set();
     }
+    debug_eprintln!("{}main()", sn());
+
     //test_sn_so_sx();
     //test_stack_offset();
-    //test_find_datetime_in_line(bsize);
     //test_BlockReader_offsets();
     //test_BlockReader(&fpath, bsize);
+    //test_find_datetime_in_line(bsize);
     //test_LineReader(&fpath, bsize);
     //test_LineReader_rand(&fpath, bsize);
+    //test_sysline_pass_filters();
     //test_SyslineReader(&fpath, bsize);
     //test_SyslineReader_rand(&fpath, bsize);
     //test_SyslineReader_w_filtering_1(&fpath, bsize, filter_dt_after, filter_dt_before);
     test_SyslineReader_w_filtering_2(&fpath, bsize, filter_dt_after, filter_dt_before);
 
+    debug_eprintln!("{}main()", sx());
     return Ok(());
 }
 
@@ -2821,23 +2840,48 @@ type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
 
 #[allow(non_camel_case_types)]
 #[derive(Debug)]
-pub enum Result_Filter_DateTime {
+#[derive(PartialEq)]
+pub enum Result_Filter_DateTime1 {
     Pass,
     OccursAtOrAfter,
     OccursBefore,
 }
 
-impl Result_Filter_DateTime {
+impl Result_Filter_DateTime1 {
     /// Returns `true` if the result is [`OccursAfter`].
     #[inline]
     pub const fn is_after(&self) -> bool {
-        matches!(*self, Result_Filter_DateTime::OccursAtOrAfter)
+        matches!(*self, Result_Filter_DateTime1::OccursAtOrAfter)
     }
 
     /// Returns `true` if the result is [`OccursBefore`].
     #[inline]
     pub const fn is_before(&self) -> bool {
-        matches!(*self, Result_Filter_DateTime::OccursBefore)
+        matches!(*self, Result_Filter_DateTime1::OccursBefore)
+    }
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Debug)]
+#[derive(PartialEq)]
+pub enum Result_Filter_DateTime2 {
+    /// PASS
+    OccursInRange,
+    /// FAIL
+    OccursBeforeRange,
+    /// FAIL
+    OccursAfterRange,
+}
+
+impl Result_Filter_DateTime2 {
+    #[inline]
+    pub const fn is_pass(&self) -> bool {
+        matches!(*self, Result_Filter_DateTime2::OccursInRange)
+    }
+
+    #[inline]
+    pub const fn is_fail(&self) -> bool {
+        matches!(*self, Result_Filter_DateTime2::OccursAfterRange | Result_Filter_DateTime2::OccursBeforeRange)
     }
 }
 
@@ -3437,12 +3481,19 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let mut slp_opt: Option<SyslineP> = None;
         let mut fo_a: FileOffset = fileoffset; // begin "range cursor" marker
         let mut fo_b: FileOffset = fo_end; // end "range cursor" marker
+        // LAST WORKING HERE [2021/09/26]
+        //      BUG does not handle multiple sequential syslines with same datetime
+        //      sometimes it is correct, sometimes not, depends on the particular file.
+        //      test with file basic-basic-dt30-repeats.log
         loop {
             // TODO: [2021/09/26]
             //       this could be faster.
             //       currently it narrowing down to byte offset
             //       but it only needs to narrow down to range of a sysline
             //       so if `fo_a` and `fo_b` are in same sysline range, then this can return that sysline.
+            //       Also, add stats for this function and debug print those stats before exiting.
+            //       i.e. count of loops, count of calls to sysline_dt_before_after, etc.
+            //       do this before tweaking function so can be compared
             debug_eprintln!("{}{}: loop(…)!", so(), _fname);
             let result = self.find_sysline(try_fo);
             let eof = result.is_eof();
@@ -3485,7 +3536,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                         dt_filter
                     );
                     match SyslineReader::sysline_dt_after_or_before(&slp, dt_filter) {
-                        Result_Filter_DateTime::Pass => {
+                        Result_Filter_DateTime1::Pass => {
                             debug_eprintln!(
                                 "{}{}: Pass => fo {} fo_last {} try_fo {} try_fo_last {} (fo_end {})",
                                 so(),
@@ -3505,7 +3556,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                             );
                             return ResultS4_SyslineFind::Ok((fo, slp));
                         }
-                        Result_Filter_DateTime::OccursAtOrAfter => {
+                        Result_Filter_DateTime1::OccursAtOrAfter => {
                             // the Sysline found by `find_sysline(try_fo)` occurs at or after filter `dt_filter`, so search backward
                             // i.e. move end marker `fo_b` backward
                             debug_eprintln!("{}{}: OccursAtOrAfter => fo {} fo_last {} try_fo {} try_fo_last {} fo_b {} fo_a {} (fo_end {})", so(), _fname, fo, fo_last, try_fo, try_fo_last, fo_b, fo_a, fo_end);
@@ -3544,7 +3595,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                             );
                             try_fo = fo_a + ((fo_b - fo_a) / 2);
                         }
-                        Result_Filter_DateTime::OccursBefore => {
+                        Result_Filter_DateTime1::OccursBefore => {
                             // the Sysline found by `find_sysline(try_fo)` occurs before filter `dt_filter`, so search forthward
                             // i.e. move begin marker `fo_a` forthward
                             debug_eprintln!("{}{}: OccursBefore =>    fo {} fo_last {} try_fo {} try_fo_last {} fo_b {} fo_a {} (fo_end {})", so(), _fname, fo, fo_last, try_fo, try_fo_last, fo_b, fo_a, fo_end);
@@ -3567,6 +3618,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     debug_eprintln!("{}{}:                    try_fo {} try_fo_last {} fo_b {} fo_a {} fo {} fo_last {} (fo_end {})", so(), _fname, try_fo, try_fo_last, fo_b, fo_a, fo, fo_last, fo_end);
                     fo_last = fo;
                     slp_opt = Some(slp);
+                    // TODO: [2021/09/26]
+                    //       I think could do an early check and skip a few loops:
+                    //       if `fo_a` and `fo_b` are offsets into the same Sysline
+                    //       then that Sysline is the candidate, so return Ok(...)
+                    //       unless `fo_a` and `fo_b` are past last Sysline.fileoffset_begin of the file then return Ok_Done
+                    //       However, before implemetning that, implement the stats tracking of this function mentioned above,
+                    //       be sure some improvement really occurs.
                 }
                 ResultS4_SyslineFind::Ok_Done => {
                     debug_eprintln!("{}{}: SyslineReader.find_sysline({}) returned Ok_Done", so(), _fname, try_fo);
@@ -3609,10 +3667,23 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             } // match result
             debug_eprintln!("{}{}: next loop will try offset {} (fo_end {})", so(), _fname, try_fo, fo_end);
             if slp_opt.is_some() && try_fo == try_fo_last {
+                // if the new offset calculation `try_fo` has not changed since last loop (`try_fo_last`) then
+                // searching is exhausted
                 debug_eprintln!("{}{}: try_fo {} == {} try_fo_last;", so(), _fname, try_fo, try_fo_last);
                 let slp = slp_opt.unwrap();
+                if slp.fileoffset_begin() < try_fo {
+                    // binary search stopped at fileoffset past start of last Sysline
+                    // so entirely past all acceptable syslines
+                    debug_eprintln!(
+                        "{}{}: return ResultS4_SyslineFind::Ok_Done; C",
+                        sx(),
+                        _fname,
+                    );
+                    return ResultS4_SyslineFind::Ok_Done;
+                }
+                // binary search stopped at fileoffset that refers to an acceptable sysline
                 debug_eprintln!(
-                    "{}{}: return ResultS4_SyslineFind::Ok(({}, @{:p})); C fileoffset {} '{}'",
+                    "{}{}: return ResultS4_SyslineFind::Ok(({}, @{:p})); D fileoffset {} '{}'",
                     sx(),
                     _fname,
                     fo_last,
@@ -3633,7 +3704,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             }
         } // loop
 
-        debug_eprintln!("{}{}: return ResultS4_SyslineFind::Ok_Done; D", sx(), _fname);
+        debug_eprintln!("{}{}: return ResultS4_SyslineFind::Ok_Done; E", sx(), _fname);
         return ResultS4_SyslineFind::Ok_Done;
     }
 
@@ -3642,16 +3713,16 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// else return `Pass` (including if `dt_filter` is `None`)
     /// TODO: create more testable implementation that takes only DateTimeL_Opt. Say `fn dt_after_or_before`
     ///       Let `sysline_dt_after_or_before` check the SyslineP then call `dt_after_or_before`.
-    pub fn sysline_dt_after_or_before(syslinep: &SyslineP, dt_filter: &DateTimeL_Opt) -> Result_Filter_DateTime {
+    pub fn sysline_dt_after_or_before(syslinep: &SyslineP, dt_filter: &DateTimeL_Opt) -> Result_Filter_DateTime1 {
         debug_eprintln!("{}sysline_dt_after_or_before(SyslineP@{:p}, {:?})", sn(), &*syslinep, dt_filter,);
         assert!((*syslinep).dt.is_some(), "Sysline @{:p} does not have a datetime set.", &*syslinep);
 
         if dt_filter.is_none() {
             debug_eprintln!(
-                "{}sysline_dt_after_or_before(…) return Result_Filter_DateTime::Pass; (no dt filters)",
+                "{}sysline_dt_after_or_before(…) return Result_Filter_DateTime1::Pass; (no dt filters)",
                 sx(),
             );
-            return Result_Filter_DateTime::Pass;
+            return Result_Filter_DateTime1::Pass;
         }
 
         let dt = (*syslinep).dt.unwrap();
@@ -3663,30 +3734,82 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             dt_a
         );
         //if dt_a == dt {
-        //    debug_eprintln!("{}sysline_dt_after_or_before(…) return Result_Filter_DateTime::OccursInRange; ==", sx(),);
-        //    return Result_Filter_DateTime::OccursInRange;
+        //    debug_eprintln!("{}sysline_dt_after_or_before(…) return Result_Filter_DateTime1::OccursInRange; ==", sx(),);
+        //    return Result_Filter_DateTime1::OccursInRange;
         //}
         if dt < dt_a {
-            debug_eprintln!("{}sysline_dt_after_or_before(…) return Result_Filter_DateTime::OccursBefore; (Sysline datetime {:?} is before filter {:?})", sx(), dt, dt_a);
-            return Result_Filter_DateTime::OccursBefore;
+            debug_eprintln!("{}sysline_dt_after_or_before(…) return Result_Filter_DateTime1::OccursBefore; (Sysline datetime {:?} is before filter {:?})", sx(), dt, dt_a);
+            return Result_Filter_DateTime1::OccursBefore;
         }
-        debug_eprintln!("{}sysline_dt_after_or_before(…) return Result_Filter_DateTime::OccursAtOrAfter; (Sysline datetime {:?} is at or after filter {:?})", sx(), dt, dt_a);
-        return Result_Filter_DateTime::OccursAtOrAfter;
+        debug_eprintln!("{}sysline_dt_after_or_before(…) return Result_Filter_DateTime1::OccursAtOrAfter; (Sysline datetime {:?} is at or after filter {:?})", sx(), dt, dt_a);
+        return Result_Filter_DateTime1::OccursAtOrAfter;
     }
 
     /// If both filters are `Some` and `syslinep.dt` is "between" the filters then return `Pass`
-    /// If `dt_filter_after` filters is `Some` and `syslinep.dt` is after it then return `Pass`
-    /// If `dt_filter_before` filters is `Some` and `syslinep.dt` is before it then return `Pass`
-    /// If `dt_filter_after` filters is `Some` and `syslinep.dt` is before it then return `OccursBefore`
-    /// If `dt_filter_before` filters is `Some` and `syslinep.dt` is after it then return `OccursAtOrAfter`
+    /// comparison is "inclusive" i.e. `dt` == `dt_filter_after` will return `Pass`
+    /// TODO: finish this
     /// If both filters are `None` then return `Pass`
-    /// TODO: create more testable implementation that takes only DateTimeL_Opt. Say `fn dt_pass_filters`
-    ///       Let `sysline_pass_filters` check the SyslineP then call `dt_pass_filters`.
+    pub fn dt_pass_filters(
+        dt: &DateTimeL,
+        dt_filter_after: &DateTimeL_Opt,
+        dt_filter_before: &DateTimeL_Opt,
+    ) -> Result_Filter_DateTime2 {
+        debug_eprintln!(
+            "{}dt_pass_filters({:?}, {:?}, {:?})",
+            sn(),
+            dt,
+            dt_filter_after,
+            dt_filter_before,
+        );
+        if dt_filter_after.is_none() && dt_filter_before.is_none() {
+            debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursInRange; (no dt filters)", sx(),);
+            return Result_Filter_DateTime2::OccursInRange;
+        }
+        if dt_filter_after.is_some() && dt_filter_before.is_some() {
+            debug_eprintln!("{}dt_pass_filters comparing datetime dt_filter_after {:?} < {:?} dt < {:?} dt_fiter_before ???", so(), &dt_filter_after.unwrap(), dt, &dt_filter_before.unwrap());
+            let da = &dt_filter_after.unwrap();
+            let db = &dt_filter_before.unwrap();
+            assert_le!(da, db, "Bad datetime range values filter_after {:?} {:?} filter_before", da, db);
+            if dt < da {
+                debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursBeforeRange;", sx());
+                return Result_Filter_DateTime2::OccursBeforeRange;
+            }
+            if db < dt {
+                debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursAfterRange;", sx());
+                return Result_Filter_DateTime2::OccursAfterRange;
+            }
+            // assert da < dt && dt < db
+            assert_le!(da, dt, "Unexpected range values da dt");
+            assert_le!(dt, db, "Unexpected range values dt db");
+            debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursInRange;", sx());
+            return Result_Filter_DateTime2::OccursInRange;
+        } else if dt_filter_after.is_some() {
+            debug_eprintln!("{}dt_pass_filters comparing datetime dt_filter_after {:?} < {:?} dt ???", so(), &dt_filter_after.unwrap(), dt);
+            let da = &dt_filter_after.unwrap();
+            if dt < da {
+                debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursBeforeRange;", sx());
+                return Result_Filter_DateTime2::OccursBeforeRange;
+            }
+            debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursInRange;", sx());
+            return Result_Filter_DateTime2::OccursInRange;
+        } else {
+            debug_eprintln!("{}dt_pass_filters comparing datetime dt {:?} < {:?} dt_filter_before ???", so(), dt, &dt_filter_before.unwrap());
+            let db = &dt_filter_before.unwrap();
+            if db < dt {
+                debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursAfterRange;", sx());
+                return Result_Filter_DateTime2::OccursAfterRange;
+            }
+            debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursInRange;", sx());
+            return Result_Filter_DateTime2::OccursInRange;
+        }
+    }
+
+    /// wrapper for call to `dt_pass_filters`
     pub fn sysline_pass_filters(
         syslinep: &SyslineP,
         dt_filter_after: &DateTimeL_Opt,
         dt_filter_before: &DateTimeL_Opt,
-    ) -> Result_Filter_DateTime {
+    ) -> Result_Filter_DateTime2 {
         debug_eprintln!(
             "{}sysline_pass_filters(SyslineP@{:p}, {:?}, {:?})",
             sn(),
@@ -3695,45 +3818,10 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             dt_filter_before,
         );
         assert!((*syslinep).dt.is_some(), "Sysline @{:p} does not have a datetime set.", &*syslinep);
-        // LAST WORKING HERE [2021/09/25]
-        //      Implementing this. The difference vs. diffence or equal is probably wrong.
-        //      Also, make sure the thinking here agrees with `sysline_dt_after_or_before` in terms of less than, less than or equal, etc.
-        //      good candidate for testing.
-        //      Then resume working on `test_SyslineReader_w_filtering_2`
-        if dt_filter_after.is_none() && dt_filter_before.is_none() {
-            debug_eprintln!("{}sysline_pass_filters(…) return Result_Filter_DateTime::Pass; (no dt filters)", sx(),);
-            return Result_Filter_DateTime::Pass;
-        }
         let dt = (*syslinep).dt.unwrap();
-        debug_eprintln!("{}sysline_pass_filters comparing given datetime {:?}", so(), dt);
-
-        if dt_filter_after.is_some() && dt_filter_before.is_some() {
-            let da = dt_filter_after.unwrap();
-            let db = dt_filter_after.unwrap();
-            if da < dt && dt < db {
-                return Result_Filter_DateTime::Pass;
-            }
-            if dt < da {
-                return Result_Filter_DateTime::OccursBefore;
-            }
-            assert_ge!(dt, db, "bad comparison: dt {:?} db {:?}", dt, db);
-            return Result_Filter_DateTime::OccursAtOrAfter;
-        } else if dt_filter_after.is_some() {
-            let da = dt_filter_after.unwrap();
-            if dt < da {
-                return Result_Filter_DateTime::OccursBefore;
-            }
-            return Result_Filter_DateTime::Pass;
-        } else {
-            let db = dt_filter_before.unwrap();
-            if db <= dt {
-                return Result_Filter_DateTime::OccursAtOrAfter;
-            }
-            return Result_Filter_DateTime::Pass;
-        }
-
-        debug_eprintln!("{}sysline_pass_filters(…) return Result_Filter_DateTime::Pass;", sx());
-        return Result_Filter_DateTime::Pass;
+        let result = SyslineReader::dt_pass_filters(&dt, dt_filter_after, dt_filter_before);
+        debug_eprintln!("{}sysline_pass_filters(…) return {:?};", sx(), result);
+        return result;
     }
 }
 
@@ -3757,7 +3845,7 @@ fn create_temp_file(content: &str) -> NamedTempFile {
     return ntf1;
 }
 
-/// basic test of SyslineReader things
+/// basic test of `SyslineReader.find_datetime_in_line`
 #[allow(non_snake_case, dead_code)]
 fn test_find_datetime_in_line(blocksz: BlockSz) {
     debug_eprintln!("{}test_find_datetime_in_line()", sn());
@@ -3825,6 +3913,83 @@ CLOSED!
     }
 
     debug_eprintln!("{}test_find_datetime_in_line()", sx());
+}
+
+/// basic test of `SyslineReader.sysline_pass_filters`
+#[allow(non_snake_case, dead_code)]
+fn test_sysline_pass_filters() {
+    debug_eprintln!("{}test_sysline_pass_filters()", sn());
+
+    fn DTL(s: &str) -> DateTimeL {
+        return Local.datetime_from_str(s, &"%Y%m%dT%H%M%S").unwrap();
+    }
+
+    for (da, dt, db, exp_result) in [
+        (
+            Some(DTL(&"20000101T010105")),
+            DTL(&"20000101T010106"),
+            Some(DTL(&"20000101T010107")),
+            Result_Filter_DateTime2::OccursInRange,
+        ),
+        (
+            Some(DTL(&"20000101T010107")),
+            DTL(&"20000101T010106"),
+            Some(DTL(&"20000101T010108")),
+            Result_Filter_DateTime2::OccursBeforeRange,
+        ),
+        (
+            Some(DTL(&"20000101T010101")),
+            DTL(&"20000101T010106"),
+            Some(DTL(&"20000101T010102")),
+            Result_Filter_DateTime2::OccursAfterRange,
+        ),
+        (
+            Some(DTL(&"20000101T010101")),
+            DTL(&"20000101T010106"),
+            None,
+            Result_Filter_DateTime2::OccursInRange,
+        ),
+        (
+            Some(DTL(&"20000101T010102")),
+            DTL(&"20000101T010101"),
+            None,
+            Result_Filter_DateTime2::OccursBeforeRange,
+        ),
+        (
+            Some(DTL(&"20000101T010101")),
+            DTL(&"20000101T010101"),
+            None,
+            Result_Filter_DateTime2::OccursInRange,
+        ),
+        (
+            None,
+            DTL(&"20000101T010101"),
+            Some(DTL(&"20000101T010106")),
+            Result_Filter_DateTime2::OccursInRange,
+        ),
+        (
+            None,
+            DTL(&"20000101T010101"),
+            Some(DTL(&"20000101T010100")),
+            Result_Filter_DateTime2::OccursAfterRange,
+        ),
+        (
+            None,
+            DTL(&"20000101T010101"),
+            Some(DTL(&"20000101T010101")),
+            Result_Filter_DateTime2::OccursInRange,
+        ),
+    ] {
+        let result = SyslineReader::dt_pass_filters(
+            &dt,
+            &da,
+            &db,
+        );
+        assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?}, {:?})", exp_result, result, dt, da, db);
+        print_colored(Color::Green,
+                      format!("{}({:?}, {:?}, {:?}) returned expected {:?}\n", so(), dt, da, db, result).as_bytes());
+    }
+    debug_eprintln!("{}test_sysline_pass_filters()", sx());
 }
 
 /// testing helper
@@ -4068,8 +4233,6 @@ fn test_SyslineReader_w_filtering_2(
 
     let mut fo1: FileOffset = 0;
     let mut search_more = true;
-    // BUG [2021/09/25] passing a datetime long afterward all syslines should return Ok_Done, but
-    //                  instead returns last sysline of file.
     debug_eprintln!("{}slr.find_sysline_at_datetime_filter({}, {:?})", so(), fo1, filter_dt_after_opt);
     let result = slr.find_sysline_at_datetime_filter(fo1, &filter_dt_after_opt);
     match result {
@@ -4149,30 +4312,29 @@ fn test_SyslineReader_w_filtering_2(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                // LAST WORKING HERE [2021/09/25]
-                //      Passing `dt_before` causes nothing to be printed.
                 debug_eprintln!(
                     "{}sysline_pass_filters({:?}, {:?}, {:?})",
                     so(),
                     (*slp).dt,
                     filter_dt_after_opt,
-                    filter_dt_before_opt
+                    filter_dt_before_opt,
                 );
                 match SyslineReader::sysline_pass_filters(&slp, &filter_dt_after_opt, &filter_dt_before_opt) {
-                    Result_Filter_DateTime::OccursAtOrAfter | Result_Filter_DateTime::OccursBefore => {
+                    Result_Filter_DateTime2::OccursBeforeRange | Result_Filter_DateTime2::OccursAfterRange => {
                         debug_eprintln!(
-                            "{}sysline_pass_filters returned not Result_Filter_DateTime::Pass; continue!",
+                            "{}sysline_pass_filters returned not Result_Filter_DateTime2::OccursInRange; continue!",
                             so()
                         );
                         continue;
                     }
-                    _ => {}
-                }
-                print_slp(&slp);
-                if eof {
-                    assert!(slr.is_sysline_last(&slp), "returned Ok_EOF yet this Sysline is not last!?");
-                } else {
-                    assert!(!slr.is_sysline_last(&slp), "returned Ok yet this Sysline is last!? Should have returned Ok_EOF or this Sysline is really not last.");
+                    Result_Filter_DateTime2::OccursInRange => {
+                        print_slp(&slp);
+                        if eof {
+                            assert!(slr.is_sysline_last(&slp), "returned Ok_EOF yet this Sysline is not last!?");
+                        } else {
+                            assert!(!slr.is_sysline_last(&slp), "returned Ok yet this Sysline is last!? Should have returned Ok_EOF or this Sysline is really not last.");
+                        }
+                    }
                 }
             }
             ResultS4_SyslineFind::Ok_Done => {
@@ -4188,6 +4350,11 @@ fn test_SyslineReader_w_filtering_2(
     }
 
     debug_eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.lines.len(), slr.syslines.len());
+    /*
+    for (i, line) in slr.linereader.lines.iter().enumerate() {
+        print_colored(Color::Cyan, format!("{:2} {:3} '{}'\n", i, line.0, line.1.to_String_noraw()).as_bytes());
+    }
+    */
     debug_eprintln!("{}test_SyslineReader_w_filtering_2(…)", sx());
 }
 
