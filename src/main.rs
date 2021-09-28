@@ -173,13 +173,21 @@ LAST WORKING ON [2021/09/20]
      Now to convert `BlockReader.read_block` to use it's own typed `ResultS4`.
      Then fix the zero size bug, then resume work on function called by `test_SyslineReader_w_filtering`.
 
-BUG: [2021/09/20] file of zero size, or single line causes a crash.
+FIXED: BUG: [2021/09/20] file of zero size, or single line causes a crash.
 
 LAST WORKING ON [2021/09/22]
      Revised debug indent printing.
      First implement the `fname` macro (search for it) mentioned, then replace debug prints.
      Then resume implementing `find_sysline_at_datetime_filter`. It's only job is to find one sysline
      closest to passed datetime filter and fileoffset. No need to loop on it.
+
+LAST WORKING ON [2021/09/28 02:00:00]
+     Just implemented `test_LineReader_1`. Now to resume implementing `test_SyslineReader_w_filtering_3`
+     dealing with multiple files.... which I think I'm done with for now.
+     Actually want to move on to basic implementation of multi-threaded file reading. No need to print
+     in synchrony, just read in different threads, return something (what data can be returned from a finishing thread?).
+     Later, work on synchronized printing based on datetime and filters.
+     Oh, create a copy of all "TODO" up in this header comment area so I can precede with "DONE"
 
 */
 
@@ -394,6 +402,7 @@ fn stackdepth_main() -> usize {
 /// return current stack depth according to `backtrace::trace`, including this
 /// function
 #[allow(dead_code)]
+#[inline(always)]
 fn stack_depth() -> usize {
     let mut sd: usize = 0;
     backtrace::trace(|_| {
@@ -405,6 +414,7 @@ fn stack_depth() -> usize {
 
 /// return stack offset compared to stack depth `_STACKDEPTH_MAIN` recorded in `main`
 #[allow(dead_code)]
+#[inline(always)]
 fn stack_offset() -> usize {
     let mut sd: usize = stack_depth() - 1;
     unsafe {
@@ -417,10 +427,11 @@ fn stack_offset() -> usize {
 }
 
 /// set _STACKDEPTH_MAIN, once do this once
+#[inline(always)]
 fn stackdepth_main_set() {
     unsafe {
         assert_eq!(usize::MAX, _STACKDEPTH_MAIN, "_STACKDEPTH_MAIN has already been set; must only be set once");
-        _STACKDEPTH_MAIN = stack_offset();
+        _STACKDEPTH_MAIN = stack_depth();
     }
 }
 
@@ -538,6 +549,36 @@ fn sx() -> &'static str {
         18 => "                                                                        ←",
         19 => "                                                                            ←",
         _ => "                                                                                ←",
+    };
+}
+
+/// `print` helper, a `s`tring for e`n`tering and e`x`iting a function
+/// (like a small function that only needs a one-liner)
+#[allow(dead_code)]
+fn snx() -> &'static str {
+    let so_ = stack_offset();
+    return match so_ {
+        0 => "↔",
+        1 => "    ↔",
+        2 => "        ↔",
+        3 => "            ↔",
+        4 => "                ↔",
+        5 => "                    ↔",
+        6 => "                        ↔",
+        7 => "                            ↔",
+        8 => "                                ↔",
+        9 => "                                    ↔",
+        10 => "                                        ↔",
+        11 => "                                            ↔",
+        12 => "                                                ↔",
+        13 => "                                                    ↔",
+        14 => "                                                        ↔",
+        15 => "                                                            ↔",
+        16 => "                                                                ↔",
+        17 => "                                                                    ↔",
+        18 => "                                                                        ↔",
+        19 => "                                                                            ↔",
+        _ => "                                                                                ↔",
     };
 }
 
@@ -737,6 +778,8 @@ fn print_colored(color: Color, value: &[u8]) -> Result<()> {
     let mut choice: termcolor::ColorChoice = termcolor::ColorChoice::Never;
     if atty::is(atty::Stream::Stdout) {
         choice = termcolor::ColorChoice::Always;
+    } else if cfg!(debug_assertions) {
+        choice = termcolor::ColorChoice::Always;
     }
     let mut stdout = termcolor::StandardStream::stdout(choice);
     match stdout.set_color(ColorSpec::new().set_fg(Some(color))) {
@@ -765,6 +808,7 @@ fn print_colored(color: Color, value: &[u8]) -> Result<()> {
 }
 
 /// write the `buffer` to stdout
+/// TODO: rename this to `write_stdout`
 pub fn write(buffer: &[u8]) {
     let stdout = io::stdout();
     let mut stdout_lock = stdout.lock();
@@ -822,6 +866,30 @@ pub fn pretty_print(buffer: &[u8], raw: bool) {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// helper functions - misc.
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// testing helper to write a `str` to a temporary file
+/// The temporary file will be automatically deleted when `NamedTempFile` is dropped.
+#[allow(dead_code)]
+fn create_temp_file(content: &str) -> NamedTempFile {
+    let mut ntf1 = match NamedTempFile::new() {
+        Ok(val) => val,
+        Err(err) => {
+            panic!("NamedTempFile::new() return Err {}", err);
+        }
+    };
+    match ntf1.write_all(content.as_bytes()) {
+        Ok(_) => {}
+        Err(err) => {
+            panic!("NamedTempFile::write_all() return Err {}", err);
+        }
+    }
+
+    return ntf1;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // main
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -833,13 +901,14 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
         .author("JTM")
         .about("Reads a file block")
         .arg(
-            Arg::with_name("filepath")
+            Arg::with_name("paths")
                 .short("f")
-                .long("filepath")
+                .long("path")
                 .value_name("FILE")
-                .help("Path of file to read")
+                .help("Path of file(s) to read")
                 .takes_value(true)
                 .required(true)
+                .multiple(true)
         )
         .arg(
             Arg::with_name("blocksz")
@@ -873,10 +942,13 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
                 .value_name("DT_BEFORE")
         )
         .get_matches();
-    let fpath = String::from(matches.value_of("filepath").unwrap());
     let blockszs = String::from(matches.value_of("blocksz").unwrap());
     let filter_dt_after_s: &str = matches.value_of("dt-after").unwrap();
     let filter_dt_before_s: &str = matches.value_of("dt-before").unwrap();
+    let fpaths_str: Vec<_> = matches.values_of("paths").unwrap().collect();
+    //dbg!(&fpaths_str);
+    let fpaths: Vec<String> = fpaths_str.iter().map(|x: &&str| String::from(*x)).collect();
+    //dbg!(&fpaths);
 
     // parse input number as either hexadecimal or decimal
     let bsize: BlockSz;
@@ -891,6 +963,7 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
             Err(_e) => 0,
         };
     }
+    //dbg!(bsize);
 
     // parse datetime filters after
     let mut filter_dt_after: DateTimeL_Opt = None;
@@ -933,18 +1006,23 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
     }
     debug_eprintln!("{}main()", sn());
 
+    let fpath = fpaths[0].clone();
     //test_sn_so_sx();
     //test_stack_offset();
     //test_BlockReader_offsets();
     //test_BlockReader(&fpath, bsize);
     //test_find_datetime_in_line(bsize);
+    //test_LineReader_1();
     //test_LineReader(&fpath, bsize);
     //test_LineReader_rand(&fpath, bsize);
     //test_sysline_pass_filters();
+    test_find_sysline_at_datetime_filter(bsize);
+    //test_dt_after_or_before();
     //test_SyslineReader(&fpath, bsize);
     //test_SyslineReader_rand(&fpath, bsize);
     //test_SyslineReader_w_filtering_1(&fpath, bsize, filter_dt_after, filter_dt_before);
-    test_SyslineReader_w_filtering_2(&fpath, bsize, filter_dt_after, filter_dt_before);
+    //test_SyslineReader_w_filtering_2(&fpath, bsize, &filter_dt_after, &filter_dt_before);
+    //test_SyslineReader_w_filtering_3(&fpaths, bsize, &filter_dt_after, &filter_dt_before);
 
     debug_eprintln!("{}main()", sx());
     return Ok(());
@@ -1121,9 +1199,7 @@ impl<'blockreader> BlockReader<'blockreader> {
 
     /// return file_offset (file byte offset) at blockoffset+blockindex
     pub fn file_offset_at_block_offset_index(
-        blockoffset: BlockOffset,
-        blocksz: BlockSz,
-        blockindex: BlockIndex,
+        blockoffset: BlockOffset, blocksz: BlockSz, blockindex: BlockIndex,
     ) -> FileOffset {
         assert_lt!(
             (blockindex as BlockSz),
@@ -1195,6 +1271,7 @@ impl<'blockreader> BlockReader<'blockreader> {
     /// when successfully read returns `Ok(BlockP)`
     /// when reached the end of the file, and no data was read returns `Err(EndOfFile)`
     /// all other `File` and `std::io` errors are propagated to the caller
+    /// TODO: create custom `ResultS4` for this too
     pub fn read_block(&mut self, blockoffset: BlockOffset) -> Result<BlockP> {
         debug_eprintln!("{}read_block: @{:p}.read_block({})", sn(), self, blockoffset);
         assert!(self.file.is_some(), "File has not been opened '{:?}'", self.path);
@@ -1203,7 +1280,7 @@ impl<'blockreader> BlockReader<'blockreader> {
             Some(bp) => {
                 self.stats_read_block_cache_lru_hit += 1;
                 debug_eprintln!(
-                    "{}read_block: return Ok(@{:p} LRU cached Block[{}] len {})",
+                    "{}read_block: return Ok(@{:p}); LRU cached Block[{}] len {}",
                     sx(),
                     &*bp,
                     &blockoffset,
@@ -1219,7 +1296,7 @@ impl<'blockreader> BlockReader<'blockreader> {
         if self.blocks.contains_key(&blockoffset) {
             self.stats_read_block_cache_hit += 1;
             debug_eprintln!(
-                "{}read_block: return Ok(@{:p} cached Block[{}] len {})",
+                "{}read_block: return Ok(@{:p}); cached Block[{}] len {}",
                 sx(),
                 &*self.blocks[&blockoffset],
                 &blockoffset,
@@ -1249,6 +1326,7 @@ impl<'blockreader> BlockReader<'blockreader> {
         //      > bytes which have already been read will be appended to buf.
         //
         let mut buffer = Block::with_capacity(self.blocksz as usize);
+        debug_eprintln!("{}read_block: reader.read_to_end(@{:p})", so(), &buffer);
         match reader.read_to_end(&mut buffer) {
             Ok(val) => {
                 if val == 0 {
@@ -1264,7 +1342,7 @@ impl<'blockreader> BlockReader<'blockreader> {
             }
             Err(err) => {
                 eprintln!("ERROR: reader.read_to_end(buffer) error {}", err);
-                debug_eprintln!("      ←read_block: return Err({})", err);
+                debug_eprintln!("{}read_block: return Err({})", sx(), err);
                 return Err(err);
             }
         };
@@ -1272,7 +1350,7 @@ impl<'blockreader> BlockReader<'blockreader> {
         // store in cache
         self.blocks.insert(blockoffset, bp.clone());
         debug_eprintln!(
-            "{}read_block: return Ok({:p} new Block[{}] len {})",
+            "{}read_block: return Ok({:p}); new Block[{}] len {}",
             sx(),
             &*self.blocks[&blockoffset],
             &blockoffset,
@@ -1285,7 +1363,8 @@ impl<'blockreader> BlockReader<'blockreader> {
 
     /// get byte at FileOffset
     /// `None` means the data at `FileOffset` was not available
-    /// Does not request any `read_block`! Only copies from what is currently available.
+    /// Does not request any `read_block`! Only copies from what is currently available from prior
+    /// calls to `read_block`.
     /// debug helper only
     fn _get_byte(&self, fo: FileOffset) -> Option<u8> {
         let bo = BlockReader::block_offset_at_file_offset(fo, self.blocksz);
@@ -1297,7 +1376,7 @@ impl<'blockreader> BlockReader<'blockreader> {
     }
 
     /// return `Bytes` at `[fo_a, fo_b)`.
-    /// uses `_get_byte` which does not request any reads!
+    /// uses `self._get_byte` which does not request any reads!
     /// debug helper only
     fn _vec_from(&self, fo_a: FileOffset, fo_b: FileOffset) -> Bytes {
         assert_le!(fo_a, fo_b, "bad fo_a {} fo_b {}", fo_a, fo_b);
@@ -1579,12 +1658,8 @@ impl fmt::Debug for LinePart {
 
 impl LinePart {
     pub fn new(
-        blocki_beg: BlockIndex,
-        blocki_end: BlockIndex,
-        blockp: BlockP,
-        fileoffset: FileOffset,
-        blockoffset: BlockOffset,
-        blocksz: BlockSz,
+        blocki_beg: BlockIndex, blocki_end: BlockIndex, blockp: BlockP, fileoffset: FileOffset,
+        blockoffset: BlockOffset, blocksz: BlockSz,
     ) -> LinePart {
         debug_eprintln!(
             "{}LinePart::new(blocki_beg {}, blocki_end {}, Block @{:p}, fileoffset {}, blockoffset {}, blocksz {})",
@@ -1655,9 +1730,18 @@ impl fmt::Debug for Line {
                 &li.blockoffset
             ));
         }
+        let mut fo_b = 0;
+        if self.lineparts.len() > 0 {
+            fo_b = self.lineparts[0].fileoffset;
+        }
+        let mut fo_e = 0;
+        if self.lineparts.len() > 0 {
+            let last_li = self.lineparts.len() - 1;
+            fo_e = self.lineparts[last_li].fileoffset + (self.lineparts[last_li].len() as FileOffset) - 1;
+        }
         f.debug_struct("Line")
-            .field("line.fileoffset_begin()", &self.fileoffset_begin())
-            .field("line.fileoffset_end()", &self.fileoffset_end())
+            .field("line.fileoffset_begin()", &fo_b)
+            .field("line.fileoffset_end()", &fo_e)
             .field("lineparts @", &format_args!("{:p}", &self))
             .field("lineparts.len", &self.lineparts.len())
             .field("lineparts", &li_s)
@@ -2026,6 +2110,11 @@ impl<'linereader> LineReader<'linereader> {
         }
     }
 
+    /// count of lines held by this LineReader
+    pub fn count(&self) -> usize {
+        self.lines.len()
+    }
+
     /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
     pub fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         BlockReader::block_offset_at_file_offset(fileoffset, self.blocksz())
@@ -2188,6 +2277,7 @@ impl<'linereader> LineReader<'linereader> {
         let mut bo = self.block_offset_at_file_offset(fileoffset);
         let mut bin_beg_init_a = self.block_index_at_file_offset(fileoffset);
         while !found_nl_a && bo <= blockoffset_last {
+            debug_eprintln!("{}find_line: self.blockreader.read_block({})", so(), bo);
             match self.blockreader.read_block(bo) {
                 Ok(val) => {
                     debug_eprintln!(
@@ -2285,6 +2375,7 @@ impl<'linereader> LineReader<'linereader> {
         let mut line: Line = Line::new();
         bo = self.block_offset_at_file_offset(fo_nl_b);
         while !found_nl_b && bo <= blockoffset_last {
+            debug_eprintln!("{}find_line: self.blockreader.read_block({})", so(), bo);
             match self.blockreader.read_block(bo) {
                 Ok(val) => {
                     debug_eprintln!(
@@ -2367,16 +2458,12 @@ impl<'linereader> LineReader<'linereader> {
             }
         } // ! found_nl_b
 
-        /*
-        This code was never called. Get rid of extra ResultS4 enum.
-
-        // occurs in files with single newline
+        // may occur in files ending on a single newline
         if line.count() == 0 {
-            let err = Err(Error::new(NoLinesFound, "No Lines Found!"));
-            debug_eprintln!("{}find_line: return ({}, {}, {:?}) no LinePart found!", sx(), eof, fo_nl_b, err);
-            return (false, fo_nl_b, err);
+            debug_eprintln!("{}find_line: return ResultS4_LineFind::Ok_Done;", sx());
+            self._find_line_lru_cache.put(fileoffset, ResultS4_LineFind::Ok_Done);
+            return ResultS4_LineFind::Ok_Done;
         }
-        */
 
         // sanity check
         debug_eprintln!("{}find_line: returning {:?}", so(), line);
@@ -2417,27 +2504,19 @@ impl<'linereader> LineReader<'linereader> {
     }
 }
 
-/// basic test of LineReader things
-/// simple read of file offsets in order, should print to stdout an identical file
-#[allow(non_snake_case, dead_code)]
-fn test_LineReader(path_: &String, blocksz: BlockSz) {
-    debug_eprintln!("{}test_LineReader({:?}, {})", sn(), &path_, blocksz);
-    let mut lr1 = match LineReader::new(path_, blocksz) {
-        Ok(val) => val,
-        Err(err) => {
-            eprintln!("ERROR: LineReader::new({}, {}) failed {}", path_, blocksz, err);
-            return;
-        }
-    };
-    debug_eprintln!("{}LineReader {:?}", so(), lr1);
-
+/// loop on `LineReader.find_line` until it is done
+/// prints to stdout
+/// testing helper
+#[allow(dead_code)]
+fn process_LineReader(lr1: & mut LineReader) {
+    debug_eprintln!("{}process_LineReader()", sn());
     let mut fo1: FileOffset = 0;
     loop {
         debug_eprintln!("{}LineReader.find_line({})", so(), fo1);
         let result = lr1.find_line(fo1);
         match result {
             ResultS4_LineFind::Ok((fo, lp)) => {
-                let _ln = lr1.lines.len();
+                let _ln = lr1.count();
                 debug_eprintln!(
                     "{}ResultS4_LineFind::Ok!    FileOffset {} line num {} Line @{:p}: len {} '{}'",
                     so(),
@@ -2460,7 +2539,7 @@ fn test_LineReader(path_: &String, blocksz: BlockSz) {
                 }
             }
             ResultS4_LineFind::Ok_EOF((fo, lp)) => {
-                let _ln = lr1.lines.len();
+                let _ln = lr1.count();
                 debug_eprintln!(
                     "{}ResultS4_LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} '{}'",
                     so(),
@@ -2484,10 +2563,73 @@ fn test_LineReader(path_: &String, blocksz: BlockSz) {
             }
         }
     }
+    debug_eprintln!("{}process_LineReader()", sx());
+}
+
+/// basic test of LineReader things with premade tests
+/// simple read of file offsets in order, should print to stdout an identical file
+#[allow(non_snake_case, dead_code)]
+fn test_LineReader_1() {
+    debug_eprintln!("{}test_LineReader_1()", sn());
+
+    for (content, line_count) in [
+        ("", 0),
+        (" ", 1),
+        ("  ", 1),
+        (" \n", 1),
+        (" \n ", 2),
+        ("  \n  ", 2),
+        (" \n \n", 2),
+        ("  \n  \n", 2),
+        (" \n \n ", 3),
+        ("  \n  \n  ", 3),
+        ("  \n  \n  \n", 3),
+        ("  \n  \n  \n  ", 4),
+        ("  \n  \n  \n  \n", 4),
+        ("two unicode points é\n  \n  \n  \n", 4),
+    ] {
+        let ntf = create_temp_file(
+            content
+        );
+        let blocksz: BlockSz = 64;
+        let path = String::from(ntf.path().to_str().unwrap());
+        let mut lr1 = match LineReader::new(&path, blocksz) {
+            Ok(val) => val,
+            Err(err) => {
+                eprintln!("ERROR: LineReader::new('{}', {}) failed {}", path, blocksz, err);
+                return;
+            }
+        };
+        let bufnonraw = buffer_to_nonraw_String(content.as_bytes());
+        debug_eprintln!("{}File '{}'", so(), bufnonraw);
+        process_LineReader(&mut lr1);
+        let lc = lr1.count();
+        assert_eq!(line_count, lc, "Expected {} count of lines, found {}", line_count, lc);
+        print_colored(Color::Green, format!("{}PASS Found {} Lines as expected from '{}'\n", so(), lc, bufnonraw).as_bytes());
+        debug_eprintln!("{}{:?}", so(), content.as_bytes());
+    }
+    debug_eprintln!("{}test_LineReader_1()", sx());
+}
+
+/// basic test of LineReader things using user passed file
+/// simple read of file offsets in order, should print to stdout an identical file
+#[allow(non_snake_case, dead_code)]
+fn test_LineReader(path_: &String, blocksz: BlockSz) {
+    debug_eprintln!("{}test_LineReader({:?}, {})", sn(), &path_, blocksz);
+    let mut lr1 = match LineReader::new(path_, blocksz) {
+        Ok(val) => val,
+        Err(err) => {
+            eprintln!("ERROR: LineReader::new({}, {}) failed {}", path_, blocksz, err);
+            return;
+        }
+    };
+    debug_eprintln!("{}LineReader {:?}", so(), lr1);
+
+    process_LineReader(& mut lr1);
     //debug_eprintln!("\n{}{:?}", so(), lr1);
 
     if cfg!(debug_assertions) {
-        debug_eprintln!("{}Found {} Lines", so(), lr1.lines.len())
+        debug_eprintln!("{}Found {} Lines", so(), lr1.count())
     }
     debug_eprintln!("{}test_LineReader({:?}, {})", sx(), &path_, blocksz);
 }
@@ -2514,7 +2656,7 @@ fn fill(v_: &mut Vec<FileOffset>) {
     }
 }
 
-/// basic test of LineReader things
+/// basic test of LineReader things using user passed file
 /// read all file offsets but randomly
 #[allow(non_snake_case, dead_code)]
 fn test_LineReader_rand(path_: &String, blocksz: BlockSz) {
@@ -2538,7 +2680,7 @@ fn test_LineReader_rand(path_: &String, blocksz: BlockSz) {
         let result = lr1.find_line(fo1);
         match result {
             ResultS4_LineFind::Ok((fo, lp)) => {
-                let _ln = lr1.lines.len();
+                let _ln = lr1.count();
                 debug_eprintln!(
                     "{}ResultS4_LineFind::Ok!    FileOffset {} line num {} Line @{:p}: len {} '{}'",
                     so(),
@@ -2552,7 +2694,7 @@ fn test_LineReader_rand(path_: &String, blocksz: BlockSz) {
                 //(*lp).print(true);
             }
             ResultS4_LineFind::Ok_EOF((fo, lp)) => {
-                let _ln = lr1.lines.len();
+                let _ln = lr1.count();
                 debug_eprintln!(
                     "{}ResultS4_LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} '{}'",
                     so(),
@@ -2839,8 +2981,7 @@ type Result_FindDateTime = Result<(LineIndex, LineIndex, DateTimeL)>;
 type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
 
 #[allow(non_camel_case_types)]
-#[derive(Debug)]
-#[derive(PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum Result_Filter_DateTime1 {
     Pass,
     OccursAtOrAfter,
@@ -2862,8 +3003,7 @@ impl Result_Filter_DateTime1 {
 }
 
 #[allow(non_camel_case_types)]
-#[derive(Debug)]
-#[derive(PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum Result_Filter_DateTime2 {
     /// PASS
     OccursInRange,
@@ -3293,6 +3433,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let mut fo1: FileOffset = fileoffset;
         let mut sl = Sysline::new();
         loop {
+            debug_eprintln!("{}find_sysline: self.linereader.find_line({})", so(), fo1);
             let result: ResultS4_LineFind = self.linereader.find_line(fo1);
             let eof = result.is_eof();
             let (fo2, lp) = match result {
@@ -3363,14 +3504,18 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         // find line with datetime B
         //
 
+        // TODO: can do an easy quick check if the beginning of next line is already known
+        //       if self.syslines_by_range.contains_key(fo1) { return Ok(self.syslines_by_range.get(fo1).fileoffset_begin(), ...); }
+
         let mut fo_b: FileOffset = fo1;
         let mut eof = false;
         loop {
+            debug_eprintln!("{}find_sysline: self.linereader.find_line({})", so(), fo1);
             let result = self.linereader.find_line(fo1);
             let (fo2, lp) = match result {
                 ResultS4_LineFind::Ok((fo_, lp_)) => {
                     debug_eprintln!(
-                        "{}find_sysline: B FileOffset {} Line @{:p} len {} parts {} '{}'",
+                        "{}find_sysline: B got Ok(FileOffset {}, Line @{:p}) len {} parts {} '{}'",
                         so(),
                         fo_,
                         &*lp_,
@@ -3383,7 +3528,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
                 ResultS4_LineFind::Ok_EOF((fo_, lp_)) => {
                     debug_eprintln!(
-                        "{}find_sysline: B FileOffset {} Line @{:p} len {} parts {} '{}'",
+                        "{}find_sysline: B got Ok_EOF(FileOffset {} Line @{:p}) len {} parts {} '{}'",
                         so(),
                         fo_,
                         &*lp_,
@@ -3467,9 +3612,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// TODO: complete the examples
     ///
     pub fn find_sysline_at_datetime_filter(
-        &mut self,
-        fileoffset: FileOffset,
-        dt_filter: &DateTimeL_Opt,
+        &mut self, fileoffset: FileOffset, dt_filter: &DateTimeL_Opt,
     ) -> ResultS4_SyslineFind {
         let _fname = "find_sysline_at_datetime_filter";
         debug_eprintln!("{}{}(SyslingReader@{:p}, {}, {:?})", sn(), _fname, self, fileoffset, dt_filter,);
@@ -3481,10 +3624,6 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let mut slp_opt: Option<SyslineP> = None;
         let mut fo_a: FileOffset = fileoffset; // begin "range cursor" marker
         let mut fo_b: FileOffset = fo_end; // end "range cursor" marker
-        // LAST WORKING HERE [2021/09/26]
-        //      BUG does not handle multiple sequential syslines with same datetime
-        //      sometimes it is correct, sometimes not, depends on the particular file.
-        //      test with file basic-basic-dt30-repeats.log
         loop {
             // TODO: [2021/09/26]
             //       this could be faster.
@@ -3497,6 +3636,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             debug_eprintln!("{}{}: loop(…)!", so(), _fname);
             let result = self.find_sysline(try_fo);
             let eof = result.is_eof();
+            let done = result.is_done();
             match result {
                 ResultS4_SyslineFind::Ok((fo, slp)) | ResultS4_SyslineFind::Ok_EOF((fo, slp)) => {
                     if !eof {
@@ -3559,7 +3699,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                         Result_Filter_DateTime1::OccursAtOrAfter => {
                             // the Sysline found by `find_sysline(try_fo)` occurs at or after filter `dt_filter`, so search backward
                             // i.e. move end marker `fo_b` backward
-                            debug_eprintln!("{}{}: OccursAtOrAfter => fo {} fo_last {} try_fo {} try_fo_last {} fo_b {} fo_a {} (fo_end {})", so(), _fname, fo, fo_last, try_fo, try_fo_last, fo_b, fo_a, fo_end);
+                            debug_eprintln!("{}{}: OccursAtOrAfter => fo {} fo_last {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", so(), _fname, fo, fo_last, try_fo, try_fo_last, fo_a, fo_b, fo_end);
                             // short-circuit a common case, passed fileoffset is past the `dt_filter`, can immediately return
                             // XXX: does this mean my algorithm sucks?
                             if try_fo == fileoffset {
@@ -3582,8 +3722,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                                 );
                                 return ResultS4_SyslineFind::Ok((fo, slp));
                             }
-                            fo_b = (*slp).fileoffset_begin();
                             try_fo_last = try_fo;
+                            fo_b = std::cmp::min((*slp).fileoffset_begin(), try_fo_last);
                             assert_le!(fo_a, fo_b, "Unexpected values for fo_a {} fo_b {}", fo_a, fo_b);
                             debug_eprintln!(
                                 "{}{}:                    ∴ try_fo = fo_a {} + ((fo_b {} - {} fo_a) / 2);",
@@ -3598,11 +3738,12 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                         Result_Filter_DateTime1::OccursBefore => {
                             // the Sysline found by `find_sysline(try_fo)` occurs before filter `dt_filter`, so search forthward
                             // i.e. move begin marker `fo_a` forthward
-                            debug_eprintln!("{}{}: OccursBefore =>    fo {} fo_last {} try_fo {} try_fo_last {} fo_b {} fo_a {} (fo_end {})", so(), _fname, fo, fo_last, try_fo, try_fo_last, fo_b, fo_a, fo_end);
+                            debug_eprintln!("{}{}: OccursBefore =>    fo {} fo_last {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", so(), _fname, fo, fo_last, try_fo, try_fo_last, fo_a, fo_b, fo_end);
                             let slp_foe = (*slp).fileoffset_end();
                             assert_le!(slp_foe, fo, "unexpected values (*SyslineP).fileoffset_end() {}, fileoffset returned by find_sysline {}", slp_foe, fo);
-                            fo_a = slp_foe;
                             try_fo_last = try_fo;
+                            fo_a = slp_foe;
+                            assert_le!(try_fo_last, slp_foe, "Unexpected values try_fo_last {} slp_foe {}, last tried offset (passed to self.find_sysline) is beyond returned sysline.fileoffset_end()!?", try_fo_last, slp_foe);
                             assert_le!(fo_a, fo_b, "Unexpected values for fo_a {} fo_b {}", fo_a, fo_b);
                             debug_eprintln!(
                                 "{}{}:                    ∴ try_fo = fo_a {} + ((fo_b {} - {} fo_a) / 2);",
@@ -3615,7 +3756,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                             try_fo = fo_a + ((fo_b - fo_a) / 2);
                         }
                     }
-                    debug_eprintln!("{}{}:                    try_fo {} try_fo_last {} fo_b {} fo_a {} fo {} fo_last {} (fo_end {})", so(), _fname, try_fo, try_fo_last, fo_b, fo_a, fo, fo_last, fo_end);
+                    debug_eprintln!("{}{}:                    try_fo {} try_fo_last {} fo_a {} fo_b {} fo {} fo_last {} (fo_end {})", so(), _fname, try_fo, try_fo_last, fo_a, fo_b, fo, fo_last, fo_end);
                     fo_last = fo;
                     slp_opt = Some(slp);
                     // TODO: [2021/09/26]
@@ -3629,13 +3770,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 ResultS4_SyslineFind::Ok_Done => {
                     debug_eprintln!("{}{}: SyslineReader.find_sysline({}) returned Ok_Done", so(), _fname, try_fo);
                     debug_eprintln!(
-                        "{}{}:                 try_fo {} try_fo_last {} fo_b {} fo_a {} (fo_end {})",
+                        "{}{}:                 try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})",
                         so(),
                         _fname,
                         try_fo,
                         try_fo_last,
-                        fo_b,
                         fo_a,
+                        fo_b,
                         fo_end
                     );
                     try_fo_last = try_fo;
@@ -3649,13 +3790,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     );
                     try_fo = fo_a + ((fo_b - fo_a) / 2);
                     debug_eprintln!(
-                        "{}{}:                 try_fo {} try_fo_last {} fo_b {} fo_a {} (fo_end {})",
+                        "{}{}:                 try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})",
                         so(),
                         _fname,
                         try_fo,
                         try_fo_last,
-                        fo_b,
                         fo_a,
+                        fo_b,
                         fo_end
                     );
                 }
@@ -3666,19 +3807,16 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
             } // match result
             debug_eprintln!("{}{}: next loop will try offset {} (fo_end {})", so(), _fname, try_fo, fo_end);
-            if slp_opt.is_some() && try_fo == try_fo_last {
-                // if the new offset calculation `try_fo` has not changed since last loop (`try_fo_last`) then
-                // searching is exhausted
-                debug_eprintln!("{}{}: try_fo {} == {} try_fo_last;", so(), _fname, try_fo, try_fo_last);
+            //if slp_opt.is_some() && try_fo == try_fo_last {
+                // if the new offset calculation `try_fo` has not changed since last loop (`try_fo_last`)
+                // then searching might be exhausted
+            if slp_opt.is_some() && fo_a == fo_b {
+                debug_eprintln!("{}{}: fo_a {} == {} fo_b;", so(), _fname, fo_a, fo_b);
                 let slp = slp_opt.unwrap();
                 if slp.fileoffset_begin() < try_fo {
                     // binary search stopped at fileoffset past start of last Sysline
                     // so entirely past all acceptable syslines
-                    debug_eprintln!(
-                        "{}{}: return ResultS4_SyslineFind::Ok_Done; C",
-                        sx(),
-                        _fname,
-                    );
+                    debug_eprintln!("{}{}: return ResultS4_SyslineFind::Ok_Done; C", sx(), _fname,);
                     return ResultS4_SyslineFind::Ok_Done;
                 }
                 // binary search stopped at fileoffset that refers to an acceptable sysline
@@ -3692,9 +3830,11 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     (*slp).to_String_noraw()
                 );
                 return ResultS4_SyslineFind::Ok((fo_last, slp));
-            } else if slp_opt.is_none() && try_fo == try_fo_last {
+            } else if done && try_fo == try_fo_last {
+                // reached a dead-end of searching the same fileoffset `find_sysline(try_fo)` and receiving Ok_Done
+                // so this function is exhausted too.
                 debug_eprintln!(
-                    "{}{}: try_fo {} == {} try_fo_last; SyslineP is None, break!",
+                    "{}{}: Ok_Done && try_fo {} == {} try_fo_last; break!",
                     so(),
                     _fname,
                     try_fo,
@@ -3708,65 +3848,57 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         return ResultS4_SyslineFind::Ok_Done;
     }
 
-    /// if `syslinep.dt` is at or after `dt_filter` then return `OccursAtOrAfter`
-    /// if `syslinep.dt` is before `dt_filter` then return `OccursBefore`
+    /// if `dt` is at or after `dt_filter` then return `OccursAtOrAfter`
+    /// if `dt` is before `dt_filter` then return `OccursBefore`
     /// else return `Pass` (including if `dt_filter` is `None`)
-    /// TODO: create more testable implementation that takes only DateTimeL_Opt. Say `fn dt_after_or_before`
-    ///       Let `sysline_dt_after_or_before` check the SyslineP then call `dt_after_or_before`.
-    pub fn sysline_dt_after_or_before(syslinep: &SyslineP, dt_filter: &DateTimeL_Opt) -> Result_Filter_DateTime1 {
-        debug_eprintln!("{}sysline_dt_after_or_before(SyslineP@{:p}, {:?})", sn(), &*syslinep, dt_filter,);
-        assert!((*syslinep).dt.is_some(), "Sysline @{:p} does not have a datetime set.", &*syslinep);
-
+    pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeL_Opt) -> Result_Filter_DateTime1 {
         if dt_filter.is_none() {
-            debug_eprintln!(
-                "{}sysline_dt_after_or_before(…) return Result_Filter_DateTime1::Pass; (no dt filters)",
-                sx(),
-            );
+            debug_eprintln!("{}dt_after_or_before(…) return Result_Filter_DateTime1::Pass; (no dt filters)", sx(),);
             return Result_Filter_DateTime1::Pass;
         }
 
-        let dt = (*syslinep).dt.unwrap();
-        let dt_a = dt_filter.unwrap();
-        debug_eprintln!(
-            "{}sysline_dt_after_or_before comparing Sysline datetime {:?} to filter datetime {:?}",
-            so(),
-            dt,
-            dt_a
-        );
-        //if dt_a == dt {
-        //    debug_eprintln!("{}sysline_dt_after_or_before(…) return Result_Filter_DateTime1::OccursInRange; ==", sx(),);
-        //    return Result_Filter_DateTime1::OccursInRange;
-        //}
+        let dt_a = &dt_filter.unwrap();
+        debug_eprintln!("{}dt_after_or_before comparing dt datetime {:?} to filter datetime {:?}", so(), dt, dt_a);
         if dt < dt_a {
-            debug_eprintln!("{}sysline_dt_after_or_before(…) return Result_Filter_DateTime1::OccursBefore; (Sysline datetime {:?} is before filter {:?})", sx(), dt, dt_a);
+            debug_eprintln!("{}dt_after_or_before(…) return Result_Filter_DateTime1::OccursBefore; (dt {:?} is before dt_filter {:?})", sx(), dt, dt_a);
             return Result_Filter_DateTime1::OccursBefore;
         }
-        debug_eprintln!("{}sysline_dt_after_or_before(…) return Result_Filter_DateTime1::OccursAtOrAfter; (Sysline datetime {:?} is at or after filter {:?})", sx(), dt, dt_a);
+        debug_eprintln!("{}dt_after_or_before(…) return Result_Filter_DateTime1::OccursAtOrAfter; (dt {:?} is at or after dt_filter {:?})", sx(), dt, dt_a);
         return Result_Filter_DateTime1::OccursAtOrAfter;
+    }
+
+    /// convience wrapper for `dt_after_or_before`
+    pub fn sysline_dt_after_or_before(syslinep: &SyslineP, dt_filter: &DateTimeL_Opt) -> Result_Filter_DateTime1 {
+        debug_eprintln!("{}sysline_dt_after_or_before(SyslineP@{:p}, {:?})", snx(), &*syslinep, dt_filter,);
+        assert!((*syslinep).dt.is_some(), "Sysline @{:p} does not have a datetime set.", &*syslinep);
+
+        let dt = (*syslinep).dt.unwrap();
+        return Self::dt_after_or_before(&dt, &dt_filter);
     }
 
     /// If both filters are `Some` and `syslinep.dt` is "between" the filters then return `Pass`
     /// comparison is "inclusive" i.e. `dt` == `dt_filter_after` will return `Pass`
-    /// TODO: finish this
+    /// TODO: finish this docstring
     /// If both filters are `None` then return `Pass`
     pub fn dt_pass_filters(
-        dt: &DateTimeL,
-        dt_filter_after: &DateTimeL_Opt,
-        dt_filter_before: &DateTimeL_Opt,
+        dt: &DateTimeL, dt_filter_after: &DateTimeL_Opt, dt_filter_before: &DateTimeL_Opt,
     ) -> Result_Filter_DateTime2 {
-        debug_eprintln!(
-            "{}dt_pass_filters({:?}, {:?}, {:?})",
-            sn(),
-            dt,
-            dt_filter_after,
-            dt_filter_before,
-        );
+        debug_eprintln!("{}dt_pass_filters({:?}, {:?}, {:?})", sn(), dt, dt_filter_after, dt_filter_before,);
         if dt_filter_after.is_none() && dt_filter_before.is_none() {
-            debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursInRange; (no dt filters)", sx(),);
+            debug_eprintln!(
+                "{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursInRange; (no dt filters)",
+                sx(),
+            );
             return Result_Filter_DateTime2::OccursInRange;
         }
         if dt_filter_after.is_some() && dt_filter_before.is_some() {
-            debug_eprintln!("{}dt_pass_filters comparing datetime dt_filter_after {:?} < {:?} dt < {:?} dt_fiter_before ???", so(), &dt_filter_after.unwrap(), dt, &dt_filter_before.unwrap());
+            debug_eprintln!(
+                "{}dt_pass_filters comparing datetime dt_filter_after {:?} < {:?} dt < {:?} dt_fiter_before ???",
+                so(),
+                &dt_filter_after.unwrap(),
+                dt,
+                &dt_filter_before.unwrap()
+            );
             let da = &dt_filter_after.unwrap();
             let db = &dt_filter_before.unwrap();
             assert_le!(da, db, "Bad datetime range values filter_after {:?} {:?} filter_before", da, db);
@@ -3784,7 +3916,12 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursInRange;", sx());
             return Result_Filter_DateTime2::OccursInRange;
         } else if dt_filter_after.is_some() {
-            debug_eprintln!("{}dt_pass_filters comparing datetime dt_filter_after {:?} < {:?} dt ???", so(), &dt_filter_after.unwrap(), dt);
+            debug_eprintln!(
+                "{}dt_pass_filters comparing datetime dt_filter_after {:?} < {:?} dt ???",
+                so(),
+                &dt_filter_after.unwrap(),
+                dt
+            );
             let da = &dt_filter_after.unwrap();
             if dt < da {
                 debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursBeforeRange;", sx());
@@ -3793,7 +3930,12 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursInRange;", sx());
             return Result_Filter_DateTime2::OccursInRange;
         } else {
-            debug_eprintln!("{}dt_pass_filters comparing datetime dt {:?} < {:?} dt_filter_before ???", so(), dt, &dt_filter_before.unwrap());
+            debug_eprintln!(
+                "{}dt_pass_filters comparing datetime dt {:?} < {:?} dt_filter_before ???",
+                so(),
+                dt,
+                &dt_filter_before.unwrap()
+            );
             let db = &dt_filter_before.unwrap();
             if db < dt {
                 debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::OccursAfterRange;", sx());
@@ -3806,9 +3948,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
 
     /// wrapper for call to `dt_pass_filters`
     pub fn sysline_pass_filters(
-        syslinep: &SyslineP,
-        dt_filter_after: &DateTimeL_Opt,
-        dt_filter_before: &DateTimeL_Opt,
+        syslinep: &SyslineP, dt_filter_after: &DateTimeL_Opt, dt_filter_before: &DateTimeL_Opt,
     ) -> Result_Filter_DateTime2 {
         debug_eprintln!(
             "{}sysline_pass_filters(SyslineP@{:p}, {:?}, {:?})",
@@ -3823,26 +3963,6 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         debug_eprintln!("{}sysline_pass_filters(…) return {:?};", sx(), result);
         return result;
     }
-}
-
-/// testing helper to write a `str` to a temporary file
-/// `NamedTempFile` will be automatically deleted when `NamedTempFile` is dropped.
-fn create_temp_file(content: &str) -> NamedTempFile {
-    let mut ntf1 = match NamedTempFile::new() {
-        Ok(val) => val,
-        Err(err) => {
-            //eprintln!("NamedTempFile::new() return Err {}", err);
-            panic!("NamedTempFile::new() return Err {}", err);
-        }
-    };
-    match ntf1.write_all(content.as_bytes()) {
-        Ok(_) => {}
-        Err(err) => {
-            eprintln!("NamedTempFile::write_all() return Err {}", err);
-        }
-    }
-
-    return ntf1;
 }
 
 /// basic test of `SyslineReader.find_datetime_in_line`
@@ -3915,6 +4035,140 @@ CLOSED!
     debug_eprintln!("{}test_find_datetime_in_line()", sx());
 }
 
+/// basic test of `SyslineReader.find_datetime_in_line`
+#[allow(non_snake_case, dead_code)]
+fn test_find_sysline_at_datetime_filter(blocksz: BlockSz) {
+    debug_eprintln!("{}test_find_sysline_at_datetime_filter()", sn());
+    let ntf1 = create_temp_file(
+        "\
+2020-01-01 00:00:00
+2020-01-01 00:00:01a
+2020-01-01 00:00:02ab
+2020-01-01 00:00:03abc
+2020-01-01 00:00:04abcd
+2020-01-01 00:00:05abcde
+2020-01-01 00:00:06abcdef
+2020-01-01 00:00:07abcdefg
+2020-01-01 00:00:08abcdefgh
+2020-01-01 00:00:09abcdefghi
+2020-01-01 00:00:10abcdefghij
+2020-01-01 00:00:11abcdefghijk
+2020-01-01 00:00:12abcdefghijkl
+2020-01-01 00:00:13abcdefghijklm
+2020-01-01 00:00:14abcdefghijklmn
+2020-01-01 00:00:15abcdefghijklmno
+2020-01-01 00:00:16abcdefghijklmnop
+2020-01-01 00:00:17abcdefghijklmnopq
+2020-01-01 00:00:18abcdefghijklmnopqr
+2020-01-01 00:00:19abcdefghijklmnopqrs
+2020-01-01 00:00:20abcdefghijklmnopqrst
+2020-01-01 00:00:21abcdefghijklmnopqrstu
+2020-01-01 00:00:22abcdefghijklmnopqrstuv
+2020-01-01 00:00:23abcdefghijklmnopqrstuvw
+2020-01-01 00:00:24abcdefghijklmnopqrstuvwx
+2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy
+2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz
+",
+    );
+    let path = String::from(ntf1.path().to_str().unwrap());
+    let dt_fmt = "%Y-%m-%d %H:%M:%S";
+
+    let mut answers = std::collections::HashMap::<&str, &str>::new();
+    answers.insert("2020-01-01 00:00:00", "2020-01-01 00:00:00\n");
+    answers.insert("2020-01-01 00:00:01", "2020-01-01 00:00:01a\n");
+    answers.insert("2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n");
+    answers.insert("2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n");
+    answers.insert("2020-01-01 00:00:04", "2020-01-01 00:00:04abcd\n");
+    answers.insert("2020-01-01 00:00:05", "2020-01-01 00:00:05abcde\n");
+    answers.insert("2020-01-01 00:00:06", "2020-01-01 00:00:06abcdef\n");
+    answers.insert("2020-01-01 00:00:07", "2020-01-01 00:00:07abcdefg\n");
+    answers.insert("2020-01-01 00:00:08", "2020-01-01 00:00:08abcdefgh\n");
+    answers.insert("2020-01-01 00:00:09", "2020-01-01 00:00:09abcdefghi\n");
+    answers.insert("2020-01-01 00:00:10", "2020-01-01 00:00:10abcdefghij\n");
+    answers.insert("2020-01-01 00:00:11", "2020-01-01 00:00:11abcdefghijk\n");
+    answers.insert("2020-01-01 00:00:12", "2020-01-01 00:00:12abcdefghijkl\n");
+    answers.insert("2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n");
+    answers.insert("2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n");
+    answers.insert("2020-01-01 00:00:15", "2020-01-01 00:00:15abcdefghijklmno\n");
+    answers.insert("2020-01-01 00:00:16", "2020-01-01 00:00:16abcdefghijklmnop\n");
+    answers.insert("2020-01-01 00:00:17", "2020-01-01 00:00:17abcdefghijklmnopq\n");
+    answers.insert("2020-01-01 00:00:18", "2020-01-01 00:00:18abcdefghijklmnopqr\n");
+    answers.insert("2020-01-01 00:00:19", "2020-01-01 00:00:19abcdefghijklmnopqrs\n");
+    answers.insert("2020-01-01 00:00:20", "2020-01-01 00:00:20abcdefghijklmnopqrst\n");
+    answers.insert("2020-01-01 00:00:21", "2020-01-01 00:00:21abcdefghijklmnopqrstu\n");
+    answers.insert("2020-01-01 00:00:22", "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n");
+    answers.insert("2020-01-01 00:00:23", "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n");
+    answers.insert("2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n");
+    answers.insert("2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n");
+    answers.insert("2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n");
+
+    let mut slr = match SyslineReader::new(&path, blocksz) {
+        Ok(val) => val,
+        Err(err) => {
+            eprintln!("ERROR: SyslineReader::new('{}', {}) failed {}", &path, blocksz, err);
+            return;
+        }
+    };
+    for (fo1, dts,) in [
+        (0, "2020-01-01 00:00:00"),
+        (0, "2020-01-01 00:00:01"),
+        (0, "2020-01-01 00:00:02"),
+        (0, "2020-01-01 00:00:03"),
+        (0, "2020-01-01 00:00:04"),
+        (0, "2020-01-01 00:00:05"),
+        (0, "2020-01-01 00:00:06"),
+        (0, "2020-01-01 00:00:07"),
+        (0, "2020-01-01 00:00:08"),
+        (0, "2020-01-01 00:00:09"),
+        (0, "2020-01-01 00:00:10"),
+        (0, "2020-01-01 00:00:11"),
+        (0, "2020-01-01 00:00:12"),
+        (0, "2020-01-01 00:00:13"),
+        (0, "2020-01-01 00:00:14"),
+        (0, "2020-01-01 00:00:15"),
+        (0, "2020-01-01 00:00:16"),
+        (0, "2020-01-01 00:00:17"),
+        (0, "2020-01-01 00:00:18"),
+        (0, "2020-01-01 00:00:19"),
+        (0, "2020-01-01 00:00:20"),
+        (0, "2020-01-01 00:00:21"),
+        (0, "2020-01-01 00:00:22"),
+        (0, "2020-01-01 00:00:23"),
+        (0, "2020-01-01 00:00:24"),
+        (0, "2020-01-01 00:00:25"),
+        (0, "2020-01-01 00:00:26"),
+    ] {
+        let dt = match Local.datetime_from_str(dts, dt_fmt) {
+            chrono::ParseResult::Ok(val) => val,
+            chrono::ParseResult::Err(err) => {
+                panic!("ERROR: datetime_from_str('{}', '{}') returned {}", dts, dt_fmt, err);
+            }
+        };
+        debug_eprintln!("{}K: '{}'", so(), str_to_nonraw_String(dts));
+        let sline_expect = String::from(*(answers.get(dts).unwrap()));
+        let sline_expect_noraw = str_to_nonraw_String(sline_expect.as_str());
+        debug_eprintln!("{}find_sysline_at_datetime_filter({}, {:?}) expect '{}'", so(), fo1, dt, sline_expect_noraw);
+        let result = slr.find_sysline_at_datetime_filter(fo1, &Some(dt));
+        match result {
+            ResultS4_SyslineFind::Ok(val) |
+            ResultS4_SyslineFind::Ok_EOF(val) => {
+                let sline = val.1.to_String();
+                let sline_noraw = str_to_nonraw_String(sline.as_str());
+                assert_eq!(sline, sline_expect, "Expected '{}' == '{}' but it is not!", sline_noraw, sline_expect_noraw);
+            },
+            ResultS4_SyslineFind::Ok_Done => {
+                panic!("During test unexpected result Ok_Done");
+            }
+            ResultS4_SyslineFind::Err(err) => {
+                panic!("During test unexpected result Error {}", err);
+            }
+        }
+    }
+
+    debug_eprintln!("{}test_find_sysline_at_datetime_filter()", sx());
+}
+
+
 /// basic test of `SyslineReader.sysline_pass_filters`
 #[allow(non_snake_case, dead_code)]
 fn test_sysline_pass_filters() {
@@ -3943,53 +4197,46 @@ fn test_sysline_pass_filters() {
             Some(DTL(&"20000101T010102")),
             Result_Filter_DateTime2::OccursAfterRange,
         ),
-        (
-            Some(DTL(&"20000101T010101")),
-            DTL(&"20000101T010106"),
-            None,
-            Result_Filter_DateTime2::OccursInRange,
-        ),
-        (
-            Some(DTL(&"20000101T010102")),
-            DTL(&"20000101T010101"),
-            None,
-            Result_Filter_DateTime2::OccursBeforeRange,
-        ),
-        (
-            Some(DTL(&"20000101T010101")),
-            DTL(&"20000101T010101"),
-            None,
-            Result_Filter_DateTime2::OccursInRange,
-        ),
-        (
-            None,
-            DTL(&"20000101T010101"),
-            Some(DTL(&"20000101T010106")),
-            Result_Filter_DateTime2::OccursInRange,
-        ),
-        (
-            None,
-            DTL(&"20000101T010101"),
-            Some(DTL(&"20000101T010100")),
-            Result_Filter_DateTime2::OccursAfterRange,
-        ),
-        (
-            None,
-            DTL(&"20000101T010101"),
-            Some(DTL(&"20000101T010101")),
-            Result_Filter_DateTime2::OccursInRange,
-        ),
+        (Some(DTL(&"20000101T010101")), DTL(&"20000101T010106"), None, Result_Filter_DateTime2::OccursInRange),
+        (Some(DTL(&"20000101T010102")), DTL(&"20000101T010101"), None, Result_Filter_DateTime2::OccursBeforeRange),
+        (Some(DTL(&"20000101T010101")), DTL(&"20000101T010101"), None, Result_Filter_DateTime2::OccursInRange),
+        (None, DTL(&"20000101T010101"), Some(DTL(&"20000101T010106")), Result_Filter_DateTime2::OccursInRange),
+        (None, DTL(&"20000101T010101"), Some(DTL(&"20000101T010100")), Result_Filter_DateTime2::OccursAfterRange),
+        (None, DTL(&"20000101T010101"), Some(DTL(&"20000101T010101")), Result_Filter_DateTime2::OccursInRange),
     ] {
-        let result = SyslineReader::dt_pass_filters(
-            &dt,
-            &da,
-            &db,
-        );
+        let result = SyslineReader::dt_pass_filters(&dt, &da, &db);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?}, {:?})", exp_result, result, dt, da, db);
-        print_colored(Color::Green,
-                      format!("{}({:?}, {:?}, {:?}) returned expected {:?}\n", so(), dt, da, db, result).as_bytes());
+        print_colored(
+            Color::Green,
+            format!("{}({:?}, {:?}, {:?}) returned expected {:?}\n", so(), dt, da, db, result).as_bytes(),
+        );
     }
     debug_eprintln!("{}test_sysline_pass_filters()", sx());
+}
+
+/// basic test of `SyslineReader.dt_after_or_before`
+#[allow(non_snake_case, dead_code)]
+fn test_dt_after_or_before() {
+    debug_eprintln!("{}test_dt_after_or_before()", sn());
+
+    fn DTL(s: &str) -> DateTimeL {
+        return Local.datetime_from_str(s, &"%Y%m%dT%H%M%S").unwrap();
+    }
+
+    for (dt, da, exp_result) in [
+        (DTL(&"20000101T010106"), None, Result_Filter_DateTime1::Pass),
+        (DTL(&"20000101T010101"), Some(DTL(&"20000101T010103")), Result_Filter_DateTime1::OccursBefore),
+        (DTL(&"20000101T010100"), Some(DTL(&"20000101T010100")), Result_Filter_DateTime1::OccursAtOrAfter),
+        (DTL(&"20000101T010109"), Some(DTL(&"20000101T010108")), Result_Filter_DateTime1::OccursAtOrAfter),
+    ] {
+        let result = SyslineReader::dt_after_or_before(&dt, &da);
+        assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?})", exp_result, result, dt, da);
+        print_colored(
+            Color::Green,
+            format!("{}({:?}, {:?}) returned expected {:?}\n", so(), dt, da, result).as_bytes(),
+        );
+    }
+    debug_eprintln!("{}test_dt_after_or_before()", sx());
 }
 
 /// testing helper
@@ -4093,7 +4340,7 @@ fn test_SyslineReader(path: &String, blocksz: BlockSz) {
         }
     }
 
-    debug_eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.lines.len(), slr.syslines.len());
+    debug_eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.count(), slr.syslines.len());
     //print_colored(Color::Green, "DOES ANYTHING COLORED PRINT?\n".as_bytes())?;
     debug_eprintln!("{}test_SyslineReader({:?}, {})", sx(), &path, blocksz);
 }
@@ -4101,10 +4348,7 @@ fn test_SyslineReader(path: &String, blocksz: BlockSz) {
 /// basic test of SyslineReader things
 #[allow(non_snake_case, dead_code)]
 fn test_SyslineReader_w_filtering_1(
-    path: &String,
-    blocksz: BlockSz,
-    filter_dt_after_opt: DateTimeL_Opt,
-    filter_dt_before_opt: DateTimeL_Opt,
+    path: &String, blocksz: BlockSz, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
 ) {
     debug_eprintln!(
         "{}test_SyslineReader_w_filtering_1({:?}, {}, {:?}, {:?})",
@@ -4194,7 +4438,7 @@ fn test_SyslineReader_w_filtering_1(
         debug_eprintln!("\n");
     }
 
-    debug_eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.lines.len(), slr.syslines.len());
+    debug_eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.count(), slr.syslines.len());
     debug_eprintln!(
         "{}test_SyslineReader_w_filtering_1({:?}, {}, {:?}, {:?})",
         sx(),
@@ -4205,32 +4449,16 @@ fn test_SyslineReader_w_filtering_1(
     );
 }
 
-/// basic test of SyslineReader things
-#[allow(non_snake_case, dead_code)]
-fn test_SyslineReader_w_filtering_2(
-    path: &String,
-    blocksz: BlockSz,
-    filter_dt_after_opt: DateTimeL_Opt,
-    filter_dt_before_opt: DateTimeL_Opt,
-) {
+/// print the filtered syslines for a SyslineReader
+/// quick debug helper
+fn process_SyslineReader(slr: & mut SyslineReader, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,) {
     debug_eprintln!(
-        "{}test_SyslineReader_w_filtering_2({:?}, {}, {:?}, {:?})",
+        "{}process_SyslineReader({:?}, {:?}, {:?})",
         sn(),
-        &path,
-        blocksz,
+        slr,
         filter_dt_after_opt,
         filter_dt_before_opt,
     );
-
-    let mut slr = match SyslineReader::new(path, blocksz) {
-        Ok(val) => val,
-        Err(err) => {
-            eprintln!("ERROR: SyslineReader::new({}, {}) failed {}", path, blocksz, err);
-            return;
-        }
-    };
-    debug_eprintln!("{}{:?}", so(), slr);
-
     let mut fo1: FileOffset = 0;
     let mut search_more = true;
     debug_eprintln!("{}slr.find_sysline_at_datetime_filter({}, {:?})", so(), fo1, filter_dt_after_opt);
@@ -4288,7 +4516,7 @@ fn test_SyslineReader_w_filtering_2(
     }
     if !search_more {
         debug_eprintln!("{}! search_more", so());
-        debug_eprintln!("{}test_SyslineReader_w_filtering_2(…)", sx());
+        debug_eprintln!("{}process_SyslineReader(…)", sx());
         return;
     }
     let mut fo2: FileOffset = fo1;
@@ -4348,14 +4576,90 @@ fn test_SyslineReader_w_filtering_2(
             }
         }
     }
+    debug_eprintln!("{}process_SyslineReader('{}', …)", sx(), slr.path());
+}
 
-    debug_eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.lines.len(), slr.syslines.len());
+/// quick debug helper
+fn process_file<'a>(path: &'a String, blocksz: BlockSz, filter_dt_after_opt: &'a DateTimeL_Opt, filter_dt_before_opt: &'a DateTimeL_Opt,) -> Option<Box<SyslineReader<'a>>> {
+    debug_eprintln!(
+        "{}process_file({:?}, {}, {:?}, {:?})",
+        sn(),
+        &path,
+        blocksz,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
+    );
+    let mut slr = match SyslineReader::new(path, blocksz) {
+        Ok(val) => val,
+        Err(err) => {
+            eprintln!("ERROR: SyslineReader::new({}, {}) failed {}", path, blocksz, err);
+            return None;
+        }
+    };
+    debug_eprintln!("{}{:?}", so(), slr);
+    debug_eprintln!("{}process_file(…)", sx());
+    return Some(Box::new(slr));
+}
+
+/// basic test of SyslineReader things
+#[allow(non_snake_case, dead_code)]
+fn test_SyslineReader_w_filtering_2(
+    path: &String, blocksz: BlockSz, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
+) {
+    debug_eprintln!(
+        "{}test_SyslineReader_w_filtering_2({:?}, {}, {:?}, {:?})",
+        sn(),
+        &path,
+        blocksz,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
+    );
+    let slr_opt = process_file(path, blocksz, filter_dt_after_opt, filter_dt_before_opt);
+    if slr_opt.is_some() {
+        let slr = &slr_opt.unwrap();
+        debug_eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.count(), slr.syslines.len());
+    }
     /*
     for (i, line) in slr.linereader.lines.iter().enumerate() {
         print_colored(Color::Cyan, format!("{:2} {:3} '{}'\n", i, line.0, line.1.to_String_noraw()).as_bytes());
     }
     */
     debug_eprintln!("{}test_SyslineReader_w_filtering_2(…)", sx());
+}
+
+/// basic test of SyslineReader things
+/// process multiple files
+#[allow(non_snake_case, dead_code)]
+fn test_SyslineReader_w_filtering_3(
+    paths: &Vec<String>, blocksz: BlockSz, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
+) {
+    debug_eprintln!(
+        "{}test_SyslineReader_w_filtering_3({:?}, {}, {:?}, {:?})",
+        sn(),
+        &paths,
+        blocksz,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
+    );
+
+    let mut slrs = Vec::<SyslineReader>::with_capacity(paths.len());
+    for path in paths.iter() {
+        debug_eprintln!("{}SyslineReader::new('{}', {})", so(), path, blocksz);
+        let slr = match SyslineReader::new(path, blocksz) {
+            Ok(val) => val,
+            Err(err) => {
+                eprintln!("ERROR: SyslineReader::new('{}', {}) failed {}", path, blocksz, err);
+                return;
+            }
+        };
+        debug_eprintln!("{}{:?}", so(), slr);
+        slrs.push(slr)
+    }
+    for slr in slrs.iter_mut() {
+        process_SyslineReader(slr, filter_dt_after_opt, filter_dt_before_opt);
+        println!();
+    }
+    debug_eprintln!("{}test_SyslineReader_w_filtering_3(…)", sx());
 }
 
 /// basic test of SyslineReader things
