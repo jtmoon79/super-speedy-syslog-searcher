@@ -32,6 +32,12 @@ Slices and references refresher:
 Stack Offset refresher
     https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=2d870ad0b835ffc8499f7a16b1c424ec
 
+"Easy Rust" book
+https://erasin.wang/books/easy-rust/
+
+The Rust Programing Book
+https://doc.rust-lang.org/book/
+
 TODO: [2021/09/01] what about mmap? https://stackoverflow.com/questions/45972/mmap-vs-reading-blocks
 
 IDEA: [2021/09/17]
@@ -189,6 +195,33 @@ LAST WORKING ON [2021/09/28 02:00:00]
      Later, work on synchronized printing based on datetime and filters.
      Oh, create a copy of all "TODO" up in this header comment area so I can precede with "DONE"
 
+LAST WORKING ON [2021/10/01 01:10:00]
+     Got `test_threading_3` running. It just prints syslog files among shared threads. No coordination.
+     Next is to coordinate among the different threads.
+     Each file processing threads must:
+         processing thread (many):
+           find a sysline datetime
+               if no datetime found, send Done to `channel_dt`, exit.
+           send datetime to channel `channel_dt`
+           Wait on recv channel `print`
+         coordinating thread (one):
+            has map[???, channel_dt]
+            waits to recv on several `channel_dt`
+              if receive datetime then associates recieved datetime with a send channel
+              if receive Done then removes the associated channel
+            compares currently had datetimes, for winning datetime (soonest),
+               find send channel, send to channel `print`
+         processing thread (many):
+           receives signal on channel `print`
+           prints sysline
+           (loop)
+     ... carp, this ain't even all of it... there can be many files but only N processing threads.
+     So given limited threads but one worker per file, need share a few threads among the many workers,
+     like some sort of work pipeline.
+     yet need to coordinate among all workers...
+     Next implementation step should create one thread per passed file, then implement the datetime printing
+     coordination mechanism.
+     After that, work on the limited threads mechanism.
 */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -889,6 +922,30 @@ fn create_temp_file(content: &str) -> NamedTempFile {
     return ntf1;
 }
 
+static COLORS: [Color; 6] = [
+    Color::Yellow,
+    Color::Green,
+    Color::Cyan,
+    Color::Red,
+    Color::White,
+    Color::Magenta,
+];
+
+static mut _color_at: usize = 0;
+
+/// return a random color from `COLORS`
+fn color_rand() -> Color {
+    let mut ci = 0;
+    unsafe {
+        _color_at += 1;
+        if _color_at == COLORS.len() {
+            _color_at = 0;
+        }
+        ci = _color_at;
+    }
+    return COLORS[ci];
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // main
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1016,13 +1073,16 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
     //test_LineReader(&fpath, bsize);
     //test_LineReader_rand(&fpath, bsize);
     //test_sysline_pass_filters();
-    test_find_sysline_at_datetime_filter(bsize);
+    //test_find_sysline_at_datetime_filter(bsize);
     //test_dt_after_or_before();
     //test_SyslineReader(&fpath, bsize);
     //test_SyslineReader_rand(&fpath, bsize);
     //test_SyslineReader_w_filtering_1(&fpath, bsize, filter_dt_after, filter_dt_before);
     //test_SyslineReader_w_filtering_2(&fpath, bsize, &filter_dt_after, &filter_dt_before);
     //test_SyslineReader_w_filtering_3(&fpaths, bsize, &filter_dt_after, &filter_dt_before);
+    //test_threading_1();
+    //test_threading_2();
+    test_threading_3(&fpaths, bsize, &filter_dt_after, &filter_dt_before);
 
     debug_eprintln!("{}main()", sx());
     return Ok(());
@@ -2738,6 +2798,7 @@ type DateTimeL = DateTime<Local>;
 #[allow(non_camel_case_types)]
 type DateTimeL_Opt = Option<DateTimeL>;
 /// Sysline Searching error
+/// TODO: does SyslineFind need an `Ok_EOF` state? Is it an unnecessary overlap of `Ok` and `Ok_Done`?
 #[allow(non_camel_case_types)]
 type ResultS4_SyslineFind = ResultS4<(FileOffset, SyslineP), Error>;
 
@@ -2951,13 +3012,13 @@ impl Sysline {
 
     #[allow(non_snake_case)]
     pub fn to_String_from(self: &Sysline, _from: usize) -> String {
-        panic!("not implemented");
+        unimplemented!("yep");
         return String::from("stub!");
     }
 
     #[allow(non_snake_case)]
     pub fn to_String_from_to(self: &Sysline, _from: usize, _to: usize) -> String {
-        panic!("not implemented");
+        unimplemented!("yep");
         return String::from("stub!");
     }
 
@@ -4696,3 +4757,369 @@ fn test_SyslineReader_rand(path_: &String, blocksz: BlockSz) {
     debug_eprintln!("\n{}{:?}", so(), slr1);
     debug_eprintln!("{}test_SyslineReader_rand(…)", sx());
 }
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// multi-threaded
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+use std::sync::mpsc;
+use std::sync::Arc;
+use std::sync::Mutex;
+use std::thread;
+
+// LAST WORKING HERE [2021/09/29]
+//      the `thread.join` gets stuck.
+// would using the premade ThreadPool be easier?
+// https://docs.rs/threadpool/1.8.1/threadpool/
+// or Rayon threading
+// https://crates.io/crates/rayon
+//
+// these might be good to read:
+// https://pkolaczk.github.io/multiple-threadpools-rust/
+//
+// https://doc.rust-lang.org/book/ch16-03-shared-state.html#atomic-reference-counting-with-arct
+// https://doc.rust-lang.org/book/ch20-02-multithreaded.html
+
+/// Thread Handle
+type ThreadHandle = thread::JoinHandle<()>;
+/// Thread Handle Arc
+type ThreadHandleA<'a> = Arc<&'a ThreadHandle>;
+/// Thread Handle Mutex
+type ThreadHandleM = Mutex<ThreadHandle>;
+/// Thread Handle Arc Mutex
+type ThreadHandleAM = Arc<ThreadHandleM>;
+
+struct Worker {
+    id: usize,
+    //thread: ThreadHandle
+    //threadam: ThreadHandleAM,
+    //threadam_opt: Option<ThreadHandleAM>,
+    //threada: ThreadHandleA<'a>,
+    thread_opt: Option<ThreadHandle>,
+}
+
+impl Worker {
+    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+        let mut thread = thread::spawn(move || loop {
+            let job = receiver.lock().unwrap().recv().unwrap();
+            println!("Worker {} got a job; executing!", id);
+            job();
+        });
+        //let threadam = ThreadHandleAM::new(
+        //    ThreadHandleM::new(thread)
+        //);
+        //let threada = ThreadHandleA::new(thread);
+
+        Worker { 
+            id: id,
+            //threadam_opt: Some(ThreadHandleAM::new(ThreadHandleM::new(thread))),
+            //threadam: ThreadHandleAM::new(ThreadHandleM::new(thread)),
+            thread_opt: Some(thread),
+        }
+    }
+}
+
+pub struct ThreadPool {
+    workers: Vec<Worker>,
+    sender: mpsc::Sender<Job>,
+}
+
+type Job = Box<dyn FnOnce() + Send + 'static>;
+
+impl ThreadPool {
+
+    pub fn new(size: usize) -> ThreadPool {
+        assert!(size > 0);
+        let (sender, receiver) = mpsc::channel();
+        let receiver = Arc::new(Mutex::new(receiver));
+        let mut workers = Vec::<Worker>::with_capacity(size);
+        for id in 0..size {
+            workers.push(Worker::new(id, Arc::clone(&receiver)));
+        }
+        ThreadPool { workers, sender }
+    }
+
+    pub fn execute<F>(&self, f: F)
+    where
+        F: FnOnce() + Send + 'static,
+    {
+        let job = Box::new(f);
+        self.sender.send(job).unwrap();
+    }
+
+    pub fn wait(&mut self) {
+        debug_eprintln!("{}ThreadPool::wait()", sn());
+        // the sending channel must be closed so receivers know to stop waiting on it, yes? no?
+        //std::mem::drop(self.sender);
+        //self.sender.drop();
+        for mut worker in self.workers.iter_mut() {
+            let id = worker.id;
+            debug_eprintln!("{}ThreadPool::wait join …", so());
+
+            //worker.threadam.lock().unwrap().join().unwrap();
+            //worker.threadam_opt.take().unwrap().lock().unwrap().join().unwrap();
+            //worker.threada.join().unwrap();
+            //worker.thread.join().unwrap();
+
+            // BUG: [2021/09/29] this compiles but runtime gets stuck here.
+            // XXX: is it because of the printing?
+            match worker.thread_opt.take().unwrap().join() {
+                Ok(val) => {
+                    debug_eprintln!("joined thread {}!", id);
+                },
+                Err(err) => {
+                    eprintln!("Error thread {} joining {:?}", id, err);
+                },
+            }
+        }
+        debug_eprintln!("{}ThreadPool::wait()", sx());
+    } 
+}
+
+fn exec1() {
+    let i = 0;
+    debug_eprintln!("exec1");
+}
+
+fn test_threading_1()
+{
+    debug_eprintln!("{}test_threading_1()", sn());
+
+    debug_eprintln!("{}ThreadPool::new(5)", so());
+    let mut tp = ThreadPool::new(5);
+    for i in 0..5 {
+        tp.execute(exec1);
+    }
+    tp.wait();
+    debug_eprintln!("{}test_threading_1()", sx());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+extern crate rayon;
+
+fn exec2(path: String) -> i32 {
+    let r_ = rand::random::<i32>();
+    debug_eprintln!("exec2 '{}' {}", path, r_);
+    //return 33;
+    return r_;
+}
+
+// based on
+// https://pkolaczk.github.io/multiple-threadpools-rust/
+fn test_threading_2()
+{
+    debug_eprintln!("{}test_threading_2()", sn());
+
+    let pool = rayon::ThreadPoolBuilder::new()
+        .num_threads(4)
+        .build()
+        .unwrap();
+    let files: Vec<String> = Vec::<String>::from(
+        [
+            String::from("./logs/other/tests/basic-basic-dt20.log"),
+            String::from("./logs/other/tests/basic-basic-dt30-repeats-longlines.log"),
+            String::from("./logs/other/tests/basic-dt5.log"),
+        ]
+    );
+    let (tx, rx) = std::sync::mpsc::channel();
+    for f in files.into_iter() {
+        let tx = tx.clone();  
+        pool.spawn(move || { 
+            tx.send(exec2(f)).unwrap(); 
+        });
+    }
+    drop(tx); // need to close all senders, otherwise...
+    let hashes: Vec<i32> = rx.into_iter().collect();  // ... this would block
+    debug_eprintln!("{}hashes {:?}", so(), hashes);
+
+    debug_eprintln!("{}test_threading_2()", sx());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+type Thread_Guard = Arc<Mutex<i32>>;
+type Thread_Init_Data = (String, BlockSz, Color, DateTimeL_Opt, DateTimeL_Opt);
+
+fn exec3(print_guard: Thread_Guard, thread_init_data: Thread_Init_Data) -> thread::ThreadId {
+    let (path, blocksz, color, filter_dt_after_opt, filter_dt_before_opt) = thread_init_data;
+    let id_ = thread::current().id();
+
+    fn print_slp_color(print_guard: & Thread_Guard, slp: &SyslineP, color: &Color) {
+        let slices = (*slp).get_slices();
+        let mut vigil = print_guard.lock().unwrap();
+        for slice in slices.iter() {
+            print_colored(color.clone(), slice);
+        }
+        println!();
+        drop(vigil);
+    }
+    
+    let mut slr = match SyslineReader::new(&path, blocksz) {
+        Ok(val) => val,
+        Err(err) => {
+            eprintln!("ERROR: SyslineReader::new('{}', {}) failed {}", path, blocksz, err);
+            return id_;
+        }
+    };
+
+    let mut fo1: FileOffset = 0;
+    let mut search_more = true;
+    debug_eprintln!("{}slr.find_sysline_at_datetime_filter({}, {:?})", so(), fo1, filter_dt_after_opt);
+    let result = slr.find_sysline_at_datetime_filter(fo1, &filter_dt_after_opt);
+    match result {
+        ResultS4_SyslineFind::Ok((fo, slp)) | ResultS4_SyslineFind::Ok_EOF((fo, slp)) => {
+            debug_eprintln!(
+                "{}slr.find_sysline_at_datetime_filter({}, {:?}, {:?}) returned Ok({}, @{:p})",
+                so(),
+                fo1,
+                filter_dt_after_opt,
+                filter_dt_before_opt,
+                fo,
+                &*slp
+            );
+            debug_eprintln!(
+                "{}FileOffset {} Sysline @{:p}: line count {} sysline.len() {} '{}'",
+                so(),
+                fo,
+                &(*slp),
+                slp.syslineparts.len(),
+                (*slp).len(),
+                (*slp).to_String_noraw(),
+            );
+            fo1 = fo;
+            print_slp_color(&print_guard, &slp, &color);
+        }
+        ResultS4_SyslineFind::Ok_Done => {
+            debug_eprintln!(
+                "{}slr.find_sysline_at_datetime_filter({}, {:?}, {:?}) returned Ok_Done",
+                so(),
+                fo1,
+                filter_dt_after_opt,
+                filter_dt_before_opt
+            );
+            search_more = false;
+        }
+        ResultS4_SyslineFind::Err(err) => {
+            debug_eprintln!(
+                "{}slr.find_sysline_at_datetime_filter({}, {:?}, {:?}) returned Err({})",
+                so(),
+                fo1,
+                filter_dt_after_opt,
+                filter_dt_before_opt,
+                err
+            );
+            eprintln!("ERROR: {}", err);
+            search_more = false;
+        }
+    }
+    if !search_more {
+        debug_eprintln!("{}! search_more", so());
+        debug_eprintln!("{}process_SyslineReader(…)", sx());
+        return id_;
+    }
+    let mut fo2: FileOffset = fo1;
+    loop {
+        let result = slr.find_sysline(fo2);
+        let eof = result.is_eof();
+        match result {
+            ResultS4_SyslineFind::Ok((fo, slp)) | ResultS4_SyslineFind::Ok_EOF((fo, slp)) => {
+                if eof {
+                    debug_eprintln!("{}slr.find_sysline({}) returned Ok_EOF({}, @{:p})", so(), fo2, fo, &*slp);
+                } else {
+                    debug_eprintln!("{}slr.find_sysline({}) returned Ok({}, @{:p})", so(), fo2, fo, &*slp);
+                }
+                fo2 = fo;
+                debug_eprintln!(
+                    "{}FileOffset {} Sysline @{:p}: line count {} sysline.len() {} '{}'",
+                    so(),
+                    fo,
+                    &(*slp),
+                    slp.syslineparts.len(),
+                    (*slp).len(),
+                    (*slp).to_String_noraw(),
+                );
+                debug_eprintln!(
+                    "{}sysline_pass_filters({:?}, {:?}, {:?})",
+                    so(),
+                    (*slp).dt,
+                    filter_dt_after_opt,
+                    filter_dt_before_opt,
+                );
+                match SyslineReader::sysline_pass_filters(&slp, &filter_dt_after_opt, &filter_dt_before_opt) {
+                    Result_Filter_DateTime2::OccursBeforeRange | Result_Filter_DateTime2::OccursAfterRange => {
+                        debug_eprintln!(
+                            "{}sysline_pass_filters returned not Result_Filter_DateTime2::OccursInRange; continue!",
+                            so()
+                        );
+                        continue;
+                    }
+                    Result_Filter_DateTime2::OccursInRange => {
+                        print_slp_color(&print_guard, &slp, &color);
+                        if eof {
+                            assert!(slr.is_sysline_last(&slp), "returned Ok_EOF yet this Sysline is not last!?");
+                        } else {
+                            assert!(!slr.is_sysline_last(&slp), "returned Ok yet this Sysline is last!? Should have returned Ok_EOF or this Sysline is really not last.");
+                        }
+                    }
+                }
+            }
+            ResultS4_SyslineFind::Ok_Done => {
+                debug_eprintln!("{}slr.find_sysline({}) returned Ok_Done", so(), fo2);
+                break;
+            }
+            ResultS4_SyslineFind::Err(err) => {
+                debug_eprintln!("{}slr.find_sysline({}) returned Err({})", so(), fo2, err);
+                eprintln!("ERROR: {}", err);
+                break;
+            }
+        }
+    }
+
+    return id_;
+}
+
+// based on
+// https://pkolaczk.github.io/multiple-threadpools-rust/
+fn test_threading_3(
+    paths: &Vec<String>, blocksz: BlockSz, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
+)
+{
+    debug_eprintln!("{}test_threading_3()", sn());
+
+    let print_guard = Arc::new(Mutex::new(0 as i32));
+    
+    let pool = rayon::ThreadPoolBuilder::new()
+        .num_threads(2)
+        .build()
+        .unwrap();
+    let mut thread_data: Vec<Thread_Init_Data> = Vec::<Thread_Init_Data>::with_capacity(paths.len());
+    for path in paths.iter() {
+        thread_data.push(
+            (
+                path.clone(),
+                blocksz,
+                color_rand(),
+                filter_dt_after_opt.clone(),
+                filter_dt_before_opt.clone(),
+            )
+        );
+    }
+    debug_eprintln!("{:?}", thread_data);
+
+    let (tx, rx) = std::sync::mpsc::channel();
+    for thread_init_data in thread_data.into_iter() {
+        let tx = tx.clone();
+        let pguard = Arc::clone(&print_guard);
+        pool.spawn(move || { 
+            tx.send(exec3(pguard, thread_init_data)).unwrap(); 
+        });
+    }
+    drop(tx); // need to close all senders, otherwise...
+    let threads: Vec<thread::ThreadId> = rx.into_iter().collect();  // ... this would block
+    debug_eprintln!("{}threads {:?}", so(), threads);
+
+    debug_eprintln!("{}test_threading_3()", sx());
+}
+
+// -------------------------------------------------------------------------------------------------
