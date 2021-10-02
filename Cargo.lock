@@ -432,6 +432,7 @@ dependencies = [
  "backtrace",
  "chrono",
  "clap",
+ "crossbeam-channel",
  "debug_print",
  "itertools",
  "lru",
