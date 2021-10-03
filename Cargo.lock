@@ -435,6 +435,7 @@ dependencies = [
  "crossbeam-channel",
  "debug_print",
  "itertools",
+ "lazy_static",
  "lru",
  "more-asserts",
  "rand",

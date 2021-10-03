@@ -1,0 +1,6 @@
+2020-10-03 11:24:11,475 pi3boo proftpd[15533] 127.0.1.1 (192.168.124.180[192.168.124.180]): Control access root DENIED
+2020-10-03 11:24:11,475 pi3boo proftpd[15533] 127.0.1.1 (192.168.124.180[192.168.124.180]): Control access root NONE
+2020-10-03 11:24:13,595 pi3boo proftpd[15534] 127.0.1.1 (192.168.124.180[192.168.124.180]): Control access root DENIED
+2020-10-03 11:24:11,475 pi3boo proftpd[15533] 127.0.1.1 (192.168.124.180[192.168.124.180]): Control access root NONE
+2020-10-03 11:25:34,697 pi3boo proftpd[15738] 127.0.1.1 (192.168.124.180[192.168.124.180]): Control access root OKAY
+2020-10-03 11:26:12,137 pi3boo proftpd[15773] 127.0.1.1 (192.168.124.180[192.168.124.180]): Control access root OKAY
