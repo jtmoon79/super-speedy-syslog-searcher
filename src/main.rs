@@ -279,6 +279,13 @@ LAST WORKING ON [2021/10/03 00:20:00]
      May want to move `test_threading_3` into a it's own proper function.
      I made a skeleton for SyslogWriter, but I'm not sure what to do with it.
      Perhaps that could be the thing that handles all the threading? Rename `SyslogsPrinter` ?
+
+BUG: [2021/10/04 01:05:00]
+     Fails to parse datetime in datetime from file `logs/Ubuntu18/vmware-installer`, example sysline
+         [2019-05-06 11:24:34,033] Installer running.
+     Debug output shows an attempt to parse it, all parameters looks correct.
+     Not sure what's happening here.
+     Is there some odd character not visually obvious in the file or in the pattern? (i.e. a different "hyphen" character?)
 */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -326,6 +333,8 @@ extern crate rand;
 
 extern crate rangemap;
 use rangemap::RangeMap;
+
+extern crate mut_static;
 
 extern crate tempfile;
 use tempfile::NamedTempFile;
@@ -487,16 +496,20 @@ impl<T, E> ResultS4<T, E> {
 // helper functions - debug printing indentation (stack depths)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// stackdepth in `main`, should set once, use `stackdepth_main` to read
-static mut _STACKDEPTH_MAIN: usize = usize::MAX;
+type Map_ThreadId_SD<'a> = HashMap<thread::ThreadId, usize>;
 
-/// wrapper for reading `_STACKDEPTH_MAIN`
-fn stackdepth_main() -> usize {
-    unsafe { _STACKDEPTH_MAIN }
+// use `stack_offset_set` to set `_STACK_OFFSET_TABLE` once, use `stack_offset` to get
+// XXX: no mutex to guard access; it's rarely written to 🤞
+// XXX: a mutable static reference for "complex types" is not allowed in rust
+//      use `lazy_static` and `mut_static` to create one
+//      see https://github.com/tyleo/mut_static#quickstart
+lazy_static! {
+    static ref _STACK_OFFSET_TABLE: mut_static::MutStatic<Map_ThreadId_SD<'static>> =
+        mut_static::MutStatic::new();
+        //Map_ThreadId_SD::new();
 }
 
-/// return current stack depth according to `backtrace::trace`, including this
-/// function
+/// return current stack depth according to `backtrace::trace`, including this function
 #[allow(dead_code)]
 #[inline(always)]
 fn stack_depth() -> usize {
@@ -508,30 +521,37 @@ fn stack_depth() -> usize {
     sd
 }
 
-/// return stack offset compared to stack depth `_STACKDEPTH_MAIN` recorded in `main`
+/// return current stack offset compared to "original" stack depth. The "original" stack depth
+/// should have been recorded at the beginning of the thread by calling `stack_offset_set`.
 #[allow(dead_code)]
 #[inline(always)]
 fn stack_offset() -> usize {
     let mut sd: usize = stack_depth() - 1;
-    unsafe {
-        if sd < _STACKDEPTH_MAIN {
-            return 0;
-        }
-        sd -= _STACKDEPTH_MAIN;
+    let sd2 = sd; // XXX: copy `sd` to avoid borrow error
+    let tid = thread::current().id();
+    let mut so: &usize;
+    let so_table = _STACK_OFFSET_TABLE.read().unwrap();
+    so = so_table.get(&tid).unwrap_or(&sd2);
+    if &sd < so {
+        return 0;
     }
+    sd -= so;
     return sd;
 }
 
-/// set _STACKDEPTH_MAIN, once do this once
-#[inline(always)]
-fn stackdepth_main_set() {
-    unsafe {
-        assert_eq!(usize::MAX, _STACKDEPTH_MAIN, "_STACKDEPTH_MAIN has already been set; must only be set once");
-        _STACKDEPTH_MAIN = stack_depth();
+/// set once in each thread, preferably near the beginning of the thread
+fn stack_offset_set() {
+    let sd = stack_depth();
+    let tid = thread::current().id();
+    if !_STACK_OFFSET_TABLE.is_set().unwrap() {
+        _STACK_OFFSET_TABLE.set(Map_ThreadId_SD::new());
     }
+    assert!(!_STACK_OFFSET_TABLE.read().unwrap().contains_key(&tid), "_STACK_OFFSET_TABLE has already been set for this thread {:?}; must only be set once", tid);
+    _STACK_OFFSET_TABLE.write().unwrap().insert(tid, sd);
 }
 
-#[cfg(test)]
+// TODO: currently requires human visual inspection; use `assert!` for proper automated testing.
+#[test]
 fn test_stack_offset() {
     debug_eprintln!("{}test_stack_offset", sn());
     debug_eprintln!("{}stackdepth_main {}", so(), stackdepth_main());
@@ -703,7 +723,7 @@ fn fno() -> () {
 */
 
 /// quickie test for debug helpers `sn`, `so`, `sx`
-#[cfg(test)]
+#[test]
 pub fn test_sn_so_sx() {
     fn depth1() {
         debug_eprintln!("{}depth1 enter", sn());
@@ -1047,11 +1067,13 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
         )
         .arg(
         clap::Arg::with_name("blocksz")
+            .short("z")
+            .long("blocksz")
             .help("Block Size")
             .required(false)
             .index(1)
             .takes_value(true)
-            .default_value("1024")
+            .default_value("65536")
             .value_name("BLOCKSZ")
         )
         // how to pass args to `group`?
@@ -1062,8 +1084,10 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
                     .help(
                         &format!("DateTime After filter - print syslog lines with a datetime that is at or after this datetime. For example, {:?}", dt_example)
                     )
+                    .short("a")
+                    .long("dt-after")
                     .required(false)
-                    //.index(2)
+                    .index(2)
                     .takes_value(true)
                     .default_value("")
                     .value_name("DT_AFTER")
@@ -1073,6 +1097,8 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
                     .help(
                         &format!("DateTime Before filter - print syslog lines with a datetime that is at or before this datetime. For example, {:?}", dt_example)
                     )
+                    .short("b")
+                    .long("dt-before")
                     .required(false)
                     .index(3)
                     .takes_value(true)
@@ -1085,9 +1111,9 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
         )
         .get_matches();
 
-    // set `_STACKDEPTH_MAIN` once, use `stackdepth_main` to access `_STACKDEPTH_MAIN`
+    // set once, use `stackdepth_main` to access `_STACKDEPTH_MAIN`
     if cfg!(debug_assertions) {
-        stackdepth_main_set();
+        stack_offset_set();
     }
     debug_eprintln!("{}main()", sn());
 
@@ -1563,11 +1589,16 @@ impl<'blockreader> BlockReader<'blockreader> {
     }
 }
 
+#[test]
+fn test_BlockReader1() {
+    test_BlockReader(&FPath::from("./logs/other/tests/basic-basic-dt10-repeats.log"), 2);
+}
+
 /// basic test of BlockReader things
 #[allow(non_snake_case, dead_code)]
 #[cfg(test)]
 fn test_BlockReader(path_: &FPath, blocksz: BlockSz) {
-    debug_println!("test_BlockReader({:?}, {})", &path_, blocksz);
+    debug_println!("test_BlockReader()");
 
     // testing BlockReader basics
 
@@ -1607,7 +1638,7 @@ fn test_BlockReader(path_: &FPath, blocksz: BlockSz) {
 
 /// quick self-test
 #[allow(dead_code)]
-#[cfg(test)]
+#[test]
 fn test_file_blocks_count() {
     debug_eprintln!("test_file_blocks_count()");
     assert_eq!(1, BlockReader::file_blocks_count(1, 1));
@@ -1637,7 +1668,7 @@ fn test_file_blocks_count() {
 
 /// quick self-test
 #[allow(dead_code)]
-#[cfg(test)]
+#[test]
 fn test_file_offset_at_block_offset() {
     debug_eprintln!("test_file_offset_at_block_offset()");
     assert_eq!(0, BlockReader::file_offset_at_block_offset(0, 1));
@@ -1665,7 +1696,7 @@ fn test_file_offset_at_block_offset() {
 
 /// quick self-test
 #[allow(dead_code)]
-#[cfg(test)]
+#[test]
 fn test_block_offset_at_file_offset() {
     debug_eprintln!("test_block_offset_at_file_offset()");
     assert_eq!(0, BlockReader::block_offset_at_file_offset(0, 1));
@@ -1702,7 +1733,7 @@ fn test_block_offset_at_file_offset() {
 
 /// quick self-test
 #[allow(dead_code)]
-#[cfg(test)]
+#[test]
 fn test_block_index_at_file_offset() {
     debug_eprintln!("test_block_index_at_file_offset()");
     assert_eq!(0, BlockReader::block_index_at_file_offset(0, 1));
@@ -1725,7 +1756,7 @@ fn test_block_index_at_file_offset() {
 
 /// quick self-test
 #[allow(dead_code)]
-#[cfg(test)]
+#[test]
 fn test_file_offset_at_block_offset_index() {
     debug_eprintln!("test_file_offset_at_block_offset_index()");
     assert_eq!(0, BlockReader::file_offset_at_block_offset_index(0, 1, 0));
@@ -2706,7 +2737,7 @@ fn process_LineReader(lr1: &mut LineReader) {
 /// basic test of LineReader things with premade tests
 /// simple read of file offsets in order, should print to stdout an identical file
 #[allow(non_snake_case, dead_code)]
-#[cfg(test)]
+#[test]
 fn test_LineReader_1() {
     debug_eprintln!("{}test_LineReader_1()", sn());
 
@@ -3145,7 +3176,9 @@ type SyslinesRangeMap = RangeMap<FileOffset, FileOffset>;
 /// DateTime formatting pattern, passed to `chrono::datetime_from_str`
 type DateTimePattern_str = str;
 type DateTimePattern = String;
-/// DateTimePattern, index begin, index end, index begin actual, index end actual
+/// DateTimePattern,
+/// slice index begin, slice index end,
+/// slice index begin actual datetime, slice index end actual datetime
 type DateTime_Parse_Data<'a> = (&'a DateTimePattern_str, LineIndex, LineIndex, LineIndex, LineIndex);
 type DateTime_Parse_Datas_ar<'a> = [DateTime_Parse_Data<'a>];
 type DateTime_Parse_Datas_vec<'a> = Vec<DateTime_Parse_Data<'a>>;
@@ -3245,11 +3278,18 @@ where
     debug_eprint!("]");
 }
 
-/// built-in datetime parsing patterns, these are attempted on processed files
-const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 11] = [
+/// built-in datetime parsing patterns, these are all known patterns attempted on processed files
+/// first string is a chrono strftime pattern
+/// https://docs.rs/chrono/0.4.7/chrono/format/strftime/
+/// first two numbers are total string slice offsets
+/// last two numbers are string slice offsets constrained to *only* the datetime portion
+/// offset values are [X, Y) (beginning offset is inclusive, ending offset is exclusive or "one past")
+/// i.e. string `"[2000-01-01 00:00:00]"`, the pattern may begin at `"["`, the datetime begins at `"2"`
+///      same rule for the endings.
+const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 13] = [
     // ---------------------------------------------------------------------------------------------
     //
-    // from file `.\logs\Ubuntu18\samba\log.10.7.190.134` (multi-line)
+    // from file `./logs/Ubuntu18/samba/log.10.7.190.134` (multi-line)
     // example with offset:
     //
     //               1         2
@@ -3297,7 +3337,7 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 11] = [
     //("\t%Y/%m/%d %H:%M:%S\t", 5, 24, 0, 24),
     // ---------------------------------------------------------------------------------------------
     //
-    // from file `.\logs\Ubuntu18\xrdp.log`
+    // from file `./logs/Ubuntu18/xrdp.log`
     // example with offset:
     //
     //               1
@@ -3307,17 +3347,19 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 11] = [
     ("[%Y%m%d-%H:%M:%S]", 0, 19, 1, 18),
     // ---------------------------------------------------------------------------------------------
     //
-    // from file `.\logs\Ubuntu18\vmware-installer.log`
+    // from file `./logs/Ubuntu18/vmware-installer.log`
     // example with offset:
     //
     //               1         2
     //     012345678901234567890123456789
     //     [2019-05-06 11:24:34,074] Successfully loaded GTK libraries.
     //
-    ("[%Y%-m-%d %H:%M:%S,%3f]", 0, 25, 1, 24),
+    ("[%Y-m-%d %H:%M:%S,%3f] ", 0, 26, 1, 24),
+    // repeat prior but no trailing space
+    ("[%Y-m-%d %H:%M:%S,%3f]", 0, 25, 1, 24),
     // ---------------------------------------------------------------------------------------------
     //
-    // from file `logs/other/archives/proftpd/xferlog`
+    // from file `./logs/other/archives/proftpd/xferlog`
     // example with offset:
     //
     //               1         2
@@ -3325,6 +3367,8 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 11] = [
     //     Sat Oct 03 11:26:12 2020 0 192.168.1.12 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c
     //
     ("%a %b %d %H:%M:%S %Y ", 0, 25, 0, 24),
+    // repeat prior but no trailing space
+    ("%a %b %d %H:%M:%S %Y", 0, 24, 0, 24),
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/OpenSUSE15/zypper.log`
@@ -3534,32 +3578,34 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         }
         // TODO: create `pub fnas_slice_first_X` that return slice of first X bytes,
         //       most cases only need first 30 or so bytes of line, and this would be less likely to cross block boundaries
-        let slice_ = line.as_slice();
+        let line_as_slice = line.as_slice();
 
         let mut i = 0;
         // end_i is one past last char
         // XXX: it might be faster to skip the special formatting and look directly for the datetime stamp.
         //      calls to chrono are long according to the flamegraph.
         //      however, using the demarcating characters ("[", "]") does give better assurance.
+        // `actual` are more confined slice offsets of the datetime,
         for (pattern, beg_i, end_i, actual_beg_i, actual_end_i) in parse_data.iter() {
             i += 1;
             let len_ = (end_i - beg_i) as LineIndex;
             debug_assert_lt!(beg_i, end_i, "Bad values beg_i end_i");
             debug_assert_ge!(actual_beg_i, beg_i, "Bad values actual_beg_i beg_i");
             debug_assert_le!(actual_end_i, end_i, "Bad values actual_end_i end_i");
-            debug_eprintln!("{}find_datetime_in_line searching for pattern {} '{}'", so(), i, pattern);
-            if slice_.len() < len_ {
+            //debug_eprintln!("{}find_datetime_in_line searching for pattern {} '{}'", so(), i, pattern);
+            if line_as_slice.len() < len_ {
                 debug_eprintln!(
                     "{}find_datetime_in_line slice.len() {} is too short for pattern {} len {}",
                     so(),
                     i,
-                    slice_.len(),
+                    line_as_slice.len(),
                     len_
                 );
                 continue;
             }
-            // TODO: here is a place to use `bstr`
-            let dts = match str::from_utf8(&slice_[*beg_i..len_]) {
+            // take a slice of the `line_as_slice` then convert to `str`
+            // TODO: here is a place to use `bstr` that will handle failed encoding attempts
+            let dts = match str::from_utf8(&line_as_slice[*beg_i..len_]) {
                 Ok(val) => val,
                 Err(_) => {
                     debug_eprintln!("{}ERROR: find_datetime_in_line from_utf8 failed during pattern {}", so(), i);
@@ -3567,11 +3613,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
             };
             debug_eprintln!(
-                "{}find_datetime_in_line searching for pattern {} '{}' in slice '{}'",
+                "{}find_datetime_in_line searching for pattern {} '{}' in slice '{}' (slice from Line[{}..{}])",
                 so(),
                 i,
                 pattern,
                 str_to_nonraw_String(dts),
+                beg_i,
+                end_i,
             );
             // TODO: [2021/10/03]
             //       according to flamegraph, this function `datetime_from_str` takes a very large amount of
@@ -3590,7 +3638,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     val
                 }
                 Err(_) => {
-                    debug_eprintln!("{}find_datetime_in_line failed to match pattern '{}'", so(), i);
+                    debug_eprintln!("{}find_datetime_in_line failed to match pattern {}", so(), i);
                     continue;
                 }
             };
@@ -4492,7 +4540,7 @@ fn test_find_sysline_at_datetime_filter(blocksz: BlockSz) {
 
 /// basic test of `SyslineReader.sysline_pass_filters`
 #[allow(non_snake_case, dead_code)]
-#[cfg(test)]
+#[test]
 fn test_sysline_pass_filters() {
     debug_eprintln!("{}test_sysline_pass_filters()", sn());
 
@@ -4549,7 +4597,7 @@ fn test_sysline_pass_filters() {
 
 /// basic test of `SyslineReader.dt_after_or_before`
 #[allow(non_snake_case)]
-#[cfg(test)]
+#[test]
 fn test_dt_after_or_before() {
     debug_eprintln!("{}test_dt_after_or_before()", sn());
 
@@ -5070,6 +5118,10 @@ use std::thread;
 // https://doc.rust-lang.org/book/ch16-03-shared-state.html#atomic-reference-counting-with-arct
 // https://doc.rust-lang.org/book/ch20-02-multithreaded.html
 
+// -------------------------------------------------------------------------------------------------
+// threading try #1
+// -------------------------------------------------------------------------------------------------
+
 /// Thread Handle
 type ThreadHandle = thread::JoinHandle<()>;
 /// Thread Handle Arc
@@ -5166,6 +5218,7 @@ impl ThreadPool {
 }
 
 /// testing helper
+#[cfg(test)]
 fn exec1() {
     let _ = 0;
     debug_eprintln!("exec1");
@@ -5186,10 +5239,13 @@ fn test_threading_1() {
 }
 
 // -------------------------------------------------------------------------------------------------
+// threading try #2
+// -------------------------------------------------------------------------------------------------
 
 extern crate rayon;
 
 /// testing helper
+#[cfg(test)]
 fn exec2(path: FPath) -> i32 {
     let r_ = rand::random::<i32>();
     debug_eprintln!("exec2 '{}' {}", path, r_);
@@ -5245,7 +5301,7 @@ fn datetime_soonest2(vec_dt: &Vec<DateTimeL>) -> Option<(usize, DateTimeL)> {
 }
 
 /// test function `datetime_soonest2`
-#[cfg(test)]
+#[test]
 #[allow(dead_code)]
 fn test_datetime_soonest2() {
     debug_eprintln!("{}test_datetime_soonest2()", sn());
@@ -5326,6 +5382,8 @@ fn test_datetime_soonest2() {
 }
 
 // -------------------------------------------------------------------------------------------------
+// threading try #3
+// -------------------------------------------------------------------------------------------------
 
 /*
 type Share_Stdout = Arc<Mutex<i32>>;
@@ -5349,15 +5407,16 @@ type Chan_Send_SLP = crossbeam_channel::Sender<SLP_Last>;
 type Chan_Recv_SLP = crossbeam_channel::Receiver<SLP_Last>;
 
 fn exec_3(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> thread::ThreadId {
+    stack_offset_set();
     debug_eprintln!("{}exec_3(…)", sn());
     let (path, blocksz, filter_dt_after_opt, filter_dt_before_opt) = thread_init_data;
-    let id_ = thread::current().id();
+    let tid = thread::current().id();
 
     let mut slr = match SyslineReader::new(&path, blocksz) {
         Ok(val) => val,
         Err(err) => {
             eprintln!("ERROR: SyslineReader::new('{}', {}) failed {}", path, blocksz, err);
-            return id_;
+            return tid;
         }
     };
 
@@ -5369,7 +5428,7 @@ fn exec_3(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> th
         ResultS4_SyslineFind::Found((fo, slp)) => {
             let is_last = slr.is_sysline_last(&slp);
             fo1 = fo;
-            debug_eprintln!("thread {:?}:A chan_send_dt.send(…);", id_);
+            debug_eprintln!("thread {:?}:A chan_send_dt.send(…);", tid);
             match chan_send_dt.send((slp, is_last)) {
                 Ok(_) => {}
                 Err(err) => {
@@ -5379,7 +5438,7 @@ fn exec_3(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> th
         }
         ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
             let is_last = slr.is_sysline_last(&slp);
-            debug_eprintln!("thread {:?}:B chan_send_dt.send(…);", id_);
+            debug_eprintln!("thread {:?}:B chan_send_dt.send(…);", tid);
             match chan_send_dt.send((slp, is_last)) {
                 Ok(_) => {}
                 Err(err) => {
@@ -5398,7 +5457,7 @@ fn exec_3(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> th
     }
     if !search_more {
         debug_eprintln!("{}exec_3(…)", sx());
-        return id_;
+        return tid;
     }
     // print all proceeding syslines acceptable to the passed filters
     let mut fo2: FileOffset = fo1;
@@ -5414,7 +5473,7 @@ fn exec_3(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> th
                     }
                     Result_Filter_DateTime2::OccursInRange => {
                         let is_last = slr.is_sysline_last(&slp);
-                        debug_eprintln!("thread {:?}:C chan_send_dt.send(…);", id_);
+                        debug_eprintln!("thread {:?}:C chan_send_dt.send(…);", tid);
                         match chan_send_dt.send((slp, is_last)) {
                             Ok(_) => {}
                             Err(err) => {
@@ -5438,7 +5497,7 @@ fn exec_3(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> th
     }
 
     debug_eprintln!("{}exec_3(…)", sx());
-    return id_;
+    return tid;
 }
 
 // TODO: [2021/10/03] put this into a proper function or struct
@@ -5488,31 +5547,36 @@ fn test_threading_3(
 
     type Map_Path_SLP = BTreeMap<FPath, SLP_Last>;
 
-    // https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
+
+    /// run `.recv` on many Receiver channels simultaneously with the help of `crossbeam_channel::Select`
+    /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
+    /// XXX: I would like to return a `&FPath` to avoid one `FPath.clone()` but it causes
+    ///      compiler error about mutable and immutable borrows of `map_path_slp` occurring simultaneously
+    ///          cannot borrow `map_path_slp` as mutable because it is also borrowed as immutable
     fn recv_many_chan(
-        recvs: &HashMap<&FPath, Chan_Recv_SLP>, filter_: &Map_Path_SLP,
+        fpath_chans: & HashMap<&FPath, Chan_Recv_SLP>, filter_: & Map_Path_SLP,
     ) -> (FPath, std::result::Result<SLP_Last, crossbeam_channel::RecvError>) {
         debug_eprintln!("{}recv_many_chan();", sn());
         // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures
-        let mut imap = Vec::<(&FPath, &Chan_Recv_SLP)>::with_capacity(recvs.len());
+        let mut imap = Vec::<(&FPath, &Chan_Recv_SLP)>::with_capacity(fpath_chans.len());
         // Build a list of operations
         let mut select = crossbeam_channel::Select::new();
-        for recv in recvs.iter() {
+        for fp_chan in fpath_chans.iter() {
             // if there is already a DateTime "on hand" for the given fpath then
             // skip receiving on the associated channel
-            if filter_.contains_key(*recv.0) {
+            if filter_.contains_key(*fp_chan.0) {
                 continue;
             }
-            imap.push((recv.0, recv.1));
-            debug_eprintln!("{}select.recv({:?});", so(), recv.1);
+            imap.push((fp_chan.0, fp_chan.1));
+            debug_eprintln!("{}select.recv({:?});", so(), fp_chan.1);
             // load `select` with `recv` operations, to be run during later `.select()`
-            select.recv(recv.1);
+            select.recv(fp_chan.1);
         }
         assert_gt!(imap.len(), 0, "No recv operations to select on");
         debug_eprintln!("{}v: {:?}", so(), imap);
         // Do the `select` operation
         let soper = select.select();
-        debug_eprintln!("{}soper.index();", so());
+        // get the index of the chosen "winner" of the `select` operation
         let index = soper.index();
         debug_eprintln!("{}soper.recv(&v[{:?}]);", so(), index);
         let fpath = imap[index].0;
@@ -5537,12 +5601,13 @@ fn test_threading_3(
     let mut _count_recv_di: usize = 0;
     loop {
         let mut disconnected = Vec::<FPath>::with_capacity(map_path_recv_dt.len());
-        // if there is a DateTime "on hand" for every fpath channel then
+        // if there is a DateTime "on hand" for every FPath channel (one channel is one FPath) then
         // they can all be compared, and the soonest DateTime selected then printed
         if map_path_recv_dt.len() == map_path_slp.len() {
             let mut fp1: FPath = FPath::new();
-            // XXX: arbitrary code block here to allow later `map_path_slp.remove`; hacky workaround for a difficult error
-            //      "cannot borrow `map_path_slp` as mutable more than once at a time"
+            // XXX: arbitrary code block here to allow later `map_path_slp.remove`;
+            //      hacky workaround for a difficult error:
+            //          "cannot borrow `map_path_slp` as mutable more than once at a time"
             {
                 // XXX: my small investigation into `min`, `max`, `min_by`, `max_by`
                 //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33
@@ -5555,6 +5620,7 @@ fn test_threading_3(
                             continue;
                         }
                     };
+                // print the sysline!
                 if cfg!(debug_assertions) {
                     let out = fpath_min.to_string()
                         + &String::from(": ")
@@ -5610,3 +5676,272 @@ fn test_threading_3(
 }
 
 // -------------------------------------------------------------------------------------------------
+// threading try #4
+// -------------------------------------------------------------------------------------------------
+
+fn exec_4(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> thread::ThreadId {
+    debug_eprintln!("{}exec_4(…)", sn());
+    let (path, blocksz, filter_dt_after_opt, filter_dt_before_opt) = thread_init_data;
+    let tid = thread::current().id();
+
+    let mut slr = match SyslineReader::new(&path, blocksz) {
+        Ok(val) => val,
+        Err(err) => {
+            eprintln!("ERROR: SyslineReader::new('{}', {}) failed {}", path, blocksz, err);
+            return tid;
+        }
+    };
+
+    // find first sysline acceptable to the passed filters
+    let mut fo1: FileOffset = 0;
+    let mut search_more = true;
+    let result = slr.find_sysline_at_datetime_filter(fo1, &filter_dt_after_opt);
+    match result {
+        ResultS4_SyslineFind::Found((fo, slp)) => {
+            let is_last = slr.is_sysline_last(&slp);
+            fo1 = fo;
+            debug_eprintln!("thread {:?}:A chan_send_dt.send(…);", tid);
+            match chan_send_dt.send((slp, is_last)) {
+                Ok(_) => {}
+                Err(err) => {
+                    eprintln!("ERROR: A chan_send_dt.send((slp.clone(), is_last)) failed {}", err);
+                }
+            }
+        }
+        ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
+            let is_last = slr.is_sysline_last(&slp);
+            debug_eprintln!("thread {:?}:B chan_send_dt.send(…);", tid);
+            match chan_send_dt.send((slp, is_last)) {
+                Ok(_) => {}
+                Err(err) => {
+                    eprintln!("ERROR: B chan_send_dt.send((slp.clone(), is_last)) failed {}", err);
+                }
+            }
+            search_more = false;
+        }
+        ResultS4_SyslineFind::Done => {
+            search_more = false;
+        }
+        ResultS4_SyslineFind::Err(err) => {
+            eprintln!("ERROR: {}", err);
+            search_more = false;
+        }
+    }
+    if !search_more {
+        debug_eprintln!("{}exec_3(…)", sx());
+        return tid;
+    }
+    // find all proceeding syslines acceptable to the passed filters
+    let mut fo2: FileOffset = fo1;
+    loop {
+        let result = slr.find_sysline(fo2);
+        let eof = result.is_eof();
+        match result {
+            ResultS4_SyslineFind::Found((fo, slp)) | ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
+                fo2 = fo;
+                match SyslineReader::sysline_pass_filters(&slp, &filter_dt_after_opt, &filter_dt_before_opt) {
+                    Result_Filter_DateTime2::OccursBeforeRange | Result_Filter_DateTime2::OccursAfterRange => {
+                        continue;
+                    }
+                    Result_Filter_DateTime2::OccursInRange => {
+                        let is_last = slr.is_sysline_last(&slp);
+                        debug_eprintln!("thread {:?}:C chan_send_dt.send(…);", tid);
+                        match chan_send_dt.send((slp, is_last)) {
+                            Ok(_) => {}
+                            Err(err) => {
+                                eprintln!("ERROR: C chan_send_dt.send((slp.clone(), is_last)) failed {}", err);
+                            }
+                        }
+                    }
+                }
+                if eof {
+                    break;
+                }
+            }
+            ResultS4_SyslineFind::Done => {
+                break;
+            }
+            ResultS4_SyslineFind::Err(err) => {
+                eprintln!("ERROR: {}", err);
+                break;
+            }
+        }
+    }
+
+    debug_eprintln!("{}exec_4(…)", sx());
+    return tid;
+}
+
+fn test_threading_4(
+    paths: &Vec<FPath>, blocksz: BlockSz, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
+) {
+    debug_eprintln!("{}test_threading_4()", sn());
+
+    let queue_sz_dt: usize = 10;
+    let file_count = paths.len();
+
+    //
+    // create a single ThreadPool with one thread per path
+    //
+    let pool = rayon::ThreadPoolBuilder::new().num_threads(file_count).build().unwrap();
+    //
+    // prepare per-thread data
+    // create necessary channels for each thread
+    // launch each thread
+    //
+    //type Map_Path_Chan_Recv_SLP = HashMap::<&FPath, Chan_Recv_SLP>;
+    let mut map_path_recv_dt = HashMap::<&FPath, Chan_Recv_SLP>::with_capacity(file_count);
+    let mut map_path_color = HashMap::<&FPath, Color>::with_capacity(file_count);
+    // XXX: are these channels necessary?
+    let (chan_send_1, chan_recv_1) = std::sync::mpsc::channel();
+    for fpath in paths.iter() {
+        let thread_data: Thread_Init_Data =
+            (fpath.clone(), blocksz, filter_dt_after_opt.clone(), filter_dt_before_opt.clone());
+        let (chan_send_dt, chan_recv_dt): (Chan_Send_SLP, Chan_Recv_SLP) = crossbeam_channel::bounded(queue_sz_dt);
+        map_path_recv_dt.insert(fpath, chan_recv_dt);
+        map_path_color.insert(fpath, color_rand());
+        let chan_send_1_thrd = chan_send_1.clone();
+        // XXX: how to name the threads?
+        pool.spawn(move || {
+            match chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) {
+                Ok(_) => {}
+                Err(err) => {
+                    eprintln!("ERROR: chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) failed {}", err);
+                }
+            }
+        });
+    }
+
+    // XXX: is this needed?
+    debug_eprintln!("{}drop({:?});", so(), chan_send_1);
+    drop(chan_send_1); // close sender so chan.into_iter.collect does not block
+
+    type Map_Path_SLP = BTreeMap<FPath, SLP_Last>;
+
+
+    /// run `.recv` on many Receiver channels simultaneously with the help of `crossbeam_channel::Select`
+    /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
+    /// XXX: I would like to return a `&FPath` to avoid one `FPath.clone()` but it causes
+    ///      compiler error about mutable and immutable borrows of `map_path_slp` occurring simultaneously
+    ///          cannot borrow `map_path_slp` as mutable because it is also borrowed as immutable
+    fn recv_many_chan(
+        fpath_chans: & HashMap<&FPath, Chan_Recv_SLP>, filter_: & Map_Path_SLP,
+    ) -> (FPath, std::result::Result<SLP_Last, crossbeam_channel::RecvError>) {
+        debug_eprintln!("{}recv_many_chan();", sn());
+        // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures
+        let mut imap = Vec::<(&FPath, &Chan_Recv_SLP)>::with_capacity(fpath_chans.len());
+        // Build a list of operations
+        let mut select = crossbeam_channel::Select::new();
+        for fp_chan in fpath_chans.iter() {
+            // if there is already a DateTime "on hand" for the given fpath then
+            // skip receiving on the associated channel
+            if filter_.contains_key(*fp_chan.0) {
+                continue;
+            }
+            imap.push((fp_chan.0, fp_chan.1));
+            debug_eprintln!("{}select.recv({:?});", so(), fp_chan.1);
+            // load `select` with `recv` operations, to be run during later `.select()`
+            select.recv(fp_chan.1);
+        }
+        assert_gt!(imap.len(), 0, "No recv operations to select on");
+        debug_eprintln!("{}v: {:?}", so(), imap);
+        // Do the `select` operation
+        let soper = select.select();
+        // get the index of the chosen "winner" of the `select` operation
+        let index = soper.index();
+        debug_eprintln!("{}soper.recv(&v[{:?}]);", so(), index);
+        let fpath = imap[index].0;
+        let chan = &imap[index].1;
+        debug_eprintln!("{}chan: {:?}", so(), chan);
+        // Get the result of the `recv` done during `select`
+        let result = soper.recv(chan);
+        debug_eprintln!("{}recv_many_chan() return ({:?}, {:?});", sx(), fpath, result);
+        return (fpath.clone(), result);
+    }
+
+    //
+    // main coordination loop (e.g. "main game loop")
+    // process the "receiving sysline" channels from the running threads
+    // print the soonest available sysline
+    //
+
+    // XXX: BTreeMap does not implement `with_capacity`
+    let mut map_path_slp = Map_Path_SLP::new();
+    // crude debugging stats
+    let mut _count_recv_ok: usize = 0;
+    let mut _count_recv_di: usize = 0;
+    loop {
+        let mut disconnected = Vec::<FPath>::with_capacity(map_path_recv_dt.len());
+        // if there is a DateTime "on hand" for every FPath channel (one channel is one FPath) then
+        // they can all be compared, and the soonest DateTime selected then printed
+        if map_path_recv_dt.len() == map_path_slp.len() {
+            let mut fp1: FPath = FPath::new();
+            // XXX: arbitrary code block here to allow later `map_path_slp.remove`;
+            //      hacky workaround for a difficult error:
+            //          "cannot borrow `map_path_slp` as mutable more than once at a time"
+            {
+                // XXX: my small investigation into `min`, `max`, `min_by`, `max_by`
+                //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33
+                let (fpath_min, slp_min, is_last) =
+                    match map_path_slp.iter_mut().min_by(|x, y| x.1 .0.dt.cmp(&y.1 .0.dt)) {
+                        Some(val) => (val.0, &val.1 .0, val.1 .1),
+                        None => {
+                            eprintln!("map_path_slp.iter().min_by returned None");
+                            // XXX: not sure what else to do here
+                            continue;
+                        }
+                    };
+                // print the sysline!
+                if cfg!(debug_assertions) {
+                    let out = fpath_min.to_string()
+                        + &String::from(": ")
+                        + &(slp_min.to_String_noraw())
+                        + &String::from("\n");
+                    let clr: Color = map_path_color.get(fpath_min).unwrap().clone();
+                    print_colored(clr, out.as_bytes());
+                    if is_last {
+                        write_stdout(&NLu8a);
+                    }
+                } else {
+                    (*slp_min).print2();
+                    if is_last {
+                        write_stdout(&NLu8a);
+                    }
+                }
+                fp1 = (*fpath_min).clone();
+            }
+            assert_ne!(fp1, String::from(""), "Empty filepath");
+            map_path_slp.remove(&fp1);
+        } else {
+            // else waiting on a (datetime, syslinep) from a file
+            let (fp1, result1) = recv_many_chan(&map_path_recv_dt, &map_path_slp);
+            match result1 {
+                Ok(slp_last) => {
+                    debug_eprintln!("{}crossbeam_channel::Found for FPath {:?};", so(), fp1);
+                    map_path_slp.insert(fp1, slp_last);
+                    _count_recv_ok += 1;
+                }
+                Err(crossbeam_channel::RecvError) => {
+                    debug_eprintln!("{}crossbeam_channel::RecvError for FPath {:?};", so(), fp1);
+                    disconnected.push(fp1);
+                    _count_recv_di += 1;
+                }
+            }
+        }
+        // remove channels that have been disconnected
+        for fpath in disconnected.into_iter() {
+            debug_eprintln!("{}map_path_recv_dt.remove({:?});", so(), fpath);
+            map_path_recv_dt.remove(&fpath);
+        }
+        // are there any channels to receive from?
+        if map_path_recv_dt.is_empty() {
+            debug_eprintln!("{}map_path_recv_dt.is_empty();", so());
+            break;
+        }
+        debug_eprintln!("{}map_path_recv_dt: {:?}", so(), map_path_recv_dt);
+        debug_eprintln!("{}map_path_slp: {:?}", so(), map_path_slp);
+    } // loop
+
+    debug_eprintln!("{}_count_recv_ok {:?} _count_recv_di {:?}", so(), _count_recv_ok, _count_recv_di);
+    debug_eprintln!("{}test_threading_4()", sx());
+}
