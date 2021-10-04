@@ -1032,7 +1032,7 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
     let dt_example: &str = "20200102T123000";
 
     let matches = clap::App::new("super speedy syslog searcher")
-        .version("0.0.2")
+        .version("0.0.1a")
         .author("JTM")
         .about("Reads syslog files and prints the each syslog line sorted by datetime. Optional filtering by Datetime.")
         .arg(
