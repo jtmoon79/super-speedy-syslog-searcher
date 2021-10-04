@@ -1,12 +1,12 @@
 // main.rs
 /* …
-Successful `cat`. Passes all tests in run-tests including utf-8 with high-order characters.
+Successful `sort`. Passes all tests in run-tests including utf-8 with high-order characters.
 
 (export RUST_BACKTRACE=1; cargo run -- --filepath Cargo.toml)
-(cargo build && rust-gdb -ex 'layout split' -ex 'b src/main.rs:2062' -ex 'r' --args target/debug/block_reader_speedy --filepath /mnt/c/Users/ulug/Projects/syslog-datetime-searcher/logs/other/tests/basic-dt.log 2>/dev/null)
-(export RUST_BACKTRACE=1; cargo run -- --filepath /mnt/c/Users/ulug/Projects/syslog-datetime-searcher/logs/other/tests/test3-hex.log)
+(cargo build && rust-gdb -ex 'layout split' -ex 'b src/main.rs:2062' -ex 'r' --args target/debug/super_speedy_syslog_searcher --filepath ./logs/other/tests/basic-dt.log 2>/dev/null)
+(export RUST_BACKTRACE=1; cargo run -- --filepath ./logs/other/tests/test3-hex.log)
 
-# compare to `sort`
+# compare performance to `sort`
 /usr/bin/time -v -- ./target/release/super_speedy_syslog_searcher --path ./logs/other/tests/gen-*.log -- 0x1000 '20000101T000000'
 /usr/bin/time -v -- sort -n -- ./logs/other/tests/gen-*.log
 
@@ -263,6 +263,7 @@ TODO: [2021/10/03]
      Use this when TZ cannot be parsed.
      Consider, are there other TZ hints? Like, TZ of the hosting system?
      Or, is it embedded in any file attributes?
+     Inform user of default fallback in `--help`.
 
 TODO: [2021/10/03]
      Offer CLI option to fallback to current year. i.e. `--fallback-year 2018`
@@ -270,6 +271,7 @@ TODO: [2021/10/03]
      Consider, are there other Year hints?
      The file modified attribute may be very helpful here.
      Could other information be scraped from the file?
+     Inform user of default fallback in `--help`.
 
 LAST WORKING ON [2021/10/03 00:20:00]
      Have a simple multi-threaded reader, one thread per file.
@@ -280,7 +282,7 @@ LAST WORKING ON [2021/10/03 00:20:00]
 */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// uses and types
+// uses
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 #![allow(non_camel_case_types)]
@@ -3595,8 +3597,6 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             debug_eprintln!("{}find_datetime_in_line return Ok({}, {}, {});", sx(), beg_i, end_i, &dt);
             return Result_FindDateTime::Ok((
                 (
-                    // XXX: inefficient to clone String very time, should pass a ref instead
-                    //      (though it's a PitA to change everything around for a String ref)
                     pattern,
                     *beg_i as LineIndex,
                     *end_i as LineIndex,
@@ -3650,6 +3650,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
 
     /// find first sysline at or after `fileoffset`
     /// return (fileoffset of start of _next_ sysline, new Sysline at or after `fileoffset`)
+    /// XXX: this function is large and cumbersome
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline(SyslineReader@{:p}, {})", sn(), self, fileoffset);
 
