@@ -579,7 +579,11 @@ fn stack_offset_set() {
     if !_STACK_OFFSET_TABLE.is_set().unwrap() {
         _STACK_OFFSET_TABLE.set(Map_ThreadId_SD::new());
     }
-    assert!(!_STACK_OFFSET_TABLE.read().unwrap().contains_key(&tid), "_STACK_OFFSET_TABLE has already been set for this thread {:?}; must only be set once", tid);
+    assert!(
+        !_STACK_OFFSET_TABLE.read().unwrap().contains_key(&tid),
+        "_STACK_OFFSET_TABLE has already been set for this thread {:?}; must only be set once",
+        tid
+    );
     _STACK_OFFSET_TABLE.write().unwrap().insert(tid, sd);
 }
 
@@ -2306,7 +2310,9 @@ impl<'linereader> LineReader<'linereader> {
         })
     }
 
-    pub fn charsz(&self) -> usize { self._charsz }
+    pub fn charsz(&self) -> usize {
+        self._charsz
+    }
 
     pub fn blocksz(&self) -> BlockSz {
         self.blockreader.blocksz
@@ -2443,7 +2449,12 @@ impl<'linereader> LineReader<'linereader> {
 
         match self.lines_by_range.get(&fileoffset) {
             Some(fo_range) => {
-                debug_eprintln!("{}find_line: fileoffset {} refers to self.lines_by_range Range {:?}", sx(), fileoffset, fo_range);
+                debug_eprintln!(
+                    "{}find_line: fileoffset {} refers to self.lines_by_range Range {:?}",
+                    sx(),
+                    fileoffset,
+                    fo_range
+                );
                 let lp = self.lines[fo_range].clone();
                 let fo_next = (*lp).fileoffset_end() + charsz_fo;
                 // TODO: add stats like BlockReader._stats*
@@ -2462,7 +2473,10 @@ impl<'linereader> LineReader<'linereader> {
         // first check if there is a line already known at this fileoffset
         if self.lines.contains_key(&fileoffset) {
             debug_eprintln!("{}find_line: hit cache for FileOffset {}", so(), fileoffset);
-            debug_eprintln!("{}find_line: XXX: IS IT AN ERROR GETTING HERE BUT NOT FINDING IN self.lines_by_range????", so());
+            debug_eprintln!(
+                "{}find_line: XXX: IS IT AN ERROR GETTING HERE BUT NOT FINDING IN self.lines_by_range????",
+                so()
+            );
             let lp = self.lines[&fileoffset].clone();
             let fo_next = (*lp).fileoffset_end() + charsz_fo;
             // TODO: add stats like BlockReader._stats*
@@ -3066,10 +3080,12 @@ impl Sysline {
         };
     }
 
-    pub fn charsz(self: &Sysline) -> usize { Sysline::CHARSZ }
-    
+    pub fn charsz(self: &Sysline) -> usize {
+        Sysline::CHARSZ
+    }
+
     pub fn push(&mut self, linep: LineP) {
-        if ! self.syslineparts.is_empty() {
+        if !self.syslineparts.is_empty() {
             // TODO: sanity check lines are in sequence
         }
         debug_eprintln!(
@@ -3636,7 +3652,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         self.syslines.insert(fo_beg, slp.clone());
         // XXX: multi-byte character
         let fo_end1 = fo_end + (self.charsz() as FileOffset);
-        debug_eprintln!("{}syslinereader.insert_line: syslines_by_range.insert({}‥{}, {})", so(), fo_beg, fo_end1, fo_beg);
+        debug_eprintln!(
+            "{}syslinereader.insert_line: syslines_by_range.insert({}‥{}, {})",
+            so(),
+            fo_beg,
+            fo_end1,
+            fo_beg
+        );
         self.syslines_by_range.insert(fo_beg..fo_end1, fo_beg);
         return slp;
     }
@@ -3747,16 +3769,30 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     fn dt_patterns_update(&mut self, datetime_parse_data: DateTime_Parse_Data<'syslinereader>) {
         debug_eprintln!("{}dt_patterns_update(SyslineReader@{:p}, {:?})", sn(), self, datetime_parse_data);
         if &self.dt_patterns.len() >= &SyslineReader::DT_PATTERN_MAX {
-            debug_eprintln!("{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns already DT_PATTERN_MAX length {:?}", sx(), self, &self.dt_patterns.len());
+            debug_eprintln!(
+                "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns already DT_PATTERN_MAX length {:?}",
+                sx(),
+                self,
+                &self.dt_patterns.len()
+            );
             return;
         }
         for datetime_parse_data_ in &self.dt_patterns {
             if datetime_parse_data_.eq(&datetime_parse_data) {
-                debug_eprintln!("{}dt_patterns_update(SyslineReader@{:p}) found eq DateTime_Parse_Data; skip self.dt_patterns.push", sx(), self);
+                debug_eprintln!(
+                    "{}dt_patterns_update(SyslineReader@{:p}) found eq DateTime_Parse_Data; skip self.dt_patterns.push",
+                    sx(),
+                    self
+                );
                 return;
             }
         }
-        debug_eprintln!("{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns.push({:?})", sx(), self, datetime_parse_data);
+        debug_eprintln!(
+            "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns.push({:?})",
+            sx(),
+            self,
+            datetime_parse_data
+        );
         self.dt_patterns.push(datetime_parse_data);
     }
 
@@ -3821,7 +3857,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 //       in other words, consider one more value of `Result_ParseDateTime`:
                 //       `TryMore` - this would effectively mean call `find_datetime_in_line(DATETIME_PARSE_DATAS_VEC)`
                 //       hmm... but should such a determination eminate from `find_datetime_in_line` ? Probably not.
-               //       Have to think about this.
+                //       Have to think about this.
                 debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Err {}; try again using default DATETIME_PARSE_DATAS_VEC", so(), self, err);
                 //return Err(err);
                 match SyslineReader::find_datetime_in_line(line, &DATETIME_PARSE_DATAS_VEC) {
@@ -3829,9 +3865,14 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                         self.dt_patterns_counts_update(datetime_parse_data_.0);
                         self.dt_patterns_update(datetime_parse_data_.clone());
                         (datetime_parse_data_, dt_)
-                    },
+                    }
                     Err(err_) => {
-                        debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Err {};", sx(), self, err_);
+                        debug_eprintln!(
+                            "{}parse_datetime_in_line(SyslineReader@{:p}) return Err {};",
+                            sx(),
+                            self,
+                            err_
+                        );
                         return Err(err_);
                     }
                 }
@@ -3876,7 +3917,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 debug_eprintln!("{}find_sysline: fileoffset {} not found in LRU cache", so(), fileoffset);
             }
         }
-        
+
         // check if there is a Sysline already known at this fileoffset
         if self.syslines.contains_key(&fileoffset) {
             debug_eprintln!("{}find_sysline: hit self.syslines for FileOffset {}", so(), fileoffset);
@@ -3892,7 +3933,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 &*slp,
                 (*slp).to_String_noraw()
             );
-            self._find_sysline_lru_cache.put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+            self._find_sysline_lru_cache
+                .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
             return ResultS4_SyslineFind::Found((fo_next, slp));
         } else {
             debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines", so(), fileoffset);
@@ -4074,12 +4116,20 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             debug_eprintln!("{}find_sysline: B find_datetime_in_line returned {:?}", so(), result);
             match result {
                 Err(_) => {
-                    debug_eprintln!("{}find_sysline: B append found Line to this Sysline sl.push({:?})", so(), (*lp).to_String_noraw());
+                    debug_eprintln!(
+                        "{}find_sysline: B append found Line to this Sysline sl.push({:?})",
+                        so(),
+                        (*lp).to_String_noraw()
+                    );
                     sl.push(lp);
                 }
                 Ok(_) => {
                     // a datetime was found! end of this sysline, beginning of a new sysline
-                    debug_eprintln!("{}find_sysline: B found datetime; end of this Sysline. Do not append found Line {:?}", so(), (*lp).to_String_noraw());
+                    debug_eprintln!(
+                        "{}find_sysline: B found datetime; end of this Sysline. Do not append found Line {:?}",
+                        so(),
+                        (*lp).to_String_noraw()
+                    );
                     fo_b = fo1;
                     break;
                 }
@@ -4160,8 +4210,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             let eof = result.is_eof();
             let done = result.is_done();
             match result {
-                ResultS4_SyslineFind::Found((fo, slp)) |
-                ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
+                ResultS4_SyslineFind::Found((fo, slp)) | ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
                     if !eof {
                         debug_eprintln!(
                             "{}{}: SyslineReader.find_sysline(try_fo: {}) returned ResultS4_SyslineFind::Found({}, …) A",
@@ -4255,7 +4304,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                                 fo_b,
                                 fo_a
                             );
-                                assert_le!(fo_a, fo_b, "Unexpected values for fo_a {} fo_b {}", fo_a, fo_b);
+                            assert_le!(fo_a, fo_b, "Unexpected values for fo_a {} fo_b {}", fo_a, fo_b);
                             try_fo = fo_a + ((fo_b - fo_a) / 2);
                         } // end OccursAtOrAfter
                         Result_Filter_DateTime1::OccursBefore => {
@@ -4266,7 +4315,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                             assert_le!(slp_foe, fo, "unexpected values (*SyslineP).fileoffset_end() {}, fileoffset returned by find_sysline {}", slp_foe, fo);
                             try_fo_last = try_fo;
                             assert_le!(try_fo_last, slp_foe, "Unexpected values try_fo_last {} slp_foe {}, last tried offset (passed to self.find_sysline) is beyond returned sysline.fileoffset_end()!?", try_fo_last, slp_foe);
-                            debug_eprintln!("{}{}:                    ∴ fo_a = min(slp_foe {}, fo_b {});", so(), _fname, slp_foe, fo_b);
+                            debug_eprintln!(
+                                "{}{}:                    ∴ fo_a = min(slp_foe {}, fo_b {});",
+                                so(),
+                                _fname,
+                                slp_foe,
+                                fo_b
+                            );
                             // LAST WORKING HERE [2021/10/06 00:05:00]
                             // LAST WORKING HERE [2022/03/16 01:15:00]
                             // this code passes all tests, but runs strangely. I think the problem is the first found sysline
@@ -4332,7 +4387,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     );
                 } // end Done
                 ResultS4_SyslineFind::Err(err) => {
-                    debug_eprintln!("{}{}: SyslineReader.find_sysline(try_fo: {}) returned Err({})", so(), _fname, try_fo, err);
+                    debug_eprintln!(
+                        "{}{}: SyslineReader.find_sysline(try_fo: {}) returned Err({})",
+                        so(),
+                        _fname,
+                        try_fo,
+                        err
+                    );
                     eprintln!("ERROR: {}", err);
                     break;
                 } // end Err
@@ -4346,7 +4407,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             //           _, slp_next = find_sysline(fo_next)
             //       do this at the top of the loop. Then call `dt_after_or_before` for each
             //       `.dt` among `slp`, `slp_next`.
-            
+
             // `try_fo == try_fo_last` means binary search loop is deciding on the same fileoffset upon each loop.
             // the searching is exhausted.
             if done && try_fo == try_fo_last {
@@ -4374,56 +4435,102 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     debug_eprintln!("{}{}: slp.fileoffset_begin() {} < {} try_fo;", so(), _fname, fo_beg, try_fo);
                     let slp_next = match self.find_sysline(fo_next) {
                         ResultS4_SyslineFind::Found_EOF((_, slp_)) => {
-                            debug_eprintln!("{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Found_EOF(…, {:?})", so(), _fname, fo_next, slp_);
+                            debug_eprintln!(
+                                "{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Found_EOF(…, {:?})",
+                                so(),
+                                _fname,
+                                fo_next,
+                                slp_
+                            );
                             slp_
-                        },
+                        }
                         ResultS4_SyslineFind::Found((_, slp_)) => {
-                            debug_eprintln!("{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Found(…, {:?})", so(), _fname, fo_next, slp_);
+                            debug_eprintln!(
+                                "{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Found(…, {:?})",
+                                so(),
+                                _fname,
+                                fo_next,
+                                slp_
+                            );
                             slp_
-                        },
+                        }
                         ResultS4_SyslineFind::Done => {
-                            debug_eprintln!("{}{}: SyslineReader.find_sysline(fo_next1: {}) unexpectedly returned Done", so(), _fname, fo_next);
+                            debug_eprintln!(
+                                "{}{}: SyslineReader.find_sysline(fo_next1: {}) unexpectedly returned Done",
+                                so(),
+                                _fname,
+                                fo_next
+                            );
                             break;
                         }
                         ResultS4_SyslineFind::Err(err) => {
-                            debug_eprintln!("{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Err({})", so(), _fname, fo_next, err);
+                            debug_eprintln!(
+                                "{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Err({})",
+                                so(),
+                                _fname,
+                                fo_next,
+                                err
+                            );
                             eprintln!("ERROR: {}", err);
                             break;
                         }
                     };
                     debug_eprintln!("{}{}: dt_filter: {:?}", so(), _fname, dt_filter);
-                    debug_eprintln!("{}{}: slp      : fo_beg {}, {:?} {:?}", so(), _fname, fo_beg, (*slp).dt.unwrap(), (*slp).to_String_noraw());
-                    debug_eprintln!("{}{}: slp_next : fo_beg {}, {:?} {:?}", so(), _fname, (*slp_next).fileoffset_begin(), (*slp_next).dt.unwrap(), (*slp_next).to_String_noraw());
+                    debug_eprintln!(
+                        "{}{}: slp      : fo_beg {}, {:?} {:?}",
+                        so(),
+                        _fname,
+                        fo_beg,
+                        (*slp).dt.unwrap(),
+                        (*slp).to_String_noraw()
+                    );
+                    debug_eprintln!(
+                        "{}{}: slp_next : fo_beg {}, {:?} {:?}",
+                        so(),
+                        _fname,
+                        (*slp_next).fileoffset_begin(),
+                        (*slp_next).dt.unwrap(),
+                        (*slp_next).to_String_noraw()
+                    );
                     let slp_compare = Self::dt_after_or_before(&(*slp).dt.unwrap(), dt_filter);
                     let slp_next_compare = Self::dt_after_or_before(&(*slp_next).dt.unwrap(), dt_filter);
                     debug_eprintln!("{}{}: match({:?}, {:?})", so(), _fname, slp_compare, slp_next_compare);
                     slp = match (slp_compare, slp_next_compare) {
-                        (_, Result_Filter_DateTime1::Pass) |
-                        (Result_Filter_DateTime1::Pass, _) => {
+                        (_, Result_Filter_DateTime1::Pass) | (Result_Filter_DateTime1::Pass, _) => {
                             debug_eprintln!("{}{}: unexpected Result_Filter_DateTime1::Pass", so(), _fname);
                             eprintln!("ERROR: unexpected Result_Filter_DateTime1::Pass result");
                             break;
-                        },
+                        }
                         (Result_Filter_DateTime1::OccursBefore, Result_Filter_DateTime1::OccursBefore) => {
                             debug_eprintln!("{}{}: choosing slp_next", so(), _fname);
                             slp_next
-                        },
+                        }
                         (Result_Filter_DateTime1::OccursBefore, Result_Filter_DateTime1::OccursAtOrAfter) => {
                             debug_eprintln!("{}{}: choosing slp_next", so(), _fname);
                             slp_next
-                        },
+                        }
                         (Result_Filter_DateTime1::OccursAtOrAfter, Result_Filter_DateTime1::OccursAtOrAfter) => {
                             debug_eprintln!("{}{}: choosing slp", so(), _fname);
                             slp
-                        },
+                        }
                         _ => {
-                            debug_eprintln!("{}{}: unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple", so(), _fname);
+                            debug_eprintln!(
+                                "{}{}: unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple",
+                                so(),
+                                _fname
+                            );
                             eprintln!("ERROR: unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple");
                             break;
-                        },
+                        }
                     };
                 } else {
-                    debug_eprintln!("{}{}: slp.fileoffset_begin() {} >= {} try_fo; use slp", so(), _fname, fo_beg, try_fo);
+                    debug_eprintln!(
+                        "{}{}: slp.fileoffset_begin() {} >= {} try_fo; use slp",
+                        so(),
+                        _fname,
+                        fo_beg,
+                        try_fo
+                    );
                     /*
                     debug_eprintln!("{}{}: slp.fileoffset_begin() {} >= {} try_fo; get next sysline at {}", so(), _fname, fo_beg, try_fo, fo_next);
                     slp = match self.find_sysline(fo_next) {
@@ -4447,7 +4554,12 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 // XXX: sanity check
                 //debug_assert_eq!(fo_last, slp.fileoffset_next(), "fo_last {} != {} slp.fileoffset_next()", fo_last, slp.fileoffset_next());
                 if fo_last != slp.fileoffset_next() {
-                    eprintln!("WARNING: fo_last {} != {} slp.fileoffset_next() (fo_end is {})", fo_last, slp.fileoffset_next(), fo_end);
+                    eprintln!(
+                        "WARNING: fo_last {} != {} slp.fileoffset_next() (fo_end is {})",
+                        fo_last,
+                        slp.fileoffset_next(),
+                        fo_end
+                    );
                 }
                 debug_eprintln!(
                     "{}{}: return ResultS4_SyslineFind::Found(({}, @{:p})); D fileoffset {} {:?}",
@@ -4660,12 +4772,9 @@ type _test_find_sysline_at_datetime_filter_Checks<'a> = Vec<(FileOffset, &'a str
 /// called by other functions `test_find_sysline_at_datetime_filterX`
 #[cfg(test)]
 fn __test_find_sysline_at_datetime_filter(
-    file_content: String,
-    dt_pattern: DateTimePattern,
-    blocksz: BlockSz,
+    file_content: String, dt_pattern: DateTimePattern, blocksz: BlockSz,
     checks: _test_find_sysline_at_datetime_filter_Checks,
-)
-{
+) {
     debug_eprintln!("{}__test_find_sysline_at_datetime_filter(..., {:?}, {}, ...)", sn(), dt_pattern, blocksz);
 
     let ntf1 = create_temp_file(&file_content.as_str());
@@ -4688,8 +4797,7 @@ fn __test_find_sysline_at_datetime_filter(
         debug_eprintln!("{}find_sysline_at_datetime_filter({}, {:?})", so(), fo1, dt);
         let result = slr.find_sysline_at_datetime_filter(*fo1, &Some(dt));
         match result {
-            ResultS4_SyslineFind::Found(val)
-            | ResultS4_SyslineFind::Found_EOF(val) => {
+            ResultS4_SyslineFind::Found(val) | ResultS4_SyslineFind::Found_EOF(val) => {
                 let sline = val.1.to_String();
                 let sline_noraw = str_to_nonraw_String(sline.as_str());
                 debug_eprintln!("\nexpected: {:?}", sline_expect_noraw);
@@ -4697,12 +4805,21 @@ fn __test_find_sysline_at_datetime_filter(
                 //print_colored(Color::Yellow, format!("expected: {}\n", sline_expect_noraw).as_bytes());
                 //print_colored(Color::Yellow, format!("returned: {}\n", sline_noraw).as_bytes());
                 assert_eq!(
-                    sline, String::from(*sline_expect),
+                    sline,
+                    String::from(*sline_expect),
                     "Expected {:?} == {:?} but it is not!",
-                    sline_noraw, sline_expect_noraw
+                    sline_noraw,
+                    sline_expect_noraw
                 );
                 //debug_eprintln!("{}Check PASSED {:?}", so(), sline_noraw);
-                print_colored(Color::Green, format!("Check PASSED SyslineReader().find_sysline_at_datetime_filter({} {:?}) == {:?}\n", fo1, dts, sline_noraw).as_bytes());
+                print_colored(
+                    Color::Green,
+                    format!(
+                        "Check PASSED SyslineReader().find_sysline_at_datetime_filter({} {:?}) == {:?}\n",
+                        fo1, dts, sline_noraw
+                    )
+                    .as_bytes(),
+                );
             }
             ResultS4_SyslineFind::Done => {
                 panic!("During test unexpected result Done");
@@ -4722,7 +4839,9 @@ fn __test_find_sysline_at_datetime_filter(
 //       in a confusing manner. Run `cargo test` to see.
 /// basic test of `SyslineReader.find_datetime_in_line`
 #[cfg(test)]
-fn _test_find_sysline_at_datetime_filter(blocksz: BlockSz, checks: Option<_test_find_sysline_at_datetime_filter_Checks>) {
+fn _test_find_sysline_at_datetime_filter(
+    blocksz: BlockSz, checks: Option<_test_find_sysline_at_datetime_filter_Checks>,
+) {
     stack_offset_set();
     debug_eprintln!("{}_test_find_sysline_at_datetime_filter()", sn());
     let dt_fmt1: DateTimePattern = String::from("%Y-%m-%d %H:%M:%S");
@@ -4755,7 +4874,8 @@ fn _test_find_sysline_at_datetime_filter(blocksz: BlockSz, checks: Option<_test_
 2020-01-01 00:00:24abcdefghijklmnopqrstuvwx
 2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy
 2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz
-");
+",
+    );
     let checks0: _test_find_sysline_at_datetime_filter_Checks = Vec::from([
         (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
         (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
@@ -4820,12 +4940,7 @@ fn _test_find_sysline_at_datetime_filter(blocksz: BlockSz, checks: Option<_test_
     if checks.is_some() {
         checks_ = checks.unwrap();
     }
-    __test_find_sysline_at_datetime_filter(
-        file_content1,
-        dt_fmt1,
-        blocksz,
-        checks_
-    );
+    __test_find_sysline_at_datetime_filter(file_content1, dt_fmt1, blocksz, checks_);
     debug_eprintln!("{}_test_find_sysline_at_datetime_filter()", sx());
 }
 
@@ -4886,13 +5001,11 @@ fn test_find_sysline_at_datetime_filter_2056() {
 fn test_find_sysline_at_datetime_filter_checks_0_() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:00",
+            "2020-01-01 00:00:00\n",
+        )])),
     );
 }
 
@@ -4900,13 +5013,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_() {
 fn test_find_sysline_at_datetime_filter_checks_0_a() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:01",
+            "2020-01-01 00:00:01a\n",
+        )])),
     );
 }
 
@@ -4914,13 +5025,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_a() {
 fn test_find_sysline_at_datetime_filter_checks_0_b() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:02",
+            "2020-01-01 00:00:02ab\n",
+        )])),
     );
 }
 
@@ -4928,13 +5037,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_b() {
 fn test_find_sysline_at_datetime_filter_checks_0_c() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:03",
+            "2020-01-01 00:00:03abc\n",
+        )])),
     );
 }
 
@@ -4942,13 +5049,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_c() {
 fn test_find_sysline_at_datetime_filter_checks_0_d() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:04", "2020-01-01 00:00:04abcd\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:04",
+            "2020-01-01 00:00:04abcd\n",
+        )])),
     );
 }
 
@@ -4956,13 +5061,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_d() {
 fn test_find_sysline_at_datetime_filter_checks_0_e() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:05", "2020-01-01 00:00:05abcde\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:05",
+            "2020-01-01 00:00:05abcde\n",
+        )])),
     );
 }
 
@@ -4970,13 +5073,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_e() {
 fn test_find_sysline_at_datetime_filter_checks_0_f() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:06", "2020-01-01 00:00:06abcdef\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:06",
+            "2020-01-01 00:00:06abcdef\n",
+        )])),
     );
 }
 
@@ -4984,13 +5085,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_f() {
 fn test_find_sysline_at_datetime_filter_checks_0_g() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:07", "2020-01-01 00:00:07abcdefg\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:07",
+            "2020-01-01 00:00:07abcdefg\n",
+        )])),
     );
 }
 
@@ -4998,13 +5097,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_g() {
 fn test_find_sysline_at_datetime_filter_checks_0_h() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:08", "2020-01-01 00:00:08abcdefgh\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:08",
+            "2020-01-01 00:00:08abcdefgh\n",
+        )])),
     );
 }
 
@@ -5012,13 +5109,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_h() {
 fn test_find_sysline_at_datetime_filter_checks_0_i() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:09", "2020-01-01 00:00:09abcdefghi\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:09",
+            "2020-01-01 00:00:09abcdefghi\n",
+        )])),
     );
 }
 
@@ -5026,13 +5121,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_i() {
 fn test_find_sysline_at_datetime_filter_checks_0_j() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:10", "2020-01-01 00:00:10abcdefghij\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:10",
+            "2020-01-01 00:00:10abcdefghij\n",
+        )])),
     );
 }
 
@@ -5040,13 +5133,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_j() {
 fn test_find_sysline_at_datetime_filter_checks_0_k() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:11", "2020-01-01 00:00:11abcdefghijk\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:11",
+            "2020-01-01 00:00:11abcdefghijk\n",
+        )])),
     );
 }
 
@@ -5054,13 +5145,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_k() {
 fn test_find_sysline_at_datetime_filter_checks_0_l() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:12", "2020-01-01 00:00:12abcdefghijkl\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:12",
+            "2020-01-01 00:00:12abcdefghijkl\n",
+        )])),
     );
 }
 
@@ -5068,13 +5157,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_l() {
 fn test_find_sysline_at_datetime_filter_checks_0_m() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:13",
+            "2020-01-01 00:00:13abcdefghijklm\n",
+        )])),
     );
 }
 
@@ -5082,13 +5169,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_m() {
 fn test_find_sysline_at_datetime_filter_checks_0_n() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:14",
+            "2020-01-01 00:00:14abcdefghijklmn\n",
+        )])),
     );
 }
 
@@ -5096,13 +5181,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_n() {
 fn test_find_sysline_at_datetime_filter_checks_0_o() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:15", "2020-01-01 00:00:15abcdefghijklmno\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:15",
+            "2020-01-01 00:00:15abcdefghijklmno\n",
+        )])),
     );
 }
 
@@ -5110,13 +5193,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_o() {
 fn test_find_sysline_at_datetime_filter_checks_0_p() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:16", "2020-01-01 00:00:16abcdefghijklmnop\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:16",
+            "2020-01-01 00:00:16abcdefghijklmnop\n",
+        )])),
     );
 }
 
@@ -5124,13 +5205,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_p() {
 fn test_find_sysline_at_datetime_filter_checks_0_q() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:17", "2020-01-01 00:00:17abcdefghijklmnopq\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:17",
+            "2020-01-01 00:00:17abcdefghijklmnopq\n",
+        )])),
     );
 }
 
@@ -5138,13 +5217,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_q() {
 fn test_find_sysline_at_datetime_filter_checks_0_r() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:18", "2020-01-01 00:00:18abcdefghijklmnopqr\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:18",
+            "2020-01-01 00:00:18abcdefghijklmnopqr\n",
+        )])),
     );
 }
 
@@ -5152,13 +5229,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_r() {
 fn test_find_sysline_at_datetime_filter_checks_0_s() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:19", "2020-01-01 00:00:19abcdefghijklmnopqrs\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:19",
+            "2020-01-01 00:00:19abcdefghijklmnopqrs\n",
+        )])),
     );
 }
 
@@ -5166,13 +5241,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_s() {
 fn test_find_sysline_at_datetime_filter_checks_0_t() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:20", "2020-01-01 00:00:20abcdefghijklmnopqrst\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:20",
+            "2020-01-01 00:00:20abcdefghijklmnopqrst\n",
+        )])),
     );
 }
 
@@ -5180,13 +5253,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_t() {
 fn test_find_sysline_at_datetime_filter_checks_0_u() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:21", "2020-01-01 00:00:21abcdefghijklmnopqrstu\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:21",
+            "2020-01-01 00:00:21abcdefghijklmnopqrstu\n",
+        )])),
     );
 }
 
@@ -5194,13 +5265,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_u() {
 fn test_find_sysline_at_datetime_filter_checks_0_v() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:22", "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:22",
+            "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n",
+        )])),
     );
 }
 
@@ -5208,13 +5277,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_v() {
 fn test_find_sysline_at_datetime_filter_checks_0_w() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:23", "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:23",
+            "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n",
+        )])),
     );
 }
 
@@ -5222,13 +5289,11 @@ fn test_find_sysline_at_datetime_filter_checks_0_w() {
 fn test_find_sysline_at_datetime_filter_checks_0_x() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:24",
+            "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n",
+        )])),
     );
 }
 
@@ -5236,217 +5301,346 @@ fn test_find_sysline_at_datetime_filter_checks_0_x() {
 fn test_find_sysline_at_datetime_filter_checks_0_y() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:25",
+            "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n",
+        )])),
     );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_z() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            0,
+            "2020-01-01 00:00:26",
+            "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_a() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (19, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            19,
+            "2020-01-01 00:00:01",
+            "2020-01-01 00:00:01a\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_b() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (40, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            40,
+            "2020-01-01 00:00:02",
+            "2020-01-01 00:00:02ab\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_c() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (62, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            62,
+            "2020-01-01 00:00:03",
+            "2020-01-01 00:00:03abc\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_d() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (85, "2020-01-01 00:00:04", "2020-01-01 00:00:04abcd\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            85,
+            "2020-01-01 00:00:04",
+            "2020-01-01 00:00:04abcd\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_e() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (109, "2020-01-01 00:00:05", "2020-01-01 00:00:05abcde\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            109,
+            "2020-01-01 00:00:05",
+            "2020-01-01 00:00:05abcde\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_f() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (134, "2020-01-01 00:00:06", "2020-01-01 00:00:06abcdef\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            134,
+            "2020-01-01 00:00:06",
+            "2020-01-01 00:00:06abcdef\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_g() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (160, "2020-01-01 00:00:07", "2020-01-01 00:00:07abcdefg\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            160,
+            "2020-01-01 00:00:07",
+            "2020-01-01 00:00:07abcdefg\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_h() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (187, "2020-01-01 00:00:08", "2020-01-01 00:00:08abcdefgh\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            187,
+            "2020-01-01 00:00:08",
+            "2020-01-01 00:00:08abcdefgh\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_i() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (215, "2020-01-01 00:00:09", "2020-01-01 00:00:09abcdefghi\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            215,
+            "2020-01-01 00:00:09",
+            "2020-01-01 00:00:09abcdefghi\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_j() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (244, "2020-01-01 00:00:10", "2020-01-01 00:00:10abcdefghij\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            244,
+            "2020-01-01 00:00:10",
+            "2020-01-01 00:00:10abcdefghij\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_k() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (274, "2020-01-01 00:00:11", "2020-01-01 00:00:11abcdefghijk\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            274,
+            "2020-01-01 00:00:11",
+            "2020-01-01 00:00:11abcdefghijk\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_l() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (305, "2020-01-01 00:00:12", "2020-01-01 00:00:12abcdefghijkl\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            305,
+            "2020-01-01 00:00:12",
+            "2020-01-01 00:00:12abcdefghijkl\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_m() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (337, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            337,
+            "2020-01-01 00:00:13",
+            "2020-01-01 00:00:13abcdefghijklm\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_n() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (370, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            370,
+            "2020-01-01 00:00:14",
+            "2020-01-01 00:00:14abcdefghijklmn\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_o() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (404, "2020-01-01 00:00:15", "2020-01-01 00:00:15abcdefghijklmno\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            404,
+            "2020-01-01 00:00:15",
+            "2020-01-01 00:00:15abcdefghijklmno\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_p() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (439, "2020-01-01 00:00:16", "2020-01-01 00:00:16abcdefghijklmnop\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            439,
+            "2020-01-01 00:00:16",
+            "2020-01-01 00:00:16abcdefghijklmnop\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_q() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (475, "2020-01-01 00:00:17", "2020-01-01 00:00:17abcdefghijklmnopq\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            475,
+            "2020-01-01 00:00:17",
+            "2020-01-01 00:00:17abcdefghijklmnopq\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_r() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (512, "2020-01-01 00:00:18", "2020-01-01 00:00:18abcdefghijklmnopqr\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            512,
+            "2020-01-01 00:00:18",
+            "2020-01-01 00:00:18abcdefghijklmnopqr\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_s() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (550, "2020-01-01 00:00:19", "2020-01-01 00:00:19abcdefghijklmnopqrs\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            550,
+            "2020-01-01 00:00:19",
+            "2020-01-01 00:00:19abcdefghijklmnopqrs\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_t() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (589, "2020-01-01 00:00:20", "2020-01-01 00:00:20abcdefghijklmnopqrst\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            589,
+            "2020-01-01 00:00:20",
+            "2020-01-01 00:00:20abcdefghijklmnopqrst\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_u() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (629, "2020-01-01 00:00:21", "2020-01-01 00:00:21abcdefghijklmnopqrstu\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            629,
+            "2020-01-01 00:00:21",
+            "2020-01-01 00:00:21abcdefghijklmnopqrstu\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_v() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (670, "2020-01-01 00:00:22", "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            670,
+            "2020-01-01 00:00:22",
+            "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_w() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (712, "2020-01-01 00:00:23", "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            712,
+            "2020-01-01 00:00:23",
+            "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_x() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (755, "2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            755,
+            "2020-01-01 00:00:24",
+            "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_y() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (799, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            799,
+            "2020-01-01 00:00:25",
+            "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_z() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (844, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([(
+            844,
+            "2020-01-01 00:00:26",
+            "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n",
+        )])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_2_z_() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-                    (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+        ])),
     );
 }
 
@@ -5454,14 +5648,10 @@ fn test_find_sysline_at_datetime_filter_checks_2_z_() {
 fn test_find_sysline_at_datetime_filter_checks_2_y_() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-                    (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+        ])),
     );
 }
 
@@ -5469,14 +5659,10 @@ fn test_find_sysline_at_datetime_filter_checks_2_y_() {
 fn test_find_sysline_at_datetime_filter_checks_2_x_() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n"),
-                    (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n"),
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+        ])),
     );
 }
 
@@ -5484,14 +5670,10 @@ fn test_find_sysline_at_datetime_filter_checks_2_x_() {
 fn test_find_sysline_at_datetime_filter_checks_2_m_() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
-                    (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+        ])),
     );
 }
 
@@ -5499,14 +5681,10 @@ fn test_find_sysline_at_datetime_filter_checks_2_m_() {
 fn test_find_sysline_at_datetime_filter_checks_2_za() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-                    (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+        ])),
     );
 }
 
@@ -5514,14 +5692,10 @@ fn test_find_sysline_at_datetime_filter_checks_2_za() {
 fn test_find_sysline_at_datetime_filter_checks_2_ya() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-                    (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+        ])),
     );
 }
 
@@ -5529,14 +5703,10 @@ fn test_find_sysline_at_datetime_filter_checks_2_ya() {
 fn test_find_sysline_at_datetime_filter_checks_2_xa() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n"),
-                    (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+        ])),
     );
 }
 
@@ -5544,287 +5714,371 @@ fn test_find_sysline_at_datetime_filter_checks_2_xa() {
 fn test_find_sysline_at_datetime_filter_checks_2_ma() {
     _test_find_sysline_at_datetime_filter(
         64,
-        Some(
-            _test_find_sysline_at_datetime_filter_Checks::from(
-                [
-                    (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
-                    (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-                ]
-            )
-        )
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+        ])),
     );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3____() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__ab() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__az() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__bd() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:04", "2020-01-01 00:00:04abcd\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:04", "2020-01-01 00:00:04abcd\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__ml() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
-        (0, "2020-01-01 00:00:12", "2020-01-01 00:00:12abcdefghijkl\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
+            (0, "2020-01-01 00:00:12", "2020-01-01 00:00:12abcdefghijkl\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__my() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__mz() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__m_() {
-    _test_find_sysline_at_datetime_filter(64, Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_aaa() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_abc() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_aba() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_abn() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_aby() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_abz() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_aaz() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_byo() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-        (0, "2020-01-01 00:00:15", "2020-01-01 00:00:15abcdefghijklmno\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:15", "2020-01-01 00:00:15abcdefghijklmno\n"),
+        ])),
+    );
 }
-
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zaa() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zbc() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zba() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zbn() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zby() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zbz() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zaz() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+        ])),
+    );
 }
-
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_yaa() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_ybc() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_yba() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_ybn() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_yby() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_ybz() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+        ])),
+    );
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_yaz() {
-    _test_find_sysline_at_datetime_filter(64,Some(_test_find_sysline_at_datetime_filter_Checks::from([
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ])));
+    _test_find_sysline_at_datetime_filter(
+        64,
+        Some(_test_find_sysline_at_datetime_filter_Checks::from([
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+        ])),
+    );
 }
 
 // TODO: [2022/03/18] create one wrapper test test_find_sysline_at_datetime_checks_ that takes some
@@ -6381,9 +6635,7 @@ pub struct SyslogWriter<'syslogwriter> {
 impl<'syslogwriter> SyslogWriter<'syslogwriter> {
     pub fn new(syslinereaders: SyslineReaders<'syslogwriter>) -> SyslogWriter<'syslogwriter> {
         assert_gt!(syslinereaders.len(), 0, "Passed zero SyslineReaders");
-        SyslogWriter {
-            syslinereaders,
-        }
+        SyslogWriter { syslinereaders }
     }
 
     pub fn push(&mut self, syslinereader: SyslineReader<'syslogwriter>) {
@@ -6824,12 +7076,10 @@ fn basic_threading_3(
         map_path_color.insert(fpath, color_rand());
         let chan_send_1_thrd = chan_send_1.clone();
         // XXX: how to name the threads?
-        pool.spawn(move || {
-            match chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) {
-                Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) failed {}", err);
-                }
+        pool.spawn(move || match chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) {
+            Ok(_) => {}
+            Err(err) => {
+                eprintln!("ERROR: chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) failed {}", err);
             }
         });
     }
@@ -6839,14 +7089,14 @@ fn basic_threading_3(
     drop(chan_send_1); // close sender so chan.into_iter.collect does not block
 
     type Map_Path_SLP = BTreeMap<FPath, SLP_Last>;
-    
+
     /// run `.recv` on many Receiver channels simultaneously with the help of `crossbeam_channel::Select`
     /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
     /// XXX: I would like to return a `&FPath` to avoid one `FPath.clone()` but it causes
     ///      compiler error about mutable and immutable borrows of `map_path_slp` occurring simultaneously
     ///          cannot borrow `map_path_slp` as mutable because it is also borrowed as immutable
     fn recv_many_chan(
-        fpath_chans: & HashMap<&FPath, Chan_Recv_SLP>, filter_: & Map_Path_SLP,
+        fpath_chans: &HashMap<&FPath, Chan_Recv_SLP>, filter_: &Map_Path_SLP,
     ) -> (FPath, std::result::Result<SLP_Last, crossbeam_channel::RecvError>) {
         debug_eprintln!("{}recv_many_chan();", sn());
         // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures
@@ -7094,12 +7344,10 @@ fn test_threading_4(
         map_path_color.insert(fpath, color_rand());
         let chan_send_1_thrd = chan_send_1.clone();
         // XXX: how to name the threads?
-        pool.spawn(move || {
-            match chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) {
-                Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) failed {}", err);
-                }
+        pool.spawn(move || match chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) {
+            Ok(_) => {}
+            Err(err) => {
+                eprintln!("ERROR: chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) failed {}", err);
             }
         });
     }
@@ -7116,7 +7364,7 @@ fn test_threading_4(
     ///      compiler error about mutable and immutable borrows of `map_path_slp` occurring simultaneously
     ///          cannot borrow `map_path_slp` as mutable because it is also borrowed as immutable
     fn recv_many_chan(
-        fpath_chans: & HashMap<&FPath, Chan_Recv_SLP>, filter_: & Map_Path_SLP,
+        fpath_chans: &HashMap<&FPath, Chan_Recv_SLP>, filter_: &Map_Path_SLP,
     ) -> (FPath, std::result::Result<SLP_Last, crossbeam_channel::RecvError>) {
         debug_eprintln!("{}recv_many_chan();", sn());
         // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures
