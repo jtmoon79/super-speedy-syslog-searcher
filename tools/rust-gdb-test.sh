@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# run `cargo-test` in one command with parameters I strongly prefer
+# run `rust-gdb` setting some tedious values
 
 set -eu
 
@@ -23,6 +23,8 @@ for a in "${@}"; do
     args2[${#args2[@]}]=${a}
 done
 
+target=$(ls -1tr target/debug/deps/super_speedy_syslog_searcher-* | tail -n1)
+
 set -x
 
-exec cargo test -j1 "${args1[@]}" -- --test-threads=1 "${args2[@]}"
+exec rust-gdb "${target}" -ex 'layout split' "${@}"
