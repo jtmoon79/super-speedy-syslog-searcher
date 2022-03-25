@@ -19,7 +19,7 @@ declare -ir line_count=${1-100}
 declare -ir epoch_2000_GMT=946684800
 # Unix time at 2020/01/01 00:00:00 PST
 declare -ir epoch_2000_PST=946713600
-declare -i dt_start=${epoch_2000_PST}
+declare -i dt_start=${4-${epoch_2000_PST}}
 
 # repeat count of syslog line with this datetime
 declare -ir repeat_dt=${2-2}
