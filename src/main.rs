@@ -244,7 +244,7 @@ LAST WORKING ON [2021/10/02 02:26:00]
      chooses to print the soonest datetime.
 
 TODO: [2021/10/02]
-      need to add a SyslinePrinter that prints `Sysline`.
+      need to add a SyslinePrinter that prints a given `Sysline`.
       A `Sysline` can print itself, however, one little troublesome detail:
       the last `Sysline` of a file often has no terminating '\n'
       When printing `Sysline` from many different files, it'll result in some Syslines
@@ -330,9 +330,11 @@ LAST WORKING ON [2022/03/18]
       then process those temporary files:
           $ ./target/release/super_speedy_syslog_searcher --path ./tmp/ *
      the 100+ files in ./tmp/ were printed in correct datetime order.
-     Perhaps it's a matter of file size? Could try to test with two very large files with
+     Perhaps it's a matter of file size? Could try to test with two or three very large files with
      interleaved datetimes. These should be generated so they are easy to visually verify, perhaps using
      odd/even numbers?
+     ... after running various tests, I'm pretty sure the out of order is because the files daettime
+     are not matched because the patterns are not known.
 
 TODO: [2022/03/18] before opening a file, attempt to retrieve the file attributes.
       The Last Modified Time can be used when the datetime format does not include a year.
@@ -348,7 +350,7 @@ TODO: [2022/03/18] need summary of files not read, or message to user about file
             --summary
       This might help me debug right now... 
 
-TODO: [2022/03/22] need to track errors decoding UTF8, too errors many means the file is not a text
+TODO: [2022/03/22] need to track errors decoding UTF8, too many errors many means the file is not a text
       file, and should be abandoned for further processing.
       This error occurs as `Utf8Error` within `SyslineReader::find_datetime_in_line` call `str::from_utf8`.
 
@@ -360,8 +362,77 @@ TODO: [2022/03/22 01:53:10] easy speed up is to add functions to handle typical 
 TODO: [2022/03/22 02:10:12] add command-line option to bold/color the datetime string
       helpful for visual verifications.
 
-LAST WORKING ON: [2022/03/22 02:26:15] see prior LAST WORKING ON, large files are not sorted correctly. 
- 
+LAST WORKING ON: [2022/03/22 02:26:15] see above LAST WORKING ON; large files are not sorted correctly.
+FIXED 
+
+TODO: [2022/03] try cargo-nexttest https://github.com/nextest-rs/nextest/releases/tag/cargo-nextest-0.9.12
+
+TODO: [2022/03/23 02:07:51] might be interesting to add a debug printing mode --datetime-only
+      that prints *only* the datetime portion of sysline.
+      This would help visually verify datetimes for a variety of files.
+
+LAST WORKING ON 2022/03/23 02:09:37 need to add the summary to help with debug inspections
+        count of bytes (taken from blocks),
+        count of lines (counted in insert_line),
+        count of syslines (counted in insert_sysline),
+        count of lines printed,
+        count of syslines printed,
+        first datetime printed (Datetime object and found string),
+        last datetime printed (Datetime object and found string),
+        datetime formats found (and count)
+     make sure to print about files that did not find process *any* Lines or Syslines (binary files, empty file).
+     Then add a bunch of found datetimes formats from various found files, see how things improve.
+     then...
+     review all messages above and below. What should be next?
+
+TODO: update my github profile with an introduction like here https://github.com/yuk7
+
+TODO: submit PR to https://github.com/chronotope/chrono/issues/660 
+
+TODO: [2022/03/23] add "streaming" built-in feature. This would conserve memory, and would be necessary
+      for very large log files.
+      The `SyslineReader` would delete processed `Syslines` (and the contained `Lines`, etc.), i.e.
+      printed syslines.
+      Have this behavior controlled by a global constant so before and after comparisons
+      of memory usage can be done.
+
+TODO: [2022/03/24] allow processing the same file more than once, like typical other Unix tools allow.
+      Currently, various areas key by `FPath`, forcing a file to only be processed once.
+      Instead, key by `(command-line index, FPath)`, e.g.
+        $ super_speedy_syslog_search file1 file1
+      would be keys
+        { (1, file1), (2, file1) } 
+      The duplication of work would be acceptable as it's an uncommon case.
+
+TODO: [2022/03/24] add debug macro to print in color, `debug_eprintln_clr!(...)`
+      this could be used for printing with color from different threads.
+      Would very much help debug output readability.
+
+NOTE: I attempted to use named records or structural records. Both crates were unsatisfactory.
+      crate `named_tuple` wants to make copies of the fields for each `get`. I also abandoned compile
+      problems with it.
+         https://docs.rs/named_tuple/0.1.3/named_tuple/index.html#attributes
+      crate `structx` seemed too incomplete
+         https://crates.io/crates/structx/0.1.5
+
+TODO: [2022/03/24] need option to dump files that have no found Syslines, as-is
+      this would allow output testing compared to `cat`, i.e. script `tools/run-cat-cmp-tests.sh`
+          --cat
+
+LAST WORKING ON 2022/03/25 00:53:21 crashing when passed dt_filter
+            ‣ ./target/release/super_speedy_syslog_searcher --path ./logs/other/tests/dtf5-2c.log ./logs/other/tests/dtf5-6c.log -- 0xFFFFF 20000101T000100
+            thread '<unnamed>' panicked at 'thread 'assertion failed: `(left <= right)`
+              left: `279`,
+             right: `254`: unexpected values (*SyslineP).fileoffset_end() 279, fileoffset returned by find_sysline 254 FPath "./logs/other/tests/dtf5-6c.log"<unnamed>', ' panicked at 'src/main.rsassertion failed: `(left <= right)`
+              left: `65`,
+             right: `63`: unexpected values (*SyslineP).fileoffset_end() 65, fileoffset returned by find_sysline 63 FPath "./logs/other/tests/dtf5-2c.log":', 5005src/main.rs::295005
+            :note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+            29
+            Rayon: detected unexpected panic; aborting
+            Aborted
+        Run
+            ./target/debug/super_speedy_syslog_searcher --path ./logs/other/tests/dtf5-2c.log -- 0xFFFFF 20000101T000100
+
  */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -371,6 +442,7 @@ LAST WORKING ON: [2022/03/22 02:26:15] see prior LAST WORKING ON, large files ar
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
+use std::borrow::{BorrowMut};
 use std::collections::{BTreeMap, HashMap};
 use std::fmt;
 use std::fs::{File, Metadata, OpenOptions};
@@ -384,6 +456,9 @@ use std::sync::Arc;
 extern crate atty;
 
 extern crate backtrace;
+
+extern crate chain_cmp;
+use chain_cmp::chmp;
 
 extern crate clap;
 
@@ -418,8 +493,6 @@ use tempfile::NamedTempFile;
 extern crate termcolor;
 use termcolor::{Color, ColorSpec, WriteColor};
 
-use std::sync::Once;
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // misc. globals
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -439,6 +512,8 @@ static NLu8: u8 = 10;
 /// Newline in a byte buffer
 #[allow(non_upper_case_globals)]
 static NLu8a: [u8; 1] = [NLu8];
+
+const SUMMARY_CMD_OPT: bool = true;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // custom Results enums for various *Reader functions
@@ -875,7 +950,7 @@ pub fn test_init() {
 /// turn passed u8 into char, for any char values that are CLI formatting instructions transform
 /// them to pictoral representations, e.g. '\n' returns a pictoral unicode representation '␊'
 /// only intended for debugging
-fn char_to_nonraw_char(c: char) -> char {
+fn char_to_char_noraw(c: char) -> char {
     if c.is_ascii_graphic() {
         return c;
     }
@@ -920,28 +995,28 @@ fn char_to_nonraw_char(c: char) -> char {
     }
 }
 
-/// tranform utf-8 byte (presumably) to non-raw char
+/// transform utf-8 byte (presumably) to non-raw char
 /// only intended for debugging
 #[allow(dead_code)]
-fn byte_to_nonraw_char(byte: u8) -> char {
-    return char_to_nonraw_char(byte as char);
+fn byte_to_char_noraw(byte: u8) -> char {
+    return char_to_char_noraw(byte as char);
 }
 
 /// transform buffer of utf-8 chars (presumably) to a non-raw String
 /// inefficient
 /// only intended for debugging
 #[allow(non_snake_case, dead_code)]
-fn buffer_to_nonraw_String(buffer: &[u8]) -> String {
+fn buffer_to_String_noraw(buffer: &[u8]) -> String {
     let s1 = match str::from_utf8(buffer) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: buffer_to_nonraw_String: Invalid UTF-8 sequence during from_utf8: {}", err);
+            eprintln!("ERROR: buffer_to_String_noraw: Invalid UTF-8 sequence during from_utf8: {}", err);
             return String::with_capacity(0);
         }
     };
     let mut s2 = String::with_capacity(s1.len() + 10);
     for c in s1.chars() {
-        let c_ = char_to_nonraw_char(c);
+        let c_ = char_to_char_noraw(c);
         s2.push(c_);
     }
     return s2;
@@ -950,10 +1025,10 @@ fn buffer_to_nonraw_String(buffer: &[u8]) -> String {
 /// transform str to non-raw String version
 /// only intended for debugging
 #[allow(non_snake_case, dead_code)]
-fn str_to_nonraw_String(str_buf: &str) -> String {
+fn str_to_String_noraw(str_buf: &str) -> String {
     let mut s2 = String::with_capacity(str_buf.len() + 1);
     for c in str_buf.chars() {
-        let c_ = char_to_nonraw_char(c);
+        let c_ = char_to_char_noraw(c);
         s2.push(c_);
     }
     return s2;
@@ -963,7 +1038,7 @@ fn str_to_nonraw_String(str_buf: &str) -> String {
 /// inefficient
 /// only intended for debugging
 #[allow(non_snake_case, dead_code)]
-fn file_to_nonraw_String(path: &FPath) -> String {
+fn file_to_String_noraw(path: &FPath) -> String {
     let path_ = Path::new(path);
     let mut open_options = OpenOptions::new();
     let mut file_ = match open_options.read(true).open(&path_) {
@@ -995,7 +1070,7 @@ fn file_to_nonraw_String(path: &FPath) -> String {
     );
     let mut s3 = String::with_capacity(filesz + 1);
     for c in s2.chars() {
-        let c_ = char_to_nonraw_char(c);
+        let c_ = char_to_char_noraw(c);
         s3.push(c_);
     }
     return s3;
@@ -1090,7 +1165,7 @@ pub fn flush_stdouterr() {
 }
 
 /// write to console, `raw` as `true` means "as-is"
-/// else use `char_to_nonraw_char` to replace chars in `buffer` (inefficient)
+/// else use `char_to_char_noraw` to replace chars in `buffer` (inefficient)
 /// only intended for debugging
 pub fn pretty_print(buffer: &[u8], raw: bool) {
     if raw {
@@ -1111,7 +1186,7 @@ pub fn pretty_print(buffer: &[u8], raw: bool) {
     };
     let mut dst: [u8; 4] = [0, 0, 0, 0];
     for c in s.chars() {
-        let c_ = char_to_nonraw_char(c);
+        let c_ = char_to_char_noraw(c);
         let _cs = c_.encode_utf8(&mut dst);
         match stdout_lock.write(&dst) {
             Ok(_) => {}
@@ -1152,13 +1227,28 @@ fn create_temp_file(content: &str) -> NamedTempFile {
     return ntf1;
 }
 
-static COLORS: [Color; 6] = [
+static COLOR_DATETIME: Color = Color::Green;
+
+static COLORS_TEXT: [Color; 16] = [
     Color::Yellow,
-    Color::Green,
     Color::Cyan,
     Color::Red,
     Color::White,
     Color::Magenta,
+    // decent reference https://www.rapidtables.com/web/color/RGB_Color.html
+    // XXX: colors with low pixel values are difficult to see on dark console backgrounds
+    //      recommend at least one pixel value of 102 or greater
+    Color::Rgb(102, 0, 0),
+    Color::Rgb(102, 102, 0),
+    Color::Rgb(127, 0, 0),
+    Color::Rgb(0, 0, 127),
+    Color::Rgb(127, 0, 127),
+    Color::Rgb(127, 127, 127),
+    Color::Rgb(153, 76, 0),
+    Color::Rgb(153, 153, 0),
+    Color::Rgb(0, 153, 153),
+    Color::Rgb(127, 153, 153),
+    Color::Rgb(127, 153, 127),
 ];
 
 /// "cached" indexing value for `color_rand`
@@ -1171,12 +1261,12 @@ fn color_rand() -> Color {
     let ci: usize;
     unsafe {
         _color_at += 1;
-        if _color_at == COLORS.len() {
+        if _color_at == COLORS_TEXT.len() {
             _color_at = 0;
         }
         ci = _color_at;
     }
-    return COLORS[ci];
+    return COLORS_TEXT[ci];
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1267,20 +1357,28 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
     let fpaths: Vec<String> = fpaths_str.iter().map(|x: &&str| String::from(*x)).collect();
 
     // parse input number as either hexadecimal or decimal
-    let bsize: BlockSz;
+    let blocksz: BlockSz;
     if blockszs.starts_with("0x") {
-        bsize = match BlockSz::from_str_radix(&blockszs.trim_start_matches("0x"), 16) {
+        blocksz = match BlockSz::from_str_radix(&blockszs.trim_start_matches("0x"), 16) {
             Ok(val) => val,
             Err(_e) => 0,
         };
     } else {
-        bsize = match blockszs.parse::<BlockSz>() {
+        blocksz = match blockszs.parse::<BlockSz>() {
             Ok(val) => val,
             Err(err) => {
                 eprintln!("Unable to parse a number for --blocksz {:?} {}", blockszs, err);
                 std::process::exit(1);
             }
         };
+    }
+    if blocksz < BLOCKSZ_MIN {
+        eprintln!("Bad --blocksz {}, must be greater than {}", blocksz, BLOCKSZ_MIN);
+        std::process::exit(1);
+    }
+    if blocksz > BLOCKSZ_MAX {
+        eprintln!("Bad --blocksz {}, must be less than {}", blocksz, BLOCKSZ_MAX);
+        std::process::exit(1);
     }
 
     // parse datetime filters after
@@ -1352,7 +1450,7 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
     //test_threading_2();
     //test_datetime_soonest1();
     //basic_threading_3(&fpaths, bsize, &filter_dt_after, &filter_dt_before);
-    test_threading_4(&fpaths, bsize, &filter_dt_after, &filter_dt_before);
+    run_4(&fpaths, blocksz, &filter_dt_after, &filter_dt_before);
 
     debug_eprintln!("{}main()", sx());
     return Ok(());
@@ -1379,8 +1477,8 @@ type Bytes = Vec<u8>;
 type BlockP = Arc<Block>;
 
 type Slices<'a> = Vec<&'a [u8]>;
-// Consider this user library which claims to be faster than std::collections::BTreeMap
-// https://docs.rs/cranelift-bforest/0.76.0/cranelift_bforest/
+// Consider this user library which claims to be faster than std::collections::BTreeMap for numeric keytypes
+// https://docs.rs/cranelift-bforest/latest/cranelift_bforest/
 type Blocks = BTreeMap<BlockOffset, BlockP>;
 type BlocksLRUCache = LruCache<BlockOffset, BlockP>;
 /// for case where reading blocks, lines, or syslines reaches end of file, the value `WriteZero` will
@@ -1388,6 +1486,8 @@ type BlocksLRUCache = LruCache<BlockOffset, BlockP>;
 /// XXX: this is a hack
 #[allow(non_upper_case_globals)]
 static EndOfFile: ErrorKind = ErrorKind::WriteZero;
+static BLOCKSZ_MIN: BlockSz = 1;  // inclusive
+static BLOCKSZ_MAX: BlockSz = 0xFFFFFF;  // inclusive
 
 /// Cached file reader that stores data in `BlockSz` byte-sized blocks.
 /// A `BlockReader` corresponds to one file.
@@ -1405,6 +1505,8 @@ pub struct BlockReader<'blockreader> {
     blockn: u64,
     /// BlockSz used for read operations
     pub blocksz: BlockSz,
+    /// count of bytes stored by the `BlockReader`
+    _count_bytes: u64,
     /// cached storage of blocks
     blocks: Blocks,
     /// internal stats tracking
@@ -1431,6 +1533,7 @@ impl fmt::Debug for BlockReader<'_> {
             .field("filesz", &self.filesz)
             .field("blockn", &self.blockn)
             .field("blocksz", &self.blocksz)
+            .field("count_bytes", &self._count_bytes)
             .field("blocks cached", &self.blocks.len())
             .field("cache LRU hit", &self.stats_read_block_cache_lru_hit)
             .field("cache LRU miss", &self.stats_read_block_cache_lru_miss)
@@ -1470,7 +1573,7 @@ fn printblock(buffer: &Block, blockoffset: BlockOffset, fileoffset: FileOffset, 
                 print!("║@0x{:06x} ", at);
             };
             let v = buffer[i + j];
-            let cp = byte_to_nonraw_char(v);
+            let cp = byte_to_char_noraw(v);
             buf.push(cp);
         }
         // done reading line, print buf
@@ -1493,6 +1596,8 @@ impl<'blockreader> BlockReader<'blockreader> {
         // TODO: how to make some fields `blockn` `blocksz` `filesz` immutable?
         //       https://stackoverflow.com/questions/23743566/how-can-i-force-a-structs-field-to-always-be-immutable-in-rust
         assert_ne!(0, blocksz, "Block Size cannot be 0");
+        assert_ge!(blocksz, BLOCKSZ_MIN, "Block Size too small");
+        assert_le!(blocksz, BLOCKSZ_MAX, "Block Size too big");
         return BlockReader {
             path: path_,
             file: None,
@@ -1500,6 +1605,7 @@ impl<'blockreader> BlockReader<'blockreader> {
             filesz: 0,
             blockn: 0,
             blocksz,
+            _count_bytes: 0,
             blocks: Blocks::new(),
             stats_read_block_cache_lru_hit: 0,
             stats_read_block_cache_lru_miss: 0,
@@ -1561,10 +1667,20 @@ impl<'blockreader> BlockReader<'blockreader> {
         (BlockReader::file_blocks_count(self.filesz, self.blocksz) as BlockOffset) - 1
     }
 
+    /// count of blocks stored by this `BlockReader` (during calls to `BlockReader::read_block`)
+    pub fn count(&self) -> u64 {
+        return self.blocks.len() as u64;
+    }
+
+    /// count of bytes stored by this `BlockReader` (during calls to `BlockReader::read_block`)
+    pub fn count_bytes(&self) -> u64 {
+        return self._count_bytes;
+    }
+
     /// open the `self.path` file, set other field values after opening.
     /// propagates any `Err`, success returns `Ok(())`
     pub fn open(&mut self) -> Result<()> {
-        assert!(self.file.is_none(), "ERROR: the file is already open");
+        assert!(self.file.is_none(), "ERROR: the file is already open {:?}", &self.path);
         let mut open_options = OpenOptions::new();
         match open_options.read(true).open(&self.path) {
             Ok(val) => self.file = Some(val),
@@ -1593,10 +1709,11 @@ impl<'blockreader> BlockReader<'blockreader> {
     /// when successfully read returns `Ok(BlockP)`
     /// when reached the end of the file, and no data was read returns `Err(EndOfFile)`
     /// all other `File` and `std::io` errors are propagated to the caller
-    /// TODO: create custom `ResultS4` for this too, get rid of hack `EndOfFile`
+    /// TODO: create custom `ResultS4` for this analogous to `LineReader` `SyslineReader
+    ///       get rid of hack `EndOfFile`
     pub fn read_block(&mut self, blockoffset: BlockOffset) -> Result<BlockP> {
         debug_eprintln!("{}read_block: @{:p}.read_block({})", sn(), self, blockoffset);
-        assert!(self.file.is_some(), "File has not been opened '{:?}'", self.path);
+        assert!(self.file.is_some(), "File has not been opened {:?}", self.path);
         // check LRU cache
         match self._read_block_lru_cache.get(&blockoffset) {
             Some(bp) => {
@@ -1675,6 +1792,7 @@ impl<'blockreader> BlockReader<'blockreader> {
                 return Err(err);
             }
         };
+        self._count_bytes += buffer.len() as u64;
         let bp = BlockP::new(buffer);
         // store block
         debug_eprintln!("{}read_block: blocks.insert({}, BlockP@{:p})", so(), blockoffset, bp);
@@ -1712,8 +1830,8 @@ impl<'blockreader> BlockReader<'blockreader> {
     /// uses `self._get_byte` which does not request any reads!
     /// debug helper only
     fn _vec_from(&self, fo_a: FileOffset, fo_b: FileOffset) -> Bytes {
-        assert_le!(fo_a, fo_b, "bad fo_a {} fo_b {}", fo_a, fo_b);
-        assert_le!(fo_b, self.filesz, "bad fo_b {} but filesz {}", fo_b, self.filesz);
+        assert_le!(fo_a, fo_b, "bad fo_a {} fo_b {} FPath {:?}", fo_a, fo_b, self.path);
+        assert_le!(fo_b, self.filesz, "bad fo_b {} but filesz {} FPath {:?}", fo_b, self.filesz, self.path);
         if fo_a == fo_b {
             return Bytes::with_capacity(0);
         }
@@ -2054,7 +2172,7 @@ impl LinePart {
     // TODO: [2022/03/19] add function to return some kind of pointer to underlying
     //       block bytes, that also iterates
     //       this would be used to write underlying block bytes to console.
-    //       is this alrady implemented elsewhere?
+    //       is this already implemented elsewhere?
 }
 
 /// A sequence to track a `Line`.
@@ -2184,7 +2302,7 @@ impl Line {
     }
 
     /// `raw` true will write directly to stdout from the stored `Block`
-    /// `raw` false will write transcode each bute to a character and use pictoral representations
+    /// `raw` false will write transcode each byte to a character and use pictoral representations
     /// XXX: `raw==false` does not handle multi-byte encodings
     pub fn print(self: &Line, raw: bool) {
         // is this an expensive command? should `stdout` be cached?
@@ -2216,7 +2334,7 @@ impl Line {
                 };
                 let mut dst: [u8; 4] = [0, 0, 0, 0];
                 for c in s.chars() {
-                    let c_ = char_to_nonraw_char(c);
+                    let c_ = char_to_char_noraw(c);
                     let _cs = c_.encode_utf8(&mut dst);
                     match stdout_lock.write(&dst) {
                         Ok(_) => {}
@@ -2238,7 +2356,7 @@ impl Line {
     /// create `String` from known bytes referenced by `self.lineparts`
     /// `raw` is `true` means use byte characters as-is
     /// `raw` is `false` means replace formatting characters or non-printable characters
-    /// with pictoral representation (i.e. `byte_to_nonraw_char`)
+    /// with pictoral representation (i.e. `byte_to_char_noraw`)
     /// XXX: not efficient!
     /// TODO: this would be more efficient returning `&str`
     ///       https://bes.github.io/blog/rust-strings
@@ -2273,7 +2391,7 @@ impl Line {
                     if bi >= stop {
                         break;
                     }
-                    let c = byte_to_nonraw_char(*b);
+                    let c = byte_to_char_noraw(*b);
                     s1.push(c);
                 }
             }
@@ -2356,6 +2474,9 @@ pub struct LineReader<'linereader> {
     /// track `Line` found among blocks in `blockreader`, tracked by line ending `FileOffset`
     /// key value `FileOffset` should agree with `(*LineP).fileoffset_end()`
     lines_end: FoToLine,
+    /// count of `Line`s. Tracked outside of `self.lines.len()` as that may
+    /// have contents removed when --streaming
+    lines_count: u64,
     /// char size in bytes
     /// TODO: handle char sizes > 1 byte
     /// TODO: handle multi-byte encodings
@@ -2415,6 +2536,7 @@ impl<'linereader> LineReader<'linereader> {
             blockreader: br,
             lines: FoToLine::new(),
             lines_end: FoToLine::new(),
+            lines_count: 0,
             _charsz: CHARSZ,
             // give impossible value to start with
             //_next_line_blockoffset: FileOffset::MAX,
@@ -2461,9 +2583,9 @@ impl<'linereader> LineReader<'linereader> {
         }
     }
 
-    /// count of lines held by this LineReader
-    pub fn count(&self) -> usize {
-        self.lines.len()
+    /// count of lines processed by this LineReader
+    pub fn count(&self) -> u64 {
+        self.lines_count
     }
 
     /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
@@ -2493,6 +2615,22 @@ impl<'linereader> LineReader<'linereader> {
 
     pub fn blockoffset_last(&self) -> BlockOffset {
         self.blockreader.blockoffset_last()
+    }
+    
+    fn insert_line(&mut self, line: Line) -> LineP {
+        let fo_beg = line.fileoffset_begin();
+        let fo_end = line.fileoffset_end();
+        let rl = LineP::new(line);
+        debug_eprintln!("{}LineReader.insert_line: lines.insert({}, Line @{:p})", so(), fo_beg, &(*rl));
+        self.lines.insert(fo_beg, rl.clone());
+        debug_eprintln!("{}LineReader.insert_line: lines_end.insert({}, Line @{:p})", so(), fo_end, &(*rl));
+        self.lines_end.insert(fo_end, rl.clone());
+        self.lines_count += 1;
+        // XXX: multi-byte character encoding
+        let fo_end1 = fo_end + (self.charsz() as FileOffset);
+        debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{}, {})", so(), fo_beg, fo_end1, fo_beg);
+        self.lines_by_range.insert(fo_beg..fo_end1, fo_beg);
+        return rl;
     }
 
     /// find next `Line` starting from `fileoffset`
@@ -2869,21 +3007,6 @@ impl<'linereader> LineReader<'linereader> {
         );
         return ResultS4_LineFind::Found((fo_end + 1, rl));
     }
-
-    fn insert_line(&mut self, line: Line) -> LineP {
-        let fo_beg = line.fileoffset_begin();
-        let fo_end = line.fileoffset_end();
-        let rl = LineP::new(line);
-        debug_eprintln!("{}LineReader.insert_line: lines.insert({}, Line @{:p})", so(), fo_beg, &(*rl));
-        self.lines.insert(fo_beg, rl.clone());
-        debug_eprintln!("{}LineReader.insert_line: lines_end.insert({}, Line @{:p})", so(), fo_end, &(*rl));
-        self.lines_end.insert(fo_end, rl.clone());
-        // XXX: multi-byte character encoding
-        let fo_end1 = fo_end + (self.charsz() as FileOffset);
-        debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{}, {})", so(), fo_beg, fo_end1, fo_beg);
-        self.lines_by_range.insert(fo_beg..fo_end1, fo_beg);
-        return rl;
-    }
 }
 
 /// loop on `LineReader.find_line` until it is done
@@ -2981,16 +3104,15 @@ fn test_LineReader_1() {
                 return;
             }
         };
-        let bufnonraw = buffer_to_nonraw_String(content.as_bytes());
-        debug_eprintln!("{}File {:?}", so(), bufnonraw);
+        let bufnoraw = buffer_to_String_noraw(content.as_bytes());
+        debug_eprintln!("{}File {:?}", so(), bufnoraw);
         process_LineReader(&mut lr1);
         let lc = lr1.count();
         assert_eq!(line_count, lc, "Expected {} count of lines, found {}", line_count, lc);
-        #[allow(unused_must_use)]
-        print_colored(
+        match print_colored(
             Color::Green,
-            format!("{}PASS Found {} Lines as expected from {:?}\n", so(), lc, bufnonraw).as_bytes(),
-        );
+            format!("{}PASS Found {} Lines as expected from {:?}\n", so(), lc, bufnoraw).as_bytes(),
+        ) { Ok(_) => {}, Err(_) => {}, };
         debug_eprintln!("{}{:?}", so(), content.as_bytes());
     }
     debug_eprintln!("{}test_LineReader_1()", sx());
@@ -3022,6 +3144,7 @@ fn test_LineReader(path_: &FPath, blocksz: BlockSz) {
 
 /// testing helper
 #[cfg(test)]
+#[allow(dead_code)]
 fn randomize(v_: &mut Vec<FileOffset>) {
     // XXX: can also use `rand::shuffle` https://docs.rs/rand/0.8.4/rand/seq/trait.SliceRandom.html#tymethod.shuffle
     let sz = v_.len();
@@ -3035,6 +3158,7 @@ fn randomize(v_: &mut Vec<FileOffset>) {
 
 /// testing helper
 #[cfg(test)]
+#[allow(dead_code)]
 fn fill(v_: &mut Vec<FileOffset>) {
     let sz = v_.capacity();
     let mut i = 0;
@@ -3114,13 +3238,15 @@ fn test_LineReader_rand(path_: &FPath, blocksz: BlockSz) {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// Sysline and SyslogReader
+// Sysline
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// A sequence to track one or more `LineP` that make up a `Sysline` 
 type Lines = Vec<LineP>;
 /// An offset into a `Line`
 type LineIndex = usize;
+
+// DateTime typing
 /// typical DateTime with TZ type
 type DateTimeL = DateTime<Local>;
 #[allow(non_camel_case_types)]
@@ -3248,31 +3374,8 @@ impl Sysline {
     }
 
     /// count of `Line` in `self.lines`
-    pub fn count(self: &Sysline) -> usize {
-        self.lines.len()
-    }
-
-    /// print approach #2, print by slices
-    /// prints raw data from underlying `Block`
-    /// testing helper
-    fn print2(&self) {
-        let slices = self.get_slices();
-        let stdout = io::stdout();
-        let mut stdout_lock = stdout.lock();
-        for slice in slices.iter() {
-            match stdout_lock.write(slice) {
-                Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: write: StdoutLock.write(slice@{:p} (len {})) error {}", slice, slice.len(), err);
-                }
-            }
-        }
-        match stdout_lock.flush() {
-            Ok(_) => {}
-            Err(err) => {
-                eprintln!("ERROR: write: stdout flushing error {}", err);
-            }
-        }
+    pub fn count(self: &Sysline) -> u64 {
+        self.lines.len() as u64
     }
 
     /// a `String` copy of the demarcating datetime string found in the Sysline
@@ -3312,6 +3415,7 @@ impl Sysline {
     }
 
     /// return all the slices that make up this `Sysline`
+    /// TODO: make an iterable trait of this struct
     pub fn get_slices(self: &Sysline) -> Slices {
         let mut sz: usize = 0;
         for lp in &self.lines {
@@ -3328,16 +3432,119 @@ impl Sysline {
     /// `raw` true will write directly to stdout from the stored `Block`
     /// `raw` false will write transcode each byte to a character and use pictoral representations
     /// XXX: `raw==false` does not handle multi-byte encodings
+    /// TODO: move this into a `Printer` class
     pub fn print1(self: &Sysline, raw: bool) {
         for lp in &self.lines {
             (*lp).print(raw);
         }
     }
 
+    // TODO: [2022/03/23] implement an `iter_slices` that does not require creating a new `vec`, just
+    //       passes `&bytes` back. Call `iter_slices` from `print`
+
+    /// print approach #2, print by slices
+    /// prints raw data from underlying `Block`
+    /// testing helper
+    /// TODO: move this into a `Printer` class
+    fn print2(&self) {
+        let slices = self.get_slices();
+        let stdout = io::stdout();
+        let mut stdout_lock = stdout.lock();
+        for slice in slices.iter() {
+            match stdout_lock.write(slice) {
+                Ok(_) => {}
+                Err(err) => {
+                    eprintln!("ERROR: write: StdoutLock.write(slice@{:p} (len {})) error {}", slice, slice.len(), err);
+                }
+            }
+        }
+        match stdout_lock.flush() {
+            Ok(_) => {}
+            Err(err) => {
+                eprintln!("ERROR: write: stdout flushing error {}", err);
+            }
+        }
+    }
+
+    /// helper to `print_color`
+    /// caller must acquire stdout.Lock, and call `stdout.flush()`
+    /// TODO: move this into a `Printer` class
+    fn _print_color1(colors: &[Color], values:&[&[u8]]) -> Result<()> {
+        assert_eq!(colors.len(), values.len());
+        let mut choice: termcolor::ColorChoice = termcolor::ColorChoice::Never;
+        if atty::is(atty::Stream::Stdout) {
+            choice = termcolor::ColorChoice::Always;
+        } else if cfg!(debug_assertions) {
+            choice = termcolor::ColorChoice::Always;
+        }
+        let mut stdout = termcolor::StandardStream::stdout(choice);
+        for (color, value) in colors.iter().zip(values.iter())
+        {
+            match stdout.set_color(ColorSpec::new().set_fg(Some(color.clone()))) {
+                Ok(_) => {}
+                Err(err) => {
+                    eprintln!("print_colored: stdout.set_color({:?}) returned error {}", color, err);
+                    return Err(err);
+                }
+            };
+            match stdout.write(value) {
+                Ok(_) => {}
+                Err(err) => {
+                    eprintln!("print_colored: stdout.write(…) returned error {}", err);
+                    return Err(err);
+                }
+            }
+        }
+        match stdout.reset() {
+            Ok(_) => {}
+            Err(err) => {
+                eprintln!("print_colored: stdout.reset() returned error {}", err);
+                return Err(err);
+            }
+        }
+        Ok(())
+    }
+
+    /// print with color
+    /// prints raw data from underlying `Block` bytes
+    /// XXX: does not handle multi-byte strings
+    /// TODO: move this into a `Printer` class
+    fn print_color(&self, color_text: Color, color_datetime: Color) {
+        let slices = self.get_slices();
+        let stdout = io::stdout();
+        let mut stdout_lock = stdout.lock();
+        let mut at: LineIndex = 0;
+        let dtb = self.dt_beg;
+        let dte = self.dt_end;
+        for slice in slices.iter() {
+            let len_ = slice.len();
+            // datetime entirely in this `slice`
+            if chmp!(at <= dtb < dte < (at + len_)) {
+                let a = &slice[..(dtb-at)];
+                let b = &slice[(dtb-at)..(dte-at)];
+                let c = &slice[(dte-at)..];
+                match Sysline::_print_color1(&[color_text, color_datetime, color_text], &[a, b, c]) {
+                    _ => {},
+                };
+            } // XXX: incomplete datetime crosses into next slice
+            else {
+                match Sysline::_print_color1(&[color_text], &[slice]) { _ => {} };
+            }
+            at += len_;
+        }
+        match stdout_lock.flush() {
+            Ok(_) => {}
+            Err(err) => {
+                eprintln!("ERROR: write: stdout flushing error {}", err);
+            }
+        }
+    }
+
+
     /// create `String` from `self.lines`
     /// `raw` is `true` means use byte characters as-is
     /// `raw` is `false` means replace formatting characters or non-printable characters
-    /// with pictoral representation (i.e. `byte_to_nonraw_char`)
+    /// with pictoral representation (i.e. `byte_to_char_noraw`)
     /// TODO: this would be more efficient returning `&str`
     ///       https://bes.github.io/blog/rust-strings
     #[allow(non_snake_case)]
@@ -3359,7 +3566,7 @@ impl Sysline {
     /// create `str` from `self.lines`
     /// `raw` is `true` means use byte characters as-is
     /// `raw` is `false` means replace formatting characters or non-printable characters
-    /// with pictoral representation (i.e. `byte_to_nonraw_char`)
+    /// with pictoral representation (i.e. `byte_to_char_noraw`)
     /// TODO: can this be more efficient? specialized for `str`?
     #[allow(non_snake_case)]
     fn _to_str_raw(self: &Sysline, raw: bool) -> &str {
@@ -3391,25 +3598,16 @@ impl Sysline {
     }
 }
 
-/// thread-safe Atomic Reference Counting Pointer to a `Sysline`
-type SyslineP = Arc<Sysline>;
-/// storage for `Sysline`
-type Syslines = BTreeMap<FileOffset, SyslineP>;
-/// range map where key is sysline begin to end `[ Sysline.fileoffset_begin(), Sysline.fileoffset_end()]`
-/// and where value is sysline begin (`Sysline.fileoffset_begin()`). Use the value to lookup associated `Syslines` map
-type SyslinesRangeMap = RangeMap<FileOffset, FileOffset>;
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// DateTime typing, strings, and formatting
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 // DateTime typing
 
 /// DateTime formatting pattern, passed to `chrono::datetime_from_str`
+/// TODO: why did I choose `str` instead of `String`?
 type DateTimePattern_str = str;
 type DateTimePattern = String;
-/// DateTimePattern for searching a line (not the results)
-/// slice index begin, slice index end of entire datetime pattern
-/// slice index begin just the datetime, slice index end just the datetime
-/// TODO: why not define as a `struct` instead of a tuple?
-type DateTime_Parse_Data<'a> = (&'a DateTimePattern_str, LineIndex, LineIndex, LineIndex, LineIndex);
-type DateTime_Parse_Datas_ar<'a> = [DateTime_Parse_Data<'a>];
-type DateTime_Parse_Datas_vec<'a> = Vec<DateTime_Parse_Data<'a>>;
 /// return type for `SyslineReader::find_datetime_in_line`
 type Result_FindDateTime<'a> = Result<(DateTime_Parse_Data<'a>, DateTimeL)>;
 type Result_ParseDateTime = Result<(LineIndex, LineIndex, DateTimeL)>;
@@ -3462,55 +3660,19 @@ impl Result_Filter_DateTime2 {
     }
 }
 
-/// Specialized Reader that uses `LineReader` to find syslog lines
-pub struct SyslineReader<'syslinereader> {
-    linereader: LineReader<'syslinereader>,
-    /// Syslines by fileoffset_begin
-    syslines: Syslines,
-    // TODO: has `syslines_by_range` ever found a sysline?
-    //       would be good to add a test for it.
-    /// Syslines fileoffset by sysline fileoffset range, i.e. `[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`
-    /// the stored value can be used as a key for `self.syslines`
-    syslines_by_range: SyslinesRangeMap,
-    /// datetime formatting data, for extracting datetime strings from Lines
-    dt_patterns: DateTime_Parse_Datas_vec<'syslinereader>,
-    dt_patterns_counts: DateTime_Pattern_Counts<'syslinereader>,
-    // TODO: [2021/09/21] add efficiency stats
-    // TODO: get rid of LRU cache
-    /// internal LRU cache for `find_sysline`
-    _find_sysline_lru_cache: SyslinesLRUCache,
-}
 
-// TODO: [2021/09/19]
-//       put all filter data into one struct `SyslineFilter`, simpler to pass around
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// built-in Datetime formats
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-impl fmt::Debug for SyslineReader<'_> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("SyslineReader")
-            .field("linereader", &self.linereader)
-            .field("syslines", &self.syslines)
-            .finish()
-    }
-}
-
-/// quick debug helper
-#[allow(non_snake_case, dead_code)]
-fn debug_eprint_LRU_cache<K, V>(cache: &LruCache<K, V>)
-where
-    K: std::fmt::Debug,
-    K: std::hash::Hash,
-    K: Eq,
-    V: std::fmt::Debug,
-{
-    if !cfg!(debug_assertions) {
-        return;
-    }
-    debug_eprint!("[");
-    for (key, val) in cache.iter() {
-        debug_eprint!(" Key: {:?}, Value: {:?};", key, val);
-    }
-    debug_eprint!("]");
-}
+/// DateTimePattern for searching a line (not the results)
+/// slice index begin, slice index end of entire datetime pattern
+/// slice index begin just the datetime, slice index end just the datetime
+/// TODO: why not define as a `struct` instead of a tuple?
+/// TODO: why not use `String` type for the datetime pattern? I don't recall why I chose `str`.
+type DateTime_Parse_Data<'a> = (&'a DateTimePattern_str, LineIndex, LineIndex, LineIndex, LineIndex);
+//type DateTime_Parse_Datas_ar<'a> = [DateTime_Parse_Data<'a>];
+type DateTime_Parse_Datas_vec<'a> = Vec<DateTime_Parse_Data<'a>>;
 
 /// built-in datetime parsing patterns, these are all known patterns attempted on processed files
 /// first string is a chrono strftime pattern
@@ -3520,7 +3682,7 @@ where
 /// offset values are [X, Y) (beginning offset is inclusive, ending offset is exclusive or "one past")
 /// i.e. string `"[2000-01-01 00:00:00]"`, the pattern may begin at `"["`, the datetime begins at `"2"`
 ///      same rule for the endings.
-const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 51] = [
+const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 58] = [
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Ubuntu18/samba/log.10.7.190.134` (multi-line)
@@ -3616,23 +3778,7 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 51] = [
     //     012345678901234567890
     //     2019-05-23 16:53:43 <1> trenker(24689) [zypper] main.cc(main):74 ===== Hi, me zypper 1.14.27
     //
-    ("%Y-%m-%d %H:%M:%S ", 0, 20, 0, 19),
-    // ---------------------------------------------------------------------------------------------
-    //
-    // from file `./logs/debian9/apport.log.1`
-    // example with offset:
-    //
-    //               1         2         3         4         5
-    //     012345678901234567890123456789012345678901234567890
-    //     ERROR: apport (pid 9) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
-    //     ERROR: apport (pid 93) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
-    //     ERROR: apport (pid 935) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
-    //     ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
-    //
-    (" %a %b %d %H:%M:%S %Y:", 22, 47, 22, 46),
-    (" %a %b %d %H:%M:%S %Y:", 23, 48, 23, 47),
-    (" %a %b %d %H:%M:%S %Y:", 24, 49, 24, 48),
-    (" %a %b %d %H:%M:%S %Y:", 25, 50, 25, 49),
+    //("%Y-%m-%d %H:%M:%S ", 0, 20, 0, 19),
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -3749,7 +3895,55 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 51] = [
     //
     ("%Y%m%dT%H%M%S", 0, 15, 0, 15),
     // ---------------------------------------------------------------------------------------------
+    //
+    // from file `./logs/debian9/apport.log.1`
+    // example with offset:
+    //
+    //               1         2         3         4         5
+    //     012345678901234567890123456789012345678901234567890
+    //     ERROR: apport (pid 9) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
+    //     ERROR: apport (pid 93) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
+    //     ERROR: apport (pid 935) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
+    //     ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
+    //
+    (" %a %b %d %H:%M:%S %Y:", 22, 47, 22, 46),
+    (" %a %b %d %H:%M:%S %Y:", 23, 48, 23, 47),
+    (" %a %b %d %H:%M:%S %Y:", 24, 49, 24, 48),
+    (" %a %b %d %H:%M:%S %Y:", 25, 50, 25, 49),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890
+    //     INFO: Thu Feb 20 00:59:59 2020 info
+    //     ERROR: Thu Feb 20 00:59:59 2020 error
+    //     DEBUG: Thu Feb 20 00:59:59 2020 debug
+    //     VERBOSE: Thu Feb 20 00:59:59 2020 verbose
+    //
+    (" %a %b %d %H:%M:%S %Y ", 5, 31, 6, 30),
+    (" %a %b %d %H:%M:%S %Y ", 6, 32, 7, 31),
+    (" %a %b %d %H:%M:%S %Y ", 7, 33, 8, 32),
+    (" %a %b %d %H:%M:%S %Y ", 8, 34, 9, 33),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890
+    //     INFO: Sat Jan 01 2000 08:00:00 info
+    //     WARN: Sat Jan 01 2000 08:00:00 warn
+    //     ERROR: Sat Jan 01 2000 08:00:00 error
+    //     DEBUG: Sat Jan 01 2000 08:00:00 debug
+    //     VERBOSE: Sat Jan 01 2000 08:00:00 verbose
+    //
+    (" %a %b %d %Y %H:%M:%S ", 5, 31, 6, 30),
+    (" %a %b %d %Y %H:%M:%S ", 6, 32, 7, 31),
+    (" %a %b %d %Y %H:%M:%S ", 7, 33, 8, 32),
+    (" %a %b %d %Y %H:%M:%S ", 8, 34, 9, 33),
+    // ---------------------------------------------------------------------------------------------
 ];
+// TODO: [2022/03/24] add timestamp formats seen at https://www.unixtimestamp.com/index.php
 
 lazy_static! {
     static ref DATETIME_PARSE_DATAS_VEC: DateTime_Parse_Datas_vec<'static> =
@@ -3780,10 +3974,140 @@ fn test_DATETIME_PARSE_DATAS() {
     // check for duplicates
     let mut check = DATETIME_PARSE_DATAS_VEC.clone();
     check.sort_unstable();
+    let check_orig = check.clone();
     check.dedup();
     //let check: DateTime_Parse_Datas_vec = DATETIME_PARSE_DATAS.into_iter().unique().collect();
-    assert_eq!(check.len(), DATETIME_PARSE_DATAS.len(), "the deduplicated DATETIME_PARSE_DATAS_VEC is different len than original; there are duplicates in DATETIME_PARSE_DATAS_VEC");
+    if check.len() != DATETIME_PARSE_DATAS.len() {
+        for (i, (co, cd)) in check_orig.iter().zip(check.iter()).enumerate() {
+            debug_eprintln!("entry {} {:?} {:?}", i, co, cd);
+        }
+        for (co, cd) in check_orig.iter().zip(check.iter()) {
+            assert_eq!(co, cd, "entry {:?} appears to be a duplicate", co);
+        }
+    };
+    assert_eq!(check.len(), DATETIME_PARSE_DATAS.len(), "the deduplicated DATETIME_PARSE_DATAS_VEC is different len than original; there are duplicates in DATETIME_PARSE_DATAS_VEC but the test could not determine which entry.");
 }
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Summary
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// interesting statistics collected by a `SyslineReader` during it's processing of a file
+#[derive(Copy, Clone)]
+pub struct Summary {
+    /// count of bytes stored by `BlockReader`
+    pub bytes: u64,
+    /// count of `Block`
+    pub blocks: u64,
+    /// `BlockSz` of `BlockReader`
+    pub blocksz: BlockSz,
+    /// count of `Lines`
+    pub lines: u64,
+    /// count of `Syslines`
+    pub syslines: u64,
+}
+
+impl Summary {
+    pub fn new(
+        bytes: u64, blocks: u64, blocksz: BlockSz, lines: u64, syslines: u64,
+    ) -> Summary {
+        // some sanity checks
+        assert_ge!(bytes, blocks, "There is less bytes than Blocks");
+        assert_ge!(bytes, lines, "There is less bytes than Lines");
+        assert_ge!(bytes, lines, "There is less bytes than Syslines");
+        assert_ge!(blocksz, BLOCKSZ_MIN, "blocksz too small");
+        assert_le!(blocksz, BLOCKSZ_MAX, "blocksz too big");
+        assert_ge!(lines, syslines, "There is less Lines than Syslines");
+        Summary {
+            bytes,
+            blocks,
+            blocksz,
+            lines,
+            syslines,
+        }
+    }
+}
+
+// define my own `Debug` just for the ':'
+impl fmt::Debug for Summary {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.debug_struct("Summary:")
+            .field("bytes", &self.bytes)
+            .field("blocksz", &self.blocksz)
+            .field("blocks", &self.blocks)
+            .field("lines", &self.lines)
+            .field("syslines", &self.syslines)
+            .finish()
+    }
+}
+
+type Summary_Opt = Option<Summary>;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// SyslineReader
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// thread-safe Atomic Reference Counting Pointer to a `Sysline`
+type SyslineP = Arc<Sysline>;
+type SyslineP_Opt = Option<Arc<Sysline>>;
+/// storage for `Sysline`
+type Syslines = BTreeMap<FileOffset, SyslineP>;
+/// range map where key is sysline begin to end `[ Sysline.fileoffset_begin(), Sysline.fileoffset_end()]`
+/// and where value is sysline begin (`Sysline.fileoffset_begin()`). Use the value to lookup associated `Syslines` map
+type SyslinesRangeMap = RangeMap<FileOffset, FileOffset>;
+
+/// Specialized Reader that uses `LineReader` to find syslog lines
+pub struct SyslineReader<'syslinereader> {
+    linereader: LineReader<'syslinereader>,
+    /// Syslines by fileoffset_begin
+    syslines: Syslines,
+    /// count of Syslines processed
+    syslines_count: u64,
+    // TODO: has `syslines_by_range` ever found a sysline?
+    //       would be good to add a test for it.
+    /// Syslines fileoffset by sysline fileoffset range, i.e. `[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`
+    /// the stored value can be used as a key for `self.syslines`
+    syslines_by_range: SyslinesRangeMap,
+    /// datetime formatting data, for extracting datetime strings from Lines
+    dt_patterns: DateTime_Parse_Datas_vec<'syslinereader>,
+    dt_patterns_counts: DateTime_Pattern_Counts<'syslinereader>,
+    // TODO: [2021/09/21] add efficiency stats
+    // TODO: get rid of LRU cache
+    /// internal LRU cache for `find_sysline`
+    _find_sysline_lru_cache: SyslinesLRUCache,
+}
+
+// TODO: [2021/09/19]
+//       put all filter data into one struct `SyslineFilter`, simpler to pass around
+
+impl fmt::Debug for SyslineReader<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("SyslineReader")
+            .field("linereader", &self.linereader)
+            .field("syslines", &self.syslines)
+            .finish()
+    }
+}
+
+/// quick debug helper
+#[allow(non_snake_case, dead_code)]
+fn debug_eprint_LRU_cache<K, V>(cache: &LruCache<K, V>)
+where
+    K: std::fmt::Debug,
+    K: std::hash::Hash,
+    K: Eq,
+    V: std::fmt::Debug,
+{
+    if !cfg!(debug_assertions) {
+        return;
+    }
+    debug_eprint!("[");
+    for (key, val) in cache.iter() {
+        debug_eprint!(" Key: {:?}, Value: {:?};", key, val);
+    }
+    debug_eprint!("]");
+}
+
 
 /// implement SyslineReader things
 impl<'syslinereader> SyslineReader<'syslinereader> {
@@ -3800,6 +4124,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         Ok(SyslineReader {
             linereader: lr,
             syslines: Syslines::new(),
+            syslines_count: 0,
             syslines_by_range: SyslinesRangeMap::new(),
             _find_sysline_lru_cache: SyslinesLRUCache::new(4),
             dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX),
@@ -3854,6 +4179,11 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         self.linereader._charsz
     }
 
+    /// count of `Sysline`s processed
+    pub fn count(&self) -> u64 {
+        self.syslines_count
+    }
+
     /// Testing helper only
     pub fn print(&self, fileoffset: FileOffset, raw: bool) {
         let syslinep: &SyslineP = match self.syslines.get(&fileoffset) {
@@ -3896,6 +4226,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let slp = SyslineP::new(line);
         debug_eprintln!("{}SyslineReader.insert_sysline: syslines.insert({}, Sysline @{:p})", so(), fo_beg, &*slp);
         self.syslines.insert(fo_beg, slp.clone());
+        self.syslines_count += 1;
         // XXX: multi-byte character
         let fo_end1 = fo_end + (self.charsz() as FileOffset);
         debug_eprintln!(
@@ -4067,7 +4398,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 so(),
                 i,
                 pattern,
-                str_to_nonraw_String(dts),
+                str_to_String_noraw(dts),
                 beg_i,
                 end_i,
                 line.to_String_noraw(),
@@ -4085,7 +4416,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                         so(),
                         i,
                         pattern,
-                        str_to_nonraw_String(dts),
+                        str_to_String_noraw(dts),
                         beg_i,
                         end_i,
                         val,
@@ -4677,7 +5008,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                                 fo_b,
                                 fo_a
                             );
-                            assert_le!(fo_a, fo_b, "Unexpected values for fo_a {} fo_b {}", fo_a, fo_b);
+                            assert_le!(fo_a, fo_b, "Unexpected values for fo_a {} fo_b {} FPath {:?}", fo_a, fo_b, self.path());
                             try_fo = fo_a + ((fo_b - fo_a) / 2);
                         } // end OccursAtOrAfter
                         Result_Filter_DateTime1::OccursBefore => {
@@ -4685,9 +5016,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                             // i.e. move begin marker `fo_a` forthward
                             debug_eprintln!("{}{}: OccursBefore =>    fo {} fo_last {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", so(), _fname, fo, fo_last, try_fo, try_fo_last, fo_a, fo_b, fo_end);
                             let slp_foe = (*slp).fileoffset_end();
-                            assert_le!(slp_foe, fo, "unexpected values (*SyslineP).fileoffset_end() {}, fileoffset returned by find_sysline {}", slp_foe, fo);
+                            assert_le!(slp_foe, fo, "unexpected values (*SyslineP).fileoffset_end() {}, fileoffset returned by find_sysline {} FPath {:?}", slp_foe, fo, self.path());
                             try_fo_last = try_fo;
-                            assert_le!(try_fo_last, slp_foe, "Unexpected values try_fo_last {} slp_foe {}, last tried offset (passed to self.find_sysline) is beyond returned sysline.fileoffset_end()!?", try_fo_last, slp_foe);
+                            assert_le!(try_fo_last, slp_foe, "Unexpected values try_fo_last {} slp_foe {}, last tried offset (passed to self.find_sysline) is beyond returned sysline.fileoffset_end()!? FPath {:?}", try_fo_last, slp_foe, self.path());
                             debug_eprintln!(
                                 "{}{}:                    ∴ fo_a = min(slp_foe {}, fo_b {});",
                                 so(),
@@ -4973,7 +5304,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// convenience wrapper for `dt_after_or_before`
     pub fn sysline_dt_after_or_before(syslinep: &SyslineP, dt_filter: &DateTimeL_Opt) -> Result_Filter_DateTime1 {
         debug_eprintln!("{}sysline_dt_after_or_before(SyslineP@{:p}, {:?})", snx(), &*syslinep, dt_filter,);
-        assert!((*syslinep).dt.is_some(), "Sysline @{:p} does not have a datetime set.", &*syslinep);
+        assert!((*syslinep).dt.is_some(), "Sysline@{:p} does not have a datetime set.", &*syslinep);
 
         let dt = (*syslinep).dt.unwrap();
         return Self::dt_after_or_before(&dt, dt_filter);
@@ -5066,7 +5397,20 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         debug_eprintln!("{}sysline_pass_filters(…) return {:?};", sx(), result);
         return result;
     }
+
+    fn summary(&self) -> Summary {
+        let bytes = self.linereader.blockreader.count_bytes();
+        let blocks = self.linereader.blockreader.count();
+        let blocksz = self.blocksz();
+        let lines = self.linereader.count();
+        let syslines = self.count();
+        return Summary::new(bytes, blocks, blocksz, lines, syslines);
+    }
 }
+
+/// thread-safe Atomic Reference Counting Pointer to a `SyslineReader`
+/// XXX: should the `&` be removed? (completely move the SyslineReader?)
+type SyslineReaderP<'syslinereader> = Arc<&'syslinereader SyslineReader<'syslinereader>>;
 
 #[test]
 fn test_datetime_from_str_workaround_Issue660() {
@@ -5208,14 +5552,14 @@ fn __test_find_sysline_at_datetime_filter(
                 panic!("ERROR: datetime_from_str({:?}, {:?}) returned {}", dts, dt_pattern, err);
             }
         };
-        debug_eprintln!("{}Ok: dts {:?}", so(), str_to_nonraw_String(dts));
-        let sline_expect_noraw = str_to_nonraw_String(sline_expect);
+        debug_eprintln!("{}Ok: dts {:?}", so(), str_to_String_noraw(dts));
+        let sline_expect_noraw = str_to_String_noraw(sline_expect);
         debug_eprintln!("{}find_sysline_at_datetime_filter({}, {:?})", so(), fo1, dt);
         let result = slr.find_sysline_at_datetime_filter(*fo1, &Some(dt));
         match result {
             ResultS4_SyslineFind::Found(val) | ResultS4_SyslineFind::Found_EOF(val) => {
                 let sline = val.1.to_String();
-                let sline_noraw = str_to_nonraw_String(sline.as_str());
+                let sline_noraw = str_to_String_noraw(sline.as_str());
                 debug_eprintln!("\nexpected: {:?}", sline_expect_noraw);
                 debug_eprintln!("returned: {:?}\n", sline_noraw);
                 //print_colored(Color::Yellow, format!("expected: {}\n", sline_expect_noraw).as_bytes());
@@ -6651,7 +6995,7 @@ fn print_slp(slp: &SyslineP) {
 #[cfg(test)]
 type _test_SyslineReader_check<'a> = (&'a str, FileOffset);
 #[cfg(test)]
-type _test_SyslineReader_checks<'a> = Vec::<(&'a str, FileOffset)>;
+type _test_SyslineReader_checks<'a> = Vec<(&'a str, FileOffset)>;
 
 /// basic test of SyslineReader things
 #[allow(non_snake_case)]
@@ -6933,7 +7277,7 @@ fn test_SyslineReader_w_filtering_1(
     );
 
     if cfg!(debug_assertions) {
-        let s1 = file_to_nonraw_String(path);
+        let s1 = file_to_String_noraw(path);
         #[allow(unused_must_use)]
         match print_colored(Color::Yellow, s1.as_bytes()) { _ => {}, };
         println!();
@@ -6978,7 +7322,7 @@ fn test_SyslineReader_w_filtering_1(
                     .linereader
                     .blockreader
                     ._vec_from(fo1, std::cmp::min(fo1 + 40, filesz));
-                match print_colored(Color::Yellow, buffer_to_nonraw_String(snippet.as_slice()).as_bytes())
+                match print_colored(Color::Yellow, buffer_to_String_noraw(snippet.as_slice()).as_bytes())
                      { _ => {}, };
                 print!("' ");
                 //print_slp(&slp);
@@ -7307,6 +7651,7 @@ use std::thread;
 
 // -------------------------------------------------------------------------------------------------
 // threading try #1
+// using rust built-in
 // -------------------------------------------------------------------------------------------------
 
 /// Thread Handle
@@ -7427,44 +7772,10 @@ fn test_threading_1() {
 
 // -------------------------------------------------------------------------------------------------
 // threading try #2
+// using crate rayon
 // -------------------------------------------------------------------------------------------------
 
-extern crate rayon;
-
-/// testing helper
-#[cfg(test)]
-fn exec2(path: FPath) -> i32 {
-    let r_ = rand::random::<i32>();
-    debug_eprintln!("exec2 {:?} {}", path, r_);
-    //return 33;
-    return r_;
-}
-
-// based on
-// https://pkolaczk.github.io/multiple-threadpools-rust/
-#[cfg(test)]
-fn test_threading_2() {
-    debug_eprintln!("{}test_threading_2()", sn());
-
-    let pool = rayon::ThreadPoolBuilder::new().num_threads(4).build().unwrap();
-    let files: Vec<String> = Vec::<String>::from([
-        String::from("./logs/other/tests/basic-basic-dt20.log"),
-        String::from("./logs/other/tests/basic-basic-dt30-repeats-longlines.log"),
-        String::from("./logs/other/tests/basic-dt5.log"),
-    ]);
-    let (tx, rx) = std::sync::mpsc::channel();
-    for f in files.into_iter() {
-        let tx = tx.clone();
-        pool.spawn(move || {
-            tx.send(exec2(f)).unwrap();
-        });
-    }
-    drop(tx); // need to close all senders, otherwise...
-    let hashes: Vec<i32> = rx.into_iter().collect(); // ... this would block
-    debug_eprintln!("{}hashes {:?}", so(), hashes);
-
-    debug_eprintln!("{}test_threading_2()", sx());
-}
+// REMOVED ... see archived code
 
 // -------------------------------------------------------------------------------------------------
 
@@ -7571,304 +7882,28 @@ fn test_datetime_soonest2() {
 // threading try #3
 // -------------------------------------------------------------------------------------------------
 
-/*
-type Share_Stdout = Arc<Mutex<i32>>;
-
-fn print_slp_color_guarded(mutex_stdout: &Share_Stdout, slp: &SyslineP, color: &Color) {
-    let slices = (*slp).get_slices();
-    let vigil = mutex_stdout.lock().unwrap();
-    for slice in slices.iter() {
-        #[allow(unused_must_use)]
-        match print_colored(color.clone(), slice) { _ => {}, };
-    }
-    println!();
-    drop(vigil);
-}
-*/
-
-type Thread_Init_Data = (FPath, BlockSz, DateTimeL_Opt, DateTimeL_Opt);
-type Is_SLP_Last = bool;
-type SLP_Last = (SyslineP, Is_SLP_Last);
-type Chan_Send_SLP = crossbeam_channel::Sender<SLP_Last>;
-type Chan_Recv_SLP = crossbeam_channel::Receiver<SLP_Last>;
-
-#[allow(dead_code)]
-fn exec_3(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> thread::ThreadId {
-    stack_offset_set(None);
-    debug_eprintln!("{}exec_3(…)", sn());
-    let (path, blocksz, filter_dt_after_opt, filter_dt_before_opt) = thread_init_data;
-    let tid = thread::current().id();
-
-    let mut slr = match SyslineReader::new(&path, blocksz) {
-        Ok(val) => val,
-        Err(err) => {
-            eprintln!("ERROR: SyslineReader::new({:?}, {}) failed {}", path, blocksz, err);
-            return tid;
-        }
-    };
-
-    // find and print first sysline acceptable to the passed filters
-    let mut fo1: FileOffset = 0;
-    let mut search_more = true;
-    let result = slr.find_sysline_at_datetime_filter(fo1, &filter_dt_after_opt);
-    match result {
-        ResultS4_SyslineFind::Found((fo, slp)) => {
-            let is_last = slr.is_sysline_last(&slp);
-            fo1 = fo;
-            debug_eprintln!("thread {:?}:A chan_send_dt.send(…);", tid);
-            match chan_send_dt.send((slp, is_last)) {
-                Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: A chan_send_dt.send((slp.clone(), is_last)) failed {}", err);
-                }
-            }
-        }
-        ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
-            let is_last = slr.is_sysline_last(&slp);
-            debug_eprintln!("thread {:?}:B chan_send_dt.send(…);", tid);
-            match chan_send_dt.send((slp, is_last)) {
-                Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: B chan_send_dt.send((slp.clone(), is_last)) failed {}", err);
-                }
-            }
-            search_more = false;
-        }
-        ResultS4_SyslineFind::Done => {
-            search_more = false;
-        }
-        ResultS4_SyslineFind::Err(err) => {
-            eprintln!("ERROR: {}", err);
-            search_more = false;
-        }
-    }
-    if !search_more {
-        debug_eprintln!("{}exec_3(…)", sx());
-        return tid;
-    }
-    // print all proceeding syslines acceptable to the passed filters
-    let mut fo2: FileOffset = fo1;
-    loop {
-        let result = slr.find_sysline(fo2);
-        let eof = result.is_eof();
-        match result {
-            ResultS4_SyslineFind::Found((fo, slp)) | ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
-                fo2 = fo;
-                match SyslineReader::sysline_pass_filters(&slp, &filter_dt_after_opt, &filter_dt_before_opt) {
-                    Result_Filter_DateTime2::OccursBeforeRange | Result_Filter_DateTime2::OccursAfterRange => {
-                        continue;
-                    }
-                    Result_Filter_DateTime2::OccursInRange => {
-                        let is_last = slr.is_sysline_last(&slp);
-                        debug_eprintln!("thread {:?}:C chan_send_dt.send(…);", tid);
-                        match chan_send_dt.send((slp, is_last)) {
-                            Ok(_) => {}
-                            Err(err) => {
-                                eprintln!("ERROR: C chan_send_dt.send((slp.clone(), is_last)) failed {}", err);
-                            }
-                        }
-                    }
-                }
-                if eof {
-                    break;
-                }
-            }
-            ResultS4_SyslineFind::Done => {
-                break;
-            }
-            ResultS4_SyslineFind::Err(err) => {
-                eprintln!("ERROR: {}", err);
-                break;
-            }
-        }
-    }
-
-    debug_eprintln!("{}exec_3(…)", sx());
-    return tid;
-}
-
-/// basic threading implementation. Satisfies multi-threaded milestone.
-/// TODO: [2021/10/03] put this into a proper function or struct, clean it up.
-#[allow(dead_code)]
-fn basic_threading_3(
-    paths: &Vec<FPath>, blocksz: BlockSz, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
-) {
-    debug_eprintln!("{}basic_threading_3()", sn());
-
-    let queue_sz_dt: usize = 10;
-    let file_count = paths.len();
-
-    //
-    // create a single ThreadPool with one thread per path
-    //
-    let pool = rayon::ThreadPoolBuilder::new().num_threads(file_count).build().unwrap();
-    //
-    // prepare per-thread data
-    // create necessary channels for each thread
-    // launch each thread
-    //
-    //type Map_Path_Chan_Recv_SLP = HashMap::<&FPath, Chan_Recv_SLP>;
-    let mut map_path_recv_dt = HashMap::<&FPath, Chan_Recv_SLP>::with_capacity(file_count);
-    let mut map_path_color = HashMap::<&FPath, Color>::with_capacity(file_count);
-    // XXX: are these channels necessary?
-    let (chan_send_1, chan_recv_1) = std::sync::mpsc::channel();
-    for fpath in paths.iter() {
-        let thread_data: Thread_Init_Data =
-            (fpath.clone(), blocksz, filter_dt_after_opt.clone(), filter_dt_before_opt.clone());
-        let (chan_send_dt, chan_recv_dt): (Chan_Send_SLP, Chan_Recv_SLP) = crossbeam_channel::bounded(queue_sz_dt);
-        map_path_recv_dt.insert(fpath, chan_recv_dt);
-        map_path_color.insert(fpath, color_rand());
-        let chan_send_1_thrd = chan_send_1.clone();
-        // XXX: how to name the threads?
-        pool.spawn(move || match chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) {
-            Ok(_) => {}
-            Err(err) => {
-                eprintln!("ERROR: chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) failed {}", err);
-            }
-        });
-    }
-
-    // XXX: is this needed?
-    debug_eprintln!("{}drop({:?});", so(), chan_send_1);
-    drop(chan_send_1); // close sender so chan.into_iter.collect does not block
-
-    type Map_Path_SLP = BTreeMap<FPath, SLP_Last>;
-
-    /// run `.recv` on many Receiver channels simultaneously with the help of `crossbeam_channel::Select`
-    /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
-    /// XXX: I would like to return a `&FPath` to avoid one `FPath.clone()` but it causes
-    ///      compiler error about mutable and immutable borrows of `map_path_slp` occurring simultaneously
-    ///          cannot borrow `map_path_slp` as mutable because it is also borrowed as immutable
-    fn recv_many_chan(
-        fpath_chans: &HashMap<&FPath, Chan_Recv_SLP>, filter_: &Map_Path_SLP,
-    ) -> (FPath, std::result::Result<SLP_Last, crossbeam_channel::RecvError>) {
-        debug_eprintln!("{}recv_many_chan();", sn());
-        // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures
-        let mut imap = Vec::<(&FPath, &Chan_Recv_SLP)>::with_capacity(fpath_chans.len());
-        // Build a list of operations
-        let mut select = crossbeam_channel::Select::new();
-        for fp_chan in fpath_chans.iter() {
-            // if there is already a DateTime "on hand" for the given fpath then
-            // skip receiving on the associated channel
-            if filter_.contains_key(*fp_chan.0) {
-                continue;
-            }
-            imap.push((fp_chan.0, fp_chan.1));
-            debug_eprintln!("{}select.recv({:?});", so(), fp_chan.1);
-            // load `select` with `recv` operations, to be run during later `.select()`
-            select.recv(fp_chan.1);
-        }
-        assert_gt!(imap.len(), 0, "No recv operations to select on");
-        debug_eprintln!("{}v: {:?}", so(), imap);
-        // Do the `select` operation
-        let soper = select.select();
-        // get the index of the chosen "winner" of the `select` operation
-        let index = soper.index();
-        debug_eprintln!("{}soper.recv(&v[{:?}]);", so(), index);
-        let fpath = imap[index].0;
-        let chan = &imap[index].1;
-        debug_eprintln!("{}chan: {:?}", so(), chan);
-        // Get the result of the `recv` done during `select`
-        let result = soper.recv(chan);
-        debug_eprintln!("{}recv_many_chan() return ({:?}, {:?});", sx(), fpath, result);
-        return (fpath.clone(), result);
-    }
-
-    //
-    // main coordination loop (e.g. "main game loop")
-    // process the "receiving sysline" channels from the running threads
-    // print the soonest available sysline
-    //
-
-    // XXX: BTreeMap does not implement `with_capacity`
-    let mut map_path_slp = Map_Path_SLP::new();
-    // crude debugging stats
-    let mut _count_recv_ok: usize = 0;
-    let mut _count_recv_di: usize = 0;
-    loop {
-        let mut disconnected = Vec::<FPath>::with_capacity(map_path_recv_dt.len());
-        // if there is a DateTime "on hand" for every FPath channel (one channel is one FPath) then
-        // they can all be compared, and the soonest DateTime selected then printed
-        if map_path_recv_dt.len() == map_path_slp.len() {
-            let mut fp1: FPath = FPath::new();
-            // XXX: arbitrary code block here to allow later `map_path_slp.remove`;
-            //      hacky workaround for a difficult error:
-            //          "cannot borrow `map_path_slp` as mutable more than once at a time"
-            {
-                // XXX: my small investigation into `min`, `max`, `min_by`, `max_by`
-                //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33
-                let (fpath_min, slp_min, is_last) =
-                    match map_path_slp.iter_mut().min_by(|x, y| x.1 .0.dt.cmp(&y.1 .0.dt)) {
-                        Some(val) => (val.0, &val.1 .0, val.1 .1),
-                        None => {
-                            eprintln!("map_path_slp.iter().min_by returned None");
-                            // XXX: not sure what else to do here
-                            continue;
-                        }
-                    };
-                // print the sysline!
-                if cfg!(debug_assertions) {
-                    let out = fpath_min.to_string()
-                        + &String::from(": ")
-                        + &(slp_min.to_String_noraw())
-                        + &String::from("\n");
-                    let clr: Color = map_path_color.get(fpath_min).unwrap().clone();
-                    match print_colored(clr, out.as_bytes()) { _ => {}, };
-                    if is_last {
-                        write_stdout(&NLu8a);
-                    }
-                } else {
-                    (*slp_min).print2();
-                    if is_last {
-                        write_stdout(&NLu8a);
-                    }
-                }
-                fp1 = (*fpath_min).clone();
-            }
-            assert!(!fp1.is_empty(), "Empty filepath");
-            map_path_slp.remove(&fp1);
-        } else {
-            // else waiting on a (datetime, syslinep) from a file
-            let (fp1, result1) = recv_many_chan(&map_path_recv_dt, &map_path_slp);
-            match result1 {
-                Ok(slp_last) => {
-                    debug_eprintln!("{}crossbeam_channel::Found for FPath {:?};", so(), fp1);
-                    map_path_slp.insert(fp1, slp_last);
-                    _count_recv_ok += 1;
-                }
-                Err(crossbeam_channel::RecvError) => {
-                    debug_eprintln!("{}crossbeam_channel::RecvError for FPath {:?};", so(), fp1);
-                    disconnected.push(fp1);
-                    _count_recv_di += 1;
-                }
-            }
-        }
-        // remove channels that have been disconnected
-        for fpath in disconnected.into_iter() {
-            debug_eprintln!("{}map_path_recv_dt.remove({:?});", so(), fpath);
-            map_path_recv_dt.remove(&fpath);
-        }
-        // are there any channels to receive from?
-        if map_path_recv_dt.is_empty() {
-            debug_eprintln!("{}map_path_recv_dt.is_empty();", so());
-            break;
-        }
-        debug_eprintln!("{}map_path_recv_dt: {:?}", so(), map_path_recv_dt);
-        debug_eprintln!("{}map_path_slp: {:?}", so(), map_path_slp);
-    } // loop
-
-    debug_eprintln!("{}_count_recv_ok {:?} _count_recv_di {:?}", so(), _count_recv_ok, _count_recv_di);
-    debug_eprintln!("{}basic_threading_3()", sx());
-}
+// REMOVED ... see archived code
 
 // -------------------------------------------------------------------------------------------------
 // threading try #4
 // -------------------------------------------------------------------------------------------------
 
-fn exec_4(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> thread::ThreadId {
+// TODO: leave a long code comment explaining  why I chose this threading pub-sub apprach
+//       see old archived code to see previous attempts
+
+type Thread_Init_Data4 = (FPath, BlockSz, DateTimeL_Opt, DateTimeL_Opt);
+type IsSyslineLast = bool;
+type Chan_Datum = (SyslineP_Opt, Summary_Opt, IsSyslineLast);
+type Chan_Send_Datum = crossbeam_channel::Sender<Chan_Datum>;
+type Chan_Recv_Datum = crossbeam_channel::Receiver<Chan_Datum>;
+type Map_FPath_Datum = BTreeMap<FPath, Chan_Datum>;
+
+/// thread entry point for processing a file
+/// this creates `SyslineReader` and process the `Syslines`
+fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) -> thread::ThreadId {
     stack_offset_set(None);
-    debug_eprintln!("{}exec_4(…)", sn());
     let (path, blocksz, filter_dt_after_opt, filter_dt_before_opt) = thread_init_data;
+    debug_eprintln!("{}exec_4({:?})", sn(), path);
     let tid = thread::current().id();
 
     let mut slr = match SyslineReader::new(&path, blocksz) {
@@ -7885,23 +7920,23 @@ fn exec_4(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> th
     let result = slr.find_sysline_at_datetime_filter(fo1, &filter_dt_after_opt);
     match result {
         ResultS4_SyslineFind::Found((fo, slp)) => {
-            let is_last = slr.is_sysline_last(&slp);
             fo1 = fo;
-            debug_eprintln!("thread {:?}:A chan_send_dt.send(…);", tid);
-            match chan_send_dt.send((slp, is_last)) {
+            let is_last = slr.is_sysline_last(&slp);
+            debug_eprintln!("{}thread {:?}: Found, chan_send_dt.send({:p}, None, {});", so(), tid, slp, is_last);
+            match chan_send_dt.send((Some(slp), None, is_last)) {
                 Ok(_) => {}
                 Err(err) => {
-                    eprintln!("ERROR: A chan_send_dt.send((slp.clone(), is_last)) failed {}", err);
+                    eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
                 }
             }
         }
-        ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
+        ResultS4_SyslineFind::Found_EOF((_, slp)) => {
             let is_last = slr.is_sysline_last(&slp);
-            debug_eprintln!("thread {:?}:B chan_send_dt.send(…);", tid);
-            match chan_send_dt.send((slp, is_last)) {
+            debug_eprintln!("{}thread {:?}: Found_EOF, chan_send_dt.send(({:p}, None, {}));", so(), tid, slp, is_last);
+            match chan_send_dt.send((Some(slp), None, is_last)) {
                 Ok(_) => {}
                 Err(err) => {
-                    eprintln!("ERROR: B chan_send_dt.send((slp.clone(), is_last)) failed {}", err);
+                    eprintln!("ERROR: B chan_send_dt.send(…) failed {}", err);
                 }
             }
             search_more = false;
@@ -7910,12 +7945,22 @@ fn exec_4(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> th
             search_more = false;
         }
         ResultS4_SyslineFind::Err(err) => {
-            eprintln!("ERROR: {}", err);
+            debug_eprintln!("{}thread {:?}: find_sysline_at_datetime_filter returned Err({:?});", so(), tid, err);
+            eprintln!("ERROR: SyslineReader@{:p}.find_sysline_at_datetime_filter({}, {:?}) {}", &slr, fo1, filter_dt_after_opt, err);
             search_more = false;
         }
     }
     if !search_more {
-        debug_eprintln!("{}exec_3(…)", sx());
+        let summary_opt = Some(slr.summary());
+        let is_last = false;  // XXX: is_last does not matter here
+        debug_eprintln!("{}thread {:?}: !search_more chan_send_dt.send((None, {:?}, {}));", so(), tid, summary_opt, is_last);
+        match chan_send_dt.send((None, summary_opt, is_last)) {
+            Ok(_) => {}
+            Err(err) => {
+                eprintln!("ERROR: C chan_send_dt.send(…) failed {}", err);
+            }
+        }
+        debug_eprintln!("{}exec_4({:?})", sx(), path);
         return tid;
     }
     // find all proceeding syslines acceptable to the passed filters
@@ -7932,11 +7977,11 @@ fn exec_4(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> th
                     }
                     Result_Filter_DateTime2::OccursInRange => {
                         let is_last = slr.is_sysline_last(&slp);
-                        debug_eprintln!("thread {:?}:C chan_send_dt.send(…);", tid);
-                        match chan_send_dt.send((slp, is_last)) {
+                        debug_eprintln!("{}thread {:?}: OccursInRange, chan_send_dt.send(({:p}, None, {}));", so(), tid, slp, is_last);
+                        match chan_send_dt.send((Some(slp), None, is_last)) {
                             Ok(_) => {}
                             Err(err) => {
-                                eprintln!("ERROR: C chan_send_dt.send((slp.clone(), is_last)) failed {}", err);
+                                eprintln!("ERROR: D chan_send_dt.send(…) failed {}", err);
                             }
                         }
                     }
@@ -7949,20 +7994,32 @@ fn exec_4(chan_send_dt: Chan_Send_SLP, thread_init_data: Thread_Init_Data) -> th
                 break;
             }
             ResultS4_SyslineFind::Err(err) => {
-                eprintln!("ERROR: {}", err);
+                debug_eprintln!("{}thread {:?}: find_sysline_at_datetime_filter returned Err({:?});", so(), tid, err);
+                eprintln!("ERROR: SyslineReader@{:p}.find_sysline({}) {}", &slr, fo2, err);
                 break;
             }
         }
     }
 
-    debug_eprintln!("{}exec_4(…)", sx());
+    let summary = slr.summary();
+    let is_last = false;  // XXX: is_last should not matter here
+    debug_eprintln!("{}thread {:?}: last chan_send_dt.send((None, {:?}, {}));", so(), tid, summary, is_last);
+    match chan_send_dt.send((None, Some(summary), is_last)) {
+        Ok(_) => {}
+        Err(err) => {
+            eprintln!("ERROR: E chan_send_dt.send(…) failed {}", err);
+        }
+    }
+
+    debug_eprintln!("{}exec_4({:?})", sx(), path);
     return tid;
 }
 
-fn test_threading_4(
+/// TODO: replace `paths &Vec<FPath>` type to be a unique set `&HashSet<FPath>` or the like
+fn run_4(
     paths: &Vec<FPath>, blocksz: BlockSz, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
 ) {
-    debug_eprintln!("{}test_threading_4()", sn());
+    debug_eprintln!("{}run_4()", sn());
 
     let queue_sz_dt: usize = 10;
     let file_count = paths.len();
@@ -7970,51 +8027,55 @@ fn test_threading_4(
     //
     // create a single ThreadPool with one thread per path
     //
-    debug_eprintln!("{}test_threading_4: rayon::ThreadPoolBuilder::new().num_threads({}).build()", so(), file_count);
+    debug_eprintln!("{}run_4: rayon::ThreadPoolBuilder::new().num_threads({}).build()", so(), file_count);
     let pool = rayon::ThreadPoolBuilder::new().num_threads(file_count).build().unwrap();
+
     //
-    // prepare per-thread data
+    // prepare per-thread data keyed by `FPath`
     // create necessary channels for each thread
     // launch each thread
     //
-    //type Map_Path_Chan_Recv_SLP = HashMap::<&FPath, Chan_Recv_SLP>;
-    let mut map_path_recv_dt = HashMap::<&FPath, Chan_Recv_SLP>::with_capacity(file_count);
+    let mut map_path_recv_dt = HashMap::<&FPath, Chan_Recv_Datum>::with_capacity(file_count);
     let mut map_path_color = HashMap::<&FPath, Color>::with_capacity(file_count);
+    let mut map_path_summary = HashMap::<FPath, Summary>::with_capacity(file_count);
+    let color_datetime: Color = COLOR_DATETIME;
+
     // XXX: are these channels necessary?
     let (chan_send_1, chan_recv_1) = std::sync::mpsc::channel();
     for fpath in paths.iter() {
-        let thread_data: Thread_Init_Data =
+        let thread_data: Thread_Init_Data4 =
             (fpath.clone(), blocksz, filter_dt_after_opt.clone(), filter_dt_before_opt.clone());
-        let (chan_send_dt, chan_recv_dt): (Chan_Send_SLP, Chan_Recv_SLP) = crossbeam_channel::bounded(queue_sz_dt);
+        let (chan_send_dt, chan_recv_dt): (Chan_Send_Datum, Chan_Recv_Datum) = crossbeam_channel::bounded(queue_sz_dt);
         map_path_recv_dt.insert(fpath, chan_recv_dt);
         map_path_color.insert(fpath, color_rand());
-        let chan_send_1_thrd = chan_send_1.clone();
-        // XXX: how to name the threads?
-        pool.spawn(move || match chan_send_1_thrd.send(exec_4(chan_send_dt, thread_data)) {
+        let chan_send_1_thread = chan_send_1.clone();
+        // TODO: how to name the threads? The provided example is not clear
+        //       https://docs.rs/rayon/1.5.1/rayon/struct.ThreadPoolBuilder.html#examples-1
+        pool.spawn(move || match chan_send_1_thread.send(exec_4(chan_send_dt, thread_data)) {
             Ok(_) => {}
             Err(err) => {
-                eprintln!("ERROR: chan_send_1_thrd.send(exec_3(chan_send_dt, thread_data)) failed {}", err);
+                eprintln!("ERROR: chan_send_1_thread.send(exec_3(chan_send_dt, thread_data)) failed {}", err);
             }
         });
     }
 
     // XXX: is this needed?
-    debug_eprintln!("{}test_threading_4: drop({:?});", so(), chan_send_1);
+    debug_eprintln!("{}run_4: drop({:?});", so(), chan_send_1);
     drop(chan_send_1); // close sender so chan.into_iter.collect does not block
 
-    type Map_Path_SLP = BTreeMap<FPath, SLP_Last>;
-
+    type Recv_Result4 = std::result::Result<Chan_Datum, crossbeam_channel::RecvError>;
     /// run `.recv` on many Receiver channels simultaneously with the help of `crossbeam_channel::Select`
     /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
     /// XXX: I would like to return a `&FPath` to avoid one `FPath.clone()` but it causes
     ///      compiler error about mutable and immutable borrows of `map_path_slp` occurring simultaneously
     ///      cannot borrow `map_path_slp` as mutable because it is also borrowed as immutable
     fn recv_many_chan(
-        fpath_chans: &HashMap<&FPath, Chan_Recv_SLP>, filter_: &Map_Path_SLP,
-    ) -> (FPath, std::result::Result<SLP_Last, crossbeam_channel::RecvError>) {
-        debug_eprintln!("{}test_threading_4:recv_many_chan();", sn());
-        // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures
-        let mut imap = Vec::<(&FPath, &Chan_Recv_SLP)>::with_capacity(fpath_chans.len());
+        fpath_chans: &HashMap<&FPath, Chan_Recv_Datum>, filter_: &Map_FPath_Datum,
+    ) -> (FPath, Recv_Result4) {
+        debug_eprintln!("{}run_4:recv_many_chan();", sn());
+        // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures,
+        // order should match index numeric value returned by `select`
+        let mut imap = Vec::<(&FPath, &Chan_Recv_Datum)>::with_capacity(fpath_chans.len());
         // Build a list of operations
         let mut select = crossbeam_channel::Select::new();
         for fp_chan in fpath_chans.iter() {
@@ -8024,24 +8085,41 @@ fn test_threading_4(
                 continue;
             }
             imap.push((fp_chan.0, fp_chan.1));
-            debug_eprintln!("{}test_threading_4:recv_many_chan: select.recv({:?});", so(), fp_chan.1);
+            debug_eprintln!("{}run_4:recv_many_chan: select.recv({:?});", so(), fp_chan.1);
             // load `select` with `recv` operations, to be run during later `.select()`
             select.recv(fp_chan.1);
         }
-        assert_gt!(imap.len(), 0, "No recv operations to select on");
-        debug_eprintln!("{}test_threading_4:recv_many_chan: v: {:?}", so(), imap);
+        assert_gt!(imap.len(), 0, "No channel recv operations to select on.");
+        debug_eprintln!("{}run_4:recv_many_chan: v: {:?}", so(), imap);
         // Do the `select` operation
         let soper = select.select();
         // get the index of the chosen "winner" of the `select` operation
         let index = soper.index();
-        debug_eprintln!("{}test_threading_4:recv_many_chan: soper.recv(&v[{:?}]);", so(), index);
+        debug_eprintln!("{}run_4:recv_many_chan: soper.recv(&v[{:?}]);", so(), index);
         let fpath = imap[index].0;
         let chan = &imap[index].1;
-        debug_eprintln!("{}test_threading_4:recv_many_chan: chan: {:?}", so(), chan);
+        debug_eprintln!("{}run_4:recv_many_chan: chan: {:?}", so(), chan);
         // Get the result of the `recv` done during `select`
         let result = soper.recv(chan);
-        debug_eprintln!("{}test_threading_4:recv_many_chan() return ({:?}, {:?});", sx(), fpath, result);
+        debug_eprintln!("{}run_4:recv_many_chan() return ({:?}, {:?});", sx(), fpath, result);
         return (fpath.clone(), result);
+    }
+
+    // this block of code repeats a few times, so put it in a helper function
+    fn process_summary_opt(summary_opt: Summary_Opt, fpath_key: &FPath, map_: &mut HashMap<FPath, Summary>) {
+        match summary_opt {
+            Some(summary) => {
+                debug_eprintln!("{}process_summary_opt summary {:?};", snx(), summary);
+                match map_.insert(fpath_key.clone(), summary) {
+                    Some(val) => {
+                        //debug_eprintln!("{}run_4: Error: map_path_summary already contains key {:?} with {:?}", so(), fpath_min, val);
+                        eprintln!("Error: run4: map_path_summary already contains key {:?} with {:?}, overwritten", fpath_key, val);
+                    },
+                    _ => {},
+                };
+            },
+            _ => {},
+        }
     }
 
     //
@@ -8049,95 +8127,158 @@ fn test_threading_4(
     // process the "receiving sysline" channels from the running threads
     // print the soonest available sysline
     //
-
+    
     // XXX: BTreeMap does not implement `with_capacity`
-    let mut map_path_slp = Map_Path_SLP::new();
+    //let mut map_path_slp = Map_FPath_SLP::new();
+    // TODO: [2022/03/24] change this to `BTreeMap<FPath, (SylineP, is_last)>` (`map_path_slp`); currently it's confusing.
+    //       because there is a special handler for `Summary` (`map_path_summary`), but not for `map_path_slp`.
+    let mut map_path_datum = Map_FPath_Datum::new();
+
     // crude debugging stats
     let mut _count_recv_ok: usize = 0;
     let mut _count_recv_di: usize = 0;
+
     loop {
+        // channels that should be disconnected this loop iteration
         let mut disconnected = Vec::<FPath>::with_capacity(map_path_recv_dt.len());
-        // if there is a DateTime "on hand" for every FPath channel (one channel is one FPath) then
-        // they can all be compared, and the soonest DateTime selected then printed
-        if map_path_recv_dt.len() == map_path_slp.len() {
+
+        // if there is a DateTime available for every FPath channel (one channel is one FPath) then
+        // they can all be compared. The soonest DateTime selected then printed.
+        if map_path_recv_dt.len() == map_path_datum.len() {
             let mut fp1: FPath = FPath::new();
             // XXX: arbitrary code block here to allow later `map_path_slp.remove`;
             //      hacky workaround for a difficult error:
             //          "cannot borrow `map_path_slp` as mutable more than once at a time"
             {
+                for (i, (k, v)) in map_path_recv_dt.iter().enumerate() {
+                    debug_eprintln!("{} A1 map_path_recv_dt[{:?}] = {:?}", i, k, v);
+                }
+                for (i, (k, v)) in map_path_datum.iter().enumerate() {
+                    debug_eprintln!("{} A1 map_path_datum[{:?}] = {:?}", i, k, v);
+                }
                 // XXX: my small investigation into `min`, `max`, `min_by`, `max_by`
                 //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33
-                let (fpath_min, slp_min, is_last) =
-                    match map_path_slp.iter_mut().min_by(|x, y| x.1 .0.dt.cmp(&y.1 .0.dt)) {
-                        Some(val) => (val.0, &val.1 .0, val.1 .1),
+                let (fpath_min , chan_datum) =
+                    // here is part of the "sorting" of syslines process by datetime.
+                    // In case of tie datetime values, the tie-breaker will be order of `BTreeMap::iter_mut` which
+                    // iterates in order of key sort. https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html#method.iter_mut
+                    // XXX: could these `unwrap` ever fail?
+                    match map_path_datum.iter_mut().min_by(
+                        |x, y|
+                            x.1.0.as_ref().unwrap().dt.cmp(&(y.1.0.as_ref().unwrap().dt))
+                    ) {
+                        Some(val) => (
+                            val.0, val.1
+                        ),
                         None => {
-                            eprintln!("map_path_slp.iter().min_by returned None");
+                            eprintln!("ERROR map_path_datum.iter_mut().min_by() returned None");
                             // XXX: not sure what else to do here
                             continue;
                         }
                     };
-                // print the sysline!
-                if cfg!(debug_assertions) {
-                    let out = fpath_min.to_string()
-                        + &String::from(": ")
-                        + &(slp_min.to_String_noraw())
-                        + &String::from("\n");
-                    let clr: Color = map_path_color.get(fpath_min).unwrap().clone();
-                    match print_colored(clr, out.as_bytes()) { _ => {} };
-                    if is_last {
-                        write_stdout(&NLu8a);
-                    }
+                if chan_datum.1.is_some() {
+                    debug_eprintln!("{}run_4: A2 chan_datum has summary {:?}", so(), fpath_min);
+                    assert!(!chan_datum.0.is_some(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). {:?}", fpath_min);
+                    process_summary_opt(chan_datum.1, &fpath_min, map_path_summary.borrow_mut());
+                    debug_eprintln!("{}run_4: A2 will disconnect channel {:?}", so(), fpath_min);
+                    // receiving a Summary must be the last data sent on the channel
+                    disconnected.push(fpath_min.clone());
                 } else {
-                    (*slp_min).print2();
-                    // TODO: [2021/10/4]
-                    //       do not write extra stdout if only one file was processed, so program output
-                    //       can be tested against `cat`
-                    if is_last {
-                        write_stdout(&NLu8a);
+                    let is_last = chan_datum.2;
+                    let slp_min = chan_datum.0.as_ref().unwrap();
+                    // print the sysline!
+                    debug_eprintln!("{}run_4: A3 printing SyslineP@{:p} {:?}", so(), slp_min, fpath_min);
+                    if cfg!(debug_assertions) {
+                        let out = fpath_min.to_string()
+                            + &String::from(": ")
+                            + &(slp_min.to_String_noraw())
+                            + &String::from("\n");
+                        let clr: Color = map_path_color.get(fpath_min).unwrap().clone();
+                        match print_colored(clr, out.as_bytes()) { _ => {} };
+                        if is_last {
+                            write_stdout(&NLu8a);
+                        }
+                    } else {
+                        let clr: Color = map_path_color.get(fpath_min).unwrap().clone();
+                        let is_last = chan_datum.2;
+                        (*slp_min).print_color(clr, color_datetime);
+                        /*
+                        // need one last newline
+                        // but do not write extra stdout if only one file was processed, so program output
+                        // can be tested against `cat`
+                        // XXX: does this make sense?
+                        if is_last && file_count == 1 {
+                            write_stdout(&NLu8a);
+                        }
+                        */
+                        // need one last newline
+                        if is_last {
+                            write_stdout(&NLu8a);
+                        }
                     }
                 }
                 fp1 = (*fpath_min).clone();
             }
-            assert!(!fp1.is_empty(), "Empty filepath");
-            map_path_slp.remove(&fp1);
+            assert!(!fp1.is_empty(), "Empty filepath.");
+            map_path_datum.remove(&fp1);
         } else {
             // else waiting on a (datetime, syslinep) from a file
-            debug_eprintln!("{}test_threading_4: recv_many_chan(map_path_recv_dt: {:?}, map_path_slp: {:?})", so(), map_path_recv_dt, map_path_slp);
-            let (fp1, result1) = recv_many_chan(&map_path_recv_dt, &map_path_slp);
+            debug_eprintln!("{}run_4: B recv_many_chan(map_path_recv_dt: {:?}, map_path_datum: {:?})", so(), map_path_recv_dt, map_path_datum);
+            let (fpath1, result1) = recv_many_chan(&map_path_recv_dt, &map_path_datum);
             match result1 {
-                Ok(slp_last) => {
-                    debug_eprintln!("{}test_threading_4: crossbeam_channel::Found for FPath {:?};", so(), fp1);
-                    map_path_slp.insert(fp1, slp_last);
+                Ok(chan_datum) => {
+                    debug_eprintln!("{}run_4: B crossbeam_channel::Found for FPath {:?};", so(), fpath1);
+                    if chan_datum.1.is_some() {
+                        debug_eprintln!("{}run_4: B chan_datum has summary {:?}", so(), fpath1);
+                        assert!(chan_datum.0.is_none(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). FPath {:?}", fpath1);
+                        process_summary_opt(chan_datum.1, &fpath1, map_path_summary.borrow_mut());
+                        debug_eprintln!("{}run_4: B will disconnect channel {:?}", so(), fpath1);
+                        // receiving a Summary must be the last data sent on the channel
+                        disconnected.push(fpath1.clone());
+                    } else {
+                        assert!(chan_datum.0.is_some(), "Chan_Datum None(Summary) and None(SyslineP); should have one Some(). FPath {:?}", fpath1);
+                        map_path_datum.insert(fpath1, chan_datum);
+                    }
                     _count_recv_ok += 1;
                 }
                 Err(crossbeam_channel::RecvError) => {
-                    debug_eprintln!("{}test_threading_4: crossbeam_channel::RecvError for FPath {:?};", so(), fp1);
-                    disconnected.push(fp1);
+                    debug_eprintln!("{}run_4: B crossbeam_channel::RecvError, will disconnect channel for FPath {:?};", so(), fpath1);
+                    // this channel was closed by the sender
+                    disconnected.push(fpath1);
                     _count_recv_di += 1;
                 }
             }
         }
         // remove channels that have been disconnected
         for fpath in disconnected.into_iter() {
-            debug_eprintln!("{}test_threading_4: map_path_recv_dt.remove({:?});", so(), fpath);
+            debug_eprintln!("{}run_4: C map_path_recv_dt.remove({:?});", so(), fpath);
             map_path_recv_dt.remove(&fpath);
         }
         // are there any channels to receive from?
         if map_path_recv_dt.is_empty() {
-            debug_eprintln!("{}test_threading_4: map_path_recv_dt.is_empty();", so());
+            debug_eprintln!("{}run_4: D map_path_recv_dt.is_empty(); no more channels to receive from!", so());
             break;
         }
-        debug_eprintln!("{}test_threading_4: map_path_recv_dt: {:?}", so(), map_path_recv_dt);
-        debug_eprintln!("{}test_threading_4: map_path_slp: {:?}", so(), map_path_slp);
-    } // loop
+        debug_eprintln!("{}run_4: D map_path_recv_dt: {:?}", so(), map_path_recv_dt);
+        debug_eprintln!("{}run_4: D map_path_datum: {:?}", so(), map_path_datum);
+    } // end loop
 
-    if true {
-        eprintln!("Summary:");
+    if SUMMARY_CMD_OPT {
+        eprintln!("\nSummary:");
         for fpath in paths.iter() {
-            eprintln!("File {:?}", fpath);
+            eprintln!("File: {:?}", fpath);
+            let summary_opt = map_path_summary.remove(fpath);
+            match summary_opt {
+                Some(summary) => {
+                    eprintln!("   {:?}", summary);
+                },
+                None => {
+                    eprintln!("   None");
+                }
+            }
         }
     }
-    
-    debug_eprintln!("{}test_threading_4: _count_recv_ok {:?} _count_recv_di {:?}", so(), _count_recv_ok, _count_recv_di);
-    debug_eprintln!("{}test_threading_4()", sx());
+
+    debug_eprintln!("{}run_4: E _count_recv_ok {:?} _count_recv_di {:?}", so(), _count_recv_ok, _count_recv_di);
+    debug_eprintln!("{}run_4()", sx());
 }
