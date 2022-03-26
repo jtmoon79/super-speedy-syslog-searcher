@@ -430,8 +430,61 @@ LAST WORKING ON 2022/03/25 00:53:21 crashing when passed dt_filter
             29
             Rayon: detected unexpected panic; aborting
             Aborted
-        Run
+        To see
             ./target/debug/super_speedy_syslog_searcher --path ./logs/other/tests/dtf5-2c.log -- 0xFFFFF 20000101T000100
+
+TODO: [2022/03/25] is it possible to further limit the places where `Bytes` are decoded to `str` or `String`?
+      Might help. Should also write an explanatory NOTE about this when completed.
+
+TODO: [2022/03/25] follow https://stackoverflow.com/users/155423/shepmaster on twitter, github
+      wait a week
+
+NOTE: example of error[E0716] temporary value dropped while borrowed
+                 creates a temporary which is freed while still in use
+      https://play.rust-lang.org/?version=beta&mode=debug&edition=2021&gist=644fa5db11aebc49d66a7d25478e3893
+
+LAST WORKING ON 2022/03/26 02:13:44 suble problem when dt_filter_after is passed; first line of file is printed twice.
+      the WARNING is obvious place to start, and use a debug build.
+      Also, why didn't #[test] cases catch this? It's probably not covered by them, and it should be.
+      here is the output of test file ./logs/other/tests/dtf5-6b.log
+                    ▶ bat ./logs/other/tests/dtf5-6b.log
+                    ───────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                           │ File: ./logs/other/tests/dtf5-6b.log
+                           │ Size: 215 B
+                    ───────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                       1   │ 2000-01-01 00:00:00 [dtf5-6b]
+                       2   │
+                       3   │ 2000-01-01 00:00:01 [dtf5-6b]a
+                       4   │ a
+                       5   │ 2000-01-01 00:00:02 [dtf5-6b]ab
+                       6   │ ab
+                       7   │ 2000-01-01 00:00:03 [dtf5-6b]abc
+                       8   │ abc
+                       9   │ 2000-01-01 00:00:04 [dtf5-6b]abcd
+                      10   │ abcd
+                      11   │ 2000-01-01 00:00:05 [dtf5-6b]abcde
+                      12   │ abcde
+                    ───────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                    
+                    ▶ ./target/release/super_speedy_syslog_searcher --path ./logs/other/tests/dtf5-6b.log -- 0xFFFFF 20000101T000001
+                    WARNING: fo_last 32 != 64 slp.fileoffset_next() (fo_end is 215)
+                    2000-01-01 00:00:01 [dtf5-6b]a
+                    a
+                    2000-01-01 00:00:01 [dtf5-6b]a
+                    a
+                    2000-01-01 00:00:02 [dtf5-6b]ab
+                    ab
+                    2000-01-01 00:00:03 [dtf5-6b]abc
+                    abc
+                    2000-01-01 00:00:04 [dtf5-6b]abcd
+                    abcd
+                    2000-01-01 00:00:05 [dtf5-6b]abcde
+                    abcde
+                    
+                    Summary:
+                    File: "./logs/other/tests/dtf5-6b.log"
+                       Summary: { bytes: 215, lines: 12, syslines: 6, blocks: 1, blocksz: 1048575 }
+                       Printed: { bytes: 217, lines: 12, syslines: 6 }
 
  */
 
@@ -1792,11 +1845,17 @@ impl<'blockreader> BlockReader<'blockreader> {
                 return Err(err);
             }
         };
-        self._count_bytes += buffer.len() as u64;
+        let blen64 = buffer.len() as u64;
         let bp = BlockP::new(buffer);
         // store block
         debug_eprintln!("{}read_block: blocks.insert({}, BlockP@{:p})", so(), blockoffset, bp);
-        self.blocks.insert(blockoffset, bp.clone());
+        match self.blocks.insert(blockoffset, bp.clone()) {
+            Some(bp_) => {
+                eprintln!("WARNING: blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}", blockoffset, bp, bp_);
+            },
+            _ => {},
+        }
+        self._count_bytes += blen64;
         // store in LRU cache
         debug_eprintln!("{}read_block: LRU cache put({}, BlockP@{:p})", so(), blockoffset, bp);
         self._read_block_lru_cache.put(blockoffset, bp.clone());
@@ -2117,6 +2176,9 @@ impl fmt::Debug for LinePart {
 }
 
 impl LinePart {
+    // XXX: does not handle multi-byte encodings
+    const CHARSZ: usize = 1;
+
     pub fn new(
         blocki_beg: BlockIndex, blocki_end: BlockIndex, blockp: BlockP, fileoffset: FileOffset,
         blockoffset: BlockOffset, blocksz: BlockSz,
@@ -2166,7 +2228,13 @@ impl LinePart {
     }
 
     pub fn is_empty(&self) -> bool {
-        return self.len() == 0;
+        self.len() == 0
+    }
+
+    /// count of bytes of this `LinePart`
+    /// XXX: `count_bytes` and `len` is overlapping and confusing.
+    pub fn count_bytes(&self) -> u64 {
+        (self.len() * LinePart::CHARSZ) as u64
     }
 
     // TODO: [2022/03/19] add function to return some kind of pointer to underlying
@@ -2282,6 +2350,15 @@ impl Line {
     /// count of `LinePart` in `self.lineparts.len()`
     pub fn count(self: &Line) -> usize {
         self.lineparts.len()
+    }
+
+    /// sum of `LinePart.count_bytes`
+    pub fn count_bytes(self: &Line) -> u64 {
+        let mut cb: u64 = 0;
+        for lp in self.lineparts.iter() {
+            cb += lp.count_bytes();
+        }
+        cb
     }
 
     /// return all slices that make up this `Line`
@@ -2648,7 +2725,6 @@ impl<'linereader> LineReader<'linereader> {
     pub fn find_line(&mut self, fileoffset: FileOffset) -> ResultS4_LineFind {
         debug_eprintln!("{}find_line(LineReader@{:p}, {})", sn(), self, fileoffset);
 
-
         // some helpful constants
         let charsz_fo = self._charsz as FileOffset;
         let charsz_bi = self._charsz as BlockIndex;
@@ -2697,10 +2773,10 @@ impl<'linereader> LineReader<'linereader> {
                 ErrorKind::AddrNotAvailable,
                 format!("Passed fileoffset {} past file size {}", fileoffset, filesz),
             );
-            debug_eprintln!("{}find_line: return ResultS4_LineFind::Err({}); fileoffset was too big!", sx(), err);
+            debug_eprintln!("{}find_line: return ResultS4_LineFind::Err({}); fileoffset {} was too big filesz {}!", sx(), err, fileoffset, filesz);
             return ResultS4_LineFind::Err(err);
         } else if fileoffset == filesz {
-            debug_eprintln!("{}find_line: return ResultS4_LineFind::Done(); fileoffset is at end of file!", sx());
+            debug_eprintln!("{}find_line: return ResultS4_LineFind::Done(); fileoffset {} is at end of file {}!", sx(), fileoffset, filesz);
             return ResultS4_LineFind::Done;
         }
 
@@ -2767,7 +2843,7 @@ impl<'linereader> LineReader<'linereader> {
         // caller's commonly call this function `find_line` in a sequence so it's an easy check
         // with likely success
         if !found_nl_a {
-            // XXX: single-byte encoding
+            // XXX: single-byte encoding, does not handle multi-byte
             let fo1 = fileoffset - charsz_fo;
             if self.lines_end.contains_key(&fo1) {
                 found_nl_a = true;
@@ -3362,13 +3438,13 @@ impl Sysline {
         (*self.lines[last_]).fileoffset_end()
     }
 
-    /// the byte offset into the next sysline
-    /// however, this Sysline does not know if it is at the end of a file
+    /// the fileoffset into the next sysline
+    /// this Sysline does not know if that fileoffset points to the end of file (one past last actual byte)
     pub fn fileoffset_next(self: &Sysline) -> FileOffset {
         self.fileoffset_end() + (self.charsz() as FileOffset)
     }
 
-    /// length in bytes of the Sysline
+    /// length in bytes of this Sysline
     pub fn len(self: &Sysline) -> usize {
         (self.fileoffset_end() - self.fileoffset_begin() + 1) as usize
     }
@@ -3376,6 +3452,15 @@ impl Sysline {
     /// count of `Line` in `self.lines`
     pub fn count(self: &Sysline) -> u64 {
         self.lines.len() as u64
+    }
+
+    /// sum of `Line.count_bytes`
+    pub fn count_bytes(self: &Sysline) -> u64 {
+        let mut cb = 0;
+        for ln in self.lines.iter() {
+            cb += ln.count_bytes();
+        }
+        cb
     }
 
     /// a `String` copy of the demarcating datetime string found in the Sysline
@@ -3539,7 +3624,6 @@ impl Sysline {
             }
         }
     }
-
 
     /// create `String` from `self.lines`
     /// `raw` is `true` means use byte characters as-is
@@ -4028,15 +4112,14 @@ impl Summary {
     }
 }
 
-// define my own `Debug` just for the ':'
 impl fmt::Debug for Summary {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("Summary:")
             .field("bytes", &self.bytes)
-            .field("blocksz", &self.blocksz)
-            .field("blocks", &self.blocks)
             .field("lines", &self.lines)
             .field("syslines", &self.syslines)
+            .field("blocks", &self.blocks)
+            .field("blocksz", &self.blocksz)
             .finish()
     }
 }
@@ -4802,7 +4885,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
                 ResultS4_LineFind::Done => {
                     //debug_eprintln!("{}find_sysline: return ResultS4_SyslineFind::Done; B", sx());
-                    debug_eprintln!("{}find_sysline: break; B", sx());
+                    debug_eprintln!("{}find_sysline: break; B", so());
                     eof = true;
                     break;
                 }
@@ -5008,7 +5091,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                                 fo_b,
                                 fo_a
                             );
-                            assert_le!(fo_a, fo_b, "Unexpected values for fo_a {} fo_b {} FPath {:?}", fo_a, fo_b, self.path());
+                            assert_le!(fo_a, fo_b, "Unexpected values for fo_a {} fo_b {}, FPath {:?}", fo_a, fo_b, self.path());
                             try_fo = fo_a + ((fo_b - fo_a) / 2);
                         } // end OccursAtOrAfter
                         Result_Filter_DateTime1::OccursBefore => {
@@ -5016,9 +5099,10 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                             // i.e. move begin marker `fo_a` forthward
                             debug_eprintln!("{}{}: OccursBefore =>    fo {} fo_last {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", so(), _fname, fo, fo_last, try_fo, try_fo_last, fo_a, fo_b, fo_end);
                             let slp_foe = (*slp).fileoffset_end();
-                            assert_le!(slp_foe, fo, "unexpected values (*SyslineP).fileoffset_end() {}, fileoffset returned by find_sysline {} FPath {:?}", slp_foe, fo, self.path());
+                            // XXX: [2022/03/25] why was this `assert_le` here? It seems wrong.
+                            //assert_le!(slp_foe, fo, "unexpected values (SyslineP@{:p}).fileoffset_end() {}, fileoffset returned by self.find_sysline({}) was {} FPath {:?}", slp, slp_foe, try_fo, fo, self.path());
                             try_fo_last = try_fo;
-                            assert_le!(try_fo_last, slp_foe, "Unexpected values try_fo_last {} slp_foe {}, last tried offset (passed to self.find_sysline) is beyond returned sysline.fileoffset_end()!? FPath {:?}", try_fo_last, slp_foe, self.path());
+                            assert_le!(try_fo_last, slp_foe, "Unexpected values try_fo_last {} slp_foe {}, last tried offset (passed to self.find_sysline({})) is beyond returned Sysline@{:p}.fileoffset_end() {}!? FPath {:?}", try_fo_last, slp_foe, try_fo, slp, slp_foe, self.path());
                             debug_eprintln!(
                                 "{}{}:                    ∴ fo_a = min(slp_foe {}, fo_b {});",
                                 so(),
@@ -7896,7 +7980,7 @@ type IsSyslineLast = bool;
 type Chan_Datum = (SyslineP_Opt, Summary_Opt, IsSyslineLast);
 type Chan_Send_Datum = crossbeam_channel::Sender<Chan_Datum>;
 type Chan_Recv_Datum = crossbeam_channel::Receiver<Chan_Datum>;
-type Map_FPath_Datum = BTreeMap<FPath, Chan_Datum>;
+type Map_FPath_Datum = HashMap<FPath, Chan_Datum>;
 
 /// thread entry point for processing a file
 /// this creates `SyslineReader` and process the `Syslines`
@@ -7905,6 +7989,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
     let (path, blocksz, filter_dt_after_opt, filter_dt_before_opt) = thread_init_data;
     debug_eprintln!("{}exec_4({:?})", sn(), path);
     let tid = thread::current().id();
+    //let ti = tid.as_u64() as u64;
 
     let mut slr = match SyslineReader::new(&path, blocksz) {
         Ok(val) => val,
@@ -8015,6 +8100,67 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
     return tid;
 }
 
+/// statistics about printing
+#[derive(Copy, Clone, Default)]
+pub struct Summary_Printed {
+    /// count of bytes printed
+    pub bytes: u64,
+    /// count of `Lines` printed
+    pub lines: u64,
+    /// count of `Syslines` printed
+    pub syslines: u64,
+}
+
+impl fmt::Debug for Summary_Printed {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        f.debug_struct("Printed:")
+            .field("bytes", &self.bytes)
+            .field("lines", &self.lines)
+            .field("syslines", &self.syslines)
+            .finish()
+    }
+}
+
+type Map_FPath_SummaryPrint = HashMap::<FPath, Summary_Printed>;
+
+#[inline]
+fn summaryprint_update(fpath_: &FPath, map_: &mut Map_FPath_SummaryPrint, slp: &SyslineP) {
+    debug_eprintln!("{}summaryprint_update", snx());
+    match map_.get_mut(fpath_) {
+        Some(sp) => {
+            sp.syslines += 1;
+            sp.lines += slp.count();
+            sp.bytes += slp.count_bytes();
+        },
+        None => {
+            let mut sp = Summary_Printed::default();
+            sp.syslines = 1;
+            sp.lines = slp.count();
+            sp.bytes = slp.count_bytes();
+            map_.insert(fpath_.clone(), sp);
+        },
+    }
+}
+
+type Map_FPath_Summary = HashMap::<FPath, Summary>;
+
+#[inline]
+fn summary_update(fpath_: &FPath, map_: &mut Map_FPath_Summary, summary_opt: Summary_Opt) {
+    match summary_opt {
+        Some(summary) => {
+            debug_eprintln!("{}summary_update {:?};", snx(), summary);
+            match map_.insert( fpath_.clone(), summary) {
+                Some(val) => {
+                    //debug_eprintln!("{}run_4: Error: map_path_summary already contains key {:?} with {:?}", so(), fpath_min, val);
+                    eprintln!("Error: run4: map_path_summary already contains key {:?} with {:?}, overwritten", fpath_, val);
+                },
+                _ => {},
+            };
+        },
+        _ => {},
+    }
+}
+
 /// TODO: replace `paths &Vec<FPath>` type to be a unique set `&HashSet<FPath>` or the like
 fn run_4(
     paths: &Vec<FPath>, blocksz: BlockSz, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
@@ -8035,9 +8181,11 @@ fn run_4(
     // create necessary channels for each thread
     // launch each thread
     //
-    let mut map_path_recv_dt = HashMap::<&FPath, Chan_Recv_Datum>::with_capacity(file_count);
+    type FPath_ChanRecvDatum<'a> = (&'a FPath, &'a Chan_Recv_Datum);
+    type Map_FPath_ChanRecvDatum<'a> = HashMap<&'a FPath, Chan_Recv_Datum>;
+    let mut map_path_recv_dt = Map_FPath_ChanRecvDatum::with_capacity(file_count);
     let mut map_path_color = HashMap::<&FPath, Color>::with_capacity(file_count);
-    let mut map_path_summary = HashMap::<FPath, Summary>::with_capacity(file_count);
+    let mut map_path_summary = Map_FPath_Summary::with_capacity(file_count);
     let color_datetime: Color = COLOR_DATETIME;
 
     // XXX: are these channels necessary?
@@ -8069,13 +8217,18 @@ fn run_4(
     /// XXX: I would like to return a `&FPath` to avoid one `FPath.clone()` but it causes
     ///      compiler error about mutable and immutable borrows of `map_path_slp` occurring simultaneously
     ///      cannot borrow `map_path_slp` as mutable because it is also borrowed as immutable
+    /// TODO: [2022/03/26] to avoid sending a new `FPath` on each channel send, instead have a single
+    ///       Map<u32, FPath> that is referred to on "each side". The `u32` is the lightweight key sent
+    ///       along the channel.
+    ///       This mapping <u32, FPath> could be used for all other maps with keys `FPath`...
+    ///       would a global static lookup map make this easier? No need to pass around instances of `Map<u32, FPath>`.
     fn recv_many_chan(
-        fpath_chans: &HashMap<&FPath, Chan_Recv_Datum>, filter_: &Map_FPath_Datum,
+        fpath_chans: &Map_FPath_ChanRecvDatum, filter_: &Map_FPath_Datum,
     ) -> (FPath, Recv_Result4) {
         debug_eprintln!("{}run_4:recv_many_chan();", sn());
         // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures,
         // order should match index numeric value returned by `select`
-        let mut imap = Vec::<(&FPath, &Chan_Recv_Datum)>::with_capacity(fpath_chans.len());
+        let mut imap = Vec::<FPath_ChanRecvDatum>::with_capacity(fpath_chans.len());
         // Build a list of operations
         let mut select = crossbeam_channel::Select::new();
         for fp_chan in fpath_chans.iter() {
@@ -8105,35 +8258,18 @@ fn run_4(
         return (fpath.clone(), result);
     }
 
-    // this block of code repeats a few times, so put it in a helper function
-    fn process_summary_opt(summary_opt: Summary_Opt, fpath_key: &FPath, map_: &mut HashMap<FPath, Summary>) {
-        match summary_opt {
-            Some(summary) => {
-                debug_eprintln!("{}process_summary_opt summary {:?};", snx(), summary);
-                match map_.insert(fpath_key.clone(), summary) {
-                    Some(val) => {
-                        //debug_eprintln!("{}run_4: Error: map_path_summary already contains key {:?} with {:?}", so(), fpath_min, val);
-                        eprintln!("Error: run4: map_path_summary already contains key {:?} with {:?}, overwritten", fpath_key, val);
-                    },
-                    _ => {},
-                };
-            },
-            _ => {},
-        }
-    }
-
     //
     // main coordination loop (e.g. "main game loop")
     // process the "receiving sysline" channels from the running threads
     // print the soonest available sysline
     //
-    
     // XXX: BTreeMap does not implement `with_capacity`
     //let mut map_path_slp = Map_FPath_SLP::new();
-    // TODO: [2022/03/24] change this to `BTreeMap<FPath, (SylineP, is_last)>` (`map_path_slp`); currently it's confusing.
-    //       because there is a special handler for `Summary` (`map_path_summary`), but not for `map_path_slp`.
+    // TODO: [2022/03/24] change `map_path_datum` to `HashMap<FPath, (SylineP, is_last)>` (`map_path_slp`); currently it's confusing.
+    //       that there is a special handler for `Summary` (`map_path_summary`), but not an equivalent `map_path_slp`.
+    //       In other words, break apart the passed `Chan_Datum` to the more specific maps.
     let mut map_path_datum = Map_FPath_Datum::new();
-
+    let mut map_path_sumpr = Map_FPath_SummaryPrint::new();
     // crude debugging stats
     let mut _count_recv_ok: usize = 0;
     let mut _count_recv_di: usize = 0;
@@ -8179,7 +8315,7 @@ fn run_4(
                 if chan_datum.1.is_some() {
                     debug_eprintln!("{}run_4: A2 chan_datum has summary {:?}", so(), fpath_min);
                     assert!(!chan_datum.0.is_some(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). {:?}", fpath_min);
-                    process_summary_opt(chan_datum.1, &fpath_min, map_path_summary.borrow_mut());
+                    summary_update(&fpath_min, map_path_summary.borrow_mut(), chan_datum.1);
                     debug_eprintln!("{}run_4: A2 will disconnect channel {:?}", so(), fpath_min);
                     // receiving a Summary must be the last data sent on the channel
                     disconnected.push(fpath_min.clone());
@@ -8195,6 +8331,7 @@ fn run_4(
                             + &String::from("\n");
                         let clr: Color = map_path_color.get(fpath_min).unwrap().clone();
                         match print_colored(clr, out.as_bytes()) { _ => {} };
+                        summaryprint_update(fpath_min, &mut map_path_sumpr, slp_min);
                         if is_last {
                             write_stdout(&NLu8a);
                         }
@@ -8202,6 +8339,7 @@ fn run_4(
                         let clr: Color = map_path_color.get(fpath_min).unwrap().clone();
                         let is_last = chan_datum.2;
                         (*slp_min).print_color(clr, color_datetime);
+                        summaryprint_update(fpath_min, &mut map_path_sumpr, slp_min);
                         /*
                         // need one last newline
                         // but do not write extra stdout if only one file was processed, so program output
@@ -8231,7 +8369,7 @@ fn run_4(
                     if chan_datum.1.is_some() {
                         debug_eprintln!("{}run_4: B chan_datum has summary {:?}", so(), fpath1);
                         assert!(chan_datum.0.is_none(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). FPath {:?}", fpath1);
-                        process_summary_opt(chan_datum.1, &fpath1, map_path_summary.borrow_mut());
+                        summary_update(&fpath1, map_path_summary.borrow_mut(), chan_datum.1);
                         debug_eprintln!("{}run_4: B will disconnect channel {:?}", so(), fpath1);
                         // receiving a Summary must be the last data sent on the channel
                         disconnected.push(fpath1.clone());
@@ -8264,6 +8402,7 @@ fn run_4(
     } // end loop
 
     if SUMMARY_CMD_OPT {
+        let noprints = Summary_Printed::default();
         eprintln!("\nSummary:");
         for fpath in paths.iter() {
             eprintln!("File: {:?}", fpath);
@@ -8274,6 +8413,15 @@ fn run_4(
                 },
                 None => {
                     eprintln!("   None");
+                }
+            }
+            let summary_print_opt = map_path_sumpr.remove(fpath);
+            match summary_print_opt {
+                Some(summary_print) => {
+                    eprintln!("   {:?}", summary_print);
+                },
+                None => {
+                    eprintln!("   {:?}", noprints);
                 }
             }
         }
