@@ -1,17 +1,17 @@
-2000-01-01 00:00:00 [dtf5-6c]
-
-2000-01-01 00:00:01 [dtf5-6c]a
-aa
-aaa
-2000-01-01 00:00:02 [dtf5-6c]ab
-abab
-ababab
-2000-01-01 00:00:03 [dtf5-6c]abc
-abcabc
-abcabcabc
-2000-01-01 00:00:04 [dtf5-6c]abcd
-abcdabcd
-abcdabcdabcd
-2000-01-01 00:00:05 [dtf5-6c]abcde
-abcdeabcde
-abcdeabcdeabcde
+2000-01-01 00:00:00 [dtf5-6c]6c
+6c
+2000-01-01 00:00:01 [dtf5-6c]6c-a
+6c-aa
+6c-aaa
+2000-01-01 00:00:02 [dtf5-6c]6c-ab
+6c-abab
+6c-ababab
+2000-01-01 00:00:03 [dtf5-6c]6c-abc
+6c-abcabc
+6c-abcabcabc
+2000-01-01 00:00:04 [dtf5-6c]6c-abcd
+6c-abcdabcd
+6c-abcdabcdabcd
+2000-01-01 00:00:05 [dtf5-6c]6c-abcde
+6c-abcdeabcde
+6c-abcdeabcdeabcde
