@@ -436,9 +436,6 @@ LAST WORKING ON 2022/03/25 00:53:21 crashing when passed dt_filter
 TODO: [2022/03/25] is it possible to further limit the places where `Bytes` are decoded to `str` or `String`?
       Might help. Should also write an explanatory NOTE about this when completed.
 
-TODO: [2022/03/25] follow https://stackoverflow.com/users/155423/shepmaster on twitter, github
-      wait a week
-
 NOTE: example of error[E0716] temporary value dropped while borrowed
                  creates a temporary which is freed while still in use
       https://play.rust-lang.org/?version=beta&mode=debug&edition=2021&gist=644fa5db11aebc49d66a7d25478e3893
@@ -485,6 +482,51 @@ LAST WORKING ON 2022/03/26 02:13:44 suble problem when dt_filter_after is passed
                     File: "./logs/other/tests/dtf5-6b.log"
                        Summary: { bytes: 215, lines: 12, syslines: 6, blocks: 1, blocksz: 1048575 }
                        Printed: { bytes: 217, lines: 12, syslines: 6 }
+
+TODO: 2022/03/26 19:49:01 for using `&FPath` or `FPath` for a key value, instead try
+      `Box<FPath>`.  This would also allow passing the `FPath` between channels. No need for
+      my other TODO idea of adding an a lookup table.
+      There could be one global static list of files that this `Box` refers to.
+      See https://stackoverflow.com/a/71626319/471376
+
+LAST WORKING ON 2022/03/27 03:09:44 fixed prior bug.
+      Now to resume... should I add some test cases for find_sysline_by_datetime?
+      Or reach for the next milestone ASAP? What was teh next milestone?
+      Just read back upwards, see what's next best to work on...
+      Should I write a shell script to `sort` log file datetimes, then compare performances (obv. no filtering)?
+      What about comparing to `cat`?
+
+TODO: [2022/03/27]
+      Summary printing should print file names in same colors the lines were printed.
+      Should the printed datetime be a variation on the file color? Visually, that would help much.
+
+DONE: TODO: [2022/03/27]
+      add a Summary total at end of Summary,
+      i.e. count of lines printed for *all* files processed, syslines, bytes, etc.
+           first found datetime, last found datetime
+
+DONE: BUG: [2022/03/27 18:29:03] passing both datetime filters results in a printed error
+        ▶ ./target/release/super_speedy_syslog_searcher --path ./logs/other/tests/dtf5-6b.log -- 0xFFFFF 20000101T000001 20000101T000002
+        ...
+        ERROR: SyslineReader@0x7f9ca0a6fe90.find_sysline(216) Passed fileoffset 216 past file size 215
+
+BUG: [2022/03/28 00:11:00] need mutex for writing to stdout, stderr. Small problems adding uncertainty to output.
+
+BUG: [2022/03/28 00:36:27] `find_sysline_by_datetime` is searching linearly, not binary search.
+        and it errantly prints the first sysline found.
+            ▶ head -n 1 ./gen-100-10-FOOBAR.log
+            20000101T080000 FOOBAR
+            ▶ tail -n 1 ./gen-100-10-FOOBAR.log
+            20000101T080139 9abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìí FOOBAR
+            ▶ ./target/release/super_speedy_syslog_searcher --path  ./gen-100-10-FOOBAR.log -- 0xFFF 20000101T000129 20000101T000145
+            20000101T080000 FOOBAR
+            
+            Summary:
+            File: ./gen-100-10-FOOBAR.log
+               Summary Processed: { bytes: 97050, bytes total: 97050, lines: 1000, syslines: 1000, blocks: 24, blocksz: 4095 (0xFFF), blocks total: 24 }
+               Summary Printed  : { bytes: 23, lines: 1, syslines: 1, dt_first: 2000-01-01 08:00:00 +00:00, dt_last: 2000-01-01 08:00:00 +00:00 }
+            Summary Printed  : { bytes: 23, lines: 1, syslines: 1, dt_first: 2000-01-01 08:00:00 +00:00, dt_last: 2000-01-01 08:00:00 +00:00 }
+            ▶ ./target/debug/super_speedy_syslog_searcher --path  ./gen-100-10-FOOBAR.log -- 0xFF 20000101T000129 20000101T000145 2>&1 | head -n 999
 
  */
 
@@ -1052,7 +1094,7 @@ fn char_to_char_noraw(c: char) -> char {
 /// only intended for debugging
 #[allow(dead_code)]
 fn byte_to_char_noraw(byte: u8) -> char {
-    return char_to_char_noraw(byte as char);
+    char_to_char_noraw(byte as char)
 }
 
 /// transform buffer of utf-8 chars (presumably) to a non-raw String
@@ -1072,7 +1114,7 @@ fn buffer_to_String_noraw(buffer: &[u8]) -> String {
         let c_ = char_to_char_noraw(c);
         s2.push(c_);
     }
-    return s2;
+    s2
 }
 
 /// transform str to non-raw String version
@@ -1084,7 +1126,7 @@ fn str_to_String_noraw(str_buf: &str) -> String {
         let c_ = char_to_char_noraw(c);
         s2.push(c_);
     }
-    return s2;
+    s2
 }
 
 /// return contents of file utf-8 chars (presumably) at `path` as non-raw String
@@ -1129,50 +1171,59 @@ fn file_to_String_noraw(path: &FPath) -> String {
     return s3;
 }
 
-/// print colored output to terminal if possible
+/// print colored output to terminal if possible choosing using passed stream
 /// otherwise, print plain output
 /// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
-fn print_colored(color: Color, value: &[u8]) -> Result<()> {
-    let mut choice: termcolor::ColorChoice = termcolor::ColorChoice::Never;
-    if atty::is(atty::Stream::Stdout) {
-        choice = termcolor::ColorChoice::Always;
-    } else if cfg!(debug_assertions) {
-        choice = termcolor::ColorChoice::Always;
-    }
-    let mut stdout = termcolor::StandardStream::stdout(choice);
-    match stdout.set_color(ColorSpec::new().set_fg(Some(color))) {
+fn print_colored(color: Color, value: &[u8], std_: &mut termcolor::StandardStream) -> Result<()> {
+    match std_.set_color(ColorSpec::new().set_fg(Some(color))) {
         Ok(_) => {}
         Err(err) => {
-            eprintln!("print_colored: stdout.set_color({:?}) returned error {}", color, err);
+            eprintln!("print_colored: std.set_color({:?}) returned error {}", color, err);
             return Err(err);
         }
     };
     //let mut stderr_lock:Option<io::StderrLock> = None;
     //if cfg!(debug_assertions) {
     //    stderr_lock = Some(io::stderr().lock());
-   // }
-    match stdout.write(value) {
+    //}
+    match std_.write(value) {
         Ok(_) => {}
         Err(err) => {
-            eprintln!("print_colored: stdout.write(…) returned error {}", err);
+            eprintln!("print_colored: std_.write(…) returned error {}", err);
             return Err(err);
         }
     }
-    match stdout.reset() {
+    match std_.reset() {
         Ok(_) => {}
         Err(err) => {
-            eprintln!("print_colored: stdout.reset() returned error {}", err);
+            eprintln!("print_colored: std_.reset() returned error {}", err);
             return Err(err);
         }
     }
-    stdout.flush()?;
-    if cfg!(debug_assertions) {
-        //if stderr_lock.is_some() {
-        //    stderr_lock.unwrap().flush()?;
-        //}
-        io::stderr().flush()?;
-    }
+    std_.flush()?;
     Ok(())
+}
+
+/// print colored output to terminal on stdout
+/// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
+fn print_colored_stdout(color: Color, value: &[u8]) -> Result<()> {
+    let mut choice: termcolor::ColorChoice = termcolor::ColorChoice::Never;
+    if atty::is(atty::Stream::Stdout) || cfg!(debug_assertions) {
+        choice = termcolor::ColorChoice::Always;
+    }
+    let mut stdout = termcolor::StandardStream::stdout(choice);
+    print_colored(color, value, &mut stdout)
+}
+
+/// print colored output to terminal on stderr
+/// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
+fn print_colored_stderr(color: Color, value: &[u8]) -> Result<()> {
+    let mut choice: termcolor::ColorChoice = termcolor::ColorChoice::Never;
+    if atty::is(atty::Stream::Stderr) || cfg!(debug_assertions) {
+        choice = termcolor::ColorChoice::Always;
+    }
+    let mut stderr = termcolor::StandardStream::stderr(choice);
+    print_colored(color, value, &mut stderr)
 }
 
 /// safely write the `buffer` to stdout with help of `StdoutLock`
@@ -1282,11 +1333,10 @@ fn create_temp_file(content: &str) -> NamedTempFile {
 
 static COLOR_DATETIME: Color = Color::Green;
 
-static COLORS_TEXT: [Color; 16] = [
+static COLORS_TEXT: [Color; 29] = [
     Color::Yellow,
     Color::Cyan,
     Color::Red,
-    Color::White,
     Color::Magenta,
     // decent reference https://www.rapidtables.com/web/color/RGB_Color.html
     // XXX: colors with low pixel values are difficult to see on dark console backgrounds
@@ -1296,12 +1346,26 @@ static COLORS_TEXT: [Color; 16] = [
     Color::Rgb(127, 0, 0),
     Color::Rgb(0, 0, 127),
     Color::Rgb(127, 0, 127),
-    Color::Rgb(127, 127, 127),
     Color::Rgb(153, 76, 0),
     Color::Rgb(153, 153, 0),
     Color::Rgb(0, 153, 153),
+    Color::Rgb(127, 127, 127),
     Color::Rgb(127, 153, 153),
     Color::Rgb(127, 153, 127),
+    Color::Rgb(127, 127, 230),
+    Color::Rgb(127, 230, 127),
+    Color::Rgb(230, 127, 127),
+    Color::Rgb(127, 230, 230),
+    Color::Rgb(230, 230, 127),
+    Color::Rgb(230, 127, 230),
+    Color::Rgb(230, 230, 230),
+    Color::Rgb(153, 153, 255),
+    Color::Rgb(153, 255, 153),
+    Color::Rgb(255, 153, 153),
+    Color::Rgb(153, 255, 255),
+    Color::Rgb(255, 255, 153),
+    Color::Rgb(255, 153, 255),
+    Color::Rgb(255, 255, 255),
 ];
 
 /// "cached" indexing value for `color_rand`
@@ -2766,15 +2830,19 @@ impl<'linereader> LineReader<'linereader> {
             debug_eprintln!("{}find_line: return ResultS4_LineFind::Done; file is empty", sx());
             return ResultS4_LineFind::Done;
         } else if fileoffset > filesz {
-            // TODO: need to decide on consistent behavior for passing fileoffset > filesz
+            // TODO: [2021/10] need to decide on consistent behavior for passing fileoffset > filesz
             //       should it really Error or be Done?
             //       Make that consisetent among all LineReader and SyslineReader `find_*` functions
+            /*
             let err = Error::new(
                 ErrorKind::AddrNotAvailable,
                 format!("Passed fileoffset {} past file size {}", fileoffset, filesz),
             );
             debug_eprintln!("{}find_line: return ResultS4_LineFind::Err({}); fileoffset {} was too big filesz {}!", sx(), err, fileoffset, filesz);
             return ResultS4_LineFind::Err(err);
+            */
+            debug_eprintln!("{}find_line: return ResultS4_LineFind::Done; fileoffset {} was too big filesz {}!", sx(), fileoffset, filesz);
+            return ResultS4_LineFind::Done;
         } else if fileoffset == filesz {
             debug_eprintln!("{}find_line: return ResultS4_LineFind::Done(); fileoffset {} is at end of file {}!", sx(), fileoffset, filesz);
             return ResultS4_LineFind::Done;
@@ -3109,10 +3177,10 @@ fn process_LineReader(lr1: &mut LineReader) {
                 );
                 fo1 = fo;
                 if cfg!(debug_assertions) {
-                    match print_colored(Color::Green, &(*lp).as_slice()) {
+                    match print_colored_stdout(Color::Green, &(*lp).as_slice()) {
                         Ok(_) => {}
                         Err(err) => {
-                            eprintln!("ERROR: print_colored returned error {}", err);
+                            eprintln!("ERROR: print_colored_stdout returned error {}", err);
                         }
                     }
                 } else {
@@ -3185,7 +3253,7 @@ fn test_LineReader_1() {
         process_LineReader(&mut lr1);
         let lc = lr1.count();
         assert_eq!(line_count, lc, "Expected {} count of lines, found {}", line_count, lc);
-        match print_colored(
+        match print_colored_stdout(
             Color::Green,
             format!("{}PASS Found {} Lines as expected from {:?}\n", so(), lc, bufnoraw).as_bytes(),
         ) { Ok(_) => {}, Err(_) => {}, };
@@ -3510,7 +3578,7 @@ impl Sysline {
         for lp in &self.lines {
             slices.extend(lp.get_slices().iter());
         }
-        return slices;
+        slices
     }
 
     /// print approach #1, use underlying `Line` to `print`
@@ -3554,37 +3622,25 @@ impl Sysline {
     /// helper to `print_color`
     /// caller must acquire stdout.Lock, and call `stdout.flush()`
     /// TODO: move this into a `Printer` class
-    fn _print_color1(colors: &[Color], values:&[&[u8]]) -> Result<()> {
+    fn print_color_slices(stdclr: &mut termcolor::StandardStream, colors: &[Color], values:&[&[u8]]) -> Result<()> {
         assert_eq!(colors.len(), values.len());
-        let mut choice: termcolor::ColorChoice = termcolor::ColorChoice::Never;
-        if atty::is(atty::Stream::Stdout) {
-            choice = termcolor::ColorChoice::Always;
-        } else if cfg!(debug_assertions) {
-            choice = termcolor::ColorChoice::Always;
-        }
-        let mut stdout = termcolor::StandardStream::stdout(choice);
         for (color, value) in colors.iter().zip(values.iter())
         {
-            match stdout.set_color(ColorSpec::new().set_fg(Some(color.clone()))) {
-                Ok(_) => {}
+            match stdclr.set_color(ColorSpec::new().set_fg(Some(color.clone()))) {
                 Err(err) => {
                     eprintln!("print_colored: stdout.set_color({:?}) returned error {}", color, err);
-                    return Err(err);
-                }
+                    continue;
+                    //return Err(err);
+                },
+                _ => {},
             };
-            match stdout.write(value) {
-                Ok(_) => {}
+            match stdclr.write(value) {
                 Err(err) => {
                     eprintln!("print_colored: stdout.write(…) returned error {}", err);
-                    return Err(err);
+                    continue;
+                    //return Err(err);
                 }
-            }
-        }
-        match stdout.reset() {
-            Ok(_) => {}
-            Err(err) => {
-                eprintln!("print_colored: stdout.reset() returned error {}", err);
-                return Err(err);
+                _ => {},
             }
         }
         Ok(())
@@ -3593,11 +3649,17 @@ impl Sysline {
     /// print with color
     /// prints raw data from underlying `Block` bytes
     /// XXX: does not handle multi-byte strings
+    /// TODO: needs a global mutex
     /// TODO: move this into a `Printer` class
-    fn print_color(&self, color_text: Color, color_datetime: Color) {
+    pub fn print_color(&self, color_text: Color, color_datetime: Color) {
         let slices = self.get_slices();
-        let stdout = io::stdout();
-        let mut stdout_lock = stdout.lock();
+        //let mut stdout = io::stdout();
+        //let mut stdout_lock = stdout.lock();
+        let mut choice: termcolor::ColorChoice = termcolor::ColorChoice::Never;
+        if atty::is(atty::Stream::Stdout) || cfg!(debug_assertions) {
+            choice = termcolor::ColorChoice::Always;
+        }
+        let mut clrout = termcolor::StandardStream::stdout(choice);
         let mut at: LineIndex = 0;
         let dtb = self.dt_beg;
         let dte = self.dt_end;
@@ -3608,20 +3670,26 @@ impl Sysline {
                 let a = &slice[..(dtb-at)];
                 let b = &slice[(dtb-at)..(dte-at)];
                 let c = &slice[(dte-at)..];
-                match Sysline::_print_color1(&[color_text, color_datetime, color_text], &[a, b, c]) {
+                match Sysline::print_color_slices(&mut clrout, &[color_text, color_datetime, color_text], &[a, b, c]) {
                     _ => {},
                 };
             } // XXX: incomplete datetime crosses into next slice
             else {
-                match Sysline::_print_color1(&[color_text], &[slice]) { _ => {} };
+                match Sysline::print_color_slices(&mut clrout, &[color_text], &[slice]) { _ => {} };
             }
             at += len_;
         }
-        match stdout_lock.flush() {
-            Ok(_) => {}
+        match clrout.flush() {
             Err(err) => {
                 eprintln!("ERROR: write: stdout flushing error {}", err);
-            }
+            },
+            _ => {},
+        }
+        match clrout.reset() {
+            Err(err) => {
+                eprintln!("print_colored: stdout.reset() returned error {}", err);
+            },
+            _ => {},
         }
     }
 
@@ -4076,24 +4144,28 @@ fn test_DATETIME_PARSE_DATAS() {
 // Summary
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// interesting statistics collected by a `SyslineReader` during it's processing of a file
+/// statistics to print about `SyslineReader` activity
 #[derive(Copy, Clone)]
 pub struct Summary {
     /// count of bytes stored by `BlockReader`
     pub bytes: u64,
-    /// count of `Block`
+    /// count of bytes in file
+    pub bytes_total: u64,
+    /// count of `Block`s read by `BlockReader`
     pub blocks: u64,
+    /// count of `Block`s in file
+    pub blocks_total: u64,
     /// `BlockSz` of `BlockReader`
     pub blocksz: BlockSz,
-    /// count of `Lines`
+    /// count of `Lines` processed by `LineReader`
     pub lines: u64,
-    /// count of `Syslines`
+    /// count of `Syslines` processed by `SyslineReader`
     pub syslines: u64,
 }
 
 impl Summary {
     pub fn new(
-        bytes: u64, blocks: u64, blocksz: BlockSz, lines: u64, syslines: u64,
+        bytes: u64, bytes_total: u64, blocks: u64, blocks_total: u64, blocksz: BlockSz, lines: u64, syslines: u64,
     ) -> Summary {
         // some sanity checks
         assert_ge!(bytes, blocks, "There is less bytes than Blocks");
@@ -4104,7 +4176,9 @@ impl Summary {
         assert_ge!(lines, syslines, "There is less Lines than Syslines");
         Summary {
             bytes,
+            bytes_total,
             blocks,
+            blocks_total,
             blocksz,
             lines,
             syslines,
@@ -4114,12 +4188,14 @@ impl Summary {
 
 impl fmt::Debug for Summary {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.debug_struct("Summary:")
+        f.debug_struct("Summary Processed:")
             .field("bytes", &self.bytes)
+            .field("bytes total", &self.bytes_total)
             .field("lines", &self.lines)
             .field("syslines", &self.syslines)
             .field("blocks", &self.blocks)
-            .field("blocksz", &self.blocksz)
+            .field("blocksz", &format_args!("{0} (0x{0:X})", &self.blocksz))
+            .field("blocks total", &self.blocks_total)
             .finish()
     }
 }
@@ -4986,8 +5062,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         loop {
             // TODO: [2021/09/26]
             //       this could be faster.
-            //       currently it narrowing down to byte offset
-            //       but it only needs to narrow down to range of a sysline
+            //       currently it narrowing down to a byte offset
+            //       but it only needs to narrow down to offsets within range of one sysline
             //       so if `fo_a` and `fo_b` are in same sysline range, then this can return that sysline.
             //       Also, add stats for this function and debug print those stats before exiting.
             //       i.e. count of loops, count of calls to sysline_dt_before_after, etc.
@@ -5138,8 +5214,6 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     //       if `fo_a` and `fo_b` are offsets into the same Sysline
                     //       then that Sysline is the candidate, so return Ok(...)
                     //       unless `fo_a` and `fo_b` are past last Sysline.fileoffset_begin of the file then return Done
-                    //       However, before implemetning that, implement the stats tracking of this function mentioned above,
-                    //       be sure some improvement really occurs.
                 } // end Found | Found_EOF
                 ResultS4_SyslineFind::Done => {
                     debug_eprintln!("{}{}: SyslineReader.find_sysline(try_fo: {}) returned Done", so(), _fname, try_fo);
@@ -5203,163 +5277,168 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 // so this function is exhausted too.
                 debug_eprintln!("{}{}: Done && try_fo {} == {} try_fo_last; break!", so(), _fname, try_fo, try_fo_last);
                 break;
-            } else if try_fo == try_fo_last {
-                debug_eprintln!("{}{}: try_fo {} == {} try_fo_last;", so(), _fname, try_fo, try_fo_last);
-                let mut slp = slp_opt.unwrap();
-                let fo_beg = slp.fileoffset_begin();
-                if self.is_sysline_last(&slp) && fo_beg < try_fo {
-                    // binary search stopped at fileoffset past start of last Sysline in file
-                    // so entirely past all acceptable syslines
-                    debug_eprintln!("{}{}: return ResultS4_SyslineFind::Done; C binary searched ended after beginning of last sysline in the file", sx(), _fname,);
-                    return ResultS4_SyslineFind::Done;
-                }
-                // binary search loop is deciding on the same fileoffset upon each loop. That fileoffset must refer to
-                // an acceptable sysline. However, if that fileoffset is past `slp.fileoffset_begin` than the threshold
-                // change of datetime for the `dt_filter` is the *next* Sysline.
-                let fo_next = slp.fileoffset_next();
-                // XXX: sanity check
-                //debug_assert_eq!(fo_last, fo_next, "fo {} != {} slp.fileoffset_next()", fo_last, fo_next);
-                if fo_beg < try_fo {
-                    debug_eprintln!("{}{}: slp.fileoffset_begin() {} < {} try_fo;", so(), _fname, fo_beg, try_fo);
-                    let slp_next = match self.find_sysline(fo_next) {
-                        ResultS4_SyslineFind::Found_EOF((_, slp_)) => {
-                            debug_eprintln!(
-                                "{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Found_EOF(…, {:?})",
-                                so(),
-                                _fname,
-                                fo_next,
-                                slp_
-                            );
+            } else if try_fo != try_fo_last {
+                continue;
+            }
+            // else !done && try_fo == try_fo_last
+            debug_eprintln!("{}{}: try_fo {} == {} try_fo_last;", so(), _fname, try_fo, try_fo_last);
+            let mut slp = slp_opt.unwrap();
+            let fo_beg = slp.fileoffset_begin();
+            if self.is_sysline_last(&slp) && fo_beg < try_fo {
+                // binary search stopped at fileoffset past start of last Sysline in file
+                // so entirely past all acceptable syslines
+                debug_eprintln!("{}{}: return ResultS4_SyslineFind::Done; C binary searched ended after beginning of last sysline in the file", sx(), _fname,);
+                return ResultS4_SyslineFind::Done;
+            }
+            // binary search loop is deciding on the same fileoffset upon each loop. That fileoffset must refer to
+            // an acceptable sysline. However, if that fileoffset is past `slp.fileoffset_begin` than the threshold
+            // change of datetime for the `dt_filter` is the *next* Sysline.
+            let fo_next = slp.fileoffset_next();
+            // XXX: sanity check
+            //debug_assert_eq!(fo_last, fo_next, "fo {} != {} slp.fileoffset_next()", fo_last, fo_next);
+            if fo_beg < try_fo {
+                debug_eprintln!("{}{}: slp.fileoffset_begin() {} < {} try_fo;", so(), _fname, fo_beg, try_fo);
+                let slp_next = match self.find_sysline(fo_next) {
+                    ResultS4_SyslineFind::Found_EOF((_, slp_)) => {
+                        debug_eprintln!(
+                            "{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Found_EOF(…, {:?})",
+                            so(),
+                            _fname,
+                            fo_next,
                             slp_
-                        }
-                        ResultS4_SyslineFind::Found((_, slp_)) => {
-                            debug_eprintln!(
-                                "{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Found(…, {:?})",
-                                so(),
-                                _fname,
-                                fo_next,
-                                slp_
-                            );
-                            slp_
-                        }
-                        ResultS4_SyslineFind::Done => {
-                            debug_eprintln!(
-                                "{}{}: SyslineReader.find_sysline(fo_next1: {}) unexpectedly returned Done",
-                                so(),
-                                _fname,
-                                fo_next
-                            );
-                            break;
-                        }
-                        ResultS4_SyslineFind::Err(err) => {
-                            debug_eprintln!(
-                                "{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Err({})",
-                                so(),
-                                _fname,
-                                fo_next,
-                                err
-                            );
-                            eprintln!("ERROR: {}", err);
-                            break;
-                        }
-                    };
-                    debug_eprintln!("{}{}: dt_filter: {:?}", so(), _fname, dt_filter);
-                    debug_eprintln!(
-                        "{}{}: slp      : fo_beg {}, {:?} {:?}",
-                        so(),
-                        _fname,
-                        fo_beg,
-                        (*slp).dt.unwrap(),
-                        (*slp).to_String_noraw()
-                    );
-                    debug_eprintln!(
-                        "{}{}: slp_next : fo_beg {}, {:?} {:?}",
-                        so(),
-                        _fname,
-                        (*slp_next).fileoffset_begin(),
-                        (*slp_next).dt.unwrap(),
-                        (*slp_next).to_String_noraw()
-                    );
-                    let slp_compare = Self::dt_after_or_before(&(*slp).dt.unwrap(), dt_filter);
-                    let slp_next_compare = Self::dt_after_or_before(&(*slp_next).dt.unwrap(), dt_filter);
-                    debug_eprintln!("{}{}: match({:?}, {:?})", so(), _fname, slp_compare, slp_next_compare);
-                    slp = match (slp_compare, slp_next_compare) {
-                        (_, Result_Filter_DateTime1::Pass) | (Result_Filter_DateTime1::Pass, _) => {
-                            debug_eprintln!("{}{}: unexpected Result_Filter_DateTime1::Pass", so(), _fname);
-                            eprintln!("ERROR: unexpected Result_Filter_DateTime1::Pass result");
-                            break;
-                        }
-                        (Result_Filter_DateTime1::OccursBefore, Result_Filter_DateTime1::OccursBefore) => {
-                            debug_eprintln!("{}{}: choosing slp_next", so(), _fname);
-                            slp_next
-                        }
-                        (Result_Filter_DateTime1::OccursBefore, Result_Filter_DateTime1::OccursAtOrAfter) => {
-                            debug_eprintln!("{}{}: choosing slp_next", so(), _fname);
-                            slp_next
-                        }
-                        (Result_Filter_DateTime1::OccursAtOrAfter, Result_Filter_DateTime1::OccursAtOrAfter) => {
-                            debug_eprintln!("{}{}: choosing slp", so(), _fname);
-                            slp
-                        }
-                        _ => {
-                            debug_eprintln!(
-                                "{}{}: unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple",
-                                so(),
-                                _fname
-                            );
-                            eprintln!("ERROR: unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple");
-                            break;
-                        }
-                    };
-                } else {
-                    debug_eprintln!(
-                        "{}{}: slp.fileoffset_begin() {} >= {} try_fo; use slp",
-                        so(),
-                        _fname,
-                        fo_beg,
-                        try_fo
-                    );
-                    /*
-                    debug_eprintln!("{}{}: slp.fileoffset_begin() {} >= {} try_fo; get next sysline at {}", so(), _fname, fo_beg, try_fo, fo_next);
-                    slp = match self.find_sysline(fo_next) {
-                        ResultS4_SyslineFind::Found_EOF((__, slp_)) |
-                        ResultS4_SyslineFind::Found((__, slp_)) => {
-                            debug_eprintln!("{}{}: SyslineReader.find_sysline(fo_next2: {}) returned Found|Found_EOF(…, {:?}); choose sysline at {}", so(), _fname, fo_next, slp_, fo_next);
-                            slp_
-                        },
-                        ResultS4_SyslineFind::Done => {
-                            debug_eprintln!("{}{}: SyslineReader.find_sysline(fo_next2: {}) unexpectedly returned Done; choose sysline at {}", so(), _fname, fo_next, fo_beg);
-                            slp
-                        }
-                        ResultS4_SyslineFind::Err(err) => {
-                            debug_eprintln!("{}{}: SyslineReader.find_sysline(fo_next2: {}) returned Err({})", so(), _fname, fo_next, err);
-                            eprintln!("ERROR: {}", err);
-                            break;
-                        }
+                        );
+                        slp_
                     }
-                    */
-                }
-                // XXX: sanity check
-                //debug_assert_eq!(fo_last, slp.fileoffset_next(), "fo_last {} != {} slp.fileoffset_next()", fo_last, slp.fileoffset_next());
-                if fo_last != slp.fileoffset_next() {
-                    eprintln!(
-                        "WARNING: fo_last {} != {} slp.fileoffset_next() (fo_end is {})",
-                        fo_last,
-                        slp.fileoffset_next(),
-                        fo_end
-                    );
-                }
+                    ResultS4_SyslineFind::Found((_, slp_)) => {
+                        debug_eprintln!(
+                            "{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Found(…, {:?})",
+                            so(),
+                            _fname,
+                            fo_next,
+                            slp_
+                        );
+                        slp_
+                    }
+                    ResultS4_SyslineFind::Done => {
+                        debug_eprintln!(
+                            "{}{}: SyslineReader.find_sysline(fo_next1: {}) unexpectedly returned Done",
+                            so(),
+                            _fname,
+                            fo_next
+                        );
+                        break;
+                    }
+                    ResultS4_SyslineFind::Err(err) => {
+                        debug_eprintln!(
+                            "{}{}: SyslineReader.find_sysline(fo_next1: {}) returned Err({})",
+                            so(),
+                            _fname,
+                            fo_next,
+                            err
+                        );
+                        eprintln!("ERROR: {}", err);
+                        break;
+                    }
+                };
+                debug_eprintln!("{}{}: dt_filter:                   {:?}", so(), _fname, dt_filter);
                 debug_eprintln!(
-                    "{}{}: return ResultS4_SyslineFind::Found(({}, @{:p})); D fileoffset {} {:?}",
-                    sx(),
+                    "{}{}: slp      : fo_beg {:3}, fo_end {:3} {:?} {:?}",
+                    so(),
                     _fname,
-                    fo_last,
-                    &*slp,
-                    (*slp).fileoffset_begin(),
+                    fo_beg,
+                    (*slp).fileoffset_end(),
+                    (*slp).dt.unwrap(),
                     (*slp).to_String_noraw()
                 );
-                return ResultS4_SyslineFind::Found((fo_last, slp));
+                debug_eprintln!(
+                    "{}{}: slp_next : fo_beg {:3}, fo_end {:3} {:?} {:?}",
+                    so(),
+                    _fname,
+                    (*slp_next).fileoffset_begin(),
+                    (*slp_next).fileoffset_end(),
+                    (*slp_next).dt.unwrap(),
+                    (*slp_next).to_String_noraw()
+                );
+                let slp_compare = Self::dt_after_or_before(&(*slp).dt.unwrap(), dt_filter);
+                let slp_next_compare = Self::dt_after_or_before(&(*slp_next).dt.unwrap(), dt_filter);
+                debug_eprintln!("{}{}: match({:?}, {:?})", so(), _fname, slp_compare, slp_next_compare);
+                slp = match (slp_compare, slp_next_compare) {
+                    (_, Result_Filter_DateTime1::Pass) | (Result_Filter_DateTime1::Pass, _) => {
+                        debug_eprintln!("{}{}: unexpected Result_Filter_DateTime1::Pass", so(), _fname);
+                        eprintln!("ERROR: unexpected Result_Filter_DateTime1::Pass result");
+                        break;
+                    }
+                    (Result_Filter_DateTime1::OccursBefore, Result_Filter_DateTime1::OccursBefore) => {
+                        debug_eprintln!("{}{}: choosing slp_next", so(), _fname);
+                        slp_next
+                    }
+                    (Result_Filter_DateTime1::OccursBefore, Result_Filter_DateTime1::OccursAtOrAfter) => {
+                        debug_eprintln!("{}{}: choosing slp_next", so(), _fname);
+                        slp_next
+                    }
+                    (Result_Filter_DateTime1::OccursAtOrAfter, Result_Filter_DateTime1::OccursAtOrAfter) => {
+                        debug_eprintln!("{}{}: choosing slp", so(), _fname);
+                        slp
+                    }
+                    _ => {
+                        debug_eprintln!(
+                            "{}{}: unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple",
+                            so(),
+                            _fname
+                        );
+                        eprintln!("ERROR: unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple");
+                        break;
+                    }
+                };
+            } else {
+                debug_eprintln!(
+                    "{}{}: slp.fileoffset_begin() {} >= {} try_fo; use slp",
+                    so(),
+                    _fname,
+                    fo_beg,
+                    try_fo
+                );
+                /*
+                debug_eprintln!("{}{}: slp.fileoffset_begin() {} >= {} try_fo; get next sysline at {}", so(), _fname, fo_beg, try_fo, fo_next);
+                slp = match self.find_sysline(fo_next) {
+                    ResultS4_SyslineFind::Found_EOF((__, slp_)) |
+                    ResultS4_SyslineFind::Found((__, slp_)) => {
+                        debug_eprintln!("{}{}: SyslineReader.find_sysline(fo_next2: {}) returned Found|Found_EOF(…, {:?}); choose sysline at {}", so(), _fname, fo_next, slp_, fo_next);
+                        slp_
+                    },
+                    ResultS4_SyslineFind::Done => {
+                        debug_eprintln!("{}{}: SyslineReader.find_sysline(fo_next2: {}) unexpectedly returned Done; choose sysline at {}", so(), _fname, fo_next, fo_beg);
+                        slp
+                    }
+                    ResultS4_SyslineFind::Err(err) => {
+                        debug_eprintln!("{}{}: SyslineReader.find_sysline(fo_next2: {}) returned Err({})", so(), _fname, fo_next, err);
+                        eprintln!("ERROR: {}", err);
+                        break;
+                    }
+                }
+                */
             }
+            // XXX: sanity check
+            //debug_assert_eq!(fo_last, slp.fileoffset_next(), "fo_last {} != {} slp.fileoffset_next()", fo_last, slp.fileoffset_next());
+            //if fo_last != slp.fileoffset_next() {
+            //    eprintln!(
+            //        "WARNING: fo_last {} != {} slp.fileoffset_next() (fo_end is {})",
+            //        fo_last,
+            //        slp.fileoffset_next(),
+            //        fo_end
+            //    );
+            //}
+            let fo_ = slp.fileoffset_next();
+            debug_eprintln!(
+                "{}{}: return ResultS4_SyslineFind::Found(({}, @{:p})); D fileoffset {} {:?}",
+                sx(),
+                _fname,
+                fo_,
+                &*slp,
+                (*slp).fileoffset_begin(),
+                (*slp).to_String_noraw()
+            );
+            return ResultS4_SyslineFind::Found((fo_, slp));
         } // end loop
 
         debug_eprintln!("{}{}: return ResultS4_SyslineFind::Done; E", sx(), _fname);
@@ -5484,11 +5563,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
 
     fn summary(&self) -> Summary {
         let bytes = self.linereader.blockreader.count_bytes();
+        let bytes_total = self.linereader.blockreader.filesz as u64;
         let blocks = self.linereader.blockreader.count();
+        let blocks_total = self.linereader.blockreader.blockn;
         let blocksz = self.blocksz();
         let lines = self.linereader.count();
         let syslines = self.count();
-        return Summary::new(bytes, blocks, blocksz, lines, syslines);
+        return Summary::new(bytes, bytes_total, blocks, blocks_total, blocksz, lines, syslines);
     }
 }
 
@@ -5656,7 +5737,7 @@ fn __test_find_sysline_at_datetime_filter(
                     sline_expect_noraw
                 );
                 //debug_eprintln!("{}Check PASSED {:?}", so(), sline_noraw);
-                match print_colored(
+                match print_colored_stdout(
                     Color::Green,
                     format!(
                         "Check PASSED SyslineReader().find_sysline_at_datetime_filter({} {:?}) == {:?}\n",
@@ -6978,7 +7059,7 @@ fn test_sysline_pass_filters() {
         let result = SyslineReader::dt_pass_filters(&dt, &da, &db);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?}, {:?})", exp_result, result, dt, da, db);
         #[allow(unused_must_use)]
-        match print_colored(
+        match print_colored_stdout(
             Color::Green,
             format!("{}({:?}, {:?}, {:?}) returned expected {:?}\n", so(), dt, da, db, result).as_bytes(),
         ) {
@@ -7008,7 +7089,7 @@ fn test_dt_after_or_before() {
         let result = SyslineReader::dt_after_or_before(&dt, &da);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?})", exp_result, result, dt, da);
         #[allow(unused_must_use)]
-        match print_colored(
+        match print_colored_stdout(
             Color::Green,
             format!("{}({:?}, {:?}) returned expected {:?}\n", so(), dt, da, result).as_bytes(),
         ) {
@@ -7046,21 +7127,21 @@ fn print_slp(slp: &SyslineP) {
         }
         */
         let a = &out[..(*slp).dt_beg];
-        match print_colored(Color::Green, &a.as_bytes()) {
+        match print_colored_stdout(Color::Green, &a.as_bytes()) {
             Ok(_) => {}
             Err(err) => {
                 eprintln!("ERROR: print_colored a returned error {}", err);
             }
         };
         let b = &out[(*slp).dt_beg..(*slp).dt_end];
-        match print_colored(Color::Yellow, &b.as_bytes()) {
+        match print_colored_stdout(Color::Yellow, &b.as_bytes()) {
             Ok(_) => {}
             Err(err) => {
                 eprintln!("ERROR: print_colored b returned error {}", err);
             }
         };
         let c = &out[(*slp).dt_end..];
-        match print_colored(Color::Green, &c.as_bytes()) {
+        match print_colored_stdout(Color::Green, &c.as_bytes()) {
             Ok(_) => {}
             Err(err) => {
                 eprintln!("ERROR: print_colored c returned error {}", err);
@@ -7363,7 +7444,7 @@ fn test_SyslineReader_w_filtering_1(
     if cfg!(debug_assertions) {
         let s1 = file_to_String_noraw(path);
         #[allow(unused_must_use)]
-        match print_colored(Color::Yellow, s1.as_bytes()) { _ => {}, };
+        match print_colored_stdout(Color::Yellow, s1.as_bytes()) { _ => {}, };
         println!();
     }
 
@@ -7406,13 +7487,13 @@ fn test_SyslineReader_w_filtering_1(
                     .linereader
                     .blockreader
                     ._vec_from(fo1, std::cmp::min(fo1 + 40, filesz));
-                match print_colored(Color::Yellow, buffer_to_String_noraw(snippet.as_slice()).as_bytes())
+                match print_colored_stdout(Color::Yellow, buffer_to_String_noraw(snippet.as_slice()).as_bytes())
                      { _ => {}, };
                 print!("' ");
                 //print_slp(&slp);
                 let slices = (*slp).get_slices();
                 for slice in slices.iter() {
-                    match print_colored(Color::Green, slice) { _ => {}, };
+                    match print_colored_stdout(Color::Green, slice) { _ => {}, };
                 }
                 println!();
             }
@@ -8097,71 +8178,112 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
     }
 
     debug_eprintln!("{}exec_4({:?})", sx(), path);
-    return tid;
+    tid
 }
 
-/// statistics about printing
+/// statistics to print about printing
 #[derive(Copy, Clone, Default)]
-pub struct Summary_Printed {
+pub struct SummaryPrinted {
     /// count of bytes printed
     pub bytes: u64,
     /// count of `Lines` printed
     pub lines: u64,
     /// count of `Syslines` printed
     pub syslines: u64,
+    /// last datetime printed
+    pub dt_first: Option<DateTimeL>,
+    pub dt_last: Option<DateTimeL>,
 }
 
-impl fmt::Debug for Summary_Printed {
+impl fmt::Debug for SummaryPrinted {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.debug_struct("Printed:")
+        f.debug_struct("Summary Printed  :")
             .field("bytes", &self.bytes)
             .field("lines", &self.lines)
             .field("syslines", &self.syslines)
+            .field("dt_first", &format_args!("{}",
+                match self.dt_first {
+                        Some(dt) => {
+                            dt.to_string()
+                        },
+                        None => { String::from("None") },
+                    }
+                )
+            )
+            .field("dt_last", &format_args!("{}",
+                match self.dt_last {
+                        Some(dt) => {
+                            dt.to_string()
+                        },
+                        None => { String::from("None") },
+                    }
+                )
+            )
             .finish()
     }
 }
 
-type Map_FPath_SummaryPrint = HashMap::<FPath, Summary_Printed>;
+type Map_FPath_SummaryPrint = HashMap::<FPath, SummaryPrinted>;
 
+// TODO: move into impl SummaryPrinted
+/// update the passed 
+fn summaryprint_update(slp: &SyslineP, sp: &mut SummaryPrinted) -> SummaryPrinted {
+    sp.syslines += 1;
+    sp.lines += slp.count();
+    sp.bytes += slp.count_bytes();
+    if let Some(dt) = slp.dt {
+        match sp.dt_first {
+            Some(dt_first) => {
+                if dt < dt_first {
+                    sp.dt_first = Some(dt);
+                };
+            },
+            None => {
+                sp.dt_first = Some(dt);
+            },
+        };
+        match sp.dt_last {
+            Some(dt_last) => {
+                if dt > dt_last {
+                    sp.dt_last = Some(dt);
+                };
+            },
+            None => {
+                sp.dt_last = Some(dt);
+            },
+        };
+    };
+    *sp
+}
+
+// TODO: move into SummaryPrinted
 #[inline]
-fn summaryprint_update(fpath_: &FPath, map_: &mut Map_FPath_SummaryPrint, slp: &SyslineP) {
-    debug_eprintln!("{}summaryprint_update", snx());
-    match map_.get_mut(fpath_) {
+fn summaryprint_map_update(slp: &SyslineP, fpath_: &FPath, map_: &mut Map_FPath_SummaryPrint) {
+    debug_eprintln!("{}summaryprint_map_update", snx());
+    let result = map_.get_mut(fpath_);
+    match result {
         Some(sp) => {
-            sp.syslines += 1;
-            sp.lines += slp.count();
-            sp.bytes += slp.count_bytes();
+            summaryprint_update(slp, sp);
         },
         None => {
-            let mut sp = Summary_Printed::default();
-            sp.syslines = 1;
-            sp.lines = slp.count();
-            sp.bytes = slp.count_bytes();
+            let mut sp = SummaryPrinted::default();
+            summaryprint_update(slp, &mut sp);
             map_.insert(fpath_.clone(), sp);
-        },
-    }
+        }
+    };
 }
 
 type Map_FPath_Summary = HashMap::<FPath, Summary>;
 
 #[inline]
-fn summary_update(fpath_: &FPath, map_: &mut Map_FPath_Summary, summary_opt: Summary_Opt) {
-    match summary_opt {
-        Some(summary) => {
-            debug_eprintln!("{}summary_update {:?};", snx(), summary);
-            match map_.insert( fpath_.clone(), summary) {
-                Some(val) => {
-                    //debug_eprintln!("{}run_4: Error: map_path_summary already contains key {:?} with {:?}", so(), fpath_min, val);
-                    eprintln!("Error: run4: map_path_summary already contains key {:?} with {:?}, overwritten", fpath_, val);
-                },
-                _ => {},
-            };
-        },
-        _ => {},
-    }
+fn summary_update(fpath_: &FPath, summary: Summary, map_: &mut Map_FPath_Summary) {
+    debug_eprintln!("{}summary_update {:?};", snx(), summary);
+    if let Some(val) = map_.insert(fpath_.clone(), summary) {
+        //debug_eprintln!("{}run_4: Error: map_path_summary already contains key {:?} with {:?}", so(), fpath_min, val);
+        eprintln!("Error: run4: map_path_summary already contains key {:?} with {:?}, overwritten", fpath_, val);
+    };
 }
 
-/// TODO: replace `paths &Vec<FPath>` type to be a unique set `&HashSet<FPath>` or the like
 fn run_4(
     paths: &Vec<FPath>, blocksz: BlockSz, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
 ) {
@@ -8172,6 +8294,7 @@ fn run_4(
 
     //
     // create a single ThreadPool with one thread per path
+    // TODO: name the threads https://github.com/rayon-rs/rayon/issues/924#issuecomment-1080938071
     //
     debug_eprintln!("{}run_4: rayon::ThreadPoolBuilder::new().num_threads({}).build()", so(), file_count);
     let pool = rayon::ThreadPoolBuilder::new().num_threads(file_count).build().unwrap();
@@ -8188,14 +8311,16 @@ fn run_4(
     let mut map_path_summary = Map_FPath_Summary::with_capacity(file_count);
     let color_datetime: Color = COLOR_DATETIME;
 
-    // XXX: are these channels necessary?
-    let (chan_send_1, chan_recv_1) = std::sync::mpsc::channel();
+    // initialize
+    let (chan_send_1, _chan_recv_1) = std::sync::mpsc::channel();
+    for fpath in paths.iter() {
+        map_path_color.insert(fpath, color_rand());
+    }
     for fpath in paths.iter() {
         let thread_data: Thread_Init_Data4 =
-            (fpath.clone(), blocksz, filter_dt_after_opt.clone(), filter_dt_before_opt.clone());
+            (fpath.clone(), blocksz, *filter_dt_after_opt, *filter_dt_before_opt);
         let (chan_send_dt, chan_recv_dt): (Chan_Send_Datum, Chan_Recv_Datum) = crossbeam_channel::bounded(queue_sz_dt);
         map_path_recv_dt.insert(fpath, chan_recv_dt);
-        map_path_color.insert(fpath, color_rand());
         let chan_send_1_thread = chan_send_1.clone();
         // TODO: how to name the threads? The provided example is not clear
         //       https://docs.rs/rayon/1.5.1/rayon/struct.ThreadPoolBuilder.html#examples-1
@@ -8273,6 +8398,9 @@ fn run_4(
     // crude debugging stats
     let mut _count_recv_ok: usize = 0;
     let mut _count_recv_di: usize = 0;
+    let mut sp_total: SummaryPrinted = SummaryPrinted::default();
+
+    let clr_default = Color::White;
 
     loop {
         // channels that should be disconnected this loop iteration
@@ -8282,9 +8410,9 @@ fn run_4(
         // they can all be compared. The soonest DateTime selected then printed.
         if map_path_recv_dt.len() == map_path_datum.len() {
             let mut fp1: FPath = FPath::new();
-            // XXX: arbitrary code block here to allow later `map_path_slp.remove`;
+            // XXX: arbitrary code block here to allow later `map_path_datum.remove`;
             //      hacky workaround for a difficult error:
-            //          "cannot borrow `map_path_slp` as mutable more than once at a time"
+            //          "cannot borrow `map_path_datum` as mutable more than once at a time"
             {
                 for (i, (k, v)) in map_path_recv_dt.iter().enumerate() {
                     debug_eprintln!("{} A1 map_path_recv_dt[{:?}] = {:?}", i, k, v);
@@ -8312,48 +8440,34 @@ fn run_4(
                             continue;
                         }
                     };
-                if chan_datum.1.is_some() {
-                    debug_eprintln!("{}run_4: A2 chan_datum has summary {:?}", so(), fpath_min);
-                    assert!(!chan_datum.0.is_some(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). {:?}", fpath_min);
-                    summary_update(&fpath_min, map_path_summary.borrow_mut(), chan_datum.1);
+                if let Some(summary) = chan_datum.1 {
+                    debug_eprintln!("{}run_4: A2 chan_datum has Summary {:?}", so(), fpath_min);
+                    assert!(chan_datum.0.is_none(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). {:?}", fpath_min);
+                    summary_update(fpath_min, summary, &mut map_path_summary);
                     debug_eprintln!("{}run_4: A2 will disconnect channel {:?}", so(), fpath_min);
                     // receiving a Summary must be the last data sent on the channel
                     disconnected.push(fpath_min.clone());
                 } else {
                     let is_last = chan_datum.2;
                     let slp_min = chan_datum.0.as_ref().unwrap();
+                    let clr = map_path_color.get(fpath_min).unwrap_or(&clr_default);
                     // print the sysline!
-                    debug_eprintln!("{}run_4: A3 printing SyslineP@{:p} {:?}", so(), slp_min, fpath_min);
+                    debug_eprintln!("{}run_4: A3 printing SyslineP@{:p} @[{}, {}] {:?}", so(), slp_min, slp_min.fileoffset_begin(), slp_min.fileoffset_end(), fpath_min);
                     if cfg!(debug_assertions) {
                         let out = fpath_min.to_string()
                             + &String::from(": ")
                             + &(slp_min.to_String_noraw())
                             + &String::from("\n");
-                        let clr: Color = map_path_color.get(fpath_min).unwrap().clone();
-                        match print_colored(clr, out.as_bytes()) { _ => {} };
-                        summaryprint_update(fpath_min, &mut map_path_sumpr, slp_min);
-                        if is_last {
-                            write_stdout(&NLu8a);
-                        }
+                        match print_colored_stdout(*clr, out.as_bytes()) { _ => {}};
                     } else {
-                        let clr: Color = map_path_color.get(fpath_min).unwrap().clone();
-                        let is_last = chan_datum.2;
-                        (*slp_min).print_color(clr, color_datetime);
-                        summaryprint_update(fpath_min, &mut map_path_sumpr, slp_min);
-                        /*
-                        // need one last newline
-                        // but do not write extra stdout if only one file was processed, so program output
-                        // can be tested against `cat`
-                        // XXX: does this make sense?
-                        if is_last && file_count == 1 {
-                            write_stdout(&NLu8a);
-                        }
-                        */
-                        // need one last newline
-                        if is_last {
-                            write_stdout(&NLu8a);
-                        }
+                        (*slp_min).print_color(*clr, color_datetime);
                     }
+                    if is_last {
+                        write_stdout(&NLu8a);
+                        sp_total.bytes += 1;
+                    }
+                    summaryprint_map_update(slp_min, fpath_min, &mut map_path_sumpr);
+                    summaryprint_update(slp_min, &mut sp_total);
                 }
                 fp1 = (*fpath_min).clone();
             }
@@ -8366,10 +8480,10 @@ fn run_4(
             match result1 {
                 Ok(chan_datum) => {
                     debug_eprintln!("{}run_4: B crossbeam_channel::Found for FPath {:?};", so(), fpath1);
-                    if chan_datum.1.is_some() {
-                        debug_eprintln!("{}run_4: B chan_datum has summary {:?}", so(), fpath1);
+                    if let Some(summary) = chan_datum.1 {
+                        debug_eprintln!("{}run_4: B chan_datum has Summary {:?}", so(), fpath1);
                         assert!(chan_datum.0.is_none(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). FPath {:?}", fpath1);
-                        summary_update(&fpath1, map_path_summary.borrow_mut(), chan_datum.1);
+                        summary_update(&fpath1, summary, &mut map_path_summary);
                         debug_eprintln!("{}run_4: B will disconnect channel {:?}", so(), fpath1);
                         // receiving a Summary must be the last data sent on the channel
                         disconnected.push(fpath1.clone());
@@ -8402,10 +8516,13 @@ fn run_4(
     } // end loop
 
     if SUMMARY_CMD_OPT {
-        let noprints = Summary_Printed::default();
         eprintln!("\nSummary:");
         for fpath in paths.iter() {
-            eprintln!("File: {:?}", fpath);
+            eprint!("File: ");
+            let clr = map_path_color.get(fpath).unwrap_or(&clr_default);
+            print_colored_stderr(*clr, fpath.as_bytes());
+            eprintln!();
+            
             let summary_opt = map_path_summary.remove(fpath);
             match summary_opt {
                 Some(summary) => {
@@ -8421,10 +8538,11 @@ fn run_4(
                     eprintln!("   {:?}", summary_print);
                 },
                 None => {
-                    eprintln!("   {:?}", noprints);
+                    eprintln!("   {:?}", SummaryPrinted::default());
                 }
             }
         }
+        eprintln!("{:?}", sp_total);
     }
 
     debug_eprintln!("{}run_4: E _count_recv_ok {:?} _count_recv_di {:?}", so(), _count_recv_ok, _count_recv_di);
