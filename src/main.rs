@@ -543,6 +543,15 @@ TODO: 2022/03/29 add `BlockReader.read_block` semaphore https://crates.io/crates
       However, an underlying BlockReader async-sempaphore could service the read requests.
       Though... does not the underlying OS handle this already? This might be of little importance.
 
+LAST WORKING ON [2022/03/30 23:45:30] according to tools/flamegraph.sh output, a good thing to
+       optimize next would be `find_datetime_in_line`, specifically, avoid unnecessary calls to
+       `datetime_from_str`.
+       Or lessen calls to `str::from_utf8`, they are time-consuming. Use `bstr` instead.
+       Perhaps write a little test program for this comparison.
+       Also curious how much time is shaved off by printing without color. Should add a --color={auto, always, none}
+       option next.
+       (BUT FIRST, write a quickie script to run `cat | sort` and compare runtimes.
+
  */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1620,6 +1629,8 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
         filter_dt_before,
         cli_opt_summary,
     ) = cli_process_args();
+
+    // TODO: for each fpath, remove non-existent files non-readable files, walk directories and expand to fpaths
 
     run_4(fpaths, blocksz, &filter_dt_after, &filter_dt_before, cli_opt_summary);
 
@@ -4607,7 +4618,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             // take a slice of the `line_as_slice` then convert to `str`
             // this is to force the parsing function `Local.datetime_from_str` to constrain where it
             // searches within the `Line`
-            // TODO: here is a place to use `bstr` that will handle failed encoding attempts
+            // TODO: here is a place to use `bstr` that will better handle failed encoding attempts
             debug_eprintln!("{}find_datetime_in_line: str::from_utf8(&line_as_slice[(*{})‥(*{})])", so(), beg_i, end_i);
             let dts = match str::from_utf8(&line_as_slice[(*beg_i)..(*end_i)]) {
                 Ok(val) => val,
