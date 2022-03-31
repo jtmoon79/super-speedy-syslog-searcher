@@ -8,21 +8,22 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-# enable for flamegraph (https://github.com/flamegraph-rs/flamegraph#usage-with-benchmarks)
-[profile.bench]
-debug = true
-[profile.release]
-debug = true
+# enabled for flamegraph (https://github.com/flamegraph-rs/flamegraph#usage-with-benchmarks)
+#[profile.bench]
+#debug = true
+#[profile.release]
+#debug = true
 
-# TODO: add dev dependencies including flamegraph
+[dev-dependencies]
+flamegraph = "0.6.1"
 
 [dependencies]
 atty = "0.2.14"
 backtrace = "0.3.64"
 chain-cmp =  "0.2.0"
 chrono = "0.4.19"
-clap = { version = "3.1.6", features = ["derive"] }
-crossbeam-channel = "0.5.1"
+clap = { version = "3.1.7", features = ["derive"] }
+crossbeam-channel = "0.5.4"
 debug_print = "1.0.0"
 itertools = "0.10.3"
 lazy_static = "1.4.0"
