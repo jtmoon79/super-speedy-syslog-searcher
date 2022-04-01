@@ -1,6 +1,5 @@
 // main.rs
-/* …
-≤ ≥
+/* … ≤ ≥
 Successful `sort`. Passes all tests in run-tests including utf-8 with high-order characters.
 
 (export RUST_BACKTRACE=1; cargo run -- --filepath Cargo.toml)
@@ -41,6 +40,8 @@ https://lib.rs/crates/strcursor
 
 This looks helpful for searching `Vec[u8]` without requiring conversion to `str`.
 https://lib.rs/crates/bstr
+This looks really fast for small strings (like DateTime Substrings)
+https://docs.rs/arraystring/latest/arraystring/
 
 Slices and references refresher:
     https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=0fe005a84f341848c491a92615288bad
@@ -171,7 +172,7 @@ LAST WORKING ON [2021/09/16]
     - tar.gz archives
     - datetime pattern matching at variable line index
 
-DONE: TODO: [2021/09/16]
+DONE: [2021/09/16]
       clean up the confusing use Result. Create your own Result Enum that copies what is necessary
       from built-in code.
 
@@ -281,7 +282,7 @@ LAST WORKING ON [2021/10/03 00:20:00]
      I made a skeleton for SyslogWriter, but I'm not sure what to do with it.
      Perhaps that could be the thing that handles all the threading? Rename `SyslogsPrinter` ?
 
-FIXED: BUG: [2021/10/04 01:05:00]
+FIXED: [2021/10/04 01:05:00]
      Fails to parse datetime in datetime from file `logs/Ubuntu18/vmware-installer`, example sysline
          [2019-05-06 11:24:34,033] Installer running.
      Debug output shows an attempt to parse it, all parameters looks correct.
@@ -363,8 +364,7 @@ TODO: [2022/03/22 01:53:10] easy speed up is to add functions to handle typical 
 TODO: [2022/03/22 02:10:12] add command-line option to bold/color the datetime string
       helpful for visual verifications.
 
-LAST WORKING ON: [2022/03/22 02:26:15] see above LAST WORKING ON; large files are not sorted correctly.
-FIXED 
+FIXED: [2022/03/22 02:26:15] see above LAST WORKING ON; large files are not sorted correctly.
 
 TODO: [2022/03] try cargo-nexttest https://github.com/nextest-rs/nextest/releases/tag/cargo-nextest-0.9.12
 
@@ -372,7 +372,7 @@ TODO: [2022/03/23 02:07:51] might be interesting to add a debug printing mode --
       that prints *only* the datetime portion of sysline.
       This would help visually verify datetimes for a variety of files.
 
-LAST WORKING ON 2022/03/23 02:09:37 need to add the summary to help with debug inspections
+DONE: 2022/03/23 02:09:37 need to add the summary to help with debug inspections
         count of bytes (taken from blocks),
         count of lines (counted in insert_line),
         count of syslines (counted in insert_sysline),
@@ -383,8 +383,6 @@ LAST WORKING ON 2022/03/23 02:09:37 need to add the summary to help with debug i
         datetime formats found (and count)
      make sure to print about files that did not find process *any* Lines or Syslines (binary files, empty file).
      Then add a bunch of found datetimes formats from various found files, see how things improve.
-     then...
-     review all messages above and below. What should be next?
 
 TODO: update my github profile with an introduction like here https://github.com/yuk7
 
@@ -501,7 +499,7 @@ TODO: [2022/03/27]
       Summary printing should print file names in same colors the lines were printed.
       Should the printed datetime be a variation on the file color? Visually, that would help much.
 
-DONE: TODO: [2022/03/27]
+DONE: [2022/03/27]
       add a Summary total at end of Summary,
       i.e. count of lines printed for *all* files processed, syslines, bytes, etc.
            first found datetime, last found datetime
@@ -509,7 +507,7 @@ DONE: TODO: [2022/03/27]
 TODO: [2022/03/29]
       add a --summary command-line option for controlling print of Summary.
 
-DONE: BUG: [2022/03/27 18:29:03] passing both datetime filters results in a printed error
+FIXED: [2022/03/27 18:29:03] passing both datetime filters results in a printed error
         ▶ ./target/release/super_speedy_syslog_searcher --path ./logs/other/tests/dtf5-6b.log -- 0xFFFFF 20000101T000001 20000101T000002
         ...
         ERROR: SyslineReader@0x7f9ca0a6fe90.find_sysline(216) Passed fileoffset 216 past file size 215
@@ -540,7 +538,7 @@ TODO: 2022/03/29 add `BlockReader.read_block` semaphore https://crates.io/crates
       Would be cool to have some stats on total wait time, but that's a feature creep goal.
       Keep in mind, it's necessary for all BlockReaders to read, since all files need simultaneous processing.
       And each of them pauses when waiting in the `exec_4`... (right?)
-      However, an underlying BlockReader async-sempaphore could service the read requests.
+      However, an underlying BlockReader async-semaphore could service the read requests.
       Though... does not the underlying OS handle this already? This might be of little importance.
 
 LAST WORKING ON [2022/03/30 23:45:30] according to tools/flamegraph.sh output, a good thing to
@@ -550,8 +548,28 @@ LAST WORKING ON [2022/03/30 23:45:30] according to tools/flamegraph.sh output, a
        Perhaps write a little test program for this comparison.
        Also curious how much time is shaved off by printing without color. Should add a --color={auto, always, none}
        option next.
-       (BUT FIRST, write a quickie script to run `cat | sort` and compare runtimes.
 
+DONE: write a quickie script to run `cat | sort` and compare runtimes.
+
+TODO: 2022/03/31 for files with datetime format lacking year, it will be necessary
+      to determine if year rollover occurred *before printing or creating syslines* (or some mechanism to revise
+      previously created syslines). This will mean beginning a backwards search for syslines
+      *at the end* of the files (no matter the passed `dt_filter_before`).
+      This would cause much reading of data that would otherwise want to avoid reading.
+      It would cool to add this, though it would be much delicate work.
+      Here are some related implementation options:
+      Syslog datetime formats without a year should emit a printed warning:
+        "Warning: syslog file uses datetime format that does not include a year. Cannot be processed."
+      and then stop processing that file.
+      or, if the file metadata "Last Modified Time" can be retrieved, then could print
+        "Warning: syslog file uses datetime format that does not include a year. Assuming year to be Last Modified Time XXXX".
+      or, do one huge iteration from the last line of the file, tracking years, but never keeping any data (so it doesn't blowout memory).
+      This is a resource intensive hack that *would* work.
+
+TODO: 2022/03/31 add option --assume-TZ-offset that allows passing TZ offset that will be assumed for syslog
+      files that use datetime format without a timezone offset.
+      Would default to `DateTime.Local` offset.
+ 
  */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -578,6 +596,9 @@ extern crate atty;
 
 extern crate backtrace;
 
+//extern crate bstr;
+//use bstr::ByteSlice;
+
 extern crate chain_cmp;
 use chain_cmp::chmp;
 
@@ -593,6 +614,8 @@ extern crate debug_print;
 #[allow(unused_imports)]
 use debug_print::{debug_eprint, debug_eprintln, debug_print, debug_println};
 
+extern crate encoding_rs;
+
 extern crate lru;
 use lru::LruCache;
 
@@ -605,7 +628,7 @@ extern crate more_asserts;
 extern crate rand;
 
 extern crate rangemap;
-use rangemap::RangeMap;
+use rangemap::{RangeMap,RangeSet};
 
 extern crate mut_static;
 
@@ -634,8 +657,6 @@ static NLu8: u8 = 10;
 /// Newline in a byte buffer
 #[allow(non_upper_case_globals)]
 static NLu8a: [u8; 1] = [NLu8];
-
-const SUMMARY_CMD_OPT: bool = true;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // custom Results enums for various *Reader functions
@@ -1067,17 +1088,6 @@ pub fn test_sn_so_sx() {
     depth1();
 }
 
-
-/// global test initializer for test functions, useful for complex tests that debug_print using
-/// sn(), so(), sx().
-/// from https://stackoverflow.com/a/58006287/471376
-#[cfg(test)]
-pub fn test_init() {
-    //_Test_Init_Once.call_once(|| {
-        stack_offset_set(Some(-8));
-    //});
-}
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // helper functions - various print and write
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1085,6 +1095,7 @@ pub fn test_init() {
 /// turn passed u8 into char, for any char values that are CLI formatting instructions transform
 /// them to pictoral representations, e.g. '\n' returns a pictoral unicode representation '␊'
 /// only intended for debugging
+#[cfg(any(debug_assertions,test))]
 fn char_to_char_noraw(c: char) -> char {
     if c.is_ascii_graphic() {
         return c;
@@ -1132,7 +1143,7 @@ fn char_to_char_noraw(c: char) -> char {
 
 /// transform utf-8 byte (presumably) to non-raw char
 /// only intended for debugging
-#[allow(dead_code)]
+#[cfg(any(debug_assertions,test))]
 fn byte_to_char_noraw(byte: u8) -> char {
     char_to_char_noraw(byte as char)
 }
@@ -1140,7 +1151,8 @@ fn byte_to_char_noraw(byte: u8) -> char {
 /// transform buffer of utf-8 chars (presumably) to a non-raw String
 /// inefficient
 /// only intended for debugging
-#[allow(non_snake_case, dead_code)]
+#[allow(non_snake_case)]
+#[cfg(any(debug_assertions,test))]
 fn buffer_to_String_noraw(buffer: &[u8]) -> String {
     let s1 = match str::from_utf8(buffer) {
         Ok(val) => val,
@@ -1159,7 +1171,8 @@ fn buffer_to_String_noraw(buffer: &[u8]) -> String {
 
 /// transform str to non-raw String version
 /// only intended for debugging
-#[allow(non_snake_case, dead_code)]
+#[allow(non_snake_case)]
+#[cfg(any(debug_assertions,test))]
 fn str_to_String_noraw(str_buf: &str) -> String {
     let mut s2 = String::with_capacity(str_buf.len() + 1);
     for c in str_buf.chars() {
@@ -1172,7 +1185,8 @@ fn str_to_String_noraw(str_buf: &str) -> String {
 /// return contents of file utf-8 chars (presumably) at `path` as non-raw String
 /// inefficient
 /// only intended for debugging
-#[allow(non_snake_case, dead_code)]
+#[allow(non_snake_case)]
+#[cfg(any(debug_assertions,test))]
 fn file_to_String_noraw(path: &FPath) -> String {
     let path_ = Path::new(path);
     let mut open_options = OpenOptions::new();
@@ -1311,6 +1325,7 @@ pub fn flush_stdouterr() {
 /// write to console, `raw` as `true` means "as-is"
 /// else use `char_to_char_noraw` to replace chars in `buffer` (inefficient)
 /// only intended for debugging
+#[cfg(any(debug_assertions,test))]
 pub fn pretty_print(buffer: &[u8], raw: bool) {
     if raw {
         return write_stdout(buffer);
@@ -1353,7 +1368,7 @@ pub fn pretty_print(buffer: &[u8], raw: bool) {
 
 /// testing helper to write a `str` to a temporary file
 /// The temporary file will be automatically deleted when returned `NamedTempFile` is dropped.
-#[allow(dead_code)]
+#[cfg(test)]
 fn create_temp_file(content: &str) -> NamedTempFile {
     let mut ntf1 = match NamedTempFile::new() {
         Ok(val) => val,
@@ -1362,6 +1377,26 @@ fn create_temp_file(content: &str) -> NamedTempFile {
         }
     };
     match ntf1.write_all(content.as_bytes()) {
+        Ok(_) => {}
+        Err(err) => {
+            panic!("NamedTempFile::write_all() return Err {}", err);
+        }
+    }
+
+    return ntf1;
+}
+
+/// testing helper to write a `[u8]` to a temporary file
+/// The temporary file will be automatically deleted when returned `NamedTempFile` is dropped.
+#[cfg(test)]
+fn create_temp_file_bytes(content: &[u8]) -> NamedTempFile {
+    let mut ntf1 = match NamedTempFile::new() {
+        Ok(val) => val,
+        Err(err) => {
+            panic!("NamedTempFile::new() return Err {}", err);
+        }
+    };
+    match ntf1.write_all(content) {
         Ok(_) => {}
         Err(err) => {
             panic!("NamedTempFile::write_all() return Err {}", err);
@@ -1734,7 +1769,7 @@ impl fmt::Debug for BlockReader<'_> {
 }
 
 /// helper for humans debugging Blocks, very inefficient
-#[allow(dead_code)]
+#[cfg(any(debug_assertions,test))]
 fn printblock(buffer: &Block, blockoffset: BlockOffset, fileoffset: FileOffset, blocksz: BlockSz, _mesg: String) {
     const LN: usize = 64;
     println!("╔════════════════════════════════════════════════════════════════════════════╕");
@@ -2453,13 +2488,13 @@ impl Line {
     /// the byte offset into the file where this `Line` begins
     /// "points" to first character of `Line`
     pub fn fileoffset_begin(self: &Line) -> FileOffset {
-        assert_ne!(self.lineparts.len(), 0, "This Line has no `LinePart`");
+        debug_assert_ne!(self.lineparts.len(), 0, "This Line has no `LinePart`");
         self.lineparts[0].fileoffset
     }
 
     /// the byte offset into the file where this `Line` ends, inclusive (not one past ending)
     pub fn fileoffset_end(self: &Line) -> FileOffset {
-        assert_ne!(self.lineparts.len(), 0, "This Line has no `LinePart`");
+        debug_assert_ne!(self.lineparts.len(), 0, "This Line has no `LinePart`");
         let last_li = self.lineparts.len() - 1;
         self.lineparts[last_li].fileoffset + (self.lineparts[last_li].len() as FileOffset) - 1
     }
@@ -2503,6 +2538,7 @@ impl Line {
     /// `raw` true will write directly to stdout from the stored `Block`
     /// `raw` false will write transcode each byte to a character and use pictoral representations
     /// XXX: `raw==false` does not handle multi-byte encodings
+    #[cfg(any(debug_assertions,test))]
     pub fn print(self: &Line, raw: bool) {
         // is this an expensive command? should `stdout` be cached?
         let stdout = io::stdout();
@@ -2527,7 +2563,7 @@ impl Line {
                 let s = match str::from_utf8(slice) {
                     Ok(val) => val,
                     Err(err) => {
-                        eprintln!("ERROR: Invalid UTF-8 sequence during from_utf8_lossy: {:?}", err);
+                        eprintln!("ERROR: Invalid UTF-8 sequence during from_utf8: {:?}", err);
                         continue;
                     }
                 };
@@ -2560,6 +2596,7 @@ impl Line {
     /// TODO: this would be more efficient returning `&str`
     ///       https://bes.github.io/blog/rust-strings
     #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
     fn _to_String_raw(self: &Line, raw: bool) -> String {
         let mut sz: usize = 0;
         for linepart in &self.lineparts {
@@ -2601,6 +2638,7 @@ impl Line {
     // XXX: rust does not support function overloading which is really surprising and disappointing
     /// `Line` to `String`
     #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Line) -> String {
         return self._to_String_raw(true);
     }
@@ -2617,6 +2655,7 @@ impl Line {
 
     /// `Line` to `String` but using printable chars for non-printable and/or formatting characters
     #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &Line) -> String {
         return self._to_String_raw(false);
     }
@@ -2625,6 +2664,7 @@ impl Line {
     /// if `Line` does not cross a Block then this returns slice into the `Block`,
     /// otherwise it requires a copy of `Block`s data
     /// TODO: should use `&[char]`?
+    /// TODO: add tests
     /// XXX: cannot return slice because 1. size not known at compile time so cannot
     ///      place on stack 2. slice is an array which is not an "owned type"
     pub fn as_slice(self: &Line) -> Bytes {
@@ -2663,6 +2703,7 @@ type LinesLRUCache = LruCache<FileOffset, ResultS4_LineFind>;
 /// range map where key is Line begin to end `[Line.fileoffset_begin(), Line.fileoffset_end()]`
 /// and where value is Line begin (`Line.fileoffset_begin()`). Use the value to lookup associated `Line` map
 type LinesRangeMap = RangeMap<FileOffset, FileOffset>;
+type LinesRangeSet = RangeSet<FileOffset>;
 
 /// Specialized Reader that uses BlockReader to find FoToLine
 pub struct LineReader<'linereader> {
@@ -2682,7 +2723,8 @@ pub struct LineReader<'linereader> {
     _charsz: CharSz,
     /// `Line` offsets stored as Range `[fileoffset_begin..fileoffset_end+1)`. to `fileoffset_begin`.
     ///  the stored value can be used to lookup `Line` in `self.lines`
-    lines_by_range: LinesRangeMap,
+    //lines_by_range: LinesRangeMap,
+    lines_by_range: LinesRangeSet,
     /// internal LRU cache for `find_line`
     _find_line_lru_cache: LinesLRUCache,
     // TODO: [2021/09/21] add efficiency stats
@@ -2741,7 +2783,8 @@ impl<'linereader> LineReader<'linereader> {
             //_next_line_blockoffset: FileOffset::MAX,
             //_next_line_blockp_opt: None,
             //_next_line_blocki: 0,
-            lines_by_range: LinesRangeMap::new(),
+            //lines_by_range: LinesRangeMap::new(),
+            lines_by_range: LinesRangeSet::new(),
             _find_line_lru_cache: LinesLRUCache::new(8),
         })
     }
@@ -2765,6 +2808,7 @@ impl<'linereader> LineReader<'linereader> {
 
     /// print `Line` at `fileoffset`
     /// return `false` if `fileoffset` not found
+    #[cfg(any(debug_assertions,test))]
     pub fn print(&self, fileoffset: &FileOffset) -> bool {
         if !self.lines.contains_key(fileoffset) {
             return false;
@@ -2776,6 +2820,7 @@ impl<'linereader> LineReader<'linereader> {
 
     /// Testing helper only
     /// print all known `Line`s
+    #[cfg(any(debug_assertions,test))]
     pub fn print_all(&self) {
         for fo in self.lines.keys() {
             self.print(fo);
@@ -2817,18 +2862,29 @@ impl<'linereader> LineReader<'linereader> {
     }
     
     fn insert_line(&mut self, line: Line) -> LineP {
+        debug_eprintln!("{}LineReader.insert_line(Line @{:p})", sn(), &line);
         let fo_beg = line.fileoffset_begin();
         let fo_end = line.fileoffset_end();
         let rl = LineP::new(line);
         debug_eprintln!("{}LineReader.insert_line: lines.insert({}, Line @{:p})", so(), fo_beg, &(*rl));
+        debug_assert!(!self.lines.contains_key(&fo_beg), "self.lines already contains key {}", fo_beg);
         self.lines.insert(fo_beg, rl.clone());
         debug_eprintln!("{}LineReader.insert_line: lines_end.insert({}, Line @{:p})", so(), fo_end, &(*rl));
+        debug_assert!(!self.lines_end.contains_key(&fo_end), "self.lines_end already contains key {}", fo_end);
         self.lines_end.insert(fo_end, rl.clone());
         self.lines_count += 1;
         // XXX: multi-byte character encoding
         let fo_end1 = fo_end + (self.charsz() as FileOffset);
-        debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{}, {})", so(), fo_beg, fo_end1, fo_beg);
-        self.lines_by_range.insert(fo_beg..fo_end1, fo_beg);
+        // TODO: this `RangeMap::insert` takes a very large amount of processing time, 8% of processing time for the tests
+        //       in script `./tools/compare-grep-sort1.sh`. In this special case, it case be replaced with
+        //       a `RangeSet`. The `V` in this `RangeMap` use is the same as `K.last`.
+        //debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{}, {})", so(), fo_beg, fo_end1, fo_beg);
+        //self.lines_by_range.insert(fo_beg..fo_end1, fo_beg);
+        debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{}, {})", so(), fo_beg, fo_end, fo_beg);
+        debug_assert!(!self.lines_by_range.contains(&fo_beg), "self.lines_by_range already contains range with fo_beg {}", fo_beg);
+        debug_assert!(!self.lines_by_range.contains(&fo_end), "self.lines_by_range already contains range with fo_end {}", fo_end);
+        self.lines_by_range.insert(fo_beg..fo_end);
+        debug_eprintln!("{}LineReader.insert_line() returning @{:p}", sx(), rl);
         return rl;
     }
 
@@ -2909,15 +2965,16 @@ impl<'linereader> LineReader<'linereader> {
         match self.lines_by_range.get(&fileoffset) {
             Some(fo_range) => {
                 debug_eprintln!(
-                    "{}find_line: fileoffset {} refers to self.lines_by_range Range {:?}",
+                    "{}find_line: fileoffset {} refers to self.lines_by_range {:?}",
                     so(),
                     fileoffset,
                     fo_range
                 );
-                let lp = self.lines[fo_range].clone();
+                //let lp = self.lines[fo_range].clone();
+                let lp = self.lines[&fo_range.start].clone();
                 let fo_next = (*lp).fileoffset_end() + charsz_fo;
                 // TODO: add stats like BlockReader._stats*
-                debug_eprintln!("{}find_line: LRU Cache put({}, Found_EOF({}, …))", so(), fileoffset, fo_next);
+                debug_eprintln!("{}find_line: LRU Cache put({}, Found({}, …)) {:?}", so(), fileoffset, fo_next, (*lp).to_String_noraw());
                 self._find_line_lru_cache
                     .put(fileoffset, ResultS4_LineFind::Found((fo_next, lp.clone())));
                 debug_eprintln!("{}find_line: return ResultS4_LineFind::Found({}, {:p}) @[{}, {}]", sx(), fo_next, &*lp, (*lp).fileoffset_begin(), (*lp).fileoffset_end());
@@ -3075,6 +3132,8 @@ impl<'linereader> LineReader<'linereader> {
             so(),
             fo_nl_a
         );
+        
+        // TODO: 2022/03/31 20:14:26 found a newline, first search the caches if the `Line` is already known, avoid duplicate work
 
         // found newline part B? Line ends at this
         let mut found_nl_b: bool = false;
@@ -3214,7 +3273,7 @@ impl<'linereader> LineReader<'linereader> {
 /// loop on `LineReader.find_line` until it is done
 /// prints to stdout
 /// testing helper
-#[allow(dead_code)]
+#[cfg(any(debug_assertions,test))]
 fn process_LineReader(lr1: &mut LineReader) {
     debug_eprintln!("{}process_LineReader()", sn());
     let mut fo1: FileOffset = 0;
@@ -3346,7 +3405,6 @@ fn _test_LineReader(path_: &FPath, blocksz: BlockSz) {
 
 /// testing helper
 #[cfg(test)]
-#[allow(dead_code)]
 fn randomize(v_: &mut Vec<FileOffset>) {
     // XXX: can also use `rand::shuffle` https://docs.rs/rand/0.8.4/rand/seq/trait.SliceRandom.html#tymethod.shuffle
     let sz = v_.len();
@@ -3360,7 +3418,6 @@ fn randomize(v_: &mut Vec<FileOffset>) {
 
 /// testing helper
 #[cfg(test)]
-#[allow(dead_code)]
 fn fill(v_: &mut Vec<FileOffset>) {
     let sz = v_.capacity();
     let mut i = 0;
@@ -3592,7 +3649,6 @@ impl Sysline {
     }
 
     /// a `String` copy of the demarcating datetime string found in the Sysline
-    /// TODO: does not handle datetime spanning multiple lines... is that even possible? No...
     #[allow(non_snake_case)]
     pub fn datetime_String(self: &Sysline) -> String {
         assert_ne!(self.dt_beg, LI_NULL, "dt_beg has not been set");
@@ -3646,6 +3702,7 @@ impl Sysline {
     /// `raw` false will write transcode each byte to a character and use pictoral representations
     /// XXX: `raw==false` does not handle multi-byte encodings
     /// TODO: move this into a `Printer` class
+    #[cfg(any(debug_assertions,test))]
     pub fn print1(self: &Sysline, raw: bool) {
         for lp in &self.lines {
             (*lp).print(raw);
@@ -3659,6 +3716,7 @@ impl Sysline {
     /// prints raw data from underlying `Block`
     /// testing helper
     /// TODO: move this into a `Printer` class
+    #[cfg(any(debug_assertions,test))]
     fn print2(&self) {
         let slices = self.get_slices();
         let stdout = io::stdout();
@@ -3760,6 +3818,7 @@ impl Sysline {
     /// TODO: this would be more efficient returning `&str`
     ///       https://bes.github.io/blog/rust-strings
     #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
     fn _to_String_raw(self: &Sysline, raw: bool) -> String {
         let mut sz: usize = 0;
         for lp in &self.lines {
@@ -3789,24 +3848,35 @@ impl Sysline {
     // XXX: rust does not support function overloading which is really surprising and disappointing
     /// `Line` to `String`
     #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Sysline) -> String {
-        return self._to_String_raw(true);
+        self._to_String_raw(true)
     }
 
     #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
     pub fn to_String_from(self: &Sysline, _from: usize) -> String {
         unimplemented!("yep");
     }
 
     #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
     pub fn to_String_from_to(self: &Sysline, _from: usize, _to: usize) -> String {
         unimplemented!("yep");
     }
 
     /// `Sysline` to `String` but using printable chars for non-printable and/or formatting characters
     #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &Sysline) -> String {
-        return self._to_String_raw(false);
+        self._to_String_raw(false)
+    }
+
+    #[allow(non_snake_case)]
+    #[cfg(not(any(debug_assertions,test)))]
+    pub fn to_String_noraw(self: &Sysline) -> String {
+        panic!("should not call function 'Sysline::to_String_noraw' in release build");
+        String::from("")
     }
 }
 
@@ -4419,6 +4489,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     }
 
     /// Testing helper only
+    #[cfg(any(debug_assertions,test))]
     pub fn print(&self, fileoffset: FileOffset, raw: bool) {
         let syslinep: &SyslineP = match self.syslines.get(&fileoffset) {
             Some(val) => val,
@@ -4434,6 +4505,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
 
     /// Testing helper only
     /// print all known `Sysline`s
+    #[cfg(any(debug_assertions,test))]
     pub fn print_all(&self, raw: bool) {
         debug_eprintln!("{}print_all(true)", sn());
         for fo in self.syslines.keys() {
@@ -4565,6 +4637,32 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         return true;
     }
 
+    /// decoding `[u8]` bytes to a `str` takes a surprising amount of time, according to `tools/flamegraph.sh`.
+    /// first check `u8` slice with custom brute-force checker that, in case of complications,
+    /// falls back to using higher-resource and more-precise checker `encoding_rs::mem::utf8_latin1_up_to`.
+    /// this uses built-in unsafe `str::from_utf8_unchecked`.
+    /// See `benches/bench_decode_utf.rs` for comparison of bytes->str decode strategies
+    #[inline]
+    fn u8_to_str(slice_: &[u8]) -> Option<&str> {
+        let dts: &str;
+        let mut fallback = false;
+        // custom check for UTF8; fast but imperfect
+        if ! slice_.is_ascii() {
+            fallback = true;
+        }
+        if fallback {
+            // found non-ASCII, fallback to checking with `utf8_latin1_up_to` which can do a better check
+            let va = encoding_rs::mem::utf8_latin1_up_to(slice_);
+            if va != slice_.len() {
+                return None;  // invalid UTF8
+            }
+        }
+        unsafe {
+            dts = std::str::from_utf8_unchecked(slice_);
+        };
+        return Some(dts);
+    }
+
     /// if datetime found in `Line` returns `Ok` around
     /// indexes into `line` of found datetime string `(start of string, end of string)`
     /// else returns `Err`
@@ -4575,7 +4673,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     ///      Instead of fixing the current problem of unexpected datetime matches,
     ///      fix the concept problem of passing around fixed-length datetime strings. Then redo this.
     pub fn find_datetime_in_line(
-        line: &Line, parse_data: &'syslinereader DateTime_Parse_Datas_vec, fpath: &FPath
+        line: &Line, parse_data: &'syslinereader DateTime_Parse_Datas_vec, _fpath: &FPath
     ) -> Result_FindDateTime<'syslinereader> {
         debug_eprintln!("{}find_datetime_in_line:(Line@{:p}) {:?}", sn(), &line, line.to_String_noraw());
         // skip easy case; no possible datetime
@@ -4586,6 +4684,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         // TODO: create `pub fnas_slice_first_X` that return slice of first X bytes,
         //       most cases only need first 30 or so bytes of line, so this less often crosses block boundaries
         let line_as_slice = line.as_slice();
+
+        let mut dtsS: String = String::with_capacity(50);
+        let mut decoder = encoding_rs::UTF_8.new_decoder();
 
         let mut i = 0;
         // `end_i` and `actual_end_i` is one past last char; exclusive.
@@ -4618,14 +4719,10 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             // take a slice of the `line_as_slice` then convert to `str`
             // this is to force the parsing function `Local.datetime_from_str` to constrain where it
             // searches within the `Line`
-            // TODO: here is a place to use `bstr` that will better handle failed encoding attempts
-            debug_eprintln!("{}find_datetime_in_line: str::from_utf8(&line_as_slice[(*{})‥(*{})])", so(), beg_i, end_i);
-            let dts = match str::from_utf8(&line_as_slice[(*beg_i)..(*end_i)]) {
-                Ok(val) => val,
-                Err(err) => {
-                    debug_eprintln!("ERROR: find_datetime_in_line: str::from_utf8(&line_as_slice[{}‥{}]) failed during pattern {} Utf8Error '{}' path {:?}", (*beg_i), (*end_i), i, err, fpath);
-                    continue;
-                }
+            let slice_ = &line_as_slice[(*beg_i)..(*end_i)];
+            let dts: &str = match SyslineReader::u8_to_str(slice_) {
+                Some(val) => val,
+                None => { continue; }
             };
             debug_eprintln!(
                 "{}find_datetime_in_line: searching for pattern {} {:?} in {:?} (slice [{}‥{}] from Line {:?})",
@@ -4640,7 +4737,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             // TODO: [2021/10/03]
             //       according to flamegraph, this function `Local::datetime_from_str` takes a very large amount of
             //       runtime, around 20% to 25% of entire process runtime. How to improve that?
-            //       Could I create my own hardcoded version for a few common patterns?
+            //       Could I create my own hardcoded parsing for a few common patterns?
             // BUG: [2022/03/21] chrono Issue #660 https://github.com/chronotope/chrono/issues/660
             //      ignoring surrounding whitespace in the passed `fmt`
             let dt = match Local.datetime_from_str(dts, pattern) {
@@ -7269,8 +7366,8 @@ fn test_dt_after_or_before() {
 ///      will return "2000-01-01 00:00:00␊". Which will panic:
 ///          panicked at 'byte index 20 is not a char boundary; it is inside '␊' (bytes 19..22) of `2000-01-01 00:00:00␊`'
 ///      However, this function is only an intermediary development helper. Can this problem have a
-///      brute-force workaround.
-#[allow(dead_code)] 
+///      brute-force workaround. 
+#[cfg(any(debug_assertions,test))]
 fn print_slp(slp: &SyslineP) {
     if cfg!(debug_assertions) {
         let out = (*slp).to_String_noraw();
@@ -7319,6 +7416,7 @@ fn print_slp(slp: &SyslineP) {
 
 #[cfg(test)]
 type _test_SyslineReader_check<'a> = (&'a str, FileOffset);
+
 #[cfg(test)]
 type _test_SyslineReader_checks<'a> = Vec<(&'a str, FileOffset)>;
 
@@ -7326,7 +7424,6 @@ type _test_SyslineReader_checks<'a> = Vec<(&'a str, FileOffset)>;
 #[allow(non_snake_case)]
 #[cfg(test)]
 fn test_SyslineReader(path: &Path, blocksz: BlockSz, fileoffset: FileOffset, checks: &_test_SyslineReader_checks) {
-    test_init();
     debug_eprintln!("{}test_SyslineReader({:?}, {})", sn(), &path, blocksz);
     let fpath: FPath = path.to_str().unwrap_or("").to_string();
     let mut slr = match SyslineReader::new(&fpath, blocksz) {
@@ -7413,6 +7510,7 @@ fn test_SyslineReader(path: &Path, blocksz: BlockSz, fileoffset: FileOffset, che
     debug_eprintln!("{}test_SyslineReader({:?}, {})", sx(), &path, blocksz);
 }
 
+#[allow(non_upper_case_globals)]
 #[cfg(test)]
 static test_data_file_A_dt6: &str = &"\
 2000-01-01 00:00:00
@@ -7422,6 +7520,7 @@ static test_data_file_A_dt6: &str = &"\
 2000-01-01 00:00:04abcd
 2000-01-01 00:00:05abcde";
 
+#[allow(non_upper_case_globals)]
 #[cfg(test)]
 static test_data_file_A_dt6_checks: [_test_SyslineReader_check; 6] = [
     ("2000-01-01 00:00:00\n", 20),
@@ -7434,6 +7533,7 @@ static test_data_file_A_dt6_checks: [_test_SyslineReader_check; 6] = [
 
 #[cfg(test)]
 lazy_static! {
+    #[allow(non_upper_case_globals)]
     static ref test_SyslineReader_A_ntf: NamedTempFile = {
         create_temp_file(test_data_file_A_dt6)
     };
@@ -7507,12 +7607,14 @@ fn test_SyslineReader_A_dt6_128_X9999()
 //  see test_data_file_dt5
 // then extraploate more tests for test_SyslineReader_w_filtering*
 
+#[allow(non_upper_case_globals)]
 #[cfg(test)]
 static test_data_file_B_dt0: &str = &"
 foo
 bar
 ";
 
+#[allow(non_upper_case_globals)]
 #[cfg(test)]
 static test_data_file_B_dt0_checks: [_test_SyslineReader_check; 0] = [];
 
@@ -7532,6 +7634,7 @@ fn test_SyslineReader_B_dt0_3()
     test_SyslineReader(ntf.path(), 128, 3, &checks);
 }
 
+#[allow(non_upper_case_globals)]
 #[cfg(test)]
 static _test_data_file_C_dt6: &str = &"\
 [ERROR] 2000-01-01 00:00:00
@@ -7541,6 +7644,7 @@ static _test_data_file_C_dt6: &str = &"\
 [ERROR] 2000-01-01 00:00:04abcd
 [ERROR] 2000-01-01 00:00:05abcde";
 
+#[allow(non_upper_case_globals)]
 #[cfg(test)]
 static _test_data_file_C_dt6_checks: [_test_SyslineReader_check; 6] = [
     ("[ERROR] 2000-01-01 00:00:00\n", 28),
@@ -7553,6 +7657,7 @@ static _test_data_file_C_dt6_checks: [_test_SyslineReader_check; 6] = [
 
 #[cfg(test)]
 lazy_static! {
+    #[allow(non_upper_case_globals)]
     static ref test_SyslineReader_C_ntf: NamedTempFile = {
         create_temp_file(_test_data_file_C_dt6)
     };
@@ -7584,6 +7689,19 @@ fn test_SyslineReader_C_dt6_2b()
 {
     let checks = _test_SyslineReader_checks::from(&_test_data_file_C_dt6_checks[2..]);
     test_SyslineReader(test_SyslineReader_C_ntf.path(), 128, 28, &checks);
+}
+
+//#[allow(non_upper_case_globals)]
+//#[cfg(test)]
+//static _test_data_file_D_invalid: [_test_SyslineReader_check; 0] = [];
+
+#[test]
+fn test_SyslineReader_D_invalid1()
+{
+    let data_invalid1: [u8; 1] = [ 0xFF ];
+    let date_checks1: _test_SyslineReader_checks = _test_SyslineReader_checks::from([]);
+    let ntf1: NamedTempFile = create_temp_file_bytes(&data_invalid1);
+    test_SyslineReader(ntf1.path(), 128, 0, &date_checks1);
 }
 
 /// basic test of SyslineReader things
@@ -7697,6 +7815,7 @@ fn test_SyslineReader_w_filtering_1(
 
 /// print the filtered syslines for a SyslineReader
 /// quick debug helper
+#[cfg(any(debug_assertions,test))]
 fn process_SyslineReader(
     slr: &mut SyslineReader, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
 ) {
@@ -7817,6 +7936,8 @@ fn process_SyslineReader(
 }
 
 /// quick debug helper
+#[allow(non_snake_case)]
+#[cfg(test)]
 fn _test_SyslineReader_process_file<'a>(
     path: &'a FPath, blocksz: BlockSz, filter_dt_after_opt: &'a DateTimeL_Opt, filter_dt_before_opt: &'a DateTimeL_Opt,
 ) -> Option<Box<SyslineReader<'a>>> {
@@ -7904,9 +8025,10 @@ fn test_SyslineReader_w_filtering_3(
 
 /// basic test of SyslineReader things
 /// read all file offsets but randomly
+/// TODO: this test was hastily designed for human review. Redesign it for automatic review.
 #[allow(non_snake_case)]
 #[cfg(test)]
-fn test_SyslineReader_rand(path_: &FPath, blocksz: BlockSz) {
+fn _test_SyslineReader_rand(path_: &FPath, blocksz: BlockSz) {
     debug_eprintln!("{}test_SyslineReader_rand({:?}, {})", sn(), &path_, blocksz);
     let mut slr1 = match SyslineReader::new(path_, blocksz) {
         Ok(val) => val,
@@ -7928,6 +8050,7 @@ fn test_SyslineReader_rand(path_: &FPath, blocksz: BlockSz) {
             ResultS4_SyslineFind::Err(err) => {
                 debug_eprintln!("{}slr1.find_sysline({}) returned Err({})", so(), fo1, err);
                 eprintln!("ERROR: {}", err);
+                assert!(false, "slr1.find_sysline({}) returned Err({})", fo1, err);
             }
             _ => {}
         }
@@ -7938,11 +8061,66 @@ fn test_SyslineReader_rand(path_: &FPath, blocksz: BlockSz) {
     debug_eprintln!("{}test_SyslineReader_rand(…)", sx());
 }
 
-// TODO: add cases of `test_SyslineReader_rand`
+#[test]
+fn test_SyslineReader_rand__zero__2() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/zero.log"), 2);
+}
+
+#[test]
+fn test_SyslineReader_rand__test0_nlx1__2() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/test0-nlx1.log"), 2);
+}
+
+#[test]
+fn test_SyslineReader_rand__test0_nlx1__4() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/test0-nlx1.log"), 4);
+}
+
+#[test]
+fn test_SyslineReader_rand__test0_nlx1__8() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/test0-nlx1.log"), 8);
+}
+
+#[test]
+fn test_SyslineReader_rand__test0_nlx1_Win__2() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/test0-nlx1_Win.log"), 2);
+}
+
+#[test]
+fn test_SyslineReader_rand__test0_nlx1_Win__4() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/test0-nlx1_Win.log"), 4);
+}
+
+#[test]
+fn test_SyslineReader_rand__test0_nlx1_Win__8() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/test0-nlx1_Win.log"), 8);
+}
+
+#[test]
+fn test_SyslineReader_rand__test0_nlx2__4() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/test0-nlx2.log"), 4);
+}
+
+#[test]
+fn test_SyslineReader_rand__basic_dt1__4() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/basic-dt1.log"), 4);
+}
+
+#[test]
+fn test_SyslineReader_rand__dtf5_6c__4() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/dtf5-6c.log"), 4);
+}
+
+#[test]
+fn test_SyslineReader_rand__dtf5_6c__8() {
+    _test_SyslineReader_rand(&FPath::from("./logs/other/tests/dtf5-6c.log"), 8);
+}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SyslogWriter
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// XXX: unfinished attempt at `Printer` or `Writer` "class"
 
 type SyslineReaders<'syslogwriter> = Vec<SyslineReader<'syslogwriter>>;
 
@@ -7983,126 +8161,10 @@ use std::thread;
 
 // -------------------------------------------------------------------------------------------------
 // threading try #1
-// using rust built-in
+// using rust built-in Thread module
 // -------------------------------------------------------------------------------------------------
 
-/// Thread Handle
-type ThreadHandle = thread::JoinHandle<()>;
-/// Thread Handle Arc
-//type ThreadHandleA<'a> = Arc<&'a ThreadHandle>;
-/// Thread Handle Mutex
-//type ThreadHandleM = Mutex<ThreadHandle>;
-/// Thread Handle Arc Mutex
-//type ThreadHandleAM = Arc<ThreadHandleM>;
-
-struct Worker {
-    id: usize,
-    //thread: ThreadHandle
-    //threadam: ThreadHandleAM,
-    //threadam_opt: Option<ThreadHandleAM>,
-    //threada: ThreadHandleA<'a>,
-    thread_opt: Option<ThreadHandle>,
-}
-
-impl Worker {
-    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
-        let thread = thread::spawn(move || loop {
-            let job = receiver.lock().unwrap().recv().unwrap();
-            println!("Worker {} got a job; executing!", id);
-            job();
-        });
-        //let threadam = ThreadHandleAM::new(
-        //    ThreadHandleM::new(thread)
-        //);
-        //let threada = ThreadHandleA::new(thread);
-
-        Worker {
-            id,
-            //threadam_opt: Some(ThreadHandleAM::new(ThreadHandleM::new(thread))),
-            //threadam: ThreadHandleAM::new(ThreadHandleM::new(thread)),
-            thread_opt: Some(thread),
-        }
-    }
-}
-
-pub struct ThreadPool {
-    workers: Vec<Worker>,
-    sender: mpsc::Sender<Job>,
-}
-
-type Job = Box<dyn FnOnce() + Send + 'static>;
-
-impl ThreadPool {
-    pub fn new(size: usize) -> ThreadPool {
-        assert!(size > 0);
-        let (sender, receiver) = mpsc::channel();
-        let receiver = Arc::new(Mutex::new(receiver));
-        let mut workers = Vec::<Worker>::with_capacity(size);
-        for id in 0..size {
-            workers.push(Worker::new(id, Arc::clone(&receiver)));
-        }
-        ThreadPool { workers, sender }
-    }
-
-    pub fn execute<F>(&self, f: F)
-    where
-        F: FnOnce() + Send + 'static,
-    {
-        let job = Box::new(f);
-        self.sender.send(job).unwrap();
-    }
-
-    pub fn wait(&mut self) {
-        debug_eprintln!("{}ThreadPool::wait()", sn());
-        // the sending channel must be closed so receivers know to stop waiting on it, yes? no?
-        //std::mem::drop(self.sender);
-        //self.sender.drop();
-        for worker in self.workers.iter_mut() {
-            let id = worker.id;
-            debug_eprintln!("{}ThreadPool::wait join …", so());
-
-            //worker.threadam.lock().unwrap().join().unwrap();
-            //worker.threadam_opt.take().unwrap().lock().unwrap().join().unwrap();
-            //worker.threada.join().unwrap();
-            //worker.thread.join().unwrap();
-
-            // BUG: [2021/09/29] this compiles but runtime gets stuck here.
-            // XXX: is it because of the printing?
-            match worker.thread_opt.take().unwrap().join() {
-                Ok(_) => {
-                    debug_eprintln!("joined thread {}!", id);
-                }
-                Err(err) => {
-                    eprintln!("Error thread {} joining {:?}", id, err);
-                }
-            }
-        }
-        debug_eprintln!("{}ThreadPool::wait()", sx());
-    }
-}
-
-/// testing helper
-#[cfg(test)]
-fn exec1() {
-    let _ = 0;
-    debug_eprintln!("exec1");
-}
-
-/*
-/// testing helper
-#[cfg(test)]
-fn test_threading_1() {
-    debug_eprintln!("{}test_threading_1()", sn());
-
-    debug_eprintln!("{}ThreadPool::new(5)", so());
-    let mut tp = ThreadPool::new(5);
-    for _ in 0..5 {
-        tp.execute(exec1);
-    }
-    tp.wait();
-    debug_eprintln!("{}test_threading_1()", sx());
-}
-*/
+// REMOVED ... see archived code
 
 // -------------------------------------------------------------------------------------------------
 // threading try #2
@@ -8116,7 +8178,7 @@ fn test_threading_1() {
 /// given the vector of `DateTimeL`, return the vector index and value of the soonest
 /// (minimum) value within a `Some`
 /// If the vector is empty then return `None`
-#[allow(dead_code)]
+#[cfg(test)]
 fn datetime_soonest2(vec_dt: &Vec<DateTimeL>) -> Option<(usize, DateTimeL)> {
     if vec_dt.is_empty() {
         return None;
@@ -8222,7 +8284,7 @@ fn test_datetime_soonest2() {
 // threading try #4
 // -------------------------------------------------------------------------------------------------
 
-// TODO: leave a long code comment explaining  why I chose this threading pub-sub apprach
+// TODO: leave a long code comment explaining  why I chose this threading pub-sub approach
 //       see old archived code to see previous attempts
 
 type Thread_Init_Data4 = (FPath, BlockSz, DateTimeL_Opt, DateTimeL_Opt);
@@ -8321,7 +8383,8 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
                         }
                     }
                     Result_Filter_DateTime2::OccursBeforeRange => {
-                        eprintln!("ERROR: Encountered a Sysline that is out of order, abandon processing further Syslines. (escaped) {:?}", (*slp).to_String_noraw());
+                        debug_eprintln!("{}{:?}{} ERROR: Sysline out of order: {:?}", so(), tid, tname, (*slp).to_String_noraw());
+                        eprintln!("ERROR: Encountered a Sysline that is out of order; will abandon processing of file {:?}", path);
                         break;
                     }
                     Result_Filter_DateTime2::OccursAfterRange => {

@@ -16,15 +16,25 @@ edition = "2021"
 
 [dev-dependencies]
 flamegraph = "0.6.1"
+criterion = "0.3.5"
+arraystring = "0.3.0"
+jetscii = "0.5.1"
+memchr = "2.4.1"
+
+[[bench]]
+name = "bench_decode_utf"
+harness = false
 
 [dependencies]
 atty = "0.2.14"
 backtrace = "0.3.64"
+bstr = "0.2.17"
 chain-cmp =  "0.2.0"
 chrono = "0.4.19"
 clap = { version = "3.1.7", features = ["derive"] }
 crossbeam-channel = "0.5.4"
 debug_print = "1.0.0"
+encoding_rs = "0.8.30"
 itertools = "0.10.3"
 lazy_static = "1.4.0"
 lru = "0.7.3"
