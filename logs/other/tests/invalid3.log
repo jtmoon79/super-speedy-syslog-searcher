@@ -1,0 +1,2 @@
+20000101T000000 this line has two invalid utf8 char �� <- there
+20000101T000001 this line has valid utf8 char
