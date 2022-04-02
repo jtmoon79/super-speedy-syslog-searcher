@@ -569,6 +569,14 @@ TODO: 2022/03/31 for files with datetime format lacking year, it will be necessa
 TODO: 2022/03/31 add option --assume-TZ-offset that allows passing TZ offset that will be assumed for syslog
       files that use datetime format without a timezone offset.
       Would default to `DateTime.Local` offset.
+
+LAST WORKING ON 2022/04/01 trying to improve on `RangeMap`. It takes a surprising amount of runtime according to flamegraph.
+      I wonder if I could roll my own? It only needs two special functions, `contains` and `get`.
+      I tried this with help of `std::collections::BTreeMap.range`. The one problem is `.range` cannot search *backwards*
+      for the nearest matching key (it does search forwards). i.e. can't do a `map.range(23).prev()`
+      *thinking face*
+      I wonder if I could get away from using the `lines_by_range` at all? Definitely worth a try.
+      See https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e2f8254986338694b3ec467e606b73e7
  
  */
 
@@ -695,33 +703,33 @@ impl<T, E> ResultS4<T, E> {
 
     /// Returns `true` if the result is [`Ok`, `Found_EOF`, 'Done`].
     #[must_use = "if you intended to assert that this is ok, consider `.unwrap()` instead"]
-    #[inline]
+    #[inline(always)]
     pub const fn is_ok(&self) -> bool {
         matches!(*self, ResultS4::Found(_) | ResultS4::Found_EOF(_) | ResultS4::Done)
     }
 
     /// Returns `true` if the result is [`Err`].
     #[must_use = "if you intended to assert that this is err, consider `.unwrap_err()` instead"]
-    #[inline]
+    #[inline(always)]
     pub const fn is_err(&self) -> bool {
         !self.is_ok()
     }
 
     /// Returns `true` if the result is [`Found_EOF`].
-    #[inline]
+    #[inline(always)]
     pub const fn is_eof(&self) -> bool {
         matches!(*self, ResultS4::Found_EOF(_))
     }
 
     /// Returns `true` if the result is [`Found_EOF`, `Done`].
-    #[inline]
+    #[inline(always)]
     pub const fn is_done(&self) -> bool {
         matches!(*self, ResultS4::Done)
     }
 
     /// Returns `true` if the result is an [`Ok`, `Found_EOF`] value containing the given value.
     #[must_use]
-    #[inline]
+    #[inline(always)]
     pub fn contains<U>(&self, x: &U) -> bool
     where
         U: PartialEq<T>,
@@ -736,7 +744,7 @@ impl<T, E> ResultS4<T, E> {
 
     /// Returns `true` if the result is an [`Err`] value containing the given value.
     #[must_use]
-    #[inline]
+    #[inline(always)]
     pub fn contains_err<F>(&self, f: &F) -> bool
     where
         F: PartialEq<E>,
@@ -767,7 +775,7 @@ impl<T, E> ResultS4<T, E> {
     /// let x: Result<u32, &str> = Err("Nothing here");
     /// assert_eq!(x.ok(), None);
     /// ```
-    #[inline]
+    #[inline(always)]
     pub fn ok(self) -> Option<T> {
         match self {
             ResultS4::Found(x) => Some(x),
@@ -781,7 +789,7 @@ impl<T, E> ResultS4<T, E> {
     ///
     /// Converts `self` into an [`Option<E>`], consuming `self`,
     /// and discarding the success value, if any.
-    #[inline]
+    #[inline(always)]
     pub fn err(self) -> Option<E> {
         match self {
             ResultS4::Found(_) => None,
@@ -810,7 +818,7 @@ lazy_static! {
 }
 
 /// return current stack depth according to `backtrace::trace`, including this function
-#[allow(dead_code)]
+//#[cfg(any(debug_asserions,test))]
 #[inline(always)]
 fn stack_depth() -> usize {
     let mut sd: usize = 0;
@@ -824,7 +832,7 @@ fn stack_depth() -> usize {
 
 /// return current stack offset compared to "original" stack depth. The "original" stack depth
 /// should have been recorded at the beginning of the thread by calling `stack_offset_set`.
-#[allow(dead_code)]
+//#[cfg(any(debug_asserions,test))]
 #[inline(always)]
 fn stack_offset() -> usize {
     let mut sd: usize = stack_depth() - 1;
@@ -846,7 +854,7 @@ fn stack_offset() -> usize {
         return 0;
     }
     sd -= so;
-    return sd;
+    sd
 }
 
 /// set once in each thread near the beginning of the thread.
@@ -861,6 +869,7 @@ fn stack_offset() -> usize {
 /// pass a negative offset of 4 to `stack_offset_set`, i.e. `stack_offset_set(Some(-4))`
 /// This way, debug printing from function `run` will start at the left-most column (and not
 /// be indented to the right). This may improve readability.
+//#[cfg(any(debug_asserions,test))]
 fn stack_offset_set(correction: Option<isize>) {
     let sd_ = stack_depth();
     let sdi: isize = (sd_ as isize) - correction.unwrap_or(0);
@@ -916,7 +925,7 @@ fn test_stack_offset() {
 
 /// return a string of spaces as long as `stack_offset`
 /// for use in `print` calls, so short function name and not perfect
-#[allow(dead_code)]
+//#[cfg(any(debug_asserions,test))]
 fn so() -> &'static str {
     let so_ = stack_offset();
     match so_ {
@@ -945,7 +954,7 @@ fn so() -> &'static str {
 }
 
 /// `print` helper, a `s`tring for e`n`tering a function
-#[allow(dead_code)]
+//#[cfg(any(debug_assertions,test))]
 fn sn() -> &'static str {
     let so_ = stack_offset();
     match so_ {
@@ -974,7 +983,7 @@ fn sn() -> &'static str {
 }
 
 /// `print` helper, a `s`tring for e`x`iting a function
-#[allow(dead_code)]
+//#[cfg(any(debug_assertions,test))]
 fn sx() -> &'static str {
     let so_ = stack_offset();
     match so_ {
@@ -1004,7 +1013,7 @@ fn sx() -> &'static str {
 
 /// `print` helper, a `s`tring for e`n`tering and e`x`iting a function
 /// (like a small function that only needs a one-liner)
-#[allow(dead_code)]
+//#[cfg(any(debug_assertions,test))]
 fn snx() -> &'static str {
     let so_ = stack_offset();
     match so_ {
@@ -1694,8 +1703,6 @@ type Bytes = Vec<u8>;
 type BlockP = Arc<Block>;
 
 type Slices<'a> = Vec<&'a [u8]>;
-// Consider this user library which claims to be faster than std::collections::BTreeMap for numeric keytypes
-// https://docs.rs/cranelift-bforest/latest/cranelift_bforest/
 type Blocks = BTreeMap<BlockOffset, BlockP>;
 type BlocksLRUCache = LruCache<BlockOffset, BlockP>;
 /// for case where reading blocks, lines, or syslines reaches end of file, the value `WriteZero` will
@@ -2663,11 +2670,12 @@ impl Line {
     /// slice that represents the entire `Line`
     /// if `Line` does not cross a Block then this returns slice into the `Block`,
     /// otherwise it requires a copy of `Block`s data
-    /// TODO: should use `&[char]`?
+    /// XXX: naive implementation
+    /// XXX: cannot return slice because
+    ///      1. size not known at compile time so cannot place on stack
+    ///      2. slice is an array which is not an "owned type"
     /// TODO: add tests
-    /// XXX: cannot return slice because 1. size not known at compile time so cannot
-    ///      place on stack 2. slice is an array which is not an "owned type"
-    pub fn as_slice(self: &Line) -> Bytes {
+    pub fn as_bytes(self: &Line) -> Bytes {
         assert_gt!(self.lineparts.len(), 0, "This Line has no LineParts");
         // efficient case, Line does not cross any Blocks
         if self.lineparts.len() == 1 {
@@ -2676,7 +2684,7 @@ impl Line {
             assert_eq!(bi_end - bi_beg, self.len(), "bi_end-bi_beg != line.len()");
             return Bytes::from(&(*(self.lineparts[0].blockp))[bi_beg..bi_end]);
         }
-        // not efficient case, Line crosses stored Blocks so have to create a new array
+        // not efficient case, Line crosses stored Blocks so have to create a new vec
         let sz = self.len();
         assert_ne!(sz, 0, "self.len() is zero!?");
         let mut data = Bytes::with_capacity(sz);
@@ -2685,8 +2693,32 @@ impl Line {
             let bi_end = lp.blocki_end;
             data.extend_from_slice(&(*(lp.blockp))[bi_beg..bi_end]);
         }
-        assert_eq!(data.len(), self.len(), "Line.as_slice: data.len() != self.len()");
+        assert_eq!(data.len(), self.len(), "Line.as_bytes: data.len() != self.len()");
         return data;
+    }
+
+    /// do be do
+    pub fn as_vec(self: &Line, beg: LineIndex, end: LineIndex) -> Bytes {
+        assert_gt!(self.lineparts.len(), 0, "This Line has no LineParts");
+        // efficient case, Line does not cross any Blocks
+        if self.lineparts.len() == 1 {
+            //let bi_beg = self.lineparts[0].blocki_beg;
+            //let bi_end = self.lineparts[0].blocki_end;
+            assert_le!(end - beg, self.len(), "end-beg > line.len()");
+            return Bytes::from(&(*(self.lineparts[0].blockp))[beg as usize..end as usize]);
+        }
+        unimplemented!("as_vec does not handle multiple lineparts");
+        // XXX: really not efficient case, Line crosses stored Blocks so have to create a new vec
+        let sz = self.len();
+        assert_ne!(sz, 0, "self.len() is zero!?");
+        let mut data: Bytes = Bytes::with_capacity(sz);
+        for lp in self.lineparts.iter() {
+            let bi_beg = lp.blocki_beg;
+            let bi_end = lp.blocki_end;
+            data.extend_from_slice(&(*(lp.blockp))[bi_beg..bi_end]);
+        }
+        assert_eq!(data.len(), self.len(), "Line.as_vec: data.len() != self.len()");
+        data
     }
 }
 
@@ -2696,14 +2728,63 @@ type LineP = Arc<Line>;
 /// storage for Lines found from the underlying `BlockReader`
 /// FileOffset key is the first byte/offset that begins the `Line`
 type FoToLine = BTreeMap<FileOffset, LineP>;
+type FoToFo = BTreeMap<FileOffset, FileOffset>;
 /// Line Searching error
 #[allow(non_camel_case_types)]
 type ResultS4_LineFind = ResultS4<(FileOffset, LineP), Error>;
 type LinesLRUCache = LruCache<FileOffset, ResultS4_LineFind>;
 /// range map where key is Line begin to end `[Line.fileoffset_begin(), Line.fileoffset_end()]`
 /// and where value is Line begin (`Line.fileoffset_begin()`). Use the value to lookup associated `Line` map
-type LinesRangeMap = RangeMap<FileOffset, FileOffset>;
-type LinesRangeSet = RangeSet<FileOffset>;
+//type LinesRangeMap = RangeMap<FileOffset, FileOffset>;
+//type LinesRangeSet = RangeSet<FileOffset>;
+//type LinesRangeMap32 = cranelift_bforest::Set<FileOffset>;
+//type LinesRangeMap32Mem = cranelift_bforest::SetForest<FileOffset>;
+//type LinesRangeHVal = std::ops::Range<FileOffset>;
+//type LinesRangeHSet = std::collections::hash_set::HashSet<LinesRangeHVal>;
+type LinesRMap = BTreeMap<FileOffset, FileOffset>;
+
+/*
+/// quickie helper to wrap common check, this could be more rustic O(n)
+pub fn hashset_contains(set: &LinesRangeHSet, value: &FileOffset) -> bool {
+    for r1 in set.iter() {
+        if r1.contains(value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/// quickie helper to wrap common check, this could be more rustic O(n)
+pub fn hashset_get(set: &LinesRangeHSet, value: &FileOffset) -> Option<LinesRangeHVal> {
+    for r1 in set.iter() {
+        if r1.contains(value) {
+            return Some(r1.clone());
+        }
+    }
+    return None;
+}
+*/
+
+/*
+/// quickie helper to wrap common check, this could be more rustic O(n)
+pub fn hashset_contains(map: &LinesRMap, value: &FileOffset) -> bool {
+    match map.range(value..).next() {
+        Some(r1, r2) => {
+            // XXX: now search for `.prev` entry... how to?
+            return true;
+        },
+        _ => {
+            return false;
+        },
+    }
+}
+
+/// quickie helper to wrap common check, this could be more rustic O(n)
+pub fn hashset_get(map: &LinesRMap, value: &FileOffset) -> Option<FileOffset> {
+    
+    return None;
+}
+*/
 
 /// Specialized Reader that uses BlockReader to find FoToLine
 pub struct LineReader<'linereader> {
@@ -2711,9 +2792,8 @@ pub struct LineReader<'linereader> {
     /// track `Line` found among blocks in `blockreader`, tracked by line beginning `FileOffset`
     /// key value `FileOffset` should agree with `(*LineP).fileoffset_begin()`
     pub lines: FoToLine,
-    /// track `Line` found among blocks in `blockreader`, tracked by line ending `FileOffset`
-    /// key value `FileOffset` should agree with `(*LineP).fileoffset_end()`
-    lines_end: FoToLine,
+    /// for all `Lines`, map `Line.fileoffset_end` to `Line.fileoffset_beg`
+    foend_to_fobeg: FoToFo,
     /// count of `Line`s. Tracked outside of `self.lines.len()` as that may
     /// have contents removed when --streaming
     lines_count: u64,
@@ -2724,7 +2804,11 @@ pub struct LineReader<'linereader> {
     /// `Line` offsets stored as Range `[fileoffset_begin..fileoffset_end+1)`. to `fileoffset_begin`.
     ///  the stored value can be used to lookup `Line` in `self.lines`
     //lines_by_range: LinesRangeMap,
-    lines_by_range: LinesRangeSet,
+    //lines_by_range: LinesRangeSet,
+    //lines_by_range32: LinesRangeMap32,
+    //lines_by_range32mem: LinesRangeMap32Mem,
+    //lines_by_range: LinesRangeHSet,
+    //lines_by_range: LinesRMap,
     /// internal LRU cache for `find_line`
     _find_line_lru_cache: LinesLRUCache,
     // TODO: [2021/09/21] add efficiency stats
@@ -2776,7 +2860,7 @@ impl<'linereader> LineReader<'linereader> {
         Ok(LineReader {
             blockreader: br,
             lines: FoToLine::new(),
-            lines_end: FoToLine::new(),
+            foend_to_fobeg: FoToFo::new(),
             lines_count: 0,
             _charsz: CHARSZ,
             // give impossible value to start with
@@ -2784,7 +2868,11 @@ impl<'linereader> LineReader<'linereader> {
             //_next_line_blockp_opt: None,
             //_next_line_blocki: 0,
             //lines_by_range: LinesRangeMap::new(),
-            lines_by_range: LinesRangeSet::new(),
+            //lines_by_range: LinesRangeSet::new(),
+            //lines_by_range32: LinesRangeMap32::new(),
+            //lines_by_range32mem: LinesRangeMap32Mem::new(),
+            //lines_by_range: LinesRangeHSet::new(),
+            //lines_by_range: LinesRMap::new(),
             _find_line_lru_cache: LinesLRUCache::new(8),
         })
     }
@@ -2869,23 +2957,68 @@ impl<'linereader> LineReader<'linereader> {
         debug_eprintln!("{}LineReader.insert_line: lines.insert({}, Line @{:p})", so(), fo_beg, &(*rl));
         debug_assert!(!self.lines.contains_key(&fo_beg), "self.lines already contains key {}", fo_beg);
         self.lines.insert(fo_beg, rl.clone());
-        debug_eprintln!("{}LineReader.insert_line: lines_end.insert({}, Line @{:p})", so(), fo_end, &(*rl));
-        debug_assert!(!self.lines_end.contains_key(&fo_end), "self.lines_end already contains key {}", fo_end);
-        self.lines_end.insert(fo_end, rl.clone());
+        debug_eprintln!("{}LineReader.insert_line: foend_to_fobeg.insert({}, {})", so(), fo_end, fo_beg);
+        debug_assert!(!self.foend_to_fobeg.contains_key(&fo_end), "self.foend_to_fobeg already contains key {}", fo_end);
+        self.foend_to_fobeg.insert(fo_end, fo_beg);
         self.lines_count += 1;
         // XXX: multi-byte character encoding
         let fo_end1 = fo_end + (self.charsz() as FileOffset);
         // TODO: this `RangeMap::insert` takes a very large amount of processing time, 8% of processing time for the tests
         //       in script `./tools/compare-grep-sort1.sh`. In this special case, it case be replaced with
         //       a `RangeSet`. The `V` in this `RangeMap` use is the same as `K.last`.
+
         //debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{}, {})", so(), fo_beg, fo_end1, fo_beg);
+        //debug_assert!(!self.lines_by_range.contains_key(&fo_beg), "self.lines_by_range already contains range with fo_beg {}", fo_beg);
+        //debug_assert!(!self.lines_by_range.contains_key(&fo_end), "self.lines_by_range already contains range with fo_end {}", fo_end);
         //self.lines_by_range.insert(fo_beg..fo_end1, fo_beg);
-        debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{}, {})", so(), fo_beg, fo_end, fo_beg);
-        debug_assert!(!self.lines_by_range.contains(&fo_beg), "self.lines_by_range already contains range with fo_beg {}", fo_beg);
-        debug_assert!(!self.lines_by_range.contains(&fo_end), "self.lines_by_range already contains range with fo_end {}", fo_end);
-        self.lines_by_range.insert(fo_beg..fo_end);
+
+        //debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{})", so(), fo_beg, fo_end1);
+        //debug_assert!(!self.lines_by_range.contains(&fo_beg), "self.lines_by_range already contains range with fo_beg {}", fo_beg);
+        //debug_assert!(!self.lines_by_range.contains(&fo_end1), "self.lines_by_range already contains range with fo_end1 {}", fo_end1);
+        //self.lines_by_range.insert(fo_beg..fo_end1);
+
+        //debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{})", so(), fo_beg, fo_end1);
+        //debug_assert!(!hashset_contains(&self.lines_by_range, &fo_beg), "self.lines_by_range already contains range with fo_beg {}", fo_beg);
+        //debug_assert!(!hashset_contains(&self.lines_by_range, &fo_end), "self.lines_by_range already contains range with fo_end {}", fo_end);
+        //self.lines_by_range.insert(fo_beg..fo_end1);
+
         debug_eprintln!("{}LineReader.insert_line() returning @{:p}", sx(), rl);
         return rl;
+    }
+
+    /// does `self` "contain" this `fileoffset`? That is, already know about it?
+    /// the `fileoffset` can be any value (does not have to be begining or ending of
+    /// a `Line`).
+    fn lines_contains(&self, fileoffset: &FileOffset) -> bool {
+        let fo_beg = match self.foend_to_fobeg.range(fileoffset..).next() {
+            Some((_, fo_beg_)) => {
+                fo_beg_
+            },
+            None => { return false; },
+        };
+        if fileoffset < fo_beg {
+            return false;
+        }
+        self.lines.contains_key(&fo_beg)
+    }
+
+    /// for any `FileOffset`, get the `Line` (if available)
+    /// The passed `FileOffset` can be any value (does not have to be begining or ending of
+    /// a `Line`).
+    fn get_linep(&self, fileoffset: &FileOffset) -> Option<LineP> {
+        let fo_beg = match self.foend_to_fobeg.range(fileoffset..).next() {
+            Some((_, fo_beg_)) => {
+                fo_beg_
+            },
+            None => { return None; },
+        };
+        if fileoffset < fo_beg {
+            return None;
+        }
+        match self.lines.get(&fo_beg) {
+            Some(slp) => { Some(slp.clone()) }
+            None => { None }
+        }
     }
 
     /// find next `Line` starting from `fileoffset`
@@ -2909,7 +3042,7 @@ impl<'linereader> LineReader<'linereader> {
         let filesz = self.filesz();
         let blockoffset_last = self.blockoffset_last();
 
-        // check LRU cache
+        // check LRU cache first (this is very fast)
         match self._find_line_lru_cache.get(&fileoffset) {
             Some(rlp) => {
                 // self.stats_read_block_cache_lru_hit += 1;
@@ -2962,50 +3095,60 @@ impl<'linereader> LineReader<'linereader> {
             return ResultS4_LineFind::Done;
         }
 
-        match self.lines_by_range.get(&fileoffset) {
-            Some(fo_range) => {
-                debug_eprintln!(
-                    "{}find_line: fileoffset {} refers to self.lines_by_range {:?}",
-                    so(),
-                    fileoffset,
-                    fo_range
-                );
-                //let lp = self.lines[fo_range].clone();
-                let lp = self.lines[&fo_range.start].clone();
+        {
+            // first check if there is a `Line` already known at this fileoffset
+            if self.lines.contains_key(&fileoffset) {
+                debug_eprintln!("{}find_line: hit cache for FileOffset {}", so(), fileoffset);
+
+                //debug_assert!(self.lines_by_range.contains_key(&fileoffset), "self.lines and self.lines_by_range are out of synch on key {} (before part A)", fileoffset);
+                //debug_assert!(self.lines_by_range.contains(&fileoffset), "self.lines and self.lines_by_range are out of synch on key {} (before part A)", fileoffset);
+                //debug_assert!(hashset_contains(&self.lines_by_range, &fileoffset), "self.lines and self.lines_by_range are out of synch on key {} (before part A)", fileoffset);
+                debug_assert!(self.lines_contains(&fileoffset), "self.lines and self.lines_by_range are out of synch on key {} (before part A)", fileoffset);
+
+                let lp = self.lines[&fileoffset].clone();
                 let fo_next = (*lp).fileoffset_end() + charsz_fo;
                 // TODO: add stats like BlockReader._stats*
-                debug_eprintln!("{}find_line: LRU Cache put({}, Found({}, …)) {:?}", so(), fileoffset, fo_next, (*lp).to_String_noraw());
+                debug_eprintln!("{}find_line: LRU Cache put({}, Found_EOF({}, …))", so(), fileoffset, fo_next);
                 self._find_line_lru_cache
                     .put(fileoffset, ResultS4_LineFind::Found((fo_next, lp.clone())));
-                debug_eprintln!("{}find_line: return ResultS4_LineFind::Found({}, {:p}) @[{}, {}]", sx(), fo_next, &*lp, (*lp).fileoffset_begin(), (*lp).fileoffset_end());
+                debug_eprintln!("{}find_line: return ResultS4_LineFind::Found({}, {:p})  @[{}, {}]", sx(), fo_next, &*lp, (*lp).fileoffset_begin(), (*lp).fileoffset_end());
                 return ResultS4_LineFind::Found((fo_next, lp));
             }
-            None => {
-                //self.stats_read_block_cache_lru_miss += 1;
-                debug_eprintln!("{}find_line: fileoffset {} not found in self.lines_by_range", so(), fileoffset);
+            //match self.lines_by_range.get(&fileoffset) {
+            //match hashset_get(&self.lines_by_range, &fileoffset) {
+            match self.get_linep(&fileoffset) {
+                //Some(fo_range) => {
+                Some(lp) => {
+                    debug_eprintln!(
+                        "{}find_line: self.get_linep({}) returned @{:p}",
+                        so(),
+                        fileoffset,
+                        lp
+                    );
+                    //debug_eprintln!(
+                    //    "{}find_line: fileoffset {} refers to self.lines_by_range {:?}",
+                    //    so(),
+                    //    fileoffset,
+                    //    fo_range
+                    //);
+                    //let lp = self.lines[fo_range].clone();
+                    //let lp = self.lines[&fo_range.start].clone();
+                    let fo_next = (*lp).fileoffset_end() + charsz_fo;
+                    // TODO: add stats like BlockReader._stats*
+                    debug_eprintln!("{}find_line: LRU Cache put({}, Found({}, …)) {:?}", so(), fileoffset, fo_next, (*lp).to_String_noraw());
+                    self._find_line_lru_cache
+                        .put(fileoffset, ResultS4_LineFind::Found((fo_next, lp.clone())));
+                    debug_eprintln!("{}find_line: return ResultS4_LineFind::Found({}, {:p}) @[{}, {}]", sx(), fo_next, &*lp, (*lp).fileoffset_begin(), (*lp).fileoffset_end());
+                    return ResultS4_LineFind::Found((fo_next, lp));
+                }
+                None => {
+                    //self.stats_read_block_cache_lru_miss += 1;
+                    debug_eprintln!("{}find_line: fileoffset {} not found in self.lines_by_range", so(), fileoffset);
+                }
             }
+            debug_eprintln!("{}find_line: fileoffset {} not found in self.lines", so(), fileoffset);
+            debug_eprintln!("{}find_line: searching for first newline newline A …", so());
         }
-
-        // first check if there is a line already known at this fileoffset
-        if self.lines.contains_key(&fileoffset) {
-            // XXX: !
-            debug_assert!(true, "self.lines.contains_key({}) however, self.lines_by_range.get({}) returned None (lines_by_range out of synch)", fileoffset, fileoffset);
-            debug_eprintln!("{}find_line: hit cache for FileOffset {}", so(), fileoffset);
-            debug_eprintln!(
-                "{}find_line: XXX: IS IT AN ERROR GETTING HERE BUT NOT FINDING IN self.lines_by_range????",
-                so()
-            );
-            let lp = self.lines[&fileoffset].clone();
-            let fo_next = (*lp).fileoffset_end() + charsz_fo;
-            // TODO: add stats like BlockReader._stats*
-            debug_eprintln!("{}find_line: LRU Cache put({}, Found_EOF({}, …))", so(), fileoffset, fo_next);
-            self._find_line_lru_cache
-                .put(fileoffset, ResultS4_LineFind::Found((fo_next, lp.clone())));
-            debug_eprintln!("{}find_line: return ResultS4_LineFind::Found({}, {:p})  @[{}, {}]", sx(), fo_next, &*lp, (*lp).fileoffset_begin(), (*lp).fileoffset_end());
-            return ResultS4_LineFind::Found((fo_next, lp));
-        }
-        debug_eprintln!("{}find_line: fileoffset {} not found in self.lines", so(), fileoffset);
-        debug_eprintln!("{}find_line: searching for first newline newline A …", so());
 
         //
         // walk through blocks and bytes looking for beginning of a line (a newline character; part A)
@@ -3028,7 +3171,7 @@ impl<'linereader> LineReader<'linereader> {
         if !found_nl_a {
             // XXX: single-byte encoding, does not handle multi-byte
             let fo1 = fileoffset - charsz_fo;
-            if self.lines_end.contains_key(&fo1) {
+            if self.foend_to_fobeg.contains_key(&fo1) {
                 found_nl_a = true;
                 debug_eprintln!(
                     "{}find_line: found newline A {} from lookup of passed fileoffset-1 {}",
@@ -3132,8 +3275,61 @@ impl<'linereader> LineReader<'linereader> {
             so(),
             fo_nl_a
         );
-        
-        // TODO: 2022/03/31 20:14:26 found a newline, first search the caches if the `Line` is already known, avoid duplicate work
+
+        {
+            // …but before doing work of discovering a new `Line` (part B), first checks various
+            // maps in `self` to see if this `Line` has already been discovered and processed
+            if self.lines.contains_key(&fo_nl_a) {
+                debug_eprintln!("{}find_line: hit for self.lines for FileOffset {} (before part B)", so(), fo_nl_a);
+
+                //debug_assert!(self.lines_by_range.contains_key(&fo_nl_a), "self.lines and self.lines_by_range are out of synch on key {}", fo_nl_a);
+                //debug_assert!(self.lines_by_range.contains(&fo_nl_a), "self.lines and self.lines_by_range are out of synch on key {}", fo_nl_a);
+                //debug_assert!(hashset_contains(&self.lines_by_range, &fo_nl_a), "self.lines and self.lines_by_range are out of synch on key {} (before part A)", fo_nl_a);
+                debug_assert!(self.lines_contains(&fo_nl_a), "self.lines and self.lines_by_range are out of synch on key {} (before part A)", fo_nl_a);
+
+                let lp = self.lines[&fo_nl_a].clone();
+                let fo_next = (*lp).fileoffset_end() + charsz_fo;
+                // TODO: add stats like BlockReader._stats*
+                debug_eprintln!("{}find_line: LRU Cache put({}, Found_EOF({}, …))", so(), fo_nl_a, fo_next);
+                self._find_line_lru_cache
+                    .put(fileoffset, ResultS4_LineFind::Found((fo_next, lp.clone())));
+                debug_eprintln!("{}find_line: return ResultS4_LineFind::Found({}, {:p})  @[{}, {}]", sx(), fo_next, &*lp, (*lp).fileoffset_begin(), (*lp).fileoffset_end());
+                return ResultS4_LineFind::Found((fo_next, lp));
+            }
+            match self.get_linep(&fo_nl_a) {
+            //match hashset_get(&self.lines_by_range, &fileoffset) {
+                //Some(fo_range) => {
+                Some(lp) => {
+                    debug_eprintln!(
+                        "{}find_line: self.get_linep({}) returned {:p}",
+                        so(),
+                        fo_nl_a,
+                        lp
+                    );
+                    //debug_eprintln!(
+                    //    "{}find_line: fo_nl_a {} refers to self.lines_by_range {:?}",
+                    //    so(),
+                    //    fo_nl_a,
+                    //    fo_range
+                    //);
+                    //let lp = self.lines[fo_range].clone();
+                    //let lp = self.lines[&fo_range.start].clone();
+                    let fo_next = (*lp).fileoffset_end() + charsz_fo;
+                    // TODO: add stats like BlockReader._stats*
+                    debug_eprintln!("{}find_line: LRU Cache put({}, Found({}, …)) {:?}", so(), fo_nl_a, fo_next, (*lp).to_String_noraw());
+                    self._find_line_lru_cache
+                        .put(fo_nl_a, ResultS4_LineFind::Found((fo_next, lp.clone())));
+                    debug_eprintln!("{}find_line: return ResultS4_LineFind::Found({}, {:p}) @[{}, {}]", sx(), fo_next, &*lp, (*lp).fileoffset_begin(), (*lp).fileoffset_end());
+                    return ResultS4_LineFind::Found((fo_next, lp));
+                }
+                None => {
+                    //self.stats_read_block_cache_lru_miss += 1;
+                    debug_eprintln!("{}find_line: fileoffset {} not found in self.lines_by_range", so(), fo_nl_a);
+                }
+            }
+        }
+
+        // getting here means this function is discovering a brand new `Line` (part B)
 
         // found newline part B? Line ends at this
         let mut found_nl_b: bool = false;
@@ -3294,7 +3490,7 @@ fn process_LineReader(lr1: &mut LineReader) {
                 );
                 fo1 = fo;
                 if cfg!(debug_assertions) {
-                    match print_colored_stdout(Color::Green, &(*lp).as_slice()) {
+                    match print_colored_stdout(Color::Green, &(*lp).as_bytes()) {
                         Ok(_) => {}
                         Err(err) => {
                             eprintln!("ERROR: print_colored_stdout returned error {}", err);
@@ -3654,7 +3850,7 @@ impl Sysline {
         assert_ne!(self.dt_beg, LI_NULL, "dt_beg has not been set");
         assert_ne!(self.dt_end, LI_NULL, "dt_end has not been set");
         assert_lt!(self.dt_beg, self.dt_end, "bad values dt_end {} dt_beg {}", self.dt_end, self.dt_beg);
-        let slice_ = self.lines[0].as_slice();
+        let slice_ = self.lines[0].as_bytes();
         assert_lt!(
             self.dt_beg,
             slice_.len(),
@@ -3908,13 +4104,13 @@ pub enum Result_Filter_DateTime1 {
 
 impl Result_Filter_DateTime1 {
     /// Returns `true` if the result is [`OccursAfter`].
-    #[inline]
+    #[inline(always)]
     pub const fn is_after(&self) -> bool {
         matches!(*self, Result_Filter_DateTime1::OccursAtOrAfter)
     }
 
     /// Returns `true` if the result is [`OccursBefore`].
-    #[inline]
+    #[inline(always)]
     pub const fn is_before(&self) -> bool {
         matches!(*self, Result_Filter_DateTime1::OccursBefore)
     }
@@ -3934,12 +4130,12 @@ pub enum Result_Filter_DateTime2 {
 }
 
 impl Result_Filter_DateTime2 {
-    #[inline]
+    #[inline(always)]
     pub const fn is_pass(&self) -> bool {
         matches!(*self, Result_Filter_DateTime2::OccursInRange)
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn is_fail(&self) -> bool {
         matches!(*self, Result_Filter_DateTime2::OccursAfterRange | Result_Filter_DateTime2::OccursBeforeRange)
     }
@@ -4395,6 +4591,7 @@ impl fmt::Debug for SyslineReader<'_> {
 
 /// quick debug helper
 #[allow(non_snake_case, dead_code)]
+#[cfg(debug_assertions)]
 fn debug_eprint_LRU_cache<K, V>(cache: &LruCache<K, V>)
 where
     K: std::fmt::Debug,
@@ -4411,7 +4608,6 @@ where
     }
     debug_eprint!("]");
 }
-
 
 /// implement SyslineReader things
 impl<'syslinereader> SyslineReader<'syslinereader> {
@@ -4522,10 +4718,10 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             return true;
         }
         assert_lt!(fo_end + 1, filesz, "fileoffset_end() {} is at or after filesz() fileoffset {}", fo_end, filesz);
-        return false;
+        false
     }
 
-    /// store passed `Sysline` in `self.syslines`
+    /// store passed `Sysline` in `self.syslines`, update other fields
     fn insert_sysline(&mut self, line: Sysline) -> SyslineP {
         let fo_beg: FileOffset = line.fileoffset_begin();
         let fo_end = line.fileoffset_end();
@@ -4642,7 +4838,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// falls back to using higher-resource and more-precise checker `encoding_rs::mem::utf8_latin1_up_to`.
     /// this uses built-in unsafe `str::from_utf8_unchecked`.
     /// See `benches/bench_decode_utf.rs` for comparison of bytes->str decode strategies
-    #[inline]
+    #[inline(always)]
     fn u8_to_str(slice_: &[u8]) -> Option<&str> {
         let dts: &str;
         let mut fallback = false;
@@ -4660,7 +4856,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         unsafe {
             dts = std::str::from_utf8_unchecked(slice_);
         };
-        return Some(dts);
+        Some(dts)
     }
 
     /// if datetime found in `Line` returns `Ok` around
@@ -4681,9 +4877,6 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             debug_eprintln!("{}find_datetime_in_line: return Err(ErrorKind::InvalidInput);", sx());
             return Result_FindDateTime::Err(Error::new(ErrorKind::InvalidInput, "Line is too short"));
         }
-        // TODO: create `pub fnas_slice_first_X` that return slice of first X bytes,
-        //       most cases only need first 30 or so bytes of line, so this less often crosses block boundaries
-        let line_as_slice = line.as_slice();
 
         let mut dtsS: String = String::with_capacity(50);
         let mut decoder = encoding_rs::UTF_8.new_decoder();
@@ -4703,11 +4896,11 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             //debug_eprintln!("{}find_datetime_in_line searching for pattern {} {:?}", so(), i, pattern);
             let len_ = (end_i - beg_i) as LineIndex;
             // XXX: does not support multi-byte string; assumes single-byte
-            if line_as_slice.len() < (*end_i) {
+            if line.len() < (*end_i) {
                 debug_eprintln!(
                     "{}find_datetime_in_line: line len {} is too short for pattern {} len {} @({}, {}] {:?}",
                     so(),
-                    line_as_slice.len(),
+                    line.len(),
                     i,
                     len_,
                     beg_i,
@@ -4719,7 +4912,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             // take a slice of the `line_as_slice` then convert to `str`
             // this is to force the parsing function `Local.datetime_from_str` to constrain where it
             // searches within the `Line`
-            let slice_ = &line_as_slice[(*beg_i)..(*end_i)];
+            // LAST WORKING HERE 2022/04/02 00:42:34 trying to improve the `Line::as_slice`
+            // want to return a slice directly to the caller but returning a slice requires
+            // explicit lifetimes, which is a big darn mess.
+            // Is it possible return a slice pointer?
+            // this looks promising https://stackoverflow.com/questions/27150652/how-can-i-get-an-array-or-a-slice-from-a-raw-pointer
+            // or, how about asking for a copy of just the subslice that is of interest? pass in a `Bytes` buffer
+            let slice_: &[u8] = &line.as_vec(*beg_i, *end_i);
             let dts: &str = match SyslineReader::u8_to_str(slice_) {
                 Some(val) => val,
                 None => { continue; }
@@ -4905,54 +5104,56 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline(SyslineReader@{:p}, {})", sn(), self, fileoffset);
 
-        // check LRU cache
-        match self._find_sysline_lru_cache.get(&fileoffset) {
-            Some(rlp) => {
-                // self.stats_read_block_cache_lru_hit += 1;
-                debug_eprintln!("{}find_sysline: found LRU cached for fileoffset {}", so(), fileoffset);
-                match rlp {
-                    ResultS4_SyslineFind::Found(val) => {
-                        debug_eprintln!("{}return ResultS4_SyslineFind::Found(({}, …)) @[{}, {}] from LRU cache", sx(), val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
-                        return ResultS4_SyslineFind::Found((val.0, val.1.clone()));
-                    }
-                    ResultS4_SyslineFind::Found_EOF(val) => {
-                        debug_eprintln!("{}return ResultS4_SyslineFind::Found_EOF(({}, …)) @[{}, {}] from LRU cache", sx(), val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
-                        return ResultS4_SyslineFind::Found_EOF((val.0, val.1.clone()));
-                    }
-                    ResultS4_SyslineFind::Done => {
-                        debug_eprintln!("{}return ResultS4_SyslineFind::Done from LRU cache", sx());
-                        return ResultS4_SyslineFind::Done;
-                    }
-                    ResultS4_SyslineFind::Err(err) => {
-                        debug_eprintln!("{}Error {}", so(), err);
-                        eprintln!("ERROR: unexpected value store in _find_line_lru_cache, fileoffset {} error {}", fileoffset, err);
+        { // check if `fileoffset` is already known about
+
+            // check LRU cache
+            match self._find_sysline_lru_cache.get(&fileoffset) {
+                Some(rlp) => {
+                    // self.stats_read_block_cache_lru_hit += 1;
+                    debug_eprintln!("{}find_sysline: found LRU cached for fileoffset {}", so(), fileoffset);
+                    match rlp {
+                        ResultS4_SyslineFind::Found(val) => {
+                            debug_eprintln!("{}return ResultS4_SyslineFind::Found(({}, …)) @[{}, {}] from LRU cache", sx(), val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
+                            return ResultS4_SyslineFind::Found((val.0, val.1.clone()));
+                        }
+                        ResultS4_SyslineFind::Found_EOF(val) => {
+                            debug_eprintln!("{}return ResultS4_SyslineFind::Found_EOF(({}, …)) @[{}, {}] from LRU cache", sx(), val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
+                            return ResultS4_SyslineFind::Found_EOF((val.0, val.1.clone()));
+                        }
+                        ResultS4_SyslineFind::Done => {
+                            debug_eprintln!("{}return ResultS4_SyslineFind::Done from LRU cache", sx());
+                            return ResultS4_SyslineFind::Done;
+                        }
+                        ResultS4_SyslineFind::Err(err) => {
+                            debug_eprintln!("{}Error {}", so(), err);
+                            eprintln!("ERROR: unexpected value store in _find_line_lru_cache, fileoffset {} error {}", fileoffset, err);
+                        }
                     }
                 }
+                None => {
+                    //self.stats_read_block_cache_lru_miss += 1;
+                    debug_eprintln!("{}find_sysline: fileoffset {} not found in LRU cache", so(), fileoffset);
+                }
             }
-            None => {
-                //self.stats_read_block_cache_lru_miss += 1;
-                debug_eprintln!("{}find_sysline: fileoffset {} not found in LRU cache", so(), fileoffset);
-            }
-        }
 
-        // TODO: test that retrieving by cache always returns the same ResultS4 enum value as without a cache
+            // TODO: test that retrieving by cache always returns the same ResultS4 enum value as without a cache
 
-        // check if the offset is already in a known range
-        match self.syslines_by_range.get_key_value(&fileoffset) {
-            Some(range_fo) => {
-                let range = range_fo.0;
-                debug_eprintln!(
+            // check if the offset is already in a known range
+            match self.syslines_by_range.get_key_value(&fileoffset) {
+                Some(range_fo) => {
+                    let range = range_fo.0;
+                    debug_eprintln!(
                     "{}find_sysline: hit syslines_by_range cache for FileOffset {} (found in range {:?})",
                     so(),
                     fileoffset,
                     range
                 );
-                let fo = range_fo.1;
-                let slp = self.syslines[fo].clone();
-                // XXX: multi-byte character encoding
-                let fo_next = (*slp).fileoffset_next() + (self.charsz() as FileOffset);
-                if self.is_sysline_last(&slp) {
-                    debug_eprintln!(
+                    let fo = range_fo.1;
+                    let slp = self.syslines[fo].clone();
+                    // XXX: multi-byte character encoding
+                    let fo_next = (*slp).fileoffset_next() + (self.charsz() as FileOffset);
+                    if self.is_sysline_last(&slp) {
+                        debug_eprintln!(
                         "{}find_sysline: return ResultS4_SyslineFind::Found_EOF(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
                         sx(),
                         fo_next,
@@ -4961,13 +5162,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                         (*slp).fileoffset_end(),
                         (*slp).to_String_noraw()
                     );
+                        self._find_sysline_lru_cache
+                            .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
+                        return ResultS4_SyslineFind::Found_EOF((fo_next, slp));
+                    }
                     self._find_sysline_lru_cache
-                        .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
-                    return ResultS4_SyslineFind::Found_EOF((fo_next, slp));
-                }
-                self._find_sysline_lru_cache
-                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
-                debug_eprintln!(
+                        .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                    debug_eprintln!(
                     "{}find_sysline: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
                     sx(),
                     fo_next,
@@ -4976,25 +5177,25 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     (*slp).fileoffset_end(),
                     (*slp).to_String_noraw()
                 );
-                return ResultS4_SyslineFind::Found((fo_next, slp));
+                    return ResultS4_SyslineFind::Found((fo_next, slp));
+                }
+                None => {
+                    debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines_by_range", so(), fileoffset);
+                }
             }
-            None => {
-                debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines_by_range", so(), fileoffset);
-            }
-        }
-        debug_eprintln!("{}find_sysline: searching for first sysline datetime A …", so());
+            debug_eprintln!("{}find_sysline: searching for first sysline datetime A …", so());
 
-        // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
-        // check if there is a Sysline already known at this fileoffset
-        if self.syslines.contains_key(&fileoffset) {
-            debug_assert!(true, "self.syslines.contains_key({}) however, self.syslines_by_range.get({}) returned None (syslines_by_range out of synch)", fileoffset, fileoffset);
-            debug_eprintln!("{}find_sysline: hit self.syslines for FileOffset {}", so(), fileoffset);
-            let slp = self.syslines[&fileoffset].clone();
-            // XXX: multi-byte character encoding
-            let fo_next = (*slp).fileoffset_end() + (self.charsz() as FileOffset);
-            // TODO: determine if `fileoffset` is the last sysline of the file
-            //       should add a private helper function for this task `is_sysline_last(FileOffset)` ... something like that
-            debug_eprintln!(
+            // check if there is a Sysline already known at this fileoffset
+            // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
+            if self.syslines.contains_key(&fileoffset) {
+                debug_assert!(self.syslines_by_range.contains_key(&fileoffset), "self.syslines.contains_key({}) however, self.syslines_by_range.contains_key({}) returned None (syslines_by_range out of synch)", fileoffset, fileoffset);
+                debug_eprintln!("{}find_sysline: hit self.syslines for FileOffset {}", so(), fileoffset);
+                let slp = self.syslines[&fileoffset].clone();
+                // XXX: multi-byte character encoding
+                let fo_next = (*slp).fileoffset_end() + (self.charsz() as FileOffset);
+                // TODO: determine if `fileoffset` is the last sysline of the file
+                //       should add a private helper function for this task `is_sysline_last(FileOffset)` ... something like that
+                debug_eprintln!(
                 "{}find_sysline: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines {:?}",
                 sx(),
                 fo_next,
@@ -5003,11 +5204,12 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 (*slp).fileoffset_end(),
                 (*slp).to_String_noraw()
             );
-            self._find_sysline_lru_cache
-                .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
-            return ResultS4_SyslineFind::Found((fo_next, slp));
-        } else {
-            debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines", so(), fileoffset);
+                self._find_sysline_lru_cache
+                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                return ResultS4_SyslineFind::Found((fo_next, slp));
+            } else {
+                debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines", so(), fileoffset);
+            }
         }
 
         //
@@ -5096,8 +5298,81 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         // find line with datetime B
         //
 
-        // TODO: can do an easy quick check if the beginning of next line is already known
-        //       if self.syslines_by_range.contains_key(fo1) { return Ok(self.syslines_by_range.get(fo1).fileoffset_begin(), ...); }
+        { // check if sysline at `fo1` is already known about
+        /*
+            // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
+            // check if there is a Sysline already known at this fileoffset
+            if self.syslines.contains_key(&fo1) {
+                debug_assert!(self.syslines_by_range.contains_key(&fo1), "self.syslines.contains_key({}) however, self.syslines_by_range.contains_key({}); syslines_by_range out of synch", fo1, fo1);
+                debug_eprintln!("{}find_sysline: hit self.syslines for FileOffset {}", so(), fo1);
+                let slp = self.syslines[&fo1].clone();
+                // XXX: multi-byte character encoding
+                let fo_next = (*slp).fileoffset_end() + (self.charsz() as FileOffset);
+                // TODO: determine if `fileoffset` is the last sysline of the file
+                //       should add a private helper function for this task `is_sysline_last(FileOffset)` ... something like that
+                debug_eprintln!(
+                "{}find_sysline: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines {:?}",
+                sx(),
+                fo_next,
+                &*slp,
+                (*slp).fileoffset_begin(),
+                (*slp).fileoffset_end(),
+                (*slp).to_String_noraw()
+            );
+                self._find_sysline_lru_cache
+                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                return ResultS4_SyslineFind::Found((fo_next, slp));
+            } else {
+                debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines", so(), fileoffset);
+            }
+            // check if the offset is already in a known range
+            match self.syslines_by_range.get_key_value(&fo1) {
+                Some(range_fo) => {
+                    let range = range_fo.0;
+                    debug_eprintln!(
+                    "{}find_sysline: hit syslines_by_range cache for FileOffset {} (found in range {:?})",
+                    so(),
+                    fo1,
+                    range
+                );
+                    let fo = range_fo.1;
+                    let slp = self.syslines[fo].clone();
+                    // XXX: multi-byte character encoding
+                    let fo_next = (*slp).fileoffset_next() + (self.charsz() as FileOffset);
+                    if self.is_sysline_last(&slp) {
+                        debug_eprintln!(
+                            "{}find_sysline: return ResultS4_SyslineFind::Found_EOF(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+                            sx(),
+                            fo_next,
+                            &*slp,
+                            (*slp).fileoffset_begin(),
+                            (*slp).fileoffset_end(),
+                            (*slp).to_String_noraw()
+                        );
+                        self._find_sysline_lru_cache
+                            .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
+                        return ResultS4_SyslineFind::Found_EOF((fo_next, slp));
+                    }
+                    self._find_sysline_lru_cache
+                        .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                    debug_eprintln!(
+                        "{}find_sysline: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+                        sx(),
+                        fo_next,
+                        &*slp,
+                        (*slp).fileoffset_begin(),
+                        (*slp).fileoffset_end(),
+                        (*slp).to_String_noraw()
+                    );
+                    return ResultS4_SyslineFind::Found((fo_next, slp));
+                }
+                None => {
+                    debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines_by_range", so(), fileoffset);
+                }
+            }
+            debug_eprintln!("{}find_sysline: searching for first sysline datetime B …", so());
+        */
+        }
 
         let mut fo_b: FileOffset = fo1;
         let mut eof = false;
@@ -8496,7 +8771,7 @@ fn summaryprint_update(slp: &SyslineP, sp: &mut SummaryPrinted) -> SummaryPrinte
 }
 
 // TODO: move into SummaryPrinted
-#[inline]
+#[inline(always)]
 fn summaryprint_map_update(slp: &SyslineP, fpath_: &FPath, map_: &mut Map_FPath_SummaryPrint) {
     debug_eprintln!("{}summaryprint_map_update", snx());
     let result = map_.get_mut(fpath_);
@@ -8514,7 +8789,7 @@ fn summaryprint_map_update(slp: &SyslineP, fpath_: &FPath, map_: &mut Map_FPath_
 
 type Map_FPath_Summary = HashMap::<FPath, Summary>;
 
-#[inline]
+#[inline(always)]
 fn summary_update(fpath_: &FPath, summary: Summary, map_: &mut Map_FPath_Summary) {
     debug_eprintln!("{}summary_update {:?};", snx(), summary);
     if let Some(val) = map_.insert(fpath_.clone(), summary) {
