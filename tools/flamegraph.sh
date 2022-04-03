@@ -11,9 +11,15 @@ cd "$(dirname -- "${0}")/.."
 
 function did_install () {
     echo "Did you:" >&2
-    echo "    apt install -y linux-perf linux-tools-generic" >&2
     echo "    cargo install flamegraph" >&2
+    echo "    apt install -y linux-perf linux-tools-generic" >&2
+    echo "(sometimes only need linux-tools-generic)" >&2
 }
+
+if [[ ! -d /usr/lib/linux-tools/ ]]; then
+    echo "Warning: cannot find '/usr/lib/linux-tools/'" >&2
+    did_install
+fi
 
 PERF=${PERF-"/usr/lib/linux-tools/$(ls -1v /usr/lib/linux-tools/ | tail -n1)/perf"}
 if [[ ! -e "${PERF}" ]]; then
