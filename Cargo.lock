@@ -110,9 +110,9 @@ checksum = "a4a45a46ab1f2412e53d3a0ade76ffad2025804294569aae387231a0cd6e0899"
 
 [[package]]
 name = "bytemuck"
-version = "1.9.0"
+version = "1.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee1e0e2125faccb856bf10b0a9dfa89c4c718d05ef85580dfefbdf1c422ef801"
+checksum = "cdead85bdec19c194affaeeb670c0e41fe23de31459efd1c174d049269cf02cc"
 
 [[package]]
 name = "camino"
@@ -203,9 +203,9 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "3.1.7"
+version = "3.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c67e7973e74896f4bba06ca2dcfd28d54f9cb8c035e940a32b88ed48f5f5ecf2"
+checksum = "71c47df61d9e16dc010b55dba1952a57d8c215dbb533fd13cdd13369aac73b1c"
 dependencies = [
  "atty",
  "bitflags",
@@ -224,7 +224,7 @@ version = "3.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "df6f3613c0a3cddfd78b41b10203eb322cb29b600cbdf808a7d3db95691b8e25"
 dependencies = [
- "clap 3.1.7",
+ "clap 3.1.8",
 ]
 
 [[package]]
@@ -398,7 +398,7 @@ checksum = "fdabda8eabedb11165e4458a6b7d519f73af12f560d18d9ed56550a5b53cbafc"
 dependencies = [
  "anyhow",
  "cargo_metadata",
- "clap 3.1.7",
+ "clap 3.1.8",
  "clap_complete",
  "inferno",
  "opener",
@@ -1036,7 +1036,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "super_speedy_syslog_searcher"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = [
  "arraystring",
  "atty",
@@ -1044,7 +1044,7 @@ dependencies = [
  "bstr",
  "chain-cmp",
  "chrono",
- "clap 3.1.7",
+ "clap 3.1.8",
  "criterion",
  "crossbeam-channel",
  "debug_print",

@@ -3,7 +3,7 @@
 [package]
 name = "super_speedy_syslog_searcher"
 description = "A super speedy syslog searcher!"
-version = "0.0.5"
+version = "0.0.6"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
