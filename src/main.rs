@@ -2405,6 +2405,48 @@ impl LinePart {
     //       block bytes, that also iterates
     //       this would be used to write underlying block bytes to console.
     //       is this already implemented elsewhere?
+
+    /// return Box pointer to slice of bytes that make up this `LinePart`
+    pub fn block_boxptr(&self) -> Box<&[u8]> {
+        let slice_ = &(*self.blockp).as_slice()[self.blocki_beg..self.blocki_end];
+        //let slice_ptr: *const &[u8] = **slice_;
+        let slice_boxp = Box::new(slice_);
+        slice_boxp
+    }
+
+    /// return Box pointer to slice of bytes in this `LinePart` from `a` to end
+    /// // TODO: ADD TESTS TO THIS
+    pub fn block_boxptr_a(&self, a: &LineIndex) -> Box<&[u8]> {
+        debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
+        let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg+a)..self.blocki_end];
+        //let slice2 = &slice1[*a..];
+        let slice_boxp = Box::new(slice1);
+        slice_boxp
+    }
+
+    /// return Box pointer to slice of bytes in this `LinePart` from beginning to `b`
+    /// // TODO: ADD TESTS TO THIS
+    pub fn block_boxptr_b(&self, b: &LineIndex) -> Box<&[u8]> {
+        debug_assert_lt!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
+        let slice1 = &(*self.blockp).as_slice()[..self.blocki_beg+b];
+        //let slice2 = &slice1[..*b];
+        let slice_boxp = Box::new(slice1);
+        slice_boxp
+    }
+    
+
+    /// return Box pointer to slice of bytes in this `LinePart` from `a` to `b`
+    /// TODO: ADD TESTS TO THIS
+    pub fn block_boxptr_ab(&self, a: &LineIndex, b: &LineIndex) -> Box<&[u8]> {
+        debug_assert_lt!(a, b, "bad LineIndex");
+        debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
+        debug_assert_lt!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
+        debug_assert_lt!(b - a, self.len(), "Passed LineIndex {}..{} (diff {}) are larger than this LinePart 'slice' {}", a, b, b - a, self.len());
+        let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg+a)..(self.blocki_beg+b)];
+        //let slice2 = &slice1[*a..*b];
+        let slice_boxp = Box::new(slice1);
+        slice_boxp
+    }
 }
 
 /// A sequence to track a `Line`.
@@ -2526,6 +2568,7 @@ impl Line {
     }
 
     /// return all slices that make up this `Line`
+    /// CANDIDATE FOR REMOVAL?
     pub fn get_slices(self: &Line) -> Slices {
         // short-circuit this case
         let sz = self.lineparts.len();
@@ -2538,9 +2581,54 @@ impl Line {
     }
 
     /// return a count of slices that would be returned by `get_slices`
+    /// CANDIDATE FOR REMOVAL?
     pub fn get_slices_count(self: &Line) -> usize {
         return self.lineparts.len();
     }
+
+    // TODO: ADD TESTS TO THIS
+    pub fn get_boxptrs(self: &Line, a: LineIndex, mut b: LineIndex) -> Vec<Box<&[u8]>> {
+        debug_assert_le!(a, b, "passed bad LineIndex");
+        let mut a_found = false;
+        let mut b_search = false;
+        let mut count_lp: usize = 0;
+        let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box::<&[u8]>>::new();
+        for linepart_ in &self.lineparts {
+            if !a_found && a < linepart_.len() {
+                a_found = true;
+                b_search = true;
+                if b < linepart_.len() {
+                    debug_assert!(ptrs.is_empty(), "expected ptrs to be empty, has len {}", ptrs.len());
+                    ptrs.push(linepart_.block_boxptr_ab(&a, &b));  // store [a..b]  (entire slice, entire `Line`)
+                    return ptrs;
+                }
+                ptrs.push(linepart_.block_boxptr_a(&a));  // store [a..]  (first slice of `Line`)
+                b -= linepart_.len();
+                continue;
+            }
+            if b_search && b < linepart_.len() {
+                ptrs.push(linepart_.block_boxptr_b(&b));  // store [..b] (last slice of `Line`)
+                break;
+            } else {
+                ptrs.push(linepart_.block_boxptr());  // store [..] (entire slice, middle part of `Line`)
+                b -= linepart_.len();
+            }
+        }
+        ptrs
+    }
+
+    /*pub fn get_slice(self: &Line, a: &LineIndex, b: &LineIndex) -> Vec<Box<&[u8]>> {
+        let boxptrs_slices = self.get_boxptrs(*a, *b);
+        if boxptrs_slices.len() == 1 {
+            return boxptrs_slices[0];
+        }
+        // XXX: inefficient hack!
+        let 
+        for slc in boxptrs_slices {
+
+        }
+    }
+    */
 
     /// `raw` true will write directly to stdout from the stored `Block`
     /// `raw` false will write transcode each byte to a character and use pictoral representations
@@ -2675,6 +2763,7 @@ impl Line {
     ///      1. size not known at compile time so cannot place on stack
     ///      2. slice is an array which is not an "owned type"
     /// TODO: add tests
+    /// CANDIDATE FOR REMOVAL
     pub fn as_bytes(self: &Line) -> Bytes {
         assert_gt!(self.lineparts.len(), 0, "This Line has no LineParts");
         // efficient case, Line does not cross any Blocks
@@ -2698,6 +2787,8 @@ impl Line {
     }
 
     /// do be do
+    /// CANDIDATE FOR REMOVAL
+    //pub fn as_vec(self: &Line, beg: LineIndex, end: LineIndex) -> Bytes {
     pub fn as_vec(self: &Line, beg: LineIndex, end: LineIndex) -> Bytes {
         assert_gt!(self.lineparts.len(), 0, "This Line has no LineParts");
         // efficient case, Line does not cross any Blocks
@@ -2705,10 +2796,11 @@ impl Line {
             //let bi_beg = self.lineparts[0].blocki_beg;
             //let bi_end = self.lineparts[0].blocki_end;
             assert_le!(end - beg, self.len(), "end-beg > line.len()");
+
             return Bytes::from(&(*(self.lineparts[0].blockp))[beg as usize..end as usize]);
         }
         unimplemented!("as_vec does not handle multiple lineparts");
-        // XXX: really not efficient case, Line crosses stored Blocks so have to create a new vec
+        // XXX: incredibly inefficient case, Line crosses stored Blocks so have to create a new vec
         let sz = self.len();
         assert_ne!(sz, 0, "self.len() is zero!?");
         let mut data: Bytes = Bytes::with_capacity(sz);
@@ -4912,13 +5004,25 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             // take a slice of the `line_as_slice` then convert to `str`
             // this is to force the parsing function `Local.datetime_from_str` to constrain where it
             // searches within the `Line`
-            // LAST WORKING HERE 2022/04/02 00:42:34 trying to improve the `Line::as_slice`
-            // want to return a slice directly to the caller but returning a slice requires
-            // explicit lifetimes, which is a big darn mess.
-            // Is it possible return a slice pointer?
-            // this looks promising https://stackoverflow.com/questions/27150652/how-can-i-get-an-array-or-a-slice-from-a-raw-pointer
-            // or, how about asking for a copy of just the subslice that is of interest? pass in a `Bytes` buffer
-            let slice_: &[u8] = &line.as_vec(*beg_i, *end_i);
+            // TODO: to make this a bit more efficient, would be good to do a lookahead. Add a funciton like
+            //       `Line.crosses_block(a: LineIndex, b: LineIndex) -> bool`. Then could set capacity of things
+            //       ahead of time.
+            // LAST WORKING HERE 2022/04/03 00:06:29 REALLY NEED TO TEST THESE NEW FUNCS!
+            //         add tests for `get_boxptrs` and all funcs it refers to `block_boxptr_ab`, `block_boxptr_a`, etc.
+            let boxptrs_slices = line.get_boxptrs(*beg_i, *end_i);
+            let mut hack_slice: Bytes = Bytes::new();
+            let slice_: &[u8];
+            // have to do this here, not in a function, to keep `boxports_slices` in scope. Maybe I could pass in `&boxptrs_slices`.
+            if boxptrs_slices.len() == 1 {
+                // XXX: replace with `Box::into_inner(...)` when that is graduated from experimental
+                slice_ = *boxptrs_slices[0];
+            } else {
+                // XXX: inefficient!
+                for box1 in boxptrs_slices {
+                    hack_slice.extend_from_slice(*box1);
+                }
+                slice_ = hack_slice.as_slice();
+            }
             let dts: &str = match SyslineReader::u8_to_str(slice_) {
                 Some(val) => val,
                 None => { continue; }
