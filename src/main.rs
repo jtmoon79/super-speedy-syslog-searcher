@@ -1,5 +1,5 @@
 // main.rs
-/* … ≤ ≥
+/* … ≤ ≥ ≠ ≟
 Successful `sort`. Passes all tests in run-tests including utf-8 with high-order characters.
 
 (export RUST_BACKTRACE=1; cargo run -- --filepath Cargo.toml)
@@ -54,6 +54,10 @@ https://erasin.wang/books/easy-rust/
 
 The Rust Programing Book
 https://doc.rust-lang.org/book/
+
+testing Clone and Copy and Pointer
+https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=203ff518e004f62a959ac4697daa24a5
+
 
 DROP: TODO: [2021/09/01] what about mmap? https://stackoverflow.com/questions/45972/mmap-vs-reading-blocks
 
@@ -2401,6 +2405,37 @@ impl LinePart {
         (self.len() * LinePart::CHARSZ) as u64
     }
 
+    #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
+    fn _to_String_raw(self: &LinePart, raw: bool) -> String {
+        // XXX: intermixing byte lengths and character lengths
+        // XXX: does not handle multi-byte
+        let sz: usize = self.len();
+        let s1: String;
+        let slice_ = &(*self.blockp)[self.blocki_beg..self.blocki_end];
+        if raw {
+            unsafe {
+                s1 = String::from_utf8_unchecked(Vec::<u8>::from(slice_));
+            }
+            return s1;
+        }
+        s1 = buffer_to_String_noraw(slice_);
+        s1
+    }
+
+    /// `Line` to `String` but using printable chars for non-printable and/or formatting characters
+    #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
+    pub fn to_String_noraw(self: &LinePart) -> String {
+        return self._to_String_raw(false);
+    }
+
+    #[allow(non_snake_case)]
+    #[cfg(any(debug_assertions,test))]
+    pub fn to_String(self: &LinePart) -> String {
+        return self._to_String_raw(true);
+    }
+
     // TODO: [2022/03/19] add function to return some kind of pointer to underlying
     //       block bytes, that also iterates
     //       this would be used to write underlying block bytes to console.
@@ -2586,30 +2621,39 @@ impl Line {
         return self.lineparts.len();
     }
 
-    // TODO: ADD TESTS TO THIS
-    pub fn get_boxptrs(self: &Line, a: LineIndex, mut b: LineIndex) -> Vec<Box<&[u8]>> {
-        debug_assert_le!(a, b, "passed bad LineIndex");
+    // get Box pointers to the underlying `&[u8]` slice that makes up this `Line`.
+    // There may be more than one slice as the `Line` may cross block boundaries. So
+    // return the sequence of Box pointers in a `Vec`.
+    pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> Vec<Box<&[u8]>> {
+        debug_assert_le!(a, b, "passed bad LineIndex pair");
         let mut a_found = false;
         let mut b_search = false;
-        let mut count_lp: usize = 0;
         let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box::<&[u8]>>::new();
         for linepart_ in &self.lineparts {
+            debug_eprintln!("{}get_boxptrs: linepart {:?}", so(), linepart_.to_String_noraw());
             if !a_found && a < linepart_.len() {
                 a_found = true;
                 b_search = true;
                 if b < linepart_.len() {
                     debug_assert!(ptrs.is_empty(), "expected ptrs to be empty, has len {}", ptrs.len());
+                    debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr_ab({}, {}))", so(), a, b);
                     ptrs.push(linepart_.block_boxptr_ab(&a, &b));  // store [a..b]  (entire slice, entire `Line`)
                     return ptrs;
                 }
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr_a({}))", so(), a);
                 ptrs.push(linepart_.block_boxptr_a(&a));  // store [a..]  (first slice of `Line`)
                 b -= linepart_.len();
                 continue;
+            } else if !a_found {
+                a -= linepart_.len();
+                continue;
             }
             if b_search && b < linepart_.len() {
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr_b({}))", so(), b);
                 ptrs.push(linepart_.block_boxptr_b(&b));  // store [..b] (last slice of `Line`)
                 break;
-            } else {
+            } else  {
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr())", so());
                 ptrs.push(linepart_.block_boxptr());  // store [..] (entire slice, middle part of `Line`)
                 b -= linepart_.len();
             }
@@ -3785,6 +3829,164 @@ fn test_LineReader_rand(path_: &FPath, blocksz: BlockSz) {
 }
 
 // TODO: add tests for `test_LineReader_rand`
+
+type test_Line_get_boxptrs_check = Vec<(FileOffset, (LineIndex, LineIndex), Bytes)>;
+
+/// test `Line.get_boxpts`
+#[cfg(test)]
+fn _test_Line_get_boxptrs(fpath: &FPath, blocksz: BlockSz, checks: &test_Line_get_boxptrs_check) {
+    debug_eprintln!("{}_test_Line_get_boxptrs({:?}, {}, checks)", sn(), fpath, blocksz);
+    // create a `LineReader` and read all the lines in the file
+    let mut lr = LineReader::new(fpath, blocksz).unwrap();
+    let mut done = false;
+    let mut fo: FileOffset = 0;
+    while !done {
+        match lr.find_line(fo) {
+            ResultS4_LineFind::Found((fo_, linep)) => {
+                fo = fo_;
+            },
+            ResultS4_LineFind::Found_EOF((fo_, linep)) => {
+                fo = fo_;
+            },
+            ResultS4_LineFind::Done => {
+                break;
+            },
+            ResultS4_LineFind::Err(err) => {
+                assert!(false, "ResultS4_LineFind::Err {}", err);
+            },
+        }
+    }
+
+    // then test the `Line.get_boxptrs`
+    // get_boxptrs(self: &Line, a: LineIndex, mut b: LineIndex) -> Vec<Box<&[u8]>>
+    for (linenum, (a, b), bytes_check) in checks.iter() {
+        assert_lt!(a, b, "bad check args a {} b {}", a, b);
+        assert_ge!(b-a, bytes_check.len(), "Bad check args ({}-{})={} < {} bytes_check.len()", b, a, b-a, bytes_check.len());
+        debug_eprintln!("{}_test_Line_get_boxptrs: linereader.get_linep({})", so(), linenum);
+        let line = lr.get_linep(linenum).unwrap();
+        debug_eprintln!("{}_test_Line_get_boxptrs: returned {:?}", so(), line.to_String_noraw());
+        debug_eprintln!("{}_test_Line_get_boxptrs: line.get_boxptrs({}, {})", so(), a, b);
+        let boxptrs = line.get_boxptrs(*a, *b);
+        let mut at: usize = 0;
+        for boxptr in boxptrs.iter() {
+            for byte_ in (*boxptr).iter() {
+                let byte_check = &bytes_check[at];
+                debug_eprintln!("{}_test_Line_get_boxptrs: {:3?} ≟ {:3?} ({:?} ≟ {:?})", so(), byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check));
+                assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segement {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_String_noraw(&(*boxptr)), line.to_String_noraw());
+                at += 1;
+            }
+        }
+    }
+    debug_eprintln!("{}_test_Line_get_boxptrs", sx());
+}
+
+#[test]
+fn test_Line_get_boxptrs_1() {
+    let data: &str = &"\
+this is line 1";
+    let ntf = create_temp_file(data);
+    let mut checks: test_Line_get_boxptrs_check = test_Line_get_boxptrs_check::new();
+    checks.push((0, (0, 1), vec![b't']));
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_Line_get_boxptrs(&fpath, 0xFF, &checks);
+}
+
+#[cfg(test)]
+fn _test_Line_get_boxptrs_2_(blocksz: BlockSz) {
+    debug_eprintln!("{}_test_Line_get_boxptrs_2_({:?})", sn(), blocksz);
+    let data: &str = &"\
+One 1
+Two 2";
+    let ntf = create_temp_file(data);
+    let mut checks: test_Line_get_boxptrs_check = test_Line_get_boxptrs_check::new();
+    checks.push((6, (0, 1), vec![b'T',]));
+    checks.push((6, (0, 2), vec![b'T', b'w']));
+    checks.push((7, (0, 2), vec![b'T', b'w']));
+    checks.push((7, (0, 5), vec![b'T', b'w', b'o', b' ', b'2']));
+    checks.push((8, (0, 6), vec![b'T', b'w', b'o', b' ', b'2', b'\n']));
+    checks.push((8, (0, 7), vec![b'T', b'w', b'o', b' ', b'2', b'\n']));
+    checks.push((9, (0, 6), vec![b'T', b'w', b'o', b' ', b'2', b'\n']));
+    checks.push((10, (0, 6), vec![b'T', b'w', b'o', b' ', b'2', b'\n']));
+    checks.push((10, (1, 6), vec![b'w', b'o', b' ', b'2', b'\n']));
+    checks.push((10, (2, 6), vec![b'o', b' ', b'2', b'\n']));
+    checks.push((10, (3, 6), vec![b' ', b'2', b'\n']));
+    checks.push((10, (4, 6), vec![b'2', b'\n']));
+    checks.push((10, (5, 6), vec![b'\n']));
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_Line_get_boxptrs(&fpath, blocksz, &checks);
+    debug_eprintln!("{}_test_Line_get_boxptrs_2_({:?})", sx(), blocksz);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0xF() {
+    _test_Line_get_boxptrs_2_(0xF);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0xE() {
+    _test_Line_get_boxptrs_2_(0xE);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0xD() {
+    _test_Line_get_boxptrs_2_(0xD);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0xC() {
+    _test_Line_get_boxptrs_2_(0xC);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0xB() {
+    _test_Line_get_boxptrs_2_(0xB);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0xA() {
+    _test_Line_get_boxptrs_2_(0xA);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0x9() {
+    _test_Line_get_boxptrs_2_(0x9);
+}
+
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0x8() {
+    _test_Line_get_boxptrs_2_(0x8);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0x7() {
+    _test_Line_get_boxptrs_2_(0x7);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0x6() {
+    _test_Line_get_boxptrs_2_(0x6);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0x5() {
+    _test_Line_get_boxptrs_2_(0x5);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0x4() {
+    _test_Line_get_boxptrs_2_(0x4);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0x3() {
+    _test_Line_get_boxptrs_2_(0x3);
+}
+
+#[test]
+fn test_Line_get_boxptrs_2_bsz_0x2() {
+    _test_Line_get_boxptrs_2_(0x2);
+}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Sysline
