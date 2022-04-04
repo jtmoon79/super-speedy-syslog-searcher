@@ -20,6 +20,19 @@ time=$(which time)
 
 echo
 
+tmp1=$(mktemp --suffix "__super_speedy_syslog_searcher")
+tmp2=$(mktemp --suffix "__grep_sort")
+
+trap 'rm -f "${tmp1}" "${tmp2}"' EXIT
+
+declare -a files=(
+    $(ls -1 ./logs/other/tests/gen-{100-10-......,100-10-BRAAAP,100-10-FOOBAR,100-10-______,100-10-skullcrossbones,100-4-happyface,1000-3-foobar,200-1-jajaja,400-4-shamrock}.log)
+)
+
+# force reading of files from disk to allow any possible caching,
+# so a little less difference in the two timed processes
+cat "${files[@]}" > /dev/null
+
 (
 export RUST_BACKTRACE=1
 set -x
@@ -27,7 +40,7 @@ $time -p -- \
     ./target/release/super_speedy_syslog_searcher \
     -z 0xFFFF \
     -a 20000101T000000 -b 20000101T080000 \
-    ./logs/other/tests/gen-{100-10-......,100-10-BRAAAP,100-10-FOOBAR,100-10-______,100-10-skullcrossbones,100-4-happyface,1000-3-foobar,200-1-jajaja,400-4-shamrock}.log \
+    "${files[@]}" \
     >/dev/null
 )
 
@@ -38,8 +51,39 @@ set -x
 $time -p -- \
     bash -c "
     $grep -hEe '^20000101T00[01234567][[:digit:]]{3}|^20000101T080000' -- \
-    ./logs/other/tests/gen-{100-10-......,100-10-BRAAAP,100-10-FOOBAR,100-10-______,100-10-skullcrossbones,100-4-happyface,1000-3-foobar,200-1-jajaja,400-4-shamrock}.log \
+    ${files[*]} \
     | $sort -t ' ' -k 1 -s \
     >/dev/null \
     "    
 )
+# run again, save output
+./target/release/super_speedy_syslog_searcher \
+    -z 0xFFFF \
+    -a 20000101T000000 -b 20000101T080000 \
+    "${files[@]}" \
+    > "${tmp1}"
+
+$grep -hEe '^20000101T00[01234567][[:digit:]]{3}|^20000101T080000' -- \
+    "${files[@]}" \
+    | $sort -t ' ' -k 1 -s \
+    > "${tmp2}"
+
+echo
+s4_lc=$(wc -l < "${tmp1}")
+s4_bc=$(wc -c < "${tmp1}")
+echo "super_speedy_syslog_searcher output file"
+echo "  Line Count ${s4_lc}"
+echo "  Byte Count ${s4_bc}"
+gs_lc=$(wc -l < "${tmp2}")
+gs_bc=$(wc -c < "${tmp2}")
+echo "'grep | sort' output file"
+echo "  Line Count ${gs_lc}"
+echo "  Byte Count ${gs_bc}"
+# output will diff!
+diff --brief "${tmp1}" "${tmp2}" || true
+
+echo
+echo "The output files will differ due to sorting method differences."
+echo "However Line count and bytes count should be the same."
+
+[[ ${s4_lc} -eq ${gs_lc} ]] && [[ ${s4_bc} -eq ${gs_bc} ]]
