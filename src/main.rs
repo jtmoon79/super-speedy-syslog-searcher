@@ -2436,11 +2436,6 @@ impl LinePart {
         return self._to_String_raw(true);
     }
 
-    // TODO: [2022/03/19] add function to return some kind of pointer to underlying
-    //       block bytes, that also iterates
-    //       this would be used to write underlying block bytes to console.
-    //       is this already implemented elsewhere?
-
     /// return Box pointer to slice of bytes that make up this `LinePart`
     pub fn block_boxptr(&self) -> Box<&[u8]> {
         let slice_ = &(*self.blockp).as_slice()[self.blocki_beg..self.blocki_end];
@@ -2450,7 +2445,6 @@ impl LinePart {
     }
 
     /// return Box pointer to slice of bytes in this `LinePart` from `a` to end
-    /// // TODO: ADD TESTS TO THIS
     pub fn block_boxptr_a(&self, a: &LineIndex) -> Box<&[u8]> {
         debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
         let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg+a)..self.blocki_end];
@@ -2460,7 +2454,6 @@ impl LinePart {
     }
 
     /// return Box pointer to slice of bytes in this `LinePart` from beginning to `b`
-    /// // TODO: ADD TESTS TO THIS
     pub fn block_boxptr_b(&self, b: &LineIndex) -> Box<&[u8]> {
         debug_assert_lt!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
         let slice1 = &(*self.blockp).as_slice()[..self.blocki_beg+b];
@@ -2471,7 +2464,6 @@ impl LinePart {
     
 
     /// return Box pointer to slice of bytes in this `LinePart` from `a` to `b`
-    /// TODO: ADD TESTS TO THIS
     pub fn block_boxptr_ab(&self, a: &LineIndex, b: &LineIndex) -> Box<&[u8]> {
         debug_assert_lt!(a, b, "bad LineIndex");
         debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
@@ -2621,9 +2613,12 @@ impl Line {
         return self.lineparts.len();
     }
 
-    // get Box pointers to the underlying `&[u8]` slice that makes up this `Line`.
-    // There may be more than one slice as the `Line` may cross block boundaries. So
-    // return the sequence of Box pointers in a `Vec`.
+    /// get Box pointers to the underlying `&[u8]` slice that makes up this `Line`.
+    /// There may be more than one slice as the `Line` may cross block boundaries. So
+    /// return the sequence of Box pointers in a `Vec`.
+    /// TODO: the `Vec<Box<&[u8]>>` creation is expensive
+    ///       consider allowing a mut &Vec to be passed in. However, this will require declaring lifetimes!
+    ///       LAST WORKING HERE 2022/04/03 23:54:00
     pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> Vec<Box<&[u8]>> {
         debug_assert_le!(a, b, "passed bad LineIndex pair");
         let mut a_found = false;
