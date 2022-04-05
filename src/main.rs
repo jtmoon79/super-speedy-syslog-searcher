@@ -2423,6 +2423,10 @@ impl LinePart {
         s1
     }
 
+    pub fn contains(self: &LinePart, byte_: &u8) -> bool {
+        (*self.blockp).contains(&byte_)
+    }
+
     /// `Line` to `String` but using printable chars for non-printable and/or formatting characters
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
@@ -2519,6 +2523,12 @@ impl fmt::Debug for Line {
     }
 }
 
+/// return value for `Line::get_boxptrs`
+pub enum enum_BoxPtrs <'a> {
+    SinglePtr(Box<&'a [u8]>),
+    MultiPtr(Vec<Box<&'a [u8]>>),
+}
+
 impl Line {
     /// default `with_capacity` for a `LineParts`, most often will only need 1 capacity
     /// as the found "line" will likely reside within one `Block`
@@ -2530,11 +2540,15 @@ impl Line {
         };
     }
 
-    pub fn new_from_linepart(info: LinePart) -> Line {
+    pub fn new_from_linepart(linepart: LinePart) -> Line {
         let mut v = LineParts::with_capacity(Line::LINE_PARTS_WITH_CAPACITY);
-        v.push(info);
+        v.push(linepart);
         return Line { lineparts: v };
     }
+
+    //pub fn charsz(self: &Line) {
+    //    self.lineparts.first().unwrap().
+    //}
 
     pub fn push(&mut self, linepart: LinePart) {
         let l_ = self.lineparts.len();
@@ -2594,6 +2608,39 @@ impl Line {
         cb
     }
 
+    pub fn get_linepart(self: &Line, mut a: LineIndex) -> &LinePart {
+        for linepart in self.lineparts.iter() {
+            let len_ = linepart.len();
+            if a < len_ {
+                return &linepart;
+            }
+            a -= len_;
+        }
+        // XXX: not sure if this is the best choice
+        &(self.lineparts.last().unwrap())
+    }
+
+    /// does the `Line` contain the byte value?
+    pub fn contains(self: &Line, byte_: &u8) -> bool {
+        for linepart in self.lineparts.iter() {
+            if linepart.contains(byte_) {
+                return true;
+            }
+        }
+        false
+    }
+
+    /// does the `Line` contain the byte value?
+    pub fn contains_at(self: &Line, byte_: &u8, a: &LineIndex, b: &LineIndex) -> bool {
+        debug_assert_le!(a, b, "passed bad LineIndex pair");
+        for linepart in self.lineparts.iter() {
+            if linepart.contains(byte_) {
+                return true;
+            }
+        }
+        false
+    }
+
     /// return all slices that make up this `Line`
     /// CANDIDATE FOR REMOVAL?
     pub fn get_slices(self: &Line) -> Slices {
@@ -2613,47 +2660,67 @@ impl Line {
         return self.lineparts.len();
     }
 
+
     /// get Box pointers to the underlying `&[u8]` slice that makes up this `Line`.
     /// There may be more than one slice as the `Line` may cross block boundaries. So
     /// return the sequence of Box pointers in a `Vec`.
     /// TODO: the `Vec<Box<&[u8]>>` creation is expensive
     ///       consider allowing a mut &Vec to be passed in. However, this will require declaring lifetimes!
     ///       LAST WORKING HERE 2022/04/03 23:54:00
-    pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> Vec<Box<&[u8]>> {
+    // TODO: due to unstable feature `Sized` in `Box`, cannot do
+    //           fn get_boxptrs(...) -> either::Either<Box<&[u8]>, Vec<Box<&[u8]>>>
+    //       causes error `experimental Sized`
+    pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> enum_BoxPtrs<'_> {
         debug_assert_le!(a, b, "passed bad LineIndex pair");
+        // do the simple case first (single `Box` pointer required)
+        // doing this here, as opposed to intermixing with multiple case, avoids compiler complaint of "use of possibly-uninitialized `ptrs`"
+        let mut a1: LineIndex = a;
+        let mut b1: LineIndex = b;
+        for linepart_ in &self.lineparts {
+            let len_ = linepart_.len();
+            if a1 < len_ && b1 < len_ {
+                return enum_BoxPtrs::SinglePtr(linepart_.block_boxptr_ab(&a1, &b1));
+            } else if a1 < len_ && len_ <= b1 {
+                break;
+            }
+            a1 -= len_;
+            b1 -= len_;
+        }
+        // do the harder case (multiple `Box` pointers required)
         let mut a_found = false;
         let mut b_search = false;
         let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box::<&[u8]>>::new();
         for linepart_ in &self.lineparts {
             debug_eprintln!("{}get_boxptrs: linepart {:?}", so(), linepart_.to_String_noraw());
-            if !a_found && a < linepart_.len() {
+            let len_ = linepart_.len();
+            if !a_found && a < len_ {
                 a_found = true;
                 b_search = true;
-                if b < linepart_.len() {
-                    debug_assert!(ptrs.is_empty(), "expected ptrs to be empty, has len {}", ptrs.len());
+                if b < len_ {
                     debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr_ab({}, {}))", so(), a, b);
                     ptrs.push(linepart_.block_boxptr_ab(&a, &b));  // store [a..b]  (entire slice, entire `Line`)
-                    return ptrs;
+                    debug_assert_gt!(ptrs.len(), 1, "ptrs is {} elements, expected >= 1; this should have been handled earlier", ptrs.len());
+                    return enum_BoxPtrs::MultiPtr(ptrs);
                 }
                 debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr_a({}))", so(), a);
                 ptrs.push(linepart_.block_boxptr_a(&a));  // store [a..]  (first slice of `Line`)
-                b -= linepart_.len();
+                b -= len_;
                 continue;
             } else if !a_found {
-                a -= linepart_.len();
+                a -= len_;
                 continue;
             }
-            if b_search && b < linepart_.len() {
+            if b_search && b < len_ {
                 debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr_b({}))", so(), b);
                 ptrs.push(linepart_.block_boxptr_b(&b));  // store [..b] (last slice of `Line`)
                 break;
             } else  {
                 debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr())", so());
                 ptrs.push(linepart_.block_boxptr());  // store [..] (entire slice, middle part of `Line`)
-                b -= linepart_.len();
+                b -= len_;
             }
         }
-        ptrs
+        enum_BoxPtrs::MultiPtr(ptrs)
     }
 
     /*pub fn get_slice(self: &Line, a: &LineIndex, b: &LineIndex) -> Vec<Box<&[u8]>> {
@@ -3861,7 +3928,16 @@ fn _test_Line_get_boxptrs(fpath: &FPath, blocksz: BlockSz, checks: &test_Line_ge
         let line = lr.get_linep(linenum).unwrap();
         debug_eprintln!("{}_test_Line_get_boxptrs: returned {:?}", so(), line.to_String_noraw());
         debug_eprintln!("{}_test_Line_get_boxptrs: line.get_boxptrs({}, {})", so(), a, b);
-        let boxptrs = line.get_boxptrs(*a, *b);
+        let boxptrs = match line.get_boxptrs(*a, *b) {
+            enum_BoxPtrs::SinglePtr(box_) => {
+                let mut v = Vec::<Box<&[u8]>>::with_capacity(1);
+                v.push(box_);
+                v
+            },
+            enum_BoxPtrs::MultiPtr(boxes) => {
+                boxes
+            }
+        };
         let mut at: usize = 0;
         for boxptr in boxptrs.iter() {
             for byte_ in (*boxptr).iter() {
@@ -5158,9 +5234,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     ///      Instead of fixing the current problem of unexpected datetime matches,
     ///      fix the concept problem of passing around fixed-length datetime strings. Then redo this.
     pub fn find_datetime_in_line(
-        line: &Line, parse_data: &'syslinereader DateTime_Parse_Datas_vec, _fpath: &FPath
+        line: &Line, parse_data: &'syslinereader DateTime_Parse_Datas_vec, fpath: &FPath, charsz: &CharSz
     ) -> Result_FindDateTime<'syslinereader> {
-        debug_eprintln!("{}find_datetime_in_line:(Line@{:p}) {:?}", sn(), &line, line.to_String_noraw());
+        debug_eprintln!("{}find_datetime_in_line:(Line@{:p}, {:?}) {:?}", sn(), &line, line.to_String_noraw(), fpath);
         // skip easy case; no possible datetime
         if line.len() < 4 {
             debug_eprintln!("{}find_datetime_in_line: return Err(ErrorKind::InvalidInput);", sx());
@@ -5185,7 +5261,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             //debug_eprintln!("{}find_datetime_in_line searching for pattern {} {:?}", so(), i, pattern);
             let len_ = (end_i - beg_i) as LineIndex;
             // XXX: does not support multi-byte string; assumes single-byte
-            if line.len() < (*end_i) {
+            if line.len() < *end_i {
                 debug_eprintln!(
                     "{}find_datetime_in_line: line len {} is too short for pattern {} len {} @({}, {}] {:?}",
                     so(),
@@ -5206,19 +5282,27 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             //       ahead of time.
             // LAST WORKING HERE 2022/04/03 00:06:29 REALLY NEED TO TEST THESE NEW FUNCS!
             //         add tests for `get_boxptrs` and all funcs it refers to `block_boxptr_ab`, `block_boxptr_a`, etc.
-            let boxptrs_slices = line.get_boxptrs(*beg_i, *end_i);
-            let mut hack_slice: Bytes = Bytes::new();
             let slice_: &[u8];
-            // have to do this here, not in a function, to keep `boxports_slices` in scope. Maybe I could pass in `&boxptrs_slices`.
-            if boxptrs_slices.len() == 1 {
-                // XXX: replace with `Box::into_inner(...)` when that is graduated from experimental
-                slice_ = *boxptrs_slices[0];
-            } else {
-                // XXX: inefficient!
-                for box1 in boxptrs_slices {
-                    hack_slice.extend_from_slice(*box1);
+            let mut hack_slice: Bytes;
+            match line.get_boxptrs(*beg_i, *end_i) {
+                enum_BoxPtrs::SinglePtr(box_slice) => {
+                    slice_ = *box_slice;
+                },
+                enum_BoxPtrs::MultiPtr(vec_box_slice) => {
+                    // XXX: really inefficient!
+                    hack_slice = Bytes::new();
+                    for box_ in vec_box_slice {
+                        hack_slice.extend_from_slice(*box_);
+                    }
+                    slice_ = hack_slice.as_slice();
                 }
-                slice_ = hack_slice.as_slice();
+            };
+            // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
+            if charsz == &1 && pattern.contains("%Y") {
+                if !(slice_.contains(&b'1') || slice_.contains(&b'2')) {
+                    debug_eprintln!("{}find_datetime_in_line: skip slice, does not have '1' or '2'", so());
+                    continue;
+                }
             }
             let dts: &str = match SyslineReader::u8_to_str(slice_) {
                 Some(val) => val,
@@ -5326,7 +5410,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// attempt to parse the `DateTime`
     /// wraps call to `find_datetime_in_line` according to status of `self.dt_patterns`
     /// if `self.dt_patterns` is `None`, will set `self.dt_patterns`
-    fn parse_datetime_in_line(&mut self, line: &Line) -> Result_ParseDateTime {
+    fn parse_datetime_in_line(&mut self, line: &Line, charsz: &CharSz) -> Result_ParseDateTime {
         // 2021/10/09 21:00:00 where does dt_patterns come from?
         // LAST WORKING HERE 2022/03/11 01:25:00
         //      the current problem is datetime_f used is "%Y-%m-%d %H:%M:%S " which for unknown reason matches
@@ -5345,7 +5429,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             // so pass the built-in `DATETIME_PARSE_DATAS`.
             // Use the extra data returned by `find_datetime_in_line` to set `self.dt_patterns` once.
             // This will only happen once per `SyslineReader` (assuming a valid Syslog file)
-            let result = SyslineReader::find_datetime_in_line(line, &DATETIME_PARSE_DATAS_VEC, self.path());
+            let result = SyslineReader::find_datetime_in_line(line, &DATETIME_PARSE_DATAS_VEC, self.path(), charsz);
             let (datetime_parse_data, dt) = match result {
                 Ok(val) => val,
                 Err(err) => {
@@ -5361,7 +5445,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         debug_eprintln!("{}parse_datetime_in_line self.dt_patterns has {} entries", so(), &self.dt_patterns.len());
         // have already determined DateTime formatting for this file, so
         // no need to try *all* built-in DateTime formats, just try the known good formats.
-        let result = SyslineReader::find_datetime_in_line(line, &self.dt_patterns, self.path());
+        let result = SyslineReader::find_datetime_in_line(line, &self.dt_patterns, self.path(), charsz);
         let (datetime_parse_data, dt) = match result {
             Ok(val) => val,
             Err(err) => {
@@ -5376,7 +5460,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 //       Have to think about this.
                 debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Err {}; try again using default DATETIME_PARSE_DATAS_VEC", so(), self, err);
                 //return Err(err);
-                match SyslineReader::find_datetime_in_line(line, &DATETIME_PARSE_DATAS_VEC, self.path()) {
+                match SyslineReader::find_datetime_in_line(line, &DATETIME_PARSE_DATAS_VEC, self.path(), charsz) {
                     Ok((datetime_parse_data_, dt_)) => {
                         self.dt_patterns_counts_update(datetime_parse_data_.0);
                         self.dt_patterns_update(datetime_parse_data_.clone());
@@ -5549,7 +5633,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     return ResultS4_SyslineFind::Err(err);
                 }
             };
-            let result = self.parse_datetime_in_line(&*lp);
+            let result = self.parse_datetime_in_line(&*lp, &self.charsz());
             debug_eprintln!("{}find_sysline: A find_datetime_in_line returned {:?}", so(), result);
             match result {
                 Err(_) => {}
@@ -5720,7 +5804,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     return ResultS4_SyslineFind::Err(err);
                 }
             };
-            let result = self.parse_datetime_in_line(&*lp);
+            let result = self.parse_datetime_in_line(&*lp, &self.charsz());
             debug_eprintln!("{}find_sysline: B find_datetime_in_line returned {:?}", so(), result);
             match result {
                 Err(_) => {
