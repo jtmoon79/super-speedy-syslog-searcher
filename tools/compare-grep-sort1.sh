@@ -84,6 +84,6 @@ diff --brief "${tmp1}" "${tmp2}" || true
 
 echo
 echo "The output files will differ due to sorting method differences."
-echo "However Line count and bytes count should be the same."
+echo "However Line Count and Byte Count should be the same."
 
 [[ ${s4_lc} -eq ${gs_lc} ]] && [[ ${s4_bc} -eq ${gs_bc} ]]
