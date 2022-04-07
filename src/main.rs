@@ -581,8 +581,16 @@ LAST WORKING ON 2022/04/01 trying to improve on `RangeMap`. It takes a surprisin
       *thinking face*
       I wonder if I could get away from using the `lines_by_range` at all? Definitely worth a try.
       See https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e2f8254986338694b3ec467e606b73e7
- 
- */
+
+TODO: 2022/04/06 add script to run `tools/compare-...sh` and `tools/flamegraph.sh`, save outputs
+      based on commit and/or tag. This way it's easy to save performance data
+      for each new commit/tag.
+      Write to path `./performance-data/$(hostname)/$(rust --print ...)/`
+      files
+        `flamegraph.sh`
+        `compare-...out`
+
+*/
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // uses
@@ -4448,15 +4456,8 @@ impl Sysline {
 // DateTime typing
 
 /// DateTime formatting pattern, passed to `chrono::datetime_from_str`
-// TODO: why did I choose `str` instead of `String`? Much easier dealing with `String`. Do that instead
 type DateTimePattern = String;
 type DateTimePattern_str = str;
-/// return type for `SyslineReader::find_datetime_in_line`
-type Result_FindDateTime = Result<(DateTime_Parse_Data, DateTimeL)>;
-/// return type for `SyslineReader::parse_datetime_in_line`
-type Result_ParseDateTime = Result<(LineIndex, LineIndex, DateTimeL)>;
-/// used internally by `SyslineReader`
-type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
 /// DateTimePattern for searching a line (not the results)
 /// slice index begin, slice index end of entire datetime pattern
 /// slice index begin just the datetime, slice index end just the datetime
@@ -4464,14 +4465,34 @@ type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
 /// TODO: why not use `String` type for the datetime pattern? I don't recall why I chose `str`.
 /// TODO: instead of `LineIndex, LineIndex`, use `(RangeInclusive, Offset)` for the two pairs of LineIndex ranges
 ///       processing functions would attempt all values within `RangeInclusive` (plus the `Offset`).
-type DateTime_Parse_Data = (DateTimePattern, LineIndex, LineIndex, LineIndex, LineIndex);
-type DateTime_Parse_Data_str<'a> = (&'a DateTimePattern_str, LineIndex, LineIndex, LineIndex, LineIndex);
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialOrd, PartialEq)]
+pub struct DateTime_Parse_Data {
+    pattern: DateTimePattern,
+    /// does the `pattern` have a year? ("%Y")
+    year: bool,
+    /// slice index begin of entire pattern
+    sib: LineIndex,
+    /// slice index end of entire pattern
+    sie: LineIndex,
+    /// slice index begin of only datetime portion of pattern
+    siba: LineIndex,
+    /// slice index end of only datetime portion of pattern
+    siea: LineIndex,
+}
+//type DateTime_Parse_Data = (DateTimePattern, bool, LineIndex, LineIndex, LineIndex, LineIndex);
+type DateTime_Parse_Data_str<'a> = (&'a DateTimePattern_str, bool, LineIndex, LineIndex, LineIndex, LineIndex);
 //type DateTime_Parse_Datas_ar<'a> = [DateTime_Parse_Data<'a>];
 type DateTime_Parse_Datas_vec = Vec<DateTime_Parse_Data>;
 //type DateTime_Parse_Data_BoxP<'syslinereader> = Box<&'syslinereader DateTime_Parse_Data>;
 /// count of datetime format strings used
 // TODO: how to do this a bit more efficiently, and not store an entire copy?
 type DateTime_Pattern_Counts = HashMap<DateTime_Parse_Data, u64>;
+/// return type for `SyslineReader::find_datetime_in_line`
+type Result_FindDateTime = Result<(DateTime_Parse_Data, DateTimeL)>;
+/// return type for `SyslineReader::parse_datetime_in_line`
+type Result_ParseDateTime = Result<(LineIndex, LineIndex, DateTimeL)>;
+/// used internally by `SyslineReader`
+type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
 
 /// describe the result of comparing one DateTime to one DateTime Filter
 #[allow(non_camel_case_types)]
@@ -4548,7 +4569,7 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     [2020/03/05 12:17:59.631000,  3] ../source3/smbd/oplock.c:1340(init_oplocks)
     //        init_oplocks: initializing messages.
     //
-    ("[%Y/%m/%d %H:%M:%S%.6f,", 0, 28, 1, 27),
+    ("[%Y/%m/%d %H:%M:%S%.6f,", true, 0, 28, 1, 27),
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Ubuntu18/vmware/hostd-62.log`
@@ -4560,8 +4581,8 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //
     // TODO: [2021/10/03] no support of differing TZ
     //("%Y-%m-%dT%H:%M:%S%.3f%z ", 0, 30, 0, 29),
-    ("%Y-%m-%dT%H:%M:%S%.3f-", 0, 24, 0, 23),  // XXX: temporary stand-in
-    ("%Y-%m-%d %H:%M:%S%.6f-", 0, 27, 0, 26),  // XXX: temporary stand-in
+    ("%Y-%m-%dT%H:%M:%S%.3f-", true, 0, 24, 0, 23),  // XXX: temporary stand-in
+    ("%Y-%m-%d %H:%M:%S%.6f-", true, 0, 27, 0, 26),  // XXX: temporary stand-in
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Ubuntu18/kernel.log`
@@ -4608,7 +4629,7 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     01234567890123456789
     //     [20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)
     //
-    ("[%Y%m%d-%H:%M:%S]", 0, 19, 1, 18),
+    ("[%Y%m%d-%H:%M:%S]", true, 0, 19, 1, 18),
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Ubuntu18/vmware-installer.log`
@@ -4618,9 +4639,9 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     012345678901234567890123456789
     //     [2019-05-06 11:24:34,074] Successfully loaded GTK libraries.
     //
-    ("[%Y-%m-%d %H:%M:%S,%3f] ", 0, 26, 1, 24),
+    ("[%Y-%m-%d %H:%M:%S,%3f] ", true, 0, 26, 1, 24),
     // repeat prior but no trailing space
-    ("[%Y-%m-%d %H:%M:%S,%3f]", 0, 25, 1, 24),
+    ("[%Y-%m-%d %H:%M:%S,%3f]", true, 0, 25, 1, 24),
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/other/archives/proftpd/xferlog`
@@ -4630,9 +4651,9 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     0123456789012345678901234
     //     Sat Oct 03 11:26:12 2020 0 192.168.1.12 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c
     //
-    ("%a %b %d %H:%M:%S %Y ", 0, 25, 0, 24),
+    ("%a %b %d %H:%M:%S %Y ", true, 0, 25, 0, 24),
     // repeat prior but no trailing space
-    ("%a %b %d %H:%M:%S %Y", 0, 24, 0, 24),
+    ("%a %b %d %H:%M:%S %Y", true, 0, 24, 0, 24),
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/OpenSUSE15/zypper.log`
@@ -4680,39 +4701,39 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //             2020-01-01 00:00:01xyz
     //              2020-01-01 00:00:01xyz
     //
-    ("%Y-%m-%d %H:%M:%S%.3f ", 0, 24, 0, 23),
-    ("%Y-%m-%d %H:%M:%S%.3f ", 1, 25, 1, 24),
-    ("%Y-%m-%d %H:%M:%S%.3f ", 2, 26, 2, 25),
-    ("%Y-%m-%d %H:%M:%S%.3f ", 3, 27, 3, 26),
-    ("%Y-%m-%d %H:%M:%S%.3f ", 4, 28, 4, 27),
-    ("%Y-%m-%d %H:%M:%S%.3f ", 5, 29, 5, 28),
-    ("%Y-%m-%d %H:%M:%S%.3f ", 6, 30, 6, 29),
-    ("%Y-%m-%d %H:%M:%S%.3f ", 7, 31, 7, 30),
-    ("%Y-%m-%d %H:%M:%S%.3f ", 8, 32, 8, 31),
-    ("%Y-%m-%d %H:%M:%S%.3f ", 9, 33, 9, 32),
-    ("%Y-%m-%d %H:%M:%S%.3f ", 10, 34, 10, 33),
-    ("%Y-%m-%d %H:%M:%S ", 0, 20, 0, 19),
-    ("%Y-%m-%d %H:%M:%S ", 1, 21, 1, 20),
-    ("%Y-%m-%d %H:%M:%S ", 2, 22, 2, 21),
-    ("%Y-%m-%d %H:%M:%S ", 3, 23, 3, 22),
-    ("%Y-%m-%d %H:%M:%S ", 4, 24, 4, 23),
-    ("%Y-%m-%d %H:%M:%S ", 5, 25, 5, 24),
-    ("%Y-%m-%d %H:%M:%S ", 6, 26, 6, 25),
-    ("%Y-%m-%d %H:%M:%S ", 7, 27, 7, 26),
-    ("%Y-%m-%d %H:%M:%S ", 8, 28, 8, 27),
-    ("%Y-%m-%d %H:%M:%S ", 9, 29, 9, 28),
-    ("%Y-%m-%d %H:%M:%S ", 10, 30, 10, 29),
-    ("%Y-%m-%d %H:%M:%S", 0, 19, 0, 19),
-    ("%Y-%m-%d %H:%M:%S", 1, 20, 1, 20),
-    ("%Y-%m-%d %H:%M:%S", 2, 21, 2, 21),
-    ("%Y-%m-%d %H:%M:%S", 3, 22, 3, 22),
-    ("%Y-%m-%d %H:%M:%S", 4, 23, 4, 23),
-    ("%Y-%m-%d %H:%M:%S", 5, 24, 5, 24),
-    ("%Y-%m-%d %H:%M:%S", 6, 25, 6, 25),
-    ("%Y-%m-%d %H:%M:%S", 7, 26, 7, 26),
-    ("%Y-%m-%d %H:%M:%S", 8, 27, 8, 27),
-    ("%Y-%m-%d %H:%M:%S", 9, 28, 9, 28),
-    ("%Y-%m-%d %H:%M:%S", 10, 29, 10, 29),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 0, 24, 0, 23),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 1, 25, 1, 24),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 2, 26, 2, 25),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 3, 27, 3, 26),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 4, 28, 4, 27),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 5, 29, 5, 28),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 6, 30, 6, 29),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 7, 31, 7, 30),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 8, 32, 8, 31),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 9, 33, 9, 32),
+    ("%Y-%m-%d %H:%M:%S%.3f ", true, 10, 34, 10, 33),
+    ("%Y-%m-%d %H:%M:%S ", true, 0, 20, 0, 19),
+    ("%Y-%m-%d %H:%M:%S ", true, 1, 21, 1, 20),
+    ("%Y-%m-%d %H:%M:%S ", true, 2, 22, 2, 21),
+    ("%Y-%m-%d %H:%M:%S ", true, 3, 23, 3, 22),
+    ("%Y-%m-%d %H:%M:%S ", true, 4, 24, 4, 23),
+    ("%Y-%m-%d %H:%M:%S ", true, 5, 25, 5, 24),
+    ("%Y-%m-%d %H:%M:%S ", true, 6, 26, 6, 25),
+    ("%Y-%m-%d %H:%M:%S ", true, 7, 27, 7, 26),
+    ("%Y-%m-%d %H:%M:%S ", true, 8, 28, 8, 27),
+    ("%Y-%m-%d %H:%M:%S ", true, 9, 29, 9, 28),
+    ("%Y-%m-%d %H:%M:%S ", true, 10, 30, 10, 29),
+    ("%Y-%m-%d %H:%M:%S", true, 0, 19, 0, 19),
+    ("%Y-%m-%d %H:%M:%S", true, 1, 20, 1, 20),
+    ("%Y-%m-%d %H:%M:%S", true, 2, 21, 2, 21),
+    ("%Y-%m-%d %H:%M:%S", true, 3, 22, 3, 22),
+    ("%Y-%m-%d %H:%M:%S", true, 4, 23, 4, 23),
+    ("%Y-%m-%d %H:%M:%S", true, 5, 24, 5, 24),
+    ("%Y-%m-%d %H:%M:%S", true, 6, 25, 6, 25),
+    ("%Y-%m-%d %H:%M:%S", true, 7, 26, 7, 26),
+    ("%Y-%m-%d %H:%M:%S", true, 8, 27, 8, 27),
+    ("%Y-%m-%d %H:%M:%S", true, 9, 28, 9, 28),
+    ("%Y-%m-%d %H:%M:%S", true, 10, 29, 10, 29),
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -4721,7 +4742,7 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     012345678901234567890
     //     2020-01-01T00:00:01 xyz
     //
-    ("%Y-%m-%dT%H:%M:%S ", 0, 20, 0, 19),
+    ("%Y-%m-%dT%H:%M:%S ", true, 0, 20, 0, 19),
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -4730,7 +4751,7 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     012345678901234567890
     //     2020-01-01T00:00:01xyz
     //
-    ("%Y-%m-%dT%H:%M:%S", 0, 19, 0, 19),
+    ("%Y-%m-%dT%H:%M:%S", true, 0, 19, 0, 19),
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -4739,7 +4760,7 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     012345678901234567
     //     20200101 000001 xyz
     //
-    ("%Y%m%d %H%M%S ", 0, 16, 0, 15),
+    ("%Y%m%d %H%M%S ", true, 0, 16, 0, 15),
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -4748,7 +4769,7 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     012345678901234567
     //     20200101T000001 xyz
     //
-    ("%Y%m%dT%H%M%S ", 0, 16, 0, 15),
+    ("%Y%m%dT%H%M%S ", true, 0, 16, 0, 15),
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -4757,7 +4778,7 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     012345678901234567
     //     20200101T000001xyz
     //
-    ("%Y%m%dT%H%M%S", 0, 15, 0, 15),
+    ("%Y%m%dT%H%M%S", true, 0, 15, 0, 15),
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/debian9/apport.log.1`
@@ -4770,10 +4791,10 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     ERROR: apport (pid 935) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
     //     ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
     //
-    (" %a %b %d %H:%M:%S %Y:", 22, 47, 22, 46),
-    (" %a %b %d %H:%M:%S %Y:", 23, 48, 23, 47),
-    (" %a %b %d %H:%M:%S %Y:", 24, 49, 24, 48),
-    (" %a %b %d %H:%M:%S %Y:", 25, 50, 25, 49),
+    (" %a %b %d %H:%M:%S %Y:", true, 22, 47, 22, 46),
+    (" %a %b %d %H:%M:%S %Y:", true, 23, 48, 23, 47),
+    (" %a %b %d %H:%M:%S %Y:", true, 24, 49, 24, 48),
+    (" %a %b %d %H:%M:%S %Y:", true, 25, 50, 25, 49),
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -4785,10 +4806,10 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     DEBUG: Thu Feb 20 00:59:59 2020 debug
     //     VERBOSE: Thu Feb 20 00:59:59 2020 verbose
     //
-    (" %a %b %d %H:%M:%S %Y ", 5, 31, 6, 30),
-    (" %a %b %d %H:%M:%S %Y ", 6, 32, 7, 31),
-    (" %a %b %d %H:%M:%S %Y ", 7, 33, 8, 32),
-    (" %a %b %d %H:%M:%S %Y ", 8, 34, 9, 33),
+    (" %a %b %d %H:%M:%S %Y ", true, 5, 31, 6, 30),
+    (" %a %b %d %H:%M:%S %Y ", true, 6, 32, 7, 31),
+    (" %a %b %d %H:%M:%S %Y ", true, 7, 33, 8, 32),
+    (" %a %b %d %H:%M:%S %Y ", true, 8, 34, 9, 33),
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -4801,18 +4822,28 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] 
     //     DEBUG: Sat Jan 01 2000 08:00:00 debug
     //     VERBOSE: Sat Jan 01 2000 08:00:00 verbose
     //
-    (" %a %b %d %Y %H:%M:%S ", 5, 31, 6, 30),
-    (" %a %b %d %Y %H:%M:%S ", 6, 32, 7, 31),
-    (" %a %b %d %Y %H:%M:%S ", 7, 33, 8, 32),
-    (" %a %b %d %Y %H:%M:%S ", 8, 34, 9, 33),
+    (" %a %b %d %Y %H:%M:%S ", true, 5, 31, 6, 30),
+    (" %a %b %d %Y %H:%M:%S ", true, 6, 32, 7, 31),
+    (" %a %b %d %Y %H:%M:%S ", true, 7, 33, 8, 32),
+    (" %a %b %d %Y %H:%M:%S ", true, 8, 34, 9, 33),
     // ---------------------------------------------------------------------------------------------
 ];
+
 // TODO: [2022/03/24] add timestamp formats seen at https://www.unixtimestamp.com/index.php
 
 lazy_static! {
     static ref DATETIME_PARSE_DATAS_VEC: DateTime_Parse_Datas_vec =
         //DateTime_Parse_Datas_vec::from(DATETIME_PARSE_DATAS);
-        DATETIME_PARSE_DATAS.iter().map(|&x| (x.0.to_string(), x.1, x.2, x.3, x.4)).collect();
+        DATETIME_PARSE_DATAS.iter().map(
+                |&x| DateTime_Parse_Data {
+                    pattern: x.0.to_string(),
+                    year: x.1,
+                    sib: x.2,
+                    sie: x.3,
+                    siba: x.4,
+                    siea: x.5,
+                }
+        ).collect();
 }
 
 /// built-in sanity check of the static DATETIME_PARSE_DATAS
@@ -4820,20 +4851,20 @@ lazy_static! {
 #[test]
 fn test_DATETIME_PARSE_DATAS() {
     // .0 = DateTimePattern for searching a line (not the results)
-    // .1, .2 = slice index begin, slice index end of entire datetime pattern
-    // .3, .4 = slice index begin just the datetime, slice index end just the datetime
+    // .2, .3 = slice index begin, slice index end of entire datetime pattern
+    // .4, .5 = slice index begin just the datetime, slice index end just the datetime
     for dtpd in DATETIME_PARSE_DATAS.iter() {
-        assert_lt!(dtpd.1, dtpd.2, "dtpd.1 < dtpd.2 failed; bad build-in DateTimeParseData {:?}", dtpd);
-        assert_lt!(dtpd.3, dtpd.4, "dtpd.3 < dtpd.4 failed; bad build-in DateTimeParseData {:?}", dtpd);
-        assert_le!(dtpd.1, dtpd.3, "dtpd.1 ≤ dtpd.3 failed; bad build-in DateTimeParseData {:?}", dtpd);
-        assert_ge!(dtpd.2, dtpd.4, "dtpd.2 ≥ dtpd.4 failed; bad build-in DateTimeParseData {:?}", dtpd);
+        assert_lt!(dtpd.2, dtpd.3, "dtpd.2 < dtpd.3 failed; bad build-in DateTimeParseData {:?}", dtpd);
+        assert_lt!(dtpd.4, dtpd.5, "dtpd.4 < dtpd.5 failed; bad build-in DateTimeParseData {:?}", dtpd);
+        assert_le!(dtpd.2, dtpd.4, "dtpd.2 ≤ dtpd.4 failed; bad build-in DateTimeParseData {:?}", dtpd);
+        assert_ge!(dtpd.3, dtpd.5, "dtpd.3 ≥ dtpd.5 failed; bad build-in DateTimeParseData {:?}", dtpd);
         let len_ = dtpd.0.len();
         // XXX: arbitrary minimum
         assert_le!(6, len_, ".0.len too short; bad build-in DateTimeParseData {:?}", dtpd);
-        let diff_ = dtpd.2 - dtpd.1;
-        let diff_dt = dtpd.4 - dtpd.3;
-        assert_ge!(diff_, diff_dt, "len(.1,.2) ≥ len(.3,.4) failed; bad build-in DateTimeParseData {:?}", dtpd);
-        assert_ge!(diff_, len_, "len(.1,.2) ≥ .0.len() failed; bad build-in DateTimeParseData {:?}", dtpd);
+        let diff_ = dtpd.3 - dtpd.2;
+        let diff_dt = dtpd.5 - dtpd.4;
+        assert_ge!(diff_, diff_dt, "len(.2,.3) ≥ len(.4,.5) failed; bad build-in DateTimeParseData {:?}", dtpd);
+        assert_ge!(diff_, len_, "len(.2,.3) ≥ .dtp.len() failed; bad build-in DateTimeParseData {:?}", dtpd);
         //assert_le!(diff_dt, len_, "len(.3,.4) ≤ .0.len() failed; bad build-in DateTimeParseData {:?}", dtpd);
     }
     // check for duplicates
@@ -5262,30 +5293,30 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let mut decoder = encoding_rs::UTF_8.new_decoder();
 
         let mut i = 0;
-        // `end_i` and `actual_end_i` is one past last char; exclusive.
+        // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
         // XXX: it might be faster to skip the special formatting and look directly for the datetime stamp.
         //      calls to chrono are long according to the flamegraph.
         //      however, using the demarcating characters ("[", "]") does give better assurance.
-        for (pattern, beg_i, end_i, actual_beg_i, actual_end_i) in parse_data.iter() {
+        for dtpd in parse_data.iter() {
             i += 1;
-            debug_eprintln!("{}find_datetime_in_line: pattern tuple {} ({:?}, {}, {}, {}, {})", so(), i, pattern, beg_i, end_i, actual_beg_i, actual_end_i);
-            debug_assert_lt!(beg_i, end_i, "Bad values beg_i end_i");
-            debug_assert_ge!(actual_beg_i, beg_i, "Bad values actual_beg_i beg_i");
-            debug_assert_le!(actual_end_i, end_i, "Bad values actual_end_i end_i");
-            //debug_eprintln!("{}find_datetime_in_line searching for pattern {} {:?}", so(), i, pattern);
-            let len_ = (end_i - beg_i) as LineIndex;
+            debug_eprintln!("{}find_datetime_in_line: pattern tuple {} ({:?}, {}, {}, {}, {})", so(), i, dtpd.pattern, dtpd.sib, dtpd.sie, dtpd.siba, dtpd.siea);
+            debug_assert_lt!(dtpd.sib, dtpd.sie, "Bad values dtpd.sib dtpd.sie");
+            debug_assert_ge!(dtpd.siba, dtpd.sib, "Bad values dtpd.siba dtpd.sib");
+            debug_assert_le!(dtpd.siea, dtpd.sie, "Bad values dtpd.siea dtpd.sie");
+            //debug_eprintln!("{}find_datetime_in_line searching for pattern {} {:?}", so(), i, dtpd.pattern);
+            let len_ = (dtpd.sie - dtpd.sib) as LineIndex;
             // XXX: does not support multi-byte string; assumes single-byte
-            if line.len() < *end_i {
+            if line.len() < dtpd.sie {
                 debug_eprintln!(
                     "{}find_datetime_in_line: line len {} is too short for pattern {} len {} @({}, {}] {:?}",
                     so(),
                     line.len(),
                     i,
                     len_,
-                    beg_i,
-                    end_i,
-                    pattern,
+                    dtpd.sib,
+                    dtpd.sie,
+                    dtpd.pattern,
                 );
                 continue;
             }
@@ -5295,11 +5326,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             // TODO: to make this a bit more efficient, would be good to do a lookahead. Add a funciton like
             //       `Line.crosses_block(a: LineIndex, b: LineIndex) -> bool`. Then could set capacity of things
             //       ahead of time.
-            // LAST WORKING HERE 2022/04/03 00:06:29 REALLY NEED TO TEST THESE NEW FUNCS!
-            //         add tests for `get_boxptrs` and all funcs it refers to `block_boxptr_ab`, `block_boxptr_a`, etc.
             let slice_: &[u8];
             let mut hack_slice: Bytes;
-            match line.get_boxptrs(*beg_i, *end_i) {
+            match line.get_boxptrs(dtpd.sib, dtpd.sie) {
                 enum_BoxPtrs::SinglePtr(box_slice) => {
                     slice_ = *box_slice;
                 },
@@ -5313,12 +5342,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
             };
             // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
-            // LAST WORKING HERE 2022/04/06
-            if charsz == &1 && pattern.contains("%Y") {
-                if !(slice_.contains(&b'1') || slice_.contains(&b'2')) {
-                    debug_eprintln!("{}find_datetime_in_line: skip slice, does not have '1' or '2'", so());
-                    continue;
-                }
+            if charsz == &1 && dtpd.year && !(slice_.contains(&b'1') || slice_.contains(&b'2')) {
+                debug_eprintln!("{}find_datetime_in_line: skip slice, does not have '1' or '2'", so());
+                continue;
             }
             let dts: &str = match SyslineReader::u8_to_str(slice_) {
                 Some(val) => val,
@@ -5328,10 +5354,10 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 "{}find_datetime_in_line: searching for pattern {} {:?} in {:?} (slice [{}‥{}] from Line {:?})",
                 so(),
                 i,
-                pattern,
+                dtpd.pattern,
                 str_to_String_noraw(dts),
-                beg_i,
-                end_i,
+                dtpd.sib,
+                dtpd.sie,
                 line.to_String_noraw(),
             );
             // TODO: [2021/10/03]
@@ -5340,21 +5366,21 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             //       Could I create my own hardcoded parsing for a few common patterns?
             // BUG: [2022/03/21] chrono Issue #660 https://github.com/chronotope/chrono/issues/660
             //      ignoring surrounding whitespace in the passed `fmt`
-            let dt = match Local.datetime_from_str(dts, pattern.as_str()) {
+            let dt = match Local.datetime_from_str(dts, dtpd.pattern.as_str()) {
                 Ok(val) => {
                     debug_eprintln!(
                         "{}find_datetime_in_line: matched pattern {} {:?} to Line slice {:?} @[{}‥{}] extrapolated datetime {:?}",
                         so(),
                         i,
-                        pattern,
+                        dtpd.pattern,
                         str_to_String_noraw(dts),
-                        beg_i,
-                        end_i,
+                        dtpd.sib,
+                        dtpd.sie,
                         val,
                     );
                     // HACK: workaround chrono Issue #660 by checking for matching begin, end of `dts`
-                    //       and `pattern`
-                    if !SyslineReader::datetime_from_str_workaround_Issue660(dts, pattern.as_str()) {
+                    //       and `dtpd.pattern`
+                    if !SyslineReader::datetime_from_str_workaround_Issue660(dts, dtpd.pattern.as_str()) {
                         debug_eprintln!("{}find_datetime_in_line: skip match due to chrono Issue #660", so());
                         continue;
                     }
@@ -5365,17 +5391,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     continue;
                 }
             }; // end for(pattern, ...)
-            debug_eprintln!("{}find_datetime_in_line: return Ok({}, {}, {});", sx(), beg_i, end_i, &dt);
-            return Result_FindDateTime::Ok((
-                (
-                    pattern.clone(),
-                    *beg_i as LineIndex,
-                    *end_i as LineIndex,
-                    *actual_beg_i as LineIndex,
-                    *actual_end_i as LineIndex,
-                ),
-                dt,
-            ));
+            debug_eprintln!("{}find_datetime_in_line: return Ok({}, {}, {});", sx(), dtpd.sib, dtpd.sie, &dt);
+            return Result_FindDateTime::Ok((dtpd.clone(), dt));
         }
 
         debug_eprintln!("{}find_datetime_in_line: return Err(ErrorKind::NotFound);", sx());
@@ -5493,8 +5510,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         //self.dt_patterns.retain(|v| v == **patt);
         self.dt_patterns.shrink_to(SyslineReader::DT_PATTERN_MAX);
         if cfg!(debug_assertions) {
-            for (a, b, c, d, e) in self.dt_patterns.iter() {
-                debug_eprintln!("{}dt_patterns_analysis: self.dt_pattern ({:?}, {:?}, {:?}, {:?}, {:?})", so(), a, b, c, d, e);
+            for dtpd in self.dt_patterns.iter() {
+                debug_eprintln!("{}dt_patterns_analysis: self.dt_pattern {:?}", so(), dtpd);
             }
         }
         self.dt_patterns_counts.clear();
@@ -5529,7 +5546,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             };
             self.dt_patterns_update(datetime_parse_data.clone());
             debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Ok;", sx(), self);
-            return Result_ParseDateTime::Ok((datetime_parse_data.3, datetime_parse_data.4, dt));
+            return Result_ParseDateTime::Ok((datetime_parse_data.siba, datetime_parse_data.siea, dt));
         }
         debug_eprintln!("{}parse_datetime_in_line self.dt_patterns has {} entries", so(), &self.dt_patterns.len());
         // have already determined DateTime formatting for this file, so
@@ -5568,7 +5585,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             }
         };
         debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Ok;", sx(), self);
-        return Result_ParseDateTime::Ok((datetime_parse_data.1, datetime_parse_data.2, dt));
+        return Result_ParseDateTime::Ok((datetime_parse_data.sib, datetime_parse_data.sie, dt));
     }
 
     /// find first sysline at or after `fileoffset`
