@@ -4448,17 +4448,32 @@ impl Sysline {
 // DateTime typing
 
 /// DateTime formatting pattern, passed to `chrono::datetime_from_str`
-/// TODO: why did I choose `str` instead of `String`?
-type DateTimePattern_str = str;
+// TODO: why did I choose `str` instead of `String`? Much easier dealing with `String`. Do that instead
 type DateTimePattern = String;
+type DateTimePattern_str = str;
 /// return type for `SyslineReader::find_datetime_in_line`
-type Result_FindDateTime<'a> = Result<(DateTime_Parse_Data<'a>, DateTimeL)>;
+type Result_FindDateTime = Result<(DateTime_Parse_Data, DateTimeL)>;
+/// return type for `SyslineReader::parse_datetime_in_line`
 type Result_ParseDateTime = Result<(LineIndex, LineIndex, DateTimeL)>;
-/// count of datetime format strings used
-type DateTime_Pattern_Counts<'a> = HashMap<&'a DateTimePattern_str, u64>;
+/// used internally by `SyslineReader`
 type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
+/// DateTimePattern for searching a line (not the results)
+/// slice index begin, slice index end of entire datetime pattern
+/// slice index begin just the datetime, slice index end just the datetime
+/// TODO: why not define as a `struct` instead of a tuple?
+/// TODO: why not use `String` type for the datetime pattern? I don't recall why I chose `str`.
+/// TODO: instead of `LineIndex, LineIndex`, use `(RangeInclusive, Offset)` for the two pairs of LineIndex ranges
+///       processing functions would attempt all values within `RangeInclusive` (plus the `Offset`).
+type DateTime_Parse_Data = (DateTimePattern, LineIndex, LineIndex, LineIndex, LineIndex);
+type DateTime_Parse_Data_str<'a> = (&'a DateTimePattern_str, LineIndex, LineIndex, LineIndex, LineIndex);
+//type DateTime_Parse_Datas_ar<'a> = [DateTime_Parse_Data<'a>];
+type DateTime_Parse_Datas_vec = Vec<DateTime_Parse_Data>;
+//type DateTime_Parse_Data_BoxP<'syslinereader> = Box<&'syslinereader DateTime_Parse_Data>;
+/// count of datetime format strings used
+// TODO: how to do this a bit more efficiently, and not store an entire copy?
+type DateTime_Pattern_Counts = HashMap<DateTime_Parse_Data, u64>;
 
-/// describe the result of comparing a DateTime to a DateTime Filter
+/// describe the result of comparing one DateTime to one DateTime Filter
 #[allow(non_camel_case_types)]
 #[derive(Debug, PartialEq)]
 pub enum Result_Filter_DateTime1 {
@@ -4481,7 +4496,7 @@ impl Result_Filter_DateTime1 {
     }
 }
 
-/// describe the result of comparing a DateTime to two other DateTime Filter pairs
+/// describe the result of comparing one DateTime to two DateTime Filters
 /// `(after, before)`
 #[allow(non_camel_case_types)]
 #[derive(Debug, PartialEq)]
@@ -4511,16 +4526,7 @@ impl Result_Filter_DateTime2 {
 // built-in Datetime formats
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// DateTimePattern for searching a line (not the results)
-/// slice index begin, slice index end of entire datetime pattern
-/// slice index begin just the datetime, slice index end just the datetime
-/// TODO: why not define as a `struct` instead of a tuple?
-/// TODO: why not use `String` type for the datetime pattern? I don't recall why I chose `str`.
-/// TODO: instead of `LineIndex, LineIndex`, use `(RangeInclusive, Offset)` for the two pairs of LineIndex ranges
-///       processing functions would attempt all values within `RangeInclusive` (plus the `Offset`).
-type DateTime_Parse_Data<'a> = (&'a DateTimePattern_str, LineIndex, LineIndex, LineIndex, LineIndex);
-//type DateTime_Parse_Datas_ar<'a> = [DateTime_Parse_Data<'a>];
-type DateTime_Parse_Datas_vec<'a> = Vec<DateTime_Parse_Data<'a>>;
+const DATETIME_PARSE_DATAS_LEN: usize = 58;
 
 /// built-in datetime parsing patterns, these are all known patterns attempted on processed files
 /// first string is a chrono strftime pattern
@@ -4531,7 +4537,7 @@ type DateTime_Parse_Datas_vec<'a> = Vec<DateTime_Parse_Data<'a>>;
 /// i.e. string `"[2000-01-01 00:00:00]"`, the pattern may begin at `"["`, the datetime begins at `"2"`
 ///      same rule for the endings.
 /// TODO: use std::ops::RangeInclusive
-const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 58] = [
+const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] = [
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Ubuntu18/samba/log.10.7.190.134` (multi-line)
@@ -4804,8 +4810,9 @@ const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; 58] = [
 // TODO: [2022/03/24] add timestamp formats seen at https://www.unixtimestamp.com/index.php
 
 lazy_static! {
-    static ref DATETIME_PARSE_DATAS_VEC: DateTime_Parse_Datas_vec<'static> =
-        DateTime_Parse_Datas_vec::from(DATETIME_PARSE_DATAS);
+    static ref DATETIME_PARSE_DATAS_VEC: DateTime_Parse_Datas_vec =
+        //DateTime_Parse_Datas_vec::from(DATETIME_PARSE_DATAS);
+        DATETIME_PARSE_DATAS.iter().map(|&x| (x.0.to_string(), x.1, x.2, x.3, x.4)).collect();
 }
 
 /// built-in sanity check of the static DATETIME_PARSE_DATAS
@@ -4934,12 +4941,17 @@ pub struct SyslineReader<'syslinereader> {
     /// the stored value can be used as a key for `self.syslines`
     syslines_by_range: SyslinesRangeMap,
     /// datetime formatting data, for extracting datetime strings from Lines
-    dt_patterns: DateTime_Parse_Datas_vec<'syslinereader>,
-    dt_patterns_counts: DateTime_Pattern_Counts<'syslinereader>,
+    /// TODO: change to Set
+    dt_patterns: DateTime_Parse_Datas_vec,
+    /// internal use; counts found patterns stored in `dt_patterns`
+    /// not used after `analyzed == true`
+    dt_patterns_counts: DateTime_Pattern_Counts,
     // TODO: [2021/09/21] add efficiency stats
     // TODO: get rid of LRU cache
     /// internal LRU cache for `find_sysline`
     _find_sysline_lru_cache: SyslinesLRUCache,
+    /// has `self.file_analysis` completed?
+    analyzed: bool,
 }
 
 // TODO: [2021/09/19]
@@ -4976,7 +4988,9 @@ where
 
 /// implement SyslineReader things
 impl<'syslinereader> SyslineReader<'syslinereader> {
-    const DT_PATTERN_MAX: usize = 8;
+    const DT_PATTERN_MAX_PRE_ANALYSIS: usize = 4;
+    const DT_PATTERN_MAX: usize = 1;
+    const ANALYSIS_THRESHOLD: u64 = 5;
 
     pub fn new(path: &'syslinereader FPath, blocksz: BlockSz) -> Result<SyslineReader<'syslinereader>> {
         let lr = match LineReader::new(&path, blocksz) {
@@ -4992,8 +5006,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             syslines_count: 0,
             syslines_by_range: SyslinesRangeMap::new(),
             _find_sysline_lru_cache: SyslinesLRUCache::new(4),
-            dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX),
-            dt_patterns_counts: DateTime_Pattern_Counts::with_capacity(SyslineReader::DT_PATTERN_MAX),
+            dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
+            dt_patterns_counts: DateTime_Pattern_Counts::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
+            analyzed: false
         })
     }
 
@@ -5199,7 +5214,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     }
 
     /// decoding `[u8]` bytes to a `str` takes a surprising amount of time, according to `tools/flamegraph.sh`.
-    /// first check `u8` slice with custom brute-force checker that, in case of complications,
+    /// first check `u8` slice with custom simplistic checker that, in case of complications,
     /// falls back to using higher-resource and more-precise checker `encoding_rs::mem::utf8_latin1_up_to`.
     /// this uses built-in unsafe `str::from_utf8_unchecked`.
     /// See `benches/bench_decode_utf.rs` for comparison of bytes->str decode strategies
@@ -5235,7 +5250,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     ///      fix the concept problem of passing around fixed-length datetime strings. Then redo this.
     pub fn find_datetime_in_line(
         line: &Line, parse_data: &'syslinereader DateTime_Parse_Datas_vec, fpath: &FPath, charsz: &CharSz
-    ) -> Result_FindDateTime<'syslinereader> {
+    ) -> Result_FindDateTime {
         debug_eprintln!("{}find_datetime_in_line:(Line@{:p}, {:?}) {:?}", sn(), &line, line.to_String_noraw(), fpath);
         // skip easy case; no possible datetime
         if line.len() < 4 {
@@ -5298,6 +5313,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
             };
             // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
+            // LAST WORKING HERE 2022/04/06
             if charsz == &1 && pattern.contains("%Y") {
                 if !(slice_.contains(&b'1') || slice_.contains(&b'2')) {
                     debug_eprintln!("{}find_datetime_in_line: skip slice, does not have '1' or '2'", so());
@@ -5324,7 +5340,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             //       Could I create my own hardcoded parsing for a few common patterns?
             // BUG: [2022/03/21] chrono Issue #660 https://github.com/chronotope/chrono/issues/660
             //      ignoring surrounding whitespace in the passed `fmt`
-            let dt = match Local.datetime_from_str(dts, pattern) {
+            let dt = match Local.datetime_from_str(dts, pattern.as_str()) {
                 Ok(val) => {
                     debug_eprintln!(
                         "{}find_datetime_in_line: matched pattern {} {:?} to Line slice {:?} @[{}‥{}] extrapolated datetime {:?}",
@@ -5338,7 +5354,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     );
                     // HACK: workaround chrono Issue #660 by checking for matching begin, end of `dts`
                     //       and `pattern`
-                    if !SyslineReader::datetime_from_str_workaround_Issue660(dts, pattern) {
+                    if !SyslineReader::datetime_from_str_workaround_Issue660(dts, pattern.as_str()) {
                         debug_eprintln!("{}find_datetime_in_line: skip match due to chrono Issue #660", so());
                         continue;
                     }
@@ -5352,7 +5368,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             debug_eprintln!("{}find_datetime_in_line: return Ok({}, {}, {});", sx(), beg_i, end_i, &dt);
             return Result_FindDateTime::Ok((
                 (
-                    pattern,
+                    pattern.clone(),
                     *beg_i as LineIndex,
                     *end_i as LineIndex,
                     *actual_beg_i as LineIndex,
@@ -5366,26 +5382,52 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         return Result_FindDateTime::Err(Error::new(ErrorKind::NotFound, "No datetime found!"));
     }
 
-    fn dt_patterns_update(&mut self, datetime_parse_data: DateTime_Parse_Data<'syslinereader>) {
+    /// private helper function to update `self.dt_patterns`
+    fn dt_patterns_update(&mut self, datetime_parse_data: DateTime_Parse_Data) {
+        if self.analyzed {
+            return;
+        }
         debug_eprintln!("{}dt_patterns_update(SyslineReader@{:p}, {:?})", sn(), self, datetime_parse_data);
-        if &self.dt_patterns.len() >= &SyslineReader::DT_PATTERN_MAX {
+        //
+        // update `self.dt_patterns_counts`
+        //
+        if self.dt_patterns_counts.contains_key(&datetime_parse_data) {
             debug_eprintln!(
-                "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns already DT_PATTERN_MAX length {:?}",
+                "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns_counts.get_mut({:?}) += 1",
+                so(),
+                self,
+                datetime_parse_data
+            );
+            let counter = self.dt_patterns_counts.get_mut(&datetime_parse_data).unwrap();
+            *counter += 1;
+        } else if self.dt_patterns_counts.len() < SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS {
+            debug_eprintln!(
+                "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns_counts.insert({:?}, 0)",
+                so(),
+                self,
+                datetime_parse_data
+            );
+            self.dt_patterns_counts.insert(datetime_parse_data.clone(), 1);
+        }
+        //
+        // update `self.dt_patterns`
+        //
+        if self.dt_patterns.len() >= SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS {
+            debug_eprintln!(
+                "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns already DT_PATTERN_MAX_PRE_ANALYSIS length {:?}",
                 sx(),
                 self,
                 &self.dt_patterns.len()
             );
             return;
         }
-        for datetime_parse_data_ in &self.dt_patterns {
-            if datetime_parse_data_.eq(&datetime_parse_data) {
-                debug_eprintln!(
-                    "{}dt_patterns_update(SyslineReader@{:p}) found eq DateTime_Parse_Data; skip self.dt_patterns.push",
-                    sx(),
-                    self
-                );
-                return;
-            }
+        if self.dt_patterns.contains(&datetime_parse_data) {
+            debug_eprintln!(
+                "{}dt_patterns_update(SyslineReader@{:p}) found DateTime_Parse_Data; skip self.dt_patterns.push",
+                sx(),
+                self
+            );
+            return;
         }
         debug_eprintln!(
             "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns.push({:?})",
@@ -5396,33 +5438,81 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         self.dt_patterns.push(datetime_parse_data);
     }
 
-    fn dt_patterns_counts_update(&mut self, dt_pattern: &'syslinereader DateTimePattern_str) {
-        debug_eprintln!("{}dt_pattern_count_update(SyslineReader@{:p}, {:?})", snx(), self, dt_pattern);
-        // unnecessary but possibly useful sanity check
-        //if self.dt_patterns.is_empty() {
-        //    eprintln!("ERROR: self.dt_patterns.is_empty() which is unexpected");
-        //    return;
-        //}
-        let counter = self.dt_patterns_counts.entry(dt_pattern).or_insert(1);
-        *counter += 1;
+    /// analyze syslines gathered
+    /// when a threshold of syslines or bytes has been processed, then
+    /// 1. narrow down datetime formats used. this greatly reduces resources
+    /// used by `SyslineReader::find_datetime_in_line`
+    /// 2. ??? I forgot what else I wanted this function to do.
+    /// TODO: will break if DT_PATTERN_MAX > 1
+    fn dt_patterns_analysis(&mut self) {
+        if self.analyzed || self.count() < SyslineReader::ANALYSIS_THRESHOLD {
+            return;
+        }
+        debug_eprintln!("{}dt_patterns_analysis()", sn());
+        if SyslineReader::DT_PATTERN_MAX != 1 {
+            unimplemented!("function dt_patterns_analysis unimplemented for DT_PATTERN_MAX > 1; it is {}", SyslineReader::DT_PATTERN_MAX);
+        }
+        debug_assert_eq!(self.dt_patterns.len(), self.dt_patterns_counts.len(),
+            "dt_patterns.len() != dt_patterns_count.len()\nself.dt_patterns ({})     : {:?}\nself.dt_patterns_counts ({}): {:?}", self.dt_patterns.len(), self.dt_patterns, self.dt_patterns_counts.len(), self.dt_patterns_counts);
+        // TODO: change pattern tuple `DateTime_Parse_Data` to use Ranges, currently this is
+        //       removing valid patterns in different (beg,end) positions
+        // ripped from https://stackoverflow.com/a/60134450/471376
+        // test https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=b8eb53f40fd89461c9dad9c976746cc3
+        let max_ = (&self.dt_patterns_counts).iter().fold(
+            std::u64::MIN, |a,b| a.max(*(b.1))
+        );
+        self.dt_patterns_counts.retain(|_, v| *v >= max_);
+        self.dt_patterns_counts.shrink_to(SyslineReader::DT_PATTERN_MAX);
+        if cfg!(debug_assertions) {
+            for (k, v) in self.dt_patterns_counts.iter() {
+                debug_eprintln!("{}dt_patterns_analysis: self.dt_patterns_counts[{:?}]={:?}", so(), k, v);
+            }
+        }
+        // XXX: is there a simpler way to get the first element?
+        let datetime_parse_data = match self.dt_patterns_counts.iter().next() {
+            Some((k, _)) => { k },
+            None => {
+                eprintln!("ERROR: self.dt_patterns_counts.values().next() returned None, it is len {}", self.dt_patterns_counts.len());
+                self.analyzed = true;
+                return;
+            }
+        };
+        debug_eprintln!("{}dt_patterns_analysis: chose dt_pattern", so());
+        // effectively remove all elements by index, except for `datetime_parse_data`
+        // XXX: what is the rust idiomatic way to remove all but a few elements by index?
+        let mut patts = DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX);
+        let mut index_: usize = 0;
+        for datetime_parse_data_ in &self.dt_patterns {
+            if datetime_parse_data_.eq(&datetime_parse_data) {
+                break;
+            }
+            index_ += 1;
+        }
+        patts.push(self.dt_patterns.swap_remove(index_));
+        self.dt_patterns = patts;
+        //self.dt_patterns.retain(|v| v == **patt);
+        self.dt_patterns.shrink_to(SyslineReader::DT_PATTERN_MAX);
+        if cfg!(debug_assertions) {
+            for (a, b, c, d, e) in self.dt_patterns.iter() {
+                debug_eprintln!("{}dt_patterns_analysis: self.dt_pattern ({:?}, {:?}, {:?}, {:?}, {:?})", so(), a, b, c, d, e);
+            }
+        }
+        self.dt_patterns_counts.clear();
+        self.dt_patterns_counts.shrink_to(0);
+        self.analyzed = true;
+        debug_eprintln!("{}dt_patterns_analysis()", sx());
     }
 
-    /// attempt to parse the `DateTime`
+    /// attempt to parse a DateTime substring in the passed `Line`
     /// wraps call to `find_datetime_in_line` according to status of `self.dt_patterns`
     /// if `self.dt_patterns` is `None`, will set `self.dt_patterns`
     fn parse_datetime_in_line(&mut self, line: &Line, charsz: &CharSz) -> Result_ParseDateTime {
-        // 2021/10/09 21:00:00 where does dt_patterns come from?
-        // LAST WORKING HERE 2022/03/11 01:25:00
-        //      the current problem is datetime_f used is "%Y-%m-%d %H:%M:%S " which for unknown reason matches
-        //      "2020-01-01 00:00:00␊"
-        //      1. why!?
-        //      2. should not this first try pattern "%Y-%m-%d %H:%M:%S" ? or should there be a set of fallback patterns?
-        //      3. what happens if the first datetime pattern matching searches chooses a pattern that works for
-        //         some lines but not others? maybe this problem should be ignored for now?
-        // LAST WORKING HERE 2022/03/15 01:40:00
-        // fixed the test test_find_sysline_at_datetime_filter1. Can anything else be added to it?
-        // afterward, review prior LAST WORKING HERE and then resume with top-of-file TODO and notes
+        // XXX: would prefer this at the end of this function, but borrow error occurs
+        if !self.analyzed {
+            self.dt_patterns_analysis();
+        };
         debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}); {:?}", sn(), self, line.to_String_noraw());
+        // if no `dt_patterns` have been found then try the default datetime patterns immediately
         if self.dt_patterns.is_empty() {
             debug_eprintln!("{}parse_datetime_in_line self.dt_patterns is empty", sn());
             // this `SyslineReader` has not determined it's own DateTime formatting data `self.dt_patterns`
@@ -5437,32 +5527,31 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     return Err(err);
                 }
             };
-            self.dt_patterns_counts_update(datetime_parse_data.0);
             self.dt_patterns_update(datetime_parse_data.clone());
             debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Ok;", sx(), self);
             return Result_ParseDateTime::Ok((datetime_parse_data.3, datetime_parse_data.4, dt));
         }
         debug_eprintln!("{}parse_datetime_in_line self.dt_patterns has {} entries", so(), &self.dt_patterns.len());
         // have already determined DateTime formatting for this file, so
-        // no need to try *all* built-in DateTime formats, just try the known good formats.
+        // no need to try *all* built-in DateTime formats, just try the known good formats `self.dt_patterns`
         let result = SyslineReader::find_datetime_in_line(line, &self.dt_patterns, self.path(), charsz);
         let (datetime_parse_data, dt) = match result {
             Ok(val) => val,
             Err(err) => {
-                // the known good format failed, so now try other formats.
-                // TODO: [2022/03/15]
-                //       if the "known good" formats failed, and there are 2 of them, then do not attempt to try
-                //       more formats, risk getting an errant match. Instead, presume that at acuumulated x2 dt_patterns
-                //       there should be no more guesses.
-                //       in other words, consider one more value of `Result_ParseDateTime`:
-                //       `TryMore` - this would effectively mean call `find_datetime_in_line(DATETIME_PARSE_DATAS_VEC)`
-                //       hmm... but should such a determination eminate from `find_datetime_in_line` ? Probably not.
-                //       Have to think about this.
+                if self.analyzed {
+                    debug_eprintln!(
+                        "{}parse_datetime_in_line(SyslineReader@{:p}) return Err {};",
+                        sx(),
+                        self,
+                        err
+                    );
+                    return Err(err);
+                }
+                // The known good format failed and this SyslineReader has not yet run `dt_format_analysis`
+                // so now try other default formats. This is a resource expensive operation.
                 debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Err {}; try again using default DATETIME_PARSE_DATAS_VEC", so(), self, err);
-                //return Err(err);
                 match SyslineReader::find_datetime_in_line(line, &DATETIME_PARSE_DATAS_VEC, self.path(), charsz) {
                     Ok((datetime_parse_data_, dt_)) => {
-                        self.dt_patterns_counts_update(datetime_parse_data_.0);
                         self.dt_patterns_update(datetime_parse_data_.clone());
                         (datetime_parse_data_, dt_)
                     }
@@ -5488,6 +5577,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// XXX: this function is large and cumbersome
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline(SyslineReader@{:p}, {})", sn(), self, fileoffset);
+
+        // TODO: make these comparison values into consts
+        if self.linereader.blockreader.count_bytes() > 0x4000 && self.count() < 3 {
+            debug_eprintln!("{}find_sysline(SyslineReader@{:p}); too many bytes analyzed {}, yet too few syslines {}", sn(), self, self.linereader.blockreader.count_bytes(), self.count());
+            // TODO: [2022/04/06] need to implement a way to abandon processing a file.
+            //return Result_ParseDateTime::Error("");
+        }
 
         { // check if `fileoffset` is already known about
 
