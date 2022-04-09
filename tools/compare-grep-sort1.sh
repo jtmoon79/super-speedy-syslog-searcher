@@ -3,6 +3,7 @@
 # compare-grep-sort1.sh
 #
 # compare run time of `super_speedy_syslog_searcher` to Unix tools `grep` and `sort` (preferably GNU) 
+# passed arguments are forwarded to `/usr/bin/time`
 #
 
 set -euo pipefail
@@ -36,7 +37,7 @@ cat "${files[@]}" > /dev/null
 (
 export RUST_BACKTRACE=1
 set -x
-$time -p -- \
+$time -p "${@}" -- \
     ./target/release/super_speedy_syslog_searcher \
     -z 0xFFFF \
     -a 20000101T000000 -b 20000101T080000 \
@@ -48,7 +49,7 @@ echo
 
 (
 set -x
-$time -p -- \
+$time -p "${@}" -- \
     bash -c "
     $grep -hEe '^20000101T00[01234567][[:digit:]]{3}|^20000101T080000' -- \
     ${files[*]} \

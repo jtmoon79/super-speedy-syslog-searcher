@@ -37,18 +37,18 @@ rootd="."
 
 declare -a files=(
     "${rootd}/logs/other/tests/zero.log"
-    "${rootd}/logs/other/tests/test0-nlx1.log"
-    "${rootd}/logs/other/tests/test0-nlx1_Win.log"
-    "${rootd}/logs/other/tests/test0-nlx2.log"
-    "${rootd}/logs/other/tests/test0-nlx2_Win.log"
-    "${rootd}/logs/other/tests/test0-nlx3.log"
-    "${rootd}/logs/other/tests/test0-nlx3_Win.log"
-    "${rootd}/logs/other/tests/test0-no-nl.log"
-    "${rootd}/logs/other/tests/test1-nl.log"
-    "${rootd}/logs/other/tests/test1-nl_Win.log"
-    "${rootd}/logs/other/tests/test1-no-nl.log"
-    "${rootd}/logs/other/tests/test2.log"
-    "${rootd}/logs/other/tests/test3-hex.log"
+    #"${rootd}/logs/other/tests/test0-nlx1.log"
+    #"${rootd}/logs/other/tests/test0-nlx1_Win.log"
+    #"${rootd}/logs/other/tests/test0-nlx2.log"
+    #"${rootd}/logs/other/tests/test0-nlx2_Win.log"
+    #"${rootd}/logs/other/tests/test0-nlx3.log"
+    #"${rootd}/logs/other/tests/test0-nlx3_Win.log"
+    #"${rootd}/logs/other/tests/test0-no-nl.log"
+    #"${rootd}/logs/other/tests/test1-nl.log"
+    #"${rootd}/logs/other/tests/test1-nl_Win.log"
+    #"${rootd}/logs/other/tests/test1-no-nl.log"
+    #"${rootd}/logs/other/tests/test2.log"
+    #"${rootd}/logs/other/tests/test3-hex.log"
     "${rootd}/logs/other/tests/basic-dt.log"
     "${rootd}/logs/other/tests/basic-basic-dt20.log"
     "${rootd}/logs/Ubuntu18/samba/log.10.7.220.19"  # multi-line syslines
@@ -82,23 +82,23 @@ for file_ in "${files[@]}"; do
             (
                 set +e
                 set -x
-                "${prog}" --path "${file_}" -- "${sz}"
+                "${prog}" -z "${sz}" "${file_}"
             ) | hexdump 
             echo "----------------------------------------------------------------------------------------------------"
             (
                 set +e
                 set -x
-                "${prog}" --path "${file_}" -- "${sz}"
+                "${prog}" -z "${sz}" "${file_}"
             )
             echo
             echo "----------------------------------------------------------------------------------------------------"
         fi
         # run `$prog`, time it, hash output
         echo
-        echo "${prog} --path '${file_}' -- ${sz}"
+        echo "${prog} -z ${sz} '${file_}'"
         time md5_prog=$(
             set +e
-            "${prog}" --path "${file_}" -- "${sz}" | md5sum
+            "${prog}" -z ${sz} "${file_}" | md5sum
         ) 2>&1
         md5_prog=$(echo -n "${md5_prog}" | cut -f1 -d' ')
         # run `cat`, time it, hash output
