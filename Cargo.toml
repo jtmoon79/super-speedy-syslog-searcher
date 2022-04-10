@@ -25,6 +25,10 @@ memchr = "2.4.1"
 name = "bench_decode_utf"
 harness = false
 
+[[bench]]
+name = "bench_slice_contains"
+harness = false
+
 [dependencies]
 atty = "0.2.14"
 backtrace = "0.3.64"

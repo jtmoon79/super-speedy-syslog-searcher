@@ -462,7 +462,6 @@ fn dutf8_jetscii() {
 }
 */
 
-
 // TODO: try https://docs.rs/memchr/latest/memchr/fn.memchr.html
 
 /*
