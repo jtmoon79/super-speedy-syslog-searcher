@@ -603,6 +603,10 @@ TODO: 2022/04/07 need to handle formats with missing year and year rollover.
 TODO: 2022/04/07 need to handle formats with explicit timezone offset.
       see example `access.log`
 
+TODO: 2022/04/09 in `find_datetime_in_line`, the `slice_.contains(&b'1')`
+      use much runtime. Would doing this search manually be faster?
+      Create a benchmark to find out.
+
 */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1604,6 +1608,45 @@ fn str_datetime(dts: &str, pattern: &DateTimePattern_str, patt_has_tz: bool, tz_
             return None;
         }
     };
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// helper functions - search a slice quickly (loop unroll version)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+pub fn slice_contains_6_2(slice_: &[u8; 6], search: &[u8; 2]) -> bool {
+    for sc in 0..5 {
+        for s in 0..1 {
+            if slice_[sc] == search[s] {
+                return true;
+            }
+        }
+    }
+    false
+}
+/// simple implementation of `slice.contains`
+/// benchmark `benches/bench_slice_contains.rs` demonstrates this is faster
+/// LAST WORKING HERE 2022/04/09 08:53:13 do this loop unroll. should be an easy improvement.
+///       stuck on coercing `[u8]` to `[u8; 6]`?
+/// TODO: consider doing custom version of this for common combos
+///       `slice_contains_10_2(slice_: &[u8; 10], search: &[u8; 10])`
+///       from 10_2 to 40_2, other slice.len() fallsback to `slice_contains_X_2`
+///       should be pretty fast
+///       https://docs.rs/unroll/latest/unroll/
+///       https://crates.io/crates/unroll
+/// 
+pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
+    match slice_.len() {
+        6 => slice_contains_6_2(slice_, search),
+        _ => {
+            for c in slice_.iter() {
+                if c == &search[0] || c == &search[1] {
+                    return true;
+                }
+            }
+            false
+        }
+    }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -5651,6 +5694,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         //let longest: usize = *DATETIME_PARSE_DATAS_VEC_LONGEST;
         //let mut dtsS: String = String::with_capacity(longest * (2 as usize));
 
+        let hack12 = &b"12";
         let mut i = 0;
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
@@ -5701,7 +5745,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 },
             };
             // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
-            if charsz == &1 && dtpd.year && !(slice_.contains(&b'1') || slice_.contains(&b'2')) {
+            if charsz == &1 && dtpd.year && !slice_contains_X_2(slice_, &hack12) {
                 debug_eprintln!("{}find_datetime_in_line: skip slice, does not have '1' or '2'", so());
                 continue;
             }
