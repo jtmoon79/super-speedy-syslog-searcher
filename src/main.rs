@@ -2431,18 +2431,19 @@ pub struct BlockReader<'blockreader> {
     pub blocksz: BlockSz,
     /// count of bytes stored by the `BlockReader`
     _count_bytes: u64,
-    /// cached storage of blocks
+    /// cached storage of blocks, looksups generally O(log2n)
     blocks: Blocks,
-    /// internal stats tracking
-    stats_read_block_cache_lru_hit: u32,
-    /// internal stats tracking
-    stats_read_block_cache_lru_miss: u32,
-    /// internal stats tracking
-    stats_read_block_cache_hit: u32,
-    /// internal stats tracking
-    stats_read_block_cache_miss: u32,
-    /// internal LRU cache for `read_block`
+    /// internal LRU cache for `read_block`, lookups always O(1)
+    /// XXX: but still... is `_read_block_lru_cache` accomplishing anything?
     _read_block_lru_cache: BlocksLRUCache,
+    /// internal stats tracking
+    _read_block_cache_lru_hit: u32,
+    /// internal stats tracking
+    _read_block_cache_lru_miss: u32,
+    /// internal stats tracking
+    _read_blocks_hit: u32,
+    /// internal stats tracking
+    _read_blocks_miss: u32,
 }
 
 impl fmt::Debug for BlockReader<'_> {
@@ -2459,10 +2460,10 @@ impl fmt::Debug for BlockReader<'_> {
             .field("blocksz", &self.blocksz)
             .field("count_bytes", &self._count_bytes)
             .field("blocks cached", &self.blocks.len())
-            .field("cache LRU hit", &self.stats_read_block_cache_lru_hit)
-            .field("cache LRU miss", &self.stats_read_block_cache_lru_miss)
-            .field("cache hit", &self.stats_read_block_cache_hit)
-            .field("cache miss", &self.stats_read_block_cache_miss)
+            .field("cache LRU hit", &self._read_block_cache_lru_hit)
+            .field("cache LRU miss", &self._read_block_cache_lru_miss)
+            .field("cache hit", &self._read_blocks_hit)
+            .field("cache miss", &self._read_blocks_miss)
             .finish()
     }
 }
@@ -2513,6 +2514,7 @@ fn printblock(buffer: &Block, blockoffset: BlockOffset, fileoffset: FileOffset, 
 
 /// implement the BlockReader things
 impl<'blockreader> BlockReader<'blockreader> {
+    const READ_BLOCK_LRU_CACHE_SZ: usize = 4;
     /// create a new `BlockReader`
     pub fn new(path_: &'blockreader FPath, blocksz: BlockSz) -> BlockReader<'blockreader> {
         // TODO: why not open the file here? change `open` to a "static class wide" (or equivalent)
@@ -2522,7 +2524,7 @@ impl<'blockreader> BlockReader<'blockreader> {
         assert_ne!(0, blocksz, "Block Size cannot be 0");
         assert_ge!(blocksz, BLOCKSZ_MIN, "Block Size too small");
         assert_le!(blocksz, BLOCKSZ_MAX, "Block Size too big");
-        return BlockReader {
+        BlockReader {
             path: path_,
             file: None,
             file_metadata: None,
@@ -2531,12 +2533,12 @@ impl<'blockreader> BlockReader<'blockreader> {
             blocksz,
             _count_bytes: 0,
             blocks: Blocks::new(),
-            stats_read_block_cache_lru_hit: 0,
-            stats_read_block_cache_lru_miss: 0,
-            stats_read_block_cache_hit: 0,
-            stats_read_block_cache_miss: 0,
-            _read_block_lru_cache: BlocksLRUCache::new(4),
-        };
+            _read_block_lru_cache: BlocksLRUCache::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ),
+            _read_block_cache_lru_hit: 0,
+            _read_block_cache_lru_miss: 0,
+            _read_blocks_hit: 0,
+            _read_blocks_miss: 0,
+        }
     }
 
     // TODO: make a `self` version of the following helpers that does not require
@@ -2547,12 +2549,12 @@ impl<'blockreader> BlockReader<'blockreader> {
 
     /// return preceding block offset at given file byte offset
     pub fn block_offset_at_file_offset(file_offset: FileOffset, blocksz: BlockSz) -> BlockOffset {
-        return (file_offset / blocksz) as BlockOffset;
+        (file_offset / blocksz) as BlockOffset
     }
 
     /// return file_offset (byte offset) at given `BlockOffset`
     pub fn file_offset_at_block_offset(block_offset: BlockOffset, blocksz: BlockSz) -> FileOffset {
-        return (block_offset * blocksz) as BlockOffset;
+        (block_offset * blocksz) as BlockOffset
     }
 
     /// return file_offset (file byte offset) at blockoffset+blockindex
@@ -2571,16 +2573,17 @@ impl<'blockreader> BlockReader<'blockreader> {
 
     /// return block_index (byte offset into a `Block`) for `Block` that corresponds to `FileOffset`
     pub fn block_index_at_file_offset(file_offset: FileOffset, blocksz: BlockSz) -> BlockIndex {
-        return (file_offset
+        (file_offset
             - BlockReader::file_offset_at_block_offset(
                 BlockReader::block_offset_at_file_offset(file_offset, blocksz),
                 blocksz,
-            )) as BlockIndex;
+            )
+        ) as BlockIndex
     }
 
     /// return count of blocks in a file
     pub fn file_blocks_count(filesz: FileOffset, blocksz: BlockSz) -> u64 {
-        return (filesz / blocksz + (if filesz % blocksz > 0 { 1 } else { 0 })) as u64;
+        filesz / blocksz + (if filesz % blocksz > 0 { 1 } else { 0 })
     }
 
     /// return last valid BlockOffset
@@ -2593,12 +2596,12 @@ impl<'blockreader> BlockReader<'blockreader> {
 
     /// count of blocks stored by this `BlockReader` (during calls to `BlockReader::read_block`)
     pub fn count(&self) -> u64 {
-        return self.blocks.len() as u64;
+        self.blocks.len() as u64
     }
 
     /// count of bytes stored by this `BlockReader` (during calls to `BlockReader::read_block`)
     pub fn count_bytes(&self) -> u64 {
-        return self._count_bytes;
+        self._count_bytes
     }
 
     /// open the `self.path` file, set other field values after opening.
@@ -2638,45 +2641,48 @@ impl<'blockreader> BlockReader<'blockreader> {
     pub fn read_block(&mut self, blockoffset: BlockOffset) -> Result<BlockP> {
         debug_eprintln!("{}read_block: @{:p}.read_block({})", sn(), self, blockoffset);
         assert!(self.file.is_some(), "File has not been opened {:?}", self.path);
-        // check LRU cache
-        match self._read_block_lru_cache.get(&blockoffset) {
-            Some(bp) => {
-                self.stats_read_block_cache_lru_hit += 1;
+        { // check caches
+            // check LRU cache
+            match self._read_block_lru_cache.get(&blockoffset) {
+                Some(bp) => {
+                    self._read_block_cache_lru_hit += 1;
+                    debug_eprintln!(
+                        "{}read_block: return Ok(BlockP@{:p}); hit LRU cache Block[{}] @[{}, {}) len {}",
+                        sx(),
+                        &*bp,
+                        &blockoffset,
+                        BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz),
+                        BlockReader::file_offset_at_block_offset(blockoffset+1, self.blocksz),
+                        (*bp).len(),
+                    );
+                    return Ok(bp.clone());
+                }
+                None => {
+                    debug_eprintln!("{}read_block: blockoffset {} not found LRU cache", so(), blockoffset);
+                    self._read_block_cache_lru_miss += 1;
+                }
+            }
+            // check hash map cache
+            if self.blocks.contains_key(&blockoffset) {
+                debug_eprintln!("{}read_block: blocks.contains_key({})", so(), blockoffset);
+                self._read_blocks_hit += 1;
+                let bp: &BlockP = &self.blocks[&blockoffset];
+                debug_eprintln!("{}read_block: LRU cache put({}, BlockP@{:p})", so(), blockoffset, bp);
+                self._read_block_lru_cache.put(blockoffset, bp.clone());
                 debug_eprintln!(
-                    "{}read_block: return Ok(BlockP@{:p}); hit LRU cache Block[{}] @[{}, {}) len {}",
+                    "{}read_block: return Ok(BlockP@{:p}); cached Block[{}] @[{}, {}) len {}",
                     sx(),
-                    &*bp,
+                    &*self.blocks[&blockoffset],
                     &blockoffset,
                     BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz),
                     BlockReader::file_offset_at_block_offset(blockoffset+1, self.blocksz),
-                    (*bp).len(),
+                    self.blocks[&blockoffset].len(),
                 );
                 return Ok(bp.clone());
-            }
-            None => {
-                debug_eprintln!("{}read_block: blockoffset {} not found LRU cache", so(), blockoffset);
-                self.stats_read_block_cache_lru_miss += 1;
+            } else {
+                self._read_blocks_miss += 1;
             }
         }
-        // check hash map cache
-        if self.blocks.contains_key(&blockoffset) {
-            debug_eprintln!("{}read_block: blocks.contains_key({})", so(), blockoffset);
-            self.stats_read_block_cache_hit += 1;
-            let bp: &BlockP = &self.blocks[&blockoffset];
-            debug_eprintln!("{}read_block: LRU cache put({}, BlockP@{:p})", so(), blockoffset, bp);
-            self._read_block_lru_cache.put(blockoffset, bp.clone());
-            debug_eprintln!(
-                "{}read_block: return Ok(BlockP@{:p}); cached Block[{}] @[{}, {}) len {}",
-                sx(),
-                &*self.blocks[&blockoffset],
-                &blockoffset,
-                BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz),
-                BlockReader::file_offset_at_block_offset(blockoffset+1, self.blocksz),
-                self.blocks[&blockoffset].len(),
-            );
-            return Ok(bp.clone());
-        }
-        self.stats_read_block_cache_miss += 1;
         let seek = (self.blocksz * blockoffset) as u64;
         let mut file_ = self.file.as_ref().unwrap();
         match file_.seek(SeekFrom::Start(seek)) {
@@ -2753,7 +2759,8 @@ impl<'blockreader> BlockReader<'blockreader> {
         if self.blocks.contains_key(&bo) {
             return Some((*self.blocks[&bo])[bi]);
         }
-        return None;
+
+        None
     }
 
     /// return `Bytes` at `[fo_a, fo_b)`.
@@ -2786,7 +2793,8 @@ impl<'blockreader> BlockReader<'blockreader> {
             vec_.push(b);
             fo_at += 1;
         }
-        return vec_;
+
+        vec_
     }
 }
 
@@ -3111,28 +3119,27 @@ impl LinePart {
     }
 
     pub fn contains(self: &LinePart, byte_: &u8) -> bool {
-        (*self.blockp).contains(&byte_)
+        (*self.blockp).contains(byte_)
     }
 
     /// `Line` to `String` but using printable chars for non-printable and/or formatting characters
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &LinePart) -> String {
-        return self._to_String_raw(false);
+        self._to_String_raw(false)
     }
 
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &LinePart) -> String {
-        return self._to_String_raw(true);
+        self._to_String_raw(true)
     }
 
     /// return Box pointer to slice of bytes that make up this `LinePart`
     pub fn block_boxptr(&self) -> Box<&[u8]> {
         let slice_ = &(*self.blockp).as_slice()[self.blocki_beg..self.blocki_end];
         //let slice_ptr: *const &[u8] = **slice_;
-        let slice_boxp = Box::new(slice_);
-        slice_boxp
+        Box::new(slice_)
     }
 
     /// return Box pointer to slice of bytes in this `LinePart` from `a` to end
@@ -3140,8 +3147,7 @@ impl LinePart {
         debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
         let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg+a)..self.blocki_end];
         //let slice2 = &slice1[*a..];
-        let slice_boxp = Box::new(slice1);
-        slice_boxp
+        Box::new(slice1)
     }
 
     /// return Box pointer to slice of bytes in this `LinePart` from beginning to `b`
@@ -3149,8 +3155,7 @@ impl LinePart {
         debug_assert_lt!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
         let slice1 = &(*self.blockp).as_slice()[..self.blocki_beg+b];
         //let slice2 = &slice1[..*b];
-        let slice_boxp = Box::new(slice1);
-        slice_boxp
+        Box::new(slice1)
     }
     
 
@@ -3162,8 +3167,7 @@ impl LinePart {
         debug_assert_lt!(b - a, self.len(), "Passed LineIndex {}..{} (diff {}) are larger than this LinePart 'slice' {}", a, b, b - a, self.len());
         let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg+a)..(self.blocki_beg+b)];
         //let slice2 = &slice1[*a..*b];
-        let slice_boxp = Box::new(slice1);
-        slice_boxp
+        Box::new(slice1)
     }
 }
 
@@ -3222,17 +3226,17 @@ impl Line {
     const LINE_PARTS_WITH_CAPACITY: usize = 1;
 
     pub fn new() -> Line {
-        return Line {
+        Line {
             lineparts: LineParts::with_capacity(Line::LINE_PARTS_WITH_CAPACITY),
-        };
+        }
     }
 
     pub fn new_from_linepart(linepart: LinePart) -> Line {
         let mut v = LineParts::with_capacity(Line::LINE_PARTS_WITH_CAPACITY);
         v.push(linepart);
-        return Line {
+        Line {
             lineparts: v,
-        };
+        }
     }
 
     //pub fn charsz(self: &Line) {
@@ -3301,12 +3305,12 @@ impl Line {
         for linepart in self.lineparts.iter() {
             let len_ = linepart.len();
             if a < len_ {
-                return &linepart;
+                return linepart;
             }
             a -= len_;
         }
         // XXX: not sure if this is the best choice
-        &(self.lineparts.last().unwrap())
+        self.lineparts.last().unwrap()
     }
 
     /// does the `Line` contain the byte value?
@@ -3340,13 +3344,14 @@ impl Line {
             let slice = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
             slices.push(slice);
         }
-        return slices;
+
+        slices
     }
 
     /// return a count of slices that would be returned by `get_slices`
     /// CANDIDATE FOR REMOVAL?
     pub fn get_slices_count(self: &Line) -> usize {
-        return self.lineparts.len();
+        self.lineparts.len()
     }
 
 
@@ -3509,7 +3514,8 @@ impl Line {
                 }
             }
         }
-        return s1;
+
+        s1
     }
 
     // XXX: rust does not support function overloading which is really surprising and disappointing
@@ -3517,7 +3523,7 @@ impl Line {
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Line) -> String {
-        return self._to_String_raw(true);
+        self._to_String_raw(true)
     }
 
     #[allow(non_snake_case)]
@@ -3534,7 +3540,7 @@ impl Line {
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &Line) -> String {
-        return self._to_String_raw(false);
+        self._to_String_raw(false)
     }
 
     /// slice that represents the entire `Line`
@@ -3565,7 +3571,8 @@ impl Line {
             data.extend_from_slice(&(*(lp.blockp))[bi_beg..bi_end]);
         }
         assert_eq!(data.len(), self.len(), "Line.as_bytes: data.len() != self.len()");
-        return data;
+
+        data
     }
 
     /// do be do
@@ -3608,58 +3615,6 @@ type FoToFo = BTreeMap<FileOffset, FileOffset>;
 #[allow(non_camel_case_types)]
 type ResultS4_LineFind = ResultS4<(FileOffset, LineP), Error>;
 type LinesLRUCache = LruCache<FileOffset, ResultS4_LineFind>;
-/// range map where key is Line begin to end `[Line.fileoffset_begin(), Line.fileoffset_end()]`
-/// and where value is Line begin (`Line.fileoffset_begin()`). Use the value to lookup associated `Line` map
-//type LinesRangeMap = RangeMap<FileOffset, FileOffset>;
-//type LinesRangeSet = RangeSet<FileOffset>;
-//type LinesRangeMap32 = cranelift_bforest::Set<FileOffset>;
-//type LinesRangeMap32Mem = cranelift_bforest::SetForest<FileOffset>;
-//type LinesRangeHVal = std::ops::Range<FileOffset>;
-//type LinesRangeHSet = std::collections::hash_set::HashSet<LinesRangeHVal>;
-//type LinesRMap = BTreeMap<FileOffset, FileOffset>;
-
-/*
-/// quickie helper to wrap common check, this could be more rustic O(n)
-pub fn hashset_contains(set: &LinesRangeHSet, value: &FileOffset) -> bool {
-    for r1 in set.iter() {
-        if r1.contains(value) {
-            return true;
-        }
-    }
-    return false;
-}
-
-/// quickie helper to wrap common check, this could be more rustic O(n)
-pub fn hashset_get(set: &LinesRangeHSet, value: &FileOffset) -> Option<LinesRangeHVal> {
-    for r1 in set.iter() {
-        if r1.contains(value) {
-            return Some(r1.clone());
-        }
-    }
-    return None;
-}
-*/
-
-/*
-/// quickie helper to wrap common check, this could be more rustic O(n)
-pub fn hashset_contains(map: &LinesRMap, value: &FileOffset) -> bool {
-    match map.range(value..).next() {
-        Some(r1, r2) => {
-            // XXX: now search for `.prev` entry... how to?
-            return true;
-        },
-        _ => {
-            return false;
-        },
-    }
-}
-
-/// quickie helper to wrap common check, this could be more rustic O(n)
-pub fn hashset_get(map: &LinesRMap, value: &FileOffset) -> Option<FileOffset> {
-    
-    return None;
-}
-*/
 
 /// Specialized Reader that uses BlockReader to find FoToLine
 pub struct LineReader<'linereader> {
@@ -3676,17 +3631,11 @@ pub struct LineReader<'linereader> {
     /// TODO: handle char sizes > 1 byte
     /// TODO: handle multi-byte encodings
     _charsz: CharSz,
-    /// `Line` offsets stored as Range `[fileoffset_begin..fileoffset_end+1)`. to `fileoffset_begin`.
-    ///  the stored value can be used to lookup `Line` in `self.lines`
-    //lines_by_range: LinesRangeMap,
-    //lines_by_range: LinesRangeSet,
-    //lines_by_range32: LinesRangeMap32,
-    //lines_by_range32mem: LinesRangeMap32Mem,
-    //lines_by_range: LinesRangeHSet,
-    //lines_by_range: LinesRMap,
     /// internal LRU cache for `find_line`
     _find_line_lru_cache: LinesLRUCache,
     // TODO: [2021/09/21] add efficiency stats
+    _find_line_lru_cache_hit: u64,
+    _find_line_lru_cache_miss: u64,
 }
 
 impl fmt::Debug for LineReader<'_> {
@@ -3715,6 +3664,8 @@ static CHARSZ: CharSz = CHARSZ_MIN;
 
 /// implement the LineReader things
 impl<'linereader> LineReader<'linereader> {
+    const FIND_LINE_LRC_CACHE_SZ: usize = 8;
+
     pub fn new(path: &'linereader FPath, blocksz: BlockSz) -> Result<LineReader<'linereader>> {
         // XXX: multi-byte
         assert_ge!(
@@ -3726,11 +3677,8 @@ impl<'linereader> LineReader<'linereader> {
         );
         assert_ne!(blocksz, 0, "BlockSz is zero");
         let mut br = BlockReader::new(path, blocksz);
-        match br.open() {
-            Err(err) => {
-                return Err(err);
-            }
-            Ok(_) => {}
+        if let Err(err) = br.open() {
+            return Err(err);
         };
         Ok(LineReader {
             blockreader: br,
@@ -3738,17 +3686,9 @@ impl<'linereader> LineReader<'linereader> {
             foend_to_fobeg: FoToFo::new(),
             lines_count: 0,
             _charsz: CHARSZ,
-            // give impossible value to start with
-            //_next_line_blockoffset: FileOffset::MAX,
-            //_next_line_blockp_opt: None,
-            //_next_line_blocki: 0,
-            //lines_by_range: LinesRangeMap::new(),
-            //lines_by_range: LinesRangeSet::new(),
-            //lines_by_range32: LinesRangeMap32::new(),
-            //lines_by_range32mem: LinesRangeMap32Mem::new(),
-            //lines_by_range: LinesRangeHSet::new(),
-            //lines_by_range: LinesRMap::new(),
-            _find_line_lru_cache: LinesLRUCache::new(8),
+            _find_line_lru_cache: LinesLRUCache::new(LineReader::FIND_LINE_LRC_CACHE_SZ),
+            _find_line_lru_cache_hit: 0,
+            _find_line_lru_cache_miss: 0,
         })
     }
 
@@ -3778,7 +3718,7 @@ impl<'linereader> LineReader<'linereader> {
         }
         let lp = &self.lines[fileoffset];
         lp.print(true);
-        return true;
+        true
     }
 
     /// Testing helper only
@@ -3836,29 +3776,8 @@ impl<'linereader> LineReader<'linereader> {
         debug_assert!(!self.foend_to_fobeg.contains_key(&fo_end), "self.foend_to_fobeg already contains key {}", fo_end);
         self.foend_to_fobeg.insert(fo_end, fo_beg);
         self.lines_count += 1;
-        // XXX: multi-byte character encoding
-        let fo_end1 = fo_end + (self.charsz() as FileOffset);
-        // TODO: this `RangeMap::insert` takes a very large amount of processing time, 8% of processing time for the tests
-        //       in script `./tools/compare-grep-sort1.sh`. In this special case, it case be replaced with
-        //       a `RangeSet`. The `V` in this `RangeMap` use is the same as `K.last`.
-
-        //debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{}, {})", so(), fo_beg, fo_end1, fo_beg);
-        //debug_assert!(!self.lines_by_range.contains_key(&fo_beg), "self.lines_by_range already contains range with fo_beg {}", fo_beg);
-        //debug_assert!(!self.lines_by_range.contains_key(&fo_end), "self.lines_by_range already contains range with fo_end {}", fo_end);
-        //self.lines_by_range.insert(fo_beg..fo_end1, fo_beg);
-
-        //debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{})", so(), fo_beg, fo_end1);
-        //debug_assert!(!self.lines_by_range.contains(&fo_beg), "self.lines_by_range already contains range with fo_beg {}", fo_beg);
-        //debug_assert!(!self.lines_by_range.contains(&fo_end1), "self.lines_by_range already contains range with fo_end1 {}", fo_end1);
-        //self.lines_by_range.insert(fo_beg..fo_end1);
-
-        //debug_eprintln!("{}LineReader.insert_line: lines_by_range.insert({}‥{})", so(), fo_beg, fo_end1);
-        //debug_assert!(!hashset_contains(&self.lines_by_range, &fo_beg), "self.lines_by_range already contains range with fo_beg {}", fo_beg);
-        //debug_assert!(!hashset_contains(&self.lines_by_range, &fo_end), "self.lines_by_range already contains range with fo_end {}", fo_end);
-        //self.lines_by_range.insert(fo_beg..fo_end1);
-
         debug_eprintln!("{}LineReader.insert_line() returning @{:p}", sx(), rl);
-        return rl;
+        rl
     }
 
     /// does `self` "contain" this `fileoffset`? That is, already know about it?
@@ -3874,7 +3793,7 @@ impl<'linereader> LineReader<'linereader> {
         if fileoffset < fo_beg {
             return false;
         }
-        self.lines.contains_key(&fo_beg)
+        self.lines.contains_key(fo_beg)
     }
 
     /// for any `FileOffset`, get the `Line` (if available)
@@ -3920,8 +3839,8 @@ impl<'linereader> LineReader<'linereader> {
         // check LRU cache first (this is very fast)
         match self._find_line_lru_cache.get(&fileoffset) {
             Some(rlp) => {
-                // self.stats_read_block_cache_lru_hit += 1;
                 debug_eprint!("{}find_line: found LRU cached for offset {}", sx(), fileoffset);
+                self._find_line_lru_cache_hit += 1;
                 match rlp {
                     ResultS4_LineFind::Found(val) => {
                         debug_eprintln!(" return ResultS4_LineFind::Found(({}, …)) @[{}, {}]", val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
@@ -3942,7 +3861,7 @@ impl<'linereader> LineReader<'linereader> {
                 }
             }
             None => {
-                //self.stats_read_block_cache_lru_miss += 1;
+                self._find_line_lru_cache_miss += 1;
                 debug_eprintln!("{}find_line: fileoffset {} not found in LRU cache", so(), fileoffset);
             }
         }
@@ -4017,7 +3936,7 @@ impl<'linereader> LineReader<'linereader> {
                     return ResultS4_LineFind::Found((fo_next, lp));
                 }
                 None => {
-                    //self.stats_read_block_cache_lru_miss += 1;
+                    //self._read_block_cache_lru_miss += 1;
                     debug_eprintln!("{}find_line: fileoffset {} not found in self.lines_by_range", so(), fileoffset);
                 }
             }
@@ -4198,7 +4117,7 @@ impl<'linereader> LineReader<'linereader> {
                     return ResultS4_LineFind::Found((fo_next, lp));
                 }
                 None => {
-                    //self.stats_read_block_cache_lru_miss += 1;
+                    //self._read_block_cache_lru_miss += 1;
                     debug_eprintln!("{}find_line: fileoffset {} not found in self.lines_by_range", so(), fo_nl_a);
                 }
             }
@@ -4337,7 +4256,8 @@ impl<'linereader> LineReader<'linereader> {
             (*rl).fileoffset_end(),
             (*rl).to_String_noraw()
         );
-        return ResultS4_LineFind::Found((fo_end + 1, rl));
+
+        ResultS4_LineFind::Found((fo_end + 1, rl))
     }
 }
 
@@ -4578,14 +4498,13 @@ fn _test_Line_get_boxptrs(fpath: &FPath, blocksz: BlockSz, checks: &test_Line_ge
     debug_eprintln!("{}_test_Line_get_boxptrs({:?}, {}, checks)", sn(), fpath, blocksz);
     // create a `LineReader` and read all the lines in the file
     let mut lr = LineReader::new(fpath, blocksz).unwrap();
-    let mut done = false;
     let mut fo: FileOffset = 0;
-    while !done {
+    loop {
         match lr.find_line(fo) {
-            ResultS4_LineFind::Found((fo_, linep)) => {
+            ResultS4_LineFind::Found((fo_, _)) => {
                 fo = fo_;
             },
-            ResultS4_LineFind::Found_EOF((fo_, linep)) => {
+            ResultS4_LineFind::Found_EOF((fo_, _)) => {
                 fo = fo_;
             },
             ResultS4_LineFind::Done => {
@@ -4812,23 +4731,23 @@ impl Sysline {
     const CHARSZ: usize = 1;
 
     pub fn new() -> Sysline {
-        return Sysline {
+        Sysline {
             lines: Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY),
             dt_beg: LI_NULL,
             dt_end: LI_NULL,
             dt: None,
-        };
+        }
     }
 
     pub fn new_from_line(linep: LineP) -> Sysline {
         let mut v = Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY);
         v.push(linep);
-        return Sysline {
+        Sysline {
             lines: v,
             dt_beg: LI_NULL,
             dt_end: LI_NULL,
             dt: None,
-        };
+        }
     }
 
     pub fn charsz(self: &Sysline) -> usize {
@@ -4956,6 +4875,7 @@ impl Sysline {
     /// testing helper
     /// TODO: move this into a `Printer` class
     #[cfg(any(debug_assertions,test))]
+    #[allow(dead_code)]
     fn print2(&self) {
         let slices = self.get_slices();
         let stdout = io::stdout();
@@ -4983,22 +4903,16 @@ impl Sysline {
         assert_eq!(colors.len(), values.len());
         for (color, value) in colors.iter().zip(values.iter())
         {
-            match stdclr.set_color(ColorSpec::new().set_fg(Some(color.clone()))) {
-                Err(err) => {
-                    eprintln!("ERROR: print_color_slices: stdout.set_color({:?}) returned error {}", color, err);
-                    //continue;
-                    return Err(err);
-                },
-                _ => {},
+            if let Err(err) = stdclr.set_color(ColorSpec::new().set_fg(Some(color.clone()))) {
+                eprintln!("ERROR: print_color_slices: stdout.set_color({:?}) returned error {}", color, err);
+                //continue;
+                return Err(err);
             };
-            match stdclr.write(value) {
-                Err(err) => {
-                    eprintln!("ERROR: print_color_slices: stdout.write(…) returned error {}", err);
-                    //continue;
-                    return Err(err);
-                }
-                _ => {},
-            }
+            if let Err(err) = stdclr.write(value) {
+                eprintln!("ERROR: print_color_slices: stdout.write(…) returned error {}", err);
+                //continue;
+                return Err(err);
+            };
         }
         Ok(())
     }
@@ -5045,19 +4959,13 @@ impl Sysline {
             at += len_;
         }
         let mut ret = Ok(());
-        match clrout.flush() {
-            Err(err) => {
-                eprintln!("ERROR: write: stdout flushing error {}", err);
-                ret = Err(err);
-            },
-            _ => {},
+        if let Err(err) = clrout.flush() {
+            eprintln!("ERROR: print_color: stdout.flush() {}", err);
+            ret = Err(err);
         }
-        match clrout.reset() {
-            Err(err) => {
-                eprintln!("print_colored: stdout.reset() returned error {}", err);
-                return Err(err);
-            },
-            _ => {},
+        if let Err(err) = clrout.reset() {
+            eprintln!("ERROR: print_color: stdout.reset() {}", err);
+            return Err(err);
         }
         ret
     }
@@ -5081,7 +4989,7 @@ impl Sysline {
         for lp in &self.lines {
             s_ += (*lp)._to_String_raw(raw).as_str();
         }
-        return s_;
+        s_
     }
 
     /*
@@ -5175,7 +5083,7 @@ type DateTime_Pattern_Counts = HashMap<DateTime_Parse_Data, u64>;
 type Result_FindDateTime = Result<(DateTime_Parse_Data, DateTimeL)>;
 /// return type for `SyslineReader::parse_datetime_in_line`
 type Result_ParseDateTime = Result<(LineIndex, LineIndex, DateTimeL)>;
-type Result_ParseDateTimeP = Box<Result_ParseDateTime>;
+type Result_ParseDateTimeP = Arc<Result_ParseDateTime>;
 
 /// describe the result of comparing one DateTime to one DateTime Filter
 #[allow(non_camel_case_types)]
@@ -5709,11 +5617,39 @@ pub struct Summary {
     pub lines: u64,
     /// count of `Syslines` processed by `SyslineReader`
     pub syslines: u64,
+    /// `SyslineReader::_parse_datetime_in_line_lru_cache_hit`
+    pub _parse_datetime_in_line_lru_cache_hit: u64,
+    /// `SyslineReader::_parse_datetime_in_line_lru_cache_miss`
+    pub _parse_datetime_in_line_lru_cache_miss: u64,
+    /// `LineReader::_find_line_lru_cache_hit`
+    pub _find_line_lru_cache_hit: u64,
+    /// `LineReader::_find_line_lru_cache_miss`
+    pub _find_line_lru_cache_miss: u64,
+    /// `BlockReader`
+    pub _read_block_cache_lru_hit: u32,
+    pub _read_block_cache_lru_miss: u32,
+    pub _read_blocks_hit: u32,
+    pub _read_blocks_miss: u32,
 }
 
 impl Summary {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
-        bytes: u64, bytes_total: u64, blocks: u64, blocks_total: u64, blocksz: BlockSz, lines: u64, syslines: u64,
+        bytes: u64,
+        bytes_total: u64,
+        blocks: u64,
+        blocks_total: u64,
+        blocksz: BlockSz,
+        lines: u64,
+        syslines: u64,
+        _parse_datetime_in_line_lru_cache_hit: u64,
+        _parse_datetime_in_line_lru_cache_miss: u64,
+        _find_line_lru_cache_hit: u64,
+        _find_line_lru_cache_miss: u64,
+        _read_block_cache_lru_hit: u32,
+        _read_block_cache_lru_miss: u32,
+        _read_blocks_hit: u32,
+        _read_blocks_miss: u32,
     ) -> Summary {
         // some sanity checks
         assert_ge!(bytes, blocks, "There is less bytes than Blocks");
@@ -5730,13 +5666,21 @@ impl Summary {
             blocksz,
             lines,
             syslines,
+            _parse_datetime_in_line_lru_cache_hit,
+            _parse_datetime_in_line_lru_cache_miss,
+            _find_line_lru_cache_hit,
+            _find_line_lru_cache_miss,
+            _read_block_cache_lru_hit,
+            _read_block_cache_lru_miss,
+            _read_blocks_hit,
+            _read_blocks_miss,
         }
     }
 }
 
 impl fmt::Debug for Summary {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.debug_struct("Summary Processed:")
+        f.debug_struct("")
             .field("bytes", &self.bytes)
             .field("bytes total", &self.bytes_total)
             .field("lines", &self.lines)
@@ -5792,6 +5736,10 @@ pub struct SyslineReader<'syslinereader> {
     _find_sysline_lru_cache: SyslinesLRUCache,
     // internal cache of calls to `SyslineReader::parse_datetime_in_line`. maintained in `SyslineReader::find_sysline`
     _parse_datetime_in_line_lru_cache: LineParsedCache,
+    // internal stats for `self._parse_datetime_in_line_lru_cache`
+    _parse_datetime_in_line_lru_cache_hit: u64,
+    // internal stats for `self._parse_datetime_in_line_lru_cache`
+    _parse_datetime_in_line_lru_cache_miss: u64,
     /// has `self.file_analysis` completed?
     analyzed: bool,
 }
@@ -5853,6 +5801,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             tz_offset,
             _find_sysline_lru_cache: SyslinesLRUCache::new(SyslineReader::_FIND_SYSLINE_LRU_CACHE_SZ),
             _parse_datetime_in_line_lru_cache: LineParsedCache::new(),
+            _parse_datetime_in_line_lru_cache_hit: 0,
+            _parse_datetime_in_line_lru_cache_miss: 0,
             analyzed: false,
         })
     }
@@ -5964,7 +5914,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             fo_beg
         );
         self.syslines_by_range.insert(fo_beg..fo_end1, fo_beg);
-        return slp;
+        slp
     }
 
     /// workaround for chrono Issue #660 https://github.com/chronotope/chrono/issues/660
@@ -6055,7 +6005,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             return false;
         }
 
-        return true;
+        true
     }
 
     /// decoding `[u8]` bytes to a `str` takes a surprising amount of time, according to `tools/flamegraph.sh`.
@@ -6085,7 +6035,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     }
 
     pub fn str_datetime(dts: &str, dtpd: &DateTime_Parse_Data, tz_offset: &FixedOffset) -> DateTimeL_Opt {
-        str_datetime(dts, &dtpd.pattern.as_str(), dtpd.tz, tz_offset)
+        str_datetime(dts, dtpd.pattern.as_str(), dtpd.tz, tz_offset)
     }
 
     /// if datetime found in `Line` returns `Ok` around
@@ -6199,7 +6149,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         }
 
         debug_eprintln!("{}find_datetime_in_line: return Err(ErrorKind::NotFound);", sx());
-        return Result_FindDateTime::Err(Error::new(ErrorKind::NotFound, "No datetime found!"));
+        Result_FindDateTime::Err(Error::new(ErrorKind::NotFound, "No datetime found!"))
     }
 
     /// private helper function to update `self.dt_patterns`
@@ -6398,14 +6348,29 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// LAST WORKING HERE 2022/04/10 19:09:00 is this really the right place to add caching?
     /// May need to think some more about the most strategic place for caching. However, I appreciate
     /// separating the caching to this one small helper function.
-    fn parse_datetime_in_line_cached(&mut self, lp: &LineP, charsz: &usize) -> Result_ParseDateTime {
-        if self._parse_datetime_in_line_lru_cache.contains_key(&lp.fileoffset_begin()) {
-            // TODO: returned cached value
-            //       also, what about change of `self.analyzed` state?
-            //       could cache that state, *or*, when analyzing do `_parse_datetime_in_line_lru_cache.clear()`
+    fn parse_datetime_in_line_cached(&mut self, lp: &LineP, charsz: &usize) -> Result_ParseDateTimeP {
+        match self._parse_datetime_in_line_lru_cache.get(&lp.fileoffset_begin()) {
+            Some(val) => {
+                self._parse_datetime_in_line_lru_cache_hit +=1;
+                return val.clone();
+            },
+            _ => {
+                self._parse_datetime_in_line_lru_cache_miss += 1;
+            },
         }
-        let result = self.parse_datetime_in_line(&*lp, charsz);
-        return result;
+        // TODO: returned cached value
+        //       also, what about change of `self.analyzed` state?
+        //       could cache that state, *or*, when analyzing do `_parse_datetime_in_line_lru_cache.clear()`
+        let result: Result_ParseDateTime = self.parse_datetime_in_line(&*lp, charsz);
+        let resultp: Result_ParseDateTimeP = Result_ParseDateTimeP::new(result);
+        let resultp2 = resultp.clone();
+        match self._parse_datetime_in_line_lru_cache.insert(lp.fileoffset_begin(), resultp) {
+            Some(val_prev) => {
+                assert!(false, "self._parse_datetime_in_line_lru_cache already had key {:?}, value {:?}", lp.fileoffset_begin(), val_prev);
+            },
+            _ => {},
+        };
+        return resultp2;
     }
 
     /// Find first sysline at or after `fileoffset`.
@@ -6430,7 +6395,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             // check LRU cache
             match self._find_sysline_lru_cache.get(&fileoffset) {
                 Some(rlp) => {
-                    // self.stats_read_block_cache_lru_hit += 1;
+                    //self._read_block_cache_lru_hit += 1;
                     debug_eprintln!("{}find_sysline: found LRU cached for fileoffset {}", so(), fileoffset);
                     match rlp {
                         ResultS4_SyslineFind::Found(val) => {
@@ -6452,7 +6417,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     }
                 }
                 None => {
-                    //self.stats_read_block_cache_lru_miss += 1;
+                    //self._read_block_cache_lru_miss += 1;
                     debug_eprintln!("{}find_sysline: fileoffset {} not found in LRU cache", so(), fileoffset);
                 }
             }
@@ -6533,10 +6498,6 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             }
         }
 
-// LAST WORKING NEAR HERE 2022/04/11 19:00:00
-// There was a crash occurring during
-//      $ (export RUST_BACKTRACE=1; cargo run -- ./logs/other/tests/dtf*log) &> out
-
         //
         // find line with datetime A
         //
@@ -6573,9 +6534,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     return ResultS4_SyslineFind::Err(err);
                 }
             };
-            let result = self.parse_datetime_in_line_cached(&lp, &self.charsz());
-            debug_eprintln!("{}find_sysline: A find_datetime_in_line returned {:?}", so(), result);
-            match result {
+            let resultp = self.parse_datetime_in_line_cached(&lp, &self.charsz());
+            debug_eprintln!("{}find_sysline: A find_datetime_in_line returned {:?}", so(), resultp);
+            match *resultp {
                 Err(_) => {}
                 Ok((dt_beg, dt_end, dt)) => {
                     // a datetime was found! beginning of a sysline
@@ -6744,9 +6705,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     return ResultS4_SyslineFind::Err(err);
                 }
             };
-            let result = self.parse_datetime_in_line_cached(&lp, &self.charsz());
-            debug_eprintln!("{}find_sysline: B find_datetime_in_line returned {:?}", so(), result);
-            match result {
+            let resultp = self.parse_datetime_in_line_cached(&lp, &self.charsz());
+            debug_eprintln!("{}find_sysline: B find_datetime_in_line returned {:?}", so(), resultp);
+            match *resultp {
                 Err(_) => {
                     debug_eprintln!(
                         "{}find_sysline: B append found Line to this Sysline sl.push({:?})",
@@ -7397,13 +7358,37 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let blocksz = self.blocksz();
         let lines = self.linereader.count();
         let syslines = self.count();
-        return Summary::new(bytes, bytes_total, blocks, blocks_total, blocksz, lines, syslines);
+        let parse_datetime_in_line_lru_cache_hit = self._parse_datetime_in_line_lru_cache_hit;
+        let parse_datetime_in_line_lru_cache_miss = self._parse_datetime_in_line_lru_cache_miss;
+        let find_line_lru_cache_hit = self.linereader._find_line_lru_cache_hit;
+        let find_line_lru_cache_miss = self.linereader._find_line_lru_cache_miss;
+        let _read_block_cache_lru_hit = self.linereader.blockreader._read_block_cache_lru_hit;
+        let _read_block_cache_lru_miss = self.linereader.blockreader._read_block_cache_lru_miss;
+        let _read_blocks_hit = self.linereader.blockreader._read_blocks_hit;
+        let _read_blocks_miss = self.linereader.blockreader._read_blocks_miss;
+        Summary::new(
+            bytes,
+            bytes_total,
+            blocks,
+            blocks_total,
+            blocksz,
+            lines,
+            syslines,
+            parse_datetime_in_line_lru_cache_hit,
+            parse_datetime_in_line_lru_cache_miss,
+            find_line_lru_cache_hit,
+            find_line_lru_cache_miss,
+            _read_block_cache_lru_hit,
+            _read_block_cache_lru_miss,
+            _read_blocks_hit,
+            _read_blocks_miss,
+        )
     }
 }
 
 /// thread-safe Atomic Reference Counting Pointer to a `SyslineReader`
 /// XXX: should the `&` be removed? (completely move the SyslineReader?)
-type SyslineReaderP<'syslinereader> = Arc<&'syslinereader SyslineReader<'syslinereader>>;
+//type SyslineReaderP<'syslinereader> = Arc<&'syslinereader SyslineReader<'syslinereader>>;
 
 #[test]
 fn test_datetime_from_str_workaround_Issue660() {
@@ -9946,15 +9931,14 @@ type Chan_Recv_Datum = crossbeam_channel::Receiver<Chan_Datum>;
 type Map_FPath_Datum = HashMap<FPath, Chan_Datum>;
 
 /// thread entry point for processing a file
-/// this creates `SyslineReader` and process the `Syslines`
+/// this creates `SyslineReader` and processes the `Syslines`
 fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) -> thread::ThreadId {
     stack_offset_set(Some(2));
     let (path, blocksz, filter_dt_after_opt, filter_dt_before_opt, tz_offset) = thread_init_data;
     debug_eprintln!("{}exec_4({:?})", sn(), path);
-    let thread_cur = thread::current();
-    let tid = thread_cur.id();
-    let tname = thread_cur.name().unwrap_or(&"").clone();
-    //let ti = tid.as_u64() as u64;
+    let thread_cur: thread::Thread = thread::current();
+    let tid: thread::ThreadId = thread_cur.id();
+    let tname: &str = <&str>::clone(&thread_cur.name().unwrap_or(""));
 
     let mut slr = match SyslineReader::new(&path, blocksz, tz_offset) {
         Ok(val) => val,
@@ -10115,6 +10099,8 @@ impl fmt::Debug for SummaryPrinted {
 
 impl SummaryPrinted {
     /// mimics debug print but with colorized zero values
+    /// only colorize if associated `Summary_Opt` has corresponding
+    /// non-zero values
     pub fn print_colored_stderr(&self, summary_opt: &Summary_Opt) {
         let clrerr = Color::Red;
         
@@ -10189,9 +10175,11 @@ impl SummaryPrinted {
         } else {
             eprint!("{:?}", self.dt_first);
         }
-        eprintln!(" }}");
+        eprint!(" }}");
     }
 }
+
+type SummaryPrinted_Opt = Option<SummaryPrinted>;
 
 type Map_FPath_SummaryPrint = HashMap::<FPath, SummaryPrinted>;
 
@@ -10257,9 +10245,11 @@ fn summary_update(fpath_: &FPath, summary: Summary, map_: &mut Map_FPath_Summary
 // TODO: use std::path::Path
 fn basename(path: &FPath) -> FPath {
     let mut riter = path.rsplit(std::path::MAIN_SEPARATOR);
-    let basename = FPath::from(riter.next().unwrap_or(&""));
+    let basename = FPath::from(riter.next().unwrap_or(""));
     basename
 }
+
+const OPT_SUMMARY_DEBUG_STATS: bool = true;
 
 fn run_4(
     paths: FPaths,
@@ -10375,7 +10365,7 @@ fn run_4(
         // Get the result of the `recv` done during `select`
         let result = soper.recv(chan);
         debug_eprintln!("{}run_4:recv_many_chan() return ({:?}, {:?});", sx(), fpath, result);
-        return (fpath.clone(), result);
+        (fpath.clone(), result)
     }
 
     //
@@ -10552,30 +10542,54 @@ fn run_4(
                 Ok(()) => {},
                 Err(err) => {
                     eprintln!("ERROR: {:?}", err);
-                    return;
+                    continue;
                 }
             };
             eprintln!();
 
-            let summary_opt = map_path_summary.remove(fpath);
+            let summary_opt: Summary_Opt = map_path_summary.remove(fpath);
             match summary_opt {
                 Some(summary) => {
-                    eprintln!("   {:?}", summary);
+                    eprintln!("   Summary Processed:{:?}", summary);
                 },
                 None => {
-                    eprintln!("   None");
+                    eprintln!("   Summary Processed: None");
                 }
             }
-            let summary_print_opt = map_path_sumpr.remove(fpath);
+            let summary_print_opt: SummaryPrinted_Opt = map_path_sumpr.remove(fpath);
             match summary_print_opt {
                 Some(summary_print) => {
-                    eprint!("   ");
+                    eprint!("   Summary Printed  : ");
                     summary_print.print_colored_stderr(&summary_opt);
                 },
                 None => {
-                    eprint!("   ");
+                    eprint!("   Summary Printed  : ");
                     SummaryPrinted::default().print_colored_stderr(&summary_opt);
                 }
+            }
+            eprintln!();
+            if OPT_SUMMARY_DEBUG_STATS && summary_opt.is_some() {
+                fn ratio64(a: &u64, b: &u64) -> f64 {
+                    if b == &0 {
+                        return 0.0;
+                    }
+                    (*a as f64) / (*b as f64)
+                }
+                fn ratio32(a: &u32, b: &u32) -> f64 {
+                    ratio64(&(*a as u64), &(*b as u64))
+                }
+                // SyslineReader
+                let summary: &Summary = &summary_opt.unwrap_or_default();
+                let mut ratio = ratio64(&summary._parse_datetime_in_line_lru_cache_hit, &summary._parse_datetime_in_line_lru_cache_miss);
+                eprintln!("   caching: SyslineReader::parse_datetime_in_line_lru_cache: hit {:2}, miss {:2}, ratio: {:1.2}", summary._parse_datetime_in_line_lru_cache_hit, summary._parse_datetime_in_line_lru_cache_miss, ratio);
+                // LineReader
+                ratio = ratio64(&summary._find_line_lru_cache_hit, &summary._find_line_lru_cache_miss);
+                eprintln!("   caching: LineReader::find_line_cache: hit {:2}, miss: {:2}, ratio: {:1.2}", summary._find_line_lru_cache_hit, summary._find_line_lru_cache_miss, ratio);
+                // BlockReader
+                ratio = ratio32(&summary._read_blocks_hit, &summary._read_blocks_miss);
+                eprintln!("   caching: BlockReader::read_block_blocks   : hit {:2}, miss {:2}, ratio: {:1.2}", summary._read_blocks_hit, summary._read_blocks_miss, ratio);
+                ratio = ratio32(&summary._read_block_cache_lru_hit, &summary._read_block_cache_lru_miss);
+                eprintln!("   caching: BlockReader::read_block_cache_lru: hit {:2}, miss {:2}, ratio: {:1.2}", summary._read_block_cache_lru_hit, summary._read_block_cache_lru_miss, ratio);
             }
         }
         eprintln!("{:?}", sp_total);
