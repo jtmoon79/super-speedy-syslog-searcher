@@ -6533,6 +6533,10 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             }
         }
 
+// LAST WORKING NEAR HERE 2022/04/11 19:00:00
+// There was a crash occurring during
+//      $ (export RUST_BACKTRACE=1; cargo run -- ./logs/other/tests/dtf*log) &> out
+
         //
         // find line with datetime A
         //
