@@ -616,7 +616,7 @@ TODO: 2022/04/09 in `find_datetime_in_line`, the `slice_.contains(&b'1')`
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{BTreeMap, HashMap, BTreeSet};
 use std::fmt;
 use std::fs::{File, Metadata, OpenOptions};
 use std::io;
@@ -627,6 +627,9 @@ use std::ops::RangeInclusive;
 use std::str;
 use std::str::FromStr;  // attaches `from_str` to various built-in types
 use std::sync::Arc;
+
+extern crate arrayref;
+use arrayref::array_ref;
 
 extern crate atty;
 
@@ -655,16 +658,16 @@ extern crate encoding_rs;
 extern crate lru;
 use lru::LruCache;
 
-#[macro_use]
 extern crate lazy_static;
+use lazy_static::lazy_static;
 
-#[macro_use]
 extern crate more_asserts;
+use more_asserts::{assert_le, assert_lt, assert_ge, assert_gt, debug_assert_le, debug_assert_lt, debug_assert_ge, debug_assert_gt};
 
 extern crate rand;
 
 extern crate rangemap;
-use rangemap::{RangeMap,RangeSet};
+use rangemap::{RangeMap, RangeSet};
 
 extern crate mut_static;
 
@@ -673,6 +676,9 @@ use tempfile::NamedTempFile;
 
 extern crate termcolor;
 use termcolor::{Color, ColorSpec, WriteColor};
+
+extern crate unroll;
+use unroll::unroll_for_loops;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // misc. globals
@@ -1614,30 +1620,431 @@ fn str_datetime(dts: &str, pattern: &DateTimePattern_str, patt_has_tz: bool, tz_
 // helper functions - search a slice quickly (loop unroll version)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-pub fn slice_contains_6_2(slice_: &[u8; 6], search: &[u8; 2]) -> bool {
-    for sc in 0..5 {
-        for s in 0..1 {
-            if slice_[sc] == search[s] {
-                return true;
-            }
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_6_2(slice_: &[u8; 6], search: &[u8; 2]) -> bool {
+    for i in 0..5 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
         }
     }
     false
 }
-/// simple implementation of `slice.contains`
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_7_2(slice_: &[u8; 7], search: &[u8; 2]) -> bool {
+    for i in 0..6 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_8_2(slice_: &[u8; 8], search: &[u8; 2]) -> bool {
+    for i in 0..7 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_9_2(slice_: &[u8; 9], search: &[u8; 2]) -> bool {
+    for i in 0..8 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_10_2(slice_: &[u8; 10], search: &[u8; 2]) -> bool {
+    for i in 0..9 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_11_2(slice_: &[u8; 11], search: &[u8; 2]) -> bool {
+    for i in 0..10 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_12_2(slice_: &[u8; 12], search: &[u8; 2]) -> bool {
+    for i in 0..11 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_13_2(slice_: &[u8; 13], search: &[u8; 2]) -> bool {
+    for i in 0..12 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_14_2(slice_: &[u8; 14], search: &[u8; 2]) -> bool {
+    for i in 0..13 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_15_2(slice_: &[u8; 15], search: &[u8; 2]) -> bool {
+    for i in 0..14 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_16_2(slice_: &[u8; 16], search: &[u8; 2]) -> bool {
+    for i in 0..15 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_17_2(slice_: &[u8; 17], search: &[u8; 2]) -> bool {
+    for i in 0..16 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_18_2(slice_: &[u8; 18], search: &[u8; 2]) -> bool {
+    for i in 0..17 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_19_2(slice_: &[u8; 19], search: &[u8; 2]) -> bool {
+    for i in 0..18 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_20_2(slice_: &[u8; 20], search: &[u8; 2]) -> bool {
+    for i in 0..19 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_21_2(slice_: &[u8; 21], search: &[u8; 2]) -> bool {
+    for i in 0..20 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_22_2(slice_: &[u8; 22], search: &[u8; 2]) -> bool {
+    for i in 0..21 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_23_2(slice_: &[u8; 23], search: &[u8; 2]) -> bool {
+    for i in 0..22 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_24_2(slice_: &[u8; 24], search: &[u8; 2]) -> bool {
+    for i in 0..23 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_25_2(slice_: &[u8; 25], search: &[u8; 2]) -> bool {
+    for i in 0..24 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_26_2(slice_: &[u8; 26], search: &[u8; 2]) -> bool {
+    for i in 0..25 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_27_2(slice_: &[u8; 27], search: &[u8; 2]) -> bool {
+    for i in 0..26 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_28_2(slice_: &[u8; 28], search: &[u8; 2]) -> bool {
+    for i in 0..27 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_29_2(slice_: &[u8; 29], search: &[u8; 2]) -> bool {
+    for i in 0..28 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_30_2(slice_: &[u8; 30], search: &[u8; 2]) -> bool {
+    for i in 0..29 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_31_2(slice_: &[u8; 31], search: &[u8; 2]) -> bool {
+    for i in 0..30 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_32_2(slice_: &[u8; 32], search: &[u8; 2]) -> bool {
+    for i in 0..31 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_33_2(slice_: &[u8; 33], search: &[u8; 2]) -> bool {
+    for i in 0..32 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_34_2(slice_: &[u8; 34], search: &[u8; 2]) -> bool {
+    for i in 0..33 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_35_2(slice_: &[u8; 35], search: &[u8; 2]) -> bool {
+    for i in 0..34 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_36_2(slice_: &[u8; 36], search: &[u8; 2]) -> bool {
+    for i in 0..35 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_37_2(slice_: &[u8; 37], search: &[u8; 2]) -> bool {
+    for i in 0..36 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_38_2(slice_: &[u8; 38], search: &[u8; 2]) -> bool {
+    for i in 0..37 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_39_2(slice_: &[u8; 39], search: &[u8; 2]) -> bool {
+    for i in 0..38 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+fn slice_contains_40_2(slice_: &[u8; 40], search: &[u8; 2]) -> bool {
+    for i in 0..39 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+/// loop unrolled implementation of `slice.contains` for a byte slice and a hardcorded array
 /// benchmark `benches/bench_slice_contains.rs` demonstrates this is faster
-/// LAST WORKING HERE 2022/04/09 08:53:13 do this loop unroll. should be an easy improvement.
-///       stuck on coercing `[u8]` to `[u8; 6]`?
-/// TODO: consider doing custom version of this for common combos
-///       `slice_contains_10_2(slice_: &[u8; 10], search: &[u8; 10])`
-///       from 10_2 to 40_2, other slice.len() fallsback to `slice_contains_X_2`
-///       should be pretty fast
-///       https://docs.rs/unroll/latest/unroll/
-///       https://crates.io/crates/unroll
-/// 
+#[inline(always)]
 pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
     match slice_.len() {
-        6 => slice_contains_6_2(slice_, search),
+        6 => slice_contains_6_2(array_ref!(slice_, 0, 6), search),
+        7 => slice_contains_7_2(array_ref!(slice_, 0, 7), search),
+        8 => slice_contains_8_2(array_ref!(slice_, 0, 8), search),
+        9 => slice_contains_9_2(array_ref!(slice_, 0, 9), search),
+        10 => slice_contains_10_2(array_ref!(slice_, 0, 10), search),
+        11 => slice_contains_11_2(array_ref!(slice_, 0, 11), search),
+        12 => slice_contains_12_2(array_ref!(slice_, 0, 12), search),
+        13 => slice_contains_13_2(array_ref!(slice_, 0, 13), search),
+        14 => slice_contains_14_2(array_ref!(slice_, 0, 14), search),
+        15 => slice_contains_15_2(array_ref!(slice_, 0, 15), search),
+        16 => slice_contains_16_2(array_ref!(slice_, 0, 16), search),
+        17 => slice_contains_17_2(array_ref!(slice_, 0, 17), search),
+        18 => slice_contains_18_2(array_ref!(slice_, 0, 18), search),
+        19 => slice_contains_19_2(array_ref!(slice_, 0, 19), search),
+        20 => slice_contains_20_2(array_ref!(slice_, 0, 20), search),
+        21 => slice_contains_21_2(array_ref!(slice_, 0, 21), search),
+        22 => slice_contains_22_2(array_ref!(slice_, 0, 22), search),
+        23 => slice_contains_23_2(array_ref!(slice_, 0, 23), search),
+        24 => slice_contains_24_2(array_ref!(slice_, 0, 24), search),
+        25 => slice_contains_25_2(array_ref!(slice_, 0, 25), search),
+        26 => slice_contains_26_2(array_ref!(slice_, 0, 26), search),
+        27 => slice_contains_27_2(array_ref!(slice_, 0, 27), search),
+        28 => slice_contains_28_2(array_ref!(slice_, 0, 28), search),
+        29 => slice_contains_29_2(array_ref!(slice_, 0, 29), search),
+        30 => slice_contains_30_2(array_ref!(slice_, 0, 30), search),
+        31 => slice_contains_31_2(array_ref!(slice_, 0, 31), search),
+        32 => slice_contains_32_2(array_ref!(slice_, 0, 32), search),
+        33 => slice_contains_33_2(array_ref!(slice_, 0, 33), search),
+        34 => slice_contains_34_2(array_ref!(slice_, 0, 34), search),
+        35 => slice_contains_35_2(array_ref!(slice_, 0, 35), search),
+        36 => slice_contains_36_2(array_ref!(slice_, 0, 36), search),
+        37 => slice_contains_37_2(array_ref!(slice_, 0, 37), search),
+        38 => slice_contains_38_2(array_ref!(slice_, 0, 38), search),
+        39 => slice_contains_39_2(array_ref!(slice_, 0, 39), search),
+        40 => slice_contains_40_2(array_ref!(slice_, 0, 40), search),
         _ => {
             for c in slice_.iter() {
                 if c == &search[0] || c == &search[1] {
@@ -1648,6 +2055,7 @@ pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
         }
     }
 }
+
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // command-line parsing
@@ -2822,7 +3230,9 @@ impl Line {
     pub fn new_from_linepart(linepart: LinePart) -> Line {
         let mut v = LineParts::with_capacity(Line::LINE_PARTS_WITH_CAPACITY);
         v.push(linepart);
-        return Line { lineparts: v };
+        return Line {
+            lineparts: v,
+        };
     }
 
     //pub fn charsz(self: &Line) {
@@ -4765,8 +5175,7 @@ type DateTime_Pattern_Counts = HashMap<DateTime_Parse_Data, u64>;
 type Result_FindDateTime = Result<(DateTime_Parse_Data, DateTimeL)>;
 /// return type for `SyslineReader::parse_datetime_in_line`
 type Result_ParseDateTime = Result<(LineIndex, LineIndex, DateTimeL)>;
-/// used internally by `SyslineReader`
-type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
+type Result_ParseDateTimeP = Box<Result_ParseDateTime>;
 
 /// describe the result of comparing one DateTime to one DateTime Filter
 #[allow(non_camel_case_types)]
@@ -5353,6 +5762,10 @@ type Syslines = BTreeMap<FileOffset, SyslineP>;
 /// range map where key is sysline begin to end `[ Sysline.fileoffset_begin(), Sysline.fileoffset_end()]`
 /// and where value is sysline begin (`Sysline.fileoffset_begin()`). Use the value to lookup associated `Syslines` map
 type SyslinesRangeMap = RangeMap<FileOffset, FileOffset>;
+/// used internally by `SyslineReader`
+type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
+/// used internally by `SyslineReader`
+type LineParsedCache = BTreeMap<FileOffset, Result_ParseDateTimeP>;
 
 /// Specialized Reader that uses `LineReader` to find syslog lines
 pub struct SyslineReader<'syslinereader> {
@@ -5374,10 +5787,11 @@ pub struct SyslineReader<'syslinereader> {
     dt_patterns_counts: DateTime_Pattern_Counts,
     /// default FixedOffset for found `DateTime` without timezone
     tz_offset: FixedOffset,
-    // TODO: [2021/09/21] add efficiency stats
-    // TODO: get rid of LRU cache
-    /// internal LRU cache for `find_sysline`
+    // TODO: is the LRU cache really helping?
+    /// internal LRU cache for `find_sysline`. maintained in `SyslineReader::find_sysline`
     _find_sysline_lru_cache: SyslinesLRUCache,
+    // internal cache of calls to `SyslineReader::parse_datetime_in_line`. maintained in `SyslineReader::find_sysline`
+    _parse_datetime_in_line_lru_cache: LineParsedCache,
     /// has `self.file_analysis` completed?
     analyzed: bool,
 }
@@ -5419,9 +5833,10 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     const DT_PATTERN_MAX_PRE_ANALYSIS: usize = 4;
     const DT_PATTERN_MAX: usize = 1;
     const ANALYSIS_THRESHOLD: u64 = 5;
+    const _FIND_SYSLINE_LRU_CACHE_SZ: usize = 4;
 
     pub fn new(path: &'syslinereader FPath, blocksz: BlockSz, tz_offset: FixedOffset) -> Result<SyslineReader<'syslinereader>> {
-        let lr = match LineReader::new(&path, blocksz) {
+        let lr = match LineReader::new(path, blocksz) {
             Ok(val) => val,
             Err(err) => {
                 eprintln!("ERROR: LineReader::new({}, {}) failed {}", path, blocksz, err);
@@ -5435,8 +5850,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             syslines_by_range: SyslinesRangeMap::new(),
             dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
             dt_patterns_counts: DateTime_Pattern_Counts::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
-            tz_offset: tz_offset,
-            _find_sysline_lru_cache: SyslinesLRUCache::new(4),
+            tz_offset,
+            _find_sysline_lru_cache: SyslinesLRUCache::new(SyslineReader::_FIND_SYSLINE_LRU_CACHE_SZ),
+            _parse_datetime_in_line_lru_cache: LineParsedCache::new(),
             analyzed: false,
         })
     }
@@ -5746,6 +6162,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             };
             // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
             if charsz == &1 && dtpd.year && !slice_contains_X_2(slice_, &hack12) {
+            //if charsz == &1 && dtpd.year && !(slice_.contains(&hack12[0]) || slice_.contains(&hack12[1])) {
                 debug_eprintln!("{}find_datetime_in_line: skip slice, does not have '1' or '2'", so());
                 continue;
             }
@@ -5845,7 +6262,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// when a threshold of syslines or bytes has been processed, then
     /// 1. narrow down datetime formats used. this greatly reduces resources
     /// used by `SyslineReader::find_datetime_in_line`
-    /// 2. ??? I forgot what else I wanted this function to do.
+    /// 2. TODO: for any prior analyzed syslines using a datetime format that wasn't accepted,
+    ///          retry parsing the lines with narrowed set of datetime formats. however, if those reparse attempts fail, keep the prior parse results using the
+    ///          "odd man out" format
     /// TODO: will break if DT_PATTERN_MAX > 1
     fn dt_patterns_analysis(&mut self) {
         if self.analyzed || self.count() < SyslineReader::ANALYSIS_THRESHOLD {
@@ -5907,13 +6326,13 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     }
 
     /// attempt to parse a DateTime substring in the passed `Line`
-    /// wraps call to `find_datetime_in_line` according to status of `self.dt_patterns`
+    /// wraps call to `self.find_datetime_in_line` according to status of `self.dt_patterns`
     /// if `self.dt_patterns` is `None`, will set `self.dt_patterns`
     fn parse_datetime_in_line(&mut self, line: &Line, charsz: &CharSz) -> Result_ParseDateTime {
-        // XXX: would prefer this at the end of this function, but borrow error occurs
+        // XXX: would prefer this at the end of this function but borrow error occurs
         if !self.analyzed {
             self.dt_patterns_analysis();
-        };
+        }
         debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}); {:?}", sn(), self, line.to_String_noraw());
         // if no `dt_patterns` have been found then try the default datetime patterns immediately
         if self.dt_patterns.is_empty() {
@@ -5931,7 +6350,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
             };
             self.dt_patterns_update(datetime_parse_data.clone());
-            debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Ok;", sx(), self);
+            debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return OK;", sx(), self);
             return Result_ParseDateTime::Ok((datetime_parse_data.siba, datetime_parse_data.siea, dt));
         }
         debug_eprintln!("{}parse_datetime_in_line self.dt_patterns has {} entries", so(), &self.dt_patterns.len());
@@ -5972,6 +6391,21 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         };
         debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Ok;", sx(), self);
         return Result_ParseDateTime::Ok((datetime_parse_data.sib, datetime_parse_data.sie, dt));
+    }
+
+    /// helper to `find_sysline`
+    /// call `self.parse_datetime_in_line` with help of `self._parse_datetime_in_line_cache`
+    /// LAST WORKING HERE 2022/04/10 19:09:00 is this really the right place to add caching?
+    /// May need to think some more about the most strategic place for caching. However, I appreciate
+    /// separating the caching to this one small helper function.
+    fn parse_datetime_in_line_cached(&mut self, lp: &LineP, charsz: &usize) -> Result_ParseDateTime {
+        if self._parse_datetime_in_line_lru_cache.contains_key(&lp.fileoffset_begin()) {
+            // TODO: returned cached value
+            //       also, what about change of `self.analyzed` state?
+            //       could cache that state, *or*, when analyzing do `_parse_datetime_in_line_lru_cache.clear()`
+        }
+        let result = self.parse_datetime_in_line(&*lp, charsz);
+        return result;
     }
 
     /// Find first sysline at or after `fileoffset`.
@@ -6135,7 +6569,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     return ResultS4_SyslineFind::Err(err);
                 }
             };
-            let result = self.parse_datetime_in_line(&*lp, &self.charsz());
+            let result = self.parse_datetime_in_line_cached(&lp, &self.charsz());
             debug_eprintln!("{}find_sysline: A find_datetime_in_line returned {:?}", so(), result);
             match result {
                 Err(_) => {}
@@ -6306,7 +6740,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     return ResultS4_SyslineFind::Err(err);
                 }
             };
-            let result = self.parse_datetime_in_line(&*lp, &self.charsz());
+            let result = self.parse_datetime_in_line_cached(&lp, &self.charsz());
             debug_eprintln!("{}find_sysline: B find_datetime_in_line returned {:?}", so(), result);
             match result {
                 Err(_) => {
