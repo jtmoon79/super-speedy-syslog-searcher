@@ -616,7 +616,7 @@ TODO: 2022/04/09 in `find_datetime_in_line`, the `slice_.contains(&b'1')`
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
-use std::collections::{BTreeMap, HashMap, BTreeSet};
+use std::collections::{BTreeMap, HashMap};
 use std::fmt;
 use std::fs::{File, Metadata, OpenOptions};
 use std::io;
@@ -625,7 +625,7 @@ use std::io::{Error, ErrorKind, Result, Seek, SeekFrom, Write};
 use std::path::Path;
 use std::ops::RangeInclusive;
 use std::str;
-use std::str::FromStr;  // attaches `from_str` to various built-in types
+//use std::str::FromStr;  // attaches `from_str` to various built-in types
 use std::sync::Arc;
 
 extern crate arrayref;
@@ -634,9 +634,6 @@ use arrayref::array_ref;
 extern crate atty;
 
 extern crate backtrace;
-
-//extern crate bstr;
-//use bstr::ByteSlice;
 
 extern crate chain_cmp;
 use chain_cmp::chmp;
@@ -650,8 +647,9 @@ use chrono::{DateTime, FixedOffset, Local, Offset, NaiveDateTime, TimeZone, Utc}
 extern crate crossbeam_channel;
 
 extern crate debug_print;
+use debug_print::{debug_eprint, debug_eprintln};
 #[allow(unused_imports)]
-use debug_print::{debug_eprint, debug_eprintln, debug_print, debug_println};
+use debug_print::{debug_print, debug_println};
 
 extern crate encoding_rs;
 
@@ -667,11 +665,13 @@ use more_asserts::{assert_le, assert_lt, assert_ge, assert_gt, debug_assert_le, 
 extern crate rand;
 
 extern crate rangemap;
-use rangemap::{RangeMap, RangeSet};
+use rangemap::RangeMap;
 
 extern crate mut_static;
 
+#[cfg(test)]
 extern crate tempfile;
+#[cfg(test)]
 use tempfile::NamedTempFile;
 
 extern crate termcolor;
@@ -872,7 +872,6 @@ fn stack_offset() -> usize {
     let mut sd: usize = stack_depth() - 1;
     let sd2 = sd; // XXX: copy `sd` to avoid borrow error
     let tid = thread::current().id();
-    let so: &usize;
     // XXX: for tests, just set on first call
     if !_STACK_OFFSET_TABLE.is_set().unwrap() {
         match _STACK_OFFSET_TABLE.set(Map_ThreadId_SD::new()) {
@@ -883,7 +882,7 @@ fn stack_offset() -> usize {
         }
     }
     let so_table = _STACK_OFFSET_TABLE.read().unwrap();
-    so = so_table.get(&tid).unwrap_or(&sd2);
+    let so: &usize = so_table.get(&tid).unwrap_or(&sd2);
     if &sd < so {
         return 0;
     }
@@ -910,7 +909,7 @@ fn stack_offset_set(correction: Option<isize>) {
     let so = std::cmp::max(sdi, 0) as usize;
     let thread_cur = thread::current();
     let tid = thread_cur.id();
-    let tname = thread_cur.name().unwrap_or(&"");
+    let tname = thread_cur.name().unwrap_or("");
     if !_STACK_OFFSET_TABLE.is_set().unwrap() {
         match _STACK_OFFSET_TABLE.set(Map_ThreadId_SD::new()) {
             Err(err) => {
@@ -1265,7 +1264,8 @@ fn file_to_String_noraw(path: &FPath) -> String {
         let c_ = char_to_char_noraw(c);
         s3.push(c_);
     }
-    return s3;
+
+    s3
 }
 
 /// print colored output to terminal if possible choosing using passed stream
@@ -1355,14 +1355,8 @@ pub fn write_stdout(buffer: &[u8]) {
 
 /// helper flush stdout and stderr
 pub fn flush_stdouterr() {
-    match io::stdout().flush() {
-        Ok(_) => {},
-        Err(_) => {},
-    };
-    match io::stderr().flush() {
-        Ok(_) => {},
-        Err(_) => {},
-    };
+    match io::stdout().flush() { _ => {} };
+    match io::stderr().flush() { _ => {} };
 }
 
 /// write to console, `raw` as `true` means "as-is"
@@ -1426,7 +1420,7 @@ fn create_temp_file(content: &str) -> NamedTempFile {
         }
     }
 
-    return ntf1;
+    ntf1
 }
 
 /// testing helper to write a `[u8]` to a temporary file
@@ -1446,7 +1440,7 @@ fn create_temp_file_bytes(content: &[u8]) -> NamedTempFile {
         }
     }
 
-    return ntf1;
+    ntf1
 }
 
 static COLOR_DATETIME: Color = Color::Green;
@@ -1501,7 +1495,8 @@ fn color_rand() -> Color {
         }
         ci = _color_at;
     }
-    return COLORS_TEXT[ci];
+
+    COLORS_TEXT[ci]
 }
 
 /// does chrono datetime pattern have a timezone
@@ -2081,7 +2076,6 @@ const CLI_FILTER_PATTERNS: [&DateTime_Parse_Data_str; CLI_FILTER_PATTERNS_COUNT]
     CLI_DT_FILTER_PATTERN5,
     CLI_DT_FILTER_PATTERN6,
 ];
-const CLI_HELP_DT_EXAMPLE: &str = "20200102T123000";
 const CLI_HELP_AFTER: &str = "\
 DateTime Filter patterns may be:
     '%Y%m%dT%H%M%S'
@@ -2183,7 +2177,7 @@ struct CLI_Args {
 /// CLI argument processing
 fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     // TODO: there must be a more concise way to parse numbers with radix formatting
-    let mut blocksz_: u64 = 0;
+    let blocksz_: u64;
     let errs = format!("Unable to parse a number for --blocksz {:?}", blockszs);
 
     if blockszs.starts_with("0x") {
@@ -2407,11 +2401,9 @@ const BLOCKSZ_MIN: BlockSz = 1;
 /// maximum Block Size (inclusive)
 const BLOCKSZ_MAX: BlockSz = 0xFFFFFF;
 /// default Block Size
-const BLOCKSZ_DEF: BlockSz = 0xFFFF;
+//const BLOCKSZ_DEF: BlockSz = 0xFFFF;
 #[allow(non_upper_case_globals)]
 const BLOCKSZ_DEFs: &str = &"0xFFFF";
-/// minimum and maximum Block Size as a `RangeInclusive`
-const BLOCKSZ_RANGE: RangeInclusive<BlockSz> = BLOCKSZ_MIN..=BLOCKSZ_MAX;
 
 /// Cached file reader that stores data in `BlockSz` byte-sized blocks.
 /// A `BlockReader` corresponds to one file.
@@ -3220,15 +3212,21 @@ pub enum enum_BoxPtrs <'a> {
     MultiPtr(Vec<Box<&'a [u8]>>),
 }
 
+impl Default for Line {
+    fn default() -> Self {
+        Self {
+            lineparts: LineParts::with_capacity(Line::LINE_PARTS_WITH_CAPACITY),
+        }
+    }
+}
+
 impl Line {
     /// default `with_capacity` for a `LineParts`, most often will only need 1 capacity
     /// as the found "line" will likely reside within one `Block`
     const LINE_PARTS_WITH_CAPACITY: usize = 1;
 
     pub fn new() -> Line {
-        Line {
-            lineparts: LineParts::with_capacity(Line::LINE_PARTS_WITH_CAPACITY),
-        }
+        Line::default()
     }
 
     pub fn new_from_linepart(linepart: LinePart) -> Line {
@@ -3706,7 +3704,7 @@ impl<'linereader> LineReader<'linereader> {
     }
 
     pub fn path(&self) -> &FPath {
-        return &self.blockreader.path;
+        &self.blockreader.path
     }
 
     /// print `Line` at `fileoffset`
@@ -4550,7 +4548,7 @@ fn _test_Line_get_boxptrs(fpath: &FPath, blocksz: BlockSz, checks: &test_Line_ge
 
 #[test]
 fn test_Line_get_boxptrs_1() {
-    let data: &str = &"\
+    let data: &str = "\
 this is line 1";
     let ntf = create_temp_file(data);
     let mut checks: test_Line_get_boxptrs_check = test_Line_get_boxptrs_check::new();
@@ -4562,7 +4560,7 @@ this is line 1";
 #[cfg(test)]
 fn _test_Line_get_boxptrs_2_(blocksz: BlockSz) {
     debug_eprintln!("{}_test_Line_get_boxptrs_2_({:?})", sn(), blocksz);
-    let data: &str = &"\
+    let data: &str = "\
 One 1
 Two 2";
     let ntf = create_temp_file(data);
@@ -4723,6 +4721,17 @@ impl fmt::Debug for Sysline {
     }
 }
 
+impl Default for Sysline {
+    fn default() -> Self {
+        Self {
+            lines: Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY),
+            dt_beg: LI_NULL,
+            dt_end: LI_NULL,
+            dt: None,
+        }
+    }
+}
+
 impl Sysline {
     /// default `with_capacity` for a `Lines`, most often will only need 1 capacity
     /// as the found "sysline" will likely be one `Line`
@@ -4731,12 +4740,7 @@ impl Sysline {
     const CHARSZ: usize = 1;
 
     pub fn new() -> Sysline {
-        Sysline {
-            lines: Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY),
-            dt_beg: LI_NULL,
-            dt_end: LI_NULL,
-            dt: None,
-        }
+        Sysline::default()
     }
 
     pub fn new_from_line(linep: LineP) -> Sysline {
@@ -6255,7 +6259,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let mut patts = DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX);
         let mut index_: usize = 0;
         for datetime_parse_data_ in &self.dt_patterns {
-            if datetime_parse_data_.eq(&datetime_parse_data) {
+            if datetime_parse_data_.eq(datetime_parse_data) {
                 break;
             }
             index_ += 1;
@@ -6340,14 +6344,12 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             }
         };
         debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Ok;", sx(), self);
-        return Result_ParseDateTime::Ok((datetime_parse_data.sib, datetime_parse_data.sie, dt));
+
+        Result_ParseDateTime::Ok((datetime_parse_data.sib, datetime_parse_data.sie, dt))
     }
 
     /// helper to `find_sysline`
     /// call `self.parse_datetime_in_line` with help of `self._parse_datetime_in_line_cache`
-    /// LAST WORKING HERE 2022/04/10 19:09:00 is this really the right place to add caching?
-    /// May need to think some more about the most strategic place for caching. However, I appreciate
-    /// separating the caching to this one small helper function.
     fn parse_datetime_in_line_cached(&mut self, lp: &LineP, charsz: &usize) -> Result_ParseDateTimeP {
         match self._parse_datetime_in_line_lru_cache.get(&lp.fileoffset_begin()) {
             Some(val) => {
@@ -6370,7 +6372,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             },
             _ => {},
         };
-        return resultp2;
+
+        resultp2
     }
 
     /// Find first sysline at or after `fileoffset`.
@@ -6380,6 +6383,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// It's simply a binary search.
     /// It could definitely use some improvements, but for now it gets the job done.
     /// XXX: this function is large and cumbersome. you've been warned.
+    /// TODO: separate caching to wrapper `find_sysline_cached`
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline(SyslineReader@{:p}, {})", sn(), self, fileoffset);
 
@@ -6760,7 +6764,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             (*slp).fileoffset_end(),
             (*slp).to_String_noraw()
         );
-        return ResultS4_SyslineFind::Found((fo_b, slp));
+
+        ResultS4_SyslineFind::Found((fo_b, slp))
     }
 
     /// wrapper to call each implementation of `find_sysline_at_datetime_filter`
@@ -7153,21 +7158,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         } // end loop
 
         debug_eprintln!("{}{}: return ResultS4_SyslineFind::Done; E", sx(), _fname);
-        return ResultS4_SyslineFind::Done;
-    }
 
-    fn find_sysline_at_datetime_filter2(
-        &mut self, fileoffset: FileOffset, dt_filter: &DateTimeL_Opt,
-    ) -> ResultS4_SyslineFind {
-        let _fname = "find_sysline_at_datetime_filter2";
-        debug_eprintln!("{}{}(SyslineReader@{:p}, {}, {:?})", sn(), _fname, self, fileoffset, dt_filter);
-        let filesz = self.filesz();
-        let _fo_end: FileOffset = filesz as FileOffset;
-
-        // TODO: complete this second attempt
-
-        debug_eprintln!("{}{}: return ResultS4_SyslineFind::Done; E", sx(), _fname);
-        return ResultS4_SyslineFind::Done;
+        ResultS4_SyslineFind::Done
     }
 
     /// if `dt` is at or after `dt_filter` then return `OccursAtOrAfter`
@@ -7186,7 +7178,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             return Result_Filter_DateTime1::OccursBefore;
         }
         debug_eprintln!("{}dt_after_or_before(…) return Result_Filter_DateTime1::OccursAtOrAfter; (dt {:?} is at or after dt_filter {:?})", sx(), dt, dt_a);
-        return Result_Filter_DateTime1::OccursAtOrAfter;
+
+        Result_Filter_DateTime1::OccursAtOrAfter
     }
 
     /// convenience wrapper for `dt_after_or_before`
@@ -7195,7 +7188,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         assert!((*syslinep).dt.is_some(), "Sysline@{:p} does not have a datetime set.", &*syslinep);
 
         let dt = (*syslinep).dt.unwrap();
-        return Self::dt_after_or_before(&dt, dt_filter);
+
+        Self::dt_after_or_before(&dt, dt_filter)
     }
 
     /// If both filters are `Some` and `syslinep.dt` is "between" the filters then return `Pass`
@@ -7283,7 +7277,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let dt = (*syslinep).dt.unwrap();
         let result = SyslineReader::dt_pass_filters(&dt, dt_filter_after, dt_filter_before);
         debug_eprintln!("{}sysline_pass_filters(…) return {:?};", sx(), result);
-        return result;
+
+        result
     }
 
     /// find the first `Sysline`, starting at `fileoffset`, that is at or after datetime filter
@@ -7346,6 +7341,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         };
 
         debug_eprintln!("{}{} return ResultS4_SyslineFind::Done", sx(), _fname);
+
         ResultS4_SyslineFind::Done
     }
     
@@ -7366,6 +7362,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let _read_block_cache_lru_miss = self.linereader.blockreader._read_block_cache_lru_miss;
         let _read_blocks_hit = self.linereader.blockreader._read_blocks_hit;
         let _read_blocks_miss = self.linereader.blockreader._read_blocks_miss;
+
         Summary::new(
             bytes,
             bytes_total,
@@ -7673,7 +7670,7 @@ fn _test_find_sysline_at_datetime_filter(
         (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
     ]);
 
-    let checksx: _test_find_sysline_at_datetime_filter_Checks = Vec::from([
+    let _checksx: _test_find_sysline_at_datetime_filter_Checks = Vec::from([
         (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
         (19, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
         (40, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
@@ -7703,10 +7700,7 @@ fn _test_find_sysline_at_datetime_filter(
         (844, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
     ]);
 
-    let mut checks_ = checks0;
-    if checks.is_some() {
-        checks_ = checks.unwrap();
-    }
+    let checks_: _test_find_sysline_at_datetime_filter_Checks = checks.unwrap_or(checks0);
     __test_find_sysline_at_datetime_filter(file_content1, dt_fmt1, blocksz, checks_);
     debug_eprintln!("{}_test_find_sysline_at_datetime_filter()", sx());
 }
@@ -8905,8 +8899,7 @@ fn test_sysline_pass_filters() {
             Color::Green,
             format!("{}({:?}, {:?}, {:?}) returned expected {:?}\n", so(), dt, da, db, result).as_bytes(),
         ) {
-            Ok(_) => {},
-            Err(_) => {},
+            _ => {},
         }
     }
     debug_eprintln!("{}test_sysline_pass_filters()", sx());
@@ -8937,8 +8930,7 @@ fn test_dt_after_or_before() {
             Color::Green,
             format!("{}({:?}, {:?}) returned expected {:?}\n", so(), dt, da, result).as_bytes(),
         ) {
-            Ok(_) => {},
-            Err(_) => {},
+            _ => {},
         }
     }
     debug_eprintln!("{}test_dt_after_or_before()", sx());
@@ -8971,21 +8963,21 @@ fn print_slp(slp: &SyslineP) {
         }
         */
         let a = &out[..(*slp).dt_beg];
-        match print_colored_stdout(Color::Green, &a.as_bytes()) {
+        match print_colored_stdout(Color::Green, a.as_bytes()) {
             Ok(_) => {}
             Err(err) => {
                 eprintln!("ERROR: print_colored a returned error {}", err);
             }
         };
         let b = &out[(*slp).dt_beg..(*slp).dt_end];
-        match print_colored_stdout(Color::Yellow, &b.as_bytes()) {
+        match print_colored_stdout(Color::Yellow, b.as_bytes()) {
             Ok(_) => {}
             Err(err) => {
                 eprintln!("ERROR: print_colored b returned error {}", err);
             }
         };
         let c = &out[(*slp).dt_end..];
-        match print_colored_stdout(Color::Green, &c.as_bytes()) {
+        match print_colored_stdout(Color::Green, c.as_bytes()) {
             Ok(_) => {}
             Err(err) => {
                 eprintln!("ERROR: print_colored c returned error {}", err);
@@ -9100,7 +9092,7 @@ fn test_SyslineReader(path: &Path, blocksz: BlockSz, fileoffset: FileOffset, che
 
 #[allow(non_upper_case_globals)]
 #[cfg(test)]
-static test_data_file_A_dt6: &str = &"\
+static test_data_file_A_dt6: &str = "\
 2000-01-01 00:00:00
 2000-01-01 00:00:01a
 2000-01-01 00:00:02ab
@@ -9197,7 +9189,7 @@ fn test_SyslineReader_A_dt6_128_X9999()
 
 #[allow(non_upper_case_globals)]
 #[cfg(test)]
-static test_data_file_B_dt0: &str = &"
+static test_data_file_B_dt0: &str = "
 foo
 bar
 ";
@@ -9224,7 +9216,7 @@ fn test_SyslineReader_B_dt0_3()
 
 #[allow(non_upper_case_globals)]
 #[cfg(test)]
-static _test_data_file_C_dt6: &str = &"\
+static _test_data_file_C_dt6: &str = "\
 [ERROR] 2000-01-01 00:00:00
 [ERROR] 2000-01-01 00:00:01a
 [ERROR] 2000-01-01 00:00:02ab
@@ -9412,7 +9404,7 @@ fn process_SyslineReader(
     let mut fo1: FileOffset = 0;
     let mut search_more = true;
     debug_eprintln!("{}slr.find_sysline_at_datetime_filter({}, {:?})", so(), fo1, filter_dt_after_opt);
-    let result = slr.find_sysline_at_datetime_filter(fo1, &filter_dt_after_opt);
+    let result = slr.find_sysline_at_datetime_filter(fo1, filter_dt_after_opt);
     match result {
         ResultS4_SyslineFind::Found((fo, slp)) | ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
             debug_eprintln!(
@@ -9548,7 +9540,8 @@ fn _test_SyslineReader_process_file<'a>(
     };
     debug_eprintln!("{}{:?}", so(), slr);
     debug_eprintln!("{}process_file(…)", sx());
-    return Some(Box::new(slr));
+
+    Some(Box::new(slr))
 }
 
 /// basic test of SyslineReader things
@@ -9774,34 +9767,34 @@ fn test_str_datetime() {
     // good without timezone
     let dts1 = "2000-01-01 00:00:01";
     let p1 = "%Y-%m-%d %H:%M:%S";
-    let dt1 = str_datetime(&dts1, &p1, false, &tzo8).unwrap();
-    let answer1 = Local.ymd(2000, 01, 01).and_hms(0, 0, 1);
+    let dt1 = str_datetime(dts1, p1, false, &tzo8).unwrap();
+    let answer1 = Local.ymd(2000, 1, 1).and_hms(0, 0, 1);
     assert_eq!(dt1, answer1);
 
     // good without timezone
     let dts1 = "2000-01-01 00:00:01";
     let p1 = "%Y-%m-%d %H:%M:%S";
-    let dt1 = str_datetime(&dts1, &p1, false, &tzo5).unwrap();
-    let answer1 = tzo5.ymd(2000, 01, 01).and_hms(0, 0, 1);
+    let dt1 = str_datetime(dts1, p1, false, &tzo5).unwrap();
+    let answer1 = tzo5.ymd(2000, 1, 1).and_hms(0, 0, 1);
     assert_eq!(dt1, answer1);
 
     // good with timezone
     let dts2 = "2000-01-01 00:00:02 -0100";
     let p2 = "%Y-%m-%d %H:%M:%S %z";
-    let dt2 = str_datetime(&dts2, &p2, true, &tzo8).unwrap();
-    let answer2 = FixedOffset::west(1 * hour).ymd(2000, 01, 01).and_hms(0, 0, 2);
+    let dt2 = str_datetime(dts2, p2, true, &tzo8).unwrap();
+    let answer2 = FixedOffset::west(1 * hour).ymd(2000, 1, 1).and_hms(0, 0, 2);
     assert_eq!(dt2, answer2);
 
     // bad with timezone
     let dts3 = "2000-01-01 00:00:03 BADD";
     let p3 = "%Y-%m-%d %H:%M:%S %z";
-    let dt3 = str_datetime(&dts3, &p3, true, &tzo8);
+    let dt3 = str_datetime(dts3, p3, true, &tzo8);
     assert_eq!(dt3, None);
 
     // bad without timezone
     let dts4 = "2000-01-01 00:00:XX";
     let p4 = "%Y-%m-%d %H:%M:%S";
-    let dt4 = str_datetime(&dts4, &p4, false, &tzo8);
+    let dt4 = str_datetime(dts4, p4, false, &tzo8);
     assert_eq!(dt4, None);
 }
 
@@ -9821,7 +9814,7 @@ fn datetime_soonest2(vec_dt: &Vec<DateTimeL>) -> Option<(usize, DateTimeL)> {
         }
     }
 
-    Some((index, vec_dt[index].clone()))
+    Some((index, vec_dt[index]))
 }
 
 /// test function `datetime_soonest2`
@@ -9833,8 +9826,8 @@ fn test_datetime_soonest2() {
     assert!(val.is_none());
     let tzo = FixedOffset::west(3600 * 8);
 
-    let dt1_a = str_datetime(&"2001-01-01T12:00:00", &"%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
-    let vec1: Vec<DateTimeL> = vec![dt1_a.clone()];
+    let dt1_a = str_datetime("2001-01-01T12:00:00", "%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
+    let vec1: Vec<DateTimeL> = vec![dt1_a];
     let (i_, dt_) = match datetime_soonest2(&vec1) {
         Some(val) => val,
         None => {
@@ -9844,8 +9837,8 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 0);
     assert_eq!(dt_, dt1_a);
 
-    let dt1_b = str_datetime(&"2001-01-01T12:00:00-0100", &"%Y-%m-%dT%H:%M:%S%z", true, &tzo).unwrap();
-    let vec1: Vec<DateTimeL> = vec![dt1_b.clone()];
+    let dt1_b = str_datetime("2001-01-01T12:00:00-0100", "%Y-%m-%dT%H:%M:%S%z", true, &tzo).unwrap();
+    let vec1: Vec<DateTimeL> = vec![dt1_b];
     let (i_, dt_) = match datetime_soonest2(&vec1) {
         Some(val) => val,
         None => {
@@ -9855,8 +9848,8 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 0);
     assert_eq!(dt_, dt1_b);
 
-    let dt2_a = str_datetime(&"2002-01-01T11:00:00", &"%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
-    let vec2a: Vec<DateTimeL> = vec![dt1_a.clone(), dt2_a.clone()];
+    let dt2_a = str_datetime("2002-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
+    let vec2a: Vec<DateTimeL> = vec![dt1_a, dt2_a];
     let (i_, dt_) = match datetime_soonest2(&vec2a) {
         Some(val) => val,
         None => {
@@ -9866,7 +9859,7 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 0);
     assert_eq!(dt_, dt1_a);
 
-    let vec2b: Vec<DateTimeL> = vec![dt2_a.clone(), dt1_a.clone()];
+    let vec2b: Vec<DateTimeL> = vec![dt2_a, dt1_a];
     let (i_, dt_) = match datetime_soonest2(&vec2b) {
         Some(val) => val,
         None => {
@@ -9876,8 +9869,8 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 1);
     assert_eq!(dt_, dt1_a);
 
-    let dt3 = str_datetime(&"2000-01-01T12:00:00", &"%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
-    let vec3a: Vec<DateTimeL> = vec![dt1_a.clone(), dt2_a.clone(), dt3.clone()];
+    let dt3 = str_datetime("2000-01-01T12:00:00", "%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
+    let vec3a: Vec<DateTimeL> = vec![dt1_a, dt2_a, dt3];
     let (i_, dt_) = match datetime_soonest2(&vec3a) {
         Some(val) => val,
         None => {
@@ -9887,7 +9880,7 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 2);
     assert_eq!(dt_, dt3);
 
-    let vec3b: Vec<DateTimeL> = vec![dt1_a.clone(), dt3.clone(), dt2_a.clone()];
+    let vec3b: Vec<DateTimeL> = vec![dt1_a, dt3, dt2_a];
     let (i_, dt_) = match datetime_soonest2(&vec3b) {
         Some(val) => val,
         None => {
@@ -9897,7 +9890,7 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 1);
     assert_eq!(dt_, dt3);
 
-    let vec3c: Vec<DateTimeL> = vec![dt3.clone(), dt1_a.clone(), dt2_a.clone()];
+    let vec3c: Vec<DateTimeL> = vec![dt3, dt1_a, dt2_a];
     let (i_, dt_) = match datetime_soonest2(&vec3c) {
         Some(val) => val,
         None => {
@@ -10245,8 +10238,8 @@ fn summary_update(fpath_: &FPath, summary: Summary, map_: &mut Map_FPath_Summary
 // TODO: use std::path::Path
 fn basename(path: &FPath) -> FPath {
     let mut riter = path.rsplit(std::path::MAIN_SEPARATOR);
-    let basename = FPath::from(riter.next().unwrap_or(""));
-    basename
+
+    FPath::from(riter.next().unwrap_or(""))
 }
 
 const OPT_SUMMARY_DEBUG_STATS: bool = true;
@@ -10472,7 +10465,7 @@ fn run_4(
                         }
                         match (*slp_min).print_color(*clr, color_datetime) {
                             Ok(_) => {},
-                            Err(err) => {
+                            Err(_err) => {
                                 eprintln!("ERROR: failed to print; TODO abandon processing for {:?}", fpath_min);
                                 // TODO: 2022/04/09 remove this `fpath` from queues, tell it's thread to shutdown
                             }
