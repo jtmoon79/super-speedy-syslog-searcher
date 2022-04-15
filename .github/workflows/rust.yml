@@ -16,11 +16,7 @@ jobs:
         run: cargo build --verbose
       - name: Build Release
         run: cargo build --release --verbose
-  test:
-    needs: [build]
-    runs-on: ubuntu-latest
       - name: Build Bench
         run: cargo bench --no-run
-    steps:
       - name: Run Tests
         run: cargo test -j1 --verbose -- --test-threads=1
