@@ -2497,7 +2497,7 @@ fn test_str_datetime() {
     let dts1 = "2000-01-01 00:01:01";
     let p1 = "%Y-%m-%d %H:%M:%S";
     let dt1 = str_datetime(dts1, p1, false, &tzo8).unwrap();
-    let answer1 = Local.ymd(2000, 1, 1).and_hms(0, 1, 1);
+    let answer1 = tzo8.ymd(2000, 1, 1).and_hms(0, 1, 1);
     assert_eq!(dt1, answer1);
 
     // good without timezone
