@@ -2,7 +2,11 @@
 #
 # call `rust-fmt` with options I prefer
 
-set -eux
+set -eu
+
+cd "$(dirname -- "${0}")/.."
+
+set -x
 
 exec rustfmt \
    -v \

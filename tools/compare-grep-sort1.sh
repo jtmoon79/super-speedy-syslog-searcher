@@ -8,6 +8,8 @@
 
 set -euo pipefail
 
+cd "$(dirname "${0}")/.."
+
 (set -x; uname -a)
 (set -x; git log -n1 --format='%h %D')
 (set -x; ./target/release/super_speedy_syslog_searcher --version)
