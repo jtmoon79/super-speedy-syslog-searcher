@@ -51,9 +51,6 @@ use crate::dbgpr::stack::{
     sx,
 };
 
-extern crate debug_print;
-use debug_print::debug_eprintln;
-
 extern crate more_asserts;
 #[cfg(test)]
 use more_asserts::{assert_lt, assert_ge};
@@ -63,15 +60,15 @@ use more_asserts::{assert_lt, assert_ge};
 /// testing helper
 #[cfg(any(debug_assertions,test))]
 fn process_LineReader(lr1: &mut LineReader) {
-    debug_eprintln!("{}process_LineReader()", sn());
+    eprintln!("{}process_LineReader()", sn());
     let mut fo1: FileOffset = 0;
     loop {
-        debug_eprintln!("{}LineReader.find_line({})", so(), fo1);
+        eprintln!("{}LineReader.find_line({})", so(), fo1);
         let result = lr1.find_line(fo1);
         match result {
             ResultS4_LineFind::Found((fo, lp)) => {
                 let _ln = lr1.count();
-                debug_eprintln!(
+                eprintln!(
                     "{}ResultS4_LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
                     fo,
@@ -94,7 +91,7 @@ fn process_LineReader(lr1: &mut LineReader) {
             }
             ResultS4_LineFind::Found_EOF((fo, lp)) => {
                 let _ln = lr1.count();
-                debug_eprintln!(
+                eprintln!(
                     "{}ResultS4_LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
                     fo,
@@ -107,16 +104,16 @@ fn process_LineReader(lr1: &mut LineReader) {
                 (*lp).print(true);
             }
             ResultS4_LineFind::Done => {
-                debug_eprintln!("{}ResultS4_LineFind::Done!", so());
+                eprintln!("{}ResultS4_LineFind::Done!", so());
                 break;
             }
             ResultS4_LineFind::Err(err) => {
-                debug_eprintln!("{}ResultS4_LineFind::Err {}", so(), err);
+                eprintln!("{}ResultS4_LineFind::Err {}", so(), err);
                 panic!("ERROR: {}", err);
             }
         }
     }
-    debug_eprintln!("{}process_LineReader()", sx());
+    eprintln!("{}process_LineReader()", sx());
 }
 
 /// basic test of LineReader things with premade tests
@@ -124,7 +121,7 @@ fn process_LineReader(lr1: &mut LineReader) {
 #[allow(non_snake_case)]
 #[test]
 fn test_LineReader_1() {
-    debug_eprintln!("{}test_LineReader_1()", sn());
+    eprintln!("{}test_LineReader_1()", sn());
 
     for (content, line_count) in [
         ("", 0),
@@ -152,7 +149,7 @@ fn test_LineReader_1() {
             }
         };
         let bufnoraw = buffer_to_String_noraw(content.as_bytes());
-        debug_eprintln!("{}File {:?}", so(), bufnoraw);
+        eprintln!("{}File {:?}", so(), bufnoraw);
         process_LineReader(&mut lr1);
         let lc = lr1.count();
         assert_eq!(line_count, lc, "Expected {} count of lines, found {}", line_count, lc);
@@ -160,9 +157,9 @@ fn test_LineReader_1() {
         //    Color::Green,
         //    format!("{}PASS Found {} Lines as expected from {:?}\n", so(), lc, bufnoraw).as_bytes(),
         //) { Ok(_) => {}, Err(_) => {}, };
-        debug_eprintln!("{}{:?}", so(), content.as_bytes());
+        eprintln!("{}{:?}", so(), content.as_bytes());
     }
-    debug_eprintln!("{}test_LineReader_1()", sx());
+    eprintln!("{}test_LineReader_1()", sx());
 }
 
 /// basic test of LineReader things using user passed file
@@ -170,21 +167,21 @@ fn test_LineReader_1() {
 #[allow(non_snake_case)]
 #[cfg(test)]
 fn _test_LineReader(path_: &FPath, blocksz: BlockSz) {
-    debug_eprintln!("{}test_LineReader({:?}, {})", sn(), &path_, blocksz);
+    eprintln!("{}test_LineReader({:?}, {})", sn(), &path_, blocksz);
     let mut lr1 = match LineReader::new(path_, blocksz) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: LineReader::new({:?}, {:?}) failed {}", path_, blocksz, err);
         }
     };
-    debug_eprintln!("{}LineReader {:?}", so(), lr1);
+    eprintln!("{}LineReader {:?}", so(), lr1);
 
     process_LineReader(&mut lr1);
 
     if cfg!(debug_assertions) {
-        debug_eprintln!("{}Found {} Lines", so(), lr1.count())
+        eprintln!("{}Found {} Lines", so(), lr1.count())
     }
-    debug_eprintln!("{}test_LineReader({:?}, {})", sx(), &path_, blocksz);
+    eprintln!("{}test_LineReader({:?}, {})", sx(), &path_, blocksz);
 }
 
 /// basic test of LineReader things using user passed file
@@ -192,27 +189,27 @@ fn _test_LineReader(path_: &FPath, blocksz: BlockSz) {
 #[allow(non_snake_case)]
 #[cfg(test)]
 fn test_LineReader_rand(path_: &FPath, blocksz: BlockSz) {
-    debug_eprintln!("{}test_LineReader_rand({:?}, {})", sn(), &path_, blocksz);
+    eprintln!("{}test_LineReader_rand({:?}, {})", sn(), &path_, blocksz);
     let mut lr1 = match LineReader::new(path_, blocksz) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: LineReader::new({}, {}) failed {}", path_, blocksz, err);
         }
     };
-    debug_eprintln!("{}LineReader {:?}", so(), lr1);
+    eprintln!("{}LineReader {:?}", so(), lr1);
     let mut offsets_rand = Vec::<FileOffset>::with_capacity(lr1.filesz() as usize);
     fill(&mut offsets_rand);
-    debug_eprintln!("{}offsets_rand: {:?}", so(), offsets_rand);
+    eprintln!("{}offsets_rand: {:?}", so(), offsets_rand);
     randomize(&mut offsets_rand);
-    debug_eprintln!("{}offsets_rand: {:?}", so(), offsets_rand);
+    eprintln!("{}offsets_rand: {:?}", so(), offsets_rand);
 
     for fo1 in offsets_rand {
-        debug_eprintln!("{}LineReader.find_line({})", so(), fo1);
+        eprintln!("{}LineReader.find_line({})", so(), fo1);
         let result = lr1.find_line(fo1);
         match result {
             ResultS4_LineFind::Found((fo, lp)) => {
                 let _ln = lr1.count();
-                debug_eprintln!(
+                eprintln!(
                     "{}ResultS4_LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
                     fo,
@@ -226,7 +223,7 @@ fn test_LineReader_rand(path_: &FPath, blocksz: BlockSz) {
             }
             ResultS4_LineFind::Found_EOF((fo, lp)) => {
                 let _ln = lr1.count();
-                debug_eprintln!(
+                eprintln!(
                     "{}ResultS4_LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
                     fo,
@@ -239,19 +236,19 @@ fn test_LineReader_rand(path_: &FPath, blocksz: BlockSz) {
                 //(*lp).print(true);
             }
             ResultS4_LineFind::Done => {
-                debug_eprintln!("{}ResultS4_LineFind::Done!", so());
+                eprintln!("{}ResultS4_LineFind::Done!", so());
                 break;
             }
             ResultS4_LineFind::Err(err) => {
-                debug_eprintln!("{}ResultS4_LineFind::Err {}", so(), err);
+                eprintln!("{}ResultS4_LineFind::Err {}", so(), err);
                 panic!("ERROR: find_line({:?}) {:?}", fo1, err);
             }
         }
     }
     // should print the file as-is and not be affected by random reads
     lr1.print_all();
-    debug_eprintln!("\n{}{:?}", so(), lr1);
-    debug_eprintln!("{}test_LineReader_rand({:?}, {})", sx(), &path_, blocksz);
+    eprintln!("\n{}{:?}", so(), lr1);
+    eprintln!("{}test_LineReader_rand({:?}, {})", sx(), &path_, blocksz);
 }
 
 // TODO: add tests for `test_LineReader_rand`
@@ -262,7 +259,7 @@ type test_Line_get_boxptrs_check = Vec<(FileOffset, (LineIndex, LineIndex), Byte
 /// test `Line.get_boxptrs`
 #[cfg(test)]
 fn _test_Line_get_boxptrs(fpath: &FPath, blocksz: BlockSz, checks: &test_Line_get_boxptrs_check) {
-    debug_eprintln!("{}_test_Line_get_boxptrs({:?}, {}, checks)", sn(), fpath, blocksz);
+    eprintln!("{}_test_Line_get_boxptrs({:?}, {}, checks)", sn(), fpath, blocksz);
     // create a `LineReader` and read all the lines in the file
     let mut lr = LineReader::new(fpath, blocksz).unwrap();
     let mut fo: FileOffset = 0;
@@ -288,10 +285,10 @@ fn _test_Line_get_boxptrs(fpath: &FPath, blocksz: BlockSz, checks: &test_Line_ge
     for (linenum, (a, b), bytes_check) in checks.iter() {
         assert_lt!(a, b, "bad check args a {} b {}", a, b);
         assert_ge!(b-a, bytes_check.len(), "Bad check args ({}-{})={} < {} bytes_check.len()", b, a, b-a, bytes_check.len());
-        debug_eprintln!("{}_test_Line_get_boxptrs: linereader.get_linep({})", so(), linenum);
+        eprintln!("{}_test_Line_get_boxptrs: linereader.get_linep({})", so(), linenum);
         let line = lr.get_linep(linenum).unwrap();
-        debug_eprintln!("{}_test_Line_get_boxptrs: returned {:?}", so(), line.to_String_noraw());
-        debug_eprintln!("{}_test_Line_get_boxptrs: line.get_boxptrs({}, {})", so(), a, b);
+        eprintln!("{}_test_Line_get_boxptrs: returned {:?}", so(), line.to_String_noraw());
+        eprintln!("{}_test_Line_get_boxptrs: line.get_boxptrs({}, {})", so(), a, b);
         let boxptrs = match line.get_boxptrs(*a, *b) {
             enum_BoxPtrs::SinglePtr(box_) => {
                 let mut v = Vec::<Box<&[u8]>>::with_capacity(1);
@@ -306,13 +303,13 @@ fn _test_Line_get_boxptrs(fpath: &FPath, blocksz: BlockSz, checks: &test_Line_ge
         for boxptr in boxptrs.iter() {
             for byte_ in (*boxptr).iter() {
                 let byte_check = &bytes_check[at];
-                debug_eprintln!("{}_test_Line_get_boxptrs: {:3?} ≟ {:3?} ({:?} ≟ {:?})", so(), byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check));
+                eprintln!("{}_test_Line_get_boxptrs: {:3?} ≟ {:3?} ({:?} ≟ {:?})", so(), byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check));
                 assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segement {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_String_noraw(&(*boxptr)), line.to_String_noraw());
                 at += 1;
             }
         }
     }
-    debug_eprintln!("{}_test_Line_get_boxptrs", sx());
+    eprintln!("{}_test_Line_get_boxptrs", sx());
 }
 
 #[test]
@@ -328,7 +325,7 @@ this is line 1";
 
 #[cfg(test)]
 fn _test_Line_get_boxptrs_2_(blocksz: BlockSz) {
-    debug_eprintln!("{}_test_Line_get_boxptrs_2_({:?})", sn(), blocksz);
+    eprintln!("{}_test_Line_get_boxptrs_2_({:?})", sn(), blocksz);
     let data: &str = "\
 One 1
 Two 2";
@@ -349,7 +346,7 @@ Two 2";
     checks.push((10, (5, 6), vec![b'\n']));
     let fpath = FPath::from(ntf.path().to_str().unwrap());
     _test_Line_get_boxptrs(&fpath, blocksz, &checks);
-    debug_eprintln!("{}_test_Line_get_boxptrs_2_({:?})", sx(), blocksz);
+    eprintln!("{}_test_Line_get_boxptrs_2_({:?})", sx(), blocksz);
 }
 
 #[test]
