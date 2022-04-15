@@ -12,15 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build
+      - name: Build Debug
         run: cargo build --verbose
       - name: Build Release
         run: cargo build --release --verbose
-      - name: Bench build
-        run: cargo bench -- --no-run
   test:
     needs: [build]
     runs-on: ubuntu-latest
+      - name: Build Bench
+        run: cargo bench --no-run
     steps:
-      - name: Run tests
+      - name: Run Tests
         run: cargo test -j1 --verbose -- --test-threads=1
