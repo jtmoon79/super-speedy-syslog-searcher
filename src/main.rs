@@ -947,17 +947,17 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     let errs = format!("Unable to parse a number for --blocksz {:?}", blockszs);
 
     if blockszs.starts_with("0x") {
-        blocksz_ = match BlockSz::from_str_radix(&blockszs.trim_start_matches("0x"), 16) {
+        blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0x"), 16) {
             Ok(val) => val,
             Err(err) => { return Err(format!("{} {}", errs, err)) }
         };
     } else if blockszs.starts_with("0o") {
-        blocksz_ = match BlockSz::from_str_radix(&blockszs.trim_start_matches("0o"), 8) {
+        blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0o"), 8) {
             Ok(val) => val,
             Err(err) => { return Err(format!("{} {}", errs, err)) }
         };
     } else if blockszs.starts_with("0b") {
-        blocksz_ = match BlockSz::from_str_radix(&blockszs.trim_start_matches("0b"), 2) {
+        blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0b"), 2) {
             Ok(val) => val,
             Err(err) => { return Err(format!("{} {}", errs, err)) }
         };
@@ -998,7 +998,7 @@ fn cli_process_tz_offset(tzo: &String) -> std::result::Result<FixedOffset, Strin
     } else {
         tzo_ = tzo.clone();
     }
-    let fo_val = match i32::from_str_radix(&tzo_.as_str(), 10) {
+    let fo_val = match i32::from_str_radix(tzo_.as_str(), 10) {
         Ok(val) => val,
         Err(err) => {
             return Err(err.to_string());
@@ -1070,12 +1070,13 @@ fn cli_process_args() -> (FPaths, BlockSz, DateTimeL_Opt, DateTimeL_Opt, FixedOf
                 for dtpds in CLI_FILTER_PATTERNS.iter() {
                     let dtpd = DateTime_Parse_Data_str_to_DateTime_Parse_Data(dtpds);
                     debug_eprintln!("{}str_datetime({:?}, {:?}, {:?}, {:?})", so(), dts, dtpd.pattern, dtpd.tz, tz_offset);
-                    match str_datetime(&dts.as_str(), &dtpd.pattern, dtpd.tz, &tz_offset) {
+                    #[allow(clippy::single_match)]
+                    match str_datetime(dts.as_str(), &dtpd.pattern, dtpd.tz, &tz_offset) {
                         Some(val) => {
                             dto = Some(val);
                             break;
                         }
-                        None => {}
+                        _ => {}
                     };
                 };
                 if dto.is_none() {
@@ -1093,13 +1094,15 @@ fn cli_process_args() -> (FPaths, BlockSz, DateTimeL_Opt, DateTimeL_Opt, FixedOf
     let filter_dt_before: DateTimeL_Opt = process_dt(args.dt_before, &tz_offset);
     debug_eprintln!("{} filter_dt_before {:?}", so(), filter_dt_before);
 
-    if filter_dt_after.is_some() && filter_dt_before.is_some() {
-        let dta = filter_dt_after.unwrap();
-        let dtb = filter_dt_before.unwrap();
-        if dta > dtb {
-            eprintln!("ERROR: Datetime --dt-after ({}) is after Datetime --dt-before ({})", dta, dtb);
-            std::process::exit(1);
-        }
+    #[allow(clippy::single_match)]
+    match (filter_dt_after, filter_dt_before) {
+        (Some(dta), Some(dtb)) => {
+            if dta > dtb {
+                eprintln!("ERROR: Datetime --dt-after ({}) is after Datetime --dt-before ({})", dta, dtb);
+                std::process::exit(1);
+            }
+        },
+        _ => {},
     }
 
     (fpaths, blocksz, filter_dt_after, filter_dt_before, tz_offset, args.prepend_utc, args.prepend_local, args.summary)
@@ -1129,20 +1132,21 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
 
     // TODO: for each fpath, remove non-existent files non-readable files, walk directories and expand to fpaths
 
-    run_4(fpaths, blocksz, &filter_dt_after, &filter_dt_before, tz_offset, cli_opt_prepend_utc, cli_opt_prepend_local, cli_opt_summary);
+    run_4(
+        fpaths,
+        blocksz,
+        &filter_dt_after,
+        &filter_dt_before,
+        tz_offset,
+        cli_opt_prepend_utc,
+        cli_opt_prepend_local,
+        cli_opt_summary
+    );
 
     debug_eprintln!("{}main()", sx());
-    return Ok(());
+
+    Ok(())
 }
-
-/// thread-safe Atomic Reference Counting Pointer to a `SyslineReader`
-/// XXX: should the `&` be removed? (completely move the SyslineReader?)
-//type SyslineReaderP<'syslinereader> = Arc<&'syslinereader SyslineReader<'syslinereader>>;
-// -------------------------------------------------------------------------------------------------
-// threading try #3
-// -------------------------------------------------------------------------------------------------
-
-// REMOVED ... see archived code
 
 // -------------------------------------------------------------------------------------------------
 // threading try #4
@@ -1341,7 +1345,8 @@ impl SummaryPrinted {
         };
         eprint!("{{ bytes: ");
         if self.bytes == 0 && sum_.bytes != 0 {
-            match print_colored_stderr(clrerr, &self.bytes.to_string().as_bytes()) {
+            #[allow(clippy::single_match)]
+            match print_colored_stderr(clrerr, self.bytes.to_string().as_bytes()) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
@@ -1354,7 +1359,8 @@ impl SummaryPrinted {
 
         eprint!(", lines: ");
         if self.lines == 0 && sum_.bytes != 0 {
-            match print_colored_stderr(clrerr, &self.lines.to_string().as_bytes()) {
+            #[allow(clippy::single_match)]
+            match print_colored_stderr(clrerr, self.lines.to_string().as_bytes()) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
@@ -1367,7 +1373,8 @@ impl SummaryPrinted {
 
         eprint!(", syslines: ");
         if self.syslines == 0 && sum_.lines != 0 {
-            match print_colored_stderr(clrerr, &self.syslines.to_string().as_bytes()) {
+            #[allow(clippy::single_match)]
+            match print_colored_stderr(clrerr, self.syslines.to_string().as_bytes()) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
@@ -1380,7 +1387,8 @@ impl SummaryPrinted {
 
         eprint!(", dt_first: ");
         if self.dt_first.is_none() && sum_.lines != 0 {
-            match print_colored_stderr(clrerr, &("None".as_bytes())) {
+            #[allow(clippy::single_match)]
+            match print_colored_stderr(clrerr, "None".as_bytes()) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
@@ -1393,7 +1401,8 @@ impl SummaryPrinted {
 
         eprint!(", dt_last: ");
         if self.dt_last.is_none() && sum_.lines != 0 {
-            match print_colored_stderr(clrerr, &("None".as_bytes())) {
+            #[allow(clippy::single_match)]
+            match print_colored_stderr(clrerr, "None".as_bytes()) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
@@ -1479,6 +1488,7 @@ fn basename(path: &FPath) -> FPath {
 
 const OPT_SUMMARY_DEBUG_STATS: bool = true;
 
+#[allow(clippy::too_many_arguments)]
 fn run_4(
     paths: FPaths,
     blocksz: BlockSz,
@@ -1682,6 +1692,7 @@ fn run_4(
                         match print_colored_stdout(*clr, out.as_bytes()) { _ => {}};
                     } else {
                         if cli_opt_prepend_utc || cli_opt_prepend_local {
+                            #[allow(clippy::single_match)]
                             match (*slp_min).dt {
                                 Some(dt) => {
                                     let fmt: chrono::format::DelayedFormat<chrono::format::StrftimeItems<'_>>;
