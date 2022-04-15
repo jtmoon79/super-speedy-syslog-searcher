@@ -735,25 +735,25 @@ use Readers::blockreader::{
     BLOCKSZ_DEFs,
     //BlockReader,
 };
-use Readers::summary::{
-    Summary,
-    Summary_Opt,
-};
-use Readers::syslinereader::{
-    //FixedOffset,
-    //DateTimeL,
+use Readers::datetime::{
     DateTimeL_Opt,
     DateTime_Parse_Data_str,
     //Local,
     //Utc,
     //Result_Filter_DateTime1,
     Result_Filter_DateTime2,
+    DateTime_Parse_Data_str_to_DateTime_Parse_Data,
+    str_datetime,
+};
+use Readers::summary::{
+    Summary,
+    Summary_Opt,
+};
+use Readers::syslinereader::{
     SyslineP,
     SyslineP_Opt,
     ResultS4_SyslineFind,
     SyslineReader,
-    DateTime_Parse_Data_str_to_DateTime_Parse_Data,
-    str_datetime,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1052,7 +1052,7 @@ fn cli_process_args() -> (FPaths, BlockSz, DateTimeL_Opt, DateTimeL_Opt, FixedOf
     }
 
     let tz_offset: FixedOffset = match cli_process_tz_offset(
-        &args.tz_offset.unwrap_or(String::from(""))
+        &args.tz_offset.unwrap_or_default()
     ) {
         Ok(val) => val,
         Err(err) => {
@@ -1071,7 +1071,7 @@ fn cli_process_args() -> (FPaths, BlockSz, DateTimeL_Opt, DateTimeL_Opt, FixedOf
                     let dtpd = DateTime_Parse_Data_str_to_DateTime_Parse_Data(dtpds);
                     debug_eprintln!("{}str_datetime({:?}, {:?}, {:?}, {:?})", so(), dts, dtpd.pattern, dtpd.tz, tz_offset);
                     #[allow(clippy::single_match)]
-                    match str_datetime(dts.as_str(), &dtpd.pattern, dtpd.tz, &tz_offset) {
+                    match str_datetime(dts.as_str(), &dtpd.pattern, dtpd.tz, tz_offset) {
                         Some(val) => {
                             dto = Some(val);
                             break;
@@ -1238,10 +1238,10 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
             ResultS4_SyslineFind::Found((fo, slp)) | ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
                 fo2 = fo;
                 match SyslineReader::sysline_pass_filters(&slp, &filter_dt_after_opt, &filter_dt_before_opt) {
-                    Result_Filter_DateTime2::OccursInRange => {
+                    Result_Filter_DateTime2::InRange => {
                         let is_last = slr.is_sysline_last(&slp);
                         assert_eq!(eof, is_last, "from find_sysline, ResultS4_SyslineFind.is_eof is {:?} (EOF), yet the returned SyslineP.is_sysline_last is {:?}; they should always agree", eof, is_last);
-                        debug_eprintln!("{}{:?}({}): OccursInRange, chan_send_dt.send(({:p}, None, {}));", so(), tid, tname, slp, is_last);
+                        debug_eprintln!("{}{:?}({}): InRange, chan_send_dt.send(({:p}, None, {}));", so(), tid, tname, slp, is_last);
                         match chan_send_dt.send((Some(slp), None, is_last)) {
                             Ok(_) => {}
                             Err(err) => {
@@ -1249,12 +1249,12 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
                             }
                         }
                     }
-                    Result_Filter_DateTime2::OccursBeforeRange => {
+                    Result_Filter_DateTime2::BeforeRange => {
                         debug_eprintln!("{}{:?}{} ERROR: Sysline out of order: {:?}", so(), tid, tname, (*slp).to_String_noraw());
                         eprintln!("ERROR: Encountered a Sysline that is out of order; will abandon processing of file {:?}", path);
                         break;
                     }
-                    Result_Filter_DateTime2::OccursAfterRange => {
+                    Result_Filter_DateTime2::AfterRange => {
                         break;
                     }
                 }
@@ -1541,7 +1541,7 @@ fn run_4(
     }
     for fpath in paths.iter() {
         let thread_data: Thread_Init_Data4 =
-            (fpath.clone().to_owned(), blocksz, *filter_dt_after_opt, *filter_dt_before_opt, tz_offset.clone());
+            (fpath.clone().to_owned(), blocksz, *filter_dt_after_opt, *filter_dt_before_opt, tz_offset);
         let (chan_send_dt, chan_recv_dt): (Chan_Send_Datum, Chan_Recv_Datum) = crossbeam_channel::bounded(queue_sz_dt);
         map_path_recv_dt.insert(fpath, chan_recv_dt);
         let chan_send_1_thread = chan_send_1.clone();
@@ -1636,7 +1636,7 @@ fn run_4(
         // if there is a DateTime available for every FPath channel (one channel is one FPath) then
         // they can all be compared. The soonest DateTime selected then printed.
         if map_path_recv_dt.len() == map_path_datum.len() {
-            let mut fp1: FPath = FPath::new();
+            let fp1: FPath;
             // XXX: arbitrary code block here to allow later `map_path_datum.remove`;
             //      hacky workaround for a difficult error:
             //          "cannot borrow `map_path_datum` as mutable more than once at a time"
@@ -1689,22 +1689,24 @@ fn run_4(
                             + &String::from(": ")
                             + &(slp_min.to_String_noraw())
                             + &String::from("\n");
+                        #[allow(clippy::match_single_binding)]
                         match print_colored_stdout(*clr, out.as_bytes()) { _ => {}};
                     } else {
                         if cli_opt_prepend_utc || cli_opt_prepend_local {
                             #[allow(clippy::single_match)]
                             match (*slp_min).dt {
                                 Some(dt) => {
-                                    let fmt: chrono::format::DelayedFormat<chrono::format::StrftimeItems<'_>>;
+                                    #[allow(clippy::needless_late_init)]
+                                    let fmt_;
                                     if cli_opt_prepend_utc {
                                         let dt_ = dt.with_timezone(&tz_utc);
-                                        fmt = dt_.format(cli_opt_prepend_fmt);
+                                        fmt_ = dt_.format(cli_opt_prepend_fmt);
                                     } else { // cli_opt_prepend_local
                                         let dt_ = dt.with_timezone(&tz_local);
-                                        fmt = dt_.format(cli_opt_prepend_fmt);
+                                        fmt_ = dt_.format(cli_opt_prepend_fmt);
                                     }
-                                    write_stdout(&fmt.to_string().as_bytes());
-                                    write_stdout(&" ".as_bytes());
+                                    write_stdout(fmt_.to_string().as_bytes());
+                                    write_stdout(" ".as_bytes());
                                 },
                                 _ => {},
                             }

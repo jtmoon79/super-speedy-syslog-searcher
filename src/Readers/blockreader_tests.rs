@@ -1,7 +1,6 @@
 // Readers/blockreader_tests.rs
 //
 
-#[cfg(test)]
 use crate::Readers::blockreader::{
     FPath,
     FileOffset,
@@ -13,7 +12,6 @@ use crate::Readers::blockreader::{
 
 /// basic test of BlockReader things
 #[allow(non_snake_case)]
-#[cfg(test)]
 fn test_BlockReader(path_: &FPath, blocksz: BlockSz) {
     eprintln!("test_BlockReader()");
 
