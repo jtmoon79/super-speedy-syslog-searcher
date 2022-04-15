@@ -14,14 +14,13 @@ const SEARCH1: &[u8; 2] = b"12";
 fn baseline() {
     let slice_ = &B70[0..];
     black_box(slice_);
-    return;
 }
 
 #[inline(never)]
 fn slice_contains_found1() {
     let slice_ = &B70[0..];
     if slice_.contains(&SEARCH1[0]) || slice_.contains(&SEARCH1[1]){
-        return;
+        black_box(0);
     }
 }
 
@@ -53,7 +52,7 @@ const SEARCH2: &[u8; 2] = b"XY";
 fn slice_contains_notfound2() {
     let slice_ = &B70[0..];
     if slice_.contains(&SEARCH2[0]) || slice_.contains(&SEARCH2[1]){
-        return;
+        black_box(0);
     }
 }
 
@@ -83,13 +82,13 @@ fn custom2_notfound2() {
 
 fn criterion_benchmark(c: &mut Criterion) {
     let mut bg = c.benchmark_group("slice_contains");
-    bg.bench_function("baseline", |b| b.iter(|| baseline()));
-    bg.bench_function("slice_contains_found1", |b| b.iter(|| slice_contains_found1()));
-    bg.bench_function("custom1_found1", |b| b.iter(|| custom1_found1()));
-    bg.bench_function("custom2_found1", |b| b.iter(|| custom2_found1()));
-    bg.bench_function("slice_contains_notfound2", |b| b.iter(|| slice_contains_notfound2()));
-    bg.bench_function("custom1_notfound2", |b| b.iter(|| custom1_notfound2()));
-    bg.bench_function("custom2_notfound2", |b| b.iter(|| custom2_notfound2()));
+    bg.bench_function("baseline", |b| b.iter(baseline));
+    bg.bench_function("slice_contains_found1", |b| b.iter(slice_contains_found1));
+    bg.bench_function("custom1_found1", |b| b.iter(custom1_found1));
+    bg.bench_function("custom2_found1", |b| b.iter(custom2_found1));
+    bg.bench_function("slice_contains_notfound2", |b| b.iter(slice_contains_notfound2));
+    bg.bench_function("custom1_notfound2", |b| b.iter(custom1_notfound2));
+    bg.bench_function("custom2_notfound2", |b| b.iter(custom2_notfound2));
 }
 
 criterion_group!(benches, criterion_benchmark);

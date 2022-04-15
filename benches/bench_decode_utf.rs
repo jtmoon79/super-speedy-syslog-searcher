@@ -139,12 +139,14 @@ fn Datas_check() {
             panic!("ERROR Data4 {}", err);
         }
     }
+    #[allow(clippy::single_match)]
     match std::str::from_utf8(Data5i.as_slice()) {
         Ok(_) => {
             panic!("ERROR expected invalid UTF8 Data5i, but it appears valid according to `from_utf8`");
         },
         Err(_) => {}
     }
+    #[allow(clippy::single_match)]
     match std::str::from_utf8(Data6i.as_slice()) {
         Ok(_) => {
             panic!("ERROR expected invalid UTF8 Data6i, but it appears valid according to `from_utf8`");
@@ -180,7 +182,7 @@ fn dutf8_encodingrs_decode_to_string() {
     for data in Datas.iter() {
         let mut decoder = encoding_rs::UTF_8.new_decoder();
         let data_slice = data.as_slice();
-        let (dresult, _, replaced) = decoder.decode_to_string(data_slice, &mut bufs, true);
+        let (_dresult, _sz, replaced) = decoder.decode_to_string(data_slice, &mut bufs, true);
         if replaced {
             continue;  // invalid UTF8
         }
@@ -202,6 +204,7 @@ fn dutf8_encodingrs_decode_to_string_without_replacement() {
         let mut decoder = encoding_rs::UTF_8.new_decoder();
         let data_slice = data.as_slice();
         let (dresult, _) = decoder.decode_to_string_without_replacement(data_slice, &mut bufs, true);
+        #[allow(clippy::single_match)]
         match dresult {
             encoding_rs::DecoderResult::Malformed(_, _) =>  {
                 continue;  // invalid UTF8
@@ -479,14 +482,14 @@ fn criterion_benchmark(c: &mut Criterion) {
     bg.bench_function("dutf8_encodingrs_decode_to_string", |b| b.iter(dutf8_encodingrs_decode_to_string));
     bg.bench_function("dutf8_encodingrs_decode_to_string_without_replacement", |b| b.iter(dutf8_encodingrs_decode_to_string_without_replacement));
     bg.bench_function("dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked", |b| b.iter(dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked));
-    bg.bench_function("dutf8_std_str_from_utf8", |b| b.iter(|| dutf8_std_str_from_utf8()));
+    bg.bench_function("dutf8_std_str_from_utf8", |b| b.iter(dutf8_std_str_from_utf8));
     bg.bench_function("dutf8_std_str_from_utf8_unchecked__allows_invalid", |b| b.iter(dutf8_std_str_from_utf8_unchecked__allows_invalid));
     bg.bench_function("dutf8_custom_check1_lt0x80__overzealous", |b| b.iter(dutf8_custom_check1_lt0x80__overzealous));
     bg.bench_function("dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous", |b| b.iter(dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous));
     bg.bench_function("dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous", |b| b.iter(dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous));
     bg.bench_function("dutf8_bstr_to_str", |b| b.iter(dutf8_bstr_to_str));
-    bg.bench_function("dutf8_arraystring__SmallString_from_utf8", |b| b.iter(|| dutf8_arraystring__SmallString_from_utf8()));
-    bg.bench_function("dutf8_arraystring__CacheString_from_utf8", |b| b.iter(|| dutf8_arraystring__CacheString_from_utf8()));
+    bg.bench_function("dutf8_arraystring__SmallString_from_utf8", |b| b.iter(dutf8_arraystring__SmallString_from_utf8));
+    bg.bench_function("dutf8_arraystring__CacheString_from_utf8", |b| b.iter(dutf8_arraystring__CacheString_from_utf8));
 }
 
 criterion_group!(benches, criterion_benchmark);
