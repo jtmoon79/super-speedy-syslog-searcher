@@ -14,7 +14,7 @@ type RangeMapT = RangeMap<u64, u64>;
 type RangeSetT = RangeSet<u64>;
 
 fn baseline_no_ranges() {
-    return;
+    black_box(0);
 }
 
 // TODO: compare `RangeMapT` and `RangeSetT` times for `insert` and `get` and `contains`
@@ -24,7 +24,7 @@ fn baseline_no_ranges() {
 
 fn criterion_benchmark(c: &mut Criterion) {
     let mut bg = c.benchmark_group("RangeMap");
-    bg.bench_function("baseline_no_ranges", |b| b.iter(|| baseline_no_ranges()));
+    bg.bench_function("baseline_no_ranges", |b| b.iter(baseline_no_ranges));
 }
 
 criterion_group!(benches, criterion_benchmark);
