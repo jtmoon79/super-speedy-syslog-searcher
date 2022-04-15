@@ -225,10 +225,10 @@ CLOSED!
 [20200113-11:13:59] [DEBUG] Closed socket 11 (AF_INET6 :: port 3389)
 [20200113-11:13:59] [INFO ] Using default X.509 certificate: /etc/xrdp/cert.pem
 [20200113-11:13:59] [INFO ] Using default X.509 key file: /etc/xrdp/key.pem
-[20200113-11:13:59] [ERROR] Cannot read private key file /etc/xrdp/key.pem: Permission denied
-[20200113-11:13:59] [ERROR] Certification error:
-    UNABLE TO READ CERTIFICATE!
-[20200113-11:13:59] [ERROR] Certification failed.
+[20200113-11:13:59] [DEBUG] read private key file /etc/xrdp/key.pem
+[20200113-11:13:59] [DEBUG] Certification found
+    FOUND CERTIFICATE!
+[20200113-11:13:59] [DEBUG] Certification complete.
 ",
     );
     let path = String::from(ntf1.path().to_str().unwrap());
@@ -237,8 +237,7 @@ CLOSED!
     let mut slr = match SyslineReader::new(&path, blocksz, tzo) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: SyslineReader::new({:?}, {}) failed {}", &path, blocksz, err);
-            return;
+            panic!("ERROR: SyslineReader::new({:?}, {}) failed {}", &path, blocksz, err);
         }
     };
 
@@ -248,6 +247,7 @@ CLOSED!
         let done = result.is_done() || result.is_eof();
         match result {
             ResultS4_SyslineFind::Found((fo, slp)) | ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
+                /*
                 debug_eprintln!("{}test_find_datetime_in_line: slr.find_sysline({}) returned Found|Found_EOF({}, @{:p})", so(), fo1, fo, &*slp);
                 debug_eprintln!(
                     "{}test_find_datetime_in_line: FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
@@ -258,17 +258,17 @@ CLOSED!
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
+                */
                 print_slp(&slp);
                 fo1 = fo;
             }
             ResultS4_SyslineFind::Done => {
-                debug_eprintln!("{}test_find_datetime_in_line: slr.find_sysline({}) returned Done", so(), fo1);
+                //debug_eprintln!("{}test_find_datetime_in_line: slr.find_sysline({}) returned Done", so(), fo1);
                 break;
             }
             ResultS4_SyslineFind::Err(err) => {
                 debug_eprintln!("{}test_find_datetime_in_line: slr.find_sysline({}) returned Err({})", so(), fo1, err);
-                eprintln!("ERROR: {}", err);
-                break;
+                panic!("ERROR: test_find_datetime_in_line: slr.find_sysline({}) returned Err({})", fo1, err);
             }
         }
         if done {
@@ -311,7 +311,7 @@ fn __test_find_sysline_at_datetime_filter(
 ) {
     debug_eprintln!("{}__test_find_sysline_at_datetime_filter(…, {:?}, {}, …)", sn(), dt_pattern, blocksz);
 
-    let ntf1 = create_temp_file(&file_content.as_str());
+    let ntf1 = create_temp_file(file_content.as_str());
     let path = String::from(ntf1.path().to_str().unwrap());
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = match SyslineReader::new(&path, blocksz, tzo) {
@@ -351,6 +351,7 @@ fn __test_find_sysline_at_datetime_filter(
                     sline_expect_noraw
                 );
                 //debug_eprintln!("{}Check PASSED {:?}", so(), sline_noraw);
+                #[allow(clippy::match_single_binding)]
                 match print_colored_stdout(
                     Color::Green,
                     format!(
@@ -359,8 +360,7 @@ fn __test_find_sysline_at_datetime_filter(
                     )
                     .as_bytes(),
                 ) {
-                    Ok(_) => {},
-                    Err(_) => {},
+                    _ => {},
                 };
             }
             ResultS4_SyslineFind::Done => {
@@ -1629,50 +1629,51 @@ fn test_sysline_pass_filters() {
     debug_eprintln!("{}test_sysline_pass_filters()", sn());
 
     fn DTL(s: &str) -> DateTimeL {
-        //return DateTimeL.datetime_from_str(s, &"%Y%m%dT%H%M%S").unwrap();
+        //return DateTimeL.datetime_from_str(s, "%Y%m%dT%H%M%S").unwrap();
         let tzo = FixedOffset::west(3600 * 8);
-        str_datetime(s, &"%Y%m%dT%H%M%S", false, &tzo).unwrap()
+        str_datetime(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
     }
 
     for (da, dt, db, exp_result) in [
         (
-            Some(DTL(&"20000101T010105")),
-            DTL(&"20000101T010106"),
-            Some(DTL(&"20000101T010107")),
+            Some(DTL("20000101T010105")),
+            DTL("20000101T010106"),
+            Some(DTL("20000101T010107")),
             Result_Filter_DateTime2::OccursInRange,
         ),
         (
-            Some(DTL(&"20000101T010107")),
-            DTL(&"20000101T010106"),
-            Some(DTL(&"20000101T010108")),
+            Some(DTL("20000101T010107")),
+            DTL("20000101T010106"),
+            Some(DTL("20000101T010108")),
             Result_Filter_DateTime2::OccursBeforeRange,
         ),
         (
-            Some(DTL(&"20000101T010101")),
-            DTL(&"20000101T010106"),
-            Some(DTL(&"20000101T010102")),
+            Some(DTL("20000101T010101")),
+            DTL("20000101T010106"),
+            Some(DTL("20000101T010102")),
             Result_Filter_DateTime2::OccursAfterRange,
         ),
-        (Some(DTL(&"20000101T010101")), DTL(&"20000101T010106"), None, Result_Filter_DateTime2::OccursInRange),
+        (Some(DTL("20000101T010101")), DTL("20000101T010106"), None, Result_Filter_DateTime2::OccursInRange),
         (
-            Some(DTL(&"20000101T010102")),
-            DTL(&"20000101T010101"),
+            Some(DTL("20000101T010102")),
+            DTL("20000101T010101"),
             None,
             Result_Filter_DateTime2::OccursBeforeRange,
         ),
-        (Some(DTL(&"20000101T010101")), DTL(&"20000101T010101"), None, Result_Filter_DateTime2::OccursInRange),
-        (None, DTL(&"20000101T010101"), Some(DTL(&"20000101T010106")), Result_Filter_DateTime2::OccursInRange),
+        (Some(DTL("20000101T010101")), DTL("20000101T010101"), None, Result_Filter_DateTime2::OccursInRange),
+        (None, DTL("20000101T010101"), Some(DTL("20000101T010106")), Result_Filter_DateTime2::OccursInRange),
         (
             None,
-            DTL(&"20000101T010101"),
-            Some(DTL(&"20000101T010100")),
+            DTL("20000101T010101"),
+            Some(DTL("20000101T010100")),
             Result_Filter_DateTime2::OccursAfterRange,
         ),
-        (None, DTL(&"20000101T010101"), Some(DTL(&"20000101T010101")), Result_Filter_DateTime2::OccursInRange),
+        (None, DTL("20000101T010101"), Some(DTL("20000101T010101")), Result_Filter_DateTime2::OccursInRange),
     ] {
         let result = SyslineReader::dt_pass_filters(&dt, &da, &db);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?}, {:?})", exp_result, result, dt, da, db);
         #[allow(unused_must_use)]
+        #[allow(clippy::match_single_binding)]
         match print_colored_stdout(
             Color::Green,
             format!("{}({:?}, {:?}, {:?}) returned expected {:?}\n", so(), dt, da, db, result).as_bytes(),
@@ -1692,18 +1693,19 @@ fn test_dt_after_or_before() {
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = FixedOffset::west(3600 * 8);
-        str_datetime(s, &"%Y%m%dT%H%M%S", false, &tzo).unwrap()
+        str_datetime(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
     }
 
     for (dt, da, exp_result) in [
-        (DTL(&"20000101T010106"), None, Result_Filter_DateTime1::Pass),
-        (DTL(&"20000101T010101"), Some(DTL(&"20000101T010103")), Result_Filter_DateTime1::OccursBefore),
-        (DTL(&"20000101T010100"), Some(DTL(&"20000101T010100")), Result_Filter_DateTime1::OccursAtOrAfter),
-        (DTL(&"20000101T010109"), Some(DTL(&"20000101T010108")), Result_Filter_DateTime1::OccursAtOrAfter),
+        (DTL("20000101T010106"), None, Result_Filter_DateTime1::Pass),
+        (DTL("20000101T010101"), Some(DTL("20000101T010103")), Result_Filter_DateTime1::OccursBefore),
+        (DTL("20000101T010100"), Some(DTL("20000101T010100")), Result_Filter_DateTime1::OccursAtOrAfter),
+        (DTL("20000101T010109"), Some(DTL("20000101T010108")), Result_Filter_DateTime1::OccursAtOrAfter),
     ] {
         let result = SyslineReader::dt_after_or_before(&dt, &da);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?})", exp_result, result, dt, da);
         #[allow(unused_must_use)]
+        #[allow(clippy::match_single_binding)]
         match print_colored_stdout(
             Color::Green,
             format!("{}({:?}, {:?}) returned expected {:?}\n", so(), dt, da, result).as_bytes(),
@@ -1724,6 +1726,7 @@ fn test_dt_after_or_before() {
 ///          panicked at 'byte index 20 is not a char boundary; it is inside '␊' (bytes 19..22) of `2000-01-01 00:00:00␊`'
 ///      However, this function is only an intermediary development helper. Can this problem have a
 ///      brute-force workaround. 
+#[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
 fn print_slp(slp: &SyslineP) {
     if cfg!(debug_assertions) {
@@ -1787,8 +1790,7 @@ fn test_SyslineReader(path: &Path, blocksz: BlockSz, fileoffset: FileOffset, che
     let mut slr = match SyslineReader::new(&fpath, blocksz, tzo) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: SyslineReader::new({:?}, {}) failed {}", fpath, blocksz, err);
-            return;
+            panic!("ERROR: SyslineReader::new({:?}, {}) failed {}", fpath, blocksz, err);
         }
     };
     debug_eprintln!("{}test_SyslineReader: {:?}", so(), slr);
@@ -1853,8 +1855,7 @@ fn test_SyslineReader(path: &Path, blocksz: BlockSz, fileoffset: FileOffset, che
             }
             ResultS4_SyslineFind::Err(err) => {
                 debug_eprintln!("{}test_SyslineReader: slr.find_sysline({}) returned Err({})", so(), fo1, err);
-                eprintln!("ERROR: {}", err);
-                break;
+                panic!("ERROR: {}", err);
             }
         }
         check_i += 1;
@@ -1995,22 +1996,22 @@ fn test_SyslineReader_B_dt0_3()
 #[allow(non_upper_case_globals)]
 #[cfg(test)]
 static _test_data_file_C_dt6: &str = "\
-[ERROR] 2000-01-01 00:00:00
-[ERROR] 2000-01-01 00:00:01a
-[ERROR] 2000-01-01 00:00:02ab
-[ERROR] 2000-01-01 00:00:03abc
-[ERROR] 2000-01-01 00:00:04abcd
-[ERROR] 2000-01-01 00:00:05abcde";
+[DEBUG] 2000-01-01 00:00:00
+[DEBUG] 2000-01-01 00:00:01a
+[DEBUG] 2000-01-01 00:00:02ab
+[DEBUG] 2000-01-01 00:00:03abc
+[DEBUG] 2000-01-01 00:00:04abcd
+[DEBUG] 2000-01-01 00:00:05abcde";
 
 #[allow(non_upper_case_globals)]
 #[cfg(test)]
 static _test_data_file_C_dt6_checks: [_test_SyslineReader_check; 6] = [
-    ("[ERROR] 2000-01-01 00:00:00\n", 28),
-    ("[ERROR] 2000-01-01 00:00:01a\n", 57),
-    ("[ERROR] 2000-01-01 00:00:02ab\n", 87),
-    ("[ERROR] 2000-01-01 00:00:03abc\n", 118),
-    ("[ERROR] 2000-01-01 00:00:04abcd\n", 150),
-    ("[ERROR] 2000-01-01 00:00:05abcde", 182),
+    ("[DEBUG] 2000-01-01 00:00:00\n", 28),
+    ("[DEBUG] 2000-01-01 00:00:01a\n", 57),
+    ("[DEBUG] 2000-01-01 00:00:02ab\n", 87),
+    ("[DEBUG] 2000-01-01 00:00:03abc\n", 118),
+    ("[DEBUG] 2000-01-01 00:00:04abcd\n", 150),
+    ("[DEBUG] 2000-01-01 00:00:05abcde", 182),
 ];
 
 #[cfg(test)]
@@ -2049,10 +2050,6 @@ fn test_SyslineReader_C_dt6_2b()
     test_SyslineReader(test_SyslineReader_C_ntf.path(), 128, 28, &checks);
 }
 
-//#[allow(non_upper_case_globals)]
-//#[cfg(test)]
-//static _test_data_file_D_invalid: [_test_SyslineReader_check; 0] = [];
-
 #[test]
 fn test_SyslineReader_D_invalid1()
 {
@@ -2080,6 +2077,7 @@ fn test_SyslineReader_w_filtering_1(
     if cfg!(debug_assertions) {
         let s1 = file_to_String_noraw(path);
         #[allow(unused_must_use)]
+        #[allow(clippy::match_single_binding)]
         match print_colored_stdout(Color::Yellow, s1.as_bytes()) { _ => {}, };
         println!();
     }
@@ -2088,8 +2086,7 @@ fn test_SyslineReader_w_filtering_1(
     let mut slr = match SyslineReader::new(path, blocksz, tzo) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: SyslineReader::new({}, {}) failed {}", path, blocksz, err);
-            return;
+            panic!("ERROR: SyslineReader::new({}, {}) failed {}", path, blocksz, err);
         }
     };
     debug_eprintln!("{}{:?}", so(), slr);
@@ -2098,7 +2095,7 @@ fn test_SyslineReader_w_filtering_1(
     let filesz = slr.filesz();
     while fo1 < filesz {
         debug_eprintln!("{}slr.find_sysline_at_datetime_filter({}, {:?})", so(), fo1, filter_dt_after_opt);
-        let result = slr.find_sysline_at_datetime_filter(fo1, &filter_dt_after_opt);
+        let result = slr.find_sysline_at_datetime_filter(fo1, filter_dt_after_opt);
         match result {
             ResultS4_SyslineFind::Found((fo, slp)) | ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
                 debug_eprintln!(
@@ -2124,12 +2121,14 @@ fn test_SyslineReader_w_filtering_1(
                     .linereader
                     .blockreader
                     ._vec_from(fo1, std::cmp::min(fo1 + 40, filesz));
+                #[allow(clippy::match_single_binding)]
                 match print_colored_stdout(Color::Yellow, buffer_to_String_noraw(snippet.as_slice()).as_bytes())
                      { _ => {}, };
                 print!("' ");
                 //print_slp(&slp);
                 let slices = (*slp).get_slices();
                 for slice in slices.iter() {
+                    #[allow(clippy::match_single_binding)]
                     match print_colored_stdout(Color::Green, slice) { _ => {}, };
                 }
                 println!();
@@ -2152,7 +2151,13 @@ fn test_SyslineReader_w_filtering_1(
                     filter_dt_before_opt,
                     err
                 );
-                eprintln!("ERROR: {}", err);
+                panic!(
+                    "ERROR: find_sysline_at_datetime_filter({}, {:?}, {:?}) returned Err({})",
+                    fo1,
+                    filter_dt_after_opt,
+                    filter_dt_before_opt,
+                    err,
+                );
             }
         }
         fo1 += 1;
@@ -2174,6 +2179,7 @@ fn test_SyslineReader_w_filtering_1(
 
 /// print the filtered syslines for a SyslineReader
 /// quick debug helper
+#[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
 fn process_SyslineReader(
     slr: &mut SyslineReader, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
@@ -2225,7 +2231,7 @@ fn process_SyslineReader(
                 filter_dt_before_opt,
                 err
             );
-            eprintln!("ERROR: {}", err);
+            panic!("ERROR: {}", err);
             search_more = false;
         }
     }
@@ -2286,7 +2292,7 @@ fn process_SyslineReader(
             }
             ResultS4_SyslineFind::Err(err) => {
                 debug_eprintln!("{}slr.find_sysline({}) returned Err({})", so(), fo2, err);
-                eprintln!("ERROR: {}", err);
+                panic!("ERROR: {}", err);
                 break;
             }
         }
@@ -2312,8 +2318,7 @@ fn _test_SyslineReader_process_file<'a>(
     let slr = match SyslineReader::new(path, blocksz, tzo8) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: SyslineReader::new({}, {}) failed {}", path, blocksz, err);
-            return None;
+            panic!("ERROR: SyslineReader::new({}, {}) failed {}", path, blocksz, err);
         }
     };
     debug_eprintln!("{}{:?}", so(), slr);
@@ -2369,8 +2374,7 @@ fn test_SyslineReader_w_filtering_3(
         let slr = match SyslineReader::new(path, blocksz, tzo8) {
             Ok(val) => val,
             Err(err) => {
-                eprintln!("ERROR: SyslineReader::new({:?}, {}) failed {}", path, blocksz, err);
-                return;
+                panic!("ERROR: SyslineReader::new({:?}, {}) failed {}", path, blocksz, err);
             }
         };
         debug_eprintln!("{}{:?}", so(), slr);
@@ -2396,8 +2400,7 @@ fn _test_SyslineReader_rand(path_: &FPath, blocksz: BlockSz) {
     let mut slr1 = match SyslineReader::new(path_, blocksz, tzo8) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: SyslineReader::new({}, {}, ...) failed {}", path_, blocksz, err);
-            return;
+            panic!("ERROR: SyslineReader::new({}, {}, ...) failed {}", path_, blocksz, err);
         }
     };
     debug_eprintln!("{}SyslineReader {:?}", so(), slr1);
@@ -2409,11 +2412,11 @@ fn _test_SyslineReader_rand(path_: &FPath, blocksz: BlockSz) {
 
     for fo1 in offsets_rand {
         let result = slr1.find_sysline(fo1);
+        #[allow(clippy::single_match)]
         match result {
             ResultS4_SyslineFind::Err(err) => {
                 debug_eprintln!("{}slr1.find_sysline({}) returned Err({})", so(), fo1, err);
-                eprintln!("ERROR: {}", err);
-                assert!(false, "slr1.find_sysline({}) returned Err({})", fo1, err);
+                panic!("slr1.find_sysline({}) returned Err({})", fo1, err);
             }
             _ => {}
         }

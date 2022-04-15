@@ -26,8 +26,7 @@ fn test_BlockReader(path_: &FPath, blocksz: BlockSz) {
             eprintln!("opened {:?}", path_);
         }
         Err(err) => {
-            eprintln!("ERROR: BlockReader.open('{:?}') {}", path_, err);
-            return;
+            panic!("ERROR: BlockReader.open('{:?}') {}", path_, err);
         }
     }
     eprintln!("opened {:?}", &br1);
@@ -44,7 +43,7 @@ fn test_BlockReader(path_: &FPath, blocksz: BlockSz) {
                     if err.kind() == EndOfFile {
                         continue;
                     } else {
-                        eprintln!("ERROR: blockreader.read({}) error {}", offset, err);
+                        panic!("ERROR: blockreader.read({}) error {}", offset, err);
                     }
                 }
             };

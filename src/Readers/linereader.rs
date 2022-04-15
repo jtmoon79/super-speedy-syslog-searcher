@@ -607,20 +607,10 @@ impl Line {
 
     // XXX: rust does not support function overloading which is really surprising and disappointing
     /// `Line` to `String`
-    #[allow(non_snake_case)]
+    #[allow(dead_code, non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Line) -> String {
         self._to_String_raw(true)
-    }
-
-    #[allow(non_snake_case)]
-    pub fn to_String_from(self: &Line, _from: usize) -> String {
-        unimplemented!("to_String_from");
-    }
-
-    #[allow(non_snake_case)]
-    pub fn to_String_from_to(self: &Line, _from: usize, _to: usize) -> String {
-        unimplemented!("to_String_from_to");
     }
 
     /// `Line` to `String` but using printable chars for non-printable and/or formatting characters
@@ -639,7 +629,7 @@ impl Line {
     ///      2. slice is an array which is not an "owned type"
     /// TODO: add tests
     /// CANDIDATE FOR REMOVAL
-    pub fn as_bytes(self: &Line) -> Bytes {
+    pub(crate) fn as_bytes(self: &Line) -> Bytes {
         assert_gt!(self.lineparts.len(), 0, "This Line has no LineParts");
         // efficient case, Line does not cross any Blocks
         if self.lineparts.len() == 1 {
@@ -666,7 +656,7 @@ impl Line {
     /// CANDIDATE FOR REMOVAL
     //pub fn as_vec(self: &Line, beg: LineIndex, end: LineIndex) -> Bytes {
     #[allow(unreachable_code)]
-    pub fn as_vec(self: &Line, beg: LineIndex, end: LineIndex) -> Bytes {
+    pub(crate) fn as_vec(self: &Line, beg: LineIndex, end: LineIndex) -> Bytes {
         assert_gt!(self.lineparts.len(), 0, "This Line has no LineParts");
         // efficient case, Line does not cross any Blocks
         if self.lineparts.len() == 1 {

@@ -69,7 +69,7 @@ pub const BLOCKSZ_MAX: BlockSz = 0xFFFFFF;
 /// default Block Size
 //const BLOCKSZ_DEF: BlockSz = 0xFFFF;
 #[allow(non_upper_case_globals)]
-pub const BLOCKSZ_DEFs: &str = &"0xFFFF";
+pub const BLOCKSZ_DEFs: &str = "0xFFFF";
 
 /// Cached file reader that stores data in `BlockSz` byte-sized blocks.
 /// A `BlockReader` corresponds to one file.
@@ -127,6 +127,7 @@ impl fmt::Debug for BlockReader<'_> {
 }
 
 /// helper for humans debugging Blocks, very inefficient
+#[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
 pub fn printblock(buffer: &Block, blockoffset: BlockOffset, fileoffset: FileOffset, blocksz: BlockSz, _mesg: String) {
     const LN: usize = 64;
@@ -386,6 +387,7 @@ impl<'blockreader> BlockReader<'blockreader> {
         let bp = BlockP::new(buffer);
         // store block
         debug_eprintln!("{}read_block: blocks.insert({}, BlockP@{:p})", so(), blockoffset, bp);
+        #[allow(clippy::single_match)]
         match self.blocks.insert(blockoffset, bp.clone()) {
             Some(bp_) => {
                 eprintln!("WARNING: blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}", blockoffset, bp, bp_);

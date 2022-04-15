@@ -52,6 +52,7 @@ impl<T, E> ResultS4<T, E> {
     /////////////////////////////////////////////////////////////////////////
 
     /// Returns `true` if the result is [`Ok`, `Found_EOF`, 'Done`].
+    #[allow(dead_code)]
     #[must_use = "if you intended to assert that this is ok, consider `.unwrap()` instead"]
     #[inline(always)]
     pub const fn is_ok(&self) -> bool {
@@ -59,6 +60,7 @@ impl<T, E> ResultS4<T, E> {
     }
 
     /// Returns `true` if the result is [`Err`].
+    #[allow(dead_code)]
     #[must_use = "if you intended to assert that this is err, consider `.unwrap_err()` instead"]
     #[inline(always)]
     pub const fn is_err(&self) -> bool {
@@ -78,6 +80,7 @@ impl<T, E> ResultS4<T, E> {
     }
 
     /// Returns `true` if the result is an [`Ok`, `Found_EOF`] value containing the given value.
+    #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
     pub fn contains<U>(&self, x: &U) -> bool
@@ -93,6 +96,7 @@ impl<T, E> ResultS4<T, E> {
     }
 
     /// Returns `true` if the result is an [`Err`] value containing the given value.
+    #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
     pub fn contains_err<F>(&self, f: &F) -> bool
@@ -125,6 +129,7 @@ impl<T, E> ResultS4<T, E> {
     /// let x: Result<u32, &str> = Err("Nothing here");
     /// assert_eq!(x.ok(), None);
     /// ```
+    #[allow(dead_code)]
     #[inline(always)]
     pub fn ok(self) -> Option<T> {
         match self {
@@ -139,6 +144,7 @@ impl<T, E> ResultS4<T, E> {
     ///
     /// Converts `self` into an [`Option<E>`], consuming `self`,
     /// and discarding the success value, if any.
+    #[allow(dead_code)]
     #[inline(always)]
     pub fn err(self) -> Option<E> {
         match self {
@@ -168,7 +174,7 @@ pub type Bytes = Vec<u8>;
 /// UTF-8 would be value `1`, UTF-16 would be value `2`, etc.
 pub type CharSz = usize;
 /// NewLine as char
-#[allow(non_upper_case_globals)]
+#[allow(dead_code, non_upper_case_globals)]
 pub const NLc: char = '\n';
 /// Single-byte newLine char as u8
 #[allow(non_upper_case_globals)]

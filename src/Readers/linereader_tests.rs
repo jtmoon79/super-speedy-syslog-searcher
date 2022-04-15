@@ -85,7 +85,7 @@ fn process_LineReader(lr1: &mut LineReader) {
                     match print_colored_stdout(Color::Green, &(*lp).as_bytes()) {
                         Ok(_) => {}
                         Err(err) => {
-                            eprintln!("ERROR: print_colored_stdout returned error {}", err);
+                            panic!("ERROR: print_colored_stdout returned error {}", err);
                         }
                     }
                 } else {
@@ -112,8 +112,7 @@ fn process_LineReader(lr1: &mut LineReader) {
             }
             ResultS4_LineFind::Err(err) => {
                 debug_eprintln!("{}ResultS4_LineFind::Err {}", so(), err);
-                eprintln!("ERROR: {}", err);
-                break;
+                panic!("ERROR: {}", err);
             }
         }
     }
@@ -149,8 +148,7 @@ fn test_LineReader_1() {
         let mut lr1 = match LineReader::new(&path, blocksz) {
             Ok(val) => val,
             Err(err) => {
-                eprintln!("ERROR: LineReader::new({:?}, {}) failed {}", path, blocksz, err);
-                return;
+                panic!("ERROR: LineReader::new({:?}, {}) failed {}", path, blocksz, err);
             }
         };
         let bufnoraw = buffer_to_String_noraw(content.as_bytes());
@@ -158,10 +156,10 @@ fn test_LineReader_1() {
         process_LineReader(&mut lr1);
         let lc = lr1.count();
         assert_eq!(line_count, lc, "Expected {} count of lines, found {}", line_count, lc);
-        match print_colored_stdout(
-            Color::Green,
-            format!("{}PASS Found {} Lines as expected from {:?}\n", so(), lc, bufnoraw).as_bytes(),
-        ) { Ok(_) => {}, Err(_) => {}, };
+        //match print_colored_stdout(
+        //    Color::Green,
+        //    format!("{}PASS Found {} Lines as expected from {:?}\n", so(), lc, bufnoraw).as_bytes(),
+        //) { Ok(_) => {}, Err(_) => {}, };
         debug_eprintln!("{}{:?}", so(), content.as_bytes());
     }
     debug_eprintln!("{}test_LineReader_1()", sx());
@@ -176,14 +174,12 @@ fn _test_LineReader(path_: &FPath, blocksz: BlockSz) {
     let mut lr1 = match LineReader::new(path_, blocksz) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: LineReader::new({}, {}) failed {}", path_, blocksz, err);
-            return;
+            panic!("ERROR: LineReader::new({:?}, {:?}) failed {}", path_, blocksz, err);
         }
     };
     debug_eprintln!("{}LineReader {:?}", so(), lr1);
 
     process_LineReader(&mut lr1);
-    //debug_eprintln!("\n{}{:?}", so(), lr1);
 
     if cfg!(debug_assertions) {
         debug_eprintln!("{}Found {} Lines", so(), lr1.count())
@@ -200,8 +196,7 @@ fn test_LineReader_rand(path_: &FPath, blocksz: BlockSz) {
     let mut lr1 = match LineReader::new(path_, blocksz) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: LineReader::new({}, {}) failed {}", path_, blocksz, err);
-            return;
+            panic!("ERROR: LineReader::new({}, {}) failed {}", path_, blocksz, err);
         }
     };
     debug_eprintln!("{}LineReader {:?}", so(), lr1);
@@ -249,8 +244,7 @@ fn test_LineReader_rand(path_: &FPath, blocksz: BlockSz) {
             }
             ResultS4_LineFind::Err(err) => {
                 debug_eprintln!("{}ResultS4_LineFind::Err {}", so(), err);
-                eprintln!("ERROR: {}", err);
-                break;
+                panic!("ERROR: find_line({:?}) {:?}", fo1, err);
             }
         }
     }
@@ -284,7 +278,7 @@ fn _test_Line_get_boxptrs(fpath: &FPath, blocksz: BlockSz, checks: &test_Line_ge
                 break;
             },
             ResultS4_LineFind::Err(err) => {
-                assert!(false, "ResultS4_LineFind::Err {}", err);
+                panic!("LineReader::new({:?}, {:?}) ResultS4_LineFind::Err {}", fpath, blocksz, err);
             },
         }
     }
