@@ -413,7 +413,7 @@ impl<'blockreader> BlockReader<'blockreader> {
     /// Does not request any `read_block`! Only copies from what is currently available from prior
     /// calls to `read_block`.
     /// debug helper only
-    #[cfg(debug_assertions)]
+    #[cfg(any(debug_assertions,bench,test))]
     fn _get_byte(&self, fo: FileOffset) -> Option<u8> {
         let bo = BlockReader::block_offset_at_file_offset(fo, self.blocksz);
         let bi = BlockReader::block_index_at_file_offset(fo, self.blocksz);
@@ -427,7 +427,7 @@ impl<'blockreader> BlockReader<'blockreader> {
     /// return `Bytes` at `[fo_a, fo_b)`.
     /// uses `self._get_byte` which does not request any reads!
     /// debug helper only
-    #[cfg(debug_assertions)]
+    #[cfg(any(debug_assertions,bench,test))]
     pub(crate) fn _vec_from(&self, fo_a: FileOffset, fo_b: FileOffset) -> Bytes {
         assert_le!(fo_a, fo_b, "bad fo_a {} fo_b {} FPath {:?}", fo_a, fo_b, self.path);
         assert_le!(fo_b, self.filesz, "bad fo_b {} but filesz {} FPath {:?}", fo_b, self.filesz, self.path);

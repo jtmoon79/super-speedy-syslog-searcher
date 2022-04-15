@@ -19,7 +19,7 @@ fn test_BlockReader(path_: &FPath, blocksz: BlockSz) {
 
     // testing BlockReader basics
 
-    let mut br1 = BlockReader::new(&path_, blocksz);
+    let mut br1 = BlockReader::new(path_, blocksz);
     eprintln!("new {:?}", &br1);
     match br1.open() {
         Ok(_) => {
@@ -38,7 +38,7 @@ fn test_BlockReader(path_: &FPath, blocksz: BlockSz) {
             match rbp {
                 Ok(val) => {
                     let boff: FileOffset = BlockReader::file_offset_at_block_offset(*offset, blocksz);
-                    printblock(val.as_ref(), *offset, boff, blocksz, format!(""));
+                    printblock(val.as_ref(), *offset, boff, blocksz, String::new());
                 }
                 Err(err) => {
                     if err.kind() == EndOfFile {

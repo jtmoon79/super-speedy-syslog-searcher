@@ -117,8 +117,8 @@ pub fn str_to_String_noraw(str_buf: &str) -> String {
 
 /// return contents of file utf-8 chars (presumably) at `path` as non-raw String
 /// inefficient
-/// only intended for debugging
-#[allow(non_snake_case)]
+/// only intended for debugging]
+#[allow(dead_code, non_snake_case)]
 #[cfg(test)]
 pub fn file_to_String_noraw(path: &FPath) -> String {
     let path_ = std::path::Path::new(path);
@@ -237,22 +237,27 @@ pub fn write_stdout(buffer: &[u8]) {
         }
     }
     if cfg!(debug_assertions) {
+        #[allow(clippy::match_single_binding)]
         match std::io::stderr().flush() {
-            Ok(_) => {},
-            Err(_) => {},
+            _ => {},
         }
     }
 }
 
 /// helper flush stdout and stderr
+#[allow(dead_code)]
+#[cfg(any(debug_assertions,test))]
 pub fn flush_stdouterr() {
+    #[allow(clippy::match_single_binding)]
     match std::io::stdout().flush() { _ => {} };
+    #[allow(clippy::match_single_binding)]
     match std::io::stderr().flush() { _ => {} };
 }
 
 /// write to console, `raw` as `true` means "as-is"
 /// else use `char_to_char_noraw` to replace chars in `buffer` (inefficient)
 /// only intended for debugging
+#[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
 pub fn pretty_print(buffer: &[u8], raw: bool) {
     if raw {
@@ -264,7 +269,7 @@ pub fn pretty_print(buffer: &[u8], raw: bool) {
     // XXX: only handle single-byte encodings
     // XXX: doing this char by char is probably not efficient
     //let s = match str::from_utf8_lossy(buffer) {
-    let s = match core::str::from_utf8(&buffer) {
+    let s = match core::str::from_utf8(buffer) {
         Ok(val) => val,
         Err(err) => {
             eprintln!("ERROR: pretty_print: Invalid UTF-8 sequence during from_utf8: {}", err);
