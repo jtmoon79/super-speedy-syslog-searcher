@@ -441,18 +441,6 @@ impl Sysline {
         s_
     }
 
-    /*
-    /// create `str` from `self.lines`
-    /// `raw` is `true` means use byte characters as-is
-    /// `raw` is `false` means replace formatting characters or non-printable characters
-    /// with pictoral representation (i.e. `byte_to_char_noraw`)
-    /// TODO: can this be more efficient? specialized for `str`?
-    #[allow(non_snake_case)]
-    fn _to_str_raw(self: &Sysline, raw: bool) -> &str {
-        return (&self._to_String_raw(raw)).as_str();
-    }
-     */
-
     // XXX: rust does not support function overloading which is really surprising and disappointing
     /// `Line` to `String`
     #[allow(non_snake_case)]
@@ -823,7 +811,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             //       according to flamegraph, this function `Local::datetime_from_str` takes a very large amount of
             //       runtime, around 20% to 25% of entire process runtime. How to improve that?
             //       Could I create my own hardcoded parsing for a few common patterns?
-            let dt = match SyslineReader::str_datetime(dts, dtpd, &tz_offset) {
+            let dt = match SyslineReader::str_datetime(dts, dtpd, tz_offset) {
                 Some(val) => {
                     debug_eprintln!("{}find_datetime_in_line: str_datetime returned {:?}", so(), val);
                     val

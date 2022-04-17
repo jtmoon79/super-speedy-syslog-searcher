@@ -73,6 +73,7 @@ pub fn stack_offset() -> usize {
 /// if the `correction` is too negative then it will print to the left-most column
 /// of the terminal. Negative values are useful for when most of a program runs in
 /// a function that is several calls deep.
+/// Passing `None` will set `correction` to value `0`.
 ///
 /// For example, the `main` function might
 /// call an `intialize` function which might call a `run` function. The `run` function

@@ -600,10 +600,10 @@ TODO: 2022/04/07 add directory walks and file finding
 TODO: 2022/04/07 need to handle formats with missing year and year rollover.
       not easy!
 
-TODO: 2022/04/07 need to handle formats with explicit timezone offset.
+DONE: TODO: 2022/04/07 need to handle formats with explicit timezone offset.
       see example `access.log`
 
-TODO: 2022/04/09 in `find_datetime_in_line`, the `slice_.contains(&b'1')`
+DONE: TODO: 2022/04/09 in `find_datetime_in_line`, the `slice_.contains(&b'1')`
       use much runtime. Would doing this search manually be faster?
       Create a benchmark to find out.
 

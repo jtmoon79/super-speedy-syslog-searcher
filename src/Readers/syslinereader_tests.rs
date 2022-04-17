@@ -1495,7 +1495,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_yaz() {
 ///      will return "2000-01-01 00:00:00␊". Which will panic:
 ///          panicked at 'byte index 20 is not a char boundary; it is inside '␊' (bytes 19..22) of `2000-01-01 00:00:00␊`'
 ///      However, this function is only an intermediary development helper. Can this problem have a
-///      brute-force workaround. 
+///      brute-force workaround?
 #[allow(dead_code)]
 #[cfg(test)]
 fn print_slp(slp: &SyslineP) {
@@ -1526,12 +1526,12 @@ fn print_slp(slp: &SyslineP) {
         };
         println!();
     } else {
+    }
     */
-        let slices = (*slp).get_slices();
-        for slice in slices.iter() {
-            write_stdout(slice);
-        }
-    //}
+    let slices = (*slp).get_slices();
+    for slice in slices.iter() {
+        write_stdout(slice);
+    }
 }
 
 #[cfg(test)]

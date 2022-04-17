@@ -1,4 +1,5 @@
 // Readers/datetime_tests.rs
+//
 
 use crate::Readers::datetime::{
     FixedOffset,
@@ -7,7 +8,7 @@ use crate::Readers::datetime::{
     str_datetime,
     //DateTimePattern,
     DateTimeL,
-    //DateTimeL_Opt,
+    DateTimeL_Opt,
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_VEC,
     Result_Filter_DateTime1,
@@ -33,7 +34,7 @@ use more_asserts::{
 use std::str;
 
 /// built-in sanity check of the static DATETIME_PARSE_DATAS
-/// can only check for coarse errors, cannot check catch all errors
+/// can only check for coarse errors, cannot catch all errors
 #[test]
 fn test_DATETIME_PARSE_DATAS() {
     for dtpd in DATETIME_PARSE_DATAS_VEC.iter() {
@@ -119,17 +120,25 @@ fn test_datetime_from_str_workaround_Issue660() {
     assert!(!datetime_from_str_workaround_Issue660("\t\n a\n", "\t\n a\t\n"));
 }
 
+/// FixedOffset to FixedOffset==0 (UTC)
+/// testing helper
+fn fo_to_fo0(dt_opt: &DateTimeL_Opt) -> DateTimeL_Opt {
+    #[allow(clippy::manual_map)]
+    match dt_opt {
+        Some(dt) => { Some(dt.with_timezone(&FixedOffset::east(0))) },
+        None => None,
+    }
+}
+
 /// basic test of `SyslineReader.sysline_pass_filters`
-/// TODO: add tests with TZ
-/// TODO: move `sysline_pass_filters` out of `SylineReader` and into this.
+#[rustfmt::skip]
 #[allow(non_snake_case)]
 #[test]
-fn test_dt_pass_filters() {
-    eprintln!("{}test_dt_pass_filters()", sn());
+fn test_dt_pass_filters_fixedoffset2() {
+    eprintln!("{}test_dt_pass_filters_fixedoffset2()", sn());
 
     fn DTL(s: &str) -> DateTimeL {
-        //return DateTimeL.datetime_from_str(s, "%Y%m%dT%H%M%S").unwrap();
-        let tzo = FixedOffset::west(3600 * 8);
+        let tzo = FixedOffset::west(3600 * 2);
         str_datetime(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
     }
 
@@ -152,25 +161,45 @@ fn test_dt_pass_filters() {
             Some(DTL("20000101T010102")),
             Result_Filter_DateTime2::AfterRange,
         ),
-        (Some(DTL("20000101T010101")), DTL("20000101T010106"), None, Result_Filter_DateTime2::InRange),
+        (
+            Some(DTL("20000101T010101")),
+            DTL("20000101T010106"),
+            None,
+            Result_Filter_DateTime2::InRange
+        ),
         (
             Some(DTL("20000101T010102")),
             DTL("20000101T010101"),
             None,
             Result_Filter_DateTime2::BeforeRange,
         ),
-        (Some(DTL("20000101T010101")), DTL("20000101T010101"), None, Result_Filter_DateTime2::InRange),
-        (None, DTL("20000101T010101"), Some(DTL("20000101T010106")), Result_Filter_DateTime2::InRange),
+        (
+            Some(DTL("20000101T010101")),
+            DTL("20000101T010101"),
+            None,
+            Result_Filter_DateTime2::InRange
+        ),
+        (
+            None,
+            DTL("20000101T010101"),
+            Some(DTL("20000101T010106")),
+            Result_Filter_DateTime2::InRange
+        ),
         (
             None,
             DTL("20000101T010101"),
             Some(DTL("20000101T010100")),
             Result_Filter_DateTime2::AfterRange,
         ),
-        (None, DTL("20000101T010101"), Some(DTL("20000101T010101")), Result_Filter_DateTime2::InRange),
+        (
+            None,
+            DTL("20000101T010101"),
+            Some(DTL("20000101T010101")),
+            Result_Filter_DateTime2::InRange
+        ),
     ] {
         let result = dt_pass_filters(&dt, &da, &db);
-        assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?}, {:?})", exp_result, result, dt, da, db);
+        assert_eq!(exp_result, result, "Expected {:?} Got {:?} for {:?} among dt_pass_filters({:?}, {:?})", exp_result, result, dt, da, db);
         eprintln!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
         /*
         #[allow(unused_must_use)]
@@ -183,7 +212,116 @@ fn test_dt_pass_filters() {
         }
         */
     }
-    eprintln!("{}test_dt_pass_filters()", sx());
+    eprintln!("{}test_dt_pass_filters_fixedoffset2()", sx());
+}
+
+#[rustfmt::skip]
+#[allow(non_snake_case)]
+#[test]
+fn test_dt_pass_filters_z() {
+    eprintln!("{}test_dt_pass_filters_z()", sn());
+
+    fn DTLz(s: &str) -> DateTimeL {
+        let dummy = FixedOffset::east(0);
+        str_datetime(s, "%Y%m%dT%H%M%S%z", true, &dummy).unwrap()
+    }
+
+    for (da, dt, db, exp_result) in [
+        (   // same TZ
+            Some(DTLz("20000101T010105-0100")),
+            DTLz("20000101T010106-0100"),
+            Some(DTLz("20000101T010107-0100")),
+            Result_Filter_DateTime2::InRange,
+        ),
+        (   // differing TZ
+            Some(DTLz("20000101T020115+0200")),
+            DTLz("20000101T010116+0100"),
+            Some(DTLz("20000101T030117+0300")),
+            Result_Filter_DateTime2::InRange,
+        ),
+        (   // same TZ
+            Some(DTLz("20000101T010107-0200")),
+            DTLz("20000101T010106-0200"),
+            Some(DTLz("20000101T010108-0200")),
+            Result_Filter_DateTime2::BeforeRange,
+        ),
+        (   // differing TZ
+            Some(DTLz("20000101T010117+0100")),
+            DTLz("20000101T020116+0200"),
+            Some(DTLz("20000101T030118+0300")),
+            Result_Filter_DateTime2::BeforeRange,
+        ),
+        (   // same TZ
+            Some(DTLz("20000101T010101-0300")),
+            DTLz("20000101T010106-0300"),
+            Some(DTLz("20000101T010102-0300")),
+            Result_Filter_DateTime2::AfterRange,
+        ),
+        (   // same TZ
+            Some(DTLz("20000101T010101-0400")),
+            DTLz("20000101T010106-0400"),
+            None,
+            Result_Filter_DateTime2::InRange
+        ),
+        (   // differing TZ
+            Some(DTLz("20000101T030101+0300")),
+            DTLz("20000101T010106-0100"),
+            None,
+            Result_Filter_DateTime2::InRange
+        ),
+        (   // same TZ
+            Some(DTLz("20000101T010102-0500")),
+            DTLz("20000101T010101-0500"),
+            None,
+            Result_Filter_DateTime2::BeforeRange,
+        ),
+        (   // differing TZ
+            Some(DTLz("20000101T113102+0900")),
+            DTLz("20000101T011101-0000"),
+            None,
+            Result_Filter_DateTime2::BeforeRange,
+        ),
+        (   // same TZ
+            Some(DTLz("20000101T010101-0600")),
+            DTLz("20000101T010101-0600"),
+            None,
+            Result_Filter_DateTime2::InRange
+        ),
+        (   // same TZ
+            None,
+            DTLz("20000101T010101-0700"),
+            Some(DTLz("20000101T010106-0700")),
+            Result_Filter_DateTime2::InRange
+        ),
+        (   // same TZ
+            None,
+            DTLz("20000101T010101-0800"),
+            Some(DTLz("20000101T010100-0800")),
+            Result_Filter_DateTime2::AfterRange,
+        ),
+        (   // same TZ
+            None,
+            DTLz("20000101T010101-0900"),
+            Some(DTLz("20000101T010101-0900")),
+            Result_Filter_DateTime2::InRange
+        ),
+    ] {
+        let result = dt_pass_filters(&dt, &da, &db);
+        // assert error message includes UTC datetimes for easier grok
+        let dt0 = fo_to_fo0(&Some(dt)).unwrap();
+        let da0 = fo_to_fo0(&da);
+        let db0 = fo_to_fo0(&db);
+        assert_eq!(exp_result, result, "
+Expected {:?}
+Got      {:?}
+For                  {:?}
+dt_pass_filters({:?}, {:?})
+For                  {:?}
+dt_pass_filters({:?}, {:?})
+", exp_result, result, dt, da, db, dt0, da0, db0);
+        eprintln!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
+    }
+    eprintln!("{}test_dt_pass_filters_z()", sx());
 }
 
 /// basic test of `SyslineReader.dt_after_or_before`

@@ -549,7 +549,7 @@ lazy_static! {
 /// does chrono datetime pattern have a timezone?
 /// see https://docs.rs/chrono/latest/chrono/format/strftime/
 #[inline(always)]
-#[cfg(test)]
+#[cfg(any(debug_assertions, test))]
 pub fn dt_pattern_has_tz(pattern: &DateTimePattern_str) -> bool {
     pattern.contains("%Z") ||
     pattern.contains("%z") ||
@@ -560,7 +560,7 @@ pub fn dt_pattern_has_tz(pattern: &DateTimePattern_str) -> bool {
 /// does chrono datetime pattern have a year?
 /// see https://docs.rs/chrono/latest/chrono/format/strftime/
 #[inline(always)]
-#[cfg(test)]
+#[cfg(any(debug_assertions, test))]
 pub fn dt_pattern_has_year(pattern: &DateTimePattern_str) -> bool {
     pattern.contains("%Y") ||
     pattern.contains("%y")
@@ -692,9 +692,6 @@ pub fn str_datetime(
     tz_offset: &FixedOffset
 ) -> DateTimeL_Opt {
     debug_eprintln!("{}str_datetime({:?}, {:?}, {:?}, {:?})", sn(), str_to_String_noraw(dts), pattern, patt_has_tz, tz_offset);
-    // BUG: [2022/03/21] chrono Issue #660 https://github.com/chronotope/chrono/issues/660
-    //      ignoring surrounding whitespace in the passed `fmt`
-    // LAST WORKING HERE 2022/04/07 22:07:34 see scrap experiments in `Projects/rust-tests/test8-tz/`
     // TODO: 2022/04/07
     //       if dt_pattern has TZ then create a `DateTime`
     //       if dt_pattern does not have TZ then create a `NaiveDateTime`
@@ -705,6 +702,7 @@ pub fn str_datetime(
     //       But pass around as `chrono::DateTime`, not `chrono::Local`.
     //       Replace use of `Local` with `DateTime. Change typecast `DateTimeL`
     //       type. Can leave the name in place for now.
+    debug_assert_eq!(patt_has_tz, dt_pattern_has_tz(pattern), "wrong {} for pattern {}", patt_has_tz, pattern);
     if patt_has_tz {
         match DateTime::parse_from_str(dts, pattern) {
             Ok(val) => {
@@ -770,13 +768,13 @@ pub fn str_datetime(
                 return None;
             }
             debug_eprintln!("{}str_datetime return {:?}", sx(), Some(val));
-            return Some(val);
+            Some(val)
         }
         None => {
             debug_eprintln!("{}str_datetime: NaiveDateTime.parse_from_str({:?}, {:?}) returned None, return None", sx(), dts, pattern);
-            return None;
+            None
         }
-    };
+    }
 }
 
 /// if `dt` is at or after `dt_filter` then return `OccursAtOrAfter`
@@ -872,6 +870,9 @@ pub fn dt_pass_filters(
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // helper functions - search a slice quickly (loop unroll version)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// TODO: [202/04/15] put performance tweaks into a mod
+// pub mod fast_check {
 
 #[inline(always)]
 #[unroll_for_loops]
