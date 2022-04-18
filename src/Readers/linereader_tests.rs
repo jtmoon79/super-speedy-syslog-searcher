@@ -33,6 +33,7 @@ use crate::dbgpr::printers::{
     print_colored_stdout,
     byte_to_char_noraw,
     buffer_to_String_noraw,
+    str_to_String_noraw,
 };
 
 use crate::dbgpr::stack::{
@@ -47,6 +48,20 @@ use more_asserts::{
     assert_lt,
     assert_ge
 };
+
+// helper to print the noraw version of a file
+#[cfg(test)]
+fn eprint_file(path: &FPath) {
+    let contents_file: String = std::fs::read_to_string(path).unwrap();
+    let contents_file_count: usize = contents_file.lines().count();
+    let contents_file_noraw: String = str_to_String_noraw(contents_file.as_str());
+    eprintln!(
+        "contents_file {:?} ({} lines):\n────────────────────────────────────────\n{}\n────────────────────────────────────────\n{}\n────────────────────────────────────────\n",
+        path, contents_file_count,
+        contents_file_noraw,
+        contents_file,
+    );
+}
 
 /// helper to wrap the match and panic checks
 #[cfg(test)]
@@ -278,11 +293,8 @@ fn find_line_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
 fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
     eprintln!("{}_compare_file_linereader({:?})", sn(), path);
     let contents_file: String = std::fs::read_to_string(path).unwrap();
-    let contents_file_count = contents_file.lines().count();
-    eprintln!(
-        "{}contents_file ({} lines):\n{}{:?}\n",
-        so(), contents_file_count, so(), contents_file,
-    );
+    let contents_file_count: usize = contents_file.lines().count();
+    eprint_file(path);
     let mut contents_lr: String = String::with_capacity(0);
     linereader.copy_all_lines(&mut contents_lr);
     eprintln!(
@@ -313,8 +325,10 @@ fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
 #[allow(non_snake_case)]
 #[cfg(test)]
 fn _test_LineReader_all(path: &FPath, blocksz: BlockSz) {
-    eprintln!("{}_test_LineReader_all({:?}, {:?})", sn(), &path, blocksz);
-    let mut lr1 = new_LineReader(&path, blocksz);
+    stack_offset_set(None);
+    eprintln!("{}_test_LineReader_all({:?}, {:?})", sn(), path, blocksz);
+    eprint_file(path);
+    let mut lr1 = new_LineReader(path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
     let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
     let mut offsets_all = Vec::<FileOffset>::with_capacity(fillsz);
@@ -409,7 +423,6 @@ test_LineReader_all3n line 3
     let fpath = FPath::from(ntf.path().to_str().unwrap());
     _test_LineReader_all(&fpath, 0x4);
 }
-
 
 /// have `LineReader` read all file offsets but in reverse
 #[allow(non_snake_case)]
@@ -508,6 +521,212 @@ fn test_LineReader_all_reversed3n() {
 test_LineReader_all_reversed3n line 1
 test_LineReader_all_reversed3n line 2
 test_LineReader_all_reversed3n line 3
+";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+/// have `LineReader` read all file offsets but only the even ones
+#[allow(non_snake_case)]
+#[cfg(test)]
+fn _test_LineReader_half_even(path: &FPath, blocksz: BlockSz) {
+    eprintln!("{}_test_LineReader_half_even({:?}, {:?})", sn(), &path, blocksz);
+    let mut lr1 = new_LineReader(&path, blocksz);
+    eprintln!("{}LineReader {:?}", so(), lr1);
+    let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
+    let mut offsets_half_even = Vec::<FileOffset>::with_capacity(fillsz);
+    fill(&mut offsets_half_even);
+    offsets_half_even.retain(|x| *x % 2 == 0);
+
+    eprintln!("{}offsets_half: {:?}", so(), offsets_half_even);
+    find_line_all(&mut lr1, &offsets_half_even);
+
+    eprintln!("\n{}{:?}\n", so(), lr1);
+
+    compare_file_linereader(path, &lr1);
+
+    eprintln!("{}_test_LineReader_half_even({:?}, {:?})", sx(), &path, blocksz);
+}
+
+#[test]
+fn test_LineReader_half_even_0_empty() {
+    let data: &str = "";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+#[test]
+fn test_LineReader_half_even_1() {
+    let data: &str = "\
+test_LineReader_half_even_1 line 1";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+
+#[test]
+fn test_LineReader_half_even_1n() {
+    let data: &str = "\
+test_LineReader_half_even_1n line 1n
+";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+#[test]
+fn test_LineReader_half_even_2() {
+    let data: &str = "\
+test_LineReader_half_even_2 line 1
+test_LineReader_half_even_2 line 2";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0xFF);
+}
+
+
+#[test]
+fn test_LineReader_half_even_2n() {
+    let data: &str = "\
+test_LineReader_half_even_2n line 1
+test_LineReader_half_even_2n line 2
+";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+#[test]
+fn test_LineReader_half_even_3_empty() {
+    let data: &str = "\n\n\n";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+#[test]
+fn test_LineReader_half_even_3() {
+    let data: &str = "\
+test_LineReader_half_even_3 line 1
+test_LineReader_half_even_3 line 2
+test_LineReader_half_even_3 line 3";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+#[test]
+fn test_LineReader_half_even_3n() {
+    let data: &str = "\
+test_LineReader_half_even_3n line 1
+test_LineReader_half_even_3n line 2
+test_LineReader_half_even_3n line 3
+";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+/// have `LineReader` read all file offsets but only the even ones
+#[allow(non_snake_case)]
+#[cfg(test)]
+fn _test_LineReader_half_odd(path: &FPath, blocksz: BlockSz) {
+    eprintln!("{}_test_LineReader_half_odd({:?}, {:?})", sn(), &path, blocksz);
+    let mut lr1 = new_LineReader(&path, blocksz);
+    eprintln!("{}LineReader {:?}", so(), lr1);
+    let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
+    let mut offsets_half_odd = Vec::<FileOffset>::with_capacity(fillsz);
+    fill(&mut offsets_half_odd);
+    offsets_half_odd.retain(|x| *x % 2 != 0);
+
+    eprintln!("{}offsets_half: {:?}", so(), offsets_half_odd);
+    find_line_all(&mut lr1, &offsets_half_odd);
+
+    eprintln!("\n{}{:?}\n", so(), lr1);
+
+    compare_file_linereader(path, &lr1);
+
+    eprintln!("{}_test_LineReader_half_odd({:?}, {:?})", sx(), &path, blocksz);
+}
+
+#[test]
+fn test_LineReader_half_odd_0_empty() {
+    let data: &str = "";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+#[test]
+fn test_LineReader_half_odd_1() {
+    let data: &str = "\
+test_LineReader_half_odd_1 line 1";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+
+#[test]
+fn test_LineReader_half_odd_1n() {
+    let data: &str = "\
+test_LineReader_half_odd_1n line 1n
+";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+#[test]
+fn test_LineReader_half_odd_2() {
+    let data: &str = "\
+test_LineReader_half_odd_2 line 1
+test_LineReader_half_odd_2 line 2";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0xFF);
+}
+
+
+#[test]
+fn test_LineReader_half_odd_2n() {
+    let data: &str = "\
+test_LineReader_half_odd_2n line 1
+test_LineReader_half_odd_2n line 2
+";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+#[test]
+fn test_LineReader_half_odd_3_empty() {
+    let data: &str = "\n\n\n";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+#[test]
+fn test_LineReader_half_odd_3() {
+    let data: &str = "\
+test_LineReader_half_odd_3 line 1
+test_LineReader_half_odd_3 line 2
+test_LineReader_half_odd_3 line 3";
+    let ntf = create_temp_file(data);
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_all(&fpath, 0x4);
+}
+
+#[test]
+fn test_LineReader_half_odd_3n() {
+    let data: &str = "\
+test_LineReader_half_odd_3n line 1
+test_LineReader_half_odd_3n line 2
+test_LineReader_half_odd_3n line 3
 ";
     let ntf = create_temp_file(data);
     let fpath = FPath::from(ntf.path().to_str().unwrap());
@@ -646,32 +865,44 @@ fn _test_LineReader_precise_order(path: &FPath, blocksz: BlockSz, offsets: &Vec:
 }
 
 #[test]
-fn test_LineReader_precise_order_2_0_1() {
+fn test_LineReader_precise_order_2__0_44__0xF() {
     let data: &str = "\
-test_LineReader_precise_order_2 line 1
-test_LineReader_precise_order_2 line 2
+test_LineReader_precise_order_2 line 1 of 2
+test_LineReader_precise_order_2 line 2 of 2
 ";
     let ntf = create_temp_file(data);
-    let offsets: Vec::<FileOffset> = vec![0, 1];
+    let offsets: Vec::<FileOffset> = vec![0, 44];
     let fpath = FPath::from(ntf.path().to_str().unwrap());
     _test_LineReader_precise_order(&fpath, 0xF, &offsets);
 }
 
 #[test]
-fn test_LineReader_precise_order_2_1_0() {
+fn test_LineReader_precise_order_2__0_44__0xFF() {
     let data: &str = "\
-test_LineReader_precise_order_2 line 1
-test_LineReader_precise_order_2 line 2
+test_LineReader_precise_order_2 line 1 of 2
+test_LineReader_precise_order_2 line 2 of 2
 ";
     let ntf = create_temp_file(data);
-    let offsets: Vec::<FileOffset> = vec![1, 0];
+    let offsets: Vec::<FileOffset> = vec![0, 44];
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_precise_order(&fpath, 0xFF, &offsets);
+}
+
+#[test]
+fn test_LineReader_precise_order_2__44_0() {
+    let data: &str = "\
+test_LineReader_precise_order_2 line 1 of 2
+test_LineReader_precise_order_2 line 2 of 2
+";
+    let ntf = create_temp_file(data);
+    let offsets: Vec::<FileOffset> = vec![44, 0];
     let fpath = FPath::from(ntf.path().to_str().unwrap());
     _test_LineReader_precise_order(&fpath, 0xF, &offsets);
 }
 
 
 #[test]
-fn test_LineReader_precise_order_empty3_0_1_2() {
+fn test_LineReader_precise_order_empty3__0_1_2() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![0, 1, 2];
@@ -680,7 +911,7 @@ fn test_LineReader_precise_order_empty3_0_1_2() {
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3_0_2_1() {
+fn test_LineReader_precise_order_empty3__0_2_1() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![0, 2, 1];
@@ -689,7 +920,7 @@ fn test_LineReader_precise_order_empty3_0_2_1() {
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3_1_2_0() {
+fn test_LineReader_precise_order_empty3__1_2_0() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![1, 2, 0];
@@ -698,7 +929,7 @@ fn test_LineReader_precise_order_empty3_1_2_0() {
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3_1_0_2() {
+fn test_LineReader_precise_order_empty3__1_0_2() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![1, 0, 2];
@@ -707,7 +938,7 @@ fn test_LineReader_precise_order_empty3_1_0_2() {
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3_2_0_1() {
+fn test_LineReader_precise_order_empty3__2_0_1() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![2, 0, 1];
@@ -716,7 +947,7 @@ fn test_LineReader_precise_order_empty3_2_0_1() {
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3_2_1_0() {
+fn test_LineReader_precise_order_empty3__2_1_0() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![2, 1, 0];
@@ -725,7 +956,7 @@ fn test_LineReader_precise_order_empty3_2_1_0() {
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3_1_0_2_1_2() {
+fn test_LineReader_precise_order_empty3__1_0_2_1_2() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![1, 0, 2, 1, 2];
@@ -734,7 +965,7 @@ fn test_LineReader_precise_order_empty3_1_0_2_1_2() {
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3_1_2_1_2_0() {
+fn test_LineReader_precise_order_empty3__1_2_1_2_0() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![1, 2, 1, 2, 0];
@@ -743,7 +974,7 @@ fn test_LineReader_precise_order_empty3_1_2_1_2_0() {
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3_0_1_2_2() {
+fn test_LineReader_precise_order_empty3__0_1_2_2() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![0, 1, 2, 2];
@@ -752,7 +983,7 @@ fn test_LineReader_precise_order_empty3_0_1_2_2() {
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3_0_2_1_1() {
+fn test_LineReader_precise_order_empty3__0_2_1_1() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![0, 2, 1, 1];
@@ -761,7 +992,7 @@ fn test_LineReader_precise_order_empty3_0_2_1_1() {
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3_1_2_0_0() {
+fn test_LineReader_precise_order_empty3__1_2_0_0() {
     let data: &str = "\n\n\n";
     let ntf = create_temp_file(data);
     let offsets: Vec::<FileOffset> = vec![1, 2, 0, 0];
@@ -770,25 +1001,55 @@ fn test_LineReader_precise_order_empty3_1_2_0_0() {
 }
 
 #[test]
-fn test_LineReader_precise_order_3_0_2_1() {
+fn test_LineReader_precise_order_3__0_88_44() {
     let data: &str = "\
-test_LineReader_precise_order_3 line 1
-test_LineReader_precise_order_3 line 2
-test_LineReader_precise_order_3 line 3
+test_LineReader_precise_order_3 line 1 of 3
+test_LineReader_precise_order_3 line 2 of 3
+test_LineReader_precise_order_3 line 3 of 3
 ";
     let ntf = create_temp_file(data);
-    let offsets: Vec::<FileOffset> = vec![0, 2, 1];
+    let offsets: Vec::<FileOffset> = vec![0, 88, 44];
     let fpath = FPath::from(ntf.path().to_str().unwrap());
-    _test_LineReader_precise_order(&fpath, 0xF, &offsets);
+    _test_LineReader_precise_order(&fpath, 0x8, &offsets);
 }
 
 #[test]
-fn test_LineReader_precise_order_empty3() {
-    let data: &str = "\n\n\n";
+fn test_LineReader_precise_order_3__0_100_50() {
+    let data: &str = "\
+test_LineReader_precise_order_3 line 1 of 3
+test_LineReader_precise_order_3 line 2 of 3
+test_LineReader_precise_order_3 line 3 of 3
+";
     let ntf = create_temp_file(data);
-    let offsets: Vec::<FileOffset> = vec![0, 2, 1];
+    let offsets: Vec::<FileOffset> = vec![0, 100, 50];
     let fpath = FPath::from(ntf.path().to_str().unwrap());
-    _test_LineReader_precise_order(&fpath, 0xF, &offsets);
+    _test_LineReader_precise_order(&fpath, 0x8, &offsets);
+}
+
+#[test]
+fn test_LineReader_precise_order_3__50_0_100() {
+    let data: &str = "\
+test_LineReader_precise_order_3 line 1 of 3
+test_LineReader_precise_order_3 line 2 of 3
+test_LineReader_precise_order_3 line 3 of 3
+";
+    let ntf = create_temp_file(data);
+    let offsets: Vec::<FileOffset> = vec![50, 0, 100];
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_precise_order(&fpath, 0x8, &offsets);
+}
+
+#[test]
+fn test_LineReader_precise_order_3__100_50_0() {
+    let data: &str = "\
+test_LineReader_precise_order_3 line 1 of 3
+test_LineReader_precise_order_3 line 2 of 3
+test_LineReader_precise_order_3 line 3 of 3
+";
+    let ntf = create_temp_file(data);
+    let offsets: Vec::<FileOffset> = vec![100, 50, 0];
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_precise_order(&fpath, 0x8, &offsets);
 }
 
 type test_Line_get_boxptrs_check = Vec<(FileOffset, (LineIndex, LineIndex), Bytes)>;

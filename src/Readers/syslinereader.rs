@@ -1052,7 +1052,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
 
     /// Find first sysline at or after `fileoffset`.
     /// return (fileoffset of start of _next_ sysline, found Sysline at or after `fileoffset`)
-    /// Similar to `find_line`, `read_block`.
+    /// Similar to `LineReader.find_line`, `BlockReader.read_block`.
     /// This is the heart of the algorithm to find a sysline within a syslog file quickly.
     /// It's simply a binary search.
     /// It could definitely use some improvements, but for now it gets the job done.
@@ -1262,8 +1262,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         // find line with datetime B
         //
 
-        { // check if sysline at `fo1` is already known about
         /*
+        { // check if sysline at `fo1` is already known about
             // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
             // check if there is a Sysline already known at this fileoffset
             if self.syslines.contains_key(&fo1) {
@@ -1335,8 +1335,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
             }
             debug_eprintln!("{}find_sysline: searching for first sysline datetime B …", so());
-        */
         }
+        */
 
         let mut fo_b: FileOffset = fo1;
         let mut eof = false;
