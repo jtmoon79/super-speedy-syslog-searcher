@@ -335,14 +335,14 @@ impl Line {
             assert_le!(
                 li.blockoffset,
                 linepart.blockoffset,
-                "Prior stored LinePart at blockoffset {} is after passed LinePart at blockoffset {}",
+                "Line.push: Prior stored LinePart at blockoffset {} is after passed LinePart at blockoffset {}",
                 li.blockoffset,
                 linepart.blockoffset,
             );
             assert_lt!(
                 li.fileoffset,
                 linepart.fileoffset,
-                "Prior stored LinePart at fileoffset {} is at or after passed LinePart at fileoffset {}",
+                "Line.push: Prior stored LinePart at fileoffset {} is at or after passed LinePart at fileoffset {}",
                 li.fileoffset,
                 linepart.fileoffset,
             );
@@ -360,14 +360,14 @@ impl Line {
             assert_ge!(
                 li.blockoffset,
                 linepart.blockoffset,
-                "Prior stored LinePart at blockoffset {} is before passed LinePart at blockoffset {} (should be after)",
+                "Line.prepend: Prior stored LinePart at blockoffset {} is before passed LinePart at blockoffset {} (should be after)",
                 li.blockoffset,
                 linepart.blockoffset,
             );
             assert_gt!(
                 li.fileoffset,
                 linepart.fileoffset,
-                "Prior stored LinePart at fileoffset {} is at or before passed LinePart at fileoffset {} (should be after)",
+                "Line.prepend: Prior stored LinePart at fileoffset {} is at or before passed LinePart at fileoffset {} (should be after)",
                 li.fileoffset,
                 linepart.fileoffset,
             );
@@ -782,21 +782,25 @@ impl<'linereader> LineReader<'linereader> {
     }
 
     /// smallest size character in bytes
+    #[inline]
     pub fn charsz(&self) -> usize {
         self._charsz
     }
 
     /// `Block` size in bytes
+    #[inline]
     pub fn blocksz(&self) -> BlockSz {
         self.blockreader.blocksz
     }
 
     /// File Size in bytes
+    #[inline]
     pub fn filesz(&self) -> BlockSz {
         self.blockreader.filesz
     }
 
     /// File path
+    #[inline]
     pub fn path(&self) -> &FPath {
         &self.blockreader.path
     }
@@ -832,7 +836,7 @@ impl<'linereader> LineReader<'linereader> {
         }
         let line: &Line = &self.lines[fileoffset];
         let s: String = line.to_String();
-        eprintln!("{}LineReader.copy_line({}) {:?}", snx(), fileoffset, s);
+        eprintln!("{}LineReader.copy_line({:2}) {:?}", snx(), fileoffset, s);
         buffer.push_str(s.as_str());
         true
     }
@@ -862,31 +866,37 @@ impl<'linereader> LineReader<'linereader> {
 
 
     /// count of lines processed by this LineReader
+    #[inline]
     pub fn count(&self) -> u64 {
         self.lines_count
     }
 
     /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
+    #[inline]
     pub fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         BlockReader::block_offset_at_file_offset(fileoffset, self.blocksz())
     }
 
     /// return file_offset (file byte offset) at given `BlockOffset`
+    #[inline]
     pub fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz())
     }
 
     /// return file_offset (file byte offset) at blockoffset+blockindex
+    #[inline]
     pub fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         BlockReader::file_offset_at_block_offset_index(blockoffset, self.blocksz(), blockindex)
     }
 
     /// return block index at given `FileOffset`
+    #[inline]
     pub fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         BlockReader::block_index_at_file_offset(fileoffset, self.blocksz())
     }
 
     /// return count of blocks in a file, also, the last blockoffset + 1
+    #[inline]
     pub fn file_blocks_count(&self) -> u64 {
         BlockReader::file_blocks_count(self.filesz(), self.blocksz())
     }
@@ -1062,30 +1072,51 @@ impl<'linereader> LineReader<'linereader> {
         // found newline part A? Line begins after that newline
         let mut found_nl_a = false;
         // should point to beginning of `Line` (one char after found newline A)
-        let mut fo_nl_a: FileOffset = 0;
+        let mut fo_nl_a: FileOffset = fileoffset;
         // if at first byte of file no need to search for first newline
         if fileoffset == 0 {
             found_nl_a = true;
             bof = true;
-            debug_eprintln!("{}find_line: newline A is {} because at beginning of file!", so(), fo_nl_a);
+            debug_eprintln!("{}find_line: newline A0 is {} because at beginning of file!", so(), fo_nl_a);
         }
         // if prior char at fileoffset-1 has newline then use that.
         // Background: caller's commonly call this function `find_line` in a sequence so it's an
         // easy check with likely success.
+        type LinePart_Mid = Option<(BlockIndex, FileOffset, BlockOffset, BlockSz)>;
+        // remember the first half of this "middle" `LinePart` (partial information for a `LinePart`)
+        let mut mid_info: LinePart_Mid = None;
+        // append new `LinePart`s to this `Line`
+        let mut line: Line = Line::new();
+
         if !found_nl_a {
             // XXX: single-byte encoding, does not handle multi-byte
-            let fo1 = fileoffset - charsz_fo;
+            let mut fo1 = fileoffset - charsz_fo;
             if self.foend_to_fobeg.contains_key(&fo1) {
                 found_nl_a = true;
                 debug_eprintln!(
-                    "{}find_line: found newline A {} from lookup of passed fileoffset-1 {}",
+                    "{}find_line: found newline A0 {} from lookup of passed fileoffset-1 {}",
                     so(),
                     fo1,
                     fileoffset - 1
                 );
                 // `fo_nl_a` should refer to first char past newline A
-                // XXX: single-byte encoding
-                fo_nl_a = fo1 + charsz_fo;
+                fo_nl_a = fileoffset;
+                let bin_beg: BlockIndex = self.block_index_at_file_offset(fo_nl_a);
+                let bo: BlockOffset = self.block_offset_at_file_offset(fo_nl_a);
+                debug_eprintln!(
+                    "{}find_line: set aside mid_info(BlockIndex beg {}, FileOffset beg {}, BlockOffset {})",
+                    so(),
+                    bin_beg,
+                    fo_nl_a,
+                    bo,
+                );
+                mid_info = Some((bin_beg, fo_nl_a, bo, self.blocksz()));
+            } else {
+                debug_eprintln!(
+                    "{}find_line: did not find newline A0 in lookup of passed fileoffset-1 {}",
+                    so(),
+                    fileoffset - 1
+                );
             }
         }
 
@@ -1093,28 +1124,119 @@ impl<'linereader> LineReader<'linereader> {
         // walk backwards looking for line-beginning newline '\n' newline A
         // that is, the newline that terminates a preceding line (not included in this found Line)
         //
-        // append LinePart to this `Line`
-        let mut line: Line = Line::new();
-        // remember the first half of this "middle" `LinePart` (partial information for a `LinePart`)
-        type LinePart_Mid = Option<(BlockIndex, FileOffset, BlockOffset, BlockSz)>;
-        let mut mid_info: LinePart_Mid = None;
-        {
+        if !found_nl_a {
             let mut bo = self.block_offset_at_file_offset(fileoffset);
             let bo_1 = bo;
-            //let mut bin_beg_init_a = self.block_index_at_file_offset(fileoffset);
-            let bin_end: BlockIndex = self.blocksz() as BlockIndex;
             let mut bin_beg: BlockIndex = self.block_index_at_file_offset(fileoffset);
-            while !found_nl_a {
-                debug_eprintln!("{}find_line: self.blockreader.read_block({})", so(), bo);
+            let mut bin_end: BlockIndex;
+
+            // walk backwards though partial "middle" block (wherever `fileoffset` refers) (done once)
+
+            #[allow(clippy::never_loop)]
+            '_loop_nl_a1: loop {  // this "loop" only occurs once
+                debug_eprintln!("{}find_line: self.blockreader.read_block({}) first call while searching for newline A1", so(), bo);
                 match self.blockreader.read_block(bo) {
                     Ok(val) => {
                         debug_eprintln!(
-                            "{}find_line: read_block returned Block @{:p} len {} while searching for newline A",
+                            "{}find_line: read_block returned Block @{:p} len {} while searching for newline A1",
                             so(),
                             &(*val),
                             (*val).len()
                         );
                         bp = val;
+                        bin_end = bp.len() as BlockIndex;
+                        // XXX: multi-byte
+                        bin_beg = bin_end - charsz_bi;
+                    }
+                    Err(err) => {
+                        if err.kind() == EndOfFile {
+                            debug_eprintln!("{}find_line: read_block returned EndOfFile {:?} searching for found_nl_a failed (IS THIS AN ERROR???????)", so(), self.path());
+                            // reached end of file, no beginning newlines found
+                            // TODO: Is this an error state? should this be handled differently?
+                            debug_eprintln!("{}find_line: return ResultS4_LineFind::Done; EOF from read_block; NOT SURE IF THIS IS CORRECT", sx());
+                            return ResultS4_LineFind::Done;
+                        }
+                        debug_eprintln!("{}find_line: LRU cache put({}, Done)", so(), fileoffset);
+                        self._find_line_lru_cache.put(fileoffset, ResultS4_LineFind::Done);
+                        debug_eprintln!("{}find_line: return ResultS4_LineFind::Done; NOT SURE IF THIS IS CORRECT!!!!", sx());
+                        return ResultS4_LineFind::Done;
+                    }
+                }
+                debug_eprintln!("{}find_line: scan block {} backwards, starting from blockindex {}", so(), bo, bin_beg);
+                loop {
+                    // XXX: single-byte encoding
+                    if (*bp)[bin_beg] == NLu8 {
+                        found_nl_a = true;
+                        if bin_beg == bin_end - 1 {
+                            // if at last blockindex of current block then move to next block at blockindex 0
+                            bo += 1;
+                            bin_beg = 0;
+                            fo_nl_a = self.file_offset_at_block_offset_index(bo, bin_beg);
+                            mid_info = None;
+                        } else {
+                            // `fo_nl_a` should refer to first char past newline A
+                            // XXX: single-byte encoding
+                            bin_beg += charsz_bi;
+                            fo_nl_a = self.file_offset_at_block_offset_index(bo, bin_beg);
+                            debug_eprintln!(
+                                "{}find_line: set aside mid_info(BlockIndex beg {}, FileOffset beg {}, BlockOffset {})",
+                                so(),
+                                bin_beg,
+                                fo_nl_a,
+                                bo,
+                            );
+                            // (BlockIndex, FileOffset, BlockOffset, BlockSz)
+                            mid_info = Some((bin_beg, fo_nl_a, bo, self.blocksz()));
+                        }
+                        debug_eprintln!(
+                            "{}find_line: found newline A1 during byte search, one charsz before fileoffset {} ≟ blockoffset {} blockindex {}",
+                            so(),
+                            fo_nl_a,
+                            bo,
+                            bin_beg
+                        );
+                        break;
+                    } else {
+                        if bin_beg == 0 {
+                            break;
+                        }
+                        bin_beg -= charsz_bi;
+                    }
+                }  // end loop
+                if found_nl_a {
+                    break;
+                }
+                if bo != 0 {
+                    bo -= 1;
+                    bin_beg = bin_end - charsz_bi;
+                } else {
+                    debug_eprintln!("{}find_line: walked all the way back to the beginning of file", so());
+                    // getting here means walked all the back to the beginning of the file
+                    // XXX: does not handle Byte Order Mark
+                    found_nl_a = true;
+                    fo_nl_a = 0;
+                    bof = true;
+                }
+                break;  // only loop once
+            }
+
+            // search backwards to beginning of file (done zero or more times)
+
+           '_loop_nl_aN: while !found_nl_a {
+                debug_eprintln!("{}find_line: self.blockreader.read_block({})", so(), bo);
+                match self.blockreader.read_block(bo) {
+                    Ok(val) => {
+                        debug_eprintln!(
+                            "{}find_line: read_block returned Block @{:p} len {} while searching for newline A2",
+                            so(),
+                            &(*val),
+                            (*val).len()
+                        );
+                        bp = val;
+                        bin_end = bp.len() as BlockIndex;
+                        if bo != bo_1 {  // if not first loop iteration
+                            bin_beg = bin_end - charsz_bi;
+                        }
                     }
                     Err(err) => {
                         if err.kind() == EndOfFile {
@@ -1131,70 +1253,63 @@ impl<'linereader> LineReader<'linereader> {
                     }
                 }
                 // walk backwards though a single `Block`
+                debug_eprintln!("{}find_line: scan block {} backwards, starting from blockindex {}", so(), bo, bin_beg);
                 loop {
                     // XXX: single-byte encoding
                     if (*bp)[bin_beg] == NLu8 {
                         found_nl_a = true;
-                        if bin_beg == bin_end {
+                        if bin_beg == bin_end - 1 {
                             // if at last blockindex of current block then move to next block at blockindex 0
                             bo += 1;
                             bin_beg = 0;
+                            fo_nl_a = self.file_offset_at_block_offset_index(bo, bin_beg);
+                        } else {
+                            // `fo_nl_a` should refer to first char past newline A
+                            // XXX: single-byte encoding
+                            bin_beg += charsz_bi;
+                            fo_nl_a = self.file_offset_at_block_offset_index(bo, bin_beg);
                         }
-                        fo_nl_a = self.file_offset_at_block_offset_index(bo, bin_beg);
                         debug_eprintln!(
-                            "{}find_line: found newline A from byte search at fileoffset {} ≟ blockoffset {} blockindex {}",
+                            "{}find_line: found newline A2 during byte search, one charsz before fileoffset {} ≟ blockoffset {} blockindex {}",
                             so(),
                             fo_nl_a,
                             bo,
                             bin_beg
                         );
-                        // `fo_nl_a` should refer to first char past newline A
-                        // XXX: single-byte encoding
-                        bin_beg += charsz_bi;
-                        fo_nl_a += charsz_fo;
                         break;
                     }
+                    // XXX: single-byte encoding
+                    fo_nl_a -= charsz_fo;
                     if bin_beg == 0 {
                         break;
                     }
                     // XXX: single-byte encoding
                     bin_beg -= charsz_bi;
                 }
-                if bo == bo_1 {
-                    // remember this partial `LinePart` (done once)
-                    //let fo_beg: FileOffset = self.file_offset_at_block_offset_index(bo, bin_beg);
-                    // (BlockIndex, FileOffset, BlockOffset, BlockSz)
-                    mid_info = Some((bin_beg, fo_nl_a, bo, self.blocksz()));
-                    debug_eprintln!(
-                        "{}find_line: set aside mid_info(BlockIndex beg {}, FileOffset beg {}, BlockOffset {})",
-                        so(),
-                        bin_beg,
-                        fo_nl_a,
-                        bo,
-                    );
-                } else {
-                    // remember this (possibly entire) `LinePart` (done zero or more times)
-                    let fo_beg: FileOffset = self.file_offset_at_block_offset_index(bo, bin_beg);
-                    let li = LinePart::new(bin_beg, bin_end, bp.clone(), fo_beg, bo, self.blocksz());
-                    debug_eprintln!("{}find_line: Line.prepend({:?})", so(), &li);
-                    line.prepend(li);
-                }
+                // remember this (possibly entire) `LinePart` (done zero or more times)
+                let fo_beg: FileOffset = self.file_offset_at_block_offset_index(bo, bin_beg);
+                let li = LinePart::new(bin_beg, bin_end, bp.clone(), fo_beg, bo, self.blocksz());
+                debug_eprintln!("{}find_line: Line.prepend({:?}) {:?}", so(), &li, li.to_String_noraw());
+                line.prepend(li);
                 if found_nl_a {
                     break;
                 }
                 if bo != 0 {
                     bo -= 1;
-                    bin_beg = bin_end;
+                    bin_beg = bin_end - charsz_bi;
                 } else {
+                    debug_eprintln!("{}find_line: walked all the way back to the beginning of file", so());
                     // getting here means walked all the back to the beginning of the file
-                    // XXX: does not handle explicit Byte Order Mark
+                    // XXX: does not handle Byte Order Mark
                     found_nl_a = true;
                     fo_nl_a = 0;
                     bof = true;
                     break;
                 }
-            } // ! found_nl_a
-        }
+            }  // while ! found_nl_a
+        } else {  
+            debug_eprintln!("{}find_line: skip backwards search for newline A2", so());
+        }  // if ! found_nl_a
 
         //
         // walk through blocks and bytes looking for ending of line (a newline character; part B)
@@ -1255,16 +1370,16 @@ impl<'linereader> LineReader<'linereader> {
         {
             // found newline part B? Line ends at this
             let mut found_nl_b: bool = false;
-            // set for the first loop (first block), then is zero
-            let mut bin_beg_init_b: BlockIndex = self.block_index_at_file_offset(fo_nl_b);
             let mut bo = self.block_offset_at_file_offset(fo_nl_b);
-            let bo_1 = bo;
-            while !found_nl_b && bo <= blockoffset_last {
+
+            // handle middle partial block (`fileoffset` refers) (done once)
+            #[allow(clippy::never_loop)]
+            '_loop_nl_b1: while !found_nl_b && bo <= blockoffset_last {
                 debug_eprintln!("{}find_line: self.blockreader.read_block({})", so(), bo);
                 match self.blockreader.read_block(bo) {
                     Ok(val) => {
                         debug_eprintln!(
-                            "{}find_line: read_block returned Block @{:p} len {} while searching for newline B",
+                            "{}find_line: read_block returned Block @{:p} len {} while searching for newline B1",
                             so(),
                             &(*val),
                             (*val).len()
@@ -1274,7 +1389,7 @@ impl<'linereader> LineReader<'linereader> {
                     Err(err) => {
                         if err.kind() == EndOfFile {
                             debug_eprintln!(
-                                "{}find_line: read_block returned EndOfFile {:?} while searching for newline B",
+                                "{}find_line: read_block returned EndOfFile {:?} while searching for newline B1",
                                 so(),
                                 self.path()
                             );
@@ -1299,7 +1414,8 @@ impl<'linereader> LineReader<'linereader> {
                     }
                 }
                 let blen = (*bp).len() as BlockIndex;
-                let bin_beg = bin_beg_init_b;
+                let bin_beg = self.block_index_at_file_offset(fo_nl_b);
+                let fo_beg = fo_nl_b;
                 let mut bin_end = bin_beg;
                 while bin_end < blen {
                     // XXX: single-byte encoding
@@ -1308,7 +1424,105 @@ impl<'linereader> LineReader<'linereader> {
                         fo_nl_b = self.file_offset_at_block_offset_index(bo, bin_end);
                         bin_end += charsz_bi; // refer to one past end
                         debug_eprintln!(
-                            "{}find_line: newline B found by byte search fileoffset {} ≟ blockoffset {} blockindex {}",
+                            "{}find_line: newline B1 found by byte search fileoffset {} ≟ blockoffset {} blockindex {}",
+                            so(),
+                            fo_nl_b,
+                            bo,
+                            bin_end,
+                        );
+                        break;
+                    }
+                    // XXX: single-byte encoding
+                    bin_end += charsz_bi;
+                }
+                // sanity check
+                if fo_beg == filesz {
+                    assert_eq!(bin_end - bin_beg, 0, "fileoffset of beginning of line {} is at end of file, yet found a linepart of length {} (expected zero)", fo_beg, bin_end - bin_beg);
+                }
+                // sanity check
+                if bin_end - bin_beg == 0 {
+                    assert_eq!(fo_beg, filesz, "fileoffset of beginning of line {} is at end of file, yet found a linepart of length {} (expected zero)", fo_beg, bin_end - bin_beg);
+                }
+                // at end of file, "zero length" LinePart, skip creating a `LinePart`
+                if bin_end - bin_beg == 0 && fo_beg == filesz {
+                    debug_eprintln!("{}find_line: no newline B1, at end of file", so());
+                    break;
+                }
+                if mid_info.is_some() {
+                    // remember this middle `LinePart`, combining with saved `mid_info` (done once)
+                    #[allow(clippy::unnecessary_unwrap)]
+                    let mi = mid_info.unwrap();
+                    // sanity checks
+                    assert_eq!(mi.2, self.block_offset_at_file_offset(fo_beg), "unexpected mid_info.blockoffset {} ≠ {} block_offset_at_file_offset({})", mi.2, self.block_offset_at_file_offset(fo_beg), fo_beg);
+                    // save the "middle" `LinePart`
+                    let li = LinePart::new(mi.0, bin_end, bp.clone(), mi.1, mi.2, mi.3);
+                    debug_eprintln!("{}find_line: combine mid_info set aside: Line.push({:?}) {:?}", so(), &li, li.to_String_noraw());
+                    line.push(li);
+                } else {
+                    // remember this (possibly entire) `LinePart` (done zero or more times)
+                    let li = LinePart::new(bin_beg, bin_end, bp.clone(), fo_beg, bo, self.blocksz());
+                    debug_eprintln!("{}find_line: Line.push({:?}) {:?}", so(), &li, li.to_String_noraw());
+                    line.push(li);
+                }
+                if found_nl_b {
+                    break;
+                }
+                bo += 1;
+                break;
+            }  // '_loop_nl_b1: loop
+
+            // walk forwards through remainder of file
+            // loop zero or more times
+            '_loop_nl_bn: while !found_nl_b && bo <= blockoffset_last {
+                debug_eprintln!("{}find_line: self.blockreader.read_block({})", so(), bo);
+                match self.blockreader.read_block(bo) {
+                    Ok(val) => {
+                        debug_eprintln!(
+                            "{}find_line: read_block returned Block @{:p} len {} while searching for newline B2",
+                            so(),
+                            &(*val),
+                            (*val).len()
+                        );
+                        bp = val;
+                    }
+                    Err(err) => {
+                        if err.kind() == EndOfFile {
+                            debug_eprintln!(
+                                "{}find_line: read_block returned EndOfFile {:?} while searching for newline B2",
+                                so(),
+                                self.path()
+                            );
+                            let rl = self.insert_line(line);
+                            let fo_ = (*rl).fileoffset_end() + charsz_fo;
+                            debug_eprintln!("{}find_line: LRU Cache put({}, Found_EOF({}, …))", so(), fileoffset, fo_);
+                            self._find_line_lru_cache
+                                .put(fileoffset, ResultS4_LineFind::Found_EOF((fo_, rl.clone())));
+                            debug_eprintln!(
+                                "{}find_line: return ResultS4_LineFind::Found_EOF(({}, {:p})) @[{} , {}]; {:?}",
+                                sx(),
+                                fo_,
+                                &*rl,
+                                (*rl).fileoffset_begin(),
+                                (*rl).fileoffset_end(),
+                                (*rl).to_String_noraw()
+                            );
+                            return ResultS4_LineFind::Found_EOF((fo_, rl));
+                        }
+                        debug_eprintln!("{}find_line: return ResultS4_LineFind::Err({:?});", sx(), err);
+                        return ResultS4_LineFind::Err(err);
+                    }
+                }
+                let blen = (*bp).len() as BlockIndex;
+                let bin_beg = 0;
+                let mut bin_end = bin_beg;
+                while bin_end < blen {
+                    // XXX: single-byte encoding
+                    if (*bp)[bin_end] == NLu8 {
+                        found_nl_b = true;
+                        fo_nl_b = self.file_offset_at_block_offset_index(bo, bin_end);
+                        bin_end += charsz_bi; // refer to one past end
+                        debug_eprintln!(
+                            "{}find_line: newline B2 found by byte search fileoffset {} ≟ blockoffset {} blockindex {}",
                             so(),
                             fo_nl_b,
                             bo,
@@ -1330,77 +1544,32 @@ impl<'linereader> LineReader<'linereader> {
                 }
                 // at end of file, "zero length" LinePart, skip creating a `LinePart`
                 if bin_end - bin_beg == 0 && fo_beg == filesz {
-                    debug_eprintln!("{}find_line: no newline B, at end of file", so());
+                    debug_eprintln!("{}find_line: no newline B2, at end of file", so());
                     break;
                 }
-                if bo == bo_1 && mid_info.is_some() {
-                    // remember this middle `LinePart`, combining with saved `mid_info` (done once)
-                    #[allow(clippy::unnecessary_unwrap)]
-                    let mi = mid_info.unwrap();
-                    // sanity checks
-                    assert_eq!(mi.2, self.block_offset_at_file_offset(fo_beg), "unexpected mid_info.blockoffset {} ≠ {} block_offset_at_file_offset({})", mi.2, self.block_offset_at_file_offset(fo_beg), fo_beg);
-                    // save the "middle" `LinePart`
-                    let li = LinePart::new(mi.0, bin_end, bp.clone(), mi.1, mi.2, mi.3);
-                    debug_eprintln!("{}find_line: combine mid_info set aside: Line.push({:?})", so(), &li);
-                    line.push(li);
-                    mid_info = None;
-                } else {
-                    // remember this (possibly entire) `LinePart` (done zero or more times)
-                    let li = LinePart::new(bin_beg, bin_end, bp.clone(), fo_beg, bo, self.blocksz());
-                    debug_eprintln!("{}find_line: Line.push({:?})", so(), &li);
-                    line.push(li);
-                }
+                // remember this (possibly entire) `LinePart` (done zero or more times)
+                let li = LinePart::new(bin_beg, bin_end, bp.clone(), fo_beg, bo, self.blocksz());
+                debug_eprintln!("{}find_line: Line.push({:?}) {:?}", so(), &li, li.to_String_noraw());
+                line.push(li);
                 if found_nl_b {
                     break;
                 }
-                bin_beg_init_b = 0;
                 bo += 1;
-                if bo > blockoffset_last {
-                    break;
-                }
-            } // ! found_nl_b
+            } // while ! found_nl_b
         }
 
         // may occur in files ending on a single newline
         if line.count() == 0 {
-            //debug_eprintln!("{}find_line: LRU Cache put({}, Done)", so(), fileoffset);
-            //self._find_line_lru_cache.put(fileoffset, ResultS4_LineFind::Done);
-            // XXX: edge case that should not be cached.
-            //      because this function is not idempotent, a subsequent same
-            //      call may find a `Line`. Goes like this:
-            //      given file: "\n\n\n"  (three newlines)
-            //          fine_line(0) -> Line@0
-            //          fine_line(2) -> Done
-            //          fine_line(1) -> Line@1
-            //          fine_line(2) -> Line@2
-            // LAST WORKING HERE 2022/04/16 23:12:43
-            // have been testing this function. Realized this a problem.
-            // A good "fix" would be requiring this function to be called
-            // in strictly incrementing values.
-            // But this function is used for Sysline binary search
-            // algorithm (need to verify that), so this function may be called with differing ordering of values.
-            // May need to rethink how LRU Cache and `self.lines` is used throughout this
-            // function, and when it's appropriate to "cache" information. (hint: when
-            // immedeiately surrounding Lines are known, then it's safe to save "cache" information
-            // and lookup "cache" information.)
+            debug_eprintln!("{}find_line: LRU Cache put({}, Done)", so(), fileoffset);
+            self._find_line_lru_cache
+                .put(fileoffset, ResultS4_LineFind::Done);
             debug_eprintln!("{}find_line: return ResultS4_LineFind::Done;", sx());
             return ResultS4_LineFind::Done;
         }
 
         // sanity check
         debug_eprintln!("{}find_line: return {:?};", so(), line);
-        //let fo_beg = line.fileoffset_begin();
         let fo_end = line.fileoffset_end();
-        //if bof {
-        //    assert_eq!(fo_beg, fo_nl_a, "line.fileoffset_begin() {} ≠ {} searched fo_nl_a", fo_beg, fo_nl_a);
-            // XXX: does not handle Byte Order Mark
-        //    assert_eq!(fo_beg, 0, "line.fileoffset_begin() {} ≠ 0", fo_beg);
-        //} else {
-        //    assert_eq!(fo_beg, fo_nl_a + (charsz_fo), "line.fileoffset_begin() {} ≠ {} searched fo_nl_a + charsz", fo_beg, fo_nl_a + (charsz_fo));
-        //}
-        //assert_eq!(fo_end, fo_nl_b, "line.fileoffset_end() {} ≠ {} searched fo_nl_b", fo_end, fo_nl_b);
-        //assert_lt!(fo_end, filesz, "line.fileoffset_end() {} is past file size {}", fo_end, filesz);
-
         let rl = self.insert_line(line);
         debug_eprintln!("{}find_line: LRU Cache put({}, Found({}, …))", so(), fileoffset, fo_end + 1);
         self._find_line_lru_cache

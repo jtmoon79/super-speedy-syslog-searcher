@@ -43,9 +43,9 @@ use lru::LruCache;
 
 /// Block Size in bytes
 pub type BlockSz = u64;
-/// Byte offset (Index) _into_ a `Block` from beginning of `Block`
+/// Byte offset (Index) _into_ a `Block` from beginning of `Block`. zero first.
 pub type BlockIndex = usize;
-/// Offset into a file in `Block`s, depends on `BlockSz` runtime value
+/// Offset into a file in `Block`s, depends on `BlockSz` runtime value. zero first.
 pub type BlockOffset = u64;
 /// Block of bytes data read from some file storage
 pub type Block = Vec<u8>;
@@ -207,11 +207,13 @@ impl<'blockreader> BlockReader<'blockreader> {
     //       Change the LineReader calls to call `self.blockreader....`
 
     /// return preceding block offset at given file byte offset
+    #[inline]
     pub fn block_offset_at_file_offset(file_offset: FileOffset, blocksz: BlockSz) -> BlockOffset {
         (file_offset / blocksz) as BlockOffset
     }
 
     /// return file_offset (byte offset) at given `BlockOffset`
+    #[inline]
     pub fn file_offset_at_block_offset(block_offset: BlockOffset, blocksz: BlockSz) -> FileOffset {
         (block_offset * blocksz) as BlockOffset
     }
@@ -241,11 +243,30 @@ impl<'blockreader> BlockReader<'blockreader> {
     }
 
     /// return count of blocks in a file
+    #[inline]
     pub fn file_blocks_count(filesz: FileOffset, blocksz: BlockSz) -> u64 {
         filesz / blocksz + (if filesz % blocksz > 0 { 1 } else { 0 })
     }
 
+    /// return block.len() for given block at `blockoffset`
+    #[inline]
+    pub fn blocklen_at_blockoffset(&self, blockoffset: &BlockOffset) -> usize {
+        match self.blocks.get(blockoffset) {
+            Some(blockp) => {
+                blockp.len()
+            }
+            None => { panic!("bad blockoffset {}", blockoffset) }
+        }
+    }
+
+    /// return last valid BlockIndex for block at `blockoffset
+    #[inline]
+    pub fn last_blockindex_at_blockoffset(&self, blockoffset: &BlockOffset) -> BlockIndex {
+        (self.blocklen_at_blockoffset(blockoffset) - 1) as BlockIndex
+    }
+
     /// return last valid BlockOffset
+    #[inline]
     pub fn blockoffset_last(&self) -> BlockOffset {
         if self.filesz == 0 {
             return 0;
@@ -254,11 +275,13 @@ impl<'blockreader> BlockReader<'blockreader> {
     }
 
     /// count of blocks stored by this `BlockReader` (during calls to `BlockReader::read_block`)
+    #[inline]
     pub fn count(&self) -> u64 {
         self.blocks.len() as u64
     }
 
     /// count of bytes stored by this `BlockReader` (during calls to `BlockReader::read_block`)
+    #[inline]
     pub fn count_bytes(&self) -> u64 {
         self._count_bytes
     }

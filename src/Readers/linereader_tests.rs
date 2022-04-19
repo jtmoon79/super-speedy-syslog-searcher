@@ -49,7 +49,7 @@ use more_asserts::{
     assert_ge
 };
 
-// helper to print the noraw version of a file
+// helper to print the raw and noraw version of a file
 #[cfg(test)]
 fn eprint_file(path: &FPath) {
     let contents_file: String = std::fs::read_to_string(path).unwrap();
@@ -847,6 +847,7 @@ test_LineReader_rand3n line 3
 fn _test_LineReader_precise_order(path: &FPath, blocksz: BlockSz, offsets: &Vec::<FileOffset>) {
     stack_offset_set(None);
     eprintln!("{}_test_LineReader_rand({:?}, {:?}, {:?})", sn(), &path, blocksz, offsets);
+    eprint_file(path);
     let mut lr1: LineReader = new_LineReader(path, blocksz);
 
     find_line_all(&mut lr1, offsets);
