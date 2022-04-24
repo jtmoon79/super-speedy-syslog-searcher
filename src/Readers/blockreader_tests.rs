@@ -6,7 +6,7 @@ use crate::Readers::blockreader::{
     FileOffset,
     BlockSz,
     BlockReader,
-    EndOfFile,
+    ResultS3_ReadBlock,
     printblock,
 };
 
@@ -33,21 +33,21 @@ fn test_BlockReader(path_: &FPath, blocksz: BlockSz) {
         {
             let rbp = br1.read_block(*offset);
             match rbp {
-                Ok(val) => {
+                ResultS3_ReadBlock::Found(val) => {
                     let boff: FileOffset = BlockReader::file_offset_at_block_offset(*offset, blocksz);
                     printblock(val.as_ref(), *offset, boff, blocksz, String::new());
-                }
-                Err(err) => {
-                    if err.kind() == EndOfFile {
-                        continue;
-                    } else {
-                        panic!("ERROR: blockreader.read({}) error {}", offset, err);
-                    }
+                },
+                ResultS3_ReadBlock::Done => {
+                    continue;
+                },
+                ResultS3_ReadBlock::Err(err) => {
+                    panic!("ERROR: blockreader.read({}) error {}", offset, err);
                 }
             };
         }
     }
     eprintln!("after reads {:?}", &br1);
+    // TODO: need to compare results to expected Block values
 }
 
 #[test]

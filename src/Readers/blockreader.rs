@@ -12,6 +12,7 @@ use crate::common::{
     File,
     FileMetadata,
     FileOpenOptions,
+    ResultS3,
     Bytes,
 };
 
@@ -57,11 +58,13 @@ pub type Slices<'a> = Vec<&'a [u8]>;
 pub type Blocks = BTreeMap<BlockOffset, BlockP>;
 pub type BlocksLRUCache = LruCache<BlockOffset, BlockP>;
 
-/// for case where reading blocks, lines, or syslines reaches end of file, the value `WriteZero` will
-/// be used here to mean "_end of file reached, nothing new_"
-/// XXX: this is a hack
+// for case where reading blocks, lines, or syslines reaches end of file, the value `WriteZero` will
+// be used here to mean "_end of file reached, nothing new_"
+// XXX: this is a hack
+//#[allow(non_upper_case_globals)]
+//pub const EndOfFile: ErrorKind = ErrorKind::WriteZero;
 #[allow(non_upper_case_globals)]
-pub const EndOfFile: ErrorKind = ErrorKind::WriteZero;
+pub type ResultS3_ReadBlock = ResultS3<BlockP, Error>;
 /// minimum Block Size (inclusive)
 pub const BLOCKSZ_MIN: BlockSz = 1;
 /// maximum Block Size (inclusive)
@@ -265,7 +268,7 @@ impl<'blockreader> BlockReader<'blockreader> {
         (self.blocklen_at_blockoffset(blockoffset) - 1) as BlockIndex
     }
 
-    /// return last valid BlockOffset
+    /// last valid `BlockOffset` for the file (inclusive)
     #[inline]
     pub fn blockoffset_last(&self) -> BlockOffset {
         if self.filesz == 0 {
@@ -317,12 +320,10 @@ impl<'blockreader> BlockReader<'blockreader> {
     }
 
     /// read a `Block` of data of max size `self.blocksz` from a prior `open`ed data source
-    /// when successfully read returns `Ok(BlockP)`
-    /// when reached the end of the file, and no data was read returns `Err(EndOfFile)`
+    /// when successfully read returns `Found(BlockP)`
+    /// when reached the end of the file, and no data was read returns `Done`
     /// all other `File` and `std::io` errors are propagated to the caller
-    /// TODO: create custom `ResultS4` for this analogous to `LineReader` `SyslineReader
-    ///       get rid of hack `EndOfFile`
-    pub fn read_block(&mut self, blockoffset: BlockOffset) -> Result<BlockP> {
+    pub fn read_block(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         debug_eprintln!("{}read_block: @{:p}.read_block({})", sn(), self, blockoffset);
         assert!(self.file.is_some(), "File has not been opened {:?}", self.path);
         { // check caches
@@ -331,7 +332,7 @@ impl<'blockreader> BlockReader<'blockreader> {
                 Some(bp) => {
                     self._read_block_cache_lru_hit += 1;
                     debug_eprintln!(
-                        "{}read_block: return Ok(BlockP@{:p}); hit LRU cache Block[{}] @[{}, {}) len {}",
+                        "{}read_block: return Found(BlockP@{:p}); hit LRU cache Block[{}] @[{}, {}) len {}",
                         sx(),
                         &*bp,
                         &blockoffset,
@@ -339,7 +340,7 @@ impl<'blockreader> BlockReader<'blockreader> {
                         BlockReader::file_offset_at_block_offset(blockoffset+1, self.blocksz),
                         (*bp).len(),
                     );
-                    return Ok(bp.clone());
+                    return ResultS3_ReadBlock::Found(bp.clone());
                 }
                 None => {
                     debug_eprintln!("{}read_block: blockoffset {} not found LRU cache", so(), blockoffset);
@@ -354,7 +355,7 @@ impl<'blockreader> BlockReader<'blockreader> {
                 debug_eprintln!("{}read_block: LRU cache put({}, BlockP@{:p})", so(), blockoffset, bp);
                 self._read_block_lru_cache.put(blockoffset, bp.clone());
                 debug_eprintln!(
-                    "{}read_block: return Ok(BlockP@{:p}); cached Block[{}] @[{}, {}) len {}",
+                    "{}read_block: return Found(BlockP@{:p}); cached Block[{}] @[{}, {}) len {}",
                     sx(),
                     &*self.blocks[&blockoffset],
                     &blockoffset,
@@ -362,7 +363,7 @@ impl<'blockreader> BlockReader<'blockreader> {
                     BlockReader::file_offset_at_block_offset(blockoffset+1, self.blocksz),
                     self.blocks[&blockoffset].len(),
                 );
-                return Ok(bp.clone());
+                return ResultS3_ReadBlock::Found(bp.clone());
             } else {
                 self._read_blocks_miss += 1;
             }
@@ -374,36 +375,33 @@ impl<'blockreader> BlockReader<'blockreader> {
             Err(err) => {
                 debug_eprintln!("{}read_block: return Err({})", sx(), err);
                 eprintln!("ERROR: file.SeekFrom({}) Error {}", seek, err);
-                return Err(err);
+                return ResultS3_ReadBlock::Err(err);
             }
         };
         let mut reader = file_.take(self.blocksz as u64);
         // here is where the `Block` is created then set with data.
         // It should never change after this. Is there a way to mark it as "frozen"?
-        // I guess just never use `mut`.
         // XXX: currently does not handle a partial read. From the docs (https://doc.rust-lang.org/std/io/trait.Read.html#method.read_to_end)
         //      > If any other read error is encountered then this function immediately returns. Any
         //      > bytes which have already been read will be appended to buf.
-        //
         let mut buffer = Block::with_capacity(self.blocksz as usize);
         debug_eprintln!("{}read_block: reader.read_to_end(@{:p})", so(), &buffer);
         match reader.read_to_end(&mut buffer) {
             Ok(val) => {
                 if val == 0 {
-                    // special case of `Err` that caller should handle
                     debug_eprintln!(
-                        "{}read_block: return Err(EndOfFile) EndOfFile blockoffset {} {:?}",
+                        "{}read_block: return Done blockoffset {} {:?}",
                         sx(),
                         blockoffset,
                         self.path
                     );
-                    return Err(Error::new(EndOfFile, "End Of File"));
+                    return ResultS3_ReadBlock::Done;
                 }
             }
             Err(err) => {
                 eprintln!("ERROR: reader.read_to_end(buffer) error {}", err);
                 debug_eprintln!("{}read_block: return Err({})", sx(), err);
-                return Err(err);
+                return ResultS3_ReadBlock::Err(err);
             }
         };
         let blen64 = buffer.len() as u64;
@@ -422,7 +420,7 @@ impl<'blockreader> BlockReader<'blockreader> {
         debug_eprintln!("{}read_block: LRU cache put({}, BlockP@{:p})", so(), blockoffset, bp);
         self._read_block_lru_cache.put(blockoffset, bp.clone());
         debug_eprintln!(
-            "{}read_block: return Ok(BlockP@{:p}); new Block[{}] @[{}, {}) len {}",
+            "{}read_block: return Found(BlockP@{:p}); new Block[{}] @[{}, {}) len {}",
             sx(),
             &*self.blocks[&blockoffset],
             &blockoffset,
@@ -430,7 +428,7 @@ impl<'blockreader> BlockReader<'blockreader> {
             BlockReader::file_offset_at_block_offset(blockoffset+1, self.blocksz),
             (*self.blocks[&blockoffset]).len()
         );
-        Ok(bp)
+        ResultS3_ReadBlock::Found(bp)
     }
 
     /// get byte at FileOffset

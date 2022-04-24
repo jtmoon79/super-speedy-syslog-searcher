@@ -1002,6 +1002,43 @@ fn test_LineReader_precise_order_empty3__1_2_0_0() {
 }
 
 #[test]
+fn test_LineReader_precise_order_empty4__0_1_2_3() {
+    let data: &str = "\n\n\n\n";
+    let ntf = create_temp_file(data);
+    let offsets: Vec::<FileOffset> = vec![0, 1, 2, 3];
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_precise_order(&fpath, 0xF, &offsets);
+}
+
+#[test]
+fn test_LineReader_precise_order_empty4__1_2_3_0() {
+    let data: &str = "\n\n\n\n";
+    let ntf = create_temp_file(data);
+    let offsets: Vec::<FileOffset> = vec![1, 2, 3, 0];
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_precise_order(&fpath, 0xF, &offsets);
+}
+
+#[test]
+fn test_LineReader_precise_order_empty4__2_3_0_1() {
+    let data: &str = "\n\n\n\n";
+    let ntf = create_temp_file(data);
+    let offsets: Vec::<FileOffset> = vec![2, 3, 0, 1];
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_precise_order(&fpath, 0xF, &offsets);
+}
+
+
+#[test]
+fn test_LineReader_precise_order_empty4__3_0_1_2() {
+    let data: &str = "\n\n\n\n";
+    let ntf = create_temp_file(data);
+    let offsets: Vec::<FileOffset> = vec![3, 0, 1, 2];
+    let fpath = FPath::from(ntf.path().to_str().unwrap());
+    _test_LineReader_precise_order(&fpath, 0xF, &offsets);
+}
+
+#[test]
 fn test_LineReader_precise_order_3__0_88_44() {
     let data: &str = "\
 test_LineReader_precise_order_3 line 1 of 3
