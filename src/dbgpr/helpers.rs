@@ -1,6 +1,16 @@
 // dbgpr/helpers.rs
 //
 
+#[cfg(test)]
+use crate::common::{
+    FPath,
+};
+
+#[cfg(test)]
+use crate::dbgpr::printers::{
+    str_to_String_noraw,
+};
+
 //#[allow(unused_imports)]  // XXX: clippy wrongly marks this as unused
 #[cfg(test)]
 use std::io::Write;  // for `NamedTempFile.write_all`
@@ -52,4 +62,24 @@ pub fn create_temp_file_bytes(content: &[u8]) -> NamedTempFile {
     }
 
     ntf1
+}
+
+/// helper to print the raw and noraw version of a file
+#[cfg(test)]
+pub fn eprint_file(path: &FPath) {
+    let contents_file: String = match std::fs::read_to_string(path) {
+        Ok(val) => val,
+        Err(err) => {
+            eprintln!("Error reading file {:?}\n{:?}", path, err);
+            return;
+        },
+    };
+    let contents_file_count: usize = contents_file.lines().count();
+    let contents_file_noraw: String = str_to_String_noraw(contents_file.as_str());
+    eprintln!(
+        "contents_file {:?} ({} lines):\n────────────────────────────────────────\n{}\n────────────────────────────────────────\n{}\n────────────────────────────────────────\n",
+        path, contents_file_count,
+        contents_file_noraw,
+        contents_file,
+    );
 }

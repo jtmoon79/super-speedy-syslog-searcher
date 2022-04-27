@@ -1,6 +1,8 @@
 // Readers/syslinereader_tests.rs
 //
 
+#[allow(non_upper_case_globals)]
+
 use crate::common::{
     FPath,
     Path,
@@ -45,6 +47,7 @@ use crate::dbgpr::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_bytes,
+    eprint_file,
 };
 
 use crate::dbgpr::printers::{
@@ -1549,8 +1552,10 @@ fn test_SyslineReader(
     fileoffset: FileOffset,
     checks: &_test_SyslineReader_checks
 ) {
+    stack_offset_set(Some(2));
     eprintln!("{}test_SyslineReader({:?}, {})", sn(), &path, blocksz);
     let fpath: FPath = path.to_str().unwrap_or("").to_string();
+    eprint_file(&fpath);
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = match SyslineReader::new(&fpath, blocksz, tzo) {
         Ok(val) => val,
@@ -1581,11 +1586,14 @@ fn test_SyslineReader(
                 assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
                 fo1 = fo;
 
-                eprintln!("{}test_SyslineReader: check {}", so(), check_i);
+                if checks.is_empty() {
+                    continue;
+                }
+                eprintln!("{}test_SyslineReader: find_sysline({}); check {} expect ({:?}, {:?})", so(), fo1, check_i, checks[check_i].1, checks[check_i].0);
                 // check slp.String
                 let check_String = checks[check_i].0.to_string();
                 let actual_String = (*slp).to_String();
-                assert_eq!(check_String, actual_String,"\nexpected string value {:?}\nfind_sysline returned {:?}", check_String, actual_String);
+                assert_eq!(check_String, actual_String,"\nexpected string value     {:?}\nfind_sysline({:?}) returned {:?}", check_String, fo1, actual_String);
                 // check fileoffset
                 let check_fo = checks[check_i].1;
                 assert_eq!(check_fo, fo, "expected fileoffset {}, but find_sysline returned fileoffset {} for check {}", check_fo, fo, check_i);
@@ -1605,11 +1613,14 @@ fn test_SyslineReader(
                 assert!(slr.is_sysline_last(&slp), "returned Found_EOF yet this Sysline is not last!");
                 fo1 = fo;
 
-                eprintln!("{}test_SyslineReader: check {}", so(), check_i);
+                if checks.is_empty() {
+                    continue;
+                }
+                eprintln!("{}test_SyslineReader: find_sysline({}); check {} expect ({:?}, {:?})", so(), fo1, check_i, checks[check_i].1, checks[check_i].0);
                 // check slp.String
                 let check_String = checks[check_i].0.to_string();
                 let actual_String = (*slp).to_String();
-                assert_eq!(check_String, actual_String,"\nexpected string value {:?}\nfind_sysline returned {:?}", check_String, actual_String);
+                assert_eq!(check_String, actual_String,"\nexpected string value     {:?}\nfind_sysline({:2}) returned {:?}\n", check_String, fo1, actual_String);
                 // check fileoffset
                 let check_fo = checks[check_i].1;
                 assert_eq!(check_fo, fo, "expected fileoffset {}, but find_sysline returned fileoffset {} for check {}", check_fo, fo, check_i);
@@ -1671,34 +1682,27 @@ fn test_SyslineReader_A_dt6_128_0_()
 fn test_SyslineReader_A_dt6_128_1_()
 {
     let checks = _test_SyslineReader_checks::from(&test_data_file_A_dt6_checks[1..]);
-    test_SyslineReader(test_SyslineReader_A_ntf.path(), 128, 1, &checks);
+    test_SyslineReader(test_SyslineReader_A_ntf.path(), 128, 40, &checks);
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_2_()
 {
     let checks = _test_SyslineReader_checks::from(&test_data_file_A_dt6_checks[2..]);
-    test_SyslineReader(test_SyslineReader_A_ntf.path(), 128, 40, &checks);
+    test_SyslineReader(test_SyslineReader_A_ntf.path(), 128, 62, &checks);
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_3_()
 {
     let checks = _test_SyslineReader_checks::from(&test_data_file_A_dt6_checks[3..]);
-    test_SyslineReader(test_SyslineReader_A_ntf.path(), 128, 62, &checks);
+    test_SyslineReader(test_SyslineReader_A_ntf.path(), 128, 85, &checks);
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_4_()
 {
     let checks = _test_SyslineReader_checks::from(&test_data_file_A_dt6_checks[4..]);
-    test_SyslineReader(test_SyslineReader_A_ntf.path(), 128, 85, &checks);
-}
-
-#[test]
-fn test_SyslineReader_A_dt6_128_5_()
-{
-    let checks = _test_SyslineReader_checks::from(&test_data_file_A_dt6_checks[5..]);
     test_SyslineReader(test_SyslineReader_A_ntf.path(), 128, 86, &checks);
 }
 
@@ -1787,24 +1791,31 @@ fn test_SyslineReader_C_dt6_0()
 }
 
 #[test]
-fn test_SyslineReader_C_dt6_1()
+fn test_SyslineReader_C_dt6_3()
 {
-    let checks = _test_SyslineReader_checks::from(&_test_data_file_C_dt6_checks[1..]);
+    let checks = _test_SyslineReader_checks::from(&_test_data_file_C_dt6_checks);
     test_SyslineReader(test_SyslineReader_C_ntf.path(), 128, 3, &checks);
 }
 
 #[test]
-fn test_SyslineReader_C_dt6_2a()
+fn test_SyslineReader_C_dt6_27()
 {
-    let checks = _test_SyslineReader_checks::from(&_test_data_file_C_dt6_checks[1..]);
+    let checks = _test_SyslineReader_checks::from(&_test_data_file_C_dt6_checks);
     test_SyslineReader(test_SyslineReader_C_ntf.path(), 128, 27, &checks);
 }
 
 #[test]
-fn test_SyslineReader_C_dt6_2b()
+fn test_SyslineReader_C_dt6_28_1__()
 {
-    let checks = _test_SyslineReader_checks::from(&_test_data_file_C_dt6_checks[2..]);
+    let checks = _test_SyslineReader_checks::from(&_test_data_file_C_dt6_checks[1..]);
     test_SyslineReader(test_SyslineReader_C_ntf.path(), 128, 28, &checks);
+}
+
+#[test]
+fn test_SyslineReader_C_dt6_29_1__()
+{
+    let checks = _test_SyslineReader_checks::from(&_test_data_file_C_dt6_checks[1..]);
+    test_SyslineReader(test_SyslineReader_C_ntf.path(), 128, 29, &checks);
 }
 
 #[test]

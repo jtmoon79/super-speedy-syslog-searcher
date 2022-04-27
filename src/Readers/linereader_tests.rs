@@ -1,5 +1,6 @@
 // Readers/linereader_tests.rs
 //
+// TODO: [2022/04/26] need to be able to disable LineReader LRU cache, and test with/without
 
 use crate::common::{
     FPath,
@@ -26,6 +27,7 @@ use crate::Readers::helpers::{
 
 use crate::dbgpr::helpers::{
     create_temp_file,
+    eprint_file,
 };
 
 use crate::dbgpr::printers::{
@@ -48,20 +50,6 @@ use more_asserts::{
     assert_lt,
     assert_ge
 };
-
-// helper to print the raw and noraw version of a file
-#[cfg(test)]
-fn eprint_file(path: &FPath) {
-    let contents_file: String = std::fs::read_to_string(path).unwrap();
-    let contents_file_count: usize = contents_file.lines().count();
-    let contents_file_noraw: String = str_to_String_noraw(contents_file.as_str());
-    eprintln!(
-        "contents_file {:?} ({} lines):\n────────────────────────────────────────\n{}\n────────────────────────────────────────\n{}\n────────────────────────────────────────\n",
-        path, contents_file_count,
-        contents_file_noraw,
-        contents_file,
-    );
-}
 
 /// helper to wrap the match and panic checks
 #[cfg(test)]

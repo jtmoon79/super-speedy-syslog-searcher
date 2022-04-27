@@ -1408,7 +1408,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             fo1 = fo2;
         }
 
-        debug_eprintln!("{}find_sysline: found line with datetime B at FileOffset {}", so(), fo_b);
+        debug_eprintln!("{}find_sysline: found line with datetime B at FileOffset {} {:?}", so(), fo_b, sl.to_String_noraw());
 
         let slp = self.insert_sysline(sl);
         if eof {

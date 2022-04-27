@@ -549,7 +549,6 @@ lazy_static! {
 /// does chrono datetime pattern have a timezone?
 /// see https://docs.rs/chrono/latest/chrono/format/strftime/
 #[inline(always)]
-#[cfg(any(debug_assertions, test))]
 pub fn dt_pattern_has_tz(pattern: &DateTimePattern_str) -> bool {
     pattern.contains("%Z") ||
     pattern.contains("%z") ||
