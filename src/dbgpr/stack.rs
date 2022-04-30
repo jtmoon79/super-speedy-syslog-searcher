@@ -46,6 +46,9 @@ pub fn stack_depth() -> usize {
 /// should have been recorded at the beginning of the thread by calling `stack_offset_set`.
 #[inline(always)]
 pub fn stack_offset() -> usize {
+    if ! (cfg!(debug_assertions) || cfg!(test)) {
+        return 0;
+    }
     let mut sd: usize = stack_depth() - 1;
     let sd2 = sd; // XXX: copy `sd` to avoid borrow error
     let tid = thread::current().id();
@@ -82,6 +85,9 @@ pub fn stack_offset() -> usize {
 /// This way, debug printing from function `run` will start at the left-most column (and not
 /// be indented to the right). This may improve readability.
 pub fn stack_offset_set(correction: Option<isize>) {
+    if ! (cfg!(debug_assertions) || cfg!(test)) {
+        return;
+    }
     let sd_ = stack_depth();
     let sdi: isize = (sd_ as isize) - correction.unwrap_or(0);
     let so = std::cmp::max(sdi, 0) as usize;

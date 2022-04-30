@@ -54,8 +54,6 @@ pub type DateTimeL_Opt = Option<DateTimeL>;
 /// DateTimePattern for searching a line (not the results)
 /// slice index begin, slice index end of entire datetime pattern
 /// slice index begin just the datetime, slice index end just the datetime
-/// TODO: why not define as a `struct` instead of a tuple?
-/// TODO: why not use `String` type for the datetime pattern? I don't recall why I chose `str`.
 /// TODO: instead of `LineIndex, LineIndex`, use `(RangeInclusive, Offset)` for the two pairs of LineIndex ranges
 ///       processing functions would attempt all values within `RangeInclusive` (plus the `Offset`).
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialOrd, PartialEq)]
@@ -76,6 +74,7 @@ pub struct DateTime_Parse_Data {
 }
 
 //type DateTime_Parse_Data = (DateTimePattern, bool, LineIndex, LineIndex, LineIndex, LineIndex);
+/// Datetime Pattern, has year?, has timezone?, lineindex begin entire pattern, lineindex end, lineindex begin datetime portion, lineindex end
 pub(crate) type DateTime_Parse_Data_str<'a> = (&'a DateTimePattern_str, bool, bool, LineIndex, LineIndex, LineIndex, LineIndex);
 //type DateTime_Parse_Datas_ar<'a> = [DateTime_Parse_Data<'a>];
 pub type DateTime_Parse_Datas_vec = Vec<DateTime_Parse_Data>;
@@ -132,7 +131,7 @@ impl Result_Filter_DateTime2 {
 // built-in Datetime formats
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const DATETIME_PARSE_DATAS_LEN: usize = 104;
+const DATETIME_PARSE_DATAS_LEN: usize = 105;
 
 /// built-in datetime parsing patterns, these are all known patterns attempted on processed files
 /// first string is a chrono strftime pattern
@@ -163,6 +162,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //     [2000/01/01 00:00:04.123456] foo
     //
     ("[%Y/%m/%d %H:%M:%S%.6f]", true, false, 0, 28, 1, 27),
+    //
     // ---------------------------------------------------------------------------------------------
     // prescripted datetime+tz
     //
@@ -254,6 +254,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     ("%Y-%m-%dT%H:%M:%S%.3f%Z ", true, true, 0, 30, 0, 29),
     ("%Y-%m-%dT%H:%M:%S%.3f-", true, false, 0, 24, 0, 23),  // XXX: temporary stand-in
     ("%Y-%m-%d %H:%M:%S%.6f-", true, false, 0, 27, 0, 26),  // XXX: temporary stand-in
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Ubuntu18/kernel.log`
@@ -279,9 +280,10 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //     err␉2017/02/23 02:55:58␉SYSTEM:␉[Local][Backup Task LocalBackup1] Exception occured while backing up data. (Capacity at destination is insufficient.) [Path: /volume1/LocalBackup1.hbk]
     //
     // TODO: [2021/10/03] no support of variable offset datetime
-    //       this could be done by trying random offsets into something
+    //       this could be done by trying range of offsets into something
     //       better is to search for a preceding regexp pattern
     //("\t%Y/%m/%d %H:%M:%S\t", 5, 24, 0, 24),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // iptables warning from kernel, from file `/var/log/messages` on OpenWRT
@@ -301,6 +303,18 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //     [20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)
     //
     ("[%Y%m%d-%H:%M:%S]", true, false, 0, 19, 1, 18),
+    //
+    // ---------------------------------------------------------------------------------------------
+    //
+    // from file `./logs/debian9/alternatives.log`
+    // example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890123456789
+    //     update-alternatives 2020-02-03 13:56:07: run with --install /usr/bin/jjs jjs /usr/lib/jvm/java-11-openjdk-amd64/bin/jjs 1111
+    //
+    (" %Y-%m-%d %H:%M:%S: ", true, false, 19, 41, 20, 39),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Ubuntu18/vmware-installer.log`
@@ -313,6 +327,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     ("[%Y-%m-%d %H:%M:%S,%3f] ", true, false, 0, 26, 1, 24),
     // repeat prior but no trailing space
     ("[%Y-%m-%d %H:%M:%S,%3f]", true, false, 0, 25, 1, 24),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/other/archives/proftpd/xferlog`
@@ -325,6 +340,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     ("%a %b %d %H:%M:%S %Y ", true, false, 0, 25, 0, 24),
     // repeat prior but no trailing space
     ("%a %b %d %H:%M:%S %Y", true, false, 0, 24, 0, 24),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/OpenSUSE15/zypper.log`
@@ -405,6 +421,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     ("%Y-%m-%d %H:%M:%S", true, false, 8, 27, 8, 27),
     ("%Y-%m-%d %H:%M:%S", true, false, 9, 28, 9, 28),
     ("%Y-%m-%d %H:%M:%S", true, false, 10, 29, 10, 29),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -414,6 +431,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //     2020-01-01T00:00:01 xyz
     //
     ("%Y-%m-%dT%H:%M:%S ", true, false, 0, 20, 0, 19),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -423,6 +441,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //     2020-01-01T00:00:01xyz
     //
     ("%Y-%m-%dT%H:%M:%S", true, false, 0, 19, 0, 19),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -432,6 +451,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //     20200101 000001 xyz
     //
     ("%Y%m%d %H%M%S ", true, false, 0, 16, 0, 15),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -450,6 +470,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //     20200101T000001xyz
     //
     ("%Y%m%dT%H%M%S", true, false, 0, 15, 0, 15),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/debian9/apport.log.1`
@@ -466,6 +487,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     (" %a %b %d %H:%M:%S %Y:", true, false, 23, 48, 23, 47),
     (" %a %b %d %H:%M:%S %Y:", true, false, 24, 49, 24, 48),
     (" %a %b %d %H:%M:%S %Y:", true, false, 25, 50, 25, 49),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -481,6 +503,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     (" %a %b %d %H:%M:%S %Y ", true, false, 6, 32, 7, 31),
     (" %a %b %d %H:%M:%S %Y ", true, false, 7, 33, 8, 32),
     (" %a %b %d %H:%M:%S %Y ", true, false, 8, 34, 9, 33),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -497,6 +520,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     (" %a %b %d %Y %H:%M:%S ", true, false, 6, 32, 7, 31),
     (" %a %b %d %Y %H:%M:%S ", true, false, 7, 33, 8, 32),
     (" %a %b %d %Y %H:%M:%S ", true, false, 8, 34, 9, 33),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -517,6 +541,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     ("] %Y-%m-%d %H:%M:%S ", true, false, 6, 28, 8, 27),
     ("] %Y-%m-%d %H:%M:%S ", true, false, 7, 29, 9, 28),
     ("] %Y-%m-%d %H:%M:%S ", true, false, 8, 30, 10, 29),
+    //
     // ---------------------------------------------------------------------------------------------
     // TODO: [2022/03/24] add timestamp formats seen at https://www.unixtimestamp.com/index.php
 ];

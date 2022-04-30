@@ -18,6 +18,12 @@ use std::io::Write;  // for `std::io::Stdout.flush`
 use std::io::prelude::*;  // for `std::fs::File.read_to_string`
 use std::io::Result;
 
+// see https://docs.rs/strum_macros/0.24.0/strum_macros/derive.AsRefStr.html
+use std::convert::AsRef;
+extern crate strum_macros;
+use strum_macros::EnumString;
+//use std::str::FromStr;
+
 extern crate termcolor;
 pub use termcolor::{Color, ColorSpec, WriteColor};
 
@@ -194,22 +200,30 @@ pub fn print_colored(color: Color, value: &[u8], std_: &mut termcolor::StandardS
 
 /// print colored output to terminal on stdout
 /// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
-pub fn print_colored_stdout(color: Color, value: &[u8]) -> std::io::Result<()> {
-    let mut choice: termcolor::ColorChoice = termcolor::ColorChoice::Never;
-    if atty::is(atty::Stream::Stdout) || cfg!(debug_assertions) {
-        choice = termcolor::ColorChoice::Always;
-    }
+pub fn print_colored_stdout(
+    color: Color,
+    color_choice_opt: Option<termcolor::ColorChoice>,
+    value: &[u8]
+) -> std::io::Result<()> {
+    let choice: termcolor::ColorChoice = match color_choice_opt {
+        Some(choice_) => choice_,
+        None => termcolor::ColorChoice::Auto,
+    };
     let mut stdout = termcolor::StandardStream::stdout(choice);
     print_colored(color, value, &mut stdout)
 }
 
 /// print colored output to terminal on stderr
 /// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
-pub fn print_colored_stderr(color: Color, value: &[u8]) -> std::io::Result<()> {
-    let mut choice: termcolor::ColorChoice = termcolor::ColorChoice::Never;
-    if atty::is(atty::Stream::Stderr) || cfg!(debug_assertions) {
-        choice = termcolor::ColorChoice::Always;
-    }
+pub fn print_colored_stderr(
+    color: Color,
+    color_choice_opt: Option<termcolor::ColorChoice>,
+    value: &[u8]
+) -> std::io::Result<()> {
+    let choice: termcolor::ColorChoice = match color_choice_opt {
+        Some(choice_) => choice_,
+        None => termcolor::ColorChoice::Auto,
+    };
     let mut stderr = termcolor::StandardStream::stderr(choice);
     print_colored(color, value, &mut stderr)
 }
@@ -239,6 +253,36 @@ pub fn write_stdout(buffer: &[u8]) {
     if cfg!(debug_assertions) {
         #[allow(clippy::match_single_binding)]
         match std::io::stderr().flush() {
+            _ => {},
+        }
+    }
+}
+
+/// safely write the `buffer` to stdout with help of `StderrLock`
+pub fn write_stderr(buffer: &[u8]) {
+    let stderr = std::io::stderr();
+    let mut stderr_lock = stderr.lock();
+    match stderr_lock.write(buffer) {
+        Ok(_) => {}
+        Err(err) => {
+            // XXX: this will print when this program stdout is truncated, like to due to `program | head`
+            //          Broken pipe (os error 32)
+            //      Not sure if anything should be done about it
+            eprintln!("ERROR: write: StderrLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
+        }
+    }
+    match stderr_lock.flush() {
+        Ok(_) => {}
+        Err(err) => {
+            // XXX: this will print when this program stdout is truncated, like to due to `program | head`
+            //          Broken pipe (os error 32)
+            //      Not sure if anything should be done about it
+            eprintln!("ERROR: write: stderr flushing error {}", err);
+        }
+    }
+    if cfg!(debug_assertions) {
+        #[allow(clippy::match_single_binding)]
+        match std::io::stdout().flush() {
             _ => {},
         }
     }

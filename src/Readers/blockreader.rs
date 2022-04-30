@@ -36,11 +36,16 @@ use std::sync::Arc;
 extern crate debug_print;
 use debug_print::{debug_eprintln};
 
-extern crate more_asserts;
-use more_asserts::{assert_le, assert_lt, assert_ge};
-
 extern crate lru;
 use lru::LruCache;
+
+extern crate mime_guess;
+use mime_guess::{
+    MimeGuess,
+};
+
+extern crate more_asserts;
+use more_asserts::{assert_le, assert_lt, assert_ge};
 
 /// Block Size in bytes
 pub type BlockSz = u64;
@@ -84,6 +89,8 @@ pub struct BlockReader<'blockreader> {
     file: Option<File>,
     /// File.metadata(), set in `open`
     file_metadata: Option<FileMetadata>,
+    /// the `MimeGuess::from_path` result
+    pub(crate) mimeguess: MimeGuess,
     /// File size in bytes, set in `open`
     pub(crate) filesz: u64,
     /// File size in blocks, set in `open`
@@ -116,6 +123,8 @@ impl fmt::Debug for BlockReader<'_> {
         f.debug_struct("BlockReader")
             .field("path", &self.path)
             .field("file", &self.file)
+            //.field("file_metadata", &self.file_metadata)
+            .field("mimeguess", &self.mimeguess)
             .field("filesz", &self.filesz)
             .field("blockn", &self.blockn)
             .field("blocksz", &self.blocksz)
@@ -186,10 +195,13 @@ impl<'blockreader> BlockReader<'blockreader> {
         assert_ne!(0, blocksz, "Block Size cannot be 0");
         assert_ge!(blocksz, BLOCKSZ_MIN, "Block Size too small");
         assert_le!(blocksz, BLOCKSZ_MAX, "Block Size too big");
+        let p_ = std::path::Path::new(path_);
+        let mg: MimeGuess = MimeGuess::from_path(p_);
         BlockReader {
             path: path_,
             file: None,
             file_metadata: None,
+            mimeguess: mg,
             filesz: 0,
             blockn: 0,
             blocksz,
@@ -299,7 +311,7 @@ impl<'blockreader> BlockReader<'blockreader> {
         match open_options.read(true).open(&self.path) {
             Ok(val) => self.file = Some(val),
             Err(err) => {
-                eprintln!("ERROR: File::open('{:?}') error {}", &self.path, err);
+                //eprintln!("ERROR: File::open({:?}) error {}", self.path, err);
                 return Err(err);
             }
         };
@@ -314,9 +326,23 @@ impl<'blockreader> BlockReader<'blockreader> {
                 return Err(err);
             }
         };
+        if self.file_metadata.as_ref().unwrap().is_dir() {
+            return std::result::Result::Err(
+                Error::new(
+                    //ErrorKind::IsADirectory,  // XXX: error[E0658]: use of unstable library feature 'io_error_more'
+                    ErrorKind::Unsupported,
+                    format!("Path is a directory {:?}", self.path)
+                )
+            );
+        }
         self.blockn = BlockReader::file_blocks_count(self.filesz, self.blocksz);
         self.blocks = Blocks::new();
         Ok(())
+    }
+
+    /// has block at `blockoffset` been read/processed?
+    pub fn has_block(&self, blockoffset: &BlockOffset) -> bool {
+        self.blocks.contains_key(blockoffset)
     }
 
     /// read a `Block` of data of max size `self.blocksz` from a prior `open`ed data source
@@ -399,7 +425,7 @@ impl<'blockreader> BlockReader<'blockreader> {
                 }
             }
             Err(err) => {
-                eprintln!("ERROR: reader.read_to_end(buffer) error {}", err);
+                eprintln!("ERROR: reader.read_to_end(buffer) error {} for {:?}", err, self.path);
                 debug_eprintln!("{}read_block: return Err({})", sx(), err);
                 return ResultS3_ReadBlock::Err(err);
             }

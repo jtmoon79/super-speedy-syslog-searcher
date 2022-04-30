@@ -1,6 +1,5 @@
 // Readers/syslinereader.rs
 //
-// TODO: move datetime stuff to it's own `datetime.rs`
 
 pub use crate::common::{
     FPath,
@@ -109,6 +108,11 @@ use more_asserts::{
 extern crate rangemap;
 use rangemap::RangeMap;
 
+extern crate static_assertions;
+use static_assertions::{
+    const_assert,
+};
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Sysline
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -119,9 +123,9 @@ use rangemap::RangeMap;
 #[allow(non_camel_case_types)]
 pub type ResultS4_SyslineFind = ResultS4<(FileOffset, SyslineP), Error>;
 
-/// A `Sysline` has information about a "syslog line" that spans one or more `Line`s
-/// a "syslog line" is one or more lines, where the first line starts with a
-/// datetime stamp. That datetime stamp is consistent format of other nearby syslines.
+/// A `Sysline` has information about a "syslog line" that spans one or more `Line`s.
+/// A "syslog line" or `Sysline` is one or more `Line`s, where the first line contains a
+/// datetime stamp. That datetime stamp is consistent format of other nearby syslog lines.
 pub struct Sysline {
     /// the one or more `Line` that make up a Sysline
     pub(crate) lines: Lines,
@@ -140,7 +144,7 @@ pub struct Sysline {
 /// a signifier value for "not set" or "null" - because sometimes Option is a PitA
 const LI_NULL: LineIndex = LineIndex::MAX;
 
-impl fmt::Debug for Sysline {
+impl std::fmt::Debug for Sysline {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let mut li_s = String::new();
         for lp in self.lines.iter() {
@@ -369,43 +373,66 @@ impl Sysline {
     /// print with color
     /// prints raw data from underlying `Block` bytes
     /// XXX: does not handle multi-byte strings
-    /// TODO: needs a global mutex
-    /// TODO: move this into a `Printer` class
-    pub fn print_color(&self, color_text: Color, color_datetime: Color) -> Result<()> {
+    /// TODO: needs a global mutex... I think...
+    /// TODO: move this into a `Printer` class or `Sysline_Printer` class
+    /// TODO: [2022/04] would be interesting to benchmark difference of printing using one
+    ///       instance of `termcolor::StandStream` versus many (like done here).
+    ///       would one instance improve performance?
+    pub fn print_color(
+        &self,
+        color_choice_opt: Option<termcolor::ColorChoice>,
+        color_text: Color,
+        color_datetime: Color
+    ) -> Result<()> {
         let slices = self.get_slices();
+        let color_choice: termcolor::ColorChoice = match color_choice_opt {
+            Some(choice_) => choice_,
+            None => termcolor::ColorChoice::Auto,
+        };
         //let mut stdout = io::stdout();
         //let mut stdout_lock = stdout.lock();
-        let mut choice: termcolor::ColorChoice = termcolor::ColorChoice::Never;
-        if atty::is(atty::Stream::Stdout) || cfg!(debug_assertions) {
-            choice = termcolor::ColorChoice::Always;
-        }
-        let mut clrout = termcolor::StandardStream::stdout(choice);
+        let mut clrout = termcolor::StandardStream::stdout(color_choice);
         let mut at: LineIndex = 0;
         let dtb = self.dt_beg;
         let dte = self.dt_end;
+        // 
         for slice in slices.iter() {
             let len_ = slice.len();
-            // datetime entirely in this `slice`
-            if chmp!(at <= dtb < dte < (at + len_)) {
-                let a = &slice[..(dtb-at)];
-                let b = &slice[(dtb-at)..(dte-at)];
-                let c = &slice[(dte-at)..];
-                match Sysline::print_color_slices(&mut clrout, &[color_text, color_datetime, color_text], &[a, b, c]) {
-                    Ok(_) => {},
-                    Err(err) => {
-                        return Err(err);
+            match color_choice {
+                // bypass `print_color_slices` for a small speed improvement
+                termcolor::ColorChoice::Never => {
+                    match clrout.write(slice) {
+                        Ok(_) => {},
+                        Err(err) => {
+                            return Err(err);
+                        }
                     }
-                };
-            } // XXX: incomplete datetime crosses into next slice
-            else {
-                match Sysline::print_color_slices(&mut clrout, &[color_text], &[slice]) {
-                    Ok(_) => {},
-                    Err(err) => {
-                        return Err(err);
+                },
+                // use `print_color_slices` to print the datetime substring and test in differing colors
+                _ => {
+                    // datetime entirely in this `slice`
+                    if chmp!(at <= dtb < dte < (at + len_)) {
+                        let a = &slice[..(dtb-at)];
+                        let b = &slice[(dtb-at)..(dte-at)];
+                        let c = &slice[(dte-at)..];
+                        match Sysline::print_color_slices(&mut clrout, &[color_text, color_datetime, color_text], &[a, b, c]) {
+                            Ok(_) => {},
+                            Err(err) => {
+                                return Err(err);
+                            }
+                        };
+                    } else {
+                        // TODO: [2022/03] datetime crosses into next slice
+                        match Sysline::print_color_slices(&mut clrout, &[color_text], &[slice]) {
+                            Ok(_) => {},
+                            Err(err) => {
+                                return Err(err);
+                            }
+                        };
                     }
-                };
-            }
-            at += len_;
+                    at += len_;
+                }
+            }   
         }
         let mut ret = Ok(());
         if let Err(err) = clrout.flush() {
@@ -460,7 +487,7 @@ impl Sysline {
     #[cfg(not(any(debug_assertions,test)))]
     pub fn to_String_noraw(self: &Sysline) -> String {
         panic!("should not call function 'Sysline::to_String_noraw' in release build");
-        String::from("")
+        String::new()
     }
 }
 
@@ -515,6 +542,7 @@ pub struct SyslineReader<'syslinereader> {
     /// default FixedOffset for found `DateTime` without timezone
     tz_offset: FixedOffset,
     // TODO: is the LRU cache really helping?
+    _find_sysline_lru_cache_enabled: bool,
     /// internal LRU cache for `find_sysline`. maintained in `SyslineReader::find_sysline`
     _find_sysline_lru_cache: SyslinesLRUCache,
     // internal cache of calls to `SyslineReader::parse_datetime_in_line`. maintained in `SyslineReader::find_sysline`
@@ -570,7 +598,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let lr = match LineReader::new(path, blocksz) {
             Ok(val) => val,
             Err(err) => {
-                eprintln!("ERROR: LineReader::new({}, {}) failed {}", path, blocksz, err);
+                //eprintln!("ERROR: LineReader::new({}, {}) failed {}", path, blocksz, err);
                 return Err(err);
             }
         };
@@ -582,6 +610,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
             dt_patterns_counts: DateTime_Pattern_Counts::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
             tz_offset,
+            _find_sysline_lru_cache_enabled: true,
             _find_sysline_lru_cache: SyslinesLRUCache::new(SyslineReader::_FIND_SYSLINE_LRU_CACHE_SZ),
             _parse_datetime_in_line_lru_cache: LineParsedCache::new(),
             _parse_datetime_in_line_lru_cache_hit: 0,
@@ -640,6 +669,33 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// count of `Sysline`s processed
     pub fn count(&self) -> u64 {
         self.syslines_count
+    }
+
+    /// enable internal LRU cache used by `find_sysline`
+    pub fn LRU_cache_enable(&mut self) {
+        self._find_sysline_lru_cache_enabled = true;
+        self._find_sysline_lru_cache.clear();
+        self._find_sysline_lru_cache.resize(SyslineReader::_FIND_SYSLINE_LRU_CACHE_SZ);
+    }
+
+    /// disable internal LRU cache used by `find_sysline`
+    /// intended for testing
+    pub fn LRU_cache_disable(&mut self) {
+        self._find_sysline_lru_cache_enabled = false;
+        self._find_sysline_lru_cache.clear();
+        self._find_sysline_lru_cache.resize(0);
+    }
+
+    /// read block zero (the first data block of the file), do necessary analysis
+    pub fn zeroblock_process(&mut self) -> std::io::Result<bool> {
+        self.linereader.zeroblock_process()
+        // LAST WORKING HERE 2022/04/29 00:23:29
+        // need to add find_sysline calls for block zero, then determine if number found
+        // is acceptable to continue. requires `find_syseline` that can avoid new calls to
+        // `read_block`... needs some thought to do cleanly.
+        // might need to add `find_sysline_in_block` that searches only iwthin one block
+        // would be simpler far simpler to implement than `find_sysline`.
+        // would need corresponding function `LineReader::find_line`.
     }
 
     /// print Sysline at `fileoffset`
@@ -887,8 +943,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
 
     /// analyze syslines gathered
     /// when a threshold of syslines or bytes has been processed, then
-    /// 1. narrow down datetime formats used. this greatly reduces resources
-    /// used by `SyslineReader::find_datetime_in_line`
+    /// 1. narrow down datetime formats used. this greatly reduces resources/time
+    ///    used by `SyslineReader::find_datetime_in_line`
     /// 2. TODO: for any prior analyzed syslines using a datetime format that wasn't accepted,
     ///          retry parsing the lines with narrowed set of datetime formats. however, if those reparse attempts fail, keep the prior parse results using the
     ///          "odd man out" format
@@ -898,9 +954,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             return;
         }
         debug_eprintln!("{}dt_patterns_analysis()", sn());
-        if SyslineReader::DT_PATTERN_MAX != 1 {
-            unimplemented!("function dt_patterns_analysis unimplemented for DT_PATTERN_MAX > 1; it is {}", SyslineReader::DT_PATTERN_MAX);
-        }
+        // XXX: DT_PATERN_MAX > 1 is unimplemented
+        const_assert!(SyslineReader::DT_PATTERN_MAX == 1);
         debug_assert_eq!(self.dt_patterns.len(), self.dt_patterns_counts.len(),
             "dt_patterns.len() != dt_patterns_count.len()\nself.dt_patterns ({})     : {:?}\nself.dt_patterns_counts ({}): {:?}", self.dt_patterns.len(), self.dt_patterns, self.dt_patterns_counts.len(), self.dt_patterns_counts);
         // TODO: change pattern tuple `DateTime_Parse_Data` to use Ranges, currently this is
@@ -1068,8 +1123,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             //return Result_ParseDateTime::Error("");
         }
 
-        { // check if `fileoffset` is already known about
-
+        if self._find_sysline_lru_cache_enabled { // check if `fileoffset` is already known about
             // check LRU cache
             match self._find_sysline_lru_cache.get(&fileoffset) {
                 Some(rlp) => {
@@ -1168,8 +1222,10 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 (*slp).fileoffset_end(),
                 (*slp).to_String_noraw()
             );
-                self._find_sysline_lru_cache
-                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                if self._find_sysline_lru_cache_enabled {
+                    self._find_sysline_lru_cache
+                        .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                }
                 return ResultS4_SyslineFind::Found((fo_next, slp));
             } else {
                 debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines", so(), fileoffset);
@@ -1201,8 +1257,10 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     (fo_, lp_)
                 }
                 ResultS4_LineFind::Done => {
-                    debug_eprintln!("{}find_sysline: LRU cache put({}, Done)", so(), fileoffset);
-                    self._find_sysline_lru_cache.put(fileoffset, ResultS4_SyslineFind::Done);
+                    if self._find_sysline_lru_cache_enabled {
+                        debug_eprintln!("{}find_sysline: LRU cache put({}, Done)", so(), fileoffset);
+                        self._find_sysline_lru_cache.put(fileoffset, ResultS4_SyslineFind::Done);
+                    }
                     debug_eprintln!("{}find_sysline: return ResultS4_SyslineFind::Done; A from LineReader.find_line({})", sx(), fo1);
                     return ResultS4_SyslineFind::Done;
                 }
@@ -1230,9 +1288,11 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     debug_assert_lt!(dt_end, fo1 as usize, "bad dt_end {} fileoffset+charsz {}", dt_end, fo1 as usize);
                     if eof {
                         let slp = SyslineP::new(sl);
-                        debug_eprintln!("{}find_sysline: LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fo1);
-                        self._find_sysline_lru_cache
-                            .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo1, slp.clone())));
+                        if self._find_sysline_lru_cache_enabled {
+                            debug_eprintln!("{}find_sysline: LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fo1);
+                            self._find_sysline_lru_cache
+                                .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo1, slp.clone())));
+                        }
                         debug_eprintln!(
                             "{}find_sysline: return ResultS4_SyslineFind::Found_EOF({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
                             sx(),
@@ -1262,8 +1322,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         // find line with datetime B
         //
 
-        /*
         { // check if sysline at `fo1` is already known about
+            /*
             // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
             // check if there is a Sysline already known at this fileoffset
             if self.syslines.contains_key(&fo1) {
@@ -1283,12 +1343,15 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 (*slp).fileoffset_end(),
                 (*slp).to_String_noraw()
             );
-                self._find_sysline_lru_cache
-                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                if self._find_sysline_lru_cache_enabled {
+                    self._find_sysline_lru_cache
+                        .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                }
                 return ResultS4_SyslineFind::Found((fo_next, slp));
             } else {
                 debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines", so(), fileoffset);
             }
+            
             // check if the offset is already in a known range
             match self.syslines_by_range.get_key_value(&fo1) {
                 Some(range_fo) => {
@@ -1313,12 +1376,16 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                             (*slp).fileoffset_end(),
                             (*slp).to_String_noraw()
                         );
-                        self._find_sysline_lru_cache
-                            .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
+                        if self._find_sysline_lru_cache_enabled {
+                            self._find_sysline_lru_cache
+                                .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
+                        }
                         return ResultS4_SyslineFind::Found_EOF((fo_next, slp));
                     }
-                    self._find_sysline_lru_cache
-                        .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                    if self._find_sysline_lru_cache_enabled {
+                        self._find_sysline_lru_cache
+                            .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                    }
                     debug_eprintln!(
                         "{}find_sysline: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
                         sx(),
@@ -1335,8 +1402,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
             }
             debug_eprintln!("{}find_sysline: searching for first sysline datetime B …", so());
+            */
         }
-        */
 
         let mut fo_b: FileOffset = fo1;
         let mut eof = false;
@@ -1412,9 +1479,11 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
 
         let slp = self.insert_sysline(sl);
         if eof {
-            debug_eprintln!("{}find_sysline: LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fo_b);
-            self._find_sysline_lru_cache
-                .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_b, slp.clone())));
+            if self._find_sysline_lru_cache_enabled {
+                debug_eprintln!("{}find_sysline: LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fo_b);
+                self._find_sysline_lru_cache
+                    .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_b, slp.clone())));
+            }
             debug_eprintln!(
                 "{}find_sysline: return ResultS4_SyslineFind::Found_EOF(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
                 sx(),
@@ -1426,9 +1495,11 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             );
             return ResultS4_SyslineFind::Found_EOF((fo_b, slp));
         }
-        debug_eprintln!("{}find_sysline: LRU cache put({}, Found({}, …))", so(), fileoffset, fo_b);
-        self._find_sysline_lru_cache
-            .put(fileoffset, ResultS4_SyslineFind::Found((fo_b, slp.clone())));
+        if self._find_sysline_lru_cache_enabled {
+            debug_eprintln!("{}find_sysline: LRU cache put({}, Found({}, …))", so(), fileoffset, fo_b);
+            self._find_sysline_lru_cache
+                .put(fileoffset, ResultS4_SyslineFind::Found((fo_b, slp.clone())));
+        }
         debug_eprintln!(
             "{}find_sysline: return ResultS4_SyslineFind::Found(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
             sx(),
@@ -1939,6 +2010,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let blocksz = self.blocksz();
         let lines = self.linereader.count();
         let syslines = self.count();
+        let patterns = self.dt_patterns.clone();
         let parse_datetime_in_line_lru_cache_hit = self._parse_datetime_in_line_lru_cache_hit;
         let parse_datetime_in_line_lru_cache_miss = self._parse_datetime_in_line_lru_cache_miss;
         let find_line_lru_cache_hit = self.linereader._find_line_lru_cache_hit;
@@ -1956,6 +2028,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             blocksz,
             lines,
             syslines,
+            patterns,
             parse_datetime_in_line_lru_cache_hit,
             parse_datetime_in_line_lru_cache_miss,
             find_line_lru_cache_hit,

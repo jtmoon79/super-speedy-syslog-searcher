@@ -8,6 +8,10 @@ use crate::Readers::blockreader::{
     BLOCKSZ_MIN,
 };
 
+use crate::Readers::datetime::{
+    DateTime_Parse_Datas_vec,
+};
+
 extern crate more_asserts;
 use more_asserts::{
     assert_le,
@@ -26,7 +30,7 @@ use more_asserts::{
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// statistics to print about `SyslineReader` activity
-#[derive(Copy, Clone, Default)]
+#[derive(Clone, Default)]
 pub struct Summary {
     /// count of bytes stored by `BlockReader`
     pub bytes: u64,
@@ -42,6 +46,8 @@ pub struct Summary {
     pub lines: u64,
     /// count of `Syslines` processed by `SyslineReader`
     pub syslines: u64,
+    /// datetime patterns used by `SyslineReader`
+    pub patterns: DateTime_Parse_Datas_vec,
     /// `SyslineReader::_parse_datetime_in_line_lru_cache_hit`
     pub _parse_datetime_in_line_lru_cache_hit: u64,
     /// `SyslineReader::_parse_datetime_in_line_lru_cache_miss`
@@ -67,6 +73,7 @@ impl Summary {
         blocksz: BlockSz,
         lines: u64,
         syslines: u64,
+        patterns: DateTime_Parse_Datas_vec,
         _parse_datetime_in_line_lru_cache_hit: u64,
         _parse_datetime_in_line_lru_cache_miss: u64,
         _find_line_lru_cache_hit: u64,
@@ -91,6 +98,7 @@ impl Summary {
             blocksz,
             lines,
             syslines,
+            patterns,
             _parse_datetime_in_line_lru_cache_hit,
             _parse_datetime_in_line_lru_cache_miss,
             _find_line_lru_cache_hit,

@@ -7,6 +7,7 @@
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 pub use std::fs::File;
+use std::fmt::Debug;
 pub use std::path::Path;
 
 // TODO: use `std::path::Path` for `FPath`
@@ -25,7 +26,7 @@ pub type FileOpenOptions = std::fs::OpenOptions;
 
 /// `Result` Extended
 /// for line and sysline searching functions
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ResultS4<T, E> {
     /// Contains the success data
     Found(T),
@@ -54,6 +55,12 @@ impl<T, E> ResultS4<T, E> {
     #[inline(always)]
     pub const fn is_ok(&self) -> bool {
         matches!(*self, ResultS4::Found(_) | ResultS4::Found_EOF(_) | ResultS4::Done)
+    }
+
+    /// Returns `true` if the result is [`Found`].
+    #[inline(always)]
+    pub const fn is_found(&self) -> bool {
+        matches!(*self, ResultS4::Found(_))
     }
 
     /// Returns `true` if the result is [`Err`].
@@ -151,9 +158,23 @@ impl<T, E> ResultS4<T, E> {
     }
 }
 
+impl<T, E> std::fmt::Display for ResultS4<T, E>
+where
+    E: std::fmt::Display,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ResultS4::Found(_) => { write!(f, "ResultS4::Found") },
+            ResultS4::Found_EOF(_) => { write!(f, "ResultS4::Found_EOF") },
+            ResultS4::Done => { write!(f, "ResultS4::Done") },
+            ResultS4::Err(err) => { write!(f, "ResultS4::Err({})", err) },
+        }
+    }
+}
+
 /// `Result` Extended
 /// for block searching functions
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ResultS3<T, E> {
     /// Contains the success data
     Found(T),
@@ -256,6 +277,19 @@ impl<T, E> ResultS3<T, E> {
             ResultS3::Found(_) => None,
             ResultS3::Done => None,
             ResultS3::Err(x) => Some(x),
+        }
+    }
+}
+
+impl<T, E> std::fmt::Display for ResultS3<T, E>
+where
+    E: std::fmt::Display,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            ResultS3::Found(_) => { write!(f, "ResultS3::Found") },
+            ResultS3::Done => { write!(f, "ResultS3::Done") },
+            ResultS3::Err(err) => { write!(f, "ResultS3::Err({})", err) },
         }
     }
 }
