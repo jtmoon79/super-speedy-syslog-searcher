@@ -58,6 +58,8 @@ https://doc.rust-lang.org/book/
 testing Clone and Copy and Pointer
 https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=203ff518e004f62a959ac4697daa24a5
 
+TODO: [2022/05/01] would Perfect Hash Table module speed up anything?
+      https://docs.rs/phf/latest/phf/
 
 DROP: TODO: [2021/09/01] what about mmap? https://stackoverflow.com/questions/45972/mmap-vs-reading-blocks
 
@@ -614,12 +616,43 @@ DONE: TODO: 2022/04/09 in `find_datetime_in_line`, the `slice_.contains(&b'1')`
       use much runtime. Would doing this search manually be faster?
       Create a benchmark to find out.
 
-TODO: 2022/04/29 easy addition:
+DONE: TODO: 2022/04/29 easy addition:
       add CLI option for color: --color={none,always,auto} default to `auto`
 
-TODO: 2022/04/29 easy addition:
+SKIP: TODO: 2022/04/29 easy addition:
       check `filesz` is less than `u64::MAX`, return Error `unsupported` if it is.
       do this in BlockReader::open
+      ANSWER: std::fs:File.metadata().len() returns `u64`
+
+TODO: [2022/04/30]
+      efficiency addition:
+      if
+        processing last file (one file)
+        found sysline with datetime after dt_time_after
+        dt_time_before is None
+      then
+        dump the file from fileoffset A
+        (no need to parse Lines, Syslines)
+      Implementation requires sending info back to file processing thread.
+
+TODO: [2022/04/30]
+      efficiency addition:
+      if
+        processing last file (one file)
+        found sysline with datetime after dt_time_after
+        found sysline with datetime before dt_time_after
+      then
+        dump the file from fileoffset A to fileoffset B
+
+TODO: [2022/05/01] add parsing of Windows Startup files (which are in XML)?
+      See examples in "C:\Windows\System32\WDI\LogFiles\StartupInfo\"
+      Would require O(n) analysis. This might be acceptable for the
+      benefit.
+      However...
+      I could hardcode schemas for well-known XML files (like Windows startup logs)
+      but how to allow user to pass in schemas for unknown XML formats? Might
+      become too much work, and feature creep... but would be cool.
+      See https://github.com/RazrFalcon/roxmltree
 
 */
 

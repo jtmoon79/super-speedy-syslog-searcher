@@ -101,7 +101,7 @@ pub struct BlockReader<'blockreader> {
     _count_bytes: u64,
     /// cached storage of blocks, looksups generally O(log2n)
     blocks: Blocks,
-    /// internal LRU cache for `read_block`, lookups always O(1)
+    /// internal LRU cache for `fn read_block`, lookups always O(1)
     /// XXX: but still... is `_read_block_lru_cache` accomplishing anything?
     _read_block_lru_cache: BlocksLRUCache,
     /// internal stats tracking

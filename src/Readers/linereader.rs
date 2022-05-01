@@ -1025,7 +1025,7 @@ impl<'linereader> LineReader<'linereader> {
     /// Return `true` if enough is known about the file to proceed with byte analysis
     /// (e.g. calls from `LineReader::find_line`).
     /// Else return `false`.
-    /// If block 0 has not been read from source then return `false`.
+    /// Calls `blockreader.read_block(0)`
     ///
     /// Should only call to completion once per `LineReader` instance.
     pub(crate) fn zeroblock_process(&mut self) -> std::io::Result<bool> {
