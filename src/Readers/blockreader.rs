@@ -109,9 +109,13 @@ pub struct BlockReader<'blockreader> {
     /// internal stats tracking
     pub(crate) _read_block_cache_lru_miss: u32,
     /// internal stats tracking
+    pub(crate) _read_block_cache_lru_put: u32,
+    /// internal stats tracking
     pub(crate) _read_blocks_hit: u32,
     /// internal stats tracking
     pub(crate) _read_blocks_miss: u32,
+    /// internal stats tracking
+    pub(crate) _read_blocks_insert: u32,
 }
 
 impl fmt::Debug for BlockReader<'_> {
@@ -131,9 +135,11 @@ impl fmt::Debug for BlockReader<'_> {
             .field("count_bytes", &self._count_bytes)
             .field("blocks cached", &self.blocks.len())
             .field("cache LRU hit", &self._read_block_cache_lru_hit)
-            .field("cache LRU miss", &self._read_block_cache_lru_miss)
+            .field("miss", &self._read_block_cache_lru_miss)
+            .field("put", &self._read_block_cache_lru_put)
             .field("cache hit", &self._read_blocks_hit)
-            .field("cache miss", &self._read_blocks_miss)
+            .field("miss", &self._read_blocks_miss)
+            .field("insert", &self._read_blocks_insert)
             .finish()
     }
 }
@@ -210,8 +216,10 @@ impl<'blockreader> BlockReader<'blockreader> {
             _read_block_lru_cache: BlocksLRUCache::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ),
             _read_block_cache_lru_hit: 0,
             _read_block_cache_lru_miss: 0,
+            _read_block_cache_lru_put: 0,
             _read_blocks_hit: 0,
             _read_blocks_miss: 0,
+            _read_blocks_insert: 0,
         }
     }
 
@@ -380,6 +388,7 @@ impl<'blockreader> BlockReader<'blockreader> {
                 let bp: &BlockP = &self.blocks[&blockoffset];
                 debug_eprintln!("{}read_block: LRU cache put({}, BlockP@{:p})", so(), blockoffset, bp);
                 self._read_block_lru_cache.put(blockoffset, bp.clone());
+                self._read_block_cache_lru_put += 1;
                 debug_eprintln!(
                     "{}read_block: return Found(BlockP@{:p}); cached Block[{}] @[{}, {}) len {}",
                     sx(),
@@ -441,10 +450,12 @@ impl<'blockreader> BlockReader<'blockreader> {
             },
             _ => {},
         }
+        self._read_blocks_insert += 1;
         self._count_bytes += blen64;
         // store in LRU cache
         debug_eprintln!("{}read_block: LRU cache put({}, BlockP@{:p})", so(), blockoffset, bp);
         self._read_block_lru_cache.put(blockoffset, bp.clone());
+        self._read_block_cache_lru_put += 1;
         debug_eprintln!(
             "{}read_block: return Found(BlockP@{:p}); new Block[{}] @[{}, {}) len {}",
             sx(),

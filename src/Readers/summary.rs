@@ -33,80 +33,111 @@ use more_asserts::{
 #[derive(Clone, Default)]
 pub struct Summary {
     /// count of bytes stored by `BlockReader`
-    pub bytes: u64,
+    pub BlockReader_bytes: u64,
     /// count of bytes in file
-    pub bytes_total: u64,
+    pub BlockReader_bytes_total: u64,
     /// count of `Block`s read by `BlockReader`
-    pub blocks: u64,
+    pub BlockReader_blocks: u64,
     /// count of `Block`s in file
-    pub blocks_total: u64,
+    pub BlockReader_blocks_total: u64,
     /// `BlockSz` of `BlockReader`
-    pub blocksz: BlockSz,
+    pub BlockReader_blocksz: BlockSz,
     /// count of `Lines` processed by `LineReader`
-    pub lines: u64,
+    pub LineReader_lines: u64,
     /// count of `Syslines` processed by `SyslineReader`
-    pub syslines: u64,
+    pub SyslineReader_syslines: u64,
     /// datetime patterns used by `SyslineReader`
-    pub patterns: DateTime_Parse_Datas_vec,
-    /// `SyslineReader::_parse_datetime_in_line_lru_cache_hit`
-    pub _parse_datetime_in_line_lru_cache_hit: u64,
-    /// `SyslineReader::_parse_datetime_in_line_lru_cache_miss`
-    pub _parse_datetime_in_line_lru_cache_miss: u64,
-    /// `LineReader::_find_line_lru_cache_hit`
-    pub _find_line_lru_cache_hit: u64,
-    /// `LineReader::_find_line_lru_cache_miss`
-    pub _find_line_lru_cache_miss: u64,
-    /// `BlockReader`
-    pub _read_block_cache_lru_hit: u32,
-    pub _read_block_cache_lru_miss: u32,
-    pub _read_blocks_hit: u32,
-    pub _read_blocks_miss: u32,
+    pub SyslineReader_patterns: DateTime_Parse_Datas_vec,
+    /// `SyslineReader::find_sysline`
+    pub SyslineReader_find_sysline_lru_cache_hit: u64,
+    /// `SyslineReader::find_sysline`
+    pub SyslineReader_find_sysline_lru_cache_miss: u64,
+    /// `SyslineReader::find_sysline`
+    pub SyslineReader_find_sysline_lru_cache_put: u64,
+    /// `SyslineReader::parse_datetime_in_line`
+    pub SyslineReader_parse_datetime_in_line_lru_cache_hit: u64,
+    /// `SyslineReader::parse_datetime_in_line`
+    pub SyslineReader_parse_datetime_in_line_lru_cache_miss: u64,
+    /// `SyslineReader::parse_datetime_in_line`
+    pub SyslineReader_parse_datetime_in_line_lru_cache_put: u64,
+    /// `LineReader::find_line`
+    pub LineReader_find_line_lru_cache_hit: u64,
+    /// `LineReader::find_line`
+    pub LineReader_find_line_lru_cache_miss: u64,
+    /// `LineReader::find_line`
+    pub LineReader_find_line_lru_cache_put: u64,
+    /// `BlockReader::read_block`
+    pub BlockReader_read_block_cache_lru_hit: u32,
+    /// `BlockReader::read_block`
+    pub BlockReader_read_block_cache_lru_miss: u32,
+    /// `BlockReader::read_block`
+    pub BlockReader_read_block_cache_lru_put: u32,
+    /// `BlockReader::read_block`
+    pub BlockReader_read_blocks_hit: u32,
+    /// `BlockReader::read_block`
+    pub BlockReader_read_blocks_miss: u32,
+    /// `BlockReader::read_block`
+    pub BlockReader_read_blocks_insert: u32,
 }
 
 impl Summary {
     #[allow(clippy::too_many_arguments)]
     pub fn new(
-        bytes: u64,
-        bytes_total: u64,
-        blocks: u64,
-        blocks_total: u64,
-        blocksz: BlockSz,
-        lines: u64,
-        syslines: u64,
-        patterns: DateTime_Parse_Datas_vec,
-        _parse_datetime_in_line_lru_cache_hit: u64,
-        _parse_datetime_in_line_lru_cache_miss: u64,
-        _find_line_lru_cache_hit: u64,
-        _find_line_lru_cache_miss: u64,
-        _read_block_cache_lru_hit: u32,
-        _read_block_cache_lru_miss: u32,
-        _read_blocks_hit: u32,
-        _read_blocks_miss: u32,
+        BlockReader_bytes: u64,
+        BlockReader_bytes_total: u64,
+        BlockReader_blocks: u64,
+        BlockReader_blocks_total: u64,
+        BlockReader_blocksz: BlockSz,
+        LineReader_lines: u64,
+        SyslineReader_syslines: u64,
+        SyslineReader_patterns: DateTime_Parse_Datas_vec,
+        SyslineReader_find_sysline_lru_cache_hit: u64,
+        SyslineReader_find_sysline_lru_cache_miss: u64,
+        SyslineReader_find_sysline_lru_cache_put: u64,
+        SyslineReader_parse_datetime_in_line_lru_cache_hit: u64,
+        SyslineReader_parse_datetime_in_line_lru_cache_miss: u64,
+        SyslineReader_parse_datetime_in_line_lru_cache_put: u64,
+        LineReader_find_line_lru_cache_hit: u64,
+        LineReader_find_line_lru_cache_miss: u64,
+        LineReader_find_line_lru_cache_put: u64,
+        BlockReader_read_block_cache_lru_hit: u32,
+        BlockReader_read_block_cache_lru_miss: u32,
+        BlockReader_read_block_cache_lru_put: u32,
+        BlockReader_read_blocks_hit: u32,
+        BlockReader_read_blocks_miss: u32,
+        BlockReader_read_blocks_insert: u32,
     ) -> Summary {
         // some sanity checks
-        assert_ge!(bytes, blocks, "There is less bytes than Blocks");
-        assert_ge!(bytes, lines, "There is less bytes than Lines");
-        assert_ge!(bytes, lines, "There is less bytes than Syslines");
-        assert_ge!(blocksz, BLOCKSZ_MIN, "blocksz too small");
-        assert_le!(blocksz, BLOCKSZ_MAX, "blocksz too big");
-        assert_ge!(lines, syslines, "There is less Lines than Syslines");
+        assert_ge!(BlockReader_bytes, BlockReader_blocks, "There is less bytes than Blocks");
+        assert_ge!(BlockReader_bytes, LineReader_lines, "There is less bytes than Lines");
+        assert_ge!(BlockReader_bytes, SyslineReader_syslines, "There is less bytes than Syslines");
+        assert_ge!(BlockReader_blocksz, BLOCKSZ_MIN, "blocksz too small");
+        assert_le!(BlockReader_blocksz, BLOCKSZ_MAX, "blocksz too big");
+        assert_ge!(LineReader_lines, SyslineReader_syslines, "There is less Lines than Syslines");
         Summary {
-            bytes,
-            bytes_total,
-            blocks,
-            blocks_total,
-            blocksz,
-            lines,
-            syslines,
-            patterns,
-            _parse_datetime_in_line_lru_cache_hit,
-            _parse_datetime_in_line_lru_cache_miss,
-            _find_line_lru_cache_hit,
-            _find_line_lru_cache_miss,
-            _read_block_cache_lru_hit,
-            _read_block_cache_lru_miss,
-            _read_blocks_hit,
-            _read_blocks_miss,
+            BlockReader_bytes,
+            BlockReader_bytes_total,
+            BlockReader_blocks,
+            BlockReader_blocks_total,
+            BlockReader_blocksz,
+            LineReader_lines,
+            SyslineReader_syslines,
+            SyslineReader_patterns,
+            SyslineReader_find_sysline_lru_cache_hit,
+            SyslineReader_find_sysline_lru_cache_miss,
+            SyslineReader_find_sysline_lru_cache_put,
+            SyslineReader_parse_datetime_in_line_lru_cache_hit,
+            SyslineReader_parse_datetime_in_line_lru_cache_miss,
+            SyslineReader_parse_datetime_in_line_lru_cache_put,
+            LineReader_find_line_lru_cache_hit,
+            LineReader_find_line_lru_cache_miss,
+            LineReader_find_line_lru_cache_put,
+            BlockReader_read_block_cache_lru_hit,
+            BlockReader_read_block_cache_lru_miss,
+            BlockReader_read_block_cache_lru_put,
+            BlockReader_read_blocks_hit,
+            BlockReader_read_blocks_miss,
+            BlockReader_read_blocks_insert,
         }
     }
 }
@@ -114,13 +145,13 @@ impl Summary {
 impl fmt::Debug for Summary {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("")
-            .field("bytes", &self.bytes)
-            .field("bytes total", &self.bytes_total)
-            .field("lines", &self.lines)
-            .field("syslines", &self.syslines)
-            .field("blocks", &self.blocks)
-            .field("blocks total", &self.blocks_total)
-            .field("blocksz", &format_args!("{0} (0x{0:X})", &self.blocksz))
+            .field("bytes", &self.BlockReader_bytes)
+            .field("bytes total", &self.BlockReader_bytes_total)
+            .field("lines", &self.LineReader_lines)
+            .field("syslines", &self.SyslineReader_syslines)
+            .field("blocks", &self.BlockReader_blocks)
+            .field("blocks total", &self.BlockReader_blocks_total)
+            .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
             .finish()
     }
 }

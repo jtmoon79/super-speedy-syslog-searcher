@@ -519,7 +519,7 @@ type SyslinesRangeMap = RangeMap<FileOffset, FileOffset>;
 /// used internally by `SyslineReader`
 type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
 /// used internally by `SyslineReader`
-type LineParsedCache = BTreeMap<FileOffset, Result_ParseDateTimeP>;
+type LineParsedCache = LruCache<FileOffset, Result_ParseDateTimeP>;
 
 /// Specialized Reader that uses `LineReader` to find syslog lines
 pub struct SyslineReader<'syslinereader> {
@@ -545,12 +545,22 @@ pub struct SyslineReader<'syslinereader> {
     _find_sysline_lru_cache_enabled: bool,
     /// internal LRU cache for `find_sysline`. maintained in `SyslineReader::find_sysline`
     _find_sysline_lru_cache: SyslinesLRUCache,
+    // internal stats for `self.find_sysline`
+    pub(self) _find_sysline_lru_cache_hit: u64,
+    // internal stats for `self.find_sysline`
+    pub(self) _find_sysline_lru_cache_miss: u64,
+    // internal stats for `self.find_sysline`
+    pub(self) _find_sysline_lru_cache_put: u64,
+    // enable/disable `_parse_datetime_in_line_lru_cache`
+    _parse_datetime_in_line_lru_cache_enabled: bool,
     // internal cache of calls to `SyslineReader::parse_datetime_in_line`. maintained in `SyslineReader::find_sysline`
     _parse_datetime_in_line_lru_cache: LineParsedCache,
     // internal stats for `self._parse_datetime_in_line_lru_cache`
     pub(self) _parse_datetime_in_line_lru_cache_hit: u64,
     // internal stats for `self._parse_datetime_in_line_lru_cache`
     pub(self) _parse_datetime_in_line_lru_cache_miss: u64,
+    // internal stats for `self._parse_datetime_in_line_lru_cache`
+    pub(self) _parse_datetime_in_line_lru_cache_put: u64,
     /// has `self.file_analysis` completed?
     analyzed: bool,
 }
@@ -593,6 +603,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     const DT_PATTERN_MAX: usize = 1;
     const ANALYSIS_THRESHOLD: u64 = 5;
     const _FIND_SYSLINE_LRU_CACHE_SZ: usize = 4;
+    const _PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ: usize = 8;
 
     pub fn new(path: &'syslinereader FPath, blocksz: BlockSz, tz_offset: FixedOffset) -> Result<SyslineReader<'syslinereader>> {
         let lr = match LineReader::new(path, blocksz) {
@@ -602,21 +613,28 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 return Err(err);
             }
         };
-        Ok(SyslineReader {
-            linereader: lr,
-            syslines: Syslines::new(),
-            syslines_count: 0,
-            syslines_by_range: SyslinesRangeMap::new(),
-            dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
-            dt_patterns_counts: DateTime_Pattern_Counts::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
-            tz_offset,
-            _find_sysline_lru_cache_enabled: true,
-            _find_sysline_lru_cache: SyslinesLRUCache::new(SyslineReader::_FIND_SYSLINE_LRU_CACHE_SZ),
-            _parse_datetime_in_line_lru_cache: LineParsedCache::new(),
-            _parse_datetime_in_line_lru_cache_hit: 0,
-            _parse_datetime_in_line_lru_cache_miss: 0,
-            analyzed: false,
-        })
+        Ok(
+            SyslineReader {
+                linereader: lr,
+                syslines: Syslines::new(),
+                syslines_count: 0,
+                syslines_by_range: SyslinesRangeMap::new(),
+                dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
+                dt_patterns_counts: DateTime_Pattern_Counts::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
+                tz_offset,
+                _find_sysline_lru_cache_enabled: true,
+                _find_sysline_lru_cache: SyslinesLRUCache::new(SyslineReader::_FIND_SYSLINE_LRU_CACHE_SZ),
+                _find_sysline_lru_cache_hit: 0,
+                _find_sysline_lru_cache_miss: 0,
+                _find_sysline_lru_cache_put: 0,
+                _parse_datetime_in_line_lru_cache_enabled: true,
+                _parse_datetime_in_line_lru_cache: LineParsedCache::new(SyslineReader::_PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ),
+                _parse_datetime_in_line_lru_cache_hit: 0,
+                _parse_datetime_in_line_lru_cache_miss: 0,
+                _parse_datetime_in_line_lru_cache_put: 0,
+                analyzed: false,
+            }
+        )
     }
 
     pub fn blocksz(&self) -> BlockSz {
@@ -671,19 +689,26 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         self.syslines_count
     }
 
-    /// enable internal LRU cache used by `find_sysline`
+    /// enable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
+    /// intended to aid testing
     pub fn LRU_cache_enable(&mut self) {
         self._find_sysline_lru_cache_enabled = true;
         self._find_sysline_lru_cache.clear();
         self._find_sysline_lru_cache.resize(SyslineReader::_FIND_SYSLINE_LRU_CACHE_SZ);
+        self._parse_datetime_in_line_lru_cache_enabled = true;
+        self._parse_datetime_in_line_lru_cache.clear();
+        self._parse_datetime_in_line_lru_cache.resize(SyslineReader::_PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ);
     }
 
-    /// disable internal LRU cache used by `find_sysline`
-    /// intended for testing
+    /// disable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
+    /// intended to aid testing
     pub fn LRU_cache_disable(&mut self) {
         self._find_sysline_lru_cache_enabled = false;
         self._find_sysline_lru_cache.clear();
         self._find_sysline_lru_cache.resize(0);
+        self._parse_datetime_in_line_lru_cache_enabled = false;
+        self._parse_datetime_in_line_lru_cache.clear();
+        self._parse_datetime_in_line_lru_cache.resize(0);
     }
 
     /// read block zero (the first data block of the file), do necessary analysis
@@ -693,8 +718,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         // need to add find_sysline calls for block zero, then determine if number found
         // is acceptable to continue. requires `find_syseline` that can avoid new calls to
         // `read_block`... needs some thought to do cleanly.
-        // might need to add `find_sysline_in_block` that searches only iwthin one block
-        // would be simpler far simpler to implement than `find_sysline`.
+        // might need to add `find_sysline_in_block` that searches only within one block
+        // would be far simpler to restructure `find_sysline`.
         // would need corresponding function `LineReader::find_line`.
     }
 
@@ -1079,40 +1104,44 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// helper to `find_sysline`
     /// call `self.parse_datetime_in_line` with help of `self._parse_datetime_in_line_cache`
     fn parse_datetime_in_line_cached(&mut self, lp: &LineP, charsz: &usize) -> Result_ParseDateTimeP {
-        match self._parse_datetime_in_line_lru_cache.get(&lp.fileoffset_begin()) {
-            Some(val) => {
-                self._parse_datetime_in_line_lru_cache_hit +=1;
-                return val.clone();
-            },
-            _ => {
-                self._parse_datetime_in_line_lru_cache_miss += 1;
-            },
+        if self._parse_datetime_in_line_lru_cache_enabled {
+            match self._parse_datetime_in_line_lru_cache.get(&lp.fileoffset_begin()) {
+                Some(val) => {
+                    self._parse_datetime_in_line_lru_cache_hit +=1;
+                    return val.clone();
+                },
+                _ => {
+                    self._parse_datetime_in_line_lru_cache_miss += 1;
+                },
+            }
         }
-        // TODO: returned cached value
-        //       also, what about change of `self.analyzed` state?
-        //       could cache that state, *or*, when analyzing do `_parse_datetime_in_line_lru_cache.clear()`
         let result: Result_ParseDateTime = self.parse_datetime_in_line(&*lp, charsz);
         let resultp: Result_ParseDateTimeP = Result_ParseDateTimeP::new(result);
-        let resultp2 = resultp.clone();
-        #[allow(clippy::single_match)]
-        match self._parse_datetime_in_line_lru_cache.insert(lp.fileoffset_begin(), resultp) {
-            Some(val_prev) => {
-                assert!(false, "self._parse_datetime_in_line_lru_cache already had key {:?}, value {:?}", lp.fileoffset_begin(), val_prev);
-            },
-            _ => {},
-        };
+        if self._parse_datetime_in_line_lru_cache_enabled {
+            #[allow(clippy::single_match)]
+            match self._parse_datetime_in_line_lru_cache.put(lp.fileoffset_begin(), resultp.clone()) {
+                Some(val_prev) => {
+                    panic!("self._parse_datetime_in_line_lru_cache already had key {:?}, value {:?}", lp.fileoffset_begin(), val_prev);
+                },
+                _ => {},
+            };
+        }
 
-        resultp2
+        resultp
     }
 
     /// Find first sysline at or after `fileoffset`.
     /// return (fileoffset of start of _next_ sysline, found Sysline at or after `fileoffset`)
     /// Similar to `LineReader.find_line`, `BlockReader.read_block`.
+    ///
     /// This is the heart of the algorithm to find a sysline within a syslog file quickly.
     /// It's simply a binary search.
     /// It could definitely use some improvements, but for now it gets the job done.
+    ///
     /// XXX: this function is large and cumbersome. you've been warned.
+    ///
     /// TODO: separate caching to wrapper `find_sysline_cached`
+    /// TODO: test that retrieving by cache always returns the same ResultS4 enum value as without a cache
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline(SyslineReader@{:p}, {})", sn(), self, fileoffset);
 
@@ -1123,11 +1152,11 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             //return Result_ParseDateTime::Error("");
         }
 
-        if self._find_sysline_lru_cache_enabled { // check if `fileoffset` is already known about
-            // check LRU cache
+        if self._find_sysline_lru_cache_enabled {
+            // check if `fileoffset` is already known about in LRU cache
             match self._find_sysline_lru_cache.get(&fileoffset) {
                 Some(rlp) => {
-                    //self._read_block_cache_lru_hit += 1;
+                    self._find_sysline_lru_cache_hit += 1;
                     debug_eprintln!("{}find_sysline: found LRU cached for fileoffset {}", so(), fileoffset);
                     match rlp {
                         ResultS4_SyslineFind::Found(val) => {
@@ -1149,29 +1178,28 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     }
                 }
                 None => {
-                    //self._read_block_cache_lru_miss += 1;
+                    self._find_sysline_lru_cache_miss += 1;
                     debug_eprintln!("{}find_sysline: fileoffset {} not found in LRU cache", so(), fileoffset);
                 }
             }
+        }
 
-            // TODO: test that retrieving by cache always returns the same ResultS4 enum value as without a cache
-
-            // check if the offset is already in a known range
-            match self.syslines_by_range.get_key_value(&fileoffset) {
-                Some(range_fo) => {
-                    let range = range_fo.0;
+        // check if the offset is already in a known range
+        match self.syslines_by_range.get_key_value(&fileoffset) {
+            Some(range_fo) => {
+                let range = range_fo.0;
+                debug_eprintln!(
+                "{}find_sysline: hit syslines_by_range cache for FileOffset {} (found in range {:?})",
+                so(),
+                fileoffset,
+                range
+            );
+                let fo = range_fo.1;
+                let slp = self.syslines[fo].clone();
+                // XXX: multi-byte character encoding
+                let fo_next = (*slp).fileoffset_next() + (self.charsz() as FileOffset);
+                if self.is_sysline_last(&slp) {
                     debug_eprintln!(
-                    "{}find_sysline: hit syslines_by_range cache for FileOffset {} (found in range {:?})",
-                    so(),
-                    fileoffset,
-                    range
-                );
-                    let fo = range_fo.1;
-                    let slp = self.syslines[fo].clone();
-                    // XXX: multi-byte character encoding
-                    let fo_next = (*slp).fileoffset_next() + (self.charsz() as FileOffset);
-                    if self.is_sysline_last(&slp) {
-                        debug_eprintln!(
                         "{}find_sysline: return ResultS4_SyslineFind::Found_EOF(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
                         sx(),
                         fo_next,
@@ -1180,13 +1208,15 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                         (*slp).fileoffset_end(),
                         (*slp).to_String_noraw()
                     );
-                        self._find_sysline_lru_cache
-                            .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
-                        return ResultS4_SyslineFind::Found_EOF((fo_next, slp));
-                    }
+                    self._find_sysline_lru_cache_put += 1;
                     self._find_sysline_lru_cache
-                        .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
-                    debug_eprintln!(
+                        .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
+                    return ResultS4_SyslineFind::Found_EOF((fo_next, slp));
+                }
+                self._find_sysline_lru_cache_put += 1;
+                self._find_sysline_lru_cache
+                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                debug_eprintln!(
                     "{}find_sysline: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
                     sx(),
                     fo_next,
@@ -1195,25 +1225,24 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     (*slp).fileoffset_end(),
                     (*slp).to_String_noraw()
                 );
-                    return ResultS4_SyslineFind::Found((fo_next, slp));
-                }
-                None => {
-                    debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines_by_range", so(), fileoffset);
-                }
+                return ResultS4_SyslineFind::Found((fo_next, slp));
             }
-            debug_eprintln!("{}find_sysline: searching for first sysline datetime A …", so());
+            None => {
+                debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines_by_range", so(), fileoffset);
+            }
+        }
 
-            // check if there is a Sysline already known at this fileoffset
-            // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
-            if self.syslines.contains_key(&fileoffset) {
-                debug_assert!(self.syslines_by_range.contains_key(&fileoffset), "self.syslines.contains_key({}) however, self.syslines_by_range.contains_key({}) returned None (syslines_by_range out of synch)", fileoffset, fileoffset);
-                debug_eprintln!("{}find_sysline: hit self.syslines for FileOffset {}", so(), fileoffset);
-                let slp = self.syslines[&fileoffset].clone();
-                // XXX: multi-byte character encoding
-                let fo_next = (*slp).fileoffset_end() + (self.charsz() as FileOffset);
-                // TODO: determine if `fileoffset` is the last sysline of the file
-                //       should add a private helper function for this task `is_sysline_last(FileOffset)` ... something like that
-                debug_eprintln!(
+        // check if there is a Sysline already known at this fileoffset
+        // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
+        if self.syslines.contains_key(&fileoffset) {
+            debug_assert!(self.syslines_by_range.contains_key(&fileoffset), "self.syslines.contains_key({}) however, self.syslines_by_range.contains_key({}) returned None (syslines_by_range out of synch)", fileoffset, fileoffset);
+            debug_eprintln!("{}find_sysline: hit self.syslines for FileOffset {}", so(), fileoffset);
+            let slp = self.syslines[&fileoffset].clone();
+            // XXX: multi-byte character encoding
+            let fo_next = (*slp).fileoffset_end() + (self.charsz() as FileOffset);
+            // TODO: determine if `fileoffset` is the last sysline of the file
+            //       should add a private helper function for this task `is_sysline_last(FileOffset)` ... something like that
+            debug_eprintln!(
                 "{}find_sysline: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines {:?}",
                 sx(),
                 fo_next,
@@ -1222,15 +1251,17 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 (*slp).fileoffset_end(),
                 (*slp).to_String_noraw()
             );
-                if self._find_sysline_lru_cache_enabled {
-                    self._find_sysline_lru_cache
-                        .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
-                }
-                return ResultS4_SyslineFind::Found((fo_next, slp));
-            } else {
-                debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines", so(), fileoffset);
+            if self._find_sysline_lru_cache_enabled {
+                self._find_sysline_lru_cache_put += 1;
+                self._find_sysline_lru_cache
+                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
             }
+            return ResultS4_SyslineFind::Found((fo_next, slp));
+        } else {
+            debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines", so(), fileoffset);
         }
+
+        debug_eprintln!("{}find_sysline: searching for first sysline datetime A …", so());
 
         //
         // find line with datetime A
@@ -1258,6 +1289,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
                 ResultS4_LineFind::Done => {
                     if self._find_sysline_lru_cache_enabled {
+                        self._find_sysline_lru_cache_put += 1;
                         debug_eprintln!("{}find_sysline: LRU cache put({}, Done)", so(), fileoffset);
                         self._find_sysline_lru_cache.put(fileoffset, ResultS4_SyslineFind::Done);
                     }
@@ -1289,6 +1321,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     if eof {
                         let slp = SyslineP::new(sl);
                         if self._find_sysline_lru_cache_enabled {
+                            self._find_sysline_lru_cache_put += 1;
                             debug_eprintln!("{}find_sysline: LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fo1);
                             self._find_sysline_lru_cache
                                 .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo1, slp.clone())));
@@ -1344,6 +1377,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 (*slp).to_String_noraw()
             );
                 if self._find_sysline_lru_cache_enabled {
+                    self._find_sysline_lru_cache_put += 1;
                     self._find_sysline_lru_cache
                         .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
                 }
@@ -1377,12 +1411,14 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                             (*slp).to_String_noraw()
                         );
                         if self._find_sysline_lru_cache_enabled {
+                            self._find_sysline_lru_cache_put += 1;
                             self._find_sysline_lru_cache
                                 .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
                         }
                         return ResultS4_SyslineFind::Found_EOF((fo_next, slp));
                     }
                     if self._find_sysline_lru_cache_enabled {
+                        self._find_sysline_lru_cache_put += 1;
                         self._find_sysline_lru_cache
                             .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
                     }
@@ -1480,6 +1516,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         let slp = self.insert_sysline(sl);
         if eof {
             if self._find_sysline_lru_cache_enabled {
+                self._find_sysline_lru_cache_put += 1;
                 debug_eprintln!("{}find_sysline: LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fo_b);
                 self._find_sysline_lru_cache
                     .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_b, slp.clone())));
@@ -1496,6 +1533,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             return ResultS4_SyslineFind::Found_EOF((fo_b, slp));
         }
         if self._find_sysline_lru_cache_enabled {
+            self._find_sysline_lru_cache_put += 1;
             debug_eprintln!("{}find_sysline: LRU cache put({}, Found({}, …))", so(), fileoffset, fo_b);
             self._find_sysline_lru_cache
                 .put(fileoffset, ResultS4_SyslineFind::Found((fo_b, slp.clone())));
@@ -2003,40 +2041,54 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     
     /// return an up-to-date `Summary` instance for this `SyslineReader`
     pub fn summary(&self) -> Summary {
-        let bytes = self.linereader.blockreader.count_bytes();
-        let bytes_total = self.linereader.blockreader.filesz as u64;
-        let blocks = self.linereader.blockreader.count();
-        let blocks_total = self.linereader.blockreader.blockn;
-        let blocksz = self.blocksz();
-        let lines = self.linereader.count();
-        let syslines = self.count();
-        let patterns = self.dt_patterns.clone();
-        let parse_datetime_in_line_lru_cache_hit = self._parse_datetime_in_line_lru_cache_hit;
-        let parse_datetime_in_line_lru_cache_miss = self._parse_datetime_in_line_lru_cache_miss;
-        let find_line_lru_cache_hit = self.linereader._find_line_lru_cache_hit;
-        let find_line_lru_cache_miss = self.linereader._find_line_lru_cache_miss;
-        let _read_block_cache_lru_hit = self.linereader.blockreader._read_block_cache_lru_hit;
-        let _read_block_cache_lru_miss = self.linereader.blockreader._read_block_cache_lru_miss;
-        let _read_blocks_hit = self.linereader.blockreader._read_blocks_hit;
-        let _read_blocks_miss = self.linereader.blockreader._read_blocks_miss;
+        let BlockReader_bytes = self.linereader.blockreader.count_bytes();
+        let BlockReader_bytes_total = self.linereader.blockreader.filesz as u64;
+        let BlockReader_blocks = self.linereader.blockreader.count();
+        let BlockReader_blocks_total = self.linereader.blockreader.blockn;
+        let BlockReader_blocksz = self.blocksz();
+        let LineReader_lines = self.linereader.count();
+        let SyslineReader_syslines = self.count();
+        let SyslineReader_patterns = self.dt_patterns.clone();
+        let SyslineReader_find_sysline_lru_cache_hit = self._find_sysline_lru_cache_hit;
+        let SyslineReader_find_sysline_lru_cache_miss = self._find_sysline_lru_cache_miss;
+        let SyslineReader_find_sysline_lru_cache_put = self._find_sysline_lru_cache_put;
+        let SyslineReader_parse_datetime_in_line_lru_cache_hit = self._parse_datetime_in_line_lru_cache_hit;
+        let SyslineReader_parse_datetime_in_line_lru_cache_miss = self._parse_datetime_in_line_lru_cache_miss;
+        let SyslineReader_parse_datetime_in_line_lru_cache_put = self._parse_datetime_in_line_lru_cache_put;
+        let LineReader_find_line_lru_cache_hit = self.linereader._find_line_lru_cache_hit;
+        let LineReader_find_line_lru_cache_miss = self.linereader._find_line_lru_cache_miss;
+        let LineReader_find_line_lru_cache_put = self.linereader._find_line_lru_cache_put;
+        let BlockReader_read_block_cache_lru_hit = self.linereader.blockreader._read_block_cache_lru_hit;
+        let BlockReader_read_block_cache_lru_miss = self.linereader.blockreader._read_block_cache_lru_miss;
+        let BlockReader_read_block_cache_lru_put = self.linereader.blockreader._read_block_cache_lru_put;
+        let BlockReader_read_blocks_hit = self.linereader.blockreader._read_blocks_hit;
+        let BlockReader_read_blocks_miss = self.linereader.blockreader._read_blocks_miss;
+        let BlockReader_read_blocks_insert = self.linereader.blockreader._read_blocks_insert;
 
         Summary::new(
-            bytes,
-            bytes_total,
-            blocks,
-            blocks_total,
-            blocksz,
-            lines,
-            syslines,
-            patterns,
-            parse_datetime_in_line_lru_cache_hit,
-            parse_datetime_in_line_lru_cache_miss,
-            find_line_lru_cache_hit,
-            find_line_lru_cache_miss,
-            _read_block_cache_lru_hit,
-            _read_block_cache_lru_miss,
-            _read_blocks_hit,
-            _read_blocks_miss,
+            BlockReader_bytes,
+            BlockReader_bytes_total,
+            BlockReader_blocks,
+            BlockReader_blocks_total,
+            BlockReader_blocksz,
+            LineReader_lines,
+            SyslineReader_syslines,
+            SyslineReader_patterns,
+            SyslineReader_find_sysline_lru_cache_hit,
+            SyslineReader_find_sysline_lru_cache_miss,
+            SyslineReader_find_sysline_lru_cache_put,
+            SyslineReader_parse_datetime_in_line_lru_cache_hit,
+            SyslineReader_parse_datetime_in_line_lru_cache_miss,
+            SyslineReader_parse_datetime_in_line_lru_cache_put,
+            LineReader_find_line_lru_cache_hit,
+            LineReader_find_line_lru_cache_miss,
+            LineReader_find_line_lru_cache_put,
+            BlockReader_read_block_cache_lru_hit,
+            BlockReader_read_block_cache_lru_miss,
+            BlockReader_read_block_cache_lru_put,
+            BlockReader_read_blocks_hit,
+            BlockReader_read_blocks_miss,
+            BlockReader_read_blocks_insert,
         )
     }
 }

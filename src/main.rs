@@ -577,7 +577,7 @@ TODO: 2022/03/31 for files with datetime format lacking year, it will be necessa
       or, do one huge iteration from the last line of the file, tracking years, but never keeping any data (so it doesn't blowout memory).
       This is a time resource intensive hack that *would* work.
 
-TODO: 2022/03/31 add option --assume-TZ-offset that allows passing TZ offset that will be assumed for syslog
+DONE: TODO: 2022/03/31 add option --assume-TZ-offset that allows passing TZ offset that will be assumed for syslog
       files that use datetime format without a timezone offset.
       Would default to `DateTime.Local` offset.
 
@@ -1467,7 +1467,7 @@ impl SummaryPrinted {
             }
         };
         eprint!("{{ bytes: ");
-        if self.bytes == 0 && sum_.bytes != 0 {
+        if self.bytes == 0 && sum_.BlockReader_bytes != 0 {
             #[allow(clippy::single_match)]
             match print_colored_stderr(clrerr, color_choice_opt, self.bytes.to_string().as_bytes()) {
                 Err(err) => {
@@ -1481,7 +1481,7 @@ impl SummaryPrinted {
         }
 
         eprint!(", lines: ");
-        if self.lines == 0 && sum_.bytes != 0 {
+        if self.lines == 0 && sum_.BlockReader_bytes != 0 {
             #[allow(clippy::single_match)]
             match print_colored_stderr(clrerr, color_choice_opt, self.lines.to_string().as_bytes()) {
                 Err(err) => {
@@ -1495,7 +1495,7 @@ impl SummaryPrinted {
         }
 
         eprint!(", syslines: ");
-        if self.syslines == 0 && sum_.lines != 0 {
+        if self.syslines == 0 && sum_.LineReader_lines != 0 {
             #[allow(clippy::single_match)]
             match print_colored_stderr(clrerr, color_choice_opt, self.syslines.to_string().as_bytes()) {
                 Err(err) => {
@@ -1509,7 +1509,7 @@ impl SummaryPrinted {
         }
 
         eprint!(", dt_first: ");
-        if self.dt_first.is_none() && sum_.lines != 0 {
+        if self.dt_first.is_none() && sum_.LineReader_lines != 0 {
             #[allow(clippy::single_match)]
             match print_colored_stderr(clrerr, color_choice_opt, "None".as_bytes()) {
                 Err(err) => {
@@ -1523,7 +1523,7 @@ impl SummaryPrinted {
         }
 
         eprint!(", dt_last: ");
-        if self.dt_last.is_none() && sum_.lines != 0 {
+        if self.dt_last.is_none() && sum_.LineReader_lines != 0 {
             #[allow(clippy::single_match)]
             match print_colored_stderr(clrerr, color_choice_opt, "None".as_bytes()) {
                 Err(err) => {
@@ -1907,10 +1907,10 @@ fn processing_loop(
     if cli_opt_summary {
         // quickie helper to print the `summary.patterns` Vec (requires it's own line)
         pub fn patterns_dbg(summary: &Summary) -> String {
-            // `cap` is very rough capacity estimation
-            let cap: usize = summary.patterns.len() * 150;
+            // `cap` is a rough capacity estimation
+            let cap: usize = summary.SyslineReader_patterns.len() * 150;
             let mut out: String = String::with_capacity(cap);
-            for patt in summary.patterns.iter() {
+            for patt in summary.SyslineReader_patterns.iter() {
                 // XXX: magic knowledge of blank prepend
                 let a = format!("                   {:?}", patt);
                 out.push_str(a.as_ref());
@@ -1969,16 +1969,53 @@ fn processing_loop(
                 }
                 // SyslineReader
                 let summary: &Summary = &summary_opt.unwrap_or_default();
-                let mut ratio = ratio64(&summary._parse_datetime_in_line_lru_cache_hit, &summary._parse_datetime_in_line_lru_cache_miss);
-                eprintln!("{}caching: SyslineReader::parse_datetime_in_line_lru_cache: hit {:2}, miss {:2}, ratio: {:1.2}", slead, summary._parse_datetime_in_line_lru_cache_hit, summary._parse_datetime_in_line_lru_cache_miss, ratio);
+                let mut ratio = ratio64(&summary.SyslineReader_parse_datetime_in_line_lru_cache_hit, &summary.SyslineReader_parse_datetime_in_line_lru_cache_miss);
+                eprintln!(
+                    "{}caching: SyslineReader::parse_datetime_in_line_lru_cache: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
+                    slead,
+                    summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
+                    summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
+                    ratio,
+                    summary.SyslineReader_parse_datetime_in_line_lru_cache_put,
+                );
+                ratio = ratio64(&summary.SyslineReader_find_sysline_lru_cache_hit, &summary.SyslineReader_find_sysline_lru_cache_miss);
+                eprintln!(
+                    "{}caching: SyslineReader::find_sysline_lru_cache_hit: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
+                    slead,
+                    summary.SyslineReader_find_sysline_lru_cache_hit,
+                    summary.SyslineReader_find_sysline_lru_cache_miss,
+                    ratio,
+                    summary.SyslineReader_find_sysline_lru_cache_put,
+                );
                 // LineReader
-                ratio = ratio64(&summary._find_line_lru_cache_hit, &summary._find_line_lru_cache_miss);
-                eprintln!("{}caching: LineReader::find_line_cache: hit {:2}, miss: {:2}, ratio: {:1.2}", slead, summary._find_line_lru_cache_hit, summary._find_line_lru_cache_miss, ratio);
+                ratio = ratio64(&summary.LineReader_find_line_lru_cache_hit, &summary.LineReader_find_line_lru_cache_miss);
+                eprintln!(
+                    "{}caching: LineReader::find_line_cache: hit {:2}, miss: {:2}, ratio: {:1.2}, put {:2}",
+                    slead,
+                    summary.LineReader_find_line_lru_cache_hit,
+                    summary.LineReader_find_line_lru_cache_miss,
+                    ratio,
+                    summary.LineReader_find_line_lru_cache_put,
+                );
                 // BlockReader
-                ratio = ratio32(&summary._read_blocks_hit, &summary._read_blocks_miss);
-                eprintln!("{}caching: BlockReader::read_block_blocks   : hit {:2}, miss {:2}, ratio: {:1.2}", slead, summary._read_blocks_hit, summary._read_blocks_miss, ratio);
-                ratio = ratio32(&summary._read_block_cache_lru_hit, &summary._read_block_cache_lru_miss);
-                eprintln!("{}caching: BlockReader::read_block_cache_lru: hit {:2}, miss {:2}, ratio: {:1.2}", slead, summary._read_block_cache_lru_hit, summary._read_block_cache_lru_miss, ratio);
+                ratio = ratio32(&summary.BlockReader_read_blocks_hit, &summary.BlockReader_read_blocks_miss);
+                eprintln!(
+                    "{}caching: BlockReader::read_block_blocks   : hit {:2}, miss {:2}, ratio: {:1.2}, insert {:2}",
+                    slead,
+                    summary.BlockReader_read_blocks_hit,
+                    summary.BlockReader_read_blocks_miss,
+                    ratio,
+                    summary.BlockReader_read_blocks_insert,
+                );
+                ratio = ratio32(&summary.BlockReader_read_block_cache_lru_hit, &summary.BlockReader_read_block_cache_lru_miss);
+                eprintln!(
+                    "{}caching: BlockReader::read_block_cache_lru: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
+                    slead,
+                    summary.BlockReader_read_block_cache_lru_hit,
+                    summary.BlockReader_read_block_cache_lru_miss,
+                    ratio,
+                    summary.BlockReader_read_block_cache_lru_put,
+                );
             }
         }
         eprintln!("{:?}", sp_total);

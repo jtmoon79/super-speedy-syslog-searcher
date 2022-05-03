@@ -780,8 +780,8 @@ pub struct LineReader<'linereader> {
     pub(crate) _find_line_lru_cache_hit: u64,
     /// internal stats
     pub(crate) _find_line_lru_cache_miss: u64,
-    // internal stats
-    //pub(crate) _bytes_processed: u64,
+    /// internal stats
+    pub(crate) _find_line_lru_cache_put: u64,
 }
 
 impl fmt::Debug for LineReader<'_> {
@@ -838,6 +838,7 @@ impl<'linereader> LineReader<'linereader> {
             _find_line_lru_cache: LinesLRUCache::new(LineReader::FIND_LINE_LRC_CACHE_SZ),
             _find_line_lru_cache_hit: 0,
             _find_line_lru_cache_miss: 0,
+            _find_line_lru_cache_put: 0,
         })
     }
 
@@ -1352,6 +1353,7 @@ impl<'linereader> LineReader<'linereader> {
                 let lp = self.lines[&fileoffset].clone();
                 let fo_next = (*lp).fileoffset_end() + charsz_fo;
                 if self._find_line_lru_cache_enabled {
+                    self._find_line_lru_cache_put += 1;
                     debug_eprintln!("{}find_line: LRU Cache put({}, Found({}, …))", so(), fileoffset, fo_next);
                     self._find_line_lru_cache
                         .put(fileoffset, ResultS4_LineFind::Found((fo_next, lp.clone())));
@@ -1370,6 +1372,7 @@ impl<'linereader> LineReader<'linereader> {
                     );
                     let fo_next = (*lp).fileoffset_end() + charsz_fo;
                     if self._find_line_lru_cache_enabled {
+                        self._find_line_lru_cache_put += 1;
                         debug_eprintln!("{}find_line: LRU Cache put({}, Found({}, …)) {:?}", so(), fileoffset, fo_next, (*lp).to_String_noraw());
                         self._find_line_lru_cache
                             .put(fileoffset, ResultS4_LineFind::Found((fo_next, lp.clone())));
@@ -1650,6 +1653,7 @@ impl<'linereader> LineReader<'linereader> {
             debug_assert_eq!(fo_next, (*linep).fileoffset_end() + charsz_fo, "mismatching fo_next {} != (*linep).fileoffset_end()+1", fo_next);
             if !nl_b_eof {
                 if self._find_line_lru_cache_enabled {
+                    self._find_line_lru_cache_put += 1;
                     debug_eprintln!("{}find_line A0: LRU cache put({}, Found(({}, @{:p})))", so(), fileoffset, fo_next, linep);
                     self._find_line_lru_cache.put(fileoffset, ResultS4_LineFind::Found((fo_next, linep.clone())));
                 }
@@ -1657,6 +1661,7 @@ impl<'linereader> LineReader<'linereader> {
                 return ResultS4_LineFind::Found((fo_next, linep.clone()));
             } else {
                 if self._find_line_lru_cache_enabled {
+                    self._find_line_lru_cache_put += 1;
                     debug_eprintln!("{}find_line A0: LRU cache put({}, Found_EOF(({}, @{:p})))", so(), fileoffset, fo_next, linep);
                     self._find_line_lru_cache.put(fileoffset, ResultS4_LineFind::Found_EOF((fo_next, linep.clone())));
                 }
@@ -1695,6 +1700,7 @@ impl<'linereader> LineReader<'linereader> {
                 let linep = self.insert_line(line);
                 let fo_next = fo_nl_b + charsz_fo;
                 if self._find_line_lru_cache_enabled {
+                    self._find_line_lru_cache_put += 1;
                     debug_eprintln!("{}find_line A1a: LRU Cache put({}, Found({}, …)) {:?}", so(), fileoffset, fo_next, (*linep).to_String_noraw());
                     self._find_line_lru_cache
                         .put(fileoffset, ResultS4_LineFind::Found((fo_next, linep.clone())));
@@ -1732,6 +1738,7 @@ impl<'linereader> LineReader<'linereader> {
                     let linep = self.insert_line(line);
                     let fo_next = fo_nl_b + charsz_fo;
                     if self._find_line_lru_cache_enabled {
+                        self._find_line_lru_cache_put += 1;
                         debug_eprintln!("{}find_line A1b: LRU Cache put({}, Found({}, …)) {:?}", so(), fileoffset, fo_next, (*linep).to_String_noraw());
                         self._find_line_lru_cache
                             .put(fileoffset, ResultS4_LineFind::Found((fo_next, linep.clone())));
@@ -1966,6 +1973,7 @@ impl<'linereader> LineReader<'linereader> {
         debug_eprintln!("{}find_line C: line.count() is {}", so(), line.count());
         if line.count() == 0 {
             if self._find_line_lru_cache_enabled {
+                self._find_line_lru_cache_put += 1;
                 debug_eprintln!("{}find_line C: LRU Cache put({}, Done)", so(), fileoffset);
                 self._find_line_lru_cache
                     .put(fileoffset, ResultS4_LineFind::Done);
@@ -1978,6 +1986,7 @@ impl<'linereader> LineReader<'linereader> {
         let fo_end = line.fileoffset_end();
         let lp = self.insert_line(line);
         if self._find_line_lru_cache_enabled {
+            self._find_line_lru_cache_put += 1;
             debug_eprintln!("{}find_line D: LRU Cache put({}, Found({}, …))", so(), fileoffset, fo_end + 1);
             self._find_line_lru_cache
                 .put(fileoffset, ResultS4_LineFind::Found((fo_end + 1, lp.clone())));
