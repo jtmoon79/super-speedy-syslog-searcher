@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 #
-# quickie script to generate a testing file
+# quickie script to generate a syslog file for testing
 
-set -eu
+set -euo pipefail
 
+# hardcoded data to print on each syslog line
 declare -ar alphabet=(
   0 1 2 3 4 5 6 7 8 9
   a b c d e f g h i j k l m n o p q r s t u v w x y z
@@ -13,43 +14,46 @@ declare -ar alphabet=(
 )
 declare -ir alen=${#alphabet[@]}
 
+# print this many syslog lines
 declare -ir line_count=${1-100}
+# repeat each syslog line this many times
+declare -ir repeat_line=${2-1}
+# optional string to append
+declare -r append=${3-}
 # https://www.epochconverter.com/
-# Unix time at 2020/01/01 00:00:00 GMT
+# Unix Epoch time at 2020/01/01 00:00:00 GMT
 declare -ir epoch_2000_GMT=946684800
-# Unix time at 2020/01/01 00:00:00 PST
+# Unix Epoch time at 2020/01/01 00:00:00 PST
 declare -ir epoch_2000_PST=946713600
+# first sysline datetime is this Unix Epoch time (i.e. a count in seconds)
 declare -i dt_start=${4-${epoch_2000_PST}}
-
-# repeat count of syslog line with this datetime
-declare -ir repeat_dt=${2-2}
-
-declare -r uniq_str=${3-}
 
 declare -i x=0
 while [[ ${x} -lt ${line_count} ]]; do
     declare -i a=0
     declare dts=$(date --date "@${dt_start}" '+%Y%m%dT%H%M%S' | tr -d '\n')
     declare -i b=0
-    while [[ ${a} -lt ${repeat_dt} ]]; do
-        # print a syslog line
+    # print a syslog line
+    while [[ ${a} -lt ${repeat_line} ]]; do
         echo -n "${dts} "
-        declare -i c=0
-        while [[ ${c} -lt ${x} ]]; do
-            declare -i at=$(((${c} + ${b}) % ${alen}))
-            echo -n "${alphabet[${at}]}"
-            c+=1
+        declare -i c=$((x + b))
+        declare -i c_stop=$((c + alen))
+        # print a subset of the $alphabet on the line
+        while [[ ${c} -lt ${c_stop} ]]; do
+            echo -n "${alphabet[$((${c} % ${alen}))]}"
+            c=$((c + 1))
         done
-        b+=c
+        b+=1
         a+=1
-        if [[ "${uniq_str}" = "" ]]; then
+        # print the optional append string
+        if [[ "${append}" = "" ]]; then
             echo
         elif [[ ${x} -eq 0 ]]; then
-            echo "${uniq_str}"
+            echo "${append}"
         else
-            echo " ${uniq_str}"
+            echo " ${append}"
         fi
     done
-    dt_start+=1
+    dt_start+=1  # advance datetime by one second
     x+=1
 done
