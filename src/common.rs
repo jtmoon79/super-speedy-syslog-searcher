@@ -26,6 +26,8 @@ pub type FileOpenOptions = std::fs::OpenOptions;
 
 /// `Result` Extended
 /// for line and sysline searching functions
+///
+/// TODO: [2022/05/03] getting rid of `Found_EOF` would simplify a lot of code
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ResultS4<T, E> {
     /// Contains the success data

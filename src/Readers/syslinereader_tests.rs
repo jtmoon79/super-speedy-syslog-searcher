@@ -129,7 +129,7 @@ CLOSED!
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                //print_slp(&slp);
+                //eprint_slp(&slp);
                 fo1 = fo;
             }
             ResultS4_SyslineFind::Done => {
@@ -1486,7 +1486,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_yaz() {
 /// not efficient
 /// XXX: does not handle multi-byte
 #[cfg(test)]
-fn print_slp(slp: &SyslineP) {
+fn eprint_slp(slp: &SyslineP) {
     /*
     if cfg!(debug_assertions) {
         let out = (*slp).to_String_noraw();
@@ -1518,6 +1518,8 @@ fn print_slp(slp: &SyslineP) {
     */
     let slices = (*slp).get_slices();
     for slice in slices.iter() {
+        // XXX: this write is seen during all `cargo test`, I'd prefer it not be.
+        //      Bit I'm not sure what's different about `stderr::write` versus `eprint!`
         write_stderr(slice);
     }
 }
@@ -1563,7 +1565,7 @@ fn test_SyslineReader(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                print_slp(&slp);
+                eprint_slp(&slp);
                 assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
                 fo1 = fo;
 
@@ -1590,7 +1592,7 @@ fn test_SyslineReader(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                print_slp(&slp);
+                eprint_slp(&slp);
                 assert!(slr.is_sysline_last(&slp), "returned Found_EOF yet this Sysline is not last!");
                 fo1 = fo;
 
@@ -1780,7 +1782,7 @@ fn test_SyslineReader_A2_any_input_check(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                //print_slp(&slp);
+                //eprint_slp(&slp);
                 assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
 
                 let actual_String = (*slp).to_String();
@@ -1799,7 +1801,7 @@ fn test_SyslineReader_A2_any_input_check(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                //print_slp(&slp);
+                //eprint_slp(&slp);
                 assert!(slr.is_sysline_last(&slp), "returned Found_EOF yet this Sysline is oot last! Should have returned Found or is this Sysline last?");
 
                 let actual_String = (*slp).to_String();
@@ -2193,7 +2195,7 @@ fn process_SyslineReader(
                 (*slp).to_String_noraw(),
             );
             fo1 = fo;
-            print_slp(&slp);
+            eprint_slp(&slp);
         }
         ResultS4_SyslineFind::Done => {
             eprintln!(
@@ -2260,7 +2262,7 @@ fn process_SyslineReader(
                         continue;
                     }
                     Result_Filter_DateTime2::InRange => {
-                        print_slp(&slp);
+                        eprint_slp(&slp);
                         if eof {
                             assert!(slr.is_sysline_last(&slp), "returned Found_EOF yet this Sysline is not last!?");
                         } else {
@@ -2358,7 +2360,7 @@ fn test_SyslineReader_w_filtering_3(
     }
     for slr in slrs.iter_mut() {
         process_SyslineReader(slr, filter_dt_after_opt, filter_dt_before_opt);
-        println!();
+        eprintln!();
     }
     eprintln!("{}test_SyslineReader_w_filtering_3(…)", sx());
 }

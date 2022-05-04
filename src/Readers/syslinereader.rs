@@ -641,7 +641,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         self.linereader.blocksz()
     }
 
-    pub fn filesz(&self) -> BlockSz {
+    pub fn filesz(&self) -> u64 {
         self.linereader.filesz()
     }
 
@@ -1130,6 +1130,244 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         resultp
     }
 
+    /// check various internal storage for already processed `Sysline` at `fileoffset`
+    fn check_store(&mut self, fileoffset: FileOffset) -> Option<ResultS4_SyslineFind> {
+        debug_eprintln!("{}check_store(SyslineReader@{:p}, {})", sn(), self, fileoffset);
+
+        if self._find_sysline_lru_cache_enabled {
+            // check if `fileoffset` is already known about in LRU cache
+            match self._find_sysline_lru_cache.get(&fileoffset) {
+                Some(results4) => {
+                    self._find_sysline_lru_cache_hit += 1;
+                    debug_eprintln!("{}check_store: found LRU cached for fileoffset {}", so(), fileoffset);
+                    // the `.get` returns a reference `&ResultS4_SyslineFind` so must return a new `ResultS4_SyslineFind`
+                    match results4 {
+                        ResultS4_SyslineFind::Found(val) => {
+                            debug_eprintln!("{}check_store: return ResultS4_SyslineFind::Found(({}, …)) @[{}, {}] from LRU cache", sx(), val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
+                            return Some(ResultS4_SyslineFind::Found((val.0, val.1.clone())));
+                        }
+                        ResultS4_SyslineFind::Found_EOF(val) => {
+                            debug_eprintln!("{}check_store: return ResultS4_SyslineFind::Found_EOF(({}, …)) @[{}, {}] from LRU cache", sx(), val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
+                            return Some(ResultS4_SyslineFind::Found_EOF((val.0, val.1.clone())));
+                        }
+                        ResultS4_SyslineFind::Done => {
+                            debug_eprintln!("{}check_store: return ResultS4_SyslineFind::Done from LRU cache", sx());
+                            return Some(ResultS4_SyslineFind::Done);
+                        }
+                        ResultS4_SyslineFind::Err(err) => {
+                            debug_eprintln!("{}check_store: Error {}", so(), err);
+                            eprintln!("ERROR: unexpected value store in self._find_line_lru_cache.get({}) error {}", fileoffset, err);
+                        }
+                    }
+                }
+                None => {
+                    self._find_sysline_lru_cache_miss += 1;
+                    debug_eprintln!("{}check_store: fileoffset {} not found in LRU cache", so(), fileoffset);
+                }
+            }
+        }
+
+        // check if the offset is already in a known range
+        match self.syslines_by_range.get_key_value(&fileoffset) {
+            Some(range_fo) => {
+                let range = range_fo.0;
+                debug_eprintln!(
+                "{}check_store: hit syslines_by_range cache for FileOffset {} (found in range {:?})",
+                so(),
+                fileoffset,
+                range
+            );
+                let fo = range_fo.1;
+                let slp = self.syslines[fo].clone();
+                // XXX: multi-byte character encoding
+                let fo_next = (*slp).fileoffset_next() + (self.charsz() as FileOffset);
+                if self.is_sysline_last(&slp) {
+                    debug_eprintln!(
+                        "{}check_store: return ResultS4_SyslineFind::Found_EOF(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+                        sx(),
+                        fo_next,
+                        &*slp,
+                        (*slp).fileoffset_begin(),
+                        (*slp).fileoffset_end(),
+                        (*slp).to_String_noraw()
+                    );
+                    self._find_sysline_lru_cache_put += 1;
+                    self._find_sysline_lru_cache
+                        .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
+                    return Some(ResultS4_SyslineFind::Found_EOF((fo_next, slp)));
+                }
+                self._find_sysline_lru_cache_put += 1;
+                self._find_sysline_lru_cache
+                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+                debug_eprintln!(
+                    "{}check_store: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+                    sx(),
+                    fo_next,
+                    &*slp,
+                    (*slp).fileoffset_begin(),
+                    (*slp).fileoffset_end(),
+                    (*slp).to_String_noraw()
+                );
+                return Some(ResultS4_SyslineFind::Found((fo_next, slp)));
+            }
+            None => {
+                debug_eprintln!("{}check_store: fileoffset {} not found in self.syslines_by_range", so(), fileoffset);
+            }
+        }
+
+        // check if there is a Sysline already known at this fileoffset
+        // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
+        if self.syslines.contains_key(&fileoffset) {
+            debug_assert!(self.syslines_by_range.contains_key(&fileoffset), "self.syslines.contains_key({}) however, self.syslines_by_range.contains_key({}) returned None (syslines_by_range out of synch)", fileoffset, fileoffset);
+            debug_eprintln!("{}check_store: hit self.syslines for FileOffset {}", so(), fileoffset);
+            let slp = self.syslines[&fileoffset].clone();
+            // XXX: multi-byte character encoding
+            let fo_next = (*slp).fileoffset_end() + (self.charsz() as FileOffset);
+            if self.is_sysline_last(&slp) {
+                debug_eprintln!(
+                    "{}check_store: return ResultS4_SyslineFind::Found_EOF(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+                    sx(),
+                    fo_next,
+                    &*slp,
+                    (*slp).fileoffset_begin(),
+                    (*slp).fileoffset_end(),
+                    (*slp).to_String_noraw()
+                );
+                self._find_sysline_lru_cache_put += 1;
+                self._find_sysline_lru_cache
+                    .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
+                return Some(ResultS4_SyslineFind::Found_EOF((fo_next, slp)));
+            }
+            if self._find_sysline_lru_cache_enabled {
+                self._find_sysline_lru_cache_put += 1;
+                self._find_sysline_lru_cache
+                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
+            }
+            debug_eprintln!(
+                "{}check_store: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines {:?}",
+                sx(),
+                fo_next,
+                &*slp,
+                (*slp).fileoffset_begin(),
+                (*slp).fileoffset_end(),
+                (*slp).to_String_noraw()
+            );
+            return Some(ResultS4_SyslineFind::Found((fo_next, slp)));
+        } else {
+            debug_eprintln!("{}check_store: fileoffset {} not found in self.syslines", so(), fileoffset);
+        }
+
+        None
+    }
+
+    // LAST WORKING HERE 2022/05/02 23:37:33
+    // implementing this for `fn zeroblock_analysis`. Is this the right direction?
+    pub fn find_sysline_in_block(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
+        debug_eprintln!("{}find_sysline_in_block(SyslineReader@{:p}, {})", sn(), self, fileoffset);
+        let bo: BlockOffset = self.block_offset_at_file_offset(fileoffset);
+
+        match self.check_store(fileoffset) {
+            Some(results4) => {
+                debug_eprintln!("{}find_sysline_in_block: return {:?}", sx(), results4);
+                return results4;
+            },
+            None => {},
+        }
+
+        debug_eprintln!("{}find_sysline_in_block: searching for first sysline datetime A …", so());
+
+        let mut fo_a: FileOffset = 0;
+        let mut fo1: FileOffset = fileoffset;
+        let mut sl = Sysline::new();
+        loop {
+            debug_eprintln!("{}find_sysline_in_block: self.linereader.find_line_in_block({})", so(), fo1);
+            let result: ResultS4_LineFind = self.linereader.find_line_in_block(fo1);
+            let eof = result.is_eof();
+            let (fo2, lp) = match result {
+                ResultS4_LineFind::Found((fo_, lp_)) | ResultS4_LineFind::Found_EOF((fo_, lp_)) => {
+                    debug_eprintln!(
+                        "{}find_sysline_in_block: A FileOffset {} Line @{:p} len {} parts {} {:?}",
+                        so(),
+                        fo_,
+                        &*lp_,
+                        (*lp_).len(),
+                        (*lp_).count(),
+                        (*lp_).to_String_noraw()
+                    );
+                    (fo_, lp_)
+                }
+                ResultS4_LineFind::Done => {
+                    if self._find_sysline_lru_cache_enabled {
+                        self._find_sysline_lru_cache_put += 1;
+                        debug_eprintln!("{}find_sysline_in_block: LRU cache put({}, Done)", so(), fileoffset);
+                        self._find_sysline_lru_cache.put(fileoffset, ResultS4_SyslineFind::Done);
+                    }
+                    debug_eprintln!("{}find_sysline_in_block: return ResultS4_SyslineFind::Done; A from LineReader.find_line_in_block({})", sx(), fo1);
+                    return ResultS4_SyslineFind::Done;
+                }
+                ResultS4_LineFind::Err(err) => {
+                    eprintln!("ERROR: LineReader.find_line_in_block({}) returned {}", fo1, err);
+                    debug_eprintln!("{}find_sysline_in_block: return ResultS4_SyslineFind::Err({}); A from LineReader.find_line_in_block({})", sx(), err, fo1);
+                    return ResultS4_SyslineFind::Err(err);
+                }
+            };
+            let resultp = self.parse_datetime_in_line_cached(&lp, &self.charsz());
+            debug_eprintln!("{}find_sysline_in_block: A find_datetime_in_line returned {:?}", so(), resultp);
+            match *resultp {
+                Err(_) => {}
+                Ok((dt_beg, dt_end, dt)) => {
+                    // a datetime was found! beginning of a sysline
+                    fo_a = fo1;
+                    sl.dt_beg = dt_beg;
+                    sl.dt_end = dt_end;
+                    sl.dt = Some(dt);
+                    debug_eprintln!("{}find_sysline_in_block: A sl.push({:?})", so(), (*lp).to_String_noraw());
+                    sl.push(lp);
+                    fo1 = sl.fileoffset_end() + (self.charsz() as FileOffset);
+                    // sanity check
+                    debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}", dt_beg, dt_end);
+                    debug_assert_lt!(dt_end, fo1 as usize, "bad dt_end {} fileoffset+charsz {}", dt_end, fo1 as usize);
+                    if eof {
+                        let slp = SyslineP::new(sl);
+                        if self._find_sysline_lru_cache_enabled {
+                            self._find_sysline_lru_cache_put += 1;
+                            debug_eprintln!("{}find_sysline_in_block: LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fo1);
+                            self._find_sysline_lru_cache
+                                .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo1, slp.clone())));
+                        }
+                        debug_eprintln!(
+                            "{}find_sysline_in_block: return ResultS4_SyslineFind::Found_EOF({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
+                            sx(),
+                            fo1,
+                            &(*slp),
+                            (*slp).fileoffset_begin(),
+                            (*slp).fileoffset_end(),
+                            fo1,
+                        );
+                        return ResultS4_SyslineFind::Found_EOF((fo1, slp));
+                    }
+                    break;
+                }
+            }
+            debug_eprintln!("{}find_sysline_in_block: A skip push Line {:?}", so(), (*lp).to_String_noraw());
+            fo1 = fo2;
+        }
+
+        debug_eprintln!(
+            "{}find_sysline_in_block: found line with datetime A at FileOffset {}, searching for datetime B starting at fileoffset {} …",
+            so(),
+            fo_a,
+            fo1
+        );
+
+        // LAST WORKING HERE 2022/05/03 23:00:23
+        // just completed `find_line_in_block` now need to complete this
+
+        // XXX: temp
+        debug_eprintln!("{}return ResultS4_SyslineFind::Done", sx());
+        return ResultS4_SyslineFind::Done;
+    }
+
     /// Find first sysline at or after `fileoffset`.
     /// return (fileoffset of start of _next_ sysline, found Sysline at or after `fileoffset`)
     /// Similar to `LineReader.find_line`, `BlockReader.read_block`.
@@ -1141,124 +1379,17 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     /// XXX: this function is large and cumbersome. you've been warned.
     ///
     /// TODO: separate caching to wrapper `find_sysline_cached`
+    ///
     /// TODO: test that retrieving by cache always returns the same ResultS4 enum value as without a cache
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline(SyslineReader@{:p}, {})", sn(), self, fileoffset);
 
-        // TODO: make these comparison values into consts
-        if self.linereader.blockreader.count_bytes() > 0x4000 && self.count() < 3 {
-            debug_eprintln!("{}find_sysline(SyslineReader@{:p}); too many bytes analyzed {}, yet too few syslines {}", sn(), self, self.linereader.blockreader.count_bytes(), self.count());
-            // TODO: [2022/04/06] need to implement a way to abandon processing a file.
-            //return Result_ParseDateTime::Error("");
-        }
-
-        if self._find_sysline_lru_cache_enabled {
-            // check if `fileoffset` is already known about in LRU cache
-            match self._find_sysline_lru_cache.get(&fileoffset) {
-                Some(rlp) => {
-                    self._find_sysline_lru_cache_hit += 1;
-                    debug_eprintln!("{}find_sysline: found LRU cached for fileoffset {}", so(), fileoffset);
-                    match rlp {
-                        ResultS4_SyslineFind::Found(val) => {
-                            debug_eprintln!("{}return ResultS4_SyslineFind::Found(({}, …)) @[{}, {}] from LRU cache", sx(), val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
-                            return ResultS4_SyslineFind::Found((val.0, val.1.clone()));
-                        }
-                        ResultS4_SyslineFind::Found_EOF(val) => {
-                            debug_eprintln!("{}return ResultS4_SyslineFind::Found_EOF(({}, …)) @[{}, {}] from LRU cache", sx(), val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
-                            return ResultS4_SyslineFind::Found_EOF((val.0, val.1.clone()));
-                        }
-                        ResultS4_SyslineFind::Done => {
-                            debug_eprintln!("{}return ResultS4_SyslineFind::Done from LRU cache", sx());
-                            return ResultS4_SyslineFind::Done;
-                        }
-                        ResultS4_SyslineFind::Err(err) => {
-                            debug_eprintln!("{}Error {}", so(), err);
-                            eprintln!("ERROR: unexpected value store in _find_line_lru_cache, fileoffset {} error {}", fileoffset, err);
-                        }
-                    }
-                }
-                None => {
-                    self._find_sysline_lru_cache_miss += 1;
-                    debug_eprintln!("{}find_sysline: fileoffset {} not found in LRU cache", so(), fileoffset);
-                }
-            }
-        }
-
-        // check if the offset is already in a known range
-        match self.syslines_by_range.get_key_value(&fileoffset) {
-            Some(range_fo) => {
-                let range = range_fo.0;
-                debug_eprintln!(
-                "{}find_sysline: hit syslines_by_range cache for FileOffset {} (found in range {:?})",
-                so(),
-                fileoffset,
-                range
-            );
-                let fo = range_fo.1;
-                let slp = self.syslines[fo].clone();
-                // XXX: multi-byte character encoding
-                let fo_next = (*slp).fileoffset_next() + (self.charsz() as FileOffset);
-                if self.is_sysline_last(&slp) {
-                    debug_eprintln!(
-                        "{}find_sysline: return ResultS4_SyslineFind::Found_EOF(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
-                        sx(),
-                        fo_next,
-                        &*slp,
-                        (*slp).fileoffset_begin(),
-                        (*slp).fileoffset_end(),
-                        (*slp).to_String_noraw()
-                    );
-                    self._find_sysline_lru_cache_put += 1;
-                    self._find_sysline_lru_cache
-                        .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_next, slp.clone())));
-                    return ResultS4_SyslineFind::Found_EOF((fo_next, slp));
-                }
-                self._find_sysline_lru_cache_put += 1;
-                self._find_sysline_lru_cache
-                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
-                debug_eprintln!(
-                    "{}find_sysline: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
-                    sx(),
-                    fo_next,
-                    &*slp,
-                    (*slp).fileoffset_begin(),
-                    (*slp).fileoffset_end(),
-                    (*slp).to_String_noraw()
-                );
-                return ResultS4_SyslineFind::Found((fo_next, slp));
-            }
-            None => {
-                debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines_by_range", so(), fileoffset);
-            }
-        }
-
-        // check if there is a Sysline already known at this fileoffset
-        // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
-        if self.syslines.contains_key(&fileoffset) {
-            debug_assert!(self.syslines_by_range.contains_key(&fileoffset), "self.syslines.contains_key({}) however, self.syslines_by_range.contains_key({}) returned None (syslines_by_range out of synch)", fileoffset, fileoffset);
-            debug_eprintln!("{}find_sysline: hit self.syslines for FileOffset {}", so(), fileoffset);
-            let slp = self.syslines[&fileoffset].clone();
-            // XXX: multi-byte character encoding
-            let fo_next = (*slp).fileoffset_end() + (self.charsz() as FileOffset);
-            // TODO: determine if `fileoffset` is the last sysline of the file
-            //       should add a private helper function for this task `is_sysline_last(FileOffset)` ... something like that
-            debug_eprintln!(
-                "{}find_sysline: return ResultS4_SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines {:?}",
-                sx(),
-                fo_next,
-                &*slp,
-                (*slp).fileoffset_begin(),
-                (*slp).fileoffset_end(),
-                (*slp).to_String_noraw()
-            );
-            if self._find_sysline_lru_cache_enabled {
-                self._find_sysline_lru_cache_put += 1;
-                self._find_sysline_lru_cache
-                    .put(fileoffset, ResultS4_SyslineFind::Found((fo_next, slp.clone())));
-            }
-            return ResultS4_SyslineFind::Found((fo_next, slp));
-        } else {
-            debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines", so(), fileoffset);
+        match self.check_store(fileoffset) {
+            Some(results4) => {
+                debug_eprintln!("{}find_sysline: return {:?}", sx(), results4);
+                return results4;
+            },
+            None => {},
         }
 
         debug_eprintln!("{}find_sysline: searching for first sysline datetime A …", so());
