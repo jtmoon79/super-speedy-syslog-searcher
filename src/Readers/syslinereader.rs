@@ -119,6 +119,7 @@ use static_assertions::{
 
 
 /// Sysline Searching error
+///
 /// TODO: does SyslineFind need an `Found_EOF` state? Is it an unnecessary overlap of `Ok` and `Done`?
 #[allow(non_camel_case_types)]
 pub type ResultS4_SyslineFind = ResultS4<(FileOffset, SyslineP), Error>;
@@ -485,6 +486,9 @@ impl Sysline {
 
     #[allow(non_snake_case)]
     #[cfg(not(any(debug_assertions,test)))]
+    /// XXX: here to prevent compiler error
+    ///
+    /// TODO: get rid of this and it's errant call in `--release`
     pub fn to_String_noraw(self: &Sysline) -> String {
         panic!("should not call function 'Sysline::to_String_noraw' in release build");
         String::new()
@@ -499,8 +503,10 @@ impl Sysline {
 /// count of datetime format strings used
 type DateTime_Pattern_Counts = HashMap<DateTime_Parse_Data, u64>;
 /// return type for `SyslineReader::find_datetime_in_line`
+/// TODO: change to `Option`
 pub type Result_FindDateTime = Result<(DateTime_Parse_Data, DateTimeL)>;
 /// return type for `SyslineReader::parse_datetime_in_line`
+/// TODO: change to `Option`
 pub type Result_ParseDateTime = Result<(LineIndex, LineIndex, DateTimeL)>;
 pub type Result_ParseDateTimeP = Arc<Result_ParseDateTime>;
 
@@ -1102,7 +1108,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     }
 
     /// helper to `find_sysline`
-    /// call `self.parse_datetime_in_line` with help of `self._parse_datetime_in_line_cache`
+    ///
+    /// call `self.parse_datetime_in_line` with help of LRU cache `self._parse_datetime_in_line_lru_cache`
     fn parse_datetime_in_line_cached(&mut self, lp: &LineP, charsz: &usize) -> Result_ParseDateTimeP {
         if self._parse_datetime_in_line_lru_cache_enabled {
             match self._parse_datetime_in_line_lru_cache.get(&lp.fileoffset_begin()) {
@@ -1260,8 +1267,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         None
     }
 
-    // LAST WORKING HERE 2022/05/02 23:37:33
-    // implementing this for `fn zeroblock_analysis`. Is this the right direction?
+    /// find sysline at fileoffset within that same block
     pub fn find_sysline_in_block(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline_in_block(SyslineReader@{:p}, {})", sn(), self, fileoffset);
         let bo: BlockOffset = self.block_offset_at_file_offset(fileoffset);
@@ -1297,11 +1303,6 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     (fo_, lp_)
                 }
                 ResultS4_LineFind::Done => {
-                    if self._find_sysline_lru_cache_enabled {
-                        self._find_sysline_lru_cache_put += 1;
-                        debug_eprintln!("{}find_sysline_in_block: LRU cache put({}, Done)", so(), fileoffset);
-                        self._find_sysline_lru_cache.put(fileoffset, ResultS4_SyslineFind::Done);
-                    }
                     debug_eprintln!("{}find_sysline_in_block: return ResultS4_SyslineFind::Done; A from LineReader.find_line_in_block({})", sx(), fo1);
                     return ResultS4_SyslineFind::Done;
                 }
@@ -1312,9 +1313,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
             };
             let resultp = self.parse_datetime_in_line_cached(&lp, &self.charsz());
-            debug_eprintln!("{}find_sysline_in_block: A find_datetime_in_line returned {:?}", so(), resultp);
+            debug_eprintln!("{}find_sysline_in_block: A parse_datetime_in_line_cached returned {:?}", so(), resultp);
             match *resultp {
-                Err(_) => {}
+                Err(_) => {},
                 Ok((dt_beg, dt_end, dt)) => {
                     // a datetime was found! beginning of a sysline
                     fo_a = fo1;
@@ -1357,15 +1358,119 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             "{}find_sysline_in_block: found line with datetime A at FileOffset {}, searching for datetime B starting at fileoffset {} …",
             so(),
             fo_a,
-            fo1
+            fo1,
         );
 
-        // LAST WORKING HERE 2022/05/03 23:00:23
-        // just completed `find_line_in_block` now need to complete this
+        //
+        // find line with datetime B
+        //
 
-        // XXX: temp
-        debug_eprintln!("{}return ResultS4_SyslineFind::Done", sx());
-        return ResultS4_SyslineFind::Done;
+        let mut fo_b: FileOffset = fo1;
+        let mut eof = false;
+        loop {
+            debug_eprintln!("{}find_sysline_in_block: self.linereader.find_line_in_block({})", so(), fo1);
+            let result = self.linereader.find_line_in_block(fo1);
+            let (fo2, lp) = match result {
+                ResultS4_LineFind::Found((fo_, lp_)) => {
+                    debug_eprintln!(
+                        "{}find_sysline_in_block: B got Found(FileOffset {}, Line @{:p}) len {} parts {} {:?}",
+                        so(),
+                        fo_,
+                        &*lp_,
+                        (*lp_).len(),
+                        (*lp_).count(),
+                        (*lp_).to_String_noraw()
+                    );
+                    (fo_, lp_)
+                },
+                ResultS4_LineFind::Found_EOF((fo_, lp_)) => {
+                    debug_eprintln!(
+                        "{}find_sysline_in_block: B got Found_EOF(FileOffset {} Line @{:p}) len {} parts {} {:?}",
+                        so(),
+                        fo_,
+                        &*lp_,
+                        (*lp_).len(),
+                        (*lp_).count(),
+                        (*lp_).to_String_noraw()
+                    );
+                    eof = true;
+                    (fo_, lp_)
+                },
+                ResultS4_LineFind::Done => {
+                    debug_eprintln!("{}find_sysline_in_block: B got Done", so());
+                    debug_eprintln!("{}find_sysline_in_block: return ResultS4_SyslineFind::Done", sx());
+                    return ResultS4_SyslineFind::Done;
+                },
+                ResultS4_LineFind::Err(err) => {
+                    eprintln!("ERROR: LineReader.find_line_in_block({}) returned {}", fo1, err);
+                    debug_eprintln!("{}find_sysline_in_block: return ResultS4_SyslineFind::Err({}); B from LineReader.find_line_in_block({})", sx(), err, fo1);
+                    return ResultS4_SyslineFind::Err(err);
+                },
+            };
+
+            let resultp = self.parse_datetime_in_line_cached(&lp, &self.charsz());
+            debug_eprintln!("{}find_sysline_in_block: B parse_datetime_in_line_cached returned {:?}", so(), resultp);
+            match *resultp {
+                Err(_) => {
+                    debug_eprintln!(
+                        "{}find_sysline_in_block: B append found Line to this Sysline sl.push({:?})",
+                        so(),
+                        (*lp).to_String_noraw()
+                    );
+                    sl.push(lp);
+                }
+                Ok(_) => {
+                    // a datetime was found! end of this sysline, beginning of a new sysline
+                    debug_eprintln!(
+                        "{}find_sysline_in_block: B found datetime; end of this Sysline. Do not append found Line {:?}",
+                        so(),
+                        (*lp).to_String_noraw()
+                    );
+                    fo_b = fo1;
+                    break;
+                }
+            }
+            fo1 = fo2;
+        }
+
+        debug_eprintln!("{}find_sysline_in_block: found line with datetime B at FileOffset {} {:?}", so(), fo_b, sl.to_String_noraw());
+
+        let slp = self.insert_sysline(sl);
+        if eof {
+            if self._find_sysline_lru_cache_enabled {
+                self._find_sysline_lru_cache_put += 1;
+                debug_eprintln!("{}find_sysline_in_block: LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fo_b);
+                self._find_sysline_lru_cache
+                    .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_b, slp.clone())));
+            }
+            debug_eprintln!(
+                "{}find_sysline_in_block: return ResultS4_SyslineFind::Found_EOF(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
+                sx(),
+                fo_b,
+                &*slp,
+                (*slp).fileoffset_begin(),
+                (*slp).fileoffset_end(),
+                (*slp).to_String_noraw()
+            );
+            return ResultS4_SyslineFind::Found_EOF((fo_b, slp));
+        }
+        if self._find_sysline_lru_cache_enabled {
+            self._find_sysline_lru_cache_put += 1;
+            debug_eprintln!("{}find_sysline_in_block: LRU cache put({}, Found({}, …))", so(), fileoffset, fo_b);
+            self._find_sysline_lru_cache
+                .put(fileoffset, ResultS4_SyslineFind::Found((fo_b, slp.clone())));
+        }
+        debug_eprintln!(
+            "{}find_sysline_in_block: return ResultS4_SyslineFind::Found(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
+            sx(),
+            fo_b,
+            &*slp,
+            (*slp).fileoffset_begin(),
+            (*slp).fileoffset_end(),
+            (*slp).to_String_noraw()
+        );
+
+        ResultS4_SyslineFind::Found((fo_b, slp))
     }
 
     /// Find first sysline at or after `fileoffset`.
@@ -1434,7 +1539,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
             };
             let resultp = self.parse_datetime_in_line_cached(&lp, &self.charsz());
-            debug_eprintln!("{}find_sysline: A find_datetime_in_line returned {:?}", so(), resultp);
+            debug_eprintln!("{}find_sysline: A parse_datetime_in_line_cached returned {:?}", so(), resultp);
             match *resultp {
                 Err(_) => {}
                 Ok((dt_beg, dt_end, dt)) => {
@@ -1618,7 +1723,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 }
             };
             let resultp = self.parse_datetime_in_line_cached(&lp, &self.charsz());
-            debug_eprintln!("{}find_sysline: B find_datetime_in_line returned {:?}", so(), resultp);
+            debug_eprintln!("{}find_sysline: B parse_datetime_in_line_cached returned {:?}", so(), resultp);
             match *resultp {
                 Err(_) => {
                     debug_eprintln!(

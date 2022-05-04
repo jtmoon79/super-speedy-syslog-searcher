@@ -1772,16 +1772,17 @@ impl<'linereader> LineReader<'linereader> {
         ResultS4_LineFind::Found((fo_next, linep))
     }
 
-    /// find next `Line` starting from `fileoffset`.
+    /// Find next `Line` starting from `fileoffset`.
+    ///
     /// During the process of finding, creates and stores the `Line` from underlying `Block` data.
     /// Returns `Found`(`FileOffset` of beginning of the _next_ line, found `LineP`)
     /// Reaching end of file (and no new line) returns `Found_EOF`.
     /// Reaching end of file returns `FileOffset` value that is one byte past the actual end of file (and should not be used).
     /// Otherwise returns `Err`, all other `Result::Err` errors are propagated.
     ///
-    /// This function has the densest number of byte↔char transitions.
+    /// This function has the densest number of byte↔char handling and transitions within this program.
     ///
-    /// correllary to `find_sysline`, `read_block`
+    /// correllary to `find_sysline`, `read_block`.
     ///
     /// Throughout this function, newline A points to the line beginning, newline B
     /// points to line ending. Both are inclusive.
@@ -1815,10 +1816,13 @@ impl<'linereader> LineReader<'linereader> {
     ///     fine_line(2) -> 2,2 "y"
     ///
     /// XXX: presumes a single-byte can represent a '\n'; i.e. does not handle UTF-16 or UTF-32 or other.
+    ///
     /// TODO: [2021/08/30] handle different encodings
+    ///
     /// XXX: returning the "next fileoffset (along with `LineP`) is jenky. Just return the `LineP`.
     ///      and/or do not return "fileoffset next" for `Found_EOF` (doesn't make sense).
     ///      and/or add `iter` capabilities to `Line` that will hide tracking the "next fileoffset".
+    ///
     /// XXX: this function is fragile and cumbersome, any tweaks require extensive retesting
     pub fn find_line(&mut self, fileoffset: FileOffset) -> ResultS4_LineFind {
         debug_eprintln!("{}find_line(LineReader@{:p}, {})", sn(), self, fileoffset);
