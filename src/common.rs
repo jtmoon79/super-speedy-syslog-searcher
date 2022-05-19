@@ -1,6 +1,6 @@
 // common.rs
 //
-// common imports, type aliases, and other globals (also avoids circular imports)
+// common imports, type aliases, and other globals (avoids circular imports)
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // file-handling, command-line parsing

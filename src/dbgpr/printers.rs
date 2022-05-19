@@ -1,31 +1,39 @@
 // dgbpr/printers.rs
 //
-// debug printing - printer functions and helpers
+// debug printing - printer functions and helpers for test and debug builds
 //
 // TODO: [2022/04/14] needs consolidation of overlapping functions. many were written in haste.
 //
 
-#[allow(unused_imports)]  // XXX: clippy wrongly marks this as unused
+#[allow(unused_imports)]  // XXX: clippy errantly marks this as unused
 #[cfg(any(debug_assertions,test))]
 use crate::common::{
     FileOpenOptions,
     FPath,
 };
 
+use crate::printer::printers::{
+    Color,
+    ColorSpec,
+    WriteColor,
+    COLOR_DATETIME,
+    color_rand,
+    print_colored_stdout,
+    print_colored_stderr,
+    write_stdout,
+};
+
 use std::io::Write;  // for `std::io::Stdout.flush`
-#[allow(unused_imports)]  // XXX: clippy wrongly marks this as unused
+#[allow(unused_imports)]  // XXX: clippy errantly marks this as unused
 #[cfg(any(debug_assertions,test))]
 use std::io::prelude::*;  // for `std::fs::File.read_to_string`
-use std::io::Result;
+//use std::io::Result;
 
 // see https://docs.rs/strum_macros/0.24.0/strum_macros/derive.AsRefStr.html
-use std::convert::AsRef;
-extern crate strum_macros;
-use strum_macros::EnumString;
+//use std::convert::AsRef;
+//extern crate strum_macros;
+//use strum_macros::EnumString;
 //use std::str::FromStr;
-
-extern crate termcolor;
-pub use termcolor::{Color, ColorSpec, WriteColor};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // helper functions - various print and write
@@ -33,6 +41,7 @@ pub use termcolor::{Color, ColorSpec, WriteColor};
 
 /// turn passed u8 into char, for any char values that are CLI formatting instructions transform
 /// them to pictoral representations, e.g. '\n' returns a pictoral unicode representation '␊'
+///
 /// only intended for debugging
 #[cfg(any(debug_assertions,test))]
 pub fn char_to_char_noraw(c: char) -> char {
@@ -81,6 +90,7 @@ pub fn char_to_char_noraw(c: char) -> char {
 }
 
 /// transform utf-8 byte (presumably) to non-raw char
+/// 
 /// only intended for debugging
 #[cfg(any(debug_assertions,test))]
 pub fn byte_to_char_noraw(byte: u8) -> char {
@@ -88,7 +98,7 @@ pub fn byte_to_char_noraw(byte: u8) -> char {
 }
 
 /// transform buffer of utf-8 chars (presumably) to a non-raw String
-/// inefficient
+/// 
 /// only intended for debugging
 #[allow(non_snake_case)]
 #[cfg(any(debug_assertions,test))]
@@ -109,6 +119,7 @@ pub fn buffer_to_String_noraw(buffer: &[u8]) -> String {
 }
 
 /// transform str to non-raw String version
+/// 
 /// only intended for debugging
 #[allow(non_snake_case)]
 #[cfg(any(debug_assertions,test))]
@@ -122,7 +133,7 @@ pub fn str_to_String_noraw(str_buf: &str) -> String {
 }
 
 /// return contents of file utf-8 chars (presumably) at `path` as non-raw String
-/// inefficient
+///
 /// only intended for debugging]
 #[allow(dead_code, non_snake_case)]
 #[cfg(test)]
@@ -165,129 +176,6 @@ pub fn file_to_String_noraw(path: &FPath) -> String {
     s3
 }
 
-/// print colored output to terminal if possible choosing using passed stream
-/// otherwise, print plain output
-/// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
-pub fn print_colored(color: Color, value: &[u8], std_: &mut termcolor::StandardStream) -> Result<()> {
-    match std_.set_color(ColorSpec::new().set_fg(Some(color))) {
-        Ok(_) => {}
-        Err(err) => {
-            eprintln!("ERROR: print_colored: std.set_color({:?}) returned error {}", color, err);
-            return Err(err);
-        }
-    };
-    //let mut stderr_lock:Option<io::StderrLock> = None;
-    //if cfg!(debug_assertions) {
-    //    stderr_lock = Some(io::stderr().lock());
-    //}
-    match std_.write(value) {
-        Ok(_) => {}
-        Err(err) => {
-            eprintln!("ERROR: print_colored: std_.write(…) returned error {}", err);
-            return Err(err);
-        }
-    }
-    match std_.reset() {
-        Ok(_) => {}
-        Err(err) => {
-            eprintln!("ERROR: print_colored: std_.reset() returned error {}", err);
-            return Err(err);
-        }
-    }
-    std_.flush()?;
-    Ok(())
-}
-
-/// print colored output to terminal on stdout
-/// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
-pub fn print_colored_stdout(
-    color: Color,
-    color_choice_opt: Option<termcolor::ColorChoice>,
-    value: &[u8]
-) -> std::io::Result<()> {
-    let choice: termcolor::ColorChoice = match color_choice_opt {
-        Some(choice_) => choice_,
-        None => termcolor::ColorChoice::Auto,
-    };
-    let mut stdout = termcolor::StandardStream::stdout(choice);
-    print_colored(color, value, &mut stdout)
-}
-
-/// print colored output to terminal on stderr
-/// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
-pub fn print_colored_stderr(
-    color: Color,
-    color_choice_opt: Option<termcolor::ColorChoice>,
-    value: &[u8]
-) -> std::io::Result<()> {
-    let choice: termcolor::ColorChoice = match color_choice_opt {
-        Some(choice_) => choice_,
-        None => termcolor::ColorChoice::Auto,
-    };
-    let mut stderr = termcolor::StandardStream::stderr(choice);
-    print_colored(color, value, &mut stderr)
-}
-
-/// safely write the `buffer` to stdout with help of `StdoutLock`
-pub fn write_stdout(buffer: &[u8]) {
-    let stdout = std::io::stdout();
-    let mut stdout_lock = stdout.lock();
-    match stdout_lock.write(buffer) {
-        Ok(_) => {}
-        Err(err) => {
-            // XXX: this will print when this program stdout is truncated, like to due to `head`
-            //          Broken pipe (os error 32)
-            //      Not sure if anything should be done about it
-            eprintln!("ERROR: write: StdoutLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
-        }
-    }
-    match stdout_lock.flush() {
-        Ok(_) => {}
-        Err(err) => {
-            // XXX: this will print when this program stdout is truncated, like to due to `head`
-            //          Broken pipe (os error 32)
-            //      Not sure if anything should be done about it
-            eprintln!("ERROR: write: stdout flushing error {}", err);
-        }
-    }
-    if cfg!(debug_assertions) {
-        #[allow(clippy::match_single_binding)]
-        match std::io::stderr().flush() {
-            _ => {},
-        }
-    }
-}
-
-/// safely write the `buffer` to stdout with help of `StderrLock`
-pub fn write_stderr(buffer: &[u8]) {
-    let stderr = std::io::stderr();
-    let mut stderr_lock = stderr.lock();
-    match stderr_lock.write(buffer) {
-        Ok(_) => {}
-        Err(err) => {
-            // XXX: this will print when this program stdout is truncated, like to due to `program | head`
-            //          Broken pipe (os error 32)
-            //      Not sure if anything should be done about it
-            eprintln!("ERROR: write: StderrLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
-        }
-    }
-    match stderr_lock.flush() {
-        Ok(_) => {}
-        Err(err) => {
-            // XXX: this will print when this program stdout is truncated, like to due to `program | head`
-            //          Broken pipe (os error 32)
-            //      Not sure if anything should be done about it
-            eprintln!("ERROR: write: stderr flushing error {}", err);
-        }
-    }
-    if cfg!(debug_assertions) {
-        #[allow(clippy::match_single_binding)]
-        match std::io::stdout().flush() {
-            _ => {},
-        }
-    }
-}
-
 /// helper flush stdout and stderr
 #[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
@@ -300,6 +188,7 @@ pub fn flush_stdouterr() {
 
 /// write to console, `raw` as `true` means "as-is"
 /// else use `char_to_char_noraw` to replace chars in `buffer` (inefficient)
+///
 /// only intended for debugging
 #[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]

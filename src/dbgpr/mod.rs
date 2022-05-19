@@ -3,6 +3,7 @@
 // debug printing module
 
 pub mod stack;
+
 #[cfg(test)]
 pub mod stack_tests;
 

@@ -764,9 +764,12 @@ pub struct LineReader<'linereader> {
     pub lines: FoToLine,
     /// for all `Lines`, map `Line.fileoffset_end` to `Line.fileoffset_beg`
     foend_to_fobeg: FoToFo,
-    /// count of `Line`s. Tracked outside of `self.lines.len()` as that may
-    /// have contents removed when --streaming
-    lines_count: u64,
+    /// count of `Line`s processed.
+    /// 
+    /// Distinct from `self.lines.len()` as that may have contents removed when --streaming
+    ///
+    /// TODO: implement --streaming
+    pub lines_count: u64,
     /// char size in bytes
     /// TODO: handle char sizes > 1 byte, multi-byte encodings
     _charsz: CharSz,
@@ -812,6 +815,9 @@ static CHARSZ: CharSz = CHARSZ_MIN;
 /// implement the LineReader things
 impl<'linereader> LineReader<'linereader> {
     const FIND_LINE_LRC_CACHE_SZ: usize = 8;
+    /// `LineReader::blockzero_analysis` must find this many `Line` for the file
+    /// to be considered a syslog file
+    pub (crate) const ZEROBLOCK_ANALYSIS_LINE_COUNT: u64 = 15;
 
     pub fn new(path: &'linereader FPath, blocksz: BlockSz) -> Result<LineReader<'linereader>> {
         // XXX: multi-byte
@@ -999,20 +1005,11 @@ impl<'linereader> LineReader<'linereader> {
 
     /// should `LineReader` attempt to parse this file/MIME type?
     /// (i.e. call `find_line`)
-    pub fn parseable_mimestr(mimeguess: &str) -> bool {
-        /*
+    pub fn parseable_mimeguess_str(mimeguess_str: &str) -> bool {
         // see https://docs.rs/mime/latest/mime/
-        let TEXT = mime::TEXT.as_ref();
-        let TEXT_PLAIN = mime::TEXT_PLAIN.as_ref();
-        let TEXT_PLAIN_UTF_8 = mime::TEXT_PLAIN_UTF_8.as_ref();
-        let TEXT_STAR = mime::TEXT_STAR.as_ref();
-        let UTF_8 = mime::UTF_8.as_ref();
-        */
-
-        debug_eprintln!("{}LineReader::parseable_mimestr: mimeguess {:?}", snx(), mimeguess);
-
         // see https://docs.rs/mime/latest/src/mime/lib.rs.html#572-575
-        match mimeguess {
+        debug_eprintln!("{}LineReader::parseable_mimeguess_str: mimeguess {:?}", snx(), mimeguess_str);
+        match mimeguess_str {
             "plain"
             | "text"
             | "text/plain"
@@ -1025,62 +1022,131 @@ impl<'linereader> LineReader<'linereader> {
     /// should `LineReader` attempt to parse this file/MIME type?
     /// (i.e. call `find_line`)
     pub fn parseable_mimeguess(mimeguess: &MimeGuess) -> bool {
-        match mimeguess.first() {
-            Some(first_) => {
-                LineReader::parseable_mimestr(first_.as_ref())
-            },
-            None => {false},
+        for mimeguess_ in mimeguess.iter() {
+            if LineReader::parseable_mimeguess_str(mimeguess_.as_ref()) {
+                return true;
+            }
         }
+
+        false
+    }
+
+    fn mimesniff_analysis(&mut self) -> Result<bool> {
+        let bo_zero: FileOffset = 0;
+        debug_eprintln!("{}linereader.mimesniff_analysis: self.blockreader.read_block({:?})", so(), bo_zero);
+        let bptr: BlockP = match self.blockreader.read_block(bo_zero) {
+            ResultS3_ReadBlock::Found(val) => val,
+            ResultS3_ReadBlock::Done => {
+                debug_eprintln!("{}linereader.mimesniff_analysis: read_block({}) returned Done for {:?}, return Error(UnexpectedEof)", sx(), bo_zero, self.path());
+                assert_eq!(self.filesz(), 0, "readblock(0) returned Done for file with size {}", self.filesz());
+                return Ok(false);
+            },
+            ResultS3_ReadBlock::Err(err) => {
+                debug_eprintln!("{}linereader.mimesniff_analysis: read_block({}) returned Err {:?}", sx(), bo_zero, err);
+                return Result::Err(err);
+            },
+        };
+
+        let sniff: String = String::from((*bptr).as_slice().sniff_mime_type().unwrap_or(""));
+        debug_eprintln!("{}linereader.mimesniff_analysis: sniff_mime_type {:?}", so(), sniff);
+        let is_parseable: bool = LineReader::parseable_mimeguess_str(sniff.as_ref());
+
+        Ok(is_parseable)
+    }
+
+    fn mimeguess_analysis(&mut self) -> bool {
+        debug_eprintln!("{}linereader.mimeguess_analysis: mimeguess is {:?}", sn(), self.blockreader.mimeguess);
+        let mut is_parseable: bool = false;
+
+        if !self.blockreader.mimeguess.is_empty() {
+            is_parseable = LineReader::parseable_mimeguess(&self.blockreader.mimeguess);
+            debug_eprintln!("{}linereader.mimeguess_analysis: parseable_mimeguess {:?}", sx(), is_parseable);
+            return is_parseable;
+        }
+
+        is_parseable
+    }
+
+    /// helper to `blockzero_analysis`
+    ///
+    /// attempt to find `Line` within the first block (block zero).
+    /// if enough `Line` found then return `Ok(true)` else `Ok(false)`.
+    fn blockzero_analysis_readlines(&mut self) -> Result<bool> {
+        // could not guess suitability based on MIME type
+        // so try to parse ZEROBLOCK_ANALYSIS_LINE_COUNT `Lines`
+
+        let mut fo: FileOffset = 0;
+        let mut at: u64 = 0;
+        let at_max: u64 = LineReader::ZEROBLOCK_ANALYSIS_LINE_COUNT;
+        // find max 15 Lines or whatever can be found within block 0
+        // TODO: `at_max` should be adjusted based on `blocksz` and `filesz`
+        //       small blocksz should lower value of `at_max`, etc.
+        while at < at_max {
+            fo = match self.find_line_in_block(fo) {
+                ResultS4_LineFind::Found((fo_, _linep)) => {
+                    fo_
+                },
+                ResultS4_LineFind::Found_EOF((_fo, _linep)) => {
+                    debug_eprintln!("{}linereader.blockzero_analysis: Ok(true)", sx());
+                    return Ok(true);
+                },
+                ResultS4_LineFind::Done => {
+                    debug_eprintln!("{}linereader.blockzero_analysis: Ok({})", sx(), at != 0);
+                    return Ok(at != 0);
+                },
+                ResultS4_LineFind::Err(err) => {
+                    debug_eprintln!("{}linereader.blockzero_analysis: Err({:?})", sx(), err);
+                    return Result::Err(err);
+                },
+            };
+            if 0 != self.block_offset_at_file_offset(fo) {
+                break;
+            }
+            at += 1;
+        }
+
+        debug_eprintln!("{}linereader.blockzero_analysis: Ok(true)", sx());
+
+        Ok(true)
     }
 
     /// Given a file of an unknown MIME type (`self.blockreader.mimeguess.is_empty()`),
     /// analyze block 0 (the first block, the "zero block") and make best guesses
     /// about the file.
     ///
-    /// Return `true` if enough is known about the file to proceed with byte analysis
+    /// Return `true` if enough is known about the file to proceed with further analysis
     /// (e.g. calls from `LineReader::find_line`).
     /// Else return `false`.
     /// Calls `blockreader.read_block(0)`
     ///
     /// Should only call to completion once per `LineReader` instance.
-    pub(crate) fn zeroblock_process(&mut self) -> std::io::Result<bool> {
+    pub(crate) fn blockzero_analysis(&mut self) -> Result<bool> {
         assert!(!self._zeroblock_analysis_done, "zeroblock_analysis should only be completed once.");
-        if !self.blockreader.mimeguess.is_empty() {
-            self._zeroblock_analysis_done = true;
-            debug_eprintln!("{}linereader.zeroblock_process: mimeguess is {:?}", sn(), self.blockreader.mimeguess);
-            let is_parseable = LineReader::parseable_mimeguess(&self.blockreader.mimeguess);
-            debug_eprintln!("{}linereader.zeroblock_process: Ok({:?})", sx(), is_parseable);
-            return Ok(is_parseable);
-        }
-        let bo_zero: FileOffset = 0;
-        debug_eprintln!("{}linereader.zeroblock_process: self.blockreader.read_block({:?})", sn(), bo_zero);
-        let bptr: BlockP = match self.blockreader.read_block(bo_zero) {
-            ResultS3_ReadBlock::Found(val) => val,
-            ResultS3_ReadBlock::Done => {
-                debug_eprintln!("{}linereader.zeroblock_process: read_block({}) returned Done for {:?}, return Error(UnexpectedEof)", sx(), bo_zero, self.path());
-                return std::io::Result::Err(
-                    io::Error::new(std::io::ErrorKind::UnexpectedEof, "zeroblock_process read_block(0) returned Done")
-                );
-            },
-            ResultS3_ReadBlock::Err(err) => {
-                debug_eprintln!("{}linereader.zeroblock_process: read_block({}) returned Err {:?}", sx(), bo_zero, err);
-                return std::io::Result::Err(err);
-            },
-        };
-
-        let sniff: String = String::from((*bptr).as_slice().sniff_mime_type().unwrap_or(""));
-        debug_eprintln!("{}linereader.zeroblock_process: sniff_mime_type {:?}", so(), sniff);
-        let is_parseable = LineReader::parseable_mimestr(sniff.as_ref());
 
         self._zeroblock_analysis_done = true;
 
-        debug_eprintln!("{}linereader.zeroblock_process: Ok({:?})", sx(), is_parseable);
+        if self.mimeguess_analysis() {
+            return Ok(true);
+        }
 
-        Ok(is_parseable)
+        match self.mimesniff_analysis() {
+            Ok(val) => {
+                if val {
+                    return Ok(true);
+                }
+            },
+            Err(err) => {
+                return Err(err);
+            }
+        }
+
+        self.blockzero_analysis_readlines()
     }
 
     /// store information about a single line in a file
-    /// returns pointer to that `Line`
+    /// returns a `Line` pointer `LineP`
+    ///
+    /// should only be called by `self.find_line` and `self.find_line_in_block`
     fn insert_line(&mut self, line: Line) -> LineP {
         debug_eprintln!("{}LineReader.insert_line(Line @{:p})", sn(), &line);
         let fo_beg = line.fileoffset_begin();
@@ -1368,6 +1434,22 @@ impl<'linereader> LineReader<'linereader> {
         None
     }
 
+    /// find the `Line` at `fileoffset` within the same `Block`
+    /// 
+    /// If a `Line` extends before or after the `Block` then `Done` is returned.
+    /// 
+    /// This differs from `find_line` in that `Blocks` will be searched until the
+    /// complete `Line` is found (or not found).
+    /// Returned `ResultS4_LineFind(fileoffset, ...)` may refer to a different
+    /// proceeding `Block`.
+    ///
+    /// TODO: [2022/05] add test for this:
+    /// Keep in mind, a `Line` with terminating-newline as the last byte a `Block`
+    /// may be allowed. However, a `Line` with preceding `Line` newline in prior `Block`
+    /// may not be found, since the preceding `Line` terminating-newline must be found.
+    /// In other words, last byte of `Line` may be last byte of `Block` and the `Line`
+    /// will be found. However, if first byte of `Line` is first byte of `Block` then
+    /// it will not be found.
     pub fn find_line_in_block(&mut self, fileoffset: FileOffset) -> ResultS4_LineFind {
         debug_eprintln!("{}find_line_in_block(LineReader@{:p}, {})", sn(), self, fileoffset);
 
@@ -1378,6 +1460,7 @@ impl<'linereader> LineReader<'linereader> {
         let blockoffset_last = self.blockoffset_last();
         let bsz: BlockSz = self.blocksz();
 
+        // XXX: using cache can result in non-idempotent behavior
         // check fast LRU
         match self.check_store_LRU(fileoffset) {
             Some(results4) => {
@@ -1402,6 +1485,7 @@ impl<'linereader> LineReader<'linereader> {
             return ResultS4_LineFind::Done;
         }
 
+        // XXX: using cache can result in non-idempotent behavior
         // check container of `Line`s
         match self.check_store(fileoffset) {
             Some(results4) => {

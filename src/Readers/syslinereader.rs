@@ -8,6 +8,11 @@ pub use crate::common::{
     CharSz,
 };
 
+use crate::common::{
+    Bytes,
+    ResultS4,
+};
+
 use crate::Readers::blockreader::{
     BlockSz,
     BlockOffset,
@@ -47,16 +52,12 @@ use crate::Readers::summary::{
     Summary,
 };
 
-use crate::common::{
-    Bytes,
-    ResultS4,
-};
-
 #[cfg(any(debug_assertions,test))]
 use crate::dbgpr::printers::{
     str_to_String_noraw,
 };
-use crate::dbgpr::printers::{
+
+use crate::printer::printers::{
     Color,
     ColorSpec,
     WriteColor,
@@ -607,7 +608,10 @@ where
 impl<'syslinereader> SyslineReader<'syslinereader> {
     const DT_PATTERN_MAX_PRE_ANALYSIS: usize = 4;
     const DT_PATTERN_MAX: usize = 1;
-    const ANALYSIS_THRESHOLD: u64 = 5;
+    const DT_PATTERN_ANALYSIS_THRESHOLD: u64 = 5;
+    /// `SyslineReader::blockzero_analysis` must find this many `Sysline` for the
+    /// file to be considered a syslog file
+    pub (crate) const ZEROBLOCK_ANALYSIS_SYSLINE_COUNT: u64 = 2;
     const _FIND_SYSLINE_LRU_CACHE_SZ: usize = 4;
     const _PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ: usize = 8;
 
@@ -696,7 +700,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     }
 
     /// enable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
-    /// intended to aid testing
+    /// intended to aid testing and debugging
     pub fn LRU_cache_enable(&mut self) {
         self._find_sysline_lru_cache_enabled = true;
         self._find_sysline_lru_cache.clear();
@@ -707,7 +711,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     }
 
     /// disable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
-    /// intended to aid testing
+    /// intended to aid testing and debugging
     pub fn LRU_cache_disable(&mut self) {
         self._find_sysline_lru_cache_enabled = false;
         self._find_sysline_lru_cache.clear();
@@ -718,15 +722,47 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     }
 
     /// read block zero (the first data block of the file), do necessary analysis
-    pub fn zeroblock_process(&mut self) -> std::io::Result<bool> {
-        self.linereader.zeroblock_process()
-        // LAST WORKING HERE 2022/04/29 00:23:29
-        // need to add find_sysline calls for block zero, then determine if number found
-        // is acceptable to continue. requires `find_syseline` that can avoid new calls to
-        // `read_block`... needs some thought to do cleanly.
-        // might need to add `find_sysline_in_block` that searches only within one block
-        // would be far simpler to restructure `find_sysline`.
-        // would need corresponding function `LineReader::find_line`.
+    pub fn blockzero_analysis(&mut self) -> std::io::Result<bool> {
+        match self.linereader.blockzero_analysis() {
+            Ok(val) => {
+                if !val {
+                    debug_eprintln!("{}syslinereader.blockzero_analysis: return Ok(false)", snx());
+                    return Ok(false);
+                };
+            },
+            Err(err) => {
+                debug_eprintln!("{}syslinereader.blockzero_analysis: return Err({:?})", snx(), err);
+                return Err(err);
+            }
+        }
+
+        let mut fo: FileOffset = 0;
+        let mut at: u64 = 0;
+        let at_max: u64 = SyslineReader::ZEROBLOCK_ANALYSIS_SYSLINE_COUNT;
+        // TODO: `at_max` should be adjusted based on `blocksz` and `filesz`
+        //       small `blocksz` should mean small `at_max`, etc.
+        while at < at_max {
+            fo = match self.find_sysline_in_block(fo) {
+                ResultS4_SyslineFind::Found((fo_next, _slinep)) => {
+                    fo_next
+                },
+                ResultS4_SyslineFind::Found_EOF((fo_next, _slinep)) => {
+                    break;
+                }, ResultS4_SyslineFind::Done => {
+                    debug_eprintln!("{}syslinereader.blockzero_analysis: Ok({})", sx(), at != 0);
+                    return Ok(at != 0);
+                }, ResultS4_SyslineFind::Err(err) => {
+                    debug_eprintln!("{}syslinereader.blockzero_analysis: Err({:?})", sx(), err);
+                    return Result::Err(err);
+                },
+            };
+            if 0 != self.block_offset_at_file_offset(fo) {
+                break;
+            }
+            at += 1;
+        }
+
+        Ok(true)
     }
 
     /// print Sysline at `fileoffset`
@@ -981,7 +1017,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     ///          "odd man out" format
     /// TODO: will break if DT_PATTERN_MAX > 1
     fn dt_patterns_analysis(&mut self) {
-        if self.analyzed || self.count() < SyslineReader::ANALYSIS_THRESHOLD {
+        if self.analyzed || self.count() < SyslineReader::DT_PATTERN_ANALYSIS_THRESHOLD {
             return;
         }
         debug_eprintln!("{}dt_patterns_analysis()", sn());
@@ -2329,6 +2365,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     }
 }
 
+const_assert!(
+    LineReader::ZEROBLOCK_ANALYSIS_LINE_COUNT > SyslineReader::ZEROBLOCK_ANALYSIS_SYSLINE_COUNT
+);
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SyslogWriter

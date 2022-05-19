@@ -40,7 +40,7 @@ extern crate lru;
 use lru::LruCache;
 
 extern crate mime_guess;
-use mime_guess::{
+pub use mime_guess::{
     MimeGuess,
 };
 
@@ -193,21 +193,21 @@ pub fn printblock(buffer: &Block, blockoffset: BlockOffset, fileoffset: FileOffs
 impl<'blockreader> BlockReader<'blockreader> {
     const READ_BLOCK_LRU_CACHE_SZ: usize = 4;
     /// create a new `BlockReader`
-    pub fn new(path_: &'blockreader FPath, blocksz: BlockSz) -> BlockReader<'blockreader> {
+    pub fn new(path: &'blockreader FPath, blocksz: BlockSz) -> BlockReader<'blockreader> {
         // TODO: why not open the file here? change `open` to a "static class wide" (or equivalent)
         //       that does not take a `self`. This would simplify some things about `BlockReader`
         // TODO: how to make some fields `blockn` `blocksz` `filesz` immutable?
         //       https://stackoverflow.com/questions/23743566/how-can-i-force-a-structs-field-to-always-be-immutable-in-rust
         assert_ne!(0, blocksz, "Block Size cannot be 0");
-        assert_ge!(blocksz, BLOCKSZ_MIN, "Block Size too small");
-        assert_le!(blocksz, BLOCKSZ_MAX, "Block Size too big");
-        let p_ = std::path::Path::new(path_);
-        let mg: MimeGuess = MimeGuess::from_path(p_);
+        assert_ge!(blocksz, BLOCKSZ_MIN, "Block Size {} is too small", blocksz);
+        assert_le!(blocksz, BLOCKSZ_MAX, "Block Size {} is too big", blocksz);
+        let path_ = std::path::Path::new(path);
+        let mimeguess: MimeGuess = MimeGuess::from_path(path_);
         BlockReader {
-            path: path_,
+            path: path,
             file: None,
             file_metadata: None,
-            mimeguess: mg,
+            mimeguess: mimeguess,
             filesz: 0,
             blockn: 0,
             blocksz,

@@ -8,26 +8,45 @@ use crate::Readers::blockreader::{
     BlockReader,
     ResultS3_ReadBlock,
     printblock,
+    MimeGuess,
 };
 
-/// basic test of BlockReader things
-#[allow(non_snake_case)]
-fn test_BlockReader(path_: &FPath, blocksz: BlockSz) {
-    eprintln!("test_BlockReader()");
+use crate::dbgpr::helpers::{
+    NamedTempFile,
+    create_temp_file,
+    create_temp_file_with_name,
+    NTF_Path,
+};
 
-    // testing BlockReader basics
+extern crate lazy_static;
+use lazy_static::lazy_static;
 
-    let mut br1 = BlockReader::new(path_, blocksz);
+// -------------------------------------------------------------------------------------------------
+
+/// helper wrapper to create a new BlockReader
+fn new_BlockReader(path: &FPath, blocksz: BlockSz) -> BlockReader {
+    let mut br1 = BlockReader::new(path, blocksz);
     eprintln!("new {:?}", &br1);
     match br1.open() {
         Ok(_) => {
-            eprintln!("opened {:?}", path_);
-        }
+            eprintln!("opened {:?}", path);
+            br1
+        },
         Err(err) => {
-            panic!("ERROR: BlockReader.open('{:?}') {}", path_, err);
-        }
+            panic!("ERROR: BlockReader.open({:?}, {}) {}", path, blocksz, err);
+        },
     }
-    eprintln!("opened {:?}", &br1);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+/// quick and dirty test of basic test of BlockReader things
+/// 
+/// TODO: improve this: add proper checking with `assert`, allow other inputs
+#[allow(non_snake_case)]
+fn test_BlockReader(path: &FPath, blocksz: BlockSz) {
+    eprintln!("test_BlockReader({:?}, {})", path, blocksz);
+    let mut br1 = new_BlockReader(path, blocksz);
     let last_blk = BlockReader::block_offset_at_file_offset(br1.filesz, blocksz);
     for offset in [0, 1, 5, 1, 99, 1, last_blk].iter() {
         {
@@ -50,10 +69,132 @@ fn test_BlockReader(path_: &FPath, blocksz: BlockSz) {
     // TODO: need to compare results to expected Block values
 }
 
+// -------------------------------------------------------------------------------------------------
+
+lazy_static! {
+    #[allow(non_upper_case_globals)]
+    static ref NTF_empty0: NamedTempFile = create_temp_file("");
+}
+
+lazy_static! {
+    #[allow(non_upper_case_globals)]
+    static ref NTF_empty0_path: FPath = NTF_Path(&NTF_empty0);
+}
+
+lazy_static! {
+    #[allow(non_upper_case_globals)]
+    static ref NTF_nl_1: NamedTempFile = create_temp_file("\n");
+}
+
+lazy_static! {
+    #[allow(non_upper_case_globals)]
+    static ref NTF_nl_1_path: FPath = NTF_Path(&NTF_nl_1);
+}
+
+lazy_static! {
+    #[allow(non_upper_case_globals)]
+    static ref NTF_basic_basic_dt10: NamedTempFile = create_temp_file(
+"2000-01-01 00:00:01 1
+2000-01-01 00:00:02 1
+2000-01-01 00:00:02 2
+2000-01-01 00:00:03 1
+2000-01-01 00:00:03 2
+2000-01-01 00:00:03 3
+2000-01-01 00:00:04 1
+2000-01-01 00:00:04 2
+2000-01-01 00:00:04 3
+2000-01-01 00:00:04 4
+2000-01-01 00:00:05 1
+2000-01-01 00:00:05 2
+2000-01-01 00:00:05 3
+2000-01-01 00:00:05 4
+2000-01-01 00:00:05 5
+2000-01-01 00:00:06 1
+2000-01-01 00:00:06 2
+2000-01-01 00:00:06 3
+2000-01-01 00:00:06 4
+2000-01-01 00:00:06 5
+2000-01-01 00:00:06 6
+2000-01-01 00:00:07 1
+2000-01-01 00:00:07 2
+2000-01-01 00:00:07 3
+2000-01-01 00:00:07 4
+2000-01-01 00:00:07 5
+2000-01-01 00:00:07 6
+2000-01-01 00:00:07 7
+2000-01-01 00:00:08 1
+2000-01-01 00:00:08 2
+2000-01-01 00:00:08 3
+2000-01-01 00:00:08 4
+2000-01-01 00:00:08 5
+2000-01-01 00:00:08 6
+2000-01-01 00:00:08 7
+2000-01-01 00:00:08 8
+2000-01-01 00:00:09 1
+2000-01-01 00:00:09 2
+2000-01-01 00:00:09 3
+2000-01-01 00:00:09 4
+2000-01-01 00:00:09 5
+2000-01-01 00:00:09 6
+2000-01-01 00:00:09 7
+2000-01-01 00:00:09 8
+2000-01-01 00:00:09 9
+2000-01-01 00:00:10 1
+2000-01-01 00:00:10 2
+2000-01-01 00:00:10 3
+2000-01-01 00:00:10 4
+2000-01-01 00:00:10 5
+2000-01-01 00:00:10 6
+2000-01-01 00:00:10 7
+2000-01-01 00:00:10 8
+2000-01-01 00:00:10 9
+2000-01-01 00:00:10 10"
+    );
+}
+
+lazy_static! {
+    #[allow(non_upper_case_globals)]
+    static ref NTF_basic_basic_dt10_path: FPath = NTF_Path(&NTF_basic_basic_dt10);
+}
+
+// -------------------------------------------------------------------------------------------------
+
 #[test]
 fn test_BlockReader1() {
-    test_BlockReader(&FPath::from("./logs/other/tests/basic-basic-dt10-repeats.log"), 2);
+    test_BlockReader(&NTF_basic_basic_dt10_path, 2);
 }
+
+// TODO: [2022/04] add more tests
+
+// -------------------------------------------------------------------------------------------------
+
+#[cfg(test)]
+fn test_mimeguess(suffix: Option<String>, check: MimeGuess) {
+    eprintln!("test_mimeguess: suffix {:?}", &suffix);
+    let ntf = create_temp_file_with_name(&"", None, suffix);
+    let path = NTF_Path(&ntf);
+    eprintln!("test_mimeguess: tempfile {:?}", &path);
+    let br1 = new_BlockReader(&path, 2);
+    eprintln!("test_mimeguess: blockreader.mimeguess {:?}", &br1.mimeguess);
+    assert_eq!(check, br1.mimeguess, "expected MimeGuess {:?}\nfound MimeGuess {:?}\n", check, br1.mimeguess);
+}
+
+#[test]
+fn test_mimeguess_txt() {
+    test_mimeguess(Some(String::from(".txt")), MimeGuess::from_ext("txt"));
+}
+
+#[test]
+fn test_mimeguess_gz() {
+    test_mimeguess(Some(String::from(".gz")), MimeGuess::from_ext("gz"));
+}
+
+#[test]
+fn test_mimeguess_() {
+    test_mimeguess(Some(String::from("")), MimeGuess::from_ext(""));
+}
+
+// -------------------------------------------------------------------------------------------------
 
 /// quick self-test
 #[test]

@@ -654,6 +654,9 @@ TODO: [2022/05/01] add parsing of Windows Startup files (which are in XML)?
       become too much work, and feature creep... but would be cool.
       See https://github.com/RazrFalcon/roxmltree
 
+TODO: [2022/05/10] does the `SyslineReader::find_sysline` binary search use
+      similar range check as done in `LineReader::find_line` ?
+
 */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -771,11 +774,15 @@ use crate::common::{
 
 mod dbgpr;
 use dbgpr::stack::{so, sn, sx, snx, stack_offset_set};
-use crate::dbgpr::printers::{
+
+mod printer;
+use printer::printers::{
+    Color,
+    COLOR_DATETIME,
+    color_rand,
     print_colored_stdout,
     print_colored_stderr,
     write_stdout,
-    Color,
 };
 
 mod Readers;
@@ -824,62 +831,6 @@ use Readers::syslinereader::{
 /// global test initializer to run once
 /// see https://stackoverflow.com/a/58006287/471376
 //static _Test_Init_Once: Once = Once::new();
-
-static COLOR_DATETIME: Color = Color::Green;
-
-static COLORS_TEXT: [Color; 29] = [
-    Color::Yellow,
-    Color::Cyan,
-    Color::Red,
-    Color::Magenta,
-    // decent reference https://www.rapidtables.com/web/color/RGB_Color.html
-    // XXX: colors with low pixel values are difficult to see on dark console backgrounds
-    //      recommend at least one pixel value of 102 or greater
-    Color::Rgb(102, 0, 0),
-    Color::Rgb(102, 102, 0),
-    Color::Rgb(127, 0, 0),
-    Color::Rgb(0, 0, 127),
-    Color::Rgb(127, 0, 127),
-    Color::Rgb(153, 76, 0),
-    Color::Rgb(153, 153, 0),
-    Color::Rgb(0, 153, 153),
-    Color::Rgb(127, 127, 127),
-    Color::Rgb(127, 153, 153),
-    Color::Rgb(127, 153, 127),
-    Color::Rgb(127, 127, 230),
-    Color::Rgb(127, 230, 127),
-    Color::Rgb(230, 127, 127),
-    Color::Rgb(127, 230, 230),
-    Color::Rgb(230, 230, 127),
-    Color::Rgb(230, 127, 230),
-    Color::Rgb(230, 230, 230),
-    Color::Rgb(153, 153, 255),
-    Color::Rgb(153, 255, 153),
-    Color::Rgb(255, 153, 153),
-    Color::Rgb(153, 255, 255),
-    Color::Rgb(255, 255, 153),
-    Color::Rgb(255, 153, 255),
-    Color::Rgb(255, 255, 255),
-];
-
-/// "cached" indexing value for `color_rand`
-/// not thread aware
-#[allow(non_upper_case_globals)]
-static mut _color_at: usize = 0;
-
-/// return a random color from `COLORS`
-fn color_rand() -> Color {
-    let ci: usize;
-    unsafe {
-        _color_at += 1;
-        if _color_at == COLORS_TEXT.len() {
-            _color_at = 0;
-        }
-        ci = _color_at;
-    }
-
-    COLORS_TEXT[ci]
-}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // command-line parsing
@@ -1289,7 +1240,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
         }
     };
 
-    match slr.zeroblock_process() {
+    match slr.blockzero_analysis() {
          Ok(parseable) => {
              if !parseable {
                 eprintln!("WARNING: not parseable {:?}", path);
@@ -1297,7 +1248,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
              }
          },
          Err(err) => {
-            eprintln!("ERROR: SyslineReader::zeroblock_process() for {:?} returned Error {}", path, err);
+            eprintln!("ERROR: SyslineReader::blockzero_analysis() for {:?} returned Error {}", path, err);
             return tid;
          }
     }
