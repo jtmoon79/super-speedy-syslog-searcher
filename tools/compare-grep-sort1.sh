@@ -43,6 +43,7 @@ $time -p "${@}" -- \
     ./target/release/super_speedy_syslog_searcher \
     -z 0xFFFF \
     -a 20000101T000000 -b 20000101T080000 \
+    --color never \
     "${files[@]}" \
     >/dev/null
 )
@@ -63,6 +64,7 @@ $time -p "${@}" -- \
 ./target/release/super_speedy_syslog_searcher \
     -z 0xFFFF \
     -a 20000101T000000 -b 20000101T080000 \
+    --color never \
     "${files[@]}" \
     > "${tmp1}"
 
