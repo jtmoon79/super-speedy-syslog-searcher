@@ -80,7 +80,7 @@ use lazy_static::lazy_static;
 /// helper to wrap the match and panic checks
 #[cfg(test)]
 fn new_SyslineReader(path: &FPath, blocksz: BlockSz, tzo: FixedOffset) -> SyslineReader {
-    match SyslineReader::new(path, blocksz, tzo) {
+    match SyslineReader::new(path.clone(), blocksz, tzo) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: SyslineReader::new({:?}, {:?}, {:?}) failed {}", path, blocksz, tzo, err);
@@ -2308,9 +2308,12 @@ fn process_SyslineReader(
 /// quick debug helper
 #[allow(non_snake_case)]
 #[cfg(test)]
-fn _test_SyslineReader_process_file<'a>(
-    path: &'a FPath, blocksz: BlockSz, filter_dt_after_opt: &'a DateTimeL_Opt, filter_dt_before_opt: &'a DateTimeL_Opt,
-) -> Option<Box<SyslineReader<'a>>> {
+fn _test_SyslineReader_process_file(
+    path: &FPath,
+    blocksz: BlockSz,
+    filter_dt_after_opt: &DateTimeL_Opt,
+    filter_dt_before_opt: &DateTimeL_Opt,
+) -> Option<Box<SyslineReader>> {
     eprintln!(
         "{}process_file({:?}, {}, {:?}, {:?})",
         sn(),

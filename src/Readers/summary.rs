@@ -46,6 +46,12 @@ pub struct Summary {
     pub LineReader_lines: u64,
     /// count of `Syslines` processed by `SyslineReader`
     pub SyslineReader_syslines: u64,
+    /// `SyslineReader::_syslines_by_range_hit`
+    pub SyslineReader_syslines_by_range_hit: u64,
+    /// `SyslineReader::_syslines_by_range_miss`
+    pub SyslineReader_syslines_by_range_miss: u64,
+    /// `SyslineReader::_syslines_by_range_insert`
+    pub SyslineReader_syslines_by_range_insert: u64,
     /// datetime patterns used by `SyslineReader`
     pub SyslineReader_patterns: DateTime_Parse_Datas_vec,
     /// `SyslineReader::find_sysline`
@@ -90,6 +96,9 @@ impl Summary {
         BlockReader_blocksz: BlockSz,
         LineReader_lines: u64,
         SyslineReader_syslines: u64,
+        SyslineReader_syslines_by_range_hit: u64,
+        SyslineReader_syslines_by_range_miss: u64,
+        SyslineReader_syslines_by_range_insert: u64,
         SyslineReader_patterns: DateTime_Parse_Datas_vec,
         SyslineReader_find_sysline_lru_cache_hit: u64,
         SyslineReader_find_sysline_lru_cache_miss: u64,
@@ -122,6 +131,9 @@ impl Summary {
             BlockReader_blocksz,
             LineReader_lines,
             SyslineReader_syslines,
+            SyslineReader_syslines_by_range_hit,
+            SyslineReader_syslines_by_range_miss,
+            SyslineReader_syslines_by_range_insert,
             SyslineReader_patterns,
             SyslineReader_find_sysline_lru_cache_hit,
             SyslineReader_find_sysline_lru_cache_miss,

@@ -2,6 +2,8 @@
 //
 // TODO: [2022/04/26] need to be able to disable LineReader LRU cache, and test with/without
 
+use std::fs::File;
+
 use crate::common::{
     FPath,
     Bytes,
@@ -26,8 +28,10 @@ use crate::Readers::helpers::{
 
 use crate::dbgpr::helpers::{
     NamedTempFile,
+    tempdir,
     create_temp_file,
-    create_temp_file_path,
+    create_temp_file_with_name,
+    create_temp_file_with_name_exact,
     NTF_Path,
     eprint_file,
 };
@@ -132,7 +136,7 @@ enum ResultS4_LineFind_Test {
 /// helper to wrap the match and panic checks
 #[cfg(test)]
 fn new_LineReader(path: &FPath, blocksz: BlockSz) -> LineReader {
-    match LineReader::new(path, blocksz) {
+    match LineReader::new(path.clone(), blocksz) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: LineReader::new({:?}, {}) failed {}", path, blocksz, err);
@@ -1613,73 +1617,6 @@ fn test_find_line_in_block_4x2_5() {
         (8, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
     _test_find_line_in_block(&fpath, true, 5, &in_out);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-// test `LineReader::mimeguess_analysis`
-
-
-
-/// test `LineReader::blockzero_analysis`
-#[allow(non_snake_case)]
-#[cfg(test)]
-fn _test_blockzero_analysis(
-    path: &FPath,
-    cache_enabled: bool,
-    blocksz: BlockSz,
-    expect_val: bool,
-    expect_line_count: u64,
-) {
-    stack_offset_set(Some(2));
-    eprintln!("{}_test_blockzero_analysis({:?}, {:?}, {:?}, {:?}, {:?})", sn(), &path, cache_enabled, blocksz, expect_val, expect_line_count);
-    eprint_file(path);
-    let mut lr1: LineReader = new_LineReader(path, blocksz);
-    if !cache_enabled {
-        lr1.LRU_cache_disable();
-    }
-    eprintln!("\n{}{:?}\n", so(), lr1);
-
-    let result = lr1.blockzero_analysis();
-    match result {
-        Ok(val) => {
-            assert_eq!(expect_val, val, "blockzero_analysis expected {}, got {}", expect_val, val);
-        },
-        Err(err) => {
-            panic!("linereader.blockzero_analysis returned Error {:?}", err);
-        },
-    }
-    assert_eq!(expect_line_count, lr1.lines_count, "blockzero_analysis expected {}, got {}", expect_line_count, lr1.lines_count);
-
-    eprintln!("{}_test_blockzero_analysis()", sx());
-}
-
-#[test]
-fn test_blockzero_analysis_empty0() {
-    _test_blockzero_analysis(&NTF_empty0_path, true, 0xFF, false, 0);
-}
-
-#[test]
-fn test_blockzero_analysis_nl1() {
-    _test_blockzero_analysis(&NTF_nl_1_path, true, 0xFF, true, 1);
-}
-
-#[test]
-fn test_blockzero_analysis_nl2() {
-    _test_blockzero_analysis(&NTF_nl_2_path, true, 0xFF, true, 2);
-}
-
-// TODO: 2022/05/06 add more blockzero_analysis tests and more tests for
-//       underlying functions
-
-#[test]
-fn test_blockzero_analysis_nl20() {
-    let data = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-    let line_count: u64 = data.lines().count() as u64;
-    let ntf = create_temp_file(data);
-    let path = NTF_Path(&ntf);
-    let line_count_ = std::cmp::min(line_count, LineReader::ZEROBLOCK_ANALYSIS_LINE_COUNT);
-    _test_blockzero_analysis(&path, true, 0xFF, true, line_count_);
 }
 
 // -------------------------------------------------------------------------------------------------

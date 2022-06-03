@@ -18,7 +18,7 @@ use std::io::Write;  // for `NamedTempFile.write_all`
 #[cfg(test)]
 extern crate tempfile;
 #[cfg(test)]
-pub use tempfile::NamedTempFile;
+pub use tempfile::{NamedTempFile, tempdir};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // temporary file helper functions
@@ -48,14 +48,16 @@ pub fn create_temp_file(data: &str) -> NamedTempFile {
 
 /// testing helper to write a `str` to a specially-named temporary file.
 #[cfg(test)]
-pub fn create_temp_file_with_name(
+pub fn create_temp_file_with_name_rlen(
     data: &str,
     prefix: Option<String>,
-    suffix: Option<String>
+    suffix: Option<String>,
+    rand_len: usize,
 ) -> NamedTempFile {
     let mut ntf = match tempfile::Builder::new()
         .prefix::<str>(prefix.unwrap_or_else(|| String::from(".tmp")).as_ref())
         .suffix::<str>(suffix.unwrap_or_else(|| String::from("")).as_ref())
+        .rand_bytes(rand_len)
         .tempfile()
     {
         Ok(val) => val,
@@ -71,6 +73,26 @@ pub fn create_temp_file_with_name(
     }
 
     ntf
+}
+
+/// testing helper to write a `str` to a specially-named temporary file.
+#[cfg(test)]
+pub fn create_temp_file_with_name(
+    data: &str,
+    prefix: Option<String>,
+    suffix: Option<String>,
+) -> NamedTempFile {
+    // XXX: tempfile::NUM_RAND_CHARS is not pub
+    create_temp_file_with_name_rlen(data, prefix, suffix, 5)
+}
+
+/// testing helper to write a `str` to a exactly-named temporary file.
+#[cfg(test)]
+pub fn create_temp_file_with_name_exact(
+    data: &str,
+    name: String
+) -> NamedTempFile {
+    create_temp_file_with_name_rlen(data, Some(name), None, 0)
 }
 
 /// wrapper for `create_temp_file`, unwraps the result to an `FPath`.

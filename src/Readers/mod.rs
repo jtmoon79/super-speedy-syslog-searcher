@@ -21,3 +21,7 @@ pub mod summary;
 pub mod syslinereader;
 #[cfg(test)]
 pub mod syslinereader_tests;
+
+pub mod syslogprocessor;
+#[cfg(test)]
+pub mod syslogprocessor_tests;

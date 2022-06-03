@@ -24,8 +24,8 @@ use lazy_static::lazy_static;
 // -------------------------------------------------------------------------------------------------
 
 /// helper wrapper to create a new BlockReader
-fn new_BlockReader(path: &FPath, blocksz: BlockSz) -> BlockReader {
-    let mut br1 = BlockReader::new(path, blocksz);
+fn new_BlockReader(path: FPath, blocksz: BlockSz) -> BlockReader {
+    let mut br1 = BlockReader::new(path.clone(), blocksz);
     eprintln!("new {:?}", &br1);
     match br1.open() {
         Ok(_) => {
@@ -46,7 +46,7 @@ fn new_BlockReader(path: &FPath, blocksz: BlockSz) -> BlockReader {
 #[allow(non_snake_case)]
 fn test_BlockReader(path: &FPath, blocksz: BlockSz) {
     eprintln!("test_BlockReader({:?}, {})", path, blocksz);
-    let mut br1 = new_BlockReader(path, blocksz);
+    let mut br1 = new_BlockReader(path.clone(), blocksz);
     let last_blk = BlockReader::block_offset_at_file_offset(br1.filesz, blocksz);
     for offset in [0, 1, 5, 1, 99, 1, last_blk].iter() {
         {
@@ -174,7 +174,7 @@ fn test_mimeguess(suffix: Option<String>, check: MimeGuess) {
     let ntf = create_temp_file_with_name(&"", None, suffix);
     let path = NTF_Path(&ntf);
     eprintln!("test_mimeguess: tempfile {:?}", &path);
-    let br1 = new_BlockReader(&path, 2);
+    let br1 = new_BlockReader(path, 2);
     eprintln!("test_mimeguess: blockreader.mimeguess {:?}", &br1.mimeguess);
     assert_eq!(check, br1.mimeguess, "expected MimeGuess {:?}\nfound MimeGuess {:?}\n", check, br1.mimeguess);
 }

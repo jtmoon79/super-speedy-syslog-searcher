@@ -82,9 +82,9 @@ pub const BLOCKSZ_DEFs: &str = "0xFFFF";
 /// Cached file reader that stores data in `BlockSz` byte-sized blocks.
 /// A `BlockReader` corresponds to one file.
 /// TODO: make a copy of `path`, no need to hold a reference, it just complicates things by introducing explicit lifetimes
-pub struct BlockReader<'blockreader> {
+pub struct BlockReader {
     /// Path to file
-    pub path: &'blockreader FPath,
+    pub path: FPath,
     /// File handle, set in `open`
     file: Option<File>,
     /// File.metadata(), set in `open`
@@ -118,8 +118,8 @@ pub struct BlockReader<'blockreader> {
     pub(crate) _read_blocks_insert: u32,
 }
 
-impl fmt::Debug for BlockReader<'_> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl fmt::Debug for BlockReader {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         //let f_ = match &self.file_metadata {
         //    None => format!("None"),
         //    Some(val) => format!("{:?}", val.file_type()),
@@ -190,10 +190,10 @@ pub fn printblock(buffer: &Block, blockoffset: BlockOffset, fileoffset: FileOffs
 }
 
 /// implement the BlockReader things
-impl<'blockreader> BlockReader<'blockreader> {
+impl BlockReader {
     const READ_BLOCK_LRU_CACHE_SZ: usize = 4;
     /// create a new `BlockReader`
-    pub fn new(path: &'blockreader FPath, blocksz: BlockSz) -> BlockReader<'blockreader> {
+    pub fn new(path: FPath, blocksz: BlockSz) -> BlockReader {
         // TODO: why not open the file here? change `open` to a "static class wide" (or equivalent)
         //       that does not take a `self`. This would simplify some things about `BlockReader`
         // TODO: how to make some fields `blockn` `blocksz` `filesz` immutable?
@@ -201,13 +201,13 @@ impl<'blockreader> BlockReader<'blockreader> {
         assert_ne!(0, blocksz, "Block Size cannot be 0");
         assert_ge!(blocksz, BLOCKSZ_MIN, "Block Size {} is too small", blocksz);
         assert_le!(blocksz, BLOCKSZ_MAX, "Block Size {} is too big", blocksz);
-        let path_ = std::path::Path::new(path);
+        let path_ = std::path::Path::new(&path);
         let mimeguess: MimeGuess = MimeGuess::from_path(path_);
         BlockReader {
-            path: path,
+            path,
             file: None,
             file_metadata: None,
-            mimeguess: mimeguess,
+            mimeguess,
             filesz: 0,
             blockn: 0,
             blocksz,

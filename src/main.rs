@@ -657,6 +657,19 @@ TODO: [2022/05/01] add parsing of Windows Startup files (which are in XML)?
 TODO: [2022/05/10] does the `SyslineReader::find_sysline` binary search use
       similar range check as done in `LineReader::find_line` ?
 
+TODO: [2022/05/31] stats counters should be `type uStat = u64`;
+
+DONE: TODO: [2022/06/02] remove the lifetime specifier from
+      SyslineReader, Linereader, BlockReader.
+
+TODO: [2022/06/02] move `Sysline` to file `data/sysline.rs`
+      move `Line` to file `data/line.rs`
+
+TODO: 2022/06/01 need to put mimetype into crate-defined enums
+      (`TEXT`, `GZ_TEXT`, `XZ_TEXT`, `TAR_TEXT`, `TAR_DIR_FILES`, `GZ_TAR`, ...)
+      then implement handling of just `TEXT` and `GZ_TEXT`, others should return `Err("not yet supported")`.
+      but before that, handle teh different processing modes mentioned elsewhere
+
 */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -667,7 +680,6 @@ TODO: [2022/05/10] does the `SyslineReader::find_sysline` binary search use
 #![allow(non_snake_case)]
 
 use std::collections::{
-    //BTreeMap,
     HashMap
 };
 use std::fmt;
@@ -770,6 +782,12 @@ use crate::common::{
     //Bytes,
     //NLu8,
     NLu8a,
+    FileProcessingResult,
+};
+
+mod Data;
+use crate::Data::line::{
+    LineIndex,
 };
 
 mod dbgpr;
@@ -786,6 +804,7 @@ use printer::printers::{
 };
 
 mod Readers;
+
 use Readers::blockreader::{
     BlockSz,
     //BlockIndex,
@@ -801,6 +820,7 @@ use Readers::blockreader::{
     BLOCKSZ_DEFs,
     //BlockReader,
 };
+
 use Readers::datetime::{
     DateTimeL_Opt,
     DateTime_Parse_Data_str,
@@ -811,15 +831,21 @@ use Readers::datetime::{
     DateTime_Parse_Data_str_to_DateTime_Parse_Data,
     str_datetime,
 };
+
 use Readers::summary::{
     Summary,
     Summary_Opt,
 };
+
 use Readers::syslinereader::{
     SyslineP,
     SyslineP_Opt,
     ResultS4_SyslineFind,
     SyslineReader,
+};
+
+use Readers::syslogprocessor::{
+    SyslogProcessor,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1222,57 +1248,66 @@ type Chan_Recv_Datum = crossbeam_channel::Receiver<Chan_Datum>;
 type Map_FPath_Datum = HashMap<FPath, Chan_Datum>;
 
 /// Thread entry point for processing a file
-/// this creates `SyslineReader` and processes the `Syslines`.
+/// this creates `SyslogProcessor` and processes the syslog file `Syslines`.
 /// Sends each processed sysline back across channel to main thread.
 fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) -> thread::ThreadId {
     stack_offset_set(Some(2));
     let (path, blocksz, filter_dt_after_opt, filter_dt_before_opt, tz_offset) = thread_init_data;
     debug_eprintln!("{}exec_4({:?})", sn(), path);
+
     let thread_cur: thread::Thread = thread::current();
     let tid: thread::ThreadId = thread_cur.id();
     let tname: &str = <&str>::clone(&thread_cur.name().unwrap_or(""));
 
-    let mut slr = match SyslineReader::new(&path, blocksz, tz_offset) {
+    let mut syslogproc = match SyslogProcessor::new(path.clone(), blocksz, tz_offset) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: SyslineReader::new({:?}, {:?}) failed {}", path.as_str(), blocksz, err);
+            eprintln!("ERROR: SyslogProcessor::new({:?}, {:?}) failed {}", path.as_str(), blocksz, err);
             return tid;
         }
     };
 
-    match slr.blockzero_analysis() {
-         Ok(parseable) => {
-             if !parseable {
+    syslogproc.process_stage0_valid_file_check();
+
+    // TODO: 2022/06/02 need to put all these specifics into SyslogProcessor stage functions
+
+    syslogproc.process_stage1_blockzero_analysis();
+
+    match syslogproc.blockzero_analysis() {
+        Ok(parseable) => {
+            if !parseable {
                 eprintln!("WARNING: not parseable {:?}", path);
                 return tid;
-             }
-         },
-         Err(err) => {
-            eprintln!("ERROR: SyslineReader::blockzero_analysis() for {:?} returned Error {}", path, err);
+            }
+        },
+        Err(err) => {
+            eprintln!("ERROR: SyslogProcessor::blockzero_analysis() for {:?} returned Error {}", path, err);
             return tid;
-         }
+        }
     }
 
     // find first sysline acceptable to the passed filters
+    syslogproc.process_stage2_find_dt();
+
     let mut fo1: FileOffset = 0;
     let mut search_more = true;
-    let result = slr.find_sysline_between_datetime_filters(fo1, &filter_dt_after_opt, &filter_dt_before_opt);
+    let result = syslogproc.find_sysline_between_datetime_filters(fo1, &filter_dt_after_opt, &filter_dt_before_opt);
     match result {
-        ResultS4_SyslineFind::Found((fo, slp)) => {
+        ResultS4_SyslineFind::Found((fo, slp_)) => {
             fo1 = fo;
-            let is_last = slr.is_sysline_last(&slp);
-            debug_eprintln!("{}{:?}({}): Found, chan_send_dt.send({:p}, None, {});", so(), tid, tname, slp, is_last);
-            match chan_send_dt.send((Some(slp), None, is_last)) {
+            let is_last = syslogproc.is_sysline_last(&slp_);
+            debug_eprintln!("{}{:?}({}): Found, chan_send_dt.send({:p}, None, {});", so(), tid, tname, slp_, is_last);
+            match chan_send_dt.send((Some(slp_), None, is_last)) {
                 Ok(_) => {}
                 Err(err) => {
                     eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
                 }
             }
         },
-        ResultS4_SyslineFind::Found_EOF((_, slp)) => {
-            let is_last = slr.is_sysline_last(&slp);
-            debug_eprintln!("{}{:?}({}): Found_EOF, chan_send_dt.send(({:p}, None, {}));", so(), tid, tname, slp, is_last);
-            match chan_send_dt.send((Some(slp), None, is_last)) {
+        ResultS4_SyslineFind::Found_EOF((_, slp_)) => {
+            let is_last = syslogproc.is_sysline_last(&slp_);
+            debug_eprintln!("{}{:?}({}): Found_EOF, chan_send_dt.send(({:p}, None, {}));", so(), tid, tname, slp_, is_last);
+            match chan_send_dt.send((Some(slp_), None, is_last)) {
                 Ok(_) => {}
                 Err(err) => {
                     eprintln!("ERROR: B chan_send_dt.send(…) failed {}", err);
@@ -1285,12 +1320,14 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
         },
         ResultS4_SyslineFind::Err(err) => {
             debug_eprintln!("{}{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", so(), tid, tname, err);
-            eprintln!("ERROR: SyslineReader@{:p}.find_sysline_at_datetime_filter({}, {:?}) {}", &slr, fo1, filter_dt_after_opt, err);
+            eprintln!("ERROR: SyslogProcessor@{:p}.find_sysline_at_datetime_filter({}, {:?}) {}", &syslogproc, fo1, filter_dt_after_opt, err);
             search_more = false;
         },
     }
+
     if !search_more {
-        let summary_opt = Some(slr.summary());
+        syslogproc.process_stage4_summary();
+        let summary_opt = Some(syslogproc.summary());
         let is_last = false;  // XXX: is_last does not matter here
         debug_eprintln!("{}{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", so(), tid, tname, summary_opt, is_last);
         match chan_send_dt.send((None, summary_opt, is_last)) {
@@ -1302,20 +1339,23 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
         debug_eprintln!("{}exec_4({:?})", sx(), path);
         return tid;
     }
+
     // find all proceeding syslines acceptable to the passed filters
+    syslogproc.process_stage3_stream_syslines();
+
     let mut fo2: FileOffset = fo1;
     loop {
-        let result = slr.find_sysline(fo2);
+        let result = syslogproc.find_sysline(fo2);
         let eof = result.is_eof();
         match result {
-            ResultS4_SyslineFind::Found((fo, slp)) | ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
+            ResultS4_SyslineFind::Found((fo, slp_)) | ResultS4_SyslineFind::Found_EOF((fo, slp_)) => {
                 fo2 = fo;
-                match SyslineReader::sysline_pass_filters(&slp, &filter_dt_after_opt, &filter_dt_before_opt) {
+                match SyslineReader::sysline_pass_filters(&slp_, &filter_dt_after_opt, &filter_dt_before_opt) {
                     Result_Filter_DateTime2::InRange => {
-                        let is_last = slr.is_sysline_last(&slp);
+                        let is_last = syslogproc.is_sysline_last(&slp_);
                         assert_eq!(eof, is_last, "from find_sysline, ResultS4_SyslineFind.is_eof is {:?} (EOF), yet the returned SyslineP.is_sysline_last is {:?}; they should always agree", eof, is_last);
-                        debug_eprintln!("{}{:?}({}): InRange, chan_send_dt.send(({:p}, None, {}));", so(), tid, tname, slp, is_last);
-                        match chan_send_dt.send((Some(slp), None, is_last)) {
+                        debug_eprintln!("{}{:?}({}): InRange, chan_send_dt.send(({:p}, None, {}));", so(), tid, tname, slp_, is_last);
+                        match chan_send_dt.send((Some(slp_), None, is_last)) {
                             Ok(_) => {}
                             Err(err) => {
                                 eprintln!("ERROR: D chan_send_dt.send(…) failed {}", err);
@@ -1323,7 +1363,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
                         }
                     }
                     Result_Filter_DateTime2::BeforeRange => {
-                        debug_eprintln!("{}{:?}{} ERROR: Sysline out of order: {:?}", so(), tid, tname, (*slp).to_String_noraw());
+                        debug_eprintln!("{}{:?}{} ERROR: Sysline out of order: {:?}", so(), tid, tname, (*slp_).to_String_noraw());
                         eprintln!("ERROR: Encountered a Sysline that is out of order; will abandon processing of file {:?}", path);
                         break;
                     }
@@ -1340,13 +1380,15 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
             }
             ResultS4_SyslineFind::Err(err) => {
                 debug_eprintln!("{}{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", so(), tid, tname, err);
-                eprintln!("ERROR: SyslineReader@{:p}.find_sysline({}) {}", &slr, fo2, err);
+                eprintln!("ERROR: SyslogProcessor@{:p}.find_sysline({}) {}", &syslogproc, fo2, err);
                 break;
             }
         }
     }
 
-    let summary = slr.summary();
+    syslogproc.process_stage4_summary();
+
+    let summary = syslogproc.summary();
     let is_last = false;  // XXX: is_last should not matter here
     debug_eprintln!("{}{:?}({}): last chan_send_dt.send((None, {:?}, {}));", so(), tid, tname, summary, is_last);
     match chan_send_dt.send((None, Some(summary), is_last)) {
@@ -1589,6 +1631,21 @@ fn processing_loop(
     let queue_sz_dt: usize = 10;
     let file_count = paths.len();
 
+    // TODO: [2022/06/02] this point needs a PathToPaths thingy that expands user-passed Paths to all possible paths,
+    //       e.g.
+    //       given a directory path, returns paths of possible syslog files found recursively.
+    //       given a symlink, follows the symlink
+    //       given a path to a tar file, returns paths of possible syslog files within that .tar file.
+    //       given a plain valid file path, just returns that path
+    //       would return `Vec<(path: FPath, subpath: FPath, type_: FILE_TYPE, Option<result>: common::FileProcessingResult)>`
+    //         where `path` is actual path,
+    //         `subpath` is path within a .tar/.zip file
+    //         `type_` is enum for `FILE` `FILE_IN_ARCHIVE_TAR`, `FILE_IN_ARCHIVE_TAR_COMPRESS_GZ`, 
+    //           `FILE_COMPRESS_GZ`, etc.
+    //          `result` of `Some(FileProcessingResult)` if processing has completed or just `None`
+    //       (this might be a better place for mimeguess and mimeanalysis?)
+    //       Would be best to first implment `FILE`, then `FILE_COMPRESS_GZ`, then `FILE_IN_ARCHIVE_TAR`
+
     //
     // create a single ThreadPool with one thread per file path, each thread named for the file basename
     //
@@ -1615,7 +1672,7 @@ fn processing_loop(
     let mut map_path_summary = Map_FPath_Summary::with_capacity(file_count);
     let color_datetime: Color = COLOR_DATETIME;
 
-    // initialize
+    // initialize processing channels/threads, one per file path
     let (chan_send_1, _chan_recv_1) = std::sync::mpsc::channel();
     for fpath in paths.iter() {
         map_path_color.insert(fpath, color_rand());
@@ -1626,8 +1683,6 @@ fn processing_loop(
         let (chan_send_dt, chan_recv_dt): (Chan_Send_Datum, Chan_Recv_Datum) = crossbeam_channel::bounded(queue_sz_dt);
         map_path_recv_dt.insert(fpath, chan_recv_dt);
         let chan_send_1_thread = chan_send_1.clone();
-        // TODO: how to name the threads? The provided example is not clear
-        //       https://docs.rs/rayon/1.5.1/rayon/struct.ThreadPoolBuilder.html#examples-1
         pool.spawn(move || match chan_send_1_thread.send(exec_4(chan_send_dt, thread_data)) {
             Ok(_) => {}
             Err(err) => {
@@ -1920,7 +1975,11 @@ fn processing_loop(
                 }
                 // SyslineReader
                 let summary: &Summary = &summary_opt.unwrap_or_default();
-                let mut ratio = ratio64(&summary.SyslineReader_parse_datetime_in_line_lru_cache_hit, &summary.SyslineReader_parse_datetime_in_line_lru_cache_miss);
+                // SyslineReader::_parse_datetime_in_line_lru_cache
+                let mut ratio = ratio64(
+                    &summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
+                    &summary.SyslineReader_parse_datetime_in_line_lru_cache_miss
+                );
                 eprintln!(
                     "{}caching: SyslineReader::parse_datetime_in_line_lru_cache: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
                     slead,
@@ -1929,17 +1988,37 @@ fn processing_loop(
                     ratio,
                     summary.SyslineReader_parse_datetime_in_line_lru_cache_put,
                 );
-                ratio = ratio64(&summary.SyslineReader_find_sysline_lru_cache_hit, &summary.SyslineReader_find_sysline_lru_cache_miss);
+                // SyslineReader::_syslines_by_range
+                ratio = ratio64(
+                    &summary.SyslineReader_syslines_by_range_hit,
+                    &summary.SyslineReader_syslines_by_range_miss
+                );
                 eprintln!(
-                    "{}caching: SyslineReader::find_sysline_lru_cache_hit: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
+                    "{}caching: SyslineReader::_syslines_by_range              : hit {:2}, miss {:2}, ratio: {:1.2}, insert {:2}",
+                    slead,
+                    summary.SyslineReader_syslines_by_range_hit,
+                    summary.SyslineReader_syslines_by_range_miss,
+                    ratio,
+                    summary.SyslineReader_syslines_by_range_insert,
+                );
+                // SyslineReader::_find_sysline_lru_cache
+                ratio = ratio64(
+                    &summary.SyslineReader_find_sysline_lru_cache_hit,
+                    &summary.SyslineReader_find_sysline_lru_cache_miss
+                );
+                eprintln!(
+                    "{}caching: SyslineReader::find_sysline_lru_cache          : hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
                     slead,
                     summary.SyslineReader_find_sysline_lru_cache_hit,
                     summary.SyslineReader_find_sysline_lru_cache_miss,
                     ratio,
                     summary.SyslineReader_find_sysline_lru_cache_put,
                 );
-                // LineReader
-                ratio = ratio64(&summary.LineReader_find_line_lru_cache_hit, &summary.LineReader_find_line_lru_cache_miss);
+                // LineReader::_find_line_lru_cache
+                ratio = ratio64(
+                    &summary.LineReader_find_line_lru_cache_hit,
+                    &summary.LineReader_find_line_lru_cache_miss
+                );
                 eprintln!(
                     "{}caching: LineReader::find_line_cache: hit {:2}, miss: {:2}, ratio: {:1.2}, put {:2}",
                     slead,
@@ -1948,8 +2027,11 @@ fn processing_loop(
                     ratio,
                     summary.LineReader_find_line_lru_cache_put,
                 );
-                // BlockReader
-                ratio = ratio32(&summary.BlockReader_read_blocks_hit, &summary.BlockReader_read_blocks_miss);
+                // BlockReader::_read_blocks
+                ratio = ratio32(
+                    &summary.BlockReader_read_blocks_hit,
+                    &summary.BlockReader_read_blocks_miss
+                );
                 eprintln!(
                     "{}caching: BlockReader::read_block_blocks   : hit {:2}, miss {:2}, ratio: {:1.2}, insert {:2}",
                     slead,
@@ -1958,7 +2040,11 @@ fn processing_loop(
                     ratio,
                     summary.BlockReader_read_blocks_insert,
                 );
-                ratio = ratio32(&summary.BlockReader_read_block_cache_lru_hit, &summary.BlockReader_read_block_cache_lru_miss);
+                // BlockReader::_read_blocks_cache
+                ratio = ratio32(
+                    &summary.BlockReader_read_block_cache_lru_hit,
+                    &summary.BlockReader_read_block_cache_lru_miss
+                );
                 eprintln!(
                     "{}caching: BlockReader::read_block_cache_lru: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
                     slead,

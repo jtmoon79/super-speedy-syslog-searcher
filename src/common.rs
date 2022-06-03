@@ -296,6 +296,18 @@ where
     }
 }
 
+#[derive(Debug)]
+pub enum FileProcessingResult {
+    FILE_ERR_EMPTY,
+    FILE_ERR_NO_LINES_FOUND,
+    FILE_ERR_NO_SYSLINES_FOUND,
+    FILE_ERR_NO_SYSLINES_IN_DT_RANGE,
+    FILE_ERR_IO,
+    FILE_ERR_WRONG_TYPE,
+    FILE_ERR_DECOMPRESS,
+    FILE_OK,
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Blocks and BlockReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

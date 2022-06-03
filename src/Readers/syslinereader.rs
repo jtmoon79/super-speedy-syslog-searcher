@@ -13,6 +13,12 @@ use crate::common::{
     ResultS4,
 };
 
+pub use crate::Data::sysline::{
+    Sysline,
+    SyslineP,
+    SyslineP_Opt,
+};
+
 use crate::Readers::blockreader::{
     BlockSz,
     BlockOffset,
@@ -115,388 +121,6 @@ use static_assertions::{
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// Sysline
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-
-/// Sysline Searching error
-///
-/// TODO: does SyslineFind need an `Found_EOF` state? Is it an unnecessary overlap of `Ok` and `Done`?
-#[allow(non_camel_case_types)]
-pub type ResultS4_SyslineFind = ResultS4<(FileOffset, SyslineP), Error>;
-
-/// A `Sysline` has information about a "syslog line" that spans one or more `Line`s.
-/// A "syslog line" or `Sysline` is one or more `Line`s, where the first line contains a
-/// datetime stamp. That datetime stamp is consistent format of other nearby syslog lines.
-pub struct Sysline {
-    /// the one or more `Line` that make up a Sysline
-    pub(crate) lines: Lines,
-    /// index into `Line` where datetime string starts
-    /// byte-based count
-    /// datetime is presumed to be on first Line
-    pub(crate) dt_beg: LineIndex,
-    /// index into `Line` where datetime string ends, one char past last character of datetime string
-    /// byte-based count
-    /// datetime is presumed to be on first Line
-    pub(crate) dt_end: LineIndex,
-    /// parsed DateTime instance
-    pub(crate) dt: DateTimeL_Opt,
-}
-
-/// a signifier value for "not set" or "null" - because sometimes Option is a PitA
-const LI_NULL: LineIndex = LineIndex::MAX;
-
-impl std::fmt::Debug for Sysline {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let mut li_s = String::new();
-        for lp in self.lines.iter() {
-            li_s.push_str(&format!(
-                "Line @{:p} (fileoffset_beg {}, fileoffset_end {}, len() {}, count() {}",
-                &*lp,
-                (*lp).fileoffset_begin(),
-                (*lp).fileoffset_end(),
-                (*lp).len(),
-                (*lp).count()
-            ));
-        }
-        f.debug_struct("Sysline")
-            .field("fileoffset_begin()", &self.fileoffset_begin())
-            .field("fileoffset_end()", &self.fileoffset_end())
-            .field("lines @", &format_args!("{:p}", &self.lines))
-            .field("lines.len", &self.lines.len())
-            .field("dt_beg", &self.dt_beg)
-            .field("dt_end", &self.dt_end)
-            .field("dt", &self.dt)
-            .field("lines", &li_s)
-            .finish()
-    }
-}
-
-impl Default for Sysline {
-    fn default() -> Self {
-        Self {
-            lines: Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY),
-            dt_beg: LI_NULL,
-            dt_end: LI_NULL,
-            dt: None,
-        }
-    }
-}
-
-impl Sysline {
-    /// default `with_capacity` for a `Lines`, most often will only need 1 capacity
-    /// as the found "sysline" will likely be one `Line`
-    const SYSLINE_PARTS_WITH_CAPACITY: usize = 1;
-    // XXX: does not handle multi-byte encodings
-    const CHARSZ: usize = 1;
-
-    pub fn new() -> Sysline {
-        Sysline::default()
-    }
-
-    pub fn new_from_line(linep: LineP) -> Sysline {
-        let mut v = Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY);
-        v.push(linep);
-        Sysline {
-            lines: v,
-            dt_beg: LI_NULL,
-            dt_end: LI_NULL,
-            dt: None,
-        }
-    }
-
-    pub fn charsz(self: &Sysline) -> usize {
-        Sysline::CHARSZ
-    }
-
-    pub fn push(&mut self, linep: LineP) {
-        if !self.lines.is_empty() {
-            // TODO: sanity check lines are in sequence
-        }
-        debug_eprintln!(
-            "{}SyslineReader.push(@{:p}), self.lines.len() is now {}",
-            so(),
-            &*linep,
-            self.lines.len() + 1
-        );
-        self.lines.push(linep);
-    }
-
-    /// the byte offset into the file where this `Sysline` begins
-    /// "points" to first character of `Sysline` (and underlying `Line`)
-    pub fn fileoffset_begin(self: &Sysline) -> FileOffset {
-        assert_ne!(self.lines.len(), 0, "This Sysline has no Line");
-        (*self.lines[0]).fileoffset_begin()
-    }
-
-    /// the byte offset into the file where this `Sysline` ends, inclusive (not one past ending)
-    pub fn fileoffset_end(self: &Sysline) -> FileOffset {
-        assert_ne!(self.lines.len(), 0, "This Sysline has no Line");
-        let last_ = self.lines.len() - 1;
-        (*self.lines[last_]).fileoffset_end()
-    }
-
-    /// the fileoffset into the next sysline
-    /// this Sysline does not know if that fileoffset points to the end of file (one past last actual byte)
-    pub fn fileoffset_next(self: &Sysline) -> FileOffset {
-        self.fileoffset_end() + (self.charsz() as FileOffset)
-    }
-
-    /// length in bytes of this Sysline
-    pub fn len(self: &Sysline) -> usize {
-        (self.fileoffset_end() - self.fileoffset_begin() + 1) as usize
-    }
-
-    /// count of `Line` in `self.lines`
-    pub fn count(self: &Sysline) -> u64 {
-        self.lines.len() as u64
-    }
-
-    /// sum of `Line.count_bytes`
-    pub fn count_bytes(self: &Sysline) -> u64 {
-        let mut cb = 0;
-        for ln in self.lines.iter() {
-            cb += ln.count_bytes();
-        }
-        cb
-    }
-
-    /// a `String` copy of the demarcating datetime string found in the Sysline
-    #[allow(non_snake_case)]
-    pub fn datetime_String(self: &Sysline) -> String {
-        assert_ne!(self.dt_beg, LI_NULL, "dt_beg has not been set");
-        assert_ne!(self.dt_end, LI_NULL, "dt_end has not been set");
-        assert_lt!(self.dt_beg, self.dt_end, "bad values dt_end {} dt_beg {}", self.dt_end, self.dt_beg);
-        let slice_ = self.lines[0].as_bytes();
-        assert_lt!(
-            self.dt_beg,
-            slice_.len(),
-            "dt_beg {} past end of slice[{}‥{}]?",
-            self.dt_beg,
-            self.dt_beg,
-            self.dt_end
-        );
-        assert_le!(
-            self.dt_end,
-            slice_.len(),
-            "dt_end {} past end of slice[{}‥{}]?",
-            self.dt_end,
-            self.dt_beg,
-            self.dt_end
-        );
-        // TODO: here is a place to use `bstr`
-        let buf: &[u8] = &slice_[self.dt_beg..self.dt_end];
-        let s_ = match str::from_utf8(buf) {
-            Ok(val) => val,
-            Err(err) => {
-                eprintln!("Error in datetime_String() during str::from_utf8 {} buffer {:?}", err, buf);
-                ""
-            }
-        };
-        String::from(s_)
-    }
-
-    /// return all the slices that make up this `Sysline`
-    /// TODO: make an iterable trait of this struct
-    pub fn get_slices(self: &Sysline) -> Slices {
-        let mut sz: usize = 0;
-        for lp in &self.lines {
-            sz += lp.get_slices_count();
-        }
-        let mut slices = Slices::with_capacity(sz);
-        for lp in &self.lines {
-            slices.extend(lp.get_slices().iter());
-        }
-        slices
-    }
-
-    /// print approach #1, use underlying `Line` to `print`
-    /// `raw` true will write directly to stdout from the stored `Block`
-    /// `raw` false will write transcode each byte to a character and use pictoral representations
-    /// XXX: `raw==false` does not handle multi-byte encodings
-    /// TODO: move this into a `Printer` class
-    #[cfg(any(debug_assertions,test))]
-    pub fn print1(self: &Sysline, raw: bool) {
-        for lp in &self.lines {
-            (*lp).print(raw);
-        }
-    }
-
-    // TODO: [2022/03/23] implement an `iter_slices` that does not require creating a new `vec`, just
-    //       passes `&bytes` back. Call `iter_slices` from `print`
-
-    /// print approach #2, print by slices
-    /// prints raw data from underlying `Block`
-    /// testing helper
-    /// TODO: move this into a `Printer` class
-    #[cfg(any(debug_assertions,test))]
-    #[allow(dead_code)]
-    fn print2(&self) {
-        let slices = self.get_slices();
-        let stdout = io::stdout();
-        let mut stdout_lock = stdout.lock();
-        for slice in slices.iter() {
-            match stdout_lock.write(slice) {
-                Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: write: StdoutLock.write(slice@{:p} (len {})) error {}", slice, slice.len(), err);
-                }
-            }
-        }
-        match stdout_lock.flush() {
-            Ok(_) => {}
-            Err(err) => {
-                eprintln!("ERROR: write: stdout flushing error {}", err);
-            }
-        }
-    }
-
-    /// helper to `print_color`
-    /// caller must acquire stdout.Lock, and call `stdout.flush()`
-    /// TODO: move this into a `Printer` class
-    fn print_color_slices(stdclr: &mut termcolor::StandardStream, colors: &[Color], values:&[&[u8]]) -> Result<()> {
-        assert_eq!(colors.len(), values.len());
-        for (color, value) in colors.iter().zip(values.iter())
-        {
-            if let Err(err) = stdclr.set_color(ColorSpec::new().set_fg(Some(color.clone()))) {
-                eprintln!("ERROR: print_color_slices: stdout.set_color({:?}) returned error {}", color, err);
-                //continue;
-                return Err(err);
-            };
-            if let Err(err) = stdclr.write(value) {
-                eprintln!("ERROR: print_color_slices: stdout.write(…) returned error {}", err);
-                //continue;
-                return Err(err);
-            };
-        }
-        Ok(())
-    }
-
-    /// print with color
-    /// prints raw data from underlying `Block` bytes
-    /// XXX: does not handle multi-byte strings
-    /// TODO: needs a global mutex... I think...
-    /// TODO: move this into a `Printer` class or `Sysline_Printer` class
-    /// TODO: [2022/04] would be interesting to benchmark difference of printing using one
-    ///       instance of `termcolor::StandStream` versus many (like done here).
-    ///       would one instance improve performance?
-    pub fn print_color(
-        &self,
-        color_choice_opt: Option<termcolor::ColorChoice>,
-        color_text: Color,
-        color_datetime: Color
-    ) -> Result<()> {
-        let slices = self.get_slices();
-        let color_choice: termcolor::ColorChoice = match color_choice_opt {
-            Some(choice_) => choice_,
-            None => termcolor::ColorChoice::Auto,
-        };
-        //let mut stdout = io::stdout();
-        //let mut stdout_lock = stdout.lock();
-        let mut clrout = termcolor::StandardStream::stdout(color_choice);
-        let mut at: LineIndex = 0;
-        let dtb = self.dt_beg;
-        let dte = self.dt_end;
-        // 
-        for slice in slices.iter() {
-            let len_ = slice.len();
-            match color_choice {
-                // bypass `print_color_slices` for a small speed improvement
-                termcolor::ColorChoice::Never => {
-                    match clrout.write(slice) {
-                        Ok(_) => {},
-                        Err(err) => {
-                            return Err(err);
-                        }
-                    }
-                },
-                // use `print_color_slices` to print the datetime substring and test in differing colors
-                _ => {
-                    // datetime entirely in this `slice`
-                    if chmp!(at <= dtb < dte < (at + len_)) {
-                        let a = &slice[..(dtb-at)];
-                        let b = &slice[(dtb-at)..(dte-at)];
-                        let c = &slice[(dte-at)..];
-                        match Sysline::print_color_slices(&mut clrout, &[color_text, color_datetime, color_text], &[a, b, c]) {
-                            Ok(_) => {},
-                            Err(err) => {
-                                return Err(err);
-                            }
-                        };
-                    } else {
-                        // TODO: [2022/03] datetime crosses into next slice
-                        match Sysline::print_color_slices(&mut clrout, &[color_text], &[slice]) {
-                            Ok(_) => {},
-                            Err(err) => {
-                                return Err(err);
-                            }
-                        };
-                    }
-                    at += len_;
-                }
-            }   
-        }
-        let mut ret = Ok(());
-        if let Err(err) = clrout.flush() {
-            eprintln!("ERROR: print_color: stdout.flush() {}", err);
-            ret = Err(err);
-        }
-        if let Err(err) = clrout.reset() {
-            eprintln!("ERROR: print_color: stdout.reset() {}", err);
-            return Err(err);
-        }
-        ret
-    }
-
-    /// create `String` from `self.lines`
-    /// `raw` is `true` means use byte characters as-is
-    /// `raw` is `false` means replace formatting characters or non-printable characters
-    /// with pictoral representation (i.e. `byte_to_char_noraw`)
-    /// TODO: this would be more efficient returning `&str`
-    ///       https://bes.github.io/blog/rust-strings
-    #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
-    fn _to_String_raw(self: &Sysline, raw: bool) -> String {
-        let mut sz: usize = 0;
-        for lp in &self.lines {
-            sz += (*lp).len();
-        }
-        // XXX: intermixing byte lengths and character lengths
-        // XXX: does not handle multi-byte
-        let mut s_ = String::with_capacity(sz + 1);
-        for lp in &self.lines {
-            s_ += (*lp)._to_String_raw(raw).as_str();
-        }
-        s_
-    }
-
-    // XXX: rust does not support function overloading which is really surprising and disappointing
-    /// `Line` to `String`
-    #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
-    pub fn to_String(self: &Sysline) -> String {
-        self._to_String_raw(true)
-    }
-
-    /// `Sysline` to `String` but using printable chars for non-printable and/or formatting characters
-    #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
-    pub fn to_String_noraw(self: &Sysline) -> String {
-        self._to_String_raw(false)
-    }
-
-    #[allow(non_snake_case)]
-    #[cfg(not(any(debug_assertions,test)))]
-    /// XXX: here to prevent compiler error
-    ///
-    /// TODO: get rid of this and it's errant call in `--release`
-    pub fn to_String_noraw(self: &Sysline) -> String {
-        panic!("should not call function 'Sysline::to_String_noraw' in release build");
-        String::new()
-    }
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // DateTime typing, strings, and formatting
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -515,9 +139,9 @@ pub type Result_ParseDateTimeP = Arc<Result_ParseDateTime>;
 // SyslineReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// thread-safe Atomic Reference Counting Pointer to a `Sysline`
-pub type SyslineP = Arc<Sysline>;
-pub type SyslineP_Opt = Option<Arc<Sysline>>;
+/// Sysline Searching result
+#[allow(non_camel_case_types)]
+pub type ResultS4_SyslineFind = ResultS4<(FileOffset, SyslineP), Error>;
 /// storage for `Sysline`
 pub type Syslines = BTreeMap<FileOffset, SyslineP>;
 /// range map where key is sysline begin to end `[ Sysline.fileoffset_begin(), Sysline.fileoffset_end()]`
@@ -529,20 +153,26 @@ type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
 type LineParsedCache = LruCache<FileOffset, Result_ParseDateTimeP>;
 
 /// Specialized Reader that uses `LineReader` to find syslog lines
-pub struct SyslineReader<'syslinereader> {
-    pub(crate) linereader: LineReader<'syslinereader>,
+pub struct SyslineReader {
+    pub(crate) linereader: LineReader,
     /// Syslines by fileoffset_begin
     pub(crate) syslines: Syslines,
     /// count of Syslines processed
     syslines_count: u64,
-    // TODO: has `syslines_by_range` ever found a sysline?
+    // TODO:2022/06 has `syslines_by_range` ever found a sysline?
     //       would be good to add a test for it.
     /// Syslines fileoffset by sysline fileoffset range, i.e. `[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`
     /// the stored value can be used as a key for `self.syslines`
     syslines_by_range: SyslinesRangeMap,
-    /// datetime formatting data, for extracting datetime strings from Lines
-    /// TODO: change to Set
-    dt_patterns: DateTime_Parse_Datas_vec,
+    // internal stats for `self.find_sysline()` use of `self.syslines_by_range`
+    pub(crate) _syslines_by_range_hit: u64,
+    // internal stats for `self.find_sysline()` use of `self.syslines_by_range`
+    pub(crate) _syslines_by_range_miss: u64,
+    // internal stats for `self.find_sysline()` use of `self.syslines_by_range`
+    pub(crate) _syslines_by_range_insert: u64,
+    /// datetime formatting patterns, for finding datetime strings from Lines
+    /// TODO: change to a `Set`
+    pub(crate) dt_patterns: DateTime_Parse_Datas_vec,
     /// internal use; counts found patterns stored in `dt_patterns`
     /// not used after `analyzed == true`
     dt_patterns_counts: DateTime_Pattern_Counts,
@@ -550,24 +180,24 @@ pub struct SyslineReader<'syslinereader> {
     tz_offset: FixedOffset,
     // TODO: is the LRU cache really helping?
     _find_sysline_lru_cache_enabled: bool,
-    /// internal LRU cache for `find_sysline`. maintained in `SyslineReader::find_sysline`
+    /// internal LRU cache for `find_sysline()`. maintained in `SyslineReader::find_sysline`
     _find_sysline_lru_cache: SyslinesLRUCache,
-    // internal stats for `self.find_sysline`
-    pub(self) _find_sysline_lru_cache_hit: u64,
-    // internal stats for `self.find_sysline`
-    pub(self) _find_sysline_lru_cache_miss: u64,
-    // internal stats for `self.find_sysline`
-    pub(self) _find_sysline_lru_cache_put: u64,
+    // internal stats for `self.find_sysline()`
+    pub(crate) _find_sysline_lru_cache_hit: u64,
+    // internal stats for `self.find_sysline()`
+    pub(crate) _find_sysline_lru_cache_miss: u64,
+    // internal stats for `self.find_sysline()`
+    pub(crate) _find_sysline_lru_cache_put: u64,
     // enable/disable `_parse_datetime_in_line_lru_cache`
     _parse_datetime_in_line_lru_cache_enabled: bool,
-    // internal cache of calls to `SyslineReader::parse_datetime_in_line`. maintained in `SyslineReader::find_sysline`
+    // internal cache of calls to `SyslineReader::parse_datetime_in_line()`. maintained in `SyslineReader::find_sysline()`
     _parse_datetime_in_line_lru_cache: LineParsedCache,
     // internal stats for `self._parse_datetime_in_line_lru_cache`
-    pub(self) _parse_datetime_in_line_lru_cache_hit: u64,
+    pub(crate) _parse_datetime_in_line_lru_cache_hit: u64,
     // internal stats for `self._parse_datetime_in_line_lru_cache`
-    pub(self) _parse_datetime_in_line_lru_cache_miss: u64,
+    pub(crate) _parse_datetime_in_line_lru_cache_miss: u64,
     // internal stats for `self._parse_datetime_in_line_lru_cache`
-    pub(self) _parse_datetime_in_line_lru_cache_put: u64,
+    pub(crate) _parse_datetime_in_line_lru_cache_put: u64,
     /// has `self.file_analysis` completed?
     analyzed: bool,
 }
@@ -575,8 +205,8 @@ pub struct SyslineReader<'syslinereader> {
 // TODO: [2021/09/19]
 //       put all filter data into one struct `SyslineFilter`, simpler to pass around
 
-impl fmt::Debug for SyslineReader<'_> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl fmt::Debug for SyslineReader {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("SyslineReader")
             .field("linereader", &self.linereader)
             .field("syslines", &self.syslines)
@@ -605,17 +235,14 @@ where
 }
 
 /// implement SyslineReader things
-impl<'syslinereader> SyslineReader<'syslinereader> {
+impl SyslineReader {
     const DT_PATTERN_MAX_PRE_ANALYSIS: usize = 4;
     const DT_PATTERN_MAX: usize = 1;
     const DT_PATTERN_ANALYSIS_THRESHOLD: u64 = 5;
-    /// `SyslineReader::blockzero_analysis` must find this many `Sysline` for the
-    /// file to be considered a syslog file
-    pub (crate) const ZEROBLOCK_ANALYSIS_SYSLINE_COUNT: u64 = 2;
     const _FIND_SYSLINE_LRU_CACHE_SZ: usize = 4;
     const _PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ: usize = 8;
 
-    pub fn new(path: &'syslinereader FPath, blocksz: BlockSz, tz_offset: FixedOffset) -> Result<SyslineReader<'syslinereader>> {
+    pub fn new(path: FPath, blocksz: BlockSz, tz_offset: FixedOffset) -> Result<SyslineReader> {
         let lr = match LineReader::new(path, blocksz) {
             Ok(val) => val,
             Err(err) => {
@@ -629,6 +256,9 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 syslines: Syslines::new(),
                 syslines_count: 0,
                 syslines_by_range: SyslinesRangeMap::new(),
+                _syslines_by_range_hit: 0,
+                _syslines_by_range_miss: 0,
+                _syslines_by_range_insert: 0,
                 dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
                 dt_patterns_counts: DateTime_Pattern_Counts::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
                 tz_offset,
@@ -685,11 +315,12 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         self.linereader.file_blocks_count()
     }
 
+    /// last valid `BlockOffset` of the file
     pub fn blockoffset_last(&self) -> BlockOffset {
         self.linereader.blockoffset_last()
     }
 
-    /// smallest size character
+    /// smallest size character in bytes
     pub fn charsz(&self) -> usize {
         self.linereader.charsz()
     }
@@ -721,49 +352,12 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         self._parse_datetime_in_line_lru_cache.resize(0);
     }
 
-    /// read block zero (the first data block of the file), do necessary analysis
-    pub fn blockzero_analysis(&mut self) -> std::io::Result<bool> {
-        match self.linereader.blockzero_analysis() {
-            Ok(val) => {
-                if !val {
-                    debug_eprintln!("{}syslinereader.blockzero_analysis: return Ok(false)", snx());
-                    return Ok(false);
-                };
-            },
-            Err(err) => {
-                debug_eprintln!("{}syslinereader.blockzero_analysis: return Err({:?})", snx(), err);
-                return Err(err);
-            }
-        }
-
-        let mut fo: FileOffset = 0;
-        let mut at: u64 = 0;
-        let at_max: u64 = SyslineReader::ZEROBLOCK_ANALYSIS_SYSLINE_COUNT;
-        // TODO: `at_max` should be adjusted based on `blocksz` and `filesz`
-        //       small `blocksz` should mean small `at_max`, etc.
-        while at < at_max {
-            fo = match self.find_sysline_in_block(fo) {
-                ResultS4_SyslineFind::Found((fo_next, _slinep)) => {
-                    fo_next
-                },
-                ResultS4_SyslineFind::Found_EOF((fo_next, _slinep)) => {
-                    break;
-                }, ResultS4_SyslineFind::Done => {
-                    debug_eprintln!("{}syslinereader.blockzero_analysis: Ok({})", sx(), at != 0);
-                    return Ok(at != 0);
-                }, ResultS4_SyslineFind::Err(err) => {
-                    debug_eprintln!("{}syslinereader.blockzero_analysis: Err({:?})", sx(), err);
-                    return Result::Err(err);
-                },
-            };
-            if 0 != self.block_offset_at_file_offset(fo) {
-                break;
-            }
-            at += 1;
-        }
-
-        Ok(true)
-    }
+    // read block zero (the first data block of the file), do necessary analysis
+    //pub fn blockzero_analysis(&mut self) -> std::io::Result<bool> {
+    //    debug_eprintln!("{}syslinereader.blockzero_analysis", sn());
+    //    debug_eprintln!("{}syslinereader.blockzero_analysis: return Ok(true)", sx());
+    //    Ok(true)
+    //}
 
     /// print Sysline at `fileoffset`
     /// Testing helper only
@@ -781,8 +375,8 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         }
     }
 
-    /// Testing helper only
     /// print all known `Sysline`s
+    /// /// Testing helper only
     #[cfg(test)]
     pub fn print_all(&self, raw: bool) {
         debug_eprintln!("{}print_all(true)", sn());
@@ -821,6 +415,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
             fo_beg
         );
         self.syslines_by_range.insert(fo_beg..fo_end1, fo_beg);
+        self._syslines_by_range_insert += 1;
         slp
     }
 
@@ -844,7 +439,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
     ///      fix the concept problem of passing around fixed-length datetime strings. Then redo this.
     pub fn find_datetime_in_line(
         line: &Line,
-        parse_data: &'syslinereader DateTime_Parse_Datas_vec,
+        parse_data: &DateTime_Parse_Datas_vec,
         fpath: &FPath,
         charsz: &CharSz,
         tz_offset: &FixedOffset,
@@ -1220,6 +815,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 fileoffset,
                 range
             );
+                self._syslines_by_range_hit += 1;
                 let fo = range_fo.1;
                 let slp = self.syslines[fo].clone();
                 // XXX: multi-byte character encoding
@@ -1254,6 +850,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                 return Some(ResultS4_SyslineFind::Found((fo_next, slp)));
             }
             None => {
+                self._syslines_by_range_miss += 1;
                 debug_eprintln!("{}check_store: fileoffset {} not found in self.syslines_by_range", so(), fileoffset);
             }
         }
@@ -1303,7 +900,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
         None
     }
 
-    /// find sysline at fileoffset within that same block
+    /// find sysline at fileoffset within the same block (does not cross block boundaries)
     pub fn find_sysline_in_block(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline_in_block(SyslineReader@{:p}, {})", sn(), self, fileoffset);
         let bo: BlockOffset = self.block_offset_at_file_offset(fileoffset);
@@ -1668,6 +1265,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     fo1,
                     range
                 );
+                    self._syslines_by_range_hit += 1;
                     let fo = range_fo.1;
                     let slp = self.syslines[fo].clone();
                     // XXX: multi-byte character encoding
@@ -1706,6 +1304,7 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
                     return ResultS4_SyslineFind::Found((fo_next, slp));
                 }
                 None => {
+                    self._syslines_by_range_miss += 1;
                     debug_eprintln!("{}find_sysline: fileoffset {} not found in self.syslines_by_range", so(), fileoffset);
                 }
             }
@@ -2310,86 +1909,4 @@ impl<'syslinereader> SyslineReader<'syslinereader> {
 
         ResultS4_SyslineFind::Done
     }
-    
-    /// return an up-to-date `Summary` instance for this `SyslineReader`
-    pub fn summary(&self) -> Summary {
-        let BlockReader_bytes = self.linereader.blockreader.count_bytes();
-        let BlockReader_bytes_total = self.linereader.blockreader.filesz as u64;
-        let BlockReader_blocks = self.linereader.blockreader.count();
-        let BlockReader_blocks_total = self.linereader.blockreader.blockn;
-        let BlockReader_blocksz = self.blocksz();
-        let LineReader_lines = self.linereader.count();
-        let SyslineReader_syslines = self.count();
-        let SyslineReader_patterns = self.dt_patterns.clone();
-        let SyslineReader_find_sysline_lru_cache_hit = self._find_sysline_lru_cache_hit;
-        let SyslineReader_find_sysline_lru_cache_miss = self._find_sysline_lru_cache_miss;
-        let SyslineReader_find_sysline_lru_cache_put = self._find_sysline_lru_cache_put;
-        let SyslineReader_parse_datetime_in_line_lru_cache_hit = self._parse_datetime_in_line_lru_cache_hit;
-        let SyslineReader_parse_datetime_in_line_lru_cache_miss = self._parse_datetime_in_line_lru_cache_miss;
-        let SyslineReader_parse_datetime_in_line_lru_cache_put = self._parse_datetime_in_line_lru_cache_put;
-        let LineReader_find_line_lru_cache_hit = self.linereader._find_line_lru_cache_hit;
-        let LineReader_find_line_lru_cache_miss = self.linereader._find_line_lru_cache_miss;
-        let LineReader_find_line_lru_cache_put = self.linereader._find_line_lru_cache_put;
-        let BlockReader_read_block_cache_lru_hit = self.linereader.blockreader._read_block_cache_lru_hit;
-        let BlockReader_read_block_cache_lru_miss = self.linereader.blockreader._read_block_cache_lru_miss;
-        let BlockReader_read_block_cache_lru_put = self.linereader.blockreader._read_block_cache_lru_put;
-        let BlockReader_read_blocks_hit = self.linereader.blockreader._read_blocks_hit;
-        let BlockReader_read_blocks_miss = self.linereader.blockreader._read_blocks_miss;
-        let BlockReader_read_blocks_insert = self.linereader.blockreader._read_blocks_insert;
-
-        Summary::new(
-            BlockReader_bytes,
-            BlockReader_bytes_total,
-            BlockReader_blocks,
-            BlockReader_blocks_total,
-            BlockReader_blocksz,
-            LineReader_lines,
-            SyslineReader_syslines,
-            SyslineReader_patterns,
-            SyslineReader_find_sysline_lru_cache_hit,
-            SyslineReader_find_sysline_lru_cache_miss,
-            SyslineReader_find_sysline_lru_cache_put,
-            SyslineReader_parse_datetime_in_line_lru_cache_hit,
-            SyslineReader_parse_datetime_in_line_lru_cache_miss,
-            SyslineReader_parse_datetime_in_line_lru_cache_put,
-            LineReader_find_line_lru_cache_hit,
-            LineReader_find_line_lru_cache_miss,
-            LineReader_find_line_lru_cache_put,
-            BlockReader_read_block_cache_lru_hit,
-            BlockReader_read_block_cache_lru_miss,
-            BlockReader_read_block_cache_lru_put,
-            BlockReader_read_blocks_hit,
-            BlockReader_read_blocks_miss,
-            BlockReader_read_blocks_insert,
-        )
-    }
 }
-
-const_assert!(
-    LineReader::ZEROBLOCK_ANALYSIS_LINE_COUNT > SyslineReader::ZEROBLOCK_ANALYSIS_SYSLINE_COUNT
-);
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// SyslogWriter
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-// XXX: unfinished attempt at `Printer` or `Writer` "class"
-/*
-type SyslineReaders<'syslogwriter> = Vec<SyslineReader<'syslogwriter>>;
-
-/// Specialized Writer that coordinates writing multiple SyslineReaders
-pub struct SyslogWriter<'syslogwriter> {
-    syslinereaders: SyslineReaders<'syslogwriter>,
-}
-
-impl<'syslogwriter> SyslogWriter<'syslogwriter> {
-    pub fn new(syslinereaders: SyslineReaders<'syslogwriter>) -> SyslogWriter<'syslogwriter> {
-        assert_gt!(syslinereaders.len(), 0, "Passed zero SyslineReaders");
-        SyslogWriter { syslinereaders }
-    }
-
-    pub fn push(&mut self, syslinereader: SyslineReader<'syslogwriter>) {
-        self.syslinereaders.push(syslinereader);
-    }
-}
-*/
