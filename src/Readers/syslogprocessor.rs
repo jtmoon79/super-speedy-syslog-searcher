@@ -5,6 +5,7 @@ use crate::common::{
     FPath,
     FileOffset,
     FileProcessingResult,
+    FileType,
 };
 
 use crate::Readers::blockreader::{
@@ -94,9 +95,6 @@ enum ProcessingMode {
     stage4_summary,
 }
 
-/// file processing result, should continue processing?
-type SyslogProcessingStageResult = (FileProcessingResult, bool);
-
 /// A `Sysline` has information about a "syslog line" that spans one or more `Line`s.
 /// A "syslog line" or `Sysline` is one or more `Line`s, where the first line contains a
 /// datetime stamp. That datetime stamp is consistent format of other nearby syslog lines.
@@ -108,6 +106,7 @@ pub struct SyslogProcessor {
     tz_offset: FixedOffset,
     /// has `self.blockzero_analysis()` completed?
     blockzero_analysis_done: bool,
+    filetype: FileType,
 }
 
 impl std::fmt::Debug for SyslogProcessor {
@@ -151,6 +150,7 @@ impl SyslogProcessor {
                 blocksz,
                 tz_offset,
                 blockzero_analysis_done: false,
+                filetype: FileType::_FILE_UNSET,
             }
         )
     }
@@ -344,22 +344,15 @@ impl SyslogProcessor {
             at += 1;
         }
 
-        // LAST WORKING HERE 2022/06/01 02:00:00
-        // TODO: 2022/06/01 implement basics of different processing modes
-        //       (`0_blockzero`, `1_search_dt_before`, `2_stream_to_dt_after`)
-        //       for now, skip special case of having last file print everything (that requires a new channel to communicate from main thread to file-processing threads)
-        //       related, how to compare max memory usage? I had figured this out once before using ...
-        //       these different stages should have a single calling function
-        //          `process_stage_0_blockzero`, `process_stage_1_search_dt_before`, ...
-        //       each returns a `(result: common::SyslogProcessorResult, continue_processing: bool>`
-
         debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines: found {} syslines, return Ok(true)", sx(), at);
         Ok(true)
     }
 
-    /// should `LineReader` attempt to parse this file/MIME type?
+    // LAST WORKING HERE [2022/06/02 23:45:00] see TODO in `fileprocessor.rs`
+
+    /// map `MimeGuess` into a `FileType`
     /// (i.e. call `find_line`)
-    pub fn parseable_mimeguess_str(mimeguess_str: &str) -> bool {
+    pub fn parseable_mimeguess_str(mimeguess_str: &str) -> FileType {
         // see https://docs.rs/mime/latest/mime/
         // see https://docs.rs/mime/latest/src/mime/lib.rs.html#572-575
         debug_eprintln!("{}LineReader::parseable_mimeguess_str: mimeguess {:?}", snx(), mimeguess_str);
@@ -368,21 +361,23 @@ impl SyslogProcessor {
             | "text"
             | "text/plain"
             | "text/*"
-            | "utf-8" => {true},
-            _ => {false},
+            | "utf-8" => {FileType::FILE},
+            _ => {FileType::FILE_UNKNOWN},
         }
     }
 
     /// should `LineReader` attempt to parse this file/MIME type?
     /// (i.e. call `find_line`)
-    pub fn parseable_mimeguess(mimeguess: &MimeGuess) -> bool {
+    pub fn parseable_mimeguess(mimeguess: &MimeGuess) -> FileType {
         for mimeguess_ in mimeguess.iter() {
-            if SyslogProcessor::parseable_mimeguess_str(mimeguess_.as_ref()) {
-                return true;
+            match SyslogProcessor::parseable_mimeguess_str(mimeguess_.as_ref()) {
+                FileType::FILE_UNKNOWN
+                | FileType::_FILE_UNSET => {},
+                val => { return val; }
             }
         }
 
-        false
+        FileType::FILE_UNKNOWN
     }
 
     pub(crate) fn mimesniff_analysis(&mut self) -> Result<bool> {
@@ -403,7 +398,9 @@ impl SyslogProcessor {
 
         let sniff: String = String::from((*bptr).as_slice().sniff_mime_type().unwrap_or(""));
         debug_eprintln!("{}linereader.mimesniff_analysis: sniff_mime_type {:?}", so(), sniff);
-        let is_parseable: bool = SyslogProcessor::parseable_mimeguess_str(sniff.as_ref());
+        // TODO: this function should be moved to filepreprocssor.rs and modified
+        //let is_parseable: bool = SyslogProcessor::parseable_mimeguess_str(sniff.as_ref());
+        let is_parseable = false;
 
         debug_eprintln!("{}linereader.mimesniff_analysis: return Ok({:?})", sx(), is_parseable);
         Ok(is_parseable)
@@ -415,7 +412,8 @@ impl SyslogProcessor {
         let mut is_parseable: bool = false;
 
         if !mimeguess_.is_empty() {
-            is_parseable = SyslogProcessor::parseable_mimeguess(&mimeguess_);
+            // TODO: this function should be moved to filepreprocssor.rs and modified
+            //is_parseable = SyslogProcessor::parseable_mimeguess(&mimeguess_);
             debug_eprintln!("{}linereader.mimeguess_analysis: parseable_mimeguess {:?}", sx(), is_parseable);
             return is_parseable;
         }

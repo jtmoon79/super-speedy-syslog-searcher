@@ -308,6 +308,18 @@ pub enum FileProcessingResult {
     FILE_OK,
 }
 
+/// file types that can be processed by `SyslogProcessor` (and underlying modules)
+#[derive(Debug, Eq, PartialEq)]
+pub enum FileType {
+    FILE,
+    FILE_GZ,
+    FILE_TAR,
+    FILE_TAR_GZ,
+    FILE_XZ,
+    FILE_UNKNOWN,
+    _FILE_UNSET,
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Blocks and BlockReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

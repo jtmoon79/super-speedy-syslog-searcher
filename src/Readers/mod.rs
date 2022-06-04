@@ -10,6 +10,10 @@ pub mod datetime;
 #[cfg(test)]
 pub mod datetime_tests;
 
+pub mod filepreprocessor;
+#[cfg(test)]
+pub mod filepreprocessor_tests;
+
 pub mod helpers;
 
 pub mod linereader;

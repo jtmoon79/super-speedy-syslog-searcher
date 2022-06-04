@@ -159,8 +159,6 @@ pub struct SyslineReader {
     pub(crate) syslines: Syslines,
     /// count of Syslines processed
     syslines_count: u64,
-    // TODO:2022/06 has `syslines_by_range` ever found a sysline?
-    //       would be good to add a test for it.
     /// Syslines fileoffset by sysline fileoffset range, i.e. `[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`
     /// the stored value can be used as a key for `self.syslines`
     syslines_by_range: SyslinesRangeMap,

@@ -662,10 +662,10 @@ TODO: [2022/05/31] stats counters should be `type uStat = u64`;
 DONE: TODO: [2022/06/02] remove the lifetime specifier from
       SyslineReader, Linereader, BlockReader.
 
-TODO: [2022/06/02] move `Sysline` to file `data/sysline.rs`
+DONE: TODO: [2022/06/02] move `Sysline` to file `data/sysline.rs`
       move `Line` to file `data/line.rs`
 
-TODO: 2022/06/01 need to put mimetype into crate-defined enums
+TODO: 2022/06/01 put mimetype into crate-defined enums
       (`TEXT`, `GZ_TEXT`, `XZ_TEXT`, `TAR_TEXT`, `TAR_DIR_FILES`, `GZ_TAR`, ...)
       then implement handling of just `TEXT` and `GZ_TEXT`, others should return `Err("not yet supported")`.
       but before that, handle teh different processing modes mentioned elsewhere
@@ -1269,7 +1269,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
 
     syslogproc.process_stage0_valid_file_check();
 
-    // TODO: 2022/06/02 need to put all these specifics into SyslogProcessor stage functions
+    // TODO: 2022/06/02 put nitty-gritty specifics into SyslogProcessor stage functions
 
     syslogproc.process_stage1_blockzero_analysis();
 
