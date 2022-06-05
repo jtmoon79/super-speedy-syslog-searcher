@@ -4,6 +4,7 @@
 #
 # run valgrind with Dynamic Heap Analysis Tool
 # https://valgrind.org/docs/manual/dh-manual.html
+# relates to https://docs.rs/dhat/latest/dhat/
 #
 
 set -euo pipefail
@@ -43,9 +44,3 @@ set -x
     "${files[@]}" \
     >/dev/null
 )
-
-if which lynx &>/dev/null; then
-echo "
-lynx ...
-" >&2
-fi
