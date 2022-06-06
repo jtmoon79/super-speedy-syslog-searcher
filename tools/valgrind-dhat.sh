@@ -2,9 +2,11 @@
 #
 # valgrind-dhat.sh
 #
-# run valgrind with Dynamic Heap Analysis Tool
+# Run valgrind with *Dynamic Heap Analysis Tool*.
 # https://valgrind.org/docs/manual/dh-manual.html
-# relates to https://docs.rs/dhat/latest/dhat/
+# This script runs `valgrind --tool=dhat` without Rust crate `dhat`.
+# The differences between the modes is described at
+# https://docs.rs/dhat/latest/dhat/
 #
 
 set -euo pipefail
