@@ -27,13 +27,14 @@ use crate::Readers::blockreader::{
     BlockSz,
 };
 
-use crate::Readers::datetime::{
+use crate::Data::datetime::{
     FixedOffset,
     TimeZone,
 };
 
 pub use crate::Readers::syslogprocessor::{
     SyslogProcessor,
+    FileProcessingResult_BlockZero,
 };
 
 use std::io::{
@@ -151,95 +152,26 @@ fn test_SyslogProcessor_new1() {
 
 // -------------------------------------------------------------------------------------------------
 
-// TODO: test `SyslogProcessor::mimesniff_analysis`
-
-// -------------------------------------------------------------------------------------------------
-
-/// test `SyslogProcessor::mimeguess_analysis`
-#[allow(non_snake_case)]
-#[cfg(test)]
-fn _test_mimeguess_analysis(
-    path: &FPath,
-    expect_val: bool,
-) {
-    stack_offset_set(Some(2));
-    eprintln!("{}_test_mimeguess_analysis({:?}, expect {:?})", sn(), path, expect_val);
-    let mut lr1: SyslogProcessor = new_SyslogProcessor(path, 0xFF);
-    let val = lr1.mimeguess_analysis();
-    assert_eq!(
-        expect_val, val,
-        "blockzero_analysis expected {:?} result, got {:?} result for {:?}", expect_val, val, path,
-    );
-    eprintln!("{}_test_mimeguess_analysis()", sx());
-}
-
-#[test]
-fn test_mimeguess_analysis_txt() {
-    let ntf = create_temp_file_with_name_exact("", String::from("foo.txt"));
-    let path = NTF_Path(&ntf);
-    _test_mimeguess_analysis(&path, true);
-}
-
-#[test]
-fn test_mimeguess_analysis_log() {
-    let ntf = create_temp_file_with_name_exact("", String::from("foo.log"));
-    let path = NTF_Path(&ntf);
-    _test_mimeguess_analysis(&path, true);
-}
-
-#[test]
-fn test_mimeguess_analysis_syslog() {
-    let ntf = create_temp_file_with_name_exact("", String::from("syslog"));
-    let path = NTF_Path(&ntf);
-    _test_mimeguess_analysis(&path, false);
-}
-
-#[test]
-fn test_mimeguess_analysis_bin() {
-    let ntf = create_temp_file_with_name_exact("", String::from("foo.bin"));
-    let path = NTF_Path(&ntf);
-    _test_mimeguess_analysis(&path, false);
-}
-
-#[test]
-fn test_mimeguess_analysis_dll() {
-    let ntf = create_temp_file_with_name_exact("", String::from("foo.dll"));
-    let path = NTF_Path(&ntf);
-    _test_mimeguess_analysis(&path, false);
-}
-
-// -------------------------------------------------------------------------------------------------
-
 /// test `SyslogProcessor::blockzero_analysis_lines`
 #[allow(non_snake_case)]
 #[cfg(test)]
 fn _test_blockzero_analysis_lines(
     path: &FPath,
     blocksz: BlockSz,
-    expect_val: bool,
+    expect_result: FileProcessingResult_BlockZero,
     expect_line_count: u64,
 ) {
     stack_offset_set(Some(2));
     eprintln!(
         "{}_test_blockzero_analysis({:?}, blocksz {:?}, expect result {:?}, expect line count {:?})",
-        sn(), path, blocksz, expect_val, expect_line_count
+        sn(), path, blocksz, expect_result, expect_line_count
     );
     eprint_file(path);
     let mut sp1: SyslogProcessor = new_SyslogProcessor(path, blocksz);
     eprintln!("\n{}{:?}\n", so(), sp1);
 
     let result = sp1.blockzero_analysis_lines();
-    match result {
-        Ok(val) => {
-            assert_eq!(
-                expect_val, val,
-                "blockzero_analysis expected {:?} result, got {:?} result for {:?}", expect_val, val, path,
-            );
-        },
-        Err(err) => {
-            panic!("linereader.blockzero_analysis returned Error {:?}", err);
-        },
-    }
+    assert_eq!(result, expect_result, "blockzero_analysis_lines() result {:?}, expected {:?}", result, expect_result);
     let line_count_ = sp1.lines_count();
     assert_eq!(
         expect_line_count, line_count_,
@@ -250,53 +182,55 @@ fn _test_blockzero_analysis_lines(
 }
 
 #[test]
-fn test_blockzero_analysis_lines_empty0_no() {
-    _test_blockzero_analysis_lines(&NTF_empty0_path, 0xFF, false, 0);
+fn test_blockzero_analysis_lines_empty0_FILE_ERR_EMPTY() {
+    _test_blockzero_analysis_lines(&NTF_empty0_path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_EMPTY, 0);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl1_yes() {
-    _test_blockzero_analysis_lines(&NTF_nl_1_path, 0xFF, true, 1);
+fn test_blockzero_analysis_lines_nl1_FILE_OK() {
+    _test_blockzero_analysis_lines(&NTF_nl_1_path, 0xFF, FileProcessingResult_BlockZero::FILE_OK, 1);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl2_yes() {
-    _test_blockzero_analysis_lines(&NTF_nl_2_path, 0xFF, true, 2);
+fn test_blockzero_analysis_lines_nl2_FILE_OK() {
+    _test_blockzero_analysis_lines(&NTF_nl_2_path, 0xFF, FileProcessingResult_BlockZero::FILE_OK, 2);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl20_yes() {
+fn test_blockzero_analysis_lines_nl20_FILE_OK() {
     let data = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     let line_count: u64 = data.lines().count() as u64;
     let ntf = create_temp_file(data);
     let path = NTF_Path(&ntf);
     let line_count_ = std::cmp::min(line_count, SyslogProcessor::BLOCKZERO_ANALYSIS_LINE_COUNT);
-    _test_blockzero_analysis_lines(&path, 0xFF, true, line_count_);
+    _test_blockzero_analysis_lines(&path, 0xFF, FileProcessingResult_BlockZero::FILE_OK, line_count_);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl0_bsz4_no() {
+fn test_blockzero_analysis_lines_nl0_bsz4_FILE_ERR_NO_SYSLINES_FOUND() {
     let data = "                                                               ";
     let ntf = create_temp_file(data);
     let path = NTF_Path(&ntf);
-    _test_blockzero_analysis_lines(&path, 0x4, false, 0);
+    _test_blockzero_analysis_lines(&path, 0x4, FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND, 0);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl0_bszFF_yes() {
+fn test_blockzero_analysis_lines_nl0_bszFF_FILE_ERR_NO_SYSLINES_FOUND() {
     let data = "                                                               ";
     let ntf = create_temp_file(data);
     let path = NTF_Path(&ntf);
-    _test_blockzero_analysis_lines(&path, 0xFF, true, 1);
+    _test_blockzero_analysis_lines(&path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND, 1);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl3_bszFF_yes() {
+fn test_blockzero_analysis_lines_nl3_bszFF_FILE_ERR_NO_LINES_FOUND() {
     let data = "           \n  \n                                               ";
     let ntf = create_temp_file(data);
     let path = NTF_Path(&ntf);
-    _test_blockzero_analysis_lines(&path, 0xFF, true, 3);
+    _test_blockzero_analysis_lines(&path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND, 3);
 }
+
+// TODO: [2022/06] need exhaustive test case set for `_test_blockzero_analysis_lines`
 
 // -------------------------------------------------------------------------------------------------
 

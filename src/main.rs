@@ -670,6 +670,19 @@ TODO: 2022/06/01 put mimetype into crate-defined enums
       then implement handling of just `TEXT` and `GZ_TEXT`, others should return `Err("not yet supported")`.
       but before that, handle teh different processing modes mentioned elsewhere
 
+TODO: 2022/06/06 enums can contain instances. Consider making more enums
+      contain the thing of interest. The is a better representation of meaning.
+
+TODO: 2022/06/06 add CLI option to not cross filesystem boundaries during recurse
+      https://docs.rs/walkdir/latest/walkdir/struct.WalkDir.html#method.same_file_system
+
+TODO: 2022/06/07 add CLI option to print filename, filepath, align them
+      --prepend-name --prepend-path --prepend-align
+
+TODO: 2022/06/06 move SyslineReader datetime state chaanges into SyslogProcessor
+      The SyslogProcessor should set the allowed datetime patterns to use, and should understand
+      state changes. SyslineReader should not know about state changes.
+
 */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -782,12 +795,22 @@ use crate::common::{
     //Bytes,
     //NLu8,
     NLu8a,
-    FileProcessingResult,
 };
 
 mod Data;
 use crate::Data::line::{
     LineIndex,
+};
+
+use Data::datetime::{
+    DateTimeL_Opt,
+    DateTime_Parse_Data_str,
+    //Local,
+    //Utc,
+    //Result_Filter_DateTime1,
+    Result_Filter_DateTime2,
+    DateTime_Parse_Data_str_to_DateTime_Parse_Data,
+    str_datetime,
 };
 
 mod dbgpr;
@@ -821,15 +844,9 @@ use Readers::blockreader::{
     //BlockReader,
 };
 
-use Readers::datetime::{
-    DateTimeL_Opt,
-    DateTime_Parse_Data_str,
-    //Local,
-    //Utc,
-    //Result_Filter_DateTime1,
-    Result_Filter_DateTime2,
-    DateTime_Parse_Data_str_to_DateTime_Parse_Data,
-    str_datetime,
+use Readers::filepreprocessor::{
+    ProcessPathResult,
+    process_fpath,
 };
 
 use Readers::summary::{
@@ -846,6 +863,7 @@ use Readers::syslinereader::{
 
 use Readers::syslogprocessor::{
     SyslogProcessor,
+    FileProcessingResult_BlockZero,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -884,12 +902,20 @@ enum CLI_Color_Choice {
 }
 
 const CLI_DT_FILTER_PATTERN1: &DateTime_Parse_Data_str = &("%Y%m%dT%H%M%S", true, false, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN2: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S", true, false, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN3: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S", true, false, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN4: &DateTime_Parse_Data_str = &("%Y%m%dT%H%M%S%z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN5: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S %z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN2: &DateTime_Parse_Data_str = &("%Y%m%dT%H%M%S%z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN3: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S", true, false, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN4: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S %z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN5: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S", true, false, 0, 0, 0, 0);
 const CLI_DT_FILTER_PATTERN6: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S %z", true, true, 0, 0, 0, 0);
-const CLI_FILTER_PATTERNS_COUNT: usize = 6;
+const CLI_DT_FILTER_PATTERN7: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S", true, false, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN8: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S%z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN9: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S %z", true, true, 0, 0, 0, 0);
+// TODO: [2022/06/07] allow passing only a date, fills HMS with 000
+//const CLI_DT_FILTER_PATTERN10: &DateTime_Parse_Data_str = &("%Y/%m/%d", true, false, 0, 0, 0, 0);
+//const CLI_DT_FILTER_PATTERN11: &DateTime_Parse_Data_str = &("%Y-%m-%d", true, false, 0, 0, 0, 0);
+//const CLI_DT_FILTER_PATTERN12: &DateTime_Parse_Data_str = &("%Y%m%d", true, false, 0, 0, 0, 0);
+const CLI_FILTER_PATTERNS_COUNT: usize = 9;
+/// acceptable datetime filter patterns for the user-passed `-a` or `-b`
 const CLI_FILTER_PATTERNS: [&DateTime_Parse_Data_str; CLI_FILTER_PATTERNS_COUNT] = [
     CLI_DT_FILTER_PATTERN1,
     CLI_DT_FILTER_PATTERN2,
@@ -897,20 +923,34 @@ const CLI_FILTER_PATTERNS: [&DateTime_Parse_Data_str; CLI_FILTER_PATTERNS_COUNT]
     CLI_DT_FILTER_PATTERN4,
     CLI_DT_FILTER_PATTERN5,
     CLI_DT_FILTER_PATTERN6,
+    CLI_DT_FILTER_PATTERN7,
+    CLI_DT_FILTER_PATTERN8,
+    CLI_DT_FILTER_PATTERN9,
+    //CLI_DT_FILTER_PATTERN10,
+    //CLI_DT_FILTER_PATTERN11,
+    //CLI_DT_FILTER_PATTERN12,
 ];
+/// datetime format printed for CLI options `-u` or `-l`
+const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z";
+
 const CLI_HELP_AFTER: &str = "\
 DateTime Filter patterns may be:
     '%Y%m%dT%H%M%S'
-    '%Y-%m-%d %H:%M:%S'
-    '%Y-%m-%dT%H:%M:%S'
     '%Y%m%dT%H%M%S%z'
+    '%Y-%m-%d %H:%M:%S'
     '%Y-%m-%d %H:%M:%S %z'
+    '%Y-%m-%dT%H:%M:%S'
     '%Y-%m-%dT%H:%M:%S %z'
+    '%Y/%m/%d %H:%M:%S'
+    '%Y/%m/%d %H:%M:%S%z'
+    '%Y/%m/%d %H:%M:%S %z'
 
 Without a timezone offset (%z), the datetime is presumed to be the system timezone.
 
 DateTime Filter formatting is described at
 https://docs.rs/chrono/latest/chrono/format/strftime/
+
+Prepended datetime, -u or -l, is printed in format '%Y%m%dT%H%M%S%.6f %z'.
 
 DateTimes supported are only of the Gregorian calendar.
 DateTimes languages is English.";
@@ -931,7 +971,9 @@ DateTimes languages is English.";
 )]
 /// this is the `CLI_Args` docstring, is it captured by clap?
 struct CLI_Args {
-    /// Path(s) of syslog files.
+    /// Path(s) of syslog files or directories.
+    /// Directories will be recursed, remaining on the same filesystem.
+    /// Symlinks will be followed.
     #[clap(required = true)]
     paths: Vec::<String>,
     //#[clap(parse(from_os_str))]
@@ -1139,7 +1181,7 @@ fn cli_process_args() -> (
     debug_eprintln!("{} tz_offset {:?}", so(), tz_offset);
 
     fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeL_Opt {
-        // parse datetime filters after
+        // parse datetime filters
         match dts {
             Some(dts) => {
                 let mut dto: DateTimeL_Opt = None;
@@ -1214,10 +1256,24 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
         cli_opt_summary,
     ) = cli_process_args();
 
-    // TODO: for each fpath, remove non-existent files non-readable files, walk directories and expand to fpaths
+    let mut fpaths_ok: Vec<FPath> = Vec::<FPath>::with_capacity(fpaths.len() * 2);
+    for fpath in fpaths.iter() {
+        let pfpaths: Vec<ProcessPathResult> = process_fpath(fpath);
+        // TODO: [2022/06/06] carry forward invalid paths for printing with the `--summary`
+        // XXX: can this be done in a one-liner?
+        for fpath_ in pfpaths.iter()
+            .filter(|x| matches!(x,  ProcessPathResult::FILE_VALID(_)))
+        {
+            let fp_: &FPath = match fpath_ {
+                ProcessPathResult::FILE_VALID(val) => val,
+                _ => { continue; },
+            };
+            fpaths_ok.push(fp_.clone());
+        }
+    }
 
     processing_loop(
-        fpaths,
+        fpaths_ok,
         blocksz,
         &filter_dt_after,
         &filter_dt_before,
@@ -1228,13 +1284,13 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
         cli_opt_summary
     );
 
-    debug_eprintln!("{}main()", sx());
+    debug_eprintln!("{}main() return Ok(())", sx());
 
     Ok(())
 }
 
 // -------------------------------------------------------------------------------------------------
-// threading try #4
+// processing threads
 // -------------------------------------------------------------------------------------------------
 
 // TODO: leave a long code comment explaining  why I chose this threading pub-sub approach
@@ -1273,17 +1329,32 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
 
     syslogproc.process_stage1_blockzero_analysis();
 
-    match syslogproc.blockzero_analysis() {
-        Ok(parseable) => {
-            if !parseable {
-                eprintln!("WARNING: not parseable {:?}", path);
-                return tid;
-            }
-        },
-        Err(err) => {
-            eprintln!("ERROR: SyslogProcessor::blockzero_analysis() for {:?} returned Error {}", path, err);
+    let result = syslogproc.blockzero_analysis();
+    match result {
+        FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND => {
+            eprintln!("WARNING: no lines found {:?}", path);
             return tid;
-        }
+        },
+        FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND => {
+            eprintln!("WARNING: no syslines found {:?}", path);
+            return tid;
+        },
+        FileProcessingResult_BlockZero::FILE_ERR_DECOMPRESS => {
+            eprintln!("WARNING: could not decompress {:?}", path);
+            return tid;
+        },
+        FileProcessingResult_BlockZero::FILE_ERR_WRONG_TYPE => {
+            eprintln!("WARNING: bad path {:?}", path);
+            return tid;
+        },
+        FileProcessingResult_BlockZero::FILE_ERR_IO(err) => {
+            eprintln!("ERROR: Error {} for {:?}", err, path);
+            return tid;
+        },
+        FileProcessingResult_BlockZero::FILE_OK => {},
+        FileProcessingResult_BlockZero::FILE_ERR_EMPTY => {},
+        FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_IN_DT_RANGE => {},
+        _ => {},
     }
 
     // find first sysline acceptable to the passed filters
@@ -1349,11 +1420,12 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
         let eof = result.is_eof();
         match result {
             ResultS4_SyslineFind::Found((fo, slp_)) | ResultS4_SyslineFind::Found_EOF((fo, slp_)) => {
+                let fo_: FileOffset = fo2;
                 fo2 = fo;
                 match SyslineReader::sysline_pass_filters(&slp_, &filter_dt_after_opt, &filter_dt_before_opt) {
                     Result_Filter_DateTime2::InRange => {
                         let is_last = syslogproc.is_sysline_last(&slp_);
-                        assert_eq!(eof, is_last, "from find_sysline, ResultS4_SyslineFind.is_eof is {:?} (EOF), yet the returned SyslineP.is_sysline_last is {:?}; they should always agree", eof, is_last);
+                        assert_eq!(eof, is_last, "from find_sysline({}), ResultS4_SyslineFind.is_eof is {:?} (EOF), yet the returned SyslineP.is_sysline_last is {:?}; they should always agree file {:?} line {:?}", fo_, eof, is_last, path, slp_.to_String());
                         debug_eprintln!("{}{:?}({}): InRange, chan_send_dt.send(({:p}, None, {}));", so(), tid, tname, slp_, is_last);
                         match chan_send_dt.send((Some(slp_), None, is_last)) {
                             Ok(_) => {}
@@ -1602,7 +1674,11 @@ fn basename(path: &FPath) -> FPath {
     FPath::from(riter.next().unwrap_or(""))
 }
 
-const OPT_SUMMARY_DEBUG_STATS: bool = true;
+/// print the various caching statistics
+const OPT_SUMMARY_PRINT_CACHE_STATS: bool = true;
+
+/// for printing `--summary` lines, indentation
+const SPACING_LEAD: &str = "  ";
 
 /// the main processing loop:
 /// 1. creates threads to process each file
@@ -1759,9 +1835,8 @@ fn processing_loop(
     let mut _count_recv_di: usize = 0;
     let mut sp_total: SummaryPrinted = SummaryPrinted::default();
 
-    let clr_default = Color::White;
+    let color_default = Color::White;
 
-    let cli_opt_prepend_fmt = &"%Y%m%dT%H%M%S%.6f %z";
     let tz_utc = Utc::from_offset(&Utc);
     let tz_local = Local.timestamp(0, 0).timezone();
 
@@ -1817,7 +1892,7 @@ fn processing_loop(
                 } else {
                     let is_last: bool = chan_datum.2;
                     let slp_min: &SyslineP = chan_datum.0.as_ref().unwrap();
-                    let clr: &Color = map_path_color.get(fpath_min).unwrap_or(&clr_default);
+                    let clr: &Color = map_path_color.get(fpath_min).unwrap_or(&color_default);
                     // print the sysline!
                     debug_eprintln!("{}processing_loop: A3 printing SyslineP@{:p} @[{}, {}] {:?}", so(), slp_min, slp_min.fileoffset_begin(), slp_min.fileoffset_end(), fpath_min);
                     if cfg!(debug_assertions) {
@@ -1836,10 +1911,10 @@ fn processing_loop(
                                     let fmt_;
                                     if cli_opt_prepend_utc {
                                         let dt_ = dt.with_timezone(&tz_utc);
-                                        fmt_ = dt_.format(cli_opt_prepend_fmt);
+                                        fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
                                     } else { // cli_opt_prepend_local
                                         let dt_ = dt.with_timezone(&tz_local);
-                                        fmt_ = dt_.format(cli_opt_prepend_fmt);
+                                        fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
                                     }
                                     write_stdout(fmt_.to_string().as_bytes());
                                     write_stdout(" ".as_bytes());
@@ -1910,149 +1985,183 @@ fn processing_loop(
         debug_eprintln!("{}processing_loop: D map_path_datum: {:?}", so(), map_path_datum);
     } // end loop
 
-    if cli_opt_summary {
-        // quickie helper to print the `summary.patterns` Vec (requires it's own line)
-        pub fn patterns_dbg(summary: &Summary) -> String {
-            // `cap` is a rough capacity estimation
-            let cap: usize = summary.SyslineReader_patterns.len() * 150;
-            let mut out: String = String::with_capacity(cap);
-            for patt in summary.SyslineReader_patterns.iter() {
-                // XXX: magic knowledge of blank prepend
-                let a = format!("                   {:?}", patt);
-                out.push_str(a.as_ref());
-            }
+    // getting here means processing has completed. Now to print the `--summary` (if it was requested).
 
-            out
+    let slead = "   ";
+
+    // quickie helper to print the `summary.patterns` Vec (requires it's own line)
+    pub fn patterns_dbg(summary: &Summary) -> String {
+        // `cap` is a rough capacity estimation
+        let cap: usize = summary.SyslineReader_patterns.len() * 150;
+        let mut out: String = String::with_capacity(cap);
+        for patt in summary.SyslineReader_patterns.iter() {
+            // XXX: magic knowledge of blank prepend
+            let a = format!("                   {:?}", patt);
+            out.push_str(a.as_ref());
         }
 
-        let slead = "   ";
+        out
+    }
 
+    // print the filepath name (one line)
+    pub fn print_filepath(fpath: &FPath, color: &Color, color_choice: &termcolor::ColorChoice) {
+        eprint!("File: ");
+        match print_colored_stderr(*color, Some(*color_choice), fpath.as_bytes()) {
+            Ok(()) => {},
+            Err(err) => {
+                eprintln!("ERROR: {:?}", err);
+            }
+        };
+        eprintln!();
+    }
+
+    // print the &Summary_Opt (one line)
+    pub fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
+        match summary_opt {
+            Some(summary) => {
+                eprintln!("{}Summary Processed:{:?}", SPACING_LEAD, summary);
+                let out = patterns_dbg(&summary);
+                eprintln!("{}{}", SPACING_LEAD, out);
+            },
+            None => {
+                // TODO: [2022/06/07] print filesz
+                eprintln!("{}Summary Processed: None", SPACING_LEAD);
+            }
+        }
+    }
+
+    // print the &SummaryPrinted_Opt (one line)
+    pub fn print_summary_opt_printed(
+        summary_print_opt: &SummaryPrinted_Opt,
+        summary_opt: &Summary_Opt,
+        color_choice: &termcolor::ColorChoice,
+    ) {
+        match summary_print_opt {
+            Some(summary_print) => {
+                eprint!("{}Summary Printed  : ", SPACING_LEAD);
+                summary_print.print_colored_stderr(Some(*color_choice), &summary_opt);
+            },
+            None => {
+                eprint!("{}Summary Printed  : ", SPACING_LEAD);
+                SummaryPrinted::default().print_colored_stderr(Some(*color_choice), &summary_opt);
+            }
+        }
+        eprintln!();
+    }
+
+    // print the various caching statistics (several lines)
+    pub fn print_cache_stats(summary_opt: Summary_Opt) {
+        if summary_opt.is_none() {
+            return;
+        }
+
+        fn ratio64(a: &u64, b: &u64) -> f64 {
+            if b == &0 {
+                return 0.0;
+            }
+            (*a as f64) / (*b as f64)
+        }
+
+        fn ratio32(a: &u32, b: &u32) -> f64 {
+            ratio64(&(*a as u64), &(*b as u64))
+        }
+
+        // SyslineReader
+        let summary: &Summary = &summary_opt.unwrap_or_default();
+        // SyslineReader::_parse_datetime_in_line_lru_cache
+        let mut ratio = ratio64(
+            &summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
+            &summary.SyslineReader_parse_datetime_in_line_lru_cache_miss
+        );
+        eprintln!(
+            "{}caching: SyslineReader::parse_datetime_in_line_lru_cache: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
+            SPACING_LEAD,
+            summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
+            summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
+            ratio,
+            summary.SyslineReader_parse_datetime_in_line_lru_cache_put,
+        );
+        // SyslineReader::_syslines_by_range
+        ratio = ratio64(
+            &summary.SyslineReader_syslines_by_range_hit,
+            &summary.SyslineReader_syslines_by_range_miss
+        );
+        eprintln!(
+            "{}caching: SyslineReader::_syslines_by_range              : hit {:2}, miss {:2}, ratio: {:1.2}, insert {:2}",
+            SPACING_LEAD,
+            summary.SyslineReader_syslines_by_range_hit,
+            summary.SyslineReader_syslines_by_range_miss,
+            ratio,
+            summary.SyslineReader_syslines_by_range_insert,
+        );
+        // SyslineReader::_find_sysline_lru_cache
+        ratio = ratio64(
+            &summary.SyslineReader_find_sysline_lru_cache_hit,
+            &summary.SyslineReader_find_sysline_lru_cache_miss
+        );
+        eprintln!(
+            "{}caching: SyslineReader::find_sysline_lru_cache          : hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
+            SPACING_LEAD,
+            summary.SyslineReader_find_sysline_lru_cache_hit,
+            summary.SyslineReader_find_sysline_lru_cache_miss,
+            ratio,
+            summary.SyslineReader_find_sysline_lru_cache_put,
+        );
+        // LineReader::_find_line_lru_cache
+        ratio = ratio64(
+            &summary.LineReader_find_line_lru_cache_hit,
+            &summary.LineReader_find_line_lru_cache_miss
+        );
+        eprintln!(
+            "{}caching: LineReader::find_line_cache: hit {:2}, miss: {:2}, ratio: {:1.2}, put {:2}",
+            SPACING_LEAD,
+            summary.LineReader_find_line_lru_cache_hit,
+            summary.LineReader_find_line_lru_cache_miss,
+            ratio,
+            summary.LineReader_find_line_lru_cache_put,
+        );
+        // BlockReader::_read_blocks
+        ratio = ratio32(
+            &summary.BlockReader_read_blocks_hit,
+            &summary.BlockReader_read_blocks_miss
+        );
+        eprintln!(
+            "{}caching: BlockReader::read_block_blocks   : hit {:2}, miss {:2}, ratio: {:1.2}, insert {:2}",
+            SPACING_LEAD,
+            summary.BlockReader_read_blocks_hit,
+            summary.BlockReader_read_blocks_miss,
+            ratio,
+            summary.BlockReader_read_blocks_insert,
+        );
+        // BlockReader::_read_blocks_cache
+        ratio = ratio32(
+            &summary.BlockReader_read_block_cache_lru_hit,
+            &summary.BlockReader_read_block_cache_lru_miss
+        );
+        eprintln!(
+            "{}caching: BlockReader::read_block_cache_lru: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
+            SPACING_LEAD,
+            summary.BlockReader_read_block_cache_lru_hit,
+            summary.BlockReader_read_block_cache_lru_miss,
+            ratio,
+            summary.BlockReader_read_block_cache_lru_put,
+        );
+    }
+
+    if cli_opt_summary {
         eprintln!("\nSummary:");
         for fpath in paths.iter() {
-            eprint!("File: ");
-            let clr = map_path_color.get(fpath).unwrap_or(&clr_default);
-            match print_colored_stderr(*clr, Some(color_choice), fpath.as_bytes()) {
-                Ok(()) => {},
-                Err(err) => {
-                    eprintln!("ERROR: {:?}", err);
-                    continue;
-                }
-            };
-            eprintln!();
+            let color_ = map_path_color.get(fpath).unwrap_or(&color_default);
+            print_filepath(fpath, &color_, &color_choice);
 
             let summary_opt: Summary_Opt = map_path_summary.remove(fpath);
-            match &summary_opt {
-                Some(summary) => {
-                    eprintln!("{}Summary Processed:{:?}", slead, summary);
-                    let out = patterns_dbg(&summary);
-                    eprintln!("{}{}", slead, out);
-                },
-                None => {
-                    eprintln!("{}Summary Processed: None", slead);
-                }
-            }
+            print_summary_opt_processed(&summary_opt);
+
             let summary_print_opt: SummaryPrinted_Opt = map_path_sumpr.remove(fpath);
-            match summary_print_opt {
-                Some(summary_print) => {
-                    eprint!("{}Summary Printed  : ", slead);
-                    summary_print.print_colored_stderr(Some(color_choice), &summary_opt);
-                },
-                None => {
-                    eprint!("{}Summary Printed  : ", slead);
-                    SummaryPrinted::default().print_colored_stderr(Some(color_choice), &summary_opt);
-                }
-            }
-            eprintln!();
-            if OPT_SUMMARY_DEBUG_STATS && summary_opt.is_some() {
-                fn ratio64(a: &u64, b: &u64) -> f64 {
-                    if b == &0 {
-                        return 0.0;
-                    }
-                    (*a as f64) / (*b as f64)
-                }
-                fn ratio32(a: &u32, b: &u32) -> f64 {
-                    ratio64(&(*a as u64), &(*b as u64))
-                }
-                // SyslineReader
-                let summary: &Summary = &summary_opt.unwrap_or_default();
-                // SyslineReader::_parse_datetime_in_line_lru_cache
-                let mut ratio = ratio64(
-                    &summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
-                    &summary.SyslineReader_parse_datetime_in_line_lru_cache_miss
-                );
-                eprintln!(
-                    "{}caching: SyslineReader::parse_datetime_in_line_lru_cache: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
-                    slead,
-                    summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
-                    summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
-                    ratio,
-                    summary.SyslineReader_parse_datetime_in_line_lru_cache_put,
-                );
-                // SyslineReader::_syslines_by_range
-                ratio = ratio64(
-                    &summary.SyslineReader_syslines_by_range_hit,
-                    &summary.SyslineReader_syslines_by_range_miss
-                );
-                eprintln!(
-                    "{}caching: SyslineReader::_syslines_by_range              : hit {:2}, miss {:2}, ratio: {:1.2}, insert {:2}",
-                    slead,
-                    summary.SyslineReader_syslines_by_range_hit,
-                    summary.SyslineReader_syslines_by_range_miss,
-                    ratio,
-                    summary.SyslineReader_syslines_by_range_insert,
-                );
-                // SyslineReader::_find_sysline_lru_cache
-                ratio = ratio64(
-                    &summary.SyslineReader_find_sysline_lru_cache_hit,
-                    &summary.SyslineReader_find_sysline_lru_cache_miss
-                );
-                eprintln!(
-                    "{}caching: SyslineReader::find_sysline_lru_cache          : hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
-                    slead,
-                    summary.SyslineReader_find_sysline_lru_cache_hit,
-                    summary.SyslineReader_find_sysline_lru_cache_miss,
-                    ratio,
-                    summary.SyslineReader_find_sysline_lru_cache_put,
-                );
-                // LineReader::_find_line_lru_cache
-                ratio = ratio64(
-                    &summary.LineReader_find_line_lru_cache_hit,
-                    &summary.LineReader_find_line_lru_cache_miss
-                );
-                eprintln!(
-                    "{}caching: LineReader::find_line_cache: hit {:2}, miss: {:2}, ratio: {:1.2}, put {:2}",
-                    slead,
-                    summary.LineReader_find_line_lru_cache_hit,
-                    summary.LineReader_find_line_lru_cache_miss,
-                    ratio,
-                    summary.LineReader_find_line_lru_cache_put,
-                );
-                // BlockReader::_read_blocks
-                ratio = ratio32(
-                    &summary.BlockReader_read_blocks_hit,
-                    &summary.BlockReader_read_blocks_miss
-                );
-                eprintln!(
-                    "{}caching: BlockReader::read_block_blocks   : hit {:2}, miss {:2}, ratio: {:1.2}, insert {:2}",
-                    slead,
-                    summary.BlockReader_read_blocks_hit,
-                    summary.BlockReader_read_blocks_miss,
-                    ratio,
-                    summary.BlockReader_read_blocks_insert,
-                );
-                // BlockReader::_read_blocks_cache
-                ratio = ratio32(
-                    &summary.BlockReader_read_block_cache_lru_hit,
-                    &summary.BlockReader_read_block_cache_lru_miss
-                );
-                eprintln!(
-                    "{}caching: BlockReader::read_block_cache_lru: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
-                    slead,
-                    summary.BlockReader_read_block_cache_lru_hit,
-                    summary.BlockReader_read_block_cache_lru_miss,
-                    ratio,
-                    summary.BlockReader_read_block_cache_lru_put,
-                );
+            print_summary_opt_printed(&summary_print_opt, &summary_opt, &color_choice);
+
+            if OPT_SUMMARY_PRINT_CACHE_STATS {
+                print_cache_stats(summary_opt);
             }
         }
         eprintln!("{:?}", sp_total);

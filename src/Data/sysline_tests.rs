@@ -31,7 +31,7 @@ use crate::Readers::blockreader::{
     BlockSz,
 };
 
-use crate::Readers::datetime::{
+use crate::Data::datetime::{
     FixedOffset,
     TimeZone,
 };

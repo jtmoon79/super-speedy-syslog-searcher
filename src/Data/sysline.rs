@@ -20,7 +20,7 @@ use crate::Readers::blockreader::{
     Slices,
 };
 
-use crate::Readers::datetime::{
+use crate::Data::datetime::{
     FixedOffset,
     DateTimeL,
     DateTimeL_Opt,
@@ -448,7 +448,7 @@ impl Sysline {
     /// TODO: this would be more efficient returning `&str`
     ///       https://bes.github.io/blog/rust-strings
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
+    //#[cfg(any(debug_assertions,test))]
     fn _to_String_raw(self: &Sysline, raw: bool) -> String {
         let mut sz: usize = 0;
         for lp in &self.lines {
@@ -466,27 +466,29 @@ impl Sysline {
     // XXX: rust does not support function overloading which is really surprising and disappointing
     /// `Line` to `String`
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
+    //#[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Sysline) -> String {
         self._to_String_raw(true)
     }
 
     /// `Sysline` to `String` but using printable chars for non-printable and/or formatting characters
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
+    //#[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &Sysline) -> String {
         self._to_String_raw(false)
     }
 
+    /*
     #[allow(non_snake_case)]
     #[cfg(not(any(debug_assertions,test)))]
     /// XXX: here to prevent compiler error
     ///
-    /// TODO: get rid of this and it's errant call in `--release`
+    /// TODO: implement this for `--release` build, then put other functions back to debug only
     pub fn to_String_noraw(self: &Sysline) -> String {
         panic!("should not call function 'Sysline::to_String_noraw' in release build");
         String::new()
     }
+    */
 }
 
 /// thread-safe Atomic Reference Counting Pointer to a `Sysline`

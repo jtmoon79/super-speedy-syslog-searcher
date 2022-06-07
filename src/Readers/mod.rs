@@ -6,10 +6,6 @@ pub mod blockreader;
 #[cfg(test)]
 pub mod blockreader_tests;
 
-pub mod datetime;
-#[cfg(test)]
-pub mod datetime_tests;
-
 pub mod filepreprocessor;
 #[cfg(test)]
 pub mod filepreprocessor_tests;

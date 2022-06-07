@@ -1,7 +1,7 @@
 // Readers/datetime_tests.rs
 //
 
-use crate::Readers::datetime::{
+use crate::Data::datetime::{
     FixedOffset,
     dt_pattern_has_year,
     dt_pattern_has_tz,

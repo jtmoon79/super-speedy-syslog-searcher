@@ -2,9 +2,11 @@
 //
 // miscellaneous helper functions
 
-pub use crate::common::{
+use crate::common::{
     FileOffset,
 };
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// testing helper
 #[cfg(test)]

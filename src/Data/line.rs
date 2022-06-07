@@ -31,6 +31,12 @@ use crate::dbgpr::printers::{
     char_to_char_noraw,
 };
 
+#[cfg(not(any(debug_assertions,test)))]
+use crate::dbgpr::printers::{
+    byte_to_char_noraw,
+    char_to_char_noraw,
+};
+
 use crate::dbgpr::stack::{
     sn,
     snx,
@@ -619,11 +625,11 @@ impl Line {
     /// `raw` is `true` means use byte characters as-is
     /// `raw` is `false` means replace formatting characters or non-printable characters
     /// with pictoral representation (i.e. `byte_to_char_noraw`)
-    /// XXX: not efficient!
+    /// XXX: not efficient! Should not be called in --release build.
     /// TODO: this would be more efficient returning `&str`
     ///       https://bes.github.io/blog/rust-strings
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
+    //#[cfg(any(debug_assertions,test))]
     pub(crate) fn _to_String_raw(self: &Line, raw: bool) -> String {
         let mut sz: usize = 0;
         for linepart in &self.lineparts {

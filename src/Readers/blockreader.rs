@@ -201,6 +201,7 @@ impl BlockReader {
         assert_ne!(0, blocksz, "Block Size cannot be 0");
         assert_ge!(blocksz, BLOCKSZ_MIN, "Block Size {} is too small", blocksz);
         assert_le!(blocksz, BLOCKSZ_MAX, "Block Size {} is too big", blocksz);
+        // TODO: remove this
         let path_ = std::path::Path::new(&path);
         let mimeguess: MimeGuess = MimeGuess::from_path(path_);
         BlockReader {

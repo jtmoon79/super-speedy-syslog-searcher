@@ -131,7 +131,7 @@ impl Result_Filter_DateTime2 {
 // built-in Datetime formats
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const DATETIME_PARSE_DATAS_LEN: usize = 105;
+const DATETIME_PARSE_DATAS_LEN: usize = 113;
 
 /// built-in datetime parsing patterns, these are all known patterns attempted on processed files
 /// first string is a chrono strftime pattern
@@ -142,6 +142,9 @@ const DATETIME_PARSE_DATAS_LEN: usize = 105;
 /// i.e. string `"[2000-01-01 00:00:00]"`, the pattern may begin at `"["`, the datetime begins at `"2"`
 ///      same rule for the endings.
 /// TODO: use std::ops::RangeInclusive
+//
+// TODO: [2022/06] this needs regular expressions to handle groupings, e.g. "(info|err|warn) %Y..."
+//
 pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_DATAS_LEN] = [
     // ---------------------------------------------------------------------------------------------
     //
@@ -257,6 +260,18 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //
     // ---------------------------------------------------------------------------------------------
     //
+    // from file `./logs/synology/usbcopyd.log`
+    //
+    // example with offset:
+    //
+    //               1         2
+    //     012345678901234567890123456789
+    //     2017-05-24T19:14:38-07:00 hostname1 usb-copy-starter
+    //
+    ("%Y-%m-%dT%H:%M:%S%z ", true, true, 0, 26, 0, 25),
+    //
+    // ---------------------------------------------------------------------------------------------
+    //
     // from file `./logs/Ubuntu18/kernel.log`
     // example with offset:
     //
@@ -266,23 +281,6 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //
     // TODO: [2021/10/03] no support of inferring the year
     //("%b %e %H:%M:%S ", 0, 25, 0, 25),
-    // ---------------------------------------------------------------------------------------------
-    //
-    // from file `./logs/synology/synobackup.log` (has horizontal alignment tabs)
-    // example with offset:
-    //
-    //               1         2
-    //     012345678901234567890123456789
-    //     info	2017/02/21 21:50:48	SYSTEM:	[Local][Backup Task LocalBackup1] Backup task started.
-    //     err	2017/02/23 02:55:58	SYSTEM:	[Local][Backup Task LocalBackup1] Exception occured while backing up data. (Capacity at destination is insufficient.) [Path: /volume1/LocalBackup1.hbk]
-    // example escaped:
-    //     info␉2017/02/21 21:50:48␉SYSTEM:␉[Local][Backup Task LocalBackup1] Backup task started.
-    //     err␉2017/02/23 02:55:58␉SYSTEM:␉[Local][Backup Task LocalBackup1] Exception occured while backing up data. (Capacity at destination is insufficient.) [Path: /volume1/LocalBackup1.hbk]
-    //
-    // TODO: [2021/10/03] no support of variable offset datetime
-    //       this could be done by trying range of offsets into something
-    //       better is to search for a preceding regexp pattern
-    //("\t%Y/%m/%d %H:%M:%S\t", 5, 24, 0, 24),
     //
     // ---------------------------------------------------------------------------------------------
     //
@@ -330,6 +328,18 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //
     // ---------------------------------------------------------------------------------------------
     //
+    // from file `./logs/Ubuntu18/cups/error_log`
+    // example with offset:
+    //
+    //               1         2         3
+    //     0123456789012345678901234567890
+    //     E [09/Aug/2019:00:09:01 -0700] Unable to open listen socket for address [v1.::1]:631 - Cannot assign requested address.
+    //
+    ("[%d/%b/%Y:%H:%M:%S %z]", true, true, 2, 30, 3, 29),
+    ("[%d/%b/%Y %H:%M:%S %z]", true, true, 2, 30, 3, 29),
+    //
+    // ---------------------------------------------------------------------------------------------
+    //
     // from file `./logs/other/archives/proftpd/xferlog`
     // example with offset:
     //
@@ -351,6 +361,33 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //     2019-05-23 16:53:43 <1> trenker(24689) [zypper] main.cc(main):74 ===== Hi, me zypper 1.14.27
     //
     //("%Y-%m-%d %H:%M:%S ", 0, 20, 0, 19),
+    //
+    // ---------------------------------------------------------------------------------------------
+    //
+    // from file `./logs/synology/synoupdate.log`
+    // example with offset:
+    //
+    //               1         2         3
+    //     0123456789012345678901234567890
+    //     2016/12/05 21:34:43	Start of the update...
+    //
+    ("%Y/%m/%d %H:%M:%S	", true, false, 0, 20, 0, 19),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // from file `./logs/synology/synobackup.log`
+    // example with offset:
+    //
+    //               1         2         3
+    //     0123456789012345678901234567890
+    //     err	2020/03/01 09:06:32	SYSTEM: [Network][Hyper Backup Task 1] Failed to start backup task.
+    //     info	2017/02/21 21:36:10	admin: Setting of backup task [Local Storage 1] was created
+    //     warning	2020/02/24 03:00:20	SYSTEM:  Scheduled backup had been skipped
+    //
+    ("err	%Y/%m/%d %H:%M:%S	", true, false, 0, 24, 4, 23),
+    ("info	%Y/%m/%d %H:%M:%S	", true, false, 0, 25, 5, 24),
+    ("debug	%Y/%m/%d %H:%M:%S	", true, false, 0, 26, 6, 25),
+    ("warning	%Y/%m/%d %H:%M:%S	", true, false, 0, 28, 8, 27),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:

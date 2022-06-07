@@ -8,7 +8,7 @@ use crate::Readers::blockreader::{
     BLOCKSZ_MIN,
 };
 
-use crate::Readers::datetime::{
+use crate::Data::datetime::{
     DateTime_Parse_Datas_vec,
 };
 
@@ -42,6 +42,8 @@ pub struct Summary {
     pub BlockReader_blocks_total: u64,
     /// `BlockSz` of `BlockReader`
     pub BlockReader_blocksz: BlockSz,
+    /// `filesz()` of file
+    pub BlockReader_filesz: u64,
     /// count of `Lines` processed by `LineReader`
     pub LineReader_lines: u64,
     /// count of `Syslines` processed by `SyslineReader`
@@ -94,6 +96,7 @@ impl Summary {
         BlockReader_blocks: u64,
         BlockReader_blocks_total: u64,
         BlockReader_blocksz: BlockSz,
+        BlockReader_filesz: u64,
         LineReader_lines: u64,
         SyslineReader_syslines: u64,
         SyslineReader_syslines_by_range_hit: u64,
@@ -129,6 +132,7 @@ impl Summary {
             BlockReader_blocks,
             BlockReader_blocks_total,
             BlockReader_blocksz,
+            BlockReader_filesz,
             LineReader_lines,
             SyslineReader_syslines,
             SyslineReader_syslines_by_range_hit,
@@ -164,6 +168,7 @@ impl fmt::Debug for Summary {
             .field("blocks", &self.BlockReader_blocks)
             .field("blocks total", &self.BlockReader_blocks_total)
             .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
+            .field("filesz", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
             .finish()
     }
 }

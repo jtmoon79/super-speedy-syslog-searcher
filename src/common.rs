@@ -297,16 +297,42 @@ where
 }
 
 #[derive(Debug)]
-pub enum FileProcessingResult {
+pub enum FileProcessingResult<E> {
     FILE_ERR_EMPTY,
     FILE_ERR_NO_LINES_FOUND,
     FILE_ERR_NO_SYSLINES_FOUND,
     FILE_ERR_NO_SYSLINES_IN_DT_RANGE,
-    FILE_ERR_IO,
+    FILE_ERR_IO(E),
     FILE_ERR_WRONG_TYPE,
     FILE_ERR_DECOMPRESS,
     FILE_OK,
 }
+
+impl<E> FileProcessingResult<E> {
+
+    /// Returns `true` if the result is [`FILE_OK`].
+    #[inline(always)]
+    pub const fn is_ok(&self) -> bool {
+        matches!(*self, FileProcessingResult::FILE_OK)
+    }
+
+    /// Returns `true` if the result is [`FILE_ERR_IO`].
+    #[inline(always)]
+    pub const fn has_err(&self) -> bool {
+        matches!(*self, FileProcessingResult::FILE_ERR_IO(_))
+    }
+}
+
+/// manually implement `PartialEq` as `#derive` does not seem to work
+impl<E> PartialEq for FileProcessingResult<E> {
+    fn eq(&self, other: &Self) -> bool {
+        if self.has_err() && other.has_err() {
+            return true;
+        }
+        matches!(self, other)
+    }
+}
+impl<E> Eq for FileProcessingResult<E> {}
 
 /// file types that can be processed by `SyslogProcessor` (and underlying modules)
 #[derive(Debug, Eq, PartialEq)]

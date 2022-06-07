@@ -29,7 +29,7 @@ use crate::dbgpr::stack::{
     sx,
 };
 
-use crate::Readers::datetime::{
+use crate::Data::datetime::{
     FixedOffset,
     DateTimeL,
     DateTimeL_Opt,
@@ -82,9 +82,13 @@ use static_assertions::{
     const_assert,
 };
 
+extern crate walkdir;
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SyslogProcessor
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+pub type FileProcessingResult_BlockZero = FileProcessingResult<std::io::Error>;
 
 #[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
 enum ProcessingMode {
@@ -232,7 +236,7 @@ impl SyslogProcessor {
     }
 
     /// TODO: complete this
-    pub fn process_stage0_valid_file_check(&mut self) -> FileProcessingResult {
+    pub fn process_stage0_valid_file_check(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.process_stage0_valid_file_check", snx());
         assert_eq!(
             self.processingmode, ProcessingMode::stage0_valid_file_check,
@@ -241,11 +245,11 @@ impl SyslogProcessor {
         );
         self.processingmode = ProcessingMode::stage1_blockzero_analysis;
 
-        FileProcessingResult::FILE_OK
+        FileProcessingResult_BlockZero::FILE_OK
     }
 
     /// TODO: complete this
-    pub fn process_stage1_blockzero_analysis(&mut self) -> FileProcessingResult {
+    pub fn process_stage1_blockzero_analysis(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.process_stage1_blockzero_analysis", snx());
         assert_eq!(
             self.processingmode, ProcessingMode::stage1_blockzero_analysis,
@@ -254,11 +258,11 @@ impl SyslogProcessor {
         );
         self.processingmode = ProcessingMode::stage2_find_dt;
 
-        FileProcessingResult::FILE_OK
+        FileProcessingResult_BlockZero::FILE_OK
     }
 
     /// TODO: complete this
-    pub fn process_stage2_find_dt(&mut self) -> FileProcessingResult {
+    pub fn process_stage2_find_dt(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.process_stage2_find_dt", snx());
         assert_eq!(
             self.processingmode, ProcessingMode::stage2_find_dt,
@@ -267,11 +271,11 @@ impl SyslogProcessor {
         );
         self.processingmode = ProcessingMode::stage3_stream_syslines;
 
-        FileProcessingResult::FILE_OK
+        FileProcessingResult_BlockZero::FILE_OK
     }
 
     /// TODO: complete this
-    pub fn process_stage3_stream_syslines(&mut self) -> FileProcessingResult {
+    pub fn process_stage3_stream_syslines(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.process_stage3_stream_syslines", snx());
         assert_eq!(
             self.processingmode, ProcessingMode::stage3_stream_syslines,
@@ -280,42 +284,19 @@ impl SyslogProcessor {
         );
         self.processingmode = ProcessingMode::stage4_summary;
 
-        FileProcessingResult::FILE_OK
+        FileProcessingResult_BlockZero::FILE_OK
     }
 
     /// TODO: complete this
-    pub fn process_stage4_summary(&mut self) -> FileProcessingResult {
+    pub fn process_stage4_summary(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.process_stage4_summary", snx());
         self.processingmode = ProcessingMode::stage4_summary;
 
-        FileProcessingResult::FILE_OK
-    }
-
-    // TODO: this should return `FileProcessingResult`
-    pub fn blockzero_analysis(&mut self) -> std::io::Result<bool> {
-        debug_eprintln!("{}syslogprocessor.blockzero_analysis", sn());
-        match self.blockzero_analysis_lines() {
-            Ok(val) => {
-                if !val {
-                    debug_eprintln!("{}syslogprocessor.blockzero_analysis: syslinereader.blockzero_analysis() was false, return Ok(false)", sx());
-                    return Ok(false);
-                };
-            },
-            Err(err) => {
-                debug_eprintln!("{}syslogprocessor.blockzero_analysis: return Err({:?})", sx(), err);
-                return Err(err);
-            }
-        }
-
-        debug_eprintln!("{}syslogprocessor.blockzero_analysis", sx());
-
-        self.blockzero_analysis_syslines()
+        FileProcessingResult_BlockZero::FILE_OK
     }
 
     /// read block zero (the first data block of the file), do necessary analysis
-    /// 
-    /// TODO: this should return `FileProcessingResult`
-    pub(crate) fn blockzero_analysis_syslines(&mut self) -> std::io::Result<bool> {
+    pub(crate) fn blockzero_analysis_syslines(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines", sn());
 
         let mut fo: FileOffset = 0;
@@ -331,11 +312,15 @@ impl SyslogProcessor {
                 ResultS4_SyslineFind::Found_EOF((_fo_next, _slinep)) => {
                     break;
                 }, ResultS4_SyslineFind::Done => {
-                    debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines: found {} syslines, Ok({})", sx(), at, at != 0);
-                    return Ok(at != 0);
+                    let mut fpr = FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND;
+                    if at != 0 {
+                        fpr = FileProcessingResult_BlockZero::FILE_OK;
+                    }
+                    debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines: found {} syslines, {:?}", sx(), at, fpr);
+                    return fpr;
                 }, ResultS4_SyslineFind::Err(err) => {
-                    debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines: return Err({:?})", sx(), err);
-                    return Result::Err(err);
+                    debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines: return FILE_ERR_IO({:?})", sx(), err);
+                    return FileProcessingResult_BlockZero::FILE_ERR_IO(err);
                 },
             };
             if 0 != self.syslinereader.block_offset_at_file_offset(fo) {
@@ -344,82 +329,8 @@ impl SyslogProcessor {
             at += 1;
         }
 
-        debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines: found {} syslines, return Ok(true)", sx(), at);
-        Ok(true)
-    }
-
-    // LAST WORKING HERE [2022/06/02 23:45:00] see TODO in `fileprocessor.rs`
-
-    /// map `MimeGuess` into a `FileType`
-    /// (i.e. call `find_line`)
-    pub fn parseable_mimeguess_str(mimeguess_str: &str) -> FileType {
-        // see https://docs.rs/mime/latest/mime/
-        // see https://docs.rs/mime/latest/src/mime/lib.rs.html#572-575
-        debug_eprintln!("{}LineReader::parseable_mimeguess_str: mimeguess {:?}", snx(), mimeguess_str);
-        match mimeguess_str {
-            "plain"
-            | "text"
-            | "text/plain"
-            | "text/*"
-            | "utf-8" => {FileType::FILE},
-            _ => {FileType::FILE_UNKNOWN},
-        }
-    }
-
-    /// should `LineReader` attempt to parse this file/MIME type?
-    /// (i.e. call `find_line`)
-    pub fn parseable_mimeguess(mimeguess: &MimeGuess) -> FileType {
-        for mimeguess_ in mimeguess.iter() {
-            match SyslogProcessor::parseable_mimeguess_str(mimeguess_.as_ref()) {
-                FileType::FILE_UNKNOWN
-                | FileType::_FILE_UNSET => {},
-                val => { return val; }
-            }
-        }
-
-        FileType::FILE_UNKNOWN
-    }
-
-    pub(crate) fn mimesniff_analysis(&mut self) -> Result<bool> {
-        let bo_zero: FileOffset = 0;
-        debug_eprintln!("{}linereader.mimesniff_analysis: self.blockreader.read_block({:?})", sn(), bo_zero);
-        let bptr: BlockP = match self.syslinereader.linereader.blockreader.read_block(bo_zero) {
-            ResultS3_ReadBlock::Found(val) => val,
-            ResultS3_ReadBlock::Done => {
-                debug_eprintln!("{}linereader.mimesniff_analysis: read_block({}) returned Done for {:?}, return Error(UnexpectedEof)", sx(), bo_zero, self.path());
-                assert_eq!(self.filesz(), 0, "readblock(0) returned Done for file with size {}", self.filesz());
-                return Ok(false);
-            },
-            ResultS3_ReadBlock::Err(err) => {
-                debug_eprintln!("{}linereader.mimesniff_analysis: read_block({}) returned Err {:?}", sx(), bo_zero, err);
-                return Result::Err(err);
-            },
-        };
-
-        let sniff: String = String::from((*bptr).as_slice().sniff_mime_type().unwrap_or(""));
-        debug_eprintln!("{}linereader.mimesniff_analysis: sniff_mime_type {:?}", so(), sniff);
-        // TODO: this function should be moved to filepreprocssor.rs and modified
-        //let is_parseable: bool = SyslogProcessor::parseable_mimeguess_str(sniff.as_ref());
-        let is_parseable = false;
-
-        debug_eprintln!("{}linereader.mimesniff_analysis: return Ok({:?})", sx(), is_parseable);
-        Ok(is_parseable)
-    }
-
-    pub(crate) fn mimeguess_analysis(&mut self) -> bool {
-        let mimeguess_ = self.mimeguess();
-        debug_eprintln!("{}linereader.mimeguess_analysis: mimeguess is {:?}", sn(), mimeguess_);
-        let mut is_parseable: bool = false;
-
-        if !mimeguess_.is_empty() {
-            // TODO: this function should be moved to filepreprocssor.rs and modified
-            //is_parseable = SyslogProcessor::parseable_mimeguess(&mimeguess_);
-            debug_eprintln!("{}linereader.mimeguess_analysis: parseable_mimeguess {:?}", sx(), is_parseable);
-            return is_parseable;
-        }
-        debug_eprintln!("{}linereader.mimeguess_analysis: {:?}", sx(), is_parseable);
-
-        is_parseable
+        debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines: found {} syslines, return FILE_OK", sx(), at);
+        FileProcessingResult_BlockZero::FILE_OK
     }
 
     /// helper to `blockzero_analysis_lines`
@@ -427,8 +338,7 @@ impl SyslogProcessor {
     /// attempt to find `Line` within the first block (block zero).
     /// if enough `Line` found then return `Ok(true)` else `Ok(false)`.
     /// 
-    /// TODO: this should return `FileProcessingResult`
-    fn blockzero_analysis_lines_readlines(&mut self) -> Result<bool> {
+    fn blockzero_analysis_lines_readlines(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.blockzero_analysis_readlines()", sn());
         // could not guess suitability based on MIME type
         // so try to parse BLOCKZERO_ANALYSIS_LINE_COUNT `Lines`
@@ -445,16 +355,20 @@ impl SyslogProcessor {
                     fo_
                 },
                 ResultS4_LineFind::Found_EOF((_fo, _linep)) => {
-                    debug_eprintln!("{}syslogprocessor.blockzero_analysis_readlines() found {} lines, return Ok(true)", sx(), at);
-                    return Ok(true);
+                    debug_eprintln!("{}syslogprocessor.blockzero_analysis_readlines() found {} lines, return FILE_OK", sx(), at);
+                    return FileProcessingResult_BlockZero::FILE_OK;
                 },
                 ResultS4_LineFind::Done => {
-                    debug_eprintln!("{}syslogprocessor.blockzero_analysis_readlines() found {} lines, return Ok({})", sx(), at, at != 0);
-                    return Ok(at != 0);
+                    let mut fpr = FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND;
+                    if at != 0 {
+                        fpr = FileProcessingResult_BlockZero::FILE_OK;
+                    }
+                    debug_eprintln!("{}syslogprocessor.blockzero_analysis_readlines() found {} lines, return {:?}", sx(), at, fpr);
+                    return fpr;
                 },
                 ResultS4_LineFind::Err(err) => {
-                    debug_eprintln!("{}syslogprocessor.blockzero_analysis_readlines() return Err({:?})", sx(), err);
-                    return Result::Err(err);
+                    debug_eprintln!("{}syslogprocessor.blockzero_analysis_readlines() return FILE_ERR_IO({:?})", sx(), err);
+                    return FileProcessingResult_BlockZero::FILE_ERR_IO(err);
                 },
             };
             if 0 != self.syslinereader.linereader.block_offset_at_file_offset(fo) {
@@ -463,9 +377,9 @@ impl SyslogProcessor {
             at += 1;
         }
 
-        debug_eprintln!("{}syslogprocessor.blockzero_analysis_readlines() found {} lines, return Ok(true)", at, sx());
+        debug_eprintln!("{}syslogprocessor.blockzero_analysis_readlines() found {} lines, return FILE_OK", sx(), at);
 
-        Ok(true)
+        FileProcessingResult_BlockZero::FILE_OK
     }
 
     /// Given a file of an unknown MIME type (`self.blockreader.mimeguess.is_empty()`),
@@ -480,14 +394,13 @@ impl SyslogProcessor {
     /// Should only call to completion once per `SyslogProcessor` instance.
     ///
     /// TODO: mime analysis not currently used, either use it or remove it.
-    ///
-    /// TODO: this should return `FileProcessingResult`
-    pub(crate) fn blockzero_analysis_lines(&mut self) -> Result<bool> {
+    pub(crate) fn blockzero_analysis_lines(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.blockzero_analysis()", sn());
         assert!(!self.blockzero_analysis_done, "blockzero_analysis should only be completed once.");
 
         self.blockzero_analysis_done = true;
 
+        /*
         // XXX: this is not used
         let mimeguess_ = self.mimeguess_analysis();
         debug_eprintln!("{}syslogprocessor.blockzero_analysis() mimeguess_analysis() {}", so(), mimeguess_);
@@ -496,15 +409,33 @@ impl SyslogProcessor {
         let mimesniff_ = match self.mimesniff_analysis() {
             Ok(val) => val,
             Err(err) => {
-                debug_eprintln!("{}syslogprocessor.blockzero_analysis() return Err({})", sx(), err);
-                return Err(err);
+                debug_eprintln!("{}syslogprocessor.blockzero_analysis() return FILE_ERR_IO({})", sx(), err);
+                return FileProcessingResult_BlockZero::FILE_ERR_IO(err);
             }
         };
         debug_eprintln!("{}syslogprocessor.blockzero_analysis() mimesniff_analysis() {}", so(), mimesniff_);
+        */
 
         debug_eprintln!("{}syslogprocessor.blockzero_analysis() return …", sx());
 
         self.blockzero_analysis_lines_readlines()
+    }
+
+    pub fn blockzero_analysis(&mut self) -> FileProcessingResult_BlockZero {
+        debug_eprintln!("{}syslogprocessor.blockzero_analysis", sn());
+        if self.filesz() == 0 {
+            debug_eprintln!("{}syslogprocessor.blockzero_analysis: filesz 0; return {:?}", sx(), FileProcessingResult_BlockZero::FILE_ERR_EMPTY);
+            return FileProcessingResult_BlockZero::FILE_ERR_EMPTY;
+        }
+        let result = self.blockzero_analysis_lines();
+        if ! result.is_ok() {
+            debug_eprintln!("{}syslogprocessor.blockzero_analysis: syslinereader.blockzero_analysis() was !is_ok(), return {:?}", sx(), result);
+            return result;
+        };
+
+        debug_eprintln!("{}syslogprocessor.blockzero_analysis", sx());
+
+        self.blockzero_analysis_syslines()
     }
 
     /// return an up-to-date `Summary` instance for this `SyslogProcessor`
@@ -514,6 +445,7 @@ impl SyslogProcessor {
         let BlockReader_blocks = self.syslinereader.linereader.blockreader.count();
         let BlockReader_blocks_total = self.syslinereader.linereader.blockreader.blockn;
         let BlockReader_blocksz = self.blocksz();
+        let BlockReader_filesz = self.filesz();
         let LineReader_lines = self.syslinereader.linereader.count();
         let SyslineReader_syslines = self.syslinereader.count();
         let SyslineReader_syslines_by_range_hit = self.syslinereader._syslines_by_range_hit;
@@ -542,6 +474,7 @@ impl SyslogProcessor {
             BlockReader_blocks,
             BlockReader_blocks_total,
             BlockReader_blocksz,
+            BlockReader_filesz,
             LineReader_lines,
             SyslineReader_syslines,
             SyslineReader_syslines_by_range_hit,
@@ -570,6 +503,37 @@ impl SyslogProcessor {
 const_assert!(
     SyslogProcessor::BLOCKZERO_ANALYSIS_LINE_COUNT > SyslogProcessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT
 );
+
+
+// TODO: [2022/06/02] AFAICT, this doens't need to be a long-lived object,
+// only a series of functions... thinking about it... this series of functions could
+// be placed within `syslogprocessor.rs`:
+//    pub fn generate_syslogprocessor(path: FPath) -> Vec<(ProcessPathResult, Option<SyslogProcessor>)>
+// with helper function:
+//    pub fn process_path(path: FPath) -> Vec<ProcessPathResult>
+//
+// type ProcessPathResult = (Path, Option<SubPath>, FileType);
+//
+// The algorithm for analyzing a path would be:
+//    if directory the recurse directory for more paths.
+//    if not file then eprintln and (if --summary the save error) and return.
+//    (must be plain file so)
+//    if file name implies obvious file type then presume mimeguess to be correct.
+//       example, `messages.gz`, is very likely a gzipped text file. Try to gunzip. If gunzip fails then give up on it. (`FILE_ERR_DECOMPRESS_FAILED`)
+//       example, `logs.tar`, is very likely multiple tarred text files. Try to untar. If untar fails then give up on it. (`FILE_ERR_UNARCHIVE_FAILED`)
+//    else if mime analysis has likely answer then presume that to be correct.
+//        example, `messages`, is very likely a text file.
+//    else try blockzero analysis (attempt to parse Lines and Syslines).
+// Failures to process paths should be:
+//    eprintln() at time of opening failure.
+//    if --summary then printed with the closing summary.
+//
+// That algorithm should be correct in 99% of cases.
+//
+
+//pub fn generate_syslogprocessor(path: FPath) -> Vec<(ProcessPathResult, Option<SyslogProcessor>)> {
+//    vec![]
+//}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SyslogWriter
