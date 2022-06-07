@@ -1120,7 +1120,7 @@ dependencies = [
 
 [[package]]
 name = "super_speedy_syslog_searcher"
-version = "0.0.12"
+version = "0.0.13"
 dependencies = [
  "arrayref",
  "arraystring",
