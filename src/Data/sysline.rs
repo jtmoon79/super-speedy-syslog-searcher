@@ -300,6 +300,7 @@ impl Sysline {
     ///
     /// TODO: [2022/06/13] for case of one Slice then return `&[u8]` directly, bypass creation of `Vec`
     ///       requires enum to carry both types `Vec<&[u8]>` or `&[u8]`
+    ///       or instead of that, just return `&[&[u8]]`
     fn get_slices_at_line(self: &Sysline, line_num: usize) -> Slices {
         assert_lt!(line_num, self.lines.len(), "Requested line_num {:?} (count from zero) but there are only {:?} Lines within this Sysline (counts from one)", line_num, self.lines.len());
 
@@ -318,6 +319,7 @@ impl Sysline {
     ///
     /// TODO: [2022/06/13] for case of one Slice then return `&[u8]` directly, bypass creation of `Vec`
     ///       requires enum to carry both types `Vec<&[u8]>` or `&[u8]`
+    ///       or instead of that, just return `&[&[u8]]`
     pub fn get_slices(self: &Sysline) -> Slices {
         let mut count: usize = 0;
         for lp in &self.lines {
@@ -418,9 +420,26 @@ impl Sysline {
         color_text: Color,
         color_datetime: Color
     ) -> Result<()> {
+        // print the datetime portion in color?
+        let print_date_color: bool;
         let slices: Slices = match line_num {
-            Some(line_num_) => self.get_slices_at_line(line_num_),
-            None => self.get_slices(),
+            Some(line_num_) => {
+                if line_num_ == 0 {
+                    // if a single `Line` was requested
+                    // then colorizing date is only significant for the first
+                    // `Line` of the `Syline`
+                    print_date_color = true;
+                } else {
+                    print_date_color = false;
+                }
+
+                self.get_slices_at_line(line_num_)
+            }
+            None => {
+                print_date_color = true;
+
+                self.get_slices()
+            }
         };
         let color_choice: termcolor::ColorChoice = match color_choice_opt {
             Some(choice_) => choice_,
@@ -432,7 +451,7 @@ impl Sysline {
         let mut at: LineIndex = 0;
         let dtb = self.dt_beg;
         let dte = self.dt_end;
-        // 
+        //
         for slice in slices.iter() {
             let len_ = slice.len();
             match color_choice {
@@ -448,7 +467,7 @@ impl Sysline {
                 // use `print_color_slices` to print the datetime substring and test in differing colors
                 _ => {
                     // datetime entirely in this `slice`
-                    if chmp!(at <= dtb < dte < (at + len_)) {
+                    if print_date_color && chmp!(at <= dtb < dte < (at + len_)) {
                         let a = &slice[..(dtb-at)];
                         let b = &slice[(dtb-at)..(dte-at)];
                         let c = &slice[(dte-at)..];
