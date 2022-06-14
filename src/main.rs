@@ -942,7 +942,7 @@ const CLI_FILTER_PATTERNS: [&DateTime_Parse_Data_str; CLI_FILTER_PATTERNS_COUNT]
     //CLI_DT_FILTER_PATTERN12,
 ];
 /// datetime format printed for CLI options `-u` or `-l`
-const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z ";
+const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z:";
 
 const CLI_HELP_AFTER: &str = "\
 DateTime Filter patterns may be:
@@ -1848,7 +1848,7 @@ fn processing_loop(
         if cli_opt_prepend_file_align {
             for path in paths_valid.iter() {
                 let bname: String = basename(path);
-                prependname_width = std::cmp::max(prependname_width, bname.len() - 1)
+                prependname_width = std::cmp::max(prependname_width, bname.chars().count())
             }
         }
         pathid_to_prependname = PathId_PrependName::with_capacity(file_count);
@@ -1861,7 +1861,7 @@ fn processing_loop(
     } else if cli_opt_prepend_filepath {
         if cli_opt_prepend_file_align {
             for path in paths_valid.iter() {
-                prependname_width = std::cmp::max(prependname_width, path.len() - 1)
+                prependname_width = std::cmp::max(prependname_width, path.chars().count())
             }
         }
         pathid_to_prependname = PathId_PrependName::with_capacity(file_count);
