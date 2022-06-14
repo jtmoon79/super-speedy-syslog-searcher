@@ -28,6 +28,9 @@ declare -ir epoch_2000_PST=946713600
 # first sysline datetime is this Unix Epoch time (i.e. a count in seconds)
 declare -i dt_start=${4-${epoch_2000_PST}}
 
+declare lc_str="${line_count}"  # line count as string
+declare -i lc_i=${#lc_str}  # line count characters wide as integer
+
 declare -i x=0
 while [[ ${x} -lt ${line_count} ]]; do
     declare -i a=0
@@ -35,7 +38,7 @@ while [[ ${x} -lt ${line_count} ]]; do
     declare -i b=0
     # print a syslog line
     while [[ ${a} -lt ${repeat_line} ]]; do
-        echo -n "${dts} "
+        echo -n "${dts} $(printf "%0${lc_i}d " ${x})"
         declare -i c=$((x + b))
         declare -i c_stop=$((c + alen))
         # print a subset of the $alphabet on the line
@@ -49,7 +52,7 @@ while [[ ${x} -lt ${line_count} ]]; do
         if [[ "${append}" = "" ]]; then
             echo
         elif [[ ${x} -eq 0 ]]; then
-            echo "${append}"
+            echo " ${append}"
         else
             echo " ${append}"
         fi
