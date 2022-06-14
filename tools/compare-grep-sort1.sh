@@ -24,54 +24,77 @@ time=$(which time)
 echo
 
 tmp1=$(mktemp --suffix "__super_speedy_syslog_searcher")
+tmp1b=$(mktemp --suffix "__super_speedy_syslog_searcher")
 tmp2=$(mktemp --suffix "__grep_sort")
+tmp2b=$(mktemp --suffix "__grep_sort")
 
-trap 'rm -f "${tmp1}" "${tmp2}"' EXIT
+function exit_() {
+    rm -f "${tmp1}" "${tmp2}" "${tmp1b}" "${tmp2b}"
+}
+
+trap exit_ EXIT
 
 declare -a files=(
-    $(ls -1 ./logs/other/tests/gen-{100-10-......,100-10-BRAAAP,100-10-FOOBAR,100-10-______,100-10-skullcrossbones,100-4-happyface,1000-3-foobar,200-1-jajaja,400-4-shamrock}.log)
+    $(ls -1 ./logs/other/tests/gen-{100-10-......,100-10-BRAAAP,100-10-FOOBAR,100-10-______,100-10-skullcrossbones,100-4-happyface,1000-3-foobar,200-1-jajaja,400-4-shamrock,99999-1-Hüsker_Dü}.log)
+    #$(ls -1 ./logs/other/tests/gen-99999-1-Hüsker_Dü.log.gz)
+    #$(ls -1 ./logs/other/tests/dtf5-6a.log{,.gz})
 )
 
 # force reading of files from disk to allow any possible caching,
 # so a little less difference in the two timed processes
 cat "${files[@]}" > /dev/null
 
+# search for datetimes between
+declare -r after_dt='20000101T000000'
+declare -r befor_dt='20000101T025959'
+# regexp equivalent of $after_dt $befor_dt
+declare -r regex_dt='^20000101T0[012][[:digit:]]{4}'
+# declare s4 args once
+declare -ar s4_args=(
+    -a "${after_dt}" -b "${befor_dt}"
+    --color never
+)
+
+# run both programs, time the runs
+
 (
-export RUST_BACKTRACE=1
+#export RUST_BACKTRACE=1
 set -x
 $time -p "${@}" -- \
     ./target/release/super_speedy_syslog_searcher \
-    -z 0xFFFF \
-    -a 20000101T000000 -b 20000101T080000 \
-    --color never \
+    "${s4_args[@]}" \
     "${files[@]}" \
     >/dev/null
 )
 
 echo
 
+# search for datetimes between $after_dt $befor_dt
+# using decently constrained regexp to match meaning
 (
 set -x
 $time -p "${@}" -- \
     bash -c "
-    $grep -hEe '^20000101T00[01234567][[:digit:]]{3}|^20000101T080000' -- \
+    $grep -hEe '${regex_dt}' -- \
     ${files[*]} \
     | $sort -t ' ' -k 1 -s \
     >/dev/null \
     "    
 )
-# run again, save output
+
+# run both programs again, save output for comparison
+
 ./target/release/super_speedy_syslog_searcher \
-    -z 0xFFFF \
-    -a 20000101T000000 -b 20000101T080000 \
-    --color never \
+    "${s4_args[@]}" \
     "${files[@]}" \
     > "${tmp1}"
 
-$grep -hEe '^20000101T00[01234567][[:digit:]]{3}|^20000101T080000' -- \
+$grep -hEe "${regex_dt}" -- \
     "${files[@]}" \
     | $sort -t ' ' -k 1 -s \
     > "${tmp2}"
+
+# compare the program outputs
 
 echo
 s4_lc=$(wc -l < "${tmp1}")
@@ -84,11 +107,22 @@ gs_bc=$(wc -c < "${tmp2}")
 echo "'grep | sort' output file"
 echo "  Line Count ${gs_lc}"
 echo "  Byte Count ${gs_bc}"
-# output will diff!
-diff --brief "${tmp1}" "${tmp2}" || true
 
+# literal output will differ!
+diff --brief "${tmp1}" "${tmp2}" || true
+# however...
 echo
 echo "The output files will differ due to sorting method differences."
 echo "However Line Count and Byte Count should be the same."
 
-[[ ${s4_lc} -eq ${gs_lc} ]] && [[ ${s4_bc} -eq ${gs_bc} ]]
+declare -i ret=0
+if [[ ${s4_lc} -ne ${gs_lc} ]] || [[ ${s4_bc} -ne ${gs_bc} ]]; then
+    ret=1
+    sort "${tmp1}" > "${tmp1b}"
+    sort "${tmp2}" > "${tmp2b}"
+    echo
+    echo "Difference Preview:"
+    diff -y --width=$COLUMNS --suppress-common-lines "${tmp1b}" "${tmp2b}" | head -n 20
+fi
+
+exit ${ret}
