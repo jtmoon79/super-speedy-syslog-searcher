@@ -2089,15 +2089,15 @@ fn processing_loop(
                 // is last sysline of the file?
                 let is_last: bool = chan_datum.2;
                 // Sysline of interest
-                let slp_min: &SyslineP = chan_datum.0.as_ref().unwrap();
+                let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
                 // color for printing
                 let clr: &Color = map_path_color.get(pathid).unwrap_or(&color_default);
                 // print the sysline line-by-line!
-                debug_eprintln!("{}processing_loop: A3 printing SyslineP@{:p} @[{}, {}] PathId: {:?}", so(), slp_min, slp_min.fileoffset_begin(), slp_min.fileoffset_end(), pathid);
+                debug_eprintln!("{}processing_loop: A3 printing SyslineP@{:p} @[{}, {}] PathId: {:?}", so(), syslinep, syslinep.fileoffset_begin(), syslinep.fileoffset_end(), pathid);
                 if do_prepend {
                     // print one `Line` from `Sysline` at a time
                     // so each `Line` is prepended as requested
-                    let line_count: usize = (*slp_min).count_lines() as usize;
+                    let line_count: usize = (*syslinep).count_lines() as usize;
                     let mut line_at: usize = 0;
                     while line_at < line_count {
                         if cli_opt_prepend_filename || cli_opt_prepend_filepath {
@@ -2109,7 +2109,7 @@ fn processing_loop(
                         }
                         if cli_opt_prepend_utc || cli_opt_prepend_local {
                             #[allow(clippy::single_match)]
-                            match (*slp_min).dt {
+                            match (*syslinep).dt {
                                 Some(dt) => {
                                     #[allow(clippy::needless_late_init)]
                                     let fmt_;
@@ -2125,7 +2125,7 @@ fn processing_loop(
                                 _ => {},
                             }
                         }
-                        match (*slp_min).print_color(Some(line_at), Some(color_choice), *clr, color_datetime) {
+                        match (*syslinep).print_color(Some(line_at), Some(color_choice), *clr, color_datetime) {
                             Ok(_) => {},
                             Err(_err) => {
                                 eprintln!("ERROR: failed to print; TODO abandon processing for PathId {:?}", pathid);
@@ -2136,7 +2136,7 @@ fn processing_loop(
                     }
                 } else  {
                     // no prepends request so print all `Line`s within one call
-                    match (*slp_min).print_color(None, Some(color_choice), *clr, color_datetime) {
+                    match (*syslinep).print_color(None, Some(color_choice), *clr, color_datetime) {
                         Ok(_) => {},
                         Err(_err) => {
                             eprintln!("ERROR: failed to print; TODO abandon processing for PathId {:?}", pathid);
@@ -2150,8 +2150,8 @@ fn processing_loop(
                 }
                 if cli_opt_summary {
                     let path: &FPath = map_pathid_path.get(*pathid).unwrap();
-                    summaryprint_map_update(slp_min, path, &mut map_path_sumpr);
-                    summaryprint_update(slp_min, &mut sp_total);
+                    summaryprint_map_update(syslinep, path, &mut map_path_sumpr);
+                    summaryprint_update(syslinep, &mut sp_total);
                 }
             }
             // must create a copy of the borrowed key `pathid`
