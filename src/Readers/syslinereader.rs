@@ -4,6 +4,7 @@
 pub use crate::common::{
     FPath,
     FileOffset,
+    FileType,
     NLu8,
     CharSz,
 };
@@ -100,6 +101,9 @@ use debug_print::{debug_eprint, debug_eprintln};
 extern crate lru;
 use lru::LruCache;
 
+extern crate mime_guess;
+use mime_guess::MimeGuess;
+
 extern crate more_asserts;
 use more_asserts::{
     assert_le,
@@ -152,7 +156,10 @@ type SyslinesLRUCache = LruCache<FileOffset, ResultS4_SyslineFind>;
 /// used internally by `SyslineReader`
 type LineParsedCache = LruCache<FileOffset, Result_ParseDateTimeP>;
 
-/// Specialized Reader that uses `LineReader` to find syslog lines
+/// Specialized Reader that uses `LineReader` to find `sysline`s in a file.
+/// The `SyslineReader` handles `[u8]` to `char` interpretation.
+///
+/// XXX: not a rust "Reader"; does not implement trait `Read`
 pub struct SyslineReader {
     pub(crate) linereader: LineReader,
     /// Syslines by fileoffset_begin
@@ -240,8 +247,9 @@ impl SyslineReader {
     const _FIND_SYSLINE_LRU_CACHE_SZ: usize = 4;
     const _PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ: usize = 8;
 
-    pub fn new(path: FPath, blocksz: BlockSz, tz_offset: FixedOffset) -> Result<SyslineReader> {
-        let lr = match LineReader::new(path, blocksz) {
+    pub fn new(path: FPath, filetype: FileType, blocksz: BlockSz, tz_offset: FixedOffset) -> Result<SyslineReader> {
+        debug_eprintln!("{}SyslineReader::new({:?}, {:?}, {:?}, {:?})", snx(), path, filetype, blocksz, tz_offset);
+        let lr = match LineReader::new(path, filetype, blocksz) {
             Ok(val) => val,
             Err(err) => {
                 //eprintln!("ERROR: LineReader::new({}, {}) failed {}", path, blocksz, err);
@@ -275,51 +283,64 @@ impl SyslineReader {
         )
     }
 
-    pub fn blocksz(&self) -> BlockSz {
+    #[inline]
+    pub const fn filetype(&self) -> FileType {
+        self.linereader.filetype()
+    }
+
+    #[inline]
+    pub const fn blocksz(&self) -> BlockSz {
         self.linereader.blocksz()
     }
 
-    pub fn filesz(&self) -> u64 {
+    #[inline]
+    pub const fn filesz(&self) -> u64 {
         self.linereader.filesz()
     }
 
-    pub fn path(&self) -> &FPath {
+    #[inline]
+    pub const fn mimeguess(&self) -> MimeGuess {
+        self.linereader.mimeguess()
+    }
+
+    #[inline]
+    pub const fn path(&self) -> &FPath {
         self.linereader.path()
     }
 
     /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
-    pub fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
+    pub const fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         self.linereader.block_offset_at_file_offset(fileoffset)
     }
 
     /// return file_offset (file byte offset) at given `BlockOffset`
-    pub fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
+    pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         self.linereader.file_offset_at_block_offset(blockoffset)
     }
 
     /// return file_offset (file byte offset) at blockoffset+blockindex
-    pub fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
+    pub const fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         self.linereader
             .file_offset_at_block_offset_index(blockoffset, blockindex)
     }
 
     /// return block index at given `FileOffset`
-    pub fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
+    pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         self.linereader.block_index_at_file_offset(fileoffset)
     }
 
     /// return count of blocks in a file, also, the last blockoffset + 1
-    pub fn file_blocks_count(&self) -> u64 {
+    pub const fn file_blocks_count(&self) -> u64 {
         self.linereader.file_blocks_count()
     }
 
     /// last valid `BlockOffset` of the file
-    pub fn blockoffset_last(&self) -> BlockOffset {
+    pub const fn blockoffset_last(&self) -> BlockOffset {
         self.linereader.blockoffset_last()
     }
 
     /// smallest size character in bytes
-    pub fn charsz(&self) -> usize {
+    pub const fn charsz(&self) -> usize {
         self.linereader.charsz()
     }
 
@@ -384,7 +405,7 @@ impl SyslineReader {
         debug_eprintln!("\n{}print_all(true)", sx());
     }
 
-    /// is given `SyslineP` last in the file?
+    /// is this `SyslineP` the last `Sysline` of the file?
     pub(crate) fn is_sysline_last(&self, syslinep: &SyslineP) -> bool {
         let filesz = self.filesz();
         let fo_end = (*syslinep).fileoffset_end();
@@ -901,14 +922,10 @@ impl SyslineReader {
     /// find sysline at fileoffset within the same block (does not cross block boundaries)
     pub fn find_sysline_in_block(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline_in_block({})", sn(), fileoffset);
-        let bo: BlockOffset = self.block_offset_at_file_offset(fileoffset);
 
-        match self.check_store(fileoffset) {
-            Some(results4) => {
-                debug_eprintln!("{}find_sysline_in_block({}): return {:?}", sx(), fileoffset, results4);
-                return results4;
-            },
-            None => {},
+        if let Some(results4) = self.check_store(fileoffset) {
+            debug_eprintln!("{}find_sysline_in_block({}): return {:?}", sx(), fileoffset, results4);
+            return results4;
         }
 
         debug_eprintln!("{}find_sysline_in_block({}): searching for first sysline datetime A …", so(), fileoffset);
@@ -1134,12 +1151,9 @@ impl SyslineReader {
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline({})", sn(), fileoffset);
 
-        match self.check_store(fileoffset) {
-            Some(results4) => {
-                debug_eprintln!("{}find_sysline({}): return {:?}", sx(), fileoffset, results4);
-                return results4;
-            },
-            None => {},
+        if let Some(results4) = self.check_store(fileoffset) {
+            debug_eprintln!("{}find_sysline({}): return {:?}", sx(), fileoffset, results4);
+            return results4;
         }
 
         debug_eprintln!("{}find_sysline({}): searching for first sysline datetime A …", so(), fileoffset);

@@ -683,6 +683,11 @@ TODO: 2022/06/06 move SyslineReader datetime state chaanges into SyslogProcessor
       The SyslogProcessor should set the allowed datetime patterns to use, and should understand
       state changes. SyslineReader should not know about state changes.
 
+TODO: 2022/06/11 consistent naming:
+      there is `File_Offset`, `FileOffset` `file_offset` `fileoffset, same for `blockoffset` `lineindex` etc.
+      for variable names, function names, and types.
+      pick with or without middle `_` and always use that
+
 */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -693,7 +698,7 @@ TODO: 2022/06/06 move SyslineReader datetime state chaanges into SyslogProcessor
 #![allow(non_snake_case)]
 
 use std::collections::{
-    HashMap
+    HashMap,
 };
 use std::fmt;
 //use std::fs::{File, Metadata, OpenOptions};
@@ -792,6 +797,7 @@ use crate::common::{
     FPath,
     FPaths,
     FileOffset,
+    FileType,
     //Bytes,
     //NLu8,
     NLu8a,
@@ -846,7 +852,8 @@ use Readers::blockreader::{
 
 use Readers::filepreprocessor::{
     ProcessPathResult,
-    process_fpath,
+    ProcessPathResults,
+    process_path,
 };
 
 use Readers::summary::{
@@ -931,7 +938,7 @@ const CLI_FILTER_PATTERNS: [&DateTime_Parse_Data_str; CLI_FILTER_PATTERNS_COUNT]
     //CLI_DT_FILTER_PATTERN12,
 ];
 /// datetime format printed for CLI options `-u` or `-l`
-const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z";
+const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z ";
 
 const CLI_HELP_AFTER: &str = "\
 DateTime Filter patterns may be:
@@ -1008,7 +1015,7 @@ struct CLI_Args {
     #[clap(
         short = 'u',
         long = "prepend-utc",
-        group = "prepend",
+        group = "prepend_dt",
     )]
     prepend_utc: bool,
 
@@ -1016,9 +1023,32 @@ struct CLI_Args {
     #[clap(
         short = 'l',
         long = "prepend-local",
-        group = "prepend",
+        group = "prepend_dt",
     )]
     prepend_local: bool,
+
+    /// Prepend file basename to every sysline.
+    #[clap(
+        short = 'n',
+        long = "prepend-filename",
+        group = "prepend_file",
+    )]
+    prepend_filename: bool,
+
+    /// Prepend file full path to every sysline.
+    #[clap(
+        short = 'p',
+        long = "prepend-filepath",
+        group = "prepend_file",
+    )]
+    prepend_filepath: bool,
+
+    /// Aligh column width of prepended file basename or file path.
+    #[clap(
+        short = 'w',
+        long = "prepend-file-align",
+    )]
+    prepend_file_align: bool,
 
     /// Choose to print to terminal using colors.
     #[clap(
@@ -1133,6 +1163,34 @@ fn cli_validate_tz_offset(blockszs: &str) -> std::result::Result<(), String> {
     }
 }
 
+/// helper to `cli_process_args`
+fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeL_Opt {
+    // parse datetime filters
+    match dts {
+        Some(dts) => {
+            let mut dto: DateTimeL_Opt = None;
+            for dtpds in CLI_FILTER_PATTERNS.iter() {
+                let dtpd = DateTime_Parse_Data_str_to_DateTime_Parse_Data(dtpds);
+                debug_eprintln!("{}str_datetime({:?}, {:?}, {:?}, {:?})", so(), dts, dtpd.pattern, dtpd.tz, tz_offset);
+                #[allow(clippy::single_match)]
+                match str_datetime(dts.as_str(), &dtpd.pattern, dtpd.tz, tz_offset) {
+                    Some(val) => {
+                        dto = Some(val);
+                        break;
+                    }
+                    _ => {}
+                };
+            };
+            if dto.is_none() {
+                eprintln!("ERROR: Unable to parse a datetime for --dt-after {:?}", dts);
+                std::process::exit(1);
+            }
+            dto
+        },
+        None => { None },
+    }
+}
+
 /// process passed CLI arguments into types
 /// this function will `std::process::exit` if there is an `Err`
 fn cli_process_args() -> (
@@ -1144,7 +1202,10 @@ fn cli_process_args() -> (
     termcolor::ColorChoice,
     bool,
     bool,
-    bool
+    bool,
+    bool,
+    bool,
+    bool,
 ) {
     let args = CLI_Args::parse();
 
@@ -1180,33 +1241,6 @@ fn cli_process_args() -> (
     };
     debug_eprintln!("{} tz_offset {:?}", so(), tz_offset);
 
-    fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeL_Opt {
-        // parse datetime filters
-        match dts {
-            Some(dts) => {
-                let mut dto: DateTimeL_Opt = None;
-                for dtpds in CLI_FILTER_PATTERNS.iter() {
-                    let dtpd = DateTime_Parse_Data_str_to_DateTime_Parse_Data(dtpds);
-                    debug_eprintln!("{}str_datetime({:?}, {:?}, {:?}, {:?})", so(), dts, dtpd.pattern, dtpd.tz, tz_offset);
-                    #[allow(clippy::single_match)]
-                    match str_datetime(dts.as_str(), &dtpd.pattern, dtpd.tz, tz_offset) {
-                        Some(val) => {
-                            dto = Some(val);
-                            break;
-                        }
-                        _ => {}
-                    };
-                };
-                if dto.is_none() {
-                    eprintln!("ERROR: Unable to parse a datetime for --dt-after {:?}", dts);
-                    std::process::exit(1);
-                }
-                dto
-            },
-            None => { None },
-        }
-    }
-
     let filter_dt_after: DateTimeL_Opt = process_dt(args.dt_after, &tz_offset);
     debug_eprintln!("{} filter_dt_after {:?}", so(), filter_dt_after);
     let filter_dt_before: DateTimeL_Opt = process_dt(args.dt_before, &tz_offset);
@@ -1230,7 +1264,20 @@ fn cli_process_args() -> (
         CLI_Color_Choice::never => termcolor::ColorChoice::Never,
     };
 
-    (fpaths, blocksz, filter_dt_after, filter_dt_before, tz_offset, color_choice, args.prepend_utc, args.prepend_local, args.summary)
+    (
+        fpaths,
+        blocksz,
+        filter_dt_after,
+        filter_dt_before,
+        tz_offset,
+        color_choice,
+        args.prepend_utc,
+        args.prepend_local,
+        args.prepend_filename,
+        args.prepend_filepath,
+        args.prepend_file_align,
+        args.summary
+    )
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1245,7 +1292,7 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
     }
     debug_eprintln!("{}main()", sn());
     let (
-        fpaths,
+        paths,
         blocksz,
         filter_dt_after,
         filter_dt_before,
@@ -1253,27 +1300,35 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
         color_choice,
         cli_opt_prepend_utc,
         cli_opt_prepend_local,
+        cli_opt_prepend_filename,
+        cli_opt_prepend_filepath,
+        cli_opt_prepend_file_align,
         cli_opt_summary,
     ) = cli_process_args();
 
-    let mut fpaths_ok: Vec<FPath> = Vec::<FPath>::with_capacity(fpaths.len() * 2);
-    for fpath in fpaths.iter() {
-        let pfpaths: Vec<ProcessPathResult> = process_fpath(fpath);
+    let mut processed_paths: ProcessPathResults = ProcessPathResults::with_capacity(paths.len() * 4);
+    for fpath in paths.iter() {
+        let ppaths: ProcessPathResults = process_path(fpath);
+        for ppresult in ppaths.into_iter() {
+            processed_paths.push(ppresult);
+        }
+        /*
         // TODO: [2022/06/06] carry forward invalid paths for printing with the `--summary`
         // XXX: can this be done in a one-liner?
-        for fpath_ in pfpaths.iter()
+        for processpathresult in ppaths.iter()
             .filter(|x| matches!(x,  ProcessPathResult::FILE_VALID(_)))
         {
-            let fp_: &FPath = match fpath_ {
-                ProcessPathResult::FILE_VALID(val) => val,
+            let path: FPath = match filetype_path {
+                ProcessPathResult::FILE_VALID(val) => val.1,
                 _ => { continue; },
             };
-            fpaths_ok.push(fp_.clone());
+            processed_paths.push(path.clone());
         }
+        */
     }
 
     processing_loop(
-        fpaths_ok,
+        processed_paths,
         blocksz,
         &filter_dt_after,
         &filter_dt_before,
@@ -1281,7 +1336,10 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
         color_choice,
         cli_opt_prepend_utc,
         cli_opt_prepend_local,
-        cli_opt_summary
+        cli_opt_prepend_filename,
+        cli_opt_prepend_filepath,
+        cli_opt_prepend_file_align,
+        cli_opt_summary,
     );
 
     debug_eprintln!("{}main() return Ok(())", sx());
@@ -1296,32 +1354,49 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
 // TODO: leave a long code comment explaining  why I chose this threading pub-sub approach
 //       see old archived code to see previous attempts
 
-type Thread_Init_Data4 = (FPath, BlockSz, DateTimeL_Opt, DateTimeL_Opt, FixedOffset);
+/// Paths are needed as keys. Many such keys are passed around among different threads.
+/// This requires many `FPath::clone()`. Instead of clones, pass around a relatively light-weight
+/// `usize` as a key.
+/// The main processing thread can use a `PathId` key to lookup the `FPath` as-needed.
+type PathId = usize;
+/// data to initialize a file processing thread
+type Thread_Init_Data4 = (
+    FPath,
+    PathId,
+    FileType,
+    BlockSz,
+    DateTimeL_Opt,
+    DateTimeL_Opt,
+    FixedOffset
+);
 type IsSyslineLast = bool;
+/// the data sent from file processing thread to the main processing thread
 type Chan_Datum = (SyslineP_Opt, Summary_Opt, IsSyslineLast);
 type Chan_Send_Datum = crossbeam_channel::Sender<Chan_Datum>;
 type Chan_Recv_Datum = crossbeam_channel::Receiver<Chan_Datum>;
-type Map_FPath_Datum = HashMap<FPath, Chan_Datum>;
+type Map_PathId_Datum = HashMap<PathId, Chan_Datum>;
 
 /// Thread entry point for processing a file
 /// this creates `SyslogProcessor` and processes the syslog file `Syslines`.
 /// Sends each processed sysline back across channel to main thread.
 fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) -> thread::ThreadId {
     stack_offset_set(Some(2));
-    let (path, blocksz, filter_dt_after_opt, filter_dt_before_opt, tz_offset) = thread_init_data;
+    let (path, pathid, filetype, blocksz, filter_dt_after_opt, filter_dt_before_opt, tz_offset) = thread_init_data;
     debug_eprintln!("{}exec_4({:?})", sn(), path);
 
     let thread_cur: thread::Thread = thread::current();
     let tid: thread::ThreadId = thread_cur.id();
     let tname: &str = <&str>::clone(&thread_cur.name().unwrap_or(""));
 
-    let mut syslogproc = match SyslogProcessor::new(path.clone(), blocksz, tz_offset) {
+    let mut syslogproc = match SyslogProcessor::new(path.clone(), filetype, blocksz, tz_offset) {
         Ok(val) => val,
         Err(err) => {
             eprintln!("ERROR: SyslogProcessor::new({:?}, {:?}) failed {}", path.as_str(), blocksz, err);
+            // TODO: [2022/06/07] send error through channel back to main loop
             return tid;
         }
     };
+    debug_eprintln!("{}exec_4 syslogproc {:?}", so(), syslogproc);
 
     syslogproc.process_stage0_valid_file_check();
 
@@ -1641,9 +1716,9 @@ fn summaryprint_update(slp: &SyslineP, sp: &mut SummaryPrinted) -> SummaryPrinte
 
 // TODO: move into SummaryPrinted
 #[inline(always)]
-fn summaryprint_map_update(slp: &SyslineP, fpath_: &FPath, map_: &mut Map_FPath_SummaryPrint) {
+fn summaryprint_map_update(slp: &SyslineP, path: &FPath, map_: &mut Map_FPath_SummaryPrint) {
     debug_eprintln!("{}summaryprint_map_update", snx());
-    let result = map_.get_mut(fpath_);
+    let result = map_.get_mut(path);
     match result {
         Some(sp) => {
             summaryprint_update(slp, sp);
@@ -1651,7 +1726,7 @@ fn summaryprint_map_update(slp: &SyslineP, fpath_: &FPath, map_: &mut Map_FPath_
         None => {
             let mut sp = SummaryPrinted::default();
             summaryprint_update(slp, &mut sp);
-            map_.insert(fpath_.clone(), sp);
+            map_.insert(path.clone(), sp);
         }
     };
 }
@@ -1659,15 +1734,15 @@ fn summaryprint_map_update(slp: &SyslineP, fpath_: &FPath, map_: &mut Map_FPath_
 type Map_FPath_Summary = HashMap::<FPath, Summary>;
 
 #[inline(always)]
-fn summary_update(fpath_: &FPath, summary: Summary, map_: &mut Map_FPath_Summary) {
+fn summary_update(path: &FPath, summary: Summary, map_: &mut Map_FPath_Summary) {
     debug_eprintln!("{}summary_update {:?};", snx(), summary);
-    if let Some(val) = map_.insert(fpath_.clone(), summary) {
-        //debug_eprintln!("{}processing_loop: Error: map_path_summary already contains key {:?} with {:?}", so(), fpath_min, val);
-        eprintln!("Error: processing_loop: map_path_summary already contains key {:?} with {:?}, overwritten", fpath_, val);
+    if let Some(val) = map_.insert(path.clone(), summary) {
+        eprintln!("Error: processing_loop: map_path_summary already contains key {:?} with {:?}, overwritten", path, val);
     };
 }
 
 // TODO: use std::path::Path
+//// return basename of a file
 fn basename(path: &FPath) -> FPath {
     let mut riter = path.rsplit(std::path::MAIN_SEPARATOR);
 
@@ -1688,7 +1763,7 @@ const SPACING_LEAD: &str = "  ";
 /// 3. prints summary (if requestd by user)
 #[allow(clippy::too_many_arguments)]
 fn processing_loop(
-    paths: FPaths,
+    mut paths_results: ProcessPathResults,
     blocksz: BlockSz,
     filter_dt_after_opt: &DateTimeL_Opt,
     filter_dt_before_opt: &DateTimeL_Opt,
@@ -1696,22 +1771,51 @@ fn processing_loop(
     color_choice: termcolor::ColorChoice,
     cli_opt_prepend_utc: bool,
     cli_opt_prepend_local: bool,
+    cli_opt_prepend_filename: bool,
+    cli_opt_prepend_filepath: bool,
+    cli_opt_prepend_file_align: bool,
     cli_opt_summary: bool,
 ) {
-    debug_eprintln!("{}processing_loop({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})", sn(), paths, blocksz, filter_dt_after_opt, filter_dt_before_opt, color_choice, cli_opt_prepend_local, cli_opt_prepend_utc, cli_opt_summary);
+    debug_eprintln!("{}processing_loop({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})", sn(), paths_results, blocksz, filter_dt_after_opt, filter_dt_before_opt, color_choice, cli_opt_prepend_local, cli_opt_prepend_utc, cli_opt_summary);
 
-    if paths.is_empty() {
+    // XXX: sanity check
+    assert!(!(cli_opt_prepend_filename && cli_opt_prepend_filepath), "Cannot both cli_opt_prepend_filename && cli_opt_prepend_filepath");
+
+    if paths_results.is_empty() {
         return;
     }
 
-    let queue_sz_dt: usize = 10;
-    let file_count = paths.len();
+    // separate `ProcessPathResult`s into different storage, valid and invalid
+    let mut paths_valid_results: ProcessPathResults = ProcessPathResults::with_capacity(paths_results.len());
+    let mut paths_invalid_results: ProcessPathResults = ProcessPathResults::with_capacity(paths_results.len());
+    let mut paths_valid: FPaths = FPaths::with_capacity(paths_results.len());
+    for processpathresult in paths_results.drain(..)
+    {
+        match processpathresult {
+            ProcessPathResult::FILE_VALID(ref val) =>
+            {
+                paths_valid.push(val.1.clone());
+                paths_valid_results.push(processpathresult);
+            }
+            _ =>
+            {
+                paths_valid_results.push(processpathresult);
+            },
+        };
+        
+    }
+    // XXX: sanity checks
+    assert_eq!(paths_valid.len(), paths_valid_results.len(), "mismatching paths_valid {} paths_valid_results {}", paths_valid.len(), paths_valid_results.len());
+    assert!(paths_results.is_empty(), "paths_results was not cleared, {} elements remain", paths_results.len());
 
-    // TODO: [2022/06/02] this point needs a PathToPaths thingy that expands user-passed Paths to all possible paths,
+    let queue_sz_dt: usize = 10;
+    let file_count = paths_valid.len();
+
+    // TODO: [2022/06/02] this point needs a PathToPaths thingy that expands user-passed Paths to all possible paths_valid,
     //       e.g.
-    //       given a directory path, returns paths of possible syslog files found recursively.
+    //       given a directory path, returns paths_valid of possible syslog files found recursively.
     //       given a symlink, follows the symlink
-    //       given a path to a tar file, returns paths of possible syslog files within that .tar file.
+    //       given a path to a tar file, returns paths_valid of possible syslog files within that .tar file.
     //       given a plain valid file path, just returns that path
     //       would return `Vec<(path: FPath, subpath: FPath, type_: FILE_TYPE, Option<result>: common::FileProcessingResult)>`
     //         where `path` is actual path,
@@ -1722,17 +1826,70 @@ fn processing_loop(
     //       (this might be a better place for mimeguess and mimeanalysis?)
     //       Would be best to first implment `FILE`, then `FILE_COMPRESS_GZ`, then `FILE_IN_ARCHIVE_TAR`
 
+
+    // create PathId->FPath lookup vector (effectively a map)
+    // create FPath->PathId lookup map
+    let mut map_pathid_path = Vec::<FPath>::with_capacity(file_count);
+    let mut map_path_pathid = HashMap::<FPath, PathId>::with_capacity(file_count);
+    for (pathid, path) in paths_valid.iter().enumerate() {
+        map_pathid_path.insert(pathid as PathId, path.clone());
+        map_path_pathid.insert(path.clone(), pathid as PathId);
+    }
+
+    // LAST WORKING HERE 2022/06/12 17:00:00 for prepended filename printing,
+    // need to handle multi-line sysline.
+    // A decent approach is to change `Sysline::print_color` to handle different
+    // types of prints.
+    // Or add new `fn` to `Sysline` like
+    // `print_color_line(line_num: usize, prepend, color, …)`
+    // that prints individual `Line` with optional prepended stuff.
+
+    // preprint the prepended name or path
+    type PathId_PrependName = HashMap<PathId, String>;
+    let mut pathid_to_prependname: PathId_PrependName;
+    let mut prependname_width: usize = 0;
+    if cli_opt_prepend_filename {
+        if cli_opt_prepend_file_align {
+            for path in paths_valid.iter() {
+                let bname: String = basename(path);
+                prependname_width = std::cmp::max(prependname_width, bname.len() - 1)
+            }
+        }
+        pathid_to_prependname = PathId_PrependName::with_capacity(file_count);
+        for path in paths_valid.iter() {
+            let bname: String = basename(path);
+            let prepend: String = format!("{0:<1$}:", bname, prependname_width);
+            let pathid: &PathId = map_path_pathid.get(path).unwrap();
+            pathid_to_prependname.insert(*pathid, prepend);
+        }
+    } else if cli_opt_prepend_filepath {
+        if cli_opt_prepend_file_align {
+            for path in paths_valid.iter() {
+                prependname_width = std::cmp::max(prependname_width, path.len() - 1)
+            }
+        }
+        pathid_to_prependname = PathId_PrependName::with_capacity(file_count);
+        for path in paths_valid.iter() {
+            let prepend: String = format!("{0:<1$}:", path, prependname_width);
+            let pathid: &PathId = map_path_pathid.get(path).unwrap();
+            pathid_to_prependname.insert(*pathid, prepend);
+        }
+    }
+    else {
+        pathid_to_prependname = PathId_PrependName::with_capacity(0);
+    }
+
     //
     // create a single ThreadPool with one thread per file path, each thread named for the file basename
     //
-    let mut paths_basen = paths.clone();
-    for p_ in paths_basen.iter_mut() {
+    let mut paths_valid_basen = paths_valid.clone();
+    for p_ in paths_valid_basen.iter_mut() {
         (*p_) = basename(p_);
     }
     debug_eprintln!("{}processing_loop: rayon::ThreadPoolBuilder::new().num_threads({}).build()", so(), file_count);
     let pool = rayon::ThreadPoolBuilder::new().
         num_threads(file_count).
-        thread_name(move |i| paths_basen[i].clone()).
+        thread_name(move |i| paths_valid_basen[i].clone()).
         build().
         unwrap();
 
@@ -1741,23 +1898,36 @@ fn processing_loop(
     // create necessary channels for each thread
     // launch each thread
     //
-    type FPath_ChanRecvDatum<'a> = (&'a FPath, &'a Chan_Recv_Datum);
-    type Map_FPath_ChanRecvDatum<'a> = HashMap<&'a FPath, Chan_Recv_Datum>;
-    let mut map_path_recv_dt = Map_FPath_ChanRecvDatum::with_capacity(file_count);
-    let mut map_path_color = HashMap::<&FPath, Color>::with_capacity(file_count);
+    type PathId_ChanRecvDatum<'a> = (PathId, &'a Chan_Recv_Datum);
+    type Map_PathId_ChanRecvDatum = HashMap<PathId, Chan_Recv_Datum>;
+    let mut map_path_recv_dt = Map_PathId_ChanRecvDatum::with_capacity(file_count);
+    let mut map_path_color = HashMap::<PathId, Color>::with_capacity(file_count);
     let mut map_path_summary = Map_FPath_Summary::with_capacity(file_count);
     let color_datetime: Color = COLOR_DATETIME;
 
     // initialize processing channels/threads, one per file path
     let (chan_send_1, _chan_recv_1) = std::sync::mpsc::channel();
-    for fpath in paths.iter() {
-        map_path_color.insert(fpath, color_rand());
+    for path in paths_valid.iter() {
+        let pathid: &PathId = map_path_pathid.get(path).unwrap();
+        map_path_color.insert(*pathid, color_rand());
     }
-    for fpath in paths.iter() {
-        let thread_data: Thread_Init_Data4 =
-            (fpath.clone().to_owned(), blocksz, *filter_dt_after_opt, *filter_dt_before_opt, tz_offset);
+    for procespathresult in paths_valid_results.iter() {
+        let (filtype, path) = match procespathresult {
+            ProcessPathResult::FILE_VALID((f_, p_)) => (f_, p_),
+            result => { panic!("bad ProcessPathResult in paths_valid_results: {:?}", result); }
+        };
+        let pathid: &PathId = map_path_pathid.get(path).unwrap();
+        let thread_data: Thread_Init_Data4 = (
+            path.clone().to_owned(),
+            *pathid,
+            *filtype,
+            blocksz,
+            *filter_dt_after_opt,
+            *filter_dt_before_opt,
+            tz_offset,
+        );
         let (chan_send_dt, chan_recv_dt): (Chan_Send_Datum, Chan_Recv_Datum) = crossbeam_channel::bounded(queue_sz_dt);
-        map_path_recv_dt.insert(fpath, chan_recv_dt);
+        map_path_recv_dt.insert(*pathid, chan_recv_dt);
         let chan_send_1_thread = chan_send_1.clone();
         pool.spawn(move || match chan_send_1_thread.send(exec_4(chan_send_dt, thread_data)) {
             Ok(_) => {}
@@ -1767,37 +1937,41 @@ fn processing_loop(
         });
     }
 
-    // XXX: is this needed?
+    // XXX: is this `drop` needed? it was copied from the docs example.
     debug_eprintln!("{}processing_loop: drop({:?});", so(), chan_send_1);
     drop(chan_send_1); // close sender so chan.into_iter.collect does not block
 
     type Recv_Result4 = std::result::Result<Chan_Datum, crossbeam_channel::RecvError>;
-    /// run `.recv` on many Receiver channels simultaneously with the help of `crossbeam_channel::Select`
+
+    /// run `.recv` on many Receiver channels simultaneously using `crossbeam_channel::Select`
     /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
+    ///
     /// XXX: I would like to return a `&FPath` to avoid one `FPath.clone()` but it causes
     ///      compiler error about mutable and immutable borrows of `map_path_slp` occurring simultaneously
     ///      cannot borrow `map_path_slp` as mutable because it is also borrowed as immutable
+    ///
     /// TODO: [2022/03/26] to avoid sending a new `FPath` on each channel send, instead have a single
     ///       Map<u32, FPath> that is referred to on "each side". The `u32` is the lightweight key sent
     ///       along the channel.
     ///       This mapping <u32, FPath> could be used for all other maps with keys `FPath`...
     ///       would a global static lookup map make this easier? No need to pass around instances of `Map<u32, FPath>`.
+    ///
     fn recv_many_chan(
-        fpath_chans: &Map_FPath_ChanRecvDatum, filter_: &Map_FPath_Datum,
-    ) -> (FPath, Recv_Result4) {
+        fpath_chans: &Map_PathId_ChanRecvDatum, filter_: &Map_PathId_Datum,
+    ) -> (PathId, Recv_Result4) {
         debug_eprintln!("{}processing_loop:recv_many_chan();", sn());
         // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures,
         // order should match index numeric value returned by `select`
-        let mut imap = Vec::<FPath_ChanRecvDatum>::with_capacity(fpath_chans.len());
+        let mut imap = Vec::<PathId_ChanRecvDatum>::with_capacity(fpath_chans.len());
         // Build a list of operations
         let mut select = crossbeam_channel::Select::new();
         for fp_chan in fpath_chans.iter() {
-            // if there is already a DateTime "on hand" for the given fpath then
+            // if there is already a DateTime "on hand" for the given pathid then
             // skip receiving on the associated channel
-            if filter_.contains_key(*fp_chan.0) {
+            if filter_.contains_key(fp_chan.0) {
                 continue;
             }
-            imap.push((fp_chan.0, fp_chan.1));
+            imap.push((*(fp_chan.0), fp_chan.1));
             debug_eprintln!("{}processing_loop:recv_many_chan: select.recv({:?});", so(), fp_chan.1);
             // load `select` with `recv` operations, to be run during later `.select()`
             select.recv(fp_chan.1);
@@ -1809,13 +1983,13 @@ fn processing_loop(
         // get the index of the chosen "winner" of the `select` operation
         let index = soper.index();
         debug_eprintln!("{}processing_loop:recv_many_chan: soper.recv(&v[{:?}]);", so(), index);
-        let fpath = imap[index].0;
+        let pathid = imap[index].0;
         let chan = &imap[index].1;
         debug_eprintln!("{}processing_loop:recv_many_chan: chan: {:?}", so(), chan);
         // Get the result of the `recv` done during `select`
         let result = soper.recv(chan);
-        debug_eprintln!("{}processing_loop:recv_many_chan() return ({:?}, {:?});", sx(), fpath, result);
-        (fpath.clone(), result)
+        debug_eprintln!("{}processing_loop:recv_many_chan() return ({:?}, {:?});", sx(), pathid, result);
+        (pathid, result)
     }
 
     //
@@ -1823,13 +1997,13 @@ fn processing_loop(
     // process the "receiving sysline" channels from the running threads
     // print the soonest available sysline
     //
-    // XXX: BTreeMap does not implement `with_capacity`
-    //let mut map_path_slp = Map_FPath_SLP::new();
-    // TODO: [2022/03/24] change `map_path_datum` to `HashMap<FPath, (SylineP, is_last)>` (`map_path_slp`); currently it's confusing.
-    //       that there is a special handler for `Summary` (`map_path_summary`), but not an equivalent `map_path_slp`.
+    // TODO: [2022/03/24] change `map_pathid_datum` to `HashMap<FPath, (SylineP, is_last)>` (`map_path_slp`);
+    //       currently it's confusing that there is a special handler for `Summary` (`map_path_summary`),
+    //       but not an equivalent `map_path_slp`.
     //       In other words, break apart the passed `Chan_Datum` to the more specific maps.
-    let mut map_path_datum = Map_FPath_Datum::new();
-    let mut map_path_sumpr = Map_FPath_SummaryPrint::new();
+    //
+    let mut map_pathid_datum = Map_PathId_Datum::with_capacity(file_count);
+    let mut map_path_sumpr = Map_FPath_SummaryPrint::with_capacity(file_count);
     // crude debugging stats
     let mut _count_recv_ok: usize = 0;
     let mut _count_recv_di: usize = 0;
@@ -1840,141 +2014,159 @@ fn processing_loop(
     let tz_utc = Utc::from_offset(&Utc);
     let tz_local = Local.timestamp(0, 0).timezone();
 
-    loop {
-        // channels that should be disconnected this loop iteration
-        let mut disconnected = Vec::<FPath>::with_capacity(map_path_recv_dt.len());
+    // XXX: workaround for missing Default for `&String`
+    let string_default: &String = &String::from("");
 
-        // if there is a DateTime available for every FPath channel (one channel is one FPath) then
-        // they can all be compared. The soonest DateTime selected then printed.
-        if map_path_recv_dt.len() == map_path_datum.len() {
-            let fp1: FPath;
-            // XXX: arbitrary code block here to allow later `map_path_datum.remove`;
-            //      hacky workaround for a difficult error:
-            //          "cannot borrow `map_path_datum` as mutable more than once at a time"
-            {
-                if cfg!(debug_assertions) {
-                    for (i, (k, v)) in map_path_recv_dt.iter().enumerate() {
-                        debug_eprintln!("{} A1 map_path_recv_dt[{:?}] = {:?}", i, k, v);
-                    }
-                    for (i, (k, v)) in map_path_datum.iter().enumerate() {
-                        debug_eprintln!("{} A1 map_path_datum[{:?}] = {:?}", i, k, v);
-                    }
+    // channels that should be disconnected per loop iteration
+    let mut disconnect = Vec::<PathId>::with_capacity(file_count);
+
+    // main thread "game loop"
+    loop {
+        disconnect.clear();
+
+        // if there is a DateTime available for *every* FPath channel (one channel is one FPath)
+        // then those datetimes can all be compared. The sysline with the soonest DateTime is
+        // selected then printed.
+        if map_path_recv_dt.len() == map_pathid_datum.len() {
+            // debug prints
+            if cfg!(debug_assertions) {
+                for (i, (k, v)) in map_path_recv_dt.iter().enumerate() {
+                    debug_eprintln!("{} A1 map_path_recv_dt[{:?}] = {:?}", i, k, v);
                 }
-                // XXX: my small investigation into `min`, `max`, `min_by`, `max_by`
-                //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33
-                let (fpath_min, chan_datum) =
-                    // here is part of the "sorting" of syslines process by datetime.
-                    // In case of tie datetime values, the tie-breaker will be order of `BTreeMap::iter_mut` which
-                    // iterates in order of key sort. https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html#method.iter_mut
-                    // XXX: could these `unwrap` ever fail?
-                    match map_path_datum.iter_mut().min_by(
-                        |x, y|
-                            x.1.0.as_ref().unwrap().dt.cmp(&(y.1.0.as_ref().unwrap().dt))
-                    ) {
-                        Some(val) => (
-                            val.0, val.1
-                        ),
-                        None => {
-                            eprintln!("ERROR map_path_datum.iter_mut().min_by() returned None");
-                            // XXX: not sure what else to do here
-                            continue;
-                        }
-                    };
-                if let Some(summary) = chan_datum.1.clone() {
-                    debug_eprintln!("{}processing_loop: A2 chan_datum has Summary {:?}", so(), fpath_min);
-                    assert!(chan_datum.0.is_none(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). {:?}", fpath_min);
-                    if cli_opt_summary {
-                        summary_update(fpath_min, summary, &mut map_path_summary);
-                    }
-                    debug_eprintln!("{}processing_loop: A2 will disconnect channel {:?}", so(), fpath_min);
-                    // receiving a Summary must be the last data sent on the channel
-                    disconnected.push(fpath_min.clone());
-                } else {
-                    let is_last: bool = chan_datum.2;
-                    let slp_min: &SyslineP = chan_datum.0.as_ref().unwrap();
-                    let clr: &Color = map_path_color.get(fpath_min).unwrap_or(&color_default);
-                    // print the sysline!
-                    debug_eprintln!("{}processing_loop: A3 printing SyslineP@{:p} @[{}, {}] {:?}", so(), slp_min, slp_min.fileoffset_begin(), slp_min.fileoffset_end(), fpath_min);
-                    if cfg!(debug_assertions) {
-                        let out = fpath_min.to_string()
-                            + &String::from(": ")
-                            + &(slp_min.to_String_noraw())
-                            + &String::from("\n");
-                        #[allow(clippy::match_single_binding)]
-                        match print_colored_stdout(*clr, Some(color_choice), out.as_bytes()) { _ => {}};
-                    } else {
-                        if cli_opt_prepend_utc || cli_opt_prepend_local {
-                            #[allow(clippy::single_match)]
-                            match (*slp_min).dt {
-                                Some(dt) => {
-                                    #[allow(clippy::needless_late_init)]
-                                    let fmt_;
-                                    if cli_opt_prepend_utc {
-                                        let dt_ = dt.with_timezone(&tz_utc);
-                                        fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
-                                    } else { // cli_opt_prepend_local
-                                        let dt_ = dt.with_timezone(&tz_local);
-                                        fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
-                                    }
-                                    write_stdout(fmt_.to_string().as_bytes());
-                                    write_stdout(" ".as_bytes());
-                                },
-                                _ => {},
-                            }
-                        }
-                        match (*slp_min).print_color(Some(color_choice), *clr, color_datetime) {
-                            Ok(_) => {},
-                            Err(_err) => {
-                                eprintln!("ERROR: failed to print; TODO abandon processing for {:?}", fpath_min);
-                                // TODO: 2022/04/09 remove this `fpath` from queues, tell it's thread to shutdown
-                            }
-                        }
-                    }
-                    if is_last {
-                        write_stdout(&NLu8a);
-                        sp_total.bytes += 1;
-                    }
-                    if cli_opt_summary {
-                        summaryprint_map_update(slp_min, fpath_min, &mut map_path_sumpr);
-                        summaryprint_update(slp_min, &mut sp_total);
-                    }
+                for (i, (k, v)) in map_pathid_datum.iter().enumerate() {
+                    debug_eprintln!("{} A1 map_pathid_datum[{:?}] = {:?}", i, k, v);
                 }
-                fp1 = (*fpath_min).clone();
             }
-            assert!(!fp1.is_empty(), "Empty filepath.");
-            map_path_datum.remove(&fp1);
+
+            // (path, channel data) for the sysline with soonest datetime ("minimum" datetime)
+            //
+            // here is part of the "sorting" of syslines process by datetime.
+            // In case of tie datetime values, the tie-breaker will be order of `BTreeMap::iter_mut` which
+            // iterates in order of key sort. https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html#method.iter_mut
+            //
+            // XXX: assume `unwrap` will never fail
+            //
+            // XXX: my small investigation into `min`, `max`, `min_by`, `max_by`
+            //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33
+            //
+            let pathid: &PathId;
+            let chan_datum: &mut Chan_Datum;
+            (pathid, chan_datum) = match map_pathid_datum.iter_mut().min_by(
+                |x, y|
+                    x.1.0.as_ref().unwrap().dt.cmp(&(y.1.0.as_ref().unwrap().dt))
+            ) {
+                Some(val) => (
+                    val.0, val.1
+                ),
+                None => {
+                    eprintln!("ERROR map_pathid_datum.iter_mut().min_by() returned None");
+                    // XXX: not sure what else to do here
+                    continue;
+                }
+            };
+
+            if let Some(summary) = chan_datum.1.clone() {
+                debug_eprintln!("{}processing_loop: A2 chan_datum has Summary, PathId: {:?}", so(), pathid);
+                assert!(chan_datum.0.is_none(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). PathId: {:?}", pathid);
+                if cli_opt_summary {
+                    let path: &FPath = map_pathid_path.get(*pathid).unwrap();
+                    summary_update(path, summary, &mut map_path_summary);
+                }
+                debug_eprintln!("{}processing_loop: A2 will disconnect channel {:?}", so(), pathid);
+                // receiving a Summary implies the last data was sent on the channel
+                disconnect.push(*pathid);
+            } else {
+                // is last sysline of the file?
+                let is_last: bool = chan_datum.2;
+                // Sysline of interest
+                let slp_min: &SyslineP = chan_datum.0.as_ref().unwrap();
+                // color for printing
+                let clr: &Color = map_path_color.get(pathid).unwrap_or(&color_default);
+                // print the sysline!
+                debug_eprintln!("{}processing_loop: A3 printing SyslineP@{:p} @[{}, {}] PathId: {:?}", so(), slp_min, slp_min.fileoffset_begin(), slp_min.fileoffset_end(), pathid);
+                if cli_opt_prepend_filename || cli_opt_prepend_filepath {
+                    let path: &FPath = map_pathid_path.get(*pathid).unwrap();
+                    let prepend: &String = pathid_to_prependname
+                        .get(pathid)
+                        .unwrap_or(string_default);
+                    write_stdout(prepend.as_bytes());
+                }
+                if cli_opt_prepend_utc || cli_opt_prepend_local {
+                    #[allow(clippy::single_match)]
+                    match (*slp_min).dt {
+                        Some(dt) => {
+                            #[allow(clippy::needless_late_init)]
+                            let fmt_;
+                            if cli_opt_prepend_utc {
+                                let dt_ = dt.with_timezone(&tz_utc);
+                                fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
+                            } else { // cli_opt_prepend_local
+                                let dt_ = dt.with_timezone(&tz_local);
+                                fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
+                            }
+                            write_stdout(fmt_.to_string().as_bytes());
+                        },
+                        _ => {},
+                    }
+                }
+                match (*slp_min).print_color(Some(color_choice), *clr, color_datetime) {
+                    Ok(_) => {},
+                    Err(_err) => {
+                        eprintln!("ERROR: failed to print; TODO abandon processing for PathId {:?}", pathid);
+                        // TODO: 2022/04/09 remove this `pathid` from maps and queues, shutdown it's thread
+                    }
+                }
+                if is_last {
+                    write_stdout(&NLu8a);
+                    sp_total.bytes += 1;
+                }
+                if cli_opt_summary {
+                    let path: &FPath = map_pathid_path.get(*pathid).unwrap();
+                    summaryprint_map_update(slp_min, path, &mut map_path_sumpr);
+                    summaryprint_update(slp_min, &mut sp_total);
+                }
+            }
+            // must create a copy of the borrowed key `pathid`
+            // this avoids rustc error:
+            //     cannot borrow `map_pathid_datum` as mutable more than once at a time
+            let pathid_: PathId = *pathid;
+            map_pathid_datum.remove(&pathid_);
         } else {
-            // else waiting on a (datetime, syslinep) from a file
-            debug_eprintln!("{}processing_loop: B recv_many_chan(map_path_recv_dt: {:?}, map_path_datum: {:?})", so(), map_path_recv_dt, map_path_datum);
-            let (fpath1, result1) = recv_many_chan(&map_path_recv_dt, &map_path_datum);
+            // else waiting on a (datetime, syslinep) from at least one channel
+            // so call `recv_many_chan` and store the data
+            debug_eprintln!("{}processing_loop: B recv_many_chan(map_path_recv_dt: {:?}, map_pathid_datum: {:?})", so(), map_path_recv_dt, map_pathid_datum);
+            let (pathid, result1) = recv_many_chan(&map_path_recv_dt, &map_pathid_datum);
             match result1 {
                 Ok(chan_datum) => {
-                    debug_eprintln!("{}processing_loop: B crossbeam_channel::Found for FPath {:?};", so(), fpath1);
+                    debug_eprintln!("{}processing_loop: B crossbeam_channel::Found for PathId {:?};", so(), pathid);
                     if let Some(summary) = chan_datum.1 {
-                        debug_eprintln!("{}processing_loop: B chan_datum has Summary {:?}", so(), fpath1);
-                        assert!(chan_datum.0.is_none(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). FPath {:?}", fpath1);
-                        summary_update(&fpath1, summary, &mut map_path_summary);
-                        debug_eprintln!("{}processing_loop: B will disconnect channel {:?}", so(), fpath1);
+                        let path: &FPath = map_pathid_path.get(pathid).unwrap();
+                        debug_eprintln!("{}processing_loop: B chan_datum has Summary {:?}", so(), path);
+                        assert!(chan_datum.0.is_none(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). PathId {:?}", pathid);
+                        summary_update(&path, summary, &mut map_path_summary);
+                        debug_eprintln!("{}processing_loop: B will disconnect channel {:?}", so(), path);
                         // receiving a Summary must be the last data sent on the channel
-                        disconnected.push(fpath1.clone());
+                        disconnect.push(pathid);
                     } else {
-                        assert!(chan_datum.0.is_some(), "Chan_Datum None(Summary) and None(SyslineP); should have one Some(). FPath {:?}", fpath1);
-                        map_path_datum.insert(fpath1, chan_datum);
+                        assert!(chan_datum.0.is_some(), "Chan_Datum None(Summary) and None(SyslineP); should have one Some(). PathId {:?}", pathid);
+                        map_pathid_datum.insert(pathid, chan_datum);
                     }
                     _count_recv_ok += 1;
                 }
                 Err(crossbeam_channel::RecvError) => {
-                    debug_eprintln!("{}processing_loop: B crossbeam_channel::RecvError, will disconnect channel for FPath {:?};", so(), fpath1);
+                    debug_eprintln!("{}processing_loop: B crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", so(), pathid);
                     // this channel was closed by the sender
-                    disconnected.push(fpath1);
+                    disconnect.push(pathid);
                     _count_recv_di += 1;
                 }
             }
         }
-        // remove channels that have been disconnected
-        for fpath in disconnected.into_iter() {
-            debug_eprintln!("{}processing_loop: C map_path_recv_dt.remove({:?});", so(), fpath);
-            map_path_recv_dt.remove(&fpath);
+        // remove channels (and keys) that have been disconnected
+        for pathid in disconnect.iter() {
+            debug_eprintln!("{}processing_loop: C map_path_recv_dt.remove({:?});", so(), pathid);
+            map_path_recv_dt.remove(pathid);
+            debug_eprintln!("{}processing_loop: C pathid_to_prependname.remove({:?});", so(), pathid);
+            pathid_to_prependname.remove(pathid);
         }
         // are there any channels to receive from?
         if map_path_recv_dt.is_empty() {
@@ -1982,14 +2174,13 @@ fn processing_loop(
             break;
         }
         debug_eprintln!("{}processing_loop: D map_path_recv_dt: {:?}", so(), map_path_recv_dt);
-        debug_eprintln!("{}processing_loop: D map_path_datum: {:?}", so(), map_path_datum);
+        debug_eprintln!("{}processing_loop: D map_pathid_datum: {:?}", so(), map_pathid_datum);
     } // end loop
 
-    // getting here means processing has completed. Now to print the `--summary` (if it was requested).
+    // Getting here means main program processing has completed.
+    // Now to print the `--summary` (if it was requested).
 
-    let slead = "   ";
-
-    // quickie helper to print the `summary.patterns` Vec (requires it's own line)
+    /// helper function to print the `summary.patterns` Vec (requires it's own line)
     pub fn patterns_dbg(summary: &Summary) -> String {
         // `cap` is a rough capacity estimation
         let cap: usize = summary.SyslineReader_patterns.len() * 150;
@@ -2003,10 +2194,10 @@ fn processing_loop(
         out
     }
 
-    // print the filepath name (one line)
-    pub fn print_filepath(fpath: &FPath, color: &Color, color_choice: &termcolor::ColorChoice) {
+    /// helper function to print the filepath name (one line)
+    pub fn print_filepath(path: &FPath, color: &Color, color_choice: &termcolor::ColorChoice) {
         eprint!("File: ");
-        match print_colored_stderr(*color, Some(*color_choice), fpath.as_bytes()) {
+        match print_colored_stderr(*color, Some(*color_choice), path.as_bytes()) {
             Ok(()) => {},
             Err(err) => {
                 eprintln!("ERROR: {:?}", err);
@@ -2015,12 +2206,12 @@ fn processing_loop(
         eprintln!();
     }
 
-    // print the &Summary_Opt (one line)
+    /// helper function to print the &Summary_Opt (one line)
     pub fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
         match summary_opt {
             Some(summary) => {
                 eprintln!("{}Summary Processed:{:?}", SPACING_LEAD, summary);
-                let out = patterns_dbg(&summary);
+                let out = patterns_dbg(summary);
                 eprintln!("{}{}", SPACING_LEAD, out);
             },
             None => {
@@ -2030,7 +2221,7 @@ fn processing_loop(
         }
     }
 
-    // print the &SummaryPrinted_Opt (one line)
+    /// helper function to print the &SummaryPrinted_Opt (one line)
     pub fn print_summary_opt_printed(
         summary_print_opt: &SummaryPrinted_Opt,
         summary_opt: &Summary_Opt,
@@ -2039,17 +2230,17 @@ fn processing_loop(
         match summary_print_opt {
             Some(summary_print) => {
                 eprint!("{}Summary Printed  : ", SPACING_LEAD);
-                summary_print.print_colored_stderr(Some(*color_choice), &summary_opt);
+                summary_print.print_colored_stderr(Some(*color_choice), summary_opt);
             },
             None => {
                 eprint!("{}Summary Printed  : ", SPACING_LEAD);
-                SummaryPrinted::default().print_colored_stderr(Some(*color_choice), &summary_opt);
+                SummaryPrinted::default().print_colored_stderr(Some(*color_choice), summary_opt);
             }
         }
         eprintln!();
     }
 
-    // print the various caching statistics (several lines)
+    /// helper function to print the various caching statistics (several lines)
     pub fn print_cache_stats(summary_opt: Summary_Opt) {
         if summary_opt.is_none() {
             return;
@@ -2087,7 +2278,7 @@ fn processing_loop(
             &summary.SyslineReader_syslines_by_range_miss
         );
         eprintln!(
-            "{}caching: SyslineReader::_syslines_by_range              : hit {:2}, miss {:2}, ratio: {:1.2}, insert {:2}",
+            "{}caching: SyslineReader::syslines_by_range_map           : hit {:2}, miss {:2}, ratio: {:1.2}, insert {:2}",
             SPACING_LEAD,
             summary.SyslineReader_syslines_by_range_hit,
             summary.SyslineReader_syslines_by_range_miss,
@@ -2113,7 +2304,7 @@ fn processing_loop(
             &summary.LineReader_find_line_lru_cache_miss
         );
         eprintln!(
-            "{}caching: LineReader::find_line_cache: hit {:2}, miss: {:2}, ratio: {:1.2}, put {:2}",
+            "{}caching: LineReader::find_line_lru_cache: hit {:2}, miss: {:2}, ratio: {:1.2}, put {:2}",
             SPACING_LEAD,
             summary.LineReader_find_line_lru_cache_hit,
             summary.LineReader_find_line_lru_cache_miss,
@@ -2135,29 +2326,30 @@ fn processing_loop(
         );
         // BlockReader::_read_blocks_cache
         ratio = ratio32(
-            &summary.BlockReader_read_block_cache_lru_hit,
-            &summary.BlockReader_read_block_cache_lru_miss
+            &summary.BlockReader_read_block_lru_cache_hit,
+            &summary.BlockReader_read_block_lru_cache_miss
         );
         eprintln!(
-            "{}caching: BlockReader::read_block_cache_lru: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
+            "{}caching: BlockReader::read_block_lru_cache: hit {:2}, miss {:2}, ratio: {:1.2}, put {:2}",
             SPACING_LEAD,
-            summary.BlockReader_read_block_cache_lru_hit,
-            summary.BlockReader_read_block_cache_lru_miss,
+            summary.BlockReader_read_block_lru_cache_hit,
+            summary.BlockReader_read_block_lru_cache_miss,
             ratio,
-            summary.BlockReader_read_block_cache_lru_put,
+            summary.BlockReader_read_block_lru_cache_put,
         );
     }
 
     if cli_opt_summary {
         eprintln!("\nSummary:");
-        for fpath in paths.iter() {
-            let color_ = map_path_color.get(fpath).unwrap_or(&color_default);
-            print_filepath(fpath, &color_, &color_choice);
+        for path in paths_valid.iter() {
+            let pathid: &PathId = map_path_pathid.get(path).unwrap();
+            let color_ = map_path_color.get(pathid).unwrap_or(&color_default);
+            print_filepath(path, color_, &color_choice);
 
-            let summary_opt: Summary_Opt = map_path_summary.remove(fpath);
+            let summary_opt: Summary_Opt = map_path_summary.remove(path);
             print_summary_opt_processed(&summary_opt);
 
-            let summary_print_opt: SummaryPrinted_Opt = map_path_sumpr.remove(fpath);
+            let summary_print_opt: SummaryPrinted_Opt = map_path_sumpr.remove(path);
             print_summary_opt_printed(&summary_print_opt, &summary_opt, &color_choice);
 
             if OPT_SUMMARY_PRINT_CACHE_STATS {
@@ -2165,6 +2357,7 @@ fn processing_loop(
             }
         }
         eprintln!("{:?}", sp_total);
+        eprintln!("channel recv ok {}, channel recv err {}", _count_recv_ok, _count_recv_di);
     }
 
     debug_eprintln!("{}processing_loop: E _count_recv_ok {:?} _count_recv_di {:?}", so(), _count_recv_ok, _count_recv_di);

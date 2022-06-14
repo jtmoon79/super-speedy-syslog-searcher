@@ -2,11 +2,29 @@
 //
 // miscellaneous helper functions
 
+use std;
+
+#[cfg(test)]
 use crate::common::{
     FileOffset,
 };
 
+use crate::common::{
+    FPath,
+};
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// helper for a slightly annoying set of calls
+pub fn path_to_fpath(path: &std::path::Path) -> FPath {
+    // `PathBuf` to `String` https://stackoverflow.com/q/37388107/471376
+    (*(path.to_string_lossy())).to_string()
+}
+
+/// helper for a slightly annoying set of calls
+pub fn fpath_to_path(path: &FPath) -> &std::path::Path {
+    std::path::Path::new(path)
+}
 
 /// testing helper
 #[cfg(test)]

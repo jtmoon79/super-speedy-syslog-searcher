@@ -1,17 +1,24 @@
 // Readers/linereader_tests.rs
 //
-// TODO: [2022/04/26] need to be able to disable LineReader LRU cache, and test with/without
 
 use std::fs::File;
 
 use crate::common::{
     FPath,
     Bytes,
+    FileType,
 };
 
 use crate::Readers::blockreader::{
     BlockSz,
 };
+
+use crate::Readers::filepreprocessor::{
+    path_to_filetype,
+    fpath_to_filetype,
+    guess_filetype_from_fpath,
+};
+
 
 use crate::Readers::linereader::{
     FileOffset,
@@ -136,7 +143,8 @@ enum ResultS4_LineFind_Test {
 /// helper to wrap the match and panic checks
 #[cfg(test)]
 fn new_LineReader(path: &FPath, blocksz: BlockSz) -> LineReader {
-    match LineReader::new(path.clone(), blocksz) {
+    let filetype: FileType = guess_filetype_from_fpath(path);
+    match LineReader::new(path.clone(), filetype, blocksz) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: LineReader::new({:?}, {}) failed {}", path, blocksz, err);
@@ -218,7 +226,7 @@ fn process_LineReader(lr1: &mut LineReader) {
 #[allow(non_snake_case)]
 #[cfg(test)]
 fn do_test_LineReader_count(data: &str, line_count: usize) {
-    eprintln!("{}do_test_LineReader_count(..., {:?})", sn(), line_count);
+    eprintln!("{}do_test_LineReader_count(…, {:?})", sn(), line_count);
     let blocksz: BlockSz = 64;
     let ntf = create_temp_file(data);
     let path = NTF_Path(&ntf);

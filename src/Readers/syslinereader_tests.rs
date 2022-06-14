@@ -3,6 +3,7 @@
 
 use crate::common::{
     FPath,
+    FileType,
     Path,
     ResultS4,
 };
@@ -10,6 +11,10 @@ use crate::common::{
 use crate::Readers::blockreader::{
     FileOffset,
     BlockSz,
+};
+
+use crate::Readers::filepreprocessor::{
+    guess_filetype_from_fpath,
 };
 
 use crate::Readers::helpers::{
@@ -80,7 +85,9 @@ use lazy_static::lazy_static;
 /// helper to wrap the match and panic checks
 #[cfg(test)]
 fn new_SyslineReader(path: &FPath, blocksz: BlockSz, tzo: FixedOffset) -> SyslineReader {
-    match SyslineReader::new(path.clone(), blocksz, tzo) {
+    stack_offset_set(Some(2));
+    let filetype: FileType = guess_filetype_from_fpath(path);
+    match SyslineReader::new(path.clone(), filetype, blocksz, tzo) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: SyslineReader::new({:?}, {:?}, {:?}) failed {}", path, blocksz, tzo, err);

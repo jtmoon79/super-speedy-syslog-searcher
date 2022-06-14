@@ -28,7 +28,7 @@ use crate::Readers::helpers::{
 use crate::Readers::filepreprocessor::{
     //FilePreProcessor,
     ProcessPathResult,
-    process_fpath,
+    process_path,
 };
 
 use crate::dbgpr::helpers::{
@@ -124,35 +124,35 @@ fn _test_mimeguess_analysis(
 
 #[test]
 fn test_mimeguess_analysis_txt() {
-    let ntf = create_temp_file_with_name_exact("", String::from("foo.txt"));
+    let ntf = create_temp_file_with_name_exact("", &String::from("foo.txt"));
     let path = NTF_Path(&ntf);
     _test_mimeguess_analysis(&path, true);
 }
 
 #[test]
 fn test_mimeguess_analysis_log() {
-    let ntf = create_temp_file_with_name_exact("", String::from("foo.log"));
+    let ntf = create_temp_file_with_name_exact("", &String::from("foo.log"));
     let path = NTF_Path(&ntf);
     _test_mimeguess_analysis(&path, true);
 }
 
 #[test]
 fn test_mimeguess_analysis_syslog() {
-    let ntf = create_temp_file_with_name_exact("", String::from("syslog"));
+    let ntf = create_temp_file_with_name_exact("", &String::from("syslog"));
     let path = NTF_Path(&ntf);
     _test_mimeguess_analysis(&path, false);
 }
 
 #[test]
 fn test_mimeguess_analysis_bin() {
-    let ntf = create_temp_file_with_name_exact("", String::from("foo.bin"));
+    let ntf = create_temp_file_with_name_exact("", &String::from("foo.bin"));
     let path = NTF_Path(&ntf);
     _test_mimeguess_analysis(&path, false);
 }
 
 #[test]
 fn test_mimeguess_analysis_dll() {
-    let ntf = create_temp_file_with_name_exact("", String::from("foo.dll"));
+    let ntf = create_temp_file_with_name_exact("", &String::from("foo.dll"));
     let path = NTF_Path(&ntf);
     _test_mimeguess_analysis(&path, false);
 }

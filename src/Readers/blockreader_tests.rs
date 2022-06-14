@@ -1,6 +1,16 @@
 // Readers/blockreader_tests.rs
 //
 
+use crate::common::{
+    FileType,
+};
+
+use crate::Readers::filepreprocessor::{
+    path_to_filetype,
+    fpath_to_filetype,
+    guess_filetype_from_fpath,
+};
+
 use crate::Readers::blockreader::{
     FPath,
     FileOffset,
@@ -15,7 +25,14 @@ use crate::dbgpr::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_with_name,
+    create_temp_file_with_name_exact,
+    create_temp_file_with_suffix,
+    create_temp_file_bytes_with_suffix,
     NTF_Path,
+};
+
+use crate::dbgpr::stack::{
+    stack_offset_set,
 };
 
 extern crate lazy_static;
@@ -25,12 +42,13 @@ use lazy_static::lazy_static;
 
 /// helper wrapper to create a new BlockReader
 fn new_BlockReader(path: FPath, blocksz: BlockSz) -> BlockReader {
-    let mut br1 = BlockReader::new(path.clone(), blocksz);
-    eprintln!("new {:?}", &br1);
-    match br1.open() {
-        Ok(_) => {
+    stack_offset_set(Some(2));
+    let filetype: FileType = guess_filetype_from_fpath(&path);
+    match BlockReader::new(path.clone(), filetype, blocksz) {
+        Ok(br) => {
             eprintln!("opened {:?}", path);
-            br1
+            eprintln!("new {:?}", &br);
+            br
         },
         Err(err) => {
             panic!("ERROR: BlockReader.open({:?}, {}) {}", path, blocksz, err);
@@ -47,7 +65,7 @@ fn new_BlockReader(path: FPath, blocksz: BlockSz) -> BlockReader {
 fn test_BlockReader(path: &FPath, blocksz: BlockSz) {
     eprintln!("test_BlockReader({:?}, {})", path, blocksz);
     let mut br1 = new_BlockReader(path.clone(), blocksz);
-    let last_blk = BlockReader::block_offset_at_file_offset(br1.filesz, blocksz);
+    let last_blk = BlockReader::block_offset_at_file_offset(br1.filesz(), blocksz);
     for offset in [0, 1, 5, 1, 99, 1, last_blk].iter() {
         {
             let rbp = br1.read_block(*offset);
@@ -74,25 +92,9 @@ fn test_BlockReader(path: &FPath, blocksz: BlockSz) {
 lazy_static! {
     #[allow(non_upper_case_globals)]
     static ref NTF_empty0: NamedTempFile = create_temp_file("");
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
     static ref NTF_empty0_path: FPath = NTF_Path(&NTF_empty0);
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
     static ref NTF_nl_1: NamedTempFile = create_temp_file("\n");
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
     static ref NTF_nl_1_path: FPath = NTF_Path(&NTF_nl_1);
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
     static ref NTF_basic_basic_dt10: NamedTempFile = create_temp_file(
 "2000-01-01 00:00:01 1
 2000-01-01 00:00:02 1
@@ -150,11 +152,38 @@ lazy_static! {
 2000-01-01 00:00:10 9
 2000-01-01 00:00:10 10"
     );
+    static ref NTF_basic_basic_dt10_path: FPath = NTF_Path(&NTF_basic_basic_dt10);
 }
 
+// gzip of an empty file using `gzip`
+
+const GZ_EMPTY_DATA: [u8; 26] = [
+    0x1f, 0x8b, 0x08, 0x08, 0x47, 0xd7, 0xa6, 0x62,
+    0x00, 0x03, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x00,
+    0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00,
+];
+
 lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_basic_basic_dt10_path: FPath = NTF_Path(&NTF_basic_basic_dt10);
+    static ref NTF_EMPTY_GZ: NamedTempFile = create_temp_file_bytes_with_suffix(
+        &GZ_EMPTY_DATA, &String::from("-empty.gz")
+    );
+    static ref NTF_GZ_EMPTY_PATH: FPath = NTF_Path(&NTF_EMPTY_GZ);
+}
+
+// gzip of a one-byte file using `gzip`
+
+const GZ_ONEBYTE_DATA: [u8; 24] = [
+    0x1f, 0x8b, 0x08, 0x08, 0xac, 0xdf, 0xa6, 0x62,
+    0x00, 0x03, 0x41, 0x00, 0x4b, 0xe4, 0x02, 0x00,
+    0x07, 0xa1, 0xea, 0xdd, 0x02, 0x00, 0x00, 0x00,
+];
+
+lazy_static! {
+    static ref NTF_ONEBYTE_GZ: NamedTempFile = create_temp_file_bytes_with_suffix(
+        &GZ_ONEBYTE_DATA, &String::from("-onebyte.gz")
+    );
+    static ref NTF_GZ_ONEBYTE_PATH: FPath = NTF_Path(&NTF_ONEBYTE_GZ);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -169,29 +198,86 @@ fn test_BlockReader1() {
 // -------------------------------------------------------------------------------------------------
 
 #[cfg(test)]
-fn test_mimeguess(suffix: Option<String>, check: MimeGuess) {
+fn test_mimeguess(suffix: &String, check: MimeGuess) {
     eprintln!("test_mimeguess: suffix {:?}", &suffix);
-    let ntf = create_temp_file_with_name(&"", None, suffix);
+    let ntf = create_temp_file_with_suffix("", suffix);
     let path = NTF_Path(&ntf);
     eprintln!("test_mimeguess: tempfile {:?}", &path);
     let br1 = new_BlockReader(path, 2);
-    eprintln!("test_mimeguess: blockreader.mimeguess {:?}", &br1.mimeguess);
-    assert_eq!(check, br1.mimeguess, "expected MimeGuess {:?}\nfound MimeGuess {:?}\n", check, br1.mimeguess);
+    eprintln!("test_mimeguess: blockreader.mimeguess {:?}", &br1.mimeguess());
+    assert_eq!(check, br1.mimeguess(), "expected MimeGuess {:?}\nfound MimeGuess {:?}\n", check, br1.mimeguess());
 }
 
 #[test]
 fn test_mimeguess_txt() {
-    test_mimeguess(Some(String::from(".txt")), MimeGuess::from_ext("txt"));
+    test_mimeguess(&String::from(".txt"), MimeGuess::from_ext("txt"));
 }
 
 #[test]
-fn test_mimeguess_gz() {
-    test_mimeguess(Some(String::from(".gz")), MimeGuess::from_ext("gz"));
+fn test_mimeguess_gz_onebyte() {
+    //eprintln!("NTF_GZ_EMPTY_PATH: {:?}", NTF_GZ_EMPTY_PATH.to_string());
+    //eprintln!("test_mimeguess_gz: sleep(33)…");
+    //std::thread::sleep(std::time::Duration::from_secs(33));
+// LAST WORKING HERE 2022/06/13 16:32:22
+    let br1 = new_BlockReader(NTF_GZ_ONEBYTE_PATH.clone(), 2);
+    eprintln!("test_mimeguess_gz: blockreader.mimeguess {:?}", &br1.mimeguess());
+    let check = MimeGuess::from_ext("gz");
+    assert_eq!(check, br1.mimeguess(), "expected MimeGuess {:?}\nfound MimeGuess {:?}\n", check, br1.mimeguess());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+#[cfg(test)]
+fn test_filetype(name: &String, check: FileType) {
+    eprintln!("test_filetype: name {:?}", &name);
+    let ntf = create_temp_file_with_name_exact("", name);
+    let path = NTF_Path(&ntf);
+    eprintln!("test_filetype: tempfile {:?}", &path);
+    let br1 = new_BlockReader(path, 2);
+    let filetype = br1.filetype();
+    eprintln!("test_filetype: blockreader.filetype {:?}", filetype);
+    assert_eq!(check, filetype, "expected FileType {:?}\nfound FileType {:?}\n", check, filetype);
 }
 
 #[test]
-fn test_mimeguess_() {
-    test_mimeguess(Some(String::from("")), MimeGuess::from_ext(""));
+fn test_filetype_FILE_txt() {
+    test_filetype(&String::from("test_filetype_txt.txt"), FileType::FILE);
+}
+
+#[test]
+fn test_filetype_FILE_log() {
+    test_filetype(&String::from("test_filetype_log.log"), FileType::FILE);
+}
+
+#[test]
+fn test_filetype_FILE_syslog() {
+    test_filetype(&String::from("syslog"), FileType::FILE);
+}
+
+// LAST WORKING HERE 2022/06/13 00:16:03
+// test `test_filetype_FILE_messages` fails.
+// `BlockReader::new` is doing simplistic mimeguess. Instead, have
+// the caller decide the associated `FileType`.
+// This will use functions in `filepreprocess.rs`. Something in the
+// that same file should use `FPath` to determine `MimeGuess` then `FileType`.
+// Something in `filepreprocssor.rs` could have a funciton to create new
+// `SyslogProcessor` and hide the `MimeGuess` to `FileType` guessing.
+// The new `SyslogProcessor` can pass the `FileType` all the way
+// down to `BlockReader`. AFAICT, nothing needs to care about `MimeGuess` after
+// `FileType` is chosen (so it can be dropped... or let SyslogProcessor hang on to it?).
+
+#[test]
+fn test_filetype_FILE_messages() {
+    test_filetype(&String::from("messages"), FileType::FILE);
+}
+
+#[test]
+fn test_filetype_FILEGZ_gz() {
+    let br1 = new_BlockReader(NTF_GZ_ONEBYTE_PATH.clone(), 2);
+    let filetype = br1.filetype();
+    eprintln!("test_mimeguess_gz: blockreader.filetype {:?}", &filetype);
+    let check = FileType::FILE_GZ;
+    assert_eq!(check, filetype, "expected FileType {:?}\nfound FileType {:?}\n", check, filetype);
 }
 
 // -------------------------------------------------------------------------------------------------

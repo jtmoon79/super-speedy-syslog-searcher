@@ -4,6 +4,7 @@
 use crate::common::{
     FPath,
     FileOffset,
+    FileType,
 };
 
 use crate::dbgpr::stack::{
@@ -18,6 +19,7 @@ use crate::dbgpr::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_bytes,
+    create_temp_file_with_suffix,
     create_temp_file_with_name_exact,
     NTF_Path,
     eprint_file,
@@ -25,6 +27,11 @@ use crate::dbgpr::helpers::{
 
 use crate::Readers::blockreader::{
     BlockSz,
+};
+
+use crate::Readers::filepreprocessor::{
+    fpath_to_filetype,
+    guess_filetype_from_fpath,
 };
 
 use crate::Data::datetime::{
@@ -66,12 +73,22 @@ use lazy_static::lazy_static;
 #[cfg(test)]
 fn new_SyslogProcessor(path: &FPath, blocksz: BlockSz) -> SyslogProcessor {
     let tzo: FixedOffset = FixedOffset::east(0);
-    match SyslogProcessor::new(path.clone(), blocksz, tzo) {
+    let filetype: FileType = guess_filetype_from_fpath(path);
+    match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: SyslogProcessor::new({:?}, {:?}, {:?}) failed {}", path, blocksz, tzo, err);
         }
     }
+}
+
+lazy_static! {
+    static ref STRING_LOG: String = String::from(".log");
+}
+
+/// create a temp file filled with `data` ending in `.log`
+fn create_temp_log(data: &str) -> NamedTempFile {
+    create_temp_file_with_suffix(data, &STRING_LOG)
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -81,7 +98,7 @@ fn new_SyslogProcessor(path: &FPath, blocksz: BlockSz) -> SyslogProcessor {
 
 lazy_static! {
     #[allow(non_upper_case_globals)]
-    static ref NTF_empty0: NamedTempFile = create_temp_file("");
+    static ref NTF_empty0: NamedTempFile = create_temp_log("");
 }
 
 lazy_static! {
@@ -91,7 +108,7 @@ lazy_static! {
 
 lazy_static! {
     #[allow(non_upper_case_globals)]
-    static ref NTF_nl_1: NamedTempFile = create_temp_file("\n");
+    static ref NTF_nl_1: NamedTempFile = create_temp_log("\n");
 }
 
 lazy_static! {
@@ -101,7 +118,7 @@ lazy_static! {
 
 lazy_static! {
     #[allow(non_upper_case_globals)]
-    static ref NTF_nl_2: NamedTempFile = create_temp_file("\n\n");
+    static ref NTF_nl_2: NamedTempFile = create_temp_log("\n\n");
 }
 
 lazy_static! {
@@ -111,7 +128,7 @@ lazy_static! {
 
 lazy_static! {
     #[allow(non_upper_case_globals)]
-    static ref NTF_nl_3: NamedTempFile = create_temp_file("\n\n\n");
+    static ref NTF_nl_3: NamedTempFile = create_temp_log("\n\n\n");
 }
 
 lazy_static! {
@@ -121,7 +138,7 @@ lazy_static! {
 
 lazy_static! {
     #[allow(non_upper_case_globals)]
-    static ref NTF_nl_4: NamedTempFile = create_temp_file("\n\n\n\n");
+    static ref NTF_nl_4: NamedTempFile = create_temp_log("\n\n\n\n");
 }
 
 lazy_static! {
@@ -131,7 +148,7 @@ lazy_static! {
 
 lazy_static! {
     #[allow(non_upper_case_globals)]
-    static ref NTF_nl_5: NamedTempFile = create_temp_file("\n\n\n\n\n");
+    static ref NTF_nl_5: NamedTempFile = create_temp_log("\n\n\n\n\n");
 }
 
 lazy_static! {
@@ -200,7 +217,7 @@ fn test_blockzero_analysis_lines_nl2_FILE_OK() {
 fn test_blockzero_analysis_lines_nl20_FILE_OK() {
     let data = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     let line_count: u64 = data.lines().count() as u64;
-    let ntf = create_temp_file(data);
+    let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
     let line_count_ = std::cmp::min(line_count, SyslogProcessor::BLOCKZERO_ANALYSIS_LINE_COUNT);
     _test_blockzero_analysis_lines(&path, 0xFF, FileProcessingResult_BlockZero::FILE_OK, line_count_);
@@ -209,7 +226,7 @@ fn test_blockzero_analysis_lines_nl20_FILE_OK() {
 #[test]
 fn test_blockzero_analysis_lines_nl0_bsz4_FILE_ERR_NO_SYSLINES_FOUND() {
     let data = "                                                               ";
-    let ntf = create_temp_file(data);
+    let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
     _test_blockzero_analysis_lines(&path, 0x4, FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND, 0);
 }
@@ -217,7 +234,7 @@ fn test_blockzero_analysis_lines_nl0_bsz4_FILE_ERR_NO_SYSLINES_FOUND() {
 #[test]
 fn test_blockzero_analysis_lines_nl0_bszFF_FILE_ERR_NO_SYSLINES_FOUND() {
     let data = "                                                               ";
-    let ntf = create_temp_file(data);
+    let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
     _test_blockzero_analysis_lines(&path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND, 1);
 }
@@ -225,7 +242,7 @@ fn test_blockzero_analysis_lines_nl0_bszFF_FILE_ERR_NO_SYSLINES_FOUND() {
 #[test]
 fn test_blockzero_analysis_lines_nl3_bszFF_FILE_ERR_NO_LINES_FOUND() {
     let data = "           \n  \n                                               ";
-    let ntf = create_temp_file(data);
+    let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
     _test_blockzero_analysis_lines(&path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND, 3);
 }

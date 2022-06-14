@@ -110,7 +110,6 @@ pub struct SyslogProcessor {
     tz_offset: FixedOffset,
     /// has `self.blockzero_analysis()` completed?
     blockzero_analysis_done: bool,
-    filetype: FileType,
 }
 
 impl std::fmt::Debug for SyslogProcessor {
@@ -120,7 +119,9 @@ impl std::fmt::Debug for SyslogProcessor {
             .field("Processing Mode", &self.processingmode)
             .field("BlockSz", &self.blocksz)
             .field("TimeOffset", &self.tz_offset)
-            .field("ZeroBlockAnalysis done?", &self.blockzero_analysis_done)
+            .field("BO Analysis done?", &self.blockzero_analysis_done)
+            .field("filetype", &self.filetype())
+            .field("MimeGuess", &self.mimeguess())
             .finish()
     }
 }
@@ -138,9 +139,10 @@ impl SyslogProcessor {
     /// file to be considered a syslog file
     pub (crate) const BLOCKZERO_ANALYSIS_SYSLINE_COUNT: u64 = 2;
 
-    pub fn new(path: FPath, blocksz: BlockSz, tz_offset: FixedOffset) -> Result<SyslogProcessor> {
+    pub fn new(path: FPath, filetype: FileType, blocksz: BlockSz, tz_offset: FixedOffset) -> Result<SyslogProcessor> {
+        debug_eprintln!("{}SyslogProcessor::new({:?}, {:?}, {:?}, {:?})", snx(), path, filetype, blocksz, tz_offset);
         let path_ = path.clone();
-        let mut slr = match SyslineReader::new(path, blocksz, tz_offset) {
+        let slr = match SyslineReader::new(path, filetype, blocksz, tz_offset) {
             Ok(val) => val,
             Err(err) => {
                 return Result::Err(err);
@@ -154,66 +156,74 @@ impl SyslogProcessor {
                 blocksz,
                 tz_offset,
                 blockzero_analysis_done: false,
-                filetype: FileType::_FILE_UNSET,
             }
         )
     }
 
+    #[inline]
     pub fn lines_count(&self) -> u64 {
         self.syslinereader.linereader.lines_count
     }
 
-    pub fn blocksz(&self) -> BlockSz {
+    #[inline]
+    pub const fn blocksz(&self) -> BlockSz {
         self.syslinereader.blocksz()
     }
 
-    pub fn filesz(&self) -> u64 {
+    #[inline]
+    pub const fn filesz(&self) -> u64 {
         self.syslinereader.filesz()
     }
 
-    pub fn path(&self) -> &FPath {
+    #[inline]
+    pub const fn filetype(&self) -> FileType {
+        self.syslinereader.filetype()
+    }
+
+    #[inline]
+    pub const fn path(&self) -> &FPath {
         self.syslinereader.path()
     }
 
     /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
-    pub fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
+    pub const fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         self.syslinereader.block_offset_at_file_offset(fileoffset)
     }
 
     /// return file_offset (file byte offset) at given `BlockOffset`
-    pub fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
+    pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         self.syslinereader.file_offset_at_block_offset(blockoffset)
     }
 
     /// return file_offset (file byte offset) at blockoffset+blockindex
-    pub fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
+    pub const fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         self.syslinereader
             .file_offset_at_block_offset_index(blockoffset, blockindex)
     }
 
     /// return block index at given `FileOffset`
-    pub fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
+    pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         self.syslinereader.block_index_at_file_offset(fileoffset)
     }
 
     /// return count of blocks in a file, also, the last blockoffset + 1
-    pub fn file_blocks_count(&self) -> u64 {
+    pub const fn file_blocks_count(&self) -> u64 {
         self.syslinereader.file_blocks_count()
     }
 
     /// last valid `BlockOffset` of the file
-    pub fn blockoffset_last(&self) -> BlockOffset {
+    pub const fn blockoffset_last(&self) -> BlockOffset {
         self.syslinereader.blockoffset_last()
     }
 
     /// smallest size character in bytes
-    pub fn charsz(&self) -> usize {
+    pub const fn charsz(&self) -> usize {
         self.syslinereader.charsz()
     }
 
     /// wrapper to `self.syslinereader.linereader.blockreader.mimeguess`
-    pub fn mimeguess(&self) -> MimeGuess {
-        self.syslinereader.linereader.blockreader.mimeguess
+    pub const fn mimeguess(&self) -> MimeGuess {
+        self.syslinereader.mimeguess()
     }
 
     /// wrapper to `self.syslinereader.find_sysline`
@@ -382,8 +392,7 @@ impl SyslogProcessor {
         FileProcessingResult_BlockZero::FILE_OK
     }
 
-    /// Given a file of an unknown MIME type (`self.blockreader.mimeguess.is_empty()`),
-    /// analyze block 0 (the first block, the "zero block") and make best guesses
+    /// Analyze block 0 (the first block, the "zero block") and make best guesses
     /// about the file.
     ///
     /// Return `true` if enough is known about the file to proceed with further analysis
@@ -397,27 +406,11 @@ impl SyslogProcessor {
     pub(crate) fn blockzero_analysis_lines(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.blockzero_analysis()", sn());
         assert!(!self.blockzero_analysis_done, "blockzero_analysis should only be completed once.");
-
         self.blockzero_analysis_done = true;
 
-        /*
-        // XXX: this is not used
-        let mimeguess_ = self.mimeguess_analysis();
-        debug_eprintln!("{}syslogprocessor.blockzero_analysis() mimeguess_analysis() {}", so(), mimeguess_);
-
-        // XXX: this is not used
-        let mimesniff_ = match self.mimesniff_analysis() {
-            Ok(val) => val,
-            Err(err) => {
-                debug_eprintln!("{}syslogprocessor.blockzero_analysis() return FILE_ERR_IO({})", sx(), err);
-                return FileProcessingResult_BlockZero::FILE_ERR_IO(err);
-            }
-        };
-        debug_eprintln!("{}syslogprocessor.blockzero_analysis() mimesniff_analysis() {}", so(), mimesniff_);
-        */
+        // TODO: something!
 
         debug_eprintln!("{}syslogprocessor.blockzero_analysis() return …", sx());
-
         self.blockzero_analysis_lines_readlines()
     }
 
@@ -440,12 +433,14 @@ impl SyslogProcessor {
 
     /// return an up-to-date `Summary` instance for this `SyslogProcessor`
     pub fn summary(&self) -> Summary {
+        let filetype = self.filetype();
         let BlockReader_bytes = self.syslinereader.linereader.blockreader.count_bytes();
-        let BlockReader_bytes_total = self.syslinereader.linereader.blockreader.filesz as u64;
+        let BlockReader_bytes_total = self.filesz() as u64;
         let BlockReader_blocks = self.syslinereader.linereader.blockreader.count();
         let BlockReader_blocks_total = self.syslinereader.linereader.blockreader.blockn;
         let BlockReader_blocksz = self.blocksz();
-        let BlockReader_filesz = self.filesz();
+        let BlockReader_filesz = self.syslinereader.linereader.blockreader.filesz;
+        let BlockReader_filesz_actual = self.syslinereader.linereader.blockreader.filesz_actual;
         let LineReader_lines = self.syslinereader.linereader.count();
         let SyslineReader_syslines = self.syslinereader.count();
         let SyslineReader_syslines_by_range_hit = self.syslinereader._syslines_by_range_hit;
@@ -461,20 +456,22 @@ impl SyslogProcessor {
         let LineReader_find_line_lru_cache_hit = self.syslinereader.linereader._find_line_lru_cache_hit;
         let LineReader_find_line_lru_cache_miss = self.syslinereader.linereader._find_line_lru_cache_miss;
         let LineReader_find_line_lru_cache_put = self.syslinereader.linereader._find_line_lru_cache_put;
-        let BlockReader_read_block_cache_lru_hit = self.syslinereader.linereader.blockreader._read_block_cache_lru_hit;
-        let BlockReader_read_block_cache_lru_miss = self.syslinereader.linereader.blockreader._read_block_cache_lru_miss;
-        let BlockReader_read_block_cache_lru_put = self.syslinereader.linereader.blockreader._read_block_cache_lru_put;
+        let BlockReader_read_block_lru_cache_hit = self.syslinereader.linereader.blockreader._read_block_cache_lru_hit;
+        let BlockReader_read_block_lru_cache_miss = self.syslinereader.linereader.blockreader._read_block_cache_lru_miss;
+        let BlockReader_read_block_lru_cache_put = self.syslinereader.linereader.blockreader._read_block_cache_lru_put;
         let BlockReader_read_blocks_hit = self.syslinereader.linereader.blockreader._read_blocks_hit;
         let BlockReader_read_blocks_miss = self.syslinereader.linereader.blockreader._read_blocks_miss;
         let BlockReader_read_blocks_insert = self.syslinereader.linereader.blockreader._read_blocks_insert;
 
         Summary::new(
+            filetype,
             BlockReader_bytes,
             BlockReader_bytes_total,
             BlockReader_blocks,
             BlockReader_blocks_total,
             BlockReader_blocksz,
             BlockReader_filesz,
+            BlockReader_filesz_actual,
             LineReader_lines,
             SyslineReader_syslines,
             SyslineReader_syslines_by_range_hit,
@@ -490,9 +487,9 @@ impl SyslogProcessor {
             LineReader_find_line_lru_cache_hit,
             LineReader_find_line_lru_cache_miss,
             LineReader_find_line_lru_cache_put,
-            BlockReader_read_block_cache_lru_hit,
-            BlockReader_read_block_cache_lru_miss,
-            BlockReader_read_block_cache_lru_put,
+            BlockReader_read_block_lru_cache_hit,
+            BlockReader_read_block_lru_cache_miss,
+            BlockReader_read_block_lru_cache_put,
             BlockReader_read_blocks_hit,
             BlockReader_read_blocks_miss,
             BlockReader_read_blocks_insert,

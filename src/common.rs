@@ -335,15 +335,32 @@ impl<E> PartialEq for FileProcessingResult<E> {
 impl<E> Eq for FileProcessingResult<E> {}
 
 /// file types that can be processed by `SyslogProcessor` (and underlying modules)
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FileType {
+    FILE_UNSET_,
     FILE,
     FILE_GZ,
     FILE_TAR,
     FILE_TAR_GZ,
     FILE_XZ,
     FILE_UNKNOWN,
-    _FILE_UNSET,
+}
+
+// XXX: Deriving `Default` on enums is experimental.
+//      See issue #86985 <https://github.com/rust-lang/rust/issues/86985>
+//      When `Default` is integrated then this `impl Default` can be removed.
+impl Default for FileType {
+    fn default() -> Self { FileType::FILE_UNSET_ }
+}
+
+impl FileType {
+    /// Returns `true` if this is a compressed file
+    #[inline(always)]
+    pub const fn is_compressed(&self) -> bool {
+        matches!(*self,
+            FileType::FILE_GZ | FileType::FILE_TAR_GZ | FileType::FILE_XZ
+        )
+    }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

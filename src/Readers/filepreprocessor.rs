@@ -16,6 +16,12 @@ use crate::Readers::blockreader::{
     ResultS3_ReadBlock,
 };
 
+
+use crate::Readers::helpers::{
+    path_to_fpath,
+    fpath_to_path,
+};
+
 use crate::printer::printers::{
     Color,
     ColorSpec,
@@ -63,6 +69,9 @@ use debug_print::{debug_eprint, debug_eprintln};
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
+
+extern crate mime;
+use mime::Mime;
 
 extern crate mime_guess;
 use mime_guess::MimeGuess;
@@ -117,91 +126,192 @@ use more_asserts::{
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
-    FILE_VALID(FPath),
+    FILE_VALID((FileType, FPath)),
     FILE_ERR_NO_PERMISSIONS(FPath),
     FILE_ERR_NOT_PARSEABLE(FPath),
 }
 
-/// map `MimeGuess` into a `FileType`
-/// (i.e. call `find_line`)
-pub fn parseable_mimeguess_str(mimeguess_str: &str) -> FileType {
-    // see https://docs.rs/mime/latest/mime/
-    // see https://docs.rs/mime/latest/src/mime/lib.rs.html#572-575
-    debug_eprintln!("{}LineReader::parseable_mimeguess_str: mimeguess {:?}", snx(), mimeguess_str);
-    match mimeguess_str {
-        "plain"
-        | "text"
-        | "text/plain"
-        | "text/*"
-        | "utf-8" => {FileType::FILE},
-        _ => {FileType::FILE_UNKNOWN},
-    }
-}
-
-/// can a `LineReader` parse this file/MIME type?
-/// (i.e. call `self.find_line()`)
-pub fn parseable_mimeguess(mimeguess: &MimeGuess) -> FileType {
-    for mimeguess_ in mimeguess.iter() {
-        match parseable_mimeguess_str(mimeguess_.as_ref()) {
-            FileType::FILE_UNKNOWN | FileType::_FILE_UNSET => {},
-            val => { return val; }
-        }
-    }
-
-    FileType::FILE_UNKNOWN
-}
-
-/// reduce `parseable_mimeguess()` to boolean
-pub fn parseable_mimeguess_ok(mimeguess: &MimeGuess) -> bool {
-    ! matches!(
-        parseable_mimeguess(&mimeguess), FileType::FILE_UNKNOWN | FileType::_FILE_UNSET
-    )
-}
+pub type ProcessPathResults = Vec<ProcessPathResult>;
 
 lazy_static! {
-    static ref PARSEABLE_FILENAMES: Vec<&'static OsStr> = {
+    static ref PARSEABLE_FILENAMES_FILE: Vec<&'static OsStr> = {
         #[allow(clippy::vec_init_then_push)]
-        let mut v = Vec::<&'static OsStr>::with_capacity(8);
+        let mut v = Vec::<&'static OsStr>::with_capacity(7);
         v.push(OsStr::new("messages"));
         v.push(OsStr::new("MESSAGES"));
         v.push(OsStr::new("syslog"));
         v.push(OsStr::new("SYSLOG"));
         v.push(OsStr::new("faillog"));
-        v.push(OsStr::new("access_log"));
-        v.push(OsStr::new("error_log"));
         v.push(OsStr::new("lastlog"));
+        v.push(OsStr::new("kernlog"));
         v
     };
 }
 
-/// compensates `parseable_mimeguess` for some files not handled by `MimeGuess::from`,
+/// map `MimeGuess` into a `FileType`
+/// (i.e. call `find_line`)
+pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
+    // see https://docs.rs/mime/latest/mime/
+    // see https://docs.rs/mime/latest/src/mime/lib.rs.html#572-575
+    debug_eprintln!("{}mimeguess_to_filetype_str: mimeguess {:?}", snx(), mimeguess_str);
+    match mimeguess_str {
+        "plain"
+        | "text"
+        | "text/plain"
+        | "text/*"
+        | "utf-8" => FileType::FILE,
+        "application/gzip" => FileType::FILE_GZ,
+        _ => FileType::FILE_UNKNOWN,
+    }
+}
+
+/// can a `LineReader` parse this file/MIME type?
+/// (i.e. call `self.find_line()`)
+pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
+    debug_eprintln!("{}mimeguess_to_filetype({:?})", sn(), mimeguess);
+    for mimeguess_ in mimeguess.iter() {
+        debug_eprintln!("{}mimeguess_to_filetype: check {:?}", so(), mimeguess_);
+        match mimeguess_to_filetype_str(mimeguess_.as_ref()) {
+            FileType::FILE_UNKNOWN | FileType::FILE_UNSET_ => {},
+            val => {
+                debug_eprintln!("{}mimeguess_to_filetype: return {:?}", sx(), val);
+                return val;
+            }
+        }
+    }
+
+    debug_eprintln!("{}mimeguess_to_filetype: return {:?}", sx(), FileType::FILE_UNKNOWN);
+
+    FileType::FILE_UNKNOWN
+}
+
+/// compensates `mimeguess_to_filetype` for some files not handled by `MimeGuess::from`,
 /// like file names without extensions in the name, e.g. `messages` or `syslog`
-pub fn parseable_filename(path: &std::path::Path) -> bool {
-    if PARSEABLE_FILENAMES.contains(&path.file_name().unwrap_or_default()) {
-        return true;
+pub fn path_to_filetype(path: &std::path::Path) -> FileType {
+    debug_eprintln!("{}path_to_filetype({:?})", sn(), path);
+
+    if PARSEABLE_FILENAMES_FILE.contains(&path.file_name().unwrap_or_default()) {
+        debug_eprintln!("{}path_to_filetype: return FILE; PARSEABLE_FILENAMES_FILE.contains({:?})", sx(), &path.file_name());
+        return FileType::FILE;
     }
     // many logs have no extension in the name
     if path.extension().is_none() {
-        return true;
+        debug_eprintln!("{}path_to_filetype: return FILE; no path.extension()", sx());
+        return FileType::FILE;
     }
     // XXX: `file_prefix` WIP https://github.com/rust-lang/rust/issues/86319
     //let file_prefix: &OsStr = &path.file_prefix().unwrap_or_default();
-    let file_prefix: &OsStr = &path.file_stem().unwrap_or_default();
-    let file_prefix_s = file_prefix.to_str().unwrap_or_default();
-    // file name `log.host` as emitted by samba daemon
+    let file_prefix: &OsStr = path.file_stem().unwrap_or_default();
+    let file_prefix_s: &str = file_prefix.to_str().unwrap_or_default();
+    debug_eprintln!("{}path_to_filetype: file_prefix {:?}", so(), file_prefix_s);
+
+    let file_suffix: &OsStr = path.extension().unwrap_or_default();
+    let file_suffix_s: &str = file_suffix.to_str().unwrap_or_default();
+    debug_eprintln!("{}path_to_filetype: file_suffix {:?}", so(), file_suffix_s);
+
+    // FILE
+
+    // file name `log` often on cheap embedded systems
     if file_prefix_s == "log" {
-        return true;
+        debug_eprintln!("{}path_to_filetype: return FILE; log", sx());
+        return FileType::FILE;
     }
-    // file name `log_media`
+    // for example, `log.host` as emitted by samba daemon
+    if file_prefix_s.starts_with("log.") {
+        debug_eprintln!("{}path_to_filetype: return FILE; log.", sx());
+        return FileType::FILE;
+    }
+    // for example, `log_media`
     if file_prefix_s.starts_with("log_") {
-        return true;
+        debug_eprintln!("{}path_to_filetype: return FILE; log_", sx());
+        return FileType::FILE;
     }
-    // file name `media_log`
+    // for example, `media_log`
     if file_prefix_s.ends_with("_log") {
-        return true;
+        debug_eprintln!("{}path_to_filetype: return FILE; _log", sx());
+        return FileType::FILE;
+    }
+    // for example, `media.log.old`
+    if file_suffix_s.ends_with(".log.old") {
+        debug_eprintln!("{}path_to_filetype: return FILE; .log.old", sx());
+        return FileType::FILE;
     }
 
-    false
+    // FILE_GZ
+
+    // for example, `media.gz.old`
+    if file_suffix_s.ends_with(".gz.old") {
+        debug_eprintln!("{}path_to_filetype: return FILE_GZ; .gz.old", sx());
+        return FileType::FILE_GZ;
+    }
+    // for example, `media.gzip`
+    if file_suffix_s.ends_with(".gzip") {
+        debug_eprintln!("{}path_to_filetype: return FILE_GZ; .gzip", sx());
+        return FileType::FILE_GZ;
+    }
+
+    debug_eprintln!("{}path_to_filetype: return FILE_UNKNOWN", sx());
+
+    FileType::FILE_UNKNOWN
+}
+
+/// wrapper for `path_to_filetype`
+pub fn fpath_to_filetype(path: &FPath) -> FileType {
+    path_to_filetype(fpath_to_path(path))
+}
+
+/// is `FileType` supported?
+pub fn parseable_filetype(filetype: &FileType) -> bool {
+    matches!(
+        filetype,
+        // effectively the list of currently supported file types
+        &FileType::FILE
+        | &FileType::FILE_GZ
+    )
+}
+
+/// reduce `mimeguess_to_filetype()` to a boolean
+pub fn mimeguess_to_filetype_ok(mimeguess: &MimeGuess) -> bool {
+    parseable_filetype(&mimeguess_to_filetype(mimeguess))
+}
+
+/// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+pub fn guess_filetype_from_mimeguess_path(mimeguess: &MimeGuess, path: &std::path::Path) -> FileType {
+    let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
+    if ! parseable_filetype(&filetype) {
+        filetype = path_to_filetype(path);
+    }
+
+    filetype
+}
+
+/// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+pub fn guess_filetype_from_mimeguess_fpath(mimeguess: &MimeGuess, path: &FPath) -> FileType {
+    let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
+    if ! parseable_filetype(&filetype) {
+        let path_: &std::path::Path = fpath_to_path(path);
+        filetype = path_to_filetype(path_);
+    }
+
+    filetype
+}
+
+/// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+pub fn guess_filetype_from_path(path: &std::path::Path) -> FileType {
+    let mimeguess: MimeGuess = MimeGuess::from_path(path);
+    let mut filetype: FileType = mimeguess_to_filetype(&mimeguess);
+    if ! parseable_filetype(&filetype) {
+        filetype = path_to_filetype(path);
+    }
+
+    filetype
+}
+
+/// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+pub fn guess_filetype_from_fpath(path: &FPath) -> FileType {
+    let path_: &std::path::Path = fpath_to_path(path);
+
+    guess_filetype_from_path(path_)
 }
 
 /*
@@ -224,7 +334,7 @@ pub(crate) fn mimesniff_analysis(&mut self) -> Result<bool> {
     let sniff: String = String::from((*bptr).as_slice().sniff_mime_type().unwrap_or(""));
     debug_eprintln!("{}linereader.mimesniff_analysis: sniff_mime_type {:?}", so(), sniff);
     // TODO: this function should be moved to filepreprocssor.rs and modified
-    //let is_parseable: bool = SyslogProcessor::parseable_mimeguess_str(sniff.as_ref());
+    //let is_parseable: bool = SyslogProcessor::mimeguess_to_filetype_str(sniff.as_ref());
     let is_parseable = false;
 
     debug_eprintln!("{}linereader.mimesniff_analysis: return Ok({:?})", sx(), is_parseable);
@@ -240,8 +350,8 @@ pub(crate) fn mimeguess_analysis(&mut self) -> bool {
 
     if !mimeguess_.is_empty() {
         // TODO: this function should be moved to filepreprocssor.rs and modified
-        //is_parseable = SyslogProcessor::parseable_mimeguess(&mimeguess_);
-        debug_eprintln!("{}linereader.mimeguess_analysis: parseable_mimeguess {:?}", sx(), is_parseable);
+        //is_parseable = SyslogProcessor::mimeguess_to_filetype(&mimeguess_);
+        debug_eprintln!("{}linereader.mimeguess_analysis: mimeguess_to_filetype {:?}", sx(), is_parseable);
         return is_parseable;
     }
     debug_eprintln!("{}linereader.mimeguess_analysis: {:?}", sx(), is_parseable);
@@ -251,19 +361,25 @@ pub(crate) fn mimeguess_analysis(&mut self) -> bool {
 */
 
 /// Return all parseable files in the Path.
+///
 /// Given a directory, recurses the directory.
-/// for each recursed file, checks if file is parseable (correct file type, appropriate permissions).
-/// Given a plain file path, returns that path. This behavior assumes the user-passed
+/// For each recursed file, checks if file is parseable (correct file type,
+/// appropriate permissions).
+///
+/// Given a plain file path, returns that path. This behavior assumes a user-passed
 /// file path should attempt to be parsed.
-pub fn process_fpath(path: &FPath) -> Vec<ProcessPathResult> {
-    debug_eprintln!("{}process_fpath({:?})", sn(), path);
+pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
+    debug_eprintln!("{}process_path({:?})", sn(), path);
 
     // if passed a path directly to a plain file (symlink to a plain file)
     // then assume the user wants to force an attempt to process such a file
-    let p_ = std::path::Path::new(path);
-    if p_.is_file() {
+    // i.e. do not call `parseable_filetype`
+    let std_path = std::path::Path::new(path);
+    if std_path.is_file() {
+        let mimeguess: MimeGuess = MimeGuess::from_path(std_path);
+        let filetype: FileType = mimeguess_to_filetype(&mimeguess);
         let paths: Vec<ProcessPathResult> = vec![
-            ProcessPathResult::FILE_VALID(path.clone()),
+            ProcessPathResult::FILE_VALID((filetype, path.clone())),
         ];
         return paths;
     }
@@ -272,13 +388,14 @@ pub fn process_fpath(path: &FPath) -> Vec<ProcessPathResult> {
 
     let mut paths: Vec<ProcessPathResult> = Vec::<ProcessPathResult>::new();
 
-    debug_eprintln!("{}process_fpath: WalkDir({:?})...", so(), path);
+    debug_eprintln!("{}process_path: WalkDir({:?})…", so(), path);
     for entry in walkdir::WalkDir::new(path.as_str())
         .follow_links(true)
         .contents_first(true)
         .sort_by_file_name()
         .same_file_system(true)
     {
+        // XXX: what is type `T` in `Result<T, E>` returned by `WalkDir`?
         let path_ = match entry {
             Ok(val) => {
                 debug_eprintln!("{}Ok({:?})", so(), val);
@@ -289,26 +406,27 @@ pub fn process_fpath(path: &FPath) -> Vec<ProcessPathResult> {
                 continue;
             }
         };
-        // `PathBuf` to `String`
-        // https://stackoverflow.com/q/37388107/471376
-        let std_path = path_.path();
-        let fpath: FPath = (*(std_path.to_string_lossy())).to_string();
         if ! path_.file_type().is_file() {
-            debug_eprintln!("{}process_fpath: Path not a file {:?}", so(), path_);
+            debug_eprintln!("{}process_path: Path not a file {:?}", so(), path_);
             //paths.push(ProcessPathResult::FILE_ERR_NOT_PARSEABLE(fpath));
             continue;
         }
-        let mimeguess: MimeGuess = MimeGuess::from_path(std_path);
-        debug_eprintln!("{}process_fpath: {:?} for {:?}", so(), mimeguess, std_path);
-        if ! parseable_mimeguess_ok(&mimeguess) && ! parseable_filename(&std_path) {
-            debug_eprintln!("{}process_fpath: Path MIME type not parseable {:?} for {:?}", so(), mimeguess, std_path);
+
+        let std_path_: &std::path::Path = path_.path();
+        let mimeguess: MimeGuess = MimeGuess::from_path(std_path_);
+        let mut filetype: FileType = guess_filetype_from_mimeguess_path(&mimeguess, std_path_);
+        if ! parseable_filetype(&filetype) {
+            debug_eprintln!("{}process_path: Path MIME type not parseable {:?} for {:?}", so(), mimeguess, std_path);
             //paths.push(ProcessPathResult::FILE_ERR_NOT_PARSEABLE(fpath));
             continue;
         }
-        debug_eprintln!("{}process_fpath: paths.push(FILE_VALID({:?}))", so(), fpath);
-        paths.push(ProcessPathResult::FILE_VALID(fpath));
+        let fpath: FPath = path_to_fpath(std_path_);
+        debug_eprintln!("{}process_path: paths.push(FILE_VALID(({:?}, {:?})))", so(), filetype, fpath);
+        paths.push(ProcessPathResult::FILE_VALID((filetype, fpath)));
     }
-    debug_eprintln!("{}process_fpath({:?})", sx(), path);
+    debug_eprintln!("{}process_path({:?})", sx(), path);
 
     paths
 }
+
+
