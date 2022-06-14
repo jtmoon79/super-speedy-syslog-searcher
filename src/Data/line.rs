@@ -420,14 +420,14 @@ impl Line {
         self.lineparts[last_li].fileoffset + (self.lineparts[last_li].len() as FileOffset) - 1
     }
 
-    /// length of this `Line` in bytes
+    /// length of this `Line` in bytes as calcuated from stored fileoffsets
     pub fn len(self: &Line) -> usize {
         (self.fileoffset_end() - self.fileoffset_begin() + 1) as usize
     }
 
     /// count of `LinePart` in `self.lineparts.len()`
     /// XXX: redundant, need to decide which to keep.
-    pub fn count(self: &Line) -> usize {
+    pub fn count_lineparts(self: &Line) -> usize {
         self.lineparts.len()
     }
 
@@ -485,8 +485,7 @@ impl Line {
         false
     }
 
-    /// return all slices that make up this `Line`
-    /// CANDIDATE FOR REMOVAL?
+    /// return all slices that make up this `Line` within a `Vec`
     pub fn get_slices(self: &Line) -> Slices {
         // short-circuit this case
         let sz = self.lineparts.len();
@@ -499,8 +498,7 @@ impl Line {
         slices
     }
 
-    /// return a count of slices that would be returned by `get_slices`
-    /// CANDIDATE FOR REMOVAL?
+    /// return a count of `[u8]` slices that make up this `Line`
     pub fn get_slices_count(self: &Line) -> usize {
         self.lineparts.len()
     }

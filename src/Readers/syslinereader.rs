@@ -344,8 +344,8 @@ impl SyslineReader {
         self.linereader.charsz()
     }
 
-    /// count of `Sysline`s processed
-    pub fn count(&self) -> u64 {
+    /// count of `Sysline`s processed, i.e. `self.syslines_count`
+    pub fn count_syslines_processed(&self) -> u64 {
         self.syslines_count
     }
 
@@ -631,7 +631,7 @@ impl SyslineReader {
     ///          "odd man out" format
     /// TODO: will break if DT_PATTERN_MAX > 1
     fn dt_patterns_analysis(&mut self) {
-        if self.analyzed || self.count() < SyslineReader::DT_PATTERN_ANALYSIS_THRESHOLD {
+        if self.analyzed || self.count_syslines_processed() < SyslineReader::DT_PATTERN_ANALYSIS_THRESHOLD {
             return;
         }
         debug_eprintln!("{}dt_patterns_analysis()", sn());
@@ -946,7 +946,7 @@ impl SyslineReader {
                         fo_,
                         &*lp_,
                         (*lp_).len(),
-                        (*lp_).count(),
+                        (*lp_).count_lineparts(),
                         (*lp_).to_String_noraw()
                     );
                     (fo_, lp_)
@@ -1030,7 +1030,7 @@ impl SyslineReader {
                         fo_,
                         &*lp_,
                         (*lp_).len(),
-                        (*lp_).count(),
+                        (*lp_).count_lineparts(),
                         (*lp_).to_String_noraw()
                     );
                     (fo_, lp_)
@@ -1043,7 +1043,7 @@ impl SyslineReader {
                         fo_,
                         &*lp_,
                         (*lp_).len(),
-                        (*lp_).count(),
+                        (*lp_).count_lineparts(),
                         (*lp_).to_String_noraw()
                     );
                     eof = true;
@@ -1177,7 +1177,7 @@ impl SyslineReader {
                         fo_,
                         &*lp_,
                         (*lp_).len(),
-                        (*lp_).count(),
+                        (*lp_).count_lineparts(),
                         (*lp_).to_String_noraw()
                     );
                     (fo_, lp_)
@@ -1355,7 +1355,7 @@ impl SyslineReader {
                         fo_,
                         &*lp_,
                         (*lp_).len(),
-                        (*lp_).count(),
+                        (*lp_).count_lineparts(),
                         (*lp_).to_String_noraw()
                     );
                     //assert!(!eof, "ERROR: find_line returned EOF as true yet returned Found()");
@@ -1369,7 +1369,7 @@ impl SyslineReader {
                         fo_,
                         &*lp_,
                         (*lp_).len(),
-                        (*lp_).count(),
+                        (*lp_).count_lineparts(),
                         (*lp_).to_String_noraw()
                     );
                     //eof = true;

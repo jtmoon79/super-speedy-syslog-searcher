@@ -634,7 +634,7 @@ impl BlockReader {
     /// count of blocks stored by this `BlockReader` (adjusted during calls to `BlockReader::read_block`)
     /// not the same as `self.blocks_read` or `self.count_bytes_`
     #[inline]
-    pub fn count(&self) -> u64 {
+    pub fn count_blocks(&self) -> u64 {
         self.blocks.len() as u64
     }
 

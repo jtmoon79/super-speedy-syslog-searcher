@@ -165,12 +165,12 @@ fn process_LineReader(lr1: &mut LineReader) {
         let result = lr1.find_line(fo1);
         match result {
             ResultS4_LineFind::Found((fo, lp)) => {
-                let _ln = lr1.count();
+                let count = lr1.count_lines_processed();
                 eprintln!(
                     "{}ResultS4_LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
                     fo,
-                    _ln,
+                    count,
                     &*lp,
                     (*lp).len(),
                     (*lp).to_String_noraw()
@@ -191,12 +191,12 @@ fn process_LineReader(lr1: &mut LineReader) {
                 (*lp).print(false);
             }
             ResultS4_LineFind::Found_EOF((fo, lp)) => {
-                let _ln = lr1.count();
+                let count = lr1.count_lines_processed();
                 eprintln!(
                     "{}ResultS4_LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
                     fo,
-                    _ln,
+                    count,
                     &*lp,
                     (*lp).len(),
                     (*lp).to_String_noraw()
@@ -234,7 +234,7 @@ fn do_test_LineReader_count(data: &str, line_count: usize) {
     let bufnoraw = buffer_to_String_noraw(data.as_bytes());
     eprintln!("{}File {:?}", so(), bufnoraw);
     process_LineReader(&mut lr1);
-    let lc = lr1.count();
+    let lc = lr1.count_lines_processed();
     assert_eq!(line_count as u64, lc, "Expected {} count of lines, found {}", line_count, lc);
     eprintln!("{}{:?}", so(), data.as_bytes());
     eprintln!("{}do_test_LineReader_count()", sx());
@@ -335,7 +335,7 @@ fn find_line_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
         let result = linereader.find_line(*fo1);
         match result {
             ResultS4_LineFind::Found((fo, lp)) => {
-                let _ln = linereader.count();
+                let _ln = linereader.count_lines_processed();
                 eprintln!(
                     "{}ResultS4_LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
@@ -347,7 +347,7 @@ fn find_line_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
                 );
             }
             ResultS4_LineFind::Found_EOF((fo, lp)) => {
-                let _ln = linereader.count();
+                let _ln = linereader.count_lines_processed();
                 eprintln!(
                     "{}ResultS4_LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
@@ -382,7 +382,7 @@ fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
     linereader.copy_all_lines(&mut contents_lr);
     eprintln!(
         "{}contents_lr ({} lines processed):\n{}{:?}\n",
-        so(), linereader.count(), so(), contents_lr,
+        so(), linereader.count_lines_processed(), so(), contents_lr,
     );
     let mut i: usize = 0;
     for lines_file_lr1 in contents_file.lines().zip(contents_lr.lines()) {
@@ -1238,7 +1238,7 @@ fn find_line_in_block_all(linereader: &mut LineReader, offsets: &Vec::<FileOffse
         let result = linereader.find_line_in_block(*fo1);
         match result {
             ResultS4_LineFind::Found((fo, lp)) => {
-                let _ln = linereader.count();
+                let _ln = linereader.count_lines_processed();
                 eprintln!(
                     "{}ResultS4_LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
@@ -1250,7 +1250,7 @@ fn find_line_in_block_all(linereader: &mut LineReader, offsets: &Vec::<FileOffse
                 );
             }
             ResultS4_LineFind::Found_EOF((fo, lp)) => {
-                let _ln = linereader.count();
+                let _ln = linereader.count_lines_processed();
                 eprintln!(
                     "{}ResultS4_LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
@@ -1400,7 +1400,7 @@ fn _test_find_line_in_block(
         let result = lr1.find_line_in_block(*fo_in);
         match result {
             ResultS4_LineFind::Found((fo, lp)) => {
-                let _ln = lr1.count();
+                let _ln = lr1.count_lines_processed();
                 eprintln!(
                     "{}ResultS4_LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
@@ -1417,7 +1417,7 @@ fn _test_find_line_in_block(
                 assert_eq!(rs4_expect, &ResultS4_LineFind_Test::Found, "Expected {:?}, got Found", rs4_expect);
             }
             ResultS4_LineFind::Found_EOF((fo, lp)) => {
-                let _ln = lr1.count();
+                let _ln = lr1.count_lines_processed();
                 eprintln!(
                     "{}ResultS4_LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),

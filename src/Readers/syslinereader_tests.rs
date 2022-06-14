@@ -142,7 +142,7 @@ CLOSED!
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                //eprint_slp(&slp);
+                //eprint_syslinep(&slp);
                 fo1 = fo;
             }
             ResultS4_SyslineFind::Done => {
@@ -1499,36 +1499,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_yaz() {
 /// not efficient
 /// XXX: does not handle multi-byte
 #[cfg(test)]
-fn eprint_slp(slp: &SyslineP) {
-    /*
-    if cfg!(debug_assertions) {
-        let out = (*slp).to_String_noraw();
-        // XXX: presumes single-byte character encoding, does not handle multi-byte encoding
-        let a = &out[..(*slp).dt_beg];
-        match print_colored_stdout(Color::Green, a.as_bytes()) {
-            Ok(_) => {}
-            Err(err) => {
-                eprintln!("ERROR: print_colored a returned error {}", err);
-            }
-        };
-        let b = &out[(*slp).dt_beg..(*slp).dt_end];
-        match print_colored_stdout(Color::Yellow, b.as_bytes()) {
-            Ok(_) => {}
-            Err(err) => {
-                eprintln!("ERROR: print_colored b returned error {}", err);
-            }
-        };
-        let c = &out[(*slp).dt_end..];
-        match print_colored_stdout(Color::Green, c.as_bytes()) {
-            Ok(_) => {}
-            Err(err) => {
-                eprintln!("ERROR: print_colored c returned error {}", err);
-            }
-        };
-        println!();
-    } else {
-    }
-    */
+fn eprint_syslinep(slp: &SyslineP) {
     let slices = (*slp).get_slices();
     for slice in slices.iter() {
         // XXX: this write is seen during all `cargo test`, I'd prefer it not be.
@@ -1577,7 +1548,7 @@ fn test_SyslineReader_find_sysline(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                eprint_slp(&slp);
+                eprint_syslinep(&slp);
                 assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
                 fo1 = fo;
 
@@ -1604,7 +1575,7 @@ fn test_SyslineReader_find_sysline(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                eprint_slp(&slp);
+                eprint_syslinep(&slp);
                 assert!(slr.is_sysline_last(&slp), "returned Found_EOF yet this Sysline is not last!");
                 fo1 = fo;
 
@@ -1636,7 +1607,7 @@ fn test_SyslineReader_find_sysline(
     }
     assert_eq!(checks.len(), check_i, "expected {} Sysline checks but only {} Sysline checks were done", checks.len(), check_i);
 
-    eprintln!("{}test_SyslineReader_find_sysline: Found {} Lines, {} Syslines", so(), slr.linereader.count(), slr.syslines.len());
+    eprintln!("{}test_SyslineReader_find_sysline: Found {} Lines, {} Syslines", so(), slr.linereader.count_lines_processed(), slr.syslines.len());
     eprintln!("{}test_SyslineReader_find_sysline({:?}, {})", sx(), &path, blocksz);
 }
 
@@ -1798,7 +1769,7 @@ fn test_SyslineReader_A2_any_input_check(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                //eprint_slp(&slp);
+                //eprint_syslinep(&slp);
                 assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
 
                 let actual_String = (*slp).to_String();
@@ -1817,7 +1788,7 @@ fn test_SyslineReader_A2_any_input_check(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                //eprint_slp(&slp);
+                //eprint_syslinep(&slp);
                 assert!(slr.is_sysline_last(&slp), "returned Found_EOF yet this Sysline is oot last! Should have returned Found or is this Sysline last?");
 
                 let actual_String = (*slp).to_String();
@@ -1837,7 +1808,7 @@ fn test_SyslineReader_A2_any_input_check(
     }
     assert_eq!(input_checks.len(), check_i, "expected {} Sysline checks but only {} Sysline checks were done", input_checks.len(), check_i);
 
-    eprintln!("{}test_SyslineReader: Found {} Lines, {} Syslines", so(), slr.linereader.count(), slr.syslines.len());
+    eprintln!("{}test_SyslineReader: Found {} Lines, {} Syslines", so(), slr.linereader.count_lines_processed(), slr.syslines.len());
     eprintln!("{}test_SyslineReader({:?}, {})", sx(), &path, blocksz);
 }
 
@@ -2132,7 +2103,7 @@ fn test_SyslineReader_find_sysline_at_datetime_filter(
     }
 
     assert_eq!(checks.len(), check_i, "expected {} Sysline checks but only {} Sysline checks were done", checks.len(), check_i);
-    eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.count(), slr.syslines.len());
+    eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.count_lines_processed(), slr.syslines.len());
     eprintln!(
         "{}test_SyslineReader_w_filtering_1({:?}, {}, {:?})",
         sx(),
@@ -2222,7 +2193,7 @@ fn process_SyslineReader(
                 (*slp).to_String_noraw(),
             );
             fo1 = fo;
-            eprint_slp(&slp);
+            eprint_syslinep(&slp);
         }
         ResultS4_SyslineFind::Done => {
             eprintln!(
@@ -2289,7 +2260,7 @@ fn process_SyslineReader(
                         continue;
                     }
                     Result_Filter_DateTime2::InRange => {
-                        eprint_slp(&slp);
+                        eprint_syslinep(&slp);
                         if eof {
                             assert!(slr.is_sysline_last(&slp), "returned Found_EOF yet this Sysline is not last!?");
                         } else {
@@ -2354,7 +2325,7 @@ fn test_SyslineReader_w_filtering_2(
     let slr_opt = _test_SyslineReader_process_file(path, blocksz, filter_dt_after_opt, filter_dt_before_opt);
     if slr_opt.is_some() {
         let slr = &slr_opt.unwrap();
-        eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.count(), slr.syslines.len());
+        eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.count_lines_processed(), slr.syslines.len());
     }
     eprintln!("{}test_SyslineReader_w_filtering_2(…)", sx());
 }

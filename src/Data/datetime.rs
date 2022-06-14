@@ -369,7 +369,7 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     //
     //               1         2         3
     //     0123456789012345678901234567890
-    //     2016/12/05 21:34:43	Start of the update...
+    //     2016/12/05 21:34:43	Start of the update…
     //
     ("%Y/%m/%d %H:%M:%S	", true, false, 0, 20, 0, 19),
     // ---------------------------------------------------------------------------------------------

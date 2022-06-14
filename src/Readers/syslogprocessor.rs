@@ -436,13 +436,13 @@ impl SyslogProcessor {
         let filetype = self.filetype();
         let BlockReader_bytes = self.syslinereader.linereader.blockreader.count_bytes();
         let BlockReader_bytes_total = self.filesz() as u64;
-        let BlockReader_blocks = self.syslinereader.linereader.blockreader.count();
+        let BlockReader_blocks = self.syslinereader.linereader.blockreader.count_blocks();
         let BlockReader_blocks_total = self.syslinereader.linereader.blockreader.blockn;
         let BlockReader_blocksz = self.blocksz();
         let BlockReader_filesz = self.syslinereader.linereader.blockreader.filesz;
         let BlockReader_filesz_actual = self.syslinereader.linereader.blockreader.filesz_actual;
-        let LineReader_lines = self.syslinereader.linereader.count();
-        let SyslineReader_syslines = self.syslinereader.count();
+        let LineReader_lines = self.syslinereader.linereader.count_lines_processed();
+        let SyslineReader_syslines = self.syslinereader.count_syslines_processed();
         let SyslineReader_syslines_by_range_hit = self.syslinereader._syslines_by_range_hit;
         let SyslineReader_syslines_by_range_miss = self.syslinereader._syslines_by_range_miss;
         let SyslineReader_syslines_by_range_insert = self.syslinereader._syslines_by_range_insert;

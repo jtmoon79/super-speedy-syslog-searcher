@@ -121,7 +121,7 @@ pub struct LineReader {
     /// Distinct from `self.lines.len()` as that may have contents removed when --streaming
     ///
     /// TODO: implement --streaming
-    pub lines_count: u64,
+    pub (crate) lines_count: u64,
     /// smallest size character in bytes
     /// TODO: handle char sizes > 1 byte, multi-byte encodings
     charsz_: CharSz,
@@ -306,10 +306,9 @@ impl LineReader {
         eprintln!("{}LineReader.copy_all_lines()", sx());
     }
 
-
-    /// count of lines processed by this LineReader
+    /// count of lines processed by this `LineReader` (i.e. `self.lines_count`)
     #[inline]
-    pub fn count(&self) -> u64 {
+    pub fn count_lines_processed(&self) -> u64 {
         self.lines_count
     }
 
@@ -1785,8 +1784,8 @@ impl LineReader {
         }// end if !found_nl_a !begof
 
         // may occur in files ending on a single newline
-        debug_eprintln!("{}find_line C: line.count() is {}", so(), line.count());
-        if line.count() == 0 {
+        debug_eprintln!("{}find_line C: line.count() is {}", so(), line.count_lineparts());
+        if line.count_lineparts() == 0 {
             if self._find_line_lru_cache_enabled {
                 self._find_line_lru_cache_put += 1;
                 debug_eprintln!("{}find_line C: LRU Cache put({}, Done)", so(), fileoffset);

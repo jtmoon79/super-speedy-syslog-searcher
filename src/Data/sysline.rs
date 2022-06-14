@@ -144,12 +144,12 @@ impl std::fmt::Debug for Sysline {
         let mut li_s = String::new();
         for lp in self.lines.iter() {
             li_s.push_str(&format!(
-                "Line @{:p} (fileoffset_beg {}, fileoffset_end {}, len() {}, count() {}",
+                "Line @{:p} (fileoffset_beg {}, fileoffset_end {}, len() {}, count_lineparts() {}",
                 &*lp,
                 (*lp).fileoffset_begin(),
                 (*lp).fileoffset_end(),
                 (*lp).len(),
-                (*lp).count()
+                (*lp).count_lineparts()
             ));
         }
         f.debug_struct("Sysline")
@@ -241,7 +241,9 @@ impl Sysline {
     }
 
     /// count of `Line` in `self.lines`
-    pub fn count(self: &Sysline) -> u64 {
+    ///
+    /// TODO: return `usize`, let callers change as needed
+    pub fn count_lines(self: &Sysline) -> u64 {
         self.lines.len() as u64
     }
 
@@ -286,27 +288,56 @@ impl Sysline {
                 ""
             }
         };
+
         String::from(s_)
     }
 
-    /// return all the slices that make up this `Sysline`
-    /// TODO: make an iterable trait of this struct
+    /// return all the slices that make up `Line` at `line_num` within this `Sysline`.
+    ///
+    /// Similar to `get_slices` but for one line.
+    ///
+    /// `line_num` counting starts at `0`
+    ///
+    /// TODO: [2022/06/13] for case of one Slice then return `&[u8]` directly, bypass creation of `Vec`
+    ///       requires enum to carry both types `Vec<&[u8]>` or `&[u8]`
+    fn get_slices_at_line(self: &Sysline, line_num: usize) -> Slices {
+        assert_lt!(line_num, self.lines.len(), "Requested line_num {:?} (count from zero) but there are only {:?} Lines within this Sysline (counts from one)", line_num, self.lines.len());
+
+        let linep: &LineP = &self.lines[line_num];
+        // TODO: prehandle common case `self.lines.len() == 0`
+        let count: usize = linep.get_slices_count();
+        let mut slices: Slices = Slices::with_capacity(count);
+        slices.extend(linep.get_slices().iter());
+
+        slices
+    }
+
+    /// return all the slices that make up this `Sysline`.
+    ///
+    /// Similar to `get_slices_line` but for all lines.
+    ///
+    /// TODO: [2022/06/13] for case of one Slice then return `&[u8]` directly, bypass creation of `Vec`
+    ///       requires enum to carry both types `Vec<&[u8]>` or `&[u8]`
     pub fn get_slices(self: &Sysline) -> Slices {
-        let mut sz: usize = 0;
+        let mut count: usize = 0;
         for lp in &self.lines {
-            sz += lp.get_slices_count();
+            count += lp.get_slices_count();
         }
-        let mut slices = Slices::with_capacity(sz);
+        // TODO: prehandle common case where `count==1`
+        let mut slices = Slices::with_capacity(count);
         for lp in &self.lines {
             slices.extend(lp.get_slices().iter());
         }
+
         slices
     }
 
     /// print approach #1, use underlying `Line` to `print`
     /// `raw` true will write directly to stdout from the stored `Block`
     /// `raw` false will write transcode each byte to a character and use pictoral representations
+    ///
     /// XXX: `raw==false` does not handle multi-byte encodings
+    ///
     /// TODO: move this into a `Printer` class
     #[cfg(any(debug_assertions,test))]
     pub fn print1(self: &Sysline, raw: bool) {
@@ -346,6 +377,7 @@ impl Sysline {
 
     /// helper to `print_color`
     /// caller must acquire stdout.Lock, and call `stdout.flush()`
+    ///
     /// TODO: move this into a `Printer` class
     fn print_color_slices(stdclr: &mut termcolor::StandardStream, colors: &[Color], values:&[&[u8]]) -> Result<()> {
         assert_eq!(colors.len(), values.len());
@@ -365,21 +397,31 @@ impl Sysline {
         Ok(())
     }
 
-    /// print with color
-    /// prints raw data from underlying `Block` bytes
+    /// Print `Sysline` with color.
+    /// Writes raw data from underlying `Block` bytes.
+    ///
+    /// Passing `Some(x)` for `line_num` will print only that `Line` in the `Sysline`.
+    ///
     /// XXX: does not handle multi-byte strings
+    ///
     /// TODO: needs a global mutex... I think...
+    ///
     /// TODO: move this into a `Printer` class or `Sysline_Printer` class
+    ///
     /// TODO: [2022/04] would be interesting to benchmark difference of printing using one
     ///       instance of `termcolor::StandStream` versus many (like done here).
     ///       would one instance improve performance?
     pub fn print_color(
         &self,
+        line_num: Option<usize>,
         color_choice_opt: Option<termcolor::ColorChoice>,
         color_text: Color,
         color_datetime: Color
     ) -> Result<()> {
-        let slices = self.get_slices();
+        let slices: Slices = match line_num {
+            Some(line_num_) => self.get_slices_at_line(line_num_),
+            None => self.get_slices(),
+        };
         let color_choice: termcolor::ColorChoice = match color_choice_opt {
             Some(choice_) => choice_,
             None => termcolor::ColorChoice::Auto,

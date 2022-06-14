@@ -688,6 +688,10 @@ TODO: 2022/06/11 consistent naming:
       for variable names, function names, and types.
       pick with or without middle `_` and always use that
 
+TODO: 2022/06/13 consistent naming:
+      function names `count_this` and `that_count`. Same for field names.
+      Typical rust terminology is `verb_object`
+
 */
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1687,7 +1691,7 @@ type Map_FPath_SummaryPrint = HashMap::<FPath, SummaryPrinted>;
 /// update the passed 
 fn summaryprint_update(slp: &SyslineP, sp: &mut SummaryPrinted) -> SummaryPrinted {
     sp.syslines += 1;
-    sp.lines += slp.count();
+    sp.lines += slp.count_lines();
     sp.bytes += slp.count_bytes();
     if let Some(dt) = slp.dt {
         match sp.dt_first {
@@ -1835,14 +1839,6 @@ fn processing_loop(
         map_pathid_path.insert(pathid as PathId, path.clone());
         map_path_pathid.insert(path.clone(), pathid as PathId);
     }
-
-    // LAST WORKING HERE 2022/06/12 17:00:00 for prepended filename printing,
-    // need to handle multi-line sysline.
-    // A decent approach is to change `Sysline::print_color` to handle different
-    // types of prints.
-    // Or add new `fn` to `Sysline` like
-    // `print_color_line(line_num: usize, prepend, color, …)`
-    // that prints individual `Line` with optional prepended stuff.
 
     // preprint the prepended name or path
     type PathId_PrependName = HashMap<PathId, String>;
@@ -2020,6 +2016,12 @@ fn processing_loop(
     // channels that should be disconnected per loop iteration
     let mut disconnect = Vec::<PathId>::with_capacity(file_count);
 
+    // any prepended writes to do?
+    let do_prepend: bool = cli_opt_prepend_filename
+        || cli_opt_prepend_filepath
+        || cli_opt_prepend_utc
+        || cli_opt_prepend_local;
+
     // main thread "game loop"
     loop {
         disconnect.clear();
@@ -2076,44 +2078,70 @@ fn processing_loop(
                 // receiving a Summary implies the last data was sent on the channel
                 disconnect.push(*pathid);
             } else {
+    // LAST WORKING HERE 2022/06/12 17:00:00 for prepended filename printing,
+    // need to handle multi-line sysline.
+    // A decent approach is to change `Sysline::print_color` to handle different
+    // types of prints.
+    // Or add new `fn` to `Sysline` like
+    // `print_color_line(line_num: usize, prepend, color, …)`
+    // that prints individual `Line` with optional prepended stuff.
+
                 // is last sysline of the file?
                 let is_last: bool = chan_datum.2;
                 // Sysline of interest
                 let slp_min: &SyslineP = chan_datum.0.as_ref().unwrap();
                 // color for printing
                 let clr: &Color = map_path_color.get(pathid).unwrap_or(&color_default);
-                // print the sysline!
+                // print the sysline line-by-line!
                 debug_eprintln!("{}processing_loop: A3 printing SyslineP@{:p} @[{}, {}] PathId: {:?}", so(), slp_min, slp_min.fileoffset_begin(), slp_min.fileoffset_end(), pathid);
-                if cli_opt_prepend_filename || cli_opt_prepend_filepath {
-                    let path: &FPath = map_pathid_path.get(*pathid).unwrap();
-                    let prepend: &String = pathid_to_prependname
-                        .get(pathid)
-                        .unwrap_or(string_default);
-                    write_stdout(prepend.as_bytes());
-                }
-                if cli_opt_prepend_utc || cli_opt_prepend_local {
-                    #[allow(clippy::single_match)]
-                    match (*slp_min).dt {
-                        Some(dt) => {
-                            #[allow(clippy::needless_late_init)]
-                            let fmt_;
-                            if cli_opt_prepend_utc {
-                                let dt_ = dt.with_timezone(&tz_utc);
-                                fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
-                            } else { // cli_opt_prepend_local
-                                let dt_ = dt.with_timezone(&tz_local);
-                                fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
+                if do_prepend {
+                    // print one `Line` from `Sysline` at a time
+                    // so each `Line` is prepended as requested
+                    let line_count: usize = (*slp_min).count_lines() as usize;
+                    let mut line_at: usize = 0;
+                    while line_at < line_count {
+                        if cli_opt_prepend_filename || cli_opt_prepend_filepath {
+                            let path: &FPath = map_pathid_path.get(*pathid).unwrap();
+                            let prepend: &String = pathid_to_prependname
+                                .get(pathid)
+                                .unwrap_or(string_default);
+                            write_stdout(prepend.as_bytes());
+                        }
+                        if cli_opt_prepend_utc || cli_opt_prepend_local {
+                            #[allow(clippy::single_match)]
+                            match (*slp_min).dt {
+                                Some(dt) => {
+                                    #[allow(clippy::needless_late_init)]
+                                    let fmt_;
+                                    if cli_opt_prepend_utc {
+                                        let dt_ = dt.with_timezone(&tz_utc);
+                                        fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
+                                    } else { // cli_opt_prepend_local
+                                        let dt_ = dt.with_timezone(&tz_local);
+                                        fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
+                                    }
+                                    write_stdout(fmt_.to_string().as_bytes());
+                                },
+                                _ => {},
                             }
-                            write_stdout(fmt_.to_string().as_bytes());
-                        },
-                        _ => {},
+                        }
+                        match (*slp_min).print_color(Some(line_at), Some(color_choice), *clr, color_datetime) {
+                            Ok(_) => {},
+                            Err(_err) => {
+                                eprintln!("ERROR: failed to print; TODO abandon processing for PathId {:?}", pathid);
+                                // TODO: 2022/04/09 remove this `pathid` from maps and queues, shutdown it's thread
+                            }
+                        }
+                        line_at += 1;
                     }
-                }
-                match (*slp_min).print_color(Some(color_choice), *clr, color_datetime) {
-                    Ok(_) => {},
-                    Err(_err) => {
-                        eprintln!("ERROR: failed to print; TODO abandon processing for PathId {:?}", pathid);
-                        // TODO: 2022/04/09 remove this `pathid` from maps and queues, shutdown it's thread
+                } else  {
+                    // no prepends request so print all `Line`s within one call
+                    match (*slp_min).print_color(None, Some(color_choice), *clr, color_datetime) {
+                        Ok(_) => {},
+                        Err(_err) => {
+                            eprintln!("ERROR: failed to print; TODO abandon processing for PathId {:?}", pathid);
+                            // TODO: 2022/04/09 remove this `pathid` from maps and queues, shutdown it's thread
+                        }
                     }
                 }
                 if is_last {
