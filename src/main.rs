@@ -1427,7 +1427,7 @@ type Chan_Recv_Datum = crossbeam_channel::Receiver<Chan_Datum>;
 /// Thread entry point for processing a file
 /// this creates `SyslogProcessor` and processes the syslog file `Syslines`.
 /// Sends each processed sysline back across channel to main thread.
-fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) -> thread::ThreadId {
+fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
     stack_offset_set(Some(2));
     let (path, pathid, filetype, blocksz, filter_dt_after_opt, filter_dt_before_opt, tz_offset) = thread_init_data;
     debug_eprintln!("{}exec_4({:?})", sn(), path);
@@ -1448,7 +1448,8 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
         Err(err) => {
             eprintln!("ERROR: SyslogProcessor::new({:?}, {:?}) failed {}", path.as_str(), blocksz, err);
             // TODO: [2022/06/07] send error through channel back to main loop
-            return tid;
+            //return tid;
+            return;
         }
     };
     debug_eprintln!("{}exec_4 syslogproc {:?}", so(), syslogproc);
@@ -1459,23 +1460,28 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
     match result {
         FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND => {
             eprintln!("WARNING: no lines found {:?}", path);
-            return tid;
+            //return tid;
+            return;
         },
         FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND => {
             eprintln!("WARNING: no syslines found {:?}", path);
-            return tid;
+            //return tid;
+            return;
         },
         FileProcessingResult_BlockZero::FILE_ERR_DECOMPRESS => {
             eprintln!("WARNING: could not decompress {:?}", path);
-            return tid;
+            //return tid;
+            return;
         },
         FileProcessingResult_BlockZero::FILE_ERR_WRONG_TYPE => {
             eprintln!("WARNING: bad path {:?}", path);
-            return tid;
+            //return tid;
+            return;
         },
         FileProcessingResult_BlockZero::FILE_ERR_IO(err) => {
             eprintln!("ERROR: Error {} for {:?}", err, path);
-            return tid;
+            //return tid;
+            return;
         },
         FileProcessingResult_BlockZero::FILE_OK => {},
         FileProcessingResult_BlockZero::FILE_ERR_EMPTY => {},
@@ -1533,7 +1539,8 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
             }
         }
         debug_eprintln!("{}exec_4({:?})", sx(), path);
-        return tid;
+        //return tid;
+        return;
     }
 
     // find all proceeding syslines acceptable to the passed filters
@@ -1588,13 +1595,6 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) ->
     }
 
     debug_eprintln!("{}exec_4({:?})", sx(), path);
-
-// LAST WORKING HERE 2022/06/16 the file processing threads are not ending.
-// run with many files in one console window, in a different console window watch `htop`
-// in the main thread, try `pool.current_num_threads` to verify if the count is changing.
-// might need a test program to figure this out.
-
-    tid
 }
 
 /// statistics to print about printing
@@ -1932,12 +1932,6 @@ fn processing_loop(
     for p_ in paths_valid_basen.iter_mut() {
         (*p_) = basename(p_);
     }
-    debug_eprintln!("{}processing_loop: rayon::ThreadPoolBuilder::new().num_threads({}).build()", so(), file_count);
-    let pool: rayon::ThreadPool = rayon::ThreadPoolBuilder::new()
-        .num_threads(file_count)
-        .thread_name(move |i| paths_valid_basen[i].clone())
-        .build()
-        .unwrap();
 
     //
     // prepare per-thread data keyed by `FPath`
@@ -1952,12 +1946,11 @@ fn processing_loop(
     let color_datetime: Color = COLOR_DATETIME;
 
     // initialize processing channels/threads, one per file path
-    let (chan_send_1, _chan_recv_1) = std::sync::mpsc::channel();
     for path in paths_valid.iter() {
         let pathid: &PathId = map_path_pathid.get(path).unwrap();
         map_pathid_color.insert(*pathid, color_rand());
     }
-    for procespathresult in paths_valid_results.iter() {
+    for (i, procespathresult) in paths_valid_results.iter().enumerate() {
         let (filtype, path) = match procespathresult {
             ProcessPathResult::FILE_VALID((f_, p_)) => (f_, p_),
             result => { panic!("bad ProcessPathResult in paths_valid_results: {:?}", result); }
@@ -1974,18 +1967,16 @@ fn processing_loop(
         );
         let (chan_send_dt, chan_recv_dt): (Chan_Send_Datum, Chan_Recv_Datum) = crossbeam_channel::bounded(queue_sz_dt);
         map_pathid_recv_dt.insert(*pathid, chan_recv_dt);
-        let chan_send_1_thread = chan_send_1.clone();
-        pool.spawn(move || match chan_send_1_thread.send(exec_4(chan_send_dt, thread_data)) {
-            Ok(_) => {}
+        match thread::Builder::new().name(paths_valid_basen[i].clone()).spawn(move || exec_4(chan_send_dt, thread_data)) {
+            Ok(_joinhandle) => {},
             Err(err) => {
-                eprintln!("ERROR: chan_send_1_thread.send(exec_4(chan_send_dt, thread_data)) failed {}", err);
+                eprintln!("ERROR: thread.name({:?}).spawn() pathid {} failed {:?}", paths_valid_basen[i], pathid, err);
+                map_pathid_recv_dt.remove(pathid);
+                map_pathid_color.remove(pathid);
+                continue;
             }
-        });
+        }
     }
-
-    // XXX: is this `drop` needed? it was copied from the docs example.
-    debug_eprintln!("{}processing_loop: drop({:?});", so(), chan_send_1);
-    drop(chan_send_1); // close sender so chan.into_iter.collect does not block
 
     type Recv_Result4 = std::result::Result<Chan_Datum, crossbeam_channel::RecvError>;
 
@@ -2078,7 +2069,7 @@ fn processing_loop(
         disconnect.clear();
 
         if cfg!(debug_assertions) {
-            debug_eprintln!("{}processing_loop: pool.current_num_threads {}", so(), pool.current_num_threads(),);
+            //debug_eprintln!("{}processing_loop: pool.current_num_threads {}", so(), pool.current_num_threads(),);
             for (pathid, recv) in map_pathid_recv_dt.iter() {
                 let path: &FPath = map_pathid_path.get(*pathid).unwrap();
                 debug_eprintln!("{}processing_loop: thread {} {} messages {}", so(), path, pathid, recv.len());

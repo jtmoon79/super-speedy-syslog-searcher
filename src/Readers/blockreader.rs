@@ -30,6 +30,7 @@ use crate::dbgpr::stack::{
 
 use std::collections::BTreeMap;
 use std::collections::BTreeSet;
+use std::collections::HashSet;
 use std::fmt;
 use std::io::{
     BufReader,
@@ -695,11 +696,15 @@ impl BlockReader {
     /// Drop data associated with `Block` at `blockoffset`.
     ///
     /// Presumes the caller knows what they are doing!
-    pub fn drop_block(&mut self, blockoffset: BlockOffset) {
+    pub fn drop_block(&mut self, blockoffset: BlockOffset, mut bo_dropped: &mut HashSet<BlockOffset>) {
+        if bo_dropped.contains(&blockoffset) {
+            return;
+        }
         match self.blocks.remove(&blockoffset) {
             Some(blockp) => {
                 let sc = Arc::strong_count(&blockp);
                 debug_eprintln!("{}blockreader.drop_block({}): dropped block {} @0x{:p}, len {}, strong_count {}", so(), blockoffset, blockoffset, blockp, (*blockp).len(), sc);
+                bo_dropped.insert(blockoffset);
             },
             None => {
                 debug_eprintln!("{}blockreader.drop_block({}): no block to drop at {}", so(), blockoffset, blockoffset);
@@ -709,6 +714,7 @@ impl BlockReader {
             Some(blockp) => {
                 let sc = Arc::strong_count(&blockp);
                 debug_eprintln!("{}blockreader.drop_block({}): dropped block in LRU cache {} @0x{:p}, len {}, strong_count {}", so(), blockoffset, blockoffset, blockp, (*blockp).len(), sc);
+                bo_dropped.insert(blockoffset);
             },
             None => {
                 debug_eprintln!("{}blockreader.drop_block({}): no block in LRU cache to drop at {}", so(), blockoffset, blockoffset);

@@ -211,6 +211,11 @@ pub struct SyslineReader {
     pub(crate) _parse_datetime_in_line_lru_cache_put: u64,
     /// has `self.file_analysis` completed?
     analyzed: bool,
+    // internal cache: allocate this once (or at least, few times)
+    // instead of allocating one for every call to `drop_block_impl`
+    //drop_block_fo_keys: Vec<FileOffset>,
+    /// count of failures to Arc::try_unwrap(syslinep)
+    drop_sysline_errors: u64,
 }
 
 // TODO: [2021/09/19]
@@ -262,6 +267,7 @@ impl SyslineReader {
                 return Err(err);
             }
         };
+        //let drop_block_fo_keys_sz: usize = std::cmp::max((blocksz as usize) / 0x100, 20);
         Ok(
             SyslineReader {
                 linereader: lr,
@@ -285,6 +291,8 @@ impl SyslineReader {
                 _parse_datetime_in_line_lru_cache_miss: 0,
                 _parse_datetime_in_line_lru_cache_put: 0,
                 analyzed: false,
+                //drop_block_fo_keys: Vec::<FileOffset>::with_capacity(drop_block_fo_keys_sz),
+                drop_sysline_errors: 0,
             }
         )
     }
@@ -475,13 +483,47 @@ impl SyslineReader {
         str_datetime(dts, dtpd.pattern.as_str(), dtpd.tz, tz_offset)
     }
 
+    pub fn drop_block(&mut self, blockoffset: BlockOffset, bo_dropped: &mut HashSet<BlockOffset>) {
+        debug_eprintln!("{}syslinereader.drop_block({})", sn(), blockoffset);
+
+        let mut drop_block_fo_keys: Vec<FileOffset> = Vec::<FileOffset>::with_capacity(self.syslines.len());
+
+        for fo_key in self.syslines.keys() {
+            drop_block_fo_keys.push(*fo_key);
+        }
+        // vec of `fileoffset` must be ordered which is guaranteed by `syslines: BTreeMap`
+
+        debug_eprintln!("{}syslinereader.drop_block: collected keys {:?}", so(), drop_block_fo_keys);
+
+        // XXX: using `sylines.value_mut()` would be cleaner.
+        //      But `sylines.value_mut()` causes a clone of the `SyslineP`, which then
+        //      increments the `Arc` "strong_count". That in turn prevents `Arc::get_mut(&SyslineP)`
+        //      from returning the original `Sysline`.
+        //      Instead of `syslines.values_mut()`, use `syslines.keys()` and then `syslines.get_mut`
+        //      to get a `&SyslineP`. This does not increase the "strong_count".
+
+        for fo_key in drop_block_fo_keys.iter() {
+            let bo_last = self.syslines[fo_key].blockoffset_last();
+            if bo_last > blockoffset {
+                debug_eprintln!("{}syslinereader.drop_block: blockoffset_last {} > {} blockoffset, continue;", so(), bo_last, blockoffset);
+                // presume all proceeding `Sysline.blockoffset_last()` will be after `blockoffset`
+                break;
+            }
+            // XXX: copy `fo_key` to avoid borrowing error
+            self.drop_sysline(fo_key, bo_dropped);
+            debug_eprintln!("{}syslinereader.drop_block: bo_dropped {:?}", so(), bo_dropped);
+        }
+
+        debug_eprintln!("{}syslinereader.drop_block({})", sx(), blockoffset);
+    }
+
     /// drop all data associated with `Sysline` at `fileoffset` (or at least, drop as much
     /// as possible).
-    /// 
+    ///
     /// Caller must know what they are doing!
-    pub fn drop_sysline(&mut self, fileoffset: FileOffset, mut bo_dropped: &mut HashSet<BlockOffset>) -> bool {
+    pub fn drop_sysline(&mut self, fileoffset: &FileOffset, bo_dropped: &mut HashSet<BlockOffset>) -> bool {
         debug_eprintln!("{}syslinereader.drop_sysline({})", sn(), fileoffset);
-        let mut syslinep: SyslineP = match self.syslines.remove(&fileoffset) {
+        let syslinep: SyslineP = match self.syslines.remove(fileoffset) {
             Some(syslinep_) => syslinep_,
             None => {
                 debug_eprintln!("syslinereader.drop_sysline: syslines.remove({}) returned None which is unexpected", fileoffset);
@@ -490,19 +532,14 @@ impl SyslineReader {
         };
         debug_eprintln!("{}syslinereader.drop_sysline: Processing SyslineP @[{}‥{}], Block @[{}‥{}] strong_count {}", so(), (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), (*syslinep).blockoffset_first(), (*syslinep).blockoffset_last(), Arc::strong_count(&syslinep));
         self._find_sysline_lru_cache.pop(&(*syslinep).fileoffset_begin());
-        //match Arc::get_mut(&mut syslinep) {
         match Arc::try_unwrap(syslinep) {
-            Ok(mut sysline) => {
+            Ok(sysline) => {
                 debug_eprintln!("{}syslinereader.drop_sysline: Arc::try_unwrap(syslinep) Ok Sysline @[{}‥{}] Block @[{}‥{}]", so(), sysline.fileoffset_begin(), sysline.fileoffset_end(), sysline.blockoffset_first(), sysline.blockoffset_last());
-                for linep in sysline.lines.into_iter() {
-                    self.linereader.drop_line(linep, &mut bo_dropped);
-                }
-                //debug_eprintln!("{}syslinereader.drop_sysline: sysline.lines.clear()", so());
-                //sysline.lines.clear();
+                self.linereader.drop_lines(sysline.lines, bo_dropped);
             }
             Err(syslinep_) => {
                 debug_eprintln!("{}syslinereader.drop_sysline: Arc::try_unwrap(syslinep) Err strong_count {}", so(), Arc::strong_count(&syslinep_));
-                return false;
+                self.drop_sysline_errors += 1;
             }
         }
 

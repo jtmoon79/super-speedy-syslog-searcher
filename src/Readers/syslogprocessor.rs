@@ -164,16 +164,10 @@ pub struct SyslogProcessor {
     filter_dt_before_opt: DateTimeL_Opt,
     /// internal sanity check, has `self.blockzero_analysis()` completed?
     blockzero_analysis_done: bool,
-    /// last `blockoffset` passed to `drop_block`
+    /// internal tracking of last `blockoffset` passed to `drop_block`
     drop_block_last: BlockOffset,
-    /// internal cache: allocate this once (or at least, few times)
-    /// instead of allocating one for every call to `drop_block_impl`
-    drop_block_fo_keys: Vec<FileOffset>,
-    /// internal stats for `drop` during "streaming"
-    _drop_count_block: u64,
-    _drop_count_linepart: u64,
-    _drop_count_line: u64,
-    _drop_count_sysline: u64,
+    /// internal memory of blocks dropped
+    bo_dropped: HashSet<BlockOffset>,
 }
 
 impl std::fmt::Debug for SyslogProcessor {
@@ -193,23 +187,13 @@ impl std::fmt::Debug for SyslogProcessor {
 }
 
 impl SyslogProcessor {
-
-    /// TODO: [2022/06/01] this should be predefined mapping of key range to value integer,
-    ///       where blocksz keys to count of expected line.
-    ///       e.g. blocksz [2, 64] expect 1 line, blocksz [64, 1024] expect 5 lines, etc.
-    /// `SyslogProcessor::blockzero_analysis_lines` must find this many `Line` for the
-    /// file to be considered a text file
-    //pub (crate) const BLOCKZERO_ANALYSIS_LINE_COUNT: u64 = 15;
-
-    /// `SyslogProcessor::blockzero_analysis_syslines` must find this many `Sysline` for the
-    /// file to be considered a syslog file
-    //pub (crate) const BLOCKZERO_ANALYSIS_SYSLINE_COUNT: u64 = 2;
-
-    /// `SyslogProcessor` has it's own requirements for `BlockSz`
+    /// `SyslogProcessor` has it's own miminum requirements for `BlockSz`.
     /// Necessary for `blockzero_analysis` functions to have chance at success.
     const BLOCKSZ_MIN: BlockSz = 0x100;
     /// allow "streaming" (`drop`ping data in calls to `find_sysline`)?
     const STREAM_STAGE_DROP: bool = true;
+    /// use LRU caches in underlying components. For development and testing experiments
+    const LRU_CACHE_ENABLE: bool = true;
 
     pub fn new(
         path: FPath,
@@ -236,12 +220,13 @@ impl SyslogProcessor {
             }
         };
 
-        // XXX: 2022/06/15 experiemnt
-        //slr.LRU_cache_disable();
-        //slr.linereader.LRU_cache_disable();
-        //slr.linereader.blockreader.LRU_cache_disable();
+        if ! SyslogProcessor::LRU_CACHE_ENABLE {
+            slr.LRU_cache_disable();
+            slr.linereader.LRU_cache_disable();
+            slr.linereader.blockreader.LRU_cache_disable();
+        }
 
-        let drop_block_fo_keys_sz: usize = std::cmp::max((blocksz as usize) / 0x100, 20);
+        let bo_dropped_sz: usize = slr.blockoffset_last() as usize;
 
         Result::Ok(
             SyslogProcessor {
@@ -254,11 +239,7 @@ impl SyslogProcessor {
                 filter_dt_before_opt,
                 blockzero_analysis_done: false,
                 drop_block_last: 0,
-                drop_block_fo_keys: Vec::<FileOffset>::with_capacity(drop_block_fo_keys_sz),
-                _drop_count_block: 0,
-                _drop_count_linepart: 0,
-                _drop_count_line: 0,
-                _drop_count_sysline: 0,
+                bo_dropped: HashSet::<BlockOffset>::with_capacity(bo_dropped_sz),
             }
         )
     }
@@ -382,91 +363,7 @@ impl SyslogProcessor {
     fn drop_block_impl(&mut self, blockoffset: BlockOffset) {
         debug_eprintln!("{}syslogprocesser.drop_block({})", sn(), blockoffset);
         debug_assert!(SyslogProcessor::STREAM_STAGE_DROP, "STREAM_STAGE_DROP is false yet call to drop_block");
-
-        // TODO: move this loop into function `SyslineReader::drop_block`.
-        // XXX: using `sylines.value_mut()` would be cleaner.
-        //      But `sylines.value_mut()` causes a clone of the `SyslineP`, which then
-        //      increments the `Arc` "strong_count". That in turn prevents `Arc::get_mut(&SyslineP)`
-        //      from returning the original `Sysline`.
-        //      Instead of `syslines.values_mut()`, use `syslines.keys()` and then `syslines.get_mut`
-        //      to get a `&SyslineP`. This does not increase the "strong_count".
-
-        self.drop_block_fo_keys.clear();
-        for fo_key in self.syslinereader.syslines.keys() {
-            self.drop_block_fo_keys.push(*fo_key);
-        }
-        //let fo_keys: Vec<FileOffset> = self.syslinereader.syslines.keys().copied().collect();
-        debug_eprintln!("{}syslogprocesser.drop_block: collected keys {:?}", so(), self.drop_block_fo_keys);
-        // sanity check assumption
-        if cfg!(debug_assertions) {
-            let mut fo_last: &FileOffset = &0;
-            for fo_key in self.drop_block_fo_keys.iter() {
-                assert_le!(fo_last, fo_key, "Collected keys were not in order {:?}", self.drop_block_fo_keys);
-                fo_last = fo_key;
-            }
-        }
-        let mut bo_dropped: HashSet<BlockOffset> = HashSet::<BlockOffset>::with_capacity(2);
-
-        for fo_key in self.drop_block_fo_keys.iter() {
-            let bo_last = self.syslinereader.syslines[fo_key].blockoffset_last();
-            if bo_last > blockoffset {
-                debug_eprintln!("{}syslogprocesser.drop_block: blockoffset_last {} > {} blockoffset, continue;", so(), bo_last, blockoffset);
-                // presume all proceeding `Sysline.blockoffset_last()` will be after `blockoffset`
-                break;
-            }
-            self.syslinereader.drop_sysline(*fo_key, &mut bo_dropped);
-            debug_eprintln!("{}syslogprocesser.drop_block: bo_dropped {:?}", so(), bo_dropped);
-
-            /*
-            // XXX: must use `get_mut` then later `syslines.remove`
-            //      cannot `syslines.remove` here becuase returned value is not `&mut`, only `&`
-            //      and the call to `Arc::get_mut` emits rustc error about difference.
-            let mut syslinep: SyslineP = match self.syslinereader.syslines.remove(fo_key) {
-                Some(val) => val,
-                None => {
-                    debug_eprintln!("syslogprocesser.drop_block: syslines.remove({}) returned None which is unexpected", fo_key);
-                    continue;
-                }
-            };
-            let bo_last = (*syslinep).blockoffset_last();
-            if bo_last > blockoffset {
-                debug_eprintln!("{}syslogprocesser.drop_block: blockoffset_last {}; continue;", so(), bo_last);
-                // presume all proceeding `Sysline.blockoffset_last()` will be after `blockoffset`
-                break;
-            }
-            debug_eprintln!("{}syslogprocesser.drop_block: Processing SyslineP @[{}‥{}], Block @[{}‥{}] strong_count {}", so(), (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), (*syslinep).blockoffset_first(), (*syslinep).blockoffset_last(), Arc::strong_count(&syslinep));
-            self.syslinereader._find_sysline_lru_cache.pop(&(*syslinep).fileoffset_begin());
-            match Arc::try_unwrap(syslinep) {
-                Ok(mut sysline) => {
-                    debug_eprintln!("{}syslogprocesser.drop_block: Arc::try_unwrap(syslinep) Ok processing Sysline @[{}‥{}] Block @[{}‥{}]", so(), sysline.fileoffset_begin(), sysline.fileoffset_end(), sysline.blockoffset_first(), sysline.blockoffset_last());
-                    // TODO: move this loop into function `Line::drop_block`.
-                    for linep in sysline.lines.into_iter() {
-                        self.syslinereader.linereader._find_line_lru_cache.pop(&(*linep).fileoffset_begin());
-                        match Arc::try_unwrap(linep) {
-                            Ok(mut line) => {
-                                debug_eprintln!("{}syslogprocesser.drop_block: Arc::try_unwrap(linep) Ok processing Line @[{}‥{}] Block @[{}‥{}]", so(), line.fileoffset_begin(), line.fileoffset_end(), line.blockoffset_first(), line.blockoffset_last());
-                                for bo in line.get_blockoffsets().iter() {
-                                    if blockoffsets_dropped.contains(bo) {
-                                        continue;
-                                    }
-                                    self.syslinereader.linereader.blockreader.drop_block(*bo);
-                                    blockoffsets_dropped.insert(*bo);
-                                }
-                                debug_eprintln!("{}syslogprocesser.drop_block: Line.lineparts.clear()", so());
-                                line.lineparts.clear();
-                            },
-                            Err(linep_) => {
-                                debug_eprintln!("{}syslogprocesser.drop_block: Arc::try_unwrap(linep) Err, strong_count {}", so(), Arc::strong_count(&linep_));
-                            }
-                        }
-                    }
-                }
-                Err(syslinep_) => {
-                    debug_eprintln!("{}syslogprocesser.drop_block: Arc::try_unwrap(syslinep) Err strong_count {}", so(), Arc::strong_count(&syslinep_));
-                }
-            }
-            */
-        }
+        self.syslinereader.drop_block(blockoffset, &mut self.bo_dropped);
         debug_eprintln!("{}syslogprocesser.drop_block({})", sx(), blockoffset);
     }
 

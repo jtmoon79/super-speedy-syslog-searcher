@@ -138,6 +138,8 @@ pub struct LineReader {
     pub(crate) _find_line_lru_cache_miss: u64,
     /// internal stats
     pub(crate) _find_line_lru_cache_put: u64,
+    /// count of failures to Arc::try_unwrap(linep)
+    drop_line_errors: u64,
 }
 
 impl fmt::Debug for LineReader {
@@ -197,6 +199,7 @@ impl LineReader {
                 _find_line_lru_cache_hit: 0,
                 _find_line_lru_cache_miss: 0,
                 _find_line_lru_cache_put: 0,
+                drop_line_errors: 0,
             }
         )
     }
@@ -387,27 +390,31 @@ impl LineReader {
         linep
     }
 
-    pub fn drop_line(&mut self, mut linep: LineP, mut bo_dropped: &mut HashSet<BlockOffset>) -> bool {
+    pub fn drop_lines(&mut self, mut lines: Lines, bo_dropped: &mut HashSet<BlockOffset>) {
+        debug_eprintln!("{}linereader.drop_lines", sn());
+        for linep in lines.into_iter() {
+            self.drop_line(linep, bo_dropped);
+        }
+        debug_eprintln!("{}linereader.drop_lines", sx());
+    }
+
+    pub fn drop_line(&mut self, linep: LineP, bo_dropped: &mut HashSet<BlockOffset>) {
         let fo_key = (*linep).fileoffset_begin();
         self._find_line_lru_cache.pop(&fo_key);
         self.lines.remove(&fo_key);
         match Arc::try_unwrap(linep) {
-            Ok(mut line) => {
-                debug_eprintln!("{}linereader.drop_line: Arc::try_unwrap(linep) processing Line @[{}‥{}] Block @[{}‥{}]", so(), line.fileoffset_begin(), line.fileoffset_end(), line.blockoffset_first(), line.blockoffset_last());
+            Ok(line) => {
+                debug_eprintln!("{}linereader.drop_line: Arc::try_unwrap(linep) processing Line @[{}‥{}] Block @[{}‥{}]", sn(), line.fileoffset_begin(), line.fileoffset_end(), line.blockoffset_first(), line.blockoffset_last());
                 for linepart in line.lineparts.into_iter() {
-                    // be a little bit more efficient about calling `drop_block`; check `bo_dropped` first
-                    if !bo_dropped.contains(&linepart.blockoffset) {
-                        self.blockreader.drop_block(linepart.blockoffset);
-                        bo_dropped.insert(linepart.blockoffset);
-                    }
+                    self.blockreader.drop_block(linepart.blockoffset, bo_dropped);
                 }
             }
             Err(linep_) => {
-                debug_eprintln!("{}linereader.drop_line: Arc::try_unwrap(linep) Err strong_count {}", so(), Arc::strong_count(&linep_));
+                debug_eprintln!("{}linereader.drop_line: Arc::try_unwrap(linep) Err strong_count {}", sn(), Arc::strong_count(&linep_));
+                self.drop_line_errors += 1;
             }
         }
-
-        true
+        debug_eprintln!("{}linereader.drop_lines", sx());
     }
 
     /// does `self` "contain" this `fileoffset`? That is, already know about it?

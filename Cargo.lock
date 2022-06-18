@@ -1167,7 +1167,6 @@ dependencies = [
  "mut_static",
  "rand",
  "rangemap",
- "rayon",
  "static_assertions",
  "strum_macros",
  "tempfile",
