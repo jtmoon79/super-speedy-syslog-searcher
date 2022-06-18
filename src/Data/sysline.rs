@@ -40,6 +40,7 @@ use crate::Data::datetime::{
 
 use crate::Readers::linereader::{
     LineIndex,
+    LinePart,
     Line,
     LineP,
     Lines,
@@ -229,10 +230,39 @@ impl Sysline {
         (*self.lines[last_]).fileoffset_end()
     }
 
-    /// the fileoffset into the next sysline
+    /// the fileoffset into the immediately next sysline.
+    ///
+    /// the `self` Sysline does not know if the "next" Sysline has been processed or if it even exists.
     /// this Sysline does not know if that fileoffset points to the end of file (one past last actual byte)
     pub fn fileoffset_next(self: &Sysline) -> FileOffset {
         self.fileoffset_end() + (self.charsz() as FileOffset)
+    }
+
+    /// the fileoffset into the immediately previous sysline.
+    /// 
+    /// the `self` Sysline does not know if the "previous" Sysline has been processed or if it even exists.
+    /// if the passed `Sysline` has `fileoffset_begin()` of `0` then `0` will be returned
+    pub fn fileoffset_prev(self: &Sysline) -> FileOffset {
+        let charsz_ = self.charsz() as FileOffset ;
+        match self.fileoffset_begin() {
+            0 => 0,
+            val if val < charsz_ => 0,
+            val => val - charsz_,
+        }
+    }
+
+    /// return the first `BlockOffset`s on which data for this Sysline resides.
+    /// Presumes underlying `Line` and `LinePart` hold data else panic!
+    pub fn blockoffset_first(self: &Sysline) -> BlockOffset {
+        self.lines[0].blockoffset_first()
+    }
+
+    /// Return the last `BlockOffset`s on which data for this Sysline resides.
+    /// Presumes underlying `Line` and `LinePart` hold data else panic!
+    pub fn blockoffset_last(self: &Sysline) -> BlockOffset {
+        let line: &Line = &self.lines[self.lines.len() - 1];
+
+        line.blockoffset_last()
     }
 
     /// length in bytes of this Sysline
@@ -342,40 +372,14 @@ impl Sysline {
     ///
     /// TODO: move this into a `Printer` class
     #[cfg(any(debug_assertions,test))]
-    pub fn print1(self: &Sysline, raw: bool) {
-        for lp in &self.lines {
-            (*lp).print(raw);
+    pub fn print_using_lines(self: &Sysline, raw: bool) {
+        for linep in &self.lines {
+            (*linep).print(raw);
         }
     }
 
     // TODO: [2022/03/23] implement an `iter_slices` that does not require creating a new `vec`, just
     //       passes `&bytes` back. Call `iter_slices` from `print`
-
-    /// print approach #2, print by slices
-    /// prints raw data from underlying `Block`
-    /// testing helper
-    /// TODO: move this into a `Printer` class
-    #[cfg(any(debug_assertions,test))]
-    #[allow(dead_code)]
-    fn print2(&self) {
-        let slices = self.get_slices();
-        let stdout = io::stdout();
-        let mut stdout_lock = stdout.lock();
-        for slice in slices.iter() {
-            match stdout_lock.write(slice) {
-                Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: write: StdoutLock.write(slice@{:p} (len {})) error {}", slice, slice.len(), err);
-                }
-            }
-        }
-        match stdout_lock.flush() {
-            Ok(_) => {}
-            Err(err) => {
-                eprintln!("ERROR: write: stdout flushing error {}", err);
-            }
-        }
-    }
 
     /// helper to `print_color`
     /// caller must acquire stdout.Lock, and call `stdout.flush()`
@@ -524,8 +528,9 @@ impl Sysline {
         s_
     }
 
-    // XXX: rust does not support function overloading which is really surprising and disappointing
-    /// `Line` to `String`
+    /// `Sysline` to `String`
+    ///
+    /// inefficient; only for debugging
     #[allow(non_snake_case)]
     //#[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Sysline) -> String {
@@ -533,6 +538,8 @@ impl Sysline {
     }
 
     /// `Sysline` to `String` but using printable chars for non-printable and/or formatting characters
+    ///
+    /// inefficient; only for debugging
     #[allow(non_snake_case)]
     //#[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &Sysline) -> String {

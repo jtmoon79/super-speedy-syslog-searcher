@@ -1,7 +1,6 @@
 // Readers/blockreader.rs
 //
 // Blocks and BlockReader implementations
-//
 
 pub use crate::common::{
     FPath,
@@ -120,11 +119,19 @@ pub struct GzData {
     pub crc32: u32,
 }
 
-/// Cached file reader that stores data in `BlockSz` byte-sized blocks.
-/// A `BlockReader` corresponds to one file.
-/// A `BlockReader` hides details about compression and reading bytes from storage.
-/// A `BlockReader` does not know about `char`s.
-/// 
+/// A `BlockReader` reads a file in `BlockSz` byte-sized `Block`s. It interfaces 
+/// with the filesystem (or any other data retreival method). It handles the
+/// lookup and storage of `Block`s of data.
+///
+/// A `BlockReader` uses it's `FileType` to determine how to handle files.
+/// This includes reading bytes from files (e.g. `.log`),
+/// compressed files (e.g. `.gz`), and archive files (e.g. `.tar`).
+///
+/// One `BlockReader` corresponds to one file. For archive files, one `BlockReader`
+/// handles only one file *within* the archive file.
+///
+/// A `BlockReader` does not know about `char`s (a `LineReader` does).
+///
 /// XXX: not a rust "Reader"; does not implement trait `Read`
 ///
 pub struct BlockReader {
@@ -164,16 +171,18 @@ pub struct BlockReader {
     /// `self.blocks` may have some elements `drop`ped during streaming.
     count_bytes_: u64,
     /// Storage of blocks `read` from storage. Lookups O(log(n)).
+    ///
     /// During file processing, some elements that are not needed may be `drop`ped.
-    /// That activity is managed by other classes, not `BlockReader`.
     blocks: Blocks,
-    /// track blocks read in `read_block`
+    /// track blocks read in `read_block`. Never drops data.
     ///
     /// useful for when streaming kicks-in and some key+vale of `self.blocks` have
     /// been dropped.
     blocks_read: BlocksTracked,
     /// internal LRU cache for `fn read_block`. Lookups O(1).
     _read_block_lru_cache: BlocksLRUCache,
+    /// enable/disable use of `_read_block_lru_cache`
+    _read_block_lru_cache_enabled: bool,
     /// internal stats tracking
     pub(crate) _read_block_cache_lru_hit: u32,
     /// internal stats tracking
@@ -274,7 +283,7 @@ pub fn printblock(buffer: &Block, blockoffset: BlockOffset, fileoffset: FileOffs
 /// implement the BlockReader things
 impl BlockReader {
     /// maximum size of a gzip compressed file that will be processed
-    const GZ_MAX_SZ: u64 = 0x1FFFFFF;
+    const GZ_MAX_SZ: u64 = 0x04FFFFFF;
     /// maximum block size for `FILE_GZ`
     ///
     /// XXX: if `blocksz` is too big then `GzDecoder.read(&block)` will often return
@@ -386,7 +395,7 @@ impl BlockReader {
                             //       use of unstable library feature 'io_error_more'
                             //       see issue #86442 <https://github.com/rust-lang/rust/issues/86442> for more informationrustc(E0658)
                             ErrorKind::InvalidData,
-                            format!("Cannot handle gzip files larger than {0} (0x{0:08X}) bytes, file is {1} (0x{1:08X}) bytes (uncompressed): {2:?}", BlockReader::GZ_MAX_SZ, filesz, path),
+                            format!("Cannot handle gzip files larger than semi-arbitrary {0} (0x{0:08X}) bytes, file is {1} (0x{1:08X}) bytes (uncompressed): {2:?} (TODO: IMPROVE THIS)", BlockReader::GZ_MAX_SZ, filesz, path),
                         )
                     );
                 }
@@ -513,6 +522,7 @@ impl BlockReader {
                 blocks: Blocks::new(),
                 blocks_read: BlocksTracked::new(),
                 _read_block_lru_cache: BlocksLRUCache::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ),
+                _read_block_lru_cache_enabled: true,
                 _read_block_cache_lru_hit: 0,
                 _read_block_cache_lru_miss: 0,
                 _read_block_cache_lru_put: 0,
@@ -605,7 +615,18 @@ impl BlockReader {
         filesz / blocksz + (if filesz % blocksz > 0 { 1 } else { 0 })
     }
 
+    /// specific `BlockSz` (length) of block at `blockoffset`
+    pub fn blocksz_at_blockoffset(&self, blockoffset: &BlockOffset) -> Option<BlockSz> {
+        debug_eprintln!("{}blockreader.blocksz_at_blockoffset({})", snx(), blockoffset);
+
+        match self.blocks.get(blockoffset) {
+            Some(blockp) => Some((*blockp).len() as BlockSz),
+            None => None,
+        }
+    }
+
     /// return block.len() for given block at `blockoffset`
+    /// TODO: replace all uses of this `blocklen_at_blockoffset` with `blocksz_at_blockoffset`
     #[inline]
     pub fn blocklen_at_blockoffset(&self, blockoffset: &BlockOffset) -> usize {
         match self.blocks.get(blockoffset) {
@@ -651,10 +672,57 @@ impl BlockReader {
         self.blocks.contains_key(blockoffset)
     }
 
+    /// enable internal LRU cache used by `find_block`.
+    ///
+    /// intended to aid testing and debugging
+    pub fn LRU_cache_enable(&mut self) {
+        if self._read_block_lru_cache_enabled {
+            return;
+        }
+        self._read_block_lru_cache_enabled = true;
+        self._read_block_lru_cache.clear();
+        self._read_block_lru_cache.resize(BlockReader::READ_BLOCK_LRU_CACHE_SZ);
+    }
+
+    /// disable internal LRU cache used by `find_block`.
+    ///
+    /// intended to aid testing and debugging
+    pub fn LRU_cache_disable(&mut self) {
+        self._read_block_lru_cache_enabled = false;
+        self._read_block_lru_cache.resize(0);
+    }
+
+    /// Drop data associated with `Block` at `blockoffset`.
+    ///
+    /// Presumes the caller knows what they are doing!
+    pub fn drop_block(&mut self, blockoffset: BlockOffset) {
+        match self.blocks.remove(&blockoffset) {
+            Some(blockp) => {
+                let sc = Arc::strong_count(&blockp);
+                debug_eprintln!("{}blockreader.drop_block({}): dropped block {} @0x{:p}, len {}, strong_count {}", so(), blockoffset, blockoffset, blockp, (*blockp).len(), sc);
+            },
+            None => {
+                debug_eprintln!("{}blockreader.drop_block({}): no block to drop at {}", so(), blockoffset, blockoffset);
+            },
+        }
+        match self._read_block_lru_cache.pop(&blockoffset) {
+            Some(blockp) => {
+                let sc = Arc::strong_count(&blockp);
+                debug_eprintln!("{}blockreader.drop_block({}): dropped block in LRU cache {} @0x{:p}, len {}, strong_count {}", so(), blockoffset, blockoffset, blockp, (*blockp).len(), sc);
+            },
+            None => {
+                debug_eprintln!("{}blockreader.drop_block({}): no block in LRU cache to drop at {}", so(), blockoffset, blockoffset);
+            }
+        }
+    }
+
     /// store copy of `BlockP` in LRU cache
-    fn store_block_in_LRU_cache(&mut self, blockoffset: BlockOffset, blockp: BlockP) {
+    fn store_block_in_LRU_cache(&mut self, blockoffset: BlockOffset, blockp: &BlockP) {
         debug_eprintln!("{}store_block_in_LRU_cache: LRU cache put({}, BlockP@{:p})", so(), blockoffset, blockp);
-        self._read_block_lru_cache.put(blockoffset, blockp);
+        if ! self._read_block_lru_cache_enabled {
+            return;
+        }
+        self._read_block_lru_cache.put(blockoffset, blockp.clone());
         self._read_block_cache_lru_put += 1;
     }
 
@@ -742,9 +810,9 @@ impl BlockReader {
                 if bo_at == blockoffset {
                     debug_eprintln!("{}read_block_FILE_GZ({}): return Found", sx(), blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
-                    //      which could happen during streaming mode
+                    //      which could happen during streaming stage
                     let blockp: BlockP = self.blocks.get_mut(&bo_at).unwrap().clone();
-                    self.store_block_in_LRU_cache(blockoffset, blockp.clone());
+                    self.store_block_in_LRU_cache(blockoffset, &blockp);
                     return ResultS3_ReadBlock::Found(blockp);
                 }
                 bo_at += 1;
@@ -830,37 +898,40 @@ impl BlockReader {
     /// all other `File` and `std::io` errors are propagated to the caller
     pub fn read_block(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         debug_eprintln!(
-            "{0}read_block: @{1:p}.read_block({2}) (fileoffset {3} (0x{3:08X})) (filesz {4} (0x{4:08X}))",
-            sn(), self, blockoffset, self.file_offset_at_block_offset_self(blockoffset), self.filesz(),
+            "{0}read_block: @{1:p}.read_block({2}) (fileoffset {3} (0x{3:08X})), blocksz {4} (0x{4:08X}), filesz {5} (0x{5:08X})",
+            sn(), self, blockoffset, self.file_offset_at_block_offset_self(blockoffset), self.blocksz, self.filesz(),
         );
         { // check storages
             // check fast LRU cache
-            match self._read_block_lru_cache.get(&blockoffset) {
-                Some(bp) => {
-                    self._read_block_cache_lru_hit += 1;
-                    debug_eprintln!(
-                        "{}read_block: return Found(BlockP@{:p}); hit LRU cache Block[{}] @[{}, {}) len {}",
-                        sx(),
-                        &*bp,
-                        &blockoffset,
-                        BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz),
-                        BlockReader::file_offset_at_block_offset(blockoffset+1, self.blocksz),
-                        (*bp).len(),
-                    );
-                    return ResultS3_ReadBlock::Found(bp.clone());
-                }
-                None => {
-                    debug_eprintln!("{}read_block: blockoffset {} not found LRU cache", so(), blockoffset);
-                    self._read_block_cache_lru_miss += 1;
+            if self._read_block_lru_cache_enabled {
+                match self._read_block_lru_cache.get(&blockoffset) {
+                    Some(bp) => {
+                        self._read_block_cache_lru_hit += 1;
+                        debug_eprintln!(
+                            "{}read_block: return Found(BlockP@{:p}); hit LRU cache Block[{}] @[{}, {}) len {}",
+                            sx(),
+                            &*bp,
+                            &blockoffset,
+                            BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz),
+                            BlockReader::file_offset_at_block_offset(blockoffset+1, self.blocksz),
+                            (*bp).len(),
+                        );
+                        return ResultS3_ReadBlock::Found(bp.clone());
+                    }
+                    None => {
+                        debug_eprintln!("{}read_block: blockoffset {} not found LRU cache", so(), blockoffset);
+                        self._read_block_cache_lru_miss += 1;
+                    }
                 }
             }
             // check hash map storage
             if self.blocks_read.contains(&blockoffset) {
                 self._read_blocks_hit += 1;
                 debug_eprintln!("{}read_block: blocks_read.contains({})", so(), blockoffset);
+                assert!(self.blocks.contains_key(&blockoffset), "requested block {} is in self.blocks_read but not in self.blocks", blockoffset);
                 // XXX: during streaming, this might panic!
                 let blockp: BlockP = self.blocks.get_mut(&blockoffset).unwrap().clone();
-                self.store_block_in_LRU_cache(blockoffset, blockp.clone());
+                self.store_block_in_LRU_cache(blockoffset, &blockp);
                 debug_eprintln!(
                     "{}read_block: return Found(BlockP@{:p}); use stored Block[{}] @[{}, {}) len {}",
                     sx(),
@@ -870,7 +941,7 @@ impl BlockReader {
                     BlockReader::file_offset_at_block_offset(blockoffset+1, self.blocksz),
                     self.blocks[&blockoffset].len(),
                 );
-                return ResultS3_ReadBlock::Found(blockp.clone());
+                return ResultS3_ReadBlock::Found(blockp);
             } else {
                 debug_eprintln!("{}read_block: blockoffset {} not found in blocks_read", so(), blockoffset);
                 debug_assert!(!self.blocks.contains_key(&blockoffset), "blocks has element {} not in blocks_read", blockoffset);

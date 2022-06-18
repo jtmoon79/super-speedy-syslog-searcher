@@ -42,6 +42,7 @@ use crate::Data::datetime::{
 pub use crate::Readers::syslogprocessor::{
     SyslogProcessor,
     FileProcessingResult_BlockZero,
+    BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP,
 };
 
 use std::io::{
@@ -74,7 +75,7 @@ use lazy_static::lazy_static;
 fn new_SyslogProcessor(path: &FPath, blocksz: BlockSz) -> SyslogProcessor {
     let tzo: FixedOffset = FixedOffset::east(0);
     let filetype: FileType = guess_filetype_from_fpath(path);
-    match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo) {
+    match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo, None, None) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: SyslogProcessor::new({:?}, {:?}, {:?}) failed {}", path, blocksz, tzo, err);
@@ -219,7 +220,9 @@ fn test_blockzero_analysis_lines_nl20_FILE_OK() {
     let line_count: u64 = data.lines().count() as u64;
     let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
-    let line_count_ = std::cmp::min(line_count, SyslogProcessor::BLOCKZERO_ANALYSIS_LINE_COUNT);
+    let filesz: u64 = ntf.as_file().metadata().unwrap().len() as u64;
+    let line_count_default: u64 = *BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP.get(&filesz).unwrap();
+    let line_count_ = std::cmp::min(line_count, line_count_default);
     _test_blockzero_analysis_lines(&path, 0xFF, FileProcessingResult_BlockZero::FILE_OK, line_count_);
 }
 

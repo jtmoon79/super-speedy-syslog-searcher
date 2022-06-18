@@ -49,6 +49,7 @@ use crate::dbgpr::stack::{
 };
 
 use std::collections::BTreeMap;
+use std::collections::HashSet;
 use std::fmt;
 use std::io;
 use std::io::{
@@ -107,6 +108,7 @@ type ResultS3_find_byte = ResultS3<ResultS3_find_byte_val, Error>;
 /// Specialized Reader that uses BlockReader to find `Lines` in a file.
 /// The `LineReader` handles `[u8]` to `char` interpretation. It does the most
 /// work in this regard (more than `SyslineReader`).
+/// A `LineReader` stores past lookups of data.
 ///
 /// XXX: not a rust "Reader"; does not implement trait `Read`
 pub struct LineReader {
@@ -128,7 +130,8 @@ pub struct LineReader {
     /// enable internal LRU cache for `find_line` (default `true`)
     _find_line_lru_cache_enabled: bool,
     /// internal LRU cache for `find_line`
-    _find_line_lru_cache: LinesLRUCache,
+    /// TODO: remove `pub(crate)`
+    pub (crate) _find_line_lru_cache: LinesLRUCache,
     /// internal stats
     pub(crate) _find_line_lru_cache_hit: u64,
     /// internal stats
@@ -145,7 +148,7 @@ impl fmt::Debug for LineReader {
         //};
         f.debug_struct("LineReader")
             //.field("@", format!("{:p}", &self))
-            .field("LRU cache enabled", &self._find_line_lru_cache_enabled)
+            .field("LRU cache enabled?", &self._find_line_lru_cache_enabled)
             .field("charsz", &self.charsz())
             .field("lines", &self.lines)
             .field("blockreader", &self.blockreader)
@@ -234,6 +237,9 @@ impl LineReader {
 
     /// enable internal LRU cache used by `find_line`
     pub fn LRU_cache_enable(&mut self) {
+        if self._find_line_lru_cache_enabled {
+            return;
+        }
         self._find_line_lru_cache_enabled = true;
         self._find_line_lru_cache.clear();
         self._find_line_lru_cache.resize(LineReader::FIND_LINE_LRC_CACHE_SZ);
@@ -243,7 +249,6 @@ impl LineReader {
     /// intended for testing
     pub fn LRU_cache_disable(&mut self) {
         self._find_line_lru_cache_enabled = false;
-        self._find_line_lru_cache.clear();
         self._find_line_lru_cache.resize(0);
     }
 
@@ -380,6 +385,29 @@ impl LineReader {
         debug_eprintln!("{}LineReader.insert_line() returning @{:p}", sx(), linep);
 
         linep
+    }
+
+    pub fn drop_line(&mut self, mut linep: LineP, mut bo_dropped: &mut HashSet<BlockOffset>) -> bool {
+        let fo_key = (*linep).fileoffset_begin();
+        self._find_line_lru_cache.pop(&fo_key);
+        self.lines.remove(&fo_key);
+        match Arc::try_unwrap(linep) {
+            Ok(mut line) => {
+                debug_eprintln!("{}linereader.drop_line: Arc::try_unwrap(linep) processing Line @[{}‥{}] Block @[{}‥{}]", so(), line.fileoffset_begin(), line.fileoffset_end(), line.blockoffset_first(), line.blockoffset_last());
+                for linepart in line.lineparts.into_iter() {
+                    // be a little bit more efficient about calling `drop_block`; check `bo_dropped` first
+                    if !bo_dropped.contains(&linepart.blockoffset) {
+                        self.blockreader.drop_block(linepart.blockoffset);
+                        bo_dropped.insert(linepart.blockoffset);
+                    }
+                }
+            }
+            Err(linep_) => {
+                debug_eprintln!("{}linereader.drop_line: Arc::try_unwrap(linep) Err strong_count {}", so(), Arc::strong_count(&linep_));
+            }
+        }
+
+        true
     }
 
     /// does `self` "contain" this `fileoffset`? That is, already know about it?
@@ -1094,7 +1122,7 @@ impl LineReader {
         ResultS4_LineFind::Found((fo_next, linep))
     }
 
-    /// Find next `Line` starting from `fileoffset`.
+    /// Find next `Line` starting from `fileoffset`. This does a linear search.
     ///
     /// During the process of finding, creates and stores the `Line` from underlying `Block` data.
     /// Returns `Found`(`FileOffset` of beginning of the _next_ line, found `LineP`)
@@ -1104,10 +1132,11 @@ impl LineReader {
     ///
     /// This function has the densest number of byte↔char handling and transitions within this program.
     ///
-    /// correllary to `find_sysline`, `read_block`.
+    /// Correllary to `find_sysline`, `read_block`.
     ///
     /// Throughout this function, newline A points to the line beginning, newline B
     /// points to line ending. Both are inclusive.
+    ///
     /// Here are two defining cases of this function:
     ///
     /// given a file of four newlines:
@@ -1146,6 +1175,7 @@ impl LineReader {
     ///      and/or add `iter` capabilities to `Line` that will hide tracking the "next fileoffset".
     ///
     /// XXX: this function is fragile and cumbersome, any tweaks require extensive retesting
+    ///
     pub fn find_line(&mut self, fileoffset: FileOffset) -> ResultS4_LineFind {
         debug_eprintln!("{}find_line(LineReader@{:p}, {})", sn(), self, fileoffset);
 
@@ -1156,12 +1186,9 @@ impl LineReader {
         let blockoffset_last = self.blockoffset_last();
 
         // check fast LRU first
-        match self.check_store_LRU(fileoffset) {
-            Some(results4) => {
-                debug_eprintln!("{}find_line({}): return {:?}", sx(), fileoffset, results4);
-                return results4;
-            },
-            _ => {},
+        if let Some(results4) = self.check_store_LRU(fileoffset) {
+            debug_eprintln!("{}find_line({}): return {:?}", sx(), fileoffset, results4);
+            return results4;
         }
 
         // handle special cases
@@ -1180,12 +1207,9 @@ impl LineReader {
         }
 
         // check container of `Line`s
-        match self.check_store(fileoffset) {
-            Some(results4) => {
-                debug_eprintln!("{}find_line({}): return {:?}", sx(), fileoffset, results4);
-                return results4;
-            },
-            _ => {},
+        if let Some(results4) = self.check_store(fileoffset) {
+            debug_eprintln!("{}find_line({}): return {:?}", sx(), fileoffset, results4);
+            return results4;
         }
 
         //

@@ -1,5 +1,7 @@
 // Readers/filepreprocssor.rs
 //
+// a collection of functions to search for potentially parseable files,
+// and prepare for the creation of `SyslogProcessor`
 
 use crate::common::{
     FPath,
@@ -22,12 +24,6 @@ use crate::Readers::helpers::{
     fpath_to_path,
 };
 
-use crate::printer::printers::{
-    Color,
-    ColorSpec,
-    WriteColor,
-};
-
 use crate::dbgpr::stack::{
     sn,
     snx,
@@ -35,37 +31,17 @@ use crate::dbgpr::stack::{
     sx,
 };
 
-use crate::Data::datetime::{
-    FixedOffset,
-    DateTimeL,
-    DateTimeL_Opt,
-};
-
 pub use crate::Readers::linereader::{
     ResultS4_LineFind,
 };
 
-pub use crate::Readers::syslinereader::{
-    ResultS4_SyslineFind,
-    Sysline,
-    SyslineP,
-    SyslineReader,
-};
-
-use crate::Readers::summary::{
-    Summary,
-};
-
 use std::ffi::OsStr;
-use std::fmt;
-use std::io::{
-    Error,
-    Result,
-    ErrorKind,
-};
 
 extern crate debug_print;
-use debug_print::{debug_eprint, debug_eprintln};
+use debug_print::{
+    debug_eprint,
+    debug_eprintln
+};
 
 extern crate lazy_static;
 use lazy_static::lazy_static;

@@ -389,3 +389,8 @@ pub const NLu8: u8 = 10;
 /// Newline in a byte buffer
 #[allow(non_upper_case_globals)]
 pub const NLu8a: [u8; 1] = [NLu8];
+
+/// maximum size of a syslog message, 8096 octets (0x1FA0)
+///
+/// taken from https://stackoverflow.com/a/41822232/471376
+pub const SYSLOG_SZ_MAX: usize = 8096;

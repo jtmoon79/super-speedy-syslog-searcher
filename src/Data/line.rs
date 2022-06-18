@@ -45,6 +45,7 @@ use crate::dbgpr::stack::{
 };
 
 use std::collections::BTreeMap;
+use std::collections::BTreeSet;
 use std::fmt;
 use std::io;
 use std::io::{
@@ -88,6 +89,8 @@ pub type Lines = Vec<LineP>;
 pub type LineIndex = usize;
 /// thread-safe Atomic Reference Counting pointer to a `Line`
 pub type LineP = Arc<Line>;
+/// set of `BlockOffset`s that a `Line` may hold data
+pub type BlockOffsets = BTreeSet::<BlockOffset>;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // LinePart, Line, and LineReader
@@ -119,10 +122,10 @@ pub struct LinePart {
     pub fileoffset: FileOffset,
     /// blockoffset: debug helper, might be good to get rid of this?
     pub blockoffset: BlockOffset,
-    /// the file-designated BlockSz, _not_ the size of this particular block (yes, somewhat confusing)
-    /// blocksz: debug helper, might be good to get rid of this? seems confusing and unnecessary.
+    /// the file-designated BlockSz, _not_ the size of the `Block` at `blockp`
+    ///
+    /// TODO: is this used?
     pub blocksz: BlockSz,
-    // TODO: add size of *this* block
 }
 
 impl fmt::Debug for LinePart {
@@ -420,6 +423,20 @@ impl Line {
         self.lineparts[last_li].fileoffset + (self.lineparts[last_li].len() as FileOffset) - 1
     }
 
+    /// return the first `BlockOffset`s on which data for this `Line` resides.
+    ///
+    /// Presumes underlying `LinePart` hold data else panic!
+    pub fn blockoffset_first(self: &Line) -> BlockOffset {
+        self.lineparts[0].blockoffset
+    }
+
+    /// Return the last `BlockOffset`s on which data for this `Line` resides.
+    ///
+    /// Presumes underlying `LinePart` hold data else panic!
+    pub fn blockoffset_last(self: &Line) -> BlockOffset {
+        self.lineparts[self.lineparts.len() - 1].blockoffset
+    }
+
     /// length of this `Line` in bytes as calcuated from stored fileoffsets
     pub fn len(self: &Line) -> usize {
         (self.fileoffset_end() - self.fileoffset_begin() + 1) as usize
@@ -483,6 +500,16 @@ impl Line {
             }
         }
         false
+    }
+
+    /// return set of `BlockOffset`s on which this `Line` has underlying data
+    pub fn get_blockoffsets(self: &Line) -> BlockOffsets {
+        let mut blockoffsets = BlockOffsets::new();
+        for linepart in self.lineparts.iter() {
+            blockoffsets.insert(linepart.blockoffset);
+        }
+
+        blockoffsets
     }
 
     /// return all slices that make up this `Line` within a `Vec`
