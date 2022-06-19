@@ -21,3 +21,5 @@ jobs:
         run: cargo bench --no-run
       - name: Run Tests
         run: cargo test -j1 --verbose -- --test-threads=1
+      - name: Run Program
+        run: cargo run --release -- --color=never -l -s -n -w ./logs/other/tests/dtf2-2.log ./logs/other/tests/dtf3-1.log ./logs/other/tests/dtf5-6a.log.gz
