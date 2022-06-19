@@ -11,7 +11,9 @@ set -euo pipefail
 cd "$(dirname "${0}")/.."
 
 (set -x; uname -a)
-(set -x; git log -n1 --format='%h %D')
+if [[ -d '.git' ]]; then
+    (set -x; git log -n1 --format='%h %D')
+fi
 (set -x; ./target/release/super_speedy_syslog_searcher --version)
 # use full path to Unix tools
 grep=$(which grep)
@@ -122,7 +124,7 @@ if [[ ${s4_lc} -ne ${gs_lc} ]] || [[ ${s4_bc} -ne ${gs_bc} ]]; then
     sort "${tmp2}" > "${tmp2b}"
     echo
     echo "Difference Preview:"
-    diff -y --width=$COLUMNS --suppress-common-lines "${tmp1b}" "${tmp2b}" | head -n 20
+    (set -x; diff -y --width=$COLUMNS --suppress-common-lines "${tmp1b}" "${tmp2b}") | head -n 20
 fi
 
 exit ${ret}
