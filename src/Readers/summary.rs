@@ -2,6 +2,8 @@
 
 use std::fmt;
 
+use std::io::Error;
+
 use crate::common::{
     FileType,
 };
@@ -14,6 +16,7 @@ use crate::Readers::blockreader::{
 
 use crate::Data::datetime::{
     DateTime_Parse_Datas_vec,
+    DateTimeL_Opt,
 };
 
 extern crate more_asserts;
@@ -55,6 +58,10 @@ pub struct Summary {
     pub LineReader_lines: u64,
     /// count of `Syslines` processed by `SyslineReader`
     pub SyslineReader_syslines: u64,
+    /// `SyslineReader::_syslines_hit`
+    pub SyslineReader_syslines_hit: u64,
+    /// `SyslineReader::_syslines_miss`
+    pub SyslineReader_syslines_miss: u64,
     /// `SyslineReader::_syslines_by_range_hit`
     pub SyslineReader_syslines_by_range_hit: u64,
     /// `SyslineReader::_syslines_by_range_miss`
@@ -63,6 +70,10 @@ pub struct Summary {
     pub SyslineReader_syslines_by_range_insert: u64,
     /// datetime patterns used by `SyslineReader`
     pub SyslineReader_patterns: DateTime_Parse_Datas_vec,
+    /// datetime soonest seen (not necessarily reflective of entire file)
+    pub SyslineReader_pattern_first: DateTimeL_Opt,
+    /// datetime latest seen (not necessarily reflective of entire file)
+    pub SyslineReader_pattern_last: DateTimeL_Opt,
     /// `SyslineReader::find_sysline`
     pub SyslineReader_find_sysline_lru_cache_hit: u64,
     /// `SyslineReader::find_sysline`
@@ -75,24 +86,39 @@ pub struct Summary {
     pub SyslineReader_parse_datetime_in_line_lru_cache_miss: u64,
     /// `SyslineReader::parse_datetime_in_line`
     pub SyslineReader_parse_datetime_in_line_lru_cache_put: u64,
-    /// `LineReader::find_line`
+    /// `LineReader::find_line` `self.lines`
+    pub LineReader_lines_hit: u64,
+    /// `LineReader::find_line` `self.lines`
+    pub LineReader_lines_miss: u64,
+    /// `LineReader::find_line()` `self._find_line_lru_cache`
     pub LineReader_find_line_lru_cache_hit: u64,
-    /// `LineReader::find_line`
+    /// `LineReader::find_line()` `self._find_line_lru_cache`
     pub LineReader_find_line_lru_cache_miss: u64,
-    /// `LineReader::find_line`
+    /// `LineReader::find_line()` `self._find_line_lru_cache`
     pub LineReader_find_line_lru_cache_put: u64,
     /// `BlockReader::read_block`
-    pub BlockReader_read_block_lru_cache_hit: u32,
+    pub BlockReader_read_block_lru_cache_hit: u64,
     /// `BlockReader::read_block`
-    pub BlockReader_read_block_lru_cache_miss: u32,
+    pub BlockReader_read_block_lru_cache_miss: u64,
     /// `BlockReader::read_block`
-    pub BlockReader_read_block_lru_cache_put: u32,
+    pub BlockReader_read_block_lru_cache_put: u64,
     /// `BlockReader::read_block`
-    pub BlockReader_read_blocks_hit: u32,
+    pub BlockReader_read_blocks_hit: u64,
     /// `BlockReader::read_block`
-    pub BlockReader_read_blocks_miss: u32,
+    pub BlockReader_read_blocks_miss: u64,
     /// `BlockReader::read_block`
-    pub BlockReader_read_blocks_insert: u32,
+    pub BlockReader_read_blocks_insert: u64,
+    /// `LineReader::drop_line_ok`
+    pub LineReader_drop_line_ok: u64,
+    /// `LineReader::drop_line_errors`
+    pub LineReader_drop_line_errors: u64,
+    /// `SyslineReader::drop_sysline_ok`
+    pub SyslineReader_drop_sysline_ok: u64,
+    /// `SyslineReader::drop_sysline_errors`
+    pub SyslineReader_drop_sysline_errors: u64,
+    /// the last IO error as a String, if any
+    /// (`Error` does not implement `Clone`)
+    pub Error_: Option<String>,
 }
 
 impl Summary {
@@ -108,25 +134,36 @@ impl Summary {
         BlockReader_filesz_actual: u64,
         LineReader_lines: u64,
         SyslineReader_syslines: u64,
+        SyslineReader_syslines_hit: u64,
+        SyslineReader_syslines_miss: u64,
         SyslineReader_syslines_by_range_hit: u64,
         SyslineReader_syslines_by_range_miss: u64,
         SyslineReader_syslines_by_range_insert: u64,
         SyslineReader_patterns: DateTime_Parse_Datas_vec,
+        SyslineReader_pattern_first: DateTimeL_Opt,
+        SyslineReader_pattern_last: DateTimeL_Opt,
         SyslineReader_find_sysline_lru_cache_hit: u64,
         SyslineReader_find_sysline_lru_cache_miss: u64,
         SyslineReader_find_sysline_lru_cache_put: u64,
         SyslineReader_parse_datetime_in_line_lru_cache_hit: u64,
         SyslineReader_parse_datetime_in_line_lru_cache_miss: u64,
         SyslineReader_parse_datetime_in_line_lru_cache_put: u64,
+        LineReader_lines_hit: u64,
+        LineReader_lines_miss: u64,
         LineReader_find_line_lru_cache_hit: u64,
         LineReader_find_line_lru_cache_miss: u64,
         LineReader_find_line_lru_cache_put: u64,
-        BlockReader_read_block_lru_cache_hit: u32,
-        BlockReader_read_block_lru_cache_miss: u32,
-        BlockReader_read_block_lru_cache_put: u32,
-        BlockReader_read_blocks_hit: u32,
-        BlockReader_read_blocks_miss: u32,
-        BlockReader_read_blocks_insert: u32,
+        BlockReader_read_block_lru_cache_hit: u64,
+        BlockReader_read_block_lru_cache_miss: u64,
+        BlockReader_read_block_lru_cache_put: u64,
+        BlockReader_read_blocks_hit: u64,
+        BlockReader_read_blocks_miss: u64,
+        BlockReader_read_blocks_insert: u64,
+        LineReader_drop_line_ok: u64,
+        LineReader_drop_line_errors: u64,
+        SyslineReader_drop_sysline_ok: u64,
+        SyslineReader_drop_sysline_errors: u64,
+        Error_: Option<String>,
     ) -> Summary {
         // some sanity checks
         assert_ge!(BlockReader_bytes, BlockReader_blocks, "There is less bytes than Blocks");
@@ -146,16 +183,22 @@ impl Summary {
             BlockReader_filesz_actual,
             LineReader_lines,
             SyslineReader_syslines,
+            SyslineReader_syslines_hit,
+            SyslineReader_syslines_miss,
             SyslineReader_syslines_by_range_hit,
             SyslineReader_syslines_by_range_miss,
             SyslineReader_syslines_by_range_insert,
             SyslineReader_patterns,
+            SyslineReader_pattern_first,
+            SyslineReader_pattern_last,
             SyslineReader_find_sysline_lru_cache_hit,
             SyslineReader_find_sysline_lru_cache_miss,
             SyslineReader_find_sysline_lru_cache_put,
             SyslineReader_parse_datetime_in_line_lru_cache_hit,
             SyslineReader_parse_datetime_in_line_lru_cache_miss,
             SyslineReader_parse_datetime_in_line_lru_cache_put,
+            LineReader_lines_hit,
+            LineReader_lines_miss,
             LineReader_find_line_lru_cache_hit,
             LineReader_find_line_lru_cache_miss,
             LineReader_find_line_lru_cache_put,
@@ -165,8 +208,56 @@ impl Summary {
             BlockReader_read_blocks_hit,
             BlockReader_read_blocks_miss,
             BlockReader_read_blocks_insert,
+            LineReader_drop_line_ok,
+            LineReader_drop_line_errors,
+            SyslineReader_drop_sysline_ok,
+            SyslineReader_drop_sysline_errors,
+            Error_,
         }
     }
+
+    /// return maximum value for hit/miss/insert number.
+    /// helpful for format widths
+    pub fn max_hit_miss(&self) -> u64 {
+        *[
+            self.SyslineReader_syslines_hit,
+            self.SyslineReader_syslines_miss,
+            self.SyslineReader_syslines_by_range_hit,
+            self.SyslineReader_syslines_by_range_miss,
+            self.SyslineReader_syslines_by_range_insert,
+            self.SyslineReader_find_sysline_lru_cache_hit,
+            self.SyslineReader_find_sysline_lru_cache_hit,
+            self.SyslineReader_find_sysline_lru_cache_hit,
+            self.SyslineReader_find_sysline_lru_cache_miss,
+            self.SyslineReader_find_sysline_lru_cache_put,
+            self.SyslineReader_parse_datetime_in_line_lru_cache_hit,
+            self.SyslineReader_parse_datetime_in_line_lru_cache_miss,
+            self.SyslineReader_parse_datetime_in_line_lru_cache_put,
+            self.LineReader_lines_hit,
+            self.LineReader_lines_miss,
+            self.LineReader_find_line_lru_cache_hit,
+            self.LineReader_find_line_lru_cache_miss,
+            self.LineReader_find_line_lru_cache_put,
+            self.BlockReader_read_block_lru_cache_hit,
+            self.BlockReader_read_block_lru_cache_miss,
+            self.BlockReader_read_block_lru_cache_put,
+            self.BlockReader_read_blocks_hit,
+            self.BlockReader_read_blocks_miss,
+            self.BlockReader_read_blocks_insert,
+        ].iter().max().unwrap()
+    }
+
+    /// return maximum value for drop number.
+    /// helpful for format widths
+    pub fn max_drop(&self) -> u64 {
+        *[
+            self.LineReader_drop_line_ok,
+            self.LineReader_drop_line_errors,
+            self.SyslineReader_drop_sysline_ok,
+            self.SyslineReader_drop_sysline_errors,
+        ].iter().max().unwrap()
+    }
+
 }
 
 impl fmt::Debug for Summary {
@@ -195,6 +286,11 @@ impl fmt::Debug for Summary {
                 .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
                 .field("filesz uncompressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz_actual))
                 .field("filesz compressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
+                .finish()
+            },
+            // Summary::default()
+            FileType::FILE_UNSET_ => {
+                f.debug_struct("")
                 .finish()
             },
             _ => {

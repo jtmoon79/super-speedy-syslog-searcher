@@ -168,6 +168,8 @@ pub struct SyslogProcessor {
     drop_block_last: BlockOffset,
     /// internal memory of blocks dropped
     bo_dropped: HashSet<BlockOffset>,
+    /// last IO Error, if any
+    Error_: Option<String>,
 }
 
 impl std::fmt::Debug for SyslogProcessor {
@@ -189,7 +191,7 @@ impl std::fmt::Debug for SyslogProcessor {
 impl SyslogProcessor {
     /// `SyslogProcessor` has it's own miminum requirements for `BlockSz`.
     /// Necessary for `blockzero_analysis` functions to have chance at success.
-    const BLOCKSZ_MIN: BlockSz = 0x100;
+    pub const BLOCKSZ_MIN: BlockSz = 0x100;
     /// allow "streaming" (`drop`ping data in calls to `find_sysline`)?
     const STREAM_STAGE_DROP: bool = true;
     /// use LRU caches in underlying components. For development and testing experiments
@@ -240,31 +242,32 @@ impl SyslogProcessor {
                 blockzero_analysis_done: false,
                 drop_block_last: 0,
                 bo_dropped: HashSet::<BlockOffset>::with_capacity(bo_dropped_sz),
+                Error_: None,
             }
         )
     }
 
-    #[inline]
+    #[inline(always)]
     pub fn lines_count(&self) -> u64 {
         self.syslinereader.linereader.lines_count
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn blocksz(&self) -> BlockSz {
         self.syslinereader.blocksz()
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn filesz(&self) -> u64 {
         self.syslinereader.filesz()
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.syslinereader.filetype()
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn path(&self) -> &FPath {
         self.syslinereader.path()
     }
@@ -313,6 +316,8 @@ impl SyslogProcessor {
     /// wrapper to `self.syslinereader.find_sysline`
     ///
     /// This is where data is `drop`ped during streaming stage.
+    ///
+    /// TODO: [2022/06/18] need to store IO errors from this, and store for later use with `Summary`
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         if self.processingmode == ProcessingMode::stage3_stream_syslines && SyslogProcessor::STREAM_STAGE_DROP {
             debug_eprintln!("{}syslogprocesser.find_sysline({})", sn(), fileoffset);
@@ -331,7 +336,9 @@ impl SyslogProcessor {
                     }
                 }
                 ResultS4_SyslineFind::Done => {}
-                ResultS4_SyslineFind::Err(ref _err) => {}
+                ResultS4_SyslineFind::Err(ref err) => {
+                    self.Error_ = Some(err.to_string());
+                }
             }
             return result;
         }
@@ -368,19 +375,28 @@ impl SyslogProcessor {
     }
 
     /// Wrapper for `self.syslinereader.find_sysline_between_datetime_filters`
+    ///
+    /// TODO: [2022/06/18] need to store IO errors from this, and store for later use with `Summary`
     pub fn find_sysline_between_datetime_filters(
         &mut self, fileoffset: FileOffset,
     ) -> ResultS4_SyslineFind {
         debug_eprintln!("{}syslogprocesser.find_sysline_between_datetime_filters({})", snx(), fileoffset);
 
-        self.syslinereader.find_sysline_between_datetime_filters(
+        let result = self.syslinereader.find_sysline_between_datetime_filters(
             fileoffset, &self.filter_dt_after_opt, &self.filter_dt_before_opt,
-        )
+        );
+        match &result {
+            ResultS4_SyslineFind::Err(err) => {
+                self.Error_ = Some(err.to_string());
+            },
+            _ => {},
+        }
+        return result;
     }
 
     /// wrapper for a recurring sanity check
     /// good for checking `process_stageX` function calls are in correct order
-    #[inline]
+    #[inline(always)]
     fn assert_stage(&self, stage_expact: ProcessingMode) {
         assert_eq!(
             self.processingmode, stage_expact,
@@ -461,6 +477,7 @@ impl SyslogProcessor {
             },
             ResultS3_ReadBlock::Err(err) => {
                 debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines: return FILE_ERR_IO({:?})", sx(), err);
+                self.Error_ = Some(err.to_string());
                 return FileProcessingResult_BlockZero::FILE_ERR_IO(err);
             },
         };
@@ -486,6 +503,7 @@ impl SyslogProcessor {
                     found += 1;
                     break;
                 }, ResultS4_SyslineFind::Err(err) => {
+                    self.Error_ = Some(err.to_string());
                     debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines: return FILE_ERR_IO({:?})", sx(), err);
                     return FileProcessingResult_BlockZero::FILE_ERR_IO(err);
                 },
@@ -507,7 +525,7 @@ impl SyslogProcessor {
 
     /// Attempt to find a minimum number of `Line`s within the first block (block zero).
     /// If enough `Line` found then return `FILE_OK` else `FILE_ERR_NO_LINES_FOUND`.
-    #[inline]
+    #[inline(always)]
     pub(crate) fn blockzero_analysis_lines(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.blockzero_analysis_lines()", sn());
         self.assert_stage(ProcessingMode::stage1_blockzero_analysis);
@@ -519,6 +537,7 @@ impl SyslogProcessor {
                 return FileProcessingResult_BlockZero::FILE_ERR_EMPTY;
             },
             ResultS3_ReadBlock::Err(err) => {
+                self.Error_ = Some(err.to_string());
                 debug_eprintln!("{}syslogprocessor.blockzero_analysis_lines: return FILE_ERR_IO({:?})", sx(), err);
                 return FileProcessingResult_BlockZero::FILE_ERR_IO(err);
             },
@@ -547,6 +566,7 @@ impl SyslogProcessor {
                     break;
                 },
                 ResultS4_LineFind::Err(err) => {
+                    self.Error_ = Some(err.to_string());
                     debug_eprintln!("{}syslogprocessor.blockzero_analysis_lines: return FILE_ERR_IO({:?})", sx(), err);
                     return FileProcessingResult_BlockZero::FILE_ERR_IO(err);
                 },
@@ -598,16 +618,22 @@ impl SyslogProcessor {
         let BlockReader_filesz_actual = self.syslinereader.linereader.blockreader.filesz_actual;
         let LineReader_lines = self.syslinereader.linereader.count_lines_processed();
         let SyslineReader_syslines = self.syslinereader.count_syslines_processed();
+        let SyslineReader_syslines_hit = self.syslinereader._syslines_hit;
+        let SyslineReader_syslines_miss = self.syslinereader._syslines_miss;
         let SyslineReader_syslines_by_range_hit = self.syslinereader._syslines_by_range_hit;
         let SyslineReader_syslines_by_range_miss = self.syslinereader._syslines_by_range_miss;
         let SyslineReader_syslines_by_range_insert = self.syslinereader._syslines_by_range_insert;
         let SyslineReader_patterns = self.syslinereader.dt_patterns.clone();
+        let SyslineReader_datetime_first = self.syslinereader.dt_first;
+        let SyslineReader_datetime_last = self.syslinereader.dt_last;
         let SyslineReader_find_sysline_lru_cache_hit = self.syslinereader._find_sysline_lru_cache_hit;
         let SyslineReader_find_sysline_lru_cache_miss = self.syslinereader._find_sysline_lru_cache_miss;
         let SyslineReader_find_sysline_lru_cache_put = self.syslinereader._find_sysline_lru_cache_put;
         let SyslineReader_parse_datetime_in_line_lru_cache_hit = self.syslinereader._parse_datetime_in_line_lru_cache_hit;
         let SyslineReader_parse_datetime_in_line_lru_cache_miss = self.syslinereader._parse_datetime_in_line_lru_cache_miss;
         let SyslineReader_parse_datetime_in_line_lru_cache_put = self.syslinereader._parse_datetime_in_line_lru_cache_put;
+        let LineReader_lines_hit = self.syslinereader.linereader._lines_hits;
+        let LineReader_lines_miss = self.syslinereader.linereader._lines_miss;
         let LineReader_find_line_lru_cache_hit = self.syslinereader.linereader._find_line_lru_cache_hit;
         let LineReader_find_line_lru_cache_miss = self.syslinereader.linereader._find_line_lru_cache_miss;
         let LineReader_find_line_lru_cache_put = self.syslinereader.linereader._find_line_lru_cache_put;
@@ -617,6 +643,11 @@ impl SyslogProcessor {
         let BlockReader_read_blocks_hit = self.syslinereader.linereader.blockreader._read_blocks_hit;
         let BlockReader_read_blocks_miss = self.syslinereader.linereader.blockreader._read_blocks_miss;
         let BlockReader_read_blocks_insert = self.syslinereader.linereader.blockreader._read_blocks_insert;
+        let LineReader_drop_line_ok = self.syslinereader.linereader.drop_line_ok;
+        let LineReader_drop_line_errors = self.syslinereader.linereader.drop_line_errors;
+        let SyslineReader_drop_sysline_ok = self.syslinereader.drop_sysline_ok;
+        let SyslineReader_drop_sysline_errors = self.syslinereader.drop_sysline_errors;
+        let Error_: Option<String> = self.Error_.clone();
 
         Summary::new(
             filetype,
@@ -629,16 +660,22 @@ impl SyslogProcessor {
             BlockReader_filesz_actual,
             LineReader_lines,
             SyslineReader_syslines,
+            SyslineReader_syslines_hit,
+            SyslineReader_syslines_miss,
             SyslineReader_syslines_by_range_hit,
             SyslineReader_syslines_by_range_miss,
             SyslineReader_syslines_by_range_insert,
             SyslineReader_patterns,
+            SyslineReader_datetime_first,
+            SyslineReader_datetime_last,
             SyslineReader_find_sysline_lru_cache_hit,
             SyslineReader_find_sysline_lru_cache_miss,
             SyslineReader_find_sysline_lru_cache_put,
             SyslineReader_parse_datetime_in_line_lru_cache_hit,
             SyslineReader_parse_datetime_in_line_lru_cache_miss,
             SyslineReader_parse_datetime_in_line_lru_cache_put,
+            LineReader_lines_hit,
+            LineReader_lines_miss,
             LineReader_find_line_lru_cache_hit,
             LineReader_find_line_lru_cache_miss,
             LineReader_find_line_lru_cache_put,
@@ -648,6 +685,11 @@ impl SyslogProcessor {
             BlockReader_read_blocks_hit,
             BlockReader_read_blocks_miss,
             BlockReader_read_blocks_insert,
+            LineReader_drop_line_ok,
+            LineReader_drop_line_errors,
+            SyslineReader_drop_sysline_ok,
+            SyslineReader_drop_sysline_errors,
+            Error_,
         )
     }
 }

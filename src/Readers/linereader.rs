@@ -116,6 +116,10 @@ pub struct LineReader {
     /// track `Line` found among blocks in `blockreader`, tracked by line beginning `FileOffset`
     /// key value `FileOffset` should agree with `(*LineP).fileoffset_begin()`
     pub lines: FoToLine,
+    /// internal stats - hits in `find_line()` and other
+    pub(crate) _lines_hits: u64,
+    /// internal stats - misses in `find_line()` and other
+    pub(crate) _lines_miss: u64,
     /// for all `Lines`, map `Line.fileoffset_end` to `Line.fileoffset_beg`
     foend_to_fobeg: FoToFo,
     /// count of `Line`s processed.
@@ -131,15 +135,17 @@ pub struct LineReader {
     _find_line_lru_cache_enabled: bool,
     /// internal LRU cache for `find_line`
     /// TODO: remove `pub(crate)`
-    pub (crate) _find_line_lru_cache: LinesLRUCache,
+    pub(crate) _find_line_lru_cache: LinesLRUCache,
     /// internal stats
     pub(crate) _find_line_lru_cache_hit: u64,
     /// internal stats
     pub(crate) _find_line_lru_cache_miss: u64,
     /// internal stats
     pub(crate) _find_line_lru_cache_put: u64,
+    /// count of Ok to Arc::try_unwrap(linep), effectively count of dropped `Line`
+    pub(crate) drop_line_ok: u64,
     /// count of failures to Arc::try_unwrap(linep)
-    drop_line_errors: u64,
+    pub(crate) drop_line_errors: u64,
 }
 
 impl fmt::Debug for LineReader {
@@ -191,6 +197,8 @@ impl LineReader {
             LineReader {
                 blockreader,
                 lines: FoToLine::new(),
+                _lines_hits: 0,
+                _lines_miss: 0,
                 foend_to_fobeg: FoToFo::new(),
                 lines_count: 0,
                 charsz_: CHARSZ,
@@ -199,41 +207,42 @@ impl LineReader {
                 _find_line_lru_cache_hit: 0,
                 _find_line_lru_cache_miss: 0,
                 _find_line_lru_cache_put: 0,
+                drop_line_ok: 0,
                 drop_line_errors: 0,
             }
         )
     }
 
     /// smallest size character in bytes
-    #[inline]
+    #[inline(always)]
     pub const fn charsz(&self) -> usize {
         self.charsz_
     }
 
     /// `Block` size in bytes
-    #[inline]
+    #[inline(always)]
     pub const fn blocksz(&self) -> BlockSz {
         self.blockreader.blocksz
     }
 
     /// File Size in bytes
-    #[inline]
+    #[inline(always)]
     pub const fn filesz(&self) -> u64 {
         self.blockreader.filesz()
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.blockreader.filetype()
     }
 
     /// File path
-    #[inline]
+    #[inline(always)]
     pub const fn path(&self) -> &FPath {
         &self.blockreader.path
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn mimeguess(&self) -> MimeGuess {
         self.blockreader.mimeguess()
     }
@@ -315,37 +324,37 @@ impl LineReader {
     }
 
     /// count of lines processed by this `LineReader` (i.e. `self.lines_count`)
-    #[inline]
+    #[inline(always)]
     pub fn count_lines_processed(&self) -> u64 {
         self.lines_count
     }
 
     /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
-    #[inline]
+    #[inline(always)]
     pub const fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         BlockReader::block_offset_at_file_offset(fileoffset, self.blocksz())
     }
 
     /// return file_offset (file byte offset) at given `BlockOffset`
-    #[inline]
+    #[inline(always)]
     pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz())
     }
 
     /// return file_offset (file byte offset) at blockoffset+blockindex
-    #[inline]
+    #[inline(always)]
     pub const fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         BlockReader::file_offset_at_block_offset_index(blockoffset, self.blocksz(), blockindex)
     }
 
     /// return block index at given `FileOffset`
-    #[inline]
+    #[inline(always)]
     pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         BlockReader::block_index_at_file_offset(fileoffset, self.blocksz())
     }
 
     /// return count of blocks in a file, also, the last blockoffset + 1
-    #[inline]
+    #[inline(always)]
     pub const fn file_blocks_count(&self) -> u64 {
         BlockReader::file_blocks_count(self.filesz(), self.blocksz())
     }
@@ -390,7 +399,7 @@ impl LineReader {
         linep
     }
 
-    pub fn drop_lines(&mut self, mut lines: Lines, bo_dropped: &mut HashSet<BlockOffset>) {
+    pub fn drop_lines(&mut self, lines: Lines, bo_dropped: &mut HashSet<BlockOffset>) {
         debug_eprintln!("{}linereader.drop_lines", sn());
         for linep in lines.into_iter() {
             self.drop_line(linep, bo_dropped);
@@ -405,6 +414,7 @@ impl LineReader {
         match Arc::try_unwrap(linep) {
             Ok(line) => {
                 debug_eprintln!("{}linereader.drop_line: Arc::try_unwrap(linep) processing Line @[{}‥{}] Block @[{}‥{}]", sn(), line.fileoffset_begin(), line.fileoffset_end(), line.blockoffset_first(), line.blockoffset_last());
+                self.drop_line_ok += 1;
                 for linepart in line.lineparts.into_iter() {
                     self.blockreader.drop_block(linepart.blockoffset, bo_dropped);
                 }
@@ -572,7 +582,7 @@ impl LineReader {
         return ResultS3_find_byte::Done;
     }
 
-    #[inline]
+    #[inline(always)]
     fn check_store_LRU(&mut self, fileoffset: FileOffset) -> Option<ResultS4_LineFind> {
         // check LRU cache first (this is very fast)
         if self._find_line_lru_cache_enabled {
@@ -619,12 +629,14 @@ impl LineReader {
         None
     }
 
-    #[inline]
+    #[inline(always)]
     fn check_store(&mut self, fileoffset: FileOffset) -> Option<ResultS4_LineFind> {
+        // TODO: [2022/06/18] add a counter for hits and misses for `self.lines`
         let charsz_fo: FileOffset = self.charsz_ as FileOffset;
         // search containers of `Line`s
         // first, check if there is a `Line` already known at this fileoffset
         if self.lines.contains_key(&fileoffset) {
+            self._lines_hits += 1;
             debug_eprintln!("{}check_store: hit self.lines for FileOffset {}", so(), fileoffset);
             debug_assert!(self.lines_contains(&fileoffset), "self.lines and self.lines_by_range are out of synch on key {} (before part A)", fileoffset);
             let lp = self.lines[&fileoffset].clone();
@@ -647,6 +659,8 @@ impl LineReader {
             }
             debug_eprintln!("{}check_store({}): return ResultS4_LineFind::Found({}, {:p})  @[{}, {}] {:?}", sx(), fileoffset, fo_next, &*lp, (*lp).fileoffset_begin(), (*lp).fileoffset_end(), (*lp).to_String_noraw());
             return Some(ResultS4_LineFind::Found((fo_next, lp)));
+        } else {
+            self._lines_miss += 1;
         }
         // second, check if there is a `Line` at a preceding offset
         match self.get_linep(&fileoffset) {
@@ -934,6 +948,7 @@ impl LineReader {
         if fileoffset >= charsz_fo {
             let fo_ = fileoffset - charsz_fo;
             if self.lines.contains_key(&fo_) {
+                self._lines_hits += 1;
                 debug_eprintln!("{}find_line_in_block({}) A1a: hit in self.lines for FileOffset {} (before part A)", so(), fileoffset, fo_);
                 fo_nl_a = fo_;
                 let linep_prev = self.lines[&fo_nl_a].clone();
@@ -975,6 +990,7 @@ impl LineReader {
                 debug_eprintln!("{}find_line_in_block({}): return ResultS4_LineFind::Found({}, {:p})  @[{}, {}] {:?}", sx(), fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return ResultS4_LineFind::Found((fo_next, linep));
             } else {
+                self._lines_miss += 1;
                 debug_eprintln!("{}find_line_in_block({}) A1a: miss in self.lines for FileOffset {} (quick check before part A)", so(), fileoffset, fo_);
             }
 
@@ -1229,8 +1245,6 @@ impl LineReader {
 
         debug_eprintln!("{}find_line: searching for first newline B (line terminator) …", so());
 
-        // block pointer to the current block of interest
-        let mut bptr: BlockP;
         // found newline part A? Line begins after that newline
         let mut found_nl_a = false;
         // found newline part B? Line ends at this.
@@ -1522,6 +1536,7 @@ impl LineReader {
         if fileoffset >= charsz_fo {
             let fo_ = fileoffset - charsz_fo;
             if self.lines.contains_key(&fo_) {
+                self._lines_hits += 1;
                 debug_eprintln!("{}find_line A1a: hit in self.lines for FileOffset {} (before part A)", so(), fo_);
                 fo_nl_a = fo_;
                 let linep_prev = self.lines[&fo_nl_a].clone();
@@ -1552,6 +1567,7 @@ impl LineReader {
                 debug_eprintln!("{}find_line({}): return ResultS4_LineFind::Found({}, {:p})  @[{}, {}] {:?}", sx(), fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return ResultS4_LineFind::Found((fo_next, linep));
             } else {
+                self._lines_miss += 1;
                 debug_eprintln!("{}find_line A1a: miss in self.lines for FileOffset {} (quick check before part A)", so(), fo_);
             }
             match self.get_linep(&fo_) {

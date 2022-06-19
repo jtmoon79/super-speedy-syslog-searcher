@@ -159,21 +159,25 @@ lazy_static! {
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+const SZ: BlockSz = SyslogProcessor::BLOCKSZ_MIN;
+
 /// test `SyslogProcessor::new`
 #[test]
 fn test_SyslogProcessor_new1() {
     let ntf = create_temp_file("");
     let path = NTF_Path(&ntf);
-    let slp = new_SyslogProcessor(&path, 0xF);
+    let slp = new_SyslogProcessor(&path, SZ);
     debug_eprintln!("{:?}", slp);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-/// test `SyslogProcessor::blockzero_analysis_lines`
+/*
+
+/// test `SyslogProcessor::blockzero_analysis`
 #[allow(non_snake_case)]
 #[cfg(test)]
-fn _test_blockzero_analysis_lines(
+fn _test_blockzero_analysis(
     path: &FPath,
     blocksz: BlockSz,
     expect_result: FileProcessingResult_BlockZero,
@@ -186,10 +190,12 @@ fn _test_blockzero_analysis_lines(
     );
     eprint_file(path);
     let mut sp1: SyslogProcessor = new_SyslogProcessor(path, blocksz);
+    let result = sp1.process_stage0_valid_file_check();
+    assert_eq!(result, FileProcessingResult_BlockZero::FILE_OK, "stage0 failed");
     eprintln!("\n{}{:?}\n", so(), sp1);
 
-    let result = sp1.blockzero_analysis_lines();
-    assert_eq!(result, expect_result, "blockzero_analysis_lines() result {:?}, expected {:?}", result, expect_result);
+    let result = sp1.blockzero_analysis();
+    assert_eq!(result, expect_result, "blockzero_analysis() result {:?}, expected {:?}", result, expect_result);
     let line_count_ = sp1.lines_count();
     assert_eq!(
         expect_line_count, line_count_,
@@ -200,22 +206,22 @@ fn _test_blockzero_analysis_lines(
 }
 
 #[test]
-fn test_blockzero_analysis_lines_empty0_FILE_ERR_EMPTY() {
-    _test_blockzero_analysis_lines(&NTF_empty0_path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_EMPTY, 0);
+fn test_blockzero_analysis_empty0_FILE_ERR_EMPTY() {
+    _test_blockzero_analysis(&NTF_empty0_path, SZ, FileProcessingResult_BlockZero::FILE_ERR_EMPTY, 0);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl1_FILE_OK() {
-    _test_blockzero_analysis_lines(&NTF_nl_1_path, 0xFF, FileProcessingResult_BlockZero::FILE_OK, 1);
+fn test_blockzero_analysis_nl1_FILE_OK() {
+    _test_blockzero_analysis(&NTF_nl_1_path, SZ, FileProcessingResult_BlockZero::FILE_OK, 1);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl2_FILE_OK() {
-    _test_blockzero_analysis_lines(&NTF_nl_2_path, 0xFF, FileProcessingResult_BlockZero::FILE_OK, 2);
+fn test_blockzero_analysis_nl2_FILE_OK() {
+    _test_blockzero_analysis(&NTF_nl_2_path, SZ, FileProcessingResult_BlockZero::FILE_OK, 2);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl20_FILE_OK() {
+fn test_blockzero_analysis_nl20_FILE_OK() {
     let data = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     let line_count: u64 = data.lines().count() as u64;
     let ntf = create_temp_log(data);
@@ -223,34 +229,36 @@ fn test_blockzero_analysis_lines_nl20_FILE_OK() {
     let filesz: u64 = ntf.as_file().metadata().unwrap().len() as u64;
     let line_count_default: u64 = *BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP.get(&filesz).unwrap();
     let line_count_ = std::cmp::min(line_count, line_count_default);
-    _test_blockzero_analysis_lines(&path, 0xFF, FileProcessingResult_BlockZero::FILE_OK, line_count_);
+    _test_blockzero_analysis(&path, SZ, FileProcessingResult_BlockZero::FILE_OK, line_count_);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl0_bsz4_FILE_ERR_NO_SYSLINES_FOUND() {
+fn test_blockzero_analysis_nl0_bsz4_FILE_ERR_NO_SYSLINES_FOUND() {
     let data = "                                                               ";
     let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
-    _test_blockzero_analysis_lines(&path, 0x4, FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND, 0);
+    _test_blockzero_analysis(&path, 0x4, FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND, 0);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl0_bszFF_FILE_ERR_NO_SYSLINES_FOUND() {
+fn test_blockzero_analysis_nl0_bszFF_FILE_ERR_NO_SYSLINES_FOUND() {
     let data = "                                                               ";
     let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
-    _test_blockzero_analysis_lines(&path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND, 1);
+    _test_blockzero_analysis(&path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND, 1);
 }
 
 #[test]
-fn test_blockzero_analysis_lines_nl3_bszFF_FILE_ERR_NO_LINES_FOUND() {
+fn test_blockzero_analysis_nl3_bszFF_FILE_ERR_NO_LINES_FOUND() {
     let data = "           \n  \n                                               ";
     let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
-    _test_blockzero_analysis_lines(&path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND, 3);
+    _test_blockzero_analysis(&path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND, 3);
 }
 
-// TODO: [2022/06] need exhaustive test case set for `_test_blockzero_analysis_lines`
+*/
+
+// TODO: [2022/06] need exhaustive test case set for `_test_blockzero_analysis`
 
 // -------------------------------------------------------------------------------------------------
 

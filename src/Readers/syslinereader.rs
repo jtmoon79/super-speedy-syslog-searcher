@@ -24,7 +24,6 @@ use crate::Readers::blockreader::{
     BlockSz,
     BlockOffset,
     BlockIndex,
-    Slices,
 };
 
 use crate::Data::datetime::{
@@ -33,8 +32,6 @@ use crate::Data::datetime::{
     DateTimeL_Opt,
     DateTime_Parse_Data,
     DateTime_Parse_Datas_vec,
-    //DateTimePattern,
-    //DateTimePattern_str,
     DATETIME_PARSE_DATAS_VEC,
     str_datetime,
     dt_pass_filters,
@@ -49,14 +46,9 @@ use crate::Readers::linereader::{
     LineIndex,
     Line,
     LineP,
-    Lines,
     LineReader,
     ResultS4_LineFind,
     enum_BoxPtrs,
-};
-
-use crate::Readers::summary::{
-    Summary,
 };
 
 #[cfg(any(debug_assertions,test))]
@@ -83,21 +75,14 @@ use std::collections::{
     HashSet,
 };
 use std::fmt;
-use std::io;
-//use std::io::{Error, ErrorKind, Result, Seek, SeekFrom, Write};
 use std::io::{
     Error,
     Result,
     ErrorKind,
-    //Seek,
-    //SeekFrom,
 };
 use std::io::prelude::*;
 use std::str;
 use std::sync::Arc;
-
-extern crate chain_cmp;
-use chain_cmp::chmp;
 
 extern crate debug_print;
 use debug_print::{debug_eprint, debug_eprintln};
@@ -113,11 +98,9 @@ use more_asserts::{
     assert_le,
     assert_lt,
     assert_ge,
-    assert_gt,
     debug_assert_le,
     debug_assert_lt,
     debug_assert_ge,
-    //debug_assert_gt,
 };
 
 extern crate rangemap;
@@ -171,6 +154,10 @@ pub struct SyslineReader {
     pub(crate) syslines: Syslines,
     /// count of Syslines processed
     syslines_count: u64,
+    /// internal stats for `self.find_sysline()` use of `self.syslines`
+    pub(crate) _syslines_hit: u64,
+    /// internal stats for `self.find_sysline()` use of `self.syslines`
+    pub(crate) _syslines_miss: u64,
     /// Syslines fileoffset by sysline fileoffset range, i.e. `[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`
     /// the stored value can be used as a key for `self.syslines`
     syslines_by_range: SyslinesRangeMap,
@@ -183,6 +170,12 @@ pub struct SyslineReader {
     /// datetime formatting patterns, for finding datetime strings from Lines
     /// TODO: change to a `Set`
     pub(crate) dt_patterns: DateTime_Parse_Datas_vec,
+    /// first (soonest) seen DateTimeL (not necessarly printed)
+    /// only used for `--summary`
+    pub(crate) dt_first: DateTimeL_Opt,
+    /// last (latest) seen DateTimeL (not necessarly printed)
+    /// only used for `--summary`
+    pub(crate) dt_last: DateTimeL_Opt,
     /// internal use; counts found patterns stored in `dt_patterns`
     /// not used after `analyzed == true`
     dt_patterns_counts: DateTime_Pattern_Counts,
@@ -214,8 +207,11 @@ pub struct SyslineReader {
     // internal cache: allocate this once (or at least, few times)
     // instead of allocating one for every call to `drop_block_impl`
     //drop_block_fo_keys: Vec<FileOffset>,
+    /// count of Ok to Arc::try_unwrap(syslinep), effectively a count of
+    /// `Sysline` dropped
+    pub(crate) drop_sysline_ok: u64,
     /// count of failures to Arc::try_unwrap(syslinep)
-    drop_sysline_errors: u64,
+    pub(crate) drop_sysline_errors: u64,
 }
 
 // TODO: [2021/09/19]
@@ -274,10 +270,14 @@ impl SyslineReader {
                 syslines: Syslines::new(),
                 syslines_count: 0,
                 syslines_by_range: SyslinesRangeMap::new(),
+                _syslines_hit: 0,
+                _syslines_miss: 0,
                 _syslines_by_range_hit: 0,
                 _syslines_by_range_miss: 0,
                 _syslines_by_range_insert: 0,
                 dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
+                dt_first: None,
+                dt_last: None,
                 dt_patterns_counts: DateTime_Pattern_Counts::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
                 tz_offset,
                 _find_sysline_lru_cache_enabled: true,
@@ -292,32 +292,33 @@ impl SyslineReader {
                 _parse_datetime_in_line_lru_cache_put: 0,
                 analyzed: false,
                 //drop_block_fo_keys: Vec::<FileOffset>::with_capacity(drop_block_fo_keys_sz),
+                drop_sysline_ok: 0,
                 drop_sysline_errors: 0,
             }
         )
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.linereader.filetype()
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn blocksz(&self) -> BlockSz {
         self.linereader.blocksz()
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn filesz(&self) -> u64 {
         self.linereader.filesz()
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn mimeguess(&self) -> MimeGuess {
         self.linereader.mimeguess()
     }
 
-    #[inline]
+    #[inline(always)]
     pub const fn path(&self) -> &FPath {
         self.linereader.path()
     }
@@ -416,27 +417,6 @@ impl SyslineReader {
         debug_eprintln!("\n{}print_all(true)", sx());
     }
 
-    /*
-    /// if there is a `Syline` immediately preceding the passed `SyslineP` (as in, a processed `SyslineP`)
-    /// then return `Some(SyslineP)` else `None`
-    ///
-    /// if passed `SyslineP` has `fileoffset_begin()` of `0` then return `None`
-    pub(crate) fn get_sysline_prior(&self, syslinep: &SyslineP) -> Option<SyslineP> {
-        if (*syslinep).fileoffset_begin() == 0 {
-            return None;
-        }
-        let val = (*syslinep).fileoffset_prev();
-        if let Some(range_fo) = self.syslines_by_range.get_key_value(&val) {
-            //self._syslines_by_range_hit += 1;
-            let fo = range_fo.1;
-            let syslinep_: SyslineP = self.syslines[fo].clone();
-            return Some(syslinep_);
-        }
-
-        None
-    }
-    */
-
     /// is this `SyslineP` the last `Sysline` of the entire file?
     /// (not the same as last Sysline within the optional datetime filters).
     pub(crate) fn is_sysline_last(&self, syslinep: &SyslineP) -> bool {
@@ -486,6 +466,8 @@ impl SyslineReader {
     pub fn drop_block(&mut self, blockoffset: BlockOffset, bo_dropped: &mut HashSet<BlockOffset>) {
         debug_eprintln!("{}syslinereader.drop_block({})", sn(), blockoffset);
 
+        // TODO: [2022/06/18] make this a "one time" creation that is reused
+        //       this is challenging, as it runs into borrow errors during `.iter()`
         let mut drop_block_fo_keys: Vec<FileOffset> = Vec::<FileOffset>::with_capacity(self.syslines.len());
 
         for fo_key in self.syslines.keys() {
@@ -521,13 +503,13 @@ impl SyslineReader {
     /// as possible).
     ///
     /// Caller must know what they are doing!
-    pub fn drop_sysline(&mut self, fileoffset: &FileOffset, bo_dropped: &mut HashSet<BlockOffset>) -> bool {
+    pub fn drop_sysline(&mut self, fileoffset: &FileOffset, bo_dropped: &mut HashSet<BlockOffset>) {
         debug_eprintln!("{}syslinereader.drop_sysline({})", sn(), fileoffset);
         let syslinep: SyslineP = match self.syslines.remove(fileoffset) {
             Some(syslinep_) => syslinep_,
             None => {
                 debug_eprintln!("syslinereader.drop_sysline: syslines.remove({}) returned None which is unexpected", fileoffset);
-                return false;
+                return;
             }
         };
         debug_eprintln!("{}syslinereader.drop_sysline: Processing SyslineP @[{}‥{}], Block @[{}‥{}] strong_count {}", so(), (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), (*syslinep).blockoffset_first(), (*syslinep).blockoffset_last(), Arc::strong_count(&syslinep));
@@ -535,6 +517,7 @@ impl SyslineReader {
         match Arc::try_unwrap(syslinep) {
             Ok(sysline) => {
                 debug_eprintln!("{}syslinereader.drop_sysline: Arc::try_unwrap(syslinep) Ok Sysline @[{}‥{}] Block @[{}‥{}]", so(), sysline.fileoffset_begin(), sysline.fileoffset_end(), sysline.blockoffset_first(), sysline.blockoffset_last());
+                self.drop_sysline_ok += 1;
                 self.linereader.drop_lines(sysline.lines, bo_dropped);
             }
             Err(syslinep_) => {
@@ -542,8 +525,6 @@ impl SyslineReader {
                 self.drop_sysline_errors += 1;
             }
         }
-
-        true
     }
 
     /// if datetime found in `Line` returns `Ok` around
@@ -603,7 +584,7 @@ impl SyslineReader {
             // take a slice of the `line_as_slice` then convert to `str`
             // this is to force the parsing function `Local.datetime_from_str` to constrain where it
             // searches within the `Line`
-            // TODO: move this remaining loop section into an #[inline] pub function
+            // TODO: move this remaining loop section into an #[inline(always)] pub function
             // TODO: to make this a bit more efficient, would be good to do a lookahead. Add a funciton like
             //       `Line.crosses_block(a: LineIndex, b: LineIndex) -> bool`. Then could set capacity of things
             //       ahead of time.
@@ -664,60 +645,59 @@ impl SyslineReader {
         Result_FindDateTime::Err(Error::new(ErrorKind::NotFound, "No datetime found!"))
     }
 
+    fn dt_first_last_update(&mut self, datetime: &DateTimeL) {
+        debug_eprintln!("{}syslinereader.dt_first_last_update({:?})", snx(), datetime);
+        // TODO: the `dt_first` and `dt_last` are only for `--summary`, would be good to only run this
+        //       when `if self.do_summary {...}`
+        match self.dt_first {
+            Some(dt_first_) => {
+                if &dt_first_ > datetime {
+                    self.dt_first = Some(*datetime);
+                }
+            },
+            None => { self.dt_first = Some(*datetime); }
+        }
+        match self.dt_last {
+            Some(dt_last_) => {
+                if &dt_last_ < datetime {
+                    self.dt_last = Some(*datetime);
+                }
+            },
+            None => { self.dt_last = Some(*datetime); }
+        }
+
+    }
+
     /// private helper function to update `self.dt_patterns`
-    fn dt_patterns_update(&mut self, datetime_parse_data: DateTime_Parse_Data) {
+    fn dt_patterns_update(&mut self, datetime_parse_data: &DateTime_Parse_Data) {
         if self.analyzed {
             return;
         }
-        debug_eprintln!("{}dt_patterns_update(SyslineReader@{:p}, {:?})", sn(), self, datetime_parse_data);
+        debug_eprintln!("{}syslinereader.dt_patterns_update({:?})", sn(), datetime_parse_data);
         //
         // update `self.dt_patterns_counts`
         //
-        if self.dt_patterns_counts.contains_key(&datetime_parse_data) {
-            debug_eprintln!(
-                "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns_counts.get_mut({:?}) += 1",
-                so(),
-                self,
-                datetime_parse_data
-            );
-            let counter = self.dt_patterns_counts.get_mut(&datetime_parse_data).unwrap();
+        if self.dt_patterns_counts.contains_key(datetime_parse_data) {
+            debug_eprintln!("{}syslinereader.dt_patterns_update self.dt_patterns_counts.get_mut({:?}) += 1", so(), datetime_parse_data);
+            let counter = self.dt_patterns_counts.get_mut(datetime_parse_data).unwrap();
             *counter += 1;
         } else if self.dt_patterns_counts.len() < SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS {
-            debug_eprintln!(
-                "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns_counts.insert({:?}, 0)",
-                so(),
-                self,
-                datetime_parse_data
-            );
+            debug_eprintln!("{}syslinereader.dt_patterns_update self.dt_patterns_counts.insert({:?}, 0)", so(), datetime_parse_data);
             self.dt_patterns_counts.insert(datetime_parse_data.clone(), 1);
         }
         //
         // update `self.dt_patterns`
         //
         if self.dt_patterns.len() >= SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS {
-            debug_eprintln!(
-                "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns already DT_PATTERN_MAX_PRE_ANALYSIS length {:?}",
-                sx(),
-                self,
-                &self.dt_patterns.len()
-            );
+            debug_eprintln!("{}syslinereader.dt_patterns_update self.dt_patterns already DT_PATTERN_MAX_PRE_ANALYSIS length {:?}", sx(), &self.dt_patterns.len());
             return;
         }
-        if self.dt_patterns.contains(&datetime_parse_data) {
-            debug_eprintln!(
-                "{}dt_patterns_update(SyslineReader@{:p}) found DateTime_Parse_Data; skip self.dt_patterns.push",
-                sx(),
-                self
-            );
+        if self.dt_patterns.contains(datetime_parse_data) {
+            debug_eprintln!("{}syslinereader.dt_patterns_update found DateTime_Parse_Data; skip self.dt_patterns.push", sx(),);
             return;
         }
-        debug_eprintln!(
-            "{}dt_patterns_update(SyslineReader@{:p}) self.dt_patterns.push({:?})",
-            sx(),
-            self,
-            datetime_parse_data
-        );
-        self.dt_patterns.push(datetime_parse_data);
+        debug_eprintln!("{}syslinereader.dt_patterns_update self.dt_patterns.push({:?})", sx(), datetime_parse_data);
+        self.dt_patterns.push(datetime_parse_data.clone());
     }
 
     /// analyze syslines gathered
@@ -810,7 +790,8 @@ impl SyslineReader {
                     return Err(err);
                 }
             };
-            self.dt_patterns_update(datetime_parse_data.clone());
+            self.dt_patterns_update(&datetime_parse_data);
+            self.dt_first_last_update(&dt);
             debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return OK;", sx(), self);
             return Result_ParseDateTime::Ok((datetime_parse_data.siba, datetime_parse_data.siea, dt));
         }
@@ -835,7 +816,8 @@ impl SyslineReader {
                 debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Err {}; try again using default DATETIME_PARSE_DATAS_VEC", so(), self, err);
                 match SyslineReader::find_datetime_in_line(line, &DATETIME_PARSE_DATAS_VEC, self.path(), charsz, &self.tz_offset) {
                     Ok((datetime_parse_data_, dt_)) => {
-                        self.dt_patterns_update(datetime_parse_data_.clone());
+                        self.dt_patterns_update(&datetime_parse_data_);
+
                         (datetime_parse_data_, dt_)
                     }
                     Err(err_) => {
@@ -850,6 +832,7 @@ impl SyslineReader {
                 }
             }
         };
+        self.dt_first_last_update(&dt);
         debug_eprintln!("{}parse_datetime_in_line(SyslineReader@{:p}) return Ok;", sx(), self);
 
         Result_ParseDateTime::Ok((datetime_parse_data.sib, datetime_parse_data.sie, dt))
@@ -976,6 +959,7 @@ impl SyslineReader {
         // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
         if self.syslines.contains_key(&fileoffset) {
             debug_assert!(self.syslines_by_range.contains_key(&fileoffset), "self.syslines.contains_key({}) however, self.syslines_by_range.contains_key({}) returned None (syslines_by_range out of synch)", fileoffset, fileoffset);
+            self._syslines_hit += 1;
             debug_eprintln!("{}check_store: hit self.syslines for FileOffset {}", so(), fileoffset);
             let slp = self.syslines[&fileoffset].clone();
             // XXX: multi-byte character encoding
@@ -1011,6 +995,7 @@ impl SyslineReader {
             );
             return Some(ResultS4_SyslineFind::Found((fo_next, slp)));
         } else {
+            self._syslines_miss += 1;
             debug_eprintln!("{}check_store: fileoffset {} not found in self.syslines", so(), fileoffset);
         }
         debug_eprintln!("{}check_store: return None", sx());
@@ -1057,7 +1042,7 @@ impl SyslineReader {
                     return ResultS4_SyslineFind::Done;
                 }
                 ResultS4_LineFind::Err(err) => {
-                    eprintln!("ERROR: LineReader.find_line_in_block({}) returned {}", fo1, err);
+                    debug_eprintln!("ERROR: LineReader.find_line_in_block({}) returned {}", fo1, err);
                     debug_eprintln!("{}find_sysline_in_block({}): return ResultS4_SyslineFind::Err({}); A from LineReader.find_line_in_block({})", sx(), fileoffset, err, fo1);
                     return ResultS4_SyslineFind::Err(err);
                 }
@@ -1156,7 +1141,7 @@ impl SyslineReader {
                     return ResultS4_SyslineFind::Done;
                 },
                 ResultS4_LineFind::Err(err) => {
-                    eprintln!("ERROR: LineReader.find_line_in_block({}) returned {}", fo1, err);
+                    debug_eprintln!("ERROR: LineReader.find_line_in_block({}) returned {}", fo1, err);
                     debug_eprintln!("{}find_sysline_in_block({}): return ResultS4_SyslineFind::Err({}); B from LineReader.find_line_in_block({})", sx(), fileoffset, err, fo1);
                     return ResultS4_SyslineFind::Err(err);
                 },
@@ -1291,7 +1276,7 @@ impl SyslineReader {
                     return ResultS4_SyslineFind::Done;
                 }
                 ResultS4_LineFind::Err(err) => {
-                    eprintln!("ERROR: LineReader.find_line({}) returned {}", fo1, err);
+                    debug_eprintln!("ERROR: LineReader.find_line({}) returned {}", fo1, err);
                     debug_eprintln!("{}find_sysline({}): return ResultS4_SyslineFind::Err({}); A from LineReader.find_line({})", sx(), fileoffset, err, fo1);
                     return ResultS4_SyslineFind::Err(err);
                 }
@@ -1351,6 +1336,7 @@ impl SyslineReader {
         // find line with datetime B
         //
 
+        // TODO: 2022/06/18 uncomment this check?
         { // check if sysline at `fo1` is already known about
             /*
             // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
@@ -1482,7 +1468,7 @@ impl SyslineReader {
                     break;
                 }
                 ResultS4_LineFind::Err(err) => {
-                    eprintln!("ERROR: LineReader.find_line({}) returned {}", fo1, err);
+                    debug_eprintln!("ERROR: LineReader.find_line({}) returned {}", fo1, err);
                     debug_eprintln!("{}find_sysline({}): return ResultS4_SyslineFind::Err({}); B from LineReader.find_line({})", sx(), fileoffset, err, fo1);
                     return ResultS4_SyslineFind::Err(err);
                 }
@@ -1800,7 +1786,7 @@ impl SyslineReader {
                         try_fo,
                         err
                     );
-                    eprintln!("ERROR: {}", err);
+                    debug_eprintln!("ERROR: {}", err);
                     break;
                 } // end Err
             } // match result
@@ -1879,7 +1865,7 @@ impl SyslineReader {
                             fo_next,
                             err
                         );
-                        eprintln!("ERROR: {}", err);
+                        debug_eprintln!("ERROR: {}", err);
                         break;
                     }
                 };
@@ -2045,7 +2031,7 @@ impl SyslineReader {
                     dt_filter_after,
                     err,
                 );
-                eprintln!("ERROR: {}", err);
+                debug_eprintln!("ERROR: {}", err);
                 debug_eprintln!("{}{}: return ResultS4_SyslineFind::Err({})", sx(), _fname, err);
                 return ResultS4_SyslineFind::Err(err);
             },
