@@ -1853,48 +1853,6 @@ fn processing_loop(
         return;
     }
 
-    // separate `ProcessPathResult`s into different collections, valid and invalid
-    // `valid` is used extensively
-    let mut paths_valid_results: ProcessPathResults = ProcessPathResults::with_capacity(paths_results.len());
-    // `invalid` is used to help summarize why some files were not processed
-    let mut paths_invalid_results: ProcessPathResults = ProcessPathResults::with_capacity(paths_results.len());
-    //
-    let mut paths_valid: FPaths = FPaths::with_capacity(paths_results.len());
-    let mut pathids_valid = Vec::<PathId>::with_capacity(paths_results.len());
-    for processpathresult in paths_results.drain(..)
-    {
-        match processpathresult {
-            ProcessPathResult::FILE_VALID(ref val) =>
-            {
-                // TODO: to allow processing same file multiple times, remove this (other function adjustmensts are also needed)
-                if paths_valid.contains(&val.1) {
-                    debug_eprintln!("{}processing_loop: skip push, paths_valid already contains {:?}", so(), val.1);
-                    continue;
-                }
-                debug_eprintln!("{}processing_loop: paths_valid.push({:?})", so(), val.1);
-                paths_valid.push(val.1.clone());
-                paths_valid_results.push(processpathresult);
-            }
-            _ =>
-            {
-                debug_eprintln!("{}processing_loop: paths_invalid_results.push({:?})", so(), processpathresult);
-                paths_invalid_results.push(processpathresult);
-            },
-        };
-        
-    }
-    if paths_valid.is_empty() {
-        debug_eprintln!("{}processing_loop: paths_valid.is_empty(); nothing to do", sx());
-        return;
-    }
-    // XXX: sanity checks
-    assert_eq!(paths_valid.len(), paths_valid_results.len(), "mismatching paths_valid {} paths_valid_results {}", paths_valid.len(), paths_valid_results.len());
-    assert!(paths_results.is_empty(), "paths_results was not cleared, {} elements remain", paths_results.len());
-    drop(paths_results);
-
-    let queue_sz_dt: usize = 10;
-    let file_count = paths_valid.len();
-
     // TODO: [2022/06/02] this point needs a PathToPaths thingy that expands user-passed Paths to all possible paths_valid,
     //       e.g.
     //       given a directory path, returns paths_valid of possible syslog files found recursively.
@@ -1910,14 +1868,44 @@ fn processing_loop(
     //       (this might be a better place for mimeguess and mimeanalysis?)
     //       Would be best to first implment `FILE`, then `FILE_COMPRESS_GZ`, then `FILE_IN_ARCHIVE_TAR`
 
+    let file_count: usize = paths_results.iter()
+        .filter(|x| matches!(x, ProcessPathResult::FILE_VALID(_)))
+        .count();
+
     // create PathId->FPath lookup vector (effectively a map)
     // create FPath->PathId lookup map
+    // separate `ProcessPathResult`s into different collections, valid and invalid
+    // `valid` is used extensively
+    let mut map_pathid_results: HashMap<PathId,ProcessPathResult> = HashMap::<PathId,ProcessPathResult>::with_capacity(file_count);
+    // `invalid` is used to help summarize why some files were not processed
+    let mut map_pathid_results_invalid: HashMap<PathId,ProcessPathResult> = HashMap::<PathId,ProcessPathResult>::with_capacity(file_count);
     let mut map_pathid_path = HashMap::<PathId, FPath>::with_capacity(file_count);
-    let mut map_path_pathid = HashMap::<FPath, PathId>::with_capacity(file_count);
-    for (pathid, path) in paths_valid.iter().enumerate() {
-        map_pathid_path.insert(pathid as PathId, path.clone());
-        map_path_pathid.insert(path.clone(), pathid as PathId);
+    let mut pathid_counter: PathId = 0;
+    for processpathresult in paths_results.drain(..)
+    {
+        match processpathresult {
+            ProcessPathResult::FILE_VALID(ref val) =>
+            {
+                debug_eprintln!("{}processing_loop: map_pathid_results.push({:?})", so(), val.1);
+                let (filetype, path) = val;
+                map_pathid_path.insert(pathid_counter, path.clone());
+                map_pathid_results.insert(pathid_counter, processpathresult);
+            }
+            _ =>
+            {
+                debug_eprintln!("{}processing_loop: paths_invalid_results.push({:?})", so(), processpathresult);
+                map_pathid_results_invalid.insert(pathid_counter, processpathresult);
+            },
+        };
+        pathid_counter += 1;
     }
+    // XXX: sanity checks
+    assert!(paths_results.is_empty(), "paths_results was not cleared, {} elements remain", paths_results.len());
+    drop(paths_results);
+    drop(pathid_counter);
+
+    let queue_sz_dt: usize = 10;
+
 
     // preprint the prepended name or path
     //
@@ -1930,28 +1918,26 @@ fn processing_loop(
     let mut prependname_width: usize = 0;
     if cli_opt_prepend_filename {
         if cli_opt_prepend_file_align {
-            for path in paths_valid.iter() {
+            for (pathid, path) in map_pathid_path.iter() {
                 let bname: String = basename(path);
                 prependname_width = std::cmp::max(prependname_width, bname.chars().count())
             }
         }
         pathid_to_prependname = PathId_PrependName::with_capacity(file_count);
-        for path in paths_valid.iter() {
+        for (pathid, path) in map_pathid_path.iter() {
             let bname: String = basename(path);
             let prepend: String = format!("{0:<1$}:", bname, prependname_width);
-            let pathid: &PathId = map_path_pathid.get(path).unwrap();
             pathid_to_prependname.insert(*pathid, prepend);
         }
     } else if cli_opt_prepend_filepath {
         if cli_opt_prepend_file_align {
-            for path in paths_valid.iter() {
+            for (pathid, path) in map_pathid_path.iter() {
                 prependname_width = std::cmp::max(prependname_width, path.chars().count())
             }
         }
         pathid_to_prependname = PathId_PrependName::with_capacity(file_count);
-        for path in paths_valid.iter() {
+        for (pathid, path) in map_pathid_path.iter() {
             let prepend: String = format!("{0:<1$}:", path, prependname_width);
-            let pathid: &PathId = map_path_pathid.get(path).unwrap();
             pathid_to_prependname.insert(*pathid, prepend);
         }
     }
@@ -1959,13 +1945,7 @@ fn processing_loop(
         pathid_to_prependname = PathId_PrependName::with_capacity(0);
     }
 
-    //
-    // create a single ThreadPool with one thread per file path, each thread named for the file basename
-    //
-    let mut paths_valid_basen = paths_valid.clone();
-    for p_ in paths_valid_basen.iter_mut() {
-        (*p_) = basename(p_);
-    }
+    // create one thread per file path, each thread named for the file basename
 
     //
     // prepare per-thread data keyed by `FPath`
@@ -1988,20 +1968,28 @@ fn processing_loop(
     let color_datetime: Color = COLOR_DATETIME;
 
     // initialize processing channels/threads, one per file path
-    for path in paths_valid.iter() {
-        let pathid: &PathId = map_path_pathid.get(path).unwrap();
+    for (pathid, path) in map_pathid_path.iter() {
         map_pathid_color.insert(*pathid, color_rand());
     }
-    for (i, procespathresult) in paths_valid_results.iter().enumerate() {
-        let (filtype, path) = match procespathresult {
-            ProcessPathResult::FILE_VALID((f_, p_)) => (f_, p_),
-            result => { panic!("bad ProcessPathResult in paths_valid_results: {:?}", result); }
+    for (pathid, path) in map_pathid_path.iter() {
+        let (filetype, _) = match map_pathid_results.get(pathid) {
+            Some(processpathresult) => {
+                match processpathresult {
+                    ProcessPathResult::FILE_VALID((f_, p_)) => (f_, p_),
+                    val => {
+                        eprintln!("ERROR: unhandled ProcessPathResult {:?}", val);
+                        continue;
+                    },
+                }
+            }
+            None => {
+                panic!("bad pathid {}", pathid);
+            }
         };
-        let pathid: &PathId = map_path_pathid.get(path).unwrap();
         let thread_data: Thread_Init_Data4 = (
             path.clone().to_owned(),
             *pathid,
-            *filtype,
+            *filetype,
             blocksz,
             *filter_dt_after_opt,
             *filter_dt_before_opt,
@@ -2010,13 +1998,13 @@ fn processing_loop(
         let (chan_send_dt, chan_recv_dt): (Chan_Send_Datum, Chan_Recv_Datum) = crossbeam_channel::bounded(queue_sz_dt);
         debug_eprintln!("{}processing_loop: map_pathid_chanrecvdatum.insert({}, ...);", so(), pathid);
         map_pathid_chanrecvdatum.insert(*pathid, chan_recv_dt);
-        match thread::Builder::new().name(
-            paths_valid_basen[i].clone()).spawn(
+        let basename_: FPath = basename(path);
+        match thread::Builder::new().name(basename_.clone()).spawn(
                 move || exec_4(chan_send_dt, thread_data)
             ) {
                     Ok(_joinhandle) => {},
                     Err(err) => {
-                        eprintln!("ERROR: thread.name({:?}).spawn() pathid {} failed {:?}", paths_valid_basen[i], pathid, err);
+                        eprintln!("ERROR: thread.name({:?}).spawn() pathid {} failed {:?}", basename_, pathid, err);
                         map_pathid_chanrecvdatum.remove(pathid);
                         map_pathid_color.remove(pathid);
                         continue;
