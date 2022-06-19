@@ -32,10 +32,6 @@ declare -a files=(
     $(ls -1 ./logs/other/tests/gen-{100-10-......,100-10-BRAAAP,100-10-FOOBAR,100-10-______,100-10-skullcrossbones,100-4-happyface,1000-3-foobar,200-1-jajaja,400-4-shamrock}.log)
 )
 
-# force reading of files from disk to allow any possible caching,
-# so a little less difference in the two timed processes
-cat "${files[@]}" > /dev/null
-
 (
 export RUST_BACKTRACE=1
 set -x
