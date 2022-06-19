@@ -13,6 +13,7 @@ use crate::Readers::helpers::{
     fpath_to_path,
 };
 
+#[cfg(any(debug_assertions,test))]
 use crate::dbgpr::stack::{
     sn,
     snx,
@@ -200,6 +201,7 @@ pub fn path_to_filetype(path: &std::path::Path) -> FileType {
 }
 
 /// wrapper for `path_to_filetype`
+#[cfg(any(debug_assertions,test))]
 pub fn fpath_to_filetype(path: &FPath) -> FileType {
     path_to_filetype(fpath_to_path(path))
 }
@@ -215,11 +217,13 @@ pub fn parseable_filetype(filetype: &FileType) -> bool {
 }
 
 /// reduce `mimeguess_to_filetype()` to a boolean
+#[cfg(any(debug_assertions,test))]
 pub fn mimeguess_to_filetype_ok(mimeguess: &MimeGuess) -> bool {
     parseable_filetype(&mimeguess_to_filetype(mimeguess))
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+#[cfg(any(debug_assertions,test))]
 pub fn guess_filetype_from_mimeguess_path(mimeguess: &MimeGuess, path: &std::path::Path) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
     if ! parseable_filetype(&filetype) {
@@ -230,6 +234,7 @@ pub fn guess_filetype_from_mimeguess_path(mimeguess: &MimeGuess, path: &std::pat
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+#[cfg(any(debug_assertions,test))]
 pub fn guess_filetype_from_mimeguess_fpath(mimeguess: &MimeGuess, path: &FPath) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
     if ! parseable_filetype(&filetype) {
@@ -252,6 +257,7 @@ pub fn guess_filetype_from_path(path: &std::path::Path) -> FileType {
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+#[cfg(any(debug_assertions,test))]
 pub fn guess_filetype_from_fpath(path: &FPath) -> FileType {
     let path_: &std::path::Path = fpath_to_path(path);
 
@@ -286,24 +292,6 @@ pub(crate) fn mimesniff_analysis(&mut self) -> Result<bool> {
 }
 */
 
-/*
-pub(crate) fn mimeguess_analysis(&mut self) -> bool {
-    let mimeguess_ = self.mimeguess();
-    debug_eprintln!("{}linereader.mimeguess_analysis: mimeguess is {:?}", sn(), mimeguess_);
-    let mut is_parseable: bool = false;
-
-    if !mimeguess_.is_empty() {
-        // TODO: this function should be moved to filepreprocssor.rs and modified
-        //is_parseable = SyslogProcessor::mimeguess_to_filetype(&mimeguess_);
-        debug_eprintln!("{}linereader.mimeguess_analysis: mimeguess_to_filetype {:?}", sx(), is_parseable);
-        return is_parseable;
-    }
-    debug_eprintln!("{}linereader.mimeguess_analysis: {:?}", sx(), is_parseable);
-
-    is_parseable
-}
-*/
-
 /// Return all parseable files in the Path.
 ///
 /// Given a directory, recurses the directory.
@@ -315,16 +303,16 @@ pub(crate) fn mimeguess_analysis(&mut self) -> bool {
 pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
     debug_eprintln!("{}process_path({:?})", sn(), path);
 
-    // if passed a path directly to a plain file (symlink to a plain file)
+    // if passed a path directly to a plain file (or a symlink to a plain file)
     // then assume the user wants to force an attempt to process such a file
     // i.e. do not call `parseable_filetype`
     let std_path = std::path::Path::new(path);
     if std_path.is_file() {
-        let mimeguess: MimeGuess = MimeGuess::from_path(std_path);
-        let filetype: FileType = mimeguess_to_filetype(&mimeguess);
+        let filetype: FileType = guess_filetype_from_path(&std_path);
         let paths: Vec<ProcessPathResult> = vec![
             ProcessPathResult::FILE_VALID((filetype, path.clone())),
         ];
+        debug_eprintln!("{}process_path({:?}) {:?}", sx(), path, paths);
         return paths;
     }
 
@@ -357,10 +345,9 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         }
 
         let std_path_: &std::path::Path = path_.path();
-        let mimeguess: MimeGuess = MimeGuess::from_path(std_path_);
-        let mut filetype: FileType = guess_filetype_from_mimeguess_path(&mimeguess, std_path_);
+        let filetype: FileType = guess_filetype_from_path(&std_path);
         if ! parseable_filetype(&filetype) {
-            debug_eprintln!("{}process_path: Path MIME type not parseable {:?} for {:?}", so(), mimeguess, std_path);
+            debug_eprintln!("{}process_path: Path not parseable {:?}", so(), std_path);
             //paths.push(ProcessPathResult::FILE_ERR_NOT_PARSEABLE(fpath));
             continue;
         }
@@ -368,7 +355,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         debug_eprintln!("{}process_path: paths.push(FILE_VALID(({:?}, {:?})))", so(), filetype, fpath);
         paths.push(ProcessPathResult::FILE_VALID((filetype, fpath)));
     }
-    debug_eprintln!("{}process_path({:?})", sx(), path);
+    debug_eprintln!("{}process_path({:?}) {:?}", sx(), path, paths);
 
     paths
 }

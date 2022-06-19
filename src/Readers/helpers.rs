@@ -15,6 +15,13 @@ use crate::common::{
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+//// return basename of an `FPath`
+pub fn basename(path: &FPath) -> FPath {
+    let mut riter = path.rsplit(std::path::MAIN_SEPARATOR);
+
+    FPath::from(riter.next().unwrap_or(""))
+}
+
 /// helper for a slightly annoying set of calls
 pub fn path_to_fpath(path: &std::path::Path) -> FPath {
     // `PathBuf` to `String` https://stackoverflow.com/q/37388107/471376

@@ -847,6 +847,10 @@ use Readers::filepreprocessor::{
     process_path,
 };
 
+use Readers::helpers::{
+    basename,
+};
+
 use Readers::summary::{
     Summary,
     Summary_Opt,
@@ -886,18 +890,22 @@ enum CLI_Color_Choice {
 
 const CLI_DT_FILTER_PATTERN1: &DateTime_Parse_Data_str = &("%Y%m%dT%H%M%S", true, false, 0, 0, 0, 0);
 const CLI_DT_FILTER_PATTERN2: &DateTime_Parse_Data_str = &("%Y%m%dT%H%M%S%z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN3: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S", true, false, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN4: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S %z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN5: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S", true, false, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN6: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S %z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN7: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S", true, false, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN8: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S%z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN9: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S %z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN3: &DateTime_Parse_Data_str = &("%Y%m%dT%H%M%S%Z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN4: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S", true, false, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN5: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S %z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN6: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S %Z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN7: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S", true, false, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN8: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S %z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN9: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S %Z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN10: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S", true, false, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN11: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S %z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN12: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S %Z", true, true, 0, 0, 0, 0);
+const CLI_DT_FILTER_PATTERN13: &DateTime_Parse_Data_str = &("%s", false, false, 0, 0, 0, 0);
 // TODO: [2022/06/07] allow passing only a date, fills HMS with 000
-//const CLI_DT_FILTER_PATTERN10: &DateTime_Parse_Data_str = &("%Y/%m/%d", true, false, 0, 0, 0, 0);
-//const CLI_DT_FILTER_PATTERN11: &DateTime_Parse_Data_str = &("%Y-%m-%d", true, false, 0, 0, 0, 0);
-//const CLI_DT_FILTER_PATTERN12: &DateTime_Parse_Data_str = &("%Y%m%d", true, false, 0, 0, 0, 0);
-const CLI_FILTER_PATTERNS_COUNT: usize = 9;
+//const CLI_DT_FILTER_PATTERN13: &DateTime_Parse_Data_str = &("%Y/%m/%d", true, false, 0, 0, 0, 0);
+//const CLI_DT_FILTER_PATTERN14: &DateTime_Parse_Data_str = &("%Y-%m-%d", true, false, 0, 0, 0, 0);
+//const CLI_DT_FILTER_PATTERN15: &DateTime_Parse_Data_str = &("%Y%m%d", true, false, 0, 0, 0, 0);
+const CLI_FILTER_PATTERNS_COUNT: usize = 13;
 /// acceptable datetime filter patterns for the user-passed `-a` or `-b`
 const CLI_FILTER_PATTERNS: [&DateTime_Parse_Data_str; CLI_FILTER_PATTERNS_COUNT] = [
     CLI_DT_FILTER_PATTERN1,
@@ -909,12 +917,15 @@ const CLI_FILTER_PATTERNS: [&DateTime_Parse_Data_str; CLI_FILTER_PATTERNS_COUNT]
     CLI_DT_FILTER_PATTERN7,
     CLI_DT_FILTER_PATTERN8,
     CLI_DT_FILTER_PATTERN9,
-    //CLI_DT_FILTER_PATTERN10,
-    //CLI_DT_FILTER_PATTERN11,
-    //CLI_DT_FILTER_PATTERN12,
+    CLI_DT_FILTER_PATTERN10,
+    CLI_DT_FILTER_PATTERN11,
+    CLI_DT_FILTER_PATTERN12,
+    CLI_DT_FILTER_PATTERN13,
 ];
 /// datetime format printed for CLI options `-u` or `-l`
 const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z:";
+
+// TODO: [2022/06/19] allow passing three-letter TZ abbreviation
 
 const CLI_HELP_AFTER: &str = "\
 DateTime Filter patterns may be:
@@ -922,13 +933,17 @@ DateTime Filter patterns may be:
     '%Y%m%dT%H%M%S%z'
     '%Y-%m-%d %H:%M:%S'
     '%Y-%m-%d %H:%M:%S %z'
+    '%Y-%m-%d %H:%M:%S %Z'
     '%Y-%m-%dT%H:%M:%S'
     '%Y-%m-%dT%H:%M:%S %z'
+    '%Y-%m-%dT%H:%M:%S %Z'
     '%Y/%m/%d %H:%M:%S'
-    '%Y/%m/%d %H:%M:%S%z'
     '%Y/%m/%d %H:%M:%S %z'
+    '%Y/%m/%d %H:%M:%S %Z'
+    '%s'
 
-Without a timezone offset (%z), the datetime is presumed to be the system timezone.
+Without a timezone offset (%z or %Z), the Datetime Filter is presumed to be the system timezone.
+Pattern '%s' is Unix epoch timestamp in seconds.
 
 DateTime Filter formatting is described at
 https://docs.rs/chrono/latest/chrono/format/strftime/
@@ -1352,17 +1367,26 @@ type Map_PathId_Datum = BTreeMap<PathId, Chan_Datum>;
 type Set_PathId = HashSet<PathId>;
 type Chan_Send_Datum = crossbeam_channel::Sender<Chan_Datum>;
 type Chan_Recv_Datum = crossbeam_channel::Receiver<Chan_Datum>;
+type Map_PathId_ChanRecvDatum = BTreeMap<PathId, Chan_Recv_Datum>;
 
 /// Thread entry point for processing a file
 /// this creates `SyslogProcessor` and processes the syslog file `Syslines`.
 /// Sends each processed sysline back across channel to main thread.
 fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
     stack_offset_set(Some(2));
-    let (path, pathid, filetype, blocksz, filter_dt_after_opt, filter_dt_before_opt, tz_offset) = thread_init_data;
+    let (
+        path,
+        _pathid,
+        filetype,
+        blocksz,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
+        tz_offset
+    ) = thread_init_data;
     debug_eprintln!("{}exec_4({:?})", sn(), path);
 
     let thread_cur: thread::Thread = thread::current();
-    let tid: thread::ThreadId = thread_cur.id();
+    let _tid: thread::ThreadId = thread_cur.id();
     let tname: &str = <&str>::clone(&thread_cur.name().unwrap_or(""));
 
     let mut syslogproc = match SyslogProcessor::new(
@@ -1396,27 +1420,22 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
     match result {
         FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND => {
             eprintln!("WARNING: no lines found {:?}", path);
-            //return tid;
             return;
         },
         FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND => {
             eprintln!("WARNING: no syslines found {:?}", path);
-            //return tid;
             return;
         },
         FileProcessingResult_BlockZero::FILE_ERR_DECOMPRESS => {
             eprintln!("WARNING: could not decompress {:?}", path);
-            //return tid;
             return;
         },
         FileProcessingResult_BlockZero::FILE_ERR_WRONG_TYPE => {
             eprintln!("WARNING: bad path {:?}", path);
-            //return tid;
             return;
         },
         FileProcessingResult_BlockZero::FILE_ERR_IO(err) => {
             eprintln!("ERROR: Error {} for {:?}", err, path);
-            //return tid;
             return;
         },
         FileProcessingResult_BlockZero::FILE_OK => {},
@@ -1439,7 +1458,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
             let is_last: IsSyslineLast = syslogproc.is_sysline_last(&syslinep) as IsSyslineLast;
             // XXX: yet another reason to get rid of `Found_EOF` (`Found` and `Done` are enough)
             assert_eq!(eof, is_last, "result.is_eof() {}, syslogproc.is_sysline_last(…) {}; they should match; Sysline @{:?}", eof, is_last, (*syslinep).fileoffset_begin());
-            debug_eprintln!("{}{:?}({}): Found, chan_send_dt.send({:p}, None, {});", so(), tid, tname, syslinep, is_last);
+            debug_eprintln!("{}{:?}({}): Found, chan_send_dt.send({:p}, None, {});", so(), _tid, tname, syslinep, is_last);
             match chan_send_dt.send((Some(syslinep), None, is_last)) {
                 Ok(_) => {}
                 Err(err) => {
@@ -1457,17 +1476,16 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
             search_more = false;
         },
         ResultS4_SyslineFind::Err(err) => {
-            debug_eprintln!("{}{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", so(), tid, tname, err);
+            debug_eprintln!("{}{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", so(), _tid, tname, err);
             eprintln!("ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}", path, err);
             search_more = false;
         },
     }
 
     if !search_more {
-        debug_eprintln!("{}{:?}({}): quit searching…", so(), tid, tname);
-        let result = syslogproc.process_stage4_summary();
-        let summary_opt = Some(syslogproc.summary());
-        debug_eprintln!("{}{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", so(), tid, tname, summary_opt, false);
+        debug_eprintln!("{}{:?}({}): quit searching…", so(), _tid, tname);
+        let summary_opt: Summary_Opt = Some(syslogproc.process_stage4_summary());
+        debug_eprintln!("{}{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", so(), _tid, tname, summary_opt, false);
         match chan_send_dt.send((None, summary_opt, false)) {
             Ok(_) => {}
             Err(err) => {
@@ -1475,7 +1493,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
             }
         }
         debug_eprintln!("{}exec_4({:?})", sx(), path);
-        //return tid;
+
         return;
     }
 
@@ -1491,7 +1509,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
                 let is_last = syslogproc.is_sysline_last(&syslinep);
                 // XXX: yet another reason to get rid of `Found_EOF` (`Found` and `Done` are enough)
                 assert_eq!(eof, is_last, "from find_sysline({}), ResultS4_SyslineFind.is_eof is {:?} (EOF), yet the returned SyslineP.is_sysline_last is {:?}; they should always agree, for file {:?}", fo, eof, is_last, path);
-                debug_eprintln!("{}{:?}({}): chan_send_dt.send(({:p}, None, {}));", so(), tid, tname, syslinep, is_last);
+                debug_eprintln!("{}{:?}({}): chan_send_dt.send(({:p}, None, {}));", so(), _tid, tname, syslinep, is_last);
                 match chan_send_dt.send((Some(syslinep), None, is_last)) {
                     Ok(_) => {}
                     Err(err) => {
@@ -1512,7 +1530,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
                 break;
             }
             ResultS4_SyslineFind::Err(err) => {
-                debug_eprintln!("{}{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", so(), tid, tname, err);
+                debug_eprintln!("{}{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", so(), _tid, tname, err);
                 eprintln!("ERROR: syslogprocessor.find_sysline({}) {}", fo1, err);
                 break;
             }
@@ -1522,7 +1540,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
     syslogproc.process_stage4_summary();
 
     let summary = syslogproc.summary();
-    debug_eprintln!("{}{:?}({}): last chan_send_dt.send((None, {:?}, {}));", so(), tid, tname, summary, false);
+    debug_eprintln!("{}{:?}({}): last chan_send_dt.send((None, {:?}, {}));", so(), _tid, tname, summary, false);
     match chan_send_dt.send((None, Some(summary), false)) {
         Ok(_) => {}
         Err(err) => {
@@ -1549,7 +1567,7 @@ pub struct SummaryPrinted {
 
 impl fmt::Debug for SummaryPrinted {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.debug_struct("Summary Printed:")
+        f.debug_struct("Printed:")
             .field("bytes", &self.bytes)
             .field("lines", &self.lines)
             .field("syslines", &self.syslines)
@@ -1576,6 +1594,9 @@ impl fmt::Debug for SummaryPrinted {
 }
 
 impl SummaryPrinted {
+
+    /// print a `SummaryPrinted` with color on stderr.
+    ///
     /// mimics debug print but with colorized zero values
     /// only colorize if associated `Summary_Opt` has corresponding
     /// non-zero values
@@ -1660,60 +1681,71 @@ impl SummaryPrinted {
         }
         eprint!(" }}");
     }
+
+    /// update a `SummaryPrinted` with information from a printed `Sysline`
+    fn summaryprint_update(&mut self, syslinep: &SyslineP) {
+        self.syslines += 1;
+        self.lines += (*syslinep).count_lines();
+        self.bytes += (*syslinep).count_bytes();
+        if let Some(dt) = (*syslinep).dt {
+            match self.dt_first {
+                Some(dt_first) => {
+                    if dt < dt_first {
+                        self.dt_first = Some(dt);
+                    };
+                },
+                None => {
+                    self.dt_first = Some(dt);
+                },
+            };
+            match self.dt_last {
+                Some(dt_last) => {
+                    if dt > dt_last {
+                        self.dt_last = Some(dt);
+                    };
+                },
+                None => {
+                    self.dt_last = Some(dt);
+                },
+            };
+        };
+    }
+    
+    /// update a mapping of `PathId` to `SummaryPrinted`.
+    ///
+    /// helper to `processing_loop`
+    fn summaryprint_map_update(syslinep: &SyslineP, pathid: &PathId, map_: &mut Map_PathId_SummaryPrint) {
+        debug_eprintln!("{}summaryprint_map_update", snx());
+        match map_.get_mut(pathid) {
+            Some(sp) => {
+                sp.summaryprint_update(syslinep);
+            },
+            None => {
+                let mut sp = SummaryPrinted::default();
+                sp.summaryprint_update(syslinep);
+                map_.insert(*pathid, sp);
+            }
+        };
+    }
 }
 
 type SummaryPrinted_Opt = Option<SummaryPrinted>;
 
+// -------------------------------------------------------------------------------------------------
+
+/// print the various caching statistics
+const OPT_SUMMARY_PRINT_CACHE_STATS: bool = true;
+/// print the various drop statistics
+const OPT_SUMMARY_PRINT_DROP_STATS: bool = true;
+/// for printing `--summary` lines, indentation
+const SPACING_LEAD: &str = "  ";
+
+// -------------------------------------------------------------------------------------------------
+
 type Map_PathId_SummaryPrint = BTreeMap::<PathId, SummaryPrinted>;
-
-// TODO: move into impl SummaryPrinted
-/// update the passed 
-fn summaryprint_update(syslinep: &SyslineP, sp: &mut SummaryPrinted) -> SummaryPrinted {
-    sp.syslines += 1;
-    sp.lines += (*syslinep).count_lines();
-    sp.bytes += (*syslinep).count_bytes();
-    if let Some(dt) = (*syslinep).dt {
-        match sp.dt_first {
-            Some(dt_first) => {
-                if dt < dt_first {
-                    sp.dt_first = Some(dt);
-                };
-            },
-            None => {
-                sp.dt_first = Some(dt);
-            },
-        };
-        match sp.dt_last {
-            Some(dt_last) => {
-                if dt > dt_last {
-                    sp.dt_last = Some(dt);
-                };
-            },
-            None => {
-                sp.dt_last = Some(dt);
-            },
-        };
-    };
-    *sp
-}
-
-// TODO: move into SummaryPrinted
-fn summaryprint_map_update(syslinep: &SyslineP, pathid: &PathId, map_: &mut Map_PathId_SummaryPrint) {
-    debug_eprintln!("{}summaryprint_map_update", snx());
-    match map_.get_mut(pathid) {
-        Some(sp) => {
-            summaryprint_update(syslinep, sp);
-        },
-        None => {
-            let mut sp = SummaryPrinted::default();
-            summaryprint_update(syslinep, &mut sp);
-            map_.insert(*pathid, sp);
-        }
-    };
-}
-
 type Map_PathId_Summary = HashMap::<PathId, Summary>;
 
+/// small helper to `processing_loop`
 #[inline(always)]
 fn summary_update(pathid: &PathId, summary: Summary, map_: &mut Map_PathId_Summary) {
     if let Some(val) = map_.insert(*pathid, summary) {
@@ -1721,31 +1753,23 @@ fn summary_update(pathid: &PathId, summary: Summary, map_: &mut Map_PathId_Summa
     };
 }
 
-// TODO: `FPath` should be std::path::Path
-//// return basename of a file
-fn basename(path: &FPath) -> FPath {
-    let mut riter = path.rsplit(std::path::MAIN_SEPARATOR);
-
-    FPath::from(riter.next().unwrap_or(""))
-}
-
-/// print the various caching statistics
-const OPT_SUMMARY_PRINT_CACHE_STATS: bool = true;
-/// print the various drop statistics
-const OPT_SUMMARY_PRINT_DROP_STATS: bool = true;
-
-/// for printing `--summary` lines, indentation
-const SPACING_LEAD: &str = "  ";
+type Map_PathId_ProcessPathResult = HashMap::<PathId, ProcessPathResult>;
+type Map_PathId_FPath = BTreeMap::<PathId, FPath>;
+type Map_PathId_Color = HashMap::<PathId, Color>;
 
 /// the main processing loop:
+///
 /// 1. creates threads to process each file
+///
 /// 2. waits on each thread to receive processed `Sysline` _or_ end
 ///    a. prints received `Sysline` in order
 ///    b. goto 2.
-/// 3. prints summary (if requestd by user)
 ///
-/// The main thread is the only thread that prints to stdout. In --release
+/// 3. prints summary (if CLI option `--summary`)
+///
+/// This main thread should be the only thread that prints to stdout. In --release
 /// builds, other file processing threads may rarely print messages to stderr.
+///
 #[allow(clippy::too_many_arguments)]
 fn processing_loop(
     mut paths_results: ProcessPathResults,
@@ -1792,14 +1816,15 @@ fn processing_loop(
         .filter(|x| matches!(x, ProcessPathResult::FILE_VALID(_)))
         .count();
 
-    // create PathId->FPath lookup vector (effectively a map)
-    // create FPath->PathId lookup map
+    // create various mappings of PathId -> Thingy:
+    //
     // separate `ProcessPathResult`s into different collections, valid and invalid
+    //
     // `valid` is used extensively
-    let mut map_pathid_results = HashMap::<PathId,ProcessPathResult>::with_capacity(file_count);
+    let mut map_pathid_results = Map_PathId_ProcessPathResult::with_capacity(file_count);
     // `invalid` is used to help summarize why some files were not processed
-    let mut map_pathid_results_invalid = HashMap::<PathId,ProcessPathResult>::with_capacity(file_count);
-    let mut map_pathid_path = BTreeMap::<PathId, FPath>::new();
+    let mut map_pathid_results_invalid = Map_PathId_ProcessPathResult::with_capacity(file_count);
+    let mut map_pathid_path = Map_PathId_FPath::new();
     let mut pathid_counter: PathId = 0;
     for processpathresult in paths_results.drain(..)
     {
@@ -1823,16 +1848,13 @@ fn processing_loop(
     assert!(paths_results.is_empty(), "paths_results was not cleared, {} elements remain", paths_results.len());
     drop(paths_results);
 
-    let queue_sz_dt: usize = 10;
-
-
     // preprint the prepended name or path
     type PathId_PrependName = HashMap<PathId, String>;
     let mut pathid_to_prependname: PathId_PrependName;
     let mut prependname_width: usize = 0;
     if cli_opt_prepend_filename {
         if cli_opt_prepend_file_align {
-            for (_pathid, path) in map_pathid_path.iter() {
+            for path in map_pathid_path.values() {
                 let bname: String = basename(path);
                 prependname_width = std::cmp::max(
                     prependname_width, unicode_width::UnicodeWidthStr::width(bname.as_str())
@@ -1847,7 +1869,7 @@ fn processing_loop(
         }
     } else if cli_opt_prepend_filepath {
         if cli_opt_prepend_file_align {
-            for (_pathid, path) in map_pathid_path.iter() {
+            for path in map_pathid_path.values() {
                 prependname_width = std::cmp::max(
                     prependname_width, unicode_width::UnicodeWidthStr::width(path.as_str())
                 );
@@ -1870,15 +1892,13 @@ fn processing_loop(
     // create necessary channels for each thread
     // launch each thread
     //
-    type Map_PathId_ChanRecvDatum = BTreeMap<PathId, Chan_Recv_Datum>;
-    type PathId_ChanRecvDatum<'a> = (PathId, &'a Chan_Recv_Datum);
     // pre-created mapping for calls to `select.recv` and `select.select`
     type Index_Select = HashMap<usize, PathId>;
     // mapping of PathId to received data. Most important collection for the remainder
     // of this function.
     let mut map_pathid_chanrecvdatum = Map_PathId_ChanRecvDatum::new();
     // mapping PathId to colors for printing.
-    let mut map_pathid_color = HashMap::<PathId, Color>::with_capacity(file_count);
+    let mut map_pathid_color = Map_PathId_Color::with_capacity(file_count);
     // mapping PathId to a `Summary` for `--summary`
     let mut map_pathid_summary = Map_PathId_Summary::with_capacity(file_count);
     // "mapping" of PathId to select index, used in `recv_many_data`
@@ -1886,9 +1906,10 @@ fn processing_loop(
     let color_datetime: Color = COLOR_DATETIME;
 
     // initialize processing channels/threads, one per file path
-    for (pathid, path) in map_pathid_path.iter() {
+    for pathid in map_pathid_path.keys() {
         map_pathid_color.insert(*pathid, color_rand());
     }
+    //let channel_message_queue_sz: usize = 10;
     for (pathid, path) in map_pathid_path.iter() {
         let (filetype, _) = match map_pathid_results.get(pathid) {
             Some(processpathresult) => {
@@ -1913,7 +1934,7 @@ fn processing_loop(
             *filter_dt_before_opt,
             tz_offset,
         );
-        let (chan_send_dt, chan_recv_dt): (Chan_Send_Datum, Chan_Recv_Datum) = crossbeam_channel::bounded(queue_sz_dt);
+        let (chan_send_dt, chan_recv_dt): (Chan_Send_Datum, Chan_Recv_Datum) = crossbeam_channel::unbounded();
         debug_eprintln!("{}processing_loop: map_pathid_chanrecvdatum.insert({}, ...);", so(), pathid);
         map_pathid_chanrecvdatum.insert(*pathid, chan_recv_dt);
         let basename_: FPath = basename(path);
@@ -2018,9 +2039,9 @@ fn processing_loop(
     let mut set_pathid = Set_PathId::with_capacity(file_count);
     let mut map_pathid_sumpr = Map_PathId_SummaryPrint::new();
     // crude debugging stats
-    let mut _count_recv_ok: usize = 0;
-    let mut _count_recv_di: usize = 0;
-    let mut sp_total: SummaryPrinted = SummaryPrinted::default();
+    let mut chan_recv_ok: u64 = 0;
+    let mut chan_recv_err: u64 = 0;
+    let mut summaryprinted: SummaryPrinted = SummaryPrinted::default();
 
     let color_default = Color::White;
 
@@ -2045,14 +2066,14 @@ fn processing_loop(
 
         if cfg!(debug_assertions) {
             debug_eprintln!("{}processing_loop: map_pathid_datum.len() {}", so(), map_pathid_datum.len());
-            for (pathid, datum) in map_pathid_datum.iter() {
-                let path: &FPath = map_pathid_path.get(pathid).unwrap();
-                debug_eprintln!("{}processing_loop: map_pathid_datum: thread {} {} has data", so(), path, pathid);
+            for (pathid, _datum) in map_pathid_datum.iter() {
+                let _path: &FPath = map_pathid_path.get(pathid).unwrap();
+                debug_eprintln!("{}processing_loop: map_pathid_datum: thread {} {} has data", so(), _path, pathid);
             }
             debug_eprintln!("{}processing_loop: map_pathid_chanrecvdatum.len() {}", so(), map_pathid_chanrecvdatum.len());
-            for (pathid, chanrdatum) in map_pathid_chanrecvdatum.iter() {
-                let path: &FPath = map_pathid_path.get(pathid).unwrap();
-                debug_eprintln!("{}processing_loop: map_pathid_chanrecvdatum: thread {} {} channel messages {}", so(), path, pathid, chanrdatum.len());
+            for (pathid, _chanrdatum) in map_pathid_chanrecvdatum.iter() {
+                let _path: &FPath = map_pathid_path.get(pathid).unwrap();
+                debug_eprintln!("{}processing_loop: map_pathid_chanrecvdatum: thread {} {} channel messages {}", so(), _path, pathid, _chanrdatum.len());
             }
         }
 
@@ -2087,13 +2108,13 @@ fn processing_loop(
                         map_pathid_datum.insert(pathid, chan_datum);
                         set_pathid.insert(pathid);
                     }
-                    _count_recv_ok += 1;
+                    chan_recv_ok += 1;
                 }
                 Err(crossbeam_channel::RecvError) => {
                     debug_eprintln!("{}processing_loop: B crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", so(), pathid);
                     // this channel was closed by the sender
                     disconnect.push(pathid);
-                    _count_recv_di += 1;
+                    chan_recv_err += 1;
                 }
             }
         } else {
@@ -2103,11 +2124,11 @@ fn processing_loop(
             // selected then printed.
 
             if cfg!(debug_assertions) {
-                for (i, (k, v)) in map_pathid_chanrecvdatum.iter().enumerate() {
-                    debug_eprintln!("{} A1 map_pathid_chanrecvdatum[{:?}] = {:?}", i, k, v);
+                for (_i, (_k, _v)) in map_pathid_chanrecvdatum.iter().enumerate() {
+                    debug_eprintln!("{} A1 map_pathid_chanrecvdatum[{:?}] = {:?}", _i, _k, _v);
                 }
-                for (i, (k, v)) in map_pathid_datum.iter().enumerate() {
-                    debug_eprintln!("{} A1 map_pathid_datum[{:?}] = {:?}", i, k, v);
+                for (_i, (_k, _v)) in map_pathid_datum.iter().enumerate() {
+                    debug_eprintln!("{} A1 map_pathid_datum[{:?}] = {:?}", _i, _k, _v);
                 }
             }
 
@@ -2163,7 +2184,6 @@ fn processing_loop(
                     let mut line_at: usize = 0;
                     while line_at < line_count {
                         if cli_opt_prepend_filename || cli_opt_prepend_filepath {
-                            let path: &FPath = map_pathid_path.get(pathid).unwrap();
                             let prepend: &String = pathid_to_prependname
                                 .get(pathid)
                                 .unwrap_or(string_default);
@@ -2208,11 +2228,11 @@ fn processing_loop(
                 }
                 if is_last {
                     write_stdout(&NLu8a);
-                    sp_total.bytes += 1;
+                    summaryprinted.bytes += 1;
                 }
                 if cli_opt_summary {
-                    summaryprint_map_update(syslinep, pathid, &mut map_pathid_sumpr);
-                    summaryprint_update(syslinep, &mut sp_total);
+                    SummaryPrinted::summaryprint_map_update(syslinep, pathid, &mut map_pathid_sumpr);
+                    summaryprinted.summaryprint_update(syslinep);
                 }
             }
             // create a copy of the borrowed key `pathid`, this avoids rustc error:
@@ -2241,291 +2261,329 @@ fn processing_loop(
     // Getting here means main program processing has completed.
     // Now to print the `--summary` (if it was requested).
 
-    /// helper function to print the `summary.patterns` Vec (requires it's own line)
-    pub fn patterns_dbg(summary: &Summary) -> String {
-        // `cap` is a rough capacity estimation
-        let cap: usize = summary.SyslineReader_patterns.len() * 150;
-        let mut out: String = String::with_capacity(cap);
-        for patt in summary.SyslineReader_patterns.iter() {
-            // XXX: magic knowledge of blank prepend
-            let a = format!("                   {:?}", patt);
-            out.push_str(a.as_ref());
-        }
-
-        out
-    }
-
-    /// helper function to print the `summary.dt_first` `summary.dt_last` (requires it's own line)
-    pub fn first_last_dbg(summary: &Summary) -> String {
-        format!(
-            "dt_first {:?}, dt_last {:?}",
-            summary.SyslineReader_pattern_first,
-            summary.SyslineReader_pattern_last,
-        )
-    }
-
-    /// helper function to print the filepath name (one line)
-    pub fn print_filepath(path: &FPath, color: &Color, color_choice: &termcolor::ColorChoice) {
-        eprint!("File: ");
-        match print_colored_stderr(*color, Some(*color_choice), path.as_bytes()) {
-            Ok(()) => {},
-            Err(err) => {
-                eprintln!("ERROR: {:?}", err);
-            }
-        };
-        eprintln!();
-    }
-
-    /// helper function to print the &Summary_Opt (one line)
-    pub fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
-        match summary_opt {
-            Some(summary) => {
-                eprintln!("{}Summary Processed:{:?}", SPACING_LEAD, summary);
-                let out = patterns_dbg(summary);
-                eprintln!("{}{}", SPACING_LEAD, out);
-                let out = first_last_dbg(summary);
-                eprintln!("{}                   {}", SPACING_LEAD, out);
-            },
-            None => {
-                // TODO: [2022/06/07] print filesz
-                eprintln!("{}Summary Processed: None", SPACING_LEAD);
-            }
-        }
-    }
-
-    /// helper function to print the &SummaryPrinted_Opt (one line)
-    pub fn print_summary_opt_printed(
-        summary_print_opt: &SummaryPrinted_Opt,
-        summary_opt: &Summary_Opt,
-        color_choice: &termcolor::ColorChoice,
-    ) {
-        match summary_print_opt {
-            Some(summary_print) => {
-                eprint!("{}Summary Printed  : ", SPACING_LEAD);
-                summary_print.print_colored_stderr(Some(*color_choice), summary_opt);
-            },
-            None => {
-                eprint!("{}Summary Printed  : ", SPACING_LEAD);
-                SummaryPrinted::default().print_colored_stderr(Some(*color_choice), summary_opt);
-            }
-        }
-        eprintln!();
-    }
-
-    /// helper function to print the various caching statistics (several lines)
-    pub fn print_cache_stats(summary_opt: &Summary_Opt) {
-        if summary_opt.is_none() {
-            return;
-        }
-
-        fn ratio64(a: &u64, b: &u64) -> f64 {
-            if b == &0 {
-                return 0.0;
-            }
-            (*a as f64) / (*b as f64)
-        }
-
-        fn ratio32(a: &u32, b: &u32) -> f64 {
-            ratio64(&(*a as u64), &(*b as u64))
-        }
-
-        let summary: &Summary = match summary_opt.as_ref() {
-            Some(summary_) => summary_,
-            None => {
-                eprintln!("ERROR: unexpected None from match summary_opt");
-                return;
-            }
-        };
-        let wide: usize = summary.max_hit_miss().to_string().len();
-        // SyslineReader
-        // SyslineReader::syslines
-        let mut ratio = ratio64(
-            &summary.SyslineReader_syslines_hit,
-            &summary.SyslineReader_syslines_miss,
-        );
-        eprintln!(
-            "{}storage: SyslineReader::find_sysline() syslines                        : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
-            SPACING_LEAD,
-            summary.SyslineReader_syslines_hit,
-            summary.SyslineReader_syslines_miss,
-            ratio,
-            wide = wide,
-        );
-        // SyslineReader::_syslines_by_range
-        ratio = ratio64(
-            &summary.SyslineReader_syslines_by_range_hit,
-            &summary.SyslineReader_syslines_by_range_miss,
-        );
-        eprintln!(
-            "{}caching: SyslineReader::find_sysline() syslines_by_range_map           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, insert {:wide$}",
-            SPACING_LEAD,
-            summary.SyslineReader_syslines_by_range_hit,
-            summary.SyslineReader_syslines_by_range_miss,
-            ratio,
-            summary.SyslineReader_syslines_by_range_insert,
-            wide = wide,
-        );
-        // SyslineReader::_find_sysline_lru_cache
-        ratio = ratio64(
-            &summary.SyslineReader_find_sysline_lru_cache_hit,
-            &summary.SyslineReader_find_sysline_lru_cache_miss,
-        );
-        eprintln!(
-            "{}caching: SyslineReader::find_sysline() LRU cache                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
-            SPACING_LEAD,
-            summary.SyslineReader_find_sysline_lru_cache_hit,
-            summary.SyslineReader_find_sysline_lru_cache_miss,
-            ratio,
-            summary.SyslineReader_find_sysline_lru_cache_put,
-            wide = wide,
-        );
-        // SyslineReader::_parse_datetime_in_line_lru_cache
-        ratio = ratio64(
-            &summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
-            &summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
-        );
-        eprintln!(
-            "{}caching: SyslineReader::parse_datetime_in_line() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
-            SPACING_LEAD,
-            summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
-            summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
-            ratio,
-            summary.SyslineReader_parse_datetime_in_line_lru_cache_put,
-            wide = wide,
-        );
-        // LineReader::_lines
-        ratio = ratio64(
-            &summary.LineReader_lines_hit,
-            &summary.LineReader_lines_miss,
-        );
-        eprintln!(
-            "{}storage: LineReader::find_line() lines                                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
-            SPACING_LEAD,
-            summary.LineReader_lines_hit,
-            summary.LineReader_lines_miss,
-            ratio,
-            wide = wide,
-        );
-        // LineReader::_find_line_lru_cache
-        ratio = ratio64(
-            &summary.LineReader_find_line_lru_cache_hit,
-            &summary.LineReader_find_line_lru_cache_miss,
-        );
-        eprintln!(
-            "{}caching: LineReader::find_line() LRU cache                             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
-            SPACING_LEAD,
-            summary.LineReader_find_line_lru_cache_hit,
-            summary.LineReader_find_line_lru_cache_miss,
-            ratio,
-            summary.LineReader_find_line_lru_cache_put,
-            wide = wide,
-        );
-        // BlockReader::_read_blocks
-        ratio = ratio64(
-            &summary.BlockReader_read_blocks_hit,
-            &summary.BlockReader_read_blocks_miss,
-        );
-        eprintln!(
-            "{}storage: BlockReader::read_block() blocks                              : hit {:wide$}, miss {:wide$}, ratio {:1.2}, insert {:wide$}",
-            SPACING_LEAD,
-            summary.BlockReader_read_blocks_hit,
-            summary.BlockReader_read_blocks_miss,
-            ratio,
-            summary.BlockReader_read_blocks_insert,
-            wide = wide,
-        );
-        // BlockReader::_read_blocks_cache
-        ratio = ratio64(
-            &summary.BlockReader_read_block_lru_cache_hit,
-            &summary.BlockReader_read_block_lru_cache_miss,
-        );
-        eprintln!(
-            "{}caching: BlockReader::read_block() LRU cache                           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
-            SPACING_LEAD,
-            summary.BlockReader_read_block_lru_cache_hit,
-            summary.BlockReader_read_block_lru_cache_miss,
-            ratio,
-            summary.BlockReader_read_block_lru_cache_put,
-            wide = wide,
-        );
-    }
-
-    /// helper function to print the various drop error statistics
-    pub fn print_drop_stats(summary_opt: &Summary_Opt) {
-        if summary_opt.is_none() {
-            return;
-        }
-
-        let summary: &Summary = match summary_opt.as_ref() {
-            Some(summary_) => summary_,
-            None => {
-                eprintln!("ERROR: unexpected None from match summary_opt");
-                return;
-            }
-        };
-        let wide: usize = summary.max_drop().to_string().len();
-        eprintln!(
-            "{}streaming: SyslineReader::drop_sysline() Ok {:wide$} Err {:wide$}",
-            SPACING_LEAD,
-            summary.SyslineReader_drop_sysline_ok,
-            summary.SyslineReader_drop_sysline_errors,
-            wide = wide,
-        );
-        eprintln!(
-            "{}streaming: LineReader::drop_line()       Ok {:wide$} Err {:wide$}",
-            SPACING_LEAD,
-            summary.LineReader_drop_line_ok,
-            summary.LineReader_drop_line_errors,
-            wide = wide,
-        );
-    }
-
-    /// helper function to print the error, if any
-    pub fn print_error(summary_opt: &Summary_Opt, color_choice: &termcolor::ColorChoice) {
-        match summary_opt.as_ref() {
-            Some(summary_) => {
-                match &summary_.Error_ {
-                    Some(err_string) => {
-                        eprint!("{}Error: ", SPACING_LEAD);
-                        match print_colored_stderr(Color::Red, Some(*color_choice), err_string.as_bytes()) {
-                            _ => {},
-                        }
-                        eprintln!();
-                    },
-                    None => {},
-                }        
-            }
-            None => {
-                return;
-            }
-        }
-    }
-
     if cli_opt_summary {
-        eprintln!("\nSummary:");
-        for (pathid, path) in map_pathid_path.iter() {
-            //let pathid: &PathId = map_path_pathid.get(path).unwrap();
-            let color_ = map_pathid_color.get(pathid).unwrap_or(&color_default);
-            print_filepath(path, color_, &color_choice);
-
-            let summary_opt: Summary_Opt = map_pathid_summary.remove(pathid);
-            print_summary_opt_processed(&summary_opt);
-
-            let summary_print_opt: SummaryPrinted_Opt = map_pathid_sumpr.remove(pathid);
-            print_summary_opt_printed(&summary_print_opt, &summary_opt, &color_choice);
-
-            if OPT_SUMMARY_PRINT_CACHE_STATS {
-                print_cache_stats(&summary_opt);
-            }
-            if OPT_SUMMARY_PRINT_DROP_STATS {
-                print_drop_stats(&summary_opt);
-            }
-            print_error(&summary_opt, &color_choice);
-        }
-        eprintln!("{:?}", sp_total);
-        eprintln!("channel recv ok {}, channel recv err {}", _count_recv_ok, _count_recv_di);
+        eprintln!();
+        eprintln!("Files:");
+        print_all_files_summaries(
+            &map_pathid_path,
+            &map_pathid_color,
+            &mut map_pathid_summary,
+            &mut map_pathid_sumpr,
+            &color_choice,
+            &color_default,
+        );
+        eprintln!();
+        eprintln!("Summary:");
+        eprintln!("{:?}", summaryprinted);
+        eprintln!("Datetime Filters: -a {:?} -b {:?}", filter_dt_after_opt, filter_dt_before_opt);
+        eprintln!("Channel Receive ok {}, err {}", chan_recv_ok, chan_recv_err);
     }
 
-    debug_eprintln!("{}processing_loop: E _count_recv_ok {:?} _count_recv_di {:?}", so(), _count_recv_ok, _count_recv_di);
+    debug_eprintln!("{}processing_loop: E chan_recv_ok {:?} _count_recv_di {:?}", so(), chan_recv_ok, chan_recv_err);
     debug_eprintln!("{}processing_loop()", sx());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+/// helper function to print the `summary.patterns` Vec (requires it's own line)
+fn patterns_dbg(summary: &Summary) -> String {
+    // `cap` is a rough capacity estimation
+    let cap: usize = summary.SyslineReader_patterns.len() * 150;
+    let mut out: String = String::with_capacity(cap);
+    for patt in summary.SyslineReader_patterns.iter() {
+        // XXX: magic knowledge of blank prepend
+        let a = format!("                   {:?}", patt);
+        out.push_str(a.as_ref());
+    }
+
+    out
+}
+
+/// helper function to print the `summary.dt_first` `summary.dt_last` (requires it's own line)
+fn first_last_dbg(summary: &Summary) -> String {
+    format!(
+        "dt_first {:?}, dt_last {:?}",
+        summary.SyslineReader_pattern_first,
+        summary.SyslineReader_pattern_last,
+    )
+}
+
+/// helper function to print the filepath name (one line)
+fn print_filepath(
+    path: &FPath,
+    color: &Color,
+    color_choice: &termcolor::ColorChoice
+) {
+    eprint!("File: ");
+    match print_colored_stderr(*color, Some(*color_choice), path.as_bytes()) {
+        Ok(()) => {},
+        Err(err) => {
+            eprintln!("ERROR: {:?}", err);
+        }
+    };
+    eprintln!();
+}
+
+/// helper function to print the &Summary_Opt (one line)
+fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
+    match summary_opt {
+        Some(summary) => {
+            eprintln!("{}Summary Processed:{:?}", SPACING_LEAD, summary);
+            let out = patterns_dbg(summary);
+            eprintln!("{}{}", SPACING_LEAD, out);
+            let out = first_last_dbg(summary);
+            eprintln!("{}                   {}", SPACING_LEAD, out);
+        },
+        None => {
+            // TODO: [2022/06/07] print filesz
+            eprintln!("{}Summary Processed: None", SPACING_LEAD);
+        }
+    }
+}
+
+/// helper function to print the &SummaryPrinted_Opt (one line)
+fn print_summary_opt_printed(
+    summary_print_opt: &SummaryPrinted_Opt,
+    summary_opt: &Summary_Opt,
+    color_choice: &termcolor::ColorChoice,
+) {
+    match summary_print_opt {
+        Some(summary_print) => {
+            eprint!("{}Summary Printed  : ", SPACING_LEAD);
+            summary_print.print_colored_stderr(Some(*color_choice), summary_opt);
+        },
+        None => {
+            eprint!("{}Summary Printed  : ", SPACING_LEAD);
+            SummaryPrinted::default().print_colored_stderr(Some(*color_choice), summary_opt);
+        }
+    }
+    eprintln!();
+}
+
+/// helper function to print the various caching statistics (several lines)
+fn print_cache_stats(summary_opt: &Summary_Opt) {
+    if summary_opt.is_none() {
+        return;
+    }
+
+    fn ratio64(a: &u64, b: &u64) -> f64 {
+        if b == &0 {
+            return 0.0;
+        }
+        (*a as f64) / (*b as f64)
+    }
+
+    let summary: &Summary = match summary_opt.as_ref() {
+        Some(summary_) => summary_,
+        None => {
+            eprintln!("ERROR: unexpected None from match summary_opt");
+            return;
+        }
+    };
+    let wide: usize = summary.max_hit_miss().to_string().len();
+    // SyslineReader
+    // SyslineReader::syslines
+    let mut ratio = ratio64(
+        &summary.SyslineReader_syslines_hit,
+        &summary.SyslineReader_syslines_miss,
+    );
+    eprintln!(
+        "{}storage: SyslineReader::find_sysline() syslines                        : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
+        SPACING_LEAD,
+        summary.SyslineReader_syslines_hit,
+        summary.SyslineReader_syslines_miss,
+        ratio,
+        wide = wide,
+    );
+    // SyslineReader::_syslines_by_range
+    ratio = ratio64(
+        &summary.SyslineReader_syslines_by_range_hit,
+        &summary.SyslineReader_syslines_by_range_miss,
+    );
+    eprintln!(
+        "{}caching: SyslineReader::find_sysline() syslines_by_range_map           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, insert {:wide$}",
+        SPACING_LEAD,
+        summary.SyslineReader_syslines_by_range_hit,
+        summary.SyslineReader_syslines_by_range_miss,
+        ratio,
+        summary.SyslineReader_syslines_by_range_insert,
+        wide = wide,
+    );
+    // SyslineReader::_find_sysline_lru_cache
+    ratio = ratio64(
+        &summary.SyslineReader_find_sysline_lru_cache_hit,
+        &summary.SyslineReader_find_sysline_lru_cache_miss,
+    );
+    eprintln!(
+        "{}caching: SyslineReader::find_sysline() LRU cache                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
+        SPACING_LEAD,
+        summary.SyslineReader_find_sysline_lru_cache_hit,
+        summary.SyslineReader_find_sysline_lru_cache_miss,
+        ratio,
+        summary.SyslineReader_find_sysline_lru_cache_put,
+        wide = wide,
+    );
+    // SyslineReader::_parse_datetime_in_line_lru_cache
+    ratio = ratio64(
+        &summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
+        &summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
+    );
+    eprintln!(
+        "{}caching: SyslineReader::parse_datetime_in_line() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
+        SPACING_LEAD,
+        summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
+        summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
+        ratio,
+        summary.SyslineReader_parse_datetime_in_line_lru_cache_put,
+        wide = wide,
+    );
+    // LineReader::_lines
+    ratio = ratio64(
+        &summary.LineReader_lines_hit,
+        &summary.LineReader_lines_miss,
+    );
+    eprintln!(
+        "{}storage: LineReader::find_line() lines                                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
+        SPACING_LEAD,
+        summary.LineReader_lines_hit,
+        summary.LineReader_lines_miss,
+        ratio,
+        wide = wide,
+    );
+    // LineReader::_find_line_lru_cache
+    ratio = ratio64(
+        &summary.LineReader_find_line_lru_cache_hit,
+        &summary.LineReader_find_line_lru_cache_miss,
+    );
+    eprintln!(
+        "{}caching: LineReader::find_line() LRU cache                             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
+        SPACING_LEAD,
+        summary.LineReader_find_line_lru_cache_hit,
+        summary.LineReader_find_line_lru_cache_miss,
+        ratio,
+        summary.LineReader_find_line_lru_cache_put,
+        wide = wide,
+    );
+    // BlockReader::_read_blocks
+    ratio = ratio64(
+        &summary.BlockReader_read_blocks_hit,
+        &summary.BlockReader_read_blocks_miss,
+    );
+    eprintln!(
+        "{}storage: BlockReader::read_block() blocks                              : hit {:wide$}, miss {:wide$}, ratio {:1.2}, insert {:wide$}",
+        SPACING_LEAD,
+        summary.BlockReader_read_blocks_hit,
+        summary.BlockReader_read_blocks_miss,
+        ratio,
+        summary.BlockReader_read_blocks_insert,
+        wide = wide,
+    );
+    // BlockReader::_read_blocks_cache
+    ratio = ratio64(
+        &summary.BlockReader_read_block_lru_cache_hit,
+        &summary.BlockReader_read_block_lru_cache_miss,
+    );
+    eprintln!(
+        "{}caching: BlockReader::read_block() LRU cache                           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
+        SPACING_LEAD,
+        summary.BlockReader_read_block_lru_cache_hit,
+        summary.BlockReader_read_block_lru_cache_miss,
+        ratio,
+        summary.BlockReader_read_block_lru_cache_put,
+        wide = wide,
+    );
+}
+
+/// helper function to print the various drop error statistics
+fn print_drop_stats(summary_opt: &Summary_Opt) {
+    if summary_opt.is_none() {
+        return;
+    }
+
+    let summary: &Summary = match summary_opt.as_ref() {
+        Some(summary_) => summary_,
+        None => {
+            eprintln!("ERROR: unexpected None from match summary_opt");
+            return;
+        }
+    };
+    let wide: usize = summary.max_drop().to_string().len();
+    eprintln!(
+        "{}streaming: SyslineReader::drop_sysline() Ok {:wide$} Err {:wide$}",
+        SPACING_LEAD,
+        summary.SyslineReader_drop_sysline_ok,
+        summary.SyslineReader_drop_sysline_errors,
+        wide = wide,
+    );
+    eprintln!(
+        "{}streaming: LineReader::drop_line()       Ok {:wide$} Err {:wide$}",
+        SPACING_LEAD,
+        summary.LineReader_drop_line_ok,
+        summary.LineReader_drop_line_errors,
+        wide = wide,
+    );
+}
+
+/// helper function to print the error, if any
+fn print_error(summary_opt: &Summary_Opt, color_choice: &termcolor::ColorChoice) {
+    match summary_opt.as_ref() {
+        Some(summary_) => {
+            match &summary_.Error_ {
+                Some(err_string) => {
+                    eprint!("{}Error: ", SPACING_LEAD);
+                    match print_colored_stderr(Color::Red, Some(*color_choice), err_string.as_bytes()) {
+                        _ => {},
+                    }
+                    eprintln!();
+                },
+                None => {},
+            }        
+        }
+        None => {}
+    }
+}
+
+fn print_file_summary(
+    path: &FPath,
+    summary_opt: &Summary_Opt,
+    summary_print_opt: &SummaryPrinted_Opt,
+    color: &Color,
+    color_choice: &termcolor::ColorChoice,
+) {
+    eprintln!();
+    print_filepath(path, color, color_choice);
+    print_summary_opt_processed(summary_opt);
+    print_summary_opt_printed(summary_print_opt, summary_opt, color_choice);
+    if OPT_SUMMARY_PRINT_CACHE_STATS {
+        print_cache_stats(summary_opt);
+    }
+    if OPT_SUMMARY_PRINT_DROP_STATS {
+        print_drop_stats(summary_opt);
+    }
+    print_error(summary_opt, color_choice);
+}
+
+/// printing for CLI option `--summary`
+///
+/// helper to `processing_loop`
+fn print_all_files_summaries(
+    map_pathid_path: &Map_PathId_FPath,
+    map_pathid_color: &Map_PathId_Color,
+    map_pathid_summary: &mut Map_PathId_Summary,
+    map_pathid_sumpr: &mut Map_PathId_SummaryPrint,
+    color_choice: &termcolor::ColorChoice,
+    color_default: &termcolor::Color,
+) {
+    for (pathid, path) in map_pathid_path.iter() {
+        let color: &Color = map_pathid_color.get(pathid).unwrap_or(color_default);
+        let summary_opt: Summary_Opt = map_pathid_summary.remove(pathid);
+        let summary_print_opt: SummaryPrinted_Opt = map_pathid_sumpr.remove(pathid);
+        print_file_summary(
+            path,
+            &summary_opt,
+            &summary_print_opt,
+            color,
+            color_choice,
+        );
+    }
 }

@@ -17,6 +17,7 @@ use crate::printer::printers::{
 };
 
 use std::io::Write;  // for `std::io::Stdout.flush`
+
 #[allow(unused_imports)]  // XXX: clippy errantly marks this as unused
 #[cfg(any(debug_assertions,test))]
 use std::io::prelude::*;  // for `std::fs::File.read_to_string`
@@ -29,7 +30,7 @@ use std::io::prelude::*;  // for `std::fs::File.read_to_string`
 /// them to pictoral representations, e.g. '\n' returns a pictoral unicode representation '␊'
 ///
 /// only intended for debugging
-//#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions,test))]
 pub fn char_to_char_noraw(c: char) -> char {
     if c.is_ascii_graphic() {
         return c;
@@ -78,7 +79,7 @@ pub fn char_to_char_noraw(c: char) -> char {
 /// transform utf-8 byte (presumably) to non-raw char
 /// 
 /// only intended for debugging
-//#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions,test))]
 pub fn byte_to_char_noraw(byte: u8) -> char {
     char_to_char_noraw(byte as char)
 }

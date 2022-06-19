@@ -89,7 +89,6 @@ pub fn stack_offset_set(correction: Option<isize>) {
     let so = std::cmp::max(sdi, 0) as usize;
     let thread_cur = thread::current();
     let tid = thread_cur.id();
-    let tname = thread_cur.name().unwrap_or("");
     if !_STACK_OFFSET_TABLE.is_set().unwrap() {
         #[allow(clippy::single_match)]
         match _STACK_OFFSET_TABLE.set(Map_ThreadId_SD::new()) {
@@ -104,11 +103,14 @@ pub fn stack_offset_set(correction: Option<isize>) {
         return;
     }
     _STACK_OFFSET_TABLE.write().unwrap().insert(tid, so);
-    debug_eprintln!("stack_offset_set({:?}): {:?}({}) stack_offset set to {}, stack_depth {}", correction, tid, tname, so, sd_);
+    debug_eprintln!("stack_offset_set({:?}): {:?}({}) stack_offset set to {}, stack_depth {}", correction, tid, thread_cur.name().unwrap_or(""), so, sd_);
 }
 
 /// return a string of spaces as long as `stack_offset`
 /// for use in `print` calls, so short function name and not perfect
+///
+/// only intended for debug builds
+#[allow(dead_code)]
 pub fn so() -> &'static str {
     let so_ = stack_offset();
     match so_ {
@@ -137,6 +139,9 @@ pub fn so() -> &'static str {
 }
 
 /// `print` helper, a `s`tring for e`n`tering a function
+///
+/// only intended for debug builds
+#[allow(dead_code)]
 pub fn sn() -> &'static str {
     let so_ = stack_offset();
     match so_ {
@@ -165,6 +170,9 @@ pub fn sn() -> &'static str {
 }
 
 /// `print` helper, a `s`tring for e`x`iting a function
+///
+/// only intended for debug builds
+#[allow(dead_code)]
 pub fn sx() -> &'static str {
     let so_ = stack_offset();
     match so_ {
@@ -194,6 +202,9 @@ pub fn sx() -> &'static str {
 
 /// `print` helper, a `s`tring for e`n`tering and e`x`iting a function
 /// (like a small function that only needs a one-liner)
+///
+/// only intended for debug builds
+#[allow(dead_code)]
 pub fn snx() -> &'static str {
     let so_ = stack_offset();
     match so_ {

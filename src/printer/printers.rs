@@ -19,6 +19,8 @@ pub use termcolor::{
 
 pub static COLOR_DATETIME: Color = Color::Green;
 
+/// A preselection of colors for printing syslines and file names.
+/// Chosen for a dark background console.
 static COLORS_TEXT: [Color; 29] = [
     Color::Yellow,
     Color::Cyan,
@@ -78,8 +80,9 @@ pub fn color_rand() -> Color {
     COLORS_TEXT[ci]
 }
 
-/// print colored output to terminal if possible choosing using passed stream
-/// otherwise, print plain output
+/// print colored output to terminal if possible choosing using passed stream,
+/// otherwise, print plain output.
+///
 /// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
 pub fn print_colored(color: Color, value: &[u8], std_: &mut termcolor::StandardStream) -> Result<()> {
     match std_.set_color(ColorSpec::new().set_fg(Some(color))) {
@@ -111,7 +114,8 @@ pub fn print_colored(color: Color, value: &[u8], std_: &mut termcolor::StandardS
     Ok(())
 }
 
-/// print colored output to terminal on stdout
+/// print colored output to terminal on stdout.
+///
 /// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
 pub fn print_colored_stdout(
     color: Color,
@@ -126,7 +130,8 @@ pub fn print_colored_stdout(
     print_colored(color, value, &mut stdout)
 }
 
-/// print colored output to terminal on stderr
+/// print colored output to terminal on stderr.
+///
 /// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
 pub fn print_colored_stderr(
     color: Color,
@@ -172,6 +177,7 @@ pub fn write_stdout(buffer: &[u8]) {
 }
 
 /// safely write the `buffer` to stdout with help of `StderrLock`
+#[cfg(any(debug_assertions,test))]
 pub fn write_stderr(buffer: &[u8]) {
     let stderr = std::io::stderr();
     let mut stderr_lock = stderr.lock();

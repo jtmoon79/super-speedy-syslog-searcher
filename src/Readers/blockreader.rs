@@ -21,6 +21,7 @@ use crate::dbgpr::printers::{
     byte_to_char_noraw,
 };
 
+#[cfg(any(debug_assertions,test))]
 use crate::dbgpr::stack::{
     sn,
     so,
@@ -700,8 +701,7 @@ impl BlockReader {
         }
         match self.blocks.remove(&blockoffset) {
             Some(blockp) => {
-                let sc = Arc::strong_count(&blockp);
-                debug_eprintln!("{}blockreader.drop_block({}): dropped block {} @0x{:p}, len {}, strong_count {}", so(), blockoffset, blockoffset, blockp, (*blockp).len(), sc);
+                debug_eprintln!("{}blockreader.drop_block({}): dropped block {} @0x{:p}, len {}, strong_count {}", so(), blockoffset, blockoffset, blockp, (*blockp).len(), Arc::strong_count(&blockp));
                 bo_dropped.insert(blockoffset);
             },
             None => {
@@ -710,8 +710,7 @@ impl BlockReader {
         }
         match self._read_block_lru_cache.pop(&blockoffset) {
             Some(blockp) => {
-                let sc = Arc::strong_count(&blockp);
-                debug_eprintln!("{}blockreader.drop_block({}): dropped block in LRU cache {} @0x{:p}, len {}, strong_count {}", so(), blockoffset, blockoffset, blockp, (*blockp).len(), sc);
+                debug_eprintln!("{}blockreader.drop_block({}): dropped block in LRU cache {} @0x{:p}, len {}, strong_count {}", so(), blockoffset, blockoffset, blockp, (*blockp).len(), Arc::strong_count(&blockp));
                 bo_dropped.insert(blockoffset);
             },
             None => {
@@ -720,7 +719,7 @@ impl BlockReader {
         }
     }
 
-    /// store copy of `BlockP` in LRU cache
+    /// store clone of `BlockP` in LRU cache
     fn store_block_in_LRU_cache(&mut self, blockoffset: BlockOffset, blockp: &BlockP) {
         debug_eprintln!("{}store_block_in_LRU_cache: LRU cache put({}, BlockP@{:p})", so(), blockoffset, blockp);
         if ! self._read_block_lru_cache_enabled {
@@ -730,8 +729,8 @@ impl BlockReader {
         self._read_block_cache_lru_put += 1;
     }
 
+    /// store clone of `BlockP` in `self.blocks` storage.
     fn store_block_in_storage(&mut self, blockoffset: BlockOffset, blockp: &BlockP) {
-        // store block
         debug_eprintln!("{}store_block_in_storage: blocks.insert({}, BlockP@{:p} (len {}, capacity {}))", snx(), blockoffset, blockp, (*blockp).len(), (*blockp).capacity());
         #[allow(clippy::single_match)]
         match self.blocks.insert(blockoffset, blockp.clone()) {

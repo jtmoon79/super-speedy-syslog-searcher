@@ -29,17 +29,9 @@ use crate::dbgpr::printers::{
     char_to_char_noraw,
 };
 
-#[cfg(not(any(debug_assertions,test)))]
-use crate::dbgpr::printers::{
-    byte_to_char_noraw,
-    char_to_char_noraw,
-};
-
+#[cfg(any(debug_assertions,test))]
 use crate::dbgpr::stack::{
-    sn,
-    snx,
     so,
-    sx,
 };
 
 use std::collections::BTreeSet;
@@ -81,15 +73,6 @@ pub type BlockOffsets = BTreeSet::<BlockOffset>;
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // LinePart, Line, and LineReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-/*
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref MIME_PARSEABLE: [&str] = [
-        "",
-    ];
-}
-*/
 
 /// Struct describing a part or all of a line within a `Block`
 /// A "line" can span more than one `Block`. This tracks part or all of a line within
@@ -190,9 +173,11 @@ impl LinePart {
         (self.blocki_end - self.blocki_beg) as usize
     }
 
+    /*
     pub fn is_empty(&self) -> bool {
         self.len() == 0
     }
+    */
 
     /// count of bytes of this `LinePart`
     /// XXX: `count_bytes` and `len` is overlapping and confusing.
@@ -443,6 +428,7 @@ impl Line {
         cb
     }
 
+    /*
     pub fn get_linepart(self: &Line, mut a: LineIndex) -> &LinePart {
         for linepart in self.lineparts.iter() {
             let len_ = linepart.len();
@@ -454,6 +440,7 @@ impl Line {
         // XXX: not sure if this is the best choice
         self.lineparts.last().unwrap()
     }
+    */
 
     /// does this `Line` store a `LinePart.blockoffset == bo`?
     ///
@@ -467,6 +454,7 @@ impl Line {
         false
     }
 
+    /*
     /// does the `Line` contain the byte value?
     pub fn contains(self: &Line, byte_: &u8) -> bool {
         for linepart in self.lineparts.iter() {
@@ -476,7 +464,9 @@ impl Line {
         }
         false
     }
+    */
 
+    /*
     /// does the `Line` contain the byte value?
     pub fn contains_at(self: &Line, byte_: &u8, a: &LineIndex, b: &LineIndex) -> bool {
         debug_assert_le!(a, b, "passed bad LineIndex pair");
@@ -487,7 +477,9 @@ impl Line {
         }
         false
     }
+    */
 
+    /*
     /// return set of `BlockOffset`s on which this `Line` has underlying data
     pub fn get_blockoffsets(self: &Line) -> BlockOffsets {
         let mut blockoffsets = BlockOffsets::new();
@@ -497,6 +489,7 @@ impl Line {
 
         blockoffsets
     }
+    */
 
     /// return all slices that make up this `Line` within a `Vec`
     pub fn get_slices(self: &Line) -> Slices {
@@ -517,12 +510,15 @@ impl Line {
     }
 
     /// get Box pointers to the underlying `&[u8]` slice that makes up this `Line`.
+    ///
     /// There may be more than one slice as the `Line` may cross block boundaries. So
     /// return the sequence of Box pointers in a `Vec`.
+    ///
     /// TODO: the `Vec<Box<&[u8]>>` creation is expensive
     ///       consider allowing a mut &Vec to be passed in. However, this will require declaring lifetimes!
     ///       LAST WORKING HERE 2022/04/03 23:54:00
     ///       However, it seems like this case will much less often in real use-case versus contrived small blocksize use cases.
+    ///
     // TODO: due to unstable feature `Sized` in `Box`, cannot do
     //           fn get_boxptrs(...) -> either::Either<Box<&[u8]>, Vec<Box<&[u8]>>>
     //       causes error `experimental Sized`
@@ -580,7 +576,9 @@ impl Line {
     }
 
     /// `raw` true will write directly to stdout from the stored `Block`
+    ///
     /// `raw` false will write transcode each byte to a character and use pictoral representations
+    ///
     /// XXX: `raw==false` does not handle multi-byte encodings
     #[cfg(any(debug_assertions,test))]
     pub fn print(self: &Line, raw: bool) {
@@ -636,11 +634,13 @@ impl Line {
     /// `raw` is `true` means use byte characters as-is
     /// `raw` is `false` means replace formatting characters or non-printable characters
     /// with pictoral representation (i.e. `byte_to_char_noraw`)
-    /// XXX: not efficient! Should not be called in --release build.
+    ///
+    /// XXX: very inefficient! only intended for help in debugging
+    ///
     /// TODO: this would be more efficient returning `&str`
     ///       https://bes.github.io/blog/rust-strings
     #[allow(non_snake_case)]
-    //#[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions,test))]
     pub(crate) fn _to_String_raw(self: &Line, raw: bool) -> String {
         let mut sz: usize = 0;
         for linepart in &self.lineparts {
@@ -695,63 +695,4 @@ impl Line {
         self._to_String_raw(false)
     }
 
-    /// slice that represents the entire `Line`
-    /// if `Line` does not cross a Block then this returns slice into the `Block`,
-    /// otherwise it requires a copy of `Block`s data
-    /// XXX: naive implementation
-    /// XXX: cannot return slice because
-    ///      1. size not known at compile time so cannot place on stack
-    ///      2. slice is an array which is not an "owned type"
-    /// TODO: add tests
-    /// CANDIDATE FOR REMOVAL
-    pub(crate) fn as_bytes(self: &Line) -> Bytes {
-        assert_gt!(self.lineparts.len(), 0, "This Line has no LineParts");
-        // efficient case, Line does not cross any Blocks
-        if self.lineparts.len() == 1 {
-            let bi_beg = self.lineparts[0].blocki_beg;
-            let bi_end = self.lineparts[0].blocki_end;
-            assert_eq!(bi_end - bi_beg, self.len(), "bi_end-bi_beg != line.len()");
-            return Bytes::from(&(*(self.lineparts[0].blockp))[bi_beg..bi_end]);
-        }
-        // not efficient case, Line crosses stored Blocks so have to create a new vec
-        let sz = self.len();
-        assert_ne!(sz, 0, "self.len() is zero!?");
-        let mut data = Bytes::with_capacity(sz);
-        for lp in self.lineparts.iter() {
-            let bi_beg = lp.blocki_beg;
-            let bi_end = lp.blocki_end;
-            data.extend_from_slice(&(*(lp.blockp))[bi_beg..bi_end]);
-        }
-        assert_eq!(data.len(), self.len(), "Line.as_bytes: data.len() != self.len()");
-
-        data
-    }
-
-    /// do be do
-    /// CANDIDATE FOR REMOVAL
-    //pub fn as_vec(self: &Line, beg: LineIndex, end: LineIndex) -> Bytes {
-    #[allow(unreachable_code)]
-    pub(crate) fn as_vec(self: &Line, beg: LineIndex, end: LineIndex) -> Bytes {
-        assert_gt!(self.lineparts.len(), 0, "This Line has no LineParts");
-        // efficient case, Line does not cross any Blocks
-        if self.lineparts.len() == 1 {
-            //let bi_beg = self.lineparts[0].blocki_beg;
-            //let bi_end = self.lineparts[0].blocki_end;
-            assert_le!(end - beg, self.len(), "end-beg > line.len()");
-
-            return Bytes::from(&(*(self.lineparts[0].blockp))[beg as usize..end as usize]);
-        }
-        unreachable!("as_vec does not handle multiple lineparts yet");
-        // XXX: incredibly inefficient case, Line crosses stored Blocks so have to create a new vec
-        let sz = self.len();
-        assert_ne!(sz, 0, "self.len() is zero!?");
-        let mut data: Bytes = Bytes::with_capacity(sz);
-        for lp in self.lineparts.iter() {
-            let bi_beg = lp.blocki_beg;
-            let bi_end = lp.blocki_end;
-            data.extend_from_slice(&(*(lp.blockp))[bi_beg..bi_end]);
-        }
-        assert_eq!(data.len(), self.len(), "Line.as_vec: data.len() != self.len()");
-        data
-    }
 }

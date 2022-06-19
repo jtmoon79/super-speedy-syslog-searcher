@@ -783,8 +783,8 @@ pub fn str_datetime(
                 debug_eprintln!("{}str_datetime return {:?}", sx(), Some(val));
                 return Some(val);
             }
-            Err(err) => {
-                debug_eprintln!("{}str_datetime: DateTime::parse_from_str({:?}, {:?}) failed ParseError {}", sx(), dts, pattern, err);
+            Err(_err) => {
+                debug_eprintln!("{}str_datetime: DateTime::parse_from_str({:?}, {:?}) failed ParseError {}", sx(), dts, pattern, _err);
                 return None;
             }
         };
@@ -808,8 +808,8 @@ pub fn str_datetime(
             }
             val
         }
-        Err(err) => {
-            debug_eprintln!("{}str_datetime: NaiveDateTime.parse_from_str({:?}, {:?}) failed ParseError {}", sx(), dts, pattern, err);
+        Err(_err) => {
+            debug_eprintln!("{}str_datetime: NaiveDateTime.parse_from_str({:?}, {:?}) failed ParseError {}", sx(), dts, pattern, _err);
             return None;
         }
     };

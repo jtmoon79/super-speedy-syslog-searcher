@@ -319,7 +319,7 @@ impl<E> FileProcessingResult<E> {
     }
 }
 
-/// manually implement `PartialEq` as `#derive` does not seem to work
+/// manually implement `PartialEq` as `#[derive(PartialEq)]` does not seem to work
 impl<E> PartialEq for FileProcessingResult<E> {
     fn eq(&self, other: &Self) -> bool {
         if self.has_err() && other.has_err() {

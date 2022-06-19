@@ -18,10 +18,10 @@ use crate::Readers::blockreader::{
     ResultS3_ReadBlock,
 };
 
+#[cfg(any(debug_assertions,test))]
 use crate::dbgpr::stack::{
     sn,
     snx,
-    so,
     sx,
 };
 
@@ -434,11 +434,11 @@ impl SyslogProcessor {
     }
 
     /// stage 4: no more syslines to process, only interested in the `self.summary()`
-    pub fn process_stage4_summary(&mut self) -> FileProcessingResult_BlockZero {
+    pub fn process_stage4_summary(&mut self) -> Summary {
         debug_eprintln!("{}syslogprocessor.process_stage4_summary", snx());
         self.processingmode = ProcessingMode::stage4_summary;
 
-        FileProcessingResult_BlockZero::FILE_OK
+        self.summary()
     }
 
     /// Attempt to find a minimum number of `Sysline` within the first block.

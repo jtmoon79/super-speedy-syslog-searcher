@@ -30,11 +30,9 @@ use crate::printer::printers::{
     WriteColor,
 };
 
+#[cfg(any(debug_assertions,test))]
 use crate::dbgpr::stack::{
-    sn,
-    snx,
     so,
-    sx,
 };
 
 use std::fmt;
@@ -128,6 +126,7 @@ impl Sysline {
         Sysline::default()
     }
 
+    /*
     pub fn new_from_line(linep: LineP) -> Sysline {
         let mut v = Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY);
         v.push(linep);
@@ -138,6 +137,7 @@ impl Sysline {
             dt: None,
         }
     }
+    */
 
     pub fn charsz(self: &Sysline) -> usize {
         Sysline::CHARSZ
@@ -178,6 +178,7 @@ impl Sysline {
         self.fileoffset_end() + (self.charsz() as FileOffset)
     }
 
+    /*
     /// the fileoffset into the immediately previous sysline.
     /// 
     /// the `self` Sysline does not know if the "previous" Sysline has been processed or if it even exists.
@@ -190,6 +191,7 @@ impl Sysline {
             val => val - charsz_,
         }
     }
+    */
 
     /// return the first `BlockOffset`s on which data for this Sysline resides.
     /// Presumes underlying `Line` and `LinePart` hold data else panic!
@@ -226,6 +228,7 @@ impl Sysline {
         cb
     }
 
+    /*
     /// a `String` copy of the demarcating datetime string found in the Sysline
     #[allow(non_snake_case)]
     pub fn datetime_String(self: &Sysline) -> String {
@@ -261,6 +264,7 @@ impl Sysline {
 
         String::from(s_)
     }
+    */
 
     /// return all the slices that make up `Line` at `line_num` within this `Sysline`.
     ///
@@ -453,7 +457,7 @@ impl Sysline {
     /// TODO: this would be more efficient returning `&str`
     ///       https://bes.github.io/blog/rust-strings
     #[allow(non_snake_case)]
-    //#[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions,test))]
     fn _to_String_raw(self: &Sysline, raw: bool) -> String {
         let mut sz: usize = 0;
         for lp in &self.lines {
@@ -472,7 +476,7 @@ impl Sysline {
     ///
     /// inefficient; only for debugging
     #[allow(non_snake_case)]
-    //#[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Sysline) -> String {
         self._to_String_raw(true)
     }
@@ -481,24 +485,12 @@ impl Sysline {
     ///
     /// inefficient; only for debugging
     #[allow(non_snake_case)]
-    //#[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &Sysline) -> String {
         self._to_String_raw(false)
     }
-
-    /*
-    #[allow(non_snake_case)]
-    #[cfg(not(any(debug_assertions,test)))]
-    /// XXX: here to prevent compiler error
-    ///
-    /// TODO: implement this for `--release` build, then put other functions back to debug only
-    pub fn to_String_noraw(self: &Sysline) -> String {
-        panic!("should not call function 'Sysline::to_String_noraw' in release build");
-        String::new()
-    }
-    */
 }
 
-/// thread-safe Atomic Reference Counting Pointer to a `Sysline`
+/// thread-safe Atomic Reference Counting pointer to a `Sysline`
 pub type SyslineP = Arc<Sysline>;
 pub type SyslineP_Opt = Option<Arc<Sysline>>;
