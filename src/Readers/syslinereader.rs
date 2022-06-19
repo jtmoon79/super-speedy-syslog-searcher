@@ -56,12 +56,6 @@ use crate::dbgpr::printers::{
     str_to_String_noraw,
 };
 
-use crate::printer::printers::{
-    Color,
-    ColorSpec,
-    WriteColor,
-};
-
 use crate::dbgpr::stack::{
     sn,
     snx,
@@ -80,12 +74,14 @@ use std::io::{
     Result,
     ErrorKind,
 };
-use std::io::prelude::*;
 use std::str;
 use std::sync::Arc;
 
 extern crate debug_print;
-use debug_print::{debug_eprint, debug_eprintln};
+use debug_print::{
+    debug_eprint,
+    debug_eprintln
+};
 
 extern crate lru;
 use lru::LruCache;
@@ -366,6 +362,7 @@ impl SyslineReader {
 
     /// enable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
     /// intended to aid testing and debugging
+    #[allow(dead_code)]
     pub fn LRU_cache_enable(&mut self) {
         if !self._find_sysline_lru_cache_enabled {
             self._find_sysline_lru_cache_enabled = true;

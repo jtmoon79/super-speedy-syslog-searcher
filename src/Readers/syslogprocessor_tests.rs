@@ -3,26 +3,14 @@
 
 use crate::common::{
     FPath,
-    FileOffset,
     FileType,
-};
-
-use crate::dbgpr::stack::{
-    stack_offset_set,
-    sn,
-    snx,
-    so,
-    sx,
 };
 
 use crate::dbgpr::helpers::{
     NamedTempFile,
     create_temp_file,
-    create_temp_file_bytes,
     create_temp_file_with_suffix,
-    create_temp_file_with_name_exact,
     NTF_Path,
-    eprint_file,
 };
 
 use crate::Readers::blockreader::{
@@ -30,13 +18,11 @@ use crate::Readers::blockreader::{
 };
 
 use crate::Readers::filepreprocessor::{
-    fpath_to_filetype,
     guess_filetype_from_fpath,
 };
 
 use crate::Data::datetime::{
     FixedOffset,
-    TimeZone,
 };
 
 pub use crate::Readers::syslogprocessor::{
@@ -45,25 +31,8 @@ pub use crate::Readers::syslogprocessor::{
     BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP,
 };
 
-use std::io::{
-    Error,
-    Result,
-    ErrorKind,
-};
-
 extern crate debug_print;
-use debug_print::{debug_eprint, debug_eprintln};
-
-extern crate more_asserts;
-use more_asserts::{
-    assert_le,
-    assert_lt,
-    assert_ge,
-    assert_gt,
-    debug_assert_le,
-    debug_assert_lt,
-    debug_assert_ge,
-};
+use debug_print::debug_eprintln;
 
 extern crate lazy_static;
 use lazy_static::lazy_static;

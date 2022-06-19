@@ -1,51 +1,13 @@
 // Readers/filepreprocessor_tests.rs
 //
 
-use std::fs::File;
-
 use crate::common::{
     FPath,
-    Bytes,
-};
-
-use crate::Readers::blockreader::{
-    BlockSz,
-};
-
-use crate::Readers::linereader::{
-    FileOffset,
-    ResultS4_LineFind,
-    LineReader,
-    LineIndex,
-    enum_BoxPtrs,
-};
-
-use crate::Readers::helpers::{
-    randomize,
-    fill,
-};
-
-use crate::Readers::filepreprocessor::{
-    //FilePreProcessor,
-    ProcessPathResult,
-    process_path,
 };
 
 use crate::dbgpr::helpers::{
-    NamedTempFile,
-    tempdir,
-    create_temp_file,
-    create_temp_file_with_name,
     create_temp_file_with_name_exact,
     NTF_Path,
-    eprint_file,
-};
-
-use crate::dbgpr::printers::{
-    //Color,
-    //print_colored_stdout,
-    byte_to_char_noraw,
-    buffer_to_String_noraw,
 };
 
 use crate::dbgpr::stack::{
@@ -54,19 +16,6 @@ use crate::dbgpr::stack::{
     sx,
     stack_offset_set,
 };
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate more_asserts;
-use more_asserts::{
-    assert_lt,
-    assert_ge,
-};
-
-
-extern crate mime_guess;
-use mime_guess::MimeGuess;
 
 extern crate mime_sniffer;
 use mime_sniffer::MimeTypeSniffer;  // adds extension method `sniff_mime_type` to `[u8]`

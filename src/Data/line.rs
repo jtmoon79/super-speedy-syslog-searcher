@@ -16,12 +16,10 @@ use crate::Readers::blockreader::{
     BlockP,
     Slices,
     BlockReader,
-    ResultS3_ReadBlock,
 };
 
 use crate::common::{
     Bytes,
-    ResultS4,
 };
 
 #[cfg(any(debug_assertions,test))]
@@ -44,29 +42,16 @@ use crate::dbgpr::stack::{
     sx,
 };
 
-use std::collections::BTreeMap;
 use std::collections::BTreeSet;
 use std::fmt;
 use std::io;
-use std::io::{
-    Error,
-    Result,
-};
 use std::io::prelude::*;
 use std::sync::Arc;
 
 extern crate debug_print;
-use debug_print::{debug_eprint, debug_eprintln};
+use debug_print::debug_eprintln;
 #[allow(unused_imports)]
-use debug_print::{debug_print, debug_println};
-
-extern crate lru;
-use lru::LruCache;
-
-extern crate mime;
-use mime::{
-    Mime,
-};
+use debug_print::{debug_eprint, debug_print, debug_println};
 
 extern crate more_asserts;
 use more_asserts::{
@@ -76,9 +61,10 @@ use more_asserts::{
     assert_gt,
     debug_assert_le,
     debug_assert_lt,
-    //debug_assert_ge,
     debug_assert_gt,
 };
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// A sequence to track a `Line`.
 /// A "line" may span multiple `Block`s. One `LinePart` is needed for each `Block`.

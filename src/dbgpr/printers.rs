@@ -13,13 +13,6 @@ use crate::common::{
 };
 
 use crate::printer::printers::{
-    Color,
-    ColorSpec,
-    WriteColor,
-    COLOR_DATETIME,
-    color_rand,
-    print_colored_stdout,
-    print_colored_stderr,
     write_stdout,
 };
 
@@ -27,13 +20,6 @@ use std::io::Write;  // for `std::io::Stdout.flush`
 #[allow(unused_imports)]  // XXX: clippy errantly marks this as unused
 #[cfg(any(debug_assertions,test))]
 use std::io::prelude::*;  // for `std::fs::File.read_to_string`
-//use std::io::Result;
-
-// see https://docs.rs/strum_macros/0.24.0/strum_macros/derive.AsRefStr.html
-//use std::convert::AsRef;
-//extern crate strum_macros;
-//use strum_macros::EnumString;
-//use std::str::FromStr;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // helper functions - various print and write

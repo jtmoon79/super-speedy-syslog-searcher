@@ -755,19 +755,8 @@ use std::collections::{
     BTreeMap,
 };
 use std::fmt;
-//use std::fs::{File, Metadata, OpenOptions};
-//use std::io;
-//use std::io::prelude::Read;
-//use std::io::{Error, ErrorKind, Result, Seek, SeekFrom, Write};
-//use std::path::Path;
-//use std::ops::RangeInclusive;
 use std::str;
-use std::str::FromStr;  // attaches `from_str` to various built-in types
-//use std::sync::Arc;
 use std::thread;
-
-//extern crate arrayref;
-//use arrayref::array_ref;
 
 extern crate atty;
 
@@ -779,7 +768,6 @@ use chain_cmp::chmp;
 extern crate clap;
 use clap::{
     ArgEnum,
-    PossibleValue,
     Parser,
 };
 
@@ -787,10 +775,8 @@ extern crate crossbeam_channel;
 
 extern crate chrono;
 use chrono::{
-    //DateTime,
     FixedOffset,
     Local,
-    //NaiveDateTime,
     TimeZone,
     Utc,
 };
@@ -800,7 +786,6 @@ use chrono::offset::{
 
 extern crate debug_print;
 use debug_print::{
-    //debug_eprint,
     debug_eprintln
 };
 #[allow(unused_imports)]
@@ -813,40 +798,8 @@ extern crate encoding_rs;
 
 extern crate unicode_width;
 
-//extern crate enum_utils;
-
-//extern crate enum_display_derive;
-//use enum_display_derive::Display;
-// XXX: I do not understand why importing the same name does not cause problems.
+// XXX: why importing the same name does not cause problems?
 use std::fmt::Display;
-
-//extern crate lru;
-//use lru::LruCache;
-
-//extern crate lazy_static;
-//use lazy_static::lazy_static;
-
-extern crate more_asserts;
-use more_asserts::{
-    //assert_le,
-    //assert_lt,
-    //assert_ge,
-    assert_gt,
-    //debug_assert_le,
-    //debug_assert_lt,
-    //debug_assert_ge,
-    //debug_assert_gt
-};
-
-//extern crate rand;
-
-//extern crate rangemap;
-//use rangemap::RangeMap;
-
-//extern crate mut_static;
-
-//extern crate unroll;
-//use unroll::unroll_for_loops;
 
 mod common;
 use crate::common::{
@@ -854,23 +807,13 @@ use crate::common::{
     FPaths,
     FileOffset,
     FileType,
-    //Bytes,
-    //NLu8,
     NLu8a,
 };
 
 mod Data;
-use crate::Data::line::{
-    LineIndex,
-};
-
 use Data::datetime::{
     DateTimeL_Opt,
     DateTime_Parse_Data_str,
-    //Local,
-    //Utc,
-    //Result_Filter_DateTime1,
-    Result_Filter_DateTime2,
     DateTime_Parse_Data_str_to_DateTime_Parse_Data,
     str_datetime,
 };
@@ -889,7 +832,6 @@ use printer::printers::{
     Color,
     COLOR_DATETIME,
     color_rand,
-    print_colored_stdout,
     print_colored_stderr,
     write_stdout,
 };
@@ -898,18 +840,9 @@ mod Readers;
 
 use Readers::blockreader::{
     BlockSz,
-    //BlockIndex,
-    //BlockOffset,
-    //Block,
-    //BlockP,
-    //Slices,
-    //Blocks,
-    //BlocksLRUCache,
-    //EndOfFile,
     BLOCKSZ_MIN,
     BLOCKSZ_MAX,
     BLOCKSZ_DEFs,
-    //BlockReader,
 };
 
 use Readers::filepreprocessor::{
@@ -927,23 +860,12 @@ use Readers::syslinereader::{
     SyslineP,
     SyslineP_Opt,
     ResultS4_SyslineFind,
-    SyslineReader,
 };
 
 use Readers::syslogprocessor::{
     SyslogProcessor,
     FileProcessingResult_BlockZero,
 };
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// misc. globals
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-// global constants
-
-/// global test initializer to run once
-/// see https://stackoverflow.com/a/58006287/471376
-//static _Test_Init_Once: Once = Once::new();
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // command-line parsing

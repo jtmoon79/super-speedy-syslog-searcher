@@ -8,54 +8,20 @@ pub use crate::common::{
     CharSz,
 };
 
-use crate::common::{
-    Bytes,
-    ResultS4,
-};
-
 use crate::Readers::blockreader::{
-    BlockSz,
     BlockOffset,
-    BlockIndex,
     Slices,
 };
 
 use crate::Data::datetime::{
-    FixedOffset,
-    DateTimeL,
     DateTimeL_Opt,
-    DateTime_Parse_Data,
-    DateTime_Parse_Datas_vec,
-    //DateTimePattern,
-    //DateTimePattern_str,
-    DATETIME_PARSE_DATAS_VEC,
-    str_datetime,
-    dt_pass_filters,
-    dt_after_or_before,
-    Result_Filter_DateTime1,
-    Result_Filter_DateTime2,
-    slice_contains_X_2,
-    u8_to_str,
 };
 
 use crate::Readers::linereader::{
     LineIndex,
-    LinePart,
     Line,
     LineP,
     Lines,
-    LineReader,
-    ResultS4_LineFind,
-    enum_BoxPtrs,
-};
-
-use crate::Readers::summary::{
-    Summary,
-};
-
-#[cfg(any(debug_assertions,test))]
-use crate::dbgpr::printers::{
-    str_to_String_noraw,
 };
 
 use crate::printer::printers::{
@@ -71,17 +37,8 @@ use crate::dbgpr::stack::{
     sx,
 };
 
-use std::collections::{BTreeMap, HashMap};
 use std::fmt;
-use std::io;
-//use std::io::{Error, ErrorKind, Result, Seek, SeekFrom, Write};
-use std::io::{
-    Error,
-    Result,
-    ErrorKind,
-    //Seek,
-    //SeekFrom,
-};
+use std::io::Result;
 use std::io::prelude::*;
 use std::str;
 use std::sync::Arc;
@@ -90,29 +47,12 @@ extern crate chain_cmp;
 use chain_cmp::chmp;
 
 extern crate debug_print;
-use debug_print::{debug_eprint, debug_eprintln};
-
-extern crate lru;
-use lru::LruCache;
+use debug_print::debug_eprintln;
 
 extern crate more_asserts;
 use more_asserts::{
     assert_le,
     assert_lt,
-    assert_ge,
-    assert_gt,
-    debug_assert_le,
-    debug_assert_lt,
-    debug_assert_ge,
-    //debug_assert_gt,
-};
-
-extern crate rangemap;
-use rangemap::RangeMap;
-
-extern crate static_assertions;
-use static_assertions::{
-    const_assert,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

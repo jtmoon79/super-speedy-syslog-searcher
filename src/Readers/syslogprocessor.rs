@@ -18,12 +18,6 @@ use crate::Readers::blockreader::{
     ResultS3_ReadBlock,
 };
 
-use crate::printer::printers::{
-    Color,
-    ColorSpec,
-    WriteColor,
-};
-
 use crate::dbgpr::stack::{
     sn,
     snx,
@@ -33,12 +27,7 @@ use crate::dbgpr::stack::{
 
 use crate::Data::datetime::{
     FixedOffset,
-    DateTimeL,
     DateTimeL_Opt,
-};
-
-use crate::Data::line::{
-    BlockOffsets,
 };
 
 pub use crate::Readers::linereader::{
@@ -56,8 +45,6 @@ use crate::Readers::summary::{
     Summary,
 };
 
-use std::collections::BTreeSet;
-use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fmt;
 use std::io::{
@@ -65,10 +52,11 @@ use std::io::{
     Result,
     ErrorKind,
 };
-use std::sync::Arc;
 
 extern crate debug_print;
-use debug_print::{debug_eprint, debug_eprintln};
+use debug_print::{
+    debug_eprintln
+};
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
@@ -76,27 +64,8 @@ use lazy_static::lazy_static;
 extern crate mime_guess;
 use mime_guess::MimeGuess;
 
-extern crate mime_sniffer;
-use mime_sniffer::MimeTypeSniffer;  // adds extension method `sniff_mime_type` to `[u8]`
-
-extern crate more_asserts;
-use more_asserts::{
-    assert_le,
-    assert_lt,
-    assert_ge,
-    assert_gt,
-    debug_assert_le,
-    debug_assert_lt,
-    debug_assert_ge,
-};
-
 extern crate rangemap;
 use rangemap::RangeMap;
-
-extern crate static_assertions;
-use static_assertions::{
-    const_assert,
-};
 
 extern crate walkdir;
 
@@ -248,8 +217,9 @@ impl SyslogProcessor {
     }
 
     #[inline(always)]
+    #[allow(dead_code)]
     pub fn lines_count(&self) -> u64 {
-        self.syslinereader.linereader.lines_count
+        self.syslinereader.linereader.count_lines_processed()
     }
 
     #[inline(always)]
@@ -268,42 +238,50 @@ impl SyslogProcessor {
     }
 
     #[inline(always)]
+    #[allow(dead_code)]
     pub const fn path(&self) -> &FPath {
         self.syslinereader.path()
     }
 
     /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
+    #[allow(dead_code)]
     pub const fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         self.syslinereader.block_offset_at_file_offset(fileoffset)
     }
 
     /// return file_offset (file byte offset) at given `BlockOffset`
+    #[allow(dead_code)]
     pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         self.syslinereader.file_offset_at_block_offset(blockoffset)
     }
 
     /// return file_offset (file byte offset) at blockoffset+blockindex
+    #[allow(dead_code)]
     pub const fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         self.syslinereader
             .file_offset_at_block_offset_index(blockoffset, blockindex)
     }
 
     /// return block index at given `FileOffset`
+    #[allow(dead_code)]
     pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         self.syslinereader.block_index_at_file_offset(fileoffset)
     }
 
     /// return count of blocks in a file, also, the last blockoffset + 1
+    #[allow(dead_code)]
     pub const fn file_blocks_count(&self) -> u64 {
         self.syslinereader.file_blocks_count()
     }
 
     /// last valid `BlockOffset` of the file
+    #[allow(dead_code)]
     pub const fn blockoffset_last(&self) -> BlockOffset {
         self.syslinereader.blockoffset_last()
     }
 
     /// smallest size character in bytes
+    #[allow(dead_code)]
     pub const fn charsz(&self) -> usize {
         self.syslinereader.charsz()
     }
@@ -611,7 +589,7 @@ impl SyslogProcessor {
         let filetype = self.filetype();
         let BlockReader_bytes = self.syslinereader.linereader.blockreader.count_bytes();
         let BlockReader_bytes_total = self.filesz() as u64;
-        let BlockReader_blocks = self.syslinereader.linereader.blockreader.count_blocks();
+        let BlockReader_blocks = self.syslinereader.linereader.blockreader.count_blocks_processed();
         let BlockReader_blocks_total = self.syslinereader.linereader.blockreader.blockn;
         let BlockReader_blocksz = self.blocksz();
         let BlockReader_filesz = self.syslinereader.linereader.blockreader.filesz;

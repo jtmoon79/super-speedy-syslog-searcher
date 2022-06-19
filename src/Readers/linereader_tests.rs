@@ -1,8 +1,6 @@
 // Readers/linereader_tests.rs
 //
 
-use std::fs::File;
-
 use crate::common::{
     FPath,
     Bytes,
@@ -14,13 +12,10 @@ use crate::Readers::blockreader::{
 };
 
 use crate::Readers::filepreprocessor::{
-    path_to_filetype,
-    fpath_to_filetype,
     guess_filetype_from_fpath,
 };
 
-
-use crate::Readers::linereader::{
+use super::linereader::{
     FileOffset,
     ResultS4_LineFind,
     LineReader,
@@ -35,17 +30,12 @@ use crate::Readers::helpers::{
 
 use crate::dbgpr::helpers::{
     NamedTempFile,
-    tempdir,
     create_temp_file,
-    create_temp_file_with_name,
-    create_temp_file_with_name_exact,
     NTF_Path,
     eprint_file,
 };
 
 use crate::dbgpr::printers::{
-    //Color,
-    //print_colored_stdout,
     byte_to_char_noraw,
     buffer_to_String_noraw,
 };
@@ -66,7 +56,7 @@ use more_asserts::{
     assert_ge,
 };
 
-// -------------------------------------------------------------------------------------------------
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 lazy_static! {
     #[allow(non_upper_case_globals)]

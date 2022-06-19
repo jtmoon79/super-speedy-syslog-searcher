@@ -24,21 +24,17 @@ use crate::Readers::blockreader::{
     BlockOffset,
     BlockIndex,
     BlockP,
-    Slices,
     BlockReader,
     ResultS3_ReadBlock,
 };
 
 use crate::common::{
-    Bytes,
     ResultS4,
 };
 
 #[cfg(any(debug_assertions,test))]
 use crate::dbgpr::printers::{
     byte_to_char_noraw,
-    buffer_to_String_noraw,
-    char_to_char_noraw,
 };
 
 use crate::dbgpr::stack::{
@@ -51,18 +47,16 @@ use crate::dbgpr::stack::{
 use std::collections::BTreeMap;
 use std::collections::HashSet;
 use std::fmt;
-use std::io;
 use std::io::{
     Error,
     Result,
 };
-use std::io::prelude::*;
 use std::sync::Arc;
 
 extern crate debug_print;
-use debug_print::{debug_eprint, debug_eprintln};
+use debug_print::debug_eprintln;
 #[allow(unused_imports)]
-use debug_print::{debug_print, debug_println};
+use debug_print::{debug_eprint, debug_print, debug_println};
 
 extern crate lru;
 use lru::LruCache;
@@ -78,14 +72,7 @@ use mime::{
 
 extern crate more_asserts;
 use more_asserts::{
-    assert_le,
-    assert_lt,
     assert_ge,
-    assert_gt,
-    debug_assert_le,
-    debug_assert_lt,
-    //debug_assert_ge,
-    debug_assert_gt,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -125,8 +112,6 @@ pub struct LineReader {
     /// count of `Line`s processed.
     /// 
     /// Distinct from `self.lines.len()` as that may have contents removed when --streaming
-    ///
-    /// TODO: implement --streaming
     pub (crate) lines_count: u64,
     /// smallest size character in bytes
     /// TODO: handle char sizes > 1 byte, multi-byte encodings
@@ -248,6 +233,7 @@ impl LineReader {
     }
 
     /// enable internal LRU cache used by `find_line`
+    #[allow(dead_code)]
     pub fn LRU_cache_enable(&mut self) {
         if self._find_line_lru_cache_enabled {
             return;
@@ -337,6 +323,7 @@ impl LineReader {
 
     /// return file_offset (file byte offset) at given `BlockOffset`
     #[inline(always)]
+    #[allow(dead_code)]
     pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz())
     }
@@ -466,6 +453,7 @@ impl LineReader {
         }
     }
 
+    /*
     fn block_find_byte_forwards(&mut self, bof: BlockOffset, begin: Option<BlockIndex>, byte_: u8) -> ResultS3_find_byte
     {
         unimplemented!("NOT YET TESTED");
@@ -581,6 +569,7 @@ impl LineReader {
         debug_eprintln!("{}block_find_byte_forwards: return Done", so());
         return ResultS3_find_byte::Done;
     }
+    */
 
     #[inline(always)]
     fn check_store_LRU(&mut self, fileoffset: FileOffset) -> Option<ResultS4_LineFind> {

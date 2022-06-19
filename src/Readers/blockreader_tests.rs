@@ -6,12 +6,10 @@ use crate::common::{
 };
 
 use crate::Readers::filepreprocessor::{
-    path_to_filetype,
-    fpath_to_filetype,
     guess_filetype_from_fpath,
 };
 
-use crate::Readers::blockreader::{
+use super::blockreader::{
     FPath,
     FileOffset,
     BlockSz,
@@ -24,7 +22,6 @@ use crate::Readers::blockreader::{
 use crate::dbgpr::helpers::{
     NamedTempFile,
     create_temp_file,
-    create_temp_file_with_name,
     create_temp_file_with_name_exact,
     create_temp_file_with_suffix,
     create_temp_file_bytes_with_suffix,
@@ -38,7 +35,7 @@ use crate::dbgpr::stack::{
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
-// -------------------------------------------------------------------------------------------------
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// helper wrapper to create a new BlockReader
 fn new_BlockReader(path: FPath, blocksz: BlockSz) -> BlockReader {

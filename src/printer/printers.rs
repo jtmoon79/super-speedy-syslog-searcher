@@ -7,7 +7,11 @@ use std::io::Write;  // for `std::io::Stdout.flush`
 use std::io::Result;
 
 extern crate termcolor;
-pub use termcolor::{Color, ColorSpec, WriteColor};
+pub use termcolor::{
+    Color,
+    ColorSpec,
+    WriteColor
+};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // globals and constants

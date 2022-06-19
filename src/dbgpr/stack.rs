@@ -6,17 +6,13 @@
 use std::collections::HashMap;
 use std::thread;
 
-// force `cargo test` to find tests in `dbgpr_tests.rs`
-// XXX: is there a better way to do this?
-//#[cfg(test)]
-//#[path = "stack_tests.rs"]
-//mod stack_tests;
-
 extern crate debug_print;
 use debug_print::debug_eprintln;
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 type Map_ThreadId_SD<'a> = HashMap<thread::ThreadId, usize>;
 

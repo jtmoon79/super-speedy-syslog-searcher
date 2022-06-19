@@ -33,19 +33,19 @@ use std::collections::BTreeSet;
 use std::collections::HashSet;
 use std::fmt;
 use std::io::{
-    BufReader,
     Error,
     ErrorKind,
     Result,
     Seek,
     SeekFrom,
 };
-use std::io::prelude::*;
 use std::io::prelude::Read;
 use std::sync::Arc;
 
 extern crate debug_print;
-use debug_print::{debug_eprintln};
+use debug_print::{
+    debug_eprintln
+};
 
 extern crate lru;
 use lru::LruCache;
@@ -58,18 +58,14 @@ pub use mime_guess::{
 extern crate more_asserts;
 use more_asserts::{
     assert_le,
-    assert_lt,
     assert_ge,
-    assert_gt,
 };
 
 extern crate flate2;
-use flate2::read::{
-    GzDecoder,
-};
+use flate2::read::GzDecoder;
 use flate2::GzHeader;
 
-// -------------------------------------------------------------------------------------------------
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Block Size in bytes
 pub type BlockSz = u64;
@@ -621,6 +617,7 @@ impl BlockReader {
     }
 
     /// specific `BlockSz` (length) of block at `blockoffset`
+    #[allow(dead_code)]
     pub fn blocksz_at_blockoffset(&self, blockoffset: &BlockOffset) -> Option<BlockSz> {
         debug_eprintln!("{}blockreader.blocksz_at_blockoffset({})", snx(), blockoffset);
 
@@ -633,6 +630,7 @@ impl BlockReader {
     /// return block.len() for given block at `blockoffset`
     /// TODO: replace all uses of this `blocklen_at_blockoffset` with `blocksz_at_blockoffset`
     #[inline(always)]
+    #[allow(dead_code)]
     pub fn blocklen_at_blockoffset(&self, blockoffset: &BlockOffset) -> usize {
         match self.blocks.get(blockoffset) {
             Some(blockp) => {
@@ -644,6 +642,7 @@ impl BlockReader {
 
     /// return last valid BlockIndex for block at `blockoffset
     #[inline(always)]
+    #[allow(dead_code)]
     pub fn last_blockindex_at_blockoffset(&self, blockoffset: &BlockOffset) -> BlockIndex {
         (self.blocklen_at_blockoffset(blockoffset) - 1) as BlockIndex
     }
@@ -657,11 +656,12 @@ impl BlockReader {
         (BlockReader::file_blocks_count(self.filesz(), self.blocksz) as BlockOffset) - 1
     }
 
-    /// count of blocks stored by this `BlockReader` (adjusted during calls to `BlockReader::read_block`)
-    /// not the same as `self.blocks_read` or `self.count_bytes_`
+    /// count of blocks read by this `BlockReader` (adjusted during calls to `BlockReader::read_block`)
+    ///
+    /// not the same as blocks currently stored (they may be removed during streaming stage)
     #[inline(always)]
-    pub fn count_blocks(&self) -> u64 {
-        self.blocks.len() as u64
+    pub fn count_blocks_processed(&self) -> u64 {
+        self.blocks_read.len() as u64
     }
 
     /// count of bytes stored by this `BlockReader` (adjusted during calls to `BlockReader::read_block`)
@@ -670,16 +670,10 @@ impl BlockReader {
         self.count_bytes_
     }
 
-    /// has block at `blockoffset` been read/processed?
-    ///
-    /// during streaming, some key+value may be dropped from `self.blocks`
-    pub fn has_block(&self, blockoffset: &BlockOffset) -> bool {
-        self.blocks.contains_key(blockoffset)
-    }
-
     /// enable internal LRU cache used by `read_block`.
     ///
     /// intended to aid testing and debugging
+    #[allow(dead_code)]
     pub fn LRU_cache_enable(&mut self) {
         if self._read_block_lru_cache_enabled {
             return;
@@ -852,7 +846,7 @@ impl BlockReader {
                     return ResultS3_ReadBlock::Err(
                         Error::new(
                             ErrorKind::InvalidData,
-                            format!("GzDecoder.read() returned zero bytes for vec<u8> buffer of length {}, capacity {}; stuck at inflated byte {}, file {:?} size {}, size uncompressed {} (calculated from gzip header)", block.len(), block.capacity(), byte_at, self.path, self.filesz, self.filesz_actual)
+                            format!("GzDecoder.read() read zero bytes for vec<u8> buffer of length {}, capacity {}; stuck at inflated byte {}, size {}, size uncompressed {} (calculated from gzip header); {:?}", block.len(), block.capacity(), byte_at, self.filesz, self.filesz_actual, self.path)
                         )
                     );
                 },
@@ -885,8 +879,8 @@ impl BlockReader {
                     Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
-                            "GzDecoder.read() zero bytes from block {} (byte {}), filesz {}, filesz uncompressed {} (according to gzip header), {:?}",
-                            bo_at, byte_at, self.filesz, self.filesz_actual, self.path,
+                            "GzDecoder.read() read zero bytes from block {} (at byte {}), requested {} bytes. filesz {}, filesz uncompressed {} (according to gzip header), last block {}; {:?}",
+                            bo_at, byte_at, blocksz_u, self.filesz, self.filesz_actual, blockoffset_last, self.path,
                         )
                     )
                 );
@@ -898,7 +892,7 @@ impl BlockReader {
                         Error::new(
                             ErrorKind::InvalidData,
                             format!(
-                                "GzDecoder.read read {} bytes for block {} (byte {}) which is larger than blocksz {} for {:?}",
+                                "GzDecoder.read() read {} bytes for last block {} (at byte {}) which is larger than block size {} bytes; {:?}",
                                 blocklen_sz, bo_at, byte_at, self.blocksz, self.path,
                             )
                         )
@@ -906,13 +900,13 @@ impl BlockReader {
                 }
             } else if blocklen_sz != self.blocksz {
                 // not last block, is blocksz correct?
-                let byte_at = self.file_offset_at_block_offset_self(blockoffset);
+                let byte_at = self.file_offset_at_block_offset_self(blockoffset) + blocklen_sz;
                 return ResultS3_ReadBlock::Err(
                     Error::new(
                         ErrorKind::InvalidData,
                         format!(
-                            "GzDecoder.read read {} bytes for block {} (byte {}) expected to read blocksz {} bytes, blockoffset last {}, filesz {}, filesz uncompressed {} (according to gzip header), for {:?}",
-                            blocklen_sz, bo_at, byte_at, self.blocksz, blockoffset_last, self.filesz, self.filesz_actual, self.path,
+                            "GzDecoder.read() read only {} bytes for block {} expected to read {} bytes (block size), inflate stopped at byte {}. block last {}, filesz {}, filesz uncompressed {} (according to gzip header); {:?}",
+                            blocklen_sz, bo_at, self.blocksz, byte_at, blockoffset_last, self.filesz, self.filesz_actual, self.path,
                         )
                     )
                 );

@@ -3,7 +3,15 @@
 // tests for `stack.rs`
 //
 
-use super::stack::{so, sn, snx, sx, stack_offset};
+use super::stack::{
+    so,
+    sn,
+    snx,
+    sx,
+    stack_offset
+};
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// XXX: `test_stack_offset` requires human visual inspection
 #[test]

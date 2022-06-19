@@ -5,19 +5,8 @@
 
 use crate::common::{
     FPath,
-    FileOffset,
-    FileProcessingResult,
     FileType,
 };
-
-use crate::Readers::blockreader::{
-    BlockIndex,
-    BlockOffset,
-    BlockSz,
-    BlockP,
-    ResultS3_ReadBlock,
-};
-
 
 use crate::Readers::helpers::{
     path_to_fpath,
@@ -38,33 +27,13 @@ pub use crate::Readers::linereader::{
 use std::ffi::OsStr;
 
 extern crate debug_print;
-use debug_print::{
-    debug_eprint,
-    debug_eprintln
-};
+use debug_print::debug_eprintln;
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
-extern crate mime;
-use mime::Mime;
-
 extern crate mime_guess;
 use mime_guess::MimeGuess;
-
-extern crate mime_sniffer;
-use mime_sniffer::MimeTypeSniffer;  // adds extension method `sniff_mime_type` to `[u8]`
-
-extern crate more_asserts;
-use more_asserts::{
-    assert_le,
-    assert_lt,
-    assert_ge,
-    assert_gt,
-    debug_assert_le,
-    debug_assert_lt,
-    debug_assert_ge,
-};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // FilePreProcessor
@@ -97,8 +66,7 @@ use more_asserts::{
 //
 // LAST WORKING HERE 2022/06/06 the `struct FilePreProcessed` should be implemented
 //     it should hold the `ProcessPathResult`, `MimeGuess`, and other stuff collected
-//     during preprocessing here. Then pass that along to the `SyslogProcessor` which
-//     passes it along to `BlockReader`. Then remove duplicate code from `BlockReader::new`.
+//     during preprocessing here.
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
