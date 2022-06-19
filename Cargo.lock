@@ -1171,6 +1171,7 @@ dependencies = [
  "strum_macros",
  "tempfile",
  "termcolor",
+ "unicode-width",
  "unroll",
  "walkdir",
 ]

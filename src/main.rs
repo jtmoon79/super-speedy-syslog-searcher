@@ -752,6 +752,7 @@ BUG: 2022/06/18 if printing with color, and a multi-byte unicode character
 use std::collections::{
     HashMap,
     HashSet,
+    BTreeMap,
 };
 use std::fmt;
 //use std::fs::{File, Metadata, OpenOptions};
@@ -809,6 +810,8 @@ use debug_print::{
 };
 
 extern crate encoding_rs;
+
+extern crate unicode_width;
 
 //extern crate enum_utils;
 
@@ -1428,7 +1431,7 @@ type Thread_Init_Data4 = (
 type IsSyslineLast = bool;
 /// the data sent from file processing thread to the main processing thread
 type Chan_Datum = (SyslineP_Opt, Summary_Opt, IsSyslineLast);
-type Map_PathId_Datum = HashMap<PathId, Chan_Datum>;
+type Map_PathId_Datum = BTreeMap<PathId, Chan_Datum>;
 type Set_PathId = HashSet<PathId>;
 type Chan_Send_Datum = crossbeam_channel::Sender<Chan_Datum>;
 type Chan_Recv_Datum = crossbeam_channel::Receiver<Chan_Datum>;
@@ -1744,7 +1747,7 @@ impl SummaryPrinted {
 
 type SummaryPrinted_Opt = Option<SummaryPrinted>;
 
-type Map_PathId_SummaryPrint = HashMap::<PathId, SummaryPrinted>;
+type Map_PathId_SummaryPrint = BTreeMap::<PathId, SummaryPrinted>;
 
 // TODO: move into impl SummaryPrinted
 /// update the passed 
@@ -1876,10 +1879,10 @@ fn processing_loop(
     // create FPath->PathId lookup map
     // separate `ProcessPathResult`s into different collections, valid and invalid
     // `valid` is used extensively
-    let mut map_pathid_results: HashMap<PathId,ProcessPathResult> = HashMap::<PathId,ProcessPathResult>::with_capacity(file_count);
+    let mut map_pathid_results = HashMap::<PathId,ProcessPathResult>::with_capacity(file_count);
     // `invalid` is used to help summarize why some files were not processed
-    let mut map_pathid_results_invalid: HashMap<PathId,ProcessPathResult> = HashMap::<PathId,ProcessPathResult>::with_capacity(file_count);
-    let mut map_pathid_path = HashMap::<PathId, FPath>::with_capacity(file_count);
+    let mut map_pathid_results_invalid = HashMap::<PathId,ProcessPathResult>::with_capacity(file_count);
+    let mut map_pathid_path = BTreeMap::<PathId, FPath>::new();
     let mut pathid_counter: PathId = 0;
     for processpathresult in paths_results.drain(..)
     {
@@ -1902,25 +1905,21 @@ fn processing_loop(
     // XXX: sanity checks
     assert!(paths_results.is_empty(), "paths_results was not cleared, {} elements remain", paths_results.len());
     drop(paths_results);
-    drop(pathid_counter);
 
     let queue_sz_dt: usize = 10;
 
 
     // preprint the prepended name or path
-    //
-    // TODO: [2022/06/15] how to count "column width" of each `char` in the `String`?
-    //       SO Q: https://stackoverflow.com/questions/72612510/get-console-width-of-string
-    //       A: use https://crates.io/crates/unicode-width
-    //
     type PathId_PrependName = HashMap<PathId, String>;
     let mut pathid_to_prependname: PathId_PrependName;
     let mut prependname_width: usize = 0;
     if cli_opt_prepend_filename {
         if cli_opt_prepend_file_align {
-            for (pathid, path) in map_pathid_path.iter() {
+            for (_pathid, path) in map_pathid_path.iter() {
                 let bname: String = basename(path);
-                prependname_width = std::cmp::max(prependname_width, bname.chars().count())
+                prependname_width = std::cmp::max(
+                    prependname_width, unicode_width::UnicodeWidthStr::width(bname.as_str())
+                );
             }
         }
         pathid_to_prependname = PathId_PrependName::with_capacity(file_count);
@@ -1931,8 +1930,10 @@ fn processing_loop(
         }
     } else if cli_opt_prepend_filepath {
         if cli_opt_prepend_file_align {
-            for (pathid, path) in map_pathid_path.iter() {
-                prependname_width = std::cmp::max(prependname_width, path.chars().count())
+            for (_pathid, path) in map_pathid_path.iter() {
+                prependname_width = std::cmp::max(
+                    prependname_width, unicode_width::UnicodeWidthStr::width(path.as_str())
+                );
             }
         }
         pathid_to_prependname = PathId_PrependName::with_capacity(file_count);
@@ -1952,13 +1953,13 @@ fn processing_loop(
     // create necessary channels for each thread
     // launch each thread
     //
-    type Map_PathId_ChanRecvDatum = HashMap<PathId, Chan_Recv_Datum>;
+    type Map_PathId_ChanRecvDatum = BTreeMap<PathId, Chan_Recv_Datum>;
     type PathId_ChanRecvDatum<'a> = (PathId, &'a Chan_Recv_Datum);
     // pre-created mapping for calls to `select.recv` and `select.select`
     type Index_Select = HashMap<usize, PathId>;
     // mapping of PathId to received data. Most important collection for the remainder
     // of this function.
-    let mut map_pathid_chanrecvdatum = Map_PathId_ChanRecvDatum::with_capacity(file_count);
+    let mut map_pathid_chanrecvdatum = Map_PathId_ChanRecvDatum::new();
     // mapping PathId to colors for printing.
     let mut map_pathid_color = HashMap::<PathId, Color>::with_capacity(file_count);
     // mapping PathId to a `Summary` for `--summary`
@@ -2095,10 +2096,10 @@ fn processing_loop(
     //       but not an equivalent `map_path_slp`.
     //       In other words, break apart the passed `Chan_Datum` to the more specific maps.
     //
-    let mut map_pathid_datum = Map_PathId_Datum::with_capacity(file_count);
+    let mut map_pathid_datum = Map_PathId_Datum::new();
     // `set_pathid_datum` shadows `map_pathid_datum` for faster filters in `recv_many_chan`
     let mut set_pathid = Set_PathId::with_capacity(file_count);
-    let mut map_pathid_sumpr = Map_PathId_SummaryPrint::with_capacity(file_count);
+    let mut map_pathid_sumpr = Map_PathId_SummaryPrint::new();
     // crude debugging stats
     let mut _count_recv_ok: usize = 0;
     let mut _count_recv_di: usize = 0;
