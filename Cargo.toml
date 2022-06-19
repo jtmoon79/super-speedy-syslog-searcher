@@ -12,6 +12,7 @@ authors = ["James Thomas Moon"]
 license = "MIT"
 keywords = ["syslog", "search", "sort"]
 readme = "README.md"
+rust-version = "1.61"
 
 [dev-dependencies]
 arraystring = "0.3.0"
