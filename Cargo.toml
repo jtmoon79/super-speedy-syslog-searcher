@@ -5,12 +5,17 @@ name = "super_speedy_syslog_searcher"
 description = "A super speedy syslog searcher!"
 version = "0.0.16"
 edition = "2021"
-
-# See more keys and their definitions at
-# https://doc.rust-lang.org/cargo/reference/manifest.html
+homepage = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
+repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
+documentation = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
+authors = ["James Thomas Moon"]
+license = "MIT"
+keywords = ["syslog", "search", "sort"]
+readme = "README.md"
 
 [dev-dependencies]
 arraystring = "0.3.0"
+bstr = "0.2.17"
 criterion = "0.3.5"
 flamegraph = "0.6.1"
 jetscii = "0.5.1"
@@ -26,9 +31,7 @@ harness = false
 
 [dependencies]
 arrayref = "0.3.6"
-atty = "0.2.14"
 backtrace = "0.3.65"
-bstr = "0.2.17"
 chain-cmp =  "0.2.0"
 chrono = "0.4.19"
 clap = { version = "3.1.17", features = ["derive"] }
@@ -47,7 +50,6 @@ mut_static = "5.0.0"
 rand = "0.8.5"
 rangemap = "1.0.1"
 static_assertions = "1.1.0"
-strum_macros = "0.24.0"
 tempfile = "3.3.0"
 termcolor = "1.1.3"
 unicode-width = "0.1.9"

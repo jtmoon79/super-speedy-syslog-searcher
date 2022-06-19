@@ -758,8 +758,6 @@ use std::fmt;
 use std::str;
 use std::thread;
 
-extern crate atty;
-
 extern crate backtrace;
 
 extern crate chain_cmp;
@@ -793,8 +791,6 @@ use debug_print::{
     debug_print,
     debug_println
 };
-
-extern crate encoding_rs;
 
 extern crate unicode_width;
 
@@ -871,7 +867,6 @@ use Readers::syslogprocessor::{
 // command-line parsing
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-// XXX: unable to get `strum_macros::EnumString` to compile
 /// CLI enum that is mapped to `termcolor::ColorChoice`
 #[derive(
     Clone,
