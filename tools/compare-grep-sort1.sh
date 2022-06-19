@@ -2,8 +2,8 @@
 #
 # compare-grep-sort1.sh
 #
-# compare run time of `super_speedy_syslog_searcher` to Unix tools `grep` and `sort` (preferably GNU) 
-# passed arguments are forwarded to `/usr/bin/time`
+# compare run time of `super_speedy_syslog_searcher` to Unix tools `grep` and
+# `sort` (preferably GNU). Passed arguments are forwarded to `/usr/bin/time`
 #
 
 set -euo pipefail
