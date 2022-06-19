@@ -23,7 +23,7 @@ for a in "${@}"; do
     args2[${#args2[@]}]=${a}
 done
 
-target=$(ls -1tr target/debug/deps/super_speedy_syslog_searcher-* | tail -n1)
+target=$(ls -1tr target/debug/deps/s4-* | tail -n1)
 
 set -x
 

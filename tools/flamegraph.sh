@@ -44,18 +44,20 @@ fi
 #
 #" >&2
 
+declare -r bin=./target/release/s4
+
 export CARGO_PROFILE_RELEASE_DEBUG=true
 export RUST_BACKTRACE=1
 (
     set -x
     cargo flamegraph --version
     cargo flamegraph -v --deterministic -o 'flamegraph.svg' "${@}" -- \
-        ./target/release/super_speedy_syslog_searcher \
+        "${bin}" \
           -z 0x10000 -a '20000101T000100' \
            $(find ./logs/other/tests/ -type f -not \( -name '*.gz' -o -name '*.xz' -o -name '*.tar' -o -name '*.zip' -o -name 'invalid*' \) ) \
            >/dev/null
     #flamegraph -o flamegraph.svg \
-    #  ./target/release/super_speedy_syslog_searcher \
+    #  "${bin}" \
     #  --path $(find ./logs/other/tests/ -type f -not \( -name '*.gz' -o -name '*.xz' -o -name '*.tar' -o -name '*.zip' -o -name 'invalid*' \) ) \
     #  -- 0xFFFFF '20000101T000100' >/dev/null
 )

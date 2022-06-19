@@ -12,9 +12,9 @@ cd "$(dirname "${0}")/.."
     cargo build --release
 )
 
-prog="./target/release/super_speedy_syslog_searcher"
-if ! [[ -x "${prog}" ]]; then
-    echo "ERROR: cannot find or exec '$prog'" >&2
+bin="./target/release/s4"
+if ! [[ -x "${bin}" ]]; then
+    echo "ERROR: cannot find or exec '$bin'" >&2
     exit 1
 fi
 
@@ -82,25 +82,25 @@ for file_ in "${files[@]}"; do
             (
                 set +e
                 set -x
-                "${prog}" -z "${sz}" "${file_}"
+                "${bin}" -z "${sz}" "${file_}"
             ) | hexdump 
             echo "----------------------------------------------------------------------------------------------------"
             (
                 set +e
                 set -x
-                "${prog}" -z "${sz}" "${file_}"
+                "${bin}" -z "${sz}" "${file_}"
             )
             echo
             echo "----------------------------------------------------------------------------------------------------"
         fi
-        # run `$prog`, time it, hash output
+        # run `$bin`, time it, hash output
         echo
-        echo "${prog} -z ${sz} '${file_}'"
-        time md5_prog=$(
+        echo "${bin} -z ${sz} '${file_}'"
+        time md5_bin=$(
             set +e
-            "${prog}" -z ${sz} "${file_}" | md5sum
+            "${bin}" -z ${sz} "${file_}" | md5sum
         ) 2>&1
-        md5_prog=$(echo -n "${md5_prog}" | cut -f1 -d' ')
+        md5_bin=$(echo -n "${md5_bin}" | cut -f1 -d' ')
         # run `cat`, time it, hash output
         echo
         echo "cat '${file_}' | md5sum"
@@ -108,10 +108,10 @@ for file_ in "${files[@]}"; do
         md5_cat=$(echo -n "${md5_cat}" | cut -f1 -d' ')
         echo
         # compare hash output
-        if [[ "${md5_prog}" = "${md5_cat}" ]]; then
-            echo -e "\e[32m${md5_prog} = ${md5_cat}\e[39m"
+        if [[ "${md5_bin}" = "${md5_cat}" ]]; then
+            echo -e "\e[32m${md5_bin} = ${md5_cat}\e[39m"
         else
-            echo -e "\e[31m${md5_prog} ≠ ${md5_cat}\e[39m"
+            echo -e "\e[31m${md5_bin} ≠ ${md5_cat}\e[39m"
             exit 1
         fi
     done

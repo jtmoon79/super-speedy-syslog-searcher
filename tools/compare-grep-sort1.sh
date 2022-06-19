@@ -14,7 +14,7 @@ cd "$(dirname "${0}")/.."
 if [[ -d '.git' ]]; then
     (set -x; git log -n1 --format='%h %D')
 fi
-(set -x; ./target/release/super_speedy_syslog_searcher --version)
+(set -x; ./target/release/s4 --version)
 # use full path to Unix tools
 grep=$(which grep)
 (set -x; $grep --version) | head -n1
@@ -63,7 +63,7 @@ declare -ar s4_args=(
 #export RUST_BACKTRACE=1
 set -x
 $time -p "${@}" -- \
-    ./target/release/super_speedy_syslog_searcher \
+    ./target/release/s4 \
     "${s4_args[@]}" \
     "${files[@]}" \
     >/dev/null
@@ -86,7 +86,7 @@ $time -p "${@}" -- \
 
 # run both programs again, save output for comparison
 
-./target/release/super_speedy_syslog_searcher \
+./target/release/s4 \
     "${s4_args[@]}" \
     "${files[@]}" \
     > "${tmp1}"
