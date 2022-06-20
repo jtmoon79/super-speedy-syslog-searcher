@@ -8,6 +8,7 @@ on:
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
+  S4_TEST_FILES: ./logs/other/tests/dtf2-2.log ./logs/other/tests/dtf3-2a.log ./logs/other/tests/dtf5-6a.log.gz
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,6 +23,28 @@ jobs:
       - name: Run Tests
         run: cargo test -j1 --verbose -- --test-threads=1
       - name: Run Program Release
-        run: cargo run --release -- --color=never -l -s -n -w ./logs/other/tests/dtf2-2.log ./logs/other/tests/dtf3-1.log ./logs/other/tests/dtf5-6a.log.gz
+        run: |
+          set -eux
+          cargo build --release
+          ./target/release/s4 --help
+          ./target/release/s4 --color=never -l -s -n -w $S4_TEST_FILES
+          ./target/release/s4 --color=never -l -s -p -w $S4_TEST_FILES
+          ./target/release/s4 --color=never -u -s -n -w $S4_TEST_FILES
+          ./target/release/s4 --color=never -u -s -n -w $S4_TEST_FILES
+          ./target/release/s4 --color=always -l -s -n -w $S4_TEST_FILES
+          ./target/release/s4 --color=always -l -s -p -w $S4_TEST_FILES
+          ./target/release/s4 --color=always -u -s -n -w $S4_TEST_FILES
+          ./target/release/s4 --color=always -u -s -n -w $S4_TEST_FILES
       - name: Run Program Debug
-        run: cargo run -- --color=never -l -s -n -w ./logs/other/tests/dtf2-2.log ./logs/other/tests/dtf3-1.log ./logs/other/tests/dtf5-6a.log.gz
+        run: |
+          set -eux
+          cargo build
+          ./target/debug/s4 --help
+          ./target/debug/s4 --color=never -l -s -n -w $S4_TEST_FILES
+          ./target/debug/s4 --color=never -l -s -p -w $S4_TEST_FILES
+          ./target/debug/s4 --color=never -u -s -n -w $S4_TEST_FILES
+          ./target/debug/s4 --color=never -u -s -n -w $S4_TEST_FILES
+          ./target/debug/s4 --color=always -l -s -n -w $S4_TEST_FILES
+          ./target/debug/s4 --color=always -l -s -p -w $S4_TEST_FILES
+          ./target/debug/s4 --color=always -u -s -n -w $S4_TEST_FILES
+          ./target/debug/s4 --color=always -u -s -n -w $S4_TEST_FILES
