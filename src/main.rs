@@ -692,7 +692,7 @@ TODO: 2022/06/13 consistent naming:
       function names are `count_this` and `this_count`. Same for field names.
       Typical rust phraseology is `verb_object`
 
-TODO: 2022/06/14 add typing for file size, put in common.rs and use
+DONE: TODO: 2022/06/14 add typing for file size, put in common.rs and use
          pub type FileSz = u64;
 
 LAST WORKING ON 2022/06/14 00:09:03
@@ -730,7 +730,7 @@ LAST WORKING ON 2022/06/14 00:09:03
 
 TODO: BUG: 2022/06/14 passing same file twice on CLI results in channels getting disconnected too soon
 
-LAST WORKING ON 2022/06/17 21:44:03 implemented streaming mode, but not seeing the
+DONE: LAST WORKING ON 2022/06/17 21:44:03 implemented streaming mode, but not seeing the
      memory savings I expected. So far, I have only used `htop` to look at
      basic process memory.
      use more precise tool like `valgrind-dhat.sh`

@@ -10,6 +10,7 @@ pub use crate::common::{
 };
 
 use crate::common::{
+    FileSz,
     Bytes,
     ResultS4,
 };
@@ -307,7 +308,7 @@ impl SyslineReader {
     }
 
     #[inline(always)]
-    pub const fn filesz(&self) -> u64 {
+    pub const fn filesz(&self) -> FileSz {
         self.linereader.filesz()
     }
 

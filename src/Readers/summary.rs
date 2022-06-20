@@ -5,6 +5,7 @@ use std::fmt;
 
 use crate::common::{
     FileType,
+    FileSz,
 };
 
 use crate::Readers::blockreader::{
@@ -43,9 +44,9 @@ pub struct Summary {
     /// `BlockSz` of `BlockReader`
     pub BlockReader_blocksz: BlockSz,
     /// `filesz()` of file, size of file on disk
-    pub BlockReader_filesz: u64,
+    pub BlockReader_filesz: FileSz,
     /// `filesz()` of file, for compressed files this is the uncompressed filesz
-    pub BlockReader_filesz_actual: u64,
+    pub BlockReader_filesz_actual: FileSz,
     /// count of `Lines` processed by `LineReader`
     pub LineReader_lines: u64,
     /// count of `Syslines` processed by `SyslineReader`
@@ -122,8 +123,8 @@ impl Summary {
         BlockReader_blocks: u64,
         BlockReader_blocks_total: u64,
         BlockReader_blocksz: BlockSz,
-        BlockReader_filesz: u64,
-        BlockReader_filesz_actual: u64,
+        BlockReader_filesz: FileSz,
+        BlockReader_filesz_actual: FileSz,
         LineReader_lines: u64,
         SyslineReader_syslines: u64,
         SyslineReader_syslines_hit: u64,

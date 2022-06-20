@@ -5,6 +5,7 @@ pub use crate::common::{
     FPath,
     FileOffset,
     FileType,
+    FileSz,
     CharSz,
     NLu8,
     ResultS3,
@@ -205,7 +206,7 @@ impl LineReader {
 
     /// File Size in bytes
     #[inline(always)]
-    pub const fn filesz(&self) -> u64 {
+    pub const fn filesz(&self) -> FileSz {
         self.blockreader.filesz()
     }
 

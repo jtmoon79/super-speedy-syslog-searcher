@@ -7,6 +7,7 @@ use crate::common::{
     FileOffset,
     FileProcessingResult,
     FileType,
+    FileSz,
     SYSLOG_SZ_MAX,
 };
 
@@ -228,7 +229,7 @@ impl SyslogProcessor {
     }
 
     #[inline(always)]
-    pub const fn filesz(&self) -> u64 {
+    pub const fn filesz(&self) -> FileSz {
         self.syslinereader.filesz()
     }
 

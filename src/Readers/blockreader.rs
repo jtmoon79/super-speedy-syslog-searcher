@@ -6,6 +6,7 @@ pub use crate::common::{
     FPath,
     FileOffset,
     FileType,
+    FileSz,
 };
 
 use crate::common::{
@@ -106,7 +107,7 @@ pub const BLOCKSZ_DEFs: &str = "0xFFFF";
 #[derive(Debug)]
 pub struct GzData {
     /// size of file uncompressed, taken from trailing gzip file data
-    pub filesz: u64,
+    pub filesz: FileSz,
     /// calls to `read` use this
     pub decoder: GzDecoder<File>,
     /// filename taken from gzip header
@@ -151,7 +152,7 @@ pub struct BlockReader {
     /// Should always be `== gz.unwrap().filesz`.
     ///
     /// Users should always call `filesz()`.
-    pub(crate) filesz_actual: u64,
+    pub(crate) filesz_actual: FileSz,
     /// File size in bytes of file at `path`, actual size.
     /// For compressed files, this is the size of the file compressed.
     /// For the uncompressed size of a compressed file, see `filesz_actual`.
@@ -161,7 +162,7 @@ pub struct BlockReader {
     /// `filesz` and `filesz_actual` will be the same.
     ///
     /// Users should always call `filesz()`.
-    pub(crate) filesz: u64,
+    pub(crate) filesz: FileSz,
     /// File size in blocks, set in `open`
     pub(crate) blockn: u64,
     /// BlockSz used for read operations.
@@ -289,7 +290,7 @@ impl BlockReader {
     ///      So there is no certain way to determine the size of the "media stream".
     ///      This terrible hack just aborts processing .gz files that might be over that
     ///      size.
-    const GZ_MAX_SZ: u64 = 0x20000000;
+    const GZ_MAX_SZ: FileSz = 0x20000000;
     /// cache slots for `read_block` LRU cache
     const READ_BLOCK_LRU_CACHE_SZ: usize = 4;
 
@@ -319,15 +320,15 @@ impl BlockReader {
                 return Err(err);
             }
         };
-        let filesz: u64;
-        let filesz_actual: u64;
+        let filesz: FileSz;
+        let filesz_actual: FileSz;
         let blocksz: BlockSz;
         let blockn: u64;
         let file_metadata: FileMetadata;
         let gz_opt: Option<GzData>;
         match file.metadata() {
             Ok(val) => {
-                filesz = val.len();
+                filesz = val.len() as FileSz;
                 file_metadata = val;
             }
             Err(err) => {
@@ -350,7 +351,7 @@ impl BlockReader {
             FileType::FILE => {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
-                blockn = BlockReader::file_blocks_count(filesz, blocksz);
+                blockn = BlockReader::file_blocks_count(filesz as FileOffset, blocksz);
                 gz_opt = None;
             },
             FileType::FILE_GZ => {
@@ -442,7 +443,7 @@ impl BlockReader {
                 debug_eprintln!("{}BlockReader::new: buffer_size {:?}", so(), buffer_size);
                 let size: u32 = dword_to_u32(&buffer_size);
                 debug_eprintln!("{}BlockReader::new: file size uncompressed {:?} (0x{:08X})", so(), size, size);
-                let filesz_uncompressed: u64 = size as u64;
+                let filesz_uncompressed: FileSz = size as FileSz;
                 if filesz_uncompressed == 0 {
                     debug_eprintln!("{}BlockReader::new: return Err(InvalidData)", sx());
                     return Result::Err(
@@ -540,7 +541,7 @@ impl BlockReader {
         self.mimeguess_
     }
 
-    pub const fn filesz(&self) -> u64 {
+    pub const fn filesz(&self) -> FileSz {
         match self.filetype {
             FileType::FILE_GZ => {
                 self.filesz_actual
@@ -613,7 +614,7 @@ impl BlockReader {
 
     /// return count of blocks in a file
     #[inline(always)]
-    pub const fn file_blocks_count(filesz: FileOffset, blocksz: BlockSz) -> u64 {
+    pub const fn file_blocks_count(filesz: FileSz, blocksz: BlockSz) -> u64 {
         filesz / blocksz + (if filesz % blocksz > 0 { 1 } else { 0 })
     }
 

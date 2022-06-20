@@ -12,6 +12,7 @@ pub type FPath = String;
 pub type FPaths = Vec::<FPath>;
 pub type FileMetadata = std::fs::Metadata;
 pub type FileOpenOptions = std::fs::OpenOptions;
+pub type FileSz = u64;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // custom Results enums for various *Reader functions
