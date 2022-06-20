@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # build & upload release
+      - uses: actions/checkout@v2
       - name: Build Release
         run: |
           cargo build --release --verbose
@@ -42,11 +43,13 @@ jobs:
   job_bench:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Build Bench
         run: cargo bench --no-run
   job_test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Run Tests
         run: cargo test -j1 --verbose -- --test-threads=1
   job_run_debug:
@@ -54,6 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # download & run debug
+      - uses: actions/checkout@v2
       - name: Download debug binary
         uses: actions/download-artifact@v3
         with:
@@ -76,6 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # download & run release
+      - uses: actions/checkout@v2
       - name: Download release binary
         uses: actions/download-artifact@v3
         with:
