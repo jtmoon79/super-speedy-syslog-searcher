@@ -2286,7 +2286,7 @@ fn processing_loop(
 
 // -------------------------------------------------------------------------------------------------
 
-/// helper function to print the `summary.patterns` Vec (requires it's own line)
+/// print the `summary.patterns` Vec (one line)
 fn patterns_dbg(summary: &Summary) -> String {
     // `cap` is a rough capacity estimation
     let cap: usize = summary.SyslineReader_patterns.len() * 150;
@@ -2300,7 +2300,7 @@ fn patterns_dbg(summary: &Summary) -> String {
     out
 }
 
-/// helper function to print the `summary.dt_first` `summary.dt_last` (requires it's own line)
+/// print the `summary.dt_first` `summary.dt_last` (one line)
 fn first_last_dbg(summary: &Summary) -> String {
     format!(
         "dt_first {:?}, dt_last {:?}",
@@ -2309,7 +2309,7 @@ fn first_last_dbg(summary: &Summary) -> String {
     )
 }
 
-/// helper function to print the filepath name (one line)
+/// print the filepath name (one line)
 fn print_filepath(
     path: &FPath,
     color: &Color,
@@ -2325,7 +2325,7 @@ fn print_filepath(
     eprintln!();
 }
 
-/// helper function to print the &Summary_Opt (one line)
+/// print the `&Summary_Opt` (one line)
 fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
     match summary_opt {
         Some(summary) => {
@@ -2342,7 +2342,7 @@ fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
     }
 }
 
-/// helper function to print the &SummaryPrinted_Opt (one line)
+/// print the `&SummaryPrinted_Opt` (one line)
 fn print_summary_opt_printed(
     summary_print_opt: &SummaryPrinted_Opt,
     summary_opt: &Summary_Opt,
@@ -2361,7 +2361,7 @@ fn print_summary_opt_printed(
     eprintln!();
 }
 
-/// helper function to print the various caching statistics (several lines)
+/// print the various `Summary` caching and storage statistics (multiple lines)
 fn print_cache_stats(summary_opt: &Summary_Opt) {
     if summary_opt.is_none() {
         return;
@@ -2402,7 +2402,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
         &summary.SyslineReader_syslines_by_range_miss,
     );
     eprintln!(
-        "{}caching: SyslineReader::find_sysline() syslines_by_range_map           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, insert {:wide$}",
+        "{}caching: SyslineReader::find_sysline() syslines_by_range_map           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         SPACING_LEAD,
         summary.SyslineReader_syslines_by_range_hit,
         summary.SyslineReader_syslines_by_range_miss,
@@ -2416,7 +2416,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
         &summary.SyslineReader_find_sysline_lru_cache_miss,
     );
     eprintln!(
-        "{}caching: SyslineReader::find_sysline() LRU cache                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
+        "{}caching: SyslineReader::find_sysline() LRU cache                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         SPACING_LEAD,
         summary.SyslineReader_find_sysline_lru_cache_hit,
         summary.SyslineReader_find_sysline_lru_cache_miss,
@@ -2430,7 +2430,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
         &summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
     );
     eprintln!(
-        "{}caching: SyslineReader::parse_datetime_in_line() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
+        "{}caching: SyslineReader::parse_datetime_in_line() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         SPACING_LEAD,
         summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
         summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
@@ -2457,7 +2457,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
         &summary.LineReader_find_line_lru_cache_miss,
     );
     eprintln!(
-        "{}caching: LineReader::find_line() LRU cache                             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
+        "{}caching: LineReader::find_line() LRU cache                             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         SPACING_LEAD,
         summary.LineReader_find_line_lru_cache_hit,
         summary.LineReader_find_line_lru_cache_miss,
@@ -2471,7 +2471,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
         &summary.BlockReader_read_blocks_miss,
     );
     eprintln!(
-        "{}storage: BlockReader::read_block() blocks                              : hit {:wide$}, miss {:wide$}, ratio {:1.2}, insert {:wide$}",
+        "{}storage: BlockReader::read_block() blocks                              : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         SPACING_LEAD,
         summary.BlockReader_read_blocks_hit,
         summary.BlockReader_read_blocks_miss,
@@ -2485,7 +2485,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
         &summary.BlockReader_read_block_lru_cache_miss,
     );
     eprintln!(
-        "{}caching: BlockReader::read_block() LRU cache                           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put    {:wide$}",
+        "{}caching: BlockReader::read_block() LRU cache                           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         SPACING_LEAD,
         summary.BlockReader_read_block_lru_cache_hit,
         summary.BlockReader_read_block_lru_cache_miss,
@@ -2495,7 +2495,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
     );
 }
 
-/// helper function to print the various drop error statistics
+/// print the various `Summary` drop error statistics (multiple lines)
 fn print_drop_stats(summary_opt: &Summary_Opt) {
     if summary_opt.is_none() {
         return;
@@ -2525,7 +2525,7 @@ fn print_drop_stats(summary_opt: &Summary_Opt) {
     );
 }
 
-/// helper function to print the error, if any
+/// print the `Summary.Error_`, if any (one line)
 fn print_error(summary_opt: &Summary_Opt, color_choice: &termcolor::ColorChoice) {
     match summary_opt.as_ref() {
         Some(summary_) => {
@@ -2533,6 +2533,7 @@ fn print_error(summary_opt: &Summary_Opt, color_choice: &termcolor::ColorChoice)
                 Some(err_string) => {
                     eprint!("{}Error: ", SPACING_LEAD);
                     match print_colored_stderr(Color::Red, Some(*color_choice), err_string.as_bytes()) {
+                        Err(_err) => {},
                         _ => {},
                     }
                     eprintln!();
@@ -2544,6 +2545,7 @@ fn print_error(summary_opt: &Summary_Opt, color_choice: &termcolor::ColorChoice)
     }
 }
 
+/// for one file, print the `Summary` and `SummaryPrinted` (multiple lines)
 fn print_file_summary(
     path: &FPath,
     summary_opt: &Summary_Opt,
@@ -2565,6 +2567,7 @@ fn print_file_summary(
 }
 
 /// printing for CLI option `--summary`
+/// print each files' `Summary` and `SummaryPrinted`
 ///
 /// helper to `processing_loop`
 fn print_all_files_summaries(
