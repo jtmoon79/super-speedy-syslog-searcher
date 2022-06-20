@@ -281,31 +281,31 @@ fn test_filetype_FILEGZ_gz() {
 
 /// quick self-test
 #[test]
-fn test_file_blocks_count() {
-    eprintln!("test_file_blocks_count()");
-    assert_eq!(1, BlockReader::file_blocks_count(1, 1));
-    assert_eq!(2, BlockReader::file_blocks_count(2, 1));
-    assert_eq!(3, BlockReader::file_blocks_count(3, 1));
-    assert_eq!(4, BlockReader::file_blocks_count(4, 1));
-    assert_eq!(1, BlockReader::file_blocks_count(1, 2));
-    assert_eq!(1, BlockReader::file_blocks_count(2, 2));
-    assert_eq!(2, BlockReader::file_blocks_count(3, 2));
-    assert_eq!(2, BlockReader::file_blocks_count(4, 2));
-    assert_eq!(3, BlockReader::file_blocks_count(5, 2));
-    assert_eq!(1, BlockReader::file_blocks_count(1, 3));
-    assert_eq!(1, BlockReader::file_blocks_count(2, 3));
-    assert_eq!(1, BlockReader::file_blocks_count(3, 3));
-    assert_eq!(2, BlockReader::file_blocks_count(4, 3));
-    assert_eq!(1, BlockReader::file_blocks_count(1, 4));
-    assert_eq!(1, BlockReader::file_blocks_count(4, 4));
-    assert_eq!(2, BlockReader::file_blocks_count(5, 4));
-    assert_eq!(1, BlockReader::file_blocks_count(4, 5));
-    assert_eq!(1, BlockReader::file_blocks_count(5, 5));
-    assert_eq!(2, BlockReader::file_blocks_count(6, 5));
-    assert_eq!(2, BlockReader::file_blocks_count(10, 5));
-    assert_eq!(3, BlockReader::file_blocks_count(11, 5));
-    assert_eq!(3, BlockReader::file_blocks_count(15, 5));
-    assert_eq!(4, BlockReader::file_blocks_count(16, 5));
+fn test_count_blocks() {
+    eprintln!("test_count_blocks()");
+    assert_eq!(1, BlockReader::count_blocks(1, 1));
+    assert_eq!(2, BlockReader::count_blocks(2, 1));
+    assert_eq!(3, BlockReader::count_blocks(3, 1));
+    assert_eq!(4, BlockReader::count_blocks(4, 1));
+    assert_eq!(1, BlockReader::count_blocks(1, 2));
+    assert_eq!(1, BlockReader::count_blocks(2, 2));
+    assert_eq!(2, BlockReader::count_blocks(3, 2));
+    assert_eq!(2, BlockReader::count_blocks(4, 2));
+    assert_eq!(3, BlockReader::count_blocks(5, 2));
+    assert_eq!(1, BlockReader::count_blocks(1, 3));
+    assert_eq!(1, BlockReader::count_blocks(2, 3));
+    assert_eq!(1, BlockReader::count_blocks(3, 3));
+    assert_eq!(2, BlockReader::count_blocks(4, 3));
+    assert_eq!(1, BlockReader::count_blocks(1, 4));
+    assert_eq!(1, BlockReader::count_blocks(4, 4));
+    assert_eq!(2, BlockReader::count_blocks(5, 4));
+    assert_eq!(1, BlockReader::count_blocks(4, 5));
+    assert_eq!(1, BlockReader::count_blocks(5, 5));
+    assert_eq!(2, BlockReader::count_blocks(6, 5));
+    assert_eq!(2, BlockReader::count_blocks(10, 5));
+    assert_eq!(3, BlockReader::count_blocks(11, 5));
+    assert_eq!(3, BlockReader::count_blocks(15, 5));
+    assert_eq!(4, BlockReader::count_blocks(16, 5));
 }
 
 /// quick self-test

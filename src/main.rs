@@ -799,6 +799,7 @@ use std::fmt::Display;
 
 mod common;
 use crate::common::{
+    Count,
     FPath,
     FPaths,
     FileOffset,
@@ -1072,7 +1073,7 @@ struct CLI_Args {
 /// CLI argument processing
 fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     // TODO: there must be a more concise way to parse numbers with radix formatting
-    let blocksz_: u64;
+    let blocksz_: BlockSz;
     let errs = format!("Unable to parse a number for --blocksz {:?}", blockszs);
 
     if blockszs.starts_with("0x") {
@@ -1555,11 +1556,11 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
 #[derive(Copy, Clone, Default)]
 pub struct SummaryPrinted {
     /// count of bytes printed
-    pub bytes: u64,
+    pub bytes: Count,
     /// count of `Lines` printed
-    pub lines: u64,
+    pub lines: Count,
     /// count of `Syslines` printed
-    pub syslines: u64,
+    pub syslines: Count,
     /// last datetime printed
     pub dt_first: DateTimeL_Opt,
     pub dt_last: DateTimeL_Opt,
@@ -2039,8 +2040,8 @@ fn processing_loop(
     let mut set_pathid = Set_PathId::with_capacity(file_count);
     let mut map_pathid_sumpr = Map_PathId_SummaryPrint::new();
     // crude debugging stats
-    let mut chan_recv_ok: u64 = 0;
-    let mut chan_recv_err: u64 = 0;
+    let mut chan_recv_ok: Count = 0;
+    let mut chan_recv_err: Count = 0;
     let mut summaryprinted: SummaryPrinted = SummaryPrinted::default();
 
     let color_default = Color::White;

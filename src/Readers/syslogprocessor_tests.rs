@@ -165,7 +165,7 @@ fn _test_blockzero_analysis(
 
     let result = sp1.blockzero_analysis();
     assert_eq!(result, expect_result, "blockzero_analysis() result {:?}, expected {:?}", result, expect_result);
-    let line_count_ = sp1.lines_count();
+    let line_count_ = sp1.count_lines();
     assert_eq!(
         expect_line_count, line_count_,
         "blockzero_analysis expected {:?} line count, got {:?} line count for {:?}", expect_line_count, line_count_, path,

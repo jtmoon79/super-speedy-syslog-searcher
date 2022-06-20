@@ -9,10 +9,14 @@ pub use std::path::Path;
 // TODO: use `std::path::Path` for `FPath`
 /// `F`ake `Path` or `F`ile `Path`
 pub type FPath = String;
+/// a sequence of `FPath`
 pub type FPaths = Vec::<FPath>;
 pub type FileMetadata = std::fs::Metadata;
 pub type FileOpenOptions = std::fs::OpenOptions;
+/// File Size in bytes
 pub type FileSz = u64;
+// general purpose counting variables
+pub type Count = u64;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // custom Results enums for various *Reader functions
@@ -367,7 +371,7 @@ impl FileType {
 /// Offset into a file in bytes
 pub type FileOffset = u64;
 
-/// Sequence of Bytes
+/// A `Vec` of `u8`
 pub type Bytes = Vec<u8>;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -3,6 +3,7 @@
 // …
 
 use crate::common::{
+    Count,
     FPath,
     FileOffset,
     FileProcessingResult,
@@ -91,7 +92,7 @@ enum ProcessingMode {
 }
 
 type BszRange = std::ops::Range<BlockSz>;
-type Map_BszRange_To_Count = RangeMap<u64, u64>;
+type Map_BszRange_To_Count = RangeMap<u64, Count>;
 
 lazy_static! {
     // for files in blockzero_analyis, the number `Line` needed to found within
@@ -219,7 +220,7 @@ impl SyslogProcessor {
 
     #[inline(always)]
     #[allow(dead_code)]
-    pub fn lines_count(&self) -> u64 {
+    pub fn count_lines(&self) -> Count {
         self.syslinereader.linereader.count_lines_processed()
     }
 
@@ -271,8 +272,8 @@ impl SyslogProcessor {
 
     /// return count of blocks in a file, also, the last blockoffset + 1
     #[allow(dead_code)]
-    pub const fn file_blocks_count(&self) -> u64 {
-        self.syslinereader.file_blocks_count()
+    pub const fn count_blocks(&self) -> Count {
+        self.syslinereader.count_blocks()
     }
 
     /// last valid `BlockOffset` of the file
@@ -463,9 +464,9 @@ impl SyslogProcessor {
         let blocksz0: BlockSz = (*blockp).len() as BlockSz;
         let mut fo: FileOffset = 0;
         // how many syslines have been found?
-        let mut found: u64 = 0;
+        let mut found: Count = 0;
         // must find at least this many syslines in block zero to be FILE_OK
-        let found_min: u64 = *BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP.get(&blocksz0).unwrap();
+        let found_min: Count = *BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP.get(&blocksz0).unwrap();
         debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines: block zero blocksz {} found_min {:?}", sx(), blocksz0, found_min);
         // find `at_max` Syslines within block zero
         while found < found_min {
@@ -524,9 +525,9 @@ impl SyslogProcessor {
         let blocksz0: BlockSz = (*blockp).len() as BlockSz;
         let mut fo: FileOffset = 0;
         // how many lines have been found?
-        let mut found: u64 = 0;
+        let mut found: Count = 0;
         // must find at least this many lines in block zero to be FILE_OK
-        let found_min: u64 = *BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP.get(&blocksz0).unwrap();
+        let found_min: Count = *BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP.get(&blocksz0).unwrap();
         debug_eprintln!("{}syslogprocessor.blockzero_analysis_lines: block zero blocksz {} found_min {}", sx(), blocksz0, found_min);
         // find `found_min` Lines or whatever can be found within block 0
         while found < found_min {
@@ -589,7 +590,7 @@ impl SyslogProcessor {
     pub fn summary(&self) -> Summary {
         let filetype = self.filetype();
         let BlockReader_bytes = self.syslinereader.linereader.blockreader.count_bytes();
-        let BlockReader_bytes_total = self.filesz() as u64;
+        let BlockReader_bytes_total = self.filesz() as FileSz;
         let BlockReader_blocks = self.syslinereader.linereader.blockreader.count_blocks_processed();
         let BlockReader_blocks_total = self.syslinereader.linereader.blockreader.blockn;
         let BlockReader_blocksz = self.blocksz();

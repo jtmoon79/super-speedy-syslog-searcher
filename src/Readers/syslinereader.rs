@@ -10,6 +10,7 @@ pub use crate::common::{
 };
 
 use crate::common::{
+    Count,
     FileSz,
     Bytes,
     ResultS4,
@@ -114,7 +115,7 @@ use static_assertions::{
 
 // TODO: how to do this a bit more efficiently, and not store an entire copy?
 /// count of datetime format strings used
-type DateTime_Pattern_Counts = HashMap<DateTime_Parse_Data, u64>;
+type DateTime_Pattern_Counts = HashMap<DateTime_Parse_Data, Count>;
 /// return type for `SyslineReader::find_datetime_in_line`
 /// TODO: change to `Option`
 pub type Result_FindDateTime = Result<(DateTime_Parse_Data, DateTimeL)>;
@@ -150,20 +151,20 @@ pub struct SyslineReader {
     /// Syslines keyed by fileoffset_begin
     pub(crate) syslines: Syslines,
     /// count of Syslines processed
-    syslines_count: u64,
+    syslines_count: Count,
     /// internal stats for `self.find_sysline()` use of `self.syslines`
-    pub(crate) _syslines_hit: u64,
+    pub(crate) _syslines_hit: Count,
     /// internal stats for `self.find_sysline()` use of `self.syslines`
-    pub(crate) _syslines_miss: u64,
+    pub(crate) _syslines_miss: Count,
     /// Syslines fileoffset by sysline fileoffset range, i.e. `[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`
     /// the stored value can be used as a key for `self.syslines`
     syslines_by_range: SyslinesRangeMap,
     /// internal stats for `self.find_sysline()` use of `self.syslines_by_range`
-    pub(crate) _syslines_by_range_hit: u64,
+    pub(crate) _syslines_by_range_hit: Count,
     /// internal stats for `self.find_sysline()` use of `self.syslines_by_range`
-    pub(crate) _syslines_by_range_miss: u64,
+    pub(crate) _syslines_by_range_miss: Count,
     /// internal stats for `self.find_sysline()` use of `self.syslines_by_range`
-    pub(crate) _syslines_by_range_insert: u64,
+    pub(crate) _syslines_by_range_insert: Count,
     /// datetime formatting patterns, for finding datetime strings from Lines
     /// TODO: change to a `Set`
     pub(crate) dt_patterns: DateTime_Parse_Datas_vec,
@@ -178,39 +179,36 @@ pub struct SyslineReader {
     /// internal use; counts found patterns stored in `dt_patterns`
     /// not used after `analyzed == true`
     dt_patterns_counts: DateTime_Pattern_Counts,
-    /// default FixedOffset for found `DateTime` without timezone
+    /// default FixedOffset for a found `DateTime` without timezone
     tz_offset: FixedOffset,
-    /// TODO: is the LRU cache really helping?
+    /// enable or disable the internal LRU cache for `find_sysline()`
     _find_sysline_lru_cache_enabled: bool,
     /// internal LRU cache for `find_sysline()`. maintained in `SyslineReader::find_sysline`
     /// TODO: remove `pub(crate)`
     pub(crate) _find_sysline_lru_cache: SyslinesLRUCache,
-    /// internal stats for `self.find_sysline()`
-    pub(crate) _find_sysline_lru_cache_hit: u64,
-    /// internal stats for `self.find_sysline()`
-    pub(crate) _find_sysline_lru_cache_miss: u64,
-    /// internal stats for `self.find_sysline()`
-    pub(crate) _find_sysline_lru_cache_put: u64,
+    /// internal LRU cache lookup hits
+    pub(crate) _find_sysline_lru_cache_hit: Count,
+    /// internal LRU cache lookup misses
+    pub(crate) _find_sysline_lru_cache_miss: Count,
+    /// internal LRU cache lookup `.put`
+    pub(crate) _find_sysline_lru_cache_put: Count,
     /// enable/disable `_parse_datetime_in_line_lru_cache`
     _parse_datetime_in_line_lru_cache_enabled: bool,
     /// internal cache of calls to `SyslineReader::parse_datetime_in_line()`. maintained in `SyslineReader::find_sysline()`
     _parse_datetime_in_line_lru_cache: LineParsedCache,
     /// internal stats for `self._parse_datetime_in_line_lru_cache`
-    pub(crate) _parse_datetime_in_line_lru_cache_hit: u64,
+    pub(crate) _parse_datetime_in_line_lru_cache_hit: Count,
     /// internal stats for `self._parse_datetime_in_line_lru_cache`
-    pub(crate) _parse_datetime_in_line_lru_cache_miss: u64,
+    pub(crate) _parse_datetime_in_line_lru_cache_miss: Count,
     /// internal stats for `self._parse_datetime_in_line_lru_cache`
-    pub(crate) _parse_datetime_in_line_lru_cache_put: u64,
+    pub(crate) _parse_datetime_in_line_lru_cache_put: Count,
     /// has `self.file_analysis` completed?
     analyzed: bool,
-    // internal cache: allocate this once (or at least, few times)
-    // instead of allocating one for every call to `drop_block_impl`
-    //drop_block_fo_keys: Vec<FileOffset>,
     /// count of Ok to Arc::try_unwrap(syslinep), effectively a count of
     /// `Sysline` dropped
-    pub(crate) drop_sysline_ok: u64,
+    pub(crate) drop_sysline_ok: Count,
     /// count of failures to Arc::try_unwrap(syslinep)
-    pub(crate) drop_sysline_errors: u64,
+    pub(crate) drop_sysline_errors: Count,
 }
 
 // TODO: [2021/09/19]
@@ -344,8 +342,8 @@ impl SyslineReader {
     }
 
     /// return count of blocks in a file, also, the last blockoffset + 1
-    pub const fn file_blocks_count(&self) -> u64 {
-        self.linereader.file_blocks_count()
+    pub const fn count_blocks(&self) -> Count {
+        self.linereader.count_blocks()
     }
 
     /// last valid `BlockOffset` of the file
@@ -359,7 +357,7 @@ impl SyslineReader {
     }
 
     /// count of `Sysline`s processed, i.e. `self.syslines_count`
-    pub fn count_syslines_processed(&self) -> u64 {
+    pub fn count_syslines_processed(&self) -> Count {
         self.syslines_count
     }
 

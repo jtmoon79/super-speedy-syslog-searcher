@@ -2,6 +2,7 @@
 //
 
 pub use crate::common::{
+    Count,
     FPath,
     FileOffset,
     FileType,
@@ -98,15 +99,15 @@ pub struct LineReader {
     /// key value `FileOffset` should agree with `(*LineP).fileoffset_begin()`
     pub lines: FoToLine,
     /// internal stats - hits in `find_line()` and other
-    pub(crate) _lines_hits: u64,
+    pub(crate) _lines_hits: Count,
     /// internal stats - misses in `find_line()` and other
-    pub(crate) _lines_miss: u64,
+    pub(crate) _lines_miss: Count,
     /// for all `Lines`, map `Line.fileoffset_end` to `Line.fileoffset_beg`
     foend_to_fobeg: FoToFo,
     /// count of `Line`s processed.
     /// 
     /// Distinct from `self.lines.len()` as that may have contents removed when --streaming
-    pub (crate) lines_count: u64,
+    pub (crate) lines_processed: Count,
     /// smallest size character in bytes
     /// TODO: handle char sizes > 1 byte, multi-byte encodings
     charsz_: CharSz,
@@ -115,16 +116,16 @@ pub struct LineReader {
     /// internal LRU cache for `find_line`
     /// TODO: remove `pub(crate)`
     pub(crate) _find_line_lru_cache: LinesLRUCache,
-    /// internal stats
-    pub(crate) _find_line_lru_cache_hit: u64,
-    /// internal stats
-    pub(crate) _find_line_lru_cache_miss: u64,
-    /// internal stats
-    pub(crate) _find_line_lru_cache_put: u64,
+    /// internal LRU cache count of lookup hit
+    pub(crate) _find_line_lru_cache_hit: Count,
+    /// internal LRU cache count of lookup miss
+    pub(crate) _find_line_lru_cache_miss: Count,
+    /// internal LRU cache count of `put`
+    pub(crate) _find_line_lru_cache_put: Count,
     /// count of Ok to Arc::try_unwrap(linep), effectively count of dropped `Line`
-    pub(crate) drop_line_ok: u64,
+    pub(crate) drop_line_ok: Count,
     /// count of failures to Arc::try_unwrap(linep)
-    pub(crate) drop_line_errors: u64,
+    pub(crate) drop_line_errors: Count,
 }
 
 impl fmt::Debug for LineReader {
@@ -179,7 +180,7 @@ impl LineReader {
                 _lines_hits: 0,
                 _lines_miss: 0,
                 foend_to_fobeg: FoToFo::new(),
-                lines_count: 0,
+                lines_processed: 0,
                 charsz_: CHARSZ,
                 _find_line_lru_cache_enabled: true,
                 _find_line_lru_cache: LinesLRUCache::new(LineReader::FIND_LINE_LRC_CACHE_SZ),
@@ -303,10 +304,10 @@ impl LineReader {
         eprintln!("{}LineReader.copy_all_lines()", sx());
     }
 
-    /// count of lines processed by this `LineReader` (i.e. `self.lines_count`)
+    /// count of lines processed by this `LineReader` (i.e. `self.lines_processed`)
     #[inline(always)]
-    pub fn count_lines_processed(&self) -> u64 {
-        self.lines_count
+    pub fn count_lines_processed(&self) -> Count {
+        self.lines_processed
     }
 
     /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
@@ -336,8 +337,8 @@ impl LineReader {
 
     /// return count of blocks in a file, also, the last blockoffset + 1
     #[inline(always)]
-    pub const fn file_blocks_count(&self) -> u64 {
-        BlockReader::file_blocks_count(self.filesz(), self.blocksz())
+    pub const fn count_blocks(&self) -> Count {
+        BlockReader::count_blocks(self.filesz(), self.blocksz()) as Count
     }
 
     /// last valid `BlockOffset` for the file (inclusive)
@@ -374,7 +375,7 @@ impl LineReader {
         debug_eprintln!("{}LineReader.insert_line: foend_to_fobeg.insert({}, {})", so(), fo_end, fo_beg);
         debug_assert!(!self.foend_to_fobeg.contains_key(&fo_end), "self.foend_to_fobeg already contains key {}", fo_end);
         self.foend_to_fobeg.insert(fo_end, fo_beg);
-        self.lines_count += 1;
+        self.lines_processed += 1;
         debug_eprintln!("{}LineReader.insert_line() returning @{:p}", sx(), linep);
 
         linep

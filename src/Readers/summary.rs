@@ -4,6 +4,7 @@
 use std::fmt;
 
 use crate::common::{
+    Count,
     FileType,
     FileSz,
 };
@@ -34,13 +35,13 @@ use more_asserts::{
 pub struct Summary {
     pub filetype: FileType,
     /// count of bytes stored by `BlockReader`
-    pub BlockReader_bytes: u64,
+    pub BlockReader_bytes: Count,
     /// count of bytes in file
-    pub BlockReader_bytes_total: u64,
+    pub BlockReader_bytes_total: FileSz,
     /// count of `Block`s read by `BlockReader`
-    pub BlockReader_blocks: u64,
+    pub BlockReader_blocks: Count,
     /// count of `Block`s in file
-    pub BlockReader_blocks_total: u64,
+    pub BlockReader_blocks_total: Count,
     /// `BlockSz` of `BlockReader`
     pub BlockReader_blocksz: BlockSz,
     /// `filesz()` of file, size of file on disk
@@ -48,19 +49,19 @@ pub struct Summary {
     /// `filesz()` of file, for compressed files this is the uncompressed filesz
     pub BlockReader_filesz_actual: FileSz,
     /// count of `Lines` processed by `LineReader`
-    pub LineReader_lines: u64,
+    pub LineReader_lines: Count,
     /// count of `Syslines` processed by `SyslineReader`
-    pub SyslineReader_syslines: u64,
+    pub SyslineReader_syslines: Count,
     /// `SyslineReader::_syslines_hit`
-    pub SyslineReader_syslines_hit: u64,
+    pub SyslineReader_syslines_hit: Count,
     /// `SyslineReader::_syslines_miss`
-    pub SyslineReader_syslines_miss: u64,
+    pub SyslineReader_syslines_miss: Count,
     /// `SyslineReader::_syslines_by_range_hit`
-    pub SyslineReader_syslines_by_range_hit: u64,
+    pub SyslineReader_syslines_by_range_hit: Count,
     /// `SyslineReader::_syslines_by_range_miss`
-    pub SyslineReader_syslines_by_range_miss: u64,
+    pub SyslineReader_syslines_by_range_miss: Count,
     /// `SyslineReader::_syslines_by_range_insert`
-    pub SyslineReader_syslines_by_range_insert: u64,
+    pub SyslineReader_syslines_by_range_insert: Count,
     /// datetime patterns used by `SyslineReader`
     pub SyslineReader_patterns: DateTime_Parse_Datas_vec,
     /// datetime soonest seen (not necessarily reflective of entire file)
@@ -68,47 +69,47 @@ pub struct Summary {
     /// datetime latest seen (not necessarily reflective of entire file)
     pub SyslineReader_pattern_last: DateTimeL_Opt,
     /// `SyslineReader::find_sysline`
-    pub SyslineReader_find_sysline_lru_cache_hit: u64,
+    pub SyslineReader_find_sysline_lru_cache_hit: Count,
     /// `SyslineReader::find_sysline`
-    pub SyslineReader_find_sysline_lru_cache_miss: u64,
+    pub SyslineReader_find_sysline_lru_cache_miss: Count,
     /// `SyslineReader::find_sysline`
-    pub SyslineReader_find_sysline_lru_cache_put: u64,
+    pub SyslineReader_find_sysline_lru_cache_put: Count,
     /// `SyslineReader::parse_datetime_in_line`
-    pub SyslineReader_parse_datetime_in_line_lru_cache_hit: u64,
+    pub SyslineReader_parse_datetime_in_line_lru_cache_hit: Count,
     /// `SyslineReader::parse_datetime_in_line`
-    pub SyslineReader_parse_datetime_in_line_lru_cache_miss: u64,
+    pub SyslineReader_parse_datetime_in_line_lru_cache_miss: Count,
     /// `SyslineReader::parse_datetime_in_line`
-    pub SyslineReader_parse_datetime_in_line_lru_cache_put: u64,
+    pub SyslineReader_parse_datetime_in_line_lru_cache_put: Count,
     /// `LineReader::find_line` `self.lines`
-    pub LineReader_lines_hit: u64,
+    pub LineReader_lines_hit: Count,
     /// `LineReader::find_line` `self.lines`
-    pub LineReader_lines_miss: u64,
+    pub LineReader_lines_miss: Count,
     /// `LineReader::find_line()` `self._find_line_lru_cache`
-    pub LineReader_find_line_lru_cache_hit: u64,
+    pub LineReader_find_line_lru_cache_hit: Count,
     /// `LineReader::find_line()` `self._find_line_lru_cache`
-    pub LineReader_find_line_lru_cache_miss: u64,
+    pub LineReader_find_line_lru_cache_miss: Count,
     /// `LineReader::find_line()` `self._find_line_lru_cache`
-    pub LineReader_find_line_lru_cache_put: u64,
+    pub LineReader_find_line_lru_cache_put: Count,
     /// `BlockReader::read_block`
-    pub BlockReader_read_block_lru_cache_hit: u64,
+    pub BlockReader_read_block_lru_cache_hit: Count,
     /// `BlockReader::read_block`
-    pub BlockReader_read_block_lru_cache_miss: u64,
+    pub BlockReader_read_block_lru_cache_miss: Count,
     /// `BlockReader::read_block`
-    pub BlockReader_read_block_lru_cache_put: u64,
+    pub BlockReader_read_block_lru_cache_put: Count,
     /// `BlockReader::read_block`
-    pub BlockReader_read_blocks_hit: u64,
+    pub BlockReader_read_blocks_hit: Count,
     /// `BlockReader::read_block`
-    pub BlockReader_read_blocks_miss: u64,
+    pub BlockReader_read_blocks_miss: Count,
     /// `BlockReader::read_block`
-    pub BlockReader_read_blocks_insert: u64,
+    pub BlockReader_read_blocks_insert: Count,
     /// `LineReader::drop_line_ok`
-    pub LineReader_drop_line_ok: u64,
+    pub LineReader_drop_line_ok: Count,
     /// `LineReader::drop_line_errors`
-    pub LineReader_drop_line_errors: u64,
+    pub LineReader_drop_line_errors: Count,
     /// `SyslineReader::drop_sysline_ok`
-    pub SyslineReader_drop_sysline_ok: u64,
+    pub SyslineReader_drop_sysline_ok: Count,
     /// `SyslineReader::drop_sysline_errors`
-    pub SyslineReader_drop_sysline_errors: u64,
+    pub SyslineReader_drop_sysline_errors: Count,
     /// the last IO error as a String, if any
     /// (`Error` does not implement `Clone`)
     pub Error_: Option<String>,
@@ -118,44 +119,44 @@ impl Summary {
     #[allow(clippy::too_many_arguments)]
     pub fn new(
         filetype: FileType,
-        BlockReader_bytes: u64,
-        BlockReader_bytes_total: u64,
-        BlockReader_blocks: u64,
-        BlockReader_blocks_total: u64,
+        BlockReader_bytes: Count,
+        BlockReader_bytes_total: FileSz,
+        BlockReader_blocks: Count,
+        BlockReader_blocks_total: Count,
         BlockReader_blocksz: BlockSz,
         BlockReader_filesz: FileSz,
         BlockReader_filesz_actual: FileSz,
-        LineReader_lines: u64,
-        SyslineReader_syslines: u64,
-        SyslineReader_syslines_hit: u64,
-        SyslineReader_syslines_miss: u64,
-        SyslineReader_syslines_by_range_hit: u64,
-        SyslineReader_syslines_by_range_miss: u64,
-        SyslineReader_syslines_by_range_insert: u64,
+        LineReader_lines: Count,
+        SyslineReader_syslines: Count,
+        SyslineReader_syslines_hit: Count,
+        SyslineReader_syslines_miss: Count,
+        SyslineReader_syslines_by_range_hit: Count,
+        SyslineReader_syslines_by_range_miss: Count,
+        SyslineReader_syslines_by_range_insert: Count,
         SyslineReader_patterns: DateTime_Parse_Datas_vec,
         SyslineReader_pattern_first: DateTimeL_Opt,
         SyslineReader_pattern_last: DateTimeL_Opt,
-        SyslineReader_find_sysline_lru_cache_hit: u64,
-        SyslineReader_find_sysline_lru_cache_miss: u64,
-        SyslineReader_find_sysline_lru_cache_put: u64,
-        SyslineReader_parse_datetime_in_line_lru_cache_hit: u64,
-        SyslineReader_parse_datetime_in_line_lru_cache_miss: u64,
-        SyslineReader_parse_datetime_in_line_lru_cache_put: u64,
-        LineReader_lines_hit: u64,
-        LineReader_lines_miss: u64,
-        LineReader_find_line_lru_cache_hit: u64,
-        LineReader_find_line_lru_cache_miss: u64,
-        LineReader_find_line_lru_cache_put: u64,
-        BlockReader_read_block_lru_cache_hit: u64,
-        BlockReader_read_block_lru_cache_miss: u64,
-        BlockReader_read_block_lru_cache_put: u64,
-        BlockReader_read_blocks_hit: u64,
-        BlockReader_read_blocks_miss: u64,
-        BlockReader_read_blocks_insert: u64,
-        LineReader_drop_line_ok: u64,
-        LineReader_drop_line_errors: u64,
-        SyslineReader_drop_sysline_ok: u64,
-        SyslineReader_drop_sysline_errors: u64,
+        SyslineReader_find_sysline_lru_cache_hit: Count,
+        SyslineReader_find_sysline_lru_cache_miss: Count,
+        SyslineReader_find_sysline_lru_cache_put: Count,
+        SyslineReader_parse_datetime_in_line_lru_cache_hit: Count,
+        SyslineReader_parse_datetime_in_line_lru_cache_miss: Count,
+        SyslineReader_parse_datetime_in_line_lru_cache_put: Count,
+        LineReader_lines_hit: Count,
+        LineReader_lines_miss: Count,
+        LineReader_find_line_lru_cache_hit: Count,
+        LineReader_find_line_lru_cache_miss: Count,
+        LineReader_find_line_lru_cache_put: Count,
+        BlockReader_read_block_lru_cache_hit: Count,
+        BlockReader_read_block_lru_cache_miss: Count,
+        BlockReader_read_block_lru_cache_put: Count,
+        BlockReader_read_blocks_hit: Count,
+        BlockReader_read_blocks_miss: Count,
+        BlockReader_read_blocks_insert: Count,
+        LineReader_drop_line_ok: Count,
+        LineReader_drop_line_errors: Count,
+        SyslineReader_drop_sysline_ok: Count,
+        SyslineReader_drop_sysline_errors: Count,
         Error_: Option<String>,
     ) -> Summary {
         // some sanity checks
@@ -211,7 +212,7 @@ impl Summary {
 
     /// return maximum value for hit/miss/insert number.
     /// helpful for format widths
-    pub fn max_hit_miss(&self) -> u64 {
+    pub fn max_hit_miss(&self) -> Count {
         *[
             self.SyslineReader_syslines_hit,
             self.SyslineReader_syslines_miss,
@@ -242,7 +243,7 @@ impl Summary {
 
     /// return maximum value for drop number.
     /// helpful for format widths
-    pub fn max_drop(&self) -> u64 {
+    pub fn max_drop(&self) -> Count {
         *[
             self.LineReader_drop_line_ok,
             self.LineReader_drop_line_errors,

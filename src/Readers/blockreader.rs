@@ -3,6 +3,7 @@
 // Blocks and BlockReader implementations
 
 pub use crate::common::{
+    Count,
     FPath,
     FileOffset,
     FileType,
@@ -170,7 +171,7 @@ pub struct BlockReader {
     /// Count of bytes stored by the `BlockReader`.
     /// May not match `self.blocks.iter().map(|x| sum += x.len()); sum` as
     /// `self.blocks` may have some elements `drop`ped during streaming.
-    count_bytes_: u64,
+    count_bytes_: Count,
     /// Storage of blocks `read` from storage. Lookups O(log(n)).
     ///
     /// During file processing, some elements that are not needed may be `drop`ped.
@@ -184,18 +185,18 @@ pub struct BlockReader {
     _read_block_lru_cache: BlocksLRUCache,
     /// enable/disable use of `_read_block_lru_cache`
     _read_block_lru_cache_enabled: bool,
-    /// internal stats tracking
-    pub(crate) _read_block_cache_lru_hit: u64,
-    /// internal stats tracking
-    pub(crate) _read_block_cache_lru_miss: u64,
-    /// internal stats tracking
-    pub(crate) _read_block_cache_lru_put: u64,
-    /// internal stats tracking
-    pub(crate) _read_blocks_hit: u64,
-    /// internal stats tracking
-    pub(crate) _read_blocks_miss: u64,
-    /// internal stats tracking
-    pub(crate) _read_blocks_insert: u64,
+    /// internal LRU cache lookup hits
+    pub(crate) _read_block_cache_lru_hit: Count,
+    /// internal LRU cache lookup misses
+    pub(crate) _read_block_cache_lru_miss: Count,
+    /// internal LRU cache lookup `.put`
+    pub(crate) _read_block_cache_lru_put: Count,
+    /// internal storage lookup hit
+    pub(crate) _read_blocks_hit: Count,
+    /// internal storage lookup miss
+    pub(crate) _read_blocks_miss: Count,
+    /// internal storage `.insert`
+    pub(crate) _read_blocks_insert: Count,
 }
 
 impl fmt::Debug for BlockReader {
@@ -323,7 +324,7 @@ impl BlockReader {
         let filesz: FileSz;
         let filesz_actual: FileSz;
         let blocksz: BlockSz;
-        let blockn: u64;
+        let blockn: Count;
         let file_metadata: FileMetadata;
         let gz_opt: Option<GzData>;
         match file.metadata() {
@@ -351,7 +352,7 @@ impl BlockReader {
             FileType::FILE => {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
-                blockn = BlockReader::file_blocks_count(filesz as FileOffset, blocksz);
+                blockn = BlockReader::count_blocks(filesz as FileOffset, blocksz);
                 gz_opt = None;
             },
             FileType::FILE_GZ => {
@@ -454,7 +455,7 @@ impl BlockReader {
                     );
                 }
                 filesz_actual = filesz_uncompressed;
-                blockn = BlockReader::file_blocks_count(filesz, blocksz);
+                blockn = BlockReader::count_blocks(filesz, blocksz);
 
                 //let mut open_options = FileOpenOptions::new();
                 debug_eprintln!("{}BlockReader::new: open_options.read(true).open({:?})", so(), path_std);
@@ -614,7 +615,7 @@ impl BlockReader {
 
     /// return count of blocks in a file
     #[inline(always)]
-    pub const fn file_blocks_count(filesz: FileSz, blocksz: BlockSz) -> u64 {
+    pub const fn count_blocks(filesz: FileSz, blocksz: BlockSz) -> Count {
         filesz / blocksz + (if filesz % blocksz > 0 { 1 } else { 0 })
     }
 
@@ -655,20 +656,20 @@ impl BlockReader {
         if self.filesz() == 0 {
             return 0;
         }
-        (BlockReader::file_blocks_count(self.filesz(), self.blocksz) as BlockOffset) - 1
+        (BlockReader::count_blocks(self.filesz(), self.blocksz) as BlockOffset) - 1
     }
 
     /// count of blocks read by this `BlockReader` (adjusted during calls to `BlockReader::read_block`)
     ///
     /// not the same as blocks currently stored (they may be removed during streaming stage)
     #[inline(always)]
-    pub fn count_blocks_processed(&self) -> u64 {
-        self.blocks_read.len() as u64
+    pub fn count_blocks_processed(&self) -> Count {
+        self.blocks_read.len() as Count
     }
 
     /// count of bytes stored by this `BlockReader` (adjusted during calls to `BlockReader::read_block`)
     #[inline(always)]
-    pub fn count_bytes(&self) -> u64 {
+    pub fn count_bytes(&self) -> Count {
         self.count_bytes_
     }
 
@@ -741,7 +742,7 @@ impl BlockReader {
             _ => {},
         }
         self._read_blocks_insert += 1;
-        self.count_bytes_ += (*blockp).len() as u64;
+        self.count_bytes_ += (*blockp).len() as Count;
         if let false = self.blocks_read.insert(blockoffset) {
             eprintln!("WARNING: blockreader.blocks_read({}) already had a entry", blockoffset);
         }

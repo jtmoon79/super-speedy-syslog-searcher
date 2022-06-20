@@ -2,6 +2,7 @@
 //
 
 pub use crate::common::{
+    Count,
     FPath,
     FileOffset,
     CharSz,
@@ -181,8 +182,8 @@ impl LinePart {
 
     /// count of bytes of this `LinePart`
     /// XXX: `count_bytes` and `len` is overlapping and confusing.
-    pub fn count_bytes(&self) -> u64 {
-        (self.len() * LinePart::CHARSZ) as u64
+    pub fn count_bytes(&self) -> Count {
+        (self.len() * LinePart::CHARSZ) as Count
     }
 
     #[allow(non_snake_case)]
@@ -420,8 +421,8 @@ impl Line {
     }
 
     /// sum of `LinePart.count_bytes`
-    pub fn count_bytes(self: &Line) -> u64 {
-        let mut cb: u64 = 0;
+    pub fn count_bytes(self: &Line) -> Count {
+        let mut cb: Count = 0;
         for lp in self.lineparts.iter() {
             cb += lp.count_bytes();
         }
@@ -504,8 +505,8 @@ impl Line {
         slices
     }
 
-    /// return a count of `[u8]` slices that make up this `Line`
-    pub fn get_slices_count(self: &Line) -> usize {
+    /// return a count of slices that make up this `Line`
+    pub fn count_slices(self: &Line) -> usize {
         self.lineparts.len()
     }
 

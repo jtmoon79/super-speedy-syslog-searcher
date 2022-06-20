@@ -2,6 +2,7 @@
 //
 
 pub use crate::common::{
+    Count,
     FPath,
     FileOffset,
     NLu8,
@@ -215,16 +216,17 @@ impl Sysline {
     /// count of `Line` in `self.lines`
     ///
     /// TODO: return `usize`, let callers change as needed
-    pub fn count_lines(self: &Sysline) -> u64 {
-        self.lines.len() as u64
+    pub fn count_lines(self: &Sysline) -> Count {
+        self.lines.len() as Count
     }
 
     /// sum of `Line.count_bytes`
-    pub fn count_bytes(self: &Sysline) -> u64 {
-        let mut cb = 0;
+    pub fn count_bytes(self: &Sysline) -> Count {
+        let mut cb: Count = 0;
         for ln in self.lines.iter() {
             cb += ln.count_bytes();
         }
+
         cb
     }
 
@@ -280,7 +282,7 @@ impl Sysline {
 
         let linep: &LineP = &self.lines[line_num];
         // TODO: prehandle common case `self.lines.len() == 0`
-        let count: usize = linep.get_slices_count();
+        let count: usize = linep.count_slices();
         let mut slices: Slices = Slices::with_capacity(count);
         slices.extend(linep.get_slices().iter());
 
@@ -297,7 +299,7 @@ impl Sysline {
     pub fn get_slices(self: &Sysline) -> Slices {
         let mut count: usize = 0;
         for lp in &self.lines {
-            count += lp.get_slices_count();
+            count += lp.count_slices();
         }
         // TODO: prehandle common case where `count==1`
         let mut slices = Slices::with_capacity(count);
