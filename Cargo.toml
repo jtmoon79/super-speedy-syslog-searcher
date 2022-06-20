@@ -3,7 +3,7 @@
 [package]
 name = "super_speedy_syslog_searcher"
 description = "A super speedy syslog searcher!"
-version = "0.0.17"
+version = "0.0.18"
 edition = "2021"
 homepage = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
 repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
