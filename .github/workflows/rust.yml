@@ -66,6 +66,7 @@ jobs:
       - name: Run Program Debug
         run: |
           set -eux
+          chmod -v +x ./s4
           ./s4 --help
           ./s4 --color=never -l -s -n -w $S4_TEST_FILES
           ./s4 --color=never -l -s -p -w $S4_TEST_FILES
@@ -87,6 +88,7 @@ jobs:
       - name: Run Program Release
         run: |
           set -eux
+          chmod -v +x ./s4
           ./s4 --help
           ./s4 --color=never -l -s -n -w $S4_TEST_FILES
           ./s4 --color=never -l -s -p -w $S4_TEST_FILES
