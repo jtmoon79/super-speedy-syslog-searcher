@@ -38,7 +38,10 @@ jobs:
         with:
           name: s4_release
           path: ./s4
+      # bench sanity check, do not run them
+      - name: Bench
         run: cargo bench --no-run
+      # tests
       - name: Run Tests
         run: cargo test -j1 --verbose -- --test-threads=1
   job_run_debug:
