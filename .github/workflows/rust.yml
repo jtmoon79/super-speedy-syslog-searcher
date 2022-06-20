@@ -12,7 +12,7 @@ env:
                  ./logs/other/tests/dtf3-2a.log
                  ./logs/other/tests/dtf5-6a.log.gz
 jobs:
-  job_build_debug:
+  job_build_debug_release_test:
     runs-on: ubuntu-latest
     steps:
       # build & upload debug
@@ -22,40 +22,27 @@ jobs:
           set -eux
           cargo build --verbose
           cp -av ./target/debug/s4 ./s4
-      - name: upload build debug binary
+      - name: Upload debug binary
         uses: actions/upload-artifact@v3
         with:
           name: s4_debug
           path: ./s4
-  job_build_release:
-    runs-on: ubuntu-latest
-    steps:
       # build & upload release
-      - uses: actions/checkout@v2
       - name: Build Release
         run: |
           set -eux
           cargo build --release --verbose
           cp -av ./target/release/s4 ./s4
-      - name: upload build release binary
+      - name: Upload release binary
         uses: actions/upload-artifact@v3
         with:
           name: s4_release
           path: ./s4
-  job_bench:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build Bench
         run: cargo bench --no-run
-  job_test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
       - name: Run Tests
         run: cargo test -j1 --verbose -- --test-threads=1
   job_run_debug:
-    needs: job_build_debug
+    needs: job_build_debug_release_test
     runs-on: ubuntu-latest
     steps:
       # download & run debug
@@ -77,7 +64,7 @@ jobs:
           ./s4 --color=always -u -s -n -w $S4_TEST_FILES
           ./s4 --color=always -u -s -n -w $S4_TEST_FILES
   job_run_release:
-    needs: job_build_release
+    needs: job_build_debug_release_test
     runs-on: ubuntu-latest
     steps:
       # download & run release
