@@ -19,6 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Debug
         run: |
+          set -eux
           cargo build --verbose
           cp -av ./target/debug/s4 ./s4
       - name: upload build debug binary
@@ -33,6 +34,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Release
         run: |
+          set -eux
           cargo build --release --verbose
           cp -av ./target/release/s4 ./s4
       - name: upload build release binary
@@ -65,7 +67,6 @@ jobs:
       - name: Run Program Debug
         run: |
           set -eux
-          cargo build
           ./s4 --help
           ./s4 --color=never -l -s -n -w $S4_TEST_FILES
           ./s4 --color=never -l -s -p -w $S4_TEST_FILES
@@ -88,7 +89,6 @@ jobs:
       - name: Run Program Release
         run: |
           set -eux
-          cargo build --release
           ./s4 --help
           ./s4 --color=never -l -s -n -w $S4_TEST_FILES
           ./s4 --color=never -l -s -p -w $S4_TEST_FILES
