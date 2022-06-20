@@ -59,7 +59,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # download & run debug
-      - uses: actions/checkout@v2
       - name: Download debug binary
         uses: actions/download-artifact@v3
         with:
@@ -81,7 +80,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # download & run release
-      - uses: actions/checkout@v2
       - name: Download release binary
         uses: actions/download-artifact@v3
         with:
