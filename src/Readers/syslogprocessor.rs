@@ -598,31 +598,31 @@ impl SyslogProcessor {
         let BlockReader_filesz_actual = self.syslinereader.linereader.blockreader.filesz_actual;
         let LineReader_lines = self.syslinereader.linereader.count_lines_processed();
         let SyslineReader_syslines = self.syslinereader.count_syslines_processed();
-        let SyslineReader_syslines_hit = self.syslinereader._syslines_hit;
-        let SyslineReader_syslines_miss = self.syslinereader._syslines_miss;
-        let SyslineReader_syslines_by_range_hit = self.syslinereader._syslines_by_range_hit;
-        let SyslineReader_syslines_by_range_miss = self.syslinereader._syslines_by_range_miss;
-        let SyslineReader_syslines_by_range_insert = self.syslinereader._syslines_by_range_insert;
+        let SyslineReader_syslines_hit = self.syslinereader.syslines_hit;
+        let SyslineReader_syslines_miss = self.syslinereader.syslines_miss;
+        let SyslineReader_syslines_by_range_hit = self.syslinereader.syslines_by_range_hit;
+        let SyslineReader_syslines_by_range_miss = self.syslinereader.syslines_by_range_miss;
+        let SyslineReader_syslines_by_range_put = self.syslinereader.syslines_by_range_put;
         let SyslineReader_patterns = self.syslinereader.dt_patterns.clone();
         let SyslineReader_datetime_first = self.syslinereader.dt_first;
         let SyslineReader_datetime_last = self.syslinereader.dt_last;
-        let SyslineReader_find_sysline_lru_cache_hit = self.syslinereader._find_sysline_lru_cache_hit;
-        let SyslineReader_find_sysline_lru_cache_miss = self.syslinereader._find_sysline_lru_cache_miss;
-        let SyslineReader_find_sysline_lru_cache_put = self.syslinereader._find_sysline_lru_cache_put;
-        let SyslineReader_parse_datetime_in_line_lru_cache_hit = self.syslinereader._parse_datetime_in_line_lru_cache_hit;
-        let SyslineReader_parse_datetime_in_line_lru_cache_miss = self.syslinereader._parse_datetime_in_line_lru_cache_miss;
-        let SyslineReader_parse_datetime_in_line_lru_cache_put = self.syslinereader._parse_datetime_in_line_lru_cache_put;
+        let SyslineReader_find_sysline_lru_cache_hit = self.syslinereader.find_sysline_lru_cache_hit;
+        let SyslineReader_find_sysline_lru_cache_miss = self.syslinereader.find_sysline_lru_cache_miss;
+        let SyslineReader_find_sysline_lru_cache_put = self.syslinereader.find_sysline_lru_cache_put;
+        let SyslineReader_parse_datetime_in_line_lru_cache_hit = self.syslinereader.parse_datetime_in_line_lru_cache_hit;
+        let SyslineReader_parse_datetime_in_line_lru_cache_miss = self.syslinereader.parse_datetime_in_line_lru_cache_miss;
+        let SyslineReader_parse_datetime_in_line_lru_cache_put = self.syslinereader.parse_datetime_in_line_lru_cache_put;
         let LineReader_lines_hit = self.syslinereader.linereader._lines_hits;
         let LineReader_lines_miss = self.syslinereader.linereader._lines_miss;
-        let LineReader_find_line_lru_cache_hit = self.syslinereader.linereader._find_line_lru_cache_hit;
-        let LineReader_find_line_lru_cache_miss = self.syslinereader.linereader._find_line_lru_cache_miss;
-        let LineReader_find_line_lru_cache_put = self.syslinereader.linereader._find_line_lru_cache_put;
-        let BlockReader_read_block_lru_cache_hit = self.syslinereader.linereader.blockreader._read_block_cache_lru_hit;
-        let BlockReader_read_block_lru_cache_miss = self.syslinereader.linereader.blockreader._read_block_cache_lru_miss;
-        let BlockReader_read_block_lru_cache_put = self.syslinereader.linereader.blockreader._read_block_cache_lru_put;
-        let BlockReader_read_blocks_hit = self.syslinereader.linereader.blockreader._read_blocks_hit;
-        let BlockReader_read_blocks_miss = self.syslinereader.linereader.blockreader._read_blocks_miss;
-        let BlockReader_read_blocks_insert = self.syslinereader.linereader.blockreader._read_blocks_insert;
+        let LineReader_find_line_lru_cache_hit = self.syslinereader.linereader.find_line_lru_cache_hit;
+        let LineReader_find_line_lru_cache_miss = self.syslinereader.linereader.find_line_lru_cache_miss;
+        let LineReader_find_line_lru_cache_put = self.syslinereader.linereader.find_line_lru_cache_put;
+        let BlockReader_read_block_lru_cache_hit = self.syslinereader.linereader.blockreader.read_block_cache_lru_hit;
+        let BlockReader_read_block_lru_cache_miss = self.syslinereader.linereader.blockreader.read_block_cache_lru_miss;
+        let BlockReader_read_block_lru_cache_put = self.syslinereader.linereader.blockreader.read_block_cache_lru_put;
+        let BlockReader_read_blocks_hit = self.syslinereader.linereader.blockreader.read_blocks_hit;
+        let BlockReader_read_blocks_miss = self.syslinereader.linereader.blockreader.read_blocks_miss;
+        let BlockReader_read_blocks_put = self.syslinereader.linereader.blockreader.read_blocks_put;
         let LineReader_drop_line_ok = self.syslinereader.linereader.drop_line_ok;
         let LineReader_drop_line_errors = self.syslinereader.linereader.drop_line_errors;
         let SyslineReader_drop_sysline_ok = self.syslinereader.drop_sysline_ok;
@@ -644,7 +644,7 @@ impl SyslogProcessor {
             SyslineReader_syslines_miss,
             SyslineReader_syslines_by_range_hit,
             SyslineReader_syslines_by_range_miss,
-            SyslineReader_syslines_by_range_insert,
+            SyslineReader_syslines_by_range_put,
             SyslineReader_patterns,
             SyslineReader_datetime_first,
             SyslineReader_datetime_last,
@@ -664,7 +664,7 @@ impl SyslogProcessor {
             BlockReader_read_block_lru_cache_put,
             BlockReader_read_blocks_hit,
             BlockReader_read_blocks_miss,
-            BlockReader_read_blocks_insert,
+            BlockReader_read_blocks_put,
             LineReader_drop_line_ok,
             LineReader_drop_line_errors,
             SyslineReader_drop_sysline_ok,

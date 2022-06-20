@@ -60,8 +60,8 @@ pub struct Summary {
     pub SyslineReader_syslines_by_range_hit: Count,
     /// `SyslineReader::_syslines_by_range_miss`
     pub SyslineReader_syslines_by_range_miss: Count,
-    /// `SyslineReader::_syslines_by_range_insert`
-    pub SyslineReader_syslines_by_range_insert: Count,
+    /// `SyslineReader::_syslines_by_range_put`
+    pub SyslineReader_syslines_by_range_put: Count,
     /// datetime patterns used by `SyslineReader`
     pub SyslineReader_patterns: DateTime_Parse_Datas_vec,
     /// datetime soonest seen (not necessarily reflective of entire file)
@@ -101,7 +101,7 @@ pub struct Summary {
     /// `BlockReader::read_block`
     pub BlockReader_read_blocks_miss: Count,
     /// `BlockReader::read_block`
-    pub BlockReader_read_blocks_insert: Count,
+    pub BlockReader_read_blocks_put: Count,
     /// `LineReader::drop_line_ok`
     pub LineReader_drop_line_ok: Count,
     /// `LineReader::drop_line_errors`
@@ -132,7 +132,7 @@ impl Summary {
         SyslineReader_syslines_miss: Count,
         SyslineReader_syslines_by_range_hit: Count,
         SyslineReader_syslines_by_range_miss: Count,
-        SyslineReader_syslines_by_range_insert: Count,
+        SyslineReader_syslines_by_range_put: Count,
         SyslineReader_patterns: DateTime_Parse_Datas_vec,
         SyslineReader_pattern_first: DateTimeL_Opt,
         SyslineReader_pattern_last: DateTimeL_Opt,
@@ -152,7 +152,7 @@ impl Summary {
         BlockReader_read_block_lru_cache_put: Count,
         BlockReader_read_blocks_hit: Count,
         BlockReader_read_blocks_miss: Count,
-        BlockReader_read_blocks_insert: Count,
+        BlockReader_read_blocks_put: Count,
         LineReader_drop_line_ok: Count,
         LineReader_drop_line_errors: Count,
         SyslineReader_drop_sysline_ok: Count,
@@ -181,7 +181,7 @@ impl Summary {
             SyslineReader_syslines_miss,
             SyslineReader_syslines_by_range_hit,
             SyslineReader_syslines_by_range_miss,
-            SyslineReader_syslines_by_range_insert,
+            SyslineReader_syslines_by_range_put,
             SyslineReader_patterns,
             SyslineReader_pattern_first,
             SyslineReader_pattern_last,
@@ -201,7 +201,7 @@ impl Summary {
             BlockReader_read_block_lru_cache_put,
             BlockReader_read_blocks_hit,
             BlockReader_read_blocks_miss,
-            BlockReader_read_blocks_insert,
+            BlockReader_read_blocks_put,
             LineReader_drop_line_ok,
             LineReader_drop_line_errors,
             SyslineReader_drop_sysline_ok,
@@ -218,7 +218,7 @@ impl Summary {
             self.SyslineReader_syslines_miss,
             self.SyslineReader_syslines_by_range_hit,
             self.SyslineReader_syslines_by_range_miss,
-            self.SyslineReader_syslines_by_range_insert,
+            self.SyslineReader_syslines_by_range_put,
             self.SyslineReader_find_sysline_lru_cache_hit,
             self.SyslineReader_find_sysline_lru_cache_hit,
             self.SyslineReader_find_sysline_lru_cache_hit,
@@ -237,7 +237,7 @@ impl Summary {
             self.BlockReader_read_block_lru_cache_put,
             self.BlockReader_read_blocks_hit,
             self.BlockReader_read_blocks_miss,
-            self.BlockReader_read_blocks_insert,
+            self.BlockReader_read_blocks_put,
         ].iter().max().unwrap()
     }
 

@@ -688,7 +688,7 @@ TODO: 2022/06/11 consistent naming:
       for variable names, function names, and types.
       pick with or without middle `_` and always use that
 
-TODO: 2022/06/13 consistent naming:
+DONE: TODO: 2022/06/13 consistent naming:
       function names are `count_this` and `this_count`. Same for field names.
       Typical rust phraseology is `verb_object`
 
@@ -2407,7 +2407,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
         summary.SyslineReader_syslines_by_range_hit,
         summary.SyslineReader_syslines_by_range_miss,
         ratio,
-        summary.SyslineReader_syslines_by_range_insert,
+        summary.SyslineReader_syslines_by_range_put,
         wide = wide,
     );
     // SyslineReader::_find_sysline_lru_cache
@@ -2476,7 +2476,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
         summary.BlockReader_read_blocks_hit,
         summary.BlockReader_read_blocks_miss,
         ratio,
-        summary.BlockReader_read_blocks_insert,
+        summary.BlockReader_read_blocks_put,
         wide = wide,
     );
     // BlockReader::_read_blocks_cache

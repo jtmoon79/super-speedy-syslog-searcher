@@ -181,22 +181,22 @@ pub struct BlockReader {
     /// useful for when streaming kicks-in and some key+vale of `self.blocks` have
     /// been dropped.
     blocks_read: BlocksTracked,
-    /// internal LRU cache for `fn read_block`. Lookups O(1).
-    _read_block_lru_cache: BlocksLRUCache,
-    /// enable/disable use of `_read_block_lru_cache`
-    _read_block_lru_cache_enabled: bool,
-    /// internal LRU cache lookup hits
-    pub(crate) _read_block_cache_lru_hit: Count,
-    /// internal LRU cache lookup misses
-    pub(crate) _read_block_cache_lru_miss: Count,
-    /// internal LRU cache lookup `.put`
-    pub(crate) _read_block_cache_lru_put: Count,
-    /// internal storage lookup hit
-    pub(crate) _read_blocks_hit: Count,
-    /// internal storage lookup miss
-    pub(crate) _read_blocks_miss: Count,
-    /// internal storage `.insert`
-    pub(crate) _read_blocks_insert: Count,
+    /// internal LRU cache for `fn read_block()`. Lookups O(1).
+    read_block_lru_cache: BlocksLRUCache,
+    /// enable/disable use of `read_block_lru_cache`
+    read_block_lru_cache_enabled: bool,
+    /// internal LRU cache count of lookup hits
+    pub(crate) read_block_cache_lru_hit: Count,
+    /// internal LRU cache count of lookup misses
+    pub(crate) read_block_cache_lru_miss: Count,
+    /// internal LRU cache count of lookup `.put`
+    pub(crate) read_block_cache_lru_put: Count,
+    /// internal storage count of lookup hit
+    pub(crate) read_blocks_hit: Count,
+    /// internal storage count of lookup miss
+    pub(crate) read_blocks_miss: Count,
+    /// internal storage count of `self.blocks.insert`
+    pub(crate) read_blocks_put: Count,
 }
 
 impl fmt::Debug for BlockReader {
@@ -216,12 +216,12 @@ impl fmt::Debug for BlockReader {
             .field("blocks currently stored", &self.blocks.len())
             .field("blocks read", &self.blocks_read.len())
             .field("bytes read", &self.count_bytes_)
-            .field("cache LRU hit", &self._read_block_cache_lru_hit)
-            .field("miss", &self._read_block_cache_lru_miss)
-            .field("put", &self._read_block_cache_lru_put)
-            .field("cache hit", &self._read_blocks_hit)
-            .field("miss", &self._read_blocks_miss)
-            .field("insert", &self._read_blocks_insert)
+            .field("cache LRU hit", &self.read_block_cache_lru_hit)
+            .field("miss", &self.read_block_cache_lru_miss)
+            .field("put", &self.read_block_cache_lru_put)
+            .field("cache hit", &self.read_blocks_hit)
+            .field("miss", &self.read_blocks_miss)
+            .field("insert", &self.read_blocks_put)
             .finish()
     }
 }
@@ -525,14 +525,14 @@ impl BlockReader {
                 count_bytes_: 0,
                 blocks: Blocks::new(),
                 blocks_read: BlocksTracked::new(),
-                _read_block_lru_cache: BlocksLRUCache::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ),
-                _read_block_lru_cache_enabled: true,
-                _read_block_cache_lru_hit: 0,
-                _read_block_cache_lru_miss: 0,
-                _read_block_cache_lru_put: 0,
-                _read_blocks_hit: 0,
-                _read_blocks_miss: 0,
-                _read_blocks_insert: 0,
+                read_block_lru_cache: BlocksLRUCache::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ),
+                read_block_lru_cache_enabled: true,
+                read_block_cache_lru_hit: 0,
+                read_block_cache_lru_miss: 0,
+                read_block_cache_lru_put: 0,
+                read_blocks_hit: 0,
+                read_blocks_miss: 0,
+                read_blocks_put: 0,
             }
         )
     }
@@ -678,20 +678,20 @@ impl BlockReader {
     /// intended to aid testing and debugging
     #[allow(dead_code)]
     pub fn LRU_cache_enable(&mut self) {
-        if self._read_block_lru_cache_enabled {
+        if self.read_block_lru_cache_enabled {
             return;
         }
-        self._read_block_lru_cache_enabled = true;
-        self._read_block_lru_cache.clear();
-        self._read_block_lru_cache.resize(BlockReader::READ_BLOCK_LRU_CACHE_SZ);
+        self.read_block_lru_cache_enabled = true;
+        self.read_block_lru_cache.clear();
+        self.read_block_lru_cache.resize(BlockReader::READ_BLOCK_LRU_CACHE_SZ);
     }
 
     /// disable internal LRU cache used by `read_block`.
     ///
     /// intended to aid testing and debugging
     pub fn LRU_cache_disable(&mut self) {
-        self._read_block_lru_cache_enabled = false;
-        self._read_block_lru_cache.resize(0);
+        self.read_block_lru_cache_enabled = false;
+        self.read_block_lru_cache.resize(0);
     }
 
     /// Drop data associated with `Block` at `blockoffset`.
@@ -710,7 +710,7 @@ impl BlockReader {
                 debug_eprintln!("{}blockreader.drop_block({}): no block to drop at {}", so(), blockoffset, blockoffset);
             },
         }
-        match self._read_block_lru_cache.pop(&blockoffset) {
+        match self.read_block_lru_cache.pop(&blockoffset) {
             Some(blockp) => {
                 debug_eprintln!("{}blockreader.drop_block({}): dropped block in LRU cache {} @0x{:p}, len {}, strong_count {}", so(), blockoffset, blockoffset, blockp, (*blockp).len(), Arc::strong_count(&blockp));
                 bo_dropped.insert(blockoffset);
@@ -724,11 +724,11 @@ impl BlockReader {
     /// store clone of `BlockP` in LRU cache
     fn store_block_in_LRU_cache(&mut self, blockoffset: BlockOffset, blockp: &BlockP) {
         debug_eprintln!("{}store_block_in_LRU_cache: LRU cache put({}, BlockP@{:p})", so(), blockoffset, blockp);
-        if ! self._read_block_lru_cache_enabled {
+        if ! self.read_block_lru_cache_enabled {
             return;
         }
-        self._read_block_lru_cache.put(blockoffset, blockp.clone());
-        self._read_block_cache_lru_put += 1;
+        self.read_block_lru_cache.put(blockoffset, blockp.clone());
+        self.read_block_cache_lru_put += 1;
     }
 
     /// store clone of `BlockP` in `self.blocks` storage.
@@ -741,7 +741,7 @@ impl BlockReader {
             },
             _ => {},
         }
-        self._read_blocks_insert += 1;
+        self.read_blocks_put += 1;
         self.count_bytes_ += (*blockp).len() as Count;
         if let false = self.blocks_read.insert(blockoffset) {
             eprintln!("WARNING: blockreader.blocks_read({}) already had a entry", blockoffset);
@@ -812,7 +812,7 @@ impl BlockReader {
             // was *ever* read.
             // TODO: [2022/06/18] add another stat tracker for lookups in `self.blocks_read`
             if self.blocks_read.contains(&bo_at) {
-                self._read_blocks_hit += 1;
+                self.read_blocks_hit += 1;
                 //debug_eprintln!("{}read_block_FILE_GZ({}): blocks_read.contains({})", so(), blockoffset, bo_at);
                 if bo_at == blockoffset {
                     debug_eprintln!("{}read_block_FILE_GZ({}): return Found", sx(), blockoffset);
@@ -827,7 +827,7 @@ impl BlockReader {
             } else {
                 debug_eprintln!("{}read_block_FILE_GZ({}): blocks_read.contains({}) missed (does not contain key)", so(), blockoffset, bo_at);
                 debug_assert!(!self.blocks.contains_key(&bo_at), "blocks has element {} not in blocks_read", bo_at);
-                self._read_blocks_miss += 1;
+                self.read_blocks_miss += 1;
             }
 
             let blocksz_u: usize = self.blocksz as usize;
@@ -938,10 +938,10 @@ impl BlockReader {
         );
         { // check storages
             // check fast LRU cache
-            if self._read_block_lru_cache_enabled {
-                match self._read_block_lru_cache.get(&blockoffset) {
+            if self.read_block_lru_cache_enabled {
+                match self.read_block_lru_cache.get(&blockoffset) {
                     Some(bp) => {
-                        self._read_block_cache_lru_hit += 1;
+                        self.read_block_cache_lru_hit += 1;
                         debug_eprintln!(
                             "{}read_block: return Found(BlockP@{:p}); hit LRU cache Block[{}] @[{}, {}) len {}",
                             sx(),
@@ -954,14 +954,14 @@ impl BlockReader {
                         return ResultS3_ReadBlock::Found(bp.clone());
                     }
                     None => {
-                        self._read_block_cache_lru_miss += 1;
+                        self.read_block_cache_lru_miss += 1;
                         debug_eprintln!("{}read_block: blockoffset {} not found LRU cache", so(), blockoffset);
                     }
                 }
             }
             // check hash map storage
             if self.blocks_read.contains(&blockoffset) {
-                self._read_blocks_hit += 1;
+                self.read_blocks_hit += 1;
                 debug_eprintln!("{}read_block: blocks_read.contains({})", so(), blockoffset);
                 assert!(self.blocks.contains_key(&blockoffset), "requested block {} is in self.blocks_read but not in self.blocks", blockoffset);
                 // XXX: during streaming, this might panic!
@@ -978,7 +978,7 @@ impl BlockReader {
                 );
                 return ResultS3_ReadBlock::Found(blockp);
             } else {
-                self._read_blocks_miss += 1;
+                self.read_blocks_miss += 1;
                 debug_eprintln!("{}read_block: blockoffset {} not found in blocks_read", so(), blockoffset);
                 debug_assert!(!self.blocks.contains_key(&blockoffset), "blocks has element {} not in blocks_read", blockoffset);
             }
