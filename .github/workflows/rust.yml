@@ -8,8 +8,8 @@ on:
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
-  S4_TEST_FILES: ./logs/other/tests/dtf2-2.log \
-                 ./logs/other/tests/dtf3-2a.log \
+  S4_TEST_FILES: ./logs/other/tests/dtf2-2.log
+                 ./logs/other/tests/dtf3-2a.log
                  ./logs/other/tests/dtf5-6a.log.gz
 jobs:
   job_build_debug:
