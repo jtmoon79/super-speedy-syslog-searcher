@@ -31,17 +31,6 @@ use clap::{
 
 extern crate crossbeam_channel;
 
-extern crate chrono;
-use chrono::{
-    FixedOffset,
-    Local,
-    TimeZone,
-    Utc,
-};
-use chrono::offset::{
-    Offset,
-};
-
 extern crate debug_print;
 use debug_print::{
     debug_eprintln
@@ -73,10 +62,16 @@ use Data::datetime::{
     DateTime_Parse_Data_str,
     DateTime_Parse_Data_str_to_DateTime_Parse_Data,
     str_datetime,
+    // chrono imports
+    FixedOffset,
+    Local,
+    Offset,
+    TimeZone,
+    Utc,
 };
 
-mod dbgpr;
-use dbgpr::stack::{
+mod printer_debug;
+use printer_debug::stack::{
     so,
     sn,
     sx,
@@ -86,11 +81,15 @@ use dbgpr::stack::{
 
 mod printer;
 use printer::printers::{
+    // termcolor imports
     Color,
+    ColorChoice,
+    //
     COLOR_DATETIME,
     color_rand,
     print_colored_stderr,
     write_stdout,
+    Printer_Sysline,
 };
 
 mod Readers;
@@ -451,7 +450,7 @@ fn cli_process_args() -> (
     DateTimeL_Opt,
     DateTimeL_Opt,
     FixedOffset,
-    termcolor::ColorChoice,
+    ColorChoice,
     bool,
     bool,
     bool,
@@ -509,11 +508,11 @@ fn cli_process_args() -> (
         _ => {},
     }
 
-    // map `CLI_Color_Choice` to `termcolor::ColorChoice`
-    let color_choice: termcolor::ColorChoice = match args.color_choice {
-        CLI_Color_Choice::always => termcolor::ColorChoice::Always,
-        CLI_Color_Choice::auto => termcolor::ColorChoice::Auto,
-        CLI_Color_Choice::never => termcolor::ColorChoice::Never,
+    // map `CLI_Color_Choice` to `ColorChoice`
+    let color_choice: ColorChoice = match args.color_choice {
+        CLI_Color_Choice::always => ColorChoice::Always,
+        CLI_Color_Choice::auto => ColorChoice::Auto,
+        CLI_Color_Choice::never => ColorChoice::Never,
     };
 
     (
@@ -861,7 +860,7 @@ impl SummaryPrinted {
     /// mimics debug print but with colorized zero values
     /// only colorize if associated `Summary_Opt` has corresponding
     /// non-zero values
-    pub fn print_colored_stderr(&self, color_choice_opt: Option<termcolor::ColorChoice>, summary_opt: &Summary_Opt) {
+    pub fn print_colored_stderr(&self, color_choice_opt: Option<ColorChoice>, summary_opt: &Summary_Opt) {
         let clrerr = Color::Red;
         
         let sumd = Summary::default();
@@ -1017,16 +1016,17 @@ fn summary_update(pathid: &PathId, summary: Summary, map_: &mut Map_PathId_Summa
 type Map_PathId_ProcessPathResult = HashMap::<PathId, ProcessPathResult>;
 type Map_PathId_FPath = BTreeMap::<PathId, FPath>;
 type Map_PathId_Color = HashMap::<PathId, Color>;
+type Map_PathId_PrinterSysline = HashMap::<PathId, Printer_Sysline>;
 
 /// the main processing loop:
 ///
 /// 1. creates threads to process each file
 ///
 /// 2. waits on each thread to receive processed `Sysline` _or_ end
-///    a. prints received `Sysline` in order
-///    b. goto 2.
+///    a. prints received `Sysline` in datetime order
+///    b. repeat 2. until each thread sends a `Summary`
 ///
-/// 3. prints summary (if CLI option `--summary`)
+/// 3. print each `Summary` (if CLI option `--summary`)
 ///
 /// This main thread should be the only thread that prints to stdout. In --release
 /// builds, other file processing threads may rarely print messages to stderr.
@@ -1038,7 +1038,7 @@ fn processing_loop(
     filter_dt_after_opt: &DateTimeL_Opt,
     filter_dt_before_opt: &DateTimeL_Opt,
     tz_offset: FixedOffset,
-    color_choice: termcolor::ColorChoice,
+    color_choice: ColorChoice,
     cli_opt_prepend_utc: bool,
     cli_opt_prepend_local: bool,
     cli_opt_prepend_filename: bool,
@@ -1288,9 +1288,9 @@ fn processing_loop(
     //
     // main coordination loop (e.g. "main game loop")
     // process the "receiving sysline" channels from the running threads
-    // print the soonest available sysline
+    // print the earliest available sysline
     //
-    // TODO: [2022/03/24] change `map_pathid_datum` to `HashMap<FPath, (SylineP, is_last)>` (`map_path_slp`);
+    // TODO: [2022/03/24] change `map_pathid_datum` to `HashMap<FPath, (SyslineP, is_last)>` (`map_path_slp`);
     //       currently it's confusing that there is a special handler for `Summary` (`map_pathid_summary`),
     //       but not an equivalent `map_path_slp`.
     //       In other words, break apart the passed `Chan_Datum` to the more specific maps.
@@ -1306,8 +1306,10 @@ fn processing_loop(
 
     let color_default = Color::White;
 
+    // XXX: chrono is not intuitive!
     let tz_utc = Utc::from_offset(&Utc);
     let tz_local = Local.timestamp(0, 0).timezone();
+    //let fx_local = FixedOffset::from_offset(tz_local.)
 
     // XXX: workaround for missing Default for `&String`
     let string_default: &String = &String::from("");
@@ -1321,7 +1323,42 @@ fn processing_loop(
         || cli_opt_prepend_utc
         || cli_opt_prepend_local;
 
+    // mapping PathId to colors for printing.
+    let mut map_pathid_printer = Map_PathId_PrinterSysline::with_capacity(file_count);
+    // initialize the printers, one per file
+    for pathid in map_pathid_path.keys() {
+        let color_: &Color = map_pathid_color.get(pathid).unwrap_or(&color_default);
+        let prepend_file: Option<String> = match cli_opt_prepend_filename || cli_opt_prepend_filepath {
+            true => {
+                Some(pathid_to_prependname.get(pathid).unwrap().clone())
+            },
+            false => None,
+        };
+        let prepend_date_format: Option<String> = match cli_opt_prepend_local || cli_opt_prepend_utc {
+            true => Some(CLI_OPT_PREPEND_FMT.to_string()),
+            false => None,
+        };
+        let prepend_date_offset: Option<FixedOffset> = match (cli_opt_prepend_local, cli_opt_prepend_utc) {
+            (true, false) => Some(*Local::today().offset()),
+            (false, true) => Some(FixedOffset::east(0)),
+            (false, false) => None,
+            // XXX: this should not happen
+            _ => panic!("bad CLI options --local --utc"),
+        };
+        let printer: Printer_Sysline = Printer_Sysline::new(
+            color_choice,
+            *color_,
+            prepend_file,
+            prepend_date_format,
+            prepend_date_offset,
+        );
+        map_pathid_printer.insert(*pathid, printer);
+    }
+
     // main thread "game loop"
+    //
+    // here is the program coordination of file processing threads to print
+    // Syslines ordered by datetime
     loop {
         disconnect.clear();
 
@@ -1342,7 +1379,7 @@ fn processing_loop(
             // if...
             // `map_path_recv_dt` does not have a `Chan_Recv_Datum` (and thus a `SyslineP` and
             // thus a `DatetimeL`) for every channel (file being processed).
-            // (Every channel must return a `DatetimeL` to to then compare *all* of them, see which is soonest).
+            // (Every channel must return a `DatetimeL` to to then compare *all* of them, see which is earliest).
             // So call `recv_many_chan` to check if any channels have a new `Chan_Recv_Datum` to
             // provide.
 
@@ -1380,9 +1417,9 @@ fn processing_loop(
             }
         } else {
             // else...
-            // There is a DateTime available for *every* FPath channel (one channel is one FPath)
-            // so the datetimes can all be compared. The sysline with the soonest DateTime is
-            // selected then printed.
+            // There is a DateTime available for *every* channel (one channel is one File Processing
+            // thread). The datetimes can be compared among all remaining files. The sysline with
+            // the earliest datetime is printed.
 
             if cfg!(debug_assertions) {
                 for (_i, (_k, _v)) in map_pathid_chanrecvdatum.iter().enumerate() {
@@ -1393,7 +1430,7 @@ fn processing_loop(
                 }
             }
 
-            // (path, channel data) for the sysline with soonest datetime ("minimum" datetime)
+            // (path, channel data) for the sysline with earliest datetime ("minimum" datetime)
             //
             // here is part of the "sorting" of syslines process by datetime.
             // In case of tie datetime values, the tie-breaker will be order of `BTreeMap::iter_mut` which
@@ -1434,59 +1471,20 @@ fn processing_loop(
                 let is_last: bool = chan_datum.2;
                 // Sysline of interest
                 let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
-                // color for printing
-                let clr: &Color = map_pathid_color.get(pathid).unwrap_or(&color_default);
-                // print the sysline line-by-line!
                 debug_eprintln!("{}processing_loop: A3 printing SyslineP@{:p} @[{}, {}] PathId: {:?}", so(), syslinep, syslinep.fileoffset_begin(), syslinep.fileoffset_end(), pathid);
-                if do_prepend {
-                    // print one `Line` from `Sysline` at a time
-                    // so each `Line` is prepended as requested
-                    let line_count: usize = (*syslinep).count_lines() as usize;
-                    let mut line_at: usize = 0;
-                    while line_at < line_count {
-                        if cli_opt_prepend_filename || cli_opt_prepend_filepath {
-                            let prepend: &String = pathid_to_prependname
-                                .get(pathid)
-                                .unwrap_or(string_default);
-                            write_stdout(prepend.as_bytes());
-                        }
-                        if cli_opt_prepend_utc || cli_opt_prepend_local {
-                            #[allow(clippy::single_match)]
-                            match (*syslinep).dt {
-                                Some(dt) => {
-                                    #[allow(clippy::needless_late_init)]
-                                    let fmt_;
-                                    if cli_opt_prepend_utc {
-                                        let dt_ = dt.with_timezone(&tz_utc);
-                                        fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
-                                    } else { // cli_opt_prepend_local
-                                        let dt_ = dt.with_timezone(&tz_local);
-                                        fmt_ = dt_.format(CLI_OPT_PREPEND_FMT);
-                                    }
-                                    write_stdout(fmt_.to_string().as_bytes());
-                                },
-                                _ => {},
-                            }
-                        }
-                        match (*syslinep).print_color(Some(line_at), Some(color_choice), *clr, color_datetime) {
-                            Ok(_) => {},
-                            Err(_err) => {
-                                eprintln!("ERROR: failed to print; TODO abandon processing for PathId {:?}", pathid);
-                                // TODO: 2022/04/09 remove this `pathid` from maps and queues, shutdown it's thread
-                            }
-                        }
-                        line_at += 1;
-                    }
-                } else  {
-                    // no prepends request so print all `Line`s within one call
-                    match (*syslinep).print_color(None, Some(color_choice), *clr, color_datetime) {
+                // print the sysline!
+                let printer: &mut Printer_Sysline = map_pathid_printer.get_mut(pathid).unwrap();
+                match printer.print_sysline(syslinep) {
                         Ok(_) => {},
                         Err(_err) => {
                             eprintln!("ERROR: failed to print; TODO abandon processing for PathId {:?}", pathid);
-                            // TODO: 2022/04/09 remove this `pathid` from maps and queues, shutdown it's thread
+                            // TODO: 2022/04/09 if printing fails, then all future prints are very likely to fail
+                            //       so just shutdown program
                         }
-                    }
                 }
+                // without printing this extra '\n' then for files with no terminating '\n' the
+                // next printed sysline (from a different file) will be on the same line,
+                // i.e. it'll look unreable and jenky
                 if is_last {
                     write_stdout(&NLu8a);
                     summaryprinted.bytes += 1;
@@ -1573,7 +1571,7 @@ fn first_last_dbg(summary: &Summary) -> String {
 fn print_filepath(
     path: &FPath,
     color: &Color,
-    color_choice: &termcolor::ColorChoice
+    color_choice: &ColorChoice
 ) {
     eprint!("File: ");
     match print_colored_stderr(*color, Some(*color_choice), path.as_bytes()) {
@@ -1606,7 +1604,7 @@ fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
 fn print_summary_opt_printed(
     summary_print_opt: &SummaryPrinted_Opt,
     summary_opt: &Summary_Opt,
-    color_choice: &termcolor::ColorChoice,
+    color_choice: &ColorChoice,
 ) {
     match summary_print_opt {
         Some(summary_print) => {
@@ -1786,7 +1784,7 @@ fn print_drop_stats(summary_opt: &Summary_Opt) {
 }
 
 /// print the `Summary.Error_`, if any (one line)
-fn print_error(summary_opt: &Summary_Opt, color_choice: &termcolor::ColorChoice) {
+fn print_error(summary_opt: &Summary_Opt, color_choice: &ColorChoice) {
     match summary_opt.as_ref() {
         Some(summary_) => {
             match &summary_.Error_ {
@@ -1811,7 +1809,7 @@ fn print_file_summary(
     summary_opt: &Summary_Opt,
     summary_print_opt: &SummaryPrinted_Opt,
     color: &Color,
-    color_choice: &termcolor::ColorChoice,
+    color_choice: &ColorChoice,
 ) {
     eprintln!();
     print_filepath(path, color, color_choice);
@@ -1835,8 +1833,8 @@ fn print_all_files_summaries(
     map_pathid_color: &Map_PathId_Color,
     map_pathid_summary: &mut Map_PathId_Summary,
     map_pathid_sumpr: &mut Map_PathId_SummaryPrint,
-    color_choice: &termcolor::ColorChoice,
-    color_default: &termcolor::Color,
+    color_choice: &ColorChoice,
+    color_default: &Color,
 ) {
     for (pathid, path) in map_pathid_path.iter() {
         let color: &Color = map_pathid_color.get(pathid).unwrap_or(color_default);

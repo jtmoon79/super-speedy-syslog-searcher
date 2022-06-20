@@ -1,4 +1,4 @@
-// dbgpr/stack.rs
+// printer_debug/stack.rs
 //
 // debug printing - helpers to find current stack depth for indented trace prints
 //

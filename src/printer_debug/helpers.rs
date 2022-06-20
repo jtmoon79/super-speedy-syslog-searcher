@@ -1,4 +1,4 @@
-// dbgpr/helpers.rs
+// printer_debug/helpers.rs
 //
 
 #[cfg(test)]
@@ -7,7 +7,7 @@ use crate::common::{
 };
 
 #[cfg(test)]
-use crate::dbgpr::printers::{
+use crate::printer_debug::printers::{
     str_to_String_noraw,
 };
 

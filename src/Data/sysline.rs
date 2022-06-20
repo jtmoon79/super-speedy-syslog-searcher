@@ -27,19 +27,19 @@ use crate::Readers::linereader::{
 
 use crate::printer::printers::{
     Color,
+    ColorChoice,
     ColorSpec,
     WriteColor,
 };
 
 #[cfg(any(debug_assertions,test))]
-use crate::dbgpr::stack::{
+use crate::printer_debug::stack::{
     so,
 };
 
 use std::fmt;
 use std::io::Result;
 use std::io::prelude::*;
-use std::str;
 use std::sync::Arc;
 
 extern crate chain_cmp;
@@ -50,7 +50,6 @@ use debug_print::debug_eprintln;
 
 extern crate more_asserts;
 use more_asserts::{
-    assert_le,
     assert_lt,
 };
 
@@ -220,7 +219,7 @@ impl Sysline {
         self.lines.len() as Count
     }
 
-    /// sum of `Line.count_bytes`
+    /// sum of all `Line.count_bytes`
     pub fn count_bytes(self: &Sysline) -> Count {
         let mut cb: Count = 0;
         for ln in self.lines.iter() {
@@ -228,65 +227,6 @@ impl Sysline {
         }
 
         cb
-    }
-
-    /*
-    /// a `String` copy of the demarcating datetime string found in the Sysline
-    #[allow(non_snake_case)]
-    pub fn datetime_String(self: &Sysline) -> String {
-        assert_ne!(self.dt_beg, LI_NULL, "dt_beg has not been set");
-        assert_ne!(self.dt_end, LI_NULL, "dt_end has not been set");
-        assert_lt!(self.dt_beg, self.dt_end, "bad values dt_end {} dt_beg {}", self.dt_end, self.dt_beg);
-        let slice_ = self.lines[0].as_bytes();
-        assert_lt!(
-            self.dt_beg,
-            slice_.len(),
-            "dt_beg {} past end of slice[{}‥{}]?",
-            self.dt_beg,
-            self.dt_beg,
-            self.dt_end
-        );
-        assert_le!(
-            self.dt_end,
-            slice_.len(),
-            "dt_end {} past end of slice[{}‥{}]?",
-            self.dt_end,
-            self.dt_beg,
-            self.dt_end
-        );
-        // TODO: here is a place to use `bstr`
-        let buf: &[u8] = &slice_[self.dt_beg..self.dt_end];
-        let s_ = match str::from_utf8(buf) {
-            Ok(val) => val,
-            Err(err) => {
-                eprintln!("Error in datetime_String() during str::from_utf8 {} buffer {:?}", err, buf);
-                ""
-            }
-        };
-
-        String::from(s_)
-    }
-    */
-
-    /// return all the slices that make up `Line` at `line_num` within this `Sysline`.
-    ///
-    /// Similar to `get_slices` but for one line.
-    ///
-    /// `line_num` counting starts at `0`
-    ///
-    /// TODO: [2022/06/13] for case of one Slice then return `&[u8]` directly, bypass creation of `Vec`
-    ///       requires enum to carry both types `Vec<&[u8]>` or `&[u8]`
-    ///       or instead of that, just return `&[&[u8]]`
-    fn get_slices_at_line(self: &Sysline, line_num: usize) -> Slices {
-        assert_lt!(line_num, self.lines.len(), "Requested line_num {:?} (count from zero) but there are only {:?} Lines within this Sysline (counts from one)", line_num, self.lines.len());
-
-        let linep: &LineP = &self.lines[line_num];
-        // TODO: prehandle common case `self.lines.len() == 0`
-        let count: usize = linep.count_slices();
-        let mut slices: Slices = Slices::with_capacity(count);
-        slices.extend(linep.get_slices().iter());
-
-        slices
     }
 
     /// return all the slices that make up this `Sysline`.
@@ -298,158 +238,16 @@ impl Sysline {
     ///       or instead of that, just return `&[&[u8]]`
     pub fn get_slices(self: &Sysline) -> Slices {
         let mut count: usize = 0;
-        for lp in &self.lines {
-            count += lp.count_slices();
+        for linep in &self.lines {
+            count += linep.count_slices() as usize;
         }
-        // TODO: prehandle common case where `count==1`
+        // TODO: [2022/03] prehandle common case where `count==1`
         let mut slices = Slices::with_capacity(count);
-        for lp in &self.lines {
-            slices.extend(lp.get_slices().iter());
+        for linep in &self.lines {
+            slices.extend(linep.get_slices().iter());
         }
 
         slices
-    }
-
-    /// print approach #1, use underlying `Line` to `print`
-    /// `raw` true will write directly to stdout from the stored `Block`
-    /// `raw` false will write transcode each byte to a character and use pictoral representations
-    ///
-    /// XXX: `raw==false` does not handle multi-byte encodings
-    ///
-    /// TODO: move this into a `Printer` class
-    #[cfg(any(debug_assertions,test))]
-    pub fn print_using_lines(self: &Sysline, raw: bool) {
-        for linep in &self.lines {
-            (*linep).print(raw);
-        }
-    }
-
-    // TODO: [2022/03/23] implement an `iter_slices` that does not require creating a new `vec`, just
-    //       passes `&bytes` back. Call `iter_slices` from `print`
-
-    /// helper to `print_color`
-    /// caller must acquire stdout.Lock, and call `stdout.flush()`
-    ///
-    /// TODO: move this into a `Printer` class
-    fn print_color_slices(stdclr: &mut termcolor::StandardStream, colors: &[Color], values:&[&[u8]]) -> Result<()> {
-        assert_eq!(colors.len(), values.len());
-        for (color, value) in colors.iter().zip(values.iter())
-        {
-            if let Err(err) = stdclr.set_color(ColorSpec::new().set_fg(Some(color.clone()))) {
-                eprintln!("ERROR: print_color_slices: stdout.set_color({:?}) returned error {}", color, err);
-                //continue;
-                return Err(err);
-            };
-            if let Err(err) = stdclr.write(value) {
-                eprintln!("ERROR: print_color_slices: stdout.write(…) returned error {}", err);
-                //continue;
-                return Err(err);
-            };
-        }
-        Ok(())
-    }
-
-    /// Print `Sysline` with color.
-    /// Writes raw data from underlying `Block` bytes.
-    ///
-    /// Passing `Some(x)` for `line_num` will print only that `Line` in the `Sysline`.
-    ///
-    /// XXX: does not handle multi-byte strings
-    ///
-    /// TODO: needs a global mutex... I think...
-    ///
-    /// TODO: move this into a `Printer` class or `Sysline_Printer` class
-    ///
-    /// TODO: [2022/04] would be interesting to benchmark difference of printing using one
-    ///       instance of `termcolor::StandStream` versus many (like done here).
-    ///       would one instance improve performance?
-    pub fn print_color(
-        &self,
-        line_num: Option<usize>,
-        color_choice_opt: Option<termcolor::ColorChoice>,
-        color_text: Color,
-        color_datetime: Color
-    ) -> Result<()> {
-        // print the datetime portion in color?
-        let print_date_color: bool;
-        let slices: Slices = match line_num {
-            Some(line_num_) => {
-                if line_num_ == 0 {
-                    // if a single `Line` was requested
-                    // then colorizing date is only significant for the first
-                    // `Line` of the `Syline`
-                    print_date_color = true;
-                } else {
-                    print_date_color = false;
-                }
-
-                self.get_slices_at_line(line_num_)
-            }
-            None => {
-                print_date_color = true;
-
-                self.get_slices()
-            }
-        };
-        let color_choice: termcolor::ColorChoice = match color_choice_opt {
-            Some(choice_) => choice_,
-            None => termcolor::ColorChoice::Auto,
-        };
-        //let mut stdout = io::stdout();
-        //let mut stdout_lock = stdout.lock();
-        let mut clrout = termcolor::StandardStream::stdout(color_choice);
-        let mut at: LineIndex = 0;
-        let dtb = self.dt_beg;
-        let dte = self.dt_end;
-        //
-        for slice in slices.iter() {
-            let len_ = slice.len();
-            match color_choice {
-                // bypass `print_color_slices` for a small speed improvement
-                termcolor::ColorChoice::Never => {
-                    match clrout.write(slice) {
-                        Ok(_) => {},
-                        Err(err) => {
-                            return Err(err);
-                        }
-                    }
-                },
-                // use `print_color_slices` to print the datetime substring and test in differing colors
-                _ => {
-                    // datetime entirely in this `slice`
-                    if print_date_color && chmp!(at <= dtb < dte < (at + len_)) {
-                        let a = &slice[..(dtb-at)];
-                        let b = &slice[(dtb-at)..(dte-at)];
-                        let c = &slice[(dte-at)..];
-                        match Sysline::print_color_slices(&mut clrout, &[color_text, color_datetime, color_text], &[a, b, c]) {
-                            Ok(_) => {},
-                            Err(err) => {
-                                return Err(err);
-                            }
-                        };
-                    } else {
-                        // TODO: [2022/03] datetime crosses into next slice
-                        match Sysline::print_color_slices(&mut clrout, &[color_text], &[slice]) {
-                            Ok(_) => {},
-                            Err(err) => {
-                                return Err(err);
-                            }
-                        };
-                    }
-                    at += len_;
-                }
-            }   
-        }
-        let mut ret = Ok(());
-        if let Err(err) = clrout.flush() {
-            eprintln!("ERROR: print_color: stdout.flush() {}", err);
-            ret = Err(err);
-        }
-        if let Err(err) = clrout.reset() {
-            eprintln!("ERROR: print_color: stdout.reset() {}", err);
-            return Err(err);
-        }
-        ret
     }
 
     /// create `String` from `self.lines`

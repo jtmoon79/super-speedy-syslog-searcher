@@ -1,4 +1,4 @@
-// dbgpr/stack_tests.rs
+// printer_debug/stack_tests.rs
 //
 // tests for `stack.rs`
 //

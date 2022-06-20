@@ -19,7 +19,7 @@ use super::blockreader::{
     MimeGuess,
 };
 
-use crate::dbgpr::helpers::{
+use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_with_name_exact,
@@ -28,7 +28,7 @@ use crate::dbgpr::helpers::{
     NTF_Path,
 };
 
-use crate::dbgpr::stack::{
+use crate::printer_debug::stack::{
     stack_offset_set,
 };
 

@@ -1,4 +1,4 @@
-// dbgpr/mod.rs
+// printer_debug/mod.rs
 //
 // debug printing module
 

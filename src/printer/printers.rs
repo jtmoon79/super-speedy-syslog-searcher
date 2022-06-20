@@ -9,9 +9,30 @@ use std::io::Result;
 extern crate termcolor;
 pub use termcolor::{
     Color,
+    ColorChoice,
     ColorSpec,
-    WriteColor
+    WriteColor,
 };
+
+use crate::Data::line::{
+    LineP,
+    LineIndex,
+};
+
+use crate::Data::sysline::{
+    SyslineP,
+};
+
+use crate::Data::datetime::{
+    DateTimeL,
+    FixedOffset,
+};
+
+extern crate chain_cmp;
+use chain_cmp::chmp;
+
+extern crate lazy_static;
+use lazy_static::lazy_static;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // globals and constants
@@ -119,12 +140,12 @@ pub fn print_colored(color: Color, value: &[u8], std_: &mut termcolor::StandardS
 /// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
 pub fn print_colored_stdout(
     color: Color,
-    color_choice_opt: Option<termcolor::ColorChoice>,
+    color_choice_opt: Option<ColorChoice>,
     value: &[u8]
 ) -> std::io::Result<()> {
-    let choice: termcolor::ColorChoice = match color_choice_opt {
+    let choice: ColorChoice = match color_choice_opt {
         Some(choice_) => choice_,
-        None => termcolor::ColorChoice::Auto,
+        None => ColorChoice::Auto,
     };
     let mut stdout = termcolor::StandardStream::stdout(choice);
     print_colored(color, value, &mut stdout)
@@ -135,12 +156,12 @@ pub fn print_colored_stdout(
 /// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
 pub fn print_colored_stderr(
     color: Color,
-    color_choice_opt: Option<termcolor::ColorChoice>,
+    color_choice_opt: Option<ColorChoice>,
     value: &[u8]
 ) -> std::io::Result<()> {
-    let choice: termcolor::ColorChoice = match color_choice_opt {
+    let choice: ColorChoice = match color_choice_opt {
         Some(choice_) => choice_,
-        None => termcolor::ColorChoice::Auto,
+        None => ColorChoice::Auto,
     };
     let mut stderr = termcolor::StandardStream::stderr(choice);
     print_colored(color, value, &mut stderr)
@@ -156,7 +177,7 @@ pub fn write_stdout(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            eprintln!("ERROR: write: StdoutLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
+            eprintln!("ERROR: StdoutLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
         }
     }
     match stdout_lock.flush() {
@@ -165,7 +186,7 @@ pub fn write_stdout(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            eprintln!("ERROR: write: stdout flushing error {}", err);
+            eprintln!("ERROR: stdout flushing error {}", err);
         }
     }
     if cfg!(debug_assertions) {
@@ -187,7 +208,7 @@ pub fn write_stderr(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            eprintln!("ERROR: write: StderrLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
+            eprintln!("ERROR: StderrLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
         }
     }
     match stderr_lock.flush() {
@@ -196,7 +217,7 @@ pub fn write_stderr(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            eprintln!("ERROR: write: stderr flushing error {}", err);
+            eprintln!("ERROR: stderr flushing error {}", err);
         }
     }
     if cfg!(debug_assertions) {
@@ -204,5 +225,381 @@ pub fn write_stderr(buffer: &[u8]) {
         match std::io::stdout().flush() {
             _ => {},
         }
+    }
+}
+
+/// a printer specialized for `Sysline`s
+pub struct Printer_Sysline {
+    /// handle to stdout
+    /// TODO: make this a single global lazy_static
+    stdout: std::io::Stdout,
+    /// termcolor handle to stdout
+    /// TODO: make this a single global lazy_static
+    stdout_color: termcolor::StandardStream,
+    /// should printing be in color?
+    do_color: bool,
+    /// termcolor::ColorChoice
+    color_choice: ColorChoice,
+    /// color settings for plain text (not sysline)
+    color_spec_default: ColorSpec,
+    /// color of printed sysline data
+    color_sysline: Color,
+    /// color settings for sysline text
+    color_spec_sysline: ColorSpec,
+    /// color settings for sysline dateline text
+    color_spec_datetime: ColorSpec,
+    /// should a file name or path be printed before each line?
+    do_prepend_file: bool,
+    /// the file name or path string.
+    /// width spacing (CLI option --prepend-file-align) should already be
+    /// embedded by the caller
+    prepend_file: Option<String>,
+    /// should a date be printed before each line?
+    do_prepend_date: bool,
+    /// format string for printed date
+    prepend_date_format: String,
+    /// timezone offset of printed date
+    prepend_date_offset: Option<FixedOffset>,
+}
+
+macro_rules! write_or_return {
+    ($stdout:expr, $var_a:expr) => {
+        match $stdout.write($var_a) {
+            Ok(_) => {}
+            Err(err) => {
+                // XXX: this will print when this program stdout is truncated, like when piping to `head`
+                //          Broken pipe (os error 32)
+                eprintln!("ERROR: {}.write({}@{:p}) (len {})) error {}", stringify!($stdout), stringify!($var_a), $var_a, $var_a.len(), err);
+                $stdout.flush();
+                return Err(err);
+            }
+        }
+    };
+}
+
+macro_rules! setcolor_or_return {
+    ($stdout:expr, $var_a:expr) => {
+        if let Err(err) = $stdout.set_color(&$var_a) {
+            eprintln!("ERROR: {}.set_color({:?}) returned error {}", stringify!($stdout), $var_a, err);
+            return Err(err);
+        };
+    };
+}
+
+/*
+lazy_static! {
+    #[derive(Debug)]
+    static ref color_spec_datetime: ColorSpec = {
+        let mut cs = ColorSpec::new();
+        cs.set_bold(true);
+        cs.set_underline(true);
+        cs
+    };
+}
+*/
+
+impl Printer_Sysline {
+    pub fn new(
+        color_choice: ColorChoice,
+        color_sysline: Color,
+        prepend_file: Option<String>,
+        prepend_date_format: Option<String>,
+        prepend_date_offset: Option<FixedOffset>,
+    ) -> Printer_Sysline {
+        // get a stdout handle once
+        let stdout = std::io::stdout();
+        let stdout_color = termcolor::StandardStream::stdout(color_choice);
+        let do_color: bool = match color_choice {
+            ColorChoice::Never => false,
+            ColorChoice::Always | ColorChoice::AlwaysAnsi | ColorChoice::Auto => true,
+        };
+        let color_spec_default: ColorSpec = ColorSpec::new();
+        let mut color_spec_sysline: ColorSpec = ColorSpec::new();
+        color_spec_sysline.set_fg(Some(color_sysline));
+        let mut color_spec_datetime: ColorSpec = ColorSpec::new();
+        color_spec_datetime.set_fg(Some(color_sysline));
+        color_spec_datetime.set_underline(true);
+        let do_prepend_date = prepend_date_offset.is_some();
+        let prepend_date_format_: String = prepend_date_format.unwrap_or_default();
+        if do_prepend_date {
+            assert!(!prepend_date_format_.is_empty(), "passed a prepend_utc or prepend_local, must pass a prepend_date_format");
+        }
+
+        Printer_Sysline {
+            stdout,
+            stdout_color,
+            do_color,
+            color_choice,
+            color_spec_default,
+            color_sysline,
+            color_spec_sysline,
+            color_spec_datetime,
+            do_prepend_file: prepend_file.is_some(),
+            prepend_file,
+            do_prepend_date,
+            prepend_date_format: prepend_date_format_,
+            prepend_date_offset,
+        }
+    }
+
+    /// prints the `SyslineP` based on `Printer_Sysline` settings
+    #[inline(always)]
+    pub fn print_sysline(&mut self, syslinep: &SyslineP) -> Result<()> {
+        // TODO: [2022/06/19] how to determine if "Auto" has become Always or Never?
+        // see https://docs.rs/termcolor/latest/termcolor/#detecting-presence-of-a-terminal
+        match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
+            (false, false, false) => self.print_sysline_(syslinep),
+            (false, true, false) => self.print_sysline_prependfile(syslinep),
+            (false, false, true) => self.print_sysline_prependdate(syslinep),
+            (false, true, true) => self.print_sysline_prependfile_prependdate(syslinep),
+            (true, false, false) => self.print_color_sysline(syslinep),
+            (true, true, false) => self.print_color_sysline_prependfile(syslinep),
+            (true, false, true) => self.print_color_sysline_prependdate(syslinep),
+            (true, true, true) => self.print_color_sysline_prependfile_prependdate(syslinep),
+        }
+    }
+
+    /// helper to get `syslinep.dt` as a `String`
+    #[inline(always)]
+    fn datetime_to_string(&mut self, syslinep: &SyslineP) -> String {
+        // write the `syslinep.dt` into a `String` once
+        //
+        // XXX: would be cool if `chrono::DateTime` offered a format that returned
+        //      `[u8; 100]` on the stack (where `100` is maximum possible length).
+        //      That would be much faster than heap allocating a new `String`.
+        //      instead, `format` returns a `DelayedFormat` object
+        //      https://docs.rs/chrono/latest/chrono/format/struct.DelayedFormat.html
+        //
+        let dt_: DateTimeL = (*syslinep).dt.unwrap().with_timezone(&self.prepend_date_offset.unwrap());
+        let dt_delayedformat = dt_.format(self.prepend_date_format.as_str());
+
+        dt_delayedformat.to_string()
+    }
+
+    /// helper to print lineparts
+    /// TODO: make this a macro and it could be used in all functions
+    #[inline(always)]
+    fn print_line(&mut self, linep: &LineP, stdout_lock: &mut std::io::StdoutLock) -> Result<()> {
+        for linepart in (*linep).lineparts.iter() {
+            let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+            write_or_return!(stdout_lock, slice);
+        }
+
+        Ok(())
+    }
+
+    /// helper to print lineparts in color
+    #[inline(always)]
+    fn print_color_line(&mut self, linep: &LineP) -> Result<()> {
+        for linepart in (*linep).lineparts.iter() {
+            let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+            write_or_return!(self.stdout_color, slice);
+        }
+
+        Ok(())
+    }
+
+    /// print a `Sysline` without anything special
+    fn print_sysline_(&mut self, syslinep: &SyslineP) -> Result<()> {
+        let mut stdout_lock = self.stdout.lock();
+        for linep in (*syslinep).lines.iter() {
+            /*
+            for linepart in (*linep).lineparts.iter() {
+                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+                match stdout_lock.write(slice) {
+                    Ok(_) => {}
+                    Err(err) => {
+                        // XXX: this will print when this program stdout is truncated, like when piping to `head`
+                        //          Broken pipe (os error 32)
+                        eprintln!("ERROR: stdout_lock.write(slice@{:p} (len {})) error {}", slice, slice.len(), err);
+                        return Err(err);
+                    }
+                }
+            }
+            */
+            self.print_line(linep, &mut stdout_lock)?;
+        }
+
+        stdout_lock.flush()
+    }
+
+    fn print_sysline_prependdate(&mut self, syslinep: &SyslineP) -> Result<()> {
+        debug_assert!(self.prepend_date_offset.is_some(), "self.prepend_date_offset is {:?}", self.prepend_date_offset);
+
+        let dt_string: String = self.datetime_to_string(syslinep);
+        let mut stdout_lock = self.stdout.lock();
+        for linep in (*syslinep).lines.iter() {
+            write_or_return!(stdout_lock, dt_string.as_bytes());
+            /*
+            for linepart in (*linep).lineparts.iter() {
+                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+                match stdout_lock.write(slice) {
+                    Ok(_) => {}
+                    Err(err) => {
+                        // XXX: this will print when this program stdout is truncated, like when piping to `head`
+                        //          Broken pipe (os error 32)
+                        eprintln!("ERROR: stdout_lock.write(slice@{:p} (len {})) error {}", slice, slice.len(), err);
+                        return Err(err);
+                    }
+                }
+            }
+            */
+            self.print_line(linep, &mut stdout_lock)?;
+        }
+
+        stdout_lock.flush()
+    }
+
+    fn print_sysline_prependfile(&mut self, syslinep: &SyslineP) -> Result<()> {
+        debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
+
+        let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
+        let mut stdout_lock = self.stdout.lock();
+        for linep in (*syslinep).lines.iter() {
+            write_or_return!(stdout_lock, prepend_file);
+            // XXX: cannot use `print_line(linep)` because of immutable and mutable borrow conflict
+            for linepart in (*linep).lineparts.iter() {
+                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+                write_or_return!(stdout_lock, slice);
+            }
+            //self.print_line(linep, &mut stdout_lock)?;
+        }
+
+        stdout_lock.flush()
+    }
+
+    fn print_sysline_prependfile_prependdate(&mut self, syslinep: &SyslineP) -> Result<()> {
+        debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
+        debug_assert!(self.prepend_date_offset.is_some(), "self.prepend_date_offset is {:?}", self.prepend_date_offset);
+
+        let dt_string: String = self.datetime_to_string(syslinep);
+        let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
+        let mut stdout_lock = self.stdout.lock();
+        for linep in (*syslinep).lines.iter() {
+            write_or_return!(stdout_lock, prepend_file);
+            write_or_return!(stdout_lock, dt_string.as_bytes());
+            // XXX: cannot use `print_line(linep)` because of immutable and mutable borrow conflict
+            for linepart in (*linep).lineparts.iter() {
+                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+                write_or_return!(stdout_lock, slice);
+            }
+            //self.print_line(linep, &mut stdout_lock)?;
+        }
+
+        stdout_lock.flush()
+    }
+
+    //pub type Slices<'a> = Vec<&'a [u8]>;
+
+    // prints with color
+    fn print_color_sysline(&mut self, syslinep: &SyslineP) -> Result<()> {
+        let mut line_first: bool = true;
+        let dtb = (*syslinep).dt_beg;
+        let dte = (*syslinep).dt_end;
+        let _stdout_lock = self.stdout.lock();
+        setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
+        for linep in (*syslinep).lines.iter() {
+            if line_first {
+                // first line has the embedded datetime which will be bolded
+                let mut at: LineIndex = 0;
+                for linepart in (*linep).lineparts.iter() {
+                    let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+                    let len_: usize = slice.len();
+                    if chmp!(at <= dtb < dte < (at + len_)) {
+                        let slice_a = &slice[..(dtb-at)];
+                        let slice_b_dt = &slice[(dtb-at)..(dte-at)];
+                        let slice_c = &slice[(dte-at)..];
+                        if !slice_a.is_empty() {
+                            setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
+                            write_or_return!(self.stdout_color, slice_a);
+                        }
+                        setcolor_or_return!(self.stdout_color, self.color_spec_datetime);
+                        write_or_return!(self.stdout_color, slice_b_dt);
+                        if !slice_c.is_empty() {
+                            setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
+                            write_or_return!(self.stdout_color, slice_c);
+                        }
+                    } else {
+                        // BUG: [2022/03] does not handle datetime that crosses into next slice (block)
+                        // LAST WORKING HERE 2022/06/20 03:55:34 need to implement handling this
+                        setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
+                        write_or_return!(self.stdout_color, slice);
+                    }
+                    at += len_ as LineIndex;
+                }
+            } else {
+                self.print_color_line(linep)?;
+            }
+            line_first = false;
+        }
+        setcolor_or_return!(self.stdout_color, self.color_spec_default);
+
+        self.stdout_color.flush()
+    }
+
+    fn print_color_sysline_prependdate(&mut self, syslinep: &SyslineP) -> Result<()> {
+        let dt_string: String = self.datetime_to_string(syslinep);
+        let _stdout_lock = self.stdout.lock();
+        for linep in (*syslinep).lines.iter() {
+            setcolor_or_return!(self.stdout_color, self.color_spec_default);
+            write_or_return!(self.stdout_color, dt_string.as_bytes());
+            setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
+            /*
+            for linepart in (*linep).lineparts.iter() {
+                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+                match self.stdout_color.write(slice) {
+                    Ok(_) => {}
+                    Err(err) => {
+                        // XXX: this will print when this program stdout is truncated, like when piping to `head`
+                        //          Broken pipe (os error 32)
+                        eprintln!("ERROR: stdout_color.write(slice@{:p} (len {})) error {}", slice, slice.len(), err);
+                        return Err(err);
+                    }
+                }
+            }
+            */
+            self.print_color_line(linep)?;
+        }
+        setcolor_or_return!(self.stdout_color, self.color_spec_default);
+
+        self.stdout_color.flush()
+    }
+
+    fn print_color_sysline_prependfile(&mut self, syslinep: &SyslineP) -> Result<()> {
+        let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
+        let _stdout_lock = self.stdout.lock();
+        for linep in (*syslinep).lines.iter() {
+            setcolor_or_return!(self.stdout_color, self.color_spec_default);
+            write_or_return!(self.stdout_color, prepend_file);
+            setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
+            // XXX: cannot use `print_color_line(linep)` because of immutable and mutable borrow conflict
+            for linepart in (*linep).lineparts.iter() {
+                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+                write_or_return!(self.stdout_color, slice);
+            }
+        }
+        setcolor_or_return!(self.stdout_color, self.color_spec_default);
+
+        self.stdout_color.flush()
+    }
+
+    fn print_color_sysline_prependfile_prependdate(&mut self, syslinep: &SyslineP) -> Result<()> {
+        let dt_string: String = self.datetime_to_string(syslinep);
+        let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
+        let _stdout_lock = self.stdout.lock();
+        for linep in (*syslinep).lines.iter() {
+            setcolor_or_return!(self.stdout_color, self.color_spec_default);
+            write_or_return!(self.stdout_color, prepend_file);
+            write_or_return!(self.stdout_color, dt_string.as_bytes());
+            setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
+            // XXX: cannot use `print_color_line(linep)` because of immutable and mutable borrow conflict
+            for linepart in (*linep).lineparts.iter() {
+                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+                write_or_return!(self.stdout_color, slice);
+            }
+        }
+        setcolor_or_return!(self.stdout_color, self.color_spec_default);
+
+        self.stdout_color.flush()
     }
 }

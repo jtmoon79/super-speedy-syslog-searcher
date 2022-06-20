@@ -6,7 +6,7 @@ use crate::common::{
     FileType,
 };
 
-use crate::dbgpr::helpers::{
+use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_with_suffix,

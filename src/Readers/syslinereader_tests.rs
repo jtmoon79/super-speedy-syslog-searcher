@@ -38,7 +38,7 @@ use crate::Data::datetime::{
     Result_Filter_DateTime2,
 };
 
-use crate::dbgpr::helpers::{
+use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_bytes,
@@ -46,11 +46,11 @@ use crate::dbgpr::helpers::{
     eprint_file,
 };
 
-use crate::dbgpr::printers::{
+use crate::printer_debug::printers::{
     str_to_String_noraw,
 };
 
-use crate::dbgpr::stack::{
+use crate::printer_debug::stack::{
     stack_offset_set,
     sn,
     so,

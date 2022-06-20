@@ -19,12 +19,12 @@ use crate::common::{
 };
 
 #[cfg(any(debug_assertions,test))]
-use crate::dbgpr::printers::{
+use crate::printer_debug::printers::{
     byte_to_char_noraw,
 };
 
 #[cfg(any(debug_assertions,test))]
-use crate::dbgpr::stack::{
+use crate::printer_debug::stack::{
     sn,
     so,
     sx,

@@ -5,12 +5,12 @@ use crate::common::{
     FPath,
 };
 
-use crate::dbgpr::helpers::{
+use crate::printer_debug::helpers::{
     create_temp_file_with_name_exact,
     NTF_Path,
 };
 
-use crate::dbgpr::stack::{
+use crate::printer_debug::stack::{
     sn,
     so,
     sx,

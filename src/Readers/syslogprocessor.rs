@@ -21,7 +21,7 @@ use crate::Readers::blockreader::{
 };
 
 #[cfg(any(debug_assertions,test))]
-use crate::dbgpr::stack::{
+use crate::printer_debug::stack::{
     sn,
     snx,
     sx,

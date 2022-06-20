@@ -24,14 +24,14 @@ use crate::common::{
 };
 
 #[cfg(any(debug_assertions,test))]
-use crate::dbgpr::printers::{
+use crate::printer_debug::printers::{
     byte_to_char_noraw,
     buffer_to_String_noraw,
     char_to_char_noraw,
 };
 
 #[cfg(any(debug_assertions,test))]
-use crate::dbgpr::stack::{
+use crate::printer_debug::stack::{
     so,
 };
 
@@ -59,8 +59,8 @@ use more_asserts::{
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// A sequence to track a `Line`.
-/// A "line" may span multiple `Block`s. One `LinePart` is needed for each `Block`.
+/// A sequence to track the `[u8]` that make up a `Line`.
+/// A "line" may span multiple `Block`s. One `LinePart` refers to one `Block`.
 pub type LineParts = Vec<LinePart>;
 /// A sequence to track one or more `LineP` that make up a `Sysline` 
 pub type Lines = Vec<LineP>;
@@ -68,17 +68,19 @@ pub type Lines = Vec<LineP>;
 pub type LineIndex = usize;
 /// thread-safe Atomic Reference Counting pointer to a `Line`
 pub type LineP = Arc<Line>;
-/// set of `BlockOffset`s that a `Line` may hold data
-pub type BlockOffsets = BTreeSet::<BlockOffset>;
+// set of `BlockOffset`s that a `Line` may hold data
+//pub type BlockOffsets = BTreeSet::<BlockOffset>;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // LinePart, Line, and LineReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// Struct describing a part or all of a line within a `Block`
-/// A "line" can span more than one `Block`. This tracks part or all of a line within
-/// one `Block`. One `LinePart` to one `Block`.
-/// One or more `LinePart`s are necessary to represent an entire `Line`.
+/// Struct describing a part or all of a line within a `Block`.
+///
+/// A "line" can span more than one `Block`. A `LinePart` tracks a part or all of a line data
+/// residing in one `Block`. One `LinePart` to one `Block`.
+///
+/// One or more `LinePart`s are needed to represent a `Line`.
 pub struct LinePart {
     /// index into the `blockp`, index at beginning
     /// used as-is in slice notation
@@ -506,8 +508,8 @@ impl Line {
     }
 
     /// return a count of slices that make up this `Line`
-    pub fn count_slices(self: &Line) -> usize {
-        self.lineparts.len()
+    pub fn count_slices(self: &Line) -> Count {
+        self.lineparts.len() as Count
     }
 
     /// get Box pointers to the underlying `&[u8]` slice that makes up this `Line`.

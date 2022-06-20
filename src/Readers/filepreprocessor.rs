@@ -14,7 +14,7 @@ use crate::Readers::helpers::{
 };
 
 #[cfg(any(debug_assertions,test))]
-use crate::dbgpr::stack::{
+use crate::printer_debug::stack::{
     sn,
     snx,
     so,
