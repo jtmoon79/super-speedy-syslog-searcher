@@ -97,7 +97,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref Datas: Vec<&'static Vec<u8>>  = vec![
+    static ref Datas: Vec<&'static Vec<u8>> = vec![
         // easy runs (no invalid UTF8) x18
         &Data1, &Data1, &Data1,
         &Data2, &Data2, &Data2, &Data2, &Data2,
