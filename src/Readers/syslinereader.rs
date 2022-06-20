@@ -403,18 +403,6 @@ impl SyslineReader {
         }
     }
 
-    /// print all known `Sysline`s
-    ///
-    /// Testing helper only
-    #[cfg(test)]
-    pub fn print_all(&self, raw: bool) {
-        debug_eprintln!("{}print_all(true)", sn());
-        for fo in self.syslines.keys() {
-            self.print(*fo, raw);
-        }
-        debug_eprintln!("\n{}print_all(true)", sx());
-    }
-
     /// is this `SyslineP` the last `Sysline` of the entire file?
     /// (not the same as last Sysline within the optional datetime filters).
     pub(crate) fn is_sysline_last(&self, syslinep: &SyslineP) -> bool {

@@ -142,7 +142,7 @@ pub struct BlockReader {
     /// File.metadata()
     /// For compressed or archived files, the metadata of the `path`
     /// compress or archive file.
-    file_metadata: FileMetadata,
+    _file_metadata: FileMetadata,
     /// The `MimeGuess::from_path` result
     mimeguess_: MimeGuess,
     /// enum that guides file-handling behavior in `read`, `new`
@@ -201,14 +201,14 @@ pub struct BlockReader {
 
 impl fmt::Debug for BlockReader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        //let f_ = match &self.file_metadata {
+        //let f_ = match &self._file_metadata {
         //    None => format!("None"),
         //    Some(val) => format!("{:?}", val.file_type()),
         //};
         f.debug_struct("BlockReader")
             .field("path", &self.path)
             .field("file", &self.file)
-            //.field("file_metadata", &self.file_metadata)
+            //.field("file_metadata", &self._file_metadata)
             .field("mimeguess", &self.mimeguess_)
             .field("filesz", &self.filesz())
             .field("blockn", &self.blockn)
@@ -514,7 +514,7 @@ impl BlockReader {
             BlockReader {
                 path,
                 file,
-                file_metadata,
+                _file_metadata: file_metadata,
                 mimeguess_,
                 filetype,
                 gz: gz_opt,

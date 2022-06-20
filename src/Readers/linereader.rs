@@ -259,15 +259,6 @@ impl LineReader {
     }
 
     /// Testing helper only
-    /// print all known `Line`s
-    #[cfg(any(debug_assertions, test))]
-    pub(crate) fn print_all(&self) {
-        for fo in self.lines.keys() {
-            self.print(fo);
-        }
-    }
-
-    /// Testing helper only
     /// copy `Line`s at `fileoffset` to String buffer
     #[cfg(test)]
     pub(crate) fn copy_line(&self, fileoffset: &FileOffset, buffer: &mut String) -> bool {

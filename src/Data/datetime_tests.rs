@@ -202,16 +202,6 @@ fn test_dt_pass_filters_fixedoffset2() {
         let result = dt_pass_filters(&dt, &da, &db);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for {:?} among dt_pass_filters({:?}, {:?})", exp_result, result, dt, da, db);
         eprintln!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
-        /*
-        #[allow(unused_must_use)]
-        #[allow(clippy::match_single_binding)]
-        match print_colored_stdout(
-            Color::Green,
-            format!("{}({:?}, {:?}, {:?}) returned expected {:?}\n", so(), dt, da, db, result).as_bytes(),
-        ) {
-            _ => {},
-        }
-        */
     }
     eprintln!("{}test_dt_pass_filters_fixedoffset2()", sx());
 }
@@ -346,16 +336,6 @@ fn test_dt_after_or_before() {
         let result = dt_after_or_before(&dt, &da);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?})", exp_result, result, dt, da);
         eprintln!("dt_after_or_before(\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, result);
-        /*
-        #[allow(unused_must_use)]
-        #[allow(clippy::match_single_binding)]
-        match print_colored_stdout(
-            Color::Green,
-            format!("{}({:?}, {:?}) returned expected {:?}\n", so(), dt, da, result).as_bytes(),
-        ) {
-            _ => {},
-        }
-        */
     }
     eprintln!("{}test_dt_after_or_before()", sx());
 }

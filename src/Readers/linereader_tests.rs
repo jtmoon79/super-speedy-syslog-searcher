@@ -166,18 +166,6 @@ fn process_LineReader(lr1: &mut LineReader) {
                     (*lp).to_String_noraw()
                 );
                 fo1 = fo;
-                /*
-                if cfg!(debug_assertions) {
-                    match print_colored_stdout(Color::Green, &(*lp).as_bytes()) {
-                        Ok(_) => {}
-                        Err(err) => {
-                            panic!("ERROR: print_colored_stdout returned error {}", err);
-                        }
-                    }
-                } else {
-                    (*lp).print(true);
-                }
-                */
                 (*lp).print(false);
             }
             ResultS4_LineFind::Found_EOF((fo, lp)) => {

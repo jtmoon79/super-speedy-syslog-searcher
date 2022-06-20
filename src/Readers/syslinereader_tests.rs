@@ -2388,7 +2388,6 @@ fn _test_SyslineReader_rand(path: &FPath, blocksz: BlockSz) {
     }
     // print the file as-is, it should not be affected by the previous random reads
     // TODO: [2022/03] this should capture printed output and do a direct comparison of files
-    //slr.print_all(true);
     eprintln!("\n{}{:?}", so(), slr);
     eprintln!("{}test_SyslineReader_rand(…)", sx());
 }

@@ -113,10 +113,6 @@ pub fn print_colored(color: Color, value: &[u8], std_: &mut termcolor::StandardS
             return Err(err);
         }
     };
-    //let mut stderr_lock:Option<io::StderrLock> = None;
-    //if cfg!(debug_assertions) {
-    //    stderr_lock = Some(io::stderr().lock());
-    //}
     match std_.write(value) {
         Ok(_) => {}
         Err(err) => {
@@ -132,12 +128,14 @@ pub fn print_colored(color: Color, value: &[u8], std_: &mut termcolor::StandardS
         }
     }
     std_.flush()?;
+
     Ok(())
 }
 
 /// print colored output to terminal on stdout.
 ///
 /// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
+#[cfg(test)]
 pub fn print_colored_stdout(
     color: Color,
     color_choice_opt: Option<ColorChoice>,
@@ -148,6 +146,9 @@ pub fn print_colored_stdout(
         None => ColorChoice::Auto,
     };
     let mut stdout = termcolor::StandardStream::stdout(choice);
+    let stdout_lock = std::io::stdout().lock();
+    let stderr_lock = std::io::stderr().lock();
+
     print_colored(color, value, &mut stdout)
 }
 
@@ -164,6 +165,9 @@ pub fn print_colored_stderr(
         None => ColorChoice::Auto,
     };
     let mut stderr = termcolor::StandardStream::stderr(choice);
+    let stdout_lock = std::io::stdout().lock();
+    let stderr_lock = std::io::stderr().lock();
+
     print_colored(color, value, &mut stderr)
 }
 
@@ -171,6 +175,7 @@ pub fn print_colored_stderr(
 pub fn write_stdout(buffer: &[u8]) {
     let stdout = std::io::stdout();
     let mut stdout_lock = stdout.lock();
+    let stderr_lock = std::io::stderr().lock();
     match stdout_lock.write(buffer) {
         Ok(_) => {}
         Err(err) => {
@@ -189,19 +194,14 @@ pub fn write_stdout(buffer: &[u8]) {
             eprintln!("ERROR: stdout flushing error {}", err);
         }
     }
-    if cfg!(debug_assertions) {
-        #[allow(clippy::match_single_binding)]
-        match std::io::stderr().flush() {
-            _ => {},
-        }
-    }
 }
 
 /// safely write the `buffer` to stdout with help of `StderrLock`
-#[cfg(any(debug_assertions,test))]
+#[cfg(test)]
 pub fn write_stderr(buffer: &[u8]) {
     let stderr = std::io::stderr();
     let mut stderr_lock = stderr.lock();
+    let stdout_lock = std::io::stdout().lock();
     match stderr_lock.write(buffer) {
         Ok(_) => {}
         Err(err) => {
@@ -270,7 +270,10 @@ macro_rules! write_or_return {
                 // XXX: this will print when this program stdout is truncated, like when piping to `head`
                 //          Broken pipe (os error 32)
                 eprintln!("ERROR: {}.write({}@{:p}) (len {})) error {}", stringify!($stdout), stringify!($var_a), $var_a, $var_a.len(), err);
-                $stdout.flush();
+                match $stdout.flush() {
+                    Ok(_) => {},
+                    Err(_) => {},
+                }
                 return Err(err);
             }
         }
@@ -285,18 +288,6 @@ macro_rules! setcolor_or_return {
         };
     };
 }
-
-/*
-lazy_static! {
-    #[derive(Debug)]
-    static ref color_spec_datetime: ColorSpec = {
-        let mut cs = ColorSpec::new();
-        cs.set_bold(true);
-        cs.set_underline(true);
-        cs
-    };
-}
-*/
 
 impl Printer_Sysline {
     pub fn new(
