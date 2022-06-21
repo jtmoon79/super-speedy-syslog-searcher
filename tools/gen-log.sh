@@ -33,7 +33,7 @@ declare -ir epoch_2000_PST=946713600
 # first sysline datetime is this Unix Epoch time (i.e. a count in seconds)
 declare -i dt_start=${4-${epoch_2000_PST}}
 
-declare lc_str="${line_count}"  # line count as string
+declare lc_str=$((line_count - 1))  # line count as string
 declare -ir lc_i=${#lc_str}  # line count characters wide as integer
 
 # pre-create all possible alphabet sylines
