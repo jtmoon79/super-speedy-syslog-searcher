@@ -14,7 +14,8 @@ cd "$(dirname "${0}")/.."
 if [[ -d '.git' ]]; then
     (set -x; git log -n1 --format='%h %D')
 fi
-(set -x; ./target/release/s4 --version)
+PROGRAM=${PROGRAM-./target/release/s4}
+(set -x; "${PROGRAM}" --version)
 # use full path to Unix tools
 grep=$(which grep)
 (set -x; $grep --version) | head -n1
@@ -37,7 +38,7 @@ function exit_() {
 trap exit_ EXIT
 
 declare -a files=(
-    $(ls -1 ./logs/other/tests/gen-{100-10-......,100-10-BRAAAP,100-10-FOOBAR,100-10-______,100-10-skullcrossbones,100-4-happyface,1000-3-foobar,200-1-jajaja,400-4-shamrock,99999-1-Hüsker_Dü}.log)
+    $(ls -1 ./logs/other/tests/gen-{100-10-......,100-10-BRAAAP,100-10-FOOBAR,100-10-______,100-10-skullcrossbones,100-4-happyface,1000-3-foobar,200-1-jajaja,400-4-shamrock,99999-1-Hüsker_Dü,gen-99999-1-Motley_Crue.log}.log)
     #$(ls -1 ./logs/other/tests/gen-99999-1-Hüsker_Dü.log.gz)
     #$(ls -1 ./logs/other/tests/dtf5-6a.log{,.gz})
 )
@@ -63,7 +64,7 @@ declare -ar s4_args=(
 #export RUST_BACKTRACE=1
 set -x
 $time -p "${@}" -- \
-    ./target/release/s4 \
+    "${PROGRAM}" \
     "${s4_args[@]}" \
     "${files[@]}" \
     >/dev/null
@@ -86,7 +87,7 @@ $time -p "${@}" -- \
 
 # run both programs again, save output for comparison
 
-./target/release/s4 \
+"${PROGRAM}" \
     "${s4_args[@]}" \
     "${files[@]}" \
     > "${tmp1}"
