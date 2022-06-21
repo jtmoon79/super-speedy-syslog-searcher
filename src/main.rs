@@ -761,14 +761,15 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
     syslogproc.process_stage3_stream_syslines();
 
     loop {
-        let result: ResultS4_SyslineFind = syslogproc.find_sysline(fo1);
+        // TODO: [2022/06/20] see note about refactoring `find` functions so they are more intuitive
+        let result: ResultS4_SyslineFind = syslogproc.find_sysline_between_datetime_filters(fo1);
         let eof: bool = result.is_eof();
         match result {
             ResultS4_SyslineFind::Found((fo, syslinep)) | ResultS4_SyslineFind::Found_EOF((fo, syslinep)) =>
             {
                 let is_last = syslogproc.is_sysline_last(&syslinep);
                 // XXX: yet another reason to get rid of `Found_EOF` (`Found` and `Done` are enough)
-                assert_eq!(eof, is_last, "from find_sysline({}), ResultS4_SyslineFind.is_eof is {:?} (EOF), yet the returned SyslineP.is_sysline_last is {:?}; they should always agree, for file {:?}", fo, eof, is_last, path);
+                assert_eq!(eof, is_last, "from find_sysline_between_datetime_filters({}), ResultS4_SyslineFind.is_eof is {:?} (EOF), yet the returned SyslineP.is_sysline_last is {:?}; they should always agree, for file {:?}", fo, eof, is_last, path);
                 debug_eprintln!("{}{:?}({}): chan_send_dt.send(({:p}, None, {}));", so(), _tid, tname, syslinep, is_last);
                 match chan_send_dt.send((Some(syslinep), None, is_last)) {
                     Ok(_) => {}

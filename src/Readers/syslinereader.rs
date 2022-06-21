@@ -1541,6 +1541,7 @@ impl SyslineReader {
     }
 
     /// wrapper to call `find_sysline_at_datetime_filter1`
+    #[inline(always)]
     pub fn find_sysline_at_datetime_filter(
         &mut self, fileoffset: FileOffset, dt_filter: &DateTimeL_Opt,
     ) -> ResultS4_SyslineFind {
@@ -1571,10 +1572,13 @@ impl SyslineReader {
     ///
     /// XXX: this function is large, cumbersome, and messy. Changes require extensive retesting.
     ///
+    /// TODO: rename this to `find_next_sysline_at_datetime_filter`, rename all `find_` functions to either
+    ///       `find_..._between_`, `find_...at_`, or `find_next`
+    ///       `between` and `at` mean binary search over the file, `next` means linear sequantial search
     fn find_sysline_at_datetime_filter1(
         &mut self, fileoffset: FileOffset, dt_filter: &DateTimeL_Opt,
     ) -> ResultS4_SyslineFind {
-        let _fname = "find_sysline_at_datetime_filter1";
+        const _fname: &str = "find_sysline_at_datetime_filter1";
         debug_eprintln!("{}{}(SyslineReader@{:p}, {}, {:?})", sn(), _fname, self, fileoffset, dt_filter);
         let filesz = self.filesz();
         let _fo_end: FileOffset = filesz as FileOffset;
@@ -1983,12 +1987,12 @@ impl SyslineReader {
     /// find the first `Sysline`, starting at `fileoffset`, that is at or after datetime filter
     /// `dt_filter_after` and before datetime filter `dt_filter_before`.
     ///
-    /// This does a binary search over the file, O(log(n)).
+    /// This uses `self.find_sysline_at_datetime_filter`
     ///
     pub fn find_sysline_between_datetime_filters(
         &mut self, fileoffset: FileOffset, dt_filter_after: &DateTimeL_Opt, dt_filter_before: &DateTimeL_Opt,
     ) -> ResultS4_SyslineFind {
-        let _fname = "find_sysline_between_datetime_filters";
+        const _fname: &str = "find_sysline_between_datetime_filters";
         debug_eprintln!("{}{}({}, {:?}, {:?})", sn(), _fname, fileoffset, dt_filter_after, dt_filter_before);
 
         match self.find_sysline_at_datetime_filter(fileoffset, dt_filter_after) {
