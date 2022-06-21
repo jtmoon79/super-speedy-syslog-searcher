@@ -35,8 +35,9 @@ declare -a files=(
 )
 
 (
-export RUST_BACKTRACE=1
-set -x
+#export RUST_BACKTRACE=1
+set -x;
+    exec \
     valgrind --tool=dhat \
     "${bin}" \
     -z 0xFFFF \
