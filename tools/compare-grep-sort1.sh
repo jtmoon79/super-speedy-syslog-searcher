@@ -39,9 +39,9 @@ trap exit_ EXIT
 
 declare -a files=(
     $(ls -1 \
-        ./logs/other/tests/gen-20-1-☺☻.log \
-        ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log \
-        ./logs/other/tests/gen-20-1-🌚🌛🌜🌝.log \
+        `#./logs/other/tests/gen-20-1-☺☻.log` \
+        `#./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log` \
+        `#./logs/other/tests/gen-20-1-🌚🌛🌜🌝.log` \
         ./logs/other/tests/gen-100-10-.......log \
         ./logs/other/tests/gen-100-10-BRAAAP.log \
         ./logs/other/tests/gen-100-10-FOOBAR.log \
@@ -112,11 +112,16 @@ $grep -hEe "${regex_dt}" -- \
 # compare the program outputs
 
 echo
+echo "The output files will differ due to sorting method differences."
+echo "However Line Count and Byte Count should be the same."
+echo
+# s4 line count byte count
 s4_lc=$(wc -l < "${tmp1}")
 s4_bc=$(wc -c < "${tmp1}")
 echo "super_speedy_syslog_searcher output file"
 echo "  Line Count ${s4_lc}"
 echo "  Byte Count ${s4_bc}"
+# grep|sort line count byte count
 gs_lc=$(wc -l < "${tmp2}")
 gs_bc=$(wc -c < "${tmp2}")
 echo "'grep | sort' output file"
@@ -125,10 +130,6 @@ echo "  Byte Count ${gs_bc}"
 
 # literal output will differ!
 diff --brief "${tmp1}" "${tmp2}" || true
-# however...
-echo
-echo "The output files will differ due to sorting method differences."
-echo "However Line Count and Byte Count should be the same."
 
 declare -i ret=0
 if [[ ${s4_lc} -ne ${gs_lc} ]] || [[ ${s4_bc} -ne ${gs_bc} ]]; then
@@ -136,8 +137,14 @@ if [[ ${s4_lc} -ne ${gs_lc} ]] || [[ ${s4_bc} -ne ${gs_bc} ]]; then
     sort "${tmp1}" > "${tmp1b}"
     sort "${tmp2}" > "${tmp2b}"
     echo
+    echo "Line Count and Byte Count are not the same. (ಠ_ಠ)"
+    echo
     echo "Difference Preview:"
-    (set -x; diff -y --width=$COLUMNS --suppress-common-lines "${tmp1b}" "${tmp2b}") | head -n 20
+    ((set -x; diff -y --width=${COLUMNS-120} --suppress-common-lines "${tmp1b}" "${tmp2b}") || true) | head -n 20
+else
+    echo
+    echo "Line Count and Byte Count are the same. (ʘ‿ʘ)"
+    echo
 fi
 
 exit ${ret}
