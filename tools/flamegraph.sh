@@ -4,6 +4,7 @@
 #   apt install -y linux-perf linux-tools-generic
 #   cargo install flamegraph
 #
+# noted at https://nnethercote.github.io/perf-book/profiling.html
 
 set -euo pipefail
 
