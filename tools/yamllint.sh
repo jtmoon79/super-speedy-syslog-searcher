@@ -12,4 +12,3 @@ exec \
   yamllint \
     "./.github/workflows/rust.yml" \
    "${@}"
-
