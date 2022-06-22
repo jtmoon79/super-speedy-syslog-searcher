@@ -1,5 +1,4 @@
 // Data/datetime_tests.rs
-//
 
 use super::datetime::{
     FixedOffset,

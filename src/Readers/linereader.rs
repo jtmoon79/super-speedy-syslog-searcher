@@ -12,6 +12,10 @@ pub use crate::common::{
     ResultS3,
 };
 
+use crate::common::{
+    ResultS4,
+};
+
 pub use crate::Data::line::{
     LineIndex,
     Line,
@@ -28,10 +32,6 @@ use crate::Readers::blockreader::{
     BlockP,
     BlockReader,
     ResultS3_ReadBlock,
-};
-
-use crate::common::{
-    ResultS4,
 };
 
 #[cfg(any(debug_assertions,test))]

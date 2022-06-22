@@ -10,6 +10,10 @@ pub use crate::common::{
     ResultS3,
 };
 
+use crate::common::{
+    Bytes,
+};
+
 use crate::Readers::blockreader::{
     BlockSz,
     BlockOffset,
@@ -17,10 +21,6 @@ use crate::Readers::blockreader::{
     BlockP,
     Slices,
     BlockReader,
-};
-
-use crate::common::{
-    Bytes,
 };
 
 #[cfg(any(debug_assertions,test))]

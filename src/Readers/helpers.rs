@@ -2,8 +2,6 @@
 //
 // miscellaneous helper functions
 
-use std;
-
 #[cfg(test)]
 use crate::common::{
     FileOffset,
@@ -12,6 +10,8 @@ use crate::common::{
 use crate::common::{
     FPath,
 };
+
+use std;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

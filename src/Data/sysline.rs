@@ -143,6 +143,10 @@ impl Sysline {
         Sysline::CHARSZ
     }
 
+    pub fn dt(self: &Sysline) -> &DateTimeL_Opt {
+        &self.dt
+    }
+
     pub fn push(&mut self, linep: LineP) {
         if !self.lines.is_empty() {
             // TODO: sanity check lines are in sequence

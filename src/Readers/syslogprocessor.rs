@@ -328,7 +328,7 @@ impl SyslogProcessor {
     }
 
     /// wrapper to `self.syslinereader.is_sysline_last`
-    pub(crate) fn is_sysline_last(&self, syslinep: &SyslineP) -> bool {
+    pub fn is_sysline_last(&self, syslinep: &SyslineP) -> bool {
         self.syslinereader.is_sysline_last(syslinep)
     }
 

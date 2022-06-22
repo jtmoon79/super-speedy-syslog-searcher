@@ -20,14 +20,25 @@ use std::thread;
 
 extern crate backtrace;
 
+// TODO: replace chain_cmp with a local impl, removes one depency
 extern crate chain_cmp;
 use chain_cmp::chmp;
+
+extern crate chrono;
+use chrono::{
+    FixedOffset,
+    Local,
+    Offset,
+    TimeZone,
+    Utc,
+};
 
 extern crate clap;
 use clap::{
     ArgEnum,
     Parser,
 };
+
 
 extern crate crossbeam_channel;
 
@@ -46,8 +57,10 @@ extern crate unicode_width;
 // XXX: why importing the same name does not cause problems?
 use std::fmt::Display;
 
-mod common;
-use crate::common::{
+extern crate s4lib;
+
+//mod common;
+use s4lib::common::{
     Count,
     FPath,
     FPaths,
@@ -56,22 +69,16 @@ use crate::common::{
     NLu8a,
 };
 
-mod Data;
-use Data::datetime::{
+//mod Data;
+use s4lib::Data::datetime::{
     DateTimeL_Opt,
     DateTime_Parse_Data_str,
     DateTime_Parse_Data_str_to_DateTime_Parse_Data,
     str_datetime,
-    // chrono imports
-    FixedOffset,
-    Local,
-    Offset,
-    TimeZone,
-    Utc,
 };
 
-mod printer_debug;
-use printer_debug::stack::{
+//mod printer_debug;
+use s4lib::printer_debug::stack::{
     so,
     sn,
     sx,
@@ -79,8 +86,8 @@ use printer_debug::stack::{
     stack_offset_set,
 };
 
-mod printer;
-use printer::printers::{
+//mod printer;
+use s4lib::printer::printers::{
     // termcolor imports
     Color,
     ColorChoice,
@@ -92,37 +99,36 @@ use printer::printers::{
     Printer_Sysline,
 };
 
-mod Readers;
-
-use Readers::blockreader::{
+//mod Readers;
+use s4lib::Readers::blockreader::{
     BlockSz,
     BLOCKSZ_MIN,
     BLOCKSZ_MAX,
     BLOCKSZ_DEFs,
 };
 
-use Readers::filepreprocessor::{
+use s4lib::Readers::filepreprocessor::{
     ProcessPathResult,
     ProcessPathResults,
     process_path,
 };
 
-use Readers::helpers::{
+use s4lib::Readers::helpers::{
     basename,
 };
 
-use Readers::summary::{
+use s4lib::Readers::summary::{
     Summary,
     Summary_Opt,
 };
 
-use Readers::syslinereader::{
+use s4lib::Readers::syslinereader::{
     SyslineP,
     SyslineP_Opt,
     ResultS4_SyslineFind,
 };
 
-use Readers::syslogprocessor::{
+use s4lib::Readers::syslogprocessor::{
     SyslogProcessor,
     FileProcessingResult_BlockZero,
 };
@@ -944,29 +950,31 @@ impl SummaryPrinted {
     }
 
     /// update a `SummaryPrinted` with information from a printed `Sysline`
+    /// 
+    /// TODO: 2022/06/21 any way to avoid a `DateTime` copy on every printed sysline?
     fn summaryprint_update(&mut self, syslinep: &SyslineP) {
         self.syslines += 1;
         self.lines += (*syslinep).count_lines();
         self.bytes += (*syslinep).count_bytes();
-        if let Some(dt) = (*syslinep).dt {
+        if let Some(dt) = (*syslinep).dt() {
             match self.dt_first {
                 Some(dt_first) => {
-                    if dt < dt_first {
-                        self.dt_first = Some(dt);
+                    if dt < &dt_first {
+                        self.dt_first = Some(*dt);
                     };
                 },
                 None => {
-                    self.dt_first = Some(dt);
+                    self.dt_first = Some(*dt);
                 },
             };
             match self.dt_last {
                 Some(dt_last) => {
-                    if dt > dt_last {
-                        self.dt_last = Some(dt);
+                    if dt > &dt_last {
+                        self.dt_last = Some(*dt);
                     };
                 },
                 None => {
-                    self.dt_last = Some(dt);
+                    self.dt_last = Some(*dt);
                 },
             };
         };
@@ -1446,7 +1454,7 @@ fn processing_loop(
             let chan_datum: &mut Chan_Datum;
             (pathid, chan_datum) = match map_pathid_datum.iter_mut().min_by(
                 |x, y|
-                    x.1.0.as_ref().unwrap().dt.cmp(&(y.1.0.as_ref().unwrap().dt))
+                    x.1.0.as_ref().unwrap().dt().cmp(y.1.0.as_ref().unwrap().dt())
             ) {
                 Some(val) => (
                     val.0, val.1

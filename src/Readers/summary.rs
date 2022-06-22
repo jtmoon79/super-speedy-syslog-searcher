@@ -1,8 +1,6 @@
 // Readers/summary.rs
 //
 
-use std::fmt;
-
 use crate::common::{
     Count,
     FileType,
@@ -25,6 +23,8 @@ use more_asserts::{
     assert_le,
     assert_ge,
 };
+
+use std::fmt;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Summary

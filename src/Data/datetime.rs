@@ -61,25 +61,24 @@ pub type DateTimeL_Opt = Option<DateTimeL>;
 ///       processing functions would attempt all values within `RangeInclusive` (plus the `Offset`).
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialOrd, PartialEq)]
 pub struct DateTime_Parse_Data {
-    pub(crate) pattern: DateTimePattern,
+    pub pattern: DateTimePattern,
     /// does the `pattern` have a year? ("%Y", "%y")
-    pub(crate) year: bool,
+    pub year: bool,
     /// does the `pattern` have a timezone? ("%z", "%Z", etc.)
-    pub(crate) tz: bool,
+    pub tz: bool,
     /// slice index begin of entire pattern
-    pub(crate) sib: LineIndex,
+    pub sib: LineIndex,
     /// slice index end of entire pattern
-    pub(crate) sie: LineIndex,
+    pub sie: LineIndex,
     /// slice index begin of only datetime portion of pattern
-    pub(crate) siba: LineIndex,
+    pub siba: LineIndex,
     /// slice index end of only datetime portion of pattern
-    pub(crate) siea: LineIndex,
+    pub siea: LineIndex,
 }
 
 //type DateTime_Parse_Data = (DateTimePattern, bool, LineIndex, LineIndex, LineIndex, LineIndex);
 /// Datetime Pattern, has year?, has timezone?, lineindex begin entire pattern, lineindex end, lineindex begin datetime portion, lineindex end
-pub(crate) type DateTime_Parse_Data_str<'a> = (&'a DateTimePattern_str, bool, bool, LineIndex, LineIndex, LineIndex, LineIndex);
-//type DateTime_Parse_Datas_ar<'a> = [DateTime_Parse_Data<'a>];
+pub type DateTime_Parse_Data_str<'a> = (&'a DateTimePattern_str, bool, bool, LineIndex, LineIndex, LineIndex, LineIndex);
 pub type DateTime_Parse_Datas_vec = Vec<DateTime_Parse_Data>;
 
 /// describe the result of comparing one DateTime to one DateTime Filter
@@ -586,8 +585,8 @@ pub(crate) const DATETIME_PARSE_DATAS: [DateTime_Parse_Data_str; DATETIME_PARSE_
     // TODO: [2022/03/24] add timestamp formats seen at https://www.unixtimestamp.com/index.php
 ];
 
-pub(crate)
-fn DateTime_Parse_Data_str_to_DateTime_Parse_Data(dtpds: &DateTime_Parse_Data_str) -> DateTime_Parse_Data {
+/// transform a `DateTime_Parse_Data_str` to `DateTime_Parse_Data`
+pub fn DateTime_Parse_Data_str_to_DateTime_Parse_Data(dtpds: &DateTime_Parse_Data_str) -> DateTime_Parse_Data {
     DateTime_Parse_Data {
         pattern: dtpds.0.to_string(),
         year: dtpds.1,

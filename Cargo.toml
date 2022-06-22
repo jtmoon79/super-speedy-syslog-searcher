@@ -14,22 +14,6 @@ keywords = ["syslog", "search", "sort"]
 readme = "README.md"
 rust-version = "1.61"
 
-[dev-dependencies]
-arraystring = "0.3.0"
-bstr = "0.2.17"
-criterion = "0.3.5"
-flamegraph = "0.6.1"
-jetscii = "0.5.1"
-memchr = "2.4.1"
-
-[[bench]]
-name = "bench_decode_utf"
-harness = false
-
-[[bench]]
-name = "bench_slice_contains"
-harness = false
-
 [dependencies]
 arrayref = "0.3.6"
 backtrace = "0.3.65"
@@ -57,8 +41,42 @@ unicode-width = "0.1.9"
 unroll = "0.1.5"
 walkdir = "2.3.2"
 
+[lib]
+name = "s4lib"
+path = "src/lib.rs"
+crate-type = ["lib"]
+test = false
+doctest = false
+bench = false
+doc = false
+plugin = false
+proc-macro = false
+harness = false
+edition = "2021"
+
 [[bin]]
 name = "s4"
-path = "src/main.rs"
-test = true
-doc = true
+path = "src/bin/bin.rs"
+test = false
+doc = false
+
+[dev-dependencies]
+arraystring = "0.3.0"
+bstr = "0.2.17"
+criterion = "0.3.5"
+flamegraph = "0.6.1"
+jetscii = "0.5.1"
+memchr = "2.4.1"
+
+[[bench]]
+name = "bench_decode_utf"
+harness = false
+
+[[bench]]
+name = "bench_slice_contains"
+harness = false
+
+[[bench]]
+name = "bench_syslinereader"
+path = "src/Readers/bench_syslinereader.rs"
+harness = false
