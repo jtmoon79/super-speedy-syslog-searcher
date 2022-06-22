@@ -30,11 +30,11 @@ if [[ ! -e "${PERF}" ]]; then
 fi
 export PERF
 
-if ! which flamegraph; then
-    echo "flamegraph is not in the PATH" >&2
-    did_install
-    exit 1
-fi
+#if ! which flamegraph; then
+#    echo "flamegraph is not in the PATH" >&2
+#    did_install
+#    exit 1
+#fi
 
 #echo "Cargo.toml must have:
 #
@@ -46,19 +46,37 @@ fi
 #" >&2
 
 declare -r bin=./target/release/s4
+declare -r bin_target=s4
 
 export CARGO_PROFILE_RELEASE_DEBUG=true
 export RUST_BACKTRACE=1
-(
-    set -x
-    cargo flamegraph --version
-    cargo flamegraph -v --deterministic -o 'flamegraph.svg' "${@}" -- \
-        "${bin}" \
-          -z 0x10000 -a '20000101T000100' \
-           $(find ./logs/other/tests/ -type f -not \( -name '*.gz' -o -name '*.xz' -o -name '*.tar' -o -name '*.zip' -o -name 'invalid*' \) ) \
-           >/dev/null
-    #flamegraph -o flamegraph.svg \
-    #  "${bin}" \
-    #  --path $(find ./logs/other/tests/ -type f -not \( -name '*.gz' -o -name '*.xz' -o -name '*.tar' -o -name '*.zip' -o -name 'invalid*' \) ) \
-    #  -- 0xFFFFF '20000101T000100' >/dev/null
-)
+OUT='flamegraph.svg'
+
+NOTES=$("${bin}" --version)
+# XXX: if $NOTES contains a '--' then flamegraph.svg will fail to render
+#if [[ -d '.git' ]]; then
+#    NOTES+="; $(git log -n1 --format='%h %D')"
+#fi
+
+set -x
+
+cargo flamegraph --version
+
+exec \
+cargo flamegraph \
+    -v \
+    --flamechart \
+    --deterministic \
+    -o "${OUT}" \
+    --bin "${bin_target}" \
+    --notes "${NOTES}" \
+    "${@}" \
+    -- \
+        -z 0x10000 -a '20000101T000100' \
+        $(find ./logs/other/tests/ -type f -not \( -name '*.gz' -o -name '*.xz' -o -name '*.tar' -o -name '*.zip' -o -name 'invalid*' \) ) \
+        >/dev/null
+#flamegraph -o flamegraph.svg \
+#  "${bin}" \
+#  --path $(find ./logs/other/tests/ -type f -not \( -name '*.gz' -o -name '*.xz' -o -name '*.tar' -o -name '*.zip' -o -name 'invalid*' \) ) \
+#  -- 0xFFFFF '20000101T000100' >/dev/null
+
