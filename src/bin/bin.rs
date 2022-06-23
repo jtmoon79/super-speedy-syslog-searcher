@@ -52,10 +52,10 @@ use debug_print::{
     debug_println
 };
 
-extern crate unicode_width;
+extern crate mime_guess;
+use mime_guess::MimeGuess;
 
-// XXX: why importing the same name does not cause problems?
-use std::fmt::Display;
+extern crate unicode_width;
 
 extern crate s4lib;
 
@@ -1008,7 +1008,7 @@ const OPT_SUMMARY_PRINT_CACHE_STATS: bool = true;
 /// print the various drop statistics
 const OPT_SUMMARY_PRINT_DROP_STATS: bool = true;
 /// for printing `--summary` lines, indentation
-const SPACING_LEAD: &str = "  ";
+const OPT_SUMMARY_PRINT_INDENT: &str = "  ";
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1027,6 +1027,8 @@ type Map_PathId_ProcessPathResult = HashMap::<PathId, ProcessPathResult>;
 type Map_PathId_FPath = BTreeMap::<PathId, FPath>;
 type Map_PathId_Color = HashMap::<PathId, Color>;
 type Map_PathId_PrinterSysline = HashMap::<PathId, Printer_Sysline>;
+type Map_PathId_FileType = HashMap::<PathId, FileType>;
+type Map_PathId_MimeGuess = HashMap::<PathId, MimeGuess>;
 
 /// the main processing loop:
 ///
@@ -1083,8 +1085,9 @@ fn processing_loop(
     //       (this might be a better place for mimeguess and mimeanalysis?)
     //       Would be best to first implment `FILE`, then `FILE_COMPRESS_GZ`, then `FILE_IN_ARCHIVE_TAR`
 
+    // precount the number of files that will be processed
     let file_count: usize = paths_results.iter()
-        .filter(|x| matches!(x, ProcessPathResult::FILE_VALID(_)))
+        .filter(|x| matches!(x, ProcessPathResult::FILE_VALID(..)))
         .count();
 
     // create various mappings of PathId -> Thingy:
@@ -1097,15 +1100,19 @@ fn processing_loop(
     let mut map_pathid_results_invalid = Map_PathId_ProcessPathResult::with_capacity(file_count);
     // use `map_pathid_path` for iterating, it is a BTreeMap (which iterates in consistent key order)
     let mut map_pathid_path = Map_PathId_FPath::new();
+    // map `PathId` to `FileType`
+    let mut map_pathid_filetype = Map_PathId_FileType::with_capacity(file_count);
+    let mut map_pathid_mimeguess = Map_PathId_MimeGuess::with_capacity(file_count);
     for (pathid_counter, processpathresult) in paths_results.drain(..).enumerate()
     {
         match processpathresult {
             // XXX: use `ref` to avoid "use of partially moved value" error
-            ProcessPathResult::FILE_VALID(ref filetype_path) =>
+            ProcessPathResult::FILE_VALID(ref filetype, ref mimeguess, ref path) =>
             {
-                let (_filetype, path) = filetype_path;
                 debug_eprintln!("{}processing_loop: map_pathid_results.push({:?})", so(), path);
                 map_pathid_path.insert(pathid_counter, path.clone());
+                map_pathid_filetype.insert(pathid_counter, *filetype);
+                map_pathid_mimeguess.insert(pathid_counter, *mimeguess);
                 map_pathid_results.insert(pathid_counter, processpathresult);
             }
             _ =>
@@ -1182,7 +1189,7 @@ fn processing_loop(
         let (filetype, _) = match map_pathid_results.get(pathid) {
             Some(processpathresult) => {
                 match processpathresult {
-                    ProcessPathResult::FILE_VALID((f_, p_)) => (f_, p_),
+                    ProcessPathResult::FILE_VALID(filetype, _m, path) => (filetype, path),
                     val => {
                         eprintln!("ERROR: unhandled ProcessPathResult {:?}", val);
                         continue;
@@ -1532,13 +1539,23 @@ fn processing_loop(
     if cli_opt_summary {
         eprintln!();
         eprintln!("Files:");
+        // print details about all the valid files
         print_all_files_summaries(
             &map_pathid_path,
+            &map_pathid_filetype,
+            &map_pathid_mimeguess,
             &map_pathid_color,
             &mut map_pathid_summary,
             &mut map_pathid_sumpr,
             &color_choice,
             &color_default,
+        );
+        // print a short note about the invalid files
+        print_files_processpathresult(
+            &map_pathid_results_invalid,
+            &color_choice,
+            &color_default,
+            &COLOR_ERROR,
         );
         eprintln!();
         eprintln!("Summary:");
@@ -1553,32 +1570,11 @@ fn processing_loop(
 
 // -------------------------------------------------------------------------------------------------
 
-/// print the `summary.patterns` Vec (one line)
-fn patterns_dbg(summary: &Summary) -> String {
-    // `cap` is a rough capacity estimation
-    let cap: usize = summary.SyslineReader_patterns.len() * 150;
-    let mut out: String = String::with_capacity(cap);
-    for patt in summary.SyslineReader_patterns.iter() {
-        // XXX: magic knowledge of blank prepend
-        let a = format!("                   {:?}", patt);
-        out.push_str(a.as_ref());
-    }
-
-    out
-}
-
-/// print the `summary.dt_first` `summary.dt_last` (one line)
-fn first_last_dbg(summary: &Summary) -> String {
-    format!(
-        "dt_first {:?}, dt_last {:?}",
-        summary.SyslineReader_pattern_first,
-        summary.SyslineReader_pattern_last,
-    )
-}
-
 /// print the filepath name (one line)
 fn print_filepath(
     path: &FPath,
+    filetype: &FileType,
+    mimeguess: &MimeGuess,
     color: &Color,
     color_choice: &ColorChoice
 ) {
@@ -1589,22 +1585,38 @@ fn print_filepath(
             eprintln!("ERROR: {:?}", err);
         }
     };
+    eprint!(" ({}) {:?}", filetype, mimeguess);
     eprintln!();
 }
 
-/// print the `&Summary_Opt` (one line)
+/// print the `&Summary_Opt` (multiple lines)
 fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
+    const OPT_SUMMARY_PRINT_INDENT_UNDER: &str = "                   ";
     match summary_opt {
         Some(summary) => {
-            eprintln!("{}Summary Processed:{:?}", SPACING_LEAD, summary);
-            let out = patterns_dbg(summary);
-            eprintln!("{}{}", SPACING_LEAD, out);
-            let out = first_last_dbg(summary);
-            eprintln!("{}                   {}", SPACING_LEAD, out);
+            eprintln!("{}Summary Processed:{:?}", OPT_SUMMARY_PRINT_INDENT, summary);
+            // print datetime first and last
+            match (summary.SyslineReader_pattern_first, summary.SyslineReader_pattern_last) {
+                (Some(dt_first), Some(dt_last)) => {
+                    eprintln!(
+                        "{}{}datetime first {:?}, datetime last {:?}",
+                        OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER,
+                        dt_first, dt_last,
+                    );
+                },
+                (None, Some(_)) | (Some(_), None) => {
+                    eprintln!("ERROR: only one of dt_first or dt_last fulfilled; this is unexpected.");
+                }
+                _ => {}
+            }
+            // print datetime patterns
+            for patt in summary.SyslineReader_patterns.iter() {
+                eprintln!("{}{}{:?}", OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, patt);
+            }
         },
         None => {
             // TODO: [2022/06/07] print filesz
-            eprintln!("{}Summary Processed: None", SPACING_LEAD);
+            eprintln!("{}Summary Processed: None", OPT_SUMMARY_PRINT_INDENT);
         }
     }
 }
@@ -1617,11 +1629,11 @@ fn print_summary_opt_printed(
 ) {
     match summary_print_opt {
         Some(summary_print) => {
-            eprint!("{}Summary Printed  : ", SPACING_LEAD);
+            eprint!("{}Summary Printed  : ", OPT_SUMMARY_PRINT_INDENT);
             summary_print.print_colored_stderr(Some(*color_choice), summary_opt);
         },
         None => {
-            eprint!("{}Summary Printed  : ", SPACING_LEAD);
+            eprint!("{}Summary Printed  : ", OPT_SUMMARY_PRINT_INDENT);
             SummaryPrinted::default().print_colored_stderr(Some(*color_choice), summary_opt);
         }
     }
@@ -1657,7 +1669,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
     );
     eprintln!(
         "{}storage: SyslineReader::find_sysline() syslines                        : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
-        SPACING_LEAD,
+        OPT_SUMMARY_PRINT_INDENT,
         summary.SyslineReader_syslines_hit,
         summary.SyslineReader_syslines_miss,
         ratio,
@@ -1670,7 +1682,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
     );
     eprintln!(
         "{}caching: SyslineReader::find_sysline() syslines_by_range_map           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        SPACING_LEAD,
+        OPT_SUMMARY_PRINT_INDENT,
         summary.SyslineReader_syslines_by_range_hit,
         summary.SyslineReader_syslines_by_range_miss,
         ratio,
@@ -1684,7 +1696,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
     );
     eprintln!(
         "{}caching: SyslineReader::find_sysline() LRU cache                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        SPACING_LEAD,
+        OPT_SUMMARY_PRINT_INDENT,
         summary.SyslineReader_find_sysline_lru_cache_hit,
         summary.SyslineReader_find_sysline_lru_cache_miss,
         ratio,
@@ -1698,7 +1710,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
     );
     eprintln!(
         "{}caching: SyslineReader::parse_datetime_in_line() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        SPACING_LEAD,
+        OPT_SUMMARY_PRINT_INDENT,
         summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
         summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
         ratio,
@@ -1712,7 +1724,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
     );
     eprintln!(
         "{}storage: LineReader::find_line() lines                                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
-        SPACING_LEAD,
+        OPT_SUMMARY_PRINT_INDENT,
         summary.LineReader_lines_hit,
         summary.LineReader_lines_miss,
         ratio,
@@ -1725,7 +1737,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
     );
     eprintln!(
         "{}caching: LineReader::find_line() LRU cache                             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        SPACING_LEAD,
+        OPT_SUMMARY_PRINT_INDENT,
         summary.LineReader_find_line_lru_cache_hit,
         summary.LineReader_find_line_lru_cache_miss,
         ratio,
@@ -1739,7 +1751,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
     );
     eprintln!(
         "{}storage: BlockReader::read_block() blocks                              : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        SPACING_LEAD,
+        OPT_SUMMARY_PRINT_INDENT,
         summary.BlockReader_read_blocks_hit,
         summary.BlockReader_read_blocks_miss,
         ratio,
@@ -1753,7 +1765,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
     );
     eprintln!(
         "{}caching: BlockReader::read_block() LRU cache                           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        SPACING_LEAD,
+        OPT_SUMMARY_PRINT_INDENT,
         summary.BlockReader_read_block_lru_cache_hit,
         summary.BlockReader_read_block_lru_cache_miss,
         ratio,
@@ -1777,15 +1789,15 @@ fn print_drop_stats(summary_opt: &Summary_Opt) {
     };
     let wide: usize = summary.max_drop().to_string().len();
     eprintln!(
-        "{}streaming: SyslineReader::drop_sysline() Ok {:wide$} Err {:wide$}",
-        SPACING_LEAD,
+        "{}streaming: SyslineReader::drop_sysline(): Ok {:wide$} Err {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT,
         summary.SyslineReader_drop_sysline_ok,
         summary.SyslineReader_drop_sysline_errors,
         wide = wide,
     );
     eprintln!(
-        "{}streaming: LineReader::drop_line()       Ok {:wide$} Err {:wide$}",
-        SPACING_LEAD,
+        "{}streaming: LineReader::drop_line()      : Ok {:wide$} Err {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT,
         summary.LineReader_drop_line_ok,
         summary.LineReader_drop_line_errors,
         wide = wide,
@@ -1798,8 +1810,9 @@ fn print_error(summary_opt: &Summary_Opt, color_choice: &ColorChoice) {
         Some(summary_) => {
             match &summary_.Error_ {
                 Some(err_string) => {
-                    eprint!("{}Error: ", SPACING_LEAD);
-                    match print_colored_stderr(Color::Red, Some(*color_choice), err_string.as_bytes()) {
+                    eprint!("{}Error: ", OPT_SUMMARY_PRINT_INDENT);
+                    #[allow(clippy::single_match)]
+                    match print_colored_stderr(COLOR_ERROR, Some(*color_choice), err_string.as_bytes()) {
                         Err(_err) => {},
                         _ => {},
                     }
@@ -1815,13 +1828,15 @@ fn print_error(summary_opt: &Summary_Opt, color_choice: &ColorChoice) {
 /// for one file, print the `Summary` and `SummaryPrinted` (multiple lines)
 fn print_file_summary(
     path: &FPath,
+    filetype: &FileType,
+    mimeguess: &MimeGuess,
     summary_opt: &Summary_Opt,
     summary_print_opt: &SummaryPrinted_Opt,
     color: &Color,
     color_choice: &ColorChoice,
 ) {
     eprintln!();
-    print_filepath(path, color, color_choice);
+    print_filepath(path, filetype, mimeguess, color, color_choice);
     print_summary_opt_processed(summary_opt);
     print_summary_opt_printed(summary_print_opt, summary_opt, color_choice);
     if OPT_SUMMARY_PRINT_CACHE_STATS {
@@ -1837,8 +1852,11 @@ fn print_file_summary(
 /// print each files' `Summary` and `SummaryPrinted`
 ///
 /// helper to `processing_loop`
+#[allow(clippy::too_many_arguments)]
 fn print_all_files_summaries(
     map_pathid_path: &Map_PathId_FPath,
+    map_pathid_filetype: &Map_PathId_FileType,
+    map_pathid_mimeguess: &Map_PathId_MimeGuess,
     map_pathid_color: &Map_PathId_Color,
     map_pathid_summary: &mut Map_PathId_Summary,
     map_pathid_sumpr: &mut Map_PathId_SummaryPrint,
@@ -1847,14 +1865,65 @@ fn print_all_files_summaries(
 ) {
     for (pathid, path) in map_pathid_path.iter() {
         let color: &Color = map_pathid_color.get(pathid).unwrap_or(color_default);
+        let filetype: &FileType = map_pathid_filetype.get(pathid).unwrap_or(&FileType::FILE_UNKNOWN);
+        let mimeguess_default: MimeGuess = MimeGuess::from_ext("");
+        let mimeguess: &MimeGuess = map_pathid_mimeguess.get(pathid).unwrap_or(&mimeguess_default);
         let summary_opt: Summary_Opt = map_pathid_summary.remove(pathid);
         let summary_print_opt: SummaryPrinted_Opt = map_pathid_sumpr.remove(pathid);
         print_file_summary(
             path,
+            filetype,
+            mimeguess,
             &summary_opt,
             &summary_print_opt,
             color,
             color_choice,
         );
+    }
+}
+
+/// printing for CLI option `--summary`
+/// print an entry for invalid files
+///
+/// helper to `processing_loop`
+fn print_files_processpathresult(
+    map_pathid_result: &Map_PathId_ProcessPathResult,
+    color_choice: &ColorChoice,
+    color_default: &Color,
+    color_error: &Color,
+) {
+    // local helper
+    fn print_(buffer: String, color_choice: &ColorChoice, color: &Color) {
+        match print_colored_stderr(*color, Some(*color_choice), buffer.as_bytes()) {
+            Ok(()) => {},
+            Err(err) => {
+                eprintln!("ERROR: {:?}", err);
+            }
+        };
+    }
+
+    for (_pathid, result) in map_pathid_result.iter() {
+        match result {
+            ProcessPathResult::FILE_VALID(_filetype, mimeguess, path) => {
+                print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
+            },
+            ProcessPathResult::FILE_ERR_NO_PERMISSIONS(path, mimeguess) => {
+                print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
+                print_("(no permissions)".to_string(), color_choice, color_error);
+            },
+            ProcessPathResult::FILE_ERR_NOT_SUPPORTED(path, mimeguess) => {
+                print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
+                print_("(not supported)".to_string(), color_choice, color_error);
+            },
+            ProcessPathResult::FILE_ERR_NOT_PARSEABLE(path, mimeguess) => {
+                print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
+                print_("(not parseable)".to_string(), color_choice, color_error);
+            },
+            ProcessPathResult::FILE_ERR_NOT_A_FILE(path, mimeguess) => {
+                print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
+                print_("(not a file)".to_string(), color_choice, color_error);
+            },
+        }
+        eprintln!();
     }
 }

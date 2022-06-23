@@ -138,7 +138,7 @@ enum ResultS4_LineFind_Test {
 /// helper to wrap the match and panic checks
 #[cfg(test)]
 fn new_LineReader(path: &FPath, blocksz: BlockSz) -> LineReader {
-    let filetype: FileType = guess_filetype_from_fpath(path);
+    let (filetype, _mimeguess) = guess_filetype_from_fpath(path);
     match LineReader::new(path.clone(), filetype, blocksz) {
         Ok(val) => val,
         Err(err) => {

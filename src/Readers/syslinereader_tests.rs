@@ -79,7 +79,7 @@ use lazy_static::lazy_static;
 #[cfg(test)]
 fn new_SyslineReader(path: &FPath, blocksz: BlockSz, tzo: FixedOffset) -> SyslineReader {
     stack_offset_set(Some(2));
-    let filetype: FileType = guess_filetype_from_fpath(path);
+    let (filetype, _mimeguess) = guess_filetype_from_fpath(path);
     match SyslineReader::new(path.clone(), filetype, blocksz, tzo) {
         Ok(val) => val,
         Err(err) => {

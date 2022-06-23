@@ -54,7 +54,7 @@ extern crate lru;
 use lru::LruCache;
 
 extern crate mime_guess;
-pub use mime_guess::{
+use mime_guess::{
     MimeGuess,
 };
 

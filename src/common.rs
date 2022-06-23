@@ -354,6 +354,20 @@ impl Default for FileType {
     fn default() -> Self { FileType::FILE_UNSET_ }
 }
 
+impl std::fmt::Display for FileType {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            FileType::FILE_UNSET_ => write!(f, "UNSET"),
+            FileType::FILE => write!(f, "TEXT"),
+            FileType::FILE_GZ => write!(f, "GZIP"),
+            FileType::FILE_TAR => write!(f, "TAR"),
+            FileType::FILE_TAR_GZ => write!(f, "TAR GZIP"),
+            FileType::FILE_XZ => write!(f, "XZ"),
+            FileType::FILE_UNKNOWN => write!(f, "UNKNOWN"),
+        }
+    }
+}
+
 impl FileType {
     /// Returns `true` if this is a compressed file
     #[inline(always)]

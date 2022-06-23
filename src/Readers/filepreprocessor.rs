@@ -34,7 +34,7 @@ extern crate lazy_static;
 use lazy_static::lazy_static;
 
 extern crate mime_guess;
-use mime_guess::MimeGuess;
+pub use mime_guess::MimeGuess;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // FilePreProcessor
@@ -71,9 +71,11 @@ use mime_guess::MimeGuess;
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
-    FILE_VALID((FileType, FPath)),
-    FILE_ERR_NO_PERMISSIONS(FPath),
-    FILE_ERR_NOT_PARSEABLE(FPath),
+    FILE_VALID(FileType, MimeGuess, FPath),
+    FILE_ERR_NO_PERMISSIONS(FPath, MimeGuess),
+    FILE_ERR_NOT_SUPPORTED(FPath, MimeGuess),
+    FILE_ERR_NOT_PARSEABLE(FPath, MimeGuess),
+    FILE_ERR_NOT_A_FILE(FPath, MimeGuess),
 }
 
 pub type ProcessPathResults = Vec<ProcessPathResult>;
@@ -206,27 +208,41 @@ pub fn fpath_to_filetype(path: &FPath) -> FileType {
     path_to_filetype(fpath_to_path(path))
 }
 
+pub enum FileParseable {
+    YES,
+    NO_NOT_SUPPORTED,
+    NO_NOT_PARSEABLE,
+}
+
 /// is `FileType` supported?
-pub fn parseable_filetype(filetype: &FileType) -> bool {
-    matches!(
-        filetype,
-        // effectively the list of currently supported file types
+pub fn parseable_filetype(filetype: &FileType) -> FileParseable {
+    match filetype {
+        // `YES` is effectively the list of currently supported file types
         &FileType::FILE
-        | &FileType::FILE_GZ
-    )
+        | &FileType::FILE_GZ => FileParseable::YES,
+        &FileType::FILE_TAR
+        | &FileType::FILE_TAR_GZ
+        | &FileType::FILE_XZ => FileParseable::NO_NOT_SUPPORTED,
+        _ => FileParseable::NO_NOT_PARSEABLE,
+    }
+}
+
+/// reduce `parseable_filetype` to a boolean
+pub fn parseable_filetype_ok(filetype: &FileType) -> bool {
+    matches!(parseable_filetype(filetype), FileParseable::YES)
 }
 
 /// reduce `mimeguess_to_filetype()` to a boolean
 #[cfg(any(debug_assertions,test))]
 pub fn mimeguess_to_filetype_ok(mimeguess: &MimeGuess) -> bool {
-    parseable_filetype(&mimeguess_to_filetype(mimeguess))
+    matches!(parseable_filetype(&mimeguess_to_filetype(mimeguess)), FileParseable::YES)
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
 #[cfg(any(debug_assertions,test))]
 pub fn guess_filetype_from_mimeguess_path(mimeguess: &MimeGuess, path: &std::path::Path) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
-    if ! parseable_filetype(&filetype) {
+    if ! parseable_filetype_ok(&filetype) {
         filetype = path_to_filetype(path);
     }
 
@@ -237,7 +253,7 @@ pub fn guess_filetype_from_mimeguess_path(mimeguess: &MimeGuess, path: &std::pat
 #[cfg(any(debug_assertions,test))]
 pub fn guess_filetype_from_mimeguess_fpath(mimeguess: &MimeGuess, path: &FPath) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
-    if ! parseable_filetype(&filetype) {
+    if ! parseable_filetype_ok(&filetype) {
         let path_: &std::path::Path = fpath_to_path(path);
         filetype = path_to_filetype(path_);
     }
@@ -246,19 +262,23 @@ pub fn guess_filetype_from_mimeguess_fpath(mimeguess: &MimeGuess, path: &FPath) 
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
-pub fn guess_filetype_from_path(path: &std::path::Path) -> FileType {
+pub fn guess_filetype_from_path(path: &std::path::Path) -> (FileType, MimeGuess) {
+    debug_eprintln!("{}guess_filetype_from_path({:?})", sn(), path);
     let mimeguess: MimeGuess = MimeGuess::from_path(path);
+    debug_eprintln!("{}guess_filetype_from_path: mimeguess {:?}", so(), mimeguess);
     let mut filetype: FileType = mimeguess_to_filetype(&mimeguess);
-    if ! parseable_filetype(&filetype) {
+    debug_eprintln!("{}guess_filetype_from_path: filetype {:?}", so(), filetype);
+    if ! parseable_filetype_ok(&filetype) {
         filetype = path_to_filetype(path);
     }
+    debug_eprintln!("{}guess_filetype_from_path: filetype {:?}", sx(), filetype);
 
-    filetype
+    (filetype, mimeguess)
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
 #[cfg(any(debug_assertions,test))]
-pub fn guess_filetype_from_fpath(path: &FPath) -> FileType {
+pub fn guess_filetype_from_fpath(path: &FPath) -> (FileType, MimeGuess) {
     let path_: &std::path::Path = fpath_to_path(path);
 
     guess_filetype_from_path(path_)
@@ -306,11 +326,11 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
     // if passed a path directly to a plain file (or a symlink to a plain file)
     // then assume the user wants to force an attempt to process such a file
     // i.e. do not call `parseable_filetype`
-    let std_path = std::path::Path::new(path);
+    let std_path: &std::path::Path = std::path::Path::new(path);
     if std_path.is_file() {
-        let filetype: FileType = guess_filetype_from_path(&std_path);
+        let (filetype, mimeguess) = guess_filetype_from_path(std_path);
         let paths: Vec<ProcessPathResult> = vec![
-            ProcessPathResult::FILE_VALID((filetype, path.clone())),
+            ProcessPathResult::FILE_VALID(filetype, mimeguess, path.clone()),
         ];
         debug_eprintln!("{}process_path({:?}) {:?}", sx(), path, paths);
         return paths;
@@ -328,7 +348,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         .same_file_system(true)
     {
         // XXX: what is type `T` in `Result<T, E>` returned by `WalkDir`?
-        let path_ = match entry {
+        let path_entry = match entry {
             Ok(val) => {
                 debug_eprintln!("{}Ok({:?})", so(), val);
                 val
@@ -338,22 +358,33 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
                 continue;
             }
         };
-        if ! path_.file_type().is_file() {
-            debug_eprintln!("{}process_path: Path not a file {:?}", so(), path_);
-            //paths.push(ProcessPathResult::FILE_ERR_NOT_PARSEABLE(fpath));
-            continue;
-        }
 
-        let std_path_: &std::path::Path = path_.path();
-        let filetype: FileType = guess_filetype_from_path(&std_path);
-        if ! parseable_filetype(&filetype) {
-            debug_eprintln!("{}process_path: Path not parseable {:?}", so(), std_path);
-            //paths.push(ProcessPathResult::FILE_ERR_NOT_PARSEABLE(fpath));
+        debug_eprintln!("{}process_path: analayzing {:?}", so(), path_entry);
+        let std_path_entry: &std::path::Path = path_entry.path();
+        let fpath_entry: FPath = path_to_fpath(std_path_entry);
+        if ! path_entry.file_type().is_file() {
+            if path_entry.file_type().is_dir() {
+                continue;
+            }
+            debug_eprintln!("{}process_path: Path not a file {:?}", so(), path_entry);
+            paths.push(ProcessPathResult::FILE_ERR_NOT_A_FILE(fpath_entry, MimeGuess::from_ext("")));
             continue;
         }
-        let fpath: FPath = path_to_fpath(std_path_);
-        debug_eprintln!("{}process_path: paths.push(FILE_VALID(({:?}, {:?})))", so(), filetype, fpath);
-        paths.push(ProcessPathResult::FILE_VALID((filetype, fpath)));
+        let (filetype, mimeguess) = guess_filetype_from_path(std_path_entry);
+        match parseable_filetype(&filetype) {
+            FileParseable::YES => {
+                debug_eprintln!("{}process_path: paths.push(FILE_VALID(({:?}, {:?})))", so(), filetype, path_entry);
+                paths.push(ProcessPathResult::FILE_VALID(filetype, mimeguess, fpath_entry));
+            },
+            FileParseable::NO_NOT_PARSEABLE => {
+                debug_eprintln!("{}process_path: Path not parseable {:?}", so(), std_path_entry);
+                paths.push(ProcessPathResult::FILE_ERR_NOT_PARSEABLE(fpath_entry, mimeguess));
+            }
+            FileParseable::NO_NOT_SUPPORTED => {
+                debug_eprintln!("{}process_path: Path not supported {:?}", so(), std_path_entry);
+                paths.push(ProcessPathResult::FILE_ERR_NOT_SUPPORTED(fpath_entry, mimeguess));
+            }
+        }
     }
     debug_eprintln!("{}process_path({:?}) {:?}", sx(), path, paths);
 
