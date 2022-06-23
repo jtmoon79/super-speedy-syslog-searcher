@@ -356,9 +356,20 @@ impl SyslineReader {
         self.linereader.charsz()
     }
 
-    /// count of `Sysline`s processed, i.e. `self.syslines_count`
+    /// count of `Sysline`s processed so far, i.e. `self.syslines_count`
     pub fn count_syslines_processed(&self) -> Count {
         self.syslines_count
+    }
+
+    /// count of `Sysline`s processed so far, i.e. `self.syslines_count`
+    pub fn count_syslines_stored(&self) -> Count {
+        self.syslines.len() as Count
+    }
+
+    /// count underlying `Line`s processed so far
+    #[inline(always)]
+    pub fn count_lines_processed(&self) -> Count {
+        self.linereader.count_lines_processed()
     }
 
     /// enable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
@@ -405,7 +416,7 @@ impl SyslineReader {
 
     /// is this `SyslineP` the last `Sysline` of the entire file?
     /// (not the same as last Sysline within the optional datetime filters).
-    pub(crate) fn is_sysline_last(&self, syslinep: &SyslineP) -> bool {
+    pub fn is_sysline_last(&self, syslinep: &SyslineP) -> bool {
         let filesz = self.filesz();
         let fo_end = (*syslinep).fileoffset_end();
         if (fo_end + 1) == filesz {
@@ -1954,15 +1965,14 @@ impl SyslineReader {
         ResultS4_SyslineFind::Done
     }
 
-
     /// convenience wrapper for `dt_after_or_before`
     pub fn sysline_dt_after_or_before(syslinep: &SyslineP, dt_filter: &DateTimeL_Opt) -> Result_Filter_DateTime1 {
         debug_eprintln!("{}sysline_dt_after_or_before(SyslineP@{:p}, {:?})", snx(), &*syslinep, dt_filter,);
         assert!((*syslinep).dt.is_some(), "Sysline@{:p} does not have a datetime set.", &*syslinep);
 
-        let dt = (*syslinep).dt.unwrap();
+        let dt: &DateTimeL = (*syslinep).dt.as_ref().unwrap();
 
-        dt_after_or_before(&dt, dt_filter)
+        dt_after_or_before(dt, dt_filter)
     }
 
     /// wrapper for call to `dt_pass_filters`
@@ -1977,8 +1987,8 @@ impl SyslineReader {
             dt_filter_before,
         );
         assert!((*syslinep).dt.is_some(), "Sysline @{:p} does not have a datetime set.", &*syslinep);
-        let dt = (*syslinep).dt.unwrap();
-        let result = dt_pass_filters(&dt, dt_filter_after, dt_filter_before);
+        let dt: &DateTimeL = (*syslinep).dt.as_ref().unwrap();
+        let result = dt_pass_filters(dt, dt_filter_after, dt_filter_before);
         debug_eprintln!("{}sysline_pass_filters(…) return {:?};", sx(), result);
 
         result

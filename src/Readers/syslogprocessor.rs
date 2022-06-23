@@ -355,23 +355,28 @@ impl SyslogProcessor {
     }
 
     /// Wrapper for `self.syslinereader.find_sysline_between_datetime_filters`
-    ///
-    /// TODO: [2022/06/18] need to store IO errors from this, and store for later use with `Summary`
-    pub fn find_sysline_between_datetime_filters(
-        &mut self, fileoffset: FileOffset,
-    ) -> ResultS4_SyslineFind {
+    /// 
+    /// TODO: [2022/06/20] the `find` functions need consistent naming,
+    ///       `find_next`, `find_between`, `find_...` . The current design has
+    ///       the public-facing `find_` functions falling back on potentail file-wide binary-search
+    ///       The binary-search only needs to be done during the stage 2. During stage 3, a simpler
+    ///       linear sequential search is more suitable, and more intuitive.
+    ///       More refactoring is in order.
+    ///       Also, a linear search can better detect rollover (i.e. when sysline datetime is missing year).
+    #[inline(always)]
+    pub fn find_sysline_between_datetime_filters(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}syslogprocesser.find_sysline_between_datetime_filters({})", snx(), fileoffset);
 
-        let result = self.syslinereader.find_sysline_between_datetime_filters(
+        match self.syslinereader.find_sysline_between_datetime_filters(
             fileoffset, &self.filter_dt_after_opt, &self.filter_dt_before_opt,
-        );
-        match &result {
+        ) {
             ResultS4_SyslineFind::Err(err) => {
                 self.Error_ = Some(err.to_string());
+
+                ResultS4_SyslineFind::Err(err)
             },
-            _ => {},
+            val => val,
         }
-        return result;
     }
 
     /// wrapper for a recurring sanity check

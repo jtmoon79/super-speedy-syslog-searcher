@@ -45,19 +45,19 @@ walkdir = "2.3.2"
 name = "s4lib"
 path = "src/lib.rs"
 crate-type = ["lib"]
-test = false
-doctest = false
-bench = false
-doc = false
-plugin = false
-proc-macro = false
-harness = false
-edition = "2021"
+test = true
+#doctest = false
+#bench = false
+#doc = false
+#plugin = false
+#proc-macro = false
+#harness = false
+#edition = "2021"
 
 [[bin]]
 name = "s4"
 path = "src/bin/bin.rs"
-test = false
+test = true
 doc = false
 
 [dev-dependencies]
@@ -74,9 +74,4 @@ harness = false
 
 [[bench]]
 name = "bench_slice_contains"
-harness = false
-
-[[bench]]
-name = "bench_syslinereader"
-path = "src/Readers/bench_syslinereader.rs"
 harness = false

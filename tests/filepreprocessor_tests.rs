@@ -1,16 +1,18 @@
 // Readers/filepreprocessor_tests.rs
 //
 
-use crate::common::{
+extern crate s4lib;
+
+use s4lib::common::{
     FPath,
 };
 
-use crate::printer_debug::helpers::{
+use s4lib::printer_debug::helpers::{
     create_temp_file_with_name_exact,
     NTF_Path,
 };
 
-use crate::printer_debug::stack::{
+use s4lib::printer_debug::stack::{
     sn,
     so,
     sx,
@@ -20,6 +22,14 @@ use crate::printer_debug::stack::{
 extern crate mime_sniffer;
 use mime_sniffer::MimeTypeSniffer;  // adds extension method `sniff_mime_type` to `[u8]`
 
+mod tests {
+    
+    #[test]
+    fn src__Readers__filepreprocessor_tests_rs__mod_tests__test1() {
+        let result = 2 - 1;
+        assert_eq!(1, result);
+    }
+}
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /*

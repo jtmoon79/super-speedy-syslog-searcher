@@ -1,5 +1,6 @@
 // Data/datetime.rs
 
+
 #[cfg(any(debug_assertions,test))]
 use crate::printer_debug::printers::{
     str_to_String_noraw,
@@ -20,7 +21,7 @@ extern crate arrayref;
 use arrayref::array_ref;
 
 extern crate chrono;
-pub(crate) use chrono::{
+pub use chrono::{
     DateTime,
     FixedOffset,
     Local,

@@ -245,9 +245,10 @@ impl LineReader {
         self.find_line_lru_cache.resize(0);
     }
 
-    /// Testing helper only
     /// print `Line` at `fileoffset`
     /// return `false` if `fileoffset` not found
+    ///
+    /// Testing helper only
     #[cfg(any(debug_assertions, test))]
     pub fn print(&self, fileoffset: &FileOffset) -> bool {
         if !self.lines.contains_key(fileoffset) {
@@ -258,8 +259,9 @@ impl LineReader {
         true
     }
 
-    /// Testing helper only
     /// copy `Line`s at `fileoffset` to String buffer
+    ///
+    /// Testing helper only
     #[cfg(test)]
     pub(crate) fn copy_line(&self, fileoffset: &FileOffset, buffer: &mut String) -> bool {
         if !self.lines.contains_key(fileoffset) {
@@ -272,10 +274,11 @@ impl LineReader {
         true
     }
 
-    /// Testing helper only
     /// copy all `Line`s to String buffer
+    ///
+    /// Testing helper only
     #[cfg(test)]
-    pub(crate) fn copy_all_lines(&self, buffer: &mut String) {
+    pub fn copy_all_lines(&self, buffer: &mut String) {
         // reserve capacity in buffer
         let mut sz: usize = 0;
         for fo in self.lines.keys() {

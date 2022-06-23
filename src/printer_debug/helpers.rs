@@ -1,7 +1,6 @@
 // printer_debug/helpers.rs
 //
 
-#[cfg(test)]
 use crate::common::{
     FPath,
 };
@@ -11,32 +10,30 @@ use crate::printer_debug::printers::{
     str_to_String_noraw,
 };
 
-//#[allow(unused_imports)]  // XXX: clippy wrongly marks this as unused
-#[cfg(test)]
+#[allow(unused_imports)]  // XXX: clippy wrongly marks this as unused
 use std::io::Write;  // for `NamedTempFile.write_all`
 
-#[cfg(test)]
 extern crate lazy_static;
-#[cfg(test)]
 use lazy_static::lazy_static;
 
-#[cfg(test)]
 extern crate tempfile;
-#[cfg(test)]
-pub use tempfile::{NamedTempFile, tempdir};
+pub use tempfile::{
+    NamedTempFile,
+    tempdir,
+};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // temporary file helper functions
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// small helper for copying `NamedTempFile` path to a `FPath`
-#[cfg(test)]
+//#[cfg(test)]
 pub fn NTF_Path(ntf: &NamedTempFile) -> FPath {
     FPath::from(ntf.path().to_str().unwrap())
 }
 
 /// testing helper to write a `str` to a temporary file.
-#[cfg(test)]
+//#[cfg(test)]
 pub fn create_temp_file(data: &str) -> NamedTempFile {
     let mut ntf = match NamedTempFile::new() {
         Ok(val) => val,
@@ -64,7 +61,7 @@ pub fn create_temp_file_path(data: &str) -> FPath {
 }
 */
 
-#[cfg(test)]
+//#[cfg(test)]
 lazy_static! {
     static ref STRING_TEMPFILE_PREFIX: String = String::from("tmp-s4-test-");
     static ref STRING_TEMPFILE_SUFFFIX: String = String::from("");
@@ -72,7 +69,7 @@ lazy_static! {
 
 /// testing helper to write a `str` to a specially-named temporary file.
 /// `rand_len` is the sting length of a random character sequence
-#[cfg(test)]
+//#[cfg(test)]
 pub fn create_temp_file_with_name_rlen(
     data: &[u8],
     prefix: Option<&String>,
@@ -101,7 +98,7 @@ pub fn create_temp_file_with_name_rlen(
 }
 
 /// testing helper to write a `str` to a specially-named temporary file.
-#[cfg(test)]
+//#[cfg(test)]
 pub fn create_temp_file_with_name(
     data: &str,
     prefix: Option<&String>,
@@ -112,7 +109,7 @@ pub fn create_temp_file_with_name(
 }
 
 /// testing helper to write a `str` to a temporary file with a specific suffix
-#[cfg(test)]
+//#[cfg(test)]
 pub fn create_temp_file_with_suffix(
     data: &str,
     suffix: &String
@@ -121,7 +118,7 @@ pub fn create_temp_file_with_suffix(
 }
 
 /// testing helper to write a `str` to a exactly-named temporary file.
-#[cfg(test)]
+//#[cfg(test)]
 pub fn create_temp_file_with_name_exact(
     data: &str,
     name: &String
@@ -130,13 +127,13 @@ pub fn create_temp_file_with_name_exact(
 }
 
 /// testing helper to write a `[u8]` to a temporary file.
-#[cfg(test)]
+//#[cfg(test)]
 pub fn create_temp_file_bytes(data: &[u8]) -> NamedTempFile {
     create_temp_file_with_name_rlen(data, None, None, 5)
 }
 
 /// testing helper to write a `[u8]` to a temporary file.
-#[cfg(test)]
+//#[cfg(test)]
 pub fn create_temp_file_bytes_with_suffix(data: &[u8], suffix: &String) -> NamedTempFile {
     create_temp_file_with_name_rlen(data, None, Some(suffix), 5)
 }
@@ -151,7 +148,6 @@ pub fn create_temp_file_bytes_path(data: &[u8]) -> FPath {
     FPath::from(ntf.path().to_str().unwrap())
 }
 */
-
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

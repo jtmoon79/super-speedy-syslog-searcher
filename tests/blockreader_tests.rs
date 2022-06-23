@@ -1,15 +1,17 @@
 // Readers/blockreader_tests.rs
 //
 
-use crate::common::{
+extern crate s4lib;
+
+use s4lib::common::{
     FileType,
 };
 
-use crate::Readers::filepreprocessor::{
+use s4lib::Readers::filepreprocessor::{
     guess_filetype_from_fpath,
 };
 
-use super::blockreader::{
+use s4lib::Readers::blockreader::{
     FPath,
     FileOffset,
     BlockSz,
@@ -19,7 +21,7 @@ use super::blockreader::{
     MimeGuess,
 };
 
-use crate::printer_debug::helpers::{
+use s4lib::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_with_name_exact,
@@ -28,7 +30,7 @@ use crate::printer_debug::helpers::{
     NTF_Path,
 };
 
-use crate::printer_debug::stack::{
+use s4lib::printer_debug::stack::{
     stack_offset_set,
 };
 
@@ -194,7 +196,6 @@ fn test_BlockReader1() {
 
 // -------------------------------------------------------------------------------------------------
 
-#[cfg(test)]
 fn test_mimeguess(suffix: &String, check: MimeGuess) {
     eprintln!("test_mimeguess: suffix {:?}", &suffix);
     let ntf = create_temp_file_with_suffix("", suffix);
@@ -224,7 +225,6 @@ fn test_mimeguess_gz_onebyte() {
 
 // -------------------------------------------------------------------------------------------------
 
-#[cfg(test)]
 fn test_filetype(name: &String, check: FileType) {
     eprintln!("test_filetype: name {:?}", &name);
     let ntf = create_temp_file_with_name_exact("", name);

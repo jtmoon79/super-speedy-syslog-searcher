@@ -359,5 +359,3 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
 
     paths
 }
-
-

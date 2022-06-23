@@ -439,7 +439,7 @@ fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeL_Opt {
                 };
             };
             if dto.is_none() {
-                eprintln!("ERROR: Unable to parse a datetime for --dt-after {:?}", dts);
+                eprintln!("ERROR: Unable to parse a datetime from {:?}", dts);
                 std::process::exit(1);
             }
             dto
@@ -860,6 +860,7 @@ impl fmt::Debug for SummaryPrinted {
     }
 }
 
+// TODO: move `SummaryPrinted` into `printer/summary.rs`
 impl SummaryPrinted {
 
     /// print a `SummaryPrinted` with color on stderr.
@@ -1094,15 +1095,16 @@ fn processing_loop(
     let mut map_pathid_results = Map_PathId_ProcessPathResult::with_capacity(file_count);
     // `invalid` is used to help summarize why some files were not processed
     let mut map_pathid_results_invalid = Map_PathId_ProcessPathResult::with_capacity(file_count);
+    // use `map_pathid_path` for iterating, it is a BTreeMap (which iterates in consistent key order)
     let mut map_pathid_path = Map_PathId_FPath::new();
-    let mut pathid_counter: PathId = 0;
-    for processpathresult in paths_results.drain(..)
+    for (pathid_counter, processpathresult) in paths_results.drain(..).enumerate()
     {
         match processpathresult {
-            ProcessPathResult::FILE_VALID(ref val) =>
+            // XXX: use `ref` to avoid "use of partially moved value" error
+            ProcessPathResult::FILE_VALID(ref filetype_path) =>
             {
-                debug_eprintln!("{}processing_loop: map_pathid_results.push({:?})", so(), val.1);
-                let (filetype, path) = val;
+                let (_filetype, path) = filetype_path;
+                debug_eprintln!("{}processing_loop: map_pathid_results.push({:?})", so(), path);
                 map_pathid_path.insert(pathid_counter, path.clone());
                 map_pathid_results.insert(pathid_counter, processpathresult);
             }
@@ -1112,11 +1114,7 @@ fn processing_loop(
                 map_pathid_results_invalid.insert(pathid_counter, processpathresult);
             },
         };
-        pathid_counter += 1;
     }
-    // XXX: sanity checks
-    assert!(paths_results.is_empty(), "paths_results was not cleared, {} elements remain", paths_results.len());
-    drop(paths_results);
 
     // preprint the prepended name or path
     type PathId_PrependName = HashMap<PathId, String>;
@@ -1499,7 +1497,9 @@ fn processing_loop(
                     summaryprinted.bytes += 1;
                 }
                 if cli_opt_summary {
+                    // update the per processing file `SummaryPrinted`
                     SummaryPrinted::summaryprint_map_update(syslinep, pathid, &mut map_pathid_sumpr);
+                    // update the single total program `SummaryPrinted`
                     summaryprinted.summaryprint_update(syslinep);
                 }
             }

@@ -16,6 +16,7 @@ use crate::Readers::filepreprocessor::{
     guess_filetype_from_fpath,
 };
 
+#[cfg(test)]
 use crate::Readers::helpers::{
     randomize,
     fill,
@@ -43,9 +44,14 @@ use crate::printer_debug::helpers::{
     create_temp_file,
     create_temp_file_bytes,
     NTF_Path,
+};
+
+#[cfg(test)]
+use crate::printer_debug::helpers::{
     eprint_file,
 };
 
+#[cfg(test)]
 use crate::printer_debug::printers::{
     str_to_String_noraw,
 };
@@ -57,6 +63,7 @@ use crate::printer_debug::stack::{
     sx,
 };
 
+#[cfg(test)]
 use crate::printer::printers::{
     write_stderr,
 };
@@ -124,7 +131,7 @@ CLOSED!
                     so(),
                     fo,
                     &(*slp),
-                    slp.lines.len(),
+                    slp.count_lines(),
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
@@ -1530,7 +1537,7 @@ fn test_SyslineReader_find_sysline(
                     so(),
                     fo,
                     &(*slp),
-                    slp.lines.len(),
+                    slp.count_lines(),
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
@@ -1557,7 +1564,7 @@ fn test_SyslineReader_find_sysline(
                     so(),
                     fo,
                     &(*slp),
-                    slp.lines.len(),
+                    slp.count_lines(),
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
@@ -1593,7 +1600,7 @@ fn test_SyslineReader_find_sysline(
     }
     assert_eq!(checks.len(), check_i, "expected {} Sysline checks but only {} Sysline checks were done", checks.len(), check_i);
 
-    eprintln!("{}test_SyslineReader_find_sysline: Found {} Lines, {} Syslines", so(), slr.linereader.count_lines_processed(), slr.syslines.len());
+    eprintln!("{}test_SyslineReader_find_sysline: Found {} Lines, {} Syslines", so(), slr.count_lines_processed(), slr.count_syslines_stored());
     eprintln!("{}test_SyslineReader_find_sysline({:?}, {})", sx(), &path, blocksz);
 }
 
@@ -1751,7 +1758,7 @@ fn test_SyslineReader_A2_any_input_check(
                     so(),
                     _fo,
                     &(*slp),
-                    slp.lines.len(),
+                    slp.count_lines(),
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
@@ -1770,7 +1777,7 @@ fn test_SyslineReader_A2_any_input_check(
                     so(),
                     _fo,
                     &(*slp),
-                    slp.lines.len(),
+                    slp.count_lines(),
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
@@ -1794,7 +1801,7 @@ fn test_SyslineReader_A2_any_input_check(
     }
     assert_eq!(input_checks.len(), check_i, "expected {} Sysline checks but only {} Sysline checks were done", input_checks.len(), check_i);
 
-    eprintln!("{}test_SyslineReader: Found {} Lines, {} Syslines", so(), slr.linereader.count_lines_processed(), slr.syslines.len());
+    eprintln!("{}test_SyslineReader: Found {} Lines, {} Syslines", so(), slr.count_lines_processed(), slr.count_syslines_stored());
     eprintln!("{}test_SyslineReader({:?}, {})", sx(), &path, blocksz);
 }
 
@@ -2066,11 +2073,11 @@ fn test_SyslineReader_find_sysline_at_datetime_filter(
                     so(),
                     fo,
                     &(*slp),
-                    slp.lines.len(),
+                    slp.count_lines(),
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                let dt_actual: &DateTimeL_Opt = &(*slp).dt;
+                let dt_actual: &DateTimeL_Opt = &(*slp).dt();
                 assert_eq!(expect_datetime, dt_actual, "Expected datetime    {:?}\nSysline actual datetime {:?}", expect_datetime, dt_actual);
             }
             ResultS4_SyslineFind::Done => {
@@ -2174,7 +2181,7 @@ fn process_SyslineReader(
                 so(),
                 fo,
                 &(*slp),
-                slp.lines.len(),
+                slp.count_lines(),
                 (*slp).len(),
                 (*slp).to_String_noraw(),
             );
@@ -2226,14 +2233,14 @@ fn process_SyslineReader(
                     so(),
                     fo,
                     &(*slp),
-                    slp.lines.len(),
+                    slp.count_lines(),
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
                 eprintln!(
                     "{}sysline_pass_filters({:?}, {:?}, {:?})",
                     so(),
-                    (*slp).dt,
+                    (*slp).dt(),
                     filter_dt_after_opt,
                     filter_dt_before_opt,
                 );
@@ -2311,7 +2318,7 @@ fn test_SyslineReader_w_filtering_2(
     let slr_opt = _test_SyslineReader_process_file(path, blocksz, filter_dt_after_opt, filter_dt_before_opt);
     if slr_opt.is_some() {
         let slr = &slr_opt.unwrap();
-        eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.count_lines_processed(), slr.syslines.len());
+        eprintln!("{}Found {} Lines, {} Syslines", so(), slr.count_lines_processed(), slr.count_syslines_stored());
     }
     eprintln!("{}test_SyslineReader_w_filtering_2(…)", sx());
 }

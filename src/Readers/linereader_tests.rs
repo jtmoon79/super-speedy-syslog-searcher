@@ -15,7 +15,7 @@ use crate::Readers::filepreprocessor::{
     guess_filetype_from_fpath,
 };
 
-use super::linereader::{
+use crate::Readers::linereader::{
     FileOffset,
     ResultS4_LineFind,
     LineReader,
@@ -23,6 +23,7 @@ use super::linereader::{
     enum_BoxPtrs,
 };
 
+#[cfg(test)]
 use crate::Readers::helpers::{
     randomize,
     fill,
@@ -32,6 +33,10 @@ use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     NTF_Path,
+};
+
+#[cfg(test)]
+use crate::printer_debug::helpers::{
     eprint_file,
 };
 
