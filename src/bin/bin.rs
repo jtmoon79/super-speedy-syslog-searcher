@@ -30,7 +30,6 @@ use chrono::{
     Local,
     Offset,
     TimeZone,
-    Utc,
 };
 
 extern crate clap;
@@ -1316,26 +1315,9 @@ fn processing_loop(
     // crude debugging stats
     let mut chan_recv_ok: Count = 0;
     let mut chan_recv_err: Count = 0;
+    // the `SummaryPrinted` tallying the entire process (tallies each recieved `SyslineP`)
     let mut summaryprinted: SummaryPrinted = SummaryPrinted::default();
-
     let color_default = Color::White;
-
-    // XXX: chrono is not intuitive!
-    let tz_utc = Utc::from_offset(&Utc);
-    let tz_local = Local.timestamp(0, 0).timezone();
-    //let fx_local = FixedOffset::from_offset(tz_local.)
-
-    // XXX: workaround for missing Default for `&String`
-    let string_default: &String = &String::from("");
-
-    // channels that should be disconnected per loop iteration
-    let mut disconnect = Vec::<PathId>::with_capacity(file_count);
-
-    // any prepended writes to do?
-    let do_prepend: bool = cli_opt_prepend_filename
-        || cli_opt_prepend_filepath
-        || cli_opt_prepend_utc
-        || cli_opt_prepend_local;
 
     // mapping PathId to colors for printing.
     let mut map_pathid_printer = Map_PathId_PrinterSysline::with_capacity(file_count);
@@ -1373,6 +1355,9 @@ fn processing_loop(
     //
     // here is the program coordination of file processing threads to print
     // Syslines ordered by datetime
+    //
+    // channels that should be disconnected per "game loop" loop iteration
+    let mut disconnect = Vec::<PathId>::with_capacity(file_count);
     loop {
         disconnect.clear();
 
