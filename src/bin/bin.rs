@@ -91,7 +91,7 @@ use s4lib::printer::printers::{
     Color,
     ColorChoice,
     //
-    COLOR_DATETIME,
+    COLOR_ERROR,
     color_rand,
     print_colored_stderr,
     write_stdout,
@@ -872,7 +872,6 @@ impl SummaryPrinted {
     /// only colorize if associated `Summary_Opt` has corresponding
     /// non-zero values
     pub fn print_colored_stderr(&self, color_choice_opt: Option<ColorChoice>, summary_opt: &Summary_Opt) {
-        let clrerr = Color::Red;
         
         let sumd = Summary::default();
         let sum_: &Summary = match summary_opt {
@@ -884,7 +883,7 @@ impl SummaryPrinted {
         eprint!("{{ bytes: ");
         if self.bytes == 0 && sum_.BlockReader_bytes != 0 {
             #[allow(clippy::single_match)]
-            match print_colored_stderr(clrerr, color_choice_opt, self.bytes.to_string().as_bytes()) {
+            match print_colored_stderr(COLOR_ERROR, color_choice_opt, self.bytes.to_string().as_bytes()) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
@@ -898,7 +897,7 @@ impl SummaryPrinted {
         eprint!(", lines: ");
         if self.lines == 0 && sum_.BlockReader_bytes != 0 {
             #[allow(clippy::single_match)]
-            match print_colored_stderr(clrerr, color_choice_opt, self.lines.to_string().as_bytes()) {
+            match print_colored_stderr(COLOR_ERROR, color_choice_opt, self.lines.to_string().as_bytes()) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
@@ -912,7 +911,7 @@ impl SummaryPrinted {
         eprint!(", syslines: ");
         if self.syslines == 0 && sum_.LineReader_lines != 0 {
             #[allow(clippy::single_match)]
-            match print_colored_stderr(clrerr, color_choice_opt, self.syslines.to_string().as_bytes()) {
+            match print_colored_stderr(COLOR_ERROR, color_choice_opt, self.syslines.to_string().as_bytes()) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
@@ -926,7 +925,7 @@ impl SummaryPrinted {
         eprint!(", dt_first: ");
         if self.dt_first.is_none() && sum_.LineReader_lines != 0 {
             #[allow(clippy::single_match)]
-            match print_colored_stderr(clrerr, color_choice_opt, "None".as_bytes()) {
+            match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None".as_bytes()) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
@@ -940,7 +939,7 @@ impl SummaryPrinted {
         eprint!(", dt_last: ");
         if self.dt_last.is_none() && sum_.LineReader_lines != 0 {
             #[allow(clippy::single_match)]
-            match print_colored_stderr(clrerr, color_choice_opt, "None".as_bytes()) {
+            match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None".as_bytes()) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
@@ -1181,7 +1180,6 @@ fn processing_loop(
     let mut map_pathid_summary = Map_PathId_Summary::with_capacity(file_count);
     // "mapping" of PathId to select index, used in `recv_many_data`
     let mut index_select = Index_Select::with_capacity(file_count);
-    let color_datetime: Color = COLOR_DATETIME;
 
     // initialize processing channels/threads, one per file path
     for pathid in map_pathid_path.keys() {

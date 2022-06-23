@@ -40,6 +40,8 @@ use lazy_static::lazy_static;
 
 pub static COLOR_DATETIME: Color = Color::Green;
 
+pub static COLOR_ERROR: Color = Color::Red;
+
 /// A preselection of colors for printing syslines and file names.
 /// Chosen for a dark background console.
 static COLORS_TEXT: [Color; 29] = [
