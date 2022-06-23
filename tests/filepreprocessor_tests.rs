@@ -7,6 +7,12 @@ use s4lib::common::{
     FPath,
 };
 
+use s4lib::Readers::filepreprocessor::{
+    mimeguess_to_filetype,
+    path_to_filetype,
+    parseable_filetype,
+};
+
 use s4lib::printer_debug::helpers::{
     create_temp_file_with_name_exact,
     NTF_Path,
@@ -22,15 +28,15 @@ use s4lib::printer_debug::stack::{
 extern crate mime_sniffer;
 use mime_sniffer::MimeTypeSniffer;  // adds extension method `sniff_mime_type` to `[u8]`
 
-mod tests {
-    
-    #[test]
-    fn src__Readers__filepreprocessor_tests_rs__mod_tests__test1() {
-        let result = 2 - 1;
-        assert_eq!(1, result);
-    }
-}
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+#[test]
+fn test_placeholder_until_these_other_tests_are_uncommented() {
+    // placeholder test to ensure this file is processed.
+    // in-place until these tests are uncommented
+    let t = true;
+    assert!(t, "");
+}
 
 /*
 /// helper to wrap the match and panic checks
@@ -61,6 +67,8 @@ fn test_FilePreProcessor_new1() {
 
 // -------------------------------------------------------------------------------------------------
 
+/*
+
 /// test `filepreprocessor::mimeguess_analysis`
 #[allow(non_snake_case)]
 #[cfg(test)]
@@ -70,14 +78,12 @@ fn _test_mimeguess_analysis(
 ) {
     stack_offset_set(Some(2));
     eprintln!("{}_test_mimeguess_analysis({:?}, expect {:?})", sn(), path, expect_val);
-    /*
     // TODO: 2022/06/06 fix this call
-    let val = mimeguess_analysis();
+    let val = parseable_filetype();
     assert_eq!(
         expect_val, val,
         "blockzero_analysis expected {:?} result, got {:?} result for {:?}", expect_val, val, path,
     );
-    */
     eprintln!("{}_test_mimeguess_analysis()", sx());
 }
 
@@ -115,3 +121,5 @@ fn test_mimeguess_analysis_dll() {
     let path = NTF_Path(&ntf);
     _test_mimeguess_analysis(&path, false);
 }
+
+*/

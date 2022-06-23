@@ -45,20 +45,21 @@ walkdir = "2.3.2"
 name = "s4lib"
 path = "src/lib.rs"
 crate-type = ["lib"]
+edition = "2021"
 test = true
-#doctest = false
+doctest = false
 #bench = false
 #doc = false
 #plugin = false
 #proc-macro = false
 #harness = false
-#edition = "2021"
 
 [[bin]]
 name = "s4"
 path = "src/bin/bin.rs"
 test = true
 doc = false
+edition = "2021"
 
 [dev-dependencies]
 arraystring = "0.3.0"
