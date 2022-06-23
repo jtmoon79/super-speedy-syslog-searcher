@@ -75,3 +75,7 @@ harness = false
 [[bench]]
 name = "bench_slice_contains"
 harness = false
+
+[[bench]]
+name = "bench_syslinereader"
+harness = false
