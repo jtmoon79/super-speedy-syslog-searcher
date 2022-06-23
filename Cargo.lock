@@ -209,9 +209,9 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "3.2.5"
+version = "3.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d53da17d37dba964b9b3ecb5c5a1f193a2762c700e6829201e645b9381c99dc7"
+checksum = "9f1fe12880bae935d142c8702d500c63a4e8634b6c3c57ad72bf978fc7b6249a"
 dependencies = [
  "atty",
  "bitflags",
@@ -226,18 +226,18 @@ dependencies = [
 
 [[package]]
 name = "clap_complete"
-version = "3.2.1"
+version = "3.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0f6ebaab5f25e4f0312dfa07cb30a755204b96e6531457c2cfdecfdf5f2adf40"
+checksum = "c09fbb00fb6e20e92f785598ecbf0c118f269737490c57af28b1ed07f392be16"
 dependencies = [
- "clap 3.2.5",
+ "clap 3.2.6",
 ]
 
 [[package]]
 name = "clap_derive"
-version = "3.2.5"
+version = "3.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c11d40217d16aee8508cc8e5fde8b4ff24639758608e5374e731b53f85749fb9"
+checksum = "ed6db9e867166a43a53f7199b5e4d1f522a1e5bd626654be263c999ce59df39a"
 dependencies = [
  "heck",
  "proc-macro-error",
@@ -248,9 +248,9 @@ dependencies = [
 
 [[package]]
 name = "clap_lex"
-version = "0.2.2"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5538cd660450ebeb4234cfecf8f2284b844ffc4c50531e66d584ad5b91293613"
+checksum = "87eba3c8c7f42ef17f6c659fc7416d0f4758cd3e58861ee63c5fa4a4dde649e4"
 dependencies = [
  "os_str_bytes",
 ]
@@ -423,7 +423,7 @@ checksum = "fdabda8eabedb11165e4458a6b7d519f73af12f560d18d9ed56550a5b53cbafc"
 dependencies = [
  "anyhow",
  "cargo_metadata",
- "clap 3.2.5",
+ "clap 3.2.6",
  "clap_complete",
  "inferno",
  "opener",
@@ -506,9 +506,9 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "1.9.0"
+version = "1.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c6392766afd7964e2531940894cffe4bd8d7d17dbc3c1c4857040fd4b33bdb3"
+checksum = "10a35a97730320ffe8e2d410b5d3b69279b98d2c14bdb8b70ea89ecf7888d41e"
 dependencies = [
  "autocfg",
  "hashbrown 0.12.1",
@@ -516,9 +516,9 @@ dependencies = [
 
 [[package]]
 name = "inferno"
-version = "0.11.5"
+version = "0.11.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "244ae9456c246081801028c893ee0e2b71be4f0380894e2cd53974c3beea0c64"
+checksum = "9a262875c8e10820b9366e991ed6710cd80dc93578375e5d499fcbd408985937"
 dependencies = [
  "ahash",
  "atty",
@@ -1117,7 +1117,7 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "super_speedy_syslog_searcher"
-version = "0.0.19"
+version = "0.0.20"
 dependencies = [
  "arrayref",
  "arraystring",
@@ -1125,7 +1125,7 @@ dependencies = [
  "bstr",
  "chain-cmp",
  "chrono",
- "clap 3.2.5",
+ "clap 3.2.6",
  "criterion",
  "crossbeam-channel",
  "debug_print",
