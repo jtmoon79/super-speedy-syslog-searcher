@@ -262,10 +262,11 @@ struct CLI_Args {
     #[clap(
         short = 't',
         long,
-        help = "DateTime Timezone offset - for syslines with a datetime that does not include a timezone, this will be used. For example, '-0800' '+0200'. If passing a value with leading '-', use the '=' to explicitly set the argument, e.g. '-t=-0800'. Otherwise the CLI argument parsing will fail.",
+        help = "DateTime Timezone offset - for syslines with a datetime that does not include a timezone, this will be used. For example, '-0800' '+02:00' (with or without ':'). If passing a value with leading '-', use the '=' to explicitly set the argument, e.g. '-t=-0800'. Otherwise the CLI argument parsing will fail. Default is local system timezone offset.",
         validator = cli_validate_tz_offset,
+        default_value_t=Local.timestamp(0, 0).offset().to_string(),
     )]
-    tz_offset: Option<String>,
+    tz_offset: String,
 
     /// Prepend DateTime in the UTC Timezone for every sysline.
     #[clap(
@@ -382,8 +383,8 @@ fn cli_validate_blocksz(blockszs: &str) -> clap::Result<(), String> {
 /// CLI argument processing
 /// TODO: move some of this into small testable helper functions
 fn cli_process_tz_offset(tzo: &String) -> std::result::Result<FixedOffset, String> {
-    let tzo_: String;
-    if tzo.as_str() == "" {
+    let mut tzo_: String;
+    if tzo.is_empty() {
         // ripped from https://stackoverflow.com/a/59603899/471376
         let local_offs = Local.timestamp(0, 0).offset().fix().local_minus_utc();
         let hours = local_offs / 3600;
@@ -392,6 +393,11 @@ fn cli_process_tz_offset(tzo: &String) -> std::result::Result<FixedOffset, Strin
     } else {
         tzo_ = tzo.clone();
     }
+    // default value is "+00:00", remove one ":"
+    if let Some(index) = tzo_.find(':') {
+        tzo_.remove(index);
+    }
+    #[allow(clippy::from_str_radix_10)]
     let fo_val = match i32::from_str_radix(tzo_.as_str(), 10) {
         Ok(val) => val,
         Err(err) => {
@@ -412,8 +418,8 @@ fn cli_process_tz_offset(tzo: &String) -> std::result::Result<FixedOffset, Strin
 }
 
 /// argument validator for clap
-fn cli_validate_tz_offset(blockszs: &str) -> std::result::Result<(), String> {
-    match cli_process_tz_offset(&String::from(blockszs)) {
+fn cli_validate_tz_offset(tz_offset: &str) -> std::result::Result<(), String> {
+    match cli_process_tz_offset(&String::from(tz_offset)) {
         Ok(_) => { Ok(()) },
         Err(err) => { Err(err) },
     }
@@ -486,9 +492,7 @@ fn cli_process_args() -> (
         fpaths.push(path.clone());
     }
 
-    let tz_offset: FixedOffset = match cli_process_tz_offset(
-        &args.tz_offset.unwrap_or_default()
-    ) {
+    let tz_offset: FixedOffset = match cli_process_tz_offset(&args.tz_offset) {
         Ok(val) => val,
         Err(err) => {
             eprintln!("ERROR: {}", err);
