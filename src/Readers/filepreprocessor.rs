@@ -108,6 +108,7 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
         | "text/*"
         | "utf-8" => FileType::FILE,
         "application/gzip" => FileType::FILE_GZ,
+        "application/x-xz" => FileType::FILE_XZ,
         _ => FileType::FILE_UNKNOWN,
     }
 }
@@ -219,10 +220,14 @@ pub fn parseable_filetype(filetype: &FileType) -> FileParseable {
     match filetype {
         // `YES` is effectively the list of currently supported file types
         &FileType::FILE
-        | &FileType::FILE_GZ => FileParseable::YES,
+        | &FileType::FILE_XZ
+        | &FileType::FILE_GZ
+        => FileParseable::YES,
+        // `NOT_SUPPORTED` is the list of "Someday this program should support this file type"
         &FileType::FILE_TAR
         | &FileType::FILE_TAR_GZ
-        | &FileType::FILE_XZ => FileParseable::NO_NOT_SUPPORTED,
+        => FileParseable::NO_NOT_SUPPORTED,
+        // etc.
         _ => FileParseable::NO_NOT_PARSEABLE,
     }
 }

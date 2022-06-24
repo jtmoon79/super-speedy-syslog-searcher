@@ -269,7 +269,8 @@ impl fmt::Debug for Summary {
                 .field("filesz", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
                 .finish()
             },
-            FileType::FILE_GZ => {
+            FileType::FILE_GZ 
+            | FileType::FILE_XZ => {
                 f.debug_struct("")
                 .field("bytes", &self.BlockReader_bytes)
                 .field("bytes total", &self.BlockReader_bytes_total)
@@ -288,7 +289,7 @@ impl fmt::Debug for Summary {
                 .finish()
             },
             _ => {
-                unimplemented!("FileType {:?} not implemented", self.filetype);
+                unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype);
             },
         }
 
