@@ -11,6 +11,8 @@ use crate::common::{
 use crate::Readers::helpers::{
     path_to_fpath,
     fpath_to_path,
+    remove_extension,
+    filename_count_extensions,
 };
 
 #[cfg(any(debug_assertions,test))]
@@ -269,14 +271,27 @@ pub fn guess_filetype_from_mimeguess_fpath(mimeguess: &MimeGuess, path: &FPath) 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
 pub fn guess_filetype_from_path(path: &std::path::Path) -> (FileType, MimeGuess) {
     debug_eprintln!("{}guess_filetype_from_path({:?})", sn(), path);
-    let mimeguess: MimeGuess = MimeGuess::from_path(path);
+    let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
     debug_eprintln!("{}guess_filetype_from_path: mimeguess {:?}", so(), mimeguess);
+    // Sometimes syslog files get automatically renamed by appending `.old` to the filename,
+    // or a number, e.g. `file.log.old`, `messages.1`. If so, try MimeGuess without the dumb extra extension.
+    if mimeguess.is_empty() && filename_count_extensions(path) > 1 {
+        debug_eprintln!("{}guess_filetype_from_path: no mimeguess found, and file name is {:?} (multiple extensions), try again with removed file extension", so(), path.file_name().unwrap_or_default());
+        match remove_extension(path) {
+            None => {},
+            Some(path_) => {
+                mimeguess = MimeGuess::from_path(path_);
+                debug_eprintln!("{}guess_filetype_from_path: mimeguess #2 {:?}", so(), mimeguess);
+            }
+        }
+    }
     let mut filetype: FileType = mimeguess_to_filetype(&mimeguess);
     debug_eprintln!("{}guess_filetype_from_path: filetype {:?}", so(), filetype);
     if ! parseable_filetype_ok(&filetype) {
+        debug_eprintln!("{}guess_filetype_from_path: parseable_filetype_ok({:?}) failed", so(), filetype);
         filetype = path_to_filetype(path);
     }
-    debug_eprintln!("{}guess_filetype_from_path: filetype {:?}", sx(), filetype);
+    debug_eprintln!("{}guess_filetype_from_path: return ({:?}, {:?})", sx(), filetype, mimeguess);
 
     (filetype, mimeguess)
 }
