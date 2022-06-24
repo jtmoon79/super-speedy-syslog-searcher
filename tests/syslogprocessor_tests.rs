@@ -5,7 +5,6 @@ extern crate s4lib;
 
 use s4lib::common::{
     FPath,
-    FileType,
 };
 
 use s4lib::printer_debug::helpers::{
@@ -21,7 +20,6 @@ use s4lib::Readers::blockreader::{
 
 use s4lib::Readers::filepreprocessor::{
     guess_filetype_from_fpath,
-    MimeGuess,
 };
 
 use s4lib::Data::datetime::{
