@@ -6,8 +6,12 @@ pub use std::fs::File;
 use std::fmt::Debug;
 pub use std::path::Path;
 
-// TODO: use `std::path::Path` for `FPath`
 /// `F`ake `Path` or `F`ile `Path`
+/// 
+/// XXX: ideal would be using `std::path::Path`, but that does not have trait `Sized` which means
+///      instances must be passed-by-reference ("size is not known at compile time"). This
+///      introduces too much difficulty (have to start marking lifetimes everywhere, no way!)
+///      Use this type alias as a stand-in.
 pub type FPath = String;
 /// a sequence of `FPath`
 pub type FPaths = Vec::<FPath>;

@@ -443,6 +443,7 @@ impl LineReader {
     }
 
     /*
+
     type ResultS3_find_byte_val = (BlockIndex, BlockP);
     type ResultS3_find_byte = ResultS3<ResultS3_find_byte_val, Error>;
 
