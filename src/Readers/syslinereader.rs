@@ -1551,14 +1551,6 @@ impl SyslineReader {
         ResultS4_SyslineFind::Found((fo_b, syslinep))
     }
 
-    /// wrapper to call `find_sysline_at_datetime_filter1`
-    #[inline(always)]
-    pub fn find_sysline_at_datetime_filter(
-        &mut self, fileoffset: FileOffset, dt_filter: &DateTimeL_Opt,
-    ) -> ResultS4_SyslineFind {
-        self.find_sysline_at_datetime_filter1(fileoffset, dt_filter)
-    }
-
     /// Find first sysline at or after `fileoffset` that is at or after `dt_filter`.
     ///
     /// This does a binary search over the file, O(log(n)).
@@ -1586,10 +1578,10 @@ impl SyslineReader {
     /// TODO: rename this to `find_next_sysline_at_datetime_filter`, rename all `find_` functions to either
     ///       `find_..._between_`, `find_...at_`, or `find_next`
     ///       `between` and `at` mean binary search over the file, `next` means linear sequantial search
-    fn find_sysline_at_datetime_filter1(
+    pub fn find_sysline_at_datetime_filter(
         &mut self, fileoffset: FileOffset, dt_filter: &DateTimeL_Opt,
     ) -> ResultS4_SyslineFind {
-        const _fname: &str = "find_sysline_at_datetime_filter1";
+        const _fname: &str = "find_sysline_at_datetime_filter";
         debug_eprintln!("{}{}(SyslineReader@{:p}, {}, {:?})", sn(), _fname, self, fileoffset, dt_filter);
         let filesz = self.filesz();
         let _fo_end: FileOffset = filesz as FileOffset;
