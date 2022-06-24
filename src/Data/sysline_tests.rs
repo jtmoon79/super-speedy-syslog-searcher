@@ -9,7 +9,7 @@ use super::sysline::{
 
 #[test]
 fn test_sysline_new1() {
-    let sl1 = Sysline::new();
+    let _sl1 = Sysline::new();
 }
 
 // TODO: [2022/06/02] needs more tests of `Data/sysline.rs`
