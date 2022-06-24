@@ -31,9 +31,6 @@ use crate::Data::datetime::{
 extern crate chain_cmp;
 use chain_cmp::chmp;
 
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // globals and constants
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -291,6 +288,59 @@ macro_rules! setcolor_or_return {
     };
 }
 
+// XXX: this was a `fn -> Result<()>` but due to mutable and immutable error, it would not compile.
+//      So a macro is a decent workaround.
+/// helper to print a single line in color
+macro_rules! print_color_line {
+    ($self:expr, $linep:expr) => {
+        {
+            for linepart in (*$linep).lineparts.iter() {
+                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+                write_or_return!($self.stdout_color, slice);
+            }
+        }
+    }
+}
+
+// XXX: this was a `fn -> Result<()>` but due to mutable and immutable error, it would not compile.
+//      So a macro is a decent workaround.
+/// helper to print a single line in color, and highlight the datetime
+macro_rules! print_color_line_highlight_dt {
+    ($self:expr, $linep:expr, $dt_beg:expr, $dt_end:expr) => {
+        {
+            let mut at: LineIndex = 0;
+            for linepart in (*$linep).lineparts.iter() {
+                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+                let len_: usize = slice.len();
+                if chmp!(at <= $dt_beg < $dt_end < (at + len_)) {
+                    let slice_a = &slice[..($dt_beg-at)];
+                    let slice_b_dt = &slice[($dt_beg-at)..($dt_end-at)];
+                    let slice_c = &slice[($dt_end-at)..];
+                    // print line contents before the datetime
+                    if !slice_a.is_empty() {
+                        setcolor_or_return!($self.stdout_color, $self.color_spec_sysline);
+                        write_or_return!($self.stdout_color, slice_a);
+                    }
+                    // print line contents that is the datetime
+                    setcolor_or_return!($self.stdout_color, $self.color_spec_datetime);
+                    write_or_return!($self.stdout_color, slice_b_dt);
+                    // print line contents after the datetime
+                    if !slice_c.is_empty() {
+                        setcolor_or_return!($self.stdout_color, $self.color_spec_sysline);
+                        write_or_return!($self.stdout_color, slice_c);
+                    }
+                } else {
+                    // BUG: [2022/03] does not handle datetime that crosses into next slice (block)
+                    //                related, should probably offer CLI option for highlighting the datetime
+                    setcolor_or_return!($self.stdout_color, $self.color_spec_sysline);
+                    write_or_return!($self.stdout_color, slice);
+                }
+                at += len_ as LineIndex;
+            };
+        }
+    }
+}
+
 impl Printer_Sysline {
     pub fn new(
         color_choice: ColorChoice,
@@ -370,23 +420,13 @@ impl Printer_Sysline {
     }
 
     /// helper to print lineparts
+    ///
     /// TODO: make this a macro and it could be used in all functions
     #[inline(always)]
-    fn print_line(&mut self, linep: &LineP, stdout_lock: &mut std::io::StdoutLock) -> Result<()> {
+    fn print_line(&self, linep: &LineP, stdout_lock: &mut std::io::StdoutLock) -> Result<()> {
         for linepart in (*linep).lineparts.iter() {
             let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
             write_or_return!(stdout_lock, slice);
-        }
-
-        Ok(())
-    }
-
-    /// helper to print lineparts in color
-    #[inline(always)]
-    fn print_color_line(&mut self, linep: &LineP) -> Result<()> {
-        for linepart in (*linep).lineparts.iter() {
-            let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-            write_or_return!(self.stdout_color, slice);
         }
 
         Ok(())
@@ -486,44 +526,16 @@ impl Printer_Sysline {
 
     // prints with color
     fn print_color_sysline(&mut self, syslinep: &SyslineP) -> Result<()> {
-        let mut line_first: bool = true;
-        let dtb = (*syslinep).dt_beg;
-        let dte = (*syslinep).dt_end;
+        let mut line_first = true;
         let _stdout_lock = self.stdout.lock();
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
         for linep in (*syslinep).lines.iter() {
             if line_first {
-                // first line has the embedded datetime which will be bolded
-                let mut at: LineIndex = 0;
-                for linepart in (*linep).lineparts.iter() {
-                    let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-                    let len_: usize = slice.len();
-                    if chmp!(at <= dtb < dte < (at + len_)) {
-                        let slice_a = &slice[..(dtb-at)];
-                        let slice_b_dt = &slice[(dtb-at)..(dte-at)];
-                        let slice_c = &slice[(dte-at)..];
-                        if !slice_a.is_empty() {
-                            setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
-                            write_or_return!(self.stdout_color, slice_a);
-                        }
-                        setcolor_or_return!(self.stdout_color, self.color_spec_datetime);
-                        write_or_return!(self.stdout_color, slice_b_dt);
-                        if !slice_c.is_empty() {
-                            setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
-                            write_or_return!(self.stdout_color, slice_c);
-                        }
-                    } else {
-                        // BUG: [2022/03] does not handle datetime that crosses into next slice (block)
-                        // LAST WORKING HERE 2022/06/20 03:55:34 need to implement handling this
-                        setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
-                        write_or_return!(self.stdout_color, slice);
-                    }
-                    at += len_ as LineIndex;
-                }
+                print_color_line_highlight_dt!(self, linep, (*syslinep).dt_beg, (*syslinep).dt_end);
+                line_first = false;
             } else {
-                self.print_color_line(linep)?;
+                print_color_line!(self, linep);
             }
-            line_first = false;
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default);
 
@@ -531,27 +543,19 @@ impl Printer_Sysline {
     }
 
     fn print_color_sysline_prependdate(&mut self, syslinep: &SyslineP) -> Result<()> {
+        let mut line_first = true;
         let dt_string: String = self.datetime_to_string(syslinep);
         let _stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             setcolor_or_return!(self.stdout_color, self.color_spec_default);
             write_or_return!(self.stdout_color, dt_string.as_bytes());
             setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
-            /*
-            for linepart in (*linep).lineparts.iter() {
-                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-                match self.stdout_color.write(slice) {
-                    Ok(_) => {}
-                    Err(err) => {
-                        // XXX: this will print when this program stdout is truncated, like when piping to `head`
-                        //          Broken pipe (os error 32)
-                        eprintln!("ERROR: stdout_color.write(slice@{:p} (len {})) error {}", slice, slice.len(), err);
-                        return Err(err);
-                    }
-                }
+            if line_first {
+                print_color_line_highlight_dt!(self, linep, (*syslinep).dt_beg, (*syslinep).dt_end);
+                line_first = false;
+            } else {
+                print_color_line!(self, linep);
             }
-            */
-            self.print_color_line(linep)?;
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default);
 
@@ -559,16 +563,18 @@ impl Printer_Sysline {
     }
 
     fn print_color_sysline_prependfile(&mut self, syslinep: &SyslineP) -> Result<()> {
+        let mut line_first = true;
         let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
         let _stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             setcolor_or_return!(self.stdout_color, self.color_spec_default);
             write_or_return!(self.stdout_color, prepend_file);
             setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
-            // XXX: cannot use `print_color_line(linep)` because of immutable and mutable borrow conflict
-            for linepart in (*linep).lineparts.iter() {
-                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-                write_or_return!(self.stdout_color, slice);
+            if line_first {
+                print_color_line_highlight_dt!(self, linep, (*syslinep).dt_beg, (*syslinep).dt_end);
+                line_first = false;
+            } else {
+                print_color_line!(self, linep);
             }
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default);
@@ -577,6 +583,7 @@ impl Printer_Sysline {
     }
 
     fn print_color_sysline_prependfile_prependdate(&mut self, syslinep: &SyslineP) -> Result<()> {
+        let mut line_first = true;
         let dt_string: String = self.datetime_to_string(syslinep);
         let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
         let _stdout_lock = self.stdout.lock();
@@ -585,10 +592,11 @@ impl Printer_Sysline {
             write_or_return!(self.stdout_color, prepend_file);
             write_or_return!(self.stdout_color, dt_string.as_bytes());
             setcolor_or_return!(self.stdout_color, self.color_spec_sysline);
-            // XXX: cannot use `print_color_line(linep)` because of immutable and mutable borrow conflict
-            for linepart in (*linep).lineparts.iter() {
-                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-                write_or_return!(self.stdout_color, slice);
+            if line_first {
+                print_color_line_highlight_dt!(self, linep, (*syslinep).dt_beg, (*syslinep).dt_end);
+                line_first = false;
+            } else {
+                print_color_line!(self, linep);
             }
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default);
