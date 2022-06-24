@@ -10,10 +10,6 @@ pub use crate::common::{
     ResultS3,
 };
 
-use crate::common::{
-    Bytes,
-};
-
 use crate::Readers::blockreader::{
     BlockSz,
     BlockOffset,
@@ -35,7 +31,6 @@ use crate::printer_debug::stack::{
     so,
 };
 
-use std::collections::BTreeSet;
 use std::fmt;
 use std::io;
 use std::io::prelude::*;
@@ -68,8 +63,6 @@ pub type Lines = Vec<LineP>;
 pub type LineIndex = usize;
 /// thread-safe Atomic Reference Counting pointer to a `Line`
 pub type LineP = Arc<Line>;
-// set of `BlockOffset`s that a `Line` may hold data
-//pub type BlockOffsets = BTreeSet::<BlockOffset>;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // LinePart, Line, and LineReader

@@ -3,7 +3,6 @@
 
 use crate::common::{
     FPath,
-    FileType,
     ResultS4,
 };
 

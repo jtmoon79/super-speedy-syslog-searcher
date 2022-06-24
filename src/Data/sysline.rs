@@ -25,33 +25,16 @@ use crate::Readers::linereader::{
     Lines,
 };
 
-use crate::printer::printers::{
-    Color,
-    ColorChoice,
-    ColorSpec,
-    WriteColor,
-};
-
 #[cfg(any(debug_assertions,test))]
 use crate::printer_debug::stack::{
     so,
 };
 
 use std::fmt;
-use std::io::Result;
-use std::io::prelude::*;
 use std::sync::Arc;
-
-extern crate chain_cmp;
-use chain_cmp::chmp;
 
 extern crate debug_print;
 use debug_print::debug_eprintln;
-
-extern crate more_asserts;
-use more_asserts::{
-    assert_lt,
-};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Sysline

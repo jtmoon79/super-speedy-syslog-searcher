@@ -4,7 +4,6 @@
 use crate::common::{
     FPath,
     Bytes,
-    FileType,
 };
 
 use crate::Readers::blockreader::{
