@@ -274,7 +274,7 @@ pub fn guess_filetype_from_path(path: &std::path::Path) -> (FileType, MimeGuess)
     let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
     debug_eprintln!("{}guess_filetype_from_path: mimeguess {:?}", so(), mimeguess);
     // Sometimes syslog files get automatically renamed by appending `.old` to the filename,
-    // or a number, e.g. `file.log.old`, `messages.1`. If so, try MimeGuess without the dumb extra extension.
+    // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try MimeGuess without the extra extension.
     if mimeguess.is_empty() && filename_count_extensions(path) > 1 {
         debug_eprintln!("{}guess_filetype_from_path: no mimeguess found, and file name is {:?} (multiple extensions), try again with removed file extension", so(), path.file_name().unwrap_or_default());
         match remove_extension(path) {
@@ -290,6 +290,18 @@ pub fn guess_filetype_from_path(path: &std::path::Path) -> (FileType, MimeGuess)
     if ! parseable_filetype_ok(&filetype) {
         debug_eprintln!("{}guess_filetype_from_path: parseable_filetype_ok({:?}) failed", so(), filetype);
         filetype = path_to_filetype(path);
+        // Sometimes syslog files get automatically renamed by appending `.old` to the filename,
+        // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try supplement check without extra extension.
+        if ! parseable_filetype_ok(&filetype) && filename_count_extensions(path) > 1 {
+            debug_eprintln!("{}guess_filetype_from_path: file name is {:?} (multiple extensions), try again with removed file extension", so(), path.file_name().unwrap_or_default());
+            match remove_extension(path) {
+                None => {},
+                Some(path_) => {
+                    let std_path_ = fpath_to_path(&path_);
+                    filetype = path_to_filetype(std_path_);
+                }
+            }
+        }
     }
     debug_eprintln!("{}guess_filetype_from_path: return ({:?}, {:?})", sx(), filetype, mimeguess);
 
