@@ -811,7 +811,7 @@ impl BlockReader {
                             );
                         }
                     }
-                    if buffer.len() == 0 {
+                    if buffer.is_empty() {
                         break;
                     }
                     let blocksz_u: usize = blocksz as usize;
