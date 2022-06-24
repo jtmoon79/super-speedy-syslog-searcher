@@ -218,18 +218,17 @@ Prepended datetime, -u or -l, is printed in format '%Y%m%dT%H%M%S%.6f %z'.
 DateTimes supported are only of the Gregorian calendar.
 DateTimes languages is English.";
 
-// TODO: change OPTIONS listing ordering (https://github.com/clap-rs/clap/discussions/3593)
-// references:
-// inference types https://github.com/clap-rs/clap/blob/v3.1.6/examples/derive_ref/README.md#arg-types
-// other `clap::App` options https://docs.rs/clap/latest/clap/struct.App.html
-// the `about` is taken from `Cargo.toml:[package]:description`
+// clap references:
+//   inference types https://github.com/clap-rs/clap/blob/v3.1.6/examples/derive_ref/README.md#arg-types
+//   other `clap::App` options https://docs.rs/clap/latest/clap/struct.App.html
+//   the `about` is taken from `Cargo.toml:[package]:description`
 #[derive(Parser, Debug)]
 #[clap(
-    author,
+    //author,
     version,
     about,
     after_help = CLI_HELP_AFTER,
-    before_help = "Super Speedy Syslog Searcher will search syslog files and sort entries by datetime. It aims to be very fast. DateTime filters can passed to narrow the search.",
+    //before_help = "",
     setting = clap::AppSettings::DeriveDisplayOrder,
 )]
 /// this is the `CLI_Args` docstring, is it captured by clap?

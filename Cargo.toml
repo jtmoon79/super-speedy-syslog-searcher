@@ -2,7 +2,7 @@
 
 [package]
 name = "super_speedy_syslog_searcher"
-description = "A super speedy syslog searcher!"
+description = "Super Speedy Syslog Searcher will search syslog files and sort entries by datetime. DateTime filters can passed to narrow the search. It aims to be very fast."
 version = "0.0.20"
 edition = "2021"
 homepage = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
