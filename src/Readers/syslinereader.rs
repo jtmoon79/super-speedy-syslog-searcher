@@ -545,10 +545,7 @@ impl SyslineReader {
             return Result_FindDateTime::Err(Error::new(ErrorKind::InvalidInput, "Line is too short"));
         }
 
-        //let longest: usize = *DATETIME_PARSE_DATAS_VEC_LONGEST;
-        //let mut dtsS: String = String::with_capacity(longest * (2 as usize));
-
-        let hack12: &[u8; 2] = b"12";
+        const HACK12: &[u8; 2] = b"12";
         let mut _patt_at = 0;
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
@@ -581,28 +578,33 @@ impl SyslineReader {
             // take a slice of the `line_as_slice` then convert to `str`
             // this is to force the parsing function `Local.datetime_from_str` to constrain where it
             // searches within the `Line`
+            //
             // TODO: move this remaining loop section into an #[inline(always)] pub function
+            //
             // TODO: to make this a bit more efficient, would be good to do a lookahead. Add a funciton like
             //       `Line.crosses_block(a: LineIndex, b: LineIndex) -> bool`. Then could set capacity of things
             //       ahead of time.
-            let slice_: &[u8];
+
             let mut hack_slice: Bytes;
+            let slice_: &[u8];
             match line.get_boxptrs(dtpd.sib, dtpd.sie) {
                 enum_BoxPtrs::SinglePtr(box_slice) => {
                     slice_ = *box_slice;
                 },
                 enum_BoxPtrs::MultiPtr(vec_box_slice) => {
-                    // XXX: really inefficient! I have no better ideas at this time.
-                    hack_slice = Bytes::new();
-                    for box_ in vec_box_slice {
+                    let mut cap: usize = 0;
+                    for box_ in vec_box_slice.iter() {
+                        cap += box_.len();
+                    }
+                    hack_slice = Bytes::with_capacity(cap);
+                    for box_ in vec_box_slice.into_iter() {
                         hack_slice.extend_from_slice(*box_);
                     }
                     slice_ = hack_slice.as_slice();
                 },
             };
             // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
-            if charsz == &1 && dtpd.year && !slice_contains_X_2(slice_, hack12) {
-            //if charsz == &1 && dtpd.year && !(slice_.contains(&hack12[0]) || slice_.contains(&hack12[1])) {
+            if charsz == &1 && dtpd.year && !slice_contains_X_2(slice_, HACK12) {
                 debug_eprintln!("{}find_datetime_in_line: skip slice, does not have '1' or '2'", so());
                 continue;
             }
