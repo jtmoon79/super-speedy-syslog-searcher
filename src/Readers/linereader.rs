@@ -148,12 +148,12 @@ impl fmt::Debug for LineReader {
 
 // XXX: cannot place these within `impl LineReader`?
 /// minimum char storage size in bytes
-static CHARSZ_MIN: CharSz = 1;
+const CHARSZ_MIN: CharSz = 1;
 /// maximum char storage size in bytes
-static CHARSZ_MAX: CharSz = 4;
+const CHARSZ_MAX: CharSz = 4;
 /// default char storage size in bytes
 /// XXX: does not handle multi-byte encodings (e.g. UTF-8) or multi-byte character storage (e.g. UTF-32)
-static CHARSZ: CharSz = CHARSZ_MIN;
+const CHARSZ: CharSz = CHARSZ_MIN;
 
 /// implement the LineReader things
 impl LineReader {
