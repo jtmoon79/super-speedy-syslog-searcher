@@ -935,12 +935,9 @@ pub fn dt_pass_filters(
 // helper functions - search a slice quickly (loop unroll version)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-// TODO: [202/04/15] put performance tweaks into a mod
-// pub mod fast_check {
-
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_6_2(slice_: &[u8; 6], search: &[u8; 2]) -> bool {
+const fn slice_contains_6_2(slice_: &[u8; 6], search: &[u8; 2]) -> bool {
     for i in 0..5 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -951,7 +948,7 @@ fn slice_contains_6_2(slice_: &[u8; 6], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_7_2(slice_: &[u8; 7], search: &[u8; 2]) -> bool {
+const fn slice_contains_7_2(slice_: &[u8; 7], search: &[u8; 2]) -> bool {
     for i in 0..6 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -962,7 +959,7 @@ fn slice_contains_7_2(slice_: &[u8; 7], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_8_2(slice_: &[u8; 8], search: &[u8; 2]) -> bool {
+const fn slice_contains_8_2(slice_: &[u8; 8], search: &[u8; 2]) -> bool {
     for i in 0..7 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -973,7 +970,7 @@ fn slice_contains_8_2(slice_: &[u8; 8], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_9_2(slice_: &[u8; 9], search: &[u8; 2]) -> bool {
+const fn slice_contains_9_2(slice_: &[u8; 9], search: &[u8; 2]) -> bool {
     for i in 0..8 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -984,7 +981,7 @@ fn slice_contains_9_2(slice_: &[u8; 9], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_10_2(slice_: &[u8; 10], search: &[u8; 2]) -> bool {
+const fn slice_contains_10_2(slice_: &[u8; 10], search: &[u8; 2]) -> bool {
     for i in 0..9 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -995,7 +992,7 @@ fn slice_contains_10_2(slice_: &[u8; 10], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_11_2(slice_: &[u8; 11], search: &[u8; 2]) -> bool {
+const fn slice_contains_11_2(slice_: &[u8; 11], search: &[u8; 2]) -> bool {
     for i in 0..10 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1006,7 +1003,7 @@ fn slice_contains_11_2(slice_: &[u8; 11], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_12_2(slice_: &[u8; 12], search: &[u8; 2]) -> bool {
+const fn slice_contains_12_2(slice_: &[u8; 12], search: &[u8; 2]) -> bool {
     for i in 0..11 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1017,7 +1014,7 @@ fn slice_contains_12_2(slice_: &[u8; 12], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_13_2(slice_: &[u8; 13], search: &[u8; 2]) -> bool {
+const fn slice_contains_13_2(slice_: &[u8; 13], search: &[u8; 2]) -> bool {
     for i in 0..12 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1028,7 +1025,7 @@ fn slice_contains_13_2(slice_: &[u8; 13], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_14_2(slice_: &[u8; 14], search: &[u8; 2]) -> bool {
+const fn slice_contains_14_2(slice_: &[u8; 14], search: &[u8; 2]) -> bool {
     for i in 0..13 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1039,7 +1036,7 @@ fn slice_contains_14_2(slice_: &[u8; 14], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_15_2(slice_: &[u8; 15], search: &[u8; 2]) -> bool {
+const fn slice_contains_15_2(slice_: &[u8; 15], search: &[u8; 2]) -> bool {
     for i in 0..14 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1050,7 +1047,7 @@ fn slice_contains_15_2(slice_: &[u8; 15], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_16_2(slice_: &[u8; 16], search: &[u8; 2]) -> bool {
+const fn slice_contains_16_2(slice_: &[u8; 16], search: &[u8; 2]) -> bool {
     for i in 0..15 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1061,7 +1058,7 @@ fn slice_contains_16_2(slice_: &[u8; 16], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_17_2(slice_: &[u8; 17], search: &[u8; 2]) -> bool {
+const fn slice_contains_17_2(slice_: &[u8; 17], search: &[u8; 2]) -> bool {
     for i in 0..16 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1072,7 +1069,7 @@ fn slice_contains_17_2(slice_: &[u8; 17], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_18_2(slice_: &[u8; 18], search: &[u8; 2]) -> bool {
+const fn slice_contains_18_2(slice_: &[u8; 18], search: &[u8; 2]) -> bool {
     for i in 0..17 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1083,7 +1080,7 @@ fn slice_contains_18_2(slice_: &[u8; 18], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_19_2(slice_: &[u8; 19], search: &[u8; 2]) -> bool {
+const fn slice_contains_19_2(slice_: &[u8; 19], search: &[u8; 2]) -> bool {
     for i in 0..18 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1094,7 +1091,7 @@ fn slice_contains_19_2(slice_: &[u8; 19], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_20_2(slice_: &[u8; 20], search: &[u8; 2]) -> bool {
+const fn slice_contains_20_2(slice_: &[u8; 20], search: &[u8; 2]) -> bool {
     for i in 0..19 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1105,7 +1102,7 @@ fn slice_contains_20_2(slice_: &[u8; 20], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_21_2(slice_: &[u8; 21], search: &[u8; 2]) -> bool {
+const fn slice_contains_21_2(slice_: &[u8; 21], search: &[u8; 2]) -> bool {
     for i in 0..20 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1116,7 +1113,7 @@ fn slice_contains_21_2(slice_: &[u8; 21], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_22_2(slice_: &[u8; 22], search: &[u8; 2]) -> bool {
+const fn slice_contains_22_2(slice_: &[u8; 22], search: &[u8; 2]) -> bool {
     for i in 0..21 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1127,7 +1124,7 @@ fn slice_contains_22_2(slice_: &[u8; 22], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_23_2(slice_: &[u8; 23], search: &[u8; 2]) -> bool {
+const fn slice_contains_23_2(slice_: &[u8; 23], search: &[u8; 2]) -> bool {
     for i in 0..22 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1138,7 +1135,7 @@ fn slice_contains_23_2(slice_: &[u8; 23], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_24_2(slice_: &[u8; 24], search: &[u8; 2]) -> bool {
+const fn slice_contains_24_2(slice_: &[u8; 24], search: &[u8; 2]) -> bool {
     for i in 0..23 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1149,7 +1146,7 @@ fn slice_contains_24_2(slice_: &[u8; 24], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_25_2(slice_: &[u8; 25], search: &[u8; 2]) -> bool {
+const fn slice_contains_25_2(slice_: &[u8; 25], search: &[u8; 2]) -> bool {
     for i in 0..24 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1160,7 +1157,7 @@ fn slice_contains_25_2(slice_: &[u8; 25], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_26_2(slice_: &[u8; 26], search: &[u8; 2]) -> bool {
+const fn slice_contains_26_2(slice_: &[u8; 26], search: &[u8; 2]) -> bool {
     for i in 0..25 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1171,7 +1168,7 @@ fn slice_contains_26_2(slice_: &[u8; 26], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_27_2(slice_: &[u8; 27], search: &[u8; 2]) -> bool {
+const fn slice_contains_27_2(slice_: &[u8; 27], search: &[u8; 2]) -> bool {
     for i in 0..26 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1182,7 +1179,7 @@ fn slice_contains_27_2(slice_: &[u8; 27], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_28_2(slice_: &[u8; 28], search: &[u8; 2]) -> bool {
+const fn slice_contains_28_2(slice_: &[u8; 28], search: &[u8; 2]) -> bool {
     for i in 0..27 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1193,7 +1190,7 @@ fn slice_contains_28_2(slice_: &[u8; 28], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_29_2(slice_: &[u8; 29], search: &[u8; 2]) -> bool {
+const fn slice_contains_29_2(slice_: &[u8; 29], search: &[u8; 2]) -> bool {
     for i in 0..28 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1204,7 +1201,7 @@ fn slice_contains_29_2(slice_: &[u8; 29], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_30_2(slice_: &[u8; 30], search: &[u8; 2]) -> bool {
+const fn slice_contains_30_2(slice_: &[u8; 30], search: &[u8; 2]) -> bool {
     for i in 0..29 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1215,7 +1212,7 @@ fn slice_contains_30_2(slice_: &[u8; 30], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_31_2(slice_: &[u8; 31], search: &[u8; 2]) -> bool {
+const fn slice_contains_31_2(slice_: &[u8; 31], search: &[u8; 2]) -> bool {
     for i in 0..30 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1226,7 +1223,7 @@ fn slice_contains_31_2(slice_: &[u8; 31], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_32_2(slice_: &[u8; 32], search: &[u8; 2]) -> bool {
+const fn slice_contains_32_2(slice_: &[u8; 32], search: &[u8; 2]) -> bool {
     for i in 0..31 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1237,7 +1234,7 @@ fn slice_contains_32_2(slice_: &[u8; 32], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_33_2(slice_: &[u8; 33], search: &[u8; 2]) -> bool {
+const fn slice_contains_33_2(slice_: &[u8; 33], search: &[u8; 2]) -> bool {
     for i in 0..32 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1248,7 +1245,7 @@ fn slice_contains_33_2(slice_: &[u8; 33], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_34_2(slice_: &[u8; 34], search: &[u8; 2]) -> bool {
+const fn slice_contains_34_2(slice_: &[u8; 34], search: &[u8; 2]) -> bool {
     for i in 0..33 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1259,7 +1256,7 @@ fn slice_contains_34_2(slice_: &[u8; 34], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_35_2(slice_: &[u8; 35], search: &[u8; 2]) -> bool {
+const fn slice_contains_35_2(slice_: &[u8; 35], search: &[u8; 2]) -> bool {
     for i in 0..34 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1270,7 +1267,7 @@ fn slice_contains_35_2(slice_: &[u8; 35], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_36_2(slice_: &[u8; 36], search: &[u8; 2]) -> bool {
+const fn slice_contains_36_2(slice_: &[u8; 36], search: &[u8; 2]) -> bool {
     for i in 0..35 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1281,7 +1278,7 @@ fn slice_contains_36_2(slice_: &[u8; 36], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_37_2(slice_: &[u8; 37], search: &[u8; 2]) -> bool {
+const fn slice_contains_37_2(slice_: &[u8; 37], search: &[u8; 2]) -> bool {
     for i in 0..36 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1292,7 +1289,7 @@ fn slice_contains_37_2(slice_: &[u8; 37], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_38_2(slice_: &[u8; 38], search: &[u8; 2]) -> bool {
+const fn slice_contains_38_2(slice_: &[u8; 38], search: &[u8; 2]) -> bool {
     for i in 0..37 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1303,7 +1300,7 @@ fn slice_contains_38_2(slice_: &[u8; 38], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_39_2(slice_: &[u8; 39], search: &[u8; 2]) -> bool {
+const fn slice_contains_39_2(slice_: &[u8; 39], search: &[u8; 2]) -> bool {
     for i in 0..38 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -1314,7 +1311,7 @@ fn slice_contains_39_2(slice_: &[u8; 39], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-fn slice_contains_40_2(slice_: &[u8; 40], search: &[u8; 2]) -> bool {
+const fn slice_contains_40_2(slice_: &[u8; 40], search: &[u8; 2]) -> bool {
     for i in 0..39 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
