@@ -1,6 +1,6 @@
 // printer_debug/stack.rs
 //
-// debug printing - helpers to find current stack depth for indented trace prints
+// functions to find current stack depth for indented trace prints
 //
 
 use std::collections::HashMap;
@@ -14,6 +14,7 @@ use lazy_static::lazy_static;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+#[allow(non_camel_case_types)]
 type Map_ThreadId_SD<'a> = HashMap<thread::ThreadId, usize>;
 
 // use `stack_offset_set` to set `_STACK_OFFSET_TABLE` once, use `stack_offset` to get
@@ -24,7 +25,6 @@ type Map_ThreadId_SD<'a> = HashMap<thread::ThreadId, usize>;
 lazy_static! {
     static ref _STACK_OFFSET_TABLE: mut_static::MutStatic<Map_ThreadId_SD<'static>> =
         mut_static::MutStatic::new();
-        //Map_ThreadId_SD::new();
 }
 
 /// return current stack depth according to `backtrace::trace`, including this function
@@ -106,8 +106,9 @@ pub fn stack_offset_set(correction: Option<isize>) {
     debug_eprintln!("stack_offset_set({:?}): {:?}({}) stack_offset set to {}, stack_depth {}", correction, tid, thread_cur.name().unwrap_or(""), so, sd_);
 }
 
-/// return a string of spaces as long as `stack_offset`
-/// for use in `print` calls, so short function name and not perfect
+/// return a string of spaces as long as `stack_offset()`
+///
+/// for use in `print` calls
 ///
 /// only intended for debug builds
 #[allow(dead_code)]
@@ -138,7 +139,9 @@ pub fn so() -> &'static str {
     }
 }
 
-/// `print` helper, a `s`tring for e`n`tering a function
+/// return a string of spaces as long as `stack_offset()` when e*n*tering a function.
+///
+/// for use in `print` calls
 ///
 /// only intended for debug builds
 #[allow(dead_code)]
@@ -169,7 +172,9 @@ pub fn sn() -> &'static str {
     }
 }
 
-/// `print` helper, a `s`tring for e`x`iting a function
+/// return a string of spaces as long as `stack_offset()` when e*x*iting a function.
+///
+/// for use in `print` calls
 ///
 /// only intended for debug builds
 #[allow(dead_code)]
@@ -200,8 +205,9 @@ pub fn sx() -> &'static str {
     }
 }
 
-/// `print` helper, a `s`tring for e`n`tering and e`x`iting a function
-/// (like a small function that only needs a one-liner)
+/// return a string of spaces as long as `stack_offset()` when e*n*tering and e*x*iting a function.
+///
+/// for use in `print` calls
 ///
 /// only intended for debug builds
 #[allow(dead_code)]
