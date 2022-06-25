@@ -38,9 +38,9 @@ use more_asserts::{
 // globals and constants
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-pub static COLOR_DATETIME: Color = Color::Green;
+pub const COLOR_DATETIME: Color = Color::Green;
 
-pub static COLOR_ERROR: Color = Color::Red;
+pub const COLOR_ERROR: Color = Color::Red;
 
 /// A preselection of colors for printing syslines and file names.
 /// Chosen for a dark background console.
@@ -106,7 +106,6 @@ pub fn color_rand() -> Color {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Printer_Sysline
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 
 /// a printer specialized for `Sysline`s
 pub struct Printer_Sysline {
