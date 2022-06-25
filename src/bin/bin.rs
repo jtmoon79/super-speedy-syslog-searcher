@@ -20,10 +20,6 @@ use std::thread;
 
 extern crate backtrace;
 
-// TODO: replace chain_cmp with a local impl, removes one depency
-extern crate chain_cmp;
-use chain_cmp::chmp;
-
 extern crate chrono;
 use chrono::{
     FixedOffset,
@@ -362,7 +358,7 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
         };
     }
 
-    if ! chmp!(BLOCKSZ_MIN <= blocksz_ <= BLOCKSZ_MAX) {
+    if ! (BLOCKSZ_MIN <= blocksz_ && blocksz_ <= BLOCKSZ_MAX) {
         return Err(format!("--blocksz must be {} ≤ BLOCKSZ ≤ {}, it was {:?}", BLOCKSZ_MIN, BLOCKSZ_MAX, blockszs));
     }
 
