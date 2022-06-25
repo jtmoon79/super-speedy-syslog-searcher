@@ -52,9 +52,9 @@ use mime_guess::MimeGuess;
 
 extern crate unicode_width;
 
+// `s4lib` is the local compiled [lib] of super_speedy_syslog_searcher
 extern crate s4lib;
 
-//mod common;
 use s4lib::common::{
     Count,
     FPath,
@@ -64,7 +64,6 @@ use s4lib::common::{
     NLu8a,
 };
 
-//mod Data;
 use s4lib::Data::datetime::{
     DateTimeL_Opt,
     DateTime_Parse_Data_str,
@@ -72,7 +71,6 @@ use s4lib::Data::datetime::{
     str_datetime,
 };
 
-//mod printer_debug;
 use s4lib::printer_debug::stack::{
     so,
     sn,
@@ -81,7 +79,6 @@ use s4lib::printer_debug::stack::{
     stack_offset_set,
 };
 
-//mod printer;
 use s4lib::printer::printers::{
     // termcolor imports
     Color,
@@ -89,12 +86,11 @@ use s4lib::printer::printers::{
     //
     COLOR_ERROR,
     color_rand,
+    Printer_Sysline,
     print_colored_stderr,
     write_stdout,
-    Printer_Sysline,
 };
 
-//mod Readers;
 use s4lib::Readers::blockreader::{
     BlockSz,
     BLOCKSZ_MIN,
