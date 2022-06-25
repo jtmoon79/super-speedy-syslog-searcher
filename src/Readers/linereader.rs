@@ -87,9 +87,11 @@ pub type FoToFo = BTreeMap<FileOffset, FileOffset>;
 pub type ResultS4_LineFind = ResultS4<(FileOffset, LineP), Error>;
 pub type LinesLRUCache = LruCache<FileOffset, ResultS4_LineFind>;
 
-/// Specialized Reader that uses BlockReader to find `Lines` in a file.
-/// The `LineReader` handles `[u8]` to `char` interpretation. It does the most
-/// work in this regard (more than `SyslineReader`).
+/// Specialized reader that uses `BlockReader` to find `Lines` in a file.
+///
+/// The `LineReader` does much `[u8]` to `char` interpretation. It does the most
+/// work in this regard (`SyslineReader` does a little).
+///
 /// A `LineReader` stores past lookups of data.
 ///
 /// XXX: not a rust "Reader"; does not implement trait `Read`

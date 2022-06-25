@@ -665,7 +665,7 @@ impl SyslineReader {
 
     }
 
-    /// private helper function to update `self.dt_patterns`
+    /// private helper function to update `parse_datetime_in_line`
     fn dt_patterns_update(&mut self, datetime_parse_data: &DateTime_Parse_Data) {
         if self.analyzed {
             return;
@@ -759,6 +759,7 @@ impl SyslineReader {
                 debug_eprintln!("{}dt_patterns_analysis: self.dt_pattern {:?}", so(), _dtpd);
             }
         }
+        // done using `self.dt_patterns_counts`
         self.dt_patterns_counts.clear();
         self.dt_patterns_counts.shrink_to(0);
         self.analyzed = true;

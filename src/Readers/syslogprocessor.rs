@@ -121,10 +121,10 @@ lazy_static! {
 /// - the different stages of processing a syslog file
 /// - stores optional datetime filters
 ///
-/// A `SyslogProcessor` will manipulate the data stored by it's `SyslineReader`
-/// and further underlying `LineReader` and `BlockReader`, i.e. during streaming
+/// A `SyslogProcessor` will drop processed data stored by it's `SyslineReader`
+/// (and underlying `LineReader` and `BlockReader`). During streaming mode,
 /// the `SyslogProcessor` will proactively `drop` data that has been processed
-/// and printed.
+/// and printed. It does so by calling `self.syslinereader.drop` when 
 pub struct SyslogProcessor {
     syslinereader: SyslineReader,
     processingmode: ProcessingMode,

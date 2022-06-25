@@ -30,7 +30,10 @@ use std::fmt;
 // Summary
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// statistics to print about `SyslineReader` activity
+/// Accumulated statistics to print about activity of a `SyslineReader` and it's underlying
+/// `LineReader` and it's underlying `BlockReader`.
+/// 
+/// Used with CLI option `--summary`
 #[derive(Clone, Default)]
 pub struct Summary {
     pub filetype: FileType,

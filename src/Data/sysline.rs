@@ -204,6 +204,11 @@ impl Sysline {
         cb
     }
 
+    /// do the bytes of this `Sysline` reside on one `Block`?
+    pub fn occupies_one_block(self: &Sysline) -> bool {
+        self.blockoffset_first() == self.blockoffset_last()
+    }
+
     /// return all the slices that make up this `Sysline`.
     ///
     /// Similar to `get_slices_line` but for all lines.

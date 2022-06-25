@@ -68,12 +68,13 @@ pub type LineP = Arc<Line>;
 // LinePart, Line, and LineReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// Struct describing a part or all of a line within a `Block`.
+/// A `LinePart` is some or all of a line within a `Block`.
+/// The purpose of a `LinePart` is to help create a slice into a `Block`.
 ///
-/// A "line" can span more than one `Block`. A `LinePart` tracks a part or all of a line data
+/// A "line" can span more than one `Block`. A `LinePart` tracks the line data
 /// residing in one `Block`. One `LinePart` to one `Block`.
 ///
-/// One or more `LinePart`s are needed to represent a `Line`.
+/// One or more `LinePart`s are required for a `Line`.
 pub struct LinePart {
     /// index into the `blockp`, index at beginning
     /// used as-is in slice notation
@@ -87,7 +88,7 @@ pub struct LinePart {
     pub fileoffset: FileOffset,
     /// blockoffset: debug helper, might be good to get rid of this?
     pub blockoffset: BlockOffset,
-    /// the file-designated BlockSz, _not_ the size of the `Block` at `blockp`
+    /// the file-designated BlockSz, _not_ necessarily the `len()` of the `Block` at `blockp`
     ///
     /// TODO: is this used?
     pub blocksz: BlockSz,
@@ -511,18 +512,20 @@ impl Line {
     }
 
     /// get Box pointers to the underlying `&[u8]` slice that makes up this `Line`.
+    /// 
+    /// If `Line` is composed of one slice (one `Linepart`) then return a single `Box` pointer.
     ///
-    /// There may be more than one slice as the `Line` may cross block boundaries. So
-    /// return the sequence of Box pointers in a `Vec`.
+    /// If `Line` is composed of multiple slice (multiple `Linepart`) then return a
+    /// `Vec` of `Box` pointers to each slice.
     ///
     /// TODO: the `Vec<Box<&[u8]>>` creation is expensive
     ///       consider allowing a mut &Vec to be passed in. However, this will require declaring lifetimes!
-    ///       LAST WORKING HERE 2022/04/03 23:54:00
     ///       However, it seems like this case will much less often in real use-case versus contrived small blocksize use cases.
+    ///       Before making chages, would be worthwhile to track this using internal counters, and see the numbers in tests.
     ///
-    // TODO: due to unstable feature `Sized` in `Box`, cannot do
+    // XXX: due to unstable feature `Sized` in `Box`, cannot do
     //           fn get_boxptrs(...) -> either::Either<Box<&[u8]>, Vec<Box<&[u8]>>>
-    //       causes error `experimental Sized`
+    //      causes error `experimental Sized`
     pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> enum_BoxPtrs<'_> {
         debug_assert_le!(a, b, "passed bad LineIndex pair");
         // do the simple case first (single `Box` pointer required)
