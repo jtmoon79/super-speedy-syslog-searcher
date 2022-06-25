@@ -22,6 +22,14 @@ use std::io::Write;  // for `std::io::Stdout.flush`
 #[cfg(any(debug_assertions,test))]
 use std::io::prelude::*;  // for `std::fs::File.read_to_string`
 
+extern crate termcolor;
+pub use termcolor::{
+    Color,
+    ColorChoice,
+    ColorSpec,
+    WriteColor,
+};
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // helper functions - various print and write
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -184,7 +192,7 @@ pub fn pretty_print(buffer: &[u8], raw: bool) {
         return write_stdout(buffer);
     }
     // is this an expensive command? should `stdout` be cached?
-    let stdout = std::io::stdout();
+    let stdout: std::io::Stdout = std::io::stdout();
     let mut stdout_lock = stdout.lock();
     // XXX: only handle single-byte encodings
     // XXX: doing this char by char is probably not efficient

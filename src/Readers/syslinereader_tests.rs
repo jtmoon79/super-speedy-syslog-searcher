@@ -38,16 +38,16 @@ use crate::Data::datetime::{
     Result_Filter_DateTime2,
 };
 
+#[cfg(test)]
+use crate::printer_debug::helpers::{
+    eprint_file,
+};
+
 use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_bytes,
     NTF_Path,
-};
-
-#[cfg(test)]
-use crate::printer_debug::helpers::{
-    eprint_file,
 };
 
 #[cfg(test)]
@@ -62,7 +62,6 @@ use crate::printer_debug::stack::{
     sx,
 };
 
-#[cfg(test)]
 use crate::printer::printers::{
     write_stderr,
 };
