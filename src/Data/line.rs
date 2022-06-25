@@ -545,7 +545,7 @@ impl Line {
         // do the harder case (multiple `Box` pointers required)
         let mut a_found = false;
         let mut b_search = false;
-        let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box::<&[u8]>>::new();
+        let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box::<&[u8]>>::with_capacity(self.lineparts.len());
         for linepart_ in &self.lineparts {
             debug_eprintln!("{}get_boxptrs: linepart {:?}", so(), linepart_.to_String_noraw());
             let len_ = linepart_.len();
