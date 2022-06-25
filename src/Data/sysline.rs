@@ -109,19 +109,6 @@ impl Sysline {
         Sysline::default()
     }
 
-    /*
-    pub fn new_from_line(linep: LineP) -> Sysline {
-        let mut v = Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY);
-        v.push(linep);
-        Sysline {
-            lines: v,
-            dt_beg: LI_NULL,
-            dt_end: LI_NULL,
-            dt: None,
-        }
-    }
-    */
-
     pub fn charsz(self: &Sysline) -> usize {
         Sysline::CHARSZ
     }
@@ -131,9 +118,6 @@ impl Sysline {
     }
 
     pub fn push(&mut self, linep: LineP) {
-        if !self.lines.is_empty() {
-            // TODO: sanity check lines are in sequence
-        }
         debug_eprintln!(
             "{}SyslineReader.push(@{:p}), self.lines.len() is now {}",
             so(),

@@ -350,6 +350,7 @@ impl Printer_Sysline {
     /// helper to print lineparts
     ///
     /// TODO: make this a macro and it could be used in all functions
+    /// TODO: handle special common case of Line slice residing on one line, do it faster
     #[inline(always)]
     fn print_line(&self, linep: &LineP, stdout_lock: &mut std::io::StdoutLock) -> Result<()> {
         for linepart in (*linep).lineparts.iter() {
@@ -368,20 +369,6 @@ impl Printer_Sysline {
     fn print_sysline_(&mut self, syslinep: &SyslineP) -> Result<()> {
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
-            /*
-            for linepart in (*linep).lineparts.iter() {
-                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-                match stdout_lock.write(slice) {
-                    Ok(_) => {}
-                    Err(err) => {
-                        // XXX: this will print when this program stdout is truncated, like when piping to `head`
-                        //          Broken pipe (os error 32)
-                        eprintln!("ERROR: stdout_lock.write(slice@{:p} (len {})) error {}", slice, slice.len(), err);
-                        return Err(err);
-                    }
-                }
-            }
-            */
             self.print_line(linep, &mut stdout_lock)?;
         }
 
@@ -395,20 +382,6 @@ impl Printer_Sysline {
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             write_or_return!(stdout_lock, dt_string.as_bytes());
-            /*
-            for linepart in (*linep).lineparts.iter() {
-                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-                match stdout_lock.write(slice) {
-                    Ok(_) => {}
-                    Err(err) => {
-                        // XXX: this will print when this program stdout is truncated, like when piping to `head`
-                        //          Broken pipe (os error 32)
-                        eprintln!("ERROR: stdout_lock.write(slice@{:p} (len {})) error {}", slice, slice.len(), err);
-                        return Err(err);
-                    }
-                }
-            }
-            */
             self.print_line(linep, &mut stdout_lock)?;
         }
 
