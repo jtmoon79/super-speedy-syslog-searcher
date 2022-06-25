@@ -47,11 +47,15 @@ pub struct Sysline {
     /// the one or more `Line` that make up a Sysline
     pub(crate) lines: Lines,
     /// index into `Line` where datetime string starts
+    ///
     /// byte-based count
+    ///
     /// datetime is presumed to be on first Line
     pub(crate) dt_beg: LineIndex,
     /// index into `Line` where datetime string ends, one char past last character of datetime string
+    ///
     /// byte-based count
+    ///
     /// datetime is presumed to be on first Line
     pub(crate) dt_end: LineIndex,
     /// parsed DateTime instance
@@ -193,8 +197,8 @@ impl Sysline {
     /// sum of all `Line.count_bytes`
     pub fn count_bytes(self: &Sysline) -> Count {
         let mut cb: Count = 0;
-        for ln in self.lines.iter() {
-            cb += ln.count_bytes();
+        for line in self.lines.iter() {
+            cb += line.count_bytes();
         }
 
         cb
