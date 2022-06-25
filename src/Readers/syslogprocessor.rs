@@ -78,7 +78,7 @@ extern crate walkdir;
 pub type FileProcessingResult_BlockZero = FileProcessingResult<std::io::Error>;
 
 #[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
-enum ProcessingMode {
+enum ProcessingStage {
     /// does the file exist?
     stage0_valid_file_check,
     /// check file can be parsed
@@ -127,7 +127,7 @@ lazy_static! {
 /// and printed. It does so by calling `self.syslinereader.drop` when 
 pub struct SyslogProcessor {
     syslinereader: SyslineReader,
-    processingmode: ProcessingMode,
+    processingstage: ProcessingStage,
     path: FPath,
     blocksz: BlockSz,
     tz_offset: FixedOffset,
@@ -147,7 +147,7 @@ impl std::fmt::Debug for SyslogProcessor {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("SyslogProcessor")
             .field("Path", &self.path)
-            .field("Processing Mode", &self.processingmode)
+            .field("Processing Stage", &self.processingstage)
             .field("BlockSz", &self.blocksz)
             .field("TimeOffset", &self.tz_offset)
             .field("filter_dt_after_opt", &self.filter_dt_after_opt)
@@ -204,7 +204,7 @@ impl SyslogProcessor {
         Result::Ok(
             SyslogProcessor {
                 syslinereader: slr,
-                processingmode: ProcessingMode::stage0_valid_file_check,
+                processingstage: ProcessingStage::stage0_valid_file_check,
                 path: path_,
                 blocksz,
                 tz_offset,
@@ -299,9 +299,9 @@ impl SyslogProcessor {
     ///
     /// TODO: [2022/06/18] need to store IO errors from this, and store for later use with `Summary`
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
-        if self.processingmode == ProcessingMode::stage3_stream_syslines && SyslogProcessor::STREAM_STAGE_DROP {
+        if self.processingstage == ProcessingStage::stage3_stream_syslines && SyslogProcessor::STREAM_STAGE_DROP {
             debug_eprintln!("{}syslogprocesser.find_sysline({})", sn(), fileoffset);
-            // if processing mode is `stage3_stream_syslines`
+            // if processing stage is `stage3_stream_syslines`
             // then any prior processed syslines (and underlying data `Line`, `Block`, etc.)
             // can be dropped.
             let result: ResultS4_SyslineFind =
@@ -382,11 +382,11 @@ impl SyslogProcessor {
     /// wrapper for a recurring sanity check
     /// good for checking `process_stageX` function calls are in correct order
     #[inline(always)]
-    fn assert_stage(&self, stage_expact: ProcessingMode) {
+    fn assert_stage(&self, stage_expact: ProcessingStage) {
         assert_eq!(
-            self.processingmode, stage_expact,
-            "Unexpected Processing Mode {:?}, expected Processing Mode {:?}",
-            self.processingmode, stage_expact,
+            self.processingstage, stage_expact,
+            "Unexpected Processing Stage {:?}, expected Processing Stage {:?}",
+            self.processingstage, stage_expact,
         );
     }
 
@@ -396,8 +396,8 @@ impl SyslogProcessor {
     pub fn process_stage0_valid_file_check(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.process_stage0_valid_file_check", sn());
         // sanity check calls are in correct order
-        self.assert_stage(ProcessingMode::stage0_valid_file_check);
-        self.processingmode = ProcessingMode::stage0_valid_file_check;
+        self.assert_stage(ProcessingStage::stage0_valid_file_check);
+        self.processingstage = ProcessingStage::stage0_valid_file_check;
 
         if self.filesz() == 0 {
             debug_eprintln!("{}syslogprocessor.process_stage0_valid_file_check: filesz 0; return {:?}", sx(), FileProcessingResult_BlockZero::FILE_ERR_EMPTY);
@@ -411,8 +411,8 @@ impl SyslogProcessor {
     /// stage 1: Can `Line`s and `Sysline`s be parsed from the first block (block zero)?
     pub fn process_stage1_blockzero_analysis(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.process_stage1_blockzero_analysis", sn());
-        self.assert_stage(ProcessingMode::stage0_valid_file_check);
-        self.processingmode = ProcessingMode::stage1_blockzero_analysis;
+        self.assert_stage(ProcessingStage::stage0_valid_file_check);
+        self.processingstage = ProcessingStage::stage1_blockzero_analysis;
 
         let result = self.blockzero_analysis();
         debug_eprintln!("{}syslogprocessor.process_stage1_blockzero_analysis: return {:?}", sx(), result);
@@ -424,8 +424,8 @@ impl SyslogProcessor {
     /// found between those filters?
     pub fn process_stage2_find_dt(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.process_stage2_find_dt", snx());
-        self.assert_stage(ProcessingMode::stage1_blockzero_analysis);
-        self.processingmode = ProcessingMode::stage2_find_dt;
+        self.assert_stage(ProcessingStage::stage1_blockzero_analysis);
+        self.processingstage = ProcessingStage::stage2_find_dt;
 
         FileProcessingResult_BlockZero::FILE_OK
     }
@@ -434,8 +434,8 @@ impl SyslogProcessor {
     /// "Readers" is proactively dropped (removed from process memory).
     pub fn process_stage3_stream_syslines(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.process_stage3_stream_syslines", snx());
-        self.assert_stage(ProcessingMode::stage2_find_dt);
-        self.processingmode = ProcessingMode::stage3_stream_syslines;
+        self.assert_stage(ProcessingStage::stage2_find_dt);
+        self.processingstage = ProcessingStage::stage3_stream_syslines;
 
         FileProcessingResult_BlockZero::FILE_OK
     }
@@ -443,7 +443,7 @@ impl SyslogProcessor {
     /// stage 4: no more syslines to process, only interested in the `self.summary()`
     pub fn process_stage4_summary(&mut self) -> Summary {
         debug_eprintln!("{}syslogprocessor.process_stage4_summary", snx());
-        self.processingmode = ProcessingMode::stage4_summary;
+        self.processingstage = ProcessingStage::stage4_summary;
 
         self.summary()
     }
@@ -452,7 +452,7 @@ impl SyslogProcessor {
     /// If enough `Sysline` found then return `FILE_OK` else `FILE_ERR_NO_SYSLINES_FOUND`.
     pub(crate) fn blockzero_analysis_syslines(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.blockzero_analysis_syslines", sn());
-        self.assert_stage(ProcessingMode::stage1_blockzero_analysis);
+        self.assert_stage(ProcessingStage::stage1_blockzero_analysis);
 
         let blockp: BlockP = match self.syslinereader.linereader.blockreader.read_block(0) {
             ResultS3_ReadBlock::Found(blockp_) => blockp_,
@@ -513,7 +513,7 @@ impl SyslogProcessor {
     #[inline(always)]
     pub(crate) fn blockzero_analysis_lines(&mut self) -> FileProcessingResult_BlockZero {
         debug_eprintln!("{}syslogprocessor.blockzero_analysis_lines()", sn());
-        self.assert_stage(ProcessingMode::stage1_blockzero_analysis);
+        self.assert_stage(ProcessingStage::stage1_blockzero_analysis);
         
         let blockp: BlockP = match self.syslinereader.linereader.blockreader.read_block(0) {
             ResultS3_ReadBlock::Found(blockp_) => blockp_,
@@ -577,7 +577,7 @@ impl SyslogProcessor {
         debug_eprintln!("{}syslogprocessor.blockzero_analysis", sn());
         assert!(!self.blockzero_analysis_done, "blockzero_analysis_lines should only be completed once.");
         self.blockzero_analysis_done = true;
-        self.assert_stage(ProcessingMode::stage1_blockzero_analysis);
+        self.assert_stage(ProcessingStage::stage1_blockzero_analysis);
 
         let result = self.blockzero_analysis_lines();
         if ! result.is_ok() {

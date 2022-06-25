@@ -898,9 +898,9 @@ impl LineReader {
             debug_eprintln!("{}find_line_in_block({}) A0: already found newline A and newline B, return early", so(), fileoffset);
             assert_eq!(fo_nl_a, 0, "newline A is {}, only reason newline A should be found at this point was if passed fileoffset 0, (passed fileoffset {}), for file {:?}", fo_nl_a, fileoffset, self.path());
             let li = LinePart::new(
+                bptr_middle,
                 self.block_index_at_file_offset(fo_nl_a),
                 bi_middle_end + 1,
-                bptr_middle,
                 fo_nl_a,
                 self.block_offset_at_file_offset(fo_nl_a),
                 self.blocksz(),
@@ -945,9 +945,9 @@ impl LineReader {
                     self.path(),
                 );
                 let li = LinePart::new(
+                    bptr_middle,
                     self.block_index_at_file_offset(fileoffset),
                     bi_middle_end + 1,
-                    bptr_middle,
                     fileoffset,
                     self.block_offset_at_file_offset(fileoffset),
                     self.blocksz(),
@@ -998,9 +998,9 @@ impl LineReader {
                         self.path(),
                     );
                     let li = LinePart::new(
+                        bptr_middle,
                         self.block_index_at_file_offset(fileoffset),
                         bi_middle_end + 1,
-                        bptr_middle,
                         fileoffset,
                         self.block_offset_at_file_offset(fileoffset),
                         self.blocksz(),
@@ -1109,9 +1109,9 @@ impl LineReader {
         }
 
         let li = LinePart::new(
+            bptr_middle.clone(),
             bi_at,
             bi_middle_end + 1,
-            bptr_middle.clone(),
             fo_nl_a1,
             bo_middle,
             self.blocksz(),
@@ -1408,9 +1408,9 @@ impl LineReader {
                             byte_to_char_noraw((*bptr)[bi_beg]),
                         );
                         let li = LinePart::new(
+                            bptr.clone(),
                             0,
                             bi_beg + 1,
-                            bptr.clone(),
                             self.file_offset_at_block_offset_index(bof, 0),
                             bof,
                             self.blocksz(),
@@ -1429,9 +1429,9 @@ impl LineReader {
                 }
                 // newline B was not found in this `Block`, but must save this `Block` information as a `LinePart.
                 let li = LinePart::new(
+                    bptr.clone(),
                     0,
                     bi_beg,
-                    bptr.clone(),
                     self.file_offset_at_block_offset_index(bof, 0),
                     bof,
                     self.blocksz(),
@@ -1492,9 +1492,9 @@ impl LineReader {
             debug_eprintln!("{}find_line A0: already found newline A and newline B, return early", so());
             assert_eq!(fo_nl_a, 0, "newline A is {}, only reason newline A should be found at this point was if passed fileoffset 0, (passed fileoffset {}) file {:?}", fo_nl_a, fileoffset, self.path());
             let li = LinePart::new(
+                bptr_middle,
                 self.block_index_at_file_offset(fo_nl_a),
                 bi_middle_end + 1,
-                bptr_middle,
                 fo_nl_a,
                 self.block_offset_at_file_offset(fo_nl_a),
                 self.blocksz(),
@@ -1543,9 +1543,9 @@ impl LineReader {
                     self.path(),
                 );
                 let li = LinePart::new(
+                    bptr_middle,
                     self.block_index_at_file_offset(fileoffset),
                     bi_middle_end + 1,
-                    bptr_middle,
                     fileoffset,
                     self.block_offset_at_file_offset(fileoffset),
                     self.blocksz(),
@@ -1583,9 +1583,9 @@ impl LineReader {
                         self.path(),
                     );
                     let li = LinePart::new(
+                        bptr_middle,
                         self.block_index_at_file_offset(fileoffset),
                         bi_middle_end + 1,
-                        bptr_middle,
                         fileoffset,
                         self.block_offset_at_file_offset(fileoffset),
                         self.blocksz(),
@@ -1663,9 +1663,9 @@ impl LineReader {
                 fo_ = self.file_offset_at_block_offset_index(bo_middle, bi_at);
             }
             let li = LinePart::new(
+                bptr_middle.clone(),
                 bi_at,
                 bi_middle_end + 1,
-                bptr_middle.clone(),
                 fo_,
                 bo_middle,
                 self.blocksz(),
@@ -1683,9 +1683,9 @@ impl LineReader {
             // the charsz shift backward to begin search for newline A crossed block boundary
             // so save linepart from "middle" block before searching further
             let li = LinePart::new(
+                bptr_middle.clone(),
                 0,
                 bi_middle_end + 1,
-                bptr_middle.clone(),
                 self.file_offset_at_block_offset_index(bo_middle, 0),
                 bo_middle,
                 self.blocksz(),
@@ -1761,9 +1761,9 @@ impl LineReader {
                             // newline A and first line char does not cross block boundary
                             debug_eprintln!("{}find_line A5: store current blockoffset {}", so(), bof);
                             let li = LinePart::new(
+                                bptr.clone(),
                                 bi_at,
                                 bi_start + 1,
-                                bptr.clone(),
                                 fo_nl_a1,
                                 bof,
                                 self.blocksz(),
@@ -1774,9 +1774,9 @@ impl LineReader {
                             debug_eprintln!("{}find_line A5: store prior blockoffset {}", so(), bof_a1);
                             // use prior block data
                             let li = LinePart::new(
+                                bptr_prior,
                                 0,
                                 bi_start_prior + 1,
-                                bptr_prior,
                                 fo_nl_a1,
                                 bof_a1,
                                 self.blocksz(),
@@ -1802,9 +1802,9 @@ impl LineReader {
                 }
                 debug_eprintln!("{}find_line A5: store blockoffset {}", so(), bof);
                 let li = LinePart::new(
+                    bptr.clone(),
                     bi_stop,
                     bi_start + 1,
-                    bptr.clone(),
                     self.file_offset_at_block_offset_index(bof, 0),
                     bof,
                     self.blocksz(),

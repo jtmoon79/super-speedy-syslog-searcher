@@ -76,14 +76,14 @@ pub type LineP = Arc<Line>;
 ///
 /// One or more `LinePart`s are required for a `Line`.
 pub struct LinePart {
+    /// the `Block` pointer
+    pub blockp: BlockP,
     /// index into the `blockp`, index at beginning
     /// used as-is in slice notation
     pub blocki_beg: BlockIndex,
     /// index into the `blockp`, index at one after ending '\n' (may refer to one past end of `Block`)
     /// used as-is in slice notation
     pub blocki_end: BlockIndex,
-    /// the `Block` pointer
-    pub blockp: BlockP,
     /// the byte offset into the file where this `LinePart` begins
     pub fileoffset: FileOffset,
     /// blockoffset: debug helper, might be good to get rid of this?
@@ -116,9 +116,9 @@ impl LinePart {
     /// because it used directly in byte array slice notation (exclusive).
     /// i.e. `(*blockp)[blocki_beg..blocki_end]`
     pub fn new(
+        blockp: BlockP,
         blocki_beg: BlockIndex,
         blocki_end: BlockIndex,
-        blockp: BlockP,
         fileoffset: FileOffset,
         blockoffset: BlockOffset,
         blocksz: BlockSz,
@@ -156,9 +156,9 @@ impl LinePart {
         assert_le!(((*blockp).len() as BlockSz), blocksz, "block.len() {} should be ≤ blocksz {}", (*blockp).len(), blocksz);
         assert_ge!((*blockp).len(), blocki_end - blocki_beg, "block.len() {} should be ≥ {} (blocki_end {} - {} blocki_beg)", (*blockp).len(), blocki_end - blocki_beg, blocki_end, blocki_beg);
         LinePart {
+            blockp,
             blocki_beg,
             blocki_end,
-            blockp,
             fileoffset,
             blockoffset,
             blocksz,

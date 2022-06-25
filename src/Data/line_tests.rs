@@ -19,7 +19,7 @@ fn test_linepart_new1() {
     let block: Block = Block::from(data);
     let len = block.len();
     let blockp: BlockP = BlockP::new(block);
-    let _lp = LinePart::new(0, 1, blockp, 0, 0, len as u64);
+    let _lp = LinePart::new(blockp, 0, 1, 0, 0, len as u64);
 }
 
 #[test]
