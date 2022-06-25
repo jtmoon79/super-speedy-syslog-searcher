@@ -59,7 +59,7 @@ use more_asserts::{
 pub type LineParts = Vec<LinePart>;
 /// A sequence to track one or more `LineP` that make up a `Sysline` 
 pub type Lines = Vec<LineP>;
-/// An offset into a `Line`
+/// An offset into a `Line` (not related to underlying `Block` offset or indexes)
 pub type LineIndex = usize;
 /// thread-safe Atomic Reference Counting pointer to a `Line`
 pub type LineP = Arc<Line>;
@@ -402,6 +402,11 @@ impl Line {
     /// Presumes underlying `LinePart` hold data else panic!
     pub fn blockoffset_last(self: &Line) -> BlockOffset {
         self.lineparts[self.lineparts.len() - 1].blockoffset
+    }
+
+    /// do the bytes of this `Line` reside on one `Block`?
+    pub fn occupies_one_block(self: &Line) -> bool {
+        self.blockoffset_first() == self.blockoffset_last()
     }
 
     /// length of this `Line` in bytes as calcuated from stored fileoffsets

@@ -28,6 +28,12 @@ use crate::Data::datetime::{
     FixedOffset,
 };
 
+extern crate more_asserts;
+use more_asserts::{
+    assert_le,
+    debug_assert_le,
+};
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // globals and constants
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -145,7 +151,8 @@ macro_rules! write_or_return {
         match $stdout.write($var_a) {
             Ok(_) => {}
             Err(err) => {
-                // XXX: this will print when this program stdout is truncated, like when piping to `head`
+                // XXX: this will print when this program stdout is truncated, like when piping
+                //      to `head`, e.g. `s4 file.log | head`
                 //          Broken pipe (os error 32)
                 eprintln!("ERROR: {}.write({}@{:p}) (len {})) error {}", stringify!($stdout), stringify!($var_a), $var_a, $var_a.len(), err);
                 match $stdout.flush() {
@@ -174,11 +181,11 @@ macro_rules! setcolor_or_return {
 //      So a macro is a decent workaround.
 /// helper to print a single line in color
 macro_rules! print_color_line {
-    ($self:expr, $linep:expr) => {
+    ($stdout_color:expr, $linep:expr) => {
         {
             for linepart in (*$linep).lineparts.iter() {
                 let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-                write_or_return!($self.stdout_color, slice);
+                write_or_return!($stdout_color, slice);
             }
         }
     }
@@ -186,15 +193,17 @@ macro_rules! print_color_line {
 
 // XXX: this was a `fn -> Result<()>` but due to mutable and immutable error, it would not compile.
 //      So a macro is a decent workaround.
-/// helper to print a single line in color, and highlight the datetime
+/// helper to print a single line in color and highlight the datetime within the line
 macro_rules! print_color_line_highlight_dt {
     ($self:expr, $linep:expr, $dt_beg:expr, $dt_end:expr) => {
         {
+            debug_assert_le!($dt_beg, $dt_end, "passed bad datetime_beg {:?} datetime_end {:?}", $dt_beg, $dt_end);
             let mut at: LineIndex = 0;
             for linepart in (*$linep).lineparts.iter() {
                 let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-                let len_: usize = slice.len();
-                if (at <= $dt_beg && $dt_beg < $dt_end && $dt_end < (at + len_)) {
+                let at_end: usize = at + slice.len();
+                // datetime is entirely within one linepart
+                if at <= $dt_beg && $dt_end < at_end {
                     let slice_a = &slice[..($dt_beg-at)];
                     let slice_b_dt = &slice[($dt_beg-at)..($dt_end-at)];
                     let slice_c = &slice[($dt_end-at)..];
@@ -203,7 +212,7 @@ macro_rules! print_color_line_highlight_dt {
                         setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
                         write_or_return!($self.stdout_color, slice_a);
                     }
-                    // print line contents that is the datetime
+                    // print line contents of the entire datetime
                     setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
                     write_or_return!($self.stdout_color, slice_b_dt);
                     // print line contents after the datetime
@@ -211,13 +220,46 @@ macro_rules! print_color_line_highlight_dt {
                         setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
                         write_or_return!($self.stdout_color, slice_c);
                     }
+                // datetime begins in this linepart, extends into next linepart
+                } else if at <= $dt_beg && at_end <= $dt_end {
+                    let slice_a = &slice[..($dt_beg-at)];
+                    let slice_b_dt = &slice[($dt_beg-at)..];
+                    // print line contents before the datetime
+                    if !slice_a.is_empty() {
+                        setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
+                        write_or_return!($self.stdout_color, slice_a);
+                    }
+                    // print line contents of the partial datetime
+                    if !slice_b_dt.is_empty() {
+                        setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
+                        write_or_return!($self.stdout_color, slice_b_dt);
+                    }
+                // datetime began in previous linepart, extends into and ends within this linepart
+                } else if at <= $dt_end && $dt_end < at_end {
+                    let slice_a_dt = &slice[..($dt_end-at)];
+                    let slice_b = &slice[($dt_end-at)..];
+                    // print line contents of the partial datetime
+                    if !slice_a_dt.is_empty() {
+                        setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
+                        write_or_return!($self.stdout_color, slice_a_dt);
+                    }
+                    // print line contents after the datetime
+                    if !slice_b.is_empty() {
+                        setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
+                        write_or_return!($self.stdout_color, slice_b);
+                    }
+                // datetime began in previous linepart, extends into next linepart
+                } else if $dt_beg < at && at_end <= $dt_end {
+                    // print entire linepart which is the partial datetime
+                    setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
+                    write_or_return!($self.stdout_color, slice);
+                // datetime is not in this linepart
                 } else {
-                    // BUG: [2022/03] does not handle datetime that crosses into next slice (block)
-                    //                related, should probably offer CLI option for highlighting the datetime
+                    // print entire linepart
                     setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
                     write_or_return!($self.stdout_color, slice);
                 }
-                at += len_ as LineIndex;
+                at += slice.len() as LineIndex;
             };
         }
     }
@@ -380,12 +422,7 @@ impl Printer_Sysline {
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             write_or_return!(stdout_lock, prepend_file);
-            // XXX: cannot use `print_line(linep)` because of immutable and mutable borrow conflict
-            for linepart in (*linep).lineparts.iter() {
-                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-                write_or_return!(stdout_lock, slice);
-            }
-            //self.print_line(linep, &mut stdout_lock)?;
+            self.print_line(linep, &mut stdout_lock)?;
         }
 
         stdout_lock.flush()
@@ -401,12 +438,7 @@ impl Printer_Sysline {
         for linep in (*syslinep).lines.iter() {
             write_or_return!(stdout_lock, prepend_file);
             write_or_return!(stdout_lock, dt_string.as_bytes());
-            // XXX: cannot use `print_line(linep)` because of immutable and mutable borrow conflict
-            for linepart in (*linep).lineparts.iter() {
-                let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
-                write_or_return!(stdout_lock, slice);
-            }
-            //self.print_line(linep, &mut stdout_lock)?;
+            self.print_line(linep, &mut stdout_lock)?;
         }
 
         stdout_lock.flush()
@@ -422,7 +454,7 @@ impl Printer_Sysline {
                 print_color_line_highlight_dt!(self, linep, (*syslinep).dt_beg, (*syslinep).dt_end);
                 line_first = false;
             } else {
-                print_color_line!(self, linep);
+                print_color_line!(self.stdout_color, linep);
             }
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
@@ -442,7 +474,7 @@ impl Printer_Sysline {
                 print_color_line_highlight_dt!(self, linep, (*syslinep).dt_beg, (*syslinep).dt_end);
                 line_first = false;
             } else {
-                print_color_line!(self, linep);
+                print_color_line!(self.stdout_color, linep);
             }
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
@@ -462,7 +494,7 @@ impl Printer_Sysline {
                 print_color_line_highlight_dt!(self, linep, (*syslinep).dt_beg, (*syslinep).dt_end);
                 line_first = false;
             } else {
-                print_color_line!(self, linep);
+                print_color_line!(self.stdout_color, linep);
             }
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
@@ -484,7 +516,7 @@ impl Printer_Sysline {
                 print_color_line_highlight_dt!(self, linep, (*syslinep).dt_beg, (*syslinep).dt_end);
                 line_first = false;
             } else {
-                print_color_line!(self, linep);
+                print_color_line!(self.stdout_color, linep);
             }
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
