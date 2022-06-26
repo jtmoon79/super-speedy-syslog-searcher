@@ -44,7 +44,7 @@ pub const COLOR_ERROR: Color = Color::Red;
 
 /// A preselection of colors for printing syslines and file names.
 /// Chosen for a dark background console.
-static COLORS_TEXT: [Color; 29] = [
+const COLORS_TEXT: [Color; 29] = [
     Color::Yellow,
     Color::Cyan,
     Color::Red,
