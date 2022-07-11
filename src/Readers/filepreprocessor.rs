@@ -190,6 +190,7 @@ pub fn path_to_filetype(path: &std::path::Path) -> FileType {
     // FILE_GZ
 
     // for example, `media.gz.old`
+    // TODO: this should be handled in `guess_filetype_from_path`, can be removed
     if file_suffix_s.ends_with(".gz.old") {
         debug_eprintln!("{}path_to_filetype: return FILE_GZ; .gz.old", sx());
         return FileType::FILE_GZ;
