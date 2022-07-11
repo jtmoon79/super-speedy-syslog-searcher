@@ -8,6 +8,7 @@ Manual changelog for super_speedy_syslog_searcher.
 ### New
 * WIP handle tar files (b8deef3439f8e8b9a949a0a1cfa16d2c027c391f )
 * add enum_BoxPtrs::DoublePtr (61f15e13d086a5d6c0e5a18d44c730ebe77a046a)
+* add CHANGELOG.md
 
 ### Changes
 * refactor name `enum_BoxPtrs` to `LinePartPtrs` (b5505730100a9780877eb3e1cb4d280f02845863)
