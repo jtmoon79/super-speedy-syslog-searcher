@@ -2,6 +2,8 @@
 //
 // …
 
+#![allow(non_snake_case)]
+
 use crate::common::{
     Count,
     FPath,
@@ -362,7 +364,7 @@ impl SyslogProcessor {
     }
 
     /// Wrapper for `self.syslinereader.find_sysline_between_datetime_filters`
-    /// 
+    ///
     /// TODO: [2022/06/20] the `find` functions need consistent naming,
     ///       `find_next`, `find_between`, `find_...` . The current design has
     ///       the public-facing `find_` functions falling back on potentail file-wide binary-search

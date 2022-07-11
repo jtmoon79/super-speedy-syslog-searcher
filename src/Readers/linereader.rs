@@ -107,7 +107,7 @@ pub struct LineReader {
     /// for all `Lines`, map `Line.fileoffset_end` to `Line.fileoffset_beg`
     foend_to_fobeg: FoToFo,
     /// count of `Line`s processed.
-    /// 
+    ///
     /// Distinct from `self.lines.len()` as that may have contents removed when --streaming
     pub (crate) lines_processed: Count,
     /// smallest size character in bytes
@@ -126,7 +126,7 @@ pub struct LineReader {
     pub(crate) find_line_lru_cache_put: Count,
     /// count of Ok to Arc::try_unwrap(linep), effectively count of dropped `Line`
     pub(crate) drop_line_ok: Count,
-    /// count of failures to Arc::try_unwrap(linep)
+    /// count of failures to Arc::try_unwrap(linep). A failure does not mean an error
     pub(crate) drop_line_errors: Count,
 }
 
@@ -687,7 +687,7 @@ impl LineReader {
 
     /// Find the `Line` at `fileoffset` within the same `Block`.
     /// This does a linear search over the `Block`, O(n).
-    /// 
+    ///
     /// If a `Line` extends before or after the `Block` then `Done` is returned.
     ///
     /// Returned `ResultS4_LineFind(fileoffset, …)` may refer to a different
@@ -1180,7 +1180,7 @@ impl LineReader {
     ///     fine_line(1) -> 0,1 "x␊"
     ///     fine_line(2) -> 2,2 "y"
     /// ```
-    /// 
+    ///
     /// XXX: presumes a single-byte can represent a '\n'; i.e. does not handle UTF-16 or UTF-32 or other.
     ///
     /// TODO: [2021/08/30] handle different encodings

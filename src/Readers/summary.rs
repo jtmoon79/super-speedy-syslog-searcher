@@ -37,8 +37,8 @@ use std::fmt;
 
 /// Accumulated statistics to print about activity of a `SyslineReader` and it's underlying
 /// `LineReader` and it's underlying `BlockReader`.
-/// 
-/// Used with CLI option `--summary`
+///
+/// For CLI option `--summary`
 #[derive(Clone, Default)]
 pub struct Summary {
     pub filetype: FileType,

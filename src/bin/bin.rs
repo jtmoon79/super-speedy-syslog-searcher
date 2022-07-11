@@ -52,7 +52,7 @@ use mime_guess::MimeGuess;
 
 extern crate unicode_width;
 
-// `s4lib` is the local compiled [lib] of super_speedy_syslog_searcher
+// `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
 extern crate s4lib;
 
 use s4lib::common::{
@@ -133,7 +133,7 @@ use s4lib::Readers::syslogprocessor::{
 // command-line parsing
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// CLI enum that is mapped to `termcolor::ColorChoice`
+/// CLI enum that maps to `termcolor::ColorChoice`
 #[derive(
     Clone,
     Copy,
@@ -142,7 +142,7 @@ use s4lib::Readers::syslogprocessor::{
     Eq,
     PartialOrd,
     Ord,
-    ArgEnum,  // clap
+    ArgEnum,  // from `clap`
 )]
 enum CLI_Color_Choice {
     always,

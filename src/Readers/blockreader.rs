@@ -248,9 +248,9 @@ impl fmt::Debug for BlockReader {
 }
 
 /// helper to unpack DWORD unsigned integers in a gzip header
-/// 
+///
 /// XXX: u32::from_*_bytes failed for test file compressed with GNU gzip 1.10
-/// 
+///
 /// TODO: validate XXX, did I do that correctly?
 fn dword_to_u32(buf: &[u8; 4]) -> u32 {
     let mut buf_: [u8; 4] = [0; 4];

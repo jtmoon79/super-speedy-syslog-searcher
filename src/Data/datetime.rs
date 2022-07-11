@@ -1,5 +1,7 @@
 // Data/datetime.rs
 
+#![allow(non_camel_case_types)]
+#![allow(non_upper_case_globals)]
 
 #[cfg(any(debug_assertions,test))]
 use crate::printer_debug::printers::{

@@ -155,7 +155,7 @@ impl Sysline {
 
     /*
     /// the fileoffset into the immediately previous sysline.
-    /// 
+    ///
     /// the `self` Sysline does not know if the "previous" Sysline has been processed or if it even exists.
     /// if the passed `Sysline` has `fileoffset_begin()` of `0` then `0` will be returned
     pub fn fileoffset_prev(self: &Sysline) -> FileOffset {

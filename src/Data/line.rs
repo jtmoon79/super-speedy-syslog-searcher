@@ -1,6 +1,8 @@
 // Data/line.rs
 //
 
+#![allow(non_camel_case_types)]
+
 pub use crate::common::{
     Count,
     FPath,
