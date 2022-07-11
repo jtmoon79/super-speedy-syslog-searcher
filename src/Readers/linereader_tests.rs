@@ -17,7 +17,7 @@ use crate::Readers::filepreprocessor::{
 
 use crate::Data::line::{
     LineIndex,
-    enum_BoxPtrs,
+    LinePartPtrs,
 };
 
 use crate::Readers::linereader::{
@@ -1650,17 +1650,17 @@ fn _test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &test_Line_get
         eprintln!("{}{}: returned {:?}", so(), fn_, line.to_String_noraw());
         eprintln!("{}{}: line.get_boxptrs({}, {})", so(), fn_, a, b);
         let boxptrs = match line.get_boxptrs(*a, *b) {
-            enum_BoxPtrs::NoPtr => {
+            LinePartPtrs::NoPtr => {
                 assert!(bytes_check.is_empty(), "Expected bytes_check {:?}, received NoPtr (no bytes)", bytes_check);
                 continue;
             }
-            enum_BoxPtrs::SinglePtr(box_) => {
+            LinePartPtrs::SinglePtr(box_) => {
                 vec![box_,]
             },
-            enum_BoxPtrs::DoublePtr(box2) => {
+            LinePartPtrs::DoublePtr(box2) => {
                 vec![box2.0, box2.1,]
             },
-            enum_BoxPtrs::MultiPtr(boxes) => {
+            LinePartPtrs::MultiPtr(boxes) => {
                 boxes
             },
         };

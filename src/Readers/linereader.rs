@@ -22,7 +22,7 @@ use crate::Data::line::{
     LineP,
     LinePart,
     Lines,
-    enum_BoxPtrs,
+    LinePartPtrs,
 };
 
 use crate::Readers::blockreader::{

@@ -52,7 +52,7 @@ use crate::Data::line::{
     LineIndex,
     Line,
     LineP,
-    enum_BoxPtrs,
+    LinePartPtrs,
 };
 
 use crate::Readers::linereader::{
@@ -633,22 +633,22 @@ impl SyslineReader {
             let mut hack_slice: Bytes;
             let slice_: &[u8];
             match line.get_boxptrs(dtpd.range_regex.start as LineIndex, line_end as LineIndex) {
-                enum_BoxPtrs::NoPtr => {
+                LinePartPtrs::NoPtr => {
                     panic!("line.get_boxptrs({}, {}) returned NoPtr which means it was passed non-sense values", dtpd.range_regex.start, line_end);
                     continue;
                 }
-                enum_BoxPtrs::SinglePtr(box_slice) => {
+                LinePartPtrs::SinglePtr(box_slice) => {
                     slice_ = *box_slice;
                     *get_boxptrs_singleptr += 1;
                 }
-                enum_BoxPtrs::DoublePtr(box_slice2) => {
+                LinePartPtrs::DoublePtr(box_slice2) => {
                     hack_slice = Bytes::with_capacity(box_slice2.0.len() + box_slice2.1.len());
                     hack_slice.extend_from_slice(*box_slice2.0);
                     hack_slice.extend_from_slice(*box_slice2.1);
                     slice_ = hack_slice.as_slice();
                     *get_boxptrs_doubleptr += 1;
                 }
-                enum_BoxPtrs::MultiPtr(vec_box_slice) => {
+                LinePartPtrs::MultiPtr(vec_box_slice) => {
                     let mut cap: usize = 0;
                     for box_ in vec_box_slice.iter() {
                         cap += box_.len();
