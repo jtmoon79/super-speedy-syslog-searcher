@@ -23,6 +23,12 @@ for a in "${@}"; do
     args2[${#args2[@]}]=${a}
 done
 
-set -x
-
-exec cargo test -j1 "${args1[@]}" -- --test-threads=1 "${args2[@]}"
+# if `nextest` is installed and can list tests then use `nextest`
+if cargo nextest list 2>/dev/null; then
+    set -x
+    exec cargo nextest run --locked --verbose "${args1[@]}" --test-threads=1 -- "${args2[@]}"
+# else use plain `cargo test`
+else
+    set -x
+    exec cargo test --locked -j1 "${args1[@]}" -- --test-threads=1 "${args2[@]}"
+fi
