@@ -31,6 +31,8 @@ use crate::printer_debug::printers::{
 #[cfg(any(debug_assertions,test))]
 use crate::printer_debug::stack::{
     so,
+    sn,
+    sx,
 };
 
 use std::fmt;
@@ -229,6 +231,7 @@ impl LinePart {
     /// return Box pointer to slice of bytes in this `LinePart` from `a` to end
     pub fn block_boxptr_a(&self, a: &LineIndex) -> Box<&[u8]> {
         debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
+        debug_assert_le!(self.blocki_end, (*self.blockp).as_slice().len(), "self.blocki_end {} past end of slice.len() {}", self.blocki_end, (*self.blockp).as_slice().len());
         let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg+a)..self.blocki_end];
         //let slice2 = &slice1[*a..];
         Box::new(slice1)
@@ -688,7 +691,8 @@ impl Line {
     /// `raw` is `false` means replace formatting characters or non-printable characters
     /// with pictoral representation (i.e. `byte_to_char_noraw`)
     ///
-    /// XXX: very inefficient! only intended for help in debugging
+    /// XXX: very inefficient and not always correct! *only* intended to help humans visually
+    ///      inspect stderr output
     ///
     /// TODO: this would be more efficient returning `&str`
     ///       https://bes.github.io/blog/rust-strings
@@ -699,35 +703,35 @@ impl Line {
         for linepart in &self.lineparts {
             sz += linepart.len();
         }
-        let mut s1 = String::with_capacity(sz);
+        let mut s1 = String::with_capacity(sz + 1);
 
+        // copy lineparts to a `String`
         for linepart in &self.lineparts {
-            if raw {
-                // transform slices to `str`, can this be done more efficiently?
-                // XXX: here is a good place to use `bstr`
-                let s2 = &(&*linepart.blockp)[linepart.blocki_beg..linepart.blocki_end];
-                let s3 = match std::str::from_utf8(s2) {
-                    Ok(val) => val,
-                    Err(err) => {
-                        let fo1 = self.fileoffset_begin() + (linepart.blocki_beg as FileOffset);
-                        let fo2 = self.fileoffset_begin() + (linepart.blocki_end as FileOffset);
-                        eprintln!("ERROR: failed to convert [u8] at FileOffset[{}‥{}] to utf8 str; {}", fo1, fo2, err);
-                        continue;
-                    }
-                };
-                s1.push_str(s3);
-            } else {
-                // copy u8 as char to `s1`
-                let stop = linepart.len();
-                let block_iter = (&*linepart.blockp).iter();
-                for (bi, b) in block_iter.skip(linepart.blocki_beg).enumerate() {
-                    if bi >= stop {
-                        break;
-                    }
-                    let c = byte_to_char_noraw(*b);
-                    s1.push(c);
+            // transform slices to `str`
+            // XXX: not efficient, here is a good place to use `bstr`
+            let s2 = &(&*linepart.blockp)[linepart.blocki_beg..linepart.blocki_end];
+            let s3 = match std::str::from_utf8(s2) {
+                Ok(val) => val,
+                Err(err) => {
+                    let fo1 = self.fileoffset_begin() + (linepart.blocki_beg as FileOffset);
+                    let fo2 = self.fileoffset_begin() + (linepart.blocki_end as FileOffset);
+                    eprintln!("ERROR: failed to convert [u8] at FileOffset[{}‥{}] to utf8 str; {}", fo1, fo2, err);
+                    continue;
+                }
+            };
+            s1.push_str(s3);
+        }
+        if !raw {
+            // replace formatting characters
+            let mut s2 = String::with_capacity(s1.len());
+            for c_ in s1.chars() {
+                if c_.is_ascii() {
+                    s2.push(char_to_char_noraw(c_));
+                } else {
+                    s2.push(c_);
                 }
             }
+            s1 = s2;
         }
 
         s1
