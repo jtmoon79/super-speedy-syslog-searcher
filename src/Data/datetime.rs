@@ -1832,6 +1832,148 @@ fn captures_to_buffer(
     debug_eprintln!("{}captures_to_buffer buffer {:?}", snx(), buffer);
 }
 
+/// helper to `captures_to_buffer_bytes`
+macro_rules! copy_capturegroup_to_buffer {
+    (
+        $name:ident,
+        $captures:ident,
+        $buffer:ident,
+        $at:ident
+    ) => {
+        let len_: usize = $captures.name($name).as_ref().unwrap().as_bytes().len();
+        debug_eprintln!("{}bytes_to_regex_to_datetime:copy_capturegroup_to_buffer! buffer[{:?}..{:?}]", so(), $at, $at+len_);
+        $buffer[$at..$at+len_].copy_from_slice($captures.name($name).as_ref().unwrap().as_bytes());
+        $at += len_;
+    }
+}
+
+/// helper to `captures_to_buffer_bytes`
+macro_rules! copy_slice_to_buffer {
+    (
+        $u8_slice:expr,
+        $buffer:ident,
+        $at:ident
+    ) => {
+        let len_: usize = $u8_slice.len();
+        debug_eprintln!("{}bytes_to_regex_to_datetime:copy_slice_to_buffer! buffer[{:?}..{:?}]", so(), $at, $at+len_);
+        $buffer[$at..$at+len_].copy_from_slice($u8_slice);
+        $at += len_;
+    }
+}
+
+
+/// helper to `captures_to_buffer_bytes`
+macro_rules! copy_u8_to_buffer {
+    (
+        $u8_:expr,
+        $buffer:ident,
+        $at:ident
+    ) => {
+        debug_eprintln!("{}bytes_to_regex_to_datetime:copy_slice_to_buffer! buffer[{:?}] = {:?}", so(), $at, $u8_);
+        $buffer[$at] = $u8_;
+        $at += 1;
+    }
+}
+
+/// Put `Captures` into a `String` buffer in a particular order and formatting. This bridges the
+/// `DateTime_Parse_Data::regex_pattern` to `DateTime_Parse_Data::dt_pattern`.
+///
+/// Directly relates to datetime format `dt_pattern` values in `DATETIME_PARSE_DATAS`
+/// which use `DTFSS_YmdHMS`, etc.
+#[inline(always)]
+fn captures_to_buffer_bytes(
+    buffer: &mut[u8],
+    captures: &regex::bytes::Captures,
+    tz_offset: &FixedOffset,
+    dtfs: &DTFSSet,
+) -> usize {
+    debug_eprintln!("{}captures_to_buffer_bytes", sn());
+    let mut at: usize = 0;
+    // year
+    match captures.name(CGN_YEAR).as_ref() {
+        Some(match_) => {
+            copy_slice_to_buffer!(match_.as_bytes(), buffer, at);
+        }
+        None => {
+            // TODO: 2022/06/27 do something smarter than setting current year
+            // TODO: 2022/07/11 cost-savings: inefficient to create datetime and string each call; create the year str once elsewhere, pass in to this fn as `Option<String>`
+            let localb = Local::today().year().to_string();
+            copy_slice_to_buffer!(localb.as_bytes(), buffer, at);
+        }
+    }
+    // month
+    copy_capturegroup_to_buffer!(CGN_MONTH, captures, buffer, at);
+    // day
+    match dtfs.day {
+        DTFS_Day::d | DTFS_Day::e => {
+            copy_capturegroup_to_buffer!(CGN_DAY, captures, buffer, at);
+        },
+        DTFS_Day::_de_to_d => {
+            let day: &[u8] = captures.name(CGN_DAY).as_ref().unwrap().as_bytes();
+            debug_assert_eq!(day.len(), 2, "bad named group 'day' data {:?}, expected data of len 2", day);
+            const SPACE_: u8 = ' ' as u8;
+            match day[0] {
+                // change day " 8" to "08"
+                SPACE_ => {
+                    copy_u8_to_buffer!('0' as u8, buffer, at);
+                    copy_u8_to_buffer!(day[1], buffer, at);
+                }
+                _ => {
+                    copy_slice_to_buffer!(day, buffer, at);
+                }
+            }
+        }
+    }
+    copy_u8_to_buffer!('T' as u8, buffer, at);
+    // hour
+    copy_capturegroup_to_buffer!(CGN_HOUR, captures, buffer, at);
+    // minute
+    copy_capturegroup_to_buffer!(CGN_MINUTE, captures, buffer, at);
+    // second
+    copy_capturegroup_to_buffer!(CGN_SECOND, captures, buffer, at);
+    // fractional
+    match dtfs.fractional {
+        DTFS_Fractional::f => {
+            copy_u8_to_buffer!('.' as u8, buffer, at);
+            copy_capturegroup_to_buffer!(CGN_FRACTIONAL, captures, buffer, at);
+        }
+        DTFS_Fractional::_none => {}
+    }
+    // tz
+    match dtfs.tz {
+        DTFS_Tz::_fill => {
+            // TODO: cost-savings: pass pre-created TZ `&str`
+            let tzs: String = tz_offset.to_string();
+            copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
+        }
+        DTFS_Tz::z | DTFS_Tz::cz | DTFS_Tz::pz => {
+            copy_capturegroup_to_buffer!(CGN_TZ, captures, buffer, at);
+        }
+        DTFS_Tz::Z => {
+            #[allow(non_snake_case)]
+            let tzZ: &str = u8_to_str(captures.name(CGN_TZ).as_ref().unwrap().as_bytes()).unwrap();
+            match MAP_TZZ_TO_TZz.get_key_value(tzZ) {
+                Some((_tz_abbr, tz_offset_)) => {
+                    // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
+                    let tzs: String = tz_offset_.to_string();
+                    copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
+                }
+                None => {
+                    // cannot find entry in MAP_TZZ_TO_TZz, fill with passed TZ
+                    // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
+                    let tzs: String = tz_offset.to_string();
+                    copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
+                }
+            }
+
+        }
+    }
+
+    debug_eprintln!("{}captures_to_buffer_bytes return {:?}", sx(), at);
+
+    at
+}
+
 /// run `regex::Captures` on the `data` then convert to a chrono
 /// `Option<DateTime<FixedOffset>>` instance. Uses matching and pattern information
 /// hardcoded in `DATETIME_PARSE_DATAS_REGEX` and `DATETIME_PARSE_DATAS`.
@@ -1924,6 +2066,107 @@ pub fn str_to_regex_to_datetime(
     debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}, index {}", dt_beg, dt_end, index);
 
     debug_eprintln!("{}str_to_regex_to_datetime: return Some({:?}, {:?}, {:?})", sx(), dt_beg, dt_end, dt);
+    Some((dt_beg, dt_end, dt))
+}
+
+/// run `regex::Captures` on the `data` then convert to a chrono
+/// `Option<DateTime<FixedOffset>>` instance. Uses matching and pattern information
+/// hardcoded in `DATETIME_PARSE_DATAS_REGEX` and `DATETIME_PARSE_DATAS`.
+pub fn bytes_to_regex_to_datetime(
+    data: &[u8],
+    index: &DateTime_Parse_Datas_Index,
+    tz_offset: &FixedOffset,
+) -> Option<CapturedDtData> {
+    debug_eprintln!("{}bytes_to_regex_to_datetime({:?}, {:?}, {:?})", sn(), data, index, tz_offset);
+
+    let regex_: &Regex = match DATETIME_PARSE_DATAS_REGEX_VEC.get(*index) {
+        Some(val) => val,
+        None => {
+            panic!("requested DATETIME_PARSE_DATAS_REGEX_VEC.get({}), returned None. DATETIME_PARSE_DATAS_REGEX_VEC.len() {}", index, DATETIME_PARSE_DATAS_REGEX_VEC.len());
+        }
+    };
+
+    // shadow `regex_` with bytes-based regex
+    // TODO: cost-savings: precreate the `regex::bytes` instance
+    let regex_: regex::bytes::Regex = regex::bytes::Regex::new(regex_.as_str()).unwrap();
+    let captures: regex::bytes::Captures = match regex_.captures(data) {
+        None => {
+            debug_eprintln!("{}bytes_to_regex_to_datetime: regex: no captures (returned None)", sx());
+            return None;
+        }
+        Some(captures) => {
+            debug_eprintln!("{}bytes_to_regex_to_datetime: regex: captures.len() {}", so(), captures.len());
+
+            captures
+        }
+    };
+    if cfg!(debug_assertions) {
+        for (i, name_opt) in regex_.capture_names().enumerate() {
+            let match_: regex::bytes::Match = match captures.get(i) {
+                Some(m_) => m_,
+                None => {
+                    match name_opt {
+                        Some(name) => {
+                            eprintln!("{}bytes_to_regex_to_datetime: regex captures: {:2} {:<20} None", so(), i, name);
+                        },
+                        None => {
+                            eprintln!("{}bytes_to_regex_to_datetime: regex captures: {:2} {:<20} None", so(), i, "None");
+                        }
+                    }
+                    continue;
+                }
+            };
+            match name_opt {
+                Some(name) => {
+                    eprintln!("{}bytes_to_regex_to_datetime: regex captures: {:2} {:<20} {:?}", so(), i, name, match_.as_bytes());
+                },
+                None => {
+                    eprintln!("{}bytes_to_regex_to_datetime: regex captures: {:2} {:<20} {:?}", so(), i, "NO NAME", match_.as_bytes());
+                }
+            }
+            
+        }
+    }
+    // sanity check
+    debug_assert!(!captures.iter().any(|x| x.is_none()), "a match in the regex::Captures was None");
+
+    let dtpd: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*index];
+    // copy regex matches into a buffer with predictable ordering
+    // this ordering relates to datetime format strings in `DATETIME_PARSE_DATAS`
+    // TODO: [2022/06/26] cost-savings: avoid a `String` alloc by passing precreated buffer
+    const BUFLEN: usize = 35;
+    let mut buffer: [u8; BUFLEN] = [0; BUFLEN];
+    let copiedn = captures_to_buffer_bytes(&mut buffer, &captures, tz_offset, &dtpd.dtfs);
+
+    // use the `dt_format` to parse the buffer of regex matches
+    let buffer_s: &str = u8_to_str(&buffer[0..copiedn]).unwrap();
+    let dt = match datetime_parse_from_str(
+        buffer_s,
+        dtpd.dtfs.pattern,
+        dtpd.dtfs.has_year(),
+        dtpd.dtfs.has_tz(),
+        tz_offset,
+    ) {
+        Some(dt_) => dt_,
+        None => {
+            debug_eprintln!("{}bytes_to_regex_to_datetime return None", sx());
+            return None;
+        }
+    };
+
+    // derive the `LineIndex` bounds of the datetime substring within `data`
+    // TODO: cost-savings: only track dt_first dt_last if using `--color`
+    let dt_beg: LineIndex = match captures.name(dtpd.cgn_first) {
+        Some(match_) => match_.start() as LineIndex,
+        None => 0,
+    };
+    let dt_end: LineIndex = match captures.name(dtpd.cgn_last) {
+        Some(match_) => match_.end() as LineIndex,
+        None => 0,
+    };
+    debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}, index {}", dt_beg, dt_end, index);
+
+    debug_eprintln!("{}bytes_to_regex_to_datetime: return Some({:?}, {:?}, {:?})", sx(), dt_beg, dt_end, dt);
     Some((dt_beg, dt_end, dt))
 }
 

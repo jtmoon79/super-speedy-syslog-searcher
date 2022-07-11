@@ -40,6 +40,7 @@ use crate::Data::datetime::{
     DATETIME_PARSE_DATAS_LEN,
     DATETIME_PARSE_DATAS_REGEX_VEC,
     str_to_regex_to_datetime,
+    bytes_to_regex_to_datetime,
     dt_pass_filters,
     dt_after_or_before,
     Result_Filter_DateTime1,
@@ -666,6 +667,7 @@ impl SyslineReader {
                 debug_eprintln!("{}find_datetime_in_line: skip slice, does not have '1' or '2'", so());
                 continue;
             }
+            /*
             // TODO: do this after regex matching, can use `regex::bytes`
             // https://docs.rs/regex/latest/regex/bytes/index.html
             let dts: &str = match u8_to_str(slice_) {
@@ -675,21 +677,16 @@ impl SyslineReader {
                     continue;
                 }
             };
-            // use `regex` to find the location of the datetime string
-            //let regex_: &Regex = match DATETIME_PARSE_DATAS_REGEX_VEC.get(*index) {
-            //    Some(val) => val,
-            //    None => {
-            //        panic!("requested DATETIME_PARSE_DATAS_REGEX_VEC.get({}), returned None. DATETIME_PARSE_DATAS_REGEX_VEC.len() {}", index, DATETIME_PARSE_DATAS_REGEX_VEC.len());
-            //    }
-            //};
+            */
             // found the datetime string using `regex`, convert to a `DateTimeL`
             let dt: DateTimeL;
             let dt_beg: LineIndex;
             let dt_end: LineIndex;
             (dt_beg, dt_end, dt) = 
-                match str_to_regex_to_datetime(dts, index, tz_offset) {
-                None => continue,
-                Some(val) => val,
+                //match str_to_regex_to_datetime(dts, index, tz_offset) {
+                match bytes_to_regex_to_datetime(slice_, index, tz_offset) {
+                    None => continue,
+                    Some(val) => val,
             };
             debug_eprintln!("{}find_datetime_in_line: return Ok({}, {}, {}, {});", sx(), dt_beg, dt_end, &dt, index);
             return Result_FindDateTime::Ok((dt_beg, dt_end, dt, *index));

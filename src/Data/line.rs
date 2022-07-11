@@ -90,9 +90,9 @@ pub struct LinePart {
     /// used as-is in slice notation
     pub blocki_end: BlockIndex,
     /// the byte offset into the file where this `LinePart` begins
-    pub fileoffset: FileOffset,
+    fileoffset: FileOffset,
     /// blockoffset: debug helper, might be good to get rid of this?
-    pub blockoffset: BlockOffset,
+    blockoffset: BlockOffset,
     /// the file-designated BlockSz, _not_ necessarily the `len()` of the `Block` at `blockp`
     ///
     /// TODO: is this used?
@@ -170,14 +170,26 @@ impl LinePart {
         }
     }
 
-    /// length of line starting at index `blocki_beg`
+    /// length of line starting at index `blocki_beg` in bytes
     pub fn len(&self) -> usize {
         (self.blocki_end - self.blocki_beg) as usize
     }
 
-    /// since there is `fn len()`, function `is_empty` was recommended by clippy
+    /// clippy recommends `fn is_empty` since there is already `len()`
     pub fn is_empty(&self) -> bool {
         self.len() == 0
+    }
+
+    pub fn fileoffset_begin(&self) -> FileOffset {
+        self.fileoffset
+    }
+
+    pub fn fileoffset_end(&self) -> FileOffset {
+        self.fileoffset + (self.blocki_end as FileOffset)
+    }
+
+    pub fn blockoffset(&self) -> BlockOffset {
+        self.blockoffset
     }
 
     /// count of bytes of this `LinePart`
@@ -589,13 +601,13 @@ impl Line {
                 a_found = true;
                 b_search = true;
                 if b < len_ {
-                    debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_ab({}, {}))", so(), a, b);
+                    debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_ab({}, {})) @Block[{:?}..{:?}] @[{:?}..{:?}]", so(), a, b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                     ptrs.push(linepart.block_boxptr_ab(&a, &b));  // store [a..b]  (entire slice, entire `Line`)
                     debug_assert_gt!(ptrs.len(), 1, "ptrs is {} elements, expected >= 1; this should have been handled earlier", ptrs.len());
                     debug_eprintln!("{}get_boxptrs: return MultiPtr {} ptrs", sx(), ptrs.len());
                     return LinePartPtrs::MultiPtr(ptrs);
                 }
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_a({}))", so(), a);
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_a({})) @Block[{:?}..{:?}] @[{:?}..{:?}]", so(), a, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                 ptrs.push(linepart.block_boxptr_a(&a));  // store [a..]  (first slice of `Line`)
                 b -= len_;
                 continue;
@@ -605,32 +617,18 @@ impl Line {
                 continue;
             }
             if b_search && b < len_ {
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_b({}))", so(), b);
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_b({})) @Block[{:?}..{:?}] @[{:?}..{:?}]", so(), b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                 ptrs.push(linepart.block_boxptr_b(&b));  // store [..b] (last slice of `Line`)
                 break;
             } else  {
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr())", so());
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr()) @Block[{:?}..{:?}] @[{:?}..{:?}]", so(), linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                 ptrs.push(linepart.block_boxptr());  // store [..] (entire slice, middle part of `Line`)
                 b -= len_;
             }
         }
-        // TODO: get rid of this
-        match ptrs.len() {
-            1 => {
-                debug_eprintln!("{}get_boxptrs: return SinglePtr (TODO: no need to alloc Vec)", sx());
+        debug_assert_gt!(ptrs.len(), 1, "Ptrs is length {}, expected >1; parsing algorithm missed this case", ptrs.len());
 
-                LinePartPtrs::SinglePtr(ptrs.pop().unwrap())
-            }
-            0 => {
-                // `a, b` that are past the end of the `Line` return `NoPtr`
-                LinePartPtrs::NoPtr
-            }
-            _ => {
-                debug_eprintln!("{}get_boxptrs: return MultiPtr {} ptrs", sx(), ptrs.len());
-
-                LinePartPtrs::MultiPtr(ptrs)
-            }
-        }
+        LinePartPtrs::MultiPtr(ptrs)
     }
 
     /// `raw` true will write directly to stdout from the stored `Block`
@@ -715,10 +713,10 @@ impl Line {
             let s3 = match std::str::from_utf8(s2) {
                 Ok(val) => val,
                 Err(err) => {
-                    let fo1 = self.fileoffset_begin() + (linepart.blocki_beg as FileOffset);
-                    let fo2 = self.fileoffset_begin() + (linepart.blocki_end as FileOffset);
-                    eprintln!("ERROR: failed to convert [u8] at FileOffset[{}‥{}] to utf8 str; {}", fo1, fo2, err);
-                    continue;
+                    eprintln!("ERROR: failed to convert [u8] at LinePart@FileOffset[{}‥{}] to utf8 str, using from_utf8_unchecked; {}", linepart.fileoffset_begin(), linepart.fileoffset_end(), err);
+                    unsafe {
+                        std::str::from_utf8_unchecked(s2)
+                    }
                 }
             };
             s1.push_str(s3);

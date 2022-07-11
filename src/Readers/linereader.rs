@@ -394,7 +394,7 @@ impl LineReader {
                 debug_eprintln!("{}linereader.drop_line: Arc::try_unwrap(linep) processing Line @[{}‥{}] Block @[{}‥{}]", sn(), line.fileoffset_begin(), line.fileoffset_end(), line.blockoffset_first(), line.blockoffset_last());
                 self.drop_line_ok += 1;
                 for linepart in line.lineparts.into_iter() {
-                    self.blockreader.drop_block(linepart.blockoffset, bo_dropped);
+                    self.blockreader.drop_block(linepart.blockoffset(), bo_dropped);
                 }
             }
             Err(_linep) => {
