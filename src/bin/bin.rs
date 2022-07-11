@@ -365,8 +365,9 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
         };
     }
 
-    if ! (BLOCKSZ_MIN <= blocksz_ && blocksz_ <= BLOCKSZ_MAX) {
-        return Err(format!("--blocksz must be {} ≤ BLOCKSZ ≤ {}, it was {:?}", BLOCKSZ_MIN, BLOCKSZ_MAX, blockszs));
+    let max_min = std::cmp::max(BLOCKSZ_MIN, SyslogProcessor::BLOCKSZ_MIN);
+    if ! (max_min <= blocksz_ && blocksz_ <= BLOCKSZ_MAX) {
+        return Err(format!("--blocksz must be {} ≤ BLOCKSZ ≤ {}, it was {:?}", max_min, BLOCKSZ_MAX, blockszs));
     }
 
     Ok(blocksz_)

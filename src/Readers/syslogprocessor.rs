@@ -171,7 +171,10 @@ impl std::fmt::Debug for SyslogProcessor {
 impl SyslogProcessor {
     /// `SyslogProcessor` has it's own miminum requirements for `BlockSz`.
     /// Necessary for `blockzero_analysis` functions to have chance at success.
-    pub const BLOCKSZ_MIN: BlockSz = 0x100;
+    #[cfg(any(debug_assertions,test))]
+    pub const BLOCKSZ_MIN: BlockSz = 0x2;
+    #[cfg(not(any(debug_assertions,test)))]
+    pub const BLOCKSZ_MIN: BlockSz = 0x40;
     /// allow "streaming" (`drop`ping data in calls to `find_sysline`)?
     const STREAM_STAGE_DROP: bool = true;
     /// use LRU caches in underlying components. For development and testing experiments
