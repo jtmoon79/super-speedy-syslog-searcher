@@ -175,16 +175,17 @@ impl LinePart {
         (self.blocki_end - self.blocki_beg) as usize
     }
 
-    /*
+    /// since there is `fn len()`, function `is_empty` was recommended by clippy
     pub fn is_empty(&self) -> bool {
         self.len() == 0
     }
-    */
 
     /// count of bytes of this `LinePart`
     /// XXX: `count_bytes` and `len` is overlapping and confusing.
+    ///
+    /// TODO: this should be removed
     pub fn count_bytes(&self) -> Count {
-        (self.len() * LinePart::CHARSZ) as Count
+        self.len() as Count
     }
 
     #[allow(non_snake_case)]
