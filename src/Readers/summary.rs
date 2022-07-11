@@ -89,6 +89,12 @@ pub struct Summary {
     pub SyslineReader_parse_datetime_in_line_lru_cache_miss: Count,
     /// `SyslineReader::parse_datetime_in_line`
     pub SyslineReader_parse_datetime_in_line_lru_cache_put: Count,
+    /// `SyslineReader::get_boxptrs_singleptr`
+    pub SyslineReader_get_boxptrs_singleptr: Count,
+    /// `SyslineReader::get_boxptrs_doubleptr`
+    pub SyslineReader_get_boxptrs_doubleptr: Count,
+    /// `SyslineReader::get_boxptrs_multiptr`
+    pub SyslineReader_get_boxptrs_multiptr: Count,
     /// `LineReader::find_line` `self.lines`
     pub LineReader_lines_hit: Count,
     /// `LineReader::find_line` `self.lines`
@@ -152,6 +158,9 @@ impl Summary {
         SyslineReader_parse_datetime_in_line_lru_cache_hit: Count,
         SyslineReader_parse_datetime_in_line_lru_cache_miss: Count,
         SyslineReader_parse_datetime_in_line_lru_cache_put: Count,
+        SyslineReader_get_boxptrs_singleptr: Count,
+        SyslineReader_get_boxptrs_doubleptr: Count,
+        SyslineReader_get_boxptrs_multiptr: Count,
         LineReader_lines_hit: Count,
         LineReader_lines_miss: Count,
         LineReader_find_line_lru_cache_hit: Count,
@@ -201,6 +210,9 @@ impl Summary {
             SyslineReader_parse_datetime_in_line_lru_cache_hit,
             SyslineReader_parse_datetime_in_line_lru_cache_miss,
             SyslineReader_parse_datetime_in_line_lru_cache_put,
+            SyslineReader_get_boxptrs_singleptr,
+            SyslineReader_get_boxptrs_doubleptr,
+            SyslineReader_get_boxptrs_multiptr,
             LineReader_lines_hit,
             LineReader_lines_miss,
             LineReader_find_line_lru_cache_hit,
@@ -237,6 +249,9 @@ impl Summary {
             self.SyslineReader_parse_datetime_in_line_lru_cache_hit,
             self.SyslineReader_parse_datetime_in_line_lru_cache_miss,
             self.SyslineReader_parse_datetime_in_line_lru_cache_put,
+            self.SyslineReader_get_boxptrs_singleptr,
+            self.SyslineReader_get_boxptrs_doubleptr,
+            self.SyslineReader_get_boxptrs_multiptr,
             self.LineReader_lines_hit,
             self.LineReader_lines_miss,
             self.LineReader_find_line_lru_cache_hit,

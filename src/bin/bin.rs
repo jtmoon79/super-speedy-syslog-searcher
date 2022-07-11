@@ -1650,9 +1650,19 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
         }
     };
     let wide: usize = summary.max_hit_miss().to_string().len();
+    let mut ratio: f64;
     // SyslineReader
+    // SyslineReader::get_boxptrs
+    eprintln!(
+        "{}copying: SyslineReader::get_boxptrs()                                  : sgl {:wide$}, dbl  {:wide$}, mult {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT,
+        summary.SyslineReader_get_boxptrs_singleptr,
+        summary.SyslineReader_get_boxptrs_doubleptr,
+        summary.SyslineReader_get_boxptrs_multiptr,
+        wide = wide,
+    );
     // SyslineReader::syslines
-    let mut ratio = ratio64(
+    ratio = ratio64(
         &summary.SyslineReader_syslines_hit,
         &summary.SyslineReader_syslines_miss,
     );

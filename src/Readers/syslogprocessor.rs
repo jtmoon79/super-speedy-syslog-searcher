@@ -630,6 +630,9 @@ impl SyslogProcessor {
         let SyslineReader_parse_datetime_in_line_lru_cache_hit = self.syslinereader.parse_datetime_in_line_lru_cache_hit;
         let SyslineReader_parse_datetime_in_line_lru_cache_miss = self.syslinereader.parse_datetime_in_line_lru_cache_miss;
         let SyslineReader_parse_datetime_in_line_lru_cache_put = self.syslinereader.parse_datetime_in_line_lru_cache_put;
+        let SyslineReader_get_boxptrs_singleptr = self.syslinereader.get_boxptrs_singleptr;
+        let SyslineReader_get_boxptrs_doubleptr = self.syslinereader.get_boxptrs_doubleptr;
+        let SyslineReader_get_boxptrs_multiptr = self.syslinereader.get_boxptrs_multiptr;
         let LineReader_lines_hit = self.syslinereader.linereader._lines_hits;
         let LineReader_lines_miss = self.syslinereader.linereader._lines_miss;
         let LineReader_find_line_lru_cache_hit = self.syslinereader.linereader.find_line_lru_cache_hit;
@@ -672,6 +675,9 @@ impl SyslogProcessor {
             SyslineReader_parse_datetime_in_line_lru_cache_hit,
             SyslineReader_parse_datetime_in_line_lru_cache_miss,
             SyslineReader_parse_datetime_in_line_lru_cache_put,
+            SyslineReader_get_boxptrs_singleptr,
+            SyslineReader_get_boxptrs_doubleptr,
+            SyslineReader_get_boxptrs_multiptr,
             LineReader_lines_hit,
             LineReader_lines_miss,
             LineReader_find_line_lru_cache_hit,

@@ -1642,7 +1642,6 @@ fn _test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &test_Line_get
     }
 
     // then test the `Line.get_boxptrs`
-    // get_boxptrs(self: &Line, a: LineIndex, mut b: LineIndex) -> Vec<Box<&[u8]>>
     for (linenum, (a, b), bytes_check) in checks.iter() {
         assert_lt!(a, b, "bad check args a {} b {}", a, b);
         assert_ge!(b-a, bytes_check.len(), "Bad check args ({}-{})={} < {} bytes_check.len()", b, a, b-a, bytes_check.len());
@@ -1651,12 +1650,19 @@ fn _test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &test_Line_get
         eprintln!("{}{}: returned {:?}", so(), fn_, line.to_String_noraw());
         eprintln!("{}{}: line.get_boxptrs({}, {})", so(), fn_, a, b);
         let boxptrs = match line.get_boxptrs(*a, *b) {
+            enum_BoxPtrs::NoPtr => {
+                assert!(bytes_check.is_empty(), "Expected bytes_check {:?}, received NoPtr (no bytes)", bytes_check);
+                continue;
+            }
             enum_BoxPtrs::SinglePtr(box_) => {
                 vec![box_,]
             },
+            enum_BoxPtrs::DoublePtr(box2) => {
+                vec![box2.0, box2.1,]
+            },
             enum_BoxPtrs::MultiPtr(boxes) => {
                 boxes
-            }
+            },
         };
         let mut at: usize = 0;
         for boxptr in boxptrs.iter() {
@@ -1690,10 +1696,12 @@ fn _test_Line_get_boxptrs_2_(blocksz: BlockSz) {
     eprintln!("{}_test_Line_get_boxptrs_2_({:?})", sn(), blocksz);
     let data: &str = "\
 One 1
-Two 2";
+Two 2
+";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
     let checks: test_Line_get_boxptrs_check = vec![
+        // fileoffset, (a, b), check
         (6, (0, 1), vec![b'T',]),
         (6, (0, 2), vec![b'T', b'w']),
         (7, (0, 2), vec![b'T', b'w']),

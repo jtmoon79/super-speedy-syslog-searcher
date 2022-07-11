@@ -293,7 +293,9 @@ impl fmt::Debug for Line {
 
 /// return value for `Line::get_boxptrs`
 pub enum enum_BoxPtrs <'a> {
+    NoPtr,
     SinglePtr(Box<&'a [u8]>),
+    DoublePtr((Box<&'a [u8]>, Box<&'a [u8]>)),
     MultiPtr(Vec<Box<&'a [u8]>>),
 }
 
@@ -512,72 +514,116 @@ impl Line {
         self.lineparts.len() as Count
     }
 
-    /// get Box pointers to the underlying `&[u8]` slice that makes up this `Line`.
-    /// 
-    /// If `Line` is composed of one slice (one `Linepart`) then return a single `Box` pointer.
-    ///
-    /// If `Line` is composed of multiple slice (multiple `Linepart`) then return a
-    /// `Vec` of `Box` pointers to each slice.
-    ///
-    /// TODO: the `Vec<Box<&[u8]>>` creation is expensive
-    ///       consider allowing a mut &Vec to be passed in. However, this will require declaring lifetimes!
-    ///       However, it seems like this case will much less often in real use-case versus contrived small blocksize use cases.
-    ///       Before making chages, would be worthwhile to track this using internal counters, and see the numbers in tests.
-    ///
     // XXX: due to unstable feature `Sized` in `Box`, cannot do
     //           fn get_boxptrs(...) -> either::Either<Box<&[u8]>, Vec<Box<&[u8]>>>
     //      causes error `experimental Sized`
+    //
+    // TODO: use `&Range_LineIndex`
+    /// get Box pointer(s) to an underlying `&[u8]` slice that is part of this `Line`.
+    ///
+    /// If slice is refers to one `Linepart` then return a single `Box` pointer.
+    ///
+    /// If slice is composed of multiple `Linepart` then return a
+    /// `Vec` of `Box` pointers to each part.
+    ///
+    /// The purpose of this function and `enum_BoxPtrs` is to provide fast access to
+    /// some underlying slice(s) of a `Line` while hiding complexities of crossing
+    /// `Block` boundaries (and not being lazy and copying lots of bytes around).
+    ///
     pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> enum_BoxPtrs<'_> {
+        debug_eprintln!("{}get_boxptrs(…, {}, {}), line.len() {} {:?}", sn(), a, b, self.len(), self.to_String_noraw());
         debug_assert_le!(a, b, "passed bad LineIndex pair");
-        // do the simple case first (single `Box` pointer required)
-        // doing this here, as opposed to intermixing with multiple case, avoids compiler complaint of "use of possibly-uninitialized `ptrs`"
+        // simple case: `a, b` are past end of `Line`
+        if self.len() <= a {
+            return enum_BoxPtrs::NoPtr;
+        }
+        // ideal case: `a, b` are within one `linepart`
+        // harder case: `a, b` are among two `linepart`s
+        let mut a_found = false;
         let mut a1: LineIndex = a;
         let mut b1: LineIndex = b;
-        for linepart_ in &self.lineparts {
-            let len_ = linepart_.len();
-            if a1 < len_ && b1 < len_ {
-                return enum_BoxPtrs::SinglePtr(linepart_.block_boxptr_ab(&a1, &b1));
-            } else if a1 < len_ && len_ <= b1 {
+        let mut bptr_a: Option<Box::<&[u8]>> = None;
+        for linepart in &self.lineparts {
+            let len_ = linepart.len();
+            if a1 < len_ && b1 < len_ && !a_found {
+                debug_eprintln!("{}get_boxptrs: return SinglePtr({}, {})", sx(), a1, b1);
+                return enum_BoxPtrs::SinglePtr(linepart.block_boxptr_ab(&a1, &b1));
+            } else if a1 < len_ && len_ <= b1 && !a_found {
+                a_found = true;
+                bptr_a = Some(linepart.block_boxptr_a(&a1));
+                b1 -= len_;
+                debug_eprintln!("{}get_boxptrs: a_found: bptr_a = block_boxptr_a({})", so(), a1);
+            } else if len_ <= b1 && a_found {
+                debug_eprintln!("{}get_boxptrs: break: a {} < {} && {} <= {} b && a_found", so(), a1, len_, len_, b1);
                 break;
+            } else if b1 < len_ && a_found {
+                debug_eprintln!("{}get_boxptrs: return DoublePtr({}, {})", sx(), a1, b1);
+                return enum_BoxPtrs::DoublePtr((bptr_a.unwrap(), linepart.block_boxptr_b(&b1)));
+            } else if a_found {
+                debug_eprintln!("{}get_boxptrs: break: a_found", so());
+                break;
+            } else {
+                a1 -= len_;
+                b1 -= len_;
             }
-            a1 -= len_;
-            b1 -= len_;
+
+            debug_eprintln!("{}get_boxptrs: next: a {}, b {}, linepart.len was {}", so(), a1, b1, len_);
+        
         }
-        // do the harder case (multiple `Box` pointers required)
+        debug_eprintln!("{}get_boxptrs: Vec::with_capacity({})", so(), self.lineparts.len());
+        // hardest case: `a, b` are among multiple `lineparts` (multiple `Box` pointers required)
         let mut a_found = false;
         let mut b_search = false;
         let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box::<&[u8]>>::with_capacity(self.lineparts.len());
-        for linepart_ in &self.lineparts {
-            debug_eprintln!("{}get_boxptrs: linepart {:?}", so(), linepart_.to_String_noraw());
-            let len_ = linepart_.len();
+        for linepart in &self.lineparts {
+            //debug_eprintln!("{}get_boxptrs: linepart {:?} len {}", so(), linepart.to_String_noraw(), linepart.len());
+            let len_ = linepart.len();
             if !a_found && a < len_ {
                 a_found = true;
                 b_search = true;
                 if b < len_ {
-                    debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr_ab({}, {}))", so(), a, b);
-                    ptrs.push(linepart_.block_boxptr_ab(&a, &b));  // store [a..b]  (entire slice, entire `Line`)
+                    debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_ab({}, {}))", so(), a, b);
+                    ptrs.push(linepart.block_boxptr_ab(&a, &b));  // store [a..b]  (entire slice, entire `Line`)
                     debug_assert_gt!(ptrs.len(), 1, "ptrs is {} elements, expected >= 1; this should have been handled earlier", ptrs.len());
+                    debug_eprintln!("{}get_boxptrs: return MultiPtr {} ptrs", sx(), ptrs.len());
                     return enum_BoxPtrs::MultiPtr(ptrs);
                 }
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr_a({}))", so(), a);
-                ptrs.push(linepart_.block_boxptr_a(&a));  // store [a..]  (first slice of `Line`)
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_a({}))", so(), a);
+                ptrs.push(linepart.block_boxptr_a(&a));  // store [a..]  (first slice of `Line`)
                 b -= len_;
                 continue;
             } else if !a_found {
+                debug_eprintln!("{}get_boxptrs: next: !a_found, a {}, {} linepart.len(), a becomes {}", so(), a, len_, a - len_);
                 a -= len_;
                 continue;
             }
             if b_search && b < len_ {
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr_b({}))", so(), b);
-                ptrs.push(linepart_.block_boxptr_b(&b));  // store [..b] (last slice of `Line`)
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_b({}))", so(), b);
+                ptrs.push(linepart.block_boxptr_b(&b));  // store [..b] (last slice of `Line`)
                 break;
             } else  {
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart_.block_boxptr())", so());
-                ptrs.push(linepart_.block_boxptr());  // store [..] (entire slice, middle part of `Line`)
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr())", so());
+                ptrs.push(linepart.block_boxptr());  // store [..] (entire slice, middle part of `Line`)
                 b -= len_;
             }
         }
-        enum_BoxPtrs::MultiPtr(ptrs)
+        // TODO: get rid of this
+        match ptrs.len() {
+            1 => {
+                debug_eprintln!("{}get_boxptrs: return SinglePtr (TODO: no need to alloc Vec)", sx());
+
+                enum_BoxPtrs::SinglePtr(ptrs.pop().unwrap())
+            }
+            0 => {
+                // `a, b` that are past the end of the `Line` return `NoPtr`
+                enum_BoxPtrs::NoPtr
+            }
+            _ => {
+                debug_eprintln!("{}get_boxptrs: return MultiPtr {} ptrs", sx(), ptrs.len());
+
+                enum_BoxPtrs::MultiPtr(ptrs)
+            }
+        }
     }
 
     /// `raw` true will write directly to stdout from the stored `Block`

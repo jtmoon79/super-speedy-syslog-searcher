@@ -1,7 +1,7 @@
 // Readers/syslinereader.rs
 //
 
-pub use crate::common::{
+use crate::common::{
     FPath,
     FileOffset,
     FileType,
@@ -16,7 +16,7 @@ use crate::common::{
     ResultS4,
 };
 
-pub use crate::Data::sysline::{
+use crate::Data::sysline::{
     Sysline,
     SyslineP,
     SyslineP_Opt,
@@ -48,13 +48,16 @@ use crate::Data::datetime::{
     u8_to_str,
 };
 
-use crate::Readers::linereader::{
+use crate::Data::line::{
     LineIndex,
     Line,
     LineP,
+    enum_BoxPtrs,
+};
+
+use crate::Readers::linereader::{
     LineReader,
     ResultS4_LineFind,
-    enum_BoxPtrs,
 };
 
 #[cfg(any(debug_assertions,test))]
@@ -350,6 +353,9 @@ impl SyslineReader {
                 parse_datetime_in_line_lru_cache_hit: 0,
                 parse_datetime_in_line_lru_cache_miss: 0,
                 parse_datetime_in_line_lru_cache_put: 0,
+                get_boxptrs_singleptr: 0,
+                get_boxptrs_doubleptr: 0,
+                get_boxptrs_multiptr: 0,
                 analyzed: false,
                 //drop_block_fo_keys: Vec::<FileOffset>::with_capacity(drop_block_fo_keys_sz),
                 drop_sysline_ok: 0,
@@ -581,17 +587,16 @@ impl SyslineReader {
 
     /// if datetime found in `Line` returns `Ok` around
     /// indexes into `line` of found datetime string `(start of string, end of string)`
+    ///
     /// else returns `Err`
-    /// TODO: 2022/03/11 14:30:00
-    ///      The concept of static pattern lengths (beg_i, end_i, actual_beg_i, actual_end_i) won't work for
-    ///      variable length datetime patterns, i.e. full month names 'July 1, 2020' and 'December 1, 2020'.
-    ///      Instead of fixing the current problem of unexpected datetime matches,
-    ///      fix the concept problem of passing around fixed-length datetime strings. Then redo this.
     pub fn find_datetime_in_line(
         line: &Line,
         parse_data_indexes: &DateTime_Parse_Data_Indexes,
         charsz: &CharSz,
         tz_offset: &FixedOffset,
+        get_boxptrs_singleptr: &mut Count,
+        get_boxptrs_doubleptr: &mut Count,
+        get_boxptrs_multiptr: &mut Count,
     ) -> Result_FindDateTime {
         debug_eprintln!("{}find_datetime_in_line:(Line, {:?})", sn(), line.to_String_noraw());
         debug_eprintln!("{}find_datetime_in_line: parse_data_indexes.len() {} {:?}", so(), parse_data_indexes.len(), parse_data_indexes);
@@ -627,10 +632,22 @@ impl SyslineReader {
             // searches within the `Line`
             let mut hack_slice: Bytes;
             let slice_: &[u8];
-            match line.get_boxptrs(dtpd.sib, dtpd.sie) {
+            match line.get_boxptrs(dtpd.range_regex.start as LineIndex, line_end as LineIndex) {
+                enum_BoxPtrs::NoPtr => {
+                    panic!("line.get_boxptrs({}, {}) returned NoPtr which means it was passed non-sense values", dtpd.range_regex.start, line_end);
+                    continue;
+                }
                 enum_BoxPtrs::SinglePtr(box_slice) => {
                     slice_ = *box_slice;
-                },
+                    *get_boxptrs_singleptr += 1;
+                }
+                enum_BoxPtrs::DoublePtr(box_slice2) => {
+                    hack_slice = Bytes::with_capacity(box_slice2.0.len() + box_slice2.1.len());
+                    hack_slice.extend_from_slice(*box_slice2.0);
+                    hack_slice.extend_from_slice(*box_slice2.1);
+                    slice_ = hack_slice.as_slice();
+                    *get_boxptrs_doubleptr += 1;
+                }
                 enum_BoxPtrs::MultiPtr(vec_box_slice) => {
                     let mut cap: usize = 0;
                     for box_ in vec_box_slice.iter() {
@@ -641,7 +658,8 @@ impl SyslineReader {
                         hack_slice.extend_from_slice(*box_);
                     }
                     slice_ = hack_slice.as_slice();
-                },
+                    *get_boxptrs_multiptr += 1;
+                }
             };
             // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
             if charsz == &1 && dtpd.dtfs.has_year() && !slice_contains_X_2(slice_, HACK12) {
