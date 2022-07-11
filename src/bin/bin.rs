@@ -1471,7 +1471,7 @@ fn processing_loop(
                 let is_last: bool = chan_datum.2;
                 // Sysline of interest
                 let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
-                debug_eprintln!("{}processing_loop: A3 printing SyslineP@{:p} @[{}, {}] PathId: {:?}", so(), syslinep, syslinep.fileoffset_begin(), syslinep.fileoffset_end(), pathid);
+                debug_eprintln!("{}processing_loop: A3 printing @[{}, {}] PathId: {:?}", so(), syslinep.fileoffset_begin(), syslinep.fileoffset_end(), pathid);
                 // print the sysline!
                 let printer: &mut Printer_Sysline = map_pathid_printer.get_mut(pathid).unwrap();
                 match printer.print_sysline(syslinep) {
@@ -1566,7 +1566,7 @@ fn print_filepath(
 ) {
     eprint!("File: ");
     match print_colored_stderr(*color, Some(*color_choice), path.as_bytes()) {
-        Ok(()) => {},
+        Ok(()) => {}
         Err(err) => {
             eprintln!("ERROR: {:?}", err);
         }
