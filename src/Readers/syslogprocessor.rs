@@ -32,15 +32,19 @@ use crate::Data::datetime::{
     DateTimeL_Opt,
 };
 
+use crate::Data::sysline::{
+    Sysline,
+    SyslineP,
+};
+
 pub use crate::Readers::linereader::{
     ResultS4_LineFind,
 };
 
 pub use crate::Readers::syslinereader::{
-    ResultS4_SyslineFind,
-    Sysline,
-    SyslineP,
     SyslineReader,
+    ResultS4_SyslineFind,
+    DateTime_Pattern_Counts,
 };
 
 use crate::Readers::summary::{
@@ -59,6 +63,9 @@ extern crate debug_print;
 use debug_print::{
     debug_eprintln
 };
+
+extern crate itertools;
+use itertools::Itertools;  // attaches `sorted_by`
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
@@ -116,7 +123,7 @@ lazy_static! {
 }
 
 /// The `SyslogProcessor` uses `SyslineReader` to find `Sysline`s in a file.
-/// 
+///
 /// A `SyslogProcessor` has knowledge of:
 /// - the different stages of processing a syslog file
 /// - stores optional datetime filters
@@ -608,7 +615,13 @@ impl SyslogProcessor {
         let SyslineReader_syslines_by_range_hit = self.syslinereader.syslines_by_range_hit;
         let SyslineReader_syslines_by_range_miss = self.syslinereader.syslines_by_range_miss;
         let SyslineReader_syslines_by_range_put = self.syslinereader.syslines_by_range_put;
-        let SyslineReader_patterns = self.syslinereader.dt_patterns.clone();
+        // only print patterns with use count > 0, sorted by count
+        let mut SyslineReader_patterns_ = DateTime_Pattern_Counts::new();
+        SyslineReader_patterns_.extend(
+            self.syslinereader.dt_patterns_counts.iter().filter(|&(_k, v)| v > &mut 0)
+        );
+        let mut SyslineReader_patterns = DateTime_Pattern_Counts::new();
+        SyslineReader_patterns.extend(SyslineReader_patterns_.into_iter().sorted_by(|a, b| Ord::cmp(&b.1, &a.1)));
         let SyslineReader_datetime_first = self.syslinereader.dt_first;
         let SyslineReader_datetime_last = self.syslinereader.dt_last;
         let SyslineReader_find_sysline_lru_cache_hit = self.syslinereader.find_sysline_lru_cache_hit;

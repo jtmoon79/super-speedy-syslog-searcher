@@ -2,18 +2,33 @@
 
 use super::datetime::{
     FixedOffset,
-    dt_pattern_has_year,
-    dt_pattern_has_tz,
-    str_datetime,
+    DateTimeRegex_str,
+    DateTimePattern_str,
+    datetime_parse_from_str,
     DateTimeL,
     DateTimeL_Opt,
+    DTFS_Tz,
+    DTFSSet,
+    DateTime_Parse_Data,
     DATETIME_PARSE_DATAS,
-    DATETIME_PARSE_DATAS_VEC,
+    CGN_ALL_,
+    CGP_YEAR,
+    CGP_MONTH_ALL_,
+    CGP_DAY_ALL_,
+    CGP_HOUR,
+    CGP_MINUTE,
+    CGP_SECOND,
+    CGP_FRACTIONAL,
+    CGP_TZ_ALL_,
+    _DTF_ALL,
+    RP_LB,
+    RP_RB,
+    str_to_regex_to_datetime,
+    datetime_from_str_workaround_Issue660,
     Result_Filter_DateTime1,
     Result_Filter_DateTime2,
     dt_pass_filters,
     dt_after_or_before,
-    datetime_from_str_workaround_Issue660,
 };
 
 use crate::printer_debug::stack::{
@@ -21,11 +36,12 @@ use crate::printer_debug::stack::{
     sx,
 };
 
+use std::collections::HashSet;
+
 extern crate more_asserts;
 use more_asserts::{
     assert_le,
     assert_lt,
-    assert_ge,
 };
 
 #[cfg(test)]
@@ -33,40 +49,265 @@ use std::str;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// built-in sanity check of the static DATETIME_PARSE_DATAS
-/// can only check for coarse errors, cannot catch all errors
-#[test]
-fn test_DATETIME_PARSE_DATAS() {
-    for dtpd in DATETIME_PARSE_DATAS_VEC.iter() {
-        assert_lt!(dtpd.sib, dtpd.sie, "dtpd.sib < dtpd.sie failed; bad build-in DateTimeParseData {:?}", dtpd);
-        assert_lt!(dtpd.siba, dtpd.siea, "dtpd.siba < dtpd.siea failed; bad build-in DateTimeParseData {:?}", dtpd);
-        assert_le!(dtpd.sib, dtpd.siba, "dtpd.sib ≤ dtpd.siba failed; bad build-in DateTimeParseData {:?}", dtpd);
-        assert_ge!(dtpd.sie, dtpd.siea, "dtpd.sie ≥ dtpd.siea failed; bad build-in DateTimeParseData {:?}", dtpd);
-        let len_ = dtpd.pattern.len();
-        // XXX: arbitrary minimum
-        assert_le!(6, len_, ".pattern.len too short; bad build-in DateTimeParseData {:?}", dtpd);
-        let diff_ = dtpd.sie - dtpd.sib;
-        let diff_dt = dtpd.siea - dtpd.siba;
-        assert_ge!(diff_, diff_dt, "len(.sib,.sie) ≥ len(.siba,.siea) failed; bad build-in DateTimeParseData {:?}", dtpd);
-        assert_ge!(diff_, len_, "len(.sib,.sie) ≥ .dtp.len() failed; bad build-in DateTimeParseData {:?}", dtpd);
-        //assert_le!(diff_dt, len_, "len(.3,.4) ≤ .0.len() failed; bad build-in DateTimeParseData {:?}", dtpd);
-        if dtpd.year {
-            assert!(dt_pattern_has_year(&dtpd.pattern), "pattern has not year {:?} but .year is true", dtpd.pattern);
-        } else {
-            assert!(!dt_pattern_has_year(&dtpd.pattern), "pattern has year {:?} but .year is false", dtpd.pattern);
+/// does regex pattern have a year?
+pub fn regex_pattern_has_year(pattern: &DateTimeRegex_str) -> bool {
+    pattern.contains(CGP_YEAR)
+}
+
+/// does regex pattern have a month?
+pub fn regex_pattern_has_month(pattern: &DateTimeRegex_str) -> bool {
+    for pat in CGP_MONTH_ALL_.iter() {
+        if pattern.contains(pat) {
+            return true;
         }
-        if dtpd.tz {
-            assert!(dt_pattern_has_tz(&dtpd.pattern), "pattern has not timezone {:?} but tz is true", dtpd.pattern);
+    }
+
+    false
+}
+
+/// does regex pattern have a day?
+pub fn regex_pattern_has_day(pattern: &DateTimeRegex_str) -> bool {
+    for pat in CGP_DAY_ALL_.iter() {
+        if pattern.contains(pat) {
+            return true;
+        }
+    }
+
+    false
+}
+
+/// does regex pattern have a hour?
+pub fn regex_pattern_has_hour(pattern: &DateTimeRegex_str) -> bool {
+    pattern.contains(CGP_HOUR)
+}
+
+/// does regex pattern have a minute?
+pub fn regex_pattern_has_minute(pattern: &DateTimeRegex_str) -> bool {
+    pattern.contains(CGP_MINUTE)
+}
+
+/// does regex pattern have a second?
+pub fn regex_pattern_has_second(pattern: &DateTimeRegex_str) -> bool {
+    pattern.contains(CGP_SECOND)
+}
+
+/// does regex pattern have a fractional second?
+pub fn regex_pattern_has_fractional(pattern: &DateTimeRegex_str) -> bool {
+    pattern.contains(CGP_FRACTIONAL)
+}
+
+/// does regex pattern have a timezone?
+pub fn regex_pattern_has_tz(pattern: &DateTimeRegex_str) -> bool {
+    for pat in CGP_TZ_ALL_.iter() {
+        if pattern.contains(pat) {
+            return true;
+        }
+    }
+
+    false
+}
+
+// chrono strftime formats https://docs.rs/chrono/latest/chrono/format/strftime/
+
+/// does chrono strftime pattern have a year?
+pub fn dt_pattern_has_year(pattern: &DateTimePattern_str) -> bool {
+    pattern.contains("%Y")
+    || pattern.contains("%y")
+}
+
+/// does chrono strftime pattern have a month?
+pub fn dt_pattern_has_month(pattern: &DateTimePattern_str) -> bool {
+    pattern.contains("%m")
+    || pattern.contains("%b")
+    || pattern.contains("%B")
+    // do not use "%h"
+}
+
+/// does chrono strftime pattern have a month?
+pub fn dt_pattern_has_day(pattern: &DateTimePattern_str) -> bool {
+    pattern.contains("%d")
+    || pattern.contains("%e")
+}
+
+/// does chrono strftime pattern have a month?
+pub fn dt_pattern_has_hour(pattern: &DateTimePattern_str) -> bool {
+    pattern.contains("%H")
+    || pattern.contains("%_H")
+    || pattern.contains("%k")
+    || (pattern.contains("%I") && pattern.contains("%P"))
+    || (pattern.contains("%I") && pattern.contains("%p"))
+    || (pattern.contains("%l") && pattern.contains("%P"))
+    || (pattern.contains("%l") && pattern.contains("%p"))
+}
+
+/// does chrono strftime pattern have a month?
+pub fn dt_pattern_has_minute(pattern: &DateTimePattern_str) -> bool {
+    pattern.contains("%M")
+}
+
+/// does chrono strftime pattern have a second?
+pub fn dt_pattern_has_second(pattern: &DateTimePattern_str) -> bool {
+    pattern.contains("%S")
+}
+
+/// does chrono strftime pattern have a second?
+pub fn dt_pattern_has_fractional(pattern: &DateTimePattern_str) -> bool {
+    pattern.contains("%f")
+}
+
+/// does chrono strftime pattern have a timezone?
+pub fn dt_pattern_has_tz(pattern: &DateTimePattern_str) -> bool {
+    // %Z is not put into `pattern`
+    pattern.contains("%z")
+    || pattern.contains("%:z")
+    || pattern.contains("%#z")
+}
+
+/// does chrono strftime pattern have the fill timezone?
+pub fn dt_pattern_has_tz_fill(pattern: &DateTimePattern_str) -> bool {
+    pattern.contains("%:z")
+}
+
+// ripped from https://stackoverflow.com/a/46767732/471376
+fn has_unique_elements<T>(iter: T) -> bool
+where
+    T: IntoIterator,
+    T::Item: Eq + std::hash::Hash,
+{
+    let mut uniq = HashSet::new();
+    iter.into_iter().all(move |x| uniq.insert(x))
+}
+
+#[test]
+fn test_DTF_ALL() {
+    for dt_format in _DTF_ALL.iter() {
+        assert!(dt_pattern_has_year(dt_format), "built-in dt_format missing year {:?}", dt_format);
+        assert!(dt_pattern_has_month(dt_format), "built-in dt_format missing month {:?}", dt_format);
+        assert!(dt_pattern_has_day(dt_format), "built-in dt_format missing day {:?}", dt_format);
+        assert!(dt_pattern_has_hour(dt_format), "built-in dt_format missing hour {:?}", dt_format);
+        assert!(dt_pattern_has_minute(dt_format), "built-in dt_format missing minute {:?}", dt_format);
+        assert!(dt_pattern_has_second(dt_format), "built-in dt_format missing second {:?}", dt_format);
+        assert!(dt_pattern_has_tz(dt_format), "built-in dt_format missing timezone {:?}", dt_format);
+    }
+}
+
+/// santy check of the built-in `const DATETIME_PARSE_DATAS` values
+/// does each `DateTime_Parse_Data` parameter agree with other parameters?
+#[test]
+fn test_DATETIME_PARSE_DATAS_builtin() {
+    for dtpd in DATETIME_PARSE_DATAS.iter() {
+        // check regex_range (arbitrary minimum)
+        let regpat: &DateTimeRegex_str = dtpd.regex_pattern;
+        let dtfs: &DTFSSet = &dtpd.dtfs;
+        assert_lt!(dtpd.range_regex.start, dtpd.range_regex.end, "bad range_regex start {} end {}; declared at line {}", dtpd.range_regex.start, dtpd.range_regex.end, dtpd._line_num);
+        assert_le!(12, regpat.len(), ".regex_pattern.len() {} too short; bad built-in DateTimeParseData {:?}; declared at line {}", regpat.len(), dtpd, dtpd._line_num);
+        // check dt_pattern (arbitrary minimum)
+        let dtpat: &DateTimePattern_str = dtfs.pattern;
+        assert_le!(8, dtpat.len(), ".dt_pattern.len too short; bad built-in dt_pattern {:?}; declared at line {}", dtpat, dtpd._line_num);
+        // check year
+        if dtfs.has_year() {
+            assert!(regex_pattern_has_year(regpat), "regex_pattern has not year {:?} but .year is true; declared at line {}", regpat, dtpd._line_num);
+            //assert!(dt_pattern_has_year(dtpat), "dt_pattern has not year {:?} but .year is true; declared at line {}", dtpat, dtpd._line_num);
         } else {
-            assert!(!dt_pattern_has_tz(&dtpd.pattern), "pattern has timezone {:?} but tz is false", dtpd.pattern);
+            assert!(!regex_pattern_has_year(regpat), "regex_pattern has year {:?} but .year is false; declared at line {}", regpat, dtpd._line_num);
+            // year ('%Y', etc.) is added to all `dt_pattern`, for `captures_to_buffer`
+            //assert!(!dt_pattern_has_year(dtpat), "dt_pattern has year {:?} but .year is false; declared at line {}", dtpat, dtpd._line_num);
+        }
+        assert!(dt_pattern_has_year(dtpat), "dt_pattern does not have a year {:?}; declared at line {}", dtpat, dtpd._line_num);
+        // check month
+        assert!(regex_pattern_has_month(regpat), "regex_pattern has not month {:?}; declared at line {}", regpat, dtpd._line_num);
+        assert!(dt_pattern_has_month(dtpat), "dt_pattern does not have a month {:?}; declared at line {}", dtpat, dtpd._line_num);
+        // check day
+        assert!(regex_pattern_has_day(regpat), "regex_pattern has not day {:?}; declared at line {}", regpat, dtpd._line_num);
+        assert!(dt_pattern_has_day(dtpat), "dt_pattern does not have a day {:?}; declared at line {}", dtpat, dtpd._line_num);
+        // check hour
+        assert!(regex_pattern_has_hour(regpat), "regex_pattern has not hour {:?}; declared at line {}", regpat, dtpd._line_num);
+        assert!(dt_pattern_has_hour(dtpat), "dt_pattern does not have a hour {:?}; declared at line {}", dtpat, dtpd._line_num);
+        // check minute
+        assert!(regex_pattern_has_minute(regpat), "regex_pattern has not minute {:?}; declared at line {}", regpat, dtpd._line_num);
+        assert!(dt_pattern_has_minute(dtpat), "dt_pattern does not have a minute {:?}; declared at line {}", dtpat, dtpd._line_num);
+        // check second
+        assert!(regex_pattern_has_second(regpat), "regex_pattern has not second {:?}; declared at line {}", regpat, dtpd._line_num);
+        assert!(dt_pattern_has_second(dtpat), "dt_pattern does not have a second {:?}; declared at line {}", dtpat, dtpd._line_num);
+        // check fractional (optional but must agree)
+        let rp_ss = regex_pattern_has_fractional(regpat);
+        let dp_ss = dt_pattern_has_fractional(dtpat);
+        assert_eq!(rp_ss, dp_ss, "regex pattern fractional {}, datetime pattern fractional {} (they must agree); declared at line {}", rp_ss, dp_ss, dtpd._line_num);
+        // check timezone
+        if dtfs.has_tz() {
+            assert!(regex_pattern_has_tz(regpat), "regex_pattern has not timezone {:?} but tz is true; declared at line {}", regpat, dtpd._line_num);
+            assert!(dt_pattern_has_tz(dtpat), "dt_pattern has not timezone {:?} but tz is true; declared at line {}", dtpat, dtpd._line_num);
+        } else {
+            assert!(!regex_pattern_has_tz(regpat), "regex_pattern has timezone {:?} but tz is false; declared at line {}", regpat, dtpd._line_num);
+            // tz '%:z' is added to all `pattern` for `captures_to_buffer`
+            assert!(dt_pattern_has_tz_fill(dtpat), "dt_pattern does not have fill timezone {:?}; declared at line {}", dtpat, dtpd._line_num);
+            assert!(dtfs.tz == DTFS_Tz::_fill, "has_tz() so expected tz {:?} found {:?}; declared at line {}", dtfs.tz, DTFS_Tz::_fill, dtpd._line_num);
+        }
+        assert!(dt_pattern_has_tz(dtpat), "dt_pattern does not have a timezone {:?}; declared at line {}", dtpat, dtpd._line_num);
+        // check cgn_first
+        assert!(regpat.contains(dtpd.cgn_first), "cgn_first {:?} but not contained in regex {:?}; declared at line {}", dtpd.cgn_first, regpat, dtpd._line_num);
+        assert!(CGN_ALL_.iter().any(|x| x == &dtpd.cgn_first), "cgn_first {:?} not in CGN_ALL_ {:?}; declared at line {}", dtpd.cgn_first, &CGN_ALL_, dtpd._line_num);
+        let mut cgn_first_i: usize = usize::MAX;
+        let mut cgn_first_s: &str = "";
+        for cgn in CGN_ALL_.iter() {
+            match regpat.find(cgn) {
+                Some(i) => {
+                    if i < cgn_first_i {
+                        cgn_first_s = cgn;
+                        cgn_first_i = i;
+                    }
+                }
+                None => {},
+            }
+        }
+        assert_eq!(cgn_first_s, dtpd.cgn_first, "cgn_first is {:?}, but analysis of the regexp found the first capture named group {:?}; declared at line {}", dtpd.cgn_first, cgn_first_s, dtpd._line_num);
+        // check cgn_last
+        assert!(regpat.contains(dtpd.cgn_last), "cgn_last {:?} but not contained in regex {:?}; declared at line {}", dtpd.cgn_last, regpat, dtpd._line_num);
+        assert!(CGN_ALL_.iter().any(|x| x == &dtpd.cgn_last), "cgn_last {:?} not in CGN_ALL_ {:?}; declared at line {}", dtpd.cgn_last, &CGN_ALL_, dtpd._line_num);
+        let mut cgn_last_i: usize = 0;
+        let mut cgn_last_s: &str = "";
+        for cgn in CGN_ALL_.iter() {
+            match regpat.find(cgn) {
+                Some(i) => {
+                    if i > cgn_last_i {
+                        cgn_last_s = cgn;
+                        cgn_last_i = i;
+                    }
+                }
+                None => {},
+            }
+        }
+        assert_eq!(cgn_last_s, dtpd.cgn_last, "cgn_last is {:?}, but analysis of the regexp found the last capture named group {:?}; declared at line {}", dtpd.cgn_last, cgn_last_s, dtpd._line_num);
+        // check left-brackets and right-brackets are equally present and on correct sides
+        match regpat.find(RP_LB) {
+            Some(lb_i) => {
+                let rb_i = match regpat.find(RP_RB) {
+                    Some(i) => i,
+                    None => {
+                        panic!("regex pattern has RP_LB at {} but no RP_RB found; declared at line {}", lb_i, dtpd._line_num);
+                    }
+                };
+                assert_lt!(lb_i, rb_i, "regex pattern has RP_LB (left bracket) at {}, RP_RB (right bracket) at {}; declared at line {}", lb_i, rb_i, dtpd._line_num);
+            }
+            None => {},
+        }
+        match regpat.find(RP_RB) {
+            Some(_) => {
+                match regpat.find(RP_LB) {
+                    Some(_) => {},
+                    None => {
+                        panic!("regex pattern has RP_RB (right bracket) no RP_LB (left bracket) found; declared at line {}", dtpd._line_num);
+                    }
+                }
+            }
+            None => {},
         }
     }
     // check for duplicates
-    let mut check = DATETIME_PARSE_DATAS_VEC.clone();
+    let mut check: Vec<DateTime_Parse_Data> = Vec::<DateTime_Parse_Data>::from(DATETIME_PARSE_DATAS);
+    let check_orig: Vec<DateTime_Parse_Data> = Vec::<DateTime_Parse_Data>::from(DATETIME_PARSE_DATAS);
     check.sort_unstable();
-    let check_orig = check.clone();
     check.dedup();
-    //let check: DateTime_Parse_Datas_vec = DATETIME_PARSE_DATAS.into_iter().unique().collect();
     if check.len() != DATETIME_PARSE_DATAS.len() {
         for (i, (co, cd)) in check_orig.iter().zip(check.iter()).enumerate() {
             eprintln!("entry {} {:?} {:?}", i, co, cd);
@@ -76,6 +317,25 @@ fn test_DATETIME_PARSE_DATAS() {
         }
     };
     assert_eq!(check.len(), DATETIME_PARSE_DATAS.len(), "the deduplicated DATETIME_PARSE_DATAS_VEC is different len than original; there are duplicates in DATETIME_PARSE_DATAS_VEC but the test could not determine which entry.");
+    // another check for duplicates
+    assert!(has_unique_elements(check), "DATETIME_PARSE_DATAS has repeat element(s); this should have been caught");
+}
+
+#[test]
+fn test_DATETIME_PARSE_DATAS_test_cases() {
+    for (index, dtpd) in DATETIME_PARSE_DATAS.iter().enumerate() {
+        eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
+        let data = dtpd._test_case;
+        let tz = FixedOffset::east_opt(60 * 60).unwrap();
+        match str_to_regex_to_datetime(data, &index, &tz) {
+            Some(capdata) => {
+                eprintln!("Passed dtpd declared at line {} result {:?}, test data {:?}", dtpd._line_num, capdata, data);
+            },
+            None => {
+                panic!("Failed dtpd declared at line {}\ntest data {:?}\nregex \"{}\"", dtpd._line_num, data, dtpd.regex_pattern);
+            }
+        }
+    }
 }
 
 #[test]
@@ -139,7 +399,7 @@ fn test_dt_pass_filters_fixedoffset2() {
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = FixedOffset::west(3600 * 2);
-        str_datetime(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
+        datetime_parse_from_str(s, "%Y%m%dT%H%M%S", true, false, &tzo).unwrap()
     }
 
     for (da, dt, db, exp_result) in [
@@ -213,7 +473,7 @@ fn test_dt_pass_filters_z() {
 
     fn DTLz(s: &str) -> DateTimeL {
         let dummy = FixedOffset::east(0);
-        str_datetime(s, "%Y%m%dT%H%M%S%z", true, &dummy).unwrap()
+        datetime_parse_from_str(s, "%Y%m%dT%H%M%S%z", true, true, &dummy).unwrap()
     }
 
     for (da, dt, db, exp_result) in [
@@ -323,7 +583,7 @@ fn test_dt_after_or_before() {
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = FixedOffset::west(3600 * 8);
-        str_datetime(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
+        datetime_parse_from_str(s, "%Y%m%dT%H%M%S", true, false, &tzo).unwrap()
     }
 
     for (dt, da, exp_result) in [

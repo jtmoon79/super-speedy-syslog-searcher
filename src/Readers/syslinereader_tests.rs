@@ -6,6 +6,10 @@ use crate::common::{
     ResultS4,
 };
 
+use crate::Data::sysline::{
+    SyslineP,
+};
+
 use crate::Readers::blockreader::{
     FileOffset,
     BlockSz,
@@ -22,20 +26,26 @@ use crate::Readers::helpers::{
 };
 
 use crate::Readers::syslinereader::{
-    SyslineP,
     SyslineReader,
     ResultS4_SyslineFind,
 };
 
 use crate::Data::datetime::{
-    FixedOffset,
+    // chrono imports
     TimeZone,
-    dt_pattern_has_tz,
-    str_datetime,
-    DateTimePattern,
+    FixedOffset,
+    //
     DateTimeL,
     DateTimeL_Opt,
+    DateTimePattern_str,
     Result_Filter_DateTime2,
+    datetime_parse_from_str,
+};
+
+#[cfg(test)]
+use crate::Data::datetime_tests::{
+    dt_pattern_has_year,
+    dt_pattern_has_tz,
 };
 
 #[cfg(test)]
@@ -183,7 +193,7 @@ type _test_find_sysline_at_datetime_filter_Checks<'a> = Vec<(FileOffset, &'a str
 #[cfg(test)]
 fn __test_find_sysline_at_datetime_filter(
     file_content: String,
-    dt_pattern: DateTimePattern,
+    dt_pattern: &DateTimePattern_str,
     blocksz: BlockSz,
     checks: _test_find_sysline_at_datetime_filter_Checks,
 ) {
@@ -195,9 +205,10 @@ fn __test_find_sysline_at_datetime_filter(
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
     for (fo1, dts, sline_expect) in checks.iter() {
         // TODO: add `has_tz` to `checks`, remove this
-        let has_tz = dt_pattern_has_tz(dt_pattern.as_str());
-        eprintln!("{}str_datetime({:?}, {:?}, {:?}, {:?})", so(), str_to_String_noraw(dts), dt_pattern, has_tz, &tzo);
-        let dt = match str_datetime(dts, dt_pattern.as_str(), has_tz, &tzo) {
+        let has_year = dt_pattern_has_year(&dt_pattern);
+        let has_tz = dt_pattern_has_tz(&dt_pattern);
+        eprintln!("{}datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", so(), str_to_String_noraw(dts), dt_pattern, has_tz, &tzo);
+        let dt = match datetime_parse_from_str(dts, dt_pattern, has_year, has_tz, &tzo) {
             Some(val) => val,
             None => {
                 panic!("ERROR: datetime_from_str({:?}, {:?}) returned None", dts, dt_pattern);
@@ -249,7 +260,7 @@ fn _test_find_sysline_at_datetime_filter(
 ) {
     stack_offset_set(None);
     eprintln!("{}_test_find_sysline_at_datetime_filter()", sn());
-    let dt_fmt1: DateTimePattern = String::from("%Y-%m-%d %H:%M:%S");
+    let dt_fmt1: &DateTimePattern_str = "%Y-%m-%d %H:%M:%S";
     let file_content1 = String::from(
         "\
 2020-01-01 00:00:00
@@ -2589,7 +2600,7 @@ fn test_SyslineReader_find_sysline_in_block__1_FF() {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 #[test]
-fn test_str_datetime() {
+fn test_datetime_parse_from_str() {
     let hour = 3600;
     let tzo8 = FixedOffset::west(3600 * 8);
     let tzo5 = FixedOffset::east(3600 * 5);
@@ -2597,34 +2608,34 @@ fn test_str_datetime() {
     // good without timezone
     let dts1 = "2000-01-01 00:01:01";
     let p1 = "%Y-%m-%d %H:%M:%S";
-    let dt1 = str_datetime(dts1, p1, false, &tzo8).unwrap();
+    let dt1 = datetime_parse_from_str(dts1, p1, true, false, &tzo8).unwrap();
     let answer1 = tzo8.ymd(2000, 1, 1).and_hms(0, 1, 1);
     assert_eq!(dt1, answer1);
 
     // good without timezone
     let dts1 = "2000-01-01 00:02:01";
     let p1 = "%Y-%m-%d %H:%M:%S";
-    let dt1 = str_datetime(dts1, p1, false, &tzo5).unwrap();
+    let dt1 = datetime_parse_from_str(dts1, p1, true, false, &tzo5).unwrap();
     let answer1 = tzo5.ymd(2000, 1, 1).and_hms(0, 2, 1);
     assert_eq!(dt1, answer1);
 
     // good with timezone
     let dts2 = "2000-01-01 00:00:02 -0100";
     let p2 = "%Y-%m-%d %H:%M:%S %z";
-    let dt2 = str_datetime(dts2, p2, true, &tzo8).unwrap();
+    let dt2 = datetime_parse_from_str(dts2, p2, true, true, &tzo8).unwrap();
     let answer2 = FixedOffset::west(hour).ymd(2000, 1, 1).and_hms(0, 0, 2);
     assert_eq!(dt2, answer2);
 
     // bad with timezone
     let dts3 = "2000-01-01 00:00:03 BADD";
     let p3 = "%Y-%m-%d %H:%M:%S %z";
-    let dt3 = str_datetime(dts3, p3, true, &tzo8);
+    let dt3 = datetime_parse_from_str(dts3, p3, true, true, &tzo8);
     assert_eq!(dt3, None);
 
     // bad without timezone
     let dts4 = "2000-01-01 00:00:XX";
     let p4 = "%Y-%m-%d %H:%M:%S";
-    let dt4 = str_datetime(dts4, p4, false, &tzo8);
+    let dt4 = datetime_parse_from_str(dts4, p4, true, false, &tzo8);
     assert_eq!(dt4, None);
 }
 
@@ -2659,7 +2670,7 @@ fn test_datetime_soonest2() {
     assert!(val.is_none());
     let tzo = FixedOffset::west(3600 * 8);
 
-    let dt1_a = str_datetime("2001-01-01T12:00:00", "%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
+    let dt1_a = datetime_parse_from_str("2001-01-01T12:00:00", "%Y-%m-%dT%H:%M:%S", true, false, &tzo).unwrap();
     let vec1: Vec<DateTimeL> = vec![dt1_a];
     let (i_, dt_) = match datetime_soonest2(&vec1) {
         Some(val) => val,
@@ -2670,7 +2681,7 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 0);
     assert_eq!(dt_, dt1_a);
 
-    let dt1_b = str_datetime("2001-01-01T12:00:00-0100", "%Y-%m-%dT%H:%M:%S%z", true, &tzo).unwrap();
+    let dt1_b = datetime_parse_from_str("2001-01-01T12:00:00-0100", "%Y-%m-%dT%H:%M:%S%z", true, true, &tzo).unwrap();
     let vec1: Vec<DateTimeL> = vec![dt1_b];
     let (i_, dt_) = match datetime_soonest2(&vec1) {
         Some(val) => val,
@@ -2681,7 +2692,7 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 0);
     assert_eq!(dt_, dt1_b);
 
-    let dt2_a = str_datetime("2002-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
+    let dt2_a = datetime_parse_from_str("2002-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S", true, false, &tzo).unwrap();
     let vec2a: Vec<DateTimeL> = vec![dt1_a, dt2_a];
     let (i_, dt_) = match datetime_soonest2(&vec2a) {
         Some(val) => val,
@@ -2702,7 +2713,7 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 1);
     assert_eq!(dt_, dt1_a);
 
-    let dt3 = str_datetime("2000-01-01T12:00:00", "%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
+    let dt3 = datetime_parse_from_str("2000-01-01T12:00:00", "%Y-%m-%dT%H:%M:%S", true, false, &tzo).unwrap();
     let vec3a: Vec<DateTimeL> = vec![dt1_a, dt2_a, dt3];
     let (i_, dt_) = match datetime_soonest2(&vec3a) {
         Some(val) => val,

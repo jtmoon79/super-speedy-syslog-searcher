@@ -2,6 +2,7 @@
 //
 
 use crate::common::{
+    FileOffset,
     FPath,
     Bytes,
 };
@@ -14,12 +15,14 @@ use crate::Readers::filepreprocessor::{
     guess_filetype_from_fpath,
 };
 
-use crate::Readers::linereader::{
-    FileOffset,
-    ResultS4_LineFind,
-    LineReader,
+use crate::Data::line::{
     LineIndex,
     enum_BoxPtrs,
+};
+
+use crate::Readers::linereader::{
+    LineReader,
+    ResultS4_LineFind,
 };
 
 #[cfg(test)]

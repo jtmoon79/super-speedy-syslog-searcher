@@ -1,7 +1,7 @@
 // Readers/linereader.rs
 //
 
-pub use crate::common::{
+use crate::common::{
     Count,
     FPath,
     FileOffset,
@@ -16,7 +16,7 @@ use crate::common::{
     ResultS4,
 };
 
-pub use crate::Data::line::{
+use crate::Data::line::{
     LineIndex,
     Line,
     LineP,

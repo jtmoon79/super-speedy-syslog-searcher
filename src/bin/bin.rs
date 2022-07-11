@@ -66,9 +66,11 @@ use s4lib::common::{
 
 use s4lib::Data::datetime::{
     DateTimeL_Opt,
-    DateTime_Parse_Data_str,
-    DateTime_Parse_Data_str_to_DateTime_Parse_Data,
-    str_datetime,
+    DateTimePattern_str,
+    DateTime_Parse_Data,
+    Range_LineIndex,
+    datetime_parse_from_str,
+    DATETIME_PARSE_DATAS,
 };
 
 use s4lib::printer_debug::stack::{
@@ -89,6 +91,11 @@ use s4lib::printer::printers::{
     Printer_Sysline,
     print_colored_stderr,
     write_stdout,
+};
+
+use s4lib::Data::sysline::{
+    SyslineP,
+    SyslineP_Opt,
 };
 
 use s4lib::Readers::blockreader::{
@@ -114,8 +121,6 @@ use s4lib::Readers::summary::{
 };
 
 use s4lib::Readers::syslinereader::{
-    SyslineP,
-    SyslineP_Opt,
     ResultS4_SyslineFind,
 };
 
@@ -145,44 +150,50 @@ enum CLI_Color_Choice {
     never,
 }
 
-const CLI_DT_FILTER_PATTERN1: &DateTime_Parse_Data_str = &("%Y%m%dT%H%M%S", true, false, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN2: &DateTime_Parse_Data_str = &("%Y%m%dT%H%M%S%z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN3: &DateTime_Parse_Data_str = &("%Y%m%dT%H%M%S%Z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN4: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S", true, false, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN5: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S %z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN6: &DateTime_Parse_Data_str = &("%Y-%m-%d %H:%M:%S %Z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN7: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S", true, false, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN8: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S %z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN9: &DateTime_Parse_Data_str = &("%Y-%m-%dT%H:%M:%S %Z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN10: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S", true, false, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN11: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S %z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN12: &DateTime_Parse_Data_str = &("%Y/%m/%d %H:%M:%S %Z", true, true, 0, 0, 0, 0);
-const CLI_DT_FILTER_PATTERN13: &DateTime_Parse_Data_str = &("%s", false, false, 0, 0, 0, 0);
+/// subset of `DateTime_Parse_Data` for calls to `datetime_parse_from_str`
+type CLI_DT_Filter_Pattern<'b> = (
+    &'b DateTimePattern_str,
+    bool,
+    bool,
+);
+
+const CLI_DT_FILTER_PATTERN1: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S", true, false);
+const CLI_DT_FILTER_PATTERN2: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%z", true, true);
+const CLI_DT_FILTER_PATTERN3: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%Z", true, true);
+const CLI_DT_FILTER_PATTERN4: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S", true, false);
+const CLI_DT_FILTER_PATTERN5: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %z", true, true);
+const CLI_DT_FILTER_PATTERN6: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %Z", true, true);
+const CLI_DT_FILTER_PATTERN7: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false);
+const CLI_DT_FILTER_PATTERN8: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %z", true, true);
+const CLI_DT_FILTER_PATTERN9: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", true, true);
+const CLI_DT_FILTER_PATTERN10: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false);
+const CLI_DT_FILTER_PATTERN11: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true);
+const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true);
+const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%s", false, false);
 // TODO: [2022/06/07] allow passing only a date, fills HMS with 000
-//const CLI_DT_FILTER_PATTERN13: &DateTime_Parse_Data_str = &("%Y/%m/%d", true, false, 0, 0, 0, 0);
-//const CLI_DT_FILTER_PATTERN14: &DateTime_Parse_Data_str = &("%Y-%m-%d", true, false, 0, 0, 0, 0);
-//const CLI_DT_FILTER_PATTERN15: &DateTime_Parse_Data_str = &("%Y%m%d", true, false, 0, 0, 0, 0);
+// TODO: [2022/06/19] allow passing three-letter TZ abbreviation
+//const CLI_DT_FILTER_PATTERN13: &CLI_DT_Filter_Pattern = &("%Y/%m/%d", true, false);
+//const CLI_DT_FILTER_PATTERN14: &CLI_DT_Filter_Pattern = &("%Y-%m-%d", true, false);
+//const CLI_DT_FILTER_PATTERN15: &CLI_DT_Filter_Pattern = &("%Y%m%d", true, false);
 const CLI_FILTER_PATTERNS_COUNT: usize = 13;
 /// acceptable datetime filter patterns for the user-passed `-a` or `-b`
-const CLI_FILTER_PATTERNS: [&DateTime_Parse_Data_str; CLI_FILTER_PATTERNS_COUNT] = [
-    CLI_DT_FILTER_PATTERN1,
-    CLI_DT_FILTER_PATTERN2,
-    CLI_DT_FILTER_PATTERN3,
-    CLI_DT_FILTER_PATTERN4,
-    CLI_DT_FILTER_PATTERN5,
-    CLI_DT_FILTER_PATTERN6,
-    CLI_DT_FILTER_PATTERN7,
-    CLI_DT_FILTER_PATTERN8,
-    CLI_DT_FILTER_PATTERN9,
-    CLI_DT_FILTER_PATTERN10,
-    CLI_DT_FILTER_PATTERN11,
-    CLI_DT_FILTER_PATTERN12,
-    CLI_DT_FILTER_PATTERN13,
+const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
+    &CLI_DT_FILTER_PATTERN1,
+    &CLI_DT_FILTER_PATTERN2,
+    &CLI_DT_FILTER_PATTERN3,
+    &CLI_DT_FILTER_PATTERN4,
+    &CLI_DT_FILTER_PATTERN5,
+    &CLI_DT_FILTER_PATTERN6,
+    &CLI_DT_FILTER_PATTERN7,
+    &CLI_DT_FILTER_PATTERN8,
+    &CLI_DT_FILTER_PATTERN9,
+    &CLI_DT_FILTER_PATTERN10,
+    &CLI_DT_FILTER_PATTERN11,
+    &CLI_DT_FILTER_PATTERN12,
+    &CLI_DT_FILTER_PATTERN13,
 ];
 /// datetime format printed for CLI options `-u` or `-l`
 const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z:";
-
-// TODO: [2022/06/19] allow passing three-letter TZ abbreviation
 
 const CLI_HELP_AFTER: &str = "\
 DateTime Filter patterns may be:
@@ -422,16 +433,12 @@ fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeL_Opt {
     match dts {
         Some(dts) => {
             let mut dto: DateTimeL_Opt = None;
-            for dtpds in CLI_FILTER_PATTERNS.iter() {
-                let dtpd = DateTime_Parse_Data_str_to_DateTime_Parse_Data(dtpds);
-                debug_eprintln!("{}str_datetime({:?}, {:?}, {:?}, {:?})", so(), dts, dtpd.pattern, dtpd.tz, tz_offset);
+            for cfp in CLI_FILTER_PATTERNS.iter() {
+                debug_eprintln!("{}datetime_parse_from_str({:?}, {:?}, {:?})", so(), dts, cfp, tz_offset);
                 #[allow(clippy::single_match)]
-                match str_datetime(dts.as_str(), &dtpd.pattern, dtpd.tz, tz_offset) {
-                    Some(val) => {
-                        dto = Some(val);
-                        break;
-                    }
-                    _ => {}
+                if let Some(val) = datetime_parse_from_str(dts.as_str(), cfp.0, cfp.1, cfp.2, tz_offset) {
+                    dto = Some(val);
+                    break;
                 };
             };
             if dto.is_none() {
@@ -944,7 +951,7 @@ impl SummaryPrinted {
     }
 
     /// update a `SummaryPrinted` with information from a printed `Sysline`
-    /// 
+    ///
     /// TODO: 2022/06/21 any way to avoid a `DateTime` copy on every printed sysline?
     fn summaryprint_update(&mut self, syslinep: &SyslineP) {
         self.syslines += 1;
@@ -1226,7 +1233,7 @@ fn processing_loop(
 
     /// run `.recv` on many Receiver channels simultaneously using `crossbeam_channel::Select`
     /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
-    /// 
+    ///
     /// DONE: TODO: [2022/03/26] to avoid sending a new `FPath` on each channel send, instead have a single
     ///       Map<u32, FPath> that is referred to on "each side". The `u32` is the lightweight key sent
     ///       along the channel.
@@ -1577,11 +1584,14 @@ fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
             match (summary.SyslineReader_pattern_first, summary.SyslineReader_pattern_last) {
                 (Some(dt_first), Some(dt_last)) => {
                     eprintln!(
-                        "{}{}datetime first {:?}, datetime last {:?}",
-                        OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER,
-                        dt_first, dt_last,
+                        "{}{}datetime first {:?}",
+                        OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, dt_first,
                     );
-                },
+                    eprintln!(
+                        "{}{}datetime last  {:?}",
+                        OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, dt_last,
+                    );
+                }
                 (None, Some(_)) | (Some(_), None) => {
                     eprintln!("ERROR: only one of dt_first or dt_last fulfilled; this is unexpected.");
                 }
@@ -1589,7 +1599,8 @@ fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
             }
             // print datetime patterns
             for patt in summary.SyslineReader_patterns.iter() {
-                eprintln!("{}{}{:?}", OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, patt);
+                let dtpd: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*patt.0];
+                eprintln!("{}{}   @{} {} {:?}", OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, patt.0, patt.1, dtpd);
             }
         },
         None => {

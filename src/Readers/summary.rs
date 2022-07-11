@@ -1,10 +1,16 @@
 // Readers/summary.rs
 //
 
+#![allow(non_snake_case)]
+
 use crate::common::{
     Count,
     FileType,
     FileSz,
+};
+
+use crate::Data::datetime::{
+    DateTimeL_Opt,
 };
 
 use crate::Readers::blockreader::{
@@ -13,9 +19,8 @@ use crate::Readers::blockreader::{
     BLOCKSZ_MIN,
 };
 
-use crate::Data::datetime::{
-    DateTime_Parse_Datas_vec,
-    DateTimeL_Opt,
+use crate::Readers::syslinereader::{
+    DateTime_Pattern_Counts,
 };
 
 extern crate more_asserts;
@@ -66,7 +71,8 @@ pub struct Summary {
     /// `SyslineReader::_syslines_by_range_put`
     pub SyslineReader_syslines_by_range_put: Count,
     /// datetime patterns used by `SyslineReader`
-    pub SyslineReader_patterns: DateTime_Parse_Datas_vec,
+    /// TODO: change name to whatever is decided on
+    pub SyslineReader_patterns: DateTime_Pattern_Counts,
     /// datetime soonest seen (not necessarily reflective of entire file)
     pub SyslineReader_pattern_first: DateTimeL_Opt,
     /// datetime latest seen (not necessarily reflective of entire file)
@@ -136,7 +142,8 @@ impl Summary {
         SyslineReader_syslines_by_range_hit: Count,
         SyslineReader_syslines_by_range_miss: Count,
         SyslineReader_syslines_by_range_put: Count,
-        SyslineReader_patterns: DateTime_Parse_Datas_vec,
+        // TODO: change name to `SyslineReader_pattern_counts` or whatever var name is decided on
+        SyslineReader_patterns: DateTime_Pattern_Counts,
         SyslineReader_pattern_first: DateTimeL_Opt,
         SyslineReader_pattern_last: DateTimeL_Opt,
         SyslineReader_find_sysline_lru_cache_hit: Count,
