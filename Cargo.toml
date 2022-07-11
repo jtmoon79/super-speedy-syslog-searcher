@@ -71,6 +71,9 @@ flamegraph = "0.6.1"
 jetscii = "0.5.1"
 memchr = "2.4.1"
 
+# other helpful tools
+# cargo install --locked cargo-expand cargo-nextest
+
 [[bench]]
 name = "bench_decode_utf"
 harness = false
