@@ -1,6 +1,8 @@
 # CHANGELOG
 
-Manual changelog for super_speedy_syslog_searcher.
+Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/super-speedy-syslog-searcher).
+
+---
 
 <!-- Table of Contents updated by "Markdown All In One" extension for Visual Studio Code -->
 - [CHANGELOG](#changelog)
@@ -15,6 +17,8 @@ Manual changelog for super_speedy_syslog_searcher.
   - [0.0.21 - 2022-06-24](#0021---2022-06-24)
     - [New](#new-2)
     - [Fixes](#fixes-2)
+
+---
 
 ## Unreleased
 
