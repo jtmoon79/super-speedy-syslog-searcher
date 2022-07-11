@@ -51,6 +51,8 @@ pub struct Sysline {
     /// byte-based count
     ///
     /// datetime is presumed to be on first Line
+    ///
+    /// TODO: use `Range_LineIndex`
     pub(crate) dt_beg: LineIndex,
     /// index into `Line` where datetime string ends, one char past last character of datetime string
     ///

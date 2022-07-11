@@ -247,6 +247,7 @@ impl LinePart {
     }
 
     /// return Box pointer to slice of bytes in this `LinePart` from `a` to `b`
+    /// TODO: use `&Range_LineIndex`
     pub fn block_boxptr_ab(&self, a: &LineIndex, b: &LineIndex) -> Box<&[u8]> {
         debug_assert_lt!(a, b, "bad LineIndex");
         debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
