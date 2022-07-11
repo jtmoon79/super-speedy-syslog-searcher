@@ -2,7 +2,7 @@
 //
 // using `RangeMap` is surprisingly expensive, according to `tools/flamegraph.sh`
 // https://docs.rs/rangemap/latest/rangemap/
-// 
+//
 
 extern crate criterion;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};

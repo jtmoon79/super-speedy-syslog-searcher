@@ -1,7 +1,7 @@
 // bench_syslinereader.rs
 //
 // benchmark functions of `crate::Readers::syslinereader::SyslineReader`
-// 
+//
 
 extern crate s4lib;
 
