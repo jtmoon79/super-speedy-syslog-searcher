@@ -71,9 +71,8 @@ extern crate flate2;
 use flate2::read::GzDecoder;
 use flate2::GzHeader;
 
-// LAST WORKING HERE 2022/06/23 02:07:03
-// https://crates.io/crates/lzma-rs is the only pure rust crate. Others just interface
-// to liblzma which not ideal.
+// crate `lzma-rs` is the only pure rust crate.
+// Other crates interface to liblzma which not ideal.
 extern crate lzma_rs;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
