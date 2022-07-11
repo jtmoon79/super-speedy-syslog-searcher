@@ -8,11 +8,11 @@ Manual changelog for super_speedy_syslog_searcher.
     - [New](#new)
     - [Changes](#changes)
     - [Fixes](#fixes)
-  - [[0.0.22] - (2022-07-10)](#0022---2022-07-10)
+  - [[0.0.22] - 2022-07-10](#0022---2022-07-10)
     - [New](#new-1)
     - [Fixes](#fixes-1)
     - [Changes](#changes-1)
-  - [[0.0.21] - (2022-07-10)](#0021---2022-07-10)
+  - [[0.0.21] - 2022-06-24](#0021---2022-06-24)
     - [New](#new-2)
     - [Fixes](#fixes-2)
 
@@ -39,7 +39,7 @@ Manual changelog for super_speedy_syslog_searcher.
   Fix `LinePart::count_bytes`
 - (DEBUG) printers.rs fix `char_to_char_noraw` ([ced4667fd5f16682a46e70d435a9a473885c70b6])
 
-## [0.0.22] - (2022-07-10)
+## [0.0.22] - 2022-07-10
 
 ---
 
@@ -64,7 +64,7 @@ Manual changelog for super_speedy_syslog_searcher.
 - remove crate chain-cmp ([7109c46d835f4d6f32b6284681a6286b68179abc])
 - set `const` for funcs `slice_contains...` ([eeb20bb8431bf75c9e2be3fbba8e64daafae3098])
 
-## [0.0.21] - (2022-07-10)
+## [0.0.21] - 2022-06-24
 
 ---
 
