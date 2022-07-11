@@ -193,19 +193,23 @@ macro_rules! print_color_line {
     }
 }
 
-// XXX: this was a `fn -> Result<()>` but due to mutable and immutable error, it would not compile.
-//      So a macro is a decent workaround.
+// XXX: this was a `fn -> Result<()>` but due to mutable and immutable borrow error, it would not compile.
+//      So this macro is a decent workaround.
 /// helper to print a single line in color and highlight the datetime within the line
 macro_rules! print_color_line_highlight_dt {
     ($self:expr, $linep:expr, $dt_beg:expr, $dt_end:expr) => {
         {
             debug_assert_le!($dt_beg, $dt_end, "passed bad datetime_beg {:?} datetime_end {:?}", $dt_beg, $dt_end);
             let mut at: LineIndex = 0;
+            // this tedious indexing manual is faster than calling `line.get_boxptrs`
+            // especially since `$dt_beg` `$dt_end` is a sub-slice(s) of the total `Line` slice(s)
             for linepart in (*$linep).lineparts.iter() {
                 let slice: &[u8] = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
                 let at_end: usize = at + slice.len();
                 // datetime is entirely within one linepart
                 if at <= $dt_beg && $dt_end < at_end {
+                    assert_le!(($dt_beg-at), slice.len(), "at {} dt_beg {} (dt_beg-at {} > {} slice.len()) dt_end {} A", at, $dt_beg, $dt_beg-at, slice.len(), $dt_end);
+                    assert_le!(($dt_end-at), slice.len(), "at {} dt_beg {} dt_end {} (dt_end-at {} > {} slice.len()) A", at, $dt_beg, $dt_end, $dt_end-at, slice.len());
                     let slice_a = &slice[..($dt_beg-at)];
                     let slice_b_dt = &slice[($dt_beg-at)..($dt_end-at)];
                     let slice_c = &slice[($dt_end-at)..];
@@ -223,7 +227,8 @@ macro_rules! print_color_line_highlight_dt {
                         write_or_return!($self.stdout_color, slice_c);
                     }
                 // datetime begins in this linepart, extends into next linepart
-                } else if at <= $dt_beg && at_end <= $dt_end {
+                } else if at <= $dt_beg && $dt_beg < at_end && at_end <= $dt_end {
+                    assert_le!(($dt_beg-at), slice.len(), "at {} dt_beg {} (dt_beg-at {} > {} slice.len()) dt_end {} at_end {} B", at, $dt_beg, $dt_beg-at, slice.len(), $dt_end, at_end);
                     let slice_a = &slice[..($dt_beg-at)];
                     let slice_b_dt = &slice[($dt_beg-at)..];
                     // print line contents before the datetime
@@ -236,8 +241,9 @@ macro_rules! print_color_line_highlight_dt {
                         setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
                         write_or_return!($self.stdout_color, slice_b_dt);
                     }
-                // datetime began in previous linepart, extends into and ends within this linepart
-                } else if at <= $dt_end && $dt_end < at_end {
+                // datetime began in previous linepart, extends into this linepart and ends within this linepart
+                } else if $dt_beg < at && at <= $dt_end && $dt_end <= at_end {
+                    assert_le!(($dt_end-at), slice.len(), "at {} dt_beg {} dt_end {} (dt_end-at {} > {} slice.len()) C", at, $dt_beg, $dt_end, $dt_end-at, slice.len());
                     let slice_a_dt = &slice[..($dt_end-at)];
                     let slice_b = &slice[($dt_end-at)..];
                     // print line contents of the partial datetime
