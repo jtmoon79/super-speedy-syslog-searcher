@@ -58,7 +58,7 @@ fn new_BlockReader(path: FPath, blocksz: BlockSz) -> BlockReader {
 // -------------------------------------------------------------------------------------------------
 
 /// quick and dirty test of basic test of BlockReader things
-/// 
+///
 /// TODO: improve this: add proper checking with `assert`, allow other inputs
 #[allow(non_snake_case)]
 fn test_BlockReader(path: &FPath, blocksz: BlockSz) {
