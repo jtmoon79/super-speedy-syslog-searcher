@@ -35,18 +35,19 @@ pub use termcolor::{
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// turn passed u8 into char, for any char values that are CLI formatting instructions transform
-/// them to pictoral representations, e.g. '\n' returns a pictoral unicode representation '␊'
+/// them to pictoral representations, e.g. '\n' returns a pictoral unicode representation '␊'.
 ///
-/// only intended for debugging
+/// This is intended as an improvement of `fmt::Debug` display of `str` which control codes with
+/// backslash-escape sequences, e.g. '\n'. This function keeps the printing width of a control
+/// character to 1. This helps humans visually review various debug outputs.
+///
+/// only intended for visual debugging
+///
+/// XXX: is this implemented in std or in a crate?
 #[cfg(any(debug_assertions,test))]
 pub fn char_to_char_noraw(c: char) -> char {
-    if c.is_ascii_graphic() {
-        return c;
-    }
-    // https://www.fileformat.info/info/unicode/block/control_pictures/images.htm
     // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#C0_controls
-    let val: u32 = c as u32;
-    match val {
+    match c as u32 {
         0 => '␀',
         1 => '␁',
         2 => '␂',
@@ -80,12 +81,12 @@ pub fn char_to_char_noraw(c: char) -> char {
         30 => '␞',
         31 => '␟',
         127 => '␡',
-        _ => ' ',
+        _ => c,
     }
 }
 
 /// transform utf-8 byte (presumably) to non-raw char
-/// 
+///
 /// only intended for debugging
 #[cfg(any(debug_assertions,test))]
 pub fn byte_to_char_noraw(byte: u8) -> char {
@@ -93,7 +94,7 @@ pub fn byte_to_char_noraw(byte: u8) -> char {
 }
 
 /// transform buffer of utf-8 chars (presumably) to a non-raw String
-/// 
+///
 /// only intended for debugging
 #[allow(non_snake_case)]
 #[cfg(any(debug_assertions,test))]
@@ -114,7 +115,7 @@ pub fn buffer_to_String_noraw(buffer: &[u8]) -> String {
 }
 
 /// transform str to non-raw String version
-/// 
+///
 /// only intended for debugging
 #[allow(non_snake_case)]
 #[cfg(any(debug_assertions,test))]
