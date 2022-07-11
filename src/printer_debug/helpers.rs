@@ -64,7 +64,8 @@ pub fn create_temp_file_path(data: &str) -> FPath {
 //#[cfg(test)]
 lazy_static! {
     static ref STRING_TEMPFILE_PREFIX: String = String::from("tmp-s4-test-");
-    static ref STRING_TEMPFILE_SUFFFIX: String = String::from("");
+    // there is no `String::default` so create this just once
+    static ref STRING_TEMPFILE_SUFFIX: String = String::from("");
 }
 
 /// testing helper to write a `str` to a specially-named temporary file.
@@ -77,14 +78,14 @@ pub fn create_temp_file_with_name_rlen(
     rand_len: usize,
 ) -> NamedTempFile {
     let mut ntf = match tempfile::Builder::new()
-        .prefix::<str>(prefix.unwrap_or_else(|| &STRING_TEMPFILE_PREFIX).as_ref())
-        .suffix::<str>(suffix.unwrap_or_else(|| &STRING_TEMPFILE_SUFFFIX).as_ref())
+        .prefix::<str>(prefix.unwrap_or(&STRING_TEMPFILE_SUFFIX).as_ref())
+        .suffix::<str>(suffix.unwrap_or(&STRING_TEMPFILE_SUFFIX).as_ref())
         .rand_bytes(rand_len)
         .tempfile()
     {
         Ok(val) => val,
         Err(err) => {
-            panic!("NamedTempFile::new() return Err {}", err);
+            panic!("tempfile::Builder::new()..tempfile() return Err {}", err);
         }
     };
     match ntf.write_all(data) {
@@ -152,6 +153,8 @@ pub fn create_temp_file_bytes_path(data: &[u8]) -> FPath {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// testing helper to print the raw and noraw version of a file
+///
+/// only intended to help humans reading stderr output
 #[cfg(test)]
 pub fn eprint_file(path: &FPath) {
     let contents_file: String = match std::fs::read_to_string(path) {
