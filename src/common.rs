@@ -380,6 +380,14 @@ impl FileType {
             FileType::FILE_GZ | FileType::FILE_TAR_GZ | FileType::FILE_XZ
         )
     }
+
+    /// Returns `true` if the file is within an archived file
+    #[inline(always)]
+    pub const fn is_archived(&self) -> bool {
+        matches!(*self,
+            FileType::FILE_TAR | FileType::FILE_TAR_GZ
+        )
+    }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

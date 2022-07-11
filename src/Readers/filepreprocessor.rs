@@ -35,6 +35,8 @@ use debug_print::debug_eprintln;
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
+extern crate mime;
+
 extern crate mime_guess;
 pub use mime_guess::MimeGuess;
 
@@ -101,16 +103,35 @@ lazy_static! {
 /// (i.e. call `find_line`)
 pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     // see https://docs.rs/mime/latest/mime/
-    // see https://docs.rs/mime/latest/src/mime/lib.rs.html#572-575
+    // see https://docs.rs/mime/latest/src/mime/lib.rs.html
+    // see https://github.com/abonander/mime_guess/blob/f6d36d8531bef9ad86f3ee274f65a1a31ea4d9b4/src/mime_types.rs
     debug_eprintln!("{}mimeguess_to_filetype_str: mimeguess {:?}", snx(), mimeguess_str);
-    match mimeguess_str {
-        "plain"
-        | "text"
-        | "text/plain"
-        | "text/*"
-        | "utf-8" => FileType::FILE,
-        "application/gzip" => FileType::FILE_GZ,
-        "application/x-xz" => FileType::FILE_XZ,
+    let lower = mimeguess_str.to_lowercase();
+    //
+    const plain: &str = "plain"; //mime::PLAIN.as_str();
+    const text: &str = "text"; //mime::TEXT.as_str();
+    const text_plain: &str = "text/plain"; //mime::TEXT_PLAIN.to_string().as_str();
+    const text_plain_utf8: &str = "text/plain; charset=utf-8"; //mime::TEXT_PLAIN_UTF_8.to_string().as_str();
+    const text_star: &str = "text/*"; //mime::TEXT_STAR.to_string().as_str();
+    const utf8_: &str = "utf-8"; //mime::UTF_8.as_str();
+    //
+    const app_gzip: &str = "application/gzip";
+    //
+    const app_x_xz: &str = "application/x-xz";
+    //
+    const app_tar: &str = "application/x-tar";
+
+    // LAST WORKING HERE 2022/07/10 00:24:49 beginning of implementation of handling tar files
+    match lower.as_str() {
+        plain
+        | text
+        | text_plain
+        | text_plain_utf8
+        | text_star
+        | utf8_ => FileType::FILE,
+        app_gzip => FileType::FILE_GZ,
+        app_tar => FileType::FILE_TAR,
+        app_x_xz => FileType::FILE_XZ,
         _ => FileType::FILE_UNKNOWN,
     }
 }
@@ -201,6 +222,15 @@ pub fn path_to_filetype(path: &std::path::Path) -> FileType {
         return FileType::FILE_GZ;
     }
 
+    // FILE_TAR
+
+    // for example, `var-log.tar.old`
+    // TODO: this should be handled in `guess_filetype_from_path`, can be removed
+    if file_suffix_s.ends_with(".tar.old") {
+        debug_eprintln!("{}path_to_filetype: return FILE_TAR; .tar.old", sx());
+        return FileType::FILE_TAR;
+    }
+
     debug_eprintln!("{}path_to_filetype: return FILE_UNKNOWN", sx());
 
     FileType::FILE_UNKNOWN
@@ -223,11 +253,11 @@ pub fn parseable_filetype(filetype: &FileType) -> FileParseable {
     match filetype {
         // `YES` is effectively the list of currently supported file types
         &FileType::FILE
-        | &FileType::FILE_XZ
         | &FileType::FILE_GZ
+        | &FileType::FILE_XZ
+        | &FileType::FILE_TAR
         => FileParseable::YES,
         // `NOT_SUPPORTED` is the list of "Someday this program should support this file type"
-        &FileType::FILE_TAR
         | &FileType::FILE_TAR_GZ
         => FileParseable::NO_NOT_SUPPORTED,
         // etc.

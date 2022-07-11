@@ -845,6 +845,11 @@ impl BlockReader {
                 );
                 debug_eprintln!("{}BlockReader::new: created {:?}", so(), xz_opt.as_ref().unwrap());
             },
+            FileType::FILE_TAR => {
+                blocksz = blocksz_;
+                debug_eprintln!("{0}BlockReader::new: FILE_TAR: blocksz set to {1} (0x{1:08X}) (passed {2} (0x{2:08X})", so(), blocksz, blocksz_);
+                filesz_actual = 0;
+            }
             _ => {
                 return Result::Err(
                     Error::new(
@@ -902,7 +907,8 @@ impl BlockReader {
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
             FileType::FILE_GZ
-            | FileType::FILE_XZ => {
+            | FileType::FILE_XZ
+            | FileType::FILE_TAR => {
                 self.filesz_actual
             },
             FileType::FILE => {
@@ -1401,11 +1407,24 @@ impl BlockReader {
         ResultS3_ReadBlock::Done
     }
 
+    /// read a block of data from a file within a .tar archive file
+    /// `blockoffset` refers to the uncompressed/untarred version of the file.
+    ///
+    /// called from `read_block`
+    fn read_block_FILE_TAR(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
+        debug_eprintln!("{}read_block_FILE_TAR({})", sn(), blockoffset);
+        assert_eq!(self.filetype, FileType::FILE_TAR, "wrong FileType {:?} for calling read_block_FILE_TAR", self.filetype);
+
+        debug_eprintln!("{}read_block_FILE_TAR({}): return Done", sx(), blockoffset);
+
+        ResultS3_ReadBlock::Done
+    }
+
     /// read a `Block` of data of max size `self.blocksz` from the file.
     /// Successful read returns `Found(BlockP)`.
-    /// 
+    ///
     /// When reached the end of the file, and no data was read returns `Done`.
-    /// 
+    ///
     /// All other `File` and `std::io` errors are propagated to the caller in `Err`
     pub fn read_block(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         debug_eprintln!(
@@ -1469,6 +1488,9 @@ impl BlockReader {
             },
             FileType::FILE_XZ => {
                 self.read_block_FILE_XZ(blockoffset)
+            },
+            FileType::FILE_TAR => {
+                self.read_block_FILE_TAR(blockoffset)
             },
             _ => {
                 panic!("Unsupported filetype {:?}", self.filetype);
