@@ -2065,13 +2065,60 @@ pub fn dt_pass_filters(
             return Result_Filter_DateTime2::AfterRange;
         }
         debug_eprintln!("{}dt_pass_filters(…) return Result_Filter_DateTime2::InRange;", sx());
-        return Result_Filter_DateTime2::InRange;
+
+        Result_Filter_DateTime2::InRange
     }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// helper functions - search a slice quickly (loop unroll version)
+// search a slice quickly (loop unroll version)
+// loop unrolled implementation of `slice.contains` for a byte slice and a hardcorded array
+// benchmark `benches/bench_slice_contains.rs` demonstrates this is faster
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_2_2(slice_: &[u8; 2], search: &[u8; 2]) -> bool {
+    for i in 0..1 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_3_2(slice_: &[u8; 3], search: &[u8; 2]) -> bool {
+    for i in 0..2 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_4_2(slice_: &[u8; 4], search: &[u8; 2]) -> bool {
+    for i in 0..3 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_5_2(slice_: &[u8; 5], search: &[u8; 2]) -> bool {
+    for i in 0..4 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
 
 #[inline(always)]
 #[unroll_for_loops]
@@ -2459,10 +2506,14 @@ const fn slice_contains_40_2(slice_: &[u8; 40], search: &[u8; 2]) -> bool {
 }
 
 /// loop unrolled implementation of `slice.contains` for a byte slice and a hardcorded array
-/// benchmark `benches/bench_slice_contains.rs` demonstrates this is faster
+/// runs very fast for slices up to 40 chars
 #[inline(always)]
 pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
     match slice_.len() {
+        2 => slice_contains_2_2(array_ref!(slice_, 0, 2), search),
+        3 => slice_contains_3_2(array_ref!(slice_, 0, 3), search),
+        4 => slice_contains_4_2(array_ref!(slice_, 0, 4), search),
+        5 => slice_contains_5_2(array_ref!(slice_, 0, 5), search),
         6 => slice_contains_6_2(array_ref!(slice_, 0, 6), search),
         7 => slice_contains_7_2(array_ref!(slice_, 0, 7), search),
         8 => slice_contains_8_2(array_ref!(slice_, 0, 8), search),
@@ -2499,12 +2550,7 @@ pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
         39 => slice_contains_39_2(array_ref!(slice_, 0, 39), search),
         40 => slice_contains_40_2(array_ref!(slice_, 0, 40), search),
         _ => {
-            for c in slice_.iter() {
-                if c == &search[0] || c == &search[1] {
-                    return true;
-                }
-            }
-            false
+            slice_.iter().any(|&c| c == search[0] || c == search[1])
         }
     }
 }
