@@ -1171,7 +1171,8 @@ impl BlockReader {
             Some(bo_) => *bo_,
             None => 0,
         };
-        // read entire file up to `blockoffset`, storing each decompressed block
+        // A gzip file must be read from beginning to end in sequence (cannot jump forward and read).
+        // So read entire file up to passed `blockoffset`, storing each decompressed block
         while bo_at <= blockoffset {
             // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
             // was *ever* read.
@@ -1306,7 +1307,8 @@ impl BlockReader {
             Some(bo_) => *bo_,
             None => 0,
         };
-        // read entire file up to `blockoffset`, storing each decompressed block
+        // An `.xz` file must read from beginning to end (cannot jump forward and read).
+        // So read entire file up to passed `blockoffset`, storing each decompressed block
         while bo_at <= blockoffset {
             // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
             // was *ever* read.
