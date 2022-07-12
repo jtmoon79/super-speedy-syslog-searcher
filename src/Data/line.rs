@@ -84,10 +84,10 @@ pub struct LinePart {
     /// the `Block` pointer
     pub blockp: BlockP,
     /// index into the `blockp`, index at beginning
-    /// used as-is in slice notation
+    /// used as-is in slice notation (inclusive)
     pub blocki_beg: BlockIndex,
     /// index into the `blockp`, index at one after ending '\n' (may refer to one past end of `Block`)
-    /// used as-is in slice notation
+    /// used as-is in slice notation (exclusive)
     pub blocki_end: BlockIndex,
     /// the byte offset into the file where this `LinePart` begins
     fileoffset: FileOffset,
@@ -237,36 +237,35 @@ impl LinePart {
     /// return Box pointer to slice of bytes that make up this `LinePart`
     pub fn block_boxptr(&self) -> Box<&[u8]> {
         let slice_ = &(*self.blockp).as_slice()[self.blocki_beg..self.blocki_end];
-        //let slice_ptr: *const &[u8] = **slice_;
+
         Box::new(slice_)
     }
 
-    /// return Box pointer to slice of bytes in this `LinePart` from `a` to end
+    /// return Box pointer to slice of bytes in this `LinePart` from `a` (inclusive) to end
     pub fn block_boxptr_a(&self, a: &LineIndex) -> Box<&[u8]> {
         debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
         debug_assert_le!(self.blocki_end, (*self.blockp).as_slice().len(), "self.blocki_end {} past end of slice.len() {}", self.blocki_end, (*self.blockp).as_slice().len());
         let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg+a)..self.blocki_end];
-        //let slice2 = &slice1[*a..];
+
         Box::new(slice1)
     }
 
-    /// return Box pointer to slice of bytes in this `LinePart` from beginning to `b`
+    /// return Box pointer to slice of bytes in this `LinePart` from beginning to `b` (exclusive)
     pub fn block_boxptr_b(&self, b: &LineIndex) -> Box<&[u8]> {
-        debug_assert_lt!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
+        debug_assert_le!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
         let slice1 = &(*self.blockp).as_slice()[..self.blocki_beg+b];
-        //let slice2 = &slice1[..*b];
+
         Box::new(slice1)
     }
 
-    /// return Box pointer to slice of bytes in this `LinePart` from `a` to `b`
-    /// TODO: use `&Range_LineIndex`
+    /// return Box pointer to slice of bytes in this `LinePart` from `a` (inclusive) to `b` (exclusive)
     pub fn block_boxptr_ab(&self, a: &LineIndex, b: &LineIndex) -> Box<&[u8]> {
-        debug_assert_lt!(a, b, "bad LineIndex");
+        debug_assert_le!(a, b, "bad LineIndex");
         debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
-        debug_assert_lt!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
-        debug_assert_lt!(b - a, self.len(), "Passed LineIndex {}..{} (diff {}) are larger than this LinePart 'slice' {}", a, b, b - a, self.len());
+        debug_assert_le!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
+        debug_assert_le!(b - a, self.len(), "Passed LineIndex {}‥{} (diff {}) are larger than this LinePart len {}", a, b, b - a, self.len());
         let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg+a)..(self.blocki_beg+b)];
-        //let slice2 = &slice1[*a..*b];
+
         Box::new(slice1)
     }
 }
@@ -537,7 +536,8 @@ impl Line {
     //           fn get_boxptrs(...) -> either::Either<Box<&[u8]>, Vec<Box<&[u8]>>>
     //      causes error `experimental Sized`
     //
-    // TODO: use `&Range_LineIndex`
+    // TODO: use `&Range_LineIndex` instead of `a` `b`
+    //
     /// get Box pointer(s) to an underlying `&[u8]` slice that is part of this `Line`.
     ///
     /// If slice is refers to one `Linepart` then return a single `Box` pointer.
@@ -550,10 +550,11 @@ impl Line {
     /// `Block` boundaries (and not being lazy and copying lots of bytes around).
     ///
     pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> LinePartPtrs<'_> {
-        debug_eprintln!("{}get_boxptrs(…, {}, {}), line.len() {} {:?}", sn(), a, b, self.len(), self.to_String_noraw());
+        debug_eprintln!("{}get_boxptrs(…, {}, {}), lineparts {} line.len() {} {:?}", sn(), a, b, self.lineparts.len(), self.len(), self.to_String_noraw());
         debug_assert_le!(a, b, "passed bad LineIndex pair");
         // simple case: `a, b` are past end of `Line`
         if self.len() <= a {
+            debug_eprintln!("{}get_boxptrs: return NoPtr", sx());
             return LinePartPtrs::NoPtr;
         }
         // ideal case: `a, b` are within one `linepart`
@@ -561,36 +562,47 @@ impl Line {
         let mut a_found = false;
         let mut a1: LineIndex = a;
         let mut b1: LineIndex = b;
+        // Box ptr to first `a` slice of `linepart`, also a flag for special case
         let mut bptr_a: Option<Box::<&[u8]>> = None;
         for linepart in &self.lineparts {
             let len_ = linepart.len();
-            if a1 < len_ && b1 < len_ && !a_found {
+            debug_eprintln!("{}get_boxptrs: next: a {}, b {}, len_ {}", so(), a1, b1, len_);
+            if a1 < len_ && b1 <= len_ && !a_found {
+                // ideal case, very efficient
                 debug_eprintln!("{}get_boxptrs: return SinglePtr({}, {})", sx(), a1, b1);
                 return LinePartPtrs::SinglePtr(linepart.block_boxptr_ab(&a1, &b1));
-            } else if a1 < len_ && len_ <= b1 && !a_found {
+            } else if a1 < len_ && len_ < b1 && !a_found {
                 a_found = true;
                 bptr_a = Some(linepart.block_boxptr_a(&a1));
                 b1 -= len_;
                 debug_eprintln!("{}get_boxptrs: a_found: bptr_a = block_boxptr_a({})", so(), a1);
-            } else if len_ <= b1 && a_found {
-                debug_eprintln!("{}get_boxptrs: break: a {} < {} && {} <= {} b && a_found", so(), a1, len_, len_, b1);
-                break;
-            } else if b1 < len_ && a_found {
+            } else if b1 <= len_ && a_found {
+                // harder case, pretty efficient
                 debug_eprintln!("{}get_boxptrs: return DoublePtr({}, {})", sx(), a1, b1);
                 return LinePartPtrs::DoublePtr((bptr_a.unwrap(), linepart.block_boxptr_b(&b1)));
+            } else if len_ < b1 && a_found {
+                debug_eprintln!("{}get_boxptrs: break: a {} < {} && {} < {} b && a_found", so(), a1, len_, len_, b1);
+                bptr_a = None;
+                break;
             } else if a_found {
                 debug_eprintln!("{}get_boxptrs: break: a_found", so());
+                bptr_a = None;
                 break;
             } else {
                 a1 -= len_;
                 b1 -= len_;
             }
-
-            debug_eprintln!("{}get_boxptrs: next: a {}, b {}, linepart.len was {}", so(), a1, b1, len_);
-        
         }
+        // handle special case where `b` is beyond last `lineparts` but `a` data is within last `linepart`
+        if bptr_a.is_some() {
+            debug_eprintln!("{}get_boxptrs: special case: return SinglePtr({})", sx(), a1);
+            return LinePartPtrs::SinglePtr(bptr_a.unwrap());
+        }
+
+        // previous searches failed, so it must be the hardest case.
+        // hardest case: `a, b` are among many `lineparts` (>=3 `Box` pointers required)
+        //               less efficient (requires a new `Vec`)
         debug_eprintln!("{}get_boxptrs: Vec::with_capacity({})", so(), self.lineparts.len());
-        // hardest case: `a, b` are among multiple `lineparts` (multiple `Box` pointers required)
         let mut a_found = false;
         let mut b_search = false;
         let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box::<&[u8]>>::with_capacity(self.lineparts.len());
@@ -601,13 +613,13 @@ impl Line {
                 a_found = true;
                 b_search = true;
                 if b < len_ {
-                    debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_ab({}, {})) @Block[{:?}..{:?}] @[{:?}..{:?}]", so(), a, b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
+                    debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_ab({}, {})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", so(), a, b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                     ptrs.push(linepart.block_boxptr_ab(&a, &b));  // store [a..b]  (entire slice, entire `Line`)
                     debug_assert_gt!(ptrs.len(), 1, "ptrs is {} elements, expected >= 1; this should have been handled earlier", ptrs.len());
                     debug_eprintln!("{}get_boxptrs: return MultiPtr {} ptrs", sx(), ptrs.len());
                     return LinePartPtrs::MultiPtr(ptrs);
                 }
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_a({})) @Block[{:?}..{:?}] @[{:?}..{:?}]", so(), a, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_a({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", so(), a, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                 ptrs.push(linepart.block_boxptr_a(&a));  // store [a..]  (first slice of `Line`)
                 b -= len_;
                 continue;
@@ -617,11 +629,11 @@ impl Line {
                 continue;
             }
             if b_search && b < len_ {
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_b({})) @Block[{:?}..{:?}] @[{:?}..{:?}]", so(), b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_b({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", so(), b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                 ptrs.push(linepart.block_boxptr_b(&b));  // store [..b] (last slice of `Line`)
                 break;
             } else  {
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr()) @Block[{:?}..{:?}] @[{:?}..{:?}]", so(), linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
+                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr()) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", so(), linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                 ptrs.push(linepart.block_boxptr());  // store [..] (entire slice, middle part of `Line`)
                 b -= len_;
             }
@@ -694,8 +706,6 @@ impl Line {
     /// XXX: very inefficient and not always correct! *only* intended to help humans visually
     ///      inspect stderr output
     ///
-    /// TODO: this would be more efficient returning `&str`
-    ///       https://bes.github.io/blog/rust-strings
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub(crate) fn _to_String_raw(self: &Line, raw: bool) -> String {

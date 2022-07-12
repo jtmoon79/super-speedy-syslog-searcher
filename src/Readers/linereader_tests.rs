@@ -16,6 +16,7 @@ use crate::Readers::filepreprocessor::{
 };
 
 use crate::Data::line::{
+    LineP,
     LineIndex,
     LinePartPtrs,
 };
@@ -59,6 +60,7 @@ use lazy_static::lazy_static;
 
 extern crate more_asserts;
 use more_asserts::{
+    assert_le,
     assert_lt,
     assert_ge,
 };
@@ -1642,14 +1644,15 @@ fn _test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &test_Line_get
     }
 
     // then test the `Line.get_boxptrs`
-    for (linenum, (a, b), bytes_check) in checks.iter() {
-        assert_lt!(a, b, "bad check args a {} b {}", a, b);
+    for (fileoffset, (a, b), bytes_check) in checks.iter() {
+        assert_le!(a, b, "bad check args a {} b {}", a, b);
         assert_ge!(b-a, bytes_check.len(), "Bad check args ({}-{})={} < {} bytes_check.len()", b, a, b-a, bytes_check.len());
-        eprintln!("{}{}: linereader.get_linep({})", so(), fn_, linenum);
-        let line = lr.get_linep(linenum).unwrap();
-        eprintln!("{}{}: returned {:?}", so(), fn_, line.to_String_noraw());
+        eprintln!("{}{}: linereader.get_linep({})", so(), fn_, fileoffset);
+        // get the `LineP` at `fileoffset`
+        let linep: LineP = lr.get_linep(fileoffset).unwrap();
+        eprintln!("{}{}: returned {:?}", so(), fn_, (*linep).to_String_noraw());
         eprintln!("{}{}: line.get_boxptrs({}, {})", so(), fn_, a, b);
-        let boxptrs = match line.get_boxptrs(*a, *b) {
+        let boxptrs = match (*linep).get_boxptrs(*a, *b) {
             LinePartPtrs::NoPtr => {
                 assert!(bytes_check.is_empty(), "Expected bytes_check {:?}, received NoPtr (no bytes)", bytes_check);
                 continue;
@@ -1664,12 +1667,13 @@ fn _test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &test_Line_get
                 boxes
             },
         };
+        // check the results, comparing byte by byte
         let mut at: usize = 0;
         for boxptr in boxptrs.iter() {
             for byte_ in (*boxptr).iter() {
                 let byte_check = &bytes_check[at];
                 eprintln!("{}{}: {:3?} ≟ {:3?} ({:?} ≟ {:?})", so(), fn_, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check));
-                assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segement {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_String_noraw(&(*boxptr)), line.to_String_noraw());
+                assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segement {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_String_noraw(&(*boxptr)), (*linep).to_String_noraw());
                 at += 1;
             }
         }
@@ -1702,6 +1706,44 @@ Two 2
     let fpath = NTF_Path(&ntf);
     let checks: test_Line_get_boxptrs_check = vec![
         // fileoffset, (a, b), check
+        //
+        (0, (0, 1), vec![b'O',]),
+        (0, (0, 2), vec![b'O', b'n']),
+        (0, (0, 3), vec![b'O', b'n', b'e']),
+        (0, (0, 4), vec![b'O', b'n', b'e', b' ']),
+        (0, (0, 5), vec![b'O', b'n', b'e', b' ', b'1']),
+        (0, (0, 6), vec![b'O', b'n', b'e', b' ', b'1', b'\n']),
+        //
+        (0, (1, 2), vec![b'n',]),
+        (0, (1, 3), vec![b'n', b'e']),
+        (0, (1, 4), vec![b'n', b'e', b' ']),
+        (0, (1, 5), vec![b'n', b'e', b' ', b'1']),
+        (0, (1, 6), vec![b'n', b'e', b' ', b'1', b'\n']),
+        //
+        (0, (2, 3), vec![b'e']),
+        (0, (2, 4), vec![b'e', b' ']),
+        (0, (2, 5), vec![b'e', b' ', b'1']),
+        (0, (2, 6), vec![b'e', b' ', b'1', b'\n']),
+        //
+        (0, (3, 4), vec![b' ']),
+        (0, (3, 5), vec![b' ', b'1']),
+        (0, (3, 6), vec![b' ', b'1', b'\n']),
+        //
+        (0, (4, 5), vec![b'1']),
+        (0, (4, 6), vec![b'1', b'\n']),
+        //
+        (0, (5, 5), vec![]),
+        (0, (5, 6), vec![b'\n']),
+        //
+        (0, (6, 6), vec![]),
+        //
+        (1, (0, 1), vec![b'O',]),
+        (2, (0, 2), vec![b'O', b'n']),
+        (3, (0, 3), vec![b'O', b'n', b'e']),
+        (4, (0, 4), vec![b'O', b'n', b'e', b' ']),
+        (5, (0, 5), vec![b'O', b'n', b'e', b' ', b'1']),
+        (5, (0, 6), vec![b'O', b'n', b'e', b' ', b'1', b'\n']),
+        //
         (6, (0, 1), vec![b'T',]),
         (6, (0, 2), vec![b'T', b'w']),
         (7, (0, 2), vec![b'T', b'w']),
