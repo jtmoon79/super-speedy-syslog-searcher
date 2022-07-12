@@ -301,6 +301,7 @@ where
     }
 }
 
+// TODO [2022/07/12]: change these to Normal casing for enums (not ALL CAPS)
 #[derive(Debug)]
 pub enum FileProcessingResult<E> {
     FILE_ERR_EMPTY,
@@ -339,15 +340,21 @@ impl<E> PartialEq for FileProcessingResult<E> {
 }
 impl<E> Eq for FileProcessingResult<E> {}
 
+// TODO [2022/07/12]: change these to Normal casing for enums (not ALL CAPS), start with most complex, to least
 /// file types that can be processed by `SyslogProcessor` (and underlying modules)
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FileType {
     FILE_UNSET_,
+    /// a regular file `file.log`
     FILE,
+    /// a gzipped file `.gz`, presumed to contain one regular file
     FILE_GZ,
+    /// a regular file within a `.tar` file
     FILE_TAR,
     FILE_TAR_GZ,
+    /// a xz'd file `.xz`, presumed to contain one regular file
     FILE_XZ,
+    /// unknown
     FILE_UNKNOWN,
 }
 
