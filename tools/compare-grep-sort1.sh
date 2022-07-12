@@ -26,13 +26,21 @@ time=$(which time)
 
 echo
 
-tmp1=$(mktemp --suffix "__super_speedy_syslog_searcher")
-tmp1b=$(mktemp --suffix "__super_speedy_syslog_searcher")
-tmp2=$(mktemp --suffix "__grep_sort")
-tmp2b=$(mktemp --suffix "__grep_sort")
+do_keep=false
+if [[ "${1-}" = "--keep" ]]; then
+    do_keep=true
+    shift
+fi
+
+tmp1=$(mktemp -t "compare-s4_s4_XXXXX")
+tmp1b=$(mktemp -t "compare-s4-sorted_s4_XXXXX")
+tmp2=$(mktemp -t "compare-s4_grep_XXXXX")
+tmp2b=$(mktemp -t "compare-s4-sorted_grep_XXXXX")
 
 function exit_() {
-    rm -f "${tmp1}" "${tmp2}" "${tmp1b}" "${tmp2b}"
+    if ! ${do_keep}; then
+        rm -f "${tmp1}" "${tmp2}" "${tmp1b}" "${tmp2b}"
+    fi
 }
 
 trap exit_ EXIT
@@ -52,6 +60,7 @@ declare -a files=(
         ./logs/other/tests/gen-200-1-jajaja.log \
         ./logs/other/tests/gen-400-4-shamrock.log \
         ./logs/other/tests/gen-99999-1-Hüsker_Dü,99999-1-Motley_Crue.log \
+        2>/dev/null
     )
 )
 
@@ -141,6 +150,16 @@ if [[ ${s4_lc} -ne ${gs_lc} ]] || [[ ${s4_bc} -ne ${gs_bc} ]]; then
     echo
     echo "Difference Preview:"
     ((set -x; diff -y --width=${COLUMNS-120} --suppress-common-lines "${tmp1b}" "${tmp2b}") || true) | head -n 20
+    echo
+    if ! ${do_keep}; then
+        echo "Pass --keep to keep the temporary files for further analysis"
+    else
+        echo "Files remain:"
+        echo "  ${tmp1}"
+        echo "  ${tmp2}"
+        echo "  ${tmp1b}"
+        echo "  ${tmp2b}"
+    fi
 else
     echo
     echo "Line Count and Byte Count are the same. (ʘ‿ʘ)"
