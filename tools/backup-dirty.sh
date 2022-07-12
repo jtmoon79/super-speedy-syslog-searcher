@@ -19,6 +19,7 @@ set -x
 "${Zz}" a -bb1 -bt -stl -snl -tzip "${ZIPFILE}" \
     ./Cargo.toml \
     ./Cargo.lock \
+    ./CHANGELOG.md \
     ./benches \
     ./.github \
     ./.gitignore \
