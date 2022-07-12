@@ -1,6 +1,8 @@
 // Readers/syslinereader_tests.rs
 //
 
+#![allow(non_upper_case_globals)]
+
 use crate::common::{
     FPath,
     ResultS4,
@@ -98,14 +100,7 @@ fn new_SyslineReader(path: &FPath, blocksz: BlockSz, tzo: FixedOffset) -> Syslin
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// basic test of `SyslineReader.find_datetime_in_line`
-#[allow(non_snake_case)]
-#[cfg(test)]
-fn _test_find_datetime_in_line_by_block(blocksz: BlockSz) {
-    eprintln!("{}_test_find_datetime_in_line_by_block()", sn());
-
-    let ntf: NamedTempFile = create_temp_file(
-        "\
+const NTF5_DATA: &str = "\
 [20200113-11:03:06] [DEBUG] Testing if xrdp can listen on 0.0.0.0 port 3389.
 [20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)
 CLOSED!
@@ -120,10 +115,25 @@ CLOSED!
 [20200113-11:13:59] [DEBUG] Certification found
     FOUND CERTIFICATE!
 [20200113-11:13:59] [DEBUG] Certification complete.
-"
-    );
-    let path = NTF_Path(&ntf);
+";
 
+lazy_static! {
+    static ref NTF5: NamedTempFile = {
+        create_temp_file(&NTF5_DATA)
+    };
+    static ref NTF5_PATH: FPath = {
+        NTF_Path(&NTF5)
+    };
+}
+
+
+/// basic test of `SyslineReader.find_datetime_in_line`
+#[allow(non_snake_case)]
+#[cfg(test)]
+fn _test_find_datetime_in_line_by_block(blocksz: BlockSz) {
+    eprintln!("{}_test_find_datetime_in_line_by_block()", sn());
+    let ntf: &NamedTempFile = &NTF5;
+    let path = NTF_Path(ntf);
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
 
@@ -186,20 +196,17 @@ fn test_find_datetime_in_line_by_block256() {
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-type _test_find_sysline_at_datetime_filter_Checks<'a> = Vec<(FileOffset, &'a str, &'a str)>;
-
 /// underlying test code for `SyslineReader.find_datetime_in_line`
 /// called by other functions `test_find_sysline_at_datetime_filterX`
 #[cfg(test)]
 fn __test_find_sysline_at_datetime_filter(
-    file_content: String,
+    ntf: &NamedTempFile,
     dt_pattern: &DateTimePattern_str,
     blocksz: BlockSz,
     checks: _test_find_sysline_at_datetime_filter_Checks,
 ) {
     eprintln!("{}__test_find_sysline_at_datetime_filter(…, {:?}, {}, …)", sn(), dt_pattern, blocksz);
 
-    let ntf: NamedTempFile = create_temp_file(file_content.as_str());
     let path = NTF_Path(&ntf);
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
@@ -249,20 +256,9 @@ fn __test_find_sysline_at_datetime_filter(
 
 // -------------------------------------------------------------------------------------------------
 
-// TODO: [2022/03/16] create test cases with varying sets of Checks passed-in, current setup is always
-//       clean, sequential series of checks from file_offset 0.
-// TODO: BUG: [2022/03/15] why are these checks done in random order? The tests pass but run
-//       in a confusing manner. Run `cargo test` to see.
-/// basic test of `SyslineReader.find_datetime_in_line`
-#[cfg(test)]
-fn _test_find_sysline_at_datetime_filter(
-    blocksz: BlockSz, checks: Option<_test_find_sysline_at_datetime_filter_Checks>,
-) {
-    stack_offset_set(None);
-    eprintln!("{}_test_find_sysline_at_datetime_filter()", sn());
-    let dt_fmt1: &DateTimePattern_str = "%Y-%m-%d %H:%M:%S";
-    let file_content1 = String::from(
-        "\
+type _test_find_sysline_at_datetime_filter_Checks<'a> = Vec<(FileOffset, &'a str, &'a str)>;
+
+const NTF26_DATA: &str = "\
 2020-01-01 00:00:00
 2020-01-01 00:00:01a
 2020-01-01 00:00:02ab
@@ -290,70 +286,101 @@ fn _test_find_sysline_at_datetime_filter(
 2020-01-01 00:00:24abcdefghijklmnopqrstuvwx
 2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy
 2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz
-",
+";
+
+lazy_static! {
+    static ref NTF26: NamedTempFile = {
+        create_temp_file(&NTF26_DATA)
+    };
+    static ref NTF26_PATH: FPath = {
+        NTF_Path(&NTF26)
+    };
+
+    static ref NTF26_checks: _test_find_sysline_at_datetime_filter_Checks<'static> = {
+        Vec::from([
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (0, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
+            (0, "2020-01-01 00:00:04", "2020-01-01 00:00:04abcd\n"),
+            (0, "2020-01-01 00:00:05", "2020-01-01 00:00:05abcde\n"),
+            (0, "2020-01-01 00:00:06", "2020-01-01 00:00:06abcdef\n"),
+            (0, "2020-01-01 00:00:07", "2020-01-01 00:00:07abcdefg\n"),
+            (0, "2020-01-01 00:00:08", "2020-01-01 00:00:08abcdefgh\n"),
+            (0, "2020-01-01 00:00:09", "2020-01-01 00:00:09abcdefghi\n"),
+            (0, "2020-01-01 00:00:10", "2020-01-01 00:00:10abcdefghij\n"),
+            (0, "2020-01-01 00:00:11", "2020-01-01 00:00:11abcdefghijk\n"),
+            (0, "2020-01-01 00:00:12", "2020-01-01 00:00:12abcdefghijkl\n"),
+            (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
+            (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
+            (0, "2020-01-01 00:00:15", "2020-01-01 00:00:15abcdefghijklmno\n"),
+            (0, "2020-01-01 00:00:16", "2020-01-01 00:00:16abcdefghijklmnop\n"),
+            (0, "2020-01-01 00:00:17", "2020-01-01 00:00:17abcdefghijklmnopq\n"),
+            (0, "2020-01-01 00:00:18", "2020-01-01 00:00:18abcdefghijklmnopqr\n"),
+            (0, "2020-01-01 00:00:19", "2020-01-01 00:00:19abcdefghijklmnopqrs\n"),
+            (0, "2020-01-01 00:00:20", "2020-01-01 00:00:20abcdefghijklmnopqrst\n"),
+            (0, "2020-01-01 00:00:21", "2020-01-01 00:00:21abcdefghijklmnopqrstu\n"),
+            (0, "2020-01-01 00:00:22", "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n"),
+            (0, "2020-01-01 00:00:23", "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n"),
+            (0, "2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n"),
+            (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+        ])
+    };
+
+    static ref NTF26_checksx: _test_find_sysline_at_datetime_filter_Checks<'static> = {
+        Vec::from([
+            (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
+            (19, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
+            (40, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
+            (62, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
+            (85, "2020-01-01 00:00:04", "2020-01-01 00:00:04abcd\n"),
+            (109, "2020-01-01 00:00:05", "2020-01-01 00:00:05abcde\n"),
+            (134, "2020-01-01 00:00:06", "2020-01-01 00:00:06abcdef\n"),
+            (162, "2020-01-01 00:00:07", "2020-01-01 00:00:07abcdefg\n"),
+            (187, "2020-01-01 00:00:08", "2020-01-01 00:00:08abcdefgh\n"),
+            (215, "2020-01-01 00:00:09", "2020-01-01 00:00:09abcdefghi\n"),
+            (244, "2020-01-01 00:00:10", "2020-01-01 00:00:10abcdefghij\n"),
+            (274, "2020-01-01 00:00:11", "2020-01-01 00:00:11abcdefghijk\n"),
+            (305, "2020-01-01 00:00:12", "2020-01-01 00:00:12abcdefghijkl\n"),
+            (337, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
+            (370, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
+            (404, "2020-01-01 00:00:15", "2020-01-01 00:00:15abcdefghijklmno\n"),
+            (439, "2020-01-01 00:00:16", "2020-01-01 00:00:16abcdefghijklmnop\n"),
+            (475, "2020-01-01 00:00:17", "2020-01-01 00:00:17abcdefghijklmnopq\n"),
+            (512, "2020-01-01 00:00:18", "2020-01-01 00:00:18abcdefghijklmnopqr\n"),
+            (550, "2020-01-01 00:00:19", "2020-01-01 00:00:19abcdefghijklmnopqrs\n"),
+            (589, "2020-01-01 00:00:20", "2020-01-01 00:00:20abcdefghijklmnopqrst\n"),
+            (629, "2020-01-01 00:00:21", "2020-01-01 00:00:21abcdefghijklmnopqrstu\n"),
+            (670, "2020-01-01 00:00:22", "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n"),
+            (712, "2020-01-01 00:00:23", "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n"),
+            (755, "2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n"),
+            (799, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
+            (844, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
+        ])
+    };
+}
+
+// TODO: [2022/03/16] create test cases with varying sets of Checks passed-in, current setup is always
+//       clean, sequential series of checks from file_offset 0.
+// TODO: BUG: [2022/03/15] why are these checks done in random order? The tests pass but run
+//       in a confusing manner. Run `cargo test` to see.
+/// basic test of `SyslineReader.find_datetime_in_line`
+#[cfg(test)]
+fn _test_find_sysline_at_datetime_filter(
+    blocksz: BlockSz, checks: Option<_test_find_sysline_at_datetime_filter_Checks>,
+) {
+    stack_offset_set(None);
+    eprintln!("{}_test_find_sysline_at_datetime_filter()", sn());
+    let dt_fmt1: &DateTimePattern_str = "%Y-%m-%d %H:%M:%S";
+
+    let checks_: _test_find_sysline_at_datetime_filter_Checks = checks.unwrap_or(NTF26_checks.clone());
+    __test_find_sysline_at_datetime_filter(
+        &NTF26,
+        dt_fmt1,
+        blocksz,
+        checks_
     );
-    let checks0: _test_find_sysline_at_datetime_filter_Checks = Vec::from([
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (0, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (0, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (0, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
-        (0, "2020-01-01 00:00:04", "2020-01-01 00:00:04abcd\n"),
-        (0, "2020-01-01 00:00:05", "2020-01-01 00:00:05abcde\n"),
-        (0, "2020-01-01 00:00:06", "2020-01-01 00:00:06abcdef\n"),
-        (0, "2020-01-01 00:00:07", "2020-01-01 00:00:07abcdefg\n"),
-        (0, "2020-01-01 00:00:08", "2020-01-01 00:00:08abcdefgh\n"),
-        (0, "2020-01-01 00:00:09", "2020-01-01 00:00:09abcdefghi\n"),
-        (0, "2020-01-01 00:00:10", "2020-01-01 00:00:10abcdefghij\n"),
-        (0, "2020-01-01 00:00:11", "2020-01-01 00:00:11abcdefghijk\n"),
-        (0, "2020-01-01 00:00:12", "2020-01-01 00:00:12abcdefghijkl\n"),
-        (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
-        (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
-        (0, "2020-01-01 00:00:15", "2020-01-01 00:00:15abcdefghijklmno\n"),
-        (0, "2020-01-01 00:00:16", "2020-01-01 00:00:16abcdefghijklmnop\n"),
-        (0, "2020-01-01 00:00:17", "2020-01-01 00:00:17abcdefghijklmnopq\n"),
-        (0, "2020-01-01 00:00:18", "2020-01-01 00:00:18abcdefghijklmnopqr\n"),
-        (0, "2020-01-01 00:00:19", "2020-01-01 00:00:19abcdefghijklmnopqrs\n"),
-        (0, "2020-01-01 00:00:20", "2020-01-01 00:00:20abcdefghijklmnopqrst\n"),
-        (0, "2020-01-01 00:00:21", "2020-01-01 00:00:21abcdefghijklmnopqrstu\n"),
-        (0, "2020-01-01 00:00:22", "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n"),
-        (0, "2020-01-01 00:00:23", "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n"),
-        (0, "2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n"),
-        (0, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-        (0, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ]);
-
-    let _checksx: _test_find_sysline_at_datetime_filter_Checks = Vec::from([
-        (0, "2020-01-01 00:00:00", "2020-01-01 00:00:00\n"),
-        (19, "2020-01-01 00:00:01", "2020-01-01 00:00:01a\n"),
-        (40, "2020-01-01 00:00:02", "2020-01-01 00:00:02ab\n"),
-        (62, "2020-01-01 00:00:03", "2020-01-01 00:00:03abc\n"),
-        (85, "2020-01-01 00:00:04", "2020-01-01 00:00:04abcd\n"),
-        (109, "2020-01-01 00:00:05", "2020-01-01 00:00:05abcde\n"),
-        (134, "2020-01-01 00:00:06", "2020-01-01 00:00:06abcdef\n"),
-        (162, "2020-01-01 00:00:07", "2020-01-01 00:00:07abcdefg\n"),
-        (187, "2020-01-01 00:00:08", "2020-01-01 00:00:08abcdefgh\n"),
-        (215, "2020-01-01 00:00:09", "2020-01-01 00:00:09abcdefghi\n"),
-        (244, "2020-01-01 00:00:10", "2020-01-01 00:00:10abcdefghij\n"),
-        (274, "2020-01-01 00:00:11", "2020-01-01 00:00:11abcdefghijk\n"),
-        (305, "2020-01-01 00:00:12", "2020-01-01 00:00:12abcdefghijkl\n"),
-        (337, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
-        (370, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
-        (404, "2020-01-01 00:00:15", "2020-01-01 00:00:15abcdefghijklmno\n"),
-        (439, "2020-01-01 00:00:16", "2020-01-01 00:00:16abcdefghijklmnop\n"),
-        (475, "2020-01-01 00:00:17", "2020-01-01 00:00:17abcdefghijklmnopq\n"),
-        (512, "2020-01-01 00:00:18", "2020-01-01 00:00:18abcdefghijklmnopqr\n"),
-        (550, "2020-01-01 00:00:19", "2020-01-01 00:00:19abcdefghijklmnopqrs\n"),
-        (589, "2020-01-01 00:00:20", "2020-01-01 00:00:20abcdefghijklmnopqrst\n"),
-        (629, "2020-01-01 00:00:21", "2020-01-01 00:00:21abcdefghijklmnopqrstu\n"),
-        (670, "2020-01-01 00:00:22", "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n"),
-        (712, "2020-01-01 00:00:23", "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n"),
-        (755, "2020-01-01 00:00:24", "2020-01-01 00:00:24abcdefghijklmnopqrstuvwx\n"),
-        (799, "2020-01-01 00:00:25", "2020-01-01 00:00:25abcdefghijklmnopqrstuvwxy\n"),
-        (844, "2020-01-01 00:00:26", "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\n"),
-    ]);
-
-    let checks_: _test_find_sysline_at_datetime_filter_Checks = checks.unwrap_or(checks0);
-    __test_find_sysline_at_datetime_filter(file_content1, dt_fmt1, blocksz, checks_);
     eprintln!("{}_test_find_sysline_at_datetime_filter()", sx());
 }
 
@@ -1613,8 +1640,7 @@ fn test_SyslineReader_find_sysline(
     eprintln!("{}test_SyslineReader_find_sysline({:?}, {})", sx(), &path, blocksz);
 }
 
-#[allow(non_upper_case_globals)]
-static test_data_file_A_dt6: &str = "\
+const test_data_file_A_dt6: &str = "\
 2000-01-01 00:00:00
 2000-01-01 00:00:01a
 2000-01-01 00:00:02ab
@@ -1622,8 +1648,7 @@ static test_data_file_A_dt6: &str = "\
 2000-01-01 00:00:04abcd
 2000-01-01 00:00:05abcde";
 
-#[allow(non_upper_case_globals)]
-static test_data_file_A_dt6_checks: [_test_SyslineReader_check; 6] = [
+const test_data_file_A_dt6_checks: [_test_SyslineReader_check; 6] = [
     ("2000-01-01 00:00:00\n", 20),
     ("2000-01-01 00:00:01a\n", 41),
     ("2000-01-01 00:00:02ab\n", 63),
@@ -1633,71 +1658,68 @@ static test_data_file_A_dt6_checks: [_test_SyslineReader_check; 6] = [
 ];
 
 lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref test_SyslineReader_A_ntf: NamedTempFile =
-        create_temp_file(test_data_file_A_dt6);
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref test_SyslineReader_A_ntf_path: FPath =
-        NTF_Path(&test_SyslineReader_A_ntf);
+    static ref NTF_A: NamedTempFile = {
+        create_temp_file(test_data_file_A_dt6)
+    };
+    static ref NTF_A_path: FPath = {
+        NTF_Path(&NTF_A)
+    };
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_0_()
 {
     let checks = _test_SyslineReader_checks::from(test_data_file_A_dt6_checks);
-    test_SyslineReader_find_sysline(&test_SyslineReader_A_ntf_path, 128, 0, &checks);
+    test_SyslineReader_find_sysline(&NTF_A_path, 128, 0, &checks);
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_1_()
 {
     let checks = _test_SyslineReader_checks::from(&test_data_file_A_dt6_checks[1..]);
-    test_SyslineReader_find_sysline(&test_SyslineReader_A_ntf_path, 128, 40, &checks);
+    test_SyslineReader_find_sysline(&NTF_A_path, 128, 40, &checks);
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_2_()
 {
     let checks = _test_SyslineReader_checks::from(&test_data_file_A_dt6_checks[2..]);
-    test_SyslineReader_find_sysline(&test_SyslineReader_A_ntf_path, 128, 62, &checks);
+    test_SyslineReader_find_sysline(&NTF_A_path, 128, 62, &checks);
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_3_()
 {
     let checks = _test_SyslineReader_checks::from(&test_data_file_A_dt6_checks[3..]);
-    test_SyslineReader_find_sysline(&test_SyslineReader_A_ntf_path, 128, 85, &checks);
+    test_SyslineReader_find_sysline(&NTF_A_path, 128, 85, &checks);
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_4_()
 {
     let checks = _test_SyslineReader_checks::from(&test_data_file_A_dt6_checks[4..]);
-    test_SyslineReader_find_sysline(&test_SyslineReader_A_ntf_path, 128, 86, &checks);
+    test_SyslineReader_find_sysline(&NTF_A_path, 128, 86, &checks);
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_X_beforeend()
 {
     let checks = _test_SyslineReader_checks::from([]);
-    test_SyslineReader_find_sysline(&test_SyslineReader_A_ntf_path, 128, 132, &checks);
+    test_SyslineReader_find_sysline(&NTF_A_path, 128, 132, &checks);
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_X_pastend()
 {
     let checks = _test_SyslineReader_checks::from([]);
-    test_SyslineReader_find_sysline(&test_SyslineReader_A_ntf_path, 128, 135, &checks);
+    test_SyslineReader_find_sysline(&NTF_A_path, 128, 135, &checks);
 }
 
 #[test]
 fn test_SyslineReader_A_dt6_128_X9999()
 {
     let checks = _test_SyslineReader_checks::from([]);
-    test_SyslineReader_find_sysline(&test_SyslineReader_A_ntf_path, 128, 9999, &checks);
+    test_SyslineReader_find_sysline(&NTF_A_path, 128, 9999, &checks);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1814,8 +1836,7 @@ fn test_SyslineReader_A2_any_input_check(
     eprintln!("{}test_SyslineReader({:?}, {})", sx(), &path, blocksz);
 }
 
-#[allow(non_upper_case_globals)]
-static test_data_any_file_A2_dt6: &str = "\
+const test_data_any_file_A2_dt6: &str = "\
 2000-01-01 00:00:00
 2000-01-01 00:00:01a
 2000-01-01 00:00:02ab
@@ -1824,8 +1845,7 @@ static test_data_any_file_A2_dt6: &str = "\
 2000-01-01 00:00:05abcde";
 
 /// like `dt6_checks` but many more checks
-#[allow(non_upper_case_globals)]
-static test_data_any_file_A2_dt6_checks_many: [_test_SyslineReader_any_input_check; 50] = [
+const test_data_any_file_A2_dt6_checks_many: [_test_SyslineReader_any_input_check; 50] = [
     (0, ResultS4_SyslineFind_Test::Found(()), "2000-01-01 00:00:00\n"),
     (1, ResultS4_SyslineFind_Test::Found(()), "2000-01-01 00:00:00\n"),
     (2, ResultS4_SyslineFind_Test::Found(()), "2000-01-01 00:00:00\n"),
@@ -1879,15 +1899,12 @@ static test_data_any_file_A2_dt6_checks_many: [_test_SyslineReader_any_input_che
 ];
 
 lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref test_SyslineReader_A2_any_ntf: NamedTempFile = 
-        create_temp_file(test_data_any_file_A2_dt6);
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref test_SyslineReader_A2_any_ntf_path: FPath = 
-        NTF_Path(&test_SyslineReader_A2_any_ntf);
+    static ref test_SyslineReader_A2_any_ntf: NamedTempFile = {
+        create_temp_file(test_data_any_file_A2_dt6)
+    };
+    static ref test_SyslineReader_A2_any_ntf_path: FPath = {
+        NTF_Path(&test_SyslineReader_A2_any_ntf)
+    };
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1932,13 +1949,13 @@ fn test_SyslineReader_A2_dt6_any_0xFF_noLRUcache()
 // -------------------------------------------------------------------------------------------------
 
 #[allow(non_upper_case_globals)]
-static test_data_file_B_dt0: &str = "
+const test_data_file_B_dt0: &str = "
 foo
 bar
 ";
 
 #[allow(non_upper_case_globals)]
-static test_data_file_B_dt0_checks: [_test_SyslineReader_check; 0] = [];
+const test_data_file_B_dt0_checks: [_test_SyslineReader_check; 0] = [];
 
 #[test]
 fn test_SyslineReader_B_dt0_0()
@@ -1961,7 +1978,7 @@ fn test_SyslineReader_B_dt0_3()
 // -------------------------------------------------------------------------------------------------
 
 #[allow(non_upper_case_globals)]
-static _test_data_file_C_dt6: &str = "\
+const _test_data_file_C_dt6: &str = "\
 [DEBUG] 2000-01-01 00:00:00
 [DEBUG] 2000-01-01 00:00:01a
 [DEBUG] 2000-01-01 00:00:02ab
@@ -1970,7 +1987,7 @@ static _test_data_file_C_dt6: &str = "\
 [DEBUG] 2000-01-01 00:00:05abcde";
 
 #[allow(non_upper_case_globals)]
-static _test_data_file_C_dt6_checks: [_test_SyslineReader_check; 6] = [
+const _test_data_file_C_dt6_checks: [_test_SyslineReader_check; 6] = [
     ("[DEBUG] 2000-01-01 00:00:00\n", 28),
     ("[DEBUG] 2000-01-01 00:00:01a\n", 57),
     ("[DEBUG] 2000-01-01 00:00:02ab\n", 87),
@@ -1980,13 +1997,8 @@ static _test_data_file_C_dt6_checks: [_test_SyslineReader_check; 6] = [
 ];
 
 lazy_static! {
-    #[allow(non_upper_case_globals)]
     static ref test_SyslineReader_C_ntf: NamedTempFile =
         create_temp_file(_test_data_file_C_dt6);
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
     static ref test_SyslineReader_C_ntf_path: FPath =
         NTF_Path(&test_SyslineReader_C_ntf);
 }
@@ -2035,131 +2047,6 @@ fn test_SyslineReader_D_invalid1()
     let path = NTF_Path(&ntf);
     test_SyslineReader_find_sysline(&path, 128, 0, &date_checks1);
 }
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-/* already implemented above
-
-#[cfg(test)]
-type _test_SyslineReader_w_filtering_1_check<'a> = (
-    FileOffset, ResultS4_SyslineFind_Test, DateTimeL_Opt,
-);
-
-/// basic test of SyslineReader sequential read with datetime filtering
-#[allow(non_snake_case)]
-#[cfg(test)]
-fn test_SyslineReader_find_sysline_at_datetime_filter(
-    ntf: &NamedTempFile,
-    blocksz: BlockSz,
-    tzo: FixedOffset,
-    filter_dt_after_opt: &DateTimeL_Opt,
-    checks: &[_test_SyslineReader_w_filtering_1_check],
-) {
-    eprintln!(
-        "{}test_SyslineReader_w_filtering_1({:?}, {}, {:?})",
-        sn(),
-        &ntf,
-        blocksz,
-        filter_dt_after_opt,
-    );
-
-    let path: FPath = FPath::from(ntf.path().to_str().unwrap());
-    eprint_file(&path);
-
-    let mut slr = new_SyslineReader(&path, blocksz, tzo);
-    eprintln!("{}{:?}", so(), slr);
-
-    let filesz = slr.filesz();
-    let mut fo1: FileOffset = 0;
-    let mut check_i: usize = 0;
-    for (input_fo, expect_result, expect_datetime) in checks.iter() {
-        let result = slr.find_sysline_at_datetime_filter(*input_fo, filter_dt_after_opt);
-        assert_results4(input_fo, expect_result, &result);
-        match result {
-            ResultS4_SyslineFind::Found((fo, slp)) | ResultS4_SyslineFind::Found_EOF((fo, slp)) => {
-                eprintln!(
-                    "{}FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
-                    so(),
-                    fo,
-                    &(*slp),
-                    slp.count_lines(),
-                    (*slp).len(),
-                    (*slp).to_String_noraw(),
-                );
-                let dt_actual: &DateTimeL_Opt = &(*slp).dt();
-                assert_eq!(expect_datetime, dt_actual, "Expected datetime    {:?}\nSysline actual datetime {:?}", expect_datetime, dt_actual);
-            }
-            ResultS4_SyslineFind::Done => {
-                break;
-            }
-            ResultS4_SyslineFind::Err(err) => {
-                panic!(
-                    "ERROR: find_sysline_at_datetime_filter({}, {:?}) returned Err({})",
-                    input_fo,
-                    filter_dt_after_opt,
-                    err,
-                );
-            }
-        }
-        check_i += 1;
-    }
-
-    assert_eq!(checks.len(), check_i, "expected {} Sysline checks but only {} Sysline checks were done", checks.len(), check_i);
-    eprintln!("{}Found {} Lines, {} Syslines", so(), slr.linereader.count_lines_processed(), slr.syslines.len());
-    eprintln!(
-        "{}test_SyslineReader_w_filtering_1({:?}, {}, {:?})",
-        sx(),
-        &path,
-        blocksz,
-        filter_dt_after_opt,
-    );
-}
-
-#[allow(non_upper_case_globals)]
-static _test_data_dtA: &str = "\
-2000-01-01 00:00:00
-2000-01-01 00:00:01a
-2000-01-01 00:00:02ab
-2000-01-01 00:00:03abc
-2000-01-01 00:00:04abcd
-2000-01-01 00:00:05abcde";
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref Test_data_file_dtA_ntf: NamedTempFile = {
-        create_temp_file(_test_data_dtA)
-    };
-}
-
-#[test]
-fn test_SyslineReader_find_sysline_at_datetime_filter_0() {
-    let tzo8 = FixedOffset::west(3600 * 8);
-    let checks: [_test_SyslineReader_w_filtering_1_check; 0] = [];
-    test_SyslineReader_find_sysline_at_datetime_filter(
-        &Test_data_file_dtA_ntf,
-        4,
-        tzo8,
-        &None,
-        &checks,
-    );
-}
-
-#[test]
-fn test_SyslineReader_find_sysline_at_datetime_filter_1() {
-    let tzo8 = FixedOffset::west(3600 * 8);
-    let checks: [_test_SyslineReader_w_filtering_1_check; 1] = [
-        (0, ResultS4_SyslineFind_Test::Found, DateTimeL_Opt::Some(DateTimeL::from())),
-    ];
-    test_SyslineReader_find_sysline_at_datetime_filter(
-        &Test_data_file_dtA_ntf,
-        4,
-        tzo8,
-        &None,
-        &checks,
-    );
-}
-
-*/
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

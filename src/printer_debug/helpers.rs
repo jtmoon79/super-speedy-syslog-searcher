@@ -26,6 +26,13 @@ pub use tempfile::{
 // temporary file helper functions
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+//#[cfg(test)]
+lazy_static! {
+    static ref STRING_TEMPFILE_PREFIX: String = String::from("tmp-s4-test-");
+    // there is no `String::default` so create this just once
+    static ref STRING_TEMPFILE_SUFFIX: String = String::from("");
+}
+
 /// small helper for copying `NamedTempFile` path to a `FPath`
 //#[cfg(test)]
 pub fn NTF_Path(ntf: &NamedTempFile) -> FPath {
@@ -36,9 +43,14 @@ pub fn NTF_Path(ntf: &NamedTempFile) -> FPath {
 ///
 /// BUG: `NamedTempFile` created within `lazy_static` will fail to remove itself
 ///      https://github.com/Stebalien/tempfile/issues/183
+///
 //#[cfg(test)]
 pub fn create_temp_file(data: &str) -> NamedTempFile {
-    let mut ntf = match NamedTempFile::new() {
+    let mut ntf = match tempfile::Builder::new()
+        // use known prefix for easier cleanup
+        .prefix::<str>(&STRING_TEMPFILE_PREFIX)
+        .tempfile()
+    {
         Ok(val) => val,
         Err(err) => {
             panic!("NamedTempFile::new() return Err {}", err);
@@ -54,23 +66,6 @@ pub fn create_temp_file(data: &str) -> NamedTempFile {
     ntf
 }
 
-/*
-/// wrapper for `create_temp_file`, unwraps the result to an `FPath`.
-#[cfg(test)]
-pub fn create_temp_file_path(data: &str) -> FPath {
-    let ntf = create_temp_file(data);
-
-    NTF_Path(&ntf)
-}
-*/
-
-//#[cfg(test)]
-lazy_static! {
-    static ref STRING_TEMPFILE_PREFIX: String = String::from("tmp-s4-test-");
-    // there is no `String::default` so create this just once
-    static ref STRING_TEMPFILE_SUFFIX: String = String::from("");
-}
-
 /// testing helper to write a `str` to a specially-named temporary file.
 /// `rand_len` is the sting length of a random character sequence
 //#[cfg(test)]
@@ -81,7 +76,7 @@ pub fn create_temp_file_with_name_rlen(
     rand_len: usize,
 ) -> NamedTempFile {
     let mut ntf = match tempfile::Builder::new()
-        .prefix::<str>(prefix.unwrap_or(&STRING_TEMPFILE_SUFFIX).as_ref())
+        .prefix::<str>(prefix.unwrap_or(&STRING_TEMPFILE_PREFIX).as_ref())
         .suffix::<str>(suffix.unwrap_or(&STRING_TEMPFILE_SUFFIX).as_ref())
         .rand_bytes(rand_len)
         .tempfile()
@@ -141,17 +136,6 @@ pub fn create_temp_file_bytes(data: &[u8]) -> NamedTempFile {
 pub fn create_temp_file_bytes_with_suffix(data: &[u8], suffix: &String) -> NamedTempFile {
     create_temp_file_with_name_rlen(data, None, Some(suffix), 5)
 }
-
-/*
-/// small helper, wraps call to `create_temp_file_bytes`, unwraps the result to
-/// an `FPath`.
-#[cfg(test)]
-pub fn create_temp_file_bytes_path(data: &[u8]) -> FPath {
-    let ntf = create_temp_file_bytes(data);
-
-    FPath::from(ntf.path().to_str().unwrap())
-}
-*/
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

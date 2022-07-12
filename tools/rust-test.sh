@@ -23,12 +23,20 @@ for a in "${@}"; do
     args2[${#args2[@]}]=${a}
 done
 
+function exit_() {
+    # manually cleanup NamedTempFile
+    # See https://github.com/Stebalien/tempfile/issues/183
+    rm /tmp/tmp-s4-test-*
+}
+
+trap exit_ EXIT
+
 # if `nextest` is installed and can list tests then use `nextest`
-if (set -x; cargo nextest list) 2>/dev/null; then
+if cargo nextest list 2>/dev/null; then
     set -x
-    exec cargo nextest run --locked --verbose "${args1[@]}" --test-threads=1 -- "${args2[@]}"
+    cargo nextest run --locked --verbose "${args1[@]}" --test-threads=1 -- "${args2[@]}"
 # else use plain `cargo test`
 else
     set -x
-    exec cargo test --locked -j1 "${args1[@]}" -- --test-threads=1 "${args2[@]}"
+    cargo test --locked -j1 "${args1[@]}" -- --test-threads=1 "${args2[@]}"
 fi
