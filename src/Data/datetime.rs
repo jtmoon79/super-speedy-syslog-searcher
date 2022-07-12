@@ -55,7 +55,7 @@ use more_asserts::{
 };
 
 extern crate regex;
-use regex::Regex;
+use regex::bytes::Regex;
 
 extern crate unroll;
 use unroll::unroll_for_loops;
@@ -1978,6 +1978,7 @@ fn captures_to_buffer_bytes(
     at
 }
 
+/*
 /// run `regex::Captures` on the `data` then convert to a chrono
 /// `Option<DateTime<FixedOffset>>` instance. Uses matching and pattern information
 /// hardcoded in `DATETIME_PARSE_DATAS_REGEX` and `DATETIME_PARSE_DATAS`.
@@ -2072,6 +2073,7 @@ pub fn str_to_regex_to_datetime(
     debug_eprintln!("{}str_to_regex_to_datetime: return Some({:?}, {:?}, {:?})", sx(), dt_beg, dt_end, dt);
     Some((dt_beg, dt_end, dt))
 }
+*/
 
 /// run `regex::Captures` on the `data` then convert to a chrono
 /// `Option<DateTime<FixedOffset>>` instance. Uses matching and pattern information
@@ -2090,9 +2092,6 @@ pub fn bytes_to_regex_to_datetime(
         }
     };
 
-    // shadow `regex_` with bytes-based regex
-    // TODO: cost-savings: precreate the `regex::bytes` instance
-    let regex_: regex::bytes::Regex = regex::bytes::Regex::new(regex_.as_str()).unwrap();
     let captures: regex::bytes::Captures = match regex_.captures(data) {
         None => {
             debug_eprintln!("{}bytes_to_regex_to_datetime: regex: no captures (returned None)", sx());

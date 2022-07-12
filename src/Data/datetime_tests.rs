@@ -28,7 +28,7 @@ use super::datetime::{
     _DTF_ALL,
     RP_LB,
     RP_RB,
-    str_to_regex_to_datetime,
+    bytes_to_regex_to_datetime,
     datetime_from_str_workaround_Issue660,
     Result_Filter_DateTime1,
     Result_Filter_DateTime2,
@@ -330,9 +330,9 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
 fn test_DATETIME_PARSE_DATAS_test_cases() {
     for (index, dtpd) in DATETIME_PARSE_DATAS.iter().enumerate() {
         eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
-        let data = dtpd._test_case;
+        let data = dtpd._test_case.as_bytes();
         let tz = FixedOffset::east_opt(60 * 60).unwrap();
-        match str_to_regex_to_datetime(data, &index, &tz) {
+        match bytes_to_regex_to_datetime(data, &index, &tz) {
             Some(capdata) => {
                 eprintln!("Passed dtpd declared at line {} result {:?}, test data {:?}", dtpd._line_num, capdata, data);
             },

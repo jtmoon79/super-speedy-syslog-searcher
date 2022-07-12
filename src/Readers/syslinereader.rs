@@ -39,7 +39,6 @@ use crate::Data::datetime::{
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_LEN,
     DATETIME_PARSE_DATAS_REGEX_VEC,
-    str_to_regex_to_datetime,
     bytes_to_regex_to_datetime,
     dt_pass_filters,
     dt_after_or_before,
@@ -115,11 +114,6 @@ use more_asserts::{
 
 extern crate rangemap;
 use rangemap::RangeMap;
-
-extern crate regex;
-use regex::{
-    Regex,
-};
 
 extern crate static_assertions;
 use static_assertions::{
@@ -667,17 +661,6 @@ impl SyslineReader {
                 debug_eprintln!("{}find_datetime_in_line: skip slice, does not have '1' or '2'", so());
                 continue;
             }
-            /*
-            // TODO: do this after regex matching, can use `regex::bytes`
-            // https://docs.rs/regex/latest/regex/bytes/index.html
-            let dts: &str = match u8_to_str(slice_) {
-                Some(val) => val,
-                None => {
-                    debug_eprintln!("ERROR: u8_to_str() failed");
-                    continue;
-                }
-            };
-            */
             // found the datetime string using `regex`, convert to a `DateTimeL`
             let dt: DateTimeL;
             let dt_beg: LineIndex;
