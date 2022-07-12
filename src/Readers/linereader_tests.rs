@@ -1,6 +1,9 @@
 // Readers/linereader_tests.rs
 //
 
+#![allow(non_snake_case)]
+#![allow(non_upper_case_globals)]
+
 use crate::common::{
     FileOffset,
     FPath,
