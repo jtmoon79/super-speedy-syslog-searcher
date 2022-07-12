@@ -33,6 +33,9 @@ pub fn NTF_Path(ntf: &NamedTempFile) -> FPath {
 }
 
 /// testing helper to write a `str` to a temporary file.
+///
+/// BUG: `NamedTempFile` created within `lazy_static` will fail to remove itself
+///      https://github.com/Stebalien/tempfile/issues/183
 //#[cfg(test)]
 pub fn create_temp_file(data: &str) -> NamedTempFile {
     let mut ntf = match NamedTempFile::new() {
