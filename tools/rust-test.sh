@@ -24,7 +24,7 @@ for a in "${@}"; do
 done
 
 # if `nextest` is installed and can list tests then use `nextest`
-if cargo nextest list 2>/dev/null; then
+if (set -x; cargo nextest list) 2>/dev/null; then
     set -x
     exec cargo nextest run --locked --verbose "${args1[@]}" --test-threads=1 -- "${args2[@]}"
 # else use plain `cargo test`
