@@ -608,16 +608,18 @@ pub fn write_stdout(buffer: &[u8]) {
 /// safely write the `buffer` to stdout with help of `StderrLock`
 #[cfg(test)]
 pub fn write_stderr(buffer: &[u8]) {
-    let stderr = std::io::stderr();
-    let mut stderr_lock = stderr.lock();
-    let stdout_lock = std::io::stdout().lock();
+    let mut stderr_lock = std::io::stderr().lock();
+    let mut stdout_lock = std::io::stdout().lock();
+    // BUG: this print is shown during `cargo test` yet nearby `eprintln!` are not seen
+    //      Would like this to only show when `--no-capture` is passed (this is how
+    //      `eprintln!` behaves)
     match stderr_lock.write(buffer) {
         Ok(_) => {}
         Err(err) => {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            eprintln!("ERROR: StderrLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
+            eprintln!("ERROR: stderr_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
         }
     }
     match stderr_lock.flush() {
@@ -631,7 +633,7 @@ pub fn write_stderr(buffer: &[u8]) {
     }
     if cfg!(debug_assertions) {
         #[allow(clippy::match_single_binding)]
-        match std::io::stdout().flush() {
+        match stdout_lock.flush() {
             _ => {},
         }
     }
