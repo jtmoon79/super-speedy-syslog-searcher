@@ -8,9 +8,12 @@ on:
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
+  S4_ARGS_DEBUG: -z 0x2 -s
+  S4_ARGS_RELEASE: -z 0x40 -s
   S4_TEST_FILES: ./logs/other/tests/dtf2-2.log
                  ./logs/other/tests/dtf3-2a.log
                  ./logs/other/tests/dtf5-6a.log.gz
+                 ./logs/other/tests/gen-20-1-faces.log
 jobs:
   job_build_debug_release_test:
     runs-on: ubuntu-latest
@@ -61,15 +64,15 @@ jobs:
           PROGRAM=./s4_debug
           chmod -v +x ${PROGRAM}
           ${PROGRAM} --help
-          ${PROGRAM} --color=never $S4_TEST_FILES
-          ${PROGRAM} --color=never -l -s -n -w $S4_TEST_FILES
-          ${PROGRAM} --color=never -l -s -p -w $S4_TEST_FILES
-          ${PROGRAM} --color=never -u -s -n -w $S4_TEST_FILES
-          ${PROGRAM} --color=never -u -s -p -w $S4_TEST_FILES
-          ${PROGRAM} --color=always -l -s -n -w $S4_TEST_FILES
-          ${PROGRAM} --color=always -l -s -p -w $S4_TEST_FILES
-          ${PROGRAM} --color=always -u -s -n -w $S4_TEST_FILES
-          ${PROGRAM} --color=always -u -s -p -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_DEBUG} --color=never $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_DEBUG} --color=never -l -s -n -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_DEBUG} --color=never -l -s -p -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_DEBUG} --color=never -u -s -n -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_DEBUG} --color=never -u -s -p -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_DEBUG} --color=always -l -s -n -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_DEBUG} --color=always -l -s -p -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_DEBUG} --color=always -u -s -n -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_DEBUG} --color=always -u -s -p -w $S4_TEST_FILES
       # download & run release
       - name: Download release binary
         uses: actions/download-artifact@v3
@@ -81,15 +84,15 @@ jobs:
           PROGRAM=./s4_release
           chmod -v +x ${PROGRAM}
           ${PROGRAM} --help
-          ${PROGRAM} --color=never $S4_TEST_FILES
-          ${PROGRAM} --color=never -l -s -n -w $S4_TEST_FILES
-          ${PROGRAM} --color=never -l -s -p -w $S4_TEST_FILES
-          ${PROGRAM} --color=never -u -s -n -w $S4_TEST_FILES
-          ${PROGRAM} --color=never -u -s -p -w $S4_TEST_FILES
-          ${PROGRAM} --color=always -l -s -n -w $S4_TEST_FILES
-          ${PROGRAM} --color=always -l -s -p -w $S4_TEST_FILES
-          ${PROGRAM} --color=always -u -s -n -w $S4_TEST_FILES
-          ${PROGRAM} --color=always -u -s -p -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_RELEASE} --color=never $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_RELEASE} --color=never -l -s -n -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_RELEASE} --color=never -l -s -p -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_RELEASE} --color=never -u -s -n -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_RELEASE} --color=never -u -s -p -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_RELEASE} --color=always -l -s -n -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_RELEASE} --color=always -l -s -p -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_RELEASE} --color=always -u -s -n -w $S4_TEST_FILES
+          ${PROGRAM} ${S4_ARGS_RELEASE} --color=always -u -s -p -w $S4_TEST_FILES
       - name: Run Script compare-grep-sort
         run: |
           set -eux
