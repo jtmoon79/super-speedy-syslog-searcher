@@ -1409,54 +1409,54 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz),
-        DTFSS_YmdHMSfz, 0, 40, CGN_YEAR, CGN_TZ,
+        DTFSS_YmdHMSfz, 0, 50, CGN_YEAR, CGN_TZ,
         "2000/01/02 00:00:02.123 -1100 a", line!(),
     ),
     DTPD!(
         concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZcz),
-        DTFSS_YmdHMSfcz, 0, 40, CGN_YEAR, CGN_TZ,
+        DTFSS_YmdHMSfcz, 0, 50, CGN_YEAR, CGN_TZ,
         r"2000/01/03 00:00:03.123456 -11:30 ab", line!(),
     ),
     DTPD!(
         concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZpz),
-        DTFSS_YmdHMSfpz, 0, 40, CGN_YEAR, CGN_TZ,
+        DTFSS_YmdHMSfpz, 0, 50, CGN_YEAR, CGN_TZ,
         r"2000/01/04 00:00:04,123456789 -11 abc", line!(),
     ),
     DTPD!(
         concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZ),
-        DTFSS_YmdHMSfZ, 0, 40, CGN_YEAR, CGN_TZ,
+        DTFSS_YmdHMSfZ, 0, 50, CGN_YEAR, CGN_TZ,
         r"2000/01/05 00:00:05.123456789 VLAT abcd", line!(),
     ),
     DTPD!(
         concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL),
-        DTFSS_YmdHMSf, 0, 40, CGN_YEAR, CGN_FRACTIONAL,
+        DTFSS_YmdHMSf, 0, 50, CGN_YEAR, CGN_FRACTIONAL,
         "2020-01-06 00:00:26.123456789 abcdefg", line!(),
     ),
     //
     DTPD!(
         concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz),
-        DTFSS_YmdHMSz, 0, 40, CGN_YEAR, CGN_TZ,
+        DTFSS_YmdHMSz, 0, 50, CGN_YEAR, CGN_TZ,
         "2000/01/07T00:00:02 -1100 abcdefgh", line!(),
     ),
     DTPD!(
         concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZcz),
-        DTFSS_YmdHMScz, 0, 40, CGN_YEAR, CGN_TZ,
-        r"2000-01-08-00:00:03 -11:30 aabcdefghi", line!(),
+        DTFSS_YmdHMScz, 0, 50, CGN_YEAR, CGN_TZ,
+        r"2000-01-08-00:00:03 -11:30 abcdefghi", line!(),
     ),
     DTPD!(
         concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZpz),
-        DTFSS_YmdHMSpz, 0, 40, CGN_YEAR, CGN_TZ,
+        DTFSS_YmdHMSpz, 0, 50, CGN_YEAR, CGN_TZ,
         r"2000/01/09 00:00:04 -11 abcdefghij", line!(),
     ),
     DTPD!(
         concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ),
-        DTFSS_YmdHMSZ, 0, 40, CGN_YEAR, CGN_TZ,
+        DTFSS_YmdHMSZ, 0, 50, CGN_YEAR, CGN_TZ,
         r"2000/01/10T00:00:05 VLAT abcdefghijk", line!(),
     ),
     //
     DTPD!(
         concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
-        DTFSS_YmdHMS, 0, 40, CGN_YEAR, CGN_SECOND,
+        DTFSS_YmdHMS, 0, 50, CGN_YEAR, CGN_SECOND,
         "2020-01-11 00:00:26 abcdefghijkl", line!(),
     ),
     //
