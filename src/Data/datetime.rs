@@ -1621,22 +1621,23 @@ pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePatt
 /// this uses built-in unsafe `str::from_utf8_unchecked`.
 /// See `benches/bench_decode_utf.rs` for comparison of bytes->str decode strategies
 #[inline(always)]
-pub fn u8_to_str(slice_: &[u8]) -> Option<&str> {
+pub fn u8_to_str(data: &[u8]) -> Option<&str> {
     let dts: &str;
     let mut fallback = false;
     // custom check for UTF8; fast but imperfect
-    if ! slice_.is_ascii() {
+    if ! data.is_ascii() {
         fallback = true;
     }
     if fallback {
         // found non-ASCII, fallback to checking with `utf8_latin1_up_to` which is a thorough check
-        let va = encoding_rs::mem::utf8_latin1_up_to(slice_);
-        if va != slice_.len() {
+        let va = encoding_rs::mem::utf8_latin1_up_to(data);
+        if va != data.len() {
+            // TODO: this needs a better resolution
             return None;  // invalid UTF8
         }
     }
     unsafe {
-        dts = std::str::from_utf8_unchecked(slice_);
+        dts = std::str::from_utf8_unchecked(data);
     };
     Some(dts)
 }
