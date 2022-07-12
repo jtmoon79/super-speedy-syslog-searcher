@@ -720,13 +720,13 @@ impl Line {
             // transform slices to `str`
             // XXX: not efficient, here is a good place to use `bstr`
             let s2 = &(&*linepart.blockp)[linepart.blocki_beg..linepart.blocki_end];
+            let s3_fallback: String;
             let s3 = match std::str::from_utf8(s2) {
                 Ok(val) => val,
-                Err(err) => {
-                    eprintln!("ERROR: failed to convert [u8] at LinePart@FileOffset[{}‥{}] to utf8 str, using from_utf8_unchecked; {}", linepart.fileoffset_begin(), linepart.fileoffset_end(), err);
-                    unsafe {
-                        std::str::from_utf8_unchecked(s2)
-                    }
+                Err(_err) => {
+                    //eprintln!("ERROR: failed to convert [u8] at LinePart@FileOffset[{}‥{}] to utf8 str, {}; attempting from_utf8_lossy…", linepart.fileoffset_begin(), linepart.fileoffset_end(), err);
+                    s3_fallback = String::from(&*String::from_utf8_lossy(s2));
+                    s3_fallback.as_str()
                 }
             };
             s1.push_str(s3);
