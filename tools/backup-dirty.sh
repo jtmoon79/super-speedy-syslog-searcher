@@ -10,7 +10,7 @@ set -euo pipefail
 cd "$(dirname "${0}")/.."
 
 HERE="$(basename -- "$(realpath .)")"
-ZIPFILE="../${HERE}-$(date '+%Y%m%dT%H%M%S').zip"
+ZIPFILE="../${HERE}-$(date '+%Y%m%dT%H%M%S')-$(hostname).zip"
 
 Zz=$(which 7z)
 
@@ -25,7 +25,7 @@ set -x
     ./.gitignore \
     ./LICENSE.txt \
     ./logs \
-    ./performance-data \
+    $(ls -1 ./performance-data 2>/dev/null || true) \
     ./README.md \
     ./src \
     ./tools \
