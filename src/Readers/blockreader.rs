@@ -820,7 +820,7 @@ impl BlockReader {
                         let mut block: Block = Block::with_capacity(blocksz_u);
                         let a: usize = (blockoffset * blocksz) as usize;
                         let b: usize = a + (std::cmp::min(blocksz_u, buffer.len() - a));
-                        debug_eprintln!("{}BlockReader::new: FILE_XZ: block.extend_from_slice(&buffer[{}..{}])", so(), a, b);
+                        debug_eprintln!("{}BlockReader::new: FILE_XZ: block.extend_from_slice(&buffer[{}‥{}])", so(), a, b);
                         block.extend_from_slice(&buffer[a..b]);
                         let blockp: BlockP = BlockP::new(block);
                         if let Some(bp_) = blocks.insert(blockoffset, blockp.clone()) {

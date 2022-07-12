@@ -1845,7 +1845,7 @@ macro_rules! copy_capturegroup_to_buffer {
         $at:ident
     ) => {
         let len_: usize = $captures.name($name).as_ref().unwrap().as_bytes().len();
-        debug_eprintln!("{}bytes_to_regex_to_datetime:copy_capturegroup_to_buffer! buffer[{:?}..{:?}]", so(), $at, $at+len_);
+        debug_eprintln!("{}bytes_to_regex_to_datetime:copy_capturegroup_to_buffer! buffer[{:?}‥{:?}]", so(), $at, $at+len_);
         $buffer[$at..$at+len_].copy_from_slice($captures.name($name).as_ref().unwrap().as_bytes());
         $at += len_;
     }
@@ -1859,7 +1859,7 @@ macro_rules! copy_slice_to_buffer {
         $at:ident
     ) => {
         let len_: usize = $u8_slice.len();
-        debug_eprintln!("{}bytes_to_regex_to_datetime:copy_slice_to_buffer! buffer[{:?}..{:?}]", so(), $at, $at+len_);
+        debug_eprintln!("{}bytes_to_regex_to_datetime:copy_slice_to_buffer! buffer[{:?}‥{:?}]", so(), $at, $at+len_);
         $buffer[$at..$at+len_].copy_from_slice($u8_slice);
         $at += len_;
     }
