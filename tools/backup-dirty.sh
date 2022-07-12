@@ -14,9 +14,10 @@ ZIPFILE="../${HERE}-$(date '+%Y%m%dT%H%M%S')-$(hostname).zip"
 
 Zz=$(which 7z)
 
+(
 set -x
 
-"${Zz}" a -bb1 -bt -stl -snl -tzip "${ZIPFILE}" \
+"${Zz}" a -spf -bb1 -bt -stl -snl -tzip "${ZIPFILE}" \
     ./Cargo.toml \
     ./Cargo.lock \
     ./CHANGELOG.md \
@@ -24,13 +25,15 @@ set -x
     ./.github \
     ./.gitignore \
     ./LICENSE.txt \
-    ./logs \
-    $(ls -1 ./performance-data 2>/dev/null || true) \
+    $(find ./logs -xdev -type f -size -2M | sort) \
+    $(ls -d1 ./performance-data ./valgrind 2>/dev/null || true) \
     ./README.md \
     ./src \
+    ./tests \
     ./tools \
 
 "${Zz}" l "${ZIPFILE}"
+)
 
 echo -e "\n\n\n"
 
