@@ -8,8 +8,11 @@ on:
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
-  S4_ARGS_DEBUG: -z 0x2 -s
-  S4_ARGS_RELEASE: -z 0x40 -s
+  # run options for debug
+  S4_ARGSD: -z 0x2 -s
+  # run options for release
+  S4_ARGSR: -z 0x40 -s
+  # run files
   S4_TEST_FILES: ./logs/other/tests/dtf2-2.log
                  ./logs/other/tests/dtf3-2a.log
                  ./logs/other/tests/dtf5-6a.log.gz
@@ -61,18 +64,19 @@ jobs:
       - name: Run Program Debug
         run: |
           set -eux
-          PROGRAM=./s4_debug
-          chmod -v +x ${PROGRAM}
-          ${PROGRAM} --help
-          ${PROGRAM} ${S4_ARGS_DEBUG} --color=never ${S4_TEST_FILES} 2>/dev/null
-          ${PROGRAM} ${S4_ARGS_DEBUG} --color=never -l -s -n -w ${S4_TEST_FILES} 2>/dev/null
-          ${PROGRAM} ${S4_ARGS_DEBUG} --color=never -l -s -p -w ${S4_TEST_FILES} 2>/dev/null
-          ${PROGRAM} ${S4_ARGS_DEBUG} --color=never -u -s -n -w ${S4_TEST_FILES} 2>/dev/null
-          ${PROGRAM} ${S4_ARGS_DEBUG} --color=never -u -s -p -w ${S4_TEST_FILES} 2>/dev/null
-          ${PROGRAM} ${S4_ARGS_DEBUG} --color=always -l -s -n -w ${S4_TEST_FILES} 2>/dev/null
-          ${PROGRAM} ${S4_ARGS_DEBUG} --color=always -l -s -p -w ${S4_TEST_FILES} 2>/dev/null
-          ${PROGRAM} ${S4_ARGS_DEBUG} --color=always -u -s -n -w ${S4_TEST_FILES} 2>/dev/null
-          ${PROGRAM} ${S4_ARGS_DEBUG} --color=always -u -s -p -w ${S4_TEST_FILES} 2>/dev/null
+          S4=./s4_debug
+          chmod -v +x ${S4}
+          ${S4} --help
+          ${S4} --color=never ${S4_TEST_FILES} 2>/dev/null
+          ${S4} ${S4_ARGSD} --color=never ${S4_TEST_FILES} 2>/dev/null
+          ${S4} ${S4_ARGSD} --color=never -l -n -w ${S4_TEST_FILES} 2>/dev/null
+          ${S4} ${S4_ARGSD} --color=never -l -p -w ${S4_TEST_FILES} 2>/dev/null
+          ${S4} ${S4_ARGSD} --color=never -u -n -w ${S4_TEST_FILES} 2>/dev/null
+          ${S4} ${S4_ARGSD} --color=never -u -p -w ${S4_TEST_FILES} 2>/dev/null
+          ${S4} ${S4_ARGSD} --color=always -l -n -w ${S4_TEST_FILES} 2>/dev/null
+          ${S4} ${S4_ARGSD} --color=always -l -p -w ${S4_TEST_FILES} 2>/dev/null
+          ${S4} ${S4_ARGSD} --color=always -u -n -w ${S4_TEST_FILES} 2>/dev/null
+          ${S4} ${S4_ARGSD} --color=always -u -p -w ${S4_TEST_FILES} 2>/dev/null
       # download & run release
       - name: Download release binary
         uses: actions/download-artifact@v3
@@ -81,18 +85,19 @@ jobs:
       - name: Run Program Release
         run: |
           set -eux
-          PROGRAM=./s4_release
-          chmod -v +x ${PROGRAM}
-          ${PROGRAM} --help
-          ${PROGRAM} ${S4_ARGS_RELEASE} --color=never ${S4_TEST_FILES}
-          ${PROGRAM} ${S4_ARGS_RELEASE} --color=never -l -s -n -w ${S4_TEST_FILES}
-          ${PROGRAM} ${S4_ARGS_RELEASE} --color=never -l -s -p -w ${S4_TEST_FILES}
-          ${PROGRAM} ${S4_ARGS_RELEASE} --color=never -u -s -n -w ${S4_TEST_FILES}
-          ${PROGRAM} ${S4_ARGS_RELEASE} --color=never -u -s -p -w ${S4_TEST_FILES}
-          ${PROGRAM} ${S4_ARGS_RELEASE} --color=always -l -s -n -w ${S4_TEST_FILES}
-          ${PROGRAM} ${S4_ARGS_RELEASE} --color=always -l -s -p -w ${S4_TEST_FILES}
-          ${PROGRAM} ${S4_ARGS_RELEASE} --color=always -u -s -n -w ${S4_TEST_FILES}
-          ${PROGRAM} ${S4_ARGS_RELEASE} --color=always -u -s -p -w ${S4_TEST_FILES}
+          S4=./s4_release
+          chmod -v +x ${S4}
+          ${S4} --help
+          ${S4} --color=never ${S4_TEST_FILES}
+          ${S4} ${S4_ARGSR} --color=never ${S4_TEST_FILES}
+          ${S4} ${S4_ARGSR} --color=never -l -n -w ${S4_TEST_FILES}
+          ${S4} ${S4_ARGSR} --color=never -l -p -w ${S4_TEST_FILES}
+          ${S4} ${S4_ARGSR} --color=never -u -n -w ${S4_TEST_FILES}
+          ${S4} ${S4_ARGSR} --color=never -u -p -w ${S4_TEST_FILES}
+          ${S4} ${S4_ARGSR} --color=always -l -n -w ${S4_TEST_FILES}
+          ${S4} ${S4_ARGSR} --color=always -l -p -w ${S4_TEST_FILES}
+          ${S4} ${S4_ARGSR} --color=always -u -n -w ${S4_TEST_FILES}
+          ${S4} ${S4_ARGSR} --color=always -u -p -w ${S4_TEST_FILES}
       - name: Run Script compare-grep-sort
         run: |
           set -eux
