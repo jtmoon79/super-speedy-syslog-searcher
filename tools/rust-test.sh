@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
-# run `cargo-test` in one command with parameters I strongly prefer
+# run `cargo-test` or `cargo nextest` with parameters I strongly prefer
+#
 
 set -eu
 

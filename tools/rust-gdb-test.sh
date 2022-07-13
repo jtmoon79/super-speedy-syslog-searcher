@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
-# run `rust-gdb` setting some tedious values
+# run `rust-gdb` with startup options I prefer
+#
 
 set -eu
 

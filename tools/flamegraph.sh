@@ -72,11 +72,7 @@ cargo flamegraph \
     --notes "${NOTES}" \
     "${@}" \
     -- \
-        -z 0x10000 -a '20000101T000100' \
-        $(find ./logs/other/tests/ -type f -not \( -name '*.gz' -o -name '*.xz' -o -name '*.tar' -o -name '*.zip' -o -name 'invalid*' \) ) \
+        --color never \
+        -a '20000101T000100' \
+        $(find ./logs/other/tests/ -type f -not \( -name '*.tar' -o -name '*.zip' -o -name 'invalid*' \) ) \
         >/dev/null
-#flamegraph -o flamegraph.svg \
-#  "${bin}" \
-#  --path $(find ./logs/other/tests/ -type f -not \( -name '*.gz' -o -name '*.xz' -o -name '*.tar' -o -name '*.zip' -o -name 'invalid*' \) ) \
-#  -- 0xFFFFF '20000101T000100' >/dev/null
-

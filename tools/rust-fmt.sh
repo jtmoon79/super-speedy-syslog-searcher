@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # call `rust-fmt` with options I prefer
+#
 
 set -eu
 

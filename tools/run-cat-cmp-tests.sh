@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # hardcoded tests of single files with file display
+# THIS SCRIPT IS DEPRECATED
 #
 
 set -euo pipefail

@@ -2,8 +2,9 @@
 #
 # quick Python script to dump a file to hex format that can be copy+pasted into
 # a rust `[u8]` array
-# believe it or not, I couldn't get `hexdump` or `xxd` or `od` to dump binary
-# data in the format I wanted
+# I couldn't get `hexdump` or `xxd` or `od` to dump binary data in the
+# rust-acceptable format. This script does what I need.
+#
 
 import sys
 

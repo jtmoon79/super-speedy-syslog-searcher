@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # run yamllint in one command with parameters I prefer
+#
 
 set -eu
 
