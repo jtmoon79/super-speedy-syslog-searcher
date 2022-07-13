@@ -7,6 +7,7 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 <!-- Table of Contents updated by "Markdown All In One" extension for Visual Studio Code -->
 - [CHANGELOG](#changelog)
   - [Unreleased](#unreleased)
+  - [0.0.23 - 2022-07-12](#0023---2022-07-12)
     - [New](#new)
     - [Changes](#changes)
     - [Fixes](#fixes)
@@ -22,20 +23,27 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 
 ## Unreleased
 
-[unreleased-diff](https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.22...HEAD)
+[unreleased-diff](https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.23...HEAD)
 
 ---
+
+## 0.0.23 - 2022-07-12
+
+[0.0.22...0.0.23](https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.22...0.0.23)
 
 ### New
 
 - WIP handle tar files ([b8deef3439f8e8b9a949a0a1cfa16d2c027c391f])
-- add enum_BoxPtrs::DoublePtr ([61f15e13d086a5d6c0e5a18d44c730ebe77a046a])
 - add CHANGELOG.md ([ca1c967a1dd169b73f3002f120c40c7127060041])
 
 ### Changes
 
+- add enum_BoxPtrs::DoublePtr ([61f15e13d086a5d6c0e5a18d44c730ebe77a046a]) ([cb74da327e27b73e9724d8a28aafc164e6c9e0df])
+- refactor to use `regex::bytes::Regex` instead of `str`-based `regex::Regex` ([dfd60d4b29ce3ba0afe581c746d643cc5a6eccfa]) ([3d78b0d0b6918dab784bbe2332b3a26928bb8f90])
 - refactor name `enum_BoxPtrs` to `LinePartPtrs` ([b5505730100a9780877eb3e1cb4d280f02845863])
 - (TOOLS) rust-test.sh use nextest if available ([1bf2784185df479a3a17975f773e3a505f735e26])
+- faster tests reuse single `NamedTempFile` more often ([db2e8f3cf4db912d32e74fcbdf09094c8b2f5128])
+- github run args change ([a82e25b56c80e37c5ea6450c4a27a9ff1feb021b]) ([c8fc525dff93e1b29c0df61bf6cc593376910043]) ([febfd00d66ac8586584882ec6c7a5b2a97683571])
 
 ### Fixes
 
@@ -44,12 +52,13 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 - (DEBUG) line.rs impl LinePart::count_bytes,len ([9d9179cf63c4167ac46b5c398b2c6b718ea9a022])
   Fix `LinePart::count_bytes`
 - (DEBUG) printers.rs fix `char_to_char_noraw` ([ced4667fd5f16682a46e70d435a9a473885c70b6])
+- (DEBUG) line.rs fix `_to_String_raw` ([d5af77deed057d599fd1c4b5c1f6222a7edba4c3])
+
+---
 
 ## 0.0.22 - 2022-07-10
 
 [0.0.21...0.0.22](https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.21...0.0.22)
-
----
 
 ### New
 
@@ -72,11 +81,11 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 - remove crate chain-cmp ([7109c46d835f4d6f32b6284681a6286b68179abc])
 - set `const` for funcs `slice_contains...` ([eeb20bb8431bf75c9e2be3fbba8e64daafae3098])
 
+---
+
 ## 0.0.21 - 2022-06-24
 
 [0.0.1...0.0.21](https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.1...0.0.21)
-
----
 
 ### New
 
@@ -122,5 +131,11 @@ to generate git hash reference links:
 [607a23c00aff0d9b34fb3d678bdfd5c14290582d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/607a23c00aff0d9b34fb3d678bdfd5c14290582d
 [e346e184d9ab0af7969a796ef4c43814267aa7a3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e346e184d9ab0af7969a796ef4c43814267aa7a3
 [09a04c14146af1916aeda14e8134d02baf088d5d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/09a04c14146af1916aeda14e8134d02baf088d5d
-[607a23c00aff0d9b34fb3d678bdfd5c14290582d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/607a23c00aff0d9b34fb3d678bdfd5c14290582d
-[607a23c00aff0d9b34fb3d678bdfd5c14290582d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/607a23c00aff0d9b34fb3d678bdfd5c14290582d
+[dfd60d4b29ce3ba0afe581c746d643cc5a6eccfa]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/dfd60d4b29ce3ba0afe581c746d643cc5a6eccfa
+[db2e8f3cf4db912d32e74fcbdf09094c8b2f5128]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/db2e8f3cf4db912d32e74fcbdf09094c8b2f5128
+[c8fc525dff93e1b29c0df61bf6cc593376910043]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c8fc525dff93e1b29c0df61bf6cc593376910043
+[a82e25b56c80e37c5ea6450c4a27a9ff1feb021b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a82e25b56c80e37c5ea6450c4a27a9ff1feb021b
+[d5af77deed057d599fd1c4b5c1f6222a7edba4c3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d5af77deed057d599fd1c4b5c1f6222a7edba4c3
+[cb74da327e27b73e9724d8a28aafc164e6c9e0df]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cb74da327e27b73e9724d8a28aafc164e6c9e0df
+[febfd00d66ac8586584882ec6c7a5b2a97683571]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/febfd00d66ac8586584882ec6c7a5b2a97683571
+[3d78b0d0b6918dab784bbe2332b3a26928bb8f90]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3d78b0d0b6918dab784bbe2332b3a26928bb8f90
