@@ -2190,7 +2190,11 @@ fn _test_SyslineReader_process_file(
         filter_dt_before_opt,
     );
     let tzo8 = FixedOffset::west(3600 * 8);
-    let slr = new_SyslineReader(path, blocksz, tzo8);
+    let slr: SyslineReader = new_SyslineReader(
+        path,
+        blocksz,
+        tzo8,
+    );
     eprintln!("{}{:?}", so(), slr);
     eprintln!("{}process_file(…)", sx());
 

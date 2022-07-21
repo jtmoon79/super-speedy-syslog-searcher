@@ -49,6 +49,7 @@ use crate::printer_debug::helpers::{
 use crate::printer_debug::printers::{
     byte_to_char_noraw,
     buffer_to_String_noraw,
+    str_to_String_noraw,
 };
 
 use crate::printer_debug::stack::{
@@ -364,15 +365,19 @@ fn find_line_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
 /// presumes the linereader has processed the entire file
 #[cfg(test)]
 fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
-    eprintln!("{}_compare_file_linereader({:?})", sn(), path);
+    eprintln!("{}compare_file_linereader({:?})", sn(), path);
     let contents_file: String = std::fs::read_to_string(path).unwrap();
     let contents_file_count: usize = contents_file.lines().count();
     eprint_file(path);
-    let mut contents_lr: String = String::with_capacity(0);
+    let mut contents_lr: String = String::with_capacity(contents_file.len() * 2);
     linereader.copy_all_lines(&mut contents_lr);
     eprintln!(
-        "{}contents_lr ({} lines processed):\n{}{:?}\n",
-        so(), linereader.count_lines_processed(), so(), contents_lr,
+        "{}contents_file ({} lines):\n───────────────────────\n{}\n───────────────────────\n",
+        so(), contents_file_count, str_to_String_noraw(contents_file.as_str()),
+    );
+    eprintln!(
+        "{}contents_lr ({} lines processed):\n───────────────────────\n{}\n───────────────────────\n",
+        so(), linereader.count_lines_processed(), str_to_String_noraw(contents_lr.as_str()),
     );
     let mut i: usize = 0;
     for lines_file_lr1 in contents_file.lines().zip(contents_lr.lines()) {
@@ -391,7 +396,7 @@ fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
         contents_file_count, i, "Expected to compare {} lines, only compared {}",
         contents_file_count, i
     );
-    eprintln!("{}_compare_file_linereader({:?})", sx(), &path);
+    eprintln!("{}compare_file_linereader({:?})", sx(), &path);
 }
 
 /// test `LineReader::find_line` read all file offsets
@@ -532,6 +537,7 @@ test_LineReader_all3n line 3
 #[allow(non_snake_case)]
 #[cfg(test)]
 fn _test_LineReader_all_reversed(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
+    stack_offset_set(None);
     eprintln!("{}_test_LineReader_all_reversed({:?}, {:?})", sn(), &path, blocksz);
     let mut lr1 = new_LineReader(path, blocksz);
     if !cache_enabled {
@@ -566,7 +572,6 @@ test_LineReader_all_reversed1 line 1";
     let fpath = NTF_Path(&ntf);
     _test_LineReader_all_reversed(&fpath, true, 0x4);
 }
-
 
 #[test]
 fn test_LineReader_all_reversed1n() {

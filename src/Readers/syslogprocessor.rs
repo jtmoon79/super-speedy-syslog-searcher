@@ -62,9 +62,7 @@ use std::io::{
 };
 
 extern crate debug_print;
-use debug_print::{
-    debug_eprintln
-};
+use debug_print::debug_eprintln;
 
 extern crate itertools;
 use itertools::Itertools;  // attaches `sorted_by`

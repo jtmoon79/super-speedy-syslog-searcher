@@ -20,6 +20,7 @@ backtrace = "0.3.65"
 chrono = "0.4.19"
 clap = { version = "3.2.5", features = ["derive"] }
 const_format = "0.2.25"
+const-str = "0.4.3"
 crossbeam-channel = "0.5.5"
 debug_print = "1.0.0"
 encoding_rs = "0.8.31"

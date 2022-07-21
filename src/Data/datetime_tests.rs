@@ -330,6 +330,9 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
 fn test_DATETIME_PARSE_DATAS_test_cases() {
     for (index, dtpd) in DATETIME_PARSE_DATAS.iter().enumerate() {
         eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
+        eprintln!("  Regex Pattern   : {:?}", dtpd.regex_pattern);
+        eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
+        eprintln!("  Test Data       : {:?}", dtpd._test_case);
         let data = dtpd._test_case.as_bytes();
         let tz = FixedOffset::east_opt(60 * 60).unwrap();
         match bytes_to_regex_to_datetime(data, &index, &tz) {

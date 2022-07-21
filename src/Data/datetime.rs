@@ -48,6 +48,9 @@ pub use chrono::{
 extern crate const_format;
 use const_format::concatcp;
 
+extern crate const_str;
+use const_str::to_byte_array;
+
 extern crate debug_print;
 use debug_print::debug_eprintln;
 
@@ -58,6 +61,7 @@ extern crate more_asserts;
 use more_asserts::{
     assert_le,
     assert_lt,
+    debug_assert_le,
     debug_assert_lt,
 };
 
@@ -71,10 +75,11 @@ use unroll::unroll_for_loops;
 // DateTime Regex Matching and strftime formatting
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// chrono strftime formatting pattern, passed to `chrono::datetime_from_str`
+/// crate `chrono` `strftime` formatting pattern, passed to `chrono::datetime_from_str`.
+/// Specific `const` instances of `DateTimePattern_str` are hardcoded in
+/// `fn captures_to_buffer`.
 pub type DateTimePattern_str = str;
-//pub type DateTimePattern_string = String;
-/// regular expression formatting pattern, passed to `Regex::new`
+/// regular expression formatting pattern, passed to `regex::bytes::Regex`
 pub type DateTimeRegex_str = str;
 //pub type DateTimeRegex_string = String;
 pub type CaptureGroupName = str;
@@ -106,7 +111,7 @@ pub enum DTFS_Month {
     m,
     /// %b
     b,
-    /// %B
+    /// %B - transformed in `fn captures_to_buffer`
     B,
 }
 
@@ -242,7 +247,7 @@ pub struct DateTime_Parse_Data<'a> {
     pub _line_num: u32,
 }
 
-/// declare a `DateTime_Parse_Data` tuple a little more easily
+/// declare a `DateTime_Parse_Data` tuple more easily
 #[macro_export]
 macro_rules! DTPD {
     (
@@ -327,15 +332,46 @@ impl fmt::Debug for DateTime_Parse_Data<'_> {
 
 }
 
+const DTP_YmdHMSzc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
+const DTP_YmdHMSz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
+const DTP_YmdHMSzp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
+const DTP_YmdHMSfzc: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%:z";
+const DTP_YmdHMSfz: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
+const DTP_YmdHMSfzp: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%#z";
 
-// chrono strftime formatting strings used in `datetime_parse_from_str`.
+/// `%Z` is mapped to %z by `captures_to_buffer`
+const DTP_YmdHMSfZ: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
+
+const DTP_YbdHMSz: &DateTimePattern_str = "%Y%b%dT%H%M%S%z";
+const DTP_YbdHMScz: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
+const DTP_YBdHMSz: &DateTimePattern_str = "%Y%B%dT%H%M%S%z";
+/// `%:z` is filled by `captures_to_buffer`
+const DTP_YbdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
+/// `%:z` is filled by `captures_to_buffer`
+const DTP_YBdHMS: &DateTimePattern_str = "%Y%B%dT%H%M%S%:z";
+/// `%:z` is filled by `captures_to_buffer`
+const DTP_YbeHMS: &DateTimePattern_str = "%Y%b%eT%H%M%S%:z";
+/// `%:z` is filled by `captures_to_buffer`
+const DTP_YBeHMS: &DateTimePattern_str = "%Y%B%eT%H%M%S%:z";
+
+/// `%Y` `%:z` is filled by `captures_to_buffer`
+const DTP_beHMS: &DateTimePattern_str = "%Y%b%eT%H%M%S%:z";
+
+/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer`
+const DTP_BdHMS: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
+/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer`
+const DTP_BeHMS: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
+/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer`
+const DTP_bdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
+
+// chrono strftime formatting strings used in `fn datetime_parse_from_str`.
 // `DTF` is "DateTime Format"
 //
 // These are effectively mappings to receive extracting datetime substrings in a `&str`
-// then to rearrange those into order suitable for `captures_to_buffer`.
+// then to rearrange those into order suitable for `fn captures_to_buffer`.
 //
 // The variable name represents what is available. The value represents it's rearranged form
-// using in `captures_to_buffer`.
+// using in `fn captures_to_buffer`.
 
 pub(crate) const DTFSS_YmdHMS: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -346,7 +382,7 @@ pub(crate) const DTFSS_YmdHMS: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
-    pattern: "%Y%m%dT%H%M%S%:z",
+    pattern: DTP_YmdHMSzc,
 };
 pub(crate) const DTFSS_YmdHMSz: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -357,7 +393,7 @@ pub(crate) const DTFSS_YmdHMSz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::z,
-    pattern: "%Y%m%dT%H%M%S%z",
+    pattern: DTP_YmdHMSz,
 };
 pub(crate) const DTFSS_YmdHMScz: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -368,7 +404,7 @@ pub(crate) const DTFSS_YmdHMScz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::cz,
-    pattern: "%Y%m%dT%H%M%S%:z",
+    pattern: DTP_YmdHMSzc,
 };
 pub(crate) const DTFSS_YmdHMSpz: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -379,7 +415,7 @@ pub(crate) const DTFSS_YmdHMSpz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::pz,
-    pattern: "%Y%m%dT%H%M%S%#z",
+    pattern: DTP_YmdHMSzp,
 };
 pub(crate) const DTFSS_YmdHMSZ: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -390,7 +426,7 @@ pub(crate) const DTFSS_YmdHMSZ: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
-    pattern: "%Y%m%dT%H%M%S%z",
+    pattern: DTP_YmdHMSz,
 };
 
 const DTFSS_YmdHMSf: DTFSSet = DTFSSet {
@@ -402,7 +438,7 @@ const DTFSS_YmdHMSf: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::_fill,
-    pattern: "%Y%m%dT%H%M%S.%f%:z",
+    pattern: DTP_YmdHMSfzc,
 };
 const DTFSS_YmdHMSfz: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -413,7 +449,7 @@ const DTFSS_YmdHMSfz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::z,
-    pattern: "%Y%m%dT%H%M%S.%f%z",
+    pattern: DTP_YmdHMSfz,
 };
 const DTFSS_YmdHMSfcz: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -424,7 +460,7 @@ const DTFSS_YmdHMSfcz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::cz,
-    pattern: "%Y%m%dT%H%M%S.%f%:z",
+    pattern: DTP_YmdHMSfzc,
 };
 const DTFSS_YmdHMSfpz: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -435,7 +471,7 @@ const DTFSS_YmdHMSfpz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::pz,
-    pattern: "%Y%m%dT%H%M%S.%f%#z",
+    pattern: DTP_YmdHMSfzp,
 };
 const DTFSS_YmdHMSfZ: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -446,58 +482,56 @@ const DTFSS_YmdHMSfZ: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::Z,
-    pattern: "%Y%m%dT%H%M%S.%f%:z",
+    pattern: DTP_YmdHMSfzc,
 };
 
-/// %Z is mapped to %z by `captures_to_buffer`
-const DTF_YmdHMSfZ: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
-
-const DTF_YbdHMSz: &DateTimePattern_str = "%Y%b%dT%H%M%S%z";
-const DTF_YbdHMScz: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
-const DTF_YBdHMSz: &DateTimePattern_str = "%Y%B%dT%H%M%S%z";
-/// %z is filled by `captures_to_buffer`
-const DTF_YbdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%z";
-/// %z is filled by `captures_to_buffer`
-const DTF_YBdHMS: &DateTimePattern_str = "%Y%B%dT%H%M%S%z";
-/// %z is filled by `captures_to_buffer`
-const DTF_YbeHMS: &DateTimePattern_str = "%Y%b%eT%H%M%S%z";
-/// %z is filled by `captures_to_buffer`
-const DTF_YBeHMS: &DateTimePattern_str = "%Y%B%eT%H%M%S%z";
-
-/// %Y %z is filled by `captures_to_buffer`
-const DTF_BdHMS: &DateTimePattern_str = "%Y%B%dT%H%M%S%z";
-/// %Y %z is filled by `captures_to_buffer`
-const DTF_BeHMS: &DateTimePattern_str = "%Y%B%eT%H%M%S%z";
-/// %Y %z is filled by `captures_to_buffer`
-const DTF_bdHMS: &DateTimePattern_str = "%Y%B%dT%H%M%S%z";
-/// %Y %z is filled by `captures_to_buffer`
-const DTF_beHMS: &DateTimePattern_str = "%Y%B%eT%H%M%S%z";
+const DTFSS_BdHMS: DTFSSet = DTFSSet {
+    year: DTFS_Year::_fill,
+    month: DTFS_Month::B,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    pattern: DTP_BdHMS,
+};
+const DTFSS_BeHMS: DTFSSet = DTFSSet {
+    year: DTFS_Year::_fill,
+    month: DTFS_Month::B,
+    day: DTFS_Day::e,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    pattern: DTP_BeHMS,
+};
 
 /// to aid testing
 #[cfg(any(debug_assertions,test))]
 pub(crate) const _DTF_ALL: &[&DateTimePattern_str] = &[
-    //DTF_YmdHMS,
-    //DTF_YmdHMSz,
-    //DTF_YmdHMScz,
-    //DTF_YmdHMSpz,
-    //DTF_YmdHMSf,
-    //DTF_YmdHMSfz,
-    //DTF_YmdHMSfcz,
-    //DTF_YmdHMSfpz,
-    DTF_YmdHMSfZ,
-    DTF_YbdHMSz,
-    DTF_YbdHMScz,
-    DTF_YBdHMSz,
-    DTF_YbdHMS,
-    DTF_YBdHMS,
-    DTF_YbeHMS,
-    DTF_YBeHMS,
-    DTF_BdHMS,
-    DTF_BeHMS,
-    DTF_bdHMS,
-    DTF_beHMS,
+    //DTP_YmdHMS,
+    //DTP_YmdHMSz,
+    //DTP_YmdHMScz,
+    //DTP_YmdHMSpz,
+    //DTP_YmdHMSf,
+    //DTP_YmdHMSfz,
+    //DTP_YmdHMSfcz,
+    //DTP_YmdHMSfpz,
+    DTP_YmdHMSfZ,
+    DTP_YbdHMSz,
+    DTP_YbdHMScz,
+    DTP_YBdHMSz,
+    DTP_YbdHMS,
+    DTP_YBdHMS,
+    DTP_YbeHMS,
+    DTP_YBeHMS,
+    DTP_BdHMS,
+    DTP_BeHMS,
+    DTP_bdHMS,
+    DTP_beHMS,
 ];
-
 
 // `regex::Captures` capture group names
 
@@ -531,27 +565,29 @@ pub(crate) const CGN_ALL_: [&CaptureGroupName; 8] = [
 ];
 
 // saved rust playground for quick testing patterns
-// https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=ce763529db427a33904edf5ddd89da42
+// https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=00460112beb2a6d078d6bbba72557574
 
 /// regex capture group pattern for strftime year
 pub const CGP_YEAR: &CaptureGroupPattern = r"(?P<year>[12]\d{3})";
-/// regex capture group pattern for strftime month %m
+/// regex capture group pattern for strftime month `%m`
 pub const CGP_MONTHm: &CaptureGroupPattern = r"(?P<month>01|02|03|04|05|06|07|08|09|10|11|12)";
-/// regex capture group pattern for strftime month %b
-pub const CGP_MONTHb: &CaptureGroupPattern = r"(?P<month>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)";
-/// regex capture group pattern for strftime month %B
-pub const CGP_MONTHB: &CaptureGroupPattern = r"(?P<month>January|February|March|April|May|June|July|August|September|October|November|December)";
-/// regex capture group pattern for strftime day %d
+/// regex capture group pattern for strftime month `%b`
+pub const CGP_MONTHb: &CaptureGroupPattern = r"(?P<month>(?i)Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec(?-i))";
+/// regex capture group pattern for strftime month `%B`
+pub const CGP_MONTHB: &CaptureGroupPattern = r"(?P<month>(?i)January|February|March|April|May|June|July|August|September|October|November|December(?-i))";
+/// regex capture group pattern for strftime month `%B` and `%b`
+pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>(?i)January|Jan|February|Feb|March|Mar|April|Apr|May|June|Jun|July|Jul|August|Aug|September|Sep|October|Oct|November|Nov|December|Dec(?-i))";
+/// regex capture group pattern for strftime day `%d`
 pub const CGP_DAYd: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
-/// regex capture group pattern for strftime day %e
+/// regex capture group pattern for strftime day `%e`
 pub const CGP_DAYe: &CaptureGroupPattern = r"(?P<day> 1| 2| 3| 4| 5| 6| 7| 8| 9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
-/// regex capture group pattern for strftime hour %H
+/// regex capture group pattern for strftime hour `%H`
 pub const CGP_HOUR: &CaptureGroupPattern = r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
-/// regex capture group pattern for strftime minute %M
+/// regex capture group pattern for strftime minute `%M`
 pub const CGP_MINUTE: &CaptureGroupPattern = r"(?P<minute>[012345]\d)";
-/// regex capture group pattern for strftime second %S, includes leap second "60"
+/// regex capture group pattern for strftime second `%S`, includes leap second "60"
 pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345]\d|60)";
-/// regex capture group pattern for strftime fractional %f,
+/// regex capture group pattern for strftime fractional `%f`,
 /// all strftime patterns %f %3f %6f %9f
 pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{3,9})";
 /// for help in testing only
@@ -560,6 +596,7 @@ pub(crate) const CGP_MONTH_ALL_: &[&CaptureGroupPattern] = &[
     CGP_MONTHm,
     CGP_MONTHb,
     CGP_MONTHB,
+    CGP_MONTHBb,
 ];
 /// for help in testing only
 #[cfg(any(debug_assertions,test))]
@@ -881,7 +918,7 @@ pub type DateTime_Parse_Datas_Index = usize;
 /// a run-time created vector of `Regex` instances that is a counterpart to `DATETIME_PARSE_DATAS`.
 pub type DateTime_Parse_Datas_Regex_vec = Vec<DateTimeRegex>;
 
-pub const DATETIME_PARSE_DATAS_LEN: usize = 26;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 29;
 
 /// built-in `const DateTime_Parse_Data` datetime parsing patterns.
 ///
@@ -948,6 +985,27 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
         DTFSS_YmdHMSf, 0, 40, CGN_YEAR, CGN_FRACTIONAL,
         "[2020/03/05 12:17:59.631000, FOO] ../source3/smbd/oplock.c:1340(init_oplocks)", line!(),
     ),
+    // from file `/var/log/unattended-upgrades/unattended-upgrades-dpkg.log`
+    // example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890
+    //     Log started: 2022-07-14  06:48:58
+    //     (Reading database ...
+    //     Preparing to unpack .../linux-tools-common_5.15.0-41.44_all.deb ...
+    //     Unpacking linux-tools-common (5.15.0-41.44) over (5.15.0-40.43) ...
+    //     Setting up linux-tools-common (5.15.0-41.44) ...
+    //     Processing triggers for man-db (2.10.2-1) ...
+    //     NEEDRESTART-VER: 3.5
+    //     NEEDRESTART-KCUR: 5.10.102.1-microsoft-standard-WSL2
+    //     NEEDRESTART-KSTA: 0
+    //     Log ended: 2022-07-14  06:49:02
+    //     
+    DTPD!(
+        concatcp!("^", RP_BLANKSq, r"(Log started:|Log ended:)", RP_BLANKSq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, r"[ T]*", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
+        DTFSS_YmdHMS, 0, 40, CGN_YEAR, CGN_SECOND,
+        "Log started: 2022-07-14  06:48:58\n(Reading database ...", line!(),
+    ),
     /*
     //
     // from file `./logs/Ubuntu18/vmware-installer.log`
@@ -959,12 +1017,12 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!("^", RP_LB, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_RB),
-        DTF_YmdHMS, true, false, false, false, 0, 30, CGN_YEAR, CGN_SECOND,
+        DTP_YmdHMS, true, false, false, false, 0, 30, CGN_YEAR, CGN_SECOND,
         "[20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)", line!(),
     ),
     DTPD!(
         concatcp!("^", RP_LB, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", D_SF, CGP_FRACTIONAL, RP_RB),
-        DTF_YmdHMSf, true, false, false, false, 0, 40, CGN_YEAR, CGN_FRACTIONAL,
+        DTP_YmdHMSf, true, false, false, false, 0, 40, CGN_YEAR, CGN_FRACTIONAL,
         r"[2019-05-06 11:24:34,074] Successfully loaded GTK libraries.", line!(),
     ),
     // ---------------------------------------------------------------------------------------------
@@ -978,74 +1036,74 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!("^", RP_LB, RP_LEVELS, RP_RB, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz),
-        DTF_YmdHMSz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
         "[VERBOSE] 2000-01-02T12:33:04 -1030 blah", line!(),
     ),
     DTPD!(
         concatcp!("^", RP_LB, RP_LEVELS, RP_RB, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZcz),
-        DTF_YmdHMScz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMScz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
         "[VERBOSE] 2000-01-02T12:33:04 -10:00 blah", line!(),
     ),
     DTPD!(
         concatcp!("^", RP_LB, RP_LEVELS, RP_RB, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZpz),
-        DTF_YmdHMSpz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSpz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
         "[VERBOSE] 2000-01-02T12:33:04 -10 blah", line!(),
     ),
     DTPD!(
         concatcp!("^", RP_LB, RP_LEVELS, RP_RB, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ),
-        DTF_YmdHMSZ, true, false, true, true, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSZ, true, false, true, true, 0, 40, CGN_YEAR, CGN_TZ,
         "[VERBOSE] 2000-01-02T12:33:04 PST blah", line!(),
     ),
     DTPD!(
         concatcp!("^", RP_LB, RP_LEVELS, RP_RB, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
-        DTF_YmdHMS, true, false, false, false, 0, 40, CGN_YEAR, CGN_SECOND,
+        DTP_YmdHMS, true, false, false, false, 0, 40, CGN_YEAR, CGN_SECOND,
         "[VERBOSE] 2000-01-02T12:33:04blah", line!(),
     ),
     //
     DTPD!(
         concatcp!("^", RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz),
-        DTF_YmdHMSz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
         "VERBOSE: 2000-01-02T12:33:04 -1030 blah", line!(),
     ),
     DTPD!(
         concatcp!("^", RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZcz),
-        DTF_YmdHMScz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMScz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
         "VERBOSE: 2000-01-02T12:33:04 -10:00 blah", line!(),
     ),
     DTPD!(
         concatcp!("^", RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZpz),
-        DTF_YmdHMSpz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSpz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
         "VERBOSE: 2000-01-02T12:33:04 -10 blah", line!(),
     ),
     DTPD!(
         concatcp!("^", RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ),
-        DTF_YmdHMSZ, true, false, true, true, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSZ, true, false, true, true, 0, 40, CGN_YEAR, CGN_TZ,
         "VERBOSE: 2000-01-02T12:33:04 PST blah", line!(),
     ),
     DTPD!(
         concatcp!("^", RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " "),
-        DTF_YmdHMS, true, false, false, false, 0, 40, CGN_YEAR, CGN_SECOND,
+        DTP_YmdHMS, true, false, false, false, 0, 40, CGN_YEAR, CGN_SECOND,
         "VERBOSE: 2000-01-02T12:33:04 blah", line!(),
     ),
     //
     DTPD!(
         concatcp!(RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz),
-        DTF_YmdHMSz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
         "[kernel] VERBOSE: 2000-01-02T12:33:04 -1030 blah", line!(),
     ),
     DTPD!(
         concatcp!(RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZcz),
-        DTF_YmdHMScz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMScz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
         "[kernel] VERBOSE: 2000-01-02T12:33:04 -10:00 blah", line!(),
     ),
     DTPD!(
         concatcp!(RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZpz),
-        DTF_YmdHMSpz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSpz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
         "[kernel] VERBOSE: 2000-01-02T12:33:04 -10 blah", line!(),
     ),
     DTPD!(
         concatcp!(RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ),
-        DTF_YmdHMSZ, true, false, true, true, 0, 40, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSZ, true, false, true, true, 0, 40, CGN_YEAR, CGN_TZ,
         "[kernel] VERBOSE: 2000-01-02T12:33:04 PST blah", line!(),
     ),
     // ---------------------------------------------------------------------------------------------
@@ -1068,22 +1126,22 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZz),
-        DTF_YmdHMSz, true, true, false, 0, 30, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSz, true, true, false, 0, 30, CGN_YEAR, CGN_TZ,
         "2000-01-02 12:33:01 -0400 foo", line!(),
     ),
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZZ),
-        DTF_YmdHMSZ, true, true, true, 0, 30, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSZ, true, true, true, 0, 30, CGN_YEAR, CGN_TZ,
         "2000-01-02 12:33:01 EAST foo", line!(),
     ),
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZcz),
-        DTF_YmdHMSZ, true, true, true, 0, 30, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSZ, true, true, true, 0, 30, CGN_YEAR, CGN_TZ,
         "2000-01-02 12:33:01 -04:00 foo", line!(),
     ),
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZpz),
-        DTF_YmdHMSpz, true, true, true, 0, 30, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSpz, true, true, true, 0, 30, CGN_YEAR, CGN_TZ,
         "2000-01-02 12:33:01 -04 foo", line!(),
     ),
     //               1         2
@@ -1095,22 +1153,22 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, " ", CGP_TZz),
-        DTF_YmdHMSfz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSfz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
         "2000-01-02 12:33:01,123 -0400 foo", line!(),
     ),
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, " ", CGP_TZZ),
-        DTF_YmdHMSfZ, true, true, true, 0, 45, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSfZ, true, true, true, 0, 45, CGN_YEAR, CGN_TZ,
         "2000-01-02 12:33:01,123 EAST foo", line!(),
     ),
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, " ", CGP_TZcz),
-        DTF_YmdHMSfcZ, true, true, true, 0, 45, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSfcZ, true, true, true, 0, 45, CGN_YEAR, CGN_TZ,
         "2000-01-02 12:33:01,123 -04:00 foo", line!(),
     ),
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, " ", CGP_TZpz),
-        DTF_YmdHMSfpz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSfpz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
         "2000-01-02 12:33:01,123 -04 foo", line!(),
     ),
     //               1         2
@@ -1119,7 +1177,7 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL),
-        DTF_YmdHMSf, true, false, false, 0, 45, CGN_YEAR, CGN_FRACTIONAL,
+        DTP_YmdHMSf, true, false, false, 0, 45, CGN_YEAR, CGN_FRACTIONAL,
         "2000-01-02 12:33:01.123456 foo", line!(),
     ),
     //               1         2         3
@@ -1131,7 +1189,7 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?"),
-        DTF_YmdHMS, true, false, false, 0, 20, CGN_YEAR, CGN_SECOND,
+        DTP_YmdHMS, true, false, false, 0, 20, CGN_YEAR, CGN_SECOND,
         "2000-01-02 12:33:01 foo", line!(),
     ),
     // ---------------------------------------------------------------------------------------------
@@ -1145,7 +1203,7 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!("^", RP_LB, RP_LEVELS, r"\][ ]?", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " "),
-        DTF_YmdHMS, true, false, false, 0, 30, CGN_YEAR, CGN_SECOND,
+        DTP_YmdHMS, true, false, false, 0, 30, CGN_YEAR, CGN_SECOND,
         "[ERROR] 2000-01-02 12:33:01 foobar", line!(),
     ),
     // ---------------------------------------------------------------------------------------------
@@ -1159,24 +1217,25 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     DTPD!(
         // LAST WORKING HERE 2022/06/28 17:00:34 fails test though it looks fine
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, "[ ]?", CGP_TZz, RP_BLANKS, RP_LEVELS),
-        DTF_YmdHMSfz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSfz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
         "2019-07-26T10:40:29.123-0700 info hostd[03210] [Originator@6876 sub=Default]", line!(),
     ),
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, "[ ]?", CGP_TZcz, RP_BLANKS, RP_LEVELS),
-        DTF_YmdHMSfcz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSfcz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
         "2019-07-26T10:40:29.123456-07:00 info hostd[03210] [Originator@6876 sub=Default]", line!(),
     ),
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, "[ ]?", CGP_TZpz, RP_BLANKS, RP_LEVELS),
-        DTF_YmdHMSfpz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSfpz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
         "2019-07-26T10:40:29.123456789-07 info hostd[03210] [Originator@6876 sub=Default]", line!(),
     ),
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, " ", CGP_TZZ, RP_BLANKS, RP_LEVELS),
-        DTF_YmdHMSfZ, true, true, true, 0, 45, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSfZ, true, true, true, 0, 45, CGN_YEAR, CGN_TZ,
         "2019-07-26T10:40:29.123456789 PST info hostd[03210] [Originator@6876 sub=Default]", line!(),
     ),
+    */
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/Ubuntu18/kernel.log`
     // example with offset:
@@ -1194,25 +1253,63 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //     January  3 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119
     //
     DTPD!(
-        concatcp!(r"^", CGP_MONTHb, " ", CGP_DAYd, " ", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " "),
-        DTF_bdHMS, false, false, false, 0, 20, CGN_MONTH, CGN_SECOND,
+        concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANKS, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKSq),
+        DTFSS_BdHMS, 0, 25, CGN_MONTH, CGN_SECOND,
         "Mar 09 08:10:29 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode", line!(),
     ),
     DTPD!(
-        concatcp!(r"^", CGP_MONTHb, " ", CGP_DAYe, " ", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " "),
-        DTF_beHMS, false, false, false, 0, 20, CGN_MONTH, CGN_SECOND,
+        concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANKS, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKSq),
+        DTFSS_BeHMS, 0, 25, CGN_MONTH, CGN_SECOND,
         "Mar  9 08:10:29 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode", line!(),
     ),
+    /*
     DTPD!(
         concatcp!(r"^", CGP_MONTHB, " ", CGP_DAYd, " ", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " "),
-        DTF_BdHMS, false, false, false, 0, 30, CGN_MONTH, CGN_SECOND,
+        DTP_BdHMS, false, false, false, 0, 30, CGN_MONTH, CGN_SECOND,
         "January 03 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119", line!(),
     ),
     DTPD!(
         concatcp!(r"^", CGP_MONTHB, " ", CGP_DAYd, " ", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " "),
-        DTF_BeHMS, false, false, false, 0, 30, CGN_MONTH, CGN_SECOND,
+        DTP_BeHMS, false, false, false, 0, 30, CGN_MONTH, CGN_SECOND,
         "January  3 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119", line!(),
     ),
+    */
+    /*
+    // ---------------------------------------------------------------------------------------------
+    // from file `/var/log/aptitude`
+    // example with offset:
+    //
+    //               1         2
+    //     012345678901234567890
+    //     ===============================================================================
+    //     
+    //     Aptitude 0.8.13: log report
+    //     Tue, Jun 28 2022 01:51:12 +0000
+    //     
+    //       IMPORTANT: this log only lists intended actions; actions which fail
+    //       due to dpkg problems may not be completed.
+    //     
+    //     Will install 1 packages, and remove 0 packages.
+    //     4833 kB of disk space will be used
+    //     ========================================
+    //     [HOLD, DEPENDENCIES] libnss-systemd:amd64 249.11-0ubuntu3.1
+    //     [HOLD, DEPENDENCIES] libpam-systemd:amd64 249.11-0ubuntu3.1
+    //     [HOLD, DEPENDENCIES] libsystemd0:amd64 249.11-0ubuntu3.1
+    //     [HOLD, DEPENDENCIES] libudev1:amd64 249.11-0ubuntu3.1
+    //     [HOLD, DEPENDENCIES] systemd:amd64 249.11-0ubuntu3.1
+    //     [HOLD, DEPENDENCIES] systemd-sysv:amd64 249.11-0ubuntu3.1
+    //     [HOLD, DEPENDENCIES] systemd-timesyncd:amd64 249.11-0ubuntu3.1
+    //     [HOLD, DEPENDENCIES] udev:amd64 249.11-0ubuntu3.1
+    //     [INSTALL] p7zip-full:amd64 16.02+dfsg-8
+    //     ========================================
+    //     
+    //     Log complete.
+    //     
+    //     ===============================================================================
+    //
+    // TODO: add DTPD for `aptitude` log report
+     */
+    /*
     // ---------------------------------------------------------------------------------------------    // from file `./logs/debian9/alternatives.log`
     // example with offset:
     //
@@ -1231,12 +1328,12 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!(RP_LB, CGP_DAYd, D_D, CGP_MONTHb, D_D, CGP_YEAR, D_DHc, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZz, RP_RB),
-        DTF_YmdHMSz, true, true, false, 0, 100, CGN_DAY, CGN_TZ,
+        DTP_YmdHMSz, true, true, false, 0, 100, CGN_DAY, CGN_TZ,
         r"E [30/Aug/2019:12:59:01 -0700] Unable to open listen socket for address [v1.::1]:631 - Cannot assign requested address.", line!(),
     ),
     DTPD!(
         concatcp!(RP_LB, CGP_DAYd, D_D, CGP_MONTHb, D_D, CGP_YEAR, D_DHc, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZcz, RP_RB),
-        DTF_YmdHMScz, true, true, false, 0, 100, CGN_DAY, CGN_TZ,
+        DTP_YmdHMScz, true, true, false, 0, 100, CGN_DAY, CGN_TZ,
         r"E [30/Aug/2019:12:59:01 -07:00] Unable to open listen socket for address [v1.::1]:631 - Cannot assign requested address.", line!(),
     ),
     // ---------------------------------------------------------------------------------------------
@@ -1250,35 +1347,35 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     // XXX: ignore the leading Day Of Week substring
     DTPD!(
         concatcp!(CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, " ", CGP_TZz),
-        DTF_YbdHMSz, true, true, false, 0, 100, CGN_MONTH, CGN_TZ,
+        DTP_YbdHMSz, true, true, false, 0, 100, CGN_MONTH, CGN_TZ,
         r"Sat Oct 03 11:26:59 2020 +0930 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
     ),
     DTPD!(
         concatcp!(CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, " ", CGP_TZcz),
-        DTF_YbdHMScz, true, true, false, 0, 100, CGN_MONTH, CGN_TZ,
+        DTP_YbdHMScz, true, true, false, 0, 100, CGN_MONTH, CGN_TZ,
         r"Sat Oct 03 11:26:59 2020 +09:30 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
     ),
     // TODO: need to add the other timezone variations for each of these
     DTPD!(
         concatcp!(CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR),
-        DTF_YbdHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
+        DTP_YbdHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
         r"Sat Oct 03 11:26:59 2020 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
     ),
     DTPD!(
         concatcp!(CGP_MONTHB, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR),
-        DTF_YBdHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
+        DTP_YBdHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
         r"Sat October 03 11:26:59 2020 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
     ),
     // TODO: the CGP_DAYe matches could be reduced by swallowing blanks RP_BLANKS, but how to replace leading zero?
     //       might need to add bool flag for that too
     DTPD!(
         concatcp!(CGP_MONTHb, D_D, CGP_DAYe, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR),
-        DTF_YbeHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
+        DTP_YbeHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
         r"Sat Oct  3 11:26:59 2020 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
     ),
     DTPD!(
         concatcp!(CGP_MONTHb, D_D, CGP_DAYe, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR),
-        DTF_YBeHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
+        DTP_YBeHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
         r"Sat October  3 11:26:59 2020 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
     ),
     //
@@ -1313,27 +1410,27 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!(r"^", RP_LEVELS, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZz, RP_BLANK, r"[[:alpha:]]"),
-        DTF_YmdHMSz, true, true, false, 0, 50, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSz, true, true, false, 0, 50, CGN_YEAR, CGN_TZ,
         "info	2017/02/21 23:01:59 -0700	admin: Setting of backup task [Local Storage 1] was created", line!(),
     ),
     DTPD!(
         concatcp!(r"^", RP_LEVELS, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZcz, RP_BLANK, r"[[:alpha:]]"),
-        DTF_YmdHMScz, true, true, false, 0, 50, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMScz, true, true, false, 0, 50, CGN_YEAR, CGN_TZ,
         "info	2017/02/21 23:01:59 -07:00	admin: Setting of backup task [Local Storage 1] was created", line!(),
     ),
     DTPD!(
         concatcp!(r"^", RP_LEVELS, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZpz, RP_BLANK, r"[[:alpha:]]"),
-        DTF_YmdHMSpz, true, true, false, 0, 50, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSpz, true, true, false, 0, 50, CGN_YEAR, CGN_TZ,
         "info	2017/02/21 23:01:59 -07	admin: Setting of backup task [Local Storage 1] was created", line!(),
     ),
     DTPD!(
         concatcp!(r"^", RP_LEVELS, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_BLANK, r"[[:alpha:]]"),
-        DTF_YmdHMSZ, true, true, true, 0, 50, CGN_YEAR, CGN_TZ,
+        DTP_YmdHMSZ, true, true, true, 0, 50, CGN_YEAR, CGN_TZ,
         "info	2017/02/21 23:01:59 PST	admin: Setting of backup task [Local Storage 1] was created", line!(),
     ),
     DTPD!(
         concatcp!(r"^", RP_LEVELS, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, r"[[:alpha:]]"),
-        DTF_YmdHMS, true, false, false, 0, 50, CGN_YEAR, CGN_SECOND,
+        DTP_YmdHMS, true, false, false, 0, 50, CGN_YEAR, CGN_SECOND,
         "info	2017/02/21 23:01:59	admin: Setting of backup task [Local Storage 1] was created", line!(),
     ),
     //
@@ -1347,7 +1444,7 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //
     DTPD!(
         concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL),
-        DTF_YmdHMSf, true, false, false, 0, 20, CGN_YEAR, CGN_FRACTIONAL,
+        DTP_YmdHMSf, true, false, false, 0, 20, CGN_YEAR, CGN_FRACTIONAL,
         "2020-01-02 12:33:59.001 xyz", line!(),
     ),
     // ---------------------------------------------------------------------------------------------
@@ -1361,22 +1458,22 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
     //     ERROR: apport (pid 9359) Thu Feb 27 00:33:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
     DTPD!(
         concatcp!(RP_BLANK, CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, " ", CGP_TZz, r"[: ]"),
-        DTF_YmdHMSz, true, true, false, 0, 200, CGN_MONTH, CGN_TZ,
+        DTP_YmdHMSz, true, true, false, 0, 200, CGN_MONTH, CGN_TZ,
         "ERROR: apport (pid 9359) Thu Feb 27 00:33:59 2020 -0700: called for pid 8581, signal 24, core limit 0, dump mode 1", line!(),
     ),
     DTPD!(
         concatcp!(RP_BLANK, CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, " ", CGP_TZcz, r"[: ]"),
-        DTF_YmdHMScz, true, true, false, 0, 200, CGN_MONTH, CGN_TZ,
+        DTP_YmdHMScz, true, true, false, 0, 200, CGN_MONTH, CGN_TZ,
         "ERROR: apport (pid 9359) Thu Feb 27 00:33:59 2020 -07:00: called for pid 8581, signal 24, core limit 0, dump mode 1", line!(),
     ),
     DTPD!(
         concatcp!(RP_BLANK, CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, " ", CGP_TZpz, r"[: ]"),
-        DTF_YmdHMSpz, true, true, false, 0, 200, CGN_MONTH, CGN_TZ,
+        DTP_YmdHMSpz, true, true, false, 0, 200, CGN_MONTH, CGN_TZ,
         "ERROR: apport (pid 9359) Thu Feb 27 00:33:59 2020 -07: called for pid 8581, signal 24, core limit 0, dump mode 1", line!(),
     ),
     DTPD!(
         concatcp!(RP_BLANK, CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, r":"),
-        DTF_YmdHMSz, true, false, false, 0, 200, CGN_MONTH, CGN_YEAR,
+        DTP_YmdHMSz, true, false, false, 0, 200, CGN_MONTH, CGN_YEAR,
         "ERROR: apport (pid 9359) Thu Feb 27 00:33:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1", line!(),
     ),
     // ---------------------------------------------------------------------------------------------
@@ -1755,6 +1852,7 @@ pub fn datetime_parse_from_str(
 /// - datetime
 pub type CapturedDtData = (LineIndex, LineIndex, DateTimeL);
 
+/*
 /// Put `Captures` into a `String` buffer in a particular order and formatting. This bridges the
 /// `DateTime_Parse_Data::regex_pattern` to `DateTime_Parse_Data::dt_pattern`.
 ///
@@ -1778,7 +1876,24 @@ fn captures_to_buffer(
         }
     }
     // month
-    buffer.push_str(captures.name(CGN_MONTH).as_ref().unwrap().as_str());
+    // for `%B` `%b` (i.e. "January" "Jan"), transform to `%m` (i.e. "01")
+    match captures.name(CGN_MONTH).as_ref().unwrap().as_str() {
+        "January" | "JANUARY" | "january" => buffer.push_str("01"),
+        "February" | "FEBRUARY" | "february" => buffer.push_str("02"),
+        "March" | "MARCH" | "march" => buffer.push_str("03"),
+        "April" | "APRIL" | "april" => buffer.push_str("04"),
+        "May" | "MAY" | "may" => buffer.push_str("05"),
+        "June" | "JUNE" | "june" => buffer.push_str("06"),
+        "July" | "JULY" | "july" => buffer.push_str("07"),
+        "August" | "AUGUST" | "august" => buffer.push_str("09"),
+        "September" | "SEPTEMBER" | "september" => buffer.push_str("09"),
+        "October" | "OCTOBER" | "october" => buffer.push_str("10"),
+        "November" | "NOVEMBER" | "november" => buffer.push_str("11"),
+        "December" | "DECEMBER" | "december" => buffer.push_str("12"),
+        val => {
+            panic!("capture group month bad value {:?}", val);
+        }
+    }
     // day
     match dtfs.day {
         DTFS_Day::d | DTFS_Day::e => {
@@ -1842,6 +1957,7 @@ fn captures_to_buffer(
     }
     debug_eprintln!("{}captures_to_buffer buffer {:?}", snx(), buffer);
 }
+*/
 
 /// helper to `captures_to_buffer_bytes`
 macro_rules! copy_capturegroup_to_buffer {
@@ -1886,6 +2002,111 @@ macro_rules! copy_u8_to_buffer {
     }
 }
 
+// variables `const MONTH_` are helpers to `fn month_bB_to_month_m_bytes`
+//
+// TODO: replace with rust experimental feature
+//       https://doc.bccnsoft.com/docs/rust-1.36.0-docs-html/unstable-book/library-features/const-str-as-bytes.html#const_str_as_bytes
+
+const MONTH_01_B_l: &[u8] = &to_byte_array!("january");
+const MONTH_01_b_l: &[u8] = &to_byte_array!("jan");
+const MONTH_01_B_u: &[u8] = &to_byte_array!("January");
+const MONTH_01_b_u: &[u8] = &to_byte_array!("Jan");
+const MONTH_01_m: &[u8] = &to_byte_array!("01");
+const MONTH_02_B_l: &[u8] = &to_byte_array!("february");
+const MONTH_02_b_l: &[u8] = &to_byte_array!("feb");
+const MONTH_02_B_u: &[u8] = &to_byte_array!("February");
+const MONTH_02_b_u: &[u8] = &to_byte_array!("Feb");
+const MONTH_02_m: &[u8] = &to_byte_array!("02");
+const MONTH_03_B_l: &[u8] = &to_byte_array!("march");
+const MONTH_03_b_l: &[u8] = &to_byte_array!("mar");
+const MONTH_03_B_u: &[u8] = &to_byte_array!("March");
+const MONTH_03_b_u: &[u8] = &to_byte_array!("Mar");
+const MONTH_03_m: &[u8] = &to_byte_array!("03");
+const MONTH_04_B_l: &[u8] = &to_byte_array!("april");
+const MONTH_04_b_l: &[u8] = &to_byte_array!("apr");
+const MONTH_04_B_u: &[u8] = &to_byte_array!("April");
+const MONTH_04_b_u: &[u8] = &to_byte_array!("Apr");
+const MONTH_04_m: &[u8] = &to_byte_array!("04");
+const MONTH_05_B_l: &[u8] = &to_byte_array!("may");
+const MONTH_05_b_l: &[u8] = &to_byte_array!("may");
+const MONTH_05_B_u: &[u8] = &to_byte_array!("May");
+const MONTH_05_b_u: &[u8] = &to_byte_array!("May");
+const MONTH_05_m: &[u8] = &to_byte_array!("05");
+const MONTH_06_B_l: &[u8] = &to_byte_array!("june");
+const MONTH_06_b_l: &[u8] = &to_byte_array!("jun");
+const MONTH_06_B_u: &[u8] = &to_byte_array!("June");
+const MONTH_06_b_u: &[u8] = &to_byte_array!("Jun");
+const MONTH_06_m: &[u8] = &to_byte_array!("06");
+const MONTH_07_B_l: &[u8] = &to_byte_array!("july");
+const MONTH_07_b_l: &[u8] = &to_byte_array!("jul");
+const MONTH_07_B_u: &[u8] = &to_byte_array!("July");
+const MONTH_07_b_u: &[u8] = &to_byte_array!("Jul");
+const MONTH_07_m: &[u8] = &to_byte_array!("07");
+const MONTH_08_B_l: &[u8] = &to_byte_array!("august");
+const MONTH_08_b_l: &[u8] = &to_byte_array!("aug");
+const MONTH_08_B_u: &[u8] = &to_byte_array!("August");
+const MONTH_08_b_u: &[u8] = &to_byte_array!("Aug");
+const MONTH_08_m: &[u8] = &to_byte_array!("08");
+const MONTH_09_B_l: &[u8] = &to_byte_array!("september");
+const MONTH_09_b_l: &[u8] = &to_byte_array!("sep");
+const MONTH_09_B_u: &[u8] = &to_byte_array!("September");
+const MONTH_09_b_u: &[u8] = &to_byte_array!("Sep");
+const MONTH_09_m: &[u8] = &to_byte_array!("09");
+const MONTH_10_B_l: &[u8] = &to_byte_array!("october");
+const MONTH_10_b_l: &[u8] = &to_byte_array!("oct");
+const MONTH_10_B_u: &[u8] = &to_byte_array!("October");
+const MONTH_10_b_u: &[u8] = &to_byte_array!("Oct");
+const MONTH_10_m: &[u8] = &to_byte_array!("10");
+const MONTH_11_B_l: &[u8] = &to_byte_array!("november");
+const MONTH_11_b_l: &[u8] = &to_byte_array!("nov");
+const MONTH_11_B_u: &[u8] = &to_byte_array!("November");
+const MONTH_11_b_u: &[u8] = &to_byte_array!("Nov");
+const MONTH_11_m: &[u8] = &to_byte_array!("11");
+const MONTH_12_B_l: &[u8] = &to_byte_array!("december");
+const MONTH_12_b_l: &[u8] = &to_byte_array!("dec");
+const MONTH_12_B_u: &[u8] = &to_byte_array!("December");
+const MONTH_12_b_u: &[u8] = &to_byte_array!("Dec");
+const MONTH_12_m: &[u8] = &to_byte_array!("12");
+
+/// helper to `captures_to_buffer_bytes`
+///
+/// transform `%B`, `%b` (i.e. "January", "Jan") to `%m` (i.e. "01")
+#[allow(non_snake_case)]
+fn month_bB_to_month_m_bytes(data: &[u8], buffer: &mut [u8]) {
+    match data {
+        MONTH_01_B_l | MONTH_01_b_l | MONTH_01_B_u | MONTH_01_b_u
+            => buffer.copy_from_slice(MONTH_01_m),
+        MONTH_02_B_l | MONTH_02_b_l | MONTH_02_B_u | MONTH_02_b_u
+            => buffer.copy_from_slice(MONTH_02_m),
+        MONTH_03_B_l | MONTH_03_b_l | MONTH_03_B_u | MONTH_03_b_u
+            => buffer.copy_from_slice(MONTH_03_m),
+        MONTH_04_B_l | MONTH_04_b_l | MONTH_04_B_u | MONTH_04_b_u
+            => buffer.copy_from_slice(MONTH_04_m),
+        //MONTH_05_B_l | MONTH_05_b_l | MONTH_05_B_u | MONTH_05_b_u
+        MONTH_05_B_l | MONTH_05_B_u
+            => buffer.copy_from_slice(MONTH_05_m),
+        MONTH_06_B_l | MONTH_06_b_l | MONTH_06_B_u | MONTH_06_b_u
+            => buffer.copy_from_slice(MONTH_06_m),
+        MONTH_07_B_l | MONTH_07_b_l | MONTH_07_B_u | MONTH_07_b_u
+            => buffer.copy_from_slice(MONTH_07_m),
+        MONTH_08_B_l | MONTH_08_b_l | MONTH_08_B_u | MONTH_08_b_u
+            => buffer.copy_from_slice(MONTH_08_m),
+        MONTH_09_B_l | MONTH_09_b_l | MONTH_09_B_u | MONTH_09_b_u
+            => buffer.copy_from_slice(MONTH_09_m),
+        MONTH_10_B_l | MONTH_10_b_l | MONTH_10_B_u | MONTH_10_b_u
+            => buffer.copy_from_slice(MONTH_10_m),
+        MONTH_11_B_l | MONTH_11_b_l | MONTH_11_B_u | MONTH_11_b_u
+            => buffer.copy_from_slice(MONTH_11_m),
+        MONTH_12_B_l | MONTH_12_b_l | MONTH_12_B_u | MONTH_12_b_u
+            => buffer.copy_from_slice(MONTH_12_m),
+        data_ => {
+            panic!("month_bB_to_month_m_bytes: unexpected month value {:?}", data_);
+            //debug_assert_le!(data_.len(), 2, "month_bB_to_month_m_bytes passed bad data; len {}; {:?}", data_.len(), data_);
+            //buffer.copy_from_slice(data_)
+        }
+    }
+}
+
 /// Put `Captures` into a `String` buffer in a particular order and formatting. This bridges the
 /// `DateTime_Parse_Data::regex_pattern` to `DateTime_Parse_Data::dt_pattern`.
 ///
@@ -1913,7 +2134,18 @@ fn captures_to_buffer_bytes(
         }
     }
     // month
-    copy_capturegroup_to_buffer!(CGN_MONTH, captures, buffer, at);
+    match dtfs.month {
+        DTFS_Month::b | DTFS_Month::B => {
+            month_bB_to_month_m_bytes(
+                captures.name(CGN_MONTH).as_ref().unwrap().as_bytes(),
+                &mut buffer[at..at+2]
+            );
+            at += 2;
+        }
+        DTFS_Month::m => {
+            copy_capturegroup_to_buffer!(CGN_MONTH, captures, buffer, at);
+        }
+    }
     // day
     match dtfs.day {
         DTFS_Day::d | DTFS_Day::e => {
