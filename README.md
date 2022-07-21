@@ -33,21 +33,23 @@ and archives (`.tar`, `.zip`). The first goal of s4 is speedy searching.
 
 ### Features
 
-- Supports many varying datetime formats including (WHAT IS THE OFFICIAL ONE?).
-- Tested against "in the wild" log files from varying Linux distributions.
+- Prepends datetime and file paths, for easy programmatic parsing or visual traversal of varying syslog messages
+- Supports many varying datetime formats including (WHAT IS THE OFFICIAL ONE?)
+- Tested against "in the wild" log files from varying Linux distributions (see `./logs/`)
+- Comparable speed as GNU `grep` and `sort` (see `./tools/compare-grep-sort1.sh`)
 - Handles invalid UTF-8 (prints whatever is found)
 
 ### Limitations
 
 - Only handles UTF-8 or ASCII encoded log files.
-- Cannot handle multi-file `.gz` files (multiple "streams")
-- Cannot handle multi-file `.xz` files (chooses first file found)
+- Cannot handle multi-file `.gz` files (multiple "streams") (TODO describe problem)
+- Cannot handle multi-file `.xz` files (chooses first file found) (TODO describe problem)
 - Cannot process archive or compressed files within other archive or compressed files.<br/>
   e.g. a `.tar` file within another `.tar` file will not be processed, a `.gz` file within a `.tar` file will not be processed.
 
 ### Hacks
 
-- Entire `.xz` files are read into memory during the initial `open`. See 
+- Entire `.xz` files are read into memory during the initial `open` (see [607a23c00aff0d9b34fb3d678bdfd5c14290582d](https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/607a23c00aff0d9b34fb3d678bdfd5c14290582d#diff-a23d01b527ccc36fa0336ab1789a2f5d2567f21e93c5708b0e5b46ae9f3a708cR783-R836))
 
 ## Background
 
