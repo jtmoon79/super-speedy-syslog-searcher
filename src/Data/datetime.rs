@@ -77,7 +77,7 @@ use unroll::unroll_for_loops;
 
 /// crate `chrono` `strftime` formatting pattern, passed to `chrono::datetime_from_str`.
 /// Specific `const` instances of `DateTimePattern_str` are hardcoded in
-/// `fn captures_to_buffer`.
+/// `fn captures_to_buffer_bytes`.
 pub type DateTimePattern_str = str;
 /// regular expression formatting pattern, passed to `regex::bytes::Regex`
 pub type DateTimeRegex_str = str;
@@ -111,7 +111,7 @@ pub enum DTFS_Month {
     m,
     /// %b
     b,
-    /// %B - transformed in `fn captures_to_buffer`
+    /// %B - transformed in `fn captures_to_buffer_bytes`
     B,
 }
 
@@ -202,9 +202,9 @@ pub struct DTFSSet<'a> {
     pub tz: DTFS_Tz,
     /// strftime pattern passed to `chrono::DateTime::parse_from_str` or `chrono::NaiveDateTime::parse_from_str`
     /// in function `datetime_parse_from_str`. Directly relates to order of capture group extractions and `push_str`
-    /// done in `captures_to_buffer`.
+    /// done in `captures_to_buffer_bytes`.
     ///
-    /// `pattern` is interdependent with other members.
+    /// `pattern` is interdependent with other members. Tested in `test_DATETIME_PARSE_DATAS_builtin`.
     pub pattern: &'a DateTimePattern_str,
 }
 
@@ -332,6 +332,8 @@ impl fmt::Debug for DateTime_Parse_Data<'_> {
 
 }
 
+// patterns used in `DTPD!` declarations
+
 const DTP_YmdHMSzc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 const DTP_YmdHMSz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
 const DTP_YmdHMSzp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
@@ -339,39 +341,39 @@ const DTP_YmdHMSfzc: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%:z";
 const DTP_YmdHMSfz: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
 const DTP_YmdHMSfzp: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%#z";
 
-/// `%Z` is mapped to %z by `captures_to_buffer`
+/// `%Z` is mapped to %z by `captures_to_buffer_bytes`
 const DTP_YmdHMSfZ: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
 
 const DTP_YbdHMSz: &DateTimePattern_str = "%Y%b%dT%H%M%S%z";
 const DTP_YbdHMScz: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
 const DTP_YBdHMSz: &DateTimePattern_str = "%Y%B%dT%H%M%S%z";
-/// `%:z` is filled by `captures_to_buffer`
+/// `%:z` is filled by `captures_to_buffer_bytes`
 const DTP_YbdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
-/// `%:z` is filled by `captures_to_buffer`
+/// `%:z` is filled by `captures_to_buffer_bytes`
 const DTP_YBdHMS: &DateTimePattern_str = "%Y%B%dT%H%M%S%:z";
-/// `%:z` is filled by `captures_to_buffer`
+/// `%:z` is filled by `captures_to_buffer_bytes`
 const DTP_YbeHMS: &DateTimePattern_str = "%Y%b%eT%H%M%S%:z";
-/// `%:z` is filled by `captures_to_buffer`
+/// `%:z` is filled by `captures_to_buffer_bytes`
 const DTP_YBeHMS: &DateTimePattern_str = "%Y%B%eT%H%M%S%:z";
 
-/// `%Y` `%:z` is filled by `captures_to_buffer`
+/// `%Y` `%:z` is filled by `captures_to_buffer_bytes`
 const DTP_beHMS: &DateTimePattern_str = "%Y%b%eT%H%M%S%:z";
 
-/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer`
+/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
 const DTP_BdHMS: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
-/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer`
+/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
 const DTP_BeHMS: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer`
+/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
 const DTP_bdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
 
 // chrono strftime formatting strings used in `fn datetime_parse_from_str`.
 // `DTF` is "DateTime Format"
 //
 // These are effectively mappings to receive extracting datetime substrings in a `&str`
-// then to rearrange those into order suitable for `fn captures_to_buffer`.
+// then to rearrange those into order suitable for `fn captures_to_buffer_bytes`.
 //
 // The variable name represents what is available. The value represents it's rearranged form
-// using in `fn captures_to_buffer`.
+// using in `fn captures_to_buffer_bytes`.
 
 pub(crate) const DTFSS_YmdHMS: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -535,25 +537,26 @@ pub(crate) const _DTF_ALL: &[&DateTimePattern_str] = &[
 
 // `regex::Captures` capture group names
 
-/// corresponds to strftime %Y
+/// corresponds to strftime `%Y`
 const CGN_YEAR: &CaptureGroupName = "year";
-/// corresponds to strftime %m
+/// corresponds to strftime `%m`
 const CGN_MONTH: &CaptureGroupName = "month";
-/// corresponds to strftime %d
+/// corresponds to strftime `%d`
 const CGN_DAY: &CaptureGroupName = "day";
-/// corresponds to strftime %H
+/// corresponds to strftime `%H`
 const CGN_HOUR: &CaptureGroupName = "hour";
-/// corresponds to strftime %M
+/// corresponds to strftime `%M`
 const CGN_MINUTE: &CaptureGroupName = "minute";
-/// corresponds to strftime %S
+/// corresponds to strftime `%S`
 const CGN_SECOND: &CaptureGroupName = "second";
-/// corresponds to strftime %f
+/// corresponds to strftime `%f`
 const CGN_FRACTIONAL: &CaptureGroupName = "fractional";
-/// corresponds to strftime "%Z" "%z" "%:z" "%#z"
+/// corresponds to strftime `%Z` `%z` `%:z` `%#z`
 const CGN_TZ: &CaptureGroupName = "tz";
+
 /// all capture group names, for testing
 #[cfg(any(debug_assertions,test))]
-pub(crate) const CGN_ALL_: [&CaptureGroupName; 8] = [
+pub(crate) const _CGN_ALL: [&CaptureGroupName; 8] = [
     CGN_YEAR,
     CGN_MONTH,
     CGN_DAY,
@@ -590,17 +593,19 @@ pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345]\d|60)";
 /// regex capture group pattern for strftime fractional `%f`,
 /// all strftime patterns %f %3f %6f %9f
 pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{3,9})";
+
 /// for help in testing only
 #[cfg(any(debug_assertions,test))]
-pub(crate) const CGP_MONTH_ALL_: &[&CaptureGroupPattern] = &[
+pub const _CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
     CGP_MONTHm,
     CGP_MONTHb,
     CGP_MONTHB,
     CGP_MONTHBb,
 ];
+
 /// for help in testing only
 #[cfg(any(debug_assertions,test))]
-pub(crate) const CGP_DAY_ALL_: &[&CaptureGroupPattern] = &[
+pub const _CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
     CGP_DAYd,
     CGP_DAYe,
 ];
@@ -608,16 +613,17 @@ pub(crate) const CGP_DAY_ALL_: &[&CaptureGroupPattern] = &[
 // Applicable tz abbreviations https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
 // chrono strftime https://docs.rs/chrono/latest/chrono/format/strftime/index.html
 //
-/// %z +0930
-pub(crate) const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d{3})";
-/// %:z +09:30
-pub(crate) const CGP_TZcz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d:\d\d)";
-/// %#z +09
-pub(crate) const CGP_TZpz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d)";
-/// %Z ACST
-pub(crate) const CGP_TZZ: &CaptureGroupPattern = r"(?P<tz>ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT)";
+/// strftime `%z` e.g. `+0930`
+const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d{3})";
+/// strftime `%:z` e.g. `+09:30`
+const CGP_TZcz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d:\d\d)";
+/// strftime `%#z` e.g. `+09`
+const CGP_TZpz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d)";
+/// strftime `%Z` e.g. `ACST`
+const CGP_TZZ: &CaptureGroupPattern = r"(?P<tz>ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT)";
 /// for help in testing only
-pub(crate) const CGP_TZ_ALL_: &[&CaptureGroupPattern] = &[
+#[cfg(any(debug_assertions,test))]
+pub const _CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
     CGP_TZz,
     CGP_TZcz,
     CGP_TZpz,
@@ -625,11 +631,11 @@ pub(crate) const CGP_TZ_ALL_: &[&CaptureGroupPattern] = &[
 ];
 
 /// no uppercase, helper to `CGP_TZZ`
-pub(crate) const RP_NOUPPER: &RegexPattern = r"([^[[:upper:]]]|$)";
+const RP_NOUPPER: &RegexPattern = r"([^[[:upper:]]]|$)";
 /// timezone abbreviation, not followed by uppercase
-pub(crate) const CGP_TZZn: &CaptureGroupPattern = concatcp!(CGP_TZZ, RP_NOUPPER);
+const CGP_TZZn: &CaptureGroupPattern = concatcp!(CGP_TZZ, RP_NOUPPER);
 
-pub(crate) const NOENTRY: &str = "";
+const NOENTRY: &str = "";
 
 /// all timezone abbreviations, maps all strftime "%Z" to strftime "%:z".
 ///
@@ -2004,7 +2010,7 @@ macro_rules! copy_u8_to_buffer {
 
 // variables `const MONTH_` are helpers to `fn month_bB_to_month_m_bytes`
 //
-// TODO: replace with rust experimental feature
+// TODO: replace `to_byte_array` with rust experimental feature `const_str_as_bytes`
 //       https://doc.bccnsoft.com/docs/rust-1.36.0-docs-html/unstable-book/library-features/const-str-as-bytes.html#const_str_as_bytes
 
 const MONTH_01_B_l: &[u8] = &to_byte_array!("january");

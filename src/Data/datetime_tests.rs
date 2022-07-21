@@ -16,15 +16,15 @@ use super::datetime::{
     DTFSSet,
     DateTime_Parse_Data,
     DATETIME_PARSE_DATAS,
-    CGN_ALL_,
+    _CGN_ALL,
     CGP_YEAR,
-    CGP_MONTH_ALL_,
-    CGP_DAY_ALL_,
+    _CGP_MONTH_ALL,
+    _CGP_DAY_ALL,
     CGP_HOUR,
     CGP_MINUTE,
     CGP_SECOND,
     CGP_FRACTIONAL,
-    CGP_TZ_ALL_,
+    _CGP_TZ_ALL,
     _DTF_ALL,
     RP_LB,
     RP_RB,
@@ -61,7 +61,7 @@ pub fn regex_pattern_has_year(pattern: &DateTimeRegex_str) -> bool {
 
 /// does regex pattern have a month?
 pub fn regex_pattern_has_month(pattern: &DateTimeRegex_str) -> bool {
-    for pat in CGP_MONTH_ALL_.iter() {
+    for pat in _CGP_MONTH_ALL.iter() {
         if pattern.contains(pat) {
             return true;
         }
@@ -72,7 +72,7 @@ pub fn regex_pattern_has_month(pattern: &DateTimeRegex_str) -> bool {
 
 /// does regex pattern have a day?
 pub fn regex_pattern_has_day(pattern: &DateTimeRegex_str) -> bool {
-    for pat in CGP_DAY_ALL_.iter() {
+    for pat in _CGP_DAY_ALL.iter() {
         if pattern.contains(pat) {
             return true;
         }
@@ -103,7 +103,7 @@ pub fn regex_pattern_has_fractional(pattern: &DateTimeRegex_str) -> bool {
 
 /// does regex pattern have a timezone?
 pub fn regex_pattern_has_tz(pattern: &DateTimeRegex_str) -> bool {
-    for pat in CGP_TZ_ALL_.iter() {
+    for pat in _CGP_TZ_ALL.iter() {
         if pattern.contains(pat) {
             return true;
         }
@@ -251,10 +251,10 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
         assert!(dt_pattern_has_tz(dtpat), "dt_pattern does not have a timezone {:?}; declared at line {}", dtpat, dtpd._line_num);
         // check cgn_first
         assert!(regpat.contains(dtpd.cgn_first), "cgn_first {:?} but not contained in regex {:?}; declared at line {}", dtpd.cgn_first, regpat, dtpd._line_num);
-        assert!(CGN_ALL_.iter().any(|x| x == &dtpd.cgn_first), "cgn_first {:?} not in CGN_ALL_ {:?}; declared at line {}", dtpd.cgn_first, &CGN_ALL_, dtpd._line_num);
+        assert!(_CGN_ALL.iter().any(|x| x == &dtpd.cgn_first), "cgn_first {:?} not in _CGN_ALL {:?}; declared at line {}", dtpd.cgn_first, &_CGN_ALL, dtpd._line_num);
         let mut cgn_first_i: usize = usize::MAX;
         let mut cgn_first_s: &str = "";
-        for cgn in CGN_ALL_.iter() {
+        for cgn in _CGN_ALL.iter() {
             match regpat.find(cgn) {
                 Some(i) => {
                     if i < cgn_first_i {
@@ -268,10 +268,10 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
         assert_eq!(cgn_first_s, dtpd.cgn_first, "cgn_first is {:?}, but analysis of the regexp found the first capture named group {:?}; declared at line {}", dtpd.cgn_first, cgn_first_s, dtpd._line_num);
         // check cgn_last
         assert!(regpat.contains(dtpd.cgn_last), "cgn_last {:?} but not contained in regex {:?}; declared at line {}", dtpd.cgn_last, regpat, dtpd._line_num);
-        assert!(CGN_ALL_.iter().any(|x| x == &dtpd.cgn_last), "cgn_last {:?} not in CGN_ALL_ {:?}; declared at line {}", dtpd.cgn_last, &CGN_ALL_, dtpd._line_num);
+        assert!(_CGN_ALL.iter().any(|x| x == &dtpd.cgn_last), "cgn_last {:?} not in _CGN_ALL {:?}; declared at line {}", dtpd.cgn_last, &_CGN_ALL, dtpd._line_num);
         let mut cgn_last_i: usize = 0;
         let mut cgn_last_s: &str = "";
-        for cgn in CGN_ALL_.iter() {
+        for cgn in _CGN_ALL.iter() {
             match regpat.find(cgn) {
                 Some(i) => {
                     if i > cgn_last_i {
