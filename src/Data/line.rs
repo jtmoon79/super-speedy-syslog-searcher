@@ -23,7 +23,6 @@ use crate::Readers::blockreader::{
 
 #[cfg(any(debug_assertions,test))]
 use crate::printer_debug::printers::{
-    byte_to_char_noraw,
     buffer_to_String_noraw,
     char_to_char_noraw,
 };
@@ -450,20 +449,6 @@ impl Line {
         cb
     }
 
-    /*
-    pub fn get_linepart(self: &Line, mut a: LineIndex) -> &LinePart {
-        for linepart in self.lineparts.iter() {
-            let len_ = linepart.len();
-            if a < len_ {
-                return linepart;
-            }
-            a -= len_;
-        }
-        // XXX: not sure if this is the best choice
-        self.lineparts.last().unwrap()
-    }
-    */
-
     /// does this `Line` store a `LinePart.blockoffset == bo`?
     ///
     /// O(n)
@@ -475,43 +460,6 @@ impl Line {
         }
         false
     }
-
-    /*
-    /// does the `Line` contain the byte value?
-    pub fn contains(self: &Line, byte_: &u8) -> bool {
-        for linepart in self.lineparts.iter() {
-            if linepart.contains(byte_) {
-                return true;
-            }
-        }
-        false
-    }
-    */
-
-    /*
-    /// does the `Line` contain the byte value?
-    pub fn contains_at(self: &Line, byte_: &u8, a: &LineIndex, b: &LineIndex) -> bool {
-        debug_assert_le!(a, b, "passed bad LineIndex pair");
-        for linepart in self.lineparts.iter() {
-            if linepart.contains(byte_) {
-                return true;
-            }
-        }
-        false
-    }
-    */
-
-    /*
-    /// return set of `BlockOffset`s on which this `Line` has underlying data
-    pub fn get_blockoffsets(self: &Line) -> BlockOffsets {
-        let mut blockoffsets = BlockOffsets::new();
-        for linepart in self.lineparts.iter() {
-            blockoffsets.insert(linepart.blockoffset);
-        }
-
-        blockoffsets
-    }
-    */
 
     /// return all slices that make up this `Line` within a `Vec`
     pub fn get_slices(self: &Line) -> Slices {
