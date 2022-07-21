@@ -155,21 +155,6 @@ impl Sysline {
         self.fileoffset_end() + (self.charsz() as FileOffset)
     }
 
-    /*
-    /// the fileoffset into the immediately previous sysline.
-    ///
-    /// the `self` Sysline does not know if the "previous" Sysline has been processed or if it even exists.
-    /// if the passed `Sysline` has `fileoffset_begin()` of `0` then `0` will be returned
-    pub fn fileoffset_prev(self: &Sysline) -> FileOffset {
-        let charsz_ = self.charsz() as FileOffset ;
-        match self.fileoffset_begin() {
-            0 => 0,
-            val if val < charsz_ => 0,
-            val => val - charsz_,
-        }
-    }
-    */
-
     /// return the first `BlockOffset`s on which data for this Sysline resides.
     /// Presumes underlying `Line` and `LinePart` hold data else panic!
     pub fn blockoffset_first(self: &Sysline) -> BlockOffset {
