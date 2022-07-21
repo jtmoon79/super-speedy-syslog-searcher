@@ -34,10 +34,14 @@ trap exit_ EXIT
 
 # if `nextest` is installed and can list tests then use `nextest`
 if cargo nextest list 2>/dev/null; then
-    set -x
-    cargo nextest run --locked --verbose "${args1[@]}" --test-threads=1 -- "${args2[@]}"
+    (
+        set -x
+        cargo nextest run --locked --verbose "${args1[@]}" --test-threads=1 -- "${args2[@]}"
+    )
 # else use plain `cargo test`
 else
-    set -x
-    cargo test --locked -j1 "${args1[@]}" -- --test-threads=1 "${args2[@]}"
+    (
+        set -x
+        cargo test --locked -j1 "${args1[@]}" -- --test-threads=1 "${args2[@]}"
+    )
 fi
