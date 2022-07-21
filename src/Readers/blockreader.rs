@@ -145,11 +145,9 @@ pub struct XzData {
 pub const SUBPATH_SEP: char = ':';
 
 type TarHandle = tar::Archive::<File>;
-//type TarHandleP = Box::<TarHandle>;
-//type TarHandlePr<'a> = Box::<&'a TarHandle>;
-//type TarReader<'a> = tar::Entry<'a, File>;
-//type TarReaderP<'a> = Box::<TarReader<'a>>;
+/// taken from `tar::Archive::<File>::headers()`
 type TarChecksum = u32;
+/// taken from `tar::Archive::<File>::headers()`
 type TarMTime = u64;
 
 /// data and readers for a file within a `.tar` file
