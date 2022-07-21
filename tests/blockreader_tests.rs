@@ -19,6 +19,7 @@ use s4lib::Readers::blockreader::{
     BlockReader,
     ResultS3_ReadBlock,
     printblock,
+    SUBPATH_SEP,
 };
 
 use s4lib::printer_debug::helpers::{
@@ -43,6 +44,21 @@ use lazy_static::lazy_static;
 fn new_BlockReader(path: FPath, blocksz: BlockSz) -> BlockReader {
     stack_offset_set(Some(2));
     let (filetype, _mimeguess) = guess_filetype_from_fpath(&path);
+    match BlockReader::new(path.clone(), filetype, blocksz) {
+        Ok(br) => {
+            eprintln!("opened {:?}", path);
+            eprintln!("new {:?}", &br);
+            br
+        },
+        Err(err) => {
+            panic!("ERROR: BlockReader.open({:?}, {}) {}", path, blocksz, err);
+        },
+    }
+}
+
+/// helper wrapper to create a new BlockReader
+fn new_BlockReader2(path: FPath, blocksz: BlockSz, filetype: FileType) -> BlockReader {
+    stack_offset_set(Some(2));
     match BlockReader::new(path.clone(), filetype, blocksz) {
         Ok(br) => {
             eprintln!("opened {:?}", path);
@@ -191,10 +207,12 @@ lazy_static! {
 // contents of `fileA`:
 //    A
 //
-// e.g.
+// The commands to create `fileA.tar`:
 //
 //     $ echo -n 'A' > fileA
 //     $ tar -cvf fileA.tar fileA
+
+const TAR_ONEBYTE_FILENAME: &str = "fileA";
 
 const TAR_ONEBYTE_DATA: [u8; 10240] = [
     0x66, 0x69, 0x6c, 0x65, 0x41, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -844,6 +862,13 @@ lazy_static! {
         &TAR_ONEBYTE_DATA, &String::from("-onebyte.tar")
     );
     static ref NTF_TAR_ONEBYTE_PATH: FPath = NTF_Path(&NTF_ONEBYTE_TAR);
+    static ref NTF_TAR_ONEBYTE_PATH_FILEA: FPath = {
+        let mut path_ = NTF_TAR_ONEBYTE_PATH.clone();
+        path_.push(SUBPATH_SEP);
+        path_.push_str(TAR_ONEBYTE_FILENAME);
+
+        path_
+    };
 }
 
 
@@ -875,10 +900,7 @@ fn test_mimeguess_txt() {
 
 #[test]
 fn test_mimeguess_gz_onebyte() {
-    //eprintln!("NTF_GZ_EMPTY_PATH: {:?}", NTF_GZ_EMPTY_PATH.to_string());
-    //eprintln!("test_mimeguess_gz: sleep(33)…");
-    //std::thread::sleep(std::time::Duration::from_secs(33));
-// LAST WORKING HERE 2022/06/13 16:32:22
+    // TODO: is this test correct?
     let br1 = new_BlockReader(NTF_GZ_ONEBYTE_PATH.clone(), 2);
     eprintln!("test_mimeguess_gz: blockreader.mimeguess {:?}", &br1.mimeguess());
     let check = MimeGuess::from_ext("gz");
@@ -941,7 +963,9 @@ fn test_filetype_FILEGZ_gz() {
 
 #[test]
 fn test_filetype_FILETAR_tar() {
-    let br1 = new_BlockReader(NTF_TAR_ONEBYTE_PATH.clone(), 2);
+    let br1 = new_BlockReader2(
+        NTF_TAR_ONEBYTE_PATH_FILEA.clone(), 2, FileType::FILE_TAR
+    );
     let filetype = br1.filetype();
     eprintln!("test_mimeguess_gz: blockreader.filetype {:?}", &filetype);
     let check = FileType::FILE_TAR;

@@ -1,4 +1,11 @@
 // Data/datetime.rs
+//
+// the most relevant documents to understand this file:
+// `chrono` crate `strftime` format:
+// https://docs.rs/chrono/latest/chrono/format/strftime/index.html
+// `regex` crate patterns
+// https://docs.rs/regex/latest/regex/
+//
 
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]

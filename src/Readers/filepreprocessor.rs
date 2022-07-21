@@ -8,6 +8,10 @@ use crate::common::{
     FileType,
 };
 
+use crate::Readers::blockreader::{
+    SUBPATH_SEP,
+};
+
 use crate::Readers::helpers::{
     path_to_fpath,
     fpath_to_path,
@@ -27,7 +31,10 @@ pub use crate::Readers::linereader::{
     ResultS4_LineFind,
 };
 
+use std::borrow::Cow;
+use std::fs::File;
 use std::ffi::OsStr;
+use std::path::Path;
 
 extern crate debug_print;
 use debug_print::debug_eprintln;
@@ -39,6 +46,8 @@ extern crate mime;
 
 extern crate mime_guess;
 pub use mime_guess::MimeGuess;
+
+extern crate tar;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // FilePreProcessor
@@ -75,7 +84,7 @@ pub use mime_guess::MimeGuess;
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
-    FILE_VALID(FileType, MimeGuess, FPath),
+    FILE_VALID(FPath, MimeGuess, FileType),
     FILE_ERR_NO_PERMISSIONS(FPath, MimeGuess),
     FILE_ERR_NOT_SUPPORTED(FPath, MimeGuess),
     FILE_ERR_NOT_PARSEABLE(FPath, MimeGuess),
@@ -158,7 +167,7 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
 
 /// compensates `mimeguess_to_filetype` for some files not handled by `MimeGuess::from`,
 /// like file names without extensions in the name, e.g. `messages` or `syslog`
-pub fn path_to_filetype(path: &std::path::Path) -> FileType {
+pub fn path_to_filetype(path: &Path) -> FileType {
     debug_eprintln!("{}path_to_filetype({:?})", sn(), path);
 
     if PARSEABLE_FILENAMES_FILE.contains(&path.file_name().unwrap_or_default()) {
@@ -277,8 +286,9 @@ pub fn mimeguess_to_filetype_ok(mimeguess: &MimeGuess) -> bool {
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+/// TODO: change name to `path_mimeguess_to_filetype`
 #[cfg(any(debug_assertions,test))]
-pub fn guess_filetype_from_mimeguess_path(mimeguess: &MimeGuess, path: &std::path::Path) -> FileType {
+pub fn guess_filetype_from_mimeguess_path(mimeguess: &MimeGuess, path: &Path) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
     if ! parseable_filetype_ok(&filetype) {
         filetype = path_to_filetype(path);
@@ -288,11 +298,12 @@ pub fn guess_filetype_from_mimeguess_path(mimeguess: &MimeGuess, path: &std::pat
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+/// TODO: change name to `fpath_mimegyess_to_filetype_`
 #[cfg(any(debug_assertions,test))]
 pub fn guess_filetype_from_mimeguess_fpath(mimeguess: &MimeGuess, path: &FPath) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
     if ! parseable_filetype_ok(&filetype) {
-        let path_: &std::path::Path = fpath_to_path(path);
+        let path_: &Path = fpath_to_path(path);
         filetype = path_to_filetype(path_);
     }
 
@@ -300,7 +311,8 @@ pub fn guess_filetype_from_mimeguess_fpath(mimeguess: &MimeGuess, path: &FPath) 
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
-pub fn guess_filetype_from_path(path: &std::path::Path) -> (FileType, MimeGuess) {
+/// TODO: change name to `path_to_filetype_mimeguess`
+pub fn guess_filetype_from_path(path: &Path) -> (FileType, MimeGuess) {
     debug_eprintln!("{}guess_filetype_from_path({:?})", sn(), path);
     let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
     debug_eprintln!("{}guess_filetype_from_path: mimeguess {:?}", so(), mimeguess);
@@ -340,40 +352,90 @@ pub fn guess_filetype_from_path(path: &std::path::Path) -> (FileType, MimeGuess)
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+/// TODO: change name to `fpath_to_filetype_mimeguess`
 #[cfg(any(debug_assertions,test))]
 pub fn guess_filetype_from_fpath(path: &FPath) -> (FileType, MimeGuess) {
-    let path_: &std::path::Path = fpath_to_path(path);
+    let path_: &Path = fpath_to_path(path);
 
     guess_filetype_from_path(path_)
 }
 
-/*
-pub(crate) fn mimesniff_analysis(&mut self) -> Result<bool> {
-    let bo_zero: FileOffset = 0;
-    debug_eprintln!("{}linereader.mimesniff_analysis: self.blockreader.read_block({:?})", sn(), bo_zero);
-    let bptr: BlockP = match self.syslinereader.linereader.blockreader.read_block(bo_zero) {
-        ResultS3_ReadBlock::Found(val) => val,
-        ResultS3_ReadBlock::Done => {
-            debug_eprintln!("{}linereader.mimesniff_analysis: read_block({}) returned Done for {:?}, return Error(UnexpectedEof)", sx(), bo_zero, self.path());
-            assert_eq!(self.filesz(), 0, "readblock(0) returned Done for file with size {}", self.filesz());
-            return Ok(false);
-        },
-        ResultS3_ReadBlock::Err(err) => {
-            debug_eprintln!("{}linereader.mimesniff_analysis: read_block({}) returned Err {:?}", sx(), bo_zero, err);
-            return Result::Err(err);
-        },
+/// Return a `ProcessPathResult` for each parseable file within .tar file at `path`
+fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
+    debug_eprintln!("{}process_path_tar({:?})", sn(), path);
+
+    let file: File = File::open(path).unwrap();
+    let mut archive: tar::Archive<File> = tar::Archive::<File>::new(file);
+    let entry_iter: tar::Entries<File> = match archive.entries() {
+        Ok(val) => val,
+        Err(err) => {
+            debug_eprintln!("{}process_path_tar: Err {:?}", sx(), err);
+            //return Result::Err(err);
+            return vec![];
+        }
     };
+    let mut results = Vec::<ProcessPathResult>::new();
+    for entry_res in entry_iter {
+        let entry: tar::Entry<File> = match entry_res {
+            Ok(val) => val,
+            Err(err) => {
+                debug_eprintln!("{}process_path_tar: entry Err {:?}", so(), err);
+                continue;
+            }
+        };
+        let header = entry.header();
+        let etype = header.entry_type();
+        debug_eprintln!("{}process_path_tar: entry.header().entry_type() {:?}", so(), etype);
+        // TODO: handle tar types `symlink` and `long_link`, currently they are ignored
+        if !etype.is_file() {
+            continue;
+        }
+        let subpath: Cow<Path> = match entry.path() {
+            Ok(val) => val,
+            Err(err) => {
+                debug_eprintln!("{}process_path_tar: entry.path() Err {:?}", so(), err);
+                continue;
+            }
+        };
+        // first get the `FileType` of the subpath
+        let subfpath: FPath = subpath.to_string_lossy().to_string();
+        let (filetype_subpath, mimeguess) = guess_filetype_from_path(&subpath);
+        // the `FileType` within the tar might be a regular file. It needs to be
+        // transformed to corresponding tar `FileType`, so later `BlockReader` understands what to do.
+        let filetype: FileType = match filetype_subpath.to_tar() {
+            FileType::FILE_UNKNOWN => {
+                debug_eprintln!("{}process_path_tar: {:?}.to_tar() is FILE_UNKNOWN", so(), filetype_subpath);
+                continue;
+            }
+            val => val
+        };
+        if !parseable_filetype_ok(&filetype) {
+            debug_eprintln!("{}process_path_tar: push FILE_ERR_NOT_PARSEABLE({:?}, {:?})", so(), filetype, mimeguess);
+            results.push(
+                ProcessPathResult::FILE_ERR_NOT_PARSEABLE(subfpath, mimeguess)
+            );
+            continue;
+        }
+        // path to a file within a .tar file looks like:
+        //
+        //     "path/file.tar//subpath/subfile"
+        //
+        // where `path/file.tar` are on the host filesystem, and `subpath/subfile` are within
+        // the `.tar` file
+        let mut fullpath: FPath = String::with_capacity(path.len() + 2 + subfpath.len());
+        fullpath.push_str(path.as_str());
+        fullpath.push(SUBPATH_SEP);
+        fullpath.push_str(subfpath.as_str());
+        debug_eprintln!("{}process_path_tar: push FILE_VALID({:?}, {:?}, {:?})", so(), fullpath, mimeguess, filetype);
+        results.push(
+            ProcessPathResult::FILE_VALID(fullpath, mimeguess, filetype)
+        );
+    }
 
-    let sniff: String = String::from((*bptr).as_slice().sniff_mime_type().unwrap_or(""));
-    debug_eprintln!("{}linereader.mimesniff_analysis: sniff_mime_type {:?}", so(), sniff);
-    // TODO: this function should be moved to filepreprocssor.rs and modified
-    //let is_parseable: bool = SyslogProcessor::mimeguess_to_filetype_str(sniff.as_ref());
-    let is_parseable = false;
+    debug_eprintln!("{}process_path_tar({:?})", sx(), path);
 
-    debug_eprintln!("{}linereader.mimesniff_analysis: return Ok({:?})", sx(), is_parseable);
-    Ok(is_parseable)
+    results
 }
-*/
 
 /// Return all parseable files in the Path.
 ///
@@ -392,11 +454,15 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
     let std_path: &std::path::Path = std::path::Path::new(path);
     if std_path.is_file() {
         let (filetype, mimeguess) = guess_filetype_from_path(std_path);
-        let paths: Vec<ProcessPathResult> = vec![
-            ProcessPathResult::FILE_VALID(filetype, mimeguess, path.clone()),
-        ];
-        debug_eprintln!("{}process_path({:?}) {:?}", sx(), path, paths);
-        return paths;
+        if !filetype.is_archived() {
+            let paths: Vec<ProcessPathResult> = vec![
+                ProcessPathResult::FILE_VALID(path.clone(), mimeguess, filetype),
+            ];
+            debug_eprintln!("{}process_path({:?}) {:?}", sx(), path, paths);
+            return paths;
+        }
+        // is_archived
+        return process_path_tar(path);
     }
 
     // getting here means `path` likely refers to a directory
@@ -436,8 +502,8 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         let (filetype, mimeguess) = guess_filetype_from_path(std_path_entry);
         match parseable_filetype(&filetype) {
             FileParseable::YES => {
-                debug_eprintln!("{}process_path: paths.push(FILE_VALID(({:?}, {:?})))", so(), filetype, path_entry);
-                paths.push(ProcessPathResult::FILE_VALID(filetype, mimeguess, fpath_entry));
+                debug_eprintln!("{}process_path: paths.push(FILE_VALID(({:?}, {:?}, {:?})))", so(), fpath_entry, mimeguess, filetype);
+                paths.push(ProcessPathResult::FILE_VALID(fpath_entry, mimeguess, filetype));
             },
             FileParseable::NO_NOT_PARSEABLE => {
                 debug_eprintln!("{}process_path: Path not parseable {:?}", so(), std_path_entry);

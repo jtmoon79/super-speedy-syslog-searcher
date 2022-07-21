@@ -31,6 +31,7 @@ use crate::printer_debug::stack::{
     snx,
 };
 
+use std::borrow::Cow;
 use std::collections::{
     BTreeMap,
     BTreeSet,
@@ -44,8 +45,10 @@ use std::io::{
     Result,
     Seek,
     SeekFrom,
+    Take,
 };
 use std::io::prelude::Read;
+use std::path::Path;
 use std::sync::Arc;
 
 extern crate debug_print;
@@ -65,6 +68,7 @@ extern crate more_asserts;
 use more_asserts::{
     assert_le,
     assert_ge,
+    debug_assert_le,
 };
 
 extern crate flate2;
@@ -107,9 +111,7 @@ pub const BLOCKSZ_MIN: BlockSz = 1;
 /// maximum Block Size (inclusive)
 pub const BLOCKSZ_MAX: BlockSz = 0xFFFFFF;
 /// default Block Size
-//const BLOCKSZ_DEF: BlockSz = 0xFFFF;
-#[allow(non_upper_case_globals)]
-pub const BLOCKSZ_DEFs: &str = "0xFFFF";
+pub const BLOCKSZ_DEF: usize = 0xFFFF;
 
 /// data and readers for a gzip `.gz` file
 #[derive(Debug)]
@@ -136,6 +138,30 @@ pub struct XzData {
     pub bufreader: BufReader_Xz,
 }
 
+/// separator substring for a filesystem path and subpath within an archive
+/// e.g. `path/logs.tar:logs/syslog`
+pub const SUBPATH_SEP: char = ':';
+
+type TarHandle = tar::Archive::<File>;
+//type TarHandleP = Box::<TarHandle>;
+//type TarHandlePr<'a> = Box::<&'a TarHandle>;
+//type TarReader<'a> = tar::Entry<'a, File>;
+//type TarReaderP<'a> = Box::<TarReader<'a>>;
+type TarChecksum = u32;
+type TarMTime = u64;
+
+/// data and readers for a file within a `.tar` file
+pub struct TarData {
+    /// size of file unarchived
+    pub filesz: FileSz,
+    //pub handle: TarHandle,
+    /// iteration count of `tar::Archive::entries_with_seek`
+    pub entry_index: usize,
+    /// checksum retreived from tar header
+    pub checksum: TarChecksum,
+    /// modified time retreived from tar header
+    pub mtime: TarMTime,
+}
 
 /// A `BlockReader` reads a file in `BlockSz` byte-sized `Block`s. It interfaces 
 /// with the filesystem (or any other data retreival method). It handles the
@@ -155,6 +181,8 @@ pub struct XzData {
 pub struct BlockReader {
     /// Path to file
     pub path: FPath,
+    /// subpath to file, only for `filetype.is_archived()` files
+    pub subpath: Option<FPath>,
     /// File handle
     file: File,
     /// File.metadata()
@@ -169,6 +197,8 @@ pub struct BlockReader {
     gz: Option<GzData>,
     /// For LZMA xz files (FileType::FILE_XZ), otherwise `None`
     xz: Option<XzData>,
+    /// for files within a `.tar` file (FileType::FILE_TAR), otherwise `None`
+    tar: Option<TarData>,
     /// The filesz of uncompressed data, set during `new`.
     /// Should always be `== gz.unwrap().filesz`.
     ///
@@ -323,8 +353,6 @@ impl BlockReader {
     ///
     /// Opens the `path` file, configures settings based on determined `filetype`.
     pub fn new(path: FPath, filetype: FileType, blocksz_: BlockSz) -> Result<BlockReader> {
-        // TODO: why not open the file here? change `open` to a "static class wide" (or equivalent)
-        //       that does not take a `self`. This would simplify some things about `BlockReader`
         // TODO: how to make some fields `blockn` `blocksz` `filesz` immutable?
         //       https://stackoverflow.com/questions/23743566/how-can-i-force-a-structs-field-to-always-be-immutable-in-rust
         debug_eprintln!("{}BlockReader::new({:?}, {:?}, {:?})", sn(), path, filetype, blocksz_);
@@ -332,7 +360,38 @@ impl BlockReader {
         assert_ne!(0, blocksz_, "Block Size cannot be 0");
         assert_ge!(blocksz_, BLOCKSZ_MIN, "Block Size {} is too small", blocksz_);
         assert_le!(blocksz_, BLOCKSZ_MAX, "Block Size {} is too big", blocksz_);
-        let path_std = std::path::Path::new(&path);
+
+        // shadow passed immutable with local mutable
+        let mut path: FPath = path;
+        let mut subpath_opt: Option<FPath> = None;
+        if filetype.is_archived() {
+            debug_eprintln!("{}BlockReader::new: filetype.is_archived()", so());
+            let mut path_tmp: Option<FPath> = None;
+            {
+                let (path_, subpath_) = match path.rsplit_once(SUBPATH_SEP) {
+                    Some(val) => val,
+                    None => {
+                        debug_eprintln!("{}BlockReader::new: filetype {:?}, failed to find delimiter {:?} in {:?}", sx(), filetype, SUBPATH_SEP, path);
+                        return Result::Err(
+                            Error::new(
+                                // TODO: use `ErrorKind::InvalidFilename` when it is stable
+                                ErrorKind::NotFound,
+                                format!("Given Filetype {:?} but failed to find delimiter {:?} in {:?}", filetype, SUBPATH_SEP, path)
+                            )
+                        );
+
+                    }
+                };
+                path_tmp = Some(path_.to_string());
+                subpath_opt = Some(subpath_.to_string());
+            }
+            if path_tmp.is_some() {
+                path = path_tmp.unwrap();
+            }
+        }
+        let path_std: &Path = Path::new(&path);
+
+        // TODO: pass in `mimeguess`; avoid repeats of the tedious operation
         let mimeguess_: MimeGuess = MimeGuess::from_path(path_std);
 
         let mut open_options = FileOpenOptions::new();
@@ -349,11 +408,12 @@ impl BlockReader {
         let mut blocks_read = BlocksTracked::new();
         let mut count_bytes_: Count = 0;
         let filesz: FileSz;
-        let filesz_actual: FileSz;
+        let mut filesz_actual: FileSz;
         let blocksz: BlockSz;
         let file_metadata: FileMetadata;
         let mut gz_opt: Option<GzData> = None;
         let mut xz_opt: Option<XzData> = None;
+        let mut tar_opt: Option<TarData> = None;
         let mut read_blocks_put: Count = 0;
         match file.metadata() {
             Ok(val) => {
@@ -530,7 +590,7 @@ impl BlockReader {
                 debug_eprintln!("{0}BlockReader::new: FILE_XZ: blocksz set to {1} (0x{1:08X}) (passed {2} (0x{2:08X})", so(), blocksz, blocksz_);
                 
                 debug_eprintln!("{}BlockReader::new: FILE_XZ: open_options.read(true).open({:?})", so(), path_std);
-                let file_xz: File = match open_options.read(true).open(path_std) {
+                let mut file_xz: File = match open_options.read(true).open(path_std) {
                     Ok(val) => val,
                     Err(err) => {
                         debug_eprintln!("{}BlockReader::new: FILE_XZ: open_options.read({:?}) Error, return {:?}", sx(), path, err);
@@ -775,7 +835,14 @@ impl BlockReader {
                 debug_eprintln!("{}BlockReader::new: FILE_XZ: block #0 block header flags {1:} (0x{1:02X}) (0b{1:08b})", so(), _bhflags);
 
                 // reset Seek pointer
-                (&file_xz).seek(SeekFrom::Start(0));
+                match file_xz.seek(SeekFrom::Start(0)) {
+                    Ok(_) => {},
+                    Err(err) => {
+                        debug_eprintln!("{}BlockReader::new: FILE_XZ: return {:?}", sx(), err);
+                        eprintln!("file_xz.seek() (block #0 block header flags) Error {:?}", err);
+                        return Err(err);
+                    }
+                }
 
                 let mut bufreader: BufReader_Xz = BufReader_Xz::new(file_xz);
 
@@ -849,6 +916,80 @@ impl BlockReader {
                 blocksz = blocksz_;
                 debug_eprintln!("{0}BlockReader::new: FILE_TAR: blocksz set to {1} (0x{1:08X}) (passed {2} (0x{2:08X})", so(), blocksz, blocksz_);
                 filesz_actual = 0;
+                let mut checksum: TarChecksum = 0;
+                let mut mtime: TarMTime = 0;
+                let subpath: &String = subpath_opt.as_ref().unwrap();
+
+                let mut archive: TarHandle = BlockReader::open_tar(&path_std)?;
+                let entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
+                    Ok(val) => {
+                        val
+                    },
+                    Err(err) => {
+                        debug_eprintln!("{}BlockReader::new: FILE_TAR: Err {:?}", sx(), err);
+                        return Result::Err(err);
+                    }
+                };
+
+                let mut entry_index: usize = 0;
+                for (index, entry_res) in entry_iter.enumerate() {
+                    entry_index = index;
+                    let entry: tar::Entry<File> = match entry_res {
+                        Ok(val) => val,
+                        Err(err) => {
+                            debug_eprintln!("{}BlockReader::new: FILE_TAR: entry Err {:?}", so(), err);
+                            continue;
+                        }
+                    };
+                    let subpath_cow: Cow<Path> = match entry.path() {
+                        Ok(val) => val,
+                        Err(err) => {
+                            debug_eprintln!("{}BlockReader::new: FILE_TAR: entry.path() Err {:?}", so(), err);
+                            continue;
+                        }
+                    };
+                    let subfpath: FPath = subpath_cow.to_string_lossy().to_string();
+                    if subpath != &subfpath {
+                        debug_eprintln!("{}BlockReader::new: FILE_TAR: skip {:?}", so(), subfpath);
+                        continue;
+                    }
+                    // found the matching subpath
+                    debug_eprintln!("{}BlockReader::new: FILE_TAR: found {:?}", so(), subpath);
+                    filesz_actual = match entry.header().size() {
+                        Ok(val) => val,
+                        Err(err) => {
+                            debug_eprintln!("{}BlockReader::new: FILE_TAR: entry.header().size() Err {:?}", sx(), err);
+                            return Result::Err(err);
+                        }
+                    };
+                    checksum = match entry.header().cksum() {
+                        Ok(val) => val,
+                        Err(err) => {
+                            debug_eprintln!("{}BlockReader::new: FILE_TAR: entry.header().cksum() Err {:?}", so(), err);
+
+                            0
+                        }
+                    };
+                    mtime = match entry.header().mtime() {
+                        Ok(val) => val,
+                        Err(err) => {
+                            debug_eprintln!("{}BlockReader::new: FILE_TAR: entry.header().mtime() Err {:?}", so(), err);
+
+                            0
+                        }
+                    };
+                    break;
+                }
+
+                tar_opt = Some(
+                    TarData {
+                        filesz: filesz_actual,
+                        //handle: archive,
+                        entry_index,
+                        checksum,
+                        mtime,
+                    }
+                );
             }
             _ => {
                 return Result::Err(
@@ -870,12 +1011,14 @@ impl BlockReader {
         Ok(
             BlockReader {
                 path,
+                subpath: subpath_opt,
                 file,
                 _file_metadata: file_metadata,
                 mimeguess_,
                 filetype,
                 gz: gz_opt,
                 xz: xz_opt,
+                tar: tar_opt,
                 filesz,
                 filesz_actual,
                 blockn,
@@ -983,19 +1126,32 @@ impl BlockReader {
         filesz / blocksz + (if filesz % blocksz > 0 { 1 } else { 0 })
     }
 
-    /// specific `BlockSz` (length) of block at `blockoffset`
-    #[allow(dead_code)]
-    pub fn blocksz_at_blockoffset(&self, blockoffset: &BlockOffset) -> Option<BlockSz> {
-        debug_eprintln!("{}blockreader.blocksz_at_blockoffset({})", snx(), blockoffset);
-
-        match self.blocks.get(blockoffset) {
-            Some(blockp) => Some((*blockp).len() as BlockSz),
-            None => None,
+    /// specific `BlockSz` (size in bytes) of block at `blockoffset`
+    pub fn blocksz_at_blockoffset_(blockoffset: &BlockOffset, blockoffset_last: &BlockOffset, blocksz: &BlockSz, filesz: &FileSz) -> BlockSz {
+        debug_eprintln!("{}blockreader.blocksz_at_blockoffset_(blockoffset {}, blockoffset_last {}, blocksz {}, filesz {})", snx(), blockoffset, blockoffset_last, blocksz, filesz);
+        debug_assert_le!(blockoffset, blockoffset_last, "Passed blockoffset {} but blockoffset_last {}", blockoffset, blockoffset_last);
+        if blockoffset == blockoffset_last {
+            let remainder = filesz % blocksz;
+            if remainder != 0 {
+                remainder
+            } else {
+                *blocksz
+            }
+        } else {
+            *blocksz
         }
     }
 
-    /// return block.len() for given block at `blockoffset`
-    /// TODO: replace all uses of this `blocklen_at_blockoffset` with `blocksz_at_blockoffset`
+    /// specific `BlockSz` (size in bytes) of block at `blockoffset`
+    ///
+    /// This should be `self.blocksz` for all `Block`s except the last, which
+    /// should be `>0` and `<=self.blocksz`
+    pub fn blocksz_at_blockoffset(&self, blockoffset: &BlockOffset) -> BlockSz {
+        debug_eprintln!("{}blockreader.blocksz_at_blockoffset({})", snx(), blockoffset);
+        BlockReader::blocksz_at_blockoffset_(blockoffset, &self.blockoffset_last(), &self.blocksz, &self.filesz())
+    }
+
+    /// return block.len() for *stored* `Block` at `blockoffset`
     #[inline(always)]
     #[allow(dead_code)]
     pub fn blocklen_at_blockoffset(&self, blockoffset: &BlockOffset) -> usize {
@@ -1112,15 +1268,15 @@ impl BlockReader {
         }
     }
 
-    /// read a block of data from storage for a normal file.
+    /// read up to `blocksz` bytes of data (one `Block`) from a regular filesystem file.
     ///
-    /// called from `read_block`
+    /// Called from `read_block`.
     fn read_block_FILE(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         debug_eprintln!("{}read_block_FILE({})", sn(), blockoffset);
-        assert_eq!(self.filetype, FileType::FILE, "wrong FileType {:?} for calling read_block_FILE", self.filetype);
+        debug_assert_eq!(self.filetype, FileType::FILE, "wrong FileType {:?} for calling read_block_FILE", self.filetype);
 
-        let mut buffer = Block::with_capacity(self.blocksz as usize);
         let seek = (self.blocksz * blockoffset) as u64;
+        debug_eprintln!("{}read_block_FILE: self.file.seek({})", so(), seek);
         match self.file.seek(SeekFrom::Start(seek)) {
             Ok(_) => {},
             Err(err) => {
@@ -1129,14 +1285,16 @@ impl BlockReader {
                 return ResultS3_ReadBlock::Err(err);
             },
         };
-        let mut reader = (&self.file).take(self.blocksz as u64);
         // here is where the `Block` is created then set with data.
         // It should never change after this. Is there a way to mark it as "frozen"?
         // XXX: currently does not handle a partial read. From the docs (https://doc.rust-lang.org/std/io/trait.Read.html#method.read_to_end)
         //      > If any other read error is encountered then this function immediately returns. Any
         //      > bytes which have already been read will be appended to buf.
-        // TODO: change to `read_exact` which recently stabilized?
-        debug_eprintln!("{}read_block_FILE({}): reader.read_to_end(@{:p})", so(), blockoffset, &buffer);
+        let cap: usize = self.blocksz_at_blockoffset(&blockoffset) as usize;
+        let mut buffer = Block::with_capacity(cap);
+        let mut reader: Take<&File> = (&self.file).take(cap as u64);
+        debug_eprintln!("{}read_block_FILE: reader.read_to_end(buffer (capacity {}))", so(), cap);
+        // TODO: change to `read_exact` which recently stabilized
         match reader.read_to_end(&mut buffer) {
             Ok(val) => {
                 if val == 0 {
@@ -1161,18 +1319,20 @@ impl BlockReader {
     /// read a block of data from storage for a compressed gzip file.
     /// `blockoffset` refers to the uncompressed version of the file.
     ///
-    /// called from `read_block`
+    /// Called from `read_block`.
+    ///
+    /// A gzip file must be read from beginning to end in sequence (cannot jump forward and read).
+    /// So `read_block_FILE_GZ` reads entire file up to passed `blockoffset`, storing each
+    /// decompressed block.
     fn read_block_FILE_GZ(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         debug_eprintln!("{}read_block_FILE_GZ({})", sn(), blockoffset);
-        assert_eq!(self.filetype, FileType::FILE_GZ, "wrong FileType {:?} for calling read_block_FILE_GZ", self.filetype);
+        debug_assert_eq!(self.filetype, FileType::FILE_GZ, "wrong FileType {:?} for calling read_block_FILE_GZ", self.filetype);
 
         let blockoffset_last: BlockOffset = self.blockoffset_last();
         let mut bo_at: BlockOffset = match self.blocks_read.iter().max() {
             Some(bo_) => *bo_,
             None => 0,
         };
-        // A gzip file must be read from beginning to end in sequence (cannot jump forward and read).
-        // So read entire file up to passed `blockoffset`, storing each decompressed block
         while bo_at <= blockoffset {
             // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
             // was *ever* read.
@@ -1297,18 +1457,19 @@ impl BlockReader {
     /// read a block of data from storage for a compressed xz file.
     /// `blockoffset` refers to the uncompressed version of the file.
     ///
-    /// called from `read_block`
+    /// Called from `read_block`..
+    ///
+    /// An `.xz` file must read from beginning to end (cannot jump forward and read).
+    /// So read entire file up to passed `blockoffset`, storing each decompressed block
     fn read_block_FILE_XZ(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         debug_eprintln!("{}read_block_FILE_XZ({})", sn(), blockoffset);
-        assert_eq!(self.filetype, FileType::FILE_XZ, "wrong FileType {:?} for calling read_block_FILE_XZ", self.filetype);
+        debug_assert_eq!(self.filetype, FileType::FILE_XZ, "wrong FileType {:?} for calling read_block_FILE_XZ", self.filetype);
 
         let blockoffset_last: BlockOffset = self.blockoffset_last();
         let mut bo_at: BlockOffset = match self.blocks_read.iter().max() {
             Some(bo_) => *bo_,
             None => 0,
         };
-        // An `.xz` file must read from beginning to end (cannot jump forward and read).
-        // So read entire file up to passed `blockoffset`, storing each decompressed block
         while bo_at <= blockoffset {
             // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
             // was *ever* read.
@@ -1332,6 +1493,7 @@ impl BlockReader {
                 self.read_blocks_miss += 1;
             }
 
+            // TODO: use `self.blocksz_at_blockoffset`
             let blocksz_u: usize = self.blocksz as usize;
             let mut block = Block::with_capacity(blocksz_u);
             let mut bufreader: &mut BufReader_Xz = &mut self.xz.as_mut().unwrap().bufreader;
@@ -1379,7 +1541,7 @@ impl BlockReader {
                                 blocklen_sz, bo_at, byte_at, self.blocksz, self.path,
                             )
                         )
-                    );            
+                    );
                 }
             } else if blocklen_sz != self.blocksz {
                 // not last block, is blocksz correct?
@@ -1412,14 +1574,131 @@ impl BlockReader {
     /// read a block of data from a file within a .tar archive file
     /// `blockoffset` refers to the uncompressed/untarred version of the file.
     ///
-    /// called from `read_block`
+    /// Called from `read_block`.
+    ///
+    /// This reads the entire file within the `.tar` file during the first call.
+    ///
+    /// The big read is due to crate `tar` not providing a method to store `tar::Handle` or
+    /// `tar::Entry` due to inter-instance references and explicit lifetimes.
+    /// A `tar::Entry` requires explicit lifetime to store. But it also holds a reference
+    /// to data within the `tar::Handle`. At least I am unable to figure out with some
+    /// method to store the data.
+    ///
     fn read_block_FILE_TAR(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         debug_eprintln!("{}read_block_FILE_TAR({})", sn(), blockoffset);
-        assert_eq!(self.filetype, FileType::FILE_TAR, "wrong FileType {:?} for calling read_block_FILE_TAR", self.filetype);
+        debug_assert_eq!(self.filetype, FileType::FILE_TAR, "wrong FileType {:?} for calling read_block_FILE_TAR", self.filetype);
+        debug_assert_le!(self.count_blocks_processed(), blockoffset, "count_blocks_processed() {}, blockoffset {}; has read_block_FILE_TAR been errantly called?", self.count_blocks_processed(), blockoffset);
 
-        debug_eprintln!("{}read_block_FILE_TAR({}): return Done", sx(), blockoffset);
+        let path_ = self.path.clone();
+        let path_std: &Path = Path::new(&path_);
+        let mut archive: TarHandle = match BlockReader::open_tar(path_std) {
+            Ok(val) => val,
+            Err(err) => {
+                debug_eprintln!("{}read_block_FILE_TAR Err {:?}", sx(), err);
+                return ResultS3_ReadBlock::Err(err);
+            }
+        };
 
-        ResultS3_ReadBlock::Done
+        // get the file entry from the `.tar` file
+        let mut entry = {
+            let index_ = self.tar.as_ref().unwrap().entry_index;
+            let entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
+                Ok(val) => {
+                    val
+                },
+                Err(err) => {
+                    debug_eprintln!("{}read_block_FILE_TAR Err {:?}", sx(), err);
+                    return ResultS3_ReadBlock::Err(err);
+                }
+            };
+            match entry_iter.skip(index_).next() {
+                Some(entry_res) => {
+                    match entry_res {
+                        Ok(entry) => {
+                            entry
+                        }
+                        Err(err) => {
+                            debug_eprintln!("{}read_block_FILE_TAR Err {:?}", sx(), err);
+                            return ResultS3_ReadBlock::Err(err);
+                        }
+                    }
+                }
+                None => {
+                    debug_eprintln!("{}read_block_FILE_TAR None", so());
+                    return ResultS3_ReadBlock::Err(
+                        Error::new(
+                            ErrorKind::UnexpectedEof,
+                            format!("tar.handle.entries_with_seek().entry_iter.skip({}).next() returned None", index_)
+                        )
+                    );
+                }
+            }
+        };
+
+        // read all blocks from file `entry`
+        let mut bo_at: BlockOffset = 0;
+        let blockoffset_last = self.blockoffset_last();
+        while bo_at <= blockoffset_last {
+            let cap = self.blocksz_at_blockoffset(&bo_at) as usize;
+            let mut block: Block = Block::with_capacity(cap);
+            block.resize(cap, 0);
+            debug_eprintln!("{}read_block_FILE_TAR: read_exact(&block (capacity {})); bo_at {}", so(), cap, bo_at);
+            match entry.read_exact(block.as_mut_slice()) {
+                Ok(_) => {}
+                Err(err) => {
+                        debug_eprintln!("{}read_block_FILE_TAR: read_exact(&block (capacity {})) error, return {:?}", sx(), cap, err);
+                        eprintln!("entry.read_exact(&block (capacity {})) path {:?} Error {:?}", cap, path_std, err);
+                        return ResultS3_ReadBlock::Err(err);
+                }
+            }
+
+            // check returned Block is expected number of bytes
+            //let blocklen_sz: BlockSz = block.len() as BlockSz;
+            if block.is_empty() {
+                let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                return ResultS3_ReadBlock::Err(
+                    Error::new(
+                        ErrorKind::UnexpectedEof,
+                        format!(
+                            "read_exact read zero bytes from block {} (at byte {}), requested {} bytes. filesz {}, last block {}; {:?}",
+                            bo_at, byte_at, self.blocksz, self.filesz(), blockoffset_last, self.path,
+                        )
+                    )
+                );
+            } else if cap != block.len() {
+                let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                return ResultS3_ReadBlock::Err(
+                    Error::new(
+                        ErrorKind::UnexpectedEof,
+                        format!(
+                            "read_exact read {} bytes from block {} (at byte {}), requested {} bytes. filesz {}, last block {}; {:?}",
+                            block.len(), bo_at, byte_at, self.blocksz, self.filesz(), blockoffset_last, self.path,
+                        )
+                    )
+                );
+            }
+
+            let blockp: BlockP = BlockP::new(block);
+            self.store_block_in_storage(bo_at, &blockp);
+            bo_at += 1;
+        }
+
+        let blockp: BlockP = match self.blocks.get(&blockoffset) {
+            Some(blockp_) => blockp_.clone(),
+            None => {
+                debug_eprintln!("{}read_block_FILE_TAR: self.blocks.get({}), returned None, return Err(UnexpectedEof)", sx(), blockoffset);
+                return ResultS3_ReadBlock::Err(
+                    Error::new(
+                        ErrorKind::UnexpectedEof,
+                        format!("read_block_FILE_TAR: self.blocks.get({}) returned None", blockoffset)
+                    )
+                );
+            }
+        };
+
+        debug_eprintln!("{}read_block_FILE_TAR({}): return Found", sx(), blockoffset);
+
+        ResultS3_ReadBlock::Found(blockp)
     }
 
     /// read a `Block` of data of max size `self.blocksz` from the file.
@@ -1430,9 +1709,13 @@ impl BlockReader {
     /// All other `File` and `std::io` errors are propagated to the caller in `Err`
     pub fn read_block(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         debug_eprintln!(
-            "{0}read_block: @{1:p}.read_block({2}) (fileoffset {3} (0x{3:08X})), blocksz {4} (0x{4:08X}), filesz {5} (0x{5:08X})",
-            sn(), self, blockoffset, self.file_offset_at_block_offset_self(blockoffset), self.blocksz, self.filesz(),
+            "{0}read_block: blockreader.read_block({1}) (fileoffset {2} (0x{2:08X})), blocksz {3} (0x{3:08X}), filesz {4} (0x{4:08X})",
+            sn(), blockoffset, self.file_offset_at_block_offset_self(blockoffset), self.blocksz, self.filesz(),
         );
+        if blockoffset > self.blockoffset_last() {
+            debug_eprintln!("{}read_block({}) is past blockoffset_last {}; return Done", sx(), blockoffset, self.blockoffset_last());
+            return ResultS3_ReadBlock::Done;
+        }
         { // check storages
             // check fast LRU cache
             if self.read_block_lru_cache_enabled {
@@ -1461,7 +1744,7 @@ impl BlockReader {
                 self.read_blocks_hit += 1;
                 debug_eprintln!("{}read_block: blocks_read.contains({})", so(), blockoffset);
                 assert!(self.blocks.contains_key(&blockoffset), "requested block {} is in self.blocks_read but not in self.blocks", blockoffset);
-                // XXX: during streaming, this might panic!
+                // BUG: during streaming, this might panic!
                 let blockp: BlockP = self.blocks.get_mut(&blockoffset).unwrap().clone();
                 self.store_block_in_LRU_cache(blockoffset, &blockp);
                 debug_eprintln!(
@@ -1498,6 +1781,21 @@ impl BlockReader {
                 panic!("Unsupported filetype {:?}", self.filetype);
             },
         }
+    }
+
+    /// wrapper to open a `.tar` file
+    fn open_tar(path_tar: &Path) -> Result<TarHandle> {
+        let mut open_options = FileOpenOptions::new();
+        debug_eprintln!("{}open_tar: open_options.read(true).open({:?})", so(), path_tar);
+        let file_tar: File = match open_options.read(true).open(path_tar) {
+            Ok(val) => val,
+            Err(err) => {
+                debug_eprintln!("{}open_tar: open_options.read({:?}) Error, return {:?}", sx(), path_tar, err);
+                return Err(err);
+            }
+        };
+
+        Ok(TarHandle::new(file_tar))
     }
 
     /// get byte at FileOffset

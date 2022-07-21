@@ -395,6 +395,16 @@ impl FileType {
             FileType::FILE_TAR | FileType::FILE_TAR_GZ
         )
     }
+
+    /// Returns the tarred version of the `FileType`
+    /// XXX: only supports `FileType::FILE` right now
+    pub const fn to_tar(&self) -> FileType {
+        if matches!(*self, FileType::FILE) {
+            return FileType::FILE_TAR;
+        }
+
+        FileType::FILE_UNKNOWN
+    }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

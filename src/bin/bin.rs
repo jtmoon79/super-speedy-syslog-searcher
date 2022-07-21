@@ -102,7 +102,7 @@ use s4lib::Readers::blockreader::{
     BlockSz,
     BLOCKSZ_MIN,
     BLOCKSZ_MAX,
-    BLOCKSZ_DEFs,
+    BLOCKSZ_DEF,
 };
 
 use s4lib::Readers::filepreprocessor::{
@@ -324,7 +324,7 @@ struct CLI_Args {
         required = false,
         short = 'z',
         long,
-        default_value_t = BLOCKSZ_DEFs.to_string(),
+        default_value_t = BLOCKSZ_DEF.to_string(),
         validator = cli_validate_blocksz,
     )]
     blocksz: String,
@@ -1108,7 +1108,7 @@ fn processing_loop(
     {
         match processpathresult {
             // XXX: use `ref` to avoid "use of partially moved value" error
-            ProcessPathResult::FILE_VALID(ref filetype, ref mimeguess, ref path) =>
+            ProcessPathResult::FILE_VALID(ref path, ref mimeguess, ref filetype) =>
             {
                 debug_eprintln!("{}processing_loop: map_pathid_results.push({:?})", so(), path);
                 map_pathid_path.insert(pathid_counter, path.clone());
@@ -1189,7 +1189,7 @@ fn processing_loop(
         let (filetype, _) = match map_pathid_results.get(pathid) {
             Some(processpathresult) => {
                 match processpathresult {
-                    ProcessPathResult::FILE_VALID(filetype, _m, path) => (filetype, path),
+                    ProcessPathResult::FILE_VALID(path, _m, filetype) => (filetype, path),
                     val => {
                         eprintln!("ERROR: unhandled ProcessPathResult {:?}", val);
                         continue;
@@ -1904,7 +1904,7 @@ fn print_files_processpathresult(
 
     for (_pathid, result) in map_pathid_result.iter() {
         match result {
-            ProcessPathResult::FILE_VALID(_filetype, mimeguess, path) => {
+            ProcessPathResult::FILE_VALID(path, mimeguess, _filetype) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
             },
             ProcessPathResult::FILE_ERR_NO_PERMISSIONS(path, mimeguess) => {
