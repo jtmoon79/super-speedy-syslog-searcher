@@ -19,7 +19,6 @@ use crate::common::{
 use crate::Data::sysline::{
     Sysline,
     SyslineP,
-    SyslineP_Opt,
 };
 
 use crate::Readers::blockreader::{

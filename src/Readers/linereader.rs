@@ -9,7 +9,6 @@ use crate::common::{
     FileSz,
     CharSz,
     NLu8,
-    ResultS3,
 };
 
 use crate::common::{
@@ -17,12 +16,10 @@ use crate::common::{
 };
 
 use crate::Data::line::{
-    LineIndex,
     Line,
     LineP,
     LinePart,
     Lines,
-    LinePartPtrs,
 };
 
 use crate::Readers::blockreader::{
@@ -47,8 +44,10 @@ use crate::printer_debug::stack::{
     sx,
 };
 
-use std::collections::BTreeMap;
-use std::collections::HashSet;
+use std::collections::{
+    BTreeMap,
+    HashSet,
+};
 use std::fmt;
 use std::io::{
     Error,
@@ -59,7 +58,11 @@ use std::sync::Arc;
 extern crate debug_print;
 use debug_print::debug_eprintln;
 #[allow(unused_imports)]
-use debug_print::{debug_eprint, debug_print, debug_println};
+use debug_print::{
+    debug_eprint,
+    debug_print,
+    debug_println
+};
 
 extern crate lru;
 use lru::LruCache;
