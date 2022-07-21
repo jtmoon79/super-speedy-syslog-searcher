@@ -93,9 +93,8 @@ pub struct LinePart {
     fileoffset: FileOffset,
     /// blockoffset: debug helper, might be good to get rid of this?
     blockoffset: BlockOffset,
+    // TODO: is this used?
     /// the file-designated BlockSz, _not_ necessarily the `len()` of the `Block` at `blockp`
-    ///
-    /// TODO: is this used?
     pub blocksz: BlockSz,
 }
 

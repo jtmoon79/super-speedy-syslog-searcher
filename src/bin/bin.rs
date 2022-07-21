@@ -384,7 +384,7 @@ fn cli_validate_blocksz(blockszs: &str) -> clap::Result<(), String> {
 }
 
 /// CLI argument processing
-/// TODO: move some of this into small testable helper functions
+// TODO: move some of this into small testable helper functions
 fn cli_process_tz_offset(tzo: &String) -> std::result::Result<FixedOffset, String> {
     let mut tzo_: String;
     if tzo.is_empty() {
@@ -952,8 +952,8 @@ impl SummaryPrinted {
     }
 
     /// update a `SummaryPrinted` with information from a printed `Sysline`
-    ///
-    /// TODO: 2022/06/21 any way to avoid a `DateTime` copy on every printed sysline?
+    //
+    // TODO: 2022/06/21 any way to avoid a `DateTime` copy on every printed sysline?
     fn summaryprint_update(&mut self, syslinep: &SyslineP) {
         self.syslines += 1;
         self.lines += (*syslinep).count_lines();

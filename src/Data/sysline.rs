@@ -189,9 +189,9 @@ impl Sysline {
         (self.fileoffset_end() - self.fileoffset_begin() + 1) as usize
     }
 
+    // TODO: return `usize`, let callers change as needed
     /// count of `Line` in `self.lines`
     ///
-    /// TODO: return `usize`, let callers change as needed
     pub fn count_lines(self: &Sysline) -> Count {
         self.lines.len() as Count
     }
@@ -211,13 +211,13 @@ impl Sysline {
         self.blockoffset_first() == self.blockoffset_last()
     }
 
+    // TODO: [2022/06/13] for case of one Slice then return `&[u8]` directly, bypass creation of `Vec`
+    //       requires enum to carry both types `Vec<&[u8]>` or `&[u8]`
+    //       or instead of that, just return `&[&[u8]]`
     /// return all the slices that make up this `Sysline`.
     ///
     /// Similar to `get_slices_line` but for all lines.
     ///
-    /// TODO: [2022/06/13] for case of one Slice then return `&[u8]` directly, bypass creation of `Vec`
-    ///       requires enum to carry both types `Vec<&[u8]>` or `&[u8]`
-    ///       or instead of that, just return `&[&[u8]]`
     pub fn get_slices(self: &Sysline) -> Slices {
         let mut count: usize = 0;
         for linep in &self.lines {

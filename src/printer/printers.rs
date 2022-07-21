@@ -355,10 +355,9 @@ impl Printer_Sysline {
         dt_delayedformat.to_string()
     }
 
+    // TODO: make this a macro and it could be used in all functions
+    // TODO: handle special common case of Line slice residing on one line, do it faster
     /// helper to print lineparts
-    ///
-    /// TODO: make this a macro and it could be used in all functions
-    /// TODO: handle special common case of Line slice residing on one line, do it faster
     #[inline(always)]
     fn print_line(&self, linep: &LineP, stdout_lock: &mut std::io::StdoutLock) -> Result<()> {
         for linepart in (*linep).lineparts.iter() {
@@ -369,11 +368,11 @@ impl Printer_Sysline {
         Ok(())
     }
 
+    // TODO: 2020/06/20 handle common case where Sysline resides entirely
+    //       on one block (one `&[u8]` sequence), print entire slice in one write call.
+    //       more efficient for common case
     /// print a `Sysline` without anything special
     ///
-    /// TODO: 2020/06/20 handle common case where Sysline resides entirely
-    ///       on one block (one `&[u8]` sequence), print entire slice in one write call.
-    ///       more efficient for common case
     fn print_sysline_(&mut self, syslinep: &SyslineP) -> Result<()> {
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {

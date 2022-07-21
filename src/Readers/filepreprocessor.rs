@@ -78,13 +78,15 @@ extern crate tar;
 //
 // That algorithm should be correct in 99% of cases.
 //
-// LAST WORKING HERE 2022/06/06 the `struct FilePreProcessed` should be implemented
+// TODO: 2022/06/06 a `struct FilePreProcessed` should be implemented
 //     it should hold the `ProcessPathResult`, `MimeGuess`, and other stuff collected
-//     during preprocessing here.
+//     during preprocessing here, and then give that to `SyslogProcessor` that gives it
+//     to `BlockReader`
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
     FILE_VALID(FPath, MimeGuess, FileType),
+    // TODO: 2022/06 not currently checked until too late
     FILE_ERR_NO_PERMISSIONS(FPath, MimeGuess),
     FILE_ERR_NOT_SUPPORTED(FPath, MimeGuess),
     FILE_ERR_NOT_PARSEABLE(FPath, MimeGuess),
@@ -130,7 +132,6 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     //
     const app_tar: &str = "application/x-tar";
 
-    // LAST WORKING HERE 2022/07/10 00:24:49 beginning of implementation of handling tar files
     match lower.as_str() {
         plain
         | text

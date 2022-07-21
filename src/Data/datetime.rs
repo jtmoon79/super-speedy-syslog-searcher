@@ -1634,15 +1634,15 @@ lazy_static! {
         ).collect();
 }
 
+// TODO: handle all Unicode whitespace.
+//       This fn is essentially counteracting an errant call to `std::string:trim`
+//       within `Local.datetime_from_str`.
+//       `trim` removes "Unicode Derived Core Property White_Space".
+//       This implementation handles three whitespace chars. There are twenty-five whitespace
+//       chars according to
+//       https://en.wikipedia.org/wiki/Unicode_character_property#Whitespace
 /// workaround for chrono Issue #660 https://github.com/chronotope/chrono/issues/660
 /// match spaces at beginning and ending of inputs
-/// TODO: handle all Unicode whitespace.
-///       This fn is essentially counteracting an errant call to `std::string:trim`
-///       within `Local.datetime_from_str`.
-///       `trim` removes "Unicode Derived Core Property White_Space".
-///       This implementation handles three whitespace chars. There are twenty-five whitespace
-///       chars according to
-///       https://en.wikipedia.org/wiki/Unicode_character_property#Whitespace
 pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePattern_str) -> bool {
     let spaces = " ";
     let tabs = "\t";

@@ -1227,16 +1227,15 @@ impl SyslineReader {
     /// Similar to `LineReader.find_line`, `BlockReader.read_block`.
     ///
     /// This does a linear search O(n) over the file.
-    ///
-    /// XXX: This function `find_sysline` is large and cumbersome and needs some
-    ///      cleanup of warnings.
-    ///      It could definitely use improvements but for now it gets the job done.
-    ///      You've been warned.
-    ///
-    /// TODO: separate the caching into wrapper function `find_sysline_cached`
-    ///
-    /// TODO: test that retrieving by cache always returns the same ResultS4 enum value as without a cache
-    ///
+    // XXX: This function `find_sysline` is large and cumbersome and needs some
+    //      cleanup of warnings.
+    //      It could definitely use improvements but for now it gets the job done.
+    //      You've been warned.
+    //
+    // TODO: separate the caching into wrapper function `find_sysline_cached`
+    //
+    // TODO: test that retrieving by cache always returns the same ResultS4 enum value as without a cache
+    //
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
         debug_eprintln!("{}find_sysline({})", sn(), fileoffset);
 
@@ -1572,10 +1571,10 @@ impl SyslineReader {
     ///     `ResultS4::Found(19, SyslineP(data='20010102␊'))`
     ///
     /// XXX: this function is large, cumbersome, and messy. Changes require extensive retesting.
-    ///
-    /// TODO: rename this to `find_next_sysline_at_datetime_filter`, rename all `find_` functions to either
-    ///       `find_..._between_`, `find_...at_`, or `find_next`
-    ///       `between` and `at` mean binary search over the file, `next` means linear sequantial search
+    //
+    // TODO: rename this to `find_next_sysline_at_datetime_filter`, rename all `find_` functions to either
+    //       `find_..._between_`, `find_...at_`, or `find_next`
+    //       `between` and `at` mean binary search over the file, `next` means linear sequantial search
     pub fn find_sysline_at_datetime_filter(
         &mut self, fileoffset: FileOffset, dt_filter: &DateTimeL_Opt,
     ) -> ResultS4_SyslineFind {
