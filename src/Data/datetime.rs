@@ -2794,8 +2794,120 @@ const fn slice_contains_40_2(slice_: &[u8; 40], search: &[u8; 2]) -> bool {
     false
 }
 
-/// loop unrolled implementation of `slice.contains` for a byte slice and a hardcorded array
-/// runs very fast for slices up to 40 chars
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_41_2(slice_: &[u8; 41], search: &[u8; 2]) -> bool {
+    for i in 0..40 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_42_2(slice_: &[u8; 42], search: &[u8; 2]) -> bool {
+    for i in 0..41 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_43_2(slice_: &[u8; 43], search: &[u8; 2]) -> bool {
+    for i in 0..42 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_44_2(slice_: &[u8; 44], search: &[u8; 2]) -> bool {
+    for i in 0..43 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_45_2(slice_: &[u8; 45], search: &[u8; 2]) -> bool {
+    for i in 0..44 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_46_2(slice_: &[u8; 46], search: &[u8; 2]) -> bool {
+    for i in 0..45 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_47_2(slice_: &[u8; 47], search: &[u8; 2]) -> bool {
+    for i in 0..46 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_48_2(slice_: &[u8; 48], search: &[u8; 2]) -> bool {
+    for i in 0..47 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_49_2(slice_: &[u8; 49], search: &[u8; 2]) -> bool {
+    for i in 0..48 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_50_2(slice_: &[u8; 50], search: &[u8; 2]) -> bool {
+    for i in 0..49 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+/// loop unrolled implementation of `slice.contains` for a byte slice and a hardcorded array.
+/// Uses crate `unroll`.
+///
+/// runs very fast. Implemented for `u8` slices up to 50 length
 #[inline(always)]
 pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
     match slice_.len() {
@@ -2838,6 +2950,16 @@ pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
         38 => slice_contains_38_2(array_ref!(slice_, 0, 38), search),
         39 => slice_contains_39_2(array_ref!(slice_, 0, 39), search),
         40 => slice_contains_40_2(array_ref!(slice_, 0, 40), search),
+        41 => slice_contains_41_2(array_ref!(slice_, 0, 41), search),
+        42 => slice_contains_42_2(array_ref!(slice_, 0, 42), search),
+        43 => slice_contains_43_2(array_ref!(slice_, 0, 43), search),
+        44 => slice_contains_44_2(array_ref!(slice_, 0, 44), search),
+        45 => slice_contains_45_2(array_ref!(slice_, 0, 45), search),
+        46 => slice_contains_46_2(array_ref!(slice_, 0, 46), search),
+        47 => slice_contains_47_2(array_ref!(slice_, 0, 47), search),
+        48 => slice_contains_48_2(array_ref!(slice_, 0, 48), search),
+        49 => slice_contains_49_2(array_ref!(slice_, 0, 49), search),
+        50 => slice_contains_50_2(array_ref!(slice_, 0, 50), search),
         _ => {
             slice_.iter().any(|&c| c == search[0] || c == search[1])
         }
