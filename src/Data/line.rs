@@ -64,6 +64,7 @@ pub type LineParts = Vec<LinePart>;
 pub type Lines = Vec<LineP>;
 /// An offset into a `Line` (not related to underlying `Block` offset or indexes)
 pub type LineIndex = usize;
+/// half-open `Range` of `LineIndex`
 pub type Range_LineIndex = std::ops::Range<LineIndex>;
 /// thread-safe Atomic Reference Counting pointer to a `Line`
 pub type LineP = Arc<Line>;
