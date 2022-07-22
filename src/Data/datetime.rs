@@ -234,7 +234,9 @@ pub struct DateTime_Parse_Data<'a> {
     pub regex_pattern: &'a DateTimeRegex_str,
     /// in what strftime form are the regex `regex_pattern` capture groups?
     pub dtfs: DTFSSet<'a>,
-    /// slice range of widest regex pattern match unioned of all possible matches
+    /// slice range of widest regex pattern match
+    ///
+    /// this is range is sliced from the `Line` and then a `Regex` match is attempted using it.
     pub range_regex: Range_LineIndex,
     /// capture named group first (left-most) position in regex
     pub cgn_first: &'a CaptureGroupName,
@@ -932,7 +934,7 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 29;
 ///
 /// `DateTime_Parse_Data` should be listed from specific regexp to generic regexp. A more specific
 /// regexp pattern is always preferred.
-/// 
+///
 /// Notice the "with timezone" versions of `DateTime_Parse_Data` are often listed before the same
 /// `DateTime_Parse_Data` "without". 
 ///
