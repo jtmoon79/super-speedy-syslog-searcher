@@ -11,7 +11,7 @@ use s4lib::common::{
 };
 
 use s4lib::Readers::filepreprocessor::{
-    guess_filetype_from_fpath,
+    fpath_to_filetype_mimeguess,
     MimeGuess,
 };
 
@@ -46,7 +46,7 @@ use lazy_static::lazy_static;
 /// helper wrapper to create a new BlockReader
 fn new_BlockReader(path: FPath, blocksz: BlockSz) -> BlockReader {
     stack_offset_set(Some(2));
-    let (filetype, _mimeguess) = guess_filetype_from_fpath(&path);
+    let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(&path);
     match BlockReader::new(path.clone(), filetype, blocksz) {
         Ok(br) => {
             eprintln!("opened {:?}", path);

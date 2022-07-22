@@ -22,7 +22,7 @@ use s4lib::Readers::blockreader::{
 };
 
 use s4lib::Readers::filepreprocessor::{
-    guess_filetype_from_fpath,
+    fpath_to_filetype_mimeguess,
 };
 
 use s4lib::Data::datetime::{
@@ -47,7 +47,7 @@ use lazy_static::lazy_static;
 #[cfg(test)]
 fn new_SyslogProcessor(path: &FPath, blocksz: BlockSz) -> SyslogProcessor {
     let tzo: FixedOffset = FixedOffset::east(0);
-    let (filetype, mimeguess) = guess_filetype_from_fpath(path);
+    let (filetype, mimeguess) = fpath_to_filetype_mimeguess(path);
     match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo, None, None) {
         Ok(val) => val,
         Err(err) => {

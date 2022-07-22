@@ -221,7 +221,7 @@ pub fn path_to_filetype(path: &Path) -> FileType {
     // FILE_GZ
 
     // for example, `media.gz.old`
-    // TODO: this should be handled in `guess_filetype_from_path`, can be removed
+    // TODO: this should be handled in `path_to_filetype_mimeguess`, can be removed
     if file_suffix_s.ends_with(".gz.old") {
         debug_eprintln!("{}path_to_filetype: return FILE_GZ; .gz.old", sx());
         return FileType::FILE_GZ;
@@ -235,7 +235,7 @@ pub fn path_to_filetype(path: &Path) -> FileType {
     // FILE_TAR
 
     // for example, `var-log.tar.old`
-    // TODO: this should be handled in `guess_filetype_from_path`, can be removed
+    // TODO: this should be handled in `path_to_filetype_mimeguess`, can be removed
     if file_suffix_s.ends_with(".tar.old") {
         debug_eprintln!("{}path_to_filetype: return FILE_TAR; .tar.old", sx());
         return FileType::FILE_TAR;
@@ -287,9 +287,8 @@ pub fn mimeguess_to_filetype_ok(mimeguess: &MimeGuess) -> bool {
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
-/// TODO: change name to `path_mimeguess_to_filetype`
 #[cfg(any(debug_assertions,test))]
-pub fn guess_filetype_from_mimeguess_path(mimeguess: &MimeGuess, path: &Path) -> FileType {
+pub fn mimguess_path_to_filetype(mimeguess: &MimeGuess, path: &Path) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
     if ! parseable_filetype_ok(&filetype) {
         filetype = path_to_filetype(path);
@@ -299,9 +298,8 @@ pub fn guess_filetype_from_mimeguess_path(mimeguess: &MimeGuess, path: &Path) ->
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
-/// TODO: change name to `fpath_mimegyess_to_filetype_`
 #[cfg(any(debug_assertions,test))]
-pub fn guess_filetype_from_mimeguess_fpath(mimeguess: &MimeGuess, path: &FPath) -> FileType {
+pub fn mimeguess_fpath_to_filetype(mimeguess: &MimeGuess, path: &FPath) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
     if ! parseable_filetype_ok(&filetype) {
         let path_: &Path = fpath_to_path(path);
@@ -312,32 +310,31 @@ pub fn guess_filetype_from_mimeguess_fpath(mimeguess: &MimeGuess, path: &FPath) 
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
-/// TODO: change name to `path_to_filetype_mimeguess`
-pub fn guess_filetype_from_path(path: &Path) -> (FileType, MimeGuess) {
-    debug_eprintln!("{}guess_filetype_from_path({:?})", sn(), path);
+pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
+    debug_eprintln!("{}path_to_filetype_mimeguess({:?})", sn(), path);
     let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
-    debug_eprintln!("{}guess_filetype_from_path: mimeguess {:?}", so(), mimeguess);
+    debug_eprintln!("{}path_to_filetype_mimeguess: mimeguess {:?}", so(), mimeguess);
     // Sometimes syslog files get automatically renamed by appending `.old` to the filename,
     // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try MimeGuess without the extra extension.
     if mimeguess.is_empty() && filename_count_extensions(path) > 1 {
-        debug_eprintln!("{}guess_filetype_from_path: no mimeguess found, and file name is {:?} (multiple extensions), try again with removed file extension", so(), path.file_name().unwrap_or_default());
+        debug_eprintln!("{}path_to_filetype_mimeguess: no mimeguess found, and file name is {:?} (multiple extensions), try again with removed file extension", so(), path.file_name().unwrap_or_default());
         match remove_extension(path) {
             None => {},
             Some(path_) => {
                 mimeguess = MimeGuess::from_path(path_);
-                debug_eprintln!("{}guess_filetype_from_path: mimeguess #2 {:?}", so(), mimeguess);
+                debug_eprintln!("{}path_to_filetype_mimeguess: mimeguess #2 {:?}", so(), mimeguess);
             }
         }
     }
     let mut filetype: FileType = mimeguess_to_filetype(&mimeguess);
-    debug_eprintln!("{}guess_filetype_from_path: filetype {:?}", so(), filetype);
+    debug_eprintln!("{}path_to_filetype_mimeguess: filetype {:?}", so(), filetype);
     if ! parseable_filetype_ok(&filetype) {
-        debug_eprintln!("{}guess_filetype_from_path: parseable_filetype_ok({:?}) failed", so(), filetype);
+        debug_eprintln!("{}path_to_filetype_mimeguess: parseable_filetype_ok({:?}) failed", so(), filetype);
         filetype = path_to_filetype(path);
         // Sometimes syslog files get automatically renamed by appending `.old` to the filename,
         // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try supplement check without extra extension.
         if ! parseable_filetype_ok(&filetype) && filename_count_extensions(path) > 1 {
-            debug_eprintln!("{}guess_filetype_from_path: file name is {:?} (multiple extensions), try again with removed file extension", so(), path.file_name().unwrap_or_default());
+            debug_eprintln!("{}path_to_filetype_mimeguess: file name is {:?} (multiple extensions), try again with removed file extension", so(), path.file_name().unwrap_or_default());
             match remove_extension(path) {
                 None => {},
                 Some(path_) => {
@@ -347,18 +344,17 @@ pub fn guess_filetype_from_path(path: &Path) -> (FileType, MimeGuess) {
             }
         }
     }
-    debug_eprintln!("{}guess_filetype_from_path: return ({:?}, {:?})", sx(), filetype, mimeguess);
+    debug_eprintln!("{}path_to_filetype_mimeguess: return ({:?}, {:?})", sx(), filetype, mimeguess);
 
     (filetype, mimeguess)
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
-/// TODO: change name to `fpath_to_filetype_mimeguess`
 #[cfg(any(debug_assertions,test))]
-pub fn guess_filetype_from_fpath(path: &FPath) -> (FileType, MimeGuess) {
+pub fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess) {
     let path_: &Path = fpath_to_path(path);
 
-    guess_filetype_from_path(path_)
+    path_to_filetype_mimeguess(path_)
 }
 
 /// Return a `ProcessPathResult` for each parseable file within .tar file at `path`
@@ -400,7 +396,7 @@ fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         };
         // first get the `FileType` of the subpath
         let subfpath: FPath = subpath.to_string_lossy().to_string();
-        let (filetype_subpath, mimeguess) = guess_filetype_from_path(&subpath);
+        let (filetype_subpath, mimeguess) = path_to_filetype_mimeguess(&subpath);
         // the `FileType` within the tar might be a regular file. It needs to be
         // transformed to corresponding tar `FileType`, so later `BlockReader` understands what to do.
         let filetype: FileType = match filetype_subpath.to_tar() {
@@ -454,7 +450,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
     // i.e. do not call `parseable_filetype`
     let std_path: &std::path::Path = std::path::Path::new(path);
     if std_path.is_file() {
-        let (filetype, mimeguess) = guess_filetype_from_path(std_path);
+        let (filetype, mimeguess) = path_to_filetype_mimeguess(std_path);
         if !filetype.is_archived() {
             let paths: Vec<ProcessPathResult> = vec![
                 ProcessPathResult::FILE_VALID(path.clone(), mimeguess, filetype),
@@ -500,7 +496,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
             paths.push(ProcessPathResult::FILE_ERR_NOT_A_FILE(fpath_entry, MimeGuess::from_ext("")));
             continue;
         }
-        let (filetype, mimeguess) = guess_filetype_from_path(std_path_entry);
+        let (filetype, mimeguess) = path_to_filetype_mimeguess(std_path_entry);
         match parseable_filetype(&filetype) {
             FileParseable::YES => {
                 debug_eprintln!("{}process_path: paths.push(FILE_VALID(({:?}, {:?}, {:?})))", so(), fpath_entry, mimeguess, filetype);

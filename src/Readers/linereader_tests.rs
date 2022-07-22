@@ -15,7 +15,7 @@ use crate::Readers::blockreader::{
 };
 
 use crate::Readers::filepreprocessor::{
-    guess_filetype_from_fpath,
+    fpath_to_filetype_mimeguess,
 };
 
 use crate::Data::line::{
@@ -146,7 +146,7 @@ enum ResultS4_LineFind_Test {
 /// helper to wrap the match and panic checks
 #[cfg(test)]
 fn new_LineReader(path: &FPath, blocksz: BlockSz) -> LineReader {
-    let (filetype, _mimeguess) = guess_filetype_from_fpath(path);
+    let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
     match LineReader::new(path.clone(), filetype, blocksz) {
         Ok(val) => val,
         Err(err) => {
