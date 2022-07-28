@@ -661,30 +661,24 @@ impl Line {
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub(crate) fn _to_String_raw(self: &Line, raw: bool) -> String {
+        // get capacity
         let mut sz: usize = 0;
         for linepart in &self.lineparts {
             sz += linepart.len();
         }
-        let mut s1 = String::with_capacity(sz + 1);
-
-        // copy lineparts to a `String`
+        let mut buf = Bytes::with_capacity(sz);
+        // copy lineparts to a buffer
         for linepart in &self.lineparts {
-            // transform slices to `str`
-            // XXX: not efficient, here is a good place to use `bstr`
-            let s2 = &(&*linepart.blockp)[linepart.blocki_beg..linepart.blocki_end];
-            let s3_fallback: String;
-            let s3 = match std::str::from_utf8(s2) {
-                Ok(val) => val,
-                Err(_err) => {
-                    //eprintln!("ERROR: failed to convert [u8] at LinePart@FileOffset[{}‥{}] to utf8 str, {}; attempting from_utf8_lossy…", linepart.fileoffset_begin(), linepart.fileoffset_end(), err);
-                    s3_fallback = String::from(&*String::from_utf8_lossy(s2));
-                    s3_fallback.as_str()
-                }
-            };
-            s1.push_str(s3);
+            let bptr = linepart.block_boxptr();
+            for byte_ in (*bptr).iter() {
+                buf.push(*byte_);
+            }
         }
+        // transform buffer to a `String`
+        let s1: Cow<str> = String::from_utf8_lossy(&buf);
+        let s3: String;
         if !raw {
-            // replace formatting characters
+            // replace "raw" formatting characters with associated glyphs
             let mut s2 = String::with_capacity(s1.len());
             for c_ in s1.chars() {
                 if c_.is_ascii() {
@@ -693,15 +687,17 @@ impl Line {
                     s2.push(c_);
                 }
             }
-            s1 = s2;
+            s3 = s2;
+        } else {
+            s3 = String::from(s1);
         }
 
-        s1
+        s3
     }
 
     // XXX: rust does not support function overloading which is really surprising and disappointing
     /// `Line` to `String`
-    #[allow(dead_code, non_snake_case)]
+    #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Line) -> String {
         self._to_String_raw(true)

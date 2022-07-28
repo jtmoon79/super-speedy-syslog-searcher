@@ -15,7 +15,7 @@ use crate::Readers::blockreader::{
 
 #[test]
 fn test_linepart_new1() {
-    let data = vec![32 as u8, 32 as u8, 32 as u8, 32 as u8];
+    let data = vec![b'\n', b'\n', b'\n', b'\n'];
     let block: Block = Block::from(data);
     let len = block.len();
     let blockp: BlockP = BlockP::new(block);
