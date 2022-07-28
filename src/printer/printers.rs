@@ -6,6 +6,11 @@
 use std::io::Write;  // for `std::io::Stdout.flush`
 use std::io::Result;
 
+extern crate debug_print;
+use debug_print::{
+    debug_eprintln,
+};
+
 extern crate termcolor;
 pub use termcolor::{
     Color,

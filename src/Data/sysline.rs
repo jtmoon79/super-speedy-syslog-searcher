@@ -16,6 +16,10 @@ use crate::Readers::blockreader::{
 
 use crate::Data::datetime::{
     DateTimeL_Opt,
+    datetime_with_year,
+    DateTimeL,
+    Duration,
+    Year,
 };
 
 use crate::Data::line::{
@@ -121,6 +125,24 @@ impl Sysline {
 
     pub fn dt(self: &Sysline) -> &DateTimeL_Opt {
         &self.dt
+    }
+
+    /*
+    /// Some syslog datetime formats do not include the year. Some `Sysline` instances are created
+    /// with a dummy year. Later, after special processing, some `Sysline` may have the `dt` updated
+    /// to a determined year.
+    ///
+    /// Not ideal.
+    pub fn update_year(&mut self, year: &Year) {
+        let dt_new: DateTimeL = datetime_with_year(self.dt.as_ref().unwrap(), year);
+        self.dt = Some(dt_new);
+    }
+    */
+
+    /// return duration of difference between the two `DateTimeL` of each `Sysline`
+    pub fn dt_difference(&self, otherp: &SyslineP) -> Duration {
+        // XXX: would prefer not to make copies, but using refs is not supported
+        (*self.dt.as_ref().unwrap()) - (*(*otherp).dt().as_ref().unwrap())
     }
 
     pub fn push(&mut self, linep: LineP) {

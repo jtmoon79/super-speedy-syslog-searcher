@@ -11,6 +11,7 @@ use crate::common::{
 
 use crate::Data::datetime::{
     DateTimeL_Opt,
+    Year,
 };
 
 use crate::Readers::blockreader::{
@@ -23,10 +24,15 @@ use crate::Readers::syslinereader::{
     DateTime_Pattern_Counts,
 };
 
+extern crate debug_print;
+use debug_print::debug_eprintln;
+
 extern crate more_asserts;
 use more_asserts::{
     assert_le,
     assert_ge,
+    debug_assert_le,
+    debug_assert_ge,
 };
 
 use std::fmt;
@@ -125,6 +131,8 @@ pub struct Summary {
     pub SyslineReader_drop_sysline_ok: Count,
     /// `SyslineReader::drop_sysline_errors`
     pub SyslineReader_drop_sysline_errors: Count,
+    /// `SyslogProcessor::missing_year`
+    pub SyslogProcessor_missing_year: Option<Year>,
     /// the last IO error as a String, if any
     /// (`Error` does not implement `Clone`)
     pub Error_: Option<String>,
@@ -176,15 +184,23 @@ impl Summary {
         LineReader_drop_line_errors: Count,
         SyslineReader_drop_sysline_ok: Count,
         SyslineReader_drop_sysline_errors: Count,
+        SyslogProcessor_missing_year: Option<Year>,
         Error_: Option<String>,
     ) -> Summary {
         // some sanity checks
-        assert_ge!(BlockReader_bytes, BlockReader_blocks, "There is less bytes than Blocks");
-        assert_ge!(BlockReader_bytes, LineReader_lines, "There is less bytes than Lines");
-        assert_ge!(BlockReader_bytes, SyslineReader_syslines, "There is less bytes than Syslines");
-        assert_ge!(BlockReader_blocksz, BLOCKSZ_MIN, "blocksz too small");
-        assert_le!(BlockReader_blocksz, BLOCKSZ_MAX, "blocksz too big");
-        assert_ge!(LineReader_lines, SyslineReader_syslines, "There is less Lines than Syslines");
+        debug_assert_ge!(BlockReader_bytes, BlockReader_blocks, "There is less bytes than Blocks");
+        debug_assert_ge!(BlockReader_bytes, LineReader_lines, "There is less bytes than Lines");
+        debug_assert_ge!(BlockReader_bytes, SyslineReader_syslines, "There is less bytes than Syslines");
+        debug_assert_ge!(BlockReader_blocksz, BLOCKSZ_MIN, "blocksz too small");
+        debug_assert_le!(BlockReader_blocksz, BLOCKSZ_MAX, "blocksz too big");
+        // XXX: in case of a file without datetime stamp year, syslines may be reprocessed.
+        //      the count of syslines processed may reflect reprocoessing the same line in the file,
+        //      leading to a `SyslineReader_syslines` that is more than `LineReader_lines`.
+        //      See `syslogprocessor.process_missing_year()`.
+        //debug_assert_ge!(LineReader_lines, SyslineReader_syslines, "There is less Lines than Syslines");
+        if LineReader_lines < SyslineReader_syslines {
+            debug_eprintln!("Warning: There is less Lines {} than Syslines {}", LineReader_lines, SyslineReader_syslines);
+        }
         Summary {
             filetype,
             BlockReader_bytes,
@@ -228,6 +244,7 @@ impl Summary {
             LineReader_drop_line_errors,
             SyslineReader_drop_sysline_ok,
             SyslineReader_drop_sysline_errors,
+            SyslogProcessor_missing_year,
             Error_,
         }
     }

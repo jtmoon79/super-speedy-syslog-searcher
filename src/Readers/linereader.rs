@@ -346,12 +346,14 @@ impl LineReader {
         self.blockreader.blockoffset_last()
     }
 
+    /// get the last byte index of the file
+    pub const fn fileoffset_last(&self) -> FileOffset {
+        self.blockreader.fileoffset_last()
+    }
+
     /// is `FileOffset` the last byte of the file?
     pub const fn is_FileOffset_last(&self, fileoffset: FileOffset) -> bool {
-        if self.filesz() == 0 {
-            return true;
-        }
-        fileoffset == (self.filesz() - 1)
+        self.fileoffset_last() == fileoffset
     }
 
     /// is `Line` the last of the file?

@@ -34,11 +34,13 @@ use super::datetime::{
     Result_Filter_DateTime2,
     dt_pass_filters,
     dt_after_or_before,
+    Year,
 };
 
 use crate::printer_debug::stack::{
     sn,
     sx,
+    stack_offset_set,
 };
 
 use std::collections::HashSet;
@@ -185,6 +187,7 @@ where
 
 #[test]
 fn test_DTF_ALL() {
+    stack_offset_set(Some(2));
     for dt_format in _DTF_ALL.iter() {
         assert!(dt_pattern_has_year(dt_format), "built-in dt_format missing year {:?}", dt_format);
         assert!(dt_pattern_has_month(dt_format), "built-in dt_format missing month {:?}", dt_format);
@@ -200,6 +203,7 @@ fn test_DTF_ALL() {
 /// does each `DateTime_Parse_Data` parameter agree with other parameters?
 #[test]
 fn test_DATETIME_PARSE_DATAS_builtin() {
+    stack_offset_set(Some(2));
     for dtpd in DATETIME_PARSE_DATAS.iter() {
         // check regex_range (arbitrary minimum)
         let regpat: &DateTimeRegex_str = dtpd.regex_pattern;
@@ -328,19 +332,26 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
 
 #[test]
 fn test_DATETIME_PARSE_DATAS_test_cases() {
+    stack_offset_set(Some(2));
     for (index, dtpd) in DATETIME_PARSE_DATAS.iter().enumerate() {
         eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
         eprintln!("  Regex Pattern   : {:?}", dtpd.regex_pattern);
         eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
-        eprintln!("  Test Data       : {:?}", dtpd._test_case);
-        let data = dtpd._test_case.as_bytes();
-        let tz = FixedOffset::east_opt(60 * 60).unwrap();
-        match bytes_to_regex_to_datetime(data, &index, &tz) {
-            Some(capdata) => {
-                eprintln!("Passed dtpd declared at line {} result {:?}, test data {:?}", dtpd._line_num, capdata, data);
-            },
-            None => {
-                panic!("Failed dtpd declared at line {}\ntest data {:?}\nregex \"{}\"", dtpd._line_num, data, dtpd.regex_pattern);
+        for test_case in dtpd._test_cases {
+        eprintln!("  Test Data       : {:?}", test_case);
+            let data = test_case.as_bytes();
+            let tz = FixedOffset::east_opt(60 * 60).unwrap();
+            let mut year_opt: Option<Year> = None;
+            if ! dtpd.dtfs.has_year() {
+                year_opt = Some(1980);
+            }
+            match bytes_to_regex_to_datetime(data, &index, &year_opt,&tz) {
+                Some(capdata) => {
+                    eprintln!("Passed dtpd declared at line {} result {:?}, test data {:?}", dtpd._line_num, capdata, data);
+                },
+                None => {
+                    panic!("Failed dtpd declared at line {}\ntest data {:?}\nregex \"{}\"", dtpd._line_num, data, dtpd.regex_pattern);
+                }
             }
         }
     }
@@ -407,7 +418,7 @@ fn test_dt_pass_filters_fixedoffset2() {
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = FixedOffset::west(3600 * 2);
-        datetime_parse_from_str(s, "%Y%m%dT%H%M%S", true, false, &tzo).unwrap()
+        datetime_parse_from_str(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
     }
 
     for (da, dt, db, exp_result) in [
@@ -480,8 +491,8 @@ fn test_dt_pass_filters_z() {
     eprintln!("{}test_dt_pass_filters_z()", sn());
 
     fn DTLz(s: &str) -> DateTimeL {
-        let dummy = FixedOffset::east(0);
-        datetime_parse_from_str(s, "%Y%m%dT%H%M%S%z", true, true, &dummy).unwrap()
+        let tz_dummy = FixedOffset::east(0);
+        datetime_parse_from_str(s, "%Y%m%dT%H%M%S%z", true, &tz_dummy).unwrap()
     }
 
     for (da, dt, db, exp_result) in [
@@ -591,7 +602,7 @@ fn test_dt_after_or_before() {
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = FixedOffset::west(3600 * 8);
-        datetime_parse_from_str(s, "%Y%m%dT%H%M%S", true, false, &tzo).unwrap()
+        datetime_parse_from_str(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
     }
 
     for (dt, da, exp_result) in [

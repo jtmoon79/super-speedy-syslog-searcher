@@ -18,6 +18,10 @@ use crate::common::{
     Bytes,
 };
 
+use crate::Data::datetime::{
+    SystemTime,
+};
+
 #[cfg(any(debug_assertions,test))]
 use crate::printer_debug::printers::{
     byte_to_char_noraw,
@@ -38,6 +42,7 @@ use std::collections::{
     HashSet,
 };
 use std::fmt;
+use std::fs::Metadata;
 use std::io::{
     BufReader,
     Error,
@@ -50,6 +55,7 @@ use std::io::{
 use std::io::prelude::Read;
 use std::path::Path;
 use std::sync::Arc;
+use std::time::Duration;
 
 extern crate debug_print;
 use debug_print::{
@@ -122,7 +128,20 @@ pub struct GzData {
     pub decoder: GzDecoder<File>,
     /// filename taken from gzip header
     pub filename: String,
-    /// file mtime taken from gzip header
+    /// file modified time taken from gzip header
+    ///
+    /// From https://datatracker.ietf.org/doc/html/rfc1952#page-7
+    ///
+    /// > MTIME (Modification TIME)
+    /// > This gives the most recent modification time of the original
+    /// > file being compressed.  The time is in Unix format, i.e.,
+    /// > seconds since 00:00:00 GMT, Jan.  1, 1970.  (Note that this
+    /// > may cause problems for MS-DOS and other systems that use
+    /// > local rather than Universal time.)  If the compressed data
+    /// > did not come from a file, MTIME is set to the time at which
+    /// > compression started.  MTIME = 0 means no time stamp is
+    /// > available.
+    ///
     pub mtime: u32,
     /// CRC32 taken from trailing gzip file data
     pub crc32: u32,
@@ -160,6 +179,11 @@ pub struct TarData {
     /// checksum retreived from tar header
     pub checksum: TarChecksum,
     /// modified time retreived from tar header
+    ///
+    /// from https://www.gnu.org/software/tar/manual/html_node/Standard.html
+    /// > The mtime field represents the data modification time of the file at
+    /// > the time it was archived. It represents the integer number of seconds
+    /// > since January 1, 1970, 00:00 Coordinated Universal Time. 
     pub mtime: TarMTime,
 }
 
@@ -186,9 +210,14 @@ pub struct BlockReader {
     /// File handle
     file: File,
     /// File.metadata()
+    ///
     /// For compressed or archived files, the metadata of the `path`
     /// compress or archive file.
-    _file_metadata: FileMetadata,
+    file_metadata: FileMetadata,
+    /// copy of `self.file_metadata.modified()`, copied during `new()`
+    ///
+    /// to simplify later retrievals
+    pub(crate) file_metadata_modified: SystemTime,
     /// The `MimeGuess::from_path` result
     mimeguess_: MimeGuess,
     /// enum that guides file-handling behavior in `read`, `new`
@@ -251,10 +280,6 @@ pub struct BlockReader {
 
 impl fmt::Debug for BlockReader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        //let f_ = match &self._file_metadata {
-        //    None => format!("None"),
-        //    Some(val) => format!("{:?}", val.file_type()),
-        //};
         f.debug_struct("BlockReader")
             .field("path", &self.path)
             .field("file", &self.file)
@@ -411,6 +436,7 @@ impl BlockReader {
         let mut filesz_actual: FileSz;
         let blocksz: BlockSz;
         let file_metadata: FileMetadata;
+        let file_metadata_modified: SystemTime;
         let mut gz_opt: Option<GzData> = None;
         let mut xz_opt: Option<XzData> = None;
         let mut tar_opt: Option<TarData> = None;
@@ -419,6 +445,15 @@ impl BlockReader {
             Ok(val) => {
                 filesz = val.len() as FileSz;
                 file_metadata = val;
+                file_metadata_modified = match file_metadata.modified() {
+                    Ok(systemtime_) => {
+                        systemtime_
+                    }
+                    Err(err) => {
+                        debug_eprintln!("{}BlockReader::new: file_metadata.modified() failed Err {:?}", sx(), err);
+                        return Result::Err(err);
+                    }
+                }
             }
             Err(err) => {
                 debug_eprintln!("{}BlockReader::new: return {:?}", sx(), err);
@@ -559,6 +594,26 @@ impl BlockReader {
                 debug_eprintln!("{}BlockReader::new: FILE_GZ: {:?}", so(), decoder);
                 let header_opt: Option<&GzHeader> = decoder.header();
                 let mut filename: String = String::with_capacity(0);
+
+                //
+                // GZIP binary format https://datatracker.ietf.org/doc/html/rfc1952#page-5
+                //
+                // Each member has the following structure:
+                //
+                // +---+---+---+---+---+---+---+---+---+---+
+                // |ID1|ID2|CM |FLG|     MTIME     |XFL|OS | (more-->)
+                // +---+---+---+---+---+---+---+---+---+---+
+                //
+                // MTIME (Modification TIME)
+                // This gives the most recent modification time of the original
+                // file being compressed.  The time is in Unix format, i.e.,
+                // seconds since 00:00:00 GMT, Jan.  1, 1970.  (Note that this
+                // may cause problems for MS-DOS and other systems that use
+                // local rather than Universal time.)  If the compressed data
+                // did not come from a file, MTIME is set to the time at which
+                // compression started.  MTIME = 0 means no time stamp is
+                // available.
+                //
                 let mut mtime: u32 = 0;
                 match header_opt {
                     Some(header) => {
@@ -598,11 +653,12 @@ impl BlockReader {
                     }
                 };
 
-                //let mut options = lzma_rs::decompress::Options::default();
-                //options.memlimit = Some(0x10000);
-
                 //
                 // Get the .xz file size from XZ header
+                //
+                // "bare-bones" implentation of reading xz compressed file
+                // other availale crates for reading `.xz` files did not meet
+                // the needs of this program.
                 //
 
                 /*
@@ -1013,7 +1069,8 @@ impl BlockReader {
                 path,
                 subpath: subpath_opt,
                 file,
-                _file_metadata: file_metadata,
+                file_metadata,
+                file_metadata_modified,
                 mimeguess_,
                 filetype,
                 gz: gz_opt,
@@ -1068,6 +1125,51 @@ impl BlockReader {
         self.filetype
     }
 
+    /// return a copy of `self.file_metadata`
+    pub fn metadata(&self) -> Metadata {
+        self.file_metadata.clone()
+    }
+
+    /// get the best available "Modified Datetime" file attribute avaiable.
+    ///
+    /// For compressed or archived files, if the embedded "MTIME" is not available then
+    /// return the encompassing file's "MTIME".
+    ///
+    /// For example, if archived file `syslog` within archive `logs.tar` does not have a valid
+    /// "MTIME", then return the file system attribute "modified time" for `logs.tar`.
+    //
+    // TODO: also handle when `self.file_metadata_modified` is zero (or a non-meaningful placeholder
+    //       value).
+    pub fn mtime(&self) -> SystemTime {
+        match self.filetype {
+            FileType::FILE
+            | FileType::FILE_XZ => {
+                self.file_metadata_modified
+            }
+            FileType::FILE_GZ => {
+                let mtime = self.gz.as_ref().unwrap().mtime;
+                if mtime != 0 {
+                    SystemTime::UNIX_EPOCH + Duration::from_secs(mtime as u64)
+                }
+                else {
+                    self.file_metadata_modified
+                }
+            }
+            FileType::FILE_TAR => {
+                let mtime = self.tar.as_ref().unwrap().mtime;
+                if mtime != 0 {
+                    SystemTime::UNIX_EPOCH + Duration::from_secs(mtime)
+                }
+                else {
+                    self.file_metadata_modified
+                }
+            }
+            _ => {
+                panic!("Unsupported filetype {:?}", self.filetype);
+            }
+        }
+    }
+
     // TODO: make a `self` version of the following helpers that does not require
     //       passing `BlockSz`. Save the user some trouble.
     //       Can also `assert` that passed `FileOffset` is not larger than filesz, greater than zero.
@@ -1107,6 +1209,11 @@ impl BlockReader {
         );
         */
         BlockReader::file_offset_at_block_offset(blockoffset, blocksz) + (blockindex as FileOffset)
+    }
+
+    /// get the last byte index of the file
+    pub const fn fileoffset_last(&self) -> FileOffset {
+        (self.filesz() - 1) as FileOffset
     }
 
     /// return block_index (byte offset into a `Block`) for `Block` that corresponds to `FileOffset`
@@ -1333,6 +1440,7 @@ impl BlockReader {
             Some(bo_) => *bo_,
             None => 0,
         };
+
         while bo_at <= blockoffset {
             // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
             // was *ever* read.

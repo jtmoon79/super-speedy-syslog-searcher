@@ -28,6 +28,7 @@ use crate::Readers::blockreader::{
 };
 
 use crate::Data::datetime::{
+    Year,
     FixedOffset,
     DateTimeL,
     DateTimeL_Opt,
@@ -129,7 +130,7 @@ use static_assertions::{
 ///
 /// value is count of use of those "pattern rules" to find datetimes in a `Line`
 pub type DateTime_Pattern_Counts = BTreeMap<DateTime_Parse_Datas_Index, Count>;
-pub type DateTime_Parse_Data_Indexes = BTreeSet<DateTime_Parse_Datas_Index>;
+pub type DateTime_Parse_Datas_Indexes = BTreeSet<DateTime_Parse_Datas_Index>;
 /// data returned by `SyslineReader::find_datetime_in_line` and
 /// `SyslineReader::parse_datetime_in_line`
 ///
@@ -153,6 +154,7 @@ pub type Result_ParseDateTime = Result<FindDateTimeData>;
 pub type ResultS4_SyslineFind = ResultS4<(FileOffset, SyslineP), Error>;
 /// storage for `Sysline`
 pub type Syslines = BTreeMap<FileOffset, SyslineP>;
+type SyslineRange = std::ops::Range<FileOffset>;
 /// range map where key is sysline begin to end `[ Sysline.fileoffset_begin(), Sysline.fileoffset_end()]`
 /// and where value is sysline begin (`Sysline.fileoffset_begin()`). Use the value to lookup associated `Syslines` map
 type SyslinesRangeMap = RangeMap<FileOffset, FileOffset>;
@@ -193,17 +195,32 @@ pub struct SyslineReader {
     /// first (soonest) processed DateTimeL (not necessarly printed, not representative of the entire file)
     ///
     /// intended for `--summary`
+    // TODO: [2022/07/27] cost-savings: save the ref
     pub(crate) dt_first: DateTimeL_Opt,
+    pub(crate) dt_first_prev: DateTimeL_Opt,
     /// last (latest) processed DateTimeL (not necessarly printed, not representative of the entire file)
     ///
-    /// intended for `--summary``
+    /// intended for `--summary`
+    // TODO: [2022/07/27] cost-savings: save the ref
     pub(crate) dt_last: DateTimeL_Opt,
-    /// counts found patterns stored in `dt_patterns`
-    /// not used after `self.analyzed` becomes `true`
+    pub(crate) dt_last_prev: DateTimeL_Opt,
+    /// counts found patterns stored in `dt_patterns`. "mirrors" the global `DATETIME_PARSE_DATAS`.
+    /// Keys are indexes into `DATETIME_PARSE_DATAS`, values are counts of successful
+    /// pattern match at that index.
+    ///
+    /// Initialized once in `fn SyslineReader::new`.
+    ///
+    /// Not used after `self.analyzed` becomes `true`
     pub(crate) dt_patterns_counts: DateTime_Pattern_Counts,
-    /// keys of `dt_patterns_counts` sorted by value. updated in `dt_patterns_indexes_refresh`
-    dt_patterns_indexes: DateTime_Parse_Data_Indexes,
+    /// keys of `self.dt_patterns_counts` sorted by value. updated in `fn dt_patterns_indexes_refresh`
+    ///
+    /// not updated after `self.analyzed` becomes `true`
+    dt_patterns_indexes: DateTime_Parse_Datas_Indexes,
     /// default FixedOffset for a found `DateTime` without timezone
+    ///
+    /// different than the "fallback year" used in some functions because
+    /// the "fallback timezone" offset will not change within one syslog file,
+    /// whereas a fallback year does.
     tz_offset: FixedOffset,
     /// enable or disable the internal LRU cache for `find_sysline()`
     find_sysline_lru_cache_enabled: bool,
@@ -289,9 +306,11 @@ impl SyslineReader {
     const DT_PATTERN_MAX: usize = 1;
     /// when this number of syslines has been processed then reduce use of all
     /// patterns from all patterns in `DATETIME_PARSE_DATAS_VEC` to one pattern
-    #[cfg(any(debug_assertions,test))]
-    const DT_PATTERN_ANALYSIS_THRESHOLD: Count = 1;
-    #[cfg(not(any(debug_assertions,test)))]
+    // TODO: this should not vary among different builds, fixing requires user-controlled
+    //       call to `dt_patterns_analysis`
+    //#[cfg(any(debug_assertions,test))]
+    //const DT_PATTERN_ANALYSIS_THRESHOLD: Count = 1;
+    //#[cfg(not(any(debug_assertions,test)))]
     const DT_PATTERN_ANALYSIS_THRESHOLD: Count = 5;
     /// capacity of internal LRU cache
     const FIND_SYSLINE_LRU_CACHE_SZ: usize = 4;
@@ -313,7 +332,7 @@ impl SyslineReader {
             }
         };
         let mut dt_patterns_counts = DateTime_Pattern_Counts::new();
-        let mut dt_patterns_indexes = DateTime_Parse_Data_Indexes::new();
+        let mut dt_patterns_indexes = DateTime_Parse_Datas_Indexes::new();
         let mut index = 0;
         while index < DATETIME_PARSE_DATAS_LEN {
             dt_patterns_counts.insert(index as DateTime_Parse_Datas_Index, 0);
@@ -333,7 +352,9 @@ impl SyslineReader {
                 syslines_by_range_put: 0,
                 //dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
                 dt_first: None,
+                dt_first_prev: None,
                 dt_last: None,
+                dt_last_prev: None,
                 dt_patterns_counts,
                 dt_patterns_indexes,
                 tz_offset,
@@ -399,6 +420,11 @@ impl SyslineReader {
             .file_offset_at_block_offset_index(blockoffset, blockindex)
     }
 
+    /// get the last byte index of the file, inclusive
+    pub const fn fileoffset_last(&self) -> FileOffset {
+        self.linereader.fileoffset_last()
+    }
+
     /// return block index at given `FileOffset`
     pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         self.linereader.block_index_at_file_offset(fileoffset)
@@ -424,7 +450,7 @@ impl SyslineReader {
         self.syslines_count
     }
 
-    /// count of `Sysline`s processed so far, i.e. `self.syslines_count`
+    /// count of `Sysline`s currently stored, i.e. `self.syslines.len()`
     pub fn count_syslines_stored(&self) -> Count {
         self.syslines.len() as Count
     }
@@ -435,9 +461,16 @@ impl SyslineReader {
         self.linereader.count_lines_processed()
     }
 
+    /// does the dt_pattern have a year? e.g. `%Y` or `%y`
+    pub fn dt_pattern_has_year(&self) -> bool {
+        debug_assert!(!self.syslines.is_empty(), "called dt_pattern_has_year() without having processed some syslines");
+        let dtpd: &DateTime_Parse_Data = self.datetime_parse_data();
+        debug_eprintln!("{}dt_pattern_has_year(); dtpd line {:?}", snx(), dtpd._line_num);
+
+        dtpd.dtfs.has_year()
+    }
+
     /// enable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
-    /// intended to aid testing and debugging
-    #[allow(dead_code)]
     pub fn LRU_cache_enable(&mut self) {
         if !self.find_sysline_lru_cache_enabled {
             self.find_sysline_lru_cache_enabled = true;
@@ -452,7 +485,6 @@ impl SyslineReader {
     }
 
     /// disable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
-    /// intended to aid testing and debugging
     pub fn LRU_cache_disable(&mut self) {
         self.find_sysline_lru_cache_enabled = false;
         self.find_sysline_lru_cache.resize(0);
@@ -477,37 +509,109 @@ impl SyslineReader {
         }
     }
 
+    /// return most used `DateTime_Parse_Data`
+    ///
+    /// before analysis, this may return different values
+    ///
+    /// after analysis, it will return the same value
+    fn datetime_parse_data(&self) -> &DateTime_Parse_Data {
+        &DATETIME_PARSE_DATAS[self.dt_pattern_index_max_count()]
+    }
+
     /// is this `SyslineP` the last `Sysline` of the entire file?
     /// (not the same as last Sysline within the optional datetime filters).
     pub fn is_sysline_last(&self, syslinep: &SyslineP) -> bool {
-        let filesz = self.filesz();
         let fo_end = (*syslinep).fileoffset_end();
-        if (fo_end + 1) == filesz {
-            debug_eprintln!("{}is_sysline_last(…); return true, fo_end+1 {} == {} filesz", snx(), fo_end + 1, filesz);
+        if fo_end == self.fileoffset_last() {
+            debug_eprintln!("{}is_sysline_last(…); return true", snx());
             return true;
         }
-        assert_lt!(fo_end + 1, filesz, "fileoffset_end {}+1 = {}, is at or after filesz() {}", fo_end, fo_end + 1, filesz);
-        debug_eprintln!("{}is_sysline_last(…); return false, fo_end+1 {} != {} filesz", snx(), fo_end + 1, filesz);
+        assert_lt!(fo_end, self.filesz(), "fileoffset_end {} is at or after filesz() {}", fo_end, self.filesz());
+        debug_eprintln!("{}is_sysline_last(…); return false", snx());
 
         false
     }
 
+    /// Clear all the syslines so far collected. Only intended to aid post-processing year updates.
+    ///
+    /// Users must know what they are doing with this.
+    ///
+    /// Leave the statistics as-is which means they may be confusing. For example,
+    /// given a file with 5 syslines, then all 5 syslines are parsed and stored, then
+    /// `clear_syslines()` is called, and then the file is processed again, the resulting
+    /// `self.syslines_count` will be value `10`.
+    pub fn clear_syslines(&mut self) {
+        debug_eprintln!("{}clear_syslines()", snx());
+        self.LRU_cache_disable();
+        self.syslines.clear();
+        self.syslines_by_range = SyslinesRangeMap::new();
+        self.dt_first = None;
+        self.dt_first_prev = None;
+        self.dt_last = None;
+        self.dt_last_prev = None;
+        self.LRU_cache_enable();
+    }
+
+    pub fn remove_sysline(&mut self, fileoffset: FileOffset) -> bool {
+        debug_eprintln!("{}remove_sysline({:?})", sn(), fileoffset);
+        self.LRU_cache_disable();
+        let syslinep_opt: Option<SyslineP> = self.syslines.remove(&fileoffset);
+        let mut ret = true;
+        match syslinep_opt {
+            Some(syslinep) => {
+                let fo_beg: FileOffset = (*syslinep).fileoffset_begin();
+                let fo_end: FileOffset = (*syslinep).fileoffset_end();
+                debug_eprintln!("{}remove_sysline: sysline at {} removed; {:?} {:?}", so(), fileoffset, (*syslinep).dt(), (*syslinep).to_String_noraw());
+                debug_assert_eq!(fileoffset, fo_beg, "mismatching fileoffset {}, fileoffset_begin {}", fileoffset, fo_beg);
+                let fo_end1 = fo_end + (self.charsz() as FileOffset);
+                let range = SyslineRange { start: fo_beg, end: fo_end1 };
+                debug_eprintln!("{}remove_sysline: syslines_by_range remove {:?}", so(), range);
+                self.syslines_by_range.remove(range);
+                self.dt_first = self.dt_first_prev;
+                self.dt_last = self.dt_last_prev;
+            }
+            None => {
+                debug_eprintln!("{}remove_sysline: syslines failed to remove {}", so(), fileoffset);
+                ret = false;
+            }
+        }
+        self.LRU_cache_enable();
+        debug_eprintln!("{}remove_sysline({:?}) return {:?}", sx(), fileoffset, ret);
+
+        ret
+    }
+
+    /*
+    pub fn sysline_year_update(&mut self, fileoffset: &FileOffset, year: &Year) -> bool {
+        match self.syslines.remove(fileoffset) {
+            Some(mut syslinep) => {
+                let mut sysline: &mut Sysline = &mut syslinep.to_owned();
+                sysline.update_year(year);
+                true
+            }
+            None => {
+                false
+            }
+        }
+    }
+    */
+
     /// store passed `Sysline` in `self.syslines`, update other fields
-    fn insert_sysline(&mut self, line: Sysline) -> SyslineP {
-        let fo_beg: FileOffset = line.fileoffset_begin();
-        let fo_end = line.fileoffset_end();
-        let syslinep = SyslineP::new(line);
-        debug_eprintln!("{}SyslineReader.insert_sysline: syslines.insert({}, Sysline @{:p})", so(), fo_beg, &*syslinep);
+    fn insert_sysline(&mut self, sysline: Sysline) -> SyslineP {
+        let fo_beg: FileOffset = sysline.fileoffset_begin();
+        let fo_end: FileOffset = sysline.fileoffset_end();
+        let syslinep = SyslineP::new(sysline);
+        debug_eprintln!("{}SyslineReader.insert_sysline: syslines.insert({}, Sysline @[{}, {}] datetime: {:?})", so(), fo_beg, (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), (*syslinep).dt());
         self.syslines.insert(fo_beg, syslinep.clone());
         self.syslines_count += 1;
         // XXX: multi-byte character
-        let fo_end1 = fo_end + (self.charsz() as FileOffset);
+        let fo_end1: FileOffset = fo_end + (self.charsz() as FileOffset);
         debug_eprintln!(
             "{}SyslineReader.insert_sysline: syslines_by_range.insert(({}‥{}], {})",
             so(),
             fo_beg,
             fo_end1,
-            fo_beg
+            fo_beg,
         );
         self.syslines_by_range.insert(fo_beg..fo_end1, fo_beg);
         self.syslines_by_range_put += 1;
@@ -585,14 +689,15 @@ impl SyslineReader {
     /// else returns `Err`
     pub fn find_datetime_in_line(
         line: &Line,
-        parse_data_indexes: &DateTime_Parse_Data_Indexes,
+        parse_data_indexes: &DateTime_Parse_Datas_Indexes,
         charsz: &CharSz,
+        year_opt: &Option<Year>,
         tz_offset: &FixedOffset,
         get_boxptrs_singleptr: &mut Count,
         get_boxptrs_doubleptr: &mut Count,
         get_boxptrs_multiptr: &mut Count,
     ) -> Result_FindDateTime {
-        debug_eprintln!("{}find_datetime_in_line:(Line, {:?})", sn(), line.to_String_noraw());
+        debug_eprintln!("{}find_datetime_in_line(…, …, {:?}, year_opt {:?}, {:?}) line {:?}", sn(), charsz, year_opt, tz_offset, line.to_String_noraw());
         debug_eprintln!("{}find_datetime_in_line: parse_data_indexes.len() {} {:?}", so(), parse_data_indexes.len(), parse_data_indexes);
 
         // skip an easy case; no possible datetime
@@ -666,7 +771,7 @@ impl SyslineReader {
             let dt_end: LineIndex;
             (dt_beg, dt_end, dt) = 
                 //match str_to_regex_to_datetime(dts, index, tz_offset) {
-                match bytes_to_regex_to_datetime(slice_, index, tz_offset) {
+                match bytes_to_regex_to_datetime(slice_, index, year_opt, tz_offset) {
                     None => continue,
                     Some(val) => val,
             };
@@ -686,6 +791,7 @@ impl SyslineReader {
         match self.dt_first {
             Some(dt_first_) => {
                 if &dt_first_ > datetime {
+                    self.dt_first_prev = self.dt_first;
                     self.dt_first = Some(*datetime);
                 }
             },
@@ -694,12 +800,12 @@ impl SyslineReader {
         match self.dt_last {
             Some(dt_last_) => {
                 if &dt_last_ < datetime {
+                    self.dt_last_prev = self.dt_last;
                     self.dt_last = Some(*datetime);
                 }
             },
             None => { self.dt_last = Some(*datetime); }
         }
-
     }
 
     /// helper function to update `parse_datetime_in_line`
@@ -739,7 +845,7 @@ impl SyslineReader {
     /// this function narrows down datetime formats to try for future datetime-parsing attempts.
     /// This is a very large reduction of resources/time used by
     /// `SyslineReader::find_datetime_in_line`.
-    fn dt_patterns_analysis(&mut self) {
+    pub(crate) fn dt_patterns_analysis(&mut self) {
         if self.count_syslines_processed() < SyslineReader::DT_PATTERN_ANALYSIS_THRESHOLD {
             return;
         }
@@ -768,28 +874,76 @@ impl SyslineReader {
             for (_k, _v) in self.dt_patterns_counts.iter() {
                 let data_: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*_k];
                 let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC.get(*_k).unwrap();
-                debug_eprintln!("{}dt_patterns_analysis: self.dt_patterns_counts[{:?}]={:?} is {:?}, {:?}", so(), _k, _v, data_, data_rex_);
+                debug_eprintln!("{}dt_patterns_analysis: self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", so(), _k, _v, data_, data_rex_);
             }
         }
         self.analyzed = true;
         debug_eprintln!("{}dt_patterns_analysis()", sx());
     }
 
+    /*
+    /// get `DateTime_Parse_Datas_Index` from SyslineReader. `rank` is zero-based with
+    /// zero being the most important rank.
+    ///
+    /// Passing `rank` value `0` will return the `DateTime_Parse_Datas_Index` for the
+    /// most-used `DateTime_Parse_Data` (i.e. the regex and strftime patterns used to extract
+    /// `DateTimeL` from `Line`s).
+    pub(crate) fn dt_pattern_index_at(&self, rank: usize) -> DateTime_Parse_Datas_Index {
+        *(self.dt_patterns_indexes.iter().skip(rank).next().unwrap())
+    }
+    */
+
+    /// return most-used `DateTime_Parse_Datas_Index`
+    pub(crate) fn dt_pattern_index_max_count(&self) -> DateTime_Parse_Datas_Index {
+        if cfg!(debug_assertions) {
+            for (_k, _v) in self.dt_patterns_counts.iter() {
+                let data_: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*_k];
+                let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC.get(*_k).unwrap();
+                debug_eprintln!("{}dt_pattern_index_max_count: self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", so(), _k, _v, data_, data_rex_);
+            }
+            for _val in self.dt_patterns_indexes.iter() {
+                debug_eprintln!("{}dt_pattern_index_max_count: self.dt_patterns_indexes {:?}", so(), _val);
+            }
+        }
+        if !self.analyzed {
+            debug_eprintln!("{}dt_pattern_index_max_count: before analysis", so());
+            // before analysis, the uses of all `DateTime_Parse_Data` are tracked
+            // return index to maximum value
+            // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=85ac85f48e6ddff04dc938b742872dc1
+            let max_key_value: Option<(&DateTime_Parse_Datas_Index, &Count)> = (&self.dt_patterns_counts).iter().reduce(
+                |accum, item| {
+                    if accum.1 >= item.1 { accum } else { item }
+                }
+            );
+            *max_key_value.unwrap().0
+        } else {
+            debug_eprintln!("{}dt_pattern_index_max_count: after analysis", so());
+            // after analysis, only one `DateTime_Parse_Data` is used
+            debug_assert_eq!(self.dt_patterns_indexes.len(), 1, "self.dt_patterns_indexes length {}, expected 1", self.dt_patterns_indexes.len());
+            // the first and only element is the chosen dt_pattern (and had max count)
+            *self.dt_patterns_indexes.iter().next().unwrap()
+        }
+    }
+
     /// attempt to parse a DateTime substring in the passed `Line`
     /// wraps call to `self.find_datetime_in_line` according to status of `self.dt_patterns`
     /// if `self.dt_patterns` is `None`, will set `self.dt_patterns`
-    fn parse_datetime_in_line(&mut self, line: &Line, charsz: &CharSz) -> Result_ParseDateTime {
+    fn parse_datetime_in_line(&mut self, line: &Line, charsz: &CharSz, year_opt: &Option<Year>) -> Result_ParseDateTime {
         // XXX: would prefer this at the end of this function but borrow error occurs
         if !self.analyzed {
+            // TODO: [2022/07] `dt_patterns_analysis` should be called by the user, not embedded in the
+            //       inner-workings
             self.dt_patterns_analysis();
         }
-        debug_eprintln!("{}parse_datetime_in_line({}, {:?})", sn(), charsz, line.to_String_noraw());
+        debug_eprintln!("{}parse_datetime_in_line(…, {}, year_opt {:?}) line: {:?}", sn(), charsz, year_opt, line.to_String_noraw());
 
         // have already determined DateTime formatting for this file, so
         // no need to try *all* built-in DateTime formats, just try the known good formats
         // `self.dt_patterns`
-        // TODO: [2022/06/26] cost-savings: create the `indexes` once in an analysis update function or somewhere else
-        let mut indexes: DateTime_Parse_Data_Indexes = DateTime_Parse_Data_Indexes::new();
+        //
+        // TODO: [2022/06/26] cost-savings: create the `indexes` once in an analysis update function
+        //       or somewhere else
+        let mut indexes: DateTime_Parse_Datas_Indexes = DateTime_Parse_Datas_Indexes::new();
         // get copy of indexes sorted by value
         indexes.extend(
             self.dt_patterns_counts.iter().sorted_by(
@@ -801,6 +955,7 @@ impl SyslineReader {
             line,
             &indexes,
             charsz,
+            year_opt,
             &self.tz_offset,
             &mut self.get_boxptrs_singleptr,
             &mut self.get_boxptrs_doubleptr,
@@ -823,7 +978,7 @@ impl SyslineReader {
     /// helper to `find_sysline`
     ///
     /// call `self.parse_datetime_in_line` with help of LRU cache `self.parse_datetime_in_line_lru_cache`
-    fn parse_datetime_in_line_cached(&mut self, linep: &LineP, charsz: &CharSz) -> Result_ParseDateTime {
+    fn parse_datetime_in_line_cached(&mut self, linep: &LineP, charsz: &CharSz, year_opt: &Option<Year>) -> Result_ParseDateTime {
         if self.parse_datetime_in_line_lru_cache_enabled {
             match self.parse_datetime_in_line_lru_cache.get(&linep.fileoffset_begin()) {
                 Some(val) => {
@@ -835,13 +990,14 @@ impl SyslineReader {
                 },
             }
         }
+        debug_eprintln!("{}parse_datetime_in_line_cached(…, {:?}, {:?})", sn(), charsz, year_opt);
         // LAST WORKING HERE 2022/06/26 01:56:15
         // It's far better to just stored indexes into the global VECs.
         // Continue implemeting new approach which is to only use `self.dt_patterns_counts` for tracking
         // patterns (and eventaully rid of `self.dt_patterns`).
         // Need to finish correcting statements in this file then do a first run, see
         // how first few sysline proceses go.
-        let result: Result_ParseDateTime = self.parse_datetime_in_line(&*linep, charsz);
+        let result: Result_ParseDateTime = self.parse_datetime_in_line(&*linep, charsz, year_opt);
         if self.parse_datetime_in_line_lru_cache_enabled {
             //#[allow(clippy::single_match)]
             match result {
@@ -1005,26 +1161,39 @@ impl SyslineReader {
     ///      You've been warned.
     ///
     pub fn find_sysline_in_block(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
-        debug_eprintln!("{}find_sysline_in_block({})", sn(), fileoffset);
+        self.find_sysline_in_block_year(fileoffset, &None)
+    }
+
+    /// Find sysline at fileoffset within the same `Block` (does not cross block boundaries).
+    ///
+    /// This does a linear search over the `Block`, O(n).
+    ///
+    /// XXX: similar to `find_sysline`...
+    ///      This function `find_sysline_in_block` is large and cumbersome and needs some cleanup of warnings.
+    ///      It could definitely use some improvements, but for now it gets the job done.
+    ///      You've been warned.
+    ///
+    pub fn find_sysline_in_block_year(&mut self, fileoffset: FileOffset, year_opt: &Option<Year>) -> ResultS4_SyslineFind {
+        debug_eprintln!("{}find_sysline_in_block_year({}, {:?})", sn(), fileoffset, year_opt);
 
         if let Some(results4) = self.check_store(fileoffset) {
-            debug_eprintln!("{}find_sysline_in_block({}): return {:?}", sx(), fileoffset, results4);
+            debug_eprintln!("{}find_sysline_in_block_year({}): return {:?}", sx(), fileoffset, results4);
             return results4;
         }
 
-        debug_eprintln!("{}find_sysline_in_block({}): searching for first sysline datetime A …", so(), fileoffset);
+        debug_eprintln!("{}find_sysline_in_block_year({}): searching for first sysline datetime A …", so(), fileoffset);
 
         let mut fo_a: FileOffset = 0;
         let mut fo1: FileOffset = fileoffset;
         let mut sysline = Sysline::new();
         loop {
-            debug_eprintln!("{}find_sysline_in_block({}): self.linereader.find_line_in_block({})", so(), fileoffset, fo1);
+            debug_eprintln!("{}find_sysline_in_block_year({}): self.linereader.find_line_in_block({})", so(), fileoffset, fo1);
             let result: ResultS4_LineFind = self.linereader.find_line_in_block(fo1);
             let eof = result.is_eof();
             let (fo2, linep) = match result {
                 ResultS4_LineFind::Found((fo_, linep_)) | ResultS4_LineFind::Found_EOF((fo_, linep_)) => {
                     debug_eprintln!(
-                        "{}find_sysline_in_block({}): A FileOffset {} Line @{:p} len {} parts {} {:?}",
+                        "{}find_sysline_in_block_year({}): A FileOffset {} Line @{:p} len {} parts {} {:?}",
                         so(),
                         fileoffset,
                         fo_,
@@ -1036,17 +1205,17 @@ impl SyslineReader {
                     (fo_, linep_)
                 }
                 ResultS4_LineFind::Done => {
-                    debug_eprintln!("{}find_sysline_in_block({}): return ResultS4_SyslineFind::Done; A from LineReader.find_line_in_block({})", sx(), fileoffset, fo1);
+                    debug_eprintln!("{}find_sysline_in_block_year({}): return ResultS4_SyslineFind::Done; A from LineReader.find_line_in_block({})", sx(), fileoffset, fo1);
                     return ResultS4_SyslineFind::Done;
                 }
                 ResultS4_LineFind::Err(err) => {
                     debug_eprintln!("ERROR: LineReader.find_line_in_block({}) returned {}", fo1, err);
-                    debug_eprintln!("{}find_sysline_in_block({}): return ResultS4_SyslineFind::Err({}); A from LineReader.find_line_in_block({})", sx(), fileoffset, err, fo1);
+                    debug_eprintln!("{}find_sysline_in_block_year({}): return ResultS4_SyslineFind::Err({}); A from LineReader.find_line_in_block({})", sx(), fileoffset, err, fo1);
                     return ResultS4_SyslineFind::Err(err);
                 }
             };
-            let result: Result_ParseDateTime = self.parse_datetime_in_line_cached(&linep, &self.charsz());
-            debug_eprintln!("{}find_sysline_in_block({}): A parse_datetime_in_line_cached returned {:?}", so(), fileoffset, result);
+            let result: Result_ParseDateTime = self.parse_datetime_in_line_cached(&linep, &self.charsz(), year_opt);
+            debug_eprintln!("{}find_sysline_in_block_year({}): A parse_datetime_in_line_cached returned {:?}", so(), fileoffset, result);
             match result {
                 Err(_) => {},
                 //FindDateTimeData
@@ -1056,7 +1225,7 @@ impl SyslineReader {
                     sysline.dt_beg = dt_beg;
                     sysline.dt_end = dt_end;
                     sysline.dt = Some(dt);
-                    debug_eprintln!("{}find_sysline_in_block({}): A sl.dt_beg {}, sl.dt_end {}, sl.push({:?})", so(), fileoffset, dt_beg, dt_end, (*linep).to_String_noraw());
+                    debug_eprintln!("{}find_sysline_in_block_year({}): A sl.dt_beg {}, sl.dt_end {}, sl.push({:?})", so(), fileoffset, dt_beg, dt_end, (*linep).to_String_noraw());
                     sysline.push(linep);
                     fo1 = sysline.fileoffset_end() + (self.charsz() as FileOffset);
                     // sanity check
@@ -1066,12 +1235,12 @@ impl SyslineReader {
                         let syslinep = SyslineP::new(sysline);
                         if self.find_sysline_lru_cache_enabled {
                             self.find_sysline_lru_cache_put += 1;
-                            debug_eprintln!("{}find_sysline_in_block({}): LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fileoffset, fo1);
+                            debug_eprintln!("{}find_sysline_in_block_year({}): LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fileoffset, fo1);
                             self.find_sysline_lru_cache
                                 .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo1, syslinep.clone())));
                         }
                         debug_eprintln!(
-                            "{}find_sysline_in_block({}): return ResultS4_SyslineFind::Found_EOF({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
+                            "{}find_sysline_in_block_year({}): return ResultS4_SyslineFind::Found_EOF({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
                             sx(),
                             fileoffset,
                             fo1,
@@ -1085,12 +1254,12 @@ impl SyslineReader {
                     break;
                 }
             }
-            debug_eprintln!("{}find_sysline_in_block({}): A skip push Line {:?}", so(), fileoffset, (*linep).to_String_noraw());
+            debug_eprintln!("{}find_sysline_in_block_year({}): A skip push Line {:?}", so(), fileoffset, (*linep).to_String_noraw());
             fo1 = fo2;
         }
 
         debug_eprintln!(
-            "{}find_sysline_in_block({}): found line with datetime A at FileOffset {}, searching for datetime B starting at fileoffset {} …",
+            "{}find_sysline_in_block_year({}): found line with datetime A at FileOffset {}, searching for datetime B starting at fileoffset {} …",
             so(),
             fileoffset,
             fo_a,
@@ -1104,12 +1273,12 @@ impl SyslineReader {
         let mut fo_b: FileOffset = fo1;
         let mut eof = false;
         loop {
-            debug_eprintln!("{}find_sysline_in_block({}): self.linereader.find_line_in_block({})", so(), fileoffset, fo1);
+            debug_eprintln!("{}find_sysline_in_block_year({}): self.linereader.find_line_in_block({})", so(), fileoffset, fo1);
             let result = self.linereader.find_line_in_block(fo1);
             let (fo2, linep) = match result {
                 ResultS4_LineFind::Found((fo_, linep_)) => {
                     debug_eprintln!(
-                        "{}find_sysline_in_block({}): B got Found(FileOffset {}, Line @{:p}) len {} parts {} {:?}",
+                        "{}find_sysline_in_block_year({}): B got Found(FileOffset {}, Line @{:p}) len {} parts {} {:?}",
                         so(),
                         fileoffset,
                         fo_,
@@ -1122,7 +1291,7 @@ impl SyslineReader {
                 },
                 ResultS4_LineFind::Found_EOF((fo_, linep_)) => {
                     debug_eprintln!(
-                        "{}find_sysline_in_block({}): B got Found_EOF(FileOffset {} Line @{:p}) len {} parts {} {:?}",
+                        "{}find_sysline_in_block_year({}): B got Found_EOF(FileOffset {} Line @{:p}) len {} parts {} {:?}",
                         so(),
                         fileoffset,
                         fo_,
@@ -1135,23 +1304,23 @@ impl SyslineReader {
                     (fo_, linep_)
                 },
                 ResultS4_LineFind::Done => {
-                    debug_eprintln!("{}find_sysline_in_block({}): B got Done", so(), fileoffset);
-                    debug_eprintln!("{}find_sysline_in_block({}): return ResultS4_SyslineFind::Done", sx(), fileoffset);
+                    debug_eprintln!("{}find_sysline_in_block_year({}): B got Done", so(), fileoffset);
+                    debug_eprintln!("{}find_sysline_in_block_year({}): return ResultS4_SyslineFind::Done", sx(), fileoffset);
                     return ResultS4_SyslineFind::Done;
                 },
                 ResultS4_LineFind::Err(err) => {
                     debug_eprintln!("ERROR: LineReader.find_line_in_block({}) returned {}", fo1, err);
-                    debug_eprintln!("{}find_sysline_in_block({}): return ResultS4_SyslineFind::Err({}); B from LineReader.find_line_in_block({})", sx(), fileoffset, err, fo1);
+                    debug_eprintln!("{}find_sysline_in_block_year({}): return ResultS4_SyslineFind::Err({}); B from LineReader.find_line_in_block({})", sx(), fileoffset, err, fo1);
                     return ResultS4_SyslineFind::Err(err);
                 },
             };
 
-            let result: Result_ParseDateTime = self.parse_datetime_in_line_cached(&linep, &self.charsz());
-            debug_eprintln!("{}find_sysline_in_block({}): B parse_datetime_in_line_cached returned {:?}", so(), fileoffset, result);
+            let result: Result_ParseDateTime = self.parse_datetime_in_line_cached(&linep, &self.charsz(), year_opt);
+            debug_eprintln!("{}find_sysline_in_block_year({}): B parse_datetime_in_line_cached returned {:?}", so(), fileoffset, result);
             match result {
                 Err(_) => {
                     debug_eprintln!(
-                        "{}find_sysline_in_block({}): B append found Line to this Sysline sl.push({:?})",
+                        "{}find_sysline_in_block_year({}): B append found Line to this Sysline sl.push({:?})",
                         so(),
                         fileoffset,
                         (*linep).to_String_noraw()
@@ -1161,7 +1330,7 @@ impl SyslineReader {
                 Ok(_) => {
                     // a datetime was found! end of this sysline, beginning of a new sysline
                     debug_eprintln!(
-                        "{}find_sysline_in_block({}): B found datetime; end of this Sysline. Do not append found Line {:?}",
+                        "{}find_sysline_in_block_year({}): B found datetime; end of this Sysline. Do not append found Line {:?}",
                         so(),
                         fileoffset,
                         (*linep).to_String_noraw()
@@ -1172,9 +1341,8 @@ impl SyslineReader {
             }
             fo1 = fo2;
         }
-        
 
-        debug_eprintln!("{}find_sysline_in_block({}): found line with datetime B at FileOffset {} {:?}", so(), fileoffset, fo_b, sysline.to_String_noraw());
+        debug_eprintln!("{}find_sysline_in_block_year({}): found line with datetime B at FileOffset {} {:?}", so(), fileoffset, fo_b, sysline.to_String_noraw());
 
         let syslinep = self.insert_sysline(sysline);
         // XXX: hack fix, would be better to remove the notion of `Found` and `Found_EOF` (just `Found` or `Done`)
@@ -1184,12 +1352,12 @@ impl SyslineReader {
         if eof {
             if self.find_sysline_lru_cache_enabled {
                 self.find_sysline_lru_cache_put += 1;
-                debug_eprintln!("{}find_sysline_in_block({}): LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fileoffset, fo_b);
+                debug_eprintln!("{}find_sysline_in_block_year({}): LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fileoffset, fo_b);
                 self.find_sysline_lru_cache
                     .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_b, syslinep.clone())));
             }
             debug_eprintln!(
-                "{}find_sysline_in_block({}): return ResultS4_SyslineFind::Found_EOF(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
+                "{}find_sysline_in_block_year({}): return ResultS4_SyslineFind::Found_EOF(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
                 sx(),
                 fileoffset,
                 fo_b,
@@ -1202,12 +1370,12 @@ impl SyslineReader {
         }
         if self.find_sysline_lru_cache_enabled {
             self.find_sysline_lru_cache_put += 1;
-            debug_eprintln!("{}find_sysline_in_block({}): LRU cache put({}, Found({}, …))", so(), fileoffset, fileoffset, fo_b);
+            debug_eprintln!("{}find_sysline_in_block_year({}): LRU cache put({}, Found({}, …))", so(), fileoffset, fileoffset, fo_b);
             self.find_sysline_lru_cache
                 .put(fileoffset, ResultS4_SyslineFind::Found((fo_b, syslinep.clone())));
         }
         debug_eprintln!(
-            "{}find_sysline_in_block({}): return ResultS4_SyslineFind::Found(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
+            "{}find_sysline_in_block_year({}): return ResultS4_SyslineFind::Found(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
             sx(),
             fileoffset,
             fo_b,
@@ -1226,6 +1394,19 @@ impl SyslineReader {
     /// Similar to `LineReader.find_line`, `BlockReader.read_block`.
     ///
     /// This does a linear search O(n) over the file.
+    pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
+        self.find_sysline_year(fileoffset, &None)
+    }
+
+    /// Find first sysline starting at or after `fileoffset`.
+    /// return (fileoffset of start of _next_ sysline, found Sysline at or after `fileoffset`).
+    ///
+    /// The `year_opt` will fill datetime values for which no year was found
+    /// (e.g. "Jan 1 12:00").
+    ///
+    /// Similar to `LineReader.find_line`, `BlockReader.read_block`.
+    ///
+    /// This does a linear search O(n) over the file.
     // XXX: This function `find_sysline` is large and cumbersome and needs some
     //      cleanup of warnings.
     //      It could definitely use improvements but for now it gets the job done.
@@ -1235,31 +1416,36 @@ impl SyslineReader {
     //
     // TODO: test that retrieving by cache always returns the same ResultS4 enum value as without a cache
     //
-    pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
-        debug_eprintln!("{}find_sysline({})", sn(), fileoffset);
+    pub fn find_sysline_year(&mut self, fileoffset: FileOffset, year_opt: &Option<Year>) -> ResultS4_SyslineFind {
+        debug_eprintln!("{}find_sysline_year({}, {:?})", sn(), fileoffset, year_opt);
 
         if let Some(results4) = self.check_store(fileoffset) {
-            debug_eprintln!("{}find_sysline({}): return {:?}", sx(), fileoffset, results4);
+            debug_eprintln!("{}find_sysline_year({}): return {:?}", sx(), fileoffset, results4);
             return results4;
         }
 
-        debug_eprintln!("{}find_sysline({}): searching for first sysline datetime A …", so(), fileoffset);
+        let charsz_fo: FileOffset = self.charsz() as FileOffset;
+
+        debug_eprintln!("{}find_sysline_year({}): searching for first sysline datetime A …", so(), fileoffset);
 
         //
         // find line with datetime A
         //
 
+        let mut fo_zero_tried: bool = false;
         let mut fo_a: FileOffset = 0;
+        let mut fo_a_max: FileOffset = 0;
         let mut fo1: FileOffset = fileoffset;
         let mut sysline = Sysline::new();
         loop {
-            debug_eprintln!("{}find_sysline({}): self.linereader.find_line({})", so(), fileoffset, fo1);
+            debug_eprintln!("{}find_sysline_year({}): self.linereader.find_line({})", so(), fileoffset, fo1);
             let result: ResultS4_LineFind = self.linereader.find_line(fo1);
             let eof = result.is_eof();
             let (fo2, linep) = match result {
-                ResultS4_LineFind::Found((fo_, linep_)) | ResultS4_LineFind::Found_EOF((fo_, linep_)) => {
+                ResultS4_LineFind::Found((fo_, linep_))
+                | ResultS4_LineFind::Found_EOF((fo_, linep_)) => {
                     debug_eprintln!(
-                        "{}find_sysline: A FileOffset {} Line @{:p} len {} parts {} {:?}",
+                        "{}find_sysline_year: A FileOffset {} Line @{:p} len {} parts {} {:?}",
                         so(),
                         fo_,
                         &*linep_,
@@ -1272,20 +1458,21 @@ impl SyslineReader {
                 ResultS4_LineFind::Done => {
                     if self.find_sysline_lru_cache_enabled {
                         self.find_sysline_lru_cache_put += 1;
-                        debug_eprintln!("{}find_sysline({}): LRU cache put({}, Done)", so(), fileoffset, fileoffset);
+                        debug_eprintln!("{}find_sysline_year({}): LRU cache put({}, Done)", so(), fileoffset, fileoffset);
                         self.find_sysline_lru_cache.put(fileoffset, ResultS4_SyslineFind::Done);
                     }
-                    debug_eprintln!("{}find_sysline({}): return ResultS4_SyslineFind::Done; A from LineReader.find_line({})", sx(), fileoffset, fo1);
+                    debug_eprintln!("{}find_sysline_year({}): return ResultS4_SyslineFind::Done; A from LineReader.find_line({})", sx(), fileoffset, fo1);
                     return ResultS4_SyslineFind::Done;
                 }
                 ResultS4_LineFind::Err(err) => {
                     debug_eprintln!("ERROR: LineReader.find_line({}) returned {}", fo1, err);
-                    debug_eprintln!("{}find_sysline({}): return ResultS4_SyslineFind::Err({}); A from LineReader.find_line({})", sx(), fileoffset, err, fo1);
+                    debug_eprintln!("{}find_sysline_year({}): return ResultS4_SyslineFind::Err({}); A from LineReader.find_line({})", sx(), fileoffset, err, fo1);
                     return ResultS4_SyslineFind::Err(err);
                 }
             };
-            let result: Result_ParseDateTime = self.parse_datetime_in_line_cached(&linep, &self.charsz());
-            debug_eprintln!("{}find_sysline({}): A parse_datetime_in_line_cached returned {:?}", so(), fileoffset, result);
+            fo_a_max = std::cmp::max(fo_a_max, fo2);
+            let result: Result_ParseDateTime = self.parse_datetime_in_line_cached(&linep, &self.charsz(), year_opt);
+            debug_eprintln!("{}find_sysline_year({}): A parse_datetime_in_line_cached returned {:?}", so(), fileoffset, result);
             match result {
                 Err(_) => {
                     // a datetime was not found in the Line!
@@ -1296,7 +1483,7 @@ impl SyslineReader {
                     sysline.dt_beg = dt_beg;
                     sysline.dt_end = dt_end;
                     sysline.dt = Some(dt);
-                    debug_eprintln!("{}find_sysline({}): A sl.push({:?})", so(), fileoffset, (*linep).to_String_noraw());
+                    debug_eprintln!("{}find_sysline_year({}): A sl.push({:?})", so(), fileoffset, (*linep).to_String_noraw());
                     sysline.push(linep);
                     fo1 = sysline.fileoffset_end() + (self.charsz() as FileOffset);
                     // sanity check
@@ -1306,12 +1493,12 @@ impl SyslineReader {
                         let syslinep = SyslineP::new(sysline);
                         if self.find_sysline_lru_cache_enabled {
                             self.find_sysline_lru_cache_put += 1;
-                            debug_eprintln!("{}find_sysline({}): LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fileoffset, fo1);
+                            debug_eprintln!("{}find_sysline_year({}): LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fileoffset, fo1);
                             self.find_sysline_lru_cache
                                 .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo1, syslinep.clone())));
                         }
                         debug_eprintln!(
-                            "{}find_sysline({}): A return ResultS4_SyslineFind::Found_EOF({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
+                            "{}find_sysline_year({}): A return ResultS4_SyslineFind::Found_EOF({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
                             sx(),
                             fileoffset,
                             fo1,
@@ -1325,12 +1512,41 @@ impl SyslineReader {
                     break;
                 }
             }
-            debug_eprintln!("{}find_sysline({}): A skip push Line {:?}", so(), fileoffset, (*linep).to_String_noraw());
-            fo1 = fo2;
+            debug_eprintln!("{}find_sysline_year({}): A skip push Line {:?}", so(), fileoffset, (*linep).to_String_noraw());
+            let line_beg: FileOffset = (*linep).fileoffset_begin();
+            if fo_zero_tried {
+                // search forwards...
+                // have already searched for a datetime stamp all the way back to zero'th byte of file
+                // so switch search direction to go forward. these first few lines without a datetime stamp
+                // will be ignored.
+                // TODO: [2022/07] need to somehow inform user that some lines were dropped.
+                fo1 = fo_a_max;
+            } else if line_beg > charsz_fo {
+                // search backwards...
+                fo1 = line_beg - charsz_fo;
+                // TODO: searching `self.syslines_by_range` is surprisingly expensive
+                //       may be worth adding special version of it that only tracks `sysline.fileoffset_end`, that would
+                //       have faster lookups
+                if self.syslines_by_range.contains_key(&fo1) {
+                    // ran into prior processed sysline, something is wrong; abandon these lines
+                    // and chang search direction to go forwards
+                    debug_eprintln!(
+                        "ERROR: ran into prior processed sysline at fileoffset {}; some lines will be dropped.",
+                        fo1,
+                    );
+                    panic!("ERROR: ran into prior processed sysline at fileoffset {}; some lines will be dropped. SHOULD THIS BE FIXED?", fo1);
+                    fo_zero_tried = true;
+                    fo1 = fo_a_max;
+                }
+            } else {
+                // search from byte zero
+                fo1 = 0;
+                fo_zero_tried = true;
+            }
         }
 
         debug_eprintln!(
-            "{}find_sysline({}): found line with datetime A at FileOffset {}, searching for datetime B starting at fileoffset {} …",
+            "{}find_sysline_year({}): found line with datetime A at FileOffset {}, searching for datetime B starting at fileoffset {} …",
             so(),
             fileoffset,
             fo_a,
@@ -1432,14 +1648,14 @@ impl SyslineReader {
 
         let mut fo_b: FileOffset = fo1;
         let mut eof = false;
-        debug_eprintln!("{}find_sysline({}): eof {:?}, fo_b {:?}", so(), fileoffset, eof, fo_b);
+        debug_eprintln!("{}find_sysline_year({}): eof {:?}, fo_b {:?}", so(), fileoffset, eof, fo_b);
         loop {
-            debug_eprintln!("{}find_sysline({}): self.linereader.find_line({})", so(), fileoffset, fo1);
+            debug_eprintln!("{}find_sysline_year({}): self.linereader.find_line({})", so(), fileoffset, fo1);
             let result = self.linereader.find_line(fo1);
             let (fo2, linep) = match result {
                 ResultS4_LineFind::Found((fo_, linep_)) => {
                     debug_eprintln!(
-                        "{}find_sysline({}): B got Found(FileOffset {}, Line @{:p}) len {} parts {} {:?}",
+                        "{}find_sysline_year({}): B got Found(FileOffset {}, Line @{:p}) len {} parts {} {:?}",
                         so(),
                         fileoffset,
                         fo_,
@@ -1453,7 +1669,7 @@ impl SyslineReader {
                 }
                 ResultS4_LineFind::Found_EOF((fo_, linep_)) => {
                     debug_eprintln!(
-                        "{}find_sysline({}): B got Found_EOF(FileOffset {} Line @{:p}) len {} parts {} {:?}",
+                        "{}find_sysline_year({}): B got Found_EOF(FileOffset {} Line @{:p}) len {} parts {} {:?}",
                         so(),
                         fileoffset,
                         fo_,
@@ -1467,23 +1683,23 @@ impl SyslineReader {
                 }
                 ResultS4_LineFind::Done => {
                     //debug_eprintln!("{}find_sysline: return ResultS4_SyslineFind::Done; B", sx());
-                    debug_eprintln!("{}find_sysline({}): eof=true; break; B", so(), fileoffset);
+                    debug_eprintln!("{}find_sysline_year({}): eof=true; break; B", so(), fileoffset);
                     eof = true;
                     break;
                 }
                 ResultS4_LineFind::Err(err) => {
                     debug_eprintln!("ERROR: LineReader.find_line({}) returned {}", fo1, err);
-                    debug_eprintln!("{}find_sysline({}): return ResultS4_SyslineFind::Err({}); B from LineReader.find_line({})", sx(), fileoffset, err, fo1);
+                    debug_eprintln!("{}find_sysline_year({}): return ResultS4_SyslineFind::Err({}); B from LineReader.find_line({})", sx(), fileoffset, err, fo1);
                     return ResultS4_SyslineFind::Err(err);
                 }
             };
-            let result: Result_ParseDateTime = self.parse_datetime_in_line_cached(&linep, &self.charsz());
-            debug_eprintln!("{}find_sysline({}): B parse_datetime_in_line_cached returned {:?}", so(), fileoffset, result);
+            let result: Result_ParseDateTime = self.parse_datetime_in_line_cached(&linep, &self.charsz(), year_opt);
+            debug_eprintln!("{}find_sysline_year({}): B parse_datetime_in_line_cached returned {:?}", so(), fileoffset, result);
             match result {
                 Err(_) => {
                     // a datetime was not found in the Line! This line is also part of this sysline
                     debug_eprintln!(
-                        "{}find_sysline({}): B append found Line to this Sysline sl.push({:?})",
+                        "{}find_sysline_year({}): B append found Line to this Sysline sl.push({:?})",
                         so(),
                         fileoffset,
                         (*linep).to_String_noraw()
@@ -1493,7 +1709,7 @@ impl SyslineReader {
                 Ok(_) => {
                     // a datetime was found! end of this sysline, beginning of a new sysline
                     debug_eprintln!(
-                        "{}find_sysline({}): B found datetime; end of this Sysline. Do not append found Line {:?}",
+                        "{}find_sysline_year({}): B found datetime; end of this Sysline. Do not append found Line {:?}",
                         so(),
                         fileoffset,
                         (*linep).to_String_noraw()
@@ -1505,18 +1721,18 @@ impl SyslineReader {
             fo1 = fo2;
         }
 
-        debug_eprintln!("{}find_sysline({}): found line with datetime B at FileOffset {} {:?}", so(), fileoffset, fo_b, sysline.to_String_noraw());
+        debug_eprintln!("{}find_sysline_year({}): found line with datetime B at FileOffset {} {:?}", so(), fileoffset, fo_b, sysline.to_String_noraw());
 
         let syslinep = self.insert_sysline(sysline);
         if eof {
             if self.find_sysline_lru_cache_enabled {
                 self.find_sysline_lru_cache_put += 1;
-                debug_eprintln!("{}find_sysline({}): LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fileoffset, fo_b);
+                debug_eprintln!("{}find_sysline_year({}): LRU cache put({}, Found_EOF({}, …))", so(), fileoffset, fileoffset, fo_b);
                 self.find_sysline_lru_cache
                     .put(fileoffset, ResultS4_SyslineFind::Found_EOF((fo_b, syslinep.clone())));
             }
             debug_eprintln!(
-                "{}find_sysline({}): return ResultS4_SyslineFind::Found_EOF(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
+                "{}find_sysline_year({}): return ResultS4_SyslineFind::Found_EOF(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
                 sx(),
                 fileoffset,
                 fo_b,
@@ -1529,12 +1745,12 @@ impl SyslineReader {
         }
         if self.find_sysline_lru_cache_enabled {
             self.find_sysline_lru_cache_put += 1;
-            debug_eprintln!("{}find_sysline({}): LRU cache put({}, Found({}, …))", so(), fileoffset, fileoffset, fo_b);
+            debug_eprintln!("{}find_sysline_year({}): LRU cache put({}, Found({}, …))", so(), fileoffset, fileoffset, fo_b);
             self.find_sysline_lru_cache
                 .put(fileoffset, ResultS4_SyslineFind::Found((fo_b, syslinep.clone())));
         }
         debug_eprintln!(
-            "{}find_sysline({}): return ResultS4_SyslineFind::Found(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
+            "{}find_sysline_year({}): return ResultS4_SyslineFind::Found(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
             sx(),
             fileoffset,
             fo_b,
@@ -1569,11 +1785,19 @@ impl SyslineReader {
     ///
     ///     `ResultS4::Found(19, SyslineP(data='20010102␊'))`
     ///
+    /// For syslog files where the datetime does not include a year, prior processing must
+    /// occur to make guesstimates for each sysline's real year.
+    ///
     /// XXX: this function is large, cumbersome, and messy. Changes require extensive retesting.
     //
-    // TODO: rename this to `find_next_sysline_at_datetime_filter`, rename all `find_` functions to either
-    //       `find_..._between_`, `find_...at_`, or `find_next`
-    //       `between` and `at` mean binary search over the file, `next` means linear sequantial search
+    // TODO: [2022/06] rename function to `find_next_sysline_at_datetime_filter`, rename all `find_` functions to either
+    //       `find_..._between_`, `find_...at_`, or `find_next`,
+    //       `between` and `at` should mean binary search over the file
+    //       `next` should mean linear sequantial search
+    //
+    // TODO: [2022/07/25] enforce by assertion
+    //       if the in-use datetime pattern has no year, then year processing has already occurred.
+    //
     pub fn find_sysline_at_datetime_filter(
         &mut self, fileoffset: FileOffset, dt_filter: &DateTimeL_Opt,
     ) -> ResultS4_SyslineFind {
@@ -1955,7 +2179,7 @@ impl SyslineReader {
 
     /// convenience wrapper for `dt_after_or_before`
     pub fn sysline_dt_after_or_before(syslinep: &SyslineP, dt_filter: &DateTimeL_Opt) -> Result_Filter_DateTime1 {
-        debug_eprintln!("{}sysline_dt_after_or_before(SyslineP@{:p}, {:?})", snx(), &*syslinep, dt_filter,);
+        debug_eprintln!("{}sysline_dt_after_or_before(Sysline@[{:?}, {:?}], {:?})", snx(), (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), dt_filter,);
         assert!((*syslinep).dt.is_some(), "Sysline@{:p} does not have a datetime set.", &*syslinep);
 
         let dt: &DateTimeL = (*syslinep).dt.as_ref().unwrap();
@@ -1968,9 +2192,10 @@ impl SyslineReader {
         syslinep: &SyslineP, dt_filter_after: &DateTimeL_Opt, dt_filter_before: &DateTimeL_Opt,
     ) -> Result_Filter_DateTime2 {
         debug_eprintln!(
-            "{}sysline_pass_filters(SyslineP@{:p}, {:?}, {:?})",
+            "{}sysline_pass_filters(Sysline[{:?}, {:?}], {:?}, {:?})",
             sn(),
-            &*syslinep,
+            (*syslinep).fileoffset_begin(),
+            (*syslinep).fileoffset_end(),
             dt_filter_after,
             dt_filter_before,
         );

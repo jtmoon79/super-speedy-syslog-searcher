@@ -151,6 +151,8 @@ enum CLI_Color_Choice {
 }
 
 /// subset of `DateTime_Parse_Data` for calls to `datetime_parse_from_str`
+///
+/// (DateTimePattern_str, has year, has timezone)
 type CLI_DT_Filter_Pattern<'b> = (
     &'b DateTimePattern_str,
     bool,
@@ -437,7 +439,9 @@ fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeL_Opt {
             for cfp in CLI_FILTER_PATTERNS.iter() {
                 debug_eprintln!("{}datetime_parse_from_str({:?}, {:?}, {:?})", so(), dts, cfp, tz_offset);
                 #[allow(clippy::single_match)]
-                if let Some(val) = datetime_parse_from_str(dts.as_str(), cfp.0, cfp.1, cfp.2, tz_offset) {
+                if let Some(val) = datetime_parse_from_str(
+                    dts.as_str(), cfp.0, cfp.2, tz_offset
+                ) {
                     dto = Some(val);
                     break;
                 };
@@ -1602,6 +1606,12 @@ fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
             for patt in summary.SyslineReader_patterns.iter() {
                 let dtpd: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*patt.0];
                 eprintln!("{}{}   @{} {} {:?}", OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, patt.0, patt.1, dtpd);
+            }
+            match summary.SyslogProcessor_missing_year {
+                Some(year) => {
+                    eprintln!("{}{}datetime format missing year; estimated year of last sysline {:?}", OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, year);
+                }
+                None => {}
             }
         },
         None => {
