@@ -693,26 +693,26 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
         FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND => {
             eprintln!("WARNING: no lines found {:?}", path);
             return;
-        },
+        }
         FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND => {
             eprintln!("WARNING: no syslines found {:?}", path);
             return;
-        },
+        }
         FileProcessingResult_BlockZero::FILE_ERR_DECOMPRESS => {
             eprintln!("WARNING: could not decompress {:?}", path);
             return;
-        },
+        }
         FileProcessingResult_BlockZero::FILE_ERR_WRONG_TYPE => {
             eprintln!("WARNING: bad path {:?}", path);
             return;
-        },
+        }
         FileProcessingResult_BlockZero::FILE_ERR_IO(err) => {
             eprintln!("ERROR: Error {} for {:?}", err, path);
             return;
-        },
-        FileProcessingResult_BlockZero::FILE_OK => {},
-        FileProcessingResult_BlockZero::FILE_ERR_EMPTY => {},
-        FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_IN_DT_RANGE => {},
+        }
+        FileProcessingResult_BlockZero::FILE_OK => {}
+        FileProcessingResult_BlockZero::FILE_ERR_EMPTY => {}
+        FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_IN_DT_RANGE => {}
     }
 
     // find first sysline acceptable to the passed filters
@@ -1559,6 +1559,8 @@ fn processing_loop(
 }
 
 // -------------------------------------------------------------------------------------------------
+
+// TODO: move these functions to a neighboring file `print_summary.rs`
 
 /// print the filepath name (one line)
 fn print_filepath(
