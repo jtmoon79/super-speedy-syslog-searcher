@@ -2,6 +2,7 @@
 //
 
 pub use crate::common::{
+    Bytes,
     Count,
     FPath,
     FileOffset,
@@ -245,6 +246,7 @@ impl Sysline {
     /// with pictoral representation (i.e. `byte_to_char_noraw`)
     /// TODO: this would be more efficient returning `&str`
     ///       https://bes.github.io/blog/rust-strings
+    /// TODO: remove this
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     fn _to_String_raw(self: &Sysline, raw: bool) -> String {
@@ -267,7 +269,26 @@ impl Sysline {
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Sysline) -> String {
-        self._to_String_raw(true)
+        // get capacity needed
+        let mut sz: usize = 0;
+        for linep in &self.lines {
+            for linepart in (*linep).lineparts.iter() {
+                sz += linepart.len()
+            }
+        }
+        // copy byte by byte
+        let mut buf: Bytes = Bytes::with_capacity(sz);
+        for linep in &self.lines {
+            for linepart in (*linep).lineparts.iter() {
+                let ptr: Box<&[u8]> = linepart.block_boxptr();
+                assert_ne!((*ptr).len(), 0, "block_boxptr points to zero-sized slice");
+                for byte_ in (*ptr).iter() {
+                    buf.push(*byte_);
+                }
+            }
+        }
+
+        String::from_utf8(buf).unwrap()
     }
 
     /// `Sysline` to `String` but using printable chars for non-printable and/or formatting characters
