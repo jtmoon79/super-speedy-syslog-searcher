@@ -444,6 +444,8 @@ impl Printer_Sysline {
         self.stdout_color.flush()
     }
 
+    // TODO: [2022/07] cost-savings: use one-time allocated String buffer to write `dt_string`
+
     fn print_color_sysline_prependdate(&mut self, syslinep: &SyslineP) -> Result<()> {
         let mut line_first = true;
         let dt_string: String = self.datetime_to_string(syslinep);

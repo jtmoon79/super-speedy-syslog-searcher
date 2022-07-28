@@ -412,6 +412,8 @@ impl FileType {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Offset into a file in bytes
+///
+/// zero-based
 pub type FileOffset = u64;
 
 /// A `Vec` of `u8`

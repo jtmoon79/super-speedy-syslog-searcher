@@ -41,7 +41,7 @@ pub use termcolor::{
 /// backslash-escape sequences, e.g. '\n'. This function keeps the printing width of a control
 /// character to 1. This helps humans visually review various debug outputs.
 ///
-/// only intended for visual debugging
+/// only intended to aid visual debugging
 ///
 /// XXX: is this implemented in std or in a crate?
 #[cfg(any(debug_assertions,test))]
