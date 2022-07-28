@@ -1,5 +1,6 @@
 // Readers/syslinereader.rs
 //
+// …
 
 use crate::common::{
     FPath,
@@ -715,15 +716,20 @@ impl SyslineReader {
         for (at, index) in parse_data_indexes.iter().enumerate() {
             let dtpd: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*index];
             debug_eprintln!("{}find_datetime_in_line: pattern data try {} index {} dtpd.line_num {}", so(), at, index, dtpd._line_num);
-            // XXX: does not support multi-byte string; assumes single-byte
-            let line_end: usize;
-            if line.len() > dtpd.range_regex.len() {
-                line_end = dtpd.range_regex.len();
-            } else {
-                line_end = line.len() - 1;
+
+            if line.len() <= dtpd.range_regex.start {
+                debug_eprintln!("{}find_datetime_in_line: line too short {} for  requested start {}; continue", so(), line.len(), dtpd.range_regex.start);
+                continue;
             }
-            if dtpd.range_regex.start >= line_end {
-                debug_eprintln!("{}find_datetime_in_line: bad line slice indexes [{}, {}); continue", so(), dtpd.range_regex.start, line_end);
+            // XXX: does not support multi-byte string; assumes single-byte
+            let slice_end: usize;
+            if line.len() > dtpd.range_regex.end {
+                slice_end = dtpd.range_regex.end;
+            } else {
+                slice_end = line.len() - 1;
+            }
+            if dtpd.range_regex.start >= slice_end {
+                debug_eprintln!("{}find_datetime_in_line: bad line slice indexes [{}, {}); continue", so(), dtpd.range_regex.start, slice_end);
                 continue;
             }
             // take a slice of the `line_as_slice` then convert to `str`
@@ -731,9 +737,9 @@ impl SyslineReader {
             // searches within the `Line`
             let mut hack_slice: Bytes;
             let slice_: &[u8];
-            match line.get_boxptrs(dtpd.range_regex.start as LineIndex, line_end as LineIndex) {
+            match line.get_boxptrs(dtpd.range_regex.start as LineIndex, slice_end as LineIndex) {
                 LinePartPtrs::NoPtr => {
-                    panic!("line.get_boxptrs({}, {}) returned NoPtr which means it was passed non-sense values", dtpd.range_regex.start, line_end);
+                    panic!("line.get_boxptrs({}, {}) returned NoPtr which means it was passed non-sense values", dtpd.range_regex.start, slice_end);
                     continue;
                 }
                 LinePartPtrs::SinglePtr(box_slice) => {
@@ -760,12 +766,14 @@ impl SyslineReader {
                     *get_boxptrs_multiptr += 1;
                 }
             };
+            debug_eprintln!("{}find_datetime_in_line: slice len {} [{}, {}) (requested [{}, {})) using DTPD from {}, data {:?}", so(), slice_.len(), dtpd.range_regex.start, slice_end, dtpd.range_regex.start, dtpd.range_regex.end, dtpd._line_num, String::from_utf8_lossy(slice_));
             // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
             if charsz == &1 && dtpd.dtfs.has_year() && !slice_contains_X_2(slice_, HACK12) {
                 debug_eprintln!("{}find_datetime_in_line: skip slice, does not have '1' or '2'", so());
+                // TODO: add stat for tracking this branch of hack pattern matching
                 continue;
             }
-            // found the datetime string using `regex`, convert to a `DateTimeL`
+            // find the datetime string using `Regex`, convert to a `DateTimeL`
             let dt: DateTimeL;
             let dt_beg: LineIndex;
             let dt_end: LineIndex;
@@ -830,7 +838,7 @@ impl SyslineReader {
     fn dt_patterns_indexes_refresh(&mut self) {
         self.dt_patterns_indexes.clear();
         // get copy of pattern indexes sorted by value
-        // this makes the most-used parse_data more likley to be used again
+        // this makes the most-used parse_data more likely to be used again
         self.dt_patterns_indexes.extend(
             self.dt_patterns_counts.iter().sorted_by(
                 |a, b| Ord::cmp(&b.1, &a.1) // sort by value (second tuple item)
@@ -859,11 +867,13 @@ impl SyslineReader {
                 debug_eprintln!("{}dt_patterns_analysis: self.dt_patterns_counts[{:?}]={:?} is {:?}, {:?}", so(), _k, _v, data_, data_rex_);
             }
         }
+        // get maximum value in `dt_patterns_counts`
         // ripped from https://stackoverflow.com/a/60134450/471376
         // test https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=b8eb53f40fd89461c9dad9c976746cc3
         let max_ = (&self.dt_patterns_counts).iter().fold(
             std::u64::MIN, |a,b| a.max(*(b.1))
         );
+        // remove all items < maximum value in `dt_patterns_counts`
         debug_eprintln!("{}dt_patterns_analysis: dt_patterns_counts.retain(v >= {:?})", so(), max_);
         self.dt_patterns_counts.retain(|_, v| *v >= max_);
         if self.dt_patterns_counts.len() != 1 {
@@ -1012,6 +1022,7 @@ impl SyslineReader {
                 _ => {},
             }
         }
+        debug_eprintln!("{}parse_datetime_in_line_cached return {:?}", sx(), result);
 
         result
     }

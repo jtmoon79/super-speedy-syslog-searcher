@@ -515,7 +515,7 @@ impl LineReader {
                     self.find_line_lru_cache
                         .put(fileoffset, ResultS4_LineFind::Found_EOF((fo_next, linep.clone())));
                 }
-                debug_eprintln!("{}check_store({}): return ResultS4_LineFind::Found_EOF({}, {:p}) @[{}, {}] {:?}", sx(), fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                debug_eprintln!("{}check_store({}): return ResultS4_LineFind::Found_EOF({}, {:p}) @[{}, {}] {:?}", so(), fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return Some(ResultS4_LineFind::Found_EOF((fo_next, linep)));    
             }
             if self.find_line_lru_cache_enabled {
@@ -524,7 +524,7 @@ impl LineReader {
                 self.find_line_lru_cache
                     .put(fileoffset, ResultS4_LineFind::Found((fo_next, linep.clone())));
             }
-            debug_eprintln!("{}check_store({}): return ResultS4_LineFind::Found({}, {:p})  @[{}, {}] {:?}", sx(), fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+            debug_eprintln!("{}check_store({}): return ResultS4_LineFind::Found({}, {:p})  @[{}, {}] {:?}", so(), fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
             return Some(ResultS4_LineFind::Found((fo_next, linep)));
         } else {
             self._lines_miss += 1;
@@ -547,7 +547,7 @@ impl LineReader {
                         self.find_line_lru_cache
                             .put(fileoffset, ResultS4_LineFind::Found_EOF((fo_next, linep.clone())));
                     }
-                    debug_eprintln!("{}check_store({}): return ResultS4_LineFind::Found_EOF({}, {:p}) @[{}, {}] {:?}", sx(), fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                    debug_eprintln!("{}check_store({}): return ResultS4_LineFind::Found_EOF({}, {:p}) @[{}, {}] {:?}", so(), fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                     return Some(ResultS4_LineFind::Found_EOF((fo_next, linep)));    
                 }
                 if self.find_line_lru_cache_enabled {
@@ -556,14 +556,14 @@ impl LineReader {
                     self.find_line_lru_cache
                         .put(fileoffset, ResultS4_LineFind::Found((fo_next, linep.clone())));
                 }
-                debug_eprintln!("{}check_store({}): return ResultS4_LineFind::Found({}, {:p}) @[{}, {}] {:?}", sx(), fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                debug_eprintln!("{}check_store({}): return ResultS4_LineFind::Found({}, {:p}) @[{}, {}] {:?}", so(), fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return Some(ResultS4_LineFind::Found((fo_next, linep)));
             }
             None => {
                 debug_eprintln!("{}check_store: fileoffset {} not found in self.lines_by_range", so(), fileoffset);
             }
         }
-        debug_eprintln!("{}check_store: fileoffset {} not found in self.lines", sx(), fileoffset);
+        debug_eprintln!("{}check_store: fileoffset {} not found in self.lines", so(), fileoffset);
 
         None
     }
@@ -1179,7 +1179,7 @@ impl LineReader {
             assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
             // XXX: multi-byte
             //bi_beg = bi_stop - charsz_bi;
-            debug_eprintln!("{}find_line B1: scan middle block {} forwards, starting from blockindex {} (fileoffset {}) searching for newline B", so(), bo_middle, bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at));
+            debug_eprintln!("{}find_line B1: scan middle block {} forwards (block len {}), starting from blockindex {} (fileoffset {}) searching for newline B", so(), bo_middle, (*bptr_middle).len(), bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at));
             loop {
                 // XXX: single-byte encoding
                 if (*bptr_middle)[bi_at] == NLu8 {
