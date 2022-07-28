@@ -1481,9 +1481,9 @@ fn processing_loop(
                 match printer.print_sysline(syslinep) {
                         Ok(_) => {},
                         Err(_err) => {
-                            eprintln!("ERROR: failed to print; TODO abandon processing for PathId {:?}", pathid);
+                            debug_eprintln!("ERROR: failed to print; TODO abandon processing for PathId {:?}", pathid);
                             // TODO: 2022/04/09 if printing fails, then all future prints are very likely to fail
-                            //       so just shutdown program
+                            //       so shutdown program
                         }
                 }
                 // without printing this extra '\n' then for files with no terminating '\n' the

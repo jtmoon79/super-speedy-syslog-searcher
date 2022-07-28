@@ -4,6 +4,7 @@
 #![allow(non_camel_case_types)]
 
 pub use crate::common::{
+    Bytes,
     Count,
     FPath,
     FileOffset,
@@ -34,6 +35,7 @@ use crate::printer_debug::stack::{
     sx,
 };
 
+use std::borrow::Cow;
 use std::fmt;
 use std::io;
 use std::io::prelude::*;
@@ -169,7 +171,7 @@ impl LinePart {
         }
     }
 
-    /// length of line starting at index `blocki_beg` in bytes
+    /// length of `LinePart` starting at index `blocki_beg` in bytes
     pub fn len(&self) -> usize {
         (self.blocki_end - self.blocki_beg) as usize
     }
@@ -487,6 +489,7 @@ impl Line {
     // TODO: use `&Range_LineIndex` instead of `a` `b`
     //
     /// get Box pointer(s) to an underlying `&[u8]` slice that is part of this `Line`.
+    /// `a` is inclusive, `b` is exclusive.
     ///
     /// If slice is refers to one `Linepart` then return a single `Box` pointer.
     ///
@@ -550,6 +553,7 @@ impl Line {
         // previous searches failed, so it must be the hardest case.
         // hardest case: `a, b` are among many `lineparts` (>=3 `Box` pointers required)
         //               less efficient (requires a new `Vec`)
+        // TODO: cost-savings: vec capacity will often be less than `lineparts.len()`
         debug_eprintln!("{}get_boxptrs: Vec::with_capacity({})", so(), self.lineparts.len());
         let mut a_found = false;
         let mut b_search = false;
@@ -608,7 +612,7 @@ impl Line {
                 match stdout_lock.write(slice) {
                     Ok(_) => {}
                     Err(err) => {
-                        eprintln!(
+                        debug_eprintln!(
                             "ERROR: StdoutLock.write(@{:p}[{}‥{}]) error {}",
                             &*linepart.blockp, linepart.blocki_beg, linepart.blocki_end, err
                         );
@@ -621,7 +625,7 @@ impl Line {
                 let s = match std::str::from_utf8(slice) {
                     Ok(val) => val,
                     Err(err) => {
-                        eprintln!("ERROR: Invalid UTF-8 sequence during from_utf8: {:?}", err);
+                        debug_eprintln!("ERROR: Invalid UTF-8 sequence during from_utf8: {:?}", err);
                         continue;
                     }
                 };
@@ -632,7 +636,7 @@ impl Line {
                     match stdout_lock.write(&dst) {
                         Ok(_) => {}
                         Err(err) => {
-                            eprintln!("ERROR: StdoutLock.write({:?}) error {}", &dst, err);
+                            debug_eprintln!("ERROR: StdoutLock.write({:?}) error {}", &dst, err);
                         }
                     }
                 }
@@ -641,7 +645,7 @@ impl Line {
         match stdout_lock.flush() {
             Ok(_) => {}
             Err(err) => {
-                eprintln!("ERROR: stdout flushing error {}", err);
+                debug_eprintln!("ERROR: stdout flushing error {}", err);
             }
         }
     }
