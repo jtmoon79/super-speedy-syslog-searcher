@@ -6,6 +6,9 @@
 use std::collections::HashMap;
 use std::thread;
 
+extern crate const_format;
+use const_format::concatcp;
+
 extern crate debug_print;
 use debug_print::debug_eprintln;
 
@@ -106,6 +109,28 @@ pub fn stack_offset_set(correction: Option<isize>) {
     debug_eprintln!("stack_offset_set({:?}): {:?}({}) stack_offset set to {}, stack_depth {}", correction, tid, thread_cur.name().unwrap_or(""), so, sd_);
 }
 
+const S_0: &str = "";
+const S_1: &str = "    ";
+const S_2: &str = "        ";
+const S_3: &str = "            ";
+const S_4: &str = "                ";
+const S_5: &str = "                    ";
+const S_6: &str = "                        ";
+const S_7: &str = "                            ";
+const S_8: &str = "                                ";
+const S_9: &str = "                                    ";
+const S_10: &str = "                                        ";
+const S_11: &str = "                                            ";
+const S_12: &str = "                                                ";
+const S_13: &str = "                                                    ";
+const S_14: &str = "                                                        ";
+const S_15: &str = "                                                            ";
+const S_16: &str = "                                                                ";
+const S_17: &str = "                                                                    ";
+const S_18: &str = "                                                                        ";
+const S_19: &str = "                                                                            ";
+const S__: &str = "                                                                                ";
+
 /// return a string of spaces as long as `stack_offset()`
 ///
 /// for use in `print` calls
@@ -113,29 +138,30 @@ pub fn stack_offset_set(correction: Option<isize>) {
 /// only intended for debug builds
 #[allow(dead_code)]
 pub fn so() -> &'static str {
+    const LEAD: &str = " ";
     let so_ = stack_offset();
     match so_ {
-        0 => " ",
-        1 => "     ",
-        2 => "         ",
-        3 => "             ",
-        4 => "                 ",
-        5 => "                     ",
-        6 => "                         ",
-        7 => "                             ",
-        8 => "                                 ",
-        9 => "                                     ",
-        10 => "                                        ",
-        11 => "                                            ",
-        12 => "                                                ",
-        13 => "                                                    ",
-        14 => "                                                        ",
-        15 => "                                                            ",
-        16 => "                                                                ",
-        17 => "                                                                    ",
-        18 => "                                                                        ",
-        19 => "                                                                            ",
-        _ => "                                                                                ",
+        0 => concatcp!(S_0, LEAD),
+        1 => concatcp!(S_1, LEAD),
+        2 => concatcp!(S_2, LEAD),
+        3 => concatcp!(S_3, LEAD),
+        4 => concatcp!(S_4, LEAD),
+        5 => concatcp!(S_5, LEAD),
+        6 => concatcp!(S_6, LEAD),
+        7 => concatcp!(S_7, LEAD),
+        8 => concatcp!(S_8, LEAD),
+        9 => concatcp!(S_9, LEAD),
+        10 => concatcp!(S_10, LEAD),
+        11 => concatcp!(S_11, LEAD),
+        12 => concatcp!(S_12, LEAD),
+        13 => concatcp!(S_13, LEAD),
+        14 => concatcp!(S_14, LEAD),
+        15 => concatcp!(S_15, LEAD),
+        16 => concatcp!(S_16, LEAD),
+        17 => concatcp!(S_17, LEAD),
+        18 => concatcp!(S_18, LEAD),
+        19 => concatcp!(S_19, LEAD),
+        _ => concatcp!(S__, LEAD),
     }
 }
 
@@ -146,29 +172,30 @@ pub fn so() -> &'static str {
 /// only intended for debug builds
 #[allow(dead_code)]
 pub fn sn() -> &'static str {
+    const LEAD: &str = "→";
     let so_ = stack_offset();
     match so_ {
-        0 => "→",
-        1 => "    →",
-        2 => "        →",
-        3 => "            →",
-        4 => "                →",
-        5 => "                    →",
-        6 => "                        →",
-        7 => "                            →",
-        8 => "                                →",
-        9 => "                                    →",
-        10 => "                                       →",
-        11 => "                                           →",
-        12 => "                                               →",
-        13 => "                                                   →",
-        14 => "                                                       →",
-        15 => "                                                           →",
-        16 => "                                                               →",
-        17 => "                                                                   →",
-        18 => "                                                                       →",
-        19 => "                                                                           →",
-        _ => "                                                                               →",
+        0 => concatcp!(S_0, LEAD),
+        1 => concatcp!(S_1, LEAD),
+        2 => concatcp!(S_2, LEAD),
+        3 => concatcp!(S_3, LEAD),
+        4 => concatcp!(S_4, LEAD),
+        5 => concatcp!(S_5, LEAD),
+        6 => concatcp!(S_6, LEAD),
+        7 => concatcp!(S_7, LEAD),
+        8 => concatcp!(S_8, LEAD),
+        9 => concatcp!(S_9, LEAD),
+        10 => concatcp!(S_10, LEAD),
+        11 => concatcp!(S_11, LEAD),
+        12 => concatcp!(S_12, LEAD),
+        13 => concatcp!(S_13, LEAD),
+        14 => concatcp!(S_14, LEAD),
+        15 => concatcp!(S_15, LEAD),
+        16 => concatcp!(S_16, LEAD),
+        17 => concatcp!(S_17, LEAD),
+        18 => concatcp!(S_18, LEAD),
+        19 => concatcp!(S_19, LEAD),
+        _ => concatcp!(S__, LEAD),
     }
 }
 
@@ -179,29 +206,30 @@ pub fn sn() -> &'static str {
 /// only intended for debug builds
 #[allow(dead_code)]
 pub fn sx() -> &'static str {
+    const LEAD: &str = "←";
     let so_ = stack_offset();
     match so_ {
-        0 => "←",
-        1 => "    ←",
-        2 => "        ←",
-        3 => "            ←",
-        4 => "                ←",
-        5 => "                    ←",
-        6 => "                        ←",
-        7 => "                            ←",
-        8 => "                                ←",
-        9 => "                                    ←",
-        10 => "                                        ←",
-        11 => "                                            ←",
-        12 => "                                                ←",
-        13 => "                                                    ←",
-        14 => "                                                        ←",
-        15 => "                                                            ←",
-        16 => "                                                                ←",
-        17 => "                                                                    ←",
-        18 => "                                                                        ←",
-        19 => "                                                                            ←",
-        _ => "                                                                                ←",
+        0 => concatcp!(S_0, LEAD),
+        1 => concatcp!(S_1, LEAD),
+        2 => concatcp!(S_2, LEAD),
+        3 => concatcp!(S_3, LEAD),
+        4 => concatcp!(S_4, LEAD),
+        5 => concatcp!(S_5, LEAD),
+        6 => concatcp!(S_6, LEAD),
+        7 => concatcp!(S_7, LEAD),
+        8 => concatcp!(S_8, LEAD),
+        9 => concatcp!(S_9, LEAD),
+        10 => concatcp!(S_10, LEAD),
+        11 => concatcp!(S_11, LEAD),
+        12 => concatcp!(S_12, LEAD),
+        13 => concatcp!(S_13, LEAD),
+        14 => concatcp!(S_14, LEAD),
+        15 => concatcp!(S_15, LEAD),
+        16 => concatcp!(S_16, LEAD),
+        17 => concatcp!(S_17, LEAD),
+        18 => concatcp!(S_18, LEAD),
+        19 => concatcp!(S_19, LEAD),
+        _ => concatcp!(S__, LEAD),
     }
 }
 
@@ -212,29 +240,30 @@ pub fn sx() -> &'static str {
 /// only intended for debug builds
 #[allow(dead_code)]
 pub fn snx() -> &'static str {
+    const LEAD: &str = "↔";
     let so_ = stack_offset();
     match so_ {
-        0 => "↔",
-        1 => "    ↔",
-        2 => "        ↔",
-        3 => "            ↔",
-        4 => "                ↔",
-        5 => "                    ↔",
-        6 => "                        ↔",
-        7 => "                            ↔",
-        8 => "                                ↔",
-        9 => "                                    ↔",
-        10 => "                                        ↔",
-        11 => "                                            ↔",
-        12 => "                                                ↔",
-        13 => "                                                    ↔",
-        14 => "                                                        ↔",
-        15 => "                                                            ↔",
-        16 => "                                                                ↔",
-        17 => "                                                                    ↔",
-        18 => "                                                                        ↔",
-        19 => "                                                                            ↔",
-        _ => "                                                                                ↔",
+        0 => concatcp!(S_0, LEAD),
+        1 => concatcp!(S_1, LEAD),
+        2 => concatcp!(S_2, LEAD),
+        3 => concatcp!(S_3, LEAD),
+        4 => concatcp!(S_4, LEAD),
+        5 => concatcp!(S_5, LEAD),
+        6 => concatcp!(S_6, LEAD),
+        7 => concatcp!(S_7, LEAD),
+        8 => concatcp!(S_8, LEAD),
+        9 => concatcp!(S_9, LEAD),
+        10 => concatcp!(S_10, LEAD),
+        11 => concatcp!(S_11, LEAD),
+        12 => concatcp!(S_12, LEAD),
+        13 => concatcp!(S_13, LEAD),
+        14 => concatcp!(S_14, LEAD),
+        15 => concatcp!(S_15, LEAD),
+        16 => concatcp!(S_16, LEAD),
+        17 => concatcp!(S_17, LEAD),
+        18 => concatcp!(S_18, LEAD),
+        19 => concatcp!(S_19, LEAD),
+        _ => concatcp!(S__, LEAD),
     }
 }
 
