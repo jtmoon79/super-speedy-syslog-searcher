@@ -6,15 +6,20 @@
 # rust-acceptable format. This script does what I need.
 #
 
+from typing import Optional
 import sys
 
 
 WIDTH = 8
 
 
-def main(path: str, width: int):
-    with open(path, "rb") as file_:
-        data = file_.read()
+def main(path: Optional[str], width: int):
+    if path:
+        with open(path, "rb") as file_:
+            data = file_.read()
+    else:
+        data = sys.stdin.buffer.read()
+
     for at, byte_ in enumerate(data):
         print(f"0x{byte_:02x},", end="")
         if (at + 1) % width == 0:
@@ -23,12 +28,22 @@ def main(path: str, width: int):
             print(" ", end="")
 
 
+def print_help():
+    print("usage:\n  hexdump.py FILE [WIDTH]", file=sys.stderr)
+    sys.exit(1)
+ 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("usage:\n  hexdump.py FILE [WIDTH]", file=sys.stderr)
-        sys.exit(1)
-    path = sys.argv[1]
+    path = None
+    if len(sys.argv) == 0:
+        print_help()
+    elif len(sys.argv) >= 2:
+        path = sys.argv[1]
+
+    if path == "-h" or path == "--help":
+        print_help()
+
     width = WIDTH
     if len(sys.argv) == 3:
         width = int(sys.argv[2])
+
     main(path, width)
