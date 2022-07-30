@@ -12,10 +12,12 @@ use s4lib::common::{
 use s4lib::Readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
     MimeGuess,
+    path_to_filetype, fpath_to_filetype,
 };
 
 use s4lib::Readers::helpers::{
     fpath_to_path,
+    path_to_fpath,
 };
 
 use s4lib::Readers::blockreader::{
@@ -29,6 +31,7 @@ use s4lib::Readers::blockreader::{
 use s4lib::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
+    create_temp_file_with_name,
     create_temp_file_with_name_exact,
     create_temp_file_with_suffix,
     create_temp_file_bytes_with_suffix,
@@ -70,8 +73,8 @@ fn create_temp_log(data: &str) -> NamedTempFile {
     create_temp_file_with_suffix(data, &STRING_LOG)
 }
 
-// files with only newlines
 lazy_static! {
+    // files with only newlines
     static ref NTF_NL_1: NamedTempFile = create_temp_log("\n");
     static ref NTF_NL_1_PATH: FPath = NTF_Path(&NTF_NL_1);
     static ref NTF_NL_2: NamedTempFile = create_temp_log("\n\n");
@@ -82,6 +85,20 @@ lazy_static! {
     static ref NTF_NL_4_PATH: FPath = NTF_Path(&NTF_NL_4);
     static ref NTF_NL_5: NamedTempFile = create_temp_log("\n\n\n\n\n");
     static ref NTF_NL_5_PATH: FPath = NTF_Path(&NTF_NL_5);
+
+    // empty files with suffix
+
+    pub static ref NTF_LOG_EMPTY: NamedTempFile = {
+        create_temp_file_with_name("", Some(&String::from("data")), Some(&String::from("log")))
+    };
+    pub static ref NTF_LOG_EMPTY_FPATH: FPath = {
+        path_to_fpath(NTF_LOG_EMPTY.path())
+    };
+    pub static ref NTF_LOG_EMPTY_FILETYPE: FileType = FileType::File;
+    pub static ref NTF_LOG_EMPTY_MIMEGUESS: MimeGuess = {
+        MimeGuess::from_path(NTF_LOG_EMPTY.path())
+    };
+
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -106,11 +123,15 @@ lazy_static! {
             &GZ_EMPTY_DATA, &String::from("-empty.gz")
         )
     };
-    pub static ref NTF_GZ_EMPTY_FPATH: FPath = {
-        NTF_Path(&NTF_GZ_EMPTY)
-    };
     pub static ref NTF_GZ_EMPTY_PATH: &'static Path = {
         &fpath_to_path(&NTF_GZ_EMPTY_FPATH)
+    };
+    pub static ref NTF_GZ_EMPTY_FPATH: FPath = {
+        path_to_fpath(NTF_GZ_EMPTY.path())
+    };
+    pub static ref NTF_GZ_EMPTY_FILETYPE: FileType = FileType::FileGz;
+    pub static ref NTF_GZ_EMPTY_MIMEGUESS: MimeGuess = {
+        MimeGuess::from_path(NTF_GZ_EMPTY.path())
     };
 }
 
@@ -144,7 +165,9 @@ lazy_static! {
 
 // tar file
 
-pub const TAR_ONEBYTE_FILENAME: &str = "fileA";
+pub const TAR_ONEBYTE_FILENAME: &str = "fileA.tar";
+pub const TAR_ONEBYTE_FILEA_FILENAME: &str = "fileA.txt";
+pub const TAR_ONEBYTE_FILEA_FILENAME_EXT: &str = "txt";
 
 /// tar of a one-byte file using `tar`.
 /// list of files within `fileA.tar`:
@@ -482,21 +505,28 @@ pub const TAR_ONEBYTE_DATA: [u8; 10240] = [
 ];
 
 lazy_static! {
-    pub static ref NTF_ONEBYTE_TAR: NamedTempFile = {
+    pub static ref NTF_TAR_ONEBYTE: NamedTempFile = {
         create_temp_file_bytes_with_suffix(
             &TAR_ONEBYTE_DATA,
             &String::from("-onebyte.tar")
         )
     };
     pub static ref NTF_TAR_ONEBYTE_FPATH: FPath = {
-        NTF_Path(&NTF_ONEBYTE_TAR)
+        NTF_Path(&NTF_TAR_ONEBYTE)
     };
-    pub static ref NTF_TAR_ONEBYTE_FPATH_FILEA: FPath = {
+    pub static ref NTF_TAR_ONEBYTE_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_ONEBYTE_FPATH.clone();
         path_.push(SUBPATH_SEP);
-        path_.push_str(TAR_ONEBYTE_FILENAME);
+        path_.push_str(TAR_ONEBYTE_FILEA_FILENAME);
 
         path_
+    };
+    pub static ref NTF_TAR_ONEBYTE_FILEA_FILETYPE: FileType = FileType::FileTar;
+    pub static ref NTF_TAR_ONEBYTE_FILEA_MIMEGUESS: MimeGuess = {
+        let fpath = FPath::from(TAR_ONEBYTE_FILEA_FILENAME);
+        let path = fpath_to_path(&fpath);
+
+        MimeGuess::from_path(path)
     };
 }
 

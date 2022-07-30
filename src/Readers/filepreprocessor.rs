@@ -170,7 +170,7 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
 /// like file names without extensions in the name, e.g. `messages` or `syslog`, or files
 /// with appended extensions, e.g. `samba.log.old`.
 ///
-/// _compensates_, do not replace. Passing `"file.txt"` will return `FileUnknown`
+/// _compensates_, does not replace. Passing `"file.txt"` will return `FileUnknown`
 pub fn path_to_filetype(path: &Path) -> FileType {
     debug_eprintln!("{}path_to_filetype({:?})", sn(), path);
 
@@ -183,6 +183,7 @@ pub fn path_to_filetype(path: &Path) -> FileType {
         debug_eprintln!("{}path_to_filetype: return FILE; no path.extension()", sx());
         return FileType::File;
     }
+
     let file_name: &OsStr = path.file_name().unwrap_or_default();
     let file_name_s: &str = file_name.to_str().unwrap_or_default();
     debug_eprintln!("{}path_to_filetype: file_name {:?}", so(), file_name_s);
@@ -364,7 +365,7 @@ pub fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess) {
 }
 
 /// Return a `ProcessPathResult` for each parseable file within .tar file at `path`
-fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
+pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
     debug_eprintln!("{}process_path_tar({:?})", sn(), path);
 
     let file: File = File::open(path).unwrap();

@@ -10,21 +10,33 @@ use crate::s4_tests::common::{
     MIMEGUESS_XZ,
     MIMEGUESS_TAR,
     NTF_GZ_ONEBYTE_PATH,
+    NTF_TAR_ONEBYTE,
     NTF_TAR_ONEBYTE_FPATH,
-    NTF_TAR_ONEBYTE_FPATH_FILEA,
+    NTF_TAR_ONEBYTE_FILEA_FPATH,
+    NTF_TAR_ONEBYTE_FILEA_FILETYPE,
+    NTF_TAR_ONEBYTE_FILEA_MIMEGUESS,
+    NTF_LOG_EMPTY,
+    NTF_LOG_EMPTY_FPATH,
+    NTF_LOG_EMPTY_FILETYPE,
+    NTF_LOG_EMPTY_MIMEGUESS,
+    NTF_GZ_EMPTY,
+    NTF_GZ_EMPTY_FPATH,
+    NTF_GZ_EMPTY_FILETYPE,
+    NTF_GZ_EMPTY_MIMEGUESS,
 };
 
 extern crate s4lib;
 
 use s4lib::Readers::helpers::{
     path_to_fpath,
-    fpath_to_path
+    fpath_to_path,
 };
 
 use s4lib::common::{
     Path,
     FPath,
     FileType,
+    FileProcessingResult,
 };
 
 use s4lib::Readers::blockreader::{
@@ -32,6 +44,7 @@ use s4lib::Readers::blockreader::{
 };
 
 use s4lib::Readers::filepreprocessor::{
+    ProcessPathResult,
     fpath_to_filetype_mimeguess,
     path_to_filetype_mimeguess,
     MimeGuess,
@@ -39,6 +52,8 @@ use s4lib::Readers::filepreprocessor::{
     path_to_filetype,
     fpath_to_filetype,
     parseable_filetype,
+    process_path_tar,
+    process_path,
 };
 
 use s4lib::printer_debug::helpers::{
@@ -92,10 +107,11 @@ fn test_mimeguess_to_filetype_tar() {
 // -------------------------------------------------------------------------------------------------
 
 fn test_fpath_to_filetype(name: &String, check: FileType) {
+    stack_offset_set(Some(2));
     eprintln!("test_fpath_to_filetype: name {:?}", &name);
     let fpath: FPath = FPath::from(name);
     let filetype = fpath_to_filetype(&fpath);
-    eprintln!("test_fpath_to_filetype: blockreader.filetype {:?}", filetype);
+    eprintln!("test_fpath_to_filetype: filetype {:?}", filetype);
     assert_eq!(check, filetype, "expected FileType {:?}\nfound FileType {:?}\n", check, filetype);
 }
 
@@ -142,4 +158,46 @@ fn test_fpath_to_filetype_FileGZ_gz_old() {
 #[test]
 fn test_fpath_to_filetype_FileGZ_gzip() {
     test_fpath_to_filetype(&String::from("data.gzip"), FileType::FileGz);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+fn test_process_file_path(ntf: &NamedTempFile, check: Vec<ProcessPathResult>) {
+    stack_offset_set(Some(2));
+    eprintln!("test_process_file_path: ntf {:?}", ntf);
+    let fpath = NTF_Path(&ntf);
+    let results = process_path(&fpath);
+    assert_eq!(check, results, "\nexpected {:?}\nactual  {:?}\n", check, results);
+}
+
+#[test]
+fn test_process_file_path_log() {
+    let check: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileValid(
+            NTF_LOG_EMPTY_FPATH.clone(), *NTF_LOG_EMPTY_MIMEGUESS, *NTF_LOG_EMPTY_FILETYPE,
+        )
+    ];
+    test_process_file_path(&NTF_LOG_EMPTY, check);
+}
+
+#[test]
+fn test_process_file_path_gz() {
+    let check: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileValid(
+            NTF_GZ_EMPTY_FPATH.clone(), *NTF_GZ_EMPTY_MIMEGUESS, *NTF_GZ_EMPTY_FILETYPE,
+        )
+    ];
+    test_process_file_path(&NTF_GZ_EMPTY, check);
+}
+
+#[test]
+fn test_process_file_path_tar() {
+    let check: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileValid(
+            NTF_TAR_ONEBYTE_FILEA_FPATH.clone(),
+            *NTF_TAR_ONEBYTE_FILEA_MIMEGUESS,
+            *NTF_TAR_ONEBYTE_FILEA_FILETYPE,
+        )
+    ];
+    test_process_file_path(&NTF_TAR_ONEBYTE, check);
 }
