@@ -24,7 +24,7 @@ fi
 declare -r bin=./target/release/s4
 
 (set -x; uname -a)
-(set -x; git log -n1 --format='%h %D')
+(set -x; git log -n1 --format='%h %D') || true
 (set -x; "${bin}" --version)
 (set -x; $valgrind --version) | head -n1
 
