@@ -41,6 +41,12 @@ use std::sync::Arc;
 extern crate debug_print;
 use debug_print::debug_eprintln;
 
+extern crate more_asserts;
+use more_asserts::{
+    assert_ge,
+    debug_assert_ge,
+};
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Sysline
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -120,6 +126,15 @@ impl Sysline {
         Sysline::default()
     }
 
+    pub fn new_from_parts(lines: Lines, dt_beg: LineIndex, dt_end: LineIndex, dt: DateTimeL_Opt) -> Sysline {
+        Sysline {
+            lines,
+            dt_beg,
+            dt_end,
+            dt,
+        }
+    }
+
     pub fn charsz(self: &Sysline) -> usize {
         Sysline::CHARSZ
     }
@@ -181,6 +196,7 @@ impl Sysline {
     /// return the first `BlockOffset`s on which data for this Sysline resides.
     /// Presumes underlying `Line` and `LinePart` hold data else panic!
     pub fn blockoffset_first(self: &Sysline) -> BlockOffset {
+        debug_assert_ge!(self.lines.len(), 1, "Sysline contains no lines");
         self.lines[0].blockoffset_first()
     }
 
@@ -194,7 +210,7 @@ impl Sysline {
 
     /// length in bytes of this Sysline
     pub fn len(self: &Sysline) -> usize {
-        (self.fileoffset_end() - self.fileoffset_begin() + 1) as usize
+        ((self.fileoffset_end() - self.fileoffset_begin()) + 1) as usize
     }
 
     // TODO: return `usize`, let callers change as needed
@@ -226,6 +242,7 @@ impl Sysline {
     ///
     /// Similar to `get_slices_line` but for all lines.
     ///
+    /// Only for testing
     pub fn get_slices(self: &Sysline) -> Slices {
         let mut count: usize = 0;
         for linep in &self.lines {

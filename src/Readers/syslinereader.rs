@@ -746,10 +746,10 @@ impl SyslineReader {
                     slice_ = *box_slice;
                     *get_boxptrs_singleptr += 1;
                 }
-                LinePartPtrs::DoublePtr(box_slice2) => {
-                    hack_slice = Bytes::with_capacity(box_slice2.0.len() + box_slice2.1.len());
-                    hack_slice.extend_from_slice(*box_slice2.0);
-                    hack_slice.extend_from_slice(*box_slice2.1);
+                LinePartPtrs::DoublePtr(box_slice1, box_slice2) => {
+                    hack_slice = Bytes::with_capacity(box_slice1.len() + box_slice2.len());
+                    hack_slice.extend_from_slice(*box_slice1);
+                    hack_slice.extend_from_slice(*box_slice2);
                     slice_ = hack_slice.as_slice();
                     *get_boxptrs_doubleptr += 1;
                 }

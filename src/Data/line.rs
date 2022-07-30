@@ -254,7 +254,7 @@ impl LinePart {
     /// return Box pointer to slice of bytes in this `LinePart` from beginning to `b` (exclusive)
     pub fn block_boxptr_b(&self, b: &LineIndex) -> Box<&[u8]> {
         debug_assert_le!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
-        let slice1 = &(*self.blockp).as_slice()[..self.blocki_beg+b];
+        let slice1 = &(*self.blockp).as_slice()[self.blocki_beg..(self.blocki_beg+b)];
 
         Box::new(slice1)
     }
@@ -311,11 +311,47 @@ impl fmt::Debug for Line {
 }
 
 /// return value for `Line::get_boxptrs`
-pub enum LinePartPtrs <'a> {
+#[derive(Debug)]
+pub enum LinePartPtrs<'a> {
+    /// empty line or some other null-like or false-like condition
     NoPtr,
+    /// one box pointer needed represent the entire `Line`
     SinglePtr(Box<&'a [u8]>),
-    DoublePtr((Box<&'a [u8]>, Box<&'a [u8]>)),
+    /// two box pointers needed represent the entire `Line`
+    DoublePtr(Box<&'a [u8]>, Box<&'a [u8]>),
+    /// three or more box pointers needed to represent the entire `Line`
     MultiPtr(Vec<Box<&'a [u8]>>),
+}
+
+impl<'a> LinePartPtrs<'a> {
+    /// to aid testing
+    pub fn is_no_ptr(&self) -> bool {
+        match self {
+            LinePartPtrs::NoPtr => true,
+            _ => false,
+        }
+    }
+    /// to aid testing
+    pub fn is_single_ptr(&self) -> bool {
+        match self {
+            LinePartPtrs::SinglePtr(_) => true,
+            _ => false,
+        }
+    }
+    /// to aid testing
+    pub fn is_double_ptr(&self) -> bool {
+        match self {
+            LinePartPtrs::DoublePtr(_, _) => true,
+            _ => false,
+        }
+    }
+    /// to aid testing
+    pub fn is_multi_ptr(&self) -> bool {
+        match self {
+            LinePartPtrs::MultiPtr(_) => true,
+            _ => false,
+        }
+    }
 }
 
 impl Default for Line {
@@ -465,6 +501,8 @@ impl Line {
     }
 
     /// return all slices that make up this `Line` within a `Vec`
+    ///
+    /// Only for testing
     pub fn get_slices(self: &Line) -> Slices {
         // short-circuit this case
         let sz = self.lineparts.len();
@@ -530,7 +568,7 @@ impl Line {
             } else if b1 <= len_ && a_found {
                 // harder case, pretty efficient
                 debug_eprintln!("{}get_boxptrs: return DoublePtr({}, {})", sx(), a1, b1);
-                return LinePartPtrs::DoublePtr((bptr_a.unwrap(), linepart.block_boxptr_b(&b1)));
+                return LinePartPtrs::DoublePtr(bptr_a.unwrap(), linepart.block_boxptr_b(&b1));
             } else if len_ < b1 && a_found {
                 debug_eprintln!("{}get_boxptrs: break: a {} < {} && {} < {} b && a_found", so(), a1, len_, len_, b1);
                 bptr_a = None;

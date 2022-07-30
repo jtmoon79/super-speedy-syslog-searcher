@@ -56,79 +56,10 @@ fn new_SyslogProcessor(path: &FPath, blocksz: BlockSz) -> SyslogProcessor {
     }
 }
 
-lazy_static! {
-    static ref STRING_LOG: String = String::from(".log");
-}
-
-/// create a temp file filled with `data` ending in `.log`
-fn create_temp_log(data: &str) -> NamedTempFile {
-    create_temp_file_with_suffix(data, &STRING_LOG)
-}
-
 // -------------------------------------------------------------------------------------------------
 
 // TODO: [2022/06/01] these are repeated in several `_test.rs` files, declare them in
 //       one common `common_tests.rs` file
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_empty0: NamedTempFile = create_temp_log("");
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_empty0_path: FPath = NTF_Path(&NTF_empty0);
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_nl_1: NamedTempFile = create_temp_log("\n");
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_nl_1_path: FPath = NTF_Path(&NTF_nl_1);
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_nl_2: NamedTempFile = create_temp_log("\n\n");
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_nl_2_path: FPath = NTF_Path(&NTF_nl_2);
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_nl_3: NamedTempFile = create_temp_log("\n\n\n");
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_nl_3_path: FPath = NTF_Path(&NTF_nl_3);
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_nl_4: NamedTempFile = create_temp_log("\n\n\n\n");
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_nl_4_path: FPath = NTF_Path(&NTF_nl_4);
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_nl_5: NamedTempFile = create_temp_log("\n\n\n\n\n");
-}
-
-lazy_static! {
-    #[allow(non_upper_case_globals)]
-    static ref NTF_nl_5_path: FPath = NTF_Path(&NTF_nl_5);
-}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -164,7 +95,7 @@ fn _test_blockzero_analysis(
     eprint_file(path);
     let mut sp1: SyslogProcessor = new_SyslogProcessor(path, blocksz);
     let result = sp1.process_stage0_valid_file_check();
-    assert_eq!(result, FileProcessingResult_BlockZero::FILE_OK, "stage0 failed");
+    assert_eq!(result, FileProcessingResult_BlockZero::FileOk, "stage0 failed");
     eprintln!("\n{}{:?}\n", so(), sp1);
 
     let result = sp1.blockzero_analysis();
@@ -179,22 +110,22 @@ fn _test_blockzero_analysis(
 }
 
 #[test]
-fn test_blockzero_analysis_empty0_FILE_ERR_EMPTY() {
-    _test_blockzero_analysis(&NTF_empty0_path, SZ, FileProcessingResult_BlockZero::FILE_ERR_EMPTY, 0);
+fn test_blockzero_analysis_empty0_FileErrEmpty() {
+    _test_blockzero_analysis(&NTF_EMPTY0_path, SZ, FileProcessingResult_BlockZero::FileErrEmpty, 0);
 }
 
 #[test]
-fn test_blockzero_analysis_nl1_FILE_OK() {
-    _test_blockzero_analysis(&NTF_nl_1_path, SZ, FileProcessingResult_BlockZero::FILE_OK, 1);
+fn test_blockzero_analysis_nl1_FileOk() {
+    _test_blockzero_analysis(&NTF_NL_1_PATH, SZ, FileProcessingResult_BlockZero::FileOk, 1);
 }
 
 #[test]
-fn test_blockzero_analysis_nl2_FILE_OK() {
-    _test_blockzero_analysis(&NTF_nl_2_path, SZ, FileProcessingResult_BlockZero::FILE_OK, 2);
+fn test_blockzero_analysis_nl2_FileOk() {
+    _test_blockzero_analysis(&NTF_NL_2_PATH, SZ, FileProcessingResult_BlockZero::FileOk, 2);
 }
 
 #[test]
-fn test_blockzero_analysis_nl20_FILE_OK() {
+fn test_blockzero_analysis_nl20_FileOk() {
     let data = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     let line_count: u64 = data.lines().count() as u64;
     let ntf = create_temp_log(data);
@@ -202,31 +133,31 @@ fn test_blockzero_analysis_nl20_FILE_OK() {
     let filesz: u64 = ntf.as_file().metadata().unwrap().len() as u64;
     let line_count_default: u64 = *BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP.get(&filesz).unwrap();
     let line_count_ = std::cmp::min(line_count, line_count_default);
-    _test_blockzero_analysis(&path, SZ, FileProcessingResult_BlockZero::FILE_OK, line_count_);
+    _test_blockzero_analysis(&path, SZ, FileProcessingResult_BlockZero::FileOk, line_count_);
 }
 
 #[test]
-fn test_blockzero_analysis_nl0_bsz4_FILE_ERR_NO_SYSLINES_FOUND() {
+fn test_blockzero_analysis_nl0_bsz4_FileErrNoSyslinesFound() {
     let data = "                                                               ";
     let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
-    _test_blockzero_analysis(&path, 0x4, FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND, 0);
+    _test_blockzero_analysis(&path, 0x4, FileProcessingResult_BlockZero::FileErrNoSyslinesFound, 0);
 }
 
 #[test]
-fn test_blockzero_analysis_nl0_bszFF_FILE_ERR_NO_SYSLINES_FOUND() {
+fn test_blockzero_analysis_nl0_bszFF_FileErrNoSyslinesFound() {
     let data = "                                                               ";
     let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
-    _test_blockzero_analysis(&path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND, 1);
+    _test_blockzero_analysis(&path, 0xFF, FileProcessingResult_BlockZero::FileErrNoSyslinesFound, 1);
 }
 
 #[test]
-fn test_blockzero_analysis_nl3_bszFF_FILE_ERR_NO_LINES_FOUND() {
+fn test_blockzero_analysis_nl3_bszFF_FileErrNoLinesFound() {
     let data = "           \n  \n                                               ";
     let ntf = create_temp_log(data);
     let path = NTF_Path(&ntf);
-    _test_blockzero_analysis(&path, 0xFF, FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND, 3);
+    _test_blockzero_analysis(&path, 0xFF, FileProcessingResult_BlockZero::FileErrNoLinesFound, 3);
 }
 
 */

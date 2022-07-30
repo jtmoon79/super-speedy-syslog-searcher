@@ -1,4 +1,4 @@
-// Readers/linereader_tests.rs
+// tests/line_tests.rs
 //
 
 #![allow(non_snake_case)]
@@ -8,14 +8,11 @@ extern crate s4lib;
 
 use s4lib::common::{
     FileOffset,
-    FileType,
-    FPath,
 };
 
 use s4lib::Data::line::{
     Line,
     LinePart,
-    LineIndex,
     LinePartPtrs,
 };
 
@@ -27,33 +24,12 @@ use s4lib::Readers::blockreader::{
     BlockSz,
 };
 
-use s4lib::printer_debug::helpers::{
-    NamedTempFile,
-    create_temp_file,
-    create_temp_file_with_name_exact,
-    create_temp_file_with_suffix,
-    create_temp_file_bytes_with_suffix,
-    NTF_Path,
-};
-
-use s4lib::printer_debug::stack::{
-    stack_offset_set,
-};
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate more_asserts;
-use more_asserts::{
-    assert_le,
-    assert_lt,
-    assert_ge,
-};
-
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// helper functions
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 fn block_new(data: &[u8]) -> BlockP {
-    let mut block: Block = Block::from(data);
+    let block: Block = Block::from(data);
 
     BlockP::new(block)
 }
@@ -249,7 +225,7 @@ fn new_line_2_6() -> Line {
 
 #[test]
 fn test_line_new_0() {
-    let line = new_line_2_6();
+    new_line_2_6();
 }
 
 #[test]
