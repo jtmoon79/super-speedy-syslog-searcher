@@ -93,10 +93,13 @@ pub struct LinePart {
     pub blocki_end: BlockIndex,
     /// the byte offset into the file where this `LinePart` begins
     fileoffset: FileOffset,
-    /// blockoffset: debug helper, might be good to get rid of this?
+    /// `blockoffset` of underlying `Block` to which `self.blockp` points.
+    ///
+    /// XXX: debug helper
+    // TODO: [2022] is this used?
     blockoffset: BlockOffset,
-    // TODO: is this used?
     /// the file-designated BlockSz, _not_ necessarily the `len()` of the `Block` at `blockp`
+    // TODO: [2022] is this used?
     pub blocksz: BlockSz,
 }
 
@@ -181,14 +184,17 @@ impl LinePart {
         self.len() == 0
     }
 
+    /// fileoffset at beginning of the `LinePart` (inclusive)
     pub fn fileoffset_begin(&self) -> FileOffset {
         self.fileoffset
     }
 
+    /// fileoffset at one byte past ending of the `LinePart` (exclusive)
     pub fn fileoffset_end(&self) -> FileOffset {
         self.fileoffset + (self.blocki_end as FileOffset)
     }
 
+    /// `blockoffset` of underlying `Block` to which `self.blockp` points
     pub fn blockoffset(&self) -> BlockOffset {
         self.blockoffset
     }
