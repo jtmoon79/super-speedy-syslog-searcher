@@ -167,7 +167,10 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
 }
 
 /// compensates `mimeguess_to_filetype` for some files not handled by `MimeGuess::from`,
-/// like file names without extensions in the name, e.g. `messages` or `syslog`
+/// like file names without extensions in the name, e.g. `messages` or `syslog`, or files
+/// with appended extensions, e.g. `samba.log.old`.
+///
+/// _compensates_, do not replace. Passing `"file.txt"` will return `FileUnknown`
 pub fn path_to_filetype(path: &Path) -> FileType {
     debug_eprintln!("{}path_to_filetype({:?})", sn(), path);
 
@@ -180,6 +183,9 @@ pub fn path_to_filetype(path: &Path) -> FileType {
         debug_eprintln!("{}path_to_filetype: return FILE; no path.extension()", sx());
         return FileType::FILE;
     }
+    let file_name: &OsStr = path.file_name().unwrap_or_default();
+    let file_name_s: &str = file_name.to_str().unwrap_or_default();
+    debug_eprintln!("{}path_to_filetype: file_name {:?}", so(), file_name_s);
     // XXX: `file_prefix` WIP https://github.com/rust-lang/rust/issues/86319
     //let file_prefix: &OsStr = &path.file_prefix().unwrap_or_default();
     let file_prefix: &OsStr = path.file_stem().unwrap_or_default();
@@ -198,7 +204,7 @@ pub fn path_to_filetype(path: &Path) -> FileType {
         return FileType::FILE;
     }
     // for example, `log.host` as emitted by samba daemon
-    if file_prefix_s.starts_with("log.") {
+    if file_name_s.starts_with("log.") {
         debug_eprintln!("{}path_to_filetype: return FILE; log.", sx());
         return FileType::FILE;
     }
@@ -208,12 +214,12 @@ pub fn path_to_filetype(path: &Path) -> FileType {
         return FileType::FILE;
     }
     // for example, `media_log`
-    if file_prefix_s.ends_with("_log") {
+    if file_name_s.ends_with("_log") {
         debug_eprintln!("{}path_to_filetype: return FILE; _log", sx());
         return FileType::FILE;
     }
     // for example, `media.log.old`
-    if file_suffix_s.ends_with(".log.old") {
+    if file_name_s.ends_with(".log.old") {
         debug_eprintln!("{}path_to_filetype: return FILE; .log.old", sx());
         return FileType::FILE;
     }
@@ -222,12 +228,12 @@ pub fn path_to_filetype(path: &Path) -> FileType {
 
     // for example, `media.gz.old`
     // TODO: this should be handled in `path_to_filetype_mimeguess`, can be removed
-    if file_suffix_s.ends_with(".gz.old") {
+    if file_name_s.ends_with(".gz.old") {
         debug_eprintln!("{}path_to_filetype: return FileGz; .gz.old", sx());
         return FileType::FileGz;
     }
     // for example, `media.gzip`
-    if file_suffix_s.ends_with(".gzip") {
+    if file_suffix_s.ends_with("gzip") {
         debug_eprintln!("{}path_to_filetype: return FileGz; .gzip", sx());
         return FileType::FileGz;
     }
@@ -236,7 +242,7 @@ pub fn path_to_filetype(path: &Path) -> FileType {
 
     // for example, `var-log.tar.old`
     // TODO: this should be handled in `path_to_filetype_mimeguess`, can be removed
-    if file_suffix_s.ends_with(".tar.old") {
+    if file_name_s.ends_with(".tar.old") {
         debug_eprintln!("{}path_to_filetype: return FileTar; .tar.old", sx());
         return FileType::FileTar;
     }
