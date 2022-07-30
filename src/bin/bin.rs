@@ -579,10 +579,10 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
         // TODO: [2022/06/06] carry forward invalid paths for printing with the `--summary`
         // XXX: can this be done in a one-liner?
         for processpathresult in ppaths.iter()
-            .filter(|x| matches!(x,  ProcessPathResult::FILE_VALID(_)))
+            .filter(|x| matches!(x,  ProcessPathResult::FileValid(_)))
         {
             let path: FPath = match filetype_path {
-                ProcessPathResult::FILE_VALID(val) => val.1,
+                ProcessPathResult::FileValid(val) => val.1,
                 _ => { continue; },
             };
             processed_paths.push(path.clone());
@@ -690,29 +690,29 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
 
     let result = syslogproc.process_stage1_blockzero_analysis();
     match result {
-        FileProcessingResult_BlockZero::FILE_ERR_NO_LINES_FOUND => {
+        FileProcessingResult_BlockZero::FileErrNoLinesFound => {
             eprintln!("WARNING: no lines found {:?}", path);
             return;
         }
-        FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_FOUND => {
+        FileProcessingResult_BlockZero::FileErrNoSyslinesFound => {
             eprintln!("WARNING: no syslines found {:?}", path);
             return;
         }
-        FileProcessingResult_BlockZero::FILE_ERR_DECOMPRESS => {
+        FileProcessingResult_BlockZero::FileErrDecompress => {
             eprintln!("WARNING: could not decompress {:?}", path);
             return;
         }
-        FileProcessingResult_BlockZero::FILE_ERR_WRONG_TYPE => {
+        FileProcessingResult_BlockZero::FileErrWrongType => {
             eprintln!("WARNING: bad path {:?}", path);
             return;
         }
-        FileProcessingResult_BlockZero::FILE_ERR_IO(err) => {
+        FileProcessingResult_BlockZero::FileErrIo(err) => {
             eprintln!("ERROR: Error {} for {:?}", err, path);
             return;
         }
-        FileProcessingResult_BlockZero::FILE_OK => {}
-        FileProcessingResult_BlockZero::FILE_ERR_EMPTY => {}
-        FileProcessingResult_BlockZero::FILE_ERR_NO_SYSLINES_IN_DT_RANGE => {}
+        FileProcessingResult_BlockZero::FileOk => {}
+        FileProcessingResult_BlockZero::FileErrEmpty => {}
+        FileProcessingResult_BlockZero::FileErrNoSyslinesInDtRange => {}
     }
 
     // find first sysline acceptable to the passed filters
@@ -1092,7 +1092,7 @@ fn processing_loop(
 
     // precount the number of files that will be processed
     let file_count: usize = paths_results.iter()
-        .filter(|x| matches!(x, ProcessPathResult::FILE_VALID(..)))
+        .filter(|x| matches!(x, ProcessPathResult::FileValid(..)))
         .count();
 
     // create various mappings of PathId -> Thingy:
@@ -1112,7 +1112,7 @@ fn processing_loop(
     {
         match processpathresult {
             // XXX: use `ref` to avoid "use of partially moved value" error
-            ProcessPathResult::FILE_VALID(ref path, ref mimeguess, ref filetype) =>
+            ProcessPathResult::FileValid(ref path, ref mimeguess, ref filetype) =>
             {
                 debug_eprintln!("{}processing_loop: map_pathid_results.push({:?})", so(), path);
                 map_pathid_path.insert(pathid_counter, path.clone());
@@ -1193,7 +1193,7 @@ fn processing_loop(
         let (filetype, _) = match map_pathid_results.get(pathid) {
             Some(processpathresult) => {
                 match processpathresult {
-                    ProcessPathResult::FILE_VALID(path, _m, filetype) => (filetype, path),
+                    ProcessPathResult::FileValid(path, _m, filetype) => (filetype, path),
                     val => {
                         eprintln!("ERROR: unhandled ProcessPathResult {:?}", val);
                         continue;
@@ -1877,7 +1877,7 @@ fn print_all_files_summaries(
 ) {
     for (pathid, path) in map_pathid_path.iter() {
         let color: &Color = map_pathid_color.get(pathid).unwrap_or(color_default);
-        let filetype: &FileType = map_pathid_filetype.get(pathid).unwrap_or(&FileType::FILE_UNKNOWN);
+        let filetype: &FileType = map_pathid_filetype.get(pathid).unwrap_or(&FileType::FileUnknown);
         let mimeguess_default: MimeGuess = MimeGuess::from_ext("");
         let mimeguess: &MimeGuess = map_pathid_mimeguess.get(pathid).unwrap_or(&mimeguess_default);
         let summary_opt: Summary_Opt = map_pathid_summary.remove(pathid);
@@ -1916,22 +1916,22 @@ fn print_files_processpathresult(
 
     for (_pathid, result) in map_pathid_result.iter() {
         match result {
-            ProcessPathResult::FILE_VALID(path, mimeguess, _filetype) => {
+            ProcessPathResult::FileValid(path, mimeguess, _filetype) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
             },
-            ProcessPathResult::FILE_ERR_NO_PERMISSIONS(path, mimeguess) => {
+            ProcessPathResult::FileErrNoPermissions(path, mimeguess) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
                 print_("(no permissions)".to_string(), color_choice, color_error);
             },
-            ProcessPathResult::FILE_ERR_NOT_SUPPORTED(path, mimeguess) => {
+            ProcessPathResult::FileErrNotSupported(path, mimeguess) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
                 print_("(not supported)".to_string(), color_choice, color_error);
             },
-            ProcessPathResult::FILE_ERR_NOT_PARSEABLE(path, mimeguess) => {
+            ProcessPathResult::FileErrNotParseable(path, mimeguess) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
                 print_("(not parseable)".to_string(), color_choice, color_error);
             },
-            ProcessPathResult::FILE_ERR_NOT_A_FILE(path, mimeguess) => {
+            ProcessPathResult::FileErrNotAFile(path, mimeguess) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
                 print_("(not a file)".to_string(), color_choice, color_error);
             },

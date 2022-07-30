@@ -301,31 +301,29 @@ where
     }
 }
 
-// TODO [2022/07/12]: change these to Normal casing for enums (not ALL CAPS)
 #[derive(Debug)]
 pub enum FileProcessingResult<E> {
-    FILE_ERR_EMPTY,
-    FILE_ERR_NO_LINES_FOUND,
-    FILE_ERR_NO_SYSLINES_FOUND,
-    FILE_ERR_NO_SYSLINES_IN_DT_RANGE,
-    FILE_ERR_IO(E),
-    FILE_ERR_WRONG_TYPE,
-    FILE_ERR_DECOMPRESS,
-    FILE_OK,
+    FileErrEmpty,
+    FileErrNoLinesFound,
+    FileErrNoSyslinesFound,
+    FileErrNoSyslinesInDtRange,
+    FileErrIo(E),
+    FileErrWrongType,
+    FileErrDecompress,
+    FileOk,
 }
 
 impl<E> FileProcessingResult<E> {
-
-    /// Returns `true` if the result is [`FILE_OK`].
+    /// Returns `true` if the result is [`FileOk`].
     #[inline(always)]
     pub const fn is_ok(&self) -> bool {
-        matches!(*self, FileProcessingResult::FILE_OK)
+        matches!(*self, FileProcessingResult::FileOk)
     }
 
-    /// Returns `true` if the result is [`FILE_ERR_IO`].
+    /// Returns `true` if the result is [`FileErrIo`].
     #[inline(always)]
     pub const fn has_err(&self) -> bool {
-        matches!(*self, FileProcessingResult::FILE_ERR_IO(_))
+        matches!(*self, FileProcessingResult::FileErrIo(_))
     }
 }
 
@@ -344,37 +342,37 @@ impl<E> Eq for FileProcessingResult<E> {}
 /// file types that can be processed by `SyslogProcessor` (and underlying modules)
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FileType {
-    FILE_UNSET_,
+    FileUnset,
     /// a regular file `file.log`
     FILE,
     /// a gzipped file `.gz`, presumed to contain one regular file
-    FILE_GZ,
+    FileGz,
     /// a regular file within a `.tar` file
-    FILE_TAR,
-    FILE_TAR_GZ,
+    FileTar,
+    FileTarGz,
     /// a xz'd file `.xz`, presumed to contain one regular file
-    FILE_XZ,
+    FileXz,
     /// unknown
-    FILE_UNKNOWN,
+    FileUnknown,
 }
 
 // XXX: Deriving `Default` on enums is experimental.
 //      See issue #86985 <https://github.com/rust-lang/rust/issues/86985>
 //      When `Default` is integrated then this `impl Default` can be removed.
 impl Default for FileType {
-    fn default() -> Self { FileType::FILE_UNSET_ }
+    fn default() -> Self { FileType::FileUnset }
 }
 
 impl std::fmt::Display for FileType {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            FileType::FILE_UNSET_ => write!(f, "UNSET"),
+            FileType::FileUnset => write!(f, "UNSET"),
             FileType::FILE => write!(f, "TEXT"),
-            FileType::FILE_GZ => write!(f, "GZIP"),
-            FileType::FILE_TAR => write!(f, "TAR"),
-            FileType::FILE_TAR_GZ => write!(f, "TAR GZIP"),
-            FileType::FILE_XZ => write!(f, "XZ"),
-            FileType::FILE_UNKNOWN => write!(f, "UNKNOWN"),
+            FileType::FileGz => write!(f, "GZIP"),
+            FileType::FileTar => write!(f, "TAR"),
+            FileType::FileTarGz => write!(f, "TAR GZIP"),
+            FileType::FileXz => write!(f, "XZ"),
+            FileType::FileUnknown => write!(f, "UNKNOWN"),
         }
     }
 }
@@ -384,7 +382,7 @@ impl FileType {
     #[inline(always)]
     pub const fn is_compressed(&self) -> bool {
         matches!(*self,
-            FileType::FILE_GZ | FileType::FILE_TAR_GZ | FileType::FILE_XZ
+            FileType::FileGz | FileType::FileTarGz | FileType::FileXz
         )
     }
 
@@ -392,7 +390,7 @@ impl FileType {
     #[inline(always)]
     pub const fn is_archived(&self) -> bool {
         matches!(*self,
-            FileType::FILE_TAR | FileType::FILE_TAR_GZ
+            FileType::FileTar | FileType::FileTarGz
         )
     }
 
@@ -400,10 +398,10 @@ impl FileType {
     /// XXX: only supports `FileType::FILE` right now
     pub const fn to_tar(&self) -> FileType {
         if matches!(*self, FileType::FILE) {
-            return FileType::FILE_TAR;
+            return FileType::FileTar;
         }
 
-        FileType::FILE_UNKNOWN
+        FileType::FileUnknown
     }
 }
 

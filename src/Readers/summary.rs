@@ -299,7 +299,7 @@ impl Summary {
 impl fmt::Debug for Summary {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self.filetype {
-            FileType::FILE_TAR
+            FileType::FileTar
             | FileType::FILE => {
                 f.debug_struct("")
                 .field("bytes", &self.BlockReader_bytes)
@@ -312,8 +312,8 @@ impl fmt::Debug for Summary {
                 .field("filesz", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
                 .finish()
             },
-            FileType::FILE_GZ 
-            | FileType::FILE_XZ => {
+            FileType::FileGz 
+            | FileType::FileXz => {
                 f.debug_struct("")
                 .field("bytes", &self.BlockReader_bytes)
                 .field("bytes total", &self.BlockReader_bytes_total)
@@ -327,7 +327,7 @@ impl fmt::Debug for Summary {
                 .finish()
             },
             // Summary::default()
-            FileType::FILE_UNSET_ => {
+            FileType::FileUnset => {
                 f.debug_struct("")
                 .finish()
             },

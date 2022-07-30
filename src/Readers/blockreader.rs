@@ -222,11 +222,11 @@ pub struct BlockReader {
     mimeguess_: MimeGuess,
     /// enum that guides file-handling behavior in `read`, `new`
     filetype: FileType,
-    /// For gzipped files (FileType::FILE_GZ), otherwise `None`
+    /// For gzipped files (FileType::FileGz), otherwise `None`
     gz: Option<GzData>,
-    /// For LZMA xz files (FileType::FILE_XZ), otherwise `None`
+    /// For LZMA xz files (FileType::FileXz), otherwise `None`
     xz: Option<XzData>,
-    /// for files within a `.tar` file (FileType::FILE_TAR), otherwise `None`
+    /// for files within a `.tar` file (FileType::FileTar), otherwise `None`
     tar: Option<TarData>,
     /// The filesz of uncompressed data, set during `new`.
     /// Should always be `== gz.unwrap().filesz`.
@@ -477,9 +477,9 @@ impl BlockReader {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
             },
-            FileType::FILE_GZ => {
+            FileType::FileGz => {
                 blocksz = blocksz_;
-                debug_eprintln!("{0}BlockReader::new: FILE_GZ: blocksz set to {1} (0x{1:08X}) (passed {2} (0x{2:08X})", so(), blocksz, blocksz_);
+                debug_eprintln!("{0}BlockReader::new: FileGz: blocksz set to {1} (0x{1:08X}) (passed {2} (0x{2:08X})", so(), blocksz, blocksz_);
 
                 // GZIP last 8 bytes:
                 //    4 bytes (DWORD) is CRC32
@@ -493,7 +493,7 @@ impl BlockReader {
 
                 // sanity check file size
                 if filesz < 8 {
-                    debug_eprintln!("{}BlockReader::new: FILE_GZ: return Err(InvalidData)", sx());
+                    debug_eprintln!("{}BlockReader::new: FileGz: return Err(InvalidData)", sx());
                     return Result::Err(
                         Error::new(
                             ErrorKind::InvalidData,
@@ -511,7 +511,7 @@ impl BlockReader {
                 //       10GB is very inefficient.
                 //       Third, similar to "Second" but for very large files, i.e. a 32GB log.gz file, what then?
                 if filesz > BlockReader::GZ_MAX_SZ {
-                    debug_eprintln!("{}BlockReader::new: FILE_GZ: return Err(InvalidData)", sx());
+                    debug_eprintln!("{}BlockReader::new: FileGz: return Err(InvalidData)", sx());
                     return Result::Err(
                         Error::new(
                             // TODO: [2022/06] use `ErrorKind::FileTooLarge` when it is stable
@@ -528,7 +528,7 @@ impl BlockReader {
                 match (&file).seek(SeekFrom::End(-8)) {
                     Ok(_) => {},
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_GZ: return Err({})", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileGz: return Err({})", sx(), err);
                         eprintln!("ERROR: file.SeekFrom(-8) Error {}", err);
                         return Err(err);
                     },
@@ -537,38 +537,38 @@ impl BlockReader {
 
                 // extract DWORD for CRC32
                 let mut buffer_crc32: [u8; 4] = [0; 4];
-                debug_eprintln!("{}BlockReader::new: FILE_GZ: reader.read_exact(@{:p}) (buffer len {})", so(), &buffer_crc32, buffer_crc32.len());
+                debug_eprintln!("{}BlockReader::new: FileGz: reader.read_exact(@{:p}) (buffer len {})", so(), &buffer_crc32, buffer_crc32.len());
                 match reader.read_exact(&mut buffer_crc32) {
                     Ok(_) => {},
                     //Err(err) if err.kind() == std::io::ErrorKind::UnexpectedEof => {},
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_GZ: return {:?}", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileGz: return {:?}", sx(), err);
                         eprintln!("reader.read_to_end(&buffer_crc32) Error {:?}", err);
                         return Err(err);
                     },
                 }
-                debug_eprintln!("{}BlockReader::new: FILE_GZ: buffer_crc32 {:?}", so(), buffer_crc32);
+                debug_eprintln!("{}BlockReader::new: FileGz: buffer_crc32 {:?}", so(), buffer_crc32);
                 let crc32 = dword_to_u32(&buffer_crc32);
-                debug_eprintln!("{}BlockReader::new: FILE_GZ: crc32 {1} (0x{1:08X})", so(), crc32);
+                debug_eprintln!("{}BlockReader::new: FileGz: crc32 {1} (0x{1:08X})", so(), crc32);
 
                 // extract DWORD for SIZE
                 let mut buffer_size: [u8; 4] = [0; 4];
-                debug_eprintln!("{}BlockReader::new:FILE_GZ:  reader.read_exact(@{:p}) (buffer len {})", so(), &buffer_size, buffer_size.len());
+                debug_eprintln!("{}BlockReader::new:FileGz:  reader.read_exact(@{:p}) (buffer len {})", so(), &buffer_size, buffer_size.len());
                 match reader.read_exact(&mut buffer_size) {
                     Ok(_) => {},
                     Err(err) if err.kind() == std::io::ErrorKind::UnexpectedEof => {},
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_GZ: return {:?}", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileGz: return {:?}", sx(), err);
                         eprintln!("reader.read_to_end(&buffer_size) Error {:?}", err);
                         return Err(err);
                     },
                 }
-                debug_eprintln!("{}BlockReader::new: FILE_GZ: buffer_size {:?}", so(), buffer_size);
+                debug_eprintln!("{}BlockReader::new: FileGz: buffer_size {:?}", so(), buffer_size);
                 let size: u32 = dword_to_u32(&buffer_size);
-                debug_eprintln!("{}BlockReader::new: FILE_GZ: file size uncompressed {1:?} (0x{1:08X})", so(), size);
+                debug_eprintln!("{}BlockReader::new: FileGz: file size uncompressed {1:?} (0x{1:08X})", so(), size);
                 let filesz_uncompressed: FileSz = size as FileSz;
                 if filesz_uncompressed == 0 {
-                    debug_eprintln!("{}BlockReader::new: FILE_GZ: return Err(InvalidData)", sx());
+                    debug_eprintln!("{}BlockReader::new: FileGz: return Err(InvalidData)", sx());
                     return Result::Err(
                         Error::new(
                             ErrorKind::InvalidData,
@@ -583,16 +583,16 @@ impl BlockReader {
                 (&file).seek(SeekFrom::Start(0));
 
                 //let mut open_options = FileOpenOptions::new();
-                debug_eprintln!("{}BlockReader::new:FILE_GZ:  open_options.read(true).open({:?})", so(), path_std);
+                debug_eprintln!("{}BlockReader::new:FileGz:  open_options.read(true).open({:?})", so(), path_std);
                 let file_gz: File = match open_options.read(true).open(path_std) {
                     Ok(val) => val,
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_GZ: open_options.read({:?}) Error, return {:?}", sx(), path, err);
+                        debug_eprintln!("{}BlockReader::new: FileGz: open_options.read({:?}) Error, return {:?}", sx(), path, err);
                         return Err(err);
                     }
                 };
                 let decoder: GzDecoder<File> = GzDecoder::new(file_gz);
-                debug_eprintln!("{}BlockReader::new: FILE_GZ: {:?}", so(), decoder);
+                debug_eprintln!("{}BlockReader::new: FileGz: {:?}", so(), decoder);
                 let header_opt: Option<&GzHeader> = decoder.header();
                 let mut filename: String = String::with_capacity(0);
 
@@ -626,7 +626,7 @@ impl BlockReader {
                         mtime = header.mtime();
                     },
                     None => {
-                        debug_eprintln!("{}BlockReader::new: FILE_GZ: GzDecoder::header() is None for {:?}", so(), path);
+                        debug_eprintln!("{}BlockReader::new: FileGz: GzDecoder::header() is None for {:?}", so(), path);
                     },
                 };
 
@@ -639,17 +639,17 @@ impl BlockReader {
                         crc32,
                     }
                 );
-                debug_eprintln!("{}BlockReader::new: FILE_GZ: created {:?}", so(), gz_opt);
+                debug_eprintln!("{}BlockReader::new: FileGz: created {:?}", so(), gz_opt);
             },
-            FileType::FILE_XZ => {
+            FileType::FileXz => {
                 blocksz = blocksz_;
-                debug_eprintln!("{0}BlockReader::new: FILE_XZ: blocksz set to {1} (0x{1:08X}) (passed {2} (0x{2:08X})", so(), blocksz, blocksz_);
+                debug_eprintln!("{0}BlockReader::new: FileXz: blocksz set to {1} (0x{1:08X}) (passed {2} (0x{2:08X})", so(), blocksz, blocksz_);
                 
-                debug_eprintln!("{}BlockReader::new: FILE_XZ: open_options.read(true).open({:?})", so(), path_std);
+                debug_eprintln!("{}BlockReader::new: FileXz: open_options.read(true).open({:?})", so(), path_std);
                 let mut file_xz: File = match open_options.read(true).open(path_std) {
                     Ok(val) => val,
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_XZ: open_options.read({:?}) Error, return {:?}", sx(), path, err);
+                        debug_eprintln!("{}BlockReader::new: FileXz: open_options.read({:?}) Error, return {:?}", sx(), path, err);
                         return Err(err);
                     }
                 };
@@ -801,7 +801,7 @@ impl BlockReader {
                 match (&file_xz).seek(SeekFrom::Start(0)) {
                     Ok(_) => {},
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_XZ: return Err({})", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileXz: return Err({})", sx(), err);
                         eprintln!("ERROR: file.SeekFrom(0) Error {}", err);
                         return Err(err);
                     },
@@ -813,12 +813,12 @@ impl BlockReader {
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {},
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_XZ: return {:?}", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileXz: return {:?}", sx(), err);
                         eprintln!("reader.read_exact() (stream header magic bytes) Error {:?}", err);
                         return Err(err);
                     },
                 }
-                debug_eprintln!("{}BlockReader::new: FILE_XZ: stream header magic bytes {:?}", so(), buffer_);
+                debug_eprintln!("{}BlockReader::new: FileXz: stream header magic bytes {:?}", so(), buffer_);
                 if cfg!(debug_assertions) {
                     for b_ in buffer_.iter() {
                         let c_: char = (*b_) as char;
@@ -840,62 +840,62 @@ impl BlockReader {
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {},
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_XZ: return {:?}", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileXz: return {:?}", sx(), err);
                         eprintln!("reader.read_exact() (stream header flags) Error {:?}", err);
                         return Err(err);
                     },
                 }
-                debug_eprintln!("{}BlockReader::new: FILE_XZ: buffer {:?}", so(), buffer_);
+                debug_eprintln!("{}BlockReader::new: FileXz: buffer {:?}", so(), buffer_);
                 let _flags: u16 = u16::from_le_bytes(buffer_);
-                debug_eprintln!("{}BlockReader::new: FILE_XZ: stream header flags 0b{1:016b}", so(), _flags);
+                debug_eprintln!("{}BlockReader::new: FileXz: stream header flags 0b{1:016b}", so(), _flags);
 
                 // stream header CRC32
                 let mut buffer_: [u8; 4] = [0; 4];
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {},
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_XZ: return {:?}", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileXz: return {:?}", sx(), err);
                         eprintln!("reader.read_exact() (stream header CRC32) Error {:?}", err);
                         return Err(err);
                     },
                 }
-                debug_eprintln!("{}BlockReader::new: FILE_XZ: buffer {:?}", so(), buffer_);
+                debug_eprintln!("{}BlockReader::new: FileXz: buffer {:?}", so(), buffer_);
                 let _crc32: u32 = u32::from_le_bytes(buffer_);
-                debug_eprintln!("{}BlockReader::new: FILE_XZ: stream header CRC32 {1:} (0x{1:08X}) (0b{1:032b})", so(), _crc32);
+                debug_eprintln!("{}BlockReader::new: FileXz: stream header CRC32 {1:} (0x{1:08X}) (0b{1:032b})", so(), _crc32);
 
                 // block #0 block header size
                 let mut buffer_: [u8; 1] = [0; 1];
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {},
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_XZ: return {:?}", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileXz: return {:?}", sx(), err);
                         eprintln!("reader.read_exact() (block #0 block header size) Error {:?}", err);
                         return Err(err);
                     },
                 }
-                debug_eprintln!("{}BlockReader::new: FILE_XZ: buffer {:?}", so(), buffer_);
+                debug_eprintln!("{}BlockReader::new: FileXz: buffer {:?}", so(), buffer_);
                 let _bhsz: u8 = buffer_[0];
-                debug_eprintln!("{}BlockReader::new: FILE_XZ: block #0 block header size {1:} (0x{1:02X})", so(), _bhsz);
+                debug_eprintln!("{}BlockReader::new: FileXz: block #0 block header size {1:} (0x{1:02X})", so(), _bhsz);
 
                 // block #0 block header flags
                 let mut buffer_: [u8; 1] = [0; 1];
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {},
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_XZ: return {:?}", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileXz: return {:?}", sx(), err);
                         eprintln!("reader.read_exact() (block #0 block header flags) Error {:?}", err);
                         return Err(err);
                     },
                 }
-                debug_eprintln!("{}BlockReader::new: FILE_XZ: buffer {:?}", so(), buffer_);
+                debug_eprintln!("{}BlockReader::new: FileXz: buffer {:?}", so(), buffer_);
                 let _bhflags: u8 = buffer_[0];
-                debug_eprintln!("{}BlockReader::new: FILE_XZ: block #0 block header flags {1:} (0x{1:02X}) (0b{1:08b})", so(), _bhflags);
+                debug_eprintln!("{}BlockReader::new: FileXz: block #0 block header flags {1:} (0x{1:02X}) (0b{1:08b})", so(), _bhflags);
 
                 // reset Seek pointer
                 match file_xz.seek(SeekFrom::Start(0)) {
                     Ok(_) => {},
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_XZ: return {:?}", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileXz: return {:?}", sx(), err);
                         eprintln!("file_xz.seek() (block #0 block header flags) Error {:?}", err);
                         return Err(err);
                     }
@@ -910,11 +910,11 @@ impl BlockReader {
                 #[allow(clippy::never_loop)]
                 loop {
                     let mut buffer = Block::new();
-                    debug_eprintln!("{}BlockReader::new: FILE_XZ: xz_decompress({:?}, buffer (len {}, capacity {}))", so(), bufreader, buffer.len(), buffer.capacity());
+                    debug_eprintln!("{}BlockReader::new: FileXz: xz_decompress({:?}, buffer (len {}, capacity {}))", so(), bufreader, buffer.len(), buffer.capacity());
                     // XXX: xz_decompress may resize the passed `buffer`
                     match lzma_rs::xz_decompress(&mut bufreader, &mut buffer) {
                         Ok(_) => {
-                            debug_eprintln!("{}BlockReader::new: FILE_XZ: xz_decompress returned buffer len {}, capacity {}", so(), buffer.len(), buffer.capacity());
+                            debug_eprintln!("{}BlockReader::new: FileXz: xz_decompress returned buffer len {}, capacity {}", so(), buffer.len(), buffer.capacity());
                         },
                         Err(err) => {
                             match err {
@@ -925,7 +925,7 @@ impl BlockReader {
                                 }
                                 _ => {},
                             }
-                            debug_eprintln!("{}BlockReader::new: FILE_XZ: xz_decompress Error, return Err({:?})", sx(), err);
+                            debug_eprintln!("{}BlockReader::new: FileXz: xz_decompress Error, return Err({:?})", sx(), err);
                             return Err(
                                 Error::new(
                                     ErrorKind::Other,
@@ -944,7 +944,7 @@ impl BlockReader {
                         let mut block: Block = Block::with_capacity(blocksz_u);
                         let a: usize = (blockoffset * blocksz) as usize;
                         let b: usize = a + (std::cmp::min(blocksz_u, buffer.len() - a));
-                        debug_eprintln!("{}BlockReader::new: FILE_XZ: block.extend_from_slice(&buffer[{}‥{}])", so(), a, b);
+                        debug_eprintln!("{}BlockReader::new: FileXz: block.extend_from_slice(&buffer[{}‥{}])", so(), a, b);
                         block.extend_from_slice(&buffer[a..b]);
                         let blockp: BlockP = BlockP::new(block);
                         if let Some(bp_) = blocks.insert(blockoffset, blockp.clone()) {
@@ -969,9 +969,9 @@ impl BlockReader {
                 );
                 debug_eprintln!("{}BlockReader::new: created {:?}", so(), xz_opt.as_ref().unwrap());
             },
-            FileType::FILE_TAR => {
+            FileType::FileTar => {
                 blocksz = blocksz_;
-                debug_eprintln!("{0}BlockReader::new: FILE_TAR: blocksz set to {1} (0x{1:08X}) (passed {2} (0x{2:08X})", so(), blocksz, blocksz_);
+                debug_eprintln!("{0}BlockReader::new: FileTar: blocksz set to {1} (0x{1:08X}) (passed {2} (0x{2:08X})", so(), blocksz, blocksz_);
                 filesz_actual = 0;
                 let mut checksum: TarChecksum = 0;
                 let mut mtime: TarMTime = 0;
@@ -983,7 +983,7 @@ impl BlockReader {
                         val
                     },
                     Err(err) => {
-                        debug_eprintln!("{}BlockReader::new: FILE_TAR: Err {:?}", sx(), err);
+                        debug_eprintln!("{}BlockReader::new: FileTar: Err {:?}", sx(), err);
                         return Result::Err(err);
                     }
                 };
@@ -994,35 +994,35 @@ impl BlockReader {
                     let entry: tar::Entry<File> = match entry_res {
                         Ok(val) => val,
                         Err(err) => {
-                            debug_eprintln!("{}BlockReader::new: FILE_TAR: entry Err {:?}", so(), err);
+                            debug_eprintln!("{}BlockReader::new: FileTar: entry Err {:?}", so(), err);
                             continue;
                         }
                     };
                     let subpath_cow: Cow<Path> = match entry.path() {
                         Ok(val) => val,
                         Err(err) => {
-                            debug_eprintln!("{}BlockReader::new: FILE_TAR: entry.path() Err {:?}", so(), err);
+                            debug_eprintln!("{}BlockReader::new: FileTar: entry.path() Err {:?}", so(), err);
                             continue;
                         }
                     };
                     let subfpath: FPath = subpath_cow.to_string_lossy().to_string();
                     if subpath != &subfpath {
-                        debug_eprintln!("{}BlockReader::new: FILE_TAR: skip {:?}", so(), subfpath);
+                        debug_eprintln!("{}BlockReader::new: FileTar: skip {:?}", so(), subfpath);
                         continue;
                     }
                     // found the matching subpath
-                    debug_eprintln!("{}BlockReader::new: FILE_TAR: found {:?}", so(), subpath);
+                    debug_eprintln!("{}BlockReader::new: FileTar: found {:?}", so(), subpath);
                     filesz_actual = match entry.header().size() {
                         Ok(val) => val,
                         Err(err) => {
-                            debug_eprintln!("{}BlockReader::new: FILE_TAR: entry.header().size() Err {:?}", sx(), err);
+                            debug_eprintln!("{}BlockReader::new: FileTar: entry.header().size() Err {:?}", sx(), err);
                             return Result::Err(err);
                         }
                     };
                     checksum = match entry.header().cksum() {
                         Ok(val) => val,
                         Err(err) => {
-                            debug_eprintln!("{}BlockReader::new: FILE_TAR: entry.header().cksum() Err {:?}", so(), err);
+                            debug_eprintln!("{}BlockReader::new: FileTar: entry.header().cksum() Err {:?}", so(), err);
 
                             0
                         }
@@ -1030,7 +1030,7 @@ impl BlockReader {
                     mtime = match entry.header().mtime() {
                         Ok(val) => val,
                         Err(err) => {
-                            debug_eprintln!("{}BlockReader::new: FILE_TAR: entry.header().mtime() Err {:?}", so(), err);
+                            debug_eprintln!("{}BlockReader::new: FileTar: entry.header().mtime() Err {:?}", so(), err);
 
                             0
                         }
@@ -1107,9 +1107,9 @@ impl BlockReader {
 
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
-            FileType::FILE_GZ
-            | FileType::FILE_XZ
-            | FileType::FILE_TAR => {
+            FileType::FileGz
+            | FileType::FileXz
+            | FileType::FileTar => {
                 self.filesz_actual
             },
             FileType::FILE => {
@@ -1144,10 +1144,10 @@ impl BlockReader {
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
             FileType::FILE
-            | FileType::FILE_XZ => {
+            | FileType::FileXz => {
                 self.file_metadata_modified
             }
-            FileType::FILE_GZ => {
+            FileType::FileGz => {
                 let mtime = self.gz.as_ref().unwrap().mtime;
                 if mtime != 0 {
                     SystemTime::UNIX_EPOCH + Duration::from_secs(mtime as u64)
@@ -1156,7 +1156,7 @@ impl BlockReader {
                     self.file_metadata_modified
                 }
             }
-            FileType::FILE_TAR => {
+            FileType::FileTar => {
                 let mtime = self.tar.as_ref().unwrap().mtime;
                 if mtime != 0 {
                     SystemTime::UNIX_EPOCH + Duration::from_secs(mtime)
@@ -1430,11 +1430,11 @@ impl BlockReader {
     /// Called from `read_block`.
     ///
     /// A gzip file must be read from beginning to end in sequence (cannot jump forward and read).
-    /// So `read_block_FILE_GZ` reads entire file up to passed `blockoffset`, storing each
+    /// So `read_block_FileGz` reads entire file up to passed `blockoffset`, storing each
     /// decompressed block.
-    fn read_block_FILE_GZ(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
-        debug_eprintln!("{}read_block_FILE_GZ({})", sn(), blockoffset);
-        debug_assert_eq!(self.filetype, FileType::FILE_GZ, "wrong FileType {:?} for calling read_block_FILE_GZ", self.filetype);
+    fn read_block_FileGz(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
+        debug_eprintln!("{}read_block_FileGz({})", sn(), blockoffset);
+        debug_assert_eq!(self.filetype, FileType::FileGz, "wrong FileType {:?} for calling read_block_FileGz", self.filetype);
 
         let blockoffset_last: BlockOffset = self.blockoffset_last();
         let mut bo_at: BlockOffset = match self.blocks_read.iter().max() {
@@ -1448,9 +1448,9 @@ impl BlockReader {
             // TODO: [2022/06/18] add another stat tracker for lookups in `self.blocks_read`
             if self.blocks_read.contains(&bo_at) {
                 self.read_blocks_hit += 1;
-                //debug_eprintln!("{}read_block_FILE_GZ({}): blocks_read.contains({})", so(), blockoffset, bo_at);
+                //debug_eprintln!("{}read_block_FileGz({}): blocks_read.contains({})", so(), blockoffset, bo_at);
                 if bo_at == blockoffset {
-                    debug_eprintln!("{}read_block_FILE_GZ({}): return Found", sx(), blockoffset);
+                    debug_eprintln!("{}read_block_FileGz({}): return Found", sx(), blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
                     //      which could happen during streaming stage
                     let blockp: BlockP = self.blocks.get_mut(&bo_at).unwrap().clone();
@@ -1460,7 +1460,7 @@ impl BlockReader {
                 bo_at += 1;
                 continue;
             } else {
-                debug_eprintln!("{}read_block_FILE_GZ({}): blocks_read.contains({}) missed (does not contain key)", so(), blockoffset, bo_at);
+                debug_eprintln!("{}read_block_FileGz({}): blocks_read.contains({}) missed (does not contain key)", so(), blockoffset, bo_at);
                 debug_assert!(!self.blocks.contains_key(&bo_at), "blocks has element {} not in blocks_read", bo_at);
                 self.read_blocks_miss += 1;
             }
@@ -1488,7 +1488,7 @@ impl BlockReader {
             //      See https://github.com/rust-lang/flate2-rs/issues/308
             block.clear();
             block.resize(blocksz_u, 0);
-            debug_eprintln!("{}read_block_FILE_GZ({}): blocks_read count {:?}; for blockoffset {}: must do {} reads of {} bytes, and one read of {} bytes (total {} bytes to read) (uncompressed filesz {})", so(), blockoffset, self.blocks_read.len(), bo_at, reads - 1, READSZ, readsz_last, bytes_to_read, self.filesz());
+            debug_eprintln!("{}read_block_FileGz({}): blocks_read count {:?}; for blockoffset {}: must do {} reads of {} bytes, and one read of {} bytes (total {} bytes to read) (uncompressed filesz {})", so(), blockoffset, self.blocks_read.len(), bo_at, reads - 1, READSZ, readsz_last, bytes_to_read, self.filesz());
             let mut read_total: usize = 0;
             while reads > 0 {
                 reads -= 1;
@@ -1502,10 +1502,10 @@ impl BlockReader {
                 // TODO: [2022/07] cost-savings, use pre-allocated buffer
                 block_buf.clear();
                 block_buf.resize(readsz, 0);
-                debug_eprintln!("{}read_block_FILE_GZ({}): GzDecoder.read(…); read {}, readsz {}, block len {}, block capacity {}, blockoffset {}", so(), blockoffset, reads, readsz, block_buf.len(), block_buf.capacity(), bo_at);
+                debug_eprintln!("{}read_block_FileGz({}): GzDecoder.read(…); read {}, readsz {}, block len {}, block capacity {}, blockoffset {}", so(), blockoffset, reads, readsz, block_buf.len(), block_buf.capacity(), bo_at);
                 match (self.gz.as_mut().unwrap().decoder).read(block_buf.as_mut()) {
                     Ok(size_) if size_ == 0 => {
-                        debug_eprintln!("{}read_block_FILE_GZ({}): GzDecoder.read() returned Ok({:?}); read_total {}", so(), blockoffset, size_, read_total);
+                        debug_eprintln!("{}read_block_FileGz({}): GzDecoder.read() returned Ok({:?}); read_total {}", so(), blockoffset, size_, read_total);
                         
                         let byte_at: FileOffset = self.file_offset_at_block_offset_self(bo_at) + (read_total as FileOffset);
                         // in ad-hoc testing, it was found the decoder never recovers from a zero-byte read
@@ -1519,7 +1519,7 @@ impl BlockReader {
                     }
                     // read was too large
                     Ok(size_) if size_ > readsz => {
-                        debug_eprintln!("{}read_block_FILE_GZ({}): GzDecoder.read() returned Ok({:?}); size too big", so(), blockoffset, size_);
+                        debug_eprintln!("{}read_block_FileGz({}): GzDecoder.read() returned Ok({:?}); size too big", so(), blockoffset, size_);
                         return ResultS3_ReadBlock::Err(
                             Error::new(
                                 ErrorKind::InvalidData,
@@ -1529,7 +1529,7 @@ impl BlockReader {
                     }
                     // first or subsequent read is le expected size
                     Ok(size_) => {
-                        debug_eprintln!("{}read_block_FILE_GZ({}): GzDecoder.read() returned Ok({:?}), readsz {}, blocksz {}", so(), blockoffset, size_, readsz, blocksz_u);
+                        debug_eprintln!("{}read_block_FileGz({}): GzDecoder.read() returned Ok({:?}), readsz {}, blocksz {}", so(), blockoffset, size_, readsz, blocksz_u);
                         // TODO: cost-savings: use faster `copy_slice`
                         for byte_ in block_buf.iter().take(size_) {
                             block[read_total] = *byte_;
@@ -1539,7 +1539,7 @@ impl BlockReader {
                     }
                     Err(err) => {
                         debug_eprintln!("ERROR: GzDecoder.read(&block (capacity {})) error {} for {:?}", self.blocksz, err, self.path);
-                        debug_eprintln!("{}read_block_FILE_GZ({}): return Err({})", sx(), blockoffset, err);
+                        debug_eprintln!("{}read_block_FileGz({}): return Err({})", sx(), blockoffset, err);
                         return ResultS3_ReadBlock::Err(err);
                     }
                 }
@@ -1548,7 +1548,7 @@ impl BlockReader {
 
             // sanity check: check returned Block is expected number of bytes
             let blocklen_sz: BlockSz = block.len() as BlockSz;
-            debug_eprintln!("{}read_block_FILE_GZ({}): block.len() {}, blocksz {}, blockoffset at {}", so(), blockoffset, blocklen_sz, self.blocksz, bo_at);
+            debug_eprintln!("{}read_block_FileGz({}): block.len() {}, blocksz {}, blockoffset at {}", so(), blockoffset, blocklen_sz, self.blocksz, bo_at);
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
                 return ResultS3_ReadBlock::Err(
@@ -1593,12 +1593,12 @@ impl BlockReader {
             self.store_block_in_storage(bo_at, &blockp);
             self.store_block_in_LRU_cache(bo_at, &blockp);
             if bo_at == blockoffset {
-                debug_eprintln!("{}read_block_FILE_GZ({}): return Found", sx(), blockoffset);
+                debug_eprintln!("{}read_block_FileGz({}): return Found", sx(), blockoffset);
                 return ResultS3_ReadBlock::Found(blockp);
             }
             bo_at += 1;
         } // while bo_at <= blockoffset
-        debug_eprintln!("{}read_block_FILE_GZ({}): return Done", sx(), blockoffset);
+        debug_eprintln!("{}read_block_FileGz({}): return Done", sx(), blockoffset);
 
         ResultS3_ReadBlock::Done
     }
@@ -1610,9 +1610,9 @@ impl BlockReader {
     ///
     /// An `.xz` file must read from beginning to end (cannot jump forward and read).
     /// So read entire file up to passed `blockoffset`, storing each decompressed block
-    fn read_block_FILE_XZ(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
-        debug_eprintln!("{}read_block_FILE_XZ({})", sn(), blockoffset);
-        debug_assert_eq!(self.filetype, FileType::FILE_XZ, "wrong FileType {:?} for calling read_block_FILE_XZ", self.filetype);
+    fn read_block_FileXz(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
+        debug_eprintln!("{}read_block_FileXz({})", sn(), blockoffset);
+        debug_assert_eq!(self.filetype, FileType::FileXz, "wrong FileType {:?} for calling read_block_FileXz", self.filetype);
 
         let blockoffset_last: BlockOffset = self.blockoffset_last();
         let mut bo_at: BlockOffset = match self.blocks_read.iter().max() {
@@ -1625,9 +1625,9 @@ impl BlockReader {
             // TODO: [2022/06/18] add another stat tracker for lookups in `self.blocks_read`
             if self.blocks_read.contains(&bo_at) {
                 self.read_blocks_hit += 1;
-                //debug_eprintln!("{}read_block_FILE_XZ({}): blocks_read.contains({})", so(), blockoffset, bo_at);
+                //debug_eprintln!("{}read_block_FileXz({}): blocks_read.contains({})", so(), blockoffset, bo_at);
                 if bo_at == blockoffset {
-                    debug_eprintln!("{}read_block_FILE_XZ({}): return Found", sx(), blockoffset);
+                    debug_eprintln!("{}read_block_FileXz({}): return Found", sx(), blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
                     //      which could happen during streaming stage
                     let blockp: BlockP = self.blocks.get_mut(&bo_at).unwrap().clone();
@@ -1637,7 +1637,7 @@ impl BlockReader {
                 bo_at += 1;
                 continue;
             } else {
-                debug_eprintln!("{}read_block_FILE_XZ({}): blocks_read.contains({}) missed (does not contain key)", so(), blockoffset, bo_at);
+                debug_eprintln!("{}read_block_FileXz({}): blocks_read.contains({}) missed (does not contain key)", so(), blockoffset, bo_at);
                 debug_assert!(!self.blocks.contains_key(&bo_at), "blocks has element {} not in blocks_read", bo_at);
                 self.read_blocks_miss += 1;
             }
@@ -1645,7 +1645,7 @@ impl BlockReader {
             let blocksz_u: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
             let mut block = Block::with_capacity(blocksz_u);
             let mut bufreader: &mut BufReader_Xz = &mut self.xz.as_mut().unwrap().bufreader;
-            debug_eprintln!("{}read_block_FILE_XZ: xz_decompress({:?}, block (len {}, capacity {}))", so(), bufreader, block.len(), block.capacity());
+            debug_eprintln!("{}read_block_FileXz: xz_decompress({:?}, block (len {}, capacity {}))", so(), bufreader, block.len(), block.capacity());
             // XXX: xz_decompress may resize the passed `buffer`
             match lzma_rs::xz_decompress(&mut bufreader, &mut block) {
                 Ok(_) => {},
@@ -1653,7 +1653,7 @@ impl BlockReader {
                     // XXX: would typically `return Err(err)` but the `err` is of type
                     //      `lzma_rs::error::Error`
                     //      https://docs.rs/lzma-rs/0.2.0/lzma_rs/error/enum.Error.html
-                    debug_eprintln!("{}read_block_FILE_XZ: xz_decompress Error, return ResultS3_ReadBlock::Err({:?}) for {:?}", sx(), err, self.path);
+                    debug_eprintln!("{}read_block_FileXz: xz_decompress Error, return ResultS3_ReadBlock::Err({:?}) for {:?}", sx(), err, self.path);
                     return ResultS3_ReadBlock::Err(
                         Error::new(
                             ErrorKind::Other,
@@ -1662,7 +1662,7 @@ impl BlockReader {
                     );
                 }
             }
-            debug_eprintln!("{}read_block_FILE_XZ: xz_decompress returned block len {}, capacity {}", so(), block.len(), block.capacity());
+            debug_eprintln!("{}read_block_FileXz: xz_decompress returned block len {}, capacity {}", so(), block.len(), block.capacity());
 
             // check returned Block is expected number of bytes
             let blocklen_sz: BlockSz = block.len() as BlockSz;
@@ -1709,12 +1709,12 @@ impl BlockReader {
             let blockp = BlockP::new(block);
             self.store_block_in_storage(bo_at, &blockp);
             if bo_at == blockoffset {
-                debug_eprintln!("{}read_block_FILE_XZ({}): return Found", sx(), blockoffset);
+                debug_eprintln!("{}read_block_FileXz({}): return Found", sx(), blockoffset);
                 return ResultS3_ReadBlock::Found(blockp);
             }
             bo_at += 1;
         }
-        debug_eprintln!("{}read_block_FILE_XZ({}): return Done", sx(), blockoffset);
+        debug_eprintln!("{}read_block_FileXz({}): return Done", sx(), blockoffset);
 
         ResultS3_ReadBlock::Done
     }
@@ -1732,17 +1732,17 @@ impl BlockReader {
     /// to data within the `tar::Handle`. At least I am unable to figure out with some
     /// method to store the data.
     ///
-    fn read_block_FILE_TAR(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
-        debug_eprintln!("{}read_block_FILE_TAR({})", sn(), blockoffset);
-        debug_assert_eq!(self.filetype, FileType::FILE_TAR, "wrong FileType {:?} for calling read_block_FILE_TAR", self.filetype);
-        debug_assert_le!(self.count_blocks_processed(), blockoffset, "count_blocks_processed() {}, blockoffset {}; has read_block_FILE_TAR been errantly called?", self.count_blocks_processed(), blockoffset);
+    fn read_block_FileTar(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
+        debug_eprintln!("{}read_block_FileTar({})", sn(), blockoffset);
+        debug_assert_eq!(self.filetype, FileType::FileTar, "wrong FileType {:?} for calling read_block_FileTar", self.filetype);
+        debug_assert_le!(self.count_blocks_processed(), blockoffset, "count_blocks_processed() {}, blockoffset {}; has read_block_FileTar been errantly called?", self.count_blocks_processed(), blockoffset);
 
         let path_ = self.path.clone();
         let path_std: &Path = Path::new(&path_);
         let mut archive: TarHandle = match BlockReader::open_tar(path_std) {
             Ok(val) => val,
             Err(err) => {
-                debug_eprintln!("{}read_block_FILE_TAR Err {:?}", sx(), err);
+                debug_eprintln!("{}read_block_FileTar Err {:?}", sx(), err);
                 return ResultS3_ReadBlock::Err(err);
             }
         };
@@ -1755,7 +1755,7 @@ impl BlockReader {
                     val
                 },
                 Err(err) => {
-                    debug_eprintln!("{}read_block_FILE_TAR Err {:?}", sx(), err);
+                    debug_eprintln!("{}read_block_FileTar Err {:?}", sx(), err);
                     return ResultS3_ReadBlock::Err(err);
                 }
             };
@@ -1766,13 +1766,13 @@ impl BlockReader {
                             entry
                         }
                         Err(err) => {
-                            debug_eprintln!("{}read_block_FILE_TAR Err {:?}", sx(), err);
+                            debug_eprintln!("{}read_block_FileTar Err {:?}", sx(), err);
                             return ResultS3_ReadBlock::Err(err);
                         }
                     }
                 }
                 None => {
-                    debug_eprintln!("{}read_block_FILE_TAR None", so());
+                    debug_eprintln!("{}read_block_FileTar None", so());
                     return ResultS3_ReadBlock::Err(
                         Error::new(
                             ErrorKind::UnexpectedEof,
@@ -1790,11 +1790,11 @@ impl BlockReader {
             let cap = self.blocksz_at_blockoffset(&bo_at) as usize;
             let mut block: Block = Block::with_capacity(cap);
             block.resize(cap, 0);
-            debug_eprintln!("{}read_block_FILE_TAR: read_exact(&block (capacity {})); bo_at {}", so(), cap, bo_at);
+            debug_eprintln!("{}read_block_FileTar: read_exact(&block (capacity {})); bo_at {}", so(), cap, bo_at);
             match entry.read_exact(block.as_mut_slice()) {
                 Ok(_) => {}
                 Err(err) => {
-                        debug_eprintln!("{}read_block_FILE_TAR: read_exact(&block (capacity {})) error, return {:?}", sx(), cap, err);
+                        debug_eprintln!("{}read_block_FileTar: read_exact(&block (capacity {})) error, return {:?}", sx(), cap, err);
                         eprintln!("entry.read_exact(&block (capacity {})) path {:?} Error {:?}", cap, path_std, err);
                         return ResultS3_ReadBlock::Err(err);
                 }
@@ -1834,17 +1834,17 @@ impl BlockReader {
         let blockp: BlockP = match self.blocks.get(&blockoffset) {
             Some(blockp_) => blockp_.clone(),
             None => {
-                debug_eprintln!("{}read_block_FILE_TAR: self.blocks.get({}), returned None, return Err(UnexpectedEof)", sx(), blockoffset);
+                debug_eprintln!("{}read_block_FileTar: self.blocks.get({}), returned None, return Err(UnexpectedEof)", sx(), blockoffset);
                 return ResultS3_ReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
-                        format!("read_block_FILE_TAR: self.blocks.get({}) returned None", blockoffset)
+                        format!("read_block_FileTar: self.blocks.get({}) returned None", blockoffset)
                     )
                 );
             }
         };
 
-        debug_eprintln!("{}read_block_FILE_TAR({}): return Found", sx(), blockoffset);
+        debug_eprintln!("{}read_block_FileTar({}): return Found", sx(), blockoffset);
 
         ResultS3_ReadBlock::Found(blockp)
     }
@@ -1916,14 +1916,14 @@ impl BlockReader {
             FileType::FILE => {
                 self.read_block_FILE(blockoffset)
             },
-            FileType::FILE_GZ => {
-                self.read_block_FILE_GZ(blockoffset)
+            FileType::FileGz => {
+                self.read_block_FileGz(blockoffset)
             },
-            FileType::FILE_XZ => {
-                self.read_block_FILE_XZ(blockoffset)
+            FileType::FileXz => {
+                self.read_block_FileXz(blockoffset)
             },
-            FileType::FILE_TAR => {
-                self.read_block_FILE_TAR(blockoffset)
+            FileType::FileTar => {
+                self.read_block_FileTar(blockoffset)
             },
             _ => {
                 panic!("Unsupported filetype {:?}", self.filetype);

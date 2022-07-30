@@ -67,7 +67,7 @@ extern crate tar;
 //    if not file then eprintln and (if --summary the save error) and return.
 //    (must be plain file so)
 //    if file name implies obvious file type then presume mimeguess to be correct.
-//       example, `messages.gz`, is very likely a gzipped text file. Try to gunzip. If gunzip fails then give up on it. (`FILE_ERR_DECOMPRESS_FAILED`)
+//       example, `messages.gz`, is very likely a gzipped text file. Try to gunzip. If gunzip fails then give up on it. (`FileErrDecompress_FAILED`)
 //       example, `logs.tar`, is very likely multiple tarred text files. Try to untar. If untar fails then give up on it. (`FILE_ERR_UNARCHIVE_FAILED`)
 //    else if mime analysis has likely answer then presume that to be correct.
 //        example, `messages`, is very likely a text file.
@@ -85,12 +85,12 @@ extern crate tar;
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
-    FILE_VALID(FPath, MimeGuess, FileType),
+    FileValid(FPath, MimeGuess, FileType),
     // TODO: 2022/06 not currently checked until too late
-    FILE_ERR_NO_PERMISSIONS(FPath, MimeGuess),
-    FILE_ERR_NOT_SUPPORTED(FPath, MimeGuess),
-    FILE_ERR_NOT_PARSEABLE(FPath, MimeGuess),
-    FILE_ERR_NOT_A_FILE(FPath, MimeGuess),
+    FileErrNoPermissions(FPath, MimeGuess),
+    FileErrNotSupported(FPath, MimeGuess),
+    FileErrNotParseable(FPath, MimeGuess),
+    FileErrNotAFile(FPath, MimeGuess),
 }
 
 pub type ProcessPathResults = Vec<ProcessPathResult>;
@@ -139,10 +139,10 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
         | text_plain_utf8
         | text_star
         | utf8_ => FileType::FILE,
-        app_gzip => FileType::FILE_GZ,
-        app_tar => FileType::FILE_TAR,
-        app_x_xz => FileType::FILE_XZ,
-        _ => FileType::FILE_UNKNOWN,
+        app_gzip => FileType::FileGz,
+        app_tar => FileType::FileTar,
+        app_x_xz => FileType::FileXz,
+        _ => FileType::FileUnknown,
     }
 }
 
@@ -153,7 +153,7 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
     for mimeguess_ in mimeguess.iter() {
         debug_eprintln!("{}mimeguess_to_filetype: check {:?}", so(), mimeguess_);
         match mimeguess_to_filetype_str(mimeguess_.as_ref()) {
-            FileType::FILE_UNKNOWN | FileType::FILE_UNSET_ => {},
+            FileType::FileUnknown | FileType::FileUnset => {},
             val => {
                 debug_eprintln!("{}mimeguess_to_filetype: return {:?}", sx(), val);
                 return val;
@@ -161,9 +161,9 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
         }
     }
 
-    debug_eprintln!("{}mimeguess_to_filetype: return {:?}", sx(), FileType::FILE_UNKNOWN);
+    debug_eprintln!("{}mimeguess_to_filetype: return {:?}", sx(), FileType::FileUnknown);
 
-    FileType::FILE_UNKNOWN
+    FileType::FileUnknown
 }
 
 /// compensates `mimeguess_to_filetype` for some files not handled by `MimeGuess::from`,
@@ -218,32 +218,32 @@ pub fn path_to_filetype(path: &Path) -> FileType {
         return FileType::FILE;
     }
 
-    // FILE_GZ
+    // FileGz
 
     // for example, `media.gz.old`
     // TODO: this should be handled in `path_to_filetype_mimeguess`, can be removed
     if file_suffix_s.ends_with(".gz.old") {
-        debug_eprintln!("{}path_to_filetype: return FILE_GZ; .gz.old", sx());
-        return FileType::FILE_GZ;
+        debug_eprintln!("{}path_to_filetype: return FileGz; .gz.old", sx());
+        return FileType::FileGz;
     }
     // for example, `media.gzip`
     if file_suffix_s.ends_with(".gzip") {
-        debug_eprintln!("{}path_to_filetype: return FILE_GZ; .gzip", sx());
-        return FileType::FILE_GZ;
+        debug_eprintln!("{}path_to_filetype: return FileGz; .gzip", sx());
+        return FileType::FileGz;
     }
 
-    // FILE_TAR
+    // FileTar
 
     // for example, `var-log.tar.old`
     // TODO: this should be handled in `path_to_filetype_mimeguess`, can be removed
     if file_suffix_s.ends_with(".tar.old") {
-        debug_eprintln!("{}path_to_filetype: return FILE_TAR; .tar.old", sx());
-        return FileType::FILE_TAR;
+        debug_eprintln!("{}path_to_filetype: return FileTar; .tar.old", sx());
+        return FileType::FileTar;
     }
 
-    debug_eprintln!("{}path_to_filetype: return FILE_UNKNOWN", sx());
+    debug_eprintln!("{}path_to_filetype: return FileUnknown", sx());
 
-    FileType::FILE_UNKNOWN
+    FileType::FileUnknown
 }
 
 /// wrapper for `path_to_filetype`
@@ -254,8 +254,8 @@ pub fn fpath_to_filetype(path: &FPath) -> FileType {
 
 pub enum FileParseable {
     YES,
-    NO_NOT_SUPPORTED,
-    NO_NOT_PARSEABLE,
+    NotSupported,
+    NotParseable,
 }
 
 /// is `FileType` supported?
@@ -263,15 +263,15 @@ pub fn parseable_filetype(filetype: &FileType) -> FileParseable {
     match filetype {
         // `YES` is effectively the list of currently supported file types
         &FileType::FILE
-        | &FileType::FILE_GZ
-        | &FileType::FILE_XZ
-        | &FileType::FILE_TAR
+        | &FileType::FileGz
+        | &FileType::FileXz
+        | &FileType::FileTar
         => FileParseable::YES,
         // `NOT_SUPPORTED` is the list of "Someday this program should support this file type"
-        | &FileType::FILE_TAR_GZ
-        => FileParseable::NO_NOT_SUPPORTED,
+        | &FileType::FileTarGz
+        => FileParseable::NotSupported,
         // etc.
-        _ => FileParseable::NO_NOT_PARSEABLE,
+        _ => FileParseable::NotParseable,
     }
 }
 
@@ -400,16 +400,16 @@ fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         // the `FileType` within the tar might be a regular file. It needs to be
         // transformed to corresponding tar `FileType`, so later `BlockReader` understands what to do.
         let filetype: FileType = match filetype_subpath.to_tar() {
-            FileType::FILE_UNKNOWN => {
-                debug_eprintln!("{}process_path_tar: {:?}.to_tar() is FILE_UNKNOWN", so(), filetype_subpath);
+            FileType::FileUnknown => {
+                debug_eprintln!("{}process_path_tar: {:?}.to_tar() is FileUnknown", so(), filetype_subpath);
                 continue;
             }
             val => val
         };
         if !parseable_filetype_ok(&filetype) {
-            debug_eprintln!("{}process_path_tar: push FILE_ERR_NOT_PARSEABLE({:?}, {:?})", so(), filetype, mimeguess);
+            debug_eprintln!("{}process_path_tar: push FileErrNotParseable({:?}, {:?})", so(), filetype, mimeguess);
             results.push(
-                ProcessPathResult::FILE_ERR_NOT_PARSEABLE(subfpath, mimeguess)
+                ProcessPathResult::FileErrNotParseable(subfpath, mimeguess)
             );
             continue;
         }
@@ -423,9 +423,9 @@ fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         fullpath.push_str(path.as_str());
         fullpath.push(SUBPATH_SEP);
         fullpath.push_str(subfpath.as_str());
-        debug_eprintln!("{}process_path_tar: push FILE_VALID({:?}, {:?}, {:?})", so(), fullpath, mimeguess, filetype);
+        debug_eprintln!("{}process_path_tar: push FileValid({:?}, {:?}, {:?})", so(), fullpath, mimeguess, filetype);
         results.push(
-            ProcessPathResult::FILE_VALID(fullpath, mimeguess, filetype)
+            ProcessPathResult::FileValid(fullpath, mimeguess, filetype)
         );
     }
 
@@ -453,7 +453,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         let (filetype, mimeguess) = path_to_filetype_mimeguess(std_path);
         if !filetype.is_archived() {
             let paths: Vec<ProcessPathResult> = vec![
-                ProcessPathResult::FILE_VALID(path.clone(), mimeguess, filetype),
+                ProcessPathResult::FileValid(path.clone(), mimeguess, filetype),
             ];
             debug_eprintln!("{}process_path({:?}) {:?}", sx(), path, paths);
             return paths;
@@ -493,22 +493,22 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
                 continue;
             }
             debug_eprintln!("{}process_path: Path not a file {:?}", so(), path_entry);
-            paths.push(ProcessPathResult::FILE_ERR_NOT_A_FILE(fpath_entry, MimeGuess::from_ext("")));
+            paths.push(ProcessPathResult::FileErrNotAFile(fpath_entry, MimeGuess::from_ext("")));
             continue;
         }
         let (filetype, mimeguess) = path_to_filetype_mimeguess(std_path_entry);
         match parseable_filetype(&filetype) {
             FileParseable::YES => {
-                debug_eprintln!("{}process_path: paths.push(FILE_VALID(({:?}, {:?}, {:?})))", so(), fpath_entry, mimeguess, filetype);
-                paths.push(ProcessPathResult::FILE_VALID(fpath_entry, mimeguess, filetype));
+                debug_eprintln!("{}process_path: paths.push(FileValid(({:?}, {:?}, {:?})))", so(), fpath_entry, mimeguess, filetype);
+                paths.push(ProcessPathResult::FileValid(fpath_entry, mimeguess, filetype));
             },
-            FileParseable::NO_NOT_PARSEABLE => {
+            FileParseable::NotParseable => {
                 debug_eprintln!("{}process_path: Path not parseable {:?}", so(), std_path_entry);
-                paths.push(ProcessPathResult::FILE_ERR_NOT_PARSEABLE(fpath_entry, mimeguess));
+                paths.push(ProcessPathResult::FileErrNotParseable(fpath_entry, mimeguess));
             }
-            FileParseable::NO_NOT_SUPPORTED => {
+            FileParseable::NotSupported => {
                 debug_eprintln!("{}process_path: Path not supported {:?}", so(), std_path_entry);
-                paths.push(ProcessPathResult::FILE_ERR_NOT_SUPPORTED(fpath_entry, mimeguess));
+                paths.push(ProcessPathResult::FileErrNotSupported(fpath_entry, mimeguess));
             }
         }
     }
