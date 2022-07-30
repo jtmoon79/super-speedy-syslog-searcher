@@ -344,7 +344,7 @@ impl<E> Eq for FileProcessingResult<E> {}
 pub enum FileType {
     FileUnset,
     /// a regular file `file.log`
-    FILE,
+    File,
     /// a gzipped file `.gz`, presumed to contain one regular file
     FileGz,
     /// a regular file within a `.tar` file
@@ -367,7 +367,7 @@ impl std::fmt::Display for FileType {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             FileType::FileUnset => write!(f, "UNSET"),
-            FileType::FILE => write!(f, "TEXT"),
+            FileType::File => write!(f, "TEXT"),
             FileType::FileGz => write!(f, "GZIP"),
             FileType::FileTar => write!(f, "TAR"),
             FileType::FileTarGz => write!(f, "TAR GZIP"),
@@ -395,9 +395,9 @@ impl FileType {
     }
 
     /// Returns the tarred version of the `FileType`
-    /// XXX: only supports `FileType::FILE` right now
+    /// XXX: only supports `FileType::File` right now
     pub const fn to_tar(&self) -> FileType {
-        if matches!(*self, FileType::FILE) {
+        if matches!(*self, FileType::File) {
             return FileType::FileTar;
         }
 

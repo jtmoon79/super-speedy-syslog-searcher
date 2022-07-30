@@ -71,7 +71,7 @@ fn test_mimeguess_to_filetype(mimeguess: &MimeGuess, check: FileType) {
 
 #[test]
 fn test_mimeguess_to_filetype_txt() {
-    test_mimeguess_to_filetype(&MIMEGUESS_TXT, FileType::FILE);
+    test_mimeguess_to_filetype(&MIMEGUESS_TXT, FileType::File);
 }
 
 #[test]
@@ -100,46 +100,46 @@ fn test_fpath_to_filetype(name: &String, check: FileType) {
 }
 
 #[test]
-fn test_fpath_to_filetype_FILE_log() {
-    test_fpath_to_filetype(&String::from("log"), FileType::FILE);
+fn test_fpath_to_filetype_File_log() {
+    test_fpath_to_filetype(&String::from("log"), FileType::File);
 }
 
 #[test]
-fn test_fpath_to_filetype_FILE_log_log() {
-    test_fpath_to_filetype(&String::from("log.log"), FileType::FILE);
+fn test_fpath_to_filetype_File_log_log() {
+    test_fpath_to_filetype(&String::from("log.log"), FileType::File);
 }
 
 #[test]
-fn test_fpath_to_filetype_FILE_log_log1() {
-    test_fpath_to_filetype(&String::from("log_media"), FileType::FILE);
+fn test_fpath_to_filetype_File_log_log1() {
+    test_fpath_to_filetype(&String::from("log_media"), FileType::File);
 }
 
 #[test]
-fn test_fpath_to_filetype_FILE_log_log2() {
-    test_fpath_to_filetype(&String::from("media_log"), FileType::FILE);
+fn test_fpath_to_filetype_File_log_log2() {
+    test_fpath_to_filetype(&String::from("media_log"), FileType::File);
 }
 
 #[test]
-fn test_fpath_to_filetype_FILE_log_old() {
-    test_fpath_to_filetype(&String::from("media.log.old"), FileType::FILE);
+fn test_fpath_to_filetype_File_log_old() {
+    test_fpath_to_filetype(&String::from("media.log.old"), FileType::File);
 }
 
 #[test]
-fn test_fpath_to_filetype_FILE_syslog() {
-    test_fpath_to_filetype(&String::from("syslog"), FileType::FILE);
+fn test_fpath_to_filetype_File_syslog() {
+    test_fpath_to_filetype(&String::from("syslog"), FileType::File);
 }
 
 #[test]
-fn test_fpath_to_filetype_FILE_messages() {
-    test_fpath_to_filetype(&String::from("messages"), FileType::FILE);
+fn test_fpath_to_filetype_File_messages() {
+    test_fpath_to_filetype(&String::from("messages"), FileType::File);
 }
 
 #[test]
-fn test_fpath_to_filetype_FILEGZ_gz_old() {
+fn test_fpath_to_filetype_FileGZ_gz_old() {
     test_fpath_to_filetype(&String::from("data.gz.old"), FileType::FileGz);
 }
 
 #[test]
-fn test_fpath_to_filetype_FILEGZ_gzip() {
+fn test_fpath_to_filetype_FileGZ_gzip() {
     test_fpath_to_filetype(&String::from("data.gzip"), FileType::FileGz);
 }

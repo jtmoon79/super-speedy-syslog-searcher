@@ -300,7 +300,7 @@ impl fmt::Debug for Summary {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self.filetype {
             FileType::FileTar
-            | FileType::FILE => {
+            | FileType::File => {
                 f.debug_struct("")
                 .field("bytes", &self.BlockReader_bytes)
                 .field("bytes total", &self.BlockReader_bytes_total)

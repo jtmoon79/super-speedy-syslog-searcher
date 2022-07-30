@@ -473,7 +473,7 @@ impl BlockReader {
             );
         }
         match filetype {
-            FileType::FILE => {
+            FileType::File => {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
             },
@@ -1112,7 +1112,7 @@ impl BlockReader {
             | FileType::FileTar => {
                 self.filesz_actual
             },
-            FileType::FILE => {
+            FileType::File => {
                 self.filesz
             },
             _ => {
@@ -1143,7 +1143,7 @@ impl BlockReader {
     //       value).
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
-            FileType::FILE
+            FileType::File
             | FileType::FileXz => {
                 self.file_metadata_modified
             }
@@ -1379,17 +1379,17 @@ impl BlockReader {
     /// read up to `blocksz` bytes of data (one `Block`) from a regular filesystem file.
     ///
     /// Called from `read_block`.
-    fn read_block_FILE(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
-        debug_eprintln!("{}read_block_FILE({})", sn(), blockoffset);
-        debug_assert_eq!(self.filetype, FileType::FILE, "wrong FileType {:?} for calling read_block_FILE", self.filetype);
+    fn read_block_File(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
+        debug_eprintln!("{}read_block_File({})", sn(), blockoffset);
+        debug_assert_eq!(self.filetype, FileType::File, "wrong FileType {:?} for calling read_block_FILE", self.filetype);
 
         let seek = (self.blocksz * blockoffset) as u64;
-        debug_eprintln!("{}read_block_FILE: self.file.seek({})", so(), seek);
+        debug_eprintln!("{}read_block_File: self.file.seek({})", so(), seek);
         match self.file.seek(SeekFrom::Start(seek)) {
             Ok(_) => {},
             Err(err) => {
                 eprintln!("ERROR: file.SeekFrom(Start({})) Error {}", seek, err);
-                debug_eprintln!("{}read_block_FILE({}): return Err({})", sx(), blockoffset, err);
+                debug_eprintln!("{}read_block_File({}): return Err({})", sx(), blockoffset, err);
                 return ResultS3_ReadBlock::Err(err);
             },
         };
@@ -1401,25 +1401,25 @@ impl BlockReader {
         let cap: usize = self.blocksz_at_blockoffset(&blockoffset) as usize;
         let mut buffer = Block::with_capacity(cap);
         let mut reader: Take<&File> = (&self.file).take(cap as u64);
-        debug_eprintln!("{}read_block_FILE: reader.read_to_end(buffer (capacity {}))", so(), cap);
+        debug_eprintln!("{}read_block_File: reader.read_to_end(buffer (capacity {}))", so(), cap);
         // TODO: change to `read_exact` which recently stabilized
         match reader.read_to_end(&mut buffer) {
             Ok(val) => {
                 if val == 0 {
-                    debug_eprintln!("{}read_block_FILE({}): return Done for {:?}", sx(), blockoffset, self.path);
+                    debug_eprintln!("{}read_block_File({}): return Done for {:?}", sx(), blockoffset, self.path);
                     return ResultS3_ReadBlock::Done;
                 }
             },
             Err(err) => {
                 eprintln!("ERROR: reader.read_to_end(buffer) error {} for {:?}", err, self.path);
-                debug_eprintln!("{}read_block_FILE({}): return Err({})", sx(), blockoffset, err);
+                debug_eprintln!("{}read_block_File({}): return Err({})", sx(), blockoffset, err);
                 return ResultS3_ReadBlock::Err(err);
             },
         };
         let blockp: BlockP = BlockP::new(buffer);
         self.store_block_in_storage(blockoffset, &blockp);
         self.store_block_in_LRU_cache(blockoffset, &blockp);
-        debug_eprintln!("{}read_block_FILE({}): return Found", sx(), blockoffset);
+        debug_eprintln!("{}read_block_File({}): return Found", sx(), blockoffset);
 
         ResultS3_ReadBlock::Found(blockp)
     }
@@ -1913,8 +1913,8 @@ impl BlockReader {
         }
 
         match self.filetype {
-            FileType::FILE => {
-                self.read_block_FILE(blockoffset)
+            FileType::File => {
+                self.read_block_File(blockoffset)
             },
             FileType::FileGz => {
                 self.read_block_FileGz(blockoffset)

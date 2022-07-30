@@ -55,7 +55,7 @@ fn new_SyslineReader(path: FPath, filetype: FileType) -> SyslineReader {
 #[inline(never)]
 fn syslinereader_baseline_init() {
     let path: FPath = FPath::from("./logs/other/tests/dtf2-2.log");
-    let syslinereader1 = new_SyslineReader(path, FileType::FILE);
+    let syslinereader1 = new_SyslineReader(path, FileType::File);
 
     black_box(syslinereader1);
 }

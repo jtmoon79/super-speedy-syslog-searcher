@@ -138,7 +138,7 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
         | text_plain
         | text_plain_utf8
         | text_star
-        | utf8_ => FileType::FILE,
+        | utf8_ => FileType::File,
         app_gzip => FileType::FileGz,
         app_tar => FileType::FileTar,
         app_x_xz => FileType::FileXz,
@@ -176,12 +176,12 @@ pub fn path_to_filetype(path: &Path) -> FileType {
 
     if PARSEABLE_FILENAMES_FILE.contains(&path.file_name().unwrap_or_default()) {
         debug_eprintln!("{}path_to_filetype: return FILE; PARSEABLE_FILENAMES_FILE.contains({:?})", sx(), &path.file_name());
-        return FileType::FILE;
+        return FileType::File;
     }
     // many logs have no extension in the name
     if path.extension().is_none() {
         debug_eprintln!("{}path_to_filetype: return FILE; no path.extension()", sx());
-        return FileType::FILE;
+        return FileType::File;
     }
     let file_name: &OsStr = path.file_name().unwrap_or_default();
     let file_name_s: &str = file_name.to_str().unwrap_or_default();
@@ -196,32 +196,32 @@ pub fn path_to_filetype(path: &Path) -> FileType {
     let file_suffix_s: &str = file_suffix.to_str().unwrap_or_default();
     debug_eprintln!("{}path_to_filetype: file_suffix {:?}", so(), file_suffix_s);
 
-    // FILE
+    // File
 
     // file name `log` often on cheap embedded systems
     if file_prefix_s == "log" {
-        debug_eprintln!("{}path_to_filetype: return FILE; log", sx());
-        return FileType::FILE;
+        debug_eprintln!("{}path_to_filetype: return File; log", sx());
+        return FileType::File;
     }
     // for example, `log.host` as emitted by samba daemon
     if file_name_s.starts_with("log.") {
-        debug_eprintln!("{}path_to_filetype: return FILE; log.", sx());
-        return FileType::FILE;
+        debug_eprintln!("{}path_to_filetype: return File; log.", sx());
+        return FileType::File;
     }
     // for example, `log_media`
     if file_prefix_s.starts_with("log_") {
-        debug_eprintln!("{}path_to_filetype: return FILE; log_", sx());
-        return FileType::FILE;
+        debug_eprintln!("{}path_to_filetype: return File; log_", sx());
+        return FileType::File;
     }
     // for example, `media_log`
     if file_name_s.ends_with("_log") {
-        debug_eprintln!("{}path_to_filetype: return FILE; _log", sx());
-        return FileType::FILE;
+        debug_eprintln!("{}path_to_filetype: return File; _log", sx());
+        return FileType::File;
     }
     // for example, `media.log.old`
     if file_name_s.ends_with(".log.old") {
-        debug_eprintln!("{}path_to_filetype: return FILE; .log.old", sx());
-        return FileType::FILE;
+        debug_eprintln!("{}path_to_filetype: return File; .log.old", sx());
+        return FileType::File;
     }
 
     // FileGz
@@ -268,7 +268,7 @@ pub enum FileParseable {
 pub fn parseable_filetype(filetype: &FileType) -> FileParseable {
     match filetype {
         // `YES` is effectively the list of currently supported file types
-        &FileType::FILE
+        &FileType::File
         | &FileType::FileGz
         | &FileType::FileXz
         | &FileType::FileTar
