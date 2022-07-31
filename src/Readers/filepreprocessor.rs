@@ -1,4 +1,4 @@
-// Readers/filepreprocssor.rs
+// src/Readers/filepreprocssor.rs
 //
 // a collection of functions to search for potentially parseable files,
 // and prepare for the creation of `SyslogProcessor`

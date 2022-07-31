@@ -1,4 +1,4 @@
-// tests/common.rs
+// tests/s4_tests/common.rs
 
 extern crate s4lib;
 

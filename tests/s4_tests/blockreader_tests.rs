@@ -1,4 +1,4 @@
-// Readers/blockreader_tests.rs
+// tests/s4_tests/blockreader_tests.rs
 //
 
 #![allow(non_snake_case)]

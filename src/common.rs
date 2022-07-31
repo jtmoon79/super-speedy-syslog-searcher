@@ -1,4 +1,4 @@
-// common.rs
+// src/common.rs
 //
 // common imports, type aliases, and other globals (avoids circular imports)
 

@@ -1,4 +1,4 @@
-// printer/mod.rs
+// src/printer/mod.rs
 //
 // printing modules
 

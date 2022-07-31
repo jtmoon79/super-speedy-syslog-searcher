@@ -1,4 +1,4 @@
-// Readers/syslogprocessor_tests.rs
+// tests/s4_tests/syslogprocessor_tests.rs
 //
 
 #![allow(non_snake_case)]

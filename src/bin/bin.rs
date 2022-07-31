@@ -1,4 +1,4 @@
-// main.rs
+// src/bin/bin.rs
 //
 // ‥ … ≤ ≥ ≠ ≟
 

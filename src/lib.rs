@@ -1,4 +1,4 @@
-// lib.rs
+// src/lib.rs
 
 pub mod common;
 pub mod Data;
