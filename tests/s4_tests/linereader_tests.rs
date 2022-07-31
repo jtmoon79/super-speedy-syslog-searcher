@@ -1,58 +1,55 @@
-// Readers/linereader_tests.rs
+// tests/s4_tests/linereader_tests.rs
 //
 
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
 
-use crate::common::{
+use crate::s4_tests::common::{
+    randomize,
+    fill,
+};
+
+extern crate s4lib;
+
+use s4lib::common::{
     FileOffset,
     FPath,
     Bytes,
 };
 
-use crate::Readers::blockreader::{
+use s4lib::Readers::blockreader::{
     BlockSz,
 };
 
-use crate::Readers::filepreprocessor::{
+use s4lib::Readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
 };
 
-use crate::Data::line::{
+use s4lib::Data::line::{
     LineP,
     LineIndex,
     LinePartPtrs,
 };
 
-use crate::Readers::linereader::{
+use s4lib::Readers::linereader::{
     LineReader,
     ResultS4_LineFind,
 };
 
-#[cfg(test)]
-use crate::Readers::helpers::{
-    randomize,
-    fill,
-};
-
-use crate::printer_debug::helpers::{
+use s4lib::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     NTF_Path,
-};
-
-#[cfg(test)]
-use crate::printer_debug::helpers::{
     eprint_file,
 };
 
-use crate::printer_debug::printers::{
+use s4lib::printer_debug::printers::{
     byte_to_char_noraw,
     buffer_to_String_noraw,
     str_to_String_noraw,
 };
 
-use crate::printer_debug::stack::{
+use s4lib::printer_debug::stack::{
     sn,
     so,
     sx,
@@ -169,7 +166,6 @@ fn process_LineReader(lr1: &mut LineReader) {
 ///
 /// the `LineReader` instance reads `data`
 /// assert the line count
-#[allow(non_snake_case)]
 #[cfg(test)]
 fn do_test_LineReader_count(data: &str, line_count: usize) {
     eprintln!("{}do_test_LineReader_count(…, {:?})", sn(), line_count);
@@ -186,85 +182,72 @@ fn do_test_LineReader_count(data: &str, line_count: usize) {
     eprintln!("{}do_test_LineReader_count()", sx());
 }
 
-#[allow(non_snake_case)]
+
 #[test]
 fn test_LineReader_count0() {
     do_test_LineReader_count("", 0);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count1_() {
     do_test_LineReader_count(" ", 1);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count1__() {
     do_test_LineReader_count("  ", 1);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count1_n() {
     do_test_LineReader_count(" \n", 1);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count2_n_() {
     do_test_LineReader_count(" \n ", 2);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count2__n__() {
     do_test_LineReader_count("  \n  ", 2);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count2_n_n() {
     do_test_LineReader_count(" \n \n", 2);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count2__n__n() {
     do_test_LineReader_count("  \n  \n", 2);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count3_n_n_() {
     do_test_LineReader_count(" \n \n ", 3);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count3__n__n__() {
     do_test_LineReader_count("  \n  \n  ", 3);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count3__n__n__n() {
     do_test_LineReader_count("  \n  \n  \n", 3);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count1() {
     do_test_LineReader_count("  \n  \n  \n  ", 4);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count4__n__n_n__n() {
     do_test_LineReader_count("  \n  \n  \n  \n", 4);
 }
 
-#[allow(non_snake_case)]
 #[test]
 fn test_LineReader_count4_uhi_n__n__n__n() {
     do_test_LineReader_count("two unicode points é\n  \n  \n  \n", 4);
@@ -491,9 +474,9 @@ test_LineReader_all3n line 3
 /// test `LineReader::find_line` read all file offsets but in reverse
 #[allow(non_snake_case)]
 #[cfg(test)]
-fn _test_LineReader_all_reversed(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
+fn test_LineReader_all_reversed(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
     stack_offset_set(None);
-    eprintln!("{}_test_LineReader_all_reversed({:?}, {:?})", sn(), &path, blocksz);
+    eprintln!("{}test_LineReader_all_reversed({:?}, {:?})", sn(), &path, blocksz);
     let mut lr1 = new_LineReader(path, blocksz);
     if !cache_enabled {
         lr1.LRU_cache_disable();
@@ -511,12 +494,12 @@ fn _test_LineReader_all_reversed(path: &FPath, cache_enabled: bool, blocksz: Blo
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}_test_LineReader_all_reversed({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_LineReader_all_reversed({:?}, {:?})", sx(), &path, blocksz);
 }
 
 #[test]
 fn test_LineReader_all_reversed0_empty() {
-    _test_LineReader_all_reversed(&NTF_EMPTY0_path, true, 0x4);
+    test_LineReader_all_reversed(&NTF_EMPTY0_path, true, 0x4);
 }
 
 #[test]
@@ -525,7 +508,7 @@ fn test_LineReader_all_reversed1() {
 test_LineReader_all_reversed1 line 1";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_all_reversed(&fpath, true, 0x4);
+    test_LineReader_all_reversed(&fpath, true, 0x4);
 }
 
 #[test]
@@ -535,7 +518,7 @@ test_LineReader_all_reversed1n line 1n
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_all_reversed(&fpath, true, 0x4);
+    test_LineReader_all_reversed(&fpath, true, 0x4);
 }
 
 #[test]
@@ -545,7 +528,7 @@ test_LineReader_all_reversed2 line 1
 test_LineReader_all_reversed2 line 2";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_all_reversed(&fpath, true, 0xFF);
+    test_LineReader_all_reversed(&fpath, true, 0xFF);
 }
 
 
@@ -557,12 +540,12 @@ test_LineReader_all_reversed2n line 2
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_all_reversed(&fpath, true, 0x4);
+    test_LineReader_all_reversed(&fpath, true, 0x4);
 }
 
 #[test]
 fn test_LineReader_all_reversed3_empty() {
-    _test_LineReader_all_reversed(&NTF_NL_3_PATH, true, 0x4);
+    test_LineReader_all_reversed(&NTF_NL_3_PATH, true, 0x4);
 }
 
 #[test]
@@ -573,7 +556,7 @@ test_LineReader_all_reversed3 line 2
 test_LineReader_all_reversed3 line 3";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_all_reversed(&fpath, true, 0x4);
+    test_LineReader_all_reversed(&fpath, true, 0x4);
 }
 
 #[test]
@@ -585,7 +568,7 @@ test_LineReader_all_reversed3n line 3
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_all_reversed(&fpath, true, 0x4);
+    test_LineReader_all_reversed(&fpath, true, 0x4);
 }
 
 #[test]
@@ -597,14 +580,14 @@ test_LineReader_all_reversed3n line 3
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_all_reversed(&fpath, false, 0x4);
+    test_LineReader_all_reversed(&fpath, false, 0x4);
 }
 
 /// test `LineReader::find_line` read all file offsets but only the even ones
 #[allow(non_snake_case)]
 #[cfg(test)]
-fn _test_LineReader_half_even(path: &FPath, blocksz: BlockSz) {
-    eprintln!("{}_test_LineReader_half_even({:?}, {:?})", sn(), &path, blocksz);
+fn test_LineReader_half_even(path: &FPath, blocksz: BlockSz) {
+    eprintln!("{}test_LineReader_half_even({:?}, {:?})", sn(), &path, blocksz);
     let mut lr1 = new_LineReader(&path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
     let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
@@ -619,12 +602,12 @@ fn _test_LineReader_half_even(path: &FPath, blocksz: BlockSz) {
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}_test_LineReader_half_even({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_LineReader_half_even({:?}, {:?})", sx(), &path, blocksz);
 }
 
 #[test]
 fn test_LineReader_half_even_0_empty() {
-    _test_LineReader_half_even(&NTF_EMPTY0_path, 0x4);
+    test_LineReader_half_even(&NTF_EMPTY0_path, 0x4);
 }
 
 #[test]
@@ -633,7 +616,7 @@ fn test_LineReader_half_even_1() {
 test_LineReader_half_even_1 line 1";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x4);
+    test_LineReader_half_even(&fpath, 0x4);
 }
 
 
@@ -644,7 +627,7 @@ test_LineReader_half_even_1n line 1n
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x4);
+    test_LineReader_half_even(&fpath, 0x4);
 }
 
 #[test]
@@ -654,7 +637,7 @@ test_LineReader_half_even_2 line 1
 test_LineReader_half_even_2 line 2";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0xFF);
+    test_LineReader_half_even(&fpath, 0xFF);
 }
 
 
@@ -666,7 +649,7 @@ test_LineReader_half_even_2n line 2
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x4);
+    test_LineReader_half_even(&fpath, 0x4);
 }
 
 #[test]
@@ -674,7 +657,7 @@ fn test_LineReader_half_even_4_sparse1_0x4() {
     let data: &str = "a\nb\nc\nd";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x4);
+    test_LineReader_half_even(&fpath, 0x4);
 }
 
 #[test]
@@ -682,7 +665,7 @@ fn test_LineReader_half_even_4_sparse1_0x2() {
     let data: &str = "a\nb\nc\nd ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x2);
+    test_LineReader_half_even(&fpath, 0x2);
 }
 
 #[test]
@@ -690,7 +673,7 @@ fn test_LineReader_half_even_4_sparse2_0x4() {
     let data: &str = "\na\nb\nc\nd ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x4);
+    test_LineReader_half_even(&fpath, 0x4);
 }
 
 #[test]
@@ -698,7 +681,7 @@ fn test_LineReader_half_even_4_sparse2_0x6() {
     let data: &str = "\na\nb\nc\nd ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x6);
+    test_LineReader_half_even(&fpath, 0x6);
 }
 
 #[test]
@@ -706,7 +689,7 @@ fn test_LineReader_half_even_4_sparse2_0x8() {
     let data: &str = "\na\nb\nc\nd ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x8);
+    test_LineReader_half_even(&fpath, 0x8);
 }
 
 #[test]
@@ -714,7 +697,7 @@ fn test_LineReader_half_even_4_sparse2_0xA() {
     let data: &str = "\na\nb\nc\nd ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0xA);
+    test_LineReader_half_even(&fpath, 0xA);
 }
 
 #[test]
@@ -722,7 +705,7 @@ fn test_LineReader_half_even_4_sparse2_0x2() {
     let data: &str = "\na\nb\nc\nd ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x2);
+    test_LineReader_half_even(&fpath, 0x2);
 }
 
 #[test]
@@ -733,7 +716,7 @@ test_LineReader_half_even_3 line 2
 test_LineReader_half_even_3 line 3";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x4);
+    test_LineReader_half_even(&fpath, 0x4);
 }
 
 #[test]
@@ -745,14 +728,14 @@ test_LineReader_half_even_3n line 3
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_even(&fpath, 0x4);
+    test_LineReader_half_even(&fpath, 0x4);
 }
 
 /// test `LineReader::find_line` read all file offsets but only the even ones
 #[allow(non_snake_case)]
 #[cfg(test)]
-fn _test_LineReader_half_odd(path: &FPath, blocksz: BlockSz) {
-    eprintln!("{}_test_LineReader_half_odd({:?}, {:?})", sn(), &path, blocksz);
+fn test_LineReader_half_odd(path: &FPath, blocksz: BlockSz) {
+    eprintln!("{}test_LineReader_half_odd({:?}, {:?})", sn(), &path, blocksz);
     let mut lr1 = new_LineReader(path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
     let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
@@ -767,12 +750,12 @@ fn _test_LineReader_half_odd(path: &FPath, blocksz: BlockSz) {
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}_test_LineReader_half_odd({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_LineReader_half_odd({:?}, {:?})", sx(), &path, blocksz);
 }
 
 #[test]
 fn test_LineReader_half_odd_0_empty() {
-    _test_LineReader_half_odd(&NTF_EMPTY0_path, 0x4);
+    test_LineReader_half_odd(&NTF_EMPTY0_path, 0x4);
 }
 
 #[test]
@@ -781,7 +764,7 @@ fn test_LineReader_half_odd_1() {
 test_LineReader_half_odd_1 line 1";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_odd(&fpath, 0x4);
+    test_LineReader_half_odd(&fpath, 0x4);
 }
 
 
@@ -792,7 +775,7 @@ test_LineReader_half_odd_1n line 1n
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_odd(&fpath, 0x4);
+    test_LineReader_half_odd(&fpath, 0x4);
 }
 
 #[test]
@@ -802,7 +785,7 @@ test_LineReader_half_odd_2 line 1
 test_LineReader_half_odd_2 line 2";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_odd(&fpath, 0xFF);
+    test_LineReader_half_odd(&fpath, 0xFF);
 }
 
 
@@ -814,7 +797,7 @@ test_LineReader_half_odd_2n line 2
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_odd(&fpath, 0x4);
+    test_LineReader_half_odd(&fpath, 0x4);
 }
 
 #[test]
@@ -822,7 +805,7 @@ fn test_LineReader_half_odd_3_sparse1() {
     let data: &str = "a\nb\nc\nd ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_odd(&fpath, 0x4);
+    test_LineReader_half_odd(&fpath, 0x4);
 }
 
 #[test]
@@ -833,7 +816,7 @@ test_LineReader_half_odd_3 line 2
 test_LineReader_half_odd_3 line 3";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_odd(&fpath, 0x4);
+    test_LineReader_half_odd(&fpath, 0x4);
 }
 
 #[test]
@@ -845,16 +828,16 @@ test_LineReader_half_odd_3n line 3
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_half_odd(&fpath, 0x4);
+    test_LineReader_half_odd(&fpath, 0x4);
 }
 
 /// test `LineReader::find_line` read all file offsets but in random order
 /// TODO: `randomize` should be predictable
 #[allow(non_snake_case)]
 #[cfg(test)]
-fn _test_LineReader_rand(path: &FPath, blocksz: BlockSz) {
+fn test_LineReader_rand(path: &FPath, blocksz: BlockSz) {
     stack_offset_set(None);
-    eprintln!("{}_test_LineReader_rand({:?}, {:?})", sn(), &path, blocksz);
+    eprintln!("{}test_LineReader_rand({:?}, {:?})", sn(), &path, blocksz);
 
     let mut lr1 = new_LineReader(path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
@@ -872,12 +855,12 @@ fn _test_LineReader_rand(path: &FPath, blocksz: BlockSz) {
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}_test_LineReader_rand({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_LineReader_rand({:?}, {:?})", sx(), &path, blocksz);
 }
 
 #[test]
 fn test_LineReader_rand0_empty() {
-    _test_LineReader_rand(&NTF_EMPTY0_path, 0x4);
+    test_LineReader_rand(&NTF_EMPTY0_path, 0x4);
 }
 
 #[test]
@@ -886,7 +869,7 @@ fn test_LineReader_rand1() {
 test_LineReader_rand1 line 1";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_rand(&fpath, 0x4);
+    test_LineReader_rand(&fpath, 0x4);
 }
 
 
@@ -897,7 +880,7 @@ test_LineReader_rand1n line 1n
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_rand(&fpath, 0x4);
+    test_LineReader_rand(&fpath, 0x4);
 }
 
 #[test]
@@ -907,7 +890,7 @@ test_LineReader_rand2 line 1
 test_LineReader_rand2 line 2";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_rand(&fpath, 0xFF);
+    test_LineReader_rand(&fpath, 0xFF);
 }
 
 
@@ -919,12 +902,12 @@ test_LineReader_rand2n line 2
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_rand(&fpath, 0x4);
+    test_LineReader_rand(&fpath, 0x4);
 }
 
 #[test]
 fn test_LineReader_rand3_nl3() {
-    _test_LineReader_rand(&NTF_NL_3_PATH, 0x4);
+    test_LineReader_rand(&NTF_NL_3_PATH, 0x4);
 }
 
 #[test]
@@ -935,7 +918,7 @@ test_LineReader_rand3 line 2
 test_LineReader_rand3 line 3";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_rand(&fpath, 0x4);
+    test_LineReader_rand(&fpath, 0x4);
 }
 
 #[test]
@@ -947,7 +930,7 @@ test_LineReader_rand3n line 3
 ";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_LineReader_rand(&fpath, 0x4);
+    test_LineReader_rand(&fpath, 0x4);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -955,9 +938,9 @@ test_LineReader_rand3n line 3
 /// test `LineReader::find_line` read all file offsets in a precise order
 #[allow(non_snake_case)]
 #[cfg(test)]
-fn _test_LineReader_precise_order(path: &FPath, cache_enabled: bool, blocksz: BlockSz, offsets: &Vec::<FileOffset>) {
+fn test_LineReader_precise_order(path: &FPath, cache_enabled: bool, blocksz: BlockSz, offsets: &Vec::<FileOffset>) {
     stack_offset_set(None);
-    eprintln!("{}_test_LineReader_rand({:?}, {:?}, {:?})", sn(), &path, blocksz, offsets);
+    eprintln!("{}test_LineReader_rand({:?}, {:?}, {:?})", sn(), &path, blocksz, offsets);
     eprint_file(path);
     let mut lr1: LineReader = new_LineReader(path, blocksz);
     if !cache_enabled {
@@ -969,14 +952,17 @@ fn _test_LineReader_precise_order(path: &FPath, cache_enabled: bool, blocksz: Bl
     eprintln!("\n{}{:?}\n", so(), lr1);
     for (fo, linep) in lr1.lines.iter() {
         eprintln!("{}  Line@{:02}: {:?}", so(), fo, linep);
-        for linepart in (*linep).lineparts.iter() {
-            eprintln!("{}    LinePart: {:?} {:?}", so(), linepart, linepart.to_String_noraw());
+        let slices_ = (*linep).get_slices();
+        let mut count_: usize = 0;
+        for slice_ in slices_.iter() {
+            eprintln!("{}    LinePart {}: {:?}", so(), count_, buffer_to_String_noraw(slice_));
+            count_ += 1;
         }
     }
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}_test_LineReader_rand({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_LineReader_rand({:?}, {:?})", sx(), &path, blocksz);
 }
 
 #[test]
@@ -988,7 +974,7 @@ test_LineReader_precise_order_2 line 2 of 2
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
     let offsets: Vec::<FileOffset> = vec![0, 44];
-    _test_LineReader_precise_order(&fpath, true, 0xF, &offsets);
+    test_LineReader_precise_order(&fpath, true, 0xF, &offsets);
 }
 
 #[test]
@@ -1000,7 +986,7 @@ test_LineReader_precise_order_2 line 2 of 2
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
     let offsets: Vec::<FileOffset> = vec![0, 44];
-    _test_LineReader_precise_order(&fpath, true, 0xFF, &offsets);
+    test_LineReader_precise_order(&fpath, true, 0xFF, &offsets);
 }
 
 #[test]
@@ -1012,117 +998,117 @@ test_LineReader_precise_order_2 line 2 of 2
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
     let offsets: Vec::<FileOffset> = vec![44, 0];
-    _test_LineReader_precise_order(&fpath, true, 0xF, &offsets);
+    test_LineReader_precise_order(&fpath, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_empty0__0_1() {
     let offsets: Vec::<FileOffset> = vec![0, 1];
-    _test_LineReader_precise_order(&NTF_EMPTY0_path, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_EMPTY0_path, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl1__0_1() {
     let offsets: Vec::<FileOffset> = vec![0, 1];
-    _test_LineReader_precise_order(&NTF_NL_1_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_1_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__0_1_2() {
     let offsets: Vec::<FileOffset> = vec![0, 1, 2];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__0_2_1() {
     let offsets: Vec::<FileOffset> = vec![0, 2, 1];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__1_2_0() {
     let offsets: Vec::<FileOffset> = vec![1, 2, 0];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__1_0_2() {
     let offsets: Vec::<FileOffset> = vec![1, 0, 2];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__2_0_1() {
     let offsets: Vec::<FileOffset> = vec![2, 0, 1];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__2_1_0() {
     let offsets: Vec::<FileOffset> = vec![2, 1, 0];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__1_0_2_1_2() {
     let offsets: Vec::<FileOffset> = vec![1, 0, 2, 1, 2];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__1_2_1_2_0() {
     let offsets: Vec::<FileOffset> = vec![1, 2, 1, 2, 0];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__0_1_2_2() {
     let offsets: Vec::<FileOffset> = vec![0, 1, 2, 2];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__0_2_1_1() {
     let offsets: Vec::<FileOffset> = vec![0, 2, 1, 1];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__1_2_0_0() {
     let offsets: Vec::<FileOffset> = vec![1, 2, 0, 0];
-    _test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl4__0_1_2_3() {
     let offsets: Vec::<FileOffset> = vec![0, 1, 2, 3];
-    _test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl4__1_2_3_0() {
     let offsets: Vec::<FileOffset> = vec![1, 2, 3, 0];
-    _test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl4__2_3_0_1() {
     let offsets: Vec::<FileOffset> = vec![2, 3, 0, 1];
-    _test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
 }
 
 
 #[test]
 fn test_LineReader_precise_order_nl4__3_0_1_2() {
     let offsets: Vec::<FileOffset> = vec![3, 0, 1, 2];
-    _test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
 }
 
 
 #[test]
 fn test_LineReader_precise_order_nl4__3_0_1_2_3_0_1_2__noLRUcache() {
     let offsets: Vec::<FileOffset> = vec![3, 0, 1, 2, 3, 0, 1, 2];
-    _test_LineReader_precise_order(&NTF_NL_4_PATH, false, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_NL_4_PATH, false, 0xF, &offsets);
 }
 
 
@@ -1136,7 +1122,7 @@ test_LineReader_precise_order_3 line 3 of 3
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
     let offsets: Vec::<FileOffset> = vec![0, 88, 44];
-    _test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
+    test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
 }
 
 #[test]
@@ -1149,7 +1135,7 @@ test_LineReader_precise_order_3 line 3 of 3
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
     let offsets: Vec::<FileOffset> = vec![0, 100, 50];
-    _test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
+    test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
 }
 
 #[test]
@@ -1162,7 +1148,7 @@ test_LineReader_precise_order_3 line 3 of 3
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
     let offsets: Vec::<FileOffset> = vec![50, 0, 100];
-    _test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
+    test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
 }
 
 #[test]
@@ -1175,7 +1161,7 @@ test_LineReader_precise_order_3 line 3 of 3
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
     let offsets: Vec::<FileOffset> = vec![100, 50, 0];
-    _test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
+    test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1225,9 +1211,9 @@ fn find_line_in_block_all(linereader: &mut LineReader, offsets: &Vec::<FileOffse
 /// test `LineReader::find_line_in_block` read all file offsets
 #[allow(non_snake_case)]
 #[cfg(test)]
-fn _test_find_line_in_block_all(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
+fn test_find_line_in_block_all(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
     stack_offset_set(None);
-    eprintln!("{}_test_find_line_in_block_all({:?}, {:?})", sn(), path, blocksz);
+    eprintln!("{}test_find_line_in_block_all({:?}, {:?})", sn(), path, blocksz);
     eprint_file(path);
     let mut lr1 = new_LineReader(path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
@@ -1244,67 +1230,67 @@ fn _test_find_line_in_block_all(path: &FPath, cache_enabled: bool, blocksz: Bloc
 
     compare_file_linereader(path, &lr1);
 
-    eprintln!("{}_test_find_line_in_block_all({:?}, {:?})", sx(), &path, blocksz);
+    eprintln!("{}test_find_line_in_block_all({:?}, {:?})", sx(), &path, blocksz);
 }
 
 #[test]
 fn test_find_line_in_block_all_empty0() {
-    _test_find_line_in_block_all(&NTF_EMPTY0_path, true, 0xF);
+    test_find_line_in_block_all(&NTF_EMPTY0_path, true, 0xF);
 }
 
 #[test]
 fn test_find_line_in_block_all_empty0_nocache() {
-    _test_find_line_in_block_all(&NTF_EMPTY0_path, false, 0xF);
+    test_find_line_in_block_all(&NTF_EMPTY0_path, false, 0xF);
 }
 
 #[test]
 fn test_find_line_in_block_all_nl1() {
-    _test_find_line_in_block_all(&NTF_NL_1_PATH, true, 0xF);
+    test_find_line_in_block_all(&NTF_NL_1_PATH, true, 0xF);
 }
 
 #[test]
 fn test_find_line_in_block_all_nl2() {
-    _test_find_line_in_block_all(&NTF_NL_2_PATH, true, 0xF);
+    test_find_line_in_block_all(&NTF_NL_2_PATH, true, 0xF);
 }
 
 #[test]
 fn test_find_line_in_block_all_nl3() {
-    _test_find_line_in_block_all(&NTF_NL_3_PATH, true, 0xF);
+    test_find_line_in_block_all(&NTF_NL_3_PATH, true, 0xF);
 }
 
 #[test]
 fn test_find_line_in_block_all_nl4() {
-    _test_find_line_in_block_all(&NTF_NL_4_PATH, true, 0xF);
+    test_find_line_in_block_all(&NTF_NL_4_PATH, true, 0xF);
 }
 
 #[test]
 fn test_find_line_in_block_all_nl5() {
-    _test_find_line_in_block_all(&NTF_NL_5_PATH, true, 0xF);
+    test_find_line_in_block_all(&NTF_NL_5_PATH, true, 0xF);
 }
 
 #[test]
 fn test_find_line_in_block_all_nl2_2() {
-    _test_find_line_in_block_all(&NTF_NL_2_PATH, true, 2);
+    test_find_line_in_block_all(&NTF_NL_2_PATH, true, 2);
 }
 
 #[test]
 fn test_find_line_in_block_all_nl3_2() {
-    _test_find_line_in_block_all(&NTF_NL_3_PATH, true, 2);
+    test_find_line_in_block_all(&NTF_NL_3_PATH, true, 2);
 }
 
 #[test]
 fn test_find_line_in_block_all_nl4_2() {
-    _test_find_line_in_block_all(&NTF_NL_4_PATH, true, 2);
+    test_find_line_in_block_all(&NTF_NL_4_PATH, true, 2);
 }
 
 #[test]
 fn test_find_line_in_block_all_nl5_2() {
-    _test_find_line_in_block_all(&NTF_NL_5_PATH, true, 2);
+    test_find_line_in_block_all(&NTF_NL_5_PATH, true, 2);
 }
 
 #[test]
 fn test_find_line_in_block_all_nl5_4() {
-    _test_find_line_in_block_all(&NTF_NL_5_PATH, true, 4);
+    test_find_line_in_block_all(&NTF_NL_5_PATH, true, 4);
 }
 
 
@@ -1313,7 +1299,7 @@ fn test_find_line_in_block_all_5_2() {
     let data: &str = "a\nb\nc\nd\ne\n";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_find_line_in_block_all(&fpath, true, 2);
+    test_find_line_in_block_all(&fpath, true, 2);
 }
 
 #[test]
@@ -1321,7 +1307,7 @@ fn test_find_line_in_block_all_5_4() {
     let data: &str = "a\nb\nc\nd\ne\n";
     let ntf = create_temp_file(data);
     let fpath = NTF_Path(&ntf);
-    _test_find_line_in_block_all(&fpath, true, 4);
+    test_find_line_in_block_all(&fpath, true, 4);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1331,14 +1317,14 @@ type test_find_line_in_block_check = Vec<(FileOffset, ResultS4_LineFind_Test, St
 /// test `LineReader::find_line_in_block` reads passed file offsets
 #[allow(non_snake_case)]
 #[cfg(test)]
-fn _test_find_line_in_block(
+fn test_find_line_in_block(
     path: &FPath,
     cache_enabled: bool,
     blocksz: BlockSz,
     in_out: &test_find_line_in_block_check,
 ) {
     stack_offset_set(Some(2));
-    eprintln!("{}_test_find_line_in_block({:?}, {:?}, {:?}, {:?})", sn(), &path, cache_enabled, blocksz, in_out);
+    eprintln!("{}test_find_line_in_block({:?}, {:?}, {:?}, {:?})", sn(), &path, cache_enabled, blocksz, in_out);
     eprint_file(path);
     let mut lr1: LineReader = new_LineReader(path, blocksz);
     if !cache_enabled {
@@ -1406,7 +1392,7 @@ fn _test_find_line_in_block(
     //    }
     //}
 
-    eprintln!("{}_test_find_line_in_block()", sx());
+    eprintln!("{}test_find_line_in_block()", sx());
 }
 
 #[test]
@@ -1414,7 +1400,7 @@ fn test_find_line_in_block_empty0() {
     let in_out: test_find_line_in_block_check = vec![
         (0, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
-    _test_find_line_in_block(&NTF_EMPTY0_path, true, 0xFF, &in_out);
+    test_find_line_in_block(&NTF_EMPTY0_path, true, 0xFF, &in_out);
 }
 
 #[test]
@@ -1423,7 +1409,7 @@ fn test_find_line_in_block_nl1() {
         (0, ResultS4_LineFind_Test::Found_EOF, String::from("\n"),),
         (1, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
-    _test_find_line_in_block(&NTF_NL_1_PATH, true, 0xFF, &in_out);
+    test_find_line_in_block(&NTF_NL_1_PATH, true, 0xFF, &in_out);
 }
 
 #[test]
@@ -1433,7 +1419,7 @@ fn test_find_line_in_block_nl2() {
         (1, ResultS4_LineFind_Test::Found_EOF, String::from("\n"),),
         (2, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
-    _test_find_line_in_block(&NTF_NL_2_PATH, true, 0xFF, &in_out);
+    test_find_line_in_block(&NTF_NL_2_PATH, true, 0xFF, &in_out);
 }
 
 #[test]
@@ -1451,7 +1437,7 @@ fn test_find_line_in_block_1() {
         (6, ResultS4_LineFind_Test::Done, String::from(""),),
         (7, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
-    _test_find_line_in_block(&fpath, true, 0xFF, &in_out);
+    test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
 
 #[test]
@@ -1465,7 +1451,7 @@ fn test_find_line_in_block_2() {
         (2, ResultS4_LineFind_Test::Found_EOF, String::from("b"),),
         (3, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
-    _test_find_line_in_block(&fpath, true, 0xFF, &in_out);
+    test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
 
 #[test]
@@ -1481,7 +1467,7 @@ fn test_find_line_in_block_3() {
         (4, ResultS4_LineFind_Test::Found_EOF, String::from("c"),),
         (5, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
-    _test_find_line_in_block(&fpath, true, 0xFF, &in_out);
+    test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
 
 #[test]
@@ -1500,7 +1486,7 @@ fn test_find_line_in_block_4() {
         (7, ResultS4_LineFind_Test::Found_EOF, String::from("d\n"),),
         (8, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
-    _test_find_line_in_block(&fpath, true, 0xFF, &in_out);
+    test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
 
 #[test]
@@ -1519,7 +1505,7 @@ fn test_find_line_in_block_4x2_2() {
         (7, ResultS4_LineFind_Test::Done, String::from(""),),
         (8, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
-    _test_find_line_in_block(&fpath, true, 2, &in_out);
+    test_find_line_in_block(&fpath, true, 2, &in_out);
 }
 
 #[test]
@@ -1537,7 +1523,7 @@ fn test_find_line_in_block_4x2_3() {
         (6, ResultS4_LineFind_Test::Done, String::from(""),),
         (7, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
-    _test_find_line_in_block(&fpath, true, 3, &in_out);
+    test_find_line_in_block(&fpath, true, 3, &in_out);
 }
 
 #[test]
@@ -1555,7 +1541,7 @@ fn test_find_line_in_block_4x2_4() {
         (6, ResultS4_LineFind_Test::Found_EOF, String::from("def\n"),),
         (7, ResultS4_LineFind_Test::Found_EOF, String::from("def\n"),),
     ];
-    _test_find_line_in_block(&fpath, true, 4, &in_out);
+    test_find_line_in_block(&fpath, true, 4, &in_out);
 }
 
 #[test]
@@ -1574,7 +1560,7 @@ fn test_find_line_in_block_4x2_5() {
         (7, ResultS4_LineFind_Test::Done, String::from(""),),
         (8, ResultS4_LineFind_Test::Done, String::from(""),),
     ];
-    _test_find_line_in_block(&fpath, true, 5, &in_out);
+    test_find_line_in_block(&fpath, true, 5, &in_out);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1583,8 +1569,8 @@ type test_Line_get_boxptrs_check = Vec<(FileOffset, (LineIndex, LineIndex), Byte
 
 /// test `Line.get_boxptrs`
 /// assert result equals passed `checks`
-fn _test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &test_Line_get_boxptrs_check) {
-    let fn_: &str = "_test_Line_get_boxptrs";
+fn test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &test_Line_get_boxptrs_check) {
+    let fn_: &str = "test_Line_get_boxptrs";
     eprintln!("{}{}({:?}, {}, checks)", sn(), fn_, path, blocksz);
     // create a `LineReader` and read all the lines in the file
     let mut lr = new_LineReader(path, blocksz);
@@ -1653,14 +1639,14 @@ this is line 1";
     let checks: test_Line_get_boxptrs_check = vec![
         (0, (0, 1), vec![b't']),
     ];
-    _test_Line_get_boxptrs(&fpath, 0xFF, &checks);
+    test_Line_get_boxptrs(&fpath, 0xFF, &checks);
 }
 
 /// for given `blocksz`, get `LineReader.get_boxptrs` for a predetermined
 /// inputs and assert the comparison to `checks` outputs
 #[cfg(test)]
-fn _test_Line_get_boxptrs_2_(blocksz: BlockSz) {
-    eprintln!("{}_test_Line_get_boxptrs_2_({:?})", sn(), blocksz);
+fn test_Line_get_boxptrs_2_(blocksz: BlockSz) {
+    eprintln!("{}test_Line_get_boxptrs_2_({:?})", sn(), blocksz);
     let data: &str = "\
 One 1
 Two 2
@@ -1721,77 +1707,77 @@ Two 2
         (10, (4, 6), vec![b'2', b'\n']),
         (10, (5, 6), vec![b'\n']),
     ];
-    _test_Line_get_boxptrs(&fpath, blocksz, &checks);
-    eprintln!("{}_test_Line_get_boxptrs_2_({:?})", sx(), blocksz);
+    test_Line_get_boxptrs(&fpath, blocksz, &checks);
+    eprintln!("{}test_Line_get_boxptrs_2_({:?})", sx(), blocksz);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0xF() {
-    _test_Line_get_boxptrs_2_(0xF);
+    test_Line_get_boxptrs_2_(0xF);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0xE() {
-    _test_Line_get_boxptrs_2_(0xE);
+    test_Line_get_boxptrs_2_(0xE);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0xD() {
-    _test_Line_get_boxptrs_2_(0xD);
+    test_Line_get_boxptrs_2_(0xD);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0xC() {
-    _test_Line_get_boxptrs_2_(0xC);
+    test_Line_get_boxptrs_2_(0xC);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0xB() {
-    _test_Line_get_boxptrs_2_(0xB);
+    test_Line_get_boxptrs_2_(0xB);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0xA() {
-    _test_Line_get_boxptrs_2_(0xA);
+    test_Line_get_boxptrs_2_(0xA);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0x9() {
-    _test_Line_get_boxptrs_2_(0x9);
+    test_Line_get_boxptrs_2_(0x9);
 }
 
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0x8() {
-    _test_Line_get_boxptrs_2_(0x8);
+    test_Line_get_boxptrs_2_(0x8);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0x7() {
-    _test_Line_get_boxptrs_2_(0x7);
+    test_Line_get_boxptrs_2_(0x7);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0x6() {
-    _test_Line_get_boxptrs_2_(0x6);
+    test_Line_get_boxptrs_2_(0x6);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0x5() {
-    _test_Line_get_boxptrs_2_(0x5);
+    test_Line_get_boxptrs_2_(0x5);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0x4() {
-    _test_Line_get_boxptrs_2_(0x4);
+    test_Line_get_boxptrs_2_(0x4);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0x3() {
-    _test_Line_get_boxptrs_2_(0x3);
+    test_Line_get_boxptrs_2_(0x3);
 }
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0x2() {
-    _test_Line_get_boxptrs_2_(0x2);
+    test_Line_get_boxptrs_2_(0x2);
 }

@@ -2,12 +2,8 @@
 //
 // miscellaneous helper functions
 
-#[cfg(test)]
 use crate::common::{
     FileOffset,
-};
-
-use crate::common::{
     FPath,
 };
 
@@ -77,7 +73,6 @@ pub fn remove_extension(path: &std::path::Path) -> Option<FPath> {
 }
 
 /// testing helper
-#[cfg(test)]
 pub fn randomize(v_: &mut Vec<FileOffset>) {
     // XXX: can also use `rand::shuffle` https://docs.rs/rand/0.8.4/rand/seq/trait.SliceRandom.html#tymethod.shuffle
     let sz = v_.len();
@@ -90,7 +85,6 @@ pub fn randomize(v_: &mut Vec<FileOffset>) {
 }
 
 /// testing helper
-#[cfg(test)]
 pub fn fill(v_: &mut Vec<FileOffset>) {
     let sz = v_.capacity();
     let mut i = 0;

@@ -12,6 +12,9 @@ pub mod filepreprocessor_tests;
 pub mod line_tests;
 
 #[cfg(test)]
+pub mod linereader_tests;
+
+#[cfg(test)]
 pub mod sysline_tests;
 
 #[cfg(test)]

@@ -5,7 +5,6 @@ use crate::common::{
     FPath,
 };
 
-#[cfg(test)]
 use crate::printer_debug::printers::{
     str_to_String_noraw,
 };
@@ -143,7 +142,6 @@ pub fn create_temp_file_bytes_with_suffix(data: &[u8], suffix: &String) -> Named
 /// testing helper to print the raw and noraw version of a file
 ///
 /// only intended to help humans reading stderr output
-#[cfg(test)]
 pub fn eprint_file(path: &FPath) {
     let contents_file: String = match std::fs::read_to_string(path) {
         Ok(val) => val,

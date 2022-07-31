@@ -267,8 +267,7 @@ impl LineReader {
     /// copy `Line`s at `fileoffset` to String buffer
     ///
     /// Testing helper only
-    #[cfg(test)]
-    pub(crate) fn copy_line(&self, fileoffset: &FileOffset, buffer: &mut String) -> bool {
+    pub fn copy_line(&self, fileoffset: &FileOffset, buffer: &mut String) -> bool {
         if !self.lines.contains_key(fileoffset) {
             return false;
         }
@@ -282,7 +281,6 @@ impl LineReader {
     /// copy all `Line`s to String buffer
     ///
     /// Testing helper only
-    #[cfg(test)]
     pub fn copy_all_lines(&self, buffer: &mut String) {
         // reserve capacity in buffer
         let mut sz: usize = 0;
@@ -431,7 +429,7 @@ impl LineReader {
     /// a `Line`).
     /// O(log(n))
     // XXX: this fails `pub(in crate::Readers::linereader_tests)`
-    pub(crate) fn get_linep(&self, fileoffset: &FileOffset) -> Option<LineP> {
+    pub fn get_linep(&self, fileoffset: &FileOffset) -> Option<LineP> {
         // I'm somewhat sure this is O(log(n))
         let fo_beg: &FileOffset = match self.foend_to_fobeg.range(fileoffset..).next() {
             Some((_, fo_beg_)) => {
