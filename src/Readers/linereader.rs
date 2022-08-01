@@ -264,43 +264,6 @@ impl LineReader {
         true
     }
 
-    /// copy `Line`s at `fileoffset` to String buffer
-    ///
-    /// Testing helper only
-    pub fn copy_line(&self, fileoffset: &FileOffset, buffer: &mut String) -> bool {
-        if !self.lines.contains_key(fileoffset) {
-            return false;
-        }
-        let line: &Line = &self.lines[fileoffset];
-        let s: String = line.to_String();
-        eprintln!("{}LineReader.copy_line({:2}) {:?}", snx(), fileoffset, s);
-        buffer.push_str(s.as_str());
-        true
-    }
-
-    /// copy all `Line`s to String buffer
-    ///
-    /// Testing helper only
-    pub fn copy_all_lines(&self, buffer: &mut String) {
-        // reserve capacity in buffer
-        let mut sz: usize = 0;
-        for fo in self.lines.keys() {
-            sz += &(self.lines[fo]).len();
-        }
-        sz += 1;
-        buffer.clear();
-        if buffer.capacity() < sz {
-            eprintln!("{}LineReader.copy_all_lines() buffer.reserve({:?})", sn(), sz);
-            buffer.reserve(sz);
-        }
-        for fo in self.lines.keys() {
-            if !self.copy_line(fo, buffer){
-                panic!("copy_line({}, …) failed", fo);
-            }
-        }
-        eprintln!("{}LineReader.copy_all_lines()", sx());
-    }
-
     /// count of lines processed by this `LineReader` (i.e. `self.lines_processed`)
     #[inline(always)]
     pub fn count_lines_processed(&self) -> Count {
@@ -357,6 +320,13 @@ impl LineReader {
     /// is `Line` the last of the file?
     pub fn is_Line_last(&self, linep: &LineP) -> bool {
         self.is_FileOffset_last((*linep).fileoffset_end())
+    }
+
+    /// return all currenty stored `FileOffset` in `self.lines`
+    ///
+    /// only intended to aid testing
+    pub fn get_fileoffsets(&self) -> Vec<FileOffset> {
+        self.lines.keys().cloned().collect()
     }
 
     /// store information about a single line in a file

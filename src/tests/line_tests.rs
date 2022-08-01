@@ -1,22 +1,20 @@
-// tests/s4_tests/line_tests.rs
+// src/tests/line_tests.rs
 //
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-extern crate s4lib;
-
-use s4lib::common::{
+use crate::common::{
     FileOffset,
 };
 
-use s4lib::Data::line::{
+use crate::Data::line::{
     Line,
     LinePart,
     LinePartPtrs,
 };
 
-use s4lib::Readers::blockreader::{
+use crate::Readers::blockreader::{
     Block,
     BlockIndex,
     BlockP,

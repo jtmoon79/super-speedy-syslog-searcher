@@ -1,26 +1,24 @@
-// tests/s4_tests/common.rs
+// src/tests/common.rs
 
-extern crate s4lib;
-
-use s4lib::common::{
+use crate::common::{
     FileType,
     FPath,
     Path,
     FileOffset,
 };
 
-use s4lib::Readers::filepreprocessor::{
+use crate::Readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
     MimeGuess,
     path_to_filetype, fpath_to_filetype,
 };
 
-use s4lib::Readers::helpers::{
+use crate::Readers::helpers::{
     fpath_to_path,
     path_to_fpath,
 };
 
-use s4lib::Readers::blockreader::{
+use crate::Readers::blockreader::{
     BlockSz,
     BlockReader,
     ResultS3_ReadBlock,
@@ -28,7 +26,7 @@ use s4lib::Readers::blockreader::{
     SUBPATH_SEP,
 };
 
-use s4lib::printer_debug::helpers::{
+use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_with_name,
@@ -36,6 +34,11 @@ use s4lib::printer_debug::helpers::{
     create_temp_file_with_suffix,
     create_temp_file_bytes_with_suffix,
     NTF_Path,
+};
+
+#[cfg(test)]
+use crate::printer_debug::printers::{
+    str_to_String_noraw,
 };
 
 extern crate lazy_static;
@@ -554,5 +557,25 @@ pub fn fill(v_: &mut Vec<FileOffset>) {
     }
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/// testing helper to print the raw and noraw version of a file
+///
+/// only intended to help humans reading stderr output
+pub fn eprint_file(path: &FPath) {
+    let contents_file: String = match std::fs::read_to_string(path) {
+        Ok(val) => val,
+        Err(err) => {
+            eprintln!("Error reading file {:?}\n{:?}", path, err);
+            return;
+        },
+    };
+    let contents_file_count: usize = contents_file.lines().count();
+    let contents_file_noraw: String = str_to_String_noraw(contents_file.as_str());
+    eprintln!(
+        "contents_file {:?} ({} lines):\n────────────────────────────────────────\n{}\n────────────────────────────────────────\n{}\n────────────────────────────────────────\n",
+        path, contents_file_count,
+        contents_file_noraw,
+        contents_file,
+    );
+}
 
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

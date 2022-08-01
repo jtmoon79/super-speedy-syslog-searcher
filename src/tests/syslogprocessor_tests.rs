@@ -1,35 +1,33 @@
-// tests/s4_tests/syslogprocessor_tests.rs
+// src/tests/syslogprocessor_tests.rs
 //
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-extern crate s4lib;
-
-use s4lib::common::{
+use crate::common::{
     FPath,
 };
 
-use s4lib::printer_debug::helpers::{
+use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_with_suffix,
     NTF_Path,
 };
 
-use s4lib::Readers::blockreader::{
+use crate::Readers::blockreader::{
     BlockSz,
 };
 
-use s4lib::Readers::filepreprocessor::{
+use crate::Readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
 };
 
-use s4lib::Data::datetime::{
+use crate::Data::datetime::{
     FixedOffset,
 };
 
-pub use s4lib::Readers::syslogprocessor::{
+use crate::Readers::syslogprocessor::{
     SyslogProcessor,
     FileProcessingResult_BlockZero,
     BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP,

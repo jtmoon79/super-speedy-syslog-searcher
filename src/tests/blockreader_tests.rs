@@ -1,21 +1,19 @@
-// tests/s4_tests/blockreader_tests.rs
+// src/tests/blockreader_tests.rs
 //
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-extern crate s4lib;
-
-use s4lib::common::{
+use crate::common::{
     FileType,
 };
 
-use s4lib::Readers::filepreprocessor::{
+use crate::Readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
     MimeGuess,
 };
 
-use s4lib::Readers::blockreader::{
+use crate::Readers::blockreader::{
     FPath,
     FileOffset,
     BlockSz,
@@ -25,7 +23,7 @@ use s4lib::Readers::blockreader::{
     SUBPATH_SEP,
 };
 
-use s4lib::printer_debug::helpers::{
+use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_with_name_exact,
@@ -34,7 +32,7 @@ use s4lib::printer_debug::helpers::{
     NTF_Path,
 };
 
-use s4lib::printer_debug::stack::{
+use crate::printer_debug::stack::{
     stack_offset_set,
 };
 

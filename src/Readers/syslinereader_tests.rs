@@ -22,7 +22,6 @@ use crate::Readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
 };
 
-#[cfg(test)]
 use crate::Readers::helpers::{
     randomize,
     fill,
@@ -45,14 +44,12 @@ use crate::Data::datetime::{
     datetime_parse_from_str,
 };
 
-#[cfg(test)]
 use crate::Data::datetime_tests::{
     dt_pattern_has_year,
     dt_pattern_has_tz,
 };
 
-#[cfg(test)]
-use crate::printer_debug::helpers::{
+use crate::tests::common::{
     eprint_file,
 };
 
@@ -63,7 +60,6 @@ use crate::printer_debug::helpers::{
     NTF_Path,
 };
 
-#[cfg(test)]
 use crate::printer_debug::printers::{
     str_to_String_noraw,
 };

@@ -1,55 +1,53 @@
-// tests/s4_tests/linereader_tests.rs
+// src/tests/linereader_tests.rs
 //
 
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
 
-use crate::s4_tests::common::{
+use crate::tests::common::{
     randomize,
     fill,
+    eprint_file,
 };
 
-extern crate s4lib;
-
-use s4lib::common::{
+use crate::common::{
     FileOffset,
     FPath,
     Bytes,
 };
 
-use s4lib::Readers::blockreader::{
+use crate::Readers::blockreader::{
     BlockSz,
 };
 
-use s4lib::Readers::filepreprocessor::{
+use crate::Readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
 };
 
-use s4lib::Data::line::{
+use crate::Data::line::{
     LineP,
     LineIndex,
     LinePartPtrs,
 };
 
-use s4lib::Readers::linereader::{
+use crate::Readers::linereader::{
     LineReader,
     ResultS4_LineFind,
 };
 
-use s4lib::printer_debug::helpers::{
+use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     NTF_Path,
-    eprint_file,
 };
 
-use s4lib::printer_debug::printers::{
+use crate::printer_debug::printers::{
     byte_to_char_noraw,
     buffer_to_String_noraw,
     str_to_String_noraw,
 };
 
-use s4lib::printer_debug::stack::{
+use crate::printer_debug::stack::{
     sn,
     so,
     sx,
@@ -307,16 +305,28 @@ fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
     let contents_file: String = std::fs::read_to_string(path).unwrap();
     let contents_file_count: usize = contents_file.lines().count();
     eprint_file(path);
-    let mut contents_lr: String = String::with_capacity(contents_file.len() * 2);
-    linereader.copy_all_lines(&mut contents_lr);
+
+    let mut buffer_lr: Vec<u8> = Vec::<u8>::with_capacity(contents_file.len() * 2);
+    for fo in linereader.get_fileoffsets().iter() {
+        let linep = linereader.get_linep(fo).unwrap();
+        for slice_ in (*linep).get_slices() {
+            for byte_ in slice_.iter() {
+                buffer_lr.push(*byte_);
+            }
+        }
+    }
+    let contents_lr: String = String::from_utf8_lossy(&buffer_lr).to_string();
+
     eprintln!(
         "{}contents_file ({} lines):\n───────────────────────\n{}\n───────────────────────\n",
         so(), contents_file_count, str_to_String_noraw(contents_file.as_str()),
     );
+
     eprintln!(
         "{}contents_lr ({} lines processed):\n───────────────────────\n{}\n───────────────────────\n",
         so(), linereader.count_lines_processed(), str_to_String_noraw(contents_lr.as_str()),
     );
+
     let mut i: usize = 0;
     for lines_file_lr1 in contents_file.lines().zip(contents_lr.lines()) {
         i += 1;

@@ -1,10 +1,10 @@
-// tests/s4_tests/filepreprocessor_tests.rs
+// src/tests/filepreprocessor_tests.rs
 //
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::s4_tests::common::{
+use crate::tests::common::{
     MIMEGUESS_TXT,
     MIMEGUESS_GZ,
     MIMEGUESS_XZ,
@@ -25,25 +25,23 @@ use crate::s4_tests::common::{
     NTF_GZ_EMPTY_MIMEGUESS,
 };
 
-extern crate s4lib;
-
-use s4lib::Readers::helpers::{
+use crate::Readers::helpers::{
     path_to_fpath,
     fpath_to_path,
 };
 
-use s4lib::common::{
+use crate::common::{
     Path,
     FPath,
     FileType,
     FileProcessingResult,
 };
 
-use s4lib::Readers::blockreader::{
+use crate::Readers::blockreader::{
     SUBPATH_SEP,
 };
 
-use s4lib::Readers::filepreprocessor::{
+use crate::Readers::filepreprocessor::{
     ProcessPathResult,
     fpath_to_filetype_mimeguess,
     path_to_filetype_mimeguess,
@@ -56,7 +54,7 @@ use s4lib::Readers::filepreprocessor::{
     process_path,
 };
 
-use s4lib::printer_debug::helpers::{
+use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file_with_name_exact,
     create_temp_file_with_suffix,
@@ -64,7 +62,7 @@ use s4lib::printer_debug::helpers::{
     NTF_Path,
 };
 
-use s4lib::printer_debug::stack::{
+use crate::printer_debug::stack::{
     sn,
     so,
     sx,

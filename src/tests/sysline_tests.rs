@@ -1,36 +1,34 @@
-// tests/s4_tests/sysline_tests.rs
+// src/tests/sysline_tests.rs
 //
 // …
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-extern crate s4lib;
-
-use s4lib::common::{
+use crate::common::{
     FileOffset,
     FileType,
     FPath,
 };
 
-use s4lib::Data::datetime::{
+use crate::Data::datetime::{
     DateTimeL,
     Duration,
 };
 
-use s4lib::Data::line::{
+use crate::Data::line::{
     LinePart,
     Line,
     LineP,
     Lines,
 };
 
-use s4lib::Data::sysline::{
+use crate::Data::sysline::{
     Sysline,
     SyslineP,
 };
 
-use s4lib::Readers::blockreader::{
+use crate::Readers::blockreader::{
     Block,
     BlockIndex,
     BlockP,
@@ -38,7 +36,7 @@ use s4lib::Readers::blockreader::{
     BlockSz,
 };
 
-use s4lib::printer_debug::stack::{
+use crate::printer_debug::stack::{
     stack_offset_set,
 };
 
