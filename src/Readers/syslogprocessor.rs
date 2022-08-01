@@ -115,8 +115,8 @@ type BszRange = std::ops::Range<BlockSz>;
 type Map_BszRange_To_Count = RangeMap<u64, Count>;
 
 lazy_static! {
-    // for files in blockzero_analyis, the number `Line` needed to found within
-    // block zero will vary depending on the blocksz
+    /// for files in blockzero_analyis, the number `Line` needed to found within
+    /// block zero will vary depending on the blocksz
     pub static ref BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP: Map_BszRange_To_Count = {
         let mut m = Map_BszRange_To_Count::new();
         m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX as BlockSz}, 1);
@@ -124,8 +124,8 @@ lazy_static! {
 
         m
     };
-    // for files in blockzero_analyis, the number `Sysline` needed to found within
-    // block zero will vary depending on the blocksz
+    /// for files in blockzero_analyis, the number `Sysline` needed to found within
+    /// block zero will vary depending on the blocksz
     pub static ref BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP: Map_BszRange_To_Count = {
         let mut m = Map_BszRange_To_Count::new();
         m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX as BlockSz}, 1);

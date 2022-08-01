@@ -254,6 +254,7 @@ impl LineReader {
     /// return `false` if `fileoffset` not found
     ///
     /// Testing helper only
+    // TODO: [2022/07] remove this
     #[cfg(any(debug_assertions, test))]
     pub fn print(&self, fileoffset: &FileOffset) -> bool {
         if !self.lines.contains_key(fileoffset) {
