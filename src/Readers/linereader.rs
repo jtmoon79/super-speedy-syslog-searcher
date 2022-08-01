@@ -67,7 +67,6 @@ use debug_print::{
 extern crate lru;
 use lru::LruCache;
 
-
 extern crate mime_guess;
 use mime_guess::MimeGuess;
 
