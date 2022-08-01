@@ -94,7 +94,6 @@ enum ResultS4_LineFind_Test {
 // -------------------------------------------------------------------------------------------------
 
 /// helper to wrap the match and panic checks
-#[cfg(test)]
 fn new_LineReader(path: &FPath, blocksz: BlockSz) -> LineReader {
     let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
     match LineReader::new(path.clone(), filetype, blocksz) {
@@ -109,7 +108,6 @@ fn new_LineReader(path: &FPath, blocksz: BlockSz) -> LineReader {
 
 /// loop on `LineReader.find_line` until it is done
 /// this is the most straightforward use of `LineReader`
-#[cfg(test)]
 fn process_LineReader(lr1: &mut LineReader) {
     eprintln!("{}process_LineReader()", sn());
     let mut fo1: FileOffset = 0;
@@ -164,7 +162,6 @@ fn process_LineReader(lr1: &mut LineReader) {
 ///
 /// the `LineReader` instance reads `data`
 /// assert the line count
-#[cfg(test)]
 fn do_test_LineReader_count(data: &str, line_count: usize) {
     eprintln!("{}do_test_LineReader_count(…, {:?})", sn(), line_count);
     let blocksz: BlockSz = 64;
@@ -255,7 +252,6 @@ fn test_LineReader_count4_uhi_n__n__n__n() {
 
 /// testing helper
 /// call `LineReader.find_line` for all `FileOffset` in passed `offsets`
-#[cfg(test)]
 fn find_line_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
     for fo1 in offsets {
         eprintln!("{}LineReader.find_line({})", so(), fo1);
@@ -299,7 +295,6 @@ fn find_line_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
 /// compare contents of a file `path` to contents of `linereader`
 /// assert they are the same
 /// presumes the linereader has processed the entire file
-#[cfg(test)]
 fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
     eprintln!("{}compare_file_linereader({:?})", sn(), path);
     let contents_file: String = std::fs::read_to_string(path).unwrap();
@@ -349,7 +344,6 @@ fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
 
 /// test `LineReader::find_line` read all file offsets
 #[allow(non_snake_case)]
-#[cfg(test)]
 fn _test_LineReader_all(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
     stack_offset_set(None);
     eprintln!("{}_test_LineReader_all({:?}, {:?})", sn(), path, blocksz);
@@ -483,7 +477,6 @@ test_LineReader_all3n line 3
 
 /// test `LineReader::find_line` read all file offsets but in reverse
 #[allow(non_snake_case)]
-#[cfg(test)]
 fn test_LineReader_all_reversed(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
     stack_offset_set(None);
     eprintln!("{}test_LineReader_all_reversed({:?}, {:?})", sn(), &path, blocksz);
@@ -595,7 +588,6 @@ test_LineReader_all_reversed3n line 3
 
 /// test `LineReader::find_line` read all file offsets but only the even ones
 #[allow(non_snake_case)]
-#[cfg(test)]
 fn test_LineReader_half_even(path: &FPath, blocksz: BlockSz) {
     eprintln!("{}test_LineReader_half_even({:?}, {:?})", sn(), &path, blocksz);
     let mut lr1 = new_LineReader(&path, blocksz);
@@ -743,7 +735,6 @@ test_LineReader_half_even_3n line 3
 
 /// test `LineReader::find_line` read all file offsets but only the even ones
 #[allow(non_snake_case)]
-#[cfg(test)]
 fn test_LineReader_half_odd(path: &FPath, blocksz: BlockSz) {
     eprintln!("{}test_LineReader_half_odd({:?}, {:?})", sn(), &path, blocksz);
     let mut lr1 = new_LineReader(path, blocksz);
@@ -844,7 +835,6 @@ test_LineReader_half_odd_3n line 3
 /// test `LineReader::find_line` read all file offsets but in random order
 /// TODO: `randomize` should be predictable
 #[allow(non_snake_case)]
-#[cfg(test)]
 fn test_LineReader_rand(path: &FPath, blocksz: BlockSz) {
     stack_offset_set(None);
     eprintln!("{}test_LineReader_rand({:?}, {:?})", sn(), &path, blocksz);
@@ -947,7 +937,6 @@ test_LineReader_rand3n line 3
 
 /// test `LineReader::find_line` read all file offsets in a precise order
 #[allow(non_snake_case)]
-#[cfg(test)]
 fn test_LineReader_precise_order(path: &FPath, cache_enabled: bool, blocksz: BlockSz, offsets: &Vec::<FileOffset>) {
     stack_offset_set(None);
     eprintln!("{}test_LineReader_rand({:?}, {:?}, {:?})", sn(), &path, blocksz, offsets);
@@ -1177,7 +1166,6 @@ test_LineReader_precise_order_3 line 3 of 3
 // -------------------------------------------------------------------------------------------------
 
 /// call `LineReader.find_line_in_block` for all `FileOffset` in passed `offsets`
-#[cfg(test)]
 fn find_line_in_block_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
     for fo1 in offsets {
         eprintln!("{}LineReader.find_line_in_block({})", so(), fo1);
@@ -1220,7 +1208,6 @@ fn find_line_in_block_all(linereader: &mut LineReader, offsets: &Vec::<FileOffse
 
 /// test `LineReader::find_line_in_block` read all file offsets
 #[allow(non_snake_case)]
-#[cfg(test)]
 fn test_find_line_in_block_all(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
     stack_offset_set(None);
     eprintln!("{}test_find_line_in_block_all({:?}, {:?})", sn(), path, blocksz);
@@ -1326,7 +1313,6 @@ type test_find_line_in_block_check = Vec<(FileOffset, ResultS4_LineFind_Test, St
 
 /// test `LineReader::find_line_in_block` reads passed file offsets
 #[allow(non_snake_case)]
-#[cfg(test)]
 fn test_find_line_in_block(
     path: &FPath,
     cache_enabled: bool,
@@ -1654,7 +1640,6 @@ this is line 1";
 
 /// for given `blocksz`, get `LineReader.get_boxptrs` for a predetermined
 /// inputs and assert the comparison to `checks` outputs
-#[cfg(test)]
 fn test_Line_get_boxptrs_2_(blocksz: BlockSz) {
     eprintln!("{}test_Line_get_boxptrs_2_({:?})", sn(), blocksz);
     let data: &str = "\

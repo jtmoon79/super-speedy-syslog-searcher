@@ -71,10 +71,6 @@ use crate::printer_debug::stack::{
     sx,
 };
 
-use crate::printer::printers::{
-    write_stderr,
-};
-
 use std::str;
 
 extern crate const_format;
