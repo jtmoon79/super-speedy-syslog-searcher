@@ -2,6 +2,7 @@
 
 pub mod common;
 pub mod blockreader_tests;
+pub mod datetime_tests;
 pub mod filepreprocessor_tests;
 pub mod line_tests;
 pub mod linereader_tests;
