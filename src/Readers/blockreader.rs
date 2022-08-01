@@ -317,51 +317,6 @@ fn dword_to_u32(buf: &[u8; 4]) -> u32 {
     u32::from_be_bytes(buf_)
 }
 
-/// helper for humans debugging Blocks, very inefficient
-#[allow(dead_code)]
-#[cfg(any(debug_assertions,test))]
-pub fn printblock(buffer: &Block, blockoffset: BlockOffset, fileoffset: FileOffset, blocksz: BlockSz, _mesg: String) {
-    const LN: usize = 64;
-    println!("╔════════════════════════════════════════════════════════════════════════════╕");
-    println!(
-        "║File block offset {:4}, byte offset {:4}, block length {:4} (0x{:04X}) (max {:4})",
-        blockoffset,
-        fileoffset,
-        buffer.len(),
-        buffer.len(),
-        blocksz
-    );
-    println!("║          ┌────────────────────────────────────────────────────────────────┐");
-    let mut done = false;
-    let mut i = 0;
-    let mut buf = Vec::<char>::with_capacity(LN);
-    while i < buffer.len() && !done {
-        buf.clear();
-        for j in 0..LN {
-            if i + j >= buffer.len() {
-                done = true;
-                break;
-            };
-            // print line number at beginning of line
-            if j == 0 {
-                let at: usize = i + j + ((blockoffset * blocksz) as usize);
-                print!("║@0x{:06x} ", at);
-            };
-            let v = buffer[i + j];
-            let cp = byte_to_char_noraw(v);
-            buf.push(cp);
-        }
-        // done reading line, print buf
-        i += LN;
-        {
-            //let s_: String = buf.into_iter().collect();
-            let s_ = buf.iter().cloned().collect::<String>();
-            println!("│{}│", s_);
-        }
-    }
-    println!("╚══════════╧════════════════════════════════════════════════════════════════╛");
-}
-
 /// implement the BlockReader things
 impl BlockReader {
     /// maximum size of a gzip compressed file that will be processed.
@@ -1946,6 +1901,16 @@ impl BlockReader {
         Ok(TarHandle::new(file_tar))
     }
 
+    /// for testing, very inefficient!
+    pub(crate) fn get_block(&self, blockoffset: &BlockOffset) -> Option<Bytes> {
+        if self.blocks.contains_key(blockoffset) {
+            return Some((*self.blocks[blockoffset]).clone());
+        }
+
+        None
+    }
+
+    /*
     /// get byte at FileOffset
     /// `None` means the data at `FileOffset` was not available
     /// Does not request any `read_block`! Only copies from what is currently available from prior

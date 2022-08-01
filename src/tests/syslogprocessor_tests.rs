@@ -42,7 +42,6 @@ use lazy_static::lazy_static;
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// helper to wrap the match and panic checks
-#[cfg(test)]
 fn new_SyslogProcessor(path: &FPath, blocksz: BlockSz) -> SyslogProcessor {
     let tzo: FixedOffset = FixedOffset::east(0);
     let (filetype, mimeguess) = fpath_to_filetype_mimeguess(path);
