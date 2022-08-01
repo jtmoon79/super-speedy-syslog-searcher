@@ -78,7 +78,7 @@ extern crate tar;
 //
 // That algorithm should be correct in 99% of cases.
 //
-// TODO: 2022/06/06 a `struct FilePreProcessed` should be implemented
+// TODO: [2022/06/06] a `struct FilePreProcessed` should be implemented
 //     it should hold the `ProcessPathResult`, `MimeGuess`, and other stuff collected
 //     during preprocessing here, and then give that to `SyslogProcessor` that gives it
 //     to `BlockReader`
@@ -86,7 +86,7 @@ extern crate tar;
 #[derive(Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
     FileValid(FPath, MimeGuess, FileType),
-    // TODO: 2022/06 not currently checked until too late
+    // TODO: [2022/06] not currently checked until too late
     FileErrNoPermissions(FPath, MimeGuess),
     FileErrNotSupported(FPath, MimeGuess),
     FileErrNotParseable(FPath, MimeGuess),
