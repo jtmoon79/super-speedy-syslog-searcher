@@ -23,11 +23,6 @@ use crate::Data::datetime::{
 };
 
 #[cfg(any(debug_assertions,test))]
-use crate::printer_debug::printers::{
-    byte_to_char_noraw,
-};
-
-#[cfg(any(debug_assertions,test))]
 use crate::printer_debug::stack::{
     sn,
     so,
@@ -481,12 +476,12 @@ impl BlockReader {
 
                 // create "take handler" that will read 8 bytes as-is (no decompression)
                 match (&file).seek(SeekFrom::End(-8)) {
-                    Ok(_) => {},
+                    Ok(_) => {}
                     Err(err) => {
                         debug_eprintln!("{}BlockReader::new: FileGz: return Err({})", sx(), err);
                         eprintln!("ERROR: file.SeekFrom(-8) Error {}", err);
                         return Err(err);
-                    },
+                    }
                 };
                 let mut reader = (&file).take(8);
 
@@ -494,13 +489,13 @@ impl BlockReader {
                 let mut buffer_crc32: [u8; 4] = [0; 4];
                 debug_eprintln!("{}BlockReader::new: FileGz: reader.read_exact(@{:p}) (buffer len {})", so(), &buffer_crc32, buffer_crc32.len());
                 match reader.read_exact(&mut buffer_crc32) {
-                    Ok(_) => {},
+                    Ok(_) => {}
                     //Err(err) if err.kind() == std::io::ErrorKind::UnexpectedEof => {},
                     Err(err) => {
                         debug_eprintln!("{}BlockReader::new: FileGz: return {:?}", sx(), err);
                         eprintln!("reader.read_to_end(&buffer_crc32) Error {:?}", err);
                         return Err(err);
-                    },
+                    }
                 }
                 debug_eprintln!("{}BlockReader::new: FileGz: buffer_crc32 {:?}", so(), buffer_crc32);
                 let crc32 = dword_to_u32(&buffer_crc32);
@@ -510,18 +505,19 @@ impl BlockReader {
                 let mut buffer_size: [u8; 4] = [0; 4];
                 debug_eprintln!("{}BlockReader::new:FileGz:  reader.read_exact(@{:p}) (buffer len {})", so(), &buffer_size, buffer_size.len());
                 match reader.read_exact(&mut buffer_size) {
-                    Ok(_) => {},
+                    Ok(_) => {}
                     Err(err) if err.kind() == std::io::ErrorKind::UnexpectedEof => {},
                     Err(err) => {
                         debug_eprintln!("{}BlockReader::new: FileGz: return {:?}", sx(), err);
                         eprintln!("reader.read_to_end(&buffer_size) Error {:?}", err);
                         return Err(err);
-                    },
+                    }
                 }
                 debug_eprintln!("{}BlockReader::new: FileGz: buffer_size {:?}", so(), buffer_size);
                 let size: u32 = dword_to_u32(&buffer_size);
                 debug_eprintln!("{}BlockReader::new: FileGz: file size uncompressed {1:?} (0x{1:08X})", so(), size);
                 let filesz_uncompressed: FileSz = size as FileSz;
+                /*
                 if filesz_uncompressed == 0 {
                     debug_eprintln!("{}BlockReader::new: FileGz: return Err(InvalidData)", sx());
                     return Result::Err(
@@ -531,6 +527,7 @@ impl BlockReader {
                         )
                     );
                 }
+                */
                 filesz_actual = filesz_uncompressed;
 
                 // reset Seek pointer
@@ -1461,7 +1458,9 @@ impl BlockReader {
                 match (self.gz.as_mut().unwrap().decoder).read(block_buf.as_mut()) {
                     Ok(size_) if size_ == 0 => {
                         debug_eprintln!("{}read_block_FileGz({}): GzDecoder.read() returned Ok({:?}); read_total {}", so(), blockoffset, size_, read_total);
-                        
+                        if self.filesz_actual == 0 {
+                            return ResultS3_ReadBlock::Done;
+                        }
                         let byte_at: FileOffset = self.file_offset_at_block_offset_self(bo_at) + (read_total as FileOffset);
                         // in ad-hoc testing, it was found the decoder never recovers from a zero-byte read
                         return ResultS3_ReadBlock::Err(
@@ -1485,6 +1484,14 @@ impl BlockReader {
                     // first or subsequent read is le expected size
                     Ok(size_) => {
                         debug_eprintln!("{}read_block_FileGz({}): GzDecoder.read() returned Ok({:?}), readsz {}, blocksz {}", so(), blockoffset, size_, readsz, blocksz_u);
+                        if self.filesz_actual == 0 {
+                            return ResultS3_ReadBlock::Err(
+                                Error::new(
+                                    ErrorKind::InvalidData,
+                                    format!("GzDecoder.read() returned {} yet file size uncompressed {} (calculated from gzip header); {:?}", size_, self.filesz_actual, self.path)
+                                )
+                            );
+                        }
                         // TODO: cost-savings: use faster `copy_slice`
                         for byte_ in block_buf.iter().take(size_) {
                             block[read_total] = *byte_;
@@ -1679,13 +1686,13 @@ impl BlockReader {
     ///
     /// Called from `read_block`.
     ///
-    /// This reads the entire file within the `.tar` file during the first call.
+    /// XXX: This reads the entire file within the `.tar` file during the first call.
     ///
-    /// The big read is due to crate `tar` not providing a method to store `tar::Handle` or
+    /// This one big read is due to crate `tar` not providing a method to store `tar::Handle` or
     /// `tar::Entry` due to inter-instance references and explicit lifetimes.
-    /// A `tar::Entry` requires explicit lifetime to store. But it also holds a reference
-    /// to data within the `tar::Handle`. At least I am unable to figure out with some
-    /// method to store the data.
+    /// A `tar::Entry` holds a reference to data within the `tar::Handle`.
+    /// I found it impossible to store both related instances and then later utilize the
+    /// `tar::Entry`.
     ///
     fn read_block_FileTar(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         debug_eprintln!("{}read_block_FileTar({})", sn(), blockoffset);
@@ -1738,6 +1745,12 @@ impl BlockReader {
             }
         };
 
+        // handle special case, also file size zero cause `entry.read_exact` to return an error
+        if self.filesz_actual == 0 {
+            debug_eprintln!("{}read_block_FileTar({}): filesz_actual 0; return Done", sx(), blockoffset);
+            return ResultS3_ReadBlock::Done;
+        }
+
         // read all blocks from file `entry`
         let mut bo_at: BlockOffset = 0;
         let blockoffset_last = self.blockoffset_last();
@@ -1756,9 +1769,8 @@ impl BlockReader {
             }
 
             // check returned Block is expected number of bytes
-            //let blocklen_sz: BlockSz = block.len() as BlockSz;
             if block.is_empty() {
-                let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                let byte_at: FileOffset = self.file_offset_at_block_offset_self(bo_at);
                 return ResultS3_ReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
@@ -1769,7 +1781,7 @@ impl BlockReader {
                     )
                 );
             } else if cap != block.len() {
-                let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                let byte_at: FileOffset = self.file_offset_at_block_offset_self(bo_at);
                 return ResultS3_ReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
@@ -1785,7 +1797,9 @@ impl BlockReader {
             self.store_block_in_storage(bo_at, &blockp);
             bo_at += 1;
         }
+        // all blocks have been read...
 
+        // return only the block requested
         let blockp: BlockP = match self.blocks.get(&blockoffset) {
             Some(blockp_) => blockp_.clone(),
             None => {
@@ -1961,4 +1975,5 @@ impl BlockReader {
 
         vec_
     }
+    */
 }
