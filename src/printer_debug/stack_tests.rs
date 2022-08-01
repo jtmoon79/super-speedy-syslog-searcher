@@ -8,7 +8,9 @@ use super::stack::{
     sn,
     snx,
     sx,
-    stack_offset
+    stack_offset,
+    function_name,
+    function_name_full,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -77,4 +79,18 @@ pub fn test_sn_so_sx() {
         eprintln!("{}depth1 exit", sx());
     }
     depth1();
+}
+
+#[test]
+fn test_function_name_full() {
+    let expect_: &str = "s4lib::printer_debug::stack_tests::test_function_name_full";
+    let actual: &str = function_name_full!();
+    assert_eq!(actual, expect_, "macro function_name returned {:?}, expected {:?}", actual, expect_);
+}
+
+#[test]
+fn test_function_name() {
+    let expect_: &str = "test_function_name";
+    let actual: &str = function_name!();
+    assert_eq!(actual, expect_, "macro function_name returned {:?}, expected {:?}", actual, expect_);
 }

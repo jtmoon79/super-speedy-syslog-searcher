@@ -267,11 +267,54 @@ pub fn snx() -> &'static str {
     }
 }
 
-// TODO: [2021/09/22]
-//       create new macro for current function name `fname`
-//       macro function_name!() prints all parents `A::B::my_func`, just print `my_func`.
-//       can be ripped from https://github.com/popzxc/stdext-rs/blob/2179f94475f925a2eacdc2f2408d7ab352d0052c/src/macros.rs#L44-L74
-//       could possibly use `backtrace::trace` and return this as part of `so`, `sn`, `sx` ???
+/// return the current current function name full path as a `&'static str`
+/// e.g. `"s4lib::printer::printers::color_rand"`
+///
+/// ripped from https://github.com/popzxc/stdext-rs/blob/2179f94475f925a2eacdc2f2408d7ab352d0052c/src/macros.rs#L44-L74
+#[macro_export]
+macro_rules! function_name_full {
+    () => {{
+        fn f() {}
+        fn type_name_of<T>(_: T) -> &'static str {
+            std::any::type_name::<T>()
+        }
+        let name = type_name_of(f);
+        // `3` is the length of the `::f`.
+        &name[..name.len() - 3]
+    }};
+}
+// allow easier `use` statements
+pub use function_name_full;
+
+/// return the current the current function name as a `&'static str`
+/// e.g. `"color_rand"`
+#[macro_export]
+macro_rules! function_name {
+    () => {{
+        use crate::function_name_full;
+        let name: &'static str = function_name_full!();
+        const SPLIT: &str = "::";
+        const SPLIT_LEN: usize = SPLIT.len();
+        let rfind_: Option<usize> = name.rfind(SPLIT);
+        let len_: usize = name.len();
+        match rfind_ {
+            Some(index) => {
+                if index + SPLIT_LEN < len_ {
+                    &name[index+SPLIT_LEN..]
+                } else {  // this `else` should never happen... but if it does then do not panic
+                    &name[index..]
+                }
+            }
+            None => {
+                // fallback to full name
+                name
+            }
+        }
+    }};
+}
+// allow easier `use` statements
+pub use function_name;
+
 /*
 fn fno() -> () {
     let bt = backtrace::Backtrace::new();

@@ -5,7 +5,7 @@
 // TODO: [2022/04/14] needs consolidation of overlapping functions. many were written in haste.
 //
 
-#[allow(unused_imports)]  // XXX: clippy errantly marks this as unused
+#[allow(unused_imports)]  // XXX: clippy errantly marks this `use` as unused
 #[cfg(any(debug_assertions,test))]
 use crate::common::{
     FileOpenOptions,
@@ -16,9 +16,21 @@ use crate::printer::printers::{
     write_stdout,
 };
 
+use crate::printer_debug::stack::{
+    sn,
+    so,
+    sx,
+    snx,
+    stack_offset_set,
+    function_name,
+};
+
+extern crate debug_print;
+use debug_print::debug_eprintln;
+
 use std::io::Write;  // for `std::io::Stdout.flush`
 
-#[allow(unused_imports)]  // XXX: clippy errantly marks this as unused
+#[allow(unused_imports)]  // XXX: clippy errantly marks this `use` as unused
 #[cfg(any(debug_assertions,test))]
 use std::io::prelude::*;  // for `std::fs::File.read_to_string`
 
@@ -29,6 +41,81 @@ pub use termcolor::{
     ColorSpec,
     WriteColor,
 };
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// debug print wrappers
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// `eprintln!` only in debug builds, using stack offset indent `so()`
+#[macro_export]
+macro_rules! dpo {
+    (
+        $($arg:tt)*
+    ) => {
+        #[cfg(debug_assertions)]
+        eprint!("{}", so());
+        #[cfg(debug_assertions)]
+        eprintln!($($arg)*)
+    }
+}
+pub use dpo;
+
+/// `eprintln!` only in debug builds, using stack offset indent `so()` and current function name
+#[macro_export]
+macro_rules! dpof {
+    (
+        $($arg:tt)*
+    ) => {
+        #[cfg(debug_assertions)]
+        eprint!("{}{}: ", so(), function_name!());
+        #[cfg(debug_assertions)]
+        eprintln!($($arg)*)
+    }
+}
+pub use dpof;
+
+/// `eprintln!` only in debug builds, using stack offset indent `sn()` and current function name
+#[macro_export]
+macro_rules! dpnf {
+    (
+        $($arg:tt)*
+    ) => {
+        #[cfg(debug_assertions)]
+        eprint!("{}{}: ", sn(), function_name!());
+        #[cfg(debug_assertions)]
+        eprintln!($($arg)*)
+    }
+}
+pub use dpnf;
+
+/// `eprintln!` only in debug builds, using stack offset indent `sx()` and current function name
+#[macro_export]
+macro_rules! dpxf {
+    (
+        $($arg:tt)*
+    ) => {
+        #[cfg(debug_assertions)]
+        eprint!("{}{}: ", sx(), function_name!());
+        #[cfg(debug_assertions)]
+        eprintln!($($arg)*)
+    }
+}
+pub use dpxf;
+
+
+/// `eprintln!` only in debug builds, using stack offset indent `sx()` and current function name
+#[macro_export]
+macro_rules! dpnxf {
+    (
+        $($arg:tt)*
+    ) => {
+        #[cfg(debug_assertions)]
+        eprint!("{}{}: ", snx(), function_name!());
+        #[cfg(debug_assertions)]
+        eprintln!($($arg)*)
+    }
+}
+pub use dpnxf;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // helper functions - various print and write
@@ -222,4 +309,37 @@ pub fn pretty_print(buffer: &[u8], raw: bool) {
             eprintln!("ERROR: pretty_print: stdout flushing error {}", err);
         }
     }
+}
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+#[test]
+fn test_dpo() {
+    stack_offset_set(Some(2));
+    dpo!("this printed line should be indented, with arg {:?}", "arg1");
+}
+
+#[test]
+fn test_dpof() {
+    stack_offset_set(Some(2));
+    dpof!("this printed line should be indented and preceded with function name 'test_dpof', with arg {:?}", "arg1");
+}
+
+#[test]
+fn test_dpnf() {
+    stack_offset_set(Some(2));
+    dpnf!("this printed line should be indented and preceded with function name 'test_dpnf', with arg {:?}", "arg1");
+}
+
+#[test]
+fn test_dpxf() {
+    stack_offset_set(Some(2));
+    dpxf!("this printed line should be indented and preceded with function name 'test_dpxf', with arg {:?}", "arg1");
+}
+
+#[test]
+fn test_dpnxf() {
+    stack_offset_set(Some(2));
+    dpnxf!("this printed line should be indented and preceded with function name 'test_dpnxf', with arg {:?}", "arg1");
 }
