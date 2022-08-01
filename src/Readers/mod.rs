@@ -8,6 +8,4 @@ pub mod helpers;
 pub mod linereader;
 pub mod summary;
 pub mod syslinereader;
-#[cfg(test)]
-pub mod syslinereader_tests;
 pub mod syslogprocessor;
