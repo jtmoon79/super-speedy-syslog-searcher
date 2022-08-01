@@ -93,6 +93,10 @@ pub fn stack_offset_set(correction: Option<isize>) {
     let thread_cur = thread::current();
     let tid = thread_cur.id();
     if !_STACK_OFFSET_TABLE.is_set().unwrap() {
+        // BUG: multiple simlutaneous calls to `_STACK_OFFSET_TABLE.is_set()` then
+        //      `_STACK_OFFSET_TABLE.set(…)` may cause `.set(…)` to return an error.
+        //      Seen in some calls to `cargo test` with filtering where many tests call
+        //      `stack_offset_set`. Needs a mutex.
         #[allow(clippy::single_match)]
         match _STACK_OFFSET_TABLE.set(Map_ThreadId_SD::new()) {
             Err(err) => {
