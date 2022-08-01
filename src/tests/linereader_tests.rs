@@ -177,7 +177,6 @@ fn do_test_LineReader_count(data: &str, line_count: usize) {
     eprintln!("{}do_test_LineReader_count()", sx());
 }
 
-
 #[test]
 fn test_LineReader_count0() {
     do_test_LineReader_count("", 0);
@@ -380,7 +379,6 @@ test_LineReader_all1 line 1";
     _test_LineReader_all(&fpath, true, 0x4);
 }
 
-
 #[test]
 fn test_LineReader_all1n() {
     let data: &str = "\
@@ -400,7 +398,6 @@ test_LineReader_all2 line 2";
     let fpath = NTF_Path(&ntf);
     _test_LineReader_all(&fpath, true, 0xFF);
 }
-
 
 #[test]
 fn test_LineReader_all2n() {
@@ -534,7 +531,6 @@ test_LineReader_all_reversed2 line 2";
     test_LineReader_all_reversed(&fpath, true, 0xFF);
 }
 
-
 #[test]
 fn test_LineReader_all_reversed2n() {
     let data: &str = "\
@@ -621,7 +617,6 @@ test_LineReader_half_even_1 line 1";
     test_LineReader_half_even(&fpath, 0x4);
 }
 
-
 #[test]
 fn test_LineReader_half_even_1n() {
     let data: &str = "\
@@ -641,7 +636,6 @@ test_LineReader_half_even_2 line 2";
     let fpath = NTF_Path(&ntf);
     test_LineReader_half_even(&fpath, 0xFF);
 }
-
 
 #[test]
 fn test_LineReader_half_even_2n() {
@@ -768,7 +762,6 @@ test_LineReader_half_odd_1 line 1";
     test_LineReader_half_odd(&fpath, 0x4);
 }
 
-
 #[test]
 fn test_LineReader_half_odd_1n() {
     let data: &str = "\
@@ -788,7 +781,6 @@ test_LineReader_half_odd_2 line 2";
     let fpath = NTF_Path(&ntf);
     test_LineReader_half_odd(&fpath, 0xFF);
 }
-
 
 #[test]
 fn test_LineReader_half_odd_2n() {
@@ -872,7 +864,6 @@ test_LineReader_rand1 line 1";
     test_LineReader_rand(&fpath, 0x4);
 }
 
-
 #[test]
 fn test_LineReader_rand1n() {
     let data: &str = "\
@@ -892,7 +883,6 @@ test_LineReader_rand2 line 2";
     let fpath = NTF_Path(&ntf);
     test_LineReader_rand(&fpath, 0xFF);
 }
-
 
 #[test]
 fn test_LineReader_rand2n() {
@@ -1096,20 +1086,17 @@ fn test_LineReader_precise_order_nl4__2_3_0_1() {
     test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
 }
 
-
 #[test]
 fn test_LineReader_precise_order_nl4__3_0_1_2() {
     let offsets: Vec::<FileOffset> = vec![3, 0, 1, 2];
     test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
 }
 
-
 #[test]
 fn test_LineReader_precise_order_nl4__3_0_1_2_3_0_1_2__noLRUcache() {
     let offsets: Vec::<FileOffset> = vec![3, 0, 1, 2, 3, 0, 1, 2];
     test_LineReader_precise_order(&NTF_NL_4_PATH, false, 0xF, &offsets);
 }
-
 
 #[test]
 fn test_LineReader_precise_order_3__0_88_44() {
@@ -1289,7 +1276,6 @@ fn test_find_line_in_block_all_nl5_2() {
 fn test_find_line_in_block_all_nl5_4() {
     test_find_line_in_block_all(&NTF_NL_5_PATH, true, 4);
 }
-
 
 #[test]
 fn test_find_line_in_block_all_5_2() {
@@ -1740,7 +1726,6 @@ fn test_Line_get_boxptrs_2_bsz_0xA() {
 fn test_Line_get_boxptrs_2_bsz_0x9() {
     test_Line_get_boxptrs_2_(0x9);
 }
-
 
 #[test]
 fn test_Line_get_boxptrs_2_bsz_0x8() {

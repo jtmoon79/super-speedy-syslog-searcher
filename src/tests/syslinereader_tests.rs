@@ -121,7 +121,6 @@ lazy_static! {
     };
 }
 
-
 /// basic test of `SyslineReader.find_datetime_in_line`
 #[allow(non_snake_case)]
 fn test_find_datetime_in_line_by_block(blocksz: BlockSz) {
@@ -166,7 +165,6 @@ fn test_find_datetime_in_line_by_block(blocksz: BlockSz) {
 
     eprintln!("{}test_find_datetime_in_line_by_block()", sx());
 }
-
 
 #[test]
 fn test_find_datetime_in_line_by_block2() {

@@ -163,4 +163,3 @@ fn test_blockzero_analysis_nl3_bszFF_FileErrNoLinesFound() {
 // -------------------------------------------------------------------------------------------------
 
 // TODO: [2022/06] test `SyslogProcessor::blockzero_analysis_syslines`
-
