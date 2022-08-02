@@ -28,11 +28,19 @@ use crate::printer_debug::printers::{
     char_to_char_noraw,
 };
 
-#[cfg(any(debug_assertions,test))]
-use crate::printer_debug::stack::{
-    so,
-    sn,
-    sx,
+use crate::printer_debug::printers::{
+    dpo,
+    dpn,
+    dpx,
+    dpnx,
+    dpof,
+    dpnf,
+    dpxf,
+    dpnxf,
+    dp_err,
+    dp_wrn,
+    p_err,
+    p_wrn,
 };
 
 use std::borrow::Cow;
@@ -40,11 +48,6 @@ use std::fmt;
 use std::io;
 use std::io::prelude::*;
 use std::sync::Arc;
-
-extern crate debug_print;
-use debug_print::debug_eprintln;
-#[allow(unused_imports)]
-use debug_print::{debug_eprint, debug_print, debug_println};
 
 extern crate more_asserts;
 use more_asserts::{
@@ -132,9 +135,8 @@ impl LinePart {
         blockoffset: BlockOffset,
         blocksz: BlockSz,
     ) -> LinePart {
-        debug_eprintln!(
-            "{}LinePart::new(blocki_beg {}, blocki_end {}, Block @{:p}, fileoffset {}, blockoffset {}, blocksz {}) (blockp.len() {})",
-            so(),
+        dpnf!(
+            "LinePart(blocki_beg {}, blocki_end {}, Block @{:p}, fileoffset {}, blockoffset {}, blocksz {}) (blockp.len() {})",
             blocki_beg,
             blocki_end,
             &*blockp,
@@ -387,7 +389,7 @@ impl Line {
 
     /// insert `linepart` at back of `self.lineparts`
     pub fn append(&mut self, linepart: LinePart) {
-        debug_eprintln!("{}Line.append({:?}) {:?}", so(), &linepart, linepart.to_String_noraw());
+        dpo!("Line.append({:?}) {:?}", &linepart, linepart.to_String_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
             // sanity checks; each `LinePart` should be stored in same order as it appears in the file
@@ -417,7 +419,7 @@ impl Line {
 
     /// insert `linepart` at front of `self.lineparts`
     pub fn prepend(&mut self, linepart: LinePart) {
-        debug_eprintln!("{}Line.prepend({:?}) {:?}", so(), &linepart, linepart.to_String_noraw());
+        dpo!("Line.prepend({:?}) {:?}", &linepart, linepart.to_String_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
             // sanity checks; each `LinePart` should be stored in same order as it appears in the file
@@ -545,11 +547,11 @@ impl Line {
     /// `Block` boundaries (and not being lazy and copying lots of bytes around).
     ///
     pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> LinePartPtrs<'_> {
-        debug_eprintln!("{}get_boxptrs(…, {}, {}), lineparts {} line.len() {} {:?}", sn(), a, b, self.lineparts.len(), self.len(), self.to_String_noraw());
+        dpnf!("(…, {}, {}), lineparts {} line.len() {} {:?}", a, b, self.lineparts.len(), self.len(), self.to_String_noraw());
         debug_assert_le!(a, b, "passed bad LineIndex pair");
         // simple case: `a, b` are past end of `Line`
         if self.len() <= a {
-            debug_eprintln!("{}get_boxptrs: return NoPtr", sx());
+            dpxf!("return NoPtr");
             return LinePartPtrs::NoPtr;
         }
         // ideal case: `a, b` are within one `linepart`
@@ -561,26 +563,26 @@ impl Line {
         let mut bptr_a: Option<Box::<&[u8]>> = None;
         for linepart in &self.lineparts {
             let len_ = linepart.len();
-            debug_eprintln!("{}get_boxptrs: next: a {}, b {}, len_ {}", so(), a1, b1, len_);
+            dpo!("next: a {}, b {}, len_ {}", a1, b1, len_);
             if a1 < len_ && b1 <= len_ && !a_found {
                 // ideal case, very efficient
-                debug_eprintln!("{}get_boxptrs: return SinglePtr({}, {})", sx(), a1, b1);
+                dpxf!("return SinglePtr({}, {})", a1, b1);
                 return LinePartPtrs::SinglePtr(linepart.block_boxptr_ab(&a1, &b1));
             } else if a1 < len_ && len_ < b1 && !a_found {
                 a_found = true;
                 bptr_a = Some(linepart.block_boxptr_a(&a1));
                 b1 -= len_;
-                debug_eprintln!("{}get_boxptrs: a_found: bptr_a = block_boxptr_a({})", so(), a1);
+                dpo!("a_found: bptr_a = block_boxptr_a({})", a1);
             } else if b1 <= len_ && a_found {
                 // harder case, pretty efficient
-                debug_eprintln!("{}get_boxptrs: return DoublePtr({}, {})", sx(), a1, b1);
+                dpxf!("return DoublePtr({}, {})", a1, b1);
                 return LinePartPtrs::DoublePtr(bptr_a.unwrap(), linepart.block_boxptr_b(&b1));
             } else if len_ < b1 && a_found {
-                debug_eprintln!("{}get_boxptrs: break: a {} < {} && {} < {} b && a_found", so(), a1, len_, len_, b1);
+                dpo!("break: a {} < {} && {} < {} b && a_found", a1, len_, len_, b1);
                 bptr_a = None;
                 break;
             } else if a_found {
-                debug_eprintln!("{}get_boxptrs: break: a_found", so());
+                dpo!("break: a_found");
                 bptr_a = None;
                 break;
             } else {
@@ -590,7 +592,7 @@ impl Line {
         }
         // handle special case where `b` is beyond last `lineparts` but `a` data is within last `linepart`
         if bptr_a.is_some() {
-            debug_eprintln!("{}get_boxptrs: special case: return SinglePtr({})", sx(), a1);
+            dpxf!("special case: return SinglePtr({})", a1);
             return LinePartPtrs::SinglePtr(bptr_a.unwrap());
         }
 
@@ -598,38 +600,37 @@ impl Line {
         // hardest case: `a, b` are among many `lineparts` (>=3 `Box` pointers required)
         //               less efficient (requires a new `Vec`)
         // TODO: cost-savings: vec capacity will often be less than `lineparts.len()`
-        debug_eprintln!("{}get_boxptrs: Vec::with_capacity({})", so(), self.lineparts.len());
+        dpo!("Vec::with_capacity({})", self.lineparts.len());
         let mut a_found = false;
         let mut b_search = false;
         let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box::<&[u8]>>::with_capacity(self.lineparts.len());
         for linepart in &self.lineparts {
-            //debug_eprintln!("{}get_boxptrs: linepart {:?} len {}", so(), linepart.to_String_noraw(), linepart.len());
             let len_ = linepart.len();
             if !a_found && a < len_ {
                 a_found = true;
                 b_search = true;
                 if b < len_ {
-                    debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_ab({}, {})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", so(), a, b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
+                    dpo!("ptrs.push(linepart.block_boxptr_ab({}, {})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", a, b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                     ptrs.push(linepart.block_boxptr_ab(&a, &b));  // store [a..b]  (entire slice, entire `Line`)
                     debug_assert_gt!(ptrs.len(), 1, "ptrs is {} elements, expected >= 1; this should have been handled earlier", ptrs.len());
-                    debug_eprintln!("{}get_boxptrs: return MultiPtr {} ptrs", sx(), ptrs.len());
+                    dpxf!("return MultiPtr {} ptrs", ptrs.len());
                     return LinePartPtrs::MultiPtr(ptrs);
                 }
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_a({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", so(), a, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
+                dpo!("ptrs.push(linepart.block_boxptr_a({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", a, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                 ptrs.push(linepart.block_boxptr_a(&a));  // store [a..]  (first slice of `Line`)
                 b -= len_;
                 continue;
             } else if !a_found {
-                debug_eprintln!("{}get_boxptrs: next: !a_found, a {}, {} linepart.len(), a becomes {}", so(), a, len_, a - len_);
+                dpo!("next: !a_found, a {}, {} linepart.len(), a becomes {}", a, len_, a - len_);
                 a -= len_;
                 continue;
             }
             if b_search && b < len_ {
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr_b({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", so(), b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
+                dpo!("ptrs.push(linepart.block_boxptr_b({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                 ptrs.push(linepart.block_boxptr_b(&b));  // store [..b] (last slice of `Line`)
                 break;
             } else  {
-                debug_eprintln!("{}get_boxptrs: ptrs.push(linepart.block_boxptr()) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", so(), linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
+                dpo!("ptrs.push(linepart.block_boxptr()) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                 ptrs.push(linepart.block_boxptr());  // store [..] (entire slice, middle part of `Line`)
                 b -= len_;
             }
@@ -656,8 +657,8 @@ impl Line {
                 match stdout_lock.write(slice) {
                     Ok(_) => {}
                     Err(err) => {
-                        debug_eprintln!(
-                            "ERROR: StdoutLock.write(@{:p}[{}‥{}]) error {}",
+                        p_err!(
+                            "StdoutLock.write(@{:p}[{}‥{}]) error {}",
                             &*linepart.blockp, linepart.blocki_beg, linepart.blocki_end, err
                         );
                     }
@@ -669,7 +670,7 @@ impl Line {
                 let s = match std::str::from_utf8(slice) {
                     Ok(val) => val,
                     Err(err) => {
-                        debug_eprintln!("ERROR: Invalid UTF-8 sequence during from_utf8: {:?}", err);
+                        p_err!("Invalid UTF-8 sequence during from_utf8: {:?}", err);
                         continue;
                     }
                 };
@@ -680,7 +681,7 @@ impl Line {
                     match stdout_lock.write(&dst) {
                         Ok(_) => {}
                         Err(err) => {
-                            debug_eprintln!("ERROR: StdoutLock.write({:?}) error {}", &dst, err);
+                            p_err!("StdoutLock.write({:?}) error {}", &dst, err);
                         }
                     }
                 }
@@ -689,7 +690,7 @@ impl Line {
         match stdout_lock.flush() {
             Ok(_) => {}
             Err(err) => {
-                debug_eprintln!("ERROR: stdout flushing error {}", err);
+                p_err!("stdout flushing error {}", err);
             }
         }
     }

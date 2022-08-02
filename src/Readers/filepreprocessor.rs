@@ -19,12 +19,14 @@ use crate::Readers::helpers::{
     filename_count_extensions,
 };
 
-#[cfg(any(debug_assertions,test))]
-use crate::printer_debug::stack::{
-    sn,
-    snx,
-    so,
-    sx,
+use crate::printer_debug::printers::{
+    dpo,
+    dpn,
+    dpx,
+    dpof,
+    dpnf,
+    dpxf,
+    dpnxf,
 };
 
 pub use crate::Readers::linereader::{
@@ -35,9 +37,6 @@ use std::borrow::Cow;
 use std::fs::File;
 use std::ffi::OsStr;
 use std::path::Path;
-
-extern crate debug_print;
-use debug_print::debug_eprintln;
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
@@ -116,7 +115,7 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     // see https://docs.rs/mime/latest/mime/
     // see https://docs.rs/mime/latest/src/mime/lib.rs.html
     // see https://github.com/abonander/mime_guess/blob/f6d36d8531bef9ad86f3ee274f65a1a31ea4d9b4/src/mime_types.rs
-    debug_eprintln!("{}mimeguess_to_filetype_str: mimeguess {:?}", snx(), mimeguess_str);
+    dpnxf!("mimeguess_to_filetype_str: mimeguess {:?}", mimeguess_str);
     let lower = mimeguess_str.to_lowercase();
     //
     const plain: &str = "plain"; //mime::PLAIN.as_str();
@@ -149,19 +148,19 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
 /// can a `LineReader` parse this file/MIME type?
 /// (i.e. call `self.find_line()`)
 pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
-    debug_eprintln!("{}mimeguess_to_filetype({:?})", sn(), mimeguess);
+    dpnf!("mimeguess_to_filetype({:?})", mimeguess);
     for mimeguess_ in mimeguess.iter() {
-        debug_eprintln!("{}mimeguess_to_filetype: check {:?}", so(), mimeguess_);
+        dpo!("mimeguess_to_filetype: check {:?}", mimeguess_);
         match mimeguess_to_filetype_str(mimeguess_.as_ref()) {
             FileType::FileUnknown | FileType::FileUnset => {},
             val => {
-                debug_eprintln!("{}mimeguess_to_filetype: return {:?}", sx(), val);
+                dpxf!("mimeguess_to_filetype: return {:?}", val);
                 return val;
             }
         }
     }
 
-    debug_eprintln!("{}mimeguess_to_filetype: return {:?}", sx(), FileType::FileUnknown);
+    dpxf!("mimeguess_to_filetype: return {:?}", FileType::FileUnknown);
 
     FileType::FileUnknown
 }
@@ -172,56 +171,56 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
 ///
 /// _compensates_, does not replace. Passing `"file.txt"` will return `FileUnknown`
 pub fn path_to_filetype(path: &Path) -> FileType {
-    debug_eprintln!("{}path_to_filetype({:?})", sn(), path);
+    dpnf!("({:?})", path);
 
     if PARSEABLE_FILENAMES_FILE.contains(&path.file_name().unwrap_or_default()) {
-        debug_eprintln!("{}path_to_filetype: return FILE; PARSEABLE_FILENAMES_FILE.contains({:?})", sx(), &path.file_name());
+        dpxf!("return FILE; PARSEABLE_FILENAMES_FILE.contains({:?})", &path.file_name());
         return FileType::File;
     }
     // many logs have no extension in the name
     if path.extension().is_none() {
-        debug_eprintln!("{}path_to_filetype: return FILE; no path.extension()", sx());
+        dpxf!("return FILE; no path.extension()");
         return FileType::File;
     }
 
     let file_name: &OsStr = path.file_name().unwrap_or_default();
     let file_name_s: &str = file_name.to_str().unwrap_or_default();
-    debug_eprintln!("{}path_to_filetype: file_name {:?}", so(), file_name_s);
+    dpo!("file_name {:?}", file_name_s);
     // XXX: `file_prefix` WIP https://github.com/rust-lang/rust/issues/86319
     //let file_prefix: &OsStr = &path.file_prefix().unwrap_or_default();
     let file_prefix: &OsStr = path.file_stem().unwrap_or_default();
     let file_prefix_s: &str = file_prefix.to_str().unwrap_or_default();
-    debug_eprintln!("{}path_to_filetype: file_prefix {:?}", so(), file_prefix_s);
+    dpo!("file_prefix {:?}", file_prefix_s);
 
     let file_suffix: &OsStr = path.extension().unwrap_or_default();
     let file_suffix_s: &str = file_suffix.to_str().unwrap_or_default();
-    debug_eprintln!("{}path_to_filetype: file_suffix {:?}", so(), file_suffix_s);
+    dpo!("file_suffix {:?}", file_suffix_s);
 
     // File
 
     // file name `log` often on cheap embedded systems
     if file_prefix_s == "log" {
-        debug_eprintln!("{}path_to_filetype: return File; log", sx());
+        dpxf!("return File; log");
         return FileType::File;
     }
     // for example, `log.host` as emitted by samba daemon
     if file_name_s.starts_with("log.") {
-        debug_eprintln!("{}path_to_filetype: return File; log.", sx());
+        dpxf!("return File; log.");
         return FileType::File;
     }
     // for example, `log_media`
     if file_prefix_s.starts_with("log_") {
-        debug_eprintln!("{}path_to_filetype: return File; log_", sx());
+        dpxf!("return File; log_");
         return FileType::File;
     }
     // for example, `media_log`
     if file_name_s.ends_with("_log") {
-        debug_eprintln!("{}path_to_filetype: return File; _log", sx());
+        dpxf!("return File; _log");
         return FileType::File;
     }
     // for example, `media.log.old`
     if file_name_s.ends_with(".log.old") {
-        debug_eprintln!("{}path_to_filetype: return File; .log.old", sx());
+        dpxf!("return File; .log.old");
         return FileType::File;
     }
 
@@ -230,12 +229,12 @@ pub fn path_to_filetype(path: &Path) -> FileType {
     // for example, `media.gz.old`
     // TODO: this should be handled in `path_to_filetype_mimeguess`, can be removed
     if file_name_s.ends_with(".gz.old") {
-        debug_eprintln!("{}path_to_filetype: return FileGz; .gz.old", sx());
+        dpxf!("return FileGz; .gz.old");
         return FileType::FileGz;
     }
     // for example, `media.gzip`
     if file_suffix_s.ends_with("gzip") {
-        debug_eprintln!("{}path_to_filetype: return FileGz; .gzip", sx());
+        dpxf!("return FileGz; .gzip");
         return FileType::FileGz;
     }
 
@@ -244,11 +243,11 @@ pub fn path_to_filetype(path: &Path) -> FileType {
     // for example, `var-log.tar.old`
     // TODO: this should be handled in `path_to_filetype_mimeguess`, can be removed
     if file_name_s.ends_with(".tar.old") {
-        debug_eprintln!("{}path_to_filetype: return FileTar; .tar.old", sx());
+        dpxf!("return FileTar; .tar.old");
         return FileType::FileTar;
     }
 
-    debug_eprintln!("{}path_to_filetype: return FileUnknown", sx());
+    dpxf!("return FileUnknown");
 
     FileType::FileUnknown
 }
@@ -318,30 +317,30 @@ pub fn mimeguess_fpath_to_filetype(mimeguess: &MimeGuess, path: &FPath) -> FileT
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
 pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
-    debug_eprintln!("{}path_to_filetype_mimeguess({:?})", sn(), path);
+    dpnf!("({:?})", path);
     let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
-    debug_eprintln!("{}path_to_filetype_mimeguess: mimeguess {:?}", so(), mimeguess);
+    dpo!("mimeguess {:?}", mimeguess);
     // Sometimes syslog files get automatically renamed by appending `.old` to the filename,
     // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try MimeGuess without the extra extension.
     if mimeguess.is_empty() && filename_count_extensions(path) > 1 {
-        debug_eprintln!("{}path_to_filetype_mimeguess: no mimeguess found, and file name is {:?} (multiple extensions), try again with removed file extension", so(), path.file_name().unwrap_or_default());
+        dpo!("no mimeguess found, and file name is {:?} (multiple extensions), try again with removed file extension", path.file_name().unwrap_or_default());
         match remove_extension(path) {
             None => {},
             Some(path_) => {
                 mimeguess = MimeGuess::from_path(path_);
-                debug_eprintln!("{}path_to_filetype_mimeguess: mimeguess #2 {:?}", so(), mimeguess);
+                dpo!("mimeguess #2 {:?}", mimeguess);
             }
         }
     }
     let mut filetype: FileType = mimeguess_to_filetype(&mimeguess);
-    debug_eprintln!("{}path_to_filetype_mimeguess: filetype {:?}", so(), filetype);
+    dpo!("filetype {:?}", filetype);
     if ! parseable_filetype_ok(&filetype) {
-        debug_eprintln!("{}path_to_filetype_mimeguess: parseable_filetype_ok({:?}) failed", so(), filetype);
+        dpo!("parseable_filetype_ok({:?}) failed", filetype);
         filetype = path_to_filetype(path);
         // Sometimes syslog files get automatically renamed by appending `.old` to the filename,
         // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try supplement check without extra extension.
         if ! parseable_filetype_ok(&filetype) && filename_count_extensions(path) > 1 {
-            debug_eprintln!("{}path_to_filetype_mimeguess: file name is {:?} (multiple extensions), try again with removed file extension", so(), path.file_name().unwrap_or_default());
+            dpo!("file name is {:?} (multiple extensions), try again with removed file extension", path.file_name().unwrap_or_default());
             match remove_extension(path) {
                 None => {},
                 Some(path_) => {
@@ -351,7 +350,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
             }
         }
     }
-    debug_eprintln!("{}path_to_filetype_mimeguess: return ({:?}, {:?})", sx(), filetype, mimeguess);
+    dpxf!("return ({:?}, {:?})", filetype, mimeguess);
 
     (filetype, mimeguess)
 }
@@ -366,14 +365,14 @@ pub fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess) {
 
 /// Return a `ProcessPathResult` for each parseable file within .tar file at `path`
 pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
-    debug_eprintln!("{}process_path_tar({:?})", sn(), path);
+    dpnf!("({:?})", path);
 
     let file: File = File::open(path).unwrap();
     let mut archive: tar::Archive<File> = tar::Archive::<File>::new(file);
     let entry_iter: tar::Entries<File> = match archive.entries() {
         Ok(val) => val,
         Err(err) => {
-            debug_eprintln!("{}process_path_tar: Err {:?}", sx(), err);
+            dpxf!("Err {:?}", err);
             //return Result::Err(err);
             return vec![];
         }
@@ -383,13 +382,13 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         let entry: tar::Entry<File> = match entry_res {
             Ok(val) => val,
             Err(err) => {
-                debug_eprintln!("{}process_path_tar: entry Err {:?}", so(), err);
+                dpo!("entry Err {:?}", err);
                 continue;
             }
         };
         let header = entry.header();
         let etype = header.entry_type();
-        debug_eprintln!("{}process_path_tar: entry.header().entry_type() {:?}", so(), etype);
+        dpo!("entry.header().entry_type() {:?}", etype);
         // TODO: handle tar types `symlink` and `long_link`, currently they are ignored
         if !etype.is_file() {
             continue;
@@ -397,7 +396,7 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         let subpath: Cow<Path> = match entry.path() {
             Ok(val) => val,
             Err(err) => {
-                debug_eprintln!("{}process_path_tar: entry.path() Err {:?}", so(), err);
+                dpo!("entry.path() Err {:?}", err);
                 continue;
             }
         };
@@ -408,13 +407,13 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         // transformed to corresponding tar `FileType`, so later `BlockReader` understands what to do.
         let filetype: FileType = match filetype_subpath.to_tar() {
             FileType::FileUnknown => {
-                debug_eprintln!("{}process_path_tar: {:?}.to_tar() is FileUnknown", so(), filetype_subpath);
+                dpo!("{:?}.to_tar() is FileUnknown", filetype_subpath);
                 continue;
             }
             val => val
         };
         if !parseable_filetype_ok(&filetype) {
-            debug_eprintln!("{}process_path_tar: push FileErrNotParseable({:?}, {:?})", so(), filetype, mimeguess);
+            dpo!("push FileErrNotParseable({:?}, {:?})", filetype, mimeguess);
             results.push(
                 ProcessPathResult::FileErrNotParseable(subfpath, mimeguess)
             );
@@ -430,13 +429,13 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         fullpath.push_str(path.as_str());
         fullpath.push(SUBPATH_SEP);
         fullpath.push_str(subfpath.as_str());
-        debug_eprintln!("{}process_path_tar: push FileValid({:?}, {:?}, {:?})", so(), fullpath, mimeguess, filetype);
+        dpo!("push FileValid({:?}, {:?}, {:?})", fullpath, mimeguess, filetype);
         results.push(
             ProcessPathResult::FileValid(fullpath, mimeguess, filetype)
         );
     }
 
-    debug_eprintln!("{}process_path_tar({:?})", sx(), path);
+    dpxf!("process_path_tar({:?})", path);
 
     results
 }
@@ -450,7 +449,7 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
 /// Given a plain file path, returns that path. This behavior assumes a user-passed
 /// file path should attempt to be parsed.
 pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
-    debug_eprintln!("{}process_path({:?})", sn(), path);
+    dpnf!("({:?})", path);
 
     // if passed a path directly to a plain file (or a symlink to a plain file)
     // then assume the user wants to force an attempt to process such a file
@@ -462,7 +461,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
             let paths: Vec<ProcessPathResult> = vec![
                 ProcessPathResult::FileValid(path.clone(), mimeguess, filetype),
             ];
-            debug_eprintln!("{}process_path({:?}) {:?}", sx(), path, paths);
+            dpxf!("({:?}) {:?}", path, paths);
             return paths;
         }
         // is_archived
@@ -473,7 +472,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
 
     let mut paths: Vec<ProcessPathResult> = Vec::<ProcessPathResult>::new();
 
-    debug_eprintln!("{}process_path: WalkDir({:?})…", so(), path);
+    dpo!("WalkDir({:?})…", path);
     for entry in walkdir::WalkDir::new(path.as_str())
         .follow_links(true)
         .contents_first(true)
@@ -483,43 +482,43 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         // XXX: what is type `T` in `Result<T, E>` returned by `WalkDir`?
         let path_entry = match entry {
             Ok(val) => {
-                debug_eprintln!("{}Ok({:?})", so(), val);
+                dpo!("Ok({:?})", val);
                 val
             },
             Err(err) => {
-                debug_eprintln!("{}Err({:?})", so(), err);
+                dpo!("Err({:?})", err);
                 continue;
             }
         };
 
-        debug_eprintln!("{}process_path: analayzing {:?}", so(), path_entry);
+        dpo!("analayzing {:?}", path_entry);
         let std_path_entry: &std::path::Path = path_entry.path();
         let fpath_entry: FPath = path_to_fpath(std_path_entry);
         if ! path_entry.file_type().is_file() {
             if path_entry.file_type().is_dir() {
                 continue;
             }
-            debug_eprintln!("{}process_path: Path not a file {:?}", so(), path_entry);
+            dpo!("Path not a file {:?}", path_entry);
             paths.push(ProcessPathResult::FileErrNotAFile(fpath_entry, MimeGuess::from_ext("")));
             continue;
         }
         let (filetype, mimeguess) = path_to_filetype_mimeguess(std_path_entry);
         match parseable_filetype(&filetype) {
             FileParseable::YES => {
-                debug_eprintln!("{}process_path: paths.push(FileValid(({:?}, {:?}, {:?})))", so(), fpath_entry, mimeguess, filetype);
+                dpo!("paths.push(FileValid(({:?}, {:?}, {:?})))", fpath_entry, mimeguess, filetype);
                 paths.push(ProcessPathResult::FileValid(fpath_entry, mimeguess, filetype));
             },
             FileParseable::NotParseable => {
-                debug_eprintln!("{}process_path: Path not parseable {:?}", so(), std_path_entry);
+                dpo!("Path not parseable {:?}", std_path_entry);
                 paths.push(ProcessPathResult::FileErrNotParseable(fpath_entry, mimeguess));
             }
             FileParseable::NotSupported => {
-                debug_eprintln!("{}process_path: Path not supported {:?}", so(), std_path_entry);
+                dpo!("Path not supported {:?}", std_path_entry);
                 paths.push(ProcessPathResult::FileErrNotSupported(fpath_entry, mimeguess));
             }
         }
     }
-    debug_eprintln!("{}process_path({:?}) {:?}", sx(), path, paths);
+    dpxf!("return {:?}", paths);
 
     paths
 }

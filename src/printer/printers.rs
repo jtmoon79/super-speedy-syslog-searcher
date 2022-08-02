@@ -6,9 +6,19 @@
 use std::io::Write;  // for `std::io::Stdout.flush`
 use std::io::Result;
 
-extern crate debug_print;
-use debug_print::{
-    debug_eprintln,
+use crate::printer_debug::printers::{
+    dpo,
+    dpn,
+    dpx,
+    dpnx,
+    dpof,
+    dpnf,
+    dpxf,
+    dpnxf,
+    dp_err,
+    dp_wrn,
+    p_err,
+    p_wrn,
 };
 
 extern crate termcolor;
@@ -158,7 +168,7 @@ macro_rules! write_or_return {
                 // XXX: this will print when this program stdout is truncated, like when piping
                 //      to `head`, e.g. `s4 file.log | head`
                 //          Broken pipe (os error 32)
-                debug_eprintln!("ERROR: {}.write({}@{:p}) (len {})) error {}", stringify!($stdout), stringify!($var_a), $var_a, $var_a.len(), err);
+                dp_err!("{}.write({}@{:p}) (len {})) error {}", stringify!($stdout), stringify!($var_a), $var_a, $var_a.len(), err);
                 match $stdout.flush() {
                     Ok(_) => {},
                     Err(_) => {},
@@ -173,7 +183,7 @@ macro_rules! setcolor_or_return {
     ($stdout:expr, $color_spec:expr, $color_spec_last:expr) => {
         if  $color_spec != $color_spec_last {
             if let Err(err) = $stdout.set_color(&$color_spec) {
-                debug_eprintln!("ERROR: {}.set_color({:?}) returned error {}", stringify!($stdout), $color_spec, err);
+                dp_err!("{}.set_color({:?}) returned error {}", stringify!($stdout), $color_spec, err);
                 return Err(err);
             };
             $color_spec_last = $color_spec.clone();
@@ -521,21 +531,21 @@ pub fn print_colored(color: Color, value: &[u8], out: &mut termcolor::StandardSt
     match out.set_color(ColorSpec::new().set_fg(Some(color))) {
         Ok(_) => {}
         Err(err) => {
-            debug_eprintln!("ERROR: print_colored: std.set_color({:?}) returned error {}", color, err);
+            dp_err!("print_colored: std.set_color({:?}) returned error {}", color, err);
             return Err(err);
         }
     };
     match out.write(value) {
         Ok(_) => {}
         Err(err) => {
-            debug_eprintln!("ERROR: print_colored: out.write(…) returned error {}", err);
+            dp_err!("print_colored: out.write(…) returned error {}", err);
             return Err(err);
         }
     }
     match out.reset() {
         Ok(_) => {}
         Err(err) => {
-            debug_eprintln!("ERROR: print_colored: out.reset() returned error {}", err);
+            dp_err!("print_colored: out.reset() returned error {}", err);
             return Err(err);
         }
     }
@@ -594,7 +604,7 @@ pub fn write_stdout(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            debug_eprintln!("ERROR: StdoutLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
+            dp_err!("StdoutLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
         }
     }
     match stdout_lock.flush() {
@@ -603,7 +613,7 @@ pub fn write_stdout(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            debug_eprintln!("ERROR: stdout flushing error {}", err);
+            dp_err!("stdout flushing error {}", err);
         }
     }
 }
@@ -622,7 +632,7 @@ pub fn write_stderr(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            debug_eprintln!("ERROR: stderr_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
+            dp_err!("stderr_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
         }
     }
     match stderr_lock.flush() {
@@ -631,7 +641,7 @@ pub fn write_stderr(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            debug_eprintln!("ERROR: stderr flushing error {}", err);
+            dp_err!("stderr flushing error {}", err);
         }
     }
     if cfg!(debug_assertions) {

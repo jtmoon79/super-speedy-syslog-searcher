@@ -9,9 +9,6 @@ use std::thread;
 extern crate const_format;
 use const_format::concatcp;
 
-extern crate debug_print;
-use debug_print::debug_eprintln;
-
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
@@ -110,7 +107,8 @@ pub fn stack_offset_set(correction: Option<isize>) {
         return;
     }
     _STACK_OFFSET_TABLE.write().unwrap().insert(tid, so);
-    debug_eprintln!("stack_offset_set({:?}): {:?}({}) stack_offset set to {}, stack_depth {}", correction, tid, thread_cur.name().unwrap_or(""), so, sd_);
+    #[cfg(debug_assertions)]
+    eprintln!("stack_offset_set({:?}): {:?}({}) stack_offset set to {}, stack_depth {}", correction, tid, thread_cur.name().unwrap_or(""), so, sd_);
 }
 
 const S_0: &str = "";
@@ -270,70 +268,3 @@ pub fn snx() -> &'static str {
         _ => concatcp!(S__, LEAD),
     }
 }
-
-/// return the current current function name full path as a `&'static str`
-/// e.g. `"s4lib::printer::printers::color_rand"`
-///
-/// ripped from https://github.com/popzxc/stdext-rs/blob/2179f94475f925a2eacdc2f2408d7ab352d0052c/src/macros.rs#L44-L74
-#[macro_export]
-macro_rules! function_name_full {
-    () => {{
-        fn f() {}
-        fn type_name_of<T>(_: T) -> &'static str {
-            std::any::type_name::<T>()
-        }
-        let name = type_name_of(f);
-        // `3` is the length of the `::f`.
-        &name[..name.len() - 3]
-    }};
-}
-// allow easier `use` statements
-pub use function_name_full;
-
-/// return the current the current function name as a `&'static str`
-/// e.g. `"color_rand"`
-#[macro_export]
-macro_rules! function_name {
-    () => {{
-        use crate::function_name_full;
-        let name: &'static str = function_name_full!();
-        const SPLIT: &str = "::";
-        const SPLIT_LEN: usize = SPLIT.len();
-        let rfind_: Option<usize> = name.rfind(SPLIT);
-        let len_: usize = name.len();
-        match rfind_ {
-            Some(index) => {
-                if index + SPLIT_LEN < len_ {
-                    &name[index+SPLIT_LEN..]
-                } else {  // this `else` should never happen... but if it does then do not panic
-                    &name[index..]
-                }
-            }
-            None => {
-                // fallback to full name
-                name
-            }
-        }
-    }};
-}
-// allow easier `use` statements
-pub use function_name;
-
-/*
-fn fno() -> () {
-    let bt = backtrace::Backtrace::new();
-    let frames = bt.frames();
-    dbg!(frames);
-    for f in frames.iter() {
-        dbg!(f);
-        debug_eprintln!("\n");
-        for s in f.symbols() {
-            dbg!(s);
-        }
-        debug_eprintln!("\n\n\n");
-    }
-    frames[1].symbols()[0];
-    debug_eprintln!("\n\n\n");
-    panic!();
-}
-*/

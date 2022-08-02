@@ -24,8 +24,19 @@ use crate::Readers::syslinereader::{
     DateTime_Pattern_Counts,
 };
 
-extern crate debug_print;
-use debug_print::debug_eprintln;
+use crate::printer_debug::printers::{
+    dpo,
+    dpn,
+    dpx,
+    dpof,
+    dpnf,
+    dpxf,
+    dpnxf,
+    dp_err,
+    dp_wrn,
+    p_err,
+    p_wrn,
+};
 
 extern crate more_asserts;
 use more_asserts::{
@@ -199,7 +210,7 @@ impl Summary {
         //      See `syslogprocessor.process_missing_year()`.
         //debug_assert_ge!(LineReader_lines, SyslineReader_syslines, "There is less Lines than Syslines");
         if LineReader_lines < SyslineReader_syslines {
-            debug_eprintln!("Warning: There is less Lines {} than Syslines {}", LineReader_lines, SyslineReader_syslines);
+            dp_wrn!("There is less Lines {} than Syslines {}", LineReader_lines, SyslineReader_syslines);
         }
         Summary {
             filetype,

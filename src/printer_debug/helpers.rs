@@ -21,7 +21,6 @@ pub use tempfile::{
 // temporary file helper functions
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-//#[cfg(test)]
 lazy_static! {
     static ref STRING_TEMPFILE_PREFIX: String = String::from("tmp-s4-test-");
     // there is no `String::default` so create this just once

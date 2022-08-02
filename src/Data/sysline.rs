@@ -31,15 +31,28 @@ use crate::Data::line::{
 };
 
 #[cfg(any(debug_assertions,test))]
-use crate::printer_debug::stack::{
-    so,
+use crate::printer_debug::printers::{
+    buffer_to_String_noraw,
+    char_to_char_noraw,
+};
+
+use crate::printer_debug::printers::{
+    dpo,
+    dpn,
+    dpx,
+    dpnx,
+    dpof,
+    dpnf,
+    dpxf,
+    dpnxf,
+    dp_err,
+    dp_wrn,
+    p_err,
+    p_wrn,
 };
 
 use std::fmt;
 use std::sync::Arc;
-
-extern crate debug_print;
-use debug_print::debug_eprintln;
 
 extern crate more_asserts;
 use more_asserts::{
@@ -162,12 +175,7 @@ impl Sysline {
     }
 
     pub fn push(&mut self, linep: LineP) {
-        debug_eprintln!(
-            "{}SyslineReader.push(@{:p}), self.lines.len() is now {}",
-            so(),
-            &*linep,
-            self.lines.len() + 1
-        );
+        dpo!("SyslineReader.push(), self.lines.len() is now {}", self.lines.len() + 1);
         self.lines.push(linep);
     }
 

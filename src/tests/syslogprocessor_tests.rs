@@ -33,9 +33,6 @@ use crate::Readers::syslogprocessor::{
     BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP,
 };
 
-extern crate debug_print;
-use debug_print::debug_eprintln;
-
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
@@ -68,7 +65,7 @@ fn test_SyslogProcessor_new1() {
     let ntf = create_temp_file("");
     let path = NTF_Path(&ntf);
     let slp = new_SyslogProcessor(&path, SZ);
-    debug_eprintln!("{:?}", slp);
+    eprintln!("{:?}", slp);
 }
 
 // -------------------------------------------------------------------------------------------------
