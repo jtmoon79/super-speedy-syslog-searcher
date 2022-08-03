@@ -186,7 +186,7 @@ fn test_find_sysline_at_datetime_filter2(
     ntf: &NamedTempFile,
     dt_pattern: &DateTimePattern_str,
     blocksz: BlockSz,
-    checks: test_find_sysline_at_datetime_filter_Checks,
+    checks: TestFindSyslineAtDatetimeFilterChecks,
 ) {
     eprintln!("{}test_find_sysline_at_datetime_filter2(…, {:?}, {}, …)", sn(), dt_pattern, blocksz);
 
@@ -238,7 +238,7 @@ fn test_find_sysline_at_datetime_filter2(
 
 // -------------------------------------------------------------------------------------------------
 
-type test_find_sysline_at_datetime_filter_Checks<'a> = Vec<(FileOffset, &'a str, &'a str)>;
+type TestFindSyslineAtDatetimeFilterChecks<'a> = Vec<(FileOffset, &'a str, &'a str)>;
 
 const NTF26_DATA: &str = "\
 2020-01-01 00:00:00
@@ -296,7 +296,7 @@ lazy_static! {
         ntf_fpath(&NTF26)
     };
 
-    static ref NTF26_checks: test_find_sysline_at_datetime_filter_Checks<'static> = {
+    static ref NTF26_checks: TestFindSyslineAtDatetimeFilterChecks<'static> = {
         Vec::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -328,7 +328,7 @@ lazy_static! {
         ])
     };
 
-    static ref NTF26_checksx: test_find_sysline_at_datetime_filter_Checks<'static> = {
+    static ref NTF26_checksx: TestFindSyslineAtDatetimeFilterChecks<'static> = {
         Vec::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (19, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -366,13 +366,13 @@ lazy_static! {
 
 /// basic test of `SyslineReader.find_datetime_in_line`
 fn test_find_sysline_at_datetime_filter1(
-    blocksz: BlockSz, checks: Option<test_find_sysline_at_datetime_filter_Checks>,
+    blocksz: BlockSz, checks: Option<TestFindSyslineAtDatetimeFilterChecks>,
 ) {
     stack_offset_set(None);
     eprintln!("{}test_find_sysline_at_datetime_filter1()", sn());
     let dt_fmt1: &DateTimePattern_str = "%Y-%m-%d %H:%M:%S";
 
-    let checks_: test_find_sysline_at_datetime_filter_Checks = checks.unwrap_or(NTF26_checks.clone());
+    let checks_: TestFindSyslineAtDatetimeFilterChecks = checks.unwrap_or(NTF26_checks.clone());
     test_find_sysline_at_datetime_filter2(
         &NTF26,
         dt_fmt1,
@@ -437,7 +437,7 @@ fn test_find_sysline_at_datetime_filter_2056() {
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_() {
-    test_find_sysline_at_datetime_filter1(64,Some(test_find_sysline_at_datetime_filter_Checks::from([(
+    test_find_sysline_at_datetime_filter1(64,Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             NTF26_DATA_DT0,
             NTF26_DATA_LINE0n,
@@ -449,7 +449,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_() {
 fn test_find_sysline_at_datetime_filter_checks_0_a() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             NTF26_DATA_DT1,
             NTF26_DATA_LINE1n,
@@ -461,7 +461,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_a() {
 fn test_find_sysline_at_datetime_filter_checks_0_b() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             NTF26_DATA_DT2,
             NTF26_DATA_LINE2n,
@@ -473,7 +473,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_b() {
 fn test_find_sysline_at_datetime_filter_checks_0_c() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             NTF26_DATA_DT3,
             NTF26_DATA_LINE3n,
@@ -485,7 +485,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_c() {
 fn test_find_sysline_at_datetime_filter_checks_0_d() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             NTF26_DATA_DT4,
             NTF26_DATA_LINE4n,
@@ -497,7 +497,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_d() {
 fn test_find_sysline_at_datetime_filter_checks_0_e() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:05",
             "2020-01-01 00:00:05abcde\n",
@@ -509,7 +509,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_e() {
 fn test_find_sysline_at_datetime_filter_checks_0_f() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:06",
             "2020-01-01 00:00:06abcdef\n",
@@ -521,7 +521,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_f() {
 fn test_find_sysline_at_datetime_filter_checks_0_g() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:07",
             "2020-01-01 00:00:07abcdefg\n",
@@ -533,7 +533,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_g() {
 fn test_find_sysline_at_datetime_filter_checks_0_h() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:08",
             "2020-01-01 00:00:08abcdefgh\n",
@@ -545,7 +545,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_h() {
 fn test_find_sysline_at_datetime_filter_checks_0_i() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:09",
             "2020-01-01 00:00:09abcdefghi\n",
@@ -557,7 +557,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_i() {
 fn test_find_sysline_at_datetime_filter_checks_0_j() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:10",
             "2020-01-01 00:00:10abcdefghij\n",
@@ -569,7 +569,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_j() {
 fn test_find_sysline_at_datetime_filter_checks_0_k() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:11",
             "2020-01-01 00:00:11abcdefghijk\n",
@@ -581,7 +581,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_k() {
 fn test_find_sysline_at_datetime_filter_checks_0_l() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:12",
             "2020-01-01 00:00:12abcdefghijkl\n",
@@ -593,7 +593,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_l() {
 fn test_find_sysline_at_datetime_filter_checks_0_m() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:13",
             "2020-01-01 00:00:13abcdefghijklm\n",
@@ -605,7 +605,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_m() {
 fn test_find_sysline_at_datetime_filter_checks_0_n() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:14",
             "2020-01-01 00:00:14abcdefghijklmn\n",
@@ -617,7 +617,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_n() {
 fn test_find_sysline_at_datetime_filter_checks_0_o() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:15",
             "2020-01-01 00:00:15abcdefghijklmno\n",
@@ -629,7 +629,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_o() {
 fn test_find_sysline_at_datetime_filter_checks_0_p() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:16",
             "2020-01-01 00:00:16abcdefghijklmnop\n",
@@ -641,7 +641,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_p() {
 fn test_find_sysline_at_datetime_filter_checks_0_q() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:17",
             "2020-01-01 00:00:17abcdefghijklmnopq\n",
@@ -653,7 +653,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_q() {
 fn test_find_sysline_at_datetime_filter_checks_0_r() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:18",
             "2020-01-01 00:00:18abcdefghijklmnopqr\n",
@@ -665,7 +665,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_r() {
 fn test_find_sysline_at_datetime_filter_checks_0_s() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:19",
             "2020-01-01 00:00:19abcdefghijklmnopqrs\n",
@@ -677,7 +677,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_s() {
 fn test_find_sysline_at_datetime_filter_checks_0_t() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:20",
             "2020-01-01 00:00:20abcdefghijklmnopqrst\n",
@@ -689,7 +689,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_t() {
 fn test_find_sysline_at_datetime_filter_checks_0_u() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:21",
             "2020-01-01 00:00:21abcdefghijklmnopqrstu\n",
@@ -701,7 +701,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_u() {
 fn test_find_sysline_at_datetime_filter_checks_0_v() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:22",
             "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n",
@@ -713,7 +713,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_v() {
 fn test_find_sysline_at_datetime_filter_checks_0_w() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             "2020-01-01 00:00:23",
             "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n",
@@ -725,7 +725,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_w() {
 fn test_find_sysline_at_datetime_filter_checks_0_x() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             NTF26_DATA_DT24,
             NTF26_DATA_LINE24n,
@@ -737,7 +737,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_x() {
 fn test_find_sysline_at_datetime_filter_checks_0_y() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             NTF26_DATA_DT25,
             NTF26_DATA_LINE25n,
@@ -749,7 +749,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_y() {
 fn test_find_sysline_at_datetime_filter_checks_0_z() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             NTF26_DATA_DT26,
             NTF26_DATA_LINE26n,
@@ -761,7 +761,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_z() {
 fn test_find_sysline_at_datetime_filter_checks_x_a() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             19,
             NTF26_DATA_DT1,
             NTF26_DATA_LINE1n,
@@ -773,7 +773,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_a() {
 fn test_find_sysline_at_datetime_filter_checks_x_b() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             40,
             NTF26_DATA_DT2,
             NTF26_DATA_LINE2n,
@@ -785,7 +785,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_b() {
 fn test_find_sysline_at_datetime_filter_checks_x_c() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             62,
             NTF26_DATA_DT3,
             NTF26_DATA_LINE3n,
@@ -797,7 +797,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_c() {
 fn test_find_sysline_at_datetime_filter_checks_x_d() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             85,
             NTF26_DATA_DT4,
             NTF26_DATA_LINE4n,
@@ -809,7 +809,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_d() {
 fn test_find_sysline_at_datetime_filter_checks_x_e() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             109,
             "2020-01-01 00:00:05",
             "2020-01-01 00:00:05abcde\n",
@@ -821,7 +821,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_e() {
 fn test_find_sysline_at_datetime_filter_checks_x_f() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             134,
             "2020-01-01 00:00:06",
             "2020-01-01 00:00:06abcdef\n",
@@ -833,7 +833,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_f() {
 fn test_find_sysline_at_datetime_filter_checks_x_g() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             160,
             "2020-01-01 00:00:07",
             "2020-01-01 00:00:07abcdefg\n",
@@ -845,7 +845,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_g() {
 fn test_find_sysline_at_datetime_filter_checks_x_h() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             187,
             "2020-01-01 00:00:08",
             "2020-01-01 00:00:08abcdefgh\n",
@@ -857,7 +857,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_h() {
 fn test_find_sysline_at_datetime_filter_checks_x_i() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             215,
             "2020-01-01 00:00:09",
             "2020-01-01 00:00:09abcdefghi\n",
@@ -869,7 +869,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_i() {
 fn test_find_sysline_at_datetime_filter_checks_x_j() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             244,
             "2020-01-01 00:00:10",
             "2020-01-01 00:00:10abcdefghij\n",
@@ -881,7 +881,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_j() {
 fn test_find_sysline_at_datetime_filter_checks_x_k() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             274,
             "2020-01-01 00:00:11",
             "2020-01-01 00:00:11abcdefghijk\n",
@@ -893,7 +893,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_k() {
 fn test_find_sysline_at_datetime_filter_checks_x_l() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             305,
             "2020-01-01 00:00:12",
             "2020-01-01 00:00:12abcdefghijkl\n",
@@ -905,7 +905,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_l() {
 fn test_find_sysline_at_datetime_filter_checks_x_m() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             337,
             "2020-01-01 00:00:13",
             "2020-01-01 00:00:13abcdefghijklm\n",
@@ -917,7 +917,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_m() {
 fn test_find_sysline_at_datetime_filter_checks_x_n() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             370,
             "2020-01-01 00:00:14",
             "2020-01-01 00:00:14abcdefghijklmn\n",
@@ -929,7 +929,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_n() {
 fn test_find_sysline_at_datetime_filter_checks_x_o() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             404,
             "2020-01-01 00:00:15",
             "2020-01-01 00:00:15abcdefghijklmno\n",
@@ -941,7 +941,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_o() {
 fn test_find_sysline_at_datetime_filter_checks_x_p() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             439,
             "2020-01-01 00:00:16",
             "2020-01-01 00:00:16abcdefghijklmnop\n",
@@ -953,7 +953,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_p() {
 fn test_find_sysline_at_datetime_filter_checks_x_q() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             475,
             "2020-01-01 00:00:17",
             "2020-01-01 00:00:17abcdefghijklmnopq\n",
@@ -965,7 +965,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_q() {
 fn test_find_sysline_at_datetime_filter_checks_x_r() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             512,
             "2020-01-01 00:00:18",
             "2020-01-01 00:00:18abcdefghijklmnopqr\n",
@@ -977,7 +977,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_r() {
 fn test_find_sysline_at_datetime_filter_checks_x_s() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             550,
             "2020-01-01 00:00:19",
             "2020-01-01 00:00:19abcdefghijklmnopqrs\n",
@@ -989,7 +989,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_s() {
 fn test_find_sysline_at_datetime_filter_checks_x_t() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             589,
             "2020-01-01 00:00:20",
             "2020-01-01 00:00:20abcdefghijklmnopqrst\n",
@@ -1001,7 +1001,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_t() {
 fn test_find_sysline_at_datetime_filter_checks_x_u() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             629,
             "2020-01-01 00:00:21",
             "2020-01-01 00:00:21abcdefghijklmnopqrstu\n",
@@ -1013,7 +1013,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_u() {
 fn test_find_sysline_at_datetime_filter_checks_x_v() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             670,
             "2020-01-01 00:00:22",
             "2020-01-01 00:00:22abcdefghijklmnopqrstuv\n",
@@ -1025,7 +1025,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_v() {
 fn test_find_sysline_at_datetime_filter_checks_x_w() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             712,
             "2020-01-01 00:00:23",
             "2020-01-01 00:00:23abcdefghijklmnopqrstuvw\n",
@@ -1037,7 +1037,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_w() {
 fn test_find_sysline_at_datetime_filter_checks_x_x() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             755,
             NTF26_DATA_DT24,
             NTF26_DATA_LINE24n,
@@ -1049,7 +1049,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_x() {
 fn test_find_sysline_at_datetime_filter_checks_x_y() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             799,
             NTF26_DATA_DT25,
             NTF26_DATA_LINE25n,
@@ -1061,7 +1061,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_y() {
 fn test_find_sysline_at_datetime_filter_checks_x_z() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([(
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             844,
             NTF26_DATA_DT26,
             NTF26_DATA_LINE26n,
@@ -1073,7 +1073,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_z() {
 fn test_find_sysline_at_datetime_filter_checks_2_z_() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
         ])),
@@ -1084,7 +1084,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_z_() {
 fn test_find_sysline_at_datetime_filter_checks_2_y_() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
         ])),
@@ -1095,7 +1095,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_y_() {
 fn test_find_sysline_at_datetime_filter_checks_2_x_() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT24, NTF26_DATA_LINE24n),
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
         ])),
@@ -1106,7 +1106,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_x_() {
 fn test_find_sysline_at_datetime_filter_checks_2_m_() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
         ])),
@@ -1117,7 +1117,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_m_() {
 fn test_find_sysline_at_datetime_filter_checks_2_za() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
         ])),
@@ -1128,7 +1128,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_za() {
 fn test_find_sysline_at_datetime_filter_checks_2_ya() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
         ])),
@@ -1139,7 +1139,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_ya() {
 fn test_find_sysline_at_datetime_filter_checks_2_xa() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT24, NTF26_DATA_LINE24n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
         ])),
@@ -1150,7 +1150,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_xa() {
 fn test_find_sysline_at_datetime_filter_checks_2_ma() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
         ])),
@@ -1161,7 +1161,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_ma() {
 fn test_find_sysline_at_datetime_filter_checks_3____() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
@@ -1173,7 +1173,7 @@ fn test_find_sysline_at_datetime_filter_checks_3____() {
 fn test_find_sysline_at_datetime_filter_checks_3__ab() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
@@ -1185,7 +1185,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__ab() {
 fn test_find_sysline_at_datetime_filter_checks_3__az() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1197,7 +1197,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__az() {
 fn test_find_sysline_at_datetime_filter_checks_3__bd() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT4, NTF26_DATA_LINE4n),
@@ -1209,7 +1209,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__bd() {
 fn test_find_sysline_at_datetime_filter_checks_3__ml() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
             (0, "2020-01-01 00:00:12", "2020-01-01 00:00:12abcdefghijkl\n"),
@@ -1221,7 +1221,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__ml() {
 fn test_find_sysline_at_datetime_filter_checks_3__my() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1233,7 +1233,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__my() {
 fn test_find_sysline_at_datetime_filter_checks_3__mz() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1245,7 +1245,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__mz() {
 fn test_find_sysline_at_datetime_filter_checks_3__m_() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
             (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
@@ -1257,7 +1257,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__m_() {
 fn test_find_sysline_at_datetime_filter_checks_3_aaa() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1269,7 +1269,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_aaa() {
 fn test_find_sysline_at_datetime_filter_checks_3_abc() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT3, NTF26_DATA_LINE3n),
@@ -1281,7 +1281,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_abc() {
 fn test_find_sysline_at_datetime_filter_checks_3_aba() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1293,7 +1293,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_aba() {
 fn test_find_sysline_at_datetime_filter_checks_3_abn() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
@@ -1305,7 +1305,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_abn() {
 fn test_find_sysline_at_datetime_filter_checks_3_aby() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1317,7 +1317,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_aby() {
 fn test_find_sysline_at_datetime_filter_checks_3_abz() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1329,7 +1329,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_abz() {
 fn test_find_sysline_at_datetime_filter_checks_3_aaz() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1341,7 +1341,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_aaz() {
 fn test_find_sysline_at_datetime_filter_checks_3_byo() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, "2020-01-01 00:00:15", "2020-01-01 00:00:15abcdefghijklmno\n"),
@@ -1353,7 +1353,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_byo() {
 fn test_find_sysline_at_datetime_filter_checks_3_zaa() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1365,7 +1365,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zaa() {
 fn test_find_sysline_at_datetime_filter_checks_3_zbc() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT3, NTF26_DATA_LINE3n),
@@ -1377,7 +1377,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zbc() {
 fn test_find_sysline_at_datetime_filter_checks_3_zba() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1389,7 +1389,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zba() {
 fn test_find_sysline_at_datetime_filter_checks_3_zbn() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
@@ -1401,7 +1401,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zbn() {
 fn test_find_sysline_at_datetime_filter_checks_3_zby() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1413,7 +1413,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zby() {
 fn test_find_sysline_at_datetime_filter_checks_3_zbz() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1425,7 +1425,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zbz() {
 fn test_find_sysline_at_datetime_filter_checks_3_zaz() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1437,7 +1437,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zaz() {
 fn test_find_sysline_at_datetime_filter_checks_3_yaa() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1449,7 +1449,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_yaa() {
 fn test_find_sysline_at_datetime_filter_checks_3_ybc() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT3, NTF26_DATA_LINE3n),
@@ -1461,7 +1461,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_ybc() {
 fn test_find_sysline_at_datetime_filter_checks_3_yba() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1473,7 +1473,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_yba() {
 fn test_find_sysline_at_datetime_filter_checks_3_ybn() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, "2020-01-01 00:00:14", "2020-01-01 00:00:14abcdefghijklmn\n"),
@@ -1485,7 +1485,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_ybn() {
 fn test_find_sysline_at_datetime_filter_checks_3_yby() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1497,7 +1497,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_yby() {
 fn test_find_sysline_at_datetime_filter_checks_3_ybz() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1509,7 +1509,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_ybz() {
 fn test_find_sysline_at_datetime_filter_checks_3_yaz() {
     test_find_sysline_at_datetime_filter1(
         64,
-        Some(test_find_sysline_at_datetime_filter_Checks::from([
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
