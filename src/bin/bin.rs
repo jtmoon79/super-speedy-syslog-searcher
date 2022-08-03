@@ -115,7 +115,7 @@ use s4lib::Readers::helpers::{
 
 use s4lib::Readers::summary::{
     Summary,
-    Summary_Opt,
+    SummaryOpt,
 };
 
 use s4lib::Readers::syslinereader::{
@@ -655,7 +655,7 @@ type Thread_Init_Data4 = (
 );
 type IsSyslineLast = bool;
 /// the data sent from file processing thread to the main processing thread
-type Chan_Datum = (SyslineP_Opt, Summary_Opt, IsSyslineLast);
+type Chan_Datum = (SyslineP_Opt, SummaryOpt, IsSyslineLast);
 type Map_PathId_Datum = BTreeMap<PathId, Chan_Datum>;
 type Set_PathId = HashSet<PathId>;
 type Chan_Send_Datum = crossbeam_channel::Sender<Chan_Datum>;
@@ -777,7 +777,7 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
 
     if !search_more {
         dpo!("{:?}({}): quit searching…", _tid, tname);
-        let summary_opt: Summary_Opt = Some(syslogproc.process_stage4_summary());
+        let summary_opt: SummaryOpt = Some(syslogproc.process_stage4_summary());
         dpo!("{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", _tid, tname, summary_opt, false);
         match chan_send_dt.send((None, summary_opt, false)) {
             Ok(_) => {}
@@ -893,9 +893,9 @@ impl SummaryPrinted {
     /// print a `SummaryPrinted` with color on stderr.
     ///
     /// mimics debug print but with colorized zero values
-    /// only colorize if associated `Summary_Opt` has corresponding
+    /// only colorize if associated `SummaryOpt` has corresponding
     /// non-zero values
-    pub fn print_colored_stderr(&self, color_choice_opt: Option<ColorChoice>, summary_opt: &Summary_Opt) {
+    pub fn print_colored_stderr(&self, color_choice_opt: Option<ColorChoice>, summary_opt: &SummaryOpt) {
         
         let sumd = Summary::default();
         let sum_: &Summary = match summary_opt {
@@ -1601,8 +1601,8 @@ fn print_filepath(
     eprintln!();
 }
 
-/// print the `&Summary_Opt` (multiple lines)
-fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
+/// print the `&SummaryOpt` (multiple lines)
+fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
     const OPT_SUMMARY_PRINT_INDENT_UNDER: &str = "                   ";
     match summary_opt {
         Some(summary) => {
@@ -1646,7 +1646,7 @@ fn print_summary_opt_processed(summary_opt: &Summary_Opt) {
 /// print the `&SummaryPrinted_Opt` (one line)
 fn print_summary_opt_printed(
     summary_print_opt: &SummaryPrinted_Opt,
-    summary_opt: &Summary_Opt,
+    summary_opt: &SummaryOpt,
     color_choice: &ColorChoice,
 ) {
     match summary_print_opt {
@@ -1663,7 +1663,7 @@ fn print_summary_opt_printed(
 }
 
 /// print the various `Summary` caching and storage statistics (multiple lines)
-fn print_cache_stats(summary_opt: &Summary_Opt) {
+fn print_cache_stats(summary_opt: &SummaryOpt) {
     if summary_opt.is_none() {
         return;
     }
@@ -1807,7 +1807,7 @@ fn print_cache_stats(summary_opt: &Summary_Opt) {
 }
 
 /// print the various `Summary` drop error statistics (multiple lines)
-fn print_drop_stats(summary_opt: &Summary_Opt) {
+fn print_drop_stats(summary_opt: &SummaryOpt) {
     if summary_opt.is_none() {
         return;
     }
@@ -1837,7 +1837,7 @@ fn print_drop_stats(summary_opt: &Summary_Opt) {
 }
 
 /// print the `Summary.Error_`, if any (one line)
-fn print_error(summary_opt: &Summary_Opt, color_choice: &ColorChoice) {
+fn print_error(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
     match summary_opt.as_ref() {
         Some(summary_) => {
             match &summary_.Error_ {
@@ -1862,7 +1862,7 @@ fn print_file_summary(
     path: &FPath,
     filetype: &FileType,
     mimeguess: &MimeGuess,
-    summary_opt: &Summary_Opt,
+    summary_opt: &SummaryOpt,
     summary_print_opt: &SummaryPrinted_Opt,
     color: &Color,
     color_choice: &ColorChoice,
@@ -1900,7 +1900,7 @@ fn print_all_files_summaries(
         let filetype: &FileType = map_pathid_filetype.get(pathid).unwrap_or(&FileType::FileUnknown);
         let mimeguess_default: MimeGuess = MimeGuess::from_ext("");
         let mimeguess: &MimeGuess = map_pathid_mimeguess.get(pathid).unwrap_or(&mimeguess_default);
-        let summary_opt: Summary_Opt = map_pathid_summary.remove(pathid);
+        let summary_opt: SummaryOpt = map_pathid_summary.remove(pathid);
         let summary_print_opt: SummaryPrinted_Opt = map_pathid_sumpr.remove(pathid);
         print_file_summary(
             path,

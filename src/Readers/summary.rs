@@ -351,4 +351,4 @@ impl fmt::Debug for Summary {
     }
 }
 
-pub type Summary_Opt = Option<Summary>;
+pub type SummaryOpt = Option<Summary>;
