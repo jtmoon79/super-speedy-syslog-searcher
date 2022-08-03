@@ -294,7 +294,7 @@ pub use p;
 ///
 /// XXX: is this implemented in std or in a crate?
 #[cfg(any(debug_assertions,test))]
-pub fn char_to_char_noraw(c: char) -> char {
+pub const fn char_to_char_noraw(c: char) -> char {
     // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#C0_controls
     match c as u32 {
         0 => '␀',
@@ -338,7 +338,7 @@ pub fn char_to_char_noraw(c: char) -> char {
 ///
 /// only intended for debugging
 #[cfg(any(debug_assertions,test))]
-pub fn byte_to_char_noraw(byte: u8) -> char {
+pub const fn byte_to_char_noraw(byte: u8) -> char {
     char_to_char_noraw(byte as char)
 }
 

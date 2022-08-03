@@ -1851,9 +1851,9 @@ lazy_static! {
 /// workaround for chrono Issue #660 https://github.com/chronotope/chrono/issues/660
 /// match spaces at beginning and ending of inputs
 pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePattern_str) -> bool {
-    let spaces = " ";
-    let tabs = "\t";
-    let lineends = "\n\r";
+    const spaces: &str = " ";
+    const tabs: &str = "\t";
+    const lineends: &str = "\n\r";
 
     // match whitespace forwards from beginning
     let mut v_sc: u32 = 0;  // `value` spaces count

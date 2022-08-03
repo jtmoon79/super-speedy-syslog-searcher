@@ -881,14 +881,14 @@ impl LineReader {
 
         // search for newline A starts within "middle" block
         let mut bi_at: BlockIndex = self.block_index_at_file_offset(fo_nl_a_search_start);
-        let bi_stop: BlockIndex = 0;
+        let BI_STOP: BlockIndex = 0;
         dpof!(
             "({}) A2a: scan middle block {} backwards, starting from blockindex {} (fileoffset {}) down to blockindex {} searching for newline A",
             fileoffset,
             bo_middle,
             bi_at,
             self.file_offset_at_block_offset_index(bo_middle, bi_at),
-            bi_stop,
+            BI_STOP,
         );
         loop {
             // XXX: single-byte encoding
@@ -914,7 +914,7 @@ impl LineReader {
             }
             // XXX: single-byte encoding
             bi_at -= charsz_bi;
-            if bi_at < bi_stop {
+            if bi_at < BI_STOP {
                 break;
             }
         }
@@ -1440,10 +1440,10 @@ impl LineReader {
         if bof == bo_middle {
             // search for newline A starts within "middle" block
             let mut bi_at: BlockIndex = self.block_index_at_file_offset(fo_nl_a_search_start);
-            let bi_stop: BlockIndex = 0;
+            const BI_STOP: BlockIndex = 0;
             dpof!(
                 "A2a: scan middle block {} backwards, starting from blockindex {} (fileoffset {}) down to blockindex {} searching for newline A",
-                bo_middle, bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at), bi_stop,
+                bo_middle, bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at), BI_STOP,
             );
             loop {
                 // XXX: single-byte encoding
@@ -1468,7 +1468,7 @@ impl LineReader {
                 }
                 // XXX: single-byte encoding
                 bi_at -= charsz_bi;
-                if bi_at < bi_stop {
+                if bi_at < BI_STOP {
                     break;
                 }
             }
@@ -1550,10 +1550,10 @@ impl LineReader {
                 bi_start_prior = bi_start;
                 bi_start = blen - charsz_bi;
                 let mut bi_at: BlockIndex = bi_start;
-                let bi_stop: BlockIndex = 0;
+                const BI_STOP: BlockIndex = 0;
                 dpof!(
                     "A5: scan block {} backwards, starting from blockindex {} (fileoffset {}) down to blockindex {} searching for newline A",
-                    bof, bi_at, self.file_offset_at_block_offset_index(bof, bi_at), bi_stop,
+                    bof, bi_at, self.file_offset_at_block_offset_index(bof, bi_at), BI_STOP,
                 );
                 loop {
                     // XXX: single-byte encoding
@@ -1608,7 +1608,7 @@ impl LineReader {
                     }
                     // XXX: single-byte encoding
                     bi_at -= charsz_bi;
-                    if bi_at < bi_stop {
+                    if bi_at < BI_STOP {
                         break;
                     }
                 }
@@ -1618,7 +1618,7 @@ impl LineReader {
                 dpof!("A5: store blockoffset {}", bof);
                 let li = LinePart::new(
                     bptr.clone(),
-                    bi_stop,
+                    BI_STOP,
                     bi_start + 1,
                     self.file_offset_at_block_offset_index(bof, 0),
                     bof,
