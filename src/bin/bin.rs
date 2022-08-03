@@ -1301,7 +1301,6 @@ fn processing_loop(
         let pathid: &PathId = match map_index_pathid.get(&index) {
             Some(pathid_) => pathid_,
             None => {
-                panic!("ERROR: failed to map_index_pathid.get({})", index);
                 eprintln!("ERROR: failed to map_index_pathid.get({})", index);
                 return None;
             }
@@ -1310,7 +1309,6 @@ fn processing_loop(
         let chan: &Chan_Recv_Datum = match pathid_chans.get(pathid) {
             Some(chan_) => chan_,
             None => {
-                panic!("ERROR: failed to pathid_chans.get({})", pathid);
                 eprintln!("ERROR: failed to pathid_chans.get({})", pathid);
                 return None;
             }
