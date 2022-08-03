@@ -151,32 +151,35 @@ enum CLI_Color_Choice {
 
 /// subset of `DateTime_Parse_Data` for calls to `datetime_parse_from_str`
 ///
-/// (DateTimePattern_str, has year, has timezone)
+/// (DateTimePattern_str, has year, has timezone, has time)
 type CLI_DT_Filter_Pattern<'b> = (
     &'b DateTimePattern_str,
     bool,
     bool,
+    bool,
 );
 
-const CLI_DT_FILTER_PATTERN1: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S", true, false);
-const CLI_DT_FILTER_PATTERN2: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%z", true, true);
-const CLI_DT_FILTER_PATTERN3: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%Z", true, true);
-const CLI_DT_FILTER_PATTERN4: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S", true, false);
-const CLI_DT_FILTER_PATTERN5: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %z", true, true);
-const CLI_DT_FILTER_PATTERN6: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %Z", true, true);
-const CLI_DT_FILTER_PATTERN7: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false);
-const CLI_DT_FILTER_PATTERN8: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %z", true, true);
-const CLI_DT_FILTER_PATTERN9: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", true, true);
-const CLI_DT_FILTER_PATTERN10: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false);
-const CLI_DT_FILTER_PATTERN11: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true);
-const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true);
-const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("+%s", false, false);
-// TODO: [2022/06/07] allow passing only a date, fills HMS with 000
+const CLI_DT_FILTER_PATTERN1: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S", true, false, true);
+const CLI_DT_FILTER_PATTERN2: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%z", true, true, true);
+const CLI_DT_FILTER_PATTERN3: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%Z", true, true, true);
+const CLI_DT_FILTER_PATTERN4: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S", true, false, true);
+const CLI_DT_FILTER_PATTERN5: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %z", true, true, true);
+const CLI_DT_FILTER_PATTERN6: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %Z", true, true, true);
+const CLI_DT_FILTER_PATTERN7: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false, true);
+const CLI_DT_FILTER_PATTERN8: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %z", true, true, true);
+const CLI_DT_FILTER_PATTERN9: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", true, true, true);
+const CLI_DT_FILTER_PATTERN10: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false, true);
+const CLI_DT_FILTER_PATTERN11: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true, true);
+const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true, true);
+const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%Y%m%d", true, false, false);
+const CLI_DT_FILTER_PATTERN14: CLI_DT_Filter_Pattern = ("%Y%m%d %z", true, true, false);
+const CLI_DT_FILTER_PATTERN15: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, false);
+const CLI_DT_FILTER_PATTERN16: CLI_DT_Filter_Pattern = ("+%s", false, false, true);
 // TODO: [2022/06/19] allow passing three-letter TZ abbreviation
 //const CLI_DT_FILTER_PATTERN13: &CLI_DT_Filter_Pattern = &("%Y/%m/%d", true, false);
 //const CLI_DT_FILTER_PATTERN14: &CLI_DT_Filter_Pattern = &("%Y-%m-%d", true, false);
 //const CLI_DT_FILTER_PATTERN15: &CLI_DT_Filter_Pattern = &("%Y%m%d", true, false);
-const CLI_FILTER_PATTERNS_COUNT: usize = 13;
+const CLI_FILTER_PATTERNS_COUNT: usize = 16;
 /// acceptable datetime filter patterns for the user-passed `-a` or `-b`
 const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
     &CLI_DT_FILTER_PATTERN1,
@@ -192,7 +195,14 @@ const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] =
     &CLI_DT_FILTER_PATTERN11,
     &CLI_DT_FILTER_PATTERN12,
     &CLI_DT_FILTER_PATTERN13,
+    &CLI_DT_FILTER_PATTERN14,
+    &CLI_DT_FILTER_PATTERN15,
+    &CLI_DT_FILTER_PATTERN16,
 ];
+/// time to append in `fn process_dt` when `has_time` is false
+const CLI_DT_FILTER_APPEND_TIME_VALUE: &str = " T000000";
+/// strftime format pattern to append in `fn process_dt` when `has_time` is false
+const CLI_DT_FILTER_APPEND_TIME_PATTERN: &str = " T%H%M%S";
 /// datetime format printed for CLI options `-u` or `-l`
 const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z:";
 
@@ -209,6 +219,9 @@ DateTime Filter patterns may be:
     '%Y/%m/%d %H:%M:%S'
     '%Y/%m/%d %H:%M:%S %z'
     '%Y/%m/%d %H:%M:%S %Z'
+    '%Y%m%d'
+    '%Y%m%d %z'
+    '%Y%m%d %Z'
     '+%s'
 
 Without a timezone offset (%z or %Z), the Datetime Filter is presumed to be the system timezone.
@@ -435,10 +448,20 @@ fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeL_Opt {
     match dts {
         Some(dts) => {
             let mut dto: DateTimeL_Opt = None;
-            for cfp in CLI_FILTER_PATTERNS.iter() {
-                dpo!("datetime_parse_from_str({:?}, {:?}, {:?})", dts, cfp, tz_offset);
+            for (pattern_, _has_year, has_tz, has_time) in CLI_FILTER_PATTERNS.iter() {
+                let mut pattern: String = String::from(*pattern_);
+                let mut dts_: String = dts.clone();
+                // if !has_time then modify the value and pattern
+                // e.g. `"20220101"` becomes `"20220101 T000000"`
+                //      `"%Y%d%m"` becomes `"%Y%d%m T%H%M%S"`
+                if ! has_time {
+                    dts_.push_str(CLI_DT_FILTER_APPEND_TIME_VALUE);
+                    pattern.push_str(CLI_DT_FILTER_APPEND_TIME_PATTERN);
+                    dpof!("appended {:?}, {:?}", CLI_DT_FILTER_APPEND_TIME_VALUE, CLI_DT_FILTER_APPEND_TIME_PATTERN);
+                }
+                dpof!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", dts_, pattern, has_tz, tz_offset);
                 if let Some(val) = datetime_parse_from_str(
-                    dts.as_str(), cfp.0, cfp.2, tz_offset
+                    dts_.as_str(), pattern.as_str(), *has_tz, tz_offset
                 ) {
                     dto = Some(val);
                     break;
@@ -448,6 +471,7 @@ fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeL_Opt {
                 eprintln!("ERROR: Unable to parse a datetime from {:?}", dts);
                 std::process::exit(1);
             }
+
             dto
         },
         None => None,
