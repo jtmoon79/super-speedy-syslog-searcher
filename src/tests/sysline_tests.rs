@@ -39,12 +39,14 @@ use lazy_static::lazy_static;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+#[allow(dead_code)]
 fn block_new(data: &[u8]) -> BlockP {
     let mut block: Block = Block::from(data);
 
     BlockP::new(block)
 }
 
+#[allow(dead_code)]
 fn blockp_new(sz: usize) -> BlockP {
     let mut block: Block = Block::with_capacity(0);
     block.clear();
@@ -53,6 +55,7 @@ fn blockp_new(sz: usize) -> BlockP {
     BlockP::new(block)
 }
 
+#[allow(dead_code)]
 fn linepart_new(
     beg: BlockIndex, end: BlockIndex, fo: FileOffset, bo: BlockOffset, bsz: BlockSz
 ) -> LinePart {
@@ -96,7 +99,6 @@ lazy_static!{
 fn new_sysline1() -> Sysline {
     let at_stop: usize = DATA_STR0.as_bytes().len();
     let mut at_byte: usize = 0;
-    let mut at_bi_beg: usize = 0;
     let mut bo_off: BlockOffset = BLOCKOFFSET_INIT;
     let mut fo_byte: FileOffset = (BLOCKOFFSET_INIT * (BLOCKSZ as BlockOffset)) as FileOffset;
     let mut line: Line = Line::new();
