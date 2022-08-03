@@ -1266,7 +1266,7 @@ impl BlockReader {
     /// enable internal LRU cache used by `read_block`.
     ///
     /// intended to aid testing and debugging
-    #[allow(dead_code)]
+    #[allow(non_snake_case)]
     pub fn LRU_cache_enable(&mut self) {
         if self.read_block_lru_cache_enabled {
             return;
@@ -1279,6 +1279,7 @@ impl BlockReader {
     /// disable internal LRU cache used by `read_block`.
     ///
     /// intended to aid testing and debugging
+    #[allow(non_snake_case)]
     pub fn LRU_cache_disable(&mut self) {
         self.read_block_lru_cache_enabled = false;
         self.read_block_lru_cache.resize(0);
@@ -1312,6 +1313,7 @@ impl BlockReader {
     }
 
     /// store clone of `BlockP` in LRU cache
+    #[allow(non_snake_case)]
     fn store_block_in_LRU_cache(&mut self, blockoffset: BlockOffset, blockp: &BlockP) {
         dpo!("LRU cache put({}, BlockP@{:p})", blockoffset, blockp);
         if ! self.read_block_lru_cache_enabled {
@@ -1341,6 +1343,7 @@ impl BlockReader {
     /// read up to `blocksz` bytes of data (one `Block`) from a regular filesystem file.
     ///
     /// Called from `read_block`.
+    #[allow(non_snake_case)]
     fn read_block_File(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         dpnf!("({})", blockoffset);
         debug_assert_eq!(self.filetype, FileType::File, "wrong FileType {:?} for calling read_block_FILE", self.filetype);
@@ -1394,6 +1397,7 @@ impl BlockReader {
     /// A gzip file must be read from beginning to end in sequence (cannot jump forward and read).
     /// So `read_block_FileGz` reads entire file up to passed `blockoffset`, storing each
     /// decompressed block.
+    #[allow(non_snake_case)]
     fn read_block_FileGz(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         dpnf!("({})", blockoffset);
         debug_assert_eq!(self.filetype, FileType::FileGz, "wrong FileType {:?} for calling read_block_FileGz", self.filetype);
@@ -1581,6 +1585,7 @@ impl BlockReader {
     ///
     /// An `.xz` file must read from beginning to end (cannot jump forward and read).
     /// So read entire file up to passed `blockoffset`, storing each decompressed block
+    #[allow(non_snake_case)]
     fn read_block_FileXz(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         dpnf!("({})", blockoffset);
         debug_assert_eq!(self.filetype, FileType::FileXz, "wrong FileType {:?} for calling read_block_FileXz", self.filetype);
@@ -1703,6 +1708,7 @@ impl BlockReader {
     /// I found it impossible to store both related instances and then later utilize the
     /// `tar::Entry`.
     ///
+    #[allow(non_snake_case)]
     fn read_block_FileTar(&mut self, blockoffset: BlockOffset) -> ResultS3_ReadBlock {
         dpnf!("({})", blockoffset);
         debug_assert_eq!(self.filetype, FileType::FileTar, "wrong FileType {:?} for calling read_block_FileTar", self.filetype);
@@ -1923,6 +1929,7 @@ impl BlockReader {
     }
 
     /// for testing, very inefficient!
+    #[cfg(test)]
     pub(crate) fn get_block(&self, blockoffset: &BlockOffset) -> Option<Bytes> {
         if self.blocks.contains_key(blockoffset) {
             return Some((*self.blocks[blockoffset]).clone());
@@ -1930,57 +1937,4 @@ impl BlockReader {
 
         None
     }
-
-    /*
-    /// get byte at FileOffset
-    /// `None` means the data at `FileOffset` was not available
-    /// Does not request any `read_block`! Only copies from what is currently available from prior
-    /// calls to `read_block`.
-    /// debug helper only
-    #[cfg(any(debug_assertions,bench,test))]
-    fn _get_byte(&self, fo: FileOffset) -> Option<u8> {
-        let bo = BlockReader::block_offset_at_file_offset(fo, self.blocksz);
-        let bi = BlockReader::block_index_at_file_offset(fo, self.blocksz);
-        if self.blocks.contains_key(&bo) {
-            return Some((*self.blocks[&bo])[bi]);
-        }
-
-        None
-    }
-
-    /// return `Bytes` at `[fo_a, fo_b)`.
-    /// uses `self._get_byte` which does not request any reads!
-    /// debug helper only
-    #[cfg(any(debug_assertions,bench,test))]
-    pub(crate) fn _vec_from(&self, fo_a: FileOffset, fo_b: FileOffset) -> Bytes {
-        assert_le!(fo_a, fo_b, "bad fo_a {} fo_b {} FPath {:?}", fo_a, fo_b, self.path);
-        assert_le!(fo_b, self.filesz(), "bad fo_b {} but filesz {} FPath {:?}", fo_b, self.filesz(), self.path);
-        if fo_a == fo_b {
-            return Bytes::with_capacity(0);
-        }
-        let bo_a = BlockReader::block_offset_at_file_offset(fo_a, self.blocksz);
-        let bo_b = BlockReader::block_offset_at_file_offset(fo_b, self.blocksz);
-        let bo_a_i = BlockReader::block_index_at_file_offset(fo_a, self.blocksz);
-        let bo_b_i = BlockReader::block_index_at_file_offset(fo_b, self.blocksz);
-        if bo_a == bo_b {
-            return Bytes::from(&(*self.blocks[&bo_a])[bo_a_i..bo_b_i]);
-        }
-        let mut fo_at = fo_a;
-        let sz = (fo_b - fo_a) as usize;
-        // XXX: inefficient!
-        let mut vec_ = Bytes::with_capacity(sz);
-        while fo_at < fo_b {
-            let b = match self._get_byte(fo_at) {
-                Some(val) => val,
-                None => {
-                    break;
-                }
-            };
-            vec_.push(b);
-            fo_at += 1;
-        }
-
-        vec_
-    }
-    */
 }
