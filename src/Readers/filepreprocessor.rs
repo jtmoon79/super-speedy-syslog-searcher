@@ -116,32 +116,32 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     // see https://docs.rs/mime/latest/mime/
     // see https://docs.rs/mime/latest/src/mime/lib.rs.html
     // see https://github.com/abonander/mime_guess/blob/f6d36d8531bef9ad86f3ee274f65a1a31ea4d9b4/src/mime_types.rs
-    dpnxf!("mimeguess_to_filetype_str: mimeguess {:?}", mimeguess_str);
+    dpnxf!("({:?})", mimeguess_str);
     let lower: String = mimeguess_str.to_lowercase();
     //
-    const plain: &str = "plain"; //mime::PLAIN.as_str();
-    const text: &str = "text"; //mime::TEXT.as_str();
-    const text_plain: &str = "text/plain"; //mime::TEXT_PLAIN.to_string().as_str();
-    const text_plain_utf8: &str = "text/plain; charset=utf-8"; //mime::TEXT_PLAIN_UTF_8.to_string().as_str();
-    const text_star: &str = "text/*"; //mime::TEXT_STAR.to_string().as_str();
-    const utf8_: &str = "utf-8"; //mime::UTF_8.as_str();
+    const PLAIN: &str = "plain"; //mime::PLAIN.as_str();
+    const TEXT: &str = "text"; //mime::TEXT.as_str();
+    const TEXT_PLAIN: &str = "text/plain"; //mime::TEXT_PLAIN.to_string().as_str();
+    const TEXT_PLAIN_UTF8: &str = "text/plain; charset=utf-8"; //mime::TEXT_PLAIN_UTF_8.to_string().as_str();
+    const TEXT_STAR: &str = "text/*"; //mime::TEXT_STAR.to_string().as_str();
+    const UTF8_: &str = "utf-8"; //mime::UTF_8.as_str();
     //
-    const app_gzip: &str = "application/gzip";
+    const APP_GZIP: &str = "application/gzip";
     //
-    const app_x_xz: &str = "application/x-xz";
+    const APP_X_XZ: &str = "application/x-xz";
     //
-    const app_tar: &str = "application/x-tar";
+    const APP_TAR: &str = "application/x-tar";
 
     match lower.as_str() {
-        plain
-        | text
-        | text_plain
-        | text_plain_utf8
-        | text_star
-        | utf8_ => FileType::File,
-        app_gzip => FileType::FileGz,
-        app_tar => FileType::FileTar,
-        app_x_xz => FileType::FileXz,
+        PLAIN
+        | TEXT
+        | TEXT_PLAIN
+        | TEXT_PLAIN_UTF8
+        | TEXT_STAR
+        | UTF8_ => FileType::File,
+        APP_GZIP => FileType::FileGz,
+        APP_X_XZ => FileType::FileXz,
+        APP_TAR => FileType::FileTar,
         _ => FileType::FileUnknown,
     }
 }
