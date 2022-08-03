@@ -226,7 +226,7 @@ impl LineReader {
     }
 
     /// enable internal LRU cache used by `find_line`
-    #[allow(dead_code)]
+    #[allow(non_snake_case)]
     pub fn LRU_cache_enable(&mut self) {
         if self.find_line_lru_cache_enabled {
             return;
@@ -238,6 +238,7 @@ impl LineReader {
 
     /// disable internal LRU cache used by `find_line`
     /// intended for testing
+    #[allow(non_snake_case)]
     pub fn LRU_cache_disable(&mut self) {
         self.find_line_lru_cache_enabled = false;
         self.find_line_lru_cache.resize(0);
@@ -272,7 +273,6 @@ impl LineReader {
 
     /// return file_offset (file byte offset) at given `BlockOffset`
     #[inline(always)]
-    #[allow(dead_code)]
     pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz())
     }
