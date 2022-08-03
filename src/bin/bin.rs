@@ -170,7 +170,7 @@ const CLI_DT_FILTER_PATTERN9: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", t
 const CLI_DT_FILTER_PATTERN10: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false);
 const CLI_DT_FILTER_PATTERN11: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true);
 const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true);
-const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%s", false, false);
+const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("+%s", false, false);
 // TODO: [2022/06/07] allow passing only a date, fills HMS with 000
 // TODO: [2022/06/19] allow passing three-letter TZ abbreviation
 //const CLI_DT_FILTER_PATTERN13: &CLI_DT_Filter_Pattern = &("%Y/%m/%d", true, false);
@@ -209,10 +209,10 @@ DateTime Filter patterns may be:
     '%Y/%m/%d %H:%M:%S'
     '%Y/%m/%d %H:%M:%S %z'
     '%Y/%m/%d %H:%M:%S %Z'
-    '%s'
+    '+%s'
 
 Without a timezone offset (%z or %Z), the Datetime Filter is presumed to be the system timezone.
-Pattern '%s' is Unix epoch timestamp in seconds.
+Pattern '+%s' is Unix epoch timestamp in seconds with a preceding '+'.
 
 DateTime Filter formatting is described at
 https://docs.rs/chrono/latest/chrono/format/strftime/
