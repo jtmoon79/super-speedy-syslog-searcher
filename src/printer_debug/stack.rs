@@ -5,6 +5,10 @@
 
 use std::collections::HashMap;
 use std::thread;
+use std::thread::{
+    Thread,
+    ThreadId,
+};
 
 extern crate const_format;
 use const_format::concatcp;
@@ -15,7 +19,7 @@ use lazy_static::lazy_static;
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 #[allow(non_camel_case_types)]
-type Map_ThreadId_SD<'a> = HashMap<thread::ThreadId, usize>;
+type Map_ThreadId_SD<'a> = HashMap<ThreadId, usize>;
 
 // use `stack_offset_set` to set `_STACK_OFFSET_TABLE` once, use `stack_offset` to get
 // XXX: no mutex to guard access; it's rarely written to 🤞
@@ -46,8 +50,8 @@ pub fn stack_offset() -> usize {
         return 0;
     }
     let mut sd: usize = stack_depth() - 1;
-    let sd2 = sd; // XXX: copy `sd` to avoid borrow error
-    let tid = thread::current().id();
+    let sd2: usize = sd; // XXX: copy `sd` to avoid borrow error
+    let tid: ThreadId = thread::current().id();
     // XXX: for tests, just set on first call
     if !_STACK_OFFSET_TABLE.is_set().unwrap() {
         #[allow(clippy::single_match)]
@@ -84,11 +88,11 @@ pub fn stack_offset_set(correction: Option<isize>) {
     if ! (cfg!(debug_assertions) || cfg!(test)) {
         return;
     }
-    let sd_ = stack_depth();
+    let sd_: usize = stack_depth();
     let sdi: isize = (sd_ as isize) - correction.unwrap_or(0);
-    let so = std::cmp::max(sdi, 0) as usize;
-    let thread_cur = thread::current();
-    let tid = thread_cur.id();
+    let so: usize = std::cmp::max(sdi, 0) as usize;
+    let thread_cur: Thread = thread::current();
+    let tid: ThreadId = thread_cur.id();
     if !_STACK_OFFSET_TABLE.is_set().unwrap() {
         // BUG: multiple simlutaneous calls to `_STACK_OFFSET_TABLE.is_set()` then
         //      `_STACK_OFFSET_TABLE.set(…)` may cause `.set(…)` to return an error.

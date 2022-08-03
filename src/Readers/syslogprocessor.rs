@@ -385,7 +385,7 @@ impl SyslogProcessor {
             };
             // TODO: [2022/07/27] add fn `syslinereader.find_sysline_year_rev` to hide these char offset
             //       details (put them into a struct that is meant to understand these details)
-            let fo_prev_prev = fo_prev;
+            let fo_prev_prev: FileOffset = fo_prev;
             fo_prev = (*syslinep).fileoffset_begin();
             // check if datetime has suddenly jumped backwards.
             // if date has jumped backwards, then remove sysline, update the year, and process the file
@@ -452,7 +452,7 @@ impl SyslogProcessor {
                 ResultS4_SyslineFind::Found((ref _fo, ref syslinep))
                 | ResultS4_SyslineFind::Found_EOF((ref _fo, ref syslinep)) =>
                 {
-                    let bo_first = (*syslinep).blockoffset_first();
+                    let bo_first: BlockOffset = (*syslinep).blockoffset_first();
                     if bo_first > 0 {
                         self.drop_block(bo_first - 1);
                     }
@@ -556,7 +556,7 @@ impl SyslogProcessor {
         self.assert_stage(ProcessingStage::stage0_valid_file_check);
         self.processingstage = ProcessingStage::stage1_blockzero_analysis;
 
-        let result = self.blockzero_analysis();
+        let result: FileProcessingResult_BlockZero = self.blockzero_analysis();
         dpo!("syslogprocessor.process_stage1_blockzero_analysis blockzero_analysis() returned syslines {}", self.syslinereader.count_syslines_stored());
         match result {
             FileProcessingResult::FileOk => {}
@@ -740,13 +740,13 @@ impl SyslogProcessor {
         self.blockzero_analysis_done = true;
         self.assert_stage(ProcessingStage::stage1_blockzero_analysis);
 
-        let result = self.blockzero_analysis_lines();
+        let result: FileProcessingResult_BlockZero = self.blockzero_analysis_lines();
         if ! result.is_ok() {
             dpxf!("syslogprocessor.blockzero_analysis: syslinereader.blockzero_analysis() was !is_ok(), return {:?}", result);
             return result;
         };
 
-        let result = self.blockzero_analysis_syslines();
+        let result: FileProcessingResult_BlockZero = self.blockzero_analysis_syslines();
         dpxf!("syslogprocessor.blockzero_analysis() return {:?}", result);
 
         result

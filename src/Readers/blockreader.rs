@@ -1755,9 +1755,9 @@ impl BlockReader {
 
         // read all blocks from file `entry`
         let mut bo_at: BlockOffset = 0;
-        let blockoffset_last = self.blockoffset_last();
+        let blockoffset_last: BlockOffset = self.blockoffset_last();
         while bo_at <= blockoffset_last {
-            let cap = self.blocksz_at_blockoffset(&bo_at) as usize;
+            let cap: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
             let mut block: Block = Block::with_capacity(cap);
             block.resize(cap, 0);
             dpof!("read_exact(&block (capacity {})); bo_at {}", cap, bo_at);

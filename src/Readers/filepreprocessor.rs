@@ -116,7 +116,7 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     // see https://docs.rs/mime/latest/src/mime/lib.rs.html
     // see https://github.com/abonander/mime_guess/blob/f6d36d8531bef9ad86f3ee274f65a1a31ea4d9b4/src/mime_types.rs
     dpnxf!("mimeguess_to_filetype_str: mimeguess {:?}", mimeguess_str);
-    let lower = mimeguess_str.to_lowercase();
+    let lower: String = mimeguess_str.to_lowercase();
     //
     const plain: &str = "plain"; //mime::PLAIN.as_str();
     const text: &str = "text"; //mime::TEXT.as_str();
@@ -344,7 +344,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
             match remove_extension(path) {
                 None => {},
                 Some(path_) => {
-                    let std_path_ = fpath_to_path(&path_);
+                    let std_path_: &Path = fpath_to_path(&path_);
                     filetype = path_to_filetype(std_path_);
                 }
             }
@@ -386,8 +386,8 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
                 continue;
             }
         };
-        let header = entry.header();
-        let etype = header.entry_type();
+        let header: &tar::Header = entry.header();
+        let etype: tar::EntryType = header.entry_type();
         dpo!("entry.header().entry_type() {:?}", etype);
         // TODO: handle tar types `symlink` and `long_link`, currently they are ignored
         if !etype.is_file() {
@@ -402,7 +402,9 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         };
         // first get the `FileType` of the subpath
         let subfpath: FPath = subpath.to_string_lossy().to_string();
-        let (filetype_subpath, mimeguess) = path_to_filetype_mimeguess(&subpath);
+        let filetype_subpath: FileType;
+        let mimeguess: MimeGuess;
+        (filetype_subpath, mimeguess) = path_to_filetype_mimeguess(&subpath);
         // the `FileType` within the tar might be a regular file. It needs to be
         // transformed to corresponding tar `FileType`, so later `BlockReader` understands what to do.
         let filetype: FileType = match filetype_subpath.to_tar() {
@@ -454,9 +456,11 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
     // if passed a path directly to a plain file (or a symlink to a plain file)
     // then assume the user wants to force an attempt to process such a file
     // i.e. do not call `parseable_filetype`
-    let std_path: &std::path::Path = std::path::Path::new(path);
+    let std_path: &Path = Path::new(path);
     if std_path.is_file() {
-        let (filetype, mimeguess) = path_to_filetype_mimeguess(std_path);
+        let filetype: FileType;
+        let mimeguess: MimeGuess;
+        (filetype, mimeguess) = path_to_filetype_mimeguess(std_path);
         if !filetype.is_archived() {
             let paths: Vec<ProcessPathResult> = vec![
                 ProcessPathResult::FileValid(path.clone(), mimeguess, filetype),
@@ -492,7 +496,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         };
 
         dpo!("analayzing {:?}", path_entry);
-        let std_path_entry: &std::path::Path = path_entry.path();
+        let std_path_entry: &Path = path_entry.path();
         let fpath_entry: FPath = path_to_fpath(std_path_entry);
         if ! path_entry.file_type().is_file() {
             if path_entry.file_type().is_dir() {
@@ -502,7 +506,9 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
             paths.push(ProcessPathResult::FileErrNotAFile(fpath_entry, MimeGuess::from_ext("")));
             continue;
         }
-        let (filetype, mimeguess) = path_to_filetype_mimeguess(std_path_entry);
+        let filetype: FileType;
+        let mimeguess: MimeGuess;
+        (filetype, mimeguess) = path_to_filetype_mimeguess(std_path_entry);
         match parseable_filetype(&filetype) {
             FileParseable::YES => {
                 dpo!("paths.push(FileValid(({:?}, {:?}, {:?})))", fpath_entry, mimeguess, filetype);
