@@ -33,7 +33,6 @@ use crate::Data::datetime::{
 };
 
 use crate::Data::sysline::{
-    Sysline,
     SyslineP,
 };
 
@@ -51,6 +50,7 @@ use crate::Readers::summary::{
     Summary,
 };
 
+#[allow(unused_imports)]
 use crate::printer_debug::printers::{
     dpo,
     dpn,

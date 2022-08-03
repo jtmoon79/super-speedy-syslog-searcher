@@ -24,6 +24,7 @@ use crate::Readers::syslinereader::{
     DateTime_Pattern_Counts,
 };
 
+#[allow(unused_imports)]
 use crate::printer_debug::printers::{
     dpo,
     dpn,

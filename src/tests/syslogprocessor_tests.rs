@@ -9,9 +9,7 @@ use crate::common::{
 };
 
 use crate::printer_debug::helpers::{
-    NamedTempFile,
     create_temp_file,
-    create_temp_file_with_suffix,
     NTF_Path,
 };
 
@@ -29,12 +27,7 @@ use crate::Data::datetime::{
 
 use crate::Readers::syslogprocessor::{
     SyslogProcessor,
-    FileProcessingResult_BlockZero,
-    BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP,
 };
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

@@ -9,10 +9,6 @@ use crate::common::{
     ResultS4,
 };
 
-use crate::Data::sysline::{
-    SyslineP,
-};
-
 use crate::Readers::blockreader::{
     FileOffset,
     BlockSz,
@@ -45,7 +41,6 @@ use crate::Data::datetime::{
 };
 
 use crate::tests::datetime_tests::{
-    dt_pattern_has_year,
     dt_pattern_has_tz,
 };
 
@@ -72,9 +67,6 @@ use crate::printer_debug::stack::{
 };
 
 use std::str;
-
-extern crate const_format;
-use const_format::concatcp;
 
 extern crate lazy_static;
 use lazy_static::lazy_static;

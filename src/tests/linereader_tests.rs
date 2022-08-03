@@ -60,7 +60,6 @@ use lazy_static::lazy_static;
 extern crate more_asserts;
 use more_asserts::{
     assert_le,
-    assert_lt,
     assert_ge,
 };
 

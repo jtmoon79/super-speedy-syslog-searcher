@@ -57,7 +57,6 @@ use s4lib::Data::datetime::{
     DateTimeL_Opt,
     DateTimePattern_str,
     DateTime_Parse_Data,
-    Range_LineIndex,
     datetime_parse_from_str,
     DATETIME_PARSE_DATAS,
 };
@@ -66,10 +65,10 @@ use s4lib::printer_debug::stack::{
     stack_offset_set,
 };
 
+#[allow(unused_imports)]
 use s4lib::printer_debug::printers::{
     dpo,
     dpn,
-    dpx,
     dpof,
     dpnf,
     dpxf,

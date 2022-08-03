@@ -7,8 +7,6 @@
 
 use crate::common::{
     FileOffset,
-    FileType,
-    FPath,
 };
 
 use crate::Data::datetime::{
@@ -36,19 +34,8 @@ use crate::Readers::blockreader::{
     BlockSz,
 };
 
-use crate::printer_debug::stack::{
-    stack_offset_set,
-};
-
 extern crate lazy_static;
 use lazy_static::lazy_static;
-
-extern crate more_asserts;
-use more_asserts::{
-    assert_le,
-    assert_lt,
-    assert_ge,
-};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

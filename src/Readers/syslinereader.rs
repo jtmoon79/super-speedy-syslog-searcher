@@ -6,7 +6,6 @@ use crate::common::{
     FPath,
     FileOffset,
     FileType,
-    NLu8,
     CharSz,
 };
 
@@ -35,7 +34,6 @@ use crate::Data::datetime::{
     DateTimeL_Opt,
     DateTime_Parse_Data,
     DateTimeRegex,
-    DateTime_Parse_Datas_Regex_vec,
     DateTime_Parse_Datas_Index,
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_LEN,
@@ -46,7 +44,6 @@ use crate::Data::datetime::{
     Result_Filter_DateTime1,
     Result_Filter_DateTime2,
     slice_contains_X_2,
-    u8_to_str,
 };
 
 use crate::Data::line::{
@@ -61,6 +58,7 @@ use crate::Readers::linereader::{
     ResultS4_LineFind,
 };
 
+#[allow(unused_imports)]
 use crate::printer_debug::printers::{
     dpo,
     dpn,
@@ -81,7 +79,6 @@ use crate::printer_debug::printers::{
 use std::collections::{
     BTreeMap,
     BTreeSet,
-    HashMap,
     HashSet,
 };
 use std::fmt;
@@ -106,10 +103,7 @@ extern crate more_asserts;
 use more_asserts::{
     assert_le,
     assert_lt,
-    assert_ge,
-    debug_assert_le,
     debug_assert_lt,
-    debug_assert_ge,
 };
 
 extern crate rangemap;

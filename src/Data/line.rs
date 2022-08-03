@@ -28,6 +28,7 @@ use crate::printer_debug::printers::{
     char_to_char_noraw,
 };
 
+#[allow(unused_imports)]
 use crate::printer_debug::printers::{
     dpo,
     dpn,

@@ -19,6 +19,7 @@ use crate::Readers::helpers::{
     filename_count_extensions,
 };
 
+#[allow(unused_imports)]
 use crate::printer_debug::printers::{
     dpo,
     dpn,

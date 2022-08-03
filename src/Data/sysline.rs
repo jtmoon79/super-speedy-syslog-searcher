@@ -17,10 +17,7 @@ use crate::Readers::blockreader::{
 
 use crate::Data::datetime::{
     DateTimeL_Opt,
-    datetime_with_year,
-    DateTimeL,
     Duration,
-    Year,
 };
 
 use crate::Data::line::{
@@ -30,12 +27,7 @@ use crate::Data::line::{
     Lines,
 };
 
-#[cfg(any(debug_assertions,test))]
-use crate::printer_debug::printers::{
-    buffer_to_String_noraw,
-    char_to_char_noraw,
-};
-
+#[allow(unused_imports)]
 use crate::printer_debug::printers::{
     dpo,
     dpn,

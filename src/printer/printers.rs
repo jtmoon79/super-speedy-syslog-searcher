@@ -6,6 +6,7 @@
 use std::io::Write;  // for `std::io::Stdout.flush`
 use std::io::Result;
 
+#[allow(unused_imports)]
 use crate::printer_debug::printers::{
     dpo,
     dpn,

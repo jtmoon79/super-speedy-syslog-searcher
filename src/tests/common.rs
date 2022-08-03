@@ -8,9 +8,7 @@ use crate::common::{
 };
 
 use crate::Readers::filepreprocessor::{
-    fpath_to_filetype_mimeguess,
     MimeGuess,
-    path_to_filetype, fpath_to_filetype,
 };
 
 use crate::Readers::helpers::{
@@ -19,23 +17,17 @@ use crate::Readers::helpers::{
 };
 
 use crate::Readers::blockreader::{
-    BlockSz,
-    BlockReader,
-    ResultS3_ReadBlock,
     SUBPATH_SEP,
 };
 
 use crate::printer_debug::helpers::{
     NamedTempFile,
-    create_temp_file,
     create_temp_file_with_name,
-    create_temp_file_with_name_exact,
     create_temp_file_with_suffix,
     create_temp_file_bytes_with_suffix,
     NTF_Path,
 };
 
-#[cfg(test)]
 use crate::printer_debug::printers::{
     str_to_String_noraw,
 };

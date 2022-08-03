@@ -9,9 +9,7 @@ use crate::tests::common::{
     MIMEGUESS_GZ,
     MIMEGUESS_XZ,
     MIMEGUESS_TAR,
-    NTF_GZ_ONEBYTE_PATH,
     NTF_TAR_ONEBYTE,
-    NTF_TAR_ONEBYTE_FPATH,
     NTF_TAR_ONEBYTE_FILEA_FPATH,
     NTF_TAR_ONEBYTE_FILEA_FILETYPE,
     NTF_TAR_ONEBYTE_FILEA_MIMEGUESS,
@@ -25,22 +23,12 @@ use crate::tests::common::{
     NTF_GZ_EMPTY_MIMEGUESS,
 };
 
-use crate::Readers::helpers::{
-    path_to_fpath,
-    fpath_to_path,
-};
-
 use crate::common::{
-    Path,
     FPath,
     FileType,
-    FileProcessingResult,
 };
 
-use crate::Readers::blockreader::{
-    SUBPATH_SEP,
-};
-
+#[allow(unused_imports)]
 use crate::Readers::filepreprocessor::{
     ProcessPathResult,
     fpath_to_filetype_mimeguess,
@@ -56,24 +44,12 @@ use crate::Readers::filepreprocessor::{
 
 use crate::printer_debug::helpers::{
     NamedTempFile,
-    create_temp_file_with_name_exact,
-    create_temp_file_with_suffix,
-    create_temp_file_bytes_with_suffix,
     NTF_Path,
 };
 
 use crate::printer_debug::stack::{
-    sn,
-    so,
-    sx,
     stack_offset_set,
 };
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate mime_sniffer;
-use mime_sniffer::MimeTypeSniffer;  // adds extension method `sniff_mime_type` to `[u8]`
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

@@ -12,20 +12,18 @@ use crate::common::{
 
 use crate::Readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
-    MimeGuess,
 };
 
 use crate::Readers::blockreader::{
     FPath,
     FileOffset,
     BlockSz,
-    Blocks,
     BlockOffset,
     BlockReader,
     ResultS3_ReadBlock,
-    SUBPATH_SEP,
 };
 
+#[allow(unused_imports)]
 use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
@@ -38,10 +36,10 @@ use crate::printer_debug::helpers::{
 use crate::printer_debug::stack::{
     sn,
     so,
-    sx,
     stack_offset_set,
 };
 
+#[allow(unused_imports)]
 use crate::tests::common::{
     NTF_LOG_EMPTY_FPATH,
     NTF_GZ_EMPTY_FPATH,
