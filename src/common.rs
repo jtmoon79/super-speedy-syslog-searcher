@@ -258,18 +258,6 @@ impl<T, E> ResultS3<T, E> {
     ///
     /// Converts `self` into an [`Option<T>`], consuming `self`,
     /// and discarding the error, if any.
-    ///
-    /// # Examples
-    ///
-    /// Basic usage:
-    ///
-    /// ```
-    /// let x: ResultS3<u32, &str> = Ok(2);
-    /// assert_eq!(x.ok(), Some(2));
-    ///
-    /// let x: ResultS3<u32, &str> = Err("Nothing here");
-    /// assert_eq!(x.ok(), None);
-    /// ```
     #[allow(dead_code)]
     #[inline(always)]
     pub fn ok(self) -> Option<T> {

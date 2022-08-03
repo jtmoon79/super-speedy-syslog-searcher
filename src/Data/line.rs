@@ -666,7 +666,6 @@ impl Line {
             } else {
                 // XXX: only handle single-byte encodings
                 // XXX: this is not efficient
-                //let s = match str::from_utf8_lossy(slice) {
                 let s = match std::str::from_utf8(slice) {
                     Ok(val) => val,
                     Err(err) => {
