@@ -998,17 +998,17 @@ const D_D: &RegexPattern = r"[ /\-]?";
 const D_T: &RegexPattern = r"[:]?";
 /// regexp divider day hour, 2020/01/01T20:30:00
 const D_DH: &RegexPattern = r"[ T]?";
-// regexp divider day hour with colon, 2020:01:01:20:30:00
-//const D_DHc: &RegexPattern = r"[ T:]?";
-// regexp divider day hour with dash, 2020:01:01-20:30:00
-//const D_DHd: &RegexPattern = r"[ T\-]?";
+/// regexp divider day hour with colon, 2020:01:01:20:30:00
+const _D_DHc: &RegexPattern = r"[ T:]?";
+/// regexp divider day hour with dash, 2020:01:01-20:30:00
+const _D_DHd: &RegexPattern = r"[ T\-]?";
 /// regexp divider day hour with colon or dash, 2020:01:01-20:30:00
 const D_DHcd: &RegexPattern = r"[ T\-:]?";
 /// regexp divider fractional, 2020/01/01T20:30:00,123456
 const D_SF: &RegexPattern = r"[\.,]";
 
 /// commonly found syslog level names
-//const RP_LEVELS: &RegexPattern = r"((?i)DEBUG|INFO|ERR|ERROR|TRACE|WARN|WARNING|VERBOSE(?-i))";
+const _RP_LEVELS: &RegexPattern = r"((?i)DEBUG|INFO|ERR|ERROR|TRACE|WARN|WARNING|VERBOSE(?-i))";
 /// regex blank
 const RP_BLANK: &RegexPattern = r"[[:blank:]]";
 /// regex blank?
@@ -2133,9 +2133,9 @@ const MONTH_04_B_u: &[u8] = &to_byte_array!("April");
 const MONTH_04_b_u: &[u8] = &to_byte_array!("Apr");
 const MONTH_04_m: &[u8] = &to_byte_array!("04");
 const MONTH_05_B_l: &[u8] = &to_byte_array!("may");
-const MONTH_05_b_l: &[u8] = &to_byte_array!("may");  // not used, defined for completeness
+const _MONTH_05_b_l: &[u8] = &to_byte_array!("may");  // not used, defined for completeness
 const MONTH_05_B_u: &[u8] = &to_byte_array!("May");
-const MONTH_05_b_u: &[u8] = &to_byte_array!("May");  // not used, defined for completeness
+const _MONTH_05_b_u: &[u8] = &to_byte_array!("May");  // not used, defined for completeness
 const MONTH_05_m: &[u8] = &to_byte_array!("05");
 const MONTH_06_B_l: &[u8] = &to_byte_array!("june");
 const MONTH_06_b_l: &[u8] = &to_byte_array!("jun");

@@ -123,7 +123,7 @@ impl fmt::Debug for LinePart {
 
 impl LinePart {
     // XXX: does not handle multi-byte encodings
-    const CHARSZ: usize = 1;
+    const _CHARSZ: usize = 1;
 
     /// create a new `LinePart`. Remember that `blocki_end` points to one byte past
     /// because it used directly in byte array slice notation (exclusive).
