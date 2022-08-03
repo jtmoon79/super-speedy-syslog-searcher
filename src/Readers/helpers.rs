@@ -33,7 +33,7 @@ pub fn fpath_to_path(path: &FPath) -> &std::path::Path {
 pub fn count_chars_in_str(s: &str, c: char) -> usize {
     let mut count: usize = 0;
     for c_ in s.chars() {
-        if c_ == '.' {
+        if c_ == c {
             count += 1;
         }
     }
