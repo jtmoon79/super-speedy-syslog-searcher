@@ -52,7 +52,7 @@ use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
     create_temp_file_bytes,
-    NTF_Path,
+    ntf_fpath,
 };
 
 use crate::printer_debug::printers::{
@@ -109,7 +109,7 @@ lazy_static! {
         create_temp_file(&NTF5_DATA)
     };
     static ref NTF5_PATH: FPath = {
-        NTF_Path(&NTF5)
+        ntf_fpath(&NTF5)
     };
 }
 
@@ -118,7 +118,7 @@ lazy_static! {
 fn test_find_datetime_in_line_by_block(blocksz: BlockSz) {
     eprintln!("{}test_find_datetime_in_line_by_block()", sn());
     let ntf: &NamedTempFile = &NTF5;
-    let path = NTF_Path(ntf);
+    let path = ntf_fpath(ntf);
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
 
@@ -190,7 +190,7 @@ fn test_find_sysline_at_datetime_filter2(
 ) {
     eprintln!("{}test_find_sysline_at_datetime_filter2(…, {:?}, {}, …)", sn(), dt_pattern, blocksz);
 
-    let path = NTF_Path(&ntf);
+    let path = ntf_fpath(&ntf);
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
     for (fo1, dts, sline_expect) in checks.iter() {
@@ -293,7 +293,7 @@ lazy_static! {
         create_temp_file(&NTF26_DATA)
     };
     static ref NTF26_PATH: FPath = {
-        NTF_Path(&NTF26)
+        ntf_fpath(&NTF26)
     };
 
     static ref NTF26_checks: test_find_sysline_at_datetime_filter_Checks<'static> = {
@@ -1641,7 +1641,7 @@ lazy_static! {
         create_temp_file(test_data_file_A1_dt6)
     };
     static ref NTF_A1_path: FPath = {
-        NTF_Path(&NTF_A1)
+        ntf_fpath(&NTF_A1)
     };
 }
 
@@ -1949,7 +1949,7 @@ lazy_static! {
         create_temp_file(test_data_any_file_A2_dt6)
     };
     static ref test_SyslineReader_A2_any_ntf_path: FPath = {
-        NTF_Path(&test_SyslineReader_A2_any_ntf)
+        ntf_fpath(&test_SyslineReader_A2_any_ntf)
     };
 }
 
@@ -2042,7 +2042,7 @@ const test_data_file_B_dt0_checks: [test_SyslineReader_check; 0] = [];
 fn test_SyslineReader_B_dt0_0()
 {
     let ntf = create_temp_file(test_data_file_B_dt0);
-    let path = NTF_Path(&ntf);
+    let path = ntf_fpath(&ntf);
     let checks = test_SyslineReader_checks::from(test_data_file_B_dt0_checks);
     test_SyslineReader_find_sysline(&path, 128, 0, &checks);
 }
@@ -2051,7 +2051,7 @@ fn test_SyslineReader_B_dt0_0()
 fn test_SyslineReader_B_dt0_3()
 {
     let ntf = create_temp_file(test_data_file_B_dt0);
-    let path = NTF_Path(&ntf);
+    let path = ntf_fpath(&ntf);
     let checks = test_SyslineReader_checks::from(test_data_file_B_dt0_checks);
     test_SyslineReader_find_sysline(&path, 128, 3, &checks);
 }
@@ -2081,7 +2081,7 @@ lazy_static! {
     static ref test_SyslineReader_C_ntf: NamedTempFile =
         create_temp_file(test_data_file_C_dt6);
     static ref test_SyslineReader_C_ntf_path: FPath =
-        NTF_Path(&test_SyslineReader_C_ntf);
+        ntf_fpath(&test_SyslineReader_C_ntf);
 }
 
 #[test]
@@ -2125,7 +2125,7 @@ fn test_SyslineReader_D_invalid1()
     let data_invalid1: [u8; 1] = [ 0xFF ];
     let date_checks1: test_SyslineReader_checks = test_SyslineReader_checks::from([]);
     let ntf = create_temp_file_bytes(&data_invalid1);
-    let path = NTF_Path(&ntf);
+    let path = ntf_fpath(&ntf);
     test_SyslineReader_find_sysline(&path, 128, 0, &date_checks1);
 }
 
@@ -2149,7 +2149,7 @@ lazy_static! {
     static ref test_SyslineReader_E_ntf: NamedTempFile =
         create_temp_file(test_data_file_E_dt6);
     static ref test_SyslineReader_E_ntf_path: FPath =
-        NTF_Path(&test_SyslineReader_E_ntf);
+        ntf_fpath(&test_SyslineReader_E_ntf);
 }
 
 #[test]
@@ -2339,7 +2339,7 @@ lazy_static! {
     static ref test_SyslineReader_F_ntf: NamedTempFile =
         create_temp_file(_test_data_file_F_dt6);
     static ref test_SyslineReader_F_ntf_path: FPath =
-        NTF_Path(&test_SyslineReader_F_ntf);
+        ntf_fpath(&test_SyslineReader_F_ntf);
 }
 
 #[test]
@@ -2510,7 +2510,7 @@ lazy_static! {
     static ref test_SyslineReader_G_ntf: NamedTempFile =
         create_temp_file(test_data_file_G_dt4);
     static ref test_SyslineReader_G_ntf_path: FPath =
-        NTF_Path(&test_SyslineReader_G_ntf);
+        ntf_fpath(&test_SyslineReader_G_ntf);
 }
 
 #[test]
@@ -2648,7 +2648,7 @@ lazy_static! {
     static ref test_SyslineReader_H_ntf: NamedTempFile =
         create_temp_file(test_data_file_H_dt4);
     static ref test_SyslineReader_H_ntf_path: FPath =
-        NTF_Path(&test_SyslineReader_H_ntf);
+        ntf_fpath(&test_SyslineReader_H_ntf);
 }
 
 #[test]
@@ -3090,7 +3090,7 @@ fn test_SyslineReader_find_sysline_in_block(
 fn test_SyslineReader_find_sysline_in_block__empty0() {
     let data: &str = "";
     let ntf = create_temp_file(data);
-    let path = NTF_Path(&ntf);
+    let path = ntf_fpath(&ntf);
     let checks: check_find_sysline_in_block = vec![];
 
     test_SyslineReader_find_sysline_in_block(path, checks, 2);
@@ -3100,7 +3100,7 @@ fn test_SyslineReader_find_sysline_in_block__empty0() {
 fn test_SyslineReader_find_sysline_in_block__empty1() {
     let data: &str = "\n";
     let ntf = create_temp_file(data);
-    let path = NTF_Path(&ntf);
+    let path = ntf_fpath(&ntf);
     let checks: check_find_sysline_in_block = vec![
         (0, ResultS4_SyslineFind_Test::Done, String::from("")),
     ];
@@ -3112,7 +3112,7 @@ fn test_SyslineReader_find_sysline_in_block__empty1() {
 fn test_SyslineReader_find_sysline_in_block__empty2() {
     let data: &str = "\n\n";
     let ntf = create_temp_file(data);
-    let path = NTF_Path(&ntf);
+    let path = ntf_fpath(&ntf);
     let checks: check_find_sysline_in_block = vec![
         (0, ResultS4_SyslineFind_Test::Done, String::from("")),
         (1, ResultS4_SyslineFind_Test::Done, String::from("")),
@@ -3125,7 +3125,7 @@ fn test_SyslineReader_find_sysline_in_block__empty2() {
 fn test_SyslineReader_find_sysline_in_block__empty4() {
     let data: &str = "\n\n\n\n";
     let ntf = create_temp_file(data);
-    let path = NTF_Path(&ntf);
+    let path = ntf_fpath(&ntf);
     let checks: check_find_sysline_in_block = vec![
         (0, ResultS4_SyslineFind_Test::Done, String::from("")),
         (1, ResultS4_SyslineFind_Test::Done, String::from("")),
@@ -3140,7 +3140,7 @@ fn test_SyslineReader_find_sysline_in_block__empty4() {
 fn test_SyslineReader_find_sysline_in_block__1_4() {
     let data: &str = "2000-01-01 00:00:00\n";
     let ntf = create_temp_file(data);
-    let path = NTF_Path(&ntf);
+    let path = ntf_fpath(&ntf);
     let checks: check_find_sysline_in_block = vec![
         (0, ResultS4_SyslineFind_Test::Done, String::from("")),
         (1, ResultS4_SyslineFind_Test::Done, String::from("")),
@@ -3155,7 +3155,7 @@ fn test_SyslineReader_find_sysline_in_block__1_4() {
 fn test_SyslineReader_find_sysline_in_block__1_FF() {
     let data: &str = "2000-01-01 00:00:00\n";
     let ntf = create_temp_file(data);
-    let path = NTF_Path(&ntf);
+    let path = ntf_fpath(&ntf);
     let checks: check_find_sysline_in_block = vec![
         (0, ResultS4_SyslineFind_Test::Found_EOF(()), String::from("2000-01-01 00:00:00\n")),
         (1, ResultS4_SyslineFind_Test::Found_EOF(()), String::from("2000-01-01 00:00:00\n")),

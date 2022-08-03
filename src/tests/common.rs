@@ -25,7 +25,7 @@ use crate::printer_debug::helpers::{
     create_temp_file_with_name,
     create_temp_file_with_suffix,
     create_temp_file_bytes_with_suffix,
-    NTF_Path,
+    ntf_fpath,
 };
 
 use crate::printer_debug::printers::{
@@ -70,15 +70,15 @@ fn create_temp_log(data: &str) -> NamedTempFile {
 lazy_static! {
     // files with only newlines
     static ref NTF_NL_1: NamedTempFile = create_temp_log("\n");
-    static ref NTF_NL_1_PATH: FPath = NTF_Path(&NTF_NL_1);
+    static ref NTF_NL_1_PATH: FPath = ntf_fpath(&NTF_NL_1);
     static ref NTF_NL_2: NamedTempFile = create_temp_log("\n\n");
-    static ref NTF_NL_2_PATH: FPath = NTF_Path(&NTF_NL_2);
+    static ref NTF_NL_2_PATH: FPath = ntf_fpath(&NTF_NL_2);
     static ref NTF_NL_3: NamedTempFile = create_temp_log("\n\n\n");
-    static ref NTF_NL_3_PATH: FPath = NTF_Path(&NTF_NL_3);
+    static ref NTF_NL_3_PATH: FPath = ntf_fpath(&NTF_NL_3);
     static ref NTF_NL_4: NamedTempFile = create_temp_log("\n\n\n\n");
-    static ref NTF_NL_4_PATH: FPath = NTF_Path(&NTF_NL_4);
+    static ref NTF_NL_4_PATH: FPath = ntf_fpath(&NTF_NL_4);
     static ref NTF_NL_5: NamedTempFile = create_temp_log("\n\n\n\n\n");
-    static ref NTF_NL_5_PATH: FPath = NTF_Path(&NTF_NL_5);
+    static ref NTF_NL_5_PATH: FPath = ntf_fpath(&NTF_NL_5);
 
     // empty files with suffix
 
@@ -148,7 +148,7 @@ lazy_static! {
         &GZ_ONEBYTE_DATA, &String::from("-one-byte.gz")
     );
     pub static ref NTF_GZ_ONEBYTE_FPATH: FPath = {
-        NTF_Path(&NTF_ONEBYTE_GZ)
+        ntf_fpath(&NTF_ONEBYTE_GZ)
     };
     pub static ref NTF_GZ_ONEBYTE_PATH: &'static Path = {
         &fpath_to_path(&NTF_GZ_ONEBYTE_FPATH)
@@ -175,7 +175,7 @@ lazy_static! {
         &GZ_8BYTE_DATA, &String::from("-eight-byte.gz")
     );
     pub static ref NTF_GZ_8BYTE_FPATH: FPath = {
-        NTF_Path(&NTF_8BYTE_GZ)
+        ntf_fpath(&NTF_8BYTE_GZ)
     };
     pub static ref NTF_GZ_8BYTE_PATH: &'static Path = {
         &fpath_to_path(&NTF_GZ_8BYTE_FPATH)
@@ -532,7 +532,7 @@ lazy_static! {
         )
     };
     pub static ref NTF_TAR_ZEROBYTE_FPATH: FPath = {
-        NTF_Path(&NTF_TAR_ZEROBYTE)
+        ntf_fpath(&NTF_TAR_ZEROBYTE)
     };
     pub static ref NTF_TAR_ZEROBYTE_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_ZEROBYTE_FPATH.clone();
@@ -899,7 +899,7 @@ lazy_static! {
         )
     };
     pub static ref NTF_TAR_ONEBYTE_FPATH: FPath = {
-        NTF_Path(&NTF_TAR_ONEBYTE)
+        ntf_fpath(&NTF_TAR_ONEBYTE)
     };
     pub static ref NTF_TAR_ONEBYTE_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_ONEBYTE_FPATH.clone();
@@ -1263,7 +1263,7 @@ lazy_static! {
         )
     };
     pub static ref NTF_TAR_8BYTE_FPATH: FPath = {
-        NTF_Path(&NTF_TAR_8BYTE)
+        ntf_fpath(&NTF_TAR_8BYTE)
     };
     pub static ref NTF_TAR_8BYTE_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_8BYTE_FPATH.clone();

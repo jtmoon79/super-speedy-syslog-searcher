@@ -30,7 +30,7 @@ use crate::printer_debug::helpers::{
     create_temp_file_with_name_exact,
     create_temp_file_with_suffix,
     create_temp_file_bytes_with_suffix,
-    NTF_Path,
+    ntf_fpath,
 };
 
 use crate::printer_debug::stack::{
@@ -163,7 +163,7 @@ lazy_static! {
 1910-01-10 00:14:10 10"
         )
     };
-    static ref NTF_BASIC_10_FPATH: FPath = NTF_Path(&NTF_BASIC_10);
+    static ref NTF_BASIC_10_FPATH: FPath = ntf_fpath(&NTF_BASIC_10);
 }
 
 #[test]

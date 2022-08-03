@@ -44,7 +44,7 @@ use crate::Readers::filepreprocessor::{
 
 use crate::printer_debug::helpers::{
     NamedTempFile,
-    NTF_Path,
+    ntf_fpath,
 };
 
 use crate::printer_debug::stack::{
@@ -139,7 +139,7 @@ fn test_fpath_to_filetype_FileGZ_gzip() {
 fn test_process_file_path(ntf: &NamedTempFile, check: Vec<ProcessPathResult>) {
     stack_offset_set(Some(2));
     eprintln!("test_process_file_path: ntf {:?}", ntf);
-    let fpath = NTF_Path(&ntf);
+    let fpath = ntf_fpath(&ntf);
     let results = process_path(&fpath);
     assert_eq!(check, results, "\nexpected {:?}\nactual  {:?}\n", check, results);
 }
