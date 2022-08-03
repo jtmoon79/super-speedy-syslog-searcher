@@ -496,7 +496,7 @@ fn cli_process_args() -> (
 ) {
     let args = CLI_Args::parse();
 
-    dpo!(" {:?}", args);
+    dpof!("args {:?}", args);
 
     //
     // process string arguments into specific types
@@ -510,7 +510,7 @@ fn cli_process_args() -> (
             std::process::exit(1);
         }
     };
-    dpo!(" blocksz {:?}", blocksz);
+    dpof!("blocksz {:?}", blocksz);
 
     let mut fpaths: Vec<FPath> = Vec::<FPath>::new();
     for path in args.paths.iter() {
@@ -524,12 +524,12 @@ fn cli_process_args() -> (
             std::process::exit(1);
         }
     };
-    dpo!(" tz_offset {:?}", tz_offset);
+    dpof!("tz_offset {:?}", tz_offset);
 
     let filter_dt_after: DateTimeL_Opt = process_dt(args.dt_after, &tz_offset);
-    dpo!(" filter_dt_after {:?}", filter_dt_after);
+    dpof!("filter_dt_after {:?}", filter_dt_after);
     let filter_dt_before: DateTimeL_Opt = process_dt(args.dt_before, &tz_offset);
-    dpo!(" filter_dt_before {:?}", filter_dt_before);
+    dpof!("filter_dt_before {:?}", filter_dt_before);
 
     #[allow(clippy::single_match)]
     match (filter_dt_after, filter_dt_before) {
