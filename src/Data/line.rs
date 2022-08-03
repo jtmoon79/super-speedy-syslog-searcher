@@ -211,7 +211,7 @@ impl LinePart {
 
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
-    pub(self) fn _to_String_raw(self: &LinePart, raw: bool) -> String {
+    pub(self) fn impl_to_String_raw(self: &LinePart, raw: bool) -> String {
         // XXX: intermixing byte lengths and character lengths
         // XXX: does not handle multi-byte
         let s1: String;
@@ -234,13 +234,13 @@ impl LinePart {
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &LinePart) -> String {
-        self._to_String_raw(false)
+        self.impl_to_String_raw(false)
     }
 
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &LinePart) -> String {
-        self._to_String_raw(true)
+        self.impl_to_String_raw(true)
     }
 
     /// return Box pointer to slice of bytes that make up this `LinePart`
@@ -705,7 +705,7 @@ impl Line {
     ///
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
-    pub(crate) fn _to_String_raw(self: &Line, raw: bool) -> String {
+    pub(crate) fn impl_to_String_raw(self: &Line, raw: bool) -> String {
         // get capacity
         let mut sz: usize = 0;
         for linepart in &self.lineparts {
@@ -745,14 +745,14 @@ impl Line {
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Line) -> String {
-        self._to_String_raw(true)
+        self.impl_to_String_raw(true)
     }
 
     /// `Line` to `String` but using printable chars for non-printable and/or formatting characters
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &Line) -> String {
-        self._to_String_raw(false)
+        self.impl_to_String_raw(false)
     }
 
 }

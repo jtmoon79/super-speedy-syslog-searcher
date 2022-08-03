@@ -274,7 +274,7 @@ impl Sysline {
     /// TODO: remove this
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
-    fn _to_String_raw(self: &Sysline, raw: bool) -> String {
+    fn impl_to_String_raw(self: &Sysline, raw: bool) -> String {
         let mut sz: usize = 0;
         for lp in &self.lines {
             sz += (*lp).len();
@@ -283,7 +283,7 @@ impl Sysline {
         // XXX: does not handle multi-byte
         let mut s_ = String::with_capacity(sz + 1);
         for lp in &self.lines {
-            s_ += (*lp)._to_String_raw(raw).as_str();
+            s_ += (*lp).impl_to_String_raw(raw).as_str();
         }
         s_
     }
@@ -322,7 +322,7 @@ impl Sysline {
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &Sysline) -> String {
-        self._to_String_raw(false)
+        self.impl_to_String_raw(false)
     }
 }
 
