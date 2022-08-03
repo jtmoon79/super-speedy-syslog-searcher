@@ -134,11 +134,11 @@ pub struct PrinterSysline {
     /// should printing be in color?
     do_color: bool,
     /// termcolor::ColorChoice
-    color_choice: ColorChoice,
+    _color_choice: ColorChoice,
     /// color settings for plain text (not sysline)
     color_spec_default: ColorSpec,
     /// color of printed sysline data
-    color_sysline: Color,
+    _color_sysline: Color,
     /// color settings for sysline text
     color_spec_sysline: ColorSpec,
     /// color settings for sysline dateline text
@@ -318,9 +318,9 @@ impl PrinterSysline {
             stdout,
             stdout_color,
             do_color,
-            color_choice,
+            _color_choice: color_choice,
             color_spec_default,
-            color_sysline,
+            _color_sysline: color_sysline,
             color_spec_sysline,
             color_spec_datetime,
             do_prepend_file: prepend_file.is_some(),
@@ -527,6 +527,8 @@ impl PrinterSysline {
 /// print colored output to terminal if possible choosing using passed stream,
 /// otherwise, print plain output.
 ///
+/// caller may take stream locks, e.g. `std::io::stdout().lock()`.
+///
 /// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
 pub fn print_colored(color: Color, value: &[u8], out: &mut termcolor::StandardStream) -> std::io::Result<()> {
     match out.set_color(ColorSpec::new().set_fg(Some(color))) {
@@ -569,8 +571,8 @@ pub fn print_colored_stdout(
         None => ColorChoice::Auto,
     };
     let mut stdout = termcolor::StandardStream::stdout(choice);
-    let stdout_lock = std::io::stdout().lock();
-    let stderr_lock = std::io::stderr().lock();
+    let _stdout_lock = std::io::stdout().lock();
+    let _stderr_lock = std::io::stderr().lock();
 
     print_colored(color, value, &mut stdout)
 }
@@ -588,8 +590,8 @@ pub fn print_colored_stderr(
         None => ColorChoice::Auto,
     };
     let mut stderr = termcolor::StandardStream::stderr(choice);
-    let stdout_lock = std::io::stdout().lock();
-    let stderr_lock = std::io::stderr().lock();
+    let _stdout_lock = std::io::stdout().lock();
+    let _stderr_lock = std::io::stderr().lock();
 
     print_colored(color, value, &mut stderr)
 }
@@ -598,7 +600,7 @@ pub fn print_colored_stderr(
 pub fn write_stdout(buffer: &[u8]) {
     let stdout = std::io::stdout();
     let mut stdout_lock = stdout.lock();
-    let stderr_lock = std::io::stderr().lock();
+    let _stderr_lock = std::io::stderr().lock();
     match stdout_lock.write(buffer) {
         Ok(_) => {}
         Err(err) => {
