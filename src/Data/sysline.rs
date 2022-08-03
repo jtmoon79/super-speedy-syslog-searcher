@@ -320,4 +320,5 @@ impl Sysline {
 
 /// thread-safe Atomic Reference Counting pointer to a `Sysline`
 pub type SyslineP = Arc<Sysline>;
+#[allow(non_camel_case_types)]
 pub type SyslineP_Opt = Option<Arc<Sysline>>;

@@ -981,6 +981,7 @@ type Map_TZZ_to_TZz<'a> = BTreeMap<&'a str, &'a str>;
 lazy_static!{
     static ref MAP_TZZ_TO_TZz: Map_TZZ_to_TZz<'static> = {
         let mut map_ = Map_TZZ_to_TZz::new();
+        #[allow(non_snake_case)]
         for tzZ in TZZ_ALL.iter() {
             if let Some(_) = map_.insert(tzZ.0, tzZ.1) {
                 // duplicate key entries are set to blank
@@ -997,17 +998,17 @@ const D_D: &RegexPattern = r"[ /\-]?";
 const D_T: &RegexPattern = r"[:]?";
 /// regexp divider day hour, 2020/01/01T20:30:00
 const D_DH: &RegexPattern = r"[ T]?";
-/// regexp divider day hour with colon, 2020:01:01:20:30:00
-const D_DHc: &RegexPattern = r"[ T:]?";
-/// regexp divider day hour with dash, 2020:01:01-20:30:00
-const D_DHd: &RegexPattern = r"[ T\-]?";
+// regexp divider day hour with colon, 2020:01:01:20:30:00
+//const D_DHc: &RegexPattern = r"[ T:]?";
+// regexp divider day hour with dash, 2020:01:01-20:30:00
+//const D_DHd: &RegexPattern = r"[ T\-]?";
 /// regexp divider day hour with colon or dash, 2020:01:01-20:30:00
 const D_DHcd: &RegexPattern = r"[ T\-:]?";
 /// regexp divider fractional, 2020/01/01T20:30:00,123456
 const D_SF: &RegexPattern = r"[\.,]";
 
 /// commonly found syslog level names
-const RP_LEVELS: &RegexPattern = r"((?i)DEBUG|INFO|ERR|ERROR|TRACE|WARN|WARNING|VERBOSE(?-i))";
+//const RP_LEVELS: &RegexPattern = r"((?i)DEBUG|INFO|ERR|ERROR|TRACE|WARN|WARNING|VERBOSE(?-i))";
 /// regex blank
 const RP_BLANK: &RegexPattern = r"[[:blank:]]";
 /// regex blank?
@@ -1851,6 +1852,7 @@ lazy_static! {
 //       https://en.wikipedia.org/wiki/Unicode_character_property#Whitespace
 /// workaround for chrono Issue #660 https://github.com/chronotope/chrono/issues/660
 /// match spaces at beginning and ending of inputs
+#[allow(non_snake_case)]
 pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePattern_str) -> bool {
     const spaces: &str = " ";
     const tabs: &str = "\t";
@@ -3151,6 +3153,7 @@ const fn slice_contains_50_2(slice_: &[u8; 50], search: &[u8; 2]) -> bool {
 ///
 /// runs very fast. Implemented for `u8` slices up to 50 length
 #[inline(always)]
+#[allow(non_snake_case)]
 pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
     match slice_.len() {
         2 => slice_contains_2_2(array_ref!(slice_, 0, 2), search),
