@@ -26,10 +26,16 @@ set -x
     ./.gitignore \
     ./LICENSE.txt \
     $(find ./logs -xdev -type f -size -2M | sort) \
-    $(ls -d1 ./performance-data ./valgrind 2>/dev/null || true) \
+    $(ls -d1 \
+        ./performance-data \
+        ./valgrind \
+        ./Notes.txt \
+        ./flamegraph.svg \
+        ./tests \
+        2>/dev/null || true
+    ) \
     ./README.md \
     ./src \
-    ./tests \
     ./tools \
 
 "${Zz}" l "${ZIPFILE}"
