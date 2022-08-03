@@ -120,11 +120,11 @@ pub fn color_rand() -> Color {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// Printer_Sysline
+// PrinterSysline
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// a printer specialized for `Sysline`s
-pub struct Printer_Sysline {
+pub struct PrinterSysline {
     /// handle to stdout
     /// TODO: make this a single global lazy_static
     stdout: std::io::Stdout,
@@ -286,14 +286,14 @@ macro_rules! print_color_line_highlight_dt {
     }
 }
 
-impl Printer_Sysline {
+impl PrinterSysline {
     pub fn new(
         color_choice: ColorChoice,
         color_sysline: Color,
         prepend_file: Option<String>,
         prepend_date_format: Option<String>,
         prepend_date_offset: Option<FixedOffset>,
-    ) -> Printer_Sysline {
+    ) -> PrinterSysline {
         // get a stdout handle once
         let stdout = std::io::stdout();
         let stdout_color = termcolor::StandardStream::stdout(color_choice);
@@ -314,7 +314,7 @@ impl Printer_Sysline {
             assert!(!prepend_date_format_.is_empty(), "passed a prepend_date_offset, must pass a prepend_date_format");
         }
 
-        Printer_Sysline {
+        PrinterSysline {
             stdout,
             stdout_color,
             do_color,
@@ -332,7 +332,7 @@ impl Printer_Sysline {
         }
     }
 
-    /// prints the `SyslineP` based on `Printer_Sysline` settings
+    /// prints the `SyslineP` based on `PrinterSysline` settings
     ///
     /// users should call this function
     #[inline(always)]
@@ -521,7 +521,7 @@ impl Printer_Sysline {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// other printer functions (no use of Printer_Sysline)
+// other printer functions (no use of PrinterSysline)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// print colored output to terminal if possible choosing using passed stream,

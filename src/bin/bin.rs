@@ -86,7 +86,7 @@ use s4lib::printer::printers::{
     //
     COLOR_ERROR,
     color_rand,
-    Printer_Sysline,
+    PrinterSysline,
     print_colored_stderr,
     write_stdout,
 };
@@ -1052,7 +1052,7 @@ fn summary_update(pathid: &PathId, summary: Summary, map_: &mut Map_PathId_Summa
 type Map_PathId_ProcessPathResult = HashMap::<PathId, ProcessPathResult>;
 type Map_PathId_FPath = BTreeMap::<PathId, FPath>;
 type Map_PathId_Color = HashMap::<PathId, Color>;
-type Map_PathId_PrinterSysline = HashMap::<PathId, Printer_Sysline>;
+type Map_PathId_PrinterSysline = HashMap::<PathId, PrinterSysline>;
 type Map_PathId_FileType = HashMap::<PathId, FileType>;
 type Map_PathId_MimeGuess = HashMap::<PathId, MimeGuess>;
 
@@ -1366,7 +1366,7 @@ fn processing_loop(
             // XXX: this should not happen
             _ => panic!("bad CLI options --local --utc"),
         };
-        let printer: Printer_Sysline = Printer_Sysline::new(
+        let printer: PrinterSysline = PrinterSysline::new(
             color_choice,
             *color_,
             prepend_file,
@@ -1497,7 +1497,7 @@ fn processing_loop(
                 let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
                 dpof!("A3 printing @[{}, {}] PathId: {:?}", syslinep.fileoffset_begin(), syslinep.fileoffset_end(), pathid);
                 // print the sysline!
-                let printer: &mut Printer_Sysline = map_pathid_printer.get_mut(pathid).unwrap();
+                let printer: &mut PrinterSysline = map_pathid_printer.get_mut(pathid).unwrap();
                 match printer.print_sysline(syslinep) {
                         Ok(_) => {},
                         Err(_err) => {
