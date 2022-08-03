@@ -99,4 +99,3 @@ fn test_function_name() {
     let actual: &str = function_name!();
     assert_eq!(actual, expect_, "macro function_name returned {:?}, expected {:?}", actual, expect_);
 }
-

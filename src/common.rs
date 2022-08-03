@@ -328,7 +328,7 @@ impl<E> PartialEq for FileProcessingResult<E> {
         if self.has_err() && other.has_err() {
             return true;
         }
-        matches!(self, other)
+        matches!(self, _other)
     }
 }
 impl<E> Eq for FileProcessingResult<E> {}
