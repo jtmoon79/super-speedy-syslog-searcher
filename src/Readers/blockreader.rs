@@ -536,7 +536,13 @@ impl BlockReader {
 
                 // reset Seek pointer
                 // XXX: not sure if this is necessary
-                (&file).seek(SeekFrom::Start(0));
+                match (&file).seek(SeekFrom::Start(0)) {
+                    Ok(_) => {},
+                    Err(err) => {
+                        dpxf!("FileGz: return Err({:?})", err);
+                        return Result::Err(err);
+                    }
+                }
 
                 //let mut open_options = FileOpenOptions::new();
                 dpof!("FileGz:  open_options.read(true).open({:?})", path_std);
