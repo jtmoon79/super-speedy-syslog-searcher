@@ -34,7 +34,7 @@ use crate::Readers::syslogprocessor::{
 /// helper to wrap the match and panic checks
 fn new_SyslogProcessor(path: &FPath, blocksz: BlockSz) -> SyslogProcessor {
     let tzo: FixedOffset = FixedOffset::east(0);
-    let (filetype, mimeguess) = fpath_to_filetype_mimeguess(path);
+    let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
     match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo, None, None) {
         Ok(val) => val,
         Err(err) => {
