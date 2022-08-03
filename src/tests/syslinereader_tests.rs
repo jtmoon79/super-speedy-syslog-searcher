@@ -2932,7 +2932,7 @@ fn test_SyslineReader_w_filtering_3(
     for path in paths.iter() {
         let tzo8 = FixedOffset::west(3600 * 8);
         eprintln!("{}SyslineReader::new({:?}, {}, {:?})", so(), path, blocksz, tzo8);
-        let mut slr = new_SyslineReader(path, blocksz, tzo8);
+        let slr = new_SyslineReader(path, blocksz, tzo8);
         eprintln!("{}{:?}", so(), slr);
         slrs.push(slr)
     }

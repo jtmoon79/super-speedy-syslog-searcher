@@ -41,7 +41,7 @@ use lazy_static::lazy_static;
 
 #[allow(dead_code)]
 fn block_new(data: &[u8]) -> BlockP {
-    let mut block: Block = Block::from(data);
+    let block: Block = Block::from(data);
 
     BlockP::new(block)
 }
@@ -133,7 +133,7 @@ fn new_sysline1() -> Sysline {
     let linep: LineP = LineP::new(line);
     let mut lines = Lines::with_capacity(1);
     lines.push(linep);
-    let mut sysline: Sysline = Sysline::new_from_parts(
+    let sysline: Sysline = Sysline::new_from_parts(
         lines,
         DT_BEG0,
         DT_END0,
@@ -160,8 +160,8 @@ fn test_sysline_dt() {
 
 #[test]
 fn test_sysline_dt_difference() {
-    let mut sysline1: Sysline = new_sysline1();
-    let mut sysline2: Sysline = new_sysline1();
+    let sysline1: Sysline = new_sysline1();
+    let sysline2: Sysline = new_sysline1();
     let syslinep1 = SyslineP::new(sysline1);
     let duration: Duration = sysline2.dt_difference(&syslinep1);
     assert_eq!(duration.num_seconds(), 0);
@@ -169,7 +169,7 @@ fn test_sysline_dt_difference() {
 
 #[test]
 fn test_sysline_blockoffset() {
-    let mut sysline: Sysline = new_sysline1();
+    let sysline: Sysline = new_sysline1();
     let fo_first = sysline.blockoffset_first();
     assert_eq!(fo_first, BLOCKOFFSET_INIT);
     let last_: BlockOffset = *BLOCKOFFSET_LAST;
@@ -178,19 +178,19 @@ fn test_sysline_blockoffset() {
 
 #[test]
 fn test_sysline_len() {
-    let mut sysline: Sysline = new_sysline1();
+    let sysline: Sysline = new_sysline1();
     assert_eq!(sysline.len(), DATA_STR0.as_bytes().len());
 }
 
 #[test]
 fn test_sysline_count_lines() {
-    let mut sysline1: Sysline = new_sysline1();
+    let sysline1: Sysline = new_sysline1();
     assert_eq!(sysline1.count_lines(), 1);
 }
 
 #[test]
 fn test_sysline_occupies_one_block() {
-    let mut sysline1: Sysline = new_sysline1();
+    let sysline1: Sysline = new_sysline1();
     assert!(!sysline1.occupies_one_block());
 }
 
@@ -198,7 +198,7 @@ fn test_sysline_occupies_one_block() {
 fn test_sysline_get_slices() {
     let cap: usize = DATA_STR0.as_bytes().len() + 1;
 
-    let mut sysline1: Sysline = new_sysline1();
+    let sysline1: Sysline = new_sysline1();
     let slices = sysline1.get_slices();
 
     let mut buffer: Vec<u8> = Vec::<u8>::with_capacity(cap);
