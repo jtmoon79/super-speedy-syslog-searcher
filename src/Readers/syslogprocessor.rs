@@ -43,7 +43,7 @@ pub use crate::Readers::linereader::{
 pub use crate::Readers::syslinereader::{
     SyslineReader,
     ResultS4_SyslineFind,
-    DateTime_Pattern_Counts,
+    DateTimePatternCounts,
 };
 
 use crate::Readers::summary::{
@@ -770,11 +770,11 @@ impl SyslogProcessor {
         let SyslineReader_syslines_by_range_miss = self.syslinereader.syslines_by_range_miss;
         let SyslineReader_syslines_by_range_put = self.syslinereader.syslines_by_range_put;
         // only print patterns with use count > 0, sorted by count
-        let mut SyslineReader_patterns_ = DateTime_Pattern_Counts::new();
+        let mut SyslineReader_patterns_ = DateTimePatternCounts::new();
         SyslineReader_patterns_.extend(
             self.syslinereader.dt_patterns_counts.iter().filter(|&(_k, v)| v > &mut 0)
         );
-        let mut SyslineReader_patterns = DateTime_Pattern_Counts::new();
+        let mut SyslineReader_patterns = DateTimePatternCounts::new();
         SyslineReader_patterns.extend(SyslineReader_patterns_.into_iter().sorted_by(|a, b| Ord::cmp(&b.1, &a.1)));
         let SyslineReader_datetime_first = self.syslinereader.dt_first;
         let SyslineReader_datetime_last = self.syslinereader.dt_last;
