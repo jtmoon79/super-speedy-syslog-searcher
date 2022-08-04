@@ -2373,12 +2373,12 @@ pub fn bytes_to_regex_to_datetime(
     };
     if cfg!(debug_assertions) {
         for (i, name_opt) in regex_.capture_names().enumerate() {
-            let match_: regex::bytes::Match = match captures.get(i) {
+            let _match: regex::bytes::Match = match captures.get(i) {
                 Some(m_) => m_,
                 None => {
                     match name_opt {
-                        Some(name) => {
-                            dpo!("regex captures: {:2} {:<10} None", i, name);
+                        Some(_name) => {
+                            dpo!("regex captures: {:2} {:<10} None", i, _name);
                         },
                         None => {
                             dpo!("regex captures: {:2} {:<10} None", i, "None");
@@ -2389,10 +2389,10 @@ pub fn bytes_to_regex_to_datetime(
             };
             match name_opt {
                 Some(name) => {
-                    dpo!("regex captures: {:2} {:<10} {:?}", i, name, buffer_to_String_noraw(match_.as_bytes()));
+                    dpo!("regex captures: {:2} {:<10} {:?}", i, name, buffer_to_String_noraw(_match.as_bytes()));
                 },
                 None => {
-                    dpo!("regex captures: {:2} {:<10} {:?}", i, "NO NAME", buffer_to_String_noraw(match_.as_bytes()));
+                    dpo!("regex captures: {:2} {:<10} {:?}", i, "NO NAME", buffer_to_String_noraw(_match.as_bytes()));
                 }
             }
             
