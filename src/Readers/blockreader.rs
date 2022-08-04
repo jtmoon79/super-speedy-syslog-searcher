@@ -353,7 +353,7 @@ impl BlockReader {
             let (path_, subpath_) = match path.rsplit_once(SUBPATH_SEP) {
                 Some(val) => val,
                 None => {
-                    dpxf!("filetype {:?}, failed to find delimiter {:?} in {:?}", filetype, SUBPATH_SEP, path);
+                    dpxf!("filetype {:?} but failed to find delimiter {:?} in {:?}", filetype, SUBPATH_SEP, path);
                     return Result::Err(
                         Error::new(
                             // TODO: use `ErrorKind::InvalidFilename` when it is stable
@@ -377,7 +377,6 @@ impl BlockReader {
         let file: File = match open_options.read(true).open(path_std) {
             Ok(val) => val,
             Err(err) => {
-                //eprintln!("ERROR: File::open({:?}) error {}", path, err);
                 dpxf!("return {:?}", err);
                 return Err(err);
             }
