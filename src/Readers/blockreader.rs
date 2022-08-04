@@ -16,6 +16,10 @@ use crate::common::{
     FileMetadata,
     FileOpenOptions,
     ResultS3,
+};
+
+#[cfg(test)]
+use crate::common::{
     Bytes,
 };
 
