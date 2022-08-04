@@ -124,7 +124,7 @@ use s4lib::Readers::syslinereader::{
 
 use s4lib::Readers::syslogprocessor::{
     SyslogProcessor,
-    FileProcessingResult_BlockZero,
+    FileProcessingResultBlockZero,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -711,29 +711,29 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
 
     let result = syslogproc.process_stage1_blockzero_analysis();
     match result {
-        FileProcessingResult_BlockZero::FileErrNoLinesFound => {
+        FileProcessingResultBlockZero::FileErrNoLinesFound => {
             eprintln!("WARNING: no lines found {:?}", path);
             return;
         }
-        FileProcessingResult_BlockZero::FileErrNoSyslinesFound => {
+        FileProcessingResultBlockZero::FileErrNoSyslinesFound => {
             eprintln!("WARNING: no syslines found {:?}", path);
             return;
         }
-        FileProcessingResult_BlockZero::FileErrDecompress => {
+        FileProcessingResultBlockZero::FileErrDecompress => {
             eprintln!("WARNING: could not decompress {:?}", path);
             return;
         }
-        FileProcessingResult_BlockZero::FileErrWrongType => {
+        FileProcessingResultBlockZero::FileErrWrongType => {
             eprintln!("WARNING: bad path {:?}", path);
             return;
         }
-        FileProcessingResult_BlockZero::FileErrIo(err) => {
+        FileProcessingResultBlockZero::FileErrIo(err) => {
             eprintln!("ERROR: Error {} for {:?}", err, path);
             return;
         }
-        FileProcessingResult_BlockZero::FileOk => {}
-        FileProcessingResult_BlockZero::FileErrEmpty => {}
-        FileProcessingResult_BlockZero::FileErrNoSyslinesInDtRange => {}
+        FileProcessingResultBlockZero::FileOk => {}
+        FileProcessingResultBlockZero::FileErrEmpty => {}
+        FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange => {}
     }
 
     // find first sysline acceptable to the passed filters

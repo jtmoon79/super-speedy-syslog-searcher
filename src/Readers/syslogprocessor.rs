@@ -97,7 +97,7 @@ extern crate walkdir;
 // SyslogProcessor
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-pub type FileProcessingResult_BlockZero = FileProcessingResult<std::io::Error>;
+pub type FileProcessingResultBlockZero = FileProcessingResult<std::io::Error>;
 
 #[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
 enum ProcessingStage {
@@ -344,7 +344,7 @@ impl SyslogProcessor {
     /// For example,
     /// TODO: fill this example
     ///
-    pub fn process_missing_year(&mut self, mtime: SystemTime) -> FileProcessingResult_BlockZero {
+    pub fn process_missing_year(&mut self, mtime: SystemTime) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.process_missing_year({:?})", mtime);
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
         debug_assert!(!self.did_process_missing_year(), "process_missing_year() must only be called once");
@@ -380,7 +380,7 @@ impl SyslogProcessor {
                 ResultS4_SyslineFind::Err(err) => {
                     self.Error_ = Some(err.to_string());
                     dpxf!("syslogprocessor.process_missing_year: return FileErrIo({:?})", err);
-                    return FileProcessingResult_BlockZero::FileErrIo(err);
+                    return FileProcessingResultBlockZero::FileErrIo(err);
                 }
             };
             // TODO: [2022/07/27] add fn `syslinereader.find_sysline_year_rev` to hide these char offset
@@ -432,7 +432,7 @@ impl SyslogProcessor {
         }
         dpxf!("syslogprocessor.process_missing_year(): return FileOk");
 
-        FileProcessingResult_BlockZero::FileOk
+        FileProcessingResultBlockZero::FileOk
     }
 
     /// wrapper to `self.syslinereader.find_sysline`
@@ -535,28 +535,28 @@ impl SyslogProcessor {
     /// stage 0 does some sanity checks on the file
     /// XXX: this is redundant and has already been performed by functions in
     ///      `filepreprocessor` and `BlockReader::new`.
-    pub fn process_stage0_valid_file_check(&mut self) -> FileProcessingResult_BlockZero {
+    pub fn process_stage0_valid_file_check(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.process_stage0_valid_file_check");
         // sanity check calls are in correct order
         self.assert_stage(ProcessingStage::Stage0ValidFileCheck);
         self.processingstage = ProcessingStage::Stage0ValidFileCheck;
 
         if self.filesz() == 0 {
-            dpxf!("syslogprocessor.process_stage0_valid_file_check: filesz 0; return {:?}", FileProcessingResult_BlockZero::FileErrEmpty);
-            return FileProcessingResult_BlockZero::FileErrEmpty;
+            dpxf!("syslogprocessor.process_stage0_valid_file_check: filesz 0; return {:?}", FileProcessingResultBlockZero::FileErrEmpty);
+            return FileProcessingResultBlockZero::FileErrEmpty;
         }
-        dpxf!("syslogprocessor.process_stage0_valid_file_check: return {:?}", FileProcessingResult_BlockZero::FileOk);
+        dpxf!("syslogprocessor.process_stage0_valid_file_check: return {:?}", FileProcessingResultBlockZero::FileOk);
 
-        FileProcessingResult_BlockZero::FileOk
+        FileProcessingResultBlockZero::FileOk
     }
 
     /// stage 1: Can `Line`s and `Sysline`s be parsed from the first block (block zero)?
-    pub fn process_stage1_blockzero_analysis(&mut self) -> FileProcessingResult_BlockZero {
+    pub fn process_stage1_blockzero_analysis(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.process_stage1_blockzero_analysis");
         self.assert_stage(ProcessingStage::Stage0ValidFileCheck);
         self.processingstage = ProcessingStage::Stage1BlockzeroAnalysis;
 
-        let result: FileProcessingResult_BlockZero = self.blockzero_analysis();
+        let result: FileProcessingResultBlockZero = self.blockzero_analysis();
         dpo!("syslogprocessor.process_stage1_blockzero_analysis blockzero_analysis() returned syslines {}", self.syslinereader.count_syslines_stored());
         match result {
             FileProcessingResult::FileOk => {}
@@ -581,22 +581,22 @@ impl SyslogProcessor {
 
     /// stage 2: Given the two optional datetime filters, can a datetime be
     /// found between those filters?
-    pub fn process_stage2_find_dt(&mut self) -> FileProcessingResult_BlockZero {
+    pub fn process_stage2_find_dt(&mut self) -> FileProcessingResultBlockZero {
         dpnxf!("syslogprocessor.process_stage2_find_dt");
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
         self.processingstage = ProcessingStage::Stage2FindDt;
 
-        FileProcessingResult_BlockZero::FileOk
+        FileProcessingResultBlockZero::FileOk
     }
 
     /// stage 3: during streaming, processed and printed data stored by underlying
     /// "Readers" is proactively dropped (removed from process memory).
-    pub fn process_stage3_stream_syslines(&mut self) -> FileProcessingResult_BlockZero {
+    pub fn process_stage3_stream_syslines(&mut self) -> FileProcessingResultBlockZero {
         dpnxf!("syslogprocessor.process_stage3_stream_syslines");
         self.assert_stage(ProcessingStage::Stage2FindDt);
         self.processingstage = ProcessingStage::Stage3StreamSyslines;
 
-        FileProcessingResult_BlockZero::FileOk
+        FileProcessingResultBlockZero::FileOk
     }
 
     /// stage 4: no more syslines to process, only interested in the `self.summary()`
@@ -609,7 +609,7 @@ impl SyslogProcessor {
 
     /// Attempt to find a minimum number of `Sysline` within the first block.
     /// If enough `Sysline` found then return `FileOk` else `FileErrNoSyslinesFound`.
-    pub(crate) fn blockzero_analysis_syslines(&mut self) -> FileProcessingResult_BlockZero {
+    pub(crate) fn blockzero_analysis_syslines(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.blockzero_analysis_syslines");
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
 
@@ -617,12 +617,12 @@ impl SyslogProcessor {
             ResultS3_ReadBlock::Found(blockp_) => blockp_,
             ResultS3_ReadBlock::Done => {
                 dpxf!("syslogprocessor.blockzero_analysis_syslines: return FileErrEmpty");
-                return FileProcessingResult_BlockZero::FileErrEmpty;
+                return FileProcessingResultBlockZero::FileErrEmpty;
             },
             ResultS3_ReadBlock::Err(err) => {
                 dpxf!("syslogprocessor.blockzero_analysis_syslines: return FileErrIo({:?})", err);
                 self.Error_ = Some(err.to_string());
-                return FileProcessingResult_BlockZero::FileErrIo(err);
+                return FileProcessingResultBlockZero::FileErrIo(err);
             },
         };
         let blocksz0: BlockSz = (*blockp).len() as BlockSz;
@@ -651,7 +651,7 @@ impl SyslogProcessor {
                 ResultS4_SyslineFind::Err(err) => {
                     self.Error_ = Some(err.to_string());
                     dpxf!("syslogprocessor.blockzero_analysis_syslines: return FileErrIo({:?})", err);
-                    return FileProcessingResult_BlockZero::FileErrIo(err);
+                    return FileProcessingResultBlockZero::FileErrIo(err);
                 }
             };
             if 0 != self.syslinereader.block_offset_at_file_offset(fo) {
@@ -659,9 +659,9 @@ impl SyslogProcessor {
             }
         }
 
-        let fpr: FileProcessingResult_BlockZero = match found >= found_min {
-            true => FileProcessingResult_BlockZero::FileOk,
-            false => FileProcessingResult_BlockZero::FileErrNoSyslinesFound,
+        let fpr: FileProcessingResultBlockZero = match found >= found_min {
+            true => FileProcessingResultBlockZero::FileOk,
+            false => FileProcessingResultBlockZero::FileErrNoSyslinesFound,
         };
 
         dpxf!("syslogprocessor.blockzero_analysis_syslines() found {} syslines, require {} syslines, return {:?}", found, found_min, fpr);
@@ -672,7 +672,7 @@ impl SyslogProcessor {
     /// Attempt to find a minimum number of `Line`s within the first block (block zero).
     /// If enough `Line` found then return `FileOk` else `FileErrNoLinesFound`.
     #[inline(always)]
-    pub(crate) fn blockzero_analysis_lines(&mut self) -> FileProcessingResult_BlockZero {
+    pub(crate) fn blockzero_analysis_lines(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.blockzero_analysis_lines()");
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
 
@@ -680,12 +680,12 @@ impl SyslogProcessor {
             ResultS3_ReadBlock::Found(blockp_) => blockp_,
             ResultS3_ReadBlock::Done => {
                 dpxf!("syslogprocessor.blockzero_analysis_lines: return FileErrEmpty");
-                return FileProcessingResult_BlockZero::FileErrEmpty;
+                return FileProcessingResultBlockZero::FileErrEmpty;
             },
             ResultS3_ReadBlock::Err(err) => {
                 self.Error_ = Some(err.to_string());
                 dpxf!("syslogprocessor.blockzero_analysis_lines: return FileErrIo({:?})", err);
-                return FileProcessingResult_BlockZero::FileErrIo(err);
+                return FileProcessingResultBlockZero::FileErrIo(err);
             },
         };
         let blocksz0: BlockSz = (*blockp).len() as BlockSz;
@@ -714,7 +714,7 @@ impl SyslogProcessor {
                 ResultS4_LineFind::Err(err) => {
                     self.Error_ = Some(err.to_string());
                     dpxf!("syslogprocessor.blockzero_analysis_lines: return FileErrIo({:?})", err);
-                    return FileProcessingResult_BlockZero::FileErrIo(err);
+                    return FileProcessingResultBlockZero::FileErrIo(err);
                 },
             };
             if 0 != self.syslinereader.linereader.block_offset_at_file_offset(fo) {
@@ -722,9 +722,9 @@ impl SyslogProcessor {
             }
         }
 
-        let fpr: FileProcessingResult_BlockZero = match found >= found_min {
-            true => FileProcessingResult_BlockZero::FileOk,
-            false => FileProcessingResult_BlockZero::FileErrNoSyslinesFound,
+        let fpr: FileProcessingResultBlockZero = match found >= found_min {
+            true => FileProcessingResultBlockZero::FileOk,
+            false => FileProcessingResultBlockZero::FileErrNoSyslinesFound,
         };
 
         dpxf!("syslogprocessor.blockzero_analysis_lines: found {} lines, require {} lines, return {:?}", found, found_min, fpr);
@@ -734,19 +734,19 @@ impl SyslogProcessor {
 
     /// Call `self.blockzero_analysis_lines`.
     /// If that passes then call `self.blockzero_analysis_syslines`.
-    pub fn blockzero_analysis(&mut self) -> FileProcessingResult_BlockZero {
+    pub fn blockzero_analysis(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.blockzero_analysis");
         assert!(!self.blockzero_analysis_done, "blockzero_analysis_lines should only be completed once.");
         self.blockzero_analysis_done = true;
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
 
-        let result: FileProcessingResult_BlockZero = self.blockzero_analysis_lines();
+        let result: FileProcessingResultBlockZero = self.blockzero_analysis_lines();
         if ! result.is_ok() {
             dpxf!("syslogprocessor.blockzero_analysis: syslinereader.blockzero_analysis() was !is_ok(), return {:?}", result);
             return result;
         };
 
-        let result: FileProcessingResult_BlockZero = self.blockzero_analysis_syslines();
+        let result: FileProcessingResultBlockZero = self.blockzero_analysis_syslines();
         dpxf!("syslogprocessor.blockzero_analysis() return {:?}", result);
 
         result
