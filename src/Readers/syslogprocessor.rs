@@ -19,7 +19,7 @@ use crate::Readers::blockreader::{
     BlockOffset,
     BlockSz,
     BlockP,
-    ResultS3_ReadBlock,
+    ResultS3ReadBlock,
 };
 
 use crate::Data::datetime::{
@@ -614,12 +614,12 @@ impl SyslogProcessor {
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
 
         let blockp: BlockP = match self.syslinereader.linereader.blockreader.read_block(0) {
-            ResultS3_ReadBlock::Found(blockp_) => blockp_,
-            ResultS3_ReadBlock::Done => {
+            ResultS3ReadBlock::Found(blockp_) => blockp_,
+            ResultS3ReadBlock::Done => {
                 dpxf!("syslogprocessor.blockzero_analysis_syslines: return FileErrEmpty");
                 return FileProcessingResultBlockZero::FileErrEmpty;
             },
-            ResultS3_ReadBlock::Err(err) => {
+            ResultS3ReadBlock::Err(err) => {
                 dpxf!("syslogprocessor.blockzero_analysis_syslines: return FileErrIo({:?})", err);
                 self.Error_ = Some(err.to_string());
                 return FileProcessingResultBlockZero::FileErrIo(err);
@@ -677,12 +677,12 @@ impl SyslogProcessor {
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
 
         let blockp: BlockP = match self.syslinereader.linereader.blockreader.read_block(0) {
-            ResultS3_ReadBlock::Found(blockp_) => blockp_,
-            ResultS3_ReadBlock::Done => {
+            ResultS3ReadBlock::Found(blockp_) => blockp_,
+            ResultS3ReadBlock::Done => {
                 dpxf!("syslogprocessor.blockzero_analysis_lines: return FileErrEmpty");
                 return FileProcessingResultBlockZero::FileErrEmpty;
             },
-            ResultS3_ReadBlock::Err(err) => {
+            ResultS3ReadBlock::Err(err) => {
                 self.Error_ = Some(err.to_string());
                 dpxf!("syslogprocessor.blockzero_analysis_lines: return FileErrIo({:?})", err);
                 return FileProcessingResultBlockZero::FileErrIo(err);

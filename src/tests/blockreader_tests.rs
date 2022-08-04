@@ -20,7 +20,7 @@ use crate::Readers::blockreader::{
     BlockSz,
     BlockOffset,
     BlockReader,
-    ResultS3_ReadBlock,
+    ResultS3ReadBlock,
 };
 
 #[allow(unused_imports)]
@@ -104,13 +104,13 @@ fn test_BlockReader(path: &FPath, filetype: FileType, blocksz: BlockSz, offsets:
         {
             let blockp = br1.read_block(*offset);
             match blockp {
-                ResultS3_ReadBlock::Found(val) => {
+                ResultS3ReadBlock::Found(val) => {
                     let _boff: FileOffset = BlockReader::file_offset_at_block_offset(*offset, blocksz);
                 }
-                ResultS3_ReadBlock::Done => {
+                ResultS3ReadBlock::Done => {
                     continue;
                 }
-                ResultS3_ReadBlock::Err(err) => {
+                ResultS3ReadBlock::Err(err) => {
                     panic!("ERROR: blockreader.read({}) error {}", offset, err);
                 }
             };
@@ -122,14 +122,14 @@ fn test_BlockReader(path: &FPath, filetype: FileType, blocksz: BlockSz, offsets:
         eprintln!("{}test_BlockReader: get_block({})", so(), offset);
         let block_actual_opt = br1.get_block(offset);
         match br1.read_block(*offset) {
-            ResultS3_ReadBlock::Found(_) => {
+            ResultS3ReadBlock::Found(_) => {
                 assert!(results3.is_found(), "Got ResultS3::Found, Expected {:?}", results3);
             }
-            ResultS3_ReadBlock::Done => {
+            ResultS3ReadBlock::Done => {
                 assert!(results3.is_done(), "Got ResultS3::Done, Expected {:?}", results3);
                 continue;
             }
-            ResultS3_ReadBlock::Err(err) => {
+            ResultS3ReadBlock::Err(err) => {
                 eprintln!("ERROR: blockreader.read({}) error {}", offset, err);
                 assert!(results3.is_err(), "Got ResultS3::Err, Expected {:?}", results3);
                 continue;

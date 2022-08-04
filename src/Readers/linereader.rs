@@ -28,7 +28,7 @@ use crate::Readers::blockreader::{
     BlockIndex,
     BlockP,
     BlockReader,
-    ResultS3_ReadBlock,
+    ResultS3ReadBlock,
 };
 
 #[cfg(any(debug_assertions,test))]
@@ -620,7 +620,7 @@ impl LineReader {
         let mut bi_middle_end: BlockIndex = bi_middle;
         // search within "middle" block for newline B
         let bptr_middle: BlockP = match self.blockreader.read_block(bo_middle) {
-            ResultS3_ReadBlock::Found(val) => {
+            ResultS3ReadBlock::Found(val) => {
                 dpof!(
                     "B1: read_block({}) returned Found Block @{:p} len {} while searching for newline A",
                     bo_middle,
@@ -629,11 +629,11 @@ impl LineReader {
                 );
                 val
             },
-            ResultS3_ReadBlock::Done => {
+            ResultS3ReadBlock::Done => {
                 dpxf!("({}) B1: read_block({}) returned Done {:?}", fileoffset, bo_middle, self.path());
                 return ResultS4_LineFind::Done;
             },
-            ResultS3_ReadBlock::Err(err) => {
+            ResultS3ReadBlock::Err(err) => {
                 dpxf!("({}) B1: read_block({}) returned Err, return ResultS4_LineFind::Err({:?})", fileoffset, bo_middle, err);
                 return ResultS4_LineFind::Err(err);
             }
@@ -1096,7 +1096,7 @@ impl LineReader {
         // search within "middle" block for newline B
         {  // arbitrary statement block
             bptr_middle = match self.blockreader.read_block(bo_middle) {
-                ResultS3_ReadBlock::Found(val) => {
+                ResultS3ReadBlock::Found(val) => {
                     dpof!(
                         "B1: read_block({}) returned Found Block @{:p} len {} while searching for newline A",
                         bo_middle,
@@ -1105,11 +1105,11 @@ impl LineReader {
                     );
                     val
                 },
-                ResultS3_ReadBlock::Done => {
+                ResultS3ReadBlock::Done => {
                     dpxf!("B1: read_block({}) returned Done {:?}", bo_middle, self.path());
                     return ResultS4_LineFind::Done;
                 },
-                ResultS3_ReadBlock::Err(err) => {
+                ResultS3ReadBlock::Err(err) => {
                     dpxf!("B1: read_block({}) returned Err, return ResultS4_LineFind::Err({:?})", bo_middle, err);
                     return ResultS4_LineFind::Err(err);
                 }
@@ -1179,7 +1179,7 @@ impl LineReader {
             let mut bof = bo_middle + 1;
             while !found_nl_b && bof <= blockoffset_last {
                 let bptr: BlockP = match self.blockreader.read_block(bof) {
-                    ResultS3_ReadBlock::Found(val) => {
+                    ResultS3ReadBlock::Found(val) => {
                         dpof!(
                             "B2: read_block({}) returned Found Block @{:p} len {} while searching for newline B",
                             bof,
@@ -1188,11 +1188,11 @@ impl LineReader {
                         );
                         val
                     },
-                    ResultS3_ReadBlock::Done => {
+                    ResultS3ReadBlock::Done => {
                         dpxf!("B2: read_block({}) returned Done {:?}", bof, self.path());
                         return ResultS4_LineFind::Done;
                     },
-                    ResultS3_ReadBlock::Err(err) => {
+                    ResultS3ReadBlock::Err(err) => {
                         dpxf!("B2: read_block({}) returned Err, return ResultS4_LineFind::Err({:?})", bof, err);
                         return ResultS4_LineFind::Err(err);
                     },
@@ -1521,7 +1521,7 @@ impl LineReader {
                 dpof!("A4: searching blockoffset {} …", bof);
                 bptr_prior = bptr;
                 bptr = match self.blockreader.read_block(bof) {
-                    ResultS3_ReadBlock::Found(val) => {
+                    ResultS3ReadBlock::Found(val) => {
                         dpof!(
                             "A4: read_block({}) returned Found Block @{:p} len {} while searching for newline A",
                             bof,
@@ -1530,11 +1530,11 @@ impl LineReader {
                         );
                         val
                     },
-                    ResultS3_ReadBlock::Done => {
+                    ResultS3ReadBlock::Done => {
                         dpxf!("A4: read_block({}) returned Done {:?}", bof, self.path());
                         return ResultS4_LineFind::Done;
                     },
-                    ResultS3_ReadBlock::Err(err) => {
+                    ResultS3ReadBlock::Err(err) => {
                         dpxf!("({}) A4: read_block({}) returned Err, return ResultS4_LineFind::Err({:?})", fileoffset, bof, err);
                         return ResultS4_LineFind::Err(err);
                     }
