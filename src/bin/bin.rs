@@ -119,7 +119,7 @@ use s4lib::readers::summary::{
 };
 
 use s4lib::readers::syslinereader::{
-    ResultS4_SyslineFind,
+    ResultS4SyslineFind,
 };
 
 use s4lib::readers::syslogprocessor::{
@@ -644,7 +644,7 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
 /// The main processing thread can use a `PathId` key to lookup the `FPath` as-needed.
 type PathId = usize;
 /// data to initialize a file processing thread
-type Thread_Init_Data4 = (
+type ThreadInitData = (
     FPath,
     PathId,
     FileType,
@@ -655,17 +655,17 @@ type Thread_Init_Data4 = (
 );
 type IsSyslineLast = bool;
 /// the data sent from file processing thread to the main processing thread
-type Chan_Datum = (SyslineP_Opt, SummaryOpt, IsSyslineLast);
-type Map_PathId_Datum = BTreeMap<PathId, Chan_Datum>;
-type Set_PathId = HashSet<PathId>;
-type Chan_Send_Datum = crossbeam_channel::Sender<Chan_Datum>;
-type Chan_Recv_Datum = crossbeam_channel::Receiver<Chan_Datum>;
-type Map_PathId_ChanRecvDatum = BTreeMap<PathId, Chan_Recv_Datum>;
+type ChanDatum = (SyslineP_Opt, SummaryOpt, IsSyslineLast);
+type MapPathIdDatum = BTreeMap<PathId, ChanDatum>;
+type SetPathId = HashSet<PathId>;
+type ChanSendDatum = crossbeam_channel::Sender<ChanDatum>;
+type ChanRecvDatum = crossbeam_channel::Receiver<ChanDatum>;
+type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 
 /// Thread entry point for processing a file
 /// this creates `SyslogProcessor` and processes the syslog file `Syslines`.
 /// Sends each processed sysline back across channel to main thread.
-fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
+fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: ThreadInitData) {
     stack_offset_set(Some(2));
     let (
         path,
@@ -743,10 +743,10 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
     let mut sent_is_last: bool = false;
     let mut fo1: FileOffset = 0;
     let search_more: bool;
-    let result: ResultS4_SyslineFind = syslogproc.find_sysline_between_datetime_filters(0);
+    let result: ResultS4SyslineFind = syslogproc.find_sysline_between_datetime_filters(0);
     let eof: bool = result.is_eof();
     match result {
-        ResultS4_SyslineFind::Found((fo, syslinep)) | ResultS4_SyslineFind::Found_EOF((fo, syslinep)) => {
+        ResultS4SyslineFind::Found((fo, syslinep)) | ResultS4SyslineFind::Found_EOF((fo, syslinep)) => {
             fo1 = fo;
             let is_last: IsSyslineLast = syslogproc.is_sysline_last(&syslinep) as IsSyslineLast;
             // XXX: yet another reason to get rid of `Found_EOF` (`Found` and `Done` are enough)
@@ -765,10 +765,10 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
             }
             search_more = !eof;
         },
-        ResultS4_SyslineFind::Done => {
+        ResultS4SyslineFind::Done => {
             search_more = false;
         },
-        ResultS4_SyslineFind::Err(err) => {
+        ResultS4SyslineFind::Err(err) => {
             dpo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, tname, err);
             eprintln!("ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}", path, err);
             search_more = false;
@@ -795,14 +795,14 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
 
     loop {
         // TODO: [2022/06/20] see note about refactoring `find` functions so they are more intuitive
-        let result: ResultS4_SyslineFind = syslogproc.find_sysline_between_datetime_filters(fo1);
+        let result: ResultS4SyslineFind = syslogproc.find_sysline_between_datetime_filters(fo1);
         let eof: bool = result.is_eof();
         match result {
-            ResultS4_SyslineFind::Found((fo, syslinep)) | ResultS4_SyslineFind::Found_EOF((fo, syslinep)) =>
+            ResultS4SyslineFind::Found((fo, syslinep)) | ResultS4SyslineFind::Found_EOF((fo, syslinep)) =>
             {
                 let is_last = syslogproc.is_sysline_last(&syslinep);
                 // XXX: yet another reason to get rid of `Found_EOF` (`Found` and `Done` are enough)
-                assert_eq!(eof, is_last, "from find_sysline_between_datetime_filters({}), ResultS4_SyslineFind.is_eof is {:?} (EOF), yet the returned SyslineP.is_sysline_last is {:?}; they should always agree, for file {:?}", fo, eof, is_last, path);
+                assert_eq!(eof, is_last, "from find_sysline_between_datetime_filters({}), ResultS4SyslineFind.is_eof is {:?} (EOF), yet the returned SyslineP.is_sysline_last is {:?}; they should always agree, for file {:?}", fo, eof, is_last, path);
                 dpo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", _tid, tname, syslinep, is_last);
                 match chan_send_dt.send((Some(syslinep), None, is_last)) {
                     Ok(_) => {}
@@ -820,10 +820,10 @@ fn exec_4(chan_send_dt: Chan_Send_Datum, thread_init_data: Thread_Init_Data4) {
                     break;
                 }
             }
-            ResultS4_SyslineFind::Done => {
+            ResultS4SyslineFind::Done => {
                 break;
             }
-            ResultS4_SyslineFind::Err(err) => {
+            ResultS4SyslineFind::Err(err) => {
                 dpo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, tname, err);
                 eprintln!("ERROR: syslogprocessor.find_sysline({}) {}", fo1, err);
                 break;
@@ -1010,7 +1010,7 @@ impl SummaryPrinted {
     /// update a mapping of `PathId` to `SummaryPrinted`.
     ///
     /// helper to `processing_loop`
-    fn summaryprint_map_update(syslinep: &SyslineP, pathid: &PathId, map_: &mut Map_PathId_SummaryPrint) {
+    fn summaryprint_map_update(syslinep: &SyslineP, pathid: &PathId, map_: &mut MapPathIdSummaryPrint) {
         dpnxf!();
         match map_.get_mut(pathid) {
             Some(sp) => {
@@ -1025,7 +1025,7 @@ impl SummaryPrinted {
     }
 }
 
-type SummaryPrinted_Opt = Option<SummaryPrinted>;
+type SummaryPrintedOpt = Option<SummaryPrinted>;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1038,23 +1038,23 @@ const OPT_SUMMARY_PRINT_INDENT: &str = "  ";
 
 // -------------------------------------------------------------------------------------------------
 
-type Map_PathId_SummaryPrint = BTreeMap::<PathId, SummaryPrinted>;
-type Map_PathId_Summary = HashMap::<PathId, Summary>;
+type MapPathIdSummaryPrint = BTreeMap::<PathId, SummaryPrinted>;
+type MapPathIdSummary = HashMap::<PathId, Summary>;
 
 /// small helper to `processing_loop`
 #[inline(always)]
-fn summary_update(pathid: &PathId, summary: Summary, map_: &mut Map_PathId_Summary) {
+fn summary_update(pathid: &PathId, summary: Summary, map_: &mut MapPathIdSummary) {
     if let Some(val) = map_.insert(*pathid, summary) {
         eprintln!("Error: processing_loop: map_pathid_summary already contains key {:?} with {:?}, overwritten", pathid, val);
     };
 }
 
-type Map_PathId_ProcessPathResult = HashMap::<PathId, ProcessPathResult>;
-type Map_PathId_FPath = BTreeMap::<PathId, FPath>;
-type Map_PathId_Color = HashMap::<PathId, Color>;
-type Map_PathId_PrinterSysline = HashMap::<PathId, PrinterSysline>;
-type Map_PathId_FileType = HashMap::<PathId, FileType>;
-type Map_PathId_MimeGuess = HashMap::<PathId, MimeGuess>;
+type MapPathIdToProcessPathResult = HashMap::<PathId, ProcessPathResult>;
+type MapPathIdToFPath = BTreeMap::<PathId, FPath>;
+type MapPathIdToColor = HashMap::<PathId, Color>;
+type MapPathIdToPrinterSysline = HashMap::<PathId, PrinterSysline>;
+type MapPathIdToFileType = HashMap::<PathId, FileType>;
+type MapPathIdToMimeGuess = HashMap::<PathId, MimeGuess>;
 
 /// the main processing loop:
 ///
@@ -1121,14 +1121,14 @@ fn processing_loop(
     // separate `ProcessPathResult`s into different collections, valid and invalid
     //
     // `valid` is used extensively
-    let mut map_pathid_results = Map_PathId_ProcessPathResult::with_capacity(file_count);
+    let mut map_pathid_results = MapPathIdToProcessPathResult::with_capacity(file_count);
     // `invalid` is used to help summarize why some files were not processed
-    let mut map_pathid_results_invalid = Map_PathId_ProcessPathResult::with_capacity(file_count);
+    let mut map_pathid_results_invalid = MapPathIdToProcessPathResult::with_capacity(file_count);
     // use `map_pathid_path` for iterating, it is a BTreeMap (which iterates in consistent key order)
-    let mut map_pathid_path = Map_PathId_FPath::new();
+    let mut map_pathid_path = MapPathIdToFPath::new();
     // map `PathId` to `FileType`
-    let mut map_pathid_filetype = Map_PathId_FileType::with_capacity(file_count);
-    let mut map_pathid_mimeguess = Map_PathId_MimeGuess::with_capacity(file_count);
+    let mut map_pathid_filetype = MapPathIdToFileType::with_capacity(file_count);
+    let mut map_pathid_mimeguess = MapPathIdToMimeGuess::with_capacity(file_count);
     for (pathid_counter, processpathresult) in paths_results.drain(..).enumerate()
     {
         match processpathresult {
@@ -1150,8 +1150,8 @@ fn processing_loop(
     }
 
     // preprint the prepended name or path
-    type PathId_PrependName = HashMap<PathId, String>;
-    let mut pathid_to_prependname: PathId_PrependName;
+    type MapPathIdToPrependName = HashMap<PathId, String>;
+    let mut pathid_to_prependname: MapPathIdToPrependName;
     let mut prependname_width: usize = 0;
     if cli_opt_prepend_filename {
         if cli_opt_prepend_file_align {
@@ -1162,7 +1162,7 @@ fn processing_loop(
                 );
             }
         }
-        pathid_to_prependname = PathId_PrependName::with_capacity(file_count);
+        pathid_to_prependname = MapPathIdToPrependName::with_capacity(file_count);
         for (pathid, path) in map_pathid_path.iter() {
             let bname: String = basename(path);
             let prepend: String = format!("{0:<1$}:", bname, prependname_width);
@@ -1176,14 +1176,14 @@ fn processing_loop(
                 );
             }
         }
-        pathid_to_prependname = PathId_PrependName::with_capacity(file_count);
+        pathid_to_prependname = MapPathIdToPrependName::with_capacity(file_count);
         for (pathid, path) in map_pathid_path.iter() {
             let prepend: String = format!("{0:<1$}:", path, prependname_width);
             pathid_to_prependname.insert(*pathid, prepend);
         }
     }
     else {
-        pathid_to_prependname = PathId_PrependName::with_capacity(0);
+        pathid_to_prependname = MapPathIdToPrependName::with_capacity(0);
     }
 
     // create one thread per file path, each thread named for the file basename
@@ -1194,16 +1194,16 @@ fn processing_loop(
     // launch each thread
     //
     // pre-created mapping for calls to `select.recv` and `select.select`
-    type Index_Select = HashMap<usize, PathId>;
+    type MapIndexToPathId = HashMap<usize, PathId>;
     // mapping of PathId to received data. Most important collection for the remainder
     // of this function.
-    let mut map_pathid_chanrecvdatum = Map_PathId_ChanRecvDatum::new();
+    let mut map_pathid_chanrecvdatum = MapPathIdChanRecvDatum::new();
     // mapping PathId to colors for printing.
-    let mut map_pathid_color = Map_PathId_Color::with_capacity(file_count);
+    let mut map_pathid_color = MapPathIdToColor::with_capacity(file_count);
     // mapping PathId to a `Summary` for `--summary`
-    let mut map_pathid_summary = Map_PathId_Summary::with_capacity(file_count);
+    let mut map_pathid_summary = MapPathIdSummary::with_capacity(file_count);
     // "mapping" of PathId to select index, used in `recv_many_data`
-    let mut index_select = Index_Select::with_capacity(file_count);
+    let mut index_select = MapIndexToPathId::with_capacity(file_count);
 
     // initialize processing channels/threads, one per file path
     for pathid in map_pathid_path.keys() {
@@ -1225,7 +1225,7 @@ fn processing_loop(
                 panic!("bad pathid {}", pathid);
             }
         };
-        let thread_data: Thread_Init_Data4 = (
+        let thread_data: ThreadInitData = (
             path.clone().to_owned(),
             *pathid,
             *filetype,
@@ -1234,12 +1234,12 @@ fn processing_loop(
             *filter_dt_before_opt,
             tz_offset,
         );
-        let (chan_send_dt, chan_recv_dt): (Chan_Send_Datum, Chan_Recv_Datum) = crossbeam_channel::unbounded();
+        let (chan_send_dt, chan_recv_dt): (ChanSendDatum, ChanRecvDatum) = crossbeam_channel::unbounded();
         dpof!("map_pathid_chanrecvdatum.insert({}, ...);", pathid);
         map_pathid_chanrecvdatum.insert(*pathid, chan_recv_dt);
         let basename_: FPath = basename(path);
         match thread::Builder::new().name(basename_.clone()).spawn(
-                move || exec_4(chan_send_dt, thread_data)
+                move || exec_syslogprocessor_thread(chan_send_dt, thread_data)
             ) {
                     Ok(_joinhandle) => {},
                     Err(err) => {
@@ -1255,7 +1255,7 @@ fn processing_loop(
         return;
     }
 
-    type Recv_Result4 = std::result::Result<Chan_Datum, crossbeam_channel::RecvError>;
+    type RecvResult4 = std::result::Result<ChanDatum, crossbeam_channel::RecvError>;
 
     /// run `.recv` on many Receiver channels simultaneously using `crossbeam_channel::Select`
     /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
@@ -1268,10 +1268,10 @@ fn processing_loop(
     ///
     #[inline(always)]
     fn recv_many_chan<'a>(
-        pathid_chans: &'a Map_PathId_ChanRecvDatum,
-        map_index_pathid: &mut Index_Select,
-        filter_: &Set_PathId,
-    ) -> Option<(PathId, Recv_Result4)> {
+        pathid_chans: &'a MapPathIdChanRecvDatum,
+        map_index_pathid: &mut MapIndexToPathId,
+        filter_: &SetPathId,
+    ) -> Option<(PathId, RecvResult4)> {
         dpn!("processing_loop:recv_many_chan(…)");
         // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures,
         // order should match index numeric value returned by `select`
@@ -1306,7 +1306,7 @@ fn processing_loop(
             }
         };
         dpo!("processing_loop:recv_many_chan: map_index_pathid.get({}) returned {}", index, pathid);
-        let chan: &Chan_Recv_Datum = match pathid_chans.get(pathid) {
+        let chan: &ChanRecvDatum = match pathid_chans.get(pathid) {
             Some(chan_) => chan_,
             None => {
                 eprintln!("ERROR: failed to pathid_chans.get({})", pathid);
@@ -1329,12 +1329,12 @@ fn processing_loop(
     // TODO: [2022/03/24] change `map_pathid_datum` to `HashMap<FPath, (SyslineP, is_last)>` (`map_path_slp`);
     //       currently it's confusing that there is a special handler for `Summary` (`map_pathid_summary`),
     //       but not an equivalent `map_path_slp`.
-    //       In other words, break apart the passed `Chan_Datum` to the more specific maps.
+    //       In other words, break apart the passed `ChanDatum` to the more specific maps.
     //
-    let mut map_pathid_datum = Map_PathId_Datum::new();
+    let mut map_pathid_datum = MapPathIdDatum::new();
     // `set_pathid_datum` shadows `map_pathid_datum` for faster filters in `recv_many_chan`
-    let mut set_pathid = Set_PathId::with_capacity(file_count);
-    let mut map_pathid_sumpr = Map_PathId_SummaryPrint::new();
+    let mut set_pathid = SetPathId::with_capacity(file_count);
+    let mut map_pathid_sumpr = MapPathIdSummaryPrint::new();
     // crude debugging stats
     let mut chan_recv_ok: Count = 0;
     let mut chan_recv_err: Count = 0;
@@ -1343,7 +1343,7 @@ fn processing_loop(
     let color_default = Color::White;
 
     // mapping PathId to colors for printing.
-    let mut map_pathid_printer = Map_PathId_PrinterSysline::with_capacity(file_count);
+    let mut map_pathid_printer = MapPathIdToPrinterSysline::with_capacity(file_count);
     // initialize the printers, one per file
     for pathid in map_pathid_path.keys() {
         let color_: &Color = map_pathid_color.get(pathid).unwrap_or(&color_default);
@@ -1399,14 +1399,14 @@ fn processing_loop(
 
         if map_pathid_chanrecvdatum.len() != map_pathid_datum.len() {
             // if...
-            // `map_path_recv_dt` does not have a `Chan_Recv_Datum` (and thus a `SyslineP` and
+            // `map_path_recv_dt` does not have a `ChanRecvDatum` (and thus a `SyslineP` and
             // thus a `DatetimeL`) for every channel (file being processed).
             // (Every channel must return a `DatetimeL` to to then compare *all* of them, see which is earliest).
-            // So call `recv_many_chan` to check if any channels have a new `Chan_Recv_Datum` to
+            // So call `recv_many_chan` to check if any channels have a new `ChanRecvDatum` to
             // provide.
 
             let pathid: PathId;
-            let result1: Recv_Result4;
+            let result1: RecvResult4;
             (pathid, result1) = match recv_many_chan(&map_pathid_chanrecvdatum, &mut index_select, &set_pathid) {
                 Some(val) => val,
                 None => {
@@ -1418,13 +1418,13 @@ fn processing_loop(
                 Ok(chan_datum) => {
                     dpo!("processing_loop: B crossbeam_channel::Found for PathId {:?};", pathid);
                     if let Some(summary) = chan_datum.1 {
-                        assert!(chan_datum.0.is_none(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). PathId {:?}", pathid);
+                        assert!(chan_datum.0.is_none(), "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId {:?}", pathid);
                         summary_update(&pathid, summary, &mut map_pathid_summary);
                         dpo!("processing_loop: B will disconnect channel {:?}", pathid);
                         // receiving a Summary must be the last data sent on the channel
                         disconnect.push(pathid);
                     } else {
-                        assert!(chan_datum.0.is_some(), "Chan_Datum None(Summary) and None(SyslineP); should have one Some(). PathId {:?}", pathid);
+                        assert!(chan_datum.0.is_some(), "ChanDatum None(Summary) and None(SyslineP); should have one Some(). PathId {:?}", pathid);
                         map_pathid_datum.insert(pathid, chan_datum);
                         set_pathid.insert(pathid);
                     }
@@ -1464,7 +1464,7 @@ fn processing_loop(
             //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33
             //
             let pathid: &PathId;
-            let chan_datum: &mut Chan_Datum;
+            let chan_datum: &mut ChanDatum;
             (pathid, chan_datum) = match map_pathid_datum.iter_mut().min_by(
                 |x, y|
                     x.1.0.as_ref().unwrap().dt().cmp(y.1.0.as_ref().unwrap().dt())
@@ -1481,7 +1481,7 @@ fn processing_loop(
 
             if let Some(summary) = chan_datum.1.clone() {
                 dpof!("A2 chan_datum has Summary, PathId: {:?}", pathid);
-                assert!(chan_datum.0.is_none(), "Chan_Datum Some(Summary) and Some(SyslineP); should only have one Some(). PathId: {:?}", pathid);
+                assert!(chan_datum.0.is_none(), "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId: {:?}", pathid);
                 if cli_opt_summary {
                     summary_update(pathid, summary, &mut map_pathid_summary);
                 }
@@ -1641,9 +1641,9 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
     }
 }
 
-/// print the `&SummaryPrinted_Opt` (one line)
+/// print the `&SummaryPrintedOpt` (one line)
 fn print_summary_opt_printed(
-    summary_print_opt: &SummaryPrinted_Opt,
+    summary_print_opt: &SummaryPrintedOpt,
     summary_opt: &SummaryOpt,
     color_choice: &ColorChoice,
 ) {
@@ -1861,7 +1861,7 @@ fn print_file_summary(
     filetype: &FileType,
     mimeguess: &MimeGuess,
     summary_opt: &SummaryOpt,
-    summary_print_opt: &SummaryPrinted_Opt,
+    summary_print_opt: &SummaryPrintedOpt,
     color: &Color,
     color_choice: &ColorChoice,
 ) {
@@ -1884,12 +1884,12 @@ fn print_file_summary(
 /// helper to `processing_loop`
 #[allow(clippy::too_many_arguments)]
 fn print_all_files_summaries(
-    map_pathid_path: &Map_PathId_FPath,
-    map_pathid_filetype: &Map_PathId_FileType,
-    map_pathid_mimeguess: &Map_PathId_MimeGuess,
-    map_pathid_color: &Map_PathId_Color,
-    map_pathid_summary: &mut Map_PathId_Summary,
-    map_pathid_sumpr: &mut Map_PathId_SummaryPrint,
+    map_pathid_path: &MapPathIdToFPath,
+    map_pathid_filetype: &MapPathIdToFileType,
+    map_pathid_mimeguess: &MapPathIdToMimeGuess,
+    map_pathid_color: &MapPathIdToColor,
+    map_pathid_summary: &mut MapPathIdSummary,
+    map_pathid_sumpr: &mut MapPathIdSummaryPrint,
     color_choice: &ColorChoice,
     color_default: &Color,
 ) {
@@ -1899,7 +1899,7 @@ fn print_all_files_summaries(
         let mimeguess_default: MimeGuess = MimeGuess::from_ext("");
         let mimeguess: &MimeGuess = map_pathid_mimeguess.get(pathid).unwrap_or(&mimeguess_default);
         let summary_opt: SummaryOpt = map_pathid_summary.remove(pathid);
-        let summary_print_opt: SummaryPrinted_Opt = map_pathid_sumpr.remove(pathid);
+        let summary_print_opt: SummaryPrintedOpt = map_pathid_sumpr.remove(pathid);
         print_file_summary(
             path,
             filetype,
@@ -1917,7 +1917,7 @@ fn print_all_files_summaries(
 ///
 /// helper to `processing_loop`
 fn print_files_processpathresult(
-    map_pathid_result: &Map_PathId_ProcessPathResult,
+    map_pathid_result: &MapPathIdToProcessPathResult,
     color_choice: &ColorChoice,
     color_default: &Color,
     color_error: &Color,

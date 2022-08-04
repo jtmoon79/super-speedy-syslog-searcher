@@ -31,7 +31,7 @@ use crate::printer_debug::printers::{
 };
 
 pub use crate::readers::linereader::{
-    ResultS4_LineFind,
+    ResultS4LineFind,
 };
 
 use std::borrow::Cow;

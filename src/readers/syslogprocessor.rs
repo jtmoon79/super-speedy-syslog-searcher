@@ -37,12 +37,12 @@ use crate::data::sysline::{
 };
 
 pub use crate::readers::linereader::{
-    ResultS4_LineFind,
+    ResultS4LineFind,
 };
 
 pub use crate::readers::syslinereader::{
     SyslineReader,
-    ResultS4_SyslineFind,
+    ResultS4SyslineFind,
     DateTimePatternCounts,
 };
 
@@ -368,16 +368,16 @@ impl SyslogProcessor {
         let mut syslinep_prev_opt: Option<SyslineP> = None;
         loop {
             let syslinep: SyslineP = match self.syslinereader.find_sysline_year(fo_prev, &year_opt) {
-                ResultS4_SyslineFind::Found((_fo, syslinep))
-                | ResultS4_SyslineFind::Found_EOF((_fo, syslinep)) => {
+                ResultS4SyslineFind::Found((_fo, syslinep))
+                | ResultS4SyslineFind::Found_EOF((_fo, syslinep)) => {
                     dpo!("syslogprocessor.process_missing_year Found|Found_EOF {} Sysline @[{}, {}] datetime: {:?})", _fo, (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), (*syslinep).dt());
                     syslinep
                 }
-                ResultS4_SyslineFind::Done => {
+                ResultS4SyslineFind::Done => {
                     dpo!("syslogprocessor.process_missing_year Done, break;");
                     break;
                 }
-                ResultS4_SyslineFind::Err(err) => {
+                ResultS4SyslineFind::Err(err) => {
                     self.Error_ = Some(err.to_string());
                     dpxf!("syslogprocessor.process_missing_year: return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIo(err);
@@ -440,25 +440,25 @@ impl SyslogProcessor {
     /// This is where data is `drop`ped during streaming stage.
     //
     // TODO: [2022/06/18] store IO errors from this, for later use with `Summary` printing
-    pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
+    pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4SyslineFind {
         if self.processingstage == ProcessingStage::Stage3StreamSyslines && SyslogProcessor::STREAM_STAGE_DROP {
             dpnf!("syslogprocesser.find_sysline({})", fileoffset);
             // if processing stage is `stage3_stream_syslines`
             // then any prior processed syslines (and underlying data `Line`, `Block`, etc.)
             // can be dropped.
-            let result: ResultS4_SyslineFind =
+            let result: ResultS4SyslineFind =
                 self.syslinereader.find_sysline(fileoffset);
             match result {
-                ResultS4_SyslineFind::Found((ref _fo, ref syslinep))
-                | ResultS4_SyslineFind::Found_EOF((ref _fo, ref syslinep)) =>
+                ResultS4SyslineFind::Found((ref _fo, ref syslinep))
+                | ResultS4SyslineFind::Found_EOF((ref _fo, ref syslinep)) =>
                 {
                     let bo_first: BlockOffset = (*syslinep).blockoffset_first();
                     if bo_first > 0 {
                         self.drop_block(bo_first - 1);
                     }
                 }
-                ResultS4_SyslineFind::Done => {}
-                ResultS4_SyslineFind::Err(ref err) => {
+                ResultS4SyslineFind::Done => {}
+                ResultS4SyslineFind::Err(ref err) => {
                     self.Error_ = Some(err.to_string());
                 }
             }
@@ -506,16 +506,16 @@ impl SyslogProcessor {
     //       More refactoring is in order.
     //       Also, a linear search can better detect rollover (i.e. when sysline datetime is missing year).
     #[inline(always)]
-    pub fn find_sysline_between_datetime_filters(&mut self, fileoffset: FileOffset) -> ResultS4_SyslineFind {
+    pub fn find_sysline_between_datetime_filters(&mut self, fileoffset: FileOffset) -> ResultS4SyslineFind {
         dpnxf!("syslogprocesser.find_sysline_between_datetime_filters({})", fileoffset);
 
         match self.syslinereader.find_sysline_between_datetime_filters(
             fileoffset, &self.filter_dt_after_opt, &self.filter_dt_before_opt,
         ) {
-            ResultS4_SyslineFind::Err(err) => {
+            ResultS4SyslineFind::Err(err) => {
                 self.Error_ = Some(err.to_string());
 
-                ResultS4_SyslineFind::Err(err)
+                ResultS4SyslineFind::Err(err)
             },
             val => val,
         }
@@ -635,20 +635,20 @@ impl SyslogProcessor {
         // find `at_max` Syslines within block zero
         while found < found_min {
             fo = match self.syslinereader.find_sysline_in_block(fo) {
-                ResultS4_SyslineFind::Found((fo_next, _slinep)) => {
+                ResultS4SyslineFind::Found((fo_next, _slinep)) => {
                     found += 1;
 
                     fo_next
                 }
-                ResultS4_SyslineFind::Found_EOF((_fo_next, _slinep)) => {
+                ResultS4SyslineFind::Found_EOF((_fo_next, _slinep)) => {
                     found += 1;
                     break;
                 }
-                ResultS4_SyslineFind::Done => {
+                ResultS4SyslineFind::Done => {
                     //found += 1;
                     break;
                 }
-                ResultS4_SyslineFind::Err(err) => {
+                ResultS4SyslineFind::Err(err) => {
                     self.Error_ = Some(err.to_string());
                     dpxf!("syslogprocessor.blockzero_analysis_syslines: return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIo(err);
@@ -698,20 +698,20 @@ impl SyslogProcessor {
         // find `found_min` Lines or whatever can be found within block 0
         while found < found_min {
             fo = match self.syslinereader.linereader.find_line_in_block(fo) {
-                ResultS4_LineFind::Found((fo_next, _linep)) => {
+                ResultS4LineFind::Found((fo_next, _linep)) => {
                     found += 1;
 
                     fo_next
                 },
-                ResultS4_LineFind::Found_EOF((_fo_next, _linep)) => {
+                ResultS4LineFind::Found_EOF((_fo_next, _linep)) => {
                     found += 1;
                     break;
                 },
-                ResultS4_LineFind::Done => {
+                ResultS4LineFind::Done => {
                     found += 1;
                     break;
                 },
-                ResultS4_LineFind::Err(err) => {
+                ResultS4LineFind::Err(err) => {
                     self.Error_ = Some(err.to_string());
                     dpxf!("syslogprocessor.blockzero_analysis_lines: return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIo(err);
