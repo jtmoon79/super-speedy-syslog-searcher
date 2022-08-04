@@ -1073,7 +1073,6 @@ impl LineReader {
         // `fo_nl_b` should eventually "point" to end of `Line` including the newline char.
         // if  line is terminated by end-of-file then "points" to last char of file.
         let mut fo_nl_b: FileOffset = fileoffset;
-        let mut bi_nl_b: BlockIndex;
         let mut fo_nl_b_in_middle: bool = false;
         // was newline B actually the end of file?
         let mut nl_b_eof: bool = false;
@@ -1125,9 +1124,8 @@ impl LineReader {
                 if (*bptr_middle)[bi_at] == NLu8 {
                     found_nl_b = true;
                     fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_at);
-                    bi_nl_b = bi_at;
                     bi_middle_end = bi_at;
-                    dpof!("B1: bi_middle_end {:?} bi_nl_b {:?} fo_nl_b {:?}", bi_middle_end, bi_nl_b, fo_nl_b);
+                    dpof!("B1: bi_middle_end {:?} fo_nl_b {:?}", bi_middle_end, fo_nl_b);
                     fo_nl_b_in_middle = true;
                     dpof!(
                         "B1: found newline B in middle block during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
@@ -1150,9 +1148,8 @@ impl LineReader {
                 assert_ge!(bi_at, charsz_bi, "blockindex begin {} is less than charsz {} before attempt to subtract to determine newline B1 at end of file {:?}", bi_at, charsz_bi, self.path());
                 let bi_: BlockIndex = bi_at - charsz_bi;
                 fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_);
-                bi_nl_b = bi_;
                 bi_middle_end = bi_;
-                dpof!("B1: bi_middle_end {:?} bi_nl_b {:?} fo_nl_b {:?} blockoffset_last {:?}", bi_middle_end, bi_nl_b, fo_nl_b, blockoffset_last);
+                dpof!("B1: bi_middle_end {:?} fo_nl_b {:?} blockoffset_last {:?}", bi_middle_end, fo_nl_b, blockoffset_last);
                 fo_nl_b_in_middle = true;
                 nl_b_eof = true;
                 assert_eq!(
@@ -1217,7 +1214,6 @@ impl LineReader {
                     if (*bptr)[bi_beg] == NLu8 {
                         found_nl_b = true;
                         fo_nl_b = self.file_offset_at_block_offset_index(bof, bi_beg);
-                        bi_nl_b = bi_beg;
                         assert!(!fo_nl_b_in_middle, "fo_nl_b_in_middle should be false, file {:?}", self.path());
                         dpof!(
                             "B2: found newline B during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
@@ -1269,7 +1265,6 @@ impl LineReader {
                 assert_eq!(bi_beg, bi_end, "blockindex begin {} != {} blockindex end, yet entire last block was searched (last blockoffset {}) file {:?}", bi_beg, bi_end, blockoffset_last, self.path());
                 let bi_: BlockIndex = bi_beg - charsz_bi;
                 fo_nl_b = self.file_offset_at_block_offset_index(bof, bi_);
-                bi_nl_b = bi_;
                 nl_b_eof = true;
                 dpof!(
                     "B2: newline B is end of file; blockoffset {} blockindex {} fileoffset {} (blockoffset last {})",
