@@ -350,28 +350,22 @@ impl BlockReader {
         let mut subpath_opt: Option<FPath> = None;
         if filetype.is_archived() {
             dpof!("filetype.is_archived()");
-            let mut path_tmp: Option<FPath> = None;
-            {
-                let (path_, subpath_) = match path.rsplit_once(SUBPATH_SEP) {
-                    Some(val) => val,
-                    None => {
-                        dpxf!("filetype {:?}, failed to find delimiter {:?} in {:?}", filetype, SUBPATH_SEP, path);
-                        return Result::Err(
-                            Error::new(
-                                // TODO: use `ErrorKind::InvalidFilename` when it is stable
-                                ErrorKind::NotFound,
-                                format!("Given Filetype {:?} but failed to find delimiter {:?} in {:?}", filetype, SUBPATH_SEP, path)
-                            )
-                        );
+            let (path_, subpath_) = match path.rsplit_once(SUBPATH_SEP) {
+                Some(val) => val,
+                None => {
+                    dpxf!("filetype {:?}, failed to find delimiter {:?} in {:?}", filetype, SUBPATH_SEP, path);
+                    return Result::Err(
+                        Error::new(
+                            // TODO: use `ErrorKind::InvalidFilename` when it is stable
+                            ErrorKind::NotFound,
+                            format!("Given Filetype {:?} but failed to find delimiter {:?} in {:?}", filetype, SUBPATH_SEP, path)
+                        )
+                    );
 
-                    }
-                };
-                path_tmp = Some(path_.to_string());
-                subpath_opt = Some(subpath_.to_string());
-            }
-            if path_tmp.is_some() {
-                path = path_tmp.unwrap();
-            }
+                }
+            };
+            subpath_opt = Some(subpath_.to_string());
+            path = FPath::from(path_);
         }
         let path_std: &Path = Path::new(&path);
 
