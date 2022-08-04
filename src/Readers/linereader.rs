@@ -412,6 +412,7 @@ impl LineReader {
     }
 
     #[inline(always)]
+    #[allow(non_snake_case)]
     fn check_store_LRU(&mut self, fileoffset: FileOffset) -> Option<ResultS4_LineFind> {
         // check LRU cache first (this is very fast)
         if self.find_line_lru_cache_enabled {
