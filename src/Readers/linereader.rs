@@ -601,7 +601,6 @@ impl LineReader {
         // if  line is terminated by end-of-file then "points" to last char of file.
         let mut fo_nl_b: FileOffset = fileoffset;
         let mut bi_nl_b: BlockIndex;
-        let mut fo_nl_b_in_middle: bool = false;
         // was newline B actually the end of file?
         let mut nl_b_eof: bool = false;
         // if at first byte of file no need to search for first newline
@@ -659,7 +658,6 @@ impl LineReader {
                 bi_nl_b = bi_at;
                 bi_middle_end = bi_at;
                 dpof!("B1: bi_middle_end {:?} bi_nl_b {:?} fo_nl_b {:?}", bi_middle_end, bi_nl_b, fo_nl_b);
-                fo_nl_b_in_middle = true;
                 dpof!(
                     "B1: found newline B in middle block during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
                     bo_middle,
@@ -691,7 +689,6 @@ impl LineReader {
                 fo_nl_b,
                 blockoffset_last,
             );
-            fo_nl_b_in_middle = true;
             nl_b_eof = true;
             assert_eq!(
                 fo_nl_b, filesz - 1,
