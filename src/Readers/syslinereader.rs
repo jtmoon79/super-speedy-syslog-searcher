@@ -919,7 +919,7 @@ impl SyslineReader {
         } else {
             dpof!("after analysis");
             // after analysis, only one `DateTime_Parse_Data` is used
-            debug_assert_eq!(self.dt_patterns_indexes.len(), 1, "self.dt_patterns_indexes length {}, expected 1", self.dt_patterns_indexes.len());
+            debug_assert_eq!(self.dt_patterns_indexes.len(), SyslineReader::DT_PATTERN_MAX, "self.dt_patterns_indexes length {}, expected {}", self.dt_patterns_indexes.len(), SyslineReader::DT_PATTERN_MAX);
             // the first and only element is the chosen dt_pattern (and had max count)
             *self.dt_patterns_indexes.iter().next().unwrap()
         }
