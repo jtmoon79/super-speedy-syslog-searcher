@@ -1853,9 +1853,9 @@ lazy_static! {
 /// match spaces at beginning and ending of inputs
 #[allow(non_snake_case)]
 pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePattern_str) -> bool {
-    const spaces: &str = " ";
-    const tabs: &str = "\t";
-    const lineends: &str = "\n\r";
+    const SPACES: &str = " ";
+    const TABS: &str = "\t";
+    const LINE_ENDS: &str = "\n\r";
 
     // match whitespace forwards from beginning
     let mut v_sc: u32 = 0;  // `value` spaces count
@@ -1863,11 +1863,11 @@ pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePatt
     let mut v_ec: u32 = 0;  // `value` line ends count
     let mut v_brk: bool = false;
     for v_ in value.chars() {
-        if spaces.contains(v_) {
+        if SPACES.contains(v_) {
             v_sc += 1;
-        } else if tabs.contains(v_) {
+        } else if TABS.contains(v_) {
             v_tc += 1;
-        } else if lineends.contains(v_) {
+        } else if LINE_ENDS.contains(v_) {
             v_ec += 1;
         } else {
             v_brk = true;
@@ -1879,11 +1879,11 @@ pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePatt
     let mut p_ec: u32 = 0;  // `pattern` line ends count
     let mut p_brk: bool = false;
     for p_ in pattern.chars() {
-        if spaces.contains(p_) {
+        if SPACES.contains(p_) {
             p_sc += 1;
-        } else if tabs.contains(p_) {
+        } else if TABS.contains(p_) {
             p_tc += 1;
-        } else if lineends.contains(p_) {
+        } else if LINE_ENDS.contains(p_) {
             p_ec += 1;
         } else {
             p_brk = true;
@@ -1900,11 +1900,11 @@ pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePatt
     v_ec = 0;
     if v_brk {
         for v_ in value.chars().rev() {
-            if spaces.contains(v_) {
+            if SPACES.contains(v_) {
                 v_sc += 1;
-            } else if tabs.contains(v_) {
+            } else if TABS.contains(v_) {
                 v_tc += 1;
-            } else if lineends.contains(v_) {
+            } else if LINE_ENDS.contains(v_) {
                 v_ec += 1;
             } else {
                 break;
@@ -1916,11 +1916,11 @@ pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePatt
     p_ec = 0;
     if p_brk {
         for p_ in pattern.chars().rev() {
-            if spaces.contains(p_) {
+            if SPACES.contains(p_) {
                 p_sc += 1;
-            } else if tabs.contains(p_) {
+            } else if TABS.contains(p_) {
                 p_tc += 1;
-            } else if lineends.contains(p_) {
+            } else if LINE_ENDS.contains(p_) {
                 p_ec += 1;
             } else {
                 break;
