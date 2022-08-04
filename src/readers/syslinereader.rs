@@ -34,7 +34,7 @@ use crate::data::datetime::{
     DateTimeLOpt,
     DateTimeParseInstr,
     DateTimeRegex,
-    DateTimeParseInstrs_Index,
+    DateTimeParseInstrsIndex,
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_LEN,
     DATETIME_PARSE_DATAS_REGEX_VEC,
@@ -122,8 +122,8 @@ use static_assertions::{
 /// key is index into global `DATETIME_PARSE_DATAS_VEC` and `DATETIME_PARSE_DATAS_REGEX_VEC`
 ///
 /// value is count of use of those "pattern rules" to find datetimes in a `Line`
-pub type DateTimePatternCounts = BTreeMap<DateTimeParseInstrs_Index, Count>;
-pub type DateTimeParseDatasIndexes = BTreeSet<DateTimeParseInstrs_Index>;
+pub type DateTimePatternCounts = BTreeMap<DateTimeParseInstrsIndex, Count>;
+pub type DateTimeParseDatasIndexes = BTreeSet<DateTimeParseInstrsIndex>;
 /// data returned by `SyslineReader::find_datetime_in_line` and
 /// `SyslineReader::parse_datetime_in_line`
 ///
@@ -132,7 +132,7 @@ pub type DateTimeParseDatasIndexes = BTreeSet<DateTimeParseInstrs_Index>;
 /// - the datetime found
 /// - index into global `DATETIME_PARSE_DATAS_VEC` and `DATETIME_PARSE_DATAS_REGEX_VEC` for the
 ///   "pattern rules" used to find the datetime.
-pub type FindDateTimeData = (LineIndex, LineIndex, DateTimeL, DateTimeParseInstrs_Index);
+pub type FindDateTimeData = (LineIndex, LineIndex, DateTimeL, DateTimeParseInstrsIndex);
 /// return type for `SyslineReader::find_datetime_in_line`
 pub type ResultFindDateTime = Result<FindDateTimeData>;
 /// return type for `SyslineReader::parse_datetime_in_line`
@@ -328,8 +328,8 @@ impl SyslineReader {
         let mut dt_patterns_indexes = DateTimeParseDatasIndexes::new();
         let mut index = 0;
         while index < DATETIME_PARSE_DATAS_LEN {
-            dt_patterns_counts.insert(index as DateTimeParseInstrs_Index, 0);
-            dt_patterns_indexes.insert(index as DateTimeParseInstrs_Index);
+            dt_patterns_counts.insert(index as DateTimeParseInstrsIndex, 0);
+            dt_patterns_indexes.insert(index as DateTimeParseInstrsIndex);
             index += 1;
         }
         Ok(
@@ -806,7 +806,7 @@ impl SyslineReader {
     }
 
     /// helper function to update `parse_datetime_in_line`
-    fn dt_patterns_update(&mut self, index: DateTimeParseInstrs_Index) {
+    fn dt_patterns_update(&mut self, index: DateTimeParseInstrsIndex) {
         dpnxf!("({:?})", index);
         if let std::collections::btree_map::Entry::Vacant(_entry) = self.dt_patterns_counts.entry(index) {
             // first count of this index so insert it
@@ -881,19 +881,19 @@ impl SyslineReader {
     }
 
     /*
-    /// get `DateTimeParseInstrs_Index` from SyslineReader. `rank` is zero-based with
+    /// get `DateTimeParseInstrsIndex` from SyslineReader. `rank` is zero-based with
     /// zero being the most important rank.
     ///
-    /// Passing `rank` value `0` will return the `DateTimeParseInstrs_Index` for the
+    /// Passing `rank` value `0` will return the `DateTimeParseInstrsIndex` for the
     /// most-used `DateTimeParseInstr` (i.e. the regex and strftime patterns used to extract
     /// `DateTimeL` from `Line`s).
-    pub(crate) fn dt_pattern_index_at(&self, rank: usize) -> DateTimeParseInstrs_Index {
+    pub(crate) fn dt_pattern_index_at(&self, rank: usize) -> DateTimeParseInstrsIndex {
         *(self.dt_patterns_indexes.iter().skip(rank).next().unwrap())
     }
     */
 
-    /// return most-used `DateTimeParseInstrs_Index`
-    pub(crate) fn dt_pattern_index_max_count(&self) -> DateTimeParseInstrs_Index {
+    /// return most-used `DateTimeParseInstrsIndex`
+    pub(crate) fn dt_pattern_index_max_count(&self) -> DateTimeParseInstrsIndex {
         if cfg!(debug_assertions) {
             for (_k, _v) in self.dt_patterns_counts.iter() {
                 let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*_k];
@@ -909,7 +909,7 @@ impl SyslineReader {
             // before analysis, the uses of all `DateTimeParseInstr` are tracked
             // return index to maximum value
             // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=85ac85f48e6ddff04dc938b742872dc1
-            let max_key_value: Option<(&DateTimeParseInstrs_Index, &Count)> = (&self.dt_patterns_counts).iter().reduce(
+            let max_key_value: Option<(&DateTimeParseInstrsIndex, &Count)> = (&self.dt_patterns_counts).iter().reduce(
                 |accum, item| {
                     if accum.1 >= item.1 { accum } else { item }
                 }

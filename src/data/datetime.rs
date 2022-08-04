@@ -1026,9 +1026,9 @@ pub(crate) const RP_RB: &RegexPattern = r"[\]\)>}]";
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// index into the global `DATETIME_PARSE_DATAS`.
-pub type DateTimeParseInstrs_Index = usize;
+pub type DateTimeParseInstrsIndex = usize;
 /// a run-time created vector of `Regex` instances that is a counterpart to `DATETIME_PARSE_DATAS`.
-pub type DateTimeParseInstrs_Regex_vec = Vec<DateTimeRegex>;
+pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 pub const DATETIME_PARSE_DATAS_LEN: usize = 35;
 
@@ -1836,7 +1836,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
 
 lazy_static! {
     // `Regex::new` runs at run-time, create this vector on-demand
-    pub(crate) static ref DATETIME_PARSE_DATAS_REGEX_VEC: DateTimeParseInstrs_Regex_vec =
+    pub(crate) static ref DATETIME_PARSE_DATAS_REGEX_VEC: DateTimeParseInstrsRegexVec =
         DATETIME_PARSE_DATAS.iter().map(
             |x| Regex::new(x.regex_pattern).unwrap()
         ).collect();
@@ -2347,7 +2347,7 @@ fn captures_to_buffer_bytes(
 /// hardcoded in `DATETIME_PARSE_DATAS_REGEX` and `DATETIME_PARSE_DATAS`.
 pub fn bytes_to_regex_to_datetime(
     data: &[u8],
-    index: &DateTimeParseInstrs_Index,
+    index: &DateTimeParseInstrsIndex,
     year_opt: &Option<Year>,
     tz_offset: &FixedOffset,
 ) -> Option<CapturedDtData> {
