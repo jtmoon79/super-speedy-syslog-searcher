@@ -87,7 +87,6 @@ use std::io::{
     Result,
     ErrorKind,
 };
-use std::str;
 use std::sync::Arc;
 
 extern crate itertools;

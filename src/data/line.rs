@@ -44,10 +44,14 @@ use crate::printer_debug::printers::{
     p_wrn,
 };
 
+#[cfg(any(debug_assertions,test))]
 use std::borrow::Cow;
+
 use std::fmt;
-use std::io;
+
+#[cfg(any(debug_assertions,test))]
 use std::io::prelude::*;
+
 use std::sync::Arc;
 
 extern crate more_asserts;
@@ -649,7 +653,7 @@ impl Line {
     #[cfg(any(debug_assertions,test))]
     pub fn print(self: &Line, raw: bool) {
         // is this an expensive command? should `stdout` be cached?
-        let stdout = io::stdout();
+        let stdout = std::io::stdout();
         let mut stdout_lock = stdout.lock();
         for linepart in &self.lineparts {
             // TODO: I'm somewhat sure this is not creating anything new but I should verify with `gdb-rust`.

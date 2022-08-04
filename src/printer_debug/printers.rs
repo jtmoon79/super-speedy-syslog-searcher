@@ -5,8 +5,7 @@
 // TODO: [2022/04/14] needs consolidation of overlapping functions. many were written in haste.
 //
 
-#[allow(unused_imports)]  // XXX: clippy errantly marks this `use` as unused
-#[cfg(any(debug_assertions,test))]
+#[cfg(test)]
 use crate::common::{
     FileOpenOptions,
     FPath,
@@ -16,15 +15,15 @@ use crate::printer::printers::{
     write_stdout,
 };
 
-#[allow(unused_imports)]  // XXX: clippy errantly marks this `use` as unused
+#[cfg(test)]
 use crate::printer_debug::stack::{
     stack_offset_set,
 };
 
+#[cfg(any(debug_assertions,test))]
 use std::io::Write;  // for `std::io::Stdout.flush`
 
-#[allow(unused_imports)]  // XXX: clippy errantly marks this `use` as unused
-#[cfg(any(debug_assertions,test))]
+#[cfg(test)]
 use std::io::prelude::*;  // for `std::fs::File.read_to_string`
 
 extern crate termcolor;
