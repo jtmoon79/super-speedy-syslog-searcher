@@ -105,7 +105,7 @@ fn test_BlockReader(path: &FPath, filetype: FileType, blocksz: BlockSz, offsets:
         {
             let blockp = br1.read_block(*offset);
             match blockp {
-                ResultS3ReadBlock::Found(val) => {
+                ResultS3ReadBlock::Found(_val) => {
                     let _boff: FileOffset = BlockReader::file_offset_at_block_offset(*offset, blocksz);
                 }
                 ResultS3ReadBlock::Done => {
