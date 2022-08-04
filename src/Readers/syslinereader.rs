@@ -851,10 +851,10 @@ impl SyslineReader {
         // XXX: DT_PATERN_MAX > 1 is unimplemented
         const_assert!(SyslineReader::DT_PATTERN_MAX == 1);
         if cfg!(debug_assertions) {
-            for (_k, _v) in self.dt_patterns_counts.iter() {
-                let data_: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*_k];
-                let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC.get(*_k).unwrap();
-                dpof!("self.dt_patterns_counts[{:?}]={:?} is {:?}, {:?}", _k, _v, data_, data_rex_);
+            for (k, v) in self.dt_patterns_counts.iter() {
+                let data_: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*k];
+                let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC.get(*k).unwrap();
+                dpof!("self.dt_patterns_counts[{:?}]={:?} is {:?}, {:?}", k, v, data_, data_rex_);
             }
         }
         // get maximum value in `dt_patterns_counts`
@@ -871,10 +871,10 @@ impl SyslineReader {
         }
         self.dt_patterns_indexes_refresh();
         if cfg!(debug_assertions) {
-            for (_k, _v) in self.dt_patterns_counts.iter() {
-                let data_: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*_k];
-                let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC.get(*_k).unwrap();
-                dpof!("self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", _k, _v, data_, data_rex_);
+            for (k, v) in self.dt_patterns_counts.iter() {
+                let data_: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*k];
+                let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC.get(*k).unwrap();
+                dpof!("self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", k, v, data_, data_rex_);
             }
         }
         self.analyzed = true;
