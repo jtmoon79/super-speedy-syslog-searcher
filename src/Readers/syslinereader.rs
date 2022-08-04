@@ -728,7 +728,7 @@ impl SyslineReader {
             match line.get_boxptrs(dtpd.range_regex.start as LineIndex, slice_end as LineIndex) {
                 LinePartPtrs::NoPtr => {
                     panic!("line.get_boxptrs({}, {}) returned NoPtr which means it was passed non-sense values", dtpd.range_regex.start, slice_end);
-                    continue;
+                    //continue;
                 }
                 LinePartPtrs::SinglePtr(box_slice) => {
                     slice_ = *box_slice;
