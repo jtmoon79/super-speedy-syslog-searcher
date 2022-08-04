@@ -16,18 +16,18 @@ use crate::common::{
     ResultS4,
 };
 
-use crate::Data::sysline::{
+use crate::data::sysline::{
     Sysline,
     SyslineP,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     BlockSz,
     BlockOffset,
     BlockIndex,
 };
 
-use crate::Data::datetime::{
+use crate::data::datetime::{
     Year,
     FixedOffset,
     DateTimeL,
@@ -46,14 +46,14 @@ use crate::Data::datetime::{
     slice_contains_X_2,
 };
 
-use crate::Data::line::{
+use crate::data::line::{
     LineIndex,
     Line,
     LineP,
     LinePartPtrs,
 };
 
-use crate::Readers::linereader::{
+use crate::readers::linereader::{
     LineReader,
     ResultS4_LineFind,
 };

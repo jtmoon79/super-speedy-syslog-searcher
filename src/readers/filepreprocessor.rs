@@ -8,11 +8,11 @@ use crate::common::{
     FileType,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     SUBPATH_SEP,
 };
 
-use crate::Readers::helpers::{
+use crate::readers::helpers::{
     path_to_fpath,
     fpath_to_path,
     remove_extension,
@@ -30,7 +30,7 @@ use crate::printer_debug::printers::{
     dpnxf,
 };
 
-pub use crate::Readers::linereader::{
+pub use crate::readers::linereader::{
     ResultS4_LineFind,
 };
 

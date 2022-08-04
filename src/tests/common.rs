@@ -7,16 +7,16 @@ use crate::common::{
     FileOffset,
 };
 
-use crate::Readers::filepreprocessor::{
+use crate::readers::filepreprocessor::{
     MimeGuess,
 };
 
-use crate::Readers::helpers::{
+use crate::readers::helpers::{
     fpath_to_path,
     path_to_fpath,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     SUBPATH_SEP,
 };
 

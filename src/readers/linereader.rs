@@ -15,14 +15,14 @@ use crate::common::{
     ResultS4,
 };
 
-use crate::Data::line::{
+use crate::data::line::{
     Line,
     LineP,
     LinePart,
     Lines,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     BlockSz,
     BlockOffset,
     BlockIndex,
@@ -392,7 +392,7 @@ impl LineReader {
     /// The passed `FileOffset` can be any value (does not have to be begining or ending of
     /// a `Line`).
     /// O(log(n))
-    // XXX: this fails `pub(in crate::Readers::linereader_tests)`
+    // XXX: this fails `pub(in crate::readers::linereader_tests)`
     pub fn get_linep(&self, fileoffset: &FileOffset) -> Option<LineP> {
         // I'm somewhat sure this is O(log(n))
         let fo_beg: &FileOffset = match self.foend_to_fobeg.range(fileoffset..).next() {

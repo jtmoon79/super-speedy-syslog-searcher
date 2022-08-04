@@ -13,19 +13,19 @@ use crate::printer_debug::helpers::{
     ntf_fpath,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     BlockSz,
 };
 
-use crate::Readers::filepreprocessor::{
+use crate::readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
 };
 
-use crate::Data::datetime::{
+use crate::data::datetime::{
     FixedOffset,
 };
 
-use crate::Readers::syslogprocessor::{
+use crate::readers::syslogprocessor::{
     SyslogProcessor,
 };
 

@@ -53,7 +53,7 @@ use s4lib::common::{
     NLu8a,
 };
 
-use s4lib::Data::datetime::{
+use s4lib::data::datetime::{
     DateTimeL_Opt,
     DateTimePattern_str,
     DateTime_Parse_Data,
@@ -91,38 +91,38 @@ use s4lib::printer::printers::{
     write_stdout,
 };
 
-use s4lib::Data::sysline::{
+use s4lib::data::sysline::{
     SyslineP,
     SyslineP_Opt,
 };
 
-use s4lib::Readers::blockreader::{
+use s4lib::readers::blockreader::{
     BlockSz,
     BLOCKSZ_MIN,
     BLOCKSZ_MAX,
     BLOCKSZ_DEF,
 };
 
-use s4lib::Readers::filepreprocessor::{
+use s4lib::readers::filepreprocessor::{
     ProcessPathResult,
     ProcessPathResults,
     process_path,
 };
 
-use s4lib::Readers::helpers::{
+use s4lib::readers::helpers::{
     basename,
 };
 
-use s4lib::Readers::summary::{
+use s4lib::readers::summary::{
     Summary,
     SummaryOpt,
 };
 
-use s4lib::Readers::syslinereader::{
+use s4lib::readers::syslinereader::{
     ResultS4_SyslineFind,
 };
 
-use s4lib::Readers::syslogprocessor::{
+use s4lib::readers::syslogprocessor::{
     SyslogProcessor,
     FileProcessingResultBlockZero,
 };

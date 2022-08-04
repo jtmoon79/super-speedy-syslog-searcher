@@ -14,7 +14,7 @@ use crate::common::{
     SYSLOG_SZ_MAX,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     BlockIndex,
     BlockOffset,
     BlockSz,
@@ -22,7 +22,7 @@ use crate::Readers::blockreader::{
     ResultS3ReadBlock,
 };
 
-use crate::Data::datetime::{
+use crate::data::datetime::{
     FixedOffset,
     DateTimeL,
     DateTimeL_Opt,
@@ -32,21 +32,21 @@ use crate::Data::datetime::{
     Year,
 };
 
-use crate::Data::sysline::{
+use crate::data::sysline::{
     SyslineP,
 };
 
-pub use crate::Readers::linereader::{
+pub use crate::readers::linereader::{
     ResultS4_LineFind,
 };
 
-pub use crate::Readers::syslinereader::{
+pub use crate::readers::syslinereader::{
     SyslineReader,
     ResultS4_SyslineFind,
     DateTimePatternCounts,
 };
 
-use crate::Readers::summary::{
+use crate::readers::summary::{
     Summary,
 };
 

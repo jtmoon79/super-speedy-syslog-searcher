@@ -16,21 +16,21 @@ use crate::common::{
     Bytes,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     BlockSz,
 };
 
-use crate::Readers::filepreprocessor::{
+use crate::readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
 };
 
-use crate::Data::line::{
+use crate::data::line::{
     LineP,
     LineIndex,
     LinePartPtrs,
 };
 
-use crate::Readers::linereader::{
+use crate::readers::linereader::{
     LineReader,
     ResultS4_LineFind,
 };

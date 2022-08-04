@@ -9,18 +9,18 @@ use crate::common::{
     FileSz,
 };
 
-use crate::Data::datetime::{
+use crate::data::datetime::{
     DateTimeL_Opt,
     Year,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     BlockSz,
     BLOCKSZ_MAX,
     BLOCKSZ_MIN,
 };
 
-use crate::Readers::syslinereader::{
+use crate::readers::syslinereader::{
     DateTimePatternCounts,
 };
 

@@ -29,7 +29,7 @@ use crate::common::{
 };
 
 #[allow(unused_imports)]
-use crate::Readers::filepreprocessor::{
+use crate::readers::filepreprocessor::{
     ProcessPathResult,
     fpath_to_filetype_mimeguess,
     path_to_filetype_mimeguess,

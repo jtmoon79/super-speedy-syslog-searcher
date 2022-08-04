@@ -8,13 +8,13 @@ use crate::common::{
     FileOffset,
 };
 
-use crate::Data::line::{
+use crate::data::line::{
     Line,
     LinePart,
     LinePartPtrs,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     Block,
     BlockIndex,
     BlockP,

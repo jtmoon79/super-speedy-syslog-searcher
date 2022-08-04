@@ -30,7 +30,7 @@ use crate::printer_debug::printers::{
     dpnxf,
 };
 
-pub use crate::Data::line::{
+pub use crate::data::line::{
     LineIndex,
     Range_LineIndex,
 };
@@ -296,7 +296,7 @@ macro_rules! DTPD {
         }
     }
 }
-// allow easy macro import via `use s4lib::Data::datetime::DTPD;`
+// allow easy macro import via `use s4lib::data::datetime::DTPD;`
 pub use DTPD;
 
 // implement traits to allow sorting collections of `DateTime_Parse_Data`

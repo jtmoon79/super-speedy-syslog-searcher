@@ -10,11 +10,11 @@ use crate::common::{
     ResultS3,
 };
 
-use crate::Readers::filepreprocessor::{
+use crate::readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     FPath,
     FileOffset,
     BlockSz,

@@ -1,6 +1,6 @@
 // bench_syslinereader.rs
 //
-// benchmark functions of `crate::Readers::syslinereader::SyslineReader`
+// benchmark functions of `crate::readers::syslinereader::SyslineReader`
 //
 
 extern crate s4lib;
@@ -10,17 +10,17 @@ use s4lib::common::{
     FileType,
 };
 
-use s4lib::Data::datetime::{
+use s4lib::data::datetime::{
     FixedOffset,
 };
 
-use s4lib::Readers::blockreader::{
+use s4lib::readers::blockreader::{
     BlockSz,
 };
 
-use s4lib::Readers::syslinereader::SyslineReader;
+use s4lib::readers::syslinereader::SyslineReader;
 
-use s4lib::Readers::filepreprocessor::{
+use s4lib::readers::filepreprocessor::{
     ProcessPathResult,
     ProcessPathResults,
     process_path,

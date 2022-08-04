@@ -1,10 +1,10 @@
 // src/lib.rs
 
 pub mod common;
-pub mod Data;
+pub mod data;
 pub mod printer_debug;
 pub mod printer;
-pub mod Readers;
+pub mod readers;
 #[cfg(test)]
 pub mod tests;
 

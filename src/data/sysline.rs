@@ -10,17 +10,17 @@ pub use crate::common::{
     CharSz,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     BlockOffset,
     Slices,
 };
 
-use crate::Data::datetime::{
+use crate::data::datetime::{
     DateTimeL_Opt,
     Duration,
 };
 
-use crate::Data::line::{
+use crate::data::line::{
     LineIndex,
     Line,
     LineP,

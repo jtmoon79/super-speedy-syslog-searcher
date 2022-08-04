@@ -13,7 +13,7 @@ pub use crate::common::{
     ResultS3,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     BlockSz,
     BlockOffset,
     BlockIndex,

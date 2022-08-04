@@ -9,24 +9,24 @@ use crate::common::{
     FileOffset,
 };
 
-use crate::Data::datetime::{
+use crate::data::datetime::{
     DateTimeL,
     Duration,
 };
 
-use crate::Data::line::{
+use crate::data::line::{
     LinePart,
     Line,
     LineP,
     Lines,
 };
 
-use crate::Data::sysline::{
+use crate::data::sysline::{
     Sysline,
     SyslineP,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     Block,
     BlockIndex,
     BlockP,

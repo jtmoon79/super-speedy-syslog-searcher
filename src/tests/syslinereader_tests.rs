@@ -9,26 +9,26 @@ use crate::common::{
     ResultS4,
 };
 
-use crate::Readers::blockreader::{
+use crate::readers::blockreader::{
     FileOffset,
     BlockSz,
 };
 
-use crate::Readers::filepreprocessor::{
+use crate::readers::filepreprocessor::{
     fpath_to_filetype_mimeguess,
 };
 
-use crate::Readers::helpers::{
+use crate::readers::helpers::{
     randomize,
     fill,
 };
 
-use crate::Readers::syslinereader::{
+use crate::readers::syslinereader::{
     SyslineReader,
     ResultS4_SyslineFind,
 };
 
-use crate::Data::datetime::{
+use crate::data::datetime::{
     // chrono imports
     TimeZone,
     FixedOffset,
