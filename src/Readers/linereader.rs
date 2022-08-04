@@ -307,13 +307,13 @@ impl LineReader {
     }
 
     /// is `FileOffset` the last byte of the file?
-    pub const fn is_FileOffset_last(&self, fileoffset: FileOffset) -> bool {
+    pub const fn is_fileoffset_last(&self, fileoffset: FileOffset) -> bool {
         self.fileoffset_last() == fileoffset
     }
 
     /// is `Line` the last of the file?
-    pub fn is_Line_last(&self, linep: &LineP) -> bool {
-        self.is_FileOffset_last((*linep).fileoffset_end())
+    pub fn is_line_last(&self, linep: &LineP) -> bool {
+        self.is_fileoffset_last((*linep).fileoffset_end())
     }
 
     /// return all currenty stored `FileOffset` in `self.lines`
@@ -468,7 +468,7 @@ impl LineReader {
             debug_assert!(self.lines_contains(&fileoffset), "self.lines and self.lines_by_range are out of synch on key {} (before part A)", fileoffset);
             let linep: LineP = self.lines[&fileoffset].clone();
             let fo_next: FileOffset = (*linep).fileoffset_end() + charsz_fo;
-            if self.is_Line_last(&linep) {
+            if self.is_line_last(&linep) {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
                     dpo!("LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
@@ -495,7 +495,7 @@ impl LineReader {
                 dpo!("self.get_linep({}) returned @{:p}", fileoffset, linep);
                 // XXX: does not handle multi-byte
                 let fo_next: FileOffset = (*linep).fileoffset_end() + charsz_fo;
-                if self.is_Line_last(&linep) {
+                if self.is_line_last(&linep) {
                     if self.find_line_lru_cache_enabled {
                         self.find_line_lru_cache_put += 1;
                         dpo!("LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
@@ -703,7 +703,7 @@ impl LineReader {
                 blockoffset_last,
                 self.path(),
             );
-        } else if found_nl_b && self.is_FileOffset_last(fo_nl_b) {
+        } else if found_nl_b && self.is_fileoffset_last(fo_nl_b) {
             assert_eq!(
                 bo_middle, blockoffset_last,
                 "blockoffset 'middle' {}, blockoffset last {}, yet newline B FileOffset {} is last byte of filesz {}, for file {:?}",
@@ -838,7 +838,7 @@ impl LineReader {
                     let linep: LineP = self.insert_line(line);
                     let fo_next: FileOffset = fo_nl_b + charsz_fo;
                     if nl_b_eof {
-                        debug_assert!(self.is_Line_last(&linep), "nl_b_eof true yet !is_Line_last(linep) file {:?}", self.path());
+                        debug_assert!(self.is_line_last(&linep), "nl_b_eof true yet !is_line_last(linep) file {:?}", self.path());
                         if self.find_line_lru_cache_enabled {
                             self.find_line_lru_cache_put += 1;
                             dpof!("({}) A1b: LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
@@ -848,7 +848,7 @@ impl LineReader {
                         dpxf!("({}): return ResultS4_LineFind::Found_EOF({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                         return ResultS4_LineFind::Found_EOF((fo_next, linep));    
                     }
-                    debug_assert!(!self.is_Line_last(&linep), "nl_b_eof true yet !is_Line_last(linep)");
+                    debug_assert!(!self.is_line_last(&linep), "nl_b_eof true yet !is_line_last(linep)");
                     if self.find_line_lru_cache_enabled {
                         self.find_line_lru_cache_put += 1;
                         dpof!("({}) A1b: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
