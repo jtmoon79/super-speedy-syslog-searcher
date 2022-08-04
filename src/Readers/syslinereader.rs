@@ -1410,7 +1410,7 @@ impl SyslineReader {
         //
 
         let mut fo_zero_tried: bool = false;
-        let mut fo_a: FileOffset = 0;
+        let mut _fo_a: FileOffset = 0;
         let mut fo_a_max: FileOffset = 0;
         let mut fo1: FileOffset = fileoffset;
         let mut sysline = Sysline::new();
@@ -1455,7 +1455,7 @@ impl SyslineReader {
                 }
                 Ok((dt_beg, dt_end, dt, _index)) => {
                     // a datetime was found! beginning of a sysline
-                    fo_a = fo1;
+                    _fo_a = fo1;
                     sysline.dt_beg = dt_beg;
                     sysline.dt_end = dt_end;
                     sysline.dt = Some(dt);
@@ -1520,7 +1520,7 @@ impl SyslineReader {
         dpof!(
             "({}): found line with datetime A at FileOffset {}, searching for datetime B starting at fileoffset {} …",
             fileoffset,
-            fo_a,
+            _fo_a,
             fo1
         );
 
