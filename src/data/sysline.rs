@@ -16,7 +16,7 @@ use crate::readers::blockreader::{
 };
 
 use crate::data::datetime::{
-    DateTimeL_Opt,
+    DateTimeLOpt,
     Duration,
 };
 
@@ -77,7 +77,7 @@ pub struct Sysline {
     /// datetime is presumed to be on first Line
     pub(crate) dt_end: LineIndex,
     /// parsed DateTime instance
-    pub(crate) dt: DateTimeL_Opt,
+    pub(crate) dt: DateTimeLOpt,
 }
 
 /// a signifier value for "not set" or "null" - because sometimes Option is a PitA
@@ -131,7 +131,7 @@ impl Sysline {
         Sysline::default()
     }
 
-    pub fn new_from_parts(lines: Lines, dt_beg: LineIndex, dt_end: LineIndex, dt: DateTimeL_Opt) -> Sysline {
+    pub fn new_from_parts(lines: Lines, dt_beg: LineIndex, dt_end: LineIndex, dt: DateTimeLOpt) -> Sysline {
         Sysline {
             lines,
             dt_beg,
@@ -144,7 +144,7 @@ impl Sysline {
         Sysline::CHARSZ
     }
 
-    pub fn dt(self: &Sysline) -> &DateTimeL_Opt {
+    pub fn dt(self: &Sysline) -> &DateTimeLOpt {
         &self.dt
     }
 

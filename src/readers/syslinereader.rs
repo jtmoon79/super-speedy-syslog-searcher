@@ -31,10 +31,10 @@ use crate::data::datetime::{
     Year,
     FixedOffset,
     DateTimeL,
-    DateTimeL_Opt,
-    DateTime_Parse_Data,
+    DateTimeLOpt,
+    DateTimeParseInstr,
     DateTimeRegex,
-    DateTime_Parse_Datas_Index,
+    DateTimeParseInstrs_Index,
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_LEN,
     DATETIME_PARSE_DATAS_REGEX_VEC,
@@ -123,8 +123,8 @@ use static_assertions::{
 /// key is index into global `DATETIME_PARSE_DATAS_VEC` and `DATETIME_PARSE_DATAS_REGEX_VEC`
 ///
 /// value is count of use of those "pattern rules" to find datetimes in a `Line`
-pub type DateTimePatternCounts = BTreeMap<DateTime_Parse_Datas_Index, Count>;
-pub type DateTimeParseDatasIndexes = BTreeSet<DateTime_Parse_Datas_Index>;
+pub type DateTimePatternCounts = BTreeMap<DateTimeParseInstrs_Index, Count>;
+pub type DateTimeParseDatasIndexes = BTreeSet<DateTimeParseInstrs_Index>;
 /// data returned by `SyslineReader::find_datetime_in_line` and
 /// `SyslineReader::parse_datetime_in_line`
 ///
@@ -133,7 +133,7 @@ pub type DateTimeParseDatasIndexes = BTreeSet<DateTime_Parse_Datas_Index>;
 /// - the datetime found
 /// - index into global `DATETIME_PARSE_DATAS_VEC` and `DATETIME_PARSE_DATAS_REGEX_VEC` for the
 ///   "pattern rules" used to find the datetime.
-pub type FindDateTimeData = (LineIndex, LineIndex, DateTimeL, DateTime_Parse_Datas_Index);
+pub type FindDateTimeData = (LineIndex, LineIndex, DateTimeL, DateTimeParseInstrs_Index);
 /// return type for `SyslineReader::find_datetime_in_line`
 pub type ResultFindDateTime = Result<FindDateTimeData>;
 /// return type for `SyslineReader::parse_datetime_in_line`
@@ -185,19 +185,19 @@ pub struct SyslineReader {
     pub(crate) syslines_by_range_put: Count,
     /// datetime formatting patterns, for finding datetime strings from Lines
     /// TODO: change to a `Set`
-    //pub(crate) dt_patterns: DateTime_Parse_Datas_vec,
+    //pub(crate) dt_patterns: DateTimeParseInstrs_vec,
     /// first (soonest) processed DateTimeL (not necessarly printed, not representative of the entire file)
     ///
     /// intended for `--summary`
     // TODO: [2022/07/27] cost-savings: save the ref
-    pub(crate) dt_first: DateTimeL_Opt,
-    pub(crate) dt_first_prev: DateTimeL_Opt,
+    pub(crate) dt_first: DateTimeLOpt,
+    pub(crate) dt_first_prev: DateTimeLOpt,
     /// last (latest) processed DateTimeL (not necessarly printed, not representative of the entire file)
     ///
     /// intended for `--summary`
     // TODO: [2022/07/27] cost-savings: save the ref
-    pub(crate) dt_last: DateTimeL_Opt,
-    pub(crate) dt_last_prev: DateTimeL_Opt,
+    pub(crate) dt_last: DateTimeLOpt,
+    pub(crate) dt_last_prev: DateTimeLOpt,
     /// counts found patterns stored in `dt_patterns`. "mirrors" the global `DATETIME_PARSE_DATAS`.
     /// Keys are indexes into `DATETIME_PARSE_DATAS`, values are counts of successful
     /// pattern match at that index.
@@ -329,8 +329,8 @@ impl SyslineReader {
         let mut dt_patterns_indexes = DateTimeParseDatasIndexes::new();
         let mut index = 0;
         while index < DATETIME_PARSE_DATAS_LEN {
-            dt_patterns_counts.insert(index as DateTime_Parse_Datas_Index, 0);
-            dt_patterns_indexes.insert(index as DateTime_Parse_Datas_Index);
+            dt_patterns_counts.insert(index as DateTimeParseInstrs_Index, 0);
+            dt_patterns_indexes.insert(index as DateTimeParseInstrs_Index);
             index += 1;
         }
         Ok(
@@ -344,7 +344,7 @@ impl SyslineReader {
                 syslines_by_range_hit: 0,
                 syslines_by_range_miss: 0,
                 syslines_by_range_put: 0,
-                //dt_patterns: DateTime_Parse_Datas_vec::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
+                //dt_patterns: DateTimeParseInstrs_vec::with_capacity(SyslineReader::DT_PATTERN_MAX_PRE_ANALYSIS),
                 dt_first: None,
                 dt_first_prev: None,
                 dt_last: None,
@@ -458,7 +458,7 @@ impl SyslineReader {
     /// does the dt_pattern have a year? e.g. `%Y` or `%y`
     pub fn dt_pattern_has_year(&self) -> bool {
         debug_assert!(!self.syslines.is_empty(), "called dt_pattern_has_year() without having processed some syslines");
-        let dtpd: &DateTime_Parse_Data = self.datetime_parse_data();
+        let dtpd: &DateTimeParseInstr = self.datetime_parse_data();
         dpnxf!("dtpd line {:?}", dtpd._line_num);
 
         dtpd.dtfs.has_year()
@@ -505,12 +505,12 @@ impl SyslineReader {
         }
     }
 
-    /// return most used `DateTime_Parse_Data`
+    /// return most used `DateTimeParseInstr`
     ///
     /// before analysis, this may return different values
     ///
     /// after analysis, it will return the same value
-    fn datetime_parse_data(&self) -> &DateTime_Parse_Data {
+    fn datetime_parse_data(&self) -> &DateTimeParseInstr {
         &DATETIME_PARSE_DATAS[self.dt_pattern_index_max_count()]
     }
 
@@ -704,7 +704,7 @@ impl SyslineReader {
         //      calls to chrono are long according to the flamegraph.
         //      however, using the demarcating characters ("[", "]") does give better assurance.
         for (at, index) in parse_data_indexes.iter().enumerate() {
-            let dtpd: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*index];
+            let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*index];
             dpof!("pattern data try {} index {} dtpd.line_num {}", at, index, dtpd._line_num);
 
             if line.len() <= dtpd.range_regex.start {
@@ -807,7 +807,7 @@ impl SyslineReader {
     }
 
     /// helper function to update `parse_datetime_in_line`
-    fn dt_patterns_update(&mut self, index: DateTime_Parse_Datas_Index) {
+    fn dt_patterns_update(&mut self, index: DateTimeParseInstrs_Index) {
         dpnxf!("({:?})", index);
         if let std::collections::btree_map::Entry::Vacant(_entry) = self.dt_patterns_counts.entry(index) {
             // first count of this index so insert it
@@ -852,7 +852,7 @@ impl SyslineReader {
         const_assert!(SyslineReader::DT_PATTERN_MAX == 1);
         if cfg!(debug_assertions) {
             for (k, v) in self.dt_patterns_counts.iter() {
-                let data_: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*k];
+                let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
                 let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC.get(*k).unwrap();
                 dpof!("self.dt_patterns_counts[{:?}]={:?} is {:?}, {:?}", k, v, data_, data_rex_);
             }
@@ -872,7 +872,7 @@ impl SyslineReader {
         self.dt_patterns_indexes_refresh();
         if cfg!(debug_assertions) {
             for (k, v) in self.dt_patterns_counts.iter() {
-                let data_: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*k];
+                let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
                 let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC.get(*k).unwrap();
                 dpof!("self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", k, v, data_, data_rex_);
             }
@@ -882,22 +882,22 @@ impl SyslineReader {
     }
 
     /*
-    /// get `DateTime_Parse_Datas_Index` from SyslineReader. `rank` is zero-based with
+    /// get `DateTimeParseInstrs_Index` from SyslineReader. `rank` is zero-based with
     /// zero being the most important rank.
     ///
-    /// Passing `rank` value `0` will return the `DateTime_Parse_Datas_Index` for the
-    /// most-used `DateTime_Parse_Data` (i.e. the regex and strftime patterns used to extract
+    /// Passing `rank` value `0` will return the `DateTimeParseInstrs_Index` for the
+    /// most-used `DateTimeParseInstr` (i.e. the regex and strftime patterns used to extract
     /// `DateTimeL` from `Line`s).
-    pub(crate) fn dt_pattern_index_at(&self, rank: usize) -> DateTime_Parse_Datas_Index {
+    pub(crate) fn dt_pattern_index_at(&self, rank: usize) -> DateTimeParseInstrs_Index {
         *(self.dt_patterns_indexes.iter().skip(rank).next().unwrap())
     }
     */
 
-    /// return most-used `DateTime_Parse_Datas_Index`
-    pub(crate) fn dt_pattern_index_max_count(&self) -> DateTime_Parse_Datas_Index {
+    /// return most-used `DateTimeParseInstrs_Index`
+    pub(crate) fn dt_pattern_index_max_count(&self) -> DateTimeParseInstrs_Index {
         if cfg!(debug_assertions) {
             for (_k, _v) in self.dt_patterns_counts.iter() {
-                let data_: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*_k];
+                let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*_k];
                 let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC.get(*_k).unwrap();
                 dpof!("self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", _k, _v, data_, data_rex_);
             }
@@ -907,10 +907,10 @@ impl SyslineReader {
         }
         if !self.analyzed {
             dpof!("before analysis");
-            // before analysis, the uses of all `DateTime_Parse_Data` are tracked
+            // before analysis, the uses of all `DateTimeParseInstr` are tracked
             // return index to maximum value
             // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=85ac85f48e6ddff04dc938b742872dc1
-            let max_key_value: Option<(&DateTime_Parse_Datas_Index, &Count)> = (&self.dt_patterns_counts).iter().reduce(
+            let max_key_value: Option<(&DateTimeParseInstrs_Index, &Count)> = (&self.dt_patterns_counts).iter().reduce(
                 |accum, item| {
                     if accum.1 >= item.1 { accum } else { item }
                 }
@@ -918,7 +918,7 @@ impl SyslineReader {
             *max_key_value.unwrap().0
         } else {
             dpof!("after analysis");
-            // after analysis, only one `DateTime_Parse_Data` is used
+            // after analysis, only one `DateTimeParseInstr` is used
             debug_assert_eq!(self.dt_patterns_indexes.len(), SyslineReader::DT_PATTERN_MAX, "self.dt_patterns_indexes length {}, expected {}", self.dt_patterns_indexes.len(), SyslineReader::DT_PATTERN_MAX);
             // the first and only element is the chosen dt_pattern (and had max count)
             *self.dt_patterns_indexes.iter().next().unwrap()
@@ -1761,7 +1761,7 @@ impl SyslineReader {
     //       if the in-use datetime pattern has no year, then year processing has already occurred.
     //
     pub fn find_sysline_at_datetime_filter(
-        &mut self, fileoffset: FileOffset, dt_filter: &DateTimeL_Opt,
+        &mut self, fileoffset: FileOffset, dt_filter: &DateTimeLOpt,
     ) -> ResultS4_SyslineFind {
         dpnf!("(SyslineReader@{:p}, {}, {:?})", self, fileoffset, dt_filter);
         let filesz: FileSz = self.filesz();
@@ -2075,7 +2075,7 @@ impl SyslineReader {
     }
 
     /// convenience wrapper for `dt_after_or_before`
-    pub fn sysline_dt_after_or_before(syslinep: &SyslineP, dt_filter: &DateTimeL_Opt) -> Result_Filter_DateTime1 {
+    pub fn sysline_dt_after_or_before(syslinep: &SyslineP, dt_filter: &DateTimeLOpt) -> Result_Filter_DateTime1 {
         dpnxf!("(Sysline@[{:?}, {:?}], {:?})", (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), dt_filter,);
         assert!((*syslinep).dt.is_some(), "Sysline@{:p} does not have a datetime set.", &*syslinep);
 
@@ -2086,7 +2086,7 @@ impl SyslineReader {
 
     /// wrapper for call to `dt_pass_filters`
     pub fn sysline_pass_filters(
-        syslinep: &SyslineP, dt_filter_after: &DateTimeL_Opt, dt_filter_before: &DateTimeL_Opt,
+        syslinep: &SyslineP, dt_filter_after: &DateTimeLOpt, dt_filter_before: &DateTimeLOpt,
     ) -> Result_Filter_DateTime2 {
         dpnf!(
             "(Sysline[{:?}, {:?}], {:?}, {:?})",
@@ -2109,7 +2109,7 @@ impl SyslineReader {
     /// This uses `self.find_sysline_at_datetime_filter`
     ///
     pub fn find_sysline_between_datetime_filters(
-        &mut self, fileoffset: FileOffset, dt_filter_after: &DateTimeL_Opt, dt_filter_before: &DateTimeL_Opt,
+        &mut self, fileoffset: FileOffset, dt_filter_after: &DateTimeLOpt, dt_filter_before: &DateTimeLOpt,
     ) -> ResultS4_SyslineFind {
         dpnf!("({}, {:?}, {:?})", fileoffset, dt_filter_after, dt_filter_before);
 

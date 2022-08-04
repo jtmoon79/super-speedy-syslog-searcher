@@ -11,10 +11,10 @@ use crate::data::datetime::{
     DateTimePattern_str,
     datetime_parse_from_str,
     DateTimeL,
-    DateTimeL_Opt,
+    DateTimeLOpt,
     DTFS_Tz,
     DTFSSet,
-    DateTime_Parse_Data,
+    DateTimeParseInstr,
     DATETIME_PARSE_DATAS,
     _CGN_ALL,
     CGP_YEAR,
@@ -199,7 +199,7 @@ fn test_DTF_ALL() {
 }
 
 /// santy check of the built-in `const DATETIME_PARSE_DATAS` values
-/// does each `DateTime_Parse_Data` parameter agree with other parameters?
+/// does each `DateTimeParseInstr` parameter agree with other parameters?
 #[test]
 fn test_DATETIME_PARSE_DATAS_builtin() {
     stack_offset_set(Some(2));
@@ -312,8 +312,8 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
         }
     }
     // check for duplicates
-    let mut check: Vec<DateTime_Parse_Data> = Vec::<DateTime_Parse_Data>::from(DATETIME_PARSE_DATAS);
-    let check_orig: Vec<DateTime_Parse_Data> = Vec::<DateTime_Parse_Data>::from(DATETIME_PARSE_DATAS);
+    let mut check: Vec<DateTimeParseInstr> = Vec::<DateTimeParseInstr>::from(DATETIME_PARSE_DATAS);
+    let check_orig: Vec<DateTimeParseInstr> = Vec::<DateTimeParseInstr>::from(DATETIME_PARSE_DATAS);
     check.sort_unstable();
     check.dedup();
     if check.len() != DATETIME_PARSE_DATAS.len() {
@@ -400,7 +400,7 @@ fn test_datetime_from_str_workaround_Issue660() {
 
 /// FixedOffset to FixedOffset==0 (UTC)
 /// testing helper
-fn fo_to_fo0(dt_opt: &DateTimeL_Opt) -> DateTimeL_Opt {
+fn fo_to_fo0(dt_opt: &DateTimeLOpt) -> DateTimeLOpt {
     #[allow(clippy::manual_map)]
     match dt_opt {
         Some(dt) => { Some(dt.with_timezone(&FixedOffset::east(0))) },

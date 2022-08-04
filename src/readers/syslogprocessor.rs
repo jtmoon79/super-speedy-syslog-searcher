@@ -25,7 +25,7 @@ use crate::readers::blockreader::{
 use crate::data::datetime::{
     FixedOffset,
     DateTimeL,
-    DateTimeL_Opt,
+    DateTimeLOpt,
     Duration,
     systemtime_to_datetime,
     SystemTime,
@@ -153,8 +153,8 @@ pub struct SyslogProcessor {
     path: FPath,
     blocksz: BlockSz,
     tz_offset: FixedOffset,
-    filter_dt_after_opt: DateTimeL_Opt,
-    filter_dt_before_opt: DateTimeL_Opt,
+    filter_dt_after_opt: DateTimeLOpt,
+    filter_dt_before_opt: DateTimeLOpt,
     /// internal sanity check, has `self.blockzero_analysis()` completed?
     blockzero_analysis_done: bool,
     /// internal tracking of last `blockoffset` passed to `drop_block`
@@ -202,8 +202,8 @@ impl SyslogProcessor {
         filetype: FileType,
         blocksz: BlockSz,
         tz_offset: FixedOffset,
-        filter_dt_after_opt: DateTimeL_Opt,
-        filter_dt_before_opt: DateTimeL_Opt,
+        filter_dt_after_opt: DateTimeLOpt,
+        filter_dt_before_opt: DateTimeLOpt,
     ) -> Result<SyslogProcessor> {
         dpnx!("SyslogProcessor::new({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
         if blocksz < SyslogProcessor::BLOCKSZ_MIN {

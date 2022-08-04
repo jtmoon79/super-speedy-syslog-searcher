@@ -34,7 +34,7 @@ use crate::data::datetime::{
     FixedOffset,
     //
     DateTimeL,
-    DateTimeL_Opt,
+    DateTimeLOpt,
     DateTimePattern_str,
     Result_Filter_DateTime2,
     datetime_parse_from_str,
@@ -2741,7 +2741,7 @@ fn test_SyslineReader_H_dt4_Done()
 /// print the filtered syslines for a SyslineReader
 /// quick debug helper for manual reviews
 fn process_SyslineReader(
-    slr: &mut SyslineReader, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
+    slr: &mut SyslineReader, filter_dt_after_opt: &DateTimeLOpt, filter_dt_before_opt: &DateTimeLOpt,
 ) {
     eprintln!("{}process_SyslineReader({:?}, {:?}, {:?})", sn(), slr, filter_dt_after_opt, filter_dt_before_opt,);
     let mut fo1: FileOffset = 0;
@@ -2862,8 +2862,8 @@ fn process_SyslineReader(
 fn test_SyslineReader_process_file(
     path: &FPath,
     blocksz: BlockSz,
-    filter_dt_after_opt: &DateTimeL_Opt,
-    filter_dt_before_opt: &DateTimeL_Opt,
+    filter_dt_after_opt: &DateTimeLOpt,
+    filter_dt_before_opt: &DateTimeLOpt,
 ) -> Option<Box<SyslineReader>> {
     eprintln!(
         "{}process_file({:?}, {}, {:?}, {:?})",
@@ -2888,7 +2888,7 @@ fn test_SyslineReader_process_file(
 /// basic test of SyslineReader things
 #[allow(non_snake_case)]
 fn test_SyslineReader_w_filtering_2(
-    path: &FPath, blocksz: BlockSz, filter_dt_after_opt: &DateTimeL_Opt, filter_dt_before_opt: &DateTimeL_Opt,
+    path: &FPath, blocksz: BlockSz, filter_dt_after_opt: &DateTimeLOpt, filter_dt_before_opt: &DateTimeLOpt,
 ) {
     eprintln!(
         "{}test_SyslineReader_w_filtering_2({:?}, {}, {:?}, {:?})",
@@ -2916,8 +2916,8 @@ fn test_SyslineReader_w_filtering_2(
 fn test_SyslineReader_w_filtering_3(
     paths: &Vec<String>,
     blocksz: BlockSz,
-    filter_dt_after_opt: &DateTimeL_Opt,
-    filter_dt_before_opt: &DateTimeL_Opt,
+    filter_dt_after_opt: &DateTimeLOpt,
+    filter_dt_before_opt: &DateTimeLOpt,
 ) {
     eprintln!(
         "{}test_SyslineReader_w_filtering_3({:?}, {}, {:?}, {:?})",

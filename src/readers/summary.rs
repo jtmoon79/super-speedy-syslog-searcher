@@ -10,7 +10,7 @@ use crate::common::{
 };
 
 use crate::data::datetime::{
-    DateTimeL_Opt,
+    DateTimeLOpt,
     Year,
 };
 
@@ -92,9 +92,9 @@ pub struct Summary {
     /// TODO: change name to whatever is decided on
     pub SyslineReader_patterns: DateTimePatternCounts,
     /// datetime soonest seen (not necessarily reflective of entire file)
-    pub SyslineReader_pattern_first: DateTimeL_Opt,
+    pub SyslineReader_pattern_first: DateTimeLOpt,
     /// datetime latest seen (not necessarily reflective of entire file)
-    pub SyslineReader_pattern_last: DateTimeL_Opt,
+    pub SyslineReader_pattern_last: DateTimeLOpt,
     /// `SyslineReader::find_sysline`
     pub SyslineReader_find_sysline_lru_cache_hit: Count,
     /// `SyslineReader::find_sysline`
@@ -170,8 +170,8 @@ impl Summary {
         SyslineReader_syslines_by_range_put: Count,
         // TODO: change name to `SyslineReader_pattern_counts` or whatever var name is decided on
         SyslineReader_patterns: DateTimePatternCounts,
-        SyslineReader_pattern_first: DateTimeL_Opt,
-        SyslineReader_pattern_last: DateTimeL_Opt,
+        SyslineReader_pattern_first: DateTimeLOpt,
+        SyslineReader_pattern_last: DateTimeLOpt,
         SyslineReader_find_sysline_lru_cache_hit: Count,
         SyslineReader_find_sysline_lru_cache_miss: Count,
         SyslineReader_find_sysline_lru_cache_put: Count,

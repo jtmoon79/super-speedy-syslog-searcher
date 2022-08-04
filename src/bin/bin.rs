@@ -54,9 +54,9 @@ use s4lib::common::{
 };
 
 use s4lib::data::datetime::{
-    DateTimeL_Opt,
+    DateTimeLOpt,
     DateTimePattern_str,
-    DateTime_Parse_Data,
+    DateTimeParseInstr,
     datetime_parse_from_str,
     DATETIME_PARSE_DATAS,
 };
@@ -148,7 +148,7 @@ enum CLI_Color_Choice {
     never,
 }
 
-/// subset of `DateTime_Parse_Data` for calls to `datetime_parse_from_str`
+/// subset of `DateTimeParseInstr` for calls to `datetime_parse_from_str`
 ///
 /// (DateTimePattern_str, has year, has timezone, has time)
 type CLI_DT_Filter_Pattern<'b> = (
@@ -442,11 +442,11 @@ fn cli_validate_tz_offset(tz_offset: &str) -> std::result::Result<(), String> {
 }
 
 /// helper to `cli_process_args`
-fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeL_Opt {
+fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeLOpt {
     // parse datetime filters
     match dts {
         Some(dts) => {
-            let mut dto: DateTimeL_Opt = None;
+            let mut dto: DateTimeLOpt = None;
             for (pattern_, _has_year, has_tz, has_time) in CLI_FILTER_PATTERNS.iter() {
                 let mut pattern: String = String::from(*pattern_);
                 let mut dts_: String = dts.clone();
@@ -482,8 +482,8 @@ fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeL_Opt {
 fn cli_process_args() -> (
     FPaths,
     BlockSz,
-    DateTimeL_Opt,
-    DateTimeL_Opt,
+    DateTimeLOpt,
+    DateTimeLOpt,
     FixedOffset,
     ColorChoice,
     bool,
@@ -525,9 +525,9 @@ fn cli_process_args() -> (
     };
     dpof!("tz_offset {:?}", tz_offset);
 
-    let filter_dt_after: DateTimeL_Opt = process_dt(args.dt_after, &tz_offset);
+    let filter_dt_after: DateTimeLOpt = process_dt(args.dt_after, &tz_offset);
     dpof!("filter_dt_after {:?}", filter_dt_after);
-    let filter_dt_before: DateTimeL_Opt = process_dt(args.dt_before, &tz_offset);
+    let filter_dt_before: DateTimeLOpt = process_dt(args.dt_before, &tz_offset);
     dpof!("filter_dt_before {:?}", filter_dt_before);
 
     #[allow(clippy::single_match)]
@@ -649,8 +649,8 @@ type Thread_Init_Data4 = (
     PathId,
     FileType,
     BlockSz,
-    DateTimeL_Opt,
-    DateTimeL_Opt,
+    DateTimeLOpt,
+    DateTimeLOpt,
     FixedOffset,
 );
 type IsSyslineLast = bool;
@@ -855,8 +855,8 @@ pub struct SummaryPrinted {
     /// count of `Syslines` printed
     pub syslines: Count,
     /// last datetime printed
-    pub dt_first: DateTimeL_Opt,
-    pub dt_last: DateTimeL_Opt,
+    pub dt_first: DateTimeLOpt,
+    pub dt_last: DateTimeLOpt,
 }
 
 impl fmt::Debug for SummaryPrinted {
@@ -1073,8 +1073,8 @@ type Map_PathId_MimeGuess = HashMap::<PathId, MimeGuess>;
 fn processing_loop(
     mut paths_results: ProcessPathResults,
     blocksz: BlockSz,
-    filter_dt_after_opt: &DateTimeL_Opt,
-    filter_dt_before_opt: &DateTimeL_Opt,
+    filter_dt_after_opt: &DateTimeLOpt,
+    filter_dt_before_opt: &DateTimeLOpt,
     tz_offset: FixedOffset,
     color_choice: ColorChoice,
     cli_opt_prepend_utc: bool,
@@ -1624,7 +1624,7 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
             }
             // print datetime patterns
             for patt in summary.SyslineReader_patterns.iter() {
-                let dtpd: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*patt.0];
+                let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*patt.0];
                 eprintln!("{}{}   @{} {} {:?}", OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, patt.0, patt.1, dtpd);
             }
             match summary.SyslogProcessor_missing_year {

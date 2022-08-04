@@ -93,7 +93,6 @@ pub type Year = i32;
 pub type DateTimePattern_str = str;
 /// regular expression formatting pattern, passed to `regex::bytes::Regex`
 pub type DateTimeRegex_str = str;
-//pub type DateTimeRegex_string = String;
 pub type CaptureGroupName = str;
 pub type CaptureGroupPattern = str;
 pub type RegexPattern = str;
@@ -103,7 +102,7 @@ pub type DateTimeRegex = Regex;
 /// the chrono DateTime type used here
 // TODO: rename to `DateTimeS4`
 pub type DateTimeL = DateTime<FixedOffset>;
-pub type DateTimeL_Opt = Option<DateTimeL>;
+pub type DateTimeLOpt = Option<DateTimeL>;
 
 /// for datetimes missing a year, in some circumstances a filler year must be used.
 ///
@@ -246,12 +245,12 @@ impl DTFSSet<'_> {
 }
 
 
-/// Settings for processing from an unknown `str` to `regex::Regex().captures()` to
-/// to `chrono::DateTime::parse_from_str`.
+/// `Instr`uctions for `pars`ing from an unknown `str` to
+/// `regex::Regex().captures()` instance to `fn chrono::DateTime::parse_from_str`.
 ///
 /// The settings is entirely interdependent. Tested in `test_DATETIME_PARSE_DATAS_builtin`.
 #[derive(Hash)]
-pub struct DateTime_Parse_Data<'a> {
+pub struct DateTimeParseInstr<'a> {
     // regex pattern for `captures`
     pub regex_pattern: &'a DateTimeRegex_str,
     /// in what strftime form are the regex `regex_pattern` capture groups?
@@ -271,7 +270,7 @@ pub struct DateTime_Parse_Data<'a> {
     pub _line_num: u32,
 }
 
-/// declare a `DateTime_Parse_Data` tuple more easily
+/// declare a `DateTimeParseInstr` tuple more easily
 #[macro_export]
 macro_rules! DTPD {
     (
@@ -284,7 +283,7 @@ macro_rules! DTPD {
         $test_cases:expr,
         $line_num:expr,
     ) => {
-        DateTime_Parse_Data {
+        DateTimeParseInstr {
             regex_pattern: $dtr,
             dtfs: $dtfs,
             range_regex: Range_LineIndex { start: $sib, end: $sie },
@@ -299,10 +298,10 @@ macro_rules! DTPD {
 // allow easy macro import via `use s4lib::data::datetime::DTPD;`
 pub use DTPD;
 
-// implement traits to allow sorting collections of `DateTime_Parse_Data`
+// implement traits to allow sorting collections of `DateTimeParseInstr`
 // only used for tests
 
-impl Ord for DateTime_Parse_Data<'_> {
+impl Ord for DateTimeParseInstr<'_> {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         (
             self.regex_pattern,
@@ -316,31 +315,31 @@ impl Ord for DateTime_Parse_Data<'_> {
     }
 }
 
-impl PartialOrd for DateTime_Parse_Data<'_> {
+impl PartialOrd for DateTimeParseInstr<'_> {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         Some(self.cmp(other))
     }
 }
 
-impl PartialEq for DateTime_Parse_Data<'_> {
+impl PartialEq for DateTimeParseInstr<'_> {
     fn eq(&self, other: &Self) -> bool {
         self.regex_pattern == other.regex_pattern
         && self.dtfs == other.dtfs
     }
 }
 
-impl Eq for DateTime_Parse_Data<'_> {}
+impl Eq for DateTimeParseInstr<'_> {}
 
-impl fmt::Debug for DateTime_Parse_Data<'_> {
+impl fmt::Debug for DateTimeParseInstr<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         // regexp strings can be very long, truncate it
-        const maxlen: usize = 20;
-        let mut rp: String = String::with_capacity(maxlen + 5);
-        rp.extend(self.regex_pattern.chars().take(maxlen));
-        if self.regex_pattern.len() > maxlen {
+        const MAXLEN: usize = 20;
+        let mut rp: String = String::with_capacity(MAXLEN + 5);
+        rp.extend(self.regex_pattern.chars().take(MAXLEN));
+        if self.regex_pattern.len() > MAXLEN {
             rp.push('…');
         }
-        let mut f_ = f.debug_struct("DateTime_Parse_Data:");
+        let mut f_ = f.debug_struct("DateTimeParseInstr:");
         f_.field("regex_pattern", &rp)
             .field("range_regex", &self.range_regex)
             .field("dtfs", &self.dtfs)
@@ -1027,30 +1026,30 @@ pub(crate) const RP_RB: &RegexPattern = r"[\]\)>}]";
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// index into the global `DATETIME_PARSE_DATAS`.
-pub type DateTime_Parse_Datas_Index = usize;
+pub type DateTimeParseInstrs_Index = usize;
 /// a run-time created vector of `Regex` instances that is a counterpart to `DATETIME_PARSE_DATAS`.
-pub type DateTime_Parse_Datas_Regex_vec = Vec<DateTimeRegex>;
+pub type DateTimeParseInstrs_Regex_vec = Vec<DateTimeRegex>;
 
 pub const DATETIME_PARSE_DATAS_LEN: usize = 35;
 
-/// built-in `const DateTime_Parse_Data` datetime parsing patterns.
+/// built-in `const DateTimeParseInstr` datetime parsing patterns.
 ///
 /// These are all regexp patterns that will be attempted on processed files.
 ///
-/// `DateTime_Parse_Data` should be listed from specific regexp to generic regexp. A more specific
+/// `DateTimeParseInstr` should be listed from specific regexp to generic regexp. A more specific
 /// regexp pattern is always preferred.
 ///
-/// Notice the "with timezone" versions of `DateTime_Parse_Data` are often listed before the same
-/// `DateTime_Parse_Data` "without". 
+/// Notice the "with timezone" versions of `DateTimeParseInstr` are often listed before the same
+/// `DateTimeParseInstr` "without". 
 ///
 /// A drawback to specific-to-general approach: during `SyslineReader` initial reading stage, it
 /// will try *all* the patterns (from index 0 to whereever it finds a match). So if a file has a
-/// very general pattern (like it only matches the last listed `DateTime_Parse_Data` here) then
-/// the `SyslineReader` will try *all* the `DateTime_Parse_Data` within `DATETIME_PARSE_DATAS`
+/// very general pattern (like it only matches the last listed `DateTimeParseInstr` here) then
+/// the `SyslineReader` will try *all* the `DateTimeParseInstr` within `DATETIME_PARSE_DATAS`
 /// several times (until `SyslineReader` is satisfied it has found the definitive pattern).
 /// The many missed matches use a lot of resources and time.
 ///
-pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] = [
+pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] = [
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/Ubuntu18/xrdp.log`
     // example with offset:
@@ -1837,7 +1836,7 @@ pub const DATETIME_PARSE_DATAS: [DateTime_Parse_Data; DATETIME_PARSE_DATAS_LEN] 
 
 lazy_static! {
     // `Regex::new` runs at run-time, create this vector on-demand
-    pub(crate) static ref DATETIME_PARSE_DATAS_REGEX_VEC: DateTime_Parse_Datas_Regex_vec =
+    pub(crate) static ref DATETIME_PARSE_DATAS_REGEX_VEC: DateTimeParseInstrs_Regex_vec =
         DATETIME_PARSE_DATAS.iter().map(
             |x| Regex::new(x.regex_pattern).unwrap()
         ).collect();
@@ -1975,7 +1974,7 @@ pub fn datetime_parse_from_str(
     pattern: &DateTimePattern_str,
     has_tz: bool,
     tz_offset: &FixedOffset,
-) -> DateTimeL_Opt {
+) -> DateTimeLOpt {
     dpnf!("datetime_parse_from_str(pattern {:?}, tz_offset {:?}, data {:?})", pattern, tz_offset, str_to_String_noraw(data));
 
     // if `has_tz` then create a `DateTime`.
@@ -2213,7 +2212,7 @@ fn month_bB_to_month_m_bytes(data: &[u8], buffer: &mut [u8]) {
 }
 
 /// Put `Captures` into a `String` buffer in a particular order and formatting. This bridges the
-/// `DateTime_Parse_Data::regex_pattern` to `DateTime_Parse_Data::dt_pattern`.
+/// `DateTimeParseInstr::regex_pattern` to `DateTimeParseInstr::dt_pattern`.
 ///
 /// Directly relates to datetime format `dt_pattern` values in `DATETIME_PARSE_DATAS`
 /// which use `DTFSS_YmdHMS`, etc.
@@ -2348,7 +2347,7 @@ fn captures_to_buffer_bytes(
 /// hardcoded in `DATETIME_PARSE_DATAS_REGEX` and `DATETIME_PARSE_DATAS`.
 pub fn bytes_to_regex_to_datetime(
     data: &[u8],
-    index: &DateTime_Parse_Datas_Index,
+    index: &DateTimeParseInstrs_Index,
     year_opt: &Option<Year>,
     tz_offset: &FixedOffset,
 ) -> Option<CapturedDtData> {
@@ -2402,7 +2401,7 @@ pub fn bytes_to_regex_to_datetime(
     // sanity check
     debug_assert!(!captures.iter().any(|x| x.is_none()), "a match in the regex::Captures was None");
 
-    let dtpd: &DateTime_Parse_Data = &DATETIME_PARSE_DATAS[*index];
+    let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*index];
     // copy regex matches into a buffer with predictable ordering
     // this ordering relates to datetime format strings in `DATETIME_PARSE_DATAS`
     // TODO: [2022/06/26] cost-savings: avoid a `String` alloc by passing precreated buffer
@@ -2496,7 +2495,7 @@ impl Result_Filter_DateTime2 {
 /// if `dt` is at or after `dt_filter` then return `OccursAtOrAfter`
 /// if `dt` is before `dt_filter` then return `OccursBefore`
 /// else return `Pass` (including if `dt_filter` is `None`)
-pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeL_Opt) -> Result_Filter_DateTime1 {
+pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeLOpt) -> Result_Filter_DateTime1 {
     if dt_filter.is_none() {
         dpnxf!("return Result_Filter_DateTime1::Pass; (no dt filters)");
         return Result_Filter_DateTime1::Pass;
@@ -2518,7 +2517,7 @@ pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeL_Opt) -> Result_F
 /// If both filters are `None` then return `Pass`
 /// TODO: finish this docstring
 pub fn dt_pass_filters(
-    dt: &DateTimeL, dt_filter_after: &DateTimeL_Opt, dt_filter_before: &DateTimeL_Opt,
+    dt: &DateTimeL, dt_filter_after: &DateTimeLOpt, dt_filter_before: &DateTimeLOpt,
 ) -> Result_Filter_DateTime2 {
     dpnf!("({:?}, {:?}, {:?})", dt, dt_filter_after, dt_filter_before);
     if dt_filter_after.is_none() && dt_filter_before.is_none() {
