@@ -1505,10 +1505,10 @@ impl SyslineReader {
                 if self.syslines_by_range.contains_key(&fo1) {
                     // ran into prior processed sysline, something is wrong; abandon these lines
                     // and chang search direction to go forwards
-                    dp_err!("ran into prior processed sysline at fileoffset {}; some lines will be dropped.", fo1);
-                    panic!("ERROR: ran into prior processed sysline at fileoffset {}; some lines will be dropped. SHOULD THIS BE FIXED?", fo1);
                     fo_zero_tried = true;
                     fo1 = fo_a_max;
+                    dp_err!("ran into prior processed sysline at fileoffset {}; some lines will be dropped.", fo1);
+                    panic!("ERROR: ran into prior processed sysline at fileoffset {}; some lines will be dropped. SHOULD THIS BE FIXED?", fo1);
                 }
             } else {
                 // search from byte zero
