@@ -68,10 +68,10 @@ fn new_BlockReader(path: FPath, blocksz: BlockSz) -> BlockReader {
             eprintln!("opened {:?}", path);
             eprintln!("new {:?}", &br);
             br
-        },
+        }
         Err(err) => {
             panic!("ERROR: BlockReader.open({:?}, {}) {}", path, blocksz, err);
-        },
+        }
     }
 }
 
@@ -83,10 +83,10 @@ fn new_BlockReader2(path: FPath, filetype: FileType, blocksz: BlockSz) -> BlockR
             eprintln!("opened {:?}", path);
             eprintln!("new {:?}", &br);
             br
-        },
+        }
         Err(err) => {
             panic!("ERROR: BlockReader.open({:?}, {}) {}", path, blocksz, err);
-        },
+        }
     }
 }
 
