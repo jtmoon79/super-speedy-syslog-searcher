@@ -150,14 +150,14 @@ pub struct GzData {
     pub crc32: u32,
 }
 
-type BufReader_Xz = BufReader<File>;
+type BufReaderXz = BufReader<File>;
 
 /// data and readers for a LZMA `.xz` file
 #[derive(Debug)]
 pub struct XzData {
     /// size of file uncompressed
     pub filesz: FileSz,
-    pub bufreader: BufReader_Xz,
+    pub bufreader: BufReaderXz,
 }
 
 // TODO: 2022/07 it is not impossible for paths to have ':', use '\0' instead
@@ -867,7 +867,7 @@ impl BlockReader {
                     }
                 }
 
-                let mut bufreader: BufReader_Xz = BufReader_Xz::new(file_xz);
+                let mut bufreader: BufReaderXz = BufReaderXz::new(file_xz);
 
                 // XXX: THIS IS A TERRIBLE HACK!
                 //      read the entire file into blocks in one go!
@@ -1624,7 +1624,7 @@ impl BlockReader {
 
             let blocksz_u: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
             let mut block = Block::with_capacity(blocksz_u);
-            let mut bufreader: &mut BufReader_Xz = &mut self.xz.as_mut().unwrap().bufreader;
+            let mut bufreader: &mut BufReaderXz = &mut self.xz.as_mut().unwrap().bufreader;
             dpo!("xz_decompress({:?}, block (len {}, capacity {}))", bufreader, block.len(), block.capacity());
             // XXX: xz_decompress may resize the passed `buffer`
             match lzma_rs::xz_decompress(&mut bufreader, &mut block) {
