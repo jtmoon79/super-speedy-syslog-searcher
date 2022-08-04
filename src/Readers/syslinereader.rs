@@ -864,7 +864,7 @@ impl SyslineReader {
         // remove all items < maximum value in `dt_patterns_counts`
         dpof!("dt_patterns_counts.retain(v >= {:?})", max_);
         self.dt_patterns_counts.retain(|_, v| *v >= max_);
-        if self.dt_patterns_counts.len() != 1 {
+        if self.dt_patterns_counts.len() != SyslineReader::DT_PATTERN_MAX {
             dp_err!("dt_patterns_analysis: self.dt_patterns_counts.len() {}, expected 1", self.dt_patterns_counts.len());
         }
         self.dt_patterns_indexes_refresh();
