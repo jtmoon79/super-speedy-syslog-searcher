@@ -1547,11 +1547,11 @@ fn test_find_line_in_block_4x2_5() {
 
 // -------------------------------------------------------------------------------------------------
 
-type test_Line_get_boxptrs_check = Vec<(FileOffset, (LineIndex, LineIndex), Bytes)>;
+type TestLineGetBoxPtrsCheck = Vec<(FileOffset, (LineIndex, LineIndex), Bytes)>;
 
 /// test `Line.get_boxptrs`
 /// assert result equals passed `checks`
-fn test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &test_Line_get_boxptrs_check) {
+fn test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &TestLineGetBoxPtrsCheck) {
     let fn_: &str = "test_Line_get_boxptrs";
     eprintln!("{}{}({:?}, {}, checks)", sn(), fn_, path, blocksz);
     // create a `LineReader` and read all the lines in the file
@@ -1618,7 +1618,7 @@ fn test_Line_get_boxptrs_1() {
 this is line 1";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    let checks: test_Line_get_boxptrs_check = vec![
+    let checks: TestLineGetBoxPtrsCheck = vec![
         (0, (0, 1), vec![b't']),
     ];
     test_Line_get_boxptrs(&fpath, 0xFF, &checks);
@@ -1634,7 +1634,7 @@ Two 2
 ";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    let checks: test_Line_get_boxptrs_check = vec![
+    let checks: TestLineGetBoxPtrsCheck = vec![
         // fileoffset, (a, b), check
         //
         (0, (0, 1), vec![b'O',]),
