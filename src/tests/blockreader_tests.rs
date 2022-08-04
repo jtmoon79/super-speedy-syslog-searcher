@@ -59,6 +59,7 @@ use lazy_static::lazy_static;
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// helper wrapper to create a new BlockReader
+#[allow(dead_code)]
 fn new_BlockReader(path: FPath, blocksz: BlockSz) -> BlockReader {
     stack_offset_set(Some(2));
     let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(&path);
