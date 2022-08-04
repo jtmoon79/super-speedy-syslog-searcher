@@ -465,6 +465,7 @@ impl SyslineReader {
     }
 
     /// enable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
+    #[allow(non_snake_case)]
     pub fn LRU_cache_enable(&mut self) {
         if !self.find_sysline_lru_cache_enabled {
             self.find_sysline_lru_cache_enabled = true;
@@ -479,6 +480,7 @@ impl SyslineReader {
     }
 
     /// disable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
+    #[allow(non_snake_case)]
     pub fn LRU_cache_disable(&mut self) {
         self.find_sysline_lru_cache_enabled = false;
         self.find_sysline_lru_cache.resize(0);
