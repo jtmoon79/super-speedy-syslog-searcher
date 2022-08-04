@@ -879,7 +879,7 @@ impl LineReader {
 
         // search for newline A starts within "middle" block
         let mut bi_at: BlockIndex = self.block_index_at_file_offset(fo_nl_a_search_start);
-        let BI_STOP: BlockIndex = 0;
+        const BI_STOP: BlockIndex = 0;
         dpof!(
             "({}) A2a: scan middle block {} backwards, starting from blockindex {} (fileoffset {}) down to blockindex {} searching for newline A",
             fileoffset,
