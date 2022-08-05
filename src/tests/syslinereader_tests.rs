@@ -77,11 +77,11 @@ use crate::tests::common::{
     NTF_NL_5_PATH,
     NTF_WNL_1_PATH,
     NTF_GZ_EMPTY_FPATH,
-    NTF_GZ_ONEBYTE_FPATH,
+    NTF_GZ_1BYTE_FPATH,
     NTF_GZ_8BYTE_FPATH,
-    NTF_TAR_ZEROBYTE_FILEA_FPATH,
-    NTF_TAR_ONEBYTE_FPATH,
-    NTF_TAR_ONEBYTE_FILEA_FPATH,
+    NTF_TAR_0BYTE_FILEA_FPATH,
+    NTF_TAR_1BYTE_FPATH,
+    NTF_TAR_1BYTE_FILEA_FPATH,
     NTF_TAR_8BYTE_FILEA_FPATH,
 };
 
@@ -119,41 +119,33 @@ fn new_SyslineReader(path: &FPath, blocksz: BlockSz, tzo: FixedOffset) -> Syslin
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// `FileOffset` is the input
-/// second parameter is expected result enum
-/// third parameter, first `&str`, is the expected sysline string value
+/// - `FileOffset` is the input
+/// - second parameter is expected result enum
+/// - third parameter is the expected sysline string value
 type TestFindSyslineCheck<'a> = (FileOffset, ResultS4SyslineFind_Test, &'a str);
 type TestFindSyslineChecks<'a> = Vec<TestFindSyslineCheck<'a>>;
 
-const NTF5_DATA: &str = "\
-[20200113-11:03:06] [DEBUG] Testing if xrdp can listen on 0.0.0.0 port 3389.
-[20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)
-CLOSED!
-[20200113-11:03:08] [INFO ] starting xrdp with pid 23198
-[20200113-11:13:59] [DEBUG] Certification found
-    FOUND CERTIFICATE!
-[20200113-11:13:59] [DEBUG] Certification complete.
-";
-
-const CHARSZ: usize = 1;
-const CHARSZ_FO: FileOffset = 1;
-
-const NTF5_DATA_LINE0_OFFSET: usize = 0;
 const NTF5_DATA_LINE0: &str = "[20200113-11:03:06] [DEBUG] Testing if xrdp can listen on 0.0.0.0 port 3389.\n";
-
-const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0.as_bytes().len();
 const NTF5_DATA_LINE1: &str = "[20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)
 CLOSED!\n";
-
-const NTF5_DATA_LINE2_OFFSET: usize = NTF5_DATA_LINE1_OFFSET + NTF5_DATA_LINE1.as_bytes().len();
 const NTF5_DATA_LINE2: &str = "[20200113-11:03:08] [INFO ] starting xrdp with pid 23198\n";
-
-const NTF5_DATA_LINE3_OFFSET: usize = NTF5_DATA_LINE2_OFFSET + NTF5_DATA_LINE2.as_bytes().len();
 const NTF5_DATA_LINE3: &str = "[20200113-11:13:59] [DEBUG] Certification found
     FOUND CERTIFICATE!\n";
-
-const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET + NTF5_DATA_LINE3.as_bytes().len();
 const NTF5_DATA_LINE4: &str = "[20200113-11:13:59] [DEBUG] Certification complete.\n";
+
+const NTF5_DATA: &str = concatcp!(
+    NTF5_DATA_LINE0,
+    NTF5_DATA_LINE1,
+    NTF5_DATA_LINE2,
+    NTF5_DATA_LINE3,
+    NTF5_DATA_LINE4,
+);
+
+const NTF5_DATA_LINE0_OFFSET: usize = 0;
+const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0.as_bytes().len();
+const NTF5_DATA_LINE2_OFFSET: usize = NTF5_DATA_LINE1_OFFSET + NTF5_DATA_LINE1.as_bytes().len();
+const NTF5_DATA_LINE3_OFFSET: usize = NTF5_DATA_LINE2_OFFSET + NTF5_DATA_LINE2.as_bytes().len();
+const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET + NTF5_DATA_LINE3.as_bytes().len();
 
 lazy_static! {
     static ref NTF5: NamedTempFile = {

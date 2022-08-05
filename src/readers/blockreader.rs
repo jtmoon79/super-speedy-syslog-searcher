@@ -1205,7 +1205,7 @@ impl BlockReader {
     /// specific `BlockSz` (size in bytes) of block at `blockoffset`
     pub fn blocksz_at_blockoffset_(blockoffset: &BlockOffset, blockoffset_last: &BlockOffset, blocksz: &BlockSz, filesz: &FileSz) -> BlockSz {
         dpnxf!("blockreader.blocksz_at_blockoffset_(blockoffset {}, blockoffset_last {}, blocksz {}, filesz {})", blockoffset, blockoffset_last, blocksz, filesz);
-        debug_assert_le!(blockoffset, blockoffset_last, "Passed blockoffset {} but blockoffset_last {}", blockoffset, blockoffset_last);
+        assert_le!(blockoffset, blockoffset_last, "Passed blockoffset {} but blockoffset_last {}", blockoffset, blockoffset_last);
         if filesz == &0 {
             return 0;
         }

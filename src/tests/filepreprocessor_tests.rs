@@ -9,10 +9,10 @@ use crate::tests::common::{
     MIMEGUESS_GZ,
     MIMEGUESS_XZ,
     MIMEGUESS_TAR,
-    NTF_TAR_ONEBYTE,
-    NTF_TAR_ONEBYTE_FILEA_FPATH,
-    NTF_TAR_ONEBYTE_FILEA_FILETYPE,
-    NTF_TAR_ONEBYTE_FILEA_MIMEGUESS,
+    NTF_TAR_1BYTE,
+    NTF_TAR_1BYTE_FILEA_FPATH,
+    NTF_TAR_1BYTE_FILEA_FILETYPE,
+    NTF_TAR_1BYTE_FILEA_MIMEGUESS,
     NTF_LOG_EMPTY,
     NTF_LOG_EMPTY_FPATH,
     NTF_LOG_EMPTY_FILETYPE,
@@ -168,10 +168,10 @@ fn test_process_file_path_gz() {
 fn test_process_file_path_tar() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
-            NTF_TAR_ONEBYTE_FILEA_FPATH.clone(),
-            *NTF_TAR_ONEBYTE_FILEA_MIMEGUESS,
-            *NTF_TAR_ONEBYTE_FILEA_FILETYPE,
+            NTF_TAR_1BYTE_FILEA_FPATH.clone(),
+            *NTF_TAR_1BYTE_FILEA_MIMEGUESS,
+            *NTF_TAR_1BYTE_FILEA_FILETYPE,
         )
     ];
-    test_process_file_path(&NTF_TAR_ONEBYTE, check);
+    test_process_file_path(&NTF_TAR_1BYTE, check);
 }
