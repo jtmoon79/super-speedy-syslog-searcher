@@ -811,7 +811,6 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
                 // XXX: sanity check
                 if is_last {
                     assert!(!sent_is_last, "is_last {}, yet sent_is_last was also {} (is_last was already sent!)", is_last, sent_is_last);
-                    sent_is_last = true;
                     break;
                 }
             }

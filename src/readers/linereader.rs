@@ -1001,8 +1001,6 @@ impl LineReader {
     ///
     /// XXX: presumes a single-byte can represent a '\n'; i.e. does not handle UTF-16 or UTF-32 or other.
     ///
-    /// TODO: [2021/08/30] handle different encodings
-    ///
     /// XXX: returning the "next fileoffset (along with `LineP`) is jenky. Just return the `LineP`.
     ///      and/or add `iter` capabilities to `Line` that will hide tracking the "next fileoffset".
     ///
@@ -1011,6 +1009,7 @@ impl LineReader {
     ///      Changes require extensive retesting.
     ///      You've been warned.
     ///
+    // TODO: [2021/08/30] handle different encodings
     pub fn find_line(&mut self, fileoffset: FileOffset) -> ResultS4LineFind {
         dpnf!("(LineReader@{:p}, {})", self, fileoffset);
 
