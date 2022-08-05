@@ -34,10 +34,16 @@ use crate::printer_debug::helpers::{
 };
 
 use crate::printer_debug::stack::{
-    sn,
-    so,
     stack_offset_set,
 };
+
+use crate::printer_debug::printers::{
+    dpnf,
+    dpof,
+    dpxf,
+    dpnxf,
+};
+
 
 #[allow(unused_imports)]
 use crate::tests::common::{
@@ -45,6 +51,9 @@ use crate::tests::common::{
     NTF_GZ_EMPTY_FPATH,
     NTF_GZ_ONEBYTE_FPATH,
     NTF_GZ_8BYTE_FPATH,
+    NTF_XZ_EMPTY_FPATH,
+    NTF_XZ_ONEBYTE_FPATH,
+    NTF_XZ_8BYTE_FPATH,
     NTF_TAR_ZEROBYTE_FILEA_FPATH,
     NTF_TAR_ONEBYTE_FPATH,
     NTF_TAR_ONEBYTE_FILEA_FPATH,
@@ -95,10 +104,13 @@ fn new_BlockReader2(path: FPath, filetype: FileType, blocksz: BlockSz) -> BlockR
 type ResultS3_Check = ResultS3<(), ()>;
 type Checks = BTreeMap::<BlockOffset, (Vec<u8>, ResultS3_Check)>;
 
+const FOUND: ResultS3_Check = ResultS3_Check::Found(());
+const DONE: ResultS3_Check = ResultS3_Check::Done;
+
 /// test of basic test of BlockReader things
 #[allow(non_snake_case)]
 fn test_BlockReader(path: &FPath, filetype: FileType, blocksz: BlockSz, offsets: &Vec<BlockOffset>, checks: &Checks) {
-    eprintln!("{}test_BlockReader({:?}, {})", sn(), path, blocksz);
+    dpnf!("({:?}, {})", path, blocksz);
     let mut br1 = new_BlockReader2(path.clone(), filetype, blocksz);
 
     for offset in offsets.iter() {
@@ -120,7 +132,7 @@ fn test_BlockReader(path: &FPath, filetype: FileType, blocksz: BlockSz, offsets:
 
     for (offset, (block_expect, results3)) in checks.iter() {
         // get the block data before calling `read_block`
-        eprintln!("{}test_BlockReader: get_block({})", so(), offset);
+        dpof!("get_block({})", offset);
         let block_actual_opt = br1.get_block(offset);
         match br1.read_block(*offset) {
             ResultS3ReadBlock::Found(_) => {
@@ -145,9 +157,15 @@ fn test_BlockReader(path: &FPath, filetype: FileType, blocksz: BlockSz, offsets:
             offset, block_expect_str, block_actual_str,
         );
     }
+
+    dpxf!();
 }
 
+// TODO: [2022/08/05] tests for bad files, unparseable files, multiple streams, etc.
+
 // -------------------------------------------------------------------------------------------------
+
+// reading plain file tests
 
 lazy_static! {
     static ref NTF_BASIC_10: NamedTempFile = {
@@ -171,7 +189,7 @@ lazy_static! {
 fn test_BlockReader_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['1' as u8, '9' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (vec!['1' as u8, '9' as u8], FOUND));
     let ft = FileType::File;
     test_BlockReader(&NTF_BASIC_10_FPATH, ft, 2, &offsets, &checks);
 }
@@ -180,8 +198,8 @@ fn test_BlockReader_0() {
 fn test_BlockReader_0_1() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['1' as u8, '9' as u8], ResultS3_Check::Found(())));
-    checks.insert(1, (vec!['0' as u8, '1' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (vec!['1' as u8, '9' as u8], FOUND));
+    checks.insert(1, (vec!['0' as u8, '1' as u8], FOUND));
     let ft = FileType::File;
     test_BlockReader(&NTF_BASIC_10_FPATH, ft, 2, &offsets, &checks);
 }
@@ -190,9 +208,9 @@ fn test_BlockReader_0_1() {
 fn test_BlockReader_0_1_2() {
     let offsets: Vec<BlockOffset> = vec![0, 1, 2];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['1' as u8, '9' as u8], ResultS3_Check::Found(())));
-    checks.insert(1, (vec!['0' as u8, '1' as u8], ResultS3_Check::Found(())));
-    checks.insert(2, (vec!['-' as u8, '0' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (vec!['1' as u8, '9' as u8], FOUND));
+    checks.insert(1, (vec!['0' as u8, '1' as u8], FOUND));
+    checks.insert(2, (vec!['-' as u8, '0' as u8], FOUND));
     let ft = FileType::File;
     test_BlockReader(&NTF_BASIC_10_FPATH, ft, 2, &offsets, &checks);
 }
@@ -201,12 +219,12 @@ fn test_BlockReader_0_1_2() {
 fn test_BlockReader_0_1_2_3_1_1() {
     let offsets: Vec<BlockOffset> = vec![0, 1, 2, 3];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['1' as u8, '9' as u8], ResultS3_Check::Found(())));
-    checks.insert(1, (vec!['0' as u8, '1' as u8], ResultS3_Check::Found(())));
-    checks.insert(2, (vec!['-' as u8, '0' as u8], ResultS3_Check::Found(())));
-    checks.insert(3, (vec!['1' as u8, '-' as u8], ResultS3_Check::Found(())));
-    checks.insert(1, (vec!['0' as u8, '1' as u8], ResultS3_Check::Found(())));
-    checks.insert(1, (vec!['0' as u8, '1' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (vec!['1' as u8, '9' as u8], FOUND));
+    checks.insert(1, (vec!['0' as u8, '1' as u8], FOUND));
+    checks.insert(2, (vec!['-' as u8, '0' as u8], FOUND));
+    checks.insert(3, (vec!['1' as u8, '-' as u8], FOUND));
+    checks.insert(1, (vec!['0' as u8, '1' as u8], FOUND));
+    checks.insert(1, (vec!['0' as u8, '1' as u8], FOUND));
     let ft = FileType::File;
     test_BlockReader(&NTF_BASIC_10_FPATH, ft, 2, &offsets, &checks);
 }
@@ -215,9 +233,9 @@ fn test_BlockReader_0_1_2_3_1_1() {
 fn test_BlockReader_33_34_32() {
     let offsets: Vec<BlockOffset> = vec![33, 34, 32];
     let mut checks = Checks::new();
-    checks.insert(33, (vec!['1' as u8, '9' as u8], ResultS3_Check::Found(())));
-    checks.insert(34, (vec!['0' as u8, '4' as u8], ResultS3_Check::Found(())));
-    checks.insert(32, (vec!['3' as u8, '\n' as u8], ResultS3_Check::Found(())));
+    checks.insert(33, (vec!['1' as u8, '9' as u8], FOUND));
+    checks.insert(34, (vec!['0' as u8, '4' as u8], FOUND));
+    checks.insert(32, (vec!['3' as u8, '\n' as u8], FOUND));
     let ft = FileType::File;
     test_BlockReader(&NTF_BASIC_10_FPATH, ft, 2, &offsets, &checks);
 }
@@ -226,20 +244,33 @@ fn test_BlockReader_33_34_32() {
 fn test_BlockReader_34_Done_34() {
     let offsets: Vec<BlockOffset> = vec![34];
     let mut checks = Checks::new();
-    checks.insert(34, (vec!['0' as u8, '4' as u8], ResultS3_Check::Found(())));
-    checks.insert(99999, (vec![], ResultS3_Check::Done));
-    checks.insert(34, (vec!['0' as u8, '4' as u8], ResultS3_Check::Found(())));
+    checks.insert(34, (vec!['0' as u8, '4' as u8], FOUND));
+    checks.insert(99999, (vec![], DONE));
+    checks.insert(34, (vec!['0' as u8, '4' as u8], FOUND));
     let ft = FileType::File;
     test_BlockReader(&NTF_BASIC_10_FPATH, ft, 2, &offsets, &checks);
 }
 
 // -------------------------------------------------------------------------------------------------
 
+// data from the various forms of the 8 byte file
+lazy_static! {
+    static ref BYTES_AB: Vec<u8> = vec!['A' as u8, 'B' as u8];
+    static ref BYTES_CD: Vec<u8> = vec!['C' as u8, 'D' as u8];
+    static ref BYTES_ABCD: Vec<u8> = Vec::<u8>::from_iter(b"ABCD".into_iter().map(|x| *x));
+    static ref BYTES_EFGH: Vec<u8> = Vec::<u8>::from_iter(b"EFGH".into_iter().map(|x| *x));
+    static ref BYTES_ABCDEFGH: Vec<u8> = Vec::<u8>::from_iter(b"ABCDEFGH".into_iter().map(|x| *x));
+}
+
+// -------------------------------------------------------------------------------------------------
+
+// reading gz file tests
+
 #[test]
 fn test_BlockReader_gz_zero_bytes() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(0, (vec![], ResultS3_Check::Done));
+    checks.insert(0, (vec![], DONE));
     let ft = FileType::FileGz;
     test_BlockReader(&NTF_GZ_EMPTY_FPATH, ft, 2, &offsets, &checks);
 }
@@ -248,8 +279,8 @@ fn test_BlockReader_gz_zero_bytes() {
 fn test_BlockReader_gz_one_bytes() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['A' as u8], ResultS3_Check::Found(())));
-    checks.insert(1, (vec![], ResultS3_Check::Done));
+    checks.insert(0, (vec!['A' as u8], FOUND));
+    checks.insert(1, (vec![], DONE));
     let ft = FileType::FileGz;
     test_BlockReader(&NTF_GZ_ONEBYTE_FPATH, ft, 2, &offsets, &checks);
 }
@@ -258,7 +289,7 @@ fn test_BlockReader_gz_one_bytes() {
 fn test_BlockReader_gz_8bytes_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['A' as u8, 'B' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
     let ft = FileType::FileGz;
     test_BlockReader(&NTF_GZ_8BYTE_FPATH, ft, 2, &offsets, &checks);
 }
@@ -267,8 +298,8 @@ fn test_BlockReader_gz_8bytes_0() {
 fn test_BlockReader_gz_8bytes_0_1() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['A' as u8, 'B' as u8], ResultS3_Check::Found(())));
-    checks.insert(1, (vec!['C' as u8, 'D' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
     let ft = FileType::FileGz;
     test_BlockReader(&NTF_GZ_8BYTE_FPATH, ft, 2, &offsets, &checks);
 }
@@ -277,9 +308,9 @@ fn test_BlockReader_gz_8bytes_0_1() {
 fn test_BlockReader_gz_8bytes_0_1_0() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['A' as u8, 'B' as u8], ResultS3_Check::Found(())));
-    checks.insert(1, (vec!['C' as u8, 'D' as u8], ResultS3_Check::Found(())));
-    checks.insert(0, (vec!['A' as u8, 'B' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
     let ft = FileType::FileGz;
     test_BlockReader(&NTF_GZ_8BYTE_FPATH, ft, 2, &offsets, &checks);
 }
@@ -288,8 +319,8 @@ fn test_BlockReader_gz_8bytes_0_1_0() {
 fn test_BlockReader_gz_8bytes_1_0() {
     let offsets: Vec<BlockOffset> = vec![1, 0];
     let mut checks = Checks::new();
-    checks.insert(1, (vec!['C' as u8, 'D' as u8], ResultS3_Check::Found(())));
-    checks.insert(0, (vec!['A' as u8, 'B' as u8], ResultS3_Check::Found(())));
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
     let ft = FileType::FileGz;
     test_BlockReader(&NTF_GZ_8BYTE_FPATH, ft, 2, &offsets, &checks);
 }
@@ -298,8 +329,8 @@ fn test_BlockReader_gz_8bytes_1_0() {
 fn test_BlockReader_gz_8bytes_0_1_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
-    checks.insert(0, (Vec::<u8>::from_iter(b"ABCD".into_iter().map(|x| *x)), ResultS3_Check::Found(())));
-    checks.insert(1, (Vec::<u8>::from_iter(b"EFGH".into_iter().map(|x| *x)), ResultS3_Check::Found(())));
+    checks.insert(0, (BYTES_ABCD.clone(), FOUND));
+    checks.insert(1, (BYTES_EFGH.clone(), FOUND));
     let ft = FileType::FileGz;
     test_BlockReader(&NTF_GZ_8BYTE_FPATH, ft, 4, &offsets, &checks);
 }
@@ -308,9 +339,9 @@ fn test_BlockReader_gz_8bytes_0_1_bsz4() {
 fn test_BlockReader_gz_8bytes_0_1_Done_bsz4() {
     let offsets: Vec<BlockOffset> = vec![0, 1];
     let mut checks = Checks::new();
-    checks.insert(0, (Vec::<u8>::from_iter(b"ABCD".into_iter().map(|x| *x)), ResultS3_Check::Found(())));
-    checks.insert(1, (Vec::<u8>::from_iter(b"EFGH".into_iter().map(|x| *x)), ResultS3_Check::Found(())));
-    checks.insert(2, (vec![], ResultS3_Check::Done));
+    checks.insert(0, (BYTES_ABCD.clone(), FOUND));
+    checks.insert(1, (BYTES_EFGH.clone(), FOUND));
+    checks.insert(2, (vec![], DONE));
     let ft = FileType::FileGz;
     test_BlockReader(&NTF_GZ_8BYTE_FPATH, ft, 4, &offsets, &checks);
 }
@@ -319,22 +350,122 @@ fn test_BlockReader_gz_8bytes_0_1_Done_bsz4() {
 fn test_BlockReader_gz_8bytes_0_bsz16() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(0, (Vec::<u8>::from_iter(b"ABCDEFGH".into_iter().map(|x| *x)), ResultS3_Check::Found(())));
-    checks.insert(0, (Vec::<u8>::from_iter(b"ABCDEFGH".into_iter().map(|x| *x)), ResultS3_Check::Found(())));
-    checks.insert(1, (vec![], ResultS3_Check::Done));
-    checks.insert(0, (Vec::<u8>::from_iter(b"ABCDEFGH".into_iter().map(|x| *x)), ResultS3_Check::Found(())));
-    checks.insert(1, (vec![], ResultS3_Check::Done));
+    checks.insert(0, (BYTES_ABCDEFGH.clone(), FOUND));
+    checks.insert(0, (BYTES_ABCDEFGH.clone(), FOUND));
+    checks.insert(1, (vec![], DONE));
+    checks.insert(0, (BYTES_ABCDEFGH.clone(), FOUND));
+    checks.insert(1, (vec![], DONE));
     let ft = FileType::FileGz;
     test_BlockReader(&NTF_GZ_8BYTE_FPATH, ft, 16, &offsets, &checks);
 }
 
 // -------------------------------------------------------------------------------------------------
 
+// reading xz file tests
+
+#[test]
+fn test_BlockReader_xz_zero_bytes() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (vec![], DONE));
+    let ft = FileType::FileXz;
+    test_BlockReader(&NTF_XZ_EMPTY_FPATH, ft, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_BlockReader_xz_one_bytes() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (vec!['A' as u8], FOUND));
+    checks.insert(1, (vec![], DONE));
+    let ft = FileType::FileXz;
+    test_BlockReader(&NTF_XZ_ONEBYTE_FPATH, ft, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_BlockReader_xz_8bytes_0() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    let ft = FileType::FileXz;
+    test_BlockReader(&NTF_XZ_8BYTE_FPATH, ft, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_BlockReader_xz_8bytes_0_1() {
+    let offsets: Vec<BlockOffset> = vec![0, 1];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
+    let ft = FileType::FileXz;
+    test_BlockReader(&NTF_XZ_8BYTE_FPATH, ft, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_BlockReader_xz_8bytes_0_1_0() {
+    let offsets: Vec<BlockOffset> = vec![0, 1];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    let ft = FileType::FileXz;
+    test_BlockReader(&NTF_XZ_8BYTE_FPATH, ft, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_BlockReader_xz_8bytes_1_0() {
+    let offsets: Vec<BlockOffset> = vec![1, 0];
+    let mut checks = Checks::new();
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    let ft = FileType::FileXz;
+    test_BlockReader(&NTF_XZ_8BYTE_FPATH, ft, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_BlockReader_xz_8bytes_0_1_bsz4() {
+    let offsets: Vec<BlockOffset> = vec![0, 1];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_ABCD.clone(), FOUND));
+    checks.insert(1, (BYTES_EFGH.clone(), FOUND));
+    let ft = FileType::FileXz;
+    test_BlockReader(&NTF_XZ_8BYTE_FPATH, ft, 4, &offsets, &checks);
+}
+
+#[test]
+fn test_BlockReader_xz_8bytes_0_1_Done_bsz4() {
+    let offsets: Vec<BlockOffset> = vec![0, 1];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_ABCD.clone(), FOUND));
+    checks.insert(1, (BYTES_EFGH.clone(), FOUND));
+    checks.insert(2, (vec![], DONE));
+    checks.insert(1, (BYTES_EFGH.clone(), FOUND));
+    let ft = FileType::FileXz;
+    test_BlockReader(&NTF_XZ_8BYTE_FPATH, ft, 4, &offsets, &checks);
+}
+
+#[test]
+fn test_BlockReader_xz_8bytes_0_bsz16() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_ABCDEFGH.clone(), FOUND));
+    checks.insert(0, (BYTES_ABCDEFGH.clone(), FOUND));
+    checks.insert(1, (vec![], DONE));
+    checks.insert(0, (BYTES_ABCDEFGH.clone(), FOUND));
+    checks.insert(1, (vec![], DONE));
+    let ft = FileType::FileXz;
+    test_BlockReader(&NTF_XZ_8BYTE_FPATH, ft, 16, &offsets, &checks);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+// reading tar file tests
+
 #[test]
 fn test_BlockReader_tar_0byte_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(0, (vec![], ResultS3_Check::Done));
+    checks.insert(0, (vec![], DONE));
     let ft = FileType::FileTar;
     test_BlockReader(&NTF_TAR_ZEROBYTE_FILEA_FPATH, ft, 2, &offsets, &checks);
 }
@@ -343,7 +474,7 @@ fn test_BlockReader_tar_0byte_0() {
 fn test_BlockReader_tar_1byte_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['A' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (vec!['A' as u8], FOUND));
     let ft = FileType::FileTar;
     test_BlockReader(&NTF_TAR_ONEBYTE_FILEA_FPATH, ft, 2, &offsets, &checks);
 }
@@ -352,7 +483,7 @@ fn test_BlockReader_tar_1byte_0() {
 fn test_BlockReader_tar_8byte_0() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['A' as u8, 'B' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
     let ft = FileType::FileTar;
     test_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, ft, 2, &offsets, &checks);
 }
@@ -361,8 +492,8 @@ fn test_BlockReader_tar_8byte_0() {
 fn test_BlockReader_tar_8byte_0_1() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['A' as u8, 'B' as u8], ResultS3_Check::Found(())));
-    checks.insert(1, (vec!['C' as u8, 'D' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
     let ft = FileType::FileTar;
     test_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, ft, 2, &offsets, &checks);
 }
@@ -371,8 +502,8 @@ fn test_BlockReader_tar_8byte_0_1() {
 fn test_BlockReader_tar_8byte_0_3() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(0, (vec!['A' as u8, 'B' as u8], ResultS3_Check::Found(())));
-    checks.insert(3, (vec!['G' as u8, 'H' as u8], ResultS3_Check::Found(())));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    checks.insert(3, (vec!['G' as u8, 'H' as u8], FOUND));
     let ft = FileType::FileTar;
     test_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, ft, 2, &offsets, &checks);
 }
@@ -381,7 +512,7 @@ fn test_BlockReader_tar_8byte_0_3() {
 fn test_BlockReader_tar_8byte_1() {
     let offsets: Vec<BlockOffset> = vec![1];
     let mut checks = Checks::new();
-    checks.insert(1, (vec!['C' as u8, 'D' as u8], ResultS3_Check::Found(())));
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
     let ft = FileType::FileTar;
     test_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, ft, 2, &offsets, &checks);
 }
@@ -390,7 +521,7 @@ fn test_BlockReader_tar_8byte_1() {
 fn test_BlockReader_tar_8byte_99() {
     let offsets: Vec<BlockOffset> = vec![0];
     let mut checks = Checks::new();
-    checks.insert(99, (vec![], ResultS3_Check::Done));
+    checks.insert(99, (vec![], DONE));
     let ft = FileType::FileTar;
     test_BlockReader(&NTF_TAR_8BYTE_FILEA_FPATH, ft, 2, &offsets, &checks);
 }
@@ -400,7 +531,7 @@ fn test_BlockReader_tar_8byte_99() {
 /// quick self-test
 #[test]
 fn test_count_blocks() {
-    eprintln!("test_count_blocks()");
+    dpnxf!();
     assert_eq!(1, BlockReader::count_blocks(1, 1));
     assert_eq!(2, BlockReader::count_blocks(2, 1));
     assert_eq!(3, BlockReader::count_blocks(3, 1));
@@ -429,7 +560,7 @@ fn test_count_blocks() {
 /// quick self-test
 #[test]
 fn test_file_offset_at_block_offset() {
-    eprintln!("test_file_offset_at_block_offset()");
+    dpnxf!();
     assert_eq!(0, BlockReader::file_offset_at_block_offset(0, 1));
     assert_eq!(0, BlockReader::file_offset_at_block_offset(0, 2));
     assert_eq!(0, BlockReader::file_offset_at_block_offset(0, 4));
@@ -456,7 +587,7 @@ fn test_file_offset_at_block_offset() {
 /// quick self-test
 #[test]
 fn test_block_offset_at_file_offset() {
-    eprintln!("test_block_offset_at_file_offset()");
+    dpnxf!();
     assert_eq!(0, BlockReader::block_offset_at_file_offset(0, 1));
     assert_eq!(1, BlockReader::block_offset_at_file_offset(1, 1));
     assert_eq!(2, BlockReader::block_offset_at_file_offset(2, 1));
@@ -492,7 +623,7 @@ fn test_block_offset_at_file_offset() {
 /// quick self-test
 #[test]
 fn test_block_index_at_file_offset() {
-    eprintln!("test_block_index_at_file_offset()");
+    dpnxf!();
     assert_eq!(0, BlockReader::block_index_at_file_offset(0, 1));
     assert_eq!(0, BlockReader::block_index_at_file_offset(1, 1));
     assert_eq!(0, BlockReader::block_index_at_file_offset(2, 1));
@@ -514,7 +645,7 @@ fn test_block_index_at_file_offset() {
 /// quick self-test
 #[test]
 fn test_file_offset_at_block_offset_index() {
-    eprintln!("test_file_offset_at_block_offset_index()");
+    dpnxf!();
     assert_eq!(0, BlockReader::file_offset_at_block_offset_index(0, 1, 0));
     assert_eq!(1, BlockReader::file_offset_at_block_offset_index(1, 1, 0));
     assert_eq!(2, BlockReader::file_offset_at_block_offset_index(2, 1, 0));

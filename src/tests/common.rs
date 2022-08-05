@@ -185,6 +185,99 @@ lazy_static! {
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/// xz of an empty file:
+///
+///     $ echo -n > empty
+///     $ xz empty
+///     $ ./tools/hexdump.py empty.xz
+///
+pub const XZ_EMPTY_DATA: [u8; 32] = [
+    0xfd, 0x37, 0x7a, 0x58, 0x5a, 0x00, 0x00, 0x04,
+    0xe6, 0xd6, 0xb4, 0x46, 0x00, 0x00, 0x00, 0x00,
+    0x1c, 0xdf, 0x44, 0x21, 0x1f, 0xb6, 0xf3, 0x7d,
+    0x01, 0x00, 0x00, 0x00, 0x00, 0x04, 0x59, 0x5a,
+];
+
+lazy_static! {
+    /// an empty file, compressed
+    pub static ref NTF_XZ_EMPTY: NamedTempFile = {
+        create_temp_file_bytes_with_suffix(
+            &XZ_EMPTY_DATA, &String::from("-empty.xz")
+        )
+    };
+    pub static ref NTF_XZ_EMPTY_PATH: &'static Path = {
+        &fpath_to_path(&NTF_XZ_EMPTY_FPATH)
+    };
+    pub static ref NTF_XZ_EMPTY_FPATH: FPath = {
+        path_to_fpath(NTF_XZ_EMPTY.path())
+    };
+    pub static ref NTF_XZ_EMPTY_FILETYPE: FileType = FileType::FileGz;
+    pub static ref NTF_XZ_EMPTY_MIMEGUESS: MimeGuess = {
+        MimeGuess::from_path(NTF_XZ_EMPTY.path())
+    };
+}
+
+/// xz of a one-byte file:
+///
+///     $ echo -n 'A' > fileA
+///     $ xz fileA
+///     $ ./tools/hexdump.py fileA.xz
+///
+pub const XZ_ONEBYTE_DATA: [u8; 60] = [
+    0xfd, 0x37, 0x7a, 0x58, 0x5a, 0x00, 0x00, 0x04,
+    0xe6, 0xd6, 0xb4, 0x46, 0x02, 0x00, 0x21, 0x01,
+    0x16, 0x00, 0x00, 0x00, 0x74, 0x2f, 0xe5, 0xa3,
+    0x01, 0x00, 0x00, 0x41, 0x00, 0x00, 0x00, 0x00,
+    0x97, 0xe7, 0x03, 0x8c, 0x07, 0xc6, 0x35, 0xc8,
+    0x00, 0x01, 0x19, 0x01, 0xa5, 0x2c, 0x81, 0xcc,
+    0x1f, 0xb6, 0xf3, 0x7d, 0x01, 0x00, 0x00, 0x00,
+    0x00, 0x04, 0x59, 0x5a,
+];
+
+lazy_static! {
+    pub static ref NTF_ONEBYTE_XZ: NamedTempFile = create_temp_file_bytes_with_suffix(
+        &XZ_ONEBYTE_DATA, &String::from("-one-byte.xz")
+    );
+    pub static ref NTF_XZ_ONEBYTE_FPATH: FPath = {
+        ntf_fpath(&NTF_ONEBYTE_XZ)
+    };
+    pub static ref NTF_XZ_ONEBYTE_PATH: &'static Path = {
+        &fpath_to_path(&NTF_XZ_ONEBYTE_FPATH)
+    };
+}
+
+///
+/// xz of an 8 byte file:
+///
+///     $ echo -n 'ABCDEFGH' > file8
+///     $ xz file8
+///     $ ./tools/hexdump.py file8.xz
+///
+pub const XZ_8BYTE_DATA: [u8; 64] = [
+    0xfd, 0x37, 0x7a, 0x58, 0x5a, 0x00, 0x00, 0x04,
+    0xe6, 0xd6, 0xb4, 0x46, 0x02, 0x00, 0x21, 0x01,
+    0x16, 0x00, 0x00, 0x00, 0x74, 0x2f, 0xe5, 0xa3,
+    0x01, 0x00, 0x07, 0x41, 0x42, 0x43, 0x44, 0x45,
+    0x46, 0x47, 0x48, 0x00, 0x79, 0xc4, 0x59, 0xb7,
+    0x21, 0x6d, 0xf8, 0x7c, 0x00, 0x01, 0x20, 0x08,
+    0xbb, 0x19, 0xd9, 0xbb, 0x1f, 0xb6, 0xf3, 0x7d,
+    0x01, 0x00, 0x00, 0x00, 0x00, 0x04, 0x59, 0x5a,
+];
+
+lazy_static! {
+    pub static ref NTF_8BYTE_XZ: NamedTempFile = create_temp_file_bytes_with_suffix(
+        &XZ_8BYTE_DATA, &String::from("-8byte.xz")
+    );
+    pub static ref NTF_XZ_8BYTE_FPATH: FPath = {
+        ntf_fpath(&NTF_8BYTE_XZ)
+    };
+    pub static ref NTF_XZ_8BYTE_PATH: &'static Path = {
+        &fpath_to_path(&NTF_XZ_8BYTE_FPATH)
+    };
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 // tar file
 
 pub const TAR_ZEROBYTE_FILEA_FILENAME: &str = "my zero byte file.txt";

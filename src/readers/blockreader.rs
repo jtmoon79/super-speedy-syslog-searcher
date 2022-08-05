@@ -777,15 +777,19 @@ impl BlockReader {
                         return Err(err);
                     },
                 }
+                // magic bytes expected "ý7zXZ\0"
+                const XZ_MAGIC_BYTES: [u8; 6] = [0xFD, 0x37, 0x7A, 0x58, 0x5A,0x00];
                 dpof!("FileXz: stream header magic bytes {:?}", buffer_);
                 if cfg!(debug_assertions) {
-                    for b_ in buffer_.iter() {
+                    for (i, b_) in buffer_.iter().enumerate() {
+                        let b_ex = XZ_MAGIC_BYTES[i];
+                        let c_ex: char = b_ex as char;
                         let c_: char = (*b_) as char;
-                        dpo!("{0:3} (0x{0:02X}) {1:?}", b_, c_);
+                        dpo!("actual {0:3} (0x{0:02X}) {1:?}", b_, c_);
+                        dpo!("expect {0:3} (0x{0:02X}) {1:?}\n", b_ex, c_ex);
                     }
                 }
-                // magic bytes expected "ý7zXZ\0"
-                if buffer_ != [0xFD, 0x37, 0x7A, 0x58, 0x5A,0x00] {
+                if buffer_ != XZ_MAGIC_BYTES {
                     return Result::Err(
                         Error::new(
                             ErrorKind::InvalidData,
@@ -873,16 +877,20 @@ impl BlockReader {
                     // XXX: xz_decompress may resize the passed `buffer`
                     match lzma_rs::xz_decompress(&mut bufreader, &mut buffer) {
                         Ok(_) => {
-                            dpo!("FileXz: xz_decompress returned buffer len {}, capacity {}", buffer.len(), buffer.capacity());
+                            dpof!("FileXz: xz_decompress returned buffer len {}, capacity {}", buffer.len(), buffer.capacity());
                         },
                         Err(err) => {
-                            match err {
+                            match &err {
                                 lzma_rs::error::Error::IoError(ref ioerr) => {
+                                    dpof!("FileXz: ioerr.kind() {:?}", ioerr.kind());
                                     if ioerr.kind() == ErrorKind::UnexpectedEof {
+                                        dpof!("FileXz: xz_decompress Error UnexpectedEof, break!");
                                         break;
                                     }
                                 }
-                                _ => {},
+                                err_ => {
+                                    dpof!("FileXz: err {:?}", err_);
+                                },
                             }
                             dpxf!("FileXz: xz_decompress Error, return Err({:?})", err);
                             return Err(
@@ -894,6 +902,7 @@ impl BlockReader {
                         }
                     }
                     if buffer.is_empty() {
+                        dpof!("buffer.is_empty()");
                         break;
                     }
                     let blocksz_u: usize = blocksz as usize;
@@ -1197,6 +1206,9 @@ impl BlockReader {
     pub fn blocksz_at_blockoffset_(blockoffset: &BlockOffset, blockoffset_last: &BlockOffset, blocksz: &BlockSz, filesz: &FileSz) -> BlockSz {
         dpnxf!("blockreader.blocksz_at_blockoffset_(blockoffset {}, blockoffset_last {}, blocksz {}, filesz {})", blockoffset, blockoffset_last, blocksz, filesz);
         debug_assert_le!(blockoffset, blockoffset_last, "Passed blockoffset {} but blockoffset_last {}", blockoffset, blockoffset_last);
+        if filesz == &0 {
+            return 0;
+        }
         if blockoffset == blockoffset_last {
             let remainder = filesz % blocksz;
             if remainder != 0 {
@@ -1399,6 +1411,12 @@ impl BlockReader {
         dpnf!("({})", blockoffset);
         debug_assert_eq!(self.filetype, FileType::FileGz, "wrong FileType {:?} for calling read_block_FileGz", self.filetype);
 
+        // handle special case right away
+        if self.filesz_actual == 0 {
+            dpxf!("filesz 0; return Done");
+            return ResultS3ReadBlock::Done;
+        }
+
         let blockoffset_last: BlockOffset = self.blockoffset_last();
         let mut bo_at: BlockOffset = match self.blocks_read.iter().max() {
             Some(bo_) => *bo_,
@@ -1468,9 +1486,9 @@ impl BlockReader {
                 match (self.gz.as_mut().unwrap().decoder).read(block_buf.as_mut()) {
                     Ok(size_) if size_ == 0 => {
                         dpof!("({}): GzDecoder.read() returned Ok({:?}); read_total {}", blockoffset, size_, read_total);
-                        if self.filesz_actual == 0 {
-                            return ResultS3ReadBlock::Done;
-                        }
+                        //if self.filesz_actual == 0 {
+                        //    return ResultS3ReadBlock::Done;
+                        //}
                         let byte_at: FileOffset = self.file_offset_at_block_offset_self(bo_at) + (read_total as FileOffset);
                         // in ad-hoc testing, it was found the decoder never recovers from a zero-byte read
                         return ResultS3ReadBlock::Err(
@@ -1494,14 +1512,14 @@ impl BlockReader {
                     // first or subsequent read is le expected size
                     Ok(size_) => {
                         dpof!("({}): GzDecoder.read() returned Ok({:?}), readsz {}, blocksz {}", blockoffset, size_, readsz, blocksz_u);
-                        if self.filesz_actual == 0 {
-                            return ResultS3ReadBlock::Err(
-                                Error::new(
-                                    ErrorKind::InvalidData,
-                                    format!("GzDecoder.read() returned {} yet file size uncompressed {} (calculated from gzip header); {:?}", size_, self.filesz_actual, self.path)
-                                )
-                            );
-                        }
+                        //if self.filesz_actual == 0 {
+                        //    return ResultS3ReadBlock::Err(
+                        //        Error::new(
+                        //            ErrorKind::InvalidData,
+                        //            format!("GzDecoder.read() returned {} yet file size uncompressed {} (calculated from gzip header); {:?}", size_, self.filesz_actual, self.path)
+                        //        )
+                        //    );
+                        //}
                         // TODO: cost-savings: use faster `copy_slice`
                         for byte_ in block_buf.iter().take(size_) {
                             block[read_total] = *byte_;
@@ -1587,6 +1605,12 @@ impl BlockReader {
         dpnf!("({})", blockoffset);
         debug_assert_eq!(self.filetype, FileType::FileXz, "wrong FileType {:?} for calling read_block_FileXz", self.filetype);
 
+        // handle special case right away
+        if self.filesz_actual == 0 {
+            dpxf!("filesz 0; return Done");
+            return ResultS3ReadBlock::Done;
+        }
+
         let blockoffset_last: BlockOffset = self.blockoffset_last();
         let mut bo_at: BlockOffset = match self.blocks_read.iter().max() {
             Some(bo_) => *bo_,
@@ -1598,7 +1622,6 @@ impl BlockReader {
             // TODO: [2022/06/18] add another stat tracker for lookups in `self.blocks_read`
             if self.blocks_read.contains(&bo_at) {
                 self.read_blocks_hit += 1;
-                //dpof!("({}): blocks_read.contains({})", blockoffset, bo_at);
                 if bo_at == blockoffset {
                     dpxf!("({}): return Found", blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
@@ -1621,13 +1644,27 @@ impl BlockReader {
             dpo!("xz_decompress({:?}, block (len {}, capacity {}))", bufreader, block.len(), block.capacity());
             // XXX: xz_decompress may resize the passed `buffer`
             match lzma_rs::xz_decompress(&mut bufreader, &mut block) {
-                Ok(_) => {},
+                Ok(_) => {
+                    dpo!("xz_decompress returned block len {}, capacity {}", block.len(), block.capacity());
+                },
                 Err(err) => {
                     // XXX: would typically `return Err(err)` but the `err` is of type
                     //      `lzma_rs::error::Error`
                     //      https://docs.rs/lzma-rs/0.2.0/lzma_rs/error/enum.Error.html
-                    dpxf!("xz_decompress Error, return ResultS3ReadBlock::Err({:?}) for {:?}", err, self.path);
-                    return ResultS3ReadBlock::Err(
+                    match &err {
+                        lzma_rs::error::Error::IoError(ref ioerr) => {
+                            dpof!("ioerr.kind() {:?}", ioerr.kind());
+                            if ioerr.kind() == ErrorKind::UnexpectedEof {
+                                dpof!("xz_decompress Error UnexpectedEof, break!");
+                                break;
+                            }
+                        }
+                        err_ => {
+                            dpof!("err {:?}", err_);
+                        },
+                    }
+                    dpxf!("xz_decompress Error, return Err({:?})", err);
+                    return ResultS3::Err(
                         Error::new(
                             ErrorKind::Other,
                             format!("{:?}", err),
@@ -1636,7 +1673,7 @@ impl BlockReader {
                 }
             }
             dpo!("xz_decompress returned block len {}, capacity {}", block.len(), block.capacity());
-
+            
             // check returned Block is expected number of bytes
             let blocklen_sz: BlockSz = block.len() as BlockSz;
             if block.is_empty() {
@@ -1757,7 +1794,8 @@ impl BlockReader {
             }
         };
 
-        // handle special case, also file size zero cause `entry.read_exact` to return an error
+        // handle special case right away
+        // also file size zero cause `entry.read_exact` to return an error
         if self.filesz_actual == 0 {
             dpxf!("({}): filesz_actual 0; return Done", blockoffset);
             return ResultS3ReadBlock::Done;
