@@ -15,6 +15,7 @@ use std::collections::{
     BTreeMap,
 };
 use std::fmt;
+use std::process::ExitCode;
 use std::str;
 use std::thread;
 
@@ -569,7 +570,7 @@ fn cli_process_args() -> (
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// process user-passed command-line arguments
-pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
+pub fn main() -> ExitCode {
     // set once, use `stackdepth_main` to access `_STACKDEPTH_MAIN`
     if cfg!(debug_assertions) {
         stack_offset_set(Some(0 ));
@@ -611,7 +612,7 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
         */
     }
 
-    processing_loop(
+    let ret: bool = processing_loop(
         processed_paths,
         blocksz,
         &filter_dt_after,
@@ -628,7 +629,11 @@ pub fn main() -> std::result::Result<(), chrono::format::ParseError> {
 
     dpxf!();
 
-    Ok(())
+    if ret {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::FAILURE
+    }
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -713,6 +718,12 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
     match result {
         FileProcessingResultBlockZero::FileErrNoLinesFound => {
             eprintln!("WARNING: no lines found {:?}", path);
+            match chan_send_dt.send((None, Some(syslogproc.summary()), true)) {
+                Ok(_) => {}
+                Err(err) => {
+                    eprintln!("ERROR: stage0 chan_send_dt.send(…) failed {}", err);
+                }
+            }
             return;
         }
         FileProcessingResultBlockZero::FileErrNoSyslinesFound => {
@@ -1076,7 +1087,7 @@ fn processing_loop(
     cli_opt_prepend_filepath: bool,
     cli_opt_prepend_file_align: bool,
     cli_opt_summary: bool,
-) {
+) -> bool {
     dpnf!("({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})", paths_results, blocksz, filter_dt_after_opt, filter_dt_before_opt, color_choice, cli_opt_prepend_local, cli_opt_prepend_utc, cli_opt_summary);
 
     // XXX: sanity check
@@ -1086,7 +1097,7 @@ fn processing_loop(
 
     if paths_results.is_empty() {
         dpxf!("paths_results.is_empty(); nothing to do");
-        return;
+        return true;
     }
 
     // TODO: [2022/06/02] this point needs a PathToPaths thingy that expands user-passed Paths to all possible paths_valid,
@@ -1245,7 +1256,7 @@ fn processing_loop(
     }
     if map_pathid_chanrecvdatum.is_empty() {
         eprintln!("ERROR: map_pathid_chanrecvdatum.is_empty(); nothing to do.");
-        return;
+        return false;
     }
 
     type RecvResult4 = std::result::Result<ChanDatum, crossbeam_channel::RecvError>;
@@ -1378,15 +1389,15 @@ fn processing_loop(
         disconnect.clear();
 
         if cfg!(debug_assertions) {
-            dpo!("processing_loop: map_pathid_datum.len() {}", map_pathid_datum.len());
+            dpof!("map_pathid_datum.len() {}", map_pathid_datum.len());
             for (pathid, _datum) in map_pathid_datum.iter() {
                 let _path: &FPath = map_pathid_path.get(pathid).unwrap();
-                dpo!("processing_loop: map_pathid_datum: thread {} {} has data", _path, pathid);
+                dpof!("map_pathid_datum: thread {} {} has data", _path, pathid);
             }
-            dpo!("processing_loop: map_pathid_chanrecvdatum.len() {}", map_pathid_chanrecvdatum.len());
+            dpof!("map_pathid_chanrecvdatum.len() {}", map_pathid_chanrecvdatum.len());
             for (pathid, _chanrdatum) in map_pathid_chanrecvdatum.iter() {
                 let _path: &FPath = map_pathid_path.get(pathid).unwrap();
-                dpo!("processing_loop: map_pathid_chanrecvdatum: thread {} {} channel messages {}", _path, pathid, _chanrdatum.len());
+                dpof!("map_pathid_chanrecvdatum: thread {} {} channel messages {}", _path, pathid, _chanrdatum.len());
             }
         }
 
@@ -1409,11 +1420,11 @@ fn processing_loop(
             };
             match result1 {
                 Ok(chan_datum) => {
-                    dpo!("processing_loop: B crossbeam_channel::Found for PathId {:?};", pathid);
+                    dpof!("B crossbeam_channel::Found for PathId {:?};", pathid);
                     if let Some(summary) = chan_datum.1 {
                         assert!(chan_datum.0.is_none(), "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId {:?}", pathid);
                         summary_update(&pathid, summary, &mut map_pathid_summary);
-                        dpo!("processing_loop: B will disconnect channel {:?}", pathid);
+                        dpof!("B will disconnect channel {:?}", pathid);
                         // receiving a Summary must be the last data sent on the channel
                         disconnect.push(pathid);
                     } else {
@@ -1424,7 +1435,7 @@ fn processing_loop(
                     chan_recv_ok += 1;
                 }
                 Err(crossbeam_channel::RecvError) => {
-                    dpo!("processing_loop: B crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", pathid);
+                    dpof!("B crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", pathid);
                     // this channel was closed by the sender
                     disconnect.push(pathid);
                     chan_recv_err += 1;
@@ -1566,7 +1577,14 @@ fn processing_loop(
     }
 
     dpof!("E chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
-    dpnf!();
+
+    let mut ret: bool = true;
+    if chan_recv_err > 0 {
+        ret = false;
+    }
+    dpnf!("return {:?}", ret);
+
+    ret
 }
 
 // -------------------------------------------------------------------------------------------------
