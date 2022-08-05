@@ -79,6 +79,9 @@ lazy_static! {
     pub static ref NTF_NL_5: NamedTempFile = create_temp_log("\n\n\n\n\n");
     pub static ref NTF_NL_5_PATH: FPath = ntf_fpath(&NTF_NL_5);
 
+    pub static ref NTF_WNL_1: NamedTempFile = create_temp_log("\r\n");
+    pub static ref NTF_WNL_1_PATH: FPath = ntf_fpath(&NTF_WNL_1);
+
     // empty files with suffix
 
     pub static ref NTF_LOG_EMPTY: NamedTempFile = {

@@ -71,6 +71,7 @@ criterion = "0.3.5"
 flamegraph = "0.6.1"
 jetscii = "0.5.1"
 memchr = "2.4.1"
+test-case = "2.2.1"
 
 # other helpful tools
 # cargo install --locked cargo-expand cargo-nextest
