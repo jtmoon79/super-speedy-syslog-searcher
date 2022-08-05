@@ -78,7 +78,7 @@ lazy_static! {
         b'0', b'0',
         b'0', b'1',
         // value 0xFF is invalid UTF8 value
-        0xFF, b' ', 
+        0xFF, b' ',
     ];
 }
 

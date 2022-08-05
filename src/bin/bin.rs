@@ -500,7 +500,7 @@ fn cli_process_args() -> (
     //
     // process string arguments into specific types
     //
-    
+
     let blockszs: String = args.blocksz;
     let blocksz: BlockSz = match cli_process_blocksz(&blockszs) {
         Ok(val) => { val },
@@ -890,7 +890,6 @@ impl SummaryPrinted {
     /// only colorize if associated `SummaryOpt` has corresponding
     /// non-zero values
     pub fn print_colored_stderr(&self, color_choice_opt: Option<ColorChoice>, summary_opt: &SummaryOpt) {
-        
         let sumd = Summary::default();
         let sum_: &Summary = match summary_opt {
             Some(s) => s,
@@ -1000,7 +999,7 @@ impl SummaryPrinted {
             };
         };
     }
-    
+
     /// update a mapping of `PathId` to `SummaryPrinted`.
     ///
     /// helper to `processing_loop`
@@ -1099,7 +1098,7 @@ fn processing_loop(
     //       would return `Vec<(path: FPath, subpath: FPath, type_: FILE_TYPE, Option<result>: common::FileProcessingResult)>`
     //         where `path` is actual path,
     //         `subpath` is path within a .tar/.zip file
-    //         `type_` is enum for `FILE` `FILE_IN_ARCHIVE_TAR`, `FILE_IN_ARCHIVE_TAR_COMPRESS_GZ`, 
+    //         `type_` is enum for `FILE` `FILE_IN_ARCHIVE_TAR`, `FILE_IN_ARCHIVE_TAR_COMPRESS_GZ`,
     //           `FILE_COMPRESS_GZ`, etc.
     //          `result` of `Some(FileProcessingResult)` if processing has completed or just `None`
     //       (this might be a better place for mimeguess and mimeanalysis?)
@@ -1843,7 +1842,7 @@ fn print_error(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
                     eprintln!();
                 },
                 None => {},
-            }        
+            }
         }
         None => {}
     }

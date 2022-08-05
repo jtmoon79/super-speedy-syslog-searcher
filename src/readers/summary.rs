@@ -324,7 +324,7 @@ impl fmt::Debug for Summary {
                 .field("filesz", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
                 .finish()
             },
-            FileType::FileGz 
+            FileType::FileGz
             | FileType::FileXz => {
                 f.debug_struct("")
                 .field("bytes", &self.BlockReader_bytes)

@@ -146,7 +146,7 @@ lazy_static! {
 /// A `SyslogProcessor` will drop processed data stored by it's `SyslineReader`
 /// (and underlying `LineReader` and `BlockReader`). During streaming mode,
 /// the `SyslogProcessor` will proactively `drop` data that has been processed
-/// and printed. It does so by calling `self.syslinereader.drop` when 
+/// and printed. It does so by calling `self.syslinereader.drop` when
 pub struct SyslogProcessor {
     syslinereader: SyslineReader,
     processingstage: ProcessingStage,

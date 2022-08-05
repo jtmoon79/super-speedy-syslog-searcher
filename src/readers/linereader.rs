@@ -669,7 +669,6 @@ impl LineReader {
                 break;
             }
         }  // end loop
-        
         // if (newline B not found and the "middle" block was the last block) then eof is newline B
         if !found_nl_b && bo_middle == blockoffset_last {
             found_nl_b = true;
@@ -1327,7 +1326,6 @@ impl LineReader {
         }
         assert!(!found_nl_a, "already found newline A; was finding it once not good enough? file {:?}", self.path());
         assert!(found_nl_b, "found newline A, have not found newline B; bird with one wing. file {:?}", self.path());
-    
         // …but before doing work of discovering a new `Line` (newline A),
         // check various maps at `fileoffset + 1` to see if the preceding
         // `Line` has already been discovered and processed.
@@ -1609,7 +1607,7 @@ impl LineReader {
                     bof,
                     self.blocksz(),
                 );
-                line.prepend(li);                
+                line.prepend(li);
                 if bof != 0 {
                     // newline A not found
                     dpof!("A5: newline A not found in block {}", bof);

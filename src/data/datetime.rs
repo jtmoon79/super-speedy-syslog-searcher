@@ -205,7 +205,7 @@ pub enum DTFS_Tz {
 /// string. Given extracted regular expression groups "year", "day", etc. (see `CGN_*` vars),
 /// then what is the format of each such that the data can be readied and then passed
 /// to `chrono::DateTime::parse_from_str` (strftime format)?
-/// 
+///
 /// Strictly, there are 192 permutations. In practice, only a subset is encountered in real-life
 /// syslog files.
 /// Furthermore, some regex capture data is modified to be only one type. For example,
@@ -1040,7 +1040,7 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 35;
 /// regexp pattern is always preferred.
 ///
 /// Notice the "with timezone" versions of `DateTimeParseInstr` are often listed before the same
-/// `DateTimeParseInstr` "without". 
+/// `DateTimeParseInstr` "without".
 ///
 /// A drawback to specific-to-general approach: during `SyslineReader` initial reading stage, it
 /// will try *all* the patterns (from index 0 to whereever it finds a match). So if a file has a
@@ -1118,7 +1118,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     NEEDRESTART-KCUR: 5.10.102.1-microsoft-standard-WSL2
     //     NEEDRESTART-KSTA: 0
     //     Log ended: 2022-07-14  06:49:02
-    //     
+    //
     DTPD!(
         concatcp!(r"^(Log started:|Log ended:)", RP_BLANKSq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, r"[ T]*", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
         DTFSS_YmdHMS, 0, 40, CGN_YEAR, CGN_SECOND,
@@ -1476,13 +1476,13 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //               1         2
     //     012345678901234567890
     //     ===============================================================================
-    //     
+    //
     //     Aptitude 0.8.13: log report
     //     Tue, Jun 28 2022 01:51:12 +0000
-    //     
+    //
     //       IMPORTANT: this log only lists intended actions; actions which fail
     //       due to dpkg problems may not be completed.
-    //     
+    //
     //     Will install 1 packages, and remove 0 packages.
     //     4833 kB of disk space will be used
     //     ========================================
@@ -1496,9 +1496,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     [HOLD, DEPENDENCIES] udev:amd64 249.11-0ubuntu3.1
     //     [INSTALL] p7zip-full:amd64 16.02+dfsg-8
     //     ========================================
-    //     
+    //
     //     Log complete.
-    //     
+    //
     //     ===============================================================================
     //
     // TODO: add DTPD for `aptitude` log report
@@ -2395,7 +2395,6 @@ pub fn bytes_to_regex_to_datetime(
                     dpo!("regex captures: {:2} {:<10} {:?}", i, "NO NAME", buffer_to_String_noraw(_match.as_bytes()));
                 }
             }
-            
         }
     }
     // sanity check

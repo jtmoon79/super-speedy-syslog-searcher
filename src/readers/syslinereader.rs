@@ -768,7 +768,7 @@ impl SyslineReader {
             let dt: DateTimeL;
             let dt_beg: LineIndex;
             let dt_end: LineIndex;
-            (dt_beg, dt_end, dt) = 
+            (dt_beg, dt_end, dt) =
                 //match str_to_regex_to_datetime(dts, index, tz_offset) {
                 match bytes_to_regex_to_datetime(slice_, index, year_opt, tz_offset) {
                     None => continue,
@@ -1501,7 +1501,6 @@ impl SyslineReader {
             } else {
                 dpo!("find_sysline: fileoffset {} not found in self.syslines", fileoffset);
             }
-            
             // check if the offset is already in a known range
             match self.syslines_by_range.get_key_value(&fo1) {
                 Some(range_fo) => {
@@ -1994,7 +1993,7 @@ impl SyslineReader {
                                   fileoffset, dt_filter_after
                         );
                         dpxf!("return ResultS4SyslineFind::Done (not sure what to do here)");
-                        return ResultS4SyslineFind::Done; 
+                        return ResultS4SyslineFind::Done;
                     },
                     Result_Filter_DateTime2::AfterRange => {
                         dpof!("sysline_pass_filters(…) returned AfterRange;");

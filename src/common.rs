@@ -191,7 +191,6 @@ impl<T, E> ResultS3<T, E> {
     pub const fn is_found(&self) -> bool {
         matches!(*self, ResultS3::Found(_))
     }
-    
 
     /// Returns `true` if the result is an [`Found`] value containing the given value.
     #[allow(dead_code)]

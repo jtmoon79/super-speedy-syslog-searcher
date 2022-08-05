@@ -70,7 +70,7 @@ use more_asserts::{
 /// A sequence to track the `[u8]` that make up a `Line`.
 /// A "line" may span multiple `Block`s. One `LinePart` refers to one `Block`.
 pub type LineParts = Vec<LinePart>;
-/// A sequence to track one or more `LineP` that make up a `Sysline` 
+/// A sequence to track one or more `LineP` that make up a `Sysline`
 pub type Lines = Vec<LineP>;
 /// An offset into a `Line` (not related to underlying `Block` offset or indexes)
 pub type LineIndex = usize;

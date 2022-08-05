@@ -186,11 +186,11 @@ pub struct TarData {
     /// from https://www.gnu.org/software/tar/manual/html_node/Standard.html
     /// > The mtime field represents the data modification time of the file at
     /// > the time it was archived. It represents the integer number of seconds
-    /// > since January 1, 1970, 00:00 Coordinated Universal Time. 
+    /// > since January 1, 1970, 00:00 Coordinated Universal Time.
     pub mtime: TarMTime,
 }
 
-/// A `BlockReader` reads a file in `BlockSz` byte-sized `Block`s. It interfaces 
+/// A `BlockReader` reads a file in `BlockSz` byte-sized `Block`s. It interfaces
 /// with the filesystem (or any other data retreival method). It handles the
 /// lookup and storage of `Block`s of data.
 ///
@@ -603,7 +603,6 @@ impl BlockReader {
             FileType::FileXz => {
                 blocksz = blocksz_;
                 dpof!("FileXz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
-                
                 dpof!("FileXz: open_options.read(true).open({:?})", path_std);
                 let mut file_xz: File = match open_options.read(true).open(path_std) {
                     Ok(val) => val,
@@ -1497,7 +1496,6 @@ impl BlockReader {
                                 format!("GzDecoder.read() read zero bytes for vec<u8> buffer of length {}, capacity {}; stuck at inflated byte {}, size {}, size uncompressed {} (calculated from gzip header); {:?}", block_buf.len(), block_buf.capacity(), byte_at, self.filesz, self.filesz_actual, self.path)
                             )
                         );
-                        
                     }
                     // read was too large
                     Ok(size_) if size_ > readsz => {
@@ -1562,7 +1560,7 @@ impl BlockReader {
                                 blocklen_sz, bo_at, byte_at, self.blocksz, self.path,
                             )
                         )
-                    );            
+                    );
                 }
             } else if blocklen_sz != self.blocksz {
                 // not last block, is blocksz correct?
@@ -1673,7 +1671,6 @@ impl BlockReader {
                 }
             }
             dpo!("xz_decompress returned block len {}, capacity {}", block.len(), block.capacity());
-            
             // check returned Block is expected number of bytes
             let blocklen_sz: BlockSz = block.len() as BlockSz;
             if block.is_empty() {

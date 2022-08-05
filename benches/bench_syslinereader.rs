@@ -41,7 +41,6 @@ const BLOCKSZ: BlockSz = 0x200;
 
 fn new_SyslineReader(path: FPath, filetype: FileType) -> SyslineReader {
     let tz_offset: FixedOffset = FixedOffset::east(0);
-    
     let syslinereader1 = match SyslineReader::new(path.clone(), filetype, BLOCKSZ, tz_offset) {
         Result::Ok(val) => val,
         Result::Err(err) => {
