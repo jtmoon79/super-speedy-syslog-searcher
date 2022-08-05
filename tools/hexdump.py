@@ -20,13 +20,15 @@ def main(path: Optional[str], width: int):
     else:
         data = sys.stdin.buffer.read()
 
+    count: int = 0
     for at, byte_ in enumerate(data):
         print(f"0x{byte_:02x},", end="")
+        count += 1
         if (at + 1) % width == 0:
             print("")
         else:
             print(" ", end="")
-
+    print(f"printed {count} bytes", file=sys.stderr)
 
 def print_help():
     print("usage:\n  hexdump.py FILE [WIDTH]", file=sys.stderr)
