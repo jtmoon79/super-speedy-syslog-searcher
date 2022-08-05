@@ -87,7 +87,6 @@ lazy_static! {
 #[derive(Debug, Eq, PartialEq)]
 enum ResultS4LineFind_Test {
     Found,
-    //Found_EOF,
     Done,
 }
 
@@ -129,22 +128,6 @@ fn process_LineReader(lr1: &mut LineReader) {
                 fo1 = fo;
                 (*lp).print(false);
             }
-            /*
-            ResultS4LineFind::Found_EOF((fo, lp)) => {
-                let count = lr1.count_lines_processed();
-                eprintln!(
-                    "{}ResultS4LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} {:?}",
-                    so(),
-                    fo,
-                    count,
-                    &*lp,
-                    (*lp).len(),
-                    (*lp).to_String_noraw()
-                );
-                fo1 = fo;
-                (*lp).print(false);
-            }
-            */
             ResultS4LineFind::Done => {
                 eprintln!("{}ResultS4LineFind::Done!", so());
                 break;
@@ -270,20 +253,6 @@ fn find_line_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
                     (*lp).to_String_noraw()
                 );
             }
-            /*
-            ResultS4LineFind::Found_EOF((fo, lp)) => {
-                let _ln = linereader.count_lines_processed();
-                eprintln!(
-                    "{}ResultS4LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} {:?}",
-                    so(),
-                    fo,
-                    _ln,
-                    &*lp,
-                    (*lp).len(),
-                    (*lp).to_String_noraw()
-                );
-            }
-            */
             ResultS4LineFind::Done => {
                 eprintln!("{}ResultS4LineFind::Done!", so());
             }
@@ -1174,20 +1143,6 @@ fn find_line_in_block_all(linereader: &mut LineReader, offsets: &Vec::<FileOffse
                     (*lp).to_String_noraw()
                 );
             }
-            /*
-            ResultS4LineFind::Found_EOF((fo, lp)) => {
-                let _ln = linereader.count_lines_processed();
-                eprintln!(
-                    "{}ResultS4LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} {:?}",
-                    so(),
-                    fo,
-                    _ln,
-                    &*lp,
-                    (*lp).len(),
-                    (*lp).to_String_noraw()
-                );
-            }
-            */
             ResultS4LineFind::Done => {
                 eprintln!("{}ResultS4LineFind::Done!", so());
             }
@@ -1340,25 +1295,6 @@ fn test_find_line_in_block(
                 );
                 assert_eq!(rs4_expect, &ResultS4LineFind_Test::Found, "Expected {:?}, got Found", rs4_expect);
             }
-            /*
-            ResultS4LineFind::Found_EOF((fo, lp)) => {
-                let _ln = lr1.count_lines_processed();
-                eprintln!(
-                    "{}ResultS4LineFind::EOF!  FileOffset {} line num {} Line @{:p}: len {} {:?}",
-                    so(),
-                    fo,
-                    _ln,
-                    &*lp,
-                    (*lp).len(),
-                    (*lp).to_String_noraw()
-                );
-                let str_actual = (*lp).to_String();
-                assert_eq!(&str_actual, str_expect,
-                    "find_line_in_block({})\nexpect {:?}\nactual {:?}\n", *fo_in, str_expect, str_actual,
-                );
-                assert_eq!(rs4_expect, &ResultS4LineFind_Test::Found_EOF, "Expected {:?}, got Found_EOF", rs4_expect);
-            }
-            */
             ResultS4LineFind::Done => {
                 eprintln!("{}ResultS4LineFind::Done!", so());
                 assert_eq!(&"", &str_expect.as_str(),
@@ -1396,7 +1332,6 @@ fn test_find_line_in_block_empty0() {
 #[test]
 fn test_find_line_in_block_nl1() {
     let in_out: TestFindLineInBlockCheck = vec![
-        //(0, ResultS4LineFind_Test::Found_EOF, String::from("\n"),),
         (0, ResultS4LineFind_Test::Found, String::from("\n"),),
         (1, ResultS4LineFind_Test::Done, String::from(""),),
     ];
@@ -1407,7 +1342,6 @@ fn test_find_line_in_block_nl1() {
 fn test_find_line_in_block_nl2() {
     let in_out: TestFindLineInBlockCheck = vec![
         (0, ResultS4LineFind_Test::Found, String::from("\n"),),
-        //(1, ResultS4LineFind_Test::Found_EOF, String::from("\n"),),
         (1, ResultS4LineFind_Test::Found, String::from("\n"),),
         (2, ResultS4LineFind_Test::Done, String::from(""),),
     ];
@@ -1420,12 +1354,6 @@ fn test_find_line_in_block_1() {
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        //(0, ResultS4LineFind_Test::Found_EOF, String::from("abcdef"),),
-        //(1, ResultS4LineFind_Test::Found_EOF, String::from("abcdef"),),
-        //(2, ResultS4LineFind_Test::Found_EOF, String::from("abcdef"),),
-        //(3, ResultS4LineFind_Test::Found_EOF, String::from("abcdef"),),
-        //(4, ResultS4LineFind_Test::Found_EOF, String::from("abcdef"),),
-        //(5, ResultS4LineFind_Test::Found_EOF, String::from("abcdef"),),
         (0, ResultS4LineFind_Test::Found, String::from("abcdef"),),
         (1, ResultS4LineFind_Test::Found, String::from("abcdef"),),
         (2, ResultS4LineFind_Test::Found, String::from("abcdef"),),
@@ -1446,7 +1374,6 @@ fn test_find_line_in_block_2() {
     let in_out: TestFindLineInBlockCheck = vec![
         (0, ResultS4LineFind_Test::Found, String::from("a\n"),),
         (1, ResultS4LineFind_Test::Found, String::from("a\n"),),
-        //(2, ResultS4LineFind_Test::Found_EOF, String::from("b"),),
         (2, ResultS4LineFind_Test::Found, String::from("b"),),
         (3, ResultS4LineFind_Test::Done, String::from(""),),
     ];
@@ -1463,7 +1390,6 @@ fn test_find_line_in_block_3() {
         (1, ResultS4LineFind_Test::Found, String::from("a\n"),),
         (2, ResultS4LineFind_Test::Found, String::from("b\n"),),
         (3, ResultS4LineFind_Test::Found, String::from("b\n"),),
-        //(4, ResultS4LineFind_Test::Found_EOF, String::from("c"),),
         (4, ResultS4LineFind_Test::Found, String::from("c"),),
         (5, ResultS4LineFind_Test::Done, String::from(""),),
     ];
@@ -1482,8 +1408,6 @@ fn test_find_line_in_block_4() {
         (3, ResultS4LineFind_Test::Found, String::from("b\n"),),
         (4, ResultS4LineFind_Test::Found, String::from("c\n"),),
         (5, ResultS4LineFind_Test::Found, String::from("c\n"),),
-        //(6, ResultS4LineFind_Test::Found_EOF, String::from("d\n"),),
-        //(7, ResultS4LineFind_Test::Found_EOF, String::from("d\n"),),
         (6, ResultS4LineFind_Test::Found, String::from("d\n"),),
         (7, ResultS4LineFind_Test::Found, String::from("d\n"),),
         (8, ResultS4LineFind_Test::Done, String::from(""),),
@@ -1538,10 +1462,6 @@ fn test_find_line_in_block_4x2_4() {
         (1, ResultS4LineFind_Test::Found, String::from("abc\n"),),
         (2, ResultS4LineFind_Test::Found, String::from("abc\n"),),
         (3, ResultS4LineFind_Test::Found, String::from("abc\n"),),
-        //(4, ResultS4LineFind_Test::Found_EOF, String::from("def\n"),),
-        //(5, ResultS4LineFind_Test::Found_EOF, String::from("def\n"),),
-        //(6, ResultS4LineFind_Test::Found_EOF, String::from("def\n"),),
-        //(7, ResultS4LineFind_Test::Found_EOF, String::from("def\n"),),
         (4, ResultS4LineFind_Test::Found, String::from("def\n"),),
         (5, ResultS4LineFind_Test::Found, String::from("def\n"),),
         (6, ResultS4LineFind_Test::Found, String::from("def\n"),),
@@ -1586,9 +1506,6 @@ fn test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &TestLineGetBox
             ResultS4LineFind::Found((fo_, _)) => {
                 fo = fo_;
             },
-            //ResultS4LineFind::Found_EOF((fo_, _)) => {
-            //    fo = fo_;
-            //},
             ResultS4LineFind::Done => {
                 break;
             },

@@ -29,22 +29,14 @@ pub type Count = u64;
 // XXX: ripped from '\.rustup\toolchains\beta-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core\src\result.rs'
 //      https://doc.rust-lang.org/src/core/result.rs.html#481-495
 
-/// `Result` Extended
+/// `Result` extended for `s4`
 /// for line and sysline searching functions
-//
-// TODO: [2022/05/03] getting rid of `Found_EOF` would simplify a lot of code
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ResultS4<T, E> {
     /// Contains the success data
     Found(T),
-
-    // Contains the success data and reached End Of File and things are okay
-    //#[allow(non_camel_case_types)]
-    //Found_EOF(T),
-
     /// File is empty, or other condition that means "Done", nothing to return, but no bad errors happened
     Done,
-
     /// Contains the error value, something bad happened
     Err(E),
 }
@@ -56,12 +48,11 @@ pub enum ResultS4<T, E> {
 impl<T, E> ResultS4<T, E> {
     // Querying the contained values
 
-    /// Returns `true` if the result is [`Found`, `Found_EOF`, 'Done`].
+    /// Returns `true` if the result is [`Found`, 'Done`].
     #[allow(dead_code)]
     #[must_use = "if you intended to assert that this is ok, consider `.unwrap()` instead"]
     #[inline(always)]
     pub const fn is_ok(&self) -> bool {
-        //matches!(*self, ResultS4::Found(_) | ResultS4::Found_EOF(_) | ResultS4::Done)
         matches!(*self, ResultS4::Found(_) | ResultS4::Done)
     }
 
@@ -79,19 +70,13 @@ impl<T, E> ResultS4<T, E> {
         !self.is_ok()
     }
 
-    /// Returns `true` if the result is [`Found_EOF`].
-    //#[inline(always)]
-    //pub const fn is_eof(&self) -> bool {
-    //    matches!(*self, ResultS4::Found_EOF(_))
-    //}
-
     /// Returns `true` if the result is [`Done`].
     #[inline(always)]
     pub const fn is_done(&self) -> bool {
         matches!(*self, ResultS4::Done)
     }
 
-    /// Returns `true` if the result is an [`Found`, `Found_EOF`] value containing the given value.
+    /// Returns `true` if the result is an [`Found`] value containing the given value.
     #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
@@ -101,7 +86,6 @@ impl<T, E> ResultS4<T, E> {
     {
         match self {
             ResultS4::Found(y) => x == y,
-            //ResultS4::Found_EOF(y) => x == y,
             ResultS4::Done => false,
             ResultS4::Err(_) => false,
         }
@@ -127,24 +111,11 @@ impl<T, E> ResultS4<T, E> {
     ///
     /// Converts `self` into an [`Option<T>`], consuming `self`,
     /// and discarding the error, if any.
-    ///
-    /// # Examples
-    ///
-    /// Basic usage:
-    ///
-    /// ```
-    /// let x: ResultS4<u32, &str> = Ok(2);
-    /// assert_eq!(x.ok(), Some(2));
-    ///
-    /// let x: ResultS4<u32, &str> = Err("Nothing here");
-    /// assert_eq!(x.ok(), None);
-    /// ```
     #[allow(dead_code)]
     #[inline(always)]
     pub fn ok(self) -> Option<T> {
         match self {
             ResultS4::Found(x) => Some(x),
-            //ResultS4::Found_EOF(x) => Some(x),
             ResultS4::Done => None,
             ResultS4::Err(_) => None,
         }
@@ -159,7 +130,6 @@ impl<T, E> ResultS4<T, E> {
     pub fn err(self) -> Option<E> {
         match self {
             ResultS4::Found(_) => None,
-            //ResultS4::Found_EOF(_) => None,
             ResultS4::Done => None,
             ResultS4::Err(x) => Some(x),
         }
@@ -173,7 +143,6 @@ where
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ResultS4::Found(_) => { write!(f, "ResultS4::Found") },
-            //ResultS4::Found_EOF(_) => { write!(f, "ResultS4::Found_EOF") },
             ResultS4::Done => { write!(f, "ResultS4::Done") },
             ResultS4::Err(err) => { write!(f, "ResultS4::Err({})", err) },
         }

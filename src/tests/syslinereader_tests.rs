@@ -150,9 +150,8 @@ fn test_find_datetime_in_line_by_block(blocksz: BlockSz) {
         let done = result.is_done();
         match result {
             ResultS4SyslineFind::Found((fo, slp))
-            //| ResultS4SyslineFind::Found_EOF((fo, slp))
             => {
-                eprintln!("{}test_find_datetime_in_line: slr.find_sysline({}) returned Found|Found_EOF({}, @{:p})", so(), fo1, fo, &*slp);
+                eprintln!("{}test_find_datetime_in_line: slr.find_sysline({}) returned Found({}, @{:p})", so(), fo1, fo, &*slp);
                 eprintln!(
                     "{}test_find_datetime_in_line: FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
                     so(),
@@ -203,19 +202,32 @@ fn test_find_datetime_in_line_by_block256() {
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/// `FileOffset` and first datetime `str` are inputs.
+/// The datetime `str` transformed to `DateTimeL` and then passed to
+/// `syslinereader.find_sysline_at_datetime_filter(FileOffset, Some(DateTimeL))`.
+///
+/// The last `str` is the expected sysline data, in `str` form, returned (this is the tested
+/// comparison).
+type TestFindSyslineAtDatetimeFilterChecks<'a> = Vec<(FileOffset, &'a str, &'a str)>;
+
 /// underlying test code for `SyslineReader.find_datetime_in_line`
 /// called by other functions `test_find_sysline_at_datetime_filterX`
-fn test_find_sysline_at_datetime_filter2(
+// TODO: also check return type, e.g. also allow checking for `Done`
+fn impl_test_find_sysline_at_datetime_filter(
     ntf: &NamedTempFile,
     dt_pattern: &DateTimePattern_str,
+    cache: bool,
     blocksz: BlockSz,
     checks: TestFindSyslineAtDatetimeFilterChecks,
 ) {
-    eprintln!("{}test_find_sysline_at_datetime_filter2(…, {:?}, {}, …)", sn(), dt_pattern, blocksz);
+    eprintln!("{}impl_test_find_sysline_at_datetime_filter(…, {:?}, {}, …)", sn(), dt_pattern, blocksz);
 
     let path = ntf_fpath(&ntf);
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
+    if !cache {
+        slr.LRU_cache_disable();
+    }
     for (fo1, dts, sline_expect) in checks.iter() {
         // TODO: add `has_tz` to `checks`
         let has_tz = dt_pattern_has_tz(&dt_pattern);
@@ -231,21 +243,21 @@ fn test_find_sysline_at_datetime_filter2(
         let result = slr.find_sysline_at_datetime_filter(*fo1, &Some(dt));
         match result {
             ResultS4SyslineFind::Found(val)
-            //| ResultS4SyslineFind::Found_EOF(val)
             => {
                 let sline = val.1.to_String();
                 let sline_noraw = str_to_String_noraw(sline.as_str());
                 eprintln!("\nexpected: {:?}", sline_expect_noraw);
                 eprintln!("returned: {:?}\n", sline_noraw);
+                let sline_expect_string = String::from(*sline_expect);
                 assert_eq!(
                     sline,
-                    String::from(*sline_expect),
+                    sline_expect_string,
                     "Expected {:?} == {:?} but it is not!",
                     sline_noraw,
                     sline_expect_noraw
                 );
                 eprintln!(
-                    "Check PASSED SyslineReader().find_sysline_at_datetime_filter({} {:?}) == {:?}",
+                    "Check PASSED SyslineReader().find_sysline_at_datetime_filter({}, {:?}) == {:?}",
                     fo1, dts, sline_noraw
                 );
             }
@@ -263,7 +275,7 @@ fn test_find_sysline_at_datetime_filter2(
 
 // -------------------------------------------------------------------------------------------------
 
-type TestFindSyslineAtDatetimeFilterChecks<'a> = Vec<(FileOffset, &'a str, &'a str)>;
+const NTF26_DATETIME_FORMAT: &DateTimePattern_str = "%Y-%m-%d %H:%M:%S";
 
 const NTF26_DATA: &str = "\
 2020-01-01 00:00:00
@@ -391,16 +403,18 @@ lazy_static! {
 
 /// basic test of `SyslineReader.find_datetime_in_line`
 fn test_find_sysline_at_datetime_filter1(
-    blocksz: BlockSz, checks: Option<TestFindSyslineAtDatetimeFilterChecks>,
+    cache: bool,
+    blocksz: BlockSz,
+    checks: Option<TestFindSyslineAtDatetimeFilterChecks>,
 ) {
     stack_offset_set(None);
     eprintln!("{}test_find_sysline_at_datetime_filter1()", sn());
-    let dt_fmt1: &DateTimePattern_str = "%Y-%m-%d %H:%M:%S";
 
     let checks_: TestFindSyslineAtDatetimeFilterChecks = checks.unwrap_or(NTF26_checks.clone());
-    test_find_sysline_at_datetime_filter2(
+    impl_test_find_sysline_at_datetime_filter(
         &NTF26,
-        dt_fmt1,
+        NTF26_DATETIME_FORMAT,
+        cache,
         blocksz,
         checks_
     );
@@ -410,59 +424,71 @@ fn test_find_sysline_at_datetime_filter1(
 // XXX: are these different BlockSz tests necessary? are not these adequately tested by
 //      other lower-level tests?
 
+fn test_find_sysline_at_datetime_filter_4(cache: bool) {
+    test_find_sysline_at_datetime_filter1(cache, 4, None);
+}
+
 #[test]
-fn test_find_sysline_at_datetime_filter_4() {
-    test_find_sysline_at_datetime_filter1(4, None);
+fn test_find_sysline_at_datetime_filter_4__cache() {
+    test_find_sysline_at_datetime_filter_4(true);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_4__nocache() {
+    test_find_sysline_at_datetime_filter_4(false);
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_8() {
-    test_find_sysline_at_datetime_filter1(8, None);
+    test_find_sysline_at_datetime_filter1(true, 8, None);
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_16() {
-    test_find_sysline_at_datetime_filter1(16, None);
+    test_find_sysline_at_datetime_filter1(true, 16, None);
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_32() {
-    test_find_sysline_at_datetime_filter1(32, None);
+    test_find_sysline_at_datetime_filter1(true, 32, None);
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_64() {
-    test_find_sysline_at_datetime_filter1(64, None);
+    test_find_sysline_at_datetime_filter1(true, 64, None);
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_128() {
-    test_find_sysline_at_datetime_filter1(128, None);
+    test_find_sysline_at_datetime_filter1(true, 128, None);
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_256() {
-    test_find_sysline_at_datetime_filter1(256, None);
+    test_find_sysline_at_datetime_filter1(true, 256, None);
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_512() {
-    test_find_sysline_at_datetime_filter1(512, None);
+    test_find_sysline_at_datetime_filter1(true, 512, None);
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_1024() {
-    test_find_sysline_at_datetime_filter1(1024, None);
+    test_find_sysline_at_datetime_filter1(true, 1024, None);
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_2056() {
-    test_find_sysline_at_datetime_filter1(2056, None);
+    test_find_sysline_at_datetime_filter1(true, 2056, None);
 }
 
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_() {
-    test_find_sysline_at_datetime_filter1(64,Some(TestFindSyslineAtDatetimeFilterChecks::from([(
+    test_find_sysline_at_datetime_filter1(
+        true,
+        64,
+        Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
             NTF26_DATA_DT0,
             NTF26_DATA_LINE0n,
@@ -473,6 +499,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_a() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -485,6 +512,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_a() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_b() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -497,6 +525,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_b() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_c() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -509,6 +538,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_c() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_d() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -521,6 +551,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_d() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_e() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -533,6 +564,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_e() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_f() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -545,6 +577,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_f() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_g() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -557,6 +590,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_g() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_h() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -569,6 +603,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_h() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_i() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -581,6 +616,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_i() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_j() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -593,6 +629,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_j() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_k() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -605,6 +642,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_k() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_l() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -617,6 +655,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_l() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_m() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -629,6 +668,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_m() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_n() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -641,6 +681,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_n() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_o() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -653,6 +694,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_o() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_p() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -665,6 +707,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_p() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_q() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -677,6 +720,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_q() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_r() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -689,6 +733,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_r() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_s() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -701,6 +746,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_s() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_t() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -713,6 +759,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_t() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_u() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -725,6 +772,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_u() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_v() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -737,6 +785,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_v() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_w() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -749,6 +798,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_w() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_x() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -761,6 +811,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_x() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_y() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -773,6 +824,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_y() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_0_z() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             0,
@@ -785,6 +837,7 @@ fn test_find_sysline_at_datetime_filter_checks_0_z() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_a() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             19,
@@ -797,6 +850,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_a() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_b() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             40,
@@ -809,6 +863,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_b() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_c() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             62,
@@ -821,6 +876,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_c() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_d() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             85,
@@ -833,6 +889,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_d() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_e() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             109,
@@ -845,6 +902,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_e() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_f() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             134,
@@ -857,6 +915,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_f() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_g() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             160,
@@ -869,6 +928,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_g() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_h() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             187,
@@ -881,6 +941,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_h() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_i() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             215,
@@ -893,6 +954,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_i() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_j() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             244,
@@ -905,6 +967,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_j() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_k() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             274,
@@ -917,6 +980,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_k() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_l() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             305,
@@ -929,6 +993,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_l() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_m() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             337,
@@ -941,6 +1006,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_m() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_n() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             370,
@@ -953,6 +1019,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_n() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_o() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             404,
@@ -965,6 +1032,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_o() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_p() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             439,
@@ -977,6 +1045,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_p() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_q() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             475,
@@ -989,6 +1058,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_q() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_r() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             512,
@@ -1001,6 +1071,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_r() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_s() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             550,
@@ -1013,6 +1084,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_s() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_t() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             589,
@@ -1025,6 +1097,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_t() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_u() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             629,
@@ -1037,6 +1110,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_u() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_v() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             670,
@@ -1049,6 +1123,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_v() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_w() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             712,
@@ -1061,6 +1136,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_w() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_x() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             755,
@@ -1073,6 +1149,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_x() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_y() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             799,
@@ -1085,6 +1162,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_y() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_x_z() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([(
             844,
@@ -1097,6 +1175,7 @@ fn test_find_sysline_at_datetime_filter_checks_x_z() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_2_z_() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1108,6 +1187,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_z_() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_2_y_() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1119,6 +1199,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_y_() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_2_x_() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT24, NTF26_DATA_LINE24n),
@@ -1130,6 +1211,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_x_() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_2_m_() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
@@ -1141,6 +1223,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_m_() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_2_za() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1152,6 +1235,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_za() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_2_ya() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1163,6 +1247,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_ya() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_2_xa() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT24, NTF26_DATA_LINE24n),
@@ -1174,6 +1259,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_xa() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_2_ma() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, "2020-01-01 00:00:13", "2020-01-01 00:00:13abcdefghijklm\n"),
@@ -1185,6 +1271,7 @@ fn test_find_sysline_at_datetime_filter_checks_2_ma() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3____() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
@@ -1197,6 +1284,7 @@ fn test_find_sysline_at_datetime_filter_checks_3____() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__ab() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
@@ -1209,6 +1297,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__ab() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__az() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
@@ -1221,6 +1310,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__az() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__bd() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
@@ -1233,6 +1323,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__bd() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__ml() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
@@ -1245,6 +1336,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__ml() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__my() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
@@ -1257,6 +1349,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__my() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__mz() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
@@ -1269,6 +1362,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__mz() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3__m_() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT0, NTF26_DATA_LINE0n),
@@ -1281,6 +1375,7 @@ fn test_find_sysline_at_datetime_filter_checks_3__m_() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_aaa() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1293,6 +1388,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_aaa() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_abc() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1305,6 +1401,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_abc() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_aba() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1317,6 +1414,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_aba() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_abn() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1329,6 +1427,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_abn() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_aby() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1341,6 +1440,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_aby() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_abz() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1353,6 +1453,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_abz() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_aaz() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
@@ -1365,6 +1466,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_aaz() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_byo() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT2, NTF26_DATA_LINE2n),
@@ -1377,6 +1479,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_byo() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zaa() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1389,6 +1492,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zaa() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zbc() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1401,6 +1505,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zbc() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zba() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1413,6 +1518,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zba() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zbn() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1425,6 +1531,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zbn() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zby() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1437,6 +1544,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zby() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zbz() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1449,6 +1557,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zbz() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_zaz() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
@@ -1461,6 +1570,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_zaz() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_yaa() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1473,6 +1583,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_yaa() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_ybc() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1485,6 +1596,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_ybc() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_yba() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1497,6 +1609,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_yba() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_ybn() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1509,6 +1622,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_ybn() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_yby() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1521,6 +1635,7 @@ fn test_find_sysline_at_datetime_filter_checks_3_yby() {
 #[test]
 fn test_find_sysline_at_datetime_filter_checks_3_ybz() {
     test_find_sysline_at_datetime_filter1(
+        true,
         64,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
@@ -1530,16 +1645,76 @@ fn test_find_sysline_at_datetime_filter_checks_3_ybz() {
     );
 }
 
-#[test]
-fn test_find_sysline_at_datetime_filter_checks_3_yaz() {
+fn test_find_sysline_at_datetime_filter_checks_3_yaz(cache: bool, blocksz: BlockSz) {
     test_find_sysline_at_datetime_filter1(
-        64,
+        cache,
+        blocksz,
         Some(TestFindSyslineAtDatetimeFilterChecks::from([
             (0, NTF26_DATA_DT25, NTF26_DATA_LINE25n),
             (0, NTF26_DATA_DT1, NTF26_DATA_LINE1n),
             (0, NTF26_DATA_DT26, NTF26_DATA_LINE26n),
         ])),
     );
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__cache__2() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(true, 2);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__cache__8() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(true, 8);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__cache__16() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(true, 16);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__cache__32() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(true, 32);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__cache__64() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(true, 64);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__nocache__2() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(false, 2);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__nocache__8() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(false, 8);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__nocache__16() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(false, 16);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__nocache__32() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(false, 32);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__nocache__64() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(false, 64);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__nocache__128() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(false, 128);
+}
+
+#[test]
+fn test_find_sysline_at_datetime_filter_checks_3_yaz__nocache__256() {
+    test_find_sysline_at_datetime_filter_checks_3_yaz(false, 256);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1584,7 +1759,6 @@ fn test_SyslineReader_find_sysline(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                //assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
                 fo1 = fo;
 
                 if checks.is_empty() {
@@ -1599,34 +1773,6 @@ fn test_SyslineReader_find_sysline(
                 let check_fo = checks[check_i].1;
                 assert_eq!(check_fo, fo, "expected fileoffset {}, but find_sysline returned fileoffset {} for check {}", check_fo, fo, check_i);
             }
-            /*
-            ResultS4SyslineFind::Found_EOF((fo, slp)) => {
-                eprintln!("{}test_SyslineReader_find_sysline: slr.find_sysline({}) returned Found_EOF({}, @{:p})", so(), fo1, fo, &*slp);
-                eprintln!(
-                    "{}test_SyslineReader_find_sysline: FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
-                    so(),
-                    fo,
-                    &(*slp),
-                    slp.count_lines(),
-                    (*slp).len(),
-                    (*slp).to_String_noraw(),
-                );
-                assert!(slr.is_sysline_last(&slp), "returned Found_EOF yet this Sysline is not last!");
-                fo1 = fo;
-
-                if checks.is_empty() {
-                    continue;
-                }
-                eprintln!("{}test_SyslineReader_find_sysline: find_sysline({}); check {} expect ({:?}, {:?})", so(), fo1, check_i, checks[check_i].1, checks[check_i].0);
-                // check slp.String
-                let check_String = checks[check_i].0.to_string();
-                let actual_String = (*slp).to_String();
-                assert_eq!(check_String, actual_String,"\nexpected string value     {:?}\nfind_sysline({:2}) returned {:?}\n", check_String, fo1, actual_String);
-                // check fileoffset
-                let check_fo = checks[check_i].1;
-                assert_eq!(check_fo, fo, "expected fileoffset {}, but find_sysline returned fileoffset {} for check {}", check_fo, fo, check_i);
-            }
-            */
             ResultS4SyslineFind::Done => {
                 eprintln!("{}test_SyslineReader_find_sysline: slr.find_sysline({}) returned Done", so(), fo1);
                 break;
@@ -1749,9 +1895,6 @@ fn assert_results4 (
         ResultS4SyslineFind_Test::Found(()) => {
             assert!(matches!(result_actual, ResultS4SyslineFind::Found(_)), "Expected Found, Actual {} for find_sysline({})", actual, fo);
         },
-        //ResultS4SyslineFind_Test::Found_EOF(()) => {
-        //    assert!(matches!(result_actual, ResultS4SyslineFind::Found_EOF(_)), "Expected Found_EOF, Actual {} for find_sysline({})", actual, fo);
-        //},
         ResultS4SyslineFind_Test::Done => {
             assert!(matches!(result_actual, ResultS4SyslineFind::Done), "Expected Done, Actual {} for find_sysline({})", actual, fo);
         },
@@ -1804,33 +1947,12 @@ fn test_SyslineReader_any_input_check(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                //assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
 
                 let actual_String = (*slp).to_String();
                 let expect_String = String::from(*expect_val);
                 eprintln!("{}test_SyslineReader: find_sysline({}); check {}", so(), input_fo, check_i);
                 assert_eq!(expect_String, actual_String,"\nexpected string value     {:?}\nfind_sysline({:?}) returned {:?}\n", expect_String, input_fo, actual_String);
             }
-            /*
-            ResultS4SyslineFind::Found_EOF((_fo, slp)) => {
-                eprintln!("{}test_SyslineReader: slr.find_sysline({}) returned Found_EOF({}, @{:p})", so(), input_fo, _fo, &*slp);
-                eprintln!(
-                    "{}test_SyslineReader: FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
-                    so(),
-                    _fo,
-                    &(*slp),
-                    slp.count_lines(),
-                    (*slp).len(),
-                    (*slp).to_String_noraw(),
-                );
-                assert!(slr.is_sysline_last(&slp), "returned Found_EOF yet this Sysline is oot last! Should have returned Found or is this Sysline last?");
-
-                let actual_String = (*slp).to_String();
-                let expect_String = String::from(*expect_val);
-                eprintln!("{}test_SyslineReader: find_sysline({}); check {}", so(), input_fo, check_i);
-                assert_eq!(expect_String, actual_String,"\nexpected string value     {:?}\nfind_sysline({:?}) returned {:?}\n", expect_String, input_fo, actual_String);
-            }
-            */
             ResultS4SyslineFind::Done => {
                 eprintln!("{}test_SyslineReader: slr.find_sysline({}) returned Done", so(), input_fo);
             }
@@ -1906,11 +2028,6 @@ const test_data_any_file_A2_dt6_checks_many: [TestSyslineReaderAnyInputCheck; 50
     (90, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline4),
     (108, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline4),
     (109, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline4),
-    //(110, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    //(111, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    //(112, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    //(113, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    //(114, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
     (110, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
     (111, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
     (112, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
@@ -1934,11 +2051,6 @@ const test_data_any_file_A2_dt6_checks_many_rev: [TestSyslineReaderAnyInputCheck
     (136, ResultS4SyslineFind_Test::Done, ""),
     (135, ResultS4SyslineFind_Test::Done, ""),
     (134, ResultS4SyslineFind_Test::Done, ""),
-    //(114, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    //(113, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    //(112, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    //(111, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    //(110, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
     (114, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
     (113, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
     (112, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
@@ -2734,21 +2846,17 @@ fn test_SyslineReader_H_dt4_sysline1()
 }
 
 #[test]
-fn test_SyslineReader_H_dt4_sysline3_Found_EOF_Done()
+fn test_SyslineReader_H_dt4_sysline3_Found_Done()
 {
     let checks = TestSyslineReaderAnyInputChecks::from(
         [
-            //(86, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
             (86, ResultS4SyslineFind_Test::Found(()), test_data_file_H_dt4_sysline3),
-            //(85, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
             (85, ResultS4SyslineFind_Test::Found(()), test_data_file_H_dt4_sysline3),
             (87, ResultS4SyslineFind_Test::Done, ""),
             (88, ResultS4SyslineFind_Test::Done, ""),
             (87, ResultS4SyslineFind_Test::Done, ""),
-            //(66, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
             (66, ResultS4SyslineFind_Test::Found(()), test_data_file_H_dt4_sysline3),
             (88, ResultS4SyslineFind_Test::Done, ""),
-            //(86, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
             (86, ResultS4SyslineFind_Test::Found(()), test_data_file_H_dt4_sysline3),
         ]
     );
@@ -2794,10 +2902,9 @@ fn process_SyslineReader(
     let result = slr.find_sysline_at_datetime_filter(fo1, filter_dt_after_opt);
     match result {
         ResultS4SyslineFind::Found((fo, slp))
-        //| ResultS4SyslineFind::Found_EOF((fo, slp))
         => {
             eprintln!(
-                "{}slr.find_sysline_at_datetime_filter({}, {:?}, {:?}) returned Found|Found_EOF({}, @{:p})",
+                "{}slr.find_sysline_at_datetime_filter({}, {:?}, {:?}) returned Found({}, @{:p})",
                 so(),
                 fo1,
                 filter_dt_after_opt,
@@ -2847,17 +2954,10 @@ fn process_SyslineReader(
     let mut fo2: FileOffset = fo1;
     loop {
         let result = slr.find_sysline(fo2);
-        //let eof = result.is_eof();
-        let eof = false;
         match result {
             ResultS4SyslineFind::Found((fo, slp))
-            //| ResultS4SyslineFind::Found_EOF((fo, slp))
             => {
-                if eof {
-                    eprintln!("{}slr.find_sysline({}) returned Found_EOF({}, @{:p})", so(), fo2, fo, &*slp);
-                } else {
-                    eprintln!("{}slr.find_sysline({}) returned Found({}, @{:p})", so(), fo2, fo, &*slp);
-                }
+                eprintln!("{}slr.find_sysline({}) returned Found({}, @{:p})", so(), fo2, fo, &*slp);
                 fo2 = fo;
                 eprintln!(
                     "{}FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
@@ -2883,13 +2983,7 @@ fn process_SyslineReader(
                         );
                         continue;
                     }
-                    Result_Filter_DateTime2::InRange => {
-                        if eof {
-                            assert!(slr.is_sysline_last(&slp), "returned Found_EOF yet this Sysline is not last!?");
-                        } else {
-                            assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last!? Should have returned Found_EOF or this Sysline is really not last.");
-                        }
-                    }
+                    Result_Filter_DateTime2::InRange => {}
                 }
             }
             ResultS4SyslineFind::Done => {
@@ -3116,16 +3210,6 @@ fn test_SyslineReader_find_sysline_in_block(
                     fo_input, value_expect, value_actual,
                 );
             },
-            /*
-            ResultS4SyslineFind::Found_EOF((_fo, slp)) => {
-                let value_actual: String = (*slp).to_String();
-                assert_eq!(
-                    value_expect, &value_actual,
-                    "find_sysline_in_block({})\nExpected {:?}\nActual {:?}",
-                    fo_input, value_expect, value_actual,
-                );
-            },
-            */
             ResultS4SyslineFind::Done => {
                 // self-check
                 assert_eq!(

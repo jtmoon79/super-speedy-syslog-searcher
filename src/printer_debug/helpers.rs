@@ -61,7 +61,8 @@ pub fn create_temp_file(data: &str) -> NamedTempFile {
     ntf
 }
 
-/// testing helper to write a `str` to a specially-named temporary file.
+/// testing helper to write a `[u8]` to a specially-named temporary file.
+///
 /// `rand_len` is the sting length of a random character sequence
 //#[cfg(test)]
 pub fn create_temp_file_with_name_rlen(
