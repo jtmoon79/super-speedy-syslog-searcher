@@ -65,9 +65,6 @@ use crate::printer_debug::printers::{
 
 use crate::printer_debug::stack::{
     stack_offset_set,
-    sn,
-    so,
-    sx,
 };
 
 #[allow(unused_imports)]
