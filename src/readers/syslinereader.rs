@@ -1028,10 +1028,10 @@ impl SyslineReader {
                             dpxf!("return ResultS4SyslineFind::Found(({}, …)) @[{}, {}] from LRU cache", val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
                             return Some(ResultS4SyslineFind::Found((val.0, val.1.clone())));
                         }
-                        ResultS4SyslineFind::Found_EOF(val) => {
-                            dpxf!("return ResultS4SyslineFind::Found_EOF(({}, …)) @[{}, {}] from LRU cache", val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
-                            return Some(ResultS4SyslineFind::Found_EOF((val.0, val.1.clone())));
-                        }
+                        //ResultS4SyslineFind::Found_EOF(val) => {
+                        //    dpxf!("return ResultS4SyslineFind::Found_EOF(({}, …)) @[{}, {}] from LRU cache", val.0, val.1.fileoffset_begin(), val.1.fileoffset_end());
+                        //    return Some(ResultS4SyslineFind::Found_EOF((val.0, val.1.clone())));
+                        //}
                         ResultS4SyslineFind::Done => {
                             dpxf!("return ResultS4SyslineFind::Done from LRU cache");
                             return Some(ResultS4SyslineFind::Done);
@@ -1061,7 +1061,8 @@ impl SyslineReader {
                 let fo_next: FileOffset = (*syslinep).fileoffset_next() + (self.charsz() as FileOffset);
                 if self.is_sysline_last(&syslinep) {
                     dpxf!(
-                        "is_sysline_last() true; return ResultS4SyslineFind::Found_EOF(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+                        //EOF "is_sysline_last() true; return ResultS4SyslineFind::Found_EOF(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+                        "is_sysline_last() true; return ResultS4SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
                         fo_next,
                         &*syslinep,
                         (*syslinep).fileoffset_begin(),
@@ -1069,9 +1070,12 @@ impl SyslineReader {
                         (*syslinep).to_String_noraw()
                     );
                     self.find_sysline_lru_cache_put += 1;
+                    //self.find_sysline_lru_cache
+                    //    .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo_next, syslinep.clone())));
+                    //return Some(ResultS4SyslineFind::Found_EOF((fo_next, syslinep)));
                     self.find_sysline_lru_cache
-                        .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo_next, syslinep.clone())));
-                    return Some(ResultS4SyslineFind::Found_EOF((fo_next, syslinep)));
+                        .put(fileoffset, ResultS4SyslineFind::Found((fo_next, syslinep.clone())));
+                    return Some(ResultS4SyslineFind::Found((fo_next, syslinep)));
                 }
                 self.find_sysline_lru_cache_put += 1;
                 self.find_sysline_lru_cache
@@ -1111,9 +1115,12 @@ impl SyslineReader {
                     (*syslinep).to_String_noraw()
                 );
                 self.find_sysline_lru_cache_put += 1;
+                //self.find_sysline_lru_cache
+                //    .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo_next, syslinep.clone())));
+                //return Some(ResultS4SyslineFind::Found_EOF((fo_next, syslinep)));
                 self.find_sysline_lru_cache
-                    .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo_next, syslinep.clone())));
-                return Some(ResultS4SyslineFind::Found_EOF((fo_next, syslinep)));
+                    .put(fileoffset, ResultS4SyslineFind::Found((fo_next, syslinep.clone())));
+                return Some(ResultS4SyslineFind::Found((fo_next, syslinep)));
             }
             if self.find_sysline_lru_cache_enabled {
                 self.find_sysline_lru_cache_put += 1;
@@ -1176,9 +1183,12 @@ impl SyslineReader {
         loop {
             dpof!("({}): self.linereader.find_line_in_block({})", fileoffset, fo1);
             let result: ResultS4LineFind = self.linereader.find_line_in_block(fo1);
-            let eof = result.is_eof();
+            //let eof = result.is_eof();
+            let eof = false;
             let (fo2, linep) = match result {
-                ResultS4LineFind::Found((fo_, linep_)) | ResultS4LineFind::Found_EOF((fo_, linep_)) => {
+                ResultS4LineFind::Found((fo_, linep_))
+                // | ResultS4LineFind::Found_EOF((fo_, linep_)) 
+                => {
                     dpof!(
                         "({}): A FileOffset {} Line @{:p} len {} parts {} {:?}",
                         fileoffset,
@@ -1221,12 +1231,25 @@ impl SyslineReader {
                         let syslinep: SyslineP = SyslineP::new(sysline);
                         if self.find_sysline_lru_cache_enabled {
                             self.find_sysline_lru_cache_put += 1;
-                            dpof!("({}): LRU cache put({}, Found_EOF({}, …))", fileoffset, fileoffset, fo1);
+                            //dpof!("({}): LRU cache put({}, Found_EOF({}, …))", fileoffset, fileoffset, fo1);
+                            //self.find_sysline_lru_cache
+                            //    .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo1, syslinep.clone())));
+                            dpof!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo1);
                             self.find_sysline_lru_cache
-                                .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo1, syslinep.clone())));
+                                .put(fileoffset, ResultS4SyslineFind::Found((fo1, syslinep.clone())));
                         }
+                        //dpxf!(
+                        //    "({}): return ResultS4SyslineFind::Found_EOF({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
+                        //    fileoffset,
+                        //    fo1,
+                        //    &(*syslinep),
+                        //    (*syslinep).fileoffset_begin(),
+                        //    (*syslinep).fileoffset_end(),
+                        //    fo1,
+                        //);
+                        //return ResultS4SyslineFind::Found_EOF((fo1, syslinep));
                         dpxf!(
-                            "({}): return ResultS4SyslineFind::Found_EOF({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
+                            "({}): return ResultS4SyslineFind::Found({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
                             fileoffset,
                             fo1,
                             &(*syslinep),
@@ -1234,7 +1257,7 @@ impl SyslineReader {
                             (*syslinep).fileoffset_end(),
                             fo1,
                         );
-                        return ResultS4SyslineFind::Found_EOF((fo1, syslinep));
+                        return ResultS4SyslineFind::Found((fo1, syslinep));
                     }
                     break;
                 }
@@ -1272,23 +1295,28 @@ impl SyslineReader {
                     );
                     (fo_, linep_)
                 },
-                ResultS4LineFind::Found_EOF((fo_, linep_)) => {
-                    dpof!(
-                        "({}): B got Found_EOF(FileOffset {} Line @{:p}) len {} parts {} {:?}",
-                        fileoffset,
-                        fo_,
-                        &*linep_,
-                        (*linep_).len(),
-                        (*linep_).count_lineparts(),
-                        (*linep_).to_String_noraw()
-                    );
-                    eof = true;
-                    (fo_, linep_)
-                },
+                //ResultS4LineFind::Found_EOF((fo_, linep_)) => {
+                //    dpof!(
+                //        "({}): B got Found_EOF(FileOffset {} Line @{:p}) len {} parts {} {:?}",
+                //        fileoffset,
+                //        fo_,
+                //        &*linep_,
+                //        (*linep_).len(),
+                //        (*linep_).count_lineparts(),
+                //        (*linep_).to_String_noraw()
+                //    );
+                //    eof = true;
+                //    (fo_, linep_)
+                //},
+                //ResultS4LineFind::Done => {
+                //    dpof!("({}): B got Done", fileoffset);
+                //    dpxf!("({}): return ResultS4SyslineFind::Done", fileoffset);
+                //    return ResultS4SyslineFind::Done;
+                //},
                 ResultS4LineFind::Done => {
                     dpof!("({}): B got Done", fileoffset);
-                    dpxf!("({}): return ResultS4SyslineFind::Done", fileoffset);
-                    return ResultS4SyslineFind::Done;
+                    eof = true;
+                    break;
                 },
                 ResultS4LineFind::Err(err) => {
                     dp_err!("LineReader.find_line_in_block({}) returned {}", fo1, err);
@@ -1328,12 +1356,25 @@ impl SyslineReader {
         if eof {
             if self.find_sysline_lru_cache_enabled {
                 self.find_sysline_lru_cache_put += 1;
-                dpof!("({}): LRU cache put({}, Found_EOF({}, …))", fileoffset, fileoffset, fo_b);
+                //dpof!("({}): LRU cache put({}, Found_EOF({}, …))", fileoffset, fileoffset, fo_b);
+                //self.find_sysline_lru_cache
+                //    .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo_b, syslinep.clone())));
+                dpof!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo_b);
                 self.find_sysline_lru_cache
-                    .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo_b, syslinep.clone())));
+                    .put(fileoffset, ResultS4SyslineFind::Found((fo_b, syslinep.clone())));
             }
+            //dpxf!(
+            //    "({}): return ResultS4SyslineFind::Found_EOF(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
+            //    fileoffset,
+            //    fo_b,
+            //    &*syslinep,
+            //    (*syslinep).fileoffset_begin(),
+            //    (*syslinep).fileoffset_end(),
+            //    (*syslinep).to_String_noraw()
+            //);
+            //return ResultS4SyslineFind::Found_EOF((fo_b, syslinep));
             dpxf!(
-                "({}): return ResultS4SyslineFind::Found_EOF(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
+                "({}): return ResultS4SyslineFind::Found(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
                 fileoffset,
                 fo_b,
                 &*syslinep,
@@ -1341,7 +1382,7 @@ impl SyslineReader {
                 (*syslinep).fileoffset_end(),
                 (*syslinep).to_String_noraw()
             );
-            return ResultS4SyslineFind::Found_EOF((fo_b, syslinep));
+            return ResultS4SyslineFind::Found((fo_b, syslinep));
         }
         if self.find_sysline_lru_cache_enabled {
             self.find_sysline_lru_cache_put += 1;
@@ -1414,10 +1455,12 @@ impl SyslineReader {
         loop {
             dpof!("({}): self.linereader.find_line({})", fileoffset, fo1);
             let result: ResultS4LineFind = self.linereader.find_line(fo1);
-            let eof = result.is_eof();
+            //let eof = result.is_eof();
+            let eof = false;
             let (fo2, linep) = match result {
                 ResultS4LineFind::Found((fo_, linep_))
-                | ResultS4LineFind::Found_EOF((fo_, linep_)) => {
+                //| ResultS4LineFind::Found_EOF((fo_, linep_))
+                => {
                     dpof!(
                         "A FileOffset {} Line @{:p} len {} parts {} {:?}",
                         fo_,
@@ -1466,12 +1509,25 @@ impl SyslineReader {
                         let syslinep: SyslineP = SyslineP::new(sysline);
                         if self.find_sysline_lru_cache_enabled {
                             self.find_sysline_lru_cache_put += 1;
-                            dpof!("({}): LRU cache put({}, Found_EOF({}, …))", fileoffset, fileoffset, fo1);
+                            //dpof!("({}): LRU cache put({}, Found_EOF({}, …))", fileoffset, fileoffset, fo1);
+                            //self.find_sysline_lru_cache
+                            //    .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo1, syslinep.clone())));
+                            dpof!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo1);
                             self.find_sysline_lru_cache
-                                .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo1, syslinep.clone())));
+                                .put(fileoffset, ResultS4SyslineFind::Found((fo1, syslinep.clone())));
                         }
+                        //dpxf!(
+                        //    "({}): A return ResultS4SyslineFind::Found_EOF({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
+                        //    fileoffset,
+                        //    fo1,
+                        //    &(*syslinep),
+                        //    (*syslinep).fileoffset_begin(),
+                        //    (*syslinep).fileoffset_end(),
+                        //    fo1,
+                        //);
+                        //return ResultS4SyslineFind::Found_EOF((fo1, syslinep));
                         dpxf!(
-                            "({}): A return ResultS4SyslineFind::Found_EOF({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
+                            "({}): A return ResultS4SyslineFind::Found({}, {:p}) @[{}, {}]; A found here and LineReader.find_line({})",
                             fileoffset,
                             fo1,
                             &(*syslinep),
@@ -1479,7 +1535,7 @@ impl SyslineReader {
                             (*syslinep).fileoffset_end(),
                             fo1,
                         );
-                        return ResultS4SyslineFind::Found_EOF((fo1, syslinep));
+                        return ResultS4SyslineFind::Found((fo1, syslinep));
                     }
                     break;
                 }
@@ -1630,19 +1686,19 @@ impl SyslineReader {
                     //assert!(!eof, "ERROR: find_line returned EOF as true yet returned Found()");
                     (fo_, linep_)
                 }
-                ResultS4LineFind::Found_EOF((fo_, linep_)) => {
-                    dpof!(
-                        "({}): B got Found_EOF(FileOffset {} Line @{:p}) len {} parts {} {:?}",
-                        fileoffset,
-                        fo_,
-                        &*linep_,
-                        (*linep_).len(),
-                        (*linep_).count_lineparts(),
-                        (*linep_).to_String_noraw()
-                    );
-                    //eof = true;
-                    (fo_, linep_)
-                }
+                //ResultS4LineFind::Found_EOF((fo_, linep_)) => {
+                //    dpof!(
+                //        "({}): B got Found_EOF(FileOffset {} Line @{:p}) len {} parts {} {:?}",
+                //        fileoffset,
+                //        fo_,
+                //        &*linep_,
+                //        (*linep_).len(),
+                //        (*linep_).count_lineparts(),
+                //        (*linep_).to_String_noraw()
+                //    );
+                //    //eof = true;
+                //    (fo_, linep_)
+                //}
                 ResultS4LineFind::Done => {
                     dpof!("({}): eof=true; break; B", fileoffset);
                     eof = true;
@@ -1686,12 +1742,26 @@ impl SyslineReader {
         if eof {
             if self.find_sysline_lru_cache_enabled {
                 self.find_sysline_lru_cache_put += 1;
-                dpof!("({}): LRU cache put({}, Found_EOF({}, …))", fileoffset, fileoffset, fo_b);
+                //dpof!("({}): LRU cache put({}, Found_EOF({}, …))", fileoffset, fileoffset, fo_b);
+                //self.find_sysline_lru_cache
+                //    .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo_b, syslinep.clone())));
+                dpof!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo_b);
                 self.find_sysline_lru_cache
-                    .put(fileoffset, ResultS4SyslineFind::Found_EOF((fo_b, syslinep.clone())));
+                    .put(fileoffset, ResultS4SyslineFind::Found((fo_b, syslinep.clone())));
+    
             }
+            //dpxf!(
+            //    "({}): return ResultS4SyslineFind::Found_EOF(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
+            //    fileoffset,
+            //    fo_b,
+            //    &*syslinep,
+            //    (*syslinep).fileoffset_begin(),
+            //    (*syslinep).fileoffset_end(),
+            //    (*syslinep).to_String_noraw()
+            //);
+            //return ResultS4SyslineFind::Found_EOF((fo_b, syslinep));
             dpxf!(
-                "({}): return ResultS4SyslineFind::Found_EOF(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
+                "({}): return ResultS4SyslineFind::Found(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
                 fileoffset,
                 fo_b,
                 &*syslinep,
@@ -1699,7 +1769,7 @@ impl SyslineReader {
                 (*syslinep).fileoffset_end(),
                 (*syslinep).to_String_noraw()
             );
-            return ResultS4SyslineFind::Found_EOF((fo_b, syslinep));
+            return ResultS4SyslineFind::Found((fo_b, syslinep));
         }
         if self.find_sysline_lru_cache_enabled {
             self.find_sysline_lru_cache_put += 1;
@@ -1778,10 +1848,13 @@ impl SyslineReader {
             //       do this before tweaking function so can be compared
             dpof!("loop(…)!");
             let result: ResultS4SyslineFind = self.find_sysline(try_fo);
-            let eof = result.is_eof();
+            //let eof = result.is_eof();
+            let eof = false;
             let done = result.is_done();
             match result {
-                ResultS4SyslineFind::Found((fo, syslinep)) | ResultS4SyslineFind::Found_EOF((fo, syslinep)) => {
+                ResultS4SyslineFind::Found((fo, syslinep))
+                // | ResultS4SyslineFind::Found_EOF((fo, syslinep))
+                => {
                     if !eof {
                         dpof!(
                             "SyslineReader.find_sysline(try_fo: {}) returned ResultS4SyslineFind::Found({}, …) A",
@@ -1826,11 +1899,12 @@ impl SyslineReader {
                                 fo,
                                 &*syslinep,
                             );
-                            if !eof {
-                                return ResultS4SyslineFind::Found((fo, syslinep));
-                            } else {
-                                return ResultS4SyslineFind::Found_EOF((fo, syslinep));
-                            }
+                            //if !eof {
+                                //return ResultS4SyslineFind::Found((fo, syslinep));
+                            //} else {
+                                //return ResultS4SyslineFind::Found_EOF((fo, syslinep));
+                            //}
+                            return ResultS4SyslineFind::Found((fo, syslinep));
                         } // end Pass
                         Result_Filter_DateTime1::OccursAtOrAfter => {
                             // the Sysline found by `find_sysline(try_fo)` occurs at or after filter `dt_filter`, so search backward
@@ -1853,11 +1927,12 @@ impl SyslineReader {
                                     (*syslinep).fileoffset_begin(),
                                     (*syslinep).to_String_noraw(),
                                 );
-                                if !eof {
-                                    return ResultS4SyslineFind::Found((fo, syslinep));    
-                                } else {
-                                    return ResultS4SyslineFind::Found_EOF((fo, syslinep));
-                                }
+                                //if !eof {
+                                //    return ResultS4SyslineFind::Found((fo, syslinep));
+                                //} else {
+                                //    return ResultS4SyslineFind::Found_EOF((fo, syslinep));
+                                //}
+                                return ResultS4SyslineFind::Found((fo, syslinep));
                             }
                             try_fo_last = try_fo;
                             fo_b = std::cmp::min((*syslinep).fileoffset_begin(), try_fo_last);
@@ -1981,14 +2056,14 @@ impl SyslineReader {
             if fo_beg < try_fo {
                 dpof!("syslinep.fileoffset_begin() {} < {} try_fo;", fo_beg, try_fo);
                 let syslinep_next: SyslineP = match self.find_sysline(fo_next) {
-                    ResultS4SyslineFind::Found_EOF((_, syslinep_)) => {
-                        dpof!(
-                            "SyslineReader.find_sysline(fo_next1: {}) returned Found_EOF(…, {:?})",
-                            fo_next,
-                            syslinep_
-                        );
-                        syslinep_
-                    }
+                    //ResultS4SyslineFind::Found_EOF((_, syslinep_)) => {
+                    //    dpof!(
+                    //        "SyslineReader.find_sysline(fo_next1: {}) returned Found_EOF(…, {:?})",
+                    //        fo_next,
+                    //        syslinep_
+                    //    );
+                    //    syslinep_
+                    //}
                     ResultS4SyslineFind::Found((_, syslinep_)) => {
                         dpof!(
                             "SyslineReader.find_sysline(fo_next1: {}) returned Found(…, {:?})",
@@ -2137,10 +2212,10 @@ impl SyslineReader {
                     },
                 };
             },
-            ResultS4SyslineFind::Found_EOF((fo, syslinep)) => {
-                dpxf!("return ResultS4SyslineFind::Found_EOF(({}, {:?}))", fo, syslinep);
-                return ResultS4SyslineFind::Found_EOF((fo, syslinep));
-            },
+            //ResultS4SyslineFind::Found_EOF((fo, syslinep)) => {
+            //    dpxf!("return ResultS4SyslineFind::Found_EOF(({}, {:?}))", fo, syslinep);
+            //    return ResultS4SyslineFind::Found_EOF((fo, syslinep));
+            //},
             ResultS4SyslineFind::Done => {},
             ResultS4SyslineFind::Err(err) => {
                 dpof!(

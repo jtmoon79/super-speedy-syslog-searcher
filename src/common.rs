@@ -38,9 +38,9 @@ pub enum ResultS4<T, E> {
     /// Contains the success data
     Found(T),
 
-    /// Contains the success data and reached End Of File and things are okay
-    #[allow(non_camel_case_types)]
-    Found_EOF(T),
+    // Contains the success data and reached End Of File and things are okay
+    //#[allow(non_camel_case_types)]
+    //Found_EOF(T),
 
     /// File is empty, or other condition that means "Done", nothing to return, but no bad errors happened
     Done,
@@ -61,7 +61,8 @@ impl<T, E> ResultS4<T, E> {
     #[must_use = "if you intended to assert that this is ok, consider `.unwrap()` instead"]
     #[inline(always)]
     pub const fn is_ok(&self) -> bool {
-        matches!(*self, ResultS4::Found(_) | ResultS4::Found_EOF(_) | ResultS4::Done)
+        //matches!(*self, ResultS4::Found(_) | ResultS4::Found_EOF(_) | ResultS4::Done)
+        matches!(*self, ResultS4::Found(_) | ResultS4::Done)
     }
 
     /// Returns `true` if the result is [`Found`].
@@ -79,10 +80,10 @@ impl<T, E> ResultS4<T, E> {
     }
 
     /// Returns `true` if the result is [`Found_EOF`].
-    #[inline(always)]
-    pub const fn is_eof(&self) -> bool {
-        matches!(*self, ResultS4::Found_EOF(_))
-    }
+    //#[inline(always)]
+    //pub const fn is_eof(&self) -> bool {
+    //    matches!(*self, ResultS4::Found_EOF(_))
+    //}
 
     /// Returns `true` if the result is [`Done`].
     #[inline(always)]
@@ -100,7 +101,7 @@ impl<T, E> ResultS4<T, E> {
     {
         match self {
             ResultS4::Found(y) => x == y,
-            ResultS4::Found_EOF(y) => x == y,
+            //ResultS4::Found_EOF(y) => x == y,
             ResultS4::Done => false,
             ResultS4::Err(_) => false,
         }
@@ -143,7 +144,7 @@ impl<T, E> ResultS4<T, E> {
     pub fn ok(self) -> Option<T> {
         match self {
             ResultS4::Found(x) => Some(x),
-            ResultS4::Found_EOF(x) => Some(x),
+            //ResultS4::Found_EOF(x) => Some(x),
             ResultS4::Done => None,
             ResultS4::Err(_) => None,
         }
@@ -158,7 +159,7 @@ impl<T, E> ResultS4<T, E> {
     pub fn err(self) -> Option<E> {
         match self {
             ResultS4::Found(_) => None,
-            ResultS4::Found_EOF(_) => None,
+            //ResultS4::Found_EOF(_) => None,
             ResultS4::Done => None,
             ResultS4::Err(x) => Some(x),
         }
@@ -172,7 +173,7 @@ where
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ResultS4::Found(_) => { write!(f, "ResultS4::Found") },
-            ResultS4::Found_EOF(_) => { write!(f, "ResultS4::Found_EOF") },
+            //ResultS4::Found_EOF(_) => { write!(f, "ResultS4::Found_EOF") },
             ResultS4::Done => { write!(f, "ResultS4::Done") },
             ResultS4::Err(err) => { write!(f, "ResultS4::Err({})", err) },
         }

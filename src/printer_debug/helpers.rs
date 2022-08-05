@@ -21,8 +21,10 @@ pub use tempfile::{
 // temporary file helper functions
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+pub const STR_TEMPFILE_PREFIX: &str = "tmp-s4-test-";
+
 lazy_static! {
-    static ref STRING_TEMPFILE_PREFIX: String = String::from("tmp-s4-test-");
+    pub static ref STRING_TEMPFILE_PREFIX: String = String::from(STR_TEMPFILE_PREFIX);
     // there is no `String::default` so create this just once
     static ref STRING_TEMPFILE_SUFFIX: String = String::from("");
 }

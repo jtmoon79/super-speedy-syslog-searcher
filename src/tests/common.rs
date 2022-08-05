@@ -22,7 +22,6 @@ use crate::readers::blockreader::{
 
 use crate::printer_debug::helpers::{
     NamedTempFile,
-    create_temp_file_with_name,
     create_temp_file_with_suffix,
     create_temp_file_bytes_with_suffix,
     ntf_fpath,
@@ -69,21 +68,21 @@ fn create_temp_log(data: &str) -> NamedTempFile {
 
 lazy_static! {
     // files with only newlines
-    static ref NTF_NL_1: NamedTempFile = create_temp_log("\n");
-    static ref NTF_NL_1_PATH: FPath = ntf_fpath(&NTF_NL_1);
-    static ref NTF_NL_2: NamedTempFile = create_temp_log("\n\n");
-    static ref NTF_NL_2_PATH: FPath = ntf_fpath(&NTF_NL_2);
-    static ref NTF_NL_3: NamedTempFile = create_temp_log("\n\n\n");
-    static ref NTF_NL_3_PATH: FPath = ntf_fpath(&NTF_NL_3);
-    static ref NTF_NL_4: NamedTempFile = create_temp_log("\n\n\n\n");
-    static ref NTF_NL_4_PATH: FPath = ntf_fpath(&NTF_NL_4);
-    static ref NTF_NL_5: NamedTempFile = create_temp_log("\n\n\n\n\n");
-    static ref NTF_NL_5_PATH: FPath = ntf_fpath(&NTF_NL_5);
+    pub static ref NTF_NL_1: NamedTempFile = create_temp_log("\n");
+    pub static ref NTF_NL_1_PATH: FPath = ntf_fpath(&NTF_NL_1);
+    pub static ref NTF_NL_2: NamedTempFile = create_temp_log("\n\n");
+    pub static ref NTF_NL_2_PATH: FPath = ntf_fpath(&NTF_NL_2);
+    pub static ref NTF_NL_3: NamedTempFile = create_temp_log("\n\n\n");
+    pub static ref NTF_NL_3_PATH: FPath = ntf_fpath(&NTF_NL_3);
+    pub static ref NTF_NL_4: NamedTempFile = create_temp_log("\n\n\n\n");
+    pub static ref NTF_NL_4_PATH: FPath = ntf_fpath(&NTF_NL_4);
+    pub static ref NTF_NL_5: NamedTempFile = create_temp_log("\n\n\n\n\n");
+    pub static ref NTF_NL_5_PATH: FPath = ntf_fpath(&NTF_NL_5);
 
     // empty files with suffix
 
     pub static ref NTF_LOG_EMPTY: NamedTempFile = {
-        create_temp_file_with_name("", Some(&String::from("data")), Some(&String::from("log")))
+        create_temp_log("")
     };
     pub static ref NTF_LOG_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_LOG_EMPTY.path())
@@ -129,7 +128,6 @@ lazy_static! {
     };
 }
 
-///
 /// gzip of a one-byte file using `gzip`:
 ///
 ///     $ echo -n 'A' > fileA

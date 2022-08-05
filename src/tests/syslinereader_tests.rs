@@ -57,6 +57,7 @@ use crate::printer_debug::helpers::{
 
 use crate::printer_debug::printers::{
     str_to_String_noraw,
+    dpof,
 };
 
 use crate::printer_debug::stack::{
@@ -66,7 +67,27 @@ use crate::printer_debug::stack::{
     sx,
 };
 
+#[allow(unused_imports)]
+use crate::tests::common::{
+    NTF_LOG_EMPTY_FPATH,
+    NTF_NL_1_PATH,
+    NTF_NL_2_PATH,
+    NTF_NL_3_PATH,
+    NTF_NL_4_PATH,
+    NTF_NL_5_PATH,
+    NTF_GZ_EMPTY_FPATH,
+    NTF_GZ_ONEBYTE_FPATH,
+    NTF_GZ_8BYTE_FPATH,
+    NTF_TAR_ZEROBYTE_FILEA_FPATH,
+    NTF_TAR_ONEBYTE_FPATH,
+    NTF_TAR_ONEBYTE_FILEA_FPATH,
+    NTF_TAR_8BYTE_FILEA_FPATH,
+};
+
 use std::str;
+
+extern crate const_format;
+use const_format::concatcp;
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
@@ -125,10 +146,12 @@ fn test_find_datetime_in_line_by_block(blocksz: BlockSz) {
     let mut fo1: FileOffset = 0;
     loop {
         let result = slr.find_sysline(fo1);
-        let done = result.is_done() || result.is_eof();
+        //let done = result.is_done() || result.is_eof();
+        let done = result.is_done();
         match result {
             ResultS4SyslineFind::Found((fo, slp))
-            | ResultS4SyslineFind::Found_EOF((fo, slp)) => {
+            //| ResultS4SyslineFind::Found_EOF((fo, slp))
+            => {
                 eprintln!("{}test_find_datetime_in_line: slr.find_sysline({}) returned Found|Found_EOF({}, @{:p})", so(), fo1, fo, &*slp);
                 eprintln!(
                     "{}test_find_datetime_in_line: FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
@@ -207,7 +230,9 @@ fn test_find_sysline_at_datetime_filter2(
         eprintln!("{}find_sysline_at_datetime_filter({}, {:?})", so(), fo1, dt);
         let result = slr.find_sysline_at_datetime_filter(*fo1, &Some(dt));
         match result {
-            ResultS4SyslineFind::Found(val) | ResultS4SyslineFind::Found_EOF(val) => {
+            ResultS4SyslineFind::Found(val)
+            //| ResultS4SyslineFind::Found_EOF(val)
+            => {
                 let sline = val.1.to_String();
                 let sline_noraw = str_to_String_noraw(sline.as_str());
                 eprintln!("\nexpected: {:?}", sline_expect_noraw);
@@ -1545,7 +1570,8 @@ fn test_SyslineReader_find_sysline(
     let mut check_i: usize = 0;
     loop {
         let result = slr.find_sysline(fo1);
-        let done = result.is_done() || result.is_eof();
+        //let done = result.is_done() || result.is_eof();
+        let done = result.is_done();
         match result {
             ResultS4SyslineFind::Found((fo, slp)) => {
                 eprintln!("{}test_SyslineReader_find_sysline: slr.find_sysline({}) returned Found({}, @{:p})", so(), fo1, fo, &*slp);
@@ -1558,7 +1584,7 @@ fn test_SyslineReader_find_sysline(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
+                //assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
                 fo1 = fo;
 
                 if checks.is_empty() {
@@ -1573,6 +1599,7 @@ fn test_SyslineReader_find_sysline(
                 let check_fo = checks[check_i].1;
                 assert_eq!(check_fo, fo, "expected fileoffset {}, but find_sysline returned fileoffset {} for check {}", check_fo, fo, check_i);
             }
+            /*
             ResultS4SyslineFind::Found_EOF((fo, slp)) => {
                 eprintln!("{}test_SyslineReader_find_sysline: slr.find_sysline({}) returned Found_EOF({}, @{:p})", so(), fo1, fo, &*slp);
                 eprintln!(
@@ -1599,6 +1626,7 @@ fn test_SyslineReader_find_sysline(
                 let check_fo = checks[check_i].1;
                 assert_eq!(check_fo, fo, "expected fileoffset {}, but find_sysline returned fileoffset {} for check {}", check_fo, fo, check_i);
             }
+            */
             ResultS4SyslineFind::Done => {
                 eprintln!("{}test_SyslineReader_find_sysline: slr.find_sysline({}) returned Done", so(), fo1);
                 break;
@@ -1721,9 +1749,9 @@ fn assert_results4 (
         ResultS4SyslineFind_Test::Found(()) => {
             assert!(matches!(result_actual, ResultS4SyslineFind::Found(_)), "Expected Found, Actual {} for find_sysline({})", actual, fo);
         },
-        ResultS4SyslineFind_Test::Found_EOF(()) => {
-            assert!(matches!(result_actual, ResultS4SyslineFind::Found_EOF(_)), "Expected Found_EOF, Actual {} for find_sysline({})", actual, fo);
-        },
+        //ResultS4SyslineFind_Test::Found_EOF(()) => {
+        //    assert!(matches!(result_actual, ResultS4SyslineFind::Found_EOF(_)), "Expected Found_EOF, Actual {} for find_sysline({})", actual, fo);
+        //},
         ResultS4SyslineFind_Test::Done => {
             assert!(matches!(result_actual, ResultS4SyslineFind::Done), "Expected Done, Actual {} for find_sysline({})", actual, fo);
         },
@@ -1776,13 +1804,14 @@ fn test_SyslineReader_any_input_check(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
+                //assert!(!slr.is_sysline_last(&slp), "returned Found yet this Sysline is last! Should have returned Found_EOF or is this Sysline not last?");
 
                 let actual_String = (*slp).to_String();
                 let expect_String = String::from(*expect_val);
                 eprintln!("{}test_SyslineReader: find_sysline({}); check {}", so(), input_fo, check_i);
                 assert_eq!(expect_String, actual_String,"\nexpected string value     {:?}\nfind_sysline({:?}) returned {:?}\n", expect_String, input_fo, actual_String);
             }
+            /*
             ResultS4SyslineFind::Found_EOF((_fo, slp)) => {
                 eprintln!("{}test_SyslineReader: slr.find_sysline({}) returned Found_EOF({}, @{:p})", so(), input_fo, _fo, &*slp);
                 eprintln!(
@@ -1801,6 +1830,7 @@ fn test_SyslineReader_any_input_check(
                 eprintln!("{}test_SyslineReader: find_sysline({}); check {}", so(), input_fo, check_i);
                 assert_eq!(expect_String, actual_String,"\nexpected string value     {:?}\nfind_sysline({:?}) returned {:?}\n", expect_String, input_fo, actual_String);
             }
+            */
             ResultS4SyslineFind::Done => {
                 eprintln!("{}test_SyslineReader: slr.find_sysline({}) returned Done", so(), input_fo);
             }
@@ -1876,11 +1906,16 @@ const test_data_any_file_A2_dt6_checks_many: [TestSyslineReaderAnyInputCheck; 50
     (90, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline4),
     (108, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline4),
     (109, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline4),
-    (110, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    (111, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    (112, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    (113, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    (114, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    //(110, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    //(111, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    //(112, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    //(113, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    //(114, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    (110, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
+    (111, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
+    (112, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
+    (113, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
+    (114, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
     (134, ResultS4SyslineFind_Test::Done, ""),
     (135, ResultS4SyslineFind_Test::Done, ""),
     (136, ResultS4SyslineFind_Test::Done, ""),
@@ -1899,11 +1934,16 @@ const test_data_any_file_A2_dt6_checks_many_rev: [TestSyslineReaderAnyInputCheck
     (136, ResultS4SyslineFind_Test::Done, ""),
     (135, ResultS4SyslineFind_Test::Done, ""),
     (134, ResultS4SyslineFind_Test::Done, ""),
-    (114, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    (113, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    (112, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    (111, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
-    (110, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    //(114, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    //(113, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    //(112, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    //(111, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    //(110, ResultS4SyslineFind_Test::Found_EOF(()), test_data_any_file_A2_dt6_sysline5),
+    (114, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
+    (113, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
+    (112, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
+    (111, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
+    (110, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline5),
     (109, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline4),
     (108, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline4),
     (90, ResultS4SyslineFind_Test::Found(()), test_data_any_file_A2_dt6_sysline4),
@@ -2698,14 +2738,18 @@ fn test_SyslineReader_H_dt4_sysline3_Found_EOF_Done()
 {
     let checks = TestSyslineReaderAnyInputChecks::from(
         [
-            (86, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
-            (85, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
+            //(86, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
+            (86, ResultS4SyslineFind_Test::Found(()), test_data_file_H_dt4_sysline3),
+            //(85, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
+            (85, ResultS4SyslineFind_Test::Found(()), test_data_file_H_dt4_sysline3),
             (87, ResultS4SyslineFind_Test::Done, ""),
             (88, ResultS4SyslineFind_Test::Done, ""),
             (87, ResultS4SyslineFind_Test::Done, ""),
-            (66, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
+            //(66, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
+            (66, ResultS4SyslineFind_Test::Found(()), test_data_file_H_dt4_sysline3),
             (88, ResultS4SyslineFind_Test::Done, ""),
-            (86, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
+            //(86, ResultS4SyslineFind_Test::Found_EOF(()), test_data_file_H_dt4_sysline3),
+            (86, ResultS4SyslineFind_Test::Found(()), test_data_file_H_dt4_sysline3),
         ]
     );
     test_SyslineReader_any_input_check(
@@ -2749,7 +2793,9 @@ fn process_SyslineReader(
     eprintln!("{}slr.find_sysline_at_datetime_filter({}, {:?})", so(), fo1, filter_dt_after_opt);
     let result = slr.find_sysline_at_datetime_filter(fo1, filter_dt_after_opt);
     match result {
-        ResultS4SyslineFind::Found((fo, slp)) | ResultS4SyslineFind::Found_EOF((fo, slp)) => {
+        ResultS4SyslineFind::Found((fo, slp))
+        //| ResultS4SyslineFind::Found_EOF((fo, slp))
+        => {
             eprintln!(
                 "{}slr.find_sysline_at_datetime_filter({}, {:?}, {:?}) returned Found|Found_EOF({}, @{:p})",
                 so(),
@@ -2801,9 +2847,12 @@ fn process_SyslineReader(
     let mut fo2: FileOffset = fo1;
     loop {
         let result = slr.find_sysline(fo2);
-        let eof = result.is_eof();
+        //let eof = result.is_eof();
+        let eof = false;
         match result {
-            ResultS4SyslineFind::Found((fo, slp)) | ResultS4SyslineFind::Found_EOF((fo, slp)) => {
+            ResultS4SyslineFind::Found((fo, slp))
+            //| ResultS4SyslineFind::Found_EOF((fo, slp))
+            => {
                 if eof {
                     eprintln!("{}slr.find_sysline({}) returned Found_EOF({}, @{:p})", so(), fo2, fo, &*slp);
                 } else {
@@ -3039,16 +3088,20 @@ fn test_SyslineReader_rand__dtf5_6c__8() {
 
 type CheckFindSyslineInBlock = Vec::<(FileOffset, ResultS4SyslineFind_Test, String)>;
 
-/// test `SyslineReader::find_sysline_in_block`
+/// test `SyslineReader::find_sysline_in_block`, cache turned off
 #[allow(non_snake_case)]
 fn test_SyslineReader_find_sysline_in_block(
-    path: FPath,
+    path: &FPath,
+    cache: bool,
     checks: CheckFindSyslineInBlock,
     blocksz: BlockSz,
 ) {
-    eprintln!("{}test_SyslineReader_find_sysline_in_block({:?}, {})", sn(), path, blocksz);
+    eprintln!("{}test_SyslineReader_find_sysline_in_block({:?}, {}, {})", sn(), path, cache, blocksz);
     let tzo = FixedOffset::west(3600 * 2);
-    let mut slr = new_SyslineReader(&path, blocksz, tzo);
+    let mut slr = new_SyslineReader(path, blocksz, tzo);
+    if !cache {
+        slr.LRU_cache_disable();
+    }
     eprintln!("{}SyslineReader {:?}", so(), slr);
 
     for (fo_input, result_expect, value_expect) in checks.iter() {
@@ -3063,6 +3116,7 @@ fn test_SyslineReader_find_sysline_in_block(
                     fo_input, value_expect, value_actual,
                 );
             },
+            /*
             ResultS4SyslineFind::Found_EOF((_fo, slp)) => {
                 let value_actual: String = (*slp).to_String();
                 assert_eq!(
@@ -3071,6 +3125,7 @@ fn test_SyslineReader_find_sysline_in_block(
                     fo_input, value_expect, value_actual,
                 );
             },
+            */
             ResultS4SyslineFind::Done => {
                 // self-check
                 assert_eq!(
@@ -3086,46 +3141,58 @@ fn test_SyslineReader_find_sysline_in_block(
     eprintln!("{}test_SyslineReader_find_sysline_in_block(…)", sx());
 }
 
-#[test]
-fn test_SyslineReader_find_sysline_in_block__empty0() {
-    let data: &str = "";
-    let ntf = create_temp_file(data);
-    let path = ntf_fpath(&ntf);
+fn test_SyslineReader_find_sysline_in_block__empty0(cache: bool) {
     let checks: CheckFindSyslineInBlock = vec![];
-
-    test_SyslineReader_find_sysline_in_block(path, checks, 2);
+    test_SyslineReader_find_sysline_in_block(&NTF_LOG_EMPTY_FPATH, cache, checks, 2);
 }
 
 #[test]
-fn test_SyslineReader_find_sysline_in_block__empty1() {
-    let data: &str = "\n";
-    let ntf = create_temp_file(data);
-    let path = ntf_fpath(&ntf);
+fn test_SyslineReader_find_sysline_in_block__empty0__cache() {
+    test_SyslineReader_find_sysline_in_block__empty0(true);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__empty0__nocache() {
+    test_SyslineReader_find_sysline_in_block__empty0(false);
+}
+
+fn test_SyslineReader_find_sysline_in_block__empty1(cache: bool) {
     let checks: CheckFindSyslineInBlock = vec![
         (0, ResultS4SyslineFind_Test::Done, String::from("")),
     ];
-
-    test_SyslineReader_find_sysline_in_block(path, checks, 2);
+    test_SyslineReader_find_sysline_in_block(&NTF_NL_1_PATH, cache, checks, 2);
 }
 
 #[test]
-fn test_SyslineReader_find_sysline_in_block__empty2() {
-    let data: &str = "\n\n";
-    let ntf = create_temp_file(data);
-    let path = ntf_fpath(&ntf);
+fn test_SyslineReader_find_sysline_in_block__empty1__cache() {
+    test_SyslineReader_find_sysline_in_block__empty1(true);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__empty1__nocache() {
+    test_SyslineReader_find_sysline_in_block__empty1(false);
+}
+
+fn test_SyslineReader_find_sysline_in_block__empty2(cache: bool) {
     let checks: CheckFindSyslineInBlock = vec![
         (0, ResultS4SyslineFind_Test::Done, String::from("")),
         (1, ResultS4SyslineFind_Test::Done, String::from("")),
     ];
 
-    test_SyslineReader_find_sysline_in_block(path, checks, 4);
+    test_SyslineReader_find_sysline_in_block(&NTF_NL_2_PATH, cache, checks, 4);
 }
 
 #[test]
-fn test_SyslineReader_find_sysline_in_block__empty4() {
-    let data: &str = "\n\n\n\n";
-    let ntf = create_temp_file(data);
-    let path = ntf_fpath(&ntf);
+fn test_SyslineReader_find_sysline_in_block__empty2__cache() {
+    test_SyslineReader_find_sysline_in_block__empty2(true);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__empty2__nocache() {
+    test_SyslineReader_find_sysline_in_block__empty2(false);
+}
+
+fn test_SyslineReader_find_sysline_in_block__empty4(cache: bool) {
     let checks: CheckFindSyslineInBlock = vec![
         (0, ResultS4SyslineFind_Test::Done, String::from("")),
         (1, ResultS4SyslineFind_Test::Done, String::from("")),
@@ -3133,39 +3200,208 @@ fn test_SyslineReader_find_sysline_in_block__empty4() {
         (3, ResultS4SyslineFind_Test::Done, String::from("")),
     ];
 
-    test_SyslineReader_find_sysline_in_block(path, checks, 4);
+    test_SyslineReader_find_sysline_in_block(&NTF_NL_4_PATH, cache, checks, 4);
 }
 
 #[test]
-fn test_SyslineReader_find_sysline_in_block__1_4() {
-    let data: &str = "2000-01-01 00:00:00\n";
-    let ntf = create_temp_file(data);
-    let path = ntf_fpath(&ntf);
+fn test_SyslineReader_find_sysline_in_block__empty4__cache() {
+    test_SyslineReader_find_sysline_in_block__empty4(true);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__empty4__nocache() {
+    test_SyslineReader_find_sysline_in_block__empty4(false);
+}
+
+const NTF_A3_DATA_LINE1: &str = "2000-01-01 00:00:00\n";
+const NTF_A3_DATA_LINE2: &str = "2000-01-02 00:00:00\n";
+const NTF_A3_DATA_LINE12: &str = concatcp!(NTF_A3_DATA_LINE1, NTF_A3_DATA_LINE2);
+
+lazy_static! {
+    static ref NTF_A3_DATA_LINE1_STRING: String = String::from(NTF_A3_DATA_LINE1);
+    static ref NTF_A3_DATA_LINE2_STRING: String = String::from(NTF_A3_DATA_LINE2);
+
+    static ref NTF_A3_DATA_LINE1_BYTES_LEN: usize = NTF_A3_DATA_LINE1_STRING.as_bytes().len();
+    /// length `NTF_A3_DATA_LINE1_STRING` to nearest even number
+    static ref NTF_A3_DATA_LINE1_BYTES_LEN_EVEN: usize = {
+        let len_ = NTF_A3_DATA_LINE1_STRING.as_bytes().len();
+        if len_ % 2 == 0 {
+            len_
+        } else {
+            len_ + 1
+        }
+    };
+    static ref NTF_A3_DATA_LINE2_BYTES_LEN: usize = NTF_A3_DATA_LINE2_STRING.as_bytes().len();
+
+    static ref NTF_A3_1: NamedTempFile = create_temp_file(NTF_A3_DATA_LINE1);
+    static ref NTF_A3_1_PATH: FPath = ntf_fpath(&NTF_A3_1);
+
+    static ref NTF_A3_12: NamedTempFile = create_temp_file(NTF_A3_DATA_LINE12);
+    static ref NTF_A3_12_PATH: FPath = ntf_fpath(&NTF_A3_12);
+}
+
+fn test_SyslineReader_find_sysline_in_block__A3__1_4(cache: bool) {
     let checks: CheckFindSyslineInBlock = vec![
         (0, ResultS4SyslineFind_Test::Done, String::from("")),
         (1, ResultS4SyslineFind_Test::Done, String::from("")),
         (2, ResultS4SyslineFind_Test::Done, String::from("")),
         (3, ResultS4SyslineFind_Test::Done, String::from("")),
+        (0xFFFF, ResultS4SyslineFind_Test::Done, String::from("")),
     ];
 
-    test_SyslineReader_find_sysline_in_block(path, checks, 4);
+    test_SyslineReader_find_sysline_in_block(&NTF_A3_1_PATH, cache, checks, 4);
 }
 
 #[test]
-fn test_SyslineReader_find_sysline_in_block__1_FF() {
-    let data: &str = "2000-01-01 00:00:00\n";
-    let ntf = create_temp_file(data);
-    let path = ntf_fpath(&ntf);
+fn test_SyslineReader_find_sysline_in_block__A3__1_4__cache() {
+    test_SyslineReader_find_sysline_in_block__A3__1_4(true);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__1_4__nocache() {
+    test_SyslineReader_find_sysline_in_block__A3__1_4(false);
+}
+
+fn test_SyslineReader_find_sysline_in_block__A3__12_4(cache: bool) {
     let checks: CheckFindSyslineInBlock = vec![
-        (0, ResultS4SyslineFind_Test::Found_EOF(()), String::from("2000-01-01 00:00:00\n")),
-        (1, ResultS4SyslineFind_Test::Found_EOF(()), String::from("2000-01-01 00:00:00\n")),
-        (2, ResultS4SyslineFind_Test::Found_EOF(()), String::from("2000-01-01 00:00:00\n")),
-        (3, ResultS4SyslineFind_Test::Found_EOF(()), String::from("2000-01-01 00:00:00\n")),
-        (19, ResultS4SyslineFind_Test::Found_EOF(()), String::from("2000-01-01 00:00:00\n")),
+        (0, ResultS4SyslineFind_Test::Done, String::from("")),
+        (1, ResultS4SyslineFind_Test::Done, String::from("")),
+        (2, ResultS4SyslineFind_Test::Done, String::from("")),
+        (3, ResultS4SyslineFind_Test::Done, String::from("")),
+        (0xFFFF, ResultS4SyslineFind_Test::Done, String::from("")),
+    ];
+
+    test_SyslineReader_find_sysline_in_block(&NTF_A3_12_PATH, cache, checks, 4);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__12_4__cache() {
+    test_SyslineReader_find_sysline_in_block__A3__12_4(true);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__12_4__nocache() {
+    test_SyslineReader_find_sysline_in_block__A3__12_4(false);
+}
+
+fn test_SyslineReader_find_sysline_in_block__A3__1_LINE1LEN(cache: bool) {
+    let fo: FileOffset = *NTF_A3_DATA_LINE1_BYTES_LEN as FileOffset;
+    dpof!("fo {:?}", fo);
+    // use blocks of the same size as the first line in the test file
+    let bsz: BlockSz = *NTF_A3_DATA_LINE1_BYTES_LEN_EVEN as BlockSz;
+    dpof!("bsz {:?}", bsz);
+    let checks: CheckFindSyslineInBlock = vec![
+        (0, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (1, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (2, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (fo - 2, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (fo - 1, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (fo, ResultS4SyslineFind_Test::Done, String::from("")),
+        (fo + 1, ResultS4SyslineFind_Test::Done, String::from("")),
+        (0xFFFF, ResultS4SyslineFind_Test::Done, String::from("")),
+    ];
+
+    test_SyslineReader_find_sysline_in_block(&NTF_A3_1_PATH, cache, checks, bsz);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__1_LINE1LEN__cache() {
+    test_SyslineReader_find_sysline_in_block__A3__1_LINE1LEN(true);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__1_LINE1LEN__nocache() {
+    test_SyslineReader_find_sysline_in_block__A3__1_LINE1LEN(false);
+}
+
+fn test_SyslineReader_find_sysline_in_block__A3__12_LINE1LEN(cache: bool) {
+    let fo: FileOffset = *NTF_A3_DATA_LINE1_BYTES_LEN as FileOffset;
+    let fo12: FileOffset = (*NTF_A3_DATA_LINE1_BYTES_LEN + *NTF_A3_DATA_LINE2_BYTES_LEN) as FileOffset;
+    dpof!("fo {:?}", fo);
+    // use blocks of the same size as the first line in the test file
+    let bsz: BlockSz = *NTF_A3_DATA_LINE1_BYTES_LEN_EVEN as BlockSz;
+    dpof!("bsz {:?}", bsz);
+    let checks: CheckFindSyslineInBlock = vec![
+        (0, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (1, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (2, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (fo - 2, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (fo - 1, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (fo, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE2_STRING.clone()),
+        (fo + 1, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE2_STRING.clone()),
+        (fo12 - 2, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE2_STRING.clone()),
+        (fo12 - 1, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE2_STRING.clone()),
+        (fo12, ResultS4SyslineFind_Test::Done, String::from("")),
+        (fo12 + 1, ResultS4SyslineFind_Test::Done, String::from("")),
+        (0xFFFF, ResultS4SyslineFind_Test::Done, String::from("")),
+    ];
+
+    test_SyslineReader_find_sysline_in_block(&NTF_A3_12_PATH, cache, checks, bsz);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__12_LINE1LEN__cache() {
+    test_SyslineReader_find_sysline_in_block__A3__12_LINE1LEN(true);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__12_LINE1LEN__nocache() {
+    test_SyslineReader_find_sysline_in_block__A3__12_LINE1LEN(false);
+}
+
+fn test_SyslineReader_find_sysline_in_block__A3__1_FFFF(cache: bool) {
+    let checks: CheckFindSyslineInBlock = vec![
+        (0, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (1, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (2, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (3, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (17, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (18, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (19, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
         (20, ResultS4SyslineFind_Test::Done, String::from("")),
+        (21, ResultS4SyslineFind_Test::Done, String::from("")),
     ];
 
-    test_SyslineReader_find_sysline_in_block(path, checks, 0xFF);
+    test_SyslineReader_find_sysline_in_block(&NTF_A3_1_PATH, cache, checks, 0xFFFF);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__1_FFFF__cache() {
+    test_SyslineReader_find_sysline_in_block__A3__1_FFFF(true);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__1_FFFF__nocache() {
+    test_SyslineReader_find_sysline_in_block__A3__1_FFFF(false);
+}
+
+fn test_SyslineReader_find_sysline_in_block__A3__12_FFFF(cache: bool) {
+    let checks: CheckFindSyslineInBlock = vec![
+        (0, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (1, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (2, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (3, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (17, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (18, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (19, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE1_STRING.clone()),
+        (20, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE2_STRING.clone()),
+        (21, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE2_STRING.clone()),
+        (22, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE2_STRING.clone()),
+        (39, ResultS4SyslineFind_Test::Found(()), NTF_A3_DATA_LINE2_STRING.clone()),
+        (40, ResultS4SyslineFind_Test::Done, String::from("")),
+    ];
+
+    test_SyslineReader_find_sysline_in_block(&NTF_A3_12_PATH, cache, checks, 0xFFFF);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__12_FFFF__cache() {
+    test_SyslineReader_find_sysline_in_block__A3__12_FFFF(true);
+}
+
+#[test]
+fn test_SyslineReader_find_sysline_in_block__A3__12_FFFF__nocache() {
+    test_SyslineReader_find_sysline_in_block__A3__12_FFFF(false);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

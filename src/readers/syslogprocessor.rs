@@ -369,7 +369,8 @@ impl SyslogProcessor {
         loop {
             let syslinep: SyslineP = match self.syslinereader.find_sysline_year(fo_prev, &year_opt) {
                 ResultS4SyslineFind::Found((_fo, syslinep))
-                | ResultS4SyslineFind::Found_EOF((_fo, syslinep)) => {
+                //| ResultS4SyslineFind::Found_EOF((_fo, syslinep))
+                => {
                     dpo!("syslogprocessor.process_missing_year Found|Found_EOF {} Sysline @[{}, {}] datetime: {:?})", _fo, (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), (*syslinep).dt());
                     syslinep
                 }
@@ -450,8 +451,8 @@ impl SyslogProcessor {
                 self.syslinereader.find_sysline(fileoffset);
             match result {
                 ResultS4SyslineFind::Found((ref _fo, ref syslinep))
-                | ResultS4SyslineFind::Found_EOF((ref _fo, ref syslinep)) =>
-                {
+                //| ResultS4SyslineFind::Found_EOF((ref _fo, ref syslinep))
+                => {
                     let bo_first: BlockOffset = (*syslinep).blockoffset_first();
                     if bo_first > 0 {
                         self.drop_block(bo_first - 1);
@@ -640,10 +641,10 @@ impl SyslogProcessor {
 
                     fo_next
                 }
-                ResultS4SyslineFind::Found_EOF((_fo_next, _slinep)) => {
-                    found += 1;
-                    break;
-                }
+                //ResultS4SyslineFind::Found_EOF((_fo_next, _slinep)) => {
+                //    found += 1;
+                //    break;
+                //}
                 ResultS4SyslineFind::Done => {
                     //found += 1;
                     break;
@@ -703,10 +704,10 @@ impl SyslogProcessor {
 
                     fo_next
                 },
-                ResultS4LineFind::Found_EOF((_fo_next, _linep)) => {
-                    found += 1;
-                    break;
-                },
+                //ResultS4LineFind::Found_EOF((_fo_next, _linep)) => {
+                //    found += 1;
+                //    break;
+                //},
                 ResultS4LineFind::Done => {
                     found += 1;
                     break;

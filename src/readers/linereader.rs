@@ -432,10 +432,10 @@ impl LineReader {
                             );
                             return Some(ResultS4LineFind::Found((val.0, val.1.clone())));
                         }
-                        ResultS4LineFind::Found_EOF(val) => {
-                            dpxf!("return ResultS4LineFind::Found_EOF(({}, …)) @[{}, {}] {:?}", val.0, val.1.fileoffset_begin(), val.1.fileoffset_end(), val.1.to_String_noraw());
-                            return Some(ResultS4LineFind::Found_EOF((val.0, val.1.clone())));
-                        }
+                        //ResultS4LineFind::Found_EOF(val) => {
+                        //    dpxf!("return ResultS4LineFind::Found_EOF(({}, …)) @[{}, {}] {:?}", val.0, val.1.fileoffset_begin(), val.1.fileoffset_end(), val.1.to_String_noraw());
+                        //    return Some(ResultS4LineFind::Found_EOF((val.0, val.1.clone())));
+                        //}
                         ResultS4LineFind::Done => {
                             dpxf!("return ResultS4LineFind::Done");
                             return Some(ResultS4LineFind::Done);
@@ -471,12 +471,17 @@ impl LineReader {
             if self.is_line_last(&linep) {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    dpo!("LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
+                    //dpo!("LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
+                    //self.find_line_lru_cache
+                    //    .put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                    dpo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
-                        .put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                        .put(fileoffset, ResultS4LineFind::Found((fo_next, linep.clone())));
                 }
-                dpx!("return ResultS4LineFind::Found_EOF({}, {:p}) @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
-                return Some(ResultS4LineFind::Found_EOF((fo_next, linep)));    
+                //dpx!("return ResultS4LineFind::Found_EOF({}, {:p}) @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                //return Some(ResultS4LineFind::Found_EOF((fo_next, linep)));
+                dpx!("return ResultS4LineFind::Found({}, {:p}) @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                return Some(ResultS4LineFind::Found((fo_next, linep)));
             }
             if self.find_line_lru_cache_enabled {
                 self.find_line_lru_cache_put += 1;
@@ -498,12 +503,17 @@ impl LineReader {
                 if self.is_line_last(&linep) {
                     if self.find_line_lru_cache_enabled {
                         self.find_line_lru_cache_put += 1;
-                        dpo!("LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
+                        //dpo!("LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
+                        //self.find_line_lru_cache
+                        //    .put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                        dpo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                         self.find_line_lru_cache
-                            .put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                            .put(fileoffset, ResultS4LineFind::Found((fo_next, linep.clone())));
                     }
-                    dpxf!("return ResultS4LineFind::Found_EOF({}, {:p}) @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
-                    return Some(ResultS4LineFind::Found_EOF((fo_next, linep)));    
+                    //dpxf!("return ResultS4LineFind::Found_EOF({}, {:p}) @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                    //return Some(ResultS4LineFind::Found_EOF((fo_next, linep)));
+                    dpxf!("return ResultS4LineFind::Found({}, {:p}) @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                    return Some(ResultS4LineFind::Found((fo_next, linep)));
                 }
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
@@ -747,11 +757,15 @@ impl LineReader {
             } else {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    dpof!("({}) A0: LRU cache put({}, Found_EOF(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
-                    self.find_line_lru_cache.put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                    //dpof!("({}) A0: LRU cache put({}, Found_EOF(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
+                    //self.find_line_lru_cache.put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                    dpof!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
+                    self.find_line_lru_cache.put(fileoffset, ResultS4LineFind::Found((fo_next, linep.clone())));
                 }
-                dpxf!("({}) A0: return ResultS4LineFind::Found_EOF(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
-                return ResultS4LineFind::Found_EOF((fo_next, linep.clone()));
+                //dpxf!("({}) A0: return ResultS4LineFind::Found_EOF(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                //return ResultS4LineFind::Found_EOF((fo_next, linep.clone()));
+                dpxf!("({}) A0: return ResultS4LineFind::Found(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                return ResultS4LineFind::Found((fo_next, linep.clone()));
             };
         }
         assert!(!found_nl_a, "already found newline A; was finding it once not good enough? {:?}", self.path());
@@ -785,13 +799,17 @@ impl LineReader {
                 if nl_b_eof {
                     if self.find_line_lru_cache_enabled {
                         self.find_line_lru_cache_put += 1;
-                        dpof!("({}) A1a: LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
+                        //dpof!("({}) A1a: LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
+                        //self.find_line_lru_cache
+                        //    .put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                        dpof!("({}) A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
                         self.find_line_lru_cache
-                            .put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                            .put(fileoffset, ResultS4LineFind::Found((fo_next, linep.clone())));
                     }
-                    dpxf!("({}): return ResultS4LineFind::Found_EOF({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
-                    return ResultS4LineFind::Found_EOF((fo_next, linep));
-    
+                    //dpxf!("({}): return ResultS4LineFind::Found_EOF({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                    //return ResultS4LineFind::Found_EOF((fo_next, linep));
+                    dpxf!("({}): return ResultS4LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                    return ResultS4LineFind::Found((fo_next, linep));
                 }
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
@@ -838,12 +856,17 @@ impl LineReader {
                         debug_assert!(self.is_line_last(&linep), "nl_b_eof true yet !is_line_last(linep) file {:?}", self.path());
                         if self.find_line_lru_cache_enabled {
                             self.find_line_lru_cache_put += 1;
-                            dpof!("({}) A1b: LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
+                            //dpof!("({}) A1b: LRU Cache put({}, Found_EOF({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
+                            //self.find_line_lru_cache
+                            //    .put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                            dpof!("({}) A1b: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
                             self.find_line_lru_cache
-                                .put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                                .put(fileoffset, ResultS4LineFind::Found((fo_next, linep.clone())));
                         }
-                        dpxf!("({}): return ResultS4LineFind::Found_EOF({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
-                        return ResultS4LineFind::Found_EOF((fo_next, linep));    
+                        //dpxf!("({}): return ResultS4LineFind::Found_EOF({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                        //return ResultS4LineFind::Found_EOF((fo_next, linep));
+                        dpxf!("({}): return ResultS4LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                        return ResultS4LineFind::Found((fo_next, linep));
                     }
                     debug_assert!(!self.is_line_last(&linep), "nl_b_eof true yet !is_line_last(linep)");
                     if self.find_line_lru_cache_enabled {
@@ -945,8 +968,10 @@ impl LineReader {
         let linep: LineP = LineP::new(line);
         let fo_next: FileOffset = fo_nl_b + charsz_fo;
         if nl_b_eof {
-            dpxf!("({}): return ResultS4LineFind::Found_EOF({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
-            return ResultS4LineFind::Found_EOF((fo_next, linep));
+            //dpxf!("({}): return ResultS4LineFind::Found_EOF({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+            //return ResultS4LineFind::Found_EOF((fo_next, linep));
+            dpxf!("({}): return ResultS4LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+            return ResultS4LineFind::Found((fo_next, linep));
         }
 
         dpxf!("({}): return ResultS4LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
@@ -1326,11 +1351,15 @@ impl LineReader {
             } else {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    dpof!("A0: LRU cache put({}, Found_EOF(({}, @{:p})))", fileoffset, fo_next, linep);
-                    self.find_line_lru_cache.put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                    //dpof!("A0: LRU cache put({}, Found_EOF(({}, @{:p})))", fileoffset, fo_next, linep);
+                    //self.find_line_lru_cache.put(fileoffset, ResultS4LineFind::Found_EOF((fo_next, linep.clone())));
+                    dpof!("A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fo_next, linep);
+                    self.find_line_lru_cache.put(fileoffset, ResultS4LineFind::Found((fo_next, linep.clone())));
                 }
-                dpxf!("({}) A0: return ResultS4LineFind::Found_EOF(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
-                return ResultS4LineFind::Found_EOF((fo_next, linep.clone()));
+                //dpxf!("({}) A0: return ResultS4LineFind::Found_EOF(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                //return ResultS4LineFind::Found_EOF((fo_next, linep.clone()));
+                dpxf!("({}) A0: return ResultS4LineFind::Found(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                return ResultS4LineFind::Found((fo_next, linep.clone()));
             };
         }
         assert!(!found_nl_a, "already found newline A; was finding it once not good enough? file {:?}", self.path());
