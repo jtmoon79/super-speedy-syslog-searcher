@@ -2228,8 +2228,10 @@ fn captures_to_buffer_bytes(
     tz_offset: &FixedOffset,
     dtfs: &DTFSSet,
 ) -> usize {
-    dpnf!("captures_to_buffer_bytes(…, …, year_opt {:?}, tz_offset {:?}, …)", year_opt, tz_offset);
+    dpnf!("(…, …, year_opt {:?}, tz_offset {:?}, …)", year_opt, tz_offset);
+
     let mut at: usize = 0;
+
     // year
     match captures.name(CGN_YEAR).as_ref() {
         Some(match_) => {
@@ -2241,11 +2243,11 @@ fn captures_to_buffer_bytes(
                     // TODO: 2022/07/11 cost-savings: pass in `Option<&[u8]>`, avoid creating `String`
                     let year_s: String = year.to_string();
                     debug_assert_eq!(year_s.len(), 4, "Bad year string {:?}", year_s);
-                    dpo!("captures_to_buffer_bytes: using fallback year {:?}", year_s);
+                    dpof!("using fallback year {:?}", year_s);
                     copy_slice_to_buffer!(year_s.as_bytes(), buffer, at);
                 }
                 None => {
-                    dpo!("captures_to_buffer_bytes: using hardcoded dummy year {:?}", YEAR_FALLBACKDUMMY);
+                    dpof!("using hardcoded dummy year {:?}", YEAR_FALLBACKDUMMY);
                     copy_slice_to_buffer!(YEAR_FALLBACKDUMMY.as_bytes(), buffer, at);
                 }
             }
@@ -2337,7 +2339,7 @@ fn captures_to_buffer_bytes(
         }
     }
 
-    dpxf!("captures_to_buffer_bytes return {:?}", at);
+    dpxf!("return {:?}", at);
 
     at
 }
