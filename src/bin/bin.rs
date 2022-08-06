@@ -640,6 +640,10 @@ pub fn main() -> ExitCode {
 // processing threads
 // -------------------------------------------------------------------------------------------------
 
+// short-hand helpers
+const FILEERRSTUB: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrStub;
+const FILEOK: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileOk;
+
 // TODO: leave a long code comment explaining  why I chose this threading pub-sub approach
 //       see old archived code to see previous attempts
 
@@ -660,16 +664,17 @@ type ThreadInitData = (
 );
 type IsSyslineLast = bool;
 /// the data sent from file processing thread to the main processing thread
-type ChanDatum = (SyslineP_Opt, SummaryOpt, IsSyslineLast);
+type ChanDatum = (SyslineP_Opt, SummaryOpt, IsSyslineLast, FileProcessingResultBlockZero);
 type MapPathIdDatum = BTreeMap<PathId, ChanDatum>;
 type SetPathId = HashSet<PathId>;
 type ChanSendDatum = crossbeam_channel::Sender<ChanDatum>;
 type ChanRecvDatum = crossbeam_channel::Receiver<ChanDatum>;
 type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 
-/// Thread entry point for processing a file
-/// this creates `SyslogProcessor` and processes the syslog file `Syslines`.
-/// Sends each processed sysline back across channel to main thread.
+/// Thread entry point for processing one file.
+/// This creates `SyslogProcessor` and processes the syslog file `Sysline`s.
+/// Sends each processed `Sysline` through a channel to the main thread which
+/// will most likely print it.
 fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: ThreadInitData) {
     stack_offset_set(Some(2));
     let (
@@ -699,14 +704,16 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
         Err(err) => {
             eprintln!("ERROR: SyslogProcessor::new({:?}) failed {}", path.as_str(), err);
             let mut summary = Summary::default();
+            // TODO: [2022/08] this design needs work: the Error instance should be passed
+            //       back in the channel, not via the Summary.
             summary.Error_ = Some(err.to_string());
-            // LAST WORKING HERE [2022/06/18]
-            match chan_send_dt.send((None, Some(summary), true)) {
+            match chan_send_dt.send((None, Some(summary), true, FILEERRSTUB)) {
                 Ok(_) => {}
                 Err(err) => {
                     eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
                 }
             }
+            dpxf!("({:?})", path);
             return;
         }
     };
@@ -715,36 +722,42 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
     syslogproc.process_stage0_valid_file_check();
 
     let result = syslogproc.process_stage1_blockzero_analysis();
-    match result {
+    match &result {
         FileProcessingResultBlockZero::FileErrNoLinesFound => {
             eprintln!("WARNING: no lines found {:?}", path);
-            match chan_send_dt.send((None, Some(syslogproc.summary()), true)) {
-                Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: stage0 chan_send_dt.send(…) failed {}", err);
-                }
-            }
-            return;
         }
         FileProcessingResultBlockZero::FileErrNoSyslinesFound => {
             eprintln!("WARNING: no syslines found {:?}", path);
-            return;
         }
         FileProcessingResultBlockZero::FileErrDecompress => {
             eprintln!("WARNING: could not decompress {:?}", path);
-            return;
         }
         FileProcessingResultBlockZero::FileErrWrongType => {
             eprintln!("WARNING: bad path {:?}", path);
-            return;
         }
         FileProcessingResultBlockZero::FileErrIo(err) => {
             eprintln!("ERROR: Error {} for {:?}", err, path);
-            return;
         }
         FileProcessingResultBlockZero::FileOk => {}
         FileProcessingResultBlockZero::FileErrEmpty => {}
         FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange => {}
+        FileProcessingResultBlockZero::FileErrStub => {}
+    }
+    match result {
+        FileProcessingResultBlockZero::FileOk => {}
+        _ => {
+            dpof!("chan_send_dt.send((None, summary, true))");
+            match chan_send_dt.send(
+                (None, Some(syslogproc.summary()), true, result)
+            ) {
+                Ok(_) => {}
+                Err(err) => {
+                    eprintln!("ERROR: stage1 chan_send_dt.send(…) failed {}", err);
+                }
+            }
+            dpxf!("({:?})", path);
+            return;
+        }
     }
 
     // find first sysline acceptable to the passed filters
@@ -761,7 +774,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
             fo1 = fo;
             let is_last: IsSyslineLast = syslogproc.is_sysline_last(&syslinep) as IsSyslineLast;
             dpo!("{:?}({}): Found, chan_send_dt.send({:p}, None, {});", _tid, tname, syslinep, is_last);
-            match chan_send_dt.send((Some(syslinep), None, is_last)) {
+            match chan_send_dt.send((Some(syslinep), None, is_last, FILEOK)) {
                 Ok(_) => {}
                 Err(err) => {
                     eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
@@ -790,7 +803,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
         dpo!("{:?}({}): quit searching…", _tid, tname);
         let summary_opt: SummaryOpt = Some(syslogproc.process_stage4_summary());
         dpo!("{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", _tid, tname, summary_opt, false);
-        match chan_send_dt.send((None, summary_opt, false)) {
+        match chan_send_dt.send((None, summary_opt, false, FILEOK)) {
             Ok(_) => {}
             Err(err) => {
                 eprintln!("ERROR: C chan_send_dt.send(…) failed {}", err);
@@ -812,7 +825,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
             => {
                 let is_last = syslogproc.is_sysline_last(&syslinep);
                 dpo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", _tid, tname, syslinep, is_last);
-                match chan_send_dt.send((Some(syslinep), None, is_last)) {
+                match chan_send_dt.send((Some(syslinep), None, is_last, FILEOK)) {
                     Ok(_) => {}
                     Err(err) => {
                         eprintln!("ERROR: D chan_send_dt.send(…) failed {}", err);
@@ -840,7 +853,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
 
     let summary = syslogproc.summary();
     dpo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", _tid, tname, summary, false);
-    match chan_send_dt.send((None, Some(summary), false)) {
+    match chan_send_dt.send((None, Some(summary), false, FILEOK)) {
         Ok(_) => {}
         Err(err) => {
             eprintln!("ERROR: E chan_send_dt.send(…) failed {}", err);
@@ -1378,6 +1391,9 @@ fn processing_loop(
         map_pathid_printer.insert(*pathid, printer);
     }
 
+    // count of not okay FileProcessing
+    let mut fileprocessing_not_okay: usize = 0;
+
     // main thread "game loop"
     //
     // here is the program coordination of file processing threads to print
@@ -1410,22 +1426,28 @@ fn processing_loop(
             // provide.
 
             let pathid: PathId;
-            let result1: RecvResult4;
-            (pathid, result1) = match recv_many_chan(&map_pathid_chanrecvdatum, &mut index_select, &set_pathid) {
+            let result: RecvResult4;
+            (pathid, result) = match recv_many_chan(&map_pathid_chanrecvdatum, &mut index_select, &set_pathid) {
                 Some(val) => val,
                 None => {
                     eprintln!("ERROR: recv_many_chan returned None which is unexpected");
                     continue;
                 }
             };
-            match result1 {
+            match result {
                 Ok(chan_datum) => {
                     dpof!("B crossbeam_channel::Found for PathId {:?};", pathid);
+                    match chan_datum.3 {
+                        FileProcessingResultBlockZero::FileOk => {}
+                        _ => {
+                            fileprocessing_not_okay += 1;
+                        }
+                    }
                     if let Some(summary) = chan_datum.1 {
                         assert!(chan_datum.0.is_none(), "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId {:?}", pathid);
                         summary_update(&pathid, summary, &mut map_pathid_summary);
                         dpof!("B will disconnect channel {:?}", pathid);
-                        // receiving a Summary must be the last data sent on the channel
+                        // receiving a `Summary` means that was the last data sent on the channel
                         disconnect.push(pathid);
                     } else {
                         assert!(chan_datum.0.is_some(), "ChanDatum None(Summary) and None(SyslineP); should have one Some(). PathId {:?}", pathid);
@@ -1504,8 +1526,6 @@ fn processing_loop(
                         Ok(_) => {},
                         Err(_err) => {
                             p_err!("failed to print; TODO abandon processing for PathId {:?}", pathid);
-                            // TODO: 2022/04/09 if printing fails, then all future prints are very likely to fail
-                            //       so shutdown program
                         }
                 }
                 // without printing this extra '\n' then for files with no terminating '\n' the
@@ -1545,6 +1565,14 @@ fn processing_loop(
         dpof!("D set_pathid: {:?}", set_pathid);
     } // end loop
 
+    // quick count of attached Errors
+    let mut error_count: usize = 0;
+    for (_pathid, summary) in map_pathid_summary.iter() {
+        if summary.Error_.is_some() {
+            error_count += 1;
+        }
+    }
+
     // Getting here means main program processing has completed.
     // Now to print the `--summary` (if it was requested).
 
@@ -1578,11 +1606,22 @@ fn processing_loop(
 
     dpof!("E chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
 
+    // TODO: [2022/08] the rationale for returning an `false` (and then the process return code 1)
+    //       needs to be redesigned. It's clunky.
     let mut ret: bool = true;
     if chan_recv_err > 0 {
+        dpof!("F chan_recv_err {}; return false", chan_recv_err);
         ret = false;
     }
-    dpnf!("return {:?}", ret);
+    //if fileprocessing_not_okay > 0 {
+    //    dpof!("F fileprocessing_not_okay {}; return false", fileprocessing_not_okay);
+    //    ret = false;
+    //}
+    if error_count > 0 {
+        dpof!("F error_count {}; return false", error_count);
+        ret = false;
+    }
+    dpxf!("return {:?}", ret);
 
     ret
 }

@@ -274,6 +274,9 @@ pub enum FileProcessingResult<E> {
     FileErrIo(E),
     FileErrWrongType,
     FileErrDecompress,
+    /// TODO: [2022/08] stub value, redesign bin.rs data passing channels to pass the actual
+    ///       error, not via Summary._Error
+    FileErrStub,
     FileOk,
 }
 
