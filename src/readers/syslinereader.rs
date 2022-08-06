@@ -502,9 +502,9 @@ impl SyslineReader {
 
     /// return most used `DateTimeParseInstr`
     ///
-    /// before analysis, this may return different values
+    /// before `dt_patterns_analysis()` completes, this may return different values
     ///
-    /// after analysis, it will return the same value
+    /// after `dt_patterns_analysis()` completes, it will return the same value
     fn datetime_parse_data(&self) -> &DateTimeParseInstr {
         &DATETIME_PARSE_DATAS[self.dt_pattern_index_max_count()]
     }
@@ -514,11 +514,11 @@ impl SyslineReader {
     pub fn is_sysline_last(&self, sysline: &Sysline) -> bool {
         let fo_end: FileOffset = sysline.fileoffset_end();
         if fo_end == self.fileoffset_last() {
-            dpnxf!("(…); return true");
+            dpnxf!("return true");
             return true;
         }
         assert_lt!(fo_end, self.filesz(), "fileoffset_end {} is at or after filesz() {}", fo_end, self.filesz());
-        dpnxf!("(…); return false");
+        dpnxf!("return false");
 
         false
     }
@@ -1221,7 +1221,7 @@ impl SyslineReader {
                     debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}", dt_beg, dt_end);
                     debug_assert_lt!(dt_end, fo1 as usize, "bad dt_end {} fileoffset+charsz {}", dt_end, fo1 as usize);
                     if self.is_sysline_last(&sysline) {
-                        let syslinep: SyslineP = SyslineP::new(sysline);
+                        let syslinep: SyslineP = self.insert_sysline(sysline);
                         if self.find_sysline_lru_cache_enabled {
                             self.find_sysline_lru_cache_put += 1;
                             dpof!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo1);

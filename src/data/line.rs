@@ -206,6 +206,11 @@ impl LinePart {
         self.blockoffset
     }
 
+    /// return the linepart as a slice
+    pub fn as_slice(&self) -> &[u8] {
+        &self.blockp[self.blocki_beg..self.blocki_end]
+    }
+
     /// count of bytes of this `LinePart`
     /// XXX: `count_bytes` and `len` is overlapping and confusing.
     ///
@@ -220,7 +225,7 @@ impl LinePart {
         // XXX: intermixing byte lengths and character lengths
         // XXX: does not handle multi-byte
         let s1: String;
-        let slice_ = &(*self.blockp)[self.blocki_beg..self.blocki_end];
+        let slice_ = self.as_slice();
         if raw {
             unsafe {
                 s1 = String::from_utf8_unchecked(Vec::<u8>::from(slice_));
@@ -521,14 +526,14 @@ impl Line {
         let sz = self.lineparts.len();
         let mut slices = Slices::with_capacity(sz);
         for linepart in self.lineparts.iter() {
-            let slice = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+            let slice: &[u8] = linepart.as_slice();
             slices.push(slice);
         }
 
         slices
     }
 
-    /// return a count of slices that make up this `Line`
+    /// return a count of "slices" (`LinePart`) that make up this `Line`
     pub fn count_slices(self: &Line) -> Count {
         self.lineparts.len() as Count
     }
@@ -656,8 +661,7 @@ impl Line {
         let stdout = std::io::stdout();
         let mut stdout_lock = stdout.lock();
         for linepart in &self.lineparts {
-            // TODO: I'm somewhat sure this is not creating anything new but I should verify with `gdb-rust`.
-            let slice = &linepart.blockp[linepart.blocki_beg..linepart.blocki_end];
+            let slice = linepart.as_slice();
             if raw {
                 match stdout_lock.write(slice) {
                     Ok(_) => {}

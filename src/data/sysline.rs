@@ -63,6 +63,7 @@ pub struct Sysline {
     /// the one or more `Line` that make up a Sysline
     pub(crate) lines: Lines,
     /// index into `Line` where datetime string starts
+    /// (inclusive)
     ///
     /// byte-based count
     ///
@@ -71,6 +72,7 @@ pub struct Sysline {
     /// TODO: use `Range_LineIndex`
     pub(crate) dt_beg: LineIndex,
     /// index into `Line` where datetime string ends, one char past last character of datetime string
+    /// (exclusive)
     ///
     /// byte-based count
     ///
