@@ -1422,7 +1422,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // ---------------------------------------------------------------------------------------------
-    // from file `./logs/Ubuntu18/kernel.log`
+    // from file `./logs/Ubuntu18/kernel.log`, no year
     // example with offset:
     //
     //               1         2
