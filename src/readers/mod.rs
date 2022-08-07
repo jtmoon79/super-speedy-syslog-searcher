@@ -1,4 +1,4 @@
-// src/Readers/mod.rs
+// src/readers/mod.rs
 //
 // various Readers and supporting helpers
 

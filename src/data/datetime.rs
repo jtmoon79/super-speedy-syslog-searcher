@@ -1,4 +1,4 @@
-// src/Data/datetime.rs
+// src/data/datetime.rs
 //
 // the most relevant documents to understand this file:
 // `chrono` crate `strftime` format:

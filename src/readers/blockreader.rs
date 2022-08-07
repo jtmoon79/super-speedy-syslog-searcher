@@ -1,4 +1,4 @@
-// src/Readers/blockreader.rs
+// src/readers/blockreader.rs
 //
 // Blocks and BlockReader implementations
 // …

@@ -1,4 +1,4 @@
-// src/Readers/syslinereader.rs
+// src/readers/syslinereader.rs
 //
 // …
 

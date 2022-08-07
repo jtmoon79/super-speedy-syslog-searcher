@@ -1,4 +1,4 @@
-// src/Data/mod.rs
+// src/data/mod.rs
 //
 // Data modules
 

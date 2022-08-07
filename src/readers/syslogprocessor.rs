@@ -1,4 +1,4 @@
-// src/Readers/syslogprocessor.rs
+// src/readers/syslogprocessor.rs
 //
 // …
 

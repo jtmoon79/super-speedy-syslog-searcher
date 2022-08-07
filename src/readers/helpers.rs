@@ -1,4 +1,4 @@
-// src/Readers/helpers.rs
+// src/readers/helpers.rs
 //
 // miscellaneous helper functions
 

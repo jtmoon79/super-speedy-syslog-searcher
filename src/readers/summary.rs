@@ -1,4 +1,4 @@
-// src/Readers/summary.rs
+// src/readers/summary.rs
 //
 
 #![allow(non_snake_case)]
