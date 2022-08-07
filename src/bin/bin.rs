@@ -1374,7 +1374,7 @@ fn processing_loop(
     }
 
     // count of not okay FileProcessing
-    let mut fileprocessing_not_okay: usize = 0;
+    let mut _fileprocessing_not_okay: usize = 0;
 
     //
     // the main processing loop (e.g the "game loop")
@@ -1424,7 +1424,7 @@ fn processing_loop(
                     match chan_datum.3 {
                         FileProcessingResultBlockZero::FileOk => {}
                         _ => {
-                            fileprocessing_not_okay += 1;
+                            _fileprocessing_not_okay += 1;
                         }
                     }
                     if let Some(summary) = chan_datum.1 {
@@ -1598,8 +1598,8 @@ fn processing_loop(
         dpof!("F chan_recv_err {}; return false", chan_recv_err);
         ret = false;
     }
-    //if fileprocessing_not_okay > 0 {
-    //    dpof!("F fileprocessing_not_okay {}; return false", fileprocessing_not_okay);
+    //if _fileprocessing_not_okay > 0 {
+    //    dpof!("F fileprocessing_not_okay {}; return false", _fileprocessing_not_okay);
     //    ret = false;
     //}
     if error_count > 0 {
