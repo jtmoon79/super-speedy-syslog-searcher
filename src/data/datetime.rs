@@ -10,8 +10,6 @@
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
 
-pub use std::time::SystemTime;
-
 #[cfg(any(debug_assertions,test))]
 use crate::printer_debug::printers::{
     buffer_to_String_noraw,
@@ -37,6 +35,7 @@ pub use crate::data::line::{
 
 use std::collections::BTreeMap;
 use std::fmt;
+pub use std::time::SystemTime;
 
 extern crate arrayref;
 use arrayref::array_ref;
