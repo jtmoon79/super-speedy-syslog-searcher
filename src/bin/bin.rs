@@ -2,10 +2,6 @@
 //
 // ‥ … ≤ ≥ ≠ ≟
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// uses
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
@@ -176,9 +172,6 @@ const CLI_DT_FILTER_PATTERN14: CLI_DT_Filter_Pattern = ("%Y%m%d %z", true, true,
 const CLI_DT_FILTER_PATTERN15: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, false);
 const CLI_DT_FILTER_PATTERN16: CLI_DT_Filter_Pattern = ("+%s", false, false, true);
 // TODO: [2022/06/19] allow passing three-letter TZ abbreviation
-//const CLI_DT_FILTER_PATTERN13: &CLI_DT_Filter_Pattern = &("%Y/%m/%d", true, false);
-//const CLI_DT_FILTER_PATTERN14: &CLI_DT_Filter_Pattern = &("%Y-%m-%d", true, false);
-//const CLI_DT_FILTER_PATTERN15: &CLI_DT_Filter_Pattern = &("%Y%m%d", true, false);
 const CLI_FILTER_PATTERNS_COUNT: usize = 16;
 /// acceptable datetime filter patterns for the user-passed `-a` or `-b`
 const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
@@ -255,8 +248,6 @@ struct CLI_Args {
     /// Symlinks will be followed.
     #[clap(required = true)]
     paths: Vec::<String>,
-    //#[clap(parse(from_os_str))]
-    //paths: Vec::<std::path::PathBuf>,
 
     /// DateTime Filter after.
     #[clap(
@@ -648,9 +639,9 @@ const FILEOK: FileProcessingResultBlockZero = FileProcessingResultBlockZero::Fil
 //       see old archived code to see previous attempts
 
 /// Paths are needed as keys. Many such keys are passed around among different threads.
-/// This requires many `FPath::clone()`. Instead of clones, pass around a relatively light-weight
+/// Instead of passing clones of `FPath`, pass around a relatively light-weight
 /// `usize` as a key.
-/// The main processing thread can use a `PathId` key to lookup the `FPath` as-needed.
+/// The main processing thread uses the `PathId` key to lookup the `FPath`.
 type PathId = usize;
 /// data to initialize a file processing thread
 type ThreadInitData = (
@@ -662,19 +653,23 @@ type ThreadInitData = (
     DateTimeLOpt,
     FixedOffset,
 );
+/// just an aliased bool
 type IsSyslineLast = bool;
-/// the data sent from file processing thread to the main processing thread
+
+/// the data sent from file processing thread to the main printing thread
 type ChanDatum = (SyslineP_Opt, SummaryOpt, IsSyslineLast, FileProcessingResultBlockZero);
 type MapPathIdDatum = BTreeMap<PathId, ChanDatum>;
 type SetPathId = HashSet<PathId>;
+/// sender channel (used by file processing thread)
 type ChanSendDatum = crossbeam_channel::Sender<ChanDatum>;
+/// sender channel (used by main printing loop)
 type ChanRecvDatum = crossbeam_channel::Receiver<ChanDatum>;
 type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 
 /// Thread entry point for processing one file.
-/// This creates `SyslogProcessor` and processes the syslog file `Sysline`s.
+/// This creates a `SyslogProcessor` and processes the syslog file `Sysline`s.
 /// Sends each processed `Sysline` through a channel to the main thread which
-/// will most likely print it.
+/// will print it.
 fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: ThreadInitData) {
     stack_offset_set(Some(2));
     let (
@@ -863,7 +858,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
     dpxf!("({:?})", path);
 }
 
-/// statistics to print about printing
+/// statistics to print about main thread's printing
 #[derive(Copy, Clone, Default)]
 pub struct SummaryPrinted {
     /// count of bytes printed
@@ -1073,7 +1068,7 @@ type MapPathIdToPrinterSysline = HashMap::<PathId, PrinterSysline>;
 type MapPathIdToFileType = HashMap::<PathId, FileType>;
 type MapPathIdToMimeGuess = HashMap::<PathId, MimeGuess>;
 
-/// the main processing loop:
+/// the main processing and printing loop:
 ///
 /// 1. creates threads to process each file
 ///
@@ -1137,7 +1132,7 @@ fn processing_loop(
     //
     // separate `ProcessPathResult`s into different collections, valid and invalid
     //
-    // `valid` is used extensively
+    // the valid `map_pathid_results` is used extensively
     let mut map_pathid_results = MapPathIdToProcessPathResult::with_capacity(file_count);
     // `invalid` is used to help summarize why some files were not processed
     let mut map_pathid_results_invalid = MapPathIdToProcessPathResult::with_capacity(file_count);
@@ -1145,6 +1140,7 @@ fn processing_loop(
     let mut map_pathid_path = MapPathIdToFPath::new();
     // map `PathId` to `FileType`
     let mut map_pathid_filetype = MapPathIdToFileType::with_capacity(file_count);
+    // map `PathId` to `MimeGuess`
     let mut map_pathid_mimeguess = MapPathIdToMimeGuess::with_capacity(file_count);
     for (pathid_counter, processpathresult) in paths_results.drain(..).enumerate()
     {
@@ -1166,7 +1162,7 @@ fn processing_loop(
         };
     }
 
-    // preprint the prepended name or path
+    // preprint the prepended name or path (if user requested it)
     type MapPathIdToPrependName = HashMap<PathId, String>;
     let mut pathid_to_prependname: MapPathIdToPrependName;
     let mut prependname_width: usize = 0;
@@ -1203,13 +1199,12 @@ fn processing_loop(
         pathid_to_prependname = MapPathIdToPrependName::with_capacity(0);
     }
 
-    // create one thread per file path, each thread named for the file basename
-
     //
     // prepare per-thread data keyed by `FPath`
     // create necessary channels for each thread
-    // launch each thread
+    // create one thread per `PathId`, each thread named for the file basename
     //
+
     // pre-created mapping for calls to `select.recv` and `select.select`
     type MapIndexToPathId = HashMap<usize, PathId>;
     // mapping of PathId to received data. Most important collection for the remainder
@@ -1222,7 +1217,7 @@ fn processing_loop(
     // "mapping" of PathId to select index, used in `recv_many_data`
     let mut index_select = MapIndexToPathId::with_capacity(file_count);
 
-    // initialize processing channels/threads, one per file path
+    // initialize processing channels/threads, one per `PathId`
     for pathid in map_pathid_path.keys() {
         map_pathid_color.insert(*pathid, color_rand());
     }
@@ -1276,13 +1271,6 @@ fn processing_loop(
 
     /// run `.recv` on many Receiver channels simultaneously using `crossbeam_channel::Select`
     /// https://docs.rs/crossbeam-channel/0.5.1/crossbeam_channel/struct.Select.html
-    ///
-    /// DONE: TODO: [2022/03/26] to avoid sending a new `FPath` on each channel send, instead have a single
-    ///       Map<u32, FPath> that is referred to on "each side". The `u32` is the lightweight key sent
-    ///       along the channel.
-    ///       This mapping <u32, FPath> could be used for all other maps with keys `FPath`...
-    ///       would a global static lookup map make this easier? No need to pass around instances of `Map<u32, FPath>`.
-    ///
     #[inline(always)]
     fn recv_many_chan<'a>(
         pathid_chans: &'a MapPathIdChanRecvDatum,
@@ -1339,15 +1327,9 @@ fn processing_loop(
     }
 
     //
-    // main coordination loop (e.g. "main game loop")
-    // process the "receiving sysline" channels from the running threads
-    // print the earliest available sysline
+    // preparation for the main coordination loop (e.g. the "game loop")
     //
-    // TODO: [2022/03/24] change `map_pathid_datum` to `HashMap<FPath, (SyslineP, is_last)>` (`map_path_slp`);
-    //       currently it's confusing that there is a special handler for `Summary` (`map_pathid_summary`),
-    //       but not an equivalent `map_path_slp`.
-    //       In other words, break apart the passed `ChanDatum` to the more specific maps.
-    //
+
     let mut map_pathid_datum = MapPathIdDatum::new();
     // `set_pathid_datum` shadows `map_pathid_datum` for faster filters in `recv_many_chan`
     let mut set_pathid = SetPathId::with_capacity(file_count);
@@ -1361,7 +1343,7 @@ fn processing_loop(
 
     // mapping PathId to colors for printing.
     let mut map_pathid_printer = MapPathIdToPrinterSysline::with_capacity(file_count);
-    // initialize the printers, one per file
+    // initialize the printers, one per `PathId`
     for pathid in map_pathid_path.keys() {
         let color_: &Color = map_pathid_color.get(pathid).unwrap_or(&color_default);
         let prepend_file: Option<String> = match cli_opt_prepend_filename || cli_opt_prepend_filepath {
@@ -1394,11 +1376,13 @@ fn processing_loop(
     // count of not okay FileProcessing
     let mut fileprocessing_not_okay: usize = 0;
 
-    // main thread "game loop"
     //
-    // here is the program coordination of file processing threads to print
-    // Syslines ordered by datetime
+    // the main processing loop (e.g the "game loop")
     //
+    // process the "receiving sysline" channels from the running file processing threads.
+    // print the earliest available `Sysline`.
+    //
+
     // channels that should be disconnected per "game loop" loop iteration
     let mut disconnect = Vec::<PathId>::with_capacity(file_count);
     loop {
@@ -1458,7 +1442,7 @@ fn processing_loop(
                 }
                 Err(crossbeam_channel::RecvError) => {
                     dpof!("B crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", pathid);
-                    // this channel was closed by the sender
+                    // this channel was closed by the sender, it should be disconnected
                     disconnect.push(pathid);
                     chan_recv_err += 1;
                 }
@@ -1548,7 +1532,7 @@ fn processing_loop(
             map_pathid_datum.remove(&pathid_);
             set_pathid.remove(&pathid_);
         }
-        // remove channels (and keys) that have been disconnected
+        // remove channels (and keys) that are marked disconnected
         for pathid in disconnect.iter() {
             dpof!("C map_pathid_chanrecvdatum.remove({:?});", pathid);
             map_pathid_chanrecvdatum.remove(pathid);
@@ -1558,6 +1542,7 @@ fn processing_loop(
         // are there any channels to receive from?
         if map_pathid_chanrecvdatum.is_empty() {
             dpof!("D map_pathid_chanrecvdatum.is_empty(); no more channels to receive from!");
+            // all channels are closed, break from main processing loop
             break;
         }
         dpof!("D map_pathid_chanrecvdatum: {:?}", map_pathid_chanrecvdatum);
@@ -1565,7 +1550,7 @@ fn processing_loop(
         dpof!("D set_pathid: {:?}", set_pathid);
     } // end loop
 
-    // quick count of attached Errors
+    // quick count of `Summary` attached Errors
     let mut error_count: usize = 0;
     for (_pathid, summary) in map_pathid_summary.iter() {
         if summary.Error_.is_some() {
@@ -1606,8 +1591,8 @@ fn processing_loop(
 
     dpof!("E chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
 
-    // TODO: [2022/08] the rationale for returning an `false` (and then the process return code 1)
-    //       needs to be redesigned. It's clunky.
+    // TODO: [2022/08] the rationale for returning `false` (and then the process return code 1)
+    //       is clunky, and could use a little refactoring. Also needs a gituhub Issue
     let mut ret: bool = true;
     if chan_recv_err > 0 {
         dpof!("F chan_recv_err {}; return false", chan_recv_err);
@@ -1627,8 +1612,6 @@ fn processing_loop(
 }
 
 // -------------------------------------------------------------------------------------------------
-
-// TODO: move these functions to a neighboring file `print_summary.rs`
 
 /// print the filepath name (one line)
 fn print_filepath(
