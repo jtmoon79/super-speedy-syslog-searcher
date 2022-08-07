@@ -212,6 +212,7 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
         // check dt_pattern (arbitrary minimum)
         let dtpat: &DateTimePattern_str = dtfs.pattern;
         assert_le!(8, dtpat.len(), ".dt_pattern.len too short; bad built-in dt_pattern {:?}; declared at line {}", dtpat, dtpd._line_num);
+
         // check year
         if dtfs.has_year() {
             assert!(regex_pattern_has_year(regpat), "regex_pattern has not year {:?} but .year is true; declared at line {}", regpat, dtpd._line_num);

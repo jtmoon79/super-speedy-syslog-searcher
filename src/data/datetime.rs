@@ -92,8 +92,12 @@ pub type Year = i32;
 pub type DateTimePattern_str = str;
 /// regular expression formatting pattern, passed to `regex::bytes::Regex`
 pub type DateTimeRegex_str = str;
+/// regular expression capture group name, used within the regular expression and
+/// for later retreival via `regex::captures.name()`
 pub type CaptureGroupName = str;
+/// regular expression capture group pattern, used within the regular expression
 pub type CaptureGroupPattern = str;
+/// a regular expression
 pub type RegexPattern = str;
 /// the regular expression "class" used here, specifically for matching datetime substrings within
 /// a `&str`
@@ -113,6 +117,7 @@ pub type DateTimeLOpt = Option<DateTimeL>;
 const YEAR_FALLBACKDUMMY: &str = "1972";
 
 /// DateTime Format Specifier for Year
+/// follows chrono `strftime` formatting
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Year {
     /// %Y
@@ -125,6 +130,7 @@ pub enum DTFS_Year {
 }
 
 /// DateTime Format Specifier for Month
+/// follows chrono `strftime` formatting
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Month {
     /// %m
@@ -136,6 +142,7 @@ pub enum DTFS_Month {
 }
 
 /// DateTime Format Specifier for Day
+/// follows chrono `strftime` formatting
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Day {
     /// %d
@@ -144,10 +151,10 @@ pub enum DTFS_Day {
     e,
     /// %d (" 8" or "08") captured but must be changed to %d ("08")
     _e_to_d,
-    // TODO: does this need %a %A... ?
 }
 
 /// DateTime Format Specifier for Hour
+/// follows chrono `strftime` formatting
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Hour {
     /// %H
@@ -161,6 +168,7 @@ pub enum DTFS_Hour {
 }
 
 /// DateTime Format Specifier for Minute
+/// follows chrono `strftime` formatting
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Minute {
     /// %M
@@ -168,6 +176,7 @@ pub enum DTFS_Minute {
 }
 
 /// DateTime Format Specifier for Minute
+/// follows chrono `strftime` formatting
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Second {
     /// %S
@@ -175,6 +184,7 @@ pub enum DTFS_Second {
 }
 
 /// DateTime Format Specifier for Fractional or fractional second
+/// follows chrono `strftime` formatting
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Fractional {
     /// %f
@@ -184,6 +194,7 @@ pub enum DTFS_Fractional {
 }
 
 /// DateTime Format Specifier for Timezone
+/// follows chrono `strftime` formatting
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Tz {
     /// %z +0930
@@ -200,7 +211,7 @@ pub enum DTFS_Tz {
     _fill,
 }
 
-/// `DTFSSet` is essentially instructions to transcribe regex captures to a strftime-ready
+/// `DTFSSet` is essentially instructions to transcribe regex captures to a chrono `strftime`-ready
 /// string. Given extracted regular expression groups "year", "day", etc. (see `CGN_*` vars),
 /// then what is the format of each such that the data can be readied and then passed
 /// to `chrono::DateTime::parse_from_str` (strftime format)?
@@ -262,7 +273,7 @@ pub struct DateTimeParseInstr<'a> {
     pub cgn_first: &'a CaptureGroupName,
     /// capture named group last (right-most) position in regex
     pub cgn_last: &'a CaptureGroupName,
-    /// hardcoded test case
+    /// hardcoded self-test cases
     #[cfg(any(debug_assertions,test))]
     pub _test_cases: &'a [&'a str],
     /// line number of declaration, to aid debugging
@@ -297,7 +308,7 @@ macro_rules! DTPD {
 // allow easy macro import via `use s4lib::data::datetime::DTPD;`
 pub use DTPD;
 
-// implement traits to allow sorting collections of `DateTimeParseInstr`
+// implement ordering traits to allow sorting collections of `DateTimeParseInstr`
 // only used for tests
 
 impl Ord for DateTimeParseInstr<'_> {
@@ -354,7 +365,7 @@ impl fmt::Debug for DateTimeParseInstr<'_> {
 
 }
 
-// patterns used in `DTPD!` declarations
+// `strftime` patterns used in `DTPD!` declarations
 
 const DTP_YmdHMSzc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 const DTP_YmdHMSz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
@@ -400,7 +411,7 @@ const DTP_BeHMSYZ: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
 /// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
 const DTP_bdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
 
-// chrono strftime formatting strings used in `fn datetime_parse_from_str`.
+// chrono `strftime` formatting strings used in `fn datetime_parse_from_str`.
 // `DTF` is "DateTime Format"
 //
 // These are effectively mappings to receive extracting datetime substrings in a `&str`
@@ -565,9 +576,6 @@ const DTFSS_BdHMSYZ: DTFSSet = DTFSSet {
     tz: DTFS_Tz::Z,
     pattern: DTP_BdHMSYZ,
 };
-
-// TODO: have `capture_to_bytes` tranform `%e` value to `%d` value
-//       adjust all patterns
 
 const DTFSS_BeHMS: DTFSSet = DTFSSet {
     year: DTFS_Year::_fill,
