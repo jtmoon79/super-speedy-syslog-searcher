@@ -1624,7 +1624,8 @@ fn processing_loop(
 
     dpof!("E chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
 
-    // TODO: [2022/08] the rationale for returning `false` (and then the process return code 1)
+    // TODO: Issue #5 return code confusion
+    //       the rationale for returning `false` (and then the process return code 1)
     //       is clunky, and could use a little refactoring. Also needs a gituhub Issue
     let mut ret: bool = true;
     if chan_recv_err > 0 {
