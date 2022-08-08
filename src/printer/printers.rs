@@ -19,7 +19,6 @@ use crate::printer_debug::printers::{
     dpnxf,
     dp_err,
     dp_wrn,
-    p_err,
     p_wrn,
 };
 

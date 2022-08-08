@@ -229,7 +229,6 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
     // FileGz
 
     // for example, `media.gz.old`
-    // TODO: this should be handled in `path_to_filetype_mimeguess`, can be removed
     if file_name_s.ends_with(".gz.old") {
         dpxf!("return FileGz; .gz.old");
         return FileType::FileGz;
