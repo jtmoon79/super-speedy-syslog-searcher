@@ -375,7 +375,6 @@ impl LineReader {
     /// The passed `FileOffset` can be any value (does not have to be begining or ending of
     /// a `Line`).
     /// O(log(n))
-    // XXX: this fails `pub(in crate::readers::linereader_tests)`
     pub fn get_linep(&self, fileoffset: &FileOffset) -> Option<LineP> {
         // I'm somewhat sure this is O(log(n))
         let fo_beg: &FileOffset = match self.foend_to_fobeg.range(fileoffset..).next() {
@@ -510,19 +509,19 @@ impl LineReader {
     ///
     /// Returned `ResultS4LineFind(fileoffset, …)` may refer to a different
     /// proceeding `Block`.
-    ///
-    /// TODO: [2022/05] add test for this:
-    ///       Keep in mind, a `Line` with terminating-newline as the last byte a `Block`
-    ///       may be allowed. However, a `Line` with preceding `Line` newline in prior `Block`
-    ///       may not be found, since the preceding `Line` terminating-newline must be found.
-    ///       In other words, last byte of `Line` may be last byte of `Block` and the `Line`
-    ///       will be found. However, if first byte of `Line` is first byte of `Block` then
-    ///       it will not be found.
-    ///
-    /// XXX: This function `find_line` is large and cumbersome and needs some cleanup of warnings.
-    ///      It could definitely use some improvements, but for now it gets the job done.
-    ///      Changes require extensive retesting.
-    ///      You've been warned.
+    //
+    // TODO: [2022/05] add test for this:
+    //       Keep in mind, a `Line` with terminating-newline as the last byte a `Block`
+    //       may be allowed. However, a `Line` with preceding `Line` newline in prior `Block`
+    //       may not be found, since the preceding `Line` terminating-newline must be found.
+    //       In other words, last byte of `Line` may be last byte of `Block` and the `Line`
+    //       will be found. However, if first byte of `Line` is first byte of `Block` then
+    //       it will not be found.
+    //
+    // XXX: This function `find_line` is large and cumbersome and needs some cleanup of warnings.
+    //      It could definitely use some improvements, but for now it gets the job done.
+    //      Changes require extensive retesting.
+    //      You've been warned.
     pub fn find_line_in_block(&mut self, fileoffset: FileOffset) -> ResultS4LineFind {
         dpnf!("({})", fileoffset);
 
