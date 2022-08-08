@@ -1025,6 +1025,8 @@ const RP_BLANKq: &RegexPattern = r"[[:blank:]]?";
 const RP_BLANKS: &RegexPattern = r"[[:blank:]]+";
 /// regex blanks?
 const RP_BLANKSq: &RegexPattern = r"[[:blank:]]*";
+/// regex blank or line end?
+const RP_BLANKSqEnd: &RegexPattern = r"([[:blank:]]?|$)";
 /// left-side brackets
 pub(crate) const RP_LB: &RegexPattern = r"[\[\(<{]";
 /// right-side brackets
@@ -1039,7 +1041,7 @@ pub type DateTimeParseInstrsIndex = usize;
 /// a run-time created vector of `Regex` instances that is a counterpart to `DATETIME_PARSE_DATAS`.
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
-pub const DATETIME_PARSE_DATAS_LEN: usize = 35;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 36;
 
 /// built-in `const DateTimeParseInstr` datetime parsing patterns.
 ///
@@ -1462,6 +1464,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             "September  3 08:10:29 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode",
             "Jan 1 01:00:00 1900 😀",
+            "January  3 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119",
         ],
         line!(),
     ),
@@ -1471,22 +1474,10 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             "September 03 08:10:29 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode",
             "Jan 01 01:00:00 1900 😀",
+            "January 03 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119",
         ],
         line!(),
     ),
-    /*
-    DTPD!(
-        concatcp!(r"^", CGP_MONTHB, " ", CGP_DAYd, " ", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " "),
-        DTP_BdHMS, false, false, false, 0, 30, CGN_MONTH, CGN_SECOND,
-        "January 03 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", CGP_MONTHB, " ", CGP_DAYd, " ", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " "),
-        DTP_BeHMS, false, false, false, 0, 30, CGN_MONTH, CGN_SECOND,
-        "January  3 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119", line!(),
-    ),
-    */
-    /*
     // ---------------------------------------------------------------------------------------------
     // from file `/var/log/aptitude`
     // example with offset:
@@ -1520,8 +1511,38 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     ===============================================================================
     //
     // TODO: add DTPD for `aptitude` log report
-     */
-    /*
+    //
+    // ---------------------------------------------------------------------------------------------
+    // from file `/var/log/apt/history.log`
+    // example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890
+    //     Start-Date: 2022-07-18  19:34:46
+    //     Commandline: apt-get install -y gnupg2
+    //     Install: gnupg2:amd64 (2.2.27-3ubuntu2.1)
+    //     End-Date: 2022-07-18  19:35:04
+    //     Start-Date: 2022-07-31  19:13:42
+    //     Commandline: apt-get -qq install -y ca-certificates gnupg2 apt-utils apt-transport-https curl
+    //     Install: apt-transport-https:amd64 (2.4.6)
+    //     Upgrade: apt:amd64 (2.4.5, 2.4.6), libapt-pkg6.0:amd64 (2.4.5, 2.4.6), apt-utils:amd64 (2.4.5, 2.4.6)
+    //
+    DTPD!(
+        concatcp!("^([SS][Tt][Aa][Rr][Tt]|[Ee][Nn][Dd])-[Dd][Aa][Tt][Ee]", "[:]?", RP_BLANKSq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKSqEnd),
+        DTFSS_YmdHMS, 0, 35, CGN_YEAR, CGN_SECOND,
+        &[
+            "Start-Date: 2022-07-18  19:34:01\nCommandline: apt-get install -y gnupg2\nInstall: gnupg2:amd64 (2.2.27-3ubuntu2.1)\n",
+            "End-Date: 2022-07-18  19:35:02\n",
+            "End-Date: 2022-07-18  19:35:03",
+            "End-Date:2022-07-18  19:35:04",
+            "End-Date:2022-07-18 19:35:05\n",
+            "End-Date 2022-07-18 19:35:06\n",
+            "END-DATE  2022-07-18 19:35:07 Foobar",
+            "end-date 2022-07-18 19:35:08 Foobar",
+            "START-DATE:   2022-07-18 19:35:09\nCommandline: apt-get install -y gnupg2\n",
+        ],
+        line!(),
+    ),
     // ---------------------------------------------------------------------------------------------    // from file `./logs/debian9/alternatives.log`
     // example with offset:
     //
@@ -1614,14 +1635,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     DEBUG: Sat Jan 01 2000 08:00:00 debug
     //     VERBOSE: Sat Jan 01 2000 08:00:00 verbose
     //
-    //(" %a %b %d %Y %H:%M:%S ", true, false, false, 5, 31, 6, 30),
-    //(" %a %b %d %Y %H:%M:%S ", true, false, false, 6, 32, 7, 31),
-    //(" %a %b %d %Y %H:%M:%S ", true, false, false, 7, 33, 8, 32),
-    //(" %a %b %d %Y %H:%M:%S ", true, false, false, 8, 34, 9, 33),
     // ---------------------------------------------------------------------------------------------
     // TODO: [2022/03/24] add timestamp formats seen at https://www.unixtimestamp.com/index.php
-    */
-    //
+    // ---------------------------------------------------------------------------------------------
     // general matches from start
     //
     DTPD!(
