@@ -160,8 +160,10 @@ pub struct XzData {
     pub bufreader: BufReaderXz,
 }
 
-// TODO: 2022/07 it is not impossible for paths to have ':', use '\0' instead
+// TODO: Issue #7
+//       it is not impossible for paths to have ':', use '\0' instead
 //       which should never be in a path. But use ':' when printing paths.
+
 /// separator substring for a filesystem path and subpath within an archive
 /// e.g. `path/logs.tar:logs/syslog`
 pub const SUBPATH_SEP: char = ':';
