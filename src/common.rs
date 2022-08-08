@@ -392,7 +392,7 @@ pub type Bytes = Vec<u8>;
 /// UTF-8 would be value `1`, UTF-16 would be value `2`, etc.
 pub type CharSz = usize;
 /// NewLine as char
-#[allow(dead_code, non_upper_case_globals)]
+#[allow(non_upper_case_globals)]
 pub const NLc: char = '\n';
 /// Single-byte newLine char as u8
 #[allow(non_upper_case_globals)]

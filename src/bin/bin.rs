@@ -1512,10 +1512,14 @@ fn processing_loop(
                             p_err!("failed to print; TODO abandon processing for PathId {:?}", pathid);
                         }
                 }
-                // without printing this extra '\n' then for files with no terminating '\n' the
-                // next printed sysline (from a different file) will be on the same line,
-                // i.e. it'll look unreable and jenky
-                if is_last {
+                // If a file's last char is not a '\n' then the next printed sysline
+                // (from a different file) will print on the same terminal line.
+                // While this is accurate byte-wise, it's difficult to read read and unexpected, and
+                // makes scripting line-oriented scripting more difficult. This is especially
+                // visually jarring when prepended data is present (`-l`, `-p`, etc.).
+                // So in case of no ending '\n', print an extra '\n' to improve human readability
+                // and scriptability.
+                if is_last && !(*syslinep).ends_with_newline() {
                     write_stdout(&NLu8a);
                     summaryprinted.bytes += 1;
                 }

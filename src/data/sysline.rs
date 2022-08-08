@@ -6,6 +6,7 @@ pub use crate::common::{
     Count,
     FPath,
     FileOffset,
+    NLc,
     NLu8,
     CharSz,
 };
@@ -24,6 +25,7 @@ use crate::data::line::{
     LineIndex,
     Line,
     LineP,
+    LinePart,
     Lines,
 };
 
@@ -257,6 +259,47 @@ impl Sysline {
         }
 
         slices
+    }
+
+    /// get the last byte of this Sysline
+    fn last_byte(self: &Sysline) -> Option<u8> {
+        assert_eq!(self.charsz(), 1, "charsz {} not implemented", self.charsz());
+        let len_ = self.lines.len();
+        if len_ <= 0 {
+            return None;
+        }
+        let linep_last = match self.lines.get(len_ - 1) {
+            Some(linep) => linep,
+            None => { return None; }
+        };
+        let len_ = (*linep_last).lineparts.len();
+        if len_ <= 0 {
+            return None;
+        }
+        let linepart_last: &LinePart = match (*linep_last).lineparts.get(len_ - 1) {
+            Some(linepart_) => linepart_,
+            None => { return None; }
+        };
+        let slice = linepart_last.as_slice();
+        let byte_: u8 = slice[slice.len() - 1];
+
+        Some(byte_)
+    }
+
+    /// does this `Sysline` end in a newline character?
+    ///
+    /// XXX: Calling this on a partially constructed `Sysline` is most likely pointless
+    pub fn ends_with_newline(self: &Sysline) -> bool {
+        let byte_last = match self.last_byte() {
+            Some(byte_) => byte_,
+            None => { return false; }
+        };
+        match char::try_from(byte_last) {
+            Ok(char_) => {
+                NLc == char_
+            }
+            Err(_err) => false,
+        }
     }
 
     /// create `String` from `self.lines`
