@@ -203,9 +203,9 @@ pub struct TarData {
 ///
 pub struct BlockReader {
     /// Path to file
-    pub path: FPath,
+    path: FPath,
     /// subpath to file, only for `filetype.is_archived()` files
-    pub subpath: Option<FPath>,
+    subpath: Option<FPath>,
     /// File handle
     file: File,
     /// File.metadata()
@@ -1041,10 +1041,15 @@ impl BlockReader {
                 read_block_cache_lru_put: 0,
                 read_blocks_hit: 0,
                 read_blocks_miss: 0,
-                //read_blocks_put: 0,
                 read_blocks_put,
             }
         )
+    }
+
+    /// File path
+    #[inline(always)]
+    pub const fn path(&self) -> &FPath {
+        &self.path
     }
 
     #[inline(always)]

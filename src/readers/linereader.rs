@@ -216,7 +216,7 @@ impl LineReader {
     /// File path
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
-        &self.blockreader.path
+        self.blockreader.path()
     }
 
     #[inline(always)]
