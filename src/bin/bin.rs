@@ -1233,9 +1233,9 @@ fn processing_loop(
     let mut map_pathid_color = MapPathIdToColor::with_capacity(file_count);
     // mapping PathId to a `Summary` for `--summary`
     let mut map_pathid_summary = MapPathIdSummary::with_capacity(file_count);
-    /// track if an error has been printed regarding a particular sysling_print error
-    /// only want to print this particular error once, not hundreds of times
-    let mut set_sysline_print_err: HashSet<PathId> = HashSet::<PathId>::new();
+    // track if an error has been printed regarding a particular sysling_print error
+    // only want to print this particular error once, not hundreds of times
+    let mut has_sysline_print_err: bool = false;
     // "mapping" of PathId to select index, used in `recv_many_data`
     let mut index_select = MapIndexToPathId::with_capacity(file_count);
 
@@ -1243,7 +1243,6 @@ fn processing_loop(
     for pathid in map_pathid_path.keys() {
         map_pathid_color.insert(*pathid, color_rand());
     }
-    //let channel_message_queue_sz: usize = 10;
     for (pathid, path) in map_pathid_path.iter() {
         let (filetype, _) = match map_pathid_results.get(pathid) {
             Some(processpathresult) => {
@@ -1535,16 +1534,10 @@ fn processing_loop(
                         // Only print a printing error once.
                         // In case of piping to something like `head`, it looks bad to print
                         // the same error tens or hundreds of times for a common pipe operation.
-                        if ! set_sysline_print_err.contains(pathid) {
-                            set_sysline_print_err.insert(*pathid);
-                            match map_pathid_path.get(pathid) {
-                                Some(path) => {
-                                    eprintln!("ERROR: failed to print {:?} ({:?})", err, path);
-                                },
-                                None => {
-                                    eprintln!("ERROR: failed to print {:?}", err);
-                                }
-                            };
+                        if ! has_sysline_print_err {
+                            has_sysline_print_err = true;
+                            // BUG: Issue #3 colorization settings in the context of a pipe
+                            eprintln!("ERROR: failed to print {}", err);
                         }
                     }
                 }
