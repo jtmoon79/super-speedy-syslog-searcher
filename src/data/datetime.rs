@@ -116,6 +116,8 @@ pub type DateTimeLOpt = Option<DateTimeL>;
 ///      (i.e. `blockreader.mtime()`) being true
 const YEAR_FALLBACKDUMMY: &str = "1972";
 
+const DATETIME_FALLBACKDUMMY: &str = "19720229T120000";
+
 /// DateTime Format Specifier for Year
 /// follows chrono `strftime` formatting
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
@@ -624,6 +626,20 @@ const DTFSS_BeHMSYZ: DTFSSet = DTFSSet {
     pattern: DTP_BdHMSYZ,
 };
 
+/// specail case: `dmesg` syslog lines
+pub(crate) const DTFSS_u: DTFSSet = DTFSSet {
+    year: DTFS_Year::_fill,
+    month: DTFS_Month::m,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    pattern: DTP_YmdHMSzc,
+};
+
+
 /// to aid testing
 #[cfg(any(debug_assertions,test))]
 pub(crate) const _DTF_ALL: &[&DateTimePattern_str] = &[
@@ -667,6 +683,8 @@ const CGN_SECOND: &CaptureGroupName = "second";
 const CGN_FRACTIONAL: &CaptureGroupName = "fractional";
 /// corresponds to strftime `%Z` `%z` `%:z` `%#z`
 const CGN_TZ: &CaptureGroupName = "tz";
+// special case: `dmesg` uptime
+//const CGN_UPTIME: &CaptureGroupName = "uptime";
 
 /// all capture group names, for testing
 #[cfg(any(debug_assertions,test))]
@@ -679,6 +697,7 @@ pub(crate) const _CGN_ALL: [&CaptureGroupName; 8] = [
     CGN_SECOND,
     CGN_FRACTIONAL,
     CGN_TZ,
+    //CGN_UPTIME,
 ];
 
 // saved rust playground for quick testing patterns
@@ -707,6 +726,8 @@ pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345]\d|60)";
 /// regex capture group pattern for strftime fractional `%f`,
 /// all strftime patterns %f %3f %6f %9f
 pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{3,9})";
+// uptime fractional seconds, seen in `dmesg` logs
+//pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>\d{1,5}\.\d{3,9})";
 
 /// for help in testing only
 #[cfg(any(debug_assertions,test))]
@@ -1607,6 +1628,28 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &["2020-01-11 00:10:26 abcdefghijkl"],
         line!(),
     ),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // TODO: Issue #4 handle dmesg
+    //
+    // dmesg format, example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890
+    //     [    0.000000] kernel: Linux version 5.15.0-43-generic (buildd@lcy02-amd64-076) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #46-Ubuntu SMP Tue Jul 12 10:30:17 UTC 2022 (Ubuntu 5.15.0-43.46-generic 5.15.39)
+    //     [    0.000000] kernel: Command line: BOOT_IMAGE=/boot/vmlinuz-5.15.0-43-generic root=UUID=136735fa-5cc1-470f-9359-ee736e42f844 ro console=tty1 console=ttyS0 net.ifnames=0 biosdevname=0
+    //     [    0.000000] kernel: KERNEL supported cpus:
+    //     [    0.000000] kernel:   Intel GenuineIntel
+    //
+    //DTPD!(
+    //    concatcp!("^[", RP_BLANKSq, CGP_UPTIME, "]", RP_BLANK),
+    //    DTFSS_u, 0, 20, CGN_UPTIME, CGN_UPTIME,
+    //    &[
+    //        "[    0.000000] kernel: KERNEL supported cpus:",
+    //        "[    5.364159] kernel: ISO 9660 Extensions: RRIP_1991A",
+    //    ],
+    //    line!(),
+    //),
 ];
 
 lazy_static! {
