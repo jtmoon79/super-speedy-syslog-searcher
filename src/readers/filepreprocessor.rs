@@ -53,35 +53,11 @@ extern crate tar;
 // FilePreProcessor
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-// TODO: [2022/06/02] AFAICT, this doens't need to be a long-lived object,
-// only a series of functions... thinking about it... this series of functions could
-// be placed within `syslogprocessor.rs`:
-//    pub fn generate_syslogprocessor(path: FPath) -> Vec<(ProcessPathResult, Option<SyslogProcessor>)>
-// with helper function:
-//    pub fn process_path(path: FPath) -> Vec<ProcessPathResult>
-//
-// type ProcessPathResult = (Path, Option<SubPath>, FileType);
-//
-// The algorithm for analyzing a path would be:
-//    if directory the recurse directory for more paths.
-//    if not file then eprintln and (if --summary the save error) and return.
-//    (must be plain file so)
-//    if file name implies obvious file type then presume mimeguess to be correct.
-//       example, `messages.gz`, is very likely a gzipped text file. Try to gunzip. If gunzip fails then give up on it. (`FileErrDecompress_FAILED`)
-//       example, `logs.tar`, is very likely multiple tarred text files. Try to untar. If untar fails then give up on it. (`FILE_ERR_UNARCHIVE_FAILED`)
-//    else if mime analysis has likely answer then presume that to be correct.
-//        example, `messages`, is very likely a text file.
-//    else try blockzero analysis (attempt to parse Lines and Syslines).
-// Failures to process paths should be:
-//    eprintln() at time of opening failure.
-//    if --summary then printed with the closing summary.
-//
-// That algorithm should be correct in 99% of cases.
-//
 // TODO: [2022/06/06] a `struct FilePreProcessed` should be implemented
 //     it should hold the `ProcessPathResult`, `MimeGuess`, and other stuff collected
 //     during preprocessing here, and then give that to `SyslogProcessor` that gives it
 //     to `BlockReader`
+//     See Issue #15
 
 #[derive(Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
