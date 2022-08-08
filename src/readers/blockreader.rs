@@ -1738,6 +1738,7 @@ impl BlockReader {
     /// Called from `read_block`.
     ///
     /// XXX: This reads the entire file within the `.tar` file during the first call.
+    ///      See Issue #13
     ///
     /// This one big read is due to crate `tar` not providing a method to store `tar::Handle` or
     /// `tar::Entry` due to inter-instance references and explicit lifetimes.
