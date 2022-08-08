@@ -31,9 +31,20 @@ declare -r bin=./target/release/s4
 echo
 
 declare -a files=(
-    $(ls -1 ./logs/other/tests/gen-{100-10-......,100-10-BRAAAP,100-10-FOOBAR,100-10-______,100-10-skullcrossbones,100-4-happyface,1000-3-foobar,200-1-jajaja,400-4-shamrock}.log)
+    $(ls -1 \
+        ./logs/other/tests/gen-100-10-.......log \
+        ./logs/other/tests/gen-100-10-BRAAAP.log \
+        ./logs/other/tests/gen-100-10-FOOBAR.log \
+        ./logs/other/tests/gen-100-10-______.log \
+        ./logs/other/tests/gen-100-10-skullcrossbones.log \
+        ./logs/other/tests/gen-100-4-happyface.log \
+        ./logs/other/tests/gen-1000-3-foobar.log \
+        ./logs/other/tests/gen-200-1-jajaja.log \
+        ./logs/other/tests/gen-400-4-shamrock.log \
+        ./logs/other/tests/gen-99999-1-Hüsker_Dü.log \
+        ./logs/other/tests/gen-99999-1-Motley_Crue.log \
+     2>/dev/null || true)
 )
-
 (
     #export RUST_BACKTRACE=1
     set -x
