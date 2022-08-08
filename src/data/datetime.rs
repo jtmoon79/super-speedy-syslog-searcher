@@ -2334,16 +2334,25 @@ pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeLOpt) -> Result_Fi
     Result_Filter_DateTime1::OccursAtOrAfter
 }
 
-/// If both filters are `Some` and `syslinep.dt` is "between" the filters then return `Pass`
-/// comparison is "inclusive" i.e. `dt` == `dt_filter_after` will return `Pass`
-/// If both filters are `None` then return `Pass`
-/// TODO: finish this docstring
+/// If both filters are `Some` and `dt` is "between" the filters then return `InRange`.
+/// If before then return `BeforeRange`.
+/// If after then return `AfterRange`.
+///
+/// If filter `dt_filter_after` is `Some` and `dt` is after that filter then
+/// return `InRange`. If before then return `BeforeRange`.
+///
+/// If filter `dt_filter_before` is `Some` and `dt` is before that filter then
+/// return `InRange`. If after then return `AfterRange`.
+///
+/// If both filters are `None` then return `InRange`.
+///
+/// Comparisons are "inclusive" i.e. `dt` == `dt_filter_after` will return `InRange`
 pub fn dt_pass_filters(
     dt: &DateTimeL, dt_filter_after: &DateTimeLOpt, dt_filter_before: &DateTimeLOpt,
 ) -> Result_Filter_DateTime2 {
     dpnf!("({:?}, {:?}, {:?})", dt, dt_filter_after, dt_filter_before);
     if dt_filter_after.is_none() && dt_filter_before.is_none() {
-        dpxf!("return Result_Filter_DateTime2::InRange; (no dt filters)");
+        dpxf!("return {:?}; (no dt filters)", Result_Filter_DateTime2::InRange);
         return Result_Filter_DateTime2::InRange;
     }
     if dt_filter_after.is_some() && dt_filter_before.is_some() {
@@ -2357,11 +2366,11 @@ pub fn dt_pass_filters(
         let db = &dt_filter_before.unwrap();
         assert_le!(da, db, "Bad datetime range values filter_after {:?} {:?} filter_before", da, db);
         if dt < da {
-            dpxf!("return Result_Filter_DateTime2::BeforeRange");
+            dpxf!("return {:?}", Result_Filter_DateTime2::BeforeRange);
             return Result_Filter_DateTime2::BeforeRange;
         }
         if db < dt {
-            dpxf!("return Result_Filter_DateTime2::AfterRange");
+            dpxf!("return {:?}", Result_Filter_DateTime2::AfterRange);
             return Result_Filter_DateTime2::AfterRange;
         }
         // assert da < dt && dt < db
@@ -2374,7 +2383,7 @@ pub fn dt_pass_filters(
         dpof!("comparing datetime dt_filter_after {:?} < {:?} dt ???", &dt_filter_after.unwrap(), dt);
         let da = &dt_filter_after.unwrap();
         if dt < da {
-            dpxf!("return Result_Filter_DateTime2::BeforeRange");
+            dpxf!("return {:?}", Result_Filter_DateTime2::BeforeRange);
             return Result_Filter_DateTime2::BeforeRange;
         }
         dpxf!("return Result_Filter_DateTime2::InRange");
@@ -2384,10 +2393,10 @@ pub fn dt_pass_filters(
         dpof!("comparing datetime dt {:?} < {:?} dt_filter_before ???", dt, &dt_filter_before.unwrap());
         let db = &dt_filter_before.unwrap();
         if db < dt {
-            dpxf!("return Result_Filter_DateTime2::AfterRange");
+            dpxf!("return {:?}", Result_Filter_DateTime2::AfterRange);
             return Result_Filter_DateTime2::AfterRange;
         }
-        dpxf!("return Result_Filter_DateTime2::InRange");
+        dpxf!("return {:?}", Result_Filter_DateTime2::InRange);
 
         Result_Filter_DateTime2::InRange
     }
