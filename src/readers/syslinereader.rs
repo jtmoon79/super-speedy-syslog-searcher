@@ -312,6 +312,8 @@ impl SyslineReader {
     ///
     /// This allows skipping a few datetime searches that would fail.
     const DATETIME_STR_MIN: usize = 8;
+    /// default state of LRU cachces
+    const CACHE_ENABLE_DEFAULT: bool = true;
 
     pub fn new(path: FPath, filetype: FileType, blocksz: BlockSz, tz_offset: FixedOffset) -> Result<SyslineReader> {
         dpnx!("SyslineReader::new({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
@@ -348,12 +350,12 @@ impl SyslineReader {
                 dt_patterns_counts,
                 dt_patterns_indexes,
                 tz_offset,
-                find_sysline_lru_cache_enabled: true,
+                find_sysline_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
                 find_sysline_lru_cache: SyslinesLRUCache::new(SyslineReader::FIND_SYSLINE_LRU_CACHE_SZ),
                 find_sysline_lru_cache_hit: 0,
                 find_sysline_lru_cache_miss: 0,
                 find_sysline_lru_cache_put: 0,
-                parse_datetime_in_line_lru_cache_enabled: true,
+                parse_datetime_in_line_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
                 parse_datetime_in_line_lru_cache: LineParsedCache::new(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ),
                 parse_datetime_in_line_lru_cache_hit: 0,
                 parse_datetime_in_line_lru_cache_miss: 0,
@@ -460,8 +462,12 @@ impl SyslineReader {
     }
 
     /// enable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
+    ///
+    /// returns prior value of `find_sysline_lru_cache_enabled`
     #[allow(non_snake_case)]
-    pub fn LRU_cache_enable(&mut self) {
+    pub fn LRU_cache_enable(&mut self) -> bool {
+        let ret = self.find_sysline_lru_cache_enabled;
+        debug_assert_eq!(self.find_sysline_lru_cache_enabled, self.parse_datetime_in_line_lru_cache_enabled, "cache enables disagree");
         if !self.find_sysline_lru_cache_enabled {
             self.find_sysline_lru_cache_enabled = true;
             self.find_sysline_lru_cache.clear();
@@ -472,15 +478,27 @@ impl SyslineReader {
             self.parse_datetime_in_line_lru_cache.clear();
             self.parse_datetime_in_line_lru_cache.resize(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ);
         }
+
+        dpnxf!("return {}", ret);
+
+        ret
     }
 
     /// disable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
+    ///
+    /// returns prior value of `find_sysline_lru_cache_enabled`
     #[allow(non_snake_case)]
-    pub fn LRU_cache_disable(&mut self) {
+    pub fn LRU_cache_disable(&mut self) -> bool {
+        let ret = self.find_sysline_lru_cache_enabled;
+        debug_assert_eq!(self.find_sysline_lru_cache_enabled, self.parse_datetime_in_line_lru_cache_enabled, "cache enables disagree");
         self.find_sysline_lru_cache_enabled = false;
         self.find_sysline_lru_cache.resize(0);
         self.parse_datetime_in_line_lru_cache_enabled = false;
         self.parse_datetime_in_line_lru_cache.resize(0);
+
+        dpnxf!("return {}", ret);
+
+        ret
     }
 
     /// print Sysline at `fileoffset`
@@ -505,7 +523,7 @@ impl SyslineReader {
     /// before `dt_patterns_analysis()` completes, this may return different values
     ///
     /// after `dt_patterns_analysis()` completes, it will return the same value
-    fn datetime_parse_data(&self) -> &DateTimeParseInstr {
+    pub(crate) fn datetime_parse_data(&self) -> &DateTimeParseInstr {
         &DATETIME_PARSE_DATAS[self.dt_pattern_index_max_count()]
     }
 
@@ -539,19 +557,21 @@ impl SyslineReader {
     /// `self.syslines_count` will be value `10`.
     pub fn clear_syslines(&mut self) {
         dpnxf!();
-        self.LRU_cache_disable();
+        let cache_enable = self.LRU_cache_disable();
         self.syslines.clear();
         self.syslines_by_range = SyslinesRangeMap::new();
         self.dt_first = None;
         self.dt_first_prev = None;
         self.dt_last = None;
         self.dt_last_prev = None;
-        self.LRU_cache_enable();
+        if cache_enable {
+            self.LRU_cache_enable();
+        }
     }
 
     pub fn remove_sysline(&mut self, fileoffset: FileOffset) -> bool {
         dpnf!("({:?})", fileoffset);
-        self.LRU_cache_disable();
+        let cache_enable = self.LRU_cache_disable();
         let syslinep_opt: Option<SyslineP> = self.syslines.remove(&fileoffset);
         let mut ret = true;
         match syslinep_opt {
@@ -572,7 +592,9 @@ impl SyslineReader {
                 ret = false;
             }
         }
-        self.LRU_cache_enable();
+        if cache_enable {
+            self.LRU_cache_enable();
+        }
         dpxf!("({:?}) return {:?}", fileoffset, ret);
 
         ret
@@ -811,8 +833,6 @@ impl SyslineReader {
     fn dt_patterns_update(&mut self, index: DateTimeParseInstrsIndex) {
         dpnxf!("({:?})", index);
         if let std::collections::btree_map::Entry::Vacant(_entry) = self.dt_patterns_counts.entry(index) {
-            // first count of this index so insert it
-            //_entry.insert(1);
             panic!("index {} not present in self.dt_patterns_counts", index);
         } else {
             // index has been counted, increment it's count
@@ -929,6 +949,8 @@ impl SyslineReader {
     /// attempt to parse a DateTime substring in the passed `Line`
     /// wraps call to `self.find_datetime_in_line` according to status of `self.dt_patterns`
     /// if `self.dt_patterns` is `None`, will set `self.dt_patterns`
+    // TODO: [2022/08] having `dt_patterns_update` embedded into this is an unexpected side-affect
+    //       the user should have more control over when `dt_patterns_update` is called.
     fn parse_datetime_in_line(&mut self, line: &Line, charsz: &CharSz, year_opt: &Option<Year>) -> ResultParseDateTime {
         // XXX: would prefer this at the end of this function but borrow error occurs
         if !self.analyzed {

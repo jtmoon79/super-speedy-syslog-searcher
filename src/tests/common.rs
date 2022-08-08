@@ -7,6 +7,10 @@ use crate::common::{
     FileOffset,
 };
 
+use crate::data::datetime::{
+    FixedOffset,
+};
+
 use crate::readers::filepreprocessor::{
     MimeGuess,
 };
@@ -62,6 +66,21 @@ lazy_static! {
     pub static ref BYTES_ABCD: Vec<u8> = vec![b'A', b'B', b'C', b'D'];
     pub static ref BYTES_EFGH: Vec<u8> = vec![b'E', b'F', b'G', b'H'];
     pub static ref BYTES_ABCDEFGH: Vec<u8> = vec![b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H'];
+
+    // ready-made TimeZone Offsets
+    pub static ref TZO_W8: FixedOffset = {
+        FixedOffset::west(3600 * 8)
+    };
+    pub static ref TZO_E8: FixedOffset = {
+        FixedOffset::east(3600 * 8)
+    };
+    pub static ref TZO_W5: FixedOffset = {
+        FixedOffset::west(3600 * 5)
+    };
+    pub static ref TZO_E5: FixedOffset = {
+        FixedOffset::east(3600 * 5)
+    };
+
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
