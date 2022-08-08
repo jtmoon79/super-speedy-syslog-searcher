@@ -784,15 +784,15 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
             } else {
                 search_more = true;
             }
-        },
+        }
         ResultS4SyslineFind::Done => {
             search_more = false;
-        },
+        }
         ResultS4SyslineFind::Err(err) => {
             dpo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, tname, err);
             eprintln!("ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}", path, err);
             search_more = false;
-        },
+        }
     }
 
     if !search_more {
