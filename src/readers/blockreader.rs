@@ -468,7 +468,7 @@ impl BlockReader {
                     dpxf!("FileGz: return Err(InvalidData)");
                     return Result::Err(
                         Error::new(
-                            // TODO: [2022/06] use `ErrorKind::FileTooLarge` when it is stable
+                            // TODO: Issue #10 [2022/06] use `ErrorKind::FileTooLarge` when it is stable
                             //       `ErrorKind::FileTooLarge` causes error:
                             //       use of unstable library feature 'io_error_more'
                             //       see issue #86442 <https://github.com/rust-lang/rust/issues/86442> for more informationrustc(E0658)
