@@ -126,7 +126,7 @@ impl fmt::Debug for LinePart {
 }
 
 impl LinePart {
-    // XXX: does not handle multi-byte encodings
+    // XXX: Issue #16 only handles UTF-8/ASCII encoding
     const _CHARSZ: usize = 1;
 
     /// create a new `LinePart`. Remember that `blocki_end` points to one byte past
@@ -223,7 +223,7 @@ impl LinePart {
     #[cfg(any(debug_assertions,test))]
     pub(self) fn impl_to_String_raw(self: &LinePart, raw: bool) -> String {
         // XXX: intermixing byte lengths and character lengths
-        // XXX: does not handle multi-byte
+        // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let s1: String;
         let slice_ = self.as_slice();
         if raw {
@@ -655,7 +655,7 @@ impl Line {
     ///
     /// `raw` false will write transcode each byte to a character and use pictoral representations
     ///
-    /// XXX: `raw==false` does not handle multi-byte encodings
+    // XXX: Issue #16 `raw==false` only handles UTF-8/ASCII encoding
     #[cfg(any(debug_assertions,test))]
     pub fn print(self: &Line, raw: bool) {
         // is this an expensive command? should `stdout` be cached?
@@ -674,7 +674,7 @@ impl Line {
                     }
                 }
             } else {
-                // XXX: only handle single-byte encodings
+                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 // XXX: this is not efficient
                 let s = match std::str::from_utf8(slice) {
                     Ok(val) => val,

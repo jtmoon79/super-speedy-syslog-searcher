@@ -623,7 +623,7 @@ impl SyslineReader {
         dpnf!("syslines.insert({}, Sysline @[{}, {}] datetime: {:?})", fo_beg, (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), (*syslinep).dt());
         self.syslines.insert(fo_beg, syslinep.clone());
         self.syslines_count += 1;
-        // XXX: multi-byte character
+        // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let fo_end1: FileOffset = fo_end + (self.charsz() as FileOffset);
         dpxf!("syslines_by_range.insert(({}‥{}], {})", fo_beg, fo_end1, fo_beg);
         self.syslines_by_range.insert(fo_beg..fo_end1, fo_beg);
@@ -734,7 +734,7 @@ impl SyslineReader {
                 dpof!("line too short {} for  requested start {}; continue", line.len(), dtpd.range_regex.start);
                 continue;
             }
-            // XXX: does not support multi-byte string; assumes single-byte
+            // XXX: Issue #16 only handles UTF-8/ASCII encoding
             let slice_end: usize;
             if line.len() > dtpd.range_regex.end {
                 slice_end = dtpd.range_regex.end;
@@ -1081,7 +1081,7 @@ impl SyslineReader {
                 self.syslines_by_range_hit += 1;
                 let fo: &FileOffset = range_fo.1;
                 let syslinep: SyslineP = self.syslines[fo].clone();
-                // XXX: multi-byte character encoding
+                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 let fo_next: FileOffset = (*syslinep).fileoffset_next() + (self.charsz() as FileOffset);
                 if self.is_sysline_last(&syslinep) {
                     dpxf!(
@@ -1123,7 +1123,7 @@ impl SyslineReader {
             self.syslines_hit += 1;
             dpof!("hit self.syslines for FileOffset {}", fileoffset);
             let syslinep: SyslineP = self.syslines[&fileoffset].clone();
-            // XXX: multi-byte character encoding
+            // XXX: Issue #16 only handles UTF-8/ASCII encoding
             let fo_next: FileOffset = (*syslinep).fileoffset_end() + (self.charsz() as FileOffset);
             if self.is_sysline_last(&syslinep) {
                 dpof!(
@@ -1502,7 +1502,7 @@ impl SyslineReader {
                 debug_assert!(self.syslines_by_range.contains_key(&fo1), "self.syslines.contains_key({}) however, self.syslines_by_range.contains_key({}); syslines_by_range out of synch", fo1, fo1);
                 dpo!("find_sysline: hit self.syslines for FileOffset {}", fo1);
                 let syslinep = self.syslines[&fo1].clone();
-                // XXX: multi-byte character encoding
+                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 let fo_next = (*syslinep).fileoffset_end() + (self.charsz() as FileOffset);
                 // TODO: determine if `fileoffset` is the last sysline of the file
                 //       should add a private helper function for this task `is_sysline_last(FileOffset)` ... something like that
@@ -1535,7 +1535,7 @@ impl SyslineReader {
                     self.syslines_by_range_hit += 1;
                     let fo = range_fo.1;
                     let syslinep = self.syslines[fo].clone();
-                    // XXX: multi-byte character encoding
+                    // XXX: Issue #16 only handles UTF-8/ASCII encoding
                     let fo_next = (*syslinep).fileoffset_next() + (self.charsz() as FileOffset);
                     if self.find_sysline_lru_cache_enabled {
                         self.find_sysline_lru_cache_put += 1;

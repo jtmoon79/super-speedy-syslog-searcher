@@ -127,7 +127,7 @@ impl Sysline {
     /// default `with_capacity` for a `Lines`, most often will only need 1 capacity
     /// as the found "sysline" will likely be one `Line`
     const SYSLINE_PARTS_WITH_CAPACITY: usize = 1;
-    // XXX: does not handle multi-byte encodings
+    // XXX: Issue #16 only handles UTF-8/ASCII encoding
     const CHARSZ: usize = 1;
 
     pub fn new() -> Sysline {
@@ -263,6 +263,7 @@ impl Sysline {
 
     /// get the last byte of this Sysline
     pub(crate) fn last_byte(self: &Sysline) -> Option<u8> {
+        // XXX: Issue #16 only handles UTF-8/ASCII encoding
         assert_eq!(self.charsz(), 1, "charsz {} not implemented", self.charsz());
         let len_ = self.lines.len();
         if len_ <= 0 {
@@ -317,7 +318,7 @@ impl Sysline {
             sz += (*lp).len();
         }
         // XXX: intermixing byte lengths and character lengths
-        // XXX: does not handle multi-byte
+        // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let mut s_ = String::with_capacity(sz + 1);
         for lp in &self.lines {
             s_ += (*lp).impl_to_String_raw(raw).as_str();

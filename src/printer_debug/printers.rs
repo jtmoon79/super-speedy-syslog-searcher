@@ -443,7 +443,7 @@ pub fn pretty_print(buffer: &[u8], raw: bool) {
     // is this an expensive command? should `stdout` be cached?
     let stdout: std::io::Stdout = std::io::stdout();
     let mut stdout_lock = stdout.lock();
-    // XXX: only handle single-byte encodings
+    // XXX: Issue #16 only handles UTF-8/ASCII encoding
     // XXX: doing this char by char is probably not efficient
     //let s = match str::from_utf8_lossy(buffer) {
     let s = match core::str::from_utf8(buffer) {

@@ -106,7 +106,7 @@ pub struct LineReader {
     /// Distinct from `self.lines.len()` as that may have contents removed when --streaming
     pub (crate) lines_processed: Count,
     /// smallest size character in bytes
-    /// TODO: handle char sizes > 1 byte, multi-byte encodings
+    // XXX: Issue #16 only handles UTF-8/ASCII encoding
     charsz_: CharSz,
     /// enable internal LRU cache for `find_line` (default `true`)
     find_line_lru_cache_enabled: bool,
@@ -147,7 +147,7 @@ const CHARSZ_MIN: CharSz = 1;
 /// maximum char storage size in bytes
 const CHARSZ_MAX: CharSz = 4;
 /// default char storage size in bytes
-/// XXX: does not handle multi-byte encodings (e.g. UTF-8) or multi-byte character storage (e.g. UTF-32)
+// XXX: Issue #16 only handles UTF-8/ASCII encoding
 const CHARSZ: CharSz = CHARSZ_MIN;
 
 /// implement the LineReader things
@@ -160,7 +160,7 @@ impl LineReader {
 
     pub fn new(path: FPath, filetype: FileType, blocksz: BlockSz) -> Result<LineReader> {
         dpnxf!("LineReader::new({:?}, {:?}, {:?})", path, filetype, blocksz);
-        // XXX: multi-byte
+        // XXX: Issue #16 only handles UTF-8/ASCII encoding
         assert_ge!(
             blocksz,
             (CHARSZ_MIN as BlockSz),
@@ -473,7 +473,7 @@ impl LineReader {
         match self.get_linep(&fileoffset) {
             Some(linep) => {
                 dpo!("self.get_linep({}) returned @{:p}", fileoffset, linep);
-                // XXX: does not handle multi-byte
+                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 let fo_next: FileOffset = (*linep).fileoffset_end() + charsz_fo;
                 if self.is_line_last(&linep) {
                     if self.find_line_lru_cache_enabled {
@@ -622,8 +622,7 @@ impl LineReader {
         let bi_stop: BlockIndex = bptr_middle.len() as BlockIndex;
         assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
 
-        // XXX: multi-byte
-        //bi_beg = bi_stop - charsz_bi;
+        // XXX: only handle UTF-8/ASCII encoding
         dpof!("({}) B1: scan middle block {} forwards, starting from blockindex {} (fileoffset {}) searching for newline B",
             fileoffset,
             bo_middle,
@@ -631,7 +630,7 @@ impl LineReader {
             self.file_offset_at_block_offset_index(bo_middle, bi_at)
         );
         loop {
-            // XXX: single-byte encoding
+            // XXX: only handle UTF-8/ASCII encoding
             if (*bptr_middle)[bi_at] == NLu8 {
                 found_nl_b = true;
                 fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_at);
@@ -867,7 +866,7 @@ impl LineReader {
             BI_STOP,
         );
         loop {
-            // XXX: single-byte encoding
+            // XXX: Issue #16 only handles UTF-8/ASCII encoding
             if (*bptr_middle)[bi_at] == NLu8 {
                 found_nl_a = true;
                 fo_nl_a = self.file_offset_at_block_offset_index(bo_middle, bi_at);
@@ -880,7 +879,7 @@ impl LineReader {
                     byte_to_char_noraw((*bptr_middle)[bi_at]),
                 );
                 // adjust offsets one forward
-                // XXX: single-byte encoding
+                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 fo_nl_a1 = fo_nl_a + charsz_fo;
                 bi_at += charsz_bi;
                 break;
@@ -888,7 +887,7 @@ impl LineReader {
             if bi_at == 0 {
                 break;
             }
-            // XXX: single-byte encoding
+            // XXX: Issue #16 only handles UTF-8/ASCII encoding
             bi_at -= charsz_bi;
             if bi_at < BI_STOP {
                 break;
@@ -982,8 +981,6 @@ impl LineReader {
     ///     fine_line(2) -> 2,2 "y"
     /// ```
     ///
-    /// XXX: presumes a single-byte can represent a '\n'; i.e. does not handle UTF-16 or UTF-32 or other.
-    ///
     /// XXX: returning the "next fileoffset (along with `LineP`) is jenky. Just return the `LineP`.
     ///      and/or add `iter` capabilities to `Line` that will hide tracking the "next fileoffset".
     ///
@@ -992,7 +989,7 @@ impl LineReader {
     ///      Changes require extensive retesting.
     ///      You've been warned.
     ///
-    // TODO: [2021/08/30] handle different encodings
+    // XXX: Issue #16 only handles UTF-8/ASCII encoding
     pub fn find_line(&mut self, fileoffset: FileOffset) -> ResultS4LineFind {
         dpnf!("(LineReader@{:p}, {})", self, fileoffset);
 
@@ -1091,11 +1088,11 @@ impl LineReader {
             let mut bi_at: BlockIndex = bi_middle;
             let bi_stop: BlockIndex = bptr_middle.len() as BlockIndex;
             assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
-            // XXX: multi-byte
+            // XXX: Issue #16 only handles UTF-8/ASCII encoding
             //bi_beg = bi_stop - charsz_bi;
             dpof!("B1: scan middle block {} forwards (block len {}), starting from blockindex {} (fileoffset {}) searching for newline B", bo_middle, (*bptr_middle).len(), bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at));
             loop {
-                // XXX: single-byte encoding
+                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 if (*bptr_middle)[bi_at] == NLu8 {
                     found_nl_b = true;
                     fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_at);
@@ -1175,7 +1172,7 @@ impl LineReader {
                 bi_end = (*bptr).len() as BlockIndex;
                 assert_ge!(bi_end, charsz_bi, "blockindex bi_end {} is less than charsz; not yet handled, file {:?}", bi_end, self.path());
                 assert_ne!(bi_end, 0, "blockindex bi_end is zero; Block at blockoffset {}, BlockP @0x{:p}, has len() zero", bof, bptr);
-                // XXX: multi-byte
+                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 //bi_beg = bi_end - charsz_bi;
                 dpof!(
                     "B2: scan block {} forwards, starting from blockindex {} (fileoffset {}) up to blockindex {} searching for newline B",
@@ -1185,7 +1182,7 @@ impl LineReader {
                     bi_end,
                 );
                 loop {
-                    // XXX: single-byte encoding
+                    // XXX: Issue #16 only handles UTF-8/ASCII encoding
                     if (*bptr)[bi_beg] == NLu8 {
                         found_nl_b = true;
                         fo_nl_b = self.file_offset_at_block_offset_index(bof, bi_beg);
@@ -1413,7 +1410,7 @@ impl LineReader {
                 bo_middle, bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at), BI_STOP,
             );
             loop {
-                // XXX: single-byte encoding
+                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 if (*bptr_middle)[bi_at] == NLu8 {
                     found_nl_a = true;
                     fo_nl_a = self.file_offset_at_block_offset_index(bo_middle, bi_at);
@@ -1425,7 +1422,7 @@ impl LineReader {
                         byte_to_char_noraw((*bptr_middle)[bi_at]),
                     );
                     // adjust offsets one forward
-                    // XXX: single-byte encoding
+                    // XXX: Issue #16 only handles UTF-8/ASCII encoding
                     fo_nl_a1 = fo_nl_a + charsz_fo;
                     bi_at += charsz_bi;
                     break;
@@ -1433,7 +1430,7 @@ impl LineReader {
                 if bi_at == 0 {
                     break;
                 }
-                // XXX: single-byte encoding
+                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 bi_at -= charsz_bi;
                 if bi_at < BI_STOP {
                     break;
@@ -1523,7 +1520,7 @@ impl LineReader {
                     bof, bi_at, self.file_offset_at_block_offset_index(bof, bi_at), BI_STOP,
                 );
                 loop {
-                    // XXX: single-byte encoding
+                    // XXX: Issue #16 only handles UTF-8/ASCII encoding
                     if (*bptr)[bi_at] == NLu8 {
                         found_nl_a = true;
                         fo_nl_a = self.file_offset_at_block_offset_index(bof, bi_at);
@@ -1535,7 +1532,7 @@ impl LineReader {
                             byte_to_char_noraw((*bptr)[bi_at]),
                         );
                         // adjust offsets one forward
-                        // XXX: single-byte encoding
+                        // XXX: Issue #16 only handles UTF-8/ASCII encoding
                         fo_nl_a1 = fo_nl_a + charsz_fo;
                         bi_at += charsz_bi;
                         let bof_a1 = self.block_offset_at_file_offset(fo_nl_a1);
@@ -1573,7 +1570,7 @@ impl LineReader {
                     if bi_at == 0 {
                         break;
                     }
-                    // XXX: single-byte encoding
+                    // XXX: Issue #16 only handles UTF-8/ASCII encoding
                     bi_at -= charsz_bi;
                     if bi_at < BI_STOP {
                         break;

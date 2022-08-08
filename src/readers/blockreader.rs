@@ -362,7 +362,7 @@ impl BlockReader {
         }
         let path_std: &Path = Path::new(&path);
 
-        // TODO: pass in `mimeguess`; avoid repeats of the tedious operation
+        // TODO: Issue #15 pass in `mimeguess`; avoid repeats of the tedious operation
         let mimeguess_: MimeGuess = MimeGuess::from_path(path_std);
 
         let mut open_options = FileOpenOptions::new();
