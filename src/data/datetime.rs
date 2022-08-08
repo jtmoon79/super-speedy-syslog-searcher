@@ -1660,7 +1660,7 @@ lazy_static! {
         ).collect();
 }
 
-// TODO: handle all Unicode whitespace.
+// TODO: Issue #6 handle all Unicode whitespace.
 //       This fn is essentially counteracting an errant call to `std::string:trim`
 //       within `Local.datetime_from_str`.
 //       `trim` removes "Unicode Derived Core Property White_Space".
@@ -1928,6 +1928,8 @@ macro_rules! copy_u8_to_buffer {
 //
 // TODO: replace `to_byte_array` with rust experimental feature `const_str_as_bytes`
 //       https://doc.bccnsoft.com/docs/rust-1.36.0-docs-html/unstable-book/library-features/const-str-as-bytes.html#const_str_as_bytes
+//       https://github.com/rust-lang/rust/issues/57563
+//
 
 const MONTH_01_B_l: &[u8] = &to_byte_array!("january");
 const MONTH_01_b_l: &[u8] = &to_byte_array!("jan");
