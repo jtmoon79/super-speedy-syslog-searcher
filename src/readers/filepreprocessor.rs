@@ -238,13 +238,42 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         dpxf!("return FileGz; .gzip");
         return FileType::FileGz;
     }
+    // for example, `media.gz`
+    // XXX: this should be handled in `path_to_filetype_mimeguess`
+    if file_suffix_s.ends_with("gz") {
+        dpxf!("return FileGz; .gz");
+        return FileType::FileGz;
+    }
+
+    // FileXz
+
+    // for example, `media.gz.old`
+    if file_name_s.ends_with(".xz.old") {
+        dpxf!("return FileXz; .xz.old");
+        return FileType::FileXz;
+    }
+    // for example, `media.gzip`
+    if file_suffix_s.ends_with("gzip") {
+        dpxf!("return FileXz; .xzip");
+        return FileType::FileXz;
+    }
+    // for example, `media.gz`
+    // XXX: this should be handled in `path_to_filetype_mimeguess`
+    if file_suffix_s.ends_with("xz") {
+        dpxf!("return FileXz; .xz");
+        return FileType::FileXz;
+    }
 
     // FileTar
 
     // for example, `var-log.tar.old`
-    // TODO: this should be handled in `path_to_filetype_mimeguess`, can be removed
     if file_name_s.ends_with(".tar.old") {
         dpxf!("return FileTar; .tar.old");
+        return FileType::FileTar;
+    }
+    // XXX: this should be handled in `path_to_filetype_mimeguess`
+    if file_name_s.ends_with(".tar") {
+        dpxf!("return FileTar; .tar");
         return FileType::FileTar;
     }
 
@@ -253,6 +282,12 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
     // for example, `syslog.2`
     if file_prefix_s == "syslog" {
         dpxf!("return File; syslog");
+        return FileType::File;
+    }
+
+    // for example, `dmesg.2`
+    if file_prefix_s == "dmesg" {
+        dpxf!("return File; dmesg");
         return FileType::File;
     }
 
@@ -481,6 +516,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
             return paths;
         }
         // is_archived
+        dpxf!("process_path_tar({:?})", path);
         return process_path_tar(path);
     }
 
