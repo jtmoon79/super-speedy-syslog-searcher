@@ -41,7 +41,7 @@ pub fn count_chars_in_str(s: &str, c: char) -> usize {
     count
 }
 
-/// count number of file extensions in the file name, e.g. `'.'`
+/// count number of file extensions in the file name, e.g. count `'.'`
 pub fn filename_count_extensions(path: &std::path::Path) -> usize {
     let file_name_osstr: &std::ffi::OsStr = match path.file_name() {
         Some(val) => val,

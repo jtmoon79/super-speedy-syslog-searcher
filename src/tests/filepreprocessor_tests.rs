@@ -4,7 +4,12 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
+use std::str::FromStr;
+
+#[allow(unused_imports)]
 use crate::tests::common::{
+    MIMEGUESS_EMPTY,
+    MIMEGUESS_LOG,
     MIMEGUESS_TXT,
     MIMEGUESS_GZ,
     MIMEGUESS_XZ,
@@ -21,11 +26,20 @@ use crate::tests::common::{
     NTF_GZ_EMPTY_FPATH,
     NTF_GZ_EMPTY_FILETYPE,
     NTF_GZ_EMPTY_MIMEGUESS,
+    FILE,
+    FILE_GZ,
+    FILE_TAR,
+    FILE_XZ,
 };
 
 use crate::common::{
     FPath,
     FileType,
+    Path,
+};
+
+use crate::readers::helpers::{
+    path_to_fpath,
 };
 
 #[allow(unused_imports)]
@@ -47,9 +61,21 @@ use crate::printer_debug::helpers::{
     ntf_fpath,
 };
 
+use crate::printer_debug::printers::{
+    dpnf,
+    dpof,
+    dpxf,
+};
+
 use crate::printer_debug::stack::{
     stack_offset_set,
 };
+
+extern crate lazy_static;
+use lazy_static::lazy_static;
+
+extern crate test_case;
+use test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -174,4 +200,40 @@ fn test_process_file_path_tar() {
         )
     ];
     test_process_file_path(&NTF_TAR_1BYTE, check);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+lazy_static! {
+    pub static ref MIMEGUESS_LOG_1: MimeGuess = {
+        MimeGuess::from_path(Path::new("test.log"))
+    };
+}
+
+/// test `fpath_to_filetype_mimeguess` (and `path_to_filetype_mimeguess`)
+#[test_case("messages", FILE, &MIMEGUESS_EMPTY)]
+#[test_case("syslog", FILE, &MIMEGUESS_EMPTY)]
+#[test_case("syslog.3", FILE, &MIMEGUESS_EMPTY)]
+#[test_case("output.txt", FILE, &MIMEGUESS_TXT)]
+#[test_case("kern.log", FILE, &MIMEGUESS_LOG)]
+#[test_case("kern.log.1", FILE, &MIMEGUESS_LOG)]
+#[test_case("kern.log.2", FILE, &MIMEGUESS_LOG)]
+#[test_case("systemsetup-server-info.log.208", FILE, &MIMEGUESS_LOG)]
+#[test_case("syslog.gz", FILE_GZ, &MIMEGUESS_GZ)]
+#[test_case("syslog.9.gz", FILE_GZ, &MIMEGUESS_GZ)]
+#[test_case("unattended-upgrades-dpkg.log.3.gz", FILE_GZ, &MIMEGUESS_GZ)]
+#[test_case("eipp.log.xz", FILE_XZ, &MIMEGUESS_XZ)]
+#[test_case("logs.tar", FILE_TAR, &MIMEGUESS_TAR)]
+#[test_case("log.1.tar", FILE_TAR, &MIMEGUESS_TAR)]
+fn test_path_to_filetype_mimeguess(
+    path_str: &str,
+    filetype: FileType,
+    mimeguess: &MimeGuess,
+) {
+    dpnf!("({:?})", path_str);
+    let fpath: FPath = FPath::from_str(path_str).unwrap();
+    let (filetype_, mimeguess_) = fpath_to_filetype_mimeguess(&fpath);
+    assert_eq!(filetype, filetype_, "\nExpected {:?}\nActual   {:?}\n", filetype, filetype_);
+    assert_eq!(mimeguess, &mimeguess_, "\nExpected {:?}\nActual   {:?}\n", mimeguess, mimeguess_);
+    dpxf!();
 }

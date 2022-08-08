@@ -70,6 +70,10 @@ use crate::tests::common::{
     NTF_TAR_3BYTE_OLDGNU_FILEA_FPATH,
     NTF_TAR_3BYTE_PAX_FILEA_FPATH,
     NTF_TAR_3BYTE_USTAR_FILEA_FPATH,
+    FILE,
+    FILE_GZ,
+    FILE_TAR,
+    FILE_XZ,
 };
 
 use std::collections::BTreeMap;
@@ -599,11 +603,6 @@ fn  test_new_read_block_tar_8byte_99() {
 }
 
 // -------------------------------------------------------------------------------------------------
-
-const FILE: FileType = FileType::File;
-const FILE_GZ: FileType = FileType::FileGz;
-const FILE_XZ: FileType = FileType::FileXz;
-const FILE_TAR: FileType = FileType::FileTar;
 
 #[test_case(NTF_LOG_EMPTY_FPATH.clone(), FILE, 2, 0, 0; "LOG_0BYTE 2 0 0")]
 #[test_case(NTF_1BYTE_PATH.clone(), FILE, 2, 0, 1; "LOG_1BYTE 2 0 1")]

@@ -170,8 +170,9 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
 /// like file names without extensions in the name, e.g. `messages` or `syslog`, or files
 /// with appended extensions, e.g. `samba.log.old`.
 ///
-/// _compensates_, does not replace. Passing `"file.txt"` will return `FileUnknown`
-pub fn path_to_filetype(path: &Path) -> FileType {
+/// _compensates_, does not replace `mimeguess_to_filetype`.
+/// Passing `"file.txt"` will return `FileUnknown`
+pub(crate) fn path_to_filetype(path: &Path) -> FileType {
     dpnf!("({:?})", path);
 
     if PARSEABLE_FILENAMES_FILE.contains(&path.file_name().unwrap_or_default()) {
@@ -248,6 +249,14 @@ pub fn path_to_filetype(path: &Path) -> FileType {
         return FileType::FileTar;
     }
 
+    // other file patterns
+
+    // for example, `syslog.2`
+    if file_prefix_s == "syslog" {
+        dpxf!("return File; syslog");
+        return FileType::File;
+    }
+
     dpxf!("return FileUnknown");
 
     FileType::FileUnknown
@@ -289,13 +298,13 @@ pub fn parseable_filetype_ok(filetype: &FileType) -> bool {
 
 /// reduce `mimeguess_to_filetype()` to a boolean
 #[cfg(any(debug_assertions,test))]
-pub fn mimeguess_to_filetype_ok(mimeguess: &MimeGuess) -> bool {
+pub(crate) fn mimeguess_to_filetype_ok(mimeguess: &MimeGuess) -> bool {
     matches!(parseable_filetype(&mimeguess_to_filetype(mimeguess)), FileParseable::YES)
 }
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
 #[cfg(any(debug_assertions,test))]
-pub fn mimguess_path_to_filetype(mimeguess: &MimeGuess, path: &Path) -> FileType {
+pub(crate) fn mimguess_path_to_filetype(mimeguess: &MimeGuess, path: &Path) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
     if ! parseable_filetype_ok(&filetype) {
         filetype = path_to_filetype(path);
@@ -306,7 +315,7 @@ pub fn mimguess_path_to_filetype(mimeguess: &MimeGuess, path: &Path) -> FileType
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
 #[cfg(any(debug_assertions,test))]
-pub fn mimeguess_fpath_to_filetype(mimeguess: &MimeGuess, path: &FPath) -> FileType {
+pub(crate) fn mimeguess_fpath_to_filetype(mimeguess: &MimeGuess, path: &FPath) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
     if ! parseable_filetype_ok(&filetype) {
         let path_: &Path = fpath_to_path(path);
@@ -322,26 +331,29 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
     let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
     dpo!("mimeguess {:?}", mimeguess);
     // Sometimes syslog files get automatically renamed by appending `.old` to the filename,
-    // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try MimeGuess without the extra extension.
+    // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try MimeGuess without the extra
+    // extension.
     if mimeguess.is_empty() && filename_count_extensions(path) > 1 {
-        dpo!("no mimeguess found, and file name is {:?} (multiple extensions), try again with removed file extension", path.file_name().unwrap_or_default());
+        dpof!("no mimeguess found, and file name is {:?} (multiple extensions), try again with removed file extension", path.file_name().unwrap_or_default());
         match remove_extension(path) {
             None => {},
             Some(path_) => {
                 mimeguess = MimeGuess::from_path(path_);
-                dpo!("mimeguess #2 {:?}", mimeguess);
+                dpof!("mimeguess #2 {:?}", mimeguess);
             }
         }
     }
     let mut filetype: FileType = mimeguess_to_filetype(&mimeguess);
-    dpo!("filetype {:?}", filetype);
+    dpof!("filetype {:?}", filetype);
     if ! parseable_filetype_ok(&filetype) {
-        dpo!("parseable_filetype_ok({:?}) failed", filetype);
+        dpof!("parseable_filetype_ok({:?}) failed", filetype);
         filetype = path_to_filetype(path);
+        dpof!("path_to_filetype({:?}) returned {:?}", path, filetype);
         // Sometimes syslog files get automatically renamed by appending `.old` to the filename,
-        // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try supplement check without extra extension.
+        // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try supplement check without extra
+        // extension.
         if ! parseable_filetype_ok(&filetype) && filename_count_extensions(path) > 1 {
-            dpo!("file name is {:?} (multiple extensions), try again with removed file extension", path.file_name().unwrap_or_default());
+            dpof!("file name is {:?} (multiple extensions), try again with removed file extension", path.file_name().unwrap_or_default());
             match remove_extension(path) {
                 None => {},
                 Some(path_) => {
@@ -358,7 +370,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
 
 /// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
 #[cfg(any(debug_assertions,test))]
-pub fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess) {
+pub(crate) fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess) {
     let path_: &Path = fpath_to_path(path);
 
     path_to_filetype_mimeguess(path_)

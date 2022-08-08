@@ -40,11 +40,24 @@ use lazy_static::lazy_static;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+pub const FILE: FileType = FileType::File;
+pub const FILE_GZ: FileType = FileType::FileGz;
+pub const FILE_XZ: FileType = FileType::FileXz;
+pub const FILE_TAR: FileType = FileType::FileTar;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 // ready-made MimeGuess
 
 lazy_static! {
+    pub static ref MIMEGUESS_EMPTY: MimeGuess = {
+        MimeGuess::from_ext("")
+    };
     pub static ref MIMEGUESS_TXT: MimeGuess = {
         MimeGuess::from_ext("txt")
+    };
+    pub static ref MIMEGUESS_LOG: MimeGuess = {
+        MimeGuess::from_ext("log")
     };
     pub static ref MIMEGUESS_GZ: MimeGuess = {
         MimeGuess::from_ext("gz")
