@@ -1085,8 +1085,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //        init_oplocks: initializing messages.
     //     [2000/01/01 00:00:04.123456] ../source3/smbd/oplock.c:1340(init_oplocks)
     //
-    //
-    // LAST WORKING HERE 2022/06/29 15:41:00 implementing `DTFSSet` to replace old smattering of data, incomplete
     DTPD!(
         concatcp!("^", RP_LB, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_RB),
         DTFSS_YmdHMSf, 0, 40, CGN_YEAR, CGN_FRACTIONAL,
@@ -1145,7 +1143,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &["Log started: 2022-07-14  06:48:58\n(Reading database ..."],
         line!(),
     ),
-    /*
     //
     // from file `./logs/Ubuntu18/vmware-installer.log`
     // example with offset:
@@ -1154,16 +1151,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     012345678901234567890123456789
     //     [2019-05-06 11:24:34,074] Successfully loaded GTK libraries.
     //
-    DTPD!(
-        concatcp!("^", RP_LB, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_RB),
-        DTP_YmdHMS, true, false, false, false, 0, 30, CGN_YEAR, CGN_SECOND,
-        "[20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)", line!(),
-    ),
-    DTPD!(
-        concatcp!("^", RP_LB, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", D_SF, CGP_FRACTIONAL, RP_RB),
-        DTP_YmdHMSf, true, false, false, false, 0, 40, CGN_YEAR, CGN_FRACTIONAL,
-        r"[2019-05-06 11:24:34,074] Successfully loaded GTK libraries.", line!(),
-    ),
     // ---------------------------------------------------------------------------------------------
     //               1         2         3         4
     //     01234567890123456789012345678901234567890
@@ -1173,78 +1160,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     [VERBOSE] 2000-01-02T12:33:04 -1030 4444
     //     [TRACE] 2000-01-02T12:33:05 -1000 55555
     //
-    DTPD!(
-        concatcp!("^", RP_LB, RP_LEVELS, RP_RB, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz),
-        DTP_YmdHMSz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
-        "[VERBOSE] 2000-01-02T12:33:04 -1030 blah", line!(),
-    ),
-    DTPD!(
-        concatcp!("^", RP_LB, RP_LEVELS, RP_RB, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZcz),
-        DTP_YmdHMScz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
-        "[VERBOSE] 2000-01-02T12:33:04 -10:00 blah", line!(),
-    ),
-    DTPD!(
-        concatcp!("^", RP_LB, RP_LEVELS, RP_RB, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZpz),
-        DTP_YmdHMSpz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
-        "[VERBOSE] 2000-01-02T12:33:04 -10 blah", line!(),
-    ),
-    DTPD!(
-        concatcp!("^", RP_LB, RP_LEVELS, RP_RB, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ),
-        DTP_YmdHMSZ, true, false, true, true, 0, 40, CGN_YEAR, CGN_TZ,
-        "[VERBOSE] 2000-01-02T12:33:04 PST blah", line!(),
-    ),
-    DTPD!(
-        concatcp!("^", RP_LB, RP_LEVELS, RP_RB, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
-        DTP_YmdHMS, true, false, false, false, 0, 40, CGN_YEAR, CGN_SECOND,
-        "[VERBOSE] 2000-01-02T12:33:04blah", line!(),
-    ),
-    //
-    DTPD!(
-        concatcp!("^", RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz),
-        DTP_YmdHMSz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
-        "VERBOSE: 2000-01-02T12:33:04 -1030 blah", line!(),
-    ),
-    DTPD!(
-        concatcp!("^", RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZcz),
-        DTP_YmdHMScz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
-        "VERBOSE: 2000-01-02T12:33:04 -10:00 blah", line!(),
-    ),
-    DTPD!(
-        concatcp!("^", RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZpz),
-        DTP_YmdHMSpz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
-        "VERBOSE: 2000-01-02T12:33:04 -10 blah", line!(),
-    ),
-    DTPD!(
-        concatcp!("^", RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ),
-        DTP_YmdHMSZ, true, false, true, true, 0, 40, CGN_YEAR, CGN_TZ,
-        "VERBOSE: 2000-01-02T12:33:04 PST blah", line!(),
-    ),
-    DTPD!(
-        concatcp!("^", RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " "),
-        DTP_YmdHMS, true, false, false, false, 0, 40, CGN_YEAR, CGN_SECOND,
-        "VERBOSE: 2000-01-02T12:33:04 blah", line!(),
-    ),
-    //
-    DTPD!(
-        concatcp!(RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz),
-        DTP_YmdHMSz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
-        "[kernel] VERBOSE: 2000-01-02T12:33:04 -1030 blah", line!(),
-    ),
-    DTPD!(
-        concatcp!(RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZcz),
-        DTP_YmdHMScz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
-        "[kernel] VERBOSE: 2000-01-02T12:33:04 -10:00 blah", line!(),
-    ),
-    DTPD!(
-        concatcp!(RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZpz),
-        DTP_YmdHMSpz, true, false, true, false, 0, 40, CGN_YEAR, CGN_TZ,
-        "[kernel] VERBOSE: 2000-01-02T12:33:04 -10 blah", line!(),
-    ),
-    DTPD!(
-        concatcp!(RP_LEVELS, r"[:]?", RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ),
-        DTP_YmdHMSZ, true, false, true, true, 0, 40, CGN_YEAR, CGN_TZ,
-        "[kernel] VERBOSE: 2000-01-02T12:33:04 PST blah", line!(),
-    ),
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/synology/usbcopyd.log`
     //
@@ -1253,6 +1168,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //               1         2         3
     //     0123456789012345678901234567890
     //     2017-05-24T19:14:38-07:00 hostname1 usb-copy-starter
+    //
+    // ---------------------------------------------------------------------------------------------
     //
     // prescripted datetime+tz
     //
@@ -1263,26 +1180,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     2000-01-02T12:33:05 -0400 foo
     //     2000-01-02T12:33:05 -04:00 foo
     //
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZz),
-        DTP_YmdHMSz, true, true, false, 0, 30, CGN_YEAR, CGN_TZ,
-        "2000-01-02 12:33:01 -0400 foo", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZZ),
-        DTP_YmdHMSZ, true, true, true, 0, 30, CGN_YEAR, CGN_TZ,
-        "2000-01-02 12:33:01 EAST foo", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZcz),
-        DTP_YmdHMSZ, true, true, true, 0, 30, CGN_YEAR, CGN_TZ,
-        "2000-01-02 12:33:01 -04:00 foo", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZpz),
-        DTP_YmdHMSpz, true, true, true, 0, 30, CGN_YEAR, CGN_TZ,
-        "2000-01-02 12:33:01 -04 foo", line!(),
-    ),
     //               1         2
     //     012345678901234567890123456789
     //     2000-01-02 12:33:05,123 -0400 foo
@@ -1290,35 +1187,10 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     2000-01-02T12:33:05,123 -0400 foo
     //     2000-01-02T12:33:05,123 -04:00 foo
     //
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, " ", CGP_TZz),
-        DTP_YmdHMSfz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
-        "2000-01-02 12:33:01,123 -0400 foo", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, " ", CGP_TZZ),
-        DTP_YmdHMSfZ, true, true, true, 0, 45, CGN_YEAR, CGN_TZ,
-        "2000-01-02 12:33:01,123 EAST foo", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, " ", CGP_TZcz),
-        DTP_YmdHMSfcZ, true, true, true, 0, 45, CGN_YEAR, CGN_TZ,
-        "2000-01-02 12:33:01,123 -04:00 foo", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, " ", CGP_TZpz),
-        DTP_YmdHMSfpz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
-        "2000-01-02 12:33:01,123 -04 foo", line!(),
-    ),
     //               1         2
     //     012345678901234567890123456789
     //     2000-01-02 12:33:05.123456 foo
     //
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL),
-        DTP_YmdHMSf, true, false, false, 0, 45, CGN_YEAR, CGN_FRACTIONAL,
-        "2000-01-02 12:33:01.123456 foo", line!(),
-    ),
     //               1         2         3
     //     0123456789012345678901234567890
     //     2000-01-02 12:33:05 foo
@@ -1326,11 +1198,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     2000-01-02T12:33:05 foo
     //     2000-01-02T12:33:05 foo
     //
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?"),
-        DTP_YmdHMS, true, false, false, 0, 20, CGN_YEAR, CGN_SECOND,
-        "2000-01-02 12:33:01 foo", line!(),
-    ),
     // ---------------------------------------------------------------------------------------------
     //               1         2         3
     //     0123456789012345678901234567890
@@ -1340,11 +1207,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     [VERBOSE] 2000-01-02 12:33:04 4444
     //     [TRACE] 2000-01-02 12:33:05 55555
     //
-    DTPD!(
-        concatcp!("^", RP_LB, RP_LEVELS, r"\][ ]?", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " "),
-        DTP_YmdHMS, true, false, false, 0, 30, CGN_YEAR, CGN_SECOND,
-        "[ERROR] 2000-01-02 12:33:01 foobar", line!(),
-    ),
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/Ubuntu18/vmware/hostd-62.log`
     // example with offset:
@@ -1353,28 +1215,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     01234567890123456789012345678901234567890
     //     2019-07-26T10:40:29.682-07:00 info hostd[03210] [Originator@6876 sub=Default] Current working directory: /usr/bin
     //
-    DTPD!(
-        // LAST WORKING HERE 2022/06/28 17:00:34 fails test though it looks fine
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, "[ ]?", CGP_TZz, RP_BLANKS, RP_LEVELS),
-        DTP_YmdHMSfz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
-        "2019-07-26T10:40:29.123-0700 info hostd[03210] [Originator@6876 sub=Default]", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, "[ ]?", CGP_TZcz, RP_BLANKS, RP_LEVELS),
-        DTP_YmdHMSfcz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
-        "2019-07-26T10:40:29.123456-07:00 info hostd[03210] [Originator@6876 sub=Default]", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, "[ ]?", CGP_TZpz, RP_BLANKS, RP_LEVELS),
-        DTP_YmdHMSfpz, true, true, false, 0, 45, CGN_YEAR, CGN_TZ,
-        "2019-07-26T10:40:29.123456789-07 info hostd[03210] [Originator@6876 sub=Default]", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, " ", CGP_TZZ, RP_BLANKS, RP_LEVELS),
-        DTP_YmdHMSfZ, true, true, true, 0, 45, CGN_YEAR, CGN_TZ,
-        "2019-07-26T10:40:29.123456789 PST info hostd[03210] [Originator@6876 sub=Default]", line!(),
-    ),
-    */
     DTPD!(
         concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZZn),
         DTFSS_BeHMSYZ, 0, 28, CGN_MONTH, CGN_TZ,
@@ -2154,7 +1994,8 @@ fn month_bB_to_month_m_bytes(data: &[u8], buffer: &mut [u8]) {
 ///
 /// transforms `%B` acceptable value to `%m` acceptable value.
 ///
-/// TODO: transforms `%e` acceptable value to `%d` acceptable value.
+/// transforms `%e` acceptable value to `%d` acceptable value.
+///
 #[inline(always)]
 fn captures_to_buffer_bytes(
     buffer: &mut[u8],
@@ -2527,10 +2368,7 @@ pub fn datetime_with_year(datetime: &DateTimeL, year: &Year) -> DateTimeL {
     }
 }
 
-// LAST WORKING HERE 2022/07/25 00:35:32
-// continue with this work to implement basics of handling missing year.
-// once it runs successfully, may need to rethink best place to be handling the year
-// updates. Current implementation may actually be decent, but a good think would be good.
+/// convert passed `SystemTime` to `DatetimeL` with passed  `fixedoffset`
 pub fn systemtime_to_datetime(fixedoffset: &FixedOffset, systemtime: &SystemTime) -> DateTimeL {
     // https://users.rust-lang.org/t/convert-std-time-systemtime-to-chrono-datetime-datetime/7684/6
     let dtu: DateTime<Utc> = systemtime.clone().into();
@@ -3086,7 +2924,8 @@ const fn slice_contains_50_2(slice_: &[u8; 50], search: &[u8; 2]) -> bool {
 /// loop unrolled implementation of `slice.contains` for a byte slice and a hardcorded array.
 /// Uses crate `unroll`.
 ///
-/// runs very fast. Implemented for `u8` slices up to 50 length
+/// Hardcoded implementation for `u8` slices up to 50 length. Runs very fast.
+/// Supports arbitrary length.
 #[inline(always)]
 #[allow(non_snake_case)]
 pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
