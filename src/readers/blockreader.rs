@@ -108,11 +108,6 @@ pub type Blocks = BTreeMap<BlockOffset, BlockP>;
 pub type BlocksTracked = BTreeSet<BlockOffset>;
 pub type BlocksLRUCache = LruCache<BlockOffset, BlockP>;
 
-// for case where reading blocks, lines, or syslines reaches end of file, the value `WriteZero` will
-// be used here to mean "_end of file reached, nothing new_"
-// XXX: this is a hack
-//#[allow(non_upper_case_globals)]
-//pub const EndOfFile: ErrorKind = ErrorKind::WriteZero;
 #[allow(non_upper_case_globals)]
 pub type ResultS3ReadBlock = ResultS3<BlockP, Error>;
 /// minimum Block Size (inclusive)
@@ -178,7 +173,6 @@ type TarMTime = u64;
 pub struct TarData {
     /// size of file unarchived
     pub filesz: FileSz,
-    //pub handle: TarHandle,
     /// iteration count of `tar::Archive::entries_with_seek`
     pub entry_index: usize,
     /// checksum retreived from tar header
@@ -309,9 +303,7 @@ impl fmt::Debug for BlockReader {
 
 /// helper to unpack DWORD unsigned integers in a gzip header
 ///
-/// XXX: u32::from_*_bytes failed for test file compressed with GNU gzip 1.10
-///
-/// TODO: validate XXX, did I do that correctly?
+/// XXX: `u32::from_*_bytes` failed for test file compressed with GNU gzip 1.10
 const fn dword_to_u32(buf: &[u8; 4]) -> u32 {
     let mut buf_: [u8; 4] = [0; 4];
     buf_[0] = buf[3];
@@ -340,8 +332,6 @@ impl BlockReader {
     ///
     /// Opens the `path` file, configures settings based on determined `filetype`.
     pub fn new(path: FPath, filetype: FileType, blocksz_: BlockSz) -> Result<BlockReader> {
-        // TODO: how to make some fields `blockn` `blocksz` `filesz` immutable?
-        //       https://stackoverflow.com/questions/23743566/how-can-i-force-a-structs-field-to-always-be-immutable-in-rust
         dpn!("BlockReader::new({:?}, {:?}, {:?})", path, filetype, blocksz_);
 
         assert_ne!(0, blocksz_, "Block Size cannot be 0");
@@ -521,17 +511,6 @@ impl BlockReader {
                 let size: u32 = dword_to_u32(&buffer_size);
                 dpof!("FileGz: file size uncompressed {0:?} (0x{0:08X})", size);
                 let filesz_uncompressed: FileSz = size as FileSz;
-                /*
-                if filesz_uncompressed == 0 {
-                    dpxf!("FileGz: return Err(InvalidData)");
-                    return Result::Err(
-                        Error::new(
-                            ErrorKind::InvalidData,
-                            format!("extracted uncompressed file size value 0, nothing to read {:?}", path),
-                        )
-                    );
-                }
-                */
                 filesz_actual = filesz_uncompressed;
 
                 // reset Seek pointer
@@ -544,7 +523,6 @@ impl BlockReader {
                     }
                 }
 
-                //let mut open_options = FileOpenOptions::new();
                 dpof!("FileGz:  open_options.read(true).open({:?})", path_std);
                 let file_gz: File = match open_options.read(true).open(path_std) {
                     Ok(val) => val,
@@ -1014,7 +992,6 @@ impl BlockReader {
                 tar_opt = Some(
                     TarData {
                         filesz: filesz_actual,
-                        //handle: archive,
                         entry_index,
                         checksum,
                         mtime,
@@ -1054,11 +1031,8 @@ impl BlockReader {
                 filesz_actual,
                 blockn,
                 blocksz,
-                //count_bytes_: 0,
                 count_bytes_,
-                //blocks: Blocks::new(),
                 blocks,
-                //blocks_read: BlocksTracked::new(),
                 blocks_read,
                 read_block_lru_cache: BlocksLRUCache::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ),
                 read_block_lru_cache_enabled: true,
@@ -1456,7 +1430,6 @@ impl BlockReader {
             // bytes to read in all `.read()` except the last
             // in ad-hoc experiments, this size was found to succeed pretty often
             const READSZ: usize = 1024;
-            //const READSZ: usize = 0xFFFF;
             // bytes to read in last `.read()`
             let readsz_last: usize = blocksz_u % READSZ;
             // number of `.read()` of size `READSZ` plus one
@@ -1491,9 +1464,6 @@ impl BlockReader {
                 match (self.gz.as_mut().unwrap().decoder).read(block_buf.as_mut()) {
                     Ok(size_) if size_ == 0 => {
                         dpof!("({}): GzDecoder.read() returned Ok({:?}); read_total {}", blockoffset, size_, read_total);
-                        //if self.filesz_actual == 0 {
-                        //    return ResultS3ReadBlock::Done;
-                        //}
                         let byte_at: FileOffset = self.file_offset_at_block_offset_self(bo_at) + (read_total as FileOffset);
                         // in ad-hoc testing, it was found the decoder never recovers from a zero-byte read
                         return ResultS3ReadBlock::Err(
@@ -1516,20 +1486,11 @@ impl BlockReader {
                     // first or subsequent read is le expected size
                     Ok(size_) => {
                         dpof!("({}): GzDecoder.read() returned Ok({:?}), readsz {}, blocksz {}", blockoffset, size_, readsz, blocksz_u);
-                        //if self.filesz_actual == 0 {
-                        //    return ResultS3ReadBlock::Err(
-                        //        Error::new(
-                        //            ErrorKind::InvalidData,
-                        //            format!("GzDecoder.read() returned {} yet file size uncompressed {} (calculated from gzip header); {:?}", size_, self.filesz_actual, self.path)
-                        //        )
-                        //    );
-                        //}
                         // TODO: cost-savings: use faster `copy_slice`
                         for byte_ in block_buf.iter().take(size_) {
                             block[read_total] = *byte_;
                             read_total += 1;
                         }
-                        //debug_assert_eq!(copiedn, size_, "copied {} but read returned size {} (readsz {}) B", copiedn, size_, readsz);
                     }
                     Err(err) => {
                         dp_err!("GzDecoder.read(&block (capacity {})) error {} for {:?}", self.blocksz, err, self.path);
