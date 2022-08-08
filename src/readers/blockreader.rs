@@ -870,7 +870,8 @@ impl BlockReader {
 
                 let mut bufreader: BufReaderXz = BufReaderXz::new(file_xz);
 
-                // XXX: THIS IS A TERRIBLE HACK!
+                // TODO: Issue #12
+                //      THIS IS A TERRIBLE HACK!
                 //      read the entire file into blocks in one go!
                 //      putting this here until the implementation of reading the header/blocks
                 //      of the underlying .xz file
