@@ -247,6 +247,7 @@ impl Sysline {
     /// Similar to `get_slices_line` but for all lines.
     ///
     /// Only for testing
+    #[cfg(any(test,debug_assertions))]
     pub fn get_slices(self: &Sysline) -> Slices {
         let mut count: usize = 0;
         for linep in &self.lines {
@@ -262,7 +263,7 @@ impl Sysline {
     }
 
     /// get the last byte of this Sysline
-    fn last_byte(self: &Sysline) -> Option<u8> {
+    pub(crate) fn last_byte(self: &Sysline) -> Option<u8> {
         assert_eq!(self.charsz(), 1, "charsz {} not implemented", self.charsz());
         let len_ = self.lines.len();
         if len_ <= 0 {
