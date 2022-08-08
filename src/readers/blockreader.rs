@@ -455,7 +455,7 @@ impl BlockReader {
                         )
                     );
                 }
-                // TODO: [2022/06] it's known that for a file larger than 4GB uncompressed,
+                // TODO: Issue #9 [2022/06] it's known that for a file larger than 4GB uncompressed,
                 //       gzip cannot store it's filesz accurately, since filesz is stored within 32 bits.
                 //       gzip will only store the rollover (uncompressed filesz % 4GB).
                 //       How to handle large gzipped files correctly?
