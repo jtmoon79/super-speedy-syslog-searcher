@@ -331,6 +331,7 @@ impl BlockReader {
     ///      So there is no certain way to determine the size of the "media stream".
     ///      This terrible hack just aborts processing .gz files that might be over that
     ///      size.
+    ///      Issue #8
     const GZ_MAX_SZ: FileSz = 0x20000000;
     /// cache slots for `read_block` LRU cache
     const READ_BLOCK_LRU_CACHE_SZ: usize = 4;
