@@ -697,10 +697,11 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
     ) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: SyslogProcessor::new({:?}) failed {}", path.as_str(), err);
+            dp_err!("SyslogProcessor::new({:?}) failed {}", path.as_str(), err);
             let mut summary = Summary::default();
             // TODO: [2022/08] this design needs work: the Error instance should be passed
-            //       back in the channel, not via the Summary.
+            //       back in the channel, not via the Summary. The `FileProcessResult`
+            //       should travel inside or outside the `Summary`. Needs consideration.
             summary.Error_ = Some(err.to_string());
             match chan_send_dt.send((None, Some(summary), true, FILEERRSTUB)) {
                 Ok(_) => {}
@@ -1162,6 +1163,24 @@ fn processing_loop(
         };
     }
 
+    for (_pathid, result_invalid) in map_pathid_results_invalid.iter() {
+        match result_invalid {
+            ProcessPathResult::FileErrNotParseable(path, _) => {
+                eprintln!("WARNING: not a parseable type {:?}", path);
+            }
+            ProcessPathResult::FileErrNoPermissions(path, _) => {
+                eprintln!("WARNING: not enough permissions {:?}", path);
+            }
+            ProcessPathResult::FileErrNotAFile(path, _) => {
+                eprintln!("WARNING: not a file {:?}", path);
+            }
+            ProcessPathResult::FileErrNotSupported(path, _) => {
+                eprintln!("WARNING: not a supported file {:?}", path);
+            }
+            _ => {}
+        }
+    }
+
     // preprint the prepended name or path (if user requested it)
     type MapPathIdToPrependName = HashMap<PathId, String>;
     let mut pathid_to_prependname: MapPathIdToPrependName;
@@ -1214,6 +1233,9 @@ fn processing_loop(
     let mut map_pathid_color = MapPathIdToColor::with_capacity(file_count);
     // mapping PathId to a `Summary` for `--summary`
     let mut map_pathid_summary = MapPathIdSummary::with_capacity(file_count);
+    /// track if an error has been printed regarding a particular sysling_print error
+    /// only want to print this particular error once, not hundreds of times
+    let mut set_sysline_print_err: HashSet<PathId> = HashSet::<PathId>::new();
     // "mapping" of PathId to select index, used in `recv_many_data`
     let mut index_select = MapIndexToPathId::with_capacity(file_count);
 
@@ -1263,7 +1285,7 @@ fn processing_loop(
                 }
     }
     if map_pathid_chanrecvdatum.is_empty() {
-        eprintln!("ERROR: map_pathid_chanrecvdatum.is_empty(); nothing to do.");
+        dp_err!("map_pathid_chanrecvdatum.is_empty(); nothing to do.");
         return false;
     }
 
@@ -1419,6 +1441,7 @@ fn processing_loop(
                 }
             };
             match result {
+                // (SyslineP_Opt, SummaryOpt, IsSyslineLast, FileProcessingResultBlockZero)
                 Ok(chan_datum) => {
                     dpof!("B crossbeam_channel::Found for PathId {:?};", pathid);
                     match chan_datum.3 {
@@ -1507,10 +1530,23 @@ fn processing_loop(
                 // print the sysline!
                 let printer: &mut PrinterSysline = map_pathid_printer.get_mut(pathid).unwrap();
                 match printer.print_sysline(syslinep) {
-                        Ok(_) => {},
-                        Err(_err) => {
-                            p_err!("failed to print; TODO abandon processing for PathId {:?}", pathid);
+                    Ok(_) => {},
+                    Err(err) => {
+                        // Only print a printing error once.
+                        // In case of piping to something like `head`, it looks bad to print
+                        // the same error tens or hundreds of times for a common pipe operation.
+                        if ! set_sysline_print_err.contains(pathid) {
+                            set_sysline_print_err.insert(*pathid);
+                            match map_pathid_path.get(pathid) {
+                                Some(path) => {
+                                    eprintln!("ERROR: failed to print {:?} ({:?})", err, path);
+                                },
+                                None => {
+                                    eprintln!("ERROR: failed to print {:?}", err);
+                                }
+                            };
                         }
+                    }
                 }
                 // If a file's last char is not a '\n' then the next printed sysline
                 // (from a different file) will print on the same terminal line.
@@ -1872,7 +1908,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
 }
 
 /// print the `Summary.Error_`, if any (one line)
-fn print_error(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
+fn print_error_summary(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
     match summary_opt.as_ref() {
         Some(summary_) => {
             match &summary_.Error_ {
@@ -1912,7 +1948,7 @@ fn print_file_summary(
     if OPT_SUMMARY_PRINT_DROP_STATS {
         print_drop_stats(summary_opt);
     }
-    print_error(summary_opt, color_choice);
+    print_error_summary(summary_opt, color_choice);
 }
 
 /// printing for CLI option `--summary`
