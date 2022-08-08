@@ -267,7 +267,9 @@ pub struct DateTimeParseInstr<'a> {
     pub dtfs: DTFSSet<'a>,
     /// slice range of widest regex pattern match
     ///
-    /// this is range is sliced from the `Line` and then a `Regex` match is attempted using it.
+    /// This is range is sliced from the `Line` and then a `Regex` match is attempted using it.
+    /// It must be at least contain the datetime string to match. It may contain extra characters
+    /// before or after the datetime (assuming the `regex_pattern` is correct).
     pub range_regex: Range_LineIndex,
     /// capture named group first (left-most) position in regex
     pub cgn_first: &'a CaptureGroupName,
@@ -1043,8 +1045,17 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 35;
 ///
 /// These are all regexp patterns that will be attempted on processed files.
 ///
-/// `DateTimeParseInstr` should be listed from specific regexp to generic regexp. A more specific
-/// regexp pattern is always preferred.
+/// Order of declaration matters: during initial parsing of a syslog file, all of these
+/// regex patterns are attempted. Listing a general regex pattern before a specific regex pattern
+/// may result in loss of datetime information.
+///
+/// For example, given sysline
+///
+///     2001-02-03T04:05:06 -1100 hello
+///
+/// A regex that attempts to match the year to the second will not capture the timezone. This will
+/// result in a filler timezone being used which may not be correct.
+/// Generally, more specific regex patterns should be listed before general regex patterns.
 ///
 /// Notice the "with timezone" versions of `DateTimeParseInstr` are often listed before the same
 /// `DateTimeParseInstr` "without".
@@ -1527,16 +1538,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     0123456789012345678901234567890
     //     E [09/Aug/2019:00:09:01 -0700] Unable to open listen socket for address [v1.::1]:631 - Cannot assign requested address.
     //
-    DTPD!(
-        concatcp!(RP_LB, CGP_DAYd, D_D, CGP_MONTHb, D_D, CGP_YEAR, D_DHc, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZz, RP_RB),
-        DTP_YmdHMSz, true, true, false, 0, 100, CGN_DAY, CGN_TZ,
-        r"E [30/Aug/2019:12:59:01 -0700] Unable to open listen socket for address [v1.::1]:631 - Cannot assign requested address.", line!(),
-    ),
-    DTPD!(
-        concatcp!(RP_LB, CGP_DAYd, D_D, CGP_MONTHb, D_D, CGP_YEAR, D_DHc, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, "[ ]?", CGP_TZcz, RP_RB),
-        DTP_YmdHMScz, true, true, false, 0, 100, CGN_DAY, CGN_TZ,
-        r"E [30/Aug/2019:12:59:01 -07:00] Unable to open listen socket for address [v1.::1]:631 - Cannot assign requested address.", line!(),
-    ),
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/other/archives/proftpd/xferlog`
     // example with offset:
@@ -1546,39 +1547,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     Sat Oct 03 11:26:12 2020 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c
     //
     // XXX: ignore the leading Day Of Week substring
-    DTPD!(
-        concatcp!(CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, " ", CGP_TZz),
-        DTP_YbdHMSz, true, true, false, 0, 100, CGN_MONTH, CGN_TZ,
-        r"Sat Oct 03 11:26:59 2020 +0930 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
-    ),
-    DTPD!(
-        concatcp!(CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, " ", CGP_TZcz),
-        DTP_YbdHMScz, true, true, false, 0, 100, CGN_MONTH, CGN_TZ,
-        r"Sat Oct 03 11:26:59 2020 +09:30 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
-    ),
-    // TODO: need to add the other timezone variations for each of these
-    DTPD!(
-        concatcp!(CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR),
-        DTP_YbdHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
-        r"Sat Oct 03 11:26:59 2020 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
-    ),
-    DTPD!(
-        concatcp!(CGP_MONTHB, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR),
-        DTP_YBdHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
-        r"Sat October 03 11:26:59 2020 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
-    ),
-    // TODO: the CGP_DAYe matches could be reduced by swallowing blanks RP_BLANKS, but how to replace leading zero?
-    //       might need to add bool flag for that too
-    DTPD!(
-        concatcp!(CGP_MONTHb, D_D, CGP_DAYe, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR),
-        DTP_YbeHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
-        r"Sat Oct  3 11:26:59 2020 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
-    ),
-    DTPD!(
-        concatcp!(CGP_MONTHb, D_D, CGP_DAYe, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR),
-        DTP_YBeHMS, true, false, false, 0, 100, CGN_MONTH, CGN_YEAR,
-        r"Sat October  3 11:26:59 2020 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c", line!(),
-    ),
     //
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/OpenSUSE15/zypper.log`
@@ -1588,8 +1556,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     012345678901234567890
     //     2019-05-23 16:53:43 <1> trenker(24689) [zypper] main.cc(main):74 ===== Hi, me zypper 1.14.27
     //
-    ////("%Y-%m-%d %H:%M:%S ", 0, 20, 0, 19),
-    //
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/synology/synoupdate.log`
     // example with offset:
@@ -1598,7 +1564,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     0123456789012345678901234567890
     //     2016/12/05 21:34:43	Start of the update…
     //
-    //("%Y/%m/%d %H:%M:%S	", true, false, false, 0, 20, 0, 19),
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/synology/synobackup.log`
     // example with offset:
@@ -1609,32 +1574,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     info	2017/02/21 23:01:59	admin: Setting of backup task [Local Storage 1] was created
     //     warning	2020/02/24 03:00:20	SYSTEM:  Scheduled backup had been skipped
     //
-    DTPD!(
-        concatcp!(r"^", RP_LEVELS, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZz, RP_BLANK, r"[[:alpha:]]"),
-        DTP_YmdHMSz, true, true, false, 0, 50, CGN_YEAR, CGN_TZ,
-        "info	2017/02/21 23:01:59 -0700	admin: Setting of backup task [Local Storage 1] was created", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", RP_LEVELS, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZcz, RP_BLANK, r"[[:alpha:]]"),
-        DTP_YmdHMScz, true, true, false, 0, 50, CGN_YEAR, CGN_TZ,
-        "info	2017/02/21 23:01:59 -07:00	admin: Setting of backup task [Local Storage 1] was created", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", RP_LEVELS, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZpz, RP_BLANK, r"[[:alpha:]]"),
-        DTP_YmdHMSpz, true, true, false, 0, 50, CGN_YEAR, CGN_TZ,
-        "info	2017/02/21 23:01:59 -07	admin: Setting of backup task [Local Storage 1] was created", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", RP_LEVELS, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_BLANK, r"[[:alpha:]]"),
-        DTP_YmdHMSZ, true, true, true, 0, 50, CGN_YEAR, CGN_TZ,
-        "info	2017/02/21 23:01:59 PST	admin: Setting of backup task [Local Storage 1] was created", line!(),
-    ),
-    DTPD!(
-        concatcp!(r"^", RP_LEVELS, RP_BLANKS, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, r"[[:alpha:]]"),
-        DTP_YmdHMS, true, false, false, 0, 50, CGN_YEAR, CGN_SECOND,
-        "info	2017/02/21 23:01:59	admin: Setting of backup task [Local Storage 1] was created", line!(),
-    ),
-    //
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
@@ -1643,11 +1582,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     01234567890123456789012345678901234567890
     //     2020-01-02 12:33:59.001 xyz
     //
-    DTPD!(
-        concatcp!(r"^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL),
-        DTP_YmdHMSf, true, false, false, 0, 20, CGN_YEAR, CGN_FRACTIONAL,
-        "2020-01-02 12:33:59.001 xyz", line!(),
-    ),
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/debian9/apport.log.1`
@@ -1656,27 +1590,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //               1         2         3         4         5
     //     012345678901234567890123456789012345678901234567890
     //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
-    //     ERROR: apport (pid 9359) Thu Feb 27 00:33:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
-    DTPD!(
-        concatcp!(RP_BLANK, CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, " ", CGP_TZz, r"[: ]"),
-        DTP_YmdHMSz, true, true, false, 0, 200, CGN_MONTH, CGN_TZ,
-        "ERROR: apport (pid 9359) Thu Feb 27 00:33:59 2020 -0700: called for pid 8581, signal 24, core limit 0, dump mode 1", line!(),
-    ),
-    DTPD!(
-        concatcp!(RP_BLANK, CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, " ", CGP_TZcz, r"[: ]"),
-        DTP_YmdHMScz, true, true, false, 0, 200, CGN_MONTH, CGN_TZ,
-        "ERROR: apport (pid 9359) Thu Feb 27 00:33:59 2020 -07:00: called for pid 8581, signal 24, core limit 0, dump mode 1", line!(),
-    ),
-    DTPD!(
-        concatcp!(RP_BLANK, CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, " ", CGP_TZpz, r"[: ]"),
-        DTP_YmdHMSpz, true, true, false, 0, 200, CGN_MONTH, CGN_TZ,
-        "ERROR: apport (pid 9359) Thu Feb 27 00:33:59 2020 -07: called for pid 8581, signal 24, core limit 0, dump mode 1", line!(),
-    ),
-    DTPD!(
-        concatcp!(RP_BLANK, CGP_MONTHb, D_D, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, " ", CGP_YEAR, r":"),
-        DTP_YmdHMSz, true, false, false, 0, 200, CGN_MONTH, CGN_YEAR,
-        "ERROR: apport (pid 9359) Thu Feb 27 00:33:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1", line!(),
-    ),
+    //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -0700: called for pid 8581, signal 24, core limit 0, dump mode 1
+    //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -07:00: called for pid 8581, signal 24, core limit 0, dump mode 1
+    //
     // ---------------------------------------------------------------------------------------------
     // example with offset:
     //
@@ -1687,10 +1603,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     DEBUG: Thu Feb 20 00:59:59 2020 debug
     //     VERBOSE: Thu Feb 20 00:59:59 2020 verbose
     //
-    //(" %a %b %d %H:%M:%S %Y ", true, false, false, 5, 31, 6, 30),
-    //(" %a %b %d %H:%M:%S %Y ", true, false, false, 6, 32, 7, 31),
-    //(" %a %b %d %H:%M:%S %Y ", true, false, false, 7, 33, 8, 32),
-    //(" %a %b %d %H:%M:%S %Y ", true, false, false, 8, 34, 9, 33),
     // ---------------------------------------------------------------------------------------------
     // example with offset:
     //
