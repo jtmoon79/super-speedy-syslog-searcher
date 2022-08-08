@@ -623,6 +623,8 @@ impl BlockReader {
                 // the needs of this program.
                 //
 
+                // TODO: Issue #11 handle multi-stream xz files
+
                 /*
                     https://tukaani.org/xz/xz-file-format.txt
 
