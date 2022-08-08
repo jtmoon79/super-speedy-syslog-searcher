@@ -236,26 +236,10 @@ impl LineReader {
     }
 
     /// disable internal LRU cache used by `find_line`
-    /// intended for testing
     #[allow(non_snake_case)]
     pub fn LRU_cache_disable(&mut self) {
         self.find_line_lru_cache_enabled = false;
         self.find_line_lru_cache.resize(0);
-    }
-
-    /// print `Line` at `fileoffset`
-    /// return `false` if `fileoffset` not found
-    ///
-    /// Testing helper only
-    // TODO: [2022/07] remove this
-    #[cfg(any(debug_assertions, test))]
-    pub fn print(&self, fileoffset: &FileOffset) -> bool {
-        if !self.lines.contains_key(fileoffset) {
-            return false;
-        }
-        let linep: &LineP = &self.lines[fileoffset];
-        linep.print(true);
-        true
     }
 
     /// count of lines processed by this `LineReader` (i.e. `self.lines_processed`)
