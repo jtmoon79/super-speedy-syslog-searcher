@@ -260,8 +260,6 @@ pub struct SyslineReader {
     pub(crate) drop_sysline_errors: Count,
 }
 
-// TODO: [2021/09/19]
-//       put all filter data into one struct `SyslineFilter`, simpler to pass around
 impl fmt::Debug for SyslineReader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         f.debug_struct("SyslineReader")
@@ -1016,15 +1014,8 @@ impl SyslineReader {
             }
         }
         dpnf!("(…, {:?}, {:?})", charsz, year_opt);
-        // LAST WORKING HERE 2022/06/26 01:56:15
-        // It's far better to just stored indexes into the global VECs.
-        // Continue implemeting new approach which is to only use `self.dt_patterns_counts` for tracking
-        // patterns (and eventaully rid of `self.dt_patterns`).
-        // Need to finish correcting statements in this file then do a first run, see
-        // how first few sysline proceses go.
         let result: ResultParseDateTime = self.parse_datetime_in_line(&*linep, charsz, year_opt);
         if self.parse_datetime_in_line_lru_cache_enabled {
-            //#[allow(clippy::single_match)]
             match result {
                 Ok(val) => {
                     match self.parse_datetime_in_line_lru_cache.put(linep.fileoffset_begin(), val) {
@@ -1773,19 +1764,10 @@ impl SyslineReader {
                             // i.e. move begin marker `fo_a` forthward
                             dpof!("OccursBefore =>    fo {} fo_last {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, fo_last, try_fo, try_fo_last, fo_a, fo_b, _fo_end);
                             let syslinep_foe: FileOffset = (*syslinep).fileoffset_end();
-                            // XXX: [2022/03/25] why was this `assert_le` here? It seems wrong.
-                            //assert_le!(syslinep_foe, fo, "unexpected values (SyslineP@{:p}).fileoffset_end() {}, fileoffset returned by self.find_sysline({}) was {} FPath {:?}", syslinep, syslinep_foe, try_fo, fo, self.path());
                             try_fo_last = try_fo;
                             assert_le!(try_fo_last, syslinep_foe, "Unexpected values try_fo_last {} syslinep_foe {}, last tried offset (passed to self.find_sysline({})) is beyond returned Sysline@{:p}.fileoffset_end() {}!? FPath {:?}", try_fo_last, syslinep_foe, try_fo, syslinep, syslinep_foe, self.path());
                             dpof!("                    ∴ fo_a = min(syslinep_foe {}, fo_b {});", syslinep_foe, fo_b);
-                            // LAST WORKING HERE [2021/10/06 00:05:00]
-                            // LAST WORKING HERE [2022/03/16 01:15:00]
-                            // this code passes all tests, but runs strangely. I think the problem is the first found sysline
-                            // (that may or may not satisfy the passed filter) is placed into a queue and then printed by the waiting main thread.
                             fo_a = std::cmp::min(syslinep_foe, fo_b);
-                            //fo_a = std::cmp::max(syslinep_foe, fo_b);
-                            //fo_a = syslinep_foe;
-                            //assert_le!(fo_a, fo_b, "Unexpected values for fo_a {} fo_b {}", fo_a, fo_b);
                             dpof!(
                                 "                    ∴ try_fo = fo_a {} + ((fo_b {} - {} fo_a) / 2);",
                                 fo_a,
@@ -1799,7 +1781,7 @@ impl SyslineReader {
                     fo_last = fo;
                     syslinep_opt = Some(syslinep);
                     // TODO: [2021/09/26]
-                    //       I think could do an early check and skip a few loops:
+                    //       I think this could do an early check and potentially skip a few loops.
                     //       if `fo_a` and `fo_b` are offsets into the same Sysline
                     //       then that Sysline is the candidate, so return Ok(...)
                     //       unless `fo_a` and `fo_b` are past last Sysline.fileoffset_begin of the file then return Done
@@ -1851,11 +1833,11 @@ impl SyslineReader {
             //       do this at the top of the loop. Then call `dt_after_or_before` for each
             //       `.dt` among `syslinep`, `syslinep_next`.
 
-            // `try_fo == try_fo_last` means binary search loop is deciding on the same fileoffset upon each loop.
-            // the searching is exhausted.
+            // `try_fo == try_fo_last` means binary search loop is deciding on the same fileoffset
+            // upon each loop. the searching is exhausted.
             if done && try_fo == try_fo_last {
-                // reached a dead-end of searching the same fileoffset `find_sysline(try_fo)` and receiving Done
-                // so this function is exhausted too.
+                // reached a dead-end of searching the same fileoffset `find_sysline(try_fo)` and
+                // receiving Done, so this function is exhausted too.
                 dpof!("Done && try_fo {} == {} try_fo_last; break!", try_fo, try_fo_last);
                 break;
             } else if try_fo != try_fo_last {

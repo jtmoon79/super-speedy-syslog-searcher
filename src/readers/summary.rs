@@ -89,7 +89,6 @@ pub struct Summary {
     /// `SyslineReader::_syslines_by_range_put`
     pub SyslineReader_syslines_by_range_put: Count,
     /// datetime patterns used by `SyslineReader`
-    /// TODO: change name to whatever is decided on
     pub SyslineReader_patterns: DateTimePatternCounts,
     /// datetime soonest seen (not necessarily reflective of entire file)
     pub SyslineReader_pattern_first: DateTimeLOpt,
@@ -168,7 +167,6 @@ impl Summary {
         SyslineReader_syslines_by_range_hit: Count,
         SyslineReader_syslines_by_range_miss: Count,
         SyslineReader_syslines_by_range_put: Count,
-        // TODO: change name to `SyslineReader_pattern_counts` or whatever var name is decided on
         SyslineReader_patterns: DateTimePatternCounts,
         SyslineReader_pattern_first: DateTimeLOpt,
         SyslineReader_pattern_last: DateTimeLOpt,
