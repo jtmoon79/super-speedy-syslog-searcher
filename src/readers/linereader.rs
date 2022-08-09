@@ -86,11 +86,13 @@ pub type ResultS4LineFind = ResultS4<(FileOffset, LineP), Error>;
 pub type LinesLRUCache = LruCache<FileOffset, ResultS4LineFind>;
 
 /// Specialized reader that uses `BlockReader` to find `Lines` in a file.
+/// A `LineReader` knows how to process sequences of bytes of data among
+/// different `Block`s, and create a `Line`.
 ///
 /// The `LineReader` does much `[u8]` to `char` interpretation. It does the most
-/// work in this regard (`SyslineReader` does a little).
+/// work in this regard (`SyslineReader` does some).
 ///
-/// A `LineReader` stores past lookups of data.
+/// A `LineReader` stores past lookups of data in `self.lines`.
 ///
 /// XXX: not a rust "Reader"; does not implement trait `Read`
 pub struct LineReader {
@@ -520,10 +522,12 @@ impl LineReader {
     //       will be found. However, if first byte of `Line` is first byte of `Block` then
     //       it will not be found.
     //
-    // XXX: This function `find_line` is large and cumbersome and needs some cleanup of warnings.
-    //      It could definitely use some improvements, but for now it gets the job done.
+    // XXX: This function `find_line` is large and cumbersome.
     //      Changes require extensive retesting.
+    //      Extensive debug prints are left in place to aid this.
+    //      It could use some improvements but for now it gets the job done.
     //      You've been warned.
+    //
     pub fn find_line_in_block(&mut self, fileoffset: FileOffset) -> ResultS4LineFind {
         dpnf!("({})", fileoffset);
 
@@ -985,11 +989,11 @@ impl LineReader {
     /// XXX: returning the "next fileoffset (along with `LineP`) is jenky. Just return the `LineP`.
     ///      and/or add `iter` capabilities to `Line` that will hide tracking the "next fileoffset".
     ///
-    /// XXX: This function `find_line` is large and cumbersome and needs some cleanup of warnings.
-    ///      It could definitely use some improvements, but for now it gets the job done.
-    ///      Changes require extensive retesting.
-    ///      You've been warned.
-    ///
+    // XXX: This function `find_line` is large and cumbersome.
+    //      Changes require extensive retesting.
+    //      Extensive debug prints are left in place to aid this.
+    //      You've been warned.
+    //
     // XXX: Issue #16 only handles UTF-8/ASCII encoding
     pub fn find_line(&mut self, fileoffset: FileOffset) -> ResultS4LineFind {
         dpnf!("(LineReader@{:p}, {})", self, fileoffset);

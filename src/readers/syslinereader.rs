@@ -156,6 +156,8 @@ type SyslinesLRUCache = LruCache<FileOffset, ResultS4SyslineFind>;
 type LineParsedCache = LruCache<FileOffset, FindDateTimeData>;
 
 /// Specialized reader that uses `LineReader` to find `Sysline`s in a file.
+/// A `SyslineReader` has specialized knowledge of associating a parsed datetime to
+/// a sequence of lines, and then creating a `Sysline`.
 ///
 /// A `SyslineReader` does some `[u8]` to `char` interpretation.
 ///
@@ -551,7 +553,7 @@ impl SyslineReader {
     ///
     /// Users must know what they are doing with this.
     ///
-    /// Leave the statistics as-is which means they may be confusing. For example,
+    /// Leaves the statistics as-is which means they may be confusing. For example,
     /// given a file with 5 syslines, then all 5 syslines are parsed and stored, then
     /// `clear_syslines()` is called, and then the file is processed again, the resulting
     /// `self.syslines_count` will be value `10`.
@@ -1166,11 +1168,6 @@ impl SyslineReader {
     ///
     /// This does a linear search over the `Block`, O(n).
     ///
-    /// XXX: similar to `find_sysline`...
-    ///      This function `find_sysline_in_block` is large and cumbersome and needs some cleanup of warnings.
-    ///      It could definitely use some improvements, but for now it gets the job done.
-    ///      You've been warned.
-    ///
     pub fn find_sysline_in_block(&mut self, fileoffset: FileOffset) -> ResultS4SyslineFind {
         self.find_sysline_in_block_year(fileoffset, &None)
     }
@@ -1179,11 +1176,16 @@ impl SyslineReader {
     ///
     /// This does a linear search over the `Block`, O(n).
     ///
-    /// XXX: similar to `find_sysline`...
-    ///      This function `find_sysline_in_block` is large and cumbersome and needs some cleanup of warnings.
-    ///      It could definitely use some improvements, but for now it gets the job done.
-    ///      You've been warned.
+    /// Optional `Year` is the filler year for datetime patterns that do not include a year.
+    /// e.g. `"Jan 1 12:00:00 this is a sylog message"`
     ///
+    // XXX: similar to `find_sysline`:
+    //      This function `find_sysline_in_block_year` is large and cumbersome.
+    //      Changes require extensive retesting.
+    //      Extensive debug prints are left in place to aid this.
+    //      It could use some improvements but for now it gets the job done.
+    //      You've been warned.
+    //
     pub fn find_sysline_in_block_year(&mut self, fileoffset: FileOffset, year_opt: &Option<Year>) -> ResultS4SyslineFind {
         dpnf!("({}, {:?})", fileoffset, year_opt);
 
@@ -1363,20 +1365,18 @@ impl SyslineReader {
     /// Find first sysline starting at or after `fileoffset`.
     /// return (fileoffset of start of _next_ sysline, found Sysline at or after `fileoffset`).
     ///
-    /// The `year_opt` will fill datetime values for which no year was found
-    /// (e.g. "Jan 1 12:00").
+    /// Optional `Year` is the filler year for datetime patterns that do not include a year.
+    /// e.g. `"Jan 1 12:00:00 this is a sylog message"`
     ///
-    /// Similar to `LineReader.find_line`, `BlockReader.read_block`.
+    /// Similar to `LineReader.find_line`.
     ///
     /// This does a linear search O(n) over the file.
-    // XXX: This function `find_sysline` is large and cumbersome and needs some
-    //      cleanup of warnings.
-    //      It could definitely use improvements but for now it gets the job done.
+    //
+    // XXX: This function `find_sysline` is large and cumbersome.
+    //      Changes require extensive retesting.
+    //      Extensive debug prints are left in place to aid this.
+    //      It could use a few improvements but for now it gets the job done.
     //      You've been warned.
-    //
-    // TODO: separate the caching into wrapper function `find_sysline_cached`
-    //
-    // TODO: test that retrieving by cache always returns the same ResultS4 enum value as without a cache
     //
     pub fn find_sysline_year(&mut self, fileoffset: FileOffset, year_opt: &Option<Year>) -> ResultS4SyslineFind {
         dpnf!("({}, {:?})", fileoffset, year_opt);
@@ -1663,7 +1663,10 @@ impl SyslineReader {
     /// For syslog files where the datetime does not include a year, prior processing must
     /// occur to make guesstimates for each sysline's real year.
     ///
-    /// XXX: this function is large, cumbersome, and messy. Changes require extensive retesting.
+    // XXX: This function is large, cumbersome, and messy.
+    //      Changes require extensive retesting.
+    //      Extensive debug prints are left in place to aid this.
+    //      You've been warned.
     //
     // TODO: [2022/06] rename function to `find_next_sysline_at_datetime_filter`, rename all `find_` functions to either
     //       `find_..._between_`, `find_...at_`, or `find_next`,

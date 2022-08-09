@@ -109,7 +109,7 @@ enum ProcessingStage {
     Stage2FindDt,
     /// no more searching backwards in a file, and thus, previously processed data can be dropped
     Stage3StreamSyslines,
-    /// for CLI option --summary, print a summary about the file processing
+    /// for CLI option `--summary`, print a summary about the file processing
     Stage4Summary,
 }
 
@@ -143,10 +143,12 @@ lazy_static! {
 /// - the different stages of processing a syslog file
 /// - stores optional datetime filters
 ///
+/// A `SyslogProcessor` is driven by a thread to fully process one syslog file.
+///
 /// A `SyslogProcessor` will drop processed data stored by it's `SyslineReader`
-/// (and underlying `LineReader` and `BlockReader`). During streaming mode,
+/// (and underlying `LineReader` and `BlockReader`). During "streaming" mode,
 /// the `SyslogProcessor` will proactively `drop` data that has been processed
-/// and printed. It does so by calling `self.syslinereader.drop` when
+/// and printed. It does so by calling various `drop` during `find_sysline`.
 pub struct SyslogProcessor {
     syslinereader: SyslineReader,
     processingstage: ProcessingStage,
@@ -269,6 +271,7 @@ impl SyslogProcessor {
         self.syslinereader.filetype()
     }
 
+    /// return a reference to the syslog file processed
     #[inline(always)]
     #[allow(dead_code)]
     pub const fn path(&self) -> &FPath {
@@ -323,7 +326,7 @@ impl SyslogProcessor {
         self.syslinereader.charsz()
     }
 
-    /// wrapper to `self.syslinereader.linereader.blockreader.mimeguess`
+    /// return a copy of the associated `MimeGuess`
     pub const fn mimeguess(&self) -> MimeGuess {
         self.syslinereader.mimeguess()
     }
@@ -336,13 +339,23 @@ impl SyslogProcessor {
     /// syslog files wherein the datetime format that does not include a year
     /// must have special handling:
     ///
-    /// The last sysline in the file is presumed to share the same year as the `mtime`.
+    /// The last sysline in the file is presumed to share the same year as the `mtime` (stored by
+    /// the underlying `BlockReader` instance).
     /// The entire file is read from end to beginning (in reverse). The year is tracked
     /// and updated for each sysline. If there is jump backwards in time, that is presumed to
     /// be a year changeover.
     ///
-    /// For example,
-    /// TODO: fill this example
+    /// For example, given syslog contents
+    ///
+    ///     Nov 1 12:00:00 hello
+    ///     Dec 1 12:00:00 good morning
+    ///     Jan 1 12:00:00 goodbye
+    ///
+    /// and file `mtime` that is `Datetime` value _January 1 12:00:00 2015_, then
+    /// the last sysline "Jan 1 12:00:00 goodbye" is presumed to be in year 2015.
+    /// The preceding sysline "Dec 1 12:00:00 goodbye" is then processed.
+    /// A backwards jump is seen _Dec 1_ to _Jan 1_. From this, it can be concluded the
+    /// _Dec 1_ refers to a prior year, 2014.
     ///
     pub fn process_missing_year(&mut self, mtime: SystemTime) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.process_missing_year({:?})", mtime);
@@ -437,9 +450,7 @@ impl SyslogProcessor {
 
     /// wrapper to `self.syslinereader.find_sysline`
     ///
-    /// This is where data is `drop`ped during streaming stage.
-    //
-    // TODO: [2022/06/18] store IO errors from this, for later use with `Summary` printing
+    /// This is where data is `drop`ped during "streaming" stage.
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4SyslineFind {
         if self.processingstage == ProcessingStage::Stage3StreamSyslines && SyslogProcessor::STREAM_STAGE_DROP {
             dpnf!("syslogprocesser.find_sysline({})", fileoffset);
@@ -476,7 +487,7 @@ impl SyslogProcessor {
     /// drop all data at and before `blockoffset` (drop as much as possible)
     /// this includes underyling `Block`, `LineParts`, `Line`, `Sysline`
     ///
-    /// Presumes the caller knows what they are doing!
+    /// The caller must know what they are doing!
     fn drop_block(&mut self, blockoffset: BlockOffset) {
         // `drop_block_impl` is an expensive function. only run it when needed
         if blockoffset <= self.drop_block_last {
@@ -532,8 +543,8 @@ impl SyslogProcessor {
     }
 
     /// stage 0 does some sanity checks on the file
-    /// XXX: this is redundant and has already been performed by functions in
-    ///      `filepreprocessor` and `BlockReader::new`.
+    // TODO: this is redundant and has already been performed by functions in
+    //       `filepreprocessor` and `BlockReader::new`.
     pub fn process_stage0_valid_file_check(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.process_stage0_valid_file_check");
         // sanity check calls are in correct order
@@ -744,6 +755,8 @@ impl SyslogProcessor {
     }
 
     /// return an up-to-date `Summary` instance for this `SyslogProcessor`
+    ///
+    /// probably not useful or interesting before `ProcessingStage::Stage4Summary`
     pub fn summary(&self) -> Summary {
         let filetype = self.filetype();
         let BlockReader_bytes = self.syslinereader.linereader.blockreader.count_bytes();
