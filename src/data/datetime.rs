@@ -779,23 +779,25 @@ const NOENTRY: &str = "";
 ///
 ///
 /// latest listing of timezone abbreviations can be retrieved by:
-/*
-    $ curl "https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations" \
-        | grep -Ee '^<td>[[:upper:]]{2,4}</td>' \
-        | grep -oEe '[[:upper:]]{2,4}' \
-        | sort \
-        | uniq \
-        | sed -Ee ':a;N;$!ba;s/\n/|/g'
+///
+/// ```no_run
+/// $ curl "https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations" \
+///     | grep -Ee '^<td>[[:upper:]]{2,4}</td>' \
+///     | grep -oEe '[[:upper:]]{2,4}' \
+///     | sort \
+///     | uniq \
+///     | sed -Ee ':a;N;$!ba;s/\n/|/g'
+///
+/// $ curl "https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations" \
+///     | rg -or '$1 $2' -e '^<td>([[:upper:]]{2,5})</td>' -e '^<td data-sort-value.*>UTC(.*)</a>' \
+///     | sed -e '/^$/d' \
+///     | rg -r '("$1", ' -e '^([[:upper:]]{2,5})' -C5 \
+///     | rg -r '"$1"), ' -e '^[[:blank:]]*([[:print:]−±+]*[[:digit:]]{1,4}.*$)' -C5 \
+///     | rg -r '"$1:00"' -e '"(.?[[:digit:]][[:digit:]])"' -C5 \
+///     | sed -e 's/\n"/"/g' -e 'N;s/\n/ /' -e 's/−/-/g' -e 's/±/-/g' \
+///     | tr -s ' '
+/// ```
 
-    $ curl "https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations" \
-        | rg -or '$1 $2' -e '^<td>([[:upper:]]{2,5})</td>' -e '^<td data-sort-value.*>UTC(.*)</a>' \
-        | sed -e '/^$/d' \
-        | rg -r '("$1", ' -e '^([[:upper:]]{2,5})' -C5 \
-        | rg -r '"$1"), ' -e '^[[:blank:]]*([[:print:]−±+]*[[:digit:]]{1,4}.*$)' -C5 \
-        | rg -r '"$1:00"' -e '"(.?[[:digit:]][[:digit:]])"' -C5 \
-        | sed -e 's/\n"/"/g' -e 'N;s/\n/ /' -e 's/−/-/g' -e 's/±/-/g' \
-        | tr -s ' '
-*/
 pub const TZZ_ALL: [(&str, &str); 208] = [
     ("ACDT", "+10:30"),
     ("ACST", "+09:30"),
