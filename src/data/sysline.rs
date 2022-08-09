@@ -238,9 +238,6 @@ impl Sysline {
         self.blockoffset_first() == self.blockoffset_last()
     }
 
-    // TODO: [2022/06/13] for case of one Slice then return `&[u8]` directly, bypass creation of `Vec`
-    //       requires enum to carry both types `Vec<&[u8]>` or `&[u8]`
-    //       or instead of that, just return `&[&[u8]]`
     /// return all the slices that make up this `Sysline`.
     ///
     /// Similar to `get_slices_line` but for all lines.
@@ -304,12 +301,14 @@ impl Sysline {
     }
 
     /// create `String` from `self.lines`
-    /// `raw` is `true` means use byte characters as-is
-    /// `raw` is `false` means replace formatting characters or non-printable characters
-    /// with pictoral representation (i.e. `byte_to_char_noraw`)
-    /// TODO: this would be more efficient returning `&str`
-    ///       https://bes.github.io/blog/rust-strings
-    /// TODO: remove this
+    ///
+    /// - `raw` is `true` means use byte characters as-is
+    /// - `raw` is `false` means replace formatting characters or non-printable characters
+    ///    with pictoral representation (i.e. `byte_to_char_noraw`)
+    ///
+    // TODO: this would be more efficient returning `&str`
+    //       https://bes.github.io/blog/rust-strings
+    // TODO: remove this
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     fn impl_to_String_raw(self: &Sysline, raw: bool) -> String {
