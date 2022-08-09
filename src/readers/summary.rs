@@ -113,9 +113,9 @@ pub struct Summary {
     pub SyslineReader_get_boxptrs_doubleptr: Count,
     /// `SyslineReader::get_boxptrs_multiptr`
     pub SyslineReader_get_boxptrs_multiptr: Count,
-    /// `LineReader::find_line` `self.lines`
-    pub LineReader_lines_hit: Count,
-    /// `LineReader::find_line` `self.lines`
+    /// `LineReader::lines_hits` for `self.lines`
+    pub LineReader_lines_hits: Count,
+    /// `LineReader::lines_miss` for `self.lines`
     pub LineReader_lines_miss: Count,
     /// `LineReader::find_line()` `self._find_line_lru_cache`
     pub LineReader_find_line_lru_cache_hit: Count,
@@ -181,7 +181,7 @@ impl Summary {
         SyslineReader_get_boxptrs_singleptr: Count,
         SyslineReader_get_boxptrs_doubleptr: Count,
         SyslineReader_get_boxptrs_multiptr: Count,
-        LineReader_lines_hit: Count,
+        LineReader_lines_hits: Count,
         LineReader_lines_miss: Count,
         LineReader_find_line_lru_cache_hit: Count,
         LineReader_find_line_lru_cache_miss: Count,
@@ -241,7 +241,7 @@ impl Summary {
             SyslineReader_get_boxptrs_singleptr,
             SyslineReader_get_boxptrs_doubleptr,
             SyslineReader_get_boxptrs_multiptr,
-            LineReader_lines_hit,
+            LineReader_lines_hits,
             LineReader_lines_miss,
             LineReader_find_line_lru_cache_hit,
             LineReader_find_line_lru_cache_miss,
@@ -281,7 +281,7 @@ impl Summary {
             self.SyslineReader_get_boxptrs_singleptr,
             self.SyslineReader_get_boxptrs_doubleptr,
             self.SyslineReader_get_boxptrs_multiptr,
-            self.LineReader_lines_hit,
+            self.LineReader_lines_hits,
             self.LineReader_lines_miss,
             self.LineReader_find_line_lru_cache_hit,
             self.LineReader_find_line_lru_cache_miss,

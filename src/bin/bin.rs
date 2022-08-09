@@ -1816,13 +1816,13 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     );
     // LineReader::_lines
     ratio = ratio64(
-        &summary.LineReader_lines_hit,
+        &summary.LineReader_lines_hits,
         &summary.LineReader_lines_miss,
     );
     eprintln!(
         "{}storage: LineReader::find_line() lines                                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
         OPT_SUMMARY_PRINT_INDENT,
-        summary.LineReader_lines_hit,
+        summary.LineReader_lines_hits,
         summary.LineReader_lines_miss,
         ratio,
         wide = wide,

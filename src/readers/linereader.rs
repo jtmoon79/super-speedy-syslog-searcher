@@ -94,11 +94,11 @@ pub struct LineReader {
     pub(crate) blockreader: BlockReader,
     /// track `Line` found among blocks in `blockreader`, tracked by line beginning `FileOffset`
     /// key value `FileOffset` should agree with `(*LineP).fileoffset_begin()`
-    pub lines: FoToLine,
-    /// internal stats - hits in `find_line()` and other
-    pub(crate) _lines_hits: Count,
-    /// internal stats - misses in `find_line()` and other
-    pub(crate) _lines_miss: Count,
+    pub(crate) lines: FoToLine,
+    /// internal stats - hits of `self.lines` in `find_line()` and other functions
+    pub(super) lines_hits: Count,
+    /// internal stats - misses of `self.lines` in `find_line()` and other functions
+    pub(super) lines_miss: Count,
     /// for all `Lines`, map `Line.fileoffset_end` to `Line.fileoffset_beg`
     foend_to_fobeg: FoToFo,
     /// count of `Line`s processed.
@@ -174,8 +174,8 @@ impl LineReader {
             LineReader {
                 blockreader,
                 lines: FoToLine::new(),
-                _lines_hits: 0,
-                _lines_miss: 0,
+                lines_hits: 0,
+                lines_miss: 0,
                 foend_to_fobeg: FoToFo::new(),
                 lines_processed: 0,
                 charsz_: CHARSZ,
@@ -442,7 +442,7 @@ impl LineReader {
         // search containers of `Line`s
         // first, check if there is a `Line` already known at this fileoffset
         if self.lines.contains_key(&fileoffset) {
-            self._lines_hits += 1;
+            self.lines_hits += 1;
             dpo!("hit self.lines for FileOffset {}", fileoffset);
             debug_assert!(self.lines_contains(&fileoffset), "self.lines and self.lines_by_range are out of synch on key {} (before part A)", fileoffset);
             let linep: LineP = self.lines[&fileoffset].clone();
@@ -466,7 +466,7 @@ impl LineReader {
             dpx!("return ResultS4LineFind::Found({}, {:p})  @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
             return Some(ResultS4LineFind::Found((fo_next, linep)));
         } else {
-            self._lines_miss += 1;
+            self.lines_miss += 1;
         }
         // second, check if there is a `Line` at a preceding offset
         match self.get_linep(&fileoffset) {
@@ -737,7 +737,7 @@ impl LineReader {
         if fileoffset >= charsz_fo {
             let fo_: FileOffset = fileoffset - charsz_fo;
             if self.lines.contains_key(&fo_) {
-                self._lines_hits += 1;
+                self.lines_hits += 1;
                 dpof!("({}) A1a: hit in self.lines for FileOffset {} (before part A)", fileoffset, fo_);
                 fo_nl_a = fo_;
                 let linep_prev: LineP = self.lines[&fo_nl_a].clone();
@@ -778,7 +778,7 @@ impl LineReader {
                 dpxf!("({}): return ResultS4LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return ResultS4LineFind::Found((fo_next, linep));
             } else {
-                self._lines_miss += 1;
+                self.lines_miss += 1;
                 dpof!("({}) A1a: miss in self.lines for FileOffset {} (quick check before part A)", fileoffset, fo_);
             }
 
@@ -1313,7 +1313,7 @@ impl LineReader {
         if fileoffset >= charsz_fo {
             let fo_: FileOffset = fileoffset - charsz_fo;
             if self.lines.contains_key(&fo_) {
-                self._lines_hits += 1;
+                self.lines_hits += 1;
                 dpof!("A1a: hit in self.lines for FileOffset {} (before part A)", fo_);
                 fo_nl_a = fo_;
                 let linep_prev: LineP = self.lines[&fo_nl_a].clone();
@@ -1344,7 +1344,7 @@ impl LineReader {
                 dpxf!("({}): return ResultS4LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return ResultS4LineFind::Found((fo_next, linep));
             } else {
-                self._lines_miss += 1;
+                self.lines_miss += 1;
                 dpof!("A1a: miss in self.lines for FileOffset {} (quick check before part A)", fo_);
             }
             match self.get_linep(&fo_) {

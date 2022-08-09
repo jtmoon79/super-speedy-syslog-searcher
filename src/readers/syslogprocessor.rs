@@ -778,8 +778,8 @@ impl SyslogProcessor {
         let SyslineReader_get_boxptrs_singleptr = self.syslinereader.get_boxptrs_singleptr;
         let SyslineReader_get_boxptrs_doubleptr = self.syslinereader.get_boxptrs_doubleptr;
         let SyslineReader_get_boxptrs_multiptr = self.syslinereader.get_boxptrs_multiptr;
-        let LineReader_lines_hit = self.syslinereader.linereader._lines_hits;
-        let LineReader_lines_miss = self.syslinereader.linereader._lines_miss;
+        let LineReader_lines_hits = self.syslinereader.linereader.lines_hits;
+        let LineReader_lines_miss = self.syslinereader.linereader.lines_miss;
         let LineReader_find_line_lru_cache_hit = self.syslinereader.linereader.find_line_lru_cache_hit;
         let LineReader_find_line_lru_cache_miss = self.syslinereader.linereader.find_line_lru_cache_miss;
         let LineReader_find_line_lru_cache_put = self.syslinereader.linereader.find_line_lru_cache_put;
@@ -824,7 +824,7 @@ impl SyslogProcessor {
             SyslineReader_get_boxptrs_singleptr,
             SyslineReader_get_boxptrs_doubleptr,
             SyslineReader_get_boxptrs_multiptr,
-            LineReader_lines_hit,
+            LineReader_lines_hits,
             LineReader_lines_miss,
             LineReader_find_line_lru_cache_hit,
             LineReader_find_line_lru_cache_miss,
