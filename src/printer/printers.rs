@@ -162,9 +162,7 @@ pub struct PrinterSysline {
 macro_rules! write_or_return {
     ($stdout:expr, $slice_:expr) => {
         match $stdout.write_all($slice_) {
-            Ok(_) => {
-                //debug_assert_eq!(_count, $slice_.len(), "Expected to write {} bytes, only wrote {}", $slice_.len(), _count);
-            }
+            Ok(_) => {}
             Err(err) => {
                 // XXX: this will print when this program stdout is truncated, like when piping
                 //      to `head`, e.g. `s4 file.log | head`
@@ -377,7 +375,6 @@ impl PrinterSysline {
     }
 
     // TODO: make this a macro and it could be used in all functions
-    // TODO: handle special common case of Line slice residing on one line, do it faster
     /// helper to print lineparts
     #[inline(always)]
     fn print_line(&self, linep: &LineP, stdout_lock: &mut StdoutLock) -> PrinterSyslineResult {
@@ -550,7 +547,8 @@ impl PrinterSysline {
 ///
 /// caller may take stream locks, e.g. `std::io::stdout().lock()`.
 ///
-/// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
+/// See example https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
+///
 pub fn print_colored(color: Color, value: &[u8], out: &mut termcolor::StandardStream) -> std::io::Result<()> {
     match out.set_color(ColorSpec::new().set_fg(Some(color))) {
         Ok(_) => {}
@@ -580,7 +578,7 @@ pub fn print_colored(color: Color, value: &[u8], out: &mut termcolor::StandardSt
 
 /// print colored output to terminal on stdout.
 ///
-/// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
+/// See example https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
 #[cfg(test)]
 pub fn print_colored_stdout(
     color: Color,
@@ -600,7 +598,7 @@ pub fn print_colored_stdout(
 
 /// print colored output to terminal on stderr.
 ///
-/// taken from https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
+/// See example https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
 pub fn print_colored_stderr(
     color: Color,
     color_choice_opt: Option<ColorChoice>,
@@ -628,7 +626,7 @@ pub fn write_stdout(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            dp_err!("StdoutLock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
+            dp_err!("stdout_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
         }
     }
     match stdout_lock.flush() {
@@ -637,7 +635,7 @@ pub fn write_stdout(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            dp_err!("stdout flushing error {}", err);
+            dp_err!("stdout_lock.flush() error {}", err);
         }
     }
 }
