@@ -31,6 +31,9 @@ use clap::{
     Parser,
 };
 
+extern crate const_format;
+use const_format::concatcp;
+
 extern crate crossbeam_channel;
 
 extern crate mime_guess;
@@ -199,34 +202,33 @@ const CLI_DT_FILTER_APPEND_TIME_PATTERN: &str = " T%H%M%S";
 /// datetime format printed for CLI options `-u` or `-l`
 const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z:";
 
-const CLI_HELP_AFTER: &str = "\
+const CLI_HELP_AFTER: &str = concatcp!("
 DateTime Filter patterns may be:
-    '%Y%m%dT%H%M%S'
-    '%Y%m%dT%H%M%S%z'
-    '%Y-%m-%d %H:%M:%S'
-    '%Y-%m-%d %H:%M:%S %z'
-    '%Y-%m-%d %H:%M:%S %Z'
-    '%Y-%m-%dT%H:%M:%S'
-    '%Y-%m-%dT%H:%M:%S %z'
-    '%Y-%m-%dT%H:%M:%S %Z'
-    '%Y/%m/%d %H:%M:%S'
-    '%Y/%m/%d %H:%M:%S %z'
-    '%Y/%m/%d %H:%M:%S %Z'
-    '%Y%m%d'
-    '%Y%m%d %z'
-    '%Y%m%d %Z'
-    '+%s'
+    \"", CLI_DT_FILTER_PATTERN1.0, "\"
+    \"", CLI_DT_FILTER_PATTERN2.0, "\"
+    \"", CLI_DT_FILTER_PATTERN3.0, "\"
+    \"", CLI_DT_FILTER_PATTERN4.0, "\"
+    \"", CLI_DT_FILTER_PATTERN5.0, "\"
+    \"", CLI_DT_FILTER_PATTERN6.0, "\"
+    \"", CLI_DT_FILTER_PATTERN7.0, "\"
+    \"", CLI_DT_FILTER_PATTERN8.0, "\"
+    \"", CLI_DT_FILTER_PATTERN9.0, "\"
+    \"", CLI_DT_FILTER_PATTERN10.0, "\"
+    \"", CLI_DT_FILTER_PATTERN11.0, "\"
+    \"", CLI_DT_FILTER_PATTERN12.0, "\"
+    \"", CLI_DT_FILTER_PATTERN13.0, "\"
+    \"", CLI_DT_FILTER_PATTERN14.0, "\"
+    \"", CLI_DT_FILTER_PATTERN15.0, "\"
+    \"", CLI_DT_FILTER_PATTERN16.0, "\"
 
 Without a timezone offset (%z or %Z), the Datetime Filter is presumed to be the system timezone.
 Pattern '+%s' is Unix epoch timestamp in seconds with a preceding '+'.
-
-DateTime Filter formatting is described at
-https://docs.rs/chrono/latest/chrono/format/strftime/
-
+Ambiguous timezones will be rejected, e.g. \"SST\".
 Prepended datetime, -u or -l, is printed in format '%Y%m%dT%H%M%S%.6f %z'.
+DateTime formatting is described at https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
-DateTimes languages is English.";
+DateTimes supported language is English.");
 
 // clap references:
 //   inference types https://github.com/clap-rs/clap/blob/v3.1.6/examples/derive_ref/README.md#arg-types
