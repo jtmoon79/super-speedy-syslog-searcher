@@ -619,7 +619,7 @@ impl SyslogProcessor {
 
     /// Attempt to find a minimum number of `Sysline` within the first block.
     /// If enough `Sysline` found then return `FileOk` else `FileErrNoSyslinesFound`.
-    pub(crate) fn blockzero_analysis_syslines(&mut self) -> FileProcessingResultBlockZero {
+    pub(super) fn blockzero_analysis_syslines(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.blockzero_analysis_syslines");
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
 
@@ -677,8 +677,7 @@ impl SyslogProcessor {
 
     /// Attempt to find a minimum number of `Line`s within the first block (block zero).
     /// If enough `Line` found then return `FileOk` else `FileErrNoLinesFound`.
-    #[inline(always)]
-    pub(crate) fn blockzero_analysis_lines(&mut self) -> FileProcessingResultBlockZero {
+    pub(super) fn blockzero_analysis_lines(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.blockzero_analysis_lines()");
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
 
@@ -736,7 +735,7 @@ impl SyslogProcessor {
 
     /// Call `self.blockzero_analysis_lines`.
     /// If that passes then call `self.blockzero_analysis_syslines`.
-    pub fn blockzero_analysis(&mut self) -> FileProcessingResultBlockZero {
+    pub(super) fn blockzero_analysis(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.blockzero_analysis");
         assert!(!self.blockzero_analysis_done, "blockzero_analysis_lines should only be completed once.");
         self.blockzero_analysis_done = true;

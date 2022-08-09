@@ -165,39 +165,36 @@ type LineParsedCache = LruCache<FileOffset, FindDateTimeData>;
 ///
 /// XXX: not a rust "Reader"; does not implement trait `Read`
 pub struct SyslineReader {
-    pub(crate) linereader: LineReader,
+    pub(super) linereader: LineReader,
     /// Syslines keyed by fileoffset_begin
-    pub(crate) syslines: Syslines,
+    pub(super) syslines: Syslines,
     /// count of Syslines processed
     syslines_count: Count,
     /// internal stats for `self.find_sysline()` use of `self.syslines`
-    pub(crate) syslines_hit: Count,
+    pub(super) syslines_hit: Count,
     /// internal stats for `self.find_sysline()` use of `self.syslines`
-    pub(crate) syslines_miss: Count,
+    pub(super) syslines_miss: Count,
     /// Syslines fileoffset by sysline fileoffset range, i.e. `[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`
     /// the stored value can be used as a key for `self.syslines`
     syslines_by_range: SyslinesRangeMap,
     /// count of `self.syslines_by_range` lookup hit
-    pub(crate) syslines_by_range_hit: Count,
+    pub(super) syslines_by_range_hit: Count,
     /// count of `self.syslines_by_range` lookup miss
-    pub(crate) syslines_by_range_miss: Count,
+    pub(super) syslines_by_range_miss: Count,
     /// count of `self.syslines_by_range.insert`
-    pub(crate) syslines_by_range_put: Count,
-    /// datetime formatting patterns, for finding datetime strings from Lines
-    /// TODO: change to a `Set`
-    //pub(crate) dt_patterns: DateTimeParseInstrs_vec,
+    pub(super) syslines_by_range_put: Count,
     /// first (soonest) processed DateTimeL (not necessarly printed, not representative of the entire file)
     ///
     /// intended for `--summary`
     // TODO: [2022/07/27] cost-savings: save the ref
-    pub(crate) dt_first: DateTimeLOpt,
-    pub(crate) dt_first_prev: DateTimeLOpt,
+    pub(super) dt_first: DateTimeLOpt,
+    pub(super) dt_first_prev: DateTimeLOpt,
     /// last (latest) processed DateTimeL (not necessarly printed, not representative of the entire file)
     ///
     /// intended for `--summary`
     // TODO: [2022/07/27] cost-savings: save the ref
-    pub(crate) dt_last: DateTimeLOpt,
-    pub(crate) dt_last_prev: DateTimeLOpt,
+    pub(super) dt_last: DateTimeLOpt,
+    pub(super) dt_last_prev: DateTimeLOpt,
     /// counts found patterns stored in `dt_patterns`. "mirrors" the global `DATETIME_PARSE_DATAS`.
     /// Keys are indexes into `DATETIME_PARSE_DATAS`, values are counts of successful
     /// pattern match at that index.
@@ -205,7 +202,7 @@ pub struct SyslineReader {
     /// Initialized once in `fn SyslineReader::new`.
     ///
     /// Not used after `self.analyzed` becomes `true`
-    pub(crate) dt_patterns_counts: DateTimePatternCounts,
+    pub(super) dt_patterns_counts: DateTimePatternCounts,
     /// keys of `self.dt_patterns_counts` sorted by value. updated in `fn dt_patterns_indexes_refresh`
     ///
     /// not updated after `self.analyzed` becomes `true`
@@ -219,30 +216,30 @@ pub struct SyslineReader {
     /// enable or disable the internal LRU cache for `find_sysline()`
     find_sysline_lru_cache_enabled: bool,
     /// internal LRU cache for `find_sysline()`. maintained in `SyslineReader::find_sysline`
-    /// TODO: remove `pub(crate)`
-    pub(crate) find_sysline_lru_cache: SyslinesLRUCache,
+    /// TODO: remove `pub(super)`
+    pub(super) find_sysline_lru_cache: SyslinesLRUCache,
     /// count of internal LRU cache lookup hits
-    pub(crate) find_sysline_lru_cache_hit: Count,
+    pub(super) find_sysline_lru_cache_hit: Count,
     /// count of internal LRU cache lookup misses
-    pub(crate) find_sysline_lru_cache_miss: Count,
+    pub(super) find_sysline_lru_cache_miss: Count,
     /// count of internal LRU cache lookup `.put`
-    pub(crate) find_sysline_lru_cache_put: Count,
+    pub(super) find_sysline_lru_cache_put: Count,
     /// enable/disable `parse_datetime_in_line_lru_cache`
     parse_datetime_in_line_lru_cache_enabled: bool,
     /// internal cache of calls to `SyslineReader::parse_datetime_in_line()`. maintained in `SyslineReader::find_sysline()`
     parse_datetime_in_line_lru_cache: LineParsedCache,
     /// count of `self.parse_datetime_in_line_lru_cache` lookup hit
-    pub(crate) parse_datetime_in_line_lru_cache_hit: Count,
+    pub(super) parse_datetime_in_line_lru_cache_hit: Count,
     /// count of `self.parse_datetime_in_line_lru_cache` lookup miss
-    pub(crate) parse_datetime_in_line_lru_cache_miss: Count,
+    pub(super) parse_datetime_in_line_lru_cache_miss: Count,
     /// count of `self.parse_datetime_in_line_lru_cache.put`
-    pub(crate) parse_datetime_in_line_lru_cache_put: Count,
+    pub(super) parse_datetime_in_line_lru_cache_put: Count,
     /// count of `line.get_boxptrs` returning `SinglePtr`
-    pub(crate) get_boxptrs_singleptr: Count,
+    pub(super) get_boxptrs_singleptr: Count,
     /// count of `line.get_boxptrs` returning `DoublePtr`
-    pub(crate) get_boxptrs_doubleptr: Count,
+    pub(super) get_boxptrs_doubleptr: Count,
     /// count of `line.get_boxptrs` returning `MultiPtr`
-    pub(crate) get_boxptrs_multiptr: Count,
+    pub(super) get_boxptrs_multiptr: Count,
     /// has `self.file_analysis` completed?
     ///
     /// Initially `false`. During `parse_datetime_in_line` all patterns in
@@ -255,9 +252,9 @@ pub struct SyslineReader {
     analyzed: bool,
     /// count of Ok to Arc::try_unwrap(syslinep), effectively a count of
     /// `Sysline` dropped
-    pub(crate) drop_sysline_ok: Count,
+    pub(super) drop_sysline_ok: Count,
     /// count of failures to Arc::try_unwrap(syslinep). A failure does not mean an error.
-    pub(crate) drop_sysline_errors: Count,
+    pub(super) drop_sysline_errors: Count,
 }
 
 impl fmt::Debug for SyslineReader {
@@ -555,7 +552,7 @@ impl SyslineReader {
     /// given a file with 5 syslines, then all 5 syslines are parsed and stored, then
     /// `clear_syslines()` is called, and then the file is processed again, the resulting
     /// `self.syslines_count` will be value `10`.
-    pub fn clear_syslines(&mut self) {
+    pub(crate) fn clear_syslines(&mut self) {
         dpnxf!();
         let cache_enable = self.LRU_cache_disable();
         self.syslines.clear();
@@ -569,7 +566,10 @@ impl SyslineReader {
         }
     }
 
-    pub fn remove_sysline(&mut self, fileoffset: FileOffset) -> bool {
+    /// Remove the `Syline` at `FileOffset`. Only intended to aid post-procesing year updates.
+    ///
+    /// Users must know what they are doing with this.
+    pub(crate) fn remove_sysline(&mut self, fileoffset: FileOffset) -> bool {
         dpnf!("({:?})", fileoffset);
         let cache_enable = self.LRU_cache_disable();
         let syslinep_opt: Option<SyslineP> = self.syslines.remove(&fileoffset);
@@ -599,21 +599,6 @@ impl SyslineReader {
 
         ret
     }
-
-    /*
-    pub fn sysline_year_update(&mut self, fileoffset: &FileOffset, year: &Year) -> bool {
-        match self.syslines.remove(fileoffset) {
-            Some(mut syslinep) => {
-                let mut sysline: &mut Sysline = &mut syslinep.to_owned();
-                sysline.update_year(year);
-                true
-            }
-            None => {
-                false
-            }
-        }
-    }
-    */
 
     /// store passed `Sysline` in `self.syslines`, update other fields
     fn insert_sysline(&mut self, sysline: Sysline) -> SyslineP {
