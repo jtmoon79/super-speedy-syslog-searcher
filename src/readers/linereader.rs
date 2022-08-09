@@ -73,13 +73,16 @@ use more_asserts::{
 // LineReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/// FileOffset To Line Map
 /// storage for Lines found from the underlying `BlockReader`
 /// FileOffset key is the first byte/offset that begins the `Line`
 pub type FoToLine = BTreeMap<FileOffset, LineP>;
+/// FileOffset To FileOffset Map
 pub type FoToFo = BTreeMap<FileOffset, FileOffset>;
 
 /// `LineReader.find_line()` searching results
 pub type ResultS4LineFind = ResultS4<(FileOffset, LineP), Error>;
+/// internal cache for `LineReader.find_line()`
 pub type LinesLRUCache = LruCache<FileOffset, ResultS4LineFind>;
 
 /// Specialized reader that uses `BlockReader` to find `Lines` in a file.
