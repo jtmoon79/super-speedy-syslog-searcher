@@ -7,11 +7,11 @@ use std::fmt::Debug;
 pub use std::path::Path;
 
 /// `F`ake `Path` or `F`ile `Path`
-///
-/// XXX: ideal would be using `std::path::Path`, but that does not have trait `Sized` which means
-///      instances must be passed-by-reference ("size is not known at compile time"). This
-///      introduces too much difficulty (have to start marking lifetimes everywhere, no way!)
-///      Use this type alias as a stand-in.
+//
+// XXX: ideal would be using `std::path::Path`, but that does not have trait `Sized` which means
+//      instances must be passed-by-reference ("size is not known at compile time"). This
+//      introduces too much difficulty (have to start marking lifetimes everywhere, no way!)
+//      Use this type alias as a stand-in.
 pub type FPath = String;
 /// a sequence of `FPath`
 pub type FPaths = Vec::<FPath>;
@@ -29,8 +29,9 @@ pub type Count = u64;
 // XXX: ripped from '\.rustup\toolchains\beta-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core\src\result.rs'
 //      https://doc.rust-lang.org/src/core/result.rs.html#481-495
 
-/// `Result` extended for `s4`
-/// for line and sysline searching functions
+/// `Result` extended for `s4` to 3 types
+///
+/// for line searching and sysline searching functions
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ResultS4<T, E> {
     /// Contains the success data
@@ -43,7 +44,6 @@ pub enum ResultS4<T, E> {
 
 // XXX: ripped from '\.rustup\toolchains\beta-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core\src\result.rs'
 //      https://doc.rust-lang.org/src/core/result.rs.html#501-659
-// XXX: how to link to specific version of `result.rs`?
 
 impl<T, E> ResultS4<T, E> {
     // Querying the contained values
@@ -149,7 +149,11 @@ where
     }
 }
 
-/// `Result` Extended
+// TODO: [2022/08] `ResultS4` was refactored. It can be merged with `ResultS3`.
+//       No need for both.
+
+/// `Result` extended to 3 types
+///
 /// for block searching functions
 #[derive(Debug, PartialEq)]
 pub enum ResultS3<T, E> {
@@ -265,6 +269,7 @@ where
     }
 }
 
+/// results given by the filepreprocessor function(s)
 #[derive(Debug)]
 pub enum FileProcessingResult<E> {
     FileErrEmpty,
@@ -305,7 +310,6 @@ impl<E> PartialEq for FileProcessingResult<E> {
 }
 impl<E> Eq for FileProcessingResult<E> {}
 
-// TODO [2022/07/12]: change these to Normal casing for enums (not ALL CAPS), start with most complex, to least
 /// file types that can be processed by `SyslogProcessor` (and underlying modules)
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FileType {
@@ -326,6 +330,7 @@ pub enum FileType {
 // XXX: Deriving `Default` on enums is experimental.
 //      See issue #86985 <https://github.com/rust-lang/rust/issues/86985>
 //      When `Default` is integrated then this `impl Default` can be removed.
+//      Issue #18
 impl Default for FileType {
     fn default() -> Self { FileType::FileUnset }
 }
@@ -363,6 +368,8 @@ impl FileType {
 
     /// Returns the tarred version of the `FileType`
     /// XXX: only supports `FileType::File` right now
+    /// Relates to Issue #7
+    /// Relates to Issue #14
     pub const fn to_tar(&self) -> FileType {
         if matches!(*self, FileType::File) {
             return FileType::FileTar;
@@ -398,6 +405,7 @@ pub const NLc: char = '\n';
 #[allow(non_upper_case_globals)]
 pub const NLu8: u8 = 10;
 /// Newline in a byte buffer
+// XXX: Issue #16 only handles UTF-8/ASCII encoding
 #[allow(non_upper_case_globals)]
 pub const NLu8a: [u8; 1] = [NLu8];
 
