@@ -2,8 +2,6 @@
 //
 // debug printing - a hodge-podge of printer functions and helpers for test and debug builds
 //
-// TODO: [2022/04/14] needs consolidation of overlapping functions. many were written in haste.
-//
 
 #[cfg(test)]
 use crate::common::{

@@ -18,16 +18,19 @@ use lazy_static::lazy_static;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/// map `ThreadId` to _stack depth_ (`usize`)
 #[allow(non_camel_case_types)]
-type Map_ThreadId_SD<'a> = HashMap<ThreadId, usize>;
+type MapThreadidSd<'a> = HashMap<ThreadId, usize>;
 
-// use `stack_offset_set` to set `_STACK_OFFSET_TABLE` once, use `stack_offset` to get
-// XXX: no mutex to guard access; it's rarely written to 🤞
-// XXX: a mutable static reference for "complex types" is not allowed in rust
-//      use `lazy_static` and `mut_static` to create one
-//      see https://github.com/tyleo/mut_static#quickstart
 lazy_static! {
-    static ref _STACK_OFFSET_TABLE: mut_static::MutStatic<Map_ThreadId_SD<'static>> =
+    /// use `stack_offset_set` to set `_STACK_OFFSET_TABLE` once, use `stack_offset` to get
+    ///
+    /// XXX: no mutex to guard access; it's rarely written to 🤞
+    ///
+    /// XXX: a mutable static reference for "complex types" is not allowed in rust
+    ///      using `lazy_static` and `mut_static` to create one
+    ///      see https://github.com/tyleo/mut_static#quickstart
+    static ref _STACK_OFFSET_TABLE: mut_static::MutStatic<MapThreadidSd<'static>> =
         mut_static::MutStatic::new();
 }
 
@@ -55,7 +58,7 @@ pub fn stack_offset() -> usize {
     // XXX: for tests, just set on first call
     if !_STACK_OFFSET_TABLE.is_set().unwrap() {
         #[allow(clippy::single_match)]
-        match _STACK_OFFSET_TABLE.set(Map_ThreadId_SD::new()) {
+        match _STACK_OFFSET_TABLE.set(MapThreadidSd::new()) {
             Err(err) => {
                 eprintln!("ERROR: stack_offset: _STACK_OFFSET_TABLE.set failed {:?}", err);
             },
@@ -99,7 +102,7 @@ pub fn stack_offset_set(correction: Option<isize>) {
         //      Seen in some calls to `cargo test` with filtering where many tests call
         //      `stack_offset_set`. Needs a mutex.
         #[allow(clippy::single_match)]
-        match _STACK_OFFSET_TABLE.set(Map_ThreadId_SD::new()) {
+        match _STACK_OFFSET_TABLE.set(MapThreadidSd::new()) {
             Err(err) => {
                 eprintln!("ERROR: stack_offset_set: _STACK_OFFSET_TABLE.set failed {:?}", err);
             },
