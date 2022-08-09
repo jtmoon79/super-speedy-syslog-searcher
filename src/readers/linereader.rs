@@ -107,25 +107,24 @@ pub struct LineReader {
     /// count of `Line`s processed.
     ///
     /// Distinct from `self.lines.len()` as that may have contents removed when --streaming
-    pub (crate) lines_processed: Count,
+    pub (super) lines_processed: Count,
     /// smallest size character in bytes
     // XXX: Issue #16 only handles UTF-8/ASCII encoding
     charsz_: CharSz,
     /// enable internal LRU cache for `find_line` (default `true`)
     find_line_lru_cache_enabled: bool,
     /// internal LRU cache for `find_line`
-    /// TODO: remove `pub(crate)`
-    pub(crate) find_line_lru_cache: LinesLRUCache,
+    pub(super) find_line_lru_cache: LinesLRUCache,
     /// internal LRU cache count of lookup hit
-    pub(crate) find_line_lru_cache_hit: Count,
+    pub(super) find_line_lru_cache_hit: Count,
     /// internal LRU cache count of lookup miss
-    pub(crate) find_line_lru_cache_miss: Count,
+    pub(super) find_line_lru_cache_miss: Count,
     /// internal LRU cache count of `.put`
-    pub(crate) find_line_lru_cache_put: Count,
+    pub(super) find_line_lru_cache_put: Count,
     /// count of Ok to Arc::try_unwrap(linep), effectively count of dropped `Line`
-    pub(crate) drop_line_ok: Count,
+    pub(super) drop_line_ok: Count,
     /// count of failures to Arc::try_unwrap(linep). A failure does not mean an error
-    pub(crate) drop_line_errors: Count,
+    pub(super) drop_line_errors: Count,
 }
 
 impl fmt::Debug for LineReader {
