@@ -621,7 +621,7 @@ impl SyslineReader {
     pub fn drop_block(&mut self, blockoffset: BlockOffset, bo_dropped: &mut HashSet<BlockOffset>) {
         dpnf!("({})", blockoffset);
 
-        // TODO: [2022/06/18] make this a "one time" creation that is reused
+        // TODO: [2022/06/18] cost-savings: make this a "one time" creation that is reused
         //       this is challenging, as it runs into borrow errors during `.iter()`
         let mut drop_block_fo_keys: Vec<FileOffset> = Vec::<FileOffset>::with_capacity(self.syslines.len());
 
@@ -792,8 +792,9 @@ impl SyslineReader {
     /// update the two statistic `DateTimeL` of `self.dt_first` and `self.dt_last`
     fn dt_first_last_update(&mut self, datetime: &DateTimeL) {
         dpnxf!("({:?})", datetime);
-        // TODO: the `dt_first` and `dt_last` are only for `--summary`, would be good to only run this
-        //       when `if self.do_summary {...}`
+        // TODO: the `dt_first` and `dt_last` are only for `--summary`, no need to always copy
+        //       datetimes.
+        //       Would be good to only run this when `if self.do_summary {...}`
         match self.dt_first {
             Some(dt_first_) => {
                 if &dt_first_ > datetime {
@@ -1207,7 +1208,8 @@ impl SyslineReader {
             dpof!("({}): A parse_datetime_in_line_cached returned {:?}", fileoffset, result);
             match result {
                 Err(_) => {},
-                //FindDateTimeData
+                // FindDateTimeData:
+                // (LineIndex, LineIndex, DateTimeL, DateTimeParseInstrsIndex);
                 Ok((dt_beg, dt_end, dt, _index)) => {
                     // a datetime was found! beginning of a sysline
                     _fo_a = fo1;
@@ -1435,14 +1437,14 @@ impl SyslineReader {
                 // have already searched for a datetime stamp all the way back to zero'th byte of file
                 // so switch search direction to go forward. these first few lines without a datetime stamp
                 // will be ignored.
-                // TODO: [2022/07] need to somehow inform user that some lines were dropped.
+                // TODO: [2022/07] somehow inform user that some lines were dropped.
                 fo1 = fo_a_max;
             } else if line_beg > charsz_fo {
                 // search backwards...
                 fo1 = line_beg - charsz_fo;
-                // TODO: searching `self.syslines_by_range` is surprisingly expensive
-                //       may be worth adding special version of it that only tracks `sysline.fileoffset_end`, that would
-                //       have faster lookups
+                // TODO: cost-savings: searching `self.syslines_by_range` is surprisingly expensive.
+                //       Consider adding a faster, simpler `HashMap` that only tracks
+                //       `sysline.fileoffset_end` keys to `fileoffset_begin` values.
                 if self.syslines_by_range.contains_key(&fo1) {
                     // ran into prior processed sysline, something is wrong; abandon these lines
                     // and chang search direction to go forwards
@@ -1837,12 +1839,11 @@ impl SyslineReader {
                 dpxf!("return ResultS4SyslineFind::Done; C binary searched ended after beginning of last sysline in the file");
                 return ResultS4SyslineFind::Done;
             }
-            // binary search loop is deciding on the same fileoffset upon each loop. That fileoffset must refer to
-            // an acceptable sysline. However, if that fileoffset is past `syslinep.fileoffset_begin` than the threshold
-            // change of datetime for the `dt_filter` is the *next* Sysline.
+            // binary search loop is deciding on the same fileoffset upon each loop. That
+            // fileoffset must refer to an acceptable sysline. However, if that fileoffset is past
+            // `syslinep.fileoffset_begin` than the threshold change of datetime for the
+            // `dt_filter` is the *next* Sysline.
             let fo_next: FileOffset = syslinep.fileoffset_next();
-            // XXX: sanity check
-            //debug_assert_eq!(fo_last, fo_next, "fo {} != {} syslinep.fileoffset_next()", fo_last, fo_next);
             if fo_beg < try_fo {
                 dpof!("syslinep.fileoffset_begin() {} < {} try_fo;", fo_beg, try_fo);
                 let syslinep_next: SyslineP = match self.find_sysline(fo_next) {
@@ -1967,11 +1968,7 @@ impl SyslineReader {
 
         match self.find_sysline_at_datetime_filter(fileoffset, dt_filter_after) {
             ResultS4SyslineFind::Found((fo, syslinep)) => {
-                dpof!(
-                "returned ResultS4SyslineFind::Found(({}, {:?})); call sysline_pass_filters",
-                    fo,
-                    syslinep,
-                );
+                dpof!("returned ResultS4SyslineFind::Found(({}, {:?}))", fo, syslinep);
                 match Self::sysline_pass_filters(&syslinep, dt_filter_after, dt_filter_before) {
                     Result_Filter_DateTime2::InRange => {
                         dpof!("sysline_pass_filters(…) returned InRange;");
@@ -1996,12 +1993,7 @@ impl SyslineReader {
             },
             ResultS4SyslineFind::Done => {},
             ResultS4SyslineFind::Err(err) => {
-                dpof!(
-                    "({}, dt_after: {:?}) returned Err({})",
-                    fileoffset,
-                    dt_filter_after,
-                    err,
-                );
+                dpof!("({}, dt_after: {:?}) returned Err({})", fileoffset, dt_filter_after, err);
                 dp_err!("{}", err);
                 dpxf!("return ResultS4SyslineFind::Err({})", err);
                 return ResultS4SyslineFind::Err(err);

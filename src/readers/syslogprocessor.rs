@@ -580,7 +580,7 @@ impl SyslogProcessor {
         if ! self.syslinereader.dt_pattern_has_year() {
             dpo!("syslogprocessor.process_stage1_blockzero_analysis !dt_pattern_has_year()");
             let mtime: SystemTime = self.syslinereader.linereader.blockreader.mtime();
-            // TODO: return any errors
+            // TODO: return errors from `process_missing_year`
             self.process_missing_year(mtime);
         }
 
