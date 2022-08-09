@@ -245,8 +245,8 @@ impl Sysline {
     ///
     /// Similar to `get_slices_line` but for all lines.
     ///
-    /// Only for testing
-    #[cfg(any(test,debug_assertions))]
+    /// Inefficient. Only for testing.
+    #[cfg(test)]
     pub fn get_slices(self: &Sysline) -> Slices {
         let mut count: usize = 0;
         for linep in &self.lines {

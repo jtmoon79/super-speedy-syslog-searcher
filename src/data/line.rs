@@ -521,7 +521,7 @@ impl Line {
     /// return all slices that make up this `Line` within a `Vec`
     ///
     /// Only for testing
-    #[cfg(any(test,debug_assertions))]
+    #[cfg(any(debug_assertions,test))]
     pub fn get_slices(self: &Line) -> Slices {
         // short-circuit this case
         let sz = self.lineparts.len();
