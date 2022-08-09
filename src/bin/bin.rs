@@ -158,6 +158,13 @@ type CLI_DT_Filter_Pattern<'b> = (
     bool,
 );
 
+// BUG: does not handle '%Z'.
+// TODO: reject ambiguous timezone names.
+//       best way to do this is to modify `DTPD!` defined in `datetime.rs` to
+//       have a flag, "is it acceptable for CLI?". Then gather those at
+//       run-time (or build-time), and iterate through them.
+//       This allows re-using the facilities built in datetime.rs, and not having
+//       divergent methods for transforming datetime string to `DateTimeL`.
 const CLI_DT_FILTER_PATTERN1: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S", true, false, true);
 const CLI_DT_FILTER_PATTERN2: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%z", true, true, true);
 const CLI_DT_FILTER_PATTERN3: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%Z", true, true, true);
@@ -202,23 +209,19 @@ const CLI_DT_FILTER_APPEND_TIME_PATTERN: &str = " T%H%M%S";
 /// datetime format printed for CLI options `-u` or `-l`
 const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z:";
 
+// TODO: Issue #20 restore '%Z' patterns
 const CLI_HELP_AFTER: &str = concatcp!("
 DateTime Filter patterns may be:
     \"", CLI_DT_FILTER_PATTERN1.0, "\"
     \"", CLI_DT_FILTER_PATTERN2.0, "\"
-    \"", CLI_DT_FILTER_PATTERN3.0, "\"
     \"", CLI_DT_FILTER_PATTERN4.0, "\"
     \"", CLI_DT_FILTER_PATTERN5.0, "\"
-    \"", CLI_DT_FILTER_PATTERN6.0, "\"
     \"", CLI_DT_FILTER_PATTERN7.0, "\"
     \"", CLI_DT_FILTER_PATTERN8.0, "\"
-    \"", CLI_DT_FILTER_PATTERN9.0, "\"
     \"", CLI_DT_FILTER_PATTERN10.0, "\"
     \"", CLI_DT_FILTER_PATTERN11.0, "\"
-    \"", CLI_DT_FILTER_PATTERN12.0, "\"
     \"", CLI_DT_FILTER_PATTERN13.0, "\"
     \"", CLI_DT_FILTER_PATTERN14.0, "\"
-    \"", CLI_DT_FILTER_PATTERN15.0, "\"
     \"", CLI_DT_FILTER_PATTERN16.0, "\"
 
 Without a timezone offset (%z or %Z), the Datetime Filter is presumed to be the system timezone.
