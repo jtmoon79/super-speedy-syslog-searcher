@@ -612,6 +612,7 @@ impl SyslogProcessor {
     /// stage 4: no more syslines to process, only interested in the `self.summary()`
     pub fn process_stage4_summary(&mut self) -> Summary {
         dpnxf!("syslogprocessor.process_stage4_summary");
+        // XXX: this can be called from various stages, no need to assert
         self.processingstage = ProcessingStage::Stage4Summary;
 
         self.summary()
