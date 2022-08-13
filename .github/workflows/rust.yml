@@ -50,6 +50,8 @@ jobs:
       # tests
       - name: Run Tests
         run: cargo test -j1 --verbose -- --test-threads=1
+      - name: Build documentation
+        run: cargo doc --locked --release --frozen --no-deps -v
   job_runs:
     needs: job_build_debug_release_test
     runs-on: ubuntu-latest
