@@ -1,6 +1,7 @@
 // src/printer_debug/mod.rs
-//
-// module of functions for printing in debug builds and test builds
+
+//! The `printer_debug` module is functions for printing in debug builds and
+//! test builds.
 
 pub mod helpers;
 pub mod printers;

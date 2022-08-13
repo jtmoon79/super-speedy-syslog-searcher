@@ -1,25 +1,44 @@
 // src/common.rs
-//
-// common imports, type aliases, and other globals (avoids circular imports)
 
+//! Common imports, type aliases, and other globals for _s4lib_.
+
+#[doc(hidden)]
 pub use std::fs::File;
+
 use std::fmt::Debug;
+
+#[doc(hidden)]
 pub use std::path::Path;
 
-/// `F`ake `Path` or `F`ile `Path`
-//
-// XXX: ideal would be using `std::path::Path`, but that does not have trait `Sized` which means
-//      instances must be passed-by-reference ("size is not known at compile time"). This
-//      introduces too much difficulty (have to start marking lifetimes everywhere, no way!)
-//      Use this type alias as a stand-in.
+/// `F`ake `Path` or `F`ile `Path`.
+///
+/// Type alias `FPath` is a simpler stand-in for formalized file system path
+/// [`std::path::Path`].
+///
+/// An `FPath`can handle "subpaths" (paths into archives or compressed files)
+/// without complaints.
+///
+/// Also, `std::path::Path` does not have trait `Sized` so
+/// instances of `std::path::Path` must be passed-by-reference
+/// (rustc error "`size is not known at compile time`").
+/// This introduces too much difficulty
+/// (have to start marking explicit lifetimes everywhere 😩)
 pub type FPath = String;
-/// a sequence of `FPath`
+
+/// a sequence of [`FPath`]s
 pub type FPaths = Vec::<FPath>;
+
+#[doc(hidden)]
 pub type FileMetadata = std::fs::Metadata;
+
+#[doc(hidden)]
 pub type FileOpenOptions = std::fs::OpenOptions;
+
 /// File Size in bytes
 pub type FileSz = u64;
-// general purpose counting variables
+
+/// A general-purpose counting type, typically used for internal statistics
+/// counting.
 pub type Count = u64;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -29,16 +48,21 @@ pub type Count = u64;
 // XXX: ripped from '\.rustup\toolchains\beta-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core\src\result.rs'
 //      https://doc.rust-lang.org/src/core/result.rs.html#481-495
 
-/// `Result` extended for `s4` to 3 types
+/// [`Result`]-like result extended for `s4` to 3 types.
 ///
-/// for line searching and sysline searching functions
+/// For line searching and sysline searching functions.
+///
+/// [`Result`]: std::result::Result
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ResultS4<T, E> {
-    /// Contains the success data
+    /// Contains the success data.
     Found(T),
-    /// File is empty, or other condition that means "Done", nothing to return, but no bad errors happened
+    /// File is empty, or a request reached the end of the file or beyond the
+    /// end, or some other condition that means "Nothing to do, done".
+    ///
+    /// Does not mean errors happened.
     Done,
-    /// Contains the error value, something bad happened
+    /// Contains the error value; something bad happened.
     Err(E),
 }
 
@@ -48,7 +72,11 @@ pub enum ResultS4<T, E> {
 impl<T, E> ResultS4<T, E> {
     // Querying the contained values
 
-    /// Returns `true` if the result is [`Found`, 'Done`].
+    /// Returns `true` if the result is [`Found`], [`Done`].
+    ///
+    /// [`Found`]: self::ResultS4#variant.Found
+    /// [`Done`]: self::ResultS4#variant.Done
+    /// [`Err`]: self::ResultS4#variant.Err
     #[allow(dead_code)]
     #[must_use = "if you intended to assert that this is ok, consider `.unwrap()` instead"]
     #[inline(always)]
@@ -57,12 +85,16 @@ impl<T, E> ResultS4<T, E> {
     }
 
     /// Returns `true` if the result is [`Found`].
+    ///
+    /// [`Found`]: self::ResultS4#variant.Found
     #[inline(always)]
     pub const fn is_found(&self) -> bool {
         matches!(*self, ResultS4::Found(_))
     }
 
     /// Returns `true` if the result is [`Err`].
+    ///
+    /// [`Err`]: self::ResultS4#variant.Err
     #[allow(dead_code)]
     #[must_use = "if you intended to assert that this is err, consider `.unwrap_err()` instead"]
     #[inline(always)]
@@ -71,12 +103,17 @@ impl<T, E> ResultS4<T, E> {
     }
 
     /// Returns `true` if the result is [`Done`].
+    ///
+    /// [`Done`]: self::ResultS4#variant.Done
     #[inline(always)]
     pub const fn is_done(&self) -> bool {
         matches!(*self, ResultS4::Done)
     }
 
-    /// Returns `true` if the result is an [`Found`] value containing the given value.
+    /// Returns `true` if the result is an [`Found`] value containing the given
+    /// value.
+    ///
+    /// [`Found`]: self::ResultS4#variant.Found
     #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
@@ -91,7 +128,10 @@ impl<T, E> ResultS4<T, E> {
         }
     }
 
-    /// Returns `true` if the result is an [`Err`] value containing the given value.
+    /// Returns `true` if the result is an [`Err`] value containing the given
+    /// value.
+    ///
+    /// [`Err`]: self::ResultS4#variant.Err
     #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
@@ -152,7 +192,7 @@ where
 // TODO: [2022/08] `ResultS4` was refactored. It can be merged with `ResultS3`.
 //       No need for both.
 
-/// `Result` extended to 3 types
+/// `Result` extended to 3 types  TODO: DELETE THIS
 ///
 /// for block searching functions
 #[derive(Debug, PartialEq)]
@@ -269,7 +309,9 @@ where
     }
 }
 
-/// results given by the filepreprocessor function(s)
+/// Enum return value for various [filepreprocessor] functions.
+///
+/// [filepreprocessor]: crate::readers::filepreprocessor
 #[derive(Debug)]
 pub enum FileProcessingResult<E> {
     FileErrEmpty,
@@ -299,7 +341,11 @@ impl<E> FileProcessingResult<E> {
     }
 }
 
-/// manually implement `PartialEq` as `#[derive(PartialEq)]` does not seem to work
+/// Manually implement [`PartialEq`].
+///
+/// `#[derive(PartialEq)]` does not seem to work.
+///
+/// [PartialEq]: std::cmp::PartialEq
 impl<E> PartialEq for FileProcessingResult<E> {
     fn eq(&self, other: &Self) -> bool {
         if self.has_err() && other.has_err() {
@@ -310,7 +356,11 @@ impl<E> PartialEq for FileProcessingResult<E> {
 }
 impl<E> Eq for FileProcessingResult<E> {}
 
-/// file types that can be processed by `SyslogProcessor` (and underlying modules)
+/// File types that can be processed by [`SyslogProcessor`]
+/// (and underlying "structs"; [`SyslineReader`], etc.).
+///
+/// [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
+/// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FileType {
     FileUnset,
@@ -367,9 +417,10 @@ impl FileType {
     }
 
     /// Returns the tarred version of the `FileType`
-    /// XXX: only supports `FileType::File` right now
-    /// Relates to Issue #7
-    /// Relates to Issue #14
+    ///
+    /// XXX: only supports `FileType::File` right now<br/>
+    /// Relates to Issue #7<br/>
+    /// Relates to Issue #14<br/>
     pub const fn to_tar(&self) -> FileType {
         if matches!(*self, FileType::File) {
             return FileType::FileTar;
@@ -383,33 +434,31 @@ impl FileType {
 // Blocks and BlockReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// Offset into a file in bytes
-///
-/// zero-based
+/// Offset into a file in bytes. Zero-based.
 pub type FileOffset = u64;
 
-/// A `Vec` of `u8`
+/// A [`Vec`](std::vec::Vec) of `u8`.
 pub type Bytes = Vec<u8>;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Lines and LineReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// minimum size of characters of file in bytes
+/// Minimum size of characters in bytes.
 /// UTF-8 would be value `1`, UTF-16 would be value `2`, etc.
 pub type CharSz = usize;
-/// NewLine as char
+/// *N*ew*L*ine as a [`char`].
 #[allow(non_upper_case_globals)]
 pub const NLc: char = '\n';
-/// Single-byte newLine char as u8
+/// Single-byte *N*ew*L*ine `char` as [`u8`].
 #[allow(non_upper_case_globals)]
 pub const NLu8: u8 = 10;
-/// Newline in a byte buffer
+/// *N*ew*L*ine in a byte buffer.
 // XXX: Issue #16 only handles UTF-8/ASCII encoding
 #[allow(non_upper_case_globals)]
 pub const NLu8a: [u8; 1] = [NLu8];
 
-/// maximum size of a syslog message, 8096 octets (0x1FA0)
+/// Maximum size of a syslog message, 8096 octets (0x1FA0).
 ///
-/// taken from https://stackoverflow.com/a/41822232/471376
+/// According to <https://stackoverflow.com/a/41822232/471376>.
 pub const SYSLOG_SZ_MAX: usize = 8096;

@@ -1,5 +1,6 @@
 // src/printer_debug/helpers.rs
-//
+
+//! Miscellaneous helper functions for debug printing and testing.
 
 use crate::common::{
     FPath,
@@ -12,15 +13,21 @@ extern crate lazy_static;
 use lazy_static::lazy_static;
 
 extern crate tempfile;
-pub use tempfile::{
-    NamedTempFile,
-    tempdir,
-};
+
+#[doc(hidden)]
+pub use tempfile::NamedTempFile;
+
+#[doc(hidden)]
+pub use tempfile::tempdir;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // temporary file helper functions
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/// NamedTempFile instances default to this file name prefix.
+///
+/// Used by helper script `tools/rust-test.sh` to delete temporary files remaing after testing.
+/// See <https://github.com/Stebalien/tempfile/issues/183>.
 pub const STR_TEMPFILE_PREFIX: &str = "tmp-s4-test-";
 
 lazy_static! {
@@ -37,7 +44,7 @@ pub fn ntf_fpath(ntf: &NamedTempFile) -> FPath {
 /// testing helper to write a `str` to a temporary file.
 ///
 /// BUG: `NamedTempFile` created within `lazy_static` will fail to remove itself
-///      https://github.com/Stebalien/tempfile/issues/183
+///      <https://github.com/Stebalien/tempfile/issues/183>.
 ///
 #[cfg(test)]
 pub fn create_temp_file(data: &str) -> NamedTempFile {

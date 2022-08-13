@@ -1,19 +1,18 @@
-// bench_decode_utf.rs
-//
-// decoding `[u8]` to `str` is a surprisingly resource intensive process,
-// according to reviews of this program run using `tools/flamegraph.sh`
-// this bench file is a comparison of strategies.
-//
-// Some other interesting projects and write-ups:
-//     https://github.com/killercup/simd-utf8-check
-//     https://killercup.github.io/simd-utf8-check/report/index.html
-//     https://woboq.com/blog/utf-8-processing-using-simd.html
-//     https://github.com/shepmaster/jetscii
-//     https://github.com/gnzlbg/is_utf8
-//     https://lemire.me/blog/2018/05/16/validating-utf-8-strings-using-as-little-as-0-7-cycles-per-byte/
-//     https://gist.github.com/jFransham/369a86eff00e5f280ed25121454acec1#loop-unrolling-is-still-cool
-//     https://lise-henry.github.io/articles/optimising_strings.html
+// benches/bench_decode_utf.rs
 
+//! Decoding `[u8]` to `str` is a surprisingly resource intensive process,
+//! according to reviews of this program run using `tools/flamegraph.sh`
+//! this bench file is a comparison of strategies.
+//!
+//! Some other interesting projects and write-ups:
+//! * <https://github.com/killercup/simd-utf8-check>
+//! * <https://killercup.github.io/simd-utf8-check/report/index.html>
+//! * <https://woboq.com/blog/utf-8-processing-using-simd.html>
+//! * <https://github.com/shepmaster/jetscii>
+//! * <https://github.com/gnzlbg/is_utf8>
+//! * <https://lemire.me/blog/2018/05/16/validating-utf-8-strings-using-as-little-as-0-7-cycles-per-byte/>
+//! * <https://gist.github.com/jFransham/369a86eff00e5f280ed25121454acec1#loop-unrolling-is-still-cool>
+//! * <https://lise-henry.github.io/articles/optimising_strings.html>
 
 #![allow(non_upper_case_globals, dead_code, non_snake_case)]
 

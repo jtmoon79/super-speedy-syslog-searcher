@@ -1,8 +1,13 @@
 // src/data/line.rs
-//
+
+//! Implement [`Line`] and underlying [`LinePart`] structs.
+//!
+//! [`Line`]: crate::data::line::Line
+//! [`LinePart`]: crate::data::line::LinePart
 
 #![allow(non_camel_case_types)]
 
+#[doc(hidden)]
 pub use crate::common::{
     Bytes,
     Count,
@@ -67,46 +72,73 @@ use more_asserts::{
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// A sequence to track the `[u8]` that make up a `Line`.
-/// A "line" may span multiple `Block`s. One `LinePart` refers to one `Block`.
+/// A sequence of [`LinePart`] that make up a [`Line`].
+/// A `Line` may span multiple [`Block`s]. One `LinePart` refers to bytes
+/// within the same `Block`.
+///
+/// [`LinePart`]: self::LinePart
+/// [`Block`s]: crate::data::blockreader::Block
 pub type LineParts = Vec<LinePart>;
-/// A sequence to track one or more `LineP` that make up a `Sysline`
+
+/// A sequence to track one or more [`LineP`] that make up a [`Sysline`].
+///
+/// [`Sysline`]: crate::data::sysline::Sysline
+/// [`LineP`]: self::LineP
 pub type Lines = Vec<LineP>;
-/// An offset into a `Line` (not related to underlying `Block` offset or indexes)
+
+/// A byte offset into a [`Line`]
+/// (independent of underlying [`Block`] offset or indexes).
+///
+/// [`Block`]: crate::data::blockreader::Block
 pub type LineIndex = usize;
-/// half-open `Range` of `LineIndex`
+
+// TODO: rename to rust-like `RangeLineIndex`
+/// Half-open [`Range`] of [`LineIndex`].
+///
+/// [`Range`]: std::ops::Range
+/// [`LineIndex`]: self::LineIndex
 pub type Range_LineIndex = std::ops::Range<LineIndex>;
-/// thread-safe Atomic Reference Counting pointer to a `Line`
+
+/// Thread-safe [Atomic Reference Counting pointer] to a
+/// [`Line`].
+///
+/// [Atomic Reference Counting pointer]: std::sync::Arc
 pub type LineP = Arc<Line>;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // LinePart, Line, and LineReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// A `LinePart` is some or all of a line within a `Block`.
-/// The purpose of a `LinePart` is to help create a slice into a `Block`.
+/// A `LinePart` is some or all of a [`Line`] within a [`Block`].
+/// The purpose of a `LinePart` is to help track a slice into a `Block`.
 ///
-/// A "line" can span more than one `Block`. A `LinePart` tracks the line data
+/// A `Line` can span more than one `Block`. A `LinePart` tracks the line data
 /// residing in one `Block`. One `LinePart` to one `Block`.
 ///
 /// One or more `LinePart`s are required for a `Line`.
+///
+/// A `LinePart` is essentially a _slice_ with some extra "bells & whistles".
+///
+/// [`Block`]: crate::readers::blockreader::Block
 pub struct LinePart {
-    /// the `Block` pointer
+    /// The `Block` pointer.
     pub blockp: BlockP,
-    /// index into the `blockp`, index at beginning
-    /// used as-is in slice notation (inclusive)
+    /// Index into the `blockp`, index at beginning used as-is in slice notation
+    /// (inclusive).
     pub blocki_beg: BlockIndex,
-    /// index into the `blockp`, index at one after ending '\n' (may refer to one past end of `Block`)
-    /// used as-is in slice notation (exclusive)
+    /// Index into the `blockp`, index at one after ending `'\n'`
+    /// (may refer to one past end of `Block`) used as-is in slice notation
+    /// (exclusive).
     pub blocki_end: BlockIndex,
-    /// the byte offset into the file where this `LinePart` begins
+    /// The byte offset into the file where this `LinePart` begins
     fileoffset: FileOffset,
-    /// `blockoffset` of underlying `Block` to which `self.blockp` points.
+    /// `BlockOffset` of underlying `Block` to which `blockp` points.
     ///
     /// XXX: debug helper
     // TODO: [2022] is this used?
     blockoffset: BlockOffset,
-    /// the file-designated BlockSz, _not_ necessarily the `len()` of the `Block` at `blockp`
+    /// The file-designated `BlockSz`, _not necessarily_ the `len()` of the
+    /// `Block` at `blockp`.
     // TODO: [2022] is this used?
     pub blocksz: BlockSz,
 }
@@ -129,7 +161,9 @@ impl LinePart {
     // XXX: Issue #16 only handles UTF-8/ASCII encoding
     const _CHARSZ: usize = 1;
 
-    /// create a new `LinePart`. Remember that `blocki_end` points to one byte past
+    /// Create a new `LinePart`.
+    ///
+    /// Remember that `blocki_end` points to one byte past
     /// because it used directly in byte array slice notation (exclusive).
     /// i.e. `(*blockp)[blocki_beg..blocki_end]`
     pub fn new(
@@ -181,44 +215,46 @@ impl LinePart {
         }
     }
 
-    /// length of `LinePart` starting at index `blocki_beg` in bytes
+    /// Length of `LinePart` starting at index `blocki_beg` in bytes.
     pub fn len(&self) -> usize {
         (self.blocki_end - self.blocki_beg) as usize
     }
 
-    /// clippy recommends `fn is_empty` since there is already `len()`
+    /// Clippy recommends `fn is_empty` since there is a `len()`.
     pub fn is_empty(&self) -> bool {
         self.len() == 0
     }
 
-    /// fileoffset at beginning of the `LinePart` (inclusive)
+    /// `FileOffset` at beginning of the `LinePart` (inclusive).
     pub fn fileoffset_begin(&self) -> FileOffset {
         self.fileoffset
     }
 
-    /// fileoffset at one byte past ending of the `LinePart` (exclusive)
+    /// `FileOffset` at one byte past ending of the `LinePart` (exclusive).
     pub fn fileoffset_end(&self) -> FileOffset {
         self.fileoffset + (self.blocki_end as FileOffset)
     }
 
-    /// `blockoffset` of underlying `Block` to which `self.blockp` points
+    /// `BlockOffset` of underlying `Block` to which `blockp` points.
     pub fn blockoffset(&self) -> BlockOffset {
         self.blockoffset
     }
 
-    /// return the linepart as a slice
+    /// Return this linepart as a slice.
     pub fn as_slice(&self) -> &[u8] {
         &self.blockp[self.blocki_beg..self.blocki_end]
     }
 
-    /// count of bytes of this `LinePart`
+    /// Count of bytes of this `LinePart`.
+    ///
     /// XXX: `count_bytes` and `len` is overlapping and confusing.
     ///
-    /// TODO: this should be removed
+    // TODO: this should be removed
     pub fn count_bytes(&self) -> Count {
         self.len() as Count
     }
 
+    #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub(self) fn impl_to_String_raw(self: &LinePart, raw: bool) -> String {
@@ -236,31 +272,37 @@ impl LinePart {
         s1
     }
 
+    /// Does the `LinePart` contain the `byte_`?
     pub fn contains(self: &LinePart, byte_: &u8) -> bool {
         (*self.blockp).contains(byte_)
     }
 
-    /// `Line` to `String` but using printable chars for non-printable and/or formatting characters
+    /// `Line` to `String` but using printable chars for non-printable and/or
+    /// formatting characters.
+    #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &LinePart) -> String {
         self.impl_to_String_raw(false)
     }
 
+    #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &LinePart) -> String {
         self.impl_to_String_raw(true)
     }
 
-    /// return Box pointer to slice of bytes that make up this `LinePart`
+    /// Return [`Box`](std::boxed) pointer to slice of bytes that make up this
+    /// `LinePart`.
     pub fn block_boxptr(&self) -> Box<&[u8]> {
         let slice_ = &(*self.blockp).as_slice()[self.blocki_beg..self.blocki_end];
 
         Box::new(slice_)
     }
 
-    /// return Box pointer to slice of bytes in this `LinePart` from `a` (inclusive) to end
+    /// Return [`Box`](std::boxed) pointer to slice of bytes in this `LinePart`
+    /// from `a` (inclusive) to end.
     pub fn block_boxptr_a(&self, a: &LineIndex) -> Box<&[u8]> {
         debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
         debug_assert_le!(self.blocki_end, (*self.blockp).as_slice().len(), "self.blocki_end {} past end of slice.len() {}", self.blocki_end, (*self.blockp).as_slice().len());
@@ -269,7 +311,8 @@ impl LinePart {
         Box::new(slice1)
     }
 
-    /// return Box pointer to slice of bytes in this `LinePart` from beginning to `b` (exclusive)
+    /// Return [`Box`](std::boxed) pointer to slice of bytes in this `LinePart`
+    /// from beginning to `b` (exclusive).
     pub fn block_boxptr_b(&self, b: &LineIndex) -> Box<&[u8]> {
         debug_assert_le!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
         let slice1 = &(*self.blockp).as_slice()[self.blocki_beg..(self.blocki_beg+b)];
@@ -277,7 +320,8 @@ impl LinePart {
         Box::new(slice1)
     }
 
-    /// return Box pointer to slice of bytes in this `LinePart` from `a` (inclusive) to `b` (exclusive)
+    /// Return [`Box`](std::boxed) pointer to slice of bytes in this `LinePart`
+    /// from `a` (inclusive) to `b` (exclusive).
     pub fn block_boxptr_ab(&self, a: &LineIndex, b: &LineIndex) -> Box<&[u8]> {
         debug_assert_le!(a, b, "bad LineIndex");
         debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
@@ -289,7 +333,10 @@ impl LinePart {
     }
 }
 
-/// A `Line` has information about a "line" that may or may not span more than one `Block`
+/// A `Line` has information about a "line" of bytes that may or may not span
+/// more than one [`Block`].
+///
+/// [`Block`]: crate::readers::blockreader::Block
 pub struct Line {
     pub(crate) lineparts: LineParts,
 }
@@ -328,42 +375,50 @@ impl fmt::Debug for Line {
     }
 }
 
-/// return value for `Line::get_boxptrs`
+/// Return value for [`Line::get_boxptrs`](self::Line::get_boxptrs).
 #[derive(Debug)]
 pub enum LinePartPtrs<'a> {
-    /// empty line or some other null-like or false-like condition
+    /// Empty line or some other null-like or false-like condition.
     NoPtr,
-    /// one box pointer needed represent the entire `Line`
+    /// One [`Box`](std::boxed) pointer needed represent the entire [`Line`].
     SinglePtr(Box<&'a [u8]>),
-    /// two box pointers needed represent the entire `Line`
+    /// Two [`Box`](std::boxed) pointers needed represent the entire [`Line`].
     DoublePtr(Box<&'a [u8]>, Box<&'a [u8]>),
-    /// three or more box pointers needed to represent the entire `Line`
+    /// Three or more [`Box`](std::boxed) pointers needed to represent the
+    /// entire [`Line`].
     MultiPtr(Vec<Box<&'a [u8]>>),
 }
 
 impl<'a> LinePartPtrs<'a> {
-    /// to aid testing
+    /// To aid testing.
+    #[cfg(test)]
     pub fn is_no_ptr(&self) -> bool {
         match self {
             LinePartPtrs::NoPtr => true,
             _ => false,
         }
     }
-    /// to aid testing
+
+    /// To aid testing.
+    #[cfg(test)]
     pub fn is_single_ptr(&self) -> bool {
         match self {
             LinePartPtrs::SinglePtr(_) => true,
             _ => false,
         }
     }
-    /// to aid testing
+
+    /// To aid testing.
+    #[cfg(test)]
     pub fn is_double_ptr(&self) -> bool {
         match self {
             LinePartPtrs::DoublePtr(_, _) => true,
             _ => false,
         }
     }
-    /// to aid testing
+
+    /// To aid testing.
+    #[cfg(test)]
     pub fn is_multi_ptr(&self) -> bool {
         match self {
             LinePartPtrs::MultiPtr(_) => true,
@@ -381,14 +436,19 @@ impl Default for Line {
 }
 
 impl Line {
-    /// default `with_capacity` for a `LineParts`, most often will only need 1 capacity
-    /// as the found "line" will likely reside within one `Block`
+    /// Default [`with_capacity`] for a [`LineParts`].
+    ///
+    /// Most often will only need 1 capacity as the found "line" will likely
+    /// reside within one `Block`.
+    ///
+    /// [`with_capacity`]: std::vec::Vec#method.with_capacity
     const LINE_PARTS_WITH_CAPACITY: usize = 1;
 
     pub fn new() -> Line {
         Line::default()
     }
 
+    /// Create a new `Line` starting with the passed `LinePart`.
     pub fn new_from_linepart(linepart: LinePart) -> Line {
         let mut v = LineParts::with_capacity(Line::LINE_PARTS_WITH_CAPACITY);
         v.push(linepart);
@@ -397,13 +457,13 @@ impl Line {
         }
     }
 
-    /// insert `linepart` at back of `self.lineparts`
+    /// Append the passed `LinePart` to the back of `self.lineparts`.
     pub fn append(&mut self, linepart: LinePart) {
         dpo!("Line.append({:?}) {:?}", &linepart, linepart.to_String_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
-            // sanity checks; each `LinePart` should be stored in same order as it appears in the file
-            // only need to compare to last `LinePart`
+            // sanity checks; each `LinePart` should be stored in same order as it appears in the
+            // file. only need to compare to last `LinePart`
             let li = &self.lineparts[l_ - 1];
             assert_le!(
                 li.blockoffset,
@@ -427,13 +487,13 @@ impl Line {
         self.lineparts.push(linepart);
     }
 
-    /// insert `linepart` at front of `self.lineparts`
+    /// Prepend the passed `LinePart` to the front of `self.lineparts`.
     pub fn prepend(&mut self, linepart: LinePart) {
         dpo!("Line.prepend({:?}) {:?}", &linepart, linepart.to_String_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
-            // sanity checks; each `LinePart` should be stored in same order as it appears in the file
-            // only need to compare to last `LinePart`
+            // sanity checks; each `LinePart` should be stored in same order as it appears in the
+            // file. only need to compare to last `LinePart`
             let li: &LinePart = &self.lineparts[0];
             assert_ge!(
                 li.blockoffset,
@@ -453,51 +513,61 @@ impl Line {
         self.lineparts.insert(0, linepart);
     }
 
-    /// the byte offset into the file where this `Line` begins
-    /// "points" to first character of `Line`
+    /// The byte offset into the file where this `Line` begins, inclusive.
+    /// "Points" to first byte of the `Line`.
     pub fn fileoffset_begin(self: &Line) -> FileOffset {
         debug_assert_ne!(self.lineparts.len(), 0, "This Line has no `LinePart`");
         self.lineparts[0].fileoffset
     }
 
-    /// the byte offset into the file where this `Line` ends, inclusive (not one past ending)
+    /// The byte offset into the file where this `Line` ends, inclusive
+    /// (not one past ending). "Points" to last byte of the `Line`.
     pub fn fileoffset_end(self: &Line) -> FileOffset {
         debug_assert_ne!(self.lineparts.len(), 0, "This Line has no `LinePart`");
         let last_li = self.lineparts.len() - 1;
         self.lineparts[last_li].fileoffset + (self.lineparts[last_li].len() as FileOffset) - 1
     }
 
-    /// return the first `BlockOffset`s on which data for this `Line` resides.
+    /// Return the first `BlockOffset` on which data for this `Line` resides.
     ///
-    /// Presumes underlying `LinePart` hold data else panic!
+    /// If [`self.lineparts`] is empty then will `panic!`.
+    ///
+    /// [`self.lineparts`]: self::LineParts
     pub fn blockoffset_first(self: &Line) -> BlockOffset {
         self.lineparts[0].blockoffset
     }
 
-    /// Return the last `BlockOffset`s on which data for this `Line` resides.
+    /// Return the last `BlockOffset` on which data for this `Line` resides.
     ///
-    /// Presumes underlying `LinePart` hold data else panic!
+    /// If [`self.lineparts`] is empty then will `panic!`.
+    ///
+    /// [`self.lineparts`]: self::LineParts
     pub fn blockoffset_last(self: &Line) -> BlockOffset {
         self.lineparts[self.lineparts.len() - 1].blockoffset
     }
 
-    /// do the bytes of this `Line` reside on one `Block`?
+    /// Do the bytes of this `Line` reside on one [`Block`]?
+    ///
+    /// [`Block`]: crate::readers::blockreader::Block
     pub fn occupies_one_block(self: &Line) -> bool {
         self.blockoffset_first() == self.blockoffset_last()
     }
 
-    /// length of this `Line` in bytes as calcuated from stored fileoffsets
+    /// Length of this `Line` in bytes as calcuated from stored fileoffsets.
     pub fn len(self: &Line) -> usize {
         (self.fileoffset_end() - self.fileoffset_begin() + 1) as usize
     }
 
-    /// count of `LinePart` in `self.lineparts.len()`
-    /// XXX: redundant, need to decide which to keep.
+    /// Count of [`LinePart`] in `self.lineparts.len()`.
+    ///
+    // TODO: redundant with `len`, decide which to keep.
     pub fn count_lineparts(self: &Line) -> usize {
         self.lineparts.len()
     }
 
-    /// sum of `LinePart.count_bytes`
+    /// Sum of [`LinePart.count_bytes`].
+    ///
+    /// [`LinePart.count_bytes`]: self::LinePart#method.count_bytes
     pub fn count_bytes(self: &Line) -> Count {
         let mut cb: Count = 0;
         for lp in self.lineparts.iter() {
@@ -506,9 +576,9 @@ impl Line {
         cb
     }
 
-    /// does this `Line` store a `LinePart.blockoffset == bo`?
+    /// Does this [`Line`] store a `LinePart.blockoffset == bo`?
     ///
-    /// O(n)
+    /// _O(n)_
     pub fn stores_blockoffset(self: &Line, bo: BlockOffset) -> bool {
         for linepart in self.lineparts.iter() {
             if linepart.blockoffset == bo {
@@ -518,9 +588,13 @@ impl Line {
         false
     }
 
-    /// return all slices that make up this `Line` within a `Vec`
+    /// Return all slices that make up this `Line` within a
+    /// [`Vec`].
     ///
-    /// Only for testing
+    /// Only for testing.
+    ///
+    /// [`Vec`]: std::vec::Vec
+    #[doc(hidden)]
     #[cfg(any(debug_assertions,test))]
     pub fn get_slices(self: &Line) -> Slices {
         // short-circuit this case
@@ -534,7 +608,8 @@ impl Line {
         slices
     }
 
-    /// return a count of "slices" (`LinePart`) that make up this `Line`
+    /// Return a `Count` of "slices" ([`LinePart`]s)
+    /// that make up this [`Line`].
     pub fn count_slices(self: &Line) -> Count {
         self.lineparts.len() as Count
     }
@@ -545,18 +620,23 @@ impl Line {
     //
     // TODO: use `&Range_LineIndex` instead of `a` `b`
     //
-    /// get Box pointer(s) to an underlying `&[u8]` slice that is part of this `Line`.
-    /// `a` is inclusive, `b` is exclusive.
+    /// Get [`Box`] pointer(s) to an underlying `&[u8]` slice that is
+    /// part of this `Line`.
+    /// * `a` is inclusive
+    /// * `b` is exclusive
     ///
     /// If slice is refers to one `Linepart` then return a single `Box` pointer.
     ///
     /// If slice is composed of multiple `Linepart` then return a
-    /// `Vec` of `Box` pointers to each part.
+    /// [`Vec`] of `Box` pointers to each part.
     ///
-    /// The purpose of this function and `LinePartPtrs` is to provide fast access to
-    /// some underlying slice(s) of a `Line` while hiding complexities of crossing
-    /// `Block` boundaries (and not being lazy and copying lots of bytes around).
+    /// The purpose of this function and [`LinePartPtrs`] is to provide fast
+    /// access to some underlying slice(s) of a `Line` while hiding
+    /// complexities of crossing `Block` boundaries (and not being lazy and
+    /// copying lots of bytes around).
     ///
+    /// [`Box`]: std::boxed
+    /// [`Vec`]: std::vec::Vec
     pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> LinePartPtrs<'_> {
         dpnf!("(…, {}, {}), lineparts {} line.len() {} {:?}", a, b, self.lineparts.len(), self.len(), self.to_String_noraw());
         debug_assert_le!(a, b, "passed bad LineIndex pair");
@@ -651,11 +731,13 @@ impl Line {
         LinePartPtrs::MultiPtr(ptrs)
     }
 
-    /// `raw` true will write directly to stdout from the stored `Block`
+    /// `raw` as `true` will write directly to stdout from the stored `Block`.
     ///
-    /// `raw` false will write transcode each byte to a character and use pictoral representations
+    /// `raw` as `false` will write transcode each byte to a character and use
+    /// pictoral representations.
     ///
     // XXX: Issue #16 `raw==false` only handles UTF-8/ASCII encoding
+    #[doc(hidden)]
     #[cfg(any(debug_assertions,test))]
     pub fn print(self: &Line, raw: bool) {
         // is this an expensive command? should `stdout` be cached?
@@ -704,14 +786,16 @@ impl Line {
         }
     }
 
-    /// create `String` from known bytes referenced by `self.lineparts`
-    /// `raw` is `true` means use byte characters as-is
-    /// `raw` is `false` means replace formatting characters or non-printable characters
-    /// with pictoral representation (i.e. `byte_to_char_noraw`)
+    /// Create `String` from known bytes referenced by `self.lineparts`.
     ///
-    /// XXX: very inefficient and not always correct! *only* intended to help humans visually
-    ///      inspect stderr output
+    /// `raw` is `true` means use byte characters as-is.
+    /// `raw` is `false` means replace formatting characters or non-printable
+    /// characters with pictoral representation (i.e. `byte_to_char_noraw`).
     ///
+    /// XXX: very inefficient and not always correct! *only* intended to help
+    ///      humans visually inspect stderr output.
+    ///
+    #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub(crate) fn impl_to_String_raw(self: &Line, raw: bool) -> String {
@@ -749,15 +833,17 @@ impl Line {
         s3
     }
 
-    // XXX: rust does not support function overloading which is really surprising and disappointing
-    /// `Line` to `String`
+    /// `Line` to `String`.
+    #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Line) -> String {
         self.impl_to_String_raw(true)
     }
 
-    /// `Line` to `String` but using printable chars for non-printable and/or formatting characters
+    /// `Line` to `String` but using printable chars for non-printable and/or
+    /// formatting characters.
+    #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &Line) -> String {

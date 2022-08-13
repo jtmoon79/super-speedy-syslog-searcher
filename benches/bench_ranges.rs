@@ -1,7 +1,8 @@
-// bench_ranges.rs
-//
-// using `RangeMap` is surprisingly expensive, according to `tools/flamegraph.sh`
-// https://docs.rs/rangemap/latest/rangemap/
+// benches/bench_ranges.rs
+
+// using `RangeMap` is surprisingly expensive, according to script
+// `tools/flamegraph.sh`
+// <https://docs.rs/rangemap/latest/rangemap/>
 //
 
 extern crate criterion;

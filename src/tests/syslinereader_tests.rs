@@ -1,5 +1,6 @@
 // src/tests/syslinereader_tests.rs
-//
+
+//! tests for `syslinereader.rs`
 
 #![allow(non_upper_case_globals)]
 #![allow(non_snake_case)]

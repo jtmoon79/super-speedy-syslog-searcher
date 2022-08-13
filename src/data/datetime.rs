@@ -1,11 +1,34 @@
 // src/data/datetime.rs
-//
-// the most relevant documents to understand this file:
-// `chrono` crate `strftime` format:
-// https://docs.rs/chrono/latest/chrono/format/strftime/index.html
-// `regex` crate patterns
-// https://docs.rs/regex/latest/regex/
-//
+
+//! Functions to perform regular expression ("regex") searches on bytes and
+//! transform matches to chrono [`DateTime`] instances.
+//!
+//! Parsing bytes and finding datetime strings requires:
+//! 1. searching some slice of bytes from a [`Line`] for a regular expression
+//!    match
+//! 2. attempting to transform the matched regular expression named capture
+//!    groups into a chrono `DateTime`
+//! 3. return `DateTime` instances along with byte offsets of the found matches
+//!    to a caller (who will presumably use it create a new [`Sysline`])
+//!
+//! The most relevant documents to understand this file are:
+//! - `chrono` crate [`strftime`] format.
+//! - `regex` crate [Regular Expression syntax].
+//!
+//! The most relevant functions are:
+//! - [`bytes_to_regex_to_datetime`] which calls
+//! - [`captures_to_buffer_bytes`]
+//!
+//! The most relevant constant is [`DATETIME_PARSE_DATAS`].
+//!
+//! [`DATETIME_PARSE_DATAS`]: self::DATETIME_PARSE_DATAS
+//! [`Line`]: crate::data::line::Line
+//! [`Sysline`]: crate::data::sysline::Sysline
+//! [`DateTime`]: https://docs.rs/chrono/0.4.21/chrono/struct.DateTime.html
+//! [`strftime`]: https://docs.rs/chrono/0.4.21/chrono/format/strftime/index.html
+//! [Regular Expression syntax]: https://docs.rs/regex/1.6.0/regex/index.html#syntax
+//! [`bytes_to_regex_to_datetime`]: crate::data::datetime::bytes_to_regex_to_datetime
+//! [`captures_to_buffer_bytes`]: crate::data::datetime::captures_to_buffer_bytes
 
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
@@ -28,19 +51,24 @@ use crate::printer_debug::printers::{
     dpnxf,
 };
 
+#[doc(hidden)]
 pub use crate::data::line::{
     LineIndex,
     Range_LineIndex,
 };
 
 use std::collections::BTreeMap;
+
 use std::fmt;
+
+#[doc(hidden)]
 pub use std::time::SystemTime;
 
 extern crate arrayref;
 use arrayref::array_ref;
 
 extern crate chrono;
+#[doc(hidden)]
 pub use chrono::{
     Date,
     DateTime,
@@ -85,41 +113,64 @@ use unroll::unroll_for_loops;
 // DateTime Regex Matching and strftime formatting
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/// A _Year_ in a date
 pub type Year = i32;
-/// crate `chrono` `strftime` formatting pattern, passed to `chrono::datetime_from_str`.
+
+/// Crate `chrono` [`strftime`] formatting pattern, passed to
+/// [`datetime_from_str`].
+///
 /// Specific `const` instances of `DateTimePattern_str` are hardcoded in
-/// `fn captures_to_buffer_bytes`.
+/// [`captures_to_buffer_bytes`].
+///
+/// [`strftime`]: https://docs.rs/chrono/0.4.21/chrono/format/strftime/index.html
+/// [`datetime_from_str`]: https://docs.rs/chrono/0.4.21/chrono/offset/trait.TimeZone.html#method.datetime_from_str
+/// [`captures_to_buffer_bytes`]: 
 pub type DateTimePattern_str = str;
-/// regular expression formatting pattern, passed to `regex::bytes::Regex`
+
+/// Regular expression formatting pattern, passed to [`regex::bytes::Regex`].
+///
+/// [`regex::bytes::Regex`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html
 pub type DateTimeRegex_str = str;
-/// regular expression capture group name, used within the regular expression and
-/// for later retreival via `regex::captures.name()`
+
+/// Regular expression capture group name, used within the regular expression and
+/// for later retreival via [`regex::captures.name`].
+///
+/// [`regex::captures.name`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html#method.name
 pub type CaptureGroupName = str;
-/// regular expression capture group pattern, used within the regular expression
+
+/// Regular expression capture group pattern, used within a [`RegexPattern`].
 pub type CaptureGroupPattern = str;
-/// a regular expression
+
+/// A regular expression, passed to [`regex::bytes::Regex::captures`].
+///
+/// [`regex::bytes::Regex::captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html#method.captures
 pub type RegexPattern = str;
-/// the regular expression "class" used here, specifically for matching datetime substrings within
-/// a `&str`
+
+/// The regular expression "class" used here, specifically for matching datetime substrings
+/// within a [`&str`](str).
 pub type DateTimeRegex = Regex;
-/// the chrono DateTime type used here
+
+/// A chrono [`DateTime`] type used in _s4lib_.
+///
+/// [`DateTime`]: https://docs.rs/chrono/0.4.21/chrono/struct.DateTime.html
 // TODO: rename to `DateTimeS4`
 pub type DateTimeL = DateTime<FixedOffset>;
 pub type DateTimeLOpt = Option<DateTimeL>;
 
-/// for datetimes missing a year, in some circumstances a filler year must be used.
+/// For datetimes missing a year, in some circumstances a filler year must be
+/// used.
 ///
-/// first leap year after Unix Epoch.
+/// First leap year after Unix Epoch.
 ///
-/// XXX: using leap year as a filler might help handle 'Feb 29' dates without a year
-///      but it is not guaranteed. It depends on the file modified time
-///      (i.e. `blockreader.mtime()`) being true
+/// XXX: using leap year as a filler might help handle 'Feb 29' dates without a
+///      year but it is not guaranteed. It depends on the file modified time
+///      (i.e. [`blockreader.mtime()`](BlockReader)) being true.
 const YEAR_FALLBACKDUMMY: &str = "1972";
 
 const DATETIME_FALLBACKDUMMY: &str = "19720229T120000";
 
-/// DateTime Format Specifier for Year
-/// follows chrono `strftime` formatting
+/// DateTime Format Specifier for a Year.
+/// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Year {
     /// %Y
@@ -131,20 +182,20 @@ pub enum DTFS_Year {
     _fill,
 }
 
-/// DateTime Format Specifier for Month
-/// follows chrono `strftime` formatting
+/// DateTime Format Specifier for a Month.
+/// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Month {
     /// %m
     m,
     /// %b
     b,
-    /// %B - transformed in `fn captures_to_buffer_bytes`
+    /// %B - transformed in `captures_to_buffer_bytes`
     B,
 }
 
-/// DateTime Format Specifier for Day
-/// follows chrono `strftime` formatting
+/// DateTime Format Specifier for a Day.
+/// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Day {
     /// %d
@@ -155,8 +206,8 @@ pub enum DTFS_Day {
     _e_to_d,
 }
 
-/// DateTime Format Specifier for Hour
-/// follows chrono `strftime` formatting
+/// DateTime Format Specifier for an Hour.
+/// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Hour {
     /// %H
@@ -169,24 +220,24 @@ pub enum DTFS_Hour {
     l,
 }
 
-/// DateTime Format Specifier for Minute
-/// follows chrono `strftime` formatting
+/// DateTime Format Specifier for a Minute.
+/// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Minute {
     /// %M
     M,
 }
 
-/// DateTime Format Specifier for Minute
-/// follows chrono `strftime` formatting
+/// DateTime Format Specifier for a Second.
+/// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Second {
     /// %S
     S,
 }
 
-/// DateTime Format Specifier for Fractional or fractional second
-/// follows chrono `strftime` formatting
+/// DateTime Format Specifier for a Fractional or fractional second.
+/// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Fractional {
     /// %f
@@ -195,17 +246,17 @@ pub enum DTFS_Fractional {
     _none,
 }
 
-/// DateTime Format Specifier for Timezone
-/// follows chrono `strftime` formatting
+/// DateTime Format Specifier for a Timezone.
+/// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Tz {
-    /// %z +0930
+    /// `%z` e.g. `"+0930"`
     z,
-    /// %:z +09:30
+    /// `%:z` e.g. `"+09:30"`
     cz,
-    /// %#z +09
+    /// `%#z` e.g. `"+09"`
     pz,
-    /// %Z PST
+    /// `%Z` e.g. `"PST"`
     Z,
     /// none, must be filled
     /// the associated `pattern` should use "%:z` as that is the form displayed
@@ -213,16 +264,31 @@ pub enum DTFS_Tz {
     _fill,
 }
 
-/// `DTFSSet` is essentially instructions to transcribe regex captures to a chrono `strftime`-ready
-/// string. Given extracted regular expression groups "year", "day", etc. (see `CGN_*` vars),
-/// then what is the format of each such that the data can be readied and then passed
-/// to `chrono::DateTime::parse_from_str` (strftime format)?
+/// `DTFSSet` is essentially instructions to transcribe regex [`captures`] to a
+/// chrono [`strftime`]-ready string, and ultimately [`DateTimeL`].
 ///
-/// Strictly, there are 192 permutations. In practice, only a subset is encountered in real-life
-/// syslog files.
-/// Furthermore, some regex capture data is modified to be only one type. For example,
-/// capture group "day" will capture patterns for %e (" 8") and %d ("08"). The captured data will be
-/// modified to strftime day format "%d", e.g. data " 8" ("%e") becomes "08" ("%d").
+/// Given extracted regular expression groups "year", "day", etc.
+/// (see `CGN_` vars),
+/// then what is the format of each such that the data can be readied and then
+/// passed to [`chrono::DateTime::parse_from_str`] (strftime format)?
+/// These are effectively mappings to receive extracting datetime substrings
+/// in a [`&str`](str) then to rearrange those into order suitable for
+/// [`captures_to_buffer_bytes`].
+///
+/// chrono `strftime` formatting strings used in [`datetime_parse_from_str`].
+/// `DTF` is "DateTime Format"
+///
+/// Strictly, there are 192 permutations. In practice, only a subset is
+/// encountered in real-life syslog files.
+/// Furthermore, some regex capture data is modified to be only one type.
+/// For example, capture group _day_ will capture pattern specifier for
+/// `%e` (`" 8"`) and `%d` (`"08"`).
+/// The captured data will be modified to strftime day format `%d`,
+/// e.g. data `" 8"` (`%e`) becomes `"08"` (`%d`).
+///
+/// [`captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
+/// [`chrono::DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.21/chrono/struct.DateTime.html#method.parse_from_str
+/// [`strftime`]: https://docs.rs/chrono/0.4.21/chrono/format/strftime/index.html
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub struct DTFSSet<'a> {
     pub year: DTFS_Year,
@@ -233,11 +299,17 @@ pub struct DTFSSet<'a> {
     pub second: DTFS_Second,
     pub fractional: DTFS_Fractional,
     pub tz: DTFS_Tz,
-    /// strftime pattern passed to `chrono::DateTime::parse_from_str` or `chrono::NaiveDateTime::parse_from_str`
-    /// in function `datetime_parse_from_str`. Directly relates to order of capture group extractions and `push_str`
-    /// done in `captures_to_buffer_bytes`.
+    /// strftime pattern passed to [`chrono::DateTime::parse_from_str`] or
+    /// [`chrono::NaiveDateTime::parse_from_str`]
+    /// in function [`datetime_parse_from_str`]. Directly relates to order of capture group extractions and `push_str`
+    /// done in [`captures_to_buffer_bytes`].
     ///
-    /// `pattern` is interdependent with other members. Tested in `test_DATETIME_PARSE_DATAS_builtin`.
+    /// `pattern` is interdependent with other members.
+    ///
+    /// Tested in `test_DATETIME_PARSE_DATAS_builtin`.
+    ///
+    /// [`chrono::DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.21/chrono/struct.DateTime.html#method.parse_from_str
+    /// [`chrono::NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.21/chrono/naive/struct.NaiveDate.html#method.parse_from_str
     pub pattern: &'a DateTimePattern_str,
 }
 
@@ -256,35 +328,50 @@ impl DTFSSet<'_> {
     }
 }
 
-
-/// `Instr`uctions for `pars`ing from an unknown `str` to
-/// `regex::Regex().captures()` instance to `fn chrono::DateTime::parse_from_str`.
+/// `Instr`uctions for `pars`ing from some unknown [`bytes`](u8) to
+/// [`regex::Regex.captures`] instance to
+/// [`chrono::DateTime::parse_from_str`].
 ///
-/// The settings is entirely interdependent. Tested in `test_DATETIME_PARSE_DATAS_builtin`.
+/// The settings are mostly entirely interdependent.
+///
+/// Tested in test `test_DATETIME_PARSE_DATAS_builtin`.
+///
+/// [`regex::Regex.captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
+/// [`chrono::DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.21/chrono/struct.DateTime.html#method.parse_from_str
 #[derive(Hash)]
 pub struct DateTimeParseInstr<'a> {
-    // regex pattern for `captures`
-    pub regex_pattern: &'a DateTimeRegex_str,
-    /// in what strftime form are the regex `regex_pattern` capture groups?
-    pub dtfs: DTFSSet<'a>,
-    /// slice range of widest regex pattern match
+    /// Regex pattern for [`captures`].
     ///
-    /// This is range is sliced from the `Line` and then a `Regex` match is attempted using it.
-    /// It must be at least contain the datetime string to match. It may contain extra characters
-    /// before or after the datetime (assuming the `regex_pattern` is correct).
+    /// [`captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html#method.captures
+    pub regex_pattern: &'a DateTimeRegex_str,
+    /// In what strftime form are the regex `regex_pattern` capture groups?
+    pub dtfs: DTFSSet<'a>,
+    /// Slice range of widest regex pattern match.
+    ///
+    /// This range is sliced from the [`Line`] and then a [`Regex`] match is
+    /// attempted using it. It must be at least contain the datetime string to
+    /// match. It may contain extra characters before or after the datetime
+    /// (assuming the `regex_pattern` is correct).
+    ///
+    /// Attempting a `Regex` match on a smaller subset slice of a `Line`,
+    /// instead of the entire `Line`, can significantly improves run-time
+    /// performance.
+    ///
+    /// [`Line`]: crate::data::line::Line
+    /// [`Regex`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html#method.captures
     pub range_regex: Range_LineIndex,
-    /// capture named group first (left-most) position in regex
+    /// Capture named group first (left-most) position in `regex_pattern`.
     pub cgn_first: &'a CaptureGroupName,
-    /// capture named group last (right-most) position in regex
+    /// Capture named group last (right-most) position in `regex_pattern`.
     pub cgn_last: &'a CaptureGroupName,
-    /// hardcoded self-test cases
+    /// Hardcoded self-test cases.
     #[cfg(any(debug_assertions,test))]
     pub _test_cases: &'a [&'a str],
-    /// line number of declaration, to aid debugging
+    /// Source code line number of declaration, to aid debugging.
     pub _line_num: u32,
 }
 
-/// declare a `DateTimeParseInstr` tuple more easily
+/// Declare a [`DateTimeParseInstr`] tuple more easily.
 #[macro_export]
 macro_rules! DTPD {
     (
@@ -309,12 +396,13 @@ macro_rules! DTPD {
         }
     }
 }
-// allow easy macro import via `use s4lib::data::datetime::DTPD;`
+// Allow easy macro import via `use s4lib::data::datetime::DTPD;`
 pub use DTPD;
 
-// implement ordering traits to allow sorting collections of `DateTimeParseInstr`
-// only used for tests
-
+/// Implement ordering traits to allow sorting collections of
+/// `DateTimeParseInstr`.
+///
+/// Only used for tests.
 impl Ord for DateTimeParseInstr<'_> {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         (
@@ -360,9 +448,7 @@ impl fmt::Debug for DateTimeParseInstr<'_> {
             .field("cgn_first", &self.cgn_first)
             .field("cgn_last", &self.cgn_last)
             .field("cgn_last", &self.cgn_last);
-        //if cfg!(debug_assertions) || cfg!(test) {
-            f_.field("line", &self._line_num);
-        //}
+        f_.field("line", &self._line_num);
 
         f_.finish()
     }
@@ -378,51 +464,45 @@ const DTP_YmdHMSfzc: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%:z";
 const DTP_YmdHMSfz: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
 const DTP_YmdHMSfzp: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%#z";
 
-/// `%Z` is mapped to %z by `captures_to_buffer_bytes`
+/// `%Z` is mapped to `%z` by `[captures_to_buffer_bytes`]
 const DTP_YmdHMSfZ: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
 
 const DTP_YbdHMSz: &DateTimePattern_str = "%Y%b%dT%H%M%S%z";
 const DTP_YbdHMScz: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
 const DTP_YBdHMSz: &DateTimePattern_str = "%Y%B%dT%H%M%S%z";
-/// `%:z` is filled by `captures_to_buffer_bytes`
+/// `%:z` is filled by [`captures_to_buffer_bytes`]
 const DTP_YbdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
-/// `%:z` is filled by `captures_to_buffer_bytes`
+/// `%:z` is filled by [`captures_to_buffer_bytes`]
 const DTP_YBdHMS: &DateTimePattern_str = "%Y%B%dT%H%M%S%:z";
-/// `%:z` is filled by `captures_to_buffer_bytes`
+/// `%:z` is filled by [`captures_to_buffer_bytes`]
 const DTP_YbeHMS: &DateTimePattern_str = "%Y%b%eT%H%M%S%:z";
-/// `%:z` is filled by `captures_to_buffer_bytes`
+/// `%:z` is filled by [`captures_to_buffer_bytes`]
 const DTP_YBeHMS: &DateTimePattern_str = "%Y%B%eT%H%M%S%:z";
 
-/// `%Y` `%:z` is filled by `captures_to_buffer_bytes`
+/// `%Y` `%:z` is filled by [`captures_to_buffer_bytes`]
 const DTP_beHMS: &DateTimePattern_str = "%Y%b%eT%H%M%S%:z";
 
-/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
+/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMS: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
-/// `%Y` is filled, `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
+/// `%Y` is filled, `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
-/// `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
+/// `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSY: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
-///  `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
+///  `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSYZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
-/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
+/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMS: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-/// `%Y` is filled, `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
+/// `%Y` is filled, `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMSZ: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-/// `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
+/// `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMSY: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-///  `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
+///  `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMSYZ: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by `captures_to_buffer_bytes`
+/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_bdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
 
-// chrono `strftime` formatting strings used in `fn datetime_parse_from_str`.
-// `DTF` is "DateTime Format"
-//
-// These are effectively mappings to receive extracting datetime substrings in a `&str`
-// then to rearrange those into order suitable for `fn captures_to_buffer_bytes`.
-//
 // The variable name represents what is available. The value represents it's rearranged form
-// using in `fn captures_to_buffer_bytes`.
+// using in function `captures_to_buffer_bytes`.
 
 pub(crate) const DTFSS_YmdHMS: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -626,7 +706,7 @@ const DTFSS_BeHMSYZ: DTFSSet = DTFSSet {
     pattern: DTP_BdHMSYZ,
 };
 
-/// specail case: `dmesg` syslog lines
+/// special case for `dmesg` syslog lines
 pub(crate) const DTFSS_u: DTFSSet = DTFSSet {
     year: DTFS_Year::_fill,
     month: DTFS_Month::m,
@@ -639,8 +719,8 @@ pub(crate) const DTFSS_u: DTFSSet = DTFSSet {
     pattern: DTP_YmdHMSzc,
 };
 
-
 /// to aid testing
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) const _DTF_ALL: &[&DateTimePattern_str] = &[
     //DTP_YmdHMS,
@@ -667,26 +747,27 @@ pub(crate) const _DTF_ALL: &[&DateTimePattern_str] = &[
 
 // `regex::Captures` capture group names
 
-/// corresponds to strftime `%Y`
+/// corresponds to `strftime` specifier `%Y`
 const CGN_YEAR: &CaptureGroupName = "year";
-/// corresponds to strftime `%m`
+/// corresponds to `strftime` specifier `%m`
 const CGN_MONTH: &CaptureGroupName = "month";
-/// corresponds to strftime `%d`
+/// corresponds to `strftime` specifier `%d`
 const CGN_DAY: &CaptureGroupName = "day";
-/// corresponds to strftime `%H`
+/// corresponds to `strftime` specifier `%H`
 const CGN_HOUR: &CaptureGroupName = "hour";
-/// corresponds to strftime `%M`
+/// corresponds to `strftime` specifier `%M`
 const CGN_MINUTE: &CaptureGroupName = "minute";
-/// corresponds to strftime `%S`
+/// corresponds to `strftime` specifier `%S`
 const CGN_SECOND: &CaptureGroupName = "second";
-/// corresponds to strftime `%f`
+/// corresponds to `strftime` specifier `%f`
 const CGN_FRACTIONAL: &CaptureGroupName = "fractional";
-/// corresponds to strftime `%Z` `%z` `%:z` `%#z`
+/// corresponds to `strftime` specifier `%Z` `%z` `%:z` `%#z`
 const CGN_TZ: &CaptureGroupName = "tz";
 // special case: `dmesg` uptime
 //const CGN_UPTIME: &CaptureGroupName = "uptime";
 
 /// all capture group names, for testing
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) const _CGN_ALL: [&CaptureGroupName; 8] = [
     CGN_YEAR,
@@ -703,33 +784,35 @@ pub(crate) const _CGN_ALL: [&CaptureGroupName; 8] = [
 // saved rust playground for quick testing patterns
 // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=00460112beb2a6d078d6bbba72557574
 
-/// regex capture group pattern for strftime year
+/// Regex capture group pattern for `strftime` year specifier `%Y`.
 pub const CGP_YEAR: &CaptureGroupPattern = r"(?P<year>[12]\d{3})";
-/// regex capture group pattern for strftime month `%m`
+/// Regex capture group pattern for `strftime` month specifier `%m`.
 pub const CGP_MONTHm: &CaptureGroupPattern = r"(?P<month>01|02|03|04|05|06|07|08|09|10|11|12)";
-/// regex capture group pattern for strftime month `%b`
+/// Regex capture group pattern for `strftime` month specifier `%b`.
 pub const CGP_MONTHb: &CaptureGroupPattern = r"(?P<month>(?i)Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec(?-i))";
-/// regex capture group pattern for strftime month `%B`
+/// Regex capture group pattern for `strftime` month specifier `%B`.
 pub const CGP_MONTHB: &CaptureGroupPattern = r"(?P<month>(?i)January|February|March|April|May|June|July|August|September|October|November|December(?-i))";
-/// regex capture group pattern for strftime month `%B` and `%b`
+/// Regex capture group pattern for `strftime` month specifier `%B` and `%b`.
 pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>(?i)January|Jan|February|Feb|March|Mar|April|Apr|May|June|Jun|July|Jul|August|Aug|September|Sep|October|Oct|November|Nov|December|Dec(?-i))";
-/// regex capture group pattern for strftime day `%d`
+/// Regex capture group pattern for `strftime` day specifier `%d`.
 pub const CGP_DAYd: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
-/// regex capture group pattern for strftime day `%e`
+/// Regex capture group pattern for `strftime` day specifier `%e`.
 pub const CGP_DAYe: &CaptureGroupPattern = r"(?P<day>1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
-/// regex capture group pattern for strftime hour `%H`
+/// Regex capture group pattern for `strftime` hour specifier `%H`.
 pub const CGP_HOUR: &CaptureGroupPattern = r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
-/// regex capture group pattern for strftime minute `%M`
+/// Regex capture group pattern for `strftime` minute specifier `%M`.
 pub const CGP_MINUTE: &CaptureGroupPattern = r"(?P<minute>[012345]\d)";
-/// regex capture group pattern for strftime second `%S`, includes leap second "60"
+/// Regex capture group pattern for `strftime` second specifier `%S`,
+/// includes leap second "60".
 pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345]\d|60)";
-/// regex capture group pattern for strftime fractional `%f`,
-/// all strftime patterns %f %3f %6f %9f
+/// Regex capture group pattern for `strftime` specifier fractional `%f`,
+/// all `strftime` patterns `%f`, `%3f`, `%6f`, and `%9f`.
 pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{3,9})";
 // uptime fractional seconds, seen in `dmesg` logs
 //pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>\d{1,5}\.\d{3,9})";
 
 /// for help in testing only
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub const _CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
     CGP_MONTHm,
@@ -739,24 +822,24 @@ pub const _CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
 ];
 
 /// for help in testing only
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub const _CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
     CGP_DAYd,
     CGP_DAYe,
 ];
-// Applicable tz offsets https://en.wikipedia.org/wiki/List_of_UTC_offsets
-// Applicable tz abbreviations https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
-// chrono strftime https://docs.rs/chrono/latest/chrono/format/strftime/index.html
-//
-/// strftime `%z` e.g. `+0930`
+
+
+/// `strftime` specifier `%z` e.g. `"+0930"`
 const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d{3})";
-/// strftime `%:z` e.g. `+09:30`
+/// `strftime` specifier `%:z` e.g. `"+09:30"`
 const CGP_TZcz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d:\d\d)";
-/// strftime `%#z` e.g. `+09`
+/// `strftime` specifier `%#z` e.g. `"+09"`
 const CGP_TZpz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d)";
-/// strftime `%Z` e.g. `ACST`
+/// `strftime` specifier `%Z` e.g. `"ACST"`
 const CGP_TZZ: &CaptureGroupPattern = r"(?P<tz>ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT)";
 /// for help in testing only
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub const _CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
     CGP_TZz,
@@ -772,15 +855,14 @@ const CGP_TZZn: &CaptureGroupPattern = concatcp!(CGP_TZZ, RP_NOUPPER);
 
 const NOENTRY: &str = "";
 
-/// all timezone abbreviations, maps all strftime "%Z" to strftime "%:z".
+/// All timezone abbreviations, maps all strftime `%Z` to strftime `%:z`.
 ///
-/// attempts to be more lenient than chrono
-/// https://docs.rs/chrono/latest/chrono/format/strftime/#fn7
+/// Attempts to be more lenient than chrono, which provides %Z pattern yet
+/// rejects them when passed to [`datetime_from_str`].
 ///
+/// Latest listing of timezone abbreviations can be retrieved by:
 ///
-/// latest listing of timezone abbreviations can be retrieved by:
-///
-/// ```no_run
+/// ```text
 /// $ curl "https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations" \
 ///     | grep -Ee '^<td>[[:upper:]]{2,4}</td>' \
 ///     | grep -oEe '[[:upper:]]{2,4}' \
@@ -797,6 +879,12 @@ const NOENTRY: &str = "";
 ///     | sed -e 's/\n"/"/g' -e 'N;s/\n/ /' -e 's/−/-/g' -e 's/±/-/g' \
 ///     | tr -s ' '
 /// ```
+///
+/// - Applicable tz offsets <https://en.wikipedia.org/wiki/List_of_UTC_offsets>
+/// - Applicable tz abbreviations <https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations>
+/// - chrono strftime <https://docs.rs/chrono/0.4.21/chrono/format/strftime/index.html>
+///
+/// [`datetime_from_str`]: https://docs.rs/chrono/0.4.21/chrono/format/strftime/#fn7
 
 pub const TZZ_ALL: [(&str, &str); 208] = [
     ("ACDT", "+10:30"),
@@ -1008,8 +1096,13 @@ pub const TZZ_ALL: [(&str, &str); 208] = [
     ("YAKT", "+09:00"),
     ("YEKT", "+05:00"),
 ];
+
 type Map_TZZ_to_TZz<'a> = BTreeMap<&'a str, &'a str>;
+
 lazy_static!{
+    /// Map of all `%Z` values, e.g. `"PST"`, to the `%:z` value, e.g. `"-07:00"`.
+    ///
+    /// Ambiguous duplicate timezones are removed, e.g. `"SST"`.
     static ref MAP_TZZ_TO_TZz: Map_TZZ_to_TZz<'static> = {
         let mut map_ = Map_TZZ_to_TZz::new();
         #[allow(non_snake_case)]
@@ -1023,75 +1116,84 @@ lazy_static!{
     };
 }
 
-/// regexp divider date, 2020/01/01
+/// [`RegexPattern`] divider date, `2020/01/01`
 const D_D: &RegexPattern = r"[ /\-]?";
-/// regexp divider time, 20:30:00
+/// [`RegexPattern`] divider time, `20:30:00`
 const D_T: &RegexPattern = r"[:]?";
-/// regexp divider day hour, 2020/01/01T20:30:00
+/// [`RegexPattern`] divider day hour, `2020/01/01T20:30:00`
 const D_DH: &RegexPattern = r"[ T]?";
-/// regexp divider day hour with colon, 2020:01:01:20:30:00
+/// [`RegexPattern`] divider day hour with colon, `2020:01:01:20:30:00`
 const _D_DHc: &RegexPattern = r"[ T:]?";
-/// regexp divider day hour with dash, 2020:01:01-20:30:00
+/// [`RegexPattern`] divider day hour with dash, `2020:01:01-20:30:00`
 const _D_DHd: &RegexPattern = r"[ T\-]?";
-/// regexp divider day hour with colon or dash, 2020:01:01-20:30:00
+/// [`RegexPattern`] divider day hour with colon or dash, `2020:01:01-20:30:00`
 const D_DHcd: &RegexPattern = r"[ T\-:]?";
-/// regexp divider fractional, 2020/01/01T20:30:00,123456
+/// [`RegexPattern`] divider fractional, `2020/01/01T20:30:00,123456`
 const D_SF: &RegexPattern = r"[\.,]";
 
-/// commonly found syslog level names
+/// [`RegexPattern`] of commonly found syslog level names
 const _RP_LEVELS: &RegexPattern = r"((?i)DEBUG|INFO|ERR|ERROR|TRACE|WARN|WARNING|VERBOSE(?-i))";
-/// regex blank
+/// [`RegexPattern`] blank
 const RP_BLANK: &RegexPattern = r"[[:blank:]]";
-/// regex blank?
+/// [`RegexPattern`] blank?
 const RP_BLANKq: &RegexPattern = r"[[:blank:]]?";
-/// regex blanks
+/// [`RegexPattern`] blanks
 const RP_BLANKS: &RegexPattern = r"[[:blank:]]+";
-/// regex blanks?
+/// [`RegexPattern`] blanks?
 const RP_BLANKSq: &RegexPattern = r"[[:blank:]]*";
-/// regex blank or line end?
+/// [`RegexPattern`] blank or line end?
 const RP_BLANKSqEnd: &RegexPattern = r"([[:blank:]]?|$)";
-/// left-side brackets
+/// [`RegexPattern`] left-side brackets
 pub(crate) const RP_LB: &RegexPattern = r"[\[\(<{]";
-/// right-side brackets
+/// [`RegexPattern`] right-side brackets
 pub(crate) const RP_RB: &RegexPattern = r"[\]\)>}]";
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // the global list of built-in Datetime parsing "instructions"
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// index into the global `DATETIME_PARSE_DATAS`.
+/// Index into the global [`DATETIME_PARSE_DATAS`]
 pub type DateTimeParseInstrsIndex = usize;
-/// a run-time created vector of `Regex` instances that is a counterpart to `DATETIME_PARSE_DATAS`.
+
+/// A run-time created vector of [`DateTimeRegex`] instances that is a counterpart
+/// to [`DATETIME_PARSE_DATAS`]
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
+/// Length of [`DATETIME_PARSE_DATAS`]
 pub const DATETIME_PARSE_DATAS_LEN: usize = 36;
 
-/// built-in `const DateTimeParseInstr` datetime parsing patterns.
+/// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
-/// These are all regexp patterns that will be attempted on processed files.
+/// These are all regular expression patterns that will be attempted on
+/// processed files.
 ///
-/// Order of declaration matters: during initial parsing of a syslog file, all of these
-/// regex patterns are attempted. Listing a general regex pattern before a specific regex pattern
-/// may result in loss of datetime information.
+/// Order of declaration matters: during initial parsing of a syslog file, all
+/// of these regex patterns are attempted. Listing a general regex pattern
+/// before a specific regex pattern may result in loss of datetime information.
 ///
 /// For example, given sysline
+/// ```text
+/// 2001-02-03T04:05:06 -1100 hello
+/// ```
 ///
-///     2001-02-03T04:05:06 -1100 hello
+/// A regex that attempts to match the year to the second will not capture the
+/// timezone. This will result in a filler timezone being used which may not
+/// be correct. Generally, more specific regex patterns should be listed before
+/// general regex patterns.
 ///
-/// A regex that attempts to match the year to the second will not capture the timezone. This will
-/// result in a filler timezone being used which may not be correct.
-/// Generally, more specific regex patterns should be listed before general regex patterns.
+/// Notice the _with timezone_ versions of `DateTimeParseInstr` are often
+/// listed before the same `DateTimeParseInstr` _without_.
 ///
-/// Notice the "with timezone" versions of `DateTimeParseInstr` are often listed before the same
-/// `DateTimeParseInstr` "without".
+/// A drawback to specific-to-general approach: during [`SyslineReader`]
+/// initial reading stage, it will try *all* the patterns (from index 0 to
+/// whereever it finds a match). So if a file has a very general pattern
+/// (like it only matches the last listed `DateTimeParseInstr` here) then
+/// the `SyslineReader` will try *all* the `DateTimeParseInstr` within
+/// `DATETIME_PARSE_DATAS` several times (until `SyslineReader` is satisfied
+/// it has found the definitive pattern). The many missed matches use a lot
+/// of resources and time.
 ///
-/// A drawback to specific-to-general approach: during `SyslineReader` initial reading stage, it
-/// will try *all* the patterns (from index 0 to whereever it finds a match). So if a file has a
-/// very general pattern (like it only matches the last listed `DateTimeParseInstr` here) then
-/// the `SyslineReader` will try *all* the `DateTimeParseInstr` within `DATETIME_PARSE_DATAS`
-/// several times (until `SyslineReader` is satisfied it has found the definitive pattern).
-/// The many missed matches use a lot of resources and time.
-///
+/// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] = [
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/Ubuntu18/xrdp.log`
@@ -1655,7 +1757,10 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
 ];
 
 lazy_static! {
-    // `Regex::new` runs at run-time, create this vector on-demand
+    /// Run-time created copy of [`DATETIME_PARSE_DATAS`] with compiled
+    /// [`Regex`].
+    ///
+    /// [`Regex`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html
     pub(crate) static ref DATETIME_PARSE_DATAS_REGEX_VEC: DateTimeParseInstrsRegexVec =
         DATETIME_PARSE_DATAS.iter().map(
             |x| Regex::new(x.regex_pattern).unwrap()
@@ -1663,14 +1768,17 @@ lazy_static! {
 }
 
 // TODO: Issue #6 handle all Unicode whitespace.
-//       This fn is essentially counteracting an errant call to `std::string:trim`
-//       within `Local.datetime_from_str`.
+//       This fn is essentially counteracting an errant call to
+//       `std::string:trim` within `Local.datetime_from_str`.
 //       `trim` removes "Unicode Derived Core Property White_Space".
-//       This implementation handles three whitespace chars. There are twenty-five whitespace
-//       chars according to
-//       https://en.wikipedia.org/wiki/Unicode_character_property#Whitespace
-/// workaround for chrono Issue #660 https://github.com/chronotope/chrono/issues/660
-/// match spaces at beginning and ending of inputs
+//       This implementation handles three whitespace chars. There are
+//       twenty-five whitespace chars according to
+//       <https://en.wikipedia.org/wiki/Unicode_character_property#Whitespace>.
+//
+/// Match spaces at beginning and ending of `value`.
+///
+/// Workaround for chrono
+/// [Issue #660](https://github.com/chronotope/chrono/issues/660).
 #[allow(non_snake_case)]
 pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePattern_str) -> bool {
     const SPACES: &str = " ";
@@ -1754,11 +1862,22 @@ pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePatt
     true
 }
 
-/// decoding `[u8]` bytes to a `str` takes a surprising amount of time, according to `tools/flamegraph.sh`.
-/// first check `u8` slice with custom simplistic checker that, in case of complications,
-/// falls back to using higher-resource and more-precise checker `encoding_rs::mem::utf8_latin1_up_to`.
-/// this uses built-in unsafe `str::from_utf8_unchecked`.
-/// See `benches/bench_decode_utf.rs` for comparison of bytes->str decode strategies
+/// Decoding [\[`u8`\]] bytes to a [`str`] takes a surprising amount of time,
+/// according to script `tools/flamegraph.sh`.
+///
+/// First check `u8` slice with custom simplistic checker that, in case of
+/// complications, falls back to using higher-resource and more-precise checker
+/// [`encoding_rs::mem::utf8_latin1_up_to`].
+///
+/// This uses built-in unsafe [`from_utf8_unchecked`].
+///
+/// See `benches/bench_decode_utf.rs` for comparison of `bytes` → `str`
+/// decode strategies.
+///
+/// [\[`u8`\]]: u8
+/// [`str`]: str
+/// [`encoding_rs::mem::utf8_latin1_up_to`]: <https://docs.rs/encoding_rs/0.8.31/encoding_rs/mem/fn.utf8_latin1_up_to.html>
+/// [`from_utf8_unchecked`]: std::str::from_utf8_unchecked
 #[inline(always)]
 pub fn u8_to_str(data: &[u8]) -> Option<&str> {
     let dts: &str;
@@ -1781,14 +1900,18 @@ pub fn u8_to_str(data: &[u8]) -> Option<&str> {
     Some(dts)
 }
 
-/// convert a `&str` to a chrono `Option<DateTime<FixedOffset>>` instance.
+/// Convert a [`&str`] to a chrono [`Option<DateTime<FixedOffset>>`]
+/// instance.
 ///
-/// compensate for a missing timezone.
+/// Compensate for a missing timezone.
 ///
 /// - `data` to parse that has a datetime string
 /// - strftime `pattern` to use for parsing
-/// - `has_tz`, the `pattern` has a timezone (`%Z`, `%z`, etc.)
+/// - `has_tz`, the `pattern` has a timezone (`%Z`, `%z`, etc.)?
 /// - `tz_offset` fallback timezone offset when `!has_tz`
+///
+/// [`&str`]: str
+/// [`Option<DateTime<FixedOffset>>`]: https://docs.rs/chrono/0.4.21/chrono/struct.DateTime.html#impl-DateTime%3CFixedOffset%3E
 pub fn datetime_parse_from_str(
     data: &str,
     pattern: &DateTimePattern_str,
@@ -1876,14 +1999,18 @@ pub fn datetime_parse_from_str(
     }
 }
 
-/// data of interest from a set of `regex::Captures` for a datetime substring found in a `Line`
+/// Data of interest from a set of [`regex::Captures`] for a datetime
+/// substring found in a [`Line`].
 ///
 /// - datetime substring begin index
 /// - datetime substring end index
 /// - datetime
+///
+/// [`Line`]: crate::data::line::Line
+/// [`regex::Captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
 pub type CapturedDtData = (LineIndex, LineIndex, DateTimeL);
 
-/// helper to `captures_to_buffer_bytes`
+/// Macro helper to `captures_to_buffer_bytes`.
 macro_rules! copy_capturegroup_to_buffer {
     (
         $name:ident,
@@ -1898,7 +2025,7 @@ macro_rules! copy_capturegroup_to_buffer {
     }
 }
 
-/// helper to `captures_to_buffer_bytes`
+/// Macro helper to `captures_to_buffer_bytes`.
 macro_rules! copy_slice_to_buffer {
     (
         $u8_slice:expr,
@@ -1913,7 +2040,7 @@ macro_rules! copy_slice_to_buffer {
 }
 
 
-/// helper to `captures_to_buffer_bytes`
+/// Macro helper to `captures_to_buffer_bytes`.
 macro_rules! copy_u8_to_buffer {
     (
         $u8_:expr,
@@ -1926,7 +2053,7 @@ macro_rules! copy_u8_to_buffer {
     }
 }
 
-// variables `const MONTH_` are helpers to `fn month_bB_to_month_m_bytes`
+// Variables `const MONTH_` are helpers to [`month_bB_to_month_m_bytes`].
 //
 // TODO: replace `to_byte_array` with rust experimental feature `const_str_as_bytes`
 //       https://doc.bccnsoft.com/docs/rust-1.36.0-docs-html/unstable-book/library-features/const-str-as-bytes.html#const_str_as_bytes
@@ -1994,9 +2121,9 @@ const MONTH_12_B_u: &[u8] = &to_byte_array!("December");
 const MONTH_12_b_u: &[u8] = &to_byte_array!("Dec");
 const MONTH_12_m: &[u8] = &to_byte_array!("12");
 
-/// helper to `captures_to_buffer_bytes`
+/// Transform `%B`, `%b` (i.e. `"January"`, `"Jan"`) to `%m` (i.e. `"01"`).
 ///
-/// transform `%B`, `%b` (i.e. "January", "Jan") to `%m` (i.e. "01")
+/// Helper to [`captures_to_buffer_bytes`].
 #[allow(non_snake_case)]
 fn month_bB_to_month_m_bytes(data: &[u8], buffer: &mut [u8]) {
     match data {
@@ -2033,18 +2160,24 @@ fn month_bB_to_month_m_bytes(data: &[u8], buffer: &mut [u8]) {
     }
 }
 
-/// Put `Captures` into a `String` buffer in a particular order and formatting. This bridges the
-/// `DateTimeParseInstr::regex_pattern` to `DateTimeParseInstr::dt_pattern`.
+/// Put [`Captures`] into a `String` buffer in a particular order and
+/// formatting.
 ///
-/// Directly relates to datetime format `dt_pattern` values in `DATETIME_PARSE_DATAS`
-/// which use `DTFSS_YmdHMS`, etc.
+/// This bridges the [`DateTimeParseInstr::regex_pattern`] to
+/// [`DateTimeParseInstr::dt_pattern`].
 ///
-/// transforms `%B` acceptable value to `%m` acceptable value.
+/// Directly relates to datetime format `dt_pattern` values in
+/// [`DATETIME_PARSE_DATAS`] which use `DTFSS_YmdHMS`, etc.
 ///
-/// transforms `%e` acceptable value to `%d` acceptable value.
+/// Transforms `%B` acceptable value to `%m` acceptable value.
 ///
+/// Transforms `%e` acceptable value to `%d` acceptable value.
+///
+/// [`Captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
+/// [`DateTimeParseInstr::regex_pattern`]: crate::data::datetime::DateTimeParseInstr::regex_pattern
+/// [`DateTimeParseInstr::dt_pattern`]: crate::data::datetime::DateTimeParseInstr::dt_pattern
 #[inline(always)]
-fn captures_to_buffer_bytes(
+pub(crate) fn captures_to_buffer_bytes(
     buffer: &mut[u8],
     captures: &regex::bytes::Captures,
     year_opt: &Option<Year>,
@@ -2167,9 +2300,14 @@ fn captures_to_buffer_bytes(
     at
 }
 
-/// run `regex::Captures` on the `data` then convert to a chrono
-/// `Option<DateTime<FixedOffset>>` instance. Uses matching and pattern information
-/// hardcoded in `DATETIME_PARSE_DATAS_REGEX` and `DATETIME_PARSE_DATAS`.
+/// Run [`regex::Captures`] on the `data` then convert to a chrono
+/// [`Option<DateTime<FixedOffset>>`] instance. Uses matching and pattern
+/// information hardcoded in [`DATETIME_PARSE_DATAS_REGEX_VEC`]
+/// and [`DATETIME_PARSE_DATAS`].
+///
+/// [`DATETIME_PARSE_DATAS_REGEX_VEC`]: [static@DATETIME_PARSE_DATAS_REGEX_VEC]
+/// [`regex::Captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html#method.captures
+/// [`Option<DateTime<FixedOffset>>`]: https://docs.rs/chrono/0.4.21/chrono/struct.DateTime.html#impl-DateTime%3CFixedOffset%3E
 pub fn bytes_to_regex_to_datetime(
     data: &[u8],
     index: &DateTimeParseInstrsIndex,
@@ -2231,7 +2369,13 @@ pub fn bytes_to_regex_to_datetime(
     // TODO: [2022/06/26] cost-savings: avoid a `String` alloc by passing precreated buffer
     const BUFLEN: usize = 35;
     let mut buffer: [u8; BUFLEN] = [0; BUFLEN];
-    let copiedn = captures_to_buffer_bytes(&mut buffer, &captures, year_opt, tz_offset, &dtpd.dtfs);
+    let copiedn = captures_to_buffer_bytes(
+        &mut buffer,
+        &captures,
+        year_opt,
+        tz_offset,
+        &dtpd.dtfs,
+    );
 
     // use the `dt_format` to parse the buffer of regex matches
     let buffer_s: &str = u8_to_str(&buffer[0..copiedn]).unwrap();
@@ -2268,39 +2412,44 @@ pub fn bytes_to_regex_to_datetime(
 // DateTime comparisons
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// describe the result of comparing one DateTime to one DateTime Filter
+/// Describe the result of comparing one [`DateTimeL`] to one DateTime Filter.
+///
+/// [`DateTimeL`]: crate::data::datetime::DateTimeL
 #[allow(non_camel_case_types)]
 #[derive(Debug, PartialEq)]
 pub enum Result_Filter_DateTime1 {
+    /// like Skip
     Pass,
     OccursAtOrAfter,
     OccursBefore,
 }
 
 impl Result_Filter_DateTime1 {
-    /// Returns `true` if the result is [`OccursAfter`].
+    /// Returns `true` if the result is `OccursAfter`.
     #[inline(always)]
     pub const fn is_after(&self) -> bool {
         matches!(*self, Result_Filter_DateTime1::OccursAtOrAfter)
     }
 
-    /// Returns `true` if the result is [`OccursBefore`].
+    /// Returns `true` if the result is `OccursBefore`.
     #[inline(always)]
     pub const fn is_before(&self) -> bool {
         matches!(*self, Result_Filter_DateTime1::OccursBefore)
     }
 }
 
-/// describe the result of comparing one DateTime to two DateTime Filters
-/// `(after, before)`
+/// Describe the result of comparing one [`DateTimeL`] to two DateTime Filters
+/// `(after, before)`.
+///
+/// [`DateTimeL`]: crate::data::datetime::DateTimeL
 #[allow(non_camel_case_types)]
 #[derive(Debug, PartialEq)]
 pub enum Result_Filter_DateTime2 {
-    /// PASS
+    /// like Pass
     InRange,
-    /// FAIL
+    /// like Fail
     BeforeRange,
-    /// FAIL
+    /// like Fail
     AfterRange,
 }
 
@@ -2316,9 +2465,15 @@ impl Result_Filter_DateTime2 {
     }
 }
 
-/// if `dt` is at or after `dt_filter` then return `OccursAtOrAfter`
-/// if `dt` is before `dt_filter` then return `OccursBefore`
-/// else return `Pass` (including if `dt_filter` is `None`)
+/// Compare passed [`DateTimeL`] `dt` to the passed filter `dt_filter`.
+///
+/// If `dt` is at or after `dt_filter` then return [`OccursAtOrAfter`]<br/>
+/// If `dt` is before `dt_filter` then return [`OccursBefore`]<br/>
+/// Else return [`Pass`] (including if `dt_filter` is `None`)
+///
+/// [`OccursAtOrAfter`]: crate::data::datetime::Result_Filter_DateTime1
+/// [`OccursBefore`]: crate::data::datetime::Result_Filter_DateTime1
+/// [`Pass`]: crate::data::datetime::Result_Filter_DateTime1
 pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeLOpt) -> Result_Filter_DateTime1 {
     if dt_filter.is_none() {
         dpnxf!("return Result_Filter_DateTime1::Pass; (no dt filters)");
@@ -2336,19 +2491,33 @@ pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeLOpt) -> Result_Fi
     Result_Filter_DateTime1::OccursAtOrAfter
 }
 
-/// If both filters are `Some` and `dt` is "between" the filters then return `InRange`.
-/// If before then return `BeforeRange`.
+
+/// How does the passed [`DateTimeL`], `dt`, pass the optional `DateTimeLOpt`
+/// filter instances,
+/// `dt_filter_after` and `dt_filter_before`?  Is `dt` before ([`BeforeRange`]),
+/// after ([`AfterRange`]), or in between ([`InRange`])?
+///
+/// If both filters are `Some` and `dt: DateTimeL` is "between" the filters then
+/// return `InRange`.<br/>
+/// If before then return `BeforeRange`.<br/>
 /// If after then return `AfterRange`.
 ///
-/// If filter `dt_filter_after` is `Some` and `dt` is after that filter then
-/// return `InRange`. If before then return `BeforeRange`.
+/// If filter `dt_filter_after` is `Some` and `dt: DateTimeL` is after that
+/// filter then return `InRange`.<br/>
+/// If before then return `BeforeRange`.
 ///
-/// If filter `dt_filter_before` is `Some` and `dt` is before that filter then
-/// return `InRange`. If after then return `AfterRange`.
+/// If filter `dt_filter_before` is `Some` and `dt: DateTimeL` is before that
+/// filter then return `InRange`.<br/>
+/// If after then return `AfterRange`.
 ///
 /// If both filters are `None` then return `InRange`.
 ///
-/// Comparisons are "inclusive" i.e. `dt` == `dt_filter_after` will return `InRange`
+/// Comparisons are "inclusive" i.e. `dt` == `dt_filter_after` will return
+/// `InRange`.
+///
+/// [`AfterRange`]: crate::data::datetime::Result_Filter_DateTime2::AfterRange
+/// [`BeforeRange`]: crate::data::datetime::Result_Filter_DateTime2::BeforeRange
+/// [`InRange`]: crate::data::datetime::Result_Filter_DateTime2::InRange
 pub fn dt_pass_filters(
     dt: &DateTimeL, dt_filter_after: &DateTimeLOpt, dt_filter_before: &DateTimeLOpt,
 ) -> Result_Filter_DateTime2 {
@@ -2409,10 +2578,11 @@ pub fn dt_pass_filters(
 // other miscellaneous DateTime function helpers
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// create a new `DateTimeL` instance that use the passed `datetime` month, day, and time, and the
-/// passed `year`.
+/// Create a new [`DateTimeL`] instance that uses the passed `DateTimeL`
+/// month, day, and time, combined with the passed `Year`.
 ///
-/// In case of error, return a copy of the passed `datetime`.
+/// In case of error, return a copy of the passed `DateTimeL`.
+// TODO: errors should return `Error`
 pub fn datetime_with_year(datetime: &DateTimeL, year: &Year) -> DateTimeL {
     match datetime.with_year(*year) {
         Some(datetime_) => {
@@ -2424,7 +2594,10 @@ pub fn datetime_with_year(datetime: &DateTimeL, year: &Year) -> DateTimeL {
     }
 }
 
-/// convert passed `SystemTime` to `DatetimeL` with passed  `fixedoffset`
+/// Convert passed [`SystemTime`] to [`DateTimeL`] with passed [`FixedOffset`].
+///
+/// [`FixedOffset`]: https://docs.rs/chrono/0.4.21/chrono/offset/struct.FixedOffset.html
+/// [`SystemTime`]: std::time::SystemTime
 pub fn systemtime_to_datetime(fixedoffset: &FixedOffset, systemtime: &SystemTime) -> DateTimeL {
     // https://users.rust-lang.org/t/convert-std-time-systemtime-to-chrono-datetime-datetime/7684/6
     let dtu: DateTime<Utc> = systemtime.clone().into();
@@ -2434,7 +2607,7 @@ pub fn systemtime_to_datetime(fixedoffset: &FixedOffset, systemtime: &SystemTime
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // search a slice quickly (loop unroll version)
-// loop unrolled implementation of `slice.contains` for a byte slice and a hardcorded array
+// loop unrolled implementation of `slice.contains` for a byte slice and a hardcoded array
 // benchmark `benches/bench_slice_contains.rs` demonstrates this is faster
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -2977,11 +3150,13 @@ const fn slice_contains_50_2(slice_: &[u8; 50], search: &[u8; 2]) -> bool {
     false
 }
 
-/// loop unrolled implementation of `slice.contains` for a byte slice and a hardcorded array.
-/// Uses crate `unroll`.
+/// Loop unrolled implementation of `slice.contains` for a byte slice and a
+/// hardcoded array. Uses crate [`unroll`].
 ///
-/// Hardcoded implementation for `u8` slices up to 50 length. Runs very fast.
+/// Hardcoded implementation for [`u8`] slices up to 50 length. Runs very fast.
 /// Supports arbitrary length.
+///
+/// [`unroll`]: https://docs.rs/unroll/0.1.5/unroll/index.html
 #[inline(always)]
 #[allow(non_snake_case)]
 pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {

@@ -1,5 +1,6 @@
 // src/tests/line_tests.rs
-//
+
+//! tests for `line.rs` functions
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]

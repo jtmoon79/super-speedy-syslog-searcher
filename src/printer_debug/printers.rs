@@ -1,6 +1,6 @@
 // src/printer_debug/printers.rs
 //
-// debug printing - a hodge-podge of printer functions and helpers for test and debug builds
+// A hodge-podge of printer functions and helpers for test and debug builds.
 //
 
 #[cfg(test)]
@@ -25,6 +25,7 @@ use std::io::Write;  // for `std::io::Stdout.flush`
 use std::io::prelude::*;  // for `std::fs::File.read_to_string`
 
 extern crate termcolor;
+#[doc(hidden)]
 pub use termcolor::{
     Color,
     ColorChoice,
@@ -39,7 +40,7 @@ pub use termcolor::{
 /// return the current current function name full path as a `&'static str`
 /// e.g. `"s4lib::printer::printers::color_rand"`
 ///
-/// ripped from https://github.com/popzxc/stdext-rs/blob/2179f94475f925a2eacdc2f2408d7ab352d0052c/src/macros.rs#L44-L74
+/// Credit to <https://github.com/popzxc/stdext-rs/blob/2179f94475f925a2eacdc2f2408d7ab352d0052c/src/macros.rs#L44-L74>
 #[macro_export]
 macro_rules! function_name_full {
     () => {{
@@ -334,6 +335,7 @@ pub const fn char_to_char_noraw(c: char) -> char {
 /// transform utf-8 byte (presumably) to non-raw char
 ///
 /// only intended for debugging
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub const fn byte_to_char_noraw(byte: u8) -> char {
     char_to_char_noraw(byte as char)
@@ -342,6 +344,7 @@ pub const fn byte_to_char_noraw(byte: u8) -> char {
 /// transform buffer of utf-8 chars (presumably) to a non-raw String
 ///
 /// only intended for debugging
+#[doc(hidden)]
 #[allow(non_snake_case)]
 #[cfg(any(debug_assertions,test))]
 pub fn buffer_to_String_noraw(buffer: &[u8]) -> String {
@@ -363,6 +366,7 @@ pub fn buffer_to_String_noraw(buffer: &[u8]) -> String {
 /// transform str to non-raw String version
 ///
 /// only intended for debugging
+#[doc(hidden)]
 #[allow(non_snake_case)]
 #[cfg(any(debug_assertions,test))]
 pub fn str_to_String_noraw(str_buf: &str) -> String {
@@ -419,6 +423,7 @@ pub fn file_to_String_noraw(path: &FPath) -> String {
 }
 
 /// helper flush stdout and stderr
+#[doc(hidden)]
 #[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
 pub fn flush_stdouterr() {
@@ -432,6 +437,7 @@ pub fn flush_stdouterr() {
 /// else use `char_to_char_noraw` to replace chars in `buffer` (inefficient)
 ///
 /// only intended for debugging
+#[doc(hidden)]
 #[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
 pub fn pretty_print(buffer: &[u8], raw: bool) {

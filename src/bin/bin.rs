@@ -2,6 +2,38 @@
 //
 // ‥ … ≤ ≥ ≠ ≟
 
+//! Driver program _s4_.
+//!
+//! Processes user-passed command-line arguments.
+//! Then processes paths passed; directories are enumerated for parseable files,
+//! archive files (`.tar`) are enumerated for file entries, other
+//! paths tested for suitability (readable? is it a file? etc.).
+//!
+//! For each parseable file found, a file processing thread is created.
+//! Each file processing thread advances through the stages of processing
+//! using a [`SyslogProcessor`] instance.
+//!
+//! During the main processing stage, [`Stage3StreamSyslines`], each thread
+//! sends the last processed [`Sysline`] to the main processing thread.
+//! The main processing thread compares the last [`DateTimeL`] received
+//! from all processing threads.
+//! The `Sysline` with the earliest `DateTimeL` is printed.
+//! That file processing thread then processes another `Sysline`.
+//! This continues until each file processing thread sends a message to the
+//! main processing thread that is has completed processing,
+//! or in case of errors, abruptly closes it's [sending channel].
+//!
+//! Then, if passed CLI option `--summary`, the main processing thread
+//! prints a [`Summary`] about each file processed, and one [`SummaryPrinted`].
+//!
+//! [`Stage3StreamSyslines`]: s4lib::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
+//! [`DateTimeL`]: s4lib::data::datetime::DateTimeL
+//! [`Sysline`]: s4lib::data::sysline::Sysline
+//! [sending channel]: self::ChanSendDatum
+//! [`SyslogProcessor`]: s4lib::readers::syslogprocessor::SyslogProcessor
+//! [`Summary`]: s4lib::readers::summary::Summary
+//! [`SummaryPrinted`]: self::SummaryPrinted
+
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
@@ -131,7 +163,9 @@ use s4lib::readers::syslogprocessor::{
 // command-line parsing
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// CLI enum that maps to `termcolor::ColorChoice`
+/// CLI enum that maps to [`termcolor::ColorChoice`].
+///
+/// [`termcolor::ColorChoice`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.ColorChoice.html
 #[derive(
     Clone,
     Copy,
@@ -148,9 +182,13 @@ enum CLI_Color_Choice {
     never,
 }
 
-/// subset of `DateTimeParseInstr` for calls to `datetime_parse_from_str`
+/// Subset of [`DateTimeParseInstr`] for calls to
+/// function [`datetime_parse_from_str`].
 ///
 /// (DateTimePattern_str, has year, has timezone, has time)
+///
+/// [`DateTimeParseInstr`]: s4lib::data::datetime::DateTimeParseInstr
+/// [`datetime_parse_from_str`]: s4lib::data::datetime#fn.datetime_parse_from_str
 type CLI_DT_Filter_Pattern<'b> = (
     &'b DateTimePattern_str,
     bool,
@@ -181,9 +219,11 @@ const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%Y%m%d", true, false, f
 const CLI_DT_FILTER_PATTERN14: CLI_DT_Filter_Pattern = ("%Y%m%d %z", true, true, false);
 const CLI_DT_FILTER_PATTERN15: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, false);
 const CLI_DT_FILTER_PATTERN16: CLI_DT_Filter_Pattern = ("+%s", false, false, true);
+
 // TODO: [2022/06/19] allow passing three-letter TZ abbreviation
 const CLI_FILTER_PATTERNS_COUNT: usize = 16;
-/// acceptable datetime filter patterns for the user-passed `-a` or `-b`
+
+/// CLI acceptable datetime filter patterns for the user-passed `-a` or `-b`
 const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
     &CLI_DT_FILTER_PATTERN1,
     &CLI_DT_FILTER_PATTERN2,
@@ -202,14 +242,19 @@ const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] =
     &CLI_DT_FILTER_PATTERN15,
     &CLI_DT_FILTER_PATTERN16,
 ];
-/// time to append in `fn process_dt` when `has_time` is false
+
+/// CLI time to append in `fn process_dt` when `has_time` is `false`.
 const CLI_DT_FILTER_APPEND_TIME_VALUE: &str = " T000000";
-/// strftime format pattern to append in `fn process_dt` when `has_time` is false
+
+/// CLI strftime format pattern to append in function `process_dt`
+/// when `has_time` is `false`.
 const CLI_DT_FILTER_APPEND_TIME_PATTERN: &str = " T%H%M%S";
-/// datetime format printed for CLI options `-u` or `-l`
+
+/// CLI datetime format printed for CLI options `-u` or `-l`.
 const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z:";
 
 // TODO: Issue #20 restore '%Z' patterns
+/// `--help` _afterword_ message.
 const CLI_HELP_AFTER: &str = concatcp!("
 DateTime Filter patterns may be:
     \"", CLI_DT_FILTER_PATTERN1.0, "\"
@@ -225,18 +270,22 @@ DateTime Filter patterns may be:
     \"", CLI_DT_FILTER_PATTERN16.0, "\"
 
 Without a timezone offset (%z or %Z), the Datetime Filter is presumed to be the system timezone.
-Pattern '+%s' is Unix epoch timestamp in seconds with a preceding '+'.
+Pattern \"+%s\" is Unix epoch timestamp in seconds with a preceding \"+\".
 Ambiguous timezones will be rejected, e.g. \"SST\".
-Prepended datetime, -u or -l, is printed in format '%Y%m%dT%H%M%S%.6f %z'.
+Prepended datetime, -u or -l, is printed in format \"", CLI_OPT_PREPEND_FMT, "\".
 DateTime formatting is described at https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
 DateTimes supported language is English.");
 
-// clap references:
-//   inference types https://github.com/clap-rs/clap/blob/v3.1.6/examples/derive_ref/README.md#arg-types
-//   other `clap::App` options https://docs.rs/clap/latest/clap/struct.App.html
-//   the `about` is taken from `Cargo.toml:[package]:description`
+/// clap command-line arguments build-time definitions.
+//
+// Useful clap references:
+// * inference types <https://github.com/clap-rs/clap/blob/v3.1.6/examples/derive_ref/README.md#arg-types>
+// * other `clap::App` options <https://docs.rs/clap/latest/clap/struct.App.html>
+//
+// Note:
+// * the `about` is taken from `Cargo.toml:[package]:description`.
 #[derive(Parser, Debug)]
 #[clap(
     //author,
@@ -246,7 +295,6 @@ DateTimes supported language is English.");
     //before_help = "",
     setting = clap::AppSettings::DeriveDisplayOrder,
 )]
-/// this is the `CLI_Args` docstring, is it captured by clap?
 struct CLI_Args {
     /// Path(s) of syslog files or directories.
     /// Directories will be recursed, remaining on the same filesystem.
@@ -280,7 +328,7 @@ struct CLI_Args {
     )]
     tz_offset: String,
 
-    /// Prepend DateTime in the UTC Timezone for every sysline.
+    /// Prepend DateTime in the UTC Timezone for every line.
     #[clap(
         short = 'u',
         long = "prepend-utc",
@@ -288,7 +336,7 @@ struct CLI_Args {
     )]
     prepend_utc: bool,
 
-    /// Prepend DateTime in the Local Timezone for every sysline.
+    /// Prepend DateTime in the Local Timezone for every line.
     #[clap(
         short = 'l',
         long = "prepend-local",
@@ -296,7 +344,7 @@ struct CLI_Args {
     )]
     prepend_local: bool,
 
-    /// Prepend file basename to every sysline.
+    /// Prepend file basename to every line.
     #[clap(
         short = 'n',
         long = "prepend-filename",
@@ -304,7 +352,7 @@ struct CLI_Args {
     )]
     prepend_filename: bool,
 
-    /// Prepend file full path to every sysline.
+    /// Prepend file full path to every line.
     #[clap(
         short = 'p',
         long = "prepend-filepath",
@@ -312,7 +360,7 @@ struct CLI_Args {
     )]
     prepend_filepath: bool,
 
-    /// Aligh column width of prepended file basename or file path.
+    /// Align column widths of prepended data.
     #[clap(
         short = 'w',
         long = "prepend-file-align",
@@ -330,6 +378,7 @@ struct CLI_Args {
     color_choice: CLI_Color_Choice,
 
     /// Read blocks of this size. May pass decimal or hexadecimal numbers.
+    /// Using the default value is recommended.
     #[clap(
         required = false,
         short = 'z',
@@ -339,7 +388,7 @@ struct CLI_Args {
     )]
     blocksz: String,
 
-    /// Print ending summary of files processed. Printed to stderr.
+    /// Print a summary of files processed. Printed to stderr.
     #[clap(
         short,
         long,
@@ -347,7 +396,7 @@ struct CLI_Args {
     summary: bool,
 }
 
-/// CLI argument processing
+/// CLI argument processing.
 fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     // TODO: there must be a more concise way to parse numbers with radix formatting
     let blocksz_: BlockSz;
@@ -383,8 +432,9 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     Ok(blocksz_)
 }
 
-/// argument validator for clap
-/// see https://github.com/clap-rs/clap/blob/v3.1.6/examples/tutorial_derive/04_02_validate.rs
+/// `clap` argument validator for `--blocksz`.
+///
+/// See <https://github.com/clap-rs/clap/blob/v3.1.6/examples/tutorial_derive/04_02_validate.rs>
 fn cli_validate_blocksz(blockszs: &str) -> clap::Result<(), String> {
     match cli_process_blocksz(&String::from(blockszs)) {
         Ok(_) => {},
@@ -430,7 +480,7 @@ fn cli_process_tz_offset(tzo: &String) -> std::result::Result<FixedOffset, Strin
     Ok(fo)
 }
 
-/// argument validator for clap
+/// `clap` argument validator for `--tz-offset`.
 fn cli_validate_tz_offset(tz_offset: &str) -> std::result::Result<(), String> {
     match cli_process_tz_offset(&String::from(tz_offset)) {
         Ok(_) => Ok(()),
@@ -438,7 +488,11 @@ fn cli_validate_tz_offset(tz_offset: &str) -> std::result::Result<(), String> {
     }
 }
 
-/// helper to `cli_process_args`
+/// Transform a user-passed datetime `String` into a [`DateTimeL`].
+///
+/// Helper function to function `cli_process_args`.
+///
+/// [`DateTimeL`]: s4lib::data::datetime::DateTimeL
 fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeLOpt {
     // parse datetime filters
     match dts {
@@ -474,8 +528,9 @@ fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeLOpt {
     }
 }
 
-/// process passed CLI arguments into types
-/// this function will `std::process::exit` if there is an `Err`
+/// Process user-passed CLI argument strings into expected types.
+///
+/// This function will [`std::process::exit`] if there is an [`Err`].
 fn cli_process_args() -> (
     FPaths,
     BlockSz,
@@ -565,7 +620,9 @@ fn cli_process_args() -> (
 // command-line parsing
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// process user-passed command-line arguments
+/// Process the user-passed command-line arguments.
+/// Start function `processing_loop`.
+/// Determine a process return code.
 pub fn main() -> ExitCode {
     // set once, use `stackdepth_main` to access `_STACKDEPTH_MAIN`
     if cfg!(debug_assertions) {
@@ -640,15 +697,28 @@ pub fn main() -> ExitCode {
 const FILEERRSTUB: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrStub;
 const FILEOK: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileOk;
 
-// TODO: leave a long code comment explaining  why I chose this threading pub-sub approach
+// TODO: leave a long code comment explaining  why I chose this threading
+//       pub-sub approach
 //       see old archived code to see previous attempts
 
-/// Paths are needed as keys. Many such keys are passed around among different threads.
+/// File paths are needed as keys. Many such keys are passed around among
+/// different threads.
 /// Instead of passing clones of `FPath`, pass around a relatively light-weight
 /// `usize` as a key.
-/// The main processing thread uses the `PathId` key to lookup the `FPath`.
+/// The main processing thread uses the `PathId` key for various lookups,
+/// including the file path.
 type PathId = usize;
-/// data to initialize a file processing thread
+
+/// Data to initialize a file processing thread.
+///
+/// * file path `FPath`
+/// * unique path ID `PathId`
+/// * `FileType`
+/// * Block Size `BlockSz`
+/// * optional `DateTimeL` as the _after_ datetime filter
+/// * optional `DateTimeL` as the _before_ datetime filter
+/// * fallback timezone `FixedOffset` for datetime formats without a timezone
+///
 type ThreadInitData = (
     FPath,
     PathId,
@@ -658,23 +728,57 @@ type ThreadInitData = (
     DateTimeLOpt,
     FixedOffset,
 );
-/// just an aliased bool
+
+/// Is this the last [`Sysline`] of the syslog file?
+///
+/// [`Sysline`]: s4lib::data::sysline::Sysline
 type IsSyslineLast = bool;
 
-/// the data sent from file processing thread to the main printing thread
+/// The data sent from file processing thread to the main printing thread.
+///
+/// * optional `Sysline`
+/// * optional `Summary`
+/// * is this the last Sysline?
+/// * `FileProcessingResult`
+///
 type ChanDatum = (SyslineP_Opt, SummaryOpt, IsSyslineLast, FileProcessingResultBlockZero);
+
 type MapPathIdDatum = BTreeMap<PathId, ChanDatum>;
+
 type SetPathId = HashSet<PathId>;
-/// sender channel (used by file processing thread)
+
+/// Sender channel (used by each file processing thread).
+///
+/// Tuple described in [`ChanDatum`].
+///
+/// [`ChanDatum`]: self::ChanDatum
 type ChanSendDatum = crossbeam_channel::Sender<ChanDatum>;
-/// sender channel (used by main printing loop)
+
+/// Receiver channel (used by main printing loop).
+///
+/// Tuple described in [`ChanDatum`].
+///
+/// [`ChanDatum`]: self::ChanDatum
 type ChanRecvDatum = crossbeam_channel::Receiver<ChanDatum>;
+
 type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 
 /// Thread entry point for processing one file.
-/// This creates a `SyslogProcessor` and processes the syslog file `Sysline`s.
-/// Sends each processed `Sysline` through a channel to the main thread which
+///
+/// This creates a [`SyslogProcessor`] and processes the file.<br/>
+/// If it is a syslog file, then continues processing by sending each
+/// processed [`Sysline`] through a [channel] to the main thread which
 /// will print it.
+///
+/// Tuple `chan_send_dt` data described in [`ChanDatum`].
+///
+/// Tuple `thread_init_data` described in [`ThreadInitData`].
+///
+/// [`ThreadInitData`]: self::ThreadInitData
+/// [`ChanDatum`]: self::ChanDatum
+/// [`SyslogProcessor`]: s4lib::readers::syslogprocessor::SyslogProcessor
+/// [`Sysline`]: s4lib::data::sysline::Sysline
+/// [channel]: self::ChanSendDatum
 fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: ThreadInitData) {
     stack_offset_set(Some(2));
     let (
@@ -864,7 +968,8 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
     dpxf!("({:?})", path);
 }
 
-/// statistics to print about main thread's printing
+/// Statistics about the main processing thread's printing activity.
+/// Used with CLI option `--summary`.
 #[derive(Copy, Clone, Default)]
 pub struct SummaryPrinted {
     /// count of bytes printed
@@ -909,11 +1014,11 @@ impl fmt::Debug for SummaryPrinted {
 // TODO: move `SummaryPrinted` into `printer/summary.rs`
 impl SummaryPrinted {
 
-    /// print a `SummaryPrinted` with color on stderr.
+    /// Print a `SummaryPrinted` with color on stderr.
     ///
-    /// mimics debug print but with colorized zero values
-    /// only colorize if associated `SummaryOpt` has corresponding
-    /// non-zero values
+    /// Mimics debug print but with colorized zero values.
+    /// Only colorize if associated `SummaryOpt` has corresponding
+    /// non-zero values.
     pub fn print_colored_stderr(&self, color_choice_opt: Option<ColorChoice>, summary_opt: &SummaryOpt) {
         let sumd = Summary::default();
         let sum_: &Summary = match summary_opt {
@@ -994,7 +1099,7 @@ impl SummaryPrinted {
         eprint!(" }}");
     }
 
-    /// update a `SummaryPrinted` with information from a printed `Sysline`
+    /// Update a `SummaryPrinted` with information from a printed `Sysline`.
     //
     // TODO: 2022/06/21 any way to avoid a `DateTime` copy on every printed sysline?
     fn summaryprint_update(&mut self, syslinep: &SyslineP) {
@@ -1025,9 +1130,9 @@ impl SummaryPrinted {
         };
     }
 
-    /// update a mapping of `PathId` to `SummaryPrinted`.
+    /// Update a mapping of `PathId` to `SummaryPrinted`.
     ///
-    /// helper to `processing_loop`
+    /// Helper function to function `processing_loop`.
     fn summaryprint_map_update(syslinep: &SyslineP, pathid: &PathId, map_: &mut MapPathIdSummaryPrint) {
         dpnxf!();
         match map_.get_mut(pathid) {
@@ -1047,11 +1152,13 @@ type SummaryPrintedOpt = Option<SummaryPrinted>;
 
 // -------------------------------------------------------------------------------------------------
 
-/// print the various caching statistics
+/// Print the various caching statistics.
 const OPT_SUMMARY_PRINT_CACHE_STATS: bool = true;
-/// print the various drop statistics
+
+/// Print the various drop statistics.
 const OPT_SUMMARY_PRINT_DROP_STATS: bool = true;
-/// for printing `--summary` lines, indentation
+
+/// For printing `--summary` lines, indentation.
 const OPT_SUMMARY_PRINT_INDENT: &str = "  ";
 
 // -------------------------------------------------------------------------------------------------
@@ -1059,7 +1166,7 @@ const OPT_SUMMARY_PRINT_INDENT: &str = "  ";
 type MapPathIdSummaryPrint = BTreeMap::<PathId, SummaryPrinted>;
 type MapPathIdSummary = HashMap::<PathId, Summary>;
 
-/// small helper to `processing_loop`
+/// Helper function to function `processing_loop`.
 #[inline(always)]
 fn summary_update(pathid: &PathId, summary: Summary, map_: &mut MapPathIdSummary) {
     if let Some(val) = map_.insert(*pathid, summary) {
@@ -1074,19 +1181,25 @@ type MapPathIdToPrinterSysline = HashMap::<PathId, PrinterSysline>;
 type MapPathIdToFileType = HashMap::<PathId, FileType>;
 type MapPathIdToMimeGuess = HashMap::<PathId, MimeGuess>;
 
-/// the main processing and printing loop:
+/// The main [`Sysline`] processing and printing loop.
 ///
 /// 1. creates threads to process each file
 ///
-/// 2. waits on each thread to receive processed `Sysline` _or_ end
+/// 2. waits on each thread to receive a processed `Sysline`
+///    _or_ a closed [channel]
 ///    a. prints received `Sysline` in datetime order
-///    b. repeat 2. until each thread sends a `Summary`
+///    b. repeat 2. until each thread sends a `IsLastSysline` value `true`
 ///
-/// 3. print each `Summary` (if CLI option `--summary`)
+/// 3. print each [`Summary`] (if CLI option `--summary`)
 ///
-/// This main thread should be the only thread that prints to stdout. In --release
-/// builds, other file processing threads may rarely print messages to stderr.
+/// This main thread should be the only thread that prints to stdout.<br/>
+/// In `--release` builds, other file processing threads may rarely print
+/// messages to stderr.<br/>
+/// In debug builds, other file processing threads print verbosely.
 ///
+/// [`Sysline`]: s4lib::data::sysline::Sysline
+/// [`Summary`]: s4lib::readers::summary::Summary
+/// [channel]: self::ChanRecvDatum
 #[allow(clippy::too_many_arguments)]
 fn processing_loop(
     mut paths_results: ProcessPathResults,
@@ -1652,7 +1765,7 @@ fn processing_loop(
 
 // -------------------------------------------------------------------------------------------------
 
-/// print the filepath name (one line)
+/// Print the filepath name (one line).
 fn print_filepath(
     path: &FPath,
     filetype: &FileType,
@@ -1671,7 +1784,9 @@ fn print_filepath(
     eprintln!();
 }
 
-/// print the `&SummaryOpt` (multiple lines)
+/// Print the (optional) [`Summary`] (multiple lines).
+///
+/// [`Summary`]: s4lib::readers::summary::Summary
 fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
     const OPT_SUMMARY_PRINT_INDENT_UNDER: &str = "                   ";
     match summary_opt {
@@ -1713,7 +1828,9 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
     }
 }
 
-/// print the `&SummaryPrintedOpt` (one line)
+/// Print the (optional) [`&SummaryPrinted`] (one line).
+///
+/// [`&SummaryPrinted`]: self::SummaryPrinted
 fn print_summary_opt_printed(
     summary_print_opt: &SummaryPrintedOpt,
     summary_opt: &SummaryOpt,
@@ -1732,7 +1849,10 @@ fn print_summary_opt_printed(
     eprintln!();
 }
 
-/// print the various `Summary` caching and storage statistics (multiple lines)
+/// Print the various (optional) [`Summary`] caching and storage statistics
+/// (multiple lines).
+///
+/// [`Summary`]: s4lib::readers::summary::Summary
 fn print_cache_stats(summary_opt: &SummaryOpt) {
     if summary_opt.is_none() {
         return;
@@ -1876,7 +1996,10 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     );
 }
 
-/// print the various `Summary` drop error statistics (multiple lines)
+/// Print the (optional) various [`Summary`] drop error statistics
+/// (multiple lines).
+///
+/// [`Summary`]: s4lib::readers::summary::Summary
 fn print_drop_stats(summary_opt: &SummaryOpt) {
     if summary_opt.is_none() {
         return;
@@ -1906,7 +2029,9 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
     );
 }
 
-/// print the `Summary.Error_`, if any (one line)
+/// Print the [`Summary.Error_`], if any (one line).
+///
+/// [`Summary.Error_`]: s4lib::readers::summary::Summary
 fn print_error_summary(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
     match summary_opt.as_ref() {
         Some(summary_) => {
@@ -1927,7 +2052,11 @@ fn print_error_summary(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
     }
 }
 
-/// for one file, print the `Summary` and `SummaryPrinted` (multiple lines)
+/// For one file, print the [`Summary`] and [`SummaryPrinted`]
+/// (multiple lines).
+///
+/// [`Summary`]: s4lib::readers::summary::Summary
+/// [`SummaryPrinted`]: self::SummaryPrinted
 fn print_file_summary(
     path: &FPath,
     filetype: &FileType,
@@ -1950,10 +2079,13 @@ fn print_file_summary(
     print_error_summary(summary_opt, color_choice);
 }
 
-/// printing for CLI option `--summary`
-/// print each files' `Summary` and `SummaryPrinted`
+/// Printing for CLI option `--summary`. Print each files'
+/// [`Summary`] and [`SummaryPrinted`].
 ///
-/// helper to `processing_loop`
+/// Helper function to function `processing_loop`.
+///
+/// [`Summary`]: s4lib::readers::summary::Summary
+/// [`SummaryPrinted`]: self::SummaryPrinted
 #[allow(clippy::too_many_arguments)]
 fn print_all_files_summaries(
     map_pathid_path: &MapPathIdToFPath,
@@ -1984,10 +2116,9 @@ fn print_all_files_summaries(
     }
 }
 
-/// printing for CLI option `--summary`
-/// print an entry for invalid files
+/// Printing for CLI option `--summary`; print an entry for invalid files.
 ///
-/// helper to `processing_loop`
+/// Helper function to function `processing_loop`.
 fn print_files_processpathresult(
     map_pathid_result: &MapPathIdToProcessPathResult,
     color_choice: &ColorChoice,

@@ -1,6 +1,7 @@
 // src/tests/datetime_tests.rs
-//
 // … ≤ ≥ ≠ ≟
+
+//! tests for `datetime.rs` functions
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]

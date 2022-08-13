@@ -1,7 +1,12 @@
 // src/printer/printers.rs
-//
-// printing - printer functions and helpers
-//
+
+//! Specialized printer struct [`PrinterSysline`] and helper functions
+//! for printing [`Sysline`s].
+//!
+//! Byte-oriented printing (no `char`s).
+//!
+//! [`PrinterSysline`]: self::PrinterSysline
+//! [`Sysline`s]: crate::data::sysline::Sysline
 
 use std::io::Write;  // for `std::io::Stdout.flush`
 use std::io::Result;
@@ -23,6 +28,7 @@ use crate::printer_debug::printers::{
 };
 
 extern crate termcolor;
+#[doc(hidden)]
 pub use termcolor::{
     Color,
     ColorChoice,
@@ -54,20 +60,36 @@ use more_asserts::{
 // globals and constants
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-pub const COLOR_DATETIME: Color = Color::Green;
+//pub const COLOR_DATETIME: Color = Color::Green;
 
+/// [`Color`] for printing prepended data like datetime, file name, etc.
+///
+/// [`Color`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
+pub const COLOR_DEFAULT: Color = Color::White;
+
+/// [`Color`] for printing some user-facing error messages.
+///
+/// [`Color`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
 pub const COLOR_ERROR: Color = Color::Red;
 
-/// A preselection of colors for printing syslines and file names.
+/// A preselection of [`Color`s] for printing syslines.
 /// Chosen for a dark background console.
-const COLORS_TEXT: [Color; 29] = [
+///
+/// A decent reference for RGB colors is
+/// <https://www.rapidtables.com/web/color/RGB_Color.html>.
+///
+/// [`Color`s]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
+//
+// TODO: It is presumptious to assume a dark background console. Would be good
+//       to react to the console (is it light or dark?) and adjust at run-time.
+//       Not sure if that is possible.
+pub const COLORS_TEXT: [Color; 29] = [
     Color::Yellow,
     Color::Cyan,
     Color::Red,
     Color::Magenta,
-    // decent reference https://www.rapidtables.com/web/color/RGB_Color.html
-    // XXX: colors with low pixel values are difficult to see on dark console backgrounds
-    //      recommend at least one pixel value of 102 or greater
+    // XXX: colors with low pixel values are difficult to see on dark console
+    //      backgrounds recommend at least one pixel value of 102 or greater
     Color::Rgb(102, 0, 0),
     Color::Rgb(102, 102, 0),
     Color::Rgb(127, 0, 0),
@@ -99,13 +121,14 @@ const COLORS_TEXT: [Color; 29] = [
 // helper functions
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// "cached" indexing value for `color_rand`
+/// "Cached" indexing value for `color_rand`.
 ///
 /// XXX: not thread-aware
+#[doc(hidden)]
 #[allow(non_upper_case_globals)]
 static mut _color_at: usize = 0;
 
-/// return a random color from `COLORS`
+/// Return a random color from [`COLORS_TEXT`].
 pub fn color_rand() -> Color {
     let ci: usize;
     unsafe {
@@ -123,7 +146,9 @@ pub fn color_rand() -> Color {
 // PrinterSysline
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// a printer specialized for `Sysline`s
+/// A printer specialized for [`Sysline`s]
+///
+/// [`Sysline`s]: crate::data::sysline::Sysline
 pub struct PrinterSysline {
     /// handle to stdout
     stdout: std::io::Stdout,
@@ -159,6 +184,8 @@ pub struct PrinterSysline {
     color_spec_last: ColorSpec,
 }
 
+/// Macro to write to given stdout. If there is an error then
+/// `return PrinterSyslineResult::Err`.
 macro_rules! write_or_return {
     ($stdout:expr, $slice_:expr) => {
         match $stdout.write_all($slice_) {
@@ -178,8 +205,10 @@ macro_rules! write_or_return {
     };
 }
 
-/// sets output color, only changed if needed.
-/// Unnecessary changes can cause errant bytes printed to the terminal.
+/// Macro that sets output color, only changed if needed.
+///
+/// Unnecessary changes to `set_color` may cause errant formatting bytes to
+/// print to the terminal.
 macro_rules! setcolor_or_return {
     ($stdout:expr, $color_spec:expr, $color_spec_last:expr) => {
         if  $color_spec != $color_spec_last {
@@ -194,7 +223,7 @@ macro_rules! setcolor_or_return {
 
 // XXX: this was a `fn -> PrinterSyslineResult` but due to mutable and immutable error, it would not compile.
 //      So a macro is a decent workaround.
-/// helper to print a single line in color
+/// Macro helper to print a single line in color
 macro_rules! print_color_line {
     ($stdout_color:expr, $linep:expr) => {
         {
@@ -209,7 +238,8 @@ macro_rules! print_color_line {
 // XXX: this marco was originally a `fn -> PrinterSyslineResult` but due to mutable and immutable borrow
 //      error, it would not compile. So this macro is a decent workaround.
 //
-/// helper to print a single line in color and highlight the datetime within the line
+/// Macro helper to print a single line in color and highlight the datetime
+/// within the line
 macro_rules! print_color_line_highlight_dt {
     ($self:expr, $linep:expr, $dt_beg:expr, $dt_end:expr) => {
         {
@@ -290,9 +320,14 @@ macro_rules! print_color_line_highlight_dt {
     }
 }
 
+/// Aliased [`Result`] returned by various [`PrinterSysline`] functions.
+///
+/// [`Result`]: std::io::Result
 pub type PrinterSyslineResult = Result<()>;
 
 impl PrinterSysline {
+
+    /// Create a new `PrinterSysline`.
     pub fn new(
         color_choice: ColorChoice,
         color_sysline: Color,
@@ -307,7 +342,8 @@ impl PrinterSysline {
             ColorChoice::Never => false,
             ColorChoice::Always | ColorChoice::AlwaysAnsi | ColorChoice::Auto => true,
         };
-        let color_spec_default: ColorSpec = ColorSpec::new();
+        let mut color_spec_default: ColorSpec = ColorSpec::new();
+        color_spec_default.set_fg(Some(COLOR_DEFAULT));
         let mut color_spec_sysline: ColorSpec = ColorSpec::new();
         color_spec_sysline.set_fg(Some(color_sysline));
         let mut color_spec_datetime: ColorSpec = ColorSpec::new();
@@ -338,9 +374,11 @@ impl PrinterSysline {
         }
     }
 
-    /// prints the `SyslineP` based on `PrinterSysline` settings
+    /// Prints the [`SyslineP`] based on `PrinterSysline` settings.
     ///
-    /// users should call this function
+    /// Users should call this function.
+    ///
+    /// [`SyslineP`]: crate::data::sysline::SyslineP
     #[inline(always)]
     pub fn print_sysline(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         // TODO: [2022/06/19] how to determine if "Auto" has become Always or Never?
@@ -357,7 +395,9 @@ impl PrinterSysline {
         }
     }
 
-    /// helper to transform `syslinep.dt` to a `String`
+    /// Helper function to transform [`sysline.dt`] to a `String`.
+    ///
+    /// [`sysline.dt`]: crate::data::sysline::Sysline
     #[inline(always)]
     fn datetime_to_string(&mut self, syslinep: &SyslineP) -> String {
         // write the `syslinep.dt` into a `String` once
@@ -375,7 +415,9 @@ impl PrinterSysline {
     }
 
     // TODO: make this a macro and it could be used in all functions
-    /// helper to print lineparts
+    /// Helper function to print [`lineparts`].
+    ///
+    /// [`lineparts`]: crate::data::line::LineParts
     #[inline(always)]
     fn print_line(&self, linep: &LineP, stdout_lock: &mut StdoutLock) -> PrinterSyslineResult {
         for linepart in (*linep).lineparts.iter() {
@@ -389,8 +431,9 @@ impl PrinterSysline {
     // TODO: 2020/06/20 handle common case where Sysline resides entirely
     //       on one block (one `&[u8]` sequence), print entire slice in one write call.
     //       more efficient for common case
-    /// print a `Sysline` without anything special
+    /// Print a `Sysline` without anything special.
     ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_sysline_(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
@@ -400,7 +443,9 @@ impl PrinterSysline {
         stdout_lock.flush()
     }
 
-    /// prints sysline with prepended datetime
+    /// Print a `Sysline` with prepended datetime.
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_sysline_prependdate(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         debug_assert!(self.prepend_date_offset.is_some(), "self.prepend_date_offset is {:?}", self.prepend_date_offset);
 
@@ -414,7 +459,9 @@ impl PrinterSysline {
         stdout_lock.flush()
     }
 
-    /// prints sysline with prepended filename
+    /// prints `Sysline` with prepended filename.
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_sysline_prependfile(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
 
@@ -428,7 +475,9 @@ impl PrinterSysline {
         stdout_lock.flush()
     }
 
-    /// prints sysline with prepended filename and datetime
+    /// Print a [`Sysline`] with prepended filename and datetime.
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_sysline_prependfile_prependdate(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
         debug_assert!(self.prepend_date_offset.is_some(), "self.prepend_date_offset is {:?}", self.prepend_date_offset);
@@ -445,7 +494,9 @@ impl PrinterSysline {
         stdout_lock.flush()
     }
 
-    /// prints `Sysline` in color
+    /// Prints [`Sysline`] in color.
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_color_sysline(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         let mut line_first = true;
         let _stdout_lock = self.stdout.lock();
@@ -466,7 +517,9 @@ impl PrinterSysline {
     }
 
     // TODO: [2022/07] cost-savings: use one-time allocated String buffer to write `dt_string`
-    /// prints `Sysline` in color and prepended datetime
+    /// Print a [`Sysline`] in color and prepended datetime.
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_color_sysline_prependdate(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         let mut line_first = true;
         let dt_string: String = self.datetime_to_string(syslinep);
@@ -489,7 +542,9 @@ impl PrinterSysline {
         self.stdout_color.flush()
     }
 
-    /// prints `Sysline` in color and prepended filename
+    /// Prints [`Sysline`] in color and prepended filename.
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_color_sysline_prependfile(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         let mut line_first = true;
         let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
@@ -512,7 +567,9 @@ impl PrinterSysline {
         self.stdout_color.flush()
     }
 
-    /// prints `Sysline` in color and prepended filename and datetime
+    /// Print a [`Sysline`] in color and prepended filename and datetime.
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_color_sysline_prependfile_prependdate(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         let mut line_first = true;
         let dt_string: String = self.datetime_to_string(syslinep);
@@ -542,13 +599,12 @@ impl PrinterSysline {
 // other printer functions (no use of PrinterSysline)
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// print colored output to terminal if possible choosing using passed stream,
+/// Print colored output to terminal if possible using passed stream,
 /// otherwise, print plain output.
 ///
-/// caller may take stream locks, e.g. `std::io::stdout().lock()`.
+/// Caller should take stream locks, e.g. `std::io::stdout().lock()`.
 ///
-/// See example https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
-///
+/// See an example <https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal>.
 pub fn print_colored(color: Color, value: &[u8], out: &mut termcolor::StandardStream) -> std::io::Result<()> {
     match out.set_color(ColorSpec::new().set_fg(Some(color))) {
         Ok(_) => {}
@@ -576,9 +632,10 @@ pub fn print_colored(color: Color, value: &[u8], out: &mut termcolor::StandardSt
     Ok(())
 }
 
-/// print colored output to terminal on stdout.
+/// Print colored output to terminal on stdout.
 ///
-/// See example https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
+/// See an example <https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal>.
+#[doc(hidden)]
 #[cfg(test)]
 pub fn print_colored_stdout(
     color: Color,
@@ -596,9 +653,9 @@ pub fn print_colored_stdout(
     print_colored(color, value, &mut stdout)
 }
 
-/// print colored output to terminal on stderr.
+/// Print colored output to terminal on stderr.
 ///
-/// See example https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal
+/// See an example <https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal>.
 pub fn print_colored_stderr(
     color: Color,
     color_choice_opt: Option<ColorChoice>,
@@ -615,7 +672,7 @@ pub fn print_colored_stderr(
     print_colored(color, value, &mut stderr)
 }
 
-/// safely write the `buffer` to stdout with help of `StdoutLock`
+/// Safely write the `buffer` to stdout with help of `StdoutLock`.
 pub fn write_stdout(buffer: &[u8]) {
     let stdout = std::io::stdout();
     let mut stdout_lock = stdout.lock();
@@ -640,7 +697,8 @@ pub fn write_stdout(buffer: &[u8]) {
     }
 }
 
-/// safely write the `buffer` to stdout with help of `StderrLock`
+/// Safely write the `buffer` to stdout with help of `StderrLock`.
+#[doc(hidden)]
 #[cfg(test)]
 pub fn write_stderr(buffer: &[u8]) {
     let mut stderr_lock = std::io::stderr().lock();

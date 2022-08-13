@@ -3,6 +3,10 @@
 # run `cargo doc` with preferred options
 #
 
-set -eux
+set -eu
 
-exec cargo doc --no-deps --frozen --release
+cd "$(dirname -- "${0}")/.."
+
+set -x
+
+exec cargo doc --locked --release --frozen --no-deps -v "${@}"

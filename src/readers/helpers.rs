@@ -1,6 +1,6 @@
 // src/readers/helpers.rs
-//
-// miscellaneous helper functions
+
+//! Miscellaneous helper "readers" functions.
 
 use crate::common::{
     FPath,
@@ -15,25 +15,25 @@ use std;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-//// return basename of an `FPath`
+/// Return the basename of an `FPath`.
 pub fn basename(path: &FPath) -> FPath {
     let mut riter = path.rsplit(std::path::MAIN_SEPARATOR);
 
     FPath::from(riter.next().unwrap_or(""))
 }
 
-/// helper for a slightly annoying set of calls
+/// Helper function for a slightly annoying set of calls.
 pub fn path_to_fpath(path: &std::path::Path) -> FPath {
     // `PathBuf` to `String` https://stackoverflow.com/q/37388107/471376
     (*(path.to_string_lossy())).to_string()
 }
 
-/// helper for a slightly annoying set of calls
+/// Helper function for completeness.
 pub fn fpath_to_path(path: &FPath) -> &std::path::Path {
     std::path::Path::new(path)
 }
 
-/// count of `c` in `s`
+/// Count of a `char` in `str`.
 pub fn count_chars_in_str(s: &str, c: char) -> usize {
     let mut count: usize = 0;
     for c_ in s.chars() {
@@ -45,7 +45,7 @@ pub fn count_chars_in_str(s: &str, c: char) -> usize {
     count
 }
 
-/// count number of file extensions in the file name, e.g. count `'.'`
+/// Count number of file extensions in the file name, e.g. count `'.'`.
 pub fn filename_count_extensions(path: &std::path::Path) -> usize {
     let file_name_osstr: &std::ffi::OsStr = match path.file_name() {
         Some(val) => val,
@@ -58,9 +58,9 @@ pub fn filename_count_extensions(path: &std::path::Path) -> usize {
     count_chars_in_str(&file_name, '.')
 }
 
-/// remove the extension from a `Path`.
+/// Remove the extension from a `Path`.
 ///
-/// if no extension (no `'.'`) or other problems then return `None`
+/// If no extension (no `'.'`) or other problems then return `None`.
 ///
 /// XXX: not efficient
 pub fn remove_extension(path: &std::path::Path) -> Option<FPath> {
@@ -76,7 +76,8 @@ pub fn remove_extension(path: &std::path::Path) -> Option<FPath> {
     Some(path_to_fpath(path2))
 }
 
-/// testing helper
+/// Testing helper.
+#[doc(hidden)]
 #[cfg(test)]
 pub fn randomize(v_: &mut Vec<FileOffset>) {
     // XXX: can also use `rand::shuffle` https://docs.rs/rand/0.8.4/rand/seq/trait.SliceRandom.html#tymethod.shuffle
@@ -90,6 +91,7 @@ pub fn randomize(v_: &mut Vec<FileOffset>) {
 }
 
 /// testing helper
+#[doc(hidden)]
 #[cfg(test)]
 pub fn fill(v_: &mut Vec<FileOffset>) {
     let sz = v_.capacity();

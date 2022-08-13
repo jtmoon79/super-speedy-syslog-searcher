@@ -1,8 +1,13 @@
 // src/readers/blockreader.rs
-//
-// Blocks and BlockReader implementations
 // …
 
+//! Implements [`Block`s] and [`BlockReader`], the driver of reading bytes
+//! from a file.
+//!
+//! [`Block`s]: crate::readers::blockreader::Block
+//! [`BlockReader`]: crate::readers::blockreader::BlockReader
+
+#[doc(hidden)]
 pub use crate::common::{
     Count,
     FPath,
@@ -80,47 +85,78 @@ use more_asserts::{
     debug_assert_le,
 };
 
+// For gzip files.
 extern crate flate2;
 use flate2::read::GzDecoder;
 use flate2::GzHeader;
 
-// crate `lzma-rs` is the only pure rust crate.
+// For xz files.
+// Crate `lzma-rs` is the only pure rust crate.
 // Other crates interface to liblzma which not ideal.
 extern crate lzma_rs;
 
+// For tar files.
+extern crate tar;
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// Block Size in bytes
+/// [`Block`] Size in bytes.
 pub type BlockSz = u64;
-/// Byte offset (Index) _into_ a `Block` from beginning of `Block`. zero first.
+
+/// Byte offset (Index) _into_ a [`Block`] from the beginning of that `Block`.
+/// Zero based.
+///
 pub type BlockIndex = usize;
-/// Offset into a file in `Block`s, depends on `BlockSz` runtime value. zero first.
+
+/// Offset into a file in [`Block`s], depends on `BlockSz` runtime value.
+/// Zero based.
+///
+/// [`Block`s]: self::Block
 pub type BlockOffset = u64;
-/// Block of bytes data read from some file storage
+
+/// A _block_ of bytes read from some file.
 pub type Block = Vec<u8>;
-/// thread-safe Atomic Reference Counting Pointer to a `Block`
+
+/// Thread-safe [Atomic Reference Counting Pointer] to a [`Block`].
+///
+/// [Atomic Reference Counting Pointer]: std::sync::Arc
+/// [`Block`]: self::Block
 pub type BlockP = Arc<Block>;
 
+/// A sequence of byte slices.
 pub type Slices<'a> = Vec<&'a [u8]>;
-/// tracker of `BlockP`
+
+/// Map of `BlockOffset` to `BlockP` pointers.
 pub type Blocks = BTreeMap<BlockOffset, BlockP>;
-/// tracker of `BlockOffset` that have been rad
+
+/// History of `BlockOffset` that have been read by a [`BlockReader].
 pub type BlocksTracked = BTreeSet<BlockOffset>;
+
+/// Internal fast [LRU cache] used by [`BlockReader] in the `read_block` function.
+///
+/// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
 pub type BlocksLRUCache = LruCache<BlockOffset, BlockP>;
 
+/// A typed [`ResultS3`] for function `read_block`.
+///
+/// [`ResultS3`]: crate::common::ResultS3
 #[allow(non_upper_case_globals)]
 pub type ResultS3ReadBlock = ResultS3<BlockP, Error>;
-/// minimum Block Size (inclusive)
+
+/// Absolute minimum Block Size in bytes (inclusive).
 pub const BLOCKSZ_MIN: BlockSz = 1;
-/// maximum Block Size (inclusive)
+
+/// Absolute maximum Block Size in bytes (inclusive).
 pub const BLOCKSZ_MAX: BlockSz = 0xFFFFFF;
-/// default Block Size
+
+/// Default [`Block`] Size in bytes.
 pub const BLOCKSZ_DEF: usize = 0xFFFF;
 
-/// data and readers for a gzip `.gz` file
+/// Data and readers for a gzip `.gz` file, used by [`BlockReader`].
 #[derive(Debug)]
 pub struct GzData {
-    /// size of file uncompressed, taken from trailing gzip file data
+    /// size of file uncompressed, taken from trailing gzip file data.
+    /// Users should call `blockreader.filesz()`.
     pub filesz: FileSz,
     /// calls to `read` use this
     pub decoder: GzDecoder<File>,
@@ -128,7 +164,7 @@ pub struct GzData {
     pub filename: String,
     /// file modified time taken from gzip header
     ///
-    /// From https://datatracker.ietf.org/doc/html/rfc1952#page-7
+    /// From <https://datatracker.ietf.org/doc/html/rfc1952#page-7>
     ///
     /// > MTIME (Modification TIME)
     /// > This gives the most recent modification time of the original
@@ -147,134 +183,187 @@ pub struct GzData {
 
 type BufReaderXz = BufReader<File>;
 
-/// data and readers for a LZMA `.xz` file
+/// Data and readers for a LZMA `.xz` file, used by [`BlockReader`].
 #[derive(Debug)]
 pub struct XzData {
-    /// size of file uncompressed
+    /// Size of file uncompressed.
+    /// Users should call `blockreader.filesz()`.
     pub filesz: FileSz,
+    /// [`BufReader`] to the [`File`] used by [`lzma_rs`] crate.
+    ///
+    /// [`BufReader`]: std::io::BufReader
+    /// [`File`]: std::fs::File
+    /// [`lzma_rs`]: https://docs.rs/lzma-rs/0.2.0/lzma_rs/index.html
     pub bufreader: BufReaderXz,
 }
 
 // TODO: Issue #7
 //       it is not impossible for paths to have ':', use '\0' instead
-//       which should never be in a path. But use ':' when printing paths.
+//       is even less likely to be in a path. But use ':' when printing paths.
 
-/// separator substring for a filesystem path and subpath within an archive
-/// e.g. `path/logs.tar:logs/syslog`
+/// Separator `char` symbol for a filesystem path and subpath within a
+/// compressed file or an archive file. Used by an [`FPath`].
+///
+/// e.g. `path/logs.tar:logs/syslog`<br/>
+/// e.g. `log.xz:syslog`
+///
+/// [`FPath`]: crate::common::FPath
 pub const SUBPATH_SEP: char = ':';
 
+/// crate `tar` handle for a plain `File`.
 type TarHandle = tar::Archive::<File>;
-/// taken from `tar::Archive::<File>::headers()`
+
+/// _Checksum_ copied from [`tar::Archive::<File>::headers()`].
+///
+/// Described at <https://www.gnu.org/software/tar/manual/html_node/Standard.html>
+/// under `char chksum[8];`.
+///
+/// [`tar::Archive::<File>::headers()`]: https://docs.rs/tar/0.4.38/tar/struct.Header.html
 type TarChecksum = u32;
-/// taken from `tar::Archive::<File>::headers()`
+
+/// _Modified Systemtime_ copied [`tar::Archive::<File>::headers()`].
+///
+/// Described at <https://www.gnu.org/software/tar/manual/html_node/Standard.html>
+/// under `char mtime[12];`.
+///
+/// [`tar::Archive::<File>::headers()`]: https://docs.rs/tar/0.4.38/tar/struct.Header.html
 type TarMTime = u64;
 
-/// data and readers for a file within a `.tar` file
+/// Data and readers for a file within a `.tar` file, used by [`BlockReader`].
 pub struct TarData {
-    /// size of file unarchived
+    /// Size of the file unarchived.
     pub filesz: FileSz,
-    /// iteration count of `tar::Archive::entries_with_seek`
-    pub entry_index: usize,
-    /// checksum retreived from tar header
-    pub checksum: TarChecksum,
-    /// modified time retreived from tar header
+    /// Iteration count of [`tar::Archive::entries_with_seek`].
     ///
-    /// from https://www.gnu.org/software/tar/manual/html_node/Standard.html
+    /// [`tar::Archive::entries_with_seek`]: https://docs.rs/tar/0.4.38/tar/struct.Archive.html#method.entries_with_seek
+    pub entry_index: usize,
+    /// Checksum retreived from tar header.
+    pub checksum: TarChecksum,
+    /// Modified systemtime retreived from tar header.
+    ///
+    /// From <https://www.gnu.org/software/tar/manual/html_node/Standard.html>
+    ///
     /// > The mtime field represents the data modification time of the file at
     /// > the time it was archived. It represents the integer number of seconds
     /// > since January 1, 1970, 00:00 Coordinated Universal Time.
+    ///
     pub mtime: TarMTime,
 }
 
-/// A `BlockReader` reads a file in `BlockSz` byte-sized `Block`s. It interfaces
-/// with the filesystem (or any other data retreival method). It handles the
-/// lookup and storage of `Block`s of data.
+/// A `BlockReader` reads a file in `BlockSz` byte-sized [`Block`s]. It
+/// interfaces with the filesystem. It handles reading from specialized
+/// storage files like
+/// compressed files (`.gz`, `.xz`) and archive files (`.tar`).
+/// `BlockReader` handles the run-time in-memory storage the `Block`s of data
+/// it reads.
 ///
-/// A `BlockReader` uses it's `FileType` to determine how to handle files.
+/// A `BlockReader` uses the passed [`FileType`] to determine how to handle
+/// files.
 /// This includes reading bytes from files (e.g. `.log`),
-/// compressed files (e.g. `.gz`), and archive files (e.g. `.tar`).
+/// compressed files (e.g. `.gz`, `.xz`), and archive files (e.g. `.tar`).
 ///
-/// One `BlockReader` corresponds to one file. For archive files, one `BlockReader`
-/// handles only one file *within* the archive file.
+/// One `BlockReader` corresponds to one file. For archive files and
+/// compressed files, one `BlockReader` handles only one file *within*
+/// the archive or compressed file.
 ///
-/// A `BlockReader` does not know about `char`s (a `LineReader` does).
+/// A `BlockReader` does not know about `char`s, only bytes `u8`.
 ///
-/// XXX: not a rust "Reader"; does not implement trait `Read`
+/// _XXX: not a rust "Reader"; does not implement trait [`Read`]._
 ///
+/// [`Block`s]: self::Block
+/// [`FileType`]: crate::common::FileType
+/// [`LineReader`]: crate::readers::linereader::LineReader
+/// [`Read`]: std::io::Read
 pub struct BlockReader {
-    /// Path to file
+    /// Path to the file.
     path: FPath,
-    /// subpath to file, only for `filetype.is_archived()` files
-    subpath: Option<FPath>,
-    /// File handle
+    /// Subpath to file. Only for `filetype.is_archived()` files.
+    // XXX: Relates to Issue #7
+    _subpath: Option<FPath>,
+    /// The file handle.
     file: File,
-    /// File.metadata()
-    ///
+    /// A copy of [`File.metadata()`].
     /// For compressed or archived files, the metadata of the `path`
     /// compress or archive file.
-    file_metadata: FileMetadata,
-    /// copy of `self.file_metadata.modified()`, copied during `new()`
     ///
-    /// to simplify later retrievals
+    /// [`File.metadata()`]: std::fs::Metadata
+    file_metadata: FileMetadata,
+    /// A copy of [`self.file_metadata.modified()`].
+    /// Copied during function `new()`.
+    ///
+    /// To simplify later retrievals.
+    ///
+    /// [`self.file_metadata.modified()`]: std::fs::Metadata
     pub(crate) file_metadata_modified: SystemTime,
-    /// The `MimeGuess::from_path` result
+    /// The [`MimeGuess::from_path`] result.
+    ///
+    /// [`MimeGuess::from_path`]: https://docs.rs/mime_guess/2.0.4/mime_guess/fn.from_path.html
     mimeguess_: MimeGuess,
-    /// enum that guides file-handling behavior in `read`, `new`
+    /// Enum that guides file-handling behavior in functions `read`, and `new`.
     filetype: FileType,
-    /// For gzipped files (FileType::FileGz), otherwise `None`
+    /// For gzipped files ([FileType::FileGz]), otherwise `None`.
+    ///
+    /// [FileType::FileGz]: crate::common::FileType
     gz: Option<GzData>,
-    /// For LZMA xz files (FileType::FileXz), otherwise `None`
+    /// For LZMA xz files ([FileType::FileXz]), otherwise `None`.
+    ///
+    /// [FileType::FileXz]: crate::common::FileType
     xz: Option<XzData>,
-    /// for files within a `.tar` file (FileType::FileTar), otherwise `None`
+    /// For files within a `.tar` file (FileType::FileTar), otherwise `None`.
     tar: Option<TarData>,
     /// The filesz of uncompressed data, set during `new`.
-    /// Should always be `== gz.unwrap().filesz`.
-    ///
     /// Users should always call `filesz()`.
     pub(crate) filesz_actual: FileSz,
-    /// File size in bytes of file at `path`, actual size.
+    /// File size in bytes of file at `self.path`, actual size.
+    /// Users should always call `filesz()`.
+    ///
     /// For compressed files, this is the size of the file compressed.
     /// For the uncompressed size of a compressed file, see `filesz_actual`.
     /// Set in `open`.
     ///
     /// For regular files (not compressed or archived),
     /// `filesz` and `filesz_actual` will be the same.
-    ///
-    /// Users should always call `filesz()`.
     pub(crate) filesz: FileSz,
-    /// File size in blocks, set in `open`.
+    /// File size in `Block`s, set in `open`.
     pub(crate) blockn: u64,
-    /// standard `Block` size in bytes; all `Block`s are this size except the
+    /// Standard `Block` size in bytes. All `Block`s are this size except the
     /// last `Block` which may this size or smaller (and not zero).
     pub(crate) blocksz: BlockSz,
-    /// Count of bytes stored by the `BlockReader`.
+    /// `Count` of bytes stored by the `BlockReader`.
+    ///
     /// May not match `self.blocks.iter().map(|x| sum += x.len()); sum` as
     /// `self.blocks` may have some elements `drop`ped during streaming.
     count_bytes_: Count,
-    /// Storage of blocks `read` from storage. Lookups O(log(n)).
+    /// Storage of blocks `read` from storage. Lookups O(log(n)). May `drop`
+    /// data.
     ///
-    /// During file processing, some elements that are not needed may be `drop`ped.
+    /// During file processing, some elements that are not needed may be
+    /// `drop`ped.
     blocks: Blocks,
-    /// track blocks read in `read_block`. Never drops data.
+    /// Track blocks read in `read_block`. Never drops data.
     ///
-    /// useful for when streaming kicks-in and some key+vale of `self.blocks` have
-    /// been dropped.
+    /// Useful for when streaming kicks-in and some key+value of `self.blocks`
+    /// have been dropped.
     blocks_read: BlocksTracked,
-    /// internal LRU cache for `fn read_block()`. Lookups O(1).
+    /// Internal [LRU cache] for `fn read_block()`. Lookups _O(1)_.
+    ///
+    /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
     read_block_lru_cache: BlocksLRUCache,
-    /// enable/disable use of `read_block_lru_cache`
+    /// Enable or disable use of `read_block_lru_cache`.
+    ///
+    /// Users should call functions `LRU_cache_enable` or `LRU_cache_disable`.
     read_block_lru_cache_enabled: bool,
-    /// internal LRU cache count of lookup hits
+    /// Internal LRU cache `Count` of lookup hits.
     pub(crate) read_block_cache_lru_hit: Count,
-    /// internal LRU cache count of lookup misses
+    /// Internal LRU cache `Count` of lookup misses.
     pub(crate) read_block_cache_lru_miss: Count,
-    /// internal LRU cache count of lookup `.put`
+    /// Internal LRU cache `Count` of lookup `.put`.
     pub(crate) read_block_cache_lru_put: Count,
-    /// internal storage count of lookup hit
+    /// Internal storage `Count` of lookup hit.
     pub(crate) read_blocks_hit: Count,
-    /// internal storage count of lookup miss
+    /// Internal storage `Count` of lookup miss.
     pub(crate) read_blocks_miss: Count,
-    /// internal storage count of `self.blocks.insert`
+    /// Internal storage `Count` of `self.blocks.insert`.
     pub(crate) read_blocks_put: Count,
 }
 
@@ -301,9 +390,13 @@ impl fmt::Debug for BlockReader {
     }
 }
 
-/// helper to unpack DWORD unsigned integers in a gzip header
+/// Helper to unpack DWORD unsigned integers in a gzip header.
 ///
-/// XXX: `u32::from_*_bytes` failed for test file compressed with GNU gzip 1.10
+/// The rust built-in [`u32::from_be_bytes`] and [`u32::from_le_bytes`] failed for test file compressed
+/// with GNU gzip 1.10.
+///
+/// [`u32::from_be_bytes`]: https://doc.rust-lang.org/std/primitive.u32.html#method.from_be_bytes
+/// [`u32::from_le_bytes`]: https://doc.rust-lang.org/std/primitive.u32.html#method.from_le_bytes
 const fn dword_to_u32(buf: &[u8; 4]) -> u32 {
     let mut buf_: [u8; 4] = [0; 4];
     buf_[0] = buf[3];
@@ -314,23 +407,27 @@ const fn dword_to_u32(buf: &[u8; 4]) -> u32 {
     u32::from_be_bytes(buf_)
 }
 
-/// implement the BlockReader things
+/// Implements the `BlockReader`.
 impl BlockReader {
-    /// maximum size of a gzip compressed file that will be processed.
+    /// Maximum size of a gzip compressed file that will be processed.
     ///
-    /// XXX: The gzip standard stores uncompressed "media stream" bytes size in within
-    ///      32 bits, 4 bytes. A larger uncompressed size 0xFFFFFFFF will store the modulo.
-    ///      So there is no certain way to determine the size of the "media stream".
-    ///      This terrible hack just aborts processing .gz files that might be over that
-    ///      size.
+    /// XXX: The gzip standard stores uncompressed "media stream" bytes size in
+    ///      within 32 bits, 4 bytes. A larger uncompressed size 0xFFFFFFFF
+    ///      will store the modulo.
+    ///      So there is no certain way to determine the size of the
+    ///      "media stream".
+    ///      This terrible hack just aborts processing .gz files that might be
+    ///      over that size.
     ///      Issue #8
     const GZ_MAX_SZ: FileSz = 0x20000000;
-    /// cache slots for `read_block` LRU cache
+
+    /// Cache slots for `read_block` LRU cache.
     const READ_BLOCK_LRU_CACHE_SZ: usize = 4;
 
     /// Create a new `BlockReader`.
     ///
-    /// Opens the `path` file, configures settings based on determined `filetype`.
+    /// Opens the file at `path`. Configures settings based on passed
+    /// `FileType`.
     pub fn new(path: FPath, filetype: FileType, blocksz_: BlockSz) -> Result<BlockReader> {
         dpn!("BlockReader::new({:?}, {:?}, {:?})", path, filetype, blocksz_);
 
@@ -743,7 +840,7 @@ impl BlockReader {
                     Ok(_) => {},
                     Err(err) => {
                         dpxf!("FileXz: return Err({})", err);
-                        eprintln!("ERROR: file.SeekFrom(0) Error {}", err);
+                        eprintln!("ERROR: FileXz: file.SeekFrom(0) Error {}", err);
                         return Err(err);
                     },
                 };
@@ -755,7 +852,7 @@ impl BlockReader {
                     Ok(_) => {},
                     Err(err) => {
                         dpxf!("FileXz: return {:?}", err);
-                        eprintln!("reader.read_exact() (stream header magic bytes) Error {:?}", err);
+                        eprintln!("ERROR: FileXz: reader.read_exact() (stream header magic bytes) Error {:?}", err);
                         return Err(err);
                     },
                 }
@@ -786,7 +883,7 @@ impl BlockReader {
                     Ok(_) => {},
                     Err(err) => {
                         dpxf!("FileXz: return {:?}", err);
-                        eprintln!("reader.read_exact() (stream header flags) Error {:?}", err);
+                        eprintln!("ERROR: FileXz: reader.read_exact() (stream header flags) Error {:?}", err);
                         return Err(err);
                     },
                 }
@@ -800,7 +897,7 @@ impl BlockReader {
                     Ok(_) => {},
                     Err(err) => {
                         dpxf!("FileXz: return {:?}", err);
-                        eprintln!("reader.read_exact() (stream header CRC32) Error {:?}", err);
+                        eprintln!("ERROR: FileXz: reader.read_exact() (stream header CRC32) Error {:?}", err);
                         return Err(err);
                     },
                 }
@@ -814,7 +911,7 @@ impl BlockReader {
                     Ok(_) => {},
                     Err(err) => {
                         dpxf!("FileXz: return {:?}", err);
-                        eprintln!("reader.read_exact() (block #0 block header size) Error {:?}", err);
+                        eprintln!("ERROR: FileXz: reader.read_exact() (block #0 block header size) Error {:?}", err);
                         return Err(err);
                     },
                 }
@@ -828,7 +925,7 @@ impl BlockReader {
                     Ok(_) => {},
                     Err(err) => {
                         dpxf!("FileXz: return {:?}", err);
-                        eprintln!("reader.read_exact() (block #0 block header flags) Error {:?}", err);
+                        eprintln!("ERROR: FileXz: reader.read_exact() (block #0 block header flags) Error {:?}", err);
                         return Err(err);
                     },
                 }
@@ -841,7 +938,7 @@ impl BlockReader {
                     Ok(_) => {},
                     Err(err) => {
                         dpxf!("FileXz: return {:?}", err);
-                        eprintln!("file_xz.seek() (block #0 block header flags) Error {:?}", err);
+                        eprintln!("ERROR: FileXz: file_xz.seek(0) (block #0 block header flags) Error {:?}", err);
                         return Err(err);
                     }
                 }
@@ -849,10 +946,17 @@ impl BlockReader {
                 let mut bufreader: BufReaderXz = BufReaderXz::new(file_xz);
 
                 // TODO: Issue #12
-                //      THIS IS A TERRIBLE HACK!
-                //      read the entire file into blocks in one go!
-                //      putting this here until the implementation of reading the header/blocks
-                //      of the underlying .xz file
+                //       This is a hack!
+                //       Read the entire xz file into blocks in one loop!
+                //       Extracting the size from the header is really tedious
+                //       (I haven't implemented it). So the file size is only known from
+                //       decompressing the entire file here (and counting the bytes returned).
+                //       The `self.filesz_actual` must be set before exiting this function `new`,
+                //       else various byte offset and block offset calcutions will fail, and the
+                //       processing of this file will fail.
+                //       The `lzma_rs` crate does not provide file size for xz files.
+                //       Putting this hack here until the implementation of reading the
+                //       header/blocks of the underlying .xz file
                 #[allow(clippy::never_loop)]
                 loop {
                     let mut buffer = Block::new();
@@ -973,7 +1077,7 @@ impl BlockReader {
                     checksum = match entry.header().cksum() {
                         Ok(val) => val,
                         Err(err) => {
-                            dpo!("FileTar: entry.header().cksum() Err {:?}", err);
+                            dpof!("FileTar: entry.header().cksum() Err {:?}", err);
 
                             0
                         }
@@ -981,7 +1085,7 @@ impl BlockReader {
                     mtime = match entry.header().mtime() {
                         Ok(val) => val,
                         Err(err) => {
-                            dpo!("FileTar: entry.header().mtime() Err {:?}", err);
+                            dpof!("FileTar: entry.header().mtime() Err {:?}", err);
 
                             0
                         }
@@ -1018,7 +1122,7 @@ impl BlockReader {
         Ok(
             BlockReader {
                 path,
-                subpath: subpath_opt,
+                _subpath: subpath_opt,
                 file,
                 file_metadata,
                 file_metadata_modified,
@@ -1046,17 +1150,28 @@ impl BlockReader {
         )
     }
 
-    /// File path
+    /// Reference to the file path `self.path`.
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
         &self.path
     }
 
+    /// Return a copy of `self.mimeguess`.
     #[inline(always)]
     pub const fn mimeguess(&self) -> MimeGuess {
         self.mimeguess_
     }
 
+    /// Return the file size in bytes.
+    ///
+    /// For compressed or archived files, returns the original file size
+    /// (uncompressed or unarchived) as found in the header.
+    ///
+    /// An exception is `.xz` files, which are entirely read during function
+    /// `new`, and the file size determined from the uncompressed bytes.
+    /// See Issue #12.
+    ///
+    /// For plain files, returns the file size reported by the filesystem.
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
             FileType::FileGz
@@ -1073,26 +1188,30 @@ impl BlockReader {
         }
     }
 
+    /// Return a copy of `self.filetype`.
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.filetype
     }
 
-    /// return a copy of `self.file_metadata`
+    /// Return a copy of `self.file_metadata`.
     pub fn metadata(&self) -> Metadata {
         self.file_metadata.clone()
     }
 
-    /// get the best available "Modified Datetime" file attribute avaiable.
+    /// Get the best available "Modified Datetime" file attribute avaiable.
     ///
-    /// For compressed or archived files, if the embedded "MTIME" is not available then
-    /// return the encompassing file's "MTIME".
+    /// For compressed or archived files, use the copied header-embedded
+    /// "MTIME".
+    /// If the embedded "MTIME" is not available then return the encompassing
+    /// file's "MTIME".
     ///
-    /// For example, if archived file `syslog` within archive `logs.tar` does not have a valid
-    /// "MTIME", then return the file system attribute "modified time" for `logs.tar`.
+    /// For example, if archived file `syslog` within archive `logs.tar` does
+    /// not have a valid "MTIME", then return the file system attribute
+    /// "modified time" for `logs.tar`.
     //
-    // TODO: also handle when `self.file_metadata_modified` is zero (or a non-meaningful placeholder
-    //       value).
+    // TODO: also handle when `self.file_metadata_modified` is zero
+    //       (or a non-meaningful placeholder value).
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
             FileType::File
@@ -1129,47 +1248,39 @@ impl BlockReader {
     //       But keep the public static version available for testing.
     //       Change the LineReader calls to call `self.blockreader....`
 
-    /// return preceding block offset at given file byte offset
+    /// Return preceding block offset at given file byte offset.
     #[inline(always)]
     pub const fn block_offset_at_file_offset(file_offset: FileOffset, blocksz: BlockSz) -> BlockOffset {
         (file_offset / blocksz) as BlockOffset
     }
 
-    /// return file_offset (byte offset) at given `BlockOffset`
+    /// Return `FileOffset` (byte offset) at given `BlockOffset`.
     #[inline(always)]
     pub const fn file_offset_at_block_offset(block_offset: BlockOffset, blocksz: BlockSz) -> FileOffset {
         (block_offset * blocksz) as BlockOffset
     }
 
-    /// return file_offset (byte offset) at given `BlockOffset`
+    /// Return `FileOffset` (byte offset) at given `BlockOffset`.
     #[inline(always)]
     pub const fn file_offset_at_block_offset_self(&self, block_offset: BlockOffset) -> FileOffset {
         (block_offset * self.blocksz) as BlockOffset
     }
 
-    /// return file_offset (file byte offset) at blockoffset+blockindex
+    /// Return `FileOffset` (byte offset) at `BlockOffset` + `BlockIndex`.
     #[inline(always)]
     pub const fn file_offset_at_block_offset_index(
         blockoffset: BlockOffset, blocksz: BlockSz, blockindex: BlockIndex,
     ) -> FileOffset {
-        /*
-        assert_lt!(
-            (blockindex as BlockSz),
-            blocksz,
-            "BlockIndex {} should not be greater or equal to BlockSz {}",
-            blockindex,
-            blocksz
-        );
-        */
         BlockReader::file_offset_at_block_offset(blockoffset, blocksz) + (blockindex as FileOffset)
     }
 
-    /// get the last byte index of the file
+    /// Get the last byte `FileOffset` (index) of the file.
     pub const fn fileoffset_last(&self) -> FileOffset {
         (self.filesz() - 1) as FileOffset
     }
 
-    /// return block_index (byte offset into a `Block`) for `Block` that corresponds to `FileOffset`
+    /// Return `BlockIndex` (byte offset into a `Block`) for the `Block` that
+    /// corresponds to the passed `FileOffset`.
     #[inline(always)]
     pub const fn block_index_at_file_offset(file_offset: FileOffset, blocksz: BlockSz) -> BlockIndex {
         (file_offset
@@ -1180,13 +1291,19 @@ impl BlockReader {
         ) as BlockIndex
     }
 
-    /// return count of blocks in a file
+    /// Return `Count` of `Block`s in a file.
+    ///
+    /// Equivalent to the _last `BlockOffset` + 1_.
+    ///
+    /// Not a count of `Block`s that have been read; the calculated
+    /// count of `Block`s based on the `FileSz`.
     #[inline(always)]
     pub const fn count_blocks(filesz: FileSz, blocksz: BlockSz) -> Count {
         filesz / blocksz + (if filesz % blocksz > 0 { 1 } else { 0 })
     }
 
-    /// specific `BlockSz` (size in bytes) of block at `blockoffset`
+    /// Specific `BlockSz` (size in bytes) of block at `BlockOffset`.
+    // TODO: assert this is true when storing a `Block`
     pub fn blocksz_at_blockoffset_(blockoffset: &BlockOffset, blockoffset_last: &BlockOffset, blocksz: &BlockSz, filesz: &FileSz) -> BlockSz {
         dpnxf!("blockreader.blocksz_at_blockoffset_(blockoffset {}, blockoffset_last {}, blocksz {}, filesz {})", blockoffset, blockoffset_last, blocksz, filesz);
         assert_le!(blockoffset, blockoffset_last, "Passed blockoffset {} but blockoffset_last {}", blockoffset, blockoffset_last);
@@ -1205,7 +1322,7 @@ impl BlockReader {
         }
     }
 
-    /// specific `BlockSz` (size in bytes) of block at `blockoffset`
+    /// Specific `BlockSz` (size in bytes) of block at `BlockOffset`.
     ///
     /// This should be `self.blocksz` for all `Block`s except the last, which
     /// should be `>0` and `<=self.blocksz`
@@ -1214,7 +1331,8 @@ impl BlockReader {
         BlockReader::blocksz_at_blockoffset_(blockoffset, &self.blockoffset_last(), &self.blocksz, &self.filesz())
     }
 
-    /// return block.len() for *stored* `Block` at `blockoffset`
+    /// Return `block.len()` for *stored* `Block` at `BlockOffset`.
+    #[doc(hidden)]
     #[inline(always)]
     #[allow(dead_code)]
     pub fn blocklen_at_blockoffset(&self, blockoffset: &BlockOffset) -> usize {
@@ -1226,14 +1344,14 @@ impl BlockReader {
         }
     }
 
-    /// return last valid BlockIndex for block at `blockoffset
+    /// Return last valid `BlockIndex` for block at the `BlockOffset`.
     #[inline(always)]
     #[allow(dead_code)]
     pub fn last_blockindex_at_blockoffset(&self, blockoffset: &BlockOffset) -> BlockIndex {
         (self.blocklen_at_blockoffset(blockoffset) - 1) as BlockIndex
     }
 
-    /// last valid `BlockOffset` for the file (inclusive)
+    /// The last valid `BlockOffset` for the file (inclusive).
     #[inline(always)]
     pub const fn blockoffset_last(&self) -> BlockOffset {
         if self.filesz() == 0 {
@@ -1242,23 +1360,22 @@ impl BlockReader {
         (BlockReader::count_blocks(self.filesz(), self.blocksz) as BlockOffset) - 1
     }
 
-    /// count of blocks read by this `BlockReader` (adjusted during calls to `BlockReader::read_block`)
+    /// `Count` of blocks read by this `BlockReader`.
     ///
-    /// not the same as blocks currently stored (they may be removed during streaming stage)
+    /// Not always the same as blocks currently stored (those may be `drop`ped
+    /// during streaming stage).
     #[inline(always)]
     pub fn count_blocks_processed(&self) -> Count {
         self.blocks_read.len() as Count
     }
 
-    /// count of bytes stored by this `BlockReader` (adjusted during calls to `BlockReader::read_block`)
+    /// `Count` of bytes stored by this `BlockReader`.
     #[inline(always)]
     pub fn count_bytes(&self) -> Count {
         self.count_bytes_
     }
 
-    /// enable internal LRU cache used by `read_block`.
-    ///
-    /// intended to aid testing and debugging
+    /// Enable internal LRU cache used by `read_block`.
     #[allow(non_snake_case)]
     pub fn LRU_cache_enable(&mut self) {
         if self.read_block_lru_cache_enabled {
@@ -1269,18 +1386,16 @@ impl BlockReader {
         self.read_block_lru_cache.resize(BlockReader::READ_BLOCK_LRU_CACHE_SZ);
     }
 
-    /// disable internal LRU cache used by `read_block`.
-    ///
-    /// intended to aid testing and debugging
+    /// Disable internal LRU cache used by `read_block`.
     #[allow(non_snake_case)]
     pub fn LRU_cache_disable(&mut self) {
         self.read_block_lru_cache_enabled = false;
         self.read_block_lru_cache.resize(0);
     }
 
-    /// Drop data associated with `Block` at `blockoffset`.
+    /// Drop data associated with `Block` at `BlockOffset`.
     ///
-    /// Presumes the caller knows what they are doing!
+    /// The caller must know what they are doing!
     pub fn drop_block(&mut self, blockoffset: BlockOffset, bo_dropped: &mut HashSet<BlockOffset>) {
         if bo_dropped.contains(&blockoffset) {
             return;
@@ -1305,7 +1420,7 @@ impl BlockReader {
         }
     }
 
-    /// store clone of `BlockP` in LRU cache
+    /// Store clone of `BlockP` in internal LRU cache.
     #[allow(non_snake_case)]
     fn store_block_in_LRU_cache(&mut self, blockoffset: BlockOffset, blockp: &BlockP) {
         dpo!("LRU cache put({}, BlockP@{:p})", blockoffset, blockp);
@@ -1316,7 +1431,7 @@ impl BlockReader {
         self.read_block_cache_lru_put += 1;
     }
 
-    /// store clone of `BlockP` in `self.blocks` storage.
+    /// Store clone of `BlockP` in `self.blocks` storage.
     fn store_block_in_storage(&mut self, blockoffset: BlockOffset, blockp: &BlockP) {
         dpnxf!("blocks.insert({}, BlockP@{:p} (len {}, capacity {}))", blockoffset, blockp, (*blockp).len(), (*blockp).capacity());
         #[allow(clippy::single_match)]
@@ -1333,9 +1448,12 @@ impl BlockReader {
         }
     }
 
-    /// read up to `blocksz` bytes of data (one `Block`) from a regular filesystem file.
+    /// Read up to `BlockSz` bytes of data (one `Block`) from a regular
+    /// filesystem file ([`FileType::File`]).
     ///
     /// Called from `read_block`.
+    ///
+    /// [`FileType::File`]: crate::common::FileType
     #[allow(non_snake_case)]
     fn read_block_File(&mut self, blockoffset: BlockOffset) -> ResultS3ReadBlock {
         dpnf!("({})", blockoffset);
@@ -1382,14 +1500,18 @@ impl BlockReader {
         ResultS3ReadBlock::Found(blockp)
     }
 
-    /// read a block of data from storage for a compressed gzip file.
+    /// Read a block of data from storage for a compressed gzip file
+    /// ([`FileType::FileGz`]).
     /// `blockoffset` refers to the uncompressed version of the file.
     ///
     /// Called from `read_block`.
     ///
-    /// A gzip file must be read from beginning to end in sequence (cannot jump forward and read).
-    /// So `read_block_FileGz` reads entire file up to passed `blockoffset`, storing each
-    /// decompressed block.
+    /// A `.gz` file must read as a stream, from beginning to end
+    /// (cannot jump forward).
+    /// So read the entire file up to passed `blockoffset`, storing each
+    /// decompressed `Block`.
+    ///
+    /// [`FileType::FileGz`]: crate::common::FileType
     #[allow(non_snake_case)]
     fn read_block_FileGz(&mut self, blockoffset: BlockOffset) -> ResultS3ReadBlock {
         dpnf!("({})", blockoffset);
@@ -1563,13 +1685,18 @@ impl BlockReader {
         ResultS3ReadBlock::Done
     }
 
-    /// read a block of data from storage for a compressed xz file.
+    /// Fead a block of data from storage for a compressed `xz` file
+    /// ([`FileType::FileXz`]).
     /// `blockoffset` refers to the uncompressed version of the file.
     ///
-    /// Called from `read_block`..
+    /// Called from `read_block`.
     ///
-    /// An `.xz` file must read from beginning to end (cannot jump forward and read).
-    /// So read entire file up to passed `blockoffset`, storing each decompressed block
+    /// An `.xz` file must read as a stream, from beginning to end
+    /// (cannot jump forward).
+    /// So read the entire file up to passed `blockoffset`, storing each
+    /// decompressed `Block`.
+    ///
+    /// [`FileType::FileXz`]: crate::common::FileType
     #[allow(non_snake_case)]
     fn read_block_FileXz(&mut self, blockoffset: BlockOffset) -> ResultS3ReadBlock {
         dpnf!("({})", blockoffset);
@@ -1698,20 +1825,25 @@ impl BlockReader {
         ResultS3ReadBlock::Done
     }
 
-    /// read a block of data from a file within a .tar archive file
-    /// `blockoffset` refers to the uncompressed/untarred version of the file.
+    /// Read a block of data from a file within a .tar archive file
+    /// ([`FileType::FileTar`]).
+    /// `BlockOffset` refers to the untarred version of the file.
     ///
     /// Called from `read_block`.
     ///
     /// XXX: This reads the entire file within the `.tar` file during the first call.
     ///      See Issue #13
     ///
-    /// This one big read is due to crate `tar` not providing a method to store `tar::Archive` or
-    /// `tar::Entry` due to inter-instance references and explicit lifetimes.
+    /// This one big read is due to crate `tar` not providing a method to store
+    /// [`tar::Archive`] or [`tar::Entry`] due to inter-instance references and
+    /// explicit lifetimes.
     /// A `tar::Entry` holds a reference to data within the `tar::Archive`.
-    /// I found it impossible to store both related instances and then later utilize the
-    /// `tar::Entry`.
+    /// I found it impossible to store both related instances and then
+    /// later utilize the `tar::Entry`.
     ///
+    /// [`tar::Archive`]: https://docs.rs/tar/0.4.38/tar/struct.Archive.html
+    /// [`tar::Entry`]: https://docs.rs/tar/0.4.38/tar/struct.Entry.html
+    /// [`FileType::FileTar`]: crate::common::FileType
     #[allow(non_snake_case)]
     fn read_block_FileTar(&mut self, blockoffset: BlockOffset) -> ResultS3ReadBlock {
         dpnf!("({})", blockoffset);
@@ -1838,12 +1970,19 @@ impl BlockReader {
         ResultS3ReadBlock::Found(blockp)
     }
 
-    /// read a `Block` of data of max size `self.blocksz` from the file.
-    /// Successful read returns `Found(BlockP)`.
+    /// Read a `Block` of data of max size `self.blocksz` from the file.
     ///
-    /// When reached the end of the file, and no data was read returns `Done`.
+    /// A successful read returns [`Found(BlockP)`].
     ///
-    /// All other `File` and `std::io` errors are propagated to the caller in `Err`
+    /// When at or past the end of the file and no data was read, returns
+    /// [`Done`].
+    ///
+    /// All other `File` and `std::io` errors are propagated to the caller
+    /// in [`Err`].
+    ///
+    /// [`Found(BlockP)`]: crate::common::ResultS3
+    /// [`Done`]: crate::common::ResultS3
+    /// [`Err`]: crate::common::ResultS3
     pub fn read_block(&mut self, blockoffset: BlockOffset) -> ResultS3ReadBlock {
         dpnf!(
             "({0}): blockreader.read_block({0}) (fileoffset {1} (0x{1:08X})), blocksz {2} (0x{2:08X}), filesz {3} (0x{3:08X})",
@@ -1918,7 +2057,7 @@ impl BlockReader {
         }
     }
 
-    /// wrapper to open a `.tar` file
+    /// Wrapper function to open a `.tar` file.
     fn open_tar(path_tar: &Path) -> Result<TarHandle> {
         let mut open_options = FileOpenOptions::new();
         dpof!("open_options.read(true).open({:?})", path_tar);
@@ -1933,7 +2072,7 @@ impl BlockReader {
         Ok(TarHandle::new(file_tar))
     }
 
-    /// for testing, very inefficient!
+    /// For testing, very inefficient!
     #[cfg(test)]
     pub(crate) fn get_block(&self, blockoffset: &BlockOffset) -> Option<Bytes> {
         if self.blocks.contains_key(blockoffset) {

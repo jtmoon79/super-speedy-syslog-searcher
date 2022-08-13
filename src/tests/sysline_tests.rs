@@ -1,6 +1,7 @@
 // src/tests/sysline_tests.rs
-//
 // …
+
+//! tests for `sysline.rs`
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
@@ -142,7 +143,7 @@ fn new_sysline(data: &str, dt_beg: usize, dt_end: usize) -> Sysline {
     let linep: LineP = LineP::new(line);
     let mut lines = Lines::with_capacity(1);
     lines.push(linep);
-    let sysline: Sysline = Sysline::new_from_parts(
+    let sysline: Sysline = Sysline::from_parts(
         lines,
         DT_BEG0,
         DT_END0,

@@ -1,4 +1,4 @@
-// bench_slice_contains.rs
+// benches/bench_slice_contains.rs
 //
 // compare `slice.contains` to a custom search
 

@@ -1,5 +1,6 @@
 // src/tests/blockreader_tests.rs
-//
+
+//! tests for `BlockReader`
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]

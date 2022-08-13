@@ -1,7 +1,6 @@
 // src/printer_debug/tests.rs
-//
-// tests for `stack.rs`
-//
+
+//! Tests for `stack.rs`.
 
 use super::stack::{
     so,

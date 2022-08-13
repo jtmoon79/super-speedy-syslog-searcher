@@ -1,6 +1,10 @@
 // src/data/sysline.rs
-//
 
+//! Implements a [`Sysline`] struct.
+//!
+//! [`Sysline`]: crate::data::sysline::Sysline
+
+#[doc(hidden)]
 pub use crate::common::{
     Bytes,
     Count,
@@ -13,6 +17,10 @@ pub use crate::common::{
 
 use crate::readers::blockreader::{
     BlockOffset,
+};
+
+#[cfg(test)]
+use crate::readers::blockreader::{
     Slices,
 };
 
@@ -57,33 +65,38 @@ use more_asserts::{
 // Sysline
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// A `Sysline` has information about a "syslog line" that spans one or more `Line`s.
-/// A "syslog line" or `Sysline` is one or more `Line`s, where the first line contains a
-/// datetime stamp. That datetime stamp is consistent format of other nearby syslog lines.
+/// A `Sysline` has information about a "syslog line" that spans one or more
+/// [`Line`]s.
+///
+/// A "syslog line" or `Sysline` is one or more `Line`s, where the first `Line`
+/// contains a datetime string. That datetime string is consistent format of
+/// other nearby syslog lines. The datetime string is parsed from some bytes
+/// and stored as a formal [`DateTimeL`], field `dt`.
+///
+/// [`DateTimeL`]: crate::data::datetime::DateTimeL
+/// [`Line`]: crate::data::line::Line
 pub struct Sysline {
-    /// the one or more `Line` that make up a Sysline
+    /// The one or more `Line` that make up a Sysline.
     pub(crate) lines: Lines,
-    /// index into `Line` where datetime string starts
-    /// (inclusive)
+    /// Index into `Line` where datetime string starts (inclusive).
     ///
-    /// byte-based count
+    /// Byte-based count.
     ///
-    /// datetime is presumed to be on first Line
-    ///
-    /// TODO: use `Range_LineIndex`
+    /// Datetime is presumed to be on first `Line`.
+    // TODO: use `Range_LineIndex`
     pub(crate) dt_beg: LineIndex,
-    /// index into `Line` where datetime string ends, one char past last character of datetime string
-    /// (exclusive)
+    /// Index into `Line` where datetime string ends, one char past last
+    /// character of datetime string (exclusive).
     ///
-    /// byte-based count
+    /// Byte-based count.
     ///
-    /// datetime is presumed to be on first Line
+    /// Datetime is presumed to be on first `Line`.
     pub(crate) dt_end: LineIndex,
-    /// parsed DateTime instance
+    /// Parsed DateTime instance.
     pub(crate) dt: DateTimeLOpt,
 }
 
-/// a signifier value for "not set" or "null" - because sometimes Option is a PitA
+/// A signifier value for "not set" or "null" - because sometimes Option is a PitA.
 const LI_NULL: LineIndex = LineIndex::MAX;
 
 impl std::fmt::Debug for Sysline {
@@ -124,17 +137,23 @@ impl Default for Sysline {
 }
 
 impl Sysline {
-    /// default `with_capacity` for a `Lines`, most often will only need 1 capacity
-    /// as the found "sysline" will likely be one `Line`
+    /// Default [`with_capacity`] for a [`Lines`], most often will only need 1
+    /// capacity as the found "sysline" will likely be one `Line`.
+    ///
+    /// [`with_capacity`]: std::vec::Vec#method.with_capacity
+    /// [`Lines`]: crate::data::line::Lines
     const SYSLINE_PARTS_WITH_CAPACITY: usize = 1;
+
     // XXX: Issue #16 only handles UTF-8/ASCII encoding
     const CHARSZ: usize = 1;
 
+    /// Create a default `Sysline`.
     pub fn new() -> Sysline {
         Sysline::default()
     }
 
-    pub fn new_from_parts(lines: Lines, dt_beg: LineIndex, dt_end: LineIndex, dt: DateTimeLOpt) -> Sysline {
+    /// Create a `Sysline` from passed arguments.
+    pub fn from_parts(lines: Lines, dt_beg: LineIndex, dt_end: LineIndex, dt: DateTimeLOpt) -> Sysline {
         Sysline {
             lines,
             dt_beg,
@@ -147,6 +166,7 @@ impl Sysline {
         Sysline::CHARSZ
     }
 
+    /// Return a reference to `self.dt`
     pub fn dt(self: &Sysline) -> &DateTimeLOpt {
         &self.dt
     }
@@ -163,47 +183,58 @@ impl Sysline {
     }
     */
 
-    /// return duration of difference between the two `DateTimeL` of each `Sysline`
+    /// Return duration of difference between the two [`DateTimeL`] of each
+    /// `Sysline`.
+    ///
+    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     pub fn dt_difference(&self, otherp: &SyslineP) -> Duration {
         // XXX: would prefer not to make copies, but using refs is not supported
         (*self.dt.as_ref().unwrap()) - (*(*otherp).dt().as_ref().unwrap())
     }
 
+    /// Append the passed [`LineP`] to `self.lines`.
+    ///
+    /// [LineP]: crate::data::line::LineP
     pub fn push(&mut self, linep: LineP) {
         dpo!("SyslineReader.push(), self.lines.len() is now {}", self.lines.len() + 1);
         self.lines.push(linep);
     }
 
-    /// the byte offset into the file where this `Sysline` begins
-    /// "points" to first character of `Sysline` (and underlying `Line`)
+    /// The byte offset into the file where this `Sysline` begins.
+    /// "points" to first character of `Sysline` (and underlying `Line`).
     pub fn fileoffset_begin(self: &Sysline) -> FileOffset {
         assert_ne!(self.lines.len(), 0, "This Sysline has no Line");
         (*self.lines[0]).fileoffset_begin()
     }
 
-    /// the byte offset into the file where this `Sysline` ends, inclusive (not one past ending)
+    /// The byte offset into the file where this `Sysline` ends, inclusive
+    /// (not one past ending).
     pub fn fileoffset_end(self: &Sysline) -> FileOffset {
         assert_ne!(self.lines.len(), 0, "This Sysline has no Line");
         let last_ = self.lines.len() - 1;
         (*self.lines[last_]).fileoffset_end()
     }
 
-    /// the fileoffset into the immediately next sysline.
+    /// The `FileOffset` into the immediately next sysline.
     ///
-    /// the `self` Sysline does not know if the "next" Sysline has been processed or if it even exists.
-    /// this Sysline does not know if that fileoffset points to the end of file (one past last actual byte)
+    /// The `self` `Sysline` does not know if the "next" `Sysline` has been
+    /// processed or if it even exists.
+    /// This `Sysline` does not know if that `FileOffset` points to
+    /// the end of file (one past last actual byte).
     pub fn fileoffset_next(self: &Sysline) -> FileOffset {
         self.fileoffset_end() + (self.charsz() as FileOffset)
     }
 
-    /// return the first `BlockOffset`s on which data for this Sysline resides.
+    /// Return the first `BlockOffset` on which data for this Sysline resides.
+    ///
     /// Presumes underlying `Line` and `LinePart` hold data else panic!
     pub fn blockoffset_first(self: &Sysline) -> BlockOffset {
         debug_assert_ge!(self.lines.len(), 1, "Sysline contains no lines");
         self.lines[0].blockoffset_first()
     }
 
-    /// Return the last `BlockOffset`s on which data for this Sysline resides.
+    /// Return the last `BlockOffset` on which data for this `Sysline` resides.
+    ///
     /// Presumes underlying `Line` and `LinePart` hold data else panic!
     pub fn blockoffset_last(self: &Sysline) -> BlockOffset {
         let line: &Line = &self.lines[self.lines.len() - 1];
@@ -211,19 +242,20 @@ impl Sysline {
         line.blockoffset_last()
     }
 
-    /// length in bytes of this Sysline
+    /// Length in bytes of this `Sysline`.
     pub fn len(self: &Sysline) -> usize {
         ((self.fileoffset_end() - self.fileoffset_begin()) + 1) as usize
     }
 
     // TODO: return `usize`, let callers change as needed
-    /// count of `Line` in `self.lines`
+    /// Count of [`Line`] in `self.lines`.
     ///
+    /// [`Line`]: crate::data::line::Line
     pub fn count_lines(self: &Sysline) -> Count {
         self.lines.len() as Count
     }
 
-    /// sum of all `Line.count_bytes`
+    /// Sum of all `Line.count_bytes` in `self.lines`.
     pub fn count_bytes(self: &Sysline) -> Count {
         let mut cb: Count = 0;
         for line in self.lines.iter() {
@@ -233,16 +265,19 @@ impl Sysline {
         cb
     }
 
-    /// do the bytes of this `Sysline` reside on one `Block`?
+    /// Do the bytes of this `Sysline` reside on one [`Block`]?
+    ///
+    /// [`Block`]: crate::readers::blockreader::Block
     pub fn occupies_one_block(self: &Sysline) -> bool {
         self.blockoffset_first() == self.blockoffset_last()
     }
 
-    /// return all the slices that make up this `Sysline`.
+    /// Return all the slices that make up this `Sysline`.
     ///
     /// Similar to `get_slices_line` but for all lines.
     ///
     /// Inefficient. Only for testing.
+    #[doc(hidden)]
     #[cfg(test)]
     pub fn get_slices(self: &Sysline) -> Slices {
         let mut count: usize = 0;
@@ -258,7 +293,7 @@ impl Sysline {
         slices
     }
 
-    /// get the last byte of this Sysline
+    /// Get the last byte of this `Sysline`.
     pub(crate) fn last_byte(self: &Sysline) -> Option<u8> {
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         assert_eq!(self.charsz(), 1, "charsz {} not implemented", self.charsz());
@@ -284,9 +319,10 @@ impl Sysline {
         Some(byte_)
     }
 
-    /// does this `Sysline` end in a newline character?
+    /// Does this `Sysline` end in a newline character?
     ///
-    /// XXX: Calling this on a partially constructed `Sysline` is most likely pointless
+    /// XXX: Calling this on a partially constructed `Sysline` is most
+    ///      likely pointless.
     pub fn ends_with_newline(self: &Sysline) -> bool {
         let byte_last = match self.last_byte() {
             Some(byte_) => byte_,
@@ -300,15 +336,17 @@ impl Sysline {
         }
     }
 
-    /// create `String` from `self.lines`
+    /// Create a `String` from `lines`:
     ///
     /// - `raw` is `true` means use byte characters as-is
-    /// - `raw` is `false` means replace formatting characters or non-printable characters
-    ///    with pictoral representation (i.e. `byte_to_char_noraw`)
+    /// - `raw` is `false` means replace formatting characters or non-printable
+    ///    characters with pictoral representation (i.e. `byte_to_char_noraw`)
     ///
     // TODO: this would be more efficient returning `&str`
     //       https://bes.github.io/blog/rust-strings
+    //
     // TODO: remove this
+    #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     fn impl_to_String_raw(self: &Sysline, raw: bool) -> String {
@@ -325,9 +363,10 @@ impl Sysline {
         s_
     }
 
-    /// `Sysline` to `String`
+    /// `Sysline` to `String`.
     ///
     /// inefficient; only for debugging
+    #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String(self: &Sysline) -> String {
@@ -353,9 +392,11 @@ impl Sysline {
         String::from_utf8(buf).unwrap()
     }
 
-    /// `Sysline` to `String` but using printable chars for non-printable and/or formatting characters
+    /// `Sysline` to `String` but using printable chars for non-printable
+    /// and/or formatting characters.
     ///
     /// inefficient; only for debugging
+    #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions,test))]
     pub fn to_String_noraw(self: &Sysline) -> String {
@@ -363,7 +404,13 @@ impl Sysline {
     }
 }
 
-/// thread-safe Atomic Reference Counting pointer to a `Sysline`
+/// Thread-safe [Atomic Reference Counting pointer] to a [`Sysline`].
+///
+/// [Atomic Reference Counting pointer]: std::sync::Arc
 pub type SyslineP = Arc<Sysline>;
+
+/// Optional [`Arc`] pointer to a [`Sysline`].
+///
+/// [`Arc`]: std::sync::Arc
 #[allow(non_camel_case_types)]
 pub type SyslineP_Opt = Option<Arc<Sysline>>;

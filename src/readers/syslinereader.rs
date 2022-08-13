@@ -1,6 +1,11 @@
 // src/readers/syslinereader.rs
-//
 // …
+
+//! Implements `SyslineReader`, the driver of deriving [`Sysline`]s using a
+//! [`LineReader`].
+//!
+//! [`Sysline`]: crate::data::sysline::Sysline
+//! [`LineReader`]: crate::readers::linereader::LineReader
 
 use crate::common::{
     FPath,
@@ -117,143 +122,206 @@ use static_assertions::{
 // DateTime typing, strings, and formatting
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// count of datetime format strings used
+/// `Count` of datetime format strings used.
 ///
-/// key is index into global `DATETIME_PARSE_DATAS_VEC` and `DATETIME_PARSE_DATAS_REGEX_VEC`
+/// Key is index into global [`DATETIME_PARSE_DATAS`]
+/// (and [`static@DATETIME_PARSE_DATAS_REGEX_VEC]).
 ///
-/// value is count of use of those "pattern rules" to find datetimes in a `Line`
+/// Value is `Count` of use of those "pattern rules" to find datetimes in a
+/// `Line`.
+///
+/// [`DATETIME_PARSE_DATAS`]: crate::data::datetime::DATETIME_PARSE_DATAS
+/// [`DATETIME_PARSE_DATAS_REGEX_VEC`]: static@crate::data::datetime::DATETIME_PARSE_DATAS_REGEX_VEC
 pub type DateTimePatternCounts = BTreeMap<DateTimeParseInstrsIndex, Count>;
+
+/// Collection of `DateTimeParseInstrsIndex`.
 pub type DateTimeParseDatasIndexes = BTreeSet<DateTimeParseInstrsIndex>;
-/// data returned by `SyslineReader::find_datetime_in_line` and
-/// `SyslineReader::parse_datetime_in_line`
+
+/// Data returned by `SyslineReader::find_datetime_in_line` and
+/// `SyslineReader::parse_datetime_in_line`.
 ///
 /// - datetime substring index begin
 /// - datetime substring index end
 /// - the datetime found
-/// - index into global `DATETIME_PARSE_DATAS_VEC` and `DATETIME_PARSE_DATAS_REGEX_VEC` for the
+/// - index into global `DATETIME_PARSE_DATAS_REGEX_VEC` and `DATETIME_PARSE_DATAS_REGEX_VEC` for the
 ///   "pattern rules" used to find the datetime.
 pub type FindDateTimeData = (LineIndex, LineIndex, DateTimeL, DateTimeParseInstrsIndex);
-/// return type for `SyslineReader::find_datetime_in_line`
+
+/// Return type for `SyslineReader::find_datetime_in_line`.
 pub type ResultFindDateTime = Result<FindDateTimeData>;
-/// return type for `SyslineReader::parse_datetime_in_line`
+
+/// Return type for `SyslineReader::parse_datetime_in_line`.
 pub type ResultParseDateTime = Result<FindDateTimeData>;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SyslineReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// Sysline Searching result
+/// [`Sysline`] Searching result
+///
+/// [`Sysline`]: crate::data::sysline::Sysline
 pub type ResultS4SyslineFind = ResultS4<(FileOffset, SyslineP), Error>;
-/// storage for `Sysline`
+
+/// storage for `Sysline`.
+///
+/// [`Sysline`]: crate::data::sysline::Sysline
 pub type Syslines = BTreeMap<FileOffset, SyslineP>;
+
 type SyslineRange = std::ops::Range<FileOffset>;
-/// range map where key is sysline begin to end `[ Sysline.fileoffset_begin(), Sysline.fileoffset_end()]`
-/// and where value is sysline begin (`Sysline.fileoffset_begin()`). Use the value to lookup associated `Syslines` map
+
+/// Range map where key is sysline begin to end
+/// `\[ Sysline.fileoffset_begin(), Sysline.fileoffset_end()\]`
+/// and where value is sysline begin (`Sysline.fileoffset_begin()`).
+///
+/// Use the value to lookup associated [`Syslines`] map.
 type SyslinesRangeMap = RangeMap<FileOffset, FileOffset>;
-/// used internally by `SyslineReader`
+
+/// [LRU cache] internally by `SyslineReader`.
+///
+/// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
 type SyslinesLRUCache = LruCache<FileOffset, ResultS4SyslineFind>;
-/// used internally by `SyslineReader`
+
+/// [LRU cache] internally by `SyslineReader`.
+///
+/// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
 type LineParsedCache = LruCache<FileOffset, FindDateTimeData>;
 
-/// Specialized reader that uses `LineReader` to find `Sysline`s in a file.
-/// A `SyslineReader` has specialized knowledge of associating a parsed datetime to
-/// a sequence of lines, and then creating a `Sysline`.
+/// A specialized reader that uses [`LineReader`] to find [`Sysline`s] in a file.
+/// A `SyslineReader` has specialized knowledge of associating a parsed
+/// datetime to a sequence of lines, and then creating a `Sysline`.
 ///
 /// A `SyslineReader` does some `[u8]` to `char` interpretation.
 ///
-/// A `SyslineReader` stores past lookups of data.
+/// A `SyslineReader` stores past lookups of data (calls to functions
+/// `find_sysline*`).
 ///
-/// XXX: not a rust "Reader"; does not implement trait `Read`
+/// _XXX: not a rust "Reader"; does not implement trait [`Read`]._
+///
+/// [`LineReader`]: crate::readers::linereader::LineReader
+/// [`Sysline`s]: crate::data::sysline::Sysline
+/// [`Read`]: std::io::Read
 pub struct SyslineReader {
+    /// Internal `LineReader` instance.
     pub(super) linereader: LineReader,
-    /// Syslines keyed by fileoffset_begin
+    /// Syslines keyed by `Sysline.fileoffset_begin`.
     pub(super) syslines: Syslines,
-    /// count of Syslines processed
+    /// `Count` of Syslines processed.
     syslines_count: Count,
-    /// internal stats for `self.find_sysline()` use of `self.syslines`
+    /// internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
     pub(super) syslines_hit: Count,
-    /// internal stats for `self.find_sysline()` use of `self.syslines`
+    /// internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
     pub(super) syslines_miss: Count,
-    /// Syslines fileoffset by sysline fileoffset range, i.e. `[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`
-    /// the stored value can be used as a key for `self.syslines`
+    /// Syslines fileoffset by sysline fileoffset range,
+    /// i.e. `\[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`.
+    /// The stored value can be used as a key for `self.syslines`.
     syslines_by_range: SyslinesRangeMap,
-    /// count of `self.syslines_by_range` lookup hit
+    /// `Count` of `self.syslines_by_range` lookup hit
     pub(super) syslines_by_range_hit: Count,
-    /// count of `self.syslines_by_range` lookup miss
+    /// `Count` of `self.syslines_by_range` lookup miss
     pub(super) syslines_by_range_miss: Count,
-    /// count of `self.syslines_by_range.insert`
+    /// `Count` of `self.syslines_by_range.insert`
     pub(super) syslines_by_range_put: Count,
-    /// first (soonest) processed DateTimeL (not necessarly printed, not representative of the entire file)
+    /// First (soonest) processed [`DateTimeL`] (not necessarly printed,
+    /// not representative of the entire file).
     ///
-    /// intended for `--summary`
+    /// Intended for `--summary`.
+    ///
+    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     // TODO: [2022/07/27] cost-savings: save the ref
     pub(super) dt_first: DateTimeLOpt,
     pub(super) dt_first_prev: DateTimeLOpt,
-    /// last (latest) processed DateTimeL (not necessarly printed, not representative of the entire file)
+    /// Last (latest) processed [`DateTimeL`] (not necessarly printed,
+    /// not representative of the entire file).
     ///
-    /// intended for `--summary`
+    /// Intended for `--summary`.
+    ///
+    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     // TODO: [2022/07/27] cost-savings: save the ref
     pub(super) dt_last: DateTimeLOpt,
     pub(super) dt_last_prev: DateTimeLOpt,
-    /// counts found patterns stored in `dt_patterns`. "mirrors" the global `DATETIME_PARSE_DATAS`.
-    /// Keys are indexes into `DATETIME_PARSE_DATAS`, values are counts of successful
-    /// pattern match at that index.
+    /// `Count`s found patterns stored in `dt_patterns`.
+    /// "mirrors" the global [`DATETIME_PARSE_DATAS`].
+    /// Keys are indexes into `DATETIME_PARSE_DATAS`,
+    /// values are counts of successful pattern match at that index.
     ///
     /// Initialized once in `fn SyslineReader::new`.
     ///
-    /// Not used after `self.analyzed` becomes `true`
+    /// Not used after `self.analyzed` becomes `true`.
+    ///
+    /// [`DATETIME_PARSE_DATAS`]: crate::data::datetime::DATETIME_PARSE_DATAS
     pub(super) dt_patterns_counts: DateTimePatternCounts,
-    /// keys of `self.dt_patterns_counts` sorted by value. updated in `fn dt_patterns_indexes_refresh`
+    /// Keys of `self.dt_patterns_counts` sorted by value.
+    /// Updated in function `dt_patterns_indexes_refresh`.
     ///
-    /// not updated after `self.analyzed` becomes `true`
+    /// Not updated after `self.analyzed` becomes `true`.
     dt_patterns_indexes: DateTimeParseDatasIndexes,
-    /// default FixedOffset for a found `DateTime` without timezone
+    /// Default [`FixedOffset`] for a found datetime without a timezone.
     ///
-    /// different than the "fallback year" used in some functions because
-    /// the "fallback timezone" offset will not change within one syslog file,
-    /// whereas a fallback year does.
+    /// Similar to the "fallback year". Different in that the
+    /// "fallback timezone" offset will not change within one syslog file,
+    /// whereas a "fallback year" may change per sysline.
+    ///
+    /// [`FixedOffset`]: https://docs.rs/chrono/0.4.21/chrono/offset/struct.FixedOffset.html
     tz_offset: FixedOffset,
-    /// enable or disable the internal LRU cache for `find_sysline()`
+    /// Enable or disable the internal LRU cache for `find_sysline()`.
     find_sysline_lru_cache_enabled: bool,
-    /// internal LRU cache for `find_sysline()`. maintained in `SyslineReader::find_sysline`
-    /// TODO: remove `pub(super)`
+    /// Internal [LRU cache] for `find_sysline()`.
+    /// Maintained in function `SyslineReader::find_sysline`.
+    ///
+    /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
+    // TODO: remove `pub(super)`
     pub(super) find_sysline_lru_cache: SyslinesLRUCache,
-    /// count of internal LRU cache lookup hits
+    /// `Count` of internal LRU cache lookup hits.
     pub(super) find_sysline_lru_cache_hit: Count,
-    /// count of internal LRU cache lookup misses
+    /// `Count` of internal LRU cache lookup misses.
     pub(super) find_sysline_lru_cache_miss: Count,
-    /// count of internal LRU cache lookup `.put`
+    /// `Count` of internal LRU cache lookup `.put`.
     pub(super) find_sysline_lru_cache_put: Count,
-    /// enable/disable `parse_datetime_in_line_lru_cache`
+    /// Enable or disable `parse_datetime_in_line_lru_cache`.
     parse_datetime_in_line_lru_cache_enabled: bool,
-    /// internal cache of calls to `SyslineReader::parse_datetime_in_line()`. maintained in `SyslineReader::find_sysline()`
+    /// Internal [LRU cache] of calls to
+    /// `SyslineReader::parse_datetime_in_line()`.
+    /// Maintained in function `SyslineReader::find_sysline()`.
+    ///
+    /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
     parse_datetime_in_line_lru_cache: LineParsedCache,
-    /// count of `self.parse_datetime_in_line_lru_cache` lookup hit
+    /// `Count` of `self.parse_datetime_in_line_lru_cache` lookup hit.
     pub(super) parse_datetime_in_line_lru_cache_hit: Count,
-    /// count of `self.parse_datetime_in_line_lru_cache` lookup miss
+    /// `Count` of `self.parse_datetime_in_line_lru_cache` lookup miss.
     pub(super) parse_datetime_in_line_lru_cache_miss: Count,
-    /// count of `self.parse_datetime_in_line_lru_cache.put`
+    /// `Count` of `self.parse_datetime_in_line_lru_cache.put`.
     pub(super) parse_datetime_in_line_lru_cache_put: Count,
-    /// count of `line.get_boxptrs` returning `SinglePtr`
+    /// `Count` of `line.get_boxptrs` returning `SinglePtr`.
     pub(super) get_boxptrs_singleptr: Count,
-    /// count of `line.get_boxptrs` returning `DoublePtr`
+    /// `Count` of `line.get_boxptrs` returning `DoublePtr`.
     pub(super) get_boxptrs_doubleptr: Count,
-    /// count of `line.get_boxptrs` returning `MultiPtr`
+    /// `Count` of `line.get_boxptrs` returning `MultiPtr`.
     pub(super) get_boxptrs_multiptr: Count,
-    /// has `self.file_analysis` completed?
+    /// Has `self.file_analysis` completed?
     ///
-    /// Initially `false`. During `parse_datetime_in_line` all patterns in
-    /// `DATETIME_PARSE_DATAS_VEC` may be used for a search. During this time,
-    /// `dt_pattern_counts` is updated in `dt_patterns_indexes_refresh`.
+    /// Initially `false`. During function `parse_datetime_in_line` all patterns
+    /// in [`DATETIME_PARSE_DATAS_REGEX_VEC`] may be used for a search.
+    /// During this time, `dt_pattern_counts` is updated in
+    /// function `dt_patterns_indexes_refresh`.
     ///
-    /// Once `true` then only a subset of patterns that successfully matched syslines are used.
-    /// This avoids likely fruitless or misleading searches for datetime in a `Line`. Those
-    /// searches are resource expensive.
+    /// Once `true` then only a subset of patterns that successfully matched
+    /// syslines are used.
+    /// This avoids likely fruitless or misleading searches for datetime in
+    /// a `Line`. Those searches are resource expensive.
+    ///
+    /// [`DATETIME_PARSE_DATAS_REGEX_VEC`]: static@crate::data::datetime::DATETIME_PARSE_DATAS_REGEX_VEC
     analyzed: bool,
-    /// count of Ok to Arc::try_unwrap(syslinep), effectively a count of
-    /// `Sysline` dropped
+    /// `Count` of `Ok` to [`Arc::try_unwrap(syslinep)`], effectively a count of
+    /// [`Sysline`] dropped.
+    ///
+    /// [`Arc::try_unwrap(syslinep)`]: std::sync::Arc#method.try_unwrap
+    /// [`Sysline`]: crate::data::sysline::Sysline
     pub(super) drop_sysline_ok: Count,
-    /// count of failures to Arc::try_unwrap(syslinep). A failure does not mean an error.
+    /// `Count` of failures to [`Arc::try_unwrap(syslinep)`].
+    ///
+    /// A failure does not mean an error.
+    ///
+    /// [`Arc::try_unwrap(syslinep)`]: std::sync::Arc#method.try_unwrap
     pub(super) drop_sysline_errors: Count,
 }
 
@@ -266,7 +334,8 @@ impl fmt::Debug for SyslineReader {
     }
 }
 
-/// debug helper to print LRU cache
+/// Debug helper function to print LRU cache.
+#[doc(hidden)]
 #[allow(non_snake_case, dead_code)]
 #[cfg(debug_assertions)]
 fn debug_eprint_LRU_cache<K, V>(cache: &LruCache<K, V>)
@@ -286,30 +355,39 @@ where
     dp!("]");
 }
 
-/// implement SyslineReader things
+/// Implement the `SyslineReader`
 impl SyslineReader {
-    /// maximum number of datetime patterns to match when first reading a file (before settling on one)
+    /// Maximum number of datetime patterns to match when first reading a
+    /// file (before settling on one).
     const DT_PATTERN_MAX_PRE_ANALYSIS: usize = 4;
-    /// maximum number of datetime patterns for matching the remainder of a syslog file
+
+    /// Maximum number of datetime patterns for matching the remainder of a syslog file
     const DT_PATTERN_MAX: usize = 1;
-    /// when this number of syslines has been processed then reduce use of all
-    /// patterns from all patterns in `DATETIME_PARSE_DATAS_VEC` to one pattern
+
+    /// When this number of syslines has been processed then reduce use of all
+    /// patterns from all patterns in `DATETIME_PARSE_DATAS_REGEX_VEC` to one
+    /// pattern.
     // TODO: this should not vary among different builds, fixing requires user-controlled
     //       call to `dt_patterns_analysis`
     //#[cfg(any(debug_assertions,test))]
     //const DT_PATTERN_ANALYSIS_THRESHOLD: Count = 1;
     //#[cfg(not(any(debug_assertions,test)))]
     const DT_PATTERN_ANALYSIS_THRESHOLD: Count = 5;
-    /// capacity of internal LRU cache
+
+    /// Capacity of internal LRU cache `find_sysline_lru_cache`.
     const FIND_SYSLINE_LRU_CACHE_SZ: usize = 4;
-    /// capacity of internal LRU cache
+
+    /// Capacity of internal LRU cache `parse_datetime_in_line_lru_cache`.
     const PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ: usize = 8;
+
     /// A `Line.len()` must at least this value to proceed with a datetime search, if `Line.len()`
     /// is less then it is presumed no datetime string could fit on the line.
     ///
     /// This allows skipping a few datetime searches that would fail.
     const DATETIME_STR_MIN: usize = 8;
-    /// default state of LRU cachces
+
+    /// Default state of LRU caches.
+    // TODO: add this to other LRU cache-having structs
     const CACHE_ENABLE_DEFAULT: bool = true;
 
     pub fn new(path: FPath, filetype: FileType, blocksz: BlockSz, tz_offset: FixedOffset) -> Result<SyslineReader> {
@@ -367,89 +445,100 @@ impl SyslineReader {
         )
     }
 
+    /// Return a copy of the `FileType`.
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.linereader.filetype()
     }
 
+    /// Return a copy of the `BlockSz`.
     #[inline(always)]
     pub const fn blocksz(&self) -> BlockSz {
         self.linereader.blocksz()
     }
 
+    /// Return a copy of the File Size `FileSz`.
     #[inline(always)]
     pub const fn filesz(&self) -> FileSz {
         self.linereader.filesz()
     }
 
+    /// Return a copy of the `MimeGuess`.
     #[inline(always)]
     pub const fn mimeguess(&self) -> MimeGuess {
         self.linereader.mimeguess()
     }
 
+    /// Return a reference to the `FPath`.
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
         self.linereader.path()
     }
 
-    /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
+    /// Return nearest preceding `BlockOffset` for given `FileOffset`
+    /// (file byte offset).
     pub const fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         self.linereader.block_offset_at_file_offset(fileoffset)
     }
 
-    /// return file_offset (file byte offset) at given `BlockOffset`
+    /// Return `FileOffset` (file byte offset) at given `BlockOffset`.
     pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         self.linereader.file_offset_at_block_offset(blockoffset)
     }
 
-    /// return file_offset (file byte offset) at blockoffset+blockindex
+    /// Return `FileOffset` (file byte offset) at blockoffset+blockindex.
     pub const fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         self.linereader
             .file_offset_at_block_offset_index(blockoffset, blockindex)
     }
 
-    /// get the last byte index of the file, inclusive
+    /// Get the last byte index of the file (inclusive).
     pub const fn fileoffset_last(&self) -> FileOffset {
         self.linereader.fileoffset_last()
     }
 
-    /// return block index at given `FileOffset`
+    /// Return block index at given `FileOffset`.
     pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         self.linereader.block_index_at_file_offset(fileoffset)
     }
 
-    /// return count of blocks in a file, also, the last blockoffset + 1
+    /// Return `Count` of `Block`s in a file.
+    ///
+    /// Equivalent to the _last `BlockOffset` + 1_.
+    ///
+    /// Not a count of `Block`s that have been read; the calculated
+    /// count of `Block`s based on the `FileSz`.
     pub const fn count_blocks(&self) -> Count {
         self.linereader.count_blocks()
     }
 
-    /// last valid `BlockOffset` of the file
+    /// The last valid `BlockOffset` of the file.
     pub const fn blockoffset_last(&self) -> BlockOffset {
         self.linereader.blockoffset_last()
     }
 
-    /// smallest size character in bytes
+    /// Smallest size character in bytes,
     pub const fn charsz(&self) -> usize {
         self.linereader.charsz()
     }
 
-    /// count of `Sysline`s processed so far, i.e. `self.syslines_count`
+    /// `Count` of `Sysline`s processed so far, i.e. `self.syslines_count`.
     pub fn count_syslines_processed(&self) -> Count {
         self.syslines_count
     }
 
-    /// count of `Sysline`s currently stored, i.e. `self.syslines.len()`
+    /// `Count` of `Sysline`s currently stored, i.e. `self.syslines.len()`
     pub fn count_syslines_stored(&self) -> Count {
         self.syslines.len() as Count
     }
 
-    /// count underlying `Line`s processed so far
+    /// `Count` underlying `Line`s processed so far
     #[inline(always)]
     pub fn count_lines_processed(&self) -> Count {
         self.linereader.count_lines_processed()
     }
 
-    /// does the dt_pattern have a year? e.g. `%Y` or `%y`
+    /// Does the `dt_pattern` have a year? e.g. specificer `%Y` or `%y`
     pub fn dt_pattern_has_year(&self) -> bool {
         debug_assert!(!self.syslines.is_empty(), "called dt_pattern_has_year() without having processed some syslines");
         let dtpd: &DateTimeParseInstr = self.datetime_parse_data();
@@ -458,9 +547,10 @@ impl SyslineReader {
         dtpd.dtfs.has_year()
     }
 
-    /// enable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
+    /// eEable internal LRU cache used by `find_sysline` and
+    /// `parse_datetime_in_line`.
     ///
-    /// returns prior value of `find_sysline_lru_cache_enabled`
+    /// Returns prior value of `find_sysline_lru_cache_enabled`.
     #[allow(non_snake_case)]
     pub fn LRU_cache_enable(&mut self) -> bool {
         let ret = self.find_sysline_lru_cache_enabled;
@@ -481,9 +571,10 @@ impl SyslineReader {
         ret
     }
 
-    /// disable internal LRU cache used by `find_sysline` and `parse_datetime_in_line`
+    /// Disable internal LRU cache used by `find_sysline` and
+    /// `parse_datetime_in_line`
     ///
-    /// returns prior value of `find_sysline_lru_cache_enabled`
+    /// Returns prior value of `find_sysline_lru_cache_enabled`.
     #[allow(non_snake_case)]
     pub fn LRU_cache_disable(&mut self) -> bool {
         let ret = self.find_sysline_lru_cache_enabled;
@@ -498,9 +589,10 @@ impl SyslineReader {
         ret
     }
 
-    /// print Sysline at `fileoffset`
+    /// Print `Sysline` at `FileOffset`.
     ///
     /// Testing helper only
+    #[doc(hidden)]
     #[cfg(test)]
     pub fn print(&self, fileoffset: FileOffset, raw: bool) {
         let syslinep: &SyslineP = match self.syslines.get(&fileoffset) {
@@ -515,16 +607,17 @@ impl SyslineReader {
         }
     }
 
-    /// return most used `DateTimeParseInstr`
+    /// Return most used `DateTimeParseInstr`.
     ///
-    /// before `dt_patterns_analysis()` completes, this may return different values
+    /// Before `dt_patterns_analysis()` completes, this may return different
+    /// values.
     ///
-    /// after `dt_patterns_analysis()` completes, it will return the same value
+    /// After `dt_patterns_analysis()` completes, it will return the same value.
     pub(crate) fn datetime_parse_data(&self) -> &DateTimeParseInstr {
         &DATETIME_PARSE_DATAS[self.dt_pattern_index_max_count()]
     }
 
-    /// is this `Sysline` the last `Sysline` of the entire file?
+    /// Is this `Sysline` the last `Sysline` of the entire file?
     /// (not the same as last Sysline within the optional datetime filters).
     pub fn is_sysline_last(&self, sysline: &Sysline) -> bool {
         let fo_end: FileOffset = sysline.fileoffset_end();
@@ -538,13 +631,14 @@ impl SyslineReader {
         false
     }
 
-    /// is this `SyslineP` the last `Sysline` of the entire file?
+    /// Is this `SyslineP` the last `Sysline` of the entire file?
     /// (not the same as last Sysline within the optional datetime filters).
     pub fn is_syslinep_last(&self, syslinep: &SyslineP) -> bool {
         self.is_sysline_last(syslinep.as_ref())
     }
 
-    /// Clear all the syslines so far collected. Only intended to aid post-processing year updates.
+    /// Clear all the syslines so far collected.
+    /// Only intended to aid post-processing year updates.
     ///
     /// Users must know what they are doing with this.
     ///
@@ -566,7 +660,8 @@ impl SyslineReader {
         }
     }
 
-    /// Remove the `Syline` at `FileOffset`. Only intended to aid post-procesing year updates.
+    /// Remove the `Syline` at `FileOffset`.
+    /// Only intended to aid post-procesing year updates.
     ///
     /// Users must know what they are doing with this.
     pub(crate) fn remove_sysline(&mut self, fileoffset: FileOffset) -> bool {
@@ -600,7 +695,8 @@ impl SyslineReader {
         ret
     }
 
-    /// store passed `Sysline` in `self.syslines`, update other fields
+    /// store passed `Sysline` in `self.syslines`,
+    /// update other fields.
     fn insert_sysline(&mut self, sysline: Sysline) -> SyslineP {
         let fo_beg: FileOffset = sysline.fileoffset_begin();
         let fo_end: FileOffset = sysline.fileoffset_end();
@@ -617,7 +713,7 @@ impl SyslineReader {
         syslinep
     }
 
-    /// drop as much data as possible that uses the referred `Block`
+    /// Drop as much data as possible that uses the referred `Block`.
     pub fn drop_block(&mut self, blockoffset: BlockOffset, bo_dropped: &mut HashSet<BlockOffset>) {
         dpnf!("({})", blockoffset);
 
@@ -654,8 +750,8 @@ impl SyslineReader {
         dpxf!("({})", blockoffset);
     }
 
-    /// drop all data associated with `Sysline` at `fileoffset` (or at least, drop as much
-    /// as possible).
+    /// Drop all data associated with `Sysline` at `fileoffset`
+    /// (or at least, drop as much as possible).
     ///
     /// Caller must know what they are doing!
     pub fn drop_sysline(&mut self, fileoffset: &FileOffset, bo_dropped: &mut HashSet<BlockOffset>) {
@@ -682,10 +778,14 @@ impl SyslineReader {
         }
     }
 
-    /// if datetime found in `Line` returns `Ok` around
-    /// indexes into `line` of found datetime string `(start of string, end of string)`
+    /// If datetime found in `Line` returns [`Ok`] around
+    /// indexes into `Line` of found datetime string 
+    /// (start of string, end of string)`
     ///
-    /// else returns `Err`
+    /// else returns [`Err`].
+    ///
+    /// [`Ok`]: self::ResultFindDateTime
+    /// [`Err`]: self::ResultFindDateTime
     pub fn find_datetime_in_line(
         line: &Line,
         parse_data_indexes: &DateTimeParseDatasIndexes,
@@ -789,7 +889,8 @@ impl SyslineReader {
         ResultFindDateTime::Err(Error::new(ErrorKind::NotFound, "No datetime found in Line!"))
     }
 
-    /// update the two statistic `DateTimeL` of `self.dt_first` and `self.dt_last`
+    /// Update the two statistic `DateTimeL` of
+    /// `self.dt_first` and `self.dt_last`.
     fn dt_first_last_update(&mut self, datetime: &DateTimeL) {
         dpnxf!("({:?})", datetime);
         // TODO: the `dt_first` and `dt_last` are only for `--summary`, no need to always copy
@@ -815,7 +916,7 @@ impl SyslineReader {
         }
     }
 
-    /// helper function to update `parse_datetime_in_line`
+    /// Helper function to update `parse_datetime_in_line`.
     fn dt_patterns_update(&mut self, index: DateTimeParseInstrsIndex) {
         dpnxf!("({:?})", index);
         if let std::collections::btree_map::Entry::Vacant(_entry) = self.dt_patterns_counts.entry(index) {
@@ -844,12 +945,13 @@ impl SyslineReader {
         dpnxf!("dt_patterns_indexes {:?}", self.dt_patterns_indexes);
     }
 
-    /// analyze syslines gathered
+    /// Analyze `Sysline`s gathered.
     ///
-    /// When a threshold of syslines or bytes has been processed, then
-    /// this function narrows down datetime formats to try for future datetime-parsing attempts.
-    /// This is a very large reduction of resources/time used by
-    /// `SyslineReader::find_datetime_in_line`.
+    /// When a threshold of `Sysline`s or bytes has been processed, then
+    /// this function narrows down datetime formats to try for future
+    /// datetime-parsing attempts.
+    /// Further calls to function `SyslineReader::find_datetime_in_line`\
+    /// use far less resources.
     pub(crate) fn dt_patterns_analysis(&mut self) {
         if self.count_syslines_processed() < SyslineReader::DT_PATTERN_ANALYSIS_THRESHOLD {
             return;
@@ -900,7 +1002,7 @@ impl SyslineReader {
     }
     */
 
-    /// return most-used `DateTimeParseInstrsIndex`
+    /// Return most-used `DateTimeParseInstrsIndex`.
     pub(crate) fn dt_pattern_index_max_count(&self) -> DateTimeParseInstrsIndex {
         if cfg!(debug_assertions) {
             for (_k, _v) in self.dt_patterns_counts.iter() {
@@ -932,9 +1034,11 @@ impl SyslineReader {
         }
     }
 
-    /// attempt to parse a DateTime substring in the passed `Line`
-    /// wraps call to `self.find_datetime_in_line` according to status of `self.dt_patterns`
-    /// if `self.dt_patterns` is `None`, will set `self.dt_patterns`
+    /// Attempt to parse a DateTime substring in the passed `Line`.
+    ///
+    /// Wraps call to `self.find_datetime_in_line` according to status of
+    /// `self.dt_patterns`.<br/>
+    /// If `self.dt_patterns` is `None`, will set `self.dt_patterns`.
     // TODO: [2022/08] having `dt_patterns_update` embedded into this is an unexpected side-affect
     //       the user should have more control over when `dt_patterns_update` is called.
     fn parse_datetime_in_line(&mut self, line: &Line, charsz: &CharSz, year_opt: &Option<Year>) -> ResultParseDateTime {
@@ -984,9 +1088,10 @@ impl SyslineReader {
         ResultParseDateTime::Ok(data)
     }
 
-    /// helper to `find_sysline`
+    /// Helper function to `find_sysline`.
     ///
-    /// call `self.parse_datetime_in_line` with help of LRU cache `self.parse_datetime_in_line_lru_cache`
+    /// Call `self.parse_datetime_in_line` with help of LRU cache
+    /// `self.parse_datetime_in_line_lru_cache`.
     fn parse_datetime_in_line_cached(&mut self, linep: &LineP, charsz: &CharSz, year_opt: &Option<Year>) -> ResultParseDateTime {
         if self.parse_datetime_in_line_lru_cache_enabled {
             match self.parse_datetime_in_line_lru_cache.get(&linep.fileoffset_begin()) {
@@ -1019,7 +1124,11 @@ impl SyslineReader {
         result
     }
 
-    /// check various internal storage for already processed `Sysline` at `fileoffset`
+    /// Check various internal storage for already processed
+    /// [`Sysline`] at [`FileOffset`].
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// [`FileOffset`]: crate::common::FileOffset
     fn check_store(&mut self, fileoffset: FileOffset) -> Option<ResultS4SyslineFind> {
         dpnf!("({})", fileoffset);
 
@@ -1141,21 +1250,25 @@ impl SyslineReader {
         None
     }
 
-    /// Find sysline at fileoffset within the same `Block` (does not cross block boundaries).
+    /// Find [`Sysline`] at `FileOffset` within the same `Block`
+    /// (does not cross `Block` boundaries).
     ///
-    /// This does a linear search over the `Block`, O(n).
+    /// This does a linear search over the `Block`, _O(n)_.
     ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     pub fn find_sysline_in_block(&mut self, fileoffset: FileOffset) -> ResultS4SyslineFind {
         self.find_sysline_in_block_year(fileoffset, &None)
     }
 
-    /// Find sysline at fileoffset within the same `Block` (does not cross block boundaries).
+    /// Find [`Sysline`] at fileoffset within the same `Block`
+    /// (does not cross block boundaries).
     ///
-    /// This does a linear search over the `Block`, O(n).
+    /// This does a linear search over the `Block`, _O(n)_.
     ///
     /// Optional `Year` is the filler year for datetime patterns that do not include a year.
     /// e.g. `"Jan 1 12:00:00 this is a sylog message"`
     ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     // XXX: similar to `find_sysline`:
     //      This function `find_sysline_in_block_year` is large and cumbersome.
     //      Changes require extensive retesting.
@@ -1330,25 +1443,31 @@ impl SyslineReader {
         ResultS4SyslineFind::Found((fo_b, syslinep))
     }
 
-    /// Find first sysline starting at or after `fileoffset`.
-    /// return (fileoffset of start of _next_ sysline, found Sysline at or after `fileoffset`).
+    /// Find first [`Sysline`] starting at or after `FileOffset`.
+    /// Returns
+    /// (fileoffset of start of _next_ sysline, found Sysline at or after `fileoffset`).
     ///
     /// Similar to `LineReader.find_line`, `BlockReader.read_block`.
     ///
-    /// This does a linear search O(n) over the file.
+    /// This does a linear search _O(n)_ over the file.
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4SyslineFind {
         self.find_sysline_year(fileoffset, &None)
     }
 
-    /// Find first sysline starting at or after `fileoffset`.
-    /// return (fileoffset of start of _next_ sysline, found Sysline at or after `fileoffset`).
+    /// Find first [`Sysline`] starting at or after `FileOffset`.
+    /// Returns
+    /// (fileoffset of start of _next_ sysline, found Sysline at or after `fileoffset`).
     ///
     /// Optional `Year` is the filler year for datetime patterns that do not include a year.
     /// e.g. `"Jan 1 12:00:00 this is a sylog message"`
     ///
     /// Similar to `LineReader.find_line`.
     ///
-    /// This does a linear search O(n) over the file.
+    /// This does a linear search _O(n)_ over the file.
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     //
     // XXX: This function `find_sysline` is large and cumbersome.
     //      Changes require extensive retesting.
@@ -1616,31 +1735,39 @@ impl SyslineReader {
         ResultS4SyslineFind::Found((fo_b, syslinep))
     }
 
-    /// Find first sysline at or after `fileoffset` that is at or after `dt_filter`.
+    /// Find first [`Sysline`] at or after [`FileOffset`] that is at or
+    /// after `dt_filter`.
     ///
-    /// This does a binary search over the file, O(log(n)).
+    /// This does a binary search over the file, _O(log(n))_.
     ///
     /// For example, given syslog file with datetimes:
     ///
+    /// ```text
+    /// 20010101
+    /// 20010102
+    /// 20010103
     /// ```
-    ///     20010101
-    ///     20010102
-    ///     20010103
+    ///
+    /// where the newline ending the first line is the ninth byte
+    /// (fileoffset 9). So calling
+    ///
+    /// ```text
+    /// syslinereader.find_sysline_at_datetime_filter(0, Some(20010102 00:00:00-0000))
     /// ```
-    ///
-    /// where the newline ending the first line is the ninth byte (fileoffset 9)
-    ///
-    /// calling
-    ///
-    ///     `syslinereader.find_sysline_at_datetime_filter(0, Some(20010102 00:00:00-0000))`
     ///
     /// will return
     ///
-    ///     `ResultS4::Found(19, SyslineP(data='20010102␊'))`
+    /// ```text
+    /// ResultS4::Found(19, SyslineP(data='20010102␊'))
+    /// ```
     ///
-    /// For syslog files where the datetime does not include a year, prior processing must
-    /// occur to make guesstimates for each sysline's real year.
+    /// For syslog files where the datetime does not include a year, prior
+    /// processing must occur to make guesstimates for each `Sysline`'s
+    /// real year.
     ///
+    /// [`FileOffset`]: crate::common::FileOffset
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    //
     // XXX: This function is large, cumbersome, and messy.
     //      Changes require extensive retesting.
     //      Extensive debug prints are left in place to aid this.
@@ -1927,7 +2054,7 @@ impl SyslineReader {
         ResultS4SyslineFind::Done
     }
 
-    /// convenience wrapper for `dt_after_or_before`
+    /// Wrapper function for `dt_after_or_before`.
     pub fn sysline_dt_after_or_before(syslinep: &SyslineP, dt_filter: &DateTimeLOpt) -> Result_Filter_DateTime1 {
         dpnxf!("(Sysline@[{:?}, {:?}], {:?})", (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), dt_filter,);
         assert!((*syslinep).dt.is_some(), "Sysline@{:p} does not have a datetime set.", &*syslinep);
@@ -1937,7 +2064,7 @@ impl SyslineReader {
         dt_after_or_before(dt, dt_filter)
     }
 
-    /// wrapper for call to `dt_pass_filters`
+    /// Wrapper function for call to `dt_pass_filters`.
     pub fn sysline_pass_filters(
         syslinep: &SyslineP, dt_filter_after: &DateTimeLOpt, dt_filter_before: &DateTimeLOpt,
     ) -> Result_Filter_DateTime2 {
@@ -1956,11 +2083,13 @@ impl SyslineReader {
         result
     }
 
-    /// find the first `Sysline`, starting at `fileoffset`, that is at or after datetime filter
+    /// Find the first [`Sysline`], starting at `FileOffset`,
+    /// that is at or after datetime filter
     /// `dt_filter_after` and before datetime filter `dt_filter_before`.
     ///
     /// This uses `self.find_sysline_at_datetime_filter`
     ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     pub fn find_sysline_between_datetime_filters(
         &mut self, fileoffset: FileOffset, dt_filter_after: &DateTimeLOpt, dt_filter_before: &DateTimeLOpt,
     ) -> ResultS4SyslineFind {

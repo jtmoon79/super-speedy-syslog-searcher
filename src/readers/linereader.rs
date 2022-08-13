@@ -1,5 +1,10 @@
 // src/readers/linereader.rs
-//
+
+//! Implements a [`LineReader`],
+//! the driver of deriving [`Line`s] using a [`BlockReader`].
+//!
+//! [`Line`s]: crate::data::line::Line
+//! [`BlockReader`]: crate::readers::blockreader::BlockReader
 
 use crate::common::{
     Count,
@@ -73,59 +78,88 @@ use more_asserts::{
 // LineReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// FileOffset To Line Map
-/// storage for Lines found from the underlying `BlockReader`
+/// Map [`FileOffset`] To [`Line`].
+///
+/// Storage for Lines found from the underlying `BlockReader`
 /// FileOffset key is the first byte/offset that begins the `Line`
+///
+/// [`FileOffset`]: crate::common::FileOffset
+/// [`Line`]: crate::data::line::Line
 pub type FoToLine = BTreeMap<FileOffset, LineP>;
-/// FileOffset To FileOffset Map
+
+/// Map [`FileOffset`] To `FileOffset`
+///
+/// [`FileOffset`]: crate::common::FileOffset
 pub type FoToFo = BTreeMap<FileOffset, FileOffset>;
 
-/// `LineReader.find_line()` searching results
+/// [`LineReader.find_line()`] searching results.
+///
+/// [`LineReader.find_line()`]: self::LineReader#method.find_line
 pub type ResultS4LineFind = ResultS4<(FileOffset, LineP), Error>;
-/// internal cache for `LineReader.find_line()`
+
+/// Internal LRU cache for [`LineReader.find_line()`].
+///
+/// [`LineReader.find_line()`]: self::LineReader#method.find_line
 pub type LinesLRUCache = LruCache<FileOffset, ResultS4LineFind>;
 
-/// Specialized reader that uses `BlockReader` to find `Lines` in a file.
+/// A specialized reader that uses [`BlockReader`] to find [`Lines`] in a file.
 /// A `LineReader` knows how to process sequences of bytes of data among
 /// different `Block`s, and create a `Line`.
 ///
 /// The `LineReader` does much `[u8]` to `char` interpretation. It does the most
-/// work in this regard (`SyslineReader` does some).
+/// work in this regard ([`SyslineReader`] does some).
 ///
 /// A `LineReader` stores past lookups of data in `self.lines`.
 ///
-/// XXX: not a rust "Reader"; does not implement trait `Read`
+/// _XXX: not a rust "Reader"; does not implement trait [`Read`]._
+///
+/// [`BlockReader`]: crate::readers::blockreader::BlockReader
+/// [`Lines`]: crate::data::line::Line
+/// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
+/// [`Read`]: std::io::Read
 pub struct LineReader {
     pub(crate) blockreader: BlockReader,
-    /// track `Line` found among blocks in `blockreader`, tracked by line beginning `FileOffset`
-    /// key value `FileOffset` should agree with `(*LineP).fileoffset_begin()`
-    pub(crate) lines: FoToLine,
-    /// internal stats - hits of `self.lines` in `find_line()` and other functions
-    pub(super) lines_hits: Count,
-    /// internal stats - misses of `self.lines` in `find_line()` and other functions
-    pub(super) lines_miss: Count,
-    /// for all `Lines`, map `Line.fileoffset_end` to `Line.fileoffset_beg`
-    foend_to_fobeg: FoToFo,
-    /// count of `Line`s processed.
+    /// Track [`Line`] found among blocks in `blockreader`, tracked by line
+    /// beginning `FileOffset` key value `FileOffset` should agree
+    /// with `(*LineP).fileoffset_begin()`.
     ///
-    /// Distinct from `self.lines.len()` as that may have contents removed when --streaming
+    /// [`Line`]: crate::data::line::Line
+    pub(crate) lines: FoToLine,
+    /// Internal stats - hits of `self.lines` in `find_line()`
+    /// and other functions.
+    pub(super) lines_hits: Count,
+    /// Internal stats - misses of `self.lines` in `find_line()`
+    /// and other functions.
+    pub(super) lines_miss: Count,
+    /// For all `Lines`, map `Line.fileoffset_end` to `Line.fileoffset_beg`.
+    foend_to_fobeg: FoToFo,
+    /// `Count` of `Line`s processed.
+    ///
+    /// Distinct from `self.lines.len()` as that may have contents removed
+    /// during "streaming" stage.
     pub (super) lines_processed: Count,
-    /// smallest size character in bytes
+    /// Smallest size character in bytes.
     // XXX: Issue #16 only handles UTF-8/ASCII encoding
     charsz_: CharSz,
-    /// enable internal LRU cache for `find_line` (default `true`)
+    /// Enable internal [LRU cache] for `find_line` (default `true`).
+    ///
+    /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
     find_line_lru_cache_enabled: bool,
-    /// internal LRU cache for `find_line`
+    /// Internal LRU cache for [`find_line`].
+    ///
+    ///
     pub(super) find_line_lru_cache: LinesLRUCache,
-    /// internal LRU cache count of lookup hit
+    /// Internal LRU cache `Count` of lookup hit.
     pub(super) find_line_lru_cache_hit: Count,
-    /// internal LRU cache count of lookup miss
+    /// Internal LRU cache `Count` of lookup miss.
     pub(super) find_line_lru_cache_miss: Count,
-    /// internal LRU cache count of `.put`
+    /// Internal LRU cache `Count` of `.put`.
     pub(super) find_line_lru_cache_put: Count,
-    /// count of Ok to Arc::try_unwrap(linep), effectively count of dropped `Line`
+    /// Count of Ok to Arc::try_unwrap(linep), effectively `Count` of
+    /// dropped `Line`.
     pub(super) drop_line_ok: Count,
-    /// count of failures to Arc::try_unwrap(linep). A failure does not mean an error
+    /// `Count` of failures to Arc::try_unwrap(linep).
+    /// A failure does not mean an error.
     pub(super) drop_line_errors: Count,
 }
 
@@ -146,22 +180,26 @@ impl fmt::Debug for LineReader {
 }
 
 // XXX: cannot place these within `impl LineReader`?
-/// minimum char storage size in bytes
+
+/// Minimum char storage size in bytes.
 const CHARSZ_MIN: CharSz = 1;
-/// maximum char storage size in bytes
+/// Maximum char storage size in bytes.
 const CHARSZ_MAX: CharSz = 4;
-/// default char storage size in bytes
+/// Default char storage size in bytes.
 // XXX: Issue #16 only handles UTF-8/ASCII encoding
 const CHARSZ: CharSz = CHARSZ_MIN;
 
-/// implement the LineReader things
+/// Implement the LineReader.
 impl LineReader {
+    /// Internal LRU cache size (entries).
+    // TODO: fix variable name "LRC" -> "LRU"
     const FIND_LINE_LRC_CACHE_SZ: usize = 8;
-    /// `LineReader::blockzero_analysis` must find at least this many `Line` within
-    /// block zero (first block) for the file to be considered a text file.
-    /// If the file has only one block then different considerations apply.
-    ///
 
+    // `LineReader::blockzero_analysis` must find at least this many `Line` within
+    // block zero (first block) for the file to be considered a text file.
+    // If the file has only one block then different considerations apply.
+
+    /// Create a new `LineReader`.
     pub fn new(path: FPath, filetype: FileType, blocksz: BlockSz) -> Result<LineReader> {
         dpnxf!("LineReader::new({:?}, {:?}, {:?})", path, filetype, blocksz);
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
@@ -194,41 +232,44 @@ impl LineReader {
         )
     }
 
-    /// smallest size character in bytes
+    /// Smallest size character in bytes for the file processed by this
+    /// `LineReader`.
     #[inline(always)]
     pub const fn charsz(&self) -> usize {
         self.charsz_
     }
 
-    /// `Block` size in bytes
+    /// `Block` size in bytes.
     #[inline(always)]
     pub const fn blocksz(&self) -> BlockSz {
         self.blockreader.blocksz
     }
 
-    /// File Size in bytes
+    /// File Size in bytes.
     #[inline(always)]
     pub const fn filesz(&self) -> FileSz {
         self.blockreader.filesz()
     }
 
+    /// `FileType` of the file processed by this `LineReader`.
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.blockreader.filetype()
     }
 
-    /// File path
+    /// Reference to the `FPath` of the file processed by this `LineReader`.
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
         self.blockreader.path()
     }
 
+    /// Copy of the `MimeGuess` of the file processed by this `LineReader`.
     #[inline(always)]
     pub const fn mimeguess(&self) -> MimeGuess {
         self.blockreader.mimeguess()
     }
 
-    /// enable internal LRU cache used by `find_line`
+    /// Enable internal LRU cache used by `find_line`.
     #[allow(non_snake_case)]
     pub fn LRU_cache_enable(&mut self) {
         if self.find_line_lru_cache_enabled {
@@ -239,81 +280,90 @@ impl LineReader {
         self.find_line_lru_cache.resize(LineReader::FIND_LINE_LRC_CACHE_SZ);
     }
 
-    /// disable internal LRU cache used by `find_line`
+    /// Disable internal LRU cache used by `find_line`.
     #[allow(non_snake_case)]
     pub fn LRU_cache_disable(&mut self) {
         self.find_line_lru_cache_enabled = false;
         self.find_line_lru_cache.resize(0);
     }
 
-    /// count of lines processed by this `LineReader` (i.e. `self.lines_processed`)
+    /// `Count` of `Line`s processed by this `LineReader`
+    /// (i.e. `self.lines_processed`).
     #[inline(always)]
     pub fn count_lines_processed(&self) -> Count {
         self.lines_processed
     }
 
-    /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
+    /// Return nearest preceding `BlockOffset` for given `FileOffset`
+    /// (file byte offset).
     #[inline(always)]
     pub const fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         BlockReader::block_offset_at_file_offset(fileoffset, self.blocksz())
     }
 
-    /// return file_offset (file byte offset) at given `BlockOffset`
+    /// Return `FileOffset` (file byte offset) at given `BlockOffset`.
     #[inline(always)]
     pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz())
     }
 
-    /// return file_offset (file byte offset) at blockoffset+blockindex
+    /// Return `FileOffset` (file byte offset) at `BlockOffset` + `BlockIndex`.
     #[inline(always)]
     pub const fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         BlockReader::file_offset_at_block_offset_index(blockoffset, self.blocksz(), blockindex)
     }
 
-    /// return block index at given `FileOffset`
+    /// Return `BlockIndex` at given `FileOffset`.
     #[inline(always)]
     pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         BlockReader::block_index_at_file_offset(fileoffset, self.blocksz())
     }
 
-    /// return count of blocks in a file, also, the last blockoffset + 1
+    /// Return `Count` of `Block`s in a file.
+    ///
+    /// Equivalent to the _last `BlockOffset` + 1_.
+    ///
+    /// Not a count of `Block`s that have been read; the calculated
+    /// count of `Block`s based on the `FileSz`.
     #[inline(always)]
     pub const fn count_blocks(&self) -> Count {
         BlockReader::count_blocks(self.filesz(), self.blocksz()) as Count
     }
 
-    /// last valid `BlockOffset` for the file (inclusive)
-    /// (expected largest `BlockOffset` value, no relation to `Block`s processed)
+    /// Last valid `BlockOffset` for the file (inclusive).
+    ///
+    /// (expected largest `BlockOffset` value,
+    /// no relation to `Block`s processed)
     pub const fn blockoffset_last(&self) -> BlockOffset {
         self.blockreader.blockoffset_last()
     }
 
-    /// get the last byte index of the file
+    /// Get the last byte index of the file.
     pub const fn fileoffset_last(&self) -> FileOffset {
         self.blockreader.fileoffset_last()
     }
 
-    /// is `FileOffset` the last byte of the file?
+    /// Is the passed `FileOffset` the last byte of the file?
     pub const fn is_fileoffset_last(&self, fileoffset: FileOffset) -> bool {
         self.fileoffset_last() == fileoffset
     }
 
-    /// is `Line` the last of the file?
+    /// Is the passed `LineP` the last `Line` of the file?
     pub fn is_line_last(&self, linep: &LineP) -> bool {
         self.is_fileoffset_last((*linep).fileoffset_end())
     }
 
-    /// return all currenty stored `FileOffset` in `self.lines`
+    /// Return all currenty stored `FileOffset` in `self.lines`.
     ///
-    /// only intended to aid testing
+    /// Only intended to aid testing.
     pub fn get_fileoffsets(&self) -> Vec<FileOffset> {
         self.lines.keys().cloned().collect()
     }
 
-    /// store information about a single line in a file
-    /// returns a `Line` pointer `LineP`
+    /// Store information about a single line in a file.
+    /// Returns a `Line` pointer `LineP`.
     ///
-    /// should only be called by `self.find_line` and `self.find_line_in_block`
+    /// Should only be called by `self.find_line` and `self.find_line_in_block`.
     fn insert_line(&mut self, line: Line) -> LineP {
         dpnf!("(Line @{:p})", &line);
         let fo_beg: FileOffset = line.fileoffset_begin();
@@ -359,9 +409,10 @@ impl LineReader {
         dpxf!();
     }
 
-    /// does `self` "contain" this `fileoffset`? That is, already know about it?
-    /// the `fileoffset` can be any value (does not have to be begining or ending of
-    /// a `Line`).
+    /// Does `self` "contain" this `fileoffset`? That is, already know about it?
+    ///
+    /// The `FileOffset` can be any value (does not have to be begining
+    /// or ending of a `Line`).
     fn lines_contains(&self, fileoffset: &FileOffset) -> bool {
         let fo_beg: &FileOffset = match self.foend_to_fobeg.range(fileoffset..).next() {
             Some((_, fo_beg_)) => {
@@ -375,10 +426,12 @@ impl LineReader {
         self.lines.contains_key(fo_beg)
     }
 
-    /// for any `FileOffset`, get the `Line` (if available)
-    /// The passed `FileOffset` can be any value (does not have to be begining or ending of
-    /// a `Line`).
-    /// O(log(n))
+    /// For any `FileOffset`, get the `Line` (if available).
+    ///
+    /// The passed `FileOffset` can be any value (does not have to be
+    /// begining or ending of a `Line`).
+    ///
+    /// _O(log(n))_
     pub fn get_linep(&self, fileoffset: &FileOffset) -> Option<LineP> {
         // I'm somewhat sure this is O(log(n))
         let fo_beg: &FileOffset = match self.foend_to_fobeg.range(fileoffset..).next() {
@@ -397,6 +450,8 @@ impl LineReader {
         }
     }
 
+    /// Check the internal LRU cache if this `FileOffset` has a known return
+    /// value for `find_line`.
     #[inline(always)]
     #[allow(non_snake_case)]
     fn check_store_LRU(&mut self, fileoffset: FileOffset) -> Option<ResultS4LineFind> {
@@ -439,6 +494,8 @@ impl LineReader {
         None
     }
 
+    /// Check the internal storage if this `FileOffset` has a known return
+    /// value for `find_line`.
     #[inline(always)]
     fn check_store(&mut self, fileoffset: FileOffset) -> Option<ResultS4LineFind> {
         // TODO: [2022/06/18] add a counter for hits and misses for `self.lines`
@@ -506,13 +563,20 @@ impl LineReader {
         None
     }
 
-    /// Find the `Line` at `fileoffset` within the same `Block`.
-    /// This does a linear search over the `Block`, O(n).
+    /// Find the [`Line`] at [`FileOffset`] within the same [`Block`].
+    /// This does a linear search over the `Block`, _O(n)_.
     ///
-    /// If a `Line` extends before or after the `Block` then `Done` is returned.
+    /// If a `Line` extends before or after the `Block` then [`Done`] is
+    /// returned.
     ///
     /// Returned `ResultS4LineFind(fileoffset, …)` may refer to a different
     /// proceeding `Block`.
+    ///
+    /// [`Block`]: crate::readers::blockreader::Block
+    /// [`Found`]: crate::common::ResultS3
+    /// [`Done`]: crate::common::ResultS3
+    /// [`Line`]: crate::data::line::Line
+    /// [`FileOffset`]: crate::common::FileOffset
     //
     // TODO: [2022/05] add test for this:
     //       Keep in mind, a `Line` with terminating-newline as the last byte a `Block`
@@ -936,33 +1000,38 @@ impl LineReader {
         ResultS4LineFind::Found((fo_next, linep))
     }
 
-    /// Find next `Line` starting from `fileoffset`.
-    /// This does a linear search over the file, O(n).
+    /// Find next [`Line`] starting from passed [`FileOffset`].
+    /// This does a linear search over the file, _O(n)_.
     ///
-    /// During the process of finding, creates and stores the `Line` from underlying `Block` data.
-    /// Returns `Found`(`FileOffset` of beginning of the _next_ line, found `LineP`)
-    /// Reaching end of file returns `FileOffset` value that is one byte past the actual end of file (and should not be used).
-    /// Otherwise returns `Err`, all other `Result::Err` errors are propagated.
+    /// During the process of finding, this creates and stores the `Line` from
+    /// underlying [`Block`] data.
+    /// Returns [`Found`] (`FileOffset` of beginning of the _next_ line, found
+    /// `LineP`)
+    /// Reaching end of file returns `FileOffset` value that is one byte past
+    /// the actual end of file (and should not be used).
+    /// Otherwise returns [`Err`], all other `Result::Err`
+    /// errors are propagated.
     ///
-    /// This function has the densest number of byte↔char handling and transitions within this program.
+    /// This function has the densest number of byte↔char handling and
+    /// transitions within this program.
     ///
-    /// Correllary to `find_sysline`, `read_block`.
+    /// Correllary to functions `find_sysline`, `read_block`.
     ///
-    /// Throughout this function, newline A points to the line beginning, newline B
-    /// points to line ending. Both are inclusive.
+    /// Throughout this function, _newline A_ points to the line beginning,
+    /// _newline B_ points to line ending. Both are inclusive.
     ///
     /// Here are two defining cases of this function:
     ///
-    /// given a file of four newlines:
+    /// Given a file of four newlines:
     ///
-    /// ```
+    /// ```text
     ///     byte: 0123
     ///     char: ␊␊␊␊
     /// ```
     ///
-    /// calls to `find_line` would result in a `Line`
+    /// Calls to `find_line` would result in a `Line`
     ///
-    /// ```
+    /// ```text
     ///     A=Line.fileoffset_begin();
     ///     B=Line.fileoffset_end();
     ///     Val=Line.to_string();
@@ -974,9 +1043,9 @@ impl LineReader {
     ///     find_line(3) -> 3,3 "␊"
     /// ```
     ///
-    /// given a file with two alphabet chars and one newline:
+    /// Given a file with two alphabet chars and one newline:
     ///
-    /// ```
+    /// ```text
     ///     012
     ///     x␊y
     ///
@@ -989,6 +1058,11 @@ impl LineReader {
     /// XXX: returning the "next fileoffset (along with `LineP`) is jenky. Just return the `LineP`.
     ///      and/or add `iter` capabilities to `Line` that will hide tracking the "next fileoffset".
     ///
+    /// [`Block`]: crate::readers::blockreader::Block
+    /// [`Found`]: crate::common::ResultS3
+    /// [`Err`]: crate::common::ResultS3
+    /// [`Line`]: crate::data::line::Line
+    /// [`FileOffset`]: crate::common::FileOffset
     // XXX: This function `find_line` is large and cumbersome.
     //      Changes require extensive retesting.
     //      Extensive debug prints are left in place to aid this.

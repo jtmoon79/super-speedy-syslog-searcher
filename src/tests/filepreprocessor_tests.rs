@@ -1,5 +1,6 @@
 // src/tests/filepreprocessor_tests.rs
-//
+
+//! tests for `filepreprocessor.rs` functions
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]

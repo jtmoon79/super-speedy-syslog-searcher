@@ -1,7 +1,9 @@
 // src/readers/filepreprocssor.rs
-//
-// a collection of functions to search for potentially parseable files,
-// and prepare for the creation of `SyslogProcessor`
+
+//! A collection of functions to search for potentially parseable files,
+//! and prepare data needed to create a [`SyslogProcessor`] instance.
+//!
+//! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 
 use crate::common::{
     FPath,
@@ -30,10 +32,6 @@ use crate::printer_debug::printers::{
     dpnxf,
 };
 
-pub use crate::readers::linereader::{
-    ResultS4LineFind,
-};
-
 use std::borrow::Cow;
 use std::fs::File;
 use std::ffi::OsStr;
@@ -45,6 +43,7 @@ use lazy_static::lazy_static;
 extern crate mime;
 
 extern crate mime_guess;
+#[doc(hidden)]
 pub use mime_guess::MimeGuess;
 
 extern crate tar;
@@ -59,6 +58,7 @@ extern crate tar;
 //     to `BlockReader`
 //     See Issue #15
 
+/// Initial path processing return type.
 #[derive(Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
     FileValid(FPath, MimeGuess, FileType),
@@ -86,8 +86,9 @@ lazy_static! {
     };
 }
 
-/// map `MimeGuess` into a `FileType`
-/// (i.e. call `find_line`)
+/// Map a single [`MimeGuess`] as a [`str`] into a `FileType`.
+///
+/// [`MimeGuess`]: https://docs.rs/mime_guess/2.0.4/mime_guess/struct.MimeGuess.html
 pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     // see https://docs.rs/mime/latest/mime/
     // see https://docs.rs/mime/latest/src/mime/lib.rs.html
@@ -122,8 +123,9 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     }
 }
 
-/// can a `LineReader` parse this file/MIME type?
-/// (i.e. call `self.find_line()`)
+/// Map a [`MimeGuess`] to a `FileType`.
+///
+/// [`MimeGuess`]: https://docs.rs/mime_guess/2.0.4/mime_guess/struct.MimeGuess.html
 pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
     dpnf!("mimeguess_to_filetype({:?})", mimeguess);
     for mimeguess_ in mimeguess.iter() {
@@ -142,12 +144,13 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
     FileType::FileUnknown
 }
 
-/// compensates `mimeguess_to_filetype` for some files not handled by `MimeGuess::from`,
-/// like file names without extensions in the name, e.g. `messages` or `syslog`, or files
+/// Helper function to compensates `mimeguess_to_filetype` for some files
+/// not handled by `MimeGuess::from`, like file names without extensions
+/// in the name, e.g. `messages` or `syslog`, or files
 /// with appended extensions, e.g. `samba.log.old`.
 ///
-/// _compensates_, does not replace `mimeguess_to_filetype`.
-/// Passing `"file.txt"` will return `FileUnknown`
+/// _compensates_, does not replace `mimeguess_to_filetype`,
+/// e.g. passing `"file.txt"` will return `FileUnknown`
 pub(crate) fn path_to_filetype(path: &Path) -> FileType {
     dpnf!("({:?})", path);
 
@@ -272,19 +275,23 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
     FileType::FileUnknown
 }
 
-/// wrapper for `path_to_filetype`
+/// Wrapper function for `path_to_filetype`
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub fn fpath_to_filetype(path: &FPath) -> FileType {
     path_to_filetype(fpath_to_path(path))
 }
 
+/// A simple `enum` to answer a simple question.
 pub enum FileParseable {
     YES,
     NotSupported,
     NotParseable,
 }
 
-/// is `FileType` supported?
+/// Is the `FileType` processing implemented by `s4lib`?
+///
+/// There are plans for future support of differing files.
 pub fn parseable_filetype(filetype: &FileType) -> FileParseable {
     match filetype {
         // `YES` is effectively the list of currently supported file types
@@ -301,18 +308,21 @@ pub fn parseable_filetype(filetype: &FileType) -> FileParseable {
     }
 }
 
-/// reduce `parseable_filetype` to a boolean
+/// Reduce `parseable_filetype` to a boolean.
 pub fn parseable_filetype_ok(filetype: &FileType) -> bool {
     matches!(parseable_filetype(filetype), FileParseable::YES)
 }
 
-/// reduce `mimeguess_to_filetype()` to a boolean
+/// Reduce `mimeguess_to_filetype()` to a boolean.
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) fn mimeguess_to_filetype_ok(mimeguess: &MimeGuess) -> bool {
     matches!(parseable_filetype(&mimeguess_to_filetype(mimeguess)), FileParseable::YES)
 }
 
-/// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+/// Wrapper function to call `mimeguess_to_filetype` and if necessary
+/// `path_to_filetype`
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) fn mimguess_path_to_filetype(mimeguess: &MimeGuess, path: &Path) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
@@ -323,7 +333,9 @@ pub(crate) fn mimguess_path_to_filetype(mimeguess: &MimeGuess, path: &Path) -> F
     filetype
 }
 
-/// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+/// Wrapper function to call `mimeguess_to_filetype` and if necessary
+/// `path_to_filetype`
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) fn mimeguess_fpath_to_filetype(mimeguess: &MimeGuess, path: &FPath) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
@@ -335,7 +347,8 @@ pub(crate) fn mimeguess_fpath_to_filetype(mimeguess: &MimeGuess, path: &FPath) -
     filetype
 }
 
-/// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+/// Wrapper function to call `mimeguess_to_filetype` and if necessary
+/// `path_to_filetype`
 pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
     dpnf!("({:?})", path);
     let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
@@ -378,7 +391,9 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
     (filetype, mimeguess)
 }
 
-/// wrapper to call `mimeguess_to_filetype` and if necessary `path_to_filetype`
+/// Wrapper function to call `mimeguess_to_filetype` and if necessary
+/// `path_to_filetype`
+#[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess) {
     let path_: &Path = fpath_to_path(path);
@@ -386,7 +401,8 @@ pub(crate) fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess)
     path_to_filetype_mimeguess(path_)
 }
 
-/// Return a `ProcessPathResult` for each parseable file within .tar file at `path`
+/// Return a `ProcessPathResult` for each parseable file within
+/// the `.tar` file at `path`.
 pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
     dpnf!("({:?})", path);
 
@@ -467,12 +483,15 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
 
 /// Return all parseable files in the Path.
 ///
-/// Given a directory, recurses the directory.
+/// Given a directory, recurses the directory.<br/>
+/// Given a plain file path, returns that path.<br/>
 /// For each recursed file, checks if file is parseable (correct file type,
-/// appropriate permissions).
+/// appropriate permissions).<br/>
+/// For archive files, `.tar`, enumerates files within the archive.<br/>
+/// For compressed files, `.gz` `.xz`, presumes they hold only one file
+/// (Relates to Issue #11, Issue #8).
 ///
-/// Given a plain file path, returns that path. This behavior assumes a user-passed
-/// file path should attempt to be parsed.
+/// This behavior assumes a user-passed file path should attempt to be parsed.
 pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
     dpnf!("({:?})", path);
 

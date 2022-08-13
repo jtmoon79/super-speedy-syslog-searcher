@@ -1,5 +1,6 @@
 // src/readers/summary.rs
-//
+
+//! Implements `Summary` statistics tracking struct.
 
 #![allow(non_snake_case)]
 
@@ -53,20 +54,21 @@ use std::fmt;
 // Summary
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// Accumulated statistics to print about activity of a `SyslineReader` and it's underlying
-/// `LineReader` and it's underlying `BlockReader`.
+/// Accumulated statistics to print about activity of a `SyslineReader`
+/// and it's underlying `LineReader` and it's underlying `BlockReader`.
 ///
-/// For CLI option `--summary`
+/// For CLI option `--summary`.
 #[derive(Clone, Default)]
 pub struct Summary {
+    /// the `FileType`
     pub filetype: FileType,
-    /// count of bytes stored by `BlockReader`
+    /// `Count` of bytes stored by `BlockReader`
     pub BlockReader_bytes: Count,
     /// count of bytes in file
     pub BlockReader_bytes_total: FileSz,
-    /// count of `Block`s read by `BlockReader`
+    /// `Count` of `Block`s read by `BlockReader`
     pub BlockReader_blocks: Count,
-    /// count of `Block`s in file
+    /// `Count` of `Block`s in file
     pub BlockReader_blocks_total: Count,
     /// `BlockSz` of `BlockReader`
     pub BlockReader_blocksz: BlockSz,
@@ -74,9 +76,9 @@ pub struct Summary {
     pub BlockReader_filesz: FileSz,
     /// `filesz()` of file, for compressed files this is the uncompressed filesz
     pub BlockReader_filesz_actual: FileSz,
-    /// count of `Lines` processed by `LineReader`
+    /// `Count` of `Lines` processed by `LineReader`
     pub LineReader_lines: Count,
-    /// count of `Syslines` processed by `SyslineReader`
+    /// `Count` of `Syslines` processed by `SyslineReader`
     pub SyslineReader_syslines: Count,
     /// `SyslineReader::_syslines_hit`
     pub SyslineReader_syslines_hit: Count,
@@ -144,12 +146,13 @@ pub struct Summary {
     pub SyslineReader_drop_sysline_errors: Count,
     /// `SyslogProcessor::missing_year`
     pub SyslogProcessor_missing_year: Option<Year>,
-    /// the last IO error as a String, if any
+    /// The last IO error as a String, if any
     /// (`Error` does not implement `Clone`)
     pub Error_: Option<String>,
 }
 
 impl Summary {
+    /// Create a new `Summary`
     #[allow(clippy::too_many_arguments)]
     pub fn new(
         filetype: FileType,
@@ -259,8 +262,9 @@ impl Summary {
         }
     }
 
-    /// return maximum value for hit/miss/insert number.
-    /// helpful for format widths
+    /// Return maximum value for hit/miss/insert number.
+    ///
+    /// Helpful to format teriminal column widths.
     pub fn max_hit_miss(&self) -> Count {
         *[
             self.SyslineReader_syslines_hit,
@@ -293,8 +297,9 @@ impl Summary {
         ].iter().max().unwrap()
     }
 
-    /// return maximum value for drop number.
-    /// helpful for format widths
+    /// Return maximum value for drop number.
+    ///
+    /// Helpful to format teriminal column widths.
     pub fn max_drop(&self) -> Count {
         *[
             self.LineReader_drop_line_ok,
@@ -349,4 +354,5 @@ impl fmt::Debug for Summary {
     }
 }
 
+/// Optional `Summary`.
 pub type SummaryOpt = Option<Summary>;

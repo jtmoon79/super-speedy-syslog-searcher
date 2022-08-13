@@ -1,5 +1,6 @@
 // src/tests/syslogprocessor_tests.rs
-//
+
+//! tests for `syslogprocessor.rs`
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]

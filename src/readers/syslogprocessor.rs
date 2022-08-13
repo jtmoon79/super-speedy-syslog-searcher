@@ -1,6 +1,9 @@
 // src/readers/syslogprocessor.rs
-//
 // …
+
+//! Implements a `SyslogProcessor`, the driver of processing a "syslog" file.
+//!
+//! This is the end-point used by the binary program _s4_.
 
 #![allow(non_snake_case)]
 
@@ -36,10 +39,12 @@ use crate::data::sysline::{
     SyslineP,
 };
 
+#[doc(hidden)]
 pub use crate::readers::linereader::{
     ResultS4LineFind,
 };
 
+#[doc(hidden)]
 pub use crate::readers::syslinereader::{
     SyslineReader,
     ResultS4SyslineFind,
@@ -97,28 +102,65 @@ extern crate walkdir;
 // SyslogProcessor
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+/// Typed [`FileProcessingResult`] for "block zero analysis".
+///
+/// [`FileProcessingResult`]: crate::common::FileProcessingResult
 pub type FileProcessingResultBlockZero = FileProcessingResult<std::io::Error>;
 
+/// Enum for the [`SyslogProcessor`] processing stages. Each file processed
+/// advances through these stages. Sometimes stages may be skipped.
+///
+/// [`SyslogProcessor`]: self::SyslogProcessor
 #[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
-enum ProcessingStage {
-    /// does the file exist?
+pub enum ProcessingStage {
+    /// Does the file exist and is it a parseable type?
     Stage0ValidFileCheck,
-    /// check file can be parsed
+    /// Check file can be parsed by trying to parse it. Determine the
+    /// datetime patterns of any found [`Sysline`s].<br/>
+    /// If no `Sysline`s are found then advance to `Stage4Summary`.
+    ///
+    /// [`Sysline`s]: crate::data::sysline::Sysline
     Stage1BlockzeroAnalysis,
-    /// find the sysline with datetime that is allowed by the datetime filters
+    /// Find the first [`Sysline`] in the syslog file.<br/>
+    /// If passed CLI option `--after` then find the first `Sysline` with
+    /// datetime at or after the user-passed [`DateTimeL`].
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     Stage2FindDt,
-    /// no more searching backwards in a file, and thus, previously processed data can be dropped
+    /// Advanced through the syslog file to the end.<br/>
+    /// If passed CLI option `--before` then find the last [`Sysline`] with
+    /// datetime at or before the user-passed [`DateTimeL`].
+    ///
+    /// While advancing, try to `drop` previously processed data
+    /// (a.k.a. "streaming mode").
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     Stage3StreamSyslines,
-    /// for CLI option `--summary`, print a summary about the file processing
+    /// If passed CLI option `--summary` then print a summary of
+    /// various informations about the processed file.<br/>
+    /// Probably only interesting to developers.
     Stage4Summary,
 }
 
+/// [`BlockSz`] in a [`Range`].
+///
+/// [`Range`]: std::ops::Range
+/// [`BlockSz`]: crate::readers::blockreader::BlockSz
 type BszRange = std::ops::Range<BlockSz>;
+
+/// Map [`BlockSz`] to a [`Count`].
+///
+/// [`BlockSz`]: crate::readers::blockreader::BlockSz
+/// [`Count`]: crate::common::Count
 type MapBszRangeToCount = RangeMap<u64, Count>;
 
 lazy_static! {
-    /// for files in blockzero_analyis, the number `Line` needed to found within
-    /// block zero will vary depending on the blocksz
+    /// For files in `blockzero_analyis`, the number of [`Line`]s needed to
+    /// be found within block zero.
+    ///
+    /// [`Line`]: crate::data::line::Line
     pub static ref BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP: MapBszRangeToCount = {
         let mut m = MapBszRangeToCount::new();
         m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX as BlockSz}, 1);
@@ -126,8 +168,11 @@ lazy_static! {
 
         m
     };
-    /// for files in blockzero_analyis, the number `Sysline` needed to found within
-    /// block zero will vary depending on the blocksz
+
+    /// For files in `blockzero_analyis`, the number of [`Sysline`]s needed to
+    /// be found within block zero.
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     pub static ref BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP: MapBszRangeToCount = {
         let mut m = MapBszRangeToCount::new();
         m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX as BlockSz}, 1);
@@ -137,35 +182,50 @@ lazy_static! {
     };
 }
 
-/// The `SyslogProcessor` uses `SyslineReader` to find `Sysline`s in a file.
+/// The `SyslogProcessor` uses [`SyslineReader`] to find [`Sysline`s] in a file.
 ///
 /// A `SyslogProcessor` has knowledge of:
 /// - the different stages of processing a syslog file
-/// - stores optional datetime filters
+/// - stores optional datetime filters and searches with them
+/// - handles special cases of a syslog file with a datetime format without a
+///   year
 ///
 /// A `SyslogProcessor` is driven by a thread to fully process one syslog file.
 ///
-/// A `SyslogProcessor` will drop processed data stored by it's `SyslineReader`
-/// (and underlying `LineReader` and `BlockReader`). During "streaming" mode,
-/// the `SyslogProcessor` will proactively `drop` data that has been processed
-/// and printed. It does so by calling various `drop` during `find_sysline`.
+/// During "[streaming mode]", the `SyslogProcessor` will proactively `drop`
+/// data that has been processed and printed. It does so by calling
+/// private function `drop_block` during function [`find_sysline`].
+///
+/// [`Sysline`s]: crate::data::sysline::Sysline
+/// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
+/// [`LineReader`]: crate::readers::linereader::LineReader
+/// [`BlockReader`]: crate::readers::blockreader::BlockReader
+/// [`find_sysline`]: self::SyslogProcessor#method.find_sysline
+/// [streaming mode]: self::ProcessingStage#variant.Stage3StreamSyslines
 pub struct SyslogProcessor {
     syslinereader: SyslineReader,
+    /// Current `ProcessingStage`
     processingstage: ProcessingStage,
+    /// `FPath`
     path: FPath,
+    // TODO: remove this, use the `BlockReader` blocksz, (DRY)
     blocksz: BlockSz,
+    /// `FixedOffset` timezone for datetime formats without a timezone.
     tz_offset: FixedOffset,
+    /// Optional filter, syslines _after_ this `DateTimeL`
     filter_dt_after_opt: DateTimeLOpt,
+    /// Optional filter, syslines _before_ this `DateTimeL`
     filter_dt_before_opt: DateTimeLOpt,
-    /// internal sanity check, has `self.blockzero_analysis()` completed?
+    /// Internal sanity check, has `self.blockzero_analysis()` completed?
     blockzero_analysis_done: bool,
-    /// internal tracking of last `blockoffset` passed to `drop_block`
+    /// Internal tracking of last `blockoffset` passed to `drop_block`
     drop_block_last: BlockOffset,
-    /// internal memory of blocks dropped
+    /// Internal memory of blocks dropped
     bo_dropped: HashSet<BlockOffset>,
-    /// Year value used to start `process_missing_year()`
+    /// Optional `Year` value used to start `process_missing_year()`.
+    /// Only needed for syslog files with datetime format without a year.
     missing_year: Option<Year>,
-    /// last IO Error, if any
+    /// The last IO Error, if any
     Error_: Option<String>,
 }
 
@@ -189,16 +249,29 @@ impl std::fmt::Debug for SyslogProcessor {
 
 impl SyslogProcessor {
     /// `SyslogProcessor` has it's own miminum requirements for `BlockSz`.
+    ///
     /// Necessary for `blockzero_analysis` functions to have chance at success.
+    #[doc(hidden)]
     #[cfg(any(debug_assertions,test))]
     pub const BLOCKSZ_MIN: BlockSz = 0x2;
+
+    /// `SyslogProcessor` has it's own miminum requirements for `BlockSz`.
+    ///
+    /// Necessary for `blockzero_analysis` functions to have chance at success.
     #[cfg(not(any(debug_assertions,test)))]
     pub const BLOCKSZ_MIN: BlockSz = 0x40;
-    /// allow "streaming" (`drop`ping data in calls to `find_sysline`)?
+
+    /// Allow "streaming" (`drop`ping data in calls to `find_sysline`)?
+    #[doc(hidden)]
     const STREAM_STAGE_DROP: bool = true;
-    /// use LRU caches in underlying components. For development and testing experiments
+
+    /// Use LRU caches in underlying components?
+    ///
+    /// XXX: For development and testing experiments!
+    #[doc(hidden)]
     const LRU_CACHE_ENABLE: bool = true;
 
+    /// Create a new `SyslogProcessor`.
     pub fn new(
         path: FPath,
         filetype: FileType,
@@ -250,113 +323,134 @@ impl SyslogProcessor {
         )
     }
 
+    /// `Count` of [`Line`s] processed.
+    ///
+    /// [`Line`s]: crate::data::line::Line
     #[inline(always)]
     #[allow(dead_code)]
     pub fn count_lines(&self) -> Count {
         self.syslinereader.linereader.count_lines_processed()
     }
 
+    /// The `BlockSz`.
     #[inline(always)]
     pub const fn blocksz(&self) -> BlockSz {
         self.syslinereader.blocksz()
     }
 
+    /// The File Size.
     #[inline(always)]
     pub const fn filesz(&self) -> FileSz {
         self.syslinereader.filesz()
     }
 
+    /// The file `FileType`.
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.syslinereader.filetype()
     }
 
-    /// return a reference to the syslog file processed
+    /// Return a reference to the file path processed.
     #[inline(always)]
     #[allow(dead_code)]
     pub const fn path(&self) -> &FPath {
         self.syslinereader.path()
     }
 
-    /// return nearest preceding `BlockOffset` for given `FileOffset` (file byte offset)
+    /// Return nearest preceding `BlockOffset` for given `FileOffset`
+    /// (file byte offset).
     #[allow(dead_code)]
     pub const fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         self.syslinereader.block_offset_at_file_offset(fileoffset)
     }
 
-    /// return file_offset (file byte offset) at given `BlockOffset`
+    /// Return `FileOffset` (file byte offset) at given `BlockOffset`.
     #[allow(dead_code)]
     pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         self.syslinereader.file_offset_at_block_offset(blockoffset)
     }
 
-    /// return file_offset (file byte offset) at blockoffset+blockindex
+    /// Return `FileOffset` (file byte offset) at `BlockOffset` + `BlockIndex`.
     #[allow(dead_code)]
     pub const fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         self.syslinereader
             .file_offset_at_block_offset_index(blockoffset, blockindex)
     }
 
-    /// return block index at given `FileOffset`
+    /// Return `BlockIndex` at given `FileOffset`.
     #[allow(dead_code)]
     pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         self.syslinereader.block_index_at_file_offset(fileoffset)
     }
 
-    /// return count of blocks in a file, also, the last blockoffset + 1
+    /// Return `Count` of [`Block`s] in a file.
+    ///
+    /// Equivalent to the _last [`BlockOffset`] + 1_.
+    ///
+    /// Not a count of `Block`s that have been read; the calculated
+    /// count of `Block`s based on the `FileSz`.
+    ///
+    /// [`Block`s]: crate::readers::blockreader::Block
+    /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
     #[allow(dead_code)]
     pub const fn count_blocks(&self) -> Count {
         self.syslinereader.count_blocks()
     }
 
-    /// last valid `BlockOffset` of the file
+    /// Last valid `BlockOffset` of the file.
     #[allow(dead_code)]
     pub const fn blockoffset_last(&self) -> BlockOffset {
         self.syslinereader.blockoffset_last()
     }
 
-    /// get the last byte index of the file
+    /// Get the last byte index `FileOffset` of the file.
     pub const fn fileoffset_last(&self) -> FileOffset {
         self.syslinereader.fileoffset_last()
     }
 
-    /// smallest size character in bytes
+    /// Smallest size character in bytes.
     #[allow(dead_code)]
     pub const fn charsz(&self) -> usize {
         self.syslinereader.charsz()
     }
 
-    /// return a copy of the associated `MimeGuess`
+    /// Return a copy of the associated `MimeGuess`.
     pub const fn mimeguess(&self) -> MimeGuess {
         self.syslinereader.mimeguess()
     }
 
-    /// did this SyslogProcessor run `process_missing_year()` ?
+    /// Did this SyslogProcessor run `process_missing_year()` ?
     fn did_process_missing_year(&self) -> bool {
         self.missing_year.is_some()
     }
 
-    /// syslog files wherein the datetime format that does not include a year
-    /// must have special handling:
+    /// Syslog files wherein the datetime format that does not include a year
+    /// must have special handling.
     ///
-    /// The last sysline in the file is presumed to share the same year as the `mtime` (stored by
-    /// the underlying `BlockReader` instance).
-    /// The entire file is read from end to beginning (in reverse). The year is tracked
-    /// and updated for each sysline. If there is jump backwards in time, that is presumed to
-    /// be a year changeover.
+    /// The last [`Sysline`] in the file is presumed to share the same year as
+    /// the `mtime` (stored by the underlying [`BlockReader`] instance).
+    /// The entire file is read from end to beginning (in reverse). The year is
+    /// tracked and updated for each sysline. If there is jump backwards in
+    /// time, that is presumed to be a year changeover.
     ///
     /// For example, given syslog contents
     ///
-    ///     Nov 1 12:00:00 hello
-    ///     Dec 1 12:00:00 good morning
-    ///     Jan 1 12:00:00 goodbye
+    /// ```text
+    /// Nov 1 12:00:00 hello
+    /// Dec 1 12:00:00 good morning
+    /// Jan 1 12:00:00 goodbye
+    /// ```
     ///
-    /// and file `mtime` that is `Datetime` value _January 1 12:00:00 2015_, then
-    /// the last sysline "Jan 1 12:00:00 goodbye" is presumed to be in year 2015.
-    /// The preceding sysline "Dec 1 12:00:00 goodbye" is then processed.
-    /// A backwards jump is seen _Dec 1_ to _Jan 1_. From this, it can be concluded the
-    /// _Dec 1_ refers to a prior year, 2014.
+    /// and file `mtime` that is datetime _January 1 12:00:00 2015_,
+    /// then the last `Sysline` "Jan 1 12:00:00 goodbye" is presumed to be in
+    /// year 2015.
+    /// The preceding `Sysline` "Dec 1 12:00:00 goodbye" is then processed.
+    /// A backwards jump is seen _Dec 1_ to _Jan 1_. From this, it can be
+    /// concluded the _Dec 1_ refers to a prior year, 2014.
     ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// [`BlockReader`]: crate::readers::blockreader::BlockReader
+    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     pub fn process_missing_year(&mut self, mtime: SystemTime) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.process_missing_year({:?})", mtime);
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
@@ -448,9 +542,16 @@ impl SyslogProcessor {
         FileProcessingResultBlockZero::FileOk
     }
 
-    /// wrapper to `self.syslinereader.find_sysline`
+    /// Calls `self.syslinereader.find_sysline`, and in some cases calls
+    /// private function `drop_block` to drop previously processed [`Sysline`],
+    /// [`Line`], and [`Block`s].
     ///
-    /// This is where data is `drop`ped during "streaming" stage.
+    /// This is what implements the "streaming" in "[streaming mode]".
+    ///
+    /// [`Block`s]: crate::readers::blockreader::Block
+    /// [`Line`]: crate::data::line::Line
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// [streaming mode]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     pub fn find_sysline(&mut self, fileoffset: FileOffset) -> ResultS4SyslineFind {
         if self.processingstage == ProcessingStage::Stage3StreamSyslines && SyslogProcessor::STREAM_STAGE_DROP {
             dpnf!("syslogprocesser.find_sysline({})", fileoffset);
@@ -479,13 +580,14 @@ impl SyslogProcessor {
         self.syslinereader.find_sysline(fileoffset)
     }
 
-    /// wrapper to `self.syslinereader.is_sysline_last`
+    /// Wrapper function to `self.syslinereader.is_sysline_last`.
     pub fn is_sysline_last(&self, syslinep: &SyslineP) -> bool {
         self.syslinereader.is_sysline_last(syslinep)
     }
 
-    /// drop all data at and before `blockoffset` (drop as much as possible)
-    /// this includes underyling `Block`, `LineParts`, `Line`, `Sysline`
+    /// Drop all data at and before passsed `BlockOffset`
+    /// (drop as much as possible) this includes underyling `Block`,
+    /// `LineParts`, `Line`, `Sysline`
     ///
     /// The caller must know what they are doing!
     fn drop_block(&mut self, blockoffset: BlockOffset) {
@@ -499,6 +601,7 @@ impl SyslogProcessor {
         self.drop_block_impl(blockoffset)
     }
 
+    /// Implementation of `drop_block`.
     fn drop_block_impl(&mut self, blockoffset: BlockOffset) {
         dpnf!("syslogprocesser.drop_block({})", blockoffset);
         debug_assert!(SyslogProcessor::STREAM_STAGE_DROP, "STREAM_STAGE_DROP is false yet call to drop_block");
@@ -506,7 +609,8 @@ impl SyslogProcessor {
         dpxf!("syslogprocesser.drop_block({})", blockoffset);
     }
 
-    /// Wrapper for `self.syslinereader.find_sysline_between_datetime_filters`
+    /// Wrapper function for
+    /// `self.syslinereader.find_sysline_between_datetime_filters`.
     //
     // TODO: [2022/06/20] the `find` functions need consistent naming,
     //       `find_next`, `find_between`, `find_...` . The current design has
@@ -531,8 +635,9 @@ impl SyslogProcessor {
         }
     }
 
-    /// wrapper for a recurring sanity check
-    /// good for checking `process_stageX` function calls are in correct order
+    /// Wrapper function for a recurring sanity check.
+    ///
+    /// Good for checking `process_stageX` function calls are in correct order.
     #[inline(always)]
     fn assert_stage(&self, stage_expact: ProcessingStage) {
         assert_eq!(
@@ -542,7 +647,7 @@ impl SyslogProcessor {
         );
     }
 
-    /// stage 0 does some sanity checks on the file
+    /// Stage 0 does some sanity checks on the file.
     // TODO: this is redundant and has already been performed by functions in
     //       `filepreprocessor` and `BlockReader::new`.
     pub fn process_stage0_valid_file_check(&mut self) -> FileProcessingResultBlockZero {
@@ -560,7 +665,11 @@ impl SyslogProcessor {
         FileProcessingResultBlockZero::FileOk
     }
 
-    /// stage 1: Can `Line`s and `Sysline`s be parsed from the first block (block zero)?
+    /// Stage 1: Can [`Line`s] and [`Sysline`s] be parsed from the first block
+    /// (block zero)?
+    ///
+    /// [`Sysline`s]: crate::data::sysline::Sysline
+    /// [`Line`s]: crate::data::line::Line
     pub fn process_stage1_blockzero_analysis(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.process_stage1_blockzero_analysis");
         self.assert_stage(ProcessingStage::Stage0ValidFileCheck);
@@ -589,7 +698,7 @@ impl SyslogProcessor {
         result
     }
 
-    /// stage 2: Given the two optional datetime filters, can a datetime be
+    /// Stage 2: Given the two optional datetime filters, can a datetime be
     /// found between those filters?
     pub fn process_stage2_find_dt(&mut self) -> FileProcessingResultBlockZero {
         dpnxf!("syslogprocessor.process_stage2_find_dt");
@@ -599,8 +708,9 @@ impl SyslogProcessor {
         FileProcessingResultBlockZero::FileOk
     }
 
-    /// stage 3: during streaming, processed and printed data stored by underlying
-    /// "Readers" is proactively dropped (removed from process memory).
+    /// Stage 3: during streaming, processed and printed data stored by
+    /// underlying "Readers" is proactively dropped
+    /// (removed from process memory).
     pub fn process_stage3_stream_syslines(&mut self) -> FileProcessingResultBlockZero {
         dpnxf!("syslogprocessor.process_stage3_stream_syslines");
         self.assert_stage(ProcessingStage::Stage2FindDt);
@@ -609,7 +719,11 @@ impl SyslogProcessor {
         FileProcessingResultBlockZero::FileOk
     }
 
-    /// stage 4: no more syslines to process, only interested in the `self.summary()`
+    /// Stage 4: no more [`Sysline`s] to process. Create and return a
+    /// [`Summary`].
+    ///
+    /// [`Summary`]: crate::readers::summary::Summary
+    /// [`Sysline`s]: crate::data::sysline::Sysline
     pub fn process_stage4_summary(&mut self) -> Summary {
         dpnxf!("syslogprocessor.process_stage4_summary");
         // XXX: this can be called from various stages, no need to assert
@@ -618,8 +732,13 @@ impl SyslogProcessor {
         self.summary()
     }
 
-    /// Attempt to find a minimum number of `Sysline` within the first block.
-    /// If enough `Sysline` found then return `FileOk` else `FileErrNoSyslinesFound`.
+    /// Attempt to find a minimum number of [`Sysline`] within the first block.
+    /// If enough `Sysline` found then return [`FileOk`]
+    /// else return [`FileErrNoSyslinesFound`].
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// [`FileOk`]: self::FileProcessingResultBlockZero
+    /// [`FileErrNoSyslinesFound`]: self::FileProcessingResultBlockZero
     pub(super) fn blockzero_analysis_syslines(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.blockzero_analysis_syslines");
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
@@ -676,8 +795,14 @@ impl SyslogProcessor {
         fpr
     }
 
-    /// Attempt to find a minimum number of `Line`s within the first block (block zero).
-    /// If enough `Line` found then return `FileOk` else `FileErrNoLinesFound`.
+    /// Attempt to find a minimum number of [`Line`s] within the first block
+    /// (block zero).
+    /// If enough `Line` found then return [`FileOk`]
+    /// else return [`FileErrNoLinesFound`].
+    ///
+    /// [`Line`s]: crate::data::line::Line
+    /// [`FileOk`]: self::FileProcessingResultBlockZero
+    /// [`FileErrNoLinesFound`]: self::FileProcessingResultBlockZero
     pub(super) fn blockzero_analysis_lines(&mut self) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.blockzero_analysis_lines()");
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
@@ -754,9 +879,12 @@ impl SyslogProcessor {
         result
     }
 
-    /// return an up-to-date `Summary` instance for this `SyslogProcessor`
+    /// Return an up-to-date [`Summary`] instance for this `SyslogProcessor`.
     ///
-    /// probably not useful or interesting before `ProcessingStage::Stage4Summary`
+    /// Probably not useful or interesting before
+    /// `ProcessingStage::Stage4Summary`.
+    ///
+    /// [`Summary`]: crate::readers::summary::Summary
     pub fn summary(&self) -> Summary {
         let filetype = self.filetype();
         let BlockReader_bytes = self.syslinereader.linereader.blockreader.count_bytes();

@@ -1,4 +1,4 @@
-// bench_prints.rs
+// benches/bench_prints.rs
 //
 // benchmark different printing approaches
 

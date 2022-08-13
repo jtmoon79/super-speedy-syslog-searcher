@@ -1,7 +1,6 @@
 // src/printer_debug/stack.rs
-//
-// functions to find current stack depth for indented trace prints
-//
+
+//! Functions to find current stack depth for indented trace prints.
 
 use std::collections::HashMap;
 use std::thread;
