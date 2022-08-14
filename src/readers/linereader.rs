@@ -27,6 +27,10 @@ use crate::data::line::{
     Lines,
 };
 
+use crate::data::datetime::{
+    SystemTime,
+};
+
 use crate::readers::blockreader::{
     BlockSz,
     BlockOffset,
@@ -232,38 +236,47 @@ impl LineReader {
         )
     }
 
-    /// Smallest size character in bytes for the file processed by this
-    /// `LineReader`.
+    /// Smallest size character in bytes.
     #[inline(always)]
     pub const fn charsz(&self) -> usize {
         self.charsz_
     }
 
-    /// `Block` size in bytes.
+    /// See [`BlockReader::blocksz`].
+    ///
+    /// [`BlockReader::blocksz`]: crate::readers::blockreader::BlockReader#method.blocksz
     #[inline(always)]
     pub const fn blocksz(&self) -> BlockSz {
-        self.blockreader.blocksz
+        self.blockreader.blocksz()
     }
 
-    /// File Size in bytes.
+    /// See [`BlockReader::filesz`].
+    ///
+    /// [`BlockReader::filesz`]: crate::readers::blockreader::BlockReader#method.filesz
     #[inline(always)]
     pub const fn filesz(&self) -> FileSz {
         self.blockreader.filesz()
     }
 
-    /// `FileType` of the file processed by this `LineReader`.
+    /// See [`BlockReader::filetype`].
+    ///
+    /// [`BlockReader::filetype`]: crate::readers::blockreader::BlockReader#method.filetype
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.blockreader.filetype()
     }
 
-    /// Reference to the `FPath` of the file processed by this `LineReader`.
+    /// See [`BlockReader::path`].
+    ///
+    /// [`BlockReader::path`]: crate::readers::blockreader::BlockReader#method.path
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
         self.blockreader.path()
     }
 
-    /// Copy of the `MimeGuess` of the file processed by this `LineReader`.
+    /// See [`BlockReader::mimeguess`].
+    ///
+    /// [`BlockReader::mimeguess`]: crate::readers::blockreader::BlockReader#method.mimeguess
     #[inline(always)]
     pub const fn mimeguess(&self) -> MimeGuess {
         self.blockreader.mimeguess()
@@ -287,6 +300,13 @@ impl LineReader {
         self.find_line_lru_cache.resize(0);
     }
 
+    /// See [BlockReader::mtime].
+    ///
+    /// [BlockReader::mtime]: crate::readers::blockreader::BlockReader#method.mtime
+    pub fn mtime(&self) -> SystemTime {
+        self.blockreader.mtime()
+    }
+
     /// `Count` of `Line`s processed by this `LineReader`
     /// (i.e. `self.lines_processed`).
     #[inline(always)]
@@ -294,51 +314,56 @@ impl LineReader {
         self.lines_processed
     }
 
-    /// Return nearest preceding `BlockOffset` for given `FileOffset`
-    /// (file byte offset).
+    /// See [`BlockReader::block_offset_at_file_offset`].
+    ///
+    /// [`BlockReader::block_offset_at_file_offset`]: crate::readers::blockreader::BlockReader#method.block_offset_at_file_offset
     #[inline(always)]
     pub const fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         BlockReader::block_offset_at_file_offset(fileoffset, self.blocksz())
     }
 
-    /// Return `FileOffset` (file byte offset) at given `BlockOffset`.
+    /// See [`BlockReader::file_offset_at_block_offset`].
+    ///
+    /// [`BlockReader::file_offset_at_block_offset`]: crate::readers::blockreader::BlockReader#method.file_offset_at_block_offset
     #[inline(always)]
     pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz())
     }
 
-    /// Return `FileOffset` (file byte offset) at `BlockOffset` + `BlockIndex`.
+    /// See [`BlockReader::file_offset_at_block_offset_index`].
+    ///
+    /// [`BlockReader::file_offset_at_block_offset_index`]: crate::readers::blockreader::BlockReader#method.file_offset_at_block_offset_index
     #[inline(always)]
     pub const fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         BlockReader::file_offset_at_block_offset_index(blockoffset, self.blocksz(), blockindex)
     }
 
-    /// Return `BlockIndex` at given `FileOffset`.
+    /// See [`BlockReader::block_index_at_file_offset`].
+    ///
+    /// [`BlockReader::block_index_at_file_offset`]: crate::readers::blockreader::BlockReader#method.block_index_at_file_offset
     #[inline(always)]
     pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         BlockReader::block_index_at_file_offset(fileoffset, self.blocksz())
     }
 
-    /// Return `Count` of `Block`s in a file.
+    /// See [`BlockReader::count_blocks`].
     ///
-    /// Equivalent to the _last `BlockOffset` + 1_.
-    ///
-    /// Not a count of `Block`s that have been read; the calculated
-    /// count of `Block`s based on the `FileSz`.
+    /// [`BlockReader::count_blocks`]: crate::readers::blockreader::BlockReader#method.count_blocks
     #[inline(always)]
     pub const fn count_blocks(&self) -> Count {
         BlockReader::count_blocks(self.filesz(), self.blocksz()) as Count
     }
 
-    /// Last valid `BlockOffset` for the file (inclusive).
+    /// See [`BlockReader::blockoffset_last`].
     ///
-    /// (expected largest `BlockOffset` value,
-    /// no relation to `Block`s processed)
+    /// [`BlockReader::blockoffset_last`]: crate::readers::blockreader::BlockReader#method.blockoffset_last
     pub const fn blockoffset_last(&self) -> BlockOffset {
         self.blockreader.blockoffset_last()
     }
 
-    /// Get the last byte index of the file.
+    /// See [`BlockReader::fileoffset_last`].
+    ///
+    /// [`BlockReader::fileoffset_last`]: crate::readers::blockreader::BlockReader#method.fileoffset_last
     pub const fn fileoffset_last(&self) -> FileOffset {
         self.blockreader.fileoffset_last()
     }
@@ -353,7 +378,7 @@ impl LineReader {
         self.is_fileoffset_last((*linep).fileoffset_end())
     }
 
-    /// Return all currenty stored `FileOffset` in `self.lines`.
+    /// Return all currently stored `FileOffset` in `self.lines`.
     ///
     /// Only intended to aid testing.
     #[cfg(test)]
@@ -382,6 +407,11 @@ impl LineReader {
         linep
     }
 
+    /// Forcefully `drop` the [`Lines`]. For "streaming mode".
+    ///
+    /// [`Lines`]: crate::data::line::Lines
+    /// [`Block`]: crate::readers::blockreader::Block
+    /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
     pub fn drop_lines(&mut self, lines: Lines, bo_dropped: &mut HashSet<BlockOffset>) {
         dpnf!();
         for linep in lines.into_iter() {
@@ -390,6 +420,13 @@ impl LineReader {
         dpxf!();
     }
 
+    /// Forcefully `drop` the [`Line`]. For "streaming mode".
+    ///
+    /// The caller must know what they are doing!
+    ///
+    /// [`Line`s]: crate::data::line::Line
+    /// [`Block`]: crate::readers::blockreader::Block
+    /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
     pub fn drop_line(&mut self, linep: LineP, bo_dropped: &mut HashSet<BlockOffset>) {
         let fo_key: FileOffset = (*linep).fileoffset_begin();
         self.find_line_lru_cache.pop(&fo_key);

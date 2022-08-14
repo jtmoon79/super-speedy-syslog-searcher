@@ -332,94 +332,118 @@ impl SyslogProcessor {
         self.syslinereader.linereader.count_lines_processed()
     }
 
-    /// The `BlockSz`.
+    /// See [`BlockReader::blocksz`].
+    ///
+    /// [`BlockReader::blocksz`]: crate::readers::blockreader::BlockReader#method.blocksz
     #[inline(always)]
     pub const fn blocksz(&self) -> BlockSz {
         self.syslinereader.blocksz()
     }
 
-    /// The File Size.
+    /// See [`BlockReader::filesz`].
+    ///
+    /// [`BlockReader::filesz`]: crate::readers::blockreader::BlockReader#method.filesz
     #[inline(always)]
     pub const fn filesz(&self) -> FileSz {
         self.syslinereader.filesz()
     }
 
-    /// The file `FileType`.
+    /// See [`BlockReader::filetype`].
+    ///
+    /// [`BlockReader::filetype`]: crate::readers::blockreader::BlockReader#method.filetype
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.syslinereader.filetype()
     }
 
-    /// Return a reference to the file path processed.
+    /// See [`BlockReader::path`].
+    ///
+    /// [`BlockReader::path`]: crate::readers::blockreader::BlockReader#method.path
     #[inline(always)]
     #[allow(dead_code)]
     pub const fn path(&self) -> &FPath {
         self.syslinereader.path()
     }
 
-    /// Return nearest preceding `BlockOffset` for given `FileOffset`
-    /// (file byte offset).
+    /// See [`BlockReader::block_offset_at_file_offset`].
+    ///
+    /// [`BlockReader::block_offset_at_file_offset`]: crate::readers::blockreader::BlockReader#method.block_offset_at_file_offset
     #[allow(dead_code)]
     pub const fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         self.syslinereader.block_offset_at_file_offset(fileoffset)
     }
 
-    /// Return `FileOffset` (file byte offset) at given `BlockOffset`.
+    /// See [`BlockReader::file_offset_at_block_offset`].
+    ///
+    /// [`BlockReader::file_offset_at_block_offset`]: crate::readers::blockreader::BlockReader#method.file_offset_at_block_offset
     #[allow(dead_code)]
     pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         self.syslinereader.file_offset_at_block_offset(blockoffset)
     }
 
-    /// Return `FileOffset` (file byte offset) at `BlockOffset` + `BlockIndex`.
+    /// See [`BlockReader::file_offset_at_block_offset_index`].
+    ///
+    /// [`BlockReader::file_offset_at_block_offset_index`]: crate::readers::blockreader::BlockReader#method.file_offset_at_block_offset_index
     #[allow(dead_code)]
     pub const fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         self.syslinereader
             .file_offset_at_block_offset_index(blockoffset, blockindex)
     }
 
-    /// Return `BlockIndex` at given `FileOffset`.
+    /// See [`BlockReader::block_index_at_file_offset`].
+    ///
+    /// [`BlockReader::block_index_at_file_offset`]: crate::readers::blockreader::BlockReader#method.block_index_at_file_offset
     #[allow(dead_code)]
     pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         self.syslinereader.block_index_at_file_offset(fileoffset)
     }
 
-    /// Return `Count` of [`Block`s] in a file.
+    /// See [`BlockReader::count_blocks`].
     ///
-    /// Equivalent to the _last [`BlockOffset`] + 1_.
-    ///
-    /// Not a count of `Block`s that have been read; the calculated
-    /// count of `Block`s based on the `FileSz`.
-    ///
-    /// [`Block`s]: crate::readers::blockreader::Block
-    /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
+    /// [`BlockReader::count_blocks`]: crate::readers::blockreader::BlockReader#method.count_blocks
     #[allow(dead_code)]
     pub const fn count_blocks(&self) -> Count {
         self.syslinereader.count_blocks()
     }
 
-    /// Last valid `BlockOffset` of the file.
+    /// See [`BlockReader::blockoffset_last`].
+    ///
+    /// [`BlockReader::blockoffset_last`]: crate::readers::blockreader::BlockReader#method.blockoffset_last
     #[allow(dead_code)]
     pub const fn blockoffset_last(&self) -> BlockOffset {
         self.syslinereader.blockoffset_last()
     }
 
-    /// Get the last byte index `FileOffset` of the file.
+    /// See [`BlockReader::fileoffset_last`].
+    ///
+    /// [`BlockReader::fileoffset_last`]: crate::readers::blockreader::BlockReader#method.fileoffset_last
     pub const fn fileoffset_last(&self) -> FileOffset {
         self.syslinereader.fileoffset_last()
     }
 
-    /// Smallest size character in bytes.
+    /// See [`LineReader::charsz`].
+    ///
+    /// [`LineReader::charsz`]: crate::readers::linereader::LineReader#method.charsz
     #[allow(dead_code)]
     pub const fn charsz(&self) -> usize {
         self.syslinereader.charsz()
     }
 
-    /// Return a copy of the associated `MimeGuess`.
+    /// See [`BlockReader::mimeguess`].
+    ///
+    /// [`BlockReader::mimeguess`]: crate::readers::blockreader::BlockReader#method.mimeguess
     pub const fn mimeguess(&self) -> MimeGuess {
         self.syslinereader.mimeguess()
     }
 
-    /// Did this SyslogProcessor run `process_missing_year()` ?
+    /// See [`BlockReader::mtime`].
+    ///
+    /// [`BlockReader::mtime`]: crate::readers::blockreader::BlockReader#method.mtime
+    pub fn mtime(&self) -> SystemTime {
+        self.syslinereader.mtime()
+    }
+
+    /// Did this `SyslogProcessor` run `process_missing_year()` ?
     fn did_process_missing_year(&self) -> bool {
         self.missing_year.is_some()
     }
@@ -468,6 +492,7 @@ impl SyslogProcessor {
         // The previously stored `Sysline`s have a filler year that is most likely incorrect.
         // The underlying `Sysline` instance cannot be updated behind an `Arc`.
         // Those syslines must be dropped and the entire file processed again.
+        // However, underlying `Line` and `Block` are still valid; do not reprocess those.
         self.syslinereader.clear_syslines();
 
         // read all syslines in reverse
@@ -542,12 +567,13 @@ impl SyslogProcessor {
         FileProcessingResultBlockZero::FileOk
     }
 
-    /// Calls `self.syslinereader.find_sysline`, and in some cases calls
-    /// private function `drop_block` to drop previously processed [`Sysline`],
-    /// [`Line`], and [`Block`s].
+    /// Calls [`self.syslinereader.find_sysline(fileoffset)`],
+    /// and in some cases calls private function `drop_block` to drop
+    /// previously processed [`Sysline`], [`Line`], and [`Block`s].
     ///
     /// This is what implements the "streaming" in "[streaming mode]".
     ///
+    /// [`self.syslinereader.find_sysline(fileoffset)`]: crate::readers::syslinereader::SyslineReader#method.find_sysline
     /// [`Block`s]: crate::readers::blockreader::Block
     /// [`Line`]: crate::data::line::Line
     /// [`Sysline`]: crate::data::sysline::Sysline
@@ -580,16 +606,22 @@ impl SyslogProcessor {
         self.syslinereader.find_sysline(fileoffset)
     }
 
-    /// Wrapper function to `self.syslinereader.is_sysline_last`.
+
+    /// See [`SyslineReader::is_sysline_last`].
+    ///
+    /// [`SyslineReader::is_sysline_last`]: crate::readers::syslinereader::SyslineReader#method.is_sysline_last
     pub fn is_sysline_last(&self, syslinep: &SyslineP) -> bool {
         self.syslinereader.is_sysline_last(syslinep)
     }
 
-    /// Drop all data at and before passsed `BlockOffset`
-    /// (drop as much as possible) this includes underyling `Block`,
-    /// `LineParts`, `Line`, `Sysline`
+    /// Forcefully `drop` data associated with the [`BlockOffset`].
+    /// This includes dropping associated [`Sysline`]s and [`Line`]s.
     ///
-    /// The caller must know what they are doing!
+    /// Caller must know what they are doing!
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// [`Line`]: crate::data::line::Line
+    /// [`FileOffset`]: crate::common::FileOffset
     fn drop_block(&mut self, blockoffset: BlockOffset) {
         // `drop_block_impl` is an expensive function. only run it when needed
         if blockoffset <= self.drop_block_last {
@@ -609,8 +641,10 @@ impl SyslogProcessor {
         dpxf!("syslogprocesser.drop_block({})", blockoffset);
     }
 
-    /// Wrapper function for
-    /// `self.syslinereader.find_sysline_between_datetime_filters`.
+    /// Wrapper function for [`SyslineReader::find_sysline_between_datetime_filters`].
+    /// Keeps a custom copy of any returned `Error` at `self.Error_`.
+    ///
+    /// [`SyslineReader::find_sysline_between_datetime_filters`]: crate::readers::syslinereader::SyslineReader#method.find_sysline_between_datetime_filters
     //
     // TODO: [2022/06/20] the `find` functions need consistent naming,
     //       `find_next`, `find_between`, `find_...` . The current design has
@@ -637,7 +671,8 @@ impl SyslogProcessor {
 
     /// Wrapper function for a recurring sanity check.
     ///
-    /// Good for checking `process_stageX` function calls are in correct order.
+    /// Good for checking functions `process_stage…` are called in
+    /// the correct order.
     #[inline(always)]
     fn assert_stage(&self, stage_expact: ProcessingStage) {
         assert_eq!(
@@ -651,16 +686,16 @@ impl SyslogProcessor {
     // TODO: this is redundant and has already been performed by functions in
     //       `filepreprocessor` and `BlockReader::new`.
     pub fn process_stage0_valid_file_check(&mut self) -> FileProcessingResultBlockZero {
-        dpnf!("syslogprocessor.process_stage0_valid_file_check");
+        dpnf!();
         // sanity check calls are in correct order
         self.assert_stage(ProcessingStage::Stage0ValidFileCheck);
         self.processingstage = ProcessingStage::Stage0ValidFileCheck;
 
         if self.filesz() == 0 {
-            dpxf!("syslogprocessor.process_stage0_valid_file_check: filesz 0; return {:?}", FileProcessingResultBlockZero::FileErrEmpty);
+            dpxf!("filesz 0; return {:?}", FileProcessingResultBlockZero::FileErrEmpty);
             return FileProcessingResultBlockZero::FileErrEmpty;
         }
-        dpxf!("syslogprocessor.process_stage0_valid_file_check: return {:?}", FileProcessingResultBlockZero::FileOk);
+        dpxf!("return {:?}", FileProcessingResultBlockZero::FileOk);
 
         FileProcessingResultBlockZero::FileOk
     }
@@ -712,7 +747,7 @@ impl SyslogProcessor {
     /// underlying "Readers" is proactively dropped
     /// (removed from process memory).
     pub fn process_stage3_stream_syslines(&mut self) -> FileProcessingResultBlockZero {
-        dpnxf!("syslogprocessor.process_stage3_stream_syslines");
+        dpnxf!();
         self.assert_stage(ProcessingStage::Stage2FindDt);
         self.processingstage = ProcessingStage::Stage3StreamSyslines;
 
@@ -725,7 +760,7 @@ impl SyslogProcessor {
     /// [`Summary`]: crate::readers::summary::Summary
     /// [`Sysline`s]: crate::data::sysline::Sysline
     pub fn process_stage4_summary(&mut self) -> Summary {
-        dpnxf!("syslogprocessor.process_stage4_summary");
+        dpnxf!();
         // XXX: this can be called from various stages, no need to assert
         self.processingstage = ProcessingStage::Stage4Summary;
 
@@ -740,17 +775,17 @@ impl SyslogProcessor {
     /// [`FileOk`]: self::FileProcessingResultBlockZero
     /// [`FileErrNoSyslinesFound`]: self::FileProcessingResultBlockZero
     pub(super) fn blockzero_analysis_syslines(&mut self) -> FileProcessingResultBlockZero {
-        dpnf!("syslogprocessor.blockzero_analysis_syslines");
+        dpnf!();
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
 
         let blockp: BlockP = match self.syslinereader.linereader.blockreader.read_block(0) {
             ResultS3ReadBlock::Found(blockp_) => blockp_,
             ResultS3ReadBlock::Done => {
-                dpxf!("syslogprocessor.blockzero_analysis_syslines: return FileErrEmpty");
+                dpxf!("return FileErrEmpty");
                 return FileProcessingResultBlockZero::FileErrEmpty;
             },
             ResultS3ReadBlock::Err(err) => {
-                dpxf!("syslogprocessor.blockzero_analysis_syslines: return FileErrIo({:?})", err);
+                dpxf!("return FileErrIo({:?})", err);
                 self.Error_ = Some(err.to_string());
                 return FileProcessingResultBlockZero::FileErrIo(err);
             },
@@ -761,7 +796,7 @@ impl SyslogProcessor {
         let mut found: Count = 0;
         // must find at least this many syslines in block zero to be FileOk
         let found_min: Count = *BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP.get(&blocksz0).unwrap();
-        dpo!("syslogprocessor.blockzero_analysis_syslines: block zero blocksz {} found_min {:?}", blocksz0, found_min);
+        dpo!("block zero blocksz {} found_min {:?}", blocksz0, found_min);
         // find `at_max` Syslines within block zero
         while found < found_min {
             fo = match self.syslinereader.find_sysline_in_block(fo) {
@@ -776,7 +811,7 @@ impl SyslogProcessor {
                 }
                 ResultS4SyslineFind::Err(err) => {
                     self.Error_ = Some(err.to_string());
-                    dpxf!("syslogprocessor.blockzero_analysis_syslines: return FileErrIo({:?})", err);
+                    dpxf!("return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIo(err);
                 }
             };
@@ -790,7 +825,7 @@ impl SyslogProcessor {
             false => FileProcessingResultBlockZero::FileErrNoSyslinesFound,
         };
 
-        dpxf!("syslogprocessor.blockzero_analysis_syslines() found {} syslines, require {} syslines, return {:?}", found, found_min, fpr);
+        dpxf!("found {} syslines, require {} syslines, return {:?}", found, found_min, fpr);
 
         fpr
     }

@@ -1,6 +1,6 @@
 // src/lib.rs
 
-//! _Super Speedy Syslog Searcher_ (library)! (_s4lib_)
+//! _Super Speedy Syslog Searcher_ library, _s4lib_!
 //!
 //! This is the library implementation used by binary program _s4_.
 //! This library is documented in part to have a presence on _crates.io_ and

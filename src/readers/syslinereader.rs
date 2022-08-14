@@ -34,6 +34,7 @@ use crate::readers::blockreader::{
 
 use crate::data::datetime::{
     Year,
+    SystemTime,
     FixedOffset,
     DateTimeL,
     DateTimeLOpt,
@@ -445,81 +446,108 @@ impl SyslineReader {
         )
     }
 
-    /// Return a copy of the `FileType`.
+    /// See [`BlockReader::filetype`].
+    ///
+    /// [`BlockReader::filetype`]: crate::readers::blockreader::BlockReader#method.filetype
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.linereader.filetype()
     }
 
-    /// Return a copy of the `BlockSz`.
+    /// See [`BlockReader::blocksz`].
+    ///
+    /// [`BlockReader::blocksz`]: crate::readers::blockreader::BlockReader#method.blocksz
     #[inline(always)]
     pub const fn blocksz(&self) -> BlockSz {
         self.linereader.blocksz()
     }
 
-    /// Return a copy of the File Size `FileSz`.
+    /// See [`BlockReader::filesz`].
+    ///
+    /// [`BlockReader::filesz`]: crate::readers::blockreader::BlockReader#method.filesz
     #[inline(always)]
     pub const fn filesz(&self) -> FileSz {
         self.linereader.filesz()
     }
 
-    /// Return a copy of the `MimeGuess`.
+    /// See [`BlockReader::mimeguess`].
+    ///
+    /// [`BlockReader::mimeguess`]: crate::readers::blockreader::BlockReader#method.mimeguess
     #[inline(always)]
     pub const fn mimeguess(&self) -> MimeGuess {
         self.linereader.mimeguess()
     }
 
-    /// Return a reference to the `FPath`.
+    /// See [`BlockReader::path`].
+    ///
+    /// [`BlockReader::path`]: crate::readers::blockreader::BlockReader#method.path
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
         self.linereader.path()
     }
 
-    /// Return nearest preceding `BlockOffset` for given `FileOffset`
-    /// (file byte offset).
+    /// See [`BlockReader::block_offset_at_file_offset`].
+    ///
+    /// [`BlockReader::block_offset_at_file_offset`]: crate::readers::blockreader::BlockReader#method.block_offset_at_file_offset
     pub const fn block_offset_at_file_offset(&self, fileoffset: FileOffset) -> BlockOffset {
         self.linereader.block_offset_at_file_offset(fileoffset)
     }
 
-    /// Return `FileOffset` (file byte offset) at given `BlockOffset`.
+    /// See [`BlockReader::file_offset_at_block_offset`].
+    ///
+    /// [`BlockReader::file_offset_at_block_offset`]: crate::readers::blockreader::BlockReader#method.file_offset_at_block_offset
     pub const fn file_offset_at_block_offset(&self, blockoffset: BlockOffset) -> FileOffset {
         self.linereader.file_offset_at_block_offset(blockoffset)
     }
 
-    /// Return `FileOffset` (file byte offset) at blockoffset+blockindex.
+    /// See [`BlockReader::file_offset_at_block_offset_index`].
+    ///
+    /// [`BlockReader::file_offset_at_block_offset_index`]: crate::readers::blockreader::BlockReader#method.file_offset_at_block_offset_index
     pub const fn file_offset_at_block_offset_index(&self, blockoffset: BlockOffset, blockindex: BlockIndex) -> FileOffset {
         self.linereader
             .file_offset_at_block_offset_index(blockoffset, blockindex)
     }
 
-    /// Get the last byte index of the file (inclusive).
+    /// See [`BlockReader::fileoffset_last`].
+    ///
+    /// [`BlockReader::fileoffset_last`]: crate::readers::blockreader::BlockReader#method.fileoffset_last
     pub const fn fileoffset_last(&self) -> FileOffset {
         self.linereader.fileoffset_last()
     }
 
-    /// Return block index at given `FileOffset`.
+    /// See [`BlockReader::block_index_at_file_offset`].
+    ///
+    /// [`BlockReader::block_index_at_file_offset`]: crate::readers::blockreader::BlockReader#method.block_index_at_file_offset
     pub const fn block_index_at_file_offset(&self, fileoffset: FileOffset) -> BlockIndex {
         self.linereader.block_index_at_file_offset(fileoffset)
     }
 
-    /// Return `Count` of `Block`s in a file.
+    /// See [`BlockReader::count_blocks`].
     ///
-    /// Equivalent to the _last `BlockOffset` + 1_.
-    ///
-    /// Not a count of `Block`s that have been read; the calculated
-    /// count of `Block`s based on the `FileSz`.
+    /// [`BlockReader::count_blocks`]: crate::readers::blockreader::BlockReader#method.count_blocks
     pub const fn count_blocks(&self) -> Count {
         self.linereader.count_blocks()
     }
 
-    /// The last valid `BlockOffset` of the file.
+    /// See [`BlockReader::blockoffset_last`].
+    ///
+    /// [`BlockReader::blockoffset_last`]: crate::readers::blockreader::BlockReader#method.blockoffset_last
     pub const fn blockoffset_last(&self) -> BlockOffset {
         self.linereader.blockoffset_last()
     }
 
-    /// Smallest size character in bytes,
+    /// See [`LineReader::charsz`].
+    ///
+    /// [`LineReader::charsz`]: crate::readers::linereader::LineReader#method.charsz
     pub const fn charsz(&self) -> usize {
         self.linereader.charsz()
+    }
+
+    /// See [`BlockReader::mtime`].
+    ///
+    /// [`BlockReader::mtime`]: crate::readers::blockreader::BlockReader#method.mtime
+    pub fn mtime(&self) -> SystemTime {
+        self.linereader.mtime()
     }
 
     /// `Count` of `Sysline`s processed so far, i.e. `self.syslines_count`.
@@ -532,7 +560,9 @@ impl SyslineReader {
         self.syslines.len() as Count
     }
 
-    /// `Count` underlying `Line`s processed so far
+    /// See [`LineReader::count_lines_processed`].
+    ///
+    /// [`LineReader::count_lines_processed`]: crate::readers::linereader::LineReader#method.count_lines_processed
     #[inline(always)]
     pub fn count_lines_processed(&self) -> Count {
         self.linereader.count_lines_processed()
@@ -591,7 +621,7 @@ impl SyslineReader {
 
     /// Print `Sysline` at `FileOffset`.
     ///
-    /// Testing helper only
+    /// Testing helper function only.
     #[doc(hidden)]
     #[cfg(test)]
     pub fn print(&self, fileoffset: FileOffset, raw: bool) {
@@ -617,8 +647,10 @@ impl SyslineReader {
         &DATETIME_PARSE_DATAS[self.dt_pattern_index_max_count()]
     }
 
-    /// Is this `Sysline` the last `Sysline` of the entire file?
+    /// Is this [`Sysline`] the last `Sysline` of the entire file?
     /// (not the same as last Sysline within the optional datetime filters).
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
     pub fn is_sysline_last(&self, sysline: &Sysline) -> bool {
         let fo_end: FileOffset = sysline.fileoffset_end();
         if fo_end == self.fileoffset_last() {
@@ -631,8 +663,9 @@ impl SyslineReader {
         false
     }
 
-    /// Is this `SyslineP` the last `Sysline` of the entire file?
-    /// (not the same as last Sysline within the optional datetime filters).
+    /// Wrapper for [`is_sysline_last`].
+    ///
+    /// [`is_sysline_last`]: self::is_sysline_last
     pub fn is_syslinep_last(&self, syslinep: &SyslineP) -> bool {
         self.is_sysline_last(syslinep.as_ref())
     }
@@ -695,8 +728,8 @@ impl SyslineReader {
         ret
     }
 
-    /// store passed `Sysline` in `self.syslines`,
-    /// update other fields.
+    /// Store the passed `Sysline` in `self.syslines`.
+    /// Update other fields.
     fn insert_sysline(&mut self, sysline: Sysline) -> SyslineP {
         let fo_beg: FileOffset = sysline.fileoffset_begin();
         let fo_end: FileOffset = sysline.fileoffset_end();
@@ -713,7 +746,13 @@ impl SyslineReader {
         syslinep
     }
 
-    /// Drop as much data as possible that uses the referred `Block`.
+    /// Forcefully `drop` data associated with the [`Block`] at [`BlockOffset`]
+    /// (or at least, drop as much as possible).
+    ///
+    /// Caller must know what they are doing!
+    ///
+    /// [`Block`]: crate::readers::blockreader::Block
+    /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
     pub fn drop_block(&mut self, blockoffset: BlockOffset, bo_dropped: &mut HashSet<BlockOffset>) {
         dpnf!("({})", blockoffset);
 
@@ -750,10 +789,13 @@ impl SyslineReader {
         dpxf!("({})", blockoffset);
     }
 
-    /// Drop all data associated with `Sysline` at `fileoffset`
-    /// (or at least, drop as much as possible).
+    /// Forcefully `drop` data associated with the [`Sysline`] at
+    /// [`FileOffset`] (or at least, drop as much as possible).
     ///
     /// Caller must know what they are doing!
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// [`FileOffset`]: crate::common::FileOffset
     pub fn drop_sysline(&mut self, fileoffset: &FileOffset, bo_dropped: &mut HashSet<BlockOffset>) {
         dpnf!("({})", fileoffset);
         let syslinep: SyslineP = match self.syslines.remove(fileoffset) {

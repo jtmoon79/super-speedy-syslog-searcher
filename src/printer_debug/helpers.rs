@@ -26,7 +26,8 @@ pub use tempfile::tempdir;
 
 /// NamedTempFile instances default to this file name prefix.
 ///
-/// Used by helper script `tools/rust-test.sh` to delete temporary files remaing after testing.
+/// Used by helper script `tools/rust-test.sh` to delete temporary files
+/// remaining after testing.
 /// See <https://github.com/Stebalien/tempfile/issues/183>.
 pub const STR_TEMPFILE_PREFIX: &str = "tmp-s4-test-";
 
@@ -36,12 +37,12 @@ lazy_static! {
     static ref STRING_TEMPFILE_SUFFIX: String = String::from("");
 }
 
-/// small helper for copying `NamedTempFile` path to a `FPath`
+/// Small helper function for copying `NamedTempFile` path to a `FPath`.
 pub fn ntf_fpath(ntf: &NamedTempFile) -> FPath {
     FPath::from(ntf.path().to_str().unwrap())
 }
 
-/// testing helper to write a `str` to a temporary file.
+/// Testing helper function to write a `str` to a temporary file.
 ///
 /// BUG: `NamedTempFile` created within `lazy_static` will fail to remove itself
 ///      <https://github.com/Stebalien/tempfile/issues/183>.
