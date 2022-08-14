@@ -35,7 +35,7 @@ use crate::data::datetime::{
 };
 
 use crate::readers::syslinereader::{
-    ResultS4SyslineFind,
+    ResultS3SyslineFind,
 };
 
 use crate::readers::syslogprocessor::{
@@ -209,13 +209,13 @@ fn test_find_sysline() {
     loop {
         let result = slp.find_sysline(fo);
         match result {
-            ResultS4SyslineFind::Found((fo_, syslinep)) => {
+            ResultS3SyslineFind::Found((fo_, syslinep)) => {
                 fo = fo_;
             }
-            ResultS4SyslineFind::Done => {
+            ResultS3SyslineFind::Done => {
                 break;
             }
-            ResultS4SyslineFind::Err(err) => {
+            ResultS3SyslineFind::Err(err) => {
                 panic!("Error {:?}", err);
             }
         }
@@ -229,11 +229,11 @@ fn test_find_sysline_between_datetime_filters_Found() {
 
     let result = slp.find_sysline_between_datetime_filters(fo);
     match result {
-        ResultS4SyslineFind::Found((_fo, _syslinep)) => {}
-        ResultS4SyslineFind::Done => {
+        ResultS3SyslineFind::Found((_fo, _syslinep)) => {}
+        ResultS3SyslineFind::Done => {
             panic!("Unexpected Done");
         }
-        ResultS4SyslineFind::Err(err) => {
+        ResultS3SyslineFind::Err(err) => {
             panic!("Error {:?}", err);
         }
     }
@@ -246,11 +246,11 @@ fn test_find_sysline_between_datetime_filters_Done() {
 
     let result = slp.find_sysline_between_datetime_filters(fo);
     match result {
-        ResultS4SyslineFind::Found((_fo, _syslinep)) => {
+        ResultS3SyslineFind::Found((_fo, _syslinep)) => {
             panic!("Unexpected Found");
         }
-        ResultS4SyslineFind::Done => {}
-        ResultS4SyslineFind::Err(err) => {
+        ResultS3SyslineFind::Done => {}
+        ResultS3SyslineFind::Err(err) => {
             panic!("Error {:?}", err);
         }
     }
@@ -314,13 +314,13 @@ fn test_processing_stages_0_5() {
     loop {
         let result = slp.find_sysline(fo);
         match result {
-            ResultS4SyslineFind::Found((fo_, syslinep)) => {
+            ResultS3SyslineFind::Found((fo_, syslinep)) => {
                 fo = fo_;
             }
-            ResultS4SyslineFind::Done => {
+            ResultS3SyslineFind::Done => {
                 break;
             }
-            ResultS4SyslineFind::Err(err) => {
+            ResultS3SyslineFind::Err(err) => {
                 panic!("Error {:?}", err);
             }
         }

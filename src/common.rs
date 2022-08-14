@@ -54,7 +54,7 @@ pub type Count = u64;
 ///
 /// [`Result`]: std::result::Result
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum ResultS4<T, E> {
+pub enum ResultS3<T, E> {
     /// Contains the success data.
     Found(T),
     /// File is empty, or a request reached the end of the file or beyond the
@@ -69,146 +69,14 @@ pub enum ResultS4<T, E> {
 // XXX: ripped from '\.rustup\toolchains\beta-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core\src\result.rs'
 //      https://doc.rust-lang.org/src/core/result.rs.html#501-659
 
-impl<T, E> ResultS4<T, E> {
+impl<T, E> ResultS3<T, E> {
     // Querying the contained values
 
     /// Returns `true` if the result is [`Found`], [`Done`].
     ///
-    /// [`Found`]: self::ResultS4#variant.Found
-    /// [`Done`]: self::ResultS4#variant.Done
-    /// [`Err`]: self::ResultS4#variant.Err
-    #[allow(dead_code)]
-    #[must_use = "if you intended to assert that this is ok, consider `.unwrap()` instead"]
-    #[inline(always)]
-    pub const fn is_ok(&self) -> bool {
-        matches!(*self, ResultS4::Found(_) | ResultS4::Done)
-    }
-
-    /// Returns `true` if the result is [`Found`].
-    ///
-    /// [`Found`]: self::ResultS4#variant.Found
-    #[inline(always)]
-    pub const fn is_found(&self) -> bool {
-        matches!(*self, ResultS4::Found(_))
-    }
-
-    /// Returns `true` if the result is [`Err`].
-    ///
-    /// [`Err`]: self::ResultS4#variant.Err
-    #[allow(dead_code)]
-    #[must_use = "if you intended to assert that this is err, consider `.unwrap_err()` instead"]
-    #[inline(always)]
-    pub const fn is_err(&self) -> bool {
-        !self.is_ok()
-    }
-
-    /// Returns `true` if the result is [`Done`].
-    ///
-    /// [`Done`]: self::ResultS4#variant.Done
-    #[inline(always)]
-    pub const fn is_done(&self) -> bool {
-        matches!(*self, ResultS4::Done)
-    }
-
-    /// Returns `true` if the result is an [`Found`] value containing the given
-    /// value.
-    ///
-    /// [`Found`]: self::ResultS4#variant.Found
-    #[allow(dead_code)]
-    #[must_use]
-    #[inline(always)]
-    pub fn contains<U>(&self, x: &U) -> bool
-    where
-        U: PartialEq<T>,
-    {
-        match self {
-            ResultS4::Found(y) => x == y,
-            ResultS4::Done => false,
-            ResultS4::Err(_) => false,
-        }
-    }
-
-    /// Returns `true` if the result is an [`Err`] value containing the given
-    /// value.
-    ///
-    /// [`Err`]: self::ResultS4#variant.Err
-    #[allow(dead_code)]
-    #[must_use]
-    #[inline(always)]
-    pub fn contains_err<F>(&self, f: &F) -> bool
-    where
-        F: PartialEq<E>,
-    {
-        match self {
-            ResultS4::Err(e) => f == e,
-            _ => false,
-        }
-    }
-
-    // Adapter for each variant
-
-    /// Converts from `ResultS4<T, E>` to [`Option<T>`].
-    ///
-    /// Converts `self` into an [`Option<T>`], consuming `self`,
-    /// and discarding the error, if any.
-    #[allow(dead_code)]
-    #[inline(always)]
-    pub fn ok(self) -> Option<T> {
-        match self {
-            ResultS4::Found(x) => Some(x),
-            ResultS4::Done => None,
-            ResultS4::Err(_) => None,
-        }
-    }
-
-    /// Converts from `ResultS4<T, E>` to [`Option<E>`].
-    ///
-    /// Converts `self` into an [`Option<E>`], consuming `self`,
-    /// and discarding the success value, if any.
-    #[allow(dead_code)]
-    #[inline(always)]
-    pub fn err(self) -> Option<E> {
-        match self {
-            ResultS4::Found(_) => None,
-            ResultS4::Done => None,
-            ResultS4::Err(x) => Some(x),
-        }
-    }
-}
-
-impl<T, E> std::fmt::Display for ResultS4<T, E>
-where
-    E: std::fmt::Display,
-{
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ResultS4::Found(_) => { write!(f, "ResultS4::Found") },
-            ResultS4::Done => { write!(f, "ResultS4::Done") },
-            ResultS4::Err(err) => { write!(f, "ResultS4::Err({})", err) },
-        }
-    }
-}
-
-// TODO: [2022/08] `ResultS4` was refactored. It can be merged with `ResultS3`.
-//       No need for both.
-
-/// `Result` extended to 3 types  TODO: DELETE THIS
-///
-/// for block searching functions
-#[derive(Debug, PartialEq)]
-pub enum ResultS3<T, E> {
-    /// Contains the success data
-    Found(T),
-    /// File is empty, or other condition that means "Done", nothing to return, but no bad errors happened
-    Done,
-    /// Contains the error value, something bad happened
-    Err(E),
-}
-
-impl<T, E> ResultS3<T, E> {
-    // Querying the contained values
-
-    /// Returns `true` if the result is [`Found`, 'Done`].
+    /// [`Found`]: self::ResultS3#variant.Found
+    /// [`Done`]: self::ResultS3#variant.Done
+    /// [`Err`]: self::ResultS3#variant.Err
     #[allow(dead_code)]
     #[must_use = "if you intended to assert that this is ok, consider `.unwrap()` instead"]
     #[inline(always)]
@@ -216,7 +84,17 @@ impl<T, E> ResultS3<T, E> {
         matches!(*self, ResultS3::Found(_) | ResultS3::Done)
     }
 
+    /// Returns `true` if the result is [`Found`].
+    ///
+    /// [`Found`]: self::ResultS3#variant.Found
+    #[inline(always)]
+    pub const fn is_found(&self) -> bool {
+        matches!(*self, ResultS3::Found(_))
+    }
+
     /// Returns `true` if the result is [`Err`].
+    ///
+    /// [`Err`]: self::ResultS3#variant.Err
     #[allow(dead_code)]
     #[must_use = "if you intended to assert that this is err, consider `.unwrap_err()` instead"]
     #[inline(always)]
@@ -225,18 +103,17 @@ impl<T, E> ResultS3<T, E> {
     }
 
     /// Returns `true` if the result is [`Done`].
+    ///
+    /// [`Done`]: self::ResultS3#variant.Done
     #[inline(always)]
     pub const fn is_done(&self) -> bool {
         matches!(*self, ResultS3::Done)
     }
 
-    /// Returns `true` if the result is [`Found`].
-    #[inline(always)]
-    pub const fn is_found(&self) -> bool {
-        matches!(*self, ResultS3::Found(_))
-    }
-
-    /// Returns `true` if the result is an [`Found`] value containing the given value.
+    /// Returns `true` if the result is an [`Found`] value containing the given
+    /// value.
+    ///
+    /// [`Found`]: self::ResultS3#variant.Found
     #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
@@ -251,7 +128,10 @@ impl<T, E> ResultS3<T, E> {
         }
     }
 
-    /// Returns `true` if the result is an [`Err`] value containing the given value.
+    /// Returns `true` if the result is an [`Err`] value containing the given
+    /// value.
+    ///
+    /// [`Err`]: self::ResultS3#variant.Err
     #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
@@ -281,7 +161,7 @@ impl<T, E> ResultS3<T, E> {
         }
     }
 
-    /// Converts from `Result<T, E>` to [`Option<E>`].
+    /// Converts from `ResultS3<T, E>` to [`Option<E>`].
     ///
     /// Converts `self` into an [`Option<E>`], consuming `self`,
     /// and discarding the success value, if any.
@@ -329,12 +209,16 @@ pub enum FileProcessingResult<E> {
 
 impl<E> FileProcessingResult<E> {
     /// Returns `true` if the result is [`FileOk`].
+    ///
+    /// [`FileOk`]: self::FileProcessingResult#variant.FileOk
     #[inline(always)]
     pub const fn is_ok(&self) -> bool {
         matches!(*self, FileProcessingResult::FileOk)
     }
 
     /// Returns `true` if the result is [`FileErrIo`].
+    ///
+    /// [`FileErrIo`]: self::FileProcessingResult#variant.FileErrIo
     #[inline(always)]
     pub const fn has_err(&self) -> bool {
         matches!(*self, FileProcessingResult::FileErrIo(_))

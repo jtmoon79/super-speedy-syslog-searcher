@@ -152,7 +152,7 @@ use s4lib::readers::summary::{
 };
 
 use s4lib::readers::syslinereader::{
-    ResultS4SyslineFind,
+    ResultS3SyslineFind,
 };
 
 use s4lib::readers::syslogprocessor::{
@@ -879,9 +879,9 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
     let mut sent_is_last: bool = false;
     let mut fo1: FileOffset = 0;
     let search_more: bool;
-    let result: ResultS4SyslineFind = syslogproc.find_sysline_between_datetime_filters(0);
+    let result: ResultS3SyslineFind = syslogproc.find_sysline_between_datetime_filters(0);
     match result {
-        ResultS4SyslineFind::Found((fo, syslinep))
+        ResultS3SyslineFind::Found((fo, syslinep))
         => {
             fo1 = fo;
             let is_last: IsSyslineLast = syslogproc.is_sysline_last(&syslinep) as IsSyslineLast;
@@ -901,10 +901,10 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
                 search_more = true;
             }
         }
-        ResultS4SyslineFind::Done => {
+        ResultS3SyslineFind::Done => {
             search_more = false;
         }
-        ResultS4SyslineFind::Err(err) => {
+        ResultS3SyslineFind::Err(err) => {
             dpo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, tname, err);
             eprintln!("ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}", path, err);
             search_more = false;
@@ -931,9 +931,9 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
 
     loop {
         // TODO: [2022/06/20] see note about refactoring `find` functions so they are more intuitive
-        let result: ResultS4SyslineFind = syslogproc.find_sysline_between_datetime_filters(fo1);
+        let result: ResultS3SyslineFind = syslogproc.find_sysline_between_datetime_filters(fo1);
         match result {
-            ResultS4SyslineFind::Found((fo, syslinep))
+            ResultS3SyslineFind::Found((fo, syslinep))
             => {
                 let is_last = syslogproc.is_sysline_last(&syslinep);
                 dpo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", _tid, tname, syslinep, is_last);
@@ -950,10 +950,10 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
                     break;
                 }
             }
-            ResultS4SyslineFind::Done => {
+            ResultS3SyslineFind::Done => {
                 break;
             }
-            ResultS4SyslineFind::Err(err) => {
+            ResultS3SyslineFind::Err(err) => {
                 dpo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, tname, err);
                 eprintln!("ERROR: syslogprocessor.find_sysline({}) {}", fo1, err);
                 break;
