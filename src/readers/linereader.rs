@@ -146,9 +146,9 @@ pub struct LineReader {
     ///
     /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
     find_line_lru_cache_enabled: bool,
-    /// Internal LRU cache for [`find_line`].
+    /// Internal LRU cache for function [`find_line`].
     ///
-    ///
+    /// [`find_line`]: self::LineReader#method.find_line
     pub(super) find_line_lru_cache: LinesLRUCache,
     /// Internal LRU cache `Count` of lookup hit.
     pub(super) find_line_lru_cache_hit: Count,

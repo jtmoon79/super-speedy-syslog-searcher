@@ -660,9 +660,9 @@ impl SyslineReader {
         false
     }
 
-    /// Wrapper for [`is_sysline_last`].
+    /// Wrapper for function [`is_sysline_last`].
     ///
-    /// [`is_sysline_last`]: self::is_sysline_last
+    /// [`is_sysline_last`]: self::SyslineReader#method.is_sysline_last
     pub fn is_syslinep_last(&self, syslinep: &SyslineP) -> bool {
         self.is_sysline_last(syslinep.as_ref())
     }

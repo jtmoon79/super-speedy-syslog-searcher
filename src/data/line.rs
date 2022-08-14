@@ -77,7 +77,7 @@ use more_asserts::{
 /// within the same `Block`.
 ///
 /// [`LinePart`]: self::LinePart
-/// [`Block`s]: crate::data::blockreader::Block
+/// [`Block`s]: crate::readers::blockreader::Block
 pub type LineParts = Vec<LinePart>;
 
 /// A sequence to track one or more [`LineP`] that make up a [`Sysline`].
@@ -89,7 +89,7 @@ pub type Lines = Vec<LineP>;
 /// A byte offset into a [`Line`]
 /// (independent of underlying [`Block`] offset or indexes).
 ///
-/// [`Block`]: crate::data::blockreader::Block
+/// [`Block`]: crate::readers::blockreader::Block
 pub type LineIndex = usize;
 
 // TODO: rename to rust-like `RangeLineIndex`
