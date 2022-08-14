@@ -116,6 +116,7 @@ use s4lib::printer::printers::{
     Color,
     ColorChoice,
     //
+    COLOR_DEFAULT,
     COLOR_ERROR,
     color_rand,
     PrinterSysline,
@@ -1242,7 +1243,7 @@ fn processing_loop(
     //       (this might be a better place for mimeguess and mimeanalysis?)
     //       Would be best to first implment `FILE`, then `FILE_COMPRESS_GZ`, then `FILE_IN_ARCHIVE_TAR`
 
-    // precount the number of files that will be processed
+    // precount the number of valid files that will be processed
     let file_count: usize = paths_results.iter()
         .filter(|x| matches!(x, ProcessPathResult::FileValid(..)))
         .count();
@@ -1261,6 +1262,8 @@ fn processing_loop(
     let mut map_pathid_filetype = MapPathIdToFileType::with_capacity(file_count);
     // map `PathId` to `MimeGuess`
     let mut map_pathid_mimeguess = MapPathIdToMimeGuess::with_capacity(file_count);
+    let mut paths_total: usize = 0;
+
     for (pathid_counter, processpathresult) in paths_results.drain(..).enumerate()
     {
         match processpathresult {
@@ -1279,6 +1282,7 @@ fn processing_loop(
                 map_pathid_results_invalid.insert(pathid_counter, processpathresult);
             },
         };
+        paths_total += 1;
     }
 
     for (_pathid, result_invalid) in map_pathid_results_invalid.iter() {
@@ -1301,6 +1305,7 @@ fn processing_loop(
 
     // preprint the prepended name or path (if user requested it)
     type MapPathIdToPrependName = HashMap<PathId, String>;
+
     let mut pathid_to_prependname: MapPathIdToPrependName;
     let mut prependname_width: usize = 0;
     if cli_opt_prepend_filename {
@@ -1401,8 +1406,15 @@ fn processing_loop(
                     }
                 }
     }
+
     if map_pathid_chanrecvdatum.is_empty() {
         dp_err!("map_pathid_chanrecvdatum.is_empty(); nothing to do.");
+        eprintln!("Summary:");
+        print_summary_opt_printed(&None, &None, &color_choice);
+        eprintln!(
+            "Paths total {}, files not processed {}, files processed {}",
+            paths_total, map_pathid_results_invalid.len(), map_pathid_results.len(),
+        );
         return false;
     }
 
@@ -1471,6 +1483,7 @@ fn processing_loop(
 
     let mut map_pathid_datum = MapPathIdDatum::new();
     // `set_pathid_datum` shadows `map_pathid_datum` for faster filters in `recv_many_chan`
+    // precreated buffer
     let mut set_pathid = SetPathId::with_capacity(file_count);
     let mut map_pathid_sumpr = MapPathIdSummaryPrint::new();
     // crude debugging stats
@@ -1478,7 +1491,7 @@ fn processing_loop(
     let mut chan_recv_err: Count = 0;
     // the `SummaryPrinted` tallying the entire process (tallies each recieved `SyslineP`)
     let mut summaryprinted: SummaryPrinted = SummaryPrinted::default();
-    let color_default = Color::White;
+    let color_default = COLOR_DEFAULT;
 
     // mapping PathId to colors for printing.
     let mut map_pathid_printer = MapPathIdToPrinterSysline::with_capacity(file_count);
@@ -1514,6 +1527,9 @@ fn processing_loop(
 
     // count of not okay FileProcessing
     let mut _fileprocessing_not_okay: usize = 0;
+
+    // track which paths had syslines
+    let mut paths_printed_syslines: SetPathId = SetPathId::with_capacity(file_count);
 
     //
     // the main processing loop (e.g the "game loop")
@@ -1671,6 +1687,7 @@ fn processing_loop(
                     summaryprinted.bytes += 1;
                 }
                 if cli_opt_summary {
+                    paths_printed_syslines.insert(*pathid);
                     // update the per processing file `SummaryPrinted`
                     SummaryPrinted::summaryprint_map_update(syslinep, pathid, &mut map_pathid_sumpr);
                     // update the single total program `SummaryPrinted`
@@ -1735,6 +1752,13 @@ fn processing_loop(
         );
         eprintln!();
         eprintln!("Summary:");
+        eprintln!(
+            "Paths considered {}, paths not processed {}, files processed {}, files printed {}",
+            paths_total,
+            map_pathid_results_invalid.len(),
+            map_pathid_results.len(),
+            paths_printed_syslines.len(),
+        );
         eprintln!("{:?}", summaryprinted);
         eprintln!("Datetime Filters: -a {:?} -b {:?}", filter_dt_after_opt, filter_dt_before_opt);
         eprintln!("Channel Receive ok {}, err {}", chan_recv_ok, chan_recv_err);
