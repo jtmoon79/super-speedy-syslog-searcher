@@ -48,9 +48,9 @@ path = "src/lib.rs"
 crate-type = ["lib"]
 edition = "2021"
 test = true
+doc = true
 doctest = true
 #bench = false
-#doc = false
 #plugin = false
 #proc-macro = false
 #harness = false
@@ -59,7 +59,7 @@ doctest = true
 name = "s4"
 path = "src/bin/bin.rs"
 test = true
-doc = false
+doc = true
 edition = "2021"
 
 [dev-dependencies]
