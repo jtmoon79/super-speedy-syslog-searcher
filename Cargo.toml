@@ -72,7 +72,7 @@ memchr = "2.4.1"
 tempfile = "3.3.0"
 test-case = "2.2.1"
 
-# other helpful tools
+# other helpful development tools
 # cargo install --locked cargo-expand cargo-nextest
 
 [[bench]]
