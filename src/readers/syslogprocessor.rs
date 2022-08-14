@@ -477,7 +477,7 @@ impl SyslogProcessor {
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     pub fn process_missing_year(&mut self, mtime: SystemTime) -> FileProcessingResultBlockZero {
         dpnf!("syslogprocessor.process_missing_year({:?})", mtime);
-        self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
+        //self.assert_stage(ProcessingStage::Stage2FindDt);
         debug_assert!(!self.did_process_missing_year(), "process_missing_year() must only be called once");
         let dt_mtime: DateTimeL = systemtime_to_datetime(&self.tz_offset, &mtime);
         let year: Year = dt_mtime.date().year() as Year;
@@ -706,29 +706,22 @@ impl SyslogProcessor {
     /// [`Sysline`s]: crate::data::sysline::Sysline
     /// [`Line`s]: crate::data::line::Line
     pub fn process_stage1_blockzero_analysis(&mut self) -> FileProcessingResultBlockZero {
-        dpnf!("syslogprocessor.process_stage1_blockzero_analysis");
+        dpnf!();
         self.assert_stage(ProcessingStage::Stage0ValidFileCheck);
         self.processingstage = ProcessingStage::Stage1BlockzeroAnalysis;
 
         let result: FileProcessingResultBlockZero = self.blockzero_analysis();
-        dpo!("syslogprocessor.process_stage1_blockzero_analysis blockzero_analysis() returned syslines {}", self.syslinereader.count_syslines_stored());
+        dpof!("blockzero_analysis() returned syslines {}", self.syslinereader.count_syslines_stored());
         match result {
             FileProcessingResult::FileOk => {}
             // skip further processing if not `FileOk`
             _ => {
-                dpxf!("syslogprocessor.process_stage1_blockzero_analysis: return {:?}", result);
+                dpxf!("return {:?}", result);
                 return result;
             }
         }
 
-        if ! self.syslinereader.dt_pattern_has_year() {
-            dpo!("syslogprocessor.process_stage1_blockzero_analysis !dt_pattern_has_year()");
-            let mtime: SystemTime = self.syslinereader.linereader.blockreader.mtime();
-            // TODO: return errors from `process_missing_year`
-            self.process_missing_year(mtime);
-        }
-
-        dpxf!("syslogprocessor.process_stage1_blockzero_analysis: return {:?}", result);
+        dpxf!("return {:?}", result);
 
         result
     }
@@ -736,9 +729,23 @@ impl SyslogProcessor {
     /// Stage 2: Given the two optional datetime filters, can a datetime be
     /// found between those filters?
     pub fn process_stage2_find_dt(&mut self) -> FileProcessingResultBlockZero {
-        dpnxf!("syslogprocessor.process_stage2_find_dt");
+        dpnf!();
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
         self.processingstage = ProcessingStage::Stage2FindDt;
+
+        if ! self.syslinereader.dt_pattern_has_year() {
+            dpof!("!dt_pattern_has_year()");
+            let mtime: SystemTime = self.mtime();
+            match self.process_missing_year(mtime) {
+                FileProcessingResultBlockZero::FileOk => {}
+                result => {
+                    dpxf!("Bad result {:?}", result);
+                    return result;
+                }
+            }
+        }
+
+        dpxf!();
 
         FileProcessingResultBlockZero::FileOk
     }
