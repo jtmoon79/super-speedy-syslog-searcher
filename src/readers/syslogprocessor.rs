@@ -133,10 +133,11 @@ pub enum ProcessingStage {
     /// datetime at or before the user-passed [`DateTimeL`].
     ///
     /// While advancing, try to `drop` previously processed data
-    /// (a.k.a. "streaming mode").
+    /// (a.k.a. "streaming mode"). See function [`find_sysline`].
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
+    /// [`find_sysline`]: self::SyslogProcessor#method.find_sysline
     Stage3StreamSyslines,
     /// If passed CLI option `--summary` then print a summary of
     /// various informations about the processed file.<br/>
@@ -606,7 +607,6 @@ impl SyslogProcessor {
         self.syslinereader.find_sysline(fileoffset)
     }
 
-
     /// See [`SyslineReader::is_sysline_last`].
     ///
     /// [`SyslineReader::is_sysline_last`]: crate::readers::syslinereader::SyslineReader#method.is_sysline_last
@@ -753,6 +753,10 @@ impl SyslogProcessor {
     /// Stage 3: during streaming, processed and printed data stored by
     /// underlying "Readers" is proactively dropped
     /// (removed from process memory).
+    ///
+    /// See [`find_sysline`].
+    ///
+    /// [`find_sysline`]: self::SyslogProcessor#method.find_sysline
     pub fn process_stage3_stream_syslines(&mut self) -> FileProcessingResultBlockZero {
         dpnxf!();
         self.assert_stage(ProcessingStage::Stage2FindDt);
