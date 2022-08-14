@@ -742,6 +742,8 @@ type IsSyslineLast = bool;
 /// * is this the last Sysline?
 /// * `FileProcessingResult`
 ///
+/// There should never be a `Sysline` and a `Summary` received simultaneously.
+// TODO: Enforce that `Sysline` and `Summary` exclusivity with some kind of union.
 type ChanDatum = (SyslineP_Opt, SummaryOpt, IsSyslineLast, FileProcessingResultBlockZero);
 
 type MapPathIdDatum = BTreeMap<PathId, ChanDatum>;
@@ -1312,40 +1314,9 @@ fn processing_loop(
     // preprint the prepended name or path (if user requested it)
     type MapPathIdToPrependName = HashMap<PathId, String>;
 
-    let mut pathid_to_prependname: MapPathIdToPrependName;
-    let mut prependname_width: usize = 0;
-    if cli_opt_prepend_filename {
-        if cli_opt_prepend_file_align {
-            for path in map_pathid_path.values() {
-                let bname: String = basename(path);
-                prependname_width = std::cmp::max(
-                    prependname_width, unicode_width::UnicodeWidthStr::width(bname.as_str())
-                );
-            }
-        }
-        pathid_to_prependname = MapPathIdToPrependName::with_capacity(file_count);
-        for (pathid, path) in map_pathid_path.iter() {
-            let bname: String = basename(path);
-            let prepend: String = format!("{0:<1$}:", bname, prependname_width);
-            pathid_to_prependname.insert(*pathid, prepend);
-        }
-    } else if cli_opt_prepend_filepath {
-        if cli_opt_prepend_file_align {
-            for path in map_pathid_path.values() {
-                prependname_width = std::cmp::max(
-                    prependname_width, unicode_width::UnicodeWidthStr::width(path.as_str())
-                );
-            }
-        }
-        pathid_to_prependname = MapPathIdToPrependName::with_capacity(file_count);
-        for (pathid, path) in map_pathid_path.iter() {
-            let prepend: String = format!("{0:<1$}:", path, prependname_width);
-            pathid_to_prependname.insert(*pathid, prepend);
-        }
-    }
-    else {
-        pathid_to_prependname = MapPathIdToPrependName::with_capacity(0);
-    }
+    // create zero-sized `pathid_to_prependname`
+    // it will be iterated but may or may not need to store anything.
+    let mut pathid_to_prependname: MapPathIdToPrependName = MapPathIdToPrependName::with_capacity(0);
 
     //
     // prepare per-thread data keyed by `FPath`
@@ -1397,7 +1368,7 @@ fn processing_loop(
             tz_offset,
         );
         let (chan_send_dt, chan_recv_dt): (ChanSendDatum, ChanRecvDatum) = crossbeam_channel::unbounded();
-        dpof!("map_pathid_chanrecvdatum.insert({}, ...);", pathid);
+        dpof!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
         map_pathid_chanrecvdatum.insert(*pathid, chan_recv_dt);
         let basename_: FPath = basename(path);
         match thread::Builder::new().name(basename_.clone()).spawn(
@@ -1487,6 +1458,7 @@ fn processing_loop(
     // preparation for the main coordination loop (e.g. the "game loop")
     //
 
+    let mut first_print = true;
     let mut map_pathid_datum = MapPathIdDatum::new();
     // `set_pathid_datum` shadows `map_pathid_datum` for faster filters in `recv_many_chan`
     // precreated buffer
@@ -1501,35 +1473,6 @@ fn processing_loop(
 
     // mapping PathId to colors for printing.
     let mut map_pathid_printer = MapPathIdToPrinterSysline::with_capacity(file_count);
-    // initialize the printers, one per `PathId`
-    for pathid in map_pathid_path.keys() {
-        let color_: &Color = map_pathid_color.get(pathid).unwrap_or(&color_default);
-        let prepend_file: Option<String> = match cli_opt_prepend_filename || cli_opt_prepend_filepath {
-            true => {
-                Some(pathid_to_prependname.get(pathid).unwrap().clone())
-            },
-            false => None,
-        };
-        let prepend_date_format: Option<String> = match cli_opt_prepend_local || cli_opt_prepend_utc {
-            true => Some(CLI_OPT_PREPEND_FMT.to_string()),
-            false => None,
-        };
-        let prepend_date_offset: Option<FixedOffset> = match (cli_opt_prepend_local, cli_opt_prepend_utc) {
-            (true, false) => Some(*Local::today().offset()),
-            (false, true) => Some(FixedOffset::east(0)),
-            (false, false) => None,
-            // XXX: this should not happen
-            _ => panic!("bad CLI options --local --utc"),
-        };
-        let printer: PrinterSysline = PrinterSysline::new(
-            color_choice,
-            *color_,
-            prepend_file,
-            prepend_date_format,
-            prepend_date_offset,
-        );
-        map_pathid_printer.insert(*pathid, printer);
-    }
 
     // count of not okay FileProcessing
     let mut _fileprocessing_not_okay: usize = 0;
@@ -1563,8 +1506,8 @@ fn processing_loop(
         }
 
         if map_pathid_chanrecvdatum.len() != map_pathid_datum.len() {
-            // if...
-            // `map_path_recv_dt` does not have a `ChanRecvDatum` (and thus a `SyslineP` and
+            // if…
+            // `map_pathid_chanrecvdatum` does not have a `ChanRecvDatum` (and thus a `SyslineP` and
             // thus a `DatetimeL`) for every channel (file being processed).
             // (Every channel must return a `DatetimeL` to to then compare *all* of them, see which is earliest).
             // So call `recv_many_chan` to check if any channels have a new `ChanRecvDatum` to
@@ -1610,7 +1553,7 @@ fn processing_loop(
                 }
             }
         } else {
-            // else...
+            // else…
             // There is a DateTime available for *every* channel (one channel is one File Processing
             // thread). The datetimes can be compared among all remaining files. The sysline with
             // the earliest datetime is printed.
@@ -1624,9 +1567,112 @@ fn processing_loop(
                 }
             }
 
+            if first_print {
+                // One-time creation of prepended datas and SyslinePrinters.
+
+                // First, get a set of all pathids with awaiting Syslines, ignoring paths
+                // for which no Syslines were found.
+                // No Syslines will be printed for those paths that did not return a Sysline:
+                // - do not include them in determining prepended width (CLI option `-w`).
+                // - do not create a `SyslinePrinter` for them.
+                let mut pathid_with_syslines: SetPathId = SetPathId::with_capacity(map_pathid_datum.len());
+                for (pathid, _) in map_pathid_datum.iter().filter(
+                    |(_k, v)| v.0.is_some()
+                ) {
+                    pathid_with_syslines.insert(*pathid);
+                }
+
+                // Pre-create the prepended strings based on passed CLI options `-w` `-p` `-f`
+                let mut prependname_width: usize = 0;
+                if cli_opt_prepend_filename {
+                    // pre-create prepended filename strings once (`-f`)
+                    if cli_opt_prepend_file_align {
+                        // determine prepended width (`-w`)
+                        for pathid in pathid_with_syslines.iter() {
+                            let path = match map_pathid_path.get(pathid) {
+                                Some(path_) => path_,
+                                None => continue,
+                            };
+                            let bname: String = basename(path);
+                            prependname_width = std::cmp::max(
+                                prependname_width, unicode_width::UnicodeWidthStr::width(bname.as_str())
+                            );
+                        }
+                    }
+                    pathid_to_prependname = MapPathIdToPrependName::with_capacity(pathid_with_syslines.len());
+                    for pathid in pathid_with_syslines.iter() {
+                        let path = match map_pathid_path.get(pathid) {
+                            Some(path_) => path_,
+                            None => continue,
+                        };
+                        let bname: String = basename(path);
+                        let prepend: String = format!("{0:<1$}:", bname, prependname_width);
+                        pathid_to_prependname.insert(*pathid, prepend);
+                    }
+                } else if cli_opt_prepend_filepath {
+                    // pre-create prepended filepath strings once (`-p`)
+                    if cli_opt_prepend_file_align {
+                        // determine prepended width (`-w`)
+                        for pathid in pathid_with_syslines.iter() {
+                            let path = match map_pathid_path.get(pathid) {
+                                Some(path_) => path_,
+                                None => continue,
+                            };
+                            prependname_width = std::cmp::max(
+                                prependname_width, unicode_width::UnicodeWidthStr::width(path.as_str())
+                            );
+                        }
+                    }
+                    pathid_to_prependname = MapPathIdToPrependName::with_capacity(pathid_with_syslines.len());
+                    for pathid in pathid_with_syslines.iter() {
+                        let path = match map_pathid_path.get(pathid) {
+                            Some(path_) => path_,
+                            None => continue,
+                        };
+                        let prepend: String = format!("{0:<1$}:", path, prependname_width);
+                        pathid_to_prependname.insert(*pathid, prepend);
+                    }
+                }
+                else {
+                    pathid_to_prependname = MapPathIdToPrependName::with_capacity(0);
+                }
+
+                // Initialize the Sysline printers, one per `PathId` that sent a Sysline.
+                for pathid in pathid_with_syslines.iter() {
+                    let color_: &Color = map_pathid_color.get(pathid).unwrap_or(&color_default);
+                    let prepend_file: Option<String> = match cli_opt_prepend_filename || cli_opt_prepend_filepath {
+                        true => {
+                            Some(pathid_to_prependname.get(pathid).unwrap().clone())
+                        }
+                        false => None,
+                    };
+                    let prepend_date_format: Option<String> = match cli_opt_prepend_local || cli_opt_prepend_utc {
+                        true => Some(CLI_OPT_PREPEND_FMT.to_string()),
+                        false => None,
+                    };
+                    let prepend_date_offset: Option<FixedOffset> = match (cli_opt_prepend_local, cli_opt_prepend_utc) {
+                        (true, false) => Some(*Local::today().offset()),
+                        (false, true) => Some(FixedOffset::east(0)),
+                        (false, false) => None,
+                        // XXX: this should not happen
+                        _ => panic!("bad CLI options --local --utc"),
+                    };
+                    let printer: PrinterSysline = PrinterSysline::new(
+                        color_choice,
+                        *color_,
+                        prepend_file,
+                        prepend_date_format,
+                        prepend_date_offset,
+                    );
+                    map_pathid_printer.insert(*pathid, printer);
+                }
+
+                first_print = false;
+            }  // if first_print
+
             // (path, channel data) for the sysline with earliest datetime ("minimum" datetime)
             //
-            // here is part of the "sorting" of syslines process by datetime.
+            // Here is part of the "sorting" of syslines process by datetime.
             // In case of tie datetime values, the tie-breaker will be order of `BTreeMap::iter_mut` which
             // iterates in order of key sort. https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html#method.iter_mut
             //
@@ -1652,16 +1698,16 @@ fn processing_loop(
             };
 
             if let Some(summary) = chan_datum.1.clone() {
+                // Receiving a Summary implies the last data was sent on the channel
                 dpof!("A2 chan_datum has Summary, PathId: {:?}", pathid);
                 assert!(chan_datum.0.is_none(), "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId: {:?}", pathid);
                 if cli_opt_summary {
                     summary_update(pathid, summary, &mut map_pathid_summary);
                 }
                 dpof!("A2 will disconnect channel {:?}", pathid);
-                // receiving a Summary implies the last data was sent on the channel
                 disconnect.push(*pathid);
             } else {
-                // is last sysline of the file?
+                // Is last sysline of the file?
                 let is_last: bool = chan_datum.2;
                 // Sysline of interest
                 let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
