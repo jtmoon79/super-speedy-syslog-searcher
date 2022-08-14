@@ -867,7 +867,13 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
     }
 
     // find first sysline acceptable to the passed filters
-    syslogproc.process_stage2_find_dt();
+    match syslogproc.process_stage2_find_dt() {
+        FileProcessingResultBlockZero::FileOk => {}
+        result_ => {
+            dpxf!("Result {:?} ({:?})", result_, path);
+            return;
+        }
+    }
 
     // sanity check sending of `is_last`
     let mut sent_is_last: bool = false;
