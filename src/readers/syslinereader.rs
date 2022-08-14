@@ -8,17 +8,14 @@
 //! [`LineReader`]: crate::readers::linereader::LineReader
 
 use crate::common::{
-    FPath,
-    FileOffset,
-    FileType,
-    CharSz,
-};
-
-use crate::common::{
     Count,
     FileSz,
     Bytes,
     ResultS4,
+    FPath,
+    FileOffset,
+    FileType,
+    CharSz,
 };
 
 use crate::data::sysline::{
