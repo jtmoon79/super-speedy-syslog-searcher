@@ -45,8 +45,6 @@ pub fn ntf_fpath(ntf: &NamedTempFile) -> FPath {
 ///
 /// BUG: `NamedTempFile` created within `lazy_static` will fail to remove itself
 ///      <https://github.com/Stebalien/tempfile/issues/183>.
-///
-#[cfg(test)]
 pub fn create_temp_file(data: &str) -> NamedTempFile {
     let mut ntf = match tempfile::Builder::new()
         // use known prefix for easier cleanup
@@ -68,10 +66,10 @@ pub fn create_temp_file(data: &str) -> NamedTempFile {
     ntf
 }
 
-/// testing helper to write a `[u8]` to a specially-named temporary file.
+/// Testing helper function to write a `[u8]` to a specially-named
+/// temporary file.
 ///
 /// `rand_len` is the sting length of a random character sequence
-#[cfg(test)]
 pub fn create_temp_file_with_name_rlen(
     data: &[u8],
     prefix: Option<&String>,
@@ -99,8 +97,8 @@ pub fn create_temp_file_with_name_rlen(
     ntf
 }
 
-/// testing helper to write a `str` to a specially-named temporary file.
-#[cfg(test)]
+/// Testing helper function to write a `str` to a specially-named
+/// temporary file.
 pub fn create_temp_file_with_name(
     data: &str,
     prefix: Option<&String>,
@@ -110,8 +108,8 @@ pub fn create_temp_file_with_name(
     create_temp_file_with_name_rlen(data.as_bytes(), prefix, suffix, 5)
 }
 
-/// testing helper to write a `str` to a temporary file with a specific suffix
-#[cfg(test)]
+/// Testing helper function to write a `str` to a temporary file with a specific
+/// suffix
 pub fn create_temp_file_with_suffix(
     data: &str,
     suffix: &String
@@ -119,8 +117,7 @@ pub fn create_temp_file_with_suffix(
     create_temp_file_with_name_rlen(data.as_bytes(), None, Some(suffix), 5)
 }
 
-/// testing helper to write a `str` to a exactly-named temporary file.
-#[cfg(test)]
+/// Testing helper function to write a `str` to a exactly-named temporary file.
 pub fn create_temp_file_with_name_exact(
     data: &str,
     name: &String
@@ -128,14 +125,12 @@ pub fn create_temp_file_with_name_exact(
     create_temp_file_with_name_rlen(data.as_bytes(), Some(name), None, 0)
 }
 
-/// testing helper to write a `[u8]` to a temporary file.
-#[cfg(test)]
+/// Testing helper function to write a `[u8]` to a temporary file.
 pub fn create_temp_file_bytes(data: &[u8]) -> NamedTempFile {
     create_temp_file_with_name_rlen(data, None, None, 5)
 }
 
-/// testing helper to write a `[u8]` to a temporary file.
-#[cfg(test)]
+/// Testing helper function to write a `[u8]` to a temporary file.
 pub fn create_temp_file_bytes_with_suffix(data: &[u8], suffix: &String) -> NamedTempFile {
     create_temp_file_with_name_rlen(data, None, Some(suffix), 5)
 }

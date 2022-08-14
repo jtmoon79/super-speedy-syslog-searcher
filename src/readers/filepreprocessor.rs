@@ -40,8 +40,6 @@ use std::path::Path;
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
-extern crate mime;
-
 extern crate mime_guess;
 #[doc(hidden)]
 pub use mime_guess::MimeGuess;

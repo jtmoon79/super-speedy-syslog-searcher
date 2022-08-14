@@ -356,6 +356,7 @@ impl LineReader {
     /// Return all currenty stored `FileOffset` in `self.lines`.
     ///
     /// Only intended to aid testing.
+    #[cfg(test)]
     pub fn get_fileoffsets(&self) -> Vec<FileOffset> {
         self.lines.keys().cloned().collect()
     }
