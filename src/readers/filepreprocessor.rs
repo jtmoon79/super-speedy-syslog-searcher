@@ -93,19 +93,29 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     // see https://github.com/abonander/mime_guess/blob/f6d36d8531bef9ad86f3ee274f65a1a31ea4d9b4/src/mime_types.rs
     dpnxf!("({:?})", mimeguess_str);
     let lower: String = mimeguess_str.to_lowercase();
-    //
-    const PLAIN: &str = "plain"; //mime::PLAIN.as_str();
-    const TEXT: &str = "text"; //mime::TEXT.as_str();
-    const TEXT_PLAIN: &str = "text/plain"; //mime::TEXT_PLAIN.to_string().as_str();
-    const TEXT_PLAIN_UTF8: &str = "text/plain; charset=utf-8"; //mime::TEXT_PLAIN_UTF_8.to_string().as_str();
-    const TEXT_STAR: &str = "text/*"; //mime::TEXT_STAR.to_string().as_str();
-    const UTF8_: &str = "utf-8"; //mime::UTF_8.as_str();
-    //
+
+    // ::mime::PLAIN.as_str();
+    const PLAIN: &str = "plain";
+    // ::mime::TEXT.as_str();
+    const TEXT: &str = "text";
+    // ::mime::TEXT_PLAIN.to_string().as_str();
+    const TEXT_PLAIN: &str = "text/plain";
+    // ::mime::TEXT_PLAIN_UTF_8.to_string().as_str();
+    const TEXT_PLAIN_UTF8: &str = "text/plain; charset=utf-8";
+    // ::mime::TEXT_STAR.to_string().as_str();
+    const TEXT_STAR: &str = "text/*";
+    // ::mime::UTF_8.as_str();
+    const UTF8_: &str = "utf-8";
+
+    // see https://www.rfc-editor.org/rfc/rfc6713.html#section-3
     const APP_GZIP: &str = "application/gzip";
-    //
+    // see https://superuser.com/a/901963/167043
+    const APP_XGZIP: &str = "application/x-gzip";
+
     const APP_X_XZ: &str = "application/x-xz";
-    //
+
     const APP_TAR: &str = "application/x-tar";
+    const APP_GTAR: &str = "application/x-gtar";
 
     match lower.as_str() {
         PLAIN
@@ -114,9 +124,11 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
         | TEXT_PLAIN_UTF8
         | TEXT_STAR
         | UTF8_ => FileType::File,
-        APP_GZIP => FileType::FileGz,
+        APP_GZIP
+        | APP_XGZIP => FileType::FileGz,
         APP_X_XZ => FileType::FileXz,
-        APP_TAR => FileType::FileTar,
+        APP_TAR
+        | APP_GTAR => FileType::FileTar,
         _ => FileType::FileUnknown,
     }
 }
