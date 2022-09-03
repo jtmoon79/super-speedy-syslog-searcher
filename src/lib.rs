@@ -5,6 +5,9 @@
 //! This is the library implementation used by binary program _s4_.
 //! This library is documented in part to have a presence on _crates.io_ and
 //! _docs.rs_.
+//!
+//! The _s4lib_ library was not designed for use outside of program _s4_,
+//! and it was not designed to be an especially user-friendly API.
 
 pub mod common;
 

@@ -672,7 +672,9 @@ pub fn print_colored_stderr(
     print_colored(color, value, &mut stderr)
 }
 
-/// Safely write the `buffer` to stdout with help of `StdoutLock`.
+/// Safely write the `buffer` to stdout with help of [`StdoutLock`].
+///
+/// [`StdoutLock`]: std::io::StdoutLock
 pub fn write_stdout(buffer: &[u8]) {
     let stdout = std::io::stdout();
     let mut stdout_lock = stdout.lock();

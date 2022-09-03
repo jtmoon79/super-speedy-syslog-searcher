@@ -117,13 +117,13 @@ use unroll::unroll_for_loops;
 pub type Year = i32;
 
 /// Crate `chrono` [`strftime`] formatting pattern, passed to
-/// [`datetime_from_str`].
+/// chrono [`DateTime::parse_from_str`].
 ///
 /// Specific `const` instances of `DateTimePattern_str` are hardcoded in
 /// [`captures_to_buffer_bytes`].
 ///
 /// [`strftime`]: https://docs.rs/chrono/0.4.21/chrono/format/strftime/index.html
-/// [`datetime_from_str`]: https://docs.rs/chrono/0.4.21/chrono/offset/trait.TimeZone.html#method.datetime_from_str
+/// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.21/chrono/struct.DateTime.html#method.parse_from_str
 /// [`captures_to_buffer_bytes`]: 
 pub type DateTimePattern_str = str;
 
@@ -858,7 +858,7 @@ const NOENTRY: &str = "";
 /// All timezone abbreviations, maps all strftime `%Z` to strftime `%:z`.
 ///
 /// Attempts to be more lenient than chrono, which provides %Z pattern yet
-/// rejects them when passed to [`datetime_from_str`].
+/// rejects them when passed to [`parse_from_str`].
 ///
 /// Latest listing of timezone abbreviations can be retrieved by:
 ///
@@ -884,7 +884,7 @@ const NOENTRY: &str = "";
 /// - Applicable tz abbreviations <https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations>
 /// - chrono strftime <https://docs.rs/chrono/0.4.21/chrono/format/strftime/index.html>
 ///
-/// [`datetime_from_str`]: https://docs.rs/chrono/0.4.21/chrono/format/strftime/#fn7
+/// [`parse_from_str`]: https://docs.rs/chrono/0.4.21/chrono/format/strftime/#fn7
 
 pub const TZZ_ALL: [(&str, &str); 208] = [
     ("ACDT", "+10:30"),

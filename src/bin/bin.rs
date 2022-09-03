@@ -877,8 +877,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
         }
     }
 
-    // sanity check sending of `is_last`
-    let mut sent_is_last: bool = false;
+    let mut sent_is_last: bool = false;  // sanity check sending of `is_last`
     let mut fo1: FileOffset = 0;
     let search_more: bool;
     let result: ResultS3SyslineFind = syslogproc.find_sysline_between_datetime_filters(0);
