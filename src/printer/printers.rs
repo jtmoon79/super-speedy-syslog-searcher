@@ -465,6 +465,7 @@ impl PrinterSysline {
     fn print_sysline_prependfile(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
 
+        // TODO: cost-savings: unwrap to bytes just once
         let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
@@ -483,6 +484,7 @@ impl PrinterSysline {
         debug_assert!(self.prepend_date_offset.is_some(), "self.prepend_date_offset is {:?}", self.prepend_date_offset);
 
         let dt_string: String = self.datetime_to_string(syslinep);
+        // TODO: cost-savings: unwrap to bytes just once
         let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
@@ -547,6 +549,7 @@ impl PrinterSysline {
     /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_color_sysline_prependfile(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         let mut line_first = true;
+        // TODO: cost-savings: unwrap to bytes just once
         let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
         let _stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
@@ -573,6 +576,7 @@ impl PrinterSysline {
     fn print_color_sysline_prependfile_prependdate(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
         let mut line_first = true;
         let dt_string: String = self.datetime_to_string(syslinep);
+        // TODO: cost-savings: unwrap to bytes just once
         let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
         let _stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
