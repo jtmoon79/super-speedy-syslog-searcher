@@ -2,8 +2,8 @@
 
 Speedily search and sort many syslog files by datetime.
 
-_Super Speedy Syslog Searcher_ (s4) can search within compressed files (`.gz`, `.xz`)
-and archives (`.tar`, `.zip`). The first goal of s4 is speedy searching.
+_Super Speedy Syslog Searcher_ (s4) can search within compressed syslog files (`.gz`, `.xz`)
+and syslog archives (`.tar`, `.zip`). The first goal of s4 is speedy searching.
 
 ---
 
