@@ -13,7 +13,6 @@ use crate::common::{
 use crate::printer_debug::helpers::{
     NamedTempFile,
     create_temp_file,
-    create_temp_file_bytes,
     ntf_fpath,
 };
 
@@ -29,7 +28,6 @@ use crate::data::datetime::{
     DateTimeL,
     FixedOffset,
     SystemTime,
-    Year,
     DateTimePattern_str,
     datetime_parse_from_str,
 };
@@ -167,10 +165,6 @@ lazy_static! {
         SystemTime::UNIX_EPOCH.checked_add(duration).unwrap()
     };
 }
-
-const YEAR_1972: Year = 1972;
-const YEAR_2019: Year = 2019;
-const YEAR_2044: Year = 2044;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

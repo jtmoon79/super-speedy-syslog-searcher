@@ -39,10 +39,6 @@ use crate::common::{
     Path,
 };
 
-use crate::readers::helpers::{
-    path_to_fpath,
-};
-
 #[allow(unused_imports)]
 use crate::readers::filepreprocessor::{
     ProcessPathResult,
@@ -64,7 +60,6 @@ use crate::printer_debug::helpers::{
 
 use crate::printer_debug::printers::{
     dpnf,
-    dpof,
     dpxf,
 };
 
