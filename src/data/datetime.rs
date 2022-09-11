@@ -745,6 +745,20 @@ const DTFSS_BeHMSYpz: DTFSSet = DTFSSet {
     pattern: DTP_BdHMSYpz,
 };
 
+// TODO: Issue #4 handle dmesg
+// special case for `dmesg` syslog lines
+//pub(crate) const DTFSS_u: DTFSSet = DTFSSet {
+//    year: DTFS_Year::_fill,
+//    month: DTFS_Month::m,
+//    day: DTFS_Day::d,
+//    hour: DTFS_Hour::H,
+//    minute: DTFS_Minute::M,
+//    second: DTFS_Second::S,
+//    fractional: DTFS_Fractional::_none,
+//    tz: DTFS_Tz::_fill,
+//    pattern: DTP_YmdHMSzc,
+//};
+
 /// to aid testing
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
