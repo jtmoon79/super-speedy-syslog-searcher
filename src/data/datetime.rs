@@ -824,6 +824,9 @@ pub(crate) const _CGN_ALL: [&CaptureGroupName; 8] = [
 // saved rust playground for quick testing patterns
 // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=00460112beb2a6d078d6bbba72557574
 
+// Names used in the capture group pattern variable values (`CGP_*`) *MUST*
+// match the values of capture group name values (`CGN_*`).
+
 /// Regex capture group pattern for `strftime` year specifier `%Y`.
 pub const CGP_YEAR: &CaptureGroupPattern = r"(?P<year>[12]\d{3})";
 /// Regex capture group pattern for `strftime` month specifier `%m`.
