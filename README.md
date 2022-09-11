@@ -129,4 +129,5 @@ DateTimes supported language is English.
 
 ## Further Reading
 
-See [`Extended-Thoughts.md`](./Extended-Thoughts.md)
+- [`Extended-Thoughts.md`](./Extended-Thoughts.md)
+- [`CHANGELOG.md`](./CHANGELOG.md)
