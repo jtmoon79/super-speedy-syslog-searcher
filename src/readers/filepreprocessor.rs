@@ -325,6 +325,7 @@ pub fn parseable_filetype_ok(filetype: &FileType) -> bool {
 
 /// Reduce `mimeguess_to_filetype()` to a boolean.
 #[doc(hidden)]
+#[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) fn mimeguess_to_filetype_ok(mimeguess: &MimeGuess) -> bool {
     matches!(parseable_filetype(&mimeguess_to_filetype(mimeguess)), FileParseable::YES)
@@ -333,6 +334,7 @@ pub(crate) fn mimeguess_to_filetype_ok(mimeguess: &MimeGuess) -> bool {
 /// Wrapper function to call `mimeguess_to_filetype` and if necessary
 /// `path_to_filetype`
 #[doc(hidden)]
+#[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) fn mimguess_path_to_filetype(mimeguess: &MimeGuess, path: &Path) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
@@ -346,6 +348,7 @@ pub(crate) fn mimguess_path_to_filetype(mimeguess: &MimeGuess, path: &Path) -> F
 /// Wrapper function to call `mimeguess_to_filetype` and if necessary
 /// `path_to_filetype`
 #[doc(hidden)]
+#[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) fn mimeguess_fpath_to_filetype(mimeguess: &MimeGuess, path: &FPath) -> FileType {
     let mut filetype: FileType = mimeguess_to_filetype(mimeguess);
@@ -404,6 +407,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
 /// Wrapper function to call `mimeguess_to_filetype` and if necessary
 /// `path_to_filetype`
 #[doc(hidden)]
+#[allow(dead_code)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess) {
     let path_: &Path = fpath_to_path(path);

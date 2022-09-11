@@ -76,6 +76,7 @@ const DT_END0: usize = 24;
 
 const DT_STR1: &str = "2022-01-02T03:04:06+08:00";
 
+#[allow(dead_code)]
 const DT_STR2: &str = "2022-01-02T03:04:22+09:00";
 const DATA_STR2: &str = "[DEBUG] 2022-01-02T03:04:22 0900 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZ\n";
 const DATA_STR2_LAST_BYTE: u8 = b'\n';
