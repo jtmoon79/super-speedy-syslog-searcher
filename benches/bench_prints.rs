@@ -14,9 +14,8 @@ use lazy_static::lazy_static;
 // test data
 //
 
-// LAST WORKING HERE 2022/04/30 19:38:02
-// just get this going quickly, no need to be too fancy.
-// later, can test with mutex and whatnot.
+// TODO: 2022/04/30 19:38:02 implement print comparison, no need to be too fancy.
+//       later, can get fancy
 
 lazy_static! {
     static ref Data1: Vec<u8> = Vec::from(
