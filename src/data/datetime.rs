@@ -881,8 +881,6 @@ pub const _CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
 
 /// no uppercase, helper to `CGP_TZZ`
 const RP_NOUPPER: &RegexPattern = r"([^[[:upper:]]]|$)";
-/// timezone abbreviation, not followed by uppercase
-const CGP_TZZn: &CaptureGroupPattern = concatcp!(CGP_TZZ, RP_NOUPPER);
 
 const NOENTRY: &str = "";
 
@@ -1374,7 +1372,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     2019-07-26T10:40:29.682-07:00 info hostd[03210] [Originator@6876 sub=Default] Current working directory: /usr/bin
     //
     DTPD!(
-        concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZZn),
+        concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZZ, RP_NOUPPER),
         DTFSS_BeHMSYZ, 0, 28, CGN_MONTH, CGN_TZ,
         &[
             "September  3 08:10:29 2000 PWT hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode",
@@ -1385,7 +1383,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZZn),
+        concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZZ, RP_NOUPPER),
         DTFSS_BdHMSYZ, 0, 28, CGN_MONTH, CGN_TZ,
         &[
             "September 03 08:10:29 2000 PWT hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode",
@@ -1418,7 +1416,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZZn),
+        concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZZ, RP_NOUPPER),
         DTFSS_BeHMSZ, 0, 28, CGN_MONTH, CGN_TZ,
         &[
             "September  3 08:10:29 PWT hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode",
@@ -1429,7 +1427,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZZn),
+        concatcp!(r"^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZZ, RP_NOUPPER),
         DTFSS_BdHMSZ, 0, 28, CGN_MONTH, CGN_TZ,
         &[
             "September 03 08:10:29 PWT hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode",
@@ -1701,7 +1699,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZn),
+        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZ, RP_NOUPPER),
         DTFSS_YmdHMSfZ, 0, 50, CGN_YEAR, CGN_TZ,
         &[r"2000/01/05 00:00:05.123456789 VLAT abcd"],
         line!(),
@@ -1732,7 +1730,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZn),
+        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_NOUPPER),
         DTFSS_YmdHMSZ, 0, 50, CGN_YEAR, CGN_TZ,
         &[r"2000/01/10T00:00:05 VLAT abcdefghijk"],
         line!(),
@@ -1766,7 +1764,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZn),
+        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZ, RP_NOUPPER),
         DTFSS_YmdHMSfZ, 0, 1024, CGN_YEAR, CGN_TZ,
         &[r"2000/01/05 00:04:05.123456789 VLAT abcd"],
         line!(),
@@ -1797,7 +1795,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZn),
+        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_NOUPPER),
         DTFSS_YmdHMSZ, 0, 1024, CGN_YEAR, CGN_TZ,
         &[r"2000/01/10T00:09:05 VLAT abcdefghijk"],
         line!(),
