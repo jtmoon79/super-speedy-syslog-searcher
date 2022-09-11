@@ -38,6 +38,8 @@ use crate::data::datetime::{
     Year,
 };
 
+use crate::printer_debug::printers::buffer_to_String_noraw;
+
 use crate::printer_debug::stack::{
     sn,
     sx,
@@ -348,10 +350,10 @@ fn test_DATETIME_PARSE_DATAS_test_cases() {
             }
             match bytes_to_regex_to_datetime(data, &index, &year_opt,&tz) {
                 Some(capdata) => {
-                    eprintln!("Passed dtpd declared at line {} result {:?}, test data {:?}", dtpd._line_num, capdata, data);
+                    eprintln!("Passed dtpd declared at line {} result {:?}, test data {:?}", dtpd._line_num, capdata, buffer_to_String_noraw(data));
                 },
                 None => {
-                    panic!("Failed dtpd declared at line {}\ntest data {:?}\nregex \"{}\"", dtpd._line_num, data, dtpd.regex_pattern);
+                    panic!("Failed dtpd declared at line {}\ntest data {:?}\nregex \"{}\"", dtpd._line_num, buffer_to_String_noraw(data), dtpd.regex_pattern);
                 }
             }
         }
