@@ -861,13 +861,14 @@ pub const _CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
 
 
 /// `strftime` specifier `%z` e.g. `"+0930"`
-const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d{3})";
+const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d{3})";
 /// `strftime` specifier `%:z` e.g. `"+09:30"`
-const CGP_TZcz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d:\d\d)";
+const CGP_TZcz: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d:\d\d)";
 /// `strftime` specifier `%#z` e.g. `"+09"`
-const CGP_TZpz: &CaptureGroupPattern = r"(?P<tz>[\+\-][01]\d)";
+const CGP_TZpz: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d)";
 /// `strftime` specifier `%Z` e.g. `"ACST"`
 const CGP_TZZ: &CaptureGroupPattern = r"(?P<tz>ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT)";
+
 /// for help in testing only
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
