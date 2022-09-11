@@ -262,12 +262,16 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
         let mut cgn_first_i: usize = usize::MAX;
         let mut cgn_first_s: &str = "";
         for cgn in _CGN_ALL.iter() {
-            match regpat.find(cgn) {
+            let mut cgn_full = String::from('<');
+            cgn_full.push_str(cgn);
+            cgn_full.push('>');
+            match regpat.find(cgn_full.as_str()) {
                 Some(i) => {
                     if i < cgn_first_i {
                         cgn_first_s = cgn;
                         cgn_first_i = i;
                     }
+                    eprintln!();
                 }
                 None => {},
             }
@@ -279,7 +283,10 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
         let mut cgn_last_i: usize = 0;
         let mut cgn_last_s: &str = "";
         for cgn in _CGN_ALL.iter() {
-            match regpat.find(cgn) {
+            let mut cgn_full = String::from('<');
+            cgn_full.push_str(cgn);
+            cgn_full.push('>');
+            match regpat.find(cgn_full.as_str()) {
                 Some(i) => {
                     if i > cgn_last_i {
                         cgn_last_s = cgn;
