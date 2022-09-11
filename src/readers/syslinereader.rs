@@ -1605,7 +1605,7 @@ impl SyslineReader {
                 //       `sysline.fileoffset_end` keys to `fileoffset_begin` values.
                 if self.syslines_by_range.contains_key(&fo1) {
                     // ran into prior processed sysline, something is wrong; abandon these lines
-                    // and chang search direction to go forwards
+                    // and change search direction to go forwards
                     fo_zero_tried = true;
                     fo1 = fo_a_max;
                     dp_err!("ran into prior processed sysline at fileoffset {}; some lines will be dropped.", fo1);
