@@ -1,0 +1,13 @@
+[DEBUG] Tue, Jun 28 2022 01:51:11 +0030
+Baa
+[DEBUG] Tue, Jun 28 2022 01:51:12 +0100
+Bar
+[VERBOSE] Tue, Jun 28 2022 01:51:13 +0100
+Blah???
+[TRACE] Tue, Jun 28 2022 01:51:14 +0200
+Blarg Blarg Blarg
+[ERROR] Tue, Jun 28 2022 01:51:15 +0230 Blub!!!
+[VERBOSE] Tue, Jun 28 2022 01:51:16 +0300
+Blarb
+[VERBOSE] Tue, Jun 28 2022 01:51:16 +0330 Shmoop 🤔
+[VERBOSE] Tue, Jun 28 2022 01:51:17 +0400 Blumb 😇
