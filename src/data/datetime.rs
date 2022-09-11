@@ -853,7 +853,7 @@ pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345]\d|60)";
 /// all `strftime` patterns `%f`, `%3f`, `%6f`, and `%9f`.
 pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{3,9})";
 // uptime fractional seconds, seen in `dmesg` logs
-//pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>\d{1,5}\.\d{3,9})";
+//pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>\d{1,9}\.\d{3,9})";
 
 /// for help in testing only
 #[doc(hidden)]
@@ -1835,7 +1835,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     [    0.000000] kernel:   Intel GenuineIntel
     //
     //DTPD!(
-    //    concatcp!("^[", RP_BLANKSq, CGP_UPTIME, "]", RP_BLANK),
+    //    concatcp!(r"^\[", RP_BLANKSq, CGP_UPTIME, r"\]", RP_BLANK),
     //    DTFSS_u, 0, 20, CGN_UPTIME, CGN_UPTIME,
     //    &[
     //        "[    0.000000] kernel: KERNEL supported cpus:",
