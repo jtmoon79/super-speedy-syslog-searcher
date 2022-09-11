@@ -1209,7 +1209,7 @@ pub type DateTimeParseInstrsIndex = usize;
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 /// Length of [`DATETIME_PARSE_DATAS`]
-pub const DATETIME_PARSE_DATAS_LEN: usize = 40;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 44;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -1823,6 +1823,52 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
         DTFSS_YmdHMS, 0, 1024, CGN_YEAR, CGN_SECOND,
         &["2020-01-11 00:10:26 abcdefghijkl"],
+        line!(),
+    ),
+    //
+    DTPD!(
+        concatcp!(CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZz),
+        DTFSS_BeHMSYz, 0, 1024, CGN_DAYa, CGN_TZ,
+        &[
+            "VERBOSE Tuesday Jun 28 2022 01:51:12 +1230",
+            "VERBOSE Tue Jun 28 2022 01:51:12 +1230 FOOBAR",
+            "VERBOSE Tue, Jun 28 2022 01:51:12 +1230",
+            "VERBOSE Tue. Jun 28 2022 01:51:12 +1230 FOOBAR",
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZcz),
+        DTFSS_BeHMSYcz, 0, 1024, CGN_DAYa, CGN_TZ,
+        &[
+            "[VERBOSE]: Tue, Jun 28 2022 01:51:12 +01:30",
+            "[INFO]: Tue. Jun 28 2022 01:51:12 +01:30 FOOBAR",
+            "[INFO]: Tue Jun 28 2022 01:51:12 +01:30",
+            "[INFO]: Tue Jun 28 2022 01:51:12 +01:30 FOOBAR",
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZpz),
+        DTFSS_BeHMSYpz, 0, 1024, CGN_DAYa, CGN_TZ,
+        &[
+            "[DEBUG] Tuesday, Jun 28 2022 01:51:12 +01",
+            "[TRACE1] Tue. Jun 28 2022 01:51:12 +01 FOOBAR",
+            "[TRACE2] Tue, Jun 28 2022 01:51:12 +01",
+            "[TRACE1] Tue Jun 28 2022 01:51:12 +01 FOOBAR",
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ, RP_NOUPPER),
+        DTFSS_BeHMSYZ, 0, 1024, CGN_DAYa, CGN_TZ,
+        &[
+            "ERROR Tuesday, Jun 28 2022 01:51:12 WIT",
+            "ERROR Tue, Jun 28 2022 01:51:12 WITA:FOOBAR",
+            "ERROR Tue. Jun 28 2022 01:51:12 WST FOOBAR",
+            "VERBOSE Tue Jun 28 2022 01:51:12 YAKT",
+            "VERBOSE Tue Jun 28 2022 01:51:12 YEKT FOOBAR",
+        ],
         line!(),
     ),
     // ---------------------------------------------------------------------------------------------
