@@ -490,6 +490,12 @@ const DTP_BdHMSZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 const DTP_BdHMSY: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 ///  `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSYZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
+///  `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+const DTP_BdHMSYz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
+///  `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+const DTP_BdHMSYcz: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
+///  `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+const DTP_BdHMSYpz: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
 /// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMS: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
 /// `%Y` is filled, `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
@@ -705,18 +711,38 @@ const DTFSS_BeHMSYZ: DTFSSet = DTFSSet {
     tz: DTFS_Tz::Z,
     pattern: DTP_BdHMSYZ,
 };
-
-/// special case for `dmesg` syslog lines
-pub(crate) const DTFSS_u: DTFSSet = DTFSSet {
-    year: DTFS_Year::_fill,
-    month: DTFS_Month::m,
-    day: DTFS_Day::d,
+const DTFSS_BeHMSYz: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::B,
+    day: DTFS_Day::_e_to_d,
     hour: DTFS_Hour::H,
     minute: DTFS_Minute::M,
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
-    tz: DTFS_Tz::_fill,
-    pattern: DTP_YmdHMSzc,
+    tz: DTFS_Tz::z,
+    pattern: DTP_BdHMSYz,
+};
+const DTFSS_BeHMSYcz: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::B,
+    day: DTFS_Day::_e_to_d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::cz,
+    pattern: DTP_BdHMSYcz,
+};
+const DTFSS_BeHMSYpz: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::B,
+    day: DTFS_Day::_e_to_d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::pz,
+    pattern: DTP_BdHMSYpz,
 };
 
 /// to aid testing
@@ -798,6 +824,10 @@ pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>(?i)January|Jan|Februa
 pub const CGP_DAYd: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
 /// Regex capture group pattern for `strftime` day specifier `%e`.
 pub const CGP_DAYe: &CaptureGroupPattern = r"(?P<day>1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
+/// Regex capture pattern for `strftime` day specifier `%a` (not captured).
+// TODO: if the pattern begins or ends the datetime substring, then
+//       dt_beg or dt_end will be calculate wrong. How to handle this?
+pub const CP_DAYa: &RegexPattern = r"((?i)Monday|Mon|Tuesday|Tue|Wednesday|Wed|Thursday|Thu|Friday|Fri|Saturday|Sat|Sunday|Sun(?-i))";
 /// Regex capture group pattern for `strftime` hour specifier `%H`.
 pub const CGP_HOUR: &CaptureGroupPattern = r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
 /// Regex capture group pattern for `strftime` minute specifier `%M`.
@@ -1137,6 +1167,8 @@ const _RP_LEVELS: &RegexPattern = r"((?i)DEBUG|INFO|ERR|ERROR|TRACE|WARN|WARNING
 const RP_BLANK: &RegexPattern = r"[[:blank:]]";
 /// [`RegexPattern`] blank?
 const RP_BLANKq: &RegexPattern = r"[[:blank:]]?";
+/// [`RegexPattern`] blank, 1 or 2
+const RP_BLANK12: &RegexPattern = r"[[:blank:]]{1,2}";
 /// [`RegexPattern`] blanks
 const RP_BLANKS: &RegexPattern = r"[[:blank:]]+";
 /// [`RegexPattern`] blanks?
@@ -1160,7 +1192,7 @@ pub type DateTimeParseInstrsIndex = usize;
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 /// Length of [`DATETIME_PARSE_DATAS`]
-pub const DATETIME_PARSE_DATAS_LEN: usize = 36;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 40;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -1475,7 +1507,51 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     //     ===============================================================================
     //
-    // TODO: add DTPD for `aptitude` log report
+    DTPD!(
+        concatcp!(r"^", CP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZz),
+        DTFSS_BeHMSYz, 0, 45, CGN_MONTH, CGN_TZ,
+        &[
+            "Tuesday Jun 28 2022 01:51:12 +1230",
+            "Tue Jun 28 2022 01:51:12 +1230 FOOBAR",
+            "Tue, Jun 28 2022 01:51:12 +1230",
+            "Tue. Jun 28 2022 01:51:12 +1230 FOOBAR",
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r"^", CP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZcz),
+        DTFSS_BeHMSYcz, 0, 45, CGN_MONTH, CGN_TZ,
+        &[
+            "Tue, Jun 28 2022 01:51:12 +01:30",
+            "Tue. Jun 28 2022 01:51:12 +01:30 FOOBAR",
+            "Tue Jun 28 2022 01:51:12 +01:30",
+            "Tue Jun 28 2022 01:51:12 +01:30 FOOBAR",
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r"^", CP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZpz),
+        DTFSS_BeHMSYpz, 0, 45, CGN_MONTH, CGN_TZ,
+        &[
+            "Tuesday, Jun 28 2022 01:51:12 +01",
+            "Tue. Jun 28 2022 01:51:12 +01 FOOBAR",
+            "Tue, Jun 28 2022 01:51:12 +01",
+            "Tue Jun 28 2022 01:51:12 +01 FOOBAR",
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r"^", CP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ, RP_NOUPPER),
+        DTFSS_BeHMSYZ, 0, 45, CGN_MONTH, CGN_TZ,
+        &[
+            "Tuesday, Jun 28 2022 01:51:12 WIT",
+            "Tue, Jun 28 2022 01:51:12 WITA:FOOBAR",
+            "Tue. Jun 28 2022 01:51:12 WST FOOBAR",
+            "Tue Jun 28 2022 01:51:12 YAKT",
+            "Tue Jun 28 2022 01:51:12 YEKT FOOBAR",
+        ],
+        line!(),
+    ),
     //
     // ---------------------------------------------------------------------------------------------
     // from file `/var/log/apt/history.log`
