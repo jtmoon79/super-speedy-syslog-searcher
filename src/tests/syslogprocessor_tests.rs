@@ -208,7 +208,7 @@ fn test_find_sysline() {
     loop {
         let result = slp.find_sysline(fo);
         match result {
-            ResultS3SyslineFind::Found((fo_, syslinep)) => {
+            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
                 fo = fo_;
             }
             ResultS3SyslineFind::Done => {
@@ -224,9 +224,8 @@ fn test_find_sysline() {
 #[test]
 fn test_find_sysline_between_datetime_filters_Found() {
     let mut slp = new_SyslogProcessor(&NTF5_PATH, SZ);
-    let mut fo: FileOffset = 0;
 
-    let result = slp.find_sysline_between_datetime_filters(fo);
+    let result = slp.find_sysline_between_datetime_filters(0);
     match result {
         ResultS3SyslineFind::Found((_fo, _syslinep)) => {}
         ResultS3SyslineFind::Done => {
@@ -313,7 +312,7 @@ fn test_processing_stages_0_5() {
     loop {
         let result = slp.find_sysline(fo);
         match result {
-            ResultS3SyslineFind::Found((fo_, syslinep)) => {
+            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
                 fo = fo_;
             }
             ResultS3SyslineFind::Done => {

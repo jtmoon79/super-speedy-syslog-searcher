@@ -107,7 +107,7 @@ lazy_static!{
 }
 
 /// create an interesting sysline
-fn new_sysline(data: &str, dt_beg: usize, dt_end: usize) -> Sysline {
+fn new_sysline(data: &str, _dt_beg: usize, _dt_end: usize) -> Sysline {
     let at_stop: usize = data.as_bytes().len();
     let mut at_byte: usize = 0;
     let mut bo_off: BlockOffset = BLOCKOFFSET_INIT;
