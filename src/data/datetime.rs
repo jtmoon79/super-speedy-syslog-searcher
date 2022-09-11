@@ -793,6 +793,8 @@ const CGN_YEAR: &CaptureGroupName = "year";
 const CGN_MONTH: &CaptureGroupName = "month";
 /// corresponds to `strftime` specifier `%d`
 const CGN_DAY: &CaptureGroupName = "day";
+/// corresponds to `strftime` specifier `%a`
+const CGN_DAYa: &CaptureGroupName = "dayIgnore";
 /// corresponds to `strftime` specifier `%H`
 const CGN_HOUR: &CaptureGroupName = "hour";
 /// corresponds to `strftime` specifier `%M`
@@ -809,10 +811,11 @@ const CGN_TZ: &CaptureGroupName = "tz";
 /// all capture group names, for testing
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
-pub(crate) const _CGN_ALL: [&CaptureGroupName; 8] = [
+pub(crate) const _CGN_ALL: [&CaptureGroupName; 9] = [
     CGN_YEAR,
     CGN_MONTH,
     CGN_DAY,
+    CGN_DAYa,
     CGN_HOUR,
     CGN_MINUTE,
     CGN_SECOND,
@@ -841,10 +844,8 @@ pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>(?i)January|Jan|Februa
 pub const CGP_DAYd: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
 /// Regex capture group pattern for `strftime` day specifier `%e`.
 pub const CGP_DAYe: &CaptureGroupPattern = r"(?P<day>1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
-/// Regex capture pattern for `strftime` day specifier `%a` (not captured).
-// TODO: if the pattern begins or ends the datetime substring, then
-//       dt_beg or dt_end will be calculate wrong. How to handle this?
-pub const CP_DAYa: &RegexPattern = r"((?i)Monday|Mon|Tuesday|Tue|Wednesday|Wed|Thursday|Thu|Friday|Fri|Saturday|Sat|Sunday|Sun(?-i))";
+/// Regex capture group pattern `strftime` day specifier `%a`.
+pub const CGP_DAYa: &RegexPattern = r"(?P<dayIgnore>(?i)Monday|Mon|Tuesday|Tue|Wednesday|Wed|Thursday|Thu|Friday|Fri|Saturday|Sat|Sunday|Sun(?-i))";
 /// Regex capture group pattern for `strftime` hour specifier `%H`.
 pub const CGP_HOUR: &CaptureGroupPattern = r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
 /// Regex capture group pattern for `strftime` minute specifier `%M`.
@@ -1524,8 +1525,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     ===============================================================================
     //
     DTPD!(
-        concatcp!(r"^", CP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZz),
-        DTFSS_BeHMSYz, 0, 45, CGN_MONTH, CGN_TZ,
+        concatcp!(r"^", CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZz),
+        DTFSS_BeHMSYz, 0, 45, CGN_DAYa, CGN_TZ,
         &[
             "Tuesday Jun 28 2022 01:51:12 +1230",
             "Tue Jun 28 2022 01:51:12 +1230 FOOBAR",
@@ -1535,8 +1536,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(r"^", CP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZcz),
-        DTFSS_BeHMSYcz, 0, 45, CGN_MONTH, CGN_TZ,
+        concatcp!(r"^", CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZcz),
+        DTFSS_BeHMSYcz, 0, 45, CGN_DAYa, CGN_TZ,
         &[
             "Tue, Jun 28 2022 01:51:12 +01:30",
             "Tue. Jun 28 2022 01:51:12 +01:30 FOOBAR",
@@ -1546,8 +1547,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(r"^", CP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZpz),
-        DTFSS_BeHMSYpz, 0, 45, CGN_MONTH, CGN_TZ,
+        concatcp!(r"^", CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZpz),
+        DTFSS_BeHMSYpz, 0, 45, CGN_DAYa, CGN_TZ,
         &[
             "Tuesday, Jun 28 2022 01:51:12 +01",
             "Tue. Jun 28 2022 01:51:12 +01 FOOBAR",
@@ -1557,8 +1558,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(r"^", CP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ, RP_NOUPPER),
-        DTFSS_BeHMSYZ, 0, 45, CGN_MONTH, CGN_TZ,
+        concatcp!(r"^", CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ, RP_NOUPPER),
+        DTFSS_BeHMSYZ, 0, 45, CGN_DAYa, CGN_TZ,
         &[
             "Tuesday, Jun 28 2022 01:51:12 WIT",
             "Tue, Jun 28 2022 01:51:12 WITA:FOOBAR",
@@ -2342,6 +2343,10 @@ pub(crate) fn captures_to_buffer_bytes(
             panic!("Do not use DTFS_Day::e in a DTFS");
         }
     }
+    // Day pattern `%a` (`Monday`, 'Tue`, etc.) (capture group `CGN_DAYa`) is captured but not
+    // passed along to chrono functions.
+
+    // day-time divider
     copy_u8_to_buffer!('T' as u8, buffer, at);
     // hour
     copy_capturegroup_to_buffer!(CGN_HOUR, captures, buffer, at);
