@@ -803,7 +803,7 @@ const CGN_MINUTE: &CaptureGroupName = "minute";
 const CGN_SECOND: &CaptureGroupName = "second";
 /// corresponds to `strftime` specifier `%f`
 const CGN_FRACTIONAL: &CaptureGroupName = "fractional";
-/// corresponds to `strftime` specifier `%Z` `%z` `%:z` `%#z`
+/// corresponds to `strftime` specifier `%Z`, `%z`, `%:z`, `%#z`
 const CGN_TZ: &CaptureGroupName = "tz";
 // special case: `dmesg` uptime
 //const CGN_UPTIME: &CaptureGroupName = "uptime";
@@ -827,8 +827,8 @@ pub(crate) const _CGN_ALL: [&CaptureGroupName; 9] = [
 // saved rust playground for quick testing patterns
 // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=00460112beb2a6d078d6bbba72557574
 
-// Names used in the capture group pattern variable values (`CGP_*`) *MUST*
-// match the values of capture group name values (`CGN_*`).
+// Names used in the upcoming capture group pattern variable values (`CGP_*`) *MUST*
+// match the values of previous capture group name values (`CGN_*`).
 
 /// Regex capture group pattern for `strftime` year specifier `%Y`.
 pub const CGP_YEAR: &CaptureGroupPattern = r"(?P<year>[12]\d{3})";
