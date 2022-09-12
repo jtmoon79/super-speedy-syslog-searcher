@@ -32,6 +32,8 @@ cargo install s4
 
 ### Run
 
+For example, print all the messages under `/var/log/`.
+
 ```text
 s4 /var/log
 ```
@@ -104,7 +106,7 @@ DateTimes supported language is English.
 
 - Prepends datetime and file paths, for easy programmatic parsing or visual
   traversal of varying syslog messages
-- Supports many varying datetime formats including (WHAT IS THE OFFICIAL ONE?)
+- Supports many varying datetime formats including (WHAT ARE THOSE OFFICIAL ONES?)
 - Tested against "in the wild" log files from varying Linux distributions
   (see `./logs/`)
 - Comparable speed as GNU `grep` and `sort`
