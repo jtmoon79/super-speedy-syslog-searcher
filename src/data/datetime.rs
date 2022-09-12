@@ -2293,8 +2293,6 @@ fn month_bB_to_month_m_bytes(data: &[u8], buffer: &mut [u8]) {
             => buffer.copy_from_slice(MONTH_12_m),
         data_ => {
             panic!("month_bB_to_month_m_bytes: unexpected month value {:?}", data_);
-            //debug_assert_le!(data_.len(), 2, "month_bB_to_month_m_bytes passed bad data; len {}; {:?}", data_.len(), data_);
-            //buffer.copy_from_slice(data_)
         }
     }
 }
