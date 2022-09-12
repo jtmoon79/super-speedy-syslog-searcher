@@ -17,16 +17,16 @@ use crate::data::datetime::{
     DTFSSet,
     DateTimeParseInstr,
     DATETIME_PARSE_DATAS,
-    _CGN_ALL,
+    CGN_ALL,
     CGP_YEAR,
-    _CGP_MONTH_ALL,
-    _CGP_DAY_ALL,
+    CGP_MONTH_ALL,
+    CGP_DAY_ALL,
     CGP_HOUR,
     CGP_MINUTE,
     CGP_SECOND,
     CGP_FRACTIONAL,
-    _CGP_TZ_ALL,
-    _DTF_ALL,
+    CGP_TZ_ALL,
+    DTP_ALL,
     RP_LB,
     RP_RB,
     bytes_to_regex_to_datetime,
@@ -44,6 +44,11 @@ use crate::printer_debug::stack::{
     sn,
     sx,
     stack_offset_set,
+};
+
+use crate::printer_debug::printers::{
+    dpnf,
+    dpxf,
 };
 
 use std::collections::HashSet;
@@ -65,7 +70,7 @@ pub fn regex_pattern_has_year(pattern: &DateTimeRegex_str) -> bool {
 
 /// does regex pattern have a month?
 pub fn regex_pattern_has_month(pattern: &DateTimeRegex_str) -> bool {
-    for pat in _CGP_MONTH_ALL.iter() {
+    for pat in CGP_MONTH_ALL.iter() {
         if pattern.contains(pat) {
             return true;
         }
@@ -76,7 +81,7 @@ pub fn regex_pattern_has_month(pattern: &DateTimeRegex_str) -> bool {
 
 /// does regex pattern have a day?
 pub fn regex_pattern_has_day(pattern: &DateTimeRegex_str) -> bool {
-    for pat in _CGP_DAY_ALL.iter() {
+    for pat in CGP_DAY_ALL.iter() {
         if pattern.contains(pat) {
             return true;
         }
@@ -107,7 +112,7 @@ pub fn regex_pattern_has_fractional(pattern: &DateTimeRegex_str) -> bool {
 
 /// does regex pattern have a timezone?
 pub fn regex_pattern_has_tz(pattern: &DateTimeRegex_str) -> bool {
-    for pat in _CGP_TZ_ALL.iter() {
+    for pat in CGP_TZ_ALL.iter() {
         if pattern.contains(pat) {
             return true;
         }
@@ -188,9 +193,9 @@ where
 }
 
 #[test]
-fn test_DTF_ALL() {
+fn test_DTP_ALL() {
     stack_offset_set(Some(2));
-    for dt_format in _DTF_ALL.iter() {
+    for dt_format in DTP_ALL.iter() {
         assert!(dt_pattern_has_year(dt_format), "built-in dt_format missing year {:?}", dt_format);
         assert!(dt_pattern_has_month(dt_format), "built-in dt_format missing month {:?}", dt_format);
         assert!(dt_pattern_has_day(dt_format), "built-in dt_format missing day {:?}", dt_format);
@@ -258,10 +263,10 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
         assert!(dt_pattern_has_tz(dtpat), "dt_pattern does not have a timezone {:?}; declared at line {}", dtpat, dtpd._line_num);
         // check cgn_first
         assert!(regpat.contains(dtpd.cgn_first), "cgn_first {:?} but not contained in regex {:?}; declared at line {}", dtpd.cgn_first, regpat, dtpd._line_num);
-        assert!(_CGN_ALL.iter().any(|x| x == &dtpd.cgn_first), "cgn_first {:?} not in _CGN_ALL {:?}; declared at line {}", dtpd.cgn_first, &_CGN_ALL, dtpd._line_num);
+        assert!(CGN_ALL.iter().any(|x| x == &dtpd.cgn_first), "cgn_first {:?} not in CGN_ALL {:?}; declared at line {}", dtpd.cgn_first, &CGN_ALL, dtpd._line_num);
         let mut cgn_first_i: usize = usize::MAX;
         let mut cgn_first_s: &str = "";
-        for cgn in _CGN_ALL.iter() {
+        for cgn in CGN_ALL.iter() {
             let mut cgn_full = String::from('<');
             cgn_full.push_str(cgn);
             cgn_full.push('>');
@@ -279,10 +284,10 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
         assert_eq!(cgn_first_s, dtpd.cgn_first, "cgn_first is {:?}, but analysis of the regexp found the first capture named group {:?}; declared at line {}", dtpd.cgn_first, cgn_first_s, dtpd._line_num);
         // check cgn_last
         assert!(regpat.contains(dtpd.cgn_last), "cgn_last {:?} but not contained in regex {:?}; declared at line {}", dtpd.cgn_last, regpat, dtpd._line_num);
-        assert!(_CGN_ALL.iter().any(|x| x == &dtpd.cgn_last), "cgn_last {:?} not in _CGN_ALL {:?}; declared at line {}", dtpd.cgn_last, &_CGN_ALL, dtpd._line_num);
+        assert!(CGN_ALL.iter().any(|x| x == &dtpd.cgn_last), "cgn_last {:?} not in CGN_ALL {:?}; declared at line {}", dtpd.cgn_last, &CGN_ALL, dtpd._line_num);
         let mut cgn_last_i: usize = 0;
         let mut cgn_last_s: &str = "";
-        for cgn in _CGN_ALL.iter() {
+        for cgn in CGN_ALL.iter() {
             let mut cgn_full = String::from('<');
             cgn_full.push_str(cgn);
             cgn_full.push('>');
@@ -348,7 +353,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases() {
         eprintln!("  Regex Pattern   : {:?}", dtpd.regex_pattern);
         eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
         for test_case in dtpd._test_cases {
-        eprintln!("  Test Data       : {:?}", test_case);
+            eprintln!("  Test Data       : {:?}", test_case);
             let data = test_case.as_bytes();
             let tz = FixedOffset::east_opt(60 * 60).unwrap();
             let mut year_opt: Option<Year> = None;
@@ -424,7 +429,7 @@ fn fo_to_fo0(dt_opt: &DateTimeLOpt) -> DateTimeLOpt {
 #[allow(non_snake_case)]
 #[test]
 fn test_dt_pass_filters_fixedoffset2() {
-    eprintln!("{}test_dt_pass_filters_fixedoffset2()", sn());
+    dpnf!();
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = FixedOffset::west(3600 * 2);
@@ -491,14 +496,14 @@ fn test_dt_pass_filters_fixedoffset2() {
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for {:?} among dt_pass_filters({:?}, {:?})", exp_result, result, dt, da, db);
         eprintln!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
     }
-    eprintln!("{}test_dt_pass_filters_fixedoffset2()", sx());
+    dpxf!();
 }
 
 #[rustfmt::skip]
 #[allow(non_snake_case)]
 #[test]
 fn test_dt_pass_filters_z() {
-    eprintln!("{}test_dt_pass_filters_z()", sn());
+    dpnf!();
 
     fn DTLz(s: &str) -> DateTimeL {
         let tz_dummy = FixedOffset::east(0);
@@ -600,7 +605,7 @@ dt_pass_filters({:?}, {:?})
 ", exp_result, result, dt, da, db, dt0, da0, db0);
         eprintln!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
     }
-    eprintln!("{}test_dt_pass_filters_z()", sx());
+    dpxf!();
 }
 
 /// basic test of `SyslineReader.dt_after_or_before`
@@ -608,7 +613,7 @@ dt_pass_filters({:?}, {:?})
 #[allow(non_snake_case)]
 #[test]
 fn test_dt_after_or_before() {
-    eprintln!("{}test_dt_after_or_before()", sn());
+    dpnf!();
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = FixedOffset::west(3600 * 8);
@@ -625,5 +630,5 @@ fn test_dt_after_or_before() {
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?})", exp_result, result, dt, da);
         eprintln!("dt_after_or_before(\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, result);
     }
-    eprintln!("{}test_dt_after_or_before()", sx());
+    dpxf!();
 }
