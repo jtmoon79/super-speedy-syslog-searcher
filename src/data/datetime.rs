@@ -252,10 +252,10 @@ pub enum DTFS_Fractional {
 pub enum DTFS_Tz {
     /// `%z` e.g. `"+0930"`
     z,
-    /// `%:z` e.g. `"+09:30"`
-    cz,
-    /// `%#z` e.g. `"+09"`
-    pz,
+    /// `%:z` e.g. `"+09:30"` ("zee colon")
+    zc,
+    /// `%#z` e.g. `"+09"` ("zee pound")
+    zp,
     /// `%Z` e.g. `"PST"`
     Z,
     /// none, must be filled
@@ -322,7 +322,7 @@ impl DTFSSet<'_> {
     }
     pub fn has_tz(&self) -> bool {
         match self.tz {
-            DTFS_Tz::z | DTFS_Tz::cz | DTFS_Tz::pz | DTFS_Tz::Z => true,
+            DTFS_Tz::z | DTFS_Tz::zc | DTFS_Tz::zp | DTFS_Tz::Z => true,
             DTFS_Tz::_fill => false,
         }
     }
@@ -468,7 +468,7 @@ const DTP_YmdHMSfzp: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%#z";
 const DTP_YmdHMSfZ: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
 
 const DTP_YbdHMSz: &DateTimePattern_str = "%Y%b%dT%H%M%S%z";
-const DTP_YbdHMScz: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
+const DTP_YbdHMSzc: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
 const DTP_YBdHMSz: &DateTimePattern_str = "%Y%B%dT%H%M%S%z";
 /// `%:z` is filled by [`captures_to_buffer_bytes`]
 const DTP_YbdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
@@ -493,9 +493,9 @@ const DTP_BdHMSYZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 ///  `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSYz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
 ///  `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
-const DTP_BdHMSYcz: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
+const DTP_BdHMSYzc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 ///  `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
-const DTP_BdHMSYpz: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
+const DTP_BdHMSYzp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
 /// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMS: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
 /// `%Y` is filled, `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
@@ -532,7 +532,7 @@ pub(crate) const DTFSS_YmdHMSz: DTFSSet = DTFSSet {
     tz: DTFS_Tz::z,
     pattern: DTP_YmdHMSz,
 };
-pub(crate) const DTFSS_YmdHMScz: DTFSSet = DTFSSet {
+pub(crate) const DTFSS_YmdHMSzc: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
     month: DTFS_Month::m,
     day: DTFS_Day::d,
@@ -540,10 +540,10 @@ pub(crate) const DTFSS_YmdHMScz: DTFSSet = DTFSSet {
     minute: DTFS_Minute::M,
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
-    tz: DTFS_Tz::cz,
+    tz: DTFS_Tz::zc,
     pattern: DTP_YmdHMSzc,
 };
-pub(crate) const DTFSS_YmdHMSpz: DTFSSet = DTFSSet {
+pub(crate) const DTFSS_YmdHMSzp: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
     month: DTFS_Month::m,
     day: DTFS_Day::d,
@@ -551,7 +551,7 @@ pub(crate) const DTFSS_YmdHMSpz: DTFSSet = DTFSSet {
     minute: DTFS_Minute::M,
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
-    tz: DTFS_Tz::pz,
+    tz: DTFS_Tz::zp,
     pattern: DTP_YmdHMSzp,
 };
 pub(crate) const DTFSS_YmdHMSZ: DTFSSet = DTFSSet {
@@ -588,7 +588,7 @@ const DTFSS_YmdHMSfz: DTFSSet = DTFSSet {
     tz: DTFS_Tz::z,
     pattern: DTP_YmdHMSfz,
 };
-const DTFSS_YmdHMSfcz: DTFSSet = DTFSSet {
+const DTFSS_YmdHMSfzc: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
     month: DTFS_Month::m,
     day: DTFS_Day::d,
@@ -596,10 +596,10 @@ const DTFSS_YmdHMSfcz: DTFSSet = DTFSSet {
     minute: DTFS_Minute::M,
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
-    tz: DTFS_Tz::cz,
+    tz: DTFS_Tz::zc,
     pattern: DTP_YmdHMSfzc,
 };
-const DTFSS_YmdHMSfpz: DTFSSet = DTFSSet {
+const DTFSS_YmdHMSfzp: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
     month: DTFS_Month::m,
     day: DTFS_Day::d,
@@ -607,7 +607,7 @@ const DTFSS_YmdHMSfpz: DTFSSet = DTFSSet {
     minute: DTFS_Minute::M,
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
-    tz: DTFS_Tz::pz,
+    tz: DTFS_Tz::zp,
     pattern: DTP_YmdHMSfzp,
 };
 const DTFSS_YmdHMSfZ: DTFSSet = DTFSSet {
@@ -722,7 +722,7 @@ const DTFSS_BeHMSYz: DTFSSet = DTFSSet {
     tz: DTFS_Tz::z,
     pattern: DTP_BdHMSYz,
 };
-const DTFSS_BeHMSYcz: DTFSSet = DTFSSet {
+const DTFSS_BeHMSYzc: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
     month: DTFS_Month::B,
     day: DTFS_Day::_e_to_d,
@@ -730,10 +730,10 @@ const DTFSS_BeHMSYcz: DTFSSet = DTFSSet {
     minute: DTFS_Minute::M,
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
-    tz: DTFS_Tz::cz,
-    pattern: DTP_BdHMSYcz,
+    tz: DTFS_Tz::zc,
+    pattern: DTP_BdHMSYzc,
 };
-const DTFSS_BeHMSYpz: DTFSSet = DTFSSet {
+const DTFSS_BeHMSYzp: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
     month: DTFS_Month::B,
     day: DTFS_Day::_e_to_d,
@@ -741,8 +741,8 @@ const DTFSS_BeHMSYpz: DTFSSet = DTFSSet {
     minute: DTFS_Minute::M,
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
-    tz: DTFS_Tz::pz,
-    pattern: DTP_BdHMSYpz,
+    tz: DTFS_Tz::zp,
+    pattern: DTP_BdHMSYzp,
 };
 
 // TODO: Issue #4 handle dmesg
@@ -765,15 +765,15 @@ const DTFSS_BeHMSYpz: DTFSSet = DTFSSet {
 pub(crate) const _DTF_ALL: &[&DateTimePattern_str] = &[
     //DTP_YmdHMS,
     //DTP_YmdHMSz,
-    //DTP_YmdHMScz,
-    //DTP_YmdHMSpz,
+    //DTP_YmdHMSzc,
+    //DTP_YmdHMSzp,
     //DTP_YmdHMSf,
     //DTP_YmdHMSfz,
-    //DTP_YmdHMSfcz,
-    //DTP_YmdHMSfpz,
+    //DTP_YmdHMSfzc,
+    //DTP_YmdHMSfzp,
     DTP_YmdHMSfZ,
     DTP_YbdHMSz,
-    DTP_YbdHMScz,
+    DTP_YbdHMSzc,
     DTP_YBdHMSz,
     DTP_YbdHMS,
     DTP_YBdHMS,
@@ -844,7 +844,7 @@ pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>(?i)January|Jan|Februa
 pub const CGP_DAYd: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
 /// Regex capture group pattern for `strftime` day specifier `%e`.
 pub const CGP_DAYe: &CaptureGroupPattern = r"(?P<day>1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
-/// Regex capture group pattern `strftime` day specifier `%a`.
+/// Regex capture group pattern for `strftime` day specifier `%a`.
 pub const CGP_DAYa: &RegexPattern = r"(?P<dayIgnore>(?i)Monday|Mon|Tuesday|Tue|Wednesday|Wed|Thursday|Thu|Friday|Fri|Saturday|Sat|Sunday|Sun(?-i))";
 /// Regex capture group pattern for `strftime` hour specifier `%H`.
 pub const CGP_HOUR: &CaptureGroupPattern = r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
@@ -853,10 +853,10 @@ pub const CGP_MINUTE: &CaptureGroupPattern = r"(?P<minute>[012345]\d)";
 /// Regex capture group pattern for `strftime` second specifier `%S`,
 /// includes leap second "60".
 pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345]\d|60)";
-/// Regex capture group pattern for `strftime` specifier fractional `%f`,
+/// Regex capture group pattern for `strftime` fractional specifier `%f`,
 /// all `strftime` patterns `%f`, `%3f`, `%6f`, and `%9f`.
 pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{3,9})";
-// uptime fractional seconds, seen in `dmesg` logs
+/// Regex capture group pattern for dmesg uptime fractional seconds in logs
 //pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>\d{1,9}\.\d{3,9})";
 
 /// for help in testing only
@@ -877,13 +877,12 @@ pub const _CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
     CGP_DAYe,
 ];
 
-
 /// `strftime` specifier `%z` e.g. `"+0930"`
 const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d{3})";
 /// `strftime` specifier `%:z` e.g. `"+09:30"`
-const CGP_TZcz: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d:\d\d)";
+const CGP_TZzc: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d:\d\d)";
 /// `strftime` specifier `%#z` e.g. `"+09"`
-const CGP_TZpz: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d)";
+const CGP_TZzp: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d)";
 /// `strftime` specifier `%Z` e.g. `"ACST"`
 const CGP_TZZ: &CaptureGroupPattern = r"(?P<tz>ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT)";
 
@@ -892,8 +891,8 @@ const CGP_TZZ: &CaptureGroupPattern = r"(?P<tz>ACDT|ACST|ACT|ADT|AEDT|AEST|AET|A
 #[cfg(any(debug_assertions,test))]
 pub const _CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
     CGP_TZz,
-    CGP_TZcz,
-    CGP_TZpz,
+    CGP_TZzc,
+    CGP_TZzp,
     CGP_TZZ,
 ];
 
@@ -1272,14 +1271,14 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^", RP_LB, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZcz, RP_RB),
-        DTFSS_YmdHMSfcz, 0, 40, CGN_YEAR, CGN_TZ,
+        concatcp!("^", RP_LB, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzc, RP_RB),
+        DTFSS_YmdHMSfzc, 0, 40, CGN_YEAR, CGN_TZ,
         &[r"{2000/01/01 00:00:03.123456789 -11:30} ../source3/smbd/oplock.c:1340(init_oplocks)"],
         line!(),
     ),
     DTPD!(
-        concatcp!("^", RP_LB, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZpz, RP_RB),
-        DTFSS_YmdHMSfpz, 0, 40, CGN_YEAR, CGN_TZ,
+        concatcp!("^", RP_LB, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzp, RP_RB),
+        DTFSS_YmdHMSfzp, 0, 40, CGN_YEAR, CGN_TZ,
         &[r"(2000/01/01 00:00:04.123456789 -11) ../source3/smbd/oplock.c:1340(init_oplocks)"],
         line!(),
     ),
@@ -1536,8 +1535,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(r"^", CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZcz),
-        DTFSS_BeHMSYcz, 0, 45, CGN_DAYa, CGN_TZ,
+        concatcp!(r"^", CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzc),
+        DTFSS_BeHMSYzc, 0, 45, CGN_DAYa, CGN_TZ,
         &[
             "Tue, Jun 28 2022 01:51:12 +01:30",
             "Tue. Jun 28 2022 01:51:12 +01:30 FOOBAR",
@@ -1547,8 +1546,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(r"^", CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZpz),
-        DTFSS_BeHMSYpz, 0, 45, CGN_DAYa, CGN_TZ,
+        concatcp!(r"^", CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzp),
+        DTFSS_BeHMSYzp, 0, 45, CGN_DAYa, CGN_TZ,
         &[
             "Tuesday, Jun 28 2022 01:51:12 +01",
             "Tue. Jun 28 2022 01:51:12 +01 FOOBAR",
@@ -1705,14 +1704,14 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZcz),
-        DTFSS_YmdHMSfcz, 0, 50, CGN_YEAR, CGN_TZ,
+        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzc),
+        DTFSS_YmdHMSfzc, 0, 50, CGN_YEAR, CGN_TZ,
         &[r"2000/01/03 00:00:03.123456 -11:30 ab"],
         line!(),
     ),
     DTPD!(
-        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZpz),
-        DTFSS_YmdHMSfpz, 0, 50, CGN_YEAR, CGN_TZ,
+        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzp),
+        DTFSS_YmdHMSfzp, 0, 50, CGN_YEAR, CGN_TZ,
         &[r"2000/01/04 00:00:04,123456789 -11 abc"],
         line!(),
     ),
@@ -1736,14 +1735,14 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZcz),
-        DTFSS_YmdHMScz, 0, 50, CGN_YEAR, CGN_TZ,
+        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc),
+        DTFSS_YmdHMSzc, 0, 50, CGN_YEAR, CGN_TZ,
         &[r"2000-01-08-00:00:03 -11:30 abcdefghi"],
         line!(),
     ),
     DTPD!(
-        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZpz),
-        DTFSS_YmdHMSpz, 0, 50, CGN_YEAR, CGN_TZ,
+        concatcp!("^", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp),
+        DTFSS_YmdHMSzp, 0, 50, CGN_YEAR, CGN_TZ,
         &[r"2000/01/09 00:00:04 -11 abcdefghij"],
         line!(),
     ),
@@ -1770,14 +1769,14 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZcz),
-        DTFSS_YmdHMSfcz, 0, 1024, CGN_YEAR, CGN_TZ,
+        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzc),
+        DTFSS_YmdHMSfzc, 0, 1024, CGN_YEAR, CGN_TZ,
         &[r"2000/01/03 00:02:03.123456 -11:30 ab"],
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZpz),
-        DTFSS_YmdHMSfpz, 0, 1024, CGN_YEAR, CGN_TZ,
+        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzp),
+        DTFSS_YmdHMSfzp, 0, 1024, CGN_YEAR, CGN_TZ,
         &[r"2000/01/04 00:03:04,123456789 -11 abc"],
         line!(),
     ),
@@ -1801,14 +1800,14 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZcz),
-        DTFSS_YmdHMScz, 0, 1024, CGN_YEAR, CGN_TZ,
+        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc),
+        DTFSS_YmdHMSzc, 0, 1024, CGN_YEAR, CGN_TZ,
         &[r"2000-01-08-00:07:03 -11:30 aabcdefghi"],
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZpz),
-        DTFSS_YmdHMSpz, 0, 1024, CGN_YEAR, CGN_TZ,
+        concatcp!(CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp),
+        DTFSS_YmdHMSzp, 0, 1024, CGN_YEAR, CGN_TZ,
         &[r"2000/01/09 00:08:04 -11 abcdefghij"],
         line!(),
     ),
@@ -1838,8 +1837,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZcz),
-        DTFSS_BeHMSYcz, 0, 1024, CGN_DAYa, CGN_TZ,
+        concatcp!(CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzc),
+        DTFSS_BeHMSYzc, 0, 1024, CGN_DAYa, CGN_TZ,
         &[
             "[VERBOSE]: Tue, Jun 28 2022 01:51:12 +01:30",
             "[INFO]: Tue. Jun 28 2022 01:51:12 +01:30 FOOBAR",
@@ -1849,8 +1848,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZpz),
-        DTFSS_BeHMSYpz, 0, 1024, CGN_DAYa, CGN_TZ,
+        concatcp!(CGP_DAYa, r"[,\.]?", RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, "[,]?", RP_BLANK12, CGP_YEAR, "[,]?", RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzp),
+        DTFSS_BeHMSYzp, 0, 1024, CGN_DAYa, CGN_TZ,
         &[
             "[DEBUG] Tuesday, Jun 28 2022 01:51:12 +01",
             "[TRACE1] Tue. Jun 28 2022 01:51:12 +01 FOOBAR",
@@ -2001,8 +2000,8 @@ pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePatt
     true
 }
 
-/// Decoding [\[`u8`\]] bytes to a [`str`] takes a surprising amount of time,
-/// according to script `tools/flamegraph.sh`.
+/// Decoding [\[`u8`\]] bytes to a [`str`] takes a surprisingly long amount of
+/// time, according to script `tools/flamegraph.sh`.
 ///
 /// First check `u8` slice with custom simplistic checker that, in case of
 /// complications, falls back to using higher-resource and more-precise checker
@@ -2026,7 +2025,8 @@ pub fn u8_to_str(data: &[u8]) -> Option<&str> {
         fallback = true;
     }
     if fallback {
-        // found non-ASCII, fallback to checking with `utf8_latin1_up_to` which is a thorough check
+        // found non-ASCII, fallback to checking with `utf8_latin1_up_to`
+        // which is a thorough check
         let va = encoding_rs::mem::utf8_latin1_up_to(data);
         if va != data.len() {
             // TODO: this needs a better resolution
@@ -2415,7 +2415,7 @@ pub(crate) fn captures_to_buffer_bytes(
             let tzs: String = tz_offset.to_string();
             copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
         }
-        DTFS_Tz::z | DTFS_Tz::cz | DTFS_Tz::pz => {
+        DTFS_Tz::z | DTFS_Tz::zc | DTFS_Tz::zp => {
             copy_capturegroup_to_buffer!(CGN_TZ, captures, buffer, at);
         }
         DTFS_Tz::Z => {
