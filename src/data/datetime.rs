@@ -1332,11 +1332,18 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     Log ended: 2022-07-14  06:49:02
     //
     DTPD!(
-        concatcp!(r"^(Log started:|Log ended:)", RP_BLANKSq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, r"[ T]*", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
+        concatcp!("^((log|Log|LOG) (started|Started|STARTED|ended|Ended|ENDED)):", RP_BLANKSq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, "(T|[[:blank:]]+)", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
         DTFSS_YmdHMS, 0, 40, CGN_YEAR, CGN_SECOND,
-        &["Log started: 2022-07-14  06:48:58\n(Reading database ..."],
+        &[
+            "Log started: 2022-07-14  06:48:58\n(Reading database ...",
+            "Log started: 2022-07-14 06:48:58 Reading database",
+            "Log started: 2022-07-14T06:48:58",
+            "Log ended: 2022-07-14  06:39:58",
+            "Log ended:\t2022-07-14\t06:39:58",
+        ],
         line!(),
     ),
+    // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Ubuntu18/vmware-installer.log`
     // example with offset:
