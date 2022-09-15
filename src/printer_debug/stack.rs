@@ -9,11 +9,15 @@ use std::thread::{
     ThreadId,
 };
 
+extern crate backtrace;
+
 extern crate const_format;
 use const_format::concatcp;
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
+
+extern crate mut_static;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
