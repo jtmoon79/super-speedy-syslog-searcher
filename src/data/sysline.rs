@@ -56,10 +56,7 @@ use std::fmt;
 use std::sync::Arc;
 
 extern crate more_asserts;
-use more_asserts::{
-    assert_ge,
-    debug_assert_ge,
-};
+use more_asserts::debug_assert_ge;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Sysline

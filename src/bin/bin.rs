@@ -47,8 +47,6 @@ use std::process::ExitCode;
 use std::str;
 use std::thread;
 
-extern crate backtrace;
-
 extern crate chrono;
 use chrono::{
     FixedOffset,

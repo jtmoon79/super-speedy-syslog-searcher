@@ -95,9 +95,7 @@ use lazy_static::lazy_static;
 
 extern crate more_asserts;
 use more_asserts::{
-    assert_ge,
     assert_le,
-    assert_lt,
     debug_assert_ge,
     debug_assert_le,
     debug_assert_lt,
@@ -166,8 +164,6 @@ pub type DateTimeLOpt = Option<DateTimeL>;
 ///      year but it is not guaranteed. It depends on the file modified time
 ///      (i.e. [`blockreader.mtime()`](BlockReader)) being true.
 const YEAR_FALLBACKDUMMY: &str = "1972";
-
-const DATETIME_FALLBACKDUMMY: &str = "19720229T120000";
 
 /// DateTime Format Specifier for a Year.
 /// Follows chrono `strftime` formatting.
@@ -1167,6 +1163,7 @@ lazy_static!{
 /// [`RegexPattern`] divider date? `2020/01/01`
 const D_Dq: &RegexPattern = r"[ /\-]?";
 /// [`RegexPattern`] divider date, `2020/01/01`
+#[allow(dead_code)]
 const D_D: &RegexPattern = r"[/\-]";
 /// [`RegexPattern`] divider time, `20:30:00`
 const D_T: &RegexPattern = "[:]?";

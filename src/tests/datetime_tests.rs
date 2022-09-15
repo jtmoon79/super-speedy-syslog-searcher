@@ -41,8 +41,6 @@ use crate::data::datetime::{
 use crate::printer_debug::printers::buffer_to_String_noraw;
 
 use crate::printer_debug::stack::{
-    sn,
-    sx,
     stack_offset_set,
 };
 

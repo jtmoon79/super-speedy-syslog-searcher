@@ -88,10 +88,7 @@ extern crate mime_guess;
 use mime_guess::MimeGuess;
 
 extern crate more_asserts;
-use more_asserts::{
-    assert_lt,
-    debug_assert_lt,
-};
+use more_asserts::debug_assert_lt;
 
 extern crate rangemap;
 use rangemap::RangeMap;
