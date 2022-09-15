@@ -756,17 +756,19 @@ const DTFSS_BeHMSYzp: DTFSSet = DTFSSet {
 //};
 
 /// to aid testing
+// check `DTP_ALL` has all `DTP_` vars
+//
+//     grep -Fe ' DTP_' ./src/data/datetime.rs  | grep const | grep -oEe 'DTP_[[:alnum:]]+' | sed 's/$/,/'
+//
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
 pub(crate) const DTP_ALL: &[&DateTimePattern_str] = &[
-    //DTP_YmdHMS,
-    //DTP_YmdHMSz,
-    //DTP_YmdHMSzc,
-    //DTP_YmdHMSzp,
-    //DTP_YmdHMSf,
-    //DTP_YmdHMSfz,
-    //DTP_YmdHMSfzc,
-    //DTP_YmdHMSfzp,
+    DTP_YmdHMSzc,
+    DTP_YmdHMSz,
+    DTP_YmdHMSzp,
+    DTP_YmdHMSfzc,
+    DTP_YmdHMSfz,
+    DTP_YmdHMSfzp,
     DTP_YmdHMSfZ,
     DTP_YbdHMSz,
     DTP_YbdHMSzc,
@@ -775,10 +777,19 @@ pub(crate) const DTP_ALL: &[&DateTimePattern_str] = &[
     DTP_YBdHMS,
     DTP_YbeHMS,
     DTP_YBeHMS,
-    DTP_BdHMS,
-    DTP_BeHMS,
-    DTP_bdHMS,
     DTP_beHMS,
+    DTP_BdHMS,
+    DTP_BdHMSZ,
+    DTP_BdHMSY,
+    DTP_BdHMSYZ,
+    DTP_BdHMSYz,
+    DTP_BdHMSYzc,
+    DTP_BdHMSYzp,
+    DTP_BeHMS,
+    DTP_BeHMSZ,
+    DTP_BeHMSY,
+    DTP_BeHMSYZ,
+    DTP_bdHMS,
 ];
 
 // `regex::Captures` capture group names
@@ -1302,6 +1313,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &["[2020/03/05 12:17:59.631000, FOO] ../source3/smbd/oplock.c:1340(init_oplocks)"],
         line!(),
     ),
+    // ---------------------------------------------------------------------------------------------
+    //
     // from file `/var/log/unattended-upgrades/unattended-upgrades-dpkg.log`
     // example with offset:
     //
