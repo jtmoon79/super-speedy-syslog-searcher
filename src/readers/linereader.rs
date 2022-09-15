@@ -223,7 +223,9 @@ impl LineReader {
                 lines_processed: 0,
                 charsz_: CHARSZ,
                 find_line_lru_cache_enabled: true,
-                find_line_lru_cache: LinesLRUCache::new(LineReader::FIND_LINE_LRC_CACHE_SZ),
+                find_line_lru_cache: LinesLRUCache::new(
+                    std::num::NonZeroUsize::new(LineReader::FIND_LINE_LRC_CACHE_SZ).unwrap()
+                ),
                 find_line_lru_cache_hit: 0,
                 find_line_lru_cache_miss: 0,
                 find_line_lru_cache_put: 0,
@@ -287,14 +289,16 @@ impl LineReader {
         }
         self.find_line_lru_cache_enabled = true;
         self.find_line_lru_cache.clear();
-        self.find_line_lru_cache.resize(LineReader::FIND_LINE_LRC_CACHE_SZ);
+        self.find_line_lru_cache.resize(
+            std::num::NonZeroUsize::new(LineReader::FIND_LINE_LRC_CACHE_SZ).unwrap()
+        );
     }
 
     /// Disable internal LRU cache used by `find_line`.
     #[allow(non_snake_case)]
     pub fn LRU_cache_disable(&mut self) {
         self.find_line_lru_cache_enabled = false;
-        self.find_line_lru_cache.resize(0);
+        self.find_line_lru_cache.clear();
     }
 
     /// See [BlockReader::mtime].

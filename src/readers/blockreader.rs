@@ -1138,7 +1138,9 @@ impl BlockReader {
                 count_bytes_,
                 blocks,
                 blocks_read,
-                read_block_lru_cache: BlocksLRUCache::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ),
+                read_block_lru_cache: BlocksLRUCache::new(
+                    std::num::NonZeroUsize::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ).unwrap()
+                ),
                 read_block_lru_cache_enabled: true,
                 read_block_cache_lru_hit: 0,
                 read_block_cache_lru_miss: 0,
@@ -1398,14 +1400,16 @@ impl BlockReader {
         }
         self.read_block_lru_cache_enabled = true;
         self.read_block_lru_cache.clear();
-        self.read_block_lru_cache.resize(BlockReader::READ_BLOCK_LRU_CACHE_SZ);
+        self.read_block_lru_cache.resize(
+            std::num::NonZeroUsize::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ).unwrap()
+        );
     }
 
     /// Disable internal LRU cache used by `read_block`.
     #[allow(non_snake_case)]
     pub fn LRU_cache_disable(&mut self) {
         self.read_block_lru_cache_enabled = false;
-        self.read_block_lru_cache.resize(0);
+        self.read_block_lru_cache.clear();
     }
 
     /// Forcefully `drop` the [`Block`] at [`BlockOffset`].

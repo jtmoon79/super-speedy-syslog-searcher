@@ -424,12 +424,16 @@ impl SyslineReader {
                 dt_patterns_indexes,
                 tz_offset,
                 find_sysline_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
-                find_sysline_lru_cache: SyslinesLRUCache::new(SyslineReader::FIND_SYSLINE_LRU_CACHE_SZ),
+                find_sysline_lru_cache: SyslinesLRUCache::new(
+                    std::num::NonZeroUsize::new(SyslineReader::FIND_SYSLINE_LRU_CACHE_SZ).unwrap()
+                ),
                 find_sysline_lru_cache_hit: 0,
                 find_sysline_lru_cache_miss: 0,
                 find_sysline_lru_cache_put: 0,
                 parse_datetime_in_line_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
-                parse_datetime_in_line_lru_cache: LineParsedCache::new(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ),
+                parse_datetime_in_line_lru_cache: LineParsedCache::new(
+                    std::num::NonZeroUsize::new(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ).unwrap()
+                ),
                 parse_datetime_in_line_lru_cache_hit: 0,
                 parse_datetime_in_line_lru_cache_miss: 0,
                 parse_datetime_in_line_lru_cache_put: 0,
@@ -585,12 +589,16 @@ impl SyslineReader {
         if !self.find_sysline_lru_cache_enabled {
             self.find_sysline_lru_cache_enabled = true;
             self.find_sysline_lru_cache.clear();
-            self.find_sysline_lru_cache.resize(SyslineReader::FIND_SYSLINE_LRU_CACHE_SZ);
+            self.find_sysline_lru_cache.resize(
+                std::num::NonZeroUsize::new(SyslineReader::FIND_SYSLINE_LRU_CACHE_SZ).unwrap()
+            );
         }
         if !self.parse_datetime_in_line_lru_cache_enabled {
             self.parse_datetime_in_line_lru_cache_enabled = true;
             self.parse_datetime_in_line_lru_cache.clear();
-            self.parse_datetime_in_line_lru_cache.resize(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ);
+            self.parse_datetime_in_line_lru_cache.resize(
+                std::num::NonZeroUsize::new(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ).unwrap()
+            );
         }
 
         dpnxf!("return {}", ret);
@@ -607,9 +615,9 @@ impl SyslineReader {
         let ret = self.find_sysline_lru_cache_enabled;
         debug_assert_eq!(self.find_sysline_lru_cache_enabled, self.parse_datetime_in_line_lru_cache_enabled, "cache enables disagree");
         self.find_sysline_lru_cache_enabled = false;
-        self.find_sysline_lru_cache.resize(0);
+        self.find_sysline_lru_cache.clear();
         self.parse_datetime_in_line_lru_cache_enabled = false;
-        self.parse_datetime_in_line_lru_cache.resize(0);
+        self.parse_datetime_in_line_lru_cache.clear();
 
         dpnxf!("return {}", ret);
 
