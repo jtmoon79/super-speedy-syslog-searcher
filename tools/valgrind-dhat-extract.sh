@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
+#
+# extract significant data from a dhat file.
+# call `valgrind-dhat.sh` before calling this script.
+#
 
 set -euo pipefail
+
+echo "WORK-IN-PROGRESS: this script is an experiment" >&2
 
 dhat=${1-}
 

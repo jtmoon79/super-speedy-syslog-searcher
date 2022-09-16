@@ -8,6 +8,9 @@ set -euo pipefail
 
 cd "$(dirname "${0}")/.."
 
+echo "THIS SCRIPT IS DEPRECATED!" >&2
+sleep 1
+
 (
     set -x
     cargo build --release

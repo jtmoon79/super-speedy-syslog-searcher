@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# call `cargo fmt` with options I prefer
+# call `cargo fmt` with preferred options
 #
 
 set -eu

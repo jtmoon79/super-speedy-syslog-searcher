@@ -23,6 +23,8 @@ coveralls="coveralls.json"
 
 rm -vf -- "${lcov}" "${profraw}" "${coverage}" "${coveralls}"
 
+echo "WORK-IN-PROGRESS! tarpaulin may fail!" >&2
+
 if [[ "${$COVERALLS_REPO_TOKEN+x}" ]]; then
     set -x
     exec cargo tarpaulin --ciserver github-ci --coveralls $COVERALLS_REPO_TOKEN

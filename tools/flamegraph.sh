@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 #
+# Run `cargo flamegraph` with preferred options.
+#
 # install:
 #   apt install -y linux-perf linux-tools-generic
 #   cargo install flamegraph
