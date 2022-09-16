@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# compare-grep-sort1.sh
+# compare-grep-sort.sh
 #
 # compare run time of `super_speedy_syslog_searcher` to Unix tools `grep` and
 # `sort` (preferably GNU). Passed arguments are forwarded to `/usr/bin/time`, except

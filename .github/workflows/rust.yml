@@ -104,6 +104,6 @@ jobs:
         run: |
           set -eux
           export PROGRAM=./s4_release
-          SCRIPT=./tools/compare-grep-sort1.sh
+          SCRIPT=./tools/compare-grep-sort.sh
           chmod -v +x "${PROGRAM}" "${SCRIPT}"
           "${SCRIPT}"
