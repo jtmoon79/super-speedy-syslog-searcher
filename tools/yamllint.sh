@@ -10,6 +10,6 @@ cd "$(dirname -- "${0}")/.."
 set -x
 
 exec \
-  yamllint \
+  "${PYTHON-python}" -m yamllint \
     "./.github/workflows/rust.yml" \
    "${@}"
