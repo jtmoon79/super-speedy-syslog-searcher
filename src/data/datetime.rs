@@ -766,6 +766,7 @@ const DTFSS_BeHMSYzp: DTFSSet = DTFSSet {
 //
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
+#[allow(dead_code)]
 pub(crate) const DTP_ALL: &[&DateTimePattern_str] = &[
     DTP_YmdHMSzc,
     DTP_YmdHMSz,
@@ -822,6 +823,7 @@ const CGN_TZ: &CaptureGroupName = "tz";
 /// all capture group names, for testing
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
+#[allow(dead_code)]
 pub(crate) const CGN_ALL: [&CaptureGroupName; 9] = [
     CGN_YEAR,
     CGN_MONTH,
@@ -875,6 +877,7 @@ pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{3,9})";
 /// for help in testing only
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
+#[allow(dead_code)]
 pub(crate) const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
     CGP_MONTHm,
     CGP_MONTHb,
@@ -885,6 +888,7 @@ pub(crate) const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
 /// for help in testing only
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
+#[allow(dead_code)]
 pub(crate) const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
     CGP_DAYd,
     CGP_DAYe,
@@ -1297,6 +1301,7 @@ lazy_static! {
 /// for help in testing only
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
+#[allow(dead_code)]
 pub(crate) const CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
     CGP_TZz,
     CGP_TZzc,

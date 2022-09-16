@@ -37,26 +37,12 @@ use crate::data::datetime::{
 
 use crate::printer_debug::printers::{
     dp_err,
-    dp_wrn,
-    p_wrn,
 };
 
 extern crate more_asserts;
 use more_asserts::{
     assert_le,
     debug_assert_le,
-};
-
-extern crate si_trace_print;
-use si_trace_print::{
-    dpo,
-    dpn,
-    dpx,
-    dp,
-    dpfo,
-    dpfn,
-    dpfx,
-    dpfñ,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

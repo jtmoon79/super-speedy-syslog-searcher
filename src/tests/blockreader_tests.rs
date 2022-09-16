@@ -73,10 +73,6 @@ use lazy_static::lazy_static;
 
 extern crate si_trace_print;
 use si_trace_print::{
-    dpo,
-    dpn,
-    dpx,
-    dpñ,
     dpfo,
     dpfn,
     dpfx,

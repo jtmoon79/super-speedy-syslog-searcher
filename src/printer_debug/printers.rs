@@ -20,8 +20,6 @@ use si_trace_print::stack::stack_offset_set;
 #[cfg(test)]
 use si_trace_print::{
     dpo,
-    dpn,
-    dpx,
     dpñ,
     dpfo,
     dpfn,

@@ -35,8 +35,6 @@ use crate::printer_debug::printers::{
 
 extern crate more_asserts;
 use more_asserts::{
-    assert_le,
-    assert_ge,
     debug_assert_le,
     debug_assert_ge,
 };
