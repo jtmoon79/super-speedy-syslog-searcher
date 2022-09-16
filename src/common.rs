@@ -53,7 +53,7 @@ pub type Count = u64;
 /// For line searching and sysline searching functions.
 ///
 /// [`Result`]: std::result::Result
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ResultS3<T, E> {
     /// Contains the success data.
     Found(T),

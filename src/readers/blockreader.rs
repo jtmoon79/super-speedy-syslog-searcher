@@ -451,16 +451,11 @@ impl BlockReader {
         let mut filesz_actual: FileSz;
         let blocksz: BlockSz;
         let file_metadata: FileMetadata;
-        let file_metadata_modified: SystemTime;
-        let mut gz_opt: Option<GzData> = None;
-        let mut xz_opt: Option<XzData> = None;
-        let mut tar_opt: Option<TarData> = None;
-        let mut read_blocks_put: Count = 0;
-        match file.metadata() {
+        let file_metadata_modified: SystemTime = match file.metadata() {
             Ok(val) => {
                 filesz = val.len() as FileSz;
                 file_metadata = val;
-                file_metadata_modified = match file_metadata.modified() {
+                match file_metadata.modified() {
                     Ok(systemtime_) => systemtime_,
                     Err(err) => {
                         dpfx!("file_metadata.modified() failed Err {:?}", err);
@@ -482,6 +477,10 @@ impl BlockReader {
                 format!("Path is a directory {:?}", path),
             ));
         }
+        let mut gz_opt: Option<GzData> = None;
+        let mut xz_opt: Option<XzData> = None;
+        let mut tar_opt: Option<TarData> = None;
+        let mut read_blocks_put: Count = 0;
         match filetype {
             FileType::File => {
                 filesz_actual = filesz;
@@ -2061,19 +2060,19 @@ impl BlockReader {
 
         // get the file entry from the `.tar` file
         let mut entry = {
-            let index_ = self
+            let index = self
                 .tar
                 .as_ref()
                 .unwrap()
                 .entry_index;
-            let entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
+            let mut entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
                 Ok(val) => val,
                 Err(err) => {
                     dpfx!("Err {:?}", err);
                     return ResultS3ReadBlock::Err(err);
                 }
             };
-            match entry_iter.skip(index_).next() {
+            match entry_iter.nth(index) {
                 Some(entry_res) => match entry_res {
                     Ok(entry) => entry,
                     Err(err) => {
@@ -2086,8 +2085,8 @@ impl BlockReader {
                     return ResultS3ReadBlock::Err(Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
-                            "tar.handle.entries_with_seek().entry_iter.skip({}).next() returned None",
-                            index_
+                            "tar.handle.entries_with_seek().entry_iter.nth({}) returned None",
+                            index
                         ),
                     ));
                 }
@@ -2106,8 +2105,7 @@ impl BlockReader {
         let blockoffset_last: BlockOffset = self.blockoffset_last();
         while bo_at <= blockoffset_last {
             let cap: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
-            let mut block: Block = Block::with_capacity(cap);
-            block.resize(cap, 0);
+            let mut block: Block = vec![0; cap];
             dpfo!("read_exact(&block (capacity {})); bo_at {}", cap, bo_at);
             match entry.read_exact(block.as_mut_slice()) {
                 Ok(_) => {}

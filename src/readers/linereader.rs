@@ -1234,14 +1234,11 @@ impl LineReader {
                 bi_at += charsz_bi;
                 break;
             }
-            if bi_at == 0 {
+            if bi_at == BI_STOP {
                 break;
             }
             // XXX: Issue #16 only handles UTF-8/ASCII encoding
             bi_at -= charsz_bi;
-            if bi_at < BI_STOP {
-                break;
-            }
         }
 
         if bof == 0 {
@@ -1900,22 +1897,18 @@ impl LineReader {
                     bi_at += charsz_bi;
                     break;
                 }
-                if bi_at == 0 {
+                if bi_at == BI_STOP {
                     break;
                 }
                 // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 bi_at -= charsz_bi;
-                if bi_at < BI_STOP {
-                    break;
-                }
             }
-            let fo_: FileOffset;
-            if found_nl_a {
-                fo_ = fo_nl_a1;
+            let fo_: FileOffset = if found_nl_a {
+                fo_nl_a1
             } else {
                 dpfo!("A2a: newline A not found in middle block {} but store middle block", bo_middle);
-                fo_ = self.file_offset_at_block_offset_index(bo_middle, bi_at);
-            }
+                self.file_offset_at_block_offset_index(bo_middle, bi_at)
+            };
             let li: LinePart =
                 LinePart::new(bptr_middle.clone(), bi_at, bi_middle_end + 1, fo_, bo_middle, self.blocksz());
             line.prepend(li);
@@ -1949,7 +1942,7 @@ impl LineReader {
 
         if !found_nl_a && !begof {
             let mut bptr_prior: BlockP;
-            let mut bptr: BlockP = bptr_middle.clone();
+            let mut bptr: BlockP = bptr_middle;
             let mut bi_start_prior: BlockIndex;
             let mut bi_start: BlockIndex = bi_middle;
             while !found_nl_a && !begof {
@@ -2047,14 +2040,11 @@ impl LineReader {
                         }
                         break;
                     }
-                    if bi_at == 0 {
+                    if bi_at == BI_STOP {
                         break;
                     }
                     // XXX: Issue #16 only handles UTF-8/ASCII encoding
                     bi_at -= charsz_bi;
-                    if bi_at < BI_STOP {
-                        break;
-                    }
                 }
                 if found_nl_a {
                     break;

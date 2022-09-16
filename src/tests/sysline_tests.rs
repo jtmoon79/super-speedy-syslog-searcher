@@ -96,7 +96,7 @@ fn new_sysline(
     let mut bo_off: BlockOffset = BLOCKOFFSET_INIT;
     let mut fo_byte: FileOffset = (BLOCKOFFSET_INIT * (BLOCKSZ as BlockOffset)) as FileOffset;
     let mut line: Line = Line::new();
-    let dt = DT_0.clone();
+    let dt = *DT_0;
     eprintln!("new_sysline1: dt: {:?}\n", dt);
     while at_byte < at_stop {
         let mut block: Block = Block::with_capacity(BLOCKSZ as usize);
@@ -131,8 +131,9 @@ fn new_sysline(
         at_byte += blocksz;
     }
     let linep: LineP = LineP::new(line);
-    let mut lines = Lines::with_capacity(1);
-    lines.push(linep);
+    let mut lines = vec![
+        linep,
+    ];
     let sysline: Sysline = Sysline::from_parts(lines, DT_BEG0, DT_END0, Some(dt));
 
     sysline

@@ -930,12 +930,11 @@ impl SyslineReader {
                 continue;
             }
             // XXX: Issue #16 only handles UTF-8/ASCII encoding
-            let slice_end: usize;
-            if line.len() > dtpd.range_regex.end {
-                slice_end = dtpd.range_regex.end;
+            let slice_end: usize = if line.len() > dtpd.range_regex.end {
+                dtpd.range_regex.end
             } else {
-                slice_end = line.len() - 1;
-            }
+                line.len() - 1
+            };
             if dtpd.range_regex.start >= slice_end {
                 dpfo!("bad line slice indexes [{}, {}); continue", dtpd.range_regex.start, slice_end);
                 continue;
@@ -1383,7 +1382,7 @@ impl SyslineReader {
                     dpfx!(
                         "is_sysline_last() true; return ResultS3SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
                         fo_next,
-                        &*syslinep,
+                        &syslinep,
                         (*syslinep).fileoffset_begin(),
                         (*syslinep).fileoffset_end(),
                         (*syslinep).to_String_noraw()
@@ -1399,7 +1398,7 @@ impl SyslineReader {
                 dpfx!(
                     "is_sysline_last() false; return ResultS3SyslineFind::Found(({}, @{:p})) @[{}, {}] from self.syslines_by_range {:?}",
                     fo_next,
-                    &*syslinep,
+                    &syslinep,
                     (*syslinep).fileoffset_begin(),
                     (*syslinep).fileoffset_end(),
                     (*syslinep).to_String_noraw()
@@ -1428,7 +1427,7 @@ impl SyslineReader {
                 dpfo!(
                     "return ResultS3SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
                     fo_next,
-                    &*syslinep,
+                    &syslinep,
                     (*syslinep).fileoffset_begin(),
                     (*syslinep).fileoffset_end(),
                     (*syslinep).to_String_noraw()
@@ -1446,7 +1445,7 @@ impl SyslineReader {
             dpfx!(
                 "return ResultS3SyslineFind::Found(({}, @{:p})) @[{}, {}] from self.syslines {:?}",
                 fo_next,
-                &*syslinep,
+                &syslinep,
                 (*syslinep).fileoffset_begin(),
                 (*syslinep).fileoffset_end(),
                 (*syslinep).to_String_noraw()
@@ -1692,7 +1691,7 @@ impl SyslineReader {
             "({}): return ResultS3SyslineFind::Found(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
             fileoffset,
             fo_b,
-            &*syslinep,
+            &syslinep,
             (*syslinep).fileoffset_begin(),
             (*syslinep).fileoffset_end(),
             (*syslinep).to_String_noraw()
@@ -1894,7 +1893,7 @@ impl SyslineReader {
                  dpfx!(
                  "return ResultS3SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines {:?}",
                  fo_next,
-                 &*syslinep,
+                 &syslinep,
                  (*syslinep).fileoffset_begin(),
                  (*syslinep).fileoffset_end(),
                  (*syslinep).to_String_noraw()
@@ -1930,7 +1929,7 @@ impl SyslineReader {
                      dpfx!(
                          "return ResultS3SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
                          fo_next,
-                         &*syslinep,
+                         &syslinep
                          (*syslinep).fileoffset_begin(),
                          (*syslinep).fileoffset_end(),
                          (*syslinep).to_String_noraw()
@@ -2025,7 +2024,7 @@ impl SyslineReader {
             "({}): return ResultS3SyslineFind::Found(({}, SyslineP@{:p}) @[{}, {}] E {:?}",
             fileoffset,
             fo_b,
-            &*syslinep,
+            &syslinep,
             (*syslinep).fileoffset_begin(),
             (*syslinep).fileoffset_end(),
             (*syslinep).to_String_noraw()
@@ -2119,7 +2118,7 @@ impl SyslineReader {
                     // here is the binary search algorithm in action
                     dpfo!(
                         "sysline_dt_after_or_before(@{:p} ({:?}), {:?})",
-                        &*syslinep,
+                        &syslinep,
                         (*syslinep).dt,
                         dt_filter,
                     );
@@ -2133,7 +2132,7 @@ impl SyslineReader {
                                 try_fo_last,
                                 _fo_end,
                             );
-                            dpfx!("return ResultS3SyslineFind::Found(({}, @{:p})); A", fo, &*syslinep,);
+                            dpfx!("return ResultS3SyslineFind::Found(({}, @{:p})); A", fo, &syslinep,);
                             return ResultS3SyslineFind::Found((fo, syslinep));
                         } // end Pass
                         Result_Filter_DateTime1::OccursAtOrAfter => {
@@ -2152,7 +2151,7 @@ impl SyslineReader {
                                 dpfx!(
                                     "return ResultS3SyslineFind::Found(({}, @{:p})); B fileoffset {} {:?}",
                                     fo,
-                                    &*syslinep,
+                                    &syslinep,
                                     (*syslinep).fileoffset_begin(),
                                     (*syslinep).to_String_noraw(),
                                 );
@@ -2346,7 +2345,7 @@ impl SyslineReader {
             dpfx!(
                 "return ResultS3SyslineFind::Found(({}, @{:p})); D fileoffset {} {:?}",
                 fo_,
-                &*syslinep,
+                &syslinep,
                 (*syslinep).fileoffset_begin(),
                 (*syslinep).to_String_noraw()
             );
@@ -2369,7 +2368,7 @@ impl SyslineReader {
             (*syslinep).fileoffset_end(),
             dt_filter,
         );
-        assert!((*syslinep).dt.is_some(), "Sysline@{:p} does not have a datetime set.", &*syslinep);
+        assert!((*syslinep).dt.is_some(), "Sysline@{:p} does not have a datetime set.", &syslinep);
 
         let dt: &DateTimeL = (*syslinep)
             .dt
@@ -2392,7 +2391,7 @@ impl SyslineReader {
             dt_filter_after,
             dt_filter_before,
         );
-        assert!((*syslinep).dt.is_some(), "Sysline @{:p} does not have a datetime set.", &*syslinep);
+        assert!((*syslinep).dt.is_some(), "Sysline @{:p} does not have a datetime set.", &syslinep);
         let dt: &DateTimeL = (*syslinep)
             .dt
             .as_ref()

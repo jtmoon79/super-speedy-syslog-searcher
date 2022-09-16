@@ -215,7 +215,7 @@ fn impl_test_find_sysline_at_datetime_filter(
 ) {
     dpfn!("(…, {:?}, {}, …)", dt_pattern, blocksz);
 
-    let path = ntf_fpath(&ntf);
+    let path = ntf_fpath(ntf);
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
     if !cache {
@@ -223,7 +223,7 @@ fn impl_test_find_sysline_at_datetime_filter(
     }
     for (fo1, dts, result_expect, sline_expect) in checks.iter() {
         // TODO: add `has_tz` to `checks`
-        let has_tz = dt_pattern_has_tz(&dt_pattern);
+        let has_tz = dt_pattern_has_tz(dt_pattern);
         dpo!(
             "datetime_parse_from_str({:?}, {:?}, {:?}, {:?})",
             str_to_String_noraw(dts),
@@ -324,7 +324,7 @@ const NTF26_DATA_LINE26n: &str = "2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz\
 
 lazy_static! {
     static ref NTF26: NamedTempFile = {
-        create_temp_file(&NTF26_DATA)
+        create_temp_file(NTF26_DATA)
     };
     static ref NTF26_PATH: FPath = {
         ntf_fpath(&NTF26)
@@ -3160,7 +3160,7 @@ fn impl_test_find_sysline_between_datetime_filter(
 ) {
     dpfn!("(…, {:?}, {}, {}, …)", dt_pattern, cache, blocksz);
 
-    let path = ntf_fpath(&ntf);
+    let path = ntf_fpath(ntf);
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
     if !cache {
@@ -3168,7 +3168,7 @@ fn impl_test_find_sysline_between_datetime_filter(
     }
     for (fo1, dts_a, dts_b, result_expect, sline_expect) in checks.iter() {
         // TODO: add `has_tz` to `checks`
-        let has_tz = dt_pattern_has_tz(&dt_pattern);
+        let has_tz = dt_pattern_has_tz(dt_pattern);
         dpo!(
             "datetime_parse_from_str({:?}, {:?}, {:?}, {:?})",
             str_to_String_noraw(dts_a),
@@ -3183,7 +3183,7 @@ fn impl_test_find_sysline_between_datetime_filter(
             }
         };
 
-        let has_tz = dt_pattern_has_tz(&dt_pattern);
+        let has_tz = dt_pattern_has_tz(dt_pattern);
         dpo!(
             "datetime_parse_from_str({:?}, {:?}, {:?}, {:?})",
             str_to_String_noraw(dts_b),

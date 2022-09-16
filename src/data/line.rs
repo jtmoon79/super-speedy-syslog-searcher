@@ -782,7 +782,7 @@ impl Line {
             }
         }
         // handle special case where `b` is beyond last `lineparts` but `a` data is within last `linepart`
-        if bptr_a.is_some() {
+        if let Some(..) = bptr_a {
             dpfx!("special case: return SinglePtr({})", a1);
             return LinePartPtrs::SinglePtr(bptr_a.unwrap());
         }
@@ -961,8 +961,7 @@ impl Line {
         }
         // transform buffer to a `String`
         let s1: Cow<str> = String::from_utf8_lossy(&buf);
-        let s3: String;
-        if !raw {
+        let s3: String = if !raw {
             // replace "raw" formatting characters with associated glyphs
             let mut s2 = String::with_capacity(s1.len());
             for c_ in s1.chars() {
@@ -972,10 +971,10 @@ impl Line {
                     s2.push(c_);
                 }
             }
-            s3 = s2;
+            s2
         } else {
-            s3 = String::from(s1);
-        }
+            String::from(s1)
+        };
 
         s3
     }

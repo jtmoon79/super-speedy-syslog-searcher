@@ -55,14 +55,15 @@ pub type ProcessPathResults = Vec<ProcessPathResult>;
 lazy_static! {
     static ref PARSEABLE_FILENAMES_FILE: Vec<&'static OsStr> = {
         #[allow(clippy::vec_init_then_push)]
-        let mut v = Vec::<&'static OsStr>::with_capacity(7);
-        v.push(OsStr::new("messages"));
-        v.push(OsStr::new("MESSAGES"));
-        v.push(OsStr::new("syslog"));
-        v.push(OsStr::new("SYSLOG"));
-        v.push(OsStr::new("faillog"));
-        v.push(OsStr::new("lastlog"));
-        v.push(OsStr::new("kernlog"));
+        let v: Vec::<&'static OsStr> = vec![
+            OsStr::new("messages"),
+            OsStr::new("MESSAGES"),
+            OsStr::new("syslog"),
+            OsStr::new("SYSLOG"),
+            OsStr::new("faillog"),
+            OsStr::new("lastlog"),
+            OsStr::new("kernlog"),
+        ];
         v
     };
 }

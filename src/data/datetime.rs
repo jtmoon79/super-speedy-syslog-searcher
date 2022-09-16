@@ -1418,7 +1418,7 @@ lazy_static! {
         let mut map = Map_TZZ_to_TZz::new();
         #[allow(non_snake_case)]
         for tzZ_zc in TZZ_ALL.iter() {
-            if let Some(_) = map.insert(tzZ_zc.0, tzZ_zc.1) {
+            if map.insert(tzZ_zc.0, tzZ_zc.1).is_some() {
                 // duplicate key entries are set to blank
                 map.insert(tzZ_zc.0, NOENTRY);
             }
@@ -2716,13 +2716,13 @@ pub(crate) fn captures_to_buffer_bytes(
             match day.len() {
                 1 => {
                     // change day "8" to "08"
-                    copy_u8_to_buffer!('0' as u8, buffer, at);
+                    copy_u8_to_buffer!(b'0', buffer, at);
                     copy_u8_to_buffer!(day[0], buffer, at);
                 }
                 2 => {
                     debug_assert_ne!(
                         day[0],
-                        ' ' as u8,
+                        b' ',
                         "bad value for _e_to_d {:?} {:?}",
                         day,
                         String::from_utf8_lossy(day)
@@ -2742,7 +2742,7 @@ pub(crate) fn captures_to_buffer_bytes(
     // passed along to chrono functions.
 
     // day-time divider
-    copy_u8_to_buffer!('T' as u8, buffer, at);
+    copy_u8_to_buffer!(b'T', buffer, at);
     // hour
     copy_capturegroup_to_buffer!(CGN_HOUR, captures, buffer, at);
     // minute
@@ -2752,7 +2752,7 @@ pub(crate) fn captures_to_buffer_bytes(
     // fractional
     match dtfs.fractional {
         DTFS_Fractional::f => {
-            copy_u8_to_buffer!('.' as u8, buffer, at);
+            copy_u8_to_buffer!(b'.', buffer, at);
             copy_capturegroup_to_buffer!(CGN_FRACTIONAL, captures, buffer, at);
         }
         DTFS_Fractional::_none => {}
@@ -2921,7 +2921,7 @@ pub fn bytes_to_regex_to_datetime(
 ///
 /// [`DateTimeL`]: crate::data::datetime::DateTimeL
 #[allow(non_camel_case_types)]
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Eq, PartialEq)]
 pub enum Result_Filter_DateTime1 {
     /// like Skip
     Pass,
@@ -2948,7 +2948,7 @@ impl Result_Filter_DateTime1 {
 ///
 /// [`DateTimeL`]: crate::data::datetime::DateTimeL
 #[allow(non_camel_case_types)]
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Eq, PartialEq)]
 pub enum Result_Filter_DateTime2 {
     /// like Pass
     InRange,
@@ -3101,7 +3101,7 @@ pub fn datetime_with_year(
 ) -> DateTimeL {
     match datetime.with_year(*year) {
         Some(datetime_) => datetime_,
-        None => datetime.clone(),
+        None => *datetime,
     }
 }
 
@@ -3114,7 +3114,7 @@ pub fn systemtime_to_datetime(
     systemtime: &SystemTime,
 ) -> DateTimeL {
     // https://users.rust-lang.org/t/convert-std-time-systemtime-to-chrono-datetime-datetime/7684/6
-    let dtu: DateTime<Utc> = systemtime.clone().into();
+    let dtu: DateTime<Utc> = (*systemtime).into();
 
     dtu.with_timezone(fixedoffset)
 }

@@ -284,7 +284,7 @@ impl Sysline {
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         assert_eq!(self.charsz(), 1, "charsz {} not implemented", self.charsz());
         let len_ = self.lines.len();
-        if len_ <= 0 {
+        if len_ == 0 {
             return None;
         }
         let linep_last = match self.lines.get(len_ - 1) {
@@ -294,7 +294,7 @@ impl Sysline {
             }
         };
         let len_ = (*linep_last).lineparts.len();
-        if len_ <= 0 {
+        if len_ == 0 {
             return None;
         }
         let linepart_last: &LinePart = match (*linep_last)

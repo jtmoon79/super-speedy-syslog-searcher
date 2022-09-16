@@ -101,7 +101,7 @@ lazy_static! {
     };
 
     static ref NTF5: NamedTempFile = {
-        create_temp_file(&NTF5_DATA)
+        create_temp_file(NTF5_DATA)
     };
 
     static ref NTF5_PATH: FPath = {
@@ -122,7 +122,7 @@ lazy_static! {
     };
 
     static ref NTF3: NamedTempFile = {
-        create_temp_file(&NTF3_DATA)
+        create_temp_file(NTF3_DATA)
     };
 
     static ref NTF3_PATH: FPath = {
