@@ -14,7 +14,11 @@
 //! * <https://gist.github.com/jFransham/369a86eff00e5f280ed25121454acec1#loop-unrolling-is-still-cool>
 //! * <https://lise-henry.github.io/articles/optimising_strings.html>
 
-#![allow(non_upper_case_globals, dead_code, non_snake_case)]
+#![allow(
+    non_upper_case_globals,
+    dead_code,
+    non_snake_case
+)]
 
 extern crate arraystring;
 

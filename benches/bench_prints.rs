@@ -2,7 +2,11 @@
 //
 // benchmark different printing approaches
 
-#![allow(non_upper_case_globals, dead_code, non_snake_case)]
+#![allow(
+    non_upper_case_globals,
+    dead_code,
+    non_snake_case
+)]
 
 extern crate criterion;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
