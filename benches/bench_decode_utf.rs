@@ -41,13 +41,14 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref Data2: Bytes = vec![b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b' ',];
+    static ref Data2: Bytes =
+        vec![b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b' ',];
 }
 
 lazy_static! {
     static ref Data3: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b'A', b'B', b'C', b'D', b'E', b'F',
-        b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N',
+        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b'A', b'B', b'C', b'D', b'E',
+        b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N',
     ];
 }
 
@@ -473,16 +474,13 @@ fn criterion_benchmark(c: &mut Criterion) {
     Datas_check();
     let mut bg = c.benchmark_group("decode utf8");
     bg.bench_function("dutf8_baseline_no_decoding", |b| b.iter(dutf8_baseline_no_decoding));
-    bg.bench_function("dutf8_encodingrs_decode_to_string", |b| {
-        b.iter(dutf8_encodingrs_decode_to_string)
-    });
+    bg.bench_function("dutf8_encodingrs_decode_to_string", |b| b.iter(dutf8_encodingrs_decode_to_string));
     bg.bench_function("dutf8_encodingrs_decode_to_string_without_replacement", |b| {
         b.iter(dutf8_encodingrs_decode_to_string_without_replacement)
     });
-    bg.bench_function(
-        "dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked",
-        |b| b.iter(dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked),
-    );
+    bg.bench_function("dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked", |b| {
+        b.iter(dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked)
+    });
     bg.bench_function("dutf8_std_str_from_utf8", |b| b.iter(dutf8_std_str_from_utf8));
     bg.bench_function("dutf8_std_str_from_utf8_unchecked__allows_invalid", |b| {
         b.iter(dutf8_std_str_from_utf8_unchecked__allows_invalid)

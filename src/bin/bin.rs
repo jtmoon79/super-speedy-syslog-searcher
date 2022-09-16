@@ -37,29 +37,17 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
-use std::collections::{
-    HashMap,
-    HashSet,
-    BTreeMap,
-};
+use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fmt;
 use std::process::ExitCode;
 use std::str;
 use std::thread;
 
 extern crate chrono;
-use chrono::{
-    FixedOffset,
-    Local,
-    Offset,
-    TimeZone,
-};
+use chrono::{FixedOffset, Local, Offset, TimeZone};
 
 extern crate clap;
-use clap::{
-    ArgEnum,
-    Parser,
-};
+use clap::{ArgEnum, Parser};
 
 extern crate const_format;
 use const_format::concatcp;
@@ -70,94 +58,48 @@ extern crate mime_guess;
 use mime_guess::MimeGuess;
 
 extern crate si_trace_print;
-use si_trace_print::{
-    dpo,
-    dpn,
-    dpfo,
-    dpfn,
-    dpfx,
-    dpfñ,
-    stack::stack_offset_set,
-};
+use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, stack::stack_offset_set};
 
 extern crate unicode_width;
 
 // `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
 extern crate s4lib;
 
-use s4lib::common::{
-    Count,
-    FPath,
-    FPaths,
-    FileOffset,
-    FileType,
-    NLu8a,
-};
+use s4lib::common::{Count, FPath, FPaths, FileOffset, FileType, NLu8a};
 
 use s4lib::data::datetime::{
-    DateTimeLOpt,
-    DateTimePattern_str,
-    DateTimeParseInstr,
-    datetime_parse_from_str,
-    DATETIME_PARSE_DATAS,
+    datetime_parse_from_str, DateTimeLOpt, DateTimeParseInstr, DateTimePattern_str, DATETIME_PARSE_DATAS,
 };
 
 #[allow(unused_imports)]
-use s4lib::printer_debug::printers::{
-    dp_err,
-    dp_wrn,
-    p_err,
-    p_wrn,
-};
+use s4lib::printer_debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
 
 use s4lib::printer::printers::{
+    color_rand,
+    print_colored_stderr,
+    write_stdout,
     // termcolor imports
     Color,
     ColorChoice,
+    PrinterSysline,
     //
     COLOR_DEFAULT,
     COLOR_ERROR,
-    color_rand,
-    PrinterSysline,
-    print_colored_stderr,
-    write_stdout,
 };
 
-use s4lib::data::sysline::{
-    SyslineP,
-    SyslineP_Opt,
-};
+use s4lib::data::sysline::{SyslineP, SyslineP_Opt};
 
-use s4lib::readers::blockreader::{
-    BlockSz,
-    BLOCKSZ_MIN,
-    BLOCKSZ_MAX,
-    BLOCKSZ_DEF,
-};
+use s4lib::readers::blockreader::{BlockSz, BLOCKSZ_DEF, BLOCKSZ_MAX, BLOCKSZ_MIN};
 
-use s4lib::readers::filepreprocessor::{
-    ProcessPathResult,
-    ProcessPathResults,
-    process_path,
-};
+use s4lib::readers::filepreprocessor::{process_path, ProcessPathResult, ProcessPathResults};
 
-use s4lib::readers::helpers::{
-    basename,
-};
+use s4lib::readers::helpers::basename;
 
-use s4lib::readers::summary::{
-    Summary,
-    SummaryOpt,
-};
+use s4lib::readers::summary::{Summary, SummaryOpt};
 
-use s4lib::readers::syslinereader::{
-    ResultS3SyslineFind,
-};
+use s4lib::readers::syslinereader::ResultS3SyslineFind;
 
-use s4lib::readers::syslogprocessor::{
-    SyslogProcessor,
-    FileProcessingResultBlockZero,
-};
+use s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // command-line parsing
@@ -174,7 +116,7 @@ use s4lib::readers::syslogprocessor::{
     Eq,
     PartialOrd,
     Ord,
-    ArgEnum,  // from `clap`
+    ArgEnum, // from `clap`
 )]
 enum CLI_Color_Choice {
     always,
@@ -189,12 +131,7 @@ enum CLI_Color_Choice {
 ///
 /// [`DateTimeParseInstr`]: s4lib::data::datetime::DateTimeParseInstr
 /// [`datetime_parse_from_str`]: s4lib::data::datetime#fn.datetime_parse_from_str
-type CLI_DT_Filter_Pattern<'b> = (
-    &'b DateTimePattern_str,
-    bool,
-    bool,
-    bool,
-);
+type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool);
 
 // BUG: does not handle '%Z'.
 // TODO: reject ambiguous timezone names.

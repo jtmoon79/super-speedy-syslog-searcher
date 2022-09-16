@@ -26,10 +26,7 @@ fn new_SyslineReader(path: FPath, filetype: FileType) -> SyslineReader {
     let syslinereader1 = match SyslineReader::new(path.clone(), filetype, BLOCKSZ, tz_offset) {
         | Result::Ok(val) => val,
         | Result::Err(err) => {
-            panic!(
-                "Sysline::new({:?}, {:?}, {:?}, {:?}) error {}",
-                path, filetype, BLOCKSZ, tz_offset, err
-            );
+            panic!("Sysline::new({:?}, {:?}, {:?}, {:?}) error {}", path, filetype, BLOCKSZ, tz_offset, err);
         }
     };
 
