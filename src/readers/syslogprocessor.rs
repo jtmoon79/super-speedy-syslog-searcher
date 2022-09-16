@@ -202,28 +202,28 @@ lazy_static! {
 /// [streaming mode]: self::ProcessingStage#variant.Stage3StreamSyslines
 pub struct SyslogProcessor {
     syslinereader: SyslineReader,
-    /// Current `ProcessingStage`
+    /// Current `ProcessingStage`.
     processingstage: ProcessingStage,
-    /// `FPath`
+    /// `FPath`.
     path: FPath,
     // TODO: remove this, use the `BlockReader` blocksz, (DRY)
     blocksz: BlockSz,
     /// `FixedOffset` timezone for datetime formats without a timezone.
     tz_offset: FixedOffset,
-    /// Optional filter, syslines _after_ this `DateTimeL`
+    /// Optional filter, syslines _after_ this `DateTimeL`.
     filter_dt_after_opt: DateTimeLOpt,
-    /// Optional filter, syslines _before_ this `DateTimeL`
+    /// Optional filter, syslines _before_ this `DateTimeL`.
     filter_dt_before_opt: DateTimeLOpt,
     /// Internal sanity check, has `self.blockzero_analysis()` completed?
     blockzero_analysis_done: bool,
-    /// Internal tracking of last `blockoffset` passed to `drop_block`
+    /// Internal tracking of last `blockoffset` passed to `drop_block`.
     drop_block_last: BlockOffset,
-    /// Internal memory of blocks dropped
+    /// Internal memory of blocks dropped.
     bo_dropped: HashSet<BlockOffset>,
     /// Optional `Year` value used to start `process_missing_year()`.
     /// Only needed for syslog files with datetime format without a year.
     missing_year: Option<Year>,
-    /// The last IO Error, if any
+    /// The last IO Error, if any.
     Error_: Option<String>,
 }
 

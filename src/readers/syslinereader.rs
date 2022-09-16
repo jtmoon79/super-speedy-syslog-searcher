@@ -155,12 +155,12 @@ pub type ResultParseDateTime = Result<FindDateTimeData>;
 // SyslineReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// [`Sysline`] Searching result
+/// [`Sysline`] Searching result.
 ///
 /// [`Sysline`]: crate::data::sysline::Sysline
 pub type ResultS3SyslineFind = ResultS3<(FileOffset, SyslineP), Error>;
 
-/// storage for `Sysline`.
+/// Storage for `Sysline`.
 ///
 /// [`Sysline`]: crate::data::sysline::Sysline
 pub type Syslines = BTreeMap<FileOffset, SyslineP>;
@@ -205,19 +205,19 @@ pub struct SyslineReader {
     pub(super) syslines: Syslines,
     /// `Count` of Syslines processed.
     syslines_count: Count,
-    /// internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
+    /// Internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
     pub(super) syslines_hit: Count,
-    /// internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
+    /// Internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
     pub(super) syslines_miss: Count,
     /// Syslines fileoffset by sysline fileoffset range,
     /// i.e. `\[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`.
     /// The stored value can be used as a key for `self.syslines`.
     syslines_by_range: SyslinesRangeMap,
-    /// `Count` of `self.syslines_by_range` lookup hit
+    /// `Count` of `self.syslines_by_range` lookup hit.
     pub(super) syslines_by_range_hit: Count,
-    /// `Count` of `self.syslines_by_range` lookup miss
+    /// `Count` of `self.syslines_by_range` lookup miss.
     pub(super) syslines_by_range_miss: Count,
-    /// `Count` of `self.syslines_by_range.insert`
+    /// `Count` of `self.syslines_by_range.insert`.
     pub(super) syslines_by_range_put: Count,
     /// First (soonest) processed [`DateTimeL`] (not necessarly printed,
     /// not representative of the entire file).
@@ -359,7 +359,7 @@ impl SyslineReader {
     /// file (before settling on one).
     const DT_PATTERN_MAX_PRE_ANALYSIS: usize = 4;
 
-    /// Maximum number of datetime patterns for matching the remainder of a syslog file
+    /// Maximum number of datetime patterns for matching the remainder of a syslog file.
     const DT_PATTERN_MAX: usize = 1;
 
     /// When this number of syslines has been processed then reduce use of all
@@ -569,7 +569,7 @@ impl SyslineReader {
         self.linereader.count_lines_processed()
     }
 
-    /// Does the `dt_pattern` have a year? e.g. specificer `%Y` or `%y`
+    /// Does the `dt_pattern` have a year? e.g. specificer `%Y` or `%y`.
     pub fn dt_pattern_has_year(&self) -> bool {
         debug_assert!(!self.syslines.is_empty(), "called dt_pattern_has_year() without having processed some syslines");
         let dtpd: &DateTimeParseInstr = self.datetime_parse_data();
@@ -607,7 +607,7 @@ impl SyslineReader {
     }
 
     /// Disable internal LRU cache used by `find_sysline` and
-    /// `parse_datetime_in_line`
+    /// `parse_datetime_in_line`.
     ///
     /// Returns prior value of `find_sysline_lru_cache_enabled`.
     #[allow(non_snake_case)]
