@@ -9,7 +9,7 @@ extern crate criterion;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 extern crate rangemap;
-use rangemap::{RangeMap,RangeSet};
+use rangemap::{RangeMap, RangeSet};
 
 type RangeMapT = RangeMap<u64, u64>;
 type RangeSetT = RangeSet<u64>;

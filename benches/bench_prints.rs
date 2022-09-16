@@ -18,9 +18,7 @@ use lazy_static::lazy_static;
 //       later, can get fancy
 
 lazy_static! {
-    static ref Data1: Vec<u8> = Vec::from(
-        b"2000-01-01 00:00:00 abcdefghijklmnopqrstuvwxyz".as_slice()
-    );
+    static ref Data1: Vec<u8> = Vec::from(b"2000-01-01 00:00:00 abcdefghijklmnopqrstuvwxyz".as_slice());
 }
 
 //
@@ -35,21 +33,15 @@ fn print_baseline() {
 
 /// use one global `termcolor::ClrOut` instance
 #[inline(never)]
-fn print_termcolor_one() {
-    
-}
+fn print_termcolor_one() {}
 
 /// create `termcolor::ClrOut` instance each loop
 #[inline(never)]
-fn print_termcolor_many() {
-    
-}
+fn print_termcolor_many() {}
 
 /// call `stdout::write` directly
 #[inline(never)]
-fn print_write() {
-    
-}
+fn print_write() {}
 
 //
 // criterion runners

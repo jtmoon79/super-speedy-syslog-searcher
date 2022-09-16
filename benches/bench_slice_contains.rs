@@ -19,7 +19,7 @@ fn baseline() {
 #[inline(never)]
 fn slice_contains_found1() {
     let slice_ = &B70[0..];
-    if slice_.contains(&SEARCH1[0]) || slice_.contains(&SEARCH1[1]){
+    if slice_.contains(&SEARCH1[0]) || slice_.contains(&SEARCH1[1]) {
         black_box(0);
     }
 }
@@ -51,7 +51,7 @@ const SEARCH2: &[u8; 2] = b"XY";
 #[inline(never)]
 fn slice_contains_notfound2() {
     let slice_ = &B70[0..];
-    if slice_.contains(&SEARCH2[0]) || slice_.contains(&SEARCH2[1]){
+    if slice_.contains(&SEARCH2[0]) || slice_.contains(&SEARCH2[1]) {
         black_box(0);
     }
 }

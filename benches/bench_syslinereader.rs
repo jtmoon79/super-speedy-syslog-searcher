@@ -4,46 +4,32 @@
 
 extern crate s4lib;
 
-use s4lib::common::{
-    FPath,
-    FileType,
-};
+use s4lib::common::{FPath, FileType};
 
-use s4lib::data::datetime::{
-    FixedOffset,
-};
+use s4lib::data::datetime::FixedOffset;
 
-use s4lib::readers::blockreader::{
-    BlockSz,
-};
+use s4lib::readers::blockreader::BlockSz;
 
 use s4lib::readers::syslinereader::SyslineReader;
 
-use s4lib::readers::filepreprocessor::{
-    ProcessPathResult,
-    ProcessPathResults,
-    process_path,
-};
+use s4lib::readers::filepreprocessor::{process_path, ProcessPathResult, ProcessPathResults};
 
 extern crate criterion;
-use criterion::{
-    black_box,
-    criterion_group,
-    criterion_main,
-    Criterion
-};
+use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const BLOCKSZ: BlockSz = 0x200;
 
-
 fn new_SyslineReader(path: FPath, filetype: FileType) -> SyslineReader {
     let tz_offset: FixedOffset = FixedOffset::east(0);
     let syslinereader1 = match SyslineReader::new(path.clone(), filetype, BLOCKSZ, tz_offset) {
-        Result::Ok(val) => val,
-        Result::Err(err) => {
-            panic!("Sysline::new({:?}, {:?}, {:?}, {:?}) error {}", path, filetype, BLOCKSZ, tz_offset, err);
+        | Result::Ok(val) => val,
+        | Result::Err(err) => {
+            panic!(
+                "Sysline::new({:?}, {:?}, {:?}, {:?}) error {}",
+                path, filetype, BLOCKSZ, tz_offset, err
+            );
         }
     };
 

@@ -19,7 +19,7 @@
 extern crate arraystring;
 
 extern crate bstr;
-use bstr::ByteSlice;  // adds method `to_bstr` on some built-ins
+use bstr::ByteSlice; // adds method `to_bstr` on some built-ins
 
 extern crate criterion;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
@@ -37,23 +37,17 @@ extern crate memchr;
 type Bytes = Vec<u8>;
 
 lazy_static! {
-    static ref Data1: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1',
-    ];
+    static ref Data1: Bytes = vec![b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1',];
 }
 
 lazy_static! {
-    static ref Data2: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1',
-        b' ', b' ',
-    ];
+    static ref Data2: Bytes = vec![b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b' ',];
 }
 
 lazy_static! {
     static ref Data3: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1',
-        b' ', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I',
-        b'J', b'K', b'L', b'M', b'N',
+        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b'A', b'B', b'C', b'D', b'E', b'F',
+        b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N',
     ];
 }
 
@@ -110,47 +104,47 @@ const COUNT_DATAS: u32 = 20;
 const COUNT_VALID_UTF8_IN_DATAS: u32 = 18;
 const COUNT_ASCIIONLY_IN_DATAS: u32 = 13;
 
-const DATA_MAX_SZ: usize = 30;  // with some overhead
+const DATA_MAX_SZ: usize = 30; // with some overhead
 
 fn Datas_check() {
     // quick self-check the `DataX` are as expected
     match std::str::from_utf8(Data1.as_slice()) {
-        Ok(_) => {},
-        Err(err) => {
+        | Ok(_) => {}
+        | Err(err) => {
             panic!("ERROR Data1 {}", err);
         }
     }
     match std::str::from_utf8(Data2.as_slice()) {
-        Ok(_) => {},
-        Err(err) => {
+        | Ok(_) => {}
+        | Err(err) => {
             panic!("ERROR Data2 {}", err);
         }
     }
     match std::str::from_utf8(Data3.as_slice()) {
-        Ok(_) => {},
-        Err(err) => {
+        | Ok(_) => {}
+        | Err(err) => {
             panic!("ERROR Data3 {}", err);
         }
     }
     match std::str::from_utf8(Data4.as_slice()) {
-        Ok(_) => {},
-        Err(err) => {
+        | Ok(_) => {}
+        | Err(err) => {
             panic!("ERROR Data4 {}", err);
         }
     }
     #[allow(clippy::single_match)]
     match std::str::from_utf8(Data5i.as_slice()) {
-        Ok(_) => {
+        | Ok(_) => {
             panic!("ERROR expected invalid UTF8 Data5i, but it appears valid according to `from_utf8`");
-        },
-        Err(_) => {}
+        }
+        | Err(_) => {}
     }
     #[allow(clippy::single_match)]
     match std::str::from_utf8(Data6i.as_slice()) {
-        Ok(_) => {
+        | Ok(_) => {
             panic!("ERROR expected invalid UTF8 Data6i, but it appears valid according to `from_utf8`");
-        },
-        Err(_) => {}
+        }
+        | Err(_) => {}
     }
 }
 
@@ -165,11 +159,11 @@ fn dutf8_baseline_no_decoding() {
     for data in Datas.iter() {
         let data_slice = data.as_slice();
         black_box(data_slice);
-        let dts: &str = "ABCDEFGHIJKL";  // replaces decoding
+        let dts: &str = "ABCDEFGHIJKL"; // replaces decoding
         let s1 = String::from(dts);
         black_box(s1);
         count += 1;
-    };
+    }
     assert_eq!(count, COUNT_DATAS, "FAILED TO CATCH PROCESS ALL DATAS");
 }
 
@@ -183,14 +177,14 @@ fn dutf8_encodingrs_decode_to_string() {
         let data_slice = data.as_slice();
         let (_dresult, _sz, replaced) = decoder.decode_to_string(data_slice, &mut bufs, true);
         if replaced {
-            continue;  // invalid UTF8
+            continue; // invalid UTF8
         }
         let dts = bufs.as_str();
         //let s1 = String::from(dts);  // not needed
         black_box(dts);
         count += 1;
         bufs.clear();
-    };
+    }
     assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
 }
 
@@ -205,17 +199,17 @@ fn dutf8_encodingrs_decode_to_string_without_replacement() {
         let (dresult, _) = decoder.decode_to_string_without_replacement(data_slice, &mut bufs, true);
         #[allow(clippy::single_match)]
         match dresult {
-            encoding_rs::DecoderResult::Malformed(_, _) =>  {
-                continue;  // invalid UTF8
-            },
-            _ => {},
+            | encoding_rs::DecoderResult::Malformed(_, _) => {
+                continue; // invalid UTF8
+            }
+            | _ => {}
         }
         let dts = bufs.as_str();
         //let s1 = String::from(dts);  // not needed
         black_box(dts);
         count += 1;
         bufs.clear();
-    };
+    }
     assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
 }
 
@@ -227,7 +221,7 @@ fn dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked() {
         let data_slice = data.as_slice();
         let va = encoding_rs::mem::utf8_latin1_up_to(data_slice);
         if va != data_slice.len() {
-            continue;  // invalid UTF8
+            continue; // invalid UTF8
         }
         let dts: &str;
         unsafe {
@@ -236,7 +230,7 @@ fn dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked() {
         let s1 = String::from(dts);
         black_box(s1);
         count += 1;
-    };
+    }
     assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
 }
 
@@ -248,15 +242,15 @@ fn dutf8_std_str_from_utf8() {
         let data_slice = data.as_slice();
         // using built-in safe str::from_utf8
         let dts = match std::str::from_utf8(data_slice) {
-            Ok(val) => val,
-            Err(_) => {
-                continue;  // invalid UTF8
+            | Ok(val) => val,
+            | Err(_) => {
+                continue; // invalid UTF8
             }
         };
         let s1 = String::from(dts);
         black_box(s1);
         count += 1;
-    };
+    }
     assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
 }
 
@@ -273,7 +267,7 @@ fn dutf8_std_str_from_utf8_unchecked__allows_invalid() {
         let s1 = String::from(dts);
         black_box(s1);
         count += 1;
-    };
+    }
     // underzealous, will not catch all invalid UTF8
     //assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
     assert_eq!(count, COUNT_DATAS, "FAILED TO CATCH PROCESS ALL DATAS");
@@ -293,7 +287,7 @@ fn dutf8_custom_check1_lt0x80__overzealous() {
             //if (0x80 as u8 <= c && c <= 0xC2 as u8) || (192 as u8 <= c && c <= 193 as u8) || (245 as u8 <= c && c <= 255 as u8) {
             if 0x80 <= c {
                 invalid = true;
-                break;  // "invalid" UTF8; refuse to check further
+                break; // "invalid" UTF8; refuse to check further
             };
         }
         if invalid {
@@ -306,7 +300,7 @@ fn dutf8_custom_check1_lt0x80__overzealous() {
         let s1 = String::from(dts);
         black_box(s1);
         count += 1;
-    };
+    }
     // overzealous marking of "invalid"
     //assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
     assert_eq!(count, COUNT_ASCIIONLY_IN_DATAS, "FAILED TO CATCH INVALID UTF8 or ASCII");
@@ -331,14 +325,14 @@ fn dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overz
                 fallback = true;
                 break;
             };
-        };
+        }
         // UTF8 special chars found, fallback to `utf8_latin1_up_to` which can do this correctly
         if fallback {
             let va = encoding_rs::mem::utf8_latin1_up_to(data_slice);
             if va != data_slice.len() {
-                continue;  // invalid UTF8
+                continue; // invalid UTF8
             }
-            break;  // valid UTF8
+            break; // valid UTF8
         }
         unsafe {
             dts = std::str::from_utf8_unchecked(data_slice);
@@ -346,12 +340,11 @@ fn dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overz
         let s1 = String::from(dts);
         black_box(s1);
         count += 1;
-    };
+    }
     // overzealous; `utf8_latin1_up_to` does not handle UTF8 continuation bytes
     //assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
     assert_eq!(count, COUNT_ASCIIONLY_IN_DATAS, "FAILED TO CATCH INVALID UTF8 or ASCII");
 }
-
 
 #[inline(never)]
 fn dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous() {
@@ -363,16 +356,16 @@ fn dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__ov
         let dts: &str;
         // custom check for UTF8 some known invalid UTF8 bytes
         let mut fallback = false;
-        if ! data_slice.is_ascii() {
+        if !data_slice.is_ascii() {
             fallback = true;
         }
         // non-ASCII found, fallback to `utf8_latin1_up_to` which can do a better check
         if fallback {
             let va = encoding_rs::mem::utf8_latin1_up_to(data_slice);
             if va != data_slice.len() {
-                continue;  // invalid UTF8
+                continue; // invalid UTF8
             }
-            break;  // valid UTF8
+            break; // valid UTF8
         }
         unsafe {
             dts = std::str::from_utf8_unchecked(data_slice);
@@ -380,7 +373,7 @@ fn dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__ov
         let s1 = String::from(dts);
         black_box(s1);
         count += 1;
-    };
+    }
     // overzealous; `utf8_latin1_up_to` does not handle UTF8 continuation bytes
     //assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
     assert_eq!(count, COUNT_ASCIIONLY_IN_DATAS, "FAILED TO CATCH INVALID UTF8 or ASCII");
@@ -394,13 +387,15 @@ fn dutf8_bstr_to_str() {
         let data_slice = data.as_slice();
         let bstr1 = data_slice.as_bstr();
         let str1 = match bstr1.to_str() {
-            Ok(val) => val,
-            Err(_) => { continue; }
+            | Ok(val) => val,
+            | Err(_) => {
+                continue;
+            }
         };
         let s1 = String::from(str1);
         black_box(s1);
         count += 1;
-    };
+    }
     assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
 }
 
@@ -413,15 +408,15 @@ fn dutf8_arraystring__SmallString_from_utf8() {
         //let arraystring1 = match ArrayString::<DATA_MAX_SZ>::from_utf8(data_slice) {
         // XXX: docs suggest using `SmallString` to create an `ArrayString`, somewhat confusing
         let arraystring1 = match arraystring::SmallString::from_utf8(data_slice) {
-            Ok(val) => val,
-            Err(_) => {
-                continue;  // invalid UTF8
+            | Ok(val) => val,
+            | Err(_) => {
+                continue; // invalid UTF8
             }
         };
         let s1 = arraystring1.to_string();
         black_box(s1);
         count += 1;
-    };
+    }
     assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
 }
 
@@ -432,15 +427,15 @@ fn dutf8_arraystring__CacheString_from_utf8() {
     for data in Datas.iter() {
         let data_slice = data.as_slice();
         let cachestring1 = match arraystring::CacheString::from_utf8(data_slice) {
-            Ok(val) => val,
-            Err(_) => {
-                continue;  // invalid UTF8 or too large size
+            | Ok(val) => val,
+            | Err(_) => {
+                continue; // invalid UTF8 or too large size
             }
         };
         let s1 = cachestring1.to_string();
         black_box(s1);
         count += 1;
-    };
+    }
     assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
 }
 
@@ -478,17 +473,38 @@ fn criterion_benchmark(c: &mut Criterion) {
     Datas_check();
     let mut bg = c.benchmark_group("decode utf8");
     bg.bench_function("dutf8_baseline_no_decoding", |b| b.iter(dutf8_baseline_no_decoding));
-    bg.bench_function("dutf8_encodingrs_decode_to_string", |b| b.iter(dutf8_encodingrs_decode_to_string));
-    bg.bench_function("dutf8_encodingrs_decode_to_string_without_replacement", |b| b.iter(dutf8_encodingrs_decode_to_string_without_replacement));
-    bg.bench_function("dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked", |b| b.iter(dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked));
+    bg.bench_function("dutf8_encodingrs_decode_to_string", |b| {
+        b.iter(dutf8_encodingrs_decode_to_string)
+    });
+    bg.bench_function("dutf8_encodingrs_decode_to_string_without_replacement", |b| {
+        b.iter(dutf8_encodingrs_decode_to_string_without_replacement)
+    });
+    bg.bench_function(
+        "dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked",
+        |b| b.iter(dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked),
+    );
     bg.bench_function("dutf8_std_str_from_utf8", |b| b.iter(dutf8_std_str_from_utf8));
-    bg.bench_function("dutf8_std_str_from_utf8_unchecked__allows_invalid", |b| b.iter(dutf8_std_str_from_utf8_unchecked__allows_invalid));
-    bg.bench_function("dutf8_custom_check1_lt0x80__overzealous", |b| b.iter(dutf8_custom_check1_lt0x80__overzealous));
-    bg.bench_function("dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous", |b| b.iter(dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous));
-    bg.bench_function("dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous", |b| b.iter(dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous));
+    bg.bench_function("dutf8_std_str_from_utf8_unchecked__allows_invalid", |b| {
+        b.iter(dutf8_std_str_from_utf8_unchecked__allows_invalid)
+    });
+    bg.bench_function("dutf8_custom_check1_lt0x80__overzealous", |b| {
+        b.iter(dutf8_custom_check1_lt0x80__overzealous)
+    });
+    bg.bench_function(
+        "dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous",
+        |b| b.iter(dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous),
+    );
+    bg.bench_function(
+        "dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous",
+        |b| b.iter(dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous),
+    );
     bg.bench_function("dutf8_bstr_to_str", |b| b.iter(dutf8_bstr_to_str));
-    bg.bench_function("dutf8_arraystring__SmallString_from_utf8", |b| b.iter(dutf8_arraystring__SmallString_from_utf8));
-    bg.bench_function("dutf8_arraystring__CacheString_from_utf8", |b| b.iter(dutf8_arraystring__CacheString_from_utf8));
+    bg.bench_function("dutf8_arraystring__SmallString_from_utf8", |b| {
+        b.iter(dutf8_arraystring__SmallString_from_utf8)
+    });
+    bg.bench_function("dutf8_arraystring__CacheString_from_utf8", |b| {
+        b.iter(dutf8_arraystring__CacheString_from_utf8)
+    });
 }
 
 criterion_group!(benches, criterion_benchmark);
