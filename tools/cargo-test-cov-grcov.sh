@@ -32,6 +32,8 @@ cargo build
 #export LLVM_PROFILE_FILE="${profraw}"
 cargo test
 
+grcov --version
+
 # generate a coverate report from coverage artifacts
 grcov . \
     -s . \

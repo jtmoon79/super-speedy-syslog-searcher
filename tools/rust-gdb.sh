@@ -28,4 +28,6 @@ target=$(ls -1tr target/debug/deps/s4-* | tail -n1)
 
 set -x
 
+rust-gdb --version
+
 exec rust-gdb "${target}" -ex 'layout split' "${@}"

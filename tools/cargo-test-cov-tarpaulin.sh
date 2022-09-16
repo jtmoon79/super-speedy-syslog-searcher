@@ -27,8 +27,10 @@ echo "WORK-IN-PROGRESS! tarpaulin may fail!" >&2
 
 if [[ "${$COVERALLS_REPO_TOKEN+x}" ]]; then
     set -x
+    cargo tarpaulin --version
     exec cargo tarpaulin --ciserver github-ci --coveralls $COVERALLS_REPO_TOKEN
 else
     set -x
+    cargo tarpaulin --version
     exec cargo tarpaulin
 fi

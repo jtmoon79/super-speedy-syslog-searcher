@@ -51,7 +51,11 @@ cargo clean
 LLVM_PROFILE_FILE="${cov_file}" \
     cargo test --tests
 
+llvm-profdata --version
+
 llvm-profdata merge -sparse "${cov_file}" -o "${pdata_file}"
+
+llvm-cov --version
 
 llvm-cov report \
     --use-color --ignore-filename-regex='/.cargo/registry' \

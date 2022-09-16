@@ -36,6 +36,7 @@ trap exit_ EXIT
 if cargo nextest list 2>/dev/null; then
     (
         set -x
+        cargo nextest --version
         cargo nextest run \
             --locked \
             --verbose \
@@ -48,6 +49,7 @@ if cargo nextest list 2>/dev/null; then
 else
     (
         set -x
+        cargo test --version
         cargo test \
             --verbose \
             --future-incompat-report \

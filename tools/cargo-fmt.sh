@@ -9,5 +9,7 @@ cd "$(dirname -- "${0}")/.."
 
 set -x
 
+cargo fmt --version
+
 exec cargo fmt --verbose "${@}"
 
