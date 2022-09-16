@@ -36,12 +36,27 @@ trap exit_ EXIT
 if cargo nextest list 2>/dev/null; then
     (
         set -x
-        cargo nextest run --locked --verbose "${args1[@]}" --test-threads=1 -- "${args2[@]}"
+        cargo nextest run \
+            --locked \
+            --verbose \
+            --test-threads=1 \
+            "${args1[@]}" \
+            -- \
+            "${args2[@]}"
     )
 # else use plain `cargo test`
 else
     (
         set -x
-        cargo test --locked -j1 "${args1[@]}" -- --test-threads=1 "${args2[@]}"
+        cargo test \
+            --verbose \
+            --future-incompat-report \
+            --locked \
+            -j1 \
+            --all-features \
+            "${args1[@]}" \
+            -- \
+            --test-threads=1 \
+            "${args2[@]}"
     )
 fi
