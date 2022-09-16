@@ -1,3 +1,3 @@
 # /tools
 
-Miscellaneous helper scripts to assist development.
+Miscellaneous helper scripts to assist developers.
