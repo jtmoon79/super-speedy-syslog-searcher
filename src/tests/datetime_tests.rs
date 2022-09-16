@@ -53,6 +53,7 @@ use std::collections::HashSet;
 
 extern crate more_asserts;
 use more_asserts::{
+    assert_gt,
     assert_le,
     assert_lt,
 };
@@ -259,6 +260,11 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
             assert!(dtfs.tz == DTFS_Tz::_fill, "has_tz() so expected tz {:?} found {:?}; declared at line {}", dtfs.tz, DTFS_Tz::_fill, dtpd._line_num);
         }
         assert!(dt_pattern_has_tz(dtpat), "dt_pattern does not have a timezone {:?}; declared at line {}", dtpat, dtpd._line_num);
+        // check test data
+        assert_gt!(dtpd._test_cases.len(), 0, "No test data for dtpd declared at line {}", dtpd._line_num);
+        for test_case in dtpd._test_cases {
+            assert_lt!(test_case.0, test_case.1, "Bad test_case indexes {} {} for dtpd declared at line {}", test_case.0, test_case.1, dtpd._line_num);
+        }
         // check cgn_first
         assert!(regpat.contains(dtpd.cgn_first), "cgn_first {:?} but not contained in regex {:?}; declared at line {}", dtpd.cgn_first, regpat, dtpd._line_num);
         assert!(CGN_ALL.iter().any(|x| x == &dtpd.cgn_first), "cgn_first {:?} not in CGN_ALL {:?}; declared at line {}", dtpd.cgn_first, &CGN_ALL, dtpd._line_num);
@@ -352,18 +358,53 @@ fn test_DATETIME_PARSE_DATAS_test_cases() {
         eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
         for test_case in dtpd._test_cases {
             eprintln!("  Test Data       : {:?}", test_case);
-            let data = test_case.as_bytes();
+            let dta = test_case.0;
+            let dtb = test_case.1;
+            let data = test_case.2.as_bytes();
             let tz = FixedOffset::east_opt(60 * 60).unwrap();
             let mut year_opt: Option<Year> = None;
             if ! dtpd.dtfs.has_year() {
                 year_opt = Some(1980);
             }
+            let s = buffer_to_String_noraw(data);
             match bytes_to_regex_to_datetime(data, &index, &year_opt,&tz) {
                 Some(capdata) => {
-                    eprintln!("Passed dtpd declared at line {} result {:?}, test data {:?}", dtpd._line_num, capdata, buffer_to_String_noraw(data));
+                    eprintln!("Passed dtpd declared at line {} result {:?}, test data {:?}", dtpd._line_num, capdata, s);
+                    let a = capdata.0;
+                    let b = capdata.1;
+                    assert_eq!(dta, a, "Expected datetime begin index {}, got {}, for dtpd at line {} with test data {:?}", dta, a, dtpd._line_num, s);
+                    assert_eq!(dtb, b, "Expected datetime end index {}, got {}, for dtpd at line {} with test data {:?}", dtb, b, dtpd._line_num, s);
                 },
                 None => {
-                    panic!("Failed dtpd declared at line {}\ntest data {:?}\nregex \"{}\"", dtpd._line_num, buffer_to_String_noraw(data), dtpd.regex_pattern);
+                    panic!("Failed dtpd declared at line {}\ntest data {:?}\nregex \"{}\"", dtpd._line_num, s, dtpd.regex_pattern);
+                }
+            }
+        }
+    }
+}
+
+
+//#[test]
+#[allow(dead_code)]
+/// Check that the built-in test data is caught by the same DTPD in which it is
+/// declared.
+fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
+    stack_offset_set(Some(2));
+    let tz = FixedOffset::east_opt(60 * 60).unwrap();
+    for (index, dtpd) in DATETIME_PARSE_DATAS.iter().enumerate() {
+        eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
+        eprintln!("  Regex Pattern   : {:?}", dtpd.regex_pattern);
+        eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
+        for test_case in dtpd._test_cases {
+            eprintln!("  Test Data       : {:?}", test_case);
+            let data = test_case.2.as_bytes();
+            let mut year_opt: Option<Year> = None;
+            if ! dtpd.dtfs.has_year() {
+                year_opt = Some(1980);
+            }
+            for (index_, dtpd_) in DATETIME_PARSE_DATAS.iter().enumerate() {
+                if index_ > index {
+                    break;
                 }
             }
         }
