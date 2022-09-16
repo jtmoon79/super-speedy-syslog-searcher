@@ -14,6 +14,13 @@ rust-version = "1.61"
 # Do not set metadata fields `documentation` or `homepage` unless using
 # non-standard websites.
 # See <https://rust-lang.github.io/api-guidelines/documentation.html#cargotoml-includes-all-common-metadata-c-metadata>
+exclude = [
+    ".github/*",
+    "benches/*",
+    "logs/*",
+    "tools/*",
+    "rustfmt.toml",
+]
 
 [dependencies]
 arrayref = "0.3.6"
