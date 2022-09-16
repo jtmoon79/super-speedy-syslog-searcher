@@ -1,10 +1,9 @@
+# github workflows action file for super-speedy-syslog-searcher
 ---
 name: Rust
 on:
   push:
-    branches: [main]
   pull_request:
-    branches: [main]
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
