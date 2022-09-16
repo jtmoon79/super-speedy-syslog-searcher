@@ -1,13 +1,26 @@
-max_width = 120
+# rustfmt options
+# docs at https://rust-lang.github.io/rustfmt/
+#comment_width = 80 # unstable (Nightly only)
+edition = "2021"
+force_explicit_abi = true
+#group_imports = "StdExternalCrate" # unstable (Nightly only)
 hard_tabs = false
-tab_spaces = 4
+#imports_granularity = "Module" # unstable (Nightly only)
+#imports_layout = "Vertical" # unstable (Nightly only)
+match_arm_leading_pipes = "Preserve"
+max_width = 120
+merge_derives = true
 newline_style = "Unix"
-use_small_heuristics = "Default"
+#normalize_doc_attributes = true # unstable (Nightly only)
+remove_nested_parens = true
+#reorder_impl_items = true # unstable (Nightly only)
 reorder_imports = true
 reorder_modules = true
-remove_nested_parens = true
-edition = "2021"
-merge_derives = true
+short_array_element_width_threshold = 60
+#struct_lit_single_line = false # unstable (Nightly only)
+tab_spaces = 4
+use_field_init_shorthand = true
+use_small_heuristics = "Default"
 use_try_shorthand = false
-use_field_init_shorthand = false
-force_explicit_abi = true
+#version = "Two" # unstable (Nightly only)
+#wrap_comments = true # unstable (Nightly only)
