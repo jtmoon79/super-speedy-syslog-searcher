@@ -35,6 +35,22 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 
 ---
 
+<!--
+Developers must manually prefix categories.
+
+Categories:
+
+(LIB) - changes to the library source
+(BIN) - changes to the binary source (bin.rs, CLI options, etc.)
+(DEBUG) - changes to the either source only affecting debug builds
+(BUILD) - changes to the build (i.e. Cargo.toml)
+(DOCS) - changes to docstrings ("rustdocs"), docs.rs stuff
+(CI) - changes to github workflows, codecov
+(TEST) - changes to tests
+(TOOLS) - changes to scripts under `tools/`
+(PROJECT) - changes to READMEs, CHANGELOG, other non-source tweaks
+-->
+
 ## Unreleased
 
 [unreleased-diff](https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.26...HEAD)
@@ -47,29 +63,29 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 
 ### New
 
-- rustdocs
-- add datetime patterns for history.log ([6955a7b5c389a9b16651bf7e2350e12df2bc22a2])
-- bin.rs allow user to pass only dates ([0a46b5aee7eb99e19a9a2a91ed81d759978b6024])
-- add tools/rust-doc.sh ([f56045aa6c147246f30635240835e92bea224520])
-- add tools/valgrind-dhat-extract.sh ([aa5bdbbcdbd2d36b08f11c0a252603526b7adce8])
+- (DOCS) rustdocs
+- (LIB) add datetime patterns for history.log ([6955a7b5c389a9b16651bf7e2350e12df2bc22a2])
+- (BIN) bin.rs allow user to pass only dates ([0a46b5aee7eb99e19a9a2a91ed81d759978b6024])
+- (TOOLS) add tools/rust-doc.sh ([f56045aa6c147246f30635240835e92bea224520])
+- (TOOLS) add tools/valgrind-dhat-extract.sh ([aa5bdbbcdbd2d36b08f11c0a252603526b7adce8])
 
 ### Changes
 
-- refactor logic for process return code ([09df0b6551fec2ea22cee7dca2cd308cf11b531a])
-- github tests build documentation ([f7b4533f180ccc94c27f8e42b9806199d147f5c1])
-- remove unsupported `%Z` in `--help` ([b55341ecd717344211bd79557f56f7fecaad2479])
-- bin.rs simplify check for printing error ([79c1ea1edbed94e3376aed37b382d069144d6fab])
-- bin.rs print trailing `'\n'` if needed ([3c7984d49df0d91037729a45c24a2a7b5a109687])
-- bin.rs remove panics in processing_loop ([dc30ca638c88714942f282de4cd464336e41f8de])
-- line.rs printers.rs refactor some slice statements ([aab71b50e4464cae19f1add8b28613260345d9db])
+- (BIN) refactor logic for process return code ([09df0b6551fec2ea22cee7dca2cd308cf11b531a])
+- (CI) github tests build documentation ([f7b4533f180ccc94c27f8e42b9806199d147f5c1])
+- (BIN) remove unsupported `%Z` in `--help` ([b55341ecd717344211bd79557f56f7fecaad2479])
+- (BIN) bin.rs simplify check for printing error ([79c1ea1edbed94e3376aed37b382d069144d6fab])
+- (BIN) bin.rs print trailing `'\n'` if needed ([3c7984d49df0d91037729a45c24a2a7b5a109687])
+- (BIN) bin.rs remove panics in processing_loop ([dc30ca638c88714942f282de4cd464336e41f8de])
+- (LIB) line.rs printers.rs refactor some slice statements ([aab71b50e4464cae19f1add8b28613260345d9db])
 
 ### Fixes
 
-- tools chmod 100755 ([a13786623e5b9117418dc6ff86c1f0519e9074f0])
-- src/blockreader* fix handling zero byte gz, xz ([f708e15eab0ca601699461565b7a396f84394526]) ([21745ee99eb04a4204164825ca5c50e6f8b34fee])
-- bin.rs fix -a -b parsing ([f6b52fc20a8893ce30443bdd27f8da11108d0e17])
-- Massive amount of code cleanup
-- Many more tests
+- (TOOLS) tools chmod 100755 ([a13786623e5b9117418dc6ff86c1f0519e9074f0])
+- (LIB) src/blockreader* fix handling zero byte gz, xz ([f708e15eab0ca601699461565b7a396f84394526]) ([21745ee99eb04a4204164825ca5c50e6f8b34fee])
+- (BIN) bin.rs fix -a -b parsing ([f6b52fc20a8893ce30443bdd27f8da11108d0e17])
+- (LIB) Massive amount of code cleanup
+- (TEST) Many more tests
 
 ---
 
@@ -79,18 +95,18 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 
 ### New
 
-- add handling for missing year in datetime ([ab579207ea14141d3d4327f39b5fd23830a89f3a])
+- (LIB) add handling for missing year in datetime ([ab579207ea14141d3d4327f39b5fd23830a89f3a])
 
 ### Changes
 
-- Fix flood of error messages due to printing failure ([c332a73363492a1e1874e68fc0c12e3bfd2b96ae])
+- (BIN) Fix flood of error messages due to printing failure ([c332a73363492a1e1874e68fc0c12e3bfd2b96ae])
 
 ### Fixes
 
-- Fix handling GZIP XZ ([8d5e6860ed3b6b5c3743bf5d9a5122a78cdccb3c])
-- Fix debug print Sysline String with unknown glyph ([b2d6de5072f1506077fa649b15912b7cb3064211])
-- Fix debug print Line String with unknown glyph ([ed5c04ade1af13f2e22afc184336f9713f2b76e0])
-- Many more tests
+- (LIB) Fix handling GZIP XZ ([8d5e6860ed3b6b5c3743bf5d9a5122a78cdccb3c])
+- (DEBUG) Fix debug print Sysline String with unknown glyph ([b2d6de5072f1506077fa649b15912b7cb3064211])
+- (DEBUG) Fix debug print Line String with unknown glyph ([ed5c04ade1af13f2e22afc184336f9713f2b76e0])
+- (TEST) Many more tests
 
 ---
 
@@ -101,11 +117,11 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 
 ### New
 
-- handle tar files ([adf400700122f4eb23fd63971b3f048e014d1781])
+- (LIB) handle tar files ([adf400700122f4eb23fd63971b3f048e014d1781])
 
 ### Changes
 
-- datetime transforms `%b` `%B` to `%m` ([22980abf582aa61c5e4c9ce94d8298997fb5bbbc])
+- (LIB) datetime transforms `%b` `%B` to `%m` ([22980abf582aa61c5e4c9ce94d8298997fb5bbbc])
 
 ---
 
@@ -115,22 +131,22 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 
 ### New
 
-- WIP handle tar files ([b8deef3439f8e8b9a949a0a1cfa16d2c027c391f])
-- add CHANGELOG.md ([ca1c967a1dd169b73f3002f120c40c7127060041])
+- (LIB) WIP handle tar files ([b8deef3439f8e8b9a949a0a1cfa16d2c027c391f])
+- (PROJECT) add CHANGELOG.md ([ca1c967a1dd169b73f3002f120c40c7127060041])
 
 ### Changes
 
-- add enum_BoxPtrs::DoublePtr ([61f15e13d086a5d6c0e5a18d44c730ebe77a046a]) ([cb74da327e27b73e9724d8a28aafc164e6c9e0df])
-- refactor to use `regex::bytes::Regex` instead of `str`-based `regex::Regex` ([dfd60d4b29ce3ba0afe581c746d643cc5a6eccfa]) ([3d78b0d0b6918dab784bbe2332b3a26928bb8f90])
-- refactor name `enum_BoxPtrs` to `LinePartPtrs` ([b5505730100a9780877eb3e1cb4d280f02845863])
+- (LIB) add enum_BoxPtrs::DoublePtr ([61f15e13d086a5d6c0e5a18d44c730ebe77a046a]) ([cb74da327e27b73e9724d8a28aafc164e6c9e0df])
+- (LIB) refactor to use `regex::bytes::Regex` instead of `str`-based `regex::Regex` ([dfd60d4b29ce3ba0afe581c746d643cc5a6eccfa]) ([3d78b0d0b6918dab784bbe2332b3a26928bb8f90])
+- (LIB) refactor name `enum_BoxPtrs` to `LinePartPtrs` ([b5505730100a9780877eb3e1cb4d280f02845863])
 - (TOOLS) rust-test.sh use nextest if available ([1bf2784185df479a3a17975f773e3a505f735e26])
-- faster tests reuse single `NamedTempFile` more often ([db2e8f3cf4db912d32e74fcbdf09094c8b2f5128])
-- github run args change ([a82e25b56c80e37c5ea6450c4a27a9ff1feb021b]) ([c8fc525dff93e1b29c0df61bf6cc593376910043]) ([febfd00d66ac8586584882ec6c7a5b2a97683571])
+- (TEST) faster tests reuse single `NamedTempFile` more often ([db2e8f3cf4db912d32e74fcbdf09094c8b2f5128])
+- (CI) github run args change ([a82e25b56c80e37c5ea6450c4a27a9ff1feb021b]) ([c8fc525dff93e1b29c0df61bf6cc593376910043]) ([febfd00d66ac8586584882ec6c7a5b2a97683571])
 
 ### Fixes
 
-- fix --blocksz minimum check ([07baf6df44ec3ccd2da43f3c5cb9f5ef30a6b0e8])
-- printers.rs fix macro `print_color_highlight_dt` ([6659509095d19163bd65bd24a9a554cf25207395])
+- (BIN) fix --blocksz minimum check ([07baf6df44ec3ccd2da43f3c5cb9f5ef30a6b0e8])
+- (LIB) printers.rs fix macro `print_color_highlight_dt` ([6659509095d19163bd65bd24a9a554cf25207395])
 - (DEBUG) line.rs impl LinePart::count_bytes,len ([9d9179cf63c4167ac46b5c398b2c6b718ea9a022])
   Fix `LinePart::count_bytes`
 - (DEBUG) printers.rs fix `char_to_char_noraw` ([ced4667fd5f16682a46e70d435a9a473885c70b6])
@@ -144,24 +160,24 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 
 ### New
 
-- refactor datetime string matching ([3562638d37272b2befa7f9007307fd4088cdd00c])
+- (LIB) refactor datetime string matching ([3562638d37272b2befa7f9007307fd4088cdd00c])
   refactor datetime string matching within a `Line` to use regex.
 - (TOOLS) add hexdump.py ([031434f4d9dfb4e0f8190a720f8db57a3772e3a2])
-- printers.rs highlight datetime in call cases ([a4fd91f4b1340a754754b8bec841eb60102988bf])
-- printer.rs all color lines highlight dt ([9c5fa576899d1529b06acf89221d44d262092d04])
-- filepreprocessor also check supplment with ext removed ([0f4ac9ae4cb4d11247a40cf1a3c09f78a9a42399])
+- (LIB) printers.rs highlight datetime in call cases ([a4fd91f4b1340a754754b8bec841eb60102988bf])
+- (LIB) printer.rs all color lines highlight dt ([9c5fa576899d1529b06acf89221d44d262092d04])
+- (LIB) filepreprocessor also check supplment with ext removed ([0f4ac9ae4cb4d11247a40cf1a3c09f78a9a42399])
   During filetype search, also call supplmentary check based on name
   using a path with file extension removed. Allows matching files like
   `kern.log.gz.1`.
 
 ### Fixes
 
-- fix errant �� printed at block edges ([5caa8dd6b7f8f2735366a23ab1005df89aaf565f])
+- (LIB) fix errant �� printed at block edges ([5caa8dd6b7f8f2735366a23ab1005df89aaf565f])
 
 ### Changes
 
-- remove crate chain-cmp ([7109c46d835f4d6f32b6284681a6286b68179abc])
-- set `const` for funcs `slice_contains...` ([eeb20bb8431bf75c9e2be3fbba8e64daafae3098])
+- (BUILD) remove crate chain-cmp ([7109c46d835f4d6f32b6284681a6286b68179abc])
+- (LIB) set `const` for funcs `slice_contains...` ([eeb20bb8431bf75c9e2be3fbba8e64daafae3098])
 
 ---
 
@@ -171,14 +187,14 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 
 ### New
 
-- add XZ support ([607a23c00aff0d9b34fb3d678bdfd5c14290582d])
-- bin.rs set default -t in help message ([e346e184d9ab0af7969a796ef4c43814267aa7a3])
+- (LIB) add XZ support ([607a23c00aff0d9b34fb3d678bdfd5c14290582d])
+- (BIN) bin.rs set default -t in help message ([e346e184d9ab0af7969a796ef4c43814267aa7a3])
 
 ### Fixes
 
-- src/ print summary invalid, fix dir walk error ([09a04c14146af1916aeda14e8134d02baf088d5d])
+- (LIB) src/ print summary invalid, fix dir walk error ([09a04c14146af1916aeda14e8134d02baf088d5d])
   Print summary of each invalid file and it's MimeGuess and FileType result. This helps the use understand why a file was not parsed.
-  Fix directory walk in `process_path` only checking the root directoy and giving errant `FileType` to files.
+  (LIB) Fix directory walk in `process_path` only checking the root directoy and giving errant `FileType` to files.
 
 ---
 
