@@ -23,6 +23,14 @@ jobs:
     steps:
       # build & upload debug
       - uses: actions/checkout@v2
+        name: git checkout
+      - name: Checks
+        # `cargo check` builds dependences and other things but skips
+        # final code generation
+        run: |
+          set -eux
+          cargo check --verbose --all-targets
+          cargo check --verbose --all-targets --release
       - name: Build Debug
         run: |
           set -eux
