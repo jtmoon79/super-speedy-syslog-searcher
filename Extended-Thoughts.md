@@ -33,7 +33,7 @@ programs.
 
 To explain another way, try an internet search for "syslog finder", or
 "syslog datetime sort", etc.
-Many varying results, not a memorable phrase.
+Many varying results; not a memorable phrase.
 
 ### Learn Rust
 
