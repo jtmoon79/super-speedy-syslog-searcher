@@ -42,17 +42,6 @@ use crate::printer_debug::printers::{
     byte_to_char_noraw,
 };
 
-#[allow(unused_imports)]
-use crate::printer_debug::printers::{
-    dpo,
-    dpn,
-    dpx,
-    dpof,
-    dpnf,
-    dpxf,
-    dpnxf,
-};
-
 use std::collections::{
     BTreeMap,
     HashSet,
@@ -73,6 +62,19 @@ use mime_guess::MimeGuess;
 extern crate more_asserts;
 use more_asserts::{
     assert_ge,
+};
+
+extern crate si_trace_print;
+#[allow(unused_imports)]
+use si_trace_print::{
+    dpo,
+    dpn,
+    dpx,
+    dpñ,
+    dpfo,
+    dpfn,
+    dpfx,
+    dpfñ,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -202,7 +204,7 @@ impl LineReader {
 
     /// Create a new `LineReader`.
     pub fn new(path: FPath, filetype: FileType, blocksz: BlockSz) -> Result<LineReader> {
-        dpnxf!("LineReader::new({:?}, {:?}, {:?})", path, filetype, blocksz);
+        dpfñ!("LineReader::new({:?}, {:?}, {:?})", path, filetype, blocksz);
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         assert_ge!(
             blocksz,
@@ -392,7 +394,7 @@ impl LineReader {
     ///
     /// Should only be called by `self.find_line` and `self.find_line_in_block`.
     fn insert_line(&mut self, line: Line) -> LineP {
-        dpnf!("(Line @{:p})", &line);
+        dpfn!("(Line @{:p})", &line);
         let fo_beg: FileOffset = line.fileoffset_begin();
         let fo_end: FileOffset = line.fileoffset_end();
         let linep: LineP = LineP::new(line);
@@ -403,7 +405,7 @@ impl LineReader {
         debug_assert!(!self.foend_to_fobeg.contains_key(&fo_end), "self.foend_to_fobeg already contains key {}", fo_end);
         self.foend_to_fobeg.insert(fo_end, fo_beg);
         self.lines_processed += 1;
-        dpxf!("returning @{:p}", linep);
+        dpfx!("returning @{:p}", linep);
 
         linep
     }
@@ -414,11 +416,11 @@ impl LineReader {
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
     pub fn drop_lines(&mut self, lines: Lines, bo_dropped: &mut HashSet<BlockOffset>) {
-        dpnf!();
+        dpfn!();
         for linep in lines.into_iter() {
             self.drop_line(linep, bo_dropped);
         }
-        dpxf!();
+        dpfx!();
     }
 
     /// Forcefully `drop` the [`Line`]. For "streaming mode".
@@ -434,18 +436,18 @@ impl LineReader {
         self.lines.remove(&fo_key);
         match Arc::try_unwrap(linep) {
             Ok(line) => {
-                dpnf!("linereader.drop_line: Arc::try_unwrap(linep) processing Line @[{}‥{}] Block @[{}‥{}]", line.fileoffset_begin(), line.fileoffset_end(), line.blockoffset_first(), line.blockoffset_last());
+                dpfn!("linereader.drop_line: Arc::try_unwrap(linep) processing Line @[{}‥{}] Block @[{}‥{}]", line.fileoffset_begin(), line.fileoffset_end(), line.blockoffset_first(), line.blockoffset_last());
                 self.drop_line_ok += 1;
                 for linepart in line.lineparts.into_iter() {
                     self.blockreader.drop_block(linepart.blockoffset(), bo_dropped);
                 }
             }
             Err(_linep) => {
-                dpnf!("linereader.drop_line: Arc::try_unwrap(linep) Err strong_count {}", Arc::strong_count(&_linep));
+                dpfn!("linereader.drop_line: Arc::try_unwrap(linep) Err strong_count {}", Arc::strong_count(&_linep));
                 self.drop_line_errors += 1;
             }
         }
-        dpxf!();
+        dpfx!();
     }
 
     /// Does `self` "contain" this `fileoffset`? That is, already know about it?
@@ -498,13 +500,13 @@ impl LineReader {
         if self.find_line_lru_cache_enabled {
             match self.find_line_lru_cache.get(&fileoffset) {
                 Some(rlp) => {
-                    dpnf!("({}): found LRU cached for offset {}", fileoffset, fileoffset);
+                    dpfn!("({}): found LRU cached for offset {}", fileoffset, fileoffset);
                     self.find_line_lru_cache_hit += 1;
                     // `find_line_lru_cache.get(&fileoffset)` returns refernce so must create new `ResultS3LineFind` here
                     // and return that
                     match rlp {
                         ResultS3LineFind::Found(val) => {
-                            dpxf!(
+                            dpfx!(
                                 "return ResultS3LineFind::Found(({}, …)) @[{}, {}] {:?}",
                                 val.0,
                                 val.1.fileoffset_begin(),
@@ -514,18 +516,18 @@ impl LineReader {
                             return Some(ResultS3LineFind::Found((val.0, val.1.clone())));
                         }
                         ResultS3LineFind::Done => {
-                            dpxf!("return ResultS3LineFind::Done");
+                            dpfx!("return ResultS3LineFind::Done");
                             return Some(ResultS3LineFind::Done);
                         }
                         ResultS3LineFind::Err(err) => {
-                            dpxf!("Err {}", err);
+                            dpfx!("Err {}", err);
                             eprintln!("ERROR: unexpected Error store in find_line_lru_cache, fileoffset {}", fileoffset);
                         }
                     }
                 }
                 None => {
                     self.find_line_lru_cache_miss += 1;
-                    dpnxf!("fileoffset {} not found in LRU cache", fileoffset);
+                    dpfñ!("fileoffset {} not found in LRU cache", fileoffset);
                 }
             }
         }
@@ -581,7 +583,7 @@ impl LineReader {
                         self.find_line_lru_cache
                             .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                     }
-                    dpxf!("return ResultS3LineFind::Found({}, {:p}) @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                    dpfx!("return ResultS3LineFind::Found({}, {:p}) @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                     return Some(ResultS3LineFind::Found((fo_next, linep)));
                 }
                 if self.find_line_lru_cache_enabled {
@@ -590,14 +592,14 @@ impl LineReader {
                     self.find_line_lru_cache
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
-                dpxf!("return ResultS3LineFind::Found({}, {:p}) @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                dpfx!("return ResultS3LineFind::Found({}, {:p}) @[{}, {}] {:?}", fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return Some(ResultS3LineFind::Found((fo_next, linep)));
             }
             None => {
                 dpo!("fileoffset {} not found in self.lines_by_range", fileoffset);
             }
         }
-        dpxf!("fileoffset {} not found in self.lines", fileoffset);
+        dpfx!("fileoffset {} not found in self.lines", fileoffset);
 
         None
     }
@@ -632,7 +634,7 @@ impl LineReader {
     //      You've been warned.
     //
     pub fn find_line_in_block(&mut self, fileoffset: FileOffset) -> ResultS3LineFind {
-        dpnf!("({})", fileoffset);
+        dpfn!("({})", fileoffset);
 
         // some helpful constants
         let charsz_fo: FileOffset = self.charsz_ as FileOffset;
@@ -643,29 +645,29 @@ impl LineReader {
         // XXX: using cache can result in non-idempotent behavior
         // check fast LRU
         if let Some(results4) = self.check_store_LRU(fileoffset) {
-            dpxf!("({}): return {:?}", fileoffset, results4);
+            dpfx!("({}): return {:?}", fileoffset, results4);
             return results4;
         }
 
         // handle special cases
         if filesz == 0 {
-            dpxf!("({}): return ResultS3LineFind::Done; file is empty", fileoffset);
+            dpfx!("({}): return ResultS3LineFind::Done; file is empty", fileoffset);
             return ResultS3LineFind::Done;
         } else if fileoffset > filesz {
             // TODO: [2021/10] need to decide on consistent behavior for passing fileoffset > filesz
             //       should it really Error or be Done?
             //       Make that consisetent among all LineReader and SyslineReader `find_*` functions
-            dpxf!("({}): return ResultS3LineFind::Done; fileoffset {} was too big filesz {}!", fileoffset, fileoffset, filesz);
+            dpfx!("({}): return ResultS3LineFind::Done; fileoffset {} was too big filesz {}!", fileoffset, fileoffset, filesz);
             return ResultS3LineFind::Done;
         } else if fileoffset == filesz {
-            dpxf!("({}): return ResultS3LineFind::Done(); fileoffset {} is at end of file {}!", fileoffset, fileoffset, filesz);
+            dpfx!("({}): return ResultS3LineFind::Done(); fileoffset {} is at end of file {}!", fileoffset, fileoffset, filesz);
             return ResultS3LineFind::Done;
         }
 
         // XXX: using cache can result in non-idempotent behavior
         // check container of `Line`s
         if let Some(results4) = self.check_store(fileoffset) {
-            dpxf!("({}): return {:?}", fileoffset, results4);
+            dpfx!("({}): return {:?}", fileoffset, results4);
             return results4;
         }
 
@@ -677,7 +679,7 @@ impl LineReader {
         // of file)
         //
 
-        dpof!("searching for first newline B (line terminator) …");
+        dpfo!("searching for first newline B (line terminator) …");
 
         // found newline part A? Line begins after that newline
         let mut found_nl_a = false;
@@ -694,7 +696,7 @@ impl LineReader {
         // if at first byte of file no need to search for first newline
         if fileoffset == 0 {
             found_nl_a = true;
-            dpof!("newline A0 is {} because fileoffset {} is beginning of file!", fo_nl_a, fileoffset);
+            dpfo!("newline A0 is {} because fileoffset {} is beginning of file!", fo_nl_a, fileoffset);
         }
         // append new `LinePart`s to this `Line`
         let mut line: Line = Line::new();
@@ -708,7 +710,7 @@ impl LineReader {
         // search within "middle" block for newline B
         let bptr_middle: BlockP = match self.blockreader.read_block(bo_middle) {
             ResultS3ReadBlock::Found(val) => {
-                dpof!(
+                dpfo!(
                     "B1: read_block({}) returned Found Block @{:p} len {} while searching for newline A",
                     bo_middle,
                     &(*val),
@@ -717,11 +719,11 @@ impl LineReader {
                 val
             },
             ResultS3ReadBlock::Done => {
-                dpxf!("({}) B1: read_block({}) returned Done {:?}", fileoffset, bo_middle, self.path());
+                dpfx!("({}) B1: read_block({}) returned Done {:?}", fileoffset, bo_middle, self.path());
                 return ResultS3LineFind::Done;
             },
             ResultS3ReadBlock::Err(err) => {
-                dpxf!("({}) B1: read_block({}) returned Err, return ResultS3LineFind::Err({:?})", fileoffset, bo_middle, err);
+                dpfx!("({}) B1: read_block({}) returned Err, return ResultS3LineFind::Err({:?})", fileoffset, bo_middle, err);
                 return ResultS3LineFind::Err(err);
             }
         };
@@ -731,7 +733,7 @@ impl LineReader {
         assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
 
         // XXX: only handle UTF-8/ASCII encoding
-        dpof!("({}) B1: scan middle block {} forwards, starting from blockindex {} (fileoffset {}) searching for newline B",
+        dpfo!("({}) B1: scan middle block {} forwards, starting from blockindex {} (fileoffset {}) searching for newline B",
             fileoffset,
             bo_middle,
             bi_at,
@@ -744,8 +746,8 @@ impl LineReader {
                 fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_at);
                 bi_nl_b = bi_at;
                 bi_middle_end = bi_at;
-                dpof!("B1: bi_middle_end {:?} bi_nl_b {:?} fo_nl_b {:?}", bi_middle_end, bi_nl_b, fo_nl_b);
-                dpof!(
+                dpfo!("B1: bi_middle_end {:?} bi_nl_b {:?} fo_nl_b {:?}", bi_middle_end, bi_nl_b, fo_nl_b);
+                dpfo!(
                     "B1: found newline B in middle block during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
                     bo_middle,
                     bi_at,
@@ -768,7 +770,7 @@ impl LineReader {
             fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_);
             bi_nl_b = bi_;
             bi_middle_end = bi_;
-            dpof!(
+            dpfo!(
                 "B1: bi_middle_end {:?} bi_nl_b {:?} fo_nl_b {:?} blockoffset_last {:?}",
                 bi_middle_end,
                 bi_nl_b,
@@ -795,11 +797,11 @@ impl LineReader {
             nl_b_eof = true;
         }
         if !found_nl_b {
-            dpxf!("({}): failed to find newline B in block {} return Done {:?}", fileoffset, bo_middle, self.path());
+            dpfx!("({}): failed to find newline B in block {} return Done {:?}", fileoffset, bo_middle, self.path());
             return ResultS3LineFind::Done;
         }
 
-        dpof!(
+        dpfo!(
             "({}): found first newline B at FileOffset {}, searching for preceding newline A. Search starts at FileOffset {} …",
             fileoffset,
             fo_nl_b,
@@ -808,7 +810,7 @@ impl LineReader {
 
         // if found_nl_a was already found then this function can return
         if found_nl_a {
-            dpof!("({}) A0: already found newline A and newline B, return early", fileoffset);
+            dpfo!("({}) A0: already found newline A and newline B, return early", fileoffset);
             assert_eq!(fo_nl_a, 0, "newline A is {}, only reason newline A should be found at this point was if passed fileoffset 0, (passed fileoffset {}), for file {:?}", fo_nl_a, fileoffset, self.path());
             let li: LinePart = LinePart::new(
                 bptr_middle,
@@ -825,18 +827,18 @@ impl LineReader {
             if !nl_b_eof {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    dpof!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
+                    dpfo!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
                     self.find_line_lru_cache.put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
-                dpxf!("({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                dpfx!("({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return ResultS3LineFind::Found((fo_next, linep.clone()));
             } else {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    dpof!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
+                    dpfo!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
                     self.find_line_lru_cache.put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
-                dpxf!("({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                dpfx!("({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return ResultS3LineFind::Found((fo_next, linep.clone()));
             };
         }
@@ -847,7 +849,7 @@ impl LineReader {
             let fo_: FileOffset = fileoffset - charsz_fo;
             if self.lines.contains_key(&fo_) {
                 self.lines_hits += 1;
-                dpof!("({}) A1a: hit in self.lines for FileOffset {} (before part A)", fileoffset, fo_);
+                dpfo!("({}) A1a: hit in self.lines for FileOffset {} (before part A)", fileoffset, fo_);
                 fo_nl_a = fo_;
                 let linep_prev: LineP = self.lines[&fo_nl_a].clone();
                 assert_eq!(
@@ -871,29 +873,29 @@ impl LineReader {
                 if nl_b_eof {
                     if self.find_line_lru_cache_enabled {
                         self.find_line_lru_cache_put += 1;
-                        dpof!("({}) A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
+                        dpfo!("({}) A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
                         self.find_line_lru_cache
                             .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                     }
-                    dpxf!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                    dpfx!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                     return ResultS3LineFind::Found((fo_next, linep));
                 }
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    dpof!("({}) A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
+                    dpfo!("({}) A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
-                dpxf!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                dpfx!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return ResultS3LineFind::Found((fo_next, linep));
             } else {
                 self.lines_miss += 1;
-                dpof!("({}) A1a: miss in self.lines for FileOffset {} (quick check before part A)", fileoffset, fo_);
+                dpfo!("({}) A1a: miss in self.lines for FileOffset {} (quick check before part A)", fileoffset, fo_);
             }
 
             match self.get_linep(&fo_) {
                 Some(linep_prev) => {
-                    dpof!(
+                    dpfo!(
                         "({}) A1b: self.get_linep({}) returned {:p}",
                         fileoffset,
                         fo_,
@@ -923,25 +925,25 @@ impl LineReader {
                         debug_assert!(self.is_line_last(&linep), "nl_b_eof true yet !is_line_last(linep) file {:?}", self.path());
                         if self.find_line_lru_cache_enabled {
                             self.find_line_lru_cache_put += 1;
-                            dpof!("({}) A1b: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
+                            dpfo!("({}) A1b: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
                             self.find_line_lru_cache
                                 .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                         }
-                        dpxf!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                        dpfx!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                         return ResultS3LineFind::Found((fo_next, linep));
                     }
                     debug_assert!(!self.is_line_last(&linep), "nl_b_eof true yet !is_line_last(linep)");
                     if self.find_line_lru_cache_enabled {
                         self.find_line_lru_cache_put += 1;
-                        dpof!("({}) A1b: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
+                        dpfo!("({}) A1b: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fileoffset, fo_next, (*linep).to_String_noraw());
                         self.find_line_lru_cache
                             .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                     }
-                    dpxf!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                    dpfx!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                     return ResultS3LineFind::Found((fo_next, linep));
                 },
                 None => {
-                    dpof!("({}) A1b: self.get_linep({}) returned None (quick check before part A)", fileoffset, fo_);
+                    dpfo!("({}) A1b: self.get_linep({}) returned None (quick check before part A)", fileoffset, fo_);
                 },
             }
         }
@@ -958,14 +960,14 @@ impl LineReader {
         let mut fo_nl_a1: FileOffset = 0;
 
         if bof != bo_middle {
-            dpxf!("({}): failed to find newline A within block {} return Done {:?}", fileoffset, bo_middle, self.path());
+            dpfx!("({}): failed to find newline A within block {} return Done {:?}", fileoffset, bo_middle, self.path());
             return ResultS3LineFind::Done;
         }
 
         // search for newline A starts within "middle" block
         let mut bi_at: BlockIndex = self.block_index_at_file_offset(fo_nl_a_search_start);
         const BI_STOP: BlockIndex = 0;
-        dpof!(
+        dpfo!(
             "({}) A2a: scan middle block {} backwards, starting from blockindex {} (fileoffset {}) down to blockindex {} searching for newline A",
             fileoffset,
             bo_middle,
@@ -978,7 +980,7 @@ impl LineReader {
             if (*bptr_middle)[bi_at] == NLu8 {
                 found_nl_a = true;
                 fo_nl_a = self.file_offset_at_block_offset_index(bo_middle, bi_at);
-                dpof!(
+                dpfo!(
                     "({}) A2a: found newline A in middle block during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
                     fileoffset,
                     bo_middle,
@@ -1003,7 +1005,7 @@ impl LineReader {
         }
 
         if bof == 0 {
-            dpof!("({}) A2a: run into beginning of file", fileoffset);
+            dpfo!("({}) A2a: run into beginning of file", fileoffset);
             begof = true;
         }
         if !found_nl_a && begof {
@@ -1012,8 +1014,8 @@ impl LineReader {
             fo_nl_a1 = 0;
         }
         if !found_nl_a {
-            dpof!("({}) A2a: newline A not found in middle block {}", fileoffset, bo_middle);
-            dpxf!("find_line_in_block({}): return Done {:?}", fileoffset, self.path());
+            dpfo!("({}) A2a: newline A not found in middle block {}", fileoffset, bo_middle);
+            dpfx!("find_line_in_block({}): return Done {:?}", fileoffset, self.path());
             return ResultS3LineFind::Done;
         }
 
@@ -1030,11 +1032,11 @@ impl LineReader {
         let linep: LineP = LineP::new(line);
         let fo_next: FileOffset = fo_nl_b + charsz_fo;
         if nl_b_eof {
-            dpxf!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+            dpfx!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
             return ResultS3LineFind::Found((fo_next, linep));
         }
 
-        dpxf!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+        dpfx!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
 
         ResultS3LineFind::Found((fo_next, linep))
     }
@@ -1109,7 +1111,7 @@ impl LineReader {
     //
     // XXX: Issue #16 only handles UTF-8/ASCII encoding
     pub fn find_line(&mut self, fileoffset: FileOffset) -> ResultS3LineFind {
-        dpnf!("(LineReader@{:p}, {})", self, fileoffset);
+        dpfn!("(LineReader@{:p}, {})", self, fileoffset);
 
         // some helpful constants
         let charsz_fo: FileOffset = self.charsz_ as FileOffset;
@@ -1119,28 +1121,28 @@ impl LineReader {
 
         // check fast LRU first
         if let Some(results4) = self.check_store_LRU(fileoffset) {
-            dpxf!("({}): return {:?}", fileoffset, results4);
+            dpfx!("({}): return {:?}", fileoffset, results4);
             return results4;
         }
 
         // handle special cases
         if filesz == 0 {
-            dpxf!("({}): return ResultS3LineFind::Done; file is empty", fileoffset);
+            dpfx!("({}): return ResultS3LineFind::Done; file is empty", fileoffset);
             return ResultS3LineFind::Done;
         } else if fileoffset > filesz {
             // TODO: [2021/10] need to decide on consistent behavior for passing fileoffset > filesz
             //       should it really Error or be Done?
             //       Make that consisetent among all LineReader and SyslineReader `find_*` functions
-            dpxf!("({}): return ResultS3LineFind::Done; fileoffset {} was too big filesz {}!", fileoffset, fileoffset, filesz);
+            dpfx!("({}): return ResultS3LineFind::Done; fileoffset {} was too big filesz {}!", fileoffset, fileoffset, filesz);
             return ResultS3LineFind::Done;
         } else if fileoffset == filesz {
-            dpxf!("({}): return ResultS3LineFind::Done(); fileoffset {} is at end of file {}!", fileoffset, fileoffset, filesz);
+            dpfx!("({}): return ResultS3LineFind::Done(); fileoffset {} is at end of file {}!", fileoffset, fileoffset, filesz);
             return ResultS3LineFind::Done;
         }
 
         // check container of `Line`s
         if let Some(results4) = self.check_store(fileoffset) {
-            dpxf!("({}): return {:?}", fileoffset, results4);
+            dpfx!("({}): return {:?}", fileoffset, results4);
             return results4;
         }
 
@@ -1152,7 +1154,7 @@ impl LineReader {
         // of file)
         //
 
-        dpof!("searching for first newline B (line terminator) …");
+        dpfo!("searching for first newline B (line terminator) …");
 
         // found newline part A? Line begins after that newline
         let mut found_nl_a = false;
@@ -1169,7 +1171,7 @@ impl LineReader {
         // if at first byte of file no need to search for first newline
         if fileoffset == 0 {
             found_nl_a = true;
-            dpof!("newline A0 is {} because fileoffset {} is beginning of file!", fo_nl_a, fileoffset);
+            dpfo!("newline A0 is {} because fileoffset {} is beginning of file!", fo_nl_a, fileoffset);
         }
         // append new `LinePart`s to this `Line`
         let mut line: Line = Line::new();
@@ -1186,7 +1188,7 @@ impl LineReader {
         {  // arbitrary statement block
             bptr_middle = match self.blockreader.read_block(bo_middle) {
                 ResultS3ReadBlock::Found(val) => {
-                    dpof!(
+                    dpfo!(
                         "B1: read_block({}) returned Found Block @{:p} len {} while searching for newline A",
                         bo_middle,
                         &(*val),
@@ -1195,11 +1197,11 @@ impl LineReader {
                     val
                 },
                 ResultS3ReadBlock::Done => {
-                    dpxf!("B1: read_block({}) returned Done {:?}", bo_middle, self.path());
+                    dpfx!("B1: read_block({}) returned Done {:?}", bo_middle, self.path());
                     return ResultS3LineFind::Done;
                 },
                 ResultS3ReadBlock::Err(err) => {
-                    dpxf!("B1: read_block({}) returned Err, return ResultS3LineFind::Err({:?})", bo_middle, err);
+                    dpfx!("B1: read_block({}) returned Err, return ResultS3LineFind::Err({:?})", bo_middle, err);
                     return ResultS3LineFind::Err(err);
                 }
             };
@@ -1208,16 +1210,16 @@ impl LineReader {
             assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
             // XXX: Issue #16 only handles UTF-8/ASCII encoding
             //bi_beg = bi_stop - charsz_bi;
-            dpof!("B1: scan middle block {} forwards (block len {}), starting from blockindex {} (fileoffset {}) searching for newline B", bo_middle, (*bptr_middle).len(), bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at));
+            dpfo!("B1: scan middle block {} forwards (block len {}), starting from blockindex {} (fileoffset {}) searching for newline B", bo_middle, (*bptr_middle).len(), bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at));
             loop {
                 // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 if (*bptr_middle)[bi_at] == NLu8 {
                     found_nl_b = true;
                     fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_at);
                     bi_middle_end = bi_at;
-                    dpof!("B1: bi_middle_end {:?} fo_nl_b {:?}", bi_middle_end, fo_nl_b);
+                    dpfo!("B1: bi_middle_end {:?} fo_nl_b {:?}", bi_middle_end, fo_nl_b);
                     fo_nl_b_in_middle = true;
-                    dpof!(
+                    dpfo!(
                         "B1: found newline B in middle block during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
                         bo_middle,
                         bi_at,
@@ -1239,7 +1241,7 @@ impl LineReader {
                 let bi_: BlockIndex = bi_at - charsz_bi;
                 fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_);
                 bi_middle_end = bi_;
-                dpof!("B1: bi_middle_end {:?} fo_nl_b {:?} blockoffset_last {:?}", bi_middle_end, fo_nl_b, blockoffset_last);
+                dpfo!("B1: bi_middle_end {:?} fo_nl_b {:?} blockoffset_last {:?}", bi_middle_end, fo_nl_b, blockoffset_last);
                 fo_nl_b_in_middle = true;
                 nl_b_eof = true;
                 assert_eq!(
@@ -1254,12 +1256,12 @@ impl LineReader {
                 );
             } else if !found_nl_b {
                 bi_middle_end = bi_stop - charsz_bi;
-                dpof!("B1: bi_middle_end {:?}", bi_middle_end);
+                dpfo!("B1: bi_middle_end {:?}", bi_middle_end);
             }
         }
 
         if found_nl_b {
-            dpof!("B2: skip continued backwards search for newline B (already found)");
+            dpfo!("B2: skip continued backwards search for newline B (already found)");
         } else {
             // search within proceeding blocks for newline B
             const BI_UNINIT: BlockIndex = usize::MAX;
@@ -1269,7 +1271,7 @@ impl LineReader {
             while !found_nl_b && bof <= blockoffset_last {
                 let bptr: BlockP = match self.blockreader.read_block(bof) {
                     ResultS3ReadBlock::Found(val) => {
-                        dpof!(
+                        dpfo!(
                             "B2: read_block({}) returned Found Block @{:p} len {} while searching for newline B",
                             bof,
                             &(*val),
@@ -1278,11 +1280,11 @@ impl LineReader {
                         val
                     },
                     ResultS3ReadBlock::Done => {
-                        dpxf!("B2: read_block({}) returned Done {:?}", bof, self.path());
+                        dpfx!("B2: read_block({}) returned Done {:?}", bof, self.path());
                         return ResultS3LineFind::Done;
                     },
                     ResultS3ReadBlock::Err(err) => {
-                        dpxf!("B2: read_block({}) returned Err, return ResultS3LineFind::Err({:?})", bof, err);
+                        dpfx!("B2: read_block({}) returned Err, return ResultS3LineFind::Err({:?})", bof, err);
                         return ResultS3LineFind::Err(err);
                     },
                 };
@@ -1292,7 +1294,7 @@ impl LineReader {
                 assert_ne!(bi_end, 0, "blockindex bi_end is zero; Block at blockoffset {}, BlockP @0x{:p}, has len() zero", bof, bptr);
                 // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 //bi_beg = bi_end - charsz_bi;
-                dpof!(
+                dpfo!(
                     "B2: scan block {} forwards, starting from blockindex {} (fileoffset {}) up to blockindex {} searching for newline B",
                     bof,
                     bi_beg,
@@ -1305,7 +1307,7 @@ impl LineReader {
                         found_nl_b = true;
                         fo_nl_b = self.file_offset_at_block_offset_index(bof, bi_beg);
                         assert!(!fo_nl_b_in_middle, "fo_nl_b_in_middle should be false, file {:?}", self.path());
-                        dpof!(
+                        dpfo!(
                             "B2: found newline B during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
                             bof,
                             bi_beg,
@@ -1356,7 +1358,7 @@ impl LineReader {
                 let bi_: BlockIndex = bi_beg - charsz_bi;
                 fo_nl_b = self.file_offset_at_block_offset_index(bof, bi_);
                 nl_b_eof = true;
-                dpof!(
+                dpfo!(
                     "B2: newline B is end of file; blockoffset {} blockindex {} fileoffset {} (blockoffset last {})",
                     bof,
                     bi_,
@@ -1383,7 +1385,7 @@ impl LineReader {
         // walk backwards through blocks and bytes looking for newline A (line terminator of preceding Line or beginning of file)
         //
 
-        dpof!(
+        dpfo!(
             "found first newline B at FileOffset {}, searching for preceding newline A. Search starts at FileOffset {} …",
             fo_nl_b,
             fileoffset,
@@ -1391,7 +1393,7 @@ impl LineReader {
 
         // if found_nl_a was already found then this function can return
         if found_nl_a {
-            dpof!("A0: already found newline A and newline B, return early");
+            dpfo!("A0: already found newline A and newline B, return early");
             assert_eq!(fo_nl_a, 0, "newline A is {}, only reason newline A should be found at this point was if passed fileoffset 0, (passed fileoffset {}) file {:?}", fo_nl_a, fileoffset, self.path());
             let li: LinePart = LinePart::new(
                 bptr_middle,
@@ -1408,18 +1410,18 @@ impl LineReader {
             if !nl_b_eof {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    dpof!("A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fo_next, linep);
+                    dpfo!("A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fo_next, linep);
                     self.find_line_lru_cache.put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
-                dpxf!("({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                dpfx!("({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return ResultS3LineFind::Found((fo_next, linep.clone()));
             } else {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    dpof!("A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fo_next, linep);
+                    dpfo!("A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fo_next, linep);
                     self.find_line_lru_cache.put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
-                dpxf!("({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                dpfx!("({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}", fileoffset, fo_next, linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return ResultS3LineFind::Found((fo_next, linep.clone()));
             };
         }
@@ -1433,7 +1435,7 @@ impl LineReader {
             let fo_: FileOffset = fileoffset - charsz_fo;
             if self.lines.contains_key(&fo_) {
                 self.lines_hits += 1;
-                dpof!("A1a: hit in self.lines for FileOffset {} (before part A)", fo_);
+                dpfo!("A1a: hit in self.lines for FileOffset {} (before part A)", fo_);
                 fo_nl_a = fo_;
                 let linep_prev: LineP = self.lines[&fo_nl_a].clone();
                 assert_eq!(
@@ -1456,19 +1458,19 @@ impl LineReader {
                 let fo_next: FileOffset = fo_nl_b + charsz_fo;
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    dpof!("A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
+                    dpfo!("A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
-                dpxf!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                dpfx!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                 return ResultS3LineFind::Found((fo_next, linep));
             } else {
                 self.lines_miss += 1;
-                dpof!("A1a: miss in self.lines for FileOffset {} (quick check before part A)", fo_);
+                dpfo!("A1a: miss in self.lines for FileOffset {} (quick check before part A)", fo_);
             }
             match self.get_linep(&fo_) {
                 Some(linep_prev) => {
-                    dpof!(
+                    dpfo!(
                         "A1b: self.get_linep({}) returned {:p}",
                         fo_,
                         linep_prev,
@@ -1495,15 +1497,15 @@ impl LineReader {
                     let fo_next: FileOffset = fo_nl_b + charsz_fo;
                     if self.find_line_lru_cache_enabled {
                         self.find_line_lru_cache_put += 1;
-                        dpof!("A1b: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
+                        dpfo!("A1b: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                         self.find_line_lru_cache
                             .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                     }
-                    dpxf!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
+                    dpfx!("({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}", fileoffset, fo_next, &*linep, (*linep).fileoffset_begin(), (*linep).fileoffset_end(), (*linep).to_String_noraw());
                     return ResultS3LineFind::Found((fo_next, linep));
                 },
                 None => {
-                    dpof!("A1b: self.get_linep({}) returned None (quick check before part A)", fo_);
+                    dpfo!("A1b: self.get_linep({}) returned None (quick check before part A)", fo_);
                 },
             }
         }
@@ -1523,7 +1525,7 @@ impl LineReader {
             // search for newline A starts within "middle" block
             let mut bi_at: BlockIndex = self.block_index_at_file_offset(fo_nl_a_search_start);
             const BI_STOP: BlockIndex = 0;
-            dpof!(
+            dpfo!(
                 "A2a: scan middle block {} backwards, starting from blockindex {} (fileoffset {}) down to blockindex {} searching for newline A",
                 bo_middle, bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at), BI_STOP,
             );
@@ -1532,7 +1534,7 @@ impl LineReader {
                 if (*bptr_middle)[bi_at] == NLu8 {
                     found_nl_a = true;
                     fo_nl_a = self.file_offset_at_block_offset_index(bo_middle, bi_at);
-                    dpof!(
+                    dpfo!(
                         "A2a: found newline A in middle block during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
                         bo_middle,
                         bi_at,
@@ -1558,7 +1560,7 @@ impl LineReader {
             if found_nl_a {
                 fo_ = fo_nl_a1;
             } else {
-                dpof!("A2a: newline A not found in middle block {} but store middle block", bo_middle);
+                dpfo!("A2a: newline A not found in middle block {} but store middle block", bo_middle);
                 fo_ = self.file_offset_at_block_offset_index(bo_middle, bi_at);
             }
             let li: LinePart = LinePart::new(
@@ -1571,14 +1573,14 @@ impl LineReader {
             );
             line.prepend(li);
             if bof != 0 {
-                dpof!("A2a: blockoffset set to {}", bof);
+                dpfo!("A2a: blockoffset set to {}", bof);
                 bof -= 1;
             } else {
-                dpof!("A2a: run into beginning of file");
+                dpfo!("A2a: run into beginning of file");
                 begof = true;
             }
         } else {
-            dpof!("A2b: search for newline A crossed block boundary {} -> {}, save LinePart", bo_middle, bof);
+            dpfo!("A2b: search for newline A crossed block boundary {} -> {}, save LinePart", bo_middle, bof);
             // the charsz shift backward to begin search for newline A crossed block boundary
             // so save linepart from "middle" block before searching further
             let li: LinePart = LinePart::new(
@@ -1606,11 +1608,11 @@ impl LineReader {
             while !found_nl_a && !begof {
                 // "middle" block should have been handled by now
                 // remainder is to just walk backwards chedcking for first newline or beginning of file
-                dpof!("A4: searching blockoffset {} …", bof);
+                dpfo!("A4: searching blockoffset {} …", bof);
                 bptr_prior = bptr;
                 bptr = match self.blockreader.read_block(bof) {
                     ResultS3ReadBlock::Found(val) => {
-                        dpof!(
+                        dpfo!(
                             "A4: read_block({}) returned Found Block @{:p} len {} while searching for newline A",
                             bof,
                             &(*val),
@@ -1619,11 +1621,11 @@ impl LineReader {
                         val
                     },
                     ResultS3ReadBlock::Done => {
-                        dpxf!("A4: read_block({}) returned Done {:?}", bof, self.path());
+                        dpfx!("A4: read_block({}) returned Done {:?}", bof, self.path());
                         return ResultS3LineFind::Done;
                     },
                     ResultS3ReadBlock::Err(err) => {
-                        dpxf!("({}) A4: read_block({}) returned Err, return ResultS3LineFind::Err({:?})", fileoffset, bof, err);
+                        dpfx!("({}) A4: read_block({}) returned Err, return ResultS3LineFind::Err({:?})", fileoffset, bof, err);
                         return ResultS3LineFind::Err(err);
                     }
                 };
@@ -1633,7 +1635,7 @@ impl LineReader {
                 bi_start = blen - charsz_bi;
                 let mut bi_at: BlockIndex = bi_start;
                 const BI_STOP: BlockIndex = 0;
-                dpof!(
+                dpfo!(
                     "A5: scan block {} backwards, starting from blockindex {} (fileoffset {}) down to blockindex {} searching for newline A",
                     bof, bi_at, self.file_offset_at_block_offset_index(bof, bi_at), BI_STOP,
                 );
@@ -1642,7 +1644,7 @@ impl LineReader {
                     if (*bptr)[bi_at] == NLu8 {
                         found_nl_a = true;
                         fo_nl_a = self.file_offset_at_block_offset_index(bof, bi_at);
-                        dpof!(
+                        dpfo!(
                             "A5: found newline A during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
                             bof,
                             bi_at,
@@ -1656,7 +1658,7 @@ impl LineReader {
                         let bof_a1 = self.block_offset_at_file_offset(fo_nl_a1);
                         if bof_a1 == bof {
                             // newline A and first line char does not cross block boundary
-                            dpof!("A5: store current blockoffset {}", bof);
+                            dpfo!("A5: store current blockoffset {}", bof);
                             let li = LinePart::new(
                                 bptr.clone(),
                                 bi_at,
@@ -1668,7 +1670,7 @@ impl LineReader {
                             line.prepend(li);
                         } else if !line.stores_blockoffset(bof_a1) {
                             // newline A and first line char does cross block boundary
-                            dpof!("A5: store prior blockoffset {}", bof_a1);
+                            dpfo!("A5: store prior blockoffset {}", bof_a1);
                             // use prior block data
                             let li = LinePart::new(
                                 bptr_prior,
@@ -1681,7 +1683,7 @@ impl LineReader {
                             line.prepend(li);
                         } else {
                             // newline A and first line char does cross block boundary
-                            dpof!("A5: blockoffset {} was already stored", bof_a1);
+                            dpfo!("A5: blockoffset {} was already stored", bof_a1);
                         }
                         break;
                     }
@@ -1697,7 +1699,7 @@ impl LineReader {
                 if found_nl_a {
                     break;
                 }
-                dpof!("A5: store blockoffset {}", bof);
+                dpfo!("A5: store blockoffset {}", bof);
                 let li = LinePart::new(
                     bptr.clone(),
                     BI_STOP,
@@ -1709,12 +1711,12 @@ impl LineReader {
                 line.prepend(li);
                 if bof != 0 {
                     // newline A not found
-                    dpof!("A5: newline A not found in block {}", bof);
+                    dpfo!("A5: newline A not found in block {}", bof);
                     bof -= 1;
                 } else {
                     // hit beginning of file, "newline A" is the beginning of the file (not a newline char)
                     // store that first block
-                    dpof!("A5: ran into beginning of file");
+                    dpfo!("A5: ran into beginning of file");
                     found_nl_a = true;
                     begof = true;
                     debug_assert!(line.stores_blockoffset(0), "block 0 was not stored but ran into beginning of file {:?}", self.path());
@@ -1723,28 +1725,28 @@ impl LineReader {
         }// end if !found_nl_a !begof
 
         // may occur in files ending on a single newline
-        dpof!("C: line.count() is {}", line.count_lineparts());
+        dpfo!("C: line.count() is {}", line.count_lineparts());
         if line.count_lineparts() == 0 {
             if self.find_line_lru_cache_enabled {
                 self.find_line_lru_cache_put += 1;
-                dpof!("C: LRU Cache put({}, Done)", fileoffset);
+                dpfo!("C: LRU Cache put({}, Done)", fileoffset);
                 self.find_line_lru_cache
                     .put(fileoffset, ResultS3LineFind::Done);
             }
-            dpxf!("({}) C: return ResultS3LineFind::Done;", fileoffset);
+            dpfx!("({}) C: return ResultS3LineFind::Done;", fileoffset);
             return ResultS3LineFind::Done;
         }
 
-        dpof!("D: return {:?};", line);
+        dpfo!("D: return {:?};", line);
         let fo_end: FileOffset = line.fileoffset_end();
         let linep: LineP = self.insert_line(line);
         if self.find_line_lru_cache_enabled {
             self.find_line_lru_cache_put += 1;
-            dpof!("D: LRU Cache put({}, Found({}, …))", fileoffset, fo_end + 1);
+            dpfo!("D: LRU Cache put({}, Found({}, …))", fileoffset, fo_end + 1);
             self.find_line_lru_cache
                 .put(fileoffset, ResultS3LineFind::Found((fo_end + 1, linep.clone())));
         }
-        dpxf!(
+        dpfx!(
             "({}) D: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}",
             fileoffset,
             fo_end + 1,

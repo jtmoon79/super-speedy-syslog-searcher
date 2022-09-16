@@ -7,7 +7,3 @@
 pub mod helpers;
 
 pub mod printers;
-pub mod stack;
-
-#[cfg(test)]
-pub mod tests;

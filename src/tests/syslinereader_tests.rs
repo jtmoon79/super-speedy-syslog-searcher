@@ -59,14 +59,6 @@ use crate::printer_debug::helpers::{
 
 use crate::printer_debug::printers::{
     str_to_String_noraw,
-    dpo,
-    dpnf,
-    dpof,
-    dpxf,
-};
-
-use crate::printer_debug::stack::{
-    stack_offset_set,
 };
 
 #[allow(unused_imports)]
@@ -98,6 +90,15 @@ use const_format::concatcp;
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
+
+extern crate si_trace_print;
+use si_trace_print::{
+    dpo,
+    dpfo,
+    dpfn,
+    dpfx,
+    stack::stack_offset_set,
+};
 
 extern crate test_case;
 use test_case::test_case;
@@ -169,25 +170,25 @@ fn impl_find_sysline(
     checks: TestFindSyslineChecks,
 ) {
     stack_offset_set(Some(2));
-    dpnf!("(cache {:?}, blocksz {:?})", cache, blocksz);
+    dpfn!("(cache {:?}, blocksz {:?})", cache, blocksz);
     let mut slr = new_SyslineReader(&NTF5_PATH, blocksz, *TZO_E8);
     if !cache {
         slr.LRU_cache_disable();
     }
     for (fo, result_expect, sline_expect) in checks.iter() {
-        dpof!("slr.find_sysline({})", fo);
+        dpfo!("slr.find_sysline({})", fo);
         let result_actual = slr.find_sysline(*fo);
         assert_results4(fo, result_expect, &result_actual);
         match result_actual {
             ResultS3SyslineFind::Found((_fo, slp)) => {
                 let slp_string = (*slp).to_String();
-                dpof!("slr.find_sysline({}) Found", fo);
-                dpof!("expected {:?}", sline_expect);
-                dpof!("actual   {:?}", &slp_string.as_str());
+                dpfo!("slr.find_sysline({}) Found", fo);
+                dpfo!("expected {:?}", sline_expect);
+                dpfo!("actual   {:?}", &slp_string.as_str());
                 assert_eq!(sline_expect, &slp_string.as_str(), "\nExpected {:?}\nActual   {:?}\n", sline_expect, &slp_string.as_str());
             }
             ResultS3SyslineFind::Done => {
-                dpof!("slr.find_sysline({}) Done", fo);
+                dpfo!("slr.find_sysline({}) Done", fo);
             }
             ResultS3SyslineFind::Err(err) => {
                 panic!("ERROR: impl_find_sysline: slr.find_sysline({}) returned Err({})", fo, err);
@@ -195,7 +196,7 @@ fn impl_find_sysline(
         }
     }
 
-    dpxf!();
+    dpfx!();
 }
 
 #[test_case(true, 0x2 ; "cache_0x2")]
@@ -241,7 +242,7 @@ fn impl_test_find_sysline_at_datetime_filter(
     blocksz: BlockSz,
     checks: TestFindSyslineAtDatetimeFilterChecks,
 ) {
-    dpnf!("(…, {:?}, {}, …)", dt_pattern, blocksz);
+    dpfn!("(…, {:?}, {}, …)", dt_pattern, blocksz);
 
     let path = ntf_fpath(&ntf);
     let tzo = FixedOffset::west(3600 * 8);
@@ -290,7 +291,7 @@ fn impl_test_find_sysline_at_datetime_filter(
         }
     }
 
-    dpxf!("impl_test_find_sysline_at_datetime_filter(…)");
+    dpfx!("impl_test_find_sysline_at_datetime_filter(…)");
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -478,7 +479,7 @@ fn impl_test_find_sysline_at_datetime_filter_NTF26(
     checks: Option<TestFindSyslineAtDatetimeFilterChecks>,
 ) {
     stack_offset_set(Some(1));
-    dpnf!();
+    dpfn!();
 
     // if passed `checks` then use that, otherwise use a copy of the static `NTF26_checks`
     let checks_ = match checks {
@@ -494,7 +495,7 @@ fn impl_test_find_sysline_at_datetime_filter_NTF26(
         blocksz,
         checks_
     );
-    dpxf!();
+    dpfx!();
 }
 
 // XXX: are these different BlockSz tests necessary? are not these adequately tested by
@@ -2989,7 +2990,7 @@ fn impl_test_find_sysline_between_datetime_filter(
     blocksz: BlockSz,
     checks: TestFindSyslineBetweenDatetimeFilterChecks,
 ) {
-    dpnf!("(…, {:?}, {}, {}, …)", dt_pattern, cache, blocksz);
+    dpfn!("(…, {:?}, {}, {}, …)", dt_pattern, cache, blocksz);
 
     let path = ntf_fpath(&ntf);
     let tzo = FixedOffset::west(3600 * 8);
@@ -3049,7 +3050,7 @@ fn impl_test_find_sysline_between_datetime_filter(
         }
     }
 
-    dpxf!();
+    dpfx!();
 }
 
 lazy_static! {
@@ -3103,7 +3104,7 @@ fn impl_test_find_sysline_between_datetime_filter_NTF26B(
     checks: Option<TestFindSyslineBetweenDatetimeFilterChecks>,
 ) {
     stack_offset_set(Some(1));
-    dpnf!();
+    dpfn!();
 
     // if passed `checks` then use that, otherwise use a copy of the static `NTF26_checks`
     let checks_ = match checks {
@@ -3119,7 +3120,7 @@ fn impl_test_find_sysline_between_datetime_filter_NTF26B(
         blocksz,
         checks_
     );
-    dpxf!();
+    dpfx!();
 }
 
 #[test_case(true, 2; "cache_2")]
@@ -3160,7 +3161,7 @@ fn impl_test_SyslineReader_find_sysline(
     checks: &TestSyslineReaderChecks
 ) {
     stack_offset_set(Some(2));
-    dpnf!("({:?}, {}, {})", path, blocksz, fileoffset);
+    dpfn!("({:?}, {}, {})", path, blocksz, fileoffset);
     eprint_file(path);
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = new_SyslineReader(path, blocksz, tzo);
@@ -3173,8 +3174,8 @@ fn impl_test_SyslineReader_find_sysline(
         let done = result.is_done();
         match result {
             ResultS3SyslineFind::Found((fo, slp)) => {
-                dpof!("slr.find_sysline({}) returned Found({}, @{:p})", fo1, fo, &*slp);
-                dpof!(
+                dpfo!("slr.find_sysline({}) returned Found({}, @{:p})", fo1, fo, &*slp);
+                dpfo!(
                     "FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
                     fo,
                     &(*slp),
@@ -3187,7 +3188,7 @@ fn impl_test_SyslineReader_find_sysline(
                 if checks.is_empty() {
                     continue;
                 }
-                dpof!("find_sysline({}); check {} expect ({:?}, {:?})", fo1, check_i, checks[check_i].1, checks[check_i].0);
+                dpfo!("find_sysline({}); check {} expect ({:?}, {:?})", fo1, check_i, checks[check_i].1, checks[check_i].0);
                 // check slp.String
                 let check_String = checks[check_i].0.to_string();
                 let actual_String = (*slp).to_String();
@@ -3197,11 +3198,11 @@ fn impl_test_SyslineReader_find_sysline(
                 assert_eq!(check_fo, fo, "expected fileoffset {}, but find_sysline returned fileoffset {} for check {}", check_fo, fo, check_i);
             }
             ResultS3SyslineFind::Done => {
-                dpof!("slr.find_sysline({}) returned Done", fo1);
+                dpfo!("slr.find_sysline({}) returned Done", fo1);
                 break;
             }
             ResultS3SyslineFind::Err(err) => {
-                dpof!("slr.find_sysline({}) returned Err({})", fo1, err);
+                dpfo!("slr.find_sysline({}) returned Err({})", fo1, err);
                 panic!("ERROR: {}", err);
             }
         }
@@ -3212,8 +3213,8 @@ fn impl_test_SyslineReader_find_sysline(
     }
     assert_eq!(checks.len(), check_i, "expected {} Sysline checks but only {} Sysline checks were done", checks.len(), check_i);
 
-    dpof!("Found {} Lines, {} Syslines", slr.count_lines_processed(), slr.count_syslines_stored());
-    dpxf!();
+    dpfo!("Found {} Lines, {} Syslines", slr.count_lines_processed(), slr.count_syslines_stored());
+    dpfx!();
 }
 
 const test_data_file_A1_dt6: &str = "\
@@ -3341,7 +3342,7 @@ fn imp_test_findsysline(
     input_checks: &[TestSyslineReaderAnyInputCheck],
 ) {
     stack_offset_set(Some(2));
-    dpnf!("({:?}, {})", path, blocksz);
+    dpfn!("({:?}, {})", path, blocksz);
     eprint_file(path);
     let tzo = FixedOffset::west(3600 * 8);
     let mut slr = new_SyslineReader(path, blocksz, tzo);
@@ -3356,8 +3357,8 @@ fn imp_test_findsysline(
         assert_results4(input_fo, expect_result, &result);
         match result {
             ResultS3SyslineFind::Found((_fo, slp)) => {
-                dpof!("slr.find_sysline({}) returned Found({}, @{:p})", input_fo, _fo, &*slp);
-                dpof!(
+                dpfo!("slr.find_sysline({}) returned Found({}, @{:p})", input_fo, _fo, &*slp);
+                dpfo!(
                     "FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
                     _fo,
                     &(*slp),
@@ -3368,14 +3369,14 @@ fn imp_test_findsysline(
 
                 let actual_String = (*slp).to_String();
                 let expect_String = String::from(*expect_val);
-                dpof!("find_sysline({}); check {}", input_fo, check_i);
+                dpfo!("find_sysline({}); check {}", input_fo, check_i);
                 assert_eq!(expect_String, actual_String,"\nexpected string value     {:?}\nfind_sysline({:?}) returned {:?}\n", expect_String, input_fo, actual_String);
             }
             ResultS3SyslineFind::Done => {
-                dpof!("slr.find_sysline({}) returned Done", input_fo);
+                dpfo!("slr.find_sysline({}) returned Done", input_fo);
             }
             ResultS3SyslineFind::Err(err) => {
-                dpof!("slr.find_sysline({}) returned Err({})", input_fo, err);
+                dpfo!("slr.find_sysline({}) returned Err({})", input_fo, err);
                 panic!("ERROR: {}", err);
             }
         }
@@ -3388,12 +3389,12 @@ fn imp_test_findsysline(
     }
     assert_eq!(input_checks.len(), check_i, "expected {} Sysline checks but only {} Sysline checks were done", input_checks.len(), check_i);
 
-    dpof!("Found {} Lines, {} Syslines", slr.count_lines_processed(), slr.count_syslines_stored());
+    dpfo!("Found {} Lines, {} Syslines", slr.count_lines_processed(), slr.count_syslines_stored());
 
     let cache_actual = slr.LRU_cache_disable();
     assert_eq!(cache, cache_actual, "Expected cache_enabled to be {}, it was {}", cache, cache_actual);
 
-    dpxf!("({:?}, {})", &path, blocksz);
+    dpfx!("({:?}, {})", &path, blocksz);
 }
 
 const test_data_A2_dt6: &str = "\
@@ -4369,15 +4370,15 @@ fn test_datetime_parse_data() {
 fn process_SyslineReader(
     slr: &mut SyslineReader, filter_dt_after_opt: &DateTimeLOpt, filter_dt_before_opt: &DateTimeLOpt,
 ) {
-    dpnf!("({:?}, {:?}, {:?})", slr, filter_dt_after_opt, filter_dt_before_opt,);
+    dpfn!("({:?}, {:?}, {:?})", slr, filter_dt_after_opt, filter_dt_before_opt,);
     let mut fo1: FileOffset = 0;
     let mut search_more = true;
-    dpof!("slr.find_sysline_at_datetime_filter({}, {:?})", fo1, filter_dt_after_opt);
+    dpfo!("slr.find_sysline_at_datetime_filter({}, {:?})", fo1, filter_dt_after_opt);
     let result = slr.find_sysline_at_datetime_filter(fo1, filter_dt_after_opt);
     match result {
         ResultS3SyslineFind::Found((fo, slp))
         => {
-            dpof!(
+            dpfo!(
                 "slr.find_sysline_at_datetime_filter({}, {:?}, {:?}) returned Found({}, @{:p})",
                 fo1,
                 filter_dt_after_opt,
@@ -4385,7 +4386,7 @@ fn process_SyslineReader(
                 fo,
                 &*slp
             );
-            dpof!(
+            dpfo!(
                 "FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
                 fo,
                 &(*slp),
@@ -4396,7 +4397,7 @@ fn process_SyslineReader(
             fo1 = fo;
         }
         ResultS3SyslineFind::Done => {
-            dpof!(
+            dpfo!(
                 "slr.find_sysline_at_datetime_filter({}, {:?}, {:?}) returned Done",
                 fo1,
                 filter_dt_after_opt,
@@ -4405,7 +4406,7 @@ fn process_SyslineReader(
             search_more = false;
         }
         ResultS3SyslineFind::Err(err) => {
-            dpof!(
+            dpfo!(
                 "slr.find_sysline_at_datetime_filter({}, {:?}, {:?}) returned Err({})",
                 fo1,
                 filter_dt_after_opt,
@@ -4417,8 +4418,8 @@ fn process_SyslineReader(
         }
     }
     if !search_more {
-        dpof!("!search_more");
-        dpxf!();
+        dpfo!("!search_more");
+        dpfx!();
         return;
     }
     let mut fo2: FileOffset = fo1;
@@ -4427,9 +4428,9 @@ fn process_SyslineReader(
         match result {
             ResultS3SyslineFind::Found((fo, slp))
             => {
-                dpof!("slr.find_sysline({}) returned Found({}, @{:p})", fo2, fo, &*slp);
+                dpfo!("slr.find_sysline({}) returned Found({}, @{:p})", fo2, fo, &*slp);
                 fo2 = fo;
-                dpof!(
+                dpfo!(
                     "FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
                     fo,
                     &(*slp),
@@ -4437,7 +4438,7 @@ fn process_SyslineReader(
                     (*slp).len(),
                     (*slp).to_String_noraw(),
                 );
-                dpof!(
+                dpfo!(
                     "sysline_pass_filters({:?}, {:?}, {:?})",
                     (*slp).dt(),
                     filter_dt_after_opt,
@@ -4445,24 +4446,24 @@ fn process_SyslineReader(
                 );
                 match SyslineReader::sysline_pass_filters(&slp, filter_dt_after_opt, filter_dt_before_opt) {
                     Result_Filter_DateTime2::BeforeRange | Result_Filter_DateTime2::AfterRange => {
-                        dpof!("sysline_pass_filters returned not Result_Filter_DateTime2::InRange; continue!");
+                        dpfo!("sysline_pass_filters returned not Result_Filter_DateTime2::InRange; continue!");
                         continue;
                     }
                     Result_Filter_DateTime2::InRange => {}
                 }
             }
             ResultS3SyslineFind::Done => {
-                dpof!("slr.find_sysline({}) returned Done", fo2);
+                dpfo!("slr.find_sysline({}) returned Done", fo2);
                 break;
             }
             ResultS3SyslineFind::Err(err) => {
-                dpof!("slr.find_sysline({}) returned Err({})", fo2, err);
+                dpfo!("slr.find_sysline({}) returned Err({})", fo2, err);
                 panic!("ERROR: {}", err);
                 //break;
             }
         }
     }
-    dpxf!("process_SyslineReader({:?}, …)", slr.path());
+    dpfx!("process_SyslineReader({:?}, …)", slr.path());
 }
 
 /// quick debug helper
@@ -4473,7 +4474,7 @@ fn test_SyslineReader_process_file(
     filter_dt_after_opt: &DateTimeLOpt,
     filter_dt_before_opt: &DateTimeLOpt,
 ) -> Option<Box<SyslineReader>> {
-    dpnf!(
+    dpfn!(
         "({:?}, {}, {:?}, {:?})",
         &path,
         blocksz,
@@ -4486,8 +4487,8 @@ fn test_SyslineReader_process_file(
         blocksz,
         tzo8,
     );
-    dpof!("{:?}", slr);
-    dpxf!();
+    dpfo!("{:?}", slr);
+    dpfx!();
 
     Some(Box::new(slr))
 }
@@ -4497,7 +4498,7 @@ fn test_SyslineReader_process_file(
 fn test_SyslineReader_w_filtering_2(
     path: &FPath, blocksz: BlockSz, filter_dt_after_opt: &DateTimeLOpt, filter_dt_before_opt: &DateTimeLOpt,
 ) {
-    dpnf!(
+    dpfn!(
         "({:?}, {}, {:?}, {:?})",
         path,
         blocksz,
@@ -4507,9 +4508,9 @@ fn test_SyslineReader_w_filtering_2(
     let slr_opt = test_SyslineReader_process_file(path, blocksz, filter_dt_after_opt, filter_dt_before_opt);
     if slr_opt.is_some() {
         let slr = &slr_opt.unwrap();
-        dpof!("Found {} Lines, {} Syslines", slr.count_lines_processed(), slr.count_syslines_stored());
+        dpfo!("Found {} Lines, {} Syslines", slr.count_lines_processed(), slr.count_syslines_stored());
     }
-    dpxf!();
+    dpfx!();
 }
 
 // TODO: add test cases for test_SyslineReader_w_filtering_2
@@ -4523,15 +4524,15 @@ fn test_SyslineReader_w_filtering_2(
 /// TODO: [2021/09] this test was hastily designed for human review. Redesign it for automatic review.
 #[allow(non_snake_case)]
 fn impl_test_find_sysline_rand(path: &FPath, blocksz: BlockSz) {
-    dpnf!("({:?}, {})", path, blocksz);
+    dpfn!("({:?}, {})", path, blocksz);
     let tzo8 = FixedOffset::west(3600 * 8);
     let mut slr = new_SyslineReader(path, blocksz, tzo8);
-    dpof!("SyslineReader: {:?}", slr);
+    dpfo!("SyslineReader: {:?}", slr);
     let mut offsets_rand = Vec::<FileOffset>::with_capacity(slr.filesz() as usize);
     fill(&mut offsets_rand);
-    dpof!("offsets_rand: {:?}", offsets_rand);
+    dpfo!("offsets_rand: {:?}", offsets_rand);
     randomize(&mut offsets_rand);
-    dpof!("offsets_rand: {:?}", offsets_rand);
+    dpfo!("offsets_rand: {:?}", offsets_rand);
 
     for fo1 in offsets_rand {
         let result = slr.find_sysline(fo1);
@@ -4543,7 +4544,7 @@ fn impl_test_find_sysline_rand(path: &FPath, blocksz: BlockSz) {
             _ => {}
         }
     }
-    dpxf!();
+    dpfx!();
 }
 
 #[test]
@@ -4613,13 +4614,13 @@ fn impl_test_find_sysline_in_block(
     checks: CheckFindSyslineInBlock,
     blocksz: BlockSz,
 ) {
-    dpnf!("({:?}, {}, {})", path, cache, blocksz);
+    dpfn!("({:?}, {}, {})", path, cache, blocksz);
     let tzo = FixedOffset::west(3600 * 2);
     let mut slr = new_SyslineReader(path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
     }
-    dpof!("SyslineReader {:?}", slr);
+    dpfo!("SyslineReader {:?}", slr);
 
     for (fo_input, result_expect, value_expect) in checks.iter() {
         let result = slr.find_sysline_in_block(*fo_input);
@@ -4645,7 +4646,7 @@ fn impl_test_find_sysline_in_block(
         }
     }
 
-    dpxf!();
+    dpfx!();
 }
 
 #[test_case(true; "cache")]
@@ -4747,10 +4748,10 @@ fn test_find_sysline_in_block__A3__12_4(cache: bool) {
 #[test_case(false; "nocache")]
 fn test_find_sysline_in_block__A3__1_LINE1LEN(cache: bool) {
     let fo: FileOffset = *NTF_A3_DATA_LINE1_BYTES_LEN as FileOffset;
-    dpof!("fo {:?}", fo);
+    dpfo!("fo {:?}", fo);
     // use blocks of the same size as the first line in the test file
     let bsz: BlockSz = *NTF_A3_DATA_LINE1_BYTES_LEN_EVEN as BlockSz;
-    dpof!("bsz {:?}", bsz);
+    dpfo!("bsz {:?}", bsz);
     let checks: CheckFindSyslineInBlock = vec![
         (0, FOUND, NTF_A3_DATA_LINE1_STRING.clone()),
         (1, FOUND, NTF_A3_DATA_LINE1_STRING.clone()),
@@ -4770,10 +4771,10 @@ fn test_find_sysline_in_block__A3__1_LINE1LEN(cache: bool) {
 fn test_find_sysline_in_block__A3__12_LINE1LEN(cache: bool) {
     let fo: FileOffset = *NTF_A3_DATA_LINE1_BYTES_LEN as FileOffset;
     let fo12: FileOffset = (*NTF_A3_DATA_LINE1_BYTES_LEN + *NTF_A3_DATA_LINE2_BYTES_LEN) as FileOffset;
-    dpof!("fo {:?}", fo);
+    dpfo!("fo {:?}", fo);
     // use blocks of the same size as the first line in the test file
     let bsz: BlockSz = *NTF_A3_DATA_LINE1_BYTES_LEN_EVEN as BlockSz;
-    dpof!("bsz {:?}", bsz);
+    dpfo!("bsz {:?}", bsz);
     let checks: CheckFindSyslineInBlock = vec![
         (0, FOUND, NTF_A3_DATA_LINE1_STRING.clone()),
         (1, FOUND, NTF_A3_DATA_LINE1_STRING.clone()),
@@ -4907,7 +4908,7 @@ fn datetime_soonest2(vec_dt: &Vec<DateTimeL>) -> Option<(usize, DateTimeL)> {
 /// test function `datetime_soonest2`
 #[test]
 fn test_datetime_soonest2() {
-    dpnf!();
+    dpfn!();
     let vec0 = Vec::<DateTimeL>::with_capacity(0);
     let val = datetime_soonest2(&vec0);
     assert!(val.is_none());
@@ -4987,5 +4988,5 @@ fn test_datetime_soonest2() {
     assert_eq!(i_, 0);
     assert_eq!(dt_, dt3);
 
-    dpxf!();
+    dpfx!();
 }

@@ -12,21 +12,6 @@ use std::io::Write;  // for `std::io::Stdout.flush`
 use std::io::Result;
 use std::io::StdoutLock;
 
-#[allow(unused_imports)]
-use crate::printer_debug::printers::{
-    dpo,
-    dpn,
-    dpx,
-    dpnx,
-    dpof,
-    dpnf,
-    dpxf,
-    dpnxf,
-    dp_err,
-    dp_wrn,
-    p_wrn,
-};
-
 extern crate termcolor;
 #[doc(hidden)]
 pub use termcolor::{
@@ -50,10 +35,28 @@ use crate::data::datetime::{
     FixedOffset,
 };
 
+use crate::printer_debug::printers::{
+    dp_err,
+    dp_wrn,
+    p_wrn,
+};
+
 extern crate more_asserts;
 use more_asserts::{
     assert_le,
     debug_assert_le,
+};
+
+extern crate si_trace_print;
+use si_trace_print::{
+    dpo,
+    dpn,
+    dpx,
+    dp,
+    dpfo,
+    dpfn,
+    dpfx,
+    dpfñ,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -58,17 +58,15 @@ use crate::printer_debug::helpers::{
     ntf_fpath,
 };
 
-use crate::printer_debug::printers::{
-    dpnf,
-    dpxf,
-};
-
-use crate::printer_debug::stack::{
-    stack_offset_set,
-};
-
 extern crate lazy_static;
 use lazy_static::lazy_static;
+
+extern crate si_trace_print;
+use si_trace_print::{
+    dpfn,
+    dpfx,
+};
+use si_trace_print::stack::stack_offset_set;
 
 extern crate test_case;
 use test_case::test_case;
@@ -226,10 +224,10 @@ fn test_path_to_filetype_mimeguess(
     filetype: FileType,
     mimeguess: &MimeGuess,
 ) {
-    dpnf!("({:?})", path_str);
+    dpfn!("({:?})", path_str);
     let fpath: FPath = FPath::from_str(path_str).unwrap();
     let (filetype_, mimeguess_) = fpath_to_filetype_mimeguess(&fpath);
     assert_eq!(filetype, filetype_, "\nExpected {:?}\nActual   {:?}\n", filetype, filetype_);
     assert_eq!(mimeguess, &mimeguess_, "\nExpected {:?}\nActual   {:?}\n", mimeguess, mimeguess_);
-    dpxf!();
+    dpfx!();
 }

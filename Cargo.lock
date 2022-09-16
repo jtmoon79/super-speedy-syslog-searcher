@@ -1128,6 +1128,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "si_trace_print"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a987b064432979a76219b6a3e157f2409a3ac51d692bbbee22120e446d29cc28"
+dependencies = [
+ "backtrace",
+ "const_format",
+ "lazy_static",
+ "mut_static",
+]
+
+[[package]]
 name = "signal-hook"
 version = "0.3.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1199,6 +1211,7 @@ dependencies = [
  "rand",
  "rangemap",
  "regex",
+ "si_trace_print",
  "static_assertions",
  "tar",
  "tempfile",

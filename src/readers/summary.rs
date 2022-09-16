@@ -27,13 +27,6 @@ use crate::readers::syslinereader::{
 
 #[allow(unused_imports)]
 use crate::printer_debug::printers::{
-    dpo,
-    dpn,
-    dpx,
-    dpof,
-    dpnf,
-    dpxf,
-    dpnxf,
     dp_err,
     dp_wrn,
     p_err,
@@ -46,6 +39,19 @@ use more_asserts::{
     assert_ge,
     debug_assert_le,
     debug_assert_ge,
+};
+
+extern crate si_trace_print;
+#[allow(unused_imports)]
+use si_trace_print::{
+    dpo,
+    dpn,
+    dpx,
+    dpñ,
+    dpfo,
+    dpfn,
+    dpfx,
+    dpfñ,
 };
 
 use std::fmt;

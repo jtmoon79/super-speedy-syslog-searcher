@@ -48,13 +48,6 @@ use crate::printer_debug::printers::{
     str_to_String_noraw,
 };
 
-use crate::printer_debug::stack::{
-    sn,
-    so,
-    sx,
-    stack_offset_set,
-};
-
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
@@ -62,6 +55,14 @@ extern crate more_asserts;
 use more_asserts::{
     assert_le,
     assert_ge,
+};
+
+extern crate si_trace_print;
+use si_trace_print::stack::{
+    sn,
+    so,
+    sx,
+    stack_offset_set,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

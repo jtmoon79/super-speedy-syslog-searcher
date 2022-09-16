@@ -39,18 +39,6 @@ use crate::printer_debug::printers::{
     str_to_String_noraw,
 };
 
-#[allow(unused_imports)]
-use crate::printer_debug::printers::{
-    dpo,
-    dpn,
-    dpx,
-    dpnx,
-    dpof,
-    dpnf,
-    dpxf,
-    dpnxf,
-};
-
 #[doc(hidden)]
 pub use crate::data::line::{
     LineIndex,
@@ -106,6 +94,19 @@ use more_asserts::{
 
 extern crate regex;
 use regex::bytes::Regex;
+
+extern crate si_trace_print;
+#[allow(unused_imports)]
+use si_trace_print::{
+    dpo,
+    dpn,
+    dpx,
+    dpñ,
+    dpfo,
+    dpfn,
+    dpfx,
+    dpfñ,
+};
 
 extern crate unroll;
 use unroll::unroll_for_loops;
@@ -2734,7 +2735,7 @@ pub fn datetime_parse_from_str(
     has_tz: bool,
     tz_offset: &FixedOffset,
 ) -> DateTimeLOpt {
-    dpnf!("(pattern {:?}, tz_offset {:?}, data {:?})", pattern, tz_offset, str_to_String_noraw(data));
+    dpfn!("(pattern {:?}, tz_offset {:?}, data {:?})", pattern, tz_offset, str_to_String_noraw(data));
 
     // if `has_tz` then create a `DateTime`.
     // else if `!has_tz` then create a `NaiveDateTime`, then convert that to `DateTime` with aid
@@ -2742,7 +2743,7 @@ pub fn datetime_parse_from_str(
     if has_tz {
         match DateTime::parse_from_str(data, pattern) {
             Ok(val) => {
-                dpof!(
+                dpfo!(
                     "DateTime::parse_from_str({:?}, {:?}) extrapolated DateTime {:?}",
                     str_to_String_noraw(data),
                     pattern,
@@ -2751,15 +2752,15 @@ pub fn datetime_parse_from_str(
                 // HACK: workaround chrono Issue #660 by checking for matching begin, end of `data`
                 //       and `dt_pattern`
                 if !datetime_from_str_workaround_Issue660(data, pattern) {
-                    dpnf!("skip match due to chrono Issue #660");
+                    dpfn!("skip match due to chrono Issue #660");
                     return None;
                 }
-                dpxf!("return Some({:?})", val);
+                dpfx!("return Some({:?})", val);
 
                 Some(val)
             }
             Err(_err) => {
-                dpxf!("DateTime::parse_from_str({:?}, {:?}) failed ParseError: {}", data, pattern, _err);
+                dpfx!("DateTime::parse_from_str({:?}, {:?}) failed ParseError: {}", data, pattern, _err);
 
                 None
             }
@@ -2768,7 +2769,7 @@ pub fn datetime_parse_from_str(
         // no timezone in `pattern` so first convert to a `NaiveDateTime` instance
         let dt_naive = match NaiveDateTime::parse_from_str(data, pattern) {
             Ok(val) => {
-                dpof!(
+                dpfo!(
                     "NaiveDateTime.parse_from_str({:?}, {:?}) extrapolated NaiveDateTime {:?}",
                     str_to_String_noraw(data),
                     pattern,
@@ -2777,22 +2778,22 @@ pub fn datetime_parse_from_str(
                 // HACK: workaround chrono Issue #660 by checking for matching begin, end of `data`
                 //       and `pattern`
                 if !datetime_from_str_workaround_Issue660(data, pattern) {
-                    dpxf!("skip match due to chrono Issue #660");
+                    dpfx!("skip match due to chrono Issue #660");
                     return None;
                 }
-                dpxf!("return {:?}", val);
+                dpfx!("return {:?}", val);
 
                 val
             }
             Err(_err) => {
-                dpxf!("NaiveDateTime.parse_from_str({:?}, {:?}) failed ParseError: {}", data, pattern, _err);
+                dpfx!("NaiveDateTime.parse_from_str({:?}, {:?}) failed ParseError: {}", data, pattern, _err);
                 return None;
             }
         };
         // second convert the `NaiveDateTime` instance to `DateTime<FixedOffset>` instance
         match tz_offset.from_local_datetime(&dt_naive).earliest() {
             Some(val) => {
-                dpof!(
+                dpfo!(
                     "tz_offset.from_local_datetime({:?}).earliest() extrapolated NaiveDateTime {:?}",
                     dt_naive,
                     val,
@@ -2800,15 +2801,15 @@ pub fn datetime_parse_from_str(
                 // HACK: workaround chrono Issue #660 by checking for matching begin, end of `data`
                 //       and `pattern`
                 if !datetime_from_str_workaround_Issue660(data, pattern) {
-                    dpxf!("skip match due to chrono Issue #660, return None");
+                    dpfx!("skip match due to chrono Issue #660, return None");
                     return None;
                 }
-                dpxf!("return {:?}", Some(val));
+                dpfx!("return {:?}", Some(val));
 
                 Some(val)
             }
             None => {
-                dpxf!("tz_offset.from_local_datetime({:?}, {:?}) returned None, return None", data, pattern);
+                dpfx!("tz_offset.from_local_datetime({:?}, {:?}) returned None, return None", data, pattern);
                 None
             }
         }
@@ -3000,7 +3001,7 @@ pub(crate) fn captures_to_buffer_bytes(
     tz_offset: &FixedOffset,
     dtfs: &DTFSSet,
 ) -> usize {
-    dpnf!("(…, …, year_opt {:?}, tz_offset {:?}, …)", year_opt, tz_offset);
+    dpfn!("(…, …, year_opt {:?}, tz_offset {:?}, …)", year_opt, tz_offset);
 
     let mut at: usize = 0;
 
@@ -3015,11 +3016,11 @@ pub(crate) fn captures_to_buffer_bytes(
                     // TODO: 2022/07/11 cost-savings: pass in `Option<&[u8]>`, avoid creating `String`
                     let year_s: String = year.to_string();
                     debug_assert_eq!(year_s.len(), 4, "Bad year string {:?}", year_s);
-                    dpof!("using fallback year {:?}", year_s);
+                    dpfo!("using fallback year {:?}", year_s);
                     copy_slice_to_buffer!(year_s.as_bytes(), buffer, at);
                 }
                 None => {
-                    dpof!("using hardcoded dummy year {:?}", YEAR_FALLBACKDUMMY);
+                    dpfo!("using hardcoded dummy year {:?}", YEAR_FALLBACKDUMMY);
                     copy_slice_to_buffer!(YEAR_FALLBACKDUMMY.as_bytes(), buffer, at);
                 }
             }
@@ -3097,7 +3098,7 @@ pub(crate) fn captures_to_buffer_bytes(
         }
         DTFS_Tz::Z => {
             #[allow(non_snake_case)]
-            let mut tzZ: &str = u8_to_str(captures.name(CGN_TZ).as_ref().unwrap().as_bytes()).unwrap();
+            let tzZ: &str = u8_to_str(captures.name(CGN_TZ).as_ref().unwrap().as_bytes()).unwrap();
             match MAP_TZZ_TO_TZz.get_key_value(tzZ) {
                 Some((_tz_abbr, tz_offset_)) => {
                     // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
@@ -3111,11 +3112,10 @@ pub(crate) fn captures_to_buffer_bytes(
                     copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
                 }
             }
-
         }
     }
 
-    dpxf!("return {:?}", at);
+    dpfx!("return {:?}", at);
 
     at
 }
@@ -3134,7 +3134,7 @@ pub fn bytes_to_regex_to_datetime(
     year_opt: &Option<Year>,
     tz_offset: &FixedOffset,
 ) -> Option<CapturedDtData> {
-    dpnf!("(…, {:?}, {:?}, {:?})", index, year_opt, tz_offset);
+    dpfn!("(…, {:?}, {:?}, {:?})", index, year_opt, tz_offset);
 
     let regex_: &Regex = match DATETIME_PARSE_DATAS_REGEX_VEC.get(*index) {
         Some(val) => val,
@@ -3145,7 +3145,7 @@ pub fn bytes_to_regex_to_datetime(
 
     let captures: regex::bytes::Captures = match regex_.captures(data) {
         None => {
-            dpxf!("regex: no captures (returned None)");
+            dpfx!("regex: no captures (returned None)");
             return None;
         }
         Some(captures) => {
@@ -3207,7 +3207,7 @@ pub fn bytes_to_regex_to_datetime(
     ) {
         Some(dt_) => dt_,
         None => {
-            dpxf!("return None; datetime_parse_from_str returned None");
+            dpfx!("return None; datetime_parse_from_str returned None");
             return None;
         }
     };
@@ -3224,7 +3224,7 @@ pub fn bytes_to_regex_to_datetime(
     };
     debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}, index {}", dt_beg, dt_end, index);
 
-    dpxf!("return Some({:?}, {:?}, {:?})", dt_beg, dt_end, dt);
+    dpfx!("return Some({:?}, {:?}, {:?})", dt_beg, dt_end, dt);
     Some((dt_beg, dt_end, dt))
 }
 
@@ -3296,17 +3296,17 @@ impl Result_Filter_DateTime2 {
 /// [`Pass`]: crate::data::datetime::Result_Filter_DateTime1
 pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeLOpt) -> Result_Filter_DateTime1 {
     if dt_filter.is_none() {
-        dpnxf!("return Result_Filter_DateTime1::Pass; (no dt filters)");
+        dpfñ!("return Result_Filter_DateTime1::Pass; (no dt filters)");
         return Result_Filter_DateTime1::Pass;
     }
 
     let dt_a = &dt_filter.unwrap();
-    dpnf!("comparing dt datetime {:?} to filter datetime {:?}", dt, dt_a);
+    dpfn!("comparing dt datetime {:?} to filter datetime {:?}", dt, dt_a);
     if dt < dt_a {
-        dpxf!("return Result_Filter_DateTime1::OccursBefore; (dt {:?} is before dt_filter {:?})", dt, dt_a);
+        dpfx!("return Result_Filter_DateTime1::OccursBefore; (dt {:?} is before dt_filter {:?})", dt, dt_a);
         return Result_Filter_DateTime1::OccursBefore;
     }
-    dpxf!("return Result_Filter_DateTime1::OccursAtOrAfter; (dt {:?} is at or after dt_filter {:?})", dt, dt_a);
+    dpfx!("return Result_Filter_DateTime1::OccursAtOrAfter; (dt {:?} is at or after dt_filter {:?})", dt, dt_a);
 
     Result_Filter_DateTime1::OccursAtOrAfter
 }
@@ -3341,13 +3341,13 @@ pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeLOpt) -> Result_Fi
 pub fn dt_pass_filters(
     dt: &DateTimeL, dt_filter_after: &DateTimeLOpt, dt_filter_before: &DateTimeLOpt,
 ) -> Result_Filter_DateTime2 {
-    dpnf!("({:?}, {:?}, {:?})", dt, dt_filter_after, dt_filter_before);
+    dpfn!("({:?}, {:?}, {:?})", dt, dt_filter_after, dt_filter_before);
     if dt_filter_after.is_none() && dt_filter_before.is_none() {
-        dpxf!("return {:?}; (no dt filters)", Result_Filter_DateTime2::InRange);
+        dpfx!("return {:?}; (no dt filters)", Result_Filter_DateTime2::InRange);
         return Result_Filter_DateTime2::InRange;
     }
     if dt_filter_after.is_some() && dt_filter_before.is_some() {
-        dpof!(
+        dpfo!(
             "comparing datetime dt_filter_after {:?} < {:?} dt < {:?} dt_fiter_before ???",
             &dt_filter_after.unwrap(),
             dt,
@@ -3357,37 +3357,37 @@ pub fn dt_pass_filters(
         let db = &dt_filter_before.unwrap();
         assert_le!(da, db, "Bad datetime range values filter_after {:?} {:?} filter_before", da, db);
         if dt < da {
-            dpxf!("return {:?}", Result_Filter_DateTime2::BeforeRange);
+            dpfx!("return {:?}", Result_Filter_DateTime2::BeforeRange);
             return Result_Filter_DateTime2::BeforeRange;
         }
         if db < dt {
-            dpxf!("return {:?}", Result_Filter_DateTime2::AfterRange);
+            dpfx!("return {:?}", Result_Filter_DateTime2::AfterRange);
             return Result_Filter_DateTime2::AfterRange;
         }
         // assert da < dt && dt < db
         assert_le!(da, dt, "Unexpected range values da dt");
         assert_le!(dt, db, "Unexpected range values dt db");
-        dpxf!("return Result_Filter_DateTime2::InRange");
+        dpfx!("return Result_Filter_DateTime2::InRange");
 
         Result_Filter_DateTime2::InRange
     } else if dt_filter_after.is_some() {
-        dpof!("comparing datetime dt_filter_after {:?} < {:?} dt ???", &dt_filter_after.unwrap(), dt);
+        dpfo!("comparing datetime dt_filter_after {:?} < {:?} dt ???", &dt_filter_after.unwrap(), dt);
         let da = &dt_filter_after.unwrap();
         if dt < da {
-            dpxf!("return {:?}", Result_Filter_DateTime2::BeforeRange);
+            dpfx!("return {:?}", Result_Filter_DateTime2::BeforeRange);
             return Result_Filter_DateTime2::BeforeRange;
         }
-        dpxf!("return Result_Filter_DateTime2::InRange");
+        dpfx!("return Result_Filter_DateTime2::InRange");
 
         Result_Filter_DateTime2::InRange
     } else {
-        dpof!("comparing datetime dt {:?} < {:?} dt_filter_before ???", dt, &dt_filter_before.unwrap());
+        dpfo!("comparing datetime dt {:?} < {:?} dt_filter_before ???", dt, &dt_filter_before.unwrap());
         let db = &dt_filter_before.unwrap();
         if db < dt {
-            dpxf!("return {:?}", Result_Filter_DateTime2::AfterRange);
+            dpfx!("return {:?}", Result_Filter_DateTime2::AfterRange);
             return Result_Filter_DateTime2::AfterRange;
         }
-        dpxf!("return {:?}", Result_Filter_DateTime2::InRange);
+        dpfx!("return {:?}", Result_Filter_DateTime2::InRange);
 
         Result_Filter_DateTime2::InRange
     }

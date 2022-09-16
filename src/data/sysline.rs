@@ -39,14 +39,6 @@ use crate::data::line::{
 
 #[allow(unused_imports)]
 use crate::printer_debug::printers::{
-    dpo,
-    dpn,
-    dpx,
-    dpnx,
-    dpof,
-    dpnf,
-    dpxf,
-    dpnxf,
     dp_err,
     dp_wrn,
     p_wrn,
@@ -57,6 +49,19 @@ use std::sync::Arc;
 
 extern crate more_asserts;
 use more_asserts::debug_assert_ge;
+
+extern crate si_trace_print;
+#[allow(unused_imports)]
+use si_trace_print::{
+    dpo,
+    dpn,
+    dpx,
+    dpñ,
+    dpfo,
+    dpfn,
+    dpfx,
+    dpfñ,
+};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Sysline

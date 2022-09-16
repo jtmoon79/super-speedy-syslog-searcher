@@ -40,15 +40,6 @@ use crate::data::datetime::{
 
 use crate::printer_debug::printers::buffer_to_String_noraw;
 
-use crate::printer_debug::stack::{
-    stack_offset_set,
-};
-
-use crate::printer_debug::printers::{
-    dpnf,
-    dpxf,
-};
-
 use std::collections::HashSet;
 
 extern crate more_asserts;
@@ -57,6 +48,13 @@ use more_asserts::{
     assert_le,
     assert_lt,
 };
+
+extern crate si_trace_print;
+use si_trace_print::{
+    dpfn,
+    dpfx,
+};
+use si_trace_print::stack::stack_offset_set;
 
 use std::str;
 
@@ -384,6 +382,8 @@ fn test_DATETIME_PARSE_DATAS_test_cases() {
 }
 
 
+
+
 //#[test]
 #[allow(dead_code)]
 /// Check that the built-in test data is caught by the same DTPD in which it is
@@ -468,7 +468,7 @@ fn fo_to_fo0(dt_opt: &DateTimeLOpt) -> DateTimeLOpt {
 #[allow(non_snake_case)]
 #[test]
 fn test_dt_pass_filters_fixedoffset2() {
-    dpnf!();
+    dpfn!();
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = FixedOffset::west(3600 * 2);
@@ -535,14 +535,14 @@ fn test_dt_pass_filters_fixedoffset2() {
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for {:?} among dt_pass_filters({:?}, {:?})", exp_result, result, dt, da, db);
         eprintln!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
     }
-    dpxf!();
+    dpfx!();
 }
 
 #[rustfmt::skip]
 #[allow(non_snake_case)]
 #[test]
 fn test_dt_pass_filters_z() {
-    dpnf!();
+    dpfn!();
 
     fn DTLz(s: &str) -> DateTimeL {
         let tz_dummy = FixedOffset::east(0);
@@ -644,7 +644,7 @@ dt_pass_filters({:?}, {:?})
 ", exp_result, result, dt, da, db, dt0, da0, db0);
         eprintln!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
     }
-    dpxf!();
+    dpfx!();
 }
 
 /// basic test of `SyslineReader.dt_after_or_before`
@@ -652,7 +652,7 @@ dt_pass_filters({:?}, {:?})
 #[allow(non_snake_case)]
 #[test]
 fn test_dt_after_or_before() {
-    dpnf!();
+    dpfn!();
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = FixedOffset::west(3600 * 8);
@@ -669,5 +669,5 @@ fn test_dt_after_or_before() {
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?})", exp_result, result, dt, da);
         eprintln!("dt_after_or_before(\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, result);
     }
-    dpxf!();
+    dpfx!();
 }

@@ -69,6 +69,17 @@ extern crate crossbeam_channel;
 extern crate mime_guess;
 use mime_guess::MimeGuess;
 
+extern crate si_trace_print;
+use si_trace_print::{
+    dpo,
+    dpn,
+    dpfo,
+    dpfn,
+    dpfx,
+    dpfñ,
+    stack::stack_offset_set,
+};
+
 extern crate unicode_width;
 
 // `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
@@ -91,18 +102,8 @@ use s4lib::data::datetime::{
     DATETIME_PARSE_DATAS,
 };
 
-use s4lib::printer_debug::stack::{
-    stack_offset_set,
-};
-
 #[allow(unused_imports)]
 use s4lib::printer_debug::printers::{
-    dpo,
-    dpn,
-    dpof,
-    dpnf,
-    dpxf,
-    dpnxf,
     dp_err,
     dp_wrn,
     p_err,
@@ -506,9 +507,9 @@ fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeLOpt {
                 if ! has_time {
                     dts_.push_str(CLI_DT_FILTER_APPEND_TIME_VALUE);
                     pattern.push_str(CLI_DT_FILTER_APPEND_TIME_PATTERN);
-                    dpof!("appended {:?}, {:?}", CLI_DT_FILTER_APPEND_TIME_VALUE, CLI_DT_FILTER_APPEND_TIME_PATTERN);
+                    dpfo!("appended {:?}, {:?}", CLI_DT_FILTER_APPEND_TIME_VALUE, CLI_DT_FILTER_APPEND_TIME_PATTERN);
                 }
-                dpof!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", dts_, pattern, has_tz, tz_offset);
+                dpfo!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", dts_, pattern, has_tz, tz_offset);
                 if let Some(val) = datetime_parse_from_str(
                     dts_.as_str(), pattern.as_str(), *has_tz, tz_offset
                 ) {
@@ -546,7 +547,7 @@ fn cli_process_args() -> (
 ) {
     let args = CLI_Args::parse();
 
-    dpof!("args {:?}", args);
+    dpfo!("args {:?}", args);
 
     //
     // process string arguments into specific types
@@ -560,7 +561,7 @@ fn cli_process_args() -> (
             std::process::exit(1);
         }
     };
-    dpof!("blocksz {:?}", blocksz);
+    dpfo!("blocksz {:?}", blocksz);
 
     let mut fpaths: Vec<FPath> = Vec::<FPath>::new();
     for path in args.paths.iter() {
@@ -574,12 +575,12 @@ fn cli_process_args() -> (
             std::process::exit(1);
         }
     };
-    dpof!("tz_offset {:?}", tz_offset);
+    dpfo!("tz_offset {:?}", tz_offset);
 
     let filter_dt_after: DateTimeLOpt = process_dt(args.dt_after, &tz_offset);
-    dpof!("filter_dt_after {:?}", filter_dt_after);
+    dpfo!("filter_dt_after {:?}", filter_dt_after);
     let filter_dt_before: DateTimeLOpt = process_dt(args.dt_before, &tz_offset);
-    dpof!("filter_dt_before {:?}", filter_dt_before);
+    dpfo!("filter_dt_before {:?}", filter_dt_before);
 
     #[allow(clippy::single_match)]
     match (filter_dt_after, filter_dt_before) {
@@ -627,7 +628,7 @@ pub fn main() -> ExitCode {
     if cfg!(debug_assertions) {
         stack_offset_set(Some(0 ));
     }
-    dpnf!();
+    dpfn!();
     let (
         paths,
         blocksz,
@@ -679,7 +680,7 @@ pub fn main() -> ExitCode {
         cli_opt_summary,
     );
 
-    dpxf!();
+    dpfx!();
 
     if ret {
         ExitCode::SUCCESS
@@ -791,7 +792,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
         filter_dt_before_opt,
         tz_offset
     ) = thread_init_data;
-    dpnf!("({:?})", path);
+    dpfn!("({:?})", path);
 
     let thread_cur: thread::Thread = thread::current();
     let _tid: thread::ThreadId = thread_cur.id();
@@ -819,11 +820,11 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
                     eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
                 }
             }
-            dpxf!("({:?})", path);
+            dpfx!("({:?})", path);
             return;
         }
     };
-    dpof!("syslogproc {:?}", syslogproc);
+    dpfo!("syslogproc {:?}", syslogproc);
 
     syslogproc.process_stage0_valid_file_check();
 
@@ -852,7 +853,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
     match result {
         FileProcessingResultBlockZero::FileOk => {}
         _ => {
-            dpof!("chan_send_dt.send((None, summary, true))");
+            dpfo!("chan_send_dt.send((None, summary, true))");
             match chan_send_dt.send(
                 (None, Some(syslogproc.summary()), true, result)
             ) {
@@ -861,7 +862,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
                     eprintln!("ERROR: stage1 chan_send_dt.send(…) failed {}", err);
                 }
             }
-            dpxf!("({:?})", path);
+            dpfx!("({:?})", path);
             return;
         }
     }
@@ -870,7 +871,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
     match syslogproc.process_stage2_find_dt() {
         FileProcessingResultBlockZero::FileOk => {}
         result_ => {
-            dpxf!("Result {:?} ({:?})", result_, path);
+            dpfx!("Result {:?} ({:?})", result_, path);
             return;
         }
     }
@@ -920,7 +921,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
                 eprintln!("ERROR: C chan_send_dt.send(…) failed {}", err);
             }
         }
-        dpxf!("({:?})", path);
+        dpfx!("({:?})", path);
 
         return;
     }
@@ -971,7 +972,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
         }
     }
 
-    dpxf!("({:?})", path);
+    dpfx!("({:?})", path);
 }
 
 /// Statistics about the main processing thread's printing activity.
@@ -1140,7 +1141,7 @@ impl SummaryPrinted {
     ///
     /// Helper function to function `processing_loop`.
     fn summaryprint_map_update(syslinep: &SyslineP, pathid: &PathId, map_: &mut MapPathIdSummaryPrint) {
-        dpnxf!();
+        dpfñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
                 sp.summaryprint_update(syslinep);
@@ -1221,7 +1222,7 @@ fn processing_loop(
     cli_opt_prepend_file_align: bool,
     cli_opt_summary: bool,
 ) -> bool {
-    dpnf!("({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})", paths_results, blocksz, filter_dt_after_opt, filter_dt_before_opt, color_choice, cli_opt_prepend_local, cli_opt_prepend_utc, cli_opt_summary);
+    dpfn!("({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})", paths_results, blocksz, filter_dt_after_opt, filter_dt_before_opt, color_choice, cli_opt_prepend_local, cli_opt_prepend_utc, cli_opt_summary);
 
     // XXX: sanity check
     assert!(!(cli_opt_prepend_filename && cli_opt_prepend_filepath), "Cannot both cli_opt_prepend_filename && cli_opt_prepend_filepath");
@@ -1229,7 +1230,7 @@ fn processing_loop(
     assert!(!(cli_opt_prepend_utc && cli_opt_prepend_local), "Cannot both cli_opt_prepend_utc && cli_opt_prepend_local");
 
     if paths_results.is_empty() {
-        dpxf!("paths_results.is_empty(); nothing to do");
+        dpfx!("paths_results.is_empty(); nothing to do");
         return true;
     }
 
@@ -1275,7 +1276,7 @@ fn processing_loop(
             // XXX: use `ref` to avoid "use of partially moved value" error
             ProcessPathResult::FileValid(ref path, ref mimeguess, ref filetype) =>
             {
-                dpof!("map_pathid_results.push({:?})", path);
+                dpfo!("map_pathid_results.push({:?})", path);
                 map_pathid_path.insert(pathid_counter, path.clone());
                 map_pathid_filetype.insert(pathid_counter, *filetype);
                 map_pathid_mimeguess.insert(pathid_counter, *mimeguess);
@@ -1283,7 +1284,7 @@ fn processing_loop(
             }
             _ =>
             {
-                dpof!("paths_invalid_results.push({:?})", processpathresult);
+                dpfo!("paths_invalid_results.push({:?})", processpathresult);
                 map_pathid_results_invalid.insert(pathid_counter, processpathresult);
             },
         };
@@ -1365,7 +1366,7 @@ fn processing_loop(
             tz_offset,
         );
         let (chan_send_dt, chan_recv_dt): (ChanSendDatum, ChanRecvDatum) = crossbeam_channel::unbounded();
-        dpof!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
+        dpfo!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
         map_pathid_chanrecvdatum.insert(*pathid, chan_recv_dt);
         let basename_: FPath = basename(path);
         match thread::Builder::new().name(basename_.clone()).spawn(
@@ -1490,15 +1491,15 @@ fn processing_loop(
         disconnect.clear();
 
         if cfg!(debug_assertions) {
-            dpof!("map_pathid_datum.len() {}", map_pathid_datum.len());
+            dpfo!("map_pathid_datum.len() {}", map_pathid_datum.len());
             for (pathid, _datum) in map_pathid_datum.iter() {
                 let _path: &FPath = map_pathid_path.get(pathid).unwrap();
-                dpof!("map_pathid_datum: thread {} {} has data", _path, pathid);
+                dpfo!("map_pathid_datum: thread {} {} has data", _path, pathid);
             }
-            dpof!("map_pathid_chanrecvdatum.len() {}", map_pathid_chanrecvdatum.len());
+            dpfo!("map_pathid_chanrecvdatum.len() {}", map_pathid_chanrecvdatum.len());
             for (pathid, _chanrdatum) in map_pathid_chanrecvdatum.iter() {
                 let _path: &FPath = map_pathid_path.get(pathid).unwrap();
-                dpof!("map_pathid_chanrecvdatum: thread {} {} channel messages {}", _path, pathid, _chanrdatum.len());
+                dpfo!("map_pathid_chanrecvdatum: thread {} {} channel messages {}", _path, pathid, _chanrdatum.len());
             }
         }
 
@@ -1522,7 +1523,7 @@ fn processing_loop(
             match result {
                 // (SyslineP_Opt, SummaryOpt, IsSyslineLast, FileProcessingResultBlockZero)
                 Ok(chan_datum) => {
-                    dpof!("B crossbeam_channel::Found for PathId {:?};", pathid);
+                    dpfo!("B crossbeam_channel::Found for PathId {:?};", pathid);
                     match chan_datum.3 {
                         FileProcessingResultBlockZero::FileOk => {}
                         _ => {
@@ -1532,7 +1533,7 @@ fn processing_loop(
                     if let Some(summary) = chan_datum.1 {
                         assert!(chan_datum.0.is_none(), "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId {:?}", pathid);
                         summary_update(&pathid, summary, &mut map_pathid_summary);
-                        dpof!("B will disconnect channel {:?}", pathid);
+                        dpfo!("B will disconnect channel {:?}", pathid);
                         // receiving a `Summary` means that was the last data sent on the channel
                         disconnect.push(pathid);
                     } else {
@@ -1543,7 +1544,7 @@ fn processing_loop(
                     chan_recv_ok += 1;
                 }
                 Err(crossbeam_channel::RecvError) => {
-                    dpof!("B crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", pathid);
+                    dpfo!("B crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", pathid);
                     // this channel was closed by the sender, it should be disconnected
                     disconnect.push(pathid);
                     chan_recv_err += 1;
@@ -1696,19 +1697,19 @@ fn processing_loop(
 
             if let Some(summary) = chan_datum.1.clone() {
                 // Receiving a Summary implies the last data was sent on the channel
-                dpof!("A2 chan_datum has Summary, PathId: {:?}", pathid);
+                dpfo!("A2 chan_datum has Summary, PathId: {:?}", pathid);
                 assert!(chan_datum.0.is_none(), "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId: {:?}", pathid);
                 if cli_opt_summary {
                     summary_update(pathid, summary, &mut map_pathid_summary);
                 }
-                dpof!("A2 will disconnect channel {:?}", pathid);
+                dpfo!("A2 will disconnect channel {:?}", pathid);
                 disconnect.push(*pathid);
             } else {
                 // Is last sysline of the file?
                 let is_last: bool = chan_datum.2;
                 // Sysline of interest
                 let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
-                dpof!("A3 printing @[{}, {}] PathId: {:?}", syslinep.fileoffset_begin(), syslinep.fileoffset_end(), pathid);
+                dpfo!("A3 printing @[{}, {}] PathId: {:?}", syslinep.fileoffset_begin(), syslinep.fileoffset_end(), pathid);
                 // print the sysline!
                 let printer: &mut PrinterSysline = map_pathid_printer.get_mut(pathid).unwrap();
                 match printer.print_sysline(syslinep) {
@@ -1751,20 +1752,20 @@ fn processing_loop(
         }
         // remove channels (and keys) that are marked disconnected
         for pathid in disconnect.iter() {
-            dpof!("C map_pathid_chanrecvdatum.remove({:?});", pathid);
+            dpfo!("C map_pathid_chanrecvdatum.remove({:?});", pathid);
             map_pathid_chanrecvdatum.remove(pathid);
-            dpof!("C pathid_to_prependname.remove({:?});", pathid);
+            dpfo!("C pathid_to_prependname.remove({:?});", pathid);
             pathid_to_prependname.remove(pathid);
         }
         // are there any channels to receive from?
         if map_pathid_chanrecvdatum.is_empty() {
-            dpof!("D map_pathid_chanrecvdatum.is_empty(); no more channels to receive from!");
+            dpfo!("D map_pathid_chanrecvdatum.is_empty(); no more channels to receive from!");
             // all channels are closed, break from main processing loop
             break;
         }
-        dpof!("D map_pathid_chanrecvdatum: {:?}", map_pathid_chanrecvdatum);
-        dpof!("D map_pathid_datum: {:?}", map_pathid_datum);
-        dpof!("D set_pathid: {:?}", set_pathid);
+        dpfo!("D map_pathid_chanrecvdatum: {:?}", map_pathid_chanrecvdatum);
+        dpfo!("D map_pathid_datum: {:?}", map_pathid_datum);
+        dpfo!("D set_pathid: {:?}", set_pathid);
     } // end loop
 
     // quick count of `Summary` attached Errors
@@ -1813,25 +1814,25 @@ fn processing_loop(
         eprintln!("Channel Receive ok {}, err {}", chan_recv_ok, chan_recv_err);
     }
 
-    dpof!("E chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
+    dpfo!("E chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
 
     // TODO: Issue #5 return code confusion
     //       the rationale for returning `false` (and then the process return code 1)
     //       is clunky, and could use a little refactoring. Also needs a gituhub Issue
     let mut ret: bool = true;
     if chan_recv_err > 0 {
-        dpof!("F chan_recv_err {}; return false", chan_recv_err);
+        dpfo!("F chan_recv_err {}; return false", chan_recv_err);
         ret = false;
     }
     //if _fileprocessing_not_okay > 0 {
-    //    dpof!("F fileprocessing_not_okay {}; return false", _fileprocessing_not_okay);
+    //    dpfo!("F fileprocessing_not_okay {}; return false", _fileprocessing_not_okay);
     //    ret = false;
     //}
     if error_count > 0 {
-        dpof!("F error_count {}; return false", error_count);
+        dpfo!("F error_count {}; return false", error_count);
         ret = false;
     }
-    dpxf!("return {:?}", ret);
+    dpfx!("return {:?}", ret);
 
     ret
 }

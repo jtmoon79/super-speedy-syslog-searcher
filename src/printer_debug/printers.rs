@@ -14,8 +14,19 @@ use crate::printer::printers::{
 };
 
 #[cfg(test)]
-use crate::printer_debug::stack::{
-    stack_offset_set,
+extern crate si_trace_print;
+#[cfg(test)]
+use si_trace_print::stack::stack_offset_set;
+#[cfg(test)]
+use si_trace_print::{
+    dpo,
+    dpn,
+    dpx,
+    dpñ,
+    dpfo,
+    dpfn,
+    dpfx,
+    dpfñ,
 };
 
 #[cfg(any(debug_assertions,test))]
@@ -34,173 +45,6 @@ pub use termcolor::{
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// stack-indented debug print wrappers
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-/// return the current current function name full path as a `&'static str`
-/// e.g. `"s4lib::printer::printers::color_rand"`
-///
-/// Credit to <https://github.com/popzxc/stdext-rs/blob/2179f94475f925a2eacdc2f2408d7ab352d0052c/src/macros.rs#L44-L74>
-#[macro_export]
-macro_rules! function_name_full {
-    () => {{
-        const fn f() {}
-        fn type_name_of<T>(_: &T) -> &'static str {
-            std::any::type_name::<T>()
-        }
-        let name: &'static str = type_name_of(&f);
-        // slice off the trailing `"::f"`
-        &name[..name.len() - 3]
-    }};
-}
-// allow easier `use` statements
-pub use function_name_full;
-
-/// return the current the current function name as a `&'static str`
-/// e.g. `"color_rand"`
-#[macro_export]
-macro_rules! function_name {
-    () => {{
-        const fn f() {}
-        fn type_name_of<T>(_: &T) -> &'static str {
-            std::any::type_name::<T>()
-        }
-        let name: &'static str = type_name_of(&f);
-        // slice off the trailing `"::f"`
-        let name: &'static str = &name[..name.len() - 3];
-        const SPLIT: &str = "::";
-        const SPLIT_LEN: usize = SPLIT.len();
-        let rfind_: Option<usize> = name.rfind(SPLIT);
-        let len_: usize = name.len();
-        match rfind_ {
-            Some(index) => {
-                if index + SPLIT_LEN < len_ {
-                    &name[index+SPLIT_LEN..]
-                } else {  // this `else` should never happen... but if it does then do not panic
-                    &name[index..]
-                }
-            }
-            None => {
-                // fallback to full name
-                name
-            }
-        }
-    }};
-}
-// allow easier `use` statements
-pub use function_name;
-
-/// `d`ebug e`p`rintln! using stack offset indent `so()`
-#[macro_export]
-macro_rules! dpo {
-    (
-        $($args:tt)*
-    ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprint!("{}", $crate::printer_debug::stack::so());
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
-    }
-}
-pub use dpo;
-
-/// `d`ebug e`p`rintln! using stack offset indent `so()`
-#[macro_export]
-macro_rules! dpn {
-    (
-        $($args:tt)*
-    ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprint!("{}", $crate::printer_debug::stack::sn());
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
-    }
-}
-pub use dpn;
-
-/// `d`ebug e`p`rintln! using stack offset indent `so()`
-#[macro_export]
-macro_rules! dpx {
-    (
-        $($args:tt)*
-    ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprint!("{}", $crate::printer_debug::stack::sx());
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
-    }
-}
-pub use dpx;
-
-/// `d`ebug e`p`rintln! using stack offset indent `snx()`
-#[macro_export]
-macro_rules! dpnx {
-    (
-        $($args:tt)*
-    ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprint!("{}", $crate::printer_debug::stack::snx());
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
-    }
-}
-pub use dpnx;
-
-/// `d`ebug e`p`rintln! using stack offset indent `so()` and current function name
-#[macro_export]
-macro_rules! dpof {
-    (
-        $($args:tt)*
-    ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprint!("{}{}: ", $crate::printer_debug::stack::so(), $crate::function_name!());
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
-    }
-}
-pub use dpof;
-
-/// `d`ebug e`p`rintln! using stack offset indent `sn()` and current function name
-#[macro_export]
-macro_rules! dpnf {
-    (
-        $($args:tt)*
-    ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprint!("{}{}: ", $crate::printer_debug::stack::sn(), $crate::function_name!());
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
-    }
-}
-pub use dpnf;
-
-/// `d`ebug e`p`rintln! using stack offset indent `sx()` and current function name
-#[macro_export]
-macro_rules! dpxf {
-    (
-        $($args:tt)*
-    ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprint!("{}{}: ", $crate::printer_debug::stack::sx(), $crate::function_name!());
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
-    }
-}
-pub use dpxf;
-
-/// `d`ebug `e`println! only in debug builds, using stack offset indent `sx()` and current function name
-#[macro_export]
-macro_rules! dpnxf {
-    (
-        $($args:tt)*
-    ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprint!("{}{}: ", $crate::printer_debug::stack::snx(), $crate::function_name!());
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
-    }
-}
-pub use dpnxf;
 
 /// `d`ebug e`p`rintln! an `err`or
 #[macro_export]
@@ -265,17 +109,6 @@ macro_rules! p_wrn {
     }
 }
 pub use p_wrn;
-
-/// e`p`rintln!
-#[macro_export]
-macro_rules! p {
-    (
-        $($args:tt)*
-    ) => {
-        eprintln!($($args)*)
-    }
-}
-pub use p;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // helper functions - various print and write
@@ -486,36 +319,36 @@ fn test_dpo() {
 }
 
 #[test]
-fn test_dpof() {
+fn test_dpfo() {
     stack_offset_set(Some(2));
-    dpof!("this printed line should be indented and preceded with function name 'test_dpof', with arg {:?}", "arg1");
-    dpof!();
+    dpfo!("this printed line should be indented and preceded with function name 'test_dpfo', with arg {:?}", "arg1");
+    dpfo!();
 }
 
 #[test]
-fn test_dpnx() {
+fn test_dpñ() {
     stack_offset_set(Some(2));
-    dpnx!("this printed line should be indented and preceded with function name 'test_dpnxf', with arg {:?}", "arg1");
-    dpnx!();
+    dpñ!("this printed line should be indented and preceded with function name 'test_dpfñ', with arg {:?}", "arg1");
+    dpñ!();
 }
 
 #[test]
-fn test_dpnf() {
+fn test_dpfn() {
     stack_offset_set(Some(2));
-    dpnf!("this printed line should be indented and preceded with function name 'test_dpnf', with arg {:?}", "arg1");
-    dpnf!();
+    dpfn!("this printed line should be indented and preceded with function name 'test_dpfn', with arg {:?}", "arg1");
+    dpfn!();
 }
 
 #[test]
-fn test_dpxf() {
+fn test_dpfx() {
     stack_offset_set(Some(2));
-    dpxf!("this printed line should be indented and preceded with function name 'test_dpxf', with arg {:?}", "arg1");
-    dpxf!();
+    dpfx!("this printed line should be indented and preceded with function name 'test_dpfx', with arg {:?}", "arg1");
+    dpfx!();
 }
 
 #[test]
-fn test_dpnxf() {
+fn test_dpfñ() {
     stack_offset_set(Some(2));
-    dpnxf!("this printed line should be indented and preceded with function name 'test_dpnxf', with arg {:?}", "arg1");
-    dpnxf!();
+    dpfñ!("this printed line should be indented and preceded with function name 'test_dpfñ', with arg {:?}", "arg1");
+    dpfñ!();
 }

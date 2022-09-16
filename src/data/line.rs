@@ -31,22 +31,19 @@ use crate::readers::blockreader::{
 use crate::printer_debug::printers::{
     buffer_to_String_noraw,
     char_to_char_noraw,
+    p_err,
 };
 
 #[allow(unused_imports)]
-use crate::printer_debug::printers::{
+use si_trace_print::{
     dpo,
     dpn,
     dpx,
-    dpnx,
-    dpof,
-    dpnf,
-    dpxf,
-    dpnxf,
-    dp_err,
-    dp_wrn,
-    p_err,
-    p_wrn,
+    dpñ,
+    dpfo,
+    dpfn,
+    dpfx,
+    dpfñ,
 };
 
 #[cfg(any(debug_assertions,test))]
@@ -174,7 +171,7 @@ impl LinePart {
         blockoffset: BlockOffset,
         blocksz: BlockSz,
     ) -> LinePart {
-        dpnf!(
+        dpfn!(
             "LinePart(blocki_beg {}, blocki_end {}, Block @{:p}, fileoffset {}, blockoffset {}, blocksz {}) (blockp.len() {})",
             blocki_beg,
             blocki_end,
@@ -638,11 +635,11 @@ impl Line {
     /// [`Box`]: std::boxed
     /// [`Vec`]: std::vec::Vec
     pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> LinePartPtrs<'_> {
-        dpnf!("(…, {}, {}), lineparts {} line.len() {} {:?}", a, b, self.lineparts.len(), self.len(), self.to_String_noraw());
+        dpfn!("(…, {}, {}), lineparts {} line.len() {} {:?}", a, b, self.lineparts.len(), self.len(), self.to_String_noraw());
         debug_assert_le!(a, b, "passed bad LineIndex pair");
         // simple case: `a, b` are past end of `Line`
         if self.len() <= a {
-            dpxf!("return NoPtr");
+            dpfx!("return NoPtr");
             return LinePartPtrs::NoPtr;
         }
         // ideal case: `a, b` are within one `linepart`
@@ -657,7 +654,7 @@ impl Line {
             dpo!("next: a {}, b {}, len_ {}", a1, b1, len_);
             if a1 < len_ && b1 <= len_ && !a_found {
                 // ideal case, very efficient
-                dpxf!("return SinglePtr({}, {})", a1, b1);
+                dpfx!("return SinglePtr({}, {})", a1, b1);
                 return LinePartPtrs::SinglePtr(linepart.block_boxptr_ab(&a1, &b1));
             } else if a1 < len_ && len_ < b1 && !a_found {
                 a_found = true;
@@ -666,7 +663,7 @@ impl Line {
                 dpo!("a_found: bptr_a = block_boxptr_a({})", a1);
             } else if b1 <= len_ && a_found {
                 // harder case, pretty efficient
-                dpxf!("return DoublePtr({}, {})", a1, b1);
+                dpfx!("return DoublePtr({}, {})", a1, b1);
                 return LinePartPtrs::DoublePtr(bptr_a.unwrap(), linepart.block_boxptr_b(&b1));
             } else if len_ < b1 && a_found {
                 dpo!("break: a {} < {} && {} < {} b && a_found", a1, len_, len_, b1);
@@ -683,7 +680,7 @@ impl Line {
         }
         // handle special case where `b` is beyond last `lineparts` but `a` data is within last `linepart`
         if bptr_a.is_some() {
-            dpxf!("special case: return SinglePtr({})", a1);
+            dpfx!("special case: return SinglePtr({})", a1);
             return LinePartPtrs::SinglePtr(bptr_a.unwrap());
         }
 
@@ -704,7 +701,7 @@ impl Line {
                     dpo!("ptrs.push(linepart.block_boxptr_ab({}, {})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", a, b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
                     ptrs.push(linepart.block_boxptr_ab(&a, &b));  // store [a..b]  (entire slice, entire `Line`)
                     debug_assert_gt!(ptrs.len(), 1, "ptrs is {} elements, expected >= 1; this should have been handled earlier", ptrs.len());
-                    dpxf!("return MultiPtr {} ptrs", ptrs.len());
+                    dpfx!("return MultiPtr {} ptrs", ptrs.len());
                     return LinePartPtrs::MultiPtr(ptrs);
                 }
                 dpo!("ptrs.push(linepart.block_boxptr_a({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", a, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
