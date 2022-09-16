@@ -110,7 +110,7 @@ DateTimes supported language is English.
 - Tested against "in the wild" log files from varying Linux distributions
   (see `./logs/`)
 - Comparable speed as GNU `grep` and `sort`
-  (see `./tools/compare-grep-sort1.sh`)
+  (see `./tools/compare-grep-sort.sh`)
 - Handles invalid UTF-8 (prints whatever is found)
 
 ### Limitations
