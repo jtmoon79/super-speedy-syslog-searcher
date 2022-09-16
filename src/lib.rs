@@ -14,7 +14,7 @@ pub mod common;
 pub mod data;
 
 #[doc(hidden)]
-pub mod printer_debug;
+pub mod debug;
 
 pub mod printer;
 

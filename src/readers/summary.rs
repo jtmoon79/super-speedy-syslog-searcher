@@ -13,7 +13,7 @@ use crate::readers::blockreader::{BlockSz, BLOCKSZ_MAX, BLOCKSZ_MIN};
 use crate::readers::syslinereader::DateTimePatternCounts;
 
 #[allow(unused_imports)]
-use crate::printer_debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
+use crate::debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
 
 extern crate more_asserts;
 use more_asserts::{debug_assert_ge, debug_assert_le};

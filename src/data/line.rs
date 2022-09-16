@@ -13,7 +13,7 @@ pub use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, NLu8, ResultS3}
 use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockReader, BlockSz, Slices};
 
 #[cfg(any(debug_assertions, test))]
-use crate::printer_debug::printers::{buffer_to_String_noraw, char_to_char_noraw, p_err};
+use crate::debug::printers::{buffer_to_String_noraw, char_to_char_noraw, p_err};
 
 #[allow(unused_imports)]
 use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ};

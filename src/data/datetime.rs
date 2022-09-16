@@ -34,7 +34,7 @@
 #![allow(non_upper_case_globals)]
 
 #[cfg(any(debug_assertions, test))]
-use crate::printer_debug::printers::{buffer_to_String_noraw, str_to_String_noraw};
+use crate::debug::printers::{buffer_to_String_noraw, str_to_String_noraw};
 
 #[doc(hidden)]
 pub use crate::data::line::{LineIndex, Range_LineIndex};

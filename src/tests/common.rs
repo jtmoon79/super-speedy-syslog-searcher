@@ -10,11 +10,11 @@ use crate::readers::helpers::{fpath_to_path, path_to_fpath};
 
 use crate::readers::blockreader::SUBPATH_SEP;
 
-use crate::printer_debug::helpers::{
+use crate::debug::helpers::{
     create_temp_file_bytes_with_suffix, create_temp_file_with_suffix, ntf_fpath, NamedTempFile,
 };
 
-use crate::printer_debug::printers::str_to_String_noraw;
+use crate::debug::printers::str_to_String_noraw;
 
 extern crate lazy_static;
 use lazy_static::lazy_static;

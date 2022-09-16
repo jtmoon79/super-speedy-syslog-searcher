@@ -17,7 +17,7 @@ use crate::data::datetime::{DateTimeLOpt, Duration};
 use crate::data::line::{Line, LineIndex, LineP, LinePart, Lines};
 
 #[allow(unused_imports)]
-use crate::printer_debug::printers::{dp_err, dp_wrn, p_wrn};
+use crate::debug::printers::{dp_err, dp_wrn, p_wrn};
 
 use std::fmt;
 use std::sync::Arc;

@@ -72,7 +72,7 @@ use s4lib::data::datetime::{
 };
 
 #[allow(unused_imports)]
-use s4lib::printer_debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
+use s4lib::debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
 
 use s4lib::printer::printers::{
     color_rand,

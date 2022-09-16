@@ -17,9 +17,9 @@ use crate::data::line::{LineIndex, LineP, LinePartPtrs};
 
 use crate::readers::linereader::{LineReader, ResultS3LineFind};
 
-use crate::printer_debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
+use crate::debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
 
-use crate::printer_debug::printers::{buffer_to_String_noraw, byte_to_char_noraw, str_to_String_noraw};
+use crate::debug::printers::{buffer_to_String_noraw, byte_to_char_noraw, str_to_String_noraw};
 
 extern crate lazy_static;
 use lazy_static::lazy_static;

@@ -7,7 +7,7 @@
 
 use crate::common::{FPath, FileOffset};
 
-use crate::printer_debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
+use crate::debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
 
 use crate::readers::blockreader::BlockSz;
 

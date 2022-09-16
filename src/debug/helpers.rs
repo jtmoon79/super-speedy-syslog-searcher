@@ -1,4 +1,4 @@
-// src/printer_debug/helpers.rs
+// src/debug/helpers.rs
 
 //! Miscellaneous helper functions for debug printing and testing.
 

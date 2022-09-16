@@ -32,9 +32,9 @@ use crate::tests::datetime_tests::dt_pattern_has_tz;
 
 use crate::tests::common::eprint_file;
 
-use crate::printer_debug::helpers::{create_temp_file, create_temp_file_bytes, ntf_fpath, NamedTempFile};
+use crate::debug::helpers::{create_temp_file, create_temp_file_bytes, ntf_fpath, NamedTempFile};
 
-use crate::printer_debug::printers::str_to_String_noraw;
+use crate::debug::printers::str_to_String_noraw;
 
 #[allow(unused_imports)]
 use crate::tests::common::{

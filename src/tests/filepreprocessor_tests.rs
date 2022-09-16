@@ -25,7 +25,7 @@ use crate::readers::filepreprocessor::{
     ProcessPathResult,
 };
 
-use crate::printer_debug::helpers::{ntf_fpath, NamedTempFile};
+use crate::debug::helpers::{ntf_fpath, NamedTempFile};
 
 extern crate lazy_static;
 use lazy_static::lazy_static;

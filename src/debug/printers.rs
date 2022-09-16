@@ -1,4 +1,4 @@
-// src/printer_debug/printers.rs
+// src/debug/printers.rs
 //
 // A hodge-podge of printer functions and helpers for test and debug builds.
 //
@@ -8,12 +8,7 @@ use crate::common::{FPath, FileOpenOptions};
 
 use crate::printer::printers::write_stdout;
 
-#[cfg(test)]
 extern crate si_trace_print;
-#[cfg(test)]
-use si_trace_print::stack::stack_offset_set;
-#[cfg(test)]
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpo, dpñ};
 
 #[cfg(any(debug_assertions, test))]
 use std::io::Write; // for `std::io::Stdout.flush`
@@ -36,22 +31,10 @@ macro_rules! dp_err {
         #[cfg(any(debug_assertions,test))]
         eprint!("ERROR: ");
         #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
+        si_trace_print::dp!($($args)*)
     }
 }
 pub use dp_err;
-
-/// `d`ebug e`p`rintln!
-#[macro_export]
-macro_rules! dp {
-    (
-        $($args:tt)*
-    ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
-    }
-}
-pub use dp;
 
 /// `d`ebug e`p`rintln! an `warn`ing
 #[macro_export]
@@ -62,7 +45,7 @@ macro_rules! dp_wrn {
         #[cfg(any(debug_assertions,test))]
         eprint!("WARNING: ");
         #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
+        si_trace_print::dp!($($args)*)
     }
 }
 pub use dp_wrn;
@@ -74,7 +57,7 @@ macro_rules! p_err {
         $($args:tt)*
     ) => {
         eprint!("ERROR: ");
-        eprintln!($($args)*)
+        si_trace_print::p!($($args)*)
     }
 }
 pub use p_err;
@@ -86,7 +69,7 @@ macro_rules! p_wrn {
         $($args:tt)*
     ) => {
         eprint!("WARNING: ");
-        eprintln!($($args)*)
+        si_trace_print::p!($($args)*)
     }
 }
 pub use p_wrn;
@@ -298,63 +281,4 @@ pub fn pretty_print(
             eprintln!("ERROR: pretty_print: stdout flushing error {}", err);
         }
     }
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-#[test]
-fn test_dpo() {
-    stack_offset_set(Some(2));
-    dpo!("this printed line should be indented, with arg {:?}", "arg1");
-    dpo!();
-}
-
-#[test]
-fn test_dpfo() {
-    stack_offset_set(Some(2));
-    dpfo!(
-        "this printed line should be indented and preceded with function name 'test_dpfo', with arg {:?}",
-        "arg1"
-    );
-    dpfo!();
-}
-
-#[test]
-fn test_dpñ() {
-    stack_offset_set(Some(2));
-    dpñ!(
-        "this printed line should be indented and preceded with function name 'test_dpfñ', with arg {:?}",
-        "arg1"
-    );
-    dpñ!();
-}
-
-#[test]
-fn test_dpfn() {
-    stack_offset_set(Some(2));
-    dpfn!(
-        "this printed line should be indented and preceded with function name 'test_dpfn', with arg {:?}",
-        "arg1"
-    );
-    dpfn!();
-}
-
-#[test]
-fn test_dpfx() {
-    stack_offset_set(Some(2));
-    dpfx!(
-        "this printed line should be indented and preceded with function name 'test_dpfx', with arg {:?}",
-        "arg1"
-    );
-    dpfx!();
-}
-
-#[test]
-fn test_dpfñ() {
-    stack_offset_set(Some(2));
-    dpfñ!(
-        "this printed line should be indented and preceded with function name 'test_dpfñ', with arg {:?}",
-        "arg1"
-    );
-    dpfñ!();
 }

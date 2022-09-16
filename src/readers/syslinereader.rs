@@ -25,7 +25,7 @@ use crate::data::line::{Line, LineIndex, LineP, LinePartPtrs};
 use crate::readers::linereader::{LineReader, ResultS3LineFind};
 
 #[allow(unused_imports)]
-use crate::printer_debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
+use crate::debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
 
 use std::collections::{BTreeMap, BTreeSet, HashSet};
 use std::fmt;

@@ -15,7 +15,7 @@ use crate::data::datetime::SystemTime;
 use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockReader, BlockSz, ResultS3ReadBlock};
 
 #[cfg(any(debug_assertions, test))]
-use crate::printer_debug::printers::byte_to_char_noraw;
+use crate::debug::printers::byte_to_char_noraw;
 
 use std::collections::{BTreeMap, HashSet};
 use std::fmt;
