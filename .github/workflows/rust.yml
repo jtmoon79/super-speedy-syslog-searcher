@@ -16,6 +16,7 @@ env:
                  ./logs/other/tests/dtf3-2a.log
                  ./logs/other/tests/dtf5-6a.log.gz
                  ./logs/other/tests/gen-20-1-faces.log
+                 ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
 jobs:
   job_build_debug_release_test:
     name: build debug and release, then test
