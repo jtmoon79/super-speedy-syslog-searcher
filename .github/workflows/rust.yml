@@ -19,6 +19,7 @@ env:
                  ./logs/other/tests/gen-20-1-faces.log
 jobs:
   job_build_debug_release_test:
+    name: build debug and release, then test
     runs-on: ubuntu-latest
     steps:
       # build & upload debug
@@ -60,6 +61,7 @@ jobs:
       - name: Build documentation
         run: cargo doc --locked --release --frozen --no-deps -v
   job_runs:
+    name: run s4
     needs: job_build_debug_release_test
     runs-on: ubuntu-latest
     steps:
