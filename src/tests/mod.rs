@@ -10,8 +10,8 @@
 //! testing, in practice that often makes tests difficult or impossible to
 //! implement.
 
-pub mod common;
 pub mod blockreader_tests;
+pub mod common;
 pub mod datetime_tests;
 pub mod filepreprocessor_tests;
 pub mod line_tests;

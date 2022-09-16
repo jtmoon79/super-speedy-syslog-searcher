@@ -5,23 +5,11 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::{
-    FileOffset,
-};
+use crate::common::FileOffset;
 
-use crate::data::line::{
-    Line,
-    LinePart,
-    LinePartPtrs,
-};
+use crate::data::line::{Line, LinePart, LinePartPtrs};
 
-use crate::readers::blockreader::{
-    Block,
-    BlockIndex,
-    BlockP,
-    BlockOffset,
-    BlockSz,
-};
+use crate::readers::blockreader::{Block, BlockIndex, BlockOffset, BlockP, BlockSz};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // helper functions
@@ -42,13 +30,15 @@ fn blockp_new(sz: usize) -> BlockP {
 }
 
 fn linepart_new(
-    beg: BlockIndex, end: BlockIndex, fo: FileOffset, bo: BlockOffset, bsz: BlockSz
+    beg: BlockIndex,
+    end: BlockIndex,
+    fo: FileOffset,
+    bo: BlockOffset,
+    bsz: BlockSz,
 ) -> LinePart {
     let blockp = blockp_new(bsz as usize);
 
-    LinePart::new(
-        blockp, beg, end, fo, bo, bsz
-    )
+    LinePart::new(blockp, beg, end, fo, bo, bsz)
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -194,10 +184,10 @@ fn test_linepart_block_boxptr_ab_3_2_panic() {
 /// create line `"bc"`
 fn new_line_1_3() -> Line {
     let mut line: Line = Line::new();
-    let blockp: BlockP = block_new(&['a' as u8, 'b' as u8, 'c' as u8, 'd' as u8]);
-    let linepart: LinePart = LinePart::new(
-        blockp, 1, 3, 1, 0, 4
-    );
+    let blockp: BlockP = block_new(&[
+        'a' as u8, 'b' as u8, 'c' as u8, 'd' as u8,
+    ]);
+    let linepart: LinePart = LinePart::new(blockp, 1, 3, 1, 0, 4);
     line.append(linepart);
 
     line
@@ -207,16 +197,16 @@ fn new_line_1_3() -> Line {
 fn new_line_2_6() -> Line {
     let mut line: Line = Line::new();
     // second half of first block
-    let blockp: BlockP = block_new(&['a' as u8, 'b' as u8, 'c' as u8, 'd' as u8]);
-    let linepart: LinePart = LinePart::new(
-        blockp, 2, 4, 6, 1, 4
-    );
+    let blockp: BlockP = block_new(&[
+        'a' as u8, 'b' as u8, 'c' as u8, 'd' as u8,
+    ]);
+    let linepart: LinePart = LinePart::new(blockp, 2, 4, 6, 1, 4);
     line.append(linepart);
     // first half of second block
-    let blockp: BlockP = block_new(&['e' as u8, 'f' as u8, 'g' as u8, 'h' as u8]);
-    let linepart: LinePart = LinePart::new(
-        blockp, 0, 2, 8, 2, 4
-    );
+    let blockp: BlockP = block_new(&[
+        'e' as u8, 'f' as u8, 'g' as u8, 'h' as u8,
+    ]);
+    let linepart: LinePart = LinePart::new(blockp, 0, 2, 8, 2, 4);
     line.append(linepart);
 
     line
@@ -350,7 +340,6 @@ fn test_line_get_boxptrs_2_6_single_3_99() {
     assert_eq!((*bptr).len(), 1);
 }
 
-
 #[test]
 fn test_line_get_boxptrs_2_6_single_0_1() {
     let line = new_line_2_6();
@@ -394,4 +383,3 @@ fn test_line_get_boxptrs_2_6_double_0_3() {
     assert_eq!((*bptr1).len(), 2);
     assert_eq!((*bptr2).len(), 1);
 }
-

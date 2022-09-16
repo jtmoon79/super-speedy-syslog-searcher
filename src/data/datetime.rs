@@ -33,22 +33,13 @@
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
 
-#[cfg(any(debug_assertions,test))]
-use crate::printer_debug::printers::{
-    buffer_to_String_noraw,
-    str_to_String_noraw,
-};
+#[cfg(any(debug_assertions, test))]
+use crate::printer_debug::printers::{buffer_to_String_noraw, str_to_String_noraw};
 
 #[doc(hidden)]
-pub use crate::data::line::{
-    LineIndex,
-    Range_LineIndex,
-};
+pub use crate::data::line::{LineIndex, Range_LineIndex};
 
-use std::collections::{
-    BTreeMap,
-    HashMap,
-};
+use std::collections::{BTreeMap, HashMap};
 
 use std::fmt;
 
@@ -63,7 +54,7 @@ extern crate chrono;
 pub use chrono::{
     Date,
     DateTime,
-    Datelike,  // adds method `.year()` onto `DateTime`
+    Datelike, // adds method `.year()` onto `DateTime`
     Duration,
     FixedOffset,
     Local,
@@ -85,28 +76,14 @@ extern crate lazy_static;
 use lazy_static::lazy_static;
 
 extern crate more_asserts;
-use more_asserts::{
-    assert_le,
-    debug_assert_ge,
-    debug_assert_le,
-    debug_assert_lt,
-};
+use more_asserts::{assert_le, debug_assert_ge, debug_assert_le, debug_assert_lt};
 
 extern crate regex;
 use regex::bytes::Regex;
 
 extern crate si_trace_print;
 #[allow(unused_imports)]
-use si_trace_print::{
-    dpo,
-    dpn,
-    dpx,
-    dpñ,
-    dpfo,
-    dpfn,
-    dpfx,
-    dpfñ,
-};
+use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ};
 
 extern crate unroll;
 use unroll::unroll_for_loops;
@@ -126,7 +103,7 @@ pub type Year = i32;
 ///
 /// [`strftime`]: https://docs.rs/chrono/0.4.21/chrono/format/strftime/index.html
 /// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.21/chrono/struct.DateTime.html#method.parse_from_str
-/// [`captures_to_buffer_bytes`]: 
+/// [`captures_to_buffer_bytes`]:
 pub type DateTimePattern_str = str;
 
 /// Regular expression formatting pattern, passed to [`regex::bytes::Regex`].
@@ -365,7 +342,7 @@ pub struct DateTimeParseInstr<'a> {
     /// Capture named group last (right-most) position in `regex_pattern`.
     pub cgn_last: &'a CaptureGroupName,
     /// Hardcoded self-test cases.
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     pub _test_cases: &'a [(LineIndex, LineIndex, &'a str)],
     /// Source code line number of declaration, to aid debugging.
     pub _line_num: u32,
@@ -387,14 +364,17 @@ macro_rules! DTPD {
         DateTimeParseInstr {
             regex_pattern: $dtr,
             dtfs: $dtfs,
-            range_regex: Range_LineIndex { start: $sib, end: $sie },
+            range_regex: Range_LineIndex {
+                start: $sib,
+                end: $sie,
+            },
             cgn_first: $cgn_first,
             cgn_last: $cgn_last,
-            #[cfg(any(debug_assertions,test))]
+            #[cfg(any(debug_assertions, test))]
             _test_cases: $test_cases,
             _line_num: $line_num,
         }
-    }
+    };
 }
 // Allow easy macro import via `use s4lib::data::datetime::DTPD;`
 pub use DTPD;
@@ -404,40 +384,47 @@ pub use DTPD;
 ///
 /// Only used for tests.
 impl Ord for DateTimeParseInstr<'_> {
-    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        (
-            self.regex_pattern,
-            &self.dtfs,
-        ).cmp(
-            &(
-                other.regex_pattern,
-                &other.dtfs,
-            )
-        )
+    fn cmp(
+        &self,
+        other: &Self,
+    ) -> std::cmp::Ordering {
+        (self.regex_pattern, &self.dtfs).cmp(&(other.regex_pattern, &other.dtfs))
     }
 }
 
 impl PartialOrd for DateTimeParseInstr<'_> {
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+    fn partial_cmp(
+        &self,
+        other: &Self,
+    ) -> Option<std::cmp::Ordering> {
         Some(self.cmp(other))
     }
 }
 
 impl PartialEq for DateTimeParseInstr<'_> {
-    fn eq(&self, other: &Self) -> bool {
-        self.regex_pattern == other.regex_pattern
-        && self.dtfs == other.dtfs
+    fn eq(
+        &self,
+        other: &Self,
+    ) -> bool {
+        self.regex_pattern == other.regex_pattern && self.dtfs == other.dtfs
     }
 }
 
 impl Eq for DateTimeParseInstr<'_> {}
 
 impl fmt::Debug for DateTimeParseInstr<'_> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter,
+    ) -> fmt::Result {
         // regexp strings can be very long, truncate it
         const MAXLEN: usize = 20;
         let mut rp: String = String::with_capacity(MAXLEN + 5);
-        rp.extend(self.regex_pattern.chars().take(MAXLEN));
+        rp.extend(
+            self.regex_pattern
+                .chars()
+                .take(MAXLEN),
+        );
         if self.regex_pattern.len() > MAXLEN {
             rp.push('…');
         }
@@ -452,7 +439,6 @@ impl fmt::Debug for DateTimeParseInstr<'_> {
 
         f_.finish()
     }
-
 }
 
 // `strftime` patterns used in `DTPD!` declarations
@@ -765,7 +751,7 @@ const DTFSS_BeHMSYzp: DTFSSet = DTFSSet {
 //     grep -Fe ' DTP_' ./src/data/datetime.rs  | grep const | grep -oEe 'DTP_[[:alnum:]]+' | sed 's/$/,/'
 //
 #[doc(hidden)]
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 #[allow(dead_code)]
 pub(crate) const DTP_ALL: &[&DateTimePattern_str] = &[
     DTP_YmdHMSzc,
@@ -822,7 +808,7 @@ const CGN_TZ: &CaptureGroupName = "tz";
 
 /// all capture group names, for testing
 #[doc(hidden)]
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 #[allow(dead_code)]
 pub(crate) const CGN_ALL: [&CaptureGroupName; 9] = [
     CGN_YEAR,
@@ -854,13 +840,16 @@ pub const CGP_MONTHB: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY
 /// Regex capture group pattern for `strftime` month specifier `%B` and `%b`.
 pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY|jan|Jan|JAN|february|February|FEBRUARY|feb|Feb|FEB|march|March|MARCH|mar|Mar|MAR|april|April|APRIL|apr|Apr|APR|may|May|MAY|june|June|JUNE|jun|Jun|JUN|july|July|JULY|jul|Jul|JUL|august|August|AUGUST|aug|Aug|AUG|september|September|SEPTEMBER|sep|Sep|SEP|october|October|OCTOBER|oct|Oct|OCT|november|November|NOVEMBER|nov|Nov|NOV|december|December|DECEMBER|dec|Dec|DEC)";
 /// Regex capture group pattern for `strftime` day specifier `%d`.
-pub const CGP_DAYd: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
+pub const CGP_DAYd: &CaptureGroupPattern =
+    r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
 /// Regex capture group pattern for `strftime` day specifier `%e`.
-pub const CGP_DAYe: &CaptureGroupPattern = r"(?P<day>1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
+pub const CGP_DAYe: &CaptureGroupPattern =
+    r"(?P<day>1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
 /// Regex capture group pattern for `strftime` day specifier `%a`.
 pub const CGP_DAYa: &RegexPattern = r"(?P<dayIgnore>monday|Monday|MONDAY|mon|Mon|MON|tuesday|Tuesday|TUESDAY|tue|Tue|TUE|wednesday|Wednesday|WEDNESDAY|wed|Wed|WED|thursday|Thursday|THURSDAY|thu|Thu|THU|friday|Friday|FRIDAY|fri|Fri|FRI|saturday|Saturday|SATURDAY|sat|Sat|SAT|sunday|Sunday|SUNDAY|sun|Sun|SUN)";
 /// Regex capture group pattern for `strftime` hour specifier `%H`.
-pub const CGP_HOUR: &CaptureGroupPattern = r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
+pub const CGP_HOUR: &CaptureGroupPattern =
+    r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
 /// Regex capture group pattern for `strftime` hour specifier `%h`.
 pub const CGP_HOURh: &CaptureGroupPattern = r"(?P<hour>|1|2|3|4|5|6|7|8|9|10|11|12)";
 /// Regex capture group pattern for `strftime` minute specifier `%M`.
@@ -876,7 +865,7 @@ pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{3,9})";
 
 /// for help in testing only
 #[doc(hidden)]
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 #[allow(dead_code)]
 pub(crate) const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
     CGP_MONTHm,
@@ -887,12 +876,9 @@ pub(crate) const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
 
 /// for help in testing only
 #[doc(hidden)]
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 #[allow(dead_code)]
-pub(crate) const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
-    CGP_DAYd,
-    CGP_DAYe,
-];
+pub(crate) const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[CGP_DAYd, CGP_DAYe];
 
 /// `strftime` specifier `%z` e.g. `"+0930"`
 const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d{3})";
@@ -908,379 +894,37 @@ acdt|acst|act|adt|aedt|aest|aet|aft|akdt|akst|almt|amst|amt|anat|aqtt|art|ast|aw
 )";
 
 const TZZ_LIST_UPPER: &[&str] = &[
-    "ACDT",
-    "ACST",
-    "ACT",
-    "ADT",
-    "AEDT",
-    "AEST",
-    "AET",
-    "AFT",
-    "AKDT",
-    "AKST",
-    "ALMT",
-    "AMST",
-    "AMT",
-    "ANAT",
-    "AQTT",
-    "ART",
-    "AST",
-    "AWST",
-    "AZOT",
-    "AZT",
-    "BIOT",
-    "BIT",
-    "BNT",
-    "BOT",
-    "BRST",
-    "BRT",
-    "BST",
-    "BTT",
-    "CAT",
-    "CCT",
-    "CDT",
-    "CEST",
-    "CET",
-    "CHOT",
-    "CHST",
-    "CHUT",
-    "CIST",
-    "CKT",
-    "CLST",
-    "CLT",
-    "COST",
-    "COT",
-    "CST",
-    "CT",
-    "CVT",
-    "CWST",
-    "CXT",
-    "DAVT",
-    "DDUT",
-    "DFT",
-    "EAST",
-    "EAT",
-    "ECT",
-    "EDT",
-    "EEST",
-    "EET",
-    "EGST",
-    "EGT",
-    "EST",
-    "ET",
-    "FET",
-    "FJT",
-    "FKST",
-    "FKT",
-    "FNT",
-    "GALT",
-    "GAMT",
-    "GET",
-    "GFT",
-    "GILT",
-    "GIT",
-    "GMT",
-    "GST",
-    "GYT",
-    "HAEC",
-    "HDT",
-    "HKT",
-    "HMT",
-    "HOVT",
-    "HST",
-    "ICT",
-    "IDLW",
-    "IDT",
-    "IOT",
-    "IRDT",
-    "IRKT",
-    "IRST",
-    "IST",
-    "JST",
-    "KALT",
-    "KGT",
-    "KOST",
-    "KRAT",
-    "KST",
-    "LHST",
-    "LINT",
-    "MAGT",
-    "MART",
-    "MAWT",
-    "MDT",
-    "MEST",
-    "MET",
-    "MHT",
-    "MIST",
-    "MIT",
-    "MMT",
-    "MSK",
-    "MST",
-    "MUT",
-    "MVT",
-    "MYT",
-    "NCT",
-    "NDT",
-    "NFT",
-    "NOVT",
-    "NPT",
-    "NST",
-    "NT",
-    "NUT",
-    "NZDT",
-    "NZST",
-    "OMST",
-    "ORAT",
-    "PDT",
-    "PET",
-    "PETT",
-    "PGT",
-    "PHOT",
-    "PHST",
-    "PHT",
-    "PKT",
-    "PMDT",
-    "PMST",
-    "PONT",
-    "PST",
-    "PWT",
-    "PYST",
-    "PYT",
-    "RET",
-    "ROTT",
-    "SAKT",
-    "SAMT",
-    "SAST",
-    "SBT",
-    "SCT",
-    "SDT",
-    "SGT",
-    "SLST",
-    "SRET",
-    "SRT",
-    "SST",
-    "SYOT",
-    "TAHT",
-    "TFT",
-    "THA",
-    "TJT",
-    "TKT",
-    "TLT",
-    "TMT",
-    "TOT",
-    "TRT",
-    "TVT",
-    "ULAT",
-    "UTC",
-    "UYST",
-    "UYT",
-    "UZT",
-    "VET",
-    "VLAT",
-    "VOLT",
-    "VOST",
-    "VUT",
-    "WAKT",
-    "WAST",
-    "WAT",
-    "WEST",
-    "WET",
-    "WGST",
-    "WGT",
-    "WIB",
-    "WIT",
-    "WITA",
-    "WST",
-    "YAKT",
-    "YEKT",
+    "ACDT", "ACST", "ACT", "ADT", "AEDT", "AEST", "AET", "AFT", "AKDT", "AKST", "ALMT", "AMST", "AMT",
+    "ANAT", "AQTT", "ART", "AST", "AWST", "AZOT", "AZT", "BIOT", "BIT", "BNT", "BOT", "BRST", "BRT", "BST",
+    "BTT", "CAT", "CCT", "CDT", "CEST", "CET", "CHOT", "CHST", "CHUT", "CIST", "CKT", "CLST", "CLT", "COST",
+    "COT", "CST", "CT", "CVT", "CWST", "CXT", "DAVT", "DDUT", "DFT", "EAST", "EAT", "ECT", "EDT", "EEST",
+    "EET", "EGST", "EGT", "EST", "ET", "FET", "FJT", "FKST", "FKT", "FNT", "GALT", "GAMT", "GET", "GFT",
+    "GILT", "GIT", "GMT", "GST", "GYT", "HAEC", "HDT", "HKT", "HMT", "HOVT", "HST", "ICT", "IDLW", "IDT",
+    "IOT", "IRDT", "IRKT", "IRST", "IST", "JST", "KALT", "KGT", "KOST", "KRAT", "KST", "LHST", "LINT",
+    "MAGT", "MART", "MAWT", "MDT", "MEST", "MET", "MHT", "MIST", "MIT", "MMT", "MSK", "MST", "MUT", "MVT",
+    "MYT", "NCT", "NDT", "NFT", "NOVT", "NPT", "NST", "NT", "NUT", "NZDT", "NZST", "OMST", "ORAT", "PDT",
+    "PET", "PETT", "PGT", "PHOT", "PHST", "PHT", "PKT", "PMDT", "PMST", "PONT", "PST", "PWT", "PYST", "PYT",
+    "RET", "ROTT", "SAKT", "SAMT", "SAST", "SBT", "SCT", "SDT", "SGT", "SLST", "SRET", "SRT", "SST", "SYOT",
+    "TAHT", "TFT", "THA", "TJT", "TKT", "TLT", "TMT", "TOT", "TRT", "TVT", "ULAT", "UTC", "UYST", "UYT",
+    "UZT", "VET", "VLAT", "VOLT", "VOST", "VUT", "WAKT", "WAST", "WAT", "WEST", "WET", "WGST", "WGT", "WIB",
+    "WIT", "WITA", "WST", "YAKT", "YEKT",
 ];
 
 const TZZ_LIST_LOWER: &[&str] = &[
-    "acdt",
-    "acst",
-    "act",
-    "adt",
-    "aedt",
-    "aest",
-    "aet",
-    "aft",
-    "akdt",
-    "akst",
-    "almt",
-    "amst",
-    "amt",
-    "anat",
-    "aqtt",
-    "art",
-    "ast",
-    "awst",
-    "azot",
-    "azt",
-    "biot",
-    "bit",
-    "bnt",
-    "bot",
-    "brst",
-    "brt",
-    "bst",
-    "btt",
-    "cat",
-    "cct",
-    "cdt",
-    "cest",
-    "cet",
-    "chot",
-    "chst",
-    "chut",
-    "cist",
-    "ckt",
-    "clst",
-    "clt",
-    "cost",
-    "cot",
-    "cst",
-    "ct",
-    "cvt",
-    "cwst",
-    "cxt",
-    "davt",
-    "ddut",
-    "dft",
-    "east",
-    "eat",
-    "ect",
-    "edt",
-    "eest",
-    "eet",
-    "egst",
-    "egt",
-    "est",
-    "et",
-    "fet",
-    "fjt",
-    "fkst",
-    "fkt",
-    "fnt",
-    "galt",
-    "gamt",
-    "get",
-    "gft",
-    "gilt",
-    "git",
-    "gmt",
-    "gst",
-    "gyt",
-    "haec",
-    "hdt",
-    "hkt",
-    "hmt",
-    "hovt",
-    "hst",
-    "ict",
-    "idlw",
-    "idt",
-    "iot",
-    "irdt",
-    "irkt",
-    "irst",
-    "ist",
-    "jst",
-    "kalt",
-    "kgt",
-    "kost",
-    "krat",
-    "kst",
-    "lhst",
-    "lint",
-    "magt",
-    "mart",
-    "mawt",
-    "mdt",
-    "mest",
-    "met",
-    "mht",
-    "mist",
-    "mit",
-    "mmt",
-    "msk",
-    "mst",
-    "mut",
-    "mvt",
-    "myt",
-    "nct",
-    "ndt",
-    "nft",
-    "novt",
-    "npt",
-    "nst",
-    "nt",
-    "nut",
-    "nzdt",
-    "nzst",
-    "omst",
-    "orat",
-    "pdt",
-    "pet",
-    "pett",
-    "pgt",
-    "phot",
-    "phst",
-    "pht",
-    "pkt",
-    "pmdt",
-    "pmst",
-    "pont",
-    "pst",
-    "pwt",
-    "pyst",
-    "pyt",
-    "ret",
-    "rott",
-    "sakt",
-    "samt",
-    "sast",
-    "sbt",
-    "sct",
-    "sdt",
-    "sgt",
-    "slst",
-    "sret",
-    "srt",
-    "sst",
-    "syot",
-    "taht",
-    "tft",
-    "tha",
-    "tjt",
-    "tkt",
-    "tlt",
-    "tmt",
-    "tot",
-    "trt",
-    "tvt",
-    "ulat",
-    "utc",
-    "uyst",
-    "uyt",
-    "uzt",
-    "vet",
-    "vlat",
-    "volt",
-    "vost",
-    "vut",
-    "wakt",
-    "wast",
-    "wat",
-    "west",
-    "wet",
-    "wgst",
-    "wgt",
-    "wib",
-    "wit",
-    "wita",
-    "wst",
-    "yakt",
-    "yekt",
+    "acdt", "acst", "act", "adt", "aedt", "aest", "aet", "aft", "akdt", "akst", "almt", "amst", "amt",
+    "anat", "aqtt", "art", "ast", "awst", "azot", "azt", "biot", "bit", "bnt", "bot", "brst", "brt", "bst",
+    "btt", "cat", "cct", "cdt", "cest", "cet", "chot", "chst", "chut", "cist", "ckt", "clst", "clt", "cost",
+    "cot", "cst", "ct", "cvt", "cwst", "cxt", "davt", "ddut", "dft", "east", "eat", "ect", "edt", "eest",
+    "eet", "egst", "egt", "est", "et", "fet", "fjt", "fkst", "fkt", "fnt", "galt", "gamt", "get", "gft",
+    "gilt", "git", "gmt", "gst", "gyt", "haec", "hdt", "hkt", "hmt", "hovt", "hst", "ict", "idlw", "idt",
+    "iot", "irdt", "irkt", "irst", "ist", "jst", "kalt", "kgt", "kost", "krat", "kst", "lhst", "lint",
+    "magt", "mart", "mawt", "mdt", "mest", "met", "mht", "mist", "mit", "mmt", "msk", "mst", "mut", "mvt",
+    "myt", "nct", "ndt", "nft", "novt", "npt", "nst", "nt", "nut", "nzdt", "nzst", "omst", "orat", "pdt",
+    "pet", "pett", "pgt", "phot", "phst", "pht", "pkt", "pmdt", "pmst", "pont", "pst", "pwt", "pyst", "pyt",
+    "ret", "rott", "sakt", "samt", "sast", "sbt", "sct", "sdt", "sgt", "slst", "sret", "srt", "sst", "syot",
+    "taht", "tft", "tha", "tjt", "tkt", "tlt", "tmt", "tot", "trt", "tvt", "ulat", "utc", "uyst", "uyt",
+    "uzt", "vet", "vlat", "volt", "vost", "vut", "wakt", "wast", "wat", "west", "wet", "wgst", "wgt", "wib",
+    "wit", "wita", "wst", "yakt", "yekt",
 ];
 
 lazy_static! {
@@ -1300,13 +944,10 @@ lazy_static! {
 
 /// for help in testing only
 #[doc(hidden)]
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 #[allow(dead_code)]
 pub(crate) const CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
-    CGP_TZz,
-    CGP_TZzc,
-    CGP_TZzp,
-    CGP_TZZ,
+    CGP_TZz, CGP_TZzc, CGP_TZzp, CGP_TZZ,
 ];
 
 /// no alphabetic or line end, helper to `CGP_TZZ`
@@ -1768,7 +1409,7 @@ const TZZ_ALL: [(&str, &str); 416] = [
 
 type Map_TZZ_to_TZz<'a> = BTreeMap<&'a str, &'a str>;
 
-lazy_static!{
+lazy_static! {
     /// Map of all `%Z` values, e.g. `"PST"` or `"pst"`,
     /// to the `%:z` value, e.g. `"-07:00"`.
     ///
@@ -2601,15 +2242,18 @@ lazy_static! {
 /// Workaround for chrono
 /// [Issue #660](https://github.com/chronotope/chrono/issues/660).
 #[allow(non_snake_case)]
-pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePattern_str) -> bool {
+pub fn datetime_from_str_workaround_Issue660(
+    value: &str,
+    pattern: &DateTimePattern_str,
+) -> bool {
     const SPACES: &str = " ";
     const TABS: &str = "\t";
     const LINE_ENDS: &str = "\n\r";
 
     // match whitespace forwards from beginning
-    let mut v_sc: u32 = 0;  // `value` spaces count
-    let mut v_tc: u32 = 0;  // `value` tabs count
-    let mut v_ec: u32 = 0;  // `value` line ends count
+    let mut v_sc: u32 = 0; // `value` spaces count
+    let mut v_tc: u32 = 0; // `value` tabs count
+    let mut v_ec: u32 = 0; // `value` line ends count
     let mut v_brk: bool = false;
     for v_ in value.chars() {
         if SPACES.contains(v_) {
@@ -2623,9 +2267,9 @@ pub fn datetime_from_str_workaround_Issue660(value: &str, pattern: &DateTimePatt
             break;
         }
     }
-    let mut p_sc: u32 = 0;  // `pattern` space count
-    let mut p_tc: u32 = 0;  // `pattern` tab count
-    let mut p_ec: u32 = 0;  // `pattern` line ends count
+    let mut p_sc: u32 = 0; // `pattern` space count
+    let mut p_tc: u32 = 0; // `pattern` tab count
+    let mut p_ec: u32 = 0; // `pattern` line ends count
     let mut p_brk: bool = false;
     for p_ in pattern.chars() {
         if SPACES.contains(p_) {
@@ -2704,7 +2348,7 @@ pub fn u8_to_str(data: &[u8]) -> Option<&str> {
     let dts: &str;
     let mut fallback = false;
     // custom check for UTF8; fast but imperfect
-    if ! data.is_ascii() {
+    if !data.is_ascii() {
         fallback = true;
     }
     if fallback {
@@ -2713,7 +2357,7 @@ pub fn u8_to_str(data: &[u8]) -> Option<&str> {
         let va = encoding_rs::mem::utf8_latin1_up_to(data);
         if va != data.len() {
             // TODO: this needs a better resolution
-            return None;  // invalid UTF8
+            return None; // invalid UTF8
         }
     }
     unsafe {
@@ -2770,7 +2414,8 @@ pub fn datetime_parse_from_str(
                 None
             }
         }
-    } else {  // !has_tz
+    } else {
+        // !has_tz
         // no timezone in `pattern` so first convert to a `NaiveDateTime` instance
         let dt_naive = match NaiveDateTime::parse_from_str(data, pattern) {
             Ok(val) => {
@@ -2796,7 +2441,10 @@ pub fn datetime_parse_from_str(
             }
         };
         // second convert the `NaiveDateTime` instance to `DateTime<FixedOffset>` instance
-        match tz_offset.from_local_datetime(&dt_naive).earliest() {
+        match tz_offset
+            .from_local_datetime(&dt_naive)
+            .earliest()
+        {
             Some(val) => {
                 dpfo!(
                     "tz_offset.from_local_datetime({:?}).earliest() extrapolated NaiveDateTime {:?}",
@@ -2840,11 +2488,22 @@ macro_rules! copy_capturegroup_to_buffer {
         $buffer:ident,
         $at:ident
     ) => {
-        let len_: usize = $captures.name($name).as_ref().unwrap().as_bytes().len();
-        dpo!("bytes_to_regex_to_datetime:copy_capturegroup_to_buffer! buffer[{:?}‥{:?}]", $at, $at+len_);
-        $buffer[$at..$at+len_].copy_from_slice($captures.name($name).as_ref().unwrap().as_bytes());
+        let len_: usize = $captures
+            .name($name)
+            .as_ref()
+            .unwrap()
+            .as_bytes()
+            .len();
+        dpo!("bytes_to_regex_to_datetime:copy_capturegroup_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
+        $buffer[$at..$at + len_].copy_from_slice(
+            $captures
+                .name($name)
+                .as_ref()
+                .unwrap()
+                .as_bytes(),
+        );
         $at += len_;
-    }
+    };
 }
 
 /// Macro helper to `captures_to_buffer_bytes`.
@@ -2855,12 +2514,11 @@ macro_rules! copy_slice_to_buffer {
         $at:ident
     ) => {
         let len_: usize = $u8_slice.len();
-        dpo!("bytes_to_regex_to_datetime:copy_slice_to_buffer! buffer[{:?}‥{:?}]", $at, $at+len_);
-        $buffer[$at..$at+len_].copy_from_slice($u8_slice);
+        dpo!("bytes_to_regex_to_datetime:copy_slice_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
+        $buffer[$at..$at + len_].copy_from_slice($u8_slice);
         $at += len_;
-    }
+    };
 }
-
 
 /// Macro helper to `captures_to_buffer_bytes`.
 macro_rules! copy_u8_to_buffer {
@@ -2872,7 +2530,7 @@ macro_rules! copy_u8_to_buffer {
         dpo!("bytes_to_regex_to_datetime:copy_slice_to_buffer! buffer[{:?}] = {:?}", $at, $u8_);
         $buffer[$at] = $u8_;
         $at += 1;
-    }
+    };
 }
 
 // Variables `const MONTH_` are helpers to [`month_bB_to_month_m_bytes`].
@@ -2904,10 +2562,10 @@ const MONTH_04_b_u: &[u8] = &to_byte_array!("Apr");
 const MONTH_04_m: &[u8] = &to_byte_array!("04");
 const MONTH_05_B_l: &[u8] = &to_byte_array!("may");
 #[allow(dead_code)]
-const MONTH_05_b_l: &[u8] = &to_byte_array!("may");  // not used, defined for completeness
+const MONTH_05_b_l: &[u8] = &to_byte_array!("may"); // not used, defined for completeness
 const MONTH_05_B_u: &[u8] = &to_byte_array!("May");
 #[allow(dead_code)]
-const MONTH_05_b_u: &[u8] = &to_byte_array!("May");  // not used, defined for completeness
+const MONTH_05_b_u: &[u8] = &to_byte_array!("May"); // not used, defined for completeness
 const MONTH_05_m: &[u8] = &to_byte_array!("05");
 const MONTH_06_B_l: &[u8] = &to_byte_array!("june");
 const MONTH_06_b_l: &[u8] = &to_byte_array!("jun");
@@ -2949,33 +2607,24 @@ const MONTH_12_m: &[u8] = &to_byte_array!("12");
 ///
 /// Helper to [`captures_to_buffer_bytes`].
 #[allow(non_snake_case)]
-fn month_bB_to_month_m_bytes(data: &[u8], buffer: &mut [u8]) {
+fn month_bB_to_month_m_bytes(
+    data: &[u8],
+    buffer: &mut [u8],
+) {
     match data {
-        MONTH_01_B_l | MONTH_01_b_l | MONTH_01_B_u | MONTH_01_b_u
-            => buffer.copy_from_slice(MONTH_01_m),
-        MONTH_02_B_l | MONTH_02_b_l | MONTH_02_B_u | MONTH_02_b_u
-            => buffer.copy_from_slice(MONTH_02_m),
-        MONTH_03_B_l | MONTH_03_b_l | MONTH_03_B_u | MONTH_03_b_u
-            => buffer.copy_from_slice(MONTH_03_m),
-        MONTH_04_B_l | MONTH_04_b_l | MONTH_04_B_u | MONTH_04_b_u
-            => buffer.copy_from_slice(MONTH_04_m),
+        MONTH_01_B_l | MONTH_01_b_l | MONTH_01_B_u | MONTH_01_b_u => buffer.copy_from_slice(MONTH_01_m),
+        MONTH_02_B_l | MONTH_02_b_l | MONTH_02_B_u | MONTH_02_b_u => buffer.copy_from_slice(MONTH_02_m),
+        MONTH_03_B_l | MONTH_03_b_l | MONTH_03_B_u | MONTH_03_b_u => buffer.copy_from_slice(MONTH_03_m),
+        MONTH_04_B_l | MONTH_04_b_l | MONTH_04_B_u | MONTH_04_b_u => buffer.copy_from_slice(MONTH_04_m),
         //MONTH_05_B_l | MONTH_05_b_l | MONTH_05_B_u | MONTH_05_b_u
-        MONTH_05_B_l | MONTH_05_B_u
-            => buffer.copy_from_slice(MONTH_05_m),
-        MONTH_06_B_l | MONTH_06_b_l | MONTH_06_B_u | MONTH_06_b_u
-            => buffer.copy_from_slice(MONTH_06_m),
-        MONTH_07_B_l | MONTH_07_b_l | MONTH_07_B_u | MONTH_07_b_u
-            => buffer.copy_from_slice(MONTH_07_m),
-        MONTH_08_B_l | MONTH_08_b_l | MONTH_08_B_u | MONTH_08_b_u
-            => buffer.copy_from_slice(MONTH_08_m),
-        MONTH_09_B_l | MONTH_09_b_l | MONTH_09_B_u | MONTH_09_b_u
-            => buffer.copy_from_slice(MONTH_09_m),
-        MONTH_10_B_l | MONTH_10_b_l | MONTH_10_B_u | MONTH_10_b_u
-            => buffer.copy_from_slice(MONTH_10_m),
-        MONTH_11_B_l | MONTH_11_b_l | MONTH_11_B_u | MONTH_11_b_u
-            => buffer.copy_from_slice(MONTH_11_m),
-        MONTH_12_B_l | MONTH_12_b_l | MONTH_12_B_u | MONTH_12_b_u
-            => buffer.copy_from_slice(MONTH_12_m),
+        MONTH_05_B_l | MONTH_05_B_u => buffer.copy_from_slice(MONTH_05_m),
+        MONTH_06_B_l | MONTH_06_b_l | MONTH_06_B_u | MONTH_06_b_u => buffer.copy_from_slice(MONTH_06_m),
+        MONTH_07_B_l | MONTH_07_b_l | MONTH_07_B_u | MONTH_07_b_u => buffer.copy_from_slice(MONTH_07_m),
+        MONTH_08_B_l | MONTH_08_b_l | MONTH_08_B_u | MONTH_08_b_u => buffer.copy_from_slice(MONTH_08_m),
+        MONTH_09_B_l | MONTH_09_b_l | MONTH_09_B_u | MONTH_09_b_u => buffer.copy_from_slice(MONTH_09_m),
+        MONTH_10_B_l | MONTH_10_b_l | MONTH_10_B_u | MONTH_10_b_u => buffer.copy_from_slice(MONTH_10_m),
+        MONTH_11_B_l | MONTH_11_b_l | MONTH_11_B_u | MONTH_11_b_u => buffer.copy_from_slice(MONTH_11_m),
+        MONTH_12_B_l | MONTH_12_b_l | MONTH_12_B_u | MONTH_12_b_u => buffer.copy_from_slice(MONTH_12_m),
         data_ => {
             panic!("month_bB_to_month_m_bytes: unexpected month value {:?}", data_);
         }
@@ -3000,7 +2649,7 @@ fn month_bB_to_month_m_bytes(data: &[u8], buffer: &mut [u8]) {
 /// [`DateTimeParseInstr::dt_pattern`]: crate::data::datetime::DateTimeParseInstr::dt_pattern
 #[inline(always)]
 pub(crate) fn captures_to_buffer_bytes(
-    buffer: &mut[u8],
+    buffer: &mut [u8],
     captures: &regex::bytes::Captures,
     year_opt: &Option<Year>,
     tz_offset: &FixedOffset,
@@ -3011,7 +2660,10 @@ pub(crate) fn captures_to_buffer_bytes(
     let mut at: usize = 0;
 
     // year
-    match captures.name(CGN_YEAR).as_ref() {
+    match captures
+        .name(CGN_YEAR)
+        .as_ref()
+    {
         Some(match_) => {
             copy_slice_to_buffer!(match_.as_bytes(), buffer, at);
         }
@@ -3035,8 +2687,12 @@ pub(crate) fn captures_to_buffer_bytes(
     match dtfs.month {
         DTFS_Month::b | DTFS_Month::B => {
             month_bB_to_month_m_bytes(
-                captures.name(CGN_MONTH).as_ref().unwrap().as_bytes(),
-                &mut buffer[at..at+2]
+                captures
+                    .name(CGN_MONTH)
+                    .as_ref()
+                    .unwrap()
+                    .as_bytes(),
+                &mut buffer[at..at + 2],
             );
             at += 2;
         }
@@ -3050,7 +2706,11 @@ pub(crate) fn captures_to_buffer_bytes(
             copy_capturegroup_to_buffer!(CGN_DAY, captures, buffer, at);
         }
         DTFS_Day::_e_to_d => {
-            let day: &[u8] = captures.name(CGN_DAY).as_ref().unwrap().as_bytes();
+            let day: &[u8] = captures
+                .name(CGN_DAY)
+                .as_ref()
+                .unwrap()
+                .as_bytes();
             debug_assert_ge!(day.len(), 1, "bad named group 'day' data {:?}, expected data ge 1", day);
             debug_assert_le!(day.len(), 2, "bad named group 'day' data {:?}, expected data le 2", day);
             match day.len() {
@@ -3060,7 +2720,13 @@ pub(crate) fn captures_to_buffer_bytes(
                     copy_u8_to_buffer!(day[0], buffer, at);
                 }
                 2 => {
-                    debug_assert_ne!(day[0], ' ' as u8, "bad value for _e_to_d {:?} {:?}", day, String::from_utf8_lossy(day));
+                    debug_assert_ne!(
+                        day[0],
+                        ' ' as u8,
+                        "bad value for _e_to_d {:?} {:?}",
+                        day,
+                        String::from_utf8_lossy(day)
+                    );
                     copy_slice_to_buffer!(day, buffer, at);
                 }
                 _ => {
@@ -3103,7 +2769,14 @@ pub(crate) fn captures_to_buffer_bytes(
         }
         DTFS_Tz::Z => {
             #[allow(non_snake_case)]
-            let tzZ: &str = u8_to_str(captures.name(CGN_TZ).as_ref().unwrap().as_bytes()).unwrap();
+            let tzZ: &str = u8_to_str(
+                captures
+                    .name(CGN_TZ)
+                    .as_ref()
+                    .unwrap()
+                    .as_bytes(),
+            )
+            .unwrap();
             match MAP_TZZ_TO_TZz.get_key_value(tzZ) {
                 Some((_tz_abbr, tz_offset_)) => {
                     // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
@@ -3160,14 +2833,17 @@ pub fn bytes_to_regex_to_datetime(
         }
     };
     if cfg!(debug_assertions) {
-        for (i, name_opt) in regex_.capture_names().enumerate() {
+        for (i, name_opt) in regex_
+            .capture_names()
+            .enumerate()
+        {
             let _match: regex::bytes::Match = match captures.get(i) {
                 Some(m_) => m_,
                 None => {
                     match name_opt {
                         Some(_name) => {
                             dpo!("regex captures: {:2} {:<10} None", i, _name);
-                        },
+                        }
                         None => {
                             dpo!("regex captures: {:2} {:<10} None", i, "None");
                         }
@@ -3177,16 +2853,31 @@ pub fn bytes_to_regex_to_datetime(
             };
             match name_opt {
                 Some(name) => {
-                    dpo!("regex captures: {:2} {:<10} {:?}", i, name, buffer_to_String_noraw(_match.as_bytes()));
-                },
+                    dpo!(
+                        "regex captures: {:2} {:<10} {:?}",
+                        i,
+                        name,
+                        buffer_to_String_noraw(_match.as_bytes())
+                    );
+                }
                 None => {
-                    dpo!("regex captures: {:2} {:<10} {:?}", i, "NO NAME", buffer_to_String_noraw(_match.as_bytes()));
+                    dpo!(
+                        "regex captures: {:2} {:<10} {:?}",
+                        i,
+                        "NO NAME",
+                        buffer_to_String_noraw(_match.as_bytes())
+                    );
                 }
             }
         }
     }
     // sanity check
-    debug_assert!(!captures.iter().any(|x| x.is_none()), "a match in the regex::Captures was None");
+    debug_assert!(
+        !captures
+            .iter()
+            .any(|x| x.is_none()),
+        "a match in the regex::Captures was None"
+    );
 
     let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*index];
     // copy regex matches into a buffer with predictable ordering
@@ -3194,22 +2885,11 @@ pub fn bytes_to_regex_to_datetime(
     // TODO: [2022/06/26] cost-savings: avoid a `String` alloc by passing precreated buffer
     const BUFLEN: usize = 35;
     let mut buffer: [u8; BUFLEN] = [0; BUFLEN];
-    let copiedn = captures_to_buffer_bytes(
-        &mut buffer,
-        &captures,
-        year_opt,
-        tz_offset,
-        &dtpd.dtfs,
-    );
+    let copiedn = captures_to_buffer_bytes(&mut buffer, &captures, year_opt, tz_offset, &dtpd.dtfs);
 
     // use the `dt_format` to parse the buffer of regex matches
     let buffer_s: &str = u8_to_str(&buffer[0..copiedn]).unwrap();
-    let dt = match datetime_parse_from_str(
-        buffer_s,
-        dtpd.dtfs.pattern,
-        dtpd.dtfs.has_tz(),
-        tz_offset,
-    ) {
+    let dt = match datetime_parse_from_str(buffer_s, dtpd.dtfs.pattern, dtpd.dtfs.has_tz(), tz_offset) {
         Some(dt_) => dt_,
         None => {
             dpfx!("return None; datetime_parse_from_str returned None");
@@ -3299,7 +2979,10 @@ impl Result_Filter_DateTime2 {
 /// [`OccursAtOrAfter`]: crate::data::datetime::Result_Filter_DateTime1
 /// [`OccursBefore`]: crate::data::datetime::Result_Filter_DateTime1
 /// [`Pass`]: crate::data::datetime::Result_Filter_DateTime1
-pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeLOpt) -> Result_Filter_DateTime1 {
+pub fn dt_after_or_before(
+    dt: &DateTimeL,
+    dt_filter: &DateTimeLOpt,
+) -> Result_Filter_DateTime1 {
     if dt_filter.is_none() {
         dpfñ!("return Result_Filter_DateTime1::Pass; (no dt filters)");
         return Result_Filter_DateTime1::Pass;
@@ -3311,11 +2994,14 @@ pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeLOpt) -> Result_Fi
         dpfx!("return Result_Filter_DateTime1::OccursBefore; (dt {:?} is before dt_filter {:?})", dt, dt_a);
         return Result_Filter_DateTime1::OccursBefore;
     }
-    dpfx!("return Result_Filter_DateTime1::OccursAtOrAfter; (dt {:?} is at or after dt_filter {:?})", dt, dt_a);
+    dpfx!(
+        "return Result_Filter_DateTime1::OccursAtOrAfter; (dt {:?} is at or after dt_filter {:?})",
+        dt,
+        dt_a
+    );
 
     Result_Filter_DateTime1::OccursAtOrAfter
 }
-
 
 /// How does the passed [`DateTimeL`], `dt`, pass the optional `DateTimeLOpt`
 /// filter instances,
@@ -3344,7 +3030,9 @@ pub fn dt_after_or_before(dt: &DateTimeL, dt_filter: &DateTimeLOpt) -> Result_Fi
 /// [`BeforeRange`]: crate::data::datetime::Result_Filter_DateTime2::BeforeRange
 /// [`InRange`]: crate::data::datetime::Result_Filter_DateTime2::InRange
 pub fn dt_pass_filters(
-    dt: &DateTimeL, dt_filter_after: &DateTimeLOpt, dt_filter_before: &DateTimeLOpt,
+    dt: &DateTimeL,
+    dt_filter_after: &DateTimeLOpt,
+    dt_filter_before: &DateTimeLOpt,
 ) -> Result_Filter_DateTime2 {
     dpfn!("({:?}, {:?}, {:?})", dt, dt_filter_after, dt_filter_before);
     if dt_filter_after.is_none() && dt_filter_before.is_none() {
@@ -3398,7 +3086,6 @@ pub fn dt_pass_filters(
     }
 }
 
-
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // other miscellaneous DateTime function helpers
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -3408,14 +3095,13 @@ pub fn dt_pass_filters(
 ///
 /// In case of error, return a copy of the passed `DateTimeL`.
 // TODO: errors should return `Error`
-pub fn datetime_with_year(datetime: &DateTimeL, year: &Year) -> DateTimeL {
+pub fn datetime_with_year(
+    datetime: &DateTimeL,
+    year: &Year,
+) -> DateTimeL {
     match datetime.with_year(*year) {
-        Some(datetime_) => {
-            datetime_
-        }
-        None => {
-            datetime.clone()
-        }
+        Some(datetime_) => datetime_,
+        None => datetime.clone(),
     }
 }
 
@@ -3423,7 +3109,10 @@ pub fn datetime_with_year(datetime: &DateTimeL, year: &Year) -> DateTimeL {
 ///
 /// [`FixedOffset`]: https://docs.rs/chrono/0.4.21/chrono/offset/struct.FixedOffset.html
 /// [`SystemTime`]: std::time::SystemTime
-pub fn systemtime_to_datetime(fixedoffset: &FixedOffset, systemtime: &SystemTime) -> DateTimeL {
+pub fn systemtime_to_datetime(
+    fixedoffset: &FixedOffset,
+    systemtime: &SystemTime,
+) -> DateTimeL {
     // https://users.rust-lang.org/t/convert-std-time-systemtime-to-chrono-datetime-datetime/7684/6
     let dtu: DateTime<Utc> = systemtime.clone().into();
 
@@ -3438,7 +3127,10 @@ pub fn systemtime_to_datetime(fixedoffset: &FixedOffset, systemtime: &SystemTime
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_2_2(slice_: &[u8; 2], search: &[u8; 2]) -> bool {
+const fn slice_contains_2_2(
+    slice_: &[u8; 2],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..1 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3449,7 +3141,10 @@ const fn slice_contains_2_2(slice_: &[u8; 2], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_3_2(slice_: &[u8; 3], search: &[u8; 2]) -> bool {
+const fn slice_contains_3_2(
+    slice_: &[u8; 3],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..2 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3460,7 +3155,10 @@ const fn slice_contains_3_2(slice_: &[u8; 3], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_4_2(slice_: &[u8; 4], search: &[u8; 2]) -> bool {
+const fn slice_contains_4_2(
+    slice_: &[u8; 4],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..3 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3471,7 +3169,10 @@ const fn slice_contains_4_2(slice_: &[u8; 4], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_5_2(slice_: &[u8; 5], search: &[u8; 2]) -> bool {
+const fn slice_contains_5_2(
+    slice_: &[u8; 5],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..4 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3482,7 +3183,10 @@ const fn slice_contains_5_2(slice_: &[u8; 5], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_6_2(slice_: &[u8; 6], search: &[u8; 2]) -> bool {
+const fn slice_contains_6_2(
+    slice_: &[u8; 6],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..5 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3493,7 +3197,10 @@ const fn slice_contains_6_2(slice_: &[u8; 6], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_7_2(slice_: &[u8; 7], search: &[u8; 2]) -> bool {
+const fn slice_contains_7_2(
+    slice_: &[u8; 7],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..6 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3504,7 +3211,10 @@ const fn slice_contains_7_2(slice_: &[u8; 7], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_8_2(slice_: &[u8; 8], search: &[u8; 2]) -> bool {
+const fn slice_contains_8_2(
+    slice_: &[u8; 8],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..7 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3515,7 +3225,10 @@ const fn slice_contains_8_2(slice_: &[u8; 8], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_9_2(slice_: &[u8; 9], search: &[u8; 2]) -> bool {
+const fn slice_contains_9_2(
+    slice_: &[u8; 9],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..8 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3526,7 +3239,10 @@ const fn slice_contains_9_2(slice_: &[u8; 9], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_10_2(slice_: &[u8; 10], search: &[u8; 2]) -> bool {
+const fn slice_contains_10_2(
+    slice_: &[u8; 10],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..9 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3537,7 +3253,10 @@ const fn slice_contains_10_2(slice_: &[u8; 10], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_11_2(slice_: &[u8; 11], search: &[u8; 2]) -> bool {
+const fn slice_contains_11_2(
+    slice_: &[u8; 11],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..10 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3548,7 +3267,10 @@ const fn slice_contains_11_2(slice_: &[u8; 11], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_12_2(slice_: &[u8; 12], search: &[u8; 2]) -> bool {
+const fn slice_contains_12_2(
+    slice_: &[u8; 12],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..11 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3559,7 +3281,10 @@ const fn slice_contains_12_2(slice_: &[u8; 12], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_13_2(slice_: &[u8; 13], search: &[u8; 2]) -> bool {
+const fn slice_contains_13_2(
+    slice_: &[u8; 13],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..12 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3570,7 +3295,10 @@ const fn slice_contains_13_2(slice_: &[u8; 13], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_14_2(slice_: &[u8; 14], search: &[u8; 2]) -> bool {
+const fn slice_contains_14_2(
+    slice_: &[u8; 14],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..13 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3581,7 +3309,10 @@ const fn slice_contains_14_2(slice_: &[u8; 14], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_15_2(slice_: &[u8; 15], search: &[u8; 2]) -> bool {
+const fn slice_contains_15_2(
+    slice_: &[u8; 15],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..14 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3592,7 +3323,10 @@ const fn slice_contains_15_2(slice_: &[u8; 15], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_16_2(slice_: &[u8; 16], search: &[u8; 2]) -> bool {
+const fn slice_contains_16_2(
+    slice_: &[u8; 16],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..15 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3603,7 +3337,10 @@ const fn slice_contains_16_2(slice_: &[u8; 16], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_17_2(slice_: &[u8; 17], search: &[u8; 2]) -> bool {
+const fn slice_contains_17_2(
+    slice_: &[u8; 17],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..16 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3614,7 +3351,10 @@ const fn slice_contains_17_2(slice_: &[u8; 17], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_18_2(slice_: &[u8; 18], search: &[u8; 2]) -> bool {
+const fn slice_contains_18_2(
+    slice_: &[u8; 18],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..17 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3625,7 +3365,10 @@ const fn slice_contains_18_2(slice_: &[u8; 18], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_19_2(slice_: &[u8; 19], search: &[u8; 2]) -> bool {
+const fn slice_contains_19_2(
+    slice_: &[u8; 19],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..18 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3636,7 +3379,10 @@ const fn slice_contains_19_2(slice_: &[u8; 19], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_20_2(slice_: &[u8; 20], search: &[u8; 2]) -> bool {
+const fn slice_contains_20_2(
+    slice_: &[u8; 20],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..19 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3647,7 +3393,10 @@ const fn slice_contains_20_2(slice_: &[u8; 20], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_21_2(slice_: &[u8; 21], search: &[u8; 2]) -> bool {
+const fn slice_contains_21_2(
+    slice_: &[u8; 21],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..20 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3658,7 +3407,10 @@ const fn slice_contains_21_2(slice_: &[u8; 21], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_22_2(slice_: &[u8; 22], search: &[u8; 2]) -> bool {
+const fn slice_contains_22_2(
+    slice_: &[u8; 22],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..21 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3669,7 +3421,10 @@ const fn slice_contains_22_2(slice_: &[u8; 22], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_23_2(slice_: &[u8; 23], search: &[u8; 2]) -> bool {
+const fn slice_contains_23_2(
+    slice_: &[u8; 23],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..22 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3680,7 +3435,10 @@ const fn slice_contains_23_2(slice_: &[u8; 23], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_24_2(slice_: &[u8; 24], search: &[u8; 2]) -> bool {
+const fn slice_contains_24_2(
+    slice_: &[u8; 24],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..23 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3691,7 +3449,10 @@ const fn slice_contains_24_2(slice_: &[u8; 24], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_25_2(slice_: &[u8; 25], search: &[u8; 2]) -> bool {
+const fn slice_contains_25_2(
+    slice_: &[u8; 25],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..24 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3702,7 +3463,10 @@ const fn slice_contains_25_2(slice_: &[u8; 25], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_26_2(slice_: &[u8; 26], search: &[u8; 2]) -> bool {
+const fn slice_contains_26_2(
+    slice_: &[u8; 26],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..25 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3713,7 +3477,10 @@ const fn slice_contains_26_2(slice_: &[u8; 26], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_27_2(slice_: &[u8; 27], search: &[u8; 2]) -> bool {
+const fn slice_contains_27_2(
+    slice_: &[u8; 27],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..26 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3724,7 +3491,10 @@ const fn slice_contains_27_2(slice_: &[u8; 27], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_28_2(slice_: &[u8; 28], search: &[u8; 2]) -> bool {
+const fn slice_contains_28_2(
+    slice_: &[u8; 28],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..27 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3735,7 +3505,10 @@ const fn slice_contains_28_2(slice_: &[u8; 28], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_29_2(slice_: &[u8; 29], search: &[u8; 2]) -> bool {
+const fn slice_contains_29_2(
+    slice_: &[u8; 29],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..28 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3746,7 +3519,10 @@ const fn slice_contains_29_2(slice_: &[u8; 29], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_30_2(slice_: &[u8; 30], search: &[u8; 2]) -> bool {
+const fn slice_contains_30_2(
+    slice_: &[u8; 30],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..29 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3757,7 +3533,10 @@ const fn slice_contains_30_2(slice_: &[u8; 30], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_31_2(slice_: &[u8; 31], search: &[u8; 2]) -> bool {
+const fn slice_contains_31_2(
+    slice_: &[u8; 31],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..30 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3768,7 +3547,10 @@ const fn slice_contains_31_2(slice_: &[u8; 31], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_32_2(slice_: &[u8; 32], search: &[u8; 2]) -> bool {
+const fn slice_contains_32_2(
+    slice_: &[u8; 32],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..31 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3779,7 +3561,10 @@ const fn slice_contains_32_2(slice_: &[u8; 32], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_33_2(slice_: &[u8; 33], search: &[u8; 2]) -> bool {
+const fn slice_contains_33_2(
+    slice_: &[u8; 33],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..32 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3790,7 +3575,10 @@ const fn slice_contains_33_2(slice_: &[u8; 33], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_34_2(slice_: &[u8; 34], search: &[u8; 2]) -> bool {
+const fn slice_contains_34_2(
+    slice_: &[u8; 34],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..33 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3801,7 +3589,10 @@ const fn slice_contains_34_2(slice_: &[u8; 34], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_35_2(slice_: &[u8; 35], search: &[u8; 2]) -> bool {
+const fn slice_contains_35_2(
+    slice_: &[u8; 35],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..34 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3812,7 +3603,10 @@ const fn slice_contains_35_2(slice_: &[u8; 35], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_36_2(slice_: &[u8; 36], search: &[u8; 2]) -> bool {
+const fn slice_contains_36_2(
+    slice_: &[u8; 36],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..35 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3823,7 +3617,10 @@ const fn slice_contains_36_2(slice_: &[u8; 36], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_37_2(slice_: &[u8; 37], search: &[u8; 2]) -> bool {
+const fn slice_contains_37_2(
+    slice_: &[u8; 37],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..36 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3834,7 +3631,10 @@ const fn slice_contains_37_2(slice_: &[u8; 37], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_38_2(slice_: &[u8; 38], search: &[u8; 2]) -> bool {
+const fn slice_contains_38_2(
+    slice_: &[u8; 38],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..37 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3845,7 +3645,10 @@ const fn slice_contains_38_2(slice_: &[u8; 38], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_39_2(slice_: &[u8; 39], search: &[u8; 2]) -> bool {
+const fn slice_contains_39_2(
+    slice_: &[u8; 39],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..38 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3856,7 +3659,10 @@ const fn slice_contains_39_2(slice_: &[u8; 39], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_40_2(slice_: &[u8; 40], search: &[u8; 2]) -> bool {
+const fn slice_contains_40_2(
+    slice_: &[u8; 40],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..39 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3867,7 +3673,10 @@ const fn slice_contains_40_2(slice_: &[u8; 40], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_41_2(slice_: &[u8; 41], search: &[u8; 2]) -> bool {
+const fn slice_contains_41_2(
+    slice_: &[u8; 41],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..40 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3878,7 +3687,10 @@ const fn slice_contains_41_2(slice_: &[u8; 41], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_42_2(slice_: &[u8; 42], search: &[u8; 2]) -> bool {
+const fn slice_contains_42_2(
+    slice_: &[u8; 42],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..41 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3889,7 +3701,10 @@ const fn slice_contains_42_2(slice_: &[u8; 42], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_43_2(slice_: &[u8; 43], search: &[u8; 2]) -> bool {
+const fn slice_contains_43_2(
+    slice_: &[u8; 43],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..42 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3900,7 +3715,10 @@ const fn slice_contains_43_2(slice_: &[u8; 43], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_44_2(slice_: &[u8; 44], search: &[u8; 2]) -> bool {
+const fn slice_contains_44_2(
+    slice_: &[u8; 44],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..43 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3911,7 +3729,10 @@ const fn slice_contains_44_2(slice_: &[u8; 44], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_45_2(slice_: &[u8; 45], search: &[u8; 2]) -> bool {
+const fn slice_contains_45_2(
+    slice_: &[u8; 45],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..44 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3922,7 +3743,10 @@ const fn slice_contains_45_2(slice_: &[u8; 45], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_46_2(slice_: &[u8; 46], search: &[u8; 2]) -> bool {
+const fn slice_contains_46_2(
+    slice_: &[u8; 46],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..45 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3933,7 +3757,10 @@ const fn slice_contains_46_2(slice_: &[u8; 46], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_47_2(slice_: &[u8; 47], search: &[u8; 2]) -> bool {
+const fn slice_contains_47_2(
+    slice_: &[u8; 47],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..46 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3944,7 +3771,10 @@ const fn slice_contains_47_2(slice_: &[u8; 47], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_48_2(slice_: &[u8; 48], search: &[u8; 2]) -> bool {
+const fn slice_contains_48_2(
+    slice_: &[u8; 48],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..47 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3955,7 +3785,10 @@ const fn slice_contains_48_2(slice_: &[u8; 48], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_49_2(slice_: &[u8; 49], search: &[u8; 2]) -> bool {
+const fn slice_contains_49_2(
+    slice_: &[u8; 49],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..48 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3966,7 +3799,10 @@ const fn slice_contains_49_2(slice_: &[u8; 49], search: &[u8; 2]) -> bool {
 
 #[inline(always)]
 #[unroll_for_loops]
-const fn slice_contains_50_2(slice_: &[u8; 50], search: &[u8; 2]) -> bool {
+const fn slice_contains_50_2(
+    slice_: &[u8; 50],
+    search: &[u8; 2],
+) -> bool {
     for i in 0..49 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
@@ -3984,7 +3820,10 @@ const fn slice_contains_50_2(slice_: &[u8; 50], search: &[u8; 2]) -> bool {
 /// [`unroll`]: https://docs.rs/unroll/0.1.5/unroll/index.html
 #[inline(always)]
 #[allow(non_snake_case)]
-pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
+pub fn slice_contains_X_2(
+    slice_: &[u8],
+    search: &[u8; 2],
+) -> bool {
     match slice_.len() {
         2 => slice_contains_2_2(array_ref!(slice_, 0, 2), search),
         3 => slice_contains_3_2(array_ref!(slice_, 0, 3), search),
@@ -4035,8 +3874,8 @@ pub fn slice_contains_X_2(slice_: &[u8], search: &[u8; 2]) -> bool {
         48 => slice_contains_48_2(array_ref!(slice_, 0, 48), search),
         49 => slice_contains_49_2(array_ref!(slice_, 0, 49), search),
         50 => slice_contains_50_2(array_ref!(slice_, 0, 50), search),
-        _ => {
-            slice_.iter().any(|&c| c == search[0] || c == search[1])
-        }
+        _ => slice_
+            .iter()
+            .any(|&c| c == search[0] || c == search[1]),
     }
 }

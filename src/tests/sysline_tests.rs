@@ -6,34 +6,15 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::{
-    FileOffset,
-};
+use crate::common::FileOffset;
 
-use crate::data::datetime::{
-    DateTimeL,
-    Duration,
-};
+use crate::data::datetime::{DateTimeL, Duration};
 
-use crate::data::line::{
-    LinePart,
-    Line,
-    LineP,
-    Lines,
-};
+use crate::data::line::{Line, LineP, LinePart, Lines};
 
-use crate::data::sysline::{
-    Sysline,
-    SyslineP,
-};
+use crate::data::sysline::{Sysline, SyslineP};
 
-use crate::readers::blockreader::{
-    Block,
-    BlockIndex,
-    BlockP,
-    BlockOffset,
-    BlockSz,
-};
+use crate::readers::blockreader::{Block, BlockIndex, BlockOffset, BlockP, BlockSz};
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
@@ -58,18 +39,21 @@ fn blockp_new(sz: usize) -> BlockP {
 
 #[allow(dead_code)]
 fn linepart_new(
-    beg: BlockIndex, end: BlockIndex, fo: FileOffset, bo: BlockOffset, bsz: BlockSz
+    beg: BlockIndex,
+    end: BlockIndex,
+    fo: FileOffset,
+    bo: BlockOffset,
+    bsz: BlockSz,
 ) -> LinePart {
     let blockp = blockp_new(bsz as usize);
 
-    LinePart::new(
-        blockp, beg, end, fo, bo, bsz
-    )
+    LinePart::new(blockp, beg, end, fo, bo, bsz)
 }
 
 const DT_STR0: &str = "2022-01-02T03:04:05+08:00";
 //const DATA_STR0: &str = "2022-01-02T03:04:05 0800 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ 😀😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃 🌚🌛🌜🌝";
-const DATA_STR0: &str = "2022-01-02T03:04:05 0800 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZ";
+const DATA_STR0: &str =
+    "2022-01-02T03:04:05 0800 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZ";
 const DATA_STR0_LAST_BYTE: u8 = b'Z';
 const DT_BEG0: usize = 0;
 const DT_END0: usize = 24;
@@ -78,23 +62,18 @@ const DT_STR1: &str = "2022-01-02T03:04:06+08:00";
 
 #[allow(dead_code)]
 const DT_STR2: &str = "2022-01-02T03:04:22+09:00";
-const DATA_STR2: &str = "[DEBUG] 2022-01-02T03:04:22 0900 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZ\n";
+const DATA_STR2: &str =
+    "[DEBUG] 2022-01-02T03:04:22 0900 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZ\n";
 const DATA_STR2_LAST_BYTE: u8 = b'\n';
 const DT_BEG2: usize = 8;
 const DT_END2: usize = 32;
 
 const BLOCKSZ: BlockSz = 16;
 const BLOCKOFFSET_INIT: BlockOffset = 2;
-lazy_static!{
-    static ref DT_0: DateTimeL = {
-        DateTimeL::parse_from_rfc3339(DT_STR0).unwrap()
-    };
-    static ref DT_1: DateTimeL = {
-        DateTimeL::parse_from_rfc3339(DT_STR1).unwrap()
-    };
-    static ref DIFF_0_1: Duration = {
-        Duration::seconds(1)
-    };
+lazy_static! {
+    static ref DT_0: DateTimeL = { DateTimeL::parse_from_rfc3339(DT_STR0).unwrap() };
+    static ref DT_1: DateTimeL = { DateTimeL::parse_from_rfc3339(DT_STR1).unwrap() };
+    static ref DIFF_0_1: Duration = { Duration::seconds(1) };
     static ref BLOCKOFFSET_LAST: BlockOffset = {
         let n_: BlockOffset = (DATA_STR0.as_bytes().len() / (BLOCKSZ as usize)) as BlockOffset;
         let x_: BlockOffset = match DATA_STR0.as_bytes().len() % (BLOCKSZ as usize) {
@@ -107,7 +86,11 @@ lazy_static!{
 }
 
 /// create an interesting sysline
-fn new_sysline(data: &str, _dt_beg: usize, _dt_end: usize) -> Sysline {
+fn new_sysline(
+    data: &str,
+    _dt_beg: usize,
+    _dt_end: usize,
+) -> Sysline {
     let at_stop: usize = data.as_bytes().len();
     let mut at_byte: usize = 0;
     let mut bo_off: BlockOffset = BLOCKOFFSET_INIT;
@@ -118,22 +101,28 @@ fn new_sysline(data: &str, _dt_beg: usize, _dt_end: usize) -> Sysline {
     while at_byte < at_stop {
         let mut block: Block = Block::with_capacity(BLOCKSZ as usize);
         eprintln!("new_sysline1: data.as_bytes().iter().skip({}).take({})", at_byte, BLOCKSZ);
-        for byte_ in data.as_bytes().iter().skip(at_byte).take(BLOCKSZ as usize) {
+        for byte_ in data
+            .as_bytes()
+            .iter()
+            .skip(at_byte)
+            .take(BLOCKSZ as usize)
+        {
             block.push(*byte_);
         }
         let blocksz = block.len();
         eprintln!("new_sysline1: block.resize({}, 0)", blocksz);
         block.resize(blocksz, 0);
         let blockp: BlockP = BlockP::new(block);
-        eprintln!("new_sysline1: LinePart::(…, {}, {}, {}, {}, {})", 0, blocksz - 1, fo_byte, bo_off, blocksz);
-        let linepart: LinePart = LinePart::new(
-            blockp,
-            0 as BlockIndex,
-            blocksz as BlockIndex,
+        eprintln!(
+            "new_sysline1: LinePart::(…, {}, {}, {}, {}, {})",
+            0,
+            blocksz - 1,
             fo_byte,
             bo_off,
-            BLOCKSZ,
+            blocksz
         );
+        let linepart: LinePart =
+            LinePart::new(blockp, 0 as BlockIndex, blocksz as BlockIndex, fo_byte, bo_off, BLOCKSZ);
         //eprintln!("new_sysline1: linepart: {:?}\n", linepart);
         eprintln!();
         line.append(linepart);
@@ -144,12 +133,7 @@ fn new_sysline(data: &str, _dt_beg: usize, _dt_end: usize) -> Sysline {
     let linep: LineP = LineP::new(line);
     let mut lines = Lines::with_capacity(1);
     lines.push(linep);
-    let sysline: Sysline = Sysline::from_parts(
-        lines,
-        DT_BEG0,
-        DT_END0,
-        Some(dt),
-    );
+    let sysline: Sysline = Sysline::from_parts(lines, DT_BEG0, DT_END0, Some(dt));
 
     sysline
 }
@@ -217,14 +201,26 @@ fn test_sysline_occupies_one_block() {
 fn test_sysline_last_byte_sysline0() {
     let sysline: Sysline = new_sysline0();
     let last_byte: Option<u8> = sysline.last_byte();
-    assert_eq!(Some(DATA_STR0_LAST_BYTE), last_byte, "expected {:?}, got {:?}", DATA_STR0_LAST_BYTE, last_byte)
+    assert_eq!(
+        Some(DATA_STR0_LAST_BYTE),
+        last_byte,
+        "expected {:?}, got {:?}",
+        DATA_STR0_LAST_BYTE,
+        last_byte
+    )
 }
 
 #[test]
 fn test_sysline_last_byte_sysline2() {
     let sysline: Sysline = new_sysline2();
     let last_byte: Option<u8> = sysline.last_byte();
-    assert_eq!(Some(DATA_STR2_LAST_BYTE), last_byte, "expected {:?}, got {:?}", DATA_STR2_LAST_BYTE, last_byte)
+    assert_eq!(
+        Some(DATA_STR2_LAST_BYTE),
+        last_byte,
+        "expected {:?}, got {:?}",
+        DATA_STR2_LAST_BYTE,
+        last_byte
+    )
 }
 
 #[test]

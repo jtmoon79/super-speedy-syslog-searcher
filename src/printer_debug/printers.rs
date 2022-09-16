@@ -4,43 +4,26 @@
 //
 
 #[cfg(test)]
-use crate::common::{
-    FileOpenOptions,
-    FPath,
-};
+use crate::common::{FPath, FileOpenOptions};
 
-use crate::printer::printers::{
-    write_stdout,
-};
+use crate::printer::printers::write_stdout;
 
 #[cfg(test)]
 extern crate si_trace_print;
 #[cfg(test)]
 use si_trace_print::stack::stack_offset_set;
 #[cfg(test)]
-use si_trace_print::{
-    dpo,
-    dpñ,
-    dpfo,
-    dpfn,
-    dpfx,
-    dpfñ,
-};
+use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpo, dpñ};
 
-#[cfg(any(debug_assertions,test))]
-use std::io::Write;  // for `std::io::Stdout.flush`
+#[cfg(any(debug_assertions, test))]
+use std::io::Write; // for `std::io::Stdout.flush`
 
 #[cfg(test)]
-use std::io::prelude::*;  // for `std::fs::File.read_to_string`
+use std::io::prelude::*; // for `std::fs::File.read_to_string`
 
 extern crate termcolor;
 #[doc(hidden)]
-pub use termcolor::{
-    Color,
-    ColorChoice,
-    ColorSpec,
-    WriteColor,
-};
+pub use termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -122,7 +105,7 @@ pub use p_wrn;
 /// only intended to aid visual debugging
 ///
 /// XXX: is this implemented in std or in a crate?
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 pub const fn char_to_char_noraw(c: char) -> char {
     // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#C0_controls
     match c as u32 {
@@ -167,7 +150,7 @@ pub const fn char_to_char_noraw(c: char) -> char {
 ///
 /// only intended for debugging
 #[doc(hidden)]
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 pub const fn byte_to_char_noraw(byte: u8) -> char {
     char_to_char_noraw(byte as char)
 }
@@ -177,7 +160,7 @@ pub const fn byte_to_char_noraw(byte: u8) -> char {
 /// only intended for debugging
 #[doc(hidden)]
 #[allow(non_snake_case)]
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 pub fn buffer_to_String_noraw(buffer: &[u8]) -> String {
     let s1 = match core::str::from_utf8(buffer) {
         Ok(val) => val,
@@ -199,7 +182,7 @@ pub fn buffer_to_String_noraw(buffer: &[u8]) -> String {
 /// only intended for debugging
 #[doc(hidden)]
 #[allow(non_snake_case)]
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 pub fn str_to_String_noraw(str_buf: &str) -> String {
     let mut s2 = String::with_capacity(str_buf.len() + 1);
     for c in str_buf.chars() {
@@ -217,7 +200,10 @@ pub fn str_to_String_noraw(str_buf: &str) -> String {
 pub fn file_to_String_noraw(path: &FPath) -> String {
     let path_ = std::path::Path::new(path);
     let mut open_options = FileOpenOptions::new();
-    let mut file_ = match open_options.read(true).open(&path_) {
+    let mut file_ = match open_options
+        .read(true)
+        .open(&path_)
+    {
         Ok(val) => val,
         Err(err) => {
             eprintln!("ERROR: File::open('{:?}') error {}", path_, err);
@@ -256,12 +242,16 @@ pub fn file_to_String_noraw(path: &FPath) -> String {
 /// helper flush stdout and stderr
 #[doc(hidden)]
 #[allow(dead_code)]
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 pub fn flush_stdouterr() {
     #[allow(clippy::match_single_binding)]
-    match std::io::stdout().flush() { _ => {} };
+    match std::io::stdout().flush() {
+        _ => {}
+    };
     #[allow(clippy::match_single_binding)]
-    match std::io::stderr().flush() { _ => {} };
+    match std::io::stderr().flush() {
+        _ => {}
+    };
 }
 
 /// write to console, `raw` as `true` means "as-is"
@@ -270,8 +260,11 @@ pub fn flush_stdouterr() {
 /// only intended for debugging
 #[doc(hidden)]
 #[allow(dead_code)]
-#[cfg(any(debug_assertions,test))]
-pub fn pretty_print(buffer: &[u8], raw: bool) {
+#[cfg(any(debug_assertions, test))]
+pub fn pretty_print(
+    buffer: &[u8],
+    raw: bool,
+) {
     if raw {
         return write_stdout(buffer);
     }
@@ -319,34 +312,49 @@ fn test_dpo() {
 #[test]
 fn test_dpfo() {
     stack_offset_set(Some(2));
-    dpfo!("this printed line should be indented and preceded with function name 'test_dpfo', with arg {:?}", "arg1");
+    dpfo!(
+        "this printed line should be indented and preceded with function name 'test_dpfo', with arg {:?}",
+        "arg1"
+    );
     dpfo!();
 }
 
 #[test]
 fn test_dpñ() {
     stack_offset_set(Some(2));
-    dpñ!("this printed line should be indented and preceded with function name 'test_dpfñ', with arg {:?}", "arg1");
+    dpñ!(
+        "this printed line should be indented and preceded with function name 'test_dpfñ', with arg {:?}",
+        "arg1"
+    );
     dpñ!();
 }
 
 #[test]
 fn test_dpfn() {
     stack_offset_set(Some(2));
-    dpfn!("this printed line should be indented and preceded with function name 'test_dpfn', with arg {:?}", "arg1");
+    dpfn!(
+        "this printed line should be indented and preceded with function name 'test_dpfn', with arg {:?}",
+        "arg1"
+    );
     dpfn!();
 }
 
 #[test]
 fn test_dpfx() {
     stack_offset_set(Some(2));
-    dpfx!("this printed line should be indented and preceded with function name 'test_dpfx', with arg {:?}", "arg1");
+    dpfx!(
+        "this printed line should be indented and preceded with function name 'test_dpfx', with arg {:?}",
+        "arg1"
+    );
     dpfx!();
 }
 
 #[test]
 fn test_dpfñ() {
     stack_offset_set(Some(2));
-    dpfñ!("this printed line should be indented and preceded with function name 'test_dpfñ', with arg {:?}", "arg1");
+    dpfñ!(
+        "this printed line should be indented and preceded with function name 'test_dpfñ', with arg {:?}",
+        "arg1"
+    );
     dpfñ!();
 }

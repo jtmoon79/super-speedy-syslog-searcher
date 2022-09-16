@@ -26,7 +26,7 @@ pub use std::path::Path;
 pub type FPath = String;
 
 /// a sequence of [`FPath`]s
-pub type FPaths = Vec::<FPath>;
+pub type FPaths = Vec<FPath>;
 
 #[doc(hidden)]
 pub type FileMetadata = std::fs::Metadata;
@@ -117,7 +117,10 @@ impl<T, E> ResultS3<T, E> {
     #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
-    pub fn contains<U>(&self, x: &U) -> bool
+    pub fn contains<U>(
+        &self,
+        x: &U,
+    ) -> bool
     where
         U: PartialEq<T>,
     {
@@ -135,7 +138,10 @@ impl<T, E> ResultS3<T, E> {
     #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
-    pub fn contains_err<F>(&self, f: &F) -> bool
+    pub fn contains_err<F>(
+        &self,
+        f: &F,
+    ) -> bool
     where
         F: PartialEq<E>,
     {
@@ -180,11 +186,20 @@ impl<T, E> std::fmt::Display for ResultS3<T, E>
 where
     E: std::fmt::Display,
 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
         match self {
-            ResultS3::Found(_) => { write!(f, "ResultS3::Found") },
-            ResultS3::Done => { write!(f, "ResultS3::Done") },
-            ResultS3::Err(err) => { write!(f, "ResultS3::Err({})", err) },
+            ResultS3::Found(_) => {
+                write!(f, "ResultS3::Found")
+            }
+            ResultS3::Done => {
+                write!(f, "ResultS3::Done")
+            }
+            ResultS3::Err(err) => {
+                write!(f, "ResultS3::Err({})", err)
+            }
         }
     }
 }
@@ -231,7 +246,10 @@ impl<E> FileProcessingResult<E> {
 ///
 /// [PartialEq]: std::cmp::PartialEq
 impl<E> PartialEq for FileProcessingResult<E> {
-    fn eq(&self, other: &Self) -> bool {
+    fn eq(
+        &self,
+        other: &Self,
+    ) -> bool {
         if self.has_err() && other.has_err() {
             return true;
         }
@@ -266,11 +284,16 @@ pub enum FileType {
 //      When `Default` is integrated then this `impl Default` can be removed.
 //      Issue #18
 impl Default for FileType {
-    fn default() -> Self { FileType::FileUnset }
+    fn default() -> Self {
+        FileType::FileUnset
+    }
 }
 
 impl std::fmt::Display for FileType {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter,
+    ) -> std::fmt::Result {
         match self {
             FileType::FileUnset => write!(f, "UNSET"),
             FileType::File => write!(f, "TEXT"),
@@ -287,17 +310,13 @@ impl FileType {
     /// Returns `true` if this is a compressed file
     #[inline(always)]
     pub const fn is_compressed(&self) -> bool {
-        matches!(*self,
-            FileType::FileGz | FileType::FileTarGz | FileType::FileXz
-        )
+        matches!(*self, FileType::FileGz | FileType::FileTarGz | FileType::FileXz)
     }
 
     /// Returns `true` if the file is within an archived file
     #[inline(always)]
     pub const fn is_archived(&self) -> bool {
-        matches!(*self,
-            FileType::FileTar | FileType::FileTarGz
-        )
+        matches!(*self, FileType::FileTar | FileType::FileTarGz)
     }
 
     /// Returns the tarred version of the `FileType`

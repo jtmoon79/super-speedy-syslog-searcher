@@ -192,28 +192,54 @@ const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z:";
 
 // TODO: Issue #20 restore '%Z' patterns
 /// `--help` _afterword_ message.
-const CLI_HELP_AFTER: &str = concatcp!("
+const CLI_HELP_AFTER: &str = concatcp!(
+    "
 DateTime Filter patterns may be:
-    \"", CLI_DT_FILTER_PATTERN1.0, "\"
-    \"", CLI_DT_FILTER_PATTERN2.0, "\"
-    \"", CLI_DT_FILTER_PATTERN4.0, "\"
-    \"", CLI_DT_FILTER_PATTERN5.0, "\"
-    \"", CLI_DT_FILTER_PATTERN7.0, "\"
-    \"", CLI_DT_FILTER_PATTERN8.0, "\"
-    \"", CLI_DT_FILTER_PATTERN10.0, "\"
-    \"", CLI_DT_FILTER_PATTERN11.0, "\"
-    \"", CLI_DT_FILTER_PATTERN13.0, "\"
-    \"", CLI_DT_FILTER_PATTERN14.0, "\"
-    \"", CLI_DT_FILTER_PATTERN16.0, "\"
+    \"",
+    CLI_DT_FILTER_PATTERN1.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN2.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN4.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN5.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN7.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN8.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN10.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN11.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN13.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN14.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN16.0,
+    "\"
 
 Without a timezone offset (%z or %Z), the Datetime Filter is presumed to be the system timezone.
 Pattern \"+%s\" is Unix epoch timestamp in seconds with a preceding \"+\".
 Ambiguous timezones will be rejected, e.g. \"SST\".
-Prepended datetime, -u or -l, is printed in format \"", CLI_OPT_PREPEND_FMT, "\".
+Prepended datetime, -u or -l, is printed in format \"",
+    CLI_OPT_PREPEND_FMT,
+    "\".
 DateTime formatting is described at https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
-DateTimes supported language is English.");
+DateTimes supported language is English."
+);
 
 /// clap command-line arguments build-time definitions.
 //
@@ -237,13 +263,13 @@ struct CLI_Args {
     /// Directories will be recursed, remaining on the same filesystem.
     /// Symlinks will be followed.
     #[clap(required = true)]
-    paths: Vec::<String>,
+    paths: Vec<String>,
 
     /// DateTime Filter after.
     #[clap(
         short = 'a',
         long,
-        help = "DateTime After filter - print syslog lines with a datetime that is at or after this datetime. For example, '20200102T123000'",
+        help = "DateTime After filter - print syslog lines with a datetime that is at or after this datetime. For example, '20200102T123000'"
     )]
     dt_after: Option<String>,
 
@@ -251,7 +277,7 @@ struct CLI_Args {
     #[clap(
         short = 'b',
         long,
-        help = "DateTime Before filter - print syslog lines with a datetime that is at or before this datetime. For example, '20200102T123001'",
+        help = "DateTime Before filter - print syslog lines with a datetime that is at or before this datetime. For example, '20200102T123001'"
     )]
     dt_before: Option<String>,
 
@@ -269,7 +295,7 @@ struct CLI_Args {
     #[clap(
         short = 'u',
         long = "prepend-utc",
-        group = "prepend_dt",
+        group = "prepend_dt"
     )]
     prepend_utc: bool,
 
@@ -277,7 +303,7 @@ struct CLI_Args {
     #[clap(
         short = 'l',
         long = "prepend-local",
-        group = "prepend_dt",
+        group = "prepend_dt"
     )]
     prepend_local: bool,
 
@@ -285,7 +311,7 @@ struct CLI_Args {
     #[clap(
         short = 'n',
         long = "prepend-filename",
-        group = "prepend_file",
+        group = "prepend_file"
     )]
     prepend_filename: bool,
 
@@ -293,14 +319,14 @@ struct CLI_Args {
     #[clap(
         short = 'p',
         long = "prepend-filepath",
-        group = "prepend_file",
+        group = "prepend_file"
     )]
     prepend_filepath: bool,
 
     /// Align column widths of prepended data.
     #[clap(
         short = 'w',
-        long = "prepend-file-align",
+        long = "prepend-file-align"
     )]
     prepend_file_align: bool,
 
@@ -326,10 +352,7 @@ struct CLI_Args {
     blocksz: String,
 
     /// Print a summary of files processed. Printed to stderr.
-    #[clap(
-        short,
-        long,
-    )]
+    #[clap(short, long)]
     summary: bool,
 }
 
@@ -342,28 +365,31 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     if blockszs.starts_with("0x") {
         blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0x"), 16) {
             Ok(val) => val,
-            Err(err) => { return Err(format!("{} {}", errs, err)) }
+            Err(err) => return Err(format!("{} {}", errs, err)),
         };
     } else if blockszs.starts_with("0o") {
         blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0o"), 8) {
             Ok(val) => val,
-            Err(err) => { return Err(format!("{} {}", errs, err)) }
+            Err(err) => return Err(format!("{} {}", errs, err)),
         };
     } else if blockszs.starts_with("0b") {
         blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0b"), 2) {
             Ok(val) => val,
-            Err(err) => { return Err(format!("{} {}", errs, err)) }
+            Err(err) => return Err(format!("{} {}", errs, err)),
         };
     } else {
         blocksz_ = match blockszs.parse::<BlockSz>() {
             Ok(val) => val,
-            Err(err) => { return Err(format!("{} {}", errs, err)) }
+            Err(err) => return Err(format!("{} {}", errs, err)),
         };
     }
 
     let max_min = std::cmp::max(BLOCKSZ_MIN, SyslogProcessor::BLOCKSZ_MIN);
-    if ! (max_min <= blocksz_ && blocksz_ <= BLOCKSZ_MAX) {
-        return Err(format!("--blocksz must be {} ≤ BLOCKSZ ≤ {}, it was {:?}", max_min, BLOCKSZ_MAX, blockszs));
+    if !(max_min <= blocksz_ && blocksz_ <= BLOCKSZ_MAX) {
+        return Err(format!(
+            "--blocksz must be {} ≤ BLOCKSZ ≤ {}, it was {:?}",
+            max_min, BLOCKSZ_MAX, blockszs
+        ));
     }
 
     Ok(blocksz_)
@@ -374,8 +400,10 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
 /// See <https://github.com/clap-rs/clap/blob/v3.1.6/examples/tutorial_derive/04_02_validate.rs>
 fn cli_validate_blocksz(blockszs: &str) -> clap::Result<(), String> {
     match cli_process_blocksz(&String::from(blockszs)) {
-        Ok(_) => {},
-        Err(err) => { return Err(err); }
+        Ok(_) => {}
+        Err(err) => {
+            return Err(err);
+        }
     }
     Ok(())
 }
@@ -386,7 +414,11 @@ fn cli_process_tz_offset(tzo: &String) -> std::result::Result<FixedOffset, Strin
     let mut tzo_: String;
     if tzo.is_empty() {
         // ripped from https://stackoverflow.com/a/59603899/471376
-        let local_offs = Local.timestamp(0, 0).offset().fix().local_minus_utc();
+        let local_offs = Local
+            .timestamp(0, 0)
+            .offset()
+            .fix()
+            .local_minus_utc();
         let hours = local_offs / 3600;
         let mins = local_offs % 3600;
         tzo_ = format!("{:+03}{:02}", hours, mins);
@@ -410,7 +442,10 @@ fn cli_process_tz_offset(tzo: &String) -> std::result::Result<FixedOffset, Strin
     let fo = match FixedOffset::east_opt(east) {
         Some(val) => val,
         None => {
-            return Err(format!("Unable to parse a timezone FixedOffset for -t {:?} (value {:?})", tzo, east));
+            return Err(format!(
+                "Unable to parse a timezone FixedOffset for -t {:?} (value {:?})",
+                tzo, east
+            ));
         }
     };
 
@@ -430,7 +465,10 @@ fn cli_validate_tz_offset(tz_offset: &str) -> std::result::Result<(), String> {
 /// Helper function to function `cli_process_args`.
 ///
 /// [`DateTimeL`]: s4lib::data::datetime::DateTimeL
-fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeLOpt {
+fn process_dt(
+    dts: Option<String>,
+    tz_offset: &FixedOffset,
+) -> DateTimeLOpt {
     // parse datetime filters
     match dts {
         Some(dts) => {
@@ -441,26 +479,30 @@ fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeLOpt {
                 // if !has_time then modify the value and pattern
                 // e.g. `"20220101"` becomes `"20220101 T000000"`
                 //      `"%Y%d%m"` becomes `"%Y%d%m T%H%M%S"`
-                if ! has_time {
+                if !has_time {
                     dts_.push_str(CLI_DT_FILTER_APPEND_TIME_VALUE);
                     pattern.push_str(CLI_DT_FILTER_APPEND_TIME_PATTERN);
-                    dpfo!("appended {:?}, {:?}", CLI_DT_FILTER_APPEND_TIME_VALUE, CLI_DT_FILTER_APPEND_TIME_PATTERN);
+                    dpfo!(
+                        "appended {:?}, {:?}",
+                        CLI_DT_FILTER_APPEND_TIME_VALUE,
+                        CLI_DT_FILTER_APPEND_TIME_PATTERN
+                    );
                 }
                 dpfo!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", dts_, pattern, has_tz, tz_offset);
-                if let Some(val) = datetime_parse_from_str(
-                    dts_.as_str(), pattern.as_str(), *has_tz, tz_offset
-                ) {
+                if let Some(val) =
+                    datetime_parse_from_str(dts_.as_str(), pattern.as_str(), *has_tz, tz_offset)
+                {
                     dto = Some(val);
                     break;
                 };
-            };
+            }
             if dto.is_none() {
                 eprintln!("ERROR: Unable to parse a datetime from {:?}", dts);
                 std::process::exit(1);
             }
 
             dto
-        },
+        }
         None => None,
     }
 }
@@ -468,20 +510,9 @@ fn process_dt(dts: Option<String>, tz_offset: &FixedOffset) -> DateTimeLOpt {
 /// Process user-passed CLI argument strings into expected types.
 ///
 /// This function will [`std::process::exit`] if there is an [`Err`].
-fn cli_process_args() -> (
-    FPaths,
-    BlockSz,
-    DateTimeLOpt,
-    DateTimeLOpt,
-    FixedOffset,
-    ColorChoice,
-    bool,
-    bool,
-    bool,
-    bool,
-    bool,
-    bool,
-) {
+fn cli_process_args(
+) -> (FPaths, BlockSz, DateTimeLOpt, DateTimeLOpt, FixedOffset, ColorChoice, bool, bool, bool, bool, bool, bool)
+{
     let args = CLI_Args::parse();
 
     dpfo!("args {:?}", args);
@@ -492,7 +523,7 @@ fn cli_process_args() -> (
 
     let blockszs: String = args.blocksz;
     let blocksz: BlockSz = match cli_process_blocksz(&blockszs) {
-        Ok(val) => { val },
+        Ok(val) => val,
         Err(err) => {
             eprintln!("ERROR: {}", err);
             std::process::exit(1);
@@ -526,8 +557,8 @@ fn cli_process_args() -> (
                 eprintln!("ERROR: Datetime --dt-after ({}) is after Datetime --dt-before ({})", dta, dtb);
                 std::process::exit(1);
             }
-        },
-        _ => {},
+        }
+        _ => {}
     }
 
     // map `CLI_Color_Choice` to `ColorChoice`
@@ -549,7 +580,7 @@ fn cli_process_args() -> (
         args.prepend_filename,
         args.prepend_filepath,
         args.prepend_file_align,
-        args.summary
+        args.summary,
     )
 }
 
@@ -563,7 +594,7 @@ fn cli_process_args() -> (
 pub fn main() -> ExitCode {
     // set once, use `stackdepth_main` to access `_STACKDEPTH_MAIN`
     if cfg!(debug_assertions) {
-        stack_offset_set(Some(0 ));
+        stack_offset_set(Some(0));
     }
     dpfn!();
     let (
@@ -656,15 +687,7 @@ type PathId = usize;
 /// * optional `DateTimeL` as the _before_ datetime filter
 /// * fallback timezone `FixedOffset` for datetime formats without a timezone
 ///
-type ThreadInitData = (
-    FPath,
-    PathId,
-    FileType,
-    BlockSz,
-    DateTimeLOpt,
-    DateTimeLOpt,
-    FixedOffset,
-);
+type ThreadInitData = (FPath, PathId, FileType, BlockSz, DateTimeLOpt, DateTimeLOpt, FixedOffset);
 
 /// Is this the last [`Sysline`] of the syslog file?
 ///
@@ -718,22 +741,22 @@ type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 /// [`SyslogProcessor`]: s4lib::readers::syslogprocessor::SyslogProcessor
 /// [`Sysline`]: s4lib::data::sysline::Sysline
 /// [channel]: self::ChanSendDatum
-fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: ThreadInitData) {
+fn exec_syslogprocessor_thread(
+    chan_send_dt: ChanSendDatum,
+    thread_init_data: ThreadInitData,
+) {
     stack_offset_set(Some(2));
-    let (
-        path,
-        _pathid,
-        filetype,
-        blocksz,
-        filter_dt_after_opt,
-        filter_dt_before_opt,
-        tz_offset
-    ) = thread_init_data;
+    let (path, _pathid, filetype, blocksz, filter_dt_after_opt, filter_dt_before_opt, tz_offset) =
+        thread_init_data;
     dpfn!("({:?})", path);
 
     let thread_cur: thread::Thread = thread::current();
     let _tid: thread::ThreadId = thread_cur.id();
-    let tname: &str = <&str>::clone(&thread_cur.name().unwrap_or(""));
+    let tname: &str = <&str>::clone(
+        &thread_cur
+            .name()
+            .unwrap_or(""),
+    );
 
     let mut syslogproc = match SyslogProcessor::new(
         path.clone(),
@@ -791,9 +814,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
         FileProcessingResultBlockZero::FileOk => {}
         _ => {
             dpfo!("chan_send_dt.send((None, summary, true))");
-            match chan_send_dt.send(
-                (None, Some(syslogproc.summary()), true, result)
-            ) {
+            match chan_send_dt.send((None, Some(syslogproc.summary()), true, result)) {
                 Ok(_) => {}
                 Err(err) => {
                     eprintln!("ERROR: stage1 chan_send_dt.send(…) failed {}", err);
@@ -813,13 +834,12 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
         }
     }
 
-    let mut sent_is_last: bool = false;  // sanity check sending of `is_last`
+    let mut sent_is_last: bool = false; // sanity check sending of `is_last`
     let mut fo1: FileOffset = 0;
     let search_more: bool;
     let result: ResultS3SyslineFind = syslogproc.find_sysline_between_datetime_filters(0);
     match result {
-        ResultS3SyslineFind::Found((fo, syslinep))
-        => {
+        ResultS3SyslineFind::Found((fo, syslinep)) => {
             fo1 = fo;
             let is_last: IsSyslineLast = syslogproc.is_sysline_last(&syslinep) as IsSyslineLast;
             dpo!("{:?}({}): Found, chan_send_dt.send({:p}, None, {});", _tid, tname, syslinep, is_last);
@@ -831,7 +851,11 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
             }
             // XXX: sanity check
             if is_last {
-                assert!(!sent_is_last, "is_last {}, yet sent_is_last was also {} (is_last was already sent!)", is_last, sent_is_last);
+                assert!(
+                    !sent_is_last,
+                    "is_last {}, yet sent_is_last was also {} (is_last was already sent!)",
+                    is_last, sent_is_last
+                );
                 sent_is_last = true;
                 search_more = false;
             } else {
@@ -843,7 +867,10 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
         }
         ResultS3SyslineFind::Err(err) => {
             dpo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, tname, err);
-            eprintln!("ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}", path, err);
+            eprintln!(
+                "ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}",
+                path, err
+            );
             search_more = false;
         }
     }
@@ -870,8 +897,7 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
         // TODO: [2022/06/20] see note about refactoring `find` functions so they are more intuitive
         let result: ResultS3SyslineFind = syslogproc.find_sysline_between_datetime_filters(fo1);
         match result {
-            ResultS3SyslineFind::Found((fo, syslinep))
-            => {
+            ResultS3SyslineFind::Found((fo, syslinep)) => {
                 let is_last = syslogproc.is_sysline_last(&syslinep);
                 dpo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", _tid, tname, syslinep, is_last);
                 match chan_send_dt.send((Some(syslinep), None, is_last, FILEOK)) {
@@ -883,7 +909,11 @@ fn exec_syslogprocessor_thread(chan_send_dt: ChanSendDatum, thread_init_data: Th
                 fo1 = fo;
                 // XXX: sanity check
                 if is_last {
-                    assert!(!sent_is_last, "is_last {}, yet sent_is_last was also {} (is_last was already sent!)", is_last, sent_is_last);
+                    assert!(
+                        !sent_is_last,
+                        "is_last {}, yet sent_is_last was also {} (is_last was already sent!)",
+                        is_last, sent_is_last
+                    );
                     break;
                 }
             }
@@ -928,28 +958,41 @@ pub struct SummaryPrinted {
 }
 
 impl fmt::Debug for SummaryPrinted {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter,
+    ) -> fmt::Result {
         f.debug_struct("Printed:")
             .field("bytes", &self.bytes)
             .field("lines", &self.lines)
             .field("syslines", &self.syslines)
-            .field("dt_first", &format_args!("{}",
-                match self.dt_first {
+            .field(
+                "dt_first",
+                &format_args!(
+                    "{}",
+                    match self.dt_first {
                         Some(dt) => {
                             dt.to_string()
-                        },
-                        None => { String::from("None") },
+                        }
+                        None => {
+                            String::from("None")
+                        }
                     }
-                )
+                ),
             )
-            .field("dt_last", &format_args!("{}",
-                match self.dt_last {
+            .field(
+                "dt_last",
+                &format_args!(
+                    "{}",
+                    match self.dt_last {
                         Some(dt) => {
                             dt.to_string()
-                        },
-                        None => { String::from("None") },
+                        }
+                        None => {
+                            String::from("None")
+                        }
                     }
-                )
+                ),
             )
             .finish()
     }
@@ -957,29 +1000,36 @@ impl fmt::Debug for SummaryPrinted {
 
 // TODO: move `SummaryPrinted` into `printer/summary.rs`
 impl SummaryPrinted {
-
     /// Print a `SummaryPrinted` with color on stderr.
     ///
     /// Mimics debug print but with colorized zero values.
     /// Only colorize if associated `SummaryOpt` has corresponding
     /// non-zero values.
-    pub fn print_colored_stderr(&self, color_choice_opt: Option<ColorChoice>, summary_opt: &SummaryOpt) {
+    pub fn print_colored_stderr(
+        &self,
+        color_choice_opt: Option<ColorChoice>,
+        summary_opt: &SummaryOpt,
+    ) {
         let sumd = Summary::default();
         let sum_: &Summary = match summary_opt {
             Some(s) => s,
-            None => {
-                &sumd
-            }
+            None => &sumd,
         };
         eprint!("{{ bytes: ");
         if self.bytes == 0 && sum_.BlockReader_bytes != 0 {
             #[allow(clippy::single_match)]
-            match print_colored_stderr(COLOR_ERROR, color_choice_opt, self.bytes.to_string().as_bytes()) {
+            match print_colored_stderr(
+                COLOR_ERROR,
+                color_choice_opt,
+                self.bytes
+                    .to_string()
+                    .as_bytes(),
+            ) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
-                },
-                _ => {},
+                }
+                _ => {}
             }
         } else {
             eprint!("{}", self.bytes);
@@ -988,12 +1038,18 @@ impl SummaryPrinted {
         eprint!(", lines: ");
         if self.lines == 0 && sum_.BlockReader_bytes != 0 {
             #[allow(clippy::single_match)]
-            match print_colored_stderr(COLOR_ERROR, color_choice_opt, self.lines.to_string().as_bytes()) {
+            match print_colored_stderr(
+                COLOR_ERROR,
+                color_choice_opt,
+                self.lines
+                    .to_string()
+                    .as_bytes(),
+            ) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
-                },
-                _ => {},
+                }
+                _ => {}
             }
         } else {
             eprint!("{}", self.lines);
@@ -1002,12 +1058,18 @@ impl SummaryPrinted {
         eprint!(", syslines: ");
         if self.syslines == 0 && sum_.LineReader_lines != 0 {
             #[allow(clippy::single_match)]
-            match print_colored_stderr(COLOR_ERROR, color_choice_opt, self.syslines.to_string().as_bytes()) {
+            match print_colored_stderr(
+                COLOR_ERROR,
+                color_choice_opt,
+                self.syslines
+                    .to_string()
+                    .as_bytes(),
+            ) {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
-                },
-                _ => {},
+                }
+                _ => {}
             }
         } else {
             eprint!("{}", self.syslines);
@@ -1020,8 +1082,8 @@ impl SummaryPrinted {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
-                },
-                _ => {},
+                }
+                _ => {}
             }
         } else {
             eprint!("{:?}", self.dt_first);
@@ -1034,8 +1096,8 @@ impl SummaryPrinted {
                 Err(err) => {
                     eprintln!("ERROR: print_colored_stderr {:?}", err);
                     return;
-                },
-                _ => {},
+                }
+                _ => {}
             }
         } else {
             eprint!("{:?}", self.dt_first);
@@ -1046,7 +1108,10 @@ impl SummaryPrinted {
     /// Update a `SummaryPrinted` with information from a printed `Sysline`.
     //
     // TODO: 2022/06/21 any way to avoid a `DateTime` copy on every printed sysline?
-    fn summaryprint_update(&mut self, syslinep: &SyslineP) {
+    fn summaryprint_update(
+        &mut self,
+        syslinep: &SyslineP,
+    ) {
         self.syslines += 1;
         self.lines += (*syslinep).count_lines();
         self.bytes += (*syslinep).count_bytes();
@@ -1056,20 +1121,20 @@ impl SummaryPrinted {
                     if dt < &dt_first {
                         self.dt_first = Some(*dt);
                     };
-                },
+                }
                 None => {
                     self.dt_first = Some(*dt);
-                },
+                }
             };
             match self.dt_last {
                 Some(dt_last) => {
                     if dt > &dt_last {
                         self.dt_last = Some(*dt);
                     };
-                },
+                }
                 None => {
                     self.dt_last = Some(*dt);
-                },
+                }
             };
         };
     }
@@ -1077,12 +1142,16 @@ impl SummaryPrinted {
     /// Update a mapping of `PathId` to `SummaryPrinted`.
     ///
     /// Helper function to function `processing_loop`.
-    fn summaryprint_map_update(syslinep: &SyslineP, pathid: &PathId, map_: &mut MapPathIdSummaryPrint) {
+    fn summaryprint_map_update(
+        syslinep: &SyslineP,
+        pathid: &PathId,
+        map_: &mut MapPathIdSummaryPrint,
+    ) {
         dpfñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
                 sp.summaryprint_update(syslinep);
-            },
+            }
             None => {
                 let mut sp = SummaryPrinted::default();
                 sp.summaryprint_update(syslinep);
@@ -1107,23 +1176,30 @@ const OPT_SUMMARY_PRINT_INDENT: &str = "  ";
 
 // -------------------------------------------------------------------------------------------------
 
-type MapPathIdSummaryPrint = BTreeMap::<PathId, SummaryPrinted>;
-type MapPathIdSummary = HashMap::<PathId, Summary>;
+type MapPathIdSummaryPrint = BTreeMap<PathId, SummaryPrinted>;
+type MapPathIdSummary = HashMap<PathId, Summary>;
 
 /// Helper function to function `processing_loop`.
 #[inline(always)]
-fn summary_update(pathid: &PathId, summary: Summary, map_: &mut MapPathIdSummary) {
+fn summary_update(
+    pathid: &PathId,
+    summary: Summary,
+    map_: &mut MapPathIdSummary,
+) {
     if let Some(val) = map_.insert(*pathid, summary) {
-        eprintln!("Error: processing_loop: map_pathid_summary already contains key {:?} with {:?}, overwritten", pathid, val);
+        eprintln!(
+            "Error: processing_loop: map_pathid_summary already contains key {:?} with {:?}, overwritten",
+            pathid, val
+        );
     };
 }
 
-type MapPathIdToProcessPathResult = HashMap::<PathId, ProcessPathResult>;
-type MapPathIdToFPath = BTreeMap::<PathId, FPath>;
-type MapPathIdToColor = HashMap::<PathId, Color>;
-type MapPathIdToPrinterSysline = HashMap::<PathId, PrinterSysline>;
-type MapPathIdToFileType = HashMap::<PathId, FileType>;
-type MapPathIdToMimeGuess = HashMap::<PathId, MimeGuess>;
+type MapPathIdToProcessPathResult = HashMap<PathId, ProcessPathResult>;
+type MapPathIdToFPath = BTreeMap<PathId, FPath>;
+type MapPathIdToColor = HashMap<PathId, Color>;
+type MapPathIdToPrinterSysline = HashMap<PathId, PrinterSysline>;
+type MapPathIdToFileType = HashMap<PathId, FileType>;
+type MapPathIdToMimeGuess = HashMap<PathId, MimeGuess>;
 
 /// The main [`Sysline`] processing and printing loop.
 ///
@@ -1159,12 +1235,28 @@ fn processing_loop(
     cli_opt_prepend_file_align: bool,
     cli_opt_summary: bool,
 ) -> bool {
-    dpfn!("({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})", paths_results, blocksz, filter_dt_after_opt, filter_dt_before_opt, color_choice, cli_opt_prepend_local, cli_opt_prepend_utc, cli_opt_summary);
+    dpfn!(
+        "({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})",
+        paths_results,
+        blocksz,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
+        color_choice,
+        cli_opt_prepend_local,
+        cli_opt_prepend_utc,
+        cli_opt_summary
+    );
 
     // XXX: sanity check
-    assert!(!(cli_opt_prepend_filename && cli_opt_prepend_filepath), "Cannot both cli_opt_prepend_filename && cli_opt_prepend_filepath");
+    assert!(
+        !(cli_opt_prepend_filename && cli_opt_prepend_filepath),
+        "Cannot both cli_opt_prepend_filename && cli_opt_prepend_filepath"
+    );
     // XXX: sanity check
-    assert!(!(cli_opt_prepend_utc && cli_opt_prepend_local), "Cannot both cli_opt_prepend_utc && cli_opt_prepend_local");
+    assert!(
+        !(cli_opt_prepend_utc && cli_opt_prepend_local),
+        "Cannot both cli_opt_prepend_utc && cli_opt_prepend_local"
+    );
 
     if paths_results.is_empty() {
         dpfx!("paths_results.is_empty(); nothing to do");
@@ -1187,7 +1279,8 @@ fn processing_loop(
     //       Would be best to first implment `FILE`, then `FILE_COMPRESS_GZ`, then `FILE_IN_ARCHIVE_TAR`
 
     // precount the number of valid files that will be processed
-    let file_count: usize = paths_results.iter()
+    let file_count: usize = paths_results
+        .iter()
         .filter(|x| matches!(x, ProcessPathResult::FileValid(..)))
         .count();
 
@@ -1207,23 +1300,23 @@ fn processing_loop(
     let mut map_pathid_mimeguess = MapPathIdToMimeGuess::with_capacity(file_count);
     let mut paths_total: usize = 0;
 
-    for (pathid_counter, processpathresult) in paths_results.drain(..).enumerate()
+    for (pathid_counter, processpathresult) in paths_results
+        .drain(..)
+        .enumerate()
     {
         match processpathresult {
             // XXX: use `ref` to avoid "use of partially moved value" error
-            ProcessPathResult::FileValid(ref path, ref mimeguess, ref filetype) =>
-            {
+            ProcessPathResult::FileValid(ref path, ref mimeguess, ref filetype) => {
                 dpfo!("map_pathid_results.push({:?})", path);
                 map_pathid_path.insert(pathid_counter, path.clone());
                 map_pathid_filetype.insert(pathid_counter, *filetype);
                 map_pathid_mimeguess.insert(pathid_counter, *mimeguess);
                 map_pathid_results.insert(pathid_counter, processpathresult);
             }
-            _ =>
-            {
+            _ => {
                 dpfo!("paths_invalid_results.push({:?})", processpathresult);
                 map_pathid_results_invalid.insert(pathid_counter, processpathresult);
-            },
+            }
         };
         paths_total += 1;
     }
@@ -1280,15 +1373,13 @@ fn processing_loop(
     }
     for (pathid, path) in map_pathid_path.iter() {
         let (filetype, _) = match map_pathid_results.get(pathid) {
-            Some(processpathresult) => {
-                match processpathresult {
-                    ProcessPathResult::FileValid(path, _m, filetype) => (filetype, path),
-                    val => {
-                        eprintln!("ERROR: unhandled ProcessPathResult {:?}", val);
-                        continue;
-                    },
+            Some(processpathresult) => match processpathresult {
+                ProcessPathResult::FileValid(path, _m, filetype) => (filetype, path),
+                val => {
+                    eprintln!("ERROR: unhandled ProcessPathResult {:?}", val);
+                    continue;
                 }
-            }
+            },
             None => {
                 panic!("bad pathid {}", pathid);
             }
@@ -1306,17 +1397,18 @@ fn processing_loop(
         dpfo!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
         map_pathid_chanrecvdatum.insert(*pathid, chan_recv_dt);
         let basename_: FPath = basename(path);
-        match thread::Builder::new().name(basename_.clone()).spawn(
-                move || exec_syslogprocessor_thread(chan_send_dt, thread_data)
-            ) {
-                    Ok(_joinhandle) => {},
-                    Err(err) => {
-                        eprintln!("ERROR: thread.name({:?}).spawn() pathid {} failed {:?}", basename_, pathid, err);
-                        map_pathid_chanrecvdatum.remove(pathid);
-                        map_pathid_color.remove(pathid);
-                        continue;
-                    }
-                }
+        match thread::Builder::new()
+            .name(basename_.clone())
+            .spawn(move || exec_syslogprocessor_thread(chan_send_dt, thread_data))
+        {
+            Ok(_joinhandle) => {}
+            Err(err) => {
+                eprintln!("ERROR: thread.name({:?}).spawn() pathid {} failed {:?}", basename_, pathid, err);
+                map_pathid_chanrecvdatum.remove(pathid);
+                map_pathid_color.remove(pathid);
+                continue;
+            }
+        }
     }
 
     if map_pathid_chanrecvdatum.is_empty() {
@@ -1325,7 +1417,9 @@ fn processing_loop(
         print_summary_opt_printed(&None, &None, &color_choice);
         eprintln!(
             "Paths total {}, files not processed {}, files processed {}",
-            paths_total, map_pathid_results_invalid.len(), map_pathid_results.len(),
+            paths_total,
+            map_pathid_results_invalid.len(),
+            map_pathid_results.len(),
         );
         return false;
     }
@@ -1430,13 +1524,22 @@ fn processing_loop(
         if cfg!(debug_assertions) {
             dpfo!("map_pathid_datum.len() {}", map_pathid_datum.len());
             for (pathid, _datum) in map_pathid_datum.iter() {
-                let _path: &FPath = map_pathid_path.get(pathid).unwrap();
+                let _path: &FPath = map_pathid_path
+                    .get(pathid)
+                    .unwrap();
                 dpfo!("map_pathid_datum: thread {} {} has data", _path, pathid);
             }
             dpfo!("map_pathid_chanrecvdatum.len() {}", map_pathid_chanrecvdatum.len());
             for (pathid, _chanrdatum) in map_pathid_chanrecvdatum.iter() {
-                let _path: &FPath = map_pathid_path.get(pathid).unwrap();
-                dpfo!("map_pathid_chanrecvdatum: thread {} {} channel messages {}", _path, pathid, _chanrdatum.len());
+                let _path: &FPath = map_pathid_path
+                    .get(pathid)
+                    .unwrap();
+                dpfo!(
+                    "map_pathid_chanrecvdatum: thread {} {} channel messages {}",
+                    _path,
+                    pathid,
+                    _chanrdatum.len()
+                );
             }
         }
 
@@ -1450,7 +1553,8 @@ fn processing_loop(
 
             let pathid: PathId;
             let result: RecvResult4;
-            (pathid, result) = match recv_many_chan(&map_pathid_chanrecvdatum, &mut index_select, &set_pathid) {
+            (pathid, result) = match recv_many_chan(&map_pathid_chanrecvdatum, &mut index_select, &set_pathid)
+            {
                 Some(val) => val,
                 None => {
                     eprintln!("ERROR: recv_many_chan returned None which is unexpected");
@@ -1474,7 +1578,11 @@ fn processing_loop(
                         // receiving a `Summary` means that was the last data sent on the channel
                         disconnect.push(pathid);
                     } else {
-                        assert!(chan_datum.0.is_some(), "ChanDatum None(Summary) and None(SyslineP); should have one Some(). PathId {:?}", pathid);
+                        assert!(
+                            chan_datum.0.is_some(),
+                            "ChanDatum None(Summary) and None(SyslineP); should have one Some(). PathId {:?}",
+                            pathid
+                        );
                         map_pathid_datum.insert(pathid, chan_datum);
                         set_pathid.insert(pathid);
                     }
@@ -1494,10 +1602,16 @@ fn processing_loop(
             // the earliest datetime is printed.
 
             if cfg!(debug_assertions) {
-                for (_i, (_k, _v)) in map_pathid_chanrecvdatum.iter().enumerate() {
+                for (_i, (_k, _v)) in map_pathid_chanrecvdatum
+                    .iter()
+                    .enumerate()
+                {
                     dpo!("{} A1 map_pathid_chanrecvdatum[{:?}] = {:?}", _i, _k, _v);
                 }
-                for (_i, (_k, _v)) in map_pathid_datum.iter().enumerate() {
+                for (_i, (_k, _v)) in map_pathid_datum
+                    .iter()
+                    .enumerate()
+                {
                     dpo!("{} A1 map_pathid_datum[{:?}] = {:?}", _i, _k, _v);
                 }
             }
@@ -1511,9 +1625,10 @@ fn processing_loop(
                 // - do not include them in determining prepended width (CLI option `-w`).
                 // - do not create a `SyslinePrinter` for them.
                 let mut pathid_with_syslines: SetPathId = SetPathId::with_capacity(map_pathid_datum.len());
-                for (pathid, _) in map_pathid_datum.iter().filter(
-                    |(_k, v)| v.0.is_some()
-                ) {
+                for (pathid, _) in map_pathid_datum
+                    .iter()
+                    .filter(|(_k, v)| v.0.is_some())
+                {
                     pathid_with_syslines.insert(*pathid);
                 }
 
@@ -1530,7 +1645,8 @@ fn processing_loop(
                             };
                             let bname: String = basename(path);
                             prependname_width = std::cmp::max(
-                                prependname_width, unicode_width::UnicodeWidthStr::width(bname.as_str())
+                                prependname_width,
+                                unicode_width::UnicodeWidthStr::width(bname.as_str()),
                             );
                         }
                     }
@@ -1554,7 +1670,8 @@ fn processing_loop(
                                 None => continue,
                             };
                             prependname_width = std::cmp::max(
-                                prependname_width, unicode_width::UnicodeWidthStr::width(path.as_str())
+                                prependname_width,
+                                unicode_width::UnicodeWidthStr::width(path.as_str()),
                             );
                         }
                     }
@@ -1567,31 +1684,38 @@ fn processing_loop(
                         let prepend: String = format!("{0:<1$}:", path, prependname_width);
                         pathid_to_prependname.insert(*pathid, prepend);
                     }
-                }
-                else {
+                } else {
                     pathid_to_prependname = MapPathIdToPrependName::with_capacity(0);
                 }
 
                 // Initialize the Sysline printers, one per `PathId` that sent a Sysline.
                 for pathid in pathid_with_syslines.iter() {
-                    let color_: &Color = map_pathid_color.get(pathid).unwrap_or(&color_default);
-                    let prepend_file: Option<String> = match cli_opt_prepend_filename || cli_opt_prepend_filepath {
-                        true => {
-                            Some(pathid_to_prependname.get(pathid).unwrap().clone())
-                        }
-                        false => None,
-                    };
-                    let prepend_date_format: Option<String> = match cli_opt_prepend_local || cli_opt_prepend_utc {
-                        true => Some(CLI_OPT_PREPEND_FMT.to_string()),
-                        false => None,
-                    };
-                    let prepend_date_offset: Option<FixedOffset> = match (cli_opt_prepend_local, cli_opt_prepend_utc) {
-                        (true, false) => Some(*Local::today().offset()),
-                        (false, true) => Some(FixedOffset::east(0)),
-                        (false, false) => None,
-                        // XXX: this should not happen
-                        _ => panic!("bad CLI options --local --utc"),
-                    };
+                    let color_: &Color = map_pathid_color
+                        .get(pathid)
+                        .unwrap_or(&color_default);
+                    let prepend_file: Option<String> =
+                        match cli_opt_prepend_filename || cli_opt_prepend_filepath {
+                            true => Some(
+                                pathid_to_prependname
+                                    .get(pathid)
+                                    .unwrap()
+                                    .clone(),
+                            ),
+                            false => None,
+                        };
+                    let prepend_date_format: Option<String> =
+                        match cli_opt_prepend_local || cli_opt_prepend_utc {
+                            true => Some(CLI_OPT_PREPEND_FMT.to_string()),
+                            false => None,
+                        };
+                    let prepend_date_offset: Option<FixedOffset> =
+                        match (cli_opt_prepend_local, cli_opt_prepend_utc) {
+                            (true, false) => Some(*Local::today().offset()),
+                            (false, true) => Some(FixedOffset::east(0)),
+                            (false, false) => None,
+                            // XXX: this should not happen
+                            _ => panic!("bad CLI options --local --utc"),
+                        };
                     let printer: PrinterSysline = PrinterSysline::new(
                         color_choice,
                         *color_,
@@ -1603,7 +1727,7 @@ fn processing_loop(
                 }
 
                 first_print = false;
-            }  // if first_print
+            } // if first_print
 
             // (path, channel data) for the sysline with earliest datetime ("minimum" datetime)
             //
@@ -1618,13 +1742,16 @@ fn processing_loop(
             //
             let pathid: &PathId;
             let chan_datum: &mut ChanDatum;
-            (pathid, chan_datum) = match map_pathid_datum.iter_mut().min_by(
-                |x, y|
-                    x.1.0.as_ref().unwrap().dt().cmp(y.1.0.as_ref().unwrap().dt())
-            ) {
-                Some(val) => (
-                    val.0, val.1
-                ),
+            (pathid, chan_datum) = match map_pathid_datum
+                .iter_mut()
+                .min_by(|x, y| {
+                    x.1 .0
+                        .as_ref()
+                        .unwrap()
+                        .dt()
+                        .cmp(y.1 .0.as_ref().unwrap().dt())
+                }) {
+                Some(val) => (val.0, val.1),
                 None => {
                     eprintln!("ERROR map_pathid_datum.iter_mut().min_by() returned None");
                     // XXX: not sure what else to do here
@@ -1635,7 +1762,11 @@ fn processing_loop(
             if let Some(summary) = chan_datum.1.clone() {
                 // Receiving a Summary implies the last data was sent on the channel
                 dpfo!("A2 chan_datum has Summary, PathId: {:?}", pathid);
-                assert!(chan_datum.0.is_none(), "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId: {:?}", pathid);
+                assert!(
+                    chan_datum.0.is_none(),
+                    "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId: {:?}",
+                    pathid
+                );
                 if cli_opt_summary {
                     summary_update(pathid, summary, &mut map_pathid_summary);
                 }
@@ -1646,16 +1777,23 @@ fn processing_loop(
                 let is_last: bool = chan_datum.2;
                 // Sysline of interest
                 let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
-                dpfo!("A3 printing @[{}, {}] PathId: {:?}", syslinep.fileoffset_begin(), syslinep.fileoffset_end(), pathid);
+                dpfo!(
+                    "A3 printing @[{}, {}] PathId: {:?}",
+                    syslinep.fileoffset_begin(),
+                    syslinep.fileoffset_end(),
+                    pathid
+                );
                 // print the sysline!
-                let printer: &mut PrinterSysline = map_pathid_printer.get_mut(pathid).unwrap();
+                let printer: &mut PrinterSysline = map_pathid_printer
+                    .get_mut(pathid)
+                    .unwrap();
                 match printer.print_sysline(syslinep) {
-                    Ok(_) => {},
+                    Ok(_) => {}
                     Err(err) => {
                         // Only print a printing error once.
                         // In case of piping to something like `head`, it looks bad to print
                         // the same error tens or hundreds of times for a common pipe operation.
-                        if ! has_sysline_print_err {
+                        if !has_sysline_print_err {
                             has_sysline_print_err = true;
                             // BUG: Issue #3 colorization settings in the context of a pipe
                             eprintln!("ERROR: failed to print {}", err);
@@ -1782,7 +1920,7 @@ fn print_filepath(
     filetype: &FileType,
     mimeguess: &MimeGuess,
     color: &Color,
-    color_choice: &ColorChoice
+    color_choice: &ColorChoice,
 ) {
     eprint!("File: ");
     match print_colored_stderr(*color, Some(*color_choice), path.as_bytes()) {
@@ -1821,17 +1959,26 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
                 _ => {}
             }
             // print datetime patterns
-            for patt in summary.SyslineReader_patterns.iter() {
+            for patt in summary
+                .SyslineReader_patterns
+                .iter()
+            {
                 let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*patt.0];
-                eprintln!("{}{}   @{} {} {:?}", OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, patt.0, patt.1, dtpd);
+                eprintln!(
+                    "{}{}   @{} {} {:?}",
+                    OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, patt.0, patt.1, dtpd
+                );
             }
             match summary.SyslogProcessor_missing_year {
                 Some(year) => {
-                    eprintln!("{}{}datetime format missing year; estimated year of last sysline {:?}", OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, year);
+                    eprintln!(
+                        "{}{}datetime format missing year; estimated year of last sysline {:?}",
+                        OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, year
+                    );
                 }
                 None => {}
             }
-        },
+        }
         None => {
             // TODO: [2022/06/07] print filesz
             eprintln!("{}Summary Processed: None", OPT_SUMMARY_PRINT_INDENT);
@@ -1851,7 +1998,7 @@ fn print_summary_opt_printed(
         Some(summary_print) => {
             eprint!("{}Summary Printed  : ", OPT_SUMMARY_PRINT_INDENT);
             summary_print.print_colored_stderr(Some(*color_choice), summary_opt);
-        },
+        }
         None => {
             eprint!("{}Summary Printed  : ", OPT_SUMMARY_PRINT_INDENT);
             SummaryPrinted::default().print_colored_stderr(Some(*color_choice), summary_opt);
@@ -1869,7 +2016,10 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
         return;
     }
 
-    fn ratio64(a: &u64, b: &u64) -> f64 {
+    fn ratio64(
+        a: &u64,
+        b: &u64,
+    ) -> f64 {
         if b == &0 {
             return 0.0;
         }
@@ -1883,7 +2033,10 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
             return;
         }
     };
-    let wide: usize = summary.max_hit_miss().to_string().len();
+    let wide: usize = summary
+        .max_hit_miss()
+        .to_string()
+        .len();
     let mut ratio: f64;
     // SyslineReader
     // SyslineReader::get_boxptrs
@@ -1896,10 +2049,7 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
         wide = wide,
     );
     // SyslineReader::syslines
-    ratio = ratio64(
-        &summary.SyslineReader_syslines_hit,
-        &summary.SyslineReader_syslines_miss,
-    );
+    ratio = ratio64(&summary.SyslineReader_syslines_hit, &summary.SyslineReader_syslines_miss);
     eprintln!(
         "{}storage: SyslineReader::find_sysline() syslines                        : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
         OPT_SUMMARY_PRINT_INDENT,
@@ -1909,10 +2059,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
         wide = wide,
     );
     // SyslineReader::_syslines_by_range
-    ratio = ratio64(
-        &summary.SyslineReader_syslines_by_range_hit,
-        &summary.SyslineReader_syslines_by_range_miss,
-    );
+    ratio =
+        ratio64(&summary.SyslineReader_syslines_by_range_hit, &summary.SyslineReader_syslines_by_range_miss);
     eprintln!(
         "{}caching: SyslineReader::find_sysline() syslines_by_range_map           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         OPT_SUMMARY_PRINT_INDENT,
@@ -1951,10 +2099,7 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
         wide = wide,
     );
     // LineReader::_lines
-    ratio = ratio64(
-        &summary.LineReader_lines_hits,
-        &summary.LineReader_lines_miss,
-    );
+    ratio = ratio64(&summary.LineReader_lines_hits, &summary.LineReader_lines_miss);
     eprintln!(
         "{}storage: LineReader::find_line() lines                                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
         OPT_SUMMARY_PRINT_INDENT,
@@ -1964,10 +2109,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
         wide = wide,
     );
     // LineReader::_find_line_lru_cache
-    ratio = ratio64(
-        &summary.LineReader_find_line_lru_cache_hit,
-        &summary.LineReader_find_line_lru_cache_miss,
-    );
+    ratio =
+        ratio64(&summary.LineReader_find_line_lru_cache_hit, &summary.LineReader_find_line_lru_cache_miss);
     eprintln!(
         "{}caching: LineReader::find_line() LRU cache                             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         OPT_SUMMARY_PRINT_INDENT,
@@ -1978,10 +2121,7 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
         wide = wide,
     );
     // BlockReader::_read_blocks
-    ratio = ratio64(
-        &summary.BlockReader_read_blocks_hit,
-        &summary.BlockReader_read_blocks_miss,
-    );
+    ratio = ratio64(&summary.BlockReader_read_blocks_hit, &summary.BlockReader_read_blocks_miss);
     eprintln!(
         "{}storage: BlockReader::read_block() blocks                              : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         OPT_SUMMARY_PRINT_INDENT,
@@ -2023,7 +2163,10 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
             return;
         }
     };
-    let wide: usize = summary.max_drop().to_string().len();
+    let wide: usize = summary
+        .max_drop()
+        .to_string()
+        .len();
     eprintln!(
         "{}streaming: SyslineReader::drop_sysline(): Ok {:wide$} Err {:wide$}",
         OPT_SUMMARY_PRINT_INDENT,
@@ -2043,22 +2186,23 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
 /// Print the [`Summary.Error_`], if any (one line).
 ///
 /// [`Summary.Error_`]: s4lib::readers::summary::Summary
-fn print_error_summary(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
+fn print_error_summary(
+    summary_opt: &SummaryOpt,
+    color_choice: &ColorChoice,
+) {
     match summary_opt.as_ref() {
-        Some(summary_) => {
-            match &summary_.Error_ {
-                Some(err_string) => {
-                    eprint!("{}Error: ", OPT_SUMMARY_PRINT_INDENT);
-                    #[allow(clippy::single_match)]
-                    match print_colored_stderr(COLOR_ERROR, Some(*color_choice), err_string.as_bytes()) {
-                        Err(_err) => {},
-                        _ => {},
-                    }
-                    eprintln!();
-                },
-                None => {},
+        Some(summary_) => match &summary_.Error_ {
+            Some(err_string) => {
+                eprint!("{}Error: ", OPT_SUMMARY_PRINT_INDENT);
+                #[allow(clippy::single_match)]
+                match print_colored_stderr(COLOR_ERROR, Some(*color_choice), err_string.as_bytes()) {
+                    Err(_err) => {}
+                    _ => {}
+                }
+                eprintln!();
             }
-        }
+            None => {}
+        },
         None => {}
     }
 }
@@ -2109,21 +2253,19 @@ fn print_all_files_summaries(
     color_default: &Color,
 ) {
     for (pathid, path) in map_pathid_path.iter() {
-        let color: &Color = map_pathid_color.get(pathid).unwrap_or(color_default);
-        let filetype: &FileType = map_pathid_filetype.get(pathid).unwrap_or(&FileType::FileUnknown);
+        let color: &Color = map_pathid_color
+            .get(pathid)
+            .unwrap_or(color_default);
+        let filetype: &FileType = map_pathid_filetype
+            .get(pathid)
+            .unwrap_or(&FileType::FileUnknown);
         let mimeguess_default: MimeGuess = MimeGuess::from_ext("");
-        let mimeguess: &MimeGuess = map_pathid_mimeguess.get(pathid).unwrap_or(&mimeguess_default);
+        let mimeguess: &MimeGuess = map_pathid_mimeguess
+            .get(pathid)
+            .unwrap_or(&mimeguess_default);
         let summary_opt: SummaryOpt = map_pathid_summary.remove(pathid);
         let summary_print_opt: SummaryPrintedOpt = map_pathid_sumpr.remove(pathid);
-        print_file_summary(
-            path,
-            filetype,
-            mimeguess,
-            &summary_opt,
-            &summary_print_opt,
-            color,
-            color_choice,
-        );
+        print_file_summary(path, filetype, mimeguess, &summary_opt, &summary_print_opt, color, color_choice);
     }
 }
 
@@ -2137,9 +2279,13 @@ fn print_files_processpathresult(
     color_error: &Color,
 ) {
     // local helper
-    fn print_(buffer: String, color_choice: &ColorChoice, color: &Color) {
+    fn print_(
+        buffer: String,
+        color_choice: &ColorChoice,
+        color: &Color,
+    ) {
         match print_colored_stderr(*color, Some(*color_choice), buffer.as_bytes()) {
-            Ok(()) => {},
+            Ok(()) => {}
             Err(err) => {
                 eprintln!("ERROR: {:?}", err);
             }
@@ -2150,23 +2296,23 @@ fn print_files_processpathresult(
         match result {
             ProcessPathResult::FileValid(path, mimeguess, _filetype) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
-            },
+            }
             ProcessPathResult::FileErrNoPermissions(path, mimeguess) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
                 print_("(no permissions)".to_string(), color_choice, color_error);
-            },
+            }
             ProcessPathResult::FileErrNotSupported(path, mimeguess) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
                 print_("(not supported)".to_string(), color_choice, color_error);
-            },
+            }
             ProcessPathResult::FileErrNotParseable(path, mimeguess) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
                 print_("(not parseable)".to_string(), color_choice, color_error);
-            },
+            }
             ProcessPathResult::FileErrNotAFile(path, mimeguess) => {
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
                 print_("(not a file)".to_string(), color_choice, color_error);
-            },
+            }
         }
         eprintln!();
     }

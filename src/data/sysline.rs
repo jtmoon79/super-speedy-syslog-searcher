@@ -5,44 +5,19 @@
 //! [`Sysline`]: crate::data::sysline::Sysline
 
 #[doc(hidden)]
-pub use crate::common::{
-    Bytes,
-    Count,
-    FPath,
-    FileOffset,
-    NLc,
-    NLu8,
-    CharSz,
-};
+pub use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, NLc, NLu8};
 
-use crate::readers::blockreader::{
-    BlockOffset,
-};
+use crate::readers::blockreader::BlockOffset;
 
 #[cfg(test)]
-use crate::readers::blockreader::{
-    Slices,
-};
+use crate::readers::blockreader::Slices;
 
-use crate::data::datetime::{
-    DateTimeLOpt,
-    Duration,
-};
+use crate::data::datetime::{DateTimeLOpt, Duration};
 
-use crate::data::line::{
-    LineIndex,
-    Line,
-    LineP,
-    LinePart,
-    Lines,
-};
+use crate::data::line::{Line, LineIndex, LineP, LinePart, Lines};
 
 #[allow(unused_imports)]
-use crate::printer_debug::printers::{
-    dp_err,
-    dp_wrn,
-    p_wrn,
-};
+use crate::printer_debug::printers::{dp_err, dp_wrn, p_wrn};
 
 use std::fmt;
 use std::sync::Arc;
@@ -52,16 +27,7 @@ use more_asserts::debug_assert_ge;
 
 extern crate si_trace_print;
 #[allow(unused_imports)]
-use si_trace_print::{
-    dpo,
-    dpn,
-    dpx,
-    dpñ,
-    dpfo,
-    dpfn,
-    dpfx,
-    dpfñ,
-};
+use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Sysline
@@ -102,7 +68,10 @@ pub struct Sysline {
 const LI_NULL: LineIndex = LineIndex::MAX;
 
 impl std::fmt::Debug for Sysline {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter,
+    ) -> fmt::Result {
         let mut li_s = String::new();
         for lp in self.lines.iter() {
             li_s.push_str(&format!(
@@ -155,7 +124,12 @@ impl Sysline {
     }
 
     /// Create a `Sysline` from passed arguments.
-    pub fn from_parts(lines: Lines, dt_beg: LineIndex, dt_end: LineIndex, dt: DateTimeLOpt) -> Sysline {
+    pub fn from_parts(
+        lines: Lines,
+        dt_beg: LineIndex,
+        dt_end: LineIndex,
+        dt: DateTimeLOpt,
+    ) -> Sysline {
         Sysline {
             lines,
             dt_beg,
@@ -189,15 +163,25 @@ impl Sysline {
     /// `Sysline`.
     ///
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
-    pub fn dt_difference(&self, otherp: &SyslineP) -> Duration {
+    pub fn dt_difference(
+        &self,
+        otherp: &SyslineP,
+    ) -> Duration {
         // XXX: would prefer not to make copies, but using refs is not supported
-        (*self.dt.as_ref().unwrap()) - (*(*otherp).dt().as_ref().unwrap())
+        (*self.dt.as_ref().unwrap())
+            - (*(*otherp)
+                .dt()
+                .as_ref()
+                .unwrap())
     }
 
     /// Append the passed [`LineP`] to `self.lines`.
     ///
     /// [LineP]: crate::data::line::LineP
-    pub fn push(&mut self, linep: LineP) {
+    pub fn push(
+        &mut self,
+        linep: LineP,
+    ) {
         dpo!("SyslineReader.push(), self.lines.len() is now {}", self.lines.len() + 1);
         self.lines.push(linep);
     }
@@ -305,15 +289,22 @@ impl Sysline {
         }
         let linep_last = match self.lines.get(len_ - 1) {
             Some(linep) => linep,
-            None => { return None; }
+            None => {
+                return None;
+            }
         };
         let len_ = (*linep_last).lineparts.len();
         if len_ <= 0 {
             return None;
         }
-        let linepart_last: &LinePart = match (*linep_last).lineparts.get(len_ - 1) {
+        let linepart_last: &LinePart = match (*linep_last)
+            .lineparts
+            .get(len_ - 1)
+        {
             Some(linepart_) => linepart_,
-            None => { return None; }
+            None => {
+                return None;
+            }
         };
         let slice = linepart_last.as_slice();
         let byte_: u8 = slice[slice.len() - 1];
@@ -328,12 +319,12 @@ impl Sysline {
     pub fn ends_with_newline(self: &Sysline) -> bool {
         let byte_last = match self.last_byte() {
             Some(byte_) => byte_,
-            None => { return false; }
+            None => {
+                return false;
+            }
         };
         match char::try_from(byte_last) {
-            Ok(char_) => {
-                NLc == char_
-            }
+            Ok(char_) => NLc == char_,
             Err(_err) => false,
         }
     }
@@ -350,8 +341,11 @@ impl Sysline {
     // TODO: remove this
     #[doc(hidden)]
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
-    fn impl_to_String_raw(self: &Sysline, raw: bool) -> String {
+    #[cfg(any(debug_assertions, test))]
+    fn impl_to_String_raw(
+        self: &Sysline,
+        raw: bool,
+    ) -> String {
         let mut sz: usize = 0;
         for lp in &self.lines {
             sz += (*lp).len();
@@ -360,7 +354,9 @@ impl Sysline {
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let mut s_ = String::with_capacity(sz + 1);
         for lp in &self.lines {
-            s_ += (*lp).impl_to_String_raw(raw).as_str();
+            s_ += (*lp)
+                .impl_to_String_raw(raw)
+                .as_str();
         }
         s_
     }
@@ -370,7 +366,7 @@ impl Sysline {
     /// inefficient; only for debugging
     #[doc(hidden)]
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     pub fn to_String(self: &Sysline) -> String {
         // get capacity needed
         let mut sz: usize = 0;
@@ -400,7 +396,7 @@ impl Sysline {
     /// inefficient; only for debugging
     #[doc(hidden)]
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     pub fn to_String_noraw(self: &Sysline) -> String {
         self.impl_to_String_raw(false)
     }

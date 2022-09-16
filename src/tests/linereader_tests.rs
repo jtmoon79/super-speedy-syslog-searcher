@@ -5,65 +5,30 @@
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
 
-use crate::tests::common::{
-    randomize,
-    fill,
-    eprint_file,
-};
+use crate::tests::common::{eprint_file, fill, randomize};
 
-use crate::common::{
-    FileOffset,
-    FPath,
-    Bytes,
-};
+use crate::common::{Bytes, FPath, FileOffset};
 
-use crate::readers::blockreader::{
-    BlockSz,
-};
+use crate::readers::blockreader::BlockSz;
 
-use crate::readers::filepreprocessor::{
-    fpath_to_filetype_mimeguess,
-};
+use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
 
-use crate::data::line::{
-    LineP,
-    LineIndex,
-    LinePartPtrs,
-};
+use crate::data::line::{LineIndex, LineP, LinePartPtrs};
 
-use crate::readers::linereader::{
-    LineReader,
-    ResultS3LineFind,
-};
+use crate::readers::linereader::{LineReader, ResultS3LineFind};
 
-use crate::printer_debug::helpers::{
-    NamedTempFile,
-    create_temp_file,
-    ntf_fpath,
-};
+use crate::printer_debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
 
-use crate::printer_debug::printers::{
-    byte_to_char_noraw,
-    buffer_to_String_noraw,
-    str_to_String_noraw,
-};
+use crate::printer_debug::printers::{buffer_to_String_noraw, byte_to_char_noraw, str_to_String_noraw};
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
 extern crate more_asserts;
-use more_asserts::{
-    assert_le,
-    assert_ge,
-};
+use more_asserts::{assert_ge, assert_le};
 
 extern crate si_trace_print;
-use si_trace_print::stack::{
-    sn,
-    so,
-    sx,
-    stack_offset_set,
-};
+use si_trace_print::stack::{sn, so, stack_offset_set, sx};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -95,7 +60,10 @@ enum ResultS3LineFind_Test {
 // -------------------------------------------------------------------------------------------------
 
 /// helper to wrap the match and panic checks
-fn new_LineReader(path: &FPath, blocksz: BlockSz) -> LineReader {
+fn new_LineReader(
+    path: &FPath,
+    blocksz: BlockSz,
+) -> LineReader {
     let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
     match LineReader::new(path.clone(), filetype, blocksz) {
         Ok(val) => val,
@@ -149,7 +117,10 @@ fn process_LineReader(lr1: &mut LineReader) {
 ///
 /// the `LineReader` instance reads `data`
 /// assert the line count
-fn do_test_LineReader_count(data: &str, line_count: usize) {
+fn do_test_LineReader_count(
+    data: &str,
+    line_count: usize,
+) {
     eprintln!("{}do_test_LineReader_count(…, {:?})", sn(), line_count);
     let blocksz: BlockSz = 64;
     let ntf = create_temp_file(data);
@@ -238,7 +209,10 @@ fn test_LineReader_count4_uhi_n__n__n__n() {
 
 /// testing helper
 /// call `LineReader.find_line` for all `FileOffset` in passed `offsets`
-fn find_line_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
+fn find_line_all(
+    linereader: &mut LineReader,
+    offsets: &Vec<FileOffset>,
+) {
     for fo1 in offsets {
         eprintln!("{}LineReader.find_line({})", so(), fo1);
         let result = linereader.find_line(*fo1);
@@ -269,15 +243,23 @@ fn find_line_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
 /// compare contents of a file `path` to contents of `linereader`
 /// assert they are the same
 /// presumes the linereader has processed the entire file
-fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
+fn compare_file_linereader(
+    path: &FPath,
+    linereader: &LineReader,
+) {
     eprintln!("{}compare_file_linereader({:?})", sn(), path);
     let contents_file: String = std::fs::read_to_string(path).unwrap();
     let contents_file_count: usize = contents_file.lines().count();
     eprint_file(path);
 
     let mut buffer_lr: Vec<u8> = Vec::<u8>::with_capacity(contents_file.len() * 2);
-    for fo in linereader.get_fileoffsets().iter() {
-        let linep = linereader.get_linep(fo).unwrap();
+    for fo in linereader
+        .get_fileoffsets()
+        .iter()
+    {
+        let linep = linereader
+            .get_linep(fo)
+            .unwrap();
         for slice_ in (*linep).get_slices() {
             for byte_ in slice_.iter() {
                 buffer_lr.push(*byte_);
@@ -288,21 +270,25 @@ fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
 
     eprintln!(
         "{}contents_file ({} lines):\n───────────────────────\n{}\n───────────────────────\n",
-        so(), contents_file_count, str_to_String_noraw(contents_file.as_str()),
+        so(),
+        contents_file_count,
+        str_to_String_noraw(contents_file.as_str()),
     );
 
     eprintln!(
         "{}contents_lr ({} lines processed):\n───────────────────────\n{}\n───────────────────────\n",
-        so(), linereader.count_lines_processed(), str_to_String_noraw(contents_lr.as_str()),
+        so(),
+        linereader.count_lines_processed(),
+        str_to_String_noraw(contents_lr.as_str()),
     );
 
     let mut i: usize = 0;
-    for lines_file_lr1 in contents_file.lines().zip(contents_lr.lines()) {
+    for lines_file_lr1 in contents_file
+        .lines()
+        .zip(contents_lr.lines())
+    {
         i += 1;
-        eprintln!(
-            "{}compare {}\n{}{:?}\n{}{:?}\n",
-            so(), i, so(), lines_file_lr1.0, so(), lines_file_lr1.1,
-        );
+        eprintln!("{}compare {}\n{}{:?}\n{}{:?}\n", so(), i, so(), lines_file_lr1.0, so(), lines_file_lr1.1,);
         assert_eq!(
             lines_file_lr1.0, lines_file_lr1.1,
             "Lines {:?} differ\nFile      : {:?}\nLineReader: {:?}\n",
@@ -310,7 +296,8 @@ fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
         );
     }
     assert_eq!(
-        contents_file_count, i, "Expected to compare {} lines, only compared {}",
+        contents_file_count, i,
+        "Expected to compare {} lines, only compared {}",
         contents_file_count, i
     );
     eprintln!("{}compare_file_linereader({:?})", sx(), &path);
@@ -318,7 +305,11 @@ fn compare_file_linereader(path: &FPath, linereader: &LineReader) {
 
 /// test `LineReader::find_line` read all file offsets
 #[allow(non_snake_case)]
-fn _test_LineReader_all(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
+fn _test_LineReader_all(
+    path: &FPath,
+    cache_enabled: bool,
+    blocksz: BlockSz,
+) {
     stack_offset_set(None);
     eprintln!("{}_test_LineReader_all({:?}, {:?})", sn(), path, blocksz);
     eprint_file(path);
@@ -327,7 +318,10 @@ fn _test_LineReader_all(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
     if !cache_enabled {
         lr1.LRU_cache_disable();
     }
-    let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
+    let fillsz: usize = match lr1.filesz() as usize {
+        0 => 1,
+        x => x,
+    };
     let mut offsets_all = Vec::<FileOffset>::with_capacity(fillsz);
     fill(&mut offsets_all);
     eprintln!("{}offsets_all: {:?}", so(), offsets_all);
@@ -449,7 +443,11 @@ test_LineReader_all3n line 3
 
 /// test `LineReader::find_line` read all file offsets but in reverse
 #[allow(non_snake_case)]
-fn test_LineReader_all_reversed(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
+fn test_LineReader_all_reversed(
+    path: &FPath,
+    cache_enabled: bool,
+    blocksz: BlockSz,
+) {
     stack_offset_set(None);
     eprintln!("{}test_LineReader_all_reversed({:?}, {:?})", sn(), &path, blocksz);
     let mut lr1 = new_LineReader(path, blocksz);
@@ -457,7 +455,10 @@ fn test_LineReader_all_reversed(path: &FPath, cache_enabled: bool, blocksz: Bloc
         lr1.LRU_cache_disable();
     }
     eprintln!("{}LineReader {:?}", so(), lr1);
-    let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
+    let fillsz: usize = match lr1.filesz() as usize {
+        0 => 1,
+        x => x,
+    };
     let mut offsets_all_rev = Vec::<FileOffset>::with_capacity(fillsz);
     fill(&mut offsets_all_rev);
     offsets_all_rev.sort_by(|a, b| b.cmp(a));
@@ -559,11 +560,17 @@ test_LineReader_all_reversed3n line 3
 
 /// test `LineReader::find_line` read all file offsets but only the even ones
 #[allow(non_snake_case)]
-fn test_LineReader_half_even(path: &FPath, blocksz: BlockSz) {
+fn test_LineReader_half_even(
+    path: &FPath,
+    blocksz: BlockSz,
+) {
     eprintln!("{}test_LineReader_half_even({:?}, {:?})", sn(), &path, blocksz);
     let mut lr1 = new_LineReader(&path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
-    let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
+    let fillsz: usize = match lr1.filesz() as usize {
+        0 => 1,
+        x => x,
+    };
     let mut offsets_half_even = Vec::<FileOffset>::with_capacity(fillsz);
     fill(&mut offsets_half_even);
     offsets_half_even.retain(|x| *x % 2 == 0);
@@ -704,11 +711,17 @@ test_LineReader_half_even_3n line 3
 
 /// test `LineReader::find_line` read all file offsets but only the even ones
 #[allow(non_snake_case)]
-fn test_LineReader_half_odd(path: &FPath, blocksz: BlockSz) {
+fn test_LineReader_half_odd(
+    path: &FPath,
+    blocksz: BlockSz,
+) {
     eprintln!("{}test_LineReader_half_odd({:?}, {:?})", sn(), &path, blocksz);
     let mut lr1 = new_LineReader(path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
-    let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
+    let fillsz: usize = match lr1.filesz() as usize {
+        0 => 1,
+        x => x,
+    };
     let mut offsets_half_odd = Vec::<FileOffset>::with_capacity(fillsz);
     fill(&mut offsets_half_odd);
     offsets_half_odd.retain(|x| *x % 2 != 0);
@@ -802,13 +815,19 @@ test_LineReader_half_odd_3n line 3
 /// test `LineReader::find_line` read all file offsets but in random order
 /// TODO: `randomize` should be predictable
 #[allow(non_snake_case)]
-fn test_LineReader_rand(path: &FPath, blocksz: BlockSz) {
+fn test_LineReader_rand(
+    path: &FPath,
+    blocksz: BlockSz,
+) {
     stack_offset_set(None);
     eprintln!("{}test_LineReader_rand({:?}, {:?})", sn(), &path, blocksz);
 
     let mut lr1 = new_LineReader(path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
-    let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
+    let fillsz: usize = match lr1.filesz() as usize {
+        0 => 1,
+        x => x,
+    };
     let mut offsets_rand = Vec::<FileOffset>::with_capacity(fillsz);
     fill(&mut offsets_rand);
     eprintln!("{}offsets_rand: {:?}", so(), offsets_rand);
@@ -902,7 +921,12 @@ test_LineReader_rand3n line 3
 
 /// test `LineReader::find_line` read all file offsets in a precise order
 #[allow(non_snake_case)]
-fn test_LineReader_precise_order(path: &FPath, cache_enabled: bool, blocksz: BlockSz, offsets: &Vec::<FileOffset>) {
+fn test_LineReader_precise_order(
+    path: &FPath,
+    cache_enabled: bool,
+    blocksz: BlockSz,
+    offsets: &Vec<FileOffset>,
+) {
     stack_offset_set(None);
     eprintln!("{}test_LineReader_rand({:?}, {:?}, {:?})", sn(), &path, blocksz, offsets);
     eprint_file(path);
@@ -937,7 +961,7 @@ test_LineReader_precise_order_2 line 2 of 2
 ";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    let offsets: Vec::<FileOffset> = vec![0, 44];
+    let offsets: Vec<FileOffset> = vec![0, 44];
     test_LineReader_precise_order(&fpath, true, 0xF, &offsets);
 }
 
@@ -949,7 +973,7 @@ test_LineReader_precise_order_2 line 2 of 2
 ";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    let offsets: Vec::<FileOffset> = vec![0, 44];
+    let offsets: Vec<FileOffset> = vec![0, 44];
     test_LineReader_precise_order(&fpath, true, 0xFF, &offsets);
 }
 
@@ -961,115 +985,117 @@ test_LineReader_precise_order_2 line 2 of 2
 ";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    let offsets: Vec::<FileOffset> = vec![44, 0];
+    let offsets: Vec<FileOffset> = vec![44, 0];
     test_LineReader_precise_order(&fpath, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_empty0__0_1() {
-    let offsets: Vec::<FileOffset> = vec![0, 1];
+    let offsets: Vec<FileOffset> = vec![0, 1];
     test_LineReader_precise_order(&NTF_EMPTY0_path, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl1__0_1() {
-    let offsets: Vec::<FileOffset> = vec![0, 1];
+    let offsets: Vec<FileOffset> = vec![0, 1];
     test_LineReader_precise_order(&NTF_NL_1_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__0_1_2() {
-    let offsets: Vec::<FileOffset> = vec![0, 1, 2];
+    let offsets: Vec<FileOffset> = vec![0, 1, 2];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__0_2_1() {
-    let offsets: Vec::<FileOffset> = vec![0, 2, 1];
+    let offsets: Vec<FileOffset> = vec![0, 2, 1];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__1_2_0() {
-    let offsets: Vec::<FileOffset> = vec![1, 2, 0];
+    let offsets: Vec<FileOffset> = vec![1, 2, 0];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__1_0_2() {
-    let offsets: Vec::<FileOffset> = vec![1, 0, 2];
+    let offsets: Vec<FileOffset> = vec![1, 0, 2];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__2_0_1() {
-    let offsets: Vec::<FileOffset> = vec![2, 0, 1];
+    let offsets: Vec<FileOffset> = vec![2, 0, 1];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__2_1_0() {
-    let offsets: Vec::<FileOffset> = vec![2, 1, 0];
+    let offsets: Vec<FileOffset> = vec![2, 1, 0];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__1_0_2_1_2() {
-    let offsets: Vec::<FileOffset> = vec![1, 0, 2, 1, 2];
+    let offsets: Vec<FileOffset> = vec![1, 0, 2, 1, 2];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__1_2_1_2_0() {
-    let offsets: Vec::<FileOffset> = vec![1, 2, 1, 2, 0];
+    let offsets: Vec<FileOffset> = vec![1, 2, 1, 2, 0];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__0_1_2_2() {
-    let offsets: Vec::<FileOffset> = vec![0, 1, 2, 2];
+    let offsets: Vec<FileOffset> = vec![0, 1, 2, 2];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__0_2_1_1() {
-    let offsets: Vec::<FileOffset> = vec![0, 2, 1, 1];
+    let offsets: Vec<FileOffset> = vec![0, 2, 1, 1];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl3__1_2_0_0() {
-    let offsets: Vec::<FileOffset> = vec![1, 2, 0, 0];
+    let offsets: Vec<FileOffset> = vec![1, 2, 0, 0];
     test_LineReader_precise_order(&NTF_NL_3_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl4__0_1_2_3() {
-    let offsets: Vec::<FileOffset> = vec![0, 1, 2, 3];
+    let offsets: Vec<FileOffset> = vec![0, 1, 2, 3];
     test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl4__1_2_3_0() {
-    let offsets: Vec::<FileOffset> = vec![1, 2, 3, 0];
+    let offsets: Vec<FileOffset> = vec![1, 2, 3, 0];
     test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl4__2_3_0_1() {
-    let offsets: Vec::<FileOffset> = vec![2, 3, 0, 1];
+    let offsets: Vec<FileOffset> = vec![2, 3, 0, 1];
     test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl4__3_0_1_2() {
-    let offsets: Vec::<FileOffset> = vec![3, 0, 1, 2];
+    let offsets: Vec<FileOffset> = vec![3, 0, 1, 2];
     test_LineReader_precise_order(&NTF_NL_4_PATH, true, 0xF, &offsets);
 }
 
 #[test]
 fn test_LineReader_precise_order_nl4__3_0_1_2_3_0_1_2__noLRUcache() {
-    let offsets: Vec::<FileOffset> = vec![3, 0, 1, 2, 3, 0, 1, 2];
+    let offsets: Vec<FileOffset> = vec![
+        3, 0, 1, 2, 3, 0, 1, 2,
+    ];
     test_LineReader_precise_order(&NTF_NL_4_PATH, false, 0xF, &offsets);
 }
 
@@ -1082,7 +1108,7 @@ test_LineReader_precise_order_3 line 3 of 3
 ";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    let offsets: Vec::<FileOffset> = vec![0, 88, 44];
+    let offsets: Vec<FileOffset> = vec![0, 88, 44];
     test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
 }
 
@@ -1095,7 +1121,7 @@ test_LineReader_precise_order_3 line 3 of 3
 ";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    let offsets: Vec::<FileOffset> = vec![0, 100, 50];
+    let offsets: Vec<FileOffset> = vec![0, 100, 50];
     test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
 }
 
@@ -1108,7 +1134,7 @@ test_LineReader_precise_order_3 line 3 of 3
 ";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    let offsets: Vec::<FileOffset> = vec![50, 0, 100];
+    let offsets: Vec<FileOffset> = vec![50, 0, 100];
     test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
 }
 
@@ -1121,14 +1147,17 @@ test_LineReader_precise_order_3 line 3 of 3
 ";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    let offsets: Vec::<FileOffset> = vec![100, 50, 0];
+    let offsets: Vec<FileOffset> = vec![100, 50, 0];
     test_LineReader_precise_order(&fpath, true, 0x8, &offsets);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 /// call `LineReader.find_line_in_block` for all `FileOffset` in passed `offsets`
-fn find_line_in_block_all(linereader: &mut LineReader, offsets: &Vec::<FileOffset>) {
+fn find_line_in_block_all(
+    linereader: &mut LineReader,
+    offsets: &Vec<FileOffset>,
+) {
     for fo1 in offsets {
         eprintln!("{}LineReader.find_line_in_block({})", so(), fo1);
         let result = linereader.find_line_in_block(*fo1);
@@ -1158,7 +1187,11 @@ fn find_line_in_block_all(linereader: &mut LineReader, offsets: &Vec::<FileOffse
 
 /// test `LineReader::find_line_in_block` read all file offsets
 #[allow(non_snake_case)]
-fn test_find_line_in_block_all(path: &FPath, cache_enabled: bool, blocksz: BlockSz) {
+fn test_find_line_in_block_all(
+    path: &FPath,
+    cache_enabled: bool,
+    blocksz: BlockSz,
+) {
     stack_offset_set(None);
     eprintln!("{}test_find_line_in_block_all({:?}, {:?})", sn(), path, blocksz);
     eprint_file(path);
@@ -1167,7 +1200,10 @@ fn test_find_line_in_block_all(path: &FPath, cache_enabled: bool, blocksz: Block
     if !cache_enabled {
         lr1.LRU_cache_disable();
     }
-    let fillsz: usize = match lr1.filesz() as usize { 0 => 1, x => x };
+    let fillsz: usize = match lr1.filesz() as usize {
+        0 => 1,
+        x => x,
+    };
     let mut offsets_all = Vec::<FileOffset>::with_capacity(fillsz);
     fill(&mut offsets_all);
     eprintln!("{}offsets_all: {:?}", so(), offsets_all);
@@ -1269,7 +1305,14 @@ fn test_find_line_in_block(
     in_out: &TestFindLineInBlockCheck,
 ) {
     stack_offset_set(Some(2));
-    eprintln!("{}test_find_line_in_block({:?}, {:?}, {:?}, {:?})", sn(), &path, cache_enabled, blocksz, in_out);
+    eprintln!(
+        "{}test_find_line_in_block({:?}, {:?}, {:?}, {:?})",
+        sn(),
+        &path,
+        cache_enabled,
+        blocksz,
+        in_out
+    );
     eprint_file(path);
     let mut lr1: LineReader = new_LineReader(path, blocksz);
     if !cache_enabled {
@@ -1292,15 +1335,21 @@ fn test_find_line_in_block(
                     (*lp).to_String_noraw()
                 );
                 let str_actual = (*lp).to_String();
-                assert_eq!(&str_actual, str_expect,
-                    "find_line_in_block({})\nexpect {:?}\nactual {:?}\n", *fo_in, str_expect, str_actual,
+                assert_eq!(
+                    &str_actual, str_expect,
+                    "find_line_in_block({})\nexpect {:?}\nactual {:?}\n",
+                    *fo_in, str_expect, str_actual,
                 );
                 assert_eq!(rs4_expect, &ResultS3LineFind_Test::Found, "Expected {:?}, got Found", rs4_expect);
             }
             ResultS3LineFind::Done => {
                 eprintln!("{}ResultS3LineFind::Done!", so());
-                assert_eq!(&"", &str_expect.as_str(),
-                    "find_line_in_block({}) returned Done\nexpected {:?}\n", *fo_in, str_expect,
+                assert_eq!(
+                    &"",
+                    &str_expect.as_str(),
+                    "find_line_in_block({}) returned Done\nexpected {:?}\n",
+                    *fo_in,
+                    str_expect,
                 );
                 assert_eq!(rs4_expect, &ResultS3LineFind_Test::Done, "Expected {:?}, got Done", rs4_expect);
             }
@@ -1325,17 +1374,15 @@ fn test_find_line_in_block(
 
 #[test]
 fn test_find_line_in_block_empty0() {
-    let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Done, String::from(""),),
-    ];
+    let in_out: TestFindLineInBlockCheck = vec![(0, ResultS3LineFind_Test::Done, String::from(""))];
     test_find_line_in_block(&NTF_EMPTY0_path, true, 0xFF, &in_out);
 }
 
 #[test]
 fn test_find_line_in_block_nl1() {
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("\n"),),
-        (1, ResultS3LineFind_Test::Done, String::from(""),),
+        (0, ResultS3LineFind_Test::Found, String::from("\n")),
+        (1, ResultS3LineFind_Test::Done, String::from("")),
     ];
     test_find_line_in_block(&NTF_NL_1_PATH, true, 0xFF, &in_out);
 }
@@ -1343,9 +1390,9 @@ fn test_find_line_in_block_nl1() {
 #[test]
 fn test_find_line_in_block_nl2() {
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("\n"),),
-        (1, ResultS3LineFind_Test::Found, String::from("\n"),),
-        (2, ResultS3LineFind_Test::Done, String::from(""),),
+        (0, ResultS3LineFind_Test::Found, String::from("\n")),
+        (1, ResultS3LineFind_Test::Found, String::from("\n")),
+        (2, ResultS3LineFind_Test::Done, String::from("")),
     ];
     test_find_line_in_block(&NTF_NL_2_PATH, true, 0xFF, &in_out);
 }
@@ -1356,14 +1403,14 @@ fn test_find_line_in_block_1() {
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("abcdef"),),
-        (1, ResultS3LineFind_Test::Found, String::from("abcdef"),),
-        (2, ResultS3LineFind_Test::Found, String::from("abcdef"),),
-        (3, ResultS3LineFind_Test::Found, String::from("abcdef"),),
-        (4, ResultS3LineFind_Test::Found, String::from("abcdef"),),
-        (5, ResultS3LineFind_Test::Found, String::from("abcdef"),),
-        (6, ResultS3LineFind_Test::Done, String::from(""),),
-        (7, ResultS3LineFind_Test::Done, String::from(""),),
+        (0, ResultS3LineFind_Test::Found, String::from("abcdef")),
+        (1, ResultS3LineFind_Test::Found, String::from("abcdef")),
+        (2, ResultS3LineFind_Test::Found, String::from("abcdef")),
+        (3, ResultS3LineFind_Test::Found, String::from("abcdef")),
+        (4, ResultS3LineFind_Test::Found, String::from("abcdef")),
+        (5, ResultS3LineFind_Test::Found, String::from("abcdef")),
+        (6, ResultS3LineFind_Test::Done, String::from("")),
+        (7, ResultS3LineFind_Test::Done, String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
@@ -1374,10 +1421,10 @@ fn test_find_line_in_block_2() {
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("a\n"),),
-        (1, ResultS3LineFind_Test::Found, String::from("a\n"),),
-        (2, ResultS3LineFind_Test::Found, String::from("b"),),
-        (3, ResultS3LineFind_Test::Done, String::from(""),),
+        (0, ResultS3LineFind_Test::Found, String::from("a\n")),
+        (1, ResultS3LineFind_Test::Found, String::from("a\n")),
+        (2, ResultS3LineFind_Test::Found, String::from("b")),
+        (3, ResultS3LineFind_Test::Done, String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
@@ -1388,12 +1435,12 @@ fn test_find_line_in_block_3() {
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("a\n"),),
-        (1, ResultS3LineFind_Test::Found, String::from("a\n"),),
-        (2, ResultS3LineFind_Test::Found, String::from("b\n"),),
-        (3, ResultS3LineFind_Test::Found, String::from("b\n"),),
-        (4, ResultS3LineFind_Test::Found, String::from("c"),),
-        (5, ResultS3LineFind_Test::Done, String::from(""),),
+        (0, ResultS3LineFind_Test::Found, String::from("a\n")),
+        (1, ResultS3LineFind_Test::Found, String::from("a\n")),
+        (2, ResultS3LineFind_Test::Found, String::from("b\n")),
+        (3, ResultS3LineFind_Test::Found, String::from("b\n")),
+        (4, ResultS3LineFind_Test::Found, String::from("c")),
+        (5, ResultS3LineFind_Test::Done, String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
@@ -1404,15 +1451,15 @@ fn test_find_line_in_block_4() {
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("a\n"),),
-        (1, ResultS3LineFind_Test::Found, String::from("a\n"),),
-        (2, ResultS3LineFind_Test::Found, String::from("b\n"),),
-        (3, ResultS3LineFind_Test::Found, String::from("b\n"),),
-        (4, ResultS3LineFind_Test::Found, String::from("c\n"),),
-        (5, ResultS3LineFind_Test::Found, String::from("c\n"),),
-        (6, ResultS3LineFind_Test::Found, String::from("d\n"),),
-        (7, ResultS3LineFind_Test::Found, String::from("d\n"),),
-        (8, ResultS3LineFind_Test::Done, String::from(""),),
+        (0, ResultS3LineFind_Test::Found, String::from("a\n")),
+        (1, ResultS3LineFind_Test::Found, String::from("a\n")),
+        (2, ResultS3LineFind_Test::Found, String::from("b\n")),
+        (3, ResultS3LineFind_Test::Found, String::from("b\n")),
+        (4, ResultS3LineFind_Test::Found, String::from("c\n")),
+        (5, ResultS3LineFind_Test::Found, String::from("c\n")),
+        (6, ResultS3LineFind_Test::Found, String::from("d\n")),
+        (7, ResultS3LineFind_Test::Found, String::from("d\n")),
+        (8, ResultS3LineFind_Test::Done, String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
@@ -1423,15 +1470,15 @@ fn test_find_line_in_block_4x2_2() {
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Done, String::from(""),),
-        (1, ResultS3LineFind_Test::Done, String::from(""),),
-        (2, ResultS3LineFind_Test::Done, String::from(""),),
-        (3, ResultS3LineFind_Test::Done, String::from(""),),
-        (4, ResultS3LineFind_Test::Done, String::from(""),),
-        (5, ResultS3LineFind_Test::Done, String::from(""),),
-        (6, ResultS3LineFind_Test::Done, String::from(""),),
-        (7, ResultS3LineFind_Test::Done, String::from(""),),
-        (8, ResultS3LineFind_Test::Done, String::from(""),),
+        (0, ResultS3LineFind_Test::Done, String::from("")),
+        (1, ResultS3LineFind_Test::Done, String::from("")),
+        (2, ResultS3LineFind_Test::Done, String::from("")),
+        (3, ResultS3LineFind_Test::Done, String::from("")),
+        (4, ResultS3LineFind_Test::Done, String::from("")),
+        (5, ResultS3LineFind_Test::Done, String::from("")),
+        (6, ResultS3LineFind_Test::Done, String::from("")),
+        (7, ResultS3LineFind_Test::Done, String::from("")),
+        (8, ResultS3LineFind_Test::Done, String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 2, &in_out);
 }
@@ -1442,14 +1489,14 @@ fn test_find_line_in_block_4x2_3() {
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Done, String::from(""),),
-        (1, ResultS3LineFind_Test::Done, String::from(""),),
-        (2, ResultS3LineFind_Test::Done, String::from(""),),
-        (3, ResultS3LineFind_Test::Done, String::from(""),),
-        (4, ResultS3LineFind_Test::Done, String::from(""),),
-        (5, ResultS3LineFind_Test::Done, String::from(""),),
-        (6, ResultS3LineFind_Test::Done, String::from(""),),
-        (7, ResultS3LineFind_Test::Done, String::from(""),),
+        (0, ResultS3LineFind_Test::Done, String::from("")),
+        (1, ResultS3LineFind_Test::Done, String::from("")),
+        (2, ResultS3LineFind_Test::Done, String::from("")),
+        (3, ResultS3LineFind_Test::Done, String::from("")),
+        (4, ResultS3LineFind_Test::Done, String::from("")),
+        (5, ResultS3LineFind_Test::Done, String::from("")),
+        (6, ResultS3LineFind_Test::Done, String::from("")),
+        (7, ResultS3LineFind_Test::Done, String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 3, &in_out);
 }
@@ -1460,14 +1507,14 @@ fn test_find_line_in_block_4x2_4() {
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("abc\n"),),
-        (1, ResultS3LineFind_Test::Found, String::from("abc\n"),),
-        (2, ResultS3LineFind_Test::Found, String::from("abc\n"),),
-        (3, ResultS3LineFind_Test::Found, String::from("abc\n"),),
-        (4, ResultS3LineFind_Test::Found, String::from("def\n"),),
-        (5, ResultS3LineFind_Test::Found, String::from("def\n"),),
-        (6, ResultS3LineFind_Test::Found, String::from("def\n"),),
-        (7, ResultS3LineFind_Test::Found, String::from("def\n"),),
+        (0, ResultS3LineFind_Test::Found, String::from("abc\n")),
+        (1, ResultS3LineFind_Test::Found, String::from("abc\n")),
+        (2, ResultS3LineFind_Test::Found, String::from("abc\n")),
+        (3, ResultS3LineFind_Test::Found, String::from("abc\n")),
+        (4, ResultS3LineFind_Test::Found, String::from("def\n")),
+        (5, ResultS3LineFind_Test::Found, String::from("def\n")),
+        (6, ResultS3LineFind_Test::Found, String::from("def\n")),
+        (7, ResultS3LineFind_Test::Found, String::from("def\n")),
     ];
     test_find_line_in_block(&fpath, true, 4, &in_out);
 }
@@ -1478,15 +1525,15 @@ fn test_find_line_in_block_4x2_5() {
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("abc\n"),),
-        (1, ResultS3LineFind_Test::Found, String::from("abc\n"),),
-        (2, ResultS3LineFind_Test::Found, String::from("abc\n"),),
-        (3, ResultS3LineFind_Test::Found, String::from("abc\n"),),
-        (4, ResultS3LineFind_Test::Done, String::from(""),),
-        (5, ResultS3LineFind_Test::Done, String::from(""),),
-        (6, ResultS3LineFind_Test::Done, String::from(""),),
-        (7, ResultS3LineFind_Test::Done, String::from(""),),
-        (8, ResultS3LineFind_Test::Done, String::from(""),),
+        (0, ResultS3LineFind_Test::Found, String::from("abc\n")),
+        (1, ResultS3LineFind_Test::Found, String::from("abc\n")),
+        (2, ResultS3LineFind_Test::Found, String::from("abc\n")),
+        (3, ResultS3LineFind_Test::Found, String::from("abc\n")),
+        (4, ResultS3LineFind_Test::Done, String::from("")),
+        (5, ResultS3LineFind_Test::Done, String::from("")),
+        (6, ResultS3LineFind_Test::Done, String::from("")),
+        (7, ResultS3LineFind_Test::Done, String::from("")),
+        (8, ResultS3LineFind_Test::Done, String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 5, &in_out);
 }
@@ -1497,7 +1544,11 @@ type TestLineGetBoxPtrsCheck = Vec<(FileOffset, (LineIndex, LineIndex), Bytes)>;
 
 /// test `Line.get_boxptrs`
 /// assert result equals passed `checks`
-fn test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &TestLineGetBoxPtrsCheck) {
+fn test_Line_get_boxptrs(
+    path: &FPath,
+    blocksz: BlockSz,
+    checks: &TestLineGetBoxPtrsCheck,
+) {
     let fn_: &str = "test_Line_get_boxptrs";
     eprintln!("{}{}({:?}, {}, checks)", sn(), fn_, path, blocksz);
     // create a `LineReader` and read all the lines in the file
@@ -1507,46 +1558,66 @@ fn test_Line_get_boxptrs(path: &FPath, blocksz: BlockSz, checks: &TestLineGetBox
         match lr.find_line(fo) {
             ResultS3LineFind::Found((fo_, _)) => {
                 fo = fo_;
-            },
+            }
             ResultS3LineFind::Done => {
                 break;
-            },
+            }
             ResultS3LineFind::Err(err) => {
                 panic!("LineReader::new({:?}, {:?}) ResultS3LineFind::Err {}", path, blocksz, err);
-            },
+            }
         }
     }
 
     // then test the `Line.get_boxptrs`
     for (fileoffset, (a, b), bytes_check) in checks.iter() {
         assert_le!(a, b, "bad check args a {} b {}", a, b);
-        assert_ge!(b-a, bytes_check.len(), "Bad check args ({}-{})={} < {} bytes_check.len()", b, a, b-a, bytes_check.len());
+        assert_ge!(
+            b - a,
+            bytes_check.len(),
+            "Bad check args ({}-{})={} < {} bytes_check.len()",
+            b,
+            a,
+            b - a,
+            bytes_check.len()
+        );
         eprintln!("{}{}: linereader.get_linep({})", so(), fn_, fileoffset);
         // get the `LineP` at `fileoffset`
-        let linep: LineP = lr.get_linep(fileoffset).unwrap();
+        let linep: LineP = lr
+            .get_linep(fileoffset)
+            .unwrap();
         eprintln!("{}{}: returned {:?}", so(), fn_, (*linep).to_String_noraw());
         eprintln!("{}{}: line.get_boxptrs({}, {})", so(), fn_, a, b);
         let boxptrs = match (*linep).get_boxptrs(*a, *b) {
             LinePartPtrs::NoPtr => {
-                assert!(bytes_check.is_empty(), "Expected bytes_check {:?}, received NoPtr (no bytes)", bytes_check);
+                assert!(
+                    bytes_check.is_empty(),
+                    "Expected bytes_check {:?}, received NoPtr (no bytes)",
+                    bytes_check
+                );
                 continue;
             }
             LinePartPtrs::SinglePtr(box_) => {
-                vec![box_,]
-            },
+                vec![box_]
+            }
             LinePartPtrs::DoublePtr(box1, box2) => {
-                vec![box1, box2,]
-            },
-            LinePartPtrs::MultiPtr(boxes) => {
-                boxes
-            },
+                vec![box1, box2]
+            }
+            LinePartPtrs::MultiPtr(boxes) => boxes,
         };
         // check the results, comparing byte by byte
         let mut at: usize = 0;
         for boxptr in boxptrs.iter() {
             for byte_ in (*boxptr).iter() {
                 let byte_check = &bytes_check[at];
-                eprintln!("{}{}: {:3?} ≟ {:3?} ({:?} ≟ {:?})", so(), fn_, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check));
+                eprintln!(
+                    "{}{}: {:3?} ≟ {:3?} ({:?} ≟ {:?})",
+                    so(),
+                    fn_,
+                    byte_,
+                    byte_check,
+                    byte_to_char_noraw(*byte_),
+                    byte_to_char_noraw(*byte_check)
+                );
                 assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segement {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_String_noraw(&(*boxptr)), (*linep).to_String_noraw());
                 at += 1;
             }
@@ -1561,9 +1632,7 @@ fn test_Line_get_boxptrs_1() {
 this is line 1";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    let checks: TestLineGetBoxPtrsCheck = vec![
-        (0, (0, 1), vec![b't']),
-    ];
+    let checks: TestLineGetBoxPtrsCheck = vec![(0, (0, 1), vec![b't'])];
     test_Line_get_boxptrs(&fpath, 0xFF, &checks);
 }
 
@@ -1580,23 +1649,59 @@ Two 2
     let checks: TestLineGetBoxPtrsCheck = vec![
         // fileoffset, (a, b), check
         //
-        (0, (0, 1), vec![b'O',]),
+        (0, (0, 1), vec![b'O']),
         (0, (0, 2), vec![b'O', b'n']),
         (0, (0, 3), vec![b'O', b'n', b'e']),
-        (0, (0, 4), vec![b'O', b'n', b'e', b' ']),
-        (0, (0, 5), vec![b'O', b'n', b'e', b' ', b'1']),
-        (0, (0, 6), vec![b'O', b'n', b'e', b' ', b'1', b'\n']),
+        (
+            0,
+            (0, 4),
+            vec![
+                b'O', b'n', b'e', b' ',
+            ],
+        ),
+        (
+            0,
+            (0, 5),
+            vec![
+                b'O', b'n', b'e', b' ', b'1',
+            ],
+        ),
+        (
+            0,
+            (0, 6),
+            vec![
+                b'O', b'n', b'e', b' ', b'1', b'\n',
+            ],
+        ),
         //
-        (0, (1, 2), vec![b'n',]),
+        (0, (1, 2), vec![b'n']),
         (0, (1, 3), vec![b'n', b'e']),
         (0, (1, 4), vec![b'n', b'e', b' ']),
-        (0, (1, 5), vec![b'n', b'e', b' ', b'1']),
-        (0, (1, 6), vec![b'n', b'e', b' ', b'1', b'\n']),
+        (
+            0,
+            (1, 5),
+            vec![
+                b'n', b'e', b' ', b'1',
+            ],
+        ),
+        (
+            0,
+            (1, 6),
+            vec![
+                b'n', b'e', b' ', b'1', b'\n',
+            ],
+        ),
         //
         (0, (2, 3), vec![b'e']),
         (0, (2, 4), vec![b'e', b' ']),
         (0, (2, 5), vec![b'e', b' ', b'1']),
-        (0, (2, 6), vec![b'e', b' ', b'1', b'\n']),
+        (
+            0,
+            (2, 6),
+            vec![
+                b'e', b' ', b'1', b'\n',
+            ],
+        ),
         //
         (0, (3, 4), vec![b' ']),
         (0, (3, 5), vec![b' ', b'1']),
@@ -1610,23 +1715,83 @@ Two 2
         //
         (0, (6, 6), vec![]),
         //
-        (1, (0, 1), vec![b'O',]),
+        (1, (0, 1), vec![b'O']),
         (2, (0, 2), vec![b'O', b'n']),
         (3, (0, 3), vec![b'O', b'n', b'e']),
-        (4, (0, 4), vec![b'O', b'n', b'e', b' ']),
-        (5, (0, 5), vec![b'O', b'n', b'e', b' ', b'1']),
-        (5, (0, 6), vec![b'O', b'n', b'e', b' ', b'1', b'\n']),
+        (
+            4,
+            (0, 4),
+            vec![
+                b'O', b'n', b'e', b' ',
+            ],
+        ),
+        (
+            5,
+            (0, 5),
+            vec![
+                b'O', b'n', b'e', b' ', b'1',
+            ],
+        ),
+        (
+            5,
+            (0, 6),
+            vec![
+                b'O', b'n', b'e', b' ', b'1', b'\n',
+            ],
+        ),
         //
-        (6, (0, 1), vec![b'T',]),
+        (6, (0, 1), vec![b'T']),
         (6, (0, 2), vec![b'T', b'w']),
         (7, (0, 2), vec![b'T', b'w']),
-        (7, (0, 5), vec![b'T', b'w', b'o', b' ', b'2']),
-        (8, (0, 6), vec![b'T', b'w', b'o', b' ', b'2', b'\n']),
-        (8, (0, 7), vec![b'T', b'w', b'o', b' ', b'2', b'\n']),
-        (9, (0, 6), vec![b'T', b'w', b'o', b' ', b'2', b'\n']),
-        (10, (0, 6), vec![b'T', b'w', b'o', b' ', b'2', b'\n']),
-        (10, (1, 6), vec![b'w', b'o', b' ', b'2', b'\n']),
-        (10, (2, 6), vec![b'o', b' ', b'2', b'\n']),
+        (
+            7,
+            (0, 5),
+            vec![
+                b'T', b'w', b'o', b' ', b'2',
+            ],
+        ),
+        (
+            8,
+            (0, 6),
+            vec![
+                b'T', b'w', b'o', b' ', b'2', b'\n',
+            ],
+        ),
+        (
+            8,
+            (0, 7),
+            vec![
+                b'T', b'w', b'o', b' ', b'2', b'\n',
+            ],
+        ),
+        (
+            9,
+            (0, 6),
+            vec![
+                b'T', b'w', b'o', b' ', b'2', b'\n',
+            ],
+        ),
+        (
+            10,
+            (0, 6),
+            vec![
+                b'T', b'w', b'o', b' ', b'2', b'\n',
+            ],
+        ),
+        (
+            10,
+            (1, 6),
+            vec![
+                b'w', b'o', b' ', b'2', b'\n',
+            ],
+        ),
+        (
+            10,
+            (2, 6),
+            vec![
+                b'o', b' ', b'2', b'\n',
+            ],
+        ),
         (10, (3, 6), vec![b' ', b'2', b'\n']),
         (10, (4, 6), vec![b'2', b'\n']),
         (10, (5, 6), vec![b'\n']),

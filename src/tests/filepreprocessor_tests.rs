@@ -9,71 +9,40 @@ use std::str::FromStr;
 
 #[allow(unused_imports)]
 use crate::tests::common::{
-    MIMEGUESS_EMPTY,
-    MIMEGUESS_LOG,
-    MIMEGUESS_TXT,
-    MIMEGUESS_GZ,
-    MIMEGUESS_XZ,
-    MIMEGUESS_TAR,
-    NTF_TAR_1BYTE,
-    NTF_TAR_1BYTE_FILEA_FPATH,
-    NTF_TAR_1BYTE_FILEA_FILETYPE,
+    FILE, FILE_GZ, FILE_TAR, FILE_XZ, MIMEGUESS_EMPTY, MIMEGUESS_GZ, MIMEGUESS_LOG, MIMEGUESS_TAR,
+    MIMEGUESS_TXT, MIMEGUESS_XZ, NTF_GZ_EMPTY, NTF_GZ_EMPTY_FILETYPE, NTF_GZ_EMPTY_FPATH,
+    NTF_GZ_EMPTY_MIMEGUESS, NTF_LOG_EMPTY, NTF_LOG_EMPTY_FILETYPE, NTF_LOG_EMPTY_FPATH,
+    NTF_LOG_EMPTY_MIMEGUESS, NTF_TAR_1BYTE, NTF_TAR_1BYTE_FILEA_FILETYPE, NTF_TAR_1BYTE_FILEA_FPATH,
     NTF_TAR_1BYTE_FILEA_MIMEGUESS,
-    NTF_LOG_EMPTY,
-    NTF_LOG_EMPTY_FPATH,
-    NTF_LOG_EMPTY_FILETYPE,
-    NTF_LOG_EMPTY_MIMEGUESS,
-    NTF_GZ_EMPTY,
-    NTF_GZ_EMPTY_FPATH,
-    NTF_GZ_EMPTY_FILETYPE,
-    NTF_GZ_EMPTY_MIMEGUESS,
-    FILE,
-    FILE_GZ,
-    FILE_TAR,
-    FILE_XZ,
 };
 
-use crate::common::{
-    FPath,
-    FileType,
-    Path,
-};
+use crate::common::{FPath, FileType, Path};
 
 #[allow(unused_imports)]
 use crate::readers::filepreprocessor::{
+    fpath_to_filetype, fpath_to_filetype_mimeguess, mimeguess_to_filetype, parseable_filetype,
+    path_to_filetype, path_to_filetype_mimeguess, process_path, process_path_tar, MimeGuess,
     ProcessPathResult,
-    fpath_to_filetype_mimeguess,
-    path_to_filetype_mimeguess,
-    MimeGuess,
-    mimeguess_to_filetype,
-    path_to_filetype,
-    fpath_to_filetype,
-    parseable_filetype,
-    process_path_tar,
-    process_path,
 };
 
-use crate::printer_debug::helpers::{
-    NamedTempFile,
-    ntf_fpath,
-};
+use crate::printer_debug::helpers::{ntf_fpath, NamedTempFile};
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
 extern crate si_trace_print;
-use si_trace_print::{
-    dpfn,
-    dpfx,
-};
 use si_trace_print::stack::stack_offset_set;
+use si_trace_print::{dpfn, dpfx};
 
 extern crate test_case;
 use test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-fn test_mimeguess_to_filetype(mimeguess: &MimeGuess, check: FileType) {
+fn test_mimeguess_to_filetype(
+    mimeguess: &MimeGuess,
+    check: FileType,
+) {
     let filetype: FileType = mimeguess_to_filetype(mimeguess);
     assert_eq!(check, filetype, "expected FileType {:?}\nfound FileType {:?}\n", check, filetype);
 }
@@ -100,7 +69,10 @@ fn test_mimeguess_to_filetype_tar() {
 
 // -------------------------------------------------------------------------------------------------
 
-fn test_fpath_to_filetype(name: &String, check: FileType) {
+fn test_fpath_to_filetype(
+    name: &String,
+    check: FileType,
+) {
     stack_offset_set(Some(2));
     eprintln!("test_fpath_to_filetype: name {:?}", &name);
     let fpath: FPath = FPath::from(name);
@@ -156,7 +128,10 @@ fn test_fpath_to_filetype_FileGZ_gzip() {
 
 // -------------------------------------------------------------------------------------------------
 
-fn test_process_file_path(ntf: &NamedTempFile, check: Vec<ProcessPathResult>) {
+fn test_process_file_path(
+    ntf: &NamedTempFile,
+    check: Vec<ProcessPathResult>,
+) {
     stack_offset_set(Some(2));
     eprintln!("test_process_file_path: ntf {:?}", ntf);
     let fpath = ntf_fpath(&ntf);
@@ -168,8 +143,10 @@ fn test_process_file_path(ntf: &NamedTempFile, check: Vec<ProcessPathResult>) {
 fn test_process_file_path_log() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
-            NTF_LOG_EMPTY_FPATH.clone(), *NTF_LOG_EMPTY_MIMEGUESS, *NTF_LOG_EMPTY_FILETYPE,
-        )
+            NTF_LOG_EMPTY_FPATH.clone(),
+            *NTF_LOG_EMPTY_MIMEGUESS,
+            *NTF_LOG_EMPTY_FILETYPE,
+        ),
     ];
     test_process_file_path(&NTF_LOG_EMPTY, check);
 }
@@ -178,8 +155,10 @@ fn test_process_file_path_log() {
 fn test_process_file_path_gz() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
-            NTF_GZ_EMPTY_FPATH.clone(), *NTF_GZ_EMPTY_MIMEGUESS, *NTF_GZ_EMPTY_FILETYPE,
-        )
+            NTF_GZ_EMPTY_FPATH.clone(),
+            *NTF_GZ_EMPTY_MIMEGUESS,
+            *NTF_GZ_EMPTY_FILETYPE,
+        ),
     ];
     test_process_file_path(&NTF_GZ_EMPTY, check);
 }
@@ -191,7 +170,7 @@ fn test_process_file_path_tar() {
             NTF_TAR_1BYTE_FILEA_FPATH.clone(),
             *NTF_TAR_1BYTE_FILEA_MIMEGUESS,
             *NTF_TAR_1BYTE_FILEA_FILETYPE,
-        )
+        ),
     ];
     test_process_file_path(&NTF_TAR_1BYTE, check);
 }
@@ -199,9 +178,7 @@ fn test_process_file_path_tar() {
 // -------------------------------------------------------------------------------------------------
 
 lazy_static! {
-    pub static ref MIMEGUESS_LOG_1: MimeGuess = {
-        MimeGuess::from_path(Path::new("test.log"))
-    };
+    pub static ref MIMEGUESS_LOG_1: MimeGuess = { MimeGuess::from_path(Path::new("test.log")) };
 }
 
 /// test `fpath_to_filetype_mimeguess` (and `path_to_filetype_mimeguess`)

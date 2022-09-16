@@ -4,53 +4,23 @@
 
 #![allow(non_snake_case)]
 
-use crate::common::{
-    Count,
-    FileType,
-    FileSz,
-};
+use crate::common::{Count, FileSz, FileType};
 
-use crate::data::datetime::{
-    DateTimeLOpt,
-    Year,
-};
+use crate::data::datetime::{DateTimeLOpt, Year};
 
-use crate::readers::blockreader::{
-    BlockSz,
-    BLOCKSZ_MAX,
-    BLOCKSZ_MIN,
-};
+use crate::readers::blockreader::{BlockSz, BLOCKSZ_MAX, BLOCKSZ_MIN};
 
-use crate::readers::syslinereader::{
-    DateTimePatternCounts,
-};
+use crate::readers::syslinereader::DateTimePatternCounts;
 
 #[allow(unused_imports)]
-use crate::printer_debug::printers::{
-    dp_err,
-    dp_wrn,
-    p_err,
-    p_wrn,
-};
+use crate::printer_debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
 
 extern crate more_asserts;
-use more_asserts::{
-    debug_assert_le,
-    debug_assert_ge,
-};
+use more_asserts::{debug_assert_ge, debug_assert_le};
 
 extern crate si_trace_print;
 #[allow(unused_imports)]
-use si_trace_print::{
-    dpo,
-    dpn,
-    dpx,
-    dpñ,
-    dpfo,
-    dpfn,
-    dpfx,
-    dpfñ,
-};
+use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ};
 
 use std::fmt;
 
@@ -298,7 +268,10 @@ impl Summary {
             self.BlockReader_read_blocks_hit,
             self.BlockReader_read_blocks_miss,
             self.BlockReader_read_blocks_put,
-        ].iter().max().unwrap()
+        ]
+        .iter()
+        .max()
+        .unwrap()
     }
 
     /// Return maximum value for drop number.
@@ -310,17 +283,21 @@ impl Summary {
             self.LineReader_drop_line_errors,
             self.SyslineReader_drop_sysline_ok,
             self.SyslineReader_drop_sysline_errors,
-        ].iter().max().unwrap()
+        ]
+        .iter()
+        .max()
+        .unwrap()
     }
-
 }
 
 impl fmt::Debug for Summary {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter,
+    ) -> fmt::Result {
         match self.filetype {
-            FileType::FileTar
-            | FileType::File => {
-                f.debug_struct("")
+            FileType::FileTar | FileType::File => f
+                .debug_struct("")
                 .field("bytes", &self.BlockReader_bytes)
                 .field("bytes total", &self.BlockReader_bytes_total)
                 .field("lines", &self.LineReader_lines)
@@ -329,11 +306,9 @@ impl fmt::Debug for Summary {
                 .field("blocks total", &self.BlockReader_blocks_total)
                 .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
                 .field("filesz", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
-                .finish()
-            },
-            FileType::FileGz
-            | FileType::FileXz => {
-                f.debug_struct("")
+                .finish(),
+            FileType::FileGz | FileType::FileXz => f
+                .debug_struct("")
                 .field("bytes", &self.BlockReader_bytes)
                 .field("bytes total", &self.BlockReader_bytes_total)
                 .field("lines", &self.LineReader_lines)
@@ -343,18 +318,13 @@ impl fmt::Debug for Summary {
                 .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
                 .field("filesz uncompressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz_actual))
                 .field("filesz compressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
-                .finish()
-            },
+                .finish(),
             // Summary::default()
-            FileType::FileUnset => {
-                f.debug_struct("")
-                .finish()
-            },
+            FileType::FileUnset => f.debug_struct("").finish(),
             _ => {
                 unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype);
-            },
+            }
         }
-
     }
 }
 

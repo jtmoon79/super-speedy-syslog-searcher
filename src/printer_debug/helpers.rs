@@ -2,12 +2,10 @@
 
 //! Miscellaneous helper functions for debug printing and testing.
 
-use crate::common::{
-    FPath,
-};
+use crate::common::FPath;
 
-#[allow(unused_imports)]  // XXX: clippy wrongly marks this as unused
-use std::io::Write;  // for `NamedTempFile.write_all`
+#[allow(unused_imports)] // XXX: clippy wrongly marks this as unused
+use std::io::Write; // for `NamedTempFile.write_all`
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
@@ -78,8 +76,16 @@ pub fn create_temp_file_with_name_rlen(
     rand_len: usize,
 ) -> NamedTempFile {
     let mut ntf = match tempfile::Builder::new()
-        .prefix::<str>(prefix.unwrap_or(&STRING_TEMPFILE_PREFIX).as_ref())
-        .suffix::<str>(suffix.unwrap_or(&STRING_TEMPFILE_SUFFIX).as_ref())
+        .prefix::<str>(
+            prefix
+                .unwrap_or(&STRING_TEMPFILE_PREFIX)
+                .as_ref(),
+        )
+        .suffix::<str>(
+            suffix
+                .unwrap_or(&STRING_TEMPFILE_SUFFIX)
+                .as_ref(),
+        )
         .rand_bytes(rand_len)
         .tempfile()
     {
@@ -113,7 +119,7 @@ pub fn create_temp_file_with_name(
 /// suffix
 pub fn create_temp_file_with_suffix(
     data: &str,
-    suffix: &String
+    suffix: &String,
 ) -> NamedTempFile {
     create_temp_file_with_name_rlen(data.as_bytes(), None, Some(suffix), 5)
 }
@@ -121,7 +127,7 @@ pub fn create_temp_file_with_suffix(
 /// Testing helper function to write a `str` to a exactly-named temporary file.
 pub fn create_temp_file_with_name_exact(
     data: &str,
-    name: &String
+    name: &String,
 ) -> NamedTempFile {
     create_temp_file_with_name_rlen(data.as_bytes(), Some(name), None, 0)
 }
@@ -132,6 +138,9 @@ pub fn create_temp_file_bytes(data: &[u8]) -> NamedTempFile {
 }
 
 /// Testing helper function to write a `[u8]` to a temporary file.
-pub fn create_temp_file_bytes_with_suffix(data: &[u8], suffix: &String) -> NamedTempFile {
+pub fn create_temp_file_bytes_with_suffix(
+    data: &[u8],
+    suffix: &String,
+) -> NamedTempFile {
     create_temp_file_with_name_rlen(data, None, Some(suffix), 5)
 }

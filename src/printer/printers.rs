@@ -8,42 +8,24 @@
 //! [`PrinterSysline`]: self::PrinterSysline
 //! [`Sysline`s]: crate::data::sysline::Sysline
 
-use std::io::Write;  // for `std::io::Stdout.flush`
 use std::io::Result;
 use std::io::StdoutLock;
+use std::io::Write; // for `std::io::Stdout.flush`
 
 extern crate termcolor;
 #[doc(hidden)]
-pub use termcolor::{
-    Color,
-    ColorChoice,
-    ColorSpec,
-    WriteColor,
-};
+pub use termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
 
-use crate::data::line::{
-    LineP,
-    LineIndex,
-};
+use crate::data::line::{LineIndex, LineP};
 
-use crate::data::sysline::{
-    SyslineP,
-};
+use crate::data::sysline::SyslineP;
 
-use crate::data::datetime::{
-    DateTimeL,
-    FixedOffset,
-};
+use crate::data::datetime::{DateTimeL, FixedOffset};
 
-use crate::printer_debug::printers::{
-    dp_err,
-};
+use crate::printer_debug::printers::dp_err;
 
 extern crate more_asserts;
-use more_asserts::{
-    assert_le,
-    debug_assert_le,
-};
+use more_asserts::{assert_le, debug_assert_le};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // globals and constants
@@ -183,10 +165,17 @@ macro_rules! write_or_return {
                 // XXX: this will print when this program stdout is truncated, like when piping
                 //      to `head`, e.g. `s4 file.log | head`
                 //          Broken pipe (os error 32)
-                dp_err!("{}.write({}@{:p}) (len {})) error {}", stringify!($stdout), stringify!($slice_), $slice_, $slice_.len(), err);
+                dp_err!(
+                    "{}.write({}@{:p}) (len {})) error {}",
+                    stringify!($stdout),
+                    stringify!($slice_),
+                    $slice_,
+                    $slice_.len(),
+                    err
+                );
                 match $stdout.flush() {
-                    Ok(_) => {},
-                    Err(_) => {},
+                    Ok(_) => {}
+                    Err(_) => {}
                 }
                 return PrinterSyslineResult::Err(err);
             }
@@ -200,7 +189,7 @@ macro_rules! write_or_return {
 /// print to the terminal.
 macro_rules! setcolor_or_return {
     ($stdout:expr, $color_spec:expr, $color_spec_last:expr) => {
-        if  $color_spec != $color_spec_last {
+        if $color_spec != $color_spec_last {
             if let Err(err) = $stdout.set_color(&$color_spec) {
                 dp_err!("{}.set_color({:?}) returned error {}", stringify!($stdout), $color_spec, err);
                 return PrinterSyslineResult::Err(err);
@@ -214,14 +203,12 @@ macro_rules! setcolor_or_return {
 //      So a macro is a decent workaround.
 /// Macro helper to print a single line in color
 macro_rules! print_color_line {
-    ($stdout_color:expr, $linep:expr) => {
-        {
-            for linepart in (*$linep).lineparts.iter() {
-                let slice: &[u8] = linepart.as_slice();
-                write_or_return!($stdout_color, slice);
-            }
+    ($stdout_color:expr, $linep:expr) => {{
+        for linepart in (*$linep).lineparts.iter() {
+            let slice: &[u8] = linepart.as_slice();
+            write_or_return!($stdout_color, slice);
         }
-    }
+    }};
 }
 
 // XXX: this marco was originally a `fn -> PrinterSyslineResult` but due to mutable and immutable borrow
@@ -230,83 +217,124 @@ macro_rules! print_color_line {
 /// Macro helper to print a single line in color and highlight the datetime
 /// within the line
 macro_rules! print_color_line_highlight_dt {
-    ($self:expr, $linep:expr, $dt_beg:expr, $dt_end:expr) => {
-        {
-            debug_assert_le!($dt_beg, $dt_end, "passed bad datetime_beg {:?} datetime_end {:?}", $dt_beg, $dt_end);
-            let mut at: LineIndex = 0;
-            // this tedious indexing manual is faster than calling `line.get_boxptrs`
-            // especially since `$dt_beg` `$dt_end` is a sub-slice(s) of the total `Line` slice(s)
-            for linepart in (*$linep).lineparts.iter() {
-                let slice: &[u8] = linepart.as_slice();
-                debug_assert!(!slice.is_empty(), "linepart.as_slice() is empty!?");
-                let at_end: usize = at + slice.len();
-                // datetime is entirely within one linepart
-                if at <= $dt_beg && $dt_end < at_end {
-                    assert_le!(($dt_beg-at), slice.len(), "at {} dt_beg {} (dt_beg-at {} > {} slice.len()) dt_end {} A", at, $dt_beg, $dt_beg-at, slice.len(), $dt_end);
-                    assert_le!(($dt_end-at), slice.len(), "at {} dt_beg {} dt_end {} (dt_end-at {} > {} slice.len()) A", at, $dt_beg, $dt_end, $dt_end-at, slice.len());
-                    let slice_a = &slice[..($dt_beg-at)];
-                    let slice_b_dt = &slice[($dt_beg-at)..($dt_end-at)];
-                    let slice_c = &slice[($dt_end-at)..];
-                    // print line contents before the datetime
-                    if !slice_a.is_empty() {
-                        setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
-                        write_or_return!($self.stdout_color, slice_a);
-                    }
-                    // print line contents of the entire datetime
-                    if !slice_b_dt.is_empty() {
-                        setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
-                        write_or_return!($self.stdout_color, slice_b_dt);
-                    }
-                    // print line contents after the datetime
-                    if !slice_c.is_empty() {
-                        setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
-                        write_or_return!($self.stdout_color, slice_c);
-                    }
-                // datetime begins in this linepart, extends into next linepart
-                } else if at <= $dt_beg && $dt_beg < at_end && at_end <= $dt_end {
-                    assert_le!(($dt_beg-at), slice.len(), "at {} dt_beg {} (dt_beg-at {} > {} slice.len()) dt_end {} at_end {} B", at, $dt_beg, $dt_beg-at, slice.len(), $dt_end, at_end);
-                    let slice_a = &slice[..($dt_beg-at)];
-                    let slice_b_dt = &slice[($dt_beg-at)..];
-                    // print line contents before the datetime
-                    if !slice_a.is_empty() {
-                        setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
-                        write_or_return!($self.stdout_color, slice_a);
-                    }
-                    // print line contents of the partial datetime
-                    if !slice_b_dt.is_empty() {
-                        setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
-                        write_or_return!($self.stdout_color, slice_b_dt);
-                    }
-                // datetime began in previous linepart, extends into this linepart and ends within this linepart
-                } else if $dt_beg < at && at <= $dt_end && $dt_end <= at_end {
-                    assert_le!(($dt_end-at), slice.len(), "at {} dt_beg {} dt_end {} (dt_end-at {} > {} slice.len()) C", at, $dt_beg, $dt_end, $dt_end-at, slice.len());
-                    let slice_a_dt = &slice[..($dt_end-at)];
-                    let slice_b = &slice[($dt_end-at)..];
-                    // print line contents of the partial datetime
-                    if !slice_a_dt.is_empty() {
-                        setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
-                        write_or_return!($self.stdout_color, slice_a_dt);
-                    }
-                    // print line contents after the datetime
-                    if !slice_b.is_empty() {
-                        setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
-                        write_or_return!($self.stdout_color, slice_b);
-                    }
-                // datetime began in previous linepart, extends into next linepart
-                } else if $dt_beg < at && at_end <= $dt_end {
-                    // print entire linepart which is the partial datetime
-                    setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
-                    write_or_return!($self.stdout_color, slice);
-                // datetime is not in this linepart
-                } else {
-                    // print entire linepart
+    ($self:expr, $linep:expr, $dt_beg:expr, $dt_end:expr) => {{
+        debug_assert_le!(
+            $dt_beg,
+            $dt_end,
+            "passed bad datetime_beg {:?} datetime_end {:?}",
+            $dt_beg,
+            $dt_end
+        );
+        let mut at: LineIndex = 0;
+        // this tedious indexing manual is faster than calling `line.get_boxptrs`
+        // especially since `$dt_beg` `$dt_end` is a sub-slice(s) of the total `Line` slice(s)
+        for linepart in (*$linep).lineparts.iter() {
+            let slice: &[u8] = linepart.as_slice();
+            debug_assert!(!slice.is_empty(), "linepart.as_slice() is empty!?");
+            let at_end: usize = at + slice.len();
+            // datetime is entirely within one linepart
+            if at <= $dt_beg && $dt_end < at_end {
+                assert_le!(
+                    ($dt_beg - at),
+                    slice.len(),
+                    "at {} dt_beg {} (dt_beg-at {} > {} slice.len()) dt_end {} A",
+                    at,
+                    $dt_beg,
+                    $dt_beg - at,
+                    slice.len(),
+                    $dt_end
+                );
+                assert_le!(
+                    ($dt_end - at),
+                    slice.len(),
+                    "at {} dt_beg {} dt_end {} (dt_end-at {} > {} slice.len()) A",
+                    at,
+                    $dt_beg,
+                    $dt_end,
+                    $dt_end - at,
+                    slice.len()
+                );
+                let slice_a = &slice[..($dt_beg - at)];
+                let slice_b_dt = &slice[($dt_beg - at)..($dt_end - at)];
+                let slice_c = &slice[($dt_end - at)..];
+                // print line contents before the datetime
+                if !slice_a.is_empty() {
                     setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
-                    write_or_return!($self.stdout_color, slice);
+                    write_or_return!($self.stdout_color, slice_a);
                 }
-                at += slice.len() as LineIndex;
-            };
+                // print line contents of the entire datetime
+                if !slice_b_dt.is_empty() {
+                    setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
+                    write_or_return!($self.stdout_color, slice_b_dt);
+                }
+                // print line contents after the datetime
+                if !slice_c.is_empty() {
+                    setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
+                    write_or_return!($self.stdout_color, slice_c);
+                }
+            // datetime begins in this linepart, extends into next linepart
+            } else if at <= $dt_beg && $dt_beg < at_end && at_end <= $dt_end {
+                assert_le!(
+                    ($dt_beg - at),
+                    slice.len(),
+                    "at {} dt_beg {} (dt_beg-at {} > {} slice.len()) dt_end {} at_end {} B",
+                    at,
+                    $dt_beg,
+                    $dt_beg - at,
+                    slice.len(),
+                    $dt_end,
+                    at_end
+                );
+                let slice_a = &slice[..($dt_beg - at)];
+                let slice_b_dt = &slice[($dt_beg - at)..];
+                // print line contents before the datetime
+                if !slice_a.is_empty() {
+                    setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
+                    write_or_return!($self.stdout_color, slice_a);
+                }
+                // print line contents of the partial datetime
+                if !slice_b_dt.is_empty() {
+                    setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
+                    write_or_return!($self.stdout_color, slice_b_dt);
+                }
+            // datetime began in previous linepart, extends into this linepart and ends within this linepart
+            } else if $dt_beg < at && at <= $dt_end && $dt_end <= at_end {
+                assert_le!(
+                    ($dt_end - at),
+                    slice.len(),
+                    "at {} dt_beg {} dt_end {} (dt_end-at {} > {} slice.len()) C",
+                    at,
+                    $dt_beg,
+                    $dt_end,
+                    $dt_end - at,
+                    slice.len()
+                );
+                let slice_a_dt = &slice[..($dt_end - at)];
+                let slice_b = &slice[($dt_end - at)..];
+                // print line contents of the partial datetime
+                if !slice_a_dt.is_empty() {
+                    setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
+                    write_or_return!($self.stdout_color, slice_a_dt);
+                }
+                // print line contents after the datetime
+                if !slice_b.is_empty() {
+                    setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
+                    write_or_return!($self.stdout_color, slice_b);
+                }
+            // datetime began in previous linepart, extends into next linepart
+            } else if $dt_beg < at && at_end <= $dt_end {
+                // print entire linepart which is the partial datetime
+                setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
+                write_or_return!($self.stdout_color, slice);
+            // datetime is not in this linepart
+            } else {
+                // print entire linepart
+                setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
+                write_or_return!($self.stdout_color, slice);
+            }
+            at += slice.len() as LineIndex;
         }
-    }
+    }};
 }
 
 /// Aliased [`Result`] returned by various [`PrinterSysline`] functions.
@@ -315,7 +343,6 @@ macro_rules! print_color_line_highlight_dt {
 pub type PrinterSyslineResult = Result<()>;
 
 impl PrinterSysline {
-
     /// Create a new `PrinterSysline`.
     pub fn new(
         color_choice: ColorChoice,
@@ -342,7 +369,10 @@ impl PrinterSysline {
         let do_prepend_date = prepend_date_offset.is_some();
         let prepend_date_format_: String = prepend_date_format.unwrap_or_default();
         if do_prepend_date {
-            assert!(!prepend_date_format_.is_empty(), "passed a prepend_date_offset, must pass a prepend_date_format");
+            assert!(
+                !prepend_date_format_.is_empty(),
+                "passed a prepend_date_offset, must pass a prepend_date_format"
+            );
         }
 
         PrinterSysline {
@@ -369,7 +399,10 @@ impl PrinterSysline {
     ///
     /// [`SyslineP`]: crate::data::sysline::SyslineP
     #[inline(always)]
-    pub fn print_sysline(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
+    pub fn print_sysline(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> PrinterSyslineResult {
         // TODO: [2022/06/19] how to determine if "Auto" has become Always or Never?
         // see https://docs.rs/termcolor/latest/termcolor/#detecting-presence-of-a-terminal
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
@@ -388,7 +421,10 @@ impl PrinterSysline {
     ///
     /// [`sysline.dt`]: crate::data::sysline::Sysline
     #[inline(always)]
-    fn datetime_to_string(&mut self, syslinep: &SyslineP) -> String {
+    fn datetime_to_string(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> String {
         // write the `syslinep.dt` into a `String` once
         //
         // XXX: would be cool if `chrono::DateTime` offered a format that returned
@@ -397,8 +433,18 @@ impl PrinterSysline {
         //      instead, `format` returns a `DelayedFormat` object
         //      https://docs.rs/chrono/latest/chrono/format/struct.DelayedFormat.html
         //
-        let dt_: DateTimeL = (*syslinep).dt.unwrap().with_timezone(&self.prepend_date_offset.unwrap());
-        let dt_delayedformat = dt_.format(self.prepend_date_format.as_str());
+        let dt_: DateTimeL = (*syslinep)
+            .dt
+            .unwrap()
+            .with_timezone(
+                &self
+                    .prepend_date_offset
+                    .unwrap(),
+            );
+        let dt_delayedformat = dt_.format(
+            self.prepend_date_format
+                .as_str(),
+        );
 
         dt_delayedformat.to_string()
     }
@@ -408,7 +454,11 @@ impl PrinterSysline {
     ///
     /// [`lineparts`]: crate::data::line::LineParts
     #[inline(always)]
-    fn print_line(&self, linep: &LineP, stdout_lock: &mut StdoutLock) -> PrinterSyslineResult {
+    fn print_line(
+        &self,
+        linep: &LineP,
+        stdout_lock: &mut StdoutLock,
+    ) -> PrinterSyslineResult {
         for linepart in (*linep).lineparts.iter() {
             let slice: &[u8] = linepart.as_slice();
             write_or_return!(stdout_lock, slice);
@@ -423,7 +473,10 @@ impl PrinterSysline {
     /// Print a `Sysline` without anything special.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
-    fn print_sysline_(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
+    fn print_sysline_(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> PrinterSyslineResult {
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             self.print_line(linep, &mut stdout_lock)?;
@@ -435,8 +488,16 @@ impl PrinterSysline {
     /// Print a `Sysline` with prepended datetime.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
-    fn print_sysline_prependdate(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
-        debug_assert!(self.prepend_date_offset.is_some(), "self.prepend_date_offset is {:?}", self.prepend_date_offset);
+    fn print_sysline_prependdate(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> PrinterSyslineResult {
+        debug_assert!(
+            self.prepend_date_offset
+                .is_some(),
+            "self.prepend_date_offset is {:?}",
+            self.prepend_date_offset
+        );
 
         let dt_string: String = self.datetime_to_string(syslinep);
         let mut stdout_lock = self.stdout.lock();
@@ -451,11 +512,18 @@ impl PrinterSysline {
     /// prints `Sysline` with prepended filename.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
-    fn print_sysline_prependfile(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
+    fn print_sysline_prependfile(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> PrinterSyslineResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
 
         // TODO: cost-savings: unwrap to bytes just once
-        let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
+        let prepend_file: &[u8] = self
+            .prepend_file
+            .as_ref()
+            .unwrap()
+            .as_bytes();
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             write_or_return!(stdout_lock, prepend_file);
@@ -468,13 +536,25 @@ impl PrinterSysline {
     /// Print a [`Sysline`] with prepended filename and datetime.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
-    fn print_sysline_prependfile_prependdate(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
+    fn print_sysline_prependfile_prependdate(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> PrinterSyslineResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
-        debug_assert!(self.prepend_date_offset.is_some(), "self.prepend_date_offset is {:?}", self.prepend_date_offset);
+        debug_assert!(
+            self.prepend_date_offset
+                .is_some(),
+            "self.prepend_date_offset is {:?}",
+            self.prepend_date_offset
+        );
 
         let dt_string: String = self.datetime_to_string(syslinep);
         // TODO: cost-savings: unwrap to bytes just once
-        let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
+        let prepend_file: &[u8] = self
+            .prepend_file
+            .as_ref()
+            .unwrap()
+            .as_bytes();
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             write_or_return!(stdout_lock, prepend_file);
@@ -488,7 +568,10 @@ impl PrinterSysline {
     /// Prints [`Sysline`] in color.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
-    fn print_color_sysline(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
+    fn print_color_sysline(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> PrinterSyslineResult {
         let mut line_first = true;
         let _stdout_lock = self.stdout.lock();
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
@@ -511,7 +594,10 @@ impl PrinterSysline {
     /// Print a [`Sysline`] in color and prepended datetime.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
-    fn print_color_sysline_prependdate(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
+    fn print_color_sysline_prependdate(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> PrinterSyslineResult {
         let mut line_first = true;
         let dt_string: String = self.datetime_to_string(syslinep);
         let _stdout_lock = self.stdout.lock();
@@ -536,10 +622,17 @@ impl PrinterSysline {
     /// Prints [`Sysline`] in color and prepended filename.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
-    fn print_color_sysline_prependfile(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
+    fn print_color_sysline_prependfile(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> PrinterSyslineResult {
         let mut line_first = true;
         // TODO: cost-savings: unwrap to bytes just once
-        let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
+        let prepend_file: &[u8] = self
+            .prepend_file
+            .as_ref()
+            .unwrap()
+            .as_bytes();
         let _stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
@@ -562,11 +655,18 @@ impl PrinterSysline {
     /// Print a [`Sysline`] in color and prepended filename and datetime.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
-    fn print_color_sysline_prependfile_prependdate(&mut self, syslinep: &SyslineP) -> PrinterSyslineResult {
+    fn print_color_sysline_prependfile_prependdate(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> PrinterSyslineResult {
         let mut line_first = true;
         let dt_string: String = self.datetime_to_string(syslinep);
         // TODO: cost-savings: unwrap to bytes just once
-        let prepend_file: &[u8] = self.prepend_file.as_ref().unwrap().as_bytes();
+        let prepend_file: &[u8] = self
+            .prepend_file
+            .as_ref()
+            .unwrap()
+            .as_bytes();
         let _stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
@@ -598,7 +698,11 @@ impl PrinterSysline {
 /// Caller should take stream locks, e.g. `std::io::stdout().lock()`.
 ///
 /// See an example <https://docs.rs/termcolor/1.1.2/termcolor/#detecting-presence-of-a-terminal>.
-pub fn print_colored(color: Color, value: &[u8], out: &mut termcolor::StandardStream) -> std::io::Result<()> {
+pub fn print_colored(
+    color: Color,
+    value: &[u8],
+    out: &mut termcolor::StandardStream,
+) -> std::io::Result<()> {
     match out.set_color(ColorSpec::new().set_fg(Some(color))) {
         Ok(_) => {}
         Err(err) => {
@@ -633,7 +737,7 @@ pub fn print_colored(color: Color, value: &[u8], out: &mut termcolor::StandardSt
 pub fn print_colored_stdout(
     color: Color,
     color_choice_opt: Option<ColorChoice>,
-    value: &[u8]
+    value: &[u8],
 ) -> std::io::Result<()> {
     let choice: ColorChoice = match color_choice_opt {
         Some(choice_) => choice_,
@@ -652,7 +756,7 @@ pub fn print_colored_stdout(
 pub fn print_colored_stderr(
     color: Color,
     color_choice_opt: Option<ColorChoice>,
-    value: &[u8]
+    value: &[u8],
 ) -> std::io::Result<()> {
     let choice: ColorChoice = match color_choice_opt {
         Some(choice_) => choice_,
@@ -722,7 +826,7 @@ pub fn write_stderr(buffer: &[u8]) {
     if cfg!(debug_assertions) {
         #[allow(clippy::match_single_binding)]
         match stdout_lock.flush() {
-            _ => {},
+            _ => {}
         }
     }
 }

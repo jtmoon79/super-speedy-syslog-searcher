@@ -8,63 +8,29 @@
 #![allow(non_camel_case_types)]
 
 #[doc(hidden)]
-pub use crate::common::{
-    Bytes,
-    Count,
-    FPath,
-    FileOffset,
-    CharSz,
-    NLu8,
-    ResultS3,
-};
+pub use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, NLu8, ResultS3};
 
-use crate::readers::blockreader::{
-    BlockSz,
-    BlockOffset,
-    BlockIndex,
-    BlockP,
-    Slices,
-    BlockReader,
-};
+use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockReader, BlockSz, Slices};
 
-#[cfg(any(debug_assertions,test))]
-use crate::printer_debug::printers::{
-    buffer_to_String_noraw,
-    char_to_char_noraw,
-    p_err,
-};
+#[cfg(any(debug_assertions, test))]
+use crate::printer_debug::printers::{buffer_to_String_noraw, char_to_char_noraw, p_err};
 
 #[allow(unused_imports)]
-use si_trace_print::{
-    dpo,
-    dpn,
-    dpx,
-    dpñ,
-    dpfo,
-    dpfn,
-    dpfx,
-    dpfñ,
-};
+use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ};
 
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 use std::borrow::Cow;
 
 use std::fmt;
 
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 use std::io::prelude::*;
 
 use std::sync::Arc;
 
 extern crate more_asserts;
 use more_asserts::{
-    assert_le,
-    assert_lt,
-    assert_ge,
-    assert_gt,
-    debug_assert_le,
-    debug_assert_lt,
-    debug_assert_gt,
+    assert_ge, assert_gt, assert_le, assert_lt, debug_assert_gt, debug_assert_le, debug_assert_lt,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -141,7 +107,10 @@ pub struct LinePart {
 }
 
 impl fmt::Debug for LinePart {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter,
+    ) -> fmt::Result {
         f.debug_struct("LinePart")
             .field("LinePart @", &format_args!("{:p}", &self))
             .field("blocki_beg", &self.blocki_beg)
@@ -185,9 +154,25 @@ impl LinePart {
         assert_ne!(fileoffset, FileOffset::MAX, "Bad fileoffset MAX");
         assert_ne!(blockoffset, BlockOffset::MAX, "Bad blockoffset MAX");
         let fo1 = BlockReader::file_offset_at_block_offset(blockoffset, blocksz);
-        assert_le!(fo1, fileoffset, "Bad FileOffset {}, must ≥ {} (based on file_offset_at_block_offset(BlockOffset {}, BlockSz {}))", fileoffset, fo1, blockoffset, blocksz);
+        assert_le!(
+            fo1,
+            fileoffset,
+            "Bad FileOffset {}, must ≥ {} (based on file_offset_at_block_offset(BlockOffset {}, BlockSz {}))",
+            fileoffset,
+            fo1,
+            blockoffset,
+            blocksz
+        );
         let fo2 = BlockReader::file_offset_at_block_offset(blockoffset + 1, blocksz);
-        assert_le!(fileoffset, fo2, "Bad FileOffset {}, must ≤ {} (based on file_offset_at_block_offset(BlockOffset {}, BlockSz {}))", fileoffset, fo2, blockoffset + 1, blocksz);
+        assert_le!(
+            fileoffset,
+            fo2,
+            "Bad FileOffset {}, must ≤ {} (based on file_offset_at_block_offset(BlockOffset {}, BlockSz {}))",
+            fileoffset,
+            fo2,
+            blockoffset + 1,
+            blocksz
+        );
         let bo = BlockReader::block_offset_at_file_offset(fileoffset, blocksz);
         assert_eq!(blockoffset, bo, "Bad BlockOffset {}, expected {} (based on block_offset_at_file_offset(FileOffset {}, BlockSz {}))", blockoffset, bo, fileoffset, blocksz);
         let bi = BlockReader::block_index_at_file_offset(fileoffset, blocksz);
@@ -198,10 +183,36 @@ impl LinePart {
         );
         assert_ne!(blocki_end, 0, "Bad blocki_end 0, expected > 0");
         assert_lt!(blocki_beg, blocki_end, "blocki_beg {} should be < blocki_end {}", blocki_beg, blocki_end);
-        assert_lt!((blocki_beg as BlockSz), blocksz, "blocki_beg {} should be < blocksz {}", blocki_beg, blocksz);
-        assert_le!((blocki_end as BlockSz), blocksz, "blocki_end {} should be ≤ blocksz {}", blocki_end, blocksz);
-        assert_le!(((*blockp).len() as BlockSz), blocksz, "block.len() {} should be ≤ blocksz {}", (*blockp).len(), blocksz);
-        assert_ge!((*blockp).len(), blocki_end - blocki_beg, "block.len() {} should be ≥ {} (blocki_end {} - {} blocki_beg)", (*blockp).len(), blocki_end - blocki_beg, blocki_end, blocki_beg);
+        assert_lt!(
+            (blocki_beg as BlockSz),
+            blocksz,
+            "blocki_beg {} should be < blocksz {}",
+            blocki_beg,
+            blocksz
+        );
+        assert_le!(
+            (blocki_end as BlockSz),
+            blocksz,
+            "blocki_end {} should be ≤ blocksz {}",
+            blocki_end,
+            blocksz
+        );
+        assert_le!(
+            ((*blockp).len() as BlockSz),
+            blocksz,
+            "block.len() {} should be ≤ blocksz {}",
+            (*blockp).len(),
+            blocksz
+        );
+        assert_ge!(
+            (*blockp).len(),
+            blocki_end - blocki_beg,
+            "block.len() {} should be ≥ {} (blocki_end {} - {} blocki_beg)",
+            (*blockp).len(),
+            blocki_end - blocki_beg,
+            blocki_end,
+            blocki_beg
+        );
         LinePart {
             blockp,
             blocki_beg,
@@ -253,8 +264,11 @@ impl LinePart {
 
     #[doc(hidden)]
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
-    pub(self) fn impl_to_String_raw(self: &LinePart, raw: bool) -> String {
+    #[cfg(any(debug_assertions, test))]
+    pub(self) fn impl_to_String_raw(
+        self: &LinePart,
+        raw: bool,
+    ) -> String {
         // XXX: intermixing byte lengths and character lengths
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let s1: String;
@@ -270,7 +284,10 @@ impl LinePart {
     }
 
     /// Does the `LinePart` contain the `byte_`?
-    pub fn contains(self: &LinePart, byte_: &u8) -> bool {
+    pub fn contains(
+        self: &LinePart,
+        byte_: &u8,
+    ) -> bool {
         (*self.blockp).contains(byte_)
     }
 
@@ -278,14 +295,14 @@ impl LinePart {
     /// formatting characters.
     #[doc(hidden)]
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     pub fn to_String_noraw(self: &LinePart) -> String {
         self.impl_to_String_raw(false)
     }
 
     #[doc(hidden)]
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     pub fn to_String(self: &LinePart) -> String {
         self.impl_to_String_raw(true)
     }
@@ -300,31 +317,95 @@ impl LinePart {
 
     /// Return [`Box`](std::boxed) pointer to slice of bytes in this `LinePart`
     /// from `a` (inclusive) to end.
-    pub fn block_boxptr_a(&self, a: &LineIndex) -> Box<&[u8]> {
-        debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
-        debug_assert_le!(self.blocki_end, (*self.blockp).as_slice().len(), "self.blocki_end {} past end of slice.len() {}", self.blocki_end, (*self.blockp).as_slice().len());
-        let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg+a)..self.blocki_end];
+    pub fn block_boxptr_a(
+        &self,
+        a: &LineIndex,
+    ) -> Box<&[u8]> {
+        debug_assert_lt!(
+            self.blocki_beg + a,
+            self.blocki_end,
+            "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]",
+            self.blocki_beg,
+            self.blocki_end,
+            a,
+            self.blocki_beg + a,
+            self.blocki_end
+        );
+        debug_assert_le!(
+            self.blocki_end,
+            (*self.blockp)
+                .as_slice()
+                .len(),
+            "self.blocki_end {} past end of slice.len() {}",
+            self.blocki_end,
+            (*self.blockp)
+                .as_slice()
+                .len()
+        );
+        let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg + a)..self.blocki_end];
 
         Box::new(slice1)
     }
 
     /// Return [`Box`](std::boxed) pointer to slice of bytes in this `LinePart`
     /// from beginning to `b` (exclusive).
-    pub fn block_boxptr_b(&self, b: &LineIndex) -> Box<&[u8]> {
-        debug_assert_le!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
-        let slice1 = &(*self.blockp).as_slice()[self.blocki_beg..(self.blocki_beg+b)];
+    pub fn block_boxptr_b(
+        &self,
+        b: &LineIndex,
+    ) -> Box<&[u8]> {
+        debug_assert_le!(
+            self.blocki_beg + b,
+            self.blocki_end,
+            "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]",
+            self.blocki_beg,
+            self.blocki_end,
+            b,
+            self.blocki_beg + b,
+            self.blocki_end
+        );
+        let slice1 = &(*self.blockp).as_slice()[self.blocki_beg..(self.blocki_beg + b)];
 
         Box::new(slice1)
     }
 
     /// Return [`Box`](std::boxed) pointer to slice of bytes in this `LinePart`
     /// from `a` (inclusive) to `b` (exclusive).
-    pub fn block_boxptr_ab(&self, a: &LineIndex, b: &LineIndex) -> Box<&[u8]> {
+    pub fn block_boxptr_ab(
+        &self,
+        a: &LineIndex,
+        b: &LineIndex,
+    ) -> Box<&[u8]> {
         debug_assert_le!(a, b, "bad LineIndex");
-        debug_assert_lt!(self.blocki_beg+a, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, a, self.blocki_beg + a, self.blocki_end);
-        debug_assert_le!(self.blocki_beg+b, self.blocki_end, "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]", self.blocki_beg, self.blocki_end, b, self.blocki_beg + b, self.blocki_end);
-        debug_assert_le!(b - a, self.len(), "Passed LineIndex {}‥{} (diff {}) are larger than this LinePart len {}", a, b, b - a, self.len());
-        let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg+a)..(self.blocki_beg+b)];
+        debug_assert_lt!(
+            self.blocki_beg + a,
+            self.blocki_end,
+            "LinePart occupies Block slice [{}…{}], with passed a {} creates invalid slice [{}…{}]",
+            self.blocki_beg,
+            self.blocki_end,
+            a,
+            self.blocki_beg + a,
+            self.blocki_end
+        );
+        debug_assert_le!(
+            self.blocki_beg + b,
+            self.blocki_end,
+            "LinePart occupies Block slice [{}…{}], with passed b {} creates invalid slice [{}…{}]",
+            self.blocki_beg,
+            self.blocki_end,
+            b,
+            self.blocki_beg + b,
+            self.blocki_end
+        );
+        debug_assert_le!(
+            b - a,
+            self.len(),
+            "Passed LineIndex {}‥{} (diff {}) are larger than this LinePart len {}",
+            a,
+            b,
+            b - a,
+            self.len()
+        );
+        let slice1 = &(*self.blockp).as_slice()[(self.blocki_beg + a)..(self.blocki_beg + b)];
 
         Box::new(slice1)
     }
@@ -339,7 +420,10 @@ pub struct Line {
 }
 
 impl fmt::Debug for Line {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter,
+    ) -> fmt::Result {
         let mut li_s = String::new();
         for li in self.lineparts.iter() {
             li_s.push_str(&format!(
@@ -449,13 +533,14 @@ impl Line {
     pub fn new_from_linepart(linepart: LinePart) -> Line {
         let mut v = LineParts::with_capacity(Line::LINE_PARTS_WITH_CAPACITY);
         v.push(linepart);
-        Line {
-            lineparts: v,
-        }
+        Line { lineparts: v }
     }
 
     /// Append the passed `LinePart` to the back of `self.lineparts`.
-    pub fn append(&mut self, linepart: LinePart) {
+    pub fn append(
+        &mut self,
+        linepart: LinePart,
+    ) {
         dpo!("Line.append({:?}) {:?}", &linepart, linepart.to_String_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
@@ -485,7 +570,10 @@ impl Line {
     }
 
     /// Prepend the passed `LinePart` to the front of `self.lineparts`.
-    pub fn prepend(&mut self, linepart: LinePart) {
+    pub fn prepend(
+        &mut self,
+        linepart: LinePart,
+    ) {
         dpo!("Line.prepend({:?}) {:?}", &linepart, linepart.to_String_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
@@ -507,7 +595,8 @@ impl Line {
                 linepart.fileoffset,
             );
         }
-        self.lineparts.insert(0, linepart);
+        self.lineparts
+            .insert(0, linepart);
     }
 
     /// The byte offset into the file where this `Line` begins, inclusive.
@@ -576,7 +665,10 @@ impl Line {
     /// Does this [`Line`] store a `LinePart.blockoffset == bo`?
     ///
     /// _O(n)_
-    pub fn stores_blockoffset(self: &Line, bo: BlockOffset) -> bool {
+    pub fn stores_blockoffset(
+        self: &Line,
+        bo: BlockOffset,
+    ) -> bool {
         for linepart in self.lineparts.iter() {
             if linepart.blockoffset == bo {
                 return true;
@@ -592,7 +684,7 @@ impl Line {
     ///
     /// [`Vec`]: std::vec::Vec
     #[doc(hidden)]
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     pub fn get_slices(self: &Line) -> Slices {
         // short-circuit this case
         let sz = self.lineparts.len();
@@ -634,8 +726,19 @@ impl Line {
     ///
     /// [`Box`]: std::boxed
     /// [`Vec`]: std::vec::Vec
-    pub fn get_boxptrs(self: &Line, mut a: LineIndex, mut b: LineIndex) -> LinePartPtrs<'_> {
-        dpfn!("(…, {}, {}), lineparts {} line.len() {} {:?}", a, b, self.lineparts.len(), self.len(), self.to_String_noraw());
+    pub fn get_boxptrs(
+        self: &Line,
+        mut a: LineIndex,
+        mut b: LineIndex,
+    ) -> LinePartPtrs<'_> {
+        dpfn!(
+            "(…, {}, {}), lineparts {} line.len() {} {:?}",
+            a,
+            b,
+            self.lineparts.len(),
+            self.len(),
+            self.to_String_noraw()
+        );
         debug_assert_le!(a, b, "passed bad LineIndex pair");
         // simple case: `a, b` are past end of `Line`
         if self.len() <= a {
@@ -648,7 +751,7 @@ impl Line {
         let mut a1: LineIndex = a;
         let mut b1: LineIndex = b;
         // Box ptr to first `a` slice of `linepart`, also a flag for special case
-        let mut bptr_a: Option<Box::<&[u8]>> = None;
+        let mut bptr_a: Option<Box<&[u8]>> = None;
         for linepart in &self.lineparts {
             let len_ = linepart.len();
             dpo!("next: a {}, b {}, len_ {}", a1, b1, len_);
@@ -691,21 +794,41 @@ impl Line {
         dpo!("Vec::with_capacity({})", self.lineparts.len());
         let mut a_found = false;
         let mut b_search = false;
-        let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box::<&[u8]>>::with_capacity(self.lineparts.len());
+        let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box<&[u8]>>::with_capacity(self.lineparts.len());
         for linepart in &self.lineparts {
             let len_ = linepart.len();
             if !a_found && a < len_ {
                 a_found = true;
                 b_search = true;
                 if b < len_ {
-                    dpo!("ptrs.push(linepart.block_boxptr_ab({}, {})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", a, b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
-                    ptrs.push(linepart.block_boxptr_ab(&a, &b));  // store [a..b]  (entire slice, entire `Line`)
-                    debug_assert_gt!(ptrs.len(), 1, "ptrs is {} elements, expected >= 1; this should have been handled earlier", ptrs.len());
+                    dpo!(
+                        "ptrs.push(linepart.block_boxptr_ab({}, {})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]",
+                        a,
+                        b,
+                        linepart.blocki_beg,
+                        linepart.blocki_end,
+                        linepart.fileoffset_begin(),
+                        linepart.fileoffset_end()
+                    );
+                    ptrs.push(linepart.block_boxptr_ab(&a, &b)); // store [a..b]  (entire slice, entire `Line`)
+                    debug_assert_gt!(
+                        ptrs.len(),
+                        1,
+                        "ptrs is {} elements, expected >= 1; this should have been handled earlier",
+                        ptrs.len()
+                    );
                     dpfx!("return MultiPtr {} ptrs", ptrs.len());
                     return LinePartPtrs::MultiPtr(ptrs);
                 }
-                dpo!("ptrs.push(linepart.block_boxptr_a({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", a, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
-                ptrs.push(linepart.block_boxptr_a(&a));  // store [a..]  (first slice of `Line`)
+                dpo!(
+                    "ptrs.push(linepart.block_boxptr_a({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]",
+                    a,
+                    linepart.blocki_beg,
+                    linepart.blocki_end,
+                    linepart.fileoffset_begin(),
+                    linepart.fileoffset_end()
+                );
+                ptrs.push(linepart.block_boxptr_a(&a)); // store [a..]  (first slice of `Line`)
                 b -= len_;
                 continue;
             } else if !a_found {
@@ -714,16 +837,34 @@ impl Line {
                 continue;
             }
             if b_search && b < len_ {
-                dpo!("ptrs.push(linepart.block_boxptr_b({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", b, linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
-                ptrs.push(linepart.block_boxptr_b(&b));  // store [..b] (last slice of `Line`)
+                dpo!(
+                    "ptrs.push(linepart.block_boxptr_b({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]",
+                    b,
+                    linepart.blocki_beg,
+                    linepart.blocki_end,
+                    linepart.fileoffset_begin(),
+                    linepart.fileoffset_end()
+                );
+                ptrs.push(linepart.block_boxptr_b(&b)); // store [..b] (last slice of `Line`)
                 break;
-            } else  {
-                dpo!("ptrs.push(linepart.block_boxptr()) @Block[{:?}‥{:?}] @[{:?}‥{:?}]", linepart.blocki_beg, linepart.blocki_end, linepart.fileoffset_begin(), linepart.fileoffset_end());
-                ptrs.push(linepart.block_boxptr());  // store [..] (entire slice, middle part of `Line`)
+            } else {
+                dpo!(
+                    "ptrs.push(linepart.block_boxptr()) @Block[{:?}‥{:?}] @[{:?}‥{:?}]",
+                    linepart.blocki_beg,
+                    linepart.blocki_end,
+                    linepart.fileoffset_begin(),
+                    linepart.fileoffset_end()
+                );
+                ptrs.push(linepart.block_boxptr()); // store [..] (entire slice, middle part of `Line`)
                 b -= len_;
             }
         }
-        debug_assert_gt!(ptrs.len(), 1, "Ptrs is length {}, expected >1; parsing algorithm missed this case", ptrs.len());
+        debug_assert_gt!(
+            ptrs.len(),
+            1,
+            "Ptrs is length {}, expected >1; parsing algorithm missed this case",
+            ptrs.len()
+        );
 
         LinePartPtrs::MultiPtr(ptrs)
     }
@@ -735,8 +876,11 @@ impl Line {
     ///
     // XXX: Issue #16 `raw==false` only handles UTF-8/ASCII encoding
     #[doc(hidden)]
-    #[cfg(any(debug_assertions,test))]
-    pub fn print(self: &Line, raw: bool) {
+    #[cfg(any(debug_assertions, test))]
+    pub fn print(
+        self: &Line,
+        raw: bool,
+    ) {
         // is this an expensive command? should `stdout` be cached?
         let stdout = std::io::stdout();
         let mut stdout_lock = stdout.lock();
@@ -748,7 +892,10 @@ impl Line {
                     Err(err) => {
                         p_err!(
                             "StdoutLock.write(@{:p}[{}‥{}]) error {}",
-                            &*linepart.blockp, linepart.blocki_beg, linepart.blocki_end, err
+                            &*linepart.blockp,
+                            linepart.blocki_beg,
+                            linepart.blocki_end,
+                            err
                         );
                     }
                 }
@@ -794,8 +941,11 @@ impl Line {
     ///
     #[doc(hidden)]
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
-    pub(crate) fn impl_to_String_raw(self: &Line, raw: bool) -> String {
+    #[cfg(any(debug_assertions, test))]
+    pub(crate) fn impl_to_String_raw(
+        self: &Line,
+        raw: bool,
+    ) -> String {
         // get capacity
         let mut sz: usize = 0;
         for linepart in &self.lineparts {
@@ -833,7 +983,7 @@ impl Line {
     /// `Line` to `String`.
     #[doc(hidden)]
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     pub fn to_String(self: &Line) -> String {
         self.impl_to_String_raw(true)
     }
@@ -842,9 +992,8 @@ impl Line {
     /// formatting characters.
     #[doc(hidden)]
     #[allow(non_snake_case)]
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     pub fn to_String_noraw(self: &Line) -> String {
         self.impl_to_String_raw(false)
     }
-
 }

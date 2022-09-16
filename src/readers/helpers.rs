@@ -2,14 +2,10 @@
 
 //! Miscellaneous helper "readers" functions.
 
-use crate::common::{
-    FPath,
-};
+use crate::common::FPath;
 
 #[cfg(test)]
-use crate::common::{
-    FileOffset,
-};
+use crate::common::FileOffset;
 
 use std;
 
@@ -34,7 +30,10 @@ pub fn fpath_to_path(path: &FPath) -> &std::path::Path {
 }
 
 /// Count of a `char` in `str`.
-pub fn count_chars_in_str(s: &str, c: char) -> usize {
+pub fn count_chars_in_str(
+    s: &str,
+    c: char,
+) -> usize {
     let mut count: usize = 0;
     for c_ in s.chars() {
         if c_ == c {

@@ -5,41 +5,21 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::{
-    FileOffset,
-    FPath,
-};
+use crate::common::{FPath, FileOffset};
 
-use crate::printer_debug::helpers::{
-    NamedTempFile,
-    create_temp_file,
-    ntf_fpath,
-};
+use crate::printer_debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
 
-use crate::readers::blockreader::{
-    BlockSz,
-};
+use crate::readers::blockreader::BlockSz;
 
-use crate::readers::filepreprocessor::{
-    fpath_to_filetype_mimeguess,
-};
+use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
 
 use crate::data::datetime::{
-    DateTimeL,
-    FixedOffset,
-    SystemTime,
-    DateTimePattern_str,
-    datetime_parse_from_str,
+    datetime_parse_from_str, DateTimeL, DateTimePattern_str, FixedOffset, SystemTime,
 };
 
-use crate::readers::syslinereader::{
-    ResultS3SyslineFind,
-};
+use crate::readers::syslinereader::ResultS3SyslineFind;
 
-use crate::readers::syslogprocessor::{
-    SyslogProcessor,
-    FileProcessingResultBlockZero,
-};
+use crate::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
 
 extern crate const_format;
 use const_format::concatcp;
@@ -67,38 +47,39 @@ const NTF5_DATA_LINE2: &str = "Mar 3 03:00:00 5c\n";
 const NTF5_DATA_LINE3: &str = "Apr 4 04:00:00 5d\n";
 const NTF5_DATA_LINE4: &str = "May 5 05:00:00 5e\n";
 
-const NTF5_DATA: &str = concatcp!(
-    NTF5_DATA_LINE0,
-    NTF5_DATA_LINE1,
-    NTF5_DATA_LINE2,
-    NTF5_DATA_LINE3,
-    NTF5_DATA_LINE4,
-);
+const NTF5_DATA: &str =
+    concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
 #[allow(dead_code)]
 const NTF5_DATA_LINE0_OFFSET: usize = 0;
 #[allow(dead_code)]
-const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0.as_bytes().len();
+const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0
+    .as_bytes()
+    .len();
 #[allow(dead_code)]
-const NTF5_DATA_LINE2_OFFSET: usize = NTF5_DATA_LINE1_OFFSET + NTF5_DATA_LINE1.as_bytes().len();
+const NTF5_DATA_LINE2_OFFSET: usize = NTF5_DATA_LINE1_OFFSET
+    + NTF5_DATA_LINE1
+        .as_bytes()
+        .len();
 #[allow(dead_code)]
-const NTF5_DATA_LINE3_OFFSET: usize = NTF5_DATA_LINE2_OFFSET + NTF5_DATA_LINE2.as_bytes().len();
+const NTF5_DATA_LINE3_OFFSET: usize = NTF5_DATA_LINE2_OFFSET
+    + NTF5_DATA_LINE2
+        .as_bytes()
+        .len();
 #[allow(dead_code)]
-const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET + NTF5_DATA_LINE3.as_bytes().len();
+const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET
+    + NTF5_DATA_LINE3
+        .as_bytes()
+        .len();
 
 const NTF5_LINE2_DATETIME_STR: &str = "Mar 3 03:00:00 +0000";
 const NTF5_LINE2_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %z";
-
 
 const NTF3_DATA_LINE0: &str = "Jan 1 01:00:00 2000 A3\n";
 const NTF3_DATA_LINE1: &str = "Feb 2 02:00:00 2000 B3\n";
 const NTF3_DATA_LINE2: &str = "Mar 3 03:00:00 2000 C3\n";
 
-const NTF3_DATA: &str = concatcp!(
-    NTF3_DATA_LINE0,
-    NTF3_DATA_LINE1,
-    NTF3_DATA_LINE2,
-);
+const NTF3_DATA: &str = concatcp!(NTF3_DATA_LINE0, NTF3_DATA_LINE1, NTF3_DATA_LINE2,);
 
 const NTF3_LINE1_DATETIME_STR: &str = "Feb 2 02:00:00 2000 +0000";
 const NTF3_LINE1_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %Y %z";
@@ -169,7 +150,10 @@ lazy_static! {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// helper to wrap the match and panic checks
-fn new_SyslogProcessor(path: &FPath, blocksz: BlockSz) -> SyslogProcessor {
+fn new_SyslogProcessor(
+    path: &FPath,
+    blocksz: BlockSz,
+) -> SyslogProcessor {
     let tzo: FixedOffset = FixedOffset::east(0);
     let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
     match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo, None, None) {
@@ -257,7 +241,7 @@ fn test_find_sysline_between_datetime_filters_Done() {
 // -------------------------------------------------------------------------------------------------
 
 #[test_case(0x400)]
-#[test_case(0x10 => panics)]  // Issue #22
+#[test_case(0x10 => panics)] // Issue #22
 fn test_processing_stage_1_blockzero_analysis(blocksz: BlockSz) {
     let mut slp = new_SyslogProcessor(&NTF3_PATH, blocksz);
 
@@ -325,7 +309,6 @@ fn test_processing_stages_0_5() {
     }
 
     let _summary = slp.process_stage4_summary();
-
 }
 
 // -------------------------------------------------------------------------------------------------
