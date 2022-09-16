@@ -23,9 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # build & upload debug
-      - uses: actions/checkout@v2
-        name: git checkout
-      - name: Checks
+      - name: git checkout
+        uses: actions/checkout@v2
+      - name: Check (cargo check)
         # `cargo check` builds dependences and other things but skips
         # final code generation
         run: |
@@ -66,7 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # checkout for the log files
-      - uses: actions/checkout@v2
+      - name: git checkout
+        uses: actions/checkout@v2
       # download & run debug
       - name: Download debug binary
         uses: actions/download-artifact@v3
