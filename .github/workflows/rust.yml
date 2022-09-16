@@ -15,6 +15,8 @@ env:
   S4_TEST_FILES: ./logs/other/tests/dtf2-2.log
                  ./logs/other/tests/dtf3-2a.log
                  ./logs/other/tests/dtf5-6a.log.gz
+                 ./logs/other/tests/dtf7-20-LEVELS.log.xz
+                 ./logs/other/tests/gen-2-1.tar
                  ./logs/other/tests/gen-20-1-faces.log
                  ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
 jobs:
