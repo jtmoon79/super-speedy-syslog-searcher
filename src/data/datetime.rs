@@ -874,7 +874,7 @@ pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{3,9})";
 /// for help in testing only
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
-pub const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
+pub(crate) const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
     CGP_MONTHm,
     CGP_MONTHb,
     CGP_MONTHB,
@@ -884,7 +884,7 @@ pub const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
 /// for help in testing only
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
-pub const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
+pub(crate) const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
     CGP_DAYd,
     CGP_DAYe,
 ];
@@ -1296,7 +1296,7 @@ lazy_static! {
 /// for help in testing only
 #[doc(hidden)]
 #[cfg(any(debug_assertions,test))]
-pub const CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
+pub(crate) const CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
     CGP_TZz,
     CGP_TZzc,
     CGP_TZzp,
