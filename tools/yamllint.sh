@@ -9,6 +9,8 @@ cd "$(dirname -- "${0}")/.."
 
 set -x
 
+"${PYTHON-python}" -m yamllint --version
+
 exec \
   "${PYTHON-python}" -m yamllint \
     "./.github/workflows/rust.yml" \
