@@ -37,10 +37,7 @@ jobs:
       - name: Check clippy
         run: |
           set -eux
-          cargo clippy --no-deps --verbose --all-targets --all-features -- \
-             -D warnings \
-          || true
-          # force `cargo clippy` to not cause failure
+          cargo clippy --no-deps --verbose --all-targets --all-features
       - name: Build Debug
         run: |
           set -eux
