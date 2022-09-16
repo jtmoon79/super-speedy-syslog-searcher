@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# backup-dirty.sh
+# backup.sh
 #
-# a quick and dirty backup script using 7zip
+# a quick manual backup script using 7zip
 #
 
 set -euo pipefail
