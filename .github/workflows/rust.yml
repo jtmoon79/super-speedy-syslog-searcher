@@ -19,7 +19,7 @@ env:
                  ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
 jobs:
   job_build_debug_release_test:
-    name: build debug and release, then test
+    name: check, clippy, build debug, build release, test
     runs-on: ubuntu-latest
     steps:
       # build & upload debug
