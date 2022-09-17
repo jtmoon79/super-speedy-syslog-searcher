@@ -64,8 +64,17 @@ jobs:
       #  tests
       - name: Run Tests
         run: cargo test --verbose
-      - name: Build documentation
+      - name: Build Documentation
         run: cargo doc --locked --release --frozen --no-deps -v
+      - name: Check Publish
+        run: cargo publish --verbose --dry-run
+      # - name: Run valgrind
+      #   run: |
+      #     set -eux
+      #     sudo apt install -y valgrind g++
+      #     SCRIPT=./tools/valgrind-dhat.sh
+      #     chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
+      #     "${SCRIPT}"
   job_runs:
     name: run s4
     needs: job_build_debug_release_test
