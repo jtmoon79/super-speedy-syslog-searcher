@@ -145,7 +145,7 @@ jobs:
           set -eux
           export PROGRAM=./s4_release
           SCRIPT=./tools/compare-grep-sort.sh
-          chmod -v +x "${PROGRAM}" "${SCRIPT}"
+          chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
           "${SCRIPT}"
   # Run code coverage with rust "nightly" (necessary for some `-Z` features)
   # then upload code coverage result to codecov.io
