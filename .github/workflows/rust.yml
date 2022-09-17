@@ -83,7 +83,7 @@ jobs:
         run: |
           set -eux
           S4=./s4_debug
-          chmod -v +x ${S4}
+          chmod -v +x -- ${S4}
           ${S4} --help
           ${S4} --color=never ${S4_TEST_FILES} 2>/dev/null
           ${S4} ${S4_ARGSD} --color=never ${S4_TEST_FILES} 2>/dev/null
@@ -104,7 +104,7 @@ jobs:
         run: |
           set -eux
           S4=./s4_release
-          chmod -v +x ${S4}
+          chmod -v +x -- ${S4}
           ${S4} --help
           ${S4} --color=never ${S4_TEST_FILES}
           ${S4} ${S4_ARGSR} --color=never ${S4_TEST_FILES}
