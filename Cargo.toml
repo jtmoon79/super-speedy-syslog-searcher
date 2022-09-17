@@ -5,12 +5,12 @@ name = "super_speedy_syslog_searcher"
 description = "Super Speedy Syslog Searcher will search syslog files and sort entries by datetime. DateTime filters may be passed to narrow the search. It aims to be very fast."
 version = "0.0.28"
 edition = "2021"
+rust-version = "1.62"
 repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
 authors = ["James Thomas Moon"]
 license = "MIT"
 keywords = ["syslog", "search", "sort"]
 readme = "README.md"
-rust-version = "1.61"
 # Do not set metadata fields `documentation` or `homepage` unless using
 # non-standard websites.
 # See <https://rust-lang.github.io/api-guidelines/documentation.html#cargotoml-includes-all-common-metadata-c-metadata>
