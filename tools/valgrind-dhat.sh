@@ -41,8 +41,6 @@ declare -a files=(
         ./logs/other/tests/gen-1000-3-foobar.log \
         ./logs/other/tests/gen-200-1-jajaja.log \
         ./logs/other/tests/gen-400-4-shamrock.log \
-        ./logs/other/tests/gen-99999-1-Hüsker_Dü.log \
-        ./logs/other/tests/gen-99999-1-Motley_Crue.log \
      2>/dev/null || true)
 )
 (
