@@ -16,9 +16,15 @@ readme = "README.md"
 # See <https://rust-lang.github.io/api-guidelines/documentation.html#cargotoml-includes-all-common-metadata-c-metadata>
 exclude = [
     ".github/*",
-    "benches/*",
+    "benches/bench_prints.rs",
+    "benches/bench_ranges.rs",
+    "benches/bench_syslinereader.rs",
+    "benches/README.md",
     "logs/*",
+    "src/README.md",
+    "src/debug/README.md",
     "tools/*",
+    "tests/*",
     "rustfmt.toml",
 ]
 
@@ -58,7 +64,7 @@ edition = "2021"
 test = true
 doc = true
 doctest = true
-#bench = false
+bench = false
 #plugin = false
 #proc-macro = false
 #harness = false
@@ -66,9 +72,10 @@ doctest = true
 [[bin]]
 name = "s4"
 path = "src/bin/bin.rs"
+edition = "2021"
 test = true
 doc = true
-edition = "2021"
+bench = false
 
 [dev-dependencies]
 arraystring = "0.3.0"
@@ -89,8 +96,4 @@ harness = false
 
 [[bench]]
 name = "bench_slice_contains"
-harness = false
-
-[[bench]]
-name = "bench_syslinereader"
 harness = false
