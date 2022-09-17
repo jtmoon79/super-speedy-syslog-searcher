@@ -21,11 +21,11 @@ if ! valgrind=$(which valgrind); then
     exit 1
 fi
 
-declare -r bin=./target/release/s4
+PROGRAM=${PROGRAM-./target/release/s4}
 
 (set -x; uname -a)
 (set -x; git log -n1 --format='%h %D') || true
-(set -x; "${bin}" --version)
+(set -x; "${PROGRAM}" --version)
 (set -x; $valgrind --version) | head -n1
 
 echo
@@ -66,7 +66,7 @@ declare -a files=(
 
     exec \
     valgrind --tool=dhat \
-    "${bin}" \
+    "${PROGRAM}" \
     -z 0xFFFF \
     -a 20000101T000000 -b 20000101T080000 \
     "${files[@]}" \
