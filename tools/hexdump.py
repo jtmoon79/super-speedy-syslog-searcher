@@ -6,8 +6,8 @@
 # rust-acceptable format. This script does what I need.
 #
 
-from typing import Optional
 import sys
+from typing import Optional
 
 
 WIDTH = 8
@@ -30,10 +30,12 @@ def main(path: Optional[str], width: int):
             print(" ", end="")
     print(f"printed {count} bytes", file=sys.stderr)
 
+
 def print_help():
     print("usage:\n  hexdump.py FILE [WIDTH]", file=sys.stderr)
     sys.exit(1)
- 
+
+
 if __name__ == "__main__":
     path = None
     if len(sys.argv) == 0:
