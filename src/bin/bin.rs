@@ -668,7 +668,6 @@ fn cli_process_args(
 /// Start function `processing_loop`.
 /// Determine a process return code.
 pub fn main() -> ExitCode {
-    // set once, use `stackdepth_main` to access `_STACKDEPTH_MAIN`
     if cfg!(debug_assertions) {
         stack_offset_set(Some(0));
     }
@@ -821,7 +820,9 @@ fn exec_syslogprocessor_thread(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
 ) {
-    stack_offset_set(Some(2));
+    if cfg!(debug_assertions) {
+        stack_offset_set(Some(2));
+    }
     let (path, _pathid, filetype, blocksz, filter_dt_after_opt, filter_dt_before_opt, tz_offset) =
         thread_init_data;
     dpfn!("({:?})", path);
