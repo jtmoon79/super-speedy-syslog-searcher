@@ -7,10 +7,12 @@ and sort syslog files within compressed files (`.gz`, `.xz`) and
 archives (`.tar`, `.zip`).
 The first goal of s4 is speedy searching and printing.
 
-[![Build status](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions/workflows/rust.yml/badge.svg)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
-[![docs.rs](https://docs.rs/super-speedy-syslog-searcher/badge.svg)](https://docs.rs/super-speedy-syslog-searcher)
-[![codecov.io](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher/branch/main/graph/badge.svg?token=Q2OXTL7U02)](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher)
-[![crates.io](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg)](https://crates.io/crates/super-speedy-syslog-searcher)
+[![Build status](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions/workflows/rust.yml/badge.svg?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
+[![Chrono on docs.rs](https://docs.rs/chrono/badge.svg)](https://docs.rs/super_speedy_syslog_searcher/latest/s4lib/)
+[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square)](https://crates.io/crates/super-speedy-syslog-searcher)
+[![Crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square)](https://crates.io/crates/super-speedy-syslog-searcher.svg)
+[![codecov.io](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher/branch/main/graph/badge.svg?token=Q2OXTL7U02&style=flat-square)](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
 ---
 
