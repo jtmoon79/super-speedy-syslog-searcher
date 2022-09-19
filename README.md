@@ -15,6 +15,7 @@ The first goal of s4 is speedy searching and printing.
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust)](https://crates.io/crates/super-speedy-syslog-searcher.svg)
 [![codecov.io](https://img.shields.io/codecov/c/github/jtmoon79/super-speedy-syslog-searcher/branch?main&token=Q2OXTL7U02&style=flat-square&logo=codecov)](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher)
 [![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/latest.svg)](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/latest.svg?style=flat-square)
+[![Requirements Status](https://requires.io/github/jtmoon79/super-speedy-syslog-searcher/requirements.svg?branch=main)](https://requires.io/github/jtmoon79/super-speedy-syslog-searcher/requirements/?branch=main)
 
 ---
 
