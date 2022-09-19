@@ -18,10 +18,11 @@ Zz=$(which 7z)
 set -x
 
 "${Zz}" a -spf -bb1 -bt -stl -snl -tzip "${ZIPFILE}" \
+    ./benches \
     ./Cargo.toml \
     ./Cargo.lock \
     ./CHANGELOG.md \
-    ./benches \
+    ./Extended-Thoughts.md \
     ./.github \
     ./.gitignore \
     ./LICENSE.txt \
@@ -35,6 +36,7 @@ set -x
         2>/dev/null || true
     ) \
     ./README.md \
+    ./rustfmt.toml \
     ./src \
     ./tools \
 
