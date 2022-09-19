@@ -888,48 +888,49 @@ const CGP_TZzc: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d:\d\d)";
 const CGP_TZzp: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d)";
 /// `strftime` specifier `%Z` e.g. `"ACST"`
 // TODO: allow lowercase matching, transform to uppercase in the function `captures_to_regex...`
-const CGP_TZZ: &CaptureGroupPattern = "(?P<tz>\
-ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT|\
-acdt|acst|act|adt|aedt|aest|aet|aft|akdt|akst|almt|amst|amt|anat|aqtt|art|ast|awst|azot|azt|biot|bit|bnt|bot|brst|brt|bst|btt|cat|cct|cdt|cest|cet|chot|chst|chut|cist|ckt|clst|clt|cost|cot|cst|ct|cvt|cwst|cxt|davt|ddut|dft|east|eat|ect|edt|eest|eet|egst|egt|est|et|fet|fjt|fkst|fkt|fnt|galt|gamt|get|gft|gilt|git|gmt|gst|gyt|haec|hdt|hkt|hmt|hovt|hst|ict|idlw|idt|iot|irdt|irkt|irst|ist|jst|kalt|kgt|kost|krat|kst|lhst|lint|magt|mart|mawt|mdt|mest|met|mht|mist|mit|mmt|msk|mst|mut|mvt|myt|nct|ndt|nft|novt|npt|nst|nt|nut|nzdt|nzst|omst|orat|pdt|pet|pett|pgt|phot|phst|pht|pkt|pmdt|pmst|pont|pst|pwt|pyst|pyt|ret|rott|sakt|samt|sast|sbt|sct|sdt|sgt|slst|sret|srt|sst|syot|taht|tft|tha|tjt|tkt|tlt|tmt|tot|trt|tvt|ulat|utc|uyst|uyt|uzt|vet|vlat|volt|vost|vut|wakt|wast|wat|west|wet|wgst|wgt|wib|wit|wita|wst|yakt|yekt\
+pub(crate) const CGP_TZZ: &CaptureGroupPattern = "(?P<tz>\
+ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOST|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EASST|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVST|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAST|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT|ZULU|Z|\
+acdt|acst|act|adt|aedt|aest|aet|aft|akdt|akst|almt|amst|amt|anat|aqtt|art|ast|awst|azost|azot|azt|biot|bit|bnt|bot|brst|brt|bst|btt|cat|cct|cdt|cest|cet|chost|chot|chst|chut|cist|ckt|clst|clt|cost|cot|cst|ct|cvt|cwst|cxt|davt|ddut|dft|easst|east|eat|ect|edt|eest|eet|egst|egt|est|et|fet|fjt|fkst|fkt|fnt|galt|gamt|get|gft|gilt|git|gmt|gst|gyt|haec|hdt|hkt|hmt|hovst|hovt|hst|ict|idlw|idt|iot|irdt|irkt|irst|ist|jst|kalt|kgt|kost|krat|kst|lhst|lint|magt|mart|mawt|mdt|mest|met|mht|mist|mit|mmt|msk|mst|mut|mvt|myt|nct|ndt|nft|novt|npt|nst|nt|nut|nzdt|nzst|omst|orat|pdt|pet|pett|pgt|phot|phst|pht|pkt|pmdt|pmst|pont|pst|pwt|pyst|pyt|ret|rott|sakt|samt|sast|sbt|sct|sdt|sgt|slst|sret|srt|sst|syot|taht|tft|tha|tjt|tkt|tlt|tmt|tot|trt|tvt|ulast|ulat|utc|uyst|uyt|uzt|vet|vlat|volt|vost|vut|wakt|wast|wat|west|wet|wgst|wgt|wib|wit|wita|wst|yakt|yekt|zulu|z\
 )";
 
-const TZZ_LIST_UPPER: &[&str] = &[
-    "ACDT", "ACST", "ACT", "ADT", "AEDT", "AEST", "AET", "AFT", "AKDT", "AKST", "ALMT", "AMST", "AMT",
-    "ANAT", "AQTT", "ART", "AST", "AWST", "AZOT", "AZT", "BIOT", "BIT", "BNT", "BOT", "BRST", "BRT", "BST",
-    "BTT", "CAT", "CCT", "CDT", "CEST", "CET", "CHOT", "CHST", "CHUT", "CIST", "CKT", "CLST", "CLT", "COST",
-    "COT", "CST", "CT", "CVT", "CWST", "CXT", "DAVT", "DDUT", "DFT", "EAST", "EAT", "ECT", "EDT", "EEST",
+pub(crate) const TZZ_LIST_UPPER: &[&str] = &[
+    "ACDT", "ACST", "ACT", "ACWST", "ADT", "AEDT", "AEST", "AET", "AFT", "AKDT", "AKST", "ALMT", "AMST", "AMT",
+    "ANAT", "AQTT", "ART", "AST", "AWST", "AZOST", "AZOT", "AZT", "BIOT", "BIT", "BNT", "BOT", "BRST", "BRT", "BST",
+    "BTT", "CAT", "CCT", "CDT", "CEST", "CET", "CHADT", "CHAST", "CHOST", "CHOT", "CHST", "CHUT", "CIST", "CKT", "CLST", "CLT", "COST",
+    "COT", "CST", "CT", "CVT", "CWST", "CXT", "DAVT", "DDUT", "DFT", "EASST", "EAST", "EAT", "ECT", "EDT", "EEST",
     "EET", "EGST", "EGT", "EST", "ET", "FET", "FJT", "FKST", "FKT", "FNT", "GALT", "GAMT", "GET", "GFT",
-    "GILT", "GIT", "GMT", "GST", "GYT", "HAEC", "HDT", "HKT", "HMT", "HOVT", "HST", "ICT", "IDLW", "IDT",
+    "GILT", "GIT", "GMT", "GST", "GYT", "HAEC", "HDT", "HKT", "HMT", "HOVST", "HOVT", "HST", "ICT", "IDLW", "IDT",
     "IOT", "IRDT", "IRKT", "IRST", "IST", "JST", "KALT", "KGT", "KOST", "KRAT", "KST", "LHST", "LINT",
     "MAGT", "MART", "MAWT", "MDT", "MEST", "MET", "MHT", "MIST", "MIT", "MMT", "MSK", "MST", "MUT", "MVT",
     "MYT", "NCT", "NDT", "NFT", "NOVT", "NPT", "NST", "NT", "NUT", "NZDT", "NZST", "OMST", "ORAT", "PDT",
     "PET", "PETT", "PGT", "PHOT", "PHST", "PHT", "PKT", "PMDT", "PMST", "PONT", "PST", "PWT", "PYST", "PYT",
     "RET", "ROTT", "SAKT", "SAMT", "SAST", "SBT", "SCT", "SDT", "SGT", "SLST", "SRET", "SRT", "SST", "SYOT",
-    "TAHT", "TFT", "THA", "TJT", "TKT", "TLT", "TMT", "TOT", "TRT", "TVT", "ULAT", "UTC", "UYST", "UYT",
+    "TAHT", "TFT", "THA", "TJT", "TKT", "TLT", "TMT", "TOT", "TRT", "TVT", "ULAST", "ULAT", "UTC", "UYST", "UYT",
     "UZT", "VET", "VLAT", "VOLT", "VOST", "VUT", "WAKT", "WAST", "WAT", "WEST", "WET", "WGST", "WGT", "WIB",
-    "WIT", "WITA", "WST", "YAKT", "YEKT",
+    "WIT", "WITA", "WST", "YAKT", "YEKT", "ZULU", "Z",
 ];
 
-const TZZ_LIST_LOWER: &[&str] = &[
-    "acdt", "acst", "act", "adt", "aedt", "aest", "aet", "aft", "akdt", "akst", "almt", "amst", "amt",
-    "anat", "aqtt", "art", "ast", "awst", "azot", "azt", "biot", "bit", "bnt", "bot", "brst", "brt", "bst",
-    "btt", "cat", "cct", "cdt", "cest", "cet", "chot", "chst", "chut", "cist", "ckt", "clst", "clt", "cost",
-    "cot", "cst", "ct", "cvt", "cwst", "cxt", "davt", "ddut", "dft", "east", "eat", "ect", "edt", "eest",
+// pre-generated values
+pub(crate) const TZZ_LIST_LOWER: &[&str] = &[
+    "acdt", "acst", "act", "acwst", "adt", "aedt", "aest", "aet", "aft", "akdt", "akst", "almt", "amst", "amt",
+    "anat", "aqtt", "art", "ast", "awst", "azost", "azot", "azt", "biot", "bit", "bnt", "bot", "brst", "brt", "bst",
+    "btt", "cat", "cct", "cdt", "cest", "cet", "chadt", "chast", "chost", "chot", "chst", "chut", "cist", "ckt", "clst", "clt", "cost",
+    "cot", "cst", "ct", "cvt", "cwst", "cxt", "davt", "ddut", "dft", "easst", "east", "eat", "ect", "edt", "eest",
     "eet", "egst", "egt", "est", "et", "fet", "fjt", "fkst", "fkt", "fnt", "galt", "gamt", "get", "gft",
-    "gilt", "git", "gmt", "gst", "gyt", "haec", "hdt", "hkt", "hmt", "hovt", "hst", "ict", "idlw", "idt",
+    "gilt", "git", "gmt", "gst", "gyt", "haec", "hdt", "hkt", "hmt", "hovst", "hovt", "hst", "ict", "idlw", "idt",
     "iot", "irdt", "irkt", "irst", "ist", "jst", "kalt", "kgt", "kost", "krat", "kst", "lhst", "lint",
     "magt", "mart", "mawt", "mdt", "mest", "met", "mht", "mist", "mit", "mmt", "msk", "mst", "mut", "mvt",
     "myt", "nct", "ndt", "nft", "novt", "npt", "nst", "nt", "nut", "nzdt", "nzst", "omst", "orat", "pdt",
     "pet", "pett", "pgt", "phot", "phst", "pht", "pkt", "pmdt", "pmst", "pont", "pst", "pwt", "pyst", "pyt",
     "ret", "rott", "sakt", "samt", "sast", "sbt", "sct", "sdt", "sgt", "slst", "sret", "srt", "sst", "syot",
-    "taht", "tft", "tha", "tjt", "tkt", "tlt", "tmt", "tot", "trt", "tvt", "ulat", "utc", "uyst", "uyt",
+    "taht", "tft", "tha", "tjt", "tkt", "tlt", "tmt", "tot", "trt", "tvt", "ulast", "ulat", "utc", "uyst", "uyt",
     "uzt", "vet", "vlat", "volt", "vost", "vut", "wakt", "wast", "wat", "west", "wet", "wgst", "wgt", "wib",
-    "wit", "wita", "wst", "yakt", "yekt",
+    "wit", "wita", "wst", "yakt", "yekt", "zulu", "z",
 ];
 
 lazy_static! {
     /// map lowercase `%Z` timezones (e.g. "pst") to uppercase (e.g. "PST")
-    static ref TZZ_LOWER_TO_UPPER: HashMap<&'static str, &'static str> = {
+    pub(crate) static ref TZZ_LOWER_TO_UPPER: HashMap<&'static str, &'static str> = {
         assert_eq!(TZZ_LIST_UPPER.len(), TZZ_LIST_LOWER.len());
         let mut map = HashMap::<&'static str, &'static str>::new();
         map.reserve(TZZ_LIST_LOWER.len());
@@ -952,8 +953,6 @@ pub(crate) const CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
 
 /// no alphabetic or line end, helper to `CGP_TZZ`
 const RP_NOALPHA: &RegexPattern = r"([^[[:alpha:]]]|$)";
-
-const NOENTRY: &str = "";
 
 /// All timezone abbreviations, maps all strftime `%Z` to strftime `%:z`.
 ///
@@ -986,7 +985,7 @@ const NOENTRY: &str = "";
 ///
 /// [`parse_from_str`]: https://docs.rs/chrono/0.4.21/chrono/format/strftime/#fn7
 
-const TZZ_ALL: [(&str, &str); 416] = [
+const TZZ_ALL: [(&str, &str); 420] = [
     // uppercase
     ("ACDT", "+10:30"),
     ("ACST", "+09:30"),
@@ -1010,7 +1009,7 @@ const TZZ_ALL: [(&str, &str); 416] = [
     ("AST", "+03:00"),
     ("AST", "-04:00"),
     ("AWST", "+08:00"),
-    ("AZOST", "-00:00"),
+    ("AZOST", "+00:00"),
     ("AZOT", "-01:00"),
     ("AZT", "+04:00"),
     ("BNT", "+08:00"),
@@ -1196,6 +1195,8 @@ const TZZ_ALL: [(&str, &str); 416] = [
     ("WST", "+08:00"),
     ("YAKT", "+09:00"),
     ("YEKT", "+05:00"),
+    ("ZULU", "+00:00"),
+    ("Z", "+00:00"),
     // lowercase
     ("acdt", "+10:30"),
     ("acst", "+09:30"),
@@ -1405,6 +1406,8 @@ const TZZ_ALL: [(&str, &str); 416] = [
     ("wst", "+08:00"),
     ("yakt", "+09:00"),
     ("yekt", "+05:00"),
+    ("zulu", "+00:00"),
+    ("z", "+00:00"),
 ];
 
 type Map_TZZ_to_TZz<'a> = BTreeMap<&'a str, &'a str>;
@@ -1412,15 +1415,19 @@ type Map_TZZ_to_TZz<'a> = BTreeMap<&'a str, &'a str>;
 lazy_static! {
     /// Map of all `%Z` values, e.g. `"PST"` or `"pst"`,
     /// to the `%:z` value, e.g. `"-07:00"`.
+    /// A key with an `is_empty()` value signifies an ambiguous timezone.
+    /// Ambiguous timezones will use the provided fallback timezone offset
+    /// (i.e. `--tz-offset`).
     ///
-    /// Ambiguous duplicate timezones are removed, e.g. `"SST"`.
-    static ref MAP_TZZ_TO_TZz: Map_TZZ_to_TZz<'static> = {
+    /// Ambiguous duplicate timezones are set to empty string, e.g. `"SST"`.
+    // must be `pub` to allow access from `src/bin/bin.rs`
+    pub static ref MAP_TZZ_TO_TZz: Map_TZZ_to_TZz<'static> = {
         let mut map = Map_TZZ_to_TZz::new();
         #[allow(non_snake_case)]
         for tzZ_zc in TZZ_ALL.iter() {
             if map.insert(tzZ_zc.0, tzZ_zc.1).is_some() {
-                // duplicate key entries are set to blank
-                map.insert(tzZ_zc.0, NOENTRY);
+                // duplicate key entries are set to empty string
+                map.insert(tzZ_zc.0, "");
             }
         }
 
@@ -2469,6 +2476,21 @@ pub fn datetime_parse_from_str(
     }
 }
 
+/// Call [`datetime_parse_from_str`] with a `pattern` containing a timezone.
+///
+/// [`datetime_parse_from_str`]: datetime_parse_from_str
+pub fn datetime_parse_from_str_w_tz(
+    data: &str,
+    pattern: &DateTimePattern_str,
+) -> DateTimeLOpt {
+    datetime_parse_from_str(
+        data,
+        pattern,
+        true,
+        &FixedOffset::east(-9999)
+    )
+}
+
 /// Data of interest from a set of [`regex::Captures`] for a datetime
 /// substring found in a [`Line`].
 ///
@@ -2778,13 +2800,26 @@ pub(crate) fn captures_to_buffer_bytes(
             )
             .unwrap();
             match MAP_TZZ_TO_TZz.get_key_value(tzZ) {
-                Some((_tz_abbr, tz_offset_)) => {
-                    // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
-                    let tzs: String = tz_offset_.to_string();
-                    copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
+                Some((_tz_abbr, tz_offset_val)) => {
+                    match tz_offset_val.is_empty() {
+                        true => {
+                            // given an ambiguous timezone name, fallback to
+                            // passed TZ offset
+                            // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
+                            let tzs: String = tz_offset.to_string();
+                            copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
+                        }
+                        false => {
+                            // given an unambiguous timezone name, use
+                            // associated offset
+                            // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
+                            let tzs: String = tz_offset_val.to_string();
+                            copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
+                        }
+                    }
                 }
                 None => {
-                    // cannot find entry in MAP_TZZ_TO_TZz, fill with passed TZ
+                    // cannot find entry in MAP_TZZ_TO_TZz, use passed TZ offset
                     // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
                     let tzs: String = tz_offset.to_string();
                     copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);

@@ -44,7 +44,7 @@ use std::str;
 use std::thread;
 
 extern crate chrono;
-use chrono::{FixedOffset, Local, Offset, TimeZone};
+use chrono::{FixedOffset, Local, TimeZone};
 
 extern crate clap;
 use clap::{ArgEnum, Parser};
@@ -68,7 +68,7 @@ extern crate s4lib;
 use s4lib::common::{Count, FPath, FPaths, FileOffset, FileType, NLu8a};
 
 use s4lib::data::datetime::{
-    datetime_parse_from_str, DateTimeLOpt, DateTimeParseInstr, DateTimePattern_str, DATETIME_PARSE_DATAS,
+    datetime_parse_from_str, datetime_parse_from_str_w_tz, DateTimeLOpt, DateTimeParseInstr, DateTimePattern_str, DATETIME_PARSE_DATAS, MAP_TZZ_TO_TZz,
 };
 
 #[allow(unused_imports)]
@@ -133,7 +133,6 @@ enum CLI_Color_Choice {
 /// [`datetime_parse_from_str`]: s4lib::data::datetime#fn.datetime_parse_from_str
 type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool);
 
-// BUG: does not handle '%Z'.
 // TODO: reject ambiguous timezone names.
 //       best way to do this is to modify `DTPD!` defined in `datetime.rs` to
 //       have a flag, "is it acceptable for CLI?". Then gather those at
@@ -142,23 +141,35 @@ type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool);
 //       divergent methods for transforming datetime string to `DateTimeL`.
 const CLI_DT_FILTER_PATTERN1: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S", true, false, true);
 const CLI_DT_FILTER_PATTERN2: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%z", true, true, true);
-const CLI_DT_FILTER_PATTERN3: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%Z", true, true, true);
-const CLI_DT_FILTER_PATTERN4: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S", true, false, true);
-const CLI_DT_FILTER_PATTERN5: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %z", true, true, true);
-const CLI_DT_FILTER_PATTERN6: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %Z", true, true, true);
-const CLI_DT_FILTER_PATTERN7: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false, true);
-const CLI_DT_FILTER_PATTERN8: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %z", true, true, true);
-const CLI_DT_FILTER_PATTERN9: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", true, true, true);
-const CLI_DT_FILTER_PATTERN10: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false, true);
-const CLI_DT_FILTER_PATTERN11: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true, true);
-const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true, true);
-const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%Y%m%d", true, false, false);
-const CLI_DT_FILTER_PATTERN14: CLI_DT_Filter_Pattern = ("%Y%m%d %z", true, true, false);
-const CLI_DT_FILTER_PATTERN15: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, false);
-const CLI_DT_FILTER_PATTERN16: CLI_DT_Filter_Pattern = ("+%s", false, false, true);
+const CLI_DT_FILTER_PATTERN3: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%:z", true, true, true);
+const CLI_DT_FILTER_PATTERN4: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%#z", true, true, true);
+const CLI_DT_FILTER_PATTERN5: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%Z", true, true, true);
+const CLI_DT_FILTER_PATTERN6: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S", true, false, true);
+const CLI_DT_FILTER_PATTERN7: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %z", true, true, true);
+const CLI_DT_FILTER_PATTERN8: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %:z", true, true, true);
+const CLI_DT_FILTER_PATTERN9: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %#z", true, true, true);
+const CLI_DT_FILTER_PATTERN10: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %Z", true, true, true);
+const CLI_DT_FILTER_PATTERN11: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false, true);
+const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %z", true, true, true);
+const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %:z", true, true, true);
+const CLI_DT_FILTER_PATTERN14: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %#z", true, true, true);
+const CLI_DT_FILTER_PATTERN15: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", true, true, true);
+const CLI_DT_FILTER_PATTERN16: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false, true);
+const CLI_DT_FILTER_PATTERN17: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true, true);
+const CLI_DT_FILTER_PATTERN18: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %:z", true, true, true);
+const CLI_DT_FILTER_PATTERN19: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %#z", true, true, true);
+const CLI_DT_FILTER_PATTERN20: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true, true);
+const CLI_DT_FILTER_PATTERN21: CLI_DT_Filter_Pattern = ("%Y%m%d", true, false, false);
+const CLI_DT_FILTER_PATTERN22: CLI_DT_Filter_Pattern = ("%Y-%m-%d", true, false, false);
+const CLI_DT_FILTER_PATTERN23: CLI_DT_Filter_Pattern = ("%Y/%m/%d", true, false, false);
+const CLI_DT_FILTER_PATTERN24: CLI_DT_Filter_Pattern = ("%Y%m%d %z", true, true, false);
+const CLI_DT_FILTER_PATTERN25: CLI_DT_Filter_Pattern = ("%Y%m%d %:z", true, true, false);
+const CLI_DT_FILTER_PATTERN26: CLI_DT_Filter_Pattern = ("%Y%m%d %#z", true, true, false);
+const CLI_DT_FILTER_PATTERN27: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, false);
+const CLI_DT_FILTER_PATTERN28: CLI_DT_Filter_Pattern = ("+%s", false, false, true);
 
 // TODO: [2022/06/19] allow passing three-letter TZ abbreviation
-const CLI_FILTER_PATTERNS_COUNT: usize = 16;
+const CLI_FILTER_PATTERNS_COUNT: usize = 28;
 
 /// CLI acceptable datetime filter patterns for the user-passed `-a` or `-b`
 const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
@@ -178,6 +189,18 @@ const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] =
     &CLI_DT_FILTER_PATTERN14,
     &CLI_DT_FILTER_PATTERN15,
     &CLI_DT_FILTER_PATTERN16,
+    &CLI_DT_FILTER_PATTERN17,
+    &CLI_DT_FILTER_PATTERN18,
+    &CLI_DT_FILTER_PATTERN19,
+    &CLI_DT_FILTER_PATTERN20,
+    &CLI_DT_FILTER_PATTERN21,
+    &CLI_DT_FILTER_PATTERN22,
+    &CLI_DT_FILTER_PATTERN23,
+    &CLI_DT_FILTER_PATTERN24,
+    &CLI_DT_FILTER_PATTERN25,
+    &CLI_DT_FILTER_PATTERN26,
+    &CLI_DT_FILTER_PATTERN27,
+    &CLI_DT_FILTER_PATTERN28,
 ];
 
 /// CLI time to append in `fn process_dt` when `has_time` is `false`.
@@ -202,10 +225,16 @@ DateTime Filter patterns may be:
     CLI_DT_FILTER_PATTERN2.0,
     "\"
     \"",
+    CLI_DT_FILTER_PATTERN3.0,
+    "\"
+    \"",
     CLI_DT_FILTER_PATTERN4.0,
     "\"
     \"",
     CLI_DT_FILTER_PATTERN5.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN6.0,
     "\"
     \"",
     CLI_DT_FILTER_PATTERN7.0,
@@ -214,10 +243,16 @@ DateTime Filter patterns may be:
     CLI_DT_FILTER_PATTERN8.0,
     "\"
     \"",
+    CLI_DT_FILTER_PATTERN9.0,
+    "\"
+    \"",
     CLI_DT_FILTER_PATTERN10.0,
     "\"
     \"",
     CLI_DT_FILTER_PATTERN11.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN12.0,
     "\"
     \"",
     CLI_DT_FILTER_PATTERN13.0,
@@ -226,10 +261,49 @@ DateTime Filter patterns may be:
     CLI_DT_FILTER_PATTERN14.0,
     "\"
     \"",
+    CLI_DT_FILTER_PATTERN15.0,
+    "\"
+    \"",
     CLI_DT_FILTER_PATTERN16.0,
     "\"
+    \"",
+    CLI_DT_FILTER_PATTERN17.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN18.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN19.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN20.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN21.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN22.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN23.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN24.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN25.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN26.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN27.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN28.0,
+    "\"
 
-Without a timezone offset (%z or %Z), the Datetime Filter is presumed to be the system timezone.
+Without a timezone offset (\"%z\" or \"%Z\"), the Datetime Filter is presumed to be the system timezone.
 Pattern \"+%s\" is Unix epoch timestamp in seconds with a preceding \"+\".
 Ambiguous timezones will be rejected, e.g. \"SST\".
 Prepended datetime, -u or -l, is printed in format \"",
@@ -281,7 +355,7 @@ struct CLI_Args {
     )]
     dt_before: Option<String>,
 
-    /// Default timezone offset for naive datetimes (without timezone offset)
+    /// Default timezone offset for datetimes without a timezone
     #[clap(
         short = 't',
         long,
@@ -409,52 +483,54 @@ fn cli_validate_blocksz(blockszs: &str) -> clap::Result<(), String> {
 }
 
 /// CLI argument processing
-// TODO: move some of this into small testable helper functions
-fn cli_process_tz_offset(tzo: &String) -> std::result::Result<FixedOffset, String> {
-    let mut tzo_: String;
-    if tzo.is_empty() {
-        // ripped from https://stackoverflow.com/a/59603899/471376
-        let local_offs = Local
-            .timestamp(0, 0)
-            .offset()
-            .fix()
-            .local_minus_utc();
-        let hours = local_offs / 3600;
-        let mins = local_offs % 3600;
-        tzo_ = format!("{:+03}{:02}", hours, mins);
-    } else {
-        tzo_ = tzo.clone();
-    }
-    // default value is "+00:00", remove one ":"
-    if let Some(index) = tzo_.find(':') {
-        tzo_.remove(index);
-    }
-    #[allow(clippy::from_str_radix_10)]
-    let fo_val = match i32::from_str_radix(tzo_.as_str(), 10) {
-        Ok(val) => val,
-        Err(err) => {
-            return Err(err.to_string());
-        }
+fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> {
+    let tzo_ = match MAP_TZZ_TO_TZz.get(tzo) {
+        Some(tz_offset) => {
+            match tz_offset.is_empty() {
+                // an empty value signifies an ambiguous named timezone
+                true => {
+                    return Err(
+                        format!("Given ambiguous timezone {:?} (this timezone abbreviation refers to several timezone offsets)", tzo)
+                    );
+                }
+                // unambiguous named timezone passed
+                false => tz_offset,
+            }
+        },
+        // no entry found, `tzo` is probably a numeric timezone offset,
+        // e.g. `+01:00`
+        None => tzo,
     };
-    let hours: i32 = fo_val / 100;
-    let mins: i32 = fo_val % 100;
-    let east: i32 = (hours * 3600) + (mins * 60);
-    let fo = match FixedOffset::east_opt(east) {
-        Some(val) => val,
-        None => {
-            return Err(format!(
-                "Unable to parse a timezone FixedOffset for -t {:?} (value {:?})",
-                tzo, east
-            ));
+    // transform the timezone string to a `FixedOffset` instance
+    // using a dummy `DateTimeL`
+    let mut data: String = String::from("2000-01-02 03:04:05 ");
+    data.push_str(tzo_);
+    for pattern in [
+        "%Y-%m-%d %H:%M:%S %:z",
+        "%Y-%m-%d %H:%M:%S %z",
+        "%Y-%m-%d %H:%M:%S %#z",
+    ] {
+        let dt = datetime_parse_from_str_w_tz(
+            data.as_str(), pattern,
+        );
+        dpfo!("datetime_parse_from_str_w_tz({:?}, {:?}) returned {:?}", data, pattern, dt);
+        match dt {
+            Some(dt_) => {
+                dpfx!("return {:?}", dt_.offset());
+                return Ok(*dt_.offset());
+            }
+            None => {}
         }
     };
 
-    Ok(fo)
+    Err(
+        format!("Unable to parse a timezone offset for --tz-offset {:?}", tzo)
+    )
 }
 
 /// `clap` argument validator for `--tz-offset`.
 fn cli_validate_tz_offset(tz_offset: &str) -> std::result::Result<(), String> {
-    match cli_process_tz_offset(&String::from(tz_offset)) {
+    match cli_process_tz_offset(tz_offset) {
         Ok(_) => Ok(()),
         Err(err) => Err(err),
     }
@@ -2315,5 +2391,39 @@ fn print_files_processpathresult(
             }
         }
         eprintln!();
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use test_case::test_case;
+    use super::{
+        cli_process_tz_offset, FixedOffset,
+    };
+
+    #[test_case("+00", FixedOffset::east(0); "+00 east(0)")]
+    #[test_case("+0000", FixedOffset::east(0); "+0000 east(0)")]
+    #[test_case("+00:00", FixedOffset::east(0); "+00:00 east(0)")]
+    #[test_case("+00:01", FixedOffset::east(60); "+00:01 east(60)")]
+    #[test_case("+01:00", FixedOffset::east(3600); "+01:00 east(3600) A")]
+    #[test_case("-01:00", FixedOffset::east(-3600); "-01:00 east(-3600) B")]
+    #[test_case("+02:00", FixedOffset::east(7200); "+02:00 east(7200)")]
+    #[test_case("+02:30", FixedOffset::east(9000); "+02:30 east(9000)")]
+    #[test_case("+02:35", FixedOffset::east(9300); "+02:30 east(9300)")]
+    #[test_case("+23:00", FixedOffset::east(82800); "+23:00 east(82800)")]
+    #[test_case("UTC", FixedOffset::east(0); "UTC east(0)")]
+    #[test_case("vlat", FixedOffset::east(36000); "vlat east(36000)")]
+    #[test_case("IDLW", FixedOffset::east(-43200); "IDLW east(-43200)")]
+    fn test_cli_process_tz_offset(in_: &str, out_fo: FixedOffset) {
+        let input: String = String::from(in_);
+        let result = cli_process_tz_offset(&input);
+        match result {
+            Ok(fo) => {
+                assert_eq!(out_fo, fo, "cli_process_tz_offset returned FixedOffset {:?}, expected {:?}", fo, out_fo);
+            }
+            Err(err) => {
+                panic!("Error {:?}", err);
+            }
+        }
     }
 }

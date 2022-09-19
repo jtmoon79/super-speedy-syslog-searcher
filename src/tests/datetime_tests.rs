@@ -10,8 +10,9 @@ use crate::data::datetime::{
     bytes_to_regex_to_datetime, datetime_from_str_workaround_Issue660, datetime_parse_from_str,
     dt_after_or_before, dt_pass_filters, DTFSSet, DTFS_Tz, DateTimeL, DateTimeLOpt, DateTimeParseInstr,
     DateTimePattern_str, DateTimeRegex_str, FixedOffset, Result_Filter_DateTime1, Result_Filter_DateTime2,
-    Year, CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL, CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL, CGP_SECOND, CGP_TZ_ALL,
-    CGP_YEAR, DATETIME_PARSE_DATAS, DTP_ALL, RP_LB, RP_RB,
+    Year, CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL, CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL, CGP_SECOND,
+    CGP_TZ_ALL, CGP_TZZ, CGP_YEAR, DATETIME_PARSE_DATAS, DTP_ALL, MAP_TZZ_TO_TZz, RP_LB, RP_RB,
+    TZZ_LIST_UPPER, TZZ_LIST_LOWER, TZZ_LOWER_TO_UPPER,
 };
 
 use crate::debug::printers::buffer_to_String_noraw;
@@ -22,6 +23,7 @@ extern crate more_asserts;
 use more_asserts::{assert_gt, assert_le, assert_lt};
 
 extern crate si_trace_print;
+extern crate regex;
 use si_trace_print::stack::stack_offset_set;
 use si_trace_print::{dpfn, dpfx};
 
@@ -521,6 +523,44 @@ fn test_DATETIME_PARSE_DATAS_test_cases() {
                 }
             }
         }
+    }
+}
+
+#[test]
+/// Check that the built-in test data is caught by the same DTPD in which it is
+/// declared.
+fn test_Map_TZ_names() {
+    let regex = regex::Regex::new(CGP_TZZ).unwrap();
+    assert_eq!(TZZ_LIST_UPPER.len(), TZZ_LIST_LOWER.len(), "TZZ_LIST_UPPER len {} != {} TZZ_LIST_LOWER len", TZZ_LIST_UPPER.len(), TZZ_LIST_LOWER.len());
+    for up in TZZ_LIST_UPPER {
+        assert!(MAP_TZZ_TO_TZz.contains_key(up), "Named timezone {:?} not found in MAP_TZZ_TO_TZz", up);
+    }
+    for lo in TZZ_LIST_LOWER {
+        let up = lo.to_ascii_uppercase();
+        assert!(MAP_TZZ_TO_TZz.contains_key(up.as_str()), "Named timezone {:?} (lower {:?}) not found in MAP_TZZ_TO_TZz", up, lo);
+    }
+    for (index, tz_upper) in TZZ_LIST_UPPER.iter().enumerate() {
+        let tz_lower = TZZ_LIST_LOWER[index];
+        let tz_lower_to_upper = tz_lower.to_ascii_uppercase();
+        assert_eq!(
+            tz_upper, &tz_lower_to_upper.as_str(),
+            "TZZ_LIST_UPPER[{}]={:?} != TZZ_LIST_LOWER[{}]={:?} ({:?})",
+            index, tz_upper, index, tz_lower, tz_lower_to_upper,
+        );
+    }
+    for (lo, up) in TZZ_LOWER_TO_UPPER.iter() {
+        assert!(regex.is_match(lo), "Key {:?} from TZZ_LOWER_TO_UPPER not matched by regex CGP_TZZ", lo);
+        assert!(regex.is_match(up), "Value {:?} from TZZ_LOWER_TO_UPPER not matched by regex CGP_TZZ", up);
+    }
+    for (tz_name, tz_val) in MAP_TZZ_TO_TZz.iter() {
+        assert!(regex.is_match(tz_name), "Key {:?} from MAP_TZZ_TO_TZz not matched by regex CGP_TZZ", tz_name);
+        assert!(
+            TZZ_LIST_UPPER.contains(tz_name) != TZZ_LIST_LOWER.contains(tz_name),
+            "Key {:?} from MAP_TZZ_TO_TZz {} in TZZ_LIST_UPPER, {} in TZZ_LIST_LOWER",
+            tz_name,
+            if TZZ_LIST_UPPER.contains(tz_name) { "is" } else { "not" },
+            if TZZ_LIST_LOWER.contains(tz_name) { "is" } else { "not" },
+        );
     }
 }
 
