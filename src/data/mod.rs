@@ -26,7 +26,7 @@
 //! A "sysline" is sequence of "lines" that:
 //!
 //! * have a datetime stamp on the first "line".
-//! * have a datetime stamp format similar to any other "sysline"s the file.
+//! * have a datetime stamp format similar to other "sysline"s in the same file.
 //!
 //! A "sysline" is represented by a [`Sysline`] and found by a
 //! [`SyslineReader`].
@@ -35,7 +35,7 @@
 //!
 //! A "syslog" is a file that:
 //!
-//! * has at least one "sysline"
+//! * has [a certain minimum] of "sysline"s.
 //!
 //! A "syslog" is processed by a [`SyslogProcessor`].
 //!
@@ -52,6 +52,7 @@
 //! [`Line`]: crate::data::line::Line
 //! [`Sysline`]: crate::data::sysline::Sysline
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
+//! [a certain minimum]: crate::readers::syslogprocessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP
 
 pub mod datetime;
 pub mod line;

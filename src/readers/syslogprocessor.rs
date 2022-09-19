@@ -452,8 +452,8 @@ impl SyslogProcessor {
     /// then the last `Sysline` "Jan 1 12:00:00 goodbye" is presumed to be in
     /// year 2015.
     /// The preceding `Sysline` "Dec 1 12:00:00 goodbye" is then processed.
-    /// A backwards jump is seen _Dec 1_ to _Jan 1_. From this, it can be
-    /// concluded the _Dec 1_ refers to a prior year, 2014.
+    /// An apparent backwards jump is seen _Jan 1_ to _Dec 1_.
+    /// From this, it can be concluded the _Dec 1_ refers to a prior year, 2014.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     /// [`BlockReader`]: crate::readers::blockreader::BlockReader
