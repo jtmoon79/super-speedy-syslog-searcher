@@ -32,21 +32,47 @@ The first goal of s4 is speedy searching and printing.
 
 ### Install `super_speedy_syslog_searcher`
 
-```text
+```lang-text
 cargo install super_speedy_syslog_searcher
 ```
 
 ### Run `s4`
 
-For example, print all the messages under `/var/log/`.
+For example, print all the syslog lines in syslog files under `/var/log/`
 
-```text
+```lang-text
 s4 /var/log
+```
+
+Print only the syslog lines since yesterday
+
+```lang-text
+s4 /var/log -a $(date -d "yesterday" '+%Y-%m-%d')
+```
+
+Print only the syslog lines that occurred two days ago
+
+```lang-text
+s4 /var/log -a $(date -d "2 days ago" '+%Y-%m-%d') -b $(date -d "1 days ago" '+%Y-%m-%d')
+```
+
+Print only the syslog lines that occurred two days ago during the noon hour
+
+```lang-text
+s4 /var/log -a $(date -d "2 days ago 12:00" '+%Y-%m-%dT%H:%M:%S') -b $(date -d "2 days ago 13:00" '+%Y-%m-%dT%H:%M:%S')
+```
+
+Print only the syslog lines that occurred two days ago during the noon hour in
+Bengaluru, India (timezone offset +05:30) and prepended with equivalent UTC
+datetime.
+
+```lang-text
+s4 /var/log -u -a "$(date -d "2 days ago 12:00" '+%Y-%m-%dT%H:%M:%S') +05:30" -b "$(date -d "2 days ago 13:00" '+%Y-%m-%dT%H:%M:%S') +05:30"
 ```
 
 ### `--help`
 
-```text
+```lang-text
 Super Speedy Syslog Searcher will search syslog files and sort entries by datetime. DateTime filters
 may be passed to narrow the search. It aims to be very fast.
 
