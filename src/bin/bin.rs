@@ -905,8 +905,8 @@ fn exec_syslogprocessor_thread(
     // find first sysline acceptable to the passed filters
     match syslogproc.process_stage2_find_dt() {
         FileProcessingResultBlockZero::FileOk => {}
-        result_ => {
-            dpfx!("Result {:?} ({:?})", result_, path);
+        _result => {
+            dpfx!("Result {:?} ({:?})", _result, path);
             return;
         }
     }
