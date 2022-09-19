@@ -9,10 +9,12 @@ The first goal of s4 is speedy searching and printing.
 
 [![Build status](https://img.shields.io/github/workflow/status/jtmoon79/super-speedy-syslog-searcher/Rust?style=flat-square&logo=github)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
 [![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/latest?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/latest/s4lib/)
+[![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](LICENSE)
+
 [![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust)](https://crates.io/crates/super-speedy-syslog-searcher)
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust)](https://crates.io/crates/super-speedy-syslog-searcher.svg)
 [![codecov.io](https://img.shields.io/codecov/c/github/jtmoon79/super-speedy-syslog-searcher/branch?main&token=Q2OXTL7U02&style=flat-square&logo=codecov)](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher)
-[![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](LICENSE)
+[![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/latest.svg)](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/latest.svg?style=flat-square)
 
 ---
 
@@ -157,7 +159,7 @@ DateTimes supported language is English.
 - Cannot process archive or compressed files within other archive or compressed
   files.
   e.g. a `.tar` file within another `.tar` file will not be processed, a `.gz`
-  file within a `.tar` file will not be processed.
+  file within a `.tar` file will not be processed, etcetera.
 
 ### Hacks
 
@@ -170,4 +172,4 @@ DateTimes supported language is English.
 
 ---
 
-<a href="https://stackexchange.com/users/216253/jamesthomasmoon1979"><img src="https://stackexchange.com/users/flair/216253.png" width="208" height="58" alt="profile for JamesThomasMoon1979 on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for JamesThomasMoon1979 on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
+<a href="https://stackexchange.com/users/216253/"><img src="https://stackexchange.com/users/flair/216253.png" width="208" height="58" alt="profile for @JamesThomasMoon on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for @JamesThomasMoon on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
