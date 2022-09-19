@@ -7,12 +7,12 @@ and sort syslog files within compressed files (`.gz`, `.xz`) and
 archives (`.tar`, `.zip`).
 The first goal of s4 is speedy searching and printing.
 
-[![Build status](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions/workflows/rust.yml/badge.svg?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
-[![Chrono on docs.rs](https://docs.rs/chrono/badge.svg)](https://docs.rs/super_speedy_syslog_searcher/latest/s4lib/)
-[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square)](https://crates.io/crates/super-speedy-syslog-searcher)
-[![Crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square)](https://crates.io/crates/super-speedy-syslog-searcher.svg)
-[![codecov.io](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher/branch/main/graph/badge.svg?token=Q2OXTL7U02&style=flat-square)](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+[![Build status](https://img.shields.io/github/workflow/status/jtmoon79/super-speedy-syslog-searcher/Rust?style=flat-square&logo=github)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
+[![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/latest?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/latest/s4lib/)
+[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust)](https://crates.io/crates/super-speedy-syslog-searcher)
+[![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust)](https://crates.io/crates/super-speedy-syslog-searcher.svg)
+[![codecov.io](https://img.shields.io/codecov/c/github/jtmoon79/super-speedy-syslog-searcher/branch?main&token=Q2OXTL7U02&style=flat-square&logo=codecov)](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher)
+[![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](LICENSE)
 
 ---
 
