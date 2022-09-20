@@ -131,7 +131,7 @@ fn new_sysline(
         at_byte += blocksz;
     }
     let linep: LineP = LineP::new(line);
-    let mut lines = vec![
+    let lines = vec![
         linep,
     ];
     let sysline: Sysline = Sysline::from_parts(lines, DT_BEG0, DT_END0, Some(dt));
