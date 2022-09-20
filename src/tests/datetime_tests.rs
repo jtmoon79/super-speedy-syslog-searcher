@@ -342,13 +342,13 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
         );
         // check test data
         assert_gt!(dtpd._test_cases.len(), 0, "No test data for dtpd declared at line {}", dtpd._line_num);
-        for test_case in dtpd._test_cases {
+        for test_case_ in dtpd._test_cases {
             assert_lt!(
-                test_case.0,
-                test_case.1,
+                test_case_.0,
+                test_case_.1,
                 "Bad test_case indexes {} {} for dtpd declared at line {}",
-                test_case.0,
-                test_case.1,
+                test_case_.0,
+                test_case_.1,
                 dtpd._line_num
             );
         }
@@ -485,11 +485,13 @@ fn test_DATETIME_PARSE_DATAS_test_cases() {
         eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
         eprintln!("  Regex Pattern   : {:?}", dtpd.regex_pattern);
         eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
-        for test_case in dtpd._test_cases {
-            eprintln!("  Test Data       : {:?}", test_case);
-            let dta = test_case.0;
-            let dtb = test_case.1;
-            let data = test_case.2.as_bytes();
+        for test_case_ in dtpd._test_cases {
+            eprintln!("  Test Data       : {:?}", test_case_);
+            let dta = test_case_.0;
+            let dtb = test_case_.1;
+            assert_lt!(dta, dtb, "bad indexes");
+            let data = test_case_.2.as_bytes();
+            eprintln!("  Test Data[{:2},{:2}]: {:?}", dta, dtb, &data[dta..dtb].as_bstr());
             let tz = FixedOffset::east_opt(60 * 60).unwrap();
             let mut year_opt: Option<Year> = None;
             if !dtpd.dtfs.has_year() {
