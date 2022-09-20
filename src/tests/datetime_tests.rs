@@ -10,12 +10,16 @@ use crate::data::datetime::{
     bytes_to_regex_to_datetime, datetime_from_str_workaround_Issue660, datetime_parse_from_str,
     dt_after_or_before, dt_pass_filters, DTFSSet, DTFS_Tz, DateTimeL, DateTimeLOpt, DateTimeParseInstr,
     DateTimePattern_str, DateTimeRegex_str, FixedOffset, Result_Filter_DateTime1, Result_Filter_DateTime2,
-    Year, CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL, CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL, CGP_SECOND,
+    TimeZone, Year, CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL, CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL, CGP_SECOND,
     CGP_TZ_ALL, CGP_TZZ, CGP_YEAR, DATETIME_PARSE_DATAS, DTP_ALL, MAP_TZZ_TO_TZz, RP_LB, RP_RB,
     TZZ_LIST_UPPER, TZZ_LIST_LOWER, TZZ_LOWER_TO_UPPER,
 };
 
 use crate::debug::printers::buffer_to_String_noraw;
+
+extern crate lazy_static;
+use bstr::ByteSlice;
+use lazy_static::lazy_static;
 
 use std::collections::HashSet;
 
@@ -28,6 +32,9 @@ use si_trace_print::stack::stack_offset_set;
 use si_trace_print::{dpfn, dpfx};
 
 use std::str;
+
+extern crate test_case;
+use test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -595,6 +602,74 @@ fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
                     break;
                 }
             }
+        }
+    }
+}
+
+lazy_static! {
+    static ref FO_UTC: FixedOffset = FixedOffset::west(0);
+    static ref FO_W8: FixedOffset = FixedOffset::west(60 * 60 * 8);
+    static ref FO_E10: FixedOffset = FixedOffset::east(60 * 60 * 10);
+}
+
+#[test_case(
+    "20000101T000000", "%Y%m%dT%H%M%S", false, &FO_UTC,
+    Some(FO_UTC.ymd(2000, 1, 1).and_hms(0, 0, 0));
+    "20000101T000000 %Y%m%dT%H%M%S no_tz"
+)]
+#[test_case(
+    "20000101T000000 ", "%Y%m%dT%H%M%S", false, &FO_UTC, None;
+    "20000101T000000  %Y%m%dT%H%M%S no_tz (extra space data)"
+)]
+#[test_case(
+    "20000101T000000", "%Y%m%dT%H%M%S ", false, &FO_UTC, None;
+    "20000101T000000 %Y%m%dT%H%M%S  no_tz (extra space pattern)"
+)]
+#[test_case(
+    "20000101T000000,123", "%Y%m%dT%H%M%S,%3f", false, &FO_UTC,
+    Some(FO_UTC.ymd(2000, 1, 1).and_hms_micro(0, 0, 0, 123000));
+    "20000101T000000,123 %Y%m%dT%H%M%S,%3f no_tz"
+)]
+#[test_case(
+    "20000101T000000,123 -0800", "%Y%m%dT%H%M%S,%3f %:z", true, &FO_W8,
+    Some(FO_W8.ymd(2000, 1, 1).and_hms_micro(0, 0, 0, 123000));
+    "20000101T000000,123 -0800 %Y%m%dT%H%M%S,%3f %:z has_tz"
+)]
+#[test_case(
+    "20000101T000000,123 +1000", "%Y%m%dT%H%M%S,%3f %:z", true, &FO_E10,
+    Some(FO_E10.ymd(2000, 1, 1).and_hms_micro(0, 0, 0, 123000));
+    "20000101T000000,123 +1000 %Y%m%dT%H%M%S,%3f %:z has_tz"
+)]
+#[test_case(
+    "20000101T000000,123 +1000", "%Y%m%dT%H%M%S,%f %:z", true, &FO_E10,
+    Some(FO_E10.ymd(2000, 1, 1).and_hms_nano(0, 0, 0, 123));
+    "20000101T000000,123 +1000 %Y%m%dT%H%M%S,%f %:z has_tz"
+)]
+#[test_case(
+    "20000101T000000 +1000 ", "%Y%m%dT%H%M%S %:z", true, &FO_E10, None;
+    "20000101T000000 +1000  %Y%m%dT%H%M%S %:z has_tz (extra space data)"
+)]
+#[test_case(
+    "20000101T000000 +1000", " %Y%m%dT%H%M%S %:z", true, &FO_E10, None;
+    "20000101T000000 +1000  %Y%m%dT%H%M%S %:z has_tz (extra space pattern)"
+)]
+#[test_case(
+    "20000101T000000,123", "%Y%m%dT%H%M%S,%3f %:z", true, &FO_E10, None;
+    "20000101T000000,123 %Y%m%dT%H%M%S,%3f %:z has_tz (None)"
+)]
+#[test_case(
+    "20000101T000000,123", "%Y%m%dT%H%M%S,%3f %:z", false, &FO_E10, None;
+    "20000101T000000,123 %Y%m%dT%H%M%S,%3f %:z no_tz (None)"
+)]
+fn test_datetime_parse_from_str(data: &str, pattern: &str, has_tz: bool, tz_offset: &FixedOffset, expect_dt: Option<DateTimeL>) {
+    match datetime_parse_from_str(data, pattern, has_tz, tz_offset) {
+        Some(dt) => {
+            assert!(expect_dt.is_some(), "\nExpected None\nReceived {:?}\n", expect_dt);
+            let e_dt = expect_dt.unwrap();
+            assert_eq!(dt, e_dt, "\nExpected {:?}\nReceived {:?}\n", e_dt, dt);
+        }
+        None => {
+            assert!(expect_dt.is_none(), "\nExpected {:?}\nReceived None\n", expect_dt);
         }
     }
 }
