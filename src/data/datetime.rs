@@ -857,9 +857,16 @@ pub const CGP_MINUTE: &CaptureGroupPattern = r"(?P<minute>[012345]\d)";
 /// Regex capture group pattern for `strftime` second specifier `%S`,
 /// includes leap second "60".
 pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345]\d|60)";
-/// Regex capture group pattern for `strftime` fractional specifier `%f`,
-/// all `strftime` patterns `%f`, `%3f`, `%6f`, and `%9f`.
-pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{3,9})";
+/// Regex capture group pattern for `strftime` fractional specifier `%f`.
+/// Matches all `strftime` specifiers `%f`, `%3f`, `%6f`, and `%9f`.
+///
+/// Function `datetime_parse_from_str` will match with strftime specifier `%f`.
+/// Function `captures_to_buffer_bytes` will fill a too short or too long
+/// fractionals to 9 digits to match the correct precision.
+/// For example, fractional data "123" is transformed to "123000000" in
+/// function `captures_to_buffer_bytes`. Then it is parsed by
+/// `datetime_parse_from_str` using `%f` specifier.
+pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{1,9})";
 /// Regex capture group pattern for dmesg uptime fractional seconds in logs
 //pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>\d{1,9}\.\d{3,9})";
 
@@ -1544,13 +1551,23 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     DTPD!(
         concatcp!("^", RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_RB),
         DTFSS_YmdHMSf, 0, 40, CGN_YEAR, CGN_FRACTIONAL,
-        &[(1, 24, "[2000/01/01 00:00:01.123] ../source3/smbd/oplock.c:1340(init_oplocks)")],
+        &[
+            (1, 24, "[2000/01/01 00:00:01.123] ../source3/smbd/oplock.c:1340(init_oplocks)"),
+            (1, 27, "[2000/01/01 00:00:01.123456] ../source3/smbd/oplock.c:1340(init_oplocks)"),
+            (1, 30, "[2000/01/01 00:00:01.123456789] ../source3/smbd/oplock.c:1340(init_oplocks)"),
+        ],
         line!(),
     ),
     DTPD!(
         concatcp!("^", RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, RP_RB),
         DTFSS_YmdHMSfz, 0, 40, CGN_YEAR, CGN_TZ,
-        &[(1, 33, "(2000/01/01 00:00:02.123456 -1100) ../source3/smbd/oplock.c:1340(init_oplocks)")],
+        &[
+            (1, 28, "(2000/01/01 00:00:02.1 -1100) ../source3/smbd/oplock.c:1340(init_oplocks)"),
+            (1, 29, "(2000/01/01 00:00:02.12 -1100) ../source3/smbd/oplock.c:1340(init_oplocks)"),
+            (1, 30, "(2000/01/01 00:00:02.123 -1100) ../source3/smbd/oplock.c:1340(init_oplocks)"),
+            (1, 33, "(2000/01/01 00:00:02.123456 -1100) ../source3/smbd/oplock.c:1340(init_oplocks)"),
+            (1, 36, "(2000/01/01 00:00:02.123456789 -1100) ../source3/smbd/oplock.c:1340(init_oplocks)"),
+        ],
         line!(),
     ),
     DTPD!(
@@ -2516,7 +2533,7 @@ macro_rules! copy_capturegroup_to_buffer {
             .unwrap()
             .as_bytes()
             .len();
-        dpo!("bytes_to_regex_to_datetime:copy_capturegroup_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
+        dpfo!("copy_capturegroup_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
         $buffer[$at..$at + len_].copy_from_slice(
             $captures
                 .name($name)
@@ -2536,7 +2553,7 @@ macro_rules! copy_slice_to_buffer {
         $at:ident
     ) => {
         let len_: usize = $u8_slice.len();
-        dpo!("bytes_to_regex_to_datetime:copy_slice_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
+        dpfo!("copy_slice_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
         $buffer[$at..$at + len_].copy_from_slice($u8_slice);
         $at += len_;
     };
@@ -2549,7 +2566,7 @@ macro_rules! copy_u8_to_buffer {
         $buffer:ident,
         $at:ident
     ) => {
-        dpo!("bytes_to_regex_to_datetime:copy_slice_to_buffer! buffer[{:?}] = {:?}", $at, $u8_);
+        dpfo!("copy_slice_to_buffer! buffer[{:?}] = {:?}", $at, $u8_);
         $buffer[$at] = $u8_;
         $at += 1;
     };
@@ -2775,7 +2792,56 @@ pub(crate) fn captures_to_buffer_bytes(
     match dtfs.fractional {
         DTFS_Fractional::f => {
             copy_u8_to_buffer!(b'.', buffer, at);
-            copy_capturegroup_to_buffer!(CGN_FRACTIONAL, captures, buffer, at);
+            let fractional: &[u8] = captures.name(CGN_FRACTIONAL).as_ref().unwrap().as_bytes();
+            let len = fractional.len();
+            match len {
+                0 => {
+                    copy_slice_to_buffer!(fractional, buffer, at);
+                    copy_slice_to_buffer!(b"000000000", buffer, at);
+                }
+                1 => {
+                    copy_slice_to_buffer!(fractional, buffer, at);
+                    copy_slice_to_buffer!(b"00000000", buffer, at);
+                }
+                2 => {
+                    copy_slice_to_buffer!(fractional, buffer, at);
+                    copy_slice_to_buffer!(b"0000000", buffer, at);
+                }
+                3 => {
+                    copy_slice_to_buffer!(fractional, buffer, at);
+                    copy_slice_to_buffer!(b"000000", buffer, at);
+                }
+                4 => {
+                    copy_slice_to_buffer!(fractional, buffer, at);
+                    copy_slice_to_buffer!(b"00000", buffer, at);
+                }
+                5 => {
+                    copy_slice_to_buffer!(fractional, buffer, at);
+                    copy_slice_to_buffer!(b"0000", buffer, at);
+                }
+                6 => {
+                    copy_slice_to_buffer!(fractional, buffer, at);
+                    copy_slice_to_buffer!(b"000", buffer, at);
+                }
+                7 => {
+                    copy_slice_to_buffer!(fractional, buffer, at);
+                    copy_slice_to_buffer!(b"00", buffer, at);
+                }
+                8 => {
+                    copy_slice_to_buffer!(fractional, buffer, at);
+                    copy_slice_to_buffer!(b"0", buffer, at);
+                }
+                9 => {
+                    copy_slice_to_buffer!(fractional, buffer, at);
+                },
+                10 | 11 | 12 => {
+                    // fractional is too large, copy only first 9 chars
+                    copy_slice_to_buffer!(&fractional[..9], buffer, at);
+                }
+                _ => {
+                    // something is very wrong
+                }
+            }
         }
         DTFS_Fractional::_none => {}
     }
