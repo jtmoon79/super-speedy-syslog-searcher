@@ -69,6 +69,7 @@ use s4lib::common::{Count, FPath, FPaths, FileOffset, FileType, NLu8a};
 
 use s4lib::data::datetime::{
     datetime_parse_from_str, datetime_parse_from_str_w_tz, DateTimeLOpt, DateTimeParseInstr, DateTimePattern_str, DATETIME_PARSE_DATAS, MAP_TZZ_TO_TZz,
+    Utc,
 };
 
 #[allow(unused_imports)]
@@ -210,8 +211,8 @@ const CLI_DT_FILTER_APPEND_TIME_VALUE: &str = " T000000";
 /// when `has_time` is `false`.
 const CLI_DT_FILTER_APPEND_TIME_PATTERN: &str = " T%H%M%S";
 
-/// CLI datetime format printed for CLI options `-u` or `-l`.
-const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.6f %z:";
+/// default CLI datetime format printed for CLI options `-u` or `-l`.
+const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z:";
 
 // TODO: Issue #20 restore '%Z' patterns
 /// `--help` _afterword_ message.
@@ -303,13 +304,12 @@ DateTime Filter patterns may be:
     CLI_DT_FILTER_PATTERN28.0,
     "\"
 
-Without a timezone offset (\"%z\" or \"%Z\"), the Datetime Filter is presumed to be the system timezone.
 Pattern \"+%s\" is Unix epoch timestamp in seconds with a preceding \"+\".
-Ambiguous timezones will be rejected, e.g. \"SST\".
-Prepended datetime, -u or -l, is printed in format \"",
-    CLI_OPT_PREPEND_FMT,
-    "\".
-DateTime formatting is described at https://docs.rs/chrono/latest/chrono/format/strftime/
+Without a timezone offset (\"%z\" or \"%Z\"), the Datetime Filter is presumed to be the local system
+timezone.
+Ambiguous named timezones will be rejected, e.g. \"SST\".
+
+DateTime formatting specifiers are described at https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
 DateTimes supported language is English."
@@ -359,7 +359,7 @@ struct CLI_Args {
     #[clap(
         short = 't',
         long,
-        help = "DateTime Timezone offset - for syslines with a datetime that does not include a timezone, this will be used. For example, '-0800' '+02:00' (with or without ':'). If passing a value with leading '-', use the '=' to explicitly set the argument, e.g. '-t=-0800'. Otherwise the CLI argument parsing will fail. Default is local system timezone offset.",
+        help = "DateTime Timezone offset - for syslines with a datetime that does not include a timezone, this will be used. For example, '-0800', '+02:00', 'EDT' (to pass a value with leading '-', use '=', e.g. '-t=-0800'). Default is local system timezone offset.",
         validator = cli_validate_tz_offset,
         default_value_t=Local.timestamp(0, 0).offset().to_string(),
     )]
@@ -380,6 +380,17 @@ struct CLI_Args {
         group = "prepend_dt"
     )]
     prepend_local: bool,
+
+    /// Prepend DateTime using strftime format string.
+    #[clap(
+        short = 'd',
+        long = "prepend-dt-format",
+        group = "prepend_dt_format",
+        requires = "prepend_dt",
+        validator = cli_validate_prepend_dt_format,
+        default_value_t = String::from(CLI_OPT_PREPEND_FMT),
+    )]
+    prepend_dt_format: String,
 
     /// Prepend file basename to every line.
     #[clap(
@@ -536,6 +547,14 @@ fn cli_validate_tz_offset(tz_offset: &str) -> std::result::Result<(), String> {
     }
 }
 
+/// `clap` argument validator for `--prepend-dt-format`.
+fn cli_validate_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<(), String> {
+    let dt = Utc.ymd(2000, 1, 1).and_hms(0, 0, 0);
+    dt.format(prepend_dt_format);
+
+    Ok(())
+}
+
 /// Transform a user-passed datetime `String` into a [`DateTimeL`].
 ///
 /// Helper function to function `cli_process_args`.
@@ -587,7 +606,7 @@ fn process_dt(
 ///
 /// This function will [`std::process::exit`] if there is an [`Err`].
 fn cli_process_args(
-) -> (FPaths, BlockSz, DateTimeLOpt, DateTimeLOpt, FixedOffset, ColorChoice, bool, bool, bool, bool, bool, bool)
+) -> (FPaths, BlockSz, DateTimeLOpt, DateTimeLOpt, FixedOffset, ColorChoice, bool, bool, String, bool, bool, bool, bool)
 {
     let args = CLI_Args::parse();
 
@@ -644,6 +663,15 @@ fn cli_process_args(
         CLI_Color_Choice::never => ColorChoice::Never,
     };
 
+    dpfo!("color_choice {:?}", color_choice);
+    dpfo!("prepend_utc {:?}", args.prepend_utc);
+    dpfo!("prepend_local {:?}", args.prepend_local);
+    dpfo!("prepend_dt_format {:?}", args.prepend_dt_format);
+    dpfo!("prepend_filename {:?}", args.prepend_filename);
+    dpfo!("prepend_filepath {:?}", args.prepend_filepath);
+    dpfo!("prepend_file_align {:?}", args.prepend_file_align);
+    dpfo!("summary {:?}", args.summary);
+
     (
         fpaths,
         blocksz,
@@ -653,6 +681,7 @@ fn cli_process_args(
         color_choice,
         args.prepend_utc,
         args.prepend_local,
+        args.prepend_dt_format,
         args.prepend_filename,
         args.prepend_filepath,
         args.prepend_file_align,
@@ -681,6 +710,7 @@ pub fn main() -> ExitCode {
         color_choice,
         cli_opt_prepend_utc,
         cli_opt_prepend_local,
+        cli_prepend_dt_format,
         cli_opt_prepend_filename,
         cli_opt_prepend_filepath,
         cli_opt_prepend_file_align,
@@ -717,6 +747,7 @@ pub fn main() -> ExitCode {
         color_choice,
         cli_opt_prepend_utc,
         cli_opt_prepend_local,
+        cli_prepend_dt_format,
         cli_opt_prepend_filename,
         cli_opt_prepend_filepath,
         cli_opt_prepend_file_align,
@@ -1307,20 +1338,22 @@ fn processing_loop(
     color_choice: ColorChoice,
     cli_opt_prepend_utc: bool,
     cli_opt_prepend_local: bool,
+    cli_prepend_dt_format: String,
     cli_opt_prepend_filename: bool,
     cli_opt_prepend_filepath: bool,
     cli_opt_prepend_file_align: bool,
     cli_opt_summary: bool,
 ) -> bool {
     dpfn!(
-        "({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})",
+        "({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})",
         paths_results,
         blocksz,
         filter_dt_after_opt,
         filter_dt_before_opt,
         color_choice,
-        cli_opt_prepend_local,
         cli_opt_prepend_utc,
+        cli_opt_prepend_local,
+        cli_prepend_dt_format,
         cli_opt_summary
     );
 
@@ -1782,7 +1815,7 @@ fn processing_loop(
                         };
                     let prepend_date_format: Option<String> =
                         match cli_opt_prepend_local || cli_opt_prepend_utc {
-                            true => Some(CLI_OPT_PREPEND_FMT.to_string()),
+                            true => Some(cli_prepend_dt_format.clone()),
                             false => None,
                         };
                     let prepend_date_offset: Option<FixedOffset> =
