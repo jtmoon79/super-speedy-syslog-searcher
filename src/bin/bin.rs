@@ -859,8 +859,11 @@ fn exec_syslogprocessor_thread(
         thread_init_data;
     dpfn!("({:?})", path);
 
+    #[cfg(any(debug_assertions,test))]
     let thread_cur: thread::Thread = thread::current();
-    let _tid: thread::ThreadId = thread_cur.id();
+    #[cfg(any(debug_assertions,test))]
+    let tid: thread::ThreadId = thread_cur.id();
+    #[cfg(any(debug_assertions,test))]
     let tname: &str = <&str>::clone(
         &thread_cur
             .name()
@@ -951,7 +954,7 @@ fn exec_syslogprocessor_thread(
         ResultS3SyslineFind::Found((fo, syslinep)) => {
             fo1 = fo;
             let is_last: IsSyslineLast = syslogproc.is_sysline_last(&syslinep) as IsSyslineLast;
-            dpo!("{:?}({}): Found, chan_send_dt.send({:p}, None, {});", _tid, tname, syslinep, is_last);
+            dpo!("{:?}({}): Found, chan_send_dt.send({:p}, None, {});", tid, tname, syslinep, is_last);
             match chan_send_dt.send((Some(syslinep), None, is_last, FILEOK)) {
                 Ok(_) => {}
                 Err(err) => {
@@ -975,7 +978,7 @@ fn exec_syslogprocessor_thread(
             search_more = false;
         }
         ResultS3SyslineFind::Err(err) => {
-            dpo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, tname, err);
+            dpo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", tid, tname, err);
             eprintln!(
                 "ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}",
                 path, err
@@ -985,9 +988,9 @@ fn exec_syslogprocessor_thread(
     }
 
     if !search_more {
-        dpo!("{:?}({}): quit searching…", _tid, tname);
+        dpo!("{:?}({}): quit searching…", tid, tname);
         let summary_opt: SummaryOpt = Some(syslogproc.process_stage4_summary());
-        dpo!("{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", _tid, tname, summary_opt, false);
+        dpo!("{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", tid, tname, summary_opt, false);
         match chan_send_dt.send((None, summary_opt, false, FILEOK)) {
             Ok(_) => {}
             Err(err) => {
@@ -1008,7 +1011,7 @@ fn exec_syslogprocessor_thread(
         match result {
             ResultS3SyslineFind::Found((fo, syslinep)) => {
                 let is_last = syslogproc.is_sysline_last(&syslinep);
-                dpo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", _tid, tname, syslinep, is_last);
+                dpo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", tid, tname, syslinep, is_last);
                 match chan_send_dt.send((Some(syslinep), None, is_last, FILEOK)) {
                     Ok(_) => {}
                     Err(err) => {
@@ -1030,7 +1033,7 @@ fn exec_syslogprocessor_thread(
                 break;
             }
             ResultS3SyslineFind::Err(err) => {
-                dpo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, tname, err);
+                dpo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", tid, tname, err);
                 eprintln!("ERROR: syslogprocessor.find_sysline({}) {}", fo1, err);
                 break;
             }
@@ -1040,7 +1043,7 @@ fn exec_syslogprocessor_thread(
     syslogproc.process_stage4_summary();
 
     let summary = syslogproc.summary();
-    dpo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", _tid, tname, summary, false);
+    dpo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", tid, tname, summary, false);
     match chan_send_dt.send((None, Some(summary), false, FILEOK)) {
         Ok(_) => {}
         Err(err) => {
