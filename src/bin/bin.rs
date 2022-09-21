@@ -425,7 +425,8 @@ struct CLI_Args {
     )]
     color_choice: CLI_Color_Choice,
 
-    /// Read blocks of this size. May pass decimal or hexadecimal numbers.
+    /// Read blocks of this size in bytes.
+    /// May pass decimal or hexadecimal numbers.
     /// Using the default value is recommended.
     #[clap(
         required = false,
