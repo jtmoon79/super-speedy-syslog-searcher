@@ -2434,10 +2434,47 @@ fn print_files_processpathresult(
 
 #[cfg(test)]
 mod tests {
+    extern crate test_case;
     use test_case::test_case;
     use super::{
-        cli_process_tz_offset, FixedOffset,
+        BlockSz, CLI_OPT_PREPEND_FMT, cli_process_tz_offset, cli_validate_blocksz, cli_validate_prepend_dt_format, cli_process_blocksz, DateTimeLOpt, FixedOffset, process_dt, TimeZone,
     };
+
+    #[test_case("500", true)]
+    #[test_case("0x2", true)]
+    #[test_case("0x4", true)]
+    #[test_case("0xFFFFFF", true)]
+    #[test_case("BAD_BLOCKSZ_VALUE", false)]
+    #[test_case("", false)]
+    fn test_cli_validate_blocksz(blocksz_str: &str, is_ok: bool)
+    {
+        match is_ok {
+            true => assert!(cli_validate_blocksz(blocksz_str).is_ok()),
+            false => assert!(!cli_validate_blocksz(blocksz_str).is_ok()),
+        }
+    }
+
+    #[test_case("0b10101010101", Some(0b10101010101))]
+    #[test_case("0o44", Some(0o44))]
+    #[test_case("00500", Some(500))]
+    #[test_case("500", Some(500))]
+    #[test_case("0x4", Some(0x4))]
+    #[test_case("0xFFFFFF", Some(0xFFFFFF))]
+    #[test_case("BAD_BLOCKSZ_VALUE", None)]
+    #[test_case("", None)]
+    fn test_cli_process_blocksz(blocksz_str: &str, expect_: Option<BlockSz>)
+    {
+        match expect_ {
+            Some(val_exp) => {
+                let val_ret = cli_process_blocksz(&String::from(blocksz_str)).unwrap();
+                assert_eq!(val_ret, val_exp);
+            }
+            None => {
+                let ret = cli_process_blocksz(&String::from(blocksz_str));
+                assert!(ret.is_err(), "Expected an Error for cli_process_blocksz({:?}), instead got {:?}", blocksz_str, ret);
+            }
+        }
+    }
 
     #[test_case("+00", FixedOffset::east(0); "+00 east(0)")]
     #[test_case("+0000", FixedOffset::east(0); "+0000 east(0)")]
@@ -2464,4 +2501,27 @@ mod tests {
             }
         }
     }
+
+    #[test_case("")]
+    #[test_case("abc")]
+    #[test_case(CLI_OPT_PREPEND_FMT)]
+    #[test_case("%Y%Y%Y%Y%Y%Y%Y%%%%")]
+    fn test_cli_validate_prepend_dt_format(prepend_dt_format: &str)
+    {
+        assert!(cli_validate_prepend_dt_format(prepend_dt_format).is_ok());
+    }
+
+    #[test_case(
+        Some(String::from("2000-01-02T03:04:05")), FixedOffset::east(0),
+        Some(FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 5)); "2000-01-02T03:04:05"
+    )]
+    #[test_case(
+        Some(String::from("2000-01-02T03:04:05 -0100")), FixedOffset::east(0),
+        Some(FixedOffset::east(-3600).ymd(2000, 1, 2).and_hms(3, 4, 5)); "2000-01-02T03:04:05 -0100"
+    )]
+    fn test_process_dt(dts: Option<String>, tz_offset: FixedOffset, expect: DateTimeLOpt)
+    {
+        assert_eq!(process_dt(dts, &tz_offset), expect);
+    }
+
 }
