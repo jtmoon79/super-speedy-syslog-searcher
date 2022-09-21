@@ -164,7 +164,7 @@ DateTimes supported language is English.
 
 ### Hacks
 
-- Entire `.xz` files are read into memory during the initial `open` (see [607a23c00aff0d9b34fb3d678bdfd5c14290582d](https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/607a23c00aff0d9b34fb3d678bdfd5c14290582d#diff-a23d01b527ccc36fa0336ab1789a2f5d2567f21e93c5708b0e5b46ae9f3a708cR783-R836))
+- Entire `.xz` files are read into memory during the initial `open` (see [607a23c0](https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/607a23c00aff0d9b34fb3d678bdfd5c14290582d#diff-a23d01b527ccc36fa0336ab1789a2f5d2567f21e93c5708b0e5b46ae9f3a708cR783-R836))
 
 ## Further Reading
 
