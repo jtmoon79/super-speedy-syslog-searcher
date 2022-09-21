@@ -78,8 +78,8 @@ s4 /var/log -u -a "$(date -d "2 days ago 12:00" '+%Y-%m-%dT%H:%M:%S') +05:30" -b
 ### `--help`
 
 ```lang-text
-Super Speedy Syslog Searcher will search syslog files and sort entries by datetime. DateTime filters
-may be passed to narrow the search. It aims to be very fast.
+Super Speedy Syslog Searcher will search syslog files and sort entries by datetime.
+DateTime filters may be passed to narrow the search. It aims to be very fast.
 
 USAGE:
     s4 [OPTIONS] <PATHS>...
@@ -89,49 +89,93 @@ ARGS:
                   remaining on the same filesystem. Symlinks will be followed
 
 OPTIONS:
-    -a, --dt-after <DT_AFTER>      DateTime After filter - print syslog lines with a datetime that
-                                   is at or after this datetime. For example, '20200102T123000'
-    -b, --dt-before <DT_BEFORE>    DateTime Before filter - print syslog lines with a datetime that
-                                   is at or before this datetime. For example, '20200102T123001'
-    -t, --tz-offset <TZ_OFFSET>    DateTime Timezone offset - for syslines with a datetime that does
-                                   not include a timezone, this will be used. For example, '-0800'
-                                   '+02:00' (with or without ':'). If passing a value with leading
-                                   '-', use the '=' to explicitly set the argument, e.g. '-t=-0800'.
-                                   Otherwise the CLI argument parsing will fail. Default is local
-                                   system timezone offset. [default: -08:00]
-    -u, --prepend-utc              Prepend DateTime in the UTC Timezone for every line
-    -l, --prepend-local            Prepend DateTime in the Local Timezone for every line
-    -n, --prepend-filename         Prepend file basename to every line
-    -p, --prepend-filepath         Prepend file full path to every line
-    -w, --prepend-file-align       Align column widths of prepended data
-    -c, --color <COLOR_CHOICE>     Choose to print to terminal using colors [default: auto]
-                                   [possible values: always, auto, never]
-    -z, --blocksz <BLOCKSZ>        Read blocks of this size. May pass decimal or hexadecimal
-                                   numbers. Using the default value is recommended [default: 65535]
-    -s, --summary                  Print a summary of files processed. Printed to stderr
-    -h, --help                     Print help information
-    -V, --version                  Print version information
+    -a, --dt-after <DT_AFTER>
+            DateTime After filter - print syslog lines with a datetime that is at or after this
+            datetime. For example, '20200102T123000'
+
+    -b, --dt-before <DT_BEFORE>
+            DateTime Before filter - print syslog lines with a datetime that is at or before this
+            datetime. For example, '20200102T123001'
+
+    -t, --tz-offset <TZ_OFFSET>
+            DateTime Timezone offset - for syslines with a datetime that does not include a
+            timezone, this will be used. For example, '-0800', '+02:00', 'EDT' (to pass a value with
+            leading '-', use '=', e.g. '-t=-0800'). Default is local system timezone offset.
+            [default: -08:00]
+
+    -u, --prepend-utc
+            Prepend DateTime in the UTC Timezone for every line
+
+    -l, --prepend-local
+            Prepend DateTime in the Local Timezone for every line
+
+    -d, --prepend-dt-format <PREPEND_DT_FORMAT>
+            Prepend DateTime using strftime format string [default: %Y%m%dT%H%M%S%.3f%z:]
+
+    -n, --prepend-filename
+            Prepend file basename to every line
+
+    -p, --prepend-filepath
+            Prepend file full path to every line
+
+    -w, --prepend-file-align
+            Align column widths of prepended data
+
+    -c, --color <COLOR_CHOICE>
+            Choose to print to terminal using colors [default: auto] [possible values: always, auto,
+            never]
+
+    -z, --blocksz <BLOCKSZ>
+            Read blocks of this size in bytes. May pass decimal or hexadecimal numbers. Using the
+            default value is recommended [default: 65535]
+
+    -s, --summary
+            Print a summary of files processed. Printed to stderr
+
+    -h, --help
+            Print help information
+
+    -V, --version
+            Print version information
 
 
 DateTime Filter patterns may be:
     "%Y%m%dT%H%M%S"
     "%Y%m%dT%H%M%S%z"
+    "%Y%m%dT%H%M%S%:z"
+    "%Y%m%dT%H%M%S%#z"
+    "%Y%m%dT%H%M%S%Z"
     "%Y-%m-%d %H:%M:%S"
     "%Y-%m-%d %H:%M:%S %z"
+    "%Y-%m-%d %H:%M:%S %:z"
+    "%Y-%m-%d %H:%M:%S %#z"
+    "%Y-%m-%d %H:%M:%S %Z"
     "%Y-%m-%dT%H:%M:%S"
     "%Y-%m-%dT%H:%M:%S %z"
+    "%Y-%m-%dT%H:%M:%S %:z"
+    "%Y-%m-%dT%H:%M:%S %#z"
+    "%Y-%m-%dT%H:%M:%S %Z"
     "%Y/%m/%d %H:%M:%S"
     "%Y/%m/%d %H:%M:%S %z"
+    "%Y/%m/%d %H:%M:%S %:z"
+    "%Y/%m/%d %H:%M:%S %#z"
+    "%Y/%m/%d %H:%M:%S %Z"
     "%Y%m%d"
+    "%Y-%m-%d"
+    "%Y/%m/%d"
     "%Y%m%d %z"
+    "%Y%m%d %:z"
+    "%Y%m%d %#z"
+    "%Y%m%d %Z"
     "+%s"
 
-Without a timezone offset (%z or %Z), the Datetime Filter is presumed to be the
-system timezone.
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
-Ambiguous timezones will be rejected, e.g. "SST".
-Prepended datetime, -u or -l, is printed in format "%Y%m%dT%H%M%S%.6f %z:".
-DateTime formatting is described at https://docs.rs/chrono/latest/chrono/format/strftime/
+Without a timezone offset ("%z" or "%Z"), the Datetime Filter is presumed to be the local system
+timezone.
+Ambiguous named timezones will be rejected, e.g. "SST".
+
+DateTime formatting specifiers are described at
+https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
 DateTimes supported language is English.
