@@ -27,7 +27,7 @@ done
 function exit_() {
     # manually cleanup NamedTempFile
     # See https://github.com/Stebalien/tempfile/issues/183
-    rm /tmp/tmp-s4-test-*
+    rm -f /tmp/tmp-s4-test-*
 }
 
 trap exit_ EXIT
