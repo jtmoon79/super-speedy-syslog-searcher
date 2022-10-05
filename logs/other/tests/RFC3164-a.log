@@ -1,0 +1,40 @@
+<34>Oct  1 00:00:00 host1 program: These syslog datetime formats are in style of RFC 3164
+<34>Oct  1 00:00:01 host1 program: The "BSD syslog Protocol"
+<34>Oct  1 00:00:02 host1 program: Found at https://www.ietf.org/rfc/rfc3164.txt
+<13>Oct  1 00:00:03 host2<34>Oct 1 00:00:03 host1 program: 1. Introduction
+<13>Oct  1 00:00:04 host2<34>Oct 1 00:00:04 host1 program: Since the beginning, life has relied upon the transmission of
+messages.  For the self-aware organic unit, these messages can relay
+many different things.  The messages may signal danger, the presence
+of food or the other necessities of life, and many other things.  In
+many cases, these messages are informative to other units and require
+no acknowledgement.  As people interacted and created processes, this
+same principle was applied to societal communications.  As an
+example, severe weather warnings may be delivered through any number
+of channels - a siren blowing, warnings delivered over television and
+radio stations, and even through the use of flags on ships.  The
+expectation is that people hearing or seeing these warnings would
+realize their significance and take appropriate action.  In most
+cases, no responding acknowledgement of receipt of the warning is
+required or even desired.  Along these same lines, operating systems,
+processes and applications were written to send messages of their own
+status, or messages to indicate that certain events had occurred.
+These event messages generally had local significance to the machine
+operators.  As the operating systems, processes and applications grew
+ever more complex, systems were devised to categorize and log these
+diverse messages and allow the operations staff to more quickly
+differentiate the notifications of problems from simple status
+messages.  The syslog process was one such system that has been
+widely accepted in many operating systems.  Flexibility was designed
+into this process so the operations staff have the ability to
+configure the destination of messages sent from the processes running
+on the device.  In one dimension, the events that were received by
+the syslog process could be logged to different files and also
+displayed on the console of the device.  In another dimension, the
+syslog process could be configured to forward the messages across a
+network to the syslog process on another machine. The syslog process
+had to be built network-aware for some modicum of scalability since
+it was known that the operators of multiple systems would not have
+the time to access each system to review the messages logged there.
+The syslog process running on the remote devices could therefore be
+configured to either add the message to a file, or to subsequently
+forward it to another machine.

@@ -1,0 +1,14 @@
+2020-01-02T03:04Z Times
+
+2020-01-02T03:05Z ISO 8601 uses the 24-hour clock system. As of ISO 8601-1:2019, the basic format is T[hh][mm][ss] and the extended format is T[hh]:[mm]:[ss]. Earlier versions omitted the T (representing time) in both formats.
+
+2020-01-02T03:06Z • [hh] refers to a zero-padded hour between 00 and 23.
+2020-01-02T03:07Z • [mm] refers to a zero-padded minute between 00 and 59.
+2020-01-02T03:08Z • [ss] refers to a zero-padded second between 00 and 60 (where 60 is only used to denote an added leap second).
+
+2020-01-02T03:09Z So a time might appear as either "T134730" in the basic format or "T13:47:30" in the extended format. ISO 8601-1:2019 allows the T to be omitted in the extended format, as in "13:47:30", but only allows the T to be omitted in the basic format when there is no risk of ambiguity with date expressions.
+
+2020-01-02T03:10Z Either the seconds, or the minutes and seconds, may be omitted from the basic or extended time formats for greater brevity but decreased precision; the resulting reduced precision time formats are:[24]
+
+2020-01-02T03:11Z • T[hh][mm] in basic format or [hh]:[mm] in extended format, when seconds are omitted.
+2020-01-02T03:12Z • T[hh], when both seconds and minutes are omitted.

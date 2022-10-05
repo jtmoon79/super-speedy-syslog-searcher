@@ -1,0 +1,7 @@
+2020-01-02T03:04:05−09:00 To represent a negative offset, ISO 8601 specifies using a minus sign, (−).
+2020-01-02T03:05:06−09:00 If the interchange character set is limited and does not have a minus sign character, then the hyphen-minus should be used, (-).
+2020-01-02T03:06:07−09:00 ASCII does not have a minus sign, so its hyphen-minus character (code is 45 decimal or 2D hexadecimal) would be used.
+2020-01-02T03:07:08−09:00 If the character set has a minus sign, then that character should be used.
+2020-01-02T03:07:09−09:00 Unicode has a minus sign, and its character code is U+2212 (2212 hexadecimal); the HTML character entity invocation is &minus;. 
+
+2020-01-02T03:07:10−09:00 See https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Time_offsets_from_UTC

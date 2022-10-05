@@ -1,0 +1,7 @@
+2020-01-02T03:04:05 ISO 8601 is an international standard covering the worldwide exchange and communication of date and time-related data.
+2020-01-02T03:04:06 It is maintained by the Geneva-based International Organization for Standardization (ISO) and was first published in 1988, with updates in 1991, 2000, 2004, and 2019. 
+2020-01-02T03:04:07 The standard provides a well-defined, unambiguous method of representing calendar dates and times in worldwide communications, especially to avoid misinterpreting numeric dates and times when such data is transferred between countries with different conventions for writing numeric dates and times.
+
+2020-01-02T03:04:08 ISO 8601 applies to these representations and formats: dates, in the Gregorian calendar (including the proleptic Gregorian calendar); times, based on the 24-hour timekeeping system, with optional UTC offset; time intervals; and combinations thereof.[2]
+2020-01-02T03:04:09 The standard does not assign specific meaning to any element of the dates/times represented: the meaning of any element depends on the context of its use.
+2020-01-02T03:04:10 Dates and times represented cannot use words that do not have a specified numerical meaning within the standard (thus excluding names of years in the Chinese calendar), or that do not use computer characters (excludes images or sounds).[2]

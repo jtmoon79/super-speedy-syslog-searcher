@@ -1,0 +1,9 @@
+2020-01-02T03:04:05-01:00 IETF RFC 3339[43] defines a profile of ISO 8601 for use in Internet protocols and standards.
+2020-01-02T03:04:06-01:00 It explicitly excludes durations and dates before the common era.
+2020-01-02T03:04:07-01:00 The more complex formats such as week numbers and ordinal days are not permitted.[44]
+
+2020-01-02T03:04:08-01:00 RFC 3339 deviates from ISO 8601 in allowing a zero time zone offset to be specified as "-00:00", which ISO 8601 forbids.
+2020-01-02T03:04:09-01:00 RFC 3339 intends "-00:00" to carry the connotation that it is not stating a preferred time zone, whereas the conforming "+00:00" or any non-zero offset connotes that the offset being used is preferred.
+2020-01-02T03:04:10-01:00 This convention regarding "-00:00" is derived from earlier RFCs, such as RFC 2822 which uses it for timestamps in email headers.
+2020-01-02T03:04:11-01:00 RFC 2822 made no claim that any part of its timestamp format conforms to ISO 8601, and so was free to use this convention without conflict.
+

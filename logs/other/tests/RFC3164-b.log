@@ -1,0 +1,23 @@
+<165>Oct  2 23:00:00 host1 program[1]: These syslog datetime formats are in style of RFC 3164
+<165>Oct  2 23:00:01 host1 program[1]: The "BSD syslog Protocol"
+<165>Oct  2 23:00:02 host1 program[1]: Found at https://www.ietf.org/rfc/rfc3164.txt
+<165>Oct  2 23:00:03 host1 program[1]: The TIMESTAMP field is the local time and is in the format of "Mmm dd
+   hh:mm:ss" (without the quote marks) where:
+<165>Oct  2 23:00:03 host1 program[1]:          Mmm is the English language abbreviation for the month of the
+         year with the first character in uppercase and the other two
+         characters in lowercase.  The following are the only acceptable
+         values:
+
+         Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+
+         dd is the day of the month.  If the day of the month is less
+         than 10, then it MUST be represented as a space and then the
+         number.  For example, the 7th day of August would be
+         represented as "Aug  7", with two spaces between the "g" and
+         the "7".
+         hh:mm:ss is the local time.  The hour (hh) is represented in a
+         24-hour format.  Valid entries are between 00 and 23,
+         inclusive.  The minute (mm) and second (ss) entries are between
+         00 and 59 inclusive.
+
+<165>Oct  2 23:00:03 host1 program[1]:    A single space character MUST follow the TIMESTAMP field.

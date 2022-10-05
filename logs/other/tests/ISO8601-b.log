@@ -1,0 +1,10 @@
+2020-01-02T03:04:05-01:00 In representations that adhere to the ISO 8601 interchange standard, dates and times are arranged such that the greatest temporal term (typically a year) is placed at the left and each successively lesser term is placed to the right of the previous term.
+2020-01-02T03:04:06-01:00 Representations must be written in a combination of Arabic numerals and the specific computer characters (such as "-", ":", "T", "W", "Z") that are assigned specific meanings within the standard; that is, such commonplace descriptors of dates (or parts of dates) as "January", "Thursday", or "New Year's Day" are not allowed in interchange representations within the standard.
+
+2020-01-02T03:04:07-01:00 History
+
+2020-01-02T03:04:08-01:00 The first edition of the ISO 8601 standard was published as ISO 8601:1988 in 1988.
+2020-01-02T03:04:09-01:00 It unified and replaced a number of older ISO standards on various aspects of date and time notation: ISO 2014, ISO 2015, ISO 2711, ISO 3307, and ISO 4031.[3]
+2020-01-02T03:04:10-01:00 It has been superseded by a second edition ISO 8601:2000 in 2000, by a third edition ISO 8601:2004 published on 1 December 2004, and withdrawn and revised by ISO 8601-1:2019 and ISO 8601-2:2019 on 25 February 2019.
+2020-01-02T03:04:11-01:00 ISO 8601 was prepared by,[4] and is under the direct responsibility of, ISO Technical Committee TC 154.[5]
+
