@@ -185,30 +185,38 @@ DateTimes supported language is English.
 
 ### Features
 
-- Prepends datetime and file paths, for easy programmatic parsing or visual
-  traversal of varying syslog messages
-- Supports many varying datetime formats including (WHAT ARE THOSE OFFICIAL ONES?)
-- Tested against "in the wild" log files from varying Linux distributions
-  (see `./logs/`)
+- Prepends datetime and file paths, for easy programmatic parsing or visual traversal of varying syslog messages
+- Parses formal datetime formats [RFC 3164](https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2), [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.8), [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles)**, [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3).
+- Parses many ad-hoc datetime formats
+  - Tested against "in the wild" log files from varying Linux distributions
+    (see `./logs/`)
 - Comparable speed as GNU `grep` and `sort`
   (see `./tools/compare-grep-sort.sh`)
-- Handles invalid UTF-8 (prints whatever is found)
+- Handles invalid UTF-8
 
 ### Limitations
 
-- Only handles UTF-8 or ASCII encoded log files.
-- Cannot handle multi-file `.gz` files (multiple "streams")
-  (TODO describe problem)
-- Cannot handle multi-file `.xz` files (chooses first file found)
-  (TODO describe problem)
-- Cannot process archive or compressed files within other archive or compressed
-  files.
-  e.g. a `.tar` file within another `.tar` file will not be processed, a `.gz`
-  file within a `.tar` file will not be processed, etcetera.
+- Only handles UTF-8 or ASCII encoded log files. ([Issue #16](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16))
+- Cannot handle multi-file `.gz` files (only processes first stream found) ([Issue #8](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8))
+- Cannot handle multi-file `.xz` files (only processes first file found) ([Issue #11](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11))
+- Cannot process archive files or compressed files within other archive files or compressed files. ([Issue #14](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14))
+  e.g. file `syslog.xz` file within file `logs.tar` will not be processed,
+- **ISO 8601
+  - ISO 8601 forms recognized
+  (using [ISO descriptive format](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates))
+    - `YYYY-MM-DDThh:mm:ss`
+    - `YYYY-MM-DDThhmmss`
+    - `YYYYMMDDThhmmss`
+    (may use date-time separator character `'T'` or character blank space `' '`)
+  - ISO 8601 forms not recognized:
+    - Absent seconds.
+    - [_Ordinal dates_](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates), i.e. "day of the year", format `YYYY-DDD`, e.g. `"2022-321"`
+    - [_Week dates_](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates), i.e. "week-numbering year", format `YYYY-Www-D`, e.g. `"2022-W25-1"`
+    - times [without minutes and seconds](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Times) (i.e. only `hh`).
 
 ### Hacks
 
-- Entire `.xz` files are read into memory during the initial `open` (see [607a23c0](https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/607a23c00aff0d9b34fb3d678bdfd5c14290582d#diff-a23d01b527ccc36fa0336ab1789a2f5d2567f21e93c5708b0e5b46ae9f3a708cR783-R836))
+- Entire `.xz` files are read into memory during the initial `open` ([Issue #12](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12))
 
 ## Further Reading
 
