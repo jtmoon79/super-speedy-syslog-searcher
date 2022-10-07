@@ -887,12 +887,23 @@ pub(crate) const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
 #[allow(dead_code)]
 pub(crate) const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[CGP_DAYd, CGP_DAYe];
 
+// Regarding timezone formatting, ISO 8601 allows Unicode "minus sign".
+// See https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114291504#Time_offsets_from_UTC
+// Unicode "minus sign" will be replaced with ASCII "hyphen-minus" for
+// processing by chrono `parse_from_str`.
+// See https://github.com/chronotope/chrono/issues/835
+
+/// Unicode "minus sign"
+const MINUS_SIGN: &[u8] = "−".as_bytes();
+/// Unicode/ASCII "hyphen-minus"
+const HYPHEN_MINUS: &[u8] = "-".as_bytes();
+
 /// `strftime` specifier `%z` e.g. `"+0930"`
-const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d{3})";
+const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012]\d{3})";
 /// `strftime` specifier `%:z` e.g. `"+09:30"`
-const CGP_TZzc: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d:\d\d)";
+const CGP_TZzc: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012]\d:\d\d)";
 /// `strftime` specifier `%#z` e.g. `"+09"`
-const CGP_TZzp: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d)";
+const CGP_TZzp: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012]\d)";
 /// `strftime` specifier `%Z` e.g. `"ACST"`
 pub(crate) const CGP_TZZ: &CaptureGroupPattern = "(?P<tz>\
 ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOST|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EASST|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVST|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAST|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT|ZULU|Z|\
@@ -1567,6 +1578,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (1, 30, "(2000/01/01 00:00:02.123 -1100) ../source3/smbd/oplock.c:1340(init_oplocks)"),
             (1, 33, "(2000/01/01 00:00:02.123456 -1100) ../source3/smbd/oplock.c:1340(init_oplocks)"),
             (1, 36, "(2000/01/01 00:00:02.123456789 -1100) ../source3/smbd/oplock.c:1340(init_oplocks)"),
+
+            (1, 36, "(2000/01/01 00:00:02.123456789 -1100) ../source3/smbd/oplock.c:1340(init_oplocks)"),
         ],
         line!(),
     ),
@@ -2063,7 +2076,34 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     DTPD!(
         concatcp!("^", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc),
         DTFSS_YmdHMSzc, 0, 50, CGN_YEAR, CGN_TZ,
-        &[(0, 26, "2000-01-08-00:00:03 -11:30 abcdefghi")],
+        &[
+            (0, 26, "2000-01-08-00:00:03 -11:30 abcdefghi"),
+            // ISO 8601, time extended format
+            (0, 25, "2020-01-02T03:04:05-01:00 The standard uses the Gregorian calendar, which 'serves as an international standard for civil use'.[18]"),
+            // ISO 8601, time basic format
+            (0, 23, "2020-01-02T030405-01:00 ISO 8601:2004 fixes a reference calendar date to the Gregorian calendar of 20 May 1875 as the date the Convention du Mètre (Metre Convention) was signed in Paris (the explicit reference date was removed in ISO 8601-1:2019)."),
+            // ISO 8601, time extended format
+            (0, 23, "20200102T03:04:05-01:00 However, ISO calendar dates before the convention are still compatible with the Gregorian calendar all the way back to the official introduction of the Gregorian calendar on 15 October 1582."),
+            // ISO 8601, time extended format
+            (0, 23, "20200102T03:04:05-01:00 Calendar date representations are in the form shown in the adjacent box. [YYYY] indicates a four-digit year, 0000 through 9999. [MM] indicates a two-digit month of the year, 01 through 12. [DD] indicates a two-digit day of that month, 01 through 31."),
+            // ISO 8601 / RFC 3339, time basic format
+            (0, 21, "20200102T030405-00:00 IETF RFC 3339[43] defines a profile of ISO 8601 for use in Internet protocols and standards."),
+            // ISO 8601 / RFC 3339, time extended format
+            (0, 23, "20200102T03:04:05-00:00 RFC 3339 deviates from ISO 8601 in allowing a zero time zone offset to be specified as '-00:00;', which ISO 8601 forbids."),
+            // ISO 8601, time extended format using Unicode "minus sign".
+            //
+            // Uses non-ASCII pattern in capture data.
+            //
+            // The data passed to chrono `parse_from_str` is modified;
+            // the Unicode "minus sign" is replaced with ASCII "hyphen-minus".
+            // However, the bytes that would be written to stdout remain
+            // unchanged (if this data had followed the full program path and
+            // been processed by the `printer::printers::PrinterSysline`).
+            // Hence, the offsets for `begin`, `end`, must account for Unicode
+            // char "minus sign" (which is larger than typical 1-byte ASCII).
+            (0, 27, "2020-01-02T03:04:05−01:00 To represent a negative offset, ISO 8601 specifies using a minus sign, (−)."),
+
+        ],
         line!(),
     ),
     DTPD!(
@@ -2865,7 +2905,38 @@ pub(crate) fn captures_to_buffer_bytes(
             copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
         }
         DTFS_Tz::z | DTFS_Tz::zc | DTFS_Tz::zp => {
-            copy_capturegroup_to_buffer!(CGN_TZ, captures, buffer, at);
+            // for data passed to chrono `parse_from_str`,
+            // replace Unicode "minus sign" to ASCII "hyphen-minus"
+            // see https://github.com/chronotope/chrono/issues/835
+            let captureb = captures.name(CGN_TZ).as_ref().unwrap().as_bytes();
+            match captureb.starts_with(MINUS_SIGN) {
+                true => {
+                    dpfo!("found Unicode 'minus sign', tranform to ASCII 'hyphen-minus'");
+                    // found Unicode "minus sign", replace with ASCII
+                    // "hyphen-minus"
+                    copy_slice_to_buffer!(HYPHEN_MINUS, buffer, at);
+                    // copy data remaining after Unicode "minus sign"
+                    match std::str::from_utf8(&captureb) {
+                        Ok(val) => {
+                            match val.char_indices().nth(1) {
+                                Some((offset, _)) => {
+                                    copy_slice_to_buffer!(&val[offset..].as_bytes(), buffer, at);
+                                }
+                                None => {
+                                    // something is wrong with captured value
+                                    // ignore it
+                                }
+                            }
+                        },
+                        Err(_err) => {
+                            // something is wrong with captured value, ignore it
+                        }
+                    }
+                }
+                false => {
+                    copy_slice_to_buffer!(captureb, buffer, at);
+                }
+            }
         }
         DTFS_Tz::Z => {
             #[allow(non_snake_case)]
