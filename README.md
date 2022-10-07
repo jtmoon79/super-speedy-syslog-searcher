@@ -4,7 +4,7 @@ Speedily search and sort many syslog files by datetime.
 
 _Super Speedy Syslog Searcher_ (s4) is a command-line tool to search
 and sort syslog files within compressed files (`.gz`, `.xz`) and
-archives (`.tar`, `.zip`).
+archives (`.tar`).
 The first goal of s4 is speedy searching and printing.
 
 [![Build status](https://img.shields.io/github/workflow/status/jtmoon79/super-speedy-syslog-searcher/Rust?style=flat-square&logo=github)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
