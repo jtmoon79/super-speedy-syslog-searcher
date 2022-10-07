@@ -183,6 +183,32 @@ DateTimes supported language is English.
 
 ## About
 
+_Super Speedy Syslog Searcher_ (s4) is meant to aid Engineers in reviewing
+varying syslog files from any Unix system in a time-sorted manner.
+The primary use-case is to aid investigating problems wherein the time of
+occurrence is known but there is little other problem evidence.
+
+Currently, Unix log file formats vary widely. _Most_ logs are an ad-hoc format.
+Even separate log files on the same system for the same service may have
+different message formats! 😵
+Sorting these logged messages by datetime may be prohibitively difficult.
+The result is an engineer may have to "hunt and peck" among many log files, looking for problem clues around some datetime; very tedious!
+
+Enter _Super Speedy Syslog Searcher_ 🦸 ‼
+
+_s4_ will print syslog file messages in datetime-sorted order. A "window" of
+datetimes may be passed, to constrain the period of printed messages. This will
+assist an engineer that, for example, needs to view all syslog messages that
+occured two days ago among log files taken from multiple systems.
+
+The alterior motive for _Super Speedy Syslog Searcher_ was the [primary
+developer](https://github.com/jtmoon79) wanted an excuse to learn rust 🦀,
+and wanted to create an open-source tool for a recurring need of some
+Software Test Engineers 😄.
+
+A longer rambling pontification about this project is in
+[`Extended-Thoughts.md`](./Extended-Thoughts.md).
+
 ### Features
 
 - Prepends datetime and file paths, for easy programmatic parsing or visual traversal of varying syslog messages
