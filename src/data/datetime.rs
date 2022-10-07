@@ -946,6 +946,7 @@ pub(crate) const TZZ_LIST_LOWER: &[&str] = &[
     "wit", "wita", "wst", "yakt", "yekt", "zulu", "z",
 ];
 
+#[cfg(any(debug_assertions, test))]
 lazy_static! {
     /// map lowercase `%Z` timezones (e.g. "pst") to uppercase (e.g. "PST")
     pub(crate) static ref TZZ_LOWER_TO_UPPER: HashMap<&'static str, &'static str> = {
@@ -1604,6 +1605,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (1, 35, "(2000/01/01 00:00:05.123456789 VLAT) ../source3/smbd/oplock.c:1340(init_oplocks)"),
             (1, 34, "<2000/01/01 00:00:05.123456789 WAT> ../source3/smbd/oplock.c:1340(init_oplocks)"),
+            (1, 34, "<2000/01/01 00:00:05.123456789 PST> ../source3/smbd/oplock.c:1340(init_oplocks)"),
+            (1, 34, "<2000/01/01 00:00:05.123456789 pst> ../source3/smbd/oplock.c:1340(init_oplocks)"),
         ],
         line!(),
     ),
@@ -1724,6 +1727,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (0, 23, "Jan 1 01:00:00 2000 PWT 😀"),
             (0, 24, "Jan 11 01:00:00 2000 PWT 😀"),
             (0, 24, "Feb 29 01:00:00 2000 PWT 😀"),
+            (0, 24, "Feb 29 01:00:00 2000 pwt 😀"),
         ],
         line!(),
     ),
@@ -1735,6 +1739,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (0, 24, "Jan 01 01:00:00 2000 PWT 😀"),
             (0, 24, "Jan 11 01:00:00 2000 PWT 😀"),
             (0, 24, "Feb 29 01:00:00 2000 PWT 😀"),
+            (0, 24, "Feb 29 01:00:00 2000 pwt 😀"),
         ],
         line!(),
     ),
@@ -1768,6 +1773,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (0, 18, "Jan 1 01:00:00 PWT 😀"),
             (0, 19, "Jan 11 01:00:00 PWT 😀"),
             (0, 19, "Feb 29 01:00:00 PWT 😀"),
+            (0, 19, "Feb 29 01:00:00 pwt 😀"),
         ],
         line!(),
     ),
@@ -1777,6 +1783,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (0, 25, "September 03 08:10:29 PWT hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
             (0, 19, "Jan 01 01:00:00 PWT 😀"),
+            (0, 19, "Jan 01 01:00:00 pwt 😀"),
             (0, 19, "Jan 11 01:00:00 PWT 😀"),
             (0, 19, "Feb 29 01:00:00 PWT 😀"),
         ],
@@ -1902,6 +1909,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (0, 29, "SAT. Jun 28 2022 01:51:12 WST FOOBAR"),
             (0, 29, "sun Jun 28 2022 01:51:12 YAKT"),
             (0, 32, "sunday Jun 28 2022 01:51:12 YEKT FOOBAR"),
+            (0, 32, "sunday Jun 28 2022 01:51:12 yekt FOOBAR"),
             (0, 32, "SUNDAY Jun 28 2022 01:51:12 YEKT FOOBAR"),
             (0, 33, "SUNDAY, Jun 28 2022 01:51:12 YEKT FOOBAR"),
         ],

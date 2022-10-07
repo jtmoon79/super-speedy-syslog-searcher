@@ -547,6 +547,17 @@ fn test_Map_TZ_names() {
         let up = lo.to_ascii_uppercase();
         assert!(MAP_TZZ_TO_TZz.contains_key(up.as_str()), "Named timezone {:?} (lower {:?}) not found in MAP_TZZ_TO_TZz", up, lo);
     }
+    // tz_name example "PST"
+    // tz_val example "-07:00"
+    for (tz_name, tz_val) in MAP_TZZ_TO_TZz.iter() {
+        if ! tz_val.is_empty() {
+            assert!(tz_val.starts_with("+") || tz_val.starts_with("-"), "Bad timezone value starts_with {:?} for entry {:?}", tz_val, tz_name);
+            assert!(tz_val.ends_with(":00") || tz_val.ends_with(":30") || tz_val.ends_with(":45"), "Bad timezone value ends_with {:?} for entry {:?}", tz_val, tz_name);
+            assert!(tz_val.contains(":"), "Bad timezone value {:?} not contains ':' for entry {:?}", tz_val, tz_name);
+            assert_eq!(tz_val.len(), 6, "Bad timezone value {:?} length {:?} for entry {:?}", tz_val, tz_val.len(), tz_name);
+        } // empty value means the name is ambiguous
+        assert!(TZZ_LIST_UPPER.contains(tz_name) || TZZ_LIST_LOWER.contains(tz_name), "Named timezone {:?} not in TZZ_LIST_UPPER or TZZ_LIST_LOWER", tz_name);
+    }
     for (index, tz_upper) in TZZ_LIST_UPPER.iter().enumerate() {
         let tz_lower = TZZ_LIST_LOWER[index];
         let tz_lower_to_upper = tz_lower.to_ascii_uppercase();
@@ -560,7 +571,7 @@ fn test_Map_TZ_names() {
         assert!(regex.is_match(lo), "Key {:?} from TZZ_LOWER_TO_UPPER not matched by regex CGP_TZZ", lo);
         assert!(regex.is_match(up), "Value {:?} from TZZ_LOWER_TO_UPPER not matched by regex CGP_TZZ", up);
     }
-    for (tz_name, tz_val) in MAP_TZZ_TO_TZz.iter() {
+    for (tz_name, _tz_val) in MAP_TZZ_TO_TZz.iter() {
         assert!(regex.is_match(tz_name), "Key {:?} from MAP_TZZ_TO_TZz not matched by regex CGP_TZZ", tz_name);
         assert!(
             TZZ_LIST_UPPER.contains(tz_name) != TZZ_LIST_LOWER.contains(tz_name),
