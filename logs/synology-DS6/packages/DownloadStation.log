@@ -1,0 +1,19 @@
+2019/06/23 21:13:34	(system) trigger DownloadStation 3.8.13-3519 Begin start-stop-status start
+rm: cannot remove '/var/packages/DownloadStation/etc/download/settings.json': No such file or directory
+rm: cannot remove '/var/packages/DownloadStation/etc/amule/statistics.dat': No such file or directory
+pgsql is enabled.
+Update download queue table and set all pid to -1
+test upload_rate in download_queue table
+test seeders in download_queue table
+Check current amule version...
+No need to upgrade amule.conf...
+test destination column in download_queue table
+test rss_feed table in download db
+test uid column in user_setting table
+test enable_watchffolder column in user_setting table
+test unzip_password column in download_queue table
+test unzip_progress column in download_queue table
+test is_regex column in rss_filter table
+test task_plugin table in download db
+test thumbnail table in download db
+test thumbnail_status column in download_queue table

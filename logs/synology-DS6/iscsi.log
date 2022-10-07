@@ -1,0 +1,19 @@
+2016-12-05T20:31:40-08:00 DiskStation kernel: [  114.505] iSCSI: init_io_buffer_head(869) LUN-backup: 512 buffers allocated, total 505 bytes successfully
+2016-12-05T20:31:42-08:00 DiskStation synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2016-12-05T21:01:02-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2016-12-05T21:11:44-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2016-12-05T21:11:49-08:00 dsnet kernel: [   95.505] iSCSI: init_io_buffer_head(869) LUN-backup: 512 buffers allocated, total 505 bytes successfully
+2016-12-05T21:15:56-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2016-12-05T21:34:42-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2016-12-05T21:39:44-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2016-12-05T21:39:48-08:00 dsnet kernel: [  140.505] iSCSI: init_io_buffer_head(869) LUN-backup: 512 buffers allocated, total 505 bytes successfully
+2017-01-03T01:35:52-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2017-01-03T01:40:55-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2017-01-03T01:40:59-08:00 dsnet kernel: [  119.505] iSCSI: init_io_buffer_head(869) LUN-backup: 512 buffers allocated, total 505 bytes successfully
+2017-01-03T23:56:42-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2017-01-03T23:56:44-08:00 dsnet kernel: [   97.505] iSCSI: init_io_buffer_head(869) LUN-backup: 512 buffers allocated, total 505 bytes successfully
+2017-01-08T13:35:54-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2017-01-08T13:35:56-08:00 dsnet kernel: [  103.505] iSCSI: init_io_buffer_head(869) LUN-backup: 512 buffers allocated, total 505 bytes successfully
+2017-01-24T23:21:48-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2017-01-24T23:26:13-08:00 dsnet synocheckiscsitrg: iscsi_repair.c:39 iSCSI: Total 0 issues are detected.
+2017-01-24T23:26:17-08:00 dsnet kernel: [  105.505] iSCSI: init_io_buffer_head(869) LUN-backup: 512 buffers allocated, total 505 bytes successfully

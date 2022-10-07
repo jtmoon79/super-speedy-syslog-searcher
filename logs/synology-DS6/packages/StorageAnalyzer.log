@@ -1,0 +1,19 @@
+2019/06/23 21:13:16	(system) trigger StorageAnalyzer 2.0.1-0198 Begin start-stop-status start
+Copyright (c) 2003-2019 Synology Inc. All rights reserved.
+
+2019/06/23 21:13:20	(system) trigger StorageAnalyzer 2.0.1-0198 End start-stop-status start ret=[0]
+2019/06/24 01:51:32	stop StorageAnalyzer 2.0.1-0198 Begin start-stop-status stop
+Copyright (c) 2003-2019 Synology Inc. All rights reserved.
+
+synoreport: no process found
+/bin/rm: cannot remove '/usr/local/etc/nginx/conf.d': Is a directory
+2019/06/24 01:51:33	stop StorageAnalyzer 2.0.1-0198 End start-stop-status stop ret=[0]
+2019/06/24 01:52:14	start StorageAnalyzer 2.0.1-0198 Begin start-stop-status start
+Copyright (c) 2003-2019 Synology Inc. All rights reserved.
+
+2019/06/24 01:52:15	start StorageAnalyzer 2.0.1-0198 End start-stop-status start ret=[0]
+2019/06/25 01:46:29	stop StorageAnalyzer 2.0.1-0198 Begin start-stop-status stop
+Copyright (c) 2003-2019 Synology Inc. All rights reserved.
+
+synoreport: no process found
+/bin/rm: cannot remove '/usr/local/etc/nginx/conf.d': Is a directory

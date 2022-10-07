@@ -1,0 +1,19 @@
+2019/06/23 21:13:17	(system) trigger CloudSync 2.3.12-1079 Begin start-stop-status start
+2019/06/23 21:13:17	(system) trigger CloudSync 2.3.12-1079 End start-stop-status start ret=[0]
+2019/08/18 21:24:50	(system) trigger CloudSync 2.3.12-1079 Begin start-stop-status stop
+2019/08/18 21:28:28	(system) trigger CloudSync 2.3.12-1079 Begin start-stop-status start
+2019/08/18 21:28:29	(system) trigger CloudSync 2.3.12-1079 End start-stop-status start ret=[0]
+2019/08/31 14:21:57	(system) trigger CloudSync 2.3.12-1079 Begin start-stop-status stop
+2019/08/31 14:22:03	(system) trigger CloudSync 2.3.12-1079 End start-stop-status stop ret=[-1]
+2019/08/31 14:25:36	(system) trigger CloudSync 2.3.12-1079 Begin start-stop-status start
+2019/08/31 14:25:37	(system) trigger CloudSync 2.3.12-1079 End start-stop-status start ret=[0]
+2019/08/31 14:55:23	upgrade CloudSync 2.3.12-1079 Begin start-stop-status stop
+2019/08/31 14:55:38	upgrade CloudSync 2.3.12-1079 End start-stop-status stop ret=[0]
+2019/08/31 14:55:41	upgrade CloudSync 2.3.12-1079 Begin preupgrade
+2019/08/31 14:55:42	upgrade CloudSync 2.3.12-1079 End preupgrade ret=[0]
+2019/08/31 14:55:42	upgrade CloudSync 2.3.12-1079 Begin preuninst
+2019/08/31 14:55:42	upgrade CloudSync 2.3.12-1079 End preuninst ret=[0]
+2019/08/31 14:55:42	upgrade CloudSync 2.3.12-1079 Begin /bin/rm -rf /path1/@appstore/CloudSync
+2019/08/31 14:55:44	upgrade CloudSync 2.3.12-1079 End /bin/rm -rf /path1/@appstore/CloudSync ret=[0]
+2019/08/31 14:55:44	upgrade CloudSync 2.3.12-1079 Begin postuninst
+2019/08/31 14:55:44	upgrade CloudSync 2.3.12-1079 End postuninst ret=[0]

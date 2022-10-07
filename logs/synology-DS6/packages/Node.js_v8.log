@@ -1,0 +1,19 @@
+2019/08/31 23:51:57	install Node.js_v8 8.9.4-0005 Begin preinst
+2019/08/31 23:51:57	install Node.js_v8 8.9.4-0005 End preinst ret=[0]
+2019/08/31 23:51:57	install Node.js_v8 8.9.4-0005 Begin /bin/mv -f /path1/@tmp/pkginstall/package /path1/@appstore/Node.js_v8
+2019/08/31 23:51:57	install Node.js_v8 8.9.4-0005 End /bin/mv -f /path1/@tmp/pkginstall/package /path1/@appstore/Node.js_v8 ret=[0]
+2019/08/31 23:51:57	install Node.js_v8 8.9.4-0005 Begin /bin/rm -rf /var/packages/Node.js_v8
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 End /bin/rm -rf /var/packages/Node.js_v8 ret=[0]
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 Begin /bin/mkdir -p /var/packages/Node.js_v8
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 End /bin/mkdir -p /var/packages/Node.js_v8 ret=[0]
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 Begin /bin/mv -f /path1/@tmp/pkginstall/INFO /var/packages/Node.js_v8/INFO
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 End /bin/mv -f /path1/@tmp/pkginstall/INFO /var/packages/Node.js_v8/INFO ret=[0]
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 Begin /bin/rm -rf /var/packages/Node.js_v8/scripts
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 End /bin/rm -rf /var/packages/Node.js_v8/scripts ret=[0]
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 Begin /bin/mv -f /path1/@tmp/pkginstall/scripts /var/packages/Node.js_v8/scripts
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 End /bin/mv -f /path1/@tmp/pkginstall/scripts /var/packages/Node.js_v8/scripts ret=[0]
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 Begin /bin/rm -rf /var/packages/Node.js_v8/conf
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 End /bin/rm -rf /var/packages/Node.js_v8/conf ret=[0]
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 Begin /bin/mv -f /path1/@tmp/pkginstall/conf /var/packages/Node.js_v8/conf
+2019/08/31 23:51:58	install Node.js_v8 8.9.4-0005 End /bin/mv -f /path1/@tmp/pkginstall/conf /var/packages/Node.js_v8/conf ret=[0]
+2019/08/31 23:51:59	install Node.js_v8 8.9.4-0005 Begin postinst

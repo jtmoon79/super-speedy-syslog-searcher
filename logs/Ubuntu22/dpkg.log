@@ -1,0 +1,14 @@
+2022-10-04 06:22:29 startup archives unpack
+2022-10-04 06:22:29 upgrade vim:amd64 2:8.2.3995-1ubuntu2 2:8.2.3995-1ubuntu2.1
+2022-10-04 06:22:29 status half-configured vim:amd64 2:8.2.3995-1ubuntu2
+2022-10-04 06:22:29 status unpacked vim:amd64 2:8.2.3995-1ubuntu2
+2022-10-04 06:22:29 status half-installed vim:amd64 2:8.2.3995-1ubuntu2
+2022-10-04 06:22:30 status unpacked vim:amd64 2:8.2.3995-1ubuntu2.1
+2022-10-04 06:22:30 upgrade vim-tiny:amd64 2:8.2.3995-1ubuntu2 2:8.2.3995-1ubuntu2.1
+2022-10-04 06:22:30 status half-configured vim-tiny:amd64 2:8.2.3995-1ubuntu2
+2022-10-04 06:22:30 status unpacked vim-tiny:amd64 2:8.2.3995-1ubuntu2
+2022-10-04 06:22:30 status half-installed vim-tiny:amd64 2:8.2.3995-1ubuntu2
+2022-10-04 06:22:30 status unpacked vim-tiny:amd64 2:8.2.3995-1ubuntu2.1
+2022-10-04 06:22:30 upgrade vim-runtime:all 2:8.2.3995-1ubuntu2 2:8.2.3995-1ubuntu2.1
+2022-10-04 06:22:30 status half-configured vim-runtime:all 2:8.2.3995-1ubuntu2
+2022-10-04 06:22:30 status unpacked vim-runtime:all 2:8.2.3995-1ubuntu2

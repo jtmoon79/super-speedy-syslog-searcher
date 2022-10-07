@@ -1,0 +1,19 @@
+2017-05-08T08:35:08-07:00 dsnet kernel: [   16.3859] scsi 0:0:0:0: Direct-Access     ATA      ST4000DM000-EEE111       0001 PQ: 0 ANSI: 5
+2017-05-08T08:35:08-07:00 dsnet kernel: [   16.3859] sd 0:0:0:0: [sda] 0123456789 512-byte logical blocks: (4.00 TB/3.63 TiB)
+2017-05-08T08:35:08-07:00 dsnet kernel: [   16.3859] sd 0:0:0:0: [sda] 4096-byte physical blocks
+2017-05-08T08:35:08-07:00 dsnet kernel: [   16.3859] sd 0:0:0:0: [sda] Write Protect is off
+2017-05-08T08:35:08-07:00 dsnet kernel: [   16.3859] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+2017-05-08T08:35:08-07:00 dsnet kernel: [   16.3859] sd 0:0:0:0: [sda] Attached SCSI disk
+2017-05-08T08:35:08-07:00 dsnet kernel: [   33.3859] scsi 1:0:0:0: Direct-Access     WDC      WD40EXXX-3859         82.0 PQ: 0 ANSI: 5
+2017-05-08T08:35:08-07:00 dsnet kernel: [   33.3859] sd 1:0:0:0: [sdb] 0123456789 512-byte logical blocks: (4.00 TB/3.63 TiB)
+2017-05-08T08:35:08-07:00 dsnet kernel: [   33.3859] sd 1:0:0:0: [sdb] 4096-byte physical blocks
+2017-05-08T08:35:08-07:00 dsnet kernel: [   33.3859] sd 1:0:0:0: [sdb] Write Protect is off
+2017-05-08T08:35:08-07:00 dsnet kernel: [   33.3859] sd 1:0:0:0: [sdb] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+2017-05-08T08:35:08-07:00 dsnet kernel: [   33.3859] sd 1:0:0:0: [sdb] Attached SCSI disk
+2017-05-08T08:35:08-07:00 dsnet kernel: [   49.3859] scsi 2:0:0:0: Direct-Access     WDC      WD40EXXX-3859         82.0 PQ: 0 ANSI: 5
+2017-05-08T08:35:08-07:00 dsnet kernel: [   49.3859] sd 2:0:0:0: [sdc] 0123456789 512-byte logical blocks: (4.00 TB/3.63 TiB)
+2017-05-08T08:35:08-07:00 dsnet kernel: [   49.3859] sd 2:0:0:0: [sdc] 4096-byte physical blocks
+2017-05-08T08:35:08-07:00 dsnet kernel: [   49.3859] sd 2:0:0:0: [sdc] Write Protect is off
+2017-05-08T08:35:08-07:00 dsnet kernel: [   49.3859] sd 2:0:0:0: [sdc] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+2017-05-08T08:35:08-07:00 dsnet kernel: [   49.3859] sd 2:0:0:0: [sdc] Attached SCSI disk
+2017-05-08T08:35:08-07:00 dsnet kernel: [   66.3859] scsi 3:0:0:0: Direct-Access     WDC      WD40EXXX-00SSEE00         80.0 PQ: 0 ANSI: 5

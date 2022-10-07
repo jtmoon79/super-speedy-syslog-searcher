@@ -1,0 +1,19 @@
+2019/06/23 21:13:36	(system) trigger USBCopy 2.0.5-0059 Begin start-stop-status start
+2019/06/23 21:13:36	(system) trigger USBCopy 2.0.5-0059 End start-stop-status start ret=[0]
+2019/08/18 21:24:50	(system) trigger USBCopy 2.0.5-0059 Begin start-stop-status stop
+2019/08/18 21:24:58	(system) trigger USBCopy 2.0.5-0059 End start-stop-status stop ret=[0]
+2019/08/18 21:28:55	(system) trigger USBCopy 2.0.5-0059 Begin start-stop-status start
+2019/08/18 21:28:55	(system) trigger USBCopy 2.0.5-0059 End start-stop-status start ret=[0]
+2019/08/31 14:21:57	(system) trigger USBCopy 2.0.5-0059 Begin start-stop-status stop
+2019/08/31 14:22:04	(system) trigger USBCopy 2.0.5-0059 End start-stop-status stop ret=[0]
+2019/08/31 14:26:01	(system) trigger USBCopy 2.0.5-0059 Begin start-stop-status start
+2019/08/31 14:26:01	(system) trigger USBCopy 2.0.5-0059 End start-stop-status start ret=[0]
+2019/08/31 23:18:04	upgrade USBCopy 2.0.5-0059 Begin start-stop-status stop
+2019/08/31 23:18:07	upgrade USBCopy 2.0.5-0059 End start-stop-status stop ret=[0]
+2019/08/31 23:18:13	upgrade USBCopy 2.0.5-0059 Begin preupgrade
+2019/08/31 23:18:13	upgrade USBCopy 2.0.5-0059 End preupgrade ret=[0]
+2019/08/31 23:18:13	upgrade USBCopy 2.0.5-0059 Begin preuninst
+2019/08/31 23:18:13	upgrade USBCopy 2.0.5-0059 End preuninst ret=[0]
+2019/08/31 23:18:13	upgrade USBCopy 2.0.5-0059 Begin /bin/rm -rf /usr/local/packages/@appstore/USBCopy
+2019/08/31 23:18:14	upgrade USBCopy 2.0.5-0059 End /bin/rm -rf /usr/local/packages/@appstore/USBCopy ret=[0]
+2019/08/31 23:18:14	upgrade USBCopy 2.0.5-0059 Begin postuninst

@@ -1,0 +1,19 @@
+2016-12-05T20:31:05-0800 Mon Dec 5 20:31:05 PST 2016: begin rc ==================================
+2016-12-05T20:31:05-0800 :: Starting /etc/rc
+2016-12-05T20:31:05-0800 umount: /initrd: not mounted
+2016-12-05T20:31:05-0800 awk: fatal: cannot open file `/etc/modules.local.conf' for reading (No such file or directory)
+2016-12-05T20:31:05-0800 Mon Dec 5 20:31:05 PST 2016: start cgen
+2016-12-05T20:31:05-0800 Pass CheckSynoinfo ...
+2016-12-05T20:31:05-0800 max_connections is less then default, use default value:32
+2016-12-05T20:31:05-0800 Update /etc.defaults/postgresql/postgresql.conf
+2016-12-05T20:31:05-0800 Update /etc/postgresql/postgresql.conf
+2016-12-05T20:31:05-0800 Pass CheckUser
+Pass CheckCronTab ...
+2016-12-05T20:31:05-0800 Regen group.
+2016-12-05T20:31:06-0800 Mon Dec 5 20:31:06 PST 2016: source config
+2016-12-05T20:31:06-0800 :: Loading module sg ... [  OK  ]
+start SYNOPrepareDevNode
+start SYNOCreateDevNode
+2016-12-05T20:31:06-0800 Mon Dec 5 20:31:06 PST 2016: start turn on swap
+2016-12-05T20:31:06-0800 <15>Dec  5 20:31:06 rc: Use all internal disk as swap.
+2016-12-05T20:31:06-0800 mkswap: /dev/md1: warning: wiping old swap signature.

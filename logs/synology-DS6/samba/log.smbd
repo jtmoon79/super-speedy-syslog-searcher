@@ -1,0 +1,19 @@
+../source3/smbd/server.c:1266: [2016/12/05 20:31:45, all 0] main
+  smbd version 4.1.20 started.
+  Copyright Andrew Tridgell and the Samba Team 1992-2013
+../source3/smbd/server.c:1352: [2016/12/05 20:31:46.1075, all 0, pid=6430] main
+  standard input is not a socket, assuming -D option
+../source3/smbd/server.c:1266: [2016/12/05 20:36:46, all 0] main
+  smbd version 4.1.20 started.
+  Copyright Andrew Tridgell and the Samba Team 1992-2013
+../source3/smbd/server.c:1352: [2016/12/05 20:36:46.1075, all 0, pid=8478] main
+  standard input is not a socket, assuming -D option
+../source3/smbd/server.c:1266: [2016/12/05 21:11:54, all 0] main
+  smbd version 4.1.20 started.
+  Copyright Andrew Tridgell and the Samba Team 1992-2013
+../source3/smbd/server.c:1352: [2016/12/05 21:11:54.1075, all 0, pid=6668] main
+  standard input is not a socket, assuming -D option
+../source3/smbd/server.c:1266: [2016/12/05 21:16:10, all 0] main
+  smbd version 4.1.20 started.
+  Copyright Andrew Tridgell and the Samba Team 1992-2013
+../source3/smbd/server.c:1352: [2016/12/05 21:16:10.1075, all 0, pid=1075] main

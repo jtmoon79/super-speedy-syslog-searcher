@@ -1,0 +1,19 @@
+2017-05-24T19:14:38-07:00 dsnet usb-copy-starter: service-ctrl.cpp:516 Repo volume was empty, create default repo volume as [/path1].
+2017-05-24T19:14:39-07:00 dsnet usb-copy-starter: [WARN] updater-core.cpp(247): UpdaterCore: new install
+2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] app.cpp(2866): app thread starts receiving messages
+2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] app.cpp(1667): link daemon, version: 0037
+2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] app.cpp(1488): USBCopyd: StartAll
+2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] app.cpp(1693): Link Daemon
+2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] file-processor.cpp(459): FileProcessor (1) up.
+2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] hardware-controller.cpp(222): HardwareController (2) up.
+2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] task-processor.cpp(518): TaskProcessor (0) up.
+2017-06-19T01:18:50-07:00 dsnet usb-copyd: [WARN] task-entry-handler.cpp(58): Can not find task entry for task_id '0'
+2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] app.cpp(1509): USBCopyd: PauseProcessors
+2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] hardware-controller.cpp(252): HardwareController (2): turn off LED.
+2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] hardware-controller.cpp(257): HardwareController (2) down.
+2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] file-processor.cpp(501): FileProcessor (1) down.
+2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] task-processor.cpp(561): TaskProcessor (0) down.
+2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] app.cpp(1737): Unlink Daemon
+2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] app.cpp(2889): app thread down
+2017-06-19T01:18:51-07:00 dsnet usb-copy-starter: daemon is dead
+2017-06-19T01:19:07-07:00 dsnet share-hook: USBCOPY: [ERR] share-hook.cpp(318): Failed to send share hook notify 'Vol'

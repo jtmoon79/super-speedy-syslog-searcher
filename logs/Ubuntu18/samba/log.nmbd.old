@@ -1,0 +1,19 @@
+[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.19: found.
+[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.19: found.
+[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.19: found.
+[2020/03/15 22:06:51.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)

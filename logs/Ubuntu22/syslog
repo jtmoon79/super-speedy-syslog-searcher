@@ -1,0 +1,14 @@
+Oct  3 21:48:21 host4b systemd[1]: rsyslog.service: Sent signal SIGHUP to main process 757 (rsyslogd) on client request.
+Oct  3 21:48:21 host4b systemd[1]: logrotate.service: Deactivated successfully.
+Oct  3 21:48:21 host4b systemd[1]: Finished Rotate log files.
+Oct  3 21:48:23 host4b ModemManager[802]: <info>  [base-manager] couldn't check support for device '/sys/devices/pci0000:00/0000:00:03.0': not supported by any plugin
+Oct  3 21:48:23 host4b ModemManager[802]: <info>  [base-manager] couldn't check support for device '/sys/devices/pci0000:00/0000:00:04.0': not supported by any plugin
+Oct  3 21:48:24 host4b systemd[1]: tmp-snap.rootfs_KSvaiJ.mount: Deactivated successfully.
+Oct  3 21:48:25 host4b systemd[1]: dmesg.service: Deactivated successfully.
+Oct  3 21:48:25 host4b snapd[763]: AppArmor status: apparmor is enabled and all features are available
+Oct  3 21:48:26 host4b snapd[763]: overlord.go:263: Acquiring state lock file
+Oct  3 21:48:26 host4b snapd[763]: overlord.go:268: Acquired state lock file
+Oct  3 21:48:26 host4b snapd[763]: daemon.go:247: started snapd/2.57.1 (series 16; classic) ubuntu/22.04 (amd64) linux/5.15.0-47-generic.
+Oct  3 21:48:26 host4b kernel: [   30.7734] loop6: detected capacity change from 0 to 8
+Oct  3 21:48:26 host4b systemd[1]: tmp-syscheck\x2dmountpoint\x2d741297994.mount: Deactivated successfully.
+Oct  3 21:48:26 host4b snapd[763]: daemon.go:340: adjusting startup timeout by 45s (pessimistic estimate of 30s plus 5s per snap)

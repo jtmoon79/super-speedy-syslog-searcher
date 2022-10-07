@@ -1,0 +1,19 @@
+2017-04-06T01:07:40-07:00 dsnet sfdisk: Device /dev/sdq change partition.
+2017-04-06T01:07:41-07:00 dsnet sfdisk: Device /dev/sdq change partition.
+2017-04-06T01:07:41-07:00 dsnet sfdisk: SYSTEM:	Last message 'Device /dev/sdq chan' repeated 1 times, suppressed by syslog-ng on dsnet
+2017-04-06T01:07:41-07:00 dsnet sfdisk:    + [/dev/sdq part 1] from 256 to 0123456789, length 0123456789.
+2019-01-06T16:02:10-08:00 dsnet sfdisk: Device /dev/sdq change partition.
+2019-01-06T16:02:12-08:00 dsnet sfdisk: Device /dev/sdq change partition.
+2019-01-06T16:02:12-08:00 dsnet sfdisk: SYSTEM:	Last message 'Device /dev/sdq chan' repeated 1 times, suppressed by syslog-ng on dsnet
+2019-01-06T16:02:12-08:00 dsnet sfdisk:    + [/dev/sdq part 1] from 256 to 0123456789, length 0123456789.
+2019-03-11T18:02:17-07:00 dsnet sfdisk: Device /dev/sdr change partition.
+2019-03-11T18:02:22-07:00 dsnet sfdisk: Device /dev/sdr change partition.
+2019-03-11T18:02:22-07:00 dsnet sfdisk: SYSTEM:	Last message 'Device /dev/sdr chan' repeated 1 times, suppressed by syslog-ng on dsnet
+2019-03-11T18:02:22-07:00 dsnet sfdisk:    + [/dev/sdr part 1] from 256 to 0123456789, length 0123456789.
+2019-08-18T21:18:29-07:00 dsnet sfdisk: Device /dev/sdr change partition.
+2019-08-18T21:18:30-07:00 dsnet sfdisk: Device /dev/sdr change partition.
+2019-08-18T21:18:30-07:00 dsnet sfdisk: SYSTEM:	Last message 'Device /dev/sdr chan' repeated 1 times, suppressed by syslog-ng on dsnet
+2019-08-18T21:18:30-07:00 dsnet sfdisk:    + [/dev/sdr part 1] from 256 to 15628048064, length 15628047809.
+2020-02-24T16:35:44-08:00 dsnet sfdisk: Device /dev/sdq change partition.
+2020-02-24T16:36:10-08:00 dsnet sfdisk: Device /dev/sdq change partition.
+2020-02-24T16:36:10-08:00 dsnet sfdisk: SYSTEM:	Last message 'Device /dev/sdq chan' repeated 1 times, suppressed by syslog-ng on dsnet

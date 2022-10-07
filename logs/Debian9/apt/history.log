@@ -1,0 +1,10 @@
+
+Start-Date: 2019-09-13  19:20:11
+Commandline: apt-get install tmux
+Install: libutempter0:armhf (1.1.6-3, automatic), tmux:armhf (2.3-4)
+End-Date: 2019-09-13  19:20:22
+
+Start-Date: 2020-02-18  16:36:17
+Commandline: apt install autossh
+Install: autossh:armhf (1.4e-3)
+End-Date: 2020-02-18  16:36:26

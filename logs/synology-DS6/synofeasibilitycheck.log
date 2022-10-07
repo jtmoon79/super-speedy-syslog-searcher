@@ -1,0 +1,19 @@
+2016-12-05T20:36:36-08:00 DiskStation synoscgi_SYNO.Core.Network_1_set[8088]: feasibility_check.cpp:79 FeasibilityCheck: [Info] No [hostname_change] feasibility check config with type [hard].
+2016-12-05T20:53:59-08:00 dsnet synoscgi_SYNO.Core.Upgrade_1_status[16568]: feasibility_check.cpp:87 FeasibilityCheck: [Info] Start feasibility check [poweroff] with type [hard].
+2016-12-05T20:53:59-08:00 dsnet synoscgi_SYNO.Core.Upgrade_1_status[16568]: feasibility_check.cpp:106 FeasibilityCheck: [Info] [0] of feasibility check [poweroff] failed.
+2016-12-05T20:53:59-08:00 dsnet synoscgi_SYNO.Core.Upgrade_1_status[16568]: feasibility_check.cpp:79 FeasibilityCheck: [Info] No [upgrade_notice] feasibility check config with type [hard].
+2016-12-05T20:53:59-08:00 dsnet synoscgi_SYNO.Core.Upgrade_1_status[16568]: feasibility_check.cpp:87 FeasibilityCheck: [Info] Start feasibility check [poweroff] with type [soft].
+2016-12-05T20:53:59-08:00 dsnet synoscgi_SYNO.Core.Upgrade_1_status[16568]: feasibility_check.cpp:98 FeasibilityCheck: [Info] Feasibility check [/usr/syno/share/feasibilitycheck/poweroff.d/RaidResync.cfg] failed.
+2016-12-05T20:54:00-08:00 dsnet synoscgi_SYNO.Core.Upgrade_1_status[16568]: feasibility_check.cpp:106 FeasibilityCheck: [Info] [1] of feasibility check [poweroff] failed.
+2016-12-05T20:54:00-08:00 dsnet synoscgi_SYNO.Core.Upgrade_1_status[16568]: feasibility_check.cpp:79 FeasibilityCheck: [Info] No [upgrade_notice] feasibility check config with type [soft].
+2016-12-05T21:00:50-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:87 FeasibilityCheck: [Info] Start feasibility check [poweroff] with type [hard].
+2016-12-05T21:00:50-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:106 FeasibilityCheck: [Info] [0] of feasibility check [poweroff] failed.
+2016-12-05T21:00:50-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:87 FeasibilityCheck: [Info] Start feasibility check [poweroff] with type [soft].
+2016-12-05T21:00:50-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:98 FeasibilityCheck: [Info] Feasibility check [/usr/syno/share/feasibilitycheck/poweroff.d/RaidResync.cfg] failed.
+2016-12-05T21:00:50-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:106 FeasibilityCheck: [Info] [1] of feasibility check [poweroff] failed.
+2016-12-05T21:00:53-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:87 FeasibilityCheck: [Info] Start feasibility check [poweroff] with type [hard].
+2016-12-05T21:00:53-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:106 FeasibilityCheck: [Info] [0] of feasibility check [poweroff] failed.
+2016-12-05T21:00:54-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:87 FeasibilityCheck: [Info] Start feasibility check [poweroff] with type [critical].
+2016-12-05T21:00:54-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:106 FeasibilityCheck: [Info] [0] of feasibility check [poweroff] failed.
+2016-12-05T21:00:54-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:87 FeasibilityCheck: [Info] Start feasibility check [poweroff] with type [critical].
+2016-12-05T21:00:54-08:00 dsnet synoscgi_SYNO.Core.System_1_shutdown[16568]: feasibility_check.cpp:106 FeasibilityCheck: [Info] [0] of feasibility check [poweroff] failed.

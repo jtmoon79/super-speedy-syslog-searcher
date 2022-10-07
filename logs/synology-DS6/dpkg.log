@@ -1,0 +1,19 @@
+2016-12-05 21:38:43 startup archives install
+2016-12-05 21:38:44 install curl-7.x-armada38x-bin:all <none> 7.47.0-8451-s5
+2016-12-05 21:38:44 status half-installed curl-7.x-armada38x-bin:all 7.47.0-8451-s5
+2016-12-05 21:38:44 status unpacked curl-7.x-armada38x-bin:all 7.47.0-8451-s5
+2016-12-05 21:38:44 status unpacked curl-7.x-armada38x-bin:all 7.47.0-8451-s5
+2016-12-05 21:38:45 configure curl-7.x-armada38x-bin:all 7.47.0-8451-s5 7.47.0-8451-s5
+2016-12-05 21:38:45 status unpacked curl-7.x-armada38x-bin:all 7.47.0-8451-s5
+2016-12-05 21:38:45 status half-configured curl-7.x-armada38x-bin:all 7.47.0-8451-s5
+2016-12-05 21:38:45 status installed curl-7.x-armada38x-bin:all 7.47.0-8451-s5
+2016-12-05 21:38:45 startup archives install
+2016-12-05 21:38:46 install dsm-admincenter-armada38x-bin:all <none> 6.0-8451-s5
+2016-12-05 21:38:46 status half-installed dsm-admincenter-armada38x-bin:all 6.0-8451-s5
+2016-12-05 21:38:46 status unpacked dsm-admincenter-armada38x-bin:all 6.0-8451-s5
+2016-12-05 21:38:47 status unpacked dsm-admincenter-armada38x-bin:all 6.0-8451-s5
+2016-12-05 21:38:47 configure dsm-admincenter-armada38x-bin:all 6.0-8451-s5 6.0-8451-s5
+2016-12-05 21:38:47 status unpacked dsm-admincenter-armada38x-bin:all 6.0-8451-s5
+2016-12-05 21:38:47 status half-configured dsm-admincenter-armada38x-bin:all 6.0-8451-s5
+2016-12-05 21:38:47 status installed dsm-admincenter-armada38x-bin:all 6.0-8451-s5
+2016-12-05 21:38:48 startup archives install

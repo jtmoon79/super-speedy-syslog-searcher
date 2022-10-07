@@ -1,0 +1,19 @@
+2016-12-05T20:31:05-08:00 DiskStation syslog-ng[1612]: syslog-ng starting up; version='3.5.5'
+2016-12-05T20:31:21-08:00 DiskStation syslog-ng[1612]: Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2016-12-05T20:31:21-08:00 DiskStation syslog-ng[1612]: Configuration reload request received, reloading configuration;
+2016-12-05T20:36:37-08:00 dsnet syslog-ng[1612]: Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2016-12-05T20:36:37-08:00 dsnet syslog-ng[1612]: Configuration reload request received, reloading configuration;
+2016-12-05T21:01:12-08:00 dsnet syslog-ng[1612]: syslog-ng shutting down; version='3.5.5'
+2016-12-05T21:11:26-08:00 dsnet syslog-ng[1111]: syslog-ng starting up; version='3.5.5'
+2016-12-05T21:11:30-08:00 dsnet syslog-ng[1111]: Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2016-12-05T21:11:30-08:00 dsnet syslog-ng[1111]: Configuration reload request received, reloading configuration;
+2016-12-05T21:15:57-08:00 dsnet syslog-ng[1111]: Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2016-12-05T21:15:57-08:00 dsnet syslog-ng[1111]: Configuration reload request received, reloading configuration;
+2016-12-05T21:16:08-08:00 dsnet syslog-ng[1111]: Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2016-12-05T21:16:08-08:00 dsnet syslog-ng[1111]: Configuration reload request received, reloading configuration;
+2016-12-05T21:34:33-08:00 dsnet syslog-ng[1111]: Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2016-12-05T21:34:33-08:00 dsnet syslog-ng[1111]: Configuration reload request received, reloading configuration;
+2016-12-05T21:37:06-08:00 dsnet syslog-ng[1111]: syslog-ng shutting down; version='3.5.5'
+2016-12-05T21:38:43-08:00 dsnet syslog-ng[1117]: syslog-ng starting up; version='3.5.5'
+2016-12-05T21:39:31-08:00 dsnet syslog-ng[1117]: Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2016-12-05T21:39:31-08:00 dsnet syslog-ng[1117]: Configuration reload request received, reloading configuration;

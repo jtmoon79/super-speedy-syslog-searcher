@@ -1,0 +1,19 @@
+2019/06/23 21:11:54	upgrade FileStation 1.2.4-0255 Begin preupgrade
+2019/06/23 21:11:54	upgrade FileStation 1.2.4-0255 End preupgrade ret=[0]
+2019/06/23 21:11:54	upgrade FileStation 1.2.4-0255 Begin preuninst
+2019/06/23 21:11:54	upgrade FileStation 1.2.4-0255 End preuninst ret=[0]
+2019/06/23 21:11:54	upgrade FileStation 1.2.4-0255 Begin /bin/rm -rf /usr/local/packages/@appstore/FileStation
+2019/06/23 21:11:55	upgrade FileStation 1.2.4-0255 End /bin/rm -rf /usr/local/packages/@appstore/FileStation ret=[0]
+2019/06/23 21:11:55	upgrade FileStation 1.2.4-0255 Begin postuninst
+2019/06/23 21:11:55	upgrade FileStation 1.2.4-0255 End postuninst ret=[0]
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin preinst
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 End preinst ret=[0]
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin /bin/mv -f /var/tmp/pkginstall/package /usr/local/packages/@appstore/FileStation
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 End /bin/mv -f /var/tmp/pkginstall/package /usr/local/packages/@appstore/FileStation ret=[0]
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin /bin/mkdir -p /var/packages/FileStation
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 End /bin/mkdir -p /var/packages/FileStation ret=[0]
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin /bin/mv -f /var/tmp/pkginstall/INFO /var/packages/FileStation/INFO
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 End /bin/mv -f /var/tmp/pkginstall/INFO /var/packages/FileStation/INFO ret=[0]
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin /bin/rm -rf /var/packages/FileStation/scripts
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 End /bin/rm -rf /var/packages/FileStation/scripts ret=[0]
+2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin /bin/mv -f /var/tmp/pkginstall/scripts /var/packages/FileStation/scripts

@@ -1,0 +1,27 @@
+2019-06-16T14:09:08Z DEBUG Librepo version: 1.10.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.64.0 OpenSSL/1.1.1c zlib/1.2.11 brotli/1.0.7 libidn2/2.2.0 libpsl/0.20.2 (+libidn2/2.0.5) libssh/0.8.7/openssl/zlib nghttp2/1.38.0)
+2019-06-16T14:09:08Z DEBUG Current date: 2019-06-16T14:09:08+0000
+2019-06-16T14:09:08Z DEBUG Librepo version: 1.10.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.64.0 OpenSSL/1.1.1c zlib/1.2.11 brotli/1.0.7 libidn2/2.2.0 libpsl/0.20.2 (+libidn2/2.0.5) libssh/0.8.7/openssl/zlib nghttp2/1.38.0)
+2019-06-16T14:09:08Z DEBUG Current date: 2019-06-16T14:09:08+0000
+2019-06-16T14:09:08Z DEBUG lr_handle_perform: Using dir: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-a924e206df91842b
+2019-06-16T14:09:08Z DEBUG lr_handle_perform: Using own SIGINT handler
+2019-06-16T14:09:08Z DEBUG lr_handle_prepare_internal_mirrorlist: Preparing internal mirrorlist
+2019-06-16T14:09:08Z DEBUG lr_handle_prepare_internal_mirrorlist: Finalizing internal mirrorlist
+2019-06-16T14:09:08Z DEBUG lr_handle_prepare_internal_mirrorlist: Finalizing mirrors reported via LRI_MIRRORS
+2019-06-16T14:09:08Z DEBUG lr_handle_perform: Downloading/Locating yum repo
+2019-06-16T14:09:08Z DEBUG lr_yum_use_local: Locating repo..
+2019-06-16T14:09:08Z DEBUG lr_yum_use_local_load_base: open(/tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-a924e206df91842b/repodata/repomd.xml): No such file or directory
+2019-06-16T14:09:08Z DEBUG lr_handle_perform: Restoring an old SIGINT handler
+2019-06-16T14:09:08Z DEBUG lr_handle_perform: Using dir: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-a924e206df91842b/tmpdir.DOAvxb
+2019-06-16T14:09:08Z DEBUG lr_handle_perform: Using own SIGINT handler
+2019-06-16T14:09:08Z DEBUG lr_handle_prepare_internal_mirrorlist: Preparing internal mirrorlist
+2019-06-16T14:09:08Z DEBUG lr_download: Target: https://mirrors.fedoraproject.org/metalink?repo=fedora-30&arch=x86_64 (-)
+2019-06-16T14:09:08Z DEBUG select_next_target: Selecting mirror for: https://mirrors.fedoraproject.org/metalink?repo=fedora-30&arch=x86_64
+2019-06-16T14:09:08Z DEBUG prepare_next_transfer: URL: https://mirrors.fedoraproject.org/metalink?repo=fedora-30&arch=x86_64
+2019-06-16T14:09:08Z DEBUG add_librepo_xattr: Cannot set xattr user.Librepo.DownloadInProgress (fd: 11): Operation not supported
+2019-06-16T14:09:37Z DEBUG lr_prepare_lrmirrors: Mirror: rsync://mirror.mrjester.net/fedora-linux/updates/30/Everything/x86_64/
+2019-06-16T14:09:37Z DEBUG lr_prepare_lrmirrors: Mirror: http://mirror.metrocast.net/fedora/linux/updates/30/Everything/x86_64/
+2019-06-16T14:09:37Z DEBUG lr_prepare_lrmirrors: Mirror: http://mirror.sjc02.svwh.net/fedora/updates/30/Everything/x86_64/
+2019-06-16T14:09:37Z DEBUG lr_prepare_lrmirrors: Mirror: rsync://mirror.sjc02.svwh.net/fedora/updates/30/Everything/x86_64/
+2019-06-16T14:09:37Z DEBUG lr_prepare_lrmirrors: Mirror: rsync://mirror.clarkson.edu/fedora/linux/updates/30/Everything/x86_64/
+2019-06-16T14:09:37Z DEBUG lr_prepare_lrmirrors: Mirror: https://mirror.clarkson.edu/fedora/linux/updates/30/Everything/x86_64/
+2019-06-16T14:09:37Z DEBUG lr_prepare_lrmirrors: Mirror: http://mirror.clarkson.edu/fedora/linux/updates/30/Everything/x86_64/

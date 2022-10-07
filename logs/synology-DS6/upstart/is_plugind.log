@@ -1,0 +1,19 @@
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_comm_core: synocomm_channel.c:303 synocomm: Create ChannelSet as 0x232d8
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_channel.c:303 synocomm: Create ChannelSet as 0x25320
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_types.c:395 synocomm: maxIPCount 1, numCard 1, allocateCount 1
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_types.c:398 synocomm: Adapters pinter 0x27560, single size 4, totalsize 4
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_types.c:411 synocomm: Adpater [0] 192.168.0.147, 0x27560
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm.c:86 synocomm: >>>>> Init 1st Active IP 192.168.0.147
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm.c:92 synocomm: >>>>> Init LocalHostName 1690NAN950500
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_types.c:395 synocomm: maxIPCount 32, numCard 1, allocateCount 1
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_types.c:398 synocomm: Adapters pinter 0x27560, single size 4, totalsize 4
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_types.c:411 synocomm: Adpater [0] 192.168.0.147, 0x27560
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_host.c:257 synocomm: xxxxxxxx xxxxxxxx Create host 1690NAN950500
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm.c:204 synocomm: ............................. Generate commpid 5969
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_app.c:81 synocomm: Create App ISS-SERVER, pid 5969
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_channel_manage.c:128 synocomm: ext 0x10000000
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_channel_manage.c:45 synocomm: ext 0x10000000
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_channel_pipe.c:313 synocomm: Client /tmp/synocomm_pipe_svr_msg_req open fail
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_channel_pipe.c:547 synocomm: CLIENT_END request_channel, name=/tmp/synocomm_pipe_svr_msg_req
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_channel_manage.c:128 synocomm: ext 0x60000000
+2016-12-05T20:31:41-08:00 DiskStation iscsi_snapshot_server: synocomm_channel_manage.c:51 synocomm: ext 0x60000000, ext_request 0x26f78

@@ -1,0 +1,77 @@
+2022/03/23 14:00:20 Starting cygwin install, version 2.918
+2022/03/23 14:00:20 User has backup/restore rights
+2022/03/23 14:00:20 User has symlink creation right
+2022/03/23 14:00:20 Current Directory: C:\Users\user1\AppData\Local\Temp\scoped_dir27748_1637863670
+Could not open service McShield for query, start and stop. McAfee may not be installed, or we don't have access.
+2022/03/23 14:00:22 source: network install
+2022/03/23 14:00:22 root: C:\cygwin system
+2022/03/23 14:00:23 Selected local directory: C:\Users\user1\AppData\Local\Temp\scoped_dir27748_1637863670
+2022/03/23 14:00:24 net: Preconfig
+Loaded cached mirror list
+User-Agent: default is "Cygwin-Setup/2.918 (Windows NT 10.0.19044;Win64;0409;SymLinkPriv)"
+Fetched URL: https://cygwin.com/mirrors.lst
+2022/03/23 14:00:49 site: https://mirrors.sonic.net/cygwin/
+Request for URL https://mirrors.sonic.net/cygwin/x86_64/setup.zst.sig satisfied from cache
+Fetched URL: https://mirrors.sonic.net/cygwin/x86_64/setup.zst.sig
+Request for URL https://mirrors.sonic.net/cygwin/x86_64/setup.zst satisfied from cache
+Fetched URL: https://mirrors.sonic.net/cygwin/x86_64/setup.zst
+signature: sig_type 0, pk_alg 17, hash_alg 2
+signature: tried key cygwin, returned 0x0100004f Invalid data
+signature: sig_type 0, pk_alg 1, hash_alg 8
+signature: tried key cygwin, returned 0x00000000 Success
+.ini setup_version is 2.918, our setup_version is 2.918
+INSTALLED.DB version 3
+2022/03/23 14:00:54 solving: 0 tasks, update: yes, use test packages: no
+libsolv: solver started
+libsolv: dosplitprovides=0, noupdateprovide=0, noinfarchcheck=0
+libsolv: allowuninstall=0, allowdowngrade=0, allownamechange=1, allowarchchange=0, allowvendorchange=1
+libsolv: promoteepoch=0, forbidselfconflicts=0
+libsolv: obsoleteusesprovides=0, implicitobsoleteusesprovides=0, obsoleteusescolors=0, implicitobsoleteusescolors=0
+libsolv: dontinstallrecommended=0, addalreadyrecommended=0
+libsolv: number of solvables: 56049, memory used: 3065 K
+libsolv: number of ids: 28639 + 55805
+libsolv: string memory used: 111 K array + 491 K data,  rel memory used: 653 K array
+libsolv: string hash memory: 256 K, rel hash memory : 512 K
+libsolv: provide ids: 12183
+libsolv: provide space needed: 41645 + 111610
+libsolv: shrunk whatprovidesdata from 41645 to 41621
+libsolv: shrunk whatprovidesauxdata from 41645 to 29459
+libsolv: whatprovides memory used: 333 K id array, 598 K data
+libsolv: whatprovidesaux memory used: 111 K id array, 115 K data
+libsolv: WARNING: pool_addfileprovides was not called, this may result in slow operation
+libsolv: lazywhatprovidesq size: 0 entries
+libsolv: createwhatprovides took 5 ms
+libsolv: obsoletes data: 1 entries
+libsolv: added 3974 pkg rules for installed solvables
+libsolv: added 883 pkg rules for updaters of installed solvables
+libsolv: added 0 pkg rules for packages involved in a job
+libsolv: added 0 pkg rules because of weak dependencies
+libsolv: 937 of 27978 installable solvables considered for solving
+libsolv: pruned rules from 4858 to 4858
+libsolv:   binary: 1727
+libsolv:   normal: 3130, 19318 literals
+libsolv: pkg rule memory used: 113 K
+libsolv: pkg rule creation took 2 ms
+libsolv: choice rule creation took 2 ms
+libsolv: 4857 pkg rules, 2 * 245 update rules, 0 job rules, 0 infarch rules, 0 dup rules, 0 choice rules, 0 best rules
+libsolv: overall rule memory used: 125 K
+libsolv: solving...
+libsolv: resolving job rules
+libsolv: resolving installed packages
+libsolv: deciding orphaned packages
+libsolv: solver statistics: 0 learned rules, 0 unsolvable, 0 minimization steps
+libsolv: done solving.
+libsolv: solver took 1 ms
+libsolv: final solver statistics: 0 problems, 0 learned rules, 0 unsolvable
+libsolv: solver_solve took 12 ms
+libsolv:
+libsolv: transaction:
+libsolv:
+libsolv: orphaned packages:
+libsolv:   base-0.0-0.any (kept)
+libsolv:   _windows-10.0.19044.any (kept)
+libsolv:
+libsolv: ordering transaction
+libsolv: transaction elements: 0
+2022/03/23 14:38:49 mbox : Are you sure you want to exit setup? Any current download or installation will be aborted.
+2022/03/23 14:38:51 Ending cygwin install

@@ -1,0 +1,19 @@
+2016-12-08T18:54:05-0800 Thu Dec  8 18:54:05 PST 2016
+2016-12-08T18:54:05-0800  creating ssh1 RSA host key
+2016-12-08T18:54:05-0800 Generating public/private rsa1 key pair.
+2016-12-08T18:54:10-0800 Your identification has been saved in /etc/ssh/ssh_host_key.
+2016-12-08T18:54:10-0800 Your public key has been saved in /etc/ssh/ssh_host_key.pub.
+The key fingerprint is:
+SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq+nnnnnnnnn/DDDDDDDD/vvvvvvvvvvvvvvv root@dsnet
+2016-12-08T18:54:10-0800 The key's randomart image is:
++---[RSA1 2048]---+
+|    ....o        |
+|  .. ... +       |
+| .... . . .      |
+|...  .   o. =    |
+|o  *  . .... .   |
+| .. +. o.oo   .  |
+|   =...    . .   |
+|   . .    ...    |
+| ...   .     .   |
++----[SHA256]-----+

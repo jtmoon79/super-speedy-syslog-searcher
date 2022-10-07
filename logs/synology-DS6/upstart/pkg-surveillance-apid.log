@@ -1,0 +1,14 @@
+2017-02-05T01:00:17-0800 synoscgi: unrecognized option '--mode=apid'
+2017-02-05T01:00:17-0800 Copyright (c) 2003-2016 Synology Inc. All rights reserved.
+
+Usage: synoscgi (Version 8451)
+	--idle-child={childNumber} (optional, default: 10) max idle child number
+	--max-child={childNumber} (optional, default: 9689) max child number
+	--help
+2017-02-18T14:59:18-0800 synoscgi: unrecognized option '--mode=apid'
+2017-02-18T14:59:18-0800 Copyright (c) 2003-2016 Synology Inc. All rights reserved.
+
+Usage: synoscgi (Version 8451)
+	--idle-child={childNumber} (optional, default: 10) max idle child number
+	--max-child={childNumber} (optional, default: 9689) max child number
+	--help

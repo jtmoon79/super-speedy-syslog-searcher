@@ -1,0 +1,19 @@
+{2022-05-01 14:24:13}[agent.c:537] satellite 01:02:03:04:05:C8 reconnect with ip 192.168.0.5
+{2022-05-01 14:24:14}[agent.c:126] get soapclient pid 3920
+{2022-05-01 14:33:33}[agent.c:1169] config check start, config is satellite, delimiters is   
+{2022-05-01 14:33:33}[agent.c:1173] config satellite1 is 01:02:03:04:05:C8 192.168.0.5 DEV501 4PNF7C5V05119 -97 V2.0 1 01:02:03:04:05:6E wired 1
+{2022-05-01 14:33:33}[agent.c:1173] config satellite2 is 01:02:03:04:05:8A 192.168.0.6 DEV501 4PNF7C5U05118 -68 V2.0 1 01:02:03:04:05:6E wired 1
+{2022-05-01 14:33:33}[agent.c:1173] config satellite3 is 
+{2022-05-01 14:44:58}[agent.c:1169] config check start, config is satellite, delimiters is   
+{2022-05-01 14:44:58}[agent.c:1173] config satellite1 is 01:02:03:04:05:C8 192.168.0.5 DEV501 4PNF7C5V05119 -97 V2.0 1 01:02:03:04:05:6E wired 1
+{2022-05-01 14:44:58}[agent.c:1173] config satellite2 is 01:02:03:04:05:8A 192.168.0.6 DEV501 4PNF7C5U05118 -68 V2.0 1 01:02:03:04:05:6E wired 1
+{2022-05-01 14:44:58}[agent.c:1173] config satellite3 is 
+{2022-05-01 14:56:31}[agent.c:1169] config check start, config is satellite, delimiters is   
+{2022-05-01 14:56:31}[agent.c:1173] config satellite1 is 01:02:03:04:05:C8 192.168.0.5 DEV501 4PNF7C5V05119 -97 V2.0 1 01:02:03:04:05:6E wired 1
+{2022-05-01 14:56:31}[agent.c:1173] config satellite2 is 01:02:03:04:05:8A 192.168.0.6 DEV501 4PNF7C5U05118 -68 V2.0 1 01:02:03:04:05:6E wired 1
+{2022-05-01 14:56:31}[agent.c:1173] config satellite3 is 
+{2022-05-01 15:07:53}[agent.c:1169] config check start, config is satellite, delimiters is   
+{2022-05-01 15:07:53}[agent.c:1173] config satellite1 is 01:02:03:04:05:C8 192.168.0.5 DEV501 4PNF7C5V05119 -97 V2.0 1 01:02:03:04:05:6E wired 1
+{2022-05-01 15:07:53}[agent.c:1173] config satellite2 is 01:02:03:04:05:8A 192.168.0.6 DEV501 4PNF7C5U05118 -68 V2.0 1 01:02:03:04:05:6E wired 1
+{2022-05-01 15:07:53}[agent.c:1173] config satellite3 is 
+{2022-05-01 15:19:36}[agent.c:1169] config check start, config is satellite, delimiters is   

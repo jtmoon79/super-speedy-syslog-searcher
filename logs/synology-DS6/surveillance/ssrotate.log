@@ -1,0 +1,19 @@
+Sep 18 14:18:39 [2071][2071] ssrotated.cpp:819:RotateCamEvents(): Rotate camera event done, [90] events removed.
+Sep 18 14:18:41 [2071][2071] ssrotate.cpp:483:DeleteMarkAsDelEvt(): [90] mark_as_del events have been deleted.
+Sep 18 14:28:44 [2071][2071] ssrotated.cpp:819:RotateCamEvents(): Rotate camera event done, [36] events removed.
+Sep 18 14:28:45 [2071][2071] ssrotate.cpp:483:DeleteMarkAsDelEvt(): [36] mark_as_del events have been deleted.
+Sep 18 14:38:46 [2071][2071] ssrotated.cpp:819:RotateCamEvents(): Rotate camera event done, [33] events removed.
+Sep 18 14:38:46 [2071][2071] ssrotate.cpp:483:DeleteMarkAsDelEvt(): [33] mark_as_del events have been deleted.
+Sep 18 14:48:58 [2071][2071] ssrotated.cpp:819:RotateCamEvents(): Rotate camera event done, [57] events removed.
+Sep 18 14:48:59 [2071][2071] ssrotate.cpp:483:DeleteMarkAsDelEvt(): [57] mark_as_del events have been deleted.
+Sep 18 14:59:00 [2071][2071] ssrotated.cpp:819:RotateCamEvents(): Rotate camera event done, [35] events removed.
+Sep 18 14:59:01 [2071][2071] ssrotate.cpp:483:DeleteMarkAsDelEvt(): [35] mark_as_del events have been deleted.
+Sep 18 15:09:02 [2071][2071] ssrotated.cpp:819:RotateCamEvents(): Rotate camera event done, [28] events removed.
+Sep 18 15:09:04 [2071][2071] ssrotate.cpp:483:DeleteMarkAsDelEvt(): [28] mark_as_del events have been deleted.
+Sep 18 15:19:05 [2071][2071] ssrotated.cpp:819:RotateCamEvents(): Rotate camera event done, [60] events removed.
+Sep 18 15:19:06 [2071][2071] ssrotate.cpp:483:DeleteMarkAsDelEvt(): [60] mark_as_del events have been deleted.
+Sep 18 15:29:20 [2071][2071] ssrotated.cpp:819:RotateCamEvents(): Rotate camera event done, [138] events removed.
+Sep 18 15:29:22 [2071][2071] ssrotate.cpp:483:DeleteMarkAsDelEvt(): [138] mark_as_del events have been deleted.
+Sep 18 16:09:37 [2071][2071] ssrotated.cpp:819:RotateCamEvents(): Rotate camera event done, [125] events removed.
+Sep 18 16:09:39 [2071][2071] ssrotate.cpp:483:DeleteMarkAsDelEvt(): [125] mark_as_del events have been deleted.
+Sep 18 16:29:41 [2071][2071] ssrotated.cpp:819:RotateCamEvents(): Rotate camera event done, [33] events removed.

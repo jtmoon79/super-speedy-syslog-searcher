@@ -1,0 +1,19 @@
+2016-12-05T20:31:05-0800 dsmupdate stop/pre-start, process 1613
+2016-12-05T21:11:26-0800 dsmupdate stop/pre-start, process 1112
+2016-12-05T21:38:43-0800 dsmupdate stop/pre-start, process 1118
+2017-01-03T01:40:14-0800 dsmupdate stop/pre-start, process 1117
+2017-01-03T23:56:22-0800 dsmupdate stop/pre-start, process 1118
+2017-01-08T13:35:31-0800 dsmupdate stop/pre-start, process 1121
+2017-01-24T23:25:45-0800 dsmupdate stop/pre-start, process 1118
+2017-01-31T00:21:39-0800 dsmupdate stop/pre-start, process 1118
+2017-02-04T23:06:49-0800 dsmupdate stop/pre-start, process 1117
+2017-02-23T14:51:47-0800 <11>Feb 23 14:51:47 syno_install_backup_plugin: Version NOT match ["8.0.1-5128"] ==> Not install plugin [SurveillanceStation]
+2017-03-07T09:15:27-0800 dsmupdate stop/pre-start, process 1200
+2017-03-09T20:15:12-0800 dsmupdate stop/pre-start, process 1180
+2017-05-08T08:35:08-0700 <11>May  8 08:35:08 syno_install_backup_plugin: Version NOT match ["8.0.1-5128"] ==> Not install plugin [SurveillanceStation]
+2017-05-12T22:46:02-0700 dsmupdate stop/pre-start, process 1160
+2017-05-24T09:43:08-0700 dsmupdate stop/pre-start, process 1166
+2017-06-19T01:21:25-0700 <11>Jun 19 01:21:25 syno_install_backup_plugin: Version NOT match ["8.0.3-5159"] ==> Not install plugin [SurveillanceStation]
+2017-09-17T09:54:36-0700 dsmupdate stop/pre-start, process 1164
+2017-09-17T10:04:01-0700 <11>Sep 17 10:04:01 syno_install_backup_plugin: Version NOT match ["8.0.4-5164"] ==> Not install plugin [SurveillanceStation]
+2017-09-17T10:11:43-0700 dsmupdate stop/pre-start, process 1161

@@ -1,0 +1,19 @@
+2016-12-05T20:32:59-0800 Fail to read result of '/bin/get_key_value /etc/synoinfo.conf usbstation'
+2016-12-05T20:32:59-0800 WARNING:  Fail to check if skip owner check
+2016-12-05T20:33:00-0800 LOG:  ending log output to stderr
+HINT:  Future log output will go to log destination "syslog".
+2016-12-05T21:11:49-0800 Fail to read result of '/bin/get_key_value /etc/synoinfo.conf usbstation'
+2016-12-05T21:11:49-0800 WARNING:  Fail to check if skip owner check
+2016-12-05T21:11:51-0800 LOG:  ending log output to stderr
+HINT:  Future log output will go to log destination "syslog".
+2016-12-05T21:18:19-0800 Fail to read result of '/bin/get_key_value /etc/synoinfo.conf usbstation'
+2016-12-05T21:18:19-0800 WARNING:  Fail to check if skip owner check
+2016-12-05T21:18:19-0800 LOG:  ending log output to stderr
+HINT:  Future log output will go to log destination "syslog".
+2016-12-05T21:39:48-0800 Fail to read result of '/bin/get_key_value /etc/synoinfo.conf usbstation'
+2016-12-05T21:39:48-0800 WARNING:  Fail to check if skip owner check
+2016-12-05T21:39:50-0800 LOG:  ending log output to stderr
+HINT:  Future log output will go to log destination "syslog".
+2017-01-03T01:40:59-0800 Fail to read result of '/bin/get_key_value /etc/synoinfo.conf usbstation'
+2017-01-03T01:40:59-0800 WARNING:  Fail to check if skip owner check
+2017-01-03T01:40:59-0800 LOG:  ending log output to stderr

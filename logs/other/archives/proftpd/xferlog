@@ -1,3 +1,0 @@
-Sat Oct 03 11:26:12 2020 0 192.168.124.180 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c
-Sat Oct 03 11:26:12 2020 0 192.168.124.180 2323 /var/log/proftpd/proftpd.log b _ o r root ftp 0 * c
-Sat Oct 03 11:26:12 2020 0 192.168.124.180 0 /var/log/proftpd/controls.log b _ o r root ftp 0 * c

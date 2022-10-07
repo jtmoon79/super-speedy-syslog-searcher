@@ -1,0 +1,19 @@
+2016-12-05T21:00:55-0800 Disabling WD idle3 timer ...
+2016-12-05T21:00:55-0800 Disable /dev/sdb WD idle3 timer successfully
+Disable /dev/sdc WD idle3 timer successfully
+2016-12-05T21:00:55-0800 Disable /dev/sdd WD idle3 timer successfully
+2016-12-05T21:36:56-0800 Disabling WD idle3 timer ...
+2016-12-05T21:36:57-0800 /dev/sdb already disable WD idle3 timer
+2016-12-05T21:36:57-0800 /dev/sdc already disable WD idle3 timer
+2016-12-05T21:36:57-0800 /dev/sdd already disable WD idle3 timer
+2017-01-03T01:38:28-0800 Disabling WD idle3 timer ...
+2017-01-03T01:38:28-0800 /dev/sdb already disable WD idle3 timer
+2017-01-03T01:38:28-0800 /dev/sdc already disable WD idle3 timer
+2017-01-03T01:38:28-0800 /dev/sdd already disable WD idle3 timer
+2017-01-24T23:23:59-0800 Disabling WD idle3 timer ...
+2017-01-24T23:24:00-0800 /dev/sdb already disable WD idle3 timer
+2017-01-24T23:24:00-0800 /dev/sdc already disable WD idle3 timer
+2017-01-24T23:24:00-0800 /dev/sdd already disable WD idle3 timer
+2017-02-23T14:49:28-0800 Disabling WD idle3 timer ...
+2017-02-23T14:49:29-0800 /dev/sdb already disable WD idle3 timer
+2017-02-23T14:49:29-0800 /dev/sdc already disable WD idle3 timer

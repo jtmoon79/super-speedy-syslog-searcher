@@ -1,0 +1,11 @@
+Waiting 146 seconds
+Checking architecture support...OK
+Preparing to check for update
+Package Host: https://repos-droplet.digitalocean.com
+Package Path: apt/droplet-agent/pool/main/main/d/droplet-agent/droplet-agent_
+Local Version:1.2.3
+Checking Latest Version...1.2.4
+Updating droplet-agent deb package
+W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: https://repos-droplet.digitalocean.com/apt/droplet-agent main InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 0123456789112345
+W: Failed to fetch https://repos-droplet.digitalocean.com/apt/droplet-agent/dists/main/InRelease  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 0123456789112345
+W: Some index files failed to download. They have been ignored, or old ones used instead.

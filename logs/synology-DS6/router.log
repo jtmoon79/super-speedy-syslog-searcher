@@ -1,0 +1,19 @@
+err	2016/12/05 21:12:04	PortForward:(src/libsynoportmap.cpp:532) [7364] file=/etc/portforward/router.conf not exists
+err	2016/12/05 21:12:08	PortForward:(src/libsynonetcheck.cpp:361) [7364] Public IP level is 1
+err	2016/12/05 21:12:10	PortForward:(src/libsynoportmap.cpp:382) [7364] All network env checks are pass
+err	2016/12/05 21:12:13	PortForward:(src/NatpmpDetector.cpp:93) [7364] remove SZF_AIRPORT_LIST=/tmp/airport.tcp.local failed
+err	2016/12/05 21:12:53	PortForward:(src/libsynoportmap.cpp:426) [7364] upnp no response, timeout
+err	2016/12/05 21:12:55	PortForward:(src/libsynoportmapHelper.cpp:429) [7364] SLibSynoPortMapRouterDetect() success: manual
+err	2016/12/05 21:13:13	PortForward:(src/UpnpDetector.cpp:111) [7665] init UPnP faild
+err	2016/12/05 21:39:54	PortForward:(src/libsynoportmap.cpp:532) [7470] file=/etc/portforward/router.conf not exists
+err	2016/12/05 21:39:54	PortForward:(src/libsynoportmapHelper.cpp:322) [7470] SLibSynoPortMapRouterDetect() success: manual/non-support change port router
+err	2016/12/05 22:12:49	PortForward:(src/libsynoportmap.cpp:532) [3694] file=/etc/portforward/router.conf not exists
+err	2016/12/05 22:32:08	PortForward:(src/libsynoportmap.cpp:532) [3694] file=/etc/portforward/router.conf not exists
+err	2016/12/05 22:32:08	PortForward:(src/libsynoportmapHelper.cpp:322) [3694] SLibSynoPortMapRouterDetect() success: manual/non-support change port router
+err	2016/12/08 18:56:29	PortForward:(src/libsynoportmap.cpp:532) [3694] file=/etc/portforward/router.conf not exists
+err	2016/12/08 18:57:06	PortForward:(src/libsynoportmap.cpp:532) [3694] file=/etc/portforward/router.conf not exists
+err	2016/12/08 18:57:06	PortForward:(src/libsynoportmapHelper.cpp:322) [3694] SLibSynoPortMapRouterDetect() success: manual/non-support change port router
+err	2016/12/23 09:31:43	PortForward:(src/libsynoportmap.cpp:532) [3694] file=/etc/portforward/router.conf not exists
+err	2017/01/03 01:41:12	PortForward:(src/libsynoportmap.cpp:532) [7601] file=/etc/portforward/router.conf not exists
+err	2017/01/03 01:41:12	PortForward:(src/libsynoportmapHelper.cpp:322) [7601] SLibSynoPortMapRouterDetect() success: manual/non-support change port router
+err	2017/01/03 23:56:59	PortForward:(src/libsynoportmap.cpp:532) [7450] file=/etc/portforward/router.conf not exists

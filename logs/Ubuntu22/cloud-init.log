@@ -1,0 +1,14 @@
+2022-07-31 19:12:53,002 - util.py[DEBUG]: Cloud-init v. 22.2-0ubuntu1~22.04.3 running 'init-local' at Sun, 31 Jul 2022 19:12:52 +0000. Up 6.35 seconds.
+2022-07-31 19:12:53,003 - main.py[DEBUG]: No kernel command line url found.
+2022-07-31 19:12:53,003 - main.py[DEBUG]: Closing stdin.
+2022-07-31 19:12:53,009 - util.py[DEBUG]: Writing to /var/log/cloud-init.log - ab: [644] 0 bytes
+2022-07-31 19:12:53,010 - util.py[DEBUG]: Changing the ownership of /var/log/cloud-init.log to 104:4
+2022-07-31 19:12:53,010 - util.py[DEBUG]: Writing to /var/lib/cloud/data/python-version - wb: [644] 4 bytes
+2022-07-31 19:12:53,010 - util.py[DEBUG]: Attempting to remove /var/lib/cloud/instance/nett-finished
+2022-07-31 19:12:53,010 - handlers.py[DEBUG]: start: init-local/check-cache: attempting to read from cache [check]
+2022-07-31 19:12:53,010 - util.py[DEBUG]: Reading from /var/lib/cloud/instance/obj.pkl (quiet=False)
+2022-07-31 19:12:53,010 - stages.py[DEBUG]: no cache found
+2022-07-31 19:12:53,011 - handlers.py[DEBUG]: finish: init-local/check-cache: SUCCESS: no cache found
+2022-07-31 19:12:53,011 - util.py[DEBUG]: Attempting to remove /var/lib/cloud/instance
+2022-07-31 19:12:53,017 - stages.py[DEBUG]: Using distro class <class 'cloudinit.distros.ubuntu.Distro'>
+2022-07-31 19:12:53,017 - __init__.py[DEBUG]: Looking for data source in: ['ConfigDrive', 'DigitalOcean', 'None'], via packages ['', 'cloudinit.sources'] that matches dependencies ['FILESYSTEM']

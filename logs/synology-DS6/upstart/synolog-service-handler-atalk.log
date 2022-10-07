@@ -1,0 +1,16 @@
+2016-12-05T21:16:11-0800 Checking if need to run synologd...
+2016-12-05T21:16:11-0800 ftpd is disabled.
+2016-12-05T21:16:11-0800 ftpd-ssl is disabled.
+2016-12-05T21:16:11-0800 sftp is disabled.
+2016-12-05T21:16:11-0800 tftp is disabled.
+2016-12-05T21:16:11-0800 samba is enabled.
+2016-12-05T21:16:11-0800 atalk is enabled.
+2016-12-05T21:16:11-0800 No need to start synologd...
+2016-12-05T21:16:11-0800 warn: The runkey of service [synolog] has been set to "No"
+2016-12-30T00:36:56-0800 Checking if need to run synologd...
+2016-12-30T00:36:57-0800 ftpd is disabled.
+2016-12-30T00:36:57-0800 ftpd-ssl is enabled.
+2016-12-30T00:36:57-0800 sftp is enabled.
+2016-12-30T00:36:57-0800 tftp is disabled.
+2016-12-30T00:36:57-0800 samba is enabled.
+2016-12-30T00:36:57-0800 atalk is disabled.

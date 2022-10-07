@@ -1,0 +1,19 @@
+2016-12-05T20:31:15-0800 Error opening Certificate /usr/syno/etc/ssl/ssl.crt/server.crt
+2016-12-05T20:31:15-0800 0123456789:error:9375:system library:fopen:No such file or directory:bss_file.c:398:fopen('/usr/syno/etc/ssl/ssl.crt/server.crt','r')
+0123456789:error:9375:BIO routines:FILE_CTRL:system lib:bss_file.c:400:
+unable to load certificate
+2016-12-05T20:31:15-0800 Error opening Certificate /usr/syno/etc/ssl/ssl.crt/ca.crt
+2016-12-05T20:31:15-0800 0123456789:error:9375:system library:fopen:No such file or directory:bss_file.c:398:fopen('/usr/syno/etc/ssl/ssl.crt/ca.crt','r')
+0123456789:error:9375:BIO routines:FILE_CTRL:system lib:bss_file.c:400:
+unable to load certificate
+2016-12-05T20:31:15-0800 Generating a 2048 bit RSA private key
+2016-12-05T20:31:15-0800 .......................+++
+2016-12-05T20:31:16-0800 ...............+++
+2016-12-05T20:31:16-0800 writing new private key to '/usr/syno/etc/certificate/_archive/cI1OYy/syno-ca-privkey.pem'
+2016-12-05T20:31:16-0800 -----
+2016-12-05T20:31:16-0800 Generating a 2048 bit RSA private key
+2016-12-05T20:31:16-0800 .........................+++
+2016-12-05T20:31:17-0800 ..................................................................+++
+2016-12-05T20:31:19-0800 writing new private key to '/usr/syno/etc/certificate/_archive/cI1OYy/privkey.pem'
+2016-12-05T20:31:19-0800 -----
+2016-12-05T20:31:19-0800 Signature ok

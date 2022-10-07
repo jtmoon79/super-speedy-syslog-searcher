@@ -1,0 +1,19 @@
+[20200113-11:03:06] [DEBUG] Testing if xrdp can listen on 192.168.0.0 port 3389.
+[20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)
+[20200113-11:03:08] [INFO ] starting xrdp with pid 16415
+[20200113-11:03:08] [INFO ] listening to port 3389 on 192.168.0.0
+[20200113-11:13:59] [INFO ] Socket 12: AF_INET6 connection received from ::ffff:192.168.0.1 port 16415
+[20200113-11:13:59] [DEBUG] Closed socket 12 (AF_INET6 ::ffff:192.168.0.1 port 3389)
+[20200113-11:13:59] [DEBUG] Closed socket 11 (AF_INET6 :: port 3389)
+[20200113-11:13:59] [INFO ] Using default X.509 certificate: /etc/xrdp/cert.pem
+[20200113-11:13:59] [INFO ] Using default X.509 key file: /etc/xrdp/key.pem
+[20200113-11:13:59] [ERROR] Cannot read private key file /etc/xrdp/key.pem: Permission denied
+[20200113-12:19:03] [DEBUG] Closed socket 17 (AF_UNIX)
+[20200113-12:19:06] [DEBUG] Closed socket 17 (AF_UNIX)
+[20200113-12:19:09] [DEBUG] xrdp_wm_log_msg: connection problem, giving up
+[20200113-12:19:09] [DEBUG] Closed socket 17 (AF_UNIX)
+[20200113-12:19:09] [DEBUG] xrdp_wm_log_msg: some problem
+[20200113-12:19:09] [DEBUG] xrdp_mm_module_cleanup
+[20200113-12:19:09] [DEBUG] Closed socket 16 (AF_INET6 ::1 port 16415)
+[20200113-12:19:09] [DEBUG] Closed socket 12 (AF_INET6 ::ffff:192.168.0.1 port 3389)
+[20200113-12:19:09] [DEBUG] xrdp_mm_module_cleanup

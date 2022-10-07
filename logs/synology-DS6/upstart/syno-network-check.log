@@ -1,0 +1,19 @@
+2016-12-05T20:31:34-0800 Mon Dec  5 20:31:34 PST 2016
+2016-12-05T20:31:35-0800 iptables-save v1.6.0: Cannot initialize: iptables who? (do you need to insmod?)
+2016-12-05T20:31:35-0800 
+2016-12-05T20:31:35-0800 iptables v1.6.0: can't initialize iptables table `filter': Table does not exist (do you need to insmod?)
+Perhaps iptables or your kernel needs to be upgraded.
+2016-12-05T20:31:35-0800 iptables v1.6.0: can't initialize iptables table `filter': Table does not exist (do you need to insmod?)
+Perhaps iptables or your kernel needs to be upgraded.
+2016-12-05T20:31:35-0800 ip6tables v1.6.0: can't initialize ip6tables table `filter': Table does not exist (do you need to insmod?)
+Perhaps ip6tables or your kernel needs to be upgraded.
+2016-12-05T20:31:35-0800 ip6tables v1.6.0: can't initialize ip6tables table `filter': Table does not exist (do you need to insmod?)
+Perhaps ip6tables or your kernel needs to be upgraded.
+2016-12-05T20:31:35-0800 check function "getaddrinfo" ...
+2016-12-05T20:31:35-0800 getaddrinfo success for name 192.168.0.0
+2016-12-05T20:31:35-0800 Mon Dec 5 20:31:35 PST 2016 [eth0] emits syno.network.ready
+2016-12-05T21:11:44-0800 Mon Dec  5 21:11:44 PST 2016
+2016-12-05T21:11:45-0800 iptables-save v1.6.0: Cannot initialize: iptables who? (do you need to insmod?)
+2016-12-05T21:11:45-0800 
+2016-12-05T21:11:46-0800 iptables v1.6.0: can't initialize iptables table `filter': Table does not exist (do you need to insmod?)
+2016-12-05T21:11:46-0800 Perhaps iptables or your kernel needs to be upgraded.

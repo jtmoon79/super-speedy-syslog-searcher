@@ -1,0 +1,19 @@
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[main.c:588] Push in queue parameter: AllConfig;NULL;ChangesApplied is_high_soapcmd=0
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[main.c:949] Remaining cmd queue: 
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[main.c:903] Pop out queue parameter: AllConfig;NULL;ChangesApplied
+
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[main.c:905] Queue parameter is AllConfig;NULL;ChangesApplied
+, start run soap session
+[SOAPClient]{ERROR}{2022-05-10 13:24:56}[main.c:649] Missing syn up config/soap api call!
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[main.c:655] AllConfig call, set current_attach_para=NULL, current_newstatus=ChangesApplied 
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[main.c:660] server is 192.168.0.5:443
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[main.c:170] generate a new session id: 01234567891123456789
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[socket.c:129] Connected with ECDHE-RSA-AES256-GCM-SHA384 encryption
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[soap.c:1154] init soap success!
+[SOAPClient]{ERROR}{2022-05-10 13:24:56}[soap.c:1644] [SOAP_BLOCK]: satellite 01:02:03:04:05:C8 have_auth = 1, block=0!
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[soap.c:1659] model = DEV501, region=USA
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[soap.c:1166] renew soap for: action=ParentalControl, number=1, method=Authenticate
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[soap.c:1670] run soap session: action=ParentalControl, number=1, method=Authenticate
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[soap.c:1060] generate soap request, action=ParentalControl, method=Authenticate
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[rpc.c:5351] generate rpc content, action=ParentalControl, method=Authenticate
+[SOAPClient]{DEBUG}{2022-05-10 13:24:56}[rpc.c:314] update a new xmlns for soap action: urn:DEVICE-ROUTER:service:ParentalControl:1

@@ -1,0 +1,19 @@
+2016-12-05T20:32:59-08:00 DiskStation postgres[7839]: [1-1] WARNING:  Fail to check if skip owner check
+2016-12-05T20:33:00-08:00 DiskStation postgres[7839]: [2-1] LOG:  ending log output to stderr
+2016-12-05T20:33:00-08:00 DiskStation postgres[7839]: [2-2] HINT:  Future log output will go to log destination "syslog".
+2016-12-05T20:33:00-08:00 DiskStation postgres[7849]: [3-1] LOG:  database system was shut down at 2016-12-06 04:32:58 GMT
+2016-12-05T20:33:00-08:00 DiskStation postgres[7839]: [3-1] LOG:  database system is ready to accept connections
+2016-12-05T20:33:01-08:00 DiskStation postgres[7866]: [4-1] FATAL:  database "mediaserver" does not exist
+2016-12-05T20:47:41-08:00 dsnet postgres[9993]: [4-1] ERROR:  relation "download_queue" does not exist at character 8
+2016-12-05T20:47:41-08:00 dsnet postgres[9993]: [4-2] STATEMENT:  UPDATE download_queue SET pid=-1
+2016-12-05T20:47:42-08:00 dsnet postgres[9993]: [4-1] ERROR:  relation "task_plugin" does not exist at character 8
+2016-12-05T20:47:42-08:00 dsnet postgres[9993]: [4-2] STATEMENT:  Update task_plugin set current_plugin = '' where task_id = 0
+2016-12-05T20:47:42-08:00 dsnet postgres[9993]: [4-1] ERROR:  relation "thumbnail" does not exist at character 8
+2016-12-05T20:47:42-08:00 dsnet postgres[9993]: [4-2] STATEMENT:  Update thumbnail set thumbnail_filename = '' where thumbnail_id = 0
+2016-12-05T20:47:43-08:00 dsnet postgres[9993]: [4-1] ERROR:  column "thumbnail_status" of relation "download_queue" does not exist at character 27
+2016-12-05T20:47:43-08:00 dsnet postgres[9993]: [4-2] STATEMENT:  Update download_queue set thumbnail_status = 0 where task_id = 0
+2016-12-05T20:47:43-08:00 dsnet postgres[9993]: [4-1] ERROR:  column "completed_time" of relation "download_queue" does not exist at character 27
+2016-12-05T20:47:43-08:00 dsnet postgres[9993]: [4-2] STATEMENT:  Update download_queue set completed_time = 0 where task_id = 0
+2016-12-05T20:47:43-08:00 dsnet postgres[9993]: [4-1] ERROR:  column "waiting_until_time" of relation "download_queue" does not exist at character 27
+2016-12-05T20:47:43-08:00 dsnet postgres[9993]: [4-2] STATEMENT:  Update download_queue set waiting_until_time = 0 where task_id = 0
+2016-12-05T20:47:43-08:00 dsnet postgres[9993]: [4-1] ERROR:  relation "test_filter_view" does not exist at character 17

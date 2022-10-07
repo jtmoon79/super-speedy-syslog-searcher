@@ -1,0 +1,19 @@
+Mar  6 17:54:49 host5 kernel: [14147.14147] CIFS VFS: Server host6 has not responded in 180 seconds. Reconnecting...
+Mar  6 17:54:49 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:54:49 host5 kernel: [14147.14147] reconnect tcon failed rc = -2
+Mar  6 17:54:52 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:54:54 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:54:56 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:54:58 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:00 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:02 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:05 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:07 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:09 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:11 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:13 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:15 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:17 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:19 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:21 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+Mar  6 17:55:23 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol

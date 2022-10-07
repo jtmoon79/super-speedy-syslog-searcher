@@ -1,0 +1,19 @@
+2017-05-24T19:15:29-0700 ======== start CloudSync ========
+2017-06-19T01:18:48-0700 ======== stop CloudSync ========
+2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.Finder.Bookmark".  Profile doesn't exist
+2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.DownloadStation2.BTSearch".  Profile doesn't exist
+2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/local/packages/@appstore/USBCopy/bin/usb-copy-starter".  Profile doesn't exist
+2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.FileStation.BackgroundTask".  Profile doesn't exist
+2017-06-19T01:23:07-0700 ======== start CloudSync ========
+2017-06-30T12:30:47-0700 ======== stop CloudSync ========
+2018-12-03T11:40:01-0800 ======== start CloudSync ========
+2018-12-14T15:13:21-0800 ======== stop CloudSync ========
+2018-12-14T15:14:25-0800 ======== start CloudSync ========
+2018-12-17T15:06:00-0800 ======== stop CloudSync ========
+2018-12-17T15:09:37-0800 ======== start CloudSync ========
+2019-01-03T00:05:41-0800 ======== stop CloudSync ========
+2019-01-03T00:09:40-0800 ======== start CloudSync ========
+2019-01-29T12:32:20-0800 ======== stop CloudSync ========
+2019-01-29T12:33:16-0800 ======== start CloudSync ========
+2019-02-11T16:46:06-0800 ======== start CloudSync ========
+2019-02-11T19:25:11-0800 ======== start CloudSync ========

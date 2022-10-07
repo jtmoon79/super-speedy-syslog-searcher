@@ -1,0 +1,18 @@
+[2019-05-06 11:24:34,032] 
+[2019-05-06 11:24:34,033] 
+[2019-05-06 11:24:34,033] Installer running.
+[2019-05-06 11:24:34,033] Command Line Arguments:
+[2019-05-06 11:24:34,074] Successfully loaded GTK libraries.
+[2019-05-06 11:24:34,147] Using UI type gtk
+[2019-05-06 11:24:34,156] Opening database file /etc/vmware-installer/database
+[2019-05-06 11:24:34,431] Could not locate installer App Control.
+[2019-05-06 11:24:34,438] Opening database file /etc/vmware-installer/database
+[2019-05-06 11:24:34,565] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/update.py already exists, overwriting.
+[2019-05-06 11:24:34,569] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/versions.py already exists, overwriting.
+[2019-05-06 11:24:34,577] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/systemType.py already exists, overwriting.
+[2019-05-06 11:24:34,586] destination /tmp/tmpV4Bnej/.installer/15.0.3/__init__.py already exists, overwriting.
+[2019-05-06 11:24:34,598] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/initscript.py already exists, overwriting.
+[2019-05-06 11:24:34,691] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/update.py already exists, overwriting.
+[2019-05-06 11:24:34,695] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/versions.py already exists, overwriting.
+[2019-05-06 11:24:34,703] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/systemType.py already exists, overwriting.
+[2019-05-06 11:24:34,712] destination /tmp/tmpV4Bnej/.installer/15.0.3/__init__.py already exists, overwriting.

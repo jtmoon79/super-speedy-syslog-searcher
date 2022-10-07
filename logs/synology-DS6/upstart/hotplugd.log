@@ -1,0 +1,4 @@
+2017-09-17T10:12:07-0700 /usr/syno/sbin/hotplugd: Symbol `gFileListDiskBlackList' has different size in shared object, consider re-linking
+2017-10-02T22:21:39-0700 /usr/syno/sbin/hotplugd: Symbol `gFileListDiskBlackList' has different size in shared object, consider re-linking
+2017-10-09T21:53:25-0700 /usr/syno/sbin/hotplugd: Symbol `gFileListDiskBlackList' has different size in shared object, consider re-linking
+2017-10-19T10:21:22-0700 /usr/syno/sbin/hotplugd: Symbol `gFileListDiskBlackList' has different size in shared object, consider re-linking

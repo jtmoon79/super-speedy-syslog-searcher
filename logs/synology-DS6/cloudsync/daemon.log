@@ -1,0 +1,7 @@
+Feb 09 21:25:05 [INFO] worker.cpp(745): Worker (13): HandleError: Successful.
+Feb 09 21:25:05 [INFO] event-peatree.cpp(289): Done event: Event<EV_ADD> (PROCESSING): [4] /Pictures/foobar.jpg (server,file) size = 383, hash = 1ba825f3c2b2dbd21cccccc222444444eee333cc
+Feb 09 21:25:06 [INFO] worker.cpp(6539): User '1026' is in admin group, do not check quota
+Feb 09 21:25:06 [INFO] worker.cpp(745): Worker (15): HandleError: Successful.
+Feb 09 21:25:06 [INFO] client-handler.cpp(1036): DownloadRemote: Success! db info id(0123456789112345!383), path (/Pictures/grey.jpg) mtime(0123456789), size(383), hash(44444eeccaa00303e29ffbdfa0514bf0817f0de8)
+Feb 09 21:25:06 [INFO] worker.cpp(6539): User '1026' is in admin group, do not check quota
+Feb 09 21:25:06 [INFO] worker.cpp(745): Worker (13): HandleError: Successful.

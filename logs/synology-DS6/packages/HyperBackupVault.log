@@ -1,0 +1,19 @@
+2019/06/23 21:13:33	(system) trigger HyperBackupVault 2.1.10-0752 Begin start-stop-status start
+pkg-img_backupd start/running, process 6709
+2019/06/23 21:13:33	(system) trigger HyperBackupVault 2.1.10-0752 End start-stop-status start ret=[0]
+2019/08/18 21:24:50	(system) trigger HyperBackupVault 2.1.10-0752 Begin start-stop-status stop
+pkg-img_backupd stop/waiting
+/var/packages/HyperBackupVault/target/bin/img_backupd: no process found
+/var/packages/HyperBackupVault/target/bin/synoimgbkptool: no process found
+2019/08/18 21:25:09	(system) trigger HyperBackupVault 2.1.10-0752 End start-stop-status stop ret=[0]
+2019/08/18 21:28:48	(system) trigger HyperBackupVault 2.1.10-0752 Begin start-stop-status start
+pkg-img_backupd start/running, process 6709
+2019/08/18 21:28:48	(system) trigger HyperBackupVault 2.1.10-0752 End start-stop-status start ret=[0]
+2019/08/31 14:21:58	(system) trigger HyperBackupVault 2.1.10-0752 Begin start-stop-status stop
+pkg-img_backupd stop/waiting
+/var/packages/HyperBackupVault/target/bin/img_backupd: no process found
+/var/packages/HyperBackupVault/target/bin/synoimgbkptool: no process found
+2019/08/31 14:22:13	(system) trigger HyperBackupVault 2.1.10-0752 End start-stop-status stop ret=[0]
+2019/08/31 14:25:38	(system) trigger HyperBackupVault 2.1.10-0752 Begin start-stop-status start
+pkg-img_backupd start/running, process 6709
+2019/08/31 14:25:39	(system) trigger HyperBackupVault 2.1.10-0752 End start-stop-status start ret=[0]

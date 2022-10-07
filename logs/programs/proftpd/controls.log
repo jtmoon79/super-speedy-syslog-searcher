@@ -1,0 +1,6 @@
+2020-10-03 11:24:11,475 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root DENIED
+2020-10-03 11:24:11,475 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root NONE
+2020-10-03 11:24:13,595 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root DENIED
+2020-10-03 11:24:11,475 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root NONE
+2020-10-03 11:25:34,697 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root OKAY
+2020-10-03 11:26:12,137 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root OKAY

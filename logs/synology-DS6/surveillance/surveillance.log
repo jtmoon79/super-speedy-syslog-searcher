@@ -1,0 +1,19 @@
+Feb  9 19:00:11 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.
+Feb  9 19:00:11 [5345][5345][decode-lib][notice] imageobject.cpp:158:LoadFromMPEG(): Failed to init FFmpeg dec: -1
+Feb  9 19:00:11 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.
+Feb  9 19:00:11 [5345][5345][decode-lib][notice] imageobject.cpp:158:LoadFromMPEG(): Failed to init FFmpeg dec: -1
+Feb  9 19:00:12 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.
+Feb  9 19:00:12 [5345][5345][decode-lib][notice] imageobject.cpp:158:LoadFromMPEG(): Failed to init FFmpeg dec: -1
+Feb  9 19:00:12 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.
+Feb  9 19:00:12 [5345][5345][decode-lib][notice] imageobject.cpp:158:LoadFromMPEG(): Failed to init FFmpeg dec: -1
+Feb  9 19:00:13 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.
+Feb  9 19:00:13 [5345][5345][decode-lib][notice] imageobject.cpp:158:LoadFromMPEG(): Failed to init FFmpeg dec: -1
+Feb  9 19:00:13 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.
+Feb  9 19:00:13 [5345][5345][decode-lib][notice] imageobject.cpp:158:LoadFromMPEG(): Failed to init FFmpeg dec: -1
+Feb  9 19:00:14 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.
+Feb  9 19:00:14 [5345][5345][decode-lib][notice] imageobject.cpp:158:LoadFromMPEG(): Failed to init FFmpeg dec: -1
+Feb  9 19:00:14 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.
+Feb  9 19:00:14 [5345][5345][decode-lib][notice] imageobject.cpp:158:LoadFromMPEG(): Failed to init FFmpeg dec: -1
+Feb  9 19:00:15 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.
+Feb  9 19:00:15 [5345][5345][decode-lib][notice] imageobject.cpp:158:LoadFromMPEG(): Failed to init FFmpeg dec: -1
+Feb  9 19:00:15 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.

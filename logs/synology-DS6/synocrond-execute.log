@@ -1,0 +1,19 @@
+12-06 00:59:44 running job: builtin-synosharing-default with command: /usr/syno/bin/synosharingcron as user root
+12-06 05:33:44 running job: pkg-DownloadStation-DownloadStationUpdateJob with command: /var/packages/DownloadStation/target/bin/synodlupdate --update as user DownloadStation
+12-06 09:00:44 running job: builtin-synosharesnapshot-default with command: /usr/syno/sbin/synosharesnapshot misc subvol-clean as user root
+12-06 09:30:44 running job: builtin-synosharesnapshot-default with command: /usr/syno/sbin/synosharesnapshot misc subvol-clean as user root
+12-06 17:56:44 running job: builtin-dyn-autopkgupgrade-default with command: /usr/syno/bin/synopkg chkupgradepkg as user root
+12-07 20:31:44 running job: builtin-dyn-autopkgupgrade-default with command: /usr/syno/bin/synopkg chkupgradepkg as user root
+12-07 20:31:54 running job: builtin-synosharesnapshot-default with command: /usr/syno/sbin/synosharesnapshot misc subvol-clean as user root
+12-07 20:32:04 running job: builtin-synosharing-default with command: /usr/syno/bin/synosharingcron as user root
+12-08 09:54:45 running job: builtin-dyn-autopkgupgrade-default with command: /usr/syno/bin/synopkg chkupgradepkg as user root
+12-08 09:54:55 running job: builtin-synosharing-default with command: /usr/syno/bin/synosharingcron as user root
+12-08 18:41:45 running job: builtin-synosharesnapshot-default with command: /usr/syno/sbin/synosharesnapshot misc subvol-clean as user root
+12-09 04:13:45 running job: builtin-synosharing-default with command: /usr/syno/bin/synosharingcron as user root
+12-09 09:29:45 running job: builtin-synosharesnapshot-default with command: /usr/syno/sbin/synosharesnapshot misc subvol-clean as user root
+12-09 20:32:45 running job: builtin-libhwcontrol-syno_smart_db_update with command: /usr/syno/bin/syno_smart_db_update as user root
+12-10 09:40:45 running job: builtin-synosharing-default with command: /usr/syno/bin/synosharingcron as user root
+12-10 11:07:45 running job: builtin-dyn-autopkgupgrade-default with command: /usr/syno/bin/synopkg chkupgradepkg as user root
+12-10 19:02:46 running job: builtin-synosharesnapshot-default with command: /usr/syno/sbin/synosharesnapshot misc subvol-clean as user root
+12-11 02:16:46 running job: builtin-synosharing-default with command: /usr/syno/bin/synosharingcron as user root
+12-11 04:56:46 running job: builtin-synodatacollect-synodatacollect with command: /usr/syno/bin/synodatacollect as user root

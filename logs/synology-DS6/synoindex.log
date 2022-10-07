@@ -1,0 +1,8 @@
+2018-12-06T02:30:31-08:00 dsnet synoindexplugind: /source/synophoto/src/lib/io/channel.cpp:73 channel[/run/synophoto/check-center.socket] construct failed: connect: No such file or directory
+2018-12-06T02:30:31-08:00 dsnet synoindexplugind: /source/synophoto/src/lib/io/channel.cpp:73 channel[/run/synophoto/check-center.socket] construct failed: connect: No such file or directory
+2018-12-06T02:30:31-08:00 dsnet synoindexplugind: /source/synophoto/src/lib/io/channel.cpp:73 channel[/run/synophoto/check-center.socket] construct failed: connect: No such file or directory
+2018-12-06T02:31:24-08:00 dsnet synoindexplugind: SYSTEM:	Last message '/source/synophoto/sr' repeated 3 times, suppressed by syslog-ng on dsnet
+2018-12-06T02:31:24-08:00 dsnet synoindexplugind: /source/synophoto/src/lib/io/channel.cpp:73 channel[/run/synophoto/check-center.socket] construct failed: connect: No such file or directory
+2018-12-06T02:31:24-08:00 dsnet synoindexplugind: /source/synophoto/src/lib/io/channel.cpp:73 channel[/run/synophoto/check-center.socket] construct failed: connect: No such file or directory
+2018-12-06T02:31:24-08:00 dsnet synoindexplugind: /source/synophoto/src/lib/io/channel.cpp:73 channel[/run/synophoto/check-center.socket] construct failed: connect: No such file or directory
+2018-12-06T04:15:48-08:00 dsnet synomediaparserd: mediapar_media.c (50) Failed to get misc info from file [/path1/Vol/Path5/Path6/SThumbs.dat].

@@ -1,0 +1,19 @@
+Dec 15 21:30:29 [9992][9992] ssnotify.cpp:487:Send(): Send notification by push serv: EvtType[5] SenderType[0] SenderName[camlilhiknet]
+Dec 15 21:31:02 [9992][9992] ssmail.cpp:395:MailSendEvent(): Send email via SDK
+Dec 15 21:31:03 [9992][9992] ssmail.cpp:397:MailSendEvent(): Send email via SDK done
+Dec 15 21:31:03 [9992][9992] ssnotify.cpp:467:Send(): Send notification by mail: EvtType[5] SenderType[0] SenderName[camlilhiknet]
+Dec 15 21:31:03 [9992][9992] ssnotify.cpp:487:Send(): Send notification by push serv: EvtType[5] SenderType[0] SenderName[camlilhiknet]
+Dec 15 21:31:25 [9992][9992] ssnotify.cpp:487:Send(): Send notification by push serv: EvtType[5] SenderType[0] SenderName[hiknet]
+Dec 15 21:31:29 [9992][9992] ssnotify.cpp:487:Send(): Send notification by push serv: EvtType[5] SenderType[0] SenderName[device55]
+Dec 15 21:31:45 [9992][9992] ssnotify.cpp:487:Send(): Send notification by push serv: EvtType[5] SenderType[0] SenderName[camlilhiknet]
+Dec 15 21:32:05 [9992][9992] ssmail.cpp:395:MailSendEvent(): Send email via SDK
+Dec 15 21:32:06 [9992][9992] ssmail.cpp:397:MailSendEvent(): Send email via SDK done
+Dec 15 21:32:06 [9992][9992] ssnotify.cpp:467:Send(): Send notification by mail: EvtType[5] SenderType[0] SenderName[camlilhiknet]
+Dec 15 21:32:06 [9992][9992] ssnotify.cpp:487:Send(): Send notification by push serv: EvtType[5] SenderType[0] SenderName[camlilhiknet]
+Dec 15 21:32:52 [9992][9992] ssnotify.cpp:487:Send(): Send notification by push serv: EvtType[5] SenderType[0] SenderName[camlilhiknet]
+Dec 15 21:33:09 [9992][9992] ssmail.cpp:395:MailSendEvent(): Send email via SDK
+Dec 15 21:33:10 [9992][9992] ssmail.cpp:397:MailSendEvent(): Send email via SDK done
+Dec 15 21:33:10 [9992][9992] ssnotify.cpp:467:Send(): Send notification by mail: EvtType[5] SenderType[0] SenderName[camlilhiknet]
+Dec 15 21:33:10 [9992][9992] ssnotify.cpp:487:Send(): Send notification by push serv: EvtType[5] SenderType[0] SenderName[camlilhiknet]
+Dec 15 21:34:11 [9992][9992] ssmail.cpp:395:MailSendEvent(): Send email via SDK
+Dec 15 21:34:12 [9992][9992] ssmail.cpp:397:MailSendEvent(): Send email via SDK done

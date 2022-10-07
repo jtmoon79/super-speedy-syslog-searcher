@@ -1,0 +1,19 @@
+2019/06/23 21:15:15	(system) trigger SynologyMoments 1.3.2-0696 Begin start-stop-status start
+pkg-SynologyMoments-task-center start/running, process 3912
+pkg-SynologyMoments-task-center start/running, process 3912
+pkg-SynologyMoments-thumbnail-provider start/running, process 3912
+pkg-SynologyMoments-thumbnail-provider start/running, process 3912
+pkg-SynologyMoments-apid start/running, process 3912
+pkg-SynologyMoments-apid start/running, process 3912
+pkg-SynologyMoments-check-center start/running, process 3912
+pkg-SynologyMoments-check-center start/running, process 3912
+pkg-SynologyMoments-notify-center start/running, process 3912
+pkg-SynologyMoments-notify-center start/running, process 3912
+2019/06/23 21:15:45	(system) trigger SynologyMoments 1.3.2-0696 End start-stop-status start ret=[0]
+2019/06/24 01:53:25	stop SynologyMoments 1.3.2-0696 Begin start-stop-status stop
+pkg-SynologyMoments-notify-center stop/waiting
+pkg-SynologyMoments-notify-center stop/waiting
+pkg-SynologyMoments-check-center stop/waiting
+pkg-SynologyMoments-check-center stop/waiting
+pkg-SynologyMoments-apid stop/waiting
+pkg-SynologyMoments-apid stop/waiting

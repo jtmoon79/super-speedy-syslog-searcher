@@ -1,0 +1,77 @@
+2020/03/16 10:46:44 Starting cygwin install, version 2.903
+2020/03/16 10:46:44 User has backup/restore rights
+2020/03/16 10:46:44 io_stream_cygfile: fopen(/etc/setup/setup.rc) failed 2 No such file or directory
+2020/03/16 10:46:44 Current Directory: C:\Users\user1\AppData\Local\Temp\scoped_dir27748_1637863670
+2020/03/16 10:46:44 Could not open service McShield for query, start and stop. McAfee may not be installed, or we don't have access.
+2020/03/16 10:46:47 source: network install
+2020/03/16 10:46:51 source: network install
+2020/03/16 10:46:55 root: C:\cygwin system
+2020/03/16 10:46:59 Selected local directory: C:\Users\user1\AppData\Local\Temp\scoped_dir27748_1637863670
+2020/03/16 10:47:02 net: Preconfig
+2020/03/16 10:47:14 site: http://mirrors.sonic.net/cygwin/
+2020/03/16 10:47:14 HTTP status 404 fetching http://mirrors.sonic.net/cygwin/x86_64/setup.zst.sig
+2020/03/16 10:47:14 HTTP status 404 fetching http://mirrors.sonic.net/cygwin/x86_64/setup.zst
+2020/03/16 10:47:16 gcrypt: rsa_verify data: [160 bit]
+2020/03/16 10:47:16 gcrypt:                  2d51cca151702bd20e4c303ac60af2e7ba487373
+2020/03/16 10:47:16 gcrypt: dsa_verify data: [160 bit]
+2020/03/16 10:47:16 gcrypt:                  2d51cca151702bd20e4c303ac60af2e7ba487373
+2020/03/16 10:47:18 io_stream_cygfile: fopen(/etc/setup/timestamp) failed 2 No such file or directory
+2020/03/16 10:47:18 io_stream_cygfile: fopen(/etc/setup/installed.db) failed 2 No such file or directory
+2020/03/16 10:47:18 solving: 37 tasks, update: yes, use test packages: no
+2020/03/16 10:54:50 solving: 98 tasks, update: no, use test packages: no
+2020/03/16 10:54:50    0 install base-cygwin               3.8-1
+2020/03/16 10:54:50    1 install cygwin                    3.1.4-1
+2020/03/16 10:54:50    2 install libpipeline1              1.5.1-1
+2020/03/16 10:54:50    3 install libpopt-common            1.16-2
+2020/03/16 10:54:50    4 install terminfo                  6.1-1.20190727
+2020/03/16 10:54:50    5 install tzdata                    2019c-1
+2020/03/16 10:54:50    6 install python-pip-wheel          19.2.3-1
+2020/03/16 10:54:50    7 install python-setuptools-wheel   41.2.0-1
+2020/03/16 10:54:50    8 install libtirpc-common           1.1.4-1
+2020/03/16 10:54:50    9 install publicsuffix-list-dafsa   20190717-1
+2020/03/16 10:54:50   10 install gsettings-desktop-schemas 3.24.1-1
+2020/03/16 10:54:50   11 install perl_autorebase           5.30.2-1
+2020/03/16 10:54:50   12 install libssh-common             0.8.7-1
+
+2022/03/22 23:59:24 Changing gid back to original
+2022/03/22 23:59:24 running: C:\cygwin\bin\dash.exe "/etc/postinstall/0p_000_autorebase.dash"
+2022/03/22 23:59:49 running: C:\cygwin\bin\dash.exe "/etc/postinstall/0p_update-info-dir.dash"
+2022/03/22 23:59:53 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/ca-certificates.sh"
+2022/03/22 23:59:56 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/openssl.sh"
+2022/03/22 23:59:57 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/libxml2.sh"
+2022/03/22 23:59:57 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/openssh.sh"
+2022/03/22 23:59:57 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/libtirpc.sh"
+2022/03/22 23:59:57 running: C:\cygwin\bin\dash.exe "/etc/postinstall/openssl10.dash"
+2022/03/22 23:59:58 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/lynx.sh"
+2022/03/22 23:59:58 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/man-db.sh"
+2022/03/22 23:59:58 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/mintty.sh"
+2022/03/22 23:59:58 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/python36-pip.sh"
+2022/03/22 23:59:58 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/python36.sh"
+2022/03/22 23:59:59 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/python36-devel.sh"
+2022/03/22 23:59:59 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/python37-pip.sh"
+2022/03/22 23:59:59 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/python37.sh"
+2022/03/22 23:59:59 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/python37-devel.sh"
+2022/03/23 00:00:00 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/python38-pip.sh"
+2022/03/23 00:00:00 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/python38.sh"
+2022/03/23 00:00:01 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/python38-devel.sh"
+2022/03/23 00:00:01 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/vim.sh"
+2022/03/23 00:00:01 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/wget.sh"
+2022/03/23 00:00:02 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/zp_desktop-file-utils.sh"
+2022/03/23 00:00:02 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/zp_glib2.0.sh"
+2022/03/23 00:00:03 running: C:\cygwin\bin\dash.exe "/etc/postinstall/zp_man-db-update-index.dash"
+2022/03/23 00:00:03 running: C:\cygwin\bin\bash.exe --norc --noprofile "/etc/postinstall/zp_shared-mime-info.sh"
+2022/03/23 00:00:03 Changing gid to Administrators
+2022/03/23 00:00:27 note: Installation Complete
+2022/03/23 00:00:27 Ending cygwin install
+2022/03/23 14:00:20 Starting cygwin install, version 2.918
+2022/03/23 14:00:20 User has backup/restore rights
+2022/03/23 14:00:20 User has symlink creation right
+2022/03/23 14:00:20 Current Directory: C:\Users\user1\AppData\L\ocal\Temp\scoped_dir27748_1637863670
+2022/03/23 14:00:22 source: network install
+2022/03/23 14:00:22 root: C:\cygwin system
+2022/03/23 14:00:23 Selected local directory: C:\Users\user1\AppData\Local\Temp\scoped_dir27748_1637863670
+2022/03/23 14:00:24 net: Preconfig
+2022/03/23 14:00:49 site: https://mirrors.sonic.net/cygwin/
+2022/03/23 14:00:54 solving: 0 tasks, update: yes, use test packages: no
+2022/03/23 14:38:49 mbox : Are you sure you want to exit setup? Any current download or installation will be aborted.
+2022/03/23 14:38:51 Ending cygwin install

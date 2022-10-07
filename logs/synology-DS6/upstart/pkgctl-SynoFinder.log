@@ -1,0 +1,19 @@
+2017-02-23T14:52:49-0800 ======== start SynoFinder ========
+2017-03-07T09:13:17-0800 ======== stop SynoFinder ========
+2017-03-07T09:16:00-0800 ======== start SynoFinder ========
+2017-03-09T12:55:04-0800 ======== stop SynoFinder ========
+2017-03-09T20:15:44-0800 ======== start SynoFinder ========
+2017-05-08T08:32:30-0700 ======== stop SynoFinder ========
+2017-05-08T08:36:10-0700 ======== start SynoFinder ========
+2017-05-12T22:44:19-0700 ======== stop SynoFinder ========
+2017-05-12T22:46:37-0700 ======== start SynoFinder ========
+2017-05-24T09:41:04-0700 ======== stop SynoFinder ========
+2017-05-24T09:43:41-0700 ======== start SynoFinder ========
+2017-05-24T09:49:00-0700 ======== stop SynoFinder ========
+2017-05-24T09:49:06-0700 ======== start SynoFinder ========
+2017-06-19T01:18:48-0700 ======== stop SynoFinder ========
+2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.Finder.Bookmark".  Profile doesn't exist
+2017-06-19T01:22:31-0700 ======== start SynoFinder ========
+2017-09-17T09:57:03-0700 ======== start SynoFinder ========
+2017-09-17T10:01:29-0700 ======== stop SynoFinder ========
+2017-09-17T10:05:04-0700 ======== start SynoFinder ========

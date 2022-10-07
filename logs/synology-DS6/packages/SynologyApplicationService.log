@@ -1,0 +1,19 @@
+2019/06/23 21:14:11	(system) trigger SynologyApplicationService 1.5.4-0320 Begin start-stop-status start
+pkg-SynologyApplicationService-notification_send start/running, process 1453
+pkg-SynologyApplicationService-notification_send start/running, process 1453
+pkg-SynologyApplicationService-pgbouncer start/running, process 1453
+pkg-SynologyApplicationService-pgbouncer start/running, process 1453
+pkg-SynologyApplicationService-VapidSendServer start/running, process 1453
+pkg-SynologyApplicationService-VapidSendServer start/running, process 1453
+2019/06/23 21:14:26	(system) trigger SynologyApplicationService 1.5.4-0320 End start-stop-status start ret=[0]
+2019/08/18 21:28:49	(system) trigger SynologyApplicationService 1.5.4-0320 Begin start-stop-status start
+pkg-SynologyApplicationService-notification_send start/running, process 1453
+pkg-SynologyApplicationService-notification_send start/running, process 1453
+pkg-SynologyApplicationService-pgbouncer start/running, process 1453
+pkg-SynologyApplicationService-pgbouncer start/running, process 1453
+pkg-SynologyApplicationService-VapidSendServer start/running, process 1453
+pkg-SynologyApplicationService-VapidSendServer start/running, process 1453
+2019/08/18 21:29:08	(system) trigger SynologyApplicationService 1.5.4-0320 End start-stop-status start ret=[0]
+2019/08/31 14:25:58	(system) trigger SynologyApplicationService 1.5.4-0320 Begin start-stop-status start
+pkg-SynologyApplicationService-notification_send start/running, process 1453
+pkg-SynologyApplicationService-notification_send start/running, process 1453

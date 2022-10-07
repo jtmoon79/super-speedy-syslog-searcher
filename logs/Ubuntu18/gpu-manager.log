@@ -1,0 +1,19 @@
+log_file: /var/log/gpu-manager.log
+last_nett_file: /var/lib/ubuntu-drivers-common/last_gfx_nett
+new_nett_file: /var/lib/ubuntu-drivers-common/last_gfx_nett
+can't access /opt/amdgpu-pro/bin/amdgpu-pro-px
+Looking for nvidia modules in /lib/modules/5.3.0-40-generic/updates/dkms
+Found nvidia module: nvidia-modeset.ko
+Looking for amdgpu modules in /lib/modules/5.3.0-40-generic/updates/dkms
+Is nvidia loaded? yes
+Was nvidia unloaded? no
+Is nvidia blacklisted? no
+Is intel loaded? no
+Is radeon loaded? no
+Is radeon blacklisted? no
+Is amdgpu loaded? no
+Is amdgpu blacklisted? no
+Is amdgpu versioned? no
+Is amdgpu pro stack? no
+Is nouveau loaded? no
+Is nouveau blacklisted? yes

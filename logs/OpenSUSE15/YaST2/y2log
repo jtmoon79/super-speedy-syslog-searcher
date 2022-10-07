@@ -1,0 +1,20 @@
+2019-09-16 07:39:16 <1> HOST1(314) [Ruby] bin/y2start:22 y2base called with ["sw_single", "ncurses", "-name", "YaST2", "-icon", "yast"]
+2019-09-16 07:39:16 <1> HOST1(314) [ui-component] YUIComponentCreator.cc(createInternal):124 Creating UI component for ""
+2019-09-16 07:39:16 <1> HOST1(314) [ui] YSettings.cc(setProgDir):61 Set progDir to "/usr/share/YaST2"
+2019-09-16 07:39:16 <1> HOST1(314) [ui] YSettings.cc(setProgDir):62 progDir is now locked.
+2019-09-16 07:39:16 <1> HOST1(314) [ui] YSettings.cc(setLocaleDir):147 Set localeDir to "/usr/share/YaST2/locale"
+2019-09-16 07:39:16 <1> HOST1(314) [ui] YSettings.cc(setLocaleDir):148 localeDir is now locked.
+2019-09-16 07:39:16 <1> HOST1(314) [ui] YPath.cc(YPath):49 Given filename: libyui-ncurses.so.9
+2019-09-16 07:39:16 <1> HOST1(314) [ui] YSettings.cc(progDir):74 progDir: "/usr/share/YaST2"
+2019-09-16 07:39:16 <1> HOST1(314) [ui] YPath.cc(YPath):65 Preferring subdir: /usr/share/YaST2
+2019-09-16 07:39:16 <1> HOST1(314) [ui] YPath.cc(YPath):66 Subdir given with filename:
+2019-09-17 07:08:09 <1> HOST1(390) [Pkg] PkgFunctions.cc(~PkgFunctions):161 Zypp pointer released
+2019-09-17 07:08:09 <1> HOST1(390) [Y2Ruby] binary/YRuby.cc(~YRuby):117 Shutting down ruby interpreter.
+2019-09-17 07:08:09 <1> HOST1(365) [ncurses] NCurses.cc(RedirectToLog):565 isatty(stderr)yes
+2019-09-17 07:08:09 <1> HOST1(365) [ncurses] NCurses.cc(RedirectToLog):574 isatty(stdout)yes
+2019-09-17 07:08:09 <1> HOST1(365) [Ruby] clients/menu.rb:310 Got 0 from /sbin/yast sw_single  >&2
+2019-09-17 07:08:12 <1> HOST1(365) [Interpreter] bin/y2start:62 Called YaST client returned.
+2019-09-17 07:08:12 <1> HOST1(365) [ncurses] YNCursesUI.cc(~YNCursesUI):118 Stop YNCursesUI
+2019-09-17 07:08:12 <1> HOST1(365) [ncurses] NCurses.cc(~NCurses):145 Shutdown NCurses...
+2019-09-17 07:08:12 <1> HOST1(365) [ncurses] NCurses.cc(~NCurses):164 NCurses down
+2019-09-17 07:08:12 <1> HOST1(365) [Y2Ruby] binary/YRuby.cc(~YRuby):117 Shutting down ruby interpreter.

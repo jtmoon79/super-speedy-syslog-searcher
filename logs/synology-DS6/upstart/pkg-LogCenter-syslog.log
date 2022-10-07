@@ -1,0 +1,19 @@
+2018-09-04T14:55:44-0700 Starting syslog-ng
+2018-09-04T14:55:44-0700 [2018-09-04T14:55:44.8906] Referenced filter rule not found in filter() expression; rule='f_synoconn'
+2018-09-04T14:59:08-0700 no tables in statement !
+2018-09-04T15:02:27-0700 no tables in statement !
+2018-09-04T15:02:28-0700 no tables in statement !
+2018-09-04T15:02:34-0700 no tables in statement !
+2018-09-04T15:23:56-0700 Starting syslog-ng
+2018-09-04T15:23:57-0700 [2018-09-04T15:23:57.8906] Referenced filter rule not found in filter() expression; rule='f_synoconn'
+2018-09-04T15:23:57-0700 no tables in statement !
+2018-09-04T15:24:04-0700 Starting syslog-ng
+2018-09-04T15:24:04-0700 [2018-09-04T15:24:04.8906] Referenced filter rule not found in filter() expression; rule='f_synoconn'
+2018-09-04T15:24:04-0700 no tables in statement !
+2018-09-04T15:24:13-0700 no tables in statement !
+2018-09-04T15:24:32-0700 Starting syslog-ng
+2018-09-04T15:24:32-0700 [2018-09-04T15:24:32.8906] Referenced filter rule not found in filter() expression; rule='f_synoconn'
+2018-09-04T15:24:32-0700 no tables in statement !
+2018-09-04T15:24:52-0700 Starting syslog-ng
+2018-09-04T15:24:53-0700 [2018-09-04T15:24:53.8906] Referenced filter rule not found in filter() expression; rule='f_synoconn'
+2018-09-04T15:24:53-0700 no tables in statement !

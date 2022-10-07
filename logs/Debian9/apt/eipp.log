@@ -1,0 +1,19 @@
+Request: EIPP 0.1
+Architecture: armhf
+Architectures: armhf
+Install: iperf:armhf
+Planner: internal
+
+Package: libpam0g
+Architecture: armhf
+Version: 1.1.8-3.6+rpi1
+APT-ID: 6151
+Multi-Arch: same
+Status: installed
+Depends: libaudit1 (>= 1:2.2.1), libc6 (>= 2.8), debconf (>= 0.5) | debconf-2.0
+
+Package: libmpc3
+Architecture: armhf
+Version: 1.0.3-1
+APT-ID: 6151
+Multi-Arch: same

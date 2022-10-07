@@ -1,0 +1,19 @@
+2019-06-28T19:58:54-0700 Fri Jun 28 19:58:54 PDT 2019
+2019-06-28T19:58:54-0700 Starting telnetd
+2019-06-28T19:58:54-0700 reload: Unknown instance: 
+2019-08-18T21:24:45-0700 Sun Aug 18 21:24:45 PDT 2019
+Stopped telnetd
+2019-08-18T21:24:46-0700 telnetd: no process found
+2019-08-18T21:24:47-0700 reload: Job is not running: inetd
+2019-08-18T21:27:58-0700 Sun Aug 18 21:27:58 PDT 2019
+Starting telnetd
+2019-08-18T21:27:58-0700 reload: Job is not running: inetd
+2019-08-31T14:21:53-0700 Sat Aug 31 14:21:53 PDT 2019
+Stopped telnetd
+2019-08-31T14:21:54-0700 telnetd: no process found
+2019-08-31T14:21:54-0700 reload: Job is not running: inetd
+2019-08-31T14:25:04-0700 Sat Aug 31 14:25:04 PDT 2019
+Starting telnetd
+2019-08-31T14:25:04-0700 reload: Job is not running: inetd
+2019-09-08T19:24:51-0700 Sun Sep  8 19:24:51 PDT 2019
+2019-09-08T19:24:51-0700 Starting telnetd

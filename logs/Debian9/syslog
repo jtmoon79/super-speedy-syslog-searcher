@@ -1,0 +1,19 @@
+Mar  6 06:25:04 host5 liblogging-stdlog:  [origin software="rsyslogd" swVersion="8.24.0" x-pid="219" x-info="http://dir.rsyslog.com"] rsyslogd was HUPed
+Mar  6 06:27:33 host5 nmbd[415]: [2020/03/06 06:27:33.4866,  0] ../source3/nmbd/nmbd_namequery.c:109(query_name_response)
+Mar  6 06:27:33 host5 nmbd[415]:   query_name_response: Multiple (2) responses received for a query on subnet 192.168.0.178 for name NET<1d>.
+Mar  6 06:27:33 host5 nmbd[415]:   This response was from IP 192.168.0.161, reporting an IP address of 192.168.0.161.
+Mar  6 06:32:42 host5 nmbd[415]: [2020/03/06 06:32:42.4866,  0] ../source3/nmbd/nmbd_namequery.c:109(query_name_response)
+Mar  6 06:32:42 host5 nmbd[415]:   query_name_response: Multiple (2) responses received for a query on subnet 192.168.0.178 for name NET<1d>.
+Mar  6 06:32:42 host5 nmbd[415]:   This response was from IP 192.168.0.161, reporting an IP address of 192.168.0.161.
+Mar  6 06:37:37 host5 rngd[224]: stats: bits received from HRNG source: 4866
+Mar  6 06:37:37 host5 rngd[224]: stats: bits sent to kernel pool: 4866
+Mar  6 06:37:37 host5 rngd[224]: stats: entropy added to kernel pool: 4866
+Mar  6 06:37:37 host5 rngd[224]: stats: FIPS 140-2 successes: 1050
+Mar  6 06:37:37 host5 rngd[224]: stats: FIPS 140-2 failures: 0
+Mar  6 06:37:37 host5 rngd[224]: stats: FIPS 140-2(2001-10-10) Monobit: 0
+Mar  6 06:37:37 host5 rngd[224]: stats: FIPS 140-2(2001-10-10) Poker: 0
+Mar  6 06:37:37 host5 rngd[224]: stats: FIPS 140-2(2001-10-10) Runs: 0
+Mar  6 06:37:37 host5 rngd[224]: stats: FIPS 140-2(2001-10-10) Long run: 0
+Mar  6 06:37:37 host5 rngd[224]: stats: FIPS 140-2(2001-10-10) Continuous run: 0
+Mar  6 06:37:37 host5 rngd[224]: stats: HRNG source speed: (min=67.472; avg=665.369; max=769.553)Kibits/s
+Mar  6 06:37:37 host5 rngd[224]: stats: FIPS tests speed: (min=1.383; avg=5.835; max=7.944)Mibits/s

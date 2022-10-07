@@ -1,0 +1,19 @@
+2019-07-26T10:40:29.681-07:00 - time the service was last started, Section for VMware Workstation, pid=3210, version=15.0.3, build=8567, option=Release
+2019-07-26T10:40:29.678-07:00 info -[6675] [Originator@6876 sub=Default] Glibc malloc guards disabled.
+2019-07-26T10:40:29.678-07:00 info -[6675] [Originator@6876 sub=Default] Initialized SystemFactory
+2019-07-26T10:40:29.681-07:00 info hostd[6675] [Originator@6876 sub=Default] Logging uses fast path: false
+2019-07-26T10:40:29.681-07:00 info hostd[6675] [Originator@6876 sub=Libs] DictionaryLoad: Cannot open file "/etc/vmware/vsphereFeatures/vsphereFeatures.cfg": No such file or directory.
+2019-07-26T10:40:29.681-07:00 info hostd[6675] [Originator@6876 sub=Libs] [msg.dictionary.load.openFailed] Cannot open file "/etc/vmware/vsphereFeatures/vsphereFeatures.cfg": No such file or directory.
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=Libs] FeatureStateLib: Error while loading feature config file: /etc/vmware/vsphereFeatures/vsphereFeatures.cfg, using default feature state values.
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=Default] The bora/lib logs WILL be handled by VmaCore
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=Default] Initialized channel manager
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=Default] Current working directory: /usr/bin
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=Handle checker] Setting system limit of 2048
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=Handle checker] Set system limit to 2048
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=ThreadPool] Catch work item exceptions disabled.
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=FairScheduler] Priority level 4 is now active.
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=WorkQueue.vmacoreDefaultIOCompletionQueue] Created: WorkQueue.vmacoreDefaultIOCompletionQueue, type = fair, priority = 4 , itemWeight = 1
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=FairScheduler] Priority level 8 is now active.
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=WorkQueue.vmacoreDefaultIOQueue] Created: WorkQueue.vmacoreDefaultIOQueue, type = fair, priority = 8 , itemWeight = 1
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=FairScheduler] Priority level 16 is now active.
+2019-07-26T10:40:29.682-07:00 info hostd[6675] [Originator@6876 sub=WorkQueue.vmacoreDefaultLongTaskQueue] Created: WorkQueue.vmacoreDefaultLongTaskQueue, type = fair, priority = 16 , itemWeight = 1

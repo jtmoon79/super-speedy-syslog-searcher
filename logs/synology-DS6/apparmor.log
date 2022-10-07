@@ -1,0 +1,19 @@
+2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1167] AppArmor: AppArmor initialized
+2016-12-05T20:31:05-08:00 DiskStation kernel: [    1.1167] AppArmor: AppArmor Filesystem Enabled
+2016-12-05T20:31:21-08:00 DiskStation root: AppArmor: apparmor_reload_profile finish
+2016-12-05T20:47:06-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+2016-12-05T20:47:39-08:00 dsnet apparmor_parser: AppArmor: generated cache "/etc/apparmor.d/cache/usr.syno.sbin.synoscgi"
+2016-12-05T20:47:41-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+2016-12-05T21:11:26-08:00 dsnet kernel: [    0.1167] AppArmor: AppArmor initialized
+2016-12-05T21:11:26-08:00 dsnet kernel: [    1.1167] AppArmor: AppArmor Filesystem Enabled
+2016-12-05T21:11:31-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+2016-12-05T21:11:55-08:00 dsnet apparmor_parser: AppArmor: generated cache "/etc/apparmor.d/cache/usr.syno.sbin.synoscgi"
+2016-12-05T21:11:57-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+2016-12-05T21:15:47-08:00 dsnet apparmor_parser: AppArmor: generated cache "/etc/apparmor.d/cache/usr.syno.sbin.synoscgi"
+2016-12-05T21:15:48-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+2016-12-05T21:15:50-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+2016-12-05T21:38:43-08:00 dsnet kernel: [    0.1167] AppArmor: AppArmor initialized
+2016-12-05T21:38:43-08:00 dsnet kernel: [    1.1167] AppArmor: AppArmor Filesystem Enabled
+2016-12-05T21:39:32-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+2016-12-05T22:01:41-08:00 dsnet apparmor_parser: AppArmor: generated cache "/etc/apparmor.d/cache/usr.syno.sbin.synoscgi"
+2016-12-05T22:01:43-08:00 dsnet root: AppArmor: apparmor_reload_profile finish

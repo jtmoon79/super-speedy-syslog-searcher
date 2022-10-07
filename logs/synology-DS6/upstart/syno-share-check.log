@@ -1,0 +1,19 @@
+2016-12-05T20:31:39-0800 Dec 05 20:31:39 =============== start syno-share-check ================
+2016-12-05T20:31:40-0800 synocheckshare: Pass SYNOCheckShareSyncConf()
+synocheckshare: Pass SYNOCheckShareRestore()
+2016-12-05T20:31:40-0800 synocheckshare: Pass SYNOICheckServiceLink()
+synocheckshare: Pass SYNOCheckShareMoveKeyFiles()
+2016-12-05T20:31:40-0800 Empyt admin password and enabled, skip automount.
+2016-12-05T20:31:40-0800 synocheckshare: Pass SYNOCheckShareAutoMount()
+2016-12-05T20:31:40-0800 synocheckshare: Pass SYNOIServiceShareEnableDefaultDS()
+2016-12-05T20:31:40-0800 synocheckshare: Pass SYNOCheckShareSetEadirPerm()
+2016-12-05T20:31:41-0800 synosharesnap: Pass SYNOShareSnapSnapshotDirHandler(nett-check)
+2016-12-05T20:31:42-0800 synocheckiscsitrg: Pass.
+2016-12-05T20:31:43-0800 Skip update config because not found /.old_patch_info/VERSION
+2016-12-05T20:31:43-0800 Dec 05 20:31:43 =============== finish syno-share-check ===============
+2016-12-05T21:11:42-0800 Dec 05 21:11:42 =============== start syno-share-check ================
+2016-12-05T21:11:42-0800 synocheckshare: Pass SYNOCheckShareSyncConf()
+2016-12-05T21:11:42-0800 synocheckshare: Pass SYNOCheckShareRestore()
+2016-12-05T21:11:43-0800 synocheckshare: Pass SYNOICheckServiceLink()
+synocheckshare: Pass SYNOCheckShareMoveKeyFiles()
+2016-12-05T21:11:43-0800 synocheckshare: Pass SYNOCheckShareAutoMount()

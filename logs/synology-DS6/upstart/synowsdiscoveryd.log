@@ -1,0 +1,19 @@
+2019-06-28T21:14:49-0700 Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/threading.py", line 801, in __nettstrap_inner
+    self.run()
+  File "/usr/lib/python2.7/site-packages/WSDiscovery.py", line 947, in run
+    self._recvMessages()
+  File "/usr/lib/python2.7/site-packages/WSDiscovery.py", line 955, in _recvMessages
+    sock = socket.fromfd(fd, socket.AF_INET, socket.SOCK_DGRAM)
+error: [Errno 9] Bad file descriptor
+
+2019-09-04T18:38:13-0700 Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/threading.py", line 801, in __nettstrap_inner
+    self.run()
+  File "/usr/lib/python2.7/site-packages/WSDiscovery.py", line 947, in run
+    self._recvMessages()
+  File "/usr/lib/python2.7/site-packages/WSDiscovery.py", line 955, in _recvMessages
+    sock = socket.fromfd(fd, socket.AF_INET, socket.SOCK_DGRAM)
+error: [Errno 9] Bad file descriptor

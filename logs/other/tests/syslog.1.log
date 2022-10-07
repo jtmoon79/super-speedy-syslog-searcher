@@ -1,0 +1,19 @@
+[2020/03/05 12:21:13.30802,  3] ../source3/smbd/oplock.c:1340(init_oplocks)
+  init_oplocks: initializing messages.
+[2020/03/05 12:21:13.30802,  3] ../source3/smbd/process.c:1959(process_smb)
+  Transaction 0 of length 216 (0 toread)
+[2020/03/05 12:21:13.30802,  3] ../source3/smbd/process.c:1539(switch_message)
+  switch message SMBnegprot (pid 28931) conn 0x0
+[2020/03/05 12:21:13.30802,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+[2020/03/05 12:21:13.30802,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [PC NETWORK PROGRAM 1.0]
+[2020/03/05 12:21:13.30802,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [MICROSOFT NETWORKS 1.03]
+[2020/03/05 12:21:13.30802,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [MICROSOFT NETWORKS 3.0]
+[2020/03/05 12:21:13.30802,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [LANMAN1.0]
+[2020/03/05 12:21:13.30802,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+  Requested protocol [LM1.2X002]
+[2020/03/05 12:21:13.30802,  3] ../source3/smbd/negprot.c:629(reply_negprot)

@@ -1,0 +1,19 @@
+2019/06/23 21:13:16	(system) trigger LogCenter 1.1.7-0138 Begin start-stop-status start
+pkg-LogCenter-recvrule stop/waiting
+pkg-LogCenter-syslog started.
+pkg-LogCenter-syslog start/running
+pkg-LogCenter-localarchive started.
+2019/06/23 21:13:23	(system) trigger LogCenter 1.1.7-0138 End start-stop-status start ret=[0]
+2019/08/18 21:24:50	(system) trigger LogCenter 1.1.7-0138 Begin start-stop-status stop
+pkg-LogCenter-localarchive start/running
+pkg-LogCenter-localarchive stoped.
+pkg-LogCenter-recvrule stop/waiting
+pkg-LogCenter-recvrule stoped.
+pkg-LogCenter-client stop/waiting
+pkg-LogCenter-client stoped.
+pkg-LogCenter-syslog stoped.
+2019/08/18 21:25:05	(system) trigger LogCenter 1.1.7-0138 End start-stop-status stop ret=[0]
+2019/08/18 21:28:26	(system) trigger LogCenter 1.1.7-0138 Begin start-stop-status start
+pkg-LogCenter-recvrule stop/waiting
+pkg-LogCenter-syslog started.
+pkg-LogCenter-syslog start/running

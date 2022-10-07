@@ -1,0 +1,14 @@
+Request: EIPP 0.1
+Architecture: amd64
+Architectures: amd64
+Remove: linux-headers-5.15.0-41:amd64
+Planner: internal
+
+Package: dpkg
+Architecture: amd64
+Version: 1.21.1ubuntu2.1
+APT-ID: 5848
+Essential: yes
+Multi-Arch: foreign
+Status: installed
+Depends: tar (>= 1.28-1)

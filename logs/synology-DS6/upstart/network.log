@@ -1,0 +1,19 @@
+2016-12-05T20:31:23-0800 synochecknetworkcfg: Pass 
+2016-12-05T20:31:28-0800 dhcp-client (eth0) start/pre-start, process 3993
+2016-12-05T20:31:28-0800 eth0      Link encap:Ethernet  HWaddr 01:02:03:04:05:DE  
+2016-12-05T20:31:28-0800           inet6 addr: fe80::211:32ff:fe66:26de/64 Scope:Link
+2016-12-05T20:31:28-0800           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:3 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1024 
+          RX bytes:60 (60.0 B)  TX bytes:258 (258.0 B)
+          Interrupt:193 
+
+lo        Link encap:Local Loopback
+          inet addr:192.168.0.1  Mask:192.168.0.0
+2016-12-05T20:31:28-0800           inet6 addr: ::1/128 Scope:Host
+2016-12-05T20:31:28-0800           UP LOOPBACK RUNNING  MTU:28404  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)

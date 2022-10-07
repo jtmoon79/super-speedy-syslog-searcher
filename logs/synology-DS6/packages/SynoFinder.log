@@ -1,0 +1,19 @@
+2019/06/23 21:12:28	upgrade SynoFinder 1.3.0-0261 Begin preupgrade
+2019/06/23 21:12:28	upgrade SynoFinder 1.3.0-0261 End preupgrade ret=[0]
+2019/06/23 21:12:28	upgrade SynoFinder 1.3.0-0261 Begin preuninst
+2019/06/23 21:12:28	upgrade SynoFinder 1.3.0-0261 End preuninst ret=[0]
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.0-0261 Begin /bin/rm -rf /usr/local/packages/@appstore/SynoFinder
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.0-0261 End /bin/rm -rf /usr/local/packages/@appstore/SynoFinder ret=[0]
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.0-0261 Begin postuninst
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.0-0261 End postuninst ret=[0]
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 Begin preinst
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 End preinst ret=[0]
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 Begin /bin/mv -f /var/tmp/pkginstall/package /usr/local/packages/@appstore/SynoFinder
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 End /bin/mv -f /var/tmp/pkginstall/package /usr/local/packages/@appstore/SynoFinder ret=[0]
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 Begin /bin/mkdir -p /var/packages/SynoFinder
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 End /bin/mkdir -p /var/packages/SynoFinder ret=[0]
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 Begin /bin/mv -f /var/tmp/pkginstall/INFO /var/packages/SynoFinder/INFO
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 End /bin/mv -f /var/tmp/pkginstall/INFO /var/packages/SynoFinder/INFO ret=[0]
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 Begin /bin/rm -rf /var/packages/SynoFinder/scripts
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 End /bin/rm -rf /var/packages/SynoFinder/scripts ret=[0]
+2019/06/23 21:12:29	upgrade SynoFinder 1.3.1-0265 Begin /bin/mv -f /var/tmp/pkginstall/scripts /var/packages/SynoFinder/scripts

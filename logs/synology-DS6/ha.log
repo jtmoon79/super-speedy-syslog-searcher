@@ -1,0 +1,19 @@
+2017-05-08T08:35:45-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-05-08T08:35:50-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-05-08T08:35:53-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-05-08T08:36:17-07:00 dsnet pingpong.cgi: SYSTEM:	Last message 'scemd_connector/scem' repeated 9 times, suppressed by syslog-ng on dsnet
+2017-05-08T08:36:17-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-05-08T08:36:21-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-05-08T08:36:23-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-05-08T08:36:42-07:00 dsnet pingpong.cgi: SYSTEM:	Last message 'scemd_connector/scem' repeated 7 times, suppressed by syslog-ng on dsnet
+2017-05-08T08:36:42-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:134 Fail to sendto() for scemd connector client.
+2017-05-08T08:36:42-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:209 Fail to SYNOScemdConnectorClient() for scemd conncetor client
+2017-05-12T22:46:32-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-05-12T22:46:35-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-05-12T22:46:39-07:00 dsnet pingpong.cgi: SYSTEM:	Last message 'scemd_connector/scem' repeated 1 times, suppressed by syslog-ng on dsnet
+2017-05-12T22:46:39-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:134 Fail to sendto() for scemd connector client.
+2017-05-12T22:46:39-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:209 Fail to SYNOScemdConnectorClient() for scemd conncetor client
+2017-05-24T09:43:34-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-06-19T01:22:02-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-06-19T01:22:05-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.
+2017-06-19T01:22:07-07:00 dsnet pingpong.cgi: scemd_connector/scemd_connector.c:200 System isn't ready, so cannot get scemd status.

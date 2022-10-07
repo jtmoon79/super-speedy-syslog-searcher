@@ -1,0 +1,19 @@
+2016-12-05T20:31:05-0800 Starting syslog-ng
+2016-12-05T20:31:05-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2016-12-05T21:01:12-0800 @@@@@@@@@@@@2016-12-05T21:11:26-0800 Starting syslog-ng
+2016-12-05T21:11:26-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2016-12-05T21:37:06-0800 @@@@@@@@@@@@@@@@@@@@2016-12-05T21:38:43-0800 Starting syslog-ng
+2016-12-05T21:38:43-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2017-01-03T01:38:37-0800 @@@@@@@@@@@@2017-01-03T01:40:14-0800 Starting syslog-ng
+2017-01-03T01:40:14-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2017-01-03T23:56:22-0800 Starting syslog-ng
+2017-01-03T23:56:22-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2017-01-08T13:35:31-0800 Starting syslog-ng
+2017-01-08T13:35:31-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2017-01-24T23:24:09-0800 @@@@@@@@@@@@2017-01-24T23:25:45-0800 Starting syslog-ng
+2017-01-24T23:25:45-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2017-01-31T00:21:38-0800 Starting syslog-ng
+2017-01-31T00:21:39-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2017-02-04T23:06:49-0800 Starting syslog-ng
+2017-02-04T23:06:49-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+2017-02-23T14:49:40-0800 @@@@@@@@@@@@@@@@2017-02-23T14:51:44-0800 Starting syslog-ng

@@ -1,0 +1,37 @@
+INFO Jun-16 14:09:08 === Started libdnf-0.31.0 ===
+DEBUG Jun-16 14:09:10 deleting directory /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-a924e206df91842b/repodata
+DEBUG Jun-16 14:09:10 deleting directory /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-a924e206df91842b/tmpdir.DOAvxb
+DEBUG Jun-16 14:09:11 fetching fedora
+DEBUG Jun-16 14:09:13 caching repo: fedora (0x1beae2d49fdb7dbd5bda6b6ce22bd2f746f387665fdd3641abd15b4398f30be3)
+DEBUG Jun-16 14:09:14 load_ext: loading: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-a924e206df91842b/repodata/7f6d70fd83b7294baa770d35a8f514c22d182a44a0d07466b543de476d5b98f0-filelists.xml.zck
+DEBUG Jun-16 14:09:26 write_ext: storing fedora to: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-filenames.solvx.SvSHsG
+DEBUG Jun-16 14:09:29 no updateinfo available for fedora
+DEBUG Jun-16 14:09:30 deleting directory /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/updates-d6521d96a82a4d6a/repodata
+DEBUG Jun-16 14:09:30 deleting directory /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/updates-d6521d96a82a4d6a/tmpdir.dhod1s
+DEBUG Jun-16 14:09:30 fetching updates
+DEBUG Jun-16 14:09:31 caching repo: updates (0x3f3405247cb66dd2c34e99edadffbe228ced5c04cdf324e4330983d0f35e0a6a)
+DEBUG Jun-16 14:09:31 load_ext: loading: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/updates-d6521d96a82a4d6a/repodata/a36777b1eed456cdb7022a818af8a79db2ffa3090b20e40af7ac3bc15524d8cc-filelists.xml.zck
+DEBUG Jun-16 14:09:33 write_ext: storing updates to: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/updates-filenames.solvx.qZMUW0
+DEBUG Jun-16 14:09:34 load_ext: loading: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/updates-d6521d96a82a4d6a/repodata/9ebd8acb222dad87b3c1e6e389a2d47d38d401aed6af9000aacfbc0abdf0f820-updateinfo.xml.zck
+DEBUG Jun-16 14:09:34 write_ext: storing updates to: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/updates-updateinfo.solvx.XmEeTZ
+DEBUG Jun-16 14:09:34 Architecture is: x86_64
+DEBUG Jun-16 14:09:35 rewriting repo: fedora
+DEBUG Jun-16 14:09:35 caching repo: fedora (0x1beae2d49fdb7dbd5bda6b6ce22bd2f746f387665fdd3641abd15b4398f30be3)
+DEBUG Jun-16 14:09:36 rewriting repo: updates
+DEBUG Jun-16 14:09:36 caching repo: updates (0x3f3405247cb66dd2c34e99edadffbe228ced5c04cdf324e4330983d0f35e0a6a)
+DEBUG Jun-16 14:09:58 Architecture is: x86_64
+INFO Jun-16 14:09:58 === Started libdnf-0.31.0 ===
+DEBUG Jun-16 14:09:58 fetching rpmdb
+
+INFO Jun-16 14:10:08 === Started libdnf-0.31.0 ===
+DEBUG Jun-16 14:10:08 fetching rpmdb
+DEBUG Jun-16 14:10:11 deleting directory /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-a924e206df91842b/repodata
+DEBUG Jun-16 14:10:11 deleting directory /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-a924e206df91842b/tmpdir.3v9glr
+DEBUG Jun-16 14:10:12 fetching fedora
+DEBUG Jun-16 14:10:14 caching repo: fedora (0x1beae2d49fdb7dbd5bda6b6ce22bd2f746f387665fdd3641abd15b4398f30be3)
+DEBUG Jun-16 14:10:15 load_ext: loading: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-a924e206df91842b/repodata/7f6d70fd83b7294baa770d35a8f514c22d182a44a0d07466b543de476d5b98f0-filelists.xml.zck
+DEBUG Jun-16 14:10:27 write_ext: storing fedora to: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/fedora-filenames.solvx.SRX67c
+DEBUG Jun-16 14:10:30 no presto metadata available for fedora
+DEBUG Jun-16 14:10:30 no updateinfo available for fedora
+DEBUG Jun-16 14:10:30 deleting directory /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/updates-d6521d96a82a4d6a/repodata
+DEBUG Jun-16 14:10:30 deleting directory /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf/updates-d6521d96a82a4d6a/tmpdir.TS5OhK

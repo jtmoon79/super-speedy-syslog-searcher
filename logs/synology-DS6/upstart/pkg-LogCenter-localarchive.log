@@ -1,0 +1,19 @@
+2018-09-04T15:01:08-0700 pkg-LogCenter-localarchive start/pre-start
+2018-09-04T15:01:09-0700 INFO: loaded sub-generator "synologand" from "/usr/syno/lib/synosyslog/subgens/synologand.py"
+2018-09-04T15:01:09-0700 INFO: loaded sub-generator "local" from "/usr/syno/lib/synosyslog/subgens/local.py"
+2018-09-04T15:01:09-0700 INFO: loaded sub-generator "debug" from "/usr/syno/lib/synosyslog/subgens/debug.py"
+2018-09-04T15:01:09-0700 INFO: loaded sub-generator "logcenter" from "/usr/syno/lib/synosyslog/subgens/logcenter.py"
+2018-09-04T15:01:09-0700 INFO: loaded synolog config "disk_test" from "/usr/syno/share/synolog/configs/disk_test"
+2018-09-04T15:01:09-0700 INFO: loaded synolog config "disk" from "/usr/syno/share/synolog/configs/disk"
+2018-09-04T15:01:09-0700 INFO: loaded synolog config "auth" from "/usr/syno/share/synolog/configs/auth"
+2018-09-04T15:01:09-0700 INFO: loaded synolog config "iscsi" from "/usr/syno/share/synolog/configs/iscsi"
+2018-09-04T15:01:09-0700 INFO: loaded synolog config "StorageAnalyzer" from "/usr/local/share/synolog/configs/StorageAnalyzer"
+2018-09-04T15:01:09-0700 INFO: upstart job "pkg-LogCenter-client" is not up: pkg-LogCenter-client stop/waiting
+2018-09-04T15:01:09-0700 INFO: generated syslog-ng config for app "disk_test" on "/etc/syslog-ng/syno.d/synosyslog.conf.gen/disk_test"
+2018-09-04T15:01:09-0700 INFO: upstart job "pkg-LogCenter-client" is not up: pkg-LogCenter-client stop/waiting
+2018-09-04T15:01:09-0700 INFO: generated syslog-ng config for app "disk" on "/etc/syslog-ng/syno.d/synosyslog.conf.gen/disk"
+2018-09-04T15:01:09-0700 INFO: upstart job "pkg-LogCenter-client" is not up: pkg-LogCenter-client stop/waiting
+2018-09-04T15:01:09-0700 INFO: generated syslog-ng config for app "auth" on "/etc/syslog-ng/syno.d/synosyslog.conf.gen/auth"
+2018-09-04T15:01:09-0700 INFO: generated syslog-ng config for app "iscsi" on "/etc/syslog-ng/syno.d/synosyslog.conf.gen/iscsi"
+2018-09-04T15:01:09-0700 INFO: generated syslog-ng config for app "StorageAnalyzer" on "/etc/syslog-ng/syno.d/synosyslog.conf.gen/StorageAnalyzer"
+INFO: syslog-ng config generation for synolog is done

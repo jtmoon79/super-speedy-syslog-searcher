@@ -1,0 +1,19 @@
+2019/06/23 21:14:45	(system) trigger SynologyDrive 1.1.4-9514 Begin start-stop-status start
+pkg-synologydrive-apid start/running, process 9514
+2019/06/23 21:15:03	(system) trigger SynologyDrive 1.1.4-9514 End start-stop-status start ret=[0]
+2019/08/18 21:29:13	(system) trigger SynologyDrive 1.1.4-9514 Begin start-stop-status start
+pkg-synologydrive-apid start/running, process 9514
+2019/08/18 21:30:07	(system) trigger SynologyDrive 1.1.4-9514 End start-stop-status start ret=[0]
+2019/08/31 14:26:31	(system) trigger SynologyDrive 1.1.4-9514 Begin start-stop-status start
+pkg-synologydrive-apid start/running, process 9514
+2019/08/31 14:27:00	(system) trigger SynologyDrive 1.1.4-9514 End start-stop-status start ret=[0]
+2019/08/31 23:24:25	(system) trigger SynologyDrive 1.1.4-9514 Begin start-stop-status stop
+pkg-synologydrive-apid stop/waiting
+2019/08/31 23:24:31	(system) trigger SynologyDrive 1.1.4-9514 End start-stop-status stop ret=[0]
+2019/08/31 23:25:29	(system) trigger SynologyDrive 1.1.4-9514 Begin start-stop-status start
+pkg-synologydrive-apid start/running, process 9514
+2019/08/31 23:25:51	(system) trigger SynologyDrive 1.1.4-9514 End start-stop-status start ret=[0]
+2019/08/31 23:53:05	(system) trigger SynologyDrive 1.1.4-9514 Begin start-stop-status stop
+pkg-synologydrive-apid stop/waiting
+2019/08/31 23:53:11	(system) trigger SynologyDrive 1.1.4-9514 End start-stop-status stop ret=[0]
+2019/08/31 23:53:59	(system) trigger SynologyDrive 1.1.4-9514 Begin start-stop-status start

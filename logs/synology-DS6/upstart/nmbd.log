@@ -1,0 +1,19 @@
+2016-12-05T20:31:43-0800 check function "getaddrinfo" ...
+2016-12-05T20:31:43-0800 getaddrinfo success for name 192.168.0.0
+2016-12-05T20:31:44-0800 SYNOWinsCheckWINS() return 0
+2016-12-05T20:31:51-0800 nmbd stoped (0 sec)
+2016-12-05T20:31:52-0800 check function "getaddrinfo" ...
+2016-12-05T20:31:52-0800 getaddrinfo success for name 192.168.0.0
+2016-12-05T20:32:52-0800 nmbd stoped (0 sec)
+2016-12-05T20:32:52-0800 check function "getaddrinfo" ...
+2016-12-05T20:32:52-0800 getaddrinfo success for name 192.168.0.0
+2016-12-05T20:36:44-0800 nmbd stoped (0 sec)
+2016-12-05T20:36:46-0800 check function "getaddrinfo" ...
+2016-12-05T20:36:46-0800 getaddrinfo success for name 192.168.0.0
+2016-12-05T20:47:07-0800 nmbd stoped (0 sec)
+2016-12-05T20:47:07-0800 check function "getaddrinfo" ...
+2016-12-05T20:47:07-0800 getaddrinfo success for name 192.168.0.0
+2016-12-05T21:00:55-0800 nmbd stoped (0 sec)
+2016-12-05T21:11:47-0800 check function "getaddrinfo" ...
+2016-12-05T21:11:47-0800 getaddrinfo success for name 192.168.0.0
+2016-12-05T21:11:48-0800 SYNOWinsCheckWINS() return 0

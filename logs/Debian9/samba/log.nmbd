@@ -1,0 +1,3 @@
+[2020/03/02 06:26:11.25635,  0]
+  query_name_response: Multiple (2) responses received for a query on subnet 192.168.0.178 for name NET<1d>.
+  This response was from IP 192.168.0.161, reporting an IP address of 192.168.0.161.

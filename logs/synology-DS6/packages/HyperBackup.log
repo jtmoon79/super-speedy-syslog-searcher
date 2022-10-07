@@ -1,0 +1,19 @@
+2019/06/23 21:13:21	(system) trigger HyperBackup 2.1.10-0752 Begin start-stop-status start
+2019/06/23 21:13:27	(system) trigger HyperBackup 2.1.10-0752 End start-stop-status start ret=[0]
+2019/08/18 21:24:50	(system) trigger HyperBackup 2.1.10-0752 Begin start-stop-status stop
+/var/packages/HyperBackup/target/bin/synoimgbkptool: no process found
+2019/08/18 21:25:04	(system) trigger HyperBackup 2.1.10-0752 End start-stop-status stop ret=[0]
+2019/08/18 21:28:36	(system) trigger HyperBackup 2.1.10-0752 Begin start-stop-status start
+2019/08/18 21:28:41	(system) trigger HyperBackup 2.1.10-0752 End start-stop-status start ret=[0]
+2019/08/31 14:21:57	(system) trigger HyperBackup 2.1.10-0752 Begin start-stop-status stop
+/var/packages/HyperBackup/target/bin/synoimgbkptool: no process found
+2019/08/31 14:22:05	(system) trigger HyperBackup 2.1.10-0752 End start-stop-status stop ret=[0]
+2019/08/31 14:25:43	(system) trigger HyperBackup 2.1.10-0752 Begin start-stop-status start
+2019/08/31 14:25:50	(system) trigger HyperBackup 2.1.10-0752 End start-stop-status start ret=[0]
+2019/08/31 15:05:51	upgrade HyperBackup 2.1.10-0752 Begin start-stop-status stop
+/var/packages/HyperBackup/target/bin/synoimgbkptool: no process found
+2019/08/31 15:05:54	upgrade HyperBackup 2.1.10-0752 End start-stop-status stop ret=[0]
+2019/08/31 15:06:05	upgrade HyperBackup 2.1.10-0752 Begin preupgrade
+2019/08/31 15:06:05	upgrade HyperBackup 2.1.10-0752 End preupgrade ret=[0]
+2019/08/31 15:06:05	upgrade HyperBackup 2.1.10-0752 Begin preuninst
+2019/08/31 15:06:05	upgrade HyperBackup 2.1.10-0752 End preuninst ret=[0]

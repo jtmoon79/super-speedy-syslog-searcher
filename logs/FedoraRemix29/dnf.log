@@ -1,0 +1,476 @@
+2019-06-16T14:09:08Z INFO --- logging initialized ---
+2019-06-16T14:09:08Z DDEBUG timer: config: 2 ms
+2019-06-16T14:09:08Z DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2019-06-16T14:09:08Z DEBUG DNF version: 4.2.5
+2019-06-16T14:09:08Z DDEBUG Command: dnf --installroot /tmp/tmp.NTapzr1VBm/dist/ --releasever 30 --setopt=deltarpm=False --disableplugin=local --disableplugin=spacewalk --forcearch x86_64 install @buildsys-build
+2019-06-16T14:09:08Z DDEBUG Installroot: /tmp/tmp.NTapzr1VBm/dist/
+2019-06-16T14:09:08Z DDEBUG Releasever: 30
+2019-06-16T14:09:08Z DEBUG cachedir: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf
+2019-06-16T14:09:08Z DDEBUG Base command: install
+2019-06-16T14:09:08Z DDEBUG Extra commands: ['--installroot', '/tmp/tmp.NTapzr1VBm/dist/', '--releasever', '30', '--setopt=deltarpm=False', '--disableplugin=local', '--disableplugin=spacewalk', '--forcearch', 'x86_64', 'install', '@buildsys-build']
+2019-06-16T14:09:08Z DEBUG repo: downloading from remote: fedora
+2019-06-16T14:09:29Z DEBUG fedora: using metadata from Thu 25 Apr 2019 11:49:41 PM UTC.
+2019-06-16T14:09:29Z DEBUG repo: downloading from remote: updates
+2019-06-16T14:09:34Z DEBUG updates: using metadata from Sun 16 Jun 2019 01:04:52 AM UTC.
+2019-06-16T14:09:34Z INFO Last metadata expiration check: 0:00:04 ago on Sun 16 Jun 2019 02:09:30 PM UTC.
+2019-06-16T14:09:34Z DEBUG No module defaults found
+2019-06-16T14:09:36Z DDEBUG timer: sack setup: 28226 ms
+2019-06-16T14:09:36Z DEBUG Completion plugin: Generating completion cache...
+2019-06-16T14:09:36Z DEBUG No module defaults found
+2019-06-16T14:09:36Z DDEBUG Getting group metadata
+2019-06-16T14:09:36Z DDEBUG Adding group file from repository: fedora
+2019-06-16T14:09:36Z DDEBUG Adding group file from repository: updates
+2019-06-16T14:09:37Z DDEBUG timer: loading comps: 173 ms
+2019-06-16T14:09:37Z DEBUG Adding packages from group 'buildsys-build': {<libcomps.Package object 'gawk' at 0x7f2264299330>, <libcomps.Package object 'shadow-utils' at 0x7f2264299420>, <libcomps.Package object 'diffutils' at 0x7f22642992a0>, <libcomps.Package object 'gzip' at 0x7f2264299378>, <libcomps.Package object 'util-linux' at 0x7f2264299468>, <libcomps.Package object 'make' at 0x7f22642993a8>, <libcomps.Package object 'bash' at 0x7f22642991e0>, <libcomps.Package object 'redhat-rpm-config' at 0x7f22642993d8>, <libcomps.Package object 'glibc-minimal-langpack' at 0x7f2264299348>, <libcomps.Package object 'findutils' at 0x7f2264299318>, <libcomps.Package object 'fedora-release' at 0x7f2264299300>, <libcomps.Package object 'sed' at 0x7f2264299408>, <libcomps.Package object 'rpm-build' at 0x7f22642993f0>, <libcomps.Package object 'grep' at 0x7f2264299360>, <libcomps.Package object 'which' at 0x7f2264299480>, <libcomps.Package object 'patch' at 0x7f22642993c0>, <libcomps.Package object 'tar' at 0x7f2264299438>, <libcomps.Package object 'info' at 0x7f2264299390>, <libcomps.Package object 'unzip' at 0x7f2264299450>, <libcomps.Package object 'cpio' at 0x7f2264299288>, <libcomps.Package object 'coreutils' at 0x7f2264299270>, <libcomps.Package object 'xz' at 0x7f2264299498>, <libcomps.Package object 'bzip2' at 0x7f22642991b0>}
+2019-06-16T14:09:37Z DEBUG --> Starting dependency resolution
+2019-06-16T14:09:37Z DEBUG ---> Package alternatives.x86_64 1.11-4.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package audit-libs.x86_64 3.0-0.7.20190326git03e7489.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package basesystem.noarch 11-7.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package binutils.x86_64 2.31.1-29.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package brotli.x86_64 1.0.7-3.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package bzip2.x86_64 1.0.6-29.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package bzip2-libs.x86_64 1.0.6-29.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package ca-certificates.noarch 2018.2.26-3.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package cpio.x86_64 2.12-10.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package cracklib.x86_64 2.9.6-19.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package ctags.x86_64 5.8-25.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package cyrus-sasl-lib.x86_64 2.1.27-0.6rc7.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package diffutils.x86_64 3.7-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package dwz.x86_64 0.12-10.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package efi-srpm-macros.noarch 4-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package expat.x86_64 2.2.6-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package fedora-gpg-keys.noarch 30-1 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package fedora-repos.noarch 30-1 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package file.x86_64 5.36-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package file-libs.x86_64 5.36-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package filesystem.x86_64 3.10-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package findutils.x86_64 1:4.6.0-22.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package fpc-srpm-macros.noarch 1.2-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package gawk.x86_64 4.2.1-6.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package gc.x86_64 7.6.4-5.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package gdbm-libs.x86_64 1:1.18-4.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package ghc-srpm-macros.noarch 1.4.2-9.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package gmp.x86_64 1:6.1.2-10.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package gnat-srpm-macros.noarch 4-9.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package go-srpm-macros.noarch 2-19.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package grep.x86_64 3.1-9.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package guile22.x86_64 2.2.4-3.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package gzip.x86_64 1.9-9.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package info.x86_64 6.6-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package keyutils-libs.x86_64 1.6-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libacl.x86_64 2.2.53-3.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libarchive.x86_64 3.3.3-6.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libatomic_ops.x86_64 7.6.6-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libattr.x86_64 2.4.48-5.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libbabeltrace.x86_64 1.5.6-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libblkid.x86_64 2.33.2-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libcap.x86_64 2.26-5.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libcap-ng.x86_64 0.7.9-7.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libcom_err.x86_64 1.44.6-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libdb.x86_64 5.3.28-37.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libdb-utils.x86_64 5.3.28-37.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libfdisk.x86_64 2.33.2-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libffi.x86_64 3.1-19.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libgcrypt.x86_64 1.8.4-3.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libgpg-error.x86_64 1.33-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libipt.x86_64 2.0-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libmetalink.x86_64 0.1.3-8.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libmount.x86_64 2.33.2-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libnsl2.x86_64 1.2.0-4.20180605git4a062cf.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libpkgconf.x86_64 1.6.1-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libpsl.x86_64 0.20.2-6.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libpwquality.x86_64 1.4.0-12.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libselinux.x86_64 2.9-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libsemanage.x86_64 2.9-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libsepol.x86_64 2.9-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libsigsegv.x86_64 2.11-7.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libsmartcols.x86_64 2.33.2-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libssh.x86_64 0.8.7-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libtasn1.x86_64 4.13-7.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libtirpc.x86_64 1.1.4-2.rc2.fc30.1 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libtool-ltdl.x86_64 2.4.6-29.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libunistring.x86_64 0.9.10-5.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libutempter.x86_64 1.1.6-16.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libuuid.x86_64 2.33.2-1.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libverto.x86_64 0.3.0-7.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package libxml2.x86_64 2.9.9-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package lua-libs.x86_64 5.3.5-5.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package lz4-libs.x86_64 1.8.3-2.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package make.x86_64 1:4.2.1-13.fc30 will be installed
+2019-06-16T14:09:37Z DEBUG ---> Package mpfr.x86_64 3.1.6-4.fc30 will be installed
+
+2019-06-16T14:11:10Z DDEBUG timer: depsolve: 660 ms
+2019-06-16T14:11:10Z INFO Dependencies resolved.
+2019-06-16T14:11:10Z INFO ========================================================================================================================
+ Package                                Arch     Version                                 Repository                Size
+========================================================================================================================
+Installing:
+ cracklib-dicts                         x86_64   2.9.6-19.fc30                           fedora
+        3.9 M
+ wslu                                   noarch   2.2.1-1                                 whitewaterfoundry_wslu   243 k
+Installing dependencies:
+ cairo                                  x86_64   1.16.0-5.fc30                           updates
+        677 k
+ cairo-gobject                          x86_64   1.16.0-5.fc30                           updates
+         18 k
+ cups-libs                              x86_64   1:2.2.11-2.fc30                         updates
+        252 k
+ dbus-libs                              x86_64   1:1.12.14-1.fc30                        updates
+        147 k
+ emacs-filesystem                       noarch   1:26.2-1.fc30                           updates
+        9.6 k
+ fontconfig                             x86_64   2.13.1-8.fc30                           updates
+        238 k
+ libXt                                  x86_64   1.1.5-11.20190424gitba4ec9376.fc30      updates
+        169 k
+ libgomp                                x86_64   9.1.1-1.fc30                            updates
+        216 k
+ librsvg2                               x86_64   2.45.6-1.fc30                           updates
+        2.1 M
+ ImageMagick                            x86_64   1:6.9.10.28-1.fc30                      fedora
+        157 k
+ ImageMagick-libs                       x86_64   1:6.9.10.28-1.fc30                      fedora
+        2.2 M
+ OpenEXR-libs                           x86_64   2.2.0-16.fc30                           fedora
+        671 k
+ adobe-mappings-cmap                    noarch   20171205-5.fc30                         fedora
+        2.1 M
+ adobe-mappings-cmap-deprecated         noarch   20171205-5.fc30                         fedora
+        118 k
+ adobe-mappings-pdf                     noarch   20180407-3.fc30                         fedora
+        706 k
+ avahi-libs                             x86_64   0.7-18.fc30                             fedora
+         59 k
+ bc                                     x86_64   1.07.1-8.fc30                           fedora
+        115 k
+ fftw-libs-double                       x86_64   3.3.8-4.fc30                            fedora
+        984 k
+ fontpackages-filesystem                noarch   1.44-24.fc30                            fedora
+        8.2 k
+ freetype                               x86_64   2.9.1-7.fc30                            fedora
+        355 k
+ fribidi                                x86_64   1.0.5-2.fc30                            fedora
+         82 k
+ gdk-pixbuf2                            x86_64   2.38.1-1.fc30                           fedora
+        456 k
+ google-droid-sans-fonts                noarch   20120715-15.fc30                        fedora
+        2.5 M
+ graphite2                              x86_64   1.3.10-7.fc30                           fedora
+        109 k
+ harfbuzz                               x86_64   2.3.1-1.fc30                            fedora
+        534 k
+ ilmbase                                x86_64   2.2.0-15.fc30                           fedora
+        106 k
+ jbig2dec-libs                          x86_64   0.14-5.fc30                             fedora
+         63 k
+ jbigkit-libs                           x86_64   2.1-16.fc30                             fedora
+         49 k
+ lcms2                                  x86_64   2.9-5.fc30                              fedora
+        150 k
+ libICE                                 x86_64   1.0.9-15.fc30                           fedora
+         65 k
+ libSM                                  x86_64   1.2.3-2.fc30                            fedora
+         40 k
+ libX11                                 x86_64   1.6.7-1.fc30                            fedora
+        593 k
+ libX11-common                          noarch   1.6.7-1.fc30                            fedora
+        155 k
+ libXau                                 x86_64   1.0.9-1.fc30                            fedora
+         30 k
+ libXcursor                             x86_64   1.1.15-5.fc30                           fedora
+         28 k
+ libXext                                x86_64   1.3.3-11.fc30                           fedora
+         35 k
+ libXfixes                              x86_64   5.0.3-9.fc30                            fedora
+         17 k
+ libXft                                 x86_64   2.3.2-12.fc30                           fedora
+         58 k
+ libXi                                  x86_64   1.7.9-9.fc30                            fedora
+         36 k
+ libXinerama                            x86_64   1.1.4-3.fc30                            fedora
+         13 k
+ libXmu                                 x86_64   1.1.2-13.fc30                           fedora
+         69 k
+ libXrandr                              x86_64   1.5.1-9.fc30                            fedora
+         25 k
+ libXrender                             x86_64   0.9.10-9.fc30                           fedora
+         25 k
+ libXxf86misc                           x86_64   1.0.4-3.fc30                            fedora
+         20 k
+ libXxf86vm                             x86_64   1.1.4-11.fc30                           fedora
+         17 k
+ libcroco                               x86_64   0.6.13-1.fc30                           fedora
+        104 k
+ libdatrie                              x86_64   0.2.9-9.fc30                            fedora
+         29 k
+ libfontenc                             x86_64   1.1.3-10.fc30                           fedora
+         29 k
+ libgs                                  x86_64   9.26-4.fc30                             fedora
+        3.0 M
+ libidn                                 x86_64   1.35-5.fc30                             fedora
+        228 k
+ libijs                                 x86_64   0.35-9.fc30                             fedora
+         28 k
+ libjpeg-turbo                          x86_64   2.0.2-1.fc30                            fedora
+        158 k
+ libmcpp                                x86_64   2.7.2-23.fc30                           fedora
+         75 k
+ libpaper                               x86_64   1.1.24-24.fc30                          fedora
+         38 k
+ libpng                                 x86_64   2:1.6.36-1.fc30                         fedora
+        106 k
+ libthai                                x86_64   0.1.28-2.fc30                           fedora
+        199 k
+ libtiff                                x86_64   4.0.10-4.fc30                           fedora
+        166 k
+ libwebp                                x86_64   1.0.2-2.fc30                            fedora
+        255 k
+ libwmf-lite                            x86_64   0.2.12-1.fc30                           fedora
+         67 k
+ libxcb                                 x86_64   1.13.1-2.fc30                           fedora
+        202 k
+ mcpp                                   x86_64   2.7.2-23.fc30                           fedora
+         27 k
+ openjpeg2                              x86_64   2.3.1-1.fc30                            fedora
+        145 k
+ pango                                  x86_64   1.43.0-3.fc30                           fedora
+        261 k
+ pixman                                 x86_64   0.38.0-1.fc30                           fedora
+        243 k
+ shared-mime-info                       x86_64   1.12-2.fc30                             fedora
+        321 k
+ urw-base35-bookman-fonts               noarch   20170801-12.fc30                        fedora
+        856 k
+ urw-base35-c059-fonts                  noarch   20170801-12.fc30                        fedora
+        883 k
+ urw-base35-d050000l-fonts              noarch   20170801-12.fc30                        fedora
+         78 k
+ urw-base35-fonts                       noarch   20170801-12.fc30                        fedora
+         11 k
+ urw-base35-fonts-common                noarch   20170801-12.fc30                        fedora
+         23 k
+ urw-base35-gothic-fonts                noarch   20170801-12.fc30                        fedora
+        654 k
+ urw-base35-nimbus-mono-ps-fonts        noarch   20170801-12.fc30                        fedora
+        800 k
+ urw-base35-nimbus-roman-fonts          noarch   20170801-12.fc30                        fedora
+        864 k
+ urw-base35-nimbus-sans-fonts           noarch   20170801-12.fc30                        fedora
+        1.3 M
+ urw-base35-p052-fonts                  noarch   20170801-12.fc30                        fedora
+        982 k
+ urw-base35-standard-symbols-ps-fonts   noarch   20170801-12.fc30                        fedora
+         43 k
+ urw-base35-z003-fonts                  noarch   20170801-12.fc30                        fedora
+        279 k
+ xorg-x11-font-utils                    x86_64   1:7.5-41.fc30                           fedora
+         96 k
+ xorg-x11-server-utils                  x86_64   7.7-28.fc30                             fedora
+        177 k
+
+Transaction Summary
+========================================================================================================================
+Install  81 Packages
+
+2019-06-16T14:11:10Z INFO Total download size: 33 M
+2019-06-16T14:11:10Z INFO Installed size: 123 M
+2019-06-16T14:11:10Z INFO Downloading Packages:
+2019-06-16T14:11:12Z INFO ------------------------------------------------------------------------------------------------------------------------
+2019-06-16T14:11:12Z INFO Total
+         19 MB/s |  33 MB     00:01
+2019-06-16T14:11:12Z INFO Running transaction check
+2019-06-16T14:11:12Z INFO Transaction check succeeded.
+2019-06-16T14:11:12Z INFO Running transaction test
+2019-06-16T14:11:13Z INFO Transaction test succeeded.
+2019-06-16T14:11:13Z DDEBUG timer: transaction test: 356 ms
+2019-06-16T14:11:13Z INFO Running transaction
+2019-06-16T14:11:13Z DDEBUG RPM transaction start.
+2019-06-16T14:11:19Z DDEBUG RPM transaction over.
+2019-06-16T14:11:19Z DDEBUG timer: verify transaction: 44 ms
+2019-06-16T14:11:19Z DDEBUG timer: transaction: 6453 ms
+2019-06-16T14:11:19Z DEBUG Completion plugin: Generating completion cache...
+2019-06-16T14:11:20Z INFO
+Installed:
+  cracklib-dicts-2.9.6-19.fc30.x86_64                     wslu-2.2.1-1.noarch
+
+  cairo-1.16.0-5.fc30.x86_64                              cairo-gobject-1.16.0-5.fc30.x86_64
+
+  cups-libs-1:2.2.11-2.fc30.x86_64                        dbus-libs-1:1.12.14-1.fc30.x86_64
+
+  emacs-filesystem-1:26.2-1.fc30.noarch                   fontconfig-2.13.1-8.fc30.x86_64
+
+  libXt-1.1.5-11.20190424gitba4ec9376.fc30.x86_64         libgomp-9.1.1-1.fc30.x86_64
+
+  librsvg2-2.45.6-1.fc30.x86_64                           ImageMagick-1:6.9.10.28-1.fc30.x86_64
+
+  ImageMagick-libs-1:6.9.10.28-1.fc30.x86_64              OpenEXR-libs-2.2.0-16.fc30.x86_64
+
+  adobe-mappings-cmap-20171205-5.fc30.noarch              adobe-mappings-cmap-deprecated-20171205-5.fc30.noarch
+  adobe-mappings-pdf-20180407-3.fc30.noarch               avahi-libs-0.7-18.fc30.x86_64
+
+  bc-1.07.1-8.fc30.x86_64                                 fftw-libs-double-3.3.8-4.fc30.x86_64
+
+  fontpackages-filesystem-1.44-24.fc30.noarch             freetype-2.9.1-7.fc30.x86_64
+
+  fribidi-1.0.5-2.fc30.x86_64                             gdk-pixbuf2-2.38.1-1.fc30.x86_64
+
+  google-droid-sans-fonts-20120715-15.fc30.noarch         graphite2-1.3.10-7.fc30.x86_64
+
+  harfbuzz-2.3.1-1.fc30.x86_64                            ilmbase-2.2.0-15.fc30.x86_64
+
+  jbig2dec-libs-0.14-5.fc30.x86_64                        jbigkit-libs-2.1-16.fc30.x86_64
+
+  lcms2-2.9-5.fc30.x86_64                                 libICE-1.0.9-15.fc30.x86_64
+
+  libSM-1.2.3-2.fc30.x86_64                               libX11-1.6.7-1.fc30.x86_64
+
+  libX11-common-1.6.7-1.fc30.noarch                       libXau-1.0.9-1.fc30.x86_64
+
+  libXcursor-1.1.15-5.fc30.x86_64                         libXext-1.3.3-11.fc30.x86_64
+
+  libXfixes-5.0.3-9.fc30.x86_64                           libXft-2.3.2-12.fc30.x86_64
+
+  libXi-1.7.9-9.fc30.x86_64                               libXinerama-1.1.4-3.fc30.x86_64
+
+  libXmu-1.1.2-13.fc30.x86_64                             libXrandr-1.5.1-9.fc30.x86_64
+
+  libXrender-0.9.10-9.fc30.x86_64                         libXxf86misc-1.0.4-3.fc30.x86_64
+
+  libXxf86vm-1.1.4-11.fc30.x86_64                         libcroco-0.6.13-1.fc30.x86_64
+
+  libdatrie-0.2.9-9.fc30.x86_64                           libfontenc-1.1.3-10.fc30.x86_64
+
+  libgs-9.26-4.fc30.x86_64                                libidn-1.35-5.fc30.x86_64
+
+  libijs-0.35-9.fc30.x86_64                               libjpeg-turbo-2.0.2-1.fc30.x86_64
+
+  libmcpp-2.7.2-23.fc30.x86_64                            libpaper-1.1.24-24.fc30.x86_64
+
+  libpng-2:1.6.36-1.fc30.x86_64                           libthai-0.1.28-2.fc30.x86_64
+
+  libtiff-4.0.10-4.fc30.x86_64                            libwebp-1.0.2-2.fc30.x86_64
+
+  libwmf-lite-0.2.12-1.fc30.x86_64                        libxcb-1.13.1-2.fc30.x86_64
+
+  mcpp-2.7.2-23.fc30.x86_64                               openjpeg2-2.3.1-1.fc30.x86_64
+
+  pango-1.43.0-3.fc30.x86_64                              pixman-0.38.0-1.fc30.x86_64
+
+  shared-mime-info-1.12-2.fc30.x86_64                     urw-base35-bookman-fonts-20170801-12.fc30.noarch
+
+  urw-base35-c059-fonts-20170801-12.fc30.noarch           urw-base35-d050000l-fonts-20170801-12.fc30.noarch
+  urw-base35-fonts-20170801-12.fc30.noarch                urw-base35-fonts-common-20170801-12.fc30.noarch
+
+  urw-base35-gothic-fonts-20170801-12.fc30.noarch         urw-base35-nimbus-mono-ps-fonts-20170801-12.fc30.noarch
+  urw-base35-nimbus-roman-fonts-20170801-12.fc30.noarch   urw-base35-nimbus-sans-fonts-20170801-12.fc30.noarch
+  urw-base35-p052-fonts-20170801-12.fc30.noarch           urw-base35-standard-symbols-ps-fonts-20170801-12.fc30.noarch
+  urw-base35-z003-fonts-20170801-12.fc30.noarch           xorg-x11-font-utils-1:7.5-41.fc30.x86_64
+
+  xorg-x11-server-utils-7.7-28.fc30.x86_64
+
+2019-06-16T14:11:20Z INFO Complete!
+2019-06-16T14:11:20Z DDEBUG Cleaning up.
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/librsvg2-2.45.6-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/adobe-mappings-pdf-20180407-3.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/pango-1.43.0-3.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libX11-common-1.6.7-1.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/whitewaterfoundry_wslu-06373811a945ad76/packages/wslu-2.2.1-1.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-fonts-common-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/lcms2-2.9-5.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libthai-0.1.28-2.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXmu-1.1.2-13.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/ImageMagick-libs-6.9.10.28-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libijs-0.35-9.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libpaper-1.1.24-24.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXft-2.3.2-12.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libtiff-4.0.10-4.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/fribidi-1.0.5-2.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libidn-1.35-5.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libfontenc-1.1.3-10.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libICE-1.0.9-15.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/fontpackages-filesystem-1.44-24.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXi-1.7.9-9.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/OpenEXR-libs-2.2.0-16.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libwebp-1.0.2-2.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/dbus-libs-1.12.14-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/libgomp-9.1.1-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/pixman-0.38.0-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/jbig2dec-libs-0.14-5.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libxcb-1.13.1-2.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/emacs-filesystem-26.2-1.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/adobe-mappings-cmap-20171205-5.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXrender-0.9.10-9.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libcroco-0.6.13-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/mcpp-2.7.2-23.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/graphite2-1.3.10-7.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-nimbus-mono-ps-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libdatrie-0.2.9-9.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-nimbus-roman-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libwmf-lite-0.2.12-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/ilmbase-2.2.0-15.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXau-1.0.9-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libjpeg-turbo-2.0.2-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXfixes-5.0.3-9.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/google-droid-sans-fonts-20120715-15.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/libXt-1.1.5-11.20190424gitba4ec9376.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXxf86misc-1.0.4-3.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/adobe-mappings-cmap-deprecated-20171205-5.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/fontconfig-2.13.1-8.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/bc-1.07.1-8.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-standard-symbols-ps-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/harfbuzz-2.3.1-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXinerama-1.1.4-3.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/cups-libs-2.2.11-2.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libX11-1.6.7-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/xorg-x11-font-utils-7.5-41.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-d050000l-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/shared-mime-info-1.12-2.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/cairo-gobject-1.16.0-5.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-nimbus-sans-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/xorg-x11-server-utils-7.7-28.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/cracklib-dicts-2.9.6-19.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/openjpeg2-2.3.1-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/avahi-libs-0.7-18.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-z003-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/ImageMagick-6.9.10.28-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/jbigkit-libs-2.1-16.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXcursor-1.1.15-5.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libSM-1.2.3-2.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXrandr-1.5.1-9.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/gdk-pixbuf2-2.38.1-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libpng-1.6.36-1.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXxf86vm-1.1.4-11.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libgs-9.26-4.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libmcpp-2.7.2-23.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-bookman-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/freetype-2.9.1-7.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-gothic-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-p052-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/fftw-libs-double-3.3.8-4.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-c059-fonts-20170801-12.fc30.noarch.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXext-1.3.3-11.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/cairo-1.16.0-5.fc30.x86_64.rpm removed
+2019-06-16T14:11:20Z INFO --- logging initialized ---
+2019-06-16T14:11:20Z DDEBUG timer: config: 2 ms
+2019-06-16T14:11:20Z DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2019-06-16T14:11:20Z DEBUG DNF version: 4.2.5
+2019-06-16T14:11:20Z DDEBUG Command: dnf -y reinstall crypto-policies --exclude=grub*,dracut*,grubby,kpartx,kmod,os-prober,libkcapi*
+2019-06-16T14:11:20Z DDEBUG Installroot: /
+2019-06-16T14:11:20Z DDEBUG Releasever: 30
+2019-06-16T14:11:20Z DEBUG cachedir: /var/cache/dnf
+2019-06-16T14:11:20Z DDEBUG Base command: reinstall
+2019-06-16T14:11:20Z DDEBUG Extra commands: ['-y', 'reinstall', 'crypto-policies', '--exclude=grub*,dracut*,grubby,kpartx,kmod,os-prober,libkcapi*']
+2019-06-16T14:11:20Z DEBUG Unknown configuration value: failovermethod=priority in /etc/yum.repos.d/fedora-updates-modular.repo; Configuration: OptionBinding with id "failovermethod" does not exist
+2019-06-16T14:11:20Z DEBUG Unknown configuration value: failovermethod=priority in /etc/yum.repos.d/fedora-updates-modular.repo; Configuration: OptionBinding with id "failovermethod" does not exist
+2019-06-16T14:11:20Z DEBUG Unknown configuration value: failovermethod=priority in /etc/yum.repos.d/fedora-updates-modular.repo; Configuration: OptionBinding with id "failovermethod" does not exist
+2019-06-16T14:11:20Z DEBUG repo: using cache for: fedora-modular
+2019-06-16T14:11:20Z DEBUG fedora-modular: using metadata from Thu Apr 25 23:47:30 2019.
+2019-06-16T14:11:20Z DEBUG repo: using cache for: updates-modular
+2019-06-16T14:11:20Z DEBUG updates-modular: using metadata from Fri Jun 14 00:55:05 2019.
+2019-06-16T14:11:20Z DEBUG repo: using cache for: updates
+2019-06-16T14:11:20Z DEBUG updates: using metadata from Sun Jun 16 01:04:52 2019.
+2019-06-16T14:11:21Z DEBUG repo: using cache for: fedora
+2019-06-16T14:11:21Z DEBUG fedora: using metadata from Thu Apr 25 23:49:41 2019.
+2019-06-16T14:11:21Z DEBUG repo: using cache for: whitewaterfoundry_wslu
+2019-06-16T14:11:21Z DEBUG whitewaterfoundry_wslu: using metadata from Tue Jun 11 00:02:21 2019.
