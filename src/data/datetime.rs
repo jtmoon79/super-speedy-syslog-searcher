@@ -470,11 +470,11 @@ const DTP_beHMS: &DateTimePattern_str = "%Y%b%eT%H%M%S%:z";
 
 /// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMS: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
-/// `%Y` is filled, `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+/// `%Y` is filled, `%Z` transformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 /// `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSY: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
-///  `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+///  `%Z` transformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSYZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 ///  `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSYz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
@@ -484,11 +484,11 @@ const DTP_BdHMSYzc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 const DTP_BdHMSYzp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
 /// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMS: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-/// `%Y` is filled, `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+/// `%Y` is filled, `%Z` transformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMSZ: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
 /// `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMSY: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-///  `%Z` tranformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+///  `%Z` transformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMSYZ: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
 /// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_bdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
@@ -823,7 +823,7 @@ pub(crate) const CGN_ALL: [&CaptureGroupName; 9] = [
     //CGN_UPTIME,
 ];
 
-// saved rust playground for quick testing patterns
+// saved rust playground for quick testing regex patterns
 // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=00460112beb2a6d078d6bbba72557574
 
 // Names used in the upcoming capture group pattern variable values (`CGP_*`) *MUST*
@@ -894,12 +894,12 @@ const CGP_TZzc: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d:\d\d)";
 /// `strftime` specifier `%#z` e.g. `"+09"`
 const CGP_TZzp: &CaptureGroupPattern = r"(?P<tz>[\+\-][012]\d)";
 /// `strftime` specifier `%Z` e.g. `"ACST"`
-// TODO: allow lowercase matching, transform to uppercase in the function `captures_to_regex...`
 pub(crate) const CGP_TZZ: &CaptureGroupPattern = "(?P<tz>\
 ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOST|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EASST|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVST|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAST|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT|ZULU|Z|\
 acdt|acst|act|adt|aedt|aest|aet|aft|akdt|akst|almt|amst|amt|anat|aqtt|art|ast|awst|azost|azot|azt|biot|bit|bnt|bot|brst|brt|bst|btt|cat|cct|cdt|cest|cet|chost|chot|chst|chut|cist|ckt|clst|clt|cost|cot|cst|ct|cvt|cwst|cxt|davt|ddut|dft|easst|east|eat|ect|edt|eest|eet|egst|egt|est|et|fet|fjt|fkst|fkt|fnt|galt|gamt|get|gft|gilt|git|gmt|gst|gyt|haec|hdt|hkt|hmt|hovst|hovt|hst|ict|idlw|idt|iot|irdt|irkt|irst|ist|jst|kalt|kgt|kost|krat|kst|lhst|lint|magt|mart|mawt|mdt|mest|met|mht|mist|mit|mmt|msk|mst|mut|mvt|myt|nct|ndt|nft|novt|npt|nst|nt|nut|nzdt|nzst|omst|orat|pdt|pet|pett|pgt|phot|phst|pht|pkt|pmdt|pmst|pont|pst|pwt|pyst|pyt|ret|rott|sakt|samt|sast|sbt|sct|sdt|sgt|slst|sret|srt|sst|syot|taht|tft|tha|tjt|tkt|tlt|tmt|tot|trt|tvt|ulast|ulat|utc|uyst|uyt|uzt|vet|vlat|volt|vost|vut|wakt|wast|wat|west|wet|wgst|wgt|wib|wit|wita|wst|yakt|yekt|zulu|z\
 )";
 
+/// hardcoded listing of named timezone abbreviations
 pub(crate) const TZZ_LIST_UPPER: &[&str] = &[
     "ACDT", "ACST", "ACT", "ACWST", "ADT", "AEDT", "AEST", "AET", "AFT", "AKDT", "AKST", "ALMT", "AMST", "AMT",
     "ANAT", "AQTT", "ART", "AST", "AWST", "AZOST", "AZOT", "AZT", "BIOT", "BIT", "BNT", "BOT", "BRST", "BRT", "BST",
@@ -917,7 +917,7 @@ pub(crate) const TZZ_LIST_UPPER: &[&str] = &[
     "WIT", "WITA", "WST", "YAKT", "YEKT", "ZULU", "Z",
 ];
 
-// pre-generated values
+/// lowercase version of TZZ_LIST_UPPER
 pub(crate) const TZZ_LIST_LOWER: &[&str] = &[
     "acdt", "acst", "act", "acwst", "adt", "aedt", "aest", "aet", "aft", "akdt", "akst", "almt", "amst", "amt",
     "anat", "aqtt", "art", "ast", "awst", "azost", "azot", "azt", "biot", "bit", "bnt", "bot", "brst", "brt", "bst",
@@ -1424,7 +1424,7 @@ lazy_static! {
     /// to the `%:z` value, e.g. `"-07:00"`.
     /// A key with an `is_empty()` value signifies an ambiguous timezone.
     /// Ambiguous timezones will use the provided fallback timezone offset
-    /// (i.e. `--tz-offset`).
+    /// (i.e. CLI option `--tz-offset`).
     ///
     /// Ambiguous duplicate timezones are set to empty string, e.g. `"SST"`.
     // must be `pub` to allow access from `src/bin/bin.rs`
@@ -2410,6 +2410,9 @@ pub fn datetime_parse_from_str(
 ) -> DateTimeLOpt {
     dpfn!("(pattern {:?}, tz_offset {:?}, data {:?})", pattern, tz_offset, str_to_String_noraw(data));
 
+    // saved rust playground for quick testing chrono `parse_from_str`
+    // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e6f44c79dbb3d2c05c55ffba9bd91c76
+
     // if `has_tz` then create a `DateTime`.
     // else if `!has_tz` then create a `NaiveDateTime`, then convert that to `DateTime` with aid
     // of crate `chrono_tz`.
@@ -2699,6 +2702,7 @@ pub(crate) fn captures_to_buffer_bytes(
     let mut at: usize = 0;
 
     // year
+    dpfo!("process <year>…");
     match captures
         .name(CGN_YEAR)
         .as_ref()
@@ -2723,6 +2727,7 @@ pub(crate) fn captures_to_buffer_bytes(
         }
     }
     // month
+    dpfo!("process <month>…");
     match dtfs.month {
         DTFS_Month::b | DTFS_Month::B => {
             month_bB_to_month_m_bytes(
@@ -2740,6 +2745,7 @@ pub(crate) fn captures_to_buffer_bytes(
         }
     }
     // day
+    dpfo!("process <day>…");
     match dtfs.day {
         DTFS_Day::d => {
             copy_capturegroup_to_buffer!(CGN_DAY, captures, buffer, at);
@@ -2781,14 +2787,19 @@ pub(crate) fn captures_to_buffer_bytes(
     // passed along to chrono functions.
 
     // day-time divider
+    dpfo!("process date-time divider…");
     copy_u8_to_buffer!(b'T', buffer, at);
     // hour
+    dpfo!("process <hour>…");
     copy_capturegroup_to_buffer!(CGN_HOUR, captures, buffer, at);
     // minute
+    dpfo!("process <minute>…");
     copy_capturegroup_to_buffer!(CGN_MINUTE, captures, buffer, at);
     // second
+    dpfo!("process <second>…");
     copy_capturegroup_to_buffer!(CGN_SECOND, captures, buffer, at);
     // fractional
+    dpfo!("process <factional>…");
     match dtfs.fractional {
         DTFS_Fractional::f => {
             copy_u8_to_buffer!(b'.', buffer, at);
@@ -2846,6 +2857,7 @@ pub(crate) fn captures_to_buffer_bytes(
         DTFS_Fractional::_none => {}
     }
     // tz
+    dpfo!("process <tz>…");
     match dtfs.tz {
         DTFS_Tz::_fill => {
             // TODO: cost-savings: pass pre-created TZ `&str`

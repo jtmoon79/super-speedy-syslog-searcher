@@ -536,8 +536,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases() {
 }
 
 #[test]
-/// Check that the built-in test data is caught by the same DTPD in which it is
-/// declared.
+/// check of structures containing timezone names and timezone values
 fn test_Map_TZ_names() {
     let regex = regex::Regex::new(CGP_TZZ).unwrap();
     assert_eq!(TZZ_LIST_UPPER.len(), TZZ_LIST_LOWER.len(), "TZZ_LIST_UPPER len {} != {} TZZ_LIST_LOWER len", TZZ_LIST_UPPER.len(), TZZ_LIST_LOWER.len());
