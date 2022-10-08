@@ -655,6 +655,39 @@ const DTFSS_BdHMSYZ: DTFSSet = DTFSSet {
     tz: DTFS_Tz::Z,
     pattern: DTP_BdHMSYZ,
 };
+const DTFSS_BdHMSYz: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::B,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::z,
+    pattern: DTP_BdHMSYZ,
+};
+const DTFSS_BdHMSYzc: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::B,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::zc,
+    pattern: DTP_BdHMSYZ,
+};
+const DTFSS_BdHMSYzp: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::B,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::zp,
+    pattern: DTP_BdHMSYZ,
+};
 
 const DTFSS_BeHMS: DTFSSet = DTFSSet {
     year: DTFS_Year::_fill,
@@ -1530,7 +1563,7 @@ pub type DateTimeParseInstrsIndex = usize;
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 /// Length of [`DATETIME_PARSE_DATAS`]
-pub const DATETIME_PARSE_DATAS_LEN: usize = 44;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 48;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2163,6 +2196,71 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // ---------------------------------------------------------------------------------------------
+    // from file `./logs/synology-DS6/upstart/umount-root-fs.log`, Issue #44
+    // example with offset:
+    //
+    //               1         2         3
+    //     0123456789012345678901234567890
+    //     Mon Dec 5 21:01:12 PST 2016 try umount root [1] times
+    //     Wed Feb 28 14:58:07 PST 2018 try umount root [1] times
+    //
+    DTPD!(
+        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_BLANK, CGP_YEAR),
+        DTFSS_BeHMSYZ, 0, 45, CGN_DAYa, CGN_YEAR,
+        &[
+            (0, 27, "Mon Dec 5 21:01:12 PST 2016 try umount root [1] times"),
+            (0, 28, "MON DEC  5 21:01:12 PST 2016 try umount root [1] times"),
+            (0, 28, "mon dec  5 21:01:12 pst 2016 try umount root [1] times"),
+            (0, 31, "MONDAY dec  5 21:01:12 pst 2016 try umount root [1] times"),
+            (0, 31, "MONDAY DEC  5 21:01:12 PST 2016 try umount root [1] times"),
+            (0, 27, "mon May 8 08:33:00 PDT 2017 try umount root [1] times"),
+            (0, 28, "Wed Feb 28 14:58:07 PST 2018 try umount root [1] times"),
+            (0, 34, "WEDNESDAY Feb 28 14:58:07 PST 2018 try umount root [1] times"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZz, RP_BLANK, CGP_YEAR),
+        DTFSS_BeHMSYz, 0, 40, CGN_DAYa, CGN_YEAR,
+        &[
+            (0, 29, "Mon Dec 5 21:01:12 -0000 2016 try umount root [1] times"),
+            (0, 30, "MON DEC  5 21:01:12 +0000 2016 try umount root [1] times"),
+            (0, 30, "mon dec  5 21:01:12 -1130 2016 try umount root [1] times"),
+            (0, 29, "mon May 8 08:33:00 +0945 2017 try umount root [1] times"),
+            (0, 32, "monday may 8 08:33:00 +0945 2017 try umount root [1] times"),
+            (0, 30, "Wed Feb 28 14:58:07 -1030 2018 try umount root [1] times"),
+            (0, 36, "WEDNESDAY Feb 28 14:58:07 -1030 2018 try umount root [1] times"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZzc, RP_BLANK, CGP_YEAR),
+        DTFSS_BeHMSYzc, 0, 35, CGN_DAYa, CGN_YEAR,
+        &[
+            (0, 30, "Mon Dec 5 21:01:12 -00:00 2016 try umount root [1] times"),
+            (0, 31, "MON DEC  5 21:01:12 +00:00 2016 try umount root [1] times"),
+            (0, 31, "mon dec  5 21:01:12 -11:30 2016 try umount root [1] times"),
+            (0, 30, "mon May 8 08:33:00 +09:45 2017 try umount root [1] times"),
+            (0, 33, "monday may 8 08:33:00 +09:45 2017 try umount root [1] times"),
+            (0, 31, "Wed Feb 28 14:58:07 -10:30 2018 try umount root [1] times"),
+            (0, 37, "WEDNESDAY Feb 28 14:58:07 -10:30 2018 try umount root [1] times"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZzp, RP_BLANK, CGP_YEAR),
+        DTFSS_BeHMSYzp, 0, 30, CGN_DAYa, CGN_YEAR,
+        &[
+            (0, 27, "Mon Dec 5 21:01:12 -00 2016 try umount root [1] times"),
+            (0, 28, "MON DEC  5 21:01:12 +00 2016 try umount root [1] times"),
+            (0, 28, "mon dec  5 21:01:12 -11 2016 try umount root [1] times"),
+            (0, 27, "mon May 8 08:33:00 +09 2017 try umount root [1] times"),
+            (0, 28, "Wed Feb 28 14:58:07 -10 2018 try umount root [1] times"),
+            (0, 34, "WEDNESDAY Feb 28 14:58:07 -10 2018 try umount root [1] times"),
+        ],
+        line!(),
+    ),
     //
     // general matches anywhere in the first 1024 bytes of the line
     //
@@ -2187,7 +2285,10 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     DTPD!(
         concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZ, RP_NOALPHA),
         DTFSS_YmdHMSfZ, 0, 1024, CGN_YEAR, CGN_TZ,
-        &[(0, 34, "2000/01/05 00:04:05.123456789 VLAT abcd")],
+        &[
+            (0, 34, "2000/01/05 00:04:05.123456789 VLAT abcd"),
+            (0, 34, "2000/01/05 00:04:05.123456789 vlat abcd"),
+        ],
         line!(),
     ),
     DTPD!(
@@ -2649,26 +2750,36 @@ macro_rules! copy_u8_to_buffer {
 //       https://doc.bccnsoft.com/docs/rust-1.36.0-docs-html/unstable-book/library-features/const-str-as-bytes.html#const_str_as_bytes
 //       https://github.com/rust-lang/rust/issues/57563
 //
+// MONTH_XY_B_l, month XY as `%B` form, lowercase
+// MONTH_XY_b_l, month XY as `%b` form, lowercase
+// MONTH_XY_B_u, month XY as `%B` form, uppercase
+// MONTH_XY_b_u, month XY as `%b` form, uppercase
+// MONTH_XY_b_U, month XY as `%b` form, uppercase all
+
 
 const MONTH_01_B_l: &[u8] = &to_byte_array!("january");
 const MONTH_01_b_l: &[u8] = &to_byte_array!("jan");
 const MONTH_01_B_u: &[u8] = &to_byte_array!("January");
 const MONTH_01_b_u: &[u8] = &to_byte_array!("Jan");
+const MONTH_01_b_U: &[u8] = &to_byte_array!("JAN");
 const MONTH_01_m: &[u8] = &to_byte_array!("01");
 const MONTH_02_B_l: &[u8] = &to_byte_array!("february");
 const MONTH_02_b_l: &[u8] = &to_byte_array!("feb");
 const MONTH_02_B_u: &[u8] = &to_byte_array!("February");
 const MONTH_02_b_u: &[u8] = &to_byte_array!("Feb");
+const MONTH_02_b_U: &[u8] = &to_byte_array!("FEB");
 const MONTH_02_m: &[u8] = &to_byte_array!("02");
 const MONTH_03_B_l: &[u8] = &to_byte_array!("march");
 const MONTH_03_b_l: &[u8] = &to_byte_array!("mar");
 const MONTH_03_B_u: &[u8] = &to_byte_array!("March");
 const MONTH_03_b_u: &[u8] = &to_byte_array!("Mar");
+const MONTH_03_b_U: &[u8] = &to_byte_array!("MAR");
 const MONTH_03_m: &[u8] = &to_byte_array!("03");
 const MONTH_04_B_l: &[u8] = &to_byte_array!("april");
 const MONTH_04_b_l: &[u8] = &to_byte_array!("apr");
 const MONTH_04_B_u: &[u8] = &to_byte_array!("April");
 const MONTH_04_b_u: &[u8] = &to_byte_array!("Apr");
+const MONTH_04_b_U: &[u8] = &to_byte_array!("APR");
 const MONTH_04_m: &[u8] = &to_byte_array!("04");
 const MONTH_05_B_l: &[u8] = &to_byte_array!("may");
 #[allow(dead_code)]
@@ -2676,41 +2787,49 @@ const MONTH_05_b_l: &[u8] = &to_byte_array!("may"); // not used, defined for com
 const MONTH_05_B_u: &[u8] = &to_byte_array!("May");
 #[allow(dead_code)]
 const MONTH_05_b_u: &[u8] = &to_byte_array!("May"); // not used, defined for completeness
+const MONTH_05_b_U: &[u8] = &to_byte_array!("MAY");
 const MONTH_05_m: &[u8] = &to_byte_array!("05");
 const MONTH_06_B_l: &[u8] = &to_byte_array!("june");
 const MONTH_06_b_l: &[u8] = &to_byte_array!("jun");
 const MONTH_06_B_u: &[u8] = &to_byte_array!("June");
 const MONTH_06_b_u: &[u8] = &to_byte_array!("Jun");
+const MONTH_06_b_U: &[u8] = &to_byte_array!("JUN");
 const MONTH_06_m: &[u8] = &to_byte_array!("06");
 const MONTH_07_B_l: &[u8] = &to_byte_array!("july");
 const MONTH_07_b_l: &[u8] = &to_byte_array!("jul");
 const MONTH_07_B_u: &[u8] = &to_byte_array!("July");
 const MONTH_07_b_u: &[u8] = &to_byte_array!("Jul");
+const MONTH_07_b_U: &[u8] = &to_byte_array!("JUL");
 const MONTH_07_m: &[u8] = &to_byte_array!("07");
 const MONTH_08_B_l: &[u8] = &to_byte_array!("august");
 const MONTH_08_b_l: &[u8] = &to_byte_array!("aug");
 const MONTH_08_B_u: &[u8] = &to_byte_array!("August");
 const MONTH_08_b_u: &[u8] = &to_byte_array!("Aug");
+const MONTH_08_b_U: &[u8] = &to_byte_array!("AUG");
 const MONTH_08_m: &[u8] = &to_byte_array!("08");
 const MONTH_09_B_l: &[u8] = &to_byte_array!("september");
 const MONTH_09_b_l: &[u8] = &to_byte_array!("sep");
 const MONTH_09_B_u: &[u8] = &to_byte_array!("September");
 const MONTH_09_b_u: &[u8] = &to_byte_array!("Sep");
+const MONTH_09_b_U: &[u8] = &to_byte_array!("SEP");
 const MONTH_09_m: &[u8] = &to_byte_array!("09");
 const MONTH_10_B_l: &[u8] = &to_byte_array!("october");
 const MONTH_10_b_l: &[u8] = &to_byte_array!("oct");
 const MONTH_10_B_u: &[u8] = &to_byte_array!("October");
 const MONTH_10_b_u: &[u8] = &to_byte_array!("Oct");
+const MONTH_10_b_U: &[u8] = &to_byte_array!("OCT");
 const MONTH_10_m: &[u8] = &to_byte_array!("10");
 const MONTH_11_B_l: &[u8] = &to_byte_array!("november");
 const MONTH_11_b_l: &[u8] = &to_byte_array!("nov");
 const MONTH_11_B_u: &[u8] = &to_byte_array!("November");
 const MONTH_11_b_u: &[u8] = &to_byte_array!("Nov");
+const MONTH_11_b_U: &[u8] = &to_byte_array!("NOV");
 const MONTH_11_m: &[u8] = &to_byte_array!("11");
 const MONTH_12_B_l: &[u8] = &to_byte_array!("december");
 const MONTH_12_b_l: &[u8] = &to_byte_array!("dec");
 const MONTH_12_B_u: &[u8] = &to_byte_array!("December");
 const MONTH_12_b_u: &[u8] = &to_byte_array!("Dec");
+const MONTH_12_b_U: &[u8] = &to_byte_array!("DEC");
 const MONTH_12_m: &[u8] = &to_byte_array!("12");
 
 /// Transform `%B`, `%b` (i.e. `"January"`, `"Jan"`) to `%m` (i.e. `"01"`).
@@ -2722,19 +2841,18 @@ fn month_bB_to_month_m_bytes(
     buffer: &mut [u8],
 ) {
     match data {
-        MONTH_01_B_l | MONTH_01_b_l | MONTH_01_B_u | MONTH_01_b_u => buffer.copy_from_slice(MONTH_01_m),
-        MONTH_02_B_l | MONTH_02_b_l | MONTH_02_B_u | MONTH_02_b_u => buffer.copy_from_slice(MONTH_02_m),
-        MONTH_03_B_l | MONTH_03_b_l | MONTH_03_B_u | MONTH_03_b_u => buffer.copy_from_slice(MONTH_03_m),
-        MONTH_04_B_l | MONTH_04_b_l | MONTH_04_B_u | MONTH_04_b_u => buffer.copy_from_slice(MONTH_04_m),
-        //MONTH_05_B_l | MONTH_05_b_l | MONTH_05_B_u | MONTH_05_b_u
-        MONTH_05_B_l | MONTH_05_B_u => buffer.copy_from_slice(MONTH_05_m),
-        MONTH_06_B_l | MONTH_06_b_l | MONTH_06_B_u | MONTH_06_b_u => buffer.copy_from_slice(MONTH_06_m),
-        MONTH_07_B_l | MONTH_07_b_l | MONTH_07_B_u | MONTH_07_b_u => buffer.copy_from_slice(MONTH_07_m),
-        MONTH_08_B_l | MONTH_08_b_l | MONTH_08_B_u | MONTH_08_b_u => buffer.copy_from_slice(MONTH_08_m),
-        MONTH_09_B_l | MONTH_09_b_l | MONTH_09_B_u | MONTH_09_b_u => buffer.copy_from_slice(MONTH_09_m),
-        MONTH_10_B_l | MONTH_10_b_l | MONTH_10_B_u | MONTH_10_b_u => buffer.copy_from_slice(MONTH_10_m),
-        MONTH_11_B_l | MONTH_11_b_l | MONTH_11_B_u | MONTH_11_b_u => buffer.copy_from_slice(MONTH_11_m),
-        MONTH_12_B_l | MONTH_12_b_l | MONTH_12_B_u | MONTH_12_b_u => buffer.copy_from_slice(MONTH_12_m),
+        MONTH_01_B_l | MONTH_01_b_l | MONTH_01_B_u | MONTH_01_b_u | MONTH_01_b_U => buffer.copy_from_slice(MONTH_01_m),
+        MONTH_02_B_l | MONTH_02_b_l | MONTH_02_B_u | MONTH_02_b_u | MONTH_02_b_U => buffer.copy_from_slice(MONTH_02_m),
+        MONTH_03_B_l | MONTH_03_b_l | MONTH_03_B_u | MONTH_03_b_u | MONTH_03_b_U => buffer.copy_from_slice(MONTH_03_m),
+        MONTH_04_B_l | MONTH_04_b_l | MONTH_04_B_u | MONTH_04_b_u | MONTH_04_b_U => buffer.copy_from_slice(MONTH_04_m),
+        MONTH_05_B_l | MONTH_05_B_u | MONTH_05_b_U => buffer.copy_from_slice(MONTH_05_m),
+        MONTH_06_B_l | MONTH_06_b_l | MONTH_06_B_u | MONTH_06_b_u | MONTH_06_b_U => buffer.copy_from_slice(MONTH_06_m),
+        MONTH_07_B_l | MONTH_07_b_l | MONTH_07_B_u | MONTH_07_b_u | MONTH_07_b_U => buffer.copy_from_slice(MONTH_07_m),
+        MONTH_08_B_l | MONTH_08_b_l | MONTH_08_B_u | MONTH_08_b_u | MONTH_08_b_U => buffer.copy_from_slice(MONTH_08_m),
+        MONTH_09_B_l | MONTH_09_b_l | MONTH_09_B_u | MONTH_09_b_u | MONTH_09_b_U => buffer.copy_from_slice(MONTH_09_m),
+        MONTH_10_B_l | MONTH_10_b_l | MONTH_10_B_u | MONTH_10_b_u | MONTH_10_b_U => buffer.copy_from_slice(MONTH_10_m),
+        MONTH_11_B_l | MONTH_11_b_l | MONTH_11_B_u | MONTH_11_b_u | MONTH_11_b_U => buffer.copy_from_slice(MONTH_11_m),
+        MONTH_12_B_l | MONTH_12_b_l | MONTH_12_B_u | MONTH_12_b_u | MONTH_12_b_U => buffer.copy_from_slice(MONTH_12_m),
         data_ => {
             panic!("month_bB_to_month_m_bytes: unexpected month value {:?}", data_);
         }
