@@ -215,9 +215,9 @@ A longer rambling pontification about this project is in
 - Parses formal datetime formats [RFC 3164](https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2), [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.8), [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles)**, [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3).
 - Parses many ad-hoc datetime formats
   - Tested against "in the wild" log files from varying Linux distributions
-    (see `./logs/`)
+    (see project `./logs/`)
 - Comparable speed as GNU `grep` and `sort`
-  (see `./tools/compare-grep-sort.sh`)
+  (see project tool `./tools/compare-grep-sort.sh`)
 - Handles invalid UTF-8
 
 ### Limitations
