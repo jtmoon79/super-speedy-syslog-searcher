@@ -154,7 +154,7 @@ pub enum DTFS_Year {
     Y,
     /// %y
     y,
-    /// none provided, must be filled
+    /// none provided, must be filled.
     /// the associated `pattern` should use "%Y`
     _fill,
 }
@@ -163,11 +163,13 @@ pub enum DTFS_Year {
 /// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Month {
-    /// %m
+    /// %m, month numbers 00 to 12
     m,
-    /// %b
+    /// %b, month abbreviated to three characters.
     b,
-    /// %B - transformed in `captures_to_buffer_bytes`
+    /// %B, month full name, transformed to form `%b` in
+    /// function `month_bB_to_month_m_bytes` called by
+    /// function `captures_to_buffer_bytes`
     B,
 }
 
@@ -175,11 +177,12 @@ pub enum DTFS_Month {
 /// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Day {
-    /// %d
+    /// %d, day number 01 to 31
     d,
-    /// %e
+    /// %e, day number 1 to 31
     e,
-    /// %d (" 8" or "08") captured but must be changed to %d ("08")
+    /// %d (" 8" or "08") captured will be changed to %d ("08") in
+    /// `fn captures_to_buffer_bytes`
     _e_to_d,
 }
 
@@ -187,13 +190,13 @@ pub enum DTFS_Day {
 /// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Hour {
-    /// %H
+    /// %H, 24 hour, 00 to 23
     H,
-    /// %k
+    /// %k, 24 hour, 0 to 23
     k,
-    /// %I
+    /// %I, 12 hour, 01 to 12
     I,
-    /// %l
+    /// %l, 12 hour, 1 to 12
     l,
 }
 
@@ -201,7 +204,7 @@ pub enum DTFS_Hour {
 /// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Minute {
-    /// %M
+    /// %M, 00 to 59
     M,
 }
 
@@ -209,7 +212,7 @@ pub enum DTFS_Minute {
 /// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Second {
-    /// %S
+    /// %S, 00 to 60
     S,
 }
 
@@ -217,7 +220,7 @@ pub enum DTFS_Second {
 /// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Fractional {
-    /// %f
+    /// %f, subsecond decimal digits
     f,
     /// none, will not be filled
     _none,
@@ -227,13 +230,13 @@ pub enum DTFS_Fractional {
 /// Follows chrono `strftime` formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Tz {
-    /// `%z` e.g. `"+0930"`
+    /// `%z` numeric timezone offset, e.g. `"+0930"`
     z,
-    /// `%:z` e.g. `"+09:30"` ("zee colon")
+    /// `%:z` numeric timezone offset with colon, e.g. `"+09:30"` ("zee colon")
     zc,
-    /// `%#z` e.g. `"+09"` ("zee pound")
+    /// `%#z`numeric timezone offset shortened, e.g. `"+09"` ("zee pound")
     zp,
-    /// `%Z` e.g. `"PST"`
+    /// `%Z` named timezone offset, e.g. `"PST"`
     Z,
     /// none, must be filled
     /// the associated `pattern` should use "%:z` as that is the form displayed
@@ -829,36 +832,53 @@ pub(crate) const CGN_ALL: [&CaptureGroupName; 9] = [
 // Names used in the upcoming capture group pattern variable values (`CGP_*`) *MUST*
 // match the values of previous capture group name values (`CGN_*`).
 
-/// Regex capture group pattern for `strftime` year specifier `%Y`.
+/// Regex capture group pattern for `strftime` year specifier `%Y`, as
+/// four decimal number characters.
 pub const CGP_YEAR: &CaptureGroupPattern = r"(?P<year>[12]\d{3})";
-/// Regex capture group pattern for `strftime` month specifier `%m`.
+/// Regex capture group pattern for `strftime` month specifier `%m`,
+/// month number 01 to 12.
 pub const CGP_MONTHm: &CaptureGroupPattern = r"(?P<month>01|02|03|04|05|06|07|08|09|10|11|12)";
-/// Regex capture group pattern for `strftime` month specifier `%b`.
+/// Regex capture group pattern for `strftime` month specifier `%b`,
+/// month name abbreviated to three characters.
 pub const CGP_MONTHb: &CaptureGroupPattern = r"(?P<month>jan|Jan|JAN|feb|Feb|FEB|mar|Mar|MAR|apr|Apr|APR|may|May|MAY|jun|Jun|JUN|jul|Jul|JUL|aug|Aug|AUG|sep|Sep|SEP|oct|Oct|OCT|nov|Nov|NOV|dec|Dec|DEC)";
-/// Regex capture group pattern for `strftime` month specifier `%B`.
+/// Regex capture group pattern for `strftime` month specifier `%B`,
+/// month name long.
 pub const CGP_MONTHB: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY|february|February|FEBRUARY|march|March|MARCH|april|April|APRIL|may|May|MAY|june|June|JUNE|july|July|JULY|august|August|AUGUST|september|September|SEPTEMBER|october|October|OCTOBER|november|November|NOVEMBER|december|December|DECEMBER)";
 /// Regex capture group pattern for `strftime` month specifier `%B` and `%b`.
 pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY|jan|Jan|JAN|february|February|FEBRUARY|feb|Feb|FEB|march|March|MARCH|mar|Mar|MAR|april|April|APRIL|apr|Apr|APR|may|May|MAY|june|June|JUNE|jun|Jun|JUN|july|July|JULY|jul|Jul|JUL|august|August|AUGUST|aug|Aug|AUG|september|September|SEPTEMBER|sep|Sep|SEP|october|October|OCTOBER|oct|Oct|OCT|november|November|NOVEMBER|nov|Nov|NOV|december|December|DECEMBER|dec|Dec|DEC)";
-/// Regex capture group pattern for `strftime` day specifier `%d`.
+/// Regex capture group pattern for `strftime` day specifier `%d`,
+/// number day of month with leading zero.
 pub const CGP_DAYd: &CaptureGroupPattern =
     r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
-/// Regex capture group pattern for `strftime` day specifier `%e`.
+/// Regex capture group pattern for `strftime` day specifier `%e`,
+/// number day of month, 1 to 31. Transformed to equivalent `%d` form within
+/// function `captures_to_buffer_bytes` (i.e. `'0'` is prepended if necessary).
+// TODO: [2022/10] CGP_DAYd and CGP_DAYe could be combined into one `CGP_DAY`.
+//       The code in `captures_to_buffer_bytes` that transforms `" 8"` to `"08"`
+//       would only need a slight adjustment (check all incoming `<day>` capture
+//       group values for a single character, prepend `'0'` if necessary).
+//       Then all other variables that currently must distinguish `%e` `%d` can
+//       reduce to only `%d`. e.g. `DTFSS_BeHMS` could be removed, and the
+//       `DTPD!` that used it would switch to `DTFSS_BdHMS` (or itself be 
+//       removed). This would remove a fair amount of pattern proliferation.
 pub const CGP_DAYe: &CaptureGroupPattern =
     r"(?P<day>1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
-/// Regex capture group pattern for `strftime` day specifier `%a`.
+/// Regex capture group pattern for `strftime` day specifier `%a`,
+/// named day of week, either long name or abbreviated three character name.
 pub const CGP_DAYa: &RegexPattern = r"(?P<dayIgnore>monday|Monday|MONDAY|mon|Mon|MON|tuesday|Tuesday|TUESDAY|tue|Tue|TUE|wednesday|Wednesday|WEDNESDAY|wed|Wed|WED|thursday|Thursday|THURSDAY|thu|Thu|THU|friday|Friday|FRIDAY|fri|Fri|FRI|saturday|Saturday|SATURDAY|sat|Sat|SAT|sunday|Sunday|SUNDAY|sun|Sun|SUN)";
-/// Regex capture group pattern for `strftime` hour specifier `%H`.
+/// Regex capture group pattern for `strftime` hour specifier `%H`, 00 to 24.
 pub const CGP_HOUR: &CaptureGroupPattern =
     r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
-/// Regex capture group pattern for `strftime` hour specifier `%h`.
+/// Regex capture group pattern for `strftime` hour specifier `%h`, 1 to 12.
 pub const CGP_HOURh: &CaptureGroupPattern = r"(?P<hour>|1|2|3|4|5|6|7|8|9|10|11|12)";
-/// Regex capture group pattern for `strftime` minute specifier `%M`.
+/// Regex capture group pattern for `strftime` minute specifier `%M`, 00 to 59.
 pub const CGP_MINUTE: &CaptureGroupPattern = r"(?P<minute>[012345]\d)";
-/// Regex capture group pattern for `strftime` second specifier `%S`,
-/// includes leap second "60".
+/// Regex capture group pattern for `strftime` second specifier `%S`, 00 to 60.
+/// Includes leap second "60".
 pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345]\d|60)";
 /// Regex capture group pattern for `strftime` fractional specifier `%f`.
-/// Matches all `strftime` specifiers `%f`, `%3f`, `%6f`, and `%9f`.
+/// Matches all `strftime` specifiers `%f`, `%3f`, `%6f`, and `%9f`, a sequence
+/// of decimal number characters.
 ///
 /// Function `datetime_parse_from_str` will match with strftime specifier `%f`.
 /// Function `captures_to_buffer_bytes` will fill a too short or too long
