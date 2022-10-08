@@ -355,7 +355,7 @@ struct CLI_Args {
     )]
     dt_before: Option<String>,
 
-    /// Default timezone offset for datetimes without a timezone
+    /// Default timezone offset for datetimes without a timezone.
     #[clap(
         short = 't',
         long,
@@ -428,6 +428,7 @@ struct CLI_Args {
     /// Read blocks of this size in bytes.
     /// May pass decimal or hexadecimal numbers.
     /// Using the default value is recommended.
+    /// Most useful for developers.
     #[clap(
         required = false,
         short = 'z',
@@ -437,7 +438,8 @@ struct CLI_Args {
     )]
     blocksz: String,
 
-    /// Print a summary of files processed. Printed to stderr.
+    /// Print a summary of files processed to stderr.
+    /// Most useful for developers.
     #[clap(short, long)]
     summary: bool,
 }
