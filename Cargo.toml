@@ -3,7 +3,7 @@
 [package]
 name = "super_speedy_syslog_searcher"
 description = "Super Speedy Syslog Searcher will search syslog files and sort entries by datetime. DateTime filters may be passed to narrow the search. It aims to be very fast."
-version = "0.0.34"
+version = "0.0.35"
 edition = "2021"
 rust-version = "1.62"
 repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
