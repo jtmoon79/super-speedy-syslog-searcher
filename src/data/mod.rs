@@ -39,6 +39,9 @@
 //!
 //! A "syslog" is processed by a [`SyslogProcessor`].
 //!
+//! In this project and source code, "syslog" is not specifically referring to
+//! an [RFC 5424] compliant message.
+//!
 //! <br/>
 //!
 //! Also see [_Overview of readers_].
@@ -52,7 +55,8 @@
 //! [`Line`]: crate::data::line::Line
 //! [`Sysline`]: crate::data::sysline::Sysline
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
-//! [a certain minimum]: crate::readers::syslogprocessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP
+//! [RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424.html
+//! [a certain minimum]: static@crate::readers::syslogprocessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP
 
 pub mod datetime;
 pub mod line;

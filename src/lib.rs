@@ -8,6 +8,15 @@
 //!
 //! The _s4lib_ library was not designed for use outside of program _s4_,
 //! and it was not designed to be an especially user-friendly API.
+//!
+//! The term "syslog" within code context is used refers to a log file
+//! where each log message has some parsesable datetimestamp. It is not
+//! necessarily an [RFC 5424] compliant message.
+//! Also see [_Definitions of data_] and [`Sysline`].
+//!
+//! [RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424.html
+//! [_Definitions of data_]: crate::data
+//! [`Sysline`]: crate::data::sysline::Sysline
 
 pub mod common;
 

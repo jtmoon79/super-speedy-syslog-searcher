@@ -61,7 +61,7 @@ use static_assertions::const_assert;
 /// `Count` of datetime format strings used.
 ///
 /// Key is index into global [`DATETIME_PARSE_DATAS`]
-/// (and [`static@DATETIME_PARSE_DATAS_REGEX_VEC]).
+/// (and [`DATETIME_PARSE_DATAS_REGEX_VEC`]).
 ///
 /// Value is `Count` of use of those "pattern rules" to find datetimes in a
 /// `Line`.
@@ -1092,7 +1092,7 @@ impl SyslineReader {
     /// When a threshold of `Sysline`s or bytes has been processed, then
     /// this function narrows down datetime formats to try for future
     /// datetime-parsing attempts.
-    /// Further calls to function `SyslineReader::find_datetime_in_line`\
+    /// Further calls to function `SyslineReader::find_datetime_in_line`
     /// use far less resources.
     pub(crate) fn dt_patterns_analysis(&mut self) {
         if self.count_syslines_processed() < SyslineReader::DT_PATTERN_ANALYSIS_THRESHOLD {
