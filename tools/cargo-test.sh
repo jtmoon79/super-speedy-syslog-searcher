@@ -49,7 +49,7 @@ if cargo nextest list 2>/dev/null; then
 else
     (
         set -x
-        cargo test --version
+        cargo --version
         cargo test \
             --verbose \
             --future-incompat-report \
