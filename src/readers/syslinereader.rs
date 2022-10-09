@@ -197,7 +197,7 @@ pub struct SyslineReader {
     /// "fallback timezone" offset will not change within one syslog file,
     /// whereas a "fallback year" may change per sysline.
     ///
-    /// [`FixedOffset`]: https://docs.rs/chrono/0.4.21/chrono/offset/struct.FixedOffset.html
+    /// [`FixedOffset`]: https://docs.rs/chrono/0.4.22/chrono/offset/struct.FixedOffset.html
     tz_offset: FixedOffset,
     /// Enable or disable the internal LRU cache for `find_sysline()`.
     find_sysline_lru_cache_enabled: bool,
