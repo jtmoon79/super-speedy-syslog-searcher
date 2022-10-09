@@ -82,6 +82,17 @@ function replace_GUID () {
         "${@}"
 }
 
+function replace_port () {
+    # found
+    #    port 43523
+    # becomes
+    #    port 1234
+    #
+    sed -i -s -E \
+        -e 's/\bport ([[:digit:]])+\b/port '"${RANDOM:0:5}"'/g' \
+        "${@}"
+}
+
 function replace_num () {
     # found
     #    port 64074
@@ -181,6 +192,7 @@ function replace() {
     replace_MAC "${@}"
     replace_IPv4 "${@}"
     replace_GUID "${@}"
+    replace_port "${@}"
     replace_num "${@}"
     replace_SSH_hash "${@}"
     replace_user_passed "${@}"
@@ -212,11 +224,21 @@ GUID {c6c84804-dde2-4f33-887e-463319dc766a}
 GUID {CE70C15A-C84E-45B3-9A4A-521B0ACD0FC2}
 GUID aeb3de2901ee401d8094d23c9247f2bb
 GUID d919b3c21efa4f5eb65c0b191f4005ed
-port 64074
-port 640745
-port 6407456
+port 1
+port 12
+port 123
+port 1234
+port 12345
+port 123456
+port 1234567
+port 12345678
+port 123456789
+apport 123456789
 ssh2: RSA SHA256:OAZLLXXX/bb44ttttPOWPABBlCCML8889kIIVVAAyyU
 === FOLLOWING LINES SHOULD *NOT* CHANGE ===
+apport 12
+apport 123
+apport 1234
 Date 20220101
 DateTime 20220101T003050
 DateTime 20220101003050
