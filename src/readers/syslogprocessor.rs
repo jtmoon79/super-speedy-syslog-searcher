@@ -701,6 +701,10 @@ impl SyslogProcessor {
     ///
     /// Good for checking functions `process_stage…` are called in
     /// the correct order.
+    // XXX: is there a rust-ic way to enforce stage procession behavior
+    //      at compile-time? It's a fairly simple enumerated type. Could a
+    //      `match` tree (or something like that) be used?
+    //      run-time checks of rust enum values seems hacky.
     #[inline(always)]
     fn assert_stage(
         &self,
@@ -768,6 +772,7 @@ impl SyslogProcessor {
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
         self.processingstage = ProcessingStage::Stage2FindDt;
 
+        // datetime formats without a year requires special handling
         if !self
             .syslinereader
             .dt_pattern_has_year()

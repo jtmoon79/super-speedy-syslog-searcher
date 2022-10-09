@@ -1017,8 +1017,8 @@ impl SyslineReader {
         datetime: &DateTimeL,
     ) {
         dpfñ!("({:?})", datetime);
-        // TODO: the `dt_first` and `dt_last` are only for `--summary`, no need to always copy
-        //       datetimes.
+        // TODO: the `dt_first` and `dt_last` are only for `--summary`,
+        //       no need to always copy datetimes.
         //       Would be good to only run this when `if self.do_summary {...}`
         match self.dt_first {
             Some(dt_first_) => {
@@ -1204,6 +1204,7 @@ impl SyslineReader {
     /// If `self.dt_patterns` is `None`, will set `self.dt_patterns`.
     // TODO: [2022/08] having `dt_patterns_update` embedded into this is an unexpected side-affect
     //       the user should have more control over when `dt_patterns_update` is called.
+    //       i.e. this approach is hacky
     fn parse_datetime_in_line(
         &mut self,
         line: &Line,
