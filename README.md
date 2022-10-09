@@ -29,6 +29,7 @@ The first goal of s4 is speedy searching and printing.
   - [Features](#features)
   - [Limitations](#limitations)
   - [Hacks](#hacks)
+- ["syslog" definition chaos](#syslog-definition-chaos)
 - [Further Reading](#further-reading)
 
 ---
@@ -212,7 +213,12 @@ A longer rambling pontification about this project is in
 ### Features
 
 - Prepends datetime and file paths, for easy programmatic parsing or visual traversal of varying syslog messages
-- Parses formal datetime formats [RFC 3164](https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2), [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.8), [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles)**, [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3).
+- Parses formal datetime formats:
+  - [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3)
+  - [RFC 3164](https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2)
+  - [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.8)
+  - [RFC 5424](https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3)
+  - [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles)**
 - Parses many ad-hoc datetime formats
   - Tested against "in the wild" log files from varying Linux distributions
     (see project `./logs/`)
@@ -243,6 +249,83 @@ A longer rambling pontification about this project is in
 ### Hacks
 
 - Entire `.xz` files are read into memory during the initial `open` ([Issue #12](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12))
+
+<br/>
+
+## "syslog" definition chaos
+
+In this project, the term "syslog" is used casually to refer any
+log message that has a datetime stamp on the first line of log text.
+
+<br/>
+
+Technically, "syslog" is [defined among several RFCs](https://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents)
+proscribing fields, formats, maximum lengths, and other technical constraints.
+
+Here is a [RFC 5424 qualifying](https://www.rfc-editor.org/rfc/rfc5424#page-20)
+syslog message example:
+
+```text
+<165>1 2003-10-11T22:14:15.003Z mymachine.example.com eventslog - ID47 [exampleSDID@32473 iut="3" eventSource="Application" eventID="1011"][examplePriority@32473 class="high"]
+```
+
+<br/>
+
+In practice, many logged messages on a Unix system are an ad-hoc format that
+may not follow any formal definition, they are merely "log" messages.
+
+For example, the nginx web server
+[logs access attempts in an ad-hoc format](https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#setting-up-the-access-log) in the `access.log`
+
+```text
+192.168.0.115 - - [08/Oct/2022:22:26:35 +0000] "GET / HTTP/1.1" 200 7620 "-" "curl/7.76.1" "-"
+```
+
+which is an entirely dissimlar log format to neighboring log file, `error.log`
+
+```text
+2022/10/08 22:27:40 [error] 6068#6068: *3 open() "/usr/share/nginx/html/DOES-NOT-EXIST" failed (2: No such file or directory), client: 165.227.95.115, server: _, request: "GET /DOES-NOT-EXIST HTTP/1.0", host: "165.227.95.115"
+```
+
+<br/>
+
+Commercial computer appliance vendors, NAS vendors, router
+vendors, etc., often use ad-hoc log message formatting that is even more
+unpredictable.
+
+For example, from the Netgear Orbi Router SOAP client per-host log file:
+
+```text
+[SOAPClient]{DEBUG}{2022-05-10 16:19:13}[soap.c:1060] generate soap request, action=ParentalControl, method=Authenticate
+```
+
+Here is a log snippet from a Synology DiskStation package _DownloadStation_:
+
+```text
+2019/06/23 21:13:34	(system) trigger DownloadStation 3.8.13-3519 Begin start-stop-status start
+```
+
+And a snippet from a Synology DiskStation OS log file `sfdisk.log`:
+
+```text
+2019-04-06T01:07:40-07:00 dsnet sfdisk: Device /dev/sdq change partition.
+```
+
+And a snippet from a Synology DiskStation OS log file `synobackup.log` on the
+same host:
+
+```text
+info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task started.
+```
+
+(yes, those are tab characters)
+
+<br/>
+
+To be fair to nginx, Netgear, and Synology, this chaotic approach to logging is
+typical of commercial and open-source software.
+
+Hence the need for _Super Speedy Syslog Searcher_!
 
 ## Further Reading
 
