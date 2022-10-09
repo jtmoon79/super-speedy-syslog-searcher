@@ -21,8 +21,8 @@ set -euo pipefail
 
 function trunc ()
 {
-    # truncate file to 20 lines
-    declare -ir count=${LOG_CLEAN_FILE_LINES-20}
+    # truncate lines
+    declare -ir count=${LOG_CLEAN_FILE_LINES-50}
     sed -i -s -e "${count}"',$ d' "${@}"
 }
 
