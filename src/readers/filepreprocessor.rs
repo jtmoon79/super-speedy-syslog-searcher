@@ -422,8 +422,8 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
     let mut archive: tar::Archive<File> = tar::Archive::<File>::new(file);
     let entry_iter: tar::Entries<File> = match archive.entries() {
         Ok(val) => val,
-        Err(err) => {
-            dpfx!("Err {:?}", err);
+        Err(_err) => {
+            dpfx!("Err {:?}", _err);
             //return Result::Err(err);
             return vec![];
         }
@@ -432,8 +432,8 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
     for entry_res in entry_iter {
         let entry: tar::Entry<File> = match entry_res {
             Ok(val) => val,
-            Err(err) => {
-                dpo!("entry Err {:?}", err);
+            Err(_err) => {
+                dpo!("entry Err {:?}", _err);
                 continue;
             }
         };
@@ -446,8 +446,8 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         }
         let subpath: Cow<Path> = match entry.path() {
             Ok(val) => val,
-            Err(err) => {
-                dpo!("entry.path() Err {:?}", err);
+            Err(_err) => {
+                dpo!("entry.path() Err {:?}", _err);
                 continue;
             }
         };

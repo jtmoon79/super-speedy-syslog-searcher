@@ -547,7 +547,6 @@ impl BlockReader {
                 dpfo!("FileGz: reader.read_exact(@{:p}) (buffer len {})", &buffer_crc32, buffer_crc32.len());
                 match reader.read_exact(&mut buffer_crc32) {
                     Ok(_) => {}
-                    //Err(err) if err.kind() == std::io::ErrorKind::UnexpectedEof => {},
                     Err(err) => {
                         dpx!("FileGz: return {:?}", err);
                         eprintln!("reader.read_to_end(&buffer_crc32) Error {:?}", err);
@@ -1032,15 +1031,15 @@ impl BlockReader {
                     entry_index = index;
                     let entry: tar::Entry<File> = match entry_res {
                         Ok(val) => val,
-                        Err(err) => {
-                            dpfo!("FileTar: entry Err {:?}", err);
+                        Err(_err) => {
+                            dpfo!("FileTar: entry Err {:?}", _err);
                             continue;
                         }
                     };
                     let subpath_cow: Cow<Path> = match entry.path() {
                         Ok(val) => val,
-                        Err(err) => {
-                            dpfo!("FileTar: entry.path() Err {:?}", err);
+                        Err(_err) => {
+                            dpfo!("FileTar: entry.path() Err {:?}", _err);
                             continue;
                         }
                     };
@@ -1062,16 +1061,16 @@ impl BlockReader {
                     };
                     checksum = match entry.header().cksum() {
                         Ok(val) => val,
-                        Err(err) => {
-                            dpfo!("FileTar: entry.header().cksum() Err {:?}", err);
+                        Err(_err) => {
+                            dpfo!("FileTar: entry.header().cksum() Err {:?}", _err);
 
                             0
                         }
                     };
                     mtime = match entry.header().mtime() {
                         Ok(val) => val,
-                        Err(err) => {
-                            dpfo!("FileTar: entry.header().mtime() Err {:?}", err);
+                        Err(_err) => {
+                            dpfo!("FileTar: entry.header().mtime() Err {:?}", _err);
 
                             0
                         }

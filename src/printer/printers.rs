@@ -778,20 +778,20 @@ pub fn write_stdout(buffer: &[u8]) {
     let _stderr_lock = std::io::stderr().lock();
     match stdout_lock.write(buffer) {
         Ok(_) => {}
-        Err(err) => {
+        Err(_err) => {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            dp_err!("stdout_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
+            dp_err!("stdout_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), _err);
         }
     }
     match stdout_lock.flush() {
         Ok(_) => {}
-        Err(err) => {
+        Err(_err) => {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            dp_err!("stdout_lock.flush() error {}", err);
+            dp_err!("stdout_lock.flush() error {}", _err);
         }
     }
 }
@@ -807,20 +807,20 @@ pub fn write_stderr(buffer: &[u8]) {
     //      `eprintln!` behaves)
     match stderr_lock.write(buffer) {
         Ok(_) => {}
-        Err(err) => {
+        Err(_err) => {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            dp_err!("stderr_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), err);
+            dp_err!("stderr_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), _err);
         }
     }
     match stderr_lock.flush() {
         Ok(_) => {}
-        Err(err) => {
+        Err(_err) => {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            dp_err!("stderr flushing error {}", err);
+            dp_err!("stderr flushing error {}", _err);
         }
     }
     if cfg!(debug_assertions) {
