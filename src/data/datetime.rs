@@ -44,7 +44,10 @@ use crate::debug::printers::{buffer_to_String_noraw, str_to_String_noraw};
 #[doc(hidden)]
 pub use crate::data::line::{LineIndex, Range_LineIndex};
 
-use std::collections::{BTreeMap, HashMap};
+use std::collections::BTreeMap;
+
+#[cfg(any(debug_assertions, test))]
+use std::collections::HashMap;
 
 use std::fmt;
 

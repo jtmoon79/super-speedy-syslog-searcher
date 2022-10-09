@@ -10,7 +10,10 @@
 #[doc(hidden)]
 pub use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, NLu8, ResultS3};
 
-use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockReader, BlockSz, Slices};
+use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockReader, BlockSz};
+
+#[cfg(any(debug_assertions, test))]
+use crate::readers::blockreader::Slices;
 
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{buffer_to_String_noraw, char_to_char_noraw, p_err};
