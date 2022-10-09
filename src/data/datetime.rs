@@ -729,6 +729,18 @@ const DTP_BdHMSYz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
 const DTP_BdHMSYzc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 /// `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSYzp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
+
+/// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+const DTP_bdHMSYZc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
+/// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+const DTP_bdHMSYZp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
+/// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+const DTP_bdHMSYZz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
+/// `%b` value transformed to `%m` value, `%Z` transformed to `%:z` by [`captures_to_buffer_bytes`]
+const DTP_bdHMSYZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
+/// `%b` value transformed to `%m` value, `%:z` filled by [`captures_to_buffer_bytes`]
+const DTP_bdHMSY: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
+
 /// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMS: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
 /// `%Y` is filled, `%Z` transformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
@@ -1009,6 +1021,62 @@ const DTFSS_BeHMSYzp: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
     pattern: DTP_BdHMSYzp,
+};
+
+const DTFSS_YbdHMSzc: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::zc,
+    pattern: DTP_bdHMSYZc,
+};
+const DTFSS_YbdHMSzp: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::zp,
+    pattern: DTP_bdHMSYZp,
+};
+const DTFSS_YbdHMSz: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::z,
+    pattern: DTP_bdHMSYZz,
+};
+const DTFSS_YbdHMSZ: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::Z,
+    pattern: DTP_bdHMSYZ,
+};
+const DTFSS_YbdHMS: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    pattern: DTP_bdHMSYZc,
 };
 
 // TODO: Issue #4 handle dmesg
@@ -1793,8 +1861,13 @@ const RP_dcq: &RegexPattern = r"[\.,]?";
 /// [`RegexPattern`] comma?
 const RP_cq: &RegexPattern = "[,]?";
 /// [`RegexPattern`] of commonly found syslog level names
-#[allow(dead_code)]
-const RP_LEVELS: &RegexPattern = "((?i)DEBUG|INFO|ERR|ERROR|TRACE|WARN|WARNING|VERBOSE(?-i))";
+///
+/// References:
+/// - <https://www.rfc-editor.org/rfc/rfc5427#section-3>
+/// - <https://learningnetwork.cisco.com/s/article/syslog-severity-amp-level>
+/// - <https://learningnetwork.cisco.com/s/feed/0D53i00000KsKHECA3>
+/// - <https://success.trendmicro.com/dcx/s/solution/TP000086250>
+const RP_LEVELS: &RegexPattern = r"((?i)DEBUG[\d]|DEBUG|INFO[\d]|INFO|ERROR[\d]|ERROR|ERR|TRACE[\d]|TRACE|WARN[\d]|WARN|WARNING|VERBOSE[\d]|VERBOSE|EMERGENCY|EMERG|NOTICE|CRIT|CRITICAL|ALERT[\d]|ALERT(?-i))";
 /// [`RegexPattern`] blank
 const RP_BLANK: &RegexPattern = "[[:blank:]]";
 /// [`RegexPattern`] blank?
@@ -1824,7 +1897,7 @@ pub type DateTimeParseInstrsIndex = usize;
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 /// Length of [`DATETIME_PARSE_DATAS`]
-pub const DATETIME_PARSE_DATAS_LEN: usize = 48;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 53;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2316,36 +2389,27 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     2016/12/05 21:34:43	Start of the update…
     //
     // ---------------------------------------------------------------------------------------------
-    // from file `./logs/synology/synobackup.log`
-    // example with offset:
     //
-    //               1         2         3
-    //     0123456789012345678901234567890
-    //     err	2020/03/01 09:06:32	SYSTEM: [Network][Hyper Backup Task 1] Failed to start backup task.
-    //     info	2017/02/21 23:01:59	admin: Setting of backup task [Local Storage 1] was created
-    //     warning	2020/02/24 03:00:20	SYSTEM:  Scheduled backup had been skipped
-    //
-    // ---------------------------------------------------------------------------------------------
-    //
+    // from file `./logs/synology-DS6/synolog/synobackup.log`
     // example with offset:
     //
     //               1         2         3         4
     //     01234567890123456789012345678901234567890
-    //     2020-01-02 12:33:59.001 xyz
+    //     info	2017/02/21 21:50:48	SYSTEM:	[Local][Backup Task Backup1] Backup task started.
+    //     err	2017/02/23 02:55:58	SYSTEM:	[Local][Backup Task Backup1] Exception occured while backing up data. (Capacity at destination is insufficient.) [Path: /share4/usbshare/Backup1.hbk]
+    //     err	2017/02/23 02:56:03	SYSTEM:	[Local][Backup Task Backup1] Failed to backup data.
+    //     info	2017/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task started.
+    //     warning	2017/02/24 03:43:57	SYSTEM:	[Local][Backup Task Backup1] Backup folder [Vol/DS] failed. (The backup source shared folder is encrypted and not mounted. Please mount the backup source shared folder and try again.)
     //
-    // ---------------------------------------------------------------------------------------------
+    // from file `./logs/Debian9/apport.log.1`
     //
-    // from file `./logs/debian9/apport.log.1`
-    // example with offset:
-    //
-    //               1         2         3         4         5
-    //     012345678901234567890123456789012345678901234567890
+    //               1         2         3         4         5         6
+    //     0123456789012345678901234567890123456789012345678901234567890
     //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
     //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -0700: called for pid 8581, signal 24, core limit 0, dump mode 1
     //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -07:00: called for pid 8581, signal 24, core limit 0, dump mode 1
     //
-    // ---------------------------------------------------------------------------------------------
-    // example with offset:
+    // other examples:
     //
     //               1         2         3         4
     //     01234567890123456789012345678901234567890
@@ -2354,19 +2418,147 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     DEBUG: Thu Feb 20 00:59:59 2020 debug
     //     VERBOSE: Thu Feb 20 00:59:59 2020 verbose
     //
-    // ---------------------------------------------------------------------------------------------
-    // example with offset:
-    //
     //               1         2         3         4
     //     01234567890123456789012345678901234567890
     //     INFO: Sat Jan 01 2000 08:00:00 info
     //     WARN: Sat Jan 01 2000 08:00:00 warn
     //     ERROR: Sat Jan 01 2000 08:00:00 error
-    //     DEBUG: Sat Jan 01 2000 08:00:00 debug
+    //     DEBUG: Sun Jan 02 2000 21:00:00 debug
     //     VERBOSE: Sat Jan 01 2000 08:00:00 verbose
     //
+    DTPD!(
+        concatcp!("^", RP_LEVELS, "[:]?", RP_BLANKSq, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYd, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc),
+        DTFSS_YbdHMSzc, 0, 55, CGN_DAYa, CGN_TZ,
+        &[
+            (7, 38, "TRACE:	Sat Jan 01 2000 08:00:00 +09:00 TRACE: ⇥ ×1‼"),
+            (8, 39, "trace0:	sat jan 01 2000 08:00:00 +09:00 trace0: ⇥ ×1‼"),
+            (9, 40, "TRACE1:		Sat Jan 01 2000 08:00:00 +09:00 TRACE1: ⇥ ×2‼"),
+            (8, 39, "TRACE2:	Sat Jan 01 2000 08:00:00 +09:00 TRACE2: ⇥ ×1‼"),
+            (7, 38, "DEBUG: Sun Jan 02 2000 21:00:00 +09:00 DEBUG:‼"),
+            (7, 38, "debug: sat jan 01 2000 08:00:00 +09:00 debug:‼"),
+            (7, 38, "DEBUG0 Sat Jan 01 2000 08:00:00 +09:00 debug0‼"),
+            (8, 39, "DEBUG9: Sat Jan 01 2000 08:00:00 +09:00 debug9:‼"),
+            (6, 37, "INFO: Sat Jan 01 2000 08:00:00 -09:00 info:‼"),
+            (7, 38, "INFO2: Sat Jan 01 2000 08:00:00 -09:00 info2:‼"),
+            (9, 40, "warning: Sat Jan 01 2000 08:00:00 -09:00 warning:‼"),
+            (8, 39, "warning sat jan 01 2000 08:00:00 -09:00 warning‼"),
+            (8, 39, "warning	Sat Jan 01 2000 08:00:00 -09:00 warning ⇥ ×1‼"),
+            (8, 39, "WARNING	MON JAN 03 2000 23:30:59 -09:00 warning ⇥ ×1‼"),
+            (9, 40, "warning		Sat Jan 01 2000 08:00:00 -09:00 warning ⇥ ×2‼"),
+            (6, 37, "WARN: SAT JAN 01 2000 08:00:00 -09:00 warn:‼"),
+            (7, 38, "ERROR: Sat Jan 01 2000 08:00:00 -09:00 error:‼"),
+            (5, 36, "ERR: Sat Jan 01 2000 08:00:00 -09:00 err:‼"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, "[:]?", RP_BLANKSq, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYd, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz),
+        DTFSS_YbdHMSz, 0, 55, CGN_DAYa, CGN_TZ,
+        &[
+            (7, 37, "TRACE:	Sat Jan 01 2000 08:00:00 +0900 TRACE: ⇥ ×1‼"),
+            (8, 38, "trace0:	sat jan 01 2000 08:00:00 +0900	trace0: ⇥ ×1‼"),
+            (9, 39, "TRACE1:		Sat Jan 01 2000 08:00:00 +0900		TRACE1: ⇥ ×2‼"),
+            (8, 38, "TRACE2:	Sat Jan 01 2000 08:00:00 +0900	TRACE2: ⇥ ×1‼"),
+            (7, 37, "DEBUG: Sun Jan 02 2000 21:00:00 +0900 DEBUG:‼"),
+            (7, 37, "debug: sat jan 01 2000 08:00:00 +0900 debug:‼"),
+            (7, 37, "DEBUG0 Sat Jan 01 2000 08:00:00 +0900 debug0‼"),
+            (8, 38, "DEBUG9: Sat Jan 01 2000 08:00:00 +0900 debug9:‼"),
+            (6, 36, "INFO: Sat Jan 01 2000 08:00:00 -0900 info:‼"),
+            (7, 37, "INFO2: Sat Jan 01 2000 08:00:00 -0900 info2:‼"),
+            (9, 39, "warning: Sat Jan 01 2000 08:00:00 -0900 warning:‼"),
+            (8, 38, "warning sat jan 01 2000 08:00:00 -0900 warning‼"),
+            (8, 38, "warning	Sat Jan 01 2000 08:00:00 -0900	warning ⇥ ×1‼"),
+            (8, 38, "WARNING	MON JAN 03 2000 23:30:59 -0900	warning ⇥ ×1‼"),
+            (9, 39, "warning		Sat Jan 01 2000 08:00:00 -0900		warning ⇥ ×2‼"),
+            (6, 36, "WARN: SAT JAN 01 2000 08:00:00 -0900 warn:‼"),
+            (7, 37, "ERROR: Sat Jan 01 2000 08:00:00 -0900 error:‼"),
+            (5, 35, "ERR: Sat Jan 01 2000 08:00:00 -0900 err:‼"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, "[:]?", RP_BLANKSq, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYd, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp),
+        DTFSS_YbdHMSzp, 0, 53, CGN_DAYa, CGN_TZ,
+        &[
+            (7, 35, "TRACE:	Sat Jan 01 2000 08:00:00 +09 TRACE: ⇥ ×1‼"),
+            (8, 36, "trace0:	sat jan 01 2000 08:00:00 +09	trace0: ⇥ ×1‼"),
+            (9, 37, "TRACE1:		Sat Jan 01 2000 08:00:00 +09		TRACE1: ⇥ ×2‼"),
+            (8, 36, "TRACE2:	Sat Jan 01 2000 08:00:00 +09	TRACE2: ⇥ ×1‼"),
+            (7, 35, "DEBUG: Sun Jan 02 2000 21:00:00 +09 DEBUG:‼"),
+            (7, 35, "debug: sat jan 01 2000 08:00:00 +09 debug:‼"),
+            (7, 35, "DEBUG0 Sat Jan 01 2000 08:00:00 +09 debug0‼"),
+            (8, 36, "DEBUG9: Sat Jan 01 2000 08:00:00 +09 debug9:‼"),
+            (6, 34, "INFO: Sat Jan 01 2000 08:00:00 -09 info:‼"),
+            (7, 35, "INFO2: Sat Jan 01 2000 08:00:00 -09 info2:‼"),
+            (9, 37, "warning: Sat Jan 01 2000 08:00:00 -09 warning:‼"),
+            (8, 36, "warning sat jan 01 2000 08:00:00 -09 warning‼"),
+            (8, 36, "warning	Sat Jan 01 2000 08:00:00 -09	warning ⇥ ×1‼"),
+            (8, 36, "WARNING	MON JAN 03 2000 23:30:59 -09	warning ⇥ ×1‼"),
+            (9, 37, "warning		Sat Jan 01 2000 08:00:00 -09		warning ⇥ ×2‼"),
+            (6, 34, "WARN: SAT JAN 01 2000 08:00:00 -09 warn:‼"),
+            (7, 35, "ERROR: Sat Jan 01 2000 08:00:00 -09 error:‼"),
+            (5, 33, "ERR: Sat Jan 01 2000 08:00:00 -09 err:‼"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, "[:]?", RP_BLANKSq, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYd, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ),
+        DTFSS_YbdHMSZ, 0, 56, CGN_DAYa, CGN_TZ,
+        &[
+            (7, 35, "TRACE:	Sat Jan 01 2000 08:00:00 PST TRACE: ⇥ ×1‼"),
+            (8, 36, "trace0:	sat jan 01 2000 08:00:00 mit	trace0: ⇥ ×1‼"),
+            (9, 38, "TRACE1:		Sat Jan 01 2000 08:00:00 YAKT	TRACE1: ⇥ ×2‼"),
+            (8, 36, "TRACE2:	Sat Jan 01 2000 08:00:00 WITA	TRACE2: ⇥ ×1‼"),
+            (7, 35, "DEBUG: Sun Jan 02 2000 21:00:00 WITA DEBUG:‼"),
+            (7, 35, "debug: sat jan 01 2000 08:00:00 wita debug:‼"),
+            (7, 35, "DEBUG0 Sat Jan 01 2000 08:00:00 WITA debug0‼"),
+            (8, 36, "DEBUG9: Sat Jan 01 2000 08:00:00 WITA debug9:‼"),
+            (6, 35, "INFO: Sat Jan 01 2000 08:00:00 PONT info:‼"),
+            (7, 36, "INFO2: Sat Jan 01 2000 08:00:00 PONT info2:‼"),
+            (9, 38, "warning: Sat Jan 01 2000 08:00:00 pont warning:‼"),
+            (8, 37, "warning sat jan 01 2000 08:00:00 pont warning‼"),
+            (8, 37, "warning	Sat Jan 01 2000 08:00:00 pont	warning ⇥ ×1‼"),
+            (8, 37, "WARNING	MON JAN 03 2000 23:30:59 PONT		warning ⇥ ×1‼"),
+            (9, 38, "warning		Sat Jan 01 2000 08:00:00 pont	warning ⇥ ×2‼"),
+            (6, 35, "WARN: SAT JAN 01 2000 08:00:00 PONT warn:‼"),
+            (7, 36, "ERROR: Sat Jan 01 2000 08:00:00 PONT error:‼"),
+            (5, 34, "ERR: Sat Jan 01 2000 08:00:00 PONT err:‼"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, "[:]?", RP_BLANKSq, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYd, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
+        DTFSS_YbdHMS, 0, 50, CGN_DAYa, CGN_SECOND,
+        &[
+            (7, 31, "TRACE:	Sat Jan 01 2000 08:00:00 TRACE: ⇥ ×1‼"),
+            (8, 32, "trace0:	sat jan 01 2000 08:00:00	trace0: ⇥ ×1‼"),
+            (9, 33, "TRACE1:		Sat Jan 01 2000 08:00:00	TRACE1: ⇥ ×2‼"),
+            (8, 32, "TRACE2:	Sat Jan 01 2000 08:00:00	TRACE2: ⇥ ×1‼"),
+            (7, 31, "DEBUG: Sun Jan 02 2000 21:00:00 DEBUG:‼"),
+            (7, 31, "debug: sat jan 01 2000 08:00:00 debug:‼"),
+            (7, 31, "DEBUG0 Sat Jan 01 2000 08:00:00 debug0‼"),
+            (8, 32, "DEBUG9: Sat Jan 01 2000 08:00:00 debug9:‼"),
+            (6, 30, "INFO: Sat Jan 01 2000 08:00:00 info:‼"),
+            (7, 31, "INFO2: Sat Jan 01 2000 08:00:00 info2:‼"),
+            (9, 33, "warning: Sat Jan 01 2000 08:00:00 -09:00 warning:‼"),
+            (8, 32, "warning sat jan 01 2000 08:00:00 warning‼"),
+            (8, 32, "warning	Sat Jan 01 2000 08:00:00	warning ⇥ ×1‼"),
+            (8, 32, "WARNING	MON JAN 03 2000 23:30:59	warning ⇥ ×1‼"),
+            (9, 33, "warning		Sat Jan 01 2000 08:00:00		warning ⇥ ×2‼"),
+            (6, 30, "WARN: SAT JAN 01 2000 08:00:00 warn:‼"),
+            (7, 31, "ERROR: Sat Jan 01 2000 08:00:00 error:‼"),
+            (5, 29, "ERR: Sat Jan 01 2000 08:00:00 err:‼"),
+        ],
+        line!(),
+    ),
     // ---------------------------------------------------------------------------------------------
-    // TODO: [2022/03/24] add timestamp formats seen at https://www.unixtimestamp.com/index.php
+    //
+    // example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890
+    //     2020-01-02 12:33:59.001 xyz
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // general matches from start
@@ -2630,10 +2822,15 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYe, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzc),
         DTFSS_BeHMSYzc, 0, 1024, CGN_DAYa, CGN_TZ,
         &[
+            (3, 35, "<7>Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (4, 36, "<33>Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (1, 33, "*Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (3, 35, "***Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
             (11, 43, "[VERBOSE]: Tue, Jun 28 2022 01:51:12 +01:30"),
-            (8, 40, "[INFO]: Tue. Jun 28 2022 01:51:12 +01:30 FOOBAR"),
-            (8, 39, "[INFO]: Tue Jun 28 2022 01:51:12 +01:30"),
-            (8, 39, "[INFO]: Tue Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (8, 40, "[INFO]: Tue. Jun 28 2022 01:51:12 +01:30:FOOBAR"),
+            (7, 38, "[INFO]:Tue Jun 28 2022 01:51:12 +01:30<33>FOOBAR"),
+            (6, 37, "[INFO]Tue Jun 28 2022 01:51:12 +01:30FOOBAR"),
+            (7, 38, "{INFO} Tue Jun 28 2022 01:51:12 +01:30 FOOBAR"),
         ],
         line!(),
     ),
