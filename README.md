@@ -29,7 +29,8 @@ The first goal of s4 is speedy searching and printing.
   - [Features](#features)
   - [Limitations](#limitations)
   - [Hacks](#hacks)
-- ["syslog" definition chaos](#syslog-definition-chaos)
+- ["syslog" definition](#syslog-definition)
+- [logging chaos](#logging-chaos)
 - [Further Reading](#further-reading)
 
 ---
@@ -252,36 +253,34 @@ A longer rambling pontification about this project is in
 
 <br/>
 
-## "syslog" definition chaos
+## "syslog" definition
 
-In this project, the term "syslog" is used casually to refer any
+In this project, the term "syslog" is used generously to refer any
 log message that has a datetime stamp on the first line of log text.
-
-<br/>
 
 Technically, "syslog" is [defined among several RFCs](https://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents)
 proscribing fields, formats, maximum lengths, and other technical constraints.
 
-Here is a [RFC 5424 qualifying](https://www.rfc-editor.org/rfc/rfc5424#page-20)
+Here is an [RFC 5424 qualifying](https://www.rfc-editor.org/rfc/rfc5424#page-20)
 syslog message example:
 
 ```text
 <165>1 2003-10-11T22:14:15.003Z mymachine.example.com eventslog - ID47 [exampleSDID@32473 iut="3" eventSource="Application" eventID="1011"][examplePriority@32473 class="high"]
 ```
 
-<br/>
+## logging chaos
 
 In practice, many logged messages on a Unix system are an ad-hoc format that
 may not follow any formal definition, they are merely "log" messages.
 
 For example, the nginx web server
-[logs access attempts in an ad-hoc format](https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#setting-up-the-access-log) in the `access.log`
+[logs access attempts in an ad-hoc format](https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#setting-up-the-access-log) in the file `access.log`
 
 ```text
 192.168.0.115 - - [08/Oct/2022:22:26:35 +0000] "GET / HTTP/1.1" 200 7620 "-" "curl/7.76.1" "-"
 ```
 
-which is an entirely dissimlar log format to neighboring log file, `error.log`
+which is an entirely dissimlar log format to neighboring file, `error.log`
 
 ```text
 2022/10/08 22:27:40 [error] 6068#6068: *3 open() "/usr/share/nginx/html/DOES-NOT-EXIST" failed (2: No such file or directory), client: 165.227.95.115, server: _, request: "GET /DOES-NOT-EXIST HTTP/1.0", host: "165.227.95.115"
@@ -322,7 +321,7 @@ info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task starte
 
 <br/>
 
-To be fair to nginx, Netgear, and Synology, this chaotic approach to logging is
+To be fair to nginx, Netgear, and Synology, this chaotic logging data is
 typical of commercial and open-source software.
 
 Hence the need for _Super Speedy Syslog Searcher_!
