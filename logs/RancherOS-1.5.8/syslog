@@ -1,0 +1,10 @@
+Oct 10 20:31:15 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1045]: Received disconnect from 192.168.0.8 port 7421:11: disconnected by user
+Oct 10 20:31:15 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1045]: Disconnected from user rancher 192.168.0.8 port 7421
+Oct 10 20:31:22 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: User root not allowed because account is locked
+Oct 10 20:31:22 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1542]: Accepted publickey for rancher from 192.168.0.8 port 7421 ssh2: RSA SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: error: Could not get shadow information for NOUSER
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Failed password for invalid user root from 192.168.0.77 port 7421 ssh2
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Failed password for invalid user root from 192.168.0.77 port 7421 ssh2
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Failed password for invalid user root from 192.168.0.77 port 7421 ssh2
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Received disconnect from 192.168.0.77 port 7421:11:  [preauth]
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Disconnected from invalid user root 192.168.0.77 port 7421 [preauth]
