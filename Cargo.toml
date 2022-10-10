@@ -32,18 +32,18 @@ exclude = [
 arrayref = "0.3.6"
 backtrace = "0.3.66"
 chrono = "0.4.22"
-clap = { version = "3.2.21", features = ["derive"] }
-const_format = "0.2.26"
-const-str = "0.4.3"
+clap = { version = "3.2.22", features = ["derive"] }
+const_format = "0.2.28"
+const-str = "0.5.1"
 crossbeam-channel = "0.5.6"
 encoding_rs = "0.8.31"
 flate2 = "1.0.24"
-itertools = "0.10.4"
+itertools = "0.10.5"
 lazy_static = "1.4.0"
-lru = "0.8.0"
+lru = "0.8.1"
 lzma-rs = "0.2.0"
 mime_guess = "2.0.4"
-more-asserts = "0.3.0"
+more-asserts = "0.3.1"
 mut_static = "5.0.0"
 rand = "0.8.5"
 rangemap = "1.0.3"
@@ -85,7 +85,7 @@ flamegraph = "0.6.2"
 jetscii = "0.5.3"
 memchr = "2.5.0"
 tempfile = "3.3.0"
-test-case = "2.2.1"
+test-case = "2.2.2"
 
 # other helpful development tools
 # cargo install --locked cargo-expand cargo-nextest
