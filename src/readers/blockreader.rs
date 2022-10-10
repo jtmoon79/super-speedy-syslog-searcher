@@ -1707,7 +1707,7 @@ impl BlockReader {
                 if readsz_last == 0 {
                     break;
                 }
-                // TODO: [2022/07] cost-savings, use pre-allocated buffer
+                // TODO: [2022/07] cost-savings: use pre-allocated buffer
                 block_buf.clear();
                 block_buf.resize(readsz, 0);
                 dpfo!("({}): GzDecoder.read(…); read {}, readsz {}, block len {}, block capacity {}, blockoffset {}", blockoffset, reads, readsz, block_buf.len(), block_buf.capacity(), bo_at);
@@ -1778,7 +1778,7 @@ impl BlockReader {
                     block.len(),
                     blocksz_u
                 );
-            }
+            } // while reads > 0
 
             // sanity check: check returned Block is expected number of bytes
             let blocklen_sz: BlockSz = block.len() as BlockSz;
