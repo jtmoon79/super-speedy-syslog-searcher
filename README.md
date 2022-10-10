@@ -277,13 +277,13 @@ For example, the nginx web server
 [logs access attempts in an ad-hoc format](https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#setting-up-the-access-log) in the file `access.log`
 
 ```text
-192.168.0.115 - - [08/Oct/2022:22:26:35 +0000] "GET / HTTP/1.1" 200 7620 "-" "curl/7.76.1" "-"
+192.168.0.115 - - [08/Oct/2022:22:26:35 +0000] "GET /DOES-NOT-EXIST HTTP/1.1" 404 0 "-" "curl/7.76.1" "-"
 ```
 
-which is an entirely dissimlar log format to neighboring file, `error.log`
+which is an entirely dissimilar log format to neighboring file, `error.log`
 
 ```text
-2022/10/08 22:27:40 [error] 6068#6068: *3 open() "/usr/share/nginx/html/DOES-NOT-EXIST" failed (2: No such file or directory), client: 165.227.95.115, server: _, request: "GET /DOES-NOT-EXIST HTTP/1.0", host: "165.227.95.115"
+2022/10/08 22:26:35 [error] 6068#6068: *3 open() "/usr/share/nginx/html/DOES-NOT-EXIST" failed (2: No such file or directory), client: 192.168.0.115, server: _, request: "GET /DOES-NOT-EXIST HTTP/1.0", host: "192.168.0.100"
 ```
 
 <br/>
