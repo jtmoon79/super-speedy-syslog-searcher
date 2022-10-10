@@ -1,0 +1,5 @@
+time="2022-10-09T21:31:41Z" level=debug msg="START: [cloud-init-execute -pre-console] in /"
+time="2022-10-09T21:31:41Z" level=info msg="Running cloud-init-execute: pre-console=true, console=false"
+time="2022-10-10T20:23:34Z" level=debug msg="START: [cloud-init-execute -pre-console] in /"
+time="2022-10-10T20:23:34Z" level=info msg="Running cloud-init-execute: pre-console=true, console=false"
+time="2022-10-10T20:23:34Z" level=info msg="Skipped resizing /dev/vda because /var/lib/rancher/resizefs.done exists"

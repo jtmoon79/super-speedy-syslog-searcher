@@ -1,0 +1,21 @@
+time="2022-10-09T21:31:23Z" level=debug msg="START: [/usr/bin/ros-sysinit] in /"
+time="2022-10-09T21:31:23Z" level=info msg="Resolv.conf == [nameserver 192.168.0.3
+nameserver 192.168.0.2
+], <nil>"
+time="2022-10-09T21:31:23Z" level=info msg="Exec [/usr/bin/ros-sysinit]"
+time="2022-10-09T21:31:23Z" level=info msg="[1/4] Starting loadSystemImages"
+time="2022-10-09T21:31:23Z" level=info msg="Loading images from /usr/share/ros/images-system.tar"
+time="2022-10-09T21:31:36Z" level=info msg="Done loading images from /usr/share/ros/images-system.tar"
+time="2022-10-09T21:31:36Z" level=debug msg="Loaded a docker image: [rancher/os-logrotate:v1.5.8]"
+time="2022-10-09T21:31:36Z" level=debug msg="Loaded a docker image: [rancher/os-syslog:v1.5.8]"
+
+time="2022-10-10T20:23:35Z" level=info msg="[18/19] [subscriber]: Started "
+time="2022-10-10T20:23:35Z" level=debug msg="[18/19] [preload-user-images]: Started container name=preload-user-images"
+time="2022-10-10T20:23:35Z" level=info msg="[19/19] [preload-user-images]: Started "
+time="2022-10-10T20:23:35Z" level=info msg="Project [os]: Project started "
+time="2022-10-10T20:23:35Z" level=debug msg="[2/4] Done start project"
+time="2022-10-10T20:23:35Z" level=info msg="[3/4] Starting sync"
+time="2022-10-10T20:23:36Z" level=debug msg="[3/4] Done sync"
+time="2022-10-10T20:23:36Z" level=info msg="[4/4] Starting banner"
+time="2022-10-10T20:23:36Z" level=info msg="RancherOS v1.5.8 started"
+time="2022-10-10T20:23:36Z" level=debug msg="[4/4] Done banner"

@@ -1,0 +1,21 @@
+time="2022-10-09T21:31:39Z" level=debug msg="START: [netconf] in /"
+time="2022-10-09T21:31:39Z" level=info msg="Apply Network Config"
+time="2022-10-09T21:31:39Z" level=debug msg="Config: &netconf.NetworkConfig{PreCmds:[]string(nil), DHCPTimeout:10, DNS:netconf.DNSConfig{Nameservers:[]string{"192.168.0.3", "192.168.0.2"}, Search:[]string(nil)}, Interfaces:map[string]netconf.InterfaceConfig{"eth0":netconf.InterfaceConfig{Match:"", DHCP:false, DHCPArgs:"", Address:"", Addresses:[]string{"192.168.0.202/20", "192.168.0.5/16"}, IPV4LL:true, Gateway:"192.168.0.1", GatewayIpv6:"", MTU:0, Bridge:"", Bond:"", BondOpts:map[string]string(nil), PostUp:[]string(nil), PreUp:[]string(nil), Vlans:"", WifiNetwork:""}, "eth1":netconf.InterfaceConfig{Match:"", DHCP:false, DHCPArgs:"", Address:"", Addresses:[]string{"192.168.0.2/20"}, IPV4LL:false, Gateway:"192.168.0.1", GatewayIpv6:"", MTU:0, Bridge:"", Bond:"", BondOpts:map[string]string(nil), PostUp:[]string(nil), PreUp:[]string(nil), Vlans:"", WifiNetwork:""}, "lo":netconf.InterfaceConfig{Match:"", DHCP:false, DHCPArgs:"", Address:"", Addresses:[]string{"192.168.0.1/8", "::1/128"}, IPV4LL:false, Gateway:"", GatewayIpv6:"", MTU:0, Bridge:"", Bond:"", BondOpts:map[string]string(nil), PostUp:[]string(nil), PreUp:[]string(nil), Vlans:"", WifiNetwork:""}}, PostCmds:[]string(nil), HTTPProxy:"", HTTPSProxy:"", NoProxy:"", WifiNetworks:map[string]netconf.WifiNetworkConfig(nil), ModemNetworks:map[string]netconf.ModemNetworkConfig(nil)}"
+time="2022-10-09T21:31:39Z" level=debug msg="runCmds(on ): []"
+time="2022-10-09T21:31:39Z" level=debug msg="applyOuter(true, true), link: eth0"
+time="2022-10-09T21:31:39Z" level=debug msg="Config(eth0): netconf.InterfaceConfig{Match:"eth0", DHCP:false, DHCPArgs:"", Address:"", Addresses:[]string{"192.168.0.202/20", "192.168.0.5/16"}, IPV4LL:true, Gateway:"192.168.0.1", GatewayIpv6:"", MTU:0, Bridge:"", Bond:"", BondOpts:map[string]string(nil), PostUp:[]string(nil), PreUp:[]string(nil), Vlans:"", WifiNetwork:""}"
+time="2022-10-09T21:31:39Z" level=debug msg="runCmds(on eth0): []"
+time="2022-10-09T21:31:39Z" level=info msg="Link Local IP already set on interface"
+time="2022-10-09T21:31:39Z" level=info msg="leaving  192.168.0.184/16 eth0 from eth0"
+time="2022-10-09T21:31:39Z" level=info msg="leaving  fe80::460:ffff:eeee:6678/64 from eth0"
+
+time="2022-10-10T20:23:33Z" level=warning msg="Failed to run cmd: [dhcpcd -MA4 -U eth1], error: exit status 1"
+time="2022-10-10T20:23:33Z" level=debug msg="getDhcpLease eth1: "
+time="2022-10-10T20:23:33Z" level=debug msg="line: []"
+time="2022-10-10T20:23:33Z" level=debug msg="runCmds(on ): []"
+time="2022-10-10T20:23:33Z" level=info msg="writing to /etc/resolv.conf: nameservers: [192.168.0.3 192.168.0.2], search: []"
+time="2022-10-10T20:23:33Z" level=debug msg="Resolve.conf == [nameserver 192.168.0.3
+nameserver 192.168.0.2
+], <nil>"
+time="2022-10-10T20:23:33Z" level=info msg="Apply Network Config SyncHostname"
+time="2022-10-10T20:23:33Z" level=info msg="Restart syslog"

@@ -225,3 +225,10 @@ Oct  9 21:44:43 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1285]: Accepted publickey for
 Oct  9 21:52:14 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1287]: Received disconnect from 192.168.0.8 port 25890:11: disconnected by user
 Oct  9 21:52:14 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1287]: Disconnected from user rancher 192.168.0.8 port 25890
 Oct  9 21:53:10 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1324]: Accepted publickey for rancher from 192.168.0.8 port 25890 ssh2: RSA SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
+
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: error: Could not get shadow information for NOUSER
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Failed password for invalid user root from 192.168.00.77 port 17196 ssh2
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Failed password for invalid user root from 192.168.00.77 port 17196 ssh2
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Failed password for invalid user root from 192.168.00.77 port 17196 ssh2
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Received disconnect from 192.168.00.77 port 17196:11:  [preauth]
+Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Disconnected from invalid user root 192.168.00.77 port 17196 [preauth]
