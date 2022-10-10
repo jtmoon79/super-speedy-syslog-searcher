@@ -1,5 +1,3 @@
-# file listing, used by log-files-time-update.sh
-#file/path|datetime
 ./CentOS7/yum.log|2022-01-21 13:29:39.003877800 -0800
 ./cygwin/setup.log|2022/03/23 14:38:51
 ./cygwin/setup.log.full|2022/03/23 14:38:51
@@ -34,6 +32,8 @@
 ./FedoraRemix29/dnf.librepo.log|2019-06-16T14:09:37-00:00
 ./FedoraRemix29/dnf.log|2019-06-16T14:11:21-00:00
 ./FedoraRemix29/hawkeye.log|2021-06-16 14:10:30
+# file listing, used by log-files-time-update.sh
+#file/path|datetime
 ./MinGW64/pacman.log|2018-05-31 12:22
 ./OpenSUSE15/YaST2/y2log|2019-09-17 07:08:12
 ./OpenSUSE15/zypper.log|2019-05-23 16:53:43
@@ -72,11 +72,12 @@
 ./other/tests/dtf5-2c.log|2022-09-02 21:45:35.9541789060
 ./other/tests/dtf5-3-LF-CR.log|2022-09-02 21:45:35.9541789060
 ./other/tests/dtf5-3-r-n.log|2022-09-02 21:45:35.9541789060
-./other/tests/dtf5-6a.log.1|2000-01-01 00:00:05
-./other/tests/dtf5-6a.log|2000-01-01 00:00:05.545
-./other/tests/dtf5-6a.log.gz|2000-01-01 00:00:05
-./other/tests/dtf5-6a.log.old|2000-01-01 00:00:05.1
-./other/tests/dtf5-6a.log.xz|2000-01-01 00:00:05
+./other/tests/dtf5-6a.log.1|2000-01-01 00:00:05.2
+./other/tests/dtf5-6a.log|2000-01-01 00:00:05.1
+./other/tests/dtf5-6a.log.gz|2000-01-01 00:00:05.400
+./other/tests/dtf5-6a.log.gz.tar|2000-01-01 00:00:06
+./other/tests/dtf5-6a.log.old|2000-01-01 00:00:05.100
+./other/tests/dtf5-6a.log.xz|2000-01-01 00:00:05.700
 ./other/tests/dtf5-6b.log|2022-09-02 21:45:35.9541789060
 ./other/tests/dtf5-6c.log|2022-09-02 21:45:35.9541789060
 ./other/tests/dtf6z-1.log|2000-01-01 00:00:05-0400
@@ -103,7 +104,7 @@
 ./other/tests/gen-1000-3-foobar.log.gz|2000-01-01 08:16:39
 ./other/tests/gen-100-10-BRAAAP.log|2000-01-01 08:01:39.9581788290
 ./other/tests/gen-100-10-FOOBAR.log|2000-01-01 08:01:39.4541747290
- ./other/tests/gen-100-10-.......log|2000-01-01 08:01:39
+./other/tests/gen-100-10-.......log|2000-01-01 08:01:39
 ./other/tests/gen-100-10-______.log|2000-01-01 08:01:39.459
 ./other/tests/gen-100-10-skullcrossbones.log|2000-01-01 00:01:39.9621787510
 ./other/tests/gen-100-10-skullcrossbones.log.gz|2000-01-01 00:01:39
@@ -141,7 +142,7 @@
 ./other/tests/RFC3339-a.log|2022-10-04 21:35:07.9193506520
 ./other/tests/simple1.log|2022-09-02 21:45:36.0501770530
 ./other/tests/simple2.log|2022-09-02 21:45:36.0501770530
-./other/tests/syslog-1.log|2022-09-02 21:45:36.0501770530
+./other/tests/syslog.1.log|2020/03/05 12:21:13.308
 ./other/tests/test0-nlx1.log|2022-09-02 21:45:36.0501770530
 ./other/tests/test0-nlx1_Win.log|2022-09-02 21:45:36.0501770530
 ./other/tests/test0-nlx2.log|2022-09-02 21:45:36.0501770530
@@ -156,205 +157,231 @@
 ./other/tests/test3-hex.log|2022-09-02 21:45:36.0501770530
 ./other/tests/test.log|2022-09-02 21:45:36.0501770530
 ./other/tests/zero.log|2022-09-02 21:45:36.0501770530
+./programs/digital-ocean-cloud-init/cloud-init.log|2022-10-08 06:22:57 +0000
+./programs/digital-ocean-cloud-init/cloud-init-output.log|2022-10-07 01:15:36 +0000
+./programs/pacman/pacman.log|2022-10-07 16:08:00
 ./programs/proftpd/controls.log|2020-10-03 11:26:13
 ./programs/proftpd/proftpd.log|2020-10-03 11:26:13
 ./programs/proftpd/xferlog|2020-10-03 11:26:13
-./synology/apparmor.log|2016-12-05 22:01:43-08:00
-./synology/auth.log|2016-12-05 20:47:00-08:00
-./synology/checker.log|2019-07-17 02:31:58-07:00
-./synology/cloudsync/daemon.log|2018-02-09 21:25:06
-./synology/datascrubbing.log|2018-10-25 12:26:10-07:00
-./synology/.disk_daily_info_send_udc_time|2019-06-21 00:12:32
-./synology/disk.log|2017-05-08 08:35:08-07:00
-./synology/dmesg|2019-02-11 19:22:56
-./synology/downloadstation.log|2019-08-31T15:00:08-07:00
-./synology/dpkg.log|2016-12-05 21:38:48
-./synology/dpkg_upgrade.log|2020-10-06 20:52:07.6230169610
-./synology/esynoscheduler.log|2016-12-05T22:13:45-08:00
-./synology/fsck/root.log|2020-03-07 20:25:31
-./synology/ha.log|2017-06-19 01:22:07-07:00
-./synology/iscsi.log|2017-01-24 23:26:17-08:00
-./synology/kern.log|2016-12-05T20:31:05-08:00
-./synology/messages|2020-03-08 14:25:59-07:00
-./synology/opentftp.log|2017-02-22 21:46:30
-./synology/packages/CloudSync.log|2019/08/31 14:55:44
-./synology/packages/DownloadStation.log|2020-03-07 12:27:10 -0800
-./synology/packages/FileStation.log|2019/06/23 21:11:56
-./synology/packages/GlacierBackup.log|2020-03-07 12:26:58 -0800
-./synology/packages/HyperBackup.log|2019/08/31 15:06:05
-./synology/packages/HyperBackupVault.log|2019/08/31 14:25:39
-./synology/packages/LogCenter.log|2019/08/18 21:28:26
-./synology/packages/Node.js_v4.log|2019/11/16 14:19:43
-./synology/packages/Node.js_v8.log|2019/08/31 23:51:59
-./synology/packages/StorageAnalyzer.log|2019/06/25 01:46:29
-./synology/packages/SurveillanceStation.log|2019/08/18 21:24:50
-./synology/packages/SynoFinder.log|2019/06/23 21:12:29
-./synology/packages/SynologyApplicationService.log|2019/08/31 14:25:58
-./synology/packages/SynologyDrive.log|2019/08/31 23:53:59
-./synology/packages/SynologyMoments.log|2019/06/24 01:53:25
-./synology/packages/USBCopy.log|2019/08/31 23:18:14
-./synology/postgresql.log|2016-12-05T20:47:43-08:00
-./synology/router.log|2017-01-03 23:56:59
-./synology/samba/log.nmbd|2016/12/05 20:32:53
-./synology/samba/log.smbd|2016-12-05 21:16:10.1075
-./synology/scemd.log|2016-12-05 20:31:50-08:00
-./synology/sfdisk.log|2020-02-24 16:36:10-08:00
-./synology/smart_extend_log|2019/12/20 00:00:03
-./synology/smart_quick_log|2020/03/05 00:00:03
-./synology/space_operation_error.log|2018-01-24 23:24:08
-./synology/surveillance/ssnotification.log|2022-12-15 21:34:13
-./synology/surveillance/ssrotate.log|2022-09-18 16:29:42
-./synology/surveillance/surveillance.log|2020-02-09 19:00:16
-./synology/synobackup.log|2017/02/24 03:43:57
-./synology/synocmsclient.log|2016-12-05 21:34:33 -07:00
-./synology/synocontentextractd.log|2019-01-07 00:18:50-08:00
-./synology/synocrond-execute.log|2020-12-11 04:56:46
-./synology/synocrond.log|2019-09-04 02:42:28-07:00
-./synology/synofeasibilitycheck.log|2016-12-05T21:00:54-08:00
-./synology/synoindex.log|2018-12-06 04:15:48-08:00
-./synology/synolog/synobackup.log|2017/02/24 03:43:57
-./synology/synolog/synobackup_server.log|2018-12-29 03:02:49
-./synology/synologydrive.log|2018-12-17 15:09:11-08:00
-./synology/synophoto.log|2019-01-03 00:11:43-08:00
-./synology/synopkg.log|2016-12-05 20:47:00
-./synology/synopoweroff.log|2017-03-09 12:55:01-08:00
-./synology/synorelayd.log|2017-01-24 23:26:30
-./synology/synoreport.log|2017-05-16 04:45:18.774
-./synology/synoscheduler.log|2017-05-15 04:00:05-07:00
-./synology/synoservice.log|2020-02-12 02:44:29-08:00
-./synology/synotifyd.log|2019-01-03 00:05:36-08:00
-./synology/synoupdate.log|2017-02-23 14:45:26.987
-./synology/syslog.log|2016-12-05 21:39:31-08:00
-./synology/sysnotify.log|2018-12-14 04:03:05-08:00
-./synology/upstart/3rdparty-services.log|2017-01-08T13:36:05-0800
-./synology/upstart/apparmor.log|2018-10-15T14:06:08-0700
-./synology/upstart/auto-smallupdate.log|2019-06-23 21:11:15-0700
-./synology/upstart/avahi.log|2016-12-05 21:39:57-0800
-./synology/upstart/cgi-keygen.log|2016-12-05T20:32:15-0800
-./synology/upstart/crond.log|2017-01-31 00:22:17-0800
-./synology/upstart/dbus-session.log|2020-03-07T12:25:46-0800
-./synology/upstart/dbus-system.log|2017-02-23T14:51:59-0800
-./synology/upstart/dhcp-client-eth0.log|2019-11-16 14:56:41-0800
-./synology/upstart/DiskHealthCk.log|2016-12-05T20:31:50-0800
-./synology/upstart/dsm-services.log|2017-01-03T01:40:54-0800
-./synology/upstart/dsmupdate.log|2017-09-17T10:11:43-0700
-./synology/upstart/eaupgrade.log|2017-09-17 10:12:07-0700
-./synology/upstart/findhostd.log|2017-01-03T01:40:57-0800
-./synology/upstart/ftpd.log|2017-10-19T10:18:47-0700
-./synology/upstart/hotplugd.log|2017-10-19T10:21:22-0700
-./synology/upstart/inetd.log|2019-11-14T21:05:42-0800
-./synology/upstart/iptablesTc.log|2017-09-17T10:12:19-0700
-./synology/upstart/iscsi_pluginengined.log|2017-02-04 23:07:11-0800
-./synology/upstart/iscsitrg-adapter.log|2017-01-03 23:56:43-0800
-./synology/upstart/is_plugind.log|2016-12-05T20:31:41-08:00
-./synology/upstart/job-monitor-handler.log|2017-03-09 20:15:11-0800
-./synology/upstart/md-sb-not-clean-notify.log|2019-11-16T14:59:16-0800
-./synology/upstart/minissdpd.log|2016-12-05T20:36:47-0800
-./synology/upstart/mkcert.log|2016-12-05T20:31:19-0800
-./synology/upstart/mkdhparam.log|2016-12-05T22:19:48-0800
-./synology/upstart/netatalk.log|2016-12-08T18:55:31-0800
-./synology/upstart/network.log|2016-12-05T20:31:31-0800
-./synology/upstart/nfsd-adapter.log|2019-06-23 21:06:28-0700
-./synology/upstart/nginx.log|2017-03-09 20:15:37-0800
-./synology/upstart/nmbd.log|2016-12-05T21:11:48-0800
-./synology/upstart/opentftp.log|2017-03-05T13:27:10-0800
-./synology/upstart/pgsql-adapter.log|2016-12-05T20:33:03-0800
-./synology/upstart/pgsql.log|2017-01-03 01:40:59-0800
-./synology/upstart/php_timezone_update.log|2019-11-16 14:59:15-0800
-./synology/upstart/pkgctl-CloudSync.log|2019-02-11 19:25:11-0800
-./synology/upstart/pkgctl-DownloadStation.log|2017-02-23T14:45:55-0800
-./synology/upstart/pkgctl-FileStation.log|2017-09-17 09:57:03-0700
-./synology/upstart/pkgctl-GlacierBackup.log|2019-10-19T18:59:23-0700
-./synology/upstart/pkgctl-HyperBackup.log|2017-09-17 10:01:29-0700
-./synology/upstart/pkgctl-HyperBackupVault.log|2019-09-08T19:25:25-0700
-./synology/upstart/pkgctl-LogCenter.log|2019-08-18T21:24:50-0700
-./synology/upstart/pkgctl-Node.js_v4.log|2019-11-14 21:06:09-0800
-./synology/upstart/pkgctl-Node.js_v8.log|2019-11-16T14:56:41-0800
-./synology/upstart/pkgctl-OAuthService.log|2019-08-31T14:21:58-0700
-./synology/upstart/pkgctl-StorageAnalyzer.log|2017-02-24T02:30:14-0800
-./synology/upstart/pkgctl-SurveillanceStation.log|2017-06-19T01:18:48-0700
-./synology/upstart/pkgctl-SynoFinder.log|2017-09-17T10:05:04-0700
-./synology/upstart/pkgctl-SynologyApplicationService.log|2019-10-19T19:03:44-0700
-./synology/upstart/pkgctl-SynologyDrive.log|2019-08-31 14:22:03-0700
-./synology/upstart/pkgctl-SynologyMoments.log|2019-01-26T03:37:28-0800
-./synology/upstart/pkgctl-USBCopy.log|2017-10-19T10:18:49-0700
-./synology/upstart/pkg-LogCenter-localarchive.log|2018-09-04T15:01:11-0700
-./synology/upstart/pkg-LogCenter-syslog.log|2018-09-04T15:24:53-0700
-./synology/upstart/pkg-surveillance-apid.log|2017-02-18T14:59:19-0800
-./synology/upstart/pkg-SynologyApplicationService-notification_send.log|2019-10-19T19:04:09-0700
-./synology/upstart/pkg-SynologyApplicationService-session_watcher.log|2020-03-06T20:09:23-0800
-./synology/upstart/pkg-SynologyApplicationService-VapidSendServer.log|2019-09-08T19:26:07-0700
-./synology/upstart/pkg-SynologyMoments-assessment.log|2019-02-08T01:43:39-0800
-./synology/upstart/pkg-SynologyMoments-check-center.log|2019-01-26T03:37:44-0800
-./synology/upstart/pkg-SynologyMoments-concept.log|2019-01-26T03:37:38-0800
-./synology/upstart/pkg-SynologyMoments-face-extraction.log|2019-01-26T03:37:38-0800
-./synology/upstart/pkg-SynologyMoments-filter.log|2019-02-08 01:43:39-0800
-./synology/upstart/pkg-SynologyMoments-geocoding.log|2019-01-26T03:37:37-0800
-./synology/upstart/pkg-SynologyMoments-inclination.log|2019-02-08T01:43:39-0800
-./synology/upstart/pkg-SynologyMoments-notify-center.log|2019-02-08T01:43:49-0800
-./synology/upstart/pkg-SynologyMoments-person-clustering.log|2019-01-26T03:37:38-0800
-./synology/upstart/pkg-SynologyMoments-task-center.log|2019-01-26T03:37:35-0800
-./synology/upstart/pkg-SynologyMoments-thumb.log|2019-01-26 03:37:38-0800
-./synology/upstart/pkg-SynologyMoments-thumbnail-provider.log|2019-01-25T03:37:30-0800
-./synology/upstart/pkg-synoreport.log|2018-08-01T14:01:48-0700
-./synology/upstart/pppoerelay.log|2016-12-05 20:36:44-0800
-./synology/upstart/prefetch-pkgicon.log|2019-08-31T14:25:07-0700
-./synology/upstart/rc.log|2016-12-05 20:31:06-0800
-./synology/upstart/rc-sysinit.log|2017-02-23T14:53:02-0800
-./synology/upstart/root-file-system.log|2020-03-07 12:25:38.000000000 -0800
-./synology/upstart/rsyncd-adapter.log|2017-05-12T22:46:23-0700
-./synology/upstart/s2s_daemon.log|2017-01-08T13:35:55-0800
-./synology/upstart/scemd.log|2017-10-02 22:19:06-0700
-./synology/upstart/scrubbing-conf-sync.log|2019-06-23T21:10:42-0700
-./synology/upstart/smallupdate.log|2017-01-24T23:25:55-0800
-./synology/upstart/smbd.log|2016-12-05T21:11:47-0800
-./synology/upstart/sshd.log|2020-03-07 12:26:08.000000000 -0800
-./synology/upstart/ssh-sftp.log|2016-12-08T18:57:05-0800
-./synology/upstart/ssh-shell.log|2017-01-24T23:21:38-0800
-./synology/upstart/syno-auth-check.log|2017-02-23T14:51:59-0800
-./synology/upstart/synocgid.log|2017-03-09T20:15:33-0800
-./synology/upstart/syno-checkshare-usbvol.log|2017-02-23 14:52:26-0800
-./synology/upstart/synoconfd.log|2017-03-09T20:15:16-0800
-./synology/upstart/synocrond.log|2019-08-18T21:24:43-0700
-./synology/upstart/synoindexcheckindexbit.log|2018-10-25T12:26:20-0700
-./synology/upstart/synoindexd.log|2020-03-06T20:09:28-0800
-./synology/upstart/synologand.log|2018-10-15T14:09:07-0700
-./synology/upstart/synologd.log|2016-12-08 18:56:18-0800
-./synology/upstart/synolog-service-handler-atalk.log|2016-12-30T00:36:57-0800
-./synology/upstart/synolog-service-handler-ftpd.log|2017-01-17 21:57:12-0800
-./synology/upstart/synolog-service-handler-ftpd-ssl.log|2017-01-17 21:57:12-0800
-./synology/upstart/synolog-service-handler-samba.log|2016-12-05T21:16:10-0800
-./synology/upstart/synolog-service-handler-sftp.log|2016-12-08 18:56:19-0800
-./synology/upstart/synomkflvd.log|2020-03-07T12:23:02-0800
-./synology/upstart/synomkthumbd.log|2020-03-07T12:23:02-0800
-./synology/upstart/synomount.log|2016-12-05T21:39:50-0800
-./synology/upstart/syno-move-coredump.log|2019-03-11 18:02:40-0700
-./synology/upstart/synonetd.log|2017-02-23T14:51:59-0800
-./synology/upstart/syno-network-check.log|2016-12-05T21:11:46-0800
-./synology/upstart/synopkgctl-launcher.log|2017-09-17 10:12:00-0700
-./synology/upstart/synopkgctl-wait-bootup.log|2017-03-09 20:15:58-0800
-./synology/upstart/synoscgi.log|2016-12-05 20:47:10-0800
-./synology/upstart/synoscheduler.log|2017-09-17T10:11:43-0700
-./synology/upstart/synoscheduler-vmtouch.log|2018-10-25T12:23:47-0700
-./synology/upstart/syno-share-check.log|2016-12-05T21:11:43-0800
-./synology/upstart/synosharesnapshot_clear_subvol.log|2017-10-19 10:21:14-0700
-./synology/upstart/synosnmpcd.log|2016-12-05T20:31:39-0800
-./synology/upstart/synosnmp-service-handler.log|2018-08-01T14:14:03-0700
-./synology/upstart/synostoraged.log|2017-01-31 00:21:57-0800
-./synology/upstart/synovpnclient.log|2017-03-09T20:15:44-0800
-./synology/upstart/synowifid-handler.log|2017-02-23T14:51:59-0800
-./synology/upstart/synowsdiscoveryd.log|2019-09-04T18:38:13-0700
-./synology/upstart/synowstransfer-adapter.log|2019-11-14 21:05:53-0800
-./synology/upstart/syslog-acc.log|2019-10-19T19:02:43-0700
-./synology/upstart/syslog-ng.log|2017-02-23T14:49:40-0800
-./synology/upstart/syslog-notify.log|2017-01-03T01:35:42-0800
-./synology/upstart/system-profile-tuning.log|2019-02-11 16:44:40-0800
-./synology/upstart/telnetd.log|2019-09-08T19:24:51-0700
-./synology/upstart/umount-root-fs.log|2018-08-01 14:14:13-0700
-./synology/upstart/update-apppriv-local.log|2018-02-28T15:00:33-0800
-./synology/upstart/update-apppriv-remote.log|2018-08-01 14:16:41-0700
-./synology/upstart/WDidle3Dis.log|2017-02-23T14:49:29-0800
-./synology/usbcopyd.log|2017-06-19 01:19:07-07:00
+./RancherOS-1.5.8/boot/autologin|2022-10-10T20:23:36 -00:00
+./RancherOS-1.5.8/boot/cloud-init-save.log|2022-10-10T20:23:26 -00:00
+./RancherOS-1.5.8/boot/cloud-init.save.log|2022-10-10T20:23:34Z
+./RancherOS-1.5.8/boot/init.log|2022-10-10T20:23:27 -00:00
+./RancherOS-1.5.8/boot/netconf.log|2022-10-10T20:23:33 -00:00
+./RancherOS-1.5.8/boot/respawn.log|2022-10-10T20:23:35 -00:00
+./RancherOS-1.5.8/boot/ros-sysinit.log|2022-10-10T20:23:36 -00:00
+./RancherOS-1.5.8/boot/shutdown.log|2022-10-10T20:23:15 -00:00
+./RancherOS-1.5.8/dockerlaunch.log|2022-10-09T21:31:43 -00:00
+./RancherOS-1.5.8/docker.log|2022-10-09T21:33:16 -00:00
+./RancherOS-1.5.8/messages|2022-10-10 22:26:52 -00:00
+./RancherOS-1.5.8/syslog|2022-10-10T20:31:24 -00:00
+./RancherOS-1.5.8/system-docker.log|2022-10-10T20:23:29.278 -00:00
+./RockyLinux9/cron|2022-10-08T22:07:57 +0000
+./RockyLinux9/dnf.librepo.log|2022-10-08 22:26:51 -00:00
+./RockyLinux9/dnf.log|2022-10-08T22:26:52+0000
+./RockyLinux9/dnf.rpm.log|2022-10-08T22:26:52+0000
+./RockyLinux9/hawkey.log|2022-10-08 22:26:52+0000
+./RockyLinux9/messages|2002-10-08T22:26:52+0000
+./RockyLinux9/messages-DropletAgent|2022-10-08 06:22:55 -00:00
+./RockyLinux9/nginx/access.log|2022-10-08 22:27:55 -00:00
+./RockyLinux9/nginx/error.log|2022-10-08 22:27:55 -00:00
+./RockyLinux9/secure|2022-10-08 22:31:17 -00:00
+./synology-DS6/apparmor.log|2016-12-05 22:01:43-08:00
+./synology-DS6/auth.log|2016-12-05 20:47:00-08:00
+./synology-DS6/checker.log|2019-07-17 02:31:58-07:00
+./synology-DS6/cloudsync/daemon.log|2018-02-09 21:25:06
+./synology-DS6/datascrubbing.log|2018-10-25 12:26:10-07:00
+./synology-DS6/.disk_daily_info_send_udc_time|2019-06-21 00:12:32
+./synology-DS6/disk.log|2017-05-08 08:35:08-07:00
+./synology-DS6/dmesg|2019-02-11 19:22:56
+./synology-DS6/downloadstation.log|2019-08-31T15:00:08-07:00
+./synology-DS6/dpkg.log|2016-12-05 21:38:48
+./synology-DS6/dpkg_upgrade.log|2020-10-06 20:52:07.6230169610
+./synology-DS6/esynoscheduler.log|2016-12-05T22:13:45-08:00
+./synology-DS6/fsck/root.log|2020-03-07 20:25:31
+./synology-DS6/ha.log|2017-06-19 01:22:07-07:00
+./synology-DS6/iscsi.log|2017-01-24 23:26:17-08:00
+./synology-DS6/kern.log|2016-12-05T20:31:05-08:00
+./synology-DS6/messages|2020-03-08 14:25:59-07:00
+./synology-DS6/opentftp.log|2017-02-22 21:46:30
+./synology-DS6/packages/CloudSync.log|2019/08/31 14:55:44
+./synology-DS6/packages/DownloadStation.log|2020-03-07 12:27:10 -0800
+./synology-DS6/packages/FileStation.log|2019/06/23 21:11:56
+./synology-DS6/packages/GlacierBackup.log|2020-03-07 12:26:58 -0800
+./synology-DS6/packages/HyperBackup.log|2019/08/31 15:06:05
+./synology-DS6/packages/HyperBackupVault.log|2019/08/31 14:25:39
+./synology-DS6/packages/LogCenter.log|2019/08/18 21:28:26
+./synology-DS6/packages/Node.js_v4.log|2019/11/16 14:19:43
+./synology-DS6/packages/Node.js_v8.log|2019/08/31 23:51:59
+./synology-DS6/packages/StorageAnalyzer.log|2019/06/25 01:46:29
+./synology-DS6/packages/SurveillanceStation.log|2019/08/18 21:24:50
+./synology-DS6/packages/SynoFinder.log|2019/06/23 21:12:29
+./synology-DS6/packages/SynologyApplicationService.log|2019/08/31 14:25:58
+./synology-DS6/packages/SynologyDrive.log|2019/08/31 23:53:59
+./synology-DS6/packages/SynologyMoments.log|2019/06/24 01:53:25
+./synology-DS6/packages/USBCopy.log|2019/08/31 23:18:14
+./synology-DS6/postgresql.log|2016-12-05T20:47:43-08:00
+./synology-DS6/router.log|2017-01-03 23:56:59
+./synology-DS6/samba/log.nmbd|2016/12/05 20:32:53
+./synology-DS6/samba/log.smbd|2016-12-05 21:16:10.1075
+./synology-DS6/scemd.log|2016-12-05 20:31:50-08:00
+./synology-DS6/sfdisk.log|2020-02-24 16:36:10-08:00
+./synology-DS6/smart_extend_log|2019/12/20 00:00:03
+./synology-DS6/smart_quick_log|2020/03/05 00:00:03
+./synology-DS6/space_operation_error.log|2018-01-24 23:24:08
+./synology-DS6/surveillance/ssnotification.log|2022-12-15 21:34:13
+./synology-DS6/surveillance/ssrotate.log|2022-09-18 16:29:42
+./synology-DS6/surveillance/surveillance.log|2020-02-09 19:00:16
+./synology-DS6/synobackup.log|2017/02/24 03:43:57
+./synology-DS6/synocmsclient.log|2016-12-05 21:34:33 -07:00
+./synology-DS6/synocontentextractd.log|2019-01-07 00:18:50-08:00
+./synology-DS6/synocrond-execute.log|2020-12-11 04:56:46
+./synology-DS6/synocrond.log|2019-09-04 02:42:28-07:00
+./synology-DS6/synofeasibilitycheck.log|2016-12-05T21:00:54-08:00
+./synology-DS6/synoindex.log|2018-12-06 04:15:48-08:00
+./synology-DS6/synolog/synobackup.log|2017/02/24 03:43:57
+./synology-DS6/synolog/synobackup_server.log|2018-12-29 03:02:49
+./synology-DS6/synologydrive.log|2018-12-17 15:09:11-08:00
+./synology-DS6/synophoto.log|2019-01-03 00:11:43-08:00
+./synology-DS6/synopkg.log|2016-12-05 20:47:00
+./synology-DS6/synopoweroff.log|2017-03-09 12:55:01-08:00
+./synology-DS6/synorelayd.log|2017-01-24 23:26:30
+./synology-DS6/synoreport.log|2017-05-16 04:45:18.774
+./synology-DS6/synoscheduler.log|2017-05-15 04:00:05-07:00
+./synology-DS6/synoservice.log|2020-02-12 02:44:29-08:00
+./synology-DS6/synotifyd.log|2019-01-03 00:05:36-08:00
+./synology-DS6/synoupdate.log|2017-02-23 14:45:26.987
+./synology-DS6/syslog.log|2016-12-05 21:39:31-08:00
+./synology-DS6/sysnotify.log|2018-12-14 04:03:05-08:00
+./synology-DS6/upstart/3rdparty-services.log|2017-01-08T13:36:05-0800
+./synology-DS6/upstart/apparmor.log|2018-10-15T14:06:08-0700
+./synology-DS6/upstart/auto-smallupdate.log|2019-06-23 21:11:15-0700
+./synology-DS6/upstart/avahi.log|2016-12-05 21:39:57-0800
+./synology-DS6/upstart/cgi-keygen.log|2016-12-05T20:32:15-0800
+./synology-DS6/upstart/crond.log|2017-01-31 00:22:17-0800
+./synology-DS6/upstart/dbus-session.log|2020-03-07T12:25:46-0800
+./synology-DS6/upstart/dbus-system.log|2017-02-23T14:51:59-0800
+./synology-DS6/upstart/dhcp-client-eth0.log|2019-11-16 14:56:41-0800
+./synology-DS6/upstart/DiskHealthCk.log|2016-12-05T20:31:50-0800
+./synology-DS6/upstart/dsm-services.log|2017-01-03T01:40:54-0800
+./synology-DS6/upstart/dsmupdate.log|2017-09-17T10:11:43-0700
+./synology-DS6/upstart/eaupgrade.log|2017-09-17 10:12:07-0700
+./synology-DS6/upstart/findhostd.log|2017-01-03T01:40:57-0800
+./synology-DS6/upstart/ftpd.log|2017-10-19T10:18:47-0700
+./synology-DS6/upstart/hotplugd.log|2017-10-19T10:21:22-0700
+./synology-DS6/upstart/inetd.log|2019-11-14T21:05:42-0800
+./synology-DS6/upstart/iptablesTc.log|2017-09-17T10:12:19-0700
+./synology-DS6/upstart/iscsi_pluginengined.log|2017-02-04 23:07:11-0800
+./synology-DS6/upstart/iscsitrg-adapter.log|2017-01-03 23:56:43-0800
+./synology-DS6/upstart/is_plugind.log|2016-12-05T20:31:41-08:00
+./synology-DS6/upstart/job-monitor-handler.log|2017-03-09 20:15:11-0800
+./synology-DS6/upstart/md-sb-not-clean-notify.log|2019-11-16T14:59:16-0800
+./synology-DS6/upstart/minissdpd.log|2016-12-05T20:36:47-0800
+./synology-DS6/upstart/mkcert.log|2016-12-05T20:31:19-0800
+./synology-DS6/upstart/mkdhparam.log|2016-12-05T22:19:48-0800
+./synology-DS6/upstart/netatalk.log|2016-12-08T18:55:31-0800
+./synology-DS6/upstart/network.log|2016-12-05T20:31:31-0800
+./synology-DS6/upstart/nfsd-adapter.log|2019-06-23 21:06:28-0700
+./synology-DS6/upstart/nginx.log|2017-03-09 20:15:37-0800
+./synology-DS6/upstart/nmbd.log|2016-12-05T21:11:48-0800
+./synology-DS6/upstart/opentftp.log|2017-03-05T13:27:10-0800
+./synology-DS6/upstart/pgsql-adapter.log|2016-12-05T20:33:03-0800
+./synology-DS6/upstart/pgsql.log|2017-01-03 01:40:59-0800
+./synology-DS6/upstart/php_timezone_update.log|2019-11-16 14:59:15-0800
+./synology-DS6/upstart/pkgctl-CloudSync.log|2019-02-11 19:25:11-0800
+./synology-DS6/upstart/pkgctl-DownloadStation.log|2017-02-23T14:45:55-0800
+./synology-DS6/upstart/pkgctl-FileStation.log|2017-09-17 09:57:03-0700
+./synology-DS6/upstart/pkgctl-GlacierBackup.log|2019-10-19T18:59:23-0700
+./synology-DS6/upstart/pkgctl-HyperBackup.log|2017-09-17 10:01:29-0700
+./synology-DS6/upstart/pkgctl-HyperBackupVault.log|2019-09-08T19:25:25-0700
+./synology-DS6/upstart/pkgctl-LogCenter.log|2019-08-18T21:24:50-0700
+./synology-DS6/upstart/pkgctl-Node.js_v4.log|2019-11-14 21:06:09-0800
+./synology-DS6/upstart/pkgctl-Node.js_v8.log|2019-11-16T14:56:41-0800
+./synology-DS6/upstart/pkgctl-OAuthService.log|2019-08-31T14:21:58-0700
+./synology-DS6/upstart/pkgctl-StorageAnalyzer.log|2017-02-24T02:30:14-0800
+./synology-DS6/upstart/pkgctl-SurveillanceStation.log|2017-06-19T01:18:48-0700
+./synology-DS6/upstart/pkgctl-SynoFinder.log|2017-09-17T10:05:04-0700
+./synology-DS6/upstart/pkgctl-SynologyApplicationService.log|2019-10-19T19:03:44-0700
+./synology-DS6/upstart/pkgctl-SynologyDrive.log|2019-08-31 14:22:03-0700
+./synology-DS6/upstart/pkgctl-SynologyMoments.log|2019-01-26T03:37:28-0800
+./synology-DS6/upstart/pkgctl-USBCopy.log|2017-10-19T10:18:49-0700
+./synology-DS6/upstart/pkg-LogCenter-localarchive.log|2018-09-04T15:01:11-0700
+./synology-DS6/upstart/pkg-LogCenter-syslog.log|2018-09-04T15:24:53-0700
+./synology-DS6/upstart/pkg-surveillance-apid.log|2017-02-18T14:59:19-0800
+./synology-DS6/upstart/pkg-SynologyApplicationService-notification_send.log|2019-10-19T19:04:09-0700
+./synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher.log|2020-03-06T20:09:23-0800
+./synology-DS6/upstart/pkg-SynologyApplicationService-VapidSendServer.log|2019-09-08T19:26:07-0700
+./synology-DS6/upstart/pkg-SynologyMoments-assessment.log|2019-02-08T01:43:39-0800
+./synology-DS6/upstart/pkg-SynologyMoments-check-center.log|2019-01-26T03:37:44-0800
+./synology-DS6/upstart/pkg-SynologyMoments-concept.log|2019-01-26T03:37:38-0800
+./synology-DS6/upstart/pkg-SynologyMoments-face-extraction.log|2019-01-26T03:37:38-0800
+./synology-DS6/upstart/pkg-SynologyMoments-filter.log|2019-02-08 01:43:39-0800
+./synology-DS6/upstart/pkg-SynologyMoments-geocoding.log|2019-01-26T03:37:37-0800
+./synology-DS6/upstart/pkg-SynologyMoments-inclination.log|2019-02-08T01:43:39-0800
+./synology-DS6/upstart/pkg-SynologyMoments-notify-center.log|2019-02-08T01:43:49-0800
+./synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log|2019-01-26T03:37:38-0800
+./synology-DS6/upstart/pkg-SynologyMoments-task-center.log|2019-01-26T03:37:35-0800
+./synology-DS6/upstart/pkg-SynologyMoments-thumb.log|2019-01-26 03:37:38-0800
+./synology-DS6/upstart/pkg-SynologyMoments-thumbnail-provider.log|2019-01-25T03:37:30-0800
+./synology-DS6/upstart/pkg-synoreport.log|2018-08-01T14:01:48-0700
+./synology-DS6/upstart/pppoerelay.log|2016-12-05 20:36:44-0800
+./synology-DS6/upstart/prefetch-pkgicon.log|2019-08-31T14:25:07-0700
+./synology-DS6/upstart/rc.log|2016-12-05 20:31:06-0800
+./synology-DS6/upstart/rc-sysinit.log|2017-02-23T14:53:02-0800
+./synology-DS6/upstart/root-file-system.log|2020-03-07 12:25:38.000000000 -0800
+./synology-DS6/upstart/rsyncd-adapter.log|2017-05-12T22:46:23-0700
+./synology-DS6/upstart/s2s_daemon.log|2017-01-08T13:35:55-0800
+./synology-DS6/upstart/scemd.log|2017-10-02 22:19:06-0700
+./synology-DS6/upstart/scrubbing-conf-sync.log|2019-06-23T21:10:42-0700
+./synology-DS6/upstart/smallupdate.log|2017-01-24T23:25:55-0800
+./synology-DS6/upstart/smbd.log|2016-12-05T21:11:47-0800
+./synology-DS6/upstart/sshd.log|2020-03-07 12:26:08.000000000 -0800
+./synology-DS6/upstart/ssh-sftp.log|2016-12-08T18:57:05-0800
+./synology-DS6/upstart/ssh-shell.log|2017-01-24T23:21:38-0800
+./synology-DS6/upstart/syno-auth-check.log|2017-02-23T14:51:59-0800
+./synology-DS6/upstart/synocgid.log|2017-03-09T20:15:33-0800
+./synology-DS6/upstart/syno-checkshare-usbvol.log|2017-02-23 14:52:26-0800
+./synology-DS6/upstart/synoconfd.log|2017-03-09T20:15:16-0800
+./synology-DS6/upstart/synocrond.log|2019-08-18T21:24:43-0700
+./synology-DS6/upstart/synoindexcheckindexbit.log|2018-10-25T12:26:20-0700
+./synology-DS6/upstart/synoindexd.log|2020-03-06T20:09:28-0800
+./synology-DS6/upstart/synologand.log|2018-10-15T14:09:07-0700
+./synology-DS6/upstart/synologd.log|2016-12-08 18:56:18-0800
+./synology-DS6/upstart/synolog-service-handler-atalk.log|2016-12-30T00:36:57-0800
+./synology-DS6/upstart/synolog-service-handler-ftpd.log|2017-01-17 21:57:12-0800
+./synology-DS6/upstart/synolog-service-handler-ftpd-ssl.log|2017-01-17 21:57:12-0800
+./synology-DS6/upstart/synolog-service-handler-samba.log|2016-12-05T21:16:10-0800
+./synology-DS6/upstart/synolog-service-handler-sftp.log|2016-12-08 18:56:19-0800
+./synology-DS6/upstart/synomkflvd.log|2020-03-07T12:23:02-0800
+./synology-DS6/upstart/synomkthumbd.log|2020-03-07T12:23:02-0800
+./synology-DS6/upstart/synomount.log|2016-12-05T21:39:50-0800
+./synology-DS6/upstart/syno-move-coredump.log|2019-03-11 18:02:40-0700
+./synology-DS6/upstart/synonetd.log|2017-02-23T14:51:59-0800
+./synology-DS6/upstart/syno-network-check.log|2016-12-05T21:11:46-0800
+./synology-DS6/upstart/synopkgctl-launcher.log|2017-09-17 10:12:00-0700
+./synology-DS6/upstart/synopkgctl-wait-bootup.log|2017-03-09 20:15:58-0800
+./synology-DS6/upstart/synoscgi.log|2016-12-05 20:47:10-0800
+./synology-DS6/upstart/synoscheduler.log|2017-09-17T10:11:43-0700
+./synology-DS6/upstart/synoscheduler-vmtouch.log|2018-10-25T12:23:47-0700
+./synology-DS6/upstart/syno-share-check.log|2016-12-05T21:11:43-0800
+./synology-DS6/upstart/synosharesnapshot_clear_subvol.log|2017-10-19 10:21:14-0700
+./synology-DS6/upstart/synosnmpcd.log|2016-12-05T20:31:39-0800
+./synology-DS6/upstart/synosnmp-service-handler.log|2018-08-01T14:14:03-0700
+./synology-DS6/upstart/synostoraged.log|2017-01-31 00:21:57-0800
+./synology-DS6/upstart/synovpnclient.log|2017-03-09T20:15:44-0800
+./synology-DS6/upstart/synowifid-handler.log|2017-02-23T14:51:59-0800
+./synology-DS6/upstart/synowsdiscoveryd.log|2019-09-04T18:38:13-0700
+./synology-DS6/upstart/synowstransfer-adapter.log|2019-11-14 21:05:53-0800
+./synology-DS6/upstart/syslog-acc.log|2019-10-19T19:02:43-0700
+./synology-DS6/upstart/syslog-ng.log|2017-02-23T14:49:40-0800
+./synology-DS6/upstart/syslog-notify.log|2017-01-03T01:35:42-0800
+./synology-DS6/upstart/system-profile-tuning.log|2019-02-11 16:44:40-0800
+./synology-DS6/upstart/telnetd.log|2019-09-08T19:24:51-0700
+./synology-DS6/upstart/umount-root-fs.log|2018-08-01 14:14:13-0700
+./synology-DS6/upstart/update-apppriv-local.log|2018-02-28T15:00:33-0800
+./synology-DS6/upstart/update-apppriv-remote.log|2018-08-01 14:16:41-0700
+./synology-DS6/upstart/WDidle3Dis.log|2017-02-23T14:49:29-0800
+./synology-DS6/usbcopyd.log|2017-06-19 01:19:07-07:00
 ./Ubuntu18/apt/history.log|2020-03-05 11:57:13 -0700
 ./Ubuntu18/apt/term.log|2020-03-05 11:57:11 -0700
 ./Ubuntu18/cups/access_log.1|2020-03-15T00:08:26 -0700
