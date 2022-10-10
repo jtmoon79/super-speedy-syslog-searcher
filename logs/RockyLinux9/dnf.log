@@ -1,0 +1,763 @@
+2022-09-12T17:53:18+0000 INFO --- logging initialized ---
+2022-09-12T17:53:18+0000 DDEBUG timer: config: 259 ms
+2022-09-12T17:53:18+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-09-12T17:53:18+0000 DEBUG YUM version: 4.10.0
+2022-09-12T17:53:18+0000 DDEBUG Command: yum install -y gpgme
+2022-09-12T17:53:18+0000 DDEBUG Installroot: /
+2022-09-12T17:53:18+0000 DDEBUG Releasever: 9
+2022-09-12T17:53:18+0000 DEBUG cachedir: /var/cache/dnf
+2022-09-12T17:53:18+0000 DDEBUG Base command: install
+2022-09-12T17:53:18+0000 DDEBUG Extra commands: ['install', '-y', 'gpgme']
+2022-09-12T17:53:19+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-09-12T17:53:20+0000 DEBUG repo: downloading from remote: baseos
+2022-09-12T17:53:20+0000 DEBUG countme: no event for baseos: budget to spend: 1
+2022-09-12T17:53:31+0000 DEBUG baseos: using metadata from Fri Sep  2 21:53:14 2022.
+2022-09-12T17:53:31+0000 DEBUG repo: downloading from remote: appstream
+2022-09-12T17:53:31+0000 DEBUG countme: event triggered for appstream: bucket 1
+2022-09-12T17:54:04+0000 DEBUG appstream: using metadata from Tue Sep  6 19:05:15 2022.
+2022-09-12T17:54:04+0000 DEBUG repo: downloading from remote: extras
+2022-09-12T17:54:04+0000 DEBUG countme: event triggered for extras: bucket 1
+2022-09-12T17:54:07+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-09-12T17:54:07+0000 INFO Last metadata expiration check: 0:00:02 ago on Mon Sep 12 17:54:05 2022.
+2022-09-12T17:54:07+0000 DDEBUG timer: sack setup: 29278 ms
+2022-09-12T17:54:07+0000 DEBUG Completion plugin: Generating completion cache...
+2022-09-12T17:54:14+0000 INFO Package gpgme-1.15.1-6.el9.x86_64 is already installed.
+2022-09-12T17:54:14+0000 DEBUG --> Starting dependency resolution
+2022-09-12T17:54:15+0000 DEBUG --> Finished dependency resolution
+2022-09-12T17:54:15+0000 DDEBUG timer: depsolve: 425 ms
+2022-09-12T17:54:15+0000 INFO Dependencies resolved.
+2022-09-12T17:54:15+0000 INFO Nothing to do.
+2022-09-12T17:54:15+0000 INFO Complete!
+2022-09-12T17:54:15+0000 DDEBUG Cleaning up.
+2022-10-08T06:18:42+0000 INFO --- logging initialized ---
+2022-10-08T06:18:42+0000 DDEBUG timer: config: 18 ms
+2022-10-08T06:18:42+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:18:42+0000 DEBUG YUM version: 4.10.0
+2022-10-08T06:18:42+0000 DDEBUG Command: yum remove -y droplet-agent
+2022-10-08T06:18:42+0000 DDEBUG Installroot: /
+2022-10-08T06:18:42+0000 DDEBUG Releasever: 9
+2022-10-08T06:18:42+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:18:42+0000 DDEBUG Base command: remove
+2022-10-08T06:18:42+0000 DDEBUG Extra commands: ['remove', '-y', 'droplet-agent']
+2022-10-08T06:18:42+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T06:18:42+0000 DDEBUG timer: sack setup: 237 ms
+2022-10-08T06:18:42+0000 INFO No match for argument: droplet-agent
+2022-10-08T06:18:42+0000 WARNING No packages marked for removal.
+2022-10-08T06:18:42+0000 DEBUG --> Starting dependency resolution
+2022-10-08T06:18:42+0000 DEBUG --> Finished dependency resolution
+2022-10-08T06:18:42+0000 DDEBUG timer: depsolve: 10 ms
+2022-10-08T06:18:42+0000 INFO Dependencies resolved.
+2022-10-08T06:18:42+0000 INFO Nothing to do.
+2022-10-08T06:18:42+0000 INFO Complete!
+2022-10-08T06:18:42+0000 DDEBUG Cleaning up.
+2022-10-08T06:18:43+0000 INFO --- logging initialized ---
+2022-10-08T06:18:43+0000 DDEBUG timer: config: 5 ms
+2022-10-08T06:18:43+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:18:43+0000 DEBUG YUM version: 4.10.0
+2022-10-08T06:18:43+0000 DDEBUG Command: yum install -y gpgme ca-certificates
+2022-10-08T06:18:43+0000 DDEBUG Installroot: /
+2022-10-08T06:18:43+0000 DDEBUG Releasever: 9
+2022-10-08T06:18:43+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:18:43+0000 DDEBUG Base command: install
+2022-10-08T06:18:43+0000 DDEBUG Extra commands: ['install', '-y', 'gpgme', 'ca-certificates']
+2022-10-08T06:18:43+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T06:18:43+0000 DEBUG countme: event triggered for baseos: bucket 3
+2022-10-08T06:18:43+0000 DEBUG reviving: failed for 'baseos', mismatched repomd.
+2022-10-08T06:18:43+0000 DEBUG repo: downloading from remote: baseos
+2022-10-08T06:18:43+0000 DEBUG countme: no event for baseos: window already counted
+2022-10-08T06:18:45+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T06:18:45+0000 DEBUG countme: no event for appstream: budget to spend: 1
+2022-10-08T06:18:45+0000 DEBUG reviving: failed for 'appstream', mismatched repomd.
+2022-10-08T06:18:45+0000 DEBUG repo: downloading from remote: appstream
+2022-10-08T06:18:45+0000 DEBUG countme: event triggered for appstream: bucket 2
+2022-10-08T06:18:48+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T06:18:48+0000 DEBUG countme: no event for extras: budget to spend: 1
+2022-10-08T06:18:49+0000 DEBUG reviving: 'extras' can be revived - repomd matches.
+2022-10-08T06:18:49+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T06:18:49+0000 DDEBUG timer: sack setup: 5677 ms
+2022-10-08T06:18:49+0000 DEBUG Completion plugin: Generating completion cache...
+2022-10-08T06:18:49+0000 INFO Package gpgme-1.15.1-6.el9.x86_64 is already installed.
+2022-10-08T06:18:49+0000 INFO Package ca-certificates-2020.2.50-94.el9.noarch is already installed.
+2022-10-08T06:18:49+0000 DEBUG --> Starting dependency resolution
+2022-10-08T06:18:49+0000 DEBUG ---> Package ca-certificates.noarch 2020.2.50-94.el9 will be upgraded
+2022-10-08T06:18:49+0000 DEBUG ---> Package ca-certificates.noarch 2022.2.54-90.2.el9 will be an upgrade
+2022-10-08T06:18:49+0000 DEBUG --> Finished dependency resolution
+2022-10-08T06:18:49+0000 DDEBUG timer: depsolve: 21 ms
+2022-10-08T06:18:49+0000 INFO Dependencies resolved.
+2022-10-08T06:18:49+0000 INFO ================================================================================
+ Package               Architecture Version                  Repository    Size
+================================================================================
+Upgrading:
+ ca-certificates       noarch       2022.2.54-90.2.el9       baseos       823 k
+
+Transaction Summary
+================================================================================
+Upgrade  1 Package
+
+2022-10-08T06:18:49+0000 INFO Total download size: 823 k
+2022-10-08T06:18:49+0000 INFO Downloading Packages:
+2022-10-08T06:18:50+0000 INFO --------------------------------------------------------------------------------
+2022-10-08T06:18:50+0000 INFO Total                                           2.0 MB/s | 823 kB     00:00
+2022-10-08T06:18:50+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+2022-10-08T06:18:50+0000 INFO Running transaction check
+2022-10-08T06:18:50+0000 INFO Transaction check succeeded.
+2022-10-08T06:18:50+0000 INFO Running transaction test
+2022-10-08T06:18:50+0000 INFO Transaction test succeeded.
+2022-10-08T06:18:50+0000 DDEBUG timer: transaction test: 47 ms
+2022-10-08T06:18:50+0000 INFO Running transaction
+2022-10-08T06:18:50+0000 DDEBUG RPM transaction start.
+2022-10-08T06:18:52+0000 DDEBUG RPM transaction over.
+2022-10-08T06:18:52+0000 DDEBUG timer: verify transaction: 216 ms
+2022-10-08T06:18:52+0000 DDEBUG timer: transaction: 2510 ms
+2022-10-08T06:18:52+0000 DEBUG Completion plugin: Generating completion cache...
+2022-10-08T06:18:52+0000 DEBUG Upgraded: ca-certificates-2022.2.54-90.2.el9.noarch
+2022-10-08T06:18:53+0000 INFO Complete!
+2022-10-08T06:18:53+0000 DDEBUG Cleaning up.
+2022-10-08T06:18:53+0000 DDEBUG /var/cache/dnf/baseos-0123456789112345/packages/ca-certificates-2022.2.54-90.2.el9.noarch.rpm removed
+2022-10-08T06:18:53+0000 INFO --- logging initialized ---
+2022-10-08T06:18:53+0000 DDEBUG timer: config: 9 ms
+2022-10-08T06:18:53+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:18:53+0000 DEBUG YUM version: 4.10.0
+2022-10-08T06:18:53+0000 DDEBUG Command: yum --disablerepo=* --enablerepo=droplet-agent makecache
+2022-10-08T06:18:53+0000 DDEBUG Installroot: /
+2022-10-08T06:18:53+0000 DDEBUG Releasever: 9
+2022-10-08T06:18:53+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:18:53+0000 DDEBUG Base command: makecache
+2022-10-08T06:18:53+0000 DDEBUG Extra commands: ['--disablerepo=*', '--enablerepo=droplet-agent', 'makecache']
+2022-10-08T06:18:53+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T06:18:53+0000 DEBUG droplet-agent: has expired and will be refreshed.
+2022-10-08T06:18:53+0000 DEBUG repo: downloading from remote: droplet-agent
+2022-10-08T06:18:54+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T06:18:54+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T06:18:54+0000 DDEBUG timer: sack setup: 972 ms
+2022-10-08T06:18:54+0000 DEBUG Completion plugin: Generating completion cache...
+2022-10-08T06:18:54+0000 INFO Metadata cache created.
+2022-10-08T06:18:54+0000 DDEBUG Cleaning up.
+2022-10-08T06:18:55+0000 INFO --- logging initialized ---
+2022-10-08T06:18:55+0000 DDEBUG timer: config: 8 ms
+2022-10-08T06:18:55+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:18:55+0000 DEBUG YUM version: 4.10.0
+2022-10-08T06:18:55+0000 DDEBUG Command: yum install -y droplet-agent
+2022-10-08T06:18:55+0000 DDEBUG Installroot: /
+2022-10-08T06:18:55+0000 DDEBUG Releasever: 9
+2022-10-08T06:18:55+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:18:55+0000 DDEBUG Base command: install
+2022-10-08T06:18:55+0000 DDEBUG Extra commands: ['install', '-y', 'droplet-agent']
+2022-10-08T06:18:55+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T06:18:55+0000 DEBUG repo: using cache for: droplet-agent
+2022-10-08T06:18:55+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T06:18:55+0000 DEBUG repo: using cache for: baseos
+2022-10-08T06:18:55+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T06:18:55+0000 DEBUG repo: using cache for: appstream
+2022-10-08T06:18:55+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T06:18:55+0000 DEBUG repo: using cache for: extras
+2022-10-08T06:18:55+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T06:18:55+0000 INFO Last metadata expiration check: 0:00:01 ago on Sat Oct  8 06:18:54 2022.
+2022-10-08T06:18:55+0000 DDEBUG timer: sack setup: 294 ms
+2022-10-08T06:18:55+0000 DEBUG --> Starting dependency resolution
+2022-10-08T06:18:55+0000 DEBUG ---> Package droplet-agent.x86_64 1.2.4-1 will be installed
+2022-10-08T06:18:55+0000 DEBUG --> Finished dependency resolution
+2022-10-08T06:18:55+0000 DDEBUG timer: depsolve: 23 ms
+2022-10-08T06:18:55+0000 INFO Dependencies resolved.
+2022-10-08T06:18:55+0000 INFO ================================================================================
+ Package              Architecture  Version          Repository            Size
+================================================================================
+Installing:
+ droplet-agent        x86_64        1.2.4-1          droplet-agent        2.2 M
+
+Transaction Summary
+================================================================================
+Install  1 Package
+
+2022-10-08T06:18:55+0000 INFO Total download size: 2.2 M
+2022-10-08T06:18:55+0000 INFO Installed size: 5.1 M
+2022-10-08T06:18:55+0000 INFO Downloading Packages:
+2022-10-08T06:18:56+0000 INFO --------------------------------------------------------------------------------
+2022-10-08T06:18:56+0000 INFO Total                                           8.8 MB/s | 2.2 MB     00:00
+2022-10-08T06:18:56+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+2022-10-08T06:18:56+0000 CRITICAL Importing GPG key 0xFC7DB4C2:
+ Userid     : "DigitalOcean Droplet Engineering <eng-droplet@digitalocean.com>"
+ Fingerprint: D2A1 FC6A A38C 233F 09FB 0443 3569 6F43 FC7D B4C2
+ From       : https://repos-droplet.digitalocean.com/gpg.key
+2022-10-08T06:18:56+0000 INFO Key imported successfully
+2022-10-08T06:18:56+0000 INFO Running transaction check
+2022-10-08T06:18:56+0000 INFO Transaction check succeeded.
+2022-10-08T06:18:56+0000 INFO Running transaction test
+2022-10-08T06:18:56+0000 INFO Transaction test succeeded.
+2022-10-08T06:18:56+0000 DDEBUG timer: transaction test: 34 ms
+2022-10-08T06:18:56+0000 INFO Running transaction
+2022-10-08T06:18:56+0000 DEBUG RPMDB altered outside of YUM.
+2022-10-08T06:18:56+0000 DDEBUG RPM transaction start.
+2022-10-08T06:19:00+0000 DDEBUG RPM transaction over.
+2022-10-08T06:19:00+0000 DDEBUG timer: verify transaction: 160 ms
+2022-10-08T06:19:00+0000 DDEBUG timer: transaction: 4293 ms
+2022-10-08T06:19:00+0000 DEBUG Completion plugin: Generating completion cache...
+2022-10-08T06:19:01+0000 DEBUG Installed: droplet-agent-1.2.4-1.x86_64
+2022-10-08T06:19:01+0000 INFO Complete!
+2022-10-08T06:19:01+0000 DDEBUG Cleaning up.
+2022-10-08T06:19:01+0000 DDEBUG /var/cache/dnf/droplet-agent-0123456789112345/packages/droplet-agent.1.2.4.amd64.rpm removed
+2022-10-08T06:23:17+0000 INFO --- logging initialized ---
+2022-10-08T06:23:17+0000 DDEBUG timer: config: 13 ms
+2022-10-08T06:23:17+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:23:17+0000 DEBUG YUM version: 4.10.0
+2022-10-08T06:23:17+0000 DDEBUG Command: yum install
+2022-10-08T06:23:17+0000 DDEBUG Installroot: /
+2022-10-08T06:23:17+0000 DDEBUG Releasever: 9
+2022-10-08T06:23:17+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:23:17+0000 DDEBUG Base command: install
+2022-10-08T06:23:17+0000 DDEBUG Extra commands: ['install']
+2022-10-08T06:23:17+0000 DDEBUG Cleaning up.
+2022-10-08T06:23:22+0000 INFO --- logging initialized ---
+2022-10-08T06:23:22+0000 DDEBUG timer: config: 3 ms
+2022-10-08T06:23:22+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:23:22+0000 DEBUG YUM version: 4.10.0
+2022-10-08T06:23:22+0000 DDEBUG Command: yum install tree
+2022-10-08T06:23:22+0000 DDEBUG Installroot: /
+2022-10-08T06:23:22+0000 DDEBUG Releasever: 9
+2022-10-08T06:23:22+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:23:22+0000 DDEBUG Base command: install
+2022-10-08T06:23:22+0000 DDEBUG Extra commands: ['install', 'tree']
+2022-10-08T06:23:22+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T06:23:22+0000 DEBUG repo: using cache for: droplet-agent
+2022-10-08T06:23:22+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T06:23:22+0000 DEBUG repo: using cache for: baseos
+2022-10-08T06:23:22+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T06:23:22+0000 DEBUG repo: using cache for: appstream
+2022-10-08T06:23:22+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T06:23:22+0000 DEBUG repo: using cache for: extras
+2022-10-08T06:23:22+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T06:23:22+0000 INFO Last metadata expiration check: 0:04:28 ago on Sat Oct  8 06:18:54 2022.
+2022-10-08T06:23:22+0000 DDEBUG timer: sack setup: 265 ms
+2022-10-08T06:23:22+0000 DEBUG --> Starting dependency resolution
+2022-10-08T06:23:22+0000 DEBUG ---> Package tree.x86_64 1.8.0-10.el9 will be installed
+2022-10-08T06:23:22+0000 DEBUG --> Finished dependency resolution
+2022-10-08T06:23:22+0000 DDEBUG timer: depsolve: 16 ms
+2022-10-08T06:23:22+0000 INFO Dependencies resolved.
+2022-10-08T06:23:22+0000 INFO ====================================================================================================================================================================
+ Package                             Architecture                          Version                                      Repository                             Size
+====================================================================================================================================================================
+Installing:
+ tree                                x86_64                                1.8.0-10.el9                                 baseos                                 55 k
+
+Transaction Summary
+====================================================================================================================================================================
+Install  1 Package
+
+2022-10-08T06:23:22+0000 INFO Total download size: 55 k
+2022-10-08T06:23:22+0000 INFO Installed size: 113 k
+2022-10-08T06:23:23+0000 INFO Downloading Packages:
+2022-10-08T06:23:24+0000 INFO --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2022-10-08T06:23:24+0000 INFO Total                                                                                                                               240 kB/s |  55 kB     00:00
+2022-10-08T06:23:24+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+2022-10-08T06:23:24+0000 INFO Running transaction check
+2022-10-08T06:23:24+0000 INFO Transaction check succeeded.
+2022-10-08T06:23:24+0000 INFO Running transaction test
+2022-10-08T06:23:24+0000 INFO Transaction test succeeded.
+2022-10-08T06:23:24+0000 DDEBUG timer: transaction test: 72 ms
+2022-10-08T06:23:24+0000 INFO Running transaction
+2022-10-08T06:23:24+0000 DDEBUG RPM transaction start.
+2022-10-08T06:23:24+0000 DDEBUG RPM transaction over.
+2022-10-08T06:23:24+0000 DDEBUG timer: verify transaction: 160 ms
+2022-10-08T06:23:24+0000 DDEBUG timer: transaction: 350 ms
+2022-10-08T06:23:24+0000 DEBUG Completion plugin: Generating completion cache...
+2022-10-08T06:23:24+0000 DEBUG Installed: tree-1.8.0-10.el9.x86_64
+2022-10-08T06:23:24+0000 INFO Complete!
+2022-10-08T06:23:24+0000 DDEBUG Cleaning up.
+2022-10-08T06:23:24+0000 DDEBUG /var/cache/dnf/baseos-0123456789112345/packages/tree-1.8.0-10.el9.x86_64.rpm removed
+2022-10-08T06:23:53+0000 INFO --- logging initialized ---
+2022-10-08T06:23:53+0000 DDEBUG timer: config: 4 ms
+2022-10-08T06:23:53+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:23:53+0000 DEBUG YUM version: 4.10.0
+2022-10-08T06:23:53+0000 DDEBUG Command: yum install aptitude
+2022-10-08T06:23:53+0000 DDEBUG Installroot: /
+2022-10-08T06:23:53+0000 DDEBUG Releasever: 9
+2022-10-08T06:23:53+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:23:53+0000 DDEBUG Base command: install
+2022-10-08T06:23:53+0000 DDEBUG Extra commands: ['install', 'aptitude']
+2022-10-08T06:23:53+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T06:23:53+0000 DEBUG repo: using cache for: droplet-agent
+2022-10-08T06:23:53+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T06:23:53+0000 DEBUG repo: using cache for: baseos
+2022-10-08T06:23:53+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T06:23:53+0000 DEBUG repo: using cache for: appstream
+2022-10-08T06:23:53+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T06:23:53+0000 DEBUG repo: using cache for: extras
+2022-10-08T06:23:53+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T06:23:53+0000 INFO Last metadata expiration check: 0:04:59 ago on Sat Oct  8 06:18:54 2022.
+2022-10-08T06:23:53+0000 DDEBUG timer: sack setup: 140 ms
+2022-10-08T06:23:53+0000 INFO No match for argument: aptitude
+2022-10-08T06:23:53+0000 DDEBUG Cleaning up.
+2022-10-08T06:23:53+0000 SUBDEBUG
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1055, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/install.py", line 118, in run
+    raise dnf.exceptions.PackagesNotAvailableError(_("Unable to find a match"),
+dnf.exceptions.PackagesNotAvailableError: Unable to find a match: aptitude
+2022-10-08T06:23:53+0000 CRITICAL Error: Unable to find a match: aptitude
+2022-10-08T06:24:15+0000 INFO --- logging initialized ---
+2022-10-08T06:24:15+0000 DDEBUG timer: config: 3 ms
+2022-10-08T06:24:15+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:24:15+0000 DEBUG YUM version: 4.10.0
+2022-10-08T06:24:15+0000 DDEBUG Command: yum install syslog-ng
+2022-10-08T06:24:15+0000 DDEBUG Installroot: /
+2022-10-08T06:24:15+0000 DDEBUG Releasever: 9
+2022-10-08T06:24:15+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:24:15+0000 DDEBUG Base command: install
+2022-10-08T06:24:15+0000 DDEBUG Extra commands: ['install', 'syslog-ng']
+2022-10-08T06:24:15+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T06:24:15+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+2022-10-08T06:24:15+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T06:24:15+0000 DEBUG repo: using cache for: baseos
+2022-10-08T06:24:15+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T06:24:15+0000 DEBUG repo: using cache for: appstream
+2022-10-08T06:24:15+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T06:24:15+0000 DEBUG repo: using cache for: extras
+2022-10-08T06:24:15+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T06:24:15+0000 DDEBUG timer: sack setup: 236 ms
+2022-10-08T06:24:15+0000 INFO No match for argument: syslog-ng
+2022-10-08T06:24:15+0000 DDEBUG Cleaning up.
+2022-10-08T06:24:15+0000 SUBDEBUG
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1055, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/install.py", line 118, in run
+    raise dnf.exceptions.PackagesNotAvailableError(_("Unable to find a match"),
+dnf.exceptions.PackagesNotAvailableError: Unable to find a match: syslog-ng
+2022-10-08T06:24:15+0000 CRITICAL Error: Unable to find a match: syslog-ng
+2022-10-08T06:24:19+0000 INFO --- logging initialized ---
+2022-10-08T06:24:19+0000 DDEBUG timer: config: 4 ms
+2022-10-08T06:24:19+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:24:19+0000 DEBUG YUM version: 4.10.0
+2022-10-08T06:24:19+0000 DDEBUG Command: yum install rsyslog
+2022-10-08T06:24:19+0000 DDEBUG Installroot: /
+2022-10-08T06:24:19+0000 DDEBUG Releasever: 9
+2022-10-08T06:24:19+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:24:19+0000 DDEBUG Base command: install
+2022-10-08T06:24:19+0000 DDEBUG Extra commands: ['install', 'rsyslog']
+2022-10-08T06:24:19+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T06:24:19+0000 DEBUG repo: using cache for: droplet-agent
+2022-10-08T06:24:19+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T06:24:19+0000 DEBUG repo: using cache for: baseos
+2022-10-08T06:24:19+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T06:24:19+0000 DEBUG repo: using cache for: appstream
+2022-10-08T06:24:20+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T06:24:20+0000 DEBUG repo: using cache for: extras
+2022-10-08T06:24:20+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T06:24:20+0000 INFO Last metadata expiration check: 0:00:04 ago on Sat Oct  8 06:24:15 2022.
+2022-10-08T06:24:20+0000 DDEBUG timer: sack setup: 153 ms
+2022-10-08T06:24:20+0000 INFO Package rsyslog-8.2102.0-101.el9_0.1.x86_64 is already installed.
+2022-10-08T06:24:20+0000 DEBUG --> Starting dependency resolution
+2022-10-08T06:24:20+0000 DEBUG --> Finished dependency resolution
+2022-10-08T06:24:20+0000 DDEBUG timer: depsolve: 12 ms
+2022-10-08T06:24:20+0000 INFO Dependencies resolved.
+2022-10-08T06:24:20+0000 INFO Nothing to do.
+2022-10-08T06:24:20+0000 INFO Complete!
+2022-10-08T06:24:20+0000 DDEBUG Cleaning up.
+2022-10-08T06:35:47+0000 INFO --- logging initialized ---
+2022-10-08T06:35:47+0000 DDEBUG timer: config: 4 ms
+2022-10-08T06:35:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:35:47+0000 DEBUG DNF version: 4.10.0
+2022-10-08T06:35:47+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T06:35:47+0000 DDEBUG Installroot: /
+2022-10-08T06:35:47+0000 DDEBUG Releasever: 9
+2022-10-08T06:35:47+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:35:47+0000 DDEBUG Base command: makecache
+2022-10-08T06:35:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T06:35:48+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T06:35:48+0000 WARNING Failed determining last makecache time.
+2022-10-08T06:35:48+0000 DEBUG droplet-agent: has expired and will be refreshed.
+2022-10-08T06:35:48+0000 DEBUG baseos: has expired and will be refreshed.
+2022-10-08T06:35:48+0000 DEBUG appstream: has expired and will be refreshed.
+2022-10-08T06:35:48+0000 DEBUG extras: has expired and will be refreshed.
+2022-10-08T06:35:48+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+2022-10-08T06:35:48+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T06:35:48+0000 DEBUG countme: no event for baseos: window already counted
+2022-10-08T06:35:48+0000 DEBUG reviving: 'baseos' can be revived - repomd matches.
+2022-10-08T06:35:48+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T06:35:48+0000 DEBUG countme: no event for appstream: window already counted
+2022-10-08T06:35:48+0000 DEBUG reviving: 'appstream' can be revived - repomd matches.
+2022-10-08T06:35:48+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T06:35:48+0000 DEBUG countme: event triggered for extras: bucket 2
+2022-10-08T06:35:48+0000 DEBUG reviving: 'extras' can be revived - repomd matches.
+2022-10-08T06:35:48+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T06:35:48+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T06:35:48+0000 DDEBUG timer: sack setup: 962 ms
+2022-10-08T06:35:48+0000 INFO Metadata cache created.
+2022-10-08T06:35:48+0000 DDEBUG Cleaning up.
+2022-10-08T06:51:07+0000 INFO --- logging initialized ---
+2022-10-08T06:51:07+0000 DDEBUG timer: config: 3 ms
+2022-10-08T06:51:07+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T06:51:07+0000 DEBUG YUM version: 4.10.0
+2022-10-08T06:51:07+0000 DDEBUG Command: yum install nginx
+2022-10-08T06:51:07+0000 DDEBUG Installroot: /
+2022-10-08T06:51:07+0000 DDEBUG Releasever: 9
+2022-10-08T06:51:07+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T06:51:07+0000 DDEBUG Base command: install
+2022-10-08T06:51:07+0000 DDEBUG Extra commands: ['install', 'nginx']
+2022-10-08T06:51:07+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T06:51:07+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+2022-10-08T06:51:07+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T06:51:07+0000 DEBUG repo: using cache for: baseos
+2022-10-08T06:51:08+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T06:51:08+0000 DEBUG repo: using cache for: appstream
+2022-10-08T06:51:08+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T06:51:08+0000 DEBUG repo: using cache for: extras
+2022-10-08T06:51:08+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T06:51:08+0000 DDEBUG timer: sack setup: 245 ms
+2022-10-08T06:51:08+0000 DEBUG --> Starting dependency resolution
+2022-10-08T06:51:08+0000 DEBUG ---> Package rocky-logos-httpd.noarch 90.11-1.el9 will be installed
+2022-10-08T06:51:08+0000 DEBUG ---> Package nginx-filesystem.noarch 1:1.20.1-10.el9 will be installed
+2022-10-08T06:51:08+0000 DEBUG ---> Package nginx.x86_64 1:1.20.1-10.el9 will be installed
+2022-10-08T06:51:08+0000 DEBUG --> Finished dependency resolution
+2022-10-08T06:51:08+0000 DDEBUG timer: depsolve: 12 ms
+2022-10-08T06:51:08+0000 INFO Dependencies resolved.
+2022-10-08T06:51:08+0000 INFO ====================================================================================================================================================================
+ Package                                     Architecture                     Version                                     Repository                           Size
+====================================================================================================================================================================
+Installing:
+ nginx                                       x86_64                           1:1.20.1-10.el9                             appstream                           594 k
+Installing dependencies:
+ nginx-filesystem                            noarch                           1:1.20.1-10.el9                             appstream                            11 k
+ rocky-logos-httpd                           noarch                           90.11-1.el9                                 appstream                            24 k
+
+Transaction Summary
+====================================================================================================================================================================
+Install  3 Packages
+
+2022-10-08T06:51:08+0000 INFO Total download size: 629 k
+2022-10-08T06:51:08+0000 INFO Installed size: 1.8 M
+2022-10-08T06:51:09+0000 INFO Downloading Packages:
+2022-10-08T06:51:09+0000 INFO --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2022-10-08T06:51:09+0000 INFO Total                                                                                                                               1.9 MB/s | 629 kB     00:00
+2022-10-08T06:51:09+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+2022-10-08T06:51:10+0000 INFO Running transaction check
+2022-10-08T06:51:10+0000 INFO Transaction check succeeded.
+2022-10-08T06:51:10+0000 INFO Running transaction test
+2022-10-08T06:51:10+0000 INFO Transaction test succeeded.
+2022-10-08T06:51:10+0000 DDEBUG timer: transaction test: 58 ms
+2022-10-08T06:51:10+0000 INFO Running transaction
+2022-10-08T06:51:10+0000 DDEBUG RPM transaction start.
+2022-10-08T06:51:11+0000 DDEBUG RPM transaction over.
+2022-10-08T06:51:11+0000 DDEBUG timer: verify transaction: 69 ms
+2022-10-08T06:51:11+0000 DDEBUG timer: transaction: 1008 ms
+2022-10-08T06:51:11+0000 DEBUG Completion plugin: Generating completion cache...
+2022-10-08T06:51:11+0000 DEBUG Installed: nginx-1:1.20.1-10.el9.x86_64
+2022-10-08T06:51:11+0000 DEBUG Installed: nginx-filesystem-1:1.20.1-10.el9.noarch
+2022-10-08T06:51:11+0000 DEBUG Installed: rocky-logos-httpd-90.11-1.el9.noarch
+2022-10-08T06:51:11+0000 INFO Complete!
+2022-10-08T06:51:11+0000 DDEBUG Cleaning up.
+2022-10-08T06:51:11+0000 DDEBUG /var/cache/dnf/appstream-0123456789112345/packages/nginx-filesystem-1.20.1-10.el9.noarch.rpm removed
+2022-10-08T06:51:11+0000 DDEBUG /var/cache/dnf/appstream-0123456789112345/packages/nginx-1.20.1-10.el9.x86_64.rpm removed
+2022-10-08T06:51:11+0000 DDEBUG /var/cache/dnf/appstream-0123456789112345/packages/rocky-logos-httpd-90.11-1.el9.noarch.rpm removed
+2022-10-08T08:33:47+0000 INFO --- logging initialized ---
+2022-10-08T08:33:47+0000 DDEBUG timer: config: 5 ms
+2022-10-08T08:33:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T08:33:47+0000 DEBUG DNF version: 4.10.0
+2022-10-08T08:33:47+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T08:33:47+0000 DDEBUG Installroot: /
+2022-10-08T08:33:47+0000 DDEBUG Releasever: 9
+2022-10-08T08:33:47+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T08:33:47+0000 DDEBUG Base command: makecache
+2022-10-08T08:33:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T08:33:47+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T08:33:47+0000 INFO Metadata cache refreshed recently.
+2022-10-08T08:33:47+0000 DDEBUG Cleaning up.
+2022-10-08T10:13:43+0000 INFO --- logging initialized ---
+2022-10-08T10:13:43+0000 DDEBUG timer: config: 3 ms
+2022-10-08T10:13:43+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T10:13:43+0000 DEBUG DNF version: 4.10.0
+2022-10-08T10:13:43+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T10:13:43+0000 DDEBUG Installroot: /
+2022-10-08T10:13:43+0000 DDEBUG Releasever: 9
+2022-10-08T10:13:43+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T10:13:43+0000 DDEBUG Base command: makecache
+2022-10-08T10:13:43+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T10:13:43+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T10:13:43+0000 DEBUG droplet-agent: has expired and will be refreshed.
+2022-10-08T10:13:43+0000 DEBUG baseos: has expired and will be refreshed.
+2022-10-08T10:13:43+0000 DEBUG appstream: has expired and will be refreshed.
+2022-10-08T10:13:43+0000 DEBUG extras: has expired and will be refreshed.
+2022-10-08T10:13:43+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+2022-10-08T10:13:43+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T10:13:43+0000 DEBUG countme: no event for baseos: window already counted
+2022-10-08T10:13:44+0000 DEBUG reviving: 'baseos' can be revived - repomd matches.
+2022-10-08T10:13:44+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T10:13:44+0000 DEBUG countme: no event for appstream: window already counted
+2022-10-08T10:13:44+0000 DEBUG reviving: 'appstream' can be revived - repomd matches.
+2022-10-08T10:13:44+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T10:13:44+0000 DEBUG countme: no event for extras: window already counted
+2022-10-08T10:13:44+0000 DEBUG reviving: 'extras' can be revived - repomd matches.
+2022-10-08T10:13:44+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T10:13:44+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T10:13:44+0000 DDEBUG timer: sack setup: 1031 ms
+2022-10-08T10:13:44+0000 INFO Metadata cache created.
+2022-10-08T10:13:44+0000 DDEBUG Cleaning up.
+2022-10-08T11:27:47+0000 INFO --- logging initialized ---
+2022-10-08T11:27:47+0000 DDEBUG timer: config: 5 ms
+2022-10-08T11:27:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T11:27:47+0000 DEBUG DNF version: 4.10.0
+2022-10-08T11:27:47+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T11:27:47+0000 DDEBUG Installroot: /
+2022-10-08T11:27:47+0000 DDEBUG Releasever: 9
+2022-10-08T11:27:47+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T11:27:47+0000 DDEBUG Base command: makecache
+2022-10-08T11:27:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T11:27:47+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T11:27:47+0000 INFO Metadata cache refreshed recently.
+2022-10-08T11:27:47+0000 DDEBUG Cleaning up.
+2022-10-08T12:48:47+0000 INFO --- logging initialized ---
+2022-10-08T12:48:47+0000 DDEBUG timer: config: 4 ms
+2022-10-08T12:48:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T12:48:47+0000 DEBUG DNF version: 4.10.0
+2022-10-08T12:48:47+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T12:48:47+0000 DDEBUG Installroot: /
+2022-10-08T12:48:47+0000 DDEBUG Releasever: 9
+2022-10-08T12:48:47+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T12:48:47+0000 DDEBUG Base command: makecache
+2022-10-08T12:48:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T12:48:47+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T12:48:47+0000 INFO Metadata cache refreshed recently.
+2022-10-08T12:48:47+0000 DDEBUG Cleaning up.
+2022-10-08T13:56:27+0000 INFO --- logging initialized ---
+2022-10-08T13:56:27+0000 DDEBUG timer: config: 3 ms
+2022-10-08T13:56:27+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T13:56:27+0000 DEBUG DNF version: 4.10.0
+2022-10-08T13:56:27+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T13:56:27+0000 DDEBUG Installroot: /
+2022-10-08T13:56:27+0000 DDEBUG Releasever: 9
+2022-10-08T13:56:27+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T13:56:27+0000 DDEBUG Base command: makecache
+2022-10-08T13:56:27+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T13:56:27+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T13:56:27+0000 DEBUG droplet-agent: has expired and will be refreshed.
+2022-10-08T13:56:27+0000 DEBUG baseos: has expired and will be refreshed.
+2022-10-08T13:56:27+0000 DEBUG appstream: has expired and will be refreshed.
+2022-10-08T13:56:27+0000 DEBUG extras: has expired and will be refreshed.
+2022-10-08T13:56:28+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+2022-10-08T13:56:28+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T13:56:28+0000 DEBUG countme: no event for baseos: window already counted
+2022-10-08T13:56:28+0000 DEBUG reviving: 'baseos' can be revived - repomd matches.
+2022-10-08T13:56:28+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T13:56:28+0000 DEBUG countme: no event for appstream: window already counted
+2022-10-08T13:56:28+0000 DEBUG reviving: 'appstream' can be revived - repomd matches.
+2022-10-08T13:56:28+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T13:56:28+0000 DEBUG countme: no event for extras: window already counted
+2022-10-08T13:56:29+0000 DEBUG reviving: 'extras' can be revived - repomd matches.
+2022-10-08T13:56:29+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T13:56:29+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T13:56:29+0000 DDEBUG timer: sack setup: 1045 ms
+2022-10-08T13:56:29+0000 INFO Metadata cache created.
+2022-10-08T13:56:29+0000 DDEBUG Cleaning up.
+2022-10-08T15:00:47+0000 INFO --- logging initialized ---
+2022-10-08T15:00:47+0000 DDEBUG timer: config: 4 ms
+2022-10-08T15:00:48+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T15:00:48+0000 DEBUG DNF version: 4.10.0
+2022-10-08T15:00:48+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T15:00:48+0000 DDEBUG Installroot: /
+2022-10-08T15:00:48+0000 DDEBUG Releasever: 9
+2022-10-08T15:00:48+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T15:00:48+0000 DDEBUG Base command: makecache
+2022-10-08T15:00:48+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T15:00:48+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T15:00:48+0000 INFO Metadata cache refreshed recently.
+2022-10-08T15:00:48+0000 DDEBUG Cleaning up.
+2022-10-08T16:45:47+0000 INFO --- logging initialized ---
+2022-10-08T16:45:47+0000 DDEBUG timer: config: 3 ms
+2022-10-08T16:45:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T16:45:47+0000 DEBUG DNF version: 4.10.0
+2022-10-08T16:45:47+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T16:45:47+0000 DDEBUG Installroot: /
+2022-10-08T16:45:47+0000 DDEBUG Releasever: 9
+2022-10-08T16:45:47+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T16:45:47+0000 DDEBUG Base command: makecache
+2022-10-08T16:45:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T16:45:47+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T16:45:47+0000 INFO Metadata cache refreshed recently.
+2022-10-08T16:45:47+0000 DDEBUG Cleaning up.
+2022-10-08T18:10:47+0000 INFO --- logging initialized ---
+2022-10-08T18:10:47+0000 DDEBUG timer: config: 3 ms
+2022-10-08T18:10:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T18:10:47+0000 DEBUG DNF version: 4.10.0
+2022-10-08T18:10:47+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T18:10:47+0000 DDEBUG Installroot: /
+2022-10-08T18:10:47+0000 DDEBUG Releasever: 9
+2022-10-08T18:10:47+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T18:10:47+0000 DDEBUG Base command: makecache
+2022-10-08T18:10:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T18:10:47+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T18:10:47+0000 DEBUG droplet-agent: has expired and will be refreshed.
+2022-10-08T18:10:47+0000 DEBUG baseos: has expired and will be refreshed.
+2022-10-08T18:10:47+0000 DEBUG appstream: has expired and will be refreshed.
+2022-10-08T18:10:47+0000 DEBUG extras: has expired and will be refreshed.
+2022-10-08T18:10:48+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+2022-10-08T18:10:48+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T18:10:48+0000 DEBUG countme: no event for baseos: window already counted
+2022-10-08T18:10:48+0000 DEBUG reviving: 'baseos' can be revived - repomd matches.
+2022-10-08T18:10:48+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T18:10:48+0000 DEBUG countme: no event for appstream: window already counted
+2022-10-08T18:10:48+0000 DEBUG reviving: 'appstream' can be revived - repomd matches.
+2022-10-08T18:10:48+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T18:10:48+0000 DEBUG countme: no event for extras: window already counted
+2022-10-08T18:10:49+0000 DEBUG reviving: 'extras' can be revived - repomd matches.
+2022-10-08T18:10:49+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T18:10:49+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T18:10:49+0000 DDEBUG timer: sack setup: 1107 ms
+2022-10-08T18:10:49+0000 INFO Metadata cache created.
+2022-10-08T18:10:49+0000 DDEBUG Cleaning up.
+2022-10-08T19:37:47+0000 INFO --- logging initialized ---
+2022-10-08T19:37:47+0000 DDEBUG timer: config: 4 ms
+2022-10-08T19:37:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T19:37:47+0000 DEBUG DNF version: 4.10.0
+2022-10-08T19:37:47+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T19:37:47+0000 DDEBUG Installroot: /
+2022-10-08T19:37:47+0000 DDEBUG Releasever: 9
+2022-10-08T19:37:47+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T19:37:47+0000 DDEBUG Base command: makecache
+2022-10-08T19:37:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T19:37:47+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T19:37:47+0000 INFO Metadata cache refreshed recently.
+2022-10-08T19:37:47+0000 DDEBUG Cleaning up.
+2022-10-08T20:51:48+0000 INFO --- logging initialized ---
+2022-10-08T20:51:48+0000 DDEBUG timer: config: 6 ms
+2022-10-08T20:51:48+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T20:51:48+0000 DEBUG DNF version: 4.10.0
+2022-10-08T20:51:48+0000 DDEBUG Command: dnf makecache --timer
+2022-10-08T20:51:48+0000 DDEBUG Installroot: /
+2022-10-08T20:51:48+0000 DDEBUG Releasever: 9
+2022-10-08T20:51:48+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T20:51:48+0000 DDEBUG Base command: makecache
+2022-10-08T20:51:48+0000 DDEBUG Extra commands: ['makecache', '--timer']
+2022-10-08T20:51:48+0000 DEBUG Making cache files for all metadata files.
+2022-10-08T20:51:48+0000 INFO Metadata cache refreshed recently.
+2022-10-08T20:51:48+0000 DDEBUG Cleaning up.
+2022-10-08T22:25:40+0000 INFO --- logging initialized ---
+2022-10-08T22:25:40+0000 DDEBUG timer: config: 3 ms
+2022-10-08T22:25:40+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T22:25:40+0000 DEBUG YUM version: 4.10.0
+2022-10-08T22:25:40+0000 DDEBUG Command: yum install lsof
+2022-10-08T22:25:40+0000 DDEBUG Installroot: /
+2022-10-08T22:25:40+0000 DDEBUG Releasever: 9
+2022-10-08T22:25:40+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T22:25:40+0000 DDEBUG Base command: install
+2022-10-08T22:25:40+0000 DDEBUG Extra commands: ['install', 'lsof']
+2022-10-08T22:25:40+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T22:25:40+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+2022-10-08T22:25:40+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T22:25:40+0000 DEBUG repo: using cache for: baseos
+2022-10-08T22:25:40+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T22:25:40+0000 DEBUG repo: using cache for: appstream
+2022-10-08T22:25:40+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T22:25:40+0000 DEBUG repo: using cache for: extras
+2022-10-08T22:25:40+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T22:25:40+0000 DDEBUG timer: sack setup: 241 ms
+2022-10-08T22:25:40+0000 DEBUG --> Starting dependency resolution
+2022-10-08T22:25:40+0000 DEBUG ---> Package lsof.x86_64 4.94.0-3.el9 will be installed
+2022-10-08T22:25:40+0000 DEBUG --> Finished dependency resolution
+2022-10-08T22:25:40+0000 DDEBUG timer: depsolve: 9 ms
+2022-10-08T22:25:40+0000 INFO Dependencies resolved.
+2022-10-08T22:25:40+0000 INFO ====================================================================================================================================================================
+ Package                             Architecture                          Version                                      Repository                             Size
+====================================================================================================================================================================
+Installing:
+ lsof                                x86_64                                4.94.0-3.el9                                 baseos                                238 k
+
+Transaction Summary
+====================================================================================================================================================================
+Install  1 Package
+
+2022-10-08T22:25:40+0000 INFO Total download size: 238 k
+2022-10-08T22:25:40+0000 INFO Installed size: 624 k
+2022-10-08T22:25:42+0000 INFO Downloading Packages:
+2022-10-08T22:25:43+0000 INFO --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2022-10-08T22:25:43+0000 INFO Total                                                                                                                               387 kB/s | 238 kB     00:00
+2022-10-08T22:25:43+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+2022-10-08T22:25:43+0000 INFO Running transaction check
+2022-10-08T22:25:43+0000 INFO Transaction check succeeded.
+2022-10-08T22:25:43+0000 INFO Running transaction test
+2022-10-08T22:25:43+0000 INFO Transaction test succeeded.
+2022-10-08T22:25:43+0000 DDEBUG timer: transaction test: 40 ms
+2022-10-08T22:25:43+0000 INFO Running transaction
+2022-10-08T22:25:43+0000 DDEBUG RPM transaction start.
+2022-10-08T22:25:43+0000 DDEBUG RPM transaction over.
+2022-10-08T22:25:43+0000 DDEBUG timer: verify transaction: 157 ms
+2022-10-08T22:25:43+0000 DDEBUG timer: transaction: 347 ms
+2022-10-08T22:25:43+0000 DEBUG Completion plugin: Generating completion cache...
+2022-10-08T22:25:43+0000 DEBUG Installed: lsof-4.94.0-3.el9.x86_64
+2022-10-08T22:25:43+0000 INFO Complete!
+2022-10-08T22:25:43+0000 DDEBUG Cleaning up.
+2022-10-08T22:25:43+0000 DDEBUG /var/cache/dnf/baseos-0123456789112345/packages/lsof-4.94.0-3.el9.x86_64.rpm removed
+2022-10-08T22:26:50+0000 INFO --- logging initialized ---
+2022-10-08T22:26:50+0000 DDEBUG timer: config: 3 ms
+2022-10-08T22:26:50+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+2022-10-08T22:26:50+0000 DEBUG YUM version: 4.10.0
+2022-10-08T22:26:50+0000 DDEBUG Command: yum install lynx
+2022-10-08T22:26:50+0000 DDEBUG Installroot: /
+2022-10-08T22:26:50+0000 DDEBUG Releasever: 9
+2022-10-08T22:26:50+0000 DEBUG cachedir: /var/cache/dnf
+2022-10-08T22:26:50+0000 DDEBUG Base command: install
+2022-10-08T22:26:50+0000 DDEBUG Extra commands: ['install', 'lynx']
+2022-10-08T22:26:50+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+2022-10-08T22:26:50+0000 DEBUG repo: using cache for: droplet-agent
+2022-10-08T22:26:50+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+2022-10-08T22:26:50+0000 DEBUG repo: using cache for: baseos
+2022-10-08T22:26:50+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+2022-10-08T22:26:50+0000 DEBUG repo: using cache for: appstream
+2022-10-08T22:26:50+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+2022-10-08T22:26:50+0000 DEBUG repo: using cache for: extras
+2022-10-08T22:26:50+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+2022-10-08T22:26:50+0000 INFO Last metadata expiration check: 0:01:10 ago on Sat Oct  8 22:25:40 2022.
+2022-10-08T22:26:50+0000 DDEBUG timer: sack setup: 115 ms
+2022-10-08T22:26:50+0000 DEBUG --> Starting dependency resolution
+2022-10-08T22:26:50+0000 DEBUG ---> Package rocky-indexhtml.noarch 9.0-2.el9 will be installed
+2022-10-08T22:26:50+0000 DEBUG ---> Package lynx.x86_64 2.8.9-18.el9 will be installed
+2022-10-08T22:26:50+0000 DEBUG --> Finished dependency resolution
+2022-10-08T22:26:50+0000 DDEBUG timer: depsolve: 10 ms
+2022-10-08T22:26:50+0000 INFO Dependencies resolved.
+2022-10-08T22:26:50+0000 INFO ====================================================================================================================================================================
+ Package                                    Architecture                      Version                                    Repository                            Size
+====================================================================================================================================================================
+Installing:
+ lynx                                       x86_64                            2.8.9-18.el9                               appstream                            1.5 M
+Installing dependencies:
+ rocky-indexhtml                            noarch                            9.0-2.el9                                  appstream                            263 k
+
+Transaction Summary
+====================================================================================================================================================================
+Install  2 Packages
+
+2022-10-08T22:26:50+0000 INFO Total download size: 1.8 M
+2022-10-08T22:26:50+0000 INFO Installed size: 6.6 M
+2022-10-08T22:26:51+0000 INFO Downloading Packages:
+2022-10-08T22:26:52+0000 INFO --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2022-10-08T22:26:52+0000 INFO Total                                                                                                                               7.8 MB/s | 1.8 MB     00:00
+2022-10-08T22:26:52+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+2022-10-08T22:26:52+0000 INFO Running transaction check
+2022-10-08T22:26:52+0000 INFO Transaction check succeeded.
+2022-10-08T22:26:52+0000 INFO Running transaction test
+2022-10-08T22:26:52+0000 INFO Transaction test succeeded.
+2022-10-08T22:26:52+0000 DDEBUG timer: transaction test: 63 ms
+2022-10-08T22:26:52+0000 INFO Running transaction
+2022-10-08T22:26:52+0000 DDEBUG RPM transaction start.
+2022-10-08T22:26:52+0000 DDEBUG RPM transaction over.
+2022-10-08T22:26:52+0000 DDEBUG timer: verify transaction: 167 ms
+2022-10-08T22:26:52+0000 DDEBUG timer: transaction: 593 ms
+2022-10-08T22:26:52+0000 DEBUG Completion plugin: Generating completion cache...
+2022-10-08T22:26:52+0000 DEBUG Installed: lynx-2.8.9-18.el9.x86_64
+2022-10-08T22:26:52+0000 DEBUG Installed: rocky-indexhtml-9.0-2.el9.noarch
+2022-10-08T22:26:52+0000 INFO Complete!
+2022-10-08T22:26:52+0000 DDEBUG Cleaning up.
+2022-10-08T22:26:52+0000 DDEBUG /var/cache/dnf/appstream-0123456789112345/packages/rocky-indexhtml-9.0-2.el9.noarch.rpm removed
+2022-10-08T22:26:52+0000 DDEBUG /var/cache/dnf/appstream-0123456789112345/packages/lynx-2.8.9-18.el9.x86_64.rpm removed

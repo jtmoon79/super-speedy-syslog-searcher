@@ -1,0 +1,37 @@
+Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 main.go:23: Launching DigitalOcean Droplet Agent (code name: DOTTY)
+Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 main.go:26: Config Loaded. Agent Starting (version:v1.2.4)
+Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 sshmgr.go:305: Did not find sshd port from sshd_config, using default port:22
+Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 sshmgr.go:82: SSH Manager Initialized. sshd_config:[/etc/ssh/sshd_config], sshd_port:[22]
+Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 new_watcher_linux.go:11: Launching SSH Port Knocking Watcher
+Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 ssh_watcher.go:51: [SSH Watcher] Running
+Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 sshmgr.go:237: [WatchSSHDConfig] watching file: /etc/ssh/sshd_config
+Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 bgjobs.go:15: [authorized_keys files updater] launched
+Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 main.go:120: droplet metadata updated to [{"dotty_status":"running","ssh_info":{"port":22}}]
+Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 main.go:91: [Droplet Agent] Shutting down
+Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 ssh_watcher.go:92: [SSH Watcher] Shutting down
+Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 ssh_watcher.go:95: [SSH Watcher] Shutting down all actioners
+Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 do_managed_keys_actioner.go:89: [DO-Managed Keys Actioner] Shutting down
+Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 do_managed_keys_actioner.go:106: [DO-Managed Keys Actioner] Bye-bye
+Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 ssh_watcher.go:107: [SSH Watcher] Bye-bye
+Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 bgjobs.go:21: [authorized_keys files updater] agent closing
+Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 bgjobs.go:32: [authorized_keys files updater] stopped
+Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 ssh_watcher.go:84: [SSH Watcher] Stopped
+Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 main.go:74: Watcher finished
+Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 main.go:23: Launching DigitalOcean Droplet Agent (code name: DOTTY)
+Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 main.go:26: Config Loaded. Agent Starting (version:v1.2.4)
+Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 sshmgr.go:305: Did not find sshd port from sshd_config, using default port:22
+Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 sshmgr.go:82: SSH Manager Initialized. sshd_config:[/etc/ssh/sshd_config], sshd_port:[22]
+Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 new_watcher_linux.go:11: Launching SSH Port Knocking Watcher
+Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 ssh_watcher.go:51: [SSH Watcher] Running
+Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 sshmgr.go:237: [WatchSSHDConfig] watching file: /etc/ssh/sshd_config
+Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 bgjobs.go:15: [authorized_keys files updater] launched
+Oct  8 06:19:00 localhost DropletAgent[7569]: INFO:2022/10/08 06:19:00 main.go:120: droplet metadata updated to [{"dotty_status":"running","ssh_info":{"port":22}}]
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 main.go:23: Launching DigitalOcean Droplet Agent (code name: DOTTY)
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 main.go:26: Config Loaded. Agent Starting (version:v1.2.4)
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 sshmgr.go:305: Did not find sshd port from sshd_config, using default port:22
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 sshmgr.go:82: SSH Manager Initialized. sshd_config:[/etc/ssh/sshd_config], sshd_port:[22]
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 new_watcher_linux.go:11: Launching SSH Port Knocking Watcher
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 ssh_watcher.go:51: [SSH Watcher] Running
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 sshmgr.go:237: [WatchSSHDConfig] watching file: /etc/ssh/sshd_config
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 bgjobs.go:15: [authorized_keys files updater] launched
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 main.go:120: droplet metadata updated to [{"dotty_status":"running","ssh_info":{"port":22}}]

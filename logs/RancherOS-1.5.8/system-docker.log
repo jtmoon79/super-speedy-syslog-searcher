@@ -1,0 +1,10 @@
+Flag --restart has been deprecated, Please use a restart policy on docker run
+time="2022-10-09T21:31:23Z" level=warning msg="The \"-g / --graph\" flag is deprecated. Please use \"--data-root\" instead"
+time="2022-10-09T21:31:23.570757835Z" level=info msg="libcontainerd: new containerd process, pid: 310"
+time="2022-10-09T21:31:23.591559452Z" level=warning msg="failed to rename /var/lib/system-docker/tmp for background deletion: rename /var/lib/system-docker/tmp /var/lib/system-docker/tmp-old: no such file or directory. Deleting synchronously"
+time="2022-10-09T21:31:23.684310767Z" level=info msg="Graph migration to content-addressability took 0.00 seconds"
+time="2022-10-09T21:31:23.685236036Z" level=info msg="Loading containers: start."
+time="2022-10-09T21:31:23.796745851Z" level=info msg="Loading containers: done."
+time="2022-10-09T21:31:23.849196668Z" level=info msg="Docker daemon" commit=6368e2fd0 graphdriver(s)=overlay2 version=17.06-ros6
+time="2022-10-09T21:31:23.849248255Z" level=info msg="Daemon has completed initialization"
+time="2022-10-09T21:31:23.859065359Z" level=info msg="API listen on /var/run/system-docker.sock"

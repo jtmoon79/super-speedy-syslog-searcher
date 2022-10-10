@@ -1,0 +1,546 @@
+Oct  8 06:18:38 localhost sshd[925]: Server listening on 192.168.0.0 port 22.
+Oct  8 06:18:38 localhost sshd[925]: Server listening on :: port 22.
+Oct  8 06:18:39 localhost sshd[925]: Received signal 15; terminating.
+Oct  8 06:18:39 localhost sshd[940]: Server listening on 192.168.0.0 port 22.
+Oct  8 06:18:39 localhost sshd[940]: Server listening on :: port 22.
+Oct  8 06:19:48 localhost sshd[26768]: error: maximum authentication attempts exceeded for root from 192.168.0.8 port 26768 ssh2 [preauth]
+Oct  8 06:19:48 localhost sshd[26768]: Disconnecting authenticating user root 192.168.0.8 port 26768: Too many authentication failures [preauth]
+Oct  8 06:20:02 localhost sshd[26768]: error: maximum authentication attempts exceeded for root from 192.168.0.8 port 26768 ssh2 [preauth]
+Oct  8 06:20:02 localhost sshd[26768]: Disconnecting authenticating user root 192.168.0.8 port 26768: Too many authentication failures [preauth]
+Oct  8 06:20:41 localhost sshd[26768]: error: maximum authentication attempts exceeded for root from 192.168.0.8 port 26768 ssh2 [preauth]
+Oct  8 06:20:41 localhost sshd[26768]: Disconnecting authenticating user root 192.168.0.8 port 26768: Too many authentication failures [preauth]
+Oct  8 06:20:47 localhost sshd[26768]: error: maximum authentication attempts exceeded for root from 192.168.0.8 port 26768 ssh2 [preauth]
+Oct  8 06:20:47 localhost sshd[26768]: Disconnecting authenticating user root 192.168.0.8 port 26768: Too many authentication failures [preauth]
+Oct  8 06:21:09 localhost sshd[26768]: Connection closed by 192.168.0.44 port 26768 [preauth]
+Oct  8 06:21:20 localhost sshd[26768]: error: maximum authentication attempts exceeded for root from 192.168.0.8 port 26768 ssh2 [preauth]
+Oct  8 06:21:20 localhost sshd[26768]: Disconnecting authenticating user root 192.168.0.8 port 26768: Too many authentication failures [preauth]
+Oct  8 06:21:24 localhost sshd[26768]: error: maximum authentication attempts exceeded for root from 192.168.0.8 port 26768 ssh2 [preauth]
+Oct  8 06:21:24 localhost sshd[26768]: Disconnecting authenticating user root 192.168.0.8 port 26768: Too many authentication failures [preauth]
+Oct  8 06:22:03 localhost sshd[26768]: Accepted publickey for root from 192.168.0.8 port 26768 ssh2: RSA SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
+Oct  8 06:22:03 localhost systemd[26768]: pam_unix(systemd-user:session): session opened for user root(uid=0) by (uid=0)
+Oct  8 06:22:03 localhost sshd[26768]: pam_unix(sshd:session): session opened for user root(uid=0) by (uid=0)
+
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[871]: Server listening on 192.168.0.0 port 22.
+Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[871]: Server listening on :: port 22.
+Oct  8 06:23:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[894]: Accepted publickey for root from 192.168.0.8 port 26768 ssh2: RSA SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
+Oct  8 06:23:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 systemd[898]: pam_unix(systemd-user:session): session opened for user root(uid=0) by (uid=0)
+Oct  8 06:23:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[894]: pam_unix(sshd:session): session opened for user root(uid=0) by (uid=0)
+Oct  8 06:29:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[1832]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 06:29:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[1832]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 06:40:13 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[2462]: Received disconnect from 192.168.0.225 port 26768:11: Bye Bye [preauth]
+Oct  8 06:40:13 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[2462]: Disconnected from authenticating user root 192.168.0.225 port 26768 [preauth]
+Oct  8 06:44:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[2465]: Invalid user rachel from 192.168.0.77 port 26768
+Oct  8 06:44:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[2465]: Received disconnect from 192.168.0.77 port 26768:11: Bye Bye [preauth]
+Oct  8 06:44:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[2465]: Disconnected from invalid user rachel 192.168.0.77 port 26768 [preauth]
+Oct  8 06:44:43 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[2467]: Received disconnect from 192.168.0.222 port 26768:11: Bye Bye [preauth]
+Oct  8 06:44:43 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[2467]: Disconnected from authenticating user root 192.168.0.222 port 26768 [preauth]
+Oct  8 06:51:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 groupadd[3051]: group added to /etc/group: name=nginx, GID=986
+Oct  8 06:51:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 groupadd[3051]: group added to /etc/gshadow: name=nginx
+Oct  8 06:51:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 groupadd[3051]: new group: name=nginx, GID=986
+Oct  8 06:51:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 useradd[3058]: new user: name=nginx, UID=986, GID=986, home=/var/lib/nginx, shell=/sbin/nologin, from=none
+Oct  8 06:51:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3236]: Invalid user ubuntu from 192.168.0.187 port 26768
+Oct  8 06:51:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3236]: Received disconnect from 192.168.0.187 port 26768:11: Bye Bye [preauth]
+Oct  8 06:51:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3236]: Disconnected from invalid user ubuntu 192.168.0.187 port 26768 [preauth]
+Oct  8 06:51:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[2612]: fatal: Timeout before authentication for 192.168.0.172 port 26768
+Oct  8 07:04:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3932]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 07:04:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3932]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 07:08:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3935]: error: kex_exchange_identification: Connection closed by remote host
+Oct  8 07:08:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3935]: Connection closed by 192.168.0.164 port 26768
+Oct  8 07:08:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[871]: error: beginning MaxStartups throttling
+Oct  8 07:08:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[871]: drop connection #16 from [192.168.0.164]:26768 on [192.168.0.115]:22 past MaxStartups
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3938]: Invalid user r1soft from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3941]: Invalid user lara from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3939]: Invalid user Christopher from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3942]: Invalid user a8 from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3940]: Invalid user beyndtrust_adm from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3944]: Invalid user unifi-access from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3943]: Invalid user cardpro from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3937]: Invalid user Pamela from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3936]: Invalid user fpf from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3938]: Connection closed by invalid user r1soft 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3939]: Connection closed by invalid user Christopher 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3942]: Connection closed by invalid user a8 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3940]: Connection closed by invalid user beyndtrust_adm 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3941]: Connection closed by invalid user lara 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3944]: Connection closed by invalid user unifi-access 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3945]: Invalid user wwwlogs from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3948]: Invalid user ccook from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3937]: Connection closed by invalid user Pamela 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3946]: Invalid user csxm from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3943]: Connection closed by invalid user cardpro 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3947]: Invalid user docker from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3936]: Connection closed by invalid user fpf 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3949]: Invalid user zhouh from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3950]: Invalid user jinga from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3948]: Connection closed by invalid user ccook 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3945]: Connection closed by invalid user wwwlogs 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3946]: Connection closed by invalid user csxm 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3947]: Connection closed by invalid user docker 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3954]: Invalid user kodergroup from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3951]: Invalid user webmaster from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3950]: Connection closed by invalid user jinga 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3949]: Connection closed by invalid user zhouh 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3958]: Invalid user ankush from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3954]: Connection closed by invalid user kodergroup 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3951]: Connection closed by invalid user webmaster 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3955]: Invalid user zerotier-one from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3962]: Invalid user manoj from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3965]: Invalid user systemx from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3972]: Invalid user mysql_admin from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3967]: Invalid user tkj1a from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3963]: Invalid user cptuser from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3968]: Invalid user openhabian from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3958]: Connection closed by invalid user ankush 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3955]: Connection closed by invalid user zerotier-one 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3962]: Connection closed by invalid user manoj 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3965]: Connection closed by invalid user systemx 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3972]: Connection closed by invalid user mysql_admin 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3982]: Invalid user posiflex from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3963]: Connection closed by invalid user cptuser 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3968]: Connection closed by invalid user openhabian 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3976]: Invalid user afp from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3973]: Invalid user data from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3978]: Invalid user marcin from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3967]: Connection closed by invalid user tkj1a 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3977]: Invalid user ppps from 192.168.0.164 port 26768
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3977]: Connection closed by invalid user ppps 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3976]: Connection closed by invalid user afp 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3978]: Connection closed by invalid user marcin 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3982]: Connection closed by invalid user posiflex 192.168.0.164 port 26768 [preauth]
+Oct  8 07:08:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[3973]: Connection closed by invalid user data 192.168.0.164 port 26768 [preauth]
+Oct  8 07:37:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[871]: exited MaxStartups throttling after 00:29:39, 10 connections dropped
+Oct  8 07:37:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4031]: error: kex_exchange_identification: client sent invalid protocol identifier "ABCDEFGHIJKLMNOPQRSTUVWXYZ9999"
+Oct  8 07:37:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4031]: banner exchange: Connection from 192.168.0.24 port 26768: invalid format
+Oct  8 07:39:56 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4033]: Invalid user test from 192.168.0.99 port 4380
+Oct  8 07:39:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4033]: Connection closed by invalid user test 192.168.0.99 port 4380 [preauth]
+Oct  8 07:49:13 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4036]: error: kex_exchange_identification: Connection closed by remote host
+Oct  8 07:49:13 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4036]: Connection closed by 192.168.0.37 port 26768
+Oct  8 08:02:20 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4057]: Invalid user django from 192.168.0.92 port 26768
+Oct  8 08:02:20 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4057]: Received disconnect from 192.168.0.92 port 26768:11: Bye Bye [preauth]
+Oct  8 08:02:20 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4057]: Disconnected from invalid user django 192.168.0.92 port 26768 [preauth]
+Oct  8 08:04:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4060]: Received disconnect from 192.168.0.6 port 26768:11: Bye Bye [preauth]
+Oct  8 08:04:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4060]: Disconnected from authenticating user root 192.168.0.6 port 26768 [preauth]
+Oct  8 08:15:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4063]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 08:15:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4063]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 08:30:38 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4099]: Invalid user student from 192.168.0.154 port 26768
+Oct  8 08:30:38 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4099]: Received disconnect from 192.168.0.154 port 26768:11: Bye Bye [preauth]
+Oct  8 08:30:38 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4099]: Disconnected from invalid user student 192.168.0.154 port 26768 [preauth]
+Oct  8 08:31:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4101]: Invalid user debian from 192.168.0.234 port 26768
+Oct  8 08:31:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4101]: Connection closed by invalid user debian 192.168.0.234 port 26768 [preauth]
+Oct  8 08:35:31 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4107]: Received disconnect from 192.168.0.121 port 26768:11: Bye Bye [preauth]
+Oct  8 08:35:31 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4107]: Disconnected from authenticating user root 192.168.0.121 port 26768 [preauth]
+Oct  8 08:44:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4110]: error: kex_exchange_identification: Connection closed by remote host
+Oct  8 08:44:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4110]: Connection closed by 192.168.0.202 port 26768
+Oct  8 08:48:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4111]: Received disconnect from 192.168.0.109 port 26768:11: Bye Bye [preauth]
+Oct  8 08:48:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4111]: Disconnected from authenticating user root 192.168.0.109 port 26768 [preauth]
+Oct  8 08:50:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4113]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 08:50:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4113]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 09:04:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4133]: error: kex_exchange_identification: Connection closed by remote host
+Oct  8 09:04:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4133]: Connection closed by 192.168.0.192 port 26768
+Oct  8 09:04:58 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4134]: error: kex_exchange_identification: Connection closed by remote host
+Oct  8 09:04:58 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4134]: Connection closed by 192.168.0.192 port 26768
+Oct  8 09:11:24 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4167]: Received disconnect from 192.168.0.80 port 26768:11: Bye Bye [preauth]
+Oct  8 09:11:24 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4167]: Disconnected from authenticating user root 192.168.0.80 port 26768 [preauth]
+Oct  8 09:25:18 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4170]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 09:25:18 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4170]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 09:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4173]: Received disconnect from 192.168.0.193 port 26768:11: Bye Bye [preauth]
+Oct  8 09:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4173]: Disconnected from authenticating user root 192.168.0.193 port 26768 [preauth]
+Oct  8 09:52:53 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4175]: Received disconnect from 192.168.0.170 port 26768:11: Bye Bye [preauth]
+Oct  8 09:52:53 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4175]: Disconnected from authenticating user root 192.168.0.170 port 26768 [preauth]
+Oct  8 09:56:20 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4178]: Received disconnect from 192.168.0.51 port 26768:11: Bye Bye [preauth]
+Oct  8 09:56:20 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4178]: Disconnected from authenticating user root 192.168.0.51 port 26768 [preauth]
+Oct  8 10:00:14 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4180]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 10:00:15 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4180]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 10:13:43 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4232]: Connection closed by 192.168.0.21 port 26768 [preauth]
+Oct  8 10:35:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4244]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 10:35:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4244]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 10:46:56 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4248]: Invalid user centos from 192.168.0.212 port 26768
+Oct  8 10:46:56 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4248]: Connection closed by invalid user centos 192.168.0.212 port 26768 [preauth]
+Oct  8 11:06:48 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4268]: Received disconnect from 192.168.0.32 port 26768:11: Bye Bye [preauth]
+Oct  8 11:06:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4268]: Disconnected from authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 11:10:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4271]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 11:10:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4271]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 11:39:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4308]: Invalid user addon from 192.168.0.96 port 26768
+Oct  8 11:39:06 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4308]: Received disconnect from 192.168.0.96 port 26768:11: Bye Bye [preauth]
+Oct  8 11:39:06 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4308]: Disconnected from invalid user addon 192.168.0.96 port 26768 [preauth]
+Oct  8 11:39:48 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4310]: Received disconnect from 192.168.0.1 port 26768:11: Bye Bye [preauth]
+Oct  8 11:39:48 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4310]: Disconnected from authenticating user root 192.168.0.1 port 26768 [preauth]
+Oct  8 11:40:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4312]: Received disconnect from 192.168.0.168 port 26768:11: Bye Bye [preauth]
+Oct  8 11:40:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4312]: Disconnected from authenticating user root 192.168.0.168 port 26768 [preauth]
+Oct  8 11:45:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4315]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 11:45:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4315]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 11:55:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4318]: Received disconnect from 192.168.0.109 port 26768:11: Bye Bye [preauth]
+Oct  8 11:55:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4318]: Disconnected from authenticating user root 192.168.0.109 port 26768 [preauth]
+Oct  8 12:20:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4370]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 12:20:40 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4370]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 12:25:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4372]: Invalid user tomcat from 192.168.0.203 port 26768
+Oct  8 12:25:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4372]: Received disconnect from 192.168.0.203 port 26768:11: Bye Bye [preauth]
+Oct  8 12:25:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4372]: Disconnected from invalid user tomcat 192.168.0.203 port 26768 [preauth]
+Oct  8 12:26:18 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4375]: Received disconnect from 192.168.0.214 port 26768:11: Bye Bye [preauth]
+Oct  8 12:26:18 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4375]: Disconnected from authenticating user root 192.168.0.214 port 26768 [preauth]
+Oct  8 12:27:33 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4377]: Invalid user hadoop from 192.168.0.242 port 26768
+Oct  8 12:27:33 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4377]: Received disconnect from 192.168.0.242 port 26768:11: Bye Bye [preauth]
+Oct  8 12:27:33 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4377]: Disconnected from invalid user hadoop 192.168.0.242 port 26768 [preauth]
+Oct  8 12:30:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4379]: Received disconnect from 192.168.0.172 port 26768:11: Bye Bye [preauth]
+Oct  8 12:30:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4379]: Disconnected from authenticating user root 192.168.0.172 port 26768 [preauth]
+Oct  8 12:34:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4383]: Received disconnect from 192.168.0.19 port 26768:11: Bye Bye [preauth]
+Oct  8 12:34:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4383]: Disconnected from authenticating user root 192.168.0.19 port 26768 [preauth]
+Oct  8 12:34:26 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4381]: Connection closed by 192.168.0.45 port 26768 [preauth]
+Oct  8 12:37:32 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4386]: Received disconnect from 192.168.0.72 port 26768:11: Bye Bye [preauth]
+Oct  8 12:37:32 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4386]: Disconnected from authenticating user root 192.168.0.72 port 26768 [preauth]
+Oct  8 12:55:59 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4392]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 12:55:59 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4392]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 12:58:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4394]: Invalid user czp21 from 192.168.0.110 port 26768
+Oct  8 12:58:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4394]: Received disconnect from 192.168.0.110 port 26768:11: Bye Bye [preauth]
+Oct  8 12:58:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4394]: Disconnected from invalid user czp21 192.168.0.110 port 26768 [preauth]
+Oct  8 13:02:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4414]: Invalid user default from 192.168.0.218 port 26768
+Oct  8 13:02:53 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4414]: Connection closed by invalid user default 192.168.0.218 port 26768 [preauth]
+Oct  8 13:20:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4449]: Received disconnect from 192.168.0.162 port 26768:11: Bye Bye [preauth]
+Oct  8 13:20:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4449]: Disconnected from authenticating user root 192.168.0.162 port 26768 [preauth]
+Oct  8 13:29:48 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4452]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:29:48 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4453]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:29:48 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4454]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:29:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4461]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:29:50 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4455]: Invalid user admin from 192.168.0.32 port 26768
+Oct  8 13:29:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4455]: Connection closed by invalid user admin 192.168.0.32 port 26768 [preauth]
+Oct  8 13:29:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4468]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:29:53 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4464]: Invalid user admin from 192.168.0.32 port 26768
+Oct  8 13:29:53 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4466]: Invalid user admin from 192.168.0.32 port 26768
+Oct  8 13:29:53 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4464]: Connection closed by invalid user admin 192.168.0.32 port 26768 [preauth]
+Oct  8 13:29:54 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4460]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:29:54 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4466]: Connection closed by invalid user admin 192.168.0.32 port 26768 [preauth]
+Oct  8 13:29:56 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4472]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:30:03 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4475]: Invalid user admin from 192.168.0.32 port 26768
+Oct  8 13:30:06 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4475]: Connection closed by invalid user admin 192.168.0.32 port 26768 [preauth]
+Oct  8 13:30:06 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4470]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:30:08 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4474]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:30:33 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4478]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:30:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4482]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:30:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4484]: Invalid user ubnt from 192.168.0.32 port 26768
+Oct  8 13:30:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4484]: Connection closed by invalid user ubnt 192.168.0.32 port 26768 [preauth]
+Oct  8 13:30:50 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4488]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:30:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4490]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:30:53 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4486]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:30:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4480]: Connection closed by authenticating user root 192.168.0.32 port 26768 [preauth]
+Oct  8 13:31:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4492]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 13:31:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4492]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 13:55:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4496]: Invalid user xyj from 192.168.0.44 port 26768
+Oct  8 13:55:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4496]: Received disconnect from 192.168.0.44 port 26768:11: Bye Bye [preauth]
+Oct  8 13:55:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4496]: Disconnected from invalid user xyj 192.168.0.44 port 26768 [preauth]
+Oct  8 14:06:07 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4525]: Invalid user test from 192.168.0.99 port 5178
+Oct  8 14:06:07 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4525]: Connection closed by invalid user test 192.168.0.99 port 5178 [preauth]
+Oct  8 14:24:21 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4560]: Received disconnect from 192.168.0.165 port 26768:11: Bye Bye [preauth]
+Oct  8 14:24:21 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4560]: Disconnected from authenticating user root 192.168.0.165 port 26768 [preauth]
+Oct  8 14:29:03 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4562]: Received disconnect from 192.168.0.184 port 26768:11: Bye Bye [preauth]
+Oct  8 14:29:03 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4562]: Disconnected from authenticating user root 192.168.0.184 port 26768 [preauth]
+Oct  8 14:30:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4564]: Invalid user jboss from 192.168.0.68 port 26768
+Oct  8 14:30:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4564]: Received disconnect from 192.168.0.68 port 26768:11: Bye Bye [preauth]
+Oct  8 14:30:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4564]: Disconnected from invalid user jboss 192.168.0.68 port 26768 [preauth]
+Oct  8 14:34:08 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4566]: Received disconnect from 192.168.0.206 port 26768:11: Bye Bye [preauth]
+Oct  8 14:34:08 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4566]: Disconnected from authenticating user root 192.168.0.206 port 26768 [preauth]
+Oct  8 14:41:27 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4568]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 14:41:28 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4568]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 15:10:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4592]: Invalid user admin from 192.168.0.35 port 26768
+Oct  8 15:10:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4593]: Connection closed by authenticating user root 192.168.0.35 port 26768 [preauth]
+Oct  8 15:10:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4591]: Connection closed by authenticating user root 192.168.0.35 port 26768 [preauth]
+Oct  8 15:10:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4592]: Connection closed by invalid user admin 192.168.0.35 port 26768 [preauth]
+Oct  8 15:13:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4628]: Connection reset by 192.168.0.51 port 26768 [preauth]
+Oct  8 15:16:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4630]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 15:16:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4630]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 15:16:45 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4632]: Connection closed by 192.168.0.192 port 26768 [preauth]
+Oct  8 15:19:14 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4635]: Invalid user centos from 192.168.0.98 port 26768
+Oct  8 15:19:15 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4635]: Connection closed by invalid user centos 192.168.0.98 port 26768 [preauth]
+Oct  8 15:31:44 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4638]: Received disconnect from 192.168.0.115 port 26768:11: Bye Bye [preauth]
+Oct  8 15:31:44 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4638]: Disconnected from authenticating user root 192.168.0.115 port 26768 [preauth]
+Oct  8 15:37:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4641]: Invalid user cat from 192.168.0.94 port 26768
+Oct  8 15:37:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4641]: Received disconnect from 192.168.0.94 port 26768:11: Bye Bye [preauth]
+Oct  8 15:37:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4641]: Disconnected from invalid user cat 192.168.0.94 port 26768 [preauth]
+Oct  8 15:51:40 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4644]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 15:51:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4644]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 16:14:58 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4697]: error: kex_exchange_identification: Connection closed by remote host
+Oct  8 16:14:58 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4697]: Connection closed by 192.168.0.95 port 26768
+Oct  8 16:26:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4698]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 16:26:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4698]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 16:29:56 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4701]: Invalid user cvsadmin from 192.168.0.230 port 26768
+Oct  8 16:29:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4701]: Received disconnect from 192.168.0.230 port 26768:11: Bye Bye [preauth]
+Oct  8 16:29:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4701]: Disconnected from invalid user cvsadmin 192.168.0.230 port 26768 [preauth]
+Oct  8 16:30:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4703]: Invalid user valedon from 192.168.0.98 port 26768
+Oct  8 16:30:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4703]: Received disconnect from 192.168.0.98 port 26768:11: Bye Bye [preauth]
+Oct  8 16:30:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4703]: Disconnected from invalid user valedon 192.168.0.98 port 26768 [preauth]
+Oct  8 16:53:15 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4709]: Received disconnect from 192.168.0.75 port 26768:11: Bye Bye [preauth]
+Oct  8 16:53:15 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4709]: Disconnected from authenticating user root 192.168.0.75 port 26768 [preauth]
+Oct  8 16:57:31 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4712]: Invalid user lemci from 192.168.0.27 port 26768
+Oct  8 16:57:31 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4712]: Received disconnect from 192.168.0.27 port 26768:11: Bye Bye [preauth]
+Oct  8 16:57:31 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4712]: Disconnected from invalid user lemci 192.168.0.27 port 26768 [preauth]
+Oct  8 16:58:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4714]: Invalid user zabbix from 192.168.0.220 port 26768
+Oct  8 16:58:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4714]: Received disconnect from 192.168.0.220 port 26768:11: Bye Bye [preauth]
+Oct  8 16:58:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4714]: Disconnected from invalid user zabbix 192.168.0.220 port 26768 [preauth]
+Oct  8 17:01:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4733]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 17:01:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4733]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 17:02:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4735]: Received disconnect from 192.168.0.169 port 26768:11: Bye Bye [preauth]
+Oct  8 17:02:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4735]: Disconnected from authenticating user root 192.168.0.169 port 26768 [preauth]
+Oct  8 17:35:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4770]: Invalid user centos from 192.168.0.87 port 26768
+Oct  8 17:35:06 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4770]: Connection closed by invalid user centos 192.168.0.87 port 26768 [preauth]
+Oct  8 17:36:44 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4772]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 17:36:45 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4772]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 17:50:22 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4774]: Received disconnect from 192.168.0.178 port 26768:11: Bye Bye [preauth]
+Oct  8 17:50:22 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4774]: Disconnected from authenticating user root 192.168.0.178 port 26768 [preauth]
+Oct  8 17:50:30 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4776]: Received disconnect from 192.168.0.36 port 26768:11: Bye Bye [preauth]
+Oct  8 17:50:30 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4776]: Disconnected from authenticating user root 192.168.0.36 port 26768 [preauth]
+Oct  8 17:53:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4779]: Invalid user jira from 192.168.0.218 port 26768
+Oct  8 17:53:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4779]: Received disconnect from 192.168.0.218 port 26768:11: Bye Bye [preauth]
+Oct  8 17:53:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4779]: Disconnected from invalid user jira 192.168.0.218 port 26768 [preauth]
+Oct  8 17:56:56 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4781]: Received disconnect from 192.168.0.9 port 26768:11: Bye Bye [preauth]
+Oct  8 17:56:56 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4781]: Disconnected from authenticating user root 192.168.0.9 port 26768 [preauth]
+Oct  8 17:57:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4783]: Invalid user xihang from 192.168.0.123 port 26768
+Oct  8 17:57:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4783]: Received disconnect from 192.168.0.123 port 26768:11: Bye Bye [preauth]
+Oct  8 17:57:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4783]: Disconnected from invalid user xihang 192.168.0.123 port 26768 [preauth]
+Oct  8 17:57:22 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4785]: Invalid user wxccvt from 192.168.0.83 port 26768
+Oct  8 17:57:22 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4785]: Received disconnect from 192.168.0.83 port 26768:11: Bye Bye [preauth]
+Oct  8 17:57:22 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4785]: Disconnected from invalid user wxccvt 192.168.0.83 port 26768 [preauth]
+Oct  8 18:00:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4787]: Invalid user appltest from 192.168.0.147 port 26768
+Oct  8 18:00:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4787]: Received disconnect from 192.168.0.147 port 26768:11: Bye Bye [preauth]
+Oct  8 18:00:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4787]: Disconnected from invalid user appltest 192.168.0.147 port 26768 [preauth]
+Oct  8 18:11:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4849]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 18:11:38 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4849]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 18:13:31 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4851]: Received disconnect from 192.168.0.99 port 26768:11: Bye Bye [preauth]
+Oct  8 18:13:31 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4851]: Disconnected from authenticating user root 192.168.0.99 port 26768 [preauth]
+Oct  8 18:15:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4853]: Received disconnect from 192.168.0.184 port 26768:11: Bye Bye [preauth]
+Oct  8 18:15:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4853]: Disconnected from authenticating user root 192.168.0.184 port 26768 [preauth]
+Oct  8 18:16:21 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4855]: Invalid user customer from 192.168.0.51 port 26768
+Oct  8 18:16:21 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4855]: Received disconnect from 192.168.0.51 port 26768:11: Bye Bye [preauth]
+Oct  8 18:16:21 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4855]: Disconnected from invalid user customer 192.168.0.51 port 26768 [preauth]
+Oct  8 18:19:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4857]: Invalid user testuser from 192.168.0.251 port 26768
+Oct  8 18:19:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4857]: Received disconnect from 192.168.0.251 port 26768:11: Bye Bye [preauth]
+Oct  8 18:19:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4857]: Disconnected from invalid user testuser 192.168.0.251 port 26768 [preauth]
+Oct  8 18:29:12 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4860]: Received disconnect from 192.168.0.48 port 26768:11: Bye Bye [preauth]
+Oct  8 18:29:12 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4860]: Disconnected from authenticating user root 192.168.0.48 port 26768 [preauth]
+Oct  8 18:29:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4862]: Invalid user amit from 192.168.0.179 port 26768
+Oct  8 18:29:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4862]: Received disconnect from 192.168.0.179 port 26768:11: Bye Bye [preauth]
+Oct  8 18:29:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4862]: Disconnected from invalid user amit 192.168.0.179 port 26768 [preauth]
+Oct  8 18:41:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4864]: Received disconnect from 192.168.0.122 port 26768:11: Bye Bye [preauth]
+Oct  8 18:41:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4864]: Disconnected from authenticating user root 192.168.0.122 port 26768 [preauth]
+Oct  8 18:44:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4867]: Invalid user b from 192.168.0.236 port 26768
+Oct  8 18:44:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4867]: Received disconnect from 192.168.0.236 port 26768:11: Bye Bye [preauth]
+Oct  8 18:44:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4867]: Disconnected from invalid user b 192.168.0.236 port 26768 [preauth]
+Oct  8 18:46:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4869]: Invalid user ssh from 192.168.0.103 port 26768
+Oct  8 18:46:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4869]: Received disconnect from 192.168.0.103 port 26768:11: Bye Bye [preauth]
+Oct  8 18:46:41 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4869]: Disconnected from invalid user ssh 192.168.0.103 port 26768 [preauth]
+Oct  8 18:46:45 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4871]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 18:46:45 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4871]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 19:11:28 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4923]: Invalid user gpvc from 192.168.0.172 port 26768
+Oct  8 19:11:29 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4923]: Received disconnect from 192.168.0.172 port 26768:11: Bye Bye [preauth]
+Oct  8 19:11:29 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4923]: Disconnected from invalid user gpvc 192.168.0.172 port 26768 [preauth]
+Oct  8 19:19:12 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4927]: Invalid user guest from 192.168.0.189 port 26768
+Oct  8 19:19:12 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4927]: Received disconnect from 192.168.0.189 port 26768:11: Bye Bye [preauth]
+Oct  8 19:19:12 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4927]: Disconnected from invalid user guest 192.168.0.189 port 26768 [preauth]
+Oct  8 19:19:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4929]: Received disconnect from 192.168.0.164 port 26768:11: Bye Bye [preauth]
+Oct  8 19:19:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4929]: Disconnected from authenticating user root 192.168.0.164 port 26768 [preauth]
+Oct  8 19:20:06 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4931]: Received disconnect from 192.168.0.250 port 26768:11: Bye Bye [preauth]
+Oct  8 19:20:06 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4931]: Disconnected from authenticating user root 192.168.0.250 port 26768 [preauth]
+Oct  8 19:21:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4933]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 19:21:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4933]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 19:21:50 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4935]: Invalid user hcxiao from 192.168.0.186 port 26768
+Oct  8 19:21:50 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4935]: Received disconnect from 192.168.0.186 port 26768:11: Bye Bye [preauth]
+Oct  8 19:21:50 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4935]: Disconnected from invalid user hcxiao 192.168.0.186 port 26768 [preauth]
+Oct  8 19:30:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4938]: Received disconnect from 192.168.0.203 port 26768:11: Bye Bye [preauth]
+Oct  8 19:30:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4938]: Disconnected from authenticating user root 192.168.0.203 port 26768 [preauth]
+Oct  8 19:39:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4943]: ssh_dispatch_run_fatal: Connection from 192.168.0.36 port 26768: Connection corrupted [preauth]
+Oct  8 19:49:59 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4946]: Invalid user support from 192.168.0.11 port 26768
+Oct  8 19:49:59 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4946]: Connection closed by invalid user support 192.168.0.11 port 26768 [preauth]
+Oct  8 19:56:31 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4950]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 19:56:32 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4950]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 20:03:18 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4970]: Received disconnect from 192.168.0.35 port 26768:11: Bye Bye [preauth]
+Oct  8 20:03:18 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[4970]: Disconnected from authenticating user root 192.168.0.35 port 26768 [preauth]
+Oct  8 20:31:25 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5005]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 20:31:26 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5005]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 20:34:59 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5007]: error: kex_exchange_identification: client sent invalid protocol identifier "MGLNDD_165.227.95.115_22"
+Oct  8 20:34:59 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5007]: banner exchange: Connection from 192.168.0.186 port 26768: invalid format
+Oct  8 21:06:28 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5031]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 21:06:29 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5031]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 21:13:18 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5065]: Received disconnect from 192.168.0.51 port 26768:11: Bye Bye [preauth]
+Oct  8 21:13:18 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5065]: Disconnected from authenticating user root 192.168.0.51 port 26768 [preauth]
+Oct  8 21:17:50 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5067]: Invalid user tyler from 192.168.0.179 port 26768
+Oct  8 21:17:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5067]: Received disconnect from 192.168.0.179 port 26768:11: Bye Bye [preauth]
+Oct  8 21:17:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5067]: Disconnected from invalid user tyler 192.168.0.179 port 26768 [preauth]
+Oct  8 21:21:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5070]: error: kex_exchange_identification: Connection closed by remote host
+Oct  8 21:21:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5070]: Connection closed by 192.168.0.86 port 26768
+Oct  8 21:21:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5071]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:21:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5071]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:21:22 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5073]: Invalid user oracle from 192.168.0.86 port 26768
+Oct  8 21:21:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5073]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:21:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5073]: Disconnected from invalid user oracle 192.168.0.86 port 26768 [preauth]
+Oct  8 21:21:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5075]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:21:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5075]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:21:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5077]: Invalid user postgres from 192.168.0.86 port 26768
+Oct  8 21:21:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5077]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:21:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5077]: Disconnected from invalid user postgres 192.168.0.86 port 26768 [preauth]
+Oct  8 21:22:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5079]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:22:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5079]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:22:29 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5081]: Invalid user hadoop from 192.168.0.86 port 26768
+Oct  8 21:22:29 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5081]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:22:29 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5081]: Disconnected from invalid user hadoop 192.168.0.86 port 26768 [preauth]
+Oct  8 21:22:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5083]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:22:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5083]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:23:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5085]: Invalid user git from 192.168.0.86 port 26768
+Oct  8 21:23:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5085]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:23:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5085]: Disconnected from invalid user git 192.168.0.86 port 26768 [preauth]
+Oct  8 21:23:29 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5087]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:23:29 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5087]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:23:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5089]: Invalid user mysql from 192.168.0.86 port 26768
+Oct  8 21:23:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5089]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:23:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5089]: Disconnected from invalid user mysql 192.168.0.86 port 26768 [preauth]
+Oct  8 21:24:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5091]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:24:04 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5091]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:24:19 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5093]: Invalid user test from 192.168.0.86 port 26768
+Oct  8 21:24:19 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5093]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:24:19 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5093]: Disconnected from invalid user test 192.168.0.86 port 26768 [preauth]
+Oct  8 21:24:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5095]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:24:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5095]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:24:53 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5097]: Invalid user user from 192.168.0.86 port 26768
+Oct  8 21:24:53 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5097]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:24:53 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5097]: Disconnected from invalid user user 192.168.0.86 port 26768 [preauth]
+Oct  8 21:25:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5099]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:25:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5099]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:25:28 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5101]: Invalid user guest from 192.168.0.86 port 26768
+Oct  8 21:25:28 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5101]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:25:28 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5101]: Disconnected from invalid user guest 192.168.0.86 port 26768 [preauth]
+Oct  8 21:25:46 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5103]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:25:46 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5103]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:26:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5105]: Invalid user student from 192.168.0.86 port 26768
+Oct  8 21:26:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5105]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:26:02 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5105]: Disconnected from invalid user student 192.168.0.86 port 26768 [preauth]
+Oct  8 21:26:20 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5107]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:26:20 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5107]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:26:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5109]: Invalid user svn from 192.168.0.86 port 26768
+Oct  8 21:26:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5109]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:26:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5109]: Disconnected from invalid user svn 192.168.0.86 port 26768 [preauth]
+Oct  8 21:26:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5111]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:26:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5111]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:27:12 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5113]: Invalid user ubuntu from 192.168.0.86 port 26768
+Oct  8 21:27:12 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5113]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:27:12 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5113]: Disconnected from invalid user ubuntu 192.168.0.86 port 26768 [preauth]
+Oct  8 21:27:29 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5115]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:27:29 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5115]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:27:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5117]: Invalid user ts3 from 192.168.0.86 port 26768
+Oct  8 21:27:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5117]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:27:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5117]: Disconnected from invalid user ts3 192.168.0.86 port 26768 [preauth]
+Oct  8 21:28:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5119]: Invalid user odoo from 192.168.0.86 port 26768
+Oct  8 21:28:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5119]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:28:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5119]: Disconnected from invalid user odoo 192.168.0.86 port 26768 [preauth]
+Oct  8 21:28:30 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5121]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:28:30 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5121]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:28:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5123]: Invalid user jenkins from 192.168.0.86 port 26768
+Oct  8 21:28:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5123]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:28:49 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5123]: Disconnected from invalid user jenkins 192.168.0.86 port 26768 [preauth]
+Oct  8 21:29:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5125]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:29:10 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5125]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:29:31 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5127]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:29:31 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5127]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:29:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5130]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:29:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5130]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:30:13 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5132]: Invalid user jira from 192.168.0.86 port 26768
+Oct  8 21:30:13 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5132]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:30:13 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5132]: Disconnected from invalid user jira 192.168.0.86 port 26768 [preauth]
+Oct  8 21:30:32 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5134]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:30:32 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5134]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:30:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5136]: Invalid user stack from 192.168.0.86 port 26768
+Oct  8 21:30:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5136]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:30:52 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5136]: Disconnected from invalid user stack 192.168.0.86 port 26768 [preauth]
+Oct  8 21:31:08 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5138]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:31:08 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5138]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:31:26 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5140]: Invalid user weblogic from 192.168.0.86 port 26768
+Oct  8 21:31:26 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5140]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:31:26 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5140]: Disconnected from invalid user weblogic 192.168.0.86 port 26768 [preauth]
+Oct  8 21:31:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5142]: Invalid user www from 192.168.0.86 port 26768
+Oct  8 21:31:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5142]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:31:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5142]: Disconnected from invalid user www 192.168.0.86 port 26768 [preauth]
+Oct  8 21:31:58 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5144]: Invalid user teamspeak from 192.168.0.86 port 26768
+Oct  8 21:31:59 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5144]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:31:59 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5144]: Disconnected from invalid user teamspeak 192.168.0.86 port 26768 [preauth]
+Oct  8 21:32:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5146]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:32:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5146]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:32:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5148]: Invalid user webmaster from 192.168.0.86 port 26768
+Oct  8 21:32:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5148]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:32:35 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5148]: Disconnected from invalid user webmaster 192.168.0.86 port 26768 [preauth]
+Oct  8 21:32:54 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5150]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:32:54 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5150]: Disconnected from authenticating user root 192.168.0.86 port 26768 [preauth]
+Oct  8 21:33:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5152]: Invalid user elastic from 192.168.0.86 port 26768
+Oct  8 21:33:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5152]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:33:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5152]: Disconnected from invalid user elastic 192.168.0.86 port 26768 [preauth]
+Oct  8 21:33:30 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5154]: Invalid user elasticsearch from 192.168.0.86 port 26768
+Oct  8 21:33:30 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5154]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:33:30 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5154]: Disconnected from invalid user elasticsearch 192.168.0.86 port 26768 [preauth]
+Oct  8 21:33:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5156]: Invalid user demo from 192.168.0.86 port 26768
+Oct  8 21:33:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5156]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:33:47 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5156]: Disconnected from invalid user demo 192.168.0.86 port 26768 [preauth]
+Oct  8 21:34:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5158]: Invalid user spark from 192.168.0.86 port 26768
+Oct  8 21:34:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5158]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:34:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5158]: Disconnected from invalid user spark 192.168.0.86 port 26768 [preauth]
+Oct  8 21:34:24 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5160]: Invalid user db from 192.168.0.86 port 26768
+Oct  8 21:34:24 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5160]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:34:24 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5160]: Disconnected from invalid user db 192.168.0.86 port 26768 [preauth]
+Oct  8 21:34:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5162]: Invalid user server from 192.168.0.86 port 26768
+Oct  8 21:34:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5162]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:34:42 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5162]: Disconnected from invalid user server 192.168.0.86 port 26768 [preauth]
+Oct  8 21:35:00 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5164]: Invalid user dev from 192.168.0.86 port 26768
+Oct  8 21:35:00 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5164]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:35:00 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5164]: Disconnected from invalid user dev 192.168.0.86 port 26768 [preauth]
+Oct  8 21:35:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5166]: Invalid user webadmin from 192.168.0.86 port 26768
+Oct  8 21:35:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5166]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:35:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5166]: Disconnected from invalid user webadmin 192.168.0.86 port 26768 [preauth]
+Oct  8 21:35:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5168]: Invalid user ftpuser from 192.168.0.86 port 26768
+Oct  8 21:35:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5168]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:35:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5168]: Disconnected from invalid user ftpuser 192.168.0.86 port 26768 [preauth]
+Oct  8 21:35:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5170]: Invalid user ftpadmin from 192.168.0.86 port 26768
+Oct  8 21:35:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5170]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:35:51 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5170]: Disconnected from invalid user ftpadmin 192.168.0.86 port 26768 [preauth]
+Oct  8 21:36:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5172]: Invalid user ftptest from 192.168.0.86 port 26768
+Oct  8 21:36:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5172]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:36:05 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5172]: Disconnected from invalid user ftptest 192.168.0.86 port 26768 [preauth]
+Oct  8 21:36:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5174]: Invalid user debian from 192.168.0.86 port 26768
+Oct  8 21:36:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5174]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:36:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5174]: Disconnected from invalid user debian 192.168.0.86 port 26768 [preauth]
+Oct  8 21:36:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5176]: Invalid user test1 from 192.168.0.86 port 26768
+Oct  8 21:36:40 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5176]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:36:40 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5176]: Disconnected from invalid user test1 192.168.0.86 port 26768 [preauth]
+Oct  8 21:36:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5178]: Invalid user user1 from 192.168.0.86 port 26768
+Oct  8 21:36:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5178]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:36:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5178]: Disconnected from invalid user user1 192.168.0.86 port 26768 [preauth]
+Oct  8 21:37:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5180]: Invalid user user01 from 192.168.0.86 port 26768
+Oct  8 21:37:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5180]: Received disconnect from 192.168.0.86 port 26768:11: Normal Shutdown, Thank you for playing [preauth]
+Oct  8 21:37:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5180]: Disconnected from invalid user user01 192.168.0.86 port 26768 [preauth]
+Oct  8 21:37:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5182]: error: kex_exchange_identification: Connection closed by remote host
+Oct  8 21:37:16 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5182]: Connection closed by 192.168.0.174 port 26768
+Oct  8 21:37:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[871]: error: beginning MaxStartups throttling
+Oct  8 21:37:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[871]: drop connection #10 from [192.168.0.174]:26768 on [192.168.0.115]:22 past MaxStartups
+Oct  8 21:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5183]: Connection closed by 192.168.0.174 port 26768 [preauth]
+Oct  8 21:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5187]: Connection closed by 192.168.0.174 port 26768 [preauth]
+Oct  8 21:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5184]: Connection closed by 192.168.0.174 port 26768 [preauth]
+Oct  8 21:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5185]: Connection closed by 192.168.0.174 port 26768 [preauth]
+Oct  8 21:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5188]: Connection closed by 192.168.0.174 port 26768 [preauth]
+Oct  8 21:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5189]: Connection closed by 192.168.0.174 port 26768 [preauth]
+Oct  8 21:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5190]: Connection closed by 192.168.0.174 port 26768 [preauth]
+Oct  8 21:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5191]: Connection closed by 192.168.0.174 port 26768 [preauth]
+Oct  8 21:37:23 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5193]: Connection closed by 192.168.0.174 port 26768 [preauth]
+Oct  8 21:39:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5186]: fatal: Timeout before authentication for 192.168.0.174 port 26768
+Oct  8 21:39:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5192]: fatal: Timeout before authentication for 192.168.0.174 port 26768
+Oct  8 21:39:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5194]: fatal: Timeout before authentication for 192.168.0.174 port 26768
+Oct  8 21:39:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5195]: fatal: Timeout before authentication for 192.168.0.174 port 26768
+Oct  8 21:39:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5196]: fatal: Timeout before authentication for 192.168.0.174 port 26768
+Oct  8 21:39:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5197]: fatal: Timeout before authentication for 192.168.0.174 port 26768
+Oct  8 21:39:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5198]: fatal: Timeout before authentication for 192.168.0.174 port 26768
+Oct  8 21:39:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5199]: fatal: Timeout before authentication for 192.168.0.174 port 26768
+Oct  8 21:39:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5200]: fatal: Timeout before authentication for 192.168.0.174 port 26768
+Oct  8 21:41:18 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[871]: exited MaxStartups throttling after 00:04:02, 4 connections dropped
+Oct  8 21:41:21 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5210]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 21:41:21 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5210]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 22:16:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5544]: Invalid user test from 192.168.0.99 port 26768
+Oct  8 22:16:12 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5544]: Connection closed by invalid user test 192.168.0.99 port 26768 [preauth]
+Oct  8 22:23:15 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5926]: Received disconnect from 192.168.0.94 port 26768:11: Bye Bye [preauth]
+Oct  8 22:23:15 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[5926]: Disconnected from authenticating user root 192.168.0.94 port 26768 [preauth]
+Oct  8 22:24:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[6058]: Invalid user qiuyinlin from 192.168.0.194 port 26768
+Oct  8 22:24:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[6058]: Received disconnect from 192.168.0.194 port 26768:11: Bye Bye [preauth]
+Oct  8 22:24:37 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[6058]: Disconnected from invalid user qiuyinlin 192.168.0.194 port 26768 [preauth]
+Oct  8 22:31:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[6936]: error: kex_exchange_identification: Connection closed by remote host
+Oct  8 22:31:17 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 sshd[6936]: Connection closed by 192.168.0.104 port 26768

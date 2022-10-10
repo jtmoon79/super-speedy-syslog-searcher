@@ -1,0 +1,67 @@
+crypto/rand: blocked for 60 seconds waiting to read random data from the kernel
+time="2022-10-09T21:33:15.541012931Z" level=info msg="Starting up"
+time="2022-10-09T21:33:15.547531433Z" level=info msg="libcontainerd: started new containerd process" pid=1178
+time="2022-10-09T21:33:15.547646332Z" level=info msg="parsed scheme: \"unix\"" module=grpc
+time="2022-10-09T21:33:15.547663448Z" level=info msg="scheme \"unix\" not registered, fallback to default scheme" module=grpc
+time="2022-10-09T21:33:15.547749994Z" level=info msg="ccResolverWrapper: sending update to cc: {[{unix:///var/run/docker/containerd/containerd.sock 0  <nil>}] <nil>}" module=grpc
+time="2022-10-09T21:33:15.547775982Z" level=info msg="ClientConn switching balancer to \"pick_first\"" module=grpc
+time="2022-10-09T21:33:15.861794667Z" level=info msg="starting containerd" revision=ea765aba0d05254012b0b9e595e995c09186427f version=v1.3.9
+time="2022-10-09T21:33:15.909186571Z" level=info msg="loading plugin \"io.containerd.content.v1.content\"..." type=io.containerd.content.v1
+time="2022-10-09T21:33:15.909532054Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.btrfs\"..." type=io.containerd.snapshotter.v1
+time="2022-10-09T21:33:15.910190534Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.btrfs\"..." error="path /var/lib/docker/containerd/daemon/io.containerd.snapshotter.v1.btrfs (ext4) must be a btrfs filesystem to be used with the btrfs snapshotter: skip plugin" type=io.containerd.snapshotter.v1
+time="2022-10-09T21:33:15.910239929Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.devmapper\"..." type=io.containerd.snapshotter.v1
+time="2022-10-09T21:33:15.910289645Z" level=warning msg="failed to load plugin io.containerd.snapshotter.v1.devmapper" error="devmapper not configured"
+time="2022-10-09T21:33:15.910306177Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.aufs\"..." type=io.containerd.snapshotter.v1
+time="2022-10-09T21:33:15.920985127Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.aufs\"..." error="modprobe aufs failed: \"modprobe: module aufs not found in modules.dep\\n\": exit status 1: skip plugin" type=io.containerd.snapshotter.v1
+time="2022-10-09T21:33:15.921076991Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.native\"..." type=io.containerd.snapshotter.v1
+time="2022-10-09T21:33:15.921262113Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.overlayfs\"..." type=io.containerd.snapshotter.v1
+time="2022-10-09T21:33:15.921554714Z" level=info msg="loading plugin \"io.containerd.snapshotter.v1.zfs\"..." type=io.containerd.snapshotter.v1
+time="2022-10-09T21:33:15.922558792Z" level=info msg="skip loading plugin \"io.containerd.snapshotter.v1.zfs\"..." error="path /var/lib/docker/containerd/daemon/io.containerd.snapshotter.v1.zfs must be a zfs filesystem to be used with the zfs snapshotter: skip plugin" type=io.containerd.snapshotter.v1
+time="2022-10-09T21:33:15.922621500Z" level=info msg="loading plugin \"io.containerd.metadata.v1.bolt\"..." type=io.containerd.metadata.v1
+time="2022-10-09T21:33:15.922760850Z" level=warning msg="could not use snapshotter devmapper in metadata plugin" error="devmapper not configured"
+time="2022-10-09T21:33:15.922788397Z" level=info msg="metadata content store policy set" policy=shared
+time="2022-10-09T21:33:15.935610468Z" level=info msg="loading plugin \"io.containerd.differ.v1.walking\"..." type=io.containerd.differ.v1
+time="2022-10-09T21:33:15.935742088Z" level=info msg="loading plugin \"io.containerd.gc.v1.scheduler\"..." type=io.containerd.gc.v1
+time="2022-10-09T21:33:15.935896201Z" level=info msg="loading plugin \"io.containerd.service.v1.containers-service\"..." type=io.containerd.service.v1
+time="2022-10-09T21:33:15.935926865Z" level=info msg="loading plugin \"io.containerd.service.v1.content-service\"..." type=io.containerd.service.v1
+time="2022-10-09T21:33:15.935943924Z" level=info msg="loading plugin \"io.containerd.service.v1.diff-service\"..." type=io.containerd.service.v1
+time="2022-10-09T21:33:15.936014165Z" level=info msg="loading plugin \"io.containerd.service.v1.images-service\"..." type=io.containerd.service.v1
+time="2022-10-09T21:33:15.936055823Z" level=info msg="loading plugin \"io.containerd.service.v1.leases-service\"..." type=io.containerd.service.v1
+time="2022-10-09T21:33:15.936089741Z" level=info msg="loading plugin \"io.containerd.service.v1.namespaces-service\"..." type=io.containerd.service.v1
+time="2022-10-09T21:33:15.936107512Z" level=info msg="loading plugin \"io.containerd.service.v1.snapshots-service\"..." type=io.containerd.service.v1
+time="2022-10-09T21:33:15.936141158Z" level=info msg="loading plugin \"io.containerd.runtime.v1.linux\"..." type=io.containerd.runtime.v1
+time="2022-10-09T21:33:15.936442821Z" level=info msg="loading plugin \"io.containerd.runtime.v2.task\"..." type=io.containerd.runtime.v2
+time="2022-10-09T21:33:15.936580227Z" level=info msg="loading plugin \"io.containerd.monitor.v1.cgroups\"..." type=io.containerd.monitor.v1
+time="2022-10-09T21:33:15.937060711Z" level=info msg="loading plugin \"io.containerd.service.v1.tasks-service\"..." type=io.containerd.service.v1
+time="2022-10-09T21:33:15.937116246Z" level=info msg="loading plugin \"io.containerd.internal.v1.restart\"..." type=io.containerd.internal.v1
+time="2022-10-09T21:33:15.937183081Z" level=info msg="loading plugin \"io.containerd.grpc.v1.containers\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.937202671Z" level=info msg="loading plugin \"io.containerd.grpc.v1.content\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.937222667Z" level=info msg="loading plugin \"io.containerd.grpc.v1.diff\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.937244538Z" level=info msg="loading plugin \"io.containerd.grpc.v1.events\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.937259203Z" level=info msg="loading plugin \"io.containerd.grpc.v1.healthcheck\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.937275737Z" level=info msg="loading plugin \"io.containerd.grpc.v1.images\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.937288793Z" level=info msg="loading plugin \"io.containerd.grpc.v1.leases\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.937301461Z" level=info msg="loading plugin \"io.containerd.grpc.v1.namespaces\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.937322677Z" level=info msg="loading plugin \"io.containerd.internal.v1.opt\"..." type=io.containerd.internal.v1
+time="2022-10-09T21:33:15.938078438Z" level=info msg="loading plugin \"io.containerd.grpc.v1.snapshots\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.938127740Z" level=info msg="loading plugin \"io.containerd.grpc.v1.tasks\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.938146829Z" level=info msg="loading plugin \"io.containerd.grpc.v1.version\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.938160022Z" level=info msg="loading plugin \"io.containerd.grpc.v1.introspection\"..." type=io.containerd.grpc.v1
+time="2022-10-09T21:33:15.938528481Z" level=info msg=serving... address=/var/run/docker/containerd/containerd-debug.sock
+time="2022-10-09T21:33:15.938624891Z" level=info msg=serving... address=/var/run/docker/containerd/containerd.sock.ttrpc
+time="2022-10-09T21:33:15.938677136Z" level=info msg=serving... address=/var/run/docker/containerd/containerd.sock
+time="2022-10-09T21:33:15.938690895Z" level=info msg="containerd successfully booted in 0.078207s"
+time="2022-10-09T21:33:15.957819077Z" level=info msg="parsed scheme: \"unix\"" module=grpc
+time="2022-10-09T21:33:15.957892087Z" level=info msg="scheme \"unix\" not registered, fallback to default scheme" module=grpc
+time="2022-10-09T21:33:15.957945267Z" level=info msg="ccResolverWrapper: sending update to cc: {[{unix:///var/run/docker/containerd/containerd.sock 0  <nil>}] <nil>}" module=grpc
+time="2022-10-09T21:33:15.957963839Z" level=info msg="ClientConn switching balancer to \"pick_first\"" module=grpc
+time="2022-10-09T21:33:15.962545487Z" level=info msg="parsed scheme: \"unix\"" module=grpc
+time="2022-10-09T21:33:15.962665769Z" level=info msg="scheme \"unix\" not registered, fallback to default scheme" module=grpc
+time="2022-10-09T21:33:15.962718754Z" level=info msg="ccResolverWrapper: sending update to cc: {[{unix:///var/run/docker/containerd/containerd.sock 0  <nil>}] <nil>}" module=grpc
+time="2022-10-09T21:33:15.962737721Z" level=info msg="ClientConn switching balancer to \"pick_first\"" module=grpc
+time="2022-10-09T21:33:15.994449090Z" level=info msg="Loading containers: start."
+time="2022-10-09T21:33:16.058624305Z" level=info msg="Default bridge (docker0) is assigned with an IP address 192.168.0.0/16. Daemon option --bip can be used to set a preferred IP address"
+time="2022-10-09T21:33:16.094220750Z" level=info msg="Loading containers: done."
+time="2022-10-09T21:33:16.109096857Z" level=info msg="Docker daemon" commit=99e3ed8 graphdriver(s)=overlay2 version=19.03.15
+time="2022-10-09T21:33:16.109299996Z" level=info msg="Daemon has completed initialization"
+time="2022-10-09T21:33:16.162883717Z" level=info msg="API listen on /var/run/docker.sock"

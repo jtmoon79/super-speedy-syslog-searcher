@@ -1,0 +1,195 @@
+[2019-03-01 16:56] [PACMAN] Running 'pacman -r /tmp/genbootstrap.wqKtcV/root.x86_64/ -Sy --noconfirm --config=/tmp/genbootstrap.wqKtcV/pacman.conf arch-install-scripts systemd'
+[2019-03-01 16:56] [PACMAN] synchronizing package lists
+[2019-03-01 16:56] [ALPM] transaction started
+[2019-03-01 16:56] [ALPM] installed linux-api-headers (4.17.11-1)
+[2019-03-01 16:56] [ALPM] installed tzdata (2018i-1)
+[2019-03-01 16:56] [ALPM] installed iana-etc (20190219-1)
+[2019-03-01 16:56] [ALPM] installed filesystem (2018.12-2)
+[2019-03-01 16:56] [ALPM] installed glibc (2.28-5)
+[2019-03-01 16:56] [ALPM] installed gcc-libs (8.2.1+20181127-1)
+[2019-03-01 16:56] [ALPM] installed ncurses (6.1-6)
+[2019-03-01 16:56] [ALPM] installed readline (8.0.0-1)
+[2019-03-01 16:56] [ALPM] installed bash (5.0.0-1)
+[2019-03-01 16:56] [ALPM] installed gmp (6.1.2-2)
+[2019-03-01 16:56] [ALPM] installed mpfr (4.0.2-1)
+[2019-03-01 16:56] [ALPM] installed gawk (4.2.1-2)
+[2019-03-01 16:56] [ALPM] installed attr (2.4.48-1)
+[2019-03-01 16:56] [ALPM] installed acl (2.2.53-1)
+[2019-03-01 16:56] [ALPM] installed libcap (2.26-1)
+[2019-03-01 16:56] [ALPM] installed gdbm (1.18.1-2)
+[2019-03-01 16:56] [ALPM] installed db (5.3.28-4)
+[2019-03-01 16:56] [ALPM] installed perl (5.28.1-1)
+[2019-03-01 16:56] [ALPM] installed openssl (1.1.1.a-1)
+[2019-03-01 16:56] [ALPM] installed coreutils (8.30-1)
+[2019-03-01 16:56] [ALPM] installed bzip2 (1.0.6-8)
+[2019-03-01 16:56] [ALPM] installed expat (2.2.6-1)
+[2019-03-01 16:56] [ALPM] installed lz4 (1:1.8.3-1)
+[2019-03-01 16:56] [ALPM] installed xz (5.2.4-1)
+[2019-03-01 16:56] [ALPM] installed zlib (1:1.2.11-3)
+[2019-03-01 16:56] [ALPM] installed zstd (1.3.8-1)
+[2019-03-01 16:56] [ALPM] installed libarchive (3.3.3-1)
+[2019-03-01 16:56] [ALPM] installed findutils (4.6.0-4)
+[2019-03-01 16:56] [ALPM] installed libtasn1 (4.13-1)
+[2019-03-01 16:56] [ALPM] installed libffi (3.2.1-3)
+[2019-03-01 16:56] [ALPM] installed libgpg-error (1.35-1)
+[2019-03-01 16:56] [ALPM] installed libgcrypt (1.8.4-1)
+[2019-03-01 16:56] [ALPM] installed systemd-libs (241.7-2)
+[2019-03-01 16:56] [ALPM] installed device-mapper (2.02.183-2)
+[2019-03-01 16:56] [ALPM] installed popt (1.16-10)
+[2019-03-01 16:56] [ALPM] installed libutil-linux (2.33.1-2)
+[2019-03-01 16:56] [ALPM] installed json-c (0.13.1-2)
+[2019-03-01 16:56] [ALPM] installed argon2 (20171227-3)
+[2019-03-01 16:56] [ALPM] installed cryptsetup (2.1.0-1)
+[2019-03-01 16:56] [ALPM] installed e2fsprogs (1.44.5-1)
+[2019-03-01 16:56] [ALPM] installed libsasl (2.1.27-1)
+[2019-03-01 16:56] [ALPM] installed libldap (2.4.47-1)
+[2019-03-01 16:56] [ALPM] installed keyutils (1.6-1)
+[2019-03-01 16:56] [ALPM] installed krb5 (1.16.1-1)
+[2019-03-01 16:56] [ALPM] installed libcap-ng (0.7.9-1)
+[2019-03-01 16:56] [ALPM] installed audit (2.8.4-3)
+[2019-03-01 16:56] [ALPM] installed dbus (1.12.12-1)
+[2019-03-01 16:56] [ALPM] installed libmnl (1.0.4-2)
+[2019-03-01 16:56] [ALPM] installed libnftnl (1.1.1-1)
+[2019-03-01 16:56] [ALPM] installed libnl (3.4.0-1)
+[2019-03-01 16:56] [ALPM] installed libusb (1.0.22-1)
+[2019-03-01 16:56] [ALPM] installed libpcap (1.9.0-1)
+[2019-03-01 16:56] [ALPM] installed libnfnetlink (1.0.1-3)
+[2019-03-01 16:56] [ALPM] installed libnetfilter_conntrack (1.0.7-1)
+[2019-03-01 16:56] [ALPM] installed iptables (1:1.8.2-1)
+[2019-03-01 16:56] [ALPM] installed cracklib (2.9.6-3)
+[2019-03-01 16:56] [ALPM] installed libtirpc (1.1.4-1)
+[2019-03-01 16:56] [ALPM] installed pambase (20190105.1-1)
+[2019-03-01 16:56] [ALPM] installed pam (1.3.1-1)
+[2019-03-01 16:56] [ALPM] installed kbd (2.0.4-2)
+[2019-03-01 16:56] [ALPM] installed kmod (26-2)
+[2019-03-01 16:56] [ALPM] installed hwids (20180917-1)
+[2019-03-01 16:56] [ALPM] installed libunistring (0.9.10-1)
+[2019-03-01 16:56] [ALPM] installed libidn2 (2.1.1-2)
+[2019-03-01 16:56] [ALPM] installed libelf (0.175-1)
+[2019-03-01 16:56] [ALPM] installed libseccomp (2.3.3-1)
+[2019-03-01 16:56] [ALPM] installed shadow (4.6-2)
+[2019-03-01 16:56] [ALPM] installed util-linux (2.33.1-2)
+[2019-03-01 16:56] [ALPM] installed pcre2 (10.32-2)
+[2019-03-01 16:56] [ALPM] installed systemd (241.7-2)
+[2019-03-01 16:56] [ALPM-SCRIPTLET] Initializing machine ID from random generator.
+[2019-03-01 16:56] [ALPM-SCRIPTLET] Created symlink /etc/systemd/system/getty.target.wants/getty@tty1.service → /usr/lib/systemd/system/getty@.service.
+[2019-03-01 16:56] [ALPM-SCRIPTLET] Created symlink /etc/systemd/system/multi-user.target.wants/remote-fs.target → /usr/lib/systemd/system/remote-fs.target.
+[2019-03-01 16:56] [ALPM-SCRIPTLET] :: Append 'init=/usr/lib/systemd/systemd' to your kernel command line in your
+[2019-03-01 16:56] [ALPM-SCRIPTLET]    bootloader to replace sysvinit with systemd, or install systemd-sysvcompat
+[2019-03-01 16:56] [ALPM] installed p11-kit (0.23.15-1)
+[2019-03-01 16:56] [ALPM-SCRIPTLET] Created symlink /etc/systemd/user/sockets.target.wants/p11-kit-server.socket → /usr/lib/systemd/user/p11-kit-server.socket.
+[2019-03-01 16:56] [ALPM] installed ca-certificates-utils (20181109-1)
+[2019-03-01 16:56] [ALPM] installed ca-certificates-mozilla (3.42.1-1)
+[2019-03-01 16:56] [ALPM] installed ca-certificates (20181109-1)
+[2019-03-01 16:56] [ALPM] installed libssh2 (1.8.0-3)
+[2019-03-01 16:56] [ALPM] installed libpsl (0.20.2-5)
+[2019-03-01 16:56] [ALPM] installed libnghttp2 (1.36.0-1)
+[2019-03-01 16:56] [ALPM] installed curl (7.64.0-9)
+[2019-03-01 16:56] [ALPM] installed npth (1.6-1)
+[2019-03-01 16:56] [ALPM] installed libksba (1.3.5-1)
+[2019-03-01 16:56] [ALPM] installed libassuan (2.5.3-1)
+[2019-03-01 16:56] [ALPM] installed pcre (8.43-1)
+[2019-03-01 16:56] [ALPM] installed glib2 (2.58.3-1)
+[2019-03-01 16:56] [ALPM] installed libsecret (0.18.7-1)
+[2019-03-01 16:56] [ALPM] installed pinentry (1.1.0-4)
+[2019-03-01 16:56] [ALPM] installed nettle (3.4.1-1)
+[2019-03-01 16:56] [ALPM] installed gnutls (3.6.6-3)
+[2019-03-01 16:56] [ALPM] installed sqlite (3.27.2-1)
+[2019-03-01 16:56] [ALPM] installed gnupg (2.2.13-1)
+[2019-03-01 16:56] [ALPM] installed gpgme (1.12.0-2)
+[2019-03-01 16:56] [ALPM] installed pacman-mirrorlist (20190109-1)
+[2019-03-01 16:56] [ALPM] installed archlinux-keyring (20190123-2)
+[2019-03-01 16:56] [ALPM] installed pacman (5.1.3-1)
+[2019-03-01 16:56] [ALPM] installed arch-install-scripts (21-1)
+[2019-03-01 16:56] [ALPM] transaction completed
+[2019-03-01 16:56] [ALPM] running 'detect-old-perl-modules.hook'...
+[2019-03-01 16:56] [ALPM-SCRIPTLET] perl: warning: Setting locale failed.
+[2019-03-01 16:56] [ALPM-SCRIPTLET] perl: warning: Please check that your locale settings:
+[2019-03-01 16:56] [ALPM-SCRIPTLET]     LANGUAGE = "",
+[2019-03-01 16:56] [ALPM-SCRIPTLET]     LC_ALL = (unset),
+[2019-03-01 16:56] [ALPM-SCRIPTLET]     LC_MESSAGES = "en_US.UTF-8",
+[2019-03-01 16:56] [ALPM-SCRIPTLET]     LANG = "de_DE.UTF-8"
+[2019-03-01 16:56] [ALPM-SCRIPTLET]     are supported and installed on your system.
+[2019-03-01 16:56] [ALPM-SCRIPTLET] perl: warning: Falling back to the standard locale ("C").
+[2019-03-01 16:56] [ALPM] running 'systemd-catalog.hook'...
+[2019-03-01 16:56] [ALPM] running 'systemd-daemon-reload.hook'...
+[2019-03-01 16:56] [ALPM-SCRIPTLET] Running in chroot, ignoring request: daemon-reload
+[2019-03-01 16:56] [ALPM] running 'systemd-hwdb.hook'...
+[2019-03-01 16:56] [ALPM] running 'systemd-sysctl.hook'...
+[2019-03-01 16:56] [ALPM] running 'systemd-sysusers.hook'...
+[2019-03-01 16:56] [ALPM] running 'systemd-tmpfiles.hook'...
+[2019-03-01 16:56] [ALPM] running 'systemd-udev-reload.hook'...
+[2019-03-01 16:56] [ALPM-SCRIPTLET] Running in chroot, ignoring request.
+[2019-03-01 16:56] [ALPM] running 'systemd-update.hook'...
+[2019-03-01 16:56] [ALPM] running 'update-ca-trust.hook'...
+[2019-03-07 09:51] [PACMAN] Running '/usr/bin/pacman -Syu --noconfirm bzip2 coreutils diffutils gawk gcc-libs gettext grep gzip inetutils iproute2 iputils less man-db man-pages nano sed sudo tar vi vim wget which'
+[2019-03-07 09:51] [PACMAN] synchronizing package lists
+[2019-03-07 09:51] [PACMAN] starting full system upgrade
+[2019-03-07 09:51] [ALPM] transaction started
+[2019-03-07 09:51] [ALPM] reinstalled gcc-libs (8.2.1+20181127-1)
+[2019-03-07 09:51] [ALPM] reinstalled bzip2 (1.0.6-8)
+[2019-03-07 09:51] [ALPM] upgraded openssl (1.1.1.a-1 -> 1.1.1.b-1)
+[2019-03-07 09:51] [ALPM] reinstalled coreutils (8.30-1)
+[2019-03-07 09:51] [ALPM] installed diffutils (3.7-1)
+[2019-03-07 09:51] [ALPM] reinstalled gawk (4.2.1-2)
+[2019-03-07 09:51] [ALPM] installed icu (63.1-2)
+[2019-03-07 09:51] [ALPM] installed libxml2 (2.9.9-1)
+[2019-03-07 09:51] [ALPM] installed libcroco (0.6.12+4+g9ad7287-2)
+[2019-03-07 09:51] [ALPM] installed gettext (0.19.8.1-3)
+[2019-03-07 09:51] [ALPM] installed grep (3.3-1)
+[2019-03-07 09:51] [ALPM] installed less (530-1)
+[2019-03-07 09:51] [ALPM] installed gzip (1.10-1)
+[2019-03-07 09:51] [ALPM] installed inetutils (1.9.4-7)
+[2019-03-07 09:51] [ALPM-SCRIPTLET] /usr/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+[2019-03-07 09:51] [ALPM] upgraded libelf (0.175-1 -> 0.176-1)
+[2019-03-07 09:51] [ALPM] installed iproute2 (4.20.0-1)
+[2019-03-07 09:51] [ALPM] installed iputils (20180629.f6aac8d-4)
+[2019-03-07 09:51] [ALPM-SCRIPTLET] /usr/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+[2019-03-07 09:51] [ALPM] installed groff (1.22.3-8)
+[2019-03-07 09:51] [ALPM] installed libpipeline (1.5.1-1)
+[2019-03-07 09:51] [ALPM] installed man-db (2.8.5-2)
+[2019-03-07 09:51] [ALPM] installed man-pages (4.16-2)
+[2019-03-07 09:51] [ALPM] installed file (5.36-1)
+[2019-03-07 09:51] [ALPM] installed nano (3.2-1)
+[2019-03-07 09:51] [ALPM] installed sed (4.7-1)
+[2019-03-07 09:51] [ALPM] installed sudo (1.8.27-1)
+[2019-03-07 09:51] [ALPM] installed tar (1.32-1)
+[2019-03-07 09:51] [ALPM] installed vi (1:070224-3)
+[2019-03-07 09:51] [ALPM] installed vim-runtime (8.1.0996-1)
+[2019-03-07 09:51] [ALPM] installed procps-ng (3.3.15-1)
+[2019-03-07 09:51] [ALPM] installed gpm (1.20.7.r27.g1fd1941-1)
+[2019-03-07 09:51] [ALPM] installed vim (8.1.0996-1)
+[2019-03-07 09:51] [ALPM] installed wget (1.20.1-3)
+[2019-03-07 09:51] [ALPM] installed which (2.21-3)
+[2019-03-07 09:51] [ALPM] upgraded libsecret (0.18.7-1 -> 0.18.8-2)
+[2019-03-07 09:51] [ALPM] transaction completed
+[2019-03-07 09:51] [ALPM] running 'systemd-daemon-reload.hook'...
+[2019-03-07 09:51] [ALPM-SCRIPTLET] /bin/sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+[2019-03-07 09:51] [ALPM-SCRIPTLET]   Skipped: Current root is not booted.
+[2019-03-07 09:51] [ALPM] running 'systemd-tmpfiles.hook'...
+[2019-03-07 09:51] [ALPM-SCRIPTLET] /bin/sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+[2019-03-07 09:51] [ALPM] running 'systemd-update.hook'...
+[2019-03-07 09:51] [ALPM-SCRIPTLET] /bin/sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+[2019-03-07 09:51] [PACMAN] Running '/usr/bin/pacman -U --force /root/fakeroot-tcp-1.23-1-x86_64.pkg.tar.xz'
+[2019-03-07 09:51] [ALPM] transaction started
+[2019-03-07 09:51] [ALPM] installed fakeroot-tcp (1.23-1)
+[2019-03-07 09:51] [ALPM] transaction completed
+[2019-03-07 09:51] [ALPM] running 'systemd-update.hook'...
+[2019-03-07 09:51] [PACMAN] Running '/usr/bin/pacman -Scc'
+[2019-10-06 01:13] [PACMAN] Running 'pacman --sync'
+[2020-03-15 16:02] [PACMAN] Running 'pacman -S python'
+[2020-03-15 16:02] [PACMAN] Running 'pacman -S python'
+[2020-03-15 16:03] [PACMAN] Running 'pacman -Syy'
+[2020-03-15 16:03] [PACMAN] synchronizing package lists
+[2020-03-15 16:03] [PACMAN] Running 'pacman -S python'
+[2020-03-15 16:04] [PACMAN] Running 'pacman -S python'
+[2020-03-15 16:05] [PACMAN] Running 'pacman -S python'
+[2020-03-15 16:06] [PACMAN] Running 'pacman -S python'
+[2020-03-15 16:07] [PACMAN] Running 'pacman -S python'
+[2020-03-16 15:53] [PACMAN] Running 'pacman -S python'
+[2020-03-16 15:53] [ALPM] transaction started
+[2020-03-16 15:53] [ALPM] installed libnsl (1.2.0-2)
+[2020-03-16 15:54] [ALPM] installed python (3.8.2-1)
+[2020-03-16 15:54] [ALPM] transaction completed
+[2020-03-16 15:54] [ALPM] running 'systemd-update.hook'...
+[2022-10-07 16:08] [PACMAN] Running 'pacman -S tree'

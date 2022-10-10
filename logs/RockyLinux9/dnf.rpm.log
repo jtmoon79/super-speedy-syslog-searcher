@@ -1,0 +1,39 @@
+2022-09-12T17:53:18+0000 INFO --- logging initialized ---
+2022-10-08T06:18:42+0000 INFO --- logging initialized ---
+2022-10-08T06:18:43+0000 INFO --- logging initialized ---
+2022-10-08T06:18:50+0000 SUBDEBUG Upgrade: ca-certificates-2022.2.54-90.2.el9.noarch
+2022-10-08T06:18:51+0000 SUBDEBUG Upgraded: ca-certificates-2020.2.50-94.el9.noarch
+2022-10-08T06:18:53+0000 INFO --- logging initialized ---
+2022-10-08T06:18:55+0000 INFO --- logging initialized ---
+2022-10-08T06:18:56+0000 SUBDEBUG Installed: droplet-agent-1.2.4-1.x86_64
+2022-10-08T06:18:58+0000 INFO enable systemd service
+Created symlink /etc/systemd/system/multi-user.target.wants/droplet-agent.service → /etc/systemd/system/droplet-agent.service.
+
+2022-10-08T06:18:59+0000 INFO enable systemd service
+
+2022-10-08T06:23:17+0000 INFO --- logging initialized ---
+2022-10-08T06:23:22+0000 INFO --- logging initialized ---
+2022-10-08T06:23:24+0000 SUBDEBUG Installed: tree-1.8.0-10.el9.x86_64
+2022-10-08T06:23:53+0000 INFO --- logging initialized ---
+2022-10-08T06:24:15+0000 INFO --- logging initialized ---
+2022-10-08T06:24:19+0000 INFO --- logging initialized ---
+2022-10-08T06:35:47+0000 INFO --- logging initialized ---
+2022-10-08T06:51:07+0000 INFO --- logging initialized ---
+2022-10-08T06:51:10+0000 SUBDEBUG Installed: nginx-filesystem-1:1.20.1-10.el9.noarch
+2022-10-08T06:51:10+0000 SUBDEBUG Installed: rocky-logos-httpd-90.11-1.el9.noarch
+2022-10-08T06:51:10+0000 SUBDEBUG Installed: nginx-1:1.20.1-10.el9.x86_64
+2022-10-08T08:33:47+0000 INFO --- logging initialized ---
+2022-10-08T10:13:43+0000 INFO --- logging initialized ---
+2022-10-08T11:27:47+0000 INFO --- logging initialized ---
+2022-10-08T12:48:47+0000 INFO --- logging initialized ---
+2022-10-08T13:56:27+0000 INFO --- logging initialized ---
+2022-10-08T15:00:47+0000 INFO --- logging initialized ---
+2022-10-08T16:45:47+0000 INFO --- logging initialized ---
+2022-10-08T18:10:47+0000 INFO --- logging initialized ---
+2022-10-08T19:37:47+0000 INFO --- logging initialized ---
+2022-10-08T20:51:48+0000 INFO --- logging initialized ---
+2022-10-08T22:25:40+0000 INFO --- logging initialized ---
+2022-10-08T22:25:43+0000 SUBDEBUG Installed: lsof-4.94.0-3.el9.x86_64
+2022-10-08T22:26:50+0000 INFO --- logging initialized ---
+2022-10-08T22:26:52+0000 SUBDEBUG Installed: rocky-indexhtml-9.0-2.el9.noarch
+2022-10-08T22:26:52+0000 SUBDEBUG Installed: lynx-2.8.9-18.el9.x86_64

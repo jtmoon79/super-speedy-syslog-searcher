@@ -1,0 +1,77 @@
+Cloud-init v. 21.1-19.el9_0.3 running 'init-local' at Sat, 08 Oct 2022 06:18:26 +0000. Up 8.06 seconds.
+Cloud-init v. 21.1-19.el9_0.3 running 'init' at Sat, 08 Oct 2022 06:18:31 +0000. Up 13.08 seconds.
+ci-info: +++++++++++++++++++++++++++++++++++++++Net device info+++++++++++++++++++++++++++++++++++++++
+ci-info: +--------+------+------------------------------+---------------+--------+-------------------+
+ci-info: | Device |  Up  |           Address            |      Mask     | Scope  |     Hw-Address    |
+ci-info: +--------+------+------------------------------+---------------+--------+-------------------+
+ci-info: |  eth0  | True |        192.168.0.115         | 192.168.0.0   | global | 01:02:03:04:05:cb |
+ci-info: |  eth0  | True |          192.168.0.5         |  192.168.0.0  | global | 01:02:03:04:05:cb |
+ci-info: |  eth0  | True | fe80::9ccf:17ff:fe13:b4cb/64 |       .       |  link  | 01:02:03:04:05:cb |
+ci-info: |  eth1  | True |          192.168.0.2         | 192.168.0.0   | global | 01:02:03:04:05:0a |
+ci-info: |  eth1  | True | fe80::947c:1eff:fe1e:710a/64 |       .       |  link  | 01:02:03:04:05:0a |
+ci-info: |   lo   | True |          192.168.0.1         |   192.168.0.0 |  host  |         .         |
+ci-info: |   lo   | True |           ::1/128            |       .       |  host  |         .         |
+ci-info: +--------+------+------------------------------+---------------+--------+-------------------+
+ci-info: ++++++++++++++++++++++++++++++Route IPv4 info++++++++++++++++++++++++++++++
+ci-info: +-------+--------------+--------------+---------------+-----------+-------+
+ci-info: | Route | Destination  |   Gateway    |    Genmask    | Interface | Flags |
+ci-info: +-------+--------------+--------------+---------------+-----------+-------+
+ci-info: |   0   |   192.168.0.0| 192.168.0.1  |    192.168.0.0|    eth0   |   UG  |
+ci-info: |   1   |  192.168.0.0 |   192.168.0.0|  192.168.0.0  |    eth0   |   U   |
+ci-info: |   2   |  192.168.0.0 |   192.168.0.0| 192.168.0.0   |    eth1   |   U   |
+ci-info: |   3   | 192.168.0.0  |   192.168.0.0| 192.168.0.0   |    eth0   |   U   |
+ci-info: +-------+--------------+--------------+---------------+-----------+-------+
+ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+ci-info: +-------+-------------+---------+-----------+-------+
+ci-info: | Route | Destination | Gateway | Interface | Flags |
+ci-info: +-------+-------------+---------+-----------+-------+
+ci-info: |   1   |  fe80::/64  |    ::   |    eth0   |   U   |
+ci-info: |   2   |  fe80::/64  |    ::   |    eth1   |   U   |
+ci-info: |   4   |    local    |    ::   |    eth0   |   U   |
+ci-info: |   5   |    local    |    ::   |    eth1   |   U   |
+ci-info: |   6   |  multicast  |    ::   |    eth0   |   U   |
+ci-info: |   7   |  multicast  |    ::   |    eth1   |   U   |
+ci-info: +-------+-------------+---------+-----------+-------+
+Generating public/private rsa key pair.
+Your identification has been saved in /etc/ssh/ssh_host_rsa_key
+Your public key has been saved in /etc/ssh/ssh_host_rsa_key.pub
+The key fingerprint is:
+SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq root@rockylinux-s-1vcpu-512mb-10gb-nyc1-01
+
+Cloud-init v. 22.2-0ubuntu1~22.04.3 running 'init-local' at Fri, 07 Oct 2022 01:15:13 +0000. Up 5.19 seconds.
+Cloud-init v. 22.2-0ubuntu1~22.04.3 running 'init' at Fri, 07 Oct 2022 01:15:28 +0000. Up 19.76 seconds.
+ci-info: +++++++++++++++++++++++++++++++++++++++Net device info+++++++++++++++++++++++++++++++++++++++
+ci-info: +--------+------+------------------------------+---------------+--------+-------------------+
+ci-info: | Device |  Up  |           Address            |      Mask     | Scope  |     Hw-Address    |
+ci-info: +--------+------+------------------------------+---------------+--------+-------------------+
+ci-info: |  eth0  | True |       192.168.0.172          | 192.168.0.0   | global | 01:02:03:04:05:0e |
+ci-info: |  eth0  | True |          192.168.0.5         |  192.168.0.0  | global | 01:02:03:04:05:0e |
+ci-info: |  eth0  | True | fe80::984c:9fff:fe1e:9e0e/64 |       .       |  link  | 01:02:03:04:05:0e |
+ci-info: |  eth1  | True |          192.168.0.2         | 192.168.0.0   | global | 01:02:03:04:05:c3 |
+ci-info: |  eth1  | True | fe80::3405:7aff:fe72:aec3/64 |       .       |  link  | 01:02:03:04:05:c3 |
+ci-info: |   lo   | True |          192.168.0.1         |   192.168.0.0 |  host  |         .         |
+ci-info: |   lo   | True |           ::1/128            |       .       |  host  |         .         |
+ci-info: +--------+------+------------------------------+---------------+--------+-------------------+
+ci-info: +++++++++++++++++++++++++++++++Route IPv4 info+++++++++++++++++++++++++++++++
+ci-info: +-------+---------------+---------------+---------------+-----------+-------+
+ci-info: | Route |  Destination  |    Gateway    |    Genmask    | Interface | Flags |
+ci-info: +-------+---------------+---------------+---------------+-----------+-------+
+ci-info: |   0   |    192.168.0.0| 192.168.0.1   |    192.168.0.0|    eth0   |   UG  |
+ci-info: |   1   |   192.168.0.0 |    192.168.0.0|  192.168.0.0  |    eth0   |   U   |
+ci-info: |   2   |   192.168.0.0 |    192.168.0.0| 192.168.0.0   |    eth1   |   U   |
+ci-info: |   3   | 192.168.0.0   |    192.168.0.0| 192.168.0.0   |    eth0   |   U   |
+ci-info: +-------+---------------+---------------+---------------+-----------+-------+
+ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+ci-info: +-------+-------------+---------+-----------+-------+
+ci-info: | Route | Destination | Gateway | Interface | Flags |
+ci-info: +-------+-------------+---------+-----------+-------+
+ci-info: |   1   |  fe80::/64  |    ::   |    eth1   |   U   |
+ci-info: |   2   |  fe80::/64  |    ::   |    eth0   |   U   |
+ci-info: |   4   |    local    |    ::   |    eth1   |   U   |
+ci-info: |   5   |    local    |    ::   |    eth0   |   U   |
+ci-info: |   6   |  multicast  |    ::   |    eth1   |   U   |
+ci-info: |   7   |  multicast  |    ::   |    eth0   |   U   |
+ci-info: +-------+-------------+---------+-----------+-------+
+Cloud-init v. 22.2-0ubuntu1~22.04.3 running 'modules:config' at Fri, 07 Oct 2022 01:15:35 +0000. Up 27.07 seconds.
+Cloud-init v. 22.2-0ubuntu1~22.04.3 running 'modules:final' at Fri, 07 Oct 2022 01:15:36 +0000. Up 27.47 seconds.
+Cloud-init v. 22.2-0ubuntu1~22.04.3 finished at Fri, 07 Oct 2022 01:15:36 +0000. Datasource DataSourceConfigDrive [net,ver=2][source=/dev/vdb].  Up 27.60 seconds
