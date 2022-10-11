@@ -1265,15 +1265,16 @@ pub(crate) const CGN_ALL: [&CaptureGroupName; 9] = [
 /// four decimal number characters.
 pub const CGP_YEAR: &CaptureGroupPattern = r"(?P<year>[12]\d{3})";
 /// Regex capture group pattern for `strftime` month specifier `%m`,
-/// month number 01 to 12.
+/// month numbers `"01"` to `"12"`.
 pub const CGP_MONTHm: &CaptureGroupPattern = r"(?P<month>01|02|03|04|05|06|07|08|09|10|11|12)";
 /// Regex capture group pattern for `strftime` month specifier `%b`,
-/// month name abbreviated to three characters.
+/// month name abbreviated to three characters, e.g. `Jan`.
 pub const CGP_MONTHb: &CaptureGroupPattern = r"(?P<month>jan|Jan|JAN|feb|Feb|FEB|mar|Mar|MAR|apr|Apr|APR|may|May|MAY|jun|Jun|JUN|jul|Jul|JUL|aug|Aug|AUG|sep|Sep|SEP|oct|Oct|OCT|nov|Nov|NOV|dec|Dec|DEC)";
 /// Regex capture group pattern for `strftime` month specifier `%B`,
-/// month name long.
+/// month name long, e.g. `January`.
 pub const CGP_MONTHB: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY|february|February|FEBRUARY|march|March|MARCH|april|April|APRIL|may|May|MAY|june|June|JUNE|july|July|JULY|august|August|AUGUST|september|September|SEPTEMBER|october|October|OCTOBER|november|November|NOVEMBER|december|December|DECEMBER)";
-/// Regex capture group pattern for `strftime` month specifier `%B` and `%b`.
+/// Regex capture group pattern for `strftime` month specifier `%B` and `%b`,
+/// e.g. `January` or `Jan`.
 pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY|jan|Jan|JAN|february|February|FEBRUARY|feb|Feb|FEB|march|March|MARCH|mar|Mar|MAR|april|April|APRIL|apr|Apr|APR|may|May|MAY|june|June|JUNE|jun|Jun|JUN|july|July|JULY|jul|Jul|JUL|august|August|AUGUST|aug|Aug|AUG|september|September|SEPTEMBER|sep|Sep|SEP|october|October|OCTOBER|oct|Oct|OCT|november|November|NOVEMBER|nov|Nov|NOV|december|December|DECEMBER|dec|Dec|DEC)";
 /// Regex capture group pattern for `strftime` day specifier `%d`,
 /// number day of month with leading zero.
@@ -2437,7 +2438,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     01234567890123456789012345678901234567890123456789
     //     update-alternatives 2020-02-03 13:56:07: run with --install /usr/bin/jjs jjs /usr/lib/jvm/java-11-openjdk-amd64/bin/jjs 1111
     //
-    //(" %Y-%m-%d %H:%M:%S: ", true, false, false, 19, 41, 20, 39),
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/Ubuntu18/cups/error_log`
     // example with offset:
