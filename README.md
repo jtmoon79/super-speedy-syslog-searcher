@@ -51,19 +51,39 @@ For example, print all the syslog lines in syslog files under `/var/log/`
 s4 /var/log
 ```
 
-Print only the syslog lines since yesterday
+Print the syslog lines after January 1, 2022 at 00:00
+
+```lang-text
+s4 /var/log -a 20220101
+```
+
+Print the syslog lines from January 1, 2022 00:00 to January 2, 2022
+
+```lang-text
+s4 /var/log -a 20220101 -b 20220102
+```
+
+Print the syslog lines on January 1, 2022, from 12:00 to 16:00
+
+```lang-text
+s4 /var/log -a 20220101T120000 -b 20220101T160000
+```
+
+Print only the syslog lines since yesterday (with the help of GNU `date`)
 
 ```lang-text
 s4 /var/log -a $(date -d "yesterday" '+%Y-%m-%d')
 ```
 
 Print only the syslog lines that occurred two days ago
+(with the help of GNU `date`)
 
 ```lang-text
 s4 /var/log -a $(date -d "2 days ago" '+%Y-%m-%d') -b $(date -d "1 days ago" '+%Y-%m-%d')
 ```
 
 Print only the syslog lines that occurred two days ago during the noon hour
+(with the help of GNU `date`)
 
 ```lang-text
 s4 /var/log -a $(date -d "2 days ago 12:00" '+%Y-%m-%dT%H:%M:%S') -b $(date -d "2 days ago 13:00" '+%Y-%m-%dT%H:%M:%S')
@@ -71,7 +91,7 @@ s4 /var/log -a $(date -d "2 days ago 12:00" '+%Y-%m-%dT%H:%M:%S') -b $(date -d "
 
 Print only the syslog lines that occurred two days ago during the noon hour in
 Bengaluru, India (timezone offset +05:30) and prepended with equivalent UTC
-datetime.
+datetime (with the help of GNU `date`)
 
 ```lang-text
 s4 /var/log -u -a "$(date -d "2 days ago 12:00" '+%Y-%m-%dT%H:%M:%S') +05:30" -b "$(date -d "2 days ago 13:00" '+%Y-%m-%dT%H:%M:%S') +05:30"
@@ -129,10 +149,10 @@ OPTIONS:
 
     -z, --blocksz <BLOCKSZ>
             Read blocks of this size in bytes. May pass decimal or hexadecimal numbers. Using the
-            default value is recommended [default: 65535]
+            default value is recommended. Most useful for developers [default: 65535]
 
     -s, --summary
-            Print a summary of files processed. Printed to stderr
+            Print a summary of files processed to stderr. Most useful for developers
 
     -h, --help
             Print help information
@@ -141,7 +161,7 @@ OPTIONS:
             Print version information
 
 
-DateTime Filter patterns may be:
+DateTime Filter strftime patterns may be:
     "%Y%m%dT%H%M%S"
     "%Y%m%dT%H%M%S%z"
     "%Y%m%dT%H%M%S%:z"
@@ -173,8 +193,9 @@ DateTime Filter patterns may be:
 
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 Without a timezone offset ("%z" or "%Z"), the Datetime Filter is presumed to be the local system
-timezone.
-Ambiguous named timezones will be rejected, e.g. "SST".
+timezone. User-passed ambiguous named timezones will be rejected, e.g. "SST".
+
+Ambiguous named timezones in log files will use the --tz-offset value.
 
 DateTime formatting specifiers are described at
 https://docs.rs/chrono/latest/chrono/format/strftime/
