@@ -216,6 +216,10 @@ SPECIAL SPECIFIERS:
 %%  Literal percent sign.
 */
 
+// TODO: [2022/10] Issue #26
+//       refactor this `datetime.rs` to remove intermediary `DTP_*` variables
+//       allow more flexible regex grouping and name declarations.
+
 /// DateTime Format Specifier for a Year.
 /// Follows chrono `strftime` specifier formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
@@ -687,11 +691,16 @@ impl fmt::Debug for DateTimeParseInstr<'_> {
 
 // `strftime` patterns used in `DTFSSet!` declarations
 
-// TODO: [2022/10/08] rename `DTP_*` variables: put 'Y' in front, so it matches
+// TODO: [2022/10/08] refactor for consitent naming of  `DTP_*` variables:
+//       put 'Y' in front, so it matches
 //       strftime specifier ordering within the value.
 //       e.g. variable `DTP_BdHMSYz` has value `"%Y%m%dT%H%M%S%z"`, the `%Y`
 //       is in front, so the variable should match the ordering, `DTP_YBdHMSz`.
 //       a few less human brain cycles to grok the var.
+
+// TODO: [2022/10/10] refactor for consistent naming of timezone in variables
+//       names. Sometimes it is `DTP_YmdHMSzc` (notice `zc`) but then there
+//       is `DTP_bdHMSYZc` (noticed `Zc`).
 
 const DTP_YmdHMSzc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 const DTP_YmdHMSz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
