@@ -739,10 +739,15 @@ const DTP_bdHMSYZc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 const DTP_bdHMSYZp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
 /// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_bdHMSYZz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
-/// `%b` value transformed to `%m` value, `%Z` transformed to `%:z` by [`captures_to_buffer_bytes`]
+/// `%b` value transformed to `%m` value,
+/// `%Z` transformed to `%:z` by [`captures_to_buffer_bytes`]
 const DTP_bdHMSYZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
-/// `%b` value transformed to `%m` value, `%:z` filled by [`captures_to_buffer_bytes`]
+/// `%b` value transformed to `%m` value,
+/// `%:z` filled by [`captures_to_buffer_bytes`]
 const DTP_bdHMSY: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
+/// `%b` value transformed to `%m` value,
+/// `%:z` filled by [`captures_to_buffer_bytes`]
+const DTP_bdHMSYf: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%:z";
 
 /// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BeHMS: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
@@ -946,6 +951,73 @@ const DTFSS_BdHMSYzp: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
     pattern: DTP_BdHMSYZ,
+};
+
+const DTFSS_bdHMSY: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    pattern: DTP_bdHMSY,
+};
+const DTFSS_bdHMSYf: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::f,
+    tz: DTFS_Tz::_fill,
+    pattern: DTP_bdHMSYf,
+};
+const DTFSS_bdHMSYZ: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::Z,
+    pattern: DTP_bdHMSYZ,
+};
+const DTFSS_bdHMSYz: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::z,
+    pattern: DTP_bdHMSYZz,
+};
+const DTFSS_bdHMSYzc: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::zc,
+    pattern: DTP_bdHMSYZc,
+};
+const DTFSS_bdHMSYzp: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::zp,
+    pattern: DTP_bdHMSYZp,
 };
 
 const DTFSS_BeHMS: DTFSSet = DTFSSet {
@@ -1900,7 +1972,7 @@ pub type DateTimeParseInstrsIndex = usize;
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 /// Length of [`DATETIME_PARSE_DATAS`]
-pub const DATETIME_PARSE_DATAS_LEN: usize = 53;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 58;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2383,6 +2455,84 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     012345678901234567890
     //     2019-05-23 16:53:43 <1> trenker(24689) [zypper] main.cc(main):74 ===== Hi, me zypper 1.14.27
     //
+    // ---------------------------------------------------------------------------------------------
+    //
+    // from file `./logs/Debian11/apache2/access.log`
+    // example with offset:
+    //
+    //               1         2         3         4         5
+    //     012345678901234567890123456789012345678901234567890
+    //     192.168.0.172 - - [11/Oct/2022:00:10:26 +0000] "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1"
+    //
+    // from file `./logs/Debian9/nginx/access.log`
+    // example with offset:
+    //
+    //               1         2         3         4         5
+    //     012345678901234567890123456789012345678901234567890
+    //     192.168.0.8 - - [06/Mar/2020:06:30:43 -0800] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72"
+    //
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYd, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz, RP_RB),
+        DTFSS_bdHMSYz, 0, 300, CGN_DAY, CGN_TZ,
+        &[
+            (19, 45, r#"192.168.0.172 - - [11/Oct/2022:00:10:26 +0100] "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (19, 45, r#"192.168.0.172 - - {11/oct/2022 00:10:26 +0100} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (15, 40, r#"192.168.0.172	<11-oct-2022 00:10:26+0100>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (17, 43, r#"192.168.0.8 - - [06/Mar/2020:06:30:43 -0800] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYd, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc, RP_RB),
+        DTFSS_bdHMSYzc, 0, 300, CGN_DAY, CGN_TZ,
+        &[
+            (19, 46, r#"192.168.0.172 - - [11/Oct/2022:00:10:26 +01:00] "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (19, 46, r#"192.168.0.172 - - {11/oct/2022 00:10:26 +01:00} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (15, 41, r#"192.168.0.172	<11-oct-2022 00:10:26+01:00>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (17, 44, r#"192.168.0.8 - - [06/Mar/2020:06:30:43 -08:00] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYd, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp, RP_RB),
+        DTFSS_bdHMSYzp, 0, 300, CGN_DAY, CGN_TZ,
+        &[
+            (19, 43, r#"192.168.0.172 - - [11/Oct/2022:00:10:26 +01] "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (19, 43, r#"192.168.0.172 - - {11/oct/2022 00:10:26 +01} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (15, 38, r#"192.168.0.172	<11-oct-2022 00:10:26+01>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (17, 41, r#"192.168.0.8 - - [06/Mar/2020:06:30:43 -08] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
+        ],
+        line!(),
+    ),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // from file `./logs/Debian11/apache/error.log`
+    // example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890
+    //     [Mon Oct 10 23:56:29.204202 2022] [mpm_event:notice] [pid 11709:tid 140582486756672] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations
+    //
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYd, RP_BLANKS, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_YEAR, RP_RB),
+        DTFSS_bdHMSYf, 0, 300, CGN_DAYa, CGN_YEAR,
+        &[
+            (1, 32, "[Mon Oct 10 23:56:29.204202 2022] [mpm_event:notice] [pid 11709:tid 140582486756672] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations"),
+            (20, 51, "[mpm_event:notice]	<Mon Oct 10	23:56:29.204202 2022> [pid 11709:tid 140582486756672] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations"),
+            (20, 48, "[mpm_event:notice]	<sun Oct 30	23:56:29.204 2022> [pid 11709:tid 140582486756672] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations"),
+            (20, 54, "[mpm_event:notice]	<WED oct 05	23:56:29.204948193 2022> [pid 11709:tid 140582486756672] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYd, RP_BLANKS, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_RB),
+        DTFSS_bdHMSY, 0, 300, CGN_DAYa, CGN_YEAR,
+        &[
+            (1, 25, "[Mon Oct 10 23:56:29 2022] [mpm_event:notice] [pid 11709:tid 140582486756672] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations"),
+            (20, 44, "[mpm_event:notice]	(Mon Oct 10	23:56:29 2022) [pid 11709:tid 140582486756672] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations"),
+        ],
+        line!(),
+    ),
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/synology/synoupdate.log`
     // example with offset:
