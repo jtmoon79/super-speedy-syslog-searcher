@@ -1,0 +1,5 @@
+[Mon Oct 10 23:56:29.14976 2022] [mpm_event:notice] [pid 10313:tid 012345678911234] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations
+[Mon Oct 10 23:56:29.14976 2022] [core:notice] [pid 10313:tid 012345678911234] AH00094: Command line: '/usr/sbin/apache2'
+[Tue Oct 11 00:02:22.14976 2022] [mpm_event:notice] [pid 10313:tid 012345678911234] AH00492: caught SIGWINCH, shutting down gracefully
+[Tue Oct 11 00:02:36.14976 2022] [mpm_event:notice] [pid 581:tid 012345678911234] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations
+[Tue Oct 11 00:02:36.14976 2022] [core:notice] [pid 581:tid 012345678911234] AH00094: Command line: '/usr/sbin/apache2'

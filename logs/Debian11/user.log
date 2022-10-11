@@ -1,0 +1,25 @@
+Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 DigitalOcean: writing resolvers  to /etc/systemd/resolved.conf.d/DigitalOcean.conf
+Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 DigitalOcean: adding random seed to /dev/urandom
+Oct 10 23:07:17 debian-s-1vcpu-1gb-nyc1-01 DOTTY-Agent: fetching and installing DOTTY agent
+Oct 10 23:07:22 debian-s-1vcpu-1gb-nyc1-01 ec2:
+Oct 10 23:07:22 debian-s-1vcpu-1gb-nyc1-01 ec2: #############################################################
+Oct 10 23:07:22 debian-s-1vcpu-1gb-nyc1-01 ec2: -----BEGIN SSH HOST KEY FINGERPRINTS-----
+Oct 10 23:07:22 debian-s-1vcpu-1gb-nyc1-01 ec2: 1024 SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq+1234567890123456789012345 root@debian-s-1vcpu-1gb-nyc1-01 (DSA)
+Oct 10 23:07:22 debian-s-1vcpu-1gb-nyc1-01 ec2: 256 SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq+1234567890123456789012345 root@debian-s-1vcpu-1gb-nyc1-01 (ECDSA)
+Oct 10 23:07:22 debian-s-1vcpu-1gb-nyc1-01 ec2: 256 SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq root@debian-s-1vcpu-1gb-nyc1-01 (ED25519)
+Oct 10 23:07:22 debian-s-1vcpu-1gb-nyc1-01 ec2: 3072 SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq root@debian-s-1vcpu-1gb-nyc1-01 (RSA)
+Oct 10 23:07:22 debian-s-1vcpu-1gb-nyc1-01 ec2: -----END SSH HOST KEY FINGERPRINTS-----
+Oct 10 23:07:22 debian-s-1vcpu-1gb-nyc1-01 ec2: #############################################################
+Oct 11 00:01:51 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:51 ssh_helper.go:191: [WatchSSHDConfig] sshd_config events detected.
+Oct 11 00:01:52 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:52 main.go:91: [Droplet Agent] Shutting down
+Oct 11 00:01:52 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:52 ssh_watcher.go:92: [SSH Watcher] Shutting down
+Oct 11 00:01:52 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:52 ssh_watcher.go:95: [SSH Watcher] Shutting down all actioners
+Oct 11 00:01:52 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:52 do_managed_keys_actioner.go:89: [DO-Managed Keys Actioner] Shutting down
+Oct 11 00:01:52 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:52 do_managed_keys_actioner.go:106: [DO-Managed Keys Actioner] Bye-bye
+Oct 11 00:01:52 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:52 ssh_watcher.go:107: [SSH Watcher] Bye-bye
+Oct 11 00:01:52 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:52 bgjobs.go:21: [authorized_keys files updater] agent closing
+Oct 11 00:01:52 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:52 bgjobs.go:32: [authorized_keys files updater] stopped
+Oct 11 00:01:52 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:52 ssh_watcher.go:84: [SSH Watcher] Stopped
+Oct 11 00:01:52 debian-s-1vcpu-1gb-nyc1-01 DropletAgent[806]: INFO:2022/10/11 00:01:52 main.go:74: Watcher finished
+Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 DigitalOcean: writing resolvers  to /etc/systemd/resolved.conf.d/DigitalOcean.conf
+Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 DigitalOcean: adding random seed to /dev/urandom

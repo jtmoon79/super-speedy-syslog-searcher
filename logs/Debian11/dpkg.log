@@ -1,0 +1,49 @@
+2022-04-20 15:15:01 startup archives unpack
+2022-04-20 15:15:02 upgrade gpgv:amd64 2.2.27-2 2.2.27-2+deb11u1
+2022-04-20 15:15:02 status half-configured gpgv:amd64 2.2.27-2
+2022-04-20 15:15:02 status unpacked gpgv:amd64 2.2.27-2
+2022-04-20 15:15:02 status half-installed gpgv:amd64 2.2.27-2
+2022-04-20 15:15:03 status triggers-pending man-db:amd64 2.9.4-2
+2022-04-20 15:15:03 status unpacked gpgv:amd64 2.2.27-2+deb11u1
+2022-04-20 15:15:03 startup packages configure
+2022-04-20 15:15:03 configure gpgv:amd64 2.2.27-2+deb11u1 <none>
+2022-04-20 15:15:03 status unpacked gpgv:amd64 2.2.27-2+deb11u1
+2022-04-20 15:15:03 status half-configured gpgv:amd64 2.2.27-2+deb11u1
+2022-04-20 15:15:03 status installed gpgv:amd64 2.2.27-2+deb11u1
+2022-04-20 15:15:03 startup archives unpack
+2022-04-20 15:15:04 install libassuan0:amd64 <none> 2.5.3-7.1
+2022-04-20 15:15:04 status triggers-pending libc-bin:amd64 2.31-13+deb11u2
+2022-04-20 15:15:04 status half-installed libassuan0:amd64 2.5.3-7.1
+2022-04-20 15:15:04 status unpacked libassuan0:amd64 2.5.3-7.1
+2022-04-20 15:15:05 install gpgconf:amd64 <none> 2.2.27-2+deb11u1
+2022-04-20 15:15:05 status half-installed gpgconf:amd64 2.2.27-2+deb11u1
+2022-04-20 15:15:05 status unpacked gpgconf:amd64 2.2.27-2+deb11u1
+2022-04-20 15:15:05 install libksba8:amd64 <none> 1.5.0-3
+2022-04-20 15:15:05 status half-installed libksba8:amd64 1.5.0-3
+2022-04-20 15:15:06 status unpacked libksba8:amd64 1.5.0-3
+2022-04-20 15:15:06 install libnpth0:amd64 <none> 1.6-3
+2022-04-20 15:15:06 status half-installed libnpth0:amd64 1.6-3
+2022-04-20 15:15:06 status unpacked libnpth0:amd64 1.6-3
+2022-04-20 15:15:06 install dirmngr:amd64 <none> 2.2.27-2+deb11u1
+2022-04-20 15:15:06 status half-installed dirmngr:amd64 2.2.27-2+deb11u1
+2022-04-20 15:15:08 status unpacked dirmngr:amd64 2.2.27-2+deb11u1
+2022-04-20 15:15:08 install gnupg-l10n:all <none> 2.2.27-2+deb11u1
+
+2022-10-11 00:01:55 status half-configured grub-pc-bin:amd64 2.06-3~deb11u2
+2022-10-11 00:01:55 status installed grub-pc-bin:amd64 2.06-3~deb11u2
+2022-10-11 00:01:55 trigproc grub-cloud-amd64:amd64 0.0.5 <none>
+2022-10-11 00:01:55 status half-configured grub-cloud-amd64:amd64 0.0.5
+2022-10-11 00:02:00 status installed grub-cloud-amd64:amd64 0.0.5
+2022-10-11 00:02:00 trigproc initramfs-tools:all 0.140 <none>
+2022-10-11 00:02:00 status half-configured initramfs-tools:all 0.140
+2022-10-11 00:02:15 status installed initramfs-tools:all 0.140
+2022-10-11 00:02:15 trigproc libc-bin:amd64 2.31-13+deb11u4 <none>
+2022-10-11 00:02:15 status half-configured libc-bin:amd64 2.31-13+deb11u4
+2022-10-11 00:02:15 status installed libc-bin:amd64 2.31-13+deb11u4
+2022-10-11 00:02:15 trigproc man-db:amd64 2.9.4-2 <none>
+2022-10-11 00:02:15 status half-configured man-db:amd64 2.9.4-2
+2022-10-11 00:02:15 status installed man-db:amd64 2.9.4-2
+2022-10-11 00:02:15 trigproc dbus:amd64 1.12.24-0+deb11u1 <none>
+2022-10-11 00:02:15 status half-configured dbus:amd64 1.12.24-0+deb11u1
+2022-10-11 00:02:15 status installed dbus:amd64 1.12.24-0+deb11u1
+2022-10-11 00:09:45 startup archives unpack
