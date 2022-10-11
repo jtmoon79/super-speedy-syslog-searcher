@@ -207,15 +207,16 @@ DateTimes supported language is English.
 ## About
 
 _Super Speedy Syslog Searcher_ (s4) is meant to aid Engineers in reviewing
-varying syslog files from any Unix system in a time-sorted manner.
+varying log files from any Unix system in a datetime-sorted manner.
 The primary use-case is to aid investigating problems wherein the time of
-occurrence is known but there is little other problem evidence.
+occurrence is known but otherwise there is little evidence.
 
 Currently, Unix log file formats vary widely. _Most_ logs are an ad-hoc format.
 Even separate log files on the same system for the same service may have
 different message formats! 😵
 Sorting these logged messages by datetime may be prohibitively difficult.
-The result is an engineer may have to "hunt and peck" among many log files, looking for problem clues around some datetime; very tedious!
+The result is an engineer may have to "hunt and peck" among many log files,
+looking for problem clues around some datetime; so tedious!
 
 Enter _Super Speedy Syslog Searcher_ 🦸 ‼
 
@@ -227,7 +228,7 @@ occured two days ago among log files taken from multiple systems.
 The alterior motive for _Super Speedy Syslog Searcher_ was the [primary
 developer](https://github.com/jtmoon79) wanted an excuse to learn rust 🦀,
 and wanted to create an open-source tool for a recurring need of some
-Software Test Engineers 😄.
+Software Test Engineers 😄
 
 A longer rambling pontification about this project is in
 [`Extended-Thoughts.md`](./Extended-Thoughts.md).
@@ -280,8 +281,7 @@ In this project, the term "syslog" is used generously to refer any
 log message that has a datetime stamp on the first line of log text.
 
 Technically, "syslog" is [defined among several RFCs](https://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents)
-proscribing fields, formats, maximum lengths, and other technical constraints.
-
+proscribing fields, formats, lengths, and other technical constraints.
 Here is an [RFC 5424 qualifying](https://www.rfc-editor.org/rfc/rfc5424#page-20)
 syslog message example:
 
@@ -309,7 +309,7 @@ which is an entirely dissimilar log format to neighboring file, `error.log`
 
 <br/>
 
-Commercial computer appliance vendors, NAS vendors, router
+Commercial computer appliance vendors; NAS vendors, router
 vendors, etc., often use ad-hoc log message formatting that is even more
 unpredictable.
 
