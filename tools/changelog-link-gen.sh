@@ -14,6 +14,15 @@ cd "$(dirname -- "${0}")/.."
 
 readonly URL_PROJECT='https://github.com/jtmoon79/super-speedy-syslog-searcher'
 CHANGELOG='./CHANGELOG.md'
+tmp_CHANGELOG=$(mktemp)
+tmp_links=$(mktemp)
+trap "rm -f -- ${tmp_CHANGELOG} ${tmp_links}" EXIT
+
+cat "${CHANGELOG}" > "${tmp_CHANGELOG}"
+
+# delete all lines after "<!-- LINKS BEGIN -->"
+sed -i -e '1,/<!-- LINKS BEGIN -->/!d' -- "${tmp_CHANGELOG}"
+echo >> "${tmp_CHANGELOG}"
 
 # match Issue link
 #
@@ -27,7 +36,8 @@ grep -oEe '\[Issue #([[:digit:]]+)\]' -- "${CHANGELOG}" \
     | tr -d '[]' \
     | sort -n -t '#' -k2 \
     | sed -Ee 's|^Issue #([[:digit:]]+)$|[Issue #\1]: '"${URL_PROJECT}"'/issues/\1|g' \
-    | uniq
+    | uniq \
+    >> "${tmp_links}"
 
 # match tag comparison link, e.g.
 #
@@ -41,7 +51,8 @@ grep -oEe '\[[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.\.\.[[:digit:
     | tr -d '[]' \
     | sort -n -t '.' -k1 -k2 -k3 \
     | sed -Ee 's|^(.+)$|[\1]: '"${URL_PROJECT}"'/compare/\1|g' \
-    | uniq
+    | uniq \
+    >> "${tmp_links}"
 
 # match full git hash link, e.g.
 #
@@ -54,4 +65,10 @@ grep -oEe '\[[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.\.\.[[:digit:
 grep -oEe '\[[[:xdigit:]]{40}\]' -- "${CHANGELOG}" \
     | tr -d '[]' \
     | sed -Ee 's|^(.+)$|[\1]: '"${URL_PROJECT}"'/commit/\1|g' \
-    | sort | uniq
+    | sort | uniq \
+    >> "${tmp_links}"
+
+# append links
+cat "${tmp_links}" >> "${tmp_CHANGELOG}"
+# copy temp CHANGELOG back to original CHANGELOG
+cat "${tmp_CHANGELOG}" > "${CHANGELOG}"
