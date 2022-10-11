@@ -14,7 +14,7 @@
 # IPv4 Addresses, etc.
 #
 # Environment variable LOG_CLEAN_FILE_LINES is the line truncation count.
-# Defaults to 20
+# Defaults to 50
 #
 
 set -euo pipefail
@@ -114,8 +114,13 @@ function replace_SSH_hash () {
     # becomes
     #    SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     #
+    # found
+    #    SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq+ysLTbQZIkvHDz4UgUhmQlnvUY
+    # becomes
+    #    SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq+1234567890123456789012345
     sed -i -s -E \
         -e 's/\bSHA256:([[:alnum:]\/])+\b/SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq/g' \
+        -e 's/\bSHA256:([[:alnum:]\/])+\+([[:alnum:]\/])+\b/SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq+1234567890123456789012345/g' \
         "${@}"
 }
 
