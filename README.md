@@ -113,16 +113,17 @@ ARGS:
 OPTIONS:
     -a, --dt-after <DT_AFTER>
             DateTime After filter - print syslog lines with a datetime that is at or after this
-            datetime. For example, '20200102T123000'
+            datetime. For example, "20200102T123000"
 
     -b, --dt-before <DT_BEFORE>
             DateTime Before filter - print syslog lines with a datetime that is at or before this
-            datetime. For example, '20200102T123001'
+            datetime. For example, "20200102T123001"
 
     -t, --tz-offset <TZ_OFFSET>
             DateTime Timezone offset - for syslines with a datetime that does not include a
-            timezone, this will be used. For example, '-0800', '+02:00', 'EDT' (to pass a value with
-            leading '-', use '=', e.g. '-t=-0800'). Default is local system timezone offset.
+            timezone, this will be used. For example, "-0800", "+02:00", or "EDT". Ambiguous named
+            timezones parsed from logs will use this value, e.g. timezone "IST". (to pass a value
+            with leading "-", use ", e.g. "-t=-0800"). Default is local system timezone offset.
             [default: -08:00]
 
     -u, --prepend-utc
@@ -161,7 +162,7 @@ OPTIONS:
             Print version information
 
 
-DateTime Filter strftime patterns may be:
+DateTime Filter strftime specifier patterns may be:
     "%Y%m%dT%H%M%S"
     "%Y%m%dT%H%M%S%z"
     "%Y%m%dT%H%M%S%:z"
@@ -193,11 +194,10 @@ DateTime Filter strftime patterns may be:
 
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 Without a timezone offset ("%z" or "%Z"), the Datetime Filter is presumed to be the local system
-timezone. User-passed ambiguous named timezones will be rejected, e.g. "SST".
+timezone.
+Ambiguous user-passed named timezones will be rejected, e.g. "SST".
 
-Ambiguous named timezones in log files will use the --tz-offset value.
-
-DateTime formatting specifiers are described at
+DateTime strftime specifier patterns are described at
 https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
