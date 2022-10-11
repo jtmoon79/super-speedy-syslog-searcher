@@ -169,7 +169,6 @@ const CLI_DT_FILTER_PATTERN26: CLI_DT_Filter_Pattern = ("%Y%m%d %#z", true, true
 const CLI_DT_FILTER_PATTERN27: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, false);
 const CLI_DT_FILTER_PATTERN28: CLI_DT_Filter_Pattern = ("+%s", false, false, true);
 
-// TODO: [2022/06/19] allow passing three-letter TZ abbreviation
 const CLI_FILTER_PATTERNS_COUNT: usize = 28;
 
 /// CLI acceptable datetime filter patterns for the user-passed `-a` or `-b`
@@ -214,11 +213,10 @@ const CLI_DT_FILTER_APPEND_TIME_PATTERN: &str = " T%H%M%S";
 /// default CLI datetime format printed for CLI options `-u` or `-l`.
 const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z:";
 
-// TODO: Issue #20 restore '%Z' patterns
 /// `--help` _afterword_ message.
 const CLI_HELP_AFTER: &str = concatcp!(
     "
-DateTime Filter patterns may be:
+DateTime Filter strftime specifier patterns may be:
     \"",
     CLI_DT_FILTER_PATTERN1.0,
     "\"
@@ -307,9 +305,9 @@ DateTime Filter patterns may be:
 Pattern \"+%s\" is Unix epoch timestamp in seconds with a preceding \"+\".
 Without a timezone offset (\"%z\" or \"%Z\"), the Datetime Filter is presumed to be the local system
 timezone.
-Ambiguous named timezones will be rejected, e.g. \"SST\".
+Ambiguous user-passed named timezones will be rejected, e.g. \"SST\".
 
-DateTime formatting specifiers are described at https://docs.rs/chrono/latest/chrono/format/strftime/
+DateTime strftime specifier patterns are described at https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
 DateTimes supported language is English."
@@ -343,7 +341,7 @@ struct CLI_Args {
     #[clap(
         short = 'a',
         long,
-        help = "DateTime After filter - print syslog lines with a datetime that is at or after this datetime. For example, '20200102T123000'"
+        help = "DateTime After filter - print syslog lines with a datetime that is at or after this datetime. For example, \"20200102T123000\""
     )]
     dt_after: Option<String>,
 
@@ -351,7 +349,7 @@ struct CLI_Args {
     #[clap(
         short = 'b',
         long,
-        help = "DateTime Before filter - print syslog lines with a datetime that is at or before this datetime. For example, '20200102T123001'"
+        help = "DateTime Before filter - print syslog lines with a datetime that is at or before this datetime. For example, \"20200102T123001\""
     )]
     dt_before: Option<String>,
 
@@ -359,7 +357,7 @@ struct CLI_Args {
     #[clap(
         short = 't',
         long,
-        help = "DateTime Timezone offset - for syslines with a datetime that does not include a timezone, this will be used. For example, '-0800', '+02:00', 'EDT' (to pass a value with leading '-', use '=', e.g. '-t=-0800'). Default is local system timezone offset.",
+        help = "DateTime Timezone offset - for syslines with a datetime that does not include a timezone, this will be used. For example, \"-0800\", \"+02:00\", or \"EDT\". Ambiguous named timezones parsed from logs will use this value, e.g. timezone \"IST\". (to pass a value with leading \"-\", use \", e.g. \"-t=-0800\"). Default is local system timezone offset.",
         validator = cli_validate_tz_offset,
         default_value_t=Local.timestamp(0, 0).offset().to_string(),
     )]
@@ -571,6 +569,7 @@ fn process_dt(
     match dts {
         Some(dts) => {
             let mut dto: DateTimeLOpt = None;
+            // try to match user-passed string to chrono strftime format strings
             for (pattern_, _has_year, has_tz, has_time) in CLI_FILTER_PATTERNS.iter() {
                 let mut pattern: String = String::from(*pattern_);
                 let mut dts_: String = dts.clone();
