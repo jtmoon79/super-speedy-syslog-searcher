@@ -2120,7 +2120,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     Log ended: 2022-07-14  06:49:02
     //
     DTPD!(
-        concatcp!("^((log|Log|LOG) (started|Started|STARTED|ended|Ended|ENDED)):", RP_BLANKSq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, "(T|[[:blank:]]+)", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
+        concatcp!("^((log|Log|LOG) (started|Started|STARTED|ended|Ended|ENDED))[:]?", RP_BLANKSq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, "(T|[[:blank:]]+)", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
         DTFSS_YmdHMS, 0, 40, CGN_YEAR, CGN_SECOND,
         &[
             (13, 33, "Log started: 2022-07-14  06:48:58\n(Reading database ..."),
@@ -2416,18 +2416,22 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     Upgrade: apt:amd64 (2.4.5, 2.4.6), libapt-pkg6.0:amd64 (2.4.5, 2.4.6), apt-utils:amd64 (2.4.5, 2.4.6)
     //
     DTPD!(
-        concatcp!("^(start|Start|START|end|End|END)-(date|Date|DATE)", D_T, RP_BLANKSq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, D_DHcd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKqe),
+        concatcp!("^(start|Start|START|end|End|END)[- ]?(date|Date|DATE)", D_T, RP_BLANKSq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, D_DHcd, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKqe),
         DTFSS_YmdHMS, 0, 35, CGN_YEAR, CGN_SECOND,
         &[
             (12, 32, "Start-Date: 2022-07-18  19:34:01\nCommandline: apt-get install -y gnupg2\nInstall: gnupg2:amd64 (2.2.27-3ubuntu2.1)\n"),
             (10, 30, "End-Date: 2022-07-18  19:35:02\n"),
             (10, 30, "End-Date: 2022-07-18  19:35:03"),
             (9, 29, "End-Date:2022-07-18  19:35:04"),
-            (9, 28, "End-Date:2022-07-18 19:35:05\n"),
+            (9, 28, "End Date:2022-07-18 19:35:05\n"),
             (9, 28, "End-Date 2022-07-18 19:35:06\n"),
             (10, 29, "END-DATE  2022-07-18 19:35:07 Foobar"),
-            (9, 28, "end-date 2022-07-18 19:35:08 Foobar"),
+            (10, 29, "END DATE		2022-07-18 19:35:07	Foobar"),
+            (9, 28, "END-DATE	2022-07-18 19:35:07 Foobar"),
+            (10, 29, "END-DATE:	2022-07-18 19:35:07 Foobar"),
+            (9, 28, "end-date 2022-07-18T19:35:08 Foobar"),
             (14, 33, "START-DATE:   2022-07-18 19:35:09\nCommandline: apt-get install -y gnupg2\n"),
+            (11, 30, "STARTDATE:	2022/07/18 19:35:09\nCommandline: apt-get install -y gnupg2\n"),
         ],
         line!(),
     ),
