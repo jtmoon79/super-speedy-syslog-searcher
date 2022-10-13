@@ -1163,6 +1163,18 @@ const DTFSS_YbdHMS: DTFSSet = DTFSSet {
     pattern: DTP_bdHMSYZc,
 };
 
+const DTFSS_YbeHMS: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::_e_to_d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    pattern: DTP_bdHMSYZc,
+};
+
 // TODO: Issue #4 handle dmesg
 // special case for `dmesg` syslog lines
 //pub(crate) const DTFSS_u: DTFSSet = DTFSSet {
@@ -1982,7 +1994,7 @@ pub type DateTimeParseInstrsIndex = usize;
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 /// Length of [`DATETIME_PARSE_DATAS`]
-pub const DATETIME_PARSE_DATAS_LEN: usize = 58;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 60;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2101,6 +2113,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[(1, 27, "[2020/03/05 12:17:59.631000, FOO] ../source3/smbd/oplock.c:1340(init_oplocks)")],
         line!(),
     ),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // from file `/var/log/unattended-upgrades/unattended-upgrades-dpkg.log`
@@ -2131,6 +2144,63 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    //
+    // ---------------------------------------------------------------------------------------------
+    // from file `logs/Windows10Pro/debug/mrt.log`
+    // example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890
+    //     ---------------------------------------------------------------------------------------
+    //     Microsoft Windows Malicious Software Removal Tool v5.83, (build 5.83.13532.1)
+    //     Started On Thu Sep 10 10:08:35 2020
+    //     ...
+    //     Results Summary:
+    //     ----------------
+    //     No infection found.
+    //     Successfully Submitted Heartbeat Report
+    //     Microsoft Windows Malicious Software Removal Tool Finished On Tue Nov 10 18:54:47 2020
+    //
+    DTPD!(
+        concatcp!("(Started On|started on|STARTED|Started|started|Finished On|finished on|FINISHED|Finished|finished)[:]?", RP_BLANK, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR),
+        DTFSS_YbeHMS, 0, 140, CGN_DAYa, CGN_YEAR,
+        &[
+            (11, 35, "Started On Thu Sep 10 10:08:35 2020"),
+            (62, 86, "Microsoft Windows Malicious Software Removal Tool Finished On Tue Nov 10 18:54:47 2020"),
+        ],
+        line!(),
+    ),
+    //
+    // ---------------------------------------------------------------------------------------------
+    // from file `logs/Windows10Pro/comsetup.log`
+    // example with offset:
+    //
+    //      COM+[12:24:34]: Setup started - [DATE:05,27,2020 TIME: 12:24 pm]
+    //      COM+[12:24:34]: ********************************************************************************
+    //      COM+[12:24:34]: Start CComMig::Discover
+    //      COM+[12:24:34]: Return XML stream: <migXml xmlns=""><rules context="system"><include><objectSet></objectSet></include></rules></migXml>
+    //      COM+[12:24:34]: End CComMig::Discover - Return 0x00000000
+    //      COM+[12:24:38]: ********************************************************************************
+    //      COM+[12:24:38]: Setup (COMMIG) finished - [DATE:05,27,2020 TIME: 12:24 pm]
+    //
+    //
+    // ---------------------------------------------------------------------------------------------
+    // from file `logs/Windows10Pro/System32/wbem/WMIMigration.log`
+    // example with offset:
+    //
+    //      (08/10/2019-01:46:44.0042) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_Policy_Config01_Location02" during apply
+    //      (05/27/2020-12:25:43.0877) Total number of objects successfully migrated :2346, failed objects :16
+    //
+    DTPD!(
+        concatcp!("^", RP_LB, CGP_MONTHm, D_D, CGP_DAYd, D_D, CGP_YEAR, D_DHd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_RB),
+        DTFSS_YmdHMSf, 0, 40, CGN_MONTH, CGN_FRACTIONAL,
+        &[
+            (1, 25, r#"(08/10/2019-01:46:44.0042) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_Policy_Config01_Location02" during apply"#),
+            (1, 25, "(05/27/2020-12:25:43.0877) Total number of objects successfully migrated :2346, failed objects :16"),
+        ],
+        line!(),
+    ),
+    //
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Ubuntu18/vmware-installer.log`
