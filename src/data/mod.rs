@@ -44,6 +44,9 @@
 //!
 //! <br/>
 //!
+//! _The "Readers" are not rust "Readers"; "_Reader_" structs do not implement
+//! the trait [`Read`]. These are "readers" in an informal sense._
+//!
 //! Also see [_Overview of readers_].
 //!
 //! [_Overview of readers_]: crate::readers
