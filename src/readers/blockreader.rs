@@ -465,7 +465,7 @@ impl BlockReader {
             }
             Err(err) => {
                 dpfx!("return {:?}", err);
-                eprintln!("ERROR: File::metadata() error {}", err);
+                eprintln!("ERROR: File::metadata() path {:?} {}", path_std, err);
                 return Err(err);
             }
         };
@@ -536,7 +536,7 @@ impl BlockReader {
                     Ok(_) => {}
                     Err(err) => {
                         dpfx!("FileGz: return Err({})", err);
-                        eprintln!("ERROR: file.SeekFrom(-8) Error {}", err);
+                        eprintln!("ERROR: file.SeekFrom(-8) path {:?} {}", path_std, err);
                         return Err(err);
                     }
                 };
@@ -549,7 +549,7 @@ impl BlockReader {
                     Ok(_) => {}
                     Err(err) => {
                         dpx!("FileGz: return {:?}", err);
-                        eprintln!("reader.read_to_end(&buffer_crc32) Error {:?}", err);
+                        eprintln!("reader.read_to_end(&buffer_crc32) path {:?} {}", path_std, err);
                         return Err(err);
                     }
                 }
@@ -565,7 +565,7 @@ impl BlockReader {
                     Err(err) if err.kind() == std::io::ErrorKind::UnexpectedEof => {}
                     Err(err) => {
                         dpx!("FileGz: return {:?}", err);
-                        eprintln!("reader.read_to_end(&buffer_size) Error {:?}", err);
+                        eprintln!("reader.read_to_end(&buffer_size) path {:?} {}", path_std, err);
                         return Err(err);
                     }
                 }
@@ -811,7 +811,7 @@ impl BlockReader {
                     Ok(_) => {}
                     Err(err) => {
                         dpfx!("FileXz: return Err({})", err);
-                        eprintln!("ERROR: FileXz: file.SeekFrom(0) Error {}", err);
+                        eprintln!("ERROR: FileXz: file.SeekFrom(0) path {:?} {}", path_std, err);
                         return Err(err);
                     }
                 };
@@ -824,8 +824,8 @@ impl BlockReader {
                     Err(err) => {
                         dpfx!("FileXz: return {:?}", err);
                         eprintln!(
-                            "ERROR: FileXz: reader.read_exact() (stream header magic bytes) Error {:?}",
-                            err
+                            "ERROR: FileXz: reader.read_exact() (stream header magic bytes) path {:?} {}",
+                            path_std, err
                         );
                         return Err(err);
                     }
@@ -857,7 +857,7 @@ impl BlockReader {
                     Ok(_) => {}
                     Err(err) => {
                         dpfx!("FileXz: return {:?}", err);
-                        eprintln!("ERROR: FileXz: reader.read_exact() (stream header flags) Error {:?}", err);
+                        eprintln!("ERROR: FileXz: reader.read_exact() (stream header flags) path {:?} {}", path_std, err);
                         return Err(err);
                     }
                 }
@@ -871,7 +871,7 @@ impl BlockReader {
                     Ok(_) => {}
                     Err(err) => {
                         dpfx!("FileXz: return {:?}", err);
-                        eprintln!("ERROR: FileXz: reader.read_exact() (stream header CRC32) Error {:?}", err);
+                        eprintln!("ERROR: FileXz: reader.read_exact() (stream header CRC32) path {:?} {}", path_std, err);
                         return Err(err);
                     }
                 }
@@ -886,8 +886,8 @@ impl BlockReader {
                     Err(err) => {
                         dpfx!("FileXz: return {:?}", err);
                         eprintln!(
-                            "ERROR: FileXz: reader.read_exact() (block #0 block header size) Error {:?}",
-                            err
+                            "ERROR: FileXz: reader.read_exact() (block #0 block header size) path {:?} {}",
+                            path_std, err
                         );
                         return Err(err);
                     }
@@ -903,8 +903,8 @@ impl BlockReader {
                     Err(err) => {
                         dpfx!("FileXz: return {:?}", err);
                         eprintln!(
-                            "ERROR: FileXz: reader.read_exact() (block #0 block header flags) Error {:?}",
-                            err
+                            "ERROR: FileXz: reader.read_exact() (block #0 block header flags) path {:?} {}",
+                            path_std, err
                         );
                         return Err(err);
                     }
@@ -919,8 +919,8 @@ impl BlockReader {
                     Err(err) => {
                         dpfx!("FileXz: return {:?}", err);
                         eprintln!(
-                            "ERROR: FileXz: file_xz.seek(0) (block #0 block header flags) Error {:?}",
-                            err
+                            "ERROR: FileXz: file_xz.seek(0) (block #0 block header flags) path {:?} {}",
+                            path_std, err
                         );
                         return Err(err);
                     }
@@ -990,7 +990,7 @@ impl BlockReader {
                         block.extend_from_slice(&buffer[a..b]);
                         let blockp: BlockP = BlockP::new(block);
                         if let Some(bp_) = blocks.insert(blockoffset, blockp.clone()) {
-                            eprintln!("WARNING: blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}", blockoffset, blockp, bp_);
+                            eprintln!("WARNING: blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}, path {:?}", blockoffset, blockp, bp_, path_std);
                         }
                         read_blocks_put += 1;
                         count_bytes_ += (*blockp).len() as Count;
@@ -1523,8 +1523,8 @@ impl BlockReader {
         {
             Some(bp_) => {
                 eprintln!(
-                    "WARNING: blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}",
-                    blockoffset, blockp, bp_
+                    "WARNING: blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p} {:?}",
+                    blockoffset, blockp, bp_, self.path,
                 );
             }
             _ => {}
@@ -1535,7 +1535,7 @@ impl BlockReader {
             .blocks_read
             .insert(blockoffset)
         {
-            eprintln!("WARNING: blockreader.blocks_read({}) already had a entry", blockoffset);
+            eprintln!("WARNING: blockreader.blocks_read({}) already had a entry, path {:?}", blockoffset, self.path);
         }
     }
 
@@ -1566,7 +1566,7 @@ impl BlockReader {
         {
             Ok(_) => {}
             Err(err) => {
-                eprintln!("ERROR: file.SeekFrom(Start({})) Error {}", seek, err);
+                eprintln!("ERROR: file.SeekFrom(Start({})) {:?} {}", seek, self.path, err);
                 dpfx!("({}): return Err({})", blockoffset, err);
                 return ResultS3ReadBlock::Err(err);
             }
@@ -1589,7 +1589,7 @@ impl BlockReader {
                 }
             }
             Err(err) => {
-                eprintln!("ERROR: reader.read_to_end(buffer) error {} for {:?}", err, self.path);
+                eprintln!("ERROR: reader.read_to_end(buffer) path {:?} {}", self.path, err);
                 dpfx!("read_block_File({}): return Err({})", blockoffset, err);
                 return ResultS3ReadBlock::Err(err);
             }
@@ -2115,7 +2115,7 @@ impl BlockReader {
                         err
                     );
                     eprintln!(
-                        "entry.read_exact(&block (capacity {})) path {:?} Error {:?}",
+                        "entry.read_exact(&block (capacity {})) path {:?} {}",
                         cap, path_std, err
                     );
                     return ResultS3ReadBlock::Err(err);
