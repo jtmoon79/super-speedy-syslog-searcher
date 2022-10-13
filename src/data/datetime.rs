@@ -1289,12 +1289,13 @@ pub const CGP_MONTHB: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY
 /// e.g. `January` or `Jan`.
 pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY|jan|Jan|JAN|february|February|FEBRUARY|feb|Feb|FEB|march|March|MARCH|mar|Mar|MAR|april|April|APRIL|apr|Apr|APR|may|May|MAY|june|June|JUNE|jun|Jun|JUN|july|July|JULY|jul|Jul|JUL|august|August|AUGUST|aug|Aug|AUG|september|September|SEPTEMBER|sep|Sep|SEP|october|October|OCTOBER|oct|Oct|OCT|november|November|NOVEMBER|nov|Nov|NOV|december|December|DECEMBER|dec|Dec|DEC)";
 /// Regex capture group pattern for `strftime` day specifier `%d`,
-/// number day of month with leading zero.
+/// number day of month with leading zero, e.g. `"02"` or `"31"`.
 pub const CGP_DAYd: &CaptureGroupPattern =
     r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
 /// Regex capture group pattern for `strftime` day specifier `%e`,
-/// number day of month, 1 to 31. Transformed to equivalent `%d` form within
-/// function `captures_to_buffer_bytes` (i.e. `'0'` is prepended if necessary).
+/// number day of month, 1 to 31, e.g. `"2"` or `"31"`.
+/// Transformed to equivalent `%d` form within function
+/// `captures_to_buffer_bytes` (i.e. `'0'` is prepended if necessary).
 // TODO: Issue #58
 //       [2022/10] CGP_DAYd and CGP_DAYe could be combined into one `CGP_DAY`.
 //       The code in `captures_to_buffer_bytes` that transforms `" 8"` to `"08"`
@@ -1307,7 +1308,8 @@ pub const CGP_DAYd: &CaptureGroupPattern =
 pub const CGP_DAYe: &CaptureGroupPattern =
     r"(?P<day>1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)";
 /// Regex capture group pattern for `strftime` day specifier `%a`,
-/// named day of week, either long name or abbreviated three character name.
+/// named day of week, either long name or abbreviated three character name,
+/// e.g. `"Mon"` or `"Monday"`.
 pub const CGP_DAYa: &RegexPattern = r"(?P<dayIgnore>monday|Monday|MONDAY|mon|Mon|MON|tuesday|Tuesday|TUESDAY|tue|Tue|TUE|wednesday|Wednesday|WEDNESDAY|wed|Wed|WED|thursday|Thursday|THURSDAY|thu|Thu|THU|friday|Friday|FRIDAY|fri|Fri|FRI|saturday|Saturday|SATURDAY|sat|Sat|SAT|sunday|Sunday|SUNDAY|sun|Sun|SUN)";
 /// Regex capture group pattern for `strftime` hour specifier `%H`, 00 to 24.
 pub const CGP_HOUR: &CaptureGroupPattern =
@@ -1933,24 +1935,25 @@ lazy_static! {
     };
 }
 
-/// [`RegexPattern`] divider date? `2020/01/01`
+/// [`RegexPattern`] divider _date?_ `2020/01/01`
 const D_Dq: &RegexPattern = r"[ /\-]?";
-/// [`RegexPattern`] divider date, `2020/01/01`
+/// [`RegexPattern`] divider _date_, `2020/01/01`
 #[allow(dead_code)]
 const D_D: &RegexPattern = r"[/\-]";
-/// [`RegexPattern`] divider time, `20:30:00`
+/// [`RegexPattern`] divider _time_, `20:30:00`
 const D_T: &RegexPattern = "[:]?";
-/// [`RegexPattern`] divider day hour, `2020/01/01T20:30:00`
+/// [`RegexPattern`] divider _day_ to _hour_, `2020/01/01T20:30:00`
 const D_DH: &RegexPattern = "[ T]?";
-/// [`RegexPattern`] divider day hour with colon, `2020:01:01:20:30:00`
+/// [`RegexPattern`] divider _day_ to _hour_ with colon, `2020:01:01:20:30:00`
 #[allow(dead_code)]
 const D_DHc: &RegexPattern = "[ T:]?";
-/// [`RegexPattern`] divider day hour with dash, `2020:01:01-20:30:00`
+/// [`RegexPattern`] divider _day_ to _hour_ with dash, `2020:01:01-20:30:00`.
 #[allow(dead_code)]
 const D_DHd: &RegexPattern = r"[ T\-]?";
-/// [`RegexPattern`] divider day hour with colon or dash, `2020:01:01-20:30:00`
+/// [`RegexPattern`] divider _day_ to _hour_ with colon or dash,
+/// `2020:01:01-20:30:00`.
 const D_DHcd: &RegexPattern = r"[ T\-:]?";
-/// [`RegexPattern`] divider fractional, `2020/01/01T20:30:00,123456`
+/// [`RegexPattern`] divider _fractional_, `2020/01/01T20:30:00,123456`
 const D_SF: &RegexPattern = r"[\.,]";
 
 /// [`RegexPattern`] dot or comma?
@@ -3871,10 +3874,9 @@ pub(crate) fn captures_to_buffer_bytes(
 
 /// Run [`regex::Captures`] on the `data` then convert to a chrono
 /// [`Option<DateTime<FixedOffset>>`] instance. Uses matching and pattern
-/// information hardcoded in [`DATETIME_PARSE_DATAS_REGEX_VEC`]
-/// and [`DATETIME_PARSE_DATAS`].
+/// information hardcoded in [`DATETIME_PARSE_DATAS`].
 ///
-/// [`DATETIME_PARSE_DATAS_REGEX_VEC`]: [static@DATETIME_PARSE_DATAS_REGEX_VEC]
+/// [`DATETIME_PARSE_DATAS`]: [DATETIME_PARSE_DATAS]
 /// [`regex::Captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html#method.captures
 /// [`Option<DateTime<FixedOffset>>`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#impl-DateTime%3CFixedOffset%3E
 pub fn bytes_to_regex_to_datetime(
