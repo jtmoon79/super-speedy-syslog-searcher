@@ -1,10 +1,10 @@
 # Super Speedy Syslog Searcher! (s4)<!-- omit in TOC -->
 
-Speedily search and sort many syslog files by datetime.
+Speedily search and merge many syslog files by datetime.
 
 _Super Speedy Syslog Searcher_ (s4) is a command-line tool to search
-and sort syslog files within compressed files (`.gz`, `.xz`) and
-archives (`.tar`).
+and merge plain log files, including log compressed log files (`.gz`, `.xz`) and
+within archives (`.tar`).
 The first goal of s4 is speedy searching and printing.
 
 [![Build status](https://img.shields.io/github/workflow/status/jtmoon79/super-speedy-syslog-searcher/Rust?style=flat-square&logo=github)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
@@ -49,6 +49,12 @@ For example, print all the syslog lines in syslog files under `/var/log/`
 
 ```lang-text
 s4 /var/log
+```
+
+On Windows under `C:\Windows\Logs`
+
+```lang-text
+s4.exe C:\Windows\Logs
 ```
 
 Print the syslog lines after January 1, 2022 at 00:00
@@ -209,7 +215,7 @@ DateTimes supported language is English.
 _Super Speedy Syslog Searcher_ (s4) is meant to aid Engineers in reviewing
 varying log files from any Unix system in a datetime-sorted manner.
 The primary use-case is to aid investigating problems wherein the time of
-occurrence is known but otherwise there is little evidence.
+occurrence is known but otherwise there is little source evidence.
 
 Currently, Unix log file formats vary widely. _Most_ logs are an ad-hoc format.
 Even separate log files on the same system for the same service may have
@@ -220,10 +226,11 @@ looking for problem clues around some datetime; so tedious!
 
 Enter _Super Speedy Syslog Searcher_ 🦸 ‼
 
-_s4_ will print syslog file messages in datetime-sorted order. A "window" of
-datetimes may be passed, to constrain the period of printed messages. This will
-assist an engineer that, for example, needs to view all syslog messages that
-occured two days ago among log files taken from multiple systems.
+_s4_ will print log messages from multiple log files in datetime-sorted order.
+A "window" of datetimes may be passed, to constrain the period of printed
+messages. This will assist an engineer that, for example, needs to view all
+syslog messages that occured two days ago among log files taken from multiple
+systems.
 
 The alterior motive for _Super Speedy Syslog Searcher_ was the [primary
 developer](https://github.com/jtmoon79) wanted an excuse to learn rust 🦀,
@@ -349,8 +356,8 @@ Hence the need for _Super Speedy Syslog Searcher_!
 
 ## Further Reading
 
-- [`Extended-Thoughts.md`](./Extended-Thoughts.md)
 - [`CHANGELOG.md`](./CHANGELOG.md)
+- [`Extended-Thoughts.md`](./Extended-Thoughts.md)
 
 ---
 
