@@ -1,0 +1,16 @@
+05/12/19 19:17:32: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX894B.tmp\xinput1_3_x64.inf [Install_Driver]
+05/12/19 19:17:32: infinst: Installed file C:\Windows\system32\xinput1_3.dll
+11/01/19 20:03:29: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX5160.tmp\d3dx9_24_x64.inf [DefaultInstall]
+11/01/19 20:03:29: infinst: Installed file C:\WINDOWS\system32\d3dx9_24.dll
+11/01/19 20:03:30: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX5160.tmp\d3dx9_25_x64.inf [DefaultInstall]
+11/01/19 20:03:30: infinst: Installed file C:\WINDOWS\system32\d3dx9_25.dll
+11/01/19 20:03:31: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX5160.tmp\d3dx9_26_x64.inf [DefaultInstall]
+11/01/19 20:03:31: infinst: Installed file C:\WINDOWS\system32\d3dx9_26.dll
+11/01/19 20:03:31: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX5160.tmp\d3dx9_27_x64.inf [DefaultInstall]
+11/01/19 20:03:31: infinst: Installed file C:\WINDOWS\system32\d3dx9_27.dll
+
+11/01/19 20:03:40: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX5160.tmp\XACT2_1_x64.inf [DefaultInstall]
+11/01/19 20:03:40: infinst: Installed file C:\WINDOWS\system32\xactengine2_1.dll
+11/01/19 20:03:40: infinst: Target file: 'C:\WINDOWS\system32\x3daudio1_0.dll'
+        Target file is Version 9.0.500.0
+        Source file is Version 9.0.500.0

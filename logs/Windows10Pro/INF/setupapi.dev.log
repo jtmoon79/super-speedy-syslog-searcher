@@ -1,0 +1,50 @@
+[Device Install Log]
+     OS Version = 10.0.27105
+     Service Pack = 0.0
+     Suite = 0x0100
+     ProductType = 1
+     Architecture = amd64
+
+[BeginLog]
+
+[Boot Session: 2022/08/11 22:29:21.389]
+
+>>>  [Uninstall Driver Updates]
+>>>  Section start 2022/09/14 21:28:18.119
+      cmd: C:\WINDOWS\winsxs\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.27105.1940_none_7dd80d767cb5c7b0\TiWorker.exe -Embedding
+     sto: Image State        = Specialized
+     sto: Image Architecture = amd64
+     sto: Image OS Version   = 10.0.27105
+     sto: Image Product Type = WinNT
+     sto: Transaction        = CbsDriversAndPrimitives
+     sto: Driver Updates     = 15
+     sto: {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\wvpci.inf_amd64_86afbe8940682d27\wvpci.inf} 21:28:18.156
+     sto:      Driver Package = wvpci.inf_amd64_86afbe8940682d27
+     idb:      {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\wvpci.inf_amd64_86afbe8940682d27\wvpci.inf} 21:28:18.156
+     idb:           Driver package 'wvpci.inf_amd64_f09d7f57f733d44b' is already active.
+     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.157
+     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.158
+     sto: {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\wvmbus.inf_amd64_b3e8f3ce60e5c8b5\wvmbus.inf} 21:28:18.158
+     sto:      Driver Package = wvmbus.inf_amd64_b3e8f3ce60e5c8b5
+     idb:      {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\wvmbus.inf_amd64_b3e8f3ce60e5c8b5\wvmbus.inf} 21:28:18.159
+     idb:           Driver package 'wvmbus.inf_amd64_ddd906c20fb3f5c6' is already active.
+     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.160
+     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.160
+     sto: {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\prnms002.inf_amd64_8dc867f097f52bb8\prnms002.inf} 21:28:18.161
+     sto:      Driver Package = prnms002.inf_amd64_8dc867f097f52bb8
+     idb:      {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\prnms002.inf_amd64_8dc867f097f52bb8\prnms002.inf} 21:28:18.162
+     idb:           Driver package 'prnms002.inf_amd64_7f999cfa1546d587' is already active.
+     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.163
+     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.163
+     sto: {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\prnms003.inf_x86_13f668b4ea0e3e37\prnms003.inf} 21:28:18.164
+     sto:      Driver Package = prnms003.inf_x86_13f668b4ea0e3e37
+     idb:      {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\prnms003.inf_x86_13f668b4ea0e3e37\prnms003.inf} 21:28:18.165
+     idb:           Driver package 'prnms003.inf_amd64_63cd996b3eeb2f69' is already active.
+     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.166
+     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.166
+     sto: {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\sdbus.inf_amd64_0364ef1a434bfc53\sdbus.inf} 21:28:18.166
+     sto:      Driver Package = sdbus.inf_amd64_0364ef1a434bfc53
+     idb:      {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\sdbus.inf_amd64_0364ef1a434bfc53\sdbus.inf} 21:28:18.167
+     idb:           Driver package 'sdbus.inf_amd64_cda3549ab0dfc976' is already active.
+     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.168
+     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.168

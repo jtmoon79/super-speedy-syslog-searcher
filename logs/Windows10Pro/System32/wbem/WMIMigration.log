@@ -1,0 +1,42 @@
+(08/10/2019-01:46:44.0042) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_Policy_Config01_Location02" during apply
+(08/10/2019-01:46:44.0074) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_Policy_Result01_Location02" during apply
+(08/10/2019-01:46:44.0074) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_BitLocker" during apply
+(08/10/2019-01:46:44.0074) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_EnterpriseModernAppManagement_EffectiveRelease03" during apply
+(08/10/2019-01:46:44.0074) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_EnterpriseModernAppManagement_ReleaseManagement01_01" during apply
+(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_StorageHealthReport" during apply
+(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_StorageHealth" during apply
+(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthAction" during apply
+(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecord" during apply
+(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecordReal64" during apply
+(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecordUInt64" during apply
+(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthActionEvent" during apply
+(08/10/2019-01:46:45.0574) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_StorageHealthReport" during apply
+(08/10/2019-01:46:45.0574) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_StorageHealth" during apply
+(08/10/2019-01:46:45.0574) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthAction" during apply
+(08/10/2019-01:46:45.0589) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecord" during apply
+(08/10/2019-01:46:45.0589) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecordReal64" during apply
+(08/10/2019-01:46:45.0589) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecordUInt64" during apply
+(08/10/2019-01:46:45.0589) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthActionEvent" during apply
+(08/10/2019-01:46:45.0605) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_StorageHealthReport" during apply
+
+(08/10/2019-01:46:45.0996) Total number of objects successfully migrated :2329, failed objects :0
+
+(05/27/2020-12:25:43.0346) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecord" during apply
+(05/27/2020-12:25:43.0346) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecordReal64" during apply
+(05/27/2020-12:25:43.0346) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecordUInt64" during apply
+(05/27/2020-12:25:43.0346) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthActionEvent" during apply
+(05/27/2020-12:25:43.0424) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_StorageHealthReport" during apply
+(05/27/2020-12:25:43.0424) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_StorageHealth" during apply
+(05/27/2020-12:25:43.0440) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthAction" during apply
+(05/27/2020-12:25:43.0455) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecord" during apply
+(05/27/2020-12:25:43.0455) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecordReal64" during apply
+(05/27/2020-12:25:43.0455) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecordUInt64" during apply
+(05/27/2020-12:25:43.0455) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthActionEvent" during apply
+(05/27/2020-12:25:43.0471) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_StorageHealthReport" during apply
+(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_StorageHealth" during apply
+(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_HealthAction" during apply
+(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_HealthRecord" during apply
+(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_HealthRecordReal64" during apply
+(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_HealthRecordUInt64" during apply
+(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_HealthActionEvent" during apply
+(05/27/2020-12:25:43.0877) Total number of objects successfully migrated :2346, failed objects :16

@@ -1,0 +1,31 @@
+01:40:34: Searching for downlevel datastore.
+01:40:34: Found downlevel datastore at \REGISTRY\MACHINE\SYSTEM\Setup\Upgrade\NetworkDriverBackup.
+01:40:34: Copying driver keys to temporary staging keys
+01:40:34: Opening migration factories.
+01:40:34: Downlevel datastore is version 0
+01:40:34: Getting downlevel reader.
+01:40:34: Getting uplevel writer.
+01:40:34: Reading graph.
+01:40:34: Reading NetSetup binding graph.
+01:40:34: Getting a NetSetup transaction.
+
+12:20:59: Migrating Bluetooth Network Connection.
+12:20:59: Migrating 6to4 Adapter.
+12:20:59: Migrating Bluetooth Network Connection 2.
+12:20:59: Migrating LAN.
+12:20:59: Migrating ExpressVPN.
+12:20:59: Migrating Npcap Loopback Adapter.
+12:20:59: Migrating Microsoft IP-HTTPS Platform Interface.
+12:20:59: Migrating Teredo Tunneling Pseudo-Interface.
+12:20:59: Migrating Ethernet (Kernel Debugger).
+
+12:21:00: bind path is enabled.
+12:21:00: Successfully migrated bind path.
+12:21:00: Migrating bind path {00000000-1111-2222-A8B0-012345678911},ms_tcpip6,ms_netbt,ms_server
+12:21:00: bind path is disabled.
+12:21:00: Successfully migrated bind path.
+12:21:00: Migrating bind path {00000000-1111-2222-ADB3-012345678911},ms_pacer
+12:21:00: Successfully migrated bind path.
+12:21:00: Committing the NetSetup transaction.
+12:21:00: Migration succeeded.
+12:21:00: Attempting to clean up left-over driver staging keys.

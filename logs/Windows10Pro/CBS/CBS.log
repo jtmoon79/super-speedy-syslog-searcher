@@ -1,0 +1,159 @@
+﻿2022-09-14 22:18:06, Info                  CBS    TI: --- Initializing Trusted Installer ---
+2022-09-14 22:18:06, Info                  CBS    TI: Last boot time: 2022-09-14 21:59:34.500
+2022-09-14 22:18:06, Info                  CBS    Starting TrustedInstaller initialization.
+2022-09-14 22:18:06, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:4
+2022-09-14 22:18:06, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:5
+2022-09-14 22:18:06, Info                  CBS    Lock: New lock added: WinlogonNotifyLock, level: 8, total lock:6
+2022-09-14 22:18:06, Info                  CBS    Ending TrustedInstaller initialization.
+2022-09-14 22:18:06, Info                  CBS    Starting the TrustedInstaller main loop.
+2022-09-14 22:18:06, Info                  CBS    TrustedInstaller service starts successfully.
+2022-09-14 22:18:07, Info                  CBS    No startup processing required, TrustedInstaller service was not set as autostart
+2022-09-14 22:18:07, Info                  CBS    Startup processing thread terminated normally
+2022-09-14 22:18:07, Info                  CBS    TI: Startup Processing completes, release startup processing lock.
+2022-09-14 22:18:07, Info                  CBS    Starting TiWorker initialization.
+2022-09-14 22:18:07, Info                  CBS    Lock: New lock added: TiWorkerClassFactory, level: 30, total lock:2
+2022-09-14 22:18:07, Info                  CBS    Ending TiWorker initialization.
+2022-09-14 22:18:07, Info                  CBS    Starting the TiWorker main loop.
+2022-09-14 22:18:07, Info                  CBS    TiWorker starts successfully.
+2022-09-14 22:18:07, Info                  CBS    Lock: New lock added: CCbsWorker, level: 5, total lock:3
+2022-09-14 22:18:07, Info                  CBS    Universal Time is: 2022-09-15 05:18:07.052
+2022-09-14 22:18:07, Info                  CBS    Loaded Servicing Stack v10.0.11274.1940 with Core: C:\WINDOWS\winsxs\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.11274.1940_none_7dd80d767cb5c7b0\cbscore.dll
+2022-09-14 22:18:07, Info                  CBS    Build: 11274.1.amd64fre.vb_release.18421-1406
+2022-09-14 22:18:07, Info                  CSI    00000001@2022/9/15:05:18:07.054 WcpInitialize: wcp.dll version 10.0.11274.1940 (WinBuild.18421.0800)
+2022-09-14 22:18:07, Info                  CBS    Lock: New lock added: CCbsSessionManager, level: 11, total lock:9
+2022-09-14 22:18:07, Info                  CBS    Lock: New lock added: CSIInventoryCriticalSection, level: 64, total lock:10
+2022-09-14 22:18:07, Info                  CBS    NonStart: Set pending store consistency check.
+2022-09-14 22:18:07, Info                  CBS    Session: 30984386_2313972518 initialized by client LanguageFeaturesOnDemand, external staging directory: (null), external registry directory: (null)
+2022-09-14 22:18:07, Info                  CBS    FOD: ActionList.xml is not cached.
+2022-09-14 22:18:07, Info                  CBS    FOD: WUFodMetadataCache not available; falling back to InboxFodMetadataCache: hr = 0x80070002
+2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-Accessibility-Braille-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Installed
+2022-09-14 22:18:07, Info                  CBS    Appl: detect Parent, Package: Microsoft-Windows-Holographic-Desktop-FOD-Package~0123456789112345~amd64~~10.0.11274.1, Parent: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.1, Disposition = Detect, VersionComp: EQ, BuildComp: GE, RevisionComp: GE, Exist: present
+2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.1889, state: Superseded
+2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.2006, state: Installed
+2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-Holographic-Desktop-FOD-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Installed
+2022-09-14 22:18:07, Info                  CBS    Appl: Higher version found for package: Microsoft-Windows-StepsRecorder-Package~0123456789112345~amd64~~10.0.11274.1, superseded. (Version on system:Microsoft-Windows-StepsRecorder-Package~0123456789112345~amd64~~10.0.11274.746)
+2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-StepsRecorder-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Superseded
+2022-09-14 22:18:07, Info                  CBS    Appl: detect Parent, Package: Microsoft-Windows-QuickAssist-Package~0123456789112345~amd64~~10.0.11274.1, Parent: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.1, Disposition = Detect, VersionComp: EQ, BuildComp: GE, RevisionComp: GE, Exist: present
+2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.1889, state: Superseded
+2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.2006, state: Installed
+2022-09-14 22:18:07, Info                  CBS    Appl: Higher version found for package: Microsoft-Windows-QuickAssist-Package~0123456789112345~amd64~~10.0.11274.1, superseded. (Version on system:Microsoft-Windows-QuickAssist-Package~0123456789112345~amd64~~10.0.11274.1566)
+2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-QuickAssist-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Superseded
+2022-09-14 22:18:07, Info                  CBS    Appl: detect Parent, Package: Microsoft-Windows-WirelessDisplay-FOD-Package~0123456789112345~amd64~~10.0.11274.1, Parent: Microsoft-Windows-RegulatedPackages-Package~0123456789112345~amd64~~10.0.11274.1, Disposition = Detect, VersionComp: EQ, BuildComp: GE, RevisionComp: GE, Exist: present
+2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-RegulatedPackages-Package~0123456789112345~amd64~~10.0.11274.1889, state: Superseded
+2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-RegulatedPackages-Package~0123456789112345~amd64~~10.0.11274.2006, state: Installed
+2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-WirelessDisplay-FOD-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Installed
+2022-09-14 22:18:07, Info                  CBS    Appl:Feature On Demand package without explicit comparator, using GE on build version
+2022-09-14 22:18:07, Info                  CBS    Appl:Feature On Demand package without explicit comparator, using GE on build version
+2022-09-14 22:18:07, Info                  CBS    Appl: detect Parent, Package: Microsoft-Windows-InternetExplorer-Optional-Package~0123456789112345~amd64~~11.0.11274.1, Parent: Microsoft-Windows-Foundation-Package~0123456789112345~amd64~~10.0.11274.1, Disposition = Detect, VersionComp: EQ, BuildComp: GE, RevisionComp: GE, Exist: present
+2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Foundation-Package~0123456789112345~amd64~~10.0.11274.1, state: Installed
+2022-09-14 22:18:07, Info                  CBS    Appl: Higher version found for package: Microsoft-Windows-InternetExplorer-Optional-Package~0123456789112345~amd64~~11.0.11274.1, superseded. (Version on system:Microsoft-Windows-InternetExplorer-Optional-Package~0123456789112345~amd64~~11.0.11274.1566)
+2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-InternetExplorer-Optional-Package~0123456789112345~amd64~~11.0.11274.1, applicable state: Superseded
+
+2022-09-15 02:45:30, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Foundation-Package~0123456789112345~amd64~~10.0.11274.1, state: Installed
+2022-09-15 02:45:30, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-LanguageFeatures-Speech-en-in-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Installed
+
+2022-09-15 14:00:05, Info                  CBS    Appl: detectParent: no parent found, go absent
+2022-09-15 14:00:05, Info                  CBS    Appl: detect Parent, Package: Package_for_KB4537759~0123456789112345~amd64~~192.168.0.0, Parent: Microsoft-Windows-PPIProEdition~0123456789112345~amd64~~10.0.11274.1, Disposition = Detect, VersionComp: EQ, BuildComp: EQ, RevisionComp: GE, Exist: present
+
+2022-09-17 04:05:38, Info                  CBS    Appl: DetectUpdate, Package: Microsoft-Hyper-V-ClientEdition-Package~0123456789112345~amd64~~10.0.11274.2006, Local Parent: Microsoft-Hyper-V-All, Intended State: Installed
+2022-09-17 04:05:38, Info                  CBS    Appl: Package: Microsoft-Hyper-V-ClientEdition-Package~0123456789112345~amd64~~10.0.11274.2006, Update: Microsoft-Hyper-V-Tools-All, Applicable: Applicable, Disposition: Installed
+
+2022-09-17 04:07:39, Info                  CBS    Trusted Installer is shutting down because: SHUTDOWN_REASON_AUTOSTOP
+2022-09-17 04:07:39, Info                  CBS    TiWorker signaled for shutdown, going to exit.
+2022-09-17 04:07:39, Info                  CBS    Deleting the contents of directory: \\?\C:\WINDOWS\CbsTemp
+2022-09-17 04:07:39, Info                  CBS    Deletion of: \\?\C:\WINDOWS\CbsTemp successful
+2022-09-17 04:07:39, Info                  CBS    CbsCoreFinalize: ExecutionEngineFinalize
+2022-09-17 04:07:39, Info                  CBS    Execution Engine Finalize
+2022-09-17 04:07:39, Info                  CBS    Execution Engine Finalize
+2022-09-17 04:07:39, Info                  CBS    Lock: Lock removed: TiWorkerClassFactory, level: 30, total lock:3
+2022-09-17 04:07:39, Info                  CBS    Lock: Lock removed: CCbsWorker, level: 5, total lock:2
+2022-09-17 04:07:39, Info                  CBS    Ending the TiWorker main loop.
+
+2022-09-18 22:05:31, Info                  CBS    Starting TrustedInstaller initialization.
+2022-09-18 22:05:31, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:4
+2022-09-18 22:05:31, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:5
+2022-09-18 22:05:31, Info                  CBS    Lock: New lock added: WinlogonNotifyLock, level: 8, total lock:6
+2022-09-18 22:05:31, Info                  CBS    Ending TrustedInstaller initialization.
+2022-09-18 22:05:31, Info                  CBS    Starting the TrustedInstaller main loop.
+2022-09-18 22:05:31, Info                  CBS    TrustedInstaller service starts successfully.
+2022-09-18 22:05:32, Info                  CBS    No startup processing required, TrustedInstaller service was not set as autostart
+2022-09-18 22:05:32, Info                  CBS    Startup processing thread terminated normally
+2022-09-18 22:05:32, Info                  CBS    TI: Startup Processing completes, release startup processing lock.
+2022-09-18 22:05:32, Info                  CBS    Starting TiWorker initialization.
+2022-09-18 22:05:32, Info                  CBS    Lock: New lock added: TiWorkerClassFactory, level: 30, total lock:2
+2022-09-18 22:05:32, Info                  CBS    Ending TiWorker initialization.
+2022-09-18 22:05:32, Info                  CBS    Starting the TiWorker main loop.
+2022-09-18 22:05:32, Info                  CBS    TiWorker starts successfully.
+2022-09-18 22:05:32, Info                  CBS    Lock: New lock added: CCbsWorker, level: 5, total lock:3
+2022-09-18 22:05:32, Info                  CBS    Universal Time is: 2022-09-19 05:05:32.095
+2022-09-18 22:05:32, Info                  CBS    Loaded Servicing Stack v10.0.11274.1940 with Core: C:\WINDOWS\winsxs\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.11274.1940_none_7dd80d767cb5c7b0\cbscore.dll
+2022-09-18 22:05:32, Info                  CBS    Build: 11274.1.amd64fre.vb_release.18421-1406
+2022-09-18 22:05:32, Info                  CSI    00000001@2022/9/19:05:05:32.098 WcpInitialize: wcp.dll version 10.0.11274.1940 (WinBuild.18421.0800)
+2022-09-18 22:05:32, Info                  CBS    Lock: New lock added: CCbsSessionManager, level: 11, total lock:9
+2022-09-18 22:05:32, Info                  CBS    Lock: New lock added: CSIInventoryCriticalSection, level: 64, total lock:10
+2022-09-18 22:05:32, Info                  CBS    NonStart: Set pending store consistency check.
+2022-09-18 22:05:32, Info                  CBS    Session: 30985189_1905706297 initialized by client WinMgmt, external staging directory: (null), external registry directory: (null)
+
+2022-10-01 14:01:32, Info                  CBS    TI: --- Initializing Trusted Installer ---
+2022-10-01 14:01:32, Info                  CBS    TI: Last boot time: 2022-09-14 21:59:19.300
+2022-10-01 14:01:32, Info                  CBS    Starting TrustedInstaller initialization.
+2022-10-01 14:01:32, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:4
+2022-10-01 14:01:32, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:5
+2022-10-01 14:01:32, Info                  CBS    Lock: New lock added: WinlogonNotifyLock, level: 8, total lock:6
+2022-10-01 14:01:32, Info                  CBS    Ending TrustedInstaller initialization.
+2022-10-01 14:01:32, Info                  CBS    Starting the TrustedInstaller main loop.
+2022-10-01 14:01:32, Info                  CBS    TrustedInstaller service starts successfully.
+2022-10-01 14:01:32, Info                  CBS    No startup processing required, TrustedInstaller service was not set as autostart
+2022-10-01 14:01:32, Info                  CBS    Startup processing thread terminated normally
+2022-10-01 14:01:32, Info                  CBS    TI: Startup Processing completes, release startup processing lock.
+
+2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack_1940~0123456789112345~amd64~~11274.1940.1.0] since it is permanent
+2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.1022.1.1] since it is permanent
+2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.1081.1.2] since it is permanent
+2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.1161.1.1] since it is permanent
+2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.1220.1.0] since it is permanent
+2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.860.1.0] since it is permanent
+2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.925.1.1] since it is permanent
+2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.985.1.1] since it is permanent
+2022-10-12 13:28:22, Info                  CBS    Trusted Installer is shutting down because: SHUTDOWN_REASON_AUTOSTOP
+2022-10-12 13:28:22, Info                  CBS    TiWorker signaled for shutdown, going to exit.
+2022-10-12 13:28:22, Info                  CBS    Deleting the contents of directory: \\?\C:\WINDOWS\CbsTemp
+2022-10-12 13:28:22, Info                  CBS    Deletion of: \\?\C:\WINDOWS\CbsTemp successful
+2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: ExecutionEngineFinalize
+2022-10-12 13:28:22, Info                  CBS    Execution Engine Finalize
+2022-10-12 13:28:22, Info                  CBS    Execution Engine Finalize
+2022-10-12 13:28:22, Info                  CBS    Lock: Lock removed: TiWorkerClassFactory, level: 30, total lock:3
+2022-10-12 13:28:22, Info                  CBS    Lock: Lock removed: CCbsWorker, level: 5, total lock:2
+2022-10-12 13:28:22, Info                  CBS    Ending the TiWorker main loop.
+2022-10-12 13:28:22, Info                  CBS    Starting TiWorker finalization.
+2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: ExecutionEngineFinalize
+2022-10-12 13:28:22, Info                  CBS    CBS Engine already deactivated
+2022-10-12 13:28:22, Info                  CBS    CBS Engine already deactivated
+2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: ComponentAnalyzerFinalize
+2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: PackageTrackerFinalize
+2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: CoreResourcesUnload
+2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: SessionManagerFinalize
+2022-10-12 13:28:22, Info                  CBS    Lock: Lock removed: CSIInventoryCriticalSection, level: 64, total lock:10
+2022-10-12 13:28:22, Info                  CBS    Lock: Lock removed: CCbsSessionManager, level: 11, total lock:9
+2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: CapabilityManagerFinalize
+2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: PublicObjectMonitorFinalize
+2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: Enter vCoreInitializeLock
+2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: WcpUnload
+2022-10-12 13:28:22, Info                  CSI    00001b37 Direct SIL provider: Number of files opened: 11274.
+2022-10-12 13:28:23, Info                  CSI    00001b38 Direct SIL provider: Number of files opened: 18421.
+2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: DrupUnload
+2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: CfgMgr32Unload
+2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: DpxUnload
+2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: SrUnload
+2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: CbsEsdUnload
+2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: CbsTraceInfoUninitialize
+2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: CbsEventUnregister
+2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: AppContainerUnload
+2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: WdsUnload, logging from cbscore will end.
+2022-10-12 13:28:23, Info                  CBS    Ending TiWorker finalization.
+2022-10-12 13:28:23, Info                  CBS    Ending the TrustedInstaller main loop.
+2022-10-12 13:28:23, Info                  CBS    Starting TrustedInstaller finalization.
+2022-10-12 13:28:23, Info                  CBS    Winlogon: Stopping notify server
+2022-10-12 13:28:23, Info                  CBS    Winlogon: Unloading SysNotify DLL
+2022-10-12 13:28:23, Info                  CBS    Lock: Lock removed: WinlogonNotifyLock, level: 8, total lock:6
+2022-10-12 13:28:23, Info                  CBS    Ending TrustedInstaller finalization.

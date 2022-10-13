@@ -1,0 +1,129 @@
+>>>  [Enable Device Install]
+>>>  Section start 2020/05/21 11:03:50.069
+      cmd: C:\WINDOWS\winsxs\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.30942.772_none_5f13f94c58ff41d3\TiWorker.exe -Embedding
+     ump: DeviceInstall service is not disabled.
+     ump: DeviceInstall service is not started.
+<<<  Section end 2020/05/21 11:03:50.069
+<<<  [Exit status: SUCCESS]
+
+[Boot Session: 2020/05/21 11:56:31.590]
+
+>>>  [Setup PnP Migration - Gather]
+>>>  Section start 2020/05/27 11:26:56.528
+      cmd: "C:\$WINDOWS.~BT\Sources\mighost.exe" {00000000-1111-2222-BD66-012345678911} /InitDoneEvent:MigHost.{00000000-1111-2222-BD66-012345678911}.Event /Pa
+
+     set: {Migrate Device: exit(0x00000000)} 11:27:05.294
+     set: Device USB\VID_0D8C&PID_000C\6&a26c238&0&1:
+     set:      Description:        USB Composite Device
+     set:      Parent Device:      USB\VID_04B4&PID_6560\5&42c8554&0&1
+     set:      Present:            No
+     set:      Driver INF Name:    usb.inf
+     set:      Driver Package Id:  usb.inf_amd64_cdeeae6bb013a19f
+     set:      Class Name:         USB
+     set:      Provider Name:      Microsoft
+     set:      Driver Date:        06/21/2006
+     set:      Driver Version:     10.0.30942.693
+     set:      Matching Device Id: USB\COMPOSITE
+     set:      Driver Rank:        0x00FF2003
+     set: {Migrate Device: USB\VID_0D8C&PID_000C\6&a26c238&0&1} 11:27:05.309
+     set:      Migrating device interface '\\?\usb#vid_0d8c&pid_000c#6&a26c238&0&1#{00000000-1111-2222-901f-012345678911}'.
+     set:      Migrating function driver service 'usbccgp'.
+     set: {Migrate Service: BcmBtRSupport} 11:27:05.387
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.387
+     set: Driver service 'BthA2dp' owned by 'microsoft_bluetooth_a2dp_src.inf'.
+     set: Driver service 'BthEnum' owned by 'tdibth.inf'.
+     set: Driver service 'BthHFAud' owned by 'microsoft_bluetooth_hfp.inf'.
+     set: Driver service 'BthHFEnum' owned by 'microsoft_bluetooth_hfp_hf.inf'.
+     set: Driver service 'BthLEEnum' owned by 'bthleenum.inf'.
+     set: Driver service 'BthMini' owned by 'bth.inf'.
+     set: {Migrate Service: BthMini} 11:27:05.387
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.387
+     set: Driver service 'BTHMODEM' owned by 'bthspp.inf'.
+     set: Driver service 'BthPan' owned by 'bthpan.inf'.
+     set: Driver service 'BTHPORT' owned by 'oem13.inf'.
+     set: {Migrate Service: BTHPORT} 11:27:05.387
+     set:      Migrating BTHPORT service [full upgrade].
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.497
+     set: Driver service 'BTHUSB' owned by 'oem13.inf'.
+     set: Driver service 'btwampfl' owned by 'oem13.inf'.
+     set: {Migrate Service: btwampfl} 11:27:05.497
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.497
+     set: Driver service 'cdrom' owned by 'cdrom.inf'.
+     set: Driver service 'CompositeBus' owned by 'compositebus.inf'.
+     set: Driver service 'disk' owned by 'disk.inf'.
+     set: Driver service 'drmkaud' owned by 'wdmaudio.inf'.
+     set: Driver service 'HdAudAddService' owned by 'hdaudio.inf'.
+     set: Driver service 'HDAudBus' owned by 'hdaudbus.inf'.
+     set: Driver service 'HidUsb' owned by 'input.inf'.
+     set: Driver service 'i8042prt' owned by 'keyboard.inf'.
+     set: {Migrate Service: i8042prt} 11:27:05.512
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.512
+     set: Driver service 'intelide' owned by 'mshdc.inf'.
+     set: {Migrate Service: intelide} 11:27:05.512
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.512
+     set: Driver service 'intelppm' owned by 'cpu.inf'.
+     set: {Migrate Service: intelppm} 11:27:05.512
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.512
+     set: Driver service 'isapnp' owned by 'machine.inf'.
+     set: {Migrate Service: isapnp} 11:27:05.512
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.528
+     set: Driver service 'kbdclass' owned by 'termkbd.inf'.
+     set: Driver service 'kbdhid' owned by 'keyboard.inf'.
+     set: Driver service 'kdnic' owned by 'kdnic.inf'.
+     set: Driver service 'kmloop' owned by 'netloop.inf'.
+     set: Driver service 'LVRS64' owned by 'oem21.inf'.
+     set: Driver service 'LVUVC64' owned by 'oem15.inf'.
+     set: Driver service 'Microsoft_Bluetooth_AvrcpTransport' owned by 'microsoft_bluetooth_avrcptransport.inf'.
+     set: Driver service 'monitor' owned by 'monitor.inf'.
+     set: Driver service 'mouclass' owned by 'termmou.inf'.
+     set: Driver service 'mouhid' owned by 'msmouse.inf'.
+     set: Driver service 'msisadrv' owned by 'machine.inf'.
+     set: Driver service 'MSKSSRV' owned by 'ksfilter.inf'.
+     set: Driver service 'MSPCLOCK' owned by 'ksfilter.inf'.
+     set: Driver service 'MSPQM' owned by 'ksfilter.inf'.
+     set: Driver service 'mssmbios' owned by 'mssmbios.inf'.
+     set: Driver service 'MSTEE' owned by 'ksfilter.inf'.
+     set: Driver service 'NdisVirtualBus' owned by 'ndisvirtualbus.inf'.
+     set: Driver service 'NVHDA' owned by 'oem5.inf'.
+     set: Driver service 'pci' owned by 'pci.inf'.
+     set: Driver service 'pciide' owned by 'mshdc.inf'.
+     set: Driver service 'Processor' owned by 'cpu.inf'.
+     set: {Migrate Service: Processor} 11:27:05.544
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.544
+     set: Driver service 'RFCOMM' owned by 'tdibth.inf'.
+     set: Driver service 'RTL8167' owned by 'oem17.inf'.
+     set: Driver service 'sermouse' owned by 'msmouse.inf'.
+     set: {Migrate Service: sermouse} 11:27:05.544
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.544
+     set: Driver service 'spaceport' owned by 'spaceport.inf'.
+     set: Driver service 'storahci' owned by 'mshdc.inf'.
+     set: {Migrate Service: storahci} 11:27:05.544
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.544
+     set: Driver service 'swenum' owned by 'swenum.inf'.
+     set: Driver service 'tapexpressvpn' owned by 'oem11.inf'.
+     set: Driver service 'terminpt' owned by 'termmou.inf'.
+     set: Driver service 'tsusbhub' owned by 'tsusbhub.inf'.
+     set: Driver service 'UmPass' owned by 'bthleenum.inf'.
+     set: {Migrate Service: UmPass} 11:27:05.559
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.559
+     set: Driver service 'usbaudio' owned by 'oem21.inf'.
+     set: Driver service 'usbccgp' owned by 'usb.inf'.
+     set: Driver service 'usbehci' owned by 'usbport.inf'.
+     set: Driver service 'usbhub' owned by 'usb.inf'.
+     set: Driver service 'USBHUB3' owned by 'usbhub3.inf'.
+     set: Driver service 'usbohci' owned by 'usbport.inf'.
+     set: Driver service 'usbuhci' owned by 'usbport.inf'.
+     set: {Migrate Service: usbuhci} 11:27:05.559
+     set: {Migrate Service: exit(0x00000000)} 11:27:05.559
+     set: Driver service 'usbvideo' owned by 'usbvideo.inf'.
+     set: Driver service 'USBXHCI' owned by 'usbxhci.inf'.
+     set: Driver service 'VClone' owned by 'oem2.inf'.
+     set: Driver service 'vdrvroot' owned by 'vdrvroot.inf'.
+     set: Driver service 'vhdmp' owned by 'vhdmp.inf'.
+     set: Driver service 'Vid' owned by 'wvid.inf'.
+     set: Driver service 'volmgr' owned by 'volmgr.inf'.
+     set: Driver service 'WINUSB' owned by 'wpdmtp.inf'.
+     set: Driver service 'WUDFWpdMtp' owned by 'wpdmtp.inf'.
+     set: Not migrating LogLevel.
+<<<  Section end 2020/05/27 11:27:05.575
+<<<  [Exit status: SUCCESS]

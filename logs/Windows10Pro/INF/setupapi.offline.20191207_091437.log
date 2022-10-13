@@ -1,0 +1,161 @@
+[Device Install Log]
+     OS Version = 10.0.31664
+     Service Pack = 0.0
+     Suite = 0x0190
+     ProductType = 3
+     Architecture = x86
+
+[BeginLog]
+
+[Boot Session: 2019/12/07 07:36:49.142]
+
+>>>  [Load Offline Registry Hive - SYSTEM]
+>>>  Section start 2019/12/07 09:13:02.810
+       os: Version = 10.0.31664, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = x86
+      cmd: "D:\wd\in\BuildChunkArtifact\00000000-1111-2222-132f-012345678911\amd64fre\DESKTOPIMAGING\cbss.exe" /ls /o:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows /log:D:\ld\compiler\Client_Starter.log /b:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter_batchfile.tmp /s:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\staged_wim\Client\Starter
+     sto: Opened existing hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SYSTEM'.
+<<<  Section end 2019/12/07 09:13:02.810
+<<<  [Exit status: SUCCESS]
+
+
+>>>  [Load Offline Registry Hive - DRIVERS]
+>>>  Section start 2019/12/07 09:13:02.810
+       os: Version = 10.0.31664, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = x86
+      cmd: "D:\wd\in\BuildChunkArtifact\00000000-1111-2222-132f-012345678911\amd64fre\DESKTOPIMAGING\cbss.exe" /ls /o:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows /log:D:\ld\compiler\Client_Starter.log /b:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter_batchfile.tmp /s:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\staged_wim\Client\Starter
+     sto: Opened existing hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/DRIVERS'.
+<<<  Section end 2019/12/07 09:13:02.810
+<<<  [Exit status: SUCCESS]
+
+
+>>>  [Load Offline Registry Hive - SOFTWARE]
+>>>  Section start 2019/12/07 09:13:02.810
+       os: Version = 10.0.31664, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = x86
+      cmd: "D:\wd\in\BuildChunkArtifact\00000000-1111-2222-132f-012345678911\amd64fre\DESKTOPIMAGING\cbss.exe" /ls /o:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows /log:D:\ld\compiler\Client_Starter.log /b:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter_batchfile.tmp /s:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\staged_wim\Client\Starter
+     sto: Opened existing hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SOFTWARE'.
+<<<  Section end 2019/12/07 09:13:02.826
+<<<  [Exit status: SUCCESS]
+
+>>>  [Stage Driver Updates]
+>>>  Section start 2019/12/07 09:13:04.060
+       os: Version = 10.0.31664, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = x86
+      cmd: "D:\wd\in\BuildChunkArtifact\00000000-1111-2222-132f-012345678911\amd64fre\DESKTOPIMAGING\cbss.exe" /ls /o:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starte>
+     sto: Image State        = Unknown
+     sto: Image Architecture = amd64
+     sto: Image OS Version   = 10.0.31664
+     sto: Image Product Type = WinNT
+     sto: Driver Updates     = 649
+     sto: {Load Offline Registry Hive: SYSTEM} 09:13:04.076
+     sto:      Opened existing hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SYSTEM'.
+     sto: {Load Offline Registry Hive: exit(0x00000000)} 09:13:04.076
+
+     sto: {Load Offline Registry Hive: DRIVERS} 09:13:04.076
+     sto:      Opened existing hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/DRIVERS'.
+     sto: {Load Offline Registry Hive: exit(0x00000000)} 09:13:04.076
+     sto: {Import Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_multiprt.inf_31bf3856ad364e35_10.0.31664.1_none_460ca375>
+     sto:      Driver Store   = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore (10.0.31664)
+     sto:      Driver Package = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_multiprt.inf_31bf3856ad364e35_10.0.31664.1_none_460ca3759b>
+     sto:      Architecture   = amd64
+     sto:      Flags          = 0x00000245
+     inf:      Provider       = Microsoft
+     inf:      Class GUID     = {00000000-1111-2222-bf5d-012345678911}
+     inf:      Driver Version = 06/21/2006,10.0.31664.1
+     inf:      Version Flags  = 0x00000010
+     sto: {Import Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_netclient.inf_31bf3856ad364e35_10.0.31664.1_none_fbf12>
+     sto:      Driver Store   = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore (10.0.31664)
+     sto:      Driver Package = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_netclient.inf_31bf3856ad364e35_10.0.31664.1_none_fbf126b>
+     sto:      Architecture   = amd64
+     sto:      Flags          = 0x00000245
+     inf:      Provider       = Microsoft
+     inf:      Class GUID     = {00000000-1111-2222-bfc1-012345678911}
+     inf:      Driver Version = 06/21/2006,10.0.31664.1
+     inf:      Version Flags  = 0x00000010
+     inf:      {Query Configurability: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_netclient.inf_31bf3856ad364e35_10.0.31664.1_none_>
+!    inf:           Found legacy AddReg operation defining class installers (Installer32). Code = 1307
+     inf:           Driver package is fully isolated.
+!    inf:           Driver package 'c_netclient.inf' is NOT configurable.
+     inf:      {Query Configurability: exit(0x00000000)} 09:13:06.169
+     sig:      Signer Score  = 0x0D000003 (Inbox)
+     flq:      {FILE_QUEUE_COMMIT} 09:13:06.169
+     flq:           Hardlinking 'D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_netclient.inf_31bf3856ad364e35_10.0.31664.1_none_fbf126>
+     flq:      {FILE_QUEUE_COMMIT - exit(0x00000000)} 09:13:06.169
+     idb:      {Register Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore\FileRepository\c_netclient.inf_amd64_b7f9bb717>
+     idb:           Created driver package object 'c_netclient.inf_amd64_b7f9bb71730aaf1a' in DRIVERS database node.
+     idb:           Created driver INF file object 'c_netclient.inf' in DRIVERS database node.
+     idb:           Registered driver package 'c_netclient.inf_amd64_b7f9bb71730aaf1a' with 'c_netclient.inf'.
+     idb:           {Configure Device Setup Class: {00000000-1111-2222-bfc1-012345678911}}
+     idb:                Class Name = NetClient
+     idb:           {Configure Device Setup Class: exit(0x00000000)}
+     flq:           {FILE_QUEUE_COMMIT} 09:13:06.185
+     flq:           {FILE_QUEUE_COMMIT - exit(0x00000000)} 09:13:06.185
+     idb:      {Register Driver Package: exit(0x00000000)} 09:13:06.185
+     sto:      Driver Store Filename = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore\FileRepository\c_netclient.inf_amd64_b7f9bb71730>
+     sto: {Import Driver Package: exit(0x00000000)} 09:13:06.185
+     sto: {Import Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_1394.inf_31bf3856ad364e35_10.0.31664.1_none_6118cd98bd>
+     sto:      Driver Store   = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore (10.0.31664)
+     sto:      Driver Package = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_1394.inf_31bf3856ad364e35_10.0.31664.1_none_6118cd98bdc1>
+     sto:      Architecture   = amd64
+     sto:      Flags          = 0x00000245
+     inf:      Provider       = Microsoft
+     inf:      Class GUID     = {00000000-1111-2222-bec7-012345678911}
+     inf:      Driver Version = 06/21/2006,10.0.31664.1
+     inf:      Version Flags  = 0x00000010
+     inf:      {Query Configurability: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_1394.inf_31bf3856ad364e35_10.0.31664.1_none_6118c>
+     inf:           Driver package is fully isolated.
+     inf:           Driver package 'c_1394.inf' is configurable.
+     inf:      {Query Configurability: exit(0x00000000)} 09:13:06.216
+     sig:      Signer Score  = 0x0D000003 (Inbox)
+     flq:      {FILE_QUEUE_COMMIT} 09:13:06.216
+     flq:           Hardlinking 'D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_1394.inf_31bf3856ad364e35_10.0.31664.1_none_6118cd98bdc>
+     flq:      {FILE_QUEUE_COMMIT - exit(0x00000000)} 09:13:06.216
+     idb:      {Register Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore\FileRepository\c_1394.inf_amd64_cac08af12caec6>
+     idb:           Created driver package object 'c_1394.inf_amd64_cac08af12caec647' in SYSTEM database node.
+     idb:           Created driver INF file object 'c_1394.inf' in SYSTEM database node.
+     idb:           Registered driver package 'c_1394.inf_amd64_cac08af12caec647' with 'c_1394.inf'.
+     idb:           {Configure Device Setup Class: {00000000-1111-2222-bec7-012345678911}}
+     idb:                Class Name = 1394
+     idb:           {Configure Device Setup Class: exit(0x00000000)}
+     flq:           {FILE_QUEUE_COMMIT} 09:13:06.216
+     flq:           {FILE_QUEUE_COMMIT - exit(0x00000000)} 09:13:06.216
+     idb:      {Register Driver Package: exit(0x00000000)} 09:13:06.216
+     sto:      Driver Store Filename = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore\FileRepository\c_1394.inf_amd64_cac08af12caec647>
+     sto: {Import Driver Package: exit(0x00000000)} 09:13:06.216
+
+     sto: {Reflect Critical Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore\FileRepository\wvmic_ext.inf_amd64_34d742f3>
+     sto:      Driver Store   = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore (10.0.31664)
+     sto:      Flags          = 0x00040F7F
+     inf:      Class GUID     = {00000000-1111-2222-bfc1-012345678911}
+     inf:      Class Options  = Configurable BootCritical
+     inf:      {Configure Driver: Microsoft Hyper-V Remote Desktop Virtualization}
+     inf:           Section Name = VmIcRdv.NT
+     inf:           Hardware Id  = vmbus\{00000000-1111-2222-98dd-012345678911}
+     inf:           {Configure Driver Configuration: VmIcRdv.NT}
+     inf:                Service Name  = <none>
+     inf:                Config Flags  = 0x00000000
+     inf:           {Configure Driver Configuration: exit(0x00000000)}
+     inf:      {Configure Driver: exit(0x00000000)}
+     inf:      {Configure Driver: Microsoft Hyper-V Volume Shadow Copy}
+     inf:           Section Name = VmIcVss.NT
+     inf:           Hardware Id  = vmbus\{00000000-1111-2222-892e-012345678911}
+     inf:           {Configure Driver Configuration: VmIcVss.NT}
+     inf:                Service Name  = <none>
+     inf:                Config Flags  = 0x00000000
+     inf:           {Configure Driver Configuration: exit(0x00000000)}
+     inf:      {Configure Driver: exit(0x00000000)}
+     flq:      {FILE_QUEUE_COMMIT} 09:14:37.406
+     flq:      {FILE_QUEUE_COMMIT - exit(0x00000000)} 09:14:37.406
+     sto: {Reflect Critical Driver Package: exit(0x00000000)}
+
+     sto: {Unload Offline Registry Hive: SYSTEM} 09:14:37.720
+     sto:      Closed hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SYSTEM'.
+     sto:      Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SYSTEM' load>
+     sto: {Unload Offline Registry Hive: exit(0x00000000)} 09:14:37.755
+     sto: {Unload Offline Registry Hive: SOFTWARE} 09:14:37.755
+     sto:      Closed hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SOFTWARE'.
+     sto:      Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SOFTWARE' lo>
+     sto: {Unload Offline Registry Hive: exit(0x00000000)} 09:14:37.876
+     sto: {Unload Offline Registry Hive: DRIVERS} 09:14:37.876
+     sto:      Closed hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/DRIVERS'.
+     sto:      Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/DRIVERS' loa>
+     sto: {Unload Offline Registry Hive: exit(0x00000000)} 09:14:37.876
+<<<  Section end 2019/12/07 09:14:37.876
+<<<  [Exit status: SUCCESS]

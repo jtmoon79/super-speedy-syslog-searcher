@@ -1,0 +1,27 @@
+>>>  [Load Offline Registry Hive - SYSTEM]
+>>>  Section start 2020/05/27 11:29:27.787
+       os: Version = 10.0.27595, Service Pack = 0.0, Suite = 0x0100, ProductType = 1, Architecture = amd64
+      cmd: C:\WINDOWS\TEMP\00000000-1111-2222-9BE8-012345678911\dismhost.exe {00000000-1111-2222-B129-012345678911}
+     sto: Opened existing hive key '{00000000-1111-2222-ac95-012345678911}C:/$WINDOWS.~BT/NewOS/Windows/System32/config/SYSTEM'.
+<<<  Section end 2020/05/27 11:29:27.787
+<<<  [Exit status: SUCCESS]
+
+
+>>>  [Unload Offline Registry Hive - SYSTEM]
+>>>  Section start 2020/05/27 11:29:27.787
+       os: Version = 10.0.27595, Service Pack = 0.0, Suite = 0x0100, ProductType = 1, Architecture = amd64
+      cmd: C:\WINDOWS\TEMP\00000000-1111-2222-9BE8-012345678911\dismhost.exe {00000000-1111-2222-B129-012345678911}
+     sto: Closed hive key '{00000000-1111-2222-ac95-012345678911}C:/$WINDOWS.~BT/NewOS/Windows/System32/config/SYSTEM'.
+     sto: Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}C:/$WINDOWS.~BT/NewOS/Windows/System32/config/SYSTEM' loaded by another process. Error = 0x00000005, Time = 0 ms
+<<<  Section end 2020/05/27 11:29:27.787
+<<<  [Exit status: SUCCESS]
+
+>>>  [Load Offline Registry Hive - DRIVERS]
+>>>  Section start 2020/05/27 12:07:06.557
+       os: Version = 10.0.27595, Service Pack = 0.0, Suite = 0x0100, ProductType = 1, Architecture = amd64
+      cmd: C:\WINDOWS\TEMP\00000000-1111-2222-9C8F-012345678911\dismhost.exe {00000000-1111-2222-B32D-012345678911}
+     sto: Loaded hive 'C:\$WINDOWS.~BT\NewOS\Windows\System32\config\DRIVERS'. Time = 47 ms
+     sto: Opened hive key '{00000000-1111-2222-ac95-012345678911}C:/$WINDOWS.~BT/NewOS/Windows/System32/config/DRIVERS'.
+     sto: Delay unloading hive key '{00000000-1111-2222-ac95-012345678911}C:/$WINDOWS.~BT/NewOS/Windows/System32/config/DRIVERS'.
+<<<  Section end 2020/05/27 12:07:06.604
+<<<  [Exit status: SUCCESS]

@@ -1,0 +1,1300 @@
+﻿2020-05-28 12:31:05, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2020-05-28 12:31:05, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+2020-05-28 12:31:05, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2020-05-28 12:31:05, Info                         pszWellKnownDirs:(null)
+2020-05-28 12:31:05, Info                         bCleanWindowsOld:1
+2020-05-28 12:31:05, Info                         bRemoveUninstall:1
+2020-05-28 12:31:05, Info                         bShowOnlyInUpgrade:0
+2020-05-28 12:31:05, Info                         bShowOnlyInESDInstall:0
+2020-05-28 12:31:05, Info                         bSilentCleanup:1
+2020-05-28 12:31:05, Info                         bCleanupTemporaryInstallationFiles:0
+2020-05-28 12:31:05, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2020-05-28 12:31:05, Info                         IsProcessElevated - bResult: 1
+2020-05-28 12:32:23, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\Windows\System32\LogFiles\WMI\RtBackup\*]; GLE = 0x5[gle=0x00000005]
+2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Trace\*]; GLE = 0x5[gle=0x00000005]
+2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Temp\PSScriptOutputs\*]; GLE = 0x5[gle=0x00000005]
+2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Downloads\*]; GLE = 0x5[gle=0x00000005]
+2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\DataCollection\*]; GLE = 0x5[gle=0x00000005]
+2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Cyber\*]; GLE = 0x5[gle=0x00000005]
+2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Cache\*]; GLE = 0x5[gle=0x00000005]
+2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows\SystemData\*]; GLE = 0x5[gle=0x00000005]
+2020-05-28 12:33:55, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\Program Files\Windows Defender Advanced Threat Protection\Classification\Configuration\*]; GLE = 0x5[gle=0x00000005]
+2020-05-28 12:48:04, Info                         SetupClnLogInitializationInfo - Getting plugin name
+
+2020-09-17 12:47:46, Info                  DISM   DISM OS Provider: PID=4372 TID=4372 Determined System directory to be C:\Windows\System32 - CDISMOSServiceManager::get_SystemDirectory
+2020-09-17 12:47:54, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2020-09-17 12:47:54, Info                         IsProcessElevated - bResult: 1
+2020-09-17 12:47:54, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2020-09-17 12:47:54, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2020-09-17 12:47:54, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 4372
+2020-09-17 12:47:54, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2020-09-17 12:47:55, Info                  DISM   DISM Manager: PID=4372 TID=4372 Closing session event handle 0x88c - CDISMManager::CleanupImageSessionEntry
+2020-09-17 12:47:55, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Found the OSServices.  Waiting to finalize it until all other providers are unloaded. - CDISMProviderStore::Final_OnDisconnect
+2020-09-17 12:47:55, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Disconnecting Provider: FolderManager - CDISMProviderStore::Internal_DisconnectProvider
+2020-09-17 12:47:55, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Disconnecting Provider: FfuManager - CDISMProviderStore::Internal_DisconnectProvider
+2020-09-17 12:47:55, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Disconnecting Provider: WimManager - CDISMProviderStore::Internal_DisconnectProvider
+2020-09-17 12:47:55, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Disconnecting Provider: VHDManager - CDISMProviderStore::Internal_DisconnectProvider
+2020-09-17 12:47:55, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Disconnecting Provider: GenericImagingManager - CDISMProviderStore::Internal_DisconnectProvider
+2020-09-17 12:47:55, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Releasing the local reference to DISMLogger.  Stop logging. - CDISMProviderStore::Internal_DisconnectProvider
+
+2020-12-14 13:24:25, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Upgrade Discarded Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2020-12-14 13:24:25, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2020-12-14 13:24:25, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows ESD Installation Files
+2020-12-14 13:24:25, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2020-12-14 13:24:25, Info                         pszWellKnownDirs:ESD\Windows;$Windows.~WS;ESD\Download
+2020-12-14 13:24:25, Info                         bCleanWindowsOld:0
+2020-12-14 13:24:25, Info                         bRemoveUninstall:0
+2020-12-14 13:24:25, Info                         bShowOnlyInUpgrade:0
+2020-12-14 13:24:25, Info                         bShowOnlyInESDInstall:1
+2020-12-14 13:24:25, Info                         bSilentCleanup:1
+2020-12-14 13:24:25, Info                         bCleanupTemporaryInstallationFiles:0
+2020-12-14 13:24:25, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
+2020-12-14 13:24:25, Info                         IsWebSetupRunning - WebSetup Running: 0
+2020-12-14 13:24:25, Info                         IsProcessElevated - bResult: 1
+2020-12-14 13:24:25, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Windows
+2020-12-14 13:24:25, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+2020-12-14 13:24:25, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~WS
+2020-12-14 13:24:25, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~WS\*]; GLE = 0x3[gle=0x00000003]
+2020-12-14 13:24:25, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Download
+2020-12-14 13:24:25, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+2020-12-14 13:24:25, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2020-12-14 13:24:25, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2020-12-14 13:24:25, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2020-12-14 13:24:25, Info                         CSetupFilesCleanup::Initialize - No files to delete : Windows ESD Installation Files
+2020-12-14 13:24:25, Info                         Initialization status:1
+2020-12-14 13:24:25, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows ESD Installation Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2020-12-14 13:24:25, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2020-12-14 13:24:25, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2020-12-14 13:24:25, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2020-12-14 13:24:25, Info                         pszWellKnownDirs:Windows\Panther
+
+2021-02-14 13:13:09, Info                         bCleanupTemporaryInstallationFiles:0
+2021-02-14 13:13:09, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2021-02-14 13:13:09, Info                         IsProcessElevated - bResult: 1
+2021-02-14 13:13:09, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2021-02-14 13:13:09, Info                         Onesettings: Querying Prod server
+2021-02-14 13:13:09, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2021-02-14 13:13:09, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2021-02-14 13:13:09, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-02-14 13:13:09, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-02-14 13:13:09, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-02-14 13:13:09, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2021-02-14 13:13:09, Info                         Initialization status:1
+2021-02-14 13:13:09, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Previous Installations, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-02-14 13:13:09, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-02-14 13:13:09, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Temporary Setup Files
+2021-02-14 13:13:09, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-02-14 13:13:09, Info                         pszWellKnownDirs:$Windows.~BT
+2021-02-14 13:13:09, Info                         bCleanWindowsOld:0
+2021-02-14 13:13:09, Info                         bRemoveUninstall:0
+2021-02-14 13:13:09, Info                         bShowOnlyInUpgrade:0
+2021-02-14 13:13:09, Info                         bShowOnlyInESDInstall:0
+2021-02-14 13:13:09, Info                         bSilentCleanup:1
+2021-02-14 13:13:09, Info                         bCleanupTemporaryInstallationFiles:1
+2021-02-14 13:13:09, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2021-02-14 13:13:09, Info                         IsSetupRunning - Setup Running: 0
+2021-02-14 13:13:09, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2021-02-14 13:13:09, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2021-02-14 13:13:09, Info                         IsProcessElevated - bResult: 1
+2021-02-14 13:13:09, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~BT
+2021-02-14 13:13:09, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+
+2021-04-20 13:17:41, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2021-04-20 13:17:41, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2021-04-20 13:17:41, Info                         IsProcessElevated - bResult: 1
+2021-04-20 13:17:41, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~BT
+2021-04-20 13:17:41, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+2021-04-20 13:17:41, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-04-20 13:17:41, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-04-20 13:17:41, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-04-20 13:17:41, Info                         CSetupFilesCleanup::Initialize - No files to delete : Temporary Setup Files
+2021-04-20 13:17:41, Info                         Initialization status:1
+2021-04-20 13:17:41, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Temporary Setup Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-04-20 13:17:41, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-04-20 13:17:41, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Upgrade Discarded Files
+2021-04-20 13:17:41, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-04-20 13:17:41, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2021-04-20 13:17:41, Info                         bCleanWindowsOld:0
+2021-04-20 13:17:41, Info                         bRemoveUninstall:0
+2021-04-20 13:17:41, Info                         bShowOnlyInUpgrade:0
+
+2021-05-13 12:58:55, Info                         bCleanWindowsOld:0
+2021-05-13 12:58:55, Info                         bRemoveUninstall:0
+2021-05-13 12:58:55, Info                         bShowOnlyInUpgrade:0
+2021-05-13 12:58:55, Info                         bShowOnlyInESDInstall:0
+2021-05-13 12:58:55, Info                         bSilentCleanup:1
+2021-05-13 12:58:55, Info                         bCleanupTemporaryInstallationFiles:1
+2021-05-13 12:58:55, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2021-05-13 12:58:55, Info                         IsSetupRunning - Setup Running: 0
+2021-05-13 12:58:55, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2021-05-13 12:58:55, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2021-05-13 12:58:55, Info                         IsProcessElevated - bResult: 1
+2021-05-13 12:58:55, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~BT
+2021-05-13 12:58:55, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+2021-05-13 12:58:55, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-05-13 12:58:55, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-05-13 12:58:55, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-05-13 12:58:55, Info                         CSetupFilesCleanup::Initialize - No files to delete : Temporary Setup Files
+2021-05-13 12:58:55, Info                         Initialization status:1
+2021-05-13 12:58:55, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Temporary Setup Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-05-13 12:58:56, Info                         SetupClnLogInitializationInfo - Getting plugin name
+
+
+2021-05-27 12:50:05, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-05-27 12:50:05, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+2021-05-27 12:50:05, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-05-27 12:50:05, Info                         pszWellKnownDirs:(null)
+2021-05-27 12:50:05, Info                         bCleanWindowsOld:1
+2021-05-27 12:50:05, Info                         bRemoveUninstall:1
+2021-05-27 12:50:05, Info                         bShowOnlyInUpgrade:0
+2021-05-27 12:50:05, Info                         bShowOnlyInESDInstall:0
+2021-05-27 12:50:05, Info                         bSilentCleanup:1
+2021-05-27 12:50:05, Info                         bCleanupTemporaryInstallationFiles:0
+2021-05-27 12:50:05, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2021-05-27 12:50:05, Info                         IsProcessElevated - bResult: 1
+2021-05-27 12:50:05, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2021-05-27 12:50:05, Info                         Onesettings: Querying Prod server
+2021-05-27 12:50:05, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2021-05-27 12:50:05, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2021-05-27 12:50:05, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-05-27 12:50:05, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-05-27 12:50:05, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-05-27 12:50:05, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2021-05-27 12:50:05, Info                         Initialization status:1
+2021-05-27 12:50:05, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Previous Installations, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-05-27 12:50:05, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-05-27 12:50:05, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Temporary Setup Files
+2021-05-27 12:50:05, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-05-27 12:50:05, Info                         pszWellKnownDirs:$Windows.~BT
+2021-05-27 12:50:05, Info                         bCleanWindowsOld:0
+2021-05-27 12:50:05, Info                         bRemoveUninstall:0
+2021-05-27 12:50:05, Info                         bShowOnlyInUpgrade:0
+2021-05-27 12:50:05, Info                         bShowOnlyInESDInstall:0
+2021-05-27 12:50:05, Info                         bSilentCleanup:1
+2021-05-27 12:50:05, Info                         bCleanupTemporaryInstallationFiles:1
+2021-05-27 12:50:05, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2021-05-27 12:50:05, Info                         IsSetupRunning - Setup Running: 0
+2021-05-27 12:50:05, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2021-05-27 12:50:05, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2021-05-27 12:50:05, Info                         IsProcessElevated - bResult: 1
+2021-05-27 12:50:05, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~BT
+2021-05-27 12:50:05, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+
+2021-06-06 15:51:58, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+2021-06-06 15:51:58, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~WS
+2021-06-06 15:51:58, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Download
+2021-06-06 15:51:58, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+2021-06-06 15:51:58, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-06-06 15:51:58, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-06-06 15:51:58, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-06-06 15:51:58, Info                         CSetupFilesCleanup::Initialize - No files to delete : Windows ESD Installation Files
+2021-06-06 15:51:58, Info                         Initialization status:1
+2021-06-06 15:51:58, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows ESD Installation Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-06-06 15:51:58, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-06-06 15:51:58, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2021-06-06 15:51:58, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-06-06 15:51:58, Info                         pszWellKnownDirs:Windows\Panther
+2021-06-06 15:51:58, Info                         bCleanWindowsOld:0
+2021-06-06 15:51:58, Info                         bRemoveUninstall:0
+2021-06-06 15:51:58, Info                         bShowOnlyInUpgrade:1
+2021-06-06 15:51:58, Info                         bShowOnlyInESDInstall:0
+2021-06-06 15:51:58, Info                         bSilentCleanup:1
+2021-06-06 15:51:58, Info                         bCleanupTemporaryInstallationFiles:0
+
+2021-06-28 15:37:01, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
+2021-06-28 15:37:01, Info                         IsWebSetupRunning - WebSetup Running: 0
+2021-06-28 15:37:01, Info                         IsProcessElevated - bResult: 1
+2021-06-28 15:37:01, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Windows
+2021-06-28 15:37:01, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+2021-06-28 15:37:01, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~WS
+2021-06-28 15:37:01, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Download
+2021-06-28 15:37:01, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+2021-06-28 15:37:01, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-06-28 15:37:01, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-06-28 15:37:01, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-06-28 15:37:01, Info                         CSetupFilesCleanup::Initialize - No files to delete : Windows ESD Installation Files
+2021-06-28 15:37:01, Info                         Initialization status:1
+2021-06-28 15:37:01, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows ESD Installation Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-06-28 15:37:01, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-06-28 15:37:01, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2021-06-28 15:37:01, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-06-28 15:37:01, Info                         pszWellKnownDirs:Windows\Panther
+2021-06-28 15:37:01, Info                         bCleanWindowsOld:0
+2021-06-28 15:37:01, Info                         bRemoveUninstall:0
+2021-06-28 15:37:01, Info                         bShowOnlyInUpgrade:1
+2021-06-28 15:37:01, Info                         bShowOnlyInESDInstall:0
+2021-06-28 15:37:01, Info                         bSilentCleanup:1
+
+2021-07-17 18:34:10, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-07-17 18:34:10, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+2021-07-17 18:34:10, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-07-17 18:34:10, Info                         pszWellKnownDirs:(null)
+2021-07-17 18:34:10, Info                         bCleanWindowsOld:1
+2021-07-17 18:34:10, Info                         bRemoveUninstall:1
+2021-07-17 18:34:10, Info                         bShowOnlyInUpgrade:0
+2021-07-17 18:34:10, Info                         bShowOnlyInESDInstall:0
+2021-07-17 18:34:10, Info                         bSilentCleanup:1
+2021-07-17 18:34:10, Info                         bCleanupTemporaryInstallationFiles:0
+2021-07-17 18:34:10, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2021-07-17 18:34:10, Info                         IsProcessElevated - bResult: 1
+2021-07-17 18:34:10, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2021-07-17 18:34:10, Info                         Onesettings: Querying Prod server
+2021-07-17 18:34:10, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2021-07-17 18:34:10, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2021-07-17 18:34:10, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-07-17 18:34:10, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-07-17 18:34:10, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-07-17 18:34:10, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2021-07-17 18:34:10, Info                         Initialization status:1
+2021-07-17 18:34:10, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Previous Installations, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-07-17 18:34:10, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-07-17 18:34:10, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Temporary Setup Files
+2021-07-17 18:34:10, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-07-17 18:34:10, Info                         pszWellKnownDirs:$Windows.~BT
+2021-07-17 18:34:10, Info                         bCleanWindowsOld:0
+2021-07-17 18:34:10, Info                         bRemoveUninstall:0
+2021-07-17 18:34:10, Info                         bShowOnlyInUpgrade:0
+2021-07-17 18:34:10, Info                         bShowOnlyInESDInstall:0
+2021-07-17 18:34:10, Info                         bSilentCleanup:1
+2021-07-17 18:34:10, Info                         bCleanupTemporaryInstallationFiles:1
+2021-07-17 18:34:10, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2021-07-17 18:34:10, Info                         IsSetupRunning - Setup Running: 0
+2021-07-17 18:34:10, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2021-07-17 18:34:10, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2021-07-17 18:34:10, Info                         IsProcessElevated - bResult: 1
+2021-07-17 18:34:10, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~BT
+2021-07-17 18:34:10, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+
+2021-08-02 14:54:02, Info                         bCleanupTemporaryInstallationFiles:1
+2021-08-02 14:54:02, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2021-08-02 14:54:02, Info                         IsSetupRunning - Setup Running: 0
+2021-08-02 14:54:02, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2021-08-02 14:54:02, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2021-08-02 14:54:02, Info                         IsProcessElevated - bResult: 1
+2021-08-02 14:54:02, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~BT
+2021-08-02 14:54:02, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+2021-08-02 14:54:02, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-08-02 14:54:02, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-08-02 14:54:02, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-08-02 14:54:02, Info                         CSetupFilesCleanup::Initialize - No files to delete : Temporary Setup Files
+2021-08-02 14:54:02, Info                         Initialization status:1
+2021-08-02 14:54:02, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Temporary Setup Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-08-02 14:54:04, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-08-02 14:54:04, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Upgrade Discarded Files
+2021-08-02 14:54:04, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-08-02 14:54:04, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2021-08-02 14:54:04, Info                         bCleanWindowsOld:0
+2021-08-02 14:54:04, Info                         bRemoveUninstall:0
+2021-08-02 14:54:04, Info                         bShowOnlyInUpgrade:0
+2021-08-02 14:54:04, Info                         bShowOnlyInESDInstall:0
+2021-08-02 14:54:04, Info                         bSilentCleanup:1
+2021-08-02 14:54:04, Info                         bCleanupTemporaryInstallationFiles:0
+2021-08-02 14:54:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+2021-08-02 14:54:04, Info                         IsProcessElevated - bResult: 1
+2021-08-02 14:54:04, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$WINDOWS.~Q
+2021-08-02 14:54:04, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+2021-08-02 14:54:04, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$INPLACE.~TR
+2021-08-02 14:54:04, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+2021-08-02 14:54:04, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~LS
+2021-08-02 14:54:04, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~LS\*]; GLE = 0x3[gle=0x00000003]
+2021-08-02 14:54:04, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+
+2021-08-19 12:31:06, Info                         bRemoveUninstall:1
+2021-08-19 12:31:06, Info                         bShowOnlyInUpgrade:0
+2021-08-19 12:31:06, Info                         bShowOnlyInESDInstall:0
+2021-08-19 12:31:06, Info                         bSilentCleanup:1
+2021-08-19 12:31:06, Info                         bCleanupTemporaryInstallationFiles:0
+2021-08-19 12:31:06, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2021-08-19 12:31:06, Info                         IsProcessElevated - bResult: 1
+2021-08-19 12:31:06, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2021-08-19 12:31:06, Info                         Onesettings: Querying Prod server
+2021-08-19 12:31:06, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2021-08-19 12:31:06, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2021-08-19 12:31:06, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-08-19 12:31:06, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-08-19 12:31:06, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-08-19 12:31:06, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2021-08-19 12:31:06, Info                         Initialization status:1
+2021-08-19 12:31:06, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Previous Installations, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-08-19 12:31:06, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-08-19 12:31:06, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Temporary Setup Files
+2021-08-19 12:31:06, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-08-19 12:31:06, Info                         pszWellKnownDirs:$Windows.~BT
+2021-08-19 12:31:06, Info                         bCleanWindowsOld:0
+2021-08-19 12:31:06, Info                         bRemoveUninstall:0
+2021-08-19 12:31:06, Info                         bShowOnlyInUpgrade:0
+2021-08-19 12:31:06, Info                         bShowOnlyInESDInstall:0
+2021-08-19 12:31:06, Info                         bSilentCleanup:1
+2021-08-19 12:31:06, Info                         bCleanupTemporaryInstallationFiles:1
+
+2021-09-08 13:01:41, Info                         bRemoveUninstall:1
+2021-09-08 13:01:41, Info                         bShowOnlyInUpgrade:0
+2021-09-08 13:01:41, Info                         bShowOnlyInESDInstall:0
+2021-09-08 13:01:41, Info                         bSilentCleanup:1
+2021-09-08 13:01:41, Info                         bCleanupTemporaryInstallationFiles:0
+2021-09-08 13:01:41, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2021-09-08 13:01:41, Info                         IsProcessElevated - bResult: 1
+2021-09-08 13:01:41, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2021-09-08 13:01:41, Info                         Onesettings: Querying Prod server
+2021-09-08 13:01:41, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2021-09-08 13:01:41, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2021-09-08 13:01:41, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-09-08 13:01:41, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-09-08 13:01:41, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-09-08 13:01:41, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2021-09-08 13:01:41, Info                         Initialization status:1
+2021-09-08 13:01:41, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Previous Installations, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-08 13:01:41, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-09-08 13:01:41, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Temporary Setup Files
+2021-09-08 13:01:41, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-08 13:01:41, Info                         pszWellKnownDirs:$Windows.~BT
+2021-09-08 13:01:41, Info                         bCleanWindowsOld:0
+2021-09-08 13:01:41, Info                         bRemoveUninstall:0
+2021-09-08 13:01:41, Info                         bShowOnlyInUpgrade:0
+2021-09-08 13:01:41, Info                         bShowOnlyInESDInstall:0
+2021-09-08 13:01:41, Info                         bSilentCleanup:1
+2021-09-08 13:01:41, Info                         bCleanupTemporaryInstallationFiles:1
+
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
+2021-09-13 14:08:18, Info                         IsWebSetupRunning - WebSetup Running: 0
+2021-09-13 14:08:18, Info                         IsProcessElevated - bResult: 1
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Windows
+2021-09-13 14:08:18, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~WS
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Download
+2021-09-13 14:08:18, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::Initialize - No files to delete : Windows ESD Installation Files
+2021-09-13 14:08:18, Info                         Initialization status:1
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows ESD Installation Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-13 14:08:18, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-09-13 14:08:18, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2021-09-13 14:08:18, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-13 14:08:18, Info                         pszWellKnownDirs:Windows\Panther
+2021-09-13 14:08:18, Info                         bCleanWindowsOld:0
+2021-09-13 14:08:18, Info                         bRemoveUninstall:0
+2021-09-13 14:08:18, Info                         bShowOnlyInUpgrade:1
+2021-09-13 14:08:18, Info                         bShowOnlyInESDInstall:0
+2021-09-13 14:08:18, Info                         bSilentCleanup:1
+2021-09-13 14:08:18, Info                         bCleanupTemporaryInstallationFiles:0
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2021-09-13 14:08:18, Info                         IsProcessElevated - bResult: 1
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-09-13 14:08:18, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-09-13 14:08:18, Info                         Initialization status:0
+2021-09-13 14:08:28, Info                  DISM   DISM OS Provider: PID=5352 TID=4372 Determined System directory to be C:\Windows\System32 - CDISMOSServiceManager::get_SystemDirectory
+2021-09-13 14:08:42, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2021-09-13 14:08:42, Info                         IsProcessElevated - bResult: 1
+2021-09-13 14:08:42, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2021-09-13 14:08:42, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-09-13 14:08:42, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-09-13 14:08:42, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-09-13 14:08:47, Info                  DISM   DISM Manager: PID=2080 TID=4372 Closing session event handle 0x898 - CDISMManager::CleanupImageSessionEntry
+2021-09-13 14:08:47, Info                  DISM   DISM Provider Store: PID=2080 TID=4372 Found the OSServices.  Waiting to finalize it until all other providers are unloaded. - CDISMProviderStore::Final_OnDisconnect
+2021-09-13 14:08:47, Info                  DISM   DISM Provider Store: PID=2080 TID=4372 Disconnecting Provider: FolderManager - CDISMProviderStore::Internal_DisconnectProvider
+2021-09-13 14:08:47, Info                  DISM   DISM Provider Store: PID=2080 TID=4372 Disconnecting Provider: FfuManager - CDISMProviderStore::Internal_DisconnectProvider
+2021-09-13 14:08:47, Info                  DISM   DISM Provider Store: PID=2080 TID=4372 Disconnecting Provider: WimManager - CDISMProviderStore::Internal_DisconnectProvider
+2021-09-13 14:08:47, Info                  DISM   DISM Provider Store: PID=2080 TID=4372 Disconnecting Provider: VHDManager - CDISMProviderStore::Internal_DisconnectProvider
+2021-09-13 14:08:47, Info                  DISM   DISM Provider Store: PID=2080 TID=4372 Disconnecting Provider: GenericImagingManager - CDISMProviderStore::Internal_DisconnectProvider
+2021-09-13 14:08:47, Info                  DISM   DISM Provider Store: PID=2080 TID=4372 Releasing the local reference to DISMLogger.  Stop logging. - CDISMProviderStore::Internal_DisconnectProvider
+2021-09-13 14:08:47, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows Upgrade Log Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+
+2021-09-25 22:47:33, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-25 22:47:33, Info                         pszWellKnownDirs:$Windows.~BT
+2021-09-25 22:47:33, Info                         bCleanWindowsOld:0
+2021-09-25 22:47:33, Info                         bRemoveUninstall:0
+2021-09-25 22:47:33, Info                         bShowOnlyInUpgrade:0
+2021-09-25 22:47:33, Info                         bShowOnlyInESDInstall:0
+2021-09-25 22:47:33, Info                         bSilentCleanup:1
+2021-09-25 22:47:33, Info                         bCleanupTemporaryInstallationFiles:1
+2021-09-25 22:47:33, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2021-09-25 22:47:33, Info                         IsSetupRunning - Setup Running: 0
+2021-09-25 22:47:33, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2021-09-25 22:47:33, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2021-09-25 22:47:33, Info                         IsProcessElevated - bResult: 1
+
+2021-09-25 22:47:34, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-09-25 22:47:34, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2021-09-25 22:47:34, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-25 22:47:34, Info                         pszWellKnownDirs:Windows\Panther
+2021-09-25 22:47:34, Info                         bCleanWindowsOld:0
+2021-09-25 22:47:34, Info                         bRemoveUninstall:0
+2021-09-25 22:47:34, Info                         bShowOnlyInUpgrade:1
+2021-09-25 22:47:34, Info                         bShowOnlyInESDInstall:0
+
+2021-09-28 00:07:33, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-09-28 00:07:33, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+2021-09-28 00:07:33, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-28 00:07:33, Info                         pszWellKnownDirs:(null)
+2021-09-28 00:07:33, Info                         bCleanWindowsOld:1
+2021-09-28 00:07:33, Info                         bRemoveUninstall:1
+2021-09-28 00:07:33, Info                         bShowOnlyInUpgrade:0
+2021-09-28 00:07:33, Info                         bShowOnlyInESDInstall:0
+2021-09-28 00:07:33, Info                         bSilentCleanup:1
+2021-09-28 00:07:33, Info                         bCleanupTemporaryInstallationFiles:0
+2021-09-28 00:07:33, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2021-09-28 00:07:33, Info                         IsProcessElevated - bResult: 1
+2021-09-28 00:07:33, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2021-09-28 00:07:33, Info                         Onesettings: Querying Prod server
+2021-09-28 00:07:33, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2021-09-28 00:07:33, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2021-09-28 00:07:33, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-09-28 00:07:33, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-09-28 00:07:33, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-09-28 00:07:33, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2021-09-28 00:07:33, Info                         Initialization status:1
+2021-09-28 00:07:33, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Previous Installations, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-28 00:07:33, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-09-28 00:07:33, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Temporary Setup Files
+
+
+2021-09-29 00:47:22, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-09-29 00:47:22, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+2021-09-29 00:47:22, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-29 00:47:22, Info                         pszWellKnownDirs:(null)
+2021-09-29 00:47:22, Info                         bCleanWindowsOld:1
+2021-09-29 00:47:22, Info                         bRemoveUninstall:1
+2021-09-29 00:47:22, Info                         bShowOnlyInUpgrade:0
+2021-09-29 00:47:22, Info                         bShowOnlyInESDInstall:0
+2021-09-29 00:47:22, Info                         bSilentCleanup:1
+2021-09-29 00:47:22, Info                         bCleanupTemporaryInstallationFiles:0
+2021-09-29 00:47:22, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2021-09-29 00:47:22, Info                         IsProcessElevated - bResult: 1
+2021-09-29 00:47:22, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2021-09-29 00:47:22, Info                         Onesettings: Querying Prod server
+2021-09-29 00:47:23, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2021-09-29 00:47:23, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2021-09-29 00:47:23, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-09-29 00:47:23, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-09-29 00:47:23, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-09-29 00:47:23, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2021-09-29 00:47:23, Info                         Initialization status:1
+2021-09-29 00:47:23, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Previous Installations, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-29 00:47:23, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-09-29 00:47:23, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Temporary Setup Files
+2021-09-29 00:47:23, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-29 00:47:23, Info                         pszWellKnownDirs:$Windows.~BT
+2021-09-29 00:47:23, Info                         bCleanWindowsOld:0
+2021-09-29 00:47:23, Info                         bRemoveUninstall:0
+2021-09-29 00:47:23, Info                         bShowOnlyInUpgrade:0
+2021-09-29 00:47:23, Info                         bShowOnlyInESDInstall:0
+2021-09-29 00:47:23, Info                         bSilentCleanup:1
+2021-09-29 00:47:23, Info                         bCleanupTemporaryInstallationFiles:1
+2021-09-29 00:47:23, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2021-09-29 00:47:23, Info                         IsSetupRunning - Setup Running: 0
+2021-09-29 00:47:23, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2021-09-29 00:47:23, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2021-09-29 00:47:23, Info                         IsProcessElevated - bResult: 1
+2021-09-29 00:47:23, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~BT
+2021-09-29 00:47:23, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+2021-09-29 00:47:23, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-09-29 00:47:23, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+
+2021-09-29 19:17:21, Info                         bCleanWindowsOld:0
+2021-09-29 19:17:21, Info                         bRemoveUninstall:0
+2021-09-29 19:17:21, Info                         bShowOnlyInUpgrade:0
+2021-09-29 19:17:21, Info                         bShowOnlyInESDInstall:0
+2021-09-29 19:17:21, Info                         bSilentCleanup:1
+2021-09-29 19:17:21, Info                         bCleanupTemporaryInstallationFiles:0
+2021-09-29 19:17:21, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+2021-09-29 19:17:21, Info                         IsProcessElevated - bResult: 1
+
+2021-09-29 19:17:21, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-09-29 19:17:21, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-09-29 19:17:21, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-09-29 19:17:21, Info                         CSetupFilesCleanup::Initialize - No files to delete : Upgrade Discarded Files
+2021-09-29 19:17:21, Info                         Initialization status:1
+2021-09-29 19:17:21, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Upgrade Discarded Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-29 19:17:21, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-09-29 19:17:21, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows ESD Installation Files
+2021-09-29 19:17:21, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-29 19:17:21, Info                         pszWellKnownDirs:ESD\Windows;$Windows.~WS;ESD\Download
+2021-09-29 19:17:21, Info                         bCleanWindowsOld:0
+2021-09-29 19:17:21, Info                         bRemoveUninstall:0
+2021-09-29 19:17:21, Info                         bShowOnlyInUpgrade:0
+2021-09-29 19:17:21, Info                         bShowOnlyInESDInstall:1
+2021-09-29 19:17:21, Info                         bSilentCleanup:1
+2021-09-29 19:17:21, Info                         bCleanupTemporaryInstallationFiles:0
+2021-09-29 19:17:21, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
+2021-09-29 19:17:21, Info                         IsWebSetupRunning - WebSetup Running: 0
+
+2021-09-30 13:47:17, Info                         pszWellKnownDirs:$Windows.~BT
+2021-09-30 13:47:17, Info                         bCleanWindowsOld:0
+2021-09-30 13:47:17, Info                         bRemoveUninstall:0
+2021-09-30 13:47:17, Info                         bShowOnlyInUpgrade:0
+2021-09-30 13:47:17, Info                         bShowOnlyInESDInstall:0
+2021-09-30 13:47:17, Info                         bSilentCleanup:1
+2021-09-30 13:47:17, Info                         bCleanupTemporaryInstallationFiles:1
+2021-09-30 13:47:17, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2021-09-30 13:47:17, Info                         IsSetupRunning - Setup Running: 0
+2021-09-30 13:47:17, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2021-09-30 13:47:17, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2021-09-30 13:47:17, Info                         IsProcessElevated - bResult: 1
+2021-09-30 13:47:17, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~BT
+2021-09-30 13:47:17, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+2021-09-30 13:47:17, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-09-30 13:47:17, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-09-30 13:47:17, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-09-30 13:47:17, Info                         CSetupFilesCleanup::Initialize - No files to delete : Temporary Setup Files
+2021-09-30 13:47:17, Info                         Initialization status:1
+2021-09-30 13:47:17, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Temporary Setup Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-30 13:47:18, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-09-30 13:47:18, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Upgrade Discarded Files
+2021-09-30 13:47:18, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-09-30 13:47:18, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2021-09-30 13:47:18, Info                         bCleanWindowsOld:0
+2021-09-30 13:47:18, Info                         bRemoveUninstall:0
+2021-09-30 13:47:18, Info                         bShowOnlyInUpgrade:0
+2021-09-30 13:47:18, Info                         bShowOnlyInESDInstall:0
+2021-09-30 13:47:18, Info                         bSilentCleanup:1
+2021-09-30 13:47:18, Info                         bCleanupTemporaryInstallationFiles:0
+
+2021-10-01 08:17:30, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows Upgrade Log Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-01 14:27:18, Info                         SetupClnLogInitializationInfo - Getting plugin name
+
+2021-10-02 08:57:13, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2021-10-02 08:57:13, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-10-02 08:57:13, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-10-02 08:57:13, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+
+2021-10-02 21:17:14, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-02 21:17:14, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2021-10-02 21:17:14, Info                         bCleanWindowsOld:0
+2021-10-02 21:17:14, Info                         bRemoveUninstall:0
+2021-10-02 21:17:14, Info                         bShowOnlyInUpgrade:0
+2021-10-02 21:17:14, Info                         bShowOnlyInESDInstall:0
+2021-10-02 21:17:14, Info                         bSilentCleanup:1
+2021-10-02 21:17:14, Info                         bCleanupTemporaryInstallationFiles:0
+2021-10-02 21:17:14, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+2021-10-02 21:17:14, Info                         IsProcessElevated - bResult: 1
+
+
+2021-10-03 15:47:08, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-10-03 15:47:08, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-10-03 15:47:08, Info                         CSetupFilesCleanup::Initialize - No files to delete : Upgrade Discarded Files
+2021-10-03 15:47:08, Info                         Initialization status:1
+2021-10-03 15:47:08, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Upgrade Discarded Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-03 15:47:08, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-10-03 15:47:08, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows ESD Installation Files
+2021-10-03 15:47:08, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+
+2021-10-04 14:21:02, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-10-04 14:21:02, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2021-10-04 14:21:02, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-10-04 14:21:02, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2021-10-04 14:21:02, Info                         Initialization status:1
+
+2021-10-05 10:57:04, Info                         bSilentCleanup:1
+2021-10-05 10:57:04, Info                         bCleanupTemporaryInstallationFiles:0
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
+2021-10-05 10:57:04, Info                         IsWebSetupRunning - WebSetup Running: 0
+2021-10-05 10:57:04, Info                         IsProcessElevated - bResult: 1
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Windows
+2021-10-05 10:57:04, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~WS
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Download
+2021-10-05 10:57:04, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::Initialize - No files to delete : Windows ESD Installation Files
+2021-10-05 10:57:04, Info                         Initialization status:1
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows ESD Installation Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-05 10:57:04, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-10-05 10:57:04, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2021-10-05 10:57:04, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-05 10:57:04, Info                         pszWellKnownDirs:Windows\Panther
+2021-10-05 10:57:04, Info                         bCleanWindowsOld:0
+2021-10-05 10:57:04, Info                         bRemoveUninstall:0
+2021-10-05 10:57:04, Info                         bShowOnlyInUpgrade:1
+2021-10-05 10:57:04, Info                         bShowOnlyInESDInstall:0
+2021-10-05 10:57:04, Info                         bSilentCleanup:1
+2021-10-05 10:57:04, Info                         bCleanupTemporaryInstallationFiles:0
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2021-10-05 10:57:04, Info                         IsProcessElevated - bResult: 1
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-10-05 10:57:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-10-05 10:57:04, Info                         Initialization status:0
+
+2021-10-05 22:58:18, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-10-05 22:58:18, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-10-05 22:58:18, Info                         Initialization status:0
+2021-10-06 12:55:16, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-10-06 12:55:16, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+2021-10-06 12:55:16, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-06 12:55:16, Info                         pszWellKnownDirs:(null)
+2021-10-06 12:55:16, Info                         bCleanWindowsOld:1
+2021-10-06 12:55:16, Info                         bRemoveUninstall:1
+2021-10-06 12:55:16, Info                         bShowOnlyInUpgrade:0
+2021-10-06 12:55:16, Info                         bShowOnlyInESDInstall:0
+2021-10-06 12:55:16, Info                         bSilentCleanup:1
+2021-10-06 12:55:16, Info                         bCleanupTemporaryInstallationFiles:0
+2021-10-06 12:55:16, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2021-10-06 12:55:16, Info                         IsProcessElevated - bResult: 1
+2021-10-06 12:55:16, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+
+2021-10-08 15:32:34, Info                         bCleanWindowsOld:0
+2021-10-08 15:32:34, Info                         bRemoveUninstall:0
+2021-10-08 15:32:34, Info                         bShowOnlyInUpgrade:1
+2021-10-08 15:32:34, Info                         bShowOnlyInESDInstall:0
+2021-10-08 15:32:34, Info                         bSilentCleanup:1
+2021-10-08 15:32:34, Info                         bCleanupTemporaryInstallationFiles:0
+2021-10-08 15:32:34, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2021-10-08 15:32:34, Info                         IsProcessElevated - bResult: 1
+2021-10-08 15:32:34, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2021-10-08 15:32:34, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-10-08 15:32:34, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-10-08 15:32:34, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-10-08 15:32:34, Info                         Initialization status:0
+
+2021-10-10 13:42:52, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Windows
+2021-10-10 13:42:52, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~WS
+2021-10-10 13:42:52, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Download
+2021-10-10 13:42:52, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2021-10-10 13:42:52, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-10-10 13:42:52, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-10-10 13:42:52, Info                         CSetupFilesCleanup::Initialize - No files to delete : Windows ESD Installation Files
+2021-10-10 13:42:52, Info                         Initialization status:1
+2021-10-10 13:42:52, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows ESD Installation Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-10 13:42:52, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-10-10 13:42:52, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2021-10-10 13:42:52, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-10 13:42:52, Info                         pszWellKnownDirs:Windows\Panther
+2021-10-10 13:42:52, Info                         bCleanWindowsOld:0
+2021-10-10 13:42:52, Info                         bRemoveUninstall:0
+2021-10-10 13:42:52, Info                         bShowOnlyInUpgrade:1
+2021-10-10 13:42:52, Info                         bShowOnlyInESDInstall:0
+2021-10-10 13:42:52, Info                         bSilentCleanup:1
+2021-10-10 13:42:52, Info                         bCleanupTemporaryInstallationFiles:0
+
+2021-10-14 14:37:09, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-14 14:37:09, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2021-10-14 14:37:09, Info                         bCleanWindowsOld:0
+2021-10-14 14:37:09, Info                         bRemoveUninstall:0
+2021-10-14 14:37:09, Info                         bShowOnlyInUpgrade:0
+2021-10-14 14:37:09, Info                         bShowOnlyInESDInstall:0
+2021-10-14 14:37:09, Info                         bSilentCleanup:1
+2021-10-14 14:37:09, Info                         bCleanupTemporaryInstallationFiles:0
+2021-10-14 14:37:09, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+2021-10-14 14:37:09, Info                         IsProcessElevated - bResult: 1
+
+2021-10-18 12:35:07, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-10-18 12:35:07, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Upgrade Discarded Files
+2021-10-18 12:35:07, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-18 12:35:07, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2021-10-18 12:35:07, Info                         bCleanWindowsOld:0
+2021-10-18 12:35:07, Info                         bRemoveUninstall:0
+2021-10-18 12:35:07, Info                         bShowOnlyInUpgrade:0
+2021-10-18 12:35:07, Info                         bShowOnlyInESDInstall:0
+2021-10-18 12:35:07, Info                         bSilentCleanup:1
+2021-10-18 12:35:07, Info                         bCleanupTemporaryInstallationFiles:0
+2021-10-18 12:35:07, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+2021-10-18 12:35:07, Info                         IsProcessElevated - bResult: 1
+
+2021-10-19 14:13:33, Info                         Initialization status:1
+2021-10-19 14:13:33, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Temporary Setup Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-19 14:13:37, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-10-19 14:13:37, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Upgrade Discarded Files
+2021-10-19 14:13:37, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-10-19 14:13:37, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2021-10-19 14:13:37, Info                         bCleanWindowsOld:0
+2021-10-19 14:13:37, Info                         bRemoveUninstall:0
+2021-10-19 14:13:37, Info                         bShowOnlyInUpgrade:0
+2021-10-19 14:13:37, Info                         bShowOnlyInESDInstall:0
+2021-10-19 14:13:37, Info                         bSilentCleanup:1
+2021-10-19 14:13:37, Info                         bCleanupTemporaryInstallationFiles:0
+2021-10-19 14:13:37, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+2021-10-19 14:13:37, Info                         IsProcessElevated - bResult: 1
+
+2021-10-20 13:56:02, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2021-10-20 13:56:02, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-10-20 13:56:02, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-10-20 13:56:02, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-10-20 13:56:02, Info                         Initialization status:0
+2021-10-20 13:56:05, Info                  DISM   DISM OS Provider: PID=4372 TID=4372 Determined System directory to be C:\Windows\System32 - CDISMOSServiceManager::get_SystemDirectory
+2021-10-20 13:56:12, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2021-10-20 13:56:12, Info                         IsProcessElevated - bResult: 1
+2021-10-20 13:56:12, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2021-10-20 13:56:12, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-10-20 13:56:12, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-10-20 13:56:12, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+
+2021-10-21 13:12:51, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2021-10-21 13:12:51, Info                         IsProcessElevated - bResult: 1
+2021-10-21 13:12:51, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2021-10-21 13:12:51, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-10-21 13:12:51, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-10-21 13:12:51, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-10-21 13:12:51, Info                         Initialization status:0
+2021-10-21 13:12:57, Info                  DISM   DISM OS Provider: PID=9284 TID=5776 Determined System directory to be C:\Windows\System32 - CDISMOSServiceManager::get_SystemDirectory
+2021-10-21 13:13:02, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2021-10-21 13:13:02, Info                         IsProcessElevated - bResult: 1
+2021-10-21 13:13:02, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2021-10-21 13:13:02, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-10-21 13:13:02, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+
+2021-10-23 13:12:49, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2021-10-23 13:12:49, Info                         IsSetupRunning - Setup Running: 0
+2021-10-23 13:12:49, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2021-10-23 13:12:49, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2021-10-23 13:12:49, Info                         IsProcessElevated - bResult: 1
+
+
+2021-10-25 12:41:59, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+
+2021-11-01 12:44:59, Info                         IsWebSetupRunning - WebSetup Running: 0
+2021-11-01 12:44:59, Info                         IsProcessElevated - bResult: 1
+
+2021-11-04 15:39:29, Info                         pszWellKnownDirs:Windows\Panther
+2021-11-04 15:39:29, Info                         bCleanWindowsOld:0
+
+2021-11-09 11:47:17, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~WS
+
+2021-11-12 11:47:18, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-11-12 11:47:18, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2021-11-12 11:47:18, Info                         bCleanWindowsOld:0
+2021-11-12 11:47:18, Info                         bRemoveUninstall:0
+2021-11-12 11:47:18, Info                         bShowOnlyInUpgrade:0
+
+2021-11-14 13:16:06, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-11-14 13:16:06, Info                         pszWellKnownDirs:$Windows.~BT
+2021-11-14 13:16:06, Info                         bCleanWindowsOld:0
+2021-11-14 13:16:06, Info                         bRemoveUninstall:0
+
+2021-11-17 12:03:47, Info                         bRemoveUninstall:0
+2021-11-17 12:03:47, Info                         bShowOnlyInUpgrade:1
+2021-11-17 12:03:47, Info                         bShowOnlyInESDInstall:0
+
+2021-11-20 12:25:04, Info                         pszWellKnownDirs:(null)
+2021-11-20 12:25:04, Info                         bCleanWindowsOld:1
+
+2021-11-22 13:54:29, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Temporary Setup Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-11-22 13:54:29, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-11-22 13:54:29, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Upgrade Discarded Files
+
+2021-11-29 00:40:40, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows Upgrade Log Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-11-29 12:25:02, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-11-29 12:25:02, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+2021-11-29 12:25:02, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-11-29 12:25:02, Info                         pszWellKnownDirs:(null)
+2021-11-29 12:25:02, Info                         bCleanWindowsOld:1
+2021-11-29 12:25:02, Info                         bRemoveUninstall:1
+2021-11-29 12:25:02, Info                         bShowOnlyInUpgrade:0
+2021-11-29 12:25:02, Info                         bShowOnlyInESDInstall:0
+2021-11-29 12:25:02, Info                         bSilentCleanup:1
+2021-11-29 12:25:02, Info                         bCleanupTemporaryInstallationFiles:0
+
+2021-12-03 12:25:40, Info                  DISM   DISM Provider Store: PID=4372 TID=5500 Disconnecting Provider: VHDManager - CDISMProviderStore::Internal_DisconnectProvider
+2021-12-03 12:25:40, Info                  DISM   DISM Provider Store: PID=4372 TID=5500 Disconnecting Provider: GenericImagingManager - CDISMProviderStore::Internal_DisconnectProvider
+2021-12-03 12:25:40, Info                  DISM   DISM Provider Store: PID=4372 TID=5500 Releasing the local reference to DISMLogger.  Stop logging. - CDISMProviderStore::Internal_DisconnectProvider
+2021-12-03 12:25:40, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows Upgrade Log Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2021-12-04 12:06:38, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2021-12-04 12:06:38, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+
+2021-12-13 12:48:17, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2021-12-13 12:48:17, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2021-12-13 12:48:17, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2021-12-13 12:48:22, Info                  DISM   DISM Manager: PID=4372 TID=4372 Closing session event handle 0x6d0 - CDISMManager::CleanupImageSessionEntry
+
+2021-12-26 12:12:37, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2021-12-26 12:12:37, Info                         bCleanWindowsOld:0
+2021-12-26 12:12:37, Info                         bRemoveUninstall:0
+
+2022-01-09 12:10:06, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
+2022-01-09 12:10:06, Info                         IsWebSetupRunning - WebSetup Running: 0
+2022-01-09 12:10:06, Info                         IsProcessElevated - bResult: 1
+2022-01-09 12:10:06, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Windows
+2022-01-09 12:10:06, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+
+2022-01-19 17:05:32, Info                         IsProcessElevated - bResult: 1
+
+2022-01-24 13:23:51, Info                         bShowOnlyInUpgrade:1
+2022-01-24 13:23:51, Info                         bShowOnlyInESDInstall:0
+2022-01-24 13:23:51, Info                         bSilentCleanup:1
+
+
+
+2022-02-01 14:15:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2022-02-01 14:15:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-02-01 14:15:32, Info                         CSetupFilesCleanup::Initialize - No files to delete : Upgrade Discarded Files
+2022-02-01 14:15:32, Info                         Initialization status:1
+2022-02-01 14:15:32, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Upgrade Discarded Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-02-01 14:15:33, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-02-01 14:15:33, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows ESD Installation Files
+2022-02-01 14:15:33, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-02-01 14:15:33, Info                         pszWellKnownDirs:ESD\Windows;$Windows.~WS;ESD\Download
+2022-02-01 14:15:33, Info                         bCleanWindowsOld:0
+2022-02-01 14:15:33, Info                         bRemoveUninstall:0
+2022-02-01 14:15:33, Info                         bShowOnlyInUpgrade:0
+2022-02-01 14:15:33, Info                         bShowOnlyInESDInstall:1
+2022-02-01 14:15:33, Info                         bSilentCleanup:1
+2022-02-01 14:15:33, Info                         bCleanupTemporaryInstallationFiles:0
+2022-02-01 14:15:33, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
+2022-02-01 14:15:33, Info                         IsWebSetupRunning - WebSetup Running: 0
+2022-02-01 14:15:33, Info                         IsProcessElevated - bResult: 1
+
+2022-02-10 13:16:58, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-02-10 13:16:58, Info                         pszWellKnownDirs:ESD\Windows;$Windows.~WS;ESD\Download
+2022-02-10 13:16:58, Info                         bCleanWindowsOld:0
+
+2022-02-12 12:13:38, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Upgrade Discarded Files
+2022-02-12 12:13:38, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-02-12 12:13:38, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2022-02-12 12:13:38, Info                         bCleanWindowsOld:0
+2022-02-12 12:13:38, Info                         bRemoveUninstall:0
+2022-02-12 12:13:38, Info                         bShowOnlyInUpgrade:0
+2022-02-12 12:13:38, Info                         bShowOnlyInESDInstall:0
+2022-02-12 12:13:38, Info                         bSilentCleanup:1
+2022-02-12 12:13:38, Info                         bCleanupTemporaryInstallationFiles:0
+2022-02-12 12:13:38, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+
+2022-02-15 14:49:39, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows ESD Installation Files
+2022-02-15 14:49:39, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-02-15 14:49:39, Info                         pszWellKnownDirs:ESD\Windows;$Windows.~WS;ESD\Download
+2022-02-15 14:49:39, Info                         bCleanWindowsOld:0
+2022-02-15 14:49:39, Info                         bRemoveUninstall:0
+2022-02-15 14:49:39, Info                         bShowOnlyInUpgrade:0
+2022-02-15 14:49:39, Info                         bShowOnlyInESDInstall:1
+2022-02-15 14:49:39, Info                         bSilentCleanup:1
+2022-02-15 14:49:39, Info                         bCleanupTemporaryInstallationFiles:0
+2022-02-15 14:49:39, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
+2022-02-15 14:49:39, Info                         IsWebSetupRunning - WebSetup Running: 0
+2022-02-15 14:49:39, Info                         IsProcessElevated - bResult: 1
+
+2022-02-18 12:12:56, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-02-18 12:12:56, Info                         CSetupFilesCleanup::Initialize - No files to delete : Temporary Setup Files
+2022-02-18 12:12:56, Info                         Initialization status:1
+2022-02-18 12:12:56, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Temporary Setup Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-02-18 12:12:57, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-02-18 12:12:57, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Upgrade Discarded Files
+2022-02-18 12:12:57, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-02-18 12:12:57, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2022-02-18 12:12:57, Info                         bCleanWindowsOld:0
+2022-02-18 12:12:57, Info                         bRemoveUninstall:0
+2022-02-18 12:12:57, Info                         bShowOnlyInUpgrade:0
+2022-02-18 12:12:57, Info                         bShowOnlyInESDInstall:0
+2022-02-18 12:12:57, Info                         bSilentCleanup:1
+2022-02-18 12:12:57, Info                         bCleanupTemporaryInstallationFiles:0
+2022-02-18 12:12:57, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+2022-02-18 12:12:57, Info                         IsProcessElevated - bResult: 1
+2022-02-18 12:12:57, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$WINDOWS.~Q
+
+2022-02-20 12:18:15, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2022-02-20 12:18:15, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-02-20 12:18:15, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-02-20 12:18:15, Info                         CSetupFilesCleanup::Initialize - No files to delete : Windows ESD Installation Files
+2022-02-20 12:18:15, Info                         Initialization status:1
+2022-02-20 12:18:15, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows ESD Installation Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-02-20 12:18:15, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-02-20 12:18:15, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2022-02-20 12:18:15, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-02-20 12:18:15, Info                         pszWellKnownDirs:Windows\Panther
+2022-02-20 12:18:15, Info                         bCleanWindowsOld:0
+2022-02-20 12:18:15, Info                         bRemoveUninstall:0
+2022-02-20 12:18:15, Info                         bShowOnlyInUpgrade:1
+2022-02-20 12:18:15, Info                         bShowOnlyInESDInstall:0
+2022-02-20 12:18:15, Info                         bSilentCleanup:1
+2022-02-20 12:18:15, Info                         bCleanupTemporaryInstallationFiles:0
+
+2022-02-24 12:17:45, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-02-24 12:17:45, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2022-02-24 12:17:45, Info                         bCleanWindowsOld:0
+2022-02-24 12:17:45, Info                         bRemoveUninstall:0
+2022-02-24 12:17:45, Info                         bShowOnlyInUpgrade:0
+2022-02-24 12:17:45, Info                         bShowOnlyInESDInstall:0
+2022-02-24 12:17:45, Info                         bSilentCleanup:1
+2022-02-24 12:17:45, Info                         bCleanupTemporaryInstallationFiles:0
+2022-02-24 12:17:45, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+2022-02-24 12:17:45, Info                         IsProcessElevated - bResult: 1
+
+2022-02-28 12:17:58, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2022-02-28 12:17:58, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-02-28 12:17:58, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-02-28 12:17:58, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-02-28 12:18:03, Info                  DISM   DISM Manager: PID=4372 TID=4372 Closing session event handle 0x6c4 - CDISMManager::CleanupImageSessionEntry
+
+2022-03-15 13:32:56, Info                         bShowOnlyInUpgrade:0
+2022-03-15 13:32:56, Info                         bShowOnlyInESDInstall:0
+2022-03-15 13:32:56, Info                         bSilentCleanup:1
+2022-03-15 13:32:56, Info                         bCleanupTemporaryInstallationFiles:0
+2022-03-15 13:32:56, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2022-03-15 13:32:56, Info                         IsProcessElevated - bResult: 1
+2022-03-15 13:32:56, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2022-03-15 13:32:56, Info                         Onesettings: Querying Prod server
+2022-03-15 13:32:56, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2022-03-15 13:32:56, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2022-03-15 13:32:56, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+
+2022-03-18 13:32:52, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2022-03-18 13:32:52, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-03-18 13:32:52, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-03-18 13:32:52, Info                         CSetupFilesCleanup::Initialize - No files to delete : Windows ESD Installation Files
+2022-03-18 13:32:52, Info                         Initialization status:1
+2022-03-18 13:32:52, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows ESD Installation Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-03-18 13:32:52, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-03-18 13:32:52, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2022-03-18 13:32:52, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-03-18 13:32:52, Info                         pszWellKnownDirs:Windows\Panther
+2022-03-18 13:32:52, Info                         bCleanWindowsOld:0
+2022-03-18 13:32:52, Info                         bRemoveUninstall:0
+2022-03-18 13:32:52, Info                         bShowOnlyInUpgrade:1
+2022-03-18 13:32:52, Info                         bShowOnlyInESDInstall:0
+2022-03-18 13:32:52, Info                         bSilentCleanup:1
+2022-03-18 13:32:52, Info                         bCleanupTemporaryInstallationFiles:0
+2022-03-18 13:32:52, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2022-03-18 13:32:52, Info                         IsProcessElevated - bResult: 1
+2022-03-18 13:32:52, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2022-03-18 13:32:52, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-03-18 13:32:52, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+
+2022-03-22 13:33:14, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-03-22 13:33:14, Info                         Initialization status:0
+2022-03-22 13:33:18, Info                  DISM   DISM OS Provider: PID=4372 TID=4372 Determined System directory to be C:\Windows\System32 - CDISMOSServiceManager::get_SystemDirectory
+2022-03-22 13:33:24, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2022-03-22 13:33:24, Info                         IsProcessElevated - bResult: 1
+2022-03-22 13:33:24, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2022-03-22 13:33:24, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-03-22 13:33:24, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-03-22 13:33:24, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+
+2022-03-26 13:33:07, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2022-03-26 13:33:07, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2022-03-26 13:33:07, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-03-26 13:33:07, Info                         CSetupFilesCleanup::Initialize - No files to delete : Upgrade Discarded Files
+2022-03-26 13:33:07, Info                         Initialization status:1
+2022-03-26 13:33:07, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Upgrade Discarded Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-03-26 13:33:07, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-03-26 13:33:07, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows ESD Installation Files
+2022-03-26 13:33:07, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-03-26 13:33:07, Info                         pszWellKnownDirs:ESD\Windows;$Windows.~WS;ESD\Download
+2022-03-26 13:33:07, Info                         bCleanWindowsOld:0
+2022-03-26 13:33:07, Info                         bRemoveUninstall:0
+2022-03-26 13:33:07, Info                         bShowOnlyInUpgrade:0
+2022-03-26 13:33:07, Info                         bShowOnlyInESDInstall:1
+2022-03-26 13:33:07, Info                         bSilentCleanup:1
+2022-03-26 13:33:07, Info                         bCleanupTemporaryInstallationFiles:0
+2022-03-26 13:33:07, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
+2022-03-26 13:33:07, Info                         IsWebSetupRunning - WebSetup Running: 0
+2022-03-26 13:33:07, Info                         IsProcessElevated - bResult: 1
+
+2022-04-02 14:11:15, Info                         pszWellKnownDirs:Windows\Panther
+2022-04-02 14:11:15, Info                         bCleanWindowsOld:0
+2022-04-02 14:11:15, Info                         bRemoveUninstall:0
+2022-04-02 14:11:15, Info                         bShowOnlyInUpgrade:1
+2022-04-02 14:11:15, Info                         bShowOnlyInESDInstall:0
+2022-04-02 14:11:15, Info                         bSilentCleanup:1
+2022-04-02 14:11:15, Info                         bCleanupTemporaryInstallationFiles:0
+2022-04-02 14:11:15, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2022-04-02 14:11:15, Info                         IsProcessElevated - bResult: 1
+2022-04-02 14:11:15, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2022-04-02 14:11:15, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-04-02 14:11:15, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-04-02 14:11:15, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-04-02 14:11:15, Info                         Initialization status:0
+
+2022-04-07 16:03:00, Info                         pszWellKnownDirs:Windows\Panther
+2022-04-07 16:03:00, Info                         bCleanWindowsOld:0
+2022-04-07 16:03:00, Info                         bRemoveUninstall:0
+2022-04-07 16:03:00, Info                         bShowOnlyInUpgrade:1
+2022-04-07 16:03:00, Info                         bShowOnlyInESDInstall:0
+2022-04-07 16:03:00, Info                         bSilentCleanup:1
+2022-04-07 16:03:00, Info                         bCleanupTemporaryInstallationFiles:0
+2022-04-07 16:03:00, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2022-04-07 16:03:00, Info                         IsProcessElevated - bResult: 1
+2022-04-07 16:03:00, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2022-04-07 16:03:00, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-04-07 16:03:00, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-04-07 16:03:00, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-04-07 16:03:00, Info                         Initialization status:0
+2022-04-07 16:09:11, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-04-07 16:09:11, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+2022-04-07 16:09:11, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-04-07 16:09:11, Info                         pszWellKnownDirs:(null)
+2022-04-07 16:09:11, Info                         bCleanWindowsOld:1
+2022-04-07 16:09:11, Info                         bRemoveUninstall:1
+2022-04-07 16:09:11, Info                         bShowOnlyInUpgrade:0
+2022-04-07 16:09:11, Info                         bShowOnlyInESDInstall:0
+2022-04-07 16:09:11, Info                         bSilentCleanup:1
+2022-04-07 16:09:11, Info                         bCleanupTemporaryInstallationFiles:0
+2022-04-07 16:09:11, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2022-04-07 16:09:11, Info                         IsProcessElevated - bResult: 1
+2022-04-07 16:09:11, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2022-04-07 16:09:11, Info                         Onesettings: Querying Prod server
+2022-04-07 16:09:11, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2022-04-07 16:09:11, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2022-04-07 16:09:11, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-04-07 16:09:11, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2022-04-07 16:09:11, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-04-07 16:09:11, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2022-04-07 16:09:11, Info                         Initialization status:1
+2022-04-07 16:09:11, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Previous Installations, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-04-07 16:09:11, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-04-07 16:09:11, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Temporary Setup Files
+2022-04-07 16:09:11, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-04-07 16:09:11, Info                         pszWellKnownDirs:$Windows.~BT
+2022-04-07 16:09:11, Info                         bCleanWindowsOld:0
+2022-04-07 16:09:11, Info                         bRemoveUninstall:0
+2022-04-07 16:09:11, Info                         bShowOnlyInUpgrade:0
+
+2022-04-17 12:33:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-04-17 12:33:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+
+2022-04-17 12:33:34, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows Upgrade Log Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-04-18 12:32:56, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-04-18 12:32:56, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+2022-04-18 12:32:56, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-04-18 12:32:56, Info                         pszWellKnownDirs:(null)
+
+
+2022-04-30 13:56:06, Info                         bCleanWindowsOld:1
+2022-04-30 13:56:06, Info                         bRemoveUninstall:1
+2022-04-30 13:56:06, Info                         bShowOnlyInUpgrade:0
+2022-04-30 13:56:06, Info                         bShowOnlyInESDInstall:0
+2022-04-30 13:56:06, Info                         bSilentCleanup:1
+2022-04-30 13:56:06, Info                         bCleanupTemporaryInstallationFiles:0
+2022-04-30 13:56:06, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2022-04-30 13:56:06, Info                         IsProcessElevated - bResult: 1
+2022-04-30 13:56:06, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2022-04-30 13:56:06, Info                         Onesettings: Querying Prod server
+2022-04-30 13:56:06, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2022-04-30 13:56:06, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2022-04-30 13:56:06, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-04-30 13:56:06, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+
+2022-05-07 13:56:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-05-07 13:56:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-05-07 13:56:04, Info                         CSetupFilesCleanup::Initialize - No files to delete : Windows ESD Installation Files
+2022-05-07 13:56:04, Info                         Initialization status:1
+2022-05-07 13:56:04, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows ESD Installation Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-05-07 13:56:04, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-05-07 13:56:04, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2022-05-07 13:56:04, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-05-07 13:56:04, Info                         pszWellKnownDirs:Windows\Panther
+2022-05-07 13:56:04, Info                         bCleanWindowsOld:0
+2022-05-07 13:56:04, Info                         bRemoveUninstall:0
+2022-05-07 13:56:04, Info                         bShowOnlyInUpgrade:1
+2022-05-07 13:56:04, Info                         bShowOnlyInESDInstall:0
+2022-05-07 13:56:04, Info                         bSilentCleanup:1
+2022-05-07 13:56:04, Info                         bCleanupTemporaryInstallationFiles:0
+2022-05-07 13:56:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2022-05-07 13:56:04, Info                         IsProcessElevated - bResult: 1
+2022-05-07 13:56:04, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2022-05-07 13:56:04, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-05-07 13:56:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-05-07 13:56:04, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+
+2022-05-10 12:43:54, Info                         IsProcessElevated - bResult: 1
+2022-05-10 12:43:54, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2022-05-10 12:43:54, Info                         Onesettings: Querying Prod server
+2022-05-10 12:43:55, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2022-05-10 12:43:55, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2022-05-10 12:43:55, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-05-10 12:43:55, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2022-05-10 12:43:55, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-05-10 12:43:55, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2022-05-10 12:43:55, Info                         Initialization status:1
+
+2022-05-12 00:47:32, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2022-05-12 00:47:32, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-05-12 00:47:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-05-12 00:47:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-05-12 00:47:32, Info                         Initialization status:0
+2022-05-12 00:47:34, Info                  DISM   DISM OS Provider: PID=4372 TID=4372 Determined System directory to be C:\Windows\System32 - CDISMOSServiceManager::get_SystemDirectory
+2022-05-12 00:47:41, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2022-05-12 00:47:41, Info                         IsProcessElevated - bResult: 1
+2022-05-12 00:47:41, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2022-05-12 00:47:41, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-05-12 00:47:41, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+
+2022-05-17 14:26:29, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-05-17 14:26:29, Info                         CSetupFilesCleanup::Initialize - Not allowed to delete : Previous Installations
+2022-05-17 14:26:29, Info                         Initialization status:1
+2022-05-17 14:26:29, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Previous Installations, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-05-17 14:26:30, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-05-17 14:26:30, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Temporary Setup Files
+2022-05-17 14:26:30, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-05-17 14:26:30, Info                         pszWellKnownDirs:$Windows.~BT
+2022-05-17 14:26:30, Info                         bCleanWindowsOld:0
+2022-05-17 14:26:30, Info                         bRemoveUninstall:0
+2022-05-17 14:26:30, Info                         bShowOnlyInUpgrade:0
+2022-05-17 14:26:30, Info                         bShowOnlyInESDInstall:0
+2022-05-17 14:26:30, Info                         bSilentCleanup:1
+2022-05-17 14:26:30, Info                         bCleanupTemporaryInstallationFiles:1
+
+2022-06-08 14:11:50, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-06-08 14:11:50, Info                         pszWellKnownDirs:(null)
+2022-06-08 14:11:50, Info                         bCleanWindowsOld:1
+2022-06-08 14:11:50, Info                         bRemoveUninstall:1
+2022-06-08 14:11:50, Info                         bShowOnlyInUpgrade:0
+2022-06-08 14:11:50, Info                         bShowOnlyInESDInstall:0
+2022-06-08 14:11:50, Info                         bSilentCleanup:1
+2022-06-08 14:11:50, Info                         bCleanupTemporaryInstallationFiles:0
+2022-06-08 14:11:50, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2022-06-08 14:11:50, Info                         IsProcessElevated - bResult: 1
+2022-06-08 14:11:50, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2022-06-08 14:11:50, Info                         Onesettings: Querying Prod server
+2022-06-08 14:11:50, Info                         SetupClnDeleteUpgradeSnapshot Successfully read Cleanup Upgrade Snapshot from Onesetting: True
+2022-06-08 14:11:50, Info                         SetupClnDeleteUpgradeSnapshot Will cleanup Upgrade snapshot
+2022-06-08 14:11:50, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-06-08 14:11:50, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2022-06-08 14:11:50, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+
+2022-06-19 12:33:05, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+2022-06-19 12:33:05, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
+2022-06-19 12:33:05, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-06-19 12:33:05, Info                         CSetupFilesCleanup::Initialize - No files to delete : Temporary Setup Files
+2022-06-19 12:33:05, Info                         Initialization status:1
+2022-06-19 12:33:05, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Temporary Setup Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-06-19 12:33:06, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-06-19 12:33:06, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Upgrade Discarded Files
+2022-06-19 12:33:06, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+
+2022-06-28 17:39:00, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2022-06-28 17:39:00, Info                         IsProcessElevated - bResult: 1
+
+2022-07-07 14:18:25, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-07-07 14:18:25, Info                         CSetupFilesCleanup::Initialize - No files to delete : Upgrade Discarded Files
+2022-07-07 14:18:25, Info                         Initialization status:1
+2022-07-07 14:18:25, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Upgrade Discarded Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-07-07 14:18:25, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-07-07 14:18:25, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows ESD Installation Files
+2022-07-07 14:18:25, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-07-07 14:18:25, Info                         pszWellKnownDirs:ESD\Windows;$Windows.~WS;ESD\Download
+2022-07-07 14:18:25, Info                         bCleanWindowsOld:0
+2022-07-07 14:18:25, Info                         bRemoveUninstall:0
+2022-07-07 14:18:25, Info                         bShowOnlyInUpgrade:0
+2022-07-07 14:18:25, Info                         bShowOnlyInESDInstall:1
+2022-07-07 14:18:25, Info                         bSilentCleanup:1
+2022-07-07 14:18:25, Info                         bCleanupTemporaryInstallationFiles:0
+2022-07-07 14:18:25, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
+2022-07-07 14:18:25, Info                         IsWebSetupRunning - WebSetup Running: 0
+2022-07-07 14:18:25, Info                         IsProcessElevated - bResult: 1
+
+2022-07-11 14:31:49, Info                         bShowOnlyInUpgrade:0
+2022-07-11 14:31:49, Info                         bShowOnlyInESDInstall:0
+2022-07-11 14:31:49, Info                         bSilentCleanup:1
+2022-07-11 14:31:49, Info                         bCleanupTemporaryInstallationFiles:1
+2022-07-11 14:31:49, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2022-07-11 14:31:49, Info                         IsSetupRunning - Setup Running: 0
+2022-07-11 14:31:49, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2022-07-11 14:31:49, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2022-07-11 14:31:49, Info                         IsProcessElevated - bResult: 1
+2022-07-11 14:31:49, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~BT
+
+2022-07-24 12:49:14, Info                         IsWebSetupRunning - WebSetup Running: 0
+2022-07-24 12:49:14, Info                         IsProcessElevated - bResult: 1
+2022-07-24 12:49:14, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Windows
+
+2022-07-27 12:48:50, Info                         bCleanWindowsOld:0
+2022-07-27 12:48:50, Info                         bRemoveUninstall:0
+2022-07-27 12:48:50, Info                         bShowOnlyInUpgrade:1
+2022-07-27 12:48:50, Info                         bShowOnlyInESDInstall:0
+2022-07-27 12:48:50, Info                         bSilentCleanup:1
+2022-07-27 12:48:50, Info                         bCleanupTemporaryInstallationFiles:0
+2022-07-27 12:48:50, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2022-07-27 12:48:50, Info                         IsProcessElevated - bResult: 1
+2022-07-27 12:48:50, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2022-07-27 12:48:50, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-07-27 12:48:50, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-07-27 12:48:50, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-07-27 12:48:50, Info                         Initialization status:0
+
+2022-08-04 13:51:21, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows ESD Installation Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-08-04 13:51:21, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-08-04 13:51:21, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Windows Upgrade Log Files
+2022-08-04 13:51:21, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-08-04 13:51:21, Info                         pszWellKnownDirs:Windows\Panther
+2022-08-04 13:51:21, Info                         bCleanWindowsOld:0
+2022-08-04 13:51:21, Info                         bRemoveUninstall:0
+2022-08-04 13:51:21, Info                         bShowOnlyInUpgrade:1
+2022-08-04 13:51:21, Info                         bShowOnlyInESDInstall:0
+2022-08-04 13:51:21, Info                         bSilentCleanup:1
+2022-08-04 13:51:21, Info                         bCleanupTemporaryInstallationFiles:0
+2022-08-04 13:51:21, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+
+2022-08-15 12:32:38, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
+2022-08-15 12:32:38, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-08-15 12:32:38, Info                         pszWellKnownDirs:(null)
+2022-08-15 12:32:38, Info                         bCleanWindowsOld:1
+2022-08-15 12:32:38, Info                         bRemoveUninstall:1
+2022-08-15 12:32:38, Info                         bShowOnlyInUpgrade:0
+2022-08-15 12:32:38, Info                         bShowOnlyInESDInstall:0
+2022-08-15 12:32:38, Info                         bSilentCleanup:1
+2022-08-15 12:32:38, Info                         bCleanupTemporaryInstallationFiles:0
+2022-08-15 12:32:38, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
+2022-08-15 12:32:38, Info                         IsProcessElevated - bResult: 1
+2022-08-15 12:32:38, Info                         SetupClnDeleteUpgradeSnapshot COM is already initialized in apartment-threaded mode
+2022-08-15 12:32:38, Info                         Onesettings: Querying Prod server
+
+2022-08-22 12:32:55, Info                         bShowOnlyInUpgrade:0
+2022-08-22 12:32:55, Info                         bShowOnlyInESDInstall:0
+2022-08-22 12:32:55, Info                         bSilentCleanup:1
+2022-08-22 12:32:55, Info                         bCleanupTemporaryInstallationFiles:1
+2022-08-22 12:32:55, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2022-08-22 12:32:55, Info                         IsSetupRunning - Setup Running: 0
+2022-08-22 12:32:55, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2022-08-22 12:32:55, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2022-08-22 12:32:55, Info                         IsProcessElevated - bResult: 1
+
+2022-08-29 12:38:46, Info                         bShowOnlyInUpgrade:0
+2022-08-29 12:38:46, Info                         bShowOnlyInESDInstall:0
+2022-08-29 12:38:46, Info                         bSilentCleanup:1
+2022-08-29 12:38:46, Info                         bCleanupTemporaryInstallationFiles:0
+2022-08-29 12:38:46, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+2022-08-29 12:38:46, Info                         IsProcessElevated - bResult: 1
+2022-08-29 12:38:46, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$WINDOWS.~Q
+
+2022-09-07 12:32:20, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Temporary Setup Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-09-07 12:32:20, Info                         SetupClnLogInitializationInfo - Getting plugin name
+2022-09-07 12:32:20, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Upgrade Discarded Files
+2022-09-07 12:32:20, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
+2022-09-07 12:32:20, Info                         pszWellKnownDirs:$WINDOWS.~Q;$INPLACE.~TR;$Windows.~LS
+2022-09-07 12:32:20, Info                         bCleanWindowsOld:0
+2022-09-07 12:32:20, Info                         bRemoveUninstall:0
+2022-09-07 12:32:20, Info                         bShowOnlyInUpgrade:0
+2022-09-07 12:32:20, Info                         bShowOnlyInESDInstall:0
+2022-09-07 12:32:20, Info                         bSilentCleanup:1
+2022-09-07 12:32:20, Info                         bCleanupTemporaryInstallationFiles:0
+2022-09-07 12:32:20, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Upgrade Discarded Files
+
+2022-09-20 14:01:32, Info                         bRemoveUninstall:0
+2022-09-20 14:01:32, Info                         bShowOnlyInUpgrade:1
+2022-09-20 14:01:32, Info                         bShowOnlyInESDInstall:0
+2022-09-20 14:01:32, Info                         bSilentCleanup:1
+2022-09-20 14:01:32, Info                         bCleanupTemporaryInstallationFiles:0
+2022-09-20 14:01:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows Upgrade Log Files
+2022-09-20 14:01:32, Info                         IsProcessElevated - bResult: 1
+2022-09-20 14:01:32, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\Windows\Panther
+2022-09-20 14:01:32, Info                         CSetupFilesCleanup::CleanVolume - Return status: 0
+2022-09-20 14:01:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 25989
+2022-09-20 14:01:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
+2022-09-20 14:01:32, Info                         Initialization status:0
+
+2022-10-08 14:01:43, Info                  DISM   DISM Provider Store: PID=4372 TID=9396 Releasing the local reference to DISMLogger.  Stop logging. - CDISMProviderStore::Internal_DisconnectProvider
+2022-10-08 14:01:43, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows Upgrade Log Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+
+2022-10-11 14:14:01, Info                         bShowOnlyInUpgrade:0
+2022-10-11 14:14:01, Info                         bShowOnlyInESDInstall:0
+2022-10-11 14:14:01, Info                         bSilentCleanup:1
+2022-10-11 14:14:01, Info                         bCleanupTemporaryInstallationFiles:1
+2022-10-11 14:14:01, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Temporary Setup Files
+2022-10-11 14:14:01, Info                         IsSetupRunning - Setup Running: 0
+2022-10-11 14:14:01, Info                         IsSetupInProgress - SystemSetupInProgress Reg value: 0
+2022-10-11 14:14:01, Info                         IsSetupInProgress - DeploymentInProgress Key present: No
+2022-10-11 14:14:01, Info                         IsProcessElevated - bResult: 1
+
+2022-10-12 13:26:21, Info                  DISM   DISM Manager: PID=4372 TID=4372 Closing session event handle 0x8c0 - CDISMManager::CleanupImageSessionEntry
+2022-10-12 13:26:21, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Found the OSServices.  Waiting to finalize it until all other providers are unloaded. - CDISMProviderStore::Final_OnDisconnect
+2022-10-12 13:26:21, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Disconnecting Provider: FolderManager - CDISMProviderStore::Internal_DisconnectProvider
+2022-10-12 13:26:21, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Disconnecting Provider: FfuManager - CDISMProviderStore::Internal_DisconnectProvider
+2022-10-12 13:26:21, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Disconnecting Provider: WimManager - CDISMProviderStore::Internal_DisconnectProvider
+2022-10-12 13:26:21, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Disconnecting Provider: VHDManager - CDISMProviderStore::Internal_DisconnectProvider
+2022-10-12 13:26:21, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Disconnecting Provider: GenericImagingManager - CDISMProviderStore::Internal_DisconnectProvider
+2022-10-12 13:26:21, Info                  DISM   DISM Provider Store: PID=4372 TID=4372 Releasing the local reference to DISMLogger.  Stop logging. - CDISMProviderStore::Internal_DisconnectProvider
+2022-10-12 13:26:21, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows Upgrade Log Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe

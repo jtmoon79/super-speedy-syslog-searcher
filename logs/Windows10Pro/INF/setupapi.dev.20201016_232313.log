@@ -1,0 +1,50 @@
+[Device Install Log]
+     OS Version = 10.0.27515
+     Service Pack = 0.0
+     Suite = 0x0100
+     ProductType = 1
+     Architecture = amd64
+
+[BeginLog]
+
+[Boot Session: 2020/05/27 12:23:20.500]
+
+>>>  [Device Installation Restrictions Policy Check]
+>>>  Section start 2020/05/27 12:30:03.284
+<<<  Section end 2020/05/27 12:30:03.862
+<<<  [Exit status: SUCCESS]
+
+
+>>>  [Device Install (UpdateDriverForPlugAndPlayDevices) - *msloop]
+>>>  Section start 2020/05/27 12:30:05.362
+      cmd: "C:\Program Files\Npcap\NPFInstall.exe"  -il
+     ndv: INF path: C:\WINDOWS\inf\netloop.inf
+     ndv: Install flags: 0x00000001
+     ndv: {Update Device Driver - ROOT\NET\0001}
+     ndv:      Search options: 0x00000080
+     ndv:      Searching single INF 'C:\WINDOWS\inf\netloop.inf'
+     dvi:      {Build Driver List} 12:30:05.362
+     dvi:           Searching for hardware ID(s):
+     dvi:                *msloop
+     dvi:           Created Driver Node:
+     dvi:                HardwareID   - *MSLOOP
+     dvi:                InfName      - C:\WINDOWS\System32\DriverStore\FileRepository\netloop.inf_amd64_762588e32974f9e8\netloop.inf
+     dvi:                DevDesc      - Microsoft KM-TEST Loopback Adapter
+     dvi:                Section      - kmloop.ndi.NT
+     dvi:                Rank         - 0x00ff0000
+     dvi:                Signer Score - INBOX
+     dvi:                DrvDate      - 06/21/2006
+     dvi:                Version      - 10.0.27515.1
+     dvi:      {Build Driver List - exit(0x00000000)} 12:30:05.377
+     dvi:      {DIF_SELECTBESTCOMPATDRV} 12:30:05.377
+     dvi:           Default installer: Enter 12:30:05.377
+     dvi:                {Select Best Driver}
+     dvi:                     Class GUID of device changed to: {00000000-1111-2222-bfc1-012345678911}.
+     dvi:                     Selected Driver:
+     dvi:                          Description - Microsoft KM-TEST Loopback Adapter
+     dvi:                          InfFile     - c:\windows\system32\driverstore\filerepository\netloop.inf_amd64_762588e32974f9e8\netloop.inf
+     dvi:                          Section     - kmloop.ndi
+     dvi:                {Select Best Driver - exit(0x00000000)}
+     dvi:           Default installer: Exit
+     dvi:      {DIF_SELECTBESTCOMPATDRV - exit(0x00000000)} 12:30:05.393
+     ndv:      Force Installing Driver:

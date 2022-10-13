@@ -1,0 +1,49 @@
+---------------------------------------------------------------------------------------
+Microsoft Windows Malicious Software Removal Tool v5.83, (build 5.83.13532.1)
+Started On Thu Sep 10 10:08:35 2020
+
+Engine: 1.1.13532.4
+Signatures: 1.321.2265.0
+MpGear: 1.1.13532.1
+Run Mode: Scan Run From Windows Update
+
+Results Summary:
+----------------
+No infection found.
+Successfully Submitted Heartbeat Report
+Microsoft Windows Malicious Software Removal Tool Finished On Thu Sep 10 10:15:05 2020
+
+
+Return code: 0 (0x0)
+
+---------------------------------------------------------------------------------------
+Microsoft Windows Malicious Software Removal Tool v5.84, (build 5.84.13532.1)
+Started On Tue Nov 10 18:47:03 2020
+
+Engine: 1.1.13532.4
+Signatures: 1.325.1177.0
+MpGear: 1.1.13532.1
+Run Mode: Scan Run From Windows Update
+
+Results Summary:
+----------------
+No infection found.
+Successfully Submitted Heartbeat Report
+Microsoft Windows Malicious Software Removal Tool Finished On Tue Nov 10 18:54:47 2020
+
+
+Return code: 0 (0x0)
+
+---------------------------------------------------------------------------------------
+Microsoft Windows Malicious Software Removal Tool v5.85, (build 5.85.13532.1)
+Started On Wed Jan 13 00:47:49 2021
+
+Engine: 1.1.13532.5
+Signatures: 1.327.1904.0
+MpGear: 1.1.13532.1
+Run Mode: Scan Run From Windows Update
+
+Results Summary:
+----------------
+No infection found.
+Successfully Submitted Heartbeat Report
