@@ -91,7 +91,7 @@ if [[ "${#files_nodate[@]}" -gt 0 ]]; then
 fi
 for file in "${files_nodate[@]}"; do
     echo -e "\e[1m\e[31m'${file}'\e[0m" >&2
-    tail -n 10 -- "${file}"
+    tail -n 15 -- "${file}"
     echo
 done
 
