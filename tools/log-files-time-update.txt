@@ -1,6 +1,16 @@
+# file listing, used by log-files-time-update.sh
+#file/path|datetime
 ./CentOS7/yum.log|2022-01-21 13:29:39.003877800 -0800
 ./cygwin/setup.log|2022/03/23 14:38:51
 ./cygwin/setup.log.full|2022/03/23 14:38:51
+./Debian11/alternatives.log|2022-10-10 23:59:50
+./Debian11/apache2/access.log|2022/10/11 00:10:56 +0000
+./Debian11/apache2/error.log|Oct 11 00:02:36.467654 2022
+./Debian11/dpkg.log|2022-10-11 00:09:45
+./Debian11/kern.log|Oct 11 00:02:36
+./Debian11/messages|Oct 11 00:02:36
+./Debian11/unattended-upgrades/unattended-upgrades-shutdown.log|2022-10-11 00:02:37.377
+./Debian11/user.log|Oct 11 00:02:36
 ./Debian9/alternatives.log|2020-02-03 13:57:14
 ./Debian9/apport.log.1|2020-02-20 00:59:59
 ./Debian9/apt/eipp.log|2020-02-25 19:20:24-08:00
@@ -32,8 +42,6 @@
 ./FedoraRemix29/dnf.librepo.log|2019-06-16T14:09:37-00:00
 ./FedoraRemix29/dnf.log|2019-06-16T14:11:21-00:00
 ./FedoraRemix29/hawkeye.log|2021-06-16 14:10:30
-# file listing, used by log-files-time-update.sh
-#file/path|datetime
 ./MinGW64/pacman.log|2018-05-31 12:22
 ./OpenSUSE15/YaST2/y2log|2019-09-17 07:08:12
 ./OpenSUSE15/zypper.log|2019-05-23 16:53:43
@@ -154,8 +162,16 @@
 ./other/tests/test1-nl_Win.log|2022-09-02 21:45:36.0501770530
 ./other/tests/test1-no-nl.log|2022-09-02 21:45:36.0501770530
 ./other/tests/test2.log|2022-09-02 21:45:36.0501770530
+#./other/tests/test2.log.gz|
+#./other/tests/test2.tar|
+#./other/tests/test2.tar.gz|
 ./other/tests/test3-hex.log|2022-09-02 21:45:36.0501770530
 ./other/tests/test.log|2022-09-02 21:45:36.0501770530
+#./other/tests/test.log.gz|
+#./other/tests/test.log.tar|
+#./other/tests/test.log.tar.gz|
+#./other/tests/test.tar|
+#./other/tests/test.tar.gz|
 ./other/tests/zero.log|2022-09-02 21:45:36.0501770530
 ./programs/digital-ocean-cloud-init/cloud-init.log|2022-10-08 06:22:57 +0000
 ./programs/digital-ocean-cloud-init/cloud-init-output.log|2022-10-07 01:15:36 +0000
@@ -436,3 +452,28 @@
 ./Ubuntu22/ubuntu-advantage-timer.log|2022-10-05 19:56:09.566
 ./Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log|2022-10-04 06:22:35
 ./Ubuntu22/unattended-upgrades/unattended-upgrades.log|2022-10-04 06:22:28.605
+./Windows10Pro/CBS/CBS.log|2022-10-12 13:28:23
+./Windows10Pro/comsetup.log|2020/05/27 12:24:39
+./Windows10Pro/debug/mrt.log|2021/01/13 00:47:49
+./Windows10Pro/DirectX.log|2021/02/13 16:05:10
+./Windows10Pro/DISM/dism.log|2022-10-12 13:26:21
+./Windows10Pro/DtcInstall.log|2019/12/07 09:17:35
+./Windows10Pro/INF/setupapi.dev.20201016_232313.log|2020/10/16 12:30:05.393
+./Windows10Pro/INF/setupapi.dev.log| 21:28:18.168
+./Windows10Pro/INF/setupapi.offline.20191207_091437.log|2019/12/07 09:14:37.876
+./Windows10Pro/INF/setupapi.offline.log|2020/05/27 12:07:06.604
+./Windows10Pro/INF/setupapi.upgrade.log|2020/05/27 11:27:05.575
+./Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log|2020/05/27 12:25:41
+./Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log|2022/10/11 14:14:07.233
+./Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log|2022/09/15 14:13:22.947
+./Windows10Pro/Panther/NewOs/Panther/setupact.log|
+./Windows10Pro/Panther/NewOs/Panther/setuperr.log|
+./Windows10Pro/Performance/WinSAT/winsat.log|2022/09/14 12:38:50
+./Windows10Pro/PFRO.log|2022/9/14 22:00:28
+./Windows10Pro/security/logs/sceupgrade.log|May 27, 2020 12:21:10
+./Windows10Pro/SoftwareDistribution/ReportingEvents.log|2022-10-12 09:26:48.872 -0700
+./Windows10Pro/System32/LogFiles/setupcln/setupact.log|2022-10-12 13:26:21
+./Windows10Pro/System32/LogFiles/setupcln/setuperr.log|2022-10-12 13:26:20
+./Windows10Pro/System32/NetSetupMig.log|12:21:00
+./Windows10Pro/System32/wbem/WMIMigration.log|2020/05/27 12:25:43.088
+./Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log|2021/05/01 21:39:34.643
