@@ -795,16 +795,20 @@ impl LineReader {
 
         dpfo!("searching for first newline B (line terminator) …");
 
-        // found newline part A? Line begins after that newline
+        // FOUND NewLine part A? Line begins after that newline
         let mut found_nl_a = false;
-        // found newline part B? Line ends at this.
+        // FOUND NewLine part B? Line ends at this.
         let mut found_nl_b: bool = false;
+        // FileOffset NewLine A
         // `fo_nl_a` should eventually "point" to beginning of `Line` (one char after found newline A)
         let mut fo_nl_a: FileOffset = fileoffset;
+        // FileOffset NewLine B
         // `fo_nl_b` should eventually "point" to end of `Line` including the newline char.
         // if  line is terminated by end-of-file then "points" to last char of file.
         let mut fo_nl_b: FileOffset = fileoffset;
+        // BlockIndex NewLine B
         let mut bi_nl_b: BlockIndex;
+        // NewLine B EOF?
         // was newline B actually the end of file?
         let mut nl_b_eof: bool = false;
         // if at first byte of file no need to search for first newline
@@ -1188,10 +1192,14 @@ impl LineReader {
         // walk *backwards* to find line-terminating newline of the preceding line (or beginning of file)
         //
 
+        // FileOffset NewLine A SEARCH START
         let fo_nl_a_search_start: FileOffset = std::cmp::max(fileoffset, charsz_fo) - charsz_fo;
+        // BlockOFfset
         let bof: BlockOffset = self.block_offset_at_file_offset(fo_nl_a_search_start);
+        // BEGinning OFfset?
         let mut begof: bool = false; // run into beginning of file (as in first byte)?
                                      // newline A plus one (one charsz past preceding Line terminating '\n')
+        // FileOffset NewLine A1
         let mut fo_nl_a1: FileOffset = 0;
 
         if bof != bo_middle {

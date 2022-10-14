@@ -1756,11 +1756,17 @@ impl SyslineReader {
         // find line with datetime A
         //
 
+        // FileOffset ZERO has been TRIED?
         let mut fo_zero_tried: bool = false;
+        // FileOffset A
         let mut _fo_a: FileOffset = 0;
+        // FileOffset A MAXimum
         let mut fo_a_max: FileOffset = 0;
+        // FileOffset
         let mut fo1: FileOffset = fileoffset;
+        // the new Sysline instance
         let mut sysline = Sysline::new();
+
         loop {
             dpfo!("({}): self.linereader.find_line({})", fileoffset, fo1);
             let result: ResultS3LineFind = self.linereader.find_line(fo1);
@@ -1865,7 +1871,7 @@ impl SyslineReader {
                 fo1 = 0;
                 fo_zero_tried = true;
             }
-        }
+        } // loop
 
         dpfo!(
             "({}): found line with datetime A at FileOffset {}, searching for datetime B starting at fileoffset {} …",
