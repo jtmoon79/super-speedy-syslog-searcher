@@ -14,3 +14,30 @@
 11/01/19 20:03:40: infinst: Target file: 'C:\WINDOWS\system32\x3daudio1_0.dll'
         Target file is Version 9.0.500.0
         Source file is Version 9.0.500.0
+
+05/08/20 00:36:50: infinst: C:\WINDOWS\system32\d3dx10_35.dll have been installed already.
+05/08/20 00:36:51: infinst: Target file: 'C:\WINDOWS\system32\D3DCompiler_35.dll'
+        Target file is Version 9.19.949.1104
+        Source file is Version 9.19.949.1104
+
+01/16/21 20:47:52: DXSetup: start installation
+01/16/21 20:47:52: DSETUP: DirectXSetupA(): hWnd: 00270C2E dwFlags: 02110091
+
+
+
+01/16/21 20:47:52: dsetup32: === SetupForDirectX() start ===
+01/16/21 20:47:52: dsetup32: May 31 2006 06:34:05
+01/16/21 20:47:52: dsetup32: DXSetupCommand = 0.
+
+01/16/21 20:48:27: dxupdate: Installed file C:\WINDOWS\Microsoft.NET\DirectX for Managed Code\1.0.3315.0\Microsoft.DirectX.Direct3DX.dll
+01/16/21 20:48:27: dxupdate: Installed file C:\WINDOWS\Microsoft.NET\DirectX for Managed Code\1.0.3315.0\Microsoft.DirectX.Direct3DX.xml
+
+02/13/21 16:01:18: dsetup32: === SetupForDirectX() start ===
+02/13/21 16:01:18: dsetup32: DXSetupCommand = 0.
+02/13/21 16:01:18: dsetup32: Checking the version: HKLM\software\microsoft\directx\Version
+02/13/21 16:01:18: dsetup32: Version in registry = 4.19.50.3232
+02/13/21 16:01:18: dsetup32: Version in DLL      = 4.19.50.3232
+02/13/21 16:01:18: dsetup32: Unknown OS
+02/13/21 16:01:18: dsetup32: Installation ended with value -1 = Unsupported window version
+02/13/21 16:05:10: DXSetup: CommandLine: /silent
+02/13/21 16:05:10: DSETUP: DirectXSetupA(): hWnd: 00000000 dwFlags: 02110291
