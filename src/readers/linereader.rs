@@ -1104,6 +1104,8 @@ impl LineReader {
             match self.get_linep(&fo_) {
                 Some(linep_prev) => {
                     dpfo!("({}) A1b: self.get_linep({}) returned {:p}", fileoffset, fo_, linep_prev,);
+                    // TODO: Issue #61 enable expression attribute when feature is stable
+                    //       #[allow(unused_assignments)]
                     found_nl_a = true;
                     fo_nl_a = (*linep_prev).fileoffset_end();
                     assert_eq!(
@@ -1255,6 +1257,8 @@ impl LineReader {
         }
         if !found_nl_a && begof {
             found_nl_a = true;
+            // TODO: Issue #61 enable expression attribute when feature is stable
+            //       #[allow(unused_assignments)]
             fo_nl_a = 0;
             fo_nl_a1 = 0;
         }
@@ -1819,6 +1823,8 @@ impl LineReader {
             match self.get_linep(&fo_) {
                 Some(linep_prev) => {
                     dpfo!("A1b: self.get_linep({}) returned {:p}", fo_, linep_prev,);
+                    // TODO: Issue #61 enable expression attribute when feature is stable
+                    //       #[allow(unused_assignments)]
                     found_nl_a = true;
                     fo_nl_a = (*linep_prev).fileoffset_end();
                     assert_eq!(
@@ -1944,7 +1950,11 @@ impl LineReader {
 
         if !found_nl_a && begof {
             found_nl_a = true;
+            // TODO: Issue #61 enable expression attribute when feature is stable
+            //       #[allow(unused_assignments)]
             fo_nl_a = 0;
+            // TODO: Issue #61 enable expression attribute when feature is stable
+            //       #[allow(unused_assignments)]
             fo_nl_a1 = 0;
         }
 

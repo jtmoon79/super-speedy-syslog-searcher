@@ -1858,6 +1858,8 @@ impl SyslineReader {
                 {
                     // ran into prior processed sysline, something is wrong; abandon these lines
                     // and change search direction to go forwards
+                    // TODO: Issue #61 enable expression attribute when feature is stable
+                    //       #[allow(unused_assignments)]
                     fo_zero_tried = true;
                     fo1 = fo_a_max;
                     dp_err!(
