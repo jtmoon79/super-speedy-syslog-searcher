@@ -213,11 +213,11 @@ DateTimes supported language is English.
 ## About
 
 _Super Speedy Syslog Searcher_ (s4) is meant to aid Engineers in reviewing
-varying log files from any Unix system in a datetime-sorted manner.
+varying log files in a datetime-sorted manner.
 The primary use-case is to aid investigating problems wherein the time of
-occurrence is known but otherwise there is little source evidence.
+problem occurrence is known but otherwise there is little source evidence.
 
-Currently, Unix log file formats vary widely. _Most_ logs are an ad-hoc format.
+Currently, log file formats vary widely. _Most_ logs are an ad-hoc format.
 Even separate log files on the same system for the same service may have
 different message formats! 😵
 Sorting these logged messages by datetime may be prohibitively difficult.
@@ -243,6 +243,7 @@ A longer rambling pontification about this project is in
 ### Features
 
 - Prepends datetime and file paths, for easy programmatic parsing or visual traversal of varying syslog messages
+- Recognizes multi-line log messages
 - Parses formal datetime formats:
   - [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3)
   - [RFC 3164](https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2)
@@ -253,16 +254,18 @@ A longer rambling pontification about this project is in
   - Tested against "in the wild" log files from varying Linux distributions
     (see project `./logs/`)
 - Comparable speed as GNU `grep` and `sort`
-  (see project tool `./tools/compare-grep-sort.sh`)
-- Handles invalid UTF-8
+  (see project tool `./tools/compare-grep-sort.sh`; run in github Actions, Job
+  _run s4_, Step _Run script compare-grep-sort_)
+- Processes invalid UTF-8
 
 ### Limitations
 
-- Only handles UTF-8 or ASCII encoded log files. ([Issue #16](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16))
-- Cannot handle multi-file `.gz` files (only processes first stream found) ([Issue #8](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8))
-- Cannot handle multi-file `.xz` files (only processes first file found) ([Issue #11](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11))
-- Cannot process archive files or compressed files within other archive files or compressed files. ([Issue #14](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14))
+- Only processes UTF-8 or ASCII encoded log files. ([Issue #16](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16))
+- Cannot processes multi-file `.gz` files (only processes first stream found) ([Issue #8](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8))
+- Cannot processes multi-file `.xz` files (only processes first stream found) ([Issue #11](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11))
+- Cannot process archive files or compressed files within other archive files or compressed files, e.g. `logs.tgz`. ([Issue #14](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14))
   e.g. file `syslog.xz` file within file `logs.tar` will not be processed,
+- Cannot process `.zip` archives ([Issue #39](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39))
 - **ISO 8601
   - ISO 8601 forms recognized
   (using [ISO descriptive format](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates))
@@ -271,10 +274,10 @@ A longer rambling pontification about this project is in
     - `YYYYMMDDThhmmss`
     (may use date-time separator character `'T'` or character blank space `' '`)
   - ISO 8601 forms not recognized:
-    - Absent seconds.
+    - Absent seconds
     - [_Ordinal dates_](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates), i.e. "day of the year", format `YYYY-DDD`, e.g. `"2022-321"`
     - [_Week dates_](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates), i.e. "week-numbering year", format `YYYY-Www-D`, e.g. `"2022-W25-1"`
-    - times [without minutes and seconds](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Times) (i.e. only `hh`).
+    - times [without minutes and seconds](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Times) (i.e. only `hh`)
 
 ### Hacks
 
@@ -289,30 +292,31 @@ log message that has a datetime stamp on the first line of log text.
 
 Technically, "syslog" is [defined among several RFCs](https://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents)
 proscribing fields, formats, lengths, and other technical constraints.
-Here is an [RFC 5424 qualifying](https://www.rfc-editor.org/rfc/rfc5424#page-20)
-syslog message example:
-
-```text
-<165>1 2003-10-11T22:14:15.003Z mymachine.example.com eventslog - ID47 [exampleSDID@32473 iut="3" eventSource="Application" eventID="1011"][examplePriority@32473 class="high"]
-```
+In this project, the term "syslog" is interchanged with "log".
 
 ## logging chaos
 
-In practice, many logged messages on a Unix system are an ad-hoc format that
-may not follow any formal definition, they are merely "log" messages.
+In practice, most log file formats are an ad-hoc format that
+may not follow any formal definition.
 
-For example, the nginx web server
+The following real-world example log files are available in project directory
+`./logs`.
+
+For example, the open-source nginx web server
 [logs access attempts in an ad-hoc format](https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#setting-up-the-access-log) in the file `access.log`
 
 ```text
 192.168.0.115 - - [08/Oct/2022:22:26:35 +0000] "GET /DOES-NOT-EXIST HTTP/1.1" 404 0 "-" "curl/7.76.1" "-"
 ```
 
-which is an entirely dissimilar log format to neighboring file, `error.log`
+which is an entirely dissimilar log format to the neighboring nginx log file,
+`error.log`
 
 ```text
 2022/10/08 22:26:35 [error] 6068#6068: *3 open() "/usr/share/nginx/html/DOES-NOT-EXIST" failed (2: No such file or directory), client: 192.168.0.115, server: _, request: "GET /DOES-NOT-EXIST HTTP/1.0", host: "192.168.0.100"
 ```
+
+nginx is following the example set by the apache web server (a bad example!).
 
 <br/>
 
@@ -347,10 +351,34 @@ info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task starte
 
 (yes, those are tab characters)
 
+Here are is a snippet from a Windows 10 Pro host, log file
+`${env:SystemRoot}\debug\mrt.log`
+
+```text
+Microsoft Windows Malicious Software Removal Tool v5.83, (build 5.83.13532.1)
+Started On Thu Sep 10 10:08:35 2020
+```
+
+And a snippet from the same Windows host, log file
+`${env:SystemRoot}\comsetup.log`
+
+```text
+COM+[12:24:34]: ********************************************************************************
+COM+[12:24:34]: Setup started - [DATE:05,27,2020 TIME: 12:24 pm]
+COM+[12:24:34]: ********************************************************************************
+```
+
+And a snippet from the same Windows host, log file
+`${env:SystemRoot}\DirectX.log`
+
+```text
+11/01/19 20:03:40: infinst: Installed file C:\WINDOWS\system32\xactengine2_1.dll
+```
+
 <br/>
 
-To be fair to nginx, Netgear, and Synology, this chaotic logging data is
-typical of commercial and open-source software.
+To be fair to nginx, Netgear, Synology, and Microsoft, this chaotic logging
+data is typical of commercial and open-source software. But it's a mess!
 
 Hence the need for _Super Speedy Syslog Searcher_!
 
