@@ -2186,7 +2186,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      COM+[12:24:38]: ********************************************************************************
     //      COM+[12:24:38]: Setup (COMMIG) finished - [DATE:05,27,2020 TIME: 12:24 pm]
     //
-    //
     // ---------------------------------------------------------------------------------------------
     // from file `logs/Windows10Pro/System32/wbem/WMIMigration.log`
     // example with offset:
