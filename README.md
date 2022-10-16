@@ -57,42 +57,48 @@ On Windows under `C:\Windows\Logs`
 s4.exe C:\Windows\Logs
 ```
 
-Print the syslog lines after January 1, 2022 at 00:00
+Print the syslog lines after January 1, 2022 at 00:00:00
 
 ```lang-text
 s4 /var/log -a 20220101
 ```
 
-Print the syslog lines from January 1, 2022 00:00 to January 2, 2022
+Print the syslog lines from January 1, 2022 00:00:00 to January 2, 2022
 
 ```lang-text
 s4 /var/log -a 20220101 -b 20220102
 ```
 
-Print the syslog lines on January 1, 2022, from 12:00 to 16:00
+or
+
+```lang-text
+s4 /var/log -a 20220101 -b @+1d
+```
+
+Print the syslog lines on January 1, 2022, from 12:00:00 to 16:00:00
 
 ```lang-text
 s4 /var/log -a 20220101T120000 -b 20220101T160000
 ```
 
-Print only the syslog lines since yesterday (with the help of GNU `date`)
+Print only the syslog lines since yesterday at this time
 
 ```lang-text
-s4 /var/log -a $(date -d "yesterday" '+%Y-%m-%d')
+s4 /var/log -a=-1d
 ```
 
 Print only the syslog lines that occurred two days ago
 (with the help of GNU `date`)
 
 ```lang-text
-s4 /var/log -a $(date -d "2 days ago" '+%Y-%m-%d') -b $(date -d "1 days ago" '+%Y-%m-%d')
+s4 /var/log -a $(date -d "2 days ago" '+%Y%m%d') -b @+1d
 ```
 
 Print only the syslog lines that occurred two days ago during the noon hour
 (with the help of GNU `date`)
 
 ```lang-text
-s4 /var/log -a $(date -d "2 days ago 12:00" '+%Y-%m-%dT%H:%M:%S') -b $(date -d "2 days ago 13:00" '+%Y-%m-%dT%H:%M:%S')
+s4 /var/log -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S') -b @+1h
 ```
 
 Print only the syslog lines that occurred two days ago during the noon hour in
@@ -100,14 +106,14 @@ Bengaluru, India (timezone offset +05:30) and prepended with equivalent UTC
 datetime (with the help of GNU `date`)
 
 ```lang-text
-s4 /var/log -u -a "$(date -d "2 days ago 12:00" '+%Y-%m-%dT%H:%M:%S') +05:30" -b "$(date -d "2 days ago 13:00" '+%Y-%m-%dT%H:%M:%S') +05:30"
+s4 /var/log -u -a $(date -d "2 days ago 00" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ```
 
 ### `--help`
 
 ```lang-text
-Super Speedy Syslog Searcher will search syslog files and sort entries by datetime.
-DateTime filters may be passed to narrow the search. It aims to be very fast.
+Super Speedy Syslog Searcher will search syslog files and sort entries by datetime. DateTime filters
+may be passed to narrow the search. It aims to be very fast.
 
 USAGE:
     s4 [OPTIONS] <PATHS>...
@@ -196,17 +202,38 @@ DateTime Filter strftime specifier patterns may be:
     "%Y%m%d %:z"
     "%Y%m%d %#z"
     "%Y%m%d %Z"
-    "+%s"
+    "+%s",
+    "+DwDdDhDmDs" or "-DwDdDhDmDs",
+    @+DwDdDhDmDs" or "@-DwDdDhDmDs",
 
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
-Without a timezone offset ("%z" or "%Z"), the Datetime Filter is presumed to be the local system
-timezone.
+
+Custom pattern "+DwDdDhDmDs" and "-DwDdDhDmDs" is relative offset from now
+(program start time) where "D" is a decimal number.
+Each lowercase identifier is an offset duration:
+"w" is weeks, "d" is days, "h" is hours, "m" is minutes, "s" is seconds.
+Value "-1w22h" would be one week and twenty-two hours in the past.
+Value "+30s" would be thirty seconds in the future.
+
+Custom pattern "@+DwDdDhDmDs" and "@-DwDdDhDmDs" is relative offset from the
+other datetime.
+Arguments "-a 20220102 -b @+1d" are equivalent to "-a 20220102 -b 20220103".
+Arguments "-a @-6h -b 20220101T120000" are equivalent to
+"-a 20220101T060000 -b 20220101T120000".
+
+Without a timezone offset ("%z" or "%Z"), the Datetime Filter is presumed to
+be the local system timezone.
+
 Ambiguous user-passed named timezones will be rejected, e.g. "SST".
+
+Resolved values of "--dt-after" and "--dt-before" can be reviewed in
+the "--summary" output.
 
 DateTime strftime specifier patterns are described at
 https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
+
 DateTimes supported language is English.
 ```
 

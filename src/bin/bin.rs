@@ -44,7 +44,7 @@ use std::str;
 use std::thread;
 
 extern crate chrono;
-use chrono::{FixedOffset, Local, TimeZone};
+use chrono::{DateTime, Duration, FixedOffset, Local, TimeZone, Datelike, Timelike};
 
 extern crate clap;
 use clap::{ArgEnum, Parser};
@@ -54,8 +54,14 @@ use const_format::concatcp;
 
 extern crate crossbeam_channel;
 
+extern crate lazy_static;
+use lazy_static::lazy_static;
+
 extern crate mime_guess;
 use mime_guess::MimeGuess;
+
+extern crate regex;
+use regex::Regex;
 
 extern crate si_trace_print;
 use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, stack::stack_offset_set};
@@ -68,8 +74,8 @@ extern crate s4lib;
 use s4lib::common::{Count, FPath, FPaths, FileOffset, FileType, NLu8a};
 
 use s4lib::data::datetime::{
-    datetime_parse_from_str, datetime_parse_from_str_w_tz, DateTimeLOpt, DateTimeParseInstr, DateTimePattern_str, DATETIME_PARSE_DATAS, MAP_TZZ_TO_TZz,
-    Utc,
+    datetime_parse_from_str, datetime_parse_from_str_w_tz, DateTimeLOpt,
+    DateTimeParseInstr, DateTimePattern_str, DATETIME_PARSE_DATAS, MAP_TZZ_TO_TZz, Utc,
 };
 
 #[allow(unused_imports)]
@@ -105,6 +111,14 @@ use s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProce
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // command-line parsing
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+lazy_static! {
+    /// for user-passed strings of a duration that will be offset from the
+    /// current datetime.
+    static ref UTC_NOW: DateTime<Utc> = {
+        Utc::now()
+    };
+}
 
 /// CLI enum that maps to [`termcolor::ColorChoice`].
 ///
@@ -203,6 +217,56 @@ const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] =
     &CLI_DT_FILTER_PATTERN28,
 ];
 
+const CGN_DUR_OFFSET_TYPE: &str = "offset_type";
+const CGN_DUR_OFFSET_ADDSUB: &str = "offset_addsub";
+const CGN_DUR_OFFSET_SECONDS: &str = "seconds";
+const CGN_DUR_OFFSET_MINUTES: &str = "minutes";
+const CGN_DUR_OFFSET_HOURS: &str = "hours";
+const CGN_DUR_OFFSET_DAYS: &str = "days";
+const CGN_DUR_OFFSET_WEEKS: &str = "weeks";
+
+const CGP_DUR_OFFSET_TYPE: &str = concatcp!("(?P<", CGN_DUR_OFFSET_TYPE, r">[@]?)");
+const CGP_DUR_OFFSET_ADDSUB: &str = concatcp!("(?P<", CGN_DUR_OFFSET_ADDSUB, r">[+\-])");
+const CGP_DUR_OFFSET_SECONDS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_SECONDS, r">[\d]+s)");
+const CGP_DUR_OFFSET_MINUTES: &str = concatcp!("(?P<", CGN_DUR_OFFSET_MINUTES, r">[\d]+m)");
+const CGP_DUR_OFFSET_HOURS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_HOURS, r">[\d]+h)");
+const CGP_DUR_OFFSET_DAYS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_DAYS, r">[\d]+d)");
+const CGP_DUR_OFFSET_WEEKS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_WEEKS, r">[\d]+w)");
+
+lazy_static! {
+    /// user-passed strings of a duration that is a relative offset.
+    static ref REGEX_DUR_OFFSET: Regex = {
+        Regex::new(
+            concatcp!(
+                CGP_DUR_OFFSET_TYPE,
+                CGP_DUR_OFFSET_ADDSUB, "(",
+                CGP_DUR_OFFSET_SECONDS, "|",
+                CGP_DUR_OFFSET_MINUTES, "|",
+                CGP_DUR_OFFSET_HOURS, "|",
+                CGP_DUR_OFFSET_DAYS, "|",
+                CGP_DUR_OFFSET_WEEKS,
+                ")+"
+            )
+        ).unwrap()
+    };
+}
+
+/// Duration offset type; for CLI options `-a` and `-b` relative offset value.
+/// Either relative offset from now (program run-time) or relative offset
+/// from the other CLI option.
+#[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
+enum DUR_OFFSET_TYPE {
+    Now,
+    Other,
+}
+
+/// Duration offset is added or subtracted from a `DateTime`?
+#[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
+enum DUR_OFFSET_ADDSUB {
+    Add = 1,
+    Sub = -1
+}
+
 /// CLI time to append in `fn process_dt` when `has_time` is `false`.
 const CLI_DT_FILTER_APPEND_TIME_VALUE: &str = " T000000";
 
@@ -300,16 +364,39 @@ DateTime Filter strftime specifier patterns may be:
     "\"
     \"",
     CLI_DT_FILTER_PATTERN28.0,
-    "\"
+    "\",
+    \"+DwDdDhDmDs\" or \"-DwDdDhDmDs\",
+    ",
+    "@+DwDdDhDmDs\" or \"@-DwDdDhDmDs\",
 
 Pattern \"+%s\" is Unix epoch timestamp in seconds with a preceding \"+\".
-Without a timezone offset (\"%z\" or \"%Z\"), the Datetime Filter is presumed to be the local system
-timezone.
+
+Custom pattern \"+DwDdDhDmDs\" and \"-DwDdDhDmDs\" is relative offset from now
+(program start time) where \"D\" is a decimal number.
+Each lowercase identifier is an offset duration:
+\"w\" is weeks, \"d\" is days, \"h\" is hours, \"m\" is minutes, \"s\" is seconds.
+Value \"-1w22h\" would be one week and twenty-two hours in the past.
+Value \"+30s\" would be thirty seconds in the future.
+
+Custom pattern \"@+DwDdDhDmDs\" and \"@-DwDdDhDmDs\" is relative offset from the
+other datetime.
+Arguments \"-a 20220102 -b @+1d\" are equivalent to \"-a 20220102 -b 20220103\".
+Arguments \"-a @-6h -b 20220101T120000\" are equivalent to
+\"-a 20220101T060000 -b 20220101T120000\".
+
+Without a timezone offset (\"%z\" or \"%Z\"), the Datetime Filter is presumed to
+be the local system timezone.
+
 Ambiguous user-passed named timezones will be rejected, e.g. \"SST\".
 
-DateTime strftime specifier patterns are described at https://docs.rs/chrono/latest/chrono/format/strftime/
+Resolved values of \"--dt-after\" and \"--dt-before\" can be reviewed in
+the \"--summary\" output.
+
+DateTime strftime specifier patterns are described at
+https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
+
 DateTimes supported language is English."
 );
 
@@ -556,52 +643,275 @@ fn cli_validate_prepend_dt_format(prepend_dt_format: &str) -> std::result::Resul
     Ok(())
 }
 
+// maps named capture group matches of `CGP_DUR_OFFSET_TYPE` to
+// `DUR_OFFSET_TYPE`
+// helper to `string_wdhms_to_duration`
+fn offset_match_to_offset_duration_type(offset_str: &str) -> DUR_OFFSET_TYPE {
+    match offset_str.chars().next() {
+        Some('@') => {
+            DUR_OFFSET_TYPE::Other
+        }
+        _ => {
+            DUR_OFFSET_TYPE::Now
+        }
+    }
+}
+
+// maps named capture group matches of `CGP_DUR_OFFSET_ADDSUB` to
+// `DUR_OFFSET_ADDSUB`
+// helper to `string_wdhms_to_duration`
+fn offset_match_to_offset_addsub(offset_str: &str) -> DUR_OFFSET_ADDSUB {
+    match offset_str.chars().next() {
+        Some('+') => {
+            DUR_OFFSET_ADDSUB::Add
+        }
+        Some('-') => {
+            DUR_OFFSET_ADDSUB::Sub
+        }
+        _ => {
+            panic!("Bad match offset_str {:?}, cannot determine DUR_OFFSET_ADDSUB", offset_str);
+        }
+    }
+}
+
+
+// regular expression processing of a user-passed duration string like `"-4m2s"`
+// becomes duration of 4 minutes + 2 seconds
+// helper function to `process_dt`
+fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)> {
+    dpfn!("({:?})", val);
+
+    let mut duration_offset_type: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Now;
+    let mut duration_addsub: DUR_OFFSET_ADDSUB = DUR_OFFSET_ADDSUB::Add;
+    let mut seconds: i64 = 0;
+    let mut minutes: i64 = 0;
+    let mut hours: i64 = 0;
+    let mut days: i64 = 0;
+    let mut weeks: i64 = 0;
+
+    let captures = match REGEX_DUR_OFFSET.captures(val.as_str()) {
+        Some(caps) => caps,
+        None => {
+            dpfx!("REGEX_DUR_OFFSET.captures(…) None");
+            return None;
+        }
+    };
+
+    match captures.name(CGN_DUR_OFFSET_TYPE) {
+        Some(match_) => {
+            dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_TYPE, match_.as_str());
+            duration_offset_type = offset_match_to_offset_duration_type(match_.as_str());
+        }
+        None => {}
+    }
+
+    match captures.name(CGN_DUR_OFFSET_ADDSUB) {
+        Some(match_) => {
+            dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_ADDSUB, match_.as_str());
+            duration_addsub = offset_match_to_offset_addsub(match_.as_str());
+        }
+        None => {}
+    }
+
+    let addsub: i64 = duration_addsub as i64;
+
+    match captures.name(CGN_DUR_OFFSET_SECONDS) {
+        Some(match_) => {
+            dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_SECONDS, match_.as_str());
+            let s_count = match_.as_str().replace("s", "");
+            match i64::from_str_radix(s_count.as_str(), 10) {
+                Ok(val) => {
+                    seconds = val * addsub;
+                }
+                Err(err) => {
+                    eprintln!("ERROR: Unable to parse seconds from {:?} {}", match_.as_str(), err);
+                    std::process::exit(1);
+                }
+            }
+        }
+        None => {}
+    }
+    match captures.name(CGN_DUR_OFFSET_MINUTES) {
+        Some(match_) => {
+            dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_MINUTES, match_.as_str());
+            let s_count = match_.as_str().replace("m", "");
+            match i64::from_str_radix(s_count.as_str(), 10) {
+                Ok(val) => {
+                    minutes = val * addsub;
+                }
+                Err(err) => {
+                    eprintln!("ERROR: Unable to parse minutes from {:?} {}", match_.as_str(), err);
+                    std::process::exit(1);
+                }
+            }
+        }
+        None => {}
+    }
+    match captures.name(CGN_DUR_OFFSET_HOURS) {
+        Some(match_) => {
+            dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_HOURS, match_.as_str());
+            let s_count = match_.as_str().replace("h", "");
+            match i64::from_str_radix(s_count.as_str(), 10) {
+                Ok(val) => {
+                    hours = val * addsub;
+                }
+                Err(err) => {
+                    eprintln!("ERROR: Unable to parse hours from {:?} {}", match_.as_str(), err);
+                    std::process::exit(1);
+                }
+            }
+        }
+        None => {}
+    }
+    match captures.name(CGN_DUR_OFFSET_DAYS) {
+        Some(match_) => {
+            dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_DAYS, match_.as_str());
+            let s_count = match_.as_str().replace("d", "");
+            match i64::from_str_radix(s_count.as_str(), 10) {
+                Ok(val) => {
+                    days = val * addsub;
+                }
+                Err(err) => {
+                    eprintln!("ERROR: Unable to parse days from {:?} {}", match_.as_str(), err);
+                    std::process::exit(1);
+                }
+            }
+        }
+        None => {}
+    }
+    match captures.name(CGN_DUR_OFFSET_WEEKS) {
+        Some(match_) => {
+            dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_WEEKS, match_.as_str());
+            let s_count = match_.as_str().replace("w", "");
+            match i64::from_str_radix(s_count.as_str(), 10) {
+                Ok(val) => {
+                    weeks = val * addsub;
+                }
+                Err(err) => {
+                    eprintln!("ERROR: Unable to parse weeks from {:?} {}", match_.as_str(), err);
+                    std::process::exit(1);
+                }
+            }
+        }
+        None => {}
+    }
+
+    let duration = Duration::seconds(seconds)
+        + Duration::minutes(minutes)
+        + Duration::hours(hours)
+        + Duration::days(days)
+        + Duration::weeks(weeks);
+    dpfx!("return {:?}, {:?}", duration, duration_offset_type);
+
+    Some((duration, duration_offset_type))
+}
+
+// Process duration string like `"-4m2s"` as relative offset of now,
+// or relative offset of other user-passed datetime argument (`dt_other`).
+// `val="-1d"` is one day ago.
+// `val="+1m"` is one day added to the `dt_other`.
+// helper function to function `process_dt`.
+fn string_to_rel_offset_datetime(val: &String, tz_offset: &FixedOffset, dt_other_opt: &DateTimeLOpt, now_utc: &DateTime<Utc>) -> DateTimeLOpt {
+    let (duration, duration_offset_type) = match string_wdhms_to_duration(val) {
+        Some((dur, dur_type)) => (dur, dur_type),
+        None => {
+            return None;
+        }
+    };
+    match duration_offset_type {
+        DUR_OFFSET_TYPE::Now => {
+            // drop fractional seconds
+            let now_utc_ = Utc
+                .ymd(now_utc.year(), now_utc.month(), now_utc.day())
+                .and_hms(now_utc.hour(), now_utc.minute(), now_utc.second());
+            // convert `Utc` to `DateTimeL`
+            let now =
+                tz_offset.from_utc_datetime(&now_utc_.naive_utc());
+            dpfo!("now     {:?}", now);
+            let now_off = now.checked_add_signed(duration);
+            dpfo!("now_sub {:?}", now_off.unwrap());
+
+            now_off
+        }
+        DUR_OFFSET_TYPE::Other => {
+            match dt_other_opt {
+                Some(dt_other) => {
+                    dpfo!("other     {:?}", dt_other);
+                    let other_off = dt_other.checked_add_signed(duration);
+                    dpfo!("other_off {:?}", other_off.unwrap());
+
+                    other_off
+                }
+                None => {
+                    eprintln!("ERROR: passed relative offset to other datetime {:?}, but other datetime was not set", val);
+                    std::process::exit(1);
+                }
+            }
+        }
+    }
+}
+
 /// Transform a user-passed datetime `String` into a [`DateTimeL`].
 ///
 /// Helper function to function `cli_process_args`.
 ///
 /// [`DateTimeL`]: s4lib::data::datetime::DateTimeL
 fn process_dt(
-    dts: Option<String>,
+    dts_opt: Option<String>,
     tz_offset: &FixedOffset,
+    dt_other: &DateTimeLOpt,
+    now_utc: &DateTime<Utc>,
 ) -> DateTimeLOpt {
+    dpfn!("({:?}, {:?}, {:?}, {:?})", dts_opt, tz_offset, dt_other, now_utc);
     // parse datetime filters
-    match dts {
-        Some(dts) => {
-            let mut dto: DateTimeLOpt = None;
-            // try to match user-passed string to chrono strftime format strings
-            for (pattern_, _has_year, has_tz, has_time) in CLI_FILTER_PATTERNS.iter() {
-                let mut pattern: String = String::from(*pattern_);
-                let mut dts_: String = dts.clone();
-                // if !has_time then modify the value and pattern
-                // e.g. `"20220101"` becomes `"20220101 T000000"`
-                //      `"%Y%d%m"` becomes `"%Y%d%m T%H%M%S"`
-                if !has_time {
-                    dts_.push_str(CLI_DT_FILTER_APPEND_TIME_VALUE);
-                    pattern.push_str(CLI_DT_FILTER_APPEND_TIME_PATTERN);
-                    dpfo!(
-                        "appended {:?}, {:?}",
-                        CLI_DT_FILTER_APPEND_TIME_VALUE,
-                        CLI_DT_FILTER_APPEND_TIME_PATTERN
-                    );
-                }
-                dpfo!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", dts_, pattern, has_tz, tz_offset);
-                if let Some(val) =
-                    datetime_parse_from_str(dts_.as_str(), pattern.as_str(), *has_tz, tz_offset)
-                {
-                    dto = Some(val);
-                    break;
-                };
-            }
-            if dto.is_none() {
-                eprintln!("ERROR: Unable to parse a datetime from {:?}", dts);
-                std::process::exit(1);
-            }
-
-            dto
+    let dts = match dts_opt {
+        Some(dts) => dts,
+        None => {
+            return None;
         }
-        None => None,
+    };
+    let dto: DateTimeLOpt;
+    // try to match user-passed string to chrono strftime format strings
+    for (pattern_, _has_year, has_tz, has_time) in CLI_FILTER_PATTERNS.iter() {
+        let mut pattern: String = String::from(*pattern_);
+        let mut dts_: String = dts.clone();
+        // if !has_time then modify the value and pattern
+        // e.g. `"20220101"` becomes `"20220101 T000000"`
+        //      `"%Y%d%m"` becomes `"%Y%d%m T%H%M%S"`
+        if !has_time {
+            dts_.push_str(CLI_DT_FILTER_APPEND_TIME_VALUE);
+            pattern.push_str(CLI_DT_FILTER_APPEND_TIME_PATTERN);
+            dpfo!(
+                "appended {:?}, {:?}",
+                CLI_DT_FILTER_APPEND_TIME_VALUE,
+                CLI_DT_FILTER_APPEND_TIME_PATTERN
+            );
+        }
+        dpfo!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", dts_, pattern, has_tz, tz_offset);
+        if let Some(val) =
+            datetime_parse_from_str(dts_.as_str(), pattern.as_str(), *has_tz, tz_offset)
+        {
+            dto = Some(val);
+            dpfx!("return {:?}", dto);
+            return dto;
+        };
+    } // end for … in CLI_FILTER_PATTERNS
+    // could not match specific datetime pattern
+    // try relative offset pattern matching, e.g. `"-30m5s"`, `"+2d"`
+    dto = match string_to_rel_offset_datetime(&dts, tz_offset, dt_other, now_utc) {
+        Some(dto) => {
+            Some(dto)
+        }
+        None => None
+    };
+    // user-passed string was not parseable
+    if dto.is_none() {
+        eprintln!("ERROR: Unable to parse a datetime from {:?}", dts);
+        std::process::exit(1);
     }
+    dpfx!("return {:?}", dto);
+
+    dto
 }
 
 /// Process user-passed CLI argument strings into expected types.
@@ -642,10 +952,37 @@ fn cli_process_args(
     };
     dpfo!("tz_offset {:?}", tz_offset);
 
-    let filter_dt_after: DateTimeLOpt = process_dt(args.dt_after, &tz_offset);
-    dpfo!("filter_dt_after {:?}", filter_dt_after);
-    let filter_dt_before: DateTimeLOpt = process_dt(args.dt_before, &tz_offset);
-    dpfo!("filter_dt_before {:?}", filter_dt_before);
+    let filter_dt_after: DateTimeLOpt;
+    let filter_dt_before: DateTimeLOpt;
+    let empty_str: String = String::from("");
+    let args_dt_after_s: &String = args.dt_after.as_ref().unwrap_or(&empty_str);
+    let args_dt_before_s: &String = args.dt_before.as_ref().unwrap_or(&empty_str);
+
+    // peek at `-a` and `-b` values:
+    // if both are relative to the other then print error message and exit
+    // if `-a` is relative to `-b` then process `-b` first
+    // else process `-a` then `-b`
+    match (string_wdhms_to_duration(args_dt_after_s), string_wdhms_to_duration(args_dt_before_s)) {
+        (Some((_, DUR_OFFSET_TYPE::Other)), Some((_, DUR_OFFSET_TYPE::Other))) => {
+            eprintln!("ERROR: cannot pass both --dt-after and --dt-before as relative to the other");
+            std::process::exit(1);
+        }
+        (Some((_, DUR_OFFSET_TYPE::Other)), _) => {
+            // special-case: process `-b` value then process `-a` value
+            // e.g. `-a "@+1d" -b "20010203"`
+            filter_dt_before = process_dt(args.dt_before, &tz_offset, &None, &UTC_NOW);
+            dpfo!("filter_dt_before {:?}", filter_dt_before);
+            filter_dt_after = process_dt(args.dt_after, &tz_offset, &filter_dt_before, &UTC_NOW);
+            dpfo!("filter_dt_after {:?}", filter_dt_after);
+        }
+        _ => {
+            // normal case: process `-a` value then process `-b` value
+            filter_dt_after = process_dt(args.dt_after, &tz_offset, &None, &UTC_NOW);
+            dpfo!("filter_dt_after {:?}", filter_dt_after);
+            filter_dt_before = process_dt(args.dt_before, &tz_offset, &filter_dt_after, &UTC_NOW);
+            dpfo!("filter_dt_before {:?}", filter_dt_before);
+        }
+    }
 
     #[allow(clippy::single_match)]
     match (filter_dt_after, filter_dt_before) {
@@ -2437,8 +2774,18 @@ fn print_files_processpathresult(
 mod tests {
     extern crate test_case;
     use test_case::test_case;
+    use s4lib::data::datetime::DateTime;
+
     use super::{
-        BlockSz, CLI_OPT_PREPEND_FMT, cli_process_tz_offset, cli_validate_blocksz, cli_validate_prepend_dt_format, cli_process_blocksz, DateTimeLOpt, FixedOffset, process_dt, TimeZone,
+        DUR_OFFSET_TYPE,
+        Duration,
+        string_wdhms_to_duration,
+        FixedOffset,
+        TimeZone,
+        UTC_NOW,
+    };
+    use super::{
+        BlockSz, CLI_OPT_PREPEND_FMT, cli_process_tz_offset, cli_validate_blocksz, cli_validate_prepend_dt_format, cli_process_blocksz, DateTimeLOpt, process_dt,
     };
 
     #[test_case("500", true)]
@@ -2522,7 +2869,74 @@ mod tests {
     )]
     fn test_process_dt(dts: Option<String>, tz_offset: FixedOffset, expect: DateTimeLOpt)
     {
-        assert_eq!(process_dt(dts, &tz_offset), expect);
+        assert_eq!(process_dt(dts, &tz_offset, &None, &UTC_NOW), expect);
     }
 
+    #[test_case(
+        Some(String::from("@+1s")),
+        FixedOffset::east(0),
+        FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 5),
+        Some(FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 6)); "2000-01-02T03:04:05 add 1s"
+    )]
+    #[test_case(
+        Some(String::from("@-1s")),
+        FixedOffset::east(0),
+        FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 5),
+        Some(FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 4)); "2000-01-02T03:04:04 add 1s"
+    )]
+    #[test_case(
+        Some(String::from("@+4h1d")),
+        FixedOffset::east(0),
+        FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 5),
+        Some(FixedOffset::east(0).ymd(2000, 1, 3).and_hms(7, 4, 5)); "2000-01-02T03:04:05 sub 4h1d"
+    )]
+    #[test_case(
+        Some(String::from("@+4h1d")),
+        FixedOffset::east(-3630),
+        FixedOffset::east(-3630).ymd(2000, 1, 2).and_hms(3, 4, 5),
+        Some(FixedOffset::east(-3630).ymd(2000, 1, 3).and_hms(7, 4, 5)); "2000-01-02T03:04:05 sub 4h1d offset -3600"
+    )]
+    fn test_process_dt_other(dts: Option<String>, tz_offset: FixedOffset, dt_other: DateTime<FixedOffset>, expect: DateTimeLOpt)
+    {
+        assert_eq!(process_dt(dts, &tz_offset, &Some(dt_other), &UTC_NOW), expect);
+    }
+
+    const NOW: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Now;
+    const OTHER: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Other;
+
+    #[test_case(String::from(""), None)]
+    #[test_case(String::from("1s"), None; "1s")]
+    #[test_case(String::from("@1s"), None; "at_1s")]
+    #[test_case(String::from("-0s"), Some((Duration::seconds(0), NOW)))]
+    #[test_case(String::from("@+0s"), Some((Duration::seconds(0), OTHER)))]
+    #[test_case(String::from("-1s"), Some((Duration::seconds(-1), NOW)); "minus_1s")]
+    #[test_case(String::from("+1s"), Some((Duration::seconds(1), NOW)); "plus_1s")]
+    #[test_case(String::from("@-1s"), Some((Duration::seconds(-1), OTHER)); "at_minus_1s")]
+    #[test_case(String::from("@+1s"), Some((Duration::seconds(1), OTHER)); "at_plus_1s")]
+    #[test_case(String::from("@+9876s"), Some((Duration::seconds(9876), OTHER)); "other_plus_9876")]
+    #[test_case(String::from("@-9876s"), Some((Duration::seconds(-9876), OTHER)); "other_minus_9876")]
+    #[test_case(String::from("-9876s"), Some((Duration::seconds(-9876), NOW)); "now_minus_9876")]
+    #[test_case(String::from("-3h"), Some((Duration::hours(-3), NOW)))]
+    #[test_case(String::from("-4d"), Some((Duration::days(-4), NOW)))]
+    #[test_case(String::from("-5w"), Some((Duration::weeks(-5), NOW)))]
+    #[test_case(String::from("@+5w"), Some((Duration::weeks(5), OTHER)))]
+    #[test_case(String::from("-2m1s"), Some((Duration::seconds(-1) + Duration::minutes(-2), NOW)); "minus_2m1s")]
+    #[test_case(String::from("-2d1h"), Some((Duration::hours(-1) + Duration::days(-2), NOW)); "minus_2d1h")]
+    #[test_case(String::from("+2d1h"), Some((Duration::hours(1) + Duration::days(2), NOW)); "plus_2d1h")]
+    #[test_case(String::from("@+2d1h"), Some((Duration::hours(1) + Duration::days(2), OTHER)); "at_plus_2d1h")]
+    // "reverse" order should not matter
+    #[test_case(String::from("-1h2d"), Some((Duration::hours(-1) + Duration::days(-2), NOW)); "minus_1h2d")]
+    #[test_case(String::from("-4w3d2m1s"), Some((Duration::seconds(-1) + Duration::minutes(-2) + Duration::days(-3) + Duration::weeks(-4), NOW)))]
+    // "mixed" order should not matter
+    #[test_case(String::from("-3d4w1s2m"), Some((Duration::seconds(-1) + Duration::minutes(-2) + Duration::days(-3) + Duration::weeks(-4), NOW)))]
+    // repeat values; only last is used
+    #[test_case(String::from("-6w5w4w"), Some((Duration::weeks(-4), NOW)))]
+    // repeat values; only last is used
+    #[test_case(String::from("-5w4w3d2m1s"), Some((Duration::seconds(-1) + Duration::minutes(-2) + Duration::days(-3) + Duration::weeks(-4), NOW)))]
+    // repeat values; only last is used
+    #[test_case(String::from("-6w5w4w3d2m1s"), Some((Duration::seconds(-1) + Duration::minutes(-2) + Duration::days(-3) + Duration::weeks(-4), NOW)))]
+    fn test_string_wdhms_to_duration(input: String, expect: Option<(Duration, DUR_OFFSET_TYPE)>) {
+        let actual = string_wdhms_to_duration(&input);
+        assert_eq!(actual, expect);
+    }
 }
