@@ -2337,7 +2337,24 @@ fn processing_loop(
             paths_printed_syslines.len(),
         );
         eprintln!("{:?}", summaryprinted);
-        eprintln!("Datetime Filters: -a {:?} -b {:?}", filter_dt_after_opt, filter_dt_before_opt);
+        // print the DateTime Filters
+        eprintln!("Datetime Filters      : -a {:?} -b {:?}", filter_dt_after_opt, filter_dt_before_opt);
+        // print the DateTime Filters again as UTC
+        let filter_dt_after_opt_utc = match filter_dt_after_opt {
+            Some(dt) => {
+                // convert `FixedOffset` to "UTC" (`FixedOffset` value `0`)
+                Some(dt.with_timezone(&FixedOffset::east(0)))
+            }
+            None => None
+        };
+        let filter_dt_before_opt_utc = match filter_dt_before_opt {
+            Some(dt) => {
+                // convert `FixedOffset` to "UTC" (`FixedOffset` value `0`)
+                Some(dt.with_timezone(&FixedOffset::east(0)))
+            }
+            None => None
+        };
+        eprintln!("Datetime Filters (UTC): -a {:?} -b {:?}", filter_dt_after_opt_utc, filter_dt_before_opt_utc);
         eprintln!("Channel Receive ok {}, err {}", chan_recv_ok, chan_recv_err);
     }
 
