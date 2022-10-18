@@ -347,15 +347,38 @@ nginx is following the example set by the apache web server (a bad example!).
 
 <br/>
 
-Commercial computer appliance vendors; NAS vendors, router
-vendors, etc., often use ad-hoc log message formatting that is even more
-unpredictable.
+Commercial software and computer hardware vendors nearly always use
+ad-hoc log message formatting that is even more unpredictable among each log
+file on the same system.
 
-For example, from the Netgear Orbi Router SOAP client per-host log file:
+<br/>
+
+Here is a log snippet from a Debian 11 host, file `/var/log/alternatives.log`:
 
 ```text
-[SOAPClient]{DEBUG}{2022-05-10 16:19:13}[soap.c:1060] generate soap request, action=ParentalControl, method=Authenticate
+update-alternatives 2022-10-10 23:59:47: run with --quiet --remove rcp /usr/bin/ssh
 ```
+
+And a snippet from the same Debian 11 host, file `/var/log/alternatives.log`:
+
+```text
+2022-10-10 15:15:02 upgrade gpgv:amd64 2.2.27-2 2.2.27-2+deb11u1
+```
+
+And a snippet from the same Debian 11 host, file `/var/log/kern.log`:
+
+```text
+Oct 10 23:07:16 debian11-b kernel: [    0.10034] Linux version 5.10.0-11-amd64
+```
+
+And a snippet from the same Debian 11 host,
+file `/var/log/unattended-upgrades/unattended-upgrades-shutdown.log`:
+
+```text
+2022-10-10 23:07:16,775 WARNING - Unable to monitor PrepareForShutdown() signal, polling instead.
+```
+
+<br/>
 
 Here is a log snippet from a Synology DiskStation package _DownloadStation_:
 
@@ -363,7 +386,8 @@ Here is a log snippet from a Synology DiskStation package _DownloadStation_:
 2019/06/23 21:13:34	(system) trigger DownloadStation 3.8.13-3519 Begin start-stop-status start
 ```
 
-And a snippet from a Synology DiskStation OS log file `sfdisk.log`:
+And a snippet from a Synology DiskStation OS log file `sfdisk.log` on the same
+host:
 
 ```text
 2019-04-06T01:07:40-07:00 dsnet sfdisk: Device /dev/sdq change partition.
@@ -404,10 +428,27 @@ And a snippet from the same Windows host, log file
 11/01/19 20:03:40: infinst: Installed file C:\WINDOWS\system32\xactengine2_1.dll
 ```
 
+And a snippet from the same Windows host, log file
+`${env:SystemRoot}/Microsoft.NET/Framework/v4.0.30319/ngen.log`
+
+```text
+09/15/2022 14:13:22.951 [515]: 1>Warning: System.IO.FileNotFoundException: Could not load file or assembly
+```
+
+And a snippet from the same Windows host, log file
+`${env:SystemRoot}/Performance/WinSAT/winsat.log`
+
+```text
+68902359 (21103) - exe\logging.cpp:0841: --- START 2022\5\17 14:26:09 PM ---
+68902359 (21103) - exe\main.cpp:4363: WinSAT registry node is created or present
+```
+
 <br/>
 
-To be fair to nginx, Netgear, Synology, and Microsoft, this chaotic logging
-data is typical of commercial and open-source software. But it's a mess!
+This chaotic logging approach is typical of commercial and open-source software.
+And it's a mess!
+Attempting to sort log messages by their natural sort mechanism,
+a datetime stamp, is difficult to impossible.
 
 Hence the need for _Super Speedy Syslog Searcher_!
 
