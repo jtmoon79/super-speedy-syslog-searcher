@@ -195,9 +195,9 @@ pub struct TarData {
     ///
     /// [`tar::Archive::entries_with_seek`]: https://docs.rs/tar/0.4.38/tar/struct.Archive.html#method.entries_with_seek
     pub entry_index: usize,
-    /// Checksum retreived from tar header.
+    /// Checksum retrieved from tar header.
     pub checksum: TarChecksum,
-    /// Modified systemtime retreived from tar header.
+    /// Modified systemtime retrieved from tar header.
     ///
     /// From <https://www.gnu.org/software/tar/manual/html_node/Standard.html>
     ///
@@ -664,8 +664,8 @@ impl BlockReader {
                 //
                 // Get the .xz file size from XZ header
                 //
-                // "bare-bones" implentation of reading xz compressed file
-                // other availale crates for reading `.xz` files did not meet
+                // "bare-bones" implementation of reading xz compressed file
+                // other available crates for reading `.xz` files did not meet
                 // the needs of this program.
                 //
 
@@ -1179,7 +1179,7 @@ impl BlockReader {
         self.file_metadata.clone()
     }
 
-    /// Get the best available "Modified Datetime" file attribute avaiable.
+    /// Get the best available "Modified Datetime" file attribute available.
     ///
     /// For compressed or archived files, use the copied header-embedded
     /// "MTIME".
@@ -1774,7 +1774,7 @@ impl BlockReader {
                 debug_assert_le!(
                     block.len(),
                     blocksz_u,
-                    "block.len() {} was expcted to be <= blocksz {}",
+                    "block.len() {} was expected to be <= blocksz {}",
                     block.len(),
                     blocksz_u
                 );

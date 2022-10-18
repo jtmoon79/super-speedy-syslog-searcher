@@ -3,8 +3,8 @@
 Speedily search and merge many syslog files by datetime.
 
 _Super Speedy Syslog Searcher_ (s4) is a command-line tool to search
-and merge plain log files, including log compressed log files (`.gz`, `.xz`) and
-within archives (`.tar`).
+and merge plain log files by datetime, including log compressed log files
+(`.gz`, `.xz`) and within archives (`.tar`).
 The first goal of s4 is speedy searching and printing.
 
 [![Build status](https://img.shields.io/github/workflow/status/jtmoon79/super-speedy-syslog-searcher/Rust?style=flat-square&logo=github)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
@@ -256,10 +256,10 @@ Enter _Super Speedy Syslog Searcher_ 🦸 ‼
 _s4_ will print log messages from multiple log files in datetime-sorted order.
 A "window" of datetimes may be passed, to constrain the period of printed
 messages. This will assist an engineer that, for example, needs to view all
-syslog messages that occured two days ago among log files taken from multiple
+syslog messages that occurred two days ago among log files taken from multiple
 systems.
 
-The alterior motive for _Super Speedy Syslog Searcher_ was the [primary
+The ulterior motive for _Super Speedy Syslog Searcher_ was the [primary
 developer](https://github.com/jtmoon79) wanted an excuse to learn rust 🦀,
 and wanted to create an open-source tool for a recurring need of some
 Software Test Engineers 😄
@@ -377,6 +377,8 @@ info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task starte
 ```
 
 (yes, those are tab characters)
+
+<br/>
 
 Here are is a snippet from a Windows 10 Pro host, log file
 `${env:SystemRoot}\debug\mrt.log`

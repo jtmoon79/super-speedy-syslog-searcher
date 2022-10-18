@@ -1728,7 +1728,7 @@ fn processing_loop(
     //           `FILE_COMPRESS_GZ`, etc.
     //          `result` of `Some(FileProcessingResult)` if processing has completed or just `None`
     //       (this might be a better place for mimeguess and mimeanalysis?)
-    //       Would be best to first implment `FILE`, then `FILE_COMPRESS_GZ`, then `FILE_IN_ARCHIVE_TAR`
+    //       Would be best to first implement `FILE`, then `FILE_COMPRESS_GZ`, then `FILE_IN_ARCHIVE_TAR`
 
     // precount the number of valid files that will be processed
     let file_count: usize = paths_results
@@ -1948,7 +1948,7 @@ fn processing_loop(
     // crude debugging stats
     let mut chan_recv_ok: Count = 0;
     let mut chan_recv_err: Count = 0;
-    // the `SummaryPrinted` tallying the entire process (tallies each recieved `SyslineP`)
+    // the `SummaryPrinted` tallying the entire process (tallies each received `SyslineP`)
     let mut summaryprinted: SummaryPrinted = SummaryPrinted::default();
     let color_default = COLOR_DEFAULT;
 

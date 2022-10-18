@@ -6,7 +6,7 @@
 //! this is a reasonable trade-off of separation and access.
 //!
 //! Tests placed at top-level path `tests/` do not have crate-internal
-//! visibilty. While it is recommended to not require internal visibility for
+//! visibility. While it is recommended to not require internal visibility for
 //! testing, in practice that often makes tests difficult or impossible to
 //! implement.
 

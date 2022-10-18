@@ -87,7 +87,7 @@ The system would generate tens of Gigabytes of syslogs per day
 Those syslogs were periodically offloaded onto a busy central NAS that
 resided in a remote office, where they were further compressed
 and archived (`.tar` files in `.tar` files).
-I would investigate errors days after they occured.
+I would investigate errors days after they occurred.
 Searching a large amount of syslogs for "everything that happened between
 _datetime A_ and _datetime A plus five minutes_" was incredibly slow
 (tens of minutes to hours).
@@ -119,12 +119,12 @@ Why do no other tools exist for this common need?
 
 When moving from implementing a script for a known system, to implementing a
 general purpose tool, here are some difficulties I discovered during design and
-implemention.
+implementation.
 
 ##### _differing sysline formats, differing datetime formats_
 
 In practice there are many reasonably possible sysline formats
-(datetime format, plus arrangment).
+(datetime format, plus arrangement).
 Handling them all can be done but adds complexity. Handling them all speedily
 adds further complexity.
 

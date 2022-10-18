@@ -476,7 +476,7 @@ impl LineReader {
 
     /// Does `self` "contain" this `fileoffset`? That is, already know about it?
     ///
-    /// The `FileOffset` can be any value (does not have to be begining
+    /// The `FileOffset` can be any value (does not have to be beginning
     /// or ending of a `Line`).
     fn lines_contains(
         &self,
@@ -502,7 +502,7 @@ impl LineReader {
     /// For any `FileOffset`, get the `Line` (if available).
     ///
     /// The passed `FileOffset` can be any value (does not have to be
-    /// begining or ending of a `Line`).
+    /// beginning or ending of a `Line`).
     ///
     /// _O(log(n))_
     pub fn get_linep(
@@ -547,7 +547,7 @@ impl LineReader {
                 Some(rlp) => {
                     dpfn!("({}): found LRU cached for offset {}", fileoffset, fileoffset);
                     self.find_line_lru_cache_hit += 1;
-                    // `find_line_lru_cache.get(&fileoffset)` returns refernce so must create new `ResultS3LineFind` here
+                    // `find_line_lru_cache.get(&fileoffset)` returns reference so must create new `ResultS3LineFind` here
                     // and return that
                     match rlp {
                         ResultS3LineFind::Found(val) => {
@@ -906,7 +906,7 @@ impl LineReader {
             nl_b_eof = true;
             assert_eq!(
                 fo_nl_b, filesz - 1,
-                "newline B1 fileoffset {} is at end of file, yet filesz is {}; there was a bad calcuation of newline B1 from blockoffset {} blockindex {} (blockoffset last {}), for file {:?}",
+                "newline B1 fileoffset {} is at end of file, yet filesz is {}; there was a bad calculation of newline B1 from blockoffset {} blockindex {} (blockoffset last {}), for file {:?}",
                 fo_nl_b,
                 filesz,
                 bo_middle,
@@ -1531,7 +1531,7 @@ impl LineReader {
                 nl_b_eof = true;
                 assert_eq!(
                     fo_nl_b, filesz - 1,
-                    "newline B1 fileoffset {} is at end of file, yet filesz is {}; there was a bad calcuation of newline B1 from blockoffset {} blockindex {} (blockoffset last {}) for file {:?}",
+                    "newline B1 fileoffset {} is at end of file, yet filesz is {}; there was a bad calculation of newline B1 from blockoffset {} blockindex {} (blockoffset last {}) for file {:?}",
                     fo_nl_b,
                     filesz,
                     bo_middle,
@@ -1673,7 +1673,7 @@ impl LineReader {
                 );
                 assert_eq!(
                     fo_nl_b, filesz - 1,
-                    "newline B2 fileoffset {} is supposed to be the end of file, yet filesz is {}; bad calcuation of newline B2 from blockoffset {} blockindex {} (last blockoffset {}) (bi_beg {} bi_end {}) (charsz {}) file {:?}",
+                    "newline B2 fileoffset {} is supposed to be the end of file, yet filesz is {}; bad calculation of newline B2 from blockoffset {} blockindex {} (last blockoffset {}) (bi_beg {} bi_end {}) (charsz {}) file {:?}",
                     fo_nl_b,
                     filesz,
                     bof,

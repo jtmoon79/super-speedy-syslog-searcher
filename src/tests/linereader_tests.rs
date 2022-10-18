@@ -1618,7 +1618,7 @@ fn test_Line_get_boxptrs(
                     byte_to_char_noraw(*byte_),
                     byte_to_char_noraw(*byte_check)
                 );
-                assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segement {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_String_noraw(&(*boxptr)), (*linep).to_String_noraw());
+                assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segment {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_String_noraw(&(*boxptr)), (*linep).to_String_noraw());
                 at += 1;
             }
         }

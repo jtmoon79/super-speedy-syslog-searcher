@@ -246,7 +246,7 @@ impl SyslogProcessor {
             return Result::Err(
                 Error::new(
                     ErrorKind::InvalidInput,
-                    format!("BlockSz {0} (0x{0:08X}) is too small, SyslogProcessor has BlockSz minumum {1} (0x{1:08X})", blocksz, SyslogProcessor::BLOCKSZ_MIN)
+                    format!("BlockSz {0} (0x{0:08X}) is too small, SyslogProcessor has BlockSz minimum {1} (0x{1:08X})", blocksz, SyslogProcessor::BLOCKSZ_MIN)
                 )
             );
         }
@@ -669,7 +669,7 @@ impl SyslogProcessor {
     //
     // TODO: [2022/06/20] the `find` functions need consistent naming,
     //       `find_next`, `find_between`, `find_...` . The current design has
-    //       the public-facing `find_` functions falling back on potentail file-wide binary-search
+    //       the public-facing `find_` functions falling back on potential file-wide binary-search
     //       The binary-search only needs to be done during the stage 2. During stage 3, a simpler
     //       linear sequential search is more suitable, and more intuitive.
     //       More refactoring is in order.

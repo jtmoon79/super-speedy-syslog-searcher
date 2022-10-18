@@ -642,7 +642,7 @@ impl Line {
         self.blockoffset_first() == self.blockoffset_last()
     }
 
-    /// Length of this `Line` in bytes as calcuated from stored fileoffsets.
+    /// Length of this `Line` in bytes as calculated from stored fileoffsets.
     pub fn len(self: &Line) -> usize {
         (self.fileoffset_end() - self.fileoffset_begin() + 1) as usize
     }

@@ -121,7 +121,7 @@ pub type DateTimePattern_str = str;
 pub type DateTimeRegex_str = str;
 
 /// Regular expression capture group name, used within the regular expression and
-/// for later retreival via [`regex::captures.name`].
+/// for later retrieval via [`regex::captures.name`].
 ///
 /// [`regex::captures.name`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html#method.name
 pub type CaptureGroupName = str;
@@ -691,7 +691,7 @@ impl fmt::Debug for DateTimeParseInstr<'_> {
 
 // `strftime` patterns used in `DTFSSet!` declarations
 
-// TODO: [2022/10/08] refactor for consitent naming of  `DTP_*` variables:
+// TODO: [2022/10/08] refactor for consistent naming of  `DTP_*` variables:
 //       put 'Y' in front, so it matches
 //       strftime specifier ordering within the value.
 //       e.g. variable `DTP_BdHMSYz` has value `"%Y%m%dT%H%M%S%z"`, the `%Y`
@@ -2030,7 +2030,7 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 60;
 /// A drawback of this specific-to-general approach:
 /// during [`SyslineReader`] initial reading stage,
 /// it will try *all* the patterns (from index 0 of
-/// `DATETIME_PARSE_DATAS` to whereever it finds a match).
+/// `DATETIME_PARSE_DATAS` to wherever it finds a match).
 /// So if a file has a datetime pattern that matches the last entry in
 /// `DATETIME_PARSE_DATAS` then the `SyslineReader` will try *all*
 /// the `DateTimeParseInstr` within `DATETIME_PARSE_DATAS` several times.
@@ -2634,7 +2634,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //               1         2         3         4
     //     01234567890123456789012345678901234567890
     //     info	2017/02/21 21:50:48	SYSTEM:	[Local][Backup Task Backup1] Backup task started.
-    //     err	2017/02/23 02:55:58	SYSTEM:	[Local][Backup Task Backup1] Exception occured while backing up data. (Capacity at destination is insufficient.) [Path: /share4/usbshare/Backup1.hbk]
+    //     err	2017/02/23 02:55:58	SYSTEM:	[Local][Backup Task Backup1] Exception occurred while backing up data. (Capacity at destination is insufficient.) [Path: /share4/usbshare/Backup1.hbk]
     //     err	2017/02/23 02:56:03	SYSTEM:	[Local][Backup Task Backup1] Failed to backup data.
     //     info	2017/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task started.
     //     warning	2017/02/24 03:43:57	SYSTEM:	[Local][Backup Task Backup1] Backup folder [Vol/DS] failed. (The backup source shared folder is encrypted and not mounted. Please mount the backup source shared folder and try again.)
@@ -3138,7 +3138,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     //               1         2         3         4
     //     01234567890123456789012345678901234567890
-    //     [    0.000000] kernel: Linux version 5.15.0-43-generic (buildd@lcy02-amd64-076) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #46-Ubuntu SMP Tue Jul 12 10:30:17 UTC 2022 (Ubuntu 5.15.0-43.46-generic 5.15.39)
+    //     [    0.000000] kernel: Linux version 5.15.0-43-generic (build@lcy02-amd64-076) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #46-Ubuntu SMP Tue Jul 12 10:30:17 UTC 2022 (Ubuntu 5.15.0-43.46-generic 5.15.39)
     //     [    0.000000] kernel: Command line: BOOT_IMAGE=/boot/vmlinuz-5.15.0-43-generic root=UUID=136735fa-5cc1-470f-9359-ee736e42f844 ro console=tty1 console=ttyS0 net.ifnames=0 biosdevname=0
     //     [    0.000000] kernel: KERNEL supported cpus:
     //     [    0.000000] kernel:   Intel GenuineIntel
@@ -3800,7 +3800,7 @@ pub(crate) fn captures_to_buffer_bytes(
             let captureb = captures.name(CGN_TZ).as_ref().unwrap().as_bytes();
             match captureb.starts_with(MINUS_SIGN) {
                 true => {
-                    dpfo!("found Unicode 'minus sign', tranform to ASCII 'hyphen-minus'");
+                    dpfo!("found Unicode 'minus sign', transform to ASCII 'hyphen-minus'");
                     // found Unicode "minus sign", replace with ASCII
                     // "hyphen-minus"
                     copy_slice_to_buffer!(HYPHEN_MINUS, buffer, at);

@@ -157,7 +157,7 @@ pub struct SyslineReader {
     pub(super) syslines_by_range_miss: Count,
     /// `Count` of `self.syslines_by_range.insert`.
     pub(super) syslines_by_range_put: Count,
-    /// First (soonest) processed [`DateTimeL`] (not necessarly printed,
+    /// First (soonest) processed [`DateTimeL`] (not necessarily printed,
     /// not representative of the entire file).
     ///
     /// Intended for `--summary`.
@@ -166,7 +166,7 @@ pub struct SyslineReader {
     // TODO: [2022/07/27] cost-savings: save the ref
     pub(super) dt_first: DateTimeLOpt,
     pub(super) dt_first_prev: DateTimeLOpt,
-    /// Last (latest) processed [`DateTimeL`] (not necessarly printed,
+    /// Last (latest) processed [`DateTimeL`] (not necessarily printed,
     /// not representative of the entire file).
     ///
     /// Intended for `--summary`.
@@ -691,7 +691,7 @@ impl SyslineReader {
     }
 
     /// Remove the `Syline` at `FileOffset`.
-    /// Only intended to aid post-procesing year updates.
+    /// Only intended to aid post-processing year updates.
     ///
     /// Users must know what they are doing with this.
     pub(crate) fn remove_sysline(
@@ -1480,7 +1480,7 @@ impl SyslineReader {
     /// This does a linear search over the `Block`, _O(n)_.
     ///
     /// Optional `Year` is the filler year for datetime patterns that do not include a year.
-    /// e.g. `"Jan 1 12:00:00 this is a sylog message"`
+    /// e.g. `"Jan 1 12:00:00 this is a syslog message"`
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     // XXX: similar to `find_sysline`:
@@ -1722,7 +1722,7 @@ impl SyslineReader {
     /// (fileoffset of start of _next_ sysline, found Sysline at or after `fileoffset`).
     ///
     /// Optional `Year` is the filler year for datetime patterns that do not include a year.
-    /// e.g. `"Jan 1 12:00:00 this is a sylog message"`
+    /// e.g. `"Jan 1 12:00:00 this is a syslog message"`
     ///
     /// Similar to `LineReader.find_line`.
     ///

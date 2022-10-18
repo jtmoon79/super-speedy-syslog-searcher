@@ -129,7 +129,7 @@ function re_escape() {
     "${PYTHON}" -c 'import re; print(re.escape(""" '"${1-}"' """[1:-1]).replace("/", r"\/"))'
 }
 
-# count occurences of $2 within $1
+# count occurrences of $2 within $1
 function count_str() {
     echo -n "${1}" | grep -oFe "${2}" | wc -l
 }

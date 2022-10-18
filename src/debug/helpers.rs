@@ -68,7 +68,7 @@ pub fn create_temp_file(data: &str) -> NamedTempFile {
 /// Testing helper function to write a `[u8]` to a specially-named
 /// temporary file.
 ///
-/// `rand_len` is the sting length of a random character sequence
+/// `rand_len` is the string length of a random character sequence
 pub fn create_temp_file_with_name_rlen(
     data: &[u8],
     prefix: Option<&String>,
