@@ -29,9 +29,10 @@ The first goal of s4 is speedy searching and printing.
   - [Features](#features)
   - [Limitations](#limitations)
   - [Hacks](#hacks)
-- ["syslog" definition](#syslog-definition)
-- [logging chaos](#logging-chaos)
-- [Further Reading](#further-reading)
+- [More](#more)
+  - ["syslog" definition](#syslog-definition)
+  - [logging chaos](#logging-chaos)
+  - [Further Reading](#further-reading)
 
 ---
 
@@ -312,7 +313,9 @@ A longer rambling pontification about this project is in
 
 <br/>
 
-## "syslog" definition
+## More
+
+### "syslog" definition
 
 In this project, the term "syslog" is used generously to refer any
 log message that has a datetime stamp on the first line of log text.
@@ -321,7 +324,7 @@ Technically, "syslog" is [defined among several RFCs](https://en.wikipedia.org/w
 proscribing fields, formats, lengths, and other technical constraints.
 In this project, the term "syslog" is interchanged with "log".
 
-## logging chaos
+### logging chaos
 
 In practice, most log file formats are an ad-hoc format that
 may not follow any formal definition.
@@ -452,7 +455,7 @@ a datetime stamp, is difficult to impossible.
 
 Hence the need for _Super Speedy Syslog Searcher_!
 
-## Further Reading
+### Further Reading
 
 - [`CHANGELOG.md`](./CHANGELOG.md)
 - [`Extended-Thoughts.md`](./Extended-Thoughts.md)
