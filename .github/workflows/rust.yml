@@ -34,11 +34,12 @@ jobs:
     name: rust build MSRV ${{ matrix.msrv }} on ${{ matrix.os }}
     strategy:
       matrix:
-        # TODO: add windows-latest, see Issue #62
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         msrv: [1.61.0]
     runs-on: ${{ matrix.os }}
     steps:
+      - run: |
+          git config --global core.protectNTFS false
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
         with:
