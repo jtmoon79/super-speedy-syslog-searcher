@@ -3,7 +3,16 @@
 name: Rust
 on:
   push:
+    paths:
+      - .github/**
+      - Cargo.toml
+      - src/**.rs
   pull_request:
+    paths:
+      - benches/**
+      - .github/**
+      - Cargo.toml
+      - "**.rs"
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
