@@ -446,6 +446,8 @@ And a snippet from the same Windows host, log file
 68902359 (21103) - exe\main.cpp:4363: WinSAT registry node is created or present
 ```
 
+(yes, it reads hour `14`, and `PM`…  🙄)
+
 <br/>
 
 This chaotic logging approach is typical of commercial and open-source software.
