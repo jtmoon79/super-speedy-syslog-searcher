@@ -8,7 +8,7 @@ authors = ["James Thomas Moon"]
 license = "MIT"
 keywords = ["syslog", "log", "log-parser", "log-parsing", "search", "merge"]
 readme = "README.md"
-version = "0.1.38"
+version = "0.1.39"
 edition = "2021"
 # `rust-version` should match ./github/workflows/rust.yml:rust_msrv:toolchain
 rust-version = "1.61.0"
