@@ -29,8 +29,41 @@ env:
                  ./logs/other/tests/gen-20-1-faces.log
                  ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
 jobs:
+
+  job_rust_msrv_os:
+    name: rust build MSRV ${{ matrix.msrv }} on ${{ matrix.os }}
+    strategy:
+      matrix:
+        # TODO: add windows-latest, see Issue #62
+        os: [ubuntu-latest, macos-latest]
+        msrv: [1.61.0]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          # `toochain` should match Cargo.toml:[package]:rust-version
+          toolchain: ${{ matrix.msrv }}
+      - run: cargo build --verbose
+
+  job_rust_versions:
+    name: rust build using ${{ matrix.rust_version }}
+    runs-on: ubuntu-latest
+    needs: job_rust_msrv_os
+    strategy:
+      matrix:
+        rust_version: ["stable", "beta", "nightly"]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust_version }}
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --verbose
+
   job_build_debug_release_test:
     name: check, clippy, build debug, build release, test
+    needs: job_rust_versions
     runs-on: ubuntu-latest
     steps:
       # build & upload debug
@@ -84,6 +117,7 @@ jobs:
       #     SCRIPT=./tools/valgrind-dhat.sh
       #     chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
       #     "${SCRIPT}"
+
   job_runs:
     name: run s4
     needs: job_build_debug_release_test
@@ -156,6 +190,7 @@ jobs:
           SCRIPT=./tools/compare-grep-sort.sh
           chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
           "${SCRIPT}"
+
   # Run code coverage with rust "nightly" (necessary for some `-Z` features)
   # then upload code coverage result to codecov.io
   # Help from:
