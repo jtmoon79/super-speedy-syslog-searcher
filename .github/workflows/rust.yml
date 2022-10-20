@@ -31,13 +31,15 @@ env:
 jobs:
 
   job_rust_msrv_os:
-    name: rust build MSRV ${{ matrix.msrv }} on ${{ matrix.os }}
+    name: build MSRV ${{ matrix.msrv }} on ${{ matrix.os }}
     strategy:
+      fail-fast: true
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         msrv: [1.61.0]
     runs-on: ${{ matrix.os }}
     steps:
+      # Issue #62: `git config` to workaround `git checkout` error on Windows
       - run: |
           git config --global core.protectNTFS false
       - uses: actions/checkout@v3
@@ -45,16 +47,18 @@ jobs:
         with:
           # `toochain` should match Cargo.toml:[package]:rust-version
           toolchain: ${{ matrix.msrv }}
-      - run: |
+      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }}
+        shell: bash
+        run:
           set -eux
           cargo --version
           cargo build --verbose
 
-  job_rust_versions:
-    name: rust build using ${{ matrix.rust_version }}
+  job_rust_release_channel:
+    name: build release channel ${{ matrix.rust_version }}
     runs-on: ubuntu-latest
-    needs: job_rust_msrv_os
     strategy:
+      fail-fast: true
       matrix:
         rust_version: ["beta", "nightly"]
     steps:
@@ -63,14 +67,15 @@ jobs:
         with:
           toolchain: ${{ matrix.rust_version }}
       - uses: Swatinem/rust-cache@v2
-      - run: |
+      - name: Build using rust ${{ matrix.rust_version }}
+        run: |
           set -eux
           cargo --version
           cargo build --verbose
 
   job_build_debug_release_test:
     name: check, clippy, build debug, build release, test
-    needs: job_rust_versions
+    needs: [job_rust_release_channel, job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       # build & upload debug
@@ -187,7 +192,8 @@ jobs:
           time ${S4R} --version
           time ${S4D} --version
           ${S4R} ${S4_ARGSR} --color=never ${S4_TEST_FILES} | tee "${OUTR}"
-          ${S4D} ${S4_ARGSR} --color=never ${S4_TEST_FILES} 2>/dev/null | tee "${OUTD}"
+          ${S4D} ${S4_ARGSR} --color=never ${S4_TEST_FILES} 2>/dev/null | \
+            tee "${OUTD}"
           diff --version
           diff -y --suppress-common-lines --minimal "${OUTR}" "${OUTD}"
       - name: Run Script compare-grep-sort
