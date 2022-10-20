@@ -5,7 +5,8 @@ name = "super_speedy_syslog_searcher"
 description = "Super Speedy Syslog Searcher will search syslog files and sort entries by datetime. DateTime filters may be passed to narrow the search. It aims to be very fast."
 version = "0.1.38"
 edition = "2021"
-rust-version = "1.62"
+# `rust-version` should match ./github/workflows/rust.yml:rust_msrv:toolchain
+rust-version = "1.60"
 repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
 authors = ["James Thomas Moon"]
 license = "MIT"
@@ -33,7 +34,7 @@ backtrace = "0.3.66"
 chrono = "0.4.22"
 clap = { version = "3.2.22", features = ["derive"] }
 const_format = "0.2.28"
-const-str = "0.5.1"
+const-str = "0.4.3"
 crossbeam-channel = "0.5.6"
 encoding_rs = "0.8.31"
 flate2 = "1.0.24"

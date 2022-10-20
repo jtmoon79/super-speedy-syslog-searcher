@@ -318,9 +318,9 @@ dependencies = [
 
 [[package]]
 name = "const-str"
-version = "0.5.1"
+version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fa6c093bf913e73cd79b842dba96371d00e9989e8c54330526df63e38f83131f"
+checksum = "2f421161cb492475f1661ddc9815a745a1c894592070661180fdec3d4872e9c3"
 
 [[package]]
 name = "const_format"
