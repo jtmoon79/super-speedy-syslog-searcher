@@ -279,8 +279,8 @@ const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z:";
 
 /// `--help` _afterword_ message.
 const CLI_HELP_AFTER: &str = concatcp!(
-    "
-DateTime Filter strftime specifier patterns may be:
+    "\
+DateTime Filters may be strftime specifier patterns:
     \"",
     CLI_DT_FILTER_PATTERN1.0,
     "\"
@@ -365,35 +365,36 @@ DateTime Filter strftime specifier patterns may be:
     \"",
     CLI_DT_FILTER_PATTERN28.0,
     "\",
+
+Or, DateTime Filter may be custom relative offset patterns:
     \"+DwDdDhDmDs\" or \"-DwDdDhDmDs\",
-    ",
-    "@+DwDdDhDmDs\" or \"@-DwDdDhDmDs\",
+    \"@+DwDdDhDmDs\" or \"@-DwDdDhDmDs\",
 
 Pattern \"+%s\" is Unix epoch timestamp in seconds with a preceding \"+\".
+Value \"+946684800\" is January 1, 2000 at 00:00, GMT.
 
-Custom pattern \"+DwDdDhDmDs\" and \"-DwDdDhDmDs\" is relative offset from now
-(program start time) where \"D\" is a decimal number.
+Custom relative offset pattern \"+DwDdDhDmDs\" and \"-DwDdDhDmDs\" is the offset
+from now (program start time) where \"D\" is a decimal number.
 Each lowercase identifier is an offset duration:
 \"w\" is weeks, \"d\" is days, \"h\" is hours, \"m\" is minutes, \"s\" is seconds.
 Value \"-1w22h\" would be one week and twenty-two hours in the past.
 Value \"+30s\" would be thirty seconds in the future.
 
-Custom pattern \"@+DwDdDhDmDs\" and \"@-DwDdDhDmDs\" is relative offset from the
-other datetime.
+Custom relative offset pattern \"@+DwDdDhDmDs\" and \"@-DwDdDhDmDs\" is relative
+offset from the other datetime.
 Arguments \"-a 20220102 -b @+1d\" are equivalent to \"-a 20220102 -b 20220103\".
 Arguments \"-a @-6h -b 20220101T120000\" are equivalent to
 \"-a 20220101T060000 -b 20220101T120000\".
 
-Without a timezone offset (\"%z\" or \"%Z\"), the Datetime Filter is presumed to
-be the local system timezone.
+Without a timezone offset (strftime specifier \"%z\" or \"%Z\"),
+the Datetime Filter is presumed to be the local system timezone.
 
-Ambiguous user-passed named timezones will be rejected, e.g. \"SST\".
+Ambiguous named timezones will be rejected, e.g. \"SST\".
 
 Resolved values of \"--dt-after\" and \"--dt-before\" can be reviewed in
 the \"--summary\" output.
 
-DateTime strftime specifier patterns are described at
-https://docs.rs/chrono/latest/chrono/format/strftime/
+DateTime strftime specifiers are described at https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
 
@@ -428,7 +429,7 @@ struct CLI_Args {
     #[clap(
         short = 'a',
         long,
-        help = "DateTime After filter - print syslog lines with a datetime that is at or after this datetime. For example, \"20200102T123000\""
+        help = "DateTime After filter - print syslog lines with a datetime that is at or after this datetime. For example, \"20200102T120000\" or \"-5d\""
     )]
     dt_after: Option<String>,
 
@@ -436,7 +437,7 @@ struct CLI_Args {
     #[clap(
         short = 'b',
         long,
-        help = "DateTime Before filter - print syslog lines with a datetime that is at or before this datetime. For example, \"20200102T123001\""
+        help = "DateTime Before filter - print syslog lines with a datetime that is at or before this datetime. For example, \"20200103T230000\" or \"@+1d+11h\""
     )]
     dt_before: Option<String>,
 
