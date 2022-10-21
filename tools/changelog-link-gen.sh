@@ -5,7 +5,7 @@
 # Helper script for updating the `CHANGELOG.md`.
 #
 # Read the `CHANGELOG.md`, print the addendum of full URL links.
-# The script-user can copy+paste this over the bottom of the `CHANGELOG.md`.
+# AUTOMATICALLY MODIFIES CHANGELOG.md!
 #
 
 set -euo pipefail
