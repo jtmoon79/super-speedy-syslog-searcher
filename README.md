@@ -317,7 +317,7 @@ A longer rambling pontification about this project is in
 
 ### "syslog" definition
 
-In this project, the term "syslog" is used generously to refer any
+In this project, the term "syslog" is used generously to refer to any
 log message that has a datetime stamp on the first line of log text.
 
 Technically, "syslog" is [defined among several RFCs](https://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents)
@@ -346,7 +346,7 @@ which is an entirely dissimilar log format to the neighboring nginx log file,
 2022/10/08 22:26:35 [error] 6068#6068: *3 open() "/usr/share/nginx/html/DOES-NOT-EXIST" failed (2: No such file or directory), client: 192.168.0.115, server: _, request: "GET /DOES-NOT-EXIST HTTP/1.0", host: "192.168.0.100"
 ```
 
-nginx is following the example set by the apache web server (a bad example!).
+nginx is following the bad example set by the apache web server.
 
 <br/>
 
