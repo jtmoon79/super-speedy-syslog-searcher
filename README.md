@@ -1,6 +1,6 @@
 # Super Speedy Syslog Searcher! (s4)<!-- omit in TOC -->
 
-Speedily search and merge many syslog files by datetime.
+Speedily search and merge log file entries by datetime.
 
 _Super Speedy Syslog Searcher_ (s4) is a command-line tool to search
 and merge plain log files by datetime, including log compressed log files
