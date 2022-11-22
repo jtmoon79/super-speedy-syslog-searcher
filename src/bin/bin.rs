@@ -74,8 +74,9 @@ extern crate s4lib;
 use s4lib::common::{Count, FPath, FPaths, FileOffset, FileType, NLu8a};
 
 use s4lib::data::datetime::{
-    datetime_parse_from_str, datetime_parse_from_str_w_tz, DateTimeLOpt,
-    DateTimeParseInstr, DateTimePattern_str, DATETIME_PARSE_DATAS, MAP_TZZ_TO_TZz, Utc,
+    datetime_parse_from_str, datetime_parse_from_str_w_tz,
+    DateTimeLOpt, DateTimeParseInstr, DateTimePattern_str,
+    DATETIME_PARSE_DATAS, MAP_TZZ_TO_TZz, Utc,
 };
 
 #[allow(unused_imports)]
@@ -115,9 +116,8 @@ use s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProce
 lazy_static! {
     /// for user-passed strings of a duration that will be offset from the
     /// current datetime.
-    static ref UTC_NOW: DateTime<Utc> = {
-        Utc::now()
-    };
+    static ref UTC_NOW: DateTime<Utc> = Utc::now();
+    static ref LOCAL_NOW: DateTime<Local> = DateTime::from(UTC_NOW.clone());
 }
 
 /// CLI enum that maps to [`termcolor::ColorChoice`].
@@ -2338,8 +2338,28 @@ fn processing_loop(
             paths_printed_syslines.len(),
         );
         eprintln!("{:?}", summaryprinted);
-        // print the DateTime Filters
-        eprintln!("Datetime Filters      : -a {:?} -b {:?}", filter_dt_after_opt, filter_dt_before_opt);
+        // print the time now as this program sees it
+        let local_now = Local
+            .ymd(LOCAL_NOW.year(), LOCAL_NOW.month(), LOCAL_NOW.day())
+            .and_hms(LOCAL_NOW.hour(), LOCAL_NOW.minute(), LOCAL_NOW.second());
+        eprintln!("Datetime Now          :    {:?}", local_now);
+        // print the DateTime Filters as Local time
+        eprint!("Datetime Filters      : ");
+        match filter_dt_after_opt {
+            Some(dt) => {
+                eprint!("-a {:?} ", dt);
+            }
+            None => {
+                eprint!("                             ");
+            }
+        }
+        match filter_dt_before_opt {
+            Some(dt) => {
+                eprint!("-b {:?} ", dt);
+            }
+            None => {}
+        }
+        eprintln!();
         // print the DateTime Filters again as UTC
         let filter_dt_after_opt_utc = match filter_dt_after_opt {
             Some(dt) => {
@@ -2355,7 +2375,30 @@ fn processing_loop(
             }
             None => None
         };
-        eprintln!("Datetime Filters (UTC): -a {:?} -b {:?}", filter_dt_after_opt_utc, filter_dt_before_opt_utc);
+        // print UTC now without fractional, and with numeric offset `-00:00`
+        // instead of `Z`
+        let utc_now = (
+            Utc
+            .ymd(UTC_NOW.year(), UTC_NOW.month(), UTC_NOW.day())
+            .and_hms(UTC_NOW.hour(), UTC_NOW.minute(), UTC_NOW.second())
+        ).with_timezone(&FixedOffset::east(0));
+        eprintln!("Datetime Now     (UTC):    {:?}", utc_now);
+        eprint!("Datetime Filters (UTC): ");
+        match filter_dt_after_opt_utc {
+            Some(dt) => {
+                eprint!("-a {:?} ", dt);
+            }
+            None => {
+                eprint!("                             ");
+            }
+        }
+        match filter_dt_before_opt_utc {
+            Some(dt) => {
+                eprint!("-b {:?}", dt);
+            }
+            None => {}
+        }
+        eprintln!();
         eprintln!("Channel Receive ok {}, err {}", chan_recv_ok, chan_recv_err);
     }
 
