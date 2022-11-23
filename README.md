@@ -107,7 +107,7 @@ Bengaluru, India (timezone offset +05:30) and prepended with equivalent UTC
 datetime (with the help of GNU `date`)
 
 ```lang-text
-s4 /var/log -u -a $(date -d "2 days ago 00" '+%Y%m%dT%H%M%S+05:30') -b @+1h
+s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ```
 
 ### `--help`
