@@ -275,10 +275,10 @@ const CLI_DT_FILTER_APPEND_TIME_VALUE: &str = " T000000";
 const CLI_DT_FILTER_APPEND_TIME_PATTERN: &str = " T%H%M%S";
 
 /// default separator for prepended strings
-const PREPEND_SEP: &str = ":";
+const CLI_PREPEND_SEP: &str = ":";
 
 /// default CLI datetime format printed for CLI options `-u` or `-l`.
-const CLI_OPT_PREPEND_FMT: &str = concatcp!("%Y%m%dT%H%M%S%.3f%z", PREPEND_SEP);
+const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z";
 
 /// `--help` _afterword_ message.
 const CLI_HELP_AFTER: &str = concatcp!(
@@ -458,7 +458,9 @@ struct CLI_Args {
     #[clap(
         short = 'u',
         long = "prepend-utc",
-        group = "prepend_dt"
+        groups = &[
+            "group_prepend_dt",
+        ],
     )]
     prepend_utc: bool,
 
@@ -466,7 +468,9 @@ struct CLI_Args {
     #[clap(
         short = 'l',
         long = "prepend-local",
-        group = "prepend_dt"
+        groups = &[
+            "group_prepend_dt",
+        ]
     )]
     prepend_local: bool,
 
@@ -474,8 +478,10 @@ struct CLI_Args {
     #[clap(
         short = 'd',
         long = "prepend-dt-format",
-        group = "prepend_dt_format",
-        requires = "prepend_dt",
+        groups = &[
+            "group_prepend_dt_format",
+        ],
+        requires = "group_prepend_dt",
         validator = cli_validate_prepend_dt_format,
         default_value_t = String::from(CLI_OPT_PREPEND_FMT),
     )]
@@ -485,7 +491,9 @@ struct CLI_Args {
     #[clap(
         short = 'n',
         long = "prepend-filename",
-        group = "prepend_file"
+        groups = &[
+            "group_prepend_file",
+        ]
     )]
     prepend_filename: bool,
 
@@ -493,16 +501,27 @@ struct CLI_Args {
     #[clap(
         short = 'p',
         long = "prepend-filepath",
-        group = "prepend_file"
+        groups = &[
+            "group_prepend_file",
+        ]
     )]
     prepend_filepath: bool,
 
     /// Align column widths of prepended data.
     #[clap(
         short = 'w',
-        long = "prepend-file-align"
+        long = "prepend-file-align",
+        requires = "group_prepend_file",
     )]
     prepend_file_align: bool,
+
+    /// Separator string for prepended data.
+    #[clap(
+        long = "prepend-separator",
+        // TODO: how to require `any("prepend_file", "prepend_dt")`
+        default_value_t = String::from(CLI_PREPEND_SEP)
+    )]
+    prepend_separator: String,
 
     /// Choose to print to terminal using colors.
     #[clap(
@@ -922,7 +941,7 @@ fn process_dt(
 ///
 /// This function will [`std::process::exit`] if there is an [`Err`].
 fn cli_process_args(
-) -> (FPaths, BlockSz, DateTimeLOpt, DateTimeLOpt, FixedOffset, ColorChoice, bool, bool, String, bool, bool, bool, bool)
+) -> (FPaths, BlockSz, DateTimeLOpt, DateTimeLOpt, FixedOffset, ColorChoice, bool, bool, String, bool, bool, bool, String, bool)
 {
     let args = CLI_Args::parse();
 
@@ -1013,6 +1032,7 @@ fn cli_process_args(
     dpfo!("prepend_filename {:?}", args.prepend_filename);
     dpfo!("prepend_filepath {:?}", args.prepend_filepath);
     dpfo!("prepend_file_align {:?}", args.prepend_file_align);
+    dpfo!("prepend_separator {:?}", args.prepend_separator);
     dpfo!("summary {:?}", args.summary);
 
     (
@@ -1028,6 +1048,7 @@ fn cli_process_args(
         args.prepend_filename,
         args.prepend_filepath,
         args.prepend_file_align,
+        args.prepend_separator,
         args.summary,
     )
 }
@@ -1057,6 +1078,7 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_filename,
         cli_opt_prepend_filepath,
         cli_opt_prepend_file_align,
+        cli_prepend_separator,
         cli_opt_summary,
     ) = cli_process_args();
 
@@ -1094,6 +1116,7 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_filename,
         cli_opt_prepend_filepath,
         cli_opt_prepend_file_align,
+        cli_prepend_separator,
         cli_opt_summary,
     );
 
@@ -1688,6 +1711,7 @@ fn processing_loop(
     cli_opt_prepend_filename: bool,
     cli_opt_prepend_filepath: bool,
     cli_opt_prepend_file_align: bool,
+    cli_prepend_separator: String,
     cli_opt_summary: bool,
 ) -> bool {
     dpfn!(
@@ -2113,7 +2137,7 @@ fn processing_loop(
                             None => continue,
                         };
                         let bname: String = basename(path);
-                        let prepend: String = format!("{0:<1$}{2}", bname, prependname_width, PREPEND_SEP);
+                        let prepend: String = format!("{0:<1$}{2}", bname, prependname_width, cli_prepend_separator);
                         pathid_to_prependname.insert(*pathid, prepend);
                     }
                 } else if cli_opt_prepend_filepath {
@@ -2137,7 +2161,7 @@ fn processing_loop(
                             Some(path_) => path_,
                             None => continue,
                         };
-                        let prepend: String = format!("{0:<1$}:", path, prependname_width);
+                        let prepend: String = format!("{0:<1$}{2}", path, prependname_width, cli_prepend_separator);
                         pathid_to_prependname.insert(*pathid, prepend);
                     }
                 } else {
@@ -2161,7 +2185,7 @@ fn processing_loop(
                         };
                     let prepend_date_format: Option<String> =
                         match cli_opt_prepend_local || cli_opt_prepend_utc {
-                            true => Some(cli_prepend_dt_format.clone()),
+                            true => Some(cli_prepend_dt_format.clone() + cli_prepend_separator.as_str()),
                             false => None,
                         };
                     let prepend_date_offset: Option<FixedOffset> =
