@@ -113,7 +113,7 @@ s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ### `--help`
 
 ```lang-text
-Super Speedy Syslog Searcher searches log files and merges log entries by datetime.
+Speedily search and merge log file entries by datetime.
 DateTime filters may be passed to narrow the search. It aims to be very fast.
 
 USAGE:
@@ -146,7 +146,7 @@ OPTIONS:
             Prepend DateTime in the Local Timezone for every line
 
     -d, --prepend-dt-format <PREPEND_DT_FORMAT>
-            Prepend DateTime using strftime format string [default: %Y%m%dT%H%M%S%.3f%z:]
+            Prepend DateTime using strftime format string [default: %Y%m%dT%H%M%S%.3f%z]
 
     -n, --prepend-filename
             Prepend file basename to every line
@@ -156,6 +156,9 @@ OPTIONS:
 
     -w, --prepend-file-align
             Align column widths of prepended data
+
+        --prepend-separator <PREPEND_SEPARATOR>
+            Separator string for prepended data [default: :]
 
     -c, --color <COLOR_CHOICE>
             Choose to print to terminal using colors [default: auto]
