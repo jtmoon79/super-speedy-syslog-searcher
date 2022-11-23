@@ -274,8 +274,11 @@ const CLI_DT_FILTER_APPEND_TIME_VALUE: &str = " T000000";
 /// when `has_time` is `false`.
 const CLI_DT_FILTER_APPEND_TIME_PATTERN: &str = " T%H%M%S";
 
+/// default separator for prepended strings
+const PREPEND_SEP: &str = ":";
+
 /// default CLI datetime format printed for CLI options `-u` or `-l`.
-const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z:";
+const CLI_OPT_PREPEND_FMT: &str = concatcp!("%Y%m%dT%H%M%S%.3f%z", PREPEND_SEP);
 
 /// `--help` _afterword_ message.
 const CLI_HELP_AFTER: &str = concatcp!(
@@ -2110,7 +2113,7 @@ fn processing_loop(
                             None => continue,
                         };
                         let bname: String = basename(path);
-                        let prepend: String = format!("{0:<1$}:", bname, prependname_width);
+                        let prepend: String = format!("{0:<1$}{2}", bname, prependname_width, PREPEND_SEP);
                         pathid_to_prependname.insert(*pathid, prepend);
                     }
                 } else if cli_opt_prepend_filepath {
