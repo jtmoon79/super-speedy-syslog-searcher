@@ -25,7 +25,7 @@ use crate::data::datetime::{DateTimeL, FixedOffset};
 use crate::debug::printers::dp_err;
 
 extern crate more_asserts;
-use more_asserts::{assert_le, debug_assert_le};
+use more_asserts::debug_assert_le;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // globals and constants
@@ -234,7 +234,7 @@ macro_rules! print_color_line_highlight_dt {
             let at_end: usize = at + slice.len();
             // datetime is entirely within one linepart
             if at <= $dt_beg && $dt_end < at_end {
-                assert_le!(
+                debug_assert_le!(
                     ($dt_beg - at),
                     slice.len(),
                     "at {} dt_beg {} (dt_beg-at {} > {} slice.len()) dt_end {} A",
@@ -244,7 +244,7 @@ macro_rules! print_color_line_highlight_dt {
                     slice.len(),
                     $dt_end
                 );
-                assert_le!(
+                debug_assert_le!(
                     ($dt_end - at),
                     slice.len(),
                     "at {} dt_beg {} dt_end {} (dt_end-at {} > {} slice.len()) A",
@@ -274,7 +274,7 @@ macro_rules! print_color_line_highlight_dt {
                 }
             // datetime begins in this linepart, extends into next linepart
             } else if at <= $dt_beg && $dt_beg < at_end && at_end <= $dt_end {
-                assert_le!(
+                debug_assert_le!(
                     ($dt_beg - at),
                     slice.len(),
                     "at {} dt_beg {} (dt_beg-at {} > {} slice.len()) dt_end {} at_end {} B",
@@ -299,7 +299,7 @@ macro_rules! print_color_line_highlight_dt {
                 }
             // datetime began in previous linepart, extends into this linepart and ends within this linepart
             } else if $dt_beg < at && at <= $dt_end && $dt_end <= at_end {
-                assert_le!(
+                debug_assert_le!(
                     ($dt_end - at),
                     slice.len(),
                     "at {} dt_beg {} dt_end {} (dt_end-at {} > {} slice.len()) C",
