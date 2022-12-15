@@ -1,4 +1,4 @@
-# Super Speedy Syslog Searcher! (s4)<!-- omit in TOC -->
+# Super Speedy Syslog Searcher! (s4) <!-- omit in toc -->
 
 Speedily search and merge log file entries by datetime.
 
@@ -15,7 +15,7 @@ The first goal of s4 is speedy searching and printing.
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust)](https://crates.io/crates/super-speedy-syslog-searcher)
 [![codecov.io](https://img.shields.io/codecov/c/github/jtmoon79/super-speedy-syslog-searcher/branch?main&token=Q2OXTL7U02&style=flat-square&logo=codecov)](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher)
 [![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/latest.svg)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
-[![Requirements Status](https://requires.io/github/jtmoon79/super-speedy-syslog-searcher/requirements.svg?branch=main)](https://requires.io/github/jtmoon79/super-speedy-syslog-searcher/requirements/?branch=main)
+<!--[![Requirements Status](https://requires.io/github/jtmoon79/super-speedy-syslog-searcher/requirements.svg?branch=main)](https://requires.io/github/jtmoon79/super-speedy-syslog-searcher/requirements/?branch=main)-->
 
 ---
 
@@ -281,7 +281,7 @@ A longer rambling pontification about this project is in
   - [RFC 3164](https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2)
   - [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.8)
   - [RFC 5424](https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3)
-  - [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles)**
+  - [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles)\*\*
 - Parses many ad-hoc datetime formats
   - Tested against "in the wild" log files from varying Linux distributions
     (see project `./logs/`)
@@ -289,6 +289,7 @@ A longer rambling pontification about this project is in
   (see project tool `./tools/compare-grep-sort.sh`; run in github Actions, Job
   _run s4_, Step _Run script compare-grep-sort_)
 - Processes invalid UTF-8
+- Accepts arbitrarily large files\*\*\*
 
 ### Limitations
 
@@ -298,7 +299,7 @@ A longer rambling pontification about this project is in
 - Cannot process archive files or compressed files within other archive files or compressed files, e.g. `logs.tgz`. ([Issue #14](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14))
   e.g. file `syslog.xz` file within file `logs.tar` will not be processed,
 - Cannot process `.zip` archives ([Issue #39](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39))
-- **ISO 8601
+- \*\*ISO 8601
   - ISO 8601 forms recognized
   (using [ISO descriptive format](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates))
     - `YYYY-MM-DDThh:mm:ss`
@@ -310,6 +311,7 @@ A longer rambling pontification about this project is in
     - [_Ordinal dates_](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates), i.e. "day of the year", format `YYYY-DDD`, e.g. `"2022-321"`
     - [_Week dates_](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates), i.e. "week-numbering year", format `YYYY-Www-D`, e.g. `"2022-W25-1"`
     - times [without minutes and seconds](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Times) (i.e. only `hh`)
+- \*\*\* Only for unarchived, uncompressed files ([Issue #9](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/9), [Issue #12](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12), [Issue #13](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13))
 
 ### Hacks
 
