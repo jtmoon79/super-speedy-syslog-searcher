@@ -2364,44 +2364,55 @@ fn processing_loop(
             map_pathid_results.len(),
             paths_printed_syslines.len(),
         );
-        eprintln!("{:?}", summaryprinted);
+        // print the `summaryprinted` in a line-oriented manner and with
+        // UTC comparisons
+        eprintln!("Printed bytes   : {}", summaryprinted.bytes);
+        eprintln!("Printed lines   : {}", summaryprinted.lines);
+        eprintln!("Printed syslines: {}", summaryprinted.syslines);
+        let foffset0 = FixedOffset::east(0);
+        eprint!("Datetime Filter -a    :");
+        match filter_dt_after_opt {
+            Some(dt) => {
+                eprint!(" {:?}", dt);
+                // convert `FixedOffset` to "UTC" (`FixedOffset` value `0`)
+                let dt_utc = dt.with_timezone(&foffset0);
+                eprintln!(" ({:?})", dt_utc);
+            }
+            None => eprintln!(),
+        }
+        eprint!("Datetime printed first:");
+        match summaryprinted.dt_first {
+            Some(dt) => {
+                eprint!(" {:?}", dt);
+                let utc_ = dt.with_timezone(&foffset0);
+                eprintln!(" ({:?})", utc_);
+            }
+            None => eprintln!(),
+        }
+        eprint!("Datetime printed last :");
+        match summaryprinted.dt_last {
+            Some(dt) => {
+                eprint!(" {:?}", dt);
+                let utc_ = dt.with_timezone(&foffset0);
+                eprintln!(" ({:?})", utc_);
+            }
+            None => eprintln!(),
+        }
+        eprint!("Datetime Filter -b    :");
+        match filter_dt_before_opt {
+            Some(dt) => {
+                eprint!(" {:?}", dt);
+                // convert `FixedOffset` to "UTC" (`FixedOffset` value `0`)
+                let dt_utc = dt.with_timezone(&foffset0);
+                eprintln!(" ({:?})", dt_utc);
+            }
+            None => eprintln!(),
+        }
         // print the time now as this program sees it
         let local_now = Local
             .ymd(LOCAL_NOW.year(), LOCAL_NOW.month(), LOCAL_NOW.day())
             .and_hms(LOCAL_NOW.hour(), LOCAL_NOW.minute(), LOCAL_NOW.second());
-        eprintln!("Datetime Now          :    {:?}", local_now);
-        // print the DateTime Filters as Local time
-        eprint!("Datetime Filters      : ");
-        match filter_dt_after_opt {
-            Some(dt) => {
-                eprint!("-a {:?} ", dt);
-            }
-            None => {
-                eprint!("                             ");
-            }
-        }
-        match filter_dt_before_opt {
-            Some(dt) => {
-                eprint!("-b {:?} ", dt);
-            }
-            None => {}
-        }
-        eprintln!();
-        // print the DateTime Filters again as UTC
-        let filter_dt_after_opt_utc = match filter_dt_after_opt {
-            Some(dt) => {
-                // convert `FixedOffset` to "UTC" (`FixedOffset` value `0`)
-                Some(dt.with_timezone(&FixedOffset::east(0)))
-            }
-            None => None
-        };
-        let filter_dt_before_opt_utc = match filter_dt_before_opt {
-            Some(dt) => {
-                // convert `FixedOffset` to "UTC" (`FixedOffset` value `0`)
-                Some(dt.with_timezone(&FixedOffset::east(0)))
-            }
-            None => None
-        };
+        eprint!("Datetime Now          : {:?}", local_now);
         // print UTC now without fractional, and with numeric offset `-00:00`
         // instead of `Z`
         let utc_now = (
@@ -2409,23 +2420,8 @@ fn processing_loop(
             .ymd(UTC_NOW.year(), UTC_NOW.month(), UTC_NOW.day())
             .and_hms(UTC_NOW.hour(), UTC_NOW.minute(), UTC_NOW.second())
         ).with_timezone(&FixedOffset::east(0));
-        eprintln!("Datetime Now     (UTC):    {:?}", utc_now);
-        eprint!("Datetime Filters (UTC): ");
-        match filter_dt_after_opt_utc {
-            Some(dt) => {
-                eprint!("-a {:?} ", dt);
-            }
-            None => {
-                eprint!("                             ");
-            }
-        }
-        match filter_dt_before_opt_utc {
-            Some(dt) => {
-                eprint!("-b {:?}", dt);
-            }
-            None => {}
-        }
-        eprintln!();
+        eprintln!(" ({:?})", utc_now);
+        // print crude stats
         eprintln!("Channel Receive ok {}, err {}", chan_recv_ok, chan_recv_err);
     }
 
