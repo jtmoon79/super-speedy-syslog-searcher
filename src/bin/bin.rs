@@ -1303,7 +1303,7 @@ fn exec_syslogprocessor_thread(
     }
 
     // find first sysline acceptable to the passed filters
-    match syslogproc.process_stage2_find_dt() {
+    match syslogproc.process_stage2_find_dt(&filter_dt_after_opt) {
         FileProcessingResultBlockZero::FileOk => {}
         _result => {
             dpfx!("Result {:?} ({:?})", _result, path);

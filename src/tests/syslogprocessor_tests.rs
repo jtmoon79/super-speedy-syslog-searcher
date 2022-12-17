@@ -5,7 +5,7 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::{FPath, FileOffset};
+use crate::common::{Count, FPath, FileOffset};
 
 use crate::debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
 
@@ -14,7 +14,7 @@ use crate::readers::blockreader::BlockSz;
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
 
 use crate::data::datetime::{
-    datetime_parse_from_str, DateTimeL, DateTimePattern_str, FixedOffset, SystemTime,
+    datetime_parse_from_str, DateTimeL, DateTimeLOpt, DateTimePattern_str, FixedOffset, SystemTime,
 };
 
 use crate::readers::syslinereader::ResultS3SyslineFind;
@@ -23,6 +23,8 @@ use crate::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProce
 
 extern crate const_format;
 use const_format::concatcp;
+
+extern crate filetime;
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
@@ -41,11 +43,13 @@ use test_case::test_case;
 
 const SZ: BlockSz = SyslogProcessor::BLOCKSZ_MIN;
 
-const NTF5_DATA_LINE0: &str = "Jan 1 01:00:00 5a\n";
-const NTF5_DATA_LINE1: &str = "Feb 29 02:00:00 5b\n";
-const NTF5_DATA_LINE2: &str = "Mar 3 03:00:00 5c\n";
-const NTF5_DATA_LINE3: &str = "Apr 4 04:00:00 5d\n";
-const NTF5_DATA_LINE4: &str = "May 5 05:00:00 5e\n";
+const NTF5_DATA_LINE0: &str = "Jan 1 01:00:11 5a\n";
+const NTF5_DATA_LINE1: &str = "Feb 29 02:00:22 5b\n";
+const NTF5_DATA_LINE2: &str = "Mar 3 03:00:33 5c\n";
+const NTF5_DATA_LINE3: &str = "Apr 4 04:00:44 5d\n";
+const NTF5_DATA_LINE4: &str = "May 5 05:00:55 5e\n";
+/// Unix epoch time for time `NTF5_DATA_LINE4` at UTC
+const NTF5_MTIME_UNIXEPOCH: i64 = 957502855;
 
 const NTF5_DATA: &str =
     concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
@@ -89,6 +93,23 @@ lazy_static! {
 
     // NTF5
 
+    // a `DateTimeL` instance a few hours before `NTF5_DATA_LINE2` and after
+    // `NTF5_DATA_LINE1`
+    static ref NTF5_DATA_LINE2_BEFORE: DateTimeLOpt = {
+        match DateTimeL::parse_from_rfc3339("2000-03-01T12:00:00-00:00") {
+            Ok(dt) => Some(dt),
+            Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+        }
+    };
+
+    // a `DateTimeL` instance some hours after `NTF5_DATA_LINE4`
+    static ref NTF5_DATA_LINE4_AFTER: DateTimeLOpt = {
+        match DateTimeL::parse_from_rfc3339("2000-05-05T23:00:00-00:00") {
+            Ok(dt) => Some(dt),
+            Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+        }
+    };
+
     static ref NTF5_LINE2_DATETIME: DateTimeL = {
         match datetime_parse_from_str(
             NTF5_LINE2_DATETIME_STR, NTF5_LINE2_DATETIME_PATTERN, true, &TIMEZONE_0
@@ -101,7 +122,15 @@ lazy_static! {
     };
 
     static ref NTF5: NamedTempFile = {
-        create_temp_file(NTF5_DATA)
+        let ntf = create_temp_file(NTF5_DATA);
+        // set the file's modified time to `NTF5_MTIME_UNIXEPOCH`
+        let mtime = filetime::FileTime::from_unix_time(NTF5_MTIME_UNIXEPOCH, 0);
+        match filetime::set_file_mtime(ntf.path(), mtime) {
+            Ok(_) => {},
+            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+        }
+
+        ntf
     };
 
     static ref NTF5_PATH: FPath = {
@@ -180,7 +209,7 @@ fn test_SyslogProcessor_new1() {
 #[test]
 fn test_process_missing_year_1972() {
     let mut slp = new_SyslogProcessor(&NTF5_PATH, SZ);
-    slp.process_missing_year(SYSTEMTIME_1972_06_01.clone());
+    slp.process_missing_year(SYSTEMTIME_1972_06_01.clone(), &None);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -278,7 +307,7 @@ fn test_processing_stages_0_5() {
         }
     }
 
-    match slp.process_stage2_find_dt() {
+    match slp.process_stage2_find_dt(&None) {
         FileProcessingResultBlockZero::FileOk => {}
         result => {
             panic!("Unexpected result stage2 {:?}", result);
@@ -309,6 +338,40 @@ fn test_processing_stages_0_5() {
     }
 
     let _summary = slp.process_stage4_summary();
+}
+
+#[test_case(&NTF5_PATH, &None, 5)]
+#[test_case(&NTF5_PATH, &NTF5_DATA_LINE2_BEFORE, 4)]
+#[test_case(&NTF5_PATH, &NTF5_DATA_LINE4_AFTER, 1)]
+fn test_process_stage2_find_dt_and_missing_year(
+    path: &FPath,
+    filter_dt_after_opt: &DateTimeLOpt,
+    count_syslines_expect: Count,
+) {
+    let mut slp = new_SyslogProcessor(path, 0xFFFF);
+
+    match slp.process_stage0_valid_file_check() {
+        FileProcessingResultBlockZero::FileOk => {}
+        result => {
+            panic!("Unexpected result stage0 {:?}", result);
+        }
+    }
+
+    match slp.process_stage1_blockzero_analysis() {
+        FileProcessingResultBlockZero::FileOk => {}
+        result => {
+            panic!("Unexpected result stage1 {:?}", result);
+        }
+    }
+
+    match slp.process_stage2_find_dt(filter_dt_after_opt) {
+        FileProcessingResultBlockZero::FileOk => {}
+        result => {
+            panic!("Unexpected result stage2 {:?}", result);
+        }
+    }
+
+    assert_eq!(slp.count_syslines_stored(), count_syslines_expect);
 }
 
 // -------------------------------------------------------------------------------------------------

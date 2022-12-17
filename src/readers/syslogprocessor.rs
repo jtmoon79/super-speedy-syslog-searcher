@@ -12,7 +12,7 @@ use crate::common::{Count, FPath, FileOffset, FileProcessingResult, FileSz, File
 use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockSz, ResultS3ReadBlock};
 
 use crate::data::datetime::{
-    systemtime_to_datetime, DateTimeL, DateTimeLOpt, Duration, FixedOffset, SystemTime, Year,
+    dt_after_or_before, systemtime_to_datetime, DateTimeL, DateTimeLOpt, Duration, FixedOffset, Result_Filter_DateTime1, SystemTime, Year,
 };
 
 use crate::data::sysline::SyslineP;
@@ -436,9 +436,11 @@ impl SyslogProcessor {
     ///
     /// The last [`Sysline`] in the file is presumed to share the same year as
     /// the `mtime` (stored by the underlying [`BlockReader`] instance).
-    /// The entire file is read from end to beginning (in reverse). The year is
-    /// tracked and updated for each sysline. If there is jump backwards in
-    /// time, that is presumed to be a year changeover.
+    /// The entire file is read from end to beginning (in reverse) (unless
+    /// a `filter_dt_after_opt` is passed that coincides with the found
+    /// syslines). The year is tracked and updated for each sysline.
+    /// If there is jump backwards in time, that is presumed to be a
+    /// year changeover.
     ///
     /// For example, given syslog contents
     ///
@@ -457,7 +459,11 @@ impl SyslogProcessor {
     ///
     /// Typically, when a datetime filter is passed, a special binary search is
     /// done to find the desired syslog line, reducing resource usage. Whereas,
-    /// files processed here must be read in their entirety.
+    /// files processed here must be read linearly and in their entirety
+    /// Or, if `filter_dt_after_opt` is passed then the file is read to the
+    /// first `sysline.dt()` (datetime) that is
+    /// `Result_Filter_DateTime1::OccursBefore` the
+    /// `filter_dt_after_opt`.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     /// [`BlockReader`]: crate::readers::blockreader::BlockReader
@@ -465,8 +471,9 @@ impl SyslogProcessor {
     pub fn process_missing_year(
         &mut self,
         mtime: SystemTime,
+        filter_dt_after_opt: &DateTimeLOpt,
     ) -> FileProcessingResultBlockZero {
-        dpfn!("({:?})", mtime);
+        dpfn!("({:?}, {:?})", mtime, filter_dt_after_opt);
         //self.assert_stage(ProcessingStage::Stage2FindDt);
         debug_assert!(!self.did_process_missing_year(), "process_missing_year() must only be called once");
         let dt_mtime: DateTimeL = systemtime_to_datetime(&self.tz_offset, &mtime);
@@ -495,7 +502,7 @@ impl SyslogProcessor {
                 .find_sysline_year(fo_prev, &year_opt)
             {
                 ResultS3SyslineFind::Found((_fo, syslinep)) => {
-                    dpo!(
+                    dpfo!(
                         "Found {} Sysline @[{}, {}] datetime: {:?})",
                         _fo,
                         (*syslinep).fileoffset_begin(),
@@ -505,7 +512,7 @@ impl SyslogProcessor {
                     syslinep
                 }
                 ResultS3SyslineFind::Done => {
-                    dpo!("Done, break;");
+                    dpfo!("Done, break;");
                     break;
                 }
                 ResultS3SyslineFind::Err(err) => {
@@ -534,7 +541,7 @@ impl SyslogProcessor {
                                         let diff: Duration = *dt_cur - *dt_prev;
                                         if diff > min_diff {
                                             year_opt = Some(year_opt.unwrap() - 1);
-                                            dpo!(
+                                            dpfo!(
                                                 "year_opt updated {:?}",
                                                 year_opt
                                             );
@@ -555,9 +562,23 @@ impl SyslogProcessor {
                 None => {}
             }
             if fo_prev < charsz_fo {
-                dpo!("fo_prev {} break;", fo_prev);
+                dpfo!("fo_prev {} break;", fo_prev);
                 // fileoffset is at the beginning of the file (or, cannot be moved back any more)
                 break;
+            }
+            // if user-passed `--dt-after` and the sysline is prior to that filter then
+            // stop processing
+            match syslinep.dt().as_ref() {
+                Some(dt) => {
+                    match dt_after_or_before(dt, filter_dt_after_opt) {
+                        Result_Filter_DateTime1::OccursBefore => {
+                            dpfo!("dt_after_or_before({:?},  {:?}) returned OccursBefore; break", dt, filter_dt_after_opt);
+                            break;
+                        }
+                        Result_Filter_DateTime1::OccursAtOrAfter | Result_Filter_DateTime1::Pass => {},
+                    }
+                }
+                None => {}
             }
             // search for preceding sysline
             fo_prev -= charsz_fo;
@@ -771,7 +792,7 @@ impl SyslogProcessor {
 
     /// Stage 2: Given the two optional datetime filters, can a datetime be
     /// found between those filters?
-    pub fn process_stage2_find_dt(&mut self) -> FileProcessingResultBlockZero {
+    pub fn process_stage2_find_dt(&mut self, filter_dt_after_opt: &DateTimeLOpt) -> FileProcessingResultBlockZero {
         dpfn!();
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
         self.processingstage = ProcessingStage::Stage2FindDt;
@@ -786,7 +807,7 @@ impl SyslogProcessor {
             // TODO: pass `dt_after` datetime filter, avoid processing syslines
             //       with datetime prior to `dt_after`.
             //       Issue #65
-            match self.process_missing_year(mtime) {
+            match self.process_missing_year(mtime, filter_dt_after_opt) {
                 FileProcessingResultBlockZero::FileOk => {}
                 result => {
                     dpfx!("Bad result {:?}", result);
