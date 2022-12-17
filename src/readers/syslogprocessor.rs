@@ -455,6 +455,10 @@ impl SyslogProcessor {
     /// An apparent backwards jump is seen _Jan 1_ to _Dec 1_.
     /// From this, it can be concluded the _Dec 1_ refers to a prior year, 2014.
     ///
+    /// Typically, when a datetime filter is passed, a special binary search is
+    /// done to find the desired syslog line, reducing resource usage. Whereas,
+    /// files processed here must be read in their entirety.
+    ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     /// [`BlockReader`]: crate::readers::blockreader::BlockReader
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
@@ -779,6 +783,9 @@ impl SyslogProcessor {
         {
             dpfo!("!dt_pattern_has_year()");
             let mtime: SystemTime = self.mtime();
+            // TODO: pass `dt_after` datetime filter, avoid processing syslines
+            //       with datetime prior to `dt_after`.
+            //       Issue #65
             match self.process_missing_year(mtime) {
                 FileProcessingResultBlockZero::FileOk => {}
                 result => {
