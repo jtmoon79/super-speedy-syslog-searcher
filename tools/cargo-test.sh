@@ -10,6 +10,7 @@ cd "$(dirname -- "${0}")/.."
 export RUST_BACKTRACE=1
 
 # allow user to pass -- to place extra arguments past the prescripted -- delimiter
+# most often this is `--nocapture`
 declare -a args1=()
 for a in "${@}"; do
     if [[ "${a}" == "--" ]]; then
