@@ -296,6 +296,14 @@ impl SyslogProcessor {
             .count_lines_processed()
     }
 
+    /// See [`Sysline::count_syslines_stored`].
+    ///
+    /// [`Sysline::count_syslines_stored`]: crate::data::sysline::Sysline::count_syslines_stored
+    #[cfg(test)]
+    pub fn count_syslines_stored(&self) -> Count {
+        self.syslinereader.count_syslines_stored()
+    }
+
     /// See [`BlockReader::blocksz`].
     ///
     /// [`BlockReader::blocksz`]: crate::readers::blockreader::BlockReader#method.blocksz
@@ -1075,6 +1083,9 @@ impl SyslogProcessor {
         let SyslineReader_syslines = self
             .syslinereader
             .count_syslines_processed();
+        let SyslineReader_syslines_stored_high = self
+            .syslinereader
+            .syslines_stored_high();
         let SyslineReader_syslines_hit = self
             .syslinereader
             .syslines_hit;
@@ -1211,6 +1222,7 @@ impl SyslogProcessor {
             BlockReader_filesz_actual,
             LineReader_lines,
             SyslineReader_syslines,
+            SyslineReader_syslines_stored_high,
             SyslineReader_syslines_hit,
             SyslineReader_syslines_miss,
             SyslineReader_syslines_by_range_hit,

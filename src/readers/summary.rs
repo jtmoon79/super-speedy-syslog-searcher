@@ -54,6 +54,8 @@ pub struct Summary {
     pub LineReader_lines: Count,
     /// `Count` of `Syslines` processed by `SyslineReader`
     pub SyslineReader_syslines: Count,
+    /// "high watermark"` of `Sysline`s stored by `SyslineReader.syslines`
+    pub SyslineReader_syslines_stored_high: usize,
     /// `SyslineReader::_syslines_hit`
     pub SyslineReader_syslines_hit: Count,
     /// `SyslineReader::_syslines_miss`
@@ -139,6 +141,7 @@ impl Summary {
         BlockReader_filesz_actual: FileSz,
         LineReader_lines: Count,
         SyslineReader_syslines: Count,
+        SyslineReader_syslines_stored_high: usize,
         SyslineReader_syslines_hit: Count,
         SyslineReader_syslines_miss: Count,
         SyslineReader_syslines_by_range_hit: Count,
@@ -199,6 +202,7 @@ impl Summary {
             BlockReader_filesz_actual,
             LineReader_lines,
             SyslineReader_syslines,
+            SyslineReader_syslines_stored_high,
             SyslineReader_syslines_hit,
             SyslineReader_syslines_miss,
             SyslineReader_syslines_by_range_hit,
@@ -302,6 +306,7 @@ impl fmt::Debug for Summary {
                 .field("bytes total", &self.BlockReader_bytes_total)
                 .field("lines", &self.LineReader_lines)
                 .field("syslines", &self.SyslineReader_syslines)
+                .field("syslines stored highest", &self.SyslineReader_syslines_stored_high)
                 .field("blocks", &self.BlockReader_blocks)
                 .field("blocks total", &self.BlockReader_blocks_total)
                 .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
@@ -313,6 +318,7 @@ impl fmt::Debug for Summary {
                 .field("bytes total", &self.BlockReader_bytes_total)
                 .field("lines", &self.LineReader_lines)
                 .field("syslines", &self.SyslineReader_syslines)
+                .field("syslines stored highest", &self.SyslineReader_syslines_stored_high)
                 .field("blocks", &self.BlockReader_blocks)
                 .field("blocks total", &self.BlockReader_blocks_total)
                 .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))

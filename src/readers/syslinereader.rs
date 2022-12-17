@@ -143,6 +143,8 @@ pub struct SyslineReader {
     pub(super) syslines: Syslines,
     /// `Count` of Syslines processed.
     syslines_count: Count,
+    /// "high watermark" of Syslines stored in `self.syslines` at one time
+    syslines_stored_high: usize,
     /// Internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
     pub(super) syslines_hit: Count,
     /// Internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
@@ -355,6 +357,7 @@ impl SyslineReader {
             linereader: lr,
             syslines: Syslines::new(),
             syslines_count: 0,
+            syslines_stored_high: 0,
             syslines_by_range: SyslinesRangeMap::new(),
             syslines_hit: 0,
             syslines_miss: 0,
@@ -521,6 +524,11 @@ impl SyslineReader {
     /// `Count` of `Sysline`s currently stored, i.e. `self.syslines.len()`
     pub fn count_syslines_stored(&self) -> Count {
         self.syslines.len() as Count
+    }
+
+    /// "high watermark" of `Sysline`s stored in `self.syslines`
+    pub fn syslines_stored_high(&self) -> usize {
+        self.syslines_stored_high
     }
 
     /// See [`LineReader::count_lines_processed`].
@@ -762,6 +770,7 @@ impl SyslineReader {
         self.syslines
             .insert(fo_beg, syslinep.clone());
         self.syslines_count += 1;
+        self.syslines_stored_high = std::cmp::max(self.syslines.len(), self.syslines_stored_high);
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let fo_end1: FileOffset = fo_end + (self.charsz() as FileOffset);
         dpfx!("syslines_by_range.insert(({}‥{}], {})", fo_beg, fo_end1, fo_beg);
@@ -815,6 +824,7 @@ impl SyslineReader {
             self.drop_sysline(fo_key, bo_dropped);
             dpfo!("bo_dropped {:?}", bo_dropped);
         }
+        self.syslines_stored_high = std::cmp::max(self.syslines.len(), self.syslines_stored_high);
 
         dpfx!("({})", blockoffset);
     }
