@@ -1454,7 +1454,7 @@ impl SyslineReader {
             return Some(ResultS3SyslineFind::Found((fo_next, syslinep)));
         } else {
             self.syslines_miss += 1;
-            dpfx!("fileoffset {} not found in self.syslines", fileoffset);
+            dpfo!("fileoffset {} not found in self.syslines", fileoffset);
         }
         dpfx!("return None");
 

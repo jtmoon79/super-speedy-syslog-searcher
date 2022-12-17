@@ -182,8 +182,8 @@ impl Sysline {
         &mut self,
         linep: LineP,
     ) {
-        dpo!("SyslineReader.push(), self.lines.len() is now {}", self.lines.len() + 1);
         self.lines.push(linep);
+        dpñ!("Sysline.push(), self.lines.len() is now {}", self.lines.len());
     }
 
     /// The byte offset into the file where this `Sysline` begins.
