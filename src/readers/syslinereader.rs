@@ -300,6 +300,7 @@ where
 impl SyslineReader {
     /// Maximum number of datetime patterns to match when first reading a
     /// file (before settling on one).
+    #[allow(dead_code)]
     const DT_PATTERN_MAX_PRE_ANALYSIS: usize = 4;
 
     /// Maximum number of datetime patterns for matching the remainder of a syslog file.
@@ -1123,7 +1124,7 @@ impl SyslineReader {
         // get maximum value in `dt_patterns_counts`
         // ripped from https://stackoverflow.com/a/60134450/471376
         // test https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=b8eb53f40fd89461c9dad9c976746cc3
-        let max_ = (&self.dt_patterns_counts)
+        let max_ = self.dt_patterns_counts
             .iter()
             .fold(std::u64::MIN, |a, b| a.max(*(b.1)));
         // remove all items < maximum value in `dt_patterns_counts`
@@ -1184,7 +1185,7 @@ impl SyslineReader {
             // before analysis, the uses of all `DateTimeParseInstr` are tracked
             // return index to maximum value
             // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=85ac85f48e6ddff04dc938b742872dc1
-            let max_key_value: Option<(&DateTimeParseInstrsIndex, &Count)> = (&self.dt_patterns_counts)
+            let max_key_value: Option<(&DateTimeParseInstrsIndex, &Count)> = self.dt_patterns_counts
                 .iter()
                 .reduce(|accum, item| if accum.1 >= item.1 { accum } else { item });
             *max_key_value.unwrap().0

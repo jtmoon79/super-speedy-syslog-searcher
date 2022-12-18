@@ -477,37 +477,25 @@ impl<'a> LinePartPtrs<'a> {
     /// To aid testing.
     #[cfg(test)]
     pub fn is_no_ptr(&self) -> bool {
-        match self {
-            LinePartPtrs::NoPtr => true,
-            _ => false,
-        }
+        matches!(self, LinePartPtrs::NoPtr)
     }
 
     /// To aid testing.
     #[cfg(test)]
     pub fn is_single_ptr(&self) -> bool {
-        match self {
-            LinePartPtrs::SinglePtr(_) => true,
-            _ => false,
-        }
+        matches!(self, LinePartPtrs::SinglePtr(_))
     }
 
     /// To aid testing.
     #[cfg(test)]
     pub fn is_double_ptr(&self) -> bool {
-        match self {
-            LinePartPtrs::DoublePtr(_, _) => true,
-            _ => false,
-        }
+        matches!(self, LinePartPtrs::DoublePtr(_, _))
     }
 
     /// To aid testing.
     #[cfg(test)]
     pub fn is_multi_ptr(&self) -> bool {
-        match self {
-            LinePartPtrs::MultiPtr(_) => true,
-            _ => false,
-        }
+        matches!(self, LinePartPtrs::MultiPtr(_))
     }
 }
 

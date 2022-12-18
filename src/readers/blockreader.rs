@@ -1017,7 +1017,7 @@ impl BlockReader {
                 let mut mtime: TarMTime = 0;
                 let subpath: &String = subpath_opt.as_ref().unwrap();
 
-                let mut archive: TarHandle = BlockReader::open_tar(&path_std)?;
+                let mut archive: TarHandle = BlockReader::open_tar(path_std)?;
                 let entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
                     Ok(val) => val,
                     Err(err) => {

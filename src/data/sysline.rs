@@ -76,7 +76,7 @@ impl std::fmt::Debug for Sysline {
         for lp in self.lines.iter() {
             li_s.push_str(&format!(
                 "Line @{:p} (fileoffset_beg {}, fileoffset_end {}, len() {}, count_lineparts() {}",
-                &*lp,
+                &**lp,
                 (*lp).fileoffset_begin(),
                 (*lp).fileoffset_end(),
                 (*lp).len(),
@@ -293,7 +293,7 @@ impl Sysline {
                 return None;
             }
         };
-        let len_ = (*linep_last).lineparts.len();
+        let len_ = linep_last.lineparts.len();
         if len_ == 0 {
             return None;
         }

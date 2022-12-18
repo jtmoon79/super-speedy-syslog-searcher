@@ -1376,6 +1376,7 @@ acdt|acst|act|adt|aedt|aest|aet|aft|akdt|akst|almt|amst|amt|anat|aqtt|art|ast|aw
 )";
 
 /// hardcoded listing of named timezone abbreviations
+#[cfg(any(debug_assertions, test))]
 pub(crate) const TZZ_LIST_UPPER: &[&str] = &[
     "ACDT", "ACST", "ACT", "ACWST", "ADT", "AEDT", "AEST", "AET", "AFT", "AKDT", "AKST", "ALMT", "AMST", "AMT",
     "ANAT", "AQTT", "ART", "AST", "AWST", "AZOST", "AZOT", "AZT", "BIOT", "BIT", "BNT", "BOT", "BRST", "BRT", "BST",
@@ -1394,6 +1395,7 @@ pub(crate) const TZZ_LIST_UPPER: &[&str] = &[
 ];
 
 /// lowercase version of [`TZZ_LIST_UPPER`]
+#[cfg(any(debug_assertions, test))]
 pub(crate) const TZZ_LIST_LOWER: &[&str] = &[
     "acdt", "acst", "act", "acwst", "adt", "aedt", "aest", "aet", "aft", "akdt", "akst", "almt", "amst", "amt",
     "anat", "aqtt", "art", "ast", "awst", "azost", "azot", "azt", "biot", "bit", "bnt", "bot", "brst", "brt", "bst",
@@ -3852,7 +3854,7 @@ pub(crate) fn captures_to_buffer_bytes(
                         Ok(val) => {
                             match val.char_indices().nth(1) {
                                 Some((offset, _)) => {
-                                    copy_slice_to_buffer!(&val[offset..].as_bytes(), buffer, at);
+                                    copy_slice_to_buffer!(val[offset..].as_bytes(), buffer, at);
                                 }
                                 None => {
                                     // something is wrong with captured value

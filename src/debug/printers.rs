@@ -185,7 +185,7 @@ pub fn file_to_String_noraw(path: &FPath) -> String {
     let mut open_options = FileOpenOptions::new();
     let mut file_ = match open_options
         .read(true)
-        .open(&path_)
+        .open(path_)
     {
         Ok(val) => val,
         Err(err) => {
