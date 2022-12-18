@@ -551,9 +551,9 @@ fn test_Map_TZ_names() {
     // tz_val example "-07:00"
     for (tz_name, tz_val) in MAP_TZZ_TO_TZz.iter() {
         if ! tz_val.is_empty() {
-            assert!(tz_val.starts_with("+") || tz_val.starts_with("-"), "Bad timezone value starts_with {:?} for entry {:?}", tz_val, tz_name);
+            assert!(tz_val.starts_with('+') || tz_val.starts_with('-'), "Bad timezone value starts_with {:?} for entry {:?}", tz_val, tz_name);
             assert!(tz_val.ends_with(":00") || tz_val.ends_with(":30") || tz_val.ends_with(":45"), "Bad timezone value ends_with {:?} for entry {:?}", tz_val, tz_name);
-            assert!(tz_val.contains(":"), "Bad timezone value {:?} not contains ':' for entry {:?}", tz_val, tz_name);
+            assert!(tz_val.contains(':'), "Bad timezone value {:?} not contains ':' for entry {:?}", tz_val, tz_name);
             assert_eq!(tz_val.len(), 6, "Bad timezone value {:?} length {:?} for entry {:?}", tz_val, tz_val.len(), tz_name);
         } // empty value means the name is ambiguous
         assert!(TZZ_LIST_UPPER.contains(tz_name) || TZZ_LIST_LOWER.contains(tz_name), "Named timezone {:?} not in TZZ_LIST_UPPER or TZZ_LIST_LOWER", tz_name);
@@ -589,7 +589,7 @@ fn test_Map_TZ_names() {
 /// declared.
 fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
     stack_offset_set(Some(2));
-    let tz = FixedOffset::east_opt(60 * 60).unwrap();
+    let _tz = FixedOffset::east_opt(60 * 60).unwrap();
     for (index, dtpd) in DATETIME_PARSE_DATAS
         .iter()
         .enumerate()
@@ -599,12 +599,12 @@ fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
         eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
         for test_case in dtpd._test_cases {
             eprintln!("  Test Data       : {:?}", test_case);
-            let data = test_case.2.as_bytes();
-            let mut year_opt: Option<Year> = None;
+            let _data = test_case.2.as_bytes();
+            let mut _year_opt: Option<Year> = None;
             if !dtpd.dtfs.has_year() {
-                year_opt = Some(1980);
+                _year_opt = Some(1980);
             }
-            for (index_, dtpd_) in DATETIME_PARSE_DATAS
+            for (index_, _dtpd) in DATETIME_PARSE_DATAS
                 .iter()
                 .enumerate()
             {

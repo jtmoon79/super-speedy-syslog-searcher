@@ -565,7 +565,7 @@ fn test_LineReader_half_even(
     blocksz: BlockSz,
 ) {
     eprintln!("{}test_LineReader_half_even({:?}, {:?})", sn(), &path, blocksz);
-    let mut lr1 = new_LineReader(&path, blocksz);
+    let mut lr1 = new_LineReader(path, blocksz);
     eprintln!("{}LineReader {:?}", so(), lr1);
     let fillsz: usize = match lr1.filesz() as usize {
         0 => 1,
@@ -941,10 +941,8 @@ fn test_LineReader_precise_order(
     for (fo, linep) in lr1.lines.iter() {
         eprintln!("{}  Line@{:02}: {:?}", so(), fo, linep);
         let slices_ = (*linep).get_slices();
-        let mut count_: usize = 0;
-        for slice_ in slices_.iter() {
+        for (count_, slice_) in slices_.iter().enumerate() {
             eprintln!("{}    LinePart {}: {:?}", so(), count_, buffer_to_String_noraw(slice_));
-            count_ += 1;
         }
     }
 
@@ -1618,7 +1616,7 @@ fn test_Line_get_boxptrs(
                     byte_to_char_noraw(*byte_),
                     byte_to_char_noraw(*byte_check)
                 );
-                assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segment {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_String_noraw(&(*boxptr)), (*linep).to_String_noraw());
+                assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segment {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_String_noraw(boxptr), (*linep).to_String_noraw());
                 at += 1;
             }
         }

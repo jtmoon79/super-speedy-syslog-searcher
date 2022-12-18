@@ -10,7 +10,7 @@ use crate::common::FileOffset;
 
 use crate::data::datetime::{DateTimeL, Duration};
 
-use crate::data::line::{Line, LineP, LinePart, Lines};
+use crate::data::line::{Line, LineP, LinePart};
 
 use crate::data::sysline::{Sysline, SyslineP};
 
@@ -71,9 +71,9 @@ const DT_END2: usize = 32;
 const BLOCKSZ: BlockSz = 16;
 const BLOCKOFFSET_INIT: BlockOffset = 2;
 lazy_static! {
-    static ref DT_0: DateTimeL = { DateTimeL::parse_from_rfc3339(DT_STR0).unwrap() };
-    static ref DT_1: DateTimeL = { DateTimeL::parse_from_rfc3339(DT_STR1).unwrap() };
-    static ref DIFF_0_1: Duration = { Duration::seconds(1) };
+    static ref DT_0: DateTimeL = DateTimeL::parse_from_rfc3339(DT_STR0).unwrap();
+    static ref DT_1: DateTimeL = DateTimeL::parse_from_rfc3339(DT_STR1).unwrap();
+    static ref DIFF_0_1: Duration = Duration::seconds(1);
     static ref BLOCKOFFSET_LAST: BlockOffset = {
         let n_: BlockOffset = (DATA_STR0.as_bytes().len() / (BLOCKSZ as usize)) as BlockOffset;
         let x_: BlockOffset = match DATA_STR0.as_bytes().len() % (BLOCKSZ as usize) {

@@ -94,7 +94,7 @@ fn test_BlockReader(
     path: &FPath,
     filetype: FileType,
     blocksz: BlockSz,
-    offsets: &Vec<BlockOffset>,
+    offsets: &[BlockOffset],
     checks: &Checks,
 ) {
     dpfn!("({:?}, {})", path, blocksz);

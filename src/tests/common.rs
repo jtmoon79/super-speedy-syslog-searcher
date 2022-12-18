@@ -31,12 +31,12 @@ pub const FILE_TAR: FileType = FileType::FileTar;
 // ready-made MimeGuess
 
 lazy_static! {
-    pub static ref MIMEGUESS_EMPTY: MimeGuess = { MimeGuess::from_ext("") };
-    pub static ref MIMEGUESS_TXT: MimeGuess = { MimeGuess::from_ext("txt") };
-    pub static ref MIMEGUESS_LOG: MimeGuess = { MimeGuess::from_ext("log") };
-    pub static ref MIMEGUESS_GZ: MimeGuess = { MimeGuess::from_ext("gz") };
-    pub static ref MIMEGUESS_XZ: MimeGuess = { MimeGuess::from_ext("xz") };
-    pub static ref MIMEGUESS_TAR: MimeGuess = { MimeGuess::from_ext("tar") };
+    pub static ref MIMEGUESS_EMPTY: MimeGuess = MimeGuess::from_ext("");
+    pub static ref MIMEGUESS_TXT: MimeGuess = MimeGuess::from_ext("txt");
+    pub static ref MIMEGUESS_LOG: MimeGuess = MimeGuess::from_ext("log");
+    pub static ref MIMEGUESS_GZ: MimeGuess = MimeGuess::from_ext("gz");
+    pub static ref MIMEGUESS_XZ: MimeGuess = MimeGuess::from_ext("xz");
+    pub static ref MIMEGUESS_TAR: MimeGuess = MimeGuess::from_ext("tar");
 }
 
 // data from the various forms of the 1 byte, 3 byte, and 8 byte file
@@ -143,7 +143,7 @@ lazy_static! {
         )
     };
     pub static ref NTF_GZ_EMPTY_PATH: &'static Path = {
-        &fpath_to_path(&NTF_GZ_EMPTY_FPATH)
+        fpath_to_path(&NTF_GZ_EMPTY_FPATH)
     };
     pub static ref NTF_GZ_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_GZ_EMPTY.path())
@@ -168,8 +168,8 @@ pub const GZ_1BYTE_DATA: [u8; 27] = [
 lazy_static! {
     pub static ref NTF_1BYTE_GZ: NamedTempFile =
         create_temp_file_bytes_with_suffix(&GZ_1BYTE_DATA, &String::from("-one-byte.gz"));
-    pub static ref NTF_GZ_1BYTE_FPATH: FPath = { ntf_fpath(&NTF_1BYTE_GZ) };
-    pub static ref NTF_GZ_1BYTE_PATH: &'static Path = { &fpath_to_path(&NTF_GZ_1BYTE_FPATH) };
+    pub static ref NTF_GZ_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE_GZ);
+    pub static ref NTF_GZ_1BYTE_PATH: &'static Path = fpath_to_path(&NTF_GZ_1BYTE_FPATH);
 }
 
 ///
@@ -187,8 +187,8 @@ pub const GZ_8BYTE_DATA: [u8; 34] = [
 lazy_static! {
     pub static ref NTF_8BYTE_GZ: NamedTempFile =
         create_temp_file_bytes_with_suffix(&GZ_8BYTE_DATA, &String::from("-eight-byte.gz"));
-    pub static ref NTF_GZ_8BYTE_FPATH: FPath = { ntf_fpath(&NTF_8BYTE_GZ) };
-    pub static ref NTF_GZ_8BYTE_PATH: &'static Path = { &fpath_to_path(&NTF_GZ_8BYTE_FPATH) };
+    pub static ref NTF_GZ_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_GZ);
+    pub static ref NTF_GZ_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_GZ_8BYTE_FPATH);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -212,7 +212,7 @@ lazy_static! {
         )
     };
     pub static ref NTF_XZ_EMPTY_PATH: &'static Path = {
-        &fpath_to_path(&NTF_XZ_EMPTY_FPATH)
+        fpath_to_path(&NTF_XZ_EMPTY_FPATH)
     };
     pub static ref NTF_XZ_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_XZ_EMPTY.path())
@@ -239,8 +239,8 @@ pub const XZ_1BYTE_DATA: [u8; 60] = [
 lazy_static! {
     pub static ref NTF_1BYTE_XZ: NamedTempFile =
         create_temp_file_bytes_with_suffix(&XZ_1BYTE_DATA, &String::from("-one-byte.xz"));
-    pub static ref NTF_XZ_1BYTE_FPATH: FPath = { ntf_fpath(&NTF_1BYTE_XZ) };
-    pub static ref NTF_XZ_1BYTE_PATH: &'static Path = { &fpath_to_path(&NTF_XZ_1BYTE_FPATH) };
+    pub static ref NTF_XZ_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE_XZ);
+    pub static ref NTF_XZ_1BYTE_PATH: &'static Path = fpath_to_path(&NTF_XZ_1BYTE_FPATH);
 }
 
 ///
@@ -260,8 +260,8 @@ pub const XZ_8BYTE_DATA: [u8; 64] = [
 lazy_static! {
     pub static ref NTF_8BYTE_XZ: NamedTempFile =
         create_temp_file_bytes_with_suffix(&XZ_8BYTE_DATA, &String::from("-8byte.xz"));
-    pub static ref NTF_XZ_8BYTE_FPATH: FPath = { ntf_fpath(&NTF_8BYTE_XZ) };
-    pub static ref NTF_XZ_8BYTE_PATH: &'static Path = { &fpath_to_path(&NTF_XZ_8BYTE_FPATH) };
+    pub static ref NTF_XZ_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_XZ);
+    pub static ref NTF_XZ_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_XZ_8BYTE_FPATH);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -377,8 +377,8 @@ pub const TAR_0BYTE_DATA: [u8; 1536] = [
 
 lazy_static! {
     pub static ref NTF_TAR_0BYTE: NamedTempFile =
-        { create_temp_file_bytes_with_suffix(&TAR_0BYTE_DATA, &String::from(TAR_0BYTE_FILENAME)) };
-    pub static ref NTF_TAR_0BYTE_FPATH: FPath = { ntf_fpath(&NTF_TAR_0BYTE) };
+        create_temp_file_bytes_with_suffix(&TAR_0BYTE_DATA, &String::from(TAR_0BYTE_FILENAME));
+    pub static ref NTF_TAR_0BYTE_FPATH: FPath = ntf_fpath(&NTF_TAR_0BYTE);
     pub static ref NTF_TAR_0BYTE_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_0BYTE_FPATH.clone();
         path_.push(SUBPATH_SEP);
@@ -1017,8 +1017,8 @@ pub const TAR_1BYTE_DATA: [u8; 10240] = [
 
 lazy_static! {
     pub static ref NTF_TAR_1BYTE: NamedTempFile =
-        { create_temp_file_bytes_with_suffix(&TAR_1BYTE_DATA, &String::from("-one-byte.tar")) };
-    pub static ref NTF_TAR_1BYTE_FPATH: FPath = { ntf_fpath(&NTF_TAR_1BYTE) };
+        create_temp_file_bytes_with_suffix(&TAR_1BYTE_DATA, &String::from("-one-byte.tar"));
+    pub static ref NTF_TAR_1BYTE_FPATH: FPath = ntf_fpath(&NTF_TAR_1BYTE);
     pub static ref NTF_TAR_1BYTE_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_1BYTE_FPATH.clone();
         path_.push(SUBPATH_SEP);
@@ -1174,10 +1174,9 @@ pub const TAR_3BYTE_OLDGNU_DATA: [u8; 2048] = [
 ];
 
 lazy_static! {
-    pub static ref NTF_TAR_3BYTE_OLDGNU: NamedTempFile = {
-        create_temp_file_bytes_with_suffix(&TAR_3BYTE_OLDGNU_DATA, &String::from(TAR_3BYTE_OLDGNU_FILENAME))
-    };
-    pub static ref NTF_TAR_3BYTE_OLDGNU_FPATH: FPath = { ntf_fpath(&NTF_TAR_3BYTE_OLDGNU) };
+    pub static ref NTF_TAR_3BYTE_OLDGNU: NamedTempFile =
+        create_temp_file_bytes_with_suffix(&TAR_3BYTE_OLDGNU_DATA, &String::from(TAR_3BYTE_OLDGNU_FILENAME));
+    pub static ref NTF_TAR_3BYTE_OLDGNU_FPATH: FPath = ntf_fpath(&NTF_TAR_3BYTE_OLDGNU);
     pub static ref NTF_TAR_3BYTE_OLDGNU_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_3BYTE_OLDGNU_FPATH.clone();
         path_.push(SUBPATH_SEP);
@@ -1394,8 +1393,8 @@ pub const TAR_3BYTE_PAX_DATA: [u8; 3072] = [
 
 lazy_static! {
     pub static ref NTF_TAR_3BYTE_PAX: NamedTempFile =
-        { create_temp_file_bytes_with_suffix(&TAR_3BYTE_PAX_DATA, &String::from(TAR_3BYTE_PAX_FILENAME)) };
-    pub static ref NTF_TAR_3BYTE_PAX_FPATH: FPath = { ntf_fpath(&NTF_TAR_3BYTE_PAX) };
+        create_temp_file_bytes_with_suffix(&TAR_3BYTE_PAX_DATA, &String::from(TAR_3BYTE_PAX_FILENAME));
+    pub static ref NTF_TAR_3BYTE_PAX_FPATH: FPath = ntf_fpath(&NTF_TAR_3BYTE_PAX);
     pub static ref NTF_TAR_3BYTE_PAX_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_3BYTE_PAX_FPATH.clone();
         path_.push(SUBPATH_SEP);
@@ -1551,10 +1550,9 @@ pub const TAR_3BYTE_USTAR_DATA: [u8; 2048] = [
 ];
 
 lazy_static! {
-    pub static ref NTF_TAR_3BYTE_USTAR: NamedTempFile = {
-        create_temp_file_bytes_with_suffix(&TAR_3BYTE_USTAR_DATA, &String::from(TAR_3BYTE_USTAR_FILENAME))
-    };
-    pub static ref NTF_TAR_3BYTE_USTAR_FPATH: FPath = { ntf_fpath(&NTF_TAR_3BYTE_PAX) };
+    pub static ref NTF_TAR_3BYTE_USTAR: NamedTempFile =
+        create_temp_file_bytes_with_suffix(&TAR_3BYTE_USTAR_DATA, &String::from(TAR_3BYTE_USTAR_FILENAME));
+    pub static ref NTF_TAR_3BYTE_USTAR_FPATH: FPath = ntf_fpath(&NTF_TAR_3BYTE_PAX);
     pub static ref NTF_TAR_3BYTE_USTAR_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_3BYTE_USTAR_FPATH.clone();
         path_.push(SUBPATH_SEP);
@@ -1711,8 +1709,8 @@ pub const TAR_3BYTE_V7_DATA: [u8; 2048] = [
 
 lazy_static! {
     pub static ref NTF_TAR_3BYTE_V7: NamedTempFile =
-        { create_temp_file_bytes_with_suffix(&TAR_3BYTE_V7_DATA, &String::from(TAR_3BYTE_V7_FILENAME)) };
-    pub static ref NTF_TAR_3BYTE_V7_FPATH: FPath = { ntf_fpath(&NTF_TAR_3BYTE_PAX) };
+        create_temp_file_bytes_with_suffix(&TAR_3BYTE_V7_DATA, &String::from(TAR_3BYTE_V7_FILENAME));
+    pub static ref NTF_TAR_3BYTE_V7_FPATH: FPath = ntf_fpath(&NTF_TAR_3BYTE_PAX);
     pub static ref NTF_TAR_3BYTE_V7_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_3BYTE_V7_FPATH.clone();
         path_.push(SUBPATH_SEP);
@@ -1869,8 +1867,8 @@ pub const TAR_8BYTE_DATA: [u8; 2048] = [
 
 lazy_static! {
     pub static ref NTF_TAR_8BYTE: NamedTempFile =
-        { create_temp_file_bytes_with_suffix(&TAR_8BYTE_DATA, &String::from(TAR_8BYTE_FILENAME)) };
-    pub static ref NTF_TAR_8BYTE_FPATH: FPath = { ntf_fpath(&NTF_TAR_8BYTE) };
+        create_temp_file_bytes_with_suffix(&TAR_8BYTE_DATA, &String::from(TAR_8BYTE_FILENAME));
+    pub static ref NTF_TAR_8BYTE_FPATH: FPath = ntf_fpath(&NTF_TAR_8BYTE);
     pub static ref NTF_TAR_8BYTE_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_8BYTE_FPATH.clone();
         path_.push(SUBPATH_SEP);

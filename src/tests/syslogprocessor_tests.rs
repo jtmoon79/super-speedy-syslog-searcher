@@ -209,7 +209,7 @@ fn test_SyslogProcessor_new1() {
 #[test]
 fn test_process_missing_year_1972() {
     let mut slp = new_SyslogProcessor(&NTF5_PATH, SZ);
-    slp.process_missing_year(SYSTEMTIME_1972_06_01.clone(), &None);
+    slp.process_missing_year(*SYSTEMTIME_1972_06_01, &None);
 }
 
 // -------------------------------------------------------------------------------------------------

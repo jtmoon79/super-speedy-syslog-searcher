@@ -134,7 +134,7 @@ fn test_process_file_path(
 ) {
     stack_offset_set(Some(2));
     eprintln!("test_process_file_path: ntf {:?}", ntf);
-    let fpath = ntf_fpath(&ntf);
+    let fpath = ntf_fpath(ntf);
     let results = process_path(&fpath);
     assert_eq!(check, results, "\nexpected {:?}\nactual  {:?}\n", check, results);
 }
@@ -178,7 +178,7 @@ fn test_process_file_path_tar() {
 // -------------------------------------------------------------------------------------------------
 
 lazy_static! {
-    pub static ref MIMEGUESS_LOG_1: MimeGuess = { MimeGuess::from_path(Path::new("test.log")) };
+    pub static ref MIMEGUESS_LOG_1: MimeGuess = MimeGuess::from_path(Path::new("test.log"));
 }
 
 /// test `fpath_to_filetype_mimeguess` (and `path_to_filetype_mimeguess`)

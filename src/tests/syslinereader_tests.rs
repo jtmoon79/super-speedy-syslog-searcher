@@ -23,7 +23,6 @@ use crate::data::datetime::{
     DateTimeParseInstr,
     DateTimePattern_str,
     FixedOffset,
-    Result_Filter_DateTime2,
     // chrono imports
     TimeZone,
 };
@@ -121,8 +120,8 @@ const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET
         .len();
 
 lazy_static! {
-    static ref NTF5: NamedTempFile = { create_temp_file(&NTF5_DATA) };
-    static ref NTF5_PATH: FPath = { ntf_fpath(&NTF5) };
+    static ref NTF5: NamedTempFile = create_temp_file(&NTF5_DATA);
+    static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
 }
 
 /// basic test of `SyslineReader.find_sysline`
@@ -3424,8 +3423,8 @@ const test_data_file_A1_dt6_checks: [TestSyslineReaderCheck; 6] = [
 ];
 
 lazy_static! {
-    static ref NTF_A1: NamedTempFile = { create_temp_file(test_data_file_A1_dt6) };
-    static ref NTF_A1_path: FPath = { ntf_fpath(&NTF_A1) };
+    static ref NTF_A1: NamedTempFile = create_temp_file(test_data_file_A1_dt6);
+    static ref NTF_A1_path: FPath = ntf_fpath(&NTF_A1);
 }
 
 #[test]
@@ -3718,8 +3717,8 @@ const test_data_A2_dt6_checks_many_rev: TestDataA2Dt6Checks = [
 ];
 
 lazy_static! {
-    static ref test_data_A2_dt6_ntf: NamedTempFile = { create_temp_file(test_data_A2_dt6) };
-    static ref test_data_A2_dt6_ntf_path: FPath = { ntf_fpath(&test_data_A2_dt6_ntf) };
+    static ref test_data_A2_dt6_ntf: NamedTempFile = create_temp_file(test_data_A2_dt6);
+    static ref test_data_A2_dt6_ntf_path: FPath = ntf_fpath(&test_data_A2_dt6_ntf);
 }
 
 #[test_case(true, 2, &test_data_A2_dt6_checks_many; "cache_2")]
@@ -3953,6 +3952,7 @@ const _test_data_file_F_dt6: &str = "\
 2001-05-01 00:00:04 😀😁😂😃
 2001-06-01 00:00:05 😀😁😂😃😄";
 
+#[allow(dead_code)]
 const test_data_file_F_dt6_sysline0: &str = "2001-01-01 00:00:00 _\n";
 const test_data_file_F_dt6_sysline1: &str = "2001-02-01 00:00:01 😀\n";
 const test_data_file_F_dt6_sysline2: &str = "2001-03-01 00:00:02 😀😁\n2001-04-31 00:00:03 😫😫😫\n";
@@ -4047,6 +4047,7 @@ const test_data_file_G_dt4: &str = "\
 
 const test_data_file_G_dt4_sysline0: &str = "2001-03-01 00:00:02 b\n";
 const test_data_file_G_dt4_sysline1: &str = "2001-04-01 00:00:03 c\n";
+#[allow(dead_code)]
 const test_data_file_G_dt4_sysline2: &str = "2001-05-01 00:00:04 d";
 
 lazy_static! {
@@ -4118,6 +4119,7 @@ const test_data_file_H_dt4: &str = "\
 
 const test_data_file_H_dt4_sysline0: &str = "2001-02-01 00:00:01 a\n";
 const test_data_file_H_dt4_sysline1: &str = "2001-03-01 00:00:02 b\n";
+#[allow(dead_code)]
 const test_data_file_H_dt4_sysline2: &str = "2001-04-01 00:00:03 c\n";
 const test_data_file_H_dt4_sysline3: &str = "2001-05-01 00:00:04 d";
 
@@ -4299,7 +4301,7 @@ fn test_SyslineReader_w_filtering_2(
 ) {
     dpfn!("({:?}, {}, {:?}, {:?})", path, blocksz, filter_dt_after_opt, filter_dt_before_opt,);
     let slr_opt = test_SyslineReader_process_file(path, blocksz, filter_dt_after_opt, filter_dt_before_opt);
-    if slr_opt.is_some() {
+    if let Some(..) = slr_opt {
         let slr = &slr_opt.unwrap();
         dpfo!("Found {} Lines, {} Syslines", slr.count_lines_processed(), slr.count_syslines_stored());
     }
