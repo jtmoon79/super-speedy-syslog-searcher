@@ -3339,7 +3339,7 @@ pub fn datetime_parse_from_str(
     has_tz: bool,
     tz_offset: &FixedOffset,
 ) -> DateTimeLOpt {
-    dpfn!("(pattern {:?}, tz_offset {:?}, data {:?})", pattern, tz_offset, str_to_String_noraw(data));
+    dpfn!("(pattern {:?}, has_tz {}, tz_offset {:?}, data {:?})", pattern, has_tz, tz_offset, str_to_String_noraw(data));
 
     // saved rust playground for quick testing chrono `DateTime::parse_from_str`
     // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e6f44c79dbb3d2c05c55ffba9bd91c76

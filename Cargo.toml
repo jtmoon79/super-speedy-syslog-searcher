@@ -32,7 +32,7 @@ exclude = [
 arrayref = "0.3.6"
 backtrace = "0.3.67"
 chrono = "0.4.23"
-clap = { version = "3.2.22", features = ["derive"] }
+clap = { version = "4.0.29", features = ["derive"] }
 const_format = "0.2.30"
 const-str = "0.5.3"
 crossbeam-channel = "0.5.6"

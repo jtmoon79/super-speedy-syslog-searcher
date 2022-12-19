@@ -47,7 +47,7 @@ extern crate chrono;
 use chrono::{DateTime, Duration, FixedOffset, Local, TimeZone, Datelike, Timelike};
 
 extern crate clap;
-use clap::{ArgEnum, Parser};
+use clap::{ValueEnum, Parser};
 
 extern crate const_format;
 use const_format::concatcp;
@@ -131,7 +131,7 @@ lazy_static! {
     Eq,
     PartialOrd,
     Ord,
-    ArgEnum, // from `clap`
+    ValueEnum, // from `clap`
 )]
 enum CLI_Color_Choice {
     always,
@@ -367,21 +367,21 @@ DateTime Filters may be strftime specifier patterns:
     "\"
     \"",
     CLI_DT_FILTER_PATTERN28.0,
-    "\",
+    "\"
 
 Or, DateTime Filter may be custom relative offset patterns:
-    \"+DwDdDhDmDs\" or \"-DwDdDhDmDs\",
-    \"@+DwDdDhDmDs\" or \"@-DwDdDhDmDs\",
+    \"+DwDdDhDmDs\" or \"-DwDdDhDmDs\"
+    \"@+DwDdDhDmDs\" or \"@-DwDdDhDmDs\"
 
 Pattern \"+%s\" is Unix epoch timestamp in seconds with a preceding \"+\".
-Value \"+946684800\" is January 1, 2000 at 00:00, GMT.
+For example, value \"+946684800\" is be January 1, 2000 at 00:00, GMT.
 
 Custom relative offset pattern \"+DwDdDhDmDs\" and \"-DwDdDhDmDs\" is the offset
 from now (program start time) where \"D\" is a decimal number.
 Each lowercase identifier is an offset duration:
 \"w\" is weeks, \"d\" is days, \"h\" is hours, \"m\" is minutes, \"s\" is seconds.
-Value \"-1w22h\" would be one week and twenty-two hours in the past.
-Value \"+30s\" would be thirty seconds in the future.
+For example, value \"-1w22h\" is one week and twenty-two hours in the past.
+Value \"+30s\" is thirty seconds in the future.
 
 Custom relative offset pattern \"@+DwDdDhDmDs\" and \"@-DwDdDhDmDs\" is relative
 offset from the other datetime.
@@ -414,12 +414,9 @@ DateTimes supported language is English."
 // * the `about` is taken from `Cargo.toml:[package]:description`.
 #[derive(Parser, Debug)]
 #[clap(
-    //author,
     version,
     about,
     after_help = CLI_HELP_AFTER,
-    //before_help = "",
-    setting = clap::AppSettings::DeriveDisplayOrder,
 )]
 struct CLI_Args {
     /// Path(s) of syslog files or directories.
@@ -432,7 +429,7 @@ struct CLI_Args {
     #[clap(
         short = 'a',
         long,
-        help = "DateTime After filter - print syslog lines with a datetime that is at or after this datetime. For example, \"20200102T120000\" or \"-5d\""
+        help = "DateTime Filter After: print syslog lines with a datetime that is at or after this datetime. For example, \"20200102T120000\" or \"-5d\""
     )]
     dt_after: Option<String>,
 
@@ -440,7 +437,7 @@ struct CLI_Args {
     #[clap(
         short = 'b',
         long,
-        help = "DateTime Before filter - print syslog lines with a datetime that is at or before this datetime. For example, \"20200103T230000\" or \"@+1d+11h\""
+        help = "DateTime Filter Before: print syslog lines with a datetime that is at or before this datetime. For example, \"20200103T230000\" or \"@+1d+11h\""
     )]
     dt_before: Option<String>,
 
@@ -448,11 +445,11 @@ struct CLI_Args {
     #[clap(
         short = 't',
         long,
-        help = "DateTime Timezone offset - for syslines with a datetime that does not include a timezone, this will be used. For example, \"-0800\", \"+02:00\", or \"EDT\". Ambiguous named timezones parsed from logs will use this value, e.g. timezone \"IST\". (to pass a value with leading \"-\", use \", e.g. \"-t=-0800\"). Default is local system timezone offset.",
-        validator = cli_validate_tz_offset,
-        default_value_t=Local.timestamp(0, 0).offset().to_string(),
+        help = "DateTime Timezone Offset for syslines with a datetime that does not include a timezone, this will be used. For example, \"-0800\", \"+02:00\", or \"EDT\". Ambiguous named timezones parsed from logs will use this value, e.g. timezone \"IST\". (to pass a value with leading \"-\", use \", e.g. \"-t=-0800\"). Default is local system timezone offset.",
+        value_parser = cli_process_tz_offset,
+        default_value_t=*Local.timestamp(0, 0).offset(),
     )]
-    tz_offset: String,
+    tz_offset: FixedOffset,
 
     /// Prepend DateTime in the UTC Timezone for every line.
     #[clap(
@@ -482,7 +479,7 @@ struct CLI_Args {
             "group_prepend_dt_format",
         ],
         requires = "group_prepend_dt",
-        validator = cli_validate_prepend_dt_format,
+        value_parser = cli_parser_prepend_dt_format,
         default_value_t = String::from(CLI_OPT_PREPEND_FMT),
     )]
     prepend_dt_format: String,
@@ -527,8 +524,8 @@ struct CLI_Args {
     #[clap(
         required = false,
         short = 'c',
-        long = "--color",
-        arg_enum,
+        long = "color",
+        value_enum,
         default_value_t=CLI_Color_Choice::auto,
     )]
     color_choice: CLI_Color_Choice,
@@ -542,7 +539,7 @@ struct CLI_Args {
         short = 'z',
         long,
         default_value_t = BLOCKSZ_DEF.to_string(),
-        validator = cli_validate_blocksz,
+        value_parser = cli_parse_blocksz,
     )]
     blocksz: String,
 
@@ -591,17 +588,16 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     Ok(blocksz_)
 }
 
-/// `clap` argument validator for `--blocksz`.
-///
-/// See <https://github.com/clap-rs/clap/blob/v3.1.6/examples/tutorial_derive/04_02_validate.rs>
-fn cli_validate_blocksz(blockszs: &str) -> clap::Result<(), String> {
+/// `clap` argument parser for `--blocksz`.
+fn cli_parse_blocksz(blockszs: &str) -> Result<String, String> {
     match cli_process_blocksz(&String::from(blockszs)) {
-        Ok(_) => {}
+        Ok(val) => {
+            Ok(val.to_string())
+        }
         Err(err) => {
-            return Err(err);
+            Err(err)
         }
     }
-    Ok(())
 }
 
 /// CLI argument processing
@@ -650,20 +646,12 @@ fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> 
     )
 }
 
-/// `clap` argument validator for `--tz-offset`.
-fn cli_validate_tz_offset(tz_offset: &str) -> std::result::Result<(), String> {
-    match cli_process_tz_offset(tz_offset) {
-        Ok(_) => Ok(()),
-        Err(err) => Err(err),
-    }
-}
-
 /// `clap` argument validator for `--prepend-dt-format`.
-fn cli_validate_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<(), String> {
+fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<String, String> {
     let dt = Utc.ymd(2000, 1, 1).and_hms(0, 0, 0);
     dt.format(prepend_dt_format);
 
-    Ok(())
+    Ok(String::from(prepend_dt_format))
 }
 
 // maps named capture group matches of `CGP_DUR_OFFSET_TYPE` to
@@ -966,13 +954,7 @@ fn cli_process_args(
         fpaths.push(path.clone());
     }
 
-    let tz_offset: FixedOffset = match cli_process_tz_offset(&args.tz_offset) {
-        Ok(val) => val,
-        Err(err) => {
-            eprintln!("ERROR: {}", err);
-            std::process::exit(1);
-        }
-    };
+    let tz_offset: FixedOffset = args.tz_offset;
     dpfo!("tz_offset {:?}", tz_offset);
 
     let filter_dt_after: DateTimeLOpt;
@@ -2909,7 +2891,7 @@ mod tests {
         UTC_NOW,
     };
     use super::{
-        BlockSz, CLI_OPT_PREPEND_FMT, cli_process_tz_offset, cli_validate_blocksz, cli_validate_prepend_dt_format, cli_process_blocksz, DateTimeLOpt, process_dt,
+        BlockSz, CLI_OPT_PREPEND_FMT, cli_process_tz_offset, cli_parse_blocksz, cli_parser_prepend_dt_format, cli_process_blocksz, DateTimeLOpt, process_dt,
     };
 
     #[test_case("500", true)]
@@ -2918,11 +2900,11 @@ mod tests {
     #[test_case("0xFFFFFF", true)]
     #[test_case("BAD_BLOCKSZ_VALUE", false)]
     #[test_case("", false)]
-    fn test_cli_validate_blocksz(blocksz_str: &str, is_ok: bool)
+    fn test_cli_parse_blocksz(blocksz_str: &str, is_ok: bool)
     {
         match is_ok {
-            true => assert!(cli_validate_blocksz(blocksz_str).is_ok()),
-            false => assert!(!cli_validate_blocksz(blocksz_str).is_ok()),
+            true => assert!(cli_parse_blocksz(blocksz_str).is_ok()),
+            false => assert!(!cli_parse_blocksz(blocksz_str).is_ok()),
         }
     }
 
@@ -2978,9 +2960,9 @@ mod tests {
     #[test_case("abc")]
     #[test_case(CLI_OPT_PREPEND_FMT)]
     #[test_case("%Y%Y%Y%Y%Y%Y%Y%%%%")]
-    fn test_cli_validate_prepend_dt_format(prepend_dt_format: &str)
+    fn test_cli_parser_prepend_dt_format(prepend_dt_format: &str)
     {
-        assert!(cli_validate_prepend_dt_format(prepend_dt_format).is_ok());
+        assert!(cli_parser_prepend_dt_format(prepend_dt_format).is_ok());
     }
 
     #[test_case(
