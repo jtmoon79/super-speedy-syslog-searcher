@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 #
-# quickie script to generate a syslog file for testing
+# quick hacky script to generate a syslog file for testing
+#
+# $ gen-log.sh [LINE COUNT] [REPEAT EACH LINE] [APPEND TEXT] [EXTRA NON-DATETIME LINES] [DATETIME START]
+#
+# slow for large LINE COUNT
+# would be nice to have a proper python script to do this, but good enough for now
+#
 
 set -euo pipefail
 
@@ -16,59 +22,80 @@ declare -ar alphabet=(
 declare -ir alen=${#alphabet[@]}
 
 # print this many syslog lines
-declare -ir line_count=$((${1-100} + 1))
-# repeat each syslog line this many times
-declare -ir repeat_line=${2-1}
-# optional string to append
-declare -r append=${3-}
-if [[ -z "${append}" ]]; then
-    declare -r append_empty=true
+declare -ir sysline_count=$((${1-100} + 1))
+# repeat each syslog line (same datetimestamp) this many times
+declare -ir sysline_repeat=${2-1}
+# optional text to append
+declare -r text_append=${3-}
+if [[ -z "${text_append}" ]]; then
+    declare -r text_append_empty=true
 else
-    declare -r append_empty=false
+    declare -r text_append_empty=false
 fi
+declare -ir line_extra=${4-0}
 # https://www.epochconverter.com/
 # Unix Epoch time at 2020/01/01 00:00:00 GMT
 declare -ir epoch_2000_GMT=946684800
 # Unix Epoch time at 2020/01/01 00:00:00 PST
 declare -ir epoch_2000_PST=946713600
 # first sysline datetime is this Unix Epoch time (i.e. a count in seconds)
-declare -i dt_start=${4-${epoch_2000_PST}}
+declare -i dt_start=${5-${epoch_2000_PST}}
 
-declare lc_str=$((line_count - 1))  # line count as string
+declare lc_str=$((sysline_count - 1))  # line count as string
 declare -ir lc_i=${#lc_str}  # line count characters wide as integer
 
-# pre-create all possible alphabet sylines
+# pre-create multiple alphabet lines
+declare -i linelen=0
 declare -a alphas=()
 declare -i a=0
 while [[ ${a} -lt ${alen} ]]; do
     declare alpha=''
     declare -i c=a
-    declare -i c_stop=$((a + alen))
+    # static length
+    #declare -i c_stop=$((a + alen))
+    # growing length
+    declare -i c_stop=$((c + alen + linelen))
     while [[ ${c} -lt ${c_stop} ]]; do
         alpha+="${alphabet[$((${c} % ${alen}))]}"
         c+=1
     done
     alphas[${a}]=${alpha}
     a+=1
+    linelen+=1
 done
 
-declare -i loop=0
+function print_line_at () {
+    printf "%0${lc_i}d" "${1}"
+}
+
+declare -i sysline_loop=0
 declare -i line_at=0
-while [[ ${loop} -lt ${line_count} ]]; do
-    declare -i a=0
-    declare dts=$(date --date "@${dt_start}" '+%Y%m%dT%H%M%S' | tr -d '\n')
-    while [[ ${a} -lt ${repeat_line} ]]; do
+while [[ ${sysline_loop} -lt ${sysline_count} ]]; do
+    declare -i sysline_extra=0
+    # datetimestamp
+    dts=$(date --date "@${dt_start}" '+%Y%m%dT%H%M%S' | tr -d '\n')
+    while [[ ${sysline_extra} -lt ${sysline_repeat} ]]; do
         # gather a subset of the alphabet
         declare -i alpha_at=$((${line_at} % ${alen}))
         # print one sysline
-        if ${append_empty}; then
-            echo "${dts} $(printf "%0${lc_i}d" ${line_at}) ${alphas[${alpha_at}]}"
+        if ${text_append_empty}; then
+            echo "${dts} $(print_line_at ${line_at}) ${alphas[${alpha_at}]}"
         else
-            echo "${dts} $(printf "%0${lc_i}d" ${line_at}) ${alphas[${alpha_at}]} ${append}"
+            echo "${dts} $(print_line_at ${line_at}) ${alphas[${alpha_at}]} ${text_append}"
         fi
         line_at+=1
-        a+=1
+        declare -i line_extra_at=0
+        while [[ ${line_extra_at} -lt ${line_extra} ]]; do
+            if ${text_append_empty}; then
+                echo "$(print_line_at ${line_at}) ${alphas[${alpha_at}]}"
+            else
+                echo "$(print_line_at ${line_at}) ${alphas[${alpha_at}]} ${text_append}"
+            fi
+            line_extra_at+=1
+            line_at+=1
+        done
+        sysline_extra+=1
     done
     dt_start+=1  # advance datetime by one second
-    loop+=1
+    sysline_loop+=1
 done
