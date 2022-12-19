@@ -52,10 +52,12 @@ pub struct Summary {
     pub BlockReader_filesz_actual: FileSz,
     /// `Count` of `Lines` processed by `LineReader`
     pub LineReader_lines: Count,
+    /// "high watermark" of Lines stored in `LineReader.lines`
+    pub LineReader_lines_stored_highest: usize,
     /// `Count` of `Syslines` processed by `SyslineReader`
     pub SyslineReader_syslines: Count,
     /// "high watermark"` of `Sysline`s stored by `SyslineReader.syslines`
-    pub SyslineReader_syslines_stored_high: usize,
+    pub SyslineReader_syslines_stored_highest: usize,
     /// `SyslineReader::_syslines_hit`
     pub SyslineReader_syslines_hit: Count,
     /// `SyslineReader::_syslines_miss`
@@ -112,6 +114,12 @@ pub struct Summary {
     pub BlockReader_read_blocks_miss: Count,
     /// `BlockReader::read_block`
     pub BlockReader_read_blocks_put: Count,
+    /// `BlockReader::blocks_highest`
+    pub BlockReader_blocks_highest: usize,
+    /// `BlockReader::blocks_dropped_ok`
+    pub BlockReader_blocks_dropped_ok: Count,
+    /// `BlockReader::blocks_dropped_err`
+    pub BlockReader_blocks_dropped_err: Count,
     /// `LineReader::drop_line_ok`
     pub LineReader_drop_line_ok: Count,
     /// `LineReader::drop_line_errors`
@@ -140,8 +148,9 @@ impl Summary {
         BlockReader_filesz: FileSz,
         BlockReader_filesz_actual: FileSz,
         LineReader_lines: Count,
+        LineReader_lines_stored_highest: usize,
         SyslineReader_syslines: Count,
-        SyslineReader_syslines_stored_high: usize,
+        SyslineReader_syslines_stored_highest: usize,
         SyslineReader_syslines_hit: Count,
         SyslineReader_syslines_miss: Count,
         SyslineReader_syslines_by_range_hit: Count,
@@ -170,6 +179,9 @@ impl Summary {
         BlockReader_read_blocks_hit: Count,
         BlockReader_read_blocks_miss: Count,
         BlockReader_read_blocks_put: Count,
+        BlockReader_blocks_highest: usize,
+        BlockReader_blocks_dropped_ok: Count,
+        BlockReader_blocks_dropped_err: Count,
         LineReader_drop_line_ok: Count,
         LineReader_drop_line_errors: Count,
         SyslineReader_drop_sysline_ok: Count,
@@ -201,8 +213,9 @@ impl Summary {
             BlockReader_filesz,
             BlockReader_filesz_actual,
             LineReader_lines,
+            LineReader_lines_stored_highest,
             SyslineReader_syslines,
-            SyslineReader_syslines_stored_high,
+            SyslineReader_syslines_stored_highest,
             SyslineReader_syslines_hit,
             SyslineReader_syslines_miss,
             SyslineReader_syslines_by_range_hit,
@@ -231,6 +244,9 @@ impl Summary {
             BlockReader_read_blocks_hit,
             BlockReader_read_blocks_miss,
             BlockReader_read_blocks_put,
+            BlockReader_blocks_highest,
+            BlockReader_blocks_dropped_ok,
+            BlockReader_blocks_dropped_err,
             LineReader_drop_line_ok,
             LineReader_drop_line_errors,
             SyslineReader_drop_sysline_ok,
@@ -305,10 +321,12 @@ impl fmt::Debug for Summary {
                 .field("bytes", &self.BlockReader_bytes)
                 .field("bytes total", &self.BlockReader_bytes_total)
                 .field("lines", &self.LineReader_lines)
+                .field("lines stored highest", &self.LineReader_lines_stored_highest)
                 .field("syslines", &self.SyslineReader_syslines)
-                .field("syslines stored highest", &self.SyslineReader_syslines_stored_high)
+                .field("syslines stored highest", &self.SyslineReader_syslines_stored_highest)
                 .field("blocks", &self.BlockReader_blocks)
                 .field("blocks total", &self.BlockReader_blocks_total)
+                .field("blocks stored highest", &self.BlockReader_blocks_highest)
                 .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
                 .field("filesz", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
                 .finish(),
@@ -317,10 +335,12 @@ impl fmt::Debug for Summary {
                 .field("bytes", &self.BlockReader_bytes)
                 .field("bytes total", &self.BlockReader_bytes_total)
                 .field("lines", &self.LineReader_lines)
+                .field("lines stored highest", &self.LineReader_lines_stored_highest)
                 .field("syslines", &self.SyslineReader_syslines)
-                .field("syslines stored highest", &self.SyslineReader_syslines_stored_high)
+                .field("syslines stored highest", &self.SyslineReader_syslines_stored_highest)
                 .field("blocks", &self.BlockReader_blocks)
                 .field("blocks total", &self.BlockReader_blocks_total)
+                .field("blocks stored high", &self.BlockReader_blocks_highest)
                 .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
                 .field("filesz uncompressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz_actual))
                 .field("filesz compressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))

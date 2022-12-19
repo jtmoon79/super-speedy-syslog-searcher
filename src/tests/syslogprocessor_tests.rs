@@ -7,6 +7,8 @@
 
 use crate::common::{Count, FPath, FileOffset};
 
+use crate::data::sysline::SyslineP;
+
 use crate::debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
 
 use crate::readers::blockreader::BlockSz;
@@ -29,6 +31,11 @@ extern crate filetime;
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
+extern crate more_asserts;
+use more_asserts::{
+    assert_gt,
+};
+
 extern crate test_case;
 use test_case::test_case;
 
@@ -43,10 +50,16 @@ use test_case::test_case;
 
 const SZ: BlockSz = SyslogProcessor::BLOCKSZ_MIN;
 
+//
+// NTF5
+//
+
+// the five lines of data that makes up file `NTF5`
 const NTF5_DATA_LINE0: &str = "Jan 1 01:00:11 5a\n";
 const NTF5_DATA_LINE1: &str = "Feb 29 02:00:22 5b\n";
 const NTF5_DATA_LINE2: &str = "Mar 3 03:00:33 5c\n";
 const NTF5_DATA_LINE3: &str = "Apr 4 04:00:44 5d\n";
+
 const NTF5_DATA_LINE4: &str = "May 5 05:00:55 5e\n";
 /// Unix epoch time for time `NTF5_DATA_LINE4` at UTC
 const NTF5_MTIME_UNIXEPOCH: i64 = 957502855;
@@ -56,7 +69,6 @@ const NTF5_DATA: &str =
 
 #[allow(dead_code)]
 const NTF5_DATA_LINE0_OFFSET: usize = 0;
-#[allow(dead_code)]
 const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0
     .as_bytes()
     .len();
@@ -79,6 +91,10 @@ const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET
 const NTF5_LINE2_DATETIME_STR: &str = "Mar 3 03:00:00 +0000";
 const NTF5_LINE2_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %z";
 
+//
+// NTF3
+//
+
 const NTF3_DATA_LINE0: &str = "Jan 1 01:00:00 2000 A3\n";
 const NTF3_DATA_LINE1: &str = "Feb 2 02:00:00 2000 B3\n";
 const NTF3_DATA_LINE2: &str = "Mar 3 03:00:00 2000 C3\n";
@@ -88,10 +104,50 @@ const NTF3_DATA: &str = concatcp!(NTF3_DATA_LINE0, NTF3_DATA_LINE1, NTF3_DATA_LI
 const NTF3_LINE1_DATETIME_STR: &str = "Feb 2 02:00:00 2000 +0000";
 const NTF3_LINE1_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %Y %z";
 
+//
+// NTF9
+//
+
+// the nine lines of data that makes up file `NTF9`
+const NTF9_DATA_LINE0: &str = "Jan 11 01:31:21 2000 9à\n";
+const NTF9_DATA_LINE1: &str = "Feb 29 02:32:22 2000 9bb\n";
+const NTF9_DATA_LINE2: &str = "Mar 13 03:33:23 2000 9ccc\n";
+const NTF9_DATA_LINE3: &str = "Apr 14 04:34:24 2000 9dddd\n";
+const NTF9_DATA_LINE4: &str = "May 15 05:35:25 2000 9èèèèè\n";
+const NTF9_DATA_LINE5: &str = "Jun 16 05:36:26 2000 9ffffff\n";
+const NTF9_DATA_LINE6: &str = "Jul 17 05:37:27 2000 9ggggggg\n";
+const NTF9_DATA_LINE7: &str = "Aug 18 05:38:28 2000 9hhhhhhhh\n";
+const NTF9_DATA_LINE8: &str = "Sep 19 05:39:29 2000 9ììììììììì\n";
+
+const NTF9_DATA: &str =
+    concatcp!(
+        NTF9_DATA_LINE0,
+        NTF9_DATA_LINE1,
+        NTF9_DATA_LINE2,
+        NTF9_DATA_LINE3,
+        NTF9_DATA_LINE4,
+        NTF9_DATA_LINE5,
+        NTF9_DATA_LINE6,
+        NTF9_DATA_LINE7,
+        NTF9_DATA_LINE8,
+    );
+
+#[allow(dead_code)]
+const NTF9_DATA_LINE0_OFFSET: usize = 0;
+const NTF9_DATA_LINE1_OFFSET: usize = NTF9_DATA_LINE0
+    .as_bytes()
+    .len();
+const NTF9_BLOCKSZ_MIN: BlockSz = (NTF9_DATA_LINE1_OFFSET
+    + 2
+    + (if NTF9_DATA_LINE1_OFFSET % 2 == 0 { 0 } else { 1 }))
+    as BlockSz;
+
 lazy_static! {
     static ref TIMEZONE_0: FixedOffset = FixedOffset::west(0);
 
+    //
     // NTF5
+    //
 
     // a `DateTimeL` instance a few hours before `NTF5_DATA_LINE2` and after
     // `NTF5_DATA_LINE1`
@@ -137,7 +193,9 @@ lazy_static! {
         ntf_fpath(&NTF5)
     };
 
+    //
     // NTF3
+    //
 
     static ref NTF3_LINE1_DATETIME: DateTimeL = {
         match datetime_parse_from_str(
@@ -157,6 +215,20 @@ lazy_static! {
     static ref NTF3_PATH: FPath = {
         ntf_fpath(&NTF3)
     };
+
+    //
+    // NTF9
+    //
+
+    static ref NTF9: NamedTempFile = {
+        create_temp_file(NTF9_DATA)
+    };
+
+    static ref NTF9_PATH: FPath = {
+        ntf_fpath(&NTF9)
+    };
+
+    //
 
     // 76208400
     // Thursday, June 1, 1972 1:00:00 AM GMT+00:00
@@ -340,6 +412,8 @@ fn test_processing_stages_0_5() {
     let _summary = slp.process_stage4_summary();
 }
 
+// test files without a year and a `dt_filter_after_opt` do not process
+// the entire file, only back to `dt_filter_after_opt`
 #[test_case(&NTF5_PATH, &None, 5)]
 #[test_case(&NTF5_PATH, &NTF5_DATA_LINE2_BEFORE, 4)]
 #[test_case(&NTF5_PATH, &NTF5_DATA_LINE4_AFTER, 1)]
@@ -375,6 +449,84 @@ fn test_process_stage2_find_dt_and_missing_year(
 }
 
 // -------------------------------------------------------------------------------------------------
+
+#[test]
+fn test_stage0to3_drop_data() {
+    let path: &FPath = &NTF9_PATH;
+    let mut slp = new_SyslogProcessor(path, NTF9_BLOCKSZ_MIN);
+
+    match slp.process_stage0_valid_file_check() {
+        FileProcessingResultBlockZero::FileOk => {}
+        result => {
+            panic!("Unexpected result stage0 {:?}", result);
+        }
+    }
+
+    match slp.process_stage1_blockzero_analysis() {
+        FileProcessingResultBlockZero::FileOk => {}
+        result => {
+            panic!("Unexpected result stage1 {:?}", result);
+        }
+    }
+
+    match slp.process_stage2_find_dt(&None) {
+        FileProcessingResultBlockZero::FileOk => {}
+        result => {
+            panic!("Unexpected result stage2 {:?}", result);
+        }
+    }
+
+    match slp.find_sysline_between_datetime_filters(0) {
+        ResultS3SyslineFind::Found(_) => {}
+        ResultS3SyslineFind::Done => {
+            panic!("Unexpected Done");
+        }
+        ResultS3SyslineFind::Err(err) => {
+            panic!(
+                "ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}",
+                path, err
+            );
+        }
+    }
+
+    match slp.process_stage3_stream_syslines() {
+        FileProcessingResultBlockZero::FileOk => {}
+        result => {
+            panic!("Unexpected result stage3 {:?}", result);
+        }
+    }
+
+    let mut fo: FileOffset = 0;
+    let mut syslinep_last_opt: Option<SyslineP> = None;
+    loop {
+        match slp.find_sysline(fo) {
+            ResultS3SyslineFind::Found((fo_, syslinep)) => {
+                fo = fo_;
+                match syslinep_last_opt {
+                    Some(syslinep_) => {
+                        slp.drop_data_try(&syslinep_);
+                    }
+                    None => {}
+                }
+                syslinep_last_opt = Some(syslinep);
+            }
+            ResultS3SyslineFind::Done => break,
+            ResultS3SyslineFind::Err(err) => {
+                panic!(
+                    "ERROR: SyslogProcessor.find_sysline({}) Path {:?} Error {}",
+                    fo, path, err
+                );
+            }
+        }
+    }
+
+    let dropped_syslines = slp.dropped_syslines();
+    assert_gt!(dropped_syslines.len(), 0, "Expected *some* dropped Syslines but zero were dropped");
+    let dropped_lines = slp.dropped_lines();
+    assert_gt!(dropped_lines.len(), 0, "Expected *some* dropped Lines but zero were dropped");
+    let dropped_blocks = slp.dropped_blocks();
+    assert_gt!(dropped_blocks.len(), 0, "Expected *some* dropped Blocks but zero were dropped");
+}
 
 /*
 

@@ -9,7 +9,16 @@
 
 use crate::common::{Count, FPath, FileOffset, FileProcessingResult, FileSz, FileType, SYSLOG_SZ_MAX};
 
+use crate::{dp_err, dp_wrn};
+
 use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockSz, ResultS3ReadBlock};
+
+#[cfg(test)]
+use crate::readers::blockreader::SetDroppedBlocks;
+#[cfg(test)]
+use crate::readers::linereader::SetDroppedLines;
+#[cfg(test)]
+use crate::readers::syslinereader::SetDroppedSyslines;
 
 use crate::data::datetime::{
     dt_after_or_before, systemtime_to_datetime, DateTimeL, DateTimeLOpt, Duration, FixedOffset, Result_Filter_DateTime1, SystemTime, Year,
@@ -25,15 +34,11 @@ pub use crate::readers::syslinereader::{DateTimePatternCounts, ResultS3SyslineFi
 
 use crate::readers::summary::Summary;
 
-use std::collections::HashSet;
 use std::fmt;
 use std::io::{Error, ErrorKind, Result};
 
 extern crate chrono;
 use chrono::Datelike;
-
-extern crate static_assertions;
-use static_assertions::const_assert;
 
 extern crate itertools;
 use itertools::Itertools; // attaches `sorted_by`
@@ -51,7 +56,7 @@ extern crate rangemap;
 use rangemap::RangeMap;
 
 extern crate si_trace_print;
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpo, dpñ};
+use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpo, dpñ, dpf1n, dpf1x, dpf1ñ};
 
 extern crate walkdir;
 
@@ -178,8 +183,6 @@ pub struct SyslogProcessor {
     blockzero_analysis_done: bool,
     /// Internal tracking of last `blockoffset` passed to `drop_block`.
     drop_block_last: BlockOffset,
-    /// Internal memory of blocks dropped.
-    bo_dropped: HashSet<BlockOffset>,
     /// Optional `Year` value used to start `process_missing_year()`.
     /// Only needed for syslog files with datetime format without a year.
     missing_year: Option<Year>,
@@ -222,7 +225,8 @@ impl SyslogProcessor {
     #[cfg(not(any(debug_assertions, test)))]
     pub const BLOCKSZ_MIN: BlockSz = 0x40;
 
-    /// Allow "streaming" (`drop`ping data in calls to `find_sysline`)?
+    /// Allow "streaming" stage to drop data?
+    /// Compile-time "option" to aid manual debugging.
     #[doc(hidden)]
     const STREAM_STAGE_DROP: bool = true;
 
@@ -267,22 +271,21 @@ impl SyslogProcessor {
                 .LRU_cache_disable();
         }
 
-        let bo_dropped_sz: usize = slr.blockoffset_last() as usize;
-
-        Result::Ok(SyslogProcessor {
-            syslinereader: slr,
-            processingstage: ProcessingStage::Stage0ValidFileCheck,
-            path: path_,
-            blocksz,
-            tz_offset,
-            filter_dt_after_opt,
-            filter_dt_before_opt,
-            blockzero_analysis_done: false,
-            drop_block_last: 0,
-            bo_dropped: HashSet::<BlockOffset>::with_capacity(bo_dropped_sz),
-            missing_year: None,
-            Error_: None,
-        })
+        Result::Ok(
+            SyslogProcessor {
+                syslinereader: slr,
+                processingstage: ProcessingStage::Stage0ValidFileCheck,
+                path: path_,
+                blocksz,
+                tz_offset,
+                filter_dt_after_opt,
+                filter_dt_before_opt,
+                blockzero_analysis_done: false,
+                drop_block_last: 0,
+                missing_year: None,
+                Error_: None,
+            }
+        )
     }
 
     /// `Count` of [`Line`s] processed.
@@ -437,6 +440,17 @@ impl SyslogProcessor {
     /// Did this `SyslogProcessor` run `process_missing_year()` ?
     fn did_process_missing_year(&self) -> bool {
         self.missing_year.is_some()
+    }
+
+    fn set_error(&mut self, error: &Error) {
+        dp_err!("{:?}", error);
+        match self.Error_ {
+            Some(ref err_) => {
+                dp_wrn!("overwriting previous Error {:?} with Error ({:?})", err_, error);
+            }
+            _ => {}
+        }
+        self.Error_ = Some(error.to_string());
     }
 
     /// Syslog files wherein the datetime format that does not include a year
@@ -605,6 +619,67 @@ impl SyslogProcessor {
         FileProcessingResultBlockZero::FileOk
     }
 
+    /// See [`SyslineReader::is_sysline_last`].
+    ///
+    /// [`SyslineReader::is_sysline_last`]: crate::readers::syslinereader::SyslineReader#method.is_sysline_last
+    pub fn is_sysline_last(
+        &self,
+        syslinep: &SyslineP,
+    ) -> bool {
+        self.syslinereader
+            .is_sysline_last(syslinep)
+    }
+
+    /// Try to `drop` data associated with the [`Block`] at [`BlockOffset`].
+    /// This includes dropping associated [`Sysline`]s and [`Line`]s.
+    ///
+    /// Caller must know what they are doing!
+    ///
+    /// [`BlockOffset`]: crate::common::BlockOffset
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// [`Line`]: crate::data::line::Line
+    /// [`Block`]: crate::readers:blockreader::Block
+    fn drop_data(
+        &mut self,
+        blockoffset: BlockOffset,
+    ) -> bool {
+        dpf1n!("({})", blockoffset);
+        self.assert_stage(ProcessingStage::Stage3StreamSyslines);
+
+        // `syslinereader.drop_data` is an expensive function, skip if possible.
+        if blockoffset == self.drop_block_last {
+            dpf1x!("({}) skip block, return true", blockoffset);
+            return true;
+        }
+
+        if self.syslinereader.drop_data(blockoffset) {
+            self.drop_block_last = blockoffset;
+            dpf1x!("({}) return true", blockoffset);
+            return true;
+        }
+
+        dpf1x!("({}) return false", blockoffset);
+        false
+    }
+
+    /// Call [`drop_block`] for the [`Block`] *preceding* the first block of the
+    /// passed [`Sysline`].
+    ///
+    /// [`Block`]: crate::readers::blockreader::Block
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    pub fn drop_data_try(&mut self, syslinep: &SyslineP) -> bool {
+        if ! SyslogProcessor::STREAM_STAGE_DROP {
+            return true;
+        }
+        let bo_first: BlockOffset = (*syslinep).blockoffset_first();
+        if bo_first > 1 {
+            dpf1ñ!();
+            return self.drop_data(bo_first - 2);
+        }
+
+        false
+    }
+
     /// Calls [`self.syslinereader.find_sysline(fileoffset)`],
     /// and in some cases calls private function `drop_block` to drop
     /// previously processed [`Sysline`], [`Line`], and [`Block`s].
@@ -620,79 +695,19 @@ impl SyslogProcessor {
         &mut self,
         fileoffset: FileOffset,
     ) -> ResultS3SyslineFind {
-        if self.processingstage == ProcessingStage::Stage3StreamSyslines && SyslogProcessor::STREAM_STAGE_DROP
-        {
-            dpfn!("({})", fileoffset);
-            // if processing stage is `stage3_stream_syslines`
-            // then any prior processed syslines (and underlying data `Line`, `Block`, etc.)
-            // can be dropped.
-            let result: ResultS3SyslineFind = self
-                .syslinereader
-                .find_sysline(fileoffset);
-            match result {
-                ResultS3SyslineFind::Found((ref _fo, ref syslinep)) => {
-                    let bo_first: BlockOffset = (*syslinep).blockoffset_first();
-                    if bo_first > 0 {
-                        self.drop_block(bo_first - 1);
-                    }
-                }
-                ResultS3SyslineFind::Done => {}
-                ResultS3SyslineFind::Err(ref err) => {
-                    self.Error_ = Some(err.to_string());
-                }
+        dpfn!("({})", fileoffset);
+        let result: ResultS3SyslineFind = self
+            .syslinereader
+            .find_sysline(fileoffset);
+        match result {
+            ResultS3SyslineFind::Found(_) => {}
+            ResultS3SyslineFind::Done => {}
+            ResultS3SyslineFind::Err(ref err) => {
+                self.set_error(err);
             }
-            return result;
         }
-        dpfñ!("({})", fileoffset);
-
-        self.syslinereader
-            .find_sysline(fileoffset)
-    }
-
-    /// See [`SyslineReader::is_sysline_last`].
-    ///
-    /// [`SyslineReader::is_sysline_last`]: crate::readers::syslinereader::SyslineReader#method.is_sysline_last
-    pub fn is_sysline_last(
-        &self,
-        syslinep: &SyslineP,
-    ) -> bool {
-        self.syslinereader
-            .is_sysline_last(syslinep)
-    }
-
-    /// Forcefully `drop` data associated with the [`BlockOffset`].
-    /// This includes dropping associated [`Sysline`]s and [`Line`]s.
-    ///
-    /// Caller must know what they are doing!
-    ///
-    /// [`Sysline`]: crate::data::sysline::Sysline
-    /// [`Line`]: crate::data::line::Line
-    /// [`FileOffset`]: crate::common::FileOffset
-    fn drop_block(
-        &mut self,
-        blockoffset: BlockOffset,
-    ) {
-        // `drop_block_impl` is an expensive function. only run it when needed
-        if blockoffset <= self.drop_block_last {
-            dpfñ!("({}) skip", blockoffset);
-            return;
-        }
-        self.drop_block_last = blockoffset;
-
-        self.drop_block_impl(blockoffset)
-    }
-
-    /// Implementation of `drop_block`.
-    fn drop_block_impl(
-        &mut self,
-        blockoffset: BlockOffset,
-    ) {
-        dpfn!("({})", blockoffset);
-        // do not call `drop_block_impl` if `!STREAM_STAGE_DROP`
-        const_assert!(SyslogProcessor::STREAM_STAGE_DROP);
-        self.syslinereader
-            .drop_block(blockoffset, &mut self.bo_dropped);
-        dpfx!("({})", blockoffset);
+        dpfx!();
+        return result;
     }
 
     /// Wrapper function for [`SyslineReader::find_sysline_between_datetime_filters`].
@@ -712,9 +727,9 @@ impl SyslogProcessor {
         &mut self,
         fileoffset: FileOffset,
     ) -> ResultS3SyslineFind {
-        dpfñ!("({})", fileoffset);
+        dpfn!("({})", fileoffset);
 
-        match self
+        let result = match self
             .syslinereader
             .find_sysline_between_datetime_filters(
                 fileoffset,
@@ -722,12 +737,16 @@ impl SyslogProcessor {
                 &self.filter_dt_before_opt,
             ) {
             ResultS3SyslineFind::Err(err) => {
-                self.Error_ = Some(err.to_string());
+                self.set_error(&err);
 
                 ResultS3SyslineFind::Err(err)
             }
             val => val,
-        }
+        };
+
+        dpfx!("({})", fileoffset);
+
+        result
     }
 
     /// Wrapper function for a recurring sanity check.
@@ -880,8 +899,8 @@ impl SyslogProcessor {
                 return FileProcessingResultBlockZero::FileErrEmpty;
             }
             ResultS3ReadBlock::Err(err) => {
+                self.set_error(&err);
                 dpfx!("return FileErrIo({:?})", err);
-                self.Error_ = Some(err.to_string());
                 return FileProcessingResultBlockZero::FileErrIo(err);
             }
         };
@@ -910,7 +929,7 @@ impl SyslogProcessor {
                     break;
                 }
                 ResultS3SyslineFind::Err(err) => {
-                    self.Error_ = Some(err.to_string());
+                    self.set_error(&err);
                     dpfx!("return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIo(err);
                 }
@@ -957,7 +976,7 @@ impl SyslogProcessor {
                 return FileProcessingResultBlockZero::FileErrEmpty;
             }
             ResultS3ReadBlock::Err(err) => {
-                self.Error_ = Some(err.to_string());
+                self.set_error(&err);
                 dpfx!("return FileErrIo({:?})", err);
                 return FileProcessingResultBlockZero::FileErrIo(err);
             }
@@ -1041,6 +1060,22 @@ impl SyslogProcessor {
         result
     }
 
+    #[cfg(test)]
+    pub(crate) fn dropped_blocks(&self) -> SetDroppedBlocks {
+        self.syslinereader.linereader.blockreader.dropped_blocks.clone()
+    }
+
+    #[cfg(test)]
+    pub(crate) fn dropped_lines(&self) -> SetDroppedLines {
+        self.syslinereader.linereader.dropped_lines.clone()
+    }
+
+    #[cfg(test)]
+    pub(crate) fn dropped_syslines(&self) -> SetDroppedSyslines {
+        self.syslinereader.dropped_syslines.clone()
+    }
+
+
     /// Return an up-to-date [`Summary`] instance for this `SyslogProcessor`.
     ///
     /// Probably not useful or interesting before
@@ -1080,12 +1115,16 @@ impl SyslogProcessor {
             .syslinereader
             .linereader
             .count_lines_processed();
+        let LineReader_lines_stored_highest = self
+            .syslinereader
+            .linereader
+            .lines_stored_highest();
         let SyslineReader_syslines = self
             .syslinereader
             .count_syslines_processed();
-        let SyslineReader_syslines_stored_high = self
+        let SyslineReader_syslines_stored_highest = self
             .syslinereader
-            .syslines_stored_high();
+            .syslines_stored_highest();
         let SyslineReader_syslines_hit = self
             .syslinereader
             .syslines_hit;
@@ -1194,6 +1233,21 @@ impl SyslogProcessor {
             .linereader
             .blockreader
             .read_blocks_put;
+        let BlockReader_blocks_highest = self
+            .syslinereader
+            .linereader
+            .blockreader
+            .blocks_highest;
+        let BlockReader_blocks_dropped_ok = self
+            .syslinereader
+            .linereader
+            .blockreader
+            .dropped_blocks_ok;
+        let BlockReader_blocks_dropped_err = self
+            .syslinereader
+            .linereader
+            .blockreader
+            .dropped_blocks_err;
         let LineReader_drop_line_ok = self
             .syslinereader
             .linereader
@@ -1221,8 +1275,9 @@ impl SyslogProcessor {
             BlockReader_filesz,
             BlockReader_filesz_actual,
             LineReader_lines,
+            LineReader_lines_stored_highest,
             SyslineReader_syslines,
-            SyslineReader_syslines_stored_high,
+            SyslineReader_syslines_stored_highest,
             SyslineReader_syslines_hit,
             SyslineReader_syslines_miss,
             SyslineReader_syslines_by_range_hit,
@@ -1251,6 +1306,9 @@ impl SyslogProcessor {
             BlockReader_read_blocks_hit,
             BlockReader_read_blocks_miss,
             BlockReader_read_blocks_put,
+            BlockReader_blocks_highest,
+            BlockReader_blocks_dropped_ok,
+            BlockReader_blocks_dropped_err,
             LineReader_drop_line_ok,
             LineReader_drop_line_errors,
             SyslineReader_drop_sysline_ok,

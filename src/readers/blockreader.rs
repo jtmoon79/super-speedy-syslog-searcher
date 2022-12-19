@@ -21,7 +21,9 @@ use crate::data::datetime::SystemTime;
 use crate::debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
 
 use std::borrow::Cow;
-use std::collections::{BTreeMap, BTreeSet, HashSet};
+use std::collections::{BTreeMap, BTreeSet};
+#[cfg(test)]
+use std::collections::HashSet;
 use std::fmt;
 use std::fs::Metadata;
 use std::io::prelude::Read;
@@ -86,6 +88,10 @@ pub type Slices<'a> = Vec<&'a [u8]>;
 
 /// Map of `BlockOffset` to `BlockP` pointers.
 pub type Blocks = BTreeMap<BlockOffset, BlockP>;
+
+/// Set of successfully dropped `Block`s
+#[cfg(test)]
+pub type SetDroppedBlocks = HashSet<BlockOffset>;
 
 /// History of `BlockOffset` that have been read by a [`BlockReader].
 pub type BlocksTracked = BTreeSet<BlockOffset>;
@@ -291,6 +297,7 @@ pub struct BlockReader {
     ///
     /// May not match `self.blocks.iter().map(|x| sum += x.len()); sum` as
     /// `self.blocks` may have some elements `drop`ped during streaming.
+    // BUG: [2022/12/18] not tracked consistently
     count_bytes_: Count,
     /// Storage of blocks `read` from storage. Lookups O(log(n)). May `drop`
     /// data.
@@ -323,6 +330,15 @@ pub struct BlockReader {
     pub(crate) read_blocks_miss: Count,
     /// Internal storage `Count` of `self.blocks.insert`.
     pub(crate) read_blocks_put: Count,
+    /// Internal tracking of "high watermark" of `self.blocks` size
+    pub(crate) blocks_highest: usize,
+    /// Internal count of `Block`s dropped
+    pub(crate) dropped_blocks_ok: Count,
+    /// Internal count of `Block`s dropped failed
+    pub(crate) dropped_blocks_err: Count,
+    /// Internal memory of blocks dropped.
+    #[cfg(test)]
+    pub(crate) dropped_blocks: SetDroppedBlocks,
 }
 
 impl fmt::Debug for BlockReader {
@@ -1097,6 +1113,7 @@ impl BlockReader {
         //      either gt, lt, or eq.
 
         let blockn: Count = BlockReader::count_blocks(filesz_actual, blocksz);
+        let blocks_highest = blocks.len();
 
         dpfx!("return Ok(BlockReader)");
 
@@ -1128,6 +1145,11 @@ impl BlockReader {
             read_blocks_hit: 0,
             read_blocks_miss: 0,
             read_blocks_put,
+            blocks_highest,
+            dropped_blocks_ok: 0,
+            dropped_blocks_err: 0,
+            #[cfg(test)]
+            dropped_blocks: HashSet::<BlockOffset>::with_capacity(blockn as usize),
         })
     }
 
@@ -1441,30 +1463,23 @@ impl BlockReader {
     ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
-    pub fn drop_block(
-        &mut self,
-        blockoffset: BlockOffset,
-        bo_dropped: &mut HashSet<BlockOffset>,
-    ) {
-        if bo_dropped.contains(&blockoffset) {
-            return;
-        }
+    pub fn drop_block(&mut self, blockoffset: BlockOffset) -> bool {
+        //if self.dropped_blocks.contains(&blockoffset) {
+        //    return;
+        //}
+        dpfn!("({:?})", blockoffset);
+        let mut ret = true;
+        let mut blockp_opt: Option<BlockP> = None;
         match self
             .blocks
             .remove(&blockoffset)
         {
             Some(blockp) => {
-                dpo!(
-                    "dropped block {} @0x{:p}, len {}, strong_count {}",
-                    blockoffset,
-                    blockp,
-                    (*blockp).len(),
-                    Arc::strong_count(&blockp)
-                );
-                bo_dropped.insert(blockoffset);
-            }
+                dpo!("removed block {} from blocks", blockoffset);
+                blockp_opt = Some(blockp)
+            },
             None => {
-                dpo!("no block to drop at {}", blockoffset);
+                dpo!("no block {} in blocks", blockoffset);
             }
         }
         match self
@@ -1472,19 +1487,57 @@ impl BlockReader {
             .pop(&blockoffset)
         {
             Some(blockp) => {
-                dpo!(
-                    "dropped block in LRU cache {} @0x{:p}, len {}, strong_count {}",
-                    blockoffset,
-                    blockp,
-                    (*blockp).len(),
-                    Arc::strong_count(&blockp)
-                );
-                bo_dropped.insert(blockoffset);
+                dpo!("removed block {} from LRU cache", blockoffset);
+                match blockp_opt {
+                    Some(ref blockp_) => {
+                        debug_assert_eq!(&blockp, blockp_, "For blockoffset {}, blockp in blocks != block in LRU cache", blockoffset);
+                    }
+                    None => {
+                        dpo!("WARNING: block {} only in LRU cache, not in blocks", blockoffset);
+                        blockp_opt = Some(blockp);
+                    }
+                }
             }
             None => {
-                dpo!("no block in LRU cache to drop at {}", blockoffset);
+                dpo!("no block {} in LRU cache", blockoffset);
             }
         }
+        match blockp_opt {
+            Some(blockp) => {
+                match Arc::try_unwrap(blockp) {
+                    Ok(block) => {
+                        dpo!(
+                            "dropped block {} @0x{:p}, len {}",
+                            blockoffset,
+                            &block,
+                            block.len()
+                        );
+                        self.dropped_blocks_ok += 1;
+                        #[cfg(test)]
+                        {
+                            self.dropped_blocks.insert(blockoffset);
+                        }
+                    }
+                    Err(_blockp) => {
+                        self.dropped_blocks_err += 1;
+                        dpo!(
+                            "failed to drop block {} @0x{:p}, len {}, strong_count {}",
+                            blockoffset,
+                            _blockp,
+                            (*_blockp).len(),
+                            Arc::strong_count(&_blockp),
+                        );
+                        ret = false;
+                    }
+                }
+            }
+            None => {
+                dpo!("block {} not found in blocks or LRU cache", blockoffset);
+            }
+        }
+        dpfx!("({:?}) return {}", blockoffset, ret);
+
+        ret
     }
 
     /// Store clone of `BlockP` in internal LRU cache.
@@ -1530,6 +1583,7 @@ impl BlockReader {
             _ => {}
         }
         self.read_blocks_put += 1;
+        self.blocks_highest = std::cmp::max(self.blocks_highest, self.blocks.len());
         self.count_bytes_ += (*blockp).len() as Count;
         if let false = self
             .blocks_read

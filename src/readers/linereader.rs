@@ -17,7 +17,9 @@ use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockReader, 
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::byte_to_char_noraw;
 
-use std::collections::{BTreeMap, HashSet};
+use std::collections::BTreeMap;
+#[cfg(test)]
+use std::collections::HashSet;
 use std::fmt;
 use std::io::{Error, Result};
 use std::sync::Arc;
@@ -63,6 +65,9 @@ pub type ResultS3LineFind = ResultS3<(FileOffset, LineP), Error>;
 /// [`LineReader.find_line()`]: self::LineReader#method.find_line
 pub type LinesLRUCache = LruCache<FileOffset, ResultS3LineFind>;
 
+#[cfg(test)]
+pub type SetDroppedLines = HashSet<FileOffset>;
+
 /// A specialized reader that uses [`BlockReader`] to find [`Lines`] in a file.
 /// A `LineReader` knows how to process sequences of bytes of data among
 /// different `Block`s, and create a `Line`.
@@ -86,6 +91,8 @@ pub struct LineReader {
     ///
     /// [`Line`]: crate::data::line::Line
     pub(crate) lines: FoToLine,
+    /// "high watermark" of Lines stored in `self.lines`
+    lines_stored_highest: usize,
     /// Internal stats - hits of `self.lines` in `find_line()`
     /// and other functions.
     pub(super) lines_hits: Count,
@@ -122,6 +129,9 @@ pub struct LineReader {
     /// `Count` of failures to Arc::try_unwrap(linep).
     /// A failure does not mean an error.
     pub(super) drop_line_errors: Count,
+    /// testing-only tracker of successfully dropped `Line`
+    #[cfg(test)]
+    pub(crate) dropped_lines: SetDroppedLines,
 }
 
 impl fmt::Debug for LineReader {
@@ -183,6 +193,7 @@ impl LineReader {
         Ok(LineReader {
             blockreader,
             lines: FoToLine::new(),
+            lines_stored_highest: 0,
             lines_hits: 0,
             lines_miss: 0,
             foend_to_fobeg: FoToFo::new(),
@@ -197,6 +208,8 @@ impl LineReader {
             find_line_lru_cache_put: 0,
             drop_line_ok: 0,
             drop_line_errors: 0,
+            #[cfg(test)]
+            dropped_lines: SetDroppedLines::new(),
         })
     }
 
@@ -279,6 +292,12 @@ impl LineReader {
     #[inline(always)]
     pub fn count_lines_processed(&self) -> Count {
         self.lines_processed
+    }
+
+    /// "high watermark" of Lines stored in `self.lines`
+    #[inline(always)]
+    pub fn lines_stored_highest(&self) -> usize {
+        self.lines_stored_highest
     }
 
     /// See [`BlockReader::block_offset_at_file_offset`].
@@ -400,6 +419,7 @@ impl LineReader {
         self.lines
             .insert(fo_beg, linep.clone());
         dpo!("foend_to_fobeg.insert({}, {})", fo_end, fo_beg);
+        self.lines_stored_highest = std::cmp::max(self.lines_stored_highest, self.lines.len());
         debug_assert!(
             !self
                 .foend_to_fobeg
@@ -418,18 +438,17 @@ impl LineReader {
     /// Forcefully `drop` the [`Lines`]. For "streaming mode".
     ///
     /// [`Lines`]: crate::data::line::Lines
-    /// [`Block`]: crate::readers::blockreader::Block
-    /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
-    pub fn drop_lines(
-        &mut self,
-        lines: Lines,
-        bo_dropped: &mut HashSet<BlockOffset>,
-    ) {
+    pub fn drop_lines(&mut self, lines: Lines) -> bool {
         dpfn!();
+        let mut ret = true;
         for linep in lines.into_iter() {
-            self.drop_line(linep, bo_dropped);
+            if ! self.drop_line(linep) {
+                ret = false;
+            }
         }
-        dpfx!();
+        dpfx!("return {}", ret);
+
+        ret
     }
 
     /// Forcefully `drop` the [`Line`]. For "streaming mode".
@@ -437,41 +456,50 @@ impl LineReader {
     /// The caller must know what they are doing!
     ///
     /// [`Line`s]: crate::data::line::Line
-    /// [`Block`]: crate::readers::blockreader::Block
-    /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
-    pub fn drop_line(
-        &mut self,
-        linep: LineP,
-        bo_dropped: &mut HashSet<BlockOffset>,
-    ) {
+    pub fn drop_line(&mut self, linep: LineP) -> bool {
+        dpfn!("Line @[{}‥{}]", (*linep).fileoffset_begin(), (*linep).fileoffset_end());
+        let mut ret = true;
         let fo_key: FileOffset = (*linep).fileoffset_begin();
         self.find_line_lru_cache
             .pop(&fo_key);
         self.lines.remove(&fo_key);
         match Arc::try_unwrap(linep) {
             Ok(line) => {
-                dpfn!(
-                    "linereader.drop_line: Arc::try_unwrap(linep) processing Line @[{}‥{}] Block @[{}‥{}]",
-                    line.fileoffset_begin(),
-                    line.fileoffset_end(),
+                dpfo!(
+                    "Arc::try_unwrap(linep) dropped Line, Block @[{}‥{}]",
                     line.blockoffset_first(),
                     line.blockoffset_last()
                 );
                 self.drop_line_ok += 1;
-                for linepart in line.lineparts.into_iter() {
-                    self.blockreader
-                        .drop_block(linepart.blockoffset(), bo_dropped);
+                #[cfg(test)]
+                {
+                    self.dropped_lines.insert(line.fileoffset_begin());
+                }
+                // drop blocks referenced by lineparts except the last linepart
+                let take_ = match line.lineparts.len() {
+                    0 => 0,
+                    val => val - 1,
+                };
+                for linepart in line.lineparts.into_iter().take(take_) {
+                    let bo = linepart.blockoffset();
+                    drop(linepart);
+                    if ! self.blockreader.drop_block(bo) {
+                        ret = false;
+                    }
                 }
             }
             Err(_linep) => {
-                dpfn!(
-                    "linereader.drop_line: Arc::try_unwrap(linep) Err strong_count {}",
+                dpfo!(
+                    "Arc::try_unwrap(linep) failed to drop Line, strong_count {}",
                     Arc::strong_count(&_linep)
                 );
                 self.drop_line_errors += 1;
+                ret = false;
             }
         }
-        dpfx!();
+        dpfx!("return {}", ret);
+
+        ret
     }
 
     /// Does `self` "contain" this `fileoffset`? That is, already know about it?

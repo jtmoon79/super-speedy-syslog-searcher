@@ -27,7 +27,9 @@ use crate::readers::linereader::{LineReader, ResultS3LineFind};
 #[allow(unused_imports)]
 use crate::debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
 
-use std::collections::{BTreeMap, BTreeSet, HashSet};
+use std::collections::{BTreeMap, BTreeSet};
+#[cfg(test)]
+use std::collections::HashSet;
 use std::fmt;
 use std::io::{Error, ErrorKind, Result};
 use std::sync::Arc;
@@ -49,7 +51,7 @@ use rangemap::RangeMap;
 
 extern crate si_trace_print;
 #[allow(unused_imports)]
-use si_trace_print::{dp, dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ, p};
+use si_trace_print::{dp, dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ, dpf1n, dpf1o, dpf1x, dpf1ñ, p};
 
 extern crate static_assertions;
 use static_assertions::const_assert;
@@ -88,6 +90,9 @@ pub type ResultFindDateTime = Result<FindDateTimeData>;
 
 /// Return type for `SyslineReader::parse_datetime_in_line`.
 pub type ResultParseDateTime = Result<FindDateTimeData>;
+
+#[cfg(test)]
+pub type SetDroppedSyslines = HashSet<FileOffset>;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SyslineReader
@@ -144,7 +149,7 @@ pub struct SyslineReader {
     /// `Count` of Syslines processed.
     syslines_count: Count,
     /// "high watermark" of Syslines stored in `self.syslines` at one time
-    syslines_stored_high: usize,
+    syslines_stored_highest: usize,
     /// Internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
     pub(super) syslines_hit: Count,
     /// Internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
@@ -257,10 +262,13 @@ pub struct SyslineReader {
     pub(super) drop_sysline_ok: Count,
     /// `Count` of failures to [`Arc::try_unwrap(syslinep)`].
     ///
-    /// A failure does not mean an error.
+    /// A small count is typically okay.
     ///
     /// [`Arc::try_unwrap(syslinep)`]: std::sync::Arc#method.try_unwrap
     pub(super) drop_sysline_errors: Count,
+    /// testing-only tracker of successfully dropped `Sysline`
+    #[cfg(test)]
+    pub(crate) dropped_syslines: SetDroppedSyslines,
 }
 
 impl fmt::Debug for SyslineReader {
@@ -358,7 +366,7 @@ impl SyslineReader {
             linereader: lr,
             syslines: Syslines::new(),
             syslines_count: 0,
-            syslines_stored_high: 0,
+            syslines_stored_highest: 0,
             syslines_by_range: SyslinesRangeMap::new(),
             syslines_hit: 0,
             syslines_miss: 0,
@@ -392,6 +400,8 @@ impl SyslineReader {
             analyzed: false,
             drop_sysline_ok: 0,
             drop_sysline_errors: 0,
+            #[cfg(test)]
+            dropped_syslines: SetDroppedSyslines::new(),
         })
     }
 
@@ -528,8 +538,8 @@ impl SyslineReader {
     }
 
     /// "high watermark" of `Sysline`s stored in `self.syslines`
-    pub fn syslines_stored_high(&self) -> usize {
-        self.syslines_stored_high
+    pub fn syslines_stored_highest(&self) -> usize {
+        self.syslines_stored_highest
     }
 
     /// See [`LineReader::count_lines_processed`].
@@ -771,7 +781,7 @@ impl SyslineReader {
         self.syslines
             .insert(fo_beg, syslinep.clone());
         self.syslines_count += 1;
-        self.syslines_stored_high = std::cmp::max(self.syslines.len(), self.syslines_stored_high);
+        self.syslines_stored_highest = std::cmp::max(self.syslines.len(), self.syslines_stored_highest);
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let fo_end1: FileOffset = fo_end + (self.charsz() as FileOffset);
         dpfx!("syslines_by_range.insert(({}‥{}], {})", fo_beg, fo_end1, fo_beg);
@@ -783,51 +793,41 @@ impl SyslineReader {
     }
 
     /// Forcefully `drop` data associated with the [`Block`] at [`BlockOffset`]
-    /// (or at least, drop as much as possible).
+    /// *AND ALL PRIOR BLOCKS* (or at least, drop as much as possible).
     ///
     /// Caller must know what they are doing!
     ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
-    pub fn drop_block(
-        &mut self,
-        blockoffset: BlockOffset,
-        bo_dropped: &mut HashSet<BlockOffset>,
-    ) {
-        dpfn!("({})", blockoffset);
+    pub fn drop_data(&mut self, blockoffset: BlockOffset) -> bool {
+        dpf1n!("({})", blockoffset);
 
-        // TODO: [2022/06/18] cost-savings: make this a "one time" creation that is reused
-        //       this is challenging, as it runs into borrow errors during `.iter()`
-        let mut drop_block_fo_keys: Vec<FileOffset> = Vec::<FileOffset>::with_capacity(self.syslines.len());
-
-        for fo_key in self.syslines.keys() {
-            drop_block_fo_keys.push(*fo_key);
-        }
+        let mut ret = true;
         // vec of `fileoffset` must be ordered which is guaranteed by `syslines: BTreeMap`
-
-        dpfo!("collected keys {:?}", drop_block_fo_keys);
-
-        // XXX: using `sylines.value_mut()` would be cleaner.
-        //      But `sylines.value_mut()` causes a clone of the `SyslineP`, which then
+        let mut drop_fo: Vec<FileOffset> = Vec::<FileOffset>::with_capacity(self.syslines.len());
+        for (fo, _) in self.syslines.iter().filter(|(_, s)| (*s).blockoffset_last() <= blockoffset) {
+            drop_fo.push(*fo);
+        }
+        // XXX: it is not straightfoward to get the collection of FileOffset keys to use
+        //      This is because it
+        // TODO: [2022/06/18] cost-savings: make this a "one time" creation that is reused
+        //       this is challenging, as it runs into borrow errors during `.iter()`        
+        dpf1o!("collected keys {:?}", drop_fo);
+        // XXX: using `self.syslines.value_mut()` would be cleaner.
+        //      But `self.syslines.value_mut()` causes a clone of the `SyslineP`, which then
         //      increments the `Arc` "strong_count". That in turn prevents `Arc::get_mut(&SyslineP)`
         //      from returning the original `Sysline`.
         //      Instead of `syslines.values_mut()`, use `syslines.keys()` and then `syslines.get_mut`
         //      to get a `&SyslineP`. This does not increase the "strong_count".
-
-        for fo_key in drop_block_fo_keys.iter() {
-            let bo_last: BlockOffset = self.syslines[fo_key].blockoffset_last();
-            if bo_last > blockoffset {
-                dpfo!("blockoffset_last {} > {} blockoffset, continue;", bo_last, blockoffset);
-                // presume all proceeding `Sysline.blockoffset_last()` will be after `blockoffset`
-                break;
+        for fo in drop_fo.iter() {
+            if ! self.drop_sysline(fo) {
+                ret = false;
             }
-            // XXX: copy `fo_key` to avoid borrowing error
-            self.drop_sysline(fo_key, bo_dropped);
-            dpfo!("bo_dropped {:?}", bo_dropped);
         }
-        self.syslines_stored_high = std::cmp::max(self.syslines.len(), self.syslines_stored_high);
 
-        dpfx!("({})", blockoffset);
+        dpf1x!("({}) return {}", blockoffset, ret);
+
+        ret
     }
 
     /// Forcefully `drop` data associated with the [`Sysline`] at
@@ -837,20 +837,18 @@ impl SyslineReader {
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     /// [`FileOffset`]: crate::common::FileOffset
-    pub fn drop_sysline(
-        &mut self,
-        fileoffset: &FileOffset,
-        bo_dropped: &mut HashSet<BlockOffset>,
-    ) {
+    pub fn drop_sysline(&mut self, fileoffset: &FileOffset) -> bool {
         dpfn!("({})", fileoffset);
+        let mut ret = true;
         let syslinep: SyslineP = match self
             .syslines
             .remove(fileoffset)
         {
             Some(syslinep_) => syslinep_,
             None => {
+                dpfx!();
                 dp_wrn!("syslines.remove({}) returned None which is unexpected", fileoffset);
-                return;
+                return false;
             }
         };
         dpfo!(
@@ -859,28 +857,37 @@ impl SyslineReader {
             (*syslinep).fileoffset_end(),
             (*syslinep).blockoffset_first(),
             (*syslinep).blockoffset_last(),
-            Arc::strong_count(&syslinep)
+            Arc::strong_count(&syslinep),
         );
         self.find_sysline_lru_cache
             .pop(&(*syslinep).fileoffset_begin());
         match Arc::try_unwrap(syslinep) {
             Ok(sysline) => {
                 dpfo!(
-                    "Arc::try_unwrap(syslinep) Ok Sysline @[{}‥{}] Block @[{}‥{}]",
+                    "Arc::try_unwrap(syslinep) dropped Sysline @[{}‥{}] Block @[{}‥{}]",
                     sysline.fileoffset_begin(),
                     sysline.fileoffset_end(),
                     sysline.blockoffset_first(),
                     sysline.blockoffset_last()
                 );
                 self.drop_sysline_ok += 1;
-                self.linereader
-                    .drop_lines(sysline.lines, bo_dropped);
+                #[cfg(test)]
+                {
+                    self.dropped_syslines.insert(sysline.fileoffset_begin());
+                }
+                if ! self.linereader.drop_lines(sysline.lines) {
+                    ret = false;
+                }
             }
             Err(_syslinep) => {
-                dpfo!("Arc::try_unwrap(syslinep) Err strong_count {}", Arc::strong_count(&_syslinep));
+                dpfo!("Arc::try_unwrap(syslinep) failed to drop Sysline, strong_count {}", Arc::strong_count(&_syslinep));
                 self.drop_sysline_errors += 1;
+                ret = false;
             }
         }
+        dpfx!("return {}", ret);
+
+        ret
     }
 
     /// If datetime found in `Line` returns [`Ok`] around
@@ -1855,7 +1862,7 @@ impl SyslineReader {
                 // have already searched for a datetime stamp all the way back to zero'th byte of file
                 // so switch search direction to go forward. these first few lines without a datetime stamp
                 // will be ignored.
-                // TODO: [2022/07] somehow inform user that some lines were dropped.
+                // TODO: [2022/07] somehow inform user that some lines were not processed.
                 fo1 = fo_a_max;
             } else if line_beg > charsz_fo {
                 // search backwards...
@@ -1874,10 +1881,10 @@ impl SyslineReader {
                     fo_zero_tried = true;
                     fo1 = fo_a_max;
                     dp_err!(
-                        "ran into prior processed sysline at fileoffset {}; some lines will be dropped.",
+                        "ran into prior processed sysline at fileoffset {}; some lines will be not be processed.",
                         fo1
                     );
-                    panic!("ERROR: ran into prior processed sysline at fileoffset {}; some lines will be dropped. SHOULD THIS BE FIXED?", fo1);
+                    panic!("ERROR: ran into prior processed sysline at fileoffset {}; some lines will be not be processed. SHOULD THIS BE FIXED?", fo1);
                 }
             } else {
                 // search from byte zero

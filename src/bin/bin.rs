@@ -1359,7 +1359,7 @@ fn exec_syslogprocessor_thread(
         match chan_send_dt.send((None, summary_opt, false, FILEOK)) {
             Ok(_) => {}
             Err(err) => {
-                eprintln!("ERROR: C chan_send_dt.send(…) failed {}", err);
+                eprintln!("ERROR: chan_send_dt.send(…) failed {}", err);
             }
         }
         dpfx!("({:?})", path);
@@ -1370,11 +1370,14 @@ fn exec_syslogprocessor_thread(
     // find all proceeding syslines acceptable to the passed filters
     syslogproc.process_stage3_stream_syslines();
 
+    // the majority of sysline processing for this file occurs in this loop
+    let mut syslinep_last_opt: Option<SyslineP> = None;
     loop {
         // TODO: [2022/06/20] see note about refactoring `find` functions so they are more intuitive
         let result: ResultS3SyslineFind = syslogproc.find_sysline_between_datetime_filters(fo1);
         match result {
             ResultS3SyslineFind::Found((fo, syslinep)) => {
+                let syslinep_tmp = syslinep.clone();
                 let is_last = syslogproc.is_sysline_last(&syslinep);
                 dpo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", tid, tname, syslinep, is_last);
                 match chan_send_dt.send((Some(syslinep), None, is_last, FILEOK)) {
@@ -1393,6 +1396,14 @@ fn exec_syslogprocessor_thread(
                     );
                     break;
                 }
+                // try to drop the prior SyslineP (and associated data)
+                match syslinep_last_opt {
+                    Some(syslinep_last) => {
+                        syslogproc.drop_data_try(&syslinep_last);
+                    }
+                    None => {}
+                }
+                syslinep_last_opt = Some(syslinep_tmp);
             }
             ResultS3SyslineFind::Done => {
                 break;
@@ -2476,7 +2487,29 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
     const OPT_SUMMARY_PRINT_INDENT_UNDER: &str = "                   ";
     match summary_opt {
         Some(summary) => {
-            eprintln!("{}Summary Processed:{:?}", OPT_SUMMARY_PRINT_INDENT, summary);
+            eprintln!("{}Summary Processed:", OPT_SUMMARY_PRINT_INDENT);
+            match summary.filetype {
+                FileType::FileTar | FileType::File => {
+                    eprintln!("{}    filesz       {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
+                }
+                FileType::FileGz | FileType::FileXz => {
+                    eprintln!("{}    filesz compressed   {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
+                    eprintln!("{}    filesz uncompressed {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz_actual);
+                }
+                ft => {
+                    panic!("Unsupported filetype {:?}", ft);
+                }
+            }
+            eprintln!("{}    bytes          {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_bytes);
+            eprintln!("{}    bytes total    {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_bytes_total);
+            eprintln!("{}    blocksz        {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocksz);
+            eprintln!("{}    blocks         {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocks);
+            eprintln!("{}    blocks total   {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocks_total);
+            eprintln!("{}    blocks high    {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocks_highest);
+            eprintln!("{}    lines          {}", OPT_SUMMARY_PRINT_INDENT, summary.LineReader_lines);
+            eprintln!("{}    lines high     {}", OPT_SUMMARY_PRINT_INDENT, summary.LineReader_lines_stored_highest);
+            eprintln!("{}    syslines       {}", OPT_SUMMARY_PRINT_INDENT, summary.SyslineReader_syslines);
+            eprintln!("{}    syslines high  {}", OPT_SUMMARY_PRINT_INDENT, summary.SyslineReader_syslines_stored_highest);
             // print datetime first and last
             match (summary.SyslineReader_pattern_first, summary.SyslineReader_pattern_last) {
                 (Some(dt_first), Some(dt_last)) => {
@@ -2703,6 +2736,13 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
         .max_drop()
         .to_string()
         .len();
+    eprintln!(
+        "{}streaming: BlockReader::drop_block()    : Ok {:wide$} Err {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT,
+        summary.BlockReader_blocks_dropped_ok,
+        summary.BlockReader_blocks_dropped_err,
+        wide = wide,
+    );
     eprintln!(
         "{}streaming: SyslineReader::drop_sysline(): Ok {:wide$} Err {:wide$}",
         OPT_SUMMARY_PRINT_INDENT,
