@@ -124,6 +124,7 @@
 ./other/tests/gen-100-4-happyface.log|2000-01-01 00:01:39
 ./other/tests/gen-1-faces.log|2000-01-01 08:00:00
 ./other/tests/gen-200-1-jajaja.log|2000-01-01T08:03:19.9701785970
+./other/tests/gen-20-2-2-faces.log|2000-01-01T00:00:20
 ./other/tests/gen-20-1-faces.log|2000-01-01 00:00:20.9701785970
 ./other/tests/gen-20-1-☺☻.log|2000-01-01 00:00:20
 ./other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log|2000-01-01 00:00:20
