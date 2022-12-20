@@ -531,7 +531,7 @@ struct CLI_Args {
     color_choice: CLI_Color_Choice,
 
     /// Read blocks of this size in bytes.
-    /// May pass decimal or hexadecimal numbers.
+    /// May pass value as any radix (hexadecimal, decimal, octal, binary).
     /// Using the default value is recommended.
     /// Most useful for developers.
     #[clap(
@@ -549,7 +549,10 @@ struct CLI_Args {
     summary: bool,
 }
 
-/// CLI argument processing.
+/// `clap` argument processor for `--blocksz`.
+/// This implementation, as opposed to clap built-in number parsing, allows more
+/// flexibility for how the user may pass a number
+/// e.g. "0xF00", or "0b10100", etc.
 fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     // TODO: there must be a more concise way to parse numbers with radix formatting
     let blocksz_: BlockSz;
