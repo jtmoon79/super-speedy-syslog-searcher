@@ -1,0 +1,27 @@
+# codecov Code Coverage definitions
+# See https://docs.codecov.com/docs/codecov-yaml
+---
+codecov:
+  bot: "codecov-io"
+  max_report_age: 24
+  disable_default_path_fixes: false
+  require_ci_to_pass: true
+  notify:
+    after_n_builds: 1
+    wait_for_ci: true
+coverage:
+  # see https://docs.codecov.com/docs/commit-status
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+        base: auto
+        paths:
+          - "src"
+        branches:
+          - master
+          - codecov
+    patch:
+      default:
+        informational: true
