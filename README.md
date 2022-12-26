@@ -3,8 +3,8 @@
 Speedily search and merge log file entries by datetime.
 
 _Super Speedy Syslog Searcher_ (s4) is a command-line tool to search
-and merge plain log files by datetime, including log compressed log files
-(`.gz`, `.xz`) and within archives (`.tar`).
+and merge plain log files by datetime, including log files that are compressed
+(`.gz`, `.xz`) or archived (`.tar`).
 The first goal of s4 is speedy searching and printing.
 
 [![Build status](https://img.shields.io/github/workflow/status/jtmoon79/super-speedy-syslog-searcher/Rust?style=flat-square&logo=github)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
@@ -113,69 +113,60 @@ s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ### `--help`
 
 ```lang-text
-Speedily search and merge log file entries by datetime.
-DateTime filters may be passed to narrow the search. It aims to be very fast.
+Speedily search and merge log file entries by datetime. DateTime filters may be
+passed to narrow the search. It aims to be very fast.
 
-USAGE:
-    s4 [OPTIONS] <PATHS>...
+Usage: s4 [OPTIONS] <PATHS>...
 
-ARGS:
-    <PATHS>...    Path(s) of syslog files or directories. Directories will be recursed,
-                  remaining on the same filesystem. Symlinks will be followed
+Arguments:
+  <PATHS>...  Path(s) of syslog files or directories. Directories will be
+              recursed, remaining on the same filesystem. Symlinks will be
+              followed
 
-OPTIONS:
-    -a, --dt-after <DT_AFTER>
-            DateTime After filter - print syslog lines with a datetime that is at or after this
-            datetime. For example, "20200102T120000" or "-5d"
-
-    -b, --dt-before <DT_BEFORE>
-            DateTime Before filter - print syslog lines with a datetime that is at or before this
-            datetime. For example, "20200103T230000" or "@+1d+11h"
-
-    -t, --tz-offset <TZ_OFFSET>
-            DateTime Timezone offset - for syslines with a datetime that does not include a
-            timezone, this will be used. For example, "-0800", "+02:00", or "EDT". Ambiguous named
-            timezones parsed from logs will use this value, e.g. timezone "IST". (to pass a value
-            with leading "-", use ", e.g. "-t=-0800"). Default is local system timezone offset.
-            [default: -08:00]
-
-    -u, --prepend-utc
-            Prepend DateTime in the UTC Timezone for every line
-
-    -l, --prepend-local
-            Prepend DateTime in the Local Timezone for every line
-
-    -d, --prepend-dt-format <PREPEND_DT_FORMAT>
-            Prepend DateTime using strftime format string [default: %Y%m%dT%H%M%S%.3f%z]
-
-    -n, --prepend-filename
-            Prepend file basename to every line
-
-    -p, --prepend-filepath
-            Prepend file full path to every line
-
-    -w, --prepend-file-align
-            Align column widths of prepended data
-
-        --prepend-separator <PREPEND_SEPARATOR>
-            Separator string for prepended data [default: :]
-
-    -c, --color <COLOR_CHOICE>
-            Choose to print to terminal using colors [default: auto]
-            [possible values: always, auto, never]
-
-    -z, --blocksz <BLOCKSZ>
-            Read blocks of this size in bytes. May pass decimal or hexadecimal numbers.
-            Using the default value is recommended. Most useful for developers [default: 65535]
-
-    -s, --summary
-            Print a summary of files processed to stderr. Most useful for developers
-
-    -h, --help
-            Print help information
-
-    -V, --version
-            Print version information
+Options:
+  -a, --dt-after <DT_AFTER>
+          DateTime Filter After: print syslog lines with a datetime that is at
+          or after this datetime. For example, "20200102T120000" or "-5d"
+  -b, --dt-before <DT_BEFORE>
+          DateTime Filter Before: print syslog lines with a datetime that is at
+          or before this datetime. For example, "20200103T230000" or "@+1d+11h"
+  -t, --tz-offset <TZ_OFFSET>
+          DateTime Timezone Offset for syslines with a datetime that does not
+          include a timezone, this will be used. For example, "-0800", "+02:00",
+          or "EDT". Ambiguous named timezones parsed from logs will use this
+          value, e.g. timezone "IST". (to pass a value with leading "-", use ",
+          e.g. "-t=-0800").
+          Default is local system timezone offset. [default: -08:00]
+  -u, --prepend-utc
+          Prepend DateTime in the UTC Timezone for every line
+  -l, --prepend-local
+          Prepend DateTime in the Local Timezone for every line
+  -d, --prepend-dt-format <PREPEND_DT_FORMAT>
+          Prepend DateTime using strftime format string
+          [default: %Y%m%dT%H%M%S%.3f%z]
+  -n, --prepend-filename
+          Prepend file basename to every line
+  -p, --prepend-filepath
+          Prepend file full path to every line
+  -w, --prepend-file-align
+          Align column widths of prepended data
+      --prepend-separator <PREPEND_SEPARATOR>
+          Separator string for prepended data [default: :]
+  -c, --color <COLOR_CHOICE>
+          Choose to print to terminal using colors
+          [default: auto] [possible values: always, auto, never]
+  -z, --blocksz <BLOCKSZ>
+          Read blocks of this size in bytes. May pass value as any radix
+          (hexadecimal, decimal, octal, binary).
+          Using the default value is recommended.
+          Most useful for developers [default: 65535]
+  -s, --summary
+          Print a summary of files processed to stderr. Most useful for
+          developers
+  -h, --help
+          Print help information
+  -V, --version
+          Print version information
 
 DateTime Filters may be strftime specifier patterns:
     "%Y%m%dT%H%M%S"
@@ -205,21 +196,21 @@ DateTime Filters may be strftime specifier patterns:
     "%Y%m%d %:z"
     "%Y%m%d %#z"
     "%Y%m%d %Z"
-    "+%s",
+    "+%s"
 
 Or, DateTime Filter may be custom relative offset patterns:
-    "+DwDdDhDmDs" or "-DwDdDhDmDs",
-    "@+DwDdDhDmDs" or "@-DwDdDhDmDs",
+    "+DwDdDhDmDs" or "-DwDdDhDmDs"
+    "@+DwDdDhDmDs" or "@-DwDdDhDmDs"
 
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
-Value "+946684800" is January 1, 2000 at 00:00, GMT.
+For example, value "+946684800" is be January 1, 2000 at 00:00, GMT.
 
 Custom relative offset pattern "+DwDdDhDmDs" and "-DwDdDhDmDs" is the offset
 from now (program start time) where "D" is a decimal number.
 Each lowercase identifier is an offset duration:
 "w" is weeks, "d" is days, "h" is hours, "m" is minutes, "s" is seconds.
-Value "-1w22h" would be one week and twenty-two hours in the past.
-Value "+30s" would be thirty seconds in the future.
+For example, value "-1w22h" is one week and twenty-two hours in the past.
+Value "+30s" is thirty seconds in the future.
 
 Custom relative offset pattern "@+DwDdDhDmDs" and "@-DwDdDhDmDs" is relative
 offset from the other datetime.
@@ -281,7 +272,7 @@ A longer rambling pontification about this project is in
   - [RFC 3164](https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2)
   - [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.8)
   - [RFC 5424](https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3)
-  - [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles)\*\*
+  - [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles) \*\*
 - Parses many ad-hoc datetime formats
   - Tested against "in the wild" log files from varying Linux distributions
     (see project `./logs/`)
@@ -289,7 +280,7 @@ A longer rambling pontification about this project is in
   (see project tool `./tools/compare-grep-sort.sh`; run in github Actions, Job
   _run s4_, Step _Run script compare-grep-sort_)
 - Processes invalid UTF-8
-- Accepts arbitrarily large files\*\*\*
+- Accepts arbitrarily large files \*\*\*
 
 ### Limitations
 
@@ -299,7 +290,7 @@ A longer rambling pontification about this project is in
 - Cannot process archive files or compressed files within other archive files or compressed files, e.g. `logs.tgz`. ([Issue #14](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14))
   e.g. file `syslog.xz` file within file `logs.tar` will not be processed,
 - Cannot process `.zip` archives ([Issue #39](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39))
-- \*\*ISO 8601
+- \*\* ISO 8601
   - ISO 8601 forms recognized
   (using [ISO descriptive format](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates))
     - `YYYY-MM-DDThh:mm:ss`
