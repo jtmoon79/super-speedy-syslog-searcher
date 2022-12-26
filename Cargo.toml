@@ -9,7 +9,7 @@ license = "MIT"
 keywords = ["syslog", "log", "log-parser", "search", "merge"]
 categories = ["command-line-utilities", "filesystem"]
 readme = "README.md"
-version = "0.1.42"
+version = "0.1.43"
 edition = "2021"
 # `rust-version` should match ./github/workflows/rust.yml:rust_msrv:toolchain
 rust-version = "1.61.0"
