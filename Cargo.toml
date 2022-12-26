@@ -7,6 +7,7 @@ repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
 authors = ["James Thomas Moon"]
 license = "MIT"
 keywords = ["syslog", "log", "log-parser", "search", "merge"]
+categories = ["command-line-utilities", "filesystem"]
 readme = "README.md"
 version = "0.1.42"
 edition = "2021"
