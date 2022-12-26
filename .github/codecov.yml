@@ -20,7 +20,7 @@ coverage:
         paths:
           - "src"
         branches:
-          - master
+          - main
           - codecov
     patch:
       default:
