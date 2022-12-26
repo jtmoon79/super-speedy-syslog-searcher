@@ -9,10 +9,10 @@ cd "$(dirname -- "${0}")/.."
 
 set -x
 
-"${PYTHON-python}" -m yamllint --version
+"${PYTHON-python3}" -m yamllint --version
 
 exec \
-  "${PYTHON-python}" -m yamllint \
+  "${PYTHON-python3}" -m yamllint \
     "./.github/workflows/rust.yml" \
     "./.github/codecov.yml" \
    "${@}"
