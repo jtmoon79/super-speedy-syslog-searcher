@@ -14,4 +14,5 @@ set -x
 exec \
   "${PYTHON-python}" -m yamllint \
     "./.github/workflows/rust.yml" \
+    "./.github/codecov.yml" \
    "${@}"
