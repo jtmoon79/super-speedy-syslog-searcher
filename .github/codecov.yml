@@ -10,14 +10,18 @@ codecov:
     after_n_builds: 1
     wait_for_ci: true
 coverage:
+  # see https://docs.codecov.com/docs/commit-status
   status:
     project:
       default:
         target: auto
-        threshold: 50%
+        threshold: 1%
         base: auto
         paths:
           - "src"
         branches:
           - master
           - codecov
+    patch:
+      default:
+        informational: true
