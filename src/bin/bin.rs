@@ -553,6 +553,7 @@ struct CLI_Args {
 /// This implementation, as opposed to clap built-in number parsing, allows more
 /// flexibility for how the user may pass a number
 /// e.g. "0xF00", or "0b10100", etc.
+// XXX: clap Enhancement Issue https://github.com/clap-rs/clap/issues/4564
 fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     // TODO: there must be a more concise way to parse numbers with radix formatting
     let blocksz_: BlockSz;
@@ -592,7 +593,7 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
 }
 
 /// `clap` argument parser for `--blocksz`.
-fn cli_parse_blocksz(blockszs: &str) -> Result<String, String> {
+fn cli_parse_blocksz(blockszs: &str) -> std::result::Result<String, String> {
     match cli_process_blocksz(&String::from(blockszs)) {
         Ok(val) => {
             Ok(val.to_string())
