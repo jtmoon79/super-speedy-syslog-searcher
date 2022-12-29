@@ -256,6 +256,26 @@ impl Summary {
         }
     }
 
+    /// Create a new `Summary` with limited known data.
+    /// Useful for files that failed to process due to errors
+    /// (e.g. PermissionDenied, etc.).
+    #[allow(clippy::too_many_arguments)]
+    pub fn new_failed(
+        filetype: FileType,
+        BlockReader_blocksz: BlockSz,
+        Error_: Option<String>,
+    ) -> Summary {
+        // some sanity checks
+        debug_assert_ge!(BlockReader_blocksz, BLOCKSZ_MIN, "blocksz too small");
+        debug_assert_le!(BlockReader_blocksz, BLOCKSZ_MAX, "blocksz too big");
+        let mut summary = Summary::default();
+        summary.filetype = filetype;
+        summary.BlockReader_blocksz = BlockReader_blocksz;
+        summary.Error_ = Error_;
+
+        summary
+    }
+
     /// Return maximum value for hit/miss/insert number.
     ///
     /// Helpful to format teriminal column widths.

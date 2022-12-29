@@ -39,6 +39,7 @@
 
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fmt;
+use std::io::ErrorKind;
 use std::process::ExitCode;
 use std::str;
 use std::thread;
@@ -1232,12 +1233,33 @@ fn exec_syslogprocessor_thread(
         Ok(val) => val,
         Err(err) => {
             dp_err!("SyslogProcessor::new({:?}) failed {}", path.as_str(), err);
-            let mut summary = Summary::default();
-            // TODO: [2022/08] this design needs work: the Error instance should be passed
-            //       back in the channel, not via the Summary. The `FileProcessResult`
-            //       should travel inside or outside the `Summary`. Needs consideration.
-            summary.Error_ = Some(err.to_string());
-            match chan_send_dt.send((None, Some(summary), true, FILEERRSTUB)) {
+            // TODO: [2022/08] this design needs work: the `Error` instance should be passed
+            //       back in the channel but not via the Summary... I think....
+            //       But moreso, the current design has unnecessary
+            //       duplication of `Error` information mapped to a `FileProcessingResultBlockZero`.
+            //       e.g. remove `FileErrIo` and just have a more general `FileError((ErrorKind, String))`.
+            //            Much easier to handle.
+            //       The `FileProcessResult` should travel inside or outside the `Summary` and
+            //       should not duplicate the information conveyed by the `Error` instance. Get rid
+            //       of this tedious mapping. However, complicating that change this is the design
+            //       of `Error`; they are difficult to pass around because they cannot be
+            //       copied/cloned. Perhaps only save the `ErrorKind`?
+            //       Additionally, this thread should not print error messages, only the main thread should do that.
+            //       This needs more thought.
+            let summary = Summary::new_failed(filetype, blocksz, Some(err.to_string()));
+            let fileerr: FileProcessingResultBlockZero = match err.kind() {
+                ErrorKind::PermissionDenied => {
+                    eprintln!("ERROR: {} for {:?}", err, path);
+
+                    FileProcessingResultBlockZero::FileErrIo(err)
+                }
+                _ => {
+                    eprintln!("ERROR: {} for {:?}", err, path);
+
+                    FILEERRSTUB
+                }
+            };
+            match chan_send_dt.send((None, Some(summary), true, fileerr)) {
                 Ok(_) => {}
                 Err(err) => {
                     eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
@@ -2328,10 +2350,23 @@ fn processing_loop(
         }
     }
 
-    // Getting here means main program processing has completed.
-    // Now to print the `--summary` (if it was requested).
-
     if cli_opt_summary {
+        // some errors may occur later in processing, e.g. File Permissions errors,
+        // so update `map_pathid_results` and `map_pathid_results_invalid`
+        for (pathid, summary) in map_pathid_summary.iter() {
+            match &summary.Error_ {
+                Some(_) => {
+                    if summary.BlockReader_blocks == 0
+                        && ! map_pathid_results_invalid.contains_key(pathid)
+                        && map_pathid_results.contains_key(pathid)
+                    {
+                        let result = map_pathid_results.remove(pathid).unwrap();
+                        map_pathid_results_invalid.insert(*pathid, result);
+                    }
+                }
+                None => {}
+            }
+        }
         eprintln!();
         eprintln!("Files:");
         // print details about all the valid files
