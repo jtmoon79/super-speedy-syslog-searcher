@@ -131,11 +131,12 @@ pub struct Summary {
     /// `SyslogProcessor::missing_year`
     pub SyslogProcessor_missing_year: Option<Year>,
     /// The last IO error as a String, if any
-    /// (`Error` does not implement `Clone`)
+    // XXX: `Error` does not implement `Clone`, see https://doc.rust-lang.org/std/io/struct.Error.html
     pub Error_: Option<String>,
 }
 
 impl Summary {
+
     /// Create a new `Summary`
     #[allow(clippy::too_many_arguments)]
     pub fn new(
