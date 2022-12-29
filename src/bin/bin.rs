@@ -65,7 +65,7 @@ extern crate regex;
 use regex::Regex;
 
 extern crate si_trace_print;
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, stack::stack_offset_set};
+use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpf1n, dpf1o, dpf1x, stack::stack_offset_set};
 
 extern crate unicode_width;
 
@@ -1933,7 +1933,7 @@ fn processing_loop(
         map_index_pathid: &mut MapIndexToPathId,
         filter_: &SetPathId,
     ) -> Option<(PathId, RecvResult4)> {
-        dpn!("processing_loop:recv_many_chan(…)");
+        dpf1n!("(…)");
         // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures,
         // order should match index numeric value returned by `select`
         map_index_pathid.clear();
@@ -1948,17 +1948,19 @@ fn processing_loop(
             }
             map_index_pathid.insert(index, *(pathid_chan.0));
             index += 1;
-            dpo!("processing_loop:recv_many_chan: select.recv({:?});", pathid_chan.1);
+            dpf1o!("select.recv({:?});", pathid_chan.1);
             // load `select` with "operations" (receive channels)
             select.recv(pathid_chan.1);
         }
-        assert!(!map_index_pathid.is_empty(), "Did not load any recv operations for select.select(). Overzealous filter? possible channels count {}, filter {:?}", pathid_chans.len(), filter_);
-        dpo!("processing_loop:recv_many_chan: map_index_pathid: {:?}", map_index_pathid);
+        assert!(!map_index_pathid.is_empty(),
+            "Did not load any recv operations for select.select(). Overzealous filter? possible channels count {}, filter {:?}", pathid_chans.len(), filter_
+        );
+        dpf1o!("map_index_pathid: {:?}", map_index_pathid);
         // `select()` blocks until one of the loaded channel operations becomes ready
         let soper: crossbeam_channel::SelectedOperation = select.select();
         // get the index of the chosen "winner" of the `select` operation
         let index: usize = soper.index();
-        dpo!("processing_loop:recv_many_chan: soper.index() returned {}", index);
+        dpf1o!("soper.index() returned {}", index);
         let pathid: &PathId = match map_index_pathid.get(&index) {
             Some(pathid_) => pathid_,
             None => {
@@ -1966,7 +1968,7 @@ fn processing_loop(
                 return None;
             }
         };
-        dpo!("processing_loop:recv_many_chan: map_index_pathid.get({}) returned {}", index, pathid);
+        dpf1o!("map_index_pathid.get({}) returned {}", index, pathid);
         let chan: &ChanRecvDatum = match pathid_chans.get(pathid) {
             Some(chan_) => chan_,
             None => {
@@ -1974,10 +1976,11 @@ fn processing_loop(
                 return None;
             }
         };
-        dpo!("processing_loop:recv_many_chan: soper.recv({:?})", chan);
+        dpf1o!("soper.recv({:?})", chan);
         // Get the result of the `recv` done during `select`
         let result = soper.recv(chan);
-        dpo!("processing_loop:recv_many_chan: soper.recv returned {:?}", result);
+        dpf1o!("soper.recv returned {:?}", result);
+        dpf1x!("pathid {:?}", pathid);
 
         Some((*pathid, result))
     }
@@ -2342,6 +2345,9 @@ fn processing_loop(
         dpfo!("D set_pathid: {:?}", set_pathid);
     } // end loop
 
+    // Getting here means main program processing has completed.
+    // Now to print the `--summary` (if it was requested).
+
     // quick count of `Summary` attached Errors
     let mut error_count: usize = 0;
     for (_pathid, summary) in map_pathid_summary.iter() {
@@ -2455,7 +2461,7 @@ fn processing_loop(
         eprintln!(" ({:?})", utc_now);
         // print crude stats
         eprintln!("Channel Receive ok {}, err {}", chan_recv_ok, chan_recv_err);
-    }
+    } // cli_opt_summary
 
     dpfo!("E chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
 
