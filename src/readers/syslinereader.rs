@@ -1632,6 +1632,7 @@ impl SyslineReader {
         //
 
         let mut fo_b: FileOffset = fo1;
+        let mut done: bool = false;
         loop {
             dpfo!("({}): self.linereader.find_line_in_block({})", fileoffset, fo1);
             let result: ResultS3LineFind = self
@@ -1648,10 +1649,22 @@ impl SyslineReader {
                         (*linep_).count_lineparts(),
                         (*linep_).to_String_noraw()
                     );
+
                     (fo_, linep_)
                 }
                 ResultS3LineFind::Done => {
                     dpfo!("({}): B got Done", fileoffset);
+                    if fo1 < self.fileoffset_last() {
+                        // Line search did not find a whole Line *before* getting to end
+                        // of the block. Cannot be sure if where this Sysline ends until a
+                        // proceeding Sysline is found (or end of file reached). Must return Done.
+                        dpfx!(
+                            "({}): return ResultS3SyslineFind::Done; B from LineReader.find_line_in_block({})",
+                            fileoffset,
+                            fo1
+                        );
+                        return ResultS3SyslineFind::Done;
+                    }
                     break;
                 }
                 ResultS3LineFind::Err(err) => {
@@ -1690,7 +1703,7 @@ impl SyslineReader {
                 }
             }
             fo1 = fo2;
-        }
+        } // loop
 
         dpfo!(
             "({}): found line with datetime B at FileOffset {} {:?}",
@@ -1874,17 +1887,12 @@ impl SyslineReader {
                     .syslines_by_range
                     .contains_key(&fo1)
                 {
-                    // ran into prior processed sysline, something is wrong; abandon these lines
+                    // ran into prior processed sysline; something is odd. Abandon these lines
                     // and change search direction to go forwards
                     // TODO: Issue #61 enable expression attribute when feature is stable
                     //       #[allow(unused_assignments)]
                     fo_zero_tried = true;
                     fo1 = fo_a_max;
-                    dp_err!(
-                        "ran into prior processed sysline at fileoffset {}; some lines will be not be processed.",
-                        fo1
-                    );
-                    panic!("ERROR: ran into prior processed sysline at fileoffset {}; some lines will be not be processed. SHOULD THIS BE FIXED?", fo1);
                 }
             } else {
                 // search from byte zero
@@ -2033,8 +2041,8 @@ impl SyslineReader {
             fo1 = fo2;
         }
 
-        dpo!(
-            "find_sysline_year({}): found line with datetime B at FileOffset {} {:?}",
+        dpfo!(
+            "({}): found line with datetime B at FileOffset {} {:?}",
             fileoffset,
             fo_b,
             sysline.to_String_noraw()

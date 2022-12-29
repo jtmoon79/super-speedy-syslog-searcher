@@ -67,26 +67,15 @@ const NTF5_MTIME_UNIXEPOCH: i64 = 957502855;
 const NTF5_DATA: &str =
     concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
-#[allow(dead_code)]
 const NTF5_DATA_LINE0_OFFSET: usize = 0;
-const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0
-    .as_bytes()
-    .len();
-#[allow(dead_code)]
+const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0_OFFSET
+    + NTF5_DATA_LINE0.as_bytes().len();
 const NTF5_DATA_LINE2_OFFSET: usize = NTF5_DATA_LINE1_OFFSET
-    + NTF5_DATA_LINE1
-        .as_bytes()
-        .len();
-#[allow(dead_code)]
+    + NTF5_DATA_LINE1.as_bytes().len();
 const NTF5_DATA_LINE3_OFFSET: usize = NTF5_DATA_LINE2_OFFSET
-    + NTF5_DATA_LINE2
-        .as_bytes()
-        .len();
-#[allow(dead_code)]
+    + NTF5_DATA_LINE2.as_bytes().len();
 const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET
-    + NTF5_DATA_LINE3
-        .as_bytes()
-        .len();
+    + NTF5_DATA_LINE3.as_bytes().len();
 
 const NTF5_LINE2_DATETIME_STR: &str = "Mar 3 03:00:00 +0000";
 const NTF5_LINE2_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %z";
@@ -132,15 +121,61 @@ const NTF9_DATA: &str =
         NTF9_DATA_LINE8,
     );
 
-#[allow(dead_code)]
 const NTF9_DATA_LINE0_OFFSET: usize = 0;
-const NTF9_DATA_LINE1_OFFSET: usize = NTF9_DATA_LINE0
-    .as_bytes()
-    .len();
-const NTF9_BLOCKSZ_MIN: BlockSz = (NTF9_DATA_LINE1_OFFSET
-    + 2
-    + (if NTF9_DATA_LINE1_OFFSET % 2 == 0 { 0 } else { 1 }))
-    as BlockSz;
+const NTF9_DATA_LINE1_OFFSET: usize = NTF9_DATA_LINE0_OFFSET
+    + NTF9_DATA_LINE0.as_bytes().len();
+const NTF9_DATA_LINE2_OFFSET: usize = NTF9_DATA_LINE1_OFFSET
+    + NTF9_DATA_LINE1.as_bytes().len();
+const NTF9_BLOCKSZ_MIN: BlockSz = (NTF9_DATA_LINE2_OFFSET + 1) as BlockSz;
+
+//
+// NTF7_2
+//
+
+// the five syslines with two lines each that makes up file `NTF7_2`
+const NTF7_2_DATA_LINE0: &str = "Jan 11 01:31:21 2000 6-3 à\n";
+const NTF7_2_DATA_LINE1: &str = "ββββββββββββββββββββββββββ\n";
+const NTF7_2_DATA_LINE2: &str = "Mar 13 03:33:23 2000 6-3 ccc\n";
+const NTF7_2_DATA_LINE3: &str = "ΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔΔ\n";
+const NTF7_2_DATA_LINE4: &str = "May 15 05:35:25 2000 6-3 èèèèè\n";
+const NTF7_2_DATA_LINE5: &str = "ζζζζζζζζζζζζζζζζζζζζζζζζζζζζζζ\n";
+const NTF7_2_DATA_LINE6: &str = "Jul 17 07:37:27 2000 6-3 ggggggg\n";
+const NTF7_2_DATA_LINE7: &str = "ΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗΗ\n";
+const NTF7_2_DATA_LINE8: &str = "Sep 19 09:39:29 2000 6-3 ììììììììì\n";
+const NTF7_2_DATA_LINE9: &str = "ιιιιιιιιιιιιιιιιιιιιιιιιιιιιιιιιιι\n";
+const NTF7_2_DATA_LINE10: &str = "Nov 21 11:41:41 2000 6-3 ììììììììì\n";
+const NTF7_2_DATA_LINE11: &str = "ιιιιιιιιιιιιιιιιιιιιιιιιιιιιιιιιιι\n";
+const NTF7_2_DATA_LINE12: &str = "Jan 31 01:02:03 2001 6-3 KKKKKKKKKK\n";
+const NTF7_2_DATA_LINE13: &str = "ΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛ\n";
+
+const NTF7_2_DATA: &str =
+    concatcp!(
+        NTF7_2_DATA_LINE0,
+        NTF7_2_DATA_LINE1,
+        NTF7_2_DATA_LINE2,
+        NTF7_2_DATA_LINE3,
+        NTF7_2_DATA_LINE4,
+        NTF7_2_DATA_LINE5,
+        NTF7_2_DATA_LINE6,
+        NTF7_2_DATA_LINE7,
+        NTF7_2_DATA_LINE8,
+        NTF7_2_DATA_LINE9,
+        NTF7_2_DATA_LINE10,
+        NTF7_2_DATA_LINE11,
+        NTF7_2_DATA_LINE12,
+        NTF7_2_DATA_LINE13,
+    );
+
+const NTF7_2_DATA_LINE0_OFFSET: usize = 0;
+const NTF7_2_DATA_LINE1_OFFSET: usize = NTF7_2_DATA_LINE0_OFFSET
+    + NTF7_2_DATA_LINE0.as_bytes().len();
+const NTF7_2_DATA_LINE2_OFFSET: usize = NTF7_2_DATA_LINE1_OFFSET
+    + NTF7_2_DATA_LINE1.as_bytes().len();
+const NTF7_2_DATA_LINE3_OFFSET: usize = NTF7_2_DATA_LINE2_OFFSET
+    + NTF7_2_DATA_LINE2.as_bytes().len();
+const NTF7_2_DATA_LINE4_OFFSET: usize = NTF7_2_DATA_LINE3_OFFSET
+    + NTF7_2_DATA_LINE3.as_bytes().len();
+const NTF7_2_BLOCKSZ_MIN: BlockSz = (NTF7_2_DATA_LINE4_OFFSET + NTF7_2_DATA_LINE4_OFFSET % 2 + 2) as BlockSz;
 
 lazy_static! {
     static ref TIMEZONE_0: FixedOffset = FixedOffset::west(0);
@@ -229,6 +264,18 @@ lazy_static! {
     };
 
     //
+    // NTF7_2
+    //
+
+    static ref NTF7_2: NamedTempFile = {
+        create_temp_file(NTF7_2_DATA)
+    };
+
+    static ref NTF7_2_PATH: FPath = {
+        ntf_fpath(&NTF7_2)
+    };
+
+    //
 
     // 76208400
     // Thursday, June 1, 1972 1:00:00 AM GMT+00:00
@@ -238,6 +285,7 @@ lazy_static! {
 
         SystemTime::UNIX_EPOCH.checked_add(duration).unwrap()
     };
+
     // 107744400
     // Friday, June 1, 1973 1:00:00 AM GMT+00:00
     // Thursday, May 31, 1973 6:00:00 PM GMT-07:00
@@ -450,10 +498,13 @@ fn test_process_stage2_find_dt_and_missing_year(
 
 // -------------------------------------------------------------------------------------------------
 
-#[test]
-fn test_stage0to3_drop_data() {
-    let path: &FPath = &NTF9_PATH;
-    let mut slp = new_SyslogProcessor(path, NTF9_BLOCKSZ_MIN);
+#[test_case(&NTF9_PATH, NTF9_BLOCKSZ_MIN)]
+#[test_case(&NTF7_2_PATH, NTF7_2_BLOCKSZ_MIN)]
+fn test_stage0to3_drop_data(
+    path: &FPath,
+    blocksz: BlockSz,
+) {
+    let mut slp = new_SyslogProcessor(path, blocksz);
 
     match slp.process_stage0_valid_file_check() {
         FileProcessingResultBlockZero::FileOk => {}
@@ -521,11 +572,11 @@ fn test_stage0to3_drop_data() {
     }
 
     let dropped_syslines = slp.dropped_syslines();
-    assert_gt!(dropped_syslines.len(), 0, "Expected *some* dropped Syslines but zero were dropped");
+    assert_gt!(dropped_syslines.len(), 0, "Expected *some* dropped Syslines but zero were dropped, blocksz {:?}, filesz {:?}", blocksz, slp.filesz());
     let dropped_lines = slp.dropped_lines();
-    assert_gt!(dropped_lines.len(), 0, "Expected *some* dropped Lines but zero were dropped");
+    assert_gt!(dropped_lines.len(), 0, "Expected *some* dropped Lines but zero were dropped, blocksz {:?}, filesz {:?}", blocksz, slp.filesz());
     let dropped_blocks = slp.dropped_blocks();
-    assert_gt!(dropped_blocks.len(), 0, "Expected *some* dropped Blocks but zero were dropped");
+    assert_gt!(dropped_blocks.len(), 0, "Expected *some* dropped Blocks but zero were dropped, blocksz {:?}, filesz {:?}", blocksz, slp.filesz());
 }
 
 /*
