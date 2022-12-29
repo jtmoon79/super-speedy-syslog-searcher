@@ -28,6 +28,7 @@ env:
                  ./logs/other/tests/gen-2-1.tar
                  ./logs/other/tests/gen-20-1-faces.log
                  ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
+                 ./logs/other/tests/gen-20-2-2-faces.log
 jobs:
 
   job_rust_msrv_os:
