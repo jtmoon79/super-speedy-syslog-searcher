@@ -2517,11 +2517,11 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
             eprintln!("{}Summary Processed:", OPT_SUMMARY_PRINT_INDENT);
             match summary.filetype {
                 FileType::FileTar | FileType::File => {
-                    eprintln!("{}    filesz       {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
+                    eprintln!("{}    file size      {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
                 }
                 FileType::FileGz | FileType::FileXz => {
-                    eprintln!("{}    filesz compressed   {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
-                    eprintln!("{}    filesz uncompressed {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz_actual);
+                    eprintln!("{}    file size compressed   {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
+                    eprintln!("{}    file size uncompressed {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz_actual);
                 }
                 ft => {
                     panic!("Unsupported filetype {:?}", ft);
@@ -2529,7 +2529,7 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
             }
             eprintln!("{}    bytes          {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_bytes);
             eprintln!("{}    bytes total    {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_bytes_total);
-            eprintln!("{}    blocksz        {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocksz);
+            eprintln!("{}    block size     {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocksz);
             eprintln!("{}    blocks         {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocks);
             eprintln!("{}    blocks total   {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocks_total);
             eprintln!("{}    blocks high    {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocks_highest);
