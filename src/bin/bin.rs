@@ -2517,10 +2517,10 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
         Some(summary) => {
             eprintln!("{}Summary Processed:", OPT_SUMMARY_PRINT_INDENT);
             match summary.filetype {
-                FileType::FileTar | FileType::File => {
+                FileType::Tar | FileType::File => {
                     eprintln!("{}    file size      {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
                 }
-                FileType::FileGz | FileType::FileXz => {
+                FileType::Gz | FileType::Xz => {
                     eprintln!("{}    file size compressed   {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
                     eprintln!("{}    file size uncompressed {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz_actual);
                 }
@@ -2862,7 +2862,7 @@ fn print_all_files_summaries(
             .unwrap_or(color_default);
         let filetype: &FileType = map_pathid_filetype
             .get(pathid)
-            .unwrap_or(&FileType::FileUnknown);
+            .unwrap_or(&FileType::Unknown);
         let mimeguess_default: MimeGuess = MimeGuess::from_ext("");
         let mimeguess: &MimeGuess = map_pathid_mimeguess
             .get(pathid)

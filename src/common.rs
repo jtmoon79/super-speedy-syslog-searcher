@@ -265,18 +265,24 @@ impl<E> Eq for FileProcessingResult<E> {}
 /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FileType {
-    FileUnset,
-    /// a regular file `file.log`
+    /// an unset value, the default, encountering this value is an error
+    Unset,
+    /// a plain vanilla file, e.g. `file.log`
     File,
-    /// a gzipped file `.gz`, presumed to contain one regular file
-    FileGz,
-    /// a regular file within a `.tar` file
-    FileTar,
-    FileTarGz,
-    /// a xz'd file `.xz`, presumed to contain one regular file
-    FileXz,
-    /// unknown
-    FileUnknown,
+    /// a compressed gzipped file, e.g. `log.gz`,
+    /// (presumed to contain one regular file; see Issue #8)
+    Gz,
+    /// a plain file within a `.tar` archive file
+    Tar,
+    /// a file within a compressed gzipped `.tar` or `.tgz` archive file
+    TarGz,
+    /// a file compressed "xz'd" file, e.g. `log.xz`
+    /// (presumed to contain one regular file; see Issue #11)
+    Xz,
+    /// a file type known to be unparseable
+    Unparseable,
+    /// an unknown file type (catch all)
+    Unknown,
 }
 
 // XXX: Deriving `Default` on enums is experimental.
@@ -285,7 +291,7 @@ pub enum FileType {
 //      Issue #18
 impl Default for FileType {
     fn default() -> Self {
-        FileType::FileUnset
+        FileType::Unset
     }
 }
 
@@ -295,13 +301,14 @@ impl std::fmt::Display for FileType {
         f: &mut std::fmt::Formatter,
     ) -> std::fmt::Result {
         match self {
-            FileType::FileUnset => write!(f, "UNSET"),
+            FileType::Unset => write!(f, "UNSET"),
             FileType::File => write!(f, "TEXT"),
-            FileType::FileGz => write!(f, "GZIP"),
-            FileType::FileTar => write!(f, "TAR"),
-            FileType::FileTarGz => write!(f, "TAR GZIP"),
-            FileType::FileXz => write!(f, "XZ"),
-            FileType::FileUnknown => write!(f, "UNKNOWN"),
+            FileType::Gz => write!(f, "GZIP"),
+            FileType::Tar => write!(f, "TAR"),
+            FileType::TarGz => write!(f, "TAR GZIP"),
+            FileType::Xz => write!(f, "XZ"),
+            FileType::Unparseable => write!(f, "UNPARSEABLE"),
+            FileType::Unknown => write!(f, "UNKNOWN"),
         }
     }
 }
@@ -310,13 +317,13 @@ impl FileType {
     /// Returns `true` if this is a compressed file
     #[inline(always)]
     pub const fn is_compressed(&self) -> bool {
-        matches!(*self, FileType::FileGz | FileType::FileTarGz | FileType::FileXz)
+        matches!(*self, FileType::Gz | FileType::TarGz | FileType::Xz)
     }
 
     /// Returns `true` if the file is within an archived file
     #[inline(always)]
     pub const fn is_archived(&self) -> bool {
-        matches!(*self, FileType::FileTar | FileType::FileTarGz)
+        matches!(*self, FileType::Tar | FileType::TarGz)
     }
 
     /// Returns the tarred version of the `FileType`
@@ -326,10 +333,10 @@ impl FileType {
     /// Relates to Issue #14<br/>
     pub const fn to_tar(&self) -> FileType {
         if matches!(*self, FileType::File) {
-            return FileType::FileTar;
+            return FileType::Tar;
         }
 
-        FileType::FileUnknown
+        FileType::Unknown
     }
 }
 

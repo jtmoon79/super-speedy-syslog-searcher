@@ -265,15 +265,15 @@ pub struct BlockReader {
     mimeguess_: MimeGuess,
     /// Enum that guides file-handling behavior in functions `read`, and `new`.
     filetype: FileType,
-    /// For gzipped files ([FileType::FileGz]), otherwise `None`.
+    /// For gzipped files ([FileType::Gz]), otherwise `None`.
     ///
-    /// [FileType::FileGz]: crate::common::FileType
+    /// [FileType::Gz]: crate::common::FileType
     gz: Option<GzData>,
-    /// For LZMA xz files ([FileType::FileXz]), otherwise `None`.
+    /// For LZMA xz files ([FileType::Xz]), otherwise `None`.
     ///
-    /// [FileType::FileXz]: crate::common::FileType
+    /// [FileType::Xz]: crate::common::FileType
     xz: Option<XzData>,
-    /// For files within a `.tar` file (FileType::FileTar), otherwise `None`.
+    /// For files within a `.tar` file (FileType::Tar), otherwise `None`.
     tar: Option<TarData>,
     /// The filesz of uncompressed data, set during `new`.
     /// Users should always call `filesz()`.
@@ -502,7 +502,7 @@ impl BlockReader {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
             }
-            FileType::FileGz => {
+            FileType::Gz => {
                 blocksz = blocksz_;
                 dpf1o!("FileGz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
 
@@ -662,7 +662,7 @@ impl BlockReader {
                 });
                 dpf1o!("FileGz: created {:?}", gz_opt);
             }
-            FileType::FileXz => {
+            FileType::Xz => {
                 blocksz = blocksz_;
                 dpf1o!("FileXz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
                 dpf1o!("FileXz: open_options.read(true).open({:?})", path_std);
@@ -1025,7 +1025,7 @@ impl BlockReader {
                 });
                 dpf1o!("FileXz: created {:?}", xz_opt.as_ref().unwrap());
             }
-            FileType::FileTar => {
+            FileType::Tar => {
                 blocksz = blocksz_;
                 dpf1o!("FileTar: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
                 filesz_actual = 0;
@@ -1177,7 +1177,7 @@ impl BlockReader {
     /// For plain files, returns the file size reported by the filesystem.
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
-            FileType::FileGz | FileType::FileXz | FileType::FileTar => self.filesz_actual,
+            FileType::Gz | FileType::Xz | FileType::Tar => self.filesz_actual,
             FileType::File => self.filesz,
             _ => 0,
         }
@@ -1216,8 +1216,8 @@ impl BlockReader {
     //       (or a non-meaningful placeholder value).
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
-            FileType::File | FileType::FileXz => self.file_metadata_modified,
-            FileType::FileGz => {
+            FileType::File | FileType::Xz => self.file_metadata_modified,
+            FileType::Gz => {
                 let mtime = self
                     .gz
                     .as_ref()
@@ -1229,7 +1229,7 @@ impl BlockReader {
                     self.file_metadata_modified
                 }
             }
-            FileType::FileTar => {
+            FileType::Tar => {
                 let mtime = self
                     .tar
                     .as_ref()
@@ -1657,7 +1657,7 @@ impl BlockReader {
     }
 
     /// Read a block of data from storage for a compressed gzip file
-    /// ([`FileType::FileGz`]).
+    /// ([`FileType::Gz`]).
     /// `blockoffset` refers to the uncompressed version of the file.
     ///
     /// Called from `read_block`.
@@ -1667,7 +1667,7 @@ impl BlockReader {
     /// So read the entire file up to passed `blockoffset`, storing each
     /// decompressed `Block`.
     ///
-    /// [`FileType::FileGz`]: crate::common::FileType
+    /// [`FileType::Gz`]: crate::common::FileType
     #[allow(non_snake_case)]
     fn read_block_FileGz(
         &mut self,
@@ -1676,7 +1676,7 @@ impl BlockReader {
         dpfn!("({})", blockoffset);
         debug_assert_eq!(
             self.filetype,
-            FileType::FileGz,
+            FileType::Gz,
             "wrong FileType {:?} for calling read_block_FileGz",
             self.filetype
         );
@@ -1898,7 +1898,7 @@ impl BlockReader {
     }
 
     /// Fead a block of data from storage for a compressed `xz` file
-    /// ([`FileType::FileXz`]).
+    /// ([`FileType::Xz`]).
     /// `blockoffset` refers to the uncompressed version of the file.
     ///
     /// Called from `read_block`.
@@ -1908,7 +1908,7 @@ impl BlockReader {
     /// So read the entire file up to passed `blockoffset`, storing each
     /// decompressed `Block`.
     ///
-    /// [`FileType::FileXz`]: crate::common::FileType
+    /// [`FileType::Xz`]: crate::common::FileType
     #[allow(non_snake_case)]
     fn read_block_FileXz(
         &mut self,
@@ -1917,7 +1917,7 @@ impl BlockReader {
         dpfn!("({})", blockoffset);
         debug_assert_eq!(
             self.filetype,
-            FileType::FileXz,
+            FileType::Xz,
             "wrong FileType {:?} for calling read_block_FileXz",
             self.filetype
         );
@@ -2063,7 +2063,7 @@ impl BlockReader {
     }
 
     /// Read a block of data from a file within a .tar archive file
-    /// ([`FileType::FileTar`]).
+    /// ([`FileType::Tar`]).
     /// `BlockOffset` refers to the untarred version of the file.
     ///
     /// Called from `read_block`.
@@ -2080,7 +2080,7 @@ impl BlockReader {
     ///
     /// [`tar::Archive`]: https://docs.rs/tar/0.4.38/tar/struct.Archive.html
     /// [`tar::Entry`]: https://docs.rs/tar/0.4.38/tar/struct.Entry.html
-    /// [`FileType::FileTar`]: crate::common::FileType
+    /// [`FileType::Tar`]: crate::common::FileType
     #[allow(non_snake_case)]
     fn read_block_FileTar(
         &mut self,
@@ -2089,7 +2089,7 @@ impl BlockReader {
         dpfn!("({})", blockoffset);
         debug_assert_eq!(
             self.filetype,
-            FileType::FileTar,
+            FileType::Tar,
             "wrong FileType {:?} for calling read_block_FileTar",
             self.filetype
         );
@@ -2319,9 +2319,9 @@ impl BlockReader {
 
         match self.filetype {
             FileType::File => self.read_block_File(blockoffset),
-            FileType::FileGz => self.read_block_FileGz(blockoffset),
-            FileType::FileXz => self.read_block_FileXz(blockoffset),
-            FileType::FileTar => self.read_block_FileTar(blockoffset),
+            FileType::Gz => self.read_block_FileGz(blockoffset),
+            FileType::Xz => self.read_block_FileXz(blockoffset),
+            FileType::Tar => self.read_block_FileTar(blockoffset),
             _ => {
                 panic!("Unsupported filetype {:?}", self.filetype);
             }

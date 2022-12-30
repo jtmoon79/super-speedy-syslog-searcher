@@ -337,7 +337,7 @@ impl fmt::Debug for Summary {
         f: &mut fmt::Formatter,
     ) -> fmt::Result {
         match self.filetype {
-            FileType::FileTar | FileType::File => f
+            FileType::Tar | FileType::File => f
                 .debug_struct("")
                 .field("bytes", &self.BlockReader_bytes)
                 .field("bytes total", &self.BlockReader_bytes_total)
@@ -351,7 +351,7 @@ impl fmt::Debug for Summary {
                 .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
                 .field("filesz", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
                 .finish(),
-            FileType::FileGz | FileType::FileXz => f
+            FileType::Gz | FileType::Xz => f
                 .debug_struct("")
                 .field("bytes", &self.BlockReader_bytes)
                 .field("bytes total", &self.BlockReader_bytes_total)
@@ -367,7 +367,7 @@ impl fmt::Debug for Summary {
                 .field("filesz compressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
                 .finish(),
             // Summary::default()
-            FileType::FileUnset => f.debug_struct("").finish(),
+            FileType::Unset => f.debug_struct("").finish(),
             _ => {
                 unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype);
             }

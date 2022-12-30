@@ -21,13 +21,6 @@ use lazy_static::lazy_static;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-pub const FILE: FileType = FileType::File;
-pub const FILE_GZ: FileType = FileType::FileGz;
-pub const FILE_XZ: FileType = FileType::FileXz;
-pub const FILE_TAR: FileType = FileType::FileTar;
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 // ready-made MimeGuess
 
 lazy_static! {
@@ -154,7 +147,7 @@ lazy_static! {
     pub static ref NTF_GZ_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_GZ_EMPTY.path())
     };
-    pub static ref NTF_GZ_EMPTY_FILETYPE: FileType = FileType::FileGz;
+    pub static ref NTF_GZ_EMPTY_FILETYPE: FileType = FileType::Gz;
     pub static ref NTF_GZ_EMPTY_MIMEGUESS: MimeGuess = {
         MimeGuess::from_path(NTF_GZ_EMPTY.path())
     };
@@ -223,7 +216,7 @@ lazy_static! {
     pub static ref NTF_XZ_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_XZ_EMPTY.path())
     };
-    pub static ref NTF_XZ_EMPTY_FILETYPE: FileType = FileType::FileGz;
+    pub static ref NTF_XZ_EMPTY_FILETYPE: FileType = FileType::Gz;
     pub static ref NTF_XZ_EMPTY_MIMEGUESS: MimeGuess = {
         MimeGuess::from_path(NTF_XZ_EMPTY.path())
     };
@@ -392,7 +385,7 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_0BYTE_FILEA_FILETYPE: FileType = FileType::FileTar;
+    pub static ref NTF_TAR_0BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_0BYTE_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_0BYTE_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1032,7 +1025,7 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_1BYTE_FILEA_FILETYPE: FileType = FileType::FileTar;
+    pub static ref NTF_TAR_1BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_1BYTE_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_1BYTE_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1190,7 +1183,7 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_OLDGNU_FILEA_FILETYPE: FileType = FileType::FileTar;
+    pub static ref NTF_TAR_3BYTE_OLDGNU_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_3BYTE_OLDGNU_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_3BYTE_OLDGNU_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1408,7 +1401,7 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_PAX_FILEA_FILETYPE: FileType = FileType::FileTar;
+    pub static ref NTF_TAR_3BYTE_PAX_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_3BYTE_PAX_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_3BYTE_PAX_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1566,7 +1559,7 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_USTAR_FILEA_FILETYPE: FileType = FileType::FileTar;
+    pub static ref NTF_TAR_3BYTE_USTAR_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_3BYTE_USTAR_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_3BYTE_USTAR_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1724,7 +1717,7 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_V7_FILEA_FILETYPE: FileType = FileType::FileTar;
+    pub static ref NTF_TAR_3BYTE_V7_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_3BYTE_V7_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_3BYTE_V7_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1882,7 +1875,7 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_8BYTE_FILEA_FILETYPE: FileType = FileType::FileTar;
+    pub static ref NTF_TAR_8BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_8BYTE_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_8BYTE_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
