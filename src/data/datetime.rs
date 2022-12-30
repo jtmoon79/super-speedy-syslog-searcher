@@ -958,7 +958,7 @@ const DTFSS_BdHMSYzp: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
-    pattern: DTP_BdHMSYZ,
+    pattern: DTP_BdHMSYzp,
 };
 
 const DTFSS_bdHMSY: DTFSSet = DTFSSet {
@@ -1998,7 +1998,7 @@ pub type DateTimeParseInstrsIndex = usize;
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 /// Length of [`DATETIME_PARSE_DATAS`]
-pub const DATETIME_PARSE_DATAS_LEN: usize = 60;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 66;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2279,70 +2279,110 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     DTPD!(
         concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZZ, RP_NOALPHA),
-        DTFSS_BeHMSYZ, 0, 28, CGN_MONTH, CGN_TZ,
+        DTFSS_BeHMSYZ, 0, 40, CGN_MONTH, CGN_TZ,
         &[
             (0, 30, "September  3 08:10:29 2000 PWT hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
             (0, 23, "Jan 1 01:00:00 2000 PWT 😀"),
-            (0, 24, "Jan 11 01:00:00 2000 PWT 😀"),
-            (0, 24, "Feb 29 01:00:00 2000 PWT 😀"),
             (0, 24, "Feb 29 01:00:00 2000 pwt 😀"),
         ],
         line!(),
     ),
     DTPD!(
-        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZZ, RP_NOALPHA),
-        DTFSS_BdHMSYZ, 0, 28, CGN_MONTH, CGN_TZ,
+        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKq, CGP_TZzc),
+        DTFSS_BeHMSYzc, 0, 40, CGN_MONTH, CGN_TZ,
         &[
-            (0, 30, "September 03 08:10:29 2000 PWT hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
-            (0, 24, "Jan 01 01:00:00 2000 PWT 😀"),
-            (0, 24, "Jan 11 01:00:00 2000 PWT 😀"),
-            (0, 24, "Feb 29 01:00:00 2000 PWT 😀"),
-            (0, 24, "Feb 29 01:00:00 2000 pwt 😀"),
+            (0, 33, "September  3 08:10:29 2000 -07:30 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
+            (0, 26, "Jan 1 01:00:00 2000 -07:30 😀"),
+            (0, 27, "Feb 29 01:00:00 2000 -07:30 😀"),
         ],
         line!(),
     ),
     DTPD!(
-        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR),
-        DTFSS_BeHMSY, 0, 28, CGN_MONTH, CGN_YEAR,
+        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKq, CGP_TZz),
+        DTFSS_BeHMSYz, 0, 40, CGN_MONTH, CGN_TZ,
         &[
-            (0, 26, "September  3 08:10:29 2000 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
-            (0, 19, "Jan 1 01:00:00 2000 😀"),
-            (0, 20, "Jan 11 01:00:00 2000 😀"),
-            (0, 20, "Feb 29 01:00:00 2000 😀"),
-        ],
-        line!(),
-    ),
-    DTPD!(
-        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR),
-        DTFSS_BdHMSY, 0, 28, CGN_MONTH, CGN_YEAR,
-        &[
-            (0, 26, "September 03 08:10:29 2000 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
-            (0, 20, "Jan 01 01:00:00 2000 😀"),
-            (0, 20, "Jan 11 01:00:00 2000 😀"),
-            (0, 20, "Feb 29 01:00:00 2000 😀"),
+            (0, 32, "September  3 08:10:29 2000 -0430 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
+            (0, 25, "Jan 1 01:00:00 2000 -0430 😀"),
+            (0, 26, "Feb 29 01:00:00 2000 -0430 😀"),
         ],
         line!(),
     ),
     DTPD!(
         concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZZ, RP_NOALPHA),
-        DTFSS_BeHMSZ, 0, 28, CGN_MONTH, CGN_TZ,
+        DTFSS_BeHMSZ, 0, 35, CGN_MONTH, CGN_TZ,
         &[
             (0, 25, "September  3 08:10:29 PWT hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
             (0, 18, "Jan 1 01:00:00 PWT 😀"),
-            (0, 19, "Jan 11 01:00:00 PWT 😀"),
-            (0, 19, "Feb 29 01:00:00 PWT 😀"),
             (0, 19, "Feb 29 01:00:00 pwt 😀"),
         ],
         line!(),
     ),
     DTPD!(
+        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYe, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR),
+        DTFSS_BeHMSY, 0, 35, CGN_MONTH, CGN_YEAR,
+        &[
+            (0, 26, "September  3 08:10:29 2000 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
+            (0, 19, "Jan 1 01:00:00 2000 😀"),
+            (0, 20, "Feb 29 01:00:00 2000 😀"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZZ, RP_NOALPHA),
+        DTFSS_BdHMSYZ, 0, 40, CGN_MONTH, CGN_TZ,
+        &[
+            (0, 30, "September 03 08:10:29 2000 PWT hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
+            (0, 24, "Jan 01 01:00:00 2000 PWT 😀"),
+            (0, 24, "Feb 29 01:00:00 2000 pwt 😀"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZzc, RP_NOALPHA),
+        DTFSS_BdHMSYzc, 0, 40, CGN_MONTH, CGN_TZ,
+        &[
+            (0, 33, "September 03 08:10:29 2000 +03:00 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
+            (0, 27, "Jan 01 01:00:00 2000 +03:00 😀"),
+            (0, 27, "Feb 29 01:00:00 2000 +03:00 😀"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZz, RP_NOALPHA),
+        DTFSS_BdHMSYz, 0, 40, CGN_MONTH, CGN_TZ,
+        &[
+            (0, 32, "September 03 08:10:29 2000 +0300 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
+            (0, 26, "Jan 01 01:00:00 2000 +0300 😀"),
+            (0, 26, "Feb 29 01:00:00 2000 +0300 😀"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZzp, RP_NOALPHA),
+        DTFSS_BdHMSYzp, 0, 40, CGN_MONTH, CGN_TZ,
+        &[
+            (0, 30, "September 03 08:10:29 2000 +03 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
+            (0, 24, "Jan 01 01:00:00 2000 +03 😀"),
+            (0, 24, "Feb 29 01:00:00 2000 +03 😀"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR),
+        DTFSS_BdHMSY, 0, 35, CGN_MONTH, CGN_YEAR,
+        &[
+            (0, 26, "September 03 08:10:29 2000 hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
+            (0, 20, "Jan 01 01:00:00 2000 😀"),
+            (0, 20, "Feb 29 01:00:00 2000 😀"),
+        ],
+        line!(),
+    ),
+    DTPD!(
         concatcp!("^", CGP_MONTHBb, RP_BLANKS, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZZ, RP_NOALPHA),
-        DTFSS_BdHMSZ, 0, 28, CGN_MONTH, CGN_TZ,
+        DTFSS_BdHMSZ, 0, 35, CGN_MONTH, CGN_TZ,
         &[
             (0, 25, "September 03 08:10:29 PWT hostname1 kernel: [1013319.252568] device vethb356a02 entered promiscuous mode"),
-            (0, 19, "Jan 01 01:00:00 PWT 😀"),
             (0, 19, "Jan 01 01:00:00 pwt 😀"),
-            (0, 19, "Jan 11 01:00:00 PWT 😀"),
             (0, 19, "Feb 29 01:00:00 PWT 😀"),
         ],
         line!(),
@@ -2565,6 +2605,17 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (19, 45, r#"192.168.0.172 - - {11/oct/2022 00:10:26 +0100} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (15, 40, r#"192.168.0.172	<11-oct-2022 00:10:26+0100>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (17, 43, r#"192.168.0.8 - - [06/Mar/2020:06:30:43 -0800] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYd, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcd, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_RB),
+        DTFSS_bdHMSYZ, 0, 300, CGN_DAY, CGN_TZ,
+        &[
+            (19, 44, r#"192.168.0.172 - - [11/Oct/2022:00:10:26 CHUT] "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (19, 44, r#"192.168.0.172 - - {11/oct/2022 00:10:26 CHUT} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (15, 40, r#"192.168.0.172	<11-oct-2022 00:10:26 CHUT>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (17, 42, r#"192.168.0.8 - - [06/Mar/2020:06:30:43 CHUT] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
         ],
         line!(),
     ),
