@@ -119,6 +119,7 @@ lazy_static! {
     /// current datetime.
     static ref UTC_NOW: DateTime<Utc> = Utc::now();
     static ref LOCAL_NOW: DateTime<Local> = DateTime::from(UTC_NOW.clone());
+    static ref FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
 }
 
 /// CLI enum that maps to [`termcolor::ColorChoice`].
@@ -448,7 +449,7 @@ struct CLI_Args {
         long,
         help = "DateTime Timezone Offset for syslines with a datetime that does not include a timezone, this will be used. For example, \"-0800\", \"+02:00\", or \"EDT\". Ambiguous named timezones parsed from logs will use this value, e.g. timezone \"IST\". (to pass a value with leading \"-\", use \", e.g. \"-t=-0800\"). Default is local system timezone offset.",
         value_parser = cli_process_tz_offset,
-        default_value_t=*Local.timestamp(0, 0).offset(),
+        default_value_t=*Local.timestamp_opt(0, 0).unwrap().offset(),
     )]
     tz_offset: FixedOffset,
 
@@ -653,7 +654,7 @@ fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> 
 
 /// `clap` argument validator for `--prepend-dt-format`.
 fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<String, String> {
-    let dt = Utc.ymd(2000, 1, 1).and_hms(0, 0, 0);
+    let dt = Utc.with_ymd_and_hms(2000, 1, 1, 0, 0, 0).unwrap();
     dt.format(prepend_dt_format);
 
     Ok(String::from(prepend_dt_format))
@@ -837,9 +838,14 @@ fn string_to_rel_offset_datetime(val: &String, tz_offset: &FixedOffset, dt_other
     match duration_offset_type {
         DUR_OFFSET_TYPE::Now => {
             // drop fractional seconds
-            let now_utc_ = Utc
-                .ymd(now_utc.year(), now_utc.month(), now_utc.day())
-                .and_hms(now_utc.hour(), now_utc.minute(), now_utc.second());
+            let now_utc_ = Utc.with_ymd_and_hms(
+                now_utc.year(),
+                now_utc.month(),
+                now_utc.day(),
+                now_utc.hour(),
+                now_utc.minute(),
+                now_utc.second()
+            ).unwrap();
             // convert `Utc` to `DateTimeL`
             let now =
                 tz_offset.from_utc_datetime(&now_utc_.naive_utc());
@@ -2212,8 +2218,8 @@ fn processing_loop(
                         };
                     let prepend_date_offset: Option<FixedOffset> =
                         match (cli_opt_prepend_local, cli_opt_prepend_utc) {
-                            (true, false) => Some(*Local::today().offset()),
-                            (false, true) => Some(FixedOffset::east(0)),
+                            (true, false) => Some(*Local::now().offset()),
+                            (false, true) => Some(*FIXEDOFFSET0),
                             (false, false) => None,
                             // XXX: this should not happen
                             _ => panic!("bad CLI options --local --utc"),
@@ -2407,7 +2413,7 @@ fn processing_loop(
         eprintln!("Printed bytes   : {}", summaryprinted.bytes);
         eprintln!("Printed lines   : {}", summaryprinted.lines);
         eprintln!("Printed syslines: {}", summaryprinted.syslines);
-        let foffset0 = FixedOffset::east(0);
+        let foffset0 = *FIXEDOFFSET0;
         eprint!("Datetime Filter -a    :");
         match filter_dt_after_opt {
             Some(dt) => {
@@ -2447,17 +2453,25 @@ fn processing_loop(
             None => eprintln!(),
         }
         // print the time now as this program sees it
-        let local_now = Local
-            .ymd(LOCAL_NOW.year(), LOCAL_NOW.month(), LOCAL_NOW.day())
-            .and_hms(LOCAL_NOW.hour(), LOCAL_NOW.minute(), LOCAL_NOW.second());
+        let local_now = Local.with_ymd_and_hms(
+            LOCAL_NOW.year(),
+            LOCAL_NOW.month(),
+            LOCAL_NOW.day(),
+            LOCAL_NOW.hour(),
+            LOCAL_NOW.minute(),
+            LOCAL_NOW.second()
+        ).unwrap();
         eprint!("Datetime Now          : {:?}", local_now);
         // print UTC now without fractional, and with numeric offset `-00:00`
         // instead of `Z`
-        let utc_now = (
-            Utc
-            .ymd(UTC_NOW.year(), UTC_NOW.month(), UTC_NOW.day())
-            .and_hms(UTC_NOW.hour(), UTC_NOW.minute(), UTC_NOW.second())
-        ).with_timezone(&FixedOffset::east(0));
+        let utc_now = Utc.with_ymd_and_hms(
+            UTC_NOW.year(),
+            UTC_NOW.month(),
+            UTC_NOW.day(),
+            UTC_NOW.hour(),
+            UTC_NOW.minute(),
+            UTC_NOW.second(),
+        ).unwrap().with_timezone(&*FIXEDOFFSET0);
         eprintln!(" ({:?})", utc_now);
         // print crude stats
         eprintln!("Channel Receive ok {}, err {}", chan_recv_ok, chan_recv_err);
@@ -2934,6 +2948,7 @@ mod tests {
         FixedOffset,
         TimeZone,
         UTC_NOW,
+        FIXEDOFFSET0,
     };
     use super::{
         BlockSz, CLI_OPT_PREPEND_FMT, cli_process_tz_offset, cli_parse_blocksz, cli_parser_prepend_dt_format, cli_process_blocksz, DateTimeLOpt, process_dt,
@@ -2975,19 +2990,19 @@ mod tests {
         }
     }
 
-    #[test_case("+00", FixedOffset::east(0); "+00 east(0)")]
-    #[test_case("+0000", FixedOffset::east(0); "+0000 east(0)")]
-    #[test_case("+00:00", FixedOffset::east(0); "+00:00 east(0)")]
-    #[test_case("+00:01", FixedOffset::east(60); "+00:01 east(60)")]
-    #[test_case("+01:00", FixedOffset::east(3600); "+01:00 east(3600) A")]
-    #[test_case("-01:00", FixedOffset::east(-3600); "-01:00 east(-3600) B")]
-    #[test_case("+02:00", FixedOffset::east(7200); "+02:00 east(7200)")]
-    #[test_case("+02:30", FixedOffset::east(9000); "+02:30 east(9000)")]
-    #[test_case("+02:35", FixedOffset::east(9300); "+02:30 east(9300)")]
-    #[test_case("+23:00", FixedOffset::east(82800); "+23:00 east(82800)")]
-    #[test_case("UTC", FixedOffset::east(0); "UTC east(0)")]
-    #[test_case("vlat", FixedOffset::east(36000); "vlat east(36000)")]
-    #[test_case("IDLW", FixedOffset::east(-43200); "IDLW east(-43200)")]
+    #[test_case("+00", *FIXEDOFFSET0; "+00 east(0)")]
+    #[test_case("+0000", *FIXEDOFFSET0; "+0000 east(0)")]
+    #[test_case("+00:00", *FIXEDOFFSET0; "+00:00 east(0)")]
+    #[test_case("+00:01", FixedOffset::east_opt(60).unwrap(); "+00:01 east(60)")]
+    #[test_case("+01:00", FixedOffset::east_opt(3600).unwrap(); "+01:00 east(3600) A")]
+    #[test_case("-01:00", FixedOffset::east_opt(-3600).unwrap(); "-01:00 east(-3600) B")]
+    #[test_case("+02:00", FixedOffset::east_opt(7200).unwrap(); "+02:00 east(7200)")]
+    #[test_case("+02:30", FixedOffset::east_opt(9000).unwrap(); "+02:30 east(9000)")]
+    #[test_case("+02:35", FixedOffset::east_opt(9300).unwrap(); "+02:30 east(9300)")]
+    #[test_case("+23:00", FixedOffset::east_opt(82800).unwrap(); "+23:00 east(82800)")]
+    #[test_case("UTC", *FIXEDOFFSET0; "UTC east(0)")]
+    #[test_case("vlat", FixedOffset::east_opt(36000).unwrap(); "vlat east(36000)")]
+    #[test_case("IDLW", FixedOffset::east_opt(-43200).unwrap(); "IDLW east(-43200)")]
     fn test_cli_process_tz_offset(in_: &str, out_fo: FixedOffset) {
         let input: String = String::from(in_);
         let result = cli_process_tz_offset(&input);
@@ -3011,12 +3026,14 @@ mod tests {
     }
 
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05")), FixedOffset::east(0),
-        Some(FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 5)); "2000-01-02T03:04:05"
+        Some(String::from("2000-01-02T03:04:05")), *FIXEDOFFSET0,
+        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
+        "2000-01-02T03:04:05"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05 -0100")), FixedOffset::east(0),
-        Some(FixedOffset::east(-3600).ymd(2000, 1, 2).and_hms(3, 4, 5)); "2000-01-02T03:04:05 -0100"
+        Some(String::from("2000-01-02T03:04:05 -0100")), *FIXEDOFFSET0,
+        Some(FixedOffset::east_opt(-3600).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
+        "2000-01-02T03:04:05 -0100"
     )]
     fn test_process_dt(dts: Option<String>, tz_offset: FixedOffset, expect: DateTimeLOpt)
     {
@@ -3025,27 +3042,31 @@ mod tests {
 
     #[test_case(
         Some(String::from("@+1s")),
-        FixedOffset::east(0),
-        FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 5),
-        Some(FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 6)); "2000-01-02T03:04:05 add 1s"
+        *FIXEDOFFSET0,
+        FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 6).unwrap());
+        "2000-01-02T03:04:05 add 1s"
     )]
     #[test_case(
         Some(String::from("@-1s")),
-        FixedOffset::east(0),
-        FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 5),
-        Some(FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 4)); "2000-01-02T03:04:04 add 1s"
+        *FIXEDOFFSET0,
+        FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 4).unwrap());
+        "2000-01-02T03:04:04 add 1s"
     )]
     #[test_case(
         Some(String::from("@+4h1d")),
-        FixedOffset::east(0),
-        FixedOffset::east(0).ymd(2000, 1, 2).and_hms(3, 4, 5),
-        Some(FixedOffset::east(0).ymd(2000, 1, 3).and_hms(7, 4, 5)); "2000-01-02T03:04:05 sub 4h1d"
+        *FIXEDOFFSET0,
+        FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 3, 7, 4, 5).unwrap());
+        "2000-01-02T03:04:05 sub 4h1d"
     )]
     #[test_case(
         Some(String::from("@+4h1d")),
-        FixedOffset::east(-3630),
-        FixedOffset::east(-3630).ymd(2000, 1, 2).and_hms(3, 4, 5),
-        Some(FixedOffset::east(-3630).ymd(2000, 1, 3).and_hms(7, 4, 5)); "2000-01-02T03:04:05 sub 4h1d offset -3600"
+        FixedOffset::east_opt(-3630).unwrap(),
+        FixedOffset::east_opt(-3630).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+        Some(FixedOffset::east_opt(-3630).unwrap().with_ymd_and_hms(2000, 1, 3, 7, 4, 5).unwrap());
+        "2000-01-02T03:04:05 sub 4h1d offset -3600"
     )]
     fn test_process_dt_other(dts: Option<String>, tz_offset: FixedOffset, dt_other: DateTime<FixedOffset>, expect: DateTimeLOpt)
     {

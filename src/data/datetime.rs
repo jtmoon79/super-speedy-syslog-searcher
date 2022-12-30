@@ -3437,7 +3437,7 @@ pub fn datetime_parse_from_str_w_tz(
         data,
         pattern,
         true,
-        &FixedOffset::east(-9999)
+        &FixedOffset::east_opt(-9999).unwrap(),
     )
 }
 

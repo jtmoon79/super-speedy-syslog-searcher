@@ -6,6 +6,10 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
+use crate::tests::common::{
+    TZO_0, TZO_E1, TZO_W8,
+};
+
 use crate::data::datetime::{
     bytes_to_regex_to_datetime, datetime_from_str_workaround_Issue660, datetime_parse_from_str,
     dt_after_or_before, dt_pass_filters, DTFSSet, DTFS_Tz, DateTimeL, DateTimeLOpt, DateTimeParseInstr,
@@ -499,7 +503,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases() {
             assert_lt!(dta, dtb, "bad indexes");
             let data = test_case_.2.as_bytes();
             eprintln!("  Test Data[{:2},{:2}]: {:?}", dta, dtb, &data[dta..dtb].as_bstr());
-            let tz = FixedOffset::east_opt(60 * 60).unwrap();
+            let tz = *TZO_E1;
             let mut year_opt: Option<Year> = None;
             if !dtpd.dtfs.has_year() {
                 year_opt = Some(1980);
@@ -589,7 +593,7 @@ fn test_Map_TZ_names() {
 /// declared.
 fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
     stack_offset_set(Some(2));
-    let _tz = FixedOffset::east_opt(60 * 60).unwrap();
+    let _tz = *TZO_E1;
     for (index, dtpd) in DATETIME_PARSE_DATAS
         .iter()
         .enumerate()
@@ -617,14 +621,14 @@ fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
 }
 
 lazy_static! {
-    static ref FO_UTC: FixedOffset = FixedOffset::west(0);
-    static ref FO_W8: FixedOffset = FixedOffset::west(60 * 60 * 8);
-    static ref FO_E10: FixedOffset = FixedOffset::east(60 * 60 * 10);
+    static ref FO_UTC: FixedOffset = *TZO_0;
+    static ref FO_W8: FixedOffset = FixedOffset::west_opt(60 * 60 * 8).unwrap();
+    static ref FO_E10: FixedOffset = FixedOffset::east_opt(60 * 60 * 10).unwrap();
 }
 
 #[test_case(
     "20000101T000000", "%Y%m%dT%H%M%S", false, &FO_UTC,
-    Some(FO_UTC.ymd(2000, 1, 1).and_hms(0, 0, 0));
+    Some(FO_UTC.with_ymd_and_hms(2000, 1, 1, 0, 0, 0).unwrap());
     "20000101T000000 %Y%m%dT%H%M%S no_tz"
 )]
 #[test_case(
@@ -731,7 +735,7 @@ fn test_datetime_from_str_workaround_Issue660() {
 fn fo_to_fo0(dt_opt: &DateTimeLOpt) -> DateTimeLOpt {
     #[allow(clippy::manual_map)]
     match dt_opt {
-        Some(dt) => Some(dt.with_timezone(&FixedOffset::east(0))),
+        Some(dt) => Some(dt.with_timezone(&*TZO_0)),
         None => None,
     }
 }
@@ -744,7 +748,7 @@ fn test_dt_pass_filters_fixedoffset2() {
     dpfn!();
 
     fn DTL(s: &str) -> DateTimeL {
-        let tzo = FixedOffset::west(3600 * 2);
+        let tzo = FixedOffset::west_opt(3600 * 2).unwrap();
         datetime_parse_from_str(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
     }
 
@@ -818,7 +822,7 @@ fn test_dt_pass_filters_z() {
     dpfn!();
 
     fn DTLz(s: &str) -> DateTimeL {
-        let tz_dummy = FixedOffset::east(0);
+        let tz_dummy = *TZO_0;
         datetime_parse_from_str(s, "%Y%m%dT%H%M%S%z", true, &tz_dummy).unwrap()
     }
 
@@ -928,7 +932,7 @@ fn test_dt_after_or_before() {
     dpfn!();
 
     fn DTL(s: &str) -> DateTimeL {
-        let tzo = FixedOffset::west(3600 * 8);
+        let tzo = *TZO_W8;
         datetime_parse_from_str(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
     }
 

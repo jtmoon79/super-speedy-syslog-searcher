@@ -216,7 +216,7 @@ fn impl_test_find_sysline_at_datetime_filter(
     dpfn!("(…, {:?}, {}, …)", dt_pattern, blocksz);
 
     let path = ntf_fpath(ntf);
-    let tzo = FixedOffset::west(3600 * 8);
+    let tzo: FixedOffset = *TZO_W8;
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
@@ -3161,7 +3161,7 @@ fn impl_test_find_sysline_between_datetime_filter(
     dpfn!("(…, {:?}, {}, {}, …)", dt_pattern, cache, blocksz);
 
     let path = ntf_fpath(ntf);
-    let tzo = FixedOffset::west(3600 * 8);
+    let tzo: FixedOffset = *TZO_W8;
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
@@ -3332,7 +3332,7 @@ fn impl_test_SyslineReader_find_sysline(
     stack_offset_set(Some(2));
     dpfn!("({:?}, {}, {})", path, blocksz, fileoffset);
     eprint_file(path);
-    let tzo = FixedOffset::west(3600 * 8);
+    let tzo: FixedOffset = *TZO_W8;
     let mut slr = new_SyslineReader(path, blocksz, tzo);
 
     let mut fo1: FileOffset = fileoffset;
@@ -3530,7 +3530,7 @@ fn imp_test_findsysline(
     stack_offset_set(Some(2));
     dpfn!("({:?}, {})", path, blocksz);
     eprint_file(path);
-    let tzo = FixedOffset::west(3600 * 8);
+    let tzo: FixedOffset = *TZO_W8;
     let mut slr = new_SyslineReader(path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
@@ -4326,7 +4326,7 @@ fn impl_test_find_sysline_rand(
     blocksz: BlockSz,
 ) {
     dpfn!("({:?}, {})", path, blocksz);
-    let tzo8 = FixedOffset::west(3600 * 8);
+    let tzo8: FixedOffset = *TZO_W8;
     let mut slr = new_SyslineReader(path, blocksz, tzo8);
     dpfo!("SyslineReader: {:?}", slr);
     let mut offsets_rand = Vec::<FileOffset>::with_capacity(slr.filesz() as usize);
@@ -4416,7 +4416,7 @@ fn impl_test_find_sysline_in_block(
     blocksz: BlockSz,
 ) {
     dpfn!("({:?}, {}, {})", path, cache, blocksz);
-    let tzo = FixedOffset::west(3600 * 2);
+    let tzo = FixedOffset::west_opt(3600 * 2).unwrap();
     let mut slr = new_SyslineReader(path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
@@ -4640,8 +4640,7 @@ fn test_datetime_parse_from_str__good_without_tz1() {
     let p1 = "%Y-%m-%d %H:%M:%S";
     let dt1 = datetime_parse_from_str(dts1, p1, false, &TZO_E8).unwrap();
     let answer1 = TZO_E8
-        .ymd(2000, 1, 1)
-        .and_hms(0, 1, 1);
+        .with_ymd_and_hms(2000, 1, 1, 0, 1, 1).unwrap();
     assert_eq!(dt1, answer1);
 }
 
@@ -4652,8 +4651,7 @@ fn test_datetime_parse_from_str__2_good_without_tz() {
     let p1 = "%Y-%m-%d %H:%M:%S";
     let dt1 = datetime_parse_from_str(dts1, p1, false, &TZO_E5).unwrap();
     let answer1 = TZO_E5
-        .ymd(2000, 1, 1)
-        .and_hms(0, 2, 1);
+        .with_ymd_and_hms(2000, 1, 1, 0, 2, 1).unwrap();
     assert_eq!(dt1, answer1);
 }
 
@@ -4663,9 +4661,8 @@ fn test_datetime_parse_from_str__3_good_with_tz() {
     let dts2 = "2000-01-01 00:00:02 -0100";
     let p2 = "%Y-%m-%d %H:%M:%S %z";
     let dt2 = datetime_parse_from_str(dts2, p2, true, &TZO_E8).unwrap();
-    let answer2 = FixedOffset::west(HOUR)
-        .ymd(2000, 1, 1)
-        .and_hms(0, 0, 2);
+    let answer2 = FixedOffset::west_opt(HOUR).unwrap()
+        .with_ymd_and_hms(2000, 1, 1, 0, 0, 2).unwrap();
     assert_eq!(dt2, answer2);
 }
 
@@ -4715,7 +4712,7 @@ fn test_datetime_soonest2() {
     let vec0 = Vec::<DateTimeL>::with_capacity(0);
     let val = datetime_soonest2(&vec0);
     assert!(val.is_none());
-    let tzo = FixedOffset::west(3600 * 8);
+    let tzo: FixedOffset = *TZO_W8;
 
     let dt1_a = datetime_parse_from_str("2001-01-01T12:00:00", "%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
     let vec1: Vec<DateTimeL> = vec![dt1_a];

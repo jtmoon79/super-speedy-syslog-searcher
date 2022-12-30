@@ -499,7 +499,7 @@ impl SyslogProcessor {
         //self.assert_stage(ProcessingStage::Stage2FindDt);
         debug_assert!(!self.did_process_missing_year(), "process_missing_year() must only be called once");
         let dt_mtime: DateTimeL = systemtime_to_datetime(&self.tz_offset, &mtime);
-        let year: Year = dt_mtime.date().year() as Year;
+        let year: Year = dt_mtime.date_naive().year() as Year;
         self.missing_year = Some(year);
         let mut year_opt: Option<Year> = Some(year);
         let charsz_fo: FileOffset = self.charsz() as FileOffset;

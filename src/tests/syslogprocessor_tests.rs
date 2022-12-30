@@ -23,6 +23,10 @@ use crate::readers::syslinereader::ResultS3SyslineFind;
 
 use crate::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
 
+use crate::tests::common::{
+    TZO_0,
+};
+
 extern crate const_format;
 use const_format::concatcp;
 
@@ -168,7 +172,7 @@ const NTF7_2_DATA_LINE4_OFFSET: usize = NTF7_2_DATA_LINE3_OFFSET
 const NTF7_2_BLOCKSZ_MIN: BlockSz = (NTF7_2_DATA_LINE4_OFFSET + NTF7_2_DATA_LINE4_OFFSET % 2 + 2) as BlockSz;
 
 lazy_static! {
-    static ref TIMEZONE_0: FixedOffset = FixedOffset::west(0);
+    static ref TIMEZONE_0: FixedOffset = FixedOffset::west_opt(0).unwrap();
 
     //
     // NTF5
@@ -293,7 +297,7 @@ fn new_SyslogProcessor(
     path: &FPath,
     blocksz: BlockSz,
 ) -> SyslogProcessor {
-    let tzo: FixedOffset = FixedOffset::east(0);
+    let tzo: FixedOffset = *TZO_0;
     let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
     match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo, None, None) {
         Ok(val) => val,

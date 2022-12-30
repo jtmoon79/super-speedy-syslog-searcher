@@ -51,16 +51,22 @@ lazy_static! {
 
     // ready-made TimeZone Offsets
     pub static ref TZO_W8: FixedOffset = {
-        FixedOffset::west(3600 * 8)
+        FixedOffset::west_opt(3600 * 8).unwrap()
     };
     pub static ref TZO_E8: FixedOffset = {
-        FixedOffset::east(3600 * 8)
+        FixedOffset::east_opt(3600 * 8).unwrap()
     };
     pub static ref TZO_W5: FixedOffset = {
-        FixedOffset::west(3600 * 5)
+        FixedOffset::west_opt(3600 * 5).unwrap()
     };
     pub static ref TZO_E5: FixedOffset = {
-        FixedOffset::east(3600 * 5)
+        FixedOffset::east_opt(3600 * 5).unwrap()
+    };
+    pub static ref TZO_E1: FixedOffset = {
+        FixedOffset::east_opt(3600).unwrap()
+    };
+    pub static ref TZO_0: FixedOffset = {
+        FixedOffset::east_opt(0).unwrap()
     };
 
 }
