@@ -444,11 +444,8 @@ impl SyslogProcessor {
 
     fn set_error(&mut self, error: &Error) {
         dp_err!("{:?}", error);
-        match self.Error_ {
-            Some(ref err_) => {
-                dp_wrn!("overwriting previous Error {:?} with Error ({:?})", err_, error);
-            }
-            _ => {}
+        if let Some(ref err_) = self.Error_ {
+            dp_wrn!("overwriting previous Error {:?} with Error ({:?})", err_, error);
         }
         self.Error_ = Some(error.to_string());
     }
@@ -707,7 +704,8 @@ impl SyslogProcessor {
             }
         }
         dpfx!();
-        return result;
+
+        result
     }
 
     /// Wrapper function for [`SyslineReader::find_sysline_between_datetime_filters`].

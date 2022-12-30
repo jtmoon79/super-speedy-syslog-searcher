@@ -421,14 +421,11 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
             let mut cgn_full = String::from('<');
             cgn_full.push_str(cgn);
             cgn_full.push('>');
-            match regpat.find(cgn_full.as_str()) {
-                Some(i) => {
-                    if i > cgn_last_i {
-                        cgn_last_s = cgn;
-                        cgn_last_i = i;
-                    }
+            if let Some(i) = regpat.find(cgn_full.as_str()) {
+                if i > cgn_last_i {
+                    cgn_last_s = cgn;
+                    cgn_last_i = i;
                 }
-                None => {}
             }
         }
         assert_eq!(cgn_last_s, dtpd.cgn_last, "cgn_last is {:?}, but analysis of the regexp found the last capture named group {:?}; declared at line {}", dtpd.cgn_last, cgn_last_s, dtpd._line_num);

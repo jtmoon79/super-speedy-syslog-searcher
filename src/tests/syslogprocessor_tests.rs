@@ -547,11 +547,8 @@ fn test_stage0to3_drop_data(
         match slp.find_sysline(fo) {
             ResultS3SyslineFind::Found((fo_, syslinep)) => {
                 fo = fo_;
-                match syslinep_last_opt {
-                    Some(syslinep_) => {
-                        slp.drop_data_try(&syslinep_);
-                    }
-                    None => {}
+                if let Some(syslinep_) = syslinep_last_opt {
+                    slp.drop_data_try(&syslinep_);
                 }
                 syslinep_last_opt = Some(syslinep);
             }

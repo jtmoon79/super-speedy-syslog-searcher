@@ -1297,7 +1297,7 @@ impl LineReader {
         }
 
         let li: LinePart =
-            LinePart::new(bptr_middle.clone(), bi_at, bi_middle_end + 1, fo_nl_a1, bo_middle, self.blocksz());
+            LinePart::new(bptr_middle, bi_at, bi_middle_end + 1, fo_nl_a1, bo_middle, self.blocksz());
         line.prepend(li);
 
         let linep: LineP = LineP::new(line);

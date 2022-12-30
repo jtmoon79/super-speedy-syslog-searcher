@@ -269,12 +269,13 @@ impl Summary {
         // some sanity checks
         debug_assert_ge!(BlockReader_blocksz, BLOCKSZ_MIN, "blocksz too small");
         debug_assert_le!(BlockReader_blocksz, BLOCKSZ_MAX, "blocksz too big");
-        let mut summary = Summary::default();
-        summary.filetype = filetype;
-        summary.BlockReader_blocksz = BlockReader_blocksz;
-        summary.Error_ = Error_;
 
-        summary
+        Summary {
+            filetype,
+            BlockReader_blocksz,
+            Error_,
+            ..Default::default()
+        }
     }
 
     /// Return maximum value for hit/miss/insert number.
