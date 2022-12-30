@@ -9,7 +9,13 @@ use crate::common::{FPath, FileType};
 
 use crate::readers::blockreader::SUBPATH_SEP;
 
-use crate::readers::helpers::{filename_count_extensions, fpath_to_path, path_to_fpath, remove_extension};
+use crate::readers::helpers::{
+    filename_count_extensions,
+    fpath_to_path,
+    path_to_fpath,
+    path_clone,
+    remove_extension,
+};
 
 use std::borrow::Cow;
 use std::ffi::OsStr;
@@ -383,7 +389,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
     // or a number, e.g. `file.log.old`, `kern.log.1`. If so, try MimeGuess without the extra
     // extensions.
     if mimeguess.is_empty() {
-        let mut path_: &Path = path.clone();
+        let mut path_: &Path = path_clone(path);
         let mut fpath: FPath;
         while filename_count_extensions(path_) > 1 && mimeguess.is_empty() {
             dpfo!("no mimeguess found, and file name is {:?} (multiple extensions), try again with removed file extension", path_.file_name().unwrap_or_default());

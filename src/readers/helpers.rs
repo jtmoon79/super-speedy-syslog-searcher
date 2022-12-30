@@ -29,6 +29,11 @@ pub fn fpath_to_path(path: &FPath) -> &std::path::Path {
     std::path::Path::new(path)
 }
 
+/// Helper function for a non-obvious technique.
+pub fn path_clone(path: &std::path::Path) -> &std::path::Path {
+    std::path::Path::new(path.as_os_str())
+}
+
 /// Count of a `char` in `str`.
 pub fn count_chars_in_str(
     s: &str,
