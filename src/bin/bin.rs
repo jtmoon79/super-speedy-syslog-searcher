@@ -1081,19 +1081,6 @@ pub fn main() -> ExitCode {
         for ppresult in ppaths.into_iter() {
             processed_paths.push(ppresult);
         }
-        /*
-        // TODO: [2022/06/06] carry forward invalid paths for printing with the `--summary`
-        // XXX: can this be done in a one-liner?
-        for processpathresult in ppaths.iter()
-            .filter(|x| matches!(x,  ProcessPathResult::FileValid(_)))
-        {
-            let path: FPath = match filetype_path {
-                ProcessPathResult::FileValid(val) => val.1,
-                _ => { continue; },
-            };
-            processed_paths.push(path.clone());
-        }
-        */
     }
 
     let ret: bool = processing_loop(
