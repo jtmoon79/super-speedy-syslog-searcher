@@ -1,3 +1,5 @@
+# rust.yml
+#
 # github workflows action file for super-speedy-syslog-searcher
 ---
 name: Rust
