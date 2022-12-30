@@ -42,12 +42,17 @@ extern crate tar;
 /// Initial path processing return type.
 #[derive(Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
+    /// File can be processed by `s4`
     FileValid(FPath, MimeGuess, FileType),
     // TODO: [2022/06] not currently checked until too late
+    /// Filesystem permissions do not allow reading the file
     FileErrNoPermissions(FPath, MimeGuess),
+    /// File is a known or unknown type and is not supported
     FileErrNotSupported(FPath, MimeGuess),
-    FileErrNotParseable(FPath, MimeGuess),
-    FileErrNotAFile(FPath, MimeGuess),
+    /// Path exists and is not a file
+    FileErrNotAFile(FPath),
+    /// Path does not exist
+    FileErrNotExist(FPath),
 }
 
 pub type ProcessPathResults = Vec<ProcessPathResult>;
@@ -525,6 +530,10 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         return process_path_tar(path);
     }
 
+    if ! std_path.exists() {
+        return vec![ProcessPathResult::FileErrNotExist(path.clone())];
+    }
+
     // getting here means `path` likely refers to a directory
 
     let mut paths: Vec<ProcessPathResult> = Vec::<ProcessPathResult>::new();
@@ -562,22 +571,18 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
                 continue;
             }
             dpo!("Path not a file {:?}", path_entry);
-            paths.push(ProcessPathResult::FileErrNotAFile(fpath_entry, MimeGuess::from_ext("")));
+            paths.push(ProcessPathResult::FileErrNotAFile(fpath_entry));
             continue;
         }
         let filetype: FileType;
         let mimeguess: MimeGuess;
         (filetype, mimeguess) = path_to_filetype_mimeguess(std_path_entry);
         match parseable_filetype(&filetype) {
-            FileParseable::YES => {
+            true => {
                 dpo!("paths.push(FileValid(({:?}, {:?}, {:?})))", fpath_entry, mimeguess, filetype);
                 paths.push(ProcessPathResult::FileValid(fpath_entry, mimeguess, filetype));
             }
-            FileParseable::NotParseable => {
-                dpo!("Path not parseable {:?}", std_path_entry);
-                paths.push(ProcessPathResult::FileErrNotParseable(fpath_entry, mimeguess));
-            }
-            FileParseable::NotSupported => {
+            false => {
                 dpo!("Path not supported {:?}", std_path_entry);
                 paths.push(ProcessPathResult::FileErrNotSupported(fpath_entry, mimeguess));
             }

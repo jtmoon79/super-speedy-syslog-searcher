@@ -1815,19 +1815,19 @@ fn processing_loop(
 
     for (_pathid, result_invalid) in map_pathid_results_invalid.iter() {
         match result_invalid {
-            ProcessPathResult::FileErrNotParseable(path, _) => {
-                eprintln!("WARNING: not a parseable type {:?}", path);
-            }
             ProcessPathResult::FileErrNoPermissions(path, _) => {
                 eprintln!("WARNING: not enough permissions {:?}", path);
-            }
-            ProcessPathResult::FileErrNotAFile(path, _) => {
-                eprintln!("WARNING: not a file {:?}", path);
             }
             ProcessPathResult::FileErrNotSupported(path, _) => {
                 eprintln!("WARNING: not a supported file {:?}", path);
             }
-            _ => {}
+            ProcessPathResult::FileErrNotAFile(path) => {
+                eprintln!("WARNING: not a file {:?}", path);
+            }
+            ProcessPathResult::FileErrNotExist(path) => {
+                eprintln!("WARNING: path does not exist {:?}", path);
+            }
+            ProcessPathResult::FileValid(..) => {}
         }
     }
 
@@ -2909,13 +2909,13 @@ fn print_files_processpathresult(
                 print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
                 print_("(not supported)".to_string(), color_choice, color_error);
             }
-            ProcessPathResult::FileErrNotParseable(path, mimeguess) => {
-                print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
-                print_("(not parseable)".to_string(), color_choice, color_error);
-            }
-            ProcessPathResult::FileErrNotAFile(path, mimeguess) => {
-                print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
+            ProcessPathResult::FileErrNotAFile(path) => {
+                print_(format!("File: {}", path), color_choice, color_default);
                 print_("(not a file)".to_string(), color_choice, color_error);
+            }
+            ProcessPathResult::FileErrNotExist(path) => {
+                print_(format!("File: {}", path), color_choice, color_default);
+                print_("(does not exist)".to_string(), color_choice, color_error);
             }
         }
         eprintln!();

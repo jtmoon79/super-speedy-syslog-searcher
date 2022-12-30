@@ -140,7 +140,7 @@ fn test_process_file_path(
 }
 
 #[test]
-fn test_process_file_path_log() {
+fn test_process_path_log() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_LOG_EMPTY_FPATH.clone(),
@@ -148,11 +148,11 @@ fn test_process_file_path_log() {
             *NTF_LOG_EMPTY_FILETYPE,
         ),
     ];
-    test_process_file_path(&NTF_LOG_EMPTY, check);
+    test_process_path_ntf(&NTF_LOG_EMPTY, check);
 }
 
 #[test]
-fn test_process_file_path_gz() {
+fn test_process_path_gz() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_GZ_EMPTY_FPATH.clone(),
@@ -160,11 +160,11 @@ fn test_process_file_path_gz() {
             *NTF_GZ_EMPTY_FILETYPE,
         ),
     ];
-    test_process_file_path(&NTF_GZ_EMPTY, check);
+    test_process_path_ntf(&NTF_GZ_EMPTY, check);
 }
 
 #[test]
-fn test_process_file_path_tar() {
+fn test_process_path_tar() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_TAR_1BYTE_FILEA_FPATH.clone(),
@@ -172,7 +172,30 @@ fn test_process_file_path_tar() {
             *NTF_TAR_1BYTE_FILEA_FILETYPE,
         ),
     ];
-    test_process_file_path(&NTF_TAR_1BYTE, check);
+    test_process_path_ntf(&NTF_TAR_1BYTE, check);
+}
+
+#[test]
+fn test_process_path_not_exist() {
+    let path: FPath = FPath::from("/THIS/FILE/DOES/NOT/EXIST!");
+    let check: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileErrNotExist(path.clone()),
+    ];
+    test_process_path_fpath(&path, check);
+}
+
+#[test]
+fn test_process_path_not_a_file() {
+    let fpath: FPath = FPath::from("/dev/null");
+    // do not test if path does not exist. avoids failures on unusual platforms
+    if ! fpath_to_path(&fpath).exists() {
+        eprintln!("Path does not exist, pass test {:?}", fpath);
+        return;
+    }
+    let check: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileErrNotAFile(fpath.clone()),
+    ];
+    test_process_path_fpath(&fpath, check);
 }
 
 // -------------------------------------------------------------------------------------------------
