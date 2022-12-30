@@ -5,7 +5,7 @@
 # Check correctness of files listing after processing.
 #
 # Setting the filesystem datetime of repository syslog files is more realisitic
-# for testing. Syslog processing can require using the file's
+# for testing. Syslog processing may require using the file's
 # filesystem modified datetime.
 #
 # A helpful command for reviewing datetimes in files
