@@ -67,16 +67,6 @@ const NTF5_MTIME_UNIXEPOCH: i64 = 957502855;
 const NTF5_DATA: &str =
     concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
-const NTF5_DATA_LINE0_OFFSET: usize = 0;
-const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0_OFFSET
-    + NTF5_DATA_LINE0.as_bytes().len();
-const NTF5_DATA_LINE2_OFFSET: usize = NTF5_DATA_LINE1_OFFSET
-    + NTF5_DATA_LINE1.as_bytes().len();
-const NTF5_DATA_LINE3_OFFSET: usize = NTF5_DATA_LINE2_OFFSET
-    + NTF5_DATA_LINE2.as_bytes().len();
-const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET
-    + NTF5_DATA_LINE3.as_bytes().len();
-
 const NTF5_LINE2_DATETIME_STR: &str = "Mar 3 03:00:00 +0000";
 const NTF5_LINE2_DATETIME_PATTERN: &DateTimePattern_str = "%b %e %H:%M:%S %z";
 
@@ -132,7 +122,7 @@ const NTF9_BLOCKSZ_MIN: BlockSz = (NTF9_DATA_LINE2_OFFSET + 1) as BlockSz;
 // NTF7_2
 //
 
-// the five syslines with two lines each that makes up file `NTF7_2`
+// seven syslines with two lines each that makes up file `NTF7_2`
 const NTF7_2_DATA_LINE0: &str = "Jan 11 01:31:21 2000 6-3 à\n";
 const NTF7_2_DATA_LINE1: &str = "ββββββββββββββββββββββββββ\n";
 const NTF7_2_DATA_LINE2: &str = "Mar 13 03:33:23 2000 6-3 ccc\n";

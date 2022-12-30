@@ -53,6 +53,7 @@ pub enum ProcessPathResult {
 pub type ProcessPathResults = Vec<ProcessPathResult>;
 
 lazy_static! {
+    /// files without file extensions known to be parseable
     static ref PARSEABLE_FILENAMES_FILE: Vec<&'static OsStr> = {
         #[allow(clippy::vec_init_then_push)]
         let v: Vec::<&'static OsStr> = vec![

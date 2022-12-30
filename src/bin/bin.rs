@@ -65,7 +65,7 @@ extern crate regex;
 use regex::Regex;
 
 extern crate si_trace_print;
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpf1n, dpf1o, dpf1x, stack::stack_offset_set};
+use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpo, dpf1n, dpf1o, dpf1x, stack::stack_offset_set};
 
 extern crate unicode_width;
 

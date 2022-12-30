@@ -1632,7 +1632,6 @@ impl SyslineReader {
         //
 
         let mut fo_b: FileOffset = fo1;
-        let mut done: bool = false;
         loop {
             dpfo!("({}): self.linereader.find_line_in_block({})", fileoffset, fo1);
             let result: ResultS3LineFind = self

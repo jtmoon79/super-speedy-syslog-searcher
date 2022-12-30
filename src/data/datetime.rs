@@ -60,7 +60,6 @@ use arrayref::array_ref;
 extern crate chrono;
 #[doc(hidden)]
 pub use chrono::{
-    Date,
     DateTime,
     Datelike, // adds method `.year()` onto `DateTime`
     Duration,
