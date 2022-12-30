@@ -12,4 +12,3 @@ set -x
 cargo fmt --version
 
 exec cargo fmt --verbose "${@}"
-
