@@ -101,7 +101,8 @@
 ./other/tests/dtf9b-12-leapday.log|2002-12-12 12:00:00-0300
 ./other/tests/dtf9c-12-baddate.log|2020-12-12 12:00:00.066
 ./other/tests/dtf9c-12x2.log.tar|2022-12-12 12:00:01 -00:00
-./other/tests/dtf9c-23-12x2.log|2022-09-02 21:45:35.9541789060
+./other/tests/dtf9c-23-12x2.log|2018-09-02 21:45:35.9541789060
+./other/tests/dtf9c-23-12x2.log.gz|2018-09-02 21:45:40
 ./other/tests/dtf9d-12x3-37.log|2004-01-01 01:01:01.311
 ./other/tests/dtf9d-24-12x2-backwards.log|2022-01-01 01:00:00
 ./other/tests/dtf9d-24-12x2-leapday.log|2022-09-02 21:45:35.9541789060
