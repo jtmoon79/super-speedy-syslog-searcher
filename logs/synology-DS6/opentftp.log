@@ -1,3 +1,5 @@
+[31-Jan-17 11:25:20] TFTP Server SinglePort Version 1.66 Unix Built 2003 Starting..
+[31-Jan-17 11:25:21] TFTP Server Stopped !
 [22-Feb-17 21:24:20] TFTP Server SinglePort Version 1.66 Unix Built 2003 Starting..
 [22-Feb-17 21:24:20] Section [ALLOWED-CLIENTS] Invalid entry 192.168.0.0-192.168.0.255 in ini file, ignored
 [22-Feb-17 21:24:20] username: root
@@ -10,9 +12,9 @@
 [22-Feb-17 21:24:20] file create allowed: No
 [22-Feb-17 21:24:20] file overwrite allowed: No
 [22-Feb-17 21:24:20] logging: all
-[22-Feb-17 21:24:20] detecting Interfaces..
-[22-Feb-17 21:24:20] listening on: 192.168.0.1:69
-[22-Feb-17 21:24:20] listening on: 192.168.0.189:69
+[22-Feb-17 21:24:21] detecting Interfaces..
+[22-Feb-17 21:24:21] listening on: 192.168.0.1:69
+[22-Feb-17 21:24:21] listening on: 192.168.0.189:69
 [22-Feb-17 21:46:30] closing Network Connections...
 [22-Feb-17 21:46:30] TFTP Server Stopped !
 [22-Feb-17 21:46:30] TFTP Server SinglePort Version 1.66 Unix Built 2003 Starting..
