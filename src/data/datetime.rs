@@ -578,7 +578,7 @@ pub struct DateTimeParseInstr<'a> {
     /// Capture named group last (right-most) position in `regex_pattern`.
     pub cgn_last: &'a CaptureGroupName,
     /// Hardcoded self-test cases.
-    #[cfg(any(debug_assertions, test))]
+    #[cfg(test)]
     pub _test_cases: &'a [(LineIndex, LineIndex, &'a str)],
     /// Source code line number of declaration.
     /// Only to aid humans reviewing failing tests.
@@ -609,7 +609,7 @@ macro_rules! DTPD {
             },
             cgn_first: $cgn_first,
             cgn_last: $cgn_last,
-            #[cfg(any(debug_assertions, test))]
+            #[cfg(test)]
             _test_cases: $test_cases,
             _line_num: $line_num,
         }
