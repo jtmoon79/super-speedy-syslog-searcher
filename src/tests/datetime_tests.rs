@@ -216,6 +216,11 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
             dtpat,
             dtpd._line_num
         );
+        // while the pattern could intentionally start with "^" and start past 0,
+        // it is most likely a user error
+        if dtpat.starts_with('^') {
+            assert_eq!(dtpd.range_regex.start, 0, "Pattern user beginning of line yet range starts at {:?}, expected start at 0", dtpd.range_regex.start);
+        }
 
         // check year
         if dtfs.has_year() {
