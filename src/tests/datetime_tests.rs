@@ -13,6 +13,7 @@ use crate::tests::common::{
 use crate::data::datetime::{
     bytes_to_regex_to_datetime, datetime_from_str_workaround_Issue660, datetime_parse_from_str,
     dt_after_or_before, dt_pass_filters, DTFSSet, DTFS_Tz, DateTimeL, DateTimeLOpt, DateTimeParseInstr,
+    DATETIME_PARSE_DATAS_LEN,
     DateTimePattern_str, DateTimeRegex_str, FixedOffset, Result_Filter_DateTime1, Result_Filter_DateTime2,
     TimeZone, Year, CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL, CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL, CGP_SECOND,
     CGP_TZ_ALL, CGP_TZZ, CGP_YEAR, DATETIME_PARSE_DATAS, DTP_ALL, MAP_TZZ_TO_TZz, RP_LB, RP_RB,
@@ -21,8 +22,9 @@ use crate::data::datetime::{
 
 use crate::debug::printers::buffer_to_String_noraw;
 
-extern crate lazy_static;
 use bstr::ByteSlice;
+
+extern crate lazy_static;
 use lazy_static::lazy_static;
 
 use std::collections::HashSet;
@@ -483,54 +485,121 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
     );
 }
 
-#[test]
-fn test_DATETIME_PARSE_DATAS_test_cases() {
+/// match the regexp built-in test cases for all entries in `DATETIME_PARSE_DATAS`
+// XXX: how to generate these test_cases from 0 to DATETIME_PARSE_DATAS_LEN?
+//      until that is determined, run this shell snippet from the project root directory
+//
+//           for i in $(seq 0 $(($(grep -m1 -Fe 'DATETIME_PARSE_DATAS_LEN:' -- ./src/data/datetime.rs | grep -Eoe '[[:digit:]]+') - 1))); do echo '#[test_case('${i}')]'; done
+//
+#[test_case(0)]
+#[test_case(1)]
+#[test_case(2)]
+#[test_case(3)]
+#[test_case(4)]
+#[test_case(5)]
+#[test_case(6)]
+#[test_case(7)]
+#[test_case(8)]
+#[test_case(9)]
+#[test_case(10)]
+#[test_case(11)]
+#[test_case(12)]
+#[test_case(13)]
+#[test_case(14)]
+#[test_case(15)]
+#[test_case(16)]
+#[test_case(17)]
+#[test_case(18)]
+#[test_case(19)]
+#[test_case(20)]
+#[test_case(21)]
+#[test_case(22)]
+#[test_case(23)]
+#[test_case(24)]
+#[test_case(25)]
+#[test_case(26)]
+#[test_case(27)]
+#[test_case(28)]
+#[test_case(29)]
+#[test_case(30)]
+#[test_case(31)]
+#[test_case(32)]
+#[test_case(33)]
+#[test_case(34)]
+#[test_case(35)]
+#[test_case(36)]
+#[test_case(37)]
+#[test_case(38)]
+#[test_case(39)]
+#[test_case(40)]
+#[test_case(41)]
+#[test_case(42)]
+#[test_case(43)]
+#[test_case(44)]
+#[test_case(45)]
+#[test_case(46)]
+#[test_case(47)]
+#[test_case(48)]
+#[test_case(49)]
+#[test_case(50)]
+#[test_case(51)]
+#[test_case(52)]
+#[test_case(53)]
+#[test_case(54)]
+#[test_case(55)]
+#[test_case(56)]
+#[test_case(57)]
+#[test_case(58)]
+#[test_case(59)]
+#[test_case(60)]
+#[test_case(61)]
+#[test_case(62)]
+#[test_case(63)]
+#[test_case(64)]
+#[test_case(65)]
+#[test_case(66)]
+#[test_case(67)]
+#[test_case(68)]
+#[test_case(69)]
+#[test_case(70)]
+fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     stack_offset_set(Some(2));
-    for (index, dtpd) in DATETIME_PARSE_DATAS
-        .iter()
-        .enumerate()
-    {
-        eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
-        eprintln!("  Regex Pattern   : {:?}", dtpd.regex_pattern);
-        eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
-        for test_case_ in dtpd._test_cases {
-            eprintln!("  Test Data       : {:?}", test_case_);
-            let dta = test_case_.0;
-            let dtb = test_case_.1;
-            assert_lt!(dta, dtb, "bad indexes");
-            let data = test_case_.2.as_bytes();
-            eprintln!("  Test Data[{:2},{:2}]: {:?}", dta, dtb, &data[dta..dtb].as_bstr());
-            let tz = *TZO_E1;
-            let mut year_opt: Option<Year> = None;
-            if !dtpd.dtfs.has_year() {
-                year_opt = Some(1980);
+    let dtpd = &DATETIME_PARSE_DATAS[index];
+    eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
+    eprintln!("  Regex Pattern   : {:?}", dtpd.regex_pattern);
+    eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
+    for test_case_ in dtpd._test_cases {
+        eprintln!("  Test Data       : {:?}", test_case_);
+        let dta = test_case_.0;
+        let dtb = test_case_.1;
+        assert_lt!(dta, dtb, "bad indexes");
+        let data = test_case_.2.as_bytes();
+        eprintln!("  Test Data[{:2},{:2}]: {:?}", dta, dtb, &data[dta..dtb].as_bstr());
+        let tz = *TZO_E1;
+        let mut year_opt: Option<Year> = None;
+        if !dtpd.dtfs.has_year() {
+            year_opt = Some(1980);
+        }
+        let s = buffer_to_String_noraw(data);
+        match bytes_to_regex_to_datetime(data, &index, &year_opt, &tz) {
+            Some(capdata) => {
+                eprintln!(
+                    "Passed dtpd declared at line {} result {:?}, test data {:?}",
+                    dtpd._line_num, capdata, s
+                );
+                let a = capdata.0;
+                let b = capdata.1;
+                assert_eq!(
+                    (dta, dtb), (a, b),
+                    "Expected datetime begin index {:?}, got {:?}, for dtpd at line {} with test data {:?}",
+                    (dta, dtb), (a, b), dtpd._line_num, s
+                );
             }
-            let s = buffer_to_String_noraw(data);
-            match bytes_to_regex_to_datetime(data, &index, &year_opt, &tz) {
-                Some(capdata) => {
-                    eprintln!(
-                        "Passed dtpd declared at line {} result {:?}, test data {:?}",
-                        dtpd._line_num, capdata, s
-                    );
-                    let a = capdata.0;
-                    let b = capdata.1;
-                    assert_eq!(
-                        dta, a,
-                        "Expected datetime begin index {}, got {}, for dtpd at line {} with test data {:?}",
-                        dta, a, dtpd._line_num, s
-                    );
-                    assert_eq!(
-                        dtb, b,
-                        "Expected datetime end index {}, got {}, for dtpd at line {} with test data {:?}",
-                        dtb, b, dtpd._line_num, s
-                    );
-                }
-                None => {
-                    panic!(
-                        "Failed dtpd declared at line {}\ntest data {:?}\nregex \"{}\"",
-                        dtpd._line_num, s, dtpd.regex_pattern
-                    );
-                }
+            None => {
+                panic!(
+                    "Failed dtpd declared at line {}\ntest data {:?}\nregex \"{}\"",
+                    dtpd._line_num, s, dtpd.regex_pattern
+                );
             }
         }
     }

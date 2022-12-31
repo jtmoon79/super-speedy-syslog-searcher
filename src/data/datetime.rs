@@ -1439,6 +1439,9 @@ pub(crate) const CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
 /// no alphabetic or line end, helper to `CGP_TZZ`
 const RP_NOALPHA: &RegexPattern = r"([^[[:alpha:]]]|$)";
 
+/// no alphanumeric or line end, helper to `CGP_TZZ` and years
+const RP_NOALNUM: &RegexPattern = r"([^[[:alnum:]]]|$)";
+
 /// All named timezone abbreviations, maps all chrono strftime `%Z` values
 /// (e.g. `"EDT"`) to equivalent `%:z` value (e.g. `"-04:00"`).
 ///
@@ -1981,6 +1984,8 @@ const RP_BLANKS: &RegexPattern = "[[:blank:]]+";
 const RP_BLANKSq: &RegexPattern = "[[:blank:]]*";
 /// [`RegexPattern`] blank or line end?
 const RP_BLANKqe: &RegexPattern = "([[:blank:]]?|$)";
+/// [`RegexPattern`] anything plus
+const RP_ANYp: &RegexPattern = ".+";
 /// [`RegexPattern`] left-side brackets
 pub(crate) const RP_LB: &RegexPattern = r"[\[\(<{]";
 /// [`RegexPattern`] right-side brackets
@@ -1998,7 +2003,9 @@ pub type DateTimeParseInstrsIndex = usize;
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 /// Length of [`DATETIME_PARSE_DATAS`]
-pub const DATETIME_PARSE_DATAS_LEN: usize = 66;
+// XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
+//      in `datetime_tests.rs`
+pub const DATETIME_PARSE_DATAS_LEN: usize = 71;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2691,14 +2698,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     info	2017/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task started.
     //     warning	2017/02/24 03:43:57	SYSTEM:	[Local][Backup Task Backup1] Backup folder [Vol/DS] failed. (The backup source shared folder is encrypted and not mounted. Please mount the backup source shared folder and try again.)
     //
-    // from file `./logs/Debian9/apport.log.1`
-    //
-    //               1         2         3         4         5         6
-    //     0123456789012345678901234567890123456789012345678901234567890
-    //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
-    //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -0700: called for pid 8581, signal 24, core limit 0, dump mode 1
-    //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -07:00: called for pid 8581, signal 24, core limit 0, dump mode 1
-    //
     // other examples:
     //
     //               1         2         3         4
@@ -2846,6 +2845,61 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (5, 29, "ERR: Sat Jan 31 2000 08:00:00 err:‼"),
             (5, 29, "ERR: Sat JAN 31 2000 08:00:00 err:‼"),
             (4, 32, "ERR Sat JANUARY 31 2000 08:00:00 err:‼"),
+        ],
+        line!(),
+    ),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // from file `./logs/Debian9/apport.log.1`
+    //
+    //               1         2         3         4         5         6
+    //     0123456789012345678901234567890123456789012345678901234567890
+    //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
+    //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -0700: called for pid 8581, signal 24, core limit 0, dump mode 1
+    //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -07:00: called for pid 8581, signal 24, core limit 0, dump mode 1
+    //
+    DTPD!(
+        concatcp!("^", RP_LEVELS, "[:]?", RP_ANYp, RP_BLANK, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZzc),
+        DTFSS_YbdHMSzc, 0, 120, CGN_DAYa, CGN_TZ,
+        &[
+            (22, 53, "ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -07:00: called for pid 8581, signal 24, core limit 0, dump mode 1"),
+            (27, 58, r#"ERROR: apport (pid 529343) Sat Aug 13 08:48:03 2022 -03:30: executable: /mnt/Projects/super-speedy-syslog-searcher/target/release/s4 (command line "./target/release/s4 -s -wp /dev")"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, "[:]?", RP_ANYp, RP_BLANK, CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANK, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZz),
+        DTFSS_YbdHMSz, 0, 120, CGN_DAYa, CGN_TZ,
+        &[
+            (22, 52, "ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -0700: called for pid 8581, signal 24, core limit 0, dump mode 1"),
+            (27, 57, r#"ERROR: apport (pid 529343) Sat Aug 13 08:48:03 2022 -0330: executable: /mnt/Projects/super-speedy-syslog-searcher/target/release/s4 (command line "./target/release/s4 -s -wp /dev")"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, "[:]?", RP_ANYp, RP_BLANK, CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANK, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZzp),
+        DTFSS_YbdHMSzp, 0, 120, CGN_DAYa, CGN_TZ,
+        &[
+            (22, 50, "ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -07: called for pid 8581, signal 24, core limit 0, dump mode 1"),
+            (27, 55, r#"ERROR: apport (pid 529343) Sat Aug 13 08:48:03 2022 -03: executable: /mnt/Projects/super-speedy-syslog-searcher/target/release/s4 (command line "./target/release/s4 -s -wp /dev")"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, "[:]?", RP_ANYp, RP_BLANK, CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANK, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZZ, RP_NOALPHA),
+        DTFSS_YbdHMSZ, 0, 120, CGN_DAYa, CGN_TZ,
+        &[
+            (22, 51, "ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 ALMT called for pid 8581, signal 24, core limit 0, dump mode 1"),
+            (27, 56, r#"ERROR: apport (pid 529343) Sat Aug 13 08:48:03 2022 ALMT: executable: /mnt/Projects/super-speedy-syslog-searcher/target/release/s4 (command line "./target/release/s4 -s -wp /dev")"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, "[:]?", RP_ANYp, RP_BLANK, CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANK, CGP_DAYd, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_NOALNUM),
+        DTFSS_YbdHMS, 1, 120, CGN_DAYa, CGN_YEAR,
+        &[
+            (22, 46, "ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 called for pid 8581, signal 24, core limit 0, dump mode 1"),
+            (27, 51, r#"ERROR: apport (pid 529343) Sat Aug 13 08:48:03 2022: executable: /mnt/Projects/super-speedy-syslog-searcher/target/release/s4 (command line "./target/release/s4 -s -wp /dev")"#),
         ],
         line!(),
     ),
