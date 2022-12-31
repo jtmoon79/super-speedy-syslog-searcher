@@ -342,7 +342,7 @@ pub enum DTFS_Tz {
 /// };
 /// fn main() {
 ///     let data = r"[2020/Mar/05 12:17:59.631000 PMDT] ../source3/smbd/oplock.c:1340(init_oplocks)";
-///     let pattern = r"^\[(?P<year>[12]\d{3})[ /\-]?(?P<month>(?i)01|02|03|04|05|06|07|08|09|10|11|12|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec(?-i))[ /\-]?(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)[ T]?(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)[:]?(?P<minute>[012345]\d)[:]?(?P<second>[0123456]\d)[\.,](?P<subsecond>\d{3,9})[[:blank:]](?P<tz>ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT)[^[[:upper:]]]";
+///     let pattern = r"^\[(?P<year>[12][[:digit:]]{3})[ /\-]?(?P<month>(?i)01|02|03|04|05|06|07|08|09|10|11|12|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec(?-i))[ /\-]?(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)[ T]?(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)[:]?(?P<minute>[012345][[:digit:]])[:]?(?P<second>[0123456][[:digit:]])[\.,](?P<subsecond>[[:digit:]]{3,9})[[:blank:]](?P<tz>ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT)[^[[:upper:]]]";
 ///     let re = Regex::new(pattern).unwrap();
 ///     let captures = match re.captures(data) {
 ///         Some(cap) => cap,
@@ -1274,7 +1274,7 @@ pub(crate) const CGN_ALL: [&CaptureGroupName; 9] = [
 
 /// Regex capture group pattern for `strftime` year specifier `%Y`, as
 /// four decimal number characters.
-pub const CGP_YEAR: &CaptureGroupPattern = r"(?P<year>[12]\d{3})";
+pub const CGP_YEAR: &CaptureGroupPattern = r"(?P<year>[12][[:digit:]]{3})";
 /// Regex capture group pattern for `strftime` month specifier `%m`,
 /// month numbers `"01"` to `"12"`.
 pub const CGP_MONTHm: &CaptureGroupPattern = r"(?P<month>01|02|03|04|05|06|07|08|09|10|11|12)";
@@ -1316,10 +1316,10 @@ pub const CGP_HOUR: &CaptureGroupPattern =
 /// Regex capture group pattern for `strftime` hour specifier `%h`, 1 to 12.
 pub const CGP_HOURh: &CaptureGroupPattern = r"(?P<hour>|1|2|3|4|5|6|7|8|9|10|11|12)";
 /// Regex capture group pattern for `strftime` minute specifier `%M`, 00 to 59.
-pub const CGP_MINUTE: &CaptureGroupPattern = r"(?P<minute>[012345]\d)";
+pub const CGP_MINUTE: &CaptureGroupPattern = r"(?P<minute>[012345][[:digit:]])";
 /// Regex capture group pattern for `strftime` second specifier `%S`, 00 to 60.
 /// Includes leap second "60".
-pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345]\d|60)";
+pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345][[:digit:]]|60)";
 /// Regex capture group pattern for `strftime` fractional specifier `%f`.
 /// Matches all `strftime` specifiers `%f`, `%3f`, `%6f`, and `%9f`, a sequence
 /// of decimal number characters.
@@ -1330,9 +1330,9 @@ pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345]\d|60)";
 /// For example, fractional data "123" is transformed to "123000000" in
 /// function `captures_to_buffer_bytes`. Then it is parsed by
 /// `datetime_parse_from_str` using `%f` specifier.
-pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>\d{1,9})";
+pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{1,9})";
 /// Regex capture group pattern for dmesg uptime fractional seconds in logs
-//pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>\d{1,9}\.\d{3,9})";
+//pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>[[:digit:]]{1,9}\.[[:digit:]]{3,9})";
 
 /// for help in testing only
 #[doc(hidden)]
@@ -1363,11 +1363,11 @@ const MINUS_SIGN: &[u8] = "−".as_bytes();
 const HYPHEN_MINUS: &[u8] = "-".as_bytes();
 
 /// `strftime` specifier `%z` e.g. `"+0930"`
-const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012]\d{3})";
+const CGP_TZz: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012][[:digit:]]{3})";
 /// `strftime` specifier `%:z` e.g. `"+09:30"`
-const CGP_TZzc: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012]\d:\d\d)";
+const CGP_TZzc: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012][[:digit:]]:[[:digit:]]{2})";
 /// `strftime` specifier `%#z` e.g. `"+09"`
-const CGP_TZzp: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012]\d)";
+const CGP_TZzp: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012][[:digit:]])";
 /// `strftime` specifier `%Z` e.g. `"ACST"`, all lowercase also allowed
 pub(crate) const CGP_TZZ: &CaptureGroupPattern = "(?P<tz>\
 ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOST|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EASST|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVST|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PET|PETT|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAST|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WIT|WITA|WST|YAKT|YEKT|ZULU|Z|\
@@ -1971,7 +1971,7 @@ const RP_cq: &RegexPattern = "[,]?";
 /// - <https://learningnetwork.cisco.com/s/article/syslog-severity-amp-level>
 /// - <https://learningnetwork.cisco.com/s/feed/0D53i00000KsKHECA3>
 /// - <https://success.trendmicro.com/dcx/s/solution/TP000086250>
-const RP_LEVELS: &RegexPattern = r"((?i)DEBUG[\d]|DEBUG|INFO[\d]|INFO|ERROR[\d]|ERROR|ERR|TRACE[\d]|TRACE|WARN[\d]|WARN|WARNING|VERBOSE[\d]|VERBOSE|EMERGENCY|EMERG|NOTICE|CRIT|CRITICAL|ALERT[\d]|ALERT(?-i))";
+const RP_LEVELS: &RegexPattern = r"((?i)DEBUG[[[:digit:]]]|DEBUG|INFO[[[:digit:]]]|INFO|ERROR[[[:digit:]]]|ERROR|ERR|TRACE[[[:digit:]]]|TRACE|WARN[[[:digit:]]]|WARN|WARNING|VERBOSE[[[:digit:]]]|VERBOSE|EMERGENCY|EMERG|NOTICE|CRIT|CRITICAL|ALERT[[[:digit:]]]|ALERT(?-i))";
 /// [`RegexPattern`] blank
 const RP_BLANK: &RegexPattern = "[[:blank:]]";
 /// [`RegexPattern`] blank?
