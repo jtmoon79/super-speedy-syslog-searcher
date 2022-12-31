@@ -2052,6 +2052,8 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 71;
 /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 /// [`dt_patterns_analysis`]: crate::readers::syslinereader::SyslineReader#method.dt_patterns_analysis
 /// [`Line`]: crate::data::line::Line
+// XXX: yet another rust playground for testing regex
+//      https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=93a47ceb225bae73dfcbce2574b65e91
 pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] = [
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/Ubuntu18/xrdp.log`
