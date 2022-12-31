@@ -3923,9 +3923,18 @@ pub(crate) fn captures_to_buffer_bytes(
     dpfo!("process <factional>…");
     match dtfs.fractional {
         DTFS_Fractional::f => {
+            dpfo!("matched DTFS_Fractional::f");
             copy_u8_to_buffer!(b'.', buffer, at);
-            let fractional: &[u8] = captures.name(CGN_FRACTIONAL).as_ref().unwrap().as_bytes();
+            let fractional: &[u8] = match captures.name(CGN_FRACTIONAL).as_ref() {
+                Some(match_) => {
+                    match_.as_bytes()
+                }
+                None => {
+                    panic!("DTFSSet has set {:?} yet no fraction was captured", dtfs.fractional);
+                }
+            };
             let len = fractional.len();
+            dpfo!("match len {:?}", len);
             match len {
                 0 => {
                     copy_slice_to_buffer!(fractional, buffer, at);
@@ -3967,7 +3976,7 @@ pub(crate) fn captures_to_buffer_bytes(
                     copy_slice_to_buffer!(fractional, buffer, at);
                 },
                 10 | 11 | 12 => {
-                    // fractional is too large, copy only first 9 chars
+                    // fractional is too large, copy only left-most 9 chars
                     copy_slice_to_buffer!(&fractional[..9], buffer, at);
                 }
                 _ => {
