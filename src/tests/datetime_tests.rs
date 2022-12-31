@@ -13,10 +13,9 @@ use crate::tests::common::{
 use crate::data::datetime::{
     bytes_to_regex_to_datetime, datetime_from_str_workaround_Issue660, datetime_parse_from_str,
     dt_after_or_before, dt_pass_filters, DTFSSet, DTFS_Tz, DateTimeL, DateTimeLOpt, DateTimeParseInstr,
-    DATETIME_PARSE_DATAS_LEN,
     DateTimePattern_str, DateTimeRegex_str, FixedOffset, Result_Filter_DateTime1, Result_Filter_DateTime2,
     TimeZone, Year, CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL, CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL, CGP_SECOND,
-    CGP_TZ_ALL, CGP_TZZ, CGP_YEAR, DATETIME_PARSE_DATAS, DTP_ALL, MAP_TZZ_TO_TZz, RP_LB, RP_RB,
+    CGP_TZ_ALL, CGP_TZZ, CGP_YEAR, CGP_YEARy, DATETIME_PARSE_DATAS, DTP_ALL, MAP_TZZ_TO_TZz, RP_LB, RP_RB,
     TZZ_LIST_UPPER, TZZ_LIST_LOWER, TZZ_LOWER_TO_UPPER,
 };
 
@@ -46,7 +45,7 @@ use test_case::test_case;
 
 /// does regex pattern have a year?
 pub fn regex_pattern_has_year(pattern: &DateTimeRegex_str) -> bool {
-    pattern.contains(CGP_YEAR)
+    pattern.contains(CGP_YEAR) || pattern.contains(CGP_YEARy)
 }
 
 /// does regex pattern have a month?

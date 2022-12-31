@@ -744,6 +744,8 @@ const DTP_BdHMSYzp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
 /// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_bdHMSYZc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 /// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+const DTP_bdHMSyZc: &DateTimePattern_str = "%y%m%dT%H%M%S%:z";
+/// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_bdHMSYZp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
 /// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_bdHMSYZz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
@@ -1161,6 +1163,17 @@ const DTFSS_YbdHMS: DTFSSet = DTFSSet {
     tz: DTFS_Tz::_fill,
     pattern: DTP_bdHMSYZc,
 };
+const DTFSS_ybdHMS: DTFSSet = DTFSSet {
+    year: DTFS_Year::y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    pattern: DTP_bdHMSyZc,
+};
 
 const DTFSS_YbeHMS: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -1275,6 +1288,9 @@ pub(crate) const CGN_ALL: [&CaptureGroupName; 9] = [
 /// Regex capture group pattern for `strftime` year specifier `%Y`, as
 /// four decimal number characters.
 pub const CGP_YEAR: &CaptureGroupPattern = r"(?P<year>[12][[:digit:]]{3})";
+/// Regex capture group pattern for `strftime` year specifier `%y`, as
+/// two decimal number characters.
+pub const CGP_YEARy: &CaptureGroupPattern = r"(?P<year>[[:digit:]]{2})";
 /// Regex capture group pattern for `strftime` month specifier `%m`,
 /// month numbers `"01"` to `"12"`.
 pub const CGP_MONTHm: &CaptureGroupPattern = r"(?P<month>01|02|03|04|05|06|07|08|09|10|11|12)";
@@ -2005,7 +2021,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 /// Length of [`DATETIME_PARSE_DATAS`]
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`
-pub const DATETIME_PARSE_DATAS_LEN: usize = 71;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 72;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2124,6 +2140,31 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!("^", RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, r"[,\.\| \t]", RP_BLANKSq, r"[[:word:]]{1,20}", RP_RB),
         DTFSS_YmdHMSf, 0, 40, CGN_YEAR, CGN_FRACTIONAL,
         &[(1, 27, "[2020/03/05 12:17:59.631000, FOO] ../source3/smbd/oplock.c:1340(init_oplocks)")],
+        line!(),
+    ),
+    // ---------------------------------------------------------------------------------------------
+    // from file `./logs/synology-DS6/opentftp.log`
+    // example with offset:
+    //               1         2
+    //     012345678901234567890
+    //     [22-Feb-17 21:24:20] Section [ALLOWED-CLIENTS] Invalid entry 192.168.0.0-192.168.0.255 in ini file, ignored
+    //
+    // The `"17"` is the shortended year and `"22"` the day of the month, see
+    // source code
+    //      https://sourceforge.net/projects/tftp-server/files/tftp%20server%20single%20port/opentftpspV1.66.tar.gz/download
+    // file path
+    //      opentftpspV1.66.tar.gz:opentftpspV1.66.tar:opentftp/opentftpd.cpp
+    // function
+    //     void logMess(request *req, MYBYTE logLevel)
+    // line
+    //     strftime(extbuff, sizeof(extbuff), "%d-%b-%y %X", ttm);
+    //
+    DTPD!(
+        concatcp!("^", RP_LB, CGP_DAYd, D_Dq, CGP_MONTHb, D_Dq, CGP_YEARy, D_DH, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_RB),
+        DTFSS_ybdHMS, 0, 40, CGN_DAY, CGN_SECOND,
+        &[
+            (1, 19, "[22-Feb-17 21:24:20] Section [ALLOWED-CLIENTS] Invalid entry 192.168.0.0-192.168.0.255 in ini file, ignored")
+        ],
         line!(),
     ),
     //
