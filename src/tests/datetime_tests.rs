@@ -186,281 +186,6 @@ fn test_DTP_ALL() {
 #[test]
 fn test_DATETIME_PARSE_DATAS_builtin() {
     stack_offset_set(Some(2));
-    for dtpd in DATETIME_PARSE_DATAS.iter() {
-        // check regex_range (arbitrary minimum)
-        let regpat: &DateTimeRegex_str = dtpd.regex_pattern;
-        let dtfs: &DTFSSet = &dtpd.dtfs;
-        assert_lt!(
-            dtpd.range_regex.start,
-            dtpd.range_regex.end,
-            "bad range_regex start {} end {}; declared at line {}",
-            dtpd.range_regex.start,
-            dtpd.range_regex.end,
-            dtpd._line_num
-        );
-        assert_le!(
-            12,
-            regpat.len(),
-            ".regex_pattern.len() {} too short; bad built-in DateTimeParseData {:?}; declared at line {}",
-            regpat.len(),
-            dtpd,
-            dtpd._line_num
-        );
-        // check dt_pattern (arbitrary minimum)
-        let dtpat: &DateTimePattern_str = dtfs.pattern;
-        assert_le!(
-            8,
-            dtpat.len(),
-            ".dt_pattern.len too short; bad built-in dt_pattern {:?}; declared at line {}",
-            dtpat,
-            dtpd._line_num
-        );
-        // while the pattern could intentionally start with "^" and start past 0,
-        // it is most likely a user error
-        if dtpat.starts_with('^') {
-            assert_eq!(dtpd.range_regex.start, 0, "Pattern user beginning of line yet range starts at {:?}, expected start at 0", dtpd.range_regex.start);
-        }
-
-        // check year
-        if dtfs.has_year() {
-            assert!(
-                regex_pattern_has_year(regpat),
-                "regex_pattern has not year {:?} but .year is true; declared at line {}",
-                regpat,
-                dtpd._line_num
-            );
-            //assert!(dt_pattern_has_year(dtpat), "dt_pattern has not year {:?} but .year is true; declared at line {}", dtpat, dtpd._line_num);
-        } else {
-            assert!(
-                !regex_pattern_has_year(regpat),
-                "regex_pattern has year {:?} but .year is false; declared at line {}",
-                regpat,
-                dtpd._line_num
-            );
-            // year ('%Y', etc.) is added to all `dt_pattern`, for `captures_to_buffer`
-            //assert!(!dt_pattern_has_year(dtpat), "dt_pattern has year {:?} but .year is false; declared at line {}", dtpat, dtpd._line_num);
-        }
-        assert!(
-            dt_pattern_has_year(dtpat),
-            "dt_pattern does not have a year {:?}; declared at line {}",
-            dtpat,
-            dtpd._line_num
-        );
-        // check month
-        assert!(
-            regex_pattern_has_month(regpat),
-            "regex_pattern has not month {:?}; declared at line {}",
-            regpat,
-            dtpd._line_num
-        );
-        assert!(
-            dt_pattern_has_month(dtpat),
-            "dt_pattern does not have a month {:?}; declared at line {}",
-            dtpat,
-            dtpd._line_num
-        );
-        // check day
-        assert!(
-            regex_pattern_has_day(regpat),
-            "regex_pattern has not day {:?}; declared at line {}",
-            regpat,
-            dtpd._line_num
-        );
-        assert!(
-            dt_pattern_has_day(dtpat),
-            "dt_pattern does not have a day {:?}; declared at line {}",
-            dtpat,
-            dtpd._line_num
-        );
-        // check hour
-        assert!(
-            regex_pattern_has_hour(regpat),
-            "regex_pattern has not hour {:?}; declared at line {}",
-            regpat,
-            dtpd._line_num
-        );
-        assert!(
-            dt_pattern_has_hour(dtpat),
-            "dt_pattern does not have a hour {:?}; declared at line {}",
-            dtpat,
-            dtpd._line_num
-        );
-        // check minute
-        assert!(
-            regex_pattern_has_minute(regpat),
-            "regex_pattern has not minute {:?}; declared at line {}",
-            regpat,
-            dtpd._line_num
-        );
-        assert!(
-            dt_pattern_has_minute(dtpat),
-            "dt_pattern does not have a minute {:?}; declared at line {}",
-            dtpat,
-            dtpd._line_num
-        );
-        // check second
-        assert!(
-            regex_pattern_has_second(regpat),
-            "regex_pattern has not second {:?}; declared at line {}",
-            regpat,
-            dtpd._line_num
-        );
-        assert!(
-            dt_pattern_has_second(dtpat),
-            "dt_pattern does not have a second {:?}; declared at line {}",
-            dtpat,
-            dtpd._line_num
-        );
-        // check fractional (optional but must agree)
-        let rp_ss = regex_pattern_has_fractional(regpat);
-        let dp_ss = dt_pattern_has_fractional(dtpat);
-        assert_eq!(rp_ss, dp_ss, "regex pattern fractional {}, datetime pattern fractional {} (they must agree); declared at line {}", rp_ss, dp_ss, dtpd._line_num);
-        // check timezone
-        if dtfs.has_tz() {
-            assert!(
-                regex_pattern_has_tz(regpat),
-                "regex_pattern has not timezone {:?} but tz is true; declared at line {}",
-                regpat,
-                dtpd._line_num
-            );
-            assert!(
-                dt_pattern_has_tz(dtpat),
-                "dt_pattern has not timezone {:?} but tz is true; declared at line {}",
-                dtpat,
-                dtpd._line_num
-            );
-        } else {
-            assert!(
-                !regex_pattern_has_tz(regpat),
-                "regex_pattern has timezone {:?} but tz is false; declared at line {}",
-                regpat,
-                dtpd._line_num
-            );
-            // tz '%:z' is added to all `pattern` for `captures_to_buffer`
-            assert!(
-                dt_pattern_has_tz_fill(dtpat),
-                "dt_pattern does not have fill timezone {:?}; declared at line {}",
-                dtpat,
-                dtpd._line_num
-            );
-            assert!(
-                dtfs.tz == DTFS_Tz::_fill,
-                "has_tz() so expected tz {:?} found {:?}; declared at line {}",
-                dtfs.tz,
-                DTFS_Tz::_fill,
-                dtpd._line_num
-            );
-        }
-        assert!(
-            dt_pattern_has_tz(dtpat),
-            "dt_pattern does not have a timezone {:?}; declared at line {}",
-            dtpat,
-            dtpd._line_num
-        );
-        // check test data
-        assert_gt!(dtpd._test_cases.len(), 0, "No test data for dtpd declared at line {}", dtpd._line_num);
-        for test_case_ in dtpd._test_cases {
-            assert_lt!(
-                test_case_.0,
-                test_case_.1,
-                "Bad test_case indexes {} {} for dtpd declared at line {}",
-                test_case_.0,
-                test_case_.1,
-                dtpd._line_num
-            );
-        }
-        // check cgn_first
-        assert!(
-            regpat.contains(dtpd.cgn_first),
-            "cgn_first {:?} but not contained in regex {:?}; declared at line {}",
-            dtpd.cgn_first,
-            regpat,
-            dtpd._line_num
-        );
-        assert!(
-            CGN_ALL
-                .iter()
-                .any(|x| x == &dtpd.cgn_first),
-            "cgn_first {:?} not in CGN_ALL {:?}; declared at line {}",
-            dtpd.cgn_first,
-            &CGN_ALL,
-            dtpd._line_num
-        );
-        let mut cgn_first_i: usize = usize::MAX;
-        let mut cgn_first_s: &str = "";
-        for cgn in CGN_ALL.iter() {
-            let mut cgn_full = String::from('<');
-            cgn_full.push_str(cgn);
-            cgn_full.push('>');
-            match regpat.find(cgn_full.as_str()) {
-                Some(i) => {
-                    if i < cgn_first_i {
-                        cgn_first_s = cgn;
-                        cgn_first_i = i;
-                    }
-                    eprintln!();
-                }
-                None => {}
-            }
-        }
-        assert_eq!(cgn_first_s, dtpd.cgn_first, "cgn_first is {:?}, but analysis of the regexp found the first capture named group {:?}; declared at line {}", dtpd.cgn_first, cgn_first_s, dtpd._line_num);
-        // check cgn_last
-        assert!(
-            regpat.contains(dtpd.cgn_last),
-            "cgn_last {:?} but not contained in regex {:?}; declared at line {}",
-            dtpd.cgn_last,
-            regpat,
-            dtpd._line_num
-        );
-        assert!(
-            CGN_ALL
-                .iter()
-                .any(|x| x == &dtpd.cgn_last),
-            "cgn_last {:?} not in CGN_ALL {:?}; declared at line {}",
-            dtpd.cgn_last,
-            &CGN_ALL,
-            dtpd._line_num
-        );
-        let mut cgn_last_i: usize = 0;
-        let mut cgn_last_s: &str = "";
-        for cgn in CGN_ALL.iter() {
-            let mut cgn_full = String::from('<');
-            cgn_full.push_str(cgn);
-            cgn_full.push('>');
-            if let Some(i) = regpat.find(cgn_full.as_str()) {
-                if i > cgn_last_i {
-                    cgn_last_s = cgn;
-                    cgn_last_i = i;
-                }
-            }
-        }
-        assert_eq!(cgn_last_s, dtpd.cgn_last, "cgn_last is {:?}, but analysis of the regexp found the last capture named group {:?}; declared at line {}", dtpd.cgn_last, cgn_last_s, dtpd._line_num);
-        // check left-brackets and right-brackets are equally present and on correct sides
-        match regpat.find(RP_LB) {
-            Some(lb_i) => {
-                let rb_i = match regpat.find(RP_RB) {
-                    Some(i) => i,
-                    None => {
-                        panic!(
-                            "regex pattern has RP_LB at {} but no RP_RB found; declared at line {}",
-                            lb_i, dtpd._line_num
-                        );
-                    }
-                };
-                assert_lt!(lb_i, rb_i, "regex pattern has RP_LB (left bracket) at {}, RP_RB (right bracket) at {}; declared at line {}", lb_i, rb_i, dtpd._line_num);
-            }
-            None => {}
-        }
-        match regpat.find(RP_RB) {
-            Some(_) => match regpat.find(RP_LB) {
-                Some(_) => {}
-                None => {
-                    panic!("regex pattern has RP_RB (right bracket) no RP_LB (left bracket) found; declared at line {}", dtpd._line_num);
-                }
-            },
-            None => {}
-        }
-    }
     // check for duplicates
     let mut check: Vec<DateTimeParseInstr> = Vec::<DateTimeParseInstr>::from(DATETIME_PARSE_DATAS);
     let check_orig: Vec<DateTimeParseInstr> = Vec::<DateTimeParseInstr>::from(DATETIME_PARSE_DATAS);
@@ -566,10 +291,296 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
 #[test_case(68)]
 #[test_case(69)]
 #[test_case(70)]
+#[test_case(71)]
 fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     stack_offset_set(Some(2));
+
     let dtpd = &DATETIME_PARSE_DATAS[index];
+
     eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
+
+    //
+    // cross-check as much as possible
+    //
+    eprintln!("Check all variable settings …");
+    // check regex_range (arbitrary minimum)
+    let regpat: &DateTimeRegex_str = dtpd.regex_pattern;
+    let dtfs: &DTFSSet = &dtpd.dtfs;
+    assert_lt!(
+        dtpd.range_regex.start,
+        dtpd.range_regex.end,
+        "bad range_regex start {} end {}; declared at line {}",
+        dtpd.range_regex.start,
+        dtpd.range_regex.end,
+        dtpd._line_num
+    );
+    assert_le!(
+        12,
+        regpat.len(),
+        ".regex_pattern.len() {} too short; bad built-in DateTimeParseData {:?}; declared at line {}",
+        regpat.len(),
+        dtpd,
+        dtpd._line_num
+    );
+    // check dt_pattern (arbitrary minimum)
+    let dtpat: &DateTimePattern_str = dtfs.pattern;
+    assert_le!(
+        8,
+        dtpat.len(),
+        ".dt_pattern.len too short; bad built-in dt_pattern {:?}; declared at line {}",
+        dtpat,
+        dtpd._line_num
+    );
+    // while the pattern could intentionally start with "^" and start past 0,
+    // it is most likely a user error
+    if dtpat.starts_with('^') {
+        assert_eq!(dtpd.range_regex.start, 0, "Pattern user beginning of line yet range starts at {:?}, expected start at 0", dtpd.range_regex.start);
+    }
+
+    // check year
+    if dtfs.has_year() {
+        assert!(
+            regex_pattern_has_year(regpat),
+            "regex_pattern has not year {:?} but .year is true; declared at line {}",
+            regpat,
+            dtpd._line_num
+        );
+        //assert!(dt_pattern_has_year(dtpat), "dt_pattern has not year {:?} but .year is true; declared at line {}", dtpat, dtpd._line_num);
+    } else {
+        assert!(
+            !regex_pattern_has_year(regpat),
+            "regex_pattern has year {:?} but .year is false; declared at line {}",
+            regpat,
+            dtpd._line_num
+        );
+        // year ('%Y', etc.) is added to all `dt_pattern`, for `captures_to_buffer`
+        //assert!(!dt_pattern_has_year(dtpat), "dt_pattern has year {:?} but .year is false; declared at line {}", dtpat, dtpd._line_num);
+    }
+    assert!(
+        dt_pattern_has_year(dtpat),
+        "dt_pattern does not have a year {:?}; declared at line {}",
+        dtpat,
+        dtpd._line_num
+    );
+    // check month
+    assert!(
+        regex_pattern_has_month(regpat),
+        "regex_pattern has not month {:?}; declared at line {}",
+        regpat,
+        dtpd._line_num
+    );
+    assert!(
+        dt_pattern_has_month(dtpat),
+        "dt_pattern does not have a month {:?}; declared at line {}",
+        dtpat,
+        dtpd._line_num
+    );
+    // check day
+    assert!(
+        regex_pattern_has_day(regpat),
+        "regex_pattern has not day {:?}; declared at line {}",
+        regpat,
+        dtpd._line_num
+    );
+    assert!(
+        dt_pattern_has_day(dtpat),
+        "dt_pattern does not have a day {:?}; declared at line {}",
+        dtpat,
+        dtpd._line_num
+    );
+    // check hour
+    assert!(
+        regex_pattern_has_hour(regpat),
+        "regex_pattern has not hour {:?}; declared at line {}",
+        regpat,
+        dtpd._line_num
+    );
+    assert!(
+        dt_pattern_has_hour(dtpat),
+        "dt_pattern does not have a hour {:?}; declared at line {}",
+        dtpat,
+        dtpd._line_num
+    );
+    // check minute
+    assert!(
+        regex_pattern_has_minute(regpat),
+        "regex_pattern has not minute {:?}; declared at line {}",
+        regpat,
+        dtpd._line_num
+    );
+    assert!(
+        dt_pattern_has_minute(dtpat),
+        "dt_pattern does not have a minute {:?}; declared at line {}",
+        dtpat,
+        dtpd._line_num
+    );
+    // check second
+    assert!(
+        regex_pattern_has_second(regpat),
+        "regex_pattern has not second {:?}; declared at line {}",
+        regpat,
+        dtpd._line_num
+    );
+    assert!(
+        dt_pattern_has_second(dtpat),
+        "dt_pattern does not have a second {:?}; declared at line {}",
+        dtpat,
+        dtpd._line_num
+    );
+    // check fractional (optional but must agree)
+    let rp_ss = regex_pattern_has_fractional(regpat);
+    let dp_ss = dt_pattern_has_fractional(dtpat);
+    assert_eq!(rp_ss, dp_ss, "regex pattern fractional {}, datetime pattern fractional {} (they must agree); declared at line {}", rp_ss, dp_ss, dtpd._line_num);
+    // check timezone
+    if dtfs.has_tz() {
+        assert!(
+            regex_pattern_has_tz(regpat),
+            "regex_pattern has not timezone {:?} but tz is true; declared at line {}",
+            regpat,
+            dtpd._line_num
+        );
+        assert!(
+            dt_pattern_has_tz(dtpat),
+            "dt_pattern has not timezone {:?} but tz is true; declared at line {}",
+            dtpat,
+            dtpd._line_num
+        );
+    } else {
+        assert!(
+            !regex_pattern_has_tz(regpat),
+            "regex_pattern has timezone {:?} but tz is false; declared at line {}",
+            regpat,
+            dtpd._line_num
+        );
+        // tz '%:z' is added to all `pattern` for `captures_to_buffer`
+        assert!(
+            dt_pattern_has_tz_fill(dtpat),
+            "dt_pattern does not have fill timezone {:?}; declared at line {}",
+            dtpat,
+            dtpd._line_num
+        );
+        assert!(
+            dtfs.tz == DTFS_Tz::_fill,
+            "has_tz() so expected tz {:?} found {:?}; declared at line {}",
+            dtfs.tz,
+            DTFS_Tz::_fill,
+            dtpd._line_num
+        );
+    }
+    assert!(
+        dt_pattern_has_tz(dtpat),
+        "dt_pattern does not have a timezone {:?}; declared at line {}",
+        dtpat,
+        dtpd._line_num
+    );
+    // check test data
+    assert_gt!(dtpd._test_cases.len(), 0, "No test data for dtpd declared at line {}", dtpd._line_num);
+    for test_case_ in dtpd._test_cases {
+        assert_lt!(
+            test_case_.0,
+            test_case_.1,
+            "Bad test_case indexes {} {} for dtpd declared at line {}",
+            test_case_.0,
+            test_case_.1,
+            dtpd._line_num
+        );
+    }
+    // check cgn_first
+    assert!(
+        regpat.contains(dtpd.cgn_first),
+        "cgn_first {:?} but not contained in regex {:?}; declared at line {}",
+        dtpd.cgn_first,
+        regpat,
+        dtpd._line_num
+    );
+    assert!(
+        CGN_ALL
+            .iter()
+            .any(|x| x == &dtpd.cgn_first),
+        "cgn_first {:?} not in CGN_ALL {:?}; declared at line {}",
+        dtpd.cgn_first,
+        &CGN_ALL,
+        dtpd._line_num
+    );
+    let mut cgn_first_i: usize = usize::MAX;
+    let mut cgn_first_s: &str = "";
+    for cgn in CGN_ALL.iter() {
+        let mut cgn_full = String::from('<');
+        cgn_full.push_str(cgn);
+        cgn_full.push('>');
+        match regpat.find(cgn_full.as_str()) {
+            Some(i) => {
+                if i < cgn_first_i {
+                    cgn_first_s = cgn;
+                    cgn_first_i = i;
+                }
+                eprintln!();
+            }
+            None => {}
+        }
+    }
+    assert_eq!(cgn_first_s, dtpd.cgn_first, "cgn_first is {:?}, but analysis of the regexp found the first capture named group {:?}; declared at line {}", dtpd.cgn_first, cgn_first_s, dtpd._line_num);
+    // check cgn_last
+    assert!(
+        regpat.contains(dtpd.cgn_last),
+        "cgn_last {:?} but not contained in regex {:?}; declared at line {}",
+        dtpd.cgn_last,
+        regpat,
+        dtpd._line_num
+    );
+    assert!(
+        CGN_ALL
+            .iter()
+            .any(|x| x == &dtpd.cgn_last),
+        "cgn_last {:?} not in CGN_ALL {:?}; declared at line {}",
+        dtpd.cgn_last,
+        &CGN_ALL,
+        dtpd._line_num
+    );
+    let mut cgn_last_i: usize = 0;
+    let mut cgn_last_s: &str = "";
+    for cgn in CGN_ALL.iter() {
+        let mut cgn_full = String::from('<');
+        cgn_full.push_str(cgn);
+        cgn_full.push('>');
+        if let Some(i) = regpat.find(cgn_full.as_str()) {
+            if i > cgn_last_i {
+                cgn_last_s = cgn;
+                cgn_last_i = i;
+            }
+        }
+    }
+    assert_eq!(cgn_last_s, dtpd.cgn_last, "cgn_last is {:?}, but analysis of the regexp found the last capture named group {:?}; declared at line {}", dtpd.cgn_last, cgn_last_s, dtpd._line_num);
+    // check left-brackets and right-brackets are equally present and on correct sides
+    match regpat.find(RP_LB) {
+        Some(lb_i) => {
+            let rb_i = match regpat.find(RP_RB) {
+                Some(i) => i,
+                None => {
+                    panic!(
+                        "regex pattern has RP_LB at {} but no RP_RB found; declared at line {}",
+                        lb_i, dtpd._line_num
+                    );
+                }
+            };
+            assert_lt!(lb_i, rb_i, "regex pattern has RP_LB (left bracket) at {}, RP_RB (right bracket) at {}; declared at line {}", lb_i, rb_i, dtpd._line_num);
+        }
+        None => {}
+    }
+    match regpat.find(RP_RB) {
+        Some(_) => match regpat.find(RP_LB) {
+            Some(_) => {}
+            None => {
+                panic!("regex pattern has RP_RB (right bracket) no RP_LB (left bracket) found; declared at line {}", dtpd._line_num);
+            }
+        },
+        None => {}
+    }
+
+    //
+    // regex matching tests
+    //
+    eprintln!("Test Regex self-tests …");
     eprintln!("  Regex Pattern   : {:?}", dtpd.regex_pattern);
     eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
     for test_case_ in dtpd._test_cases {
