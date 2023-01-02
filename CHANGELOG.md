@@ -12,79 +12,82 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 <!-- Table of Contents updated by "Markdown All In One" extension for Visual Studio Code -->
 
 - [Unreleased](#unreleased)
-- [0.1.44 - 2022-12-29](#0144---2022-12-29)
+- [0.1.45 - 2023-01-01](#0145---2023-01-01)
   - [New](#new)
   - [Changes](#changes)
-  - [Fixes](#fixes)
-- [0.1.43 - 2022-12-26](#0143---2022-12-26)
+- [0.1.44 - 2022-12-29](#0144---2022-12-29)
   - [New](#new-1)
   - [Changes](#changes-1)
-- [0.1.42 - 2022-12-19](#0142---2022-12-19)
+  - [Fixes](#fixes)
+- [0.1.43 - 2022-12-26](#0143---2022-12-26)
+  - [New](#new-2)
   - [Changes](#changes-2)
-- [0.1.41 - 2022-12-18](#0141---2022-12-18)
+- [0.1.42 - 2022-12-19](#0142---2022-12-19)
   - [Changes](#changes-3)
+- [0.1.41 - 2022-12-18](#0141---2022-12-18)
+  - [Changes](#changes-4)
   - [Fixes](#fixes-1)
 - [0.1.40 - 2022-11-22](#0140---2022-11-22)
-  - [New](#new-2)
-  - [Changes](#changes-4)
-- [0.1.39 - 2022-10-19](#0139---2022-10-19)
-  - [Changes](#changes-5)
-- [0.1.38 - 2022-10-16](#0138---2022-10-16)
   - [New](#new-3)
+  - [Changes](#changes-5)
+- [0.1.39 - 2022-10-19](#0139---2022-10-19)
   - [Changes](#changes-6)
-- [0.0.37 - 2022-10-12](#0037---2022-10-12)
+- [0.1.38 - 2022-10-16](#0138---2022-10-16)
   - [New](#new-4)
   - [Changes](#changes-7)
-- [0.0.36 - 2022-10-10](#0036---2022-10-10)
+- [0.0.37 - 2022-10-12](#0037---2022-10-12)
   - [New](#new-5)
-  - [Fixes](#fixes-2)
   - [Changes](#changes-8)
-- [0.0.35 - 2022-10-09](#0035---2022-10-09)
+- [0.0.36 - 2022-10-10](#0036---2022-10-10)
   - [New](#new-6)
+  - [Fixes](#fixes-2)
+  - [Changes](#changes-9)
+- [0.0.35 - 2022-10-09](#0035---2022-10-09)
+  - [New](#new-7)
   - [Fixes](#fixes-3)
 - [0.0.34 - 2022-10-07](#0034---2022-10-07)
-  - [New](#new-7)
+  - [New](#new-8)
   - [Fixes](#fixes-4)
 - [0.0.33 - 2022-09-21](#0033---2022-09-21)
-  - [New](#new-8)
-- [0.0.32 - 2022-09-20](#0032---2022-09-20)
   - [New](#new-9)
+- [0.0.32 - 2022-09-20](#0032---2022-09-20)
+  - [New](#new-10)
   - [Fixes](#fixes-5)
 - [0.0.31 - 2022-09-19](#0031---2022-09-19)
-  - [New](#new-10)
-- [0.0.30 - 2022-09-18](#0030---2022-09-18)
   - [New](#new-11)
-  - [Changes](#changes-9)
-- [0.0.29 - 2022-09-17](#0029---2022-09-17)
-  - [Changes](#changes-10)
-- [0.0.28 - 2022-09-17](#0028---2022-09-17)
+- [0.0.30 - 2022-09-18](#0030---2022-09-18)
   - [New](#new-12)
+  - [Changes](#changes-10)
+- [0.0.29 - 2022-09-17](#0029---2022-09-17)
   - [Changes](#changes-11)
-  - [Fixes](#fixes-6)
-- [0.0.27 - 2022-09-16](#0027---2022-09-16)
+- [0.0.28 - 2022-09-17](#0028---2022-09-17)
   - [New](#new-13)
   - [Changes](#changes-12)
-- [0.0.26 - 2022-08-12](#0026---2022-08-12)
+  - [Fixes](#fixes-6)
+- [0.0.27 - 2022-09-16](#0027---2022-09-16)
   - [New](#new-14)
   - [Changes](#changes-13)
-  - [Fixes](#fixes-7)
-- [0.0.25 - 2022-07-28](#0025---2022-07-28)
+- [0.0.26 - 2022-08-12](#0026---2022-08-12)
   - [New](#new-15)
   - [Changes](#changes-14)
-  - [Fixes](#fixes-8)
-- [0.0.24 - 2022-07-20](#0024---2022-07-20)
+  - [Fixes](#fixes-7)
+- [0.0.25 - 2022-07-28](#0025---2022-07-28)
   - [New](#new-16)
   - [Changes](#changes-15)
-- [0.0.23 - 2022-07-12](#0023---2022-07-12)
+  - [Fixes](#fixes-8)
+- [0.0.24 - 2022-07-20](#0024---2022-07-20)
   - [New](#new-17)
   - [Changes](#changes-16)
+- [0.0.23 - 2022-07-12](#0023---2022-07-12)
+  - [New](#new-18)
+  - [Changes](#changes-17)
   - [Fixes](#fixes-9)
 - [0.0.22 - 2022-07-10](#0022---2022-07-10)
-  - [New](#new-18)
-  - [Fixes](#fixes-10)
-  - [Changes](#changes-17)
-- [0.0.21 - 2022-06-24](#0021---2022-06-24)
   - [New](#new-19)
+  - [Fixes](#fixes-10)
+  - [Changes](#changes-18)
+- [0.0.21 - 2022-06-24](#0021---2022-06-24)
+  - [New](#new-20)
   - [Fixes](#fixes-11)
 
 ---
@@ -123,12 +126,28 @@ Categories:
 
 ## Unreleased
 
-<!-- TODO per release: Change Version in the URL -->
-[unreleased-diff](https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.1.38...HEAD)
+<!-- TODO per release: Change Version in the following URL -->
+
+[unreleased-diff](https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.1.45...HEAD)
 
 ---
 
 <!-- TODO per release: Add Section(s) -->
+
+
+## 0.1.45 - 2023-01-01
+
+[0.1.44...0.1.45]
+
+### New
+
+- (LIB) datetime.rs add pattern for apport.log [Issue #55] ([7557a59e99faf297d2055d5d9ea86b4fbfe8ba5e])
+- (LIB) datetime.rs add pattern for openftp.log ([Issue #48]) ([fda61f8ffc7ddd95556f4109b9e735cdde2c1b93])
+
+### Changes
+
+- (LIB) be more sure of matching year ([fda61f8ffc7ddd95556f4109b9e735cdde2c1b93])
+- (TEST) more stringent and precise DTPD check ([fda61f8ffc7ddd95556f4109b9e735cdde2c1b93]) ([60aa5d1c1e983aad9b0921e3e066935742605b52])
 
 ## 0.1.44 - 2022-12-29
 
