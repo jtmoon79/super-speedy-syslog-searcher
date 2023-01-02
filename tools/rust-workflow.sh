@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 #
 # Locally run the significant commands done in the
-# `.github/workflows/rust.yml` file. Run this before pushing to github.
+# `.github/workflows/rust.yml` file. Developers may save some time if they
+# run this before pushing to github.com.
 #
 # Developers must manually update this script when `rust.yml` changes.
+#
 
 set -euo pipefail
 
