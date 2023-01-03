@@ -1973,6 +1973,8 @@ const D_Dq: &RegexPattern = r"[ /\-]?";
 const D_D: &RegexPattern = r"[ /\-]";
 /// [`RegexPattern`] divider _time_, `20:30:00`
 const D_T: &RegexPattern = "[:]?";
+/// [`RegexPattern`] divider _time_ with extras, `20:30:00` or `20-00`
+const D_Te: &RegexPattern = r"[:\-]?";
 /// [`RegexPattern`] divider _day_ to _hour_, `2020/01/01T20:30:00`
 const D_DHq: &RegexPattern = "[ T]?";
 /// [`RegexPattern`] divider _day_ to _hour_ with colon, `2020:01:01:20:30:00`
@@ -2001,6 +2003,8 @@ const RP_LEVELS: &RegexPattern = r"((?i)DEBUG[[[:digit:]]]|DEBUG|INFO[[[:digit:]
 const RP_BLANK: &RegexPattern = "[[:blank:]]";
 /// [`RegexPattern`] blank?
 const RP_BLANKq: &RegexPattern = "[[:blank:]]?";
+/// [`RegexPattern`] blank or end
+const RP_BLANKe: &RegexPattern = "([[:blank:]]|$)";
 /// [`RegexPattern`] blank, 1 or 2
 const RP_BLANK12: &RegexPattern = r"[[:blank:]]{1,2}";
 /// [`RegexPattern`] blanks
@@ -2030,7 +2034,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 /// Length of [`DATETIME_PARSE_DATAS`]
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`
-pub const DATETIME_PARSE_DATAS_LEN: usize = 85;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 86;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2766,16 +2770,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     E [09/Aug/2019:00:09:01 -0700] Unable to open listen socket for address [v1.::1]:631 - Cannot assign requested address.
     //
     // ---------------------------------------------------------------------------------------------
-    // from file `./logs/other/archives/proftpd/xferlog`
-    // example with offset:
-    //
-    //               1         2
-    //     0123456789012345678901234
-    //     Sat Oct 03 11:26:12 2020 0 192.168.1.1 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c
-    //
-    // XXX: ignore the leading Day Of Week substring
-    //
-    // ---------------------------------------------------------------------------------------------
     // from file `./logs/OpenSUSE15/zypper.log`
     // example with offset:
     //
@@ -2783,6 +2777,23 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     012345678901234567890
     //     2019-05-23 16:53:43 <1> trenker(24689) [zypper] main.cc(main):74 ===== Hi, me zypper 1.14.27
     //
+    // ---------------------------------------------------------------------------------------------
+    // from file `./logs/synology-DS6/synoreport.log`
+    // example with offset:
+    //
+    //               1         2
+    //     012345678901234567890
+    //     2017-05-14 04-00-07: -------------------- report start
+    DTPD!(
+        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYd, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, ":", RP_BLANKe),
+        DTFSS_YmdHMS, 0, 30, CGN_YEAR, CGN_SECOND,
+        &[
+            (0, 19, "2017-05-14 04-00-07:"),
+            (0, 19, "2017-05-14 04-00-08: "),
+            (0, 19, "2017-05-14 04-00-09: -------------------- report start"),
+        ],
+        line!(),
+    ),
     // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Debian11/apache2/access.log`
