@@ -52,7 +52,7 @@ jobs:
           toolchain: ${{ matrix.msrv }}
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }}
         shell: bash
-        run:
+        run: |
           set -eux
           cargo --version
           cargo build --verbose
