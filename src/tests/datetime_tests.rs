@@ -604,10 +604,11 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
                 );
                 let a = capdata.0;
                 let b = capdata.1;
+                assert_lt!(a, b, "bad a {} b {}", a, b);
                 assert_eq!(
                     (dta, dtb), (a, b),
-                    "Expected datetime begin index {:?}, got {:?}, for dtpd at line {} with test data {:?}",
-                    (dta, dtb), (a, b), dtpd._line_num, s
+                    "For dtpd at line {:?} unexpected index returned\n  test data {:?}\n  expect {:?} {:?}\n  actual {:?} {:?}\n",
+                    dtpd._line_num, s, (dta, dtb), &s.as_str()[dta..dtb], (a, b), &s.as_str()[a..b],
                 );
             }
             None => {
