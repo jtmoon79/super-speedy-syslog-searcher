@@ -35,7 +35,7 @@ backtrace = "0.3.67"
 chrono = "0.4.23"
 clap = { version = "4.0.29", features = ["derive"] }
 const_format = "0.2.30"
-const-str = "0.5.3"
+const-str = "0.4.3"
 crossbeam-channel = "0.5.6"
 encoding_rs = "0.8.31"
 flate2 = "1.0.25"
