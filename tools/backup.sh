@@ -14,9 +14,13 @@ ZIPFILE="../${HERE}-$(date '+%Y%m%dT%H%M%S')-$(hostname).zip"
 
 Zz=$(which 7z)
 
+declare -a logs=()
+while read log; do
+    logs[${#logs[@]}]=${log}
+done <<< $(find ./logs -xdev -type f -size -2M | sort)
+
 (
 set -x
-
 "${Zz}" a -spf -bb1 -bt -stl -snl -tzip "${ZIPFILE}" \
     ./benches \
     ./Cargo.toml \
@@ -26,7 +30,7 @@ set -x
     ./.github \
     ./.gitignore \
     ./LICENSE.txt \
-    $(find ./logs -xdev -type f -size -2M | sort) \
+    "${logs[@]}" \
     $(ls -d1 \
         ./performance-data \
         ./valgrind \
