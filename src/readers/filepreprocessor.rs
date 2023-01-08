@@ -467,8 +467,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
 /// Wrapper function to call `mimeguess_to_filetype` and if necessary
 /// `path_to_filetype`
 #[doc(hidden)]
-#[allow(dead_code)]
-#[cfg(any(debug_assertions, test))]
+#[cfg(test)]
 pub(crate) fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess) {
     let path_: &Path = fpath_to_path(path);
 

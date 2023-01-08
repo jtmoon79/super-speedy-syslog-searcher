@@ -7,8 +7,6 @@
 
 use crate::common::{Bytes, FileType, ResultS3};
 
-use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
-
 use crate::readers::blockreader::{BlockOffset, BlockReader, BlockSz, FPath, FileOffset, ResultS3ReadBlock};
 
 #[allow(unused_imports)]
@@ -42,27 +40,7 @@ use test_case::test_case;
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// helper wrapper to create a new BlockReader
-#[allow(dead_code)]
 fn new_BlockReader(
-    path: FPath,
-    blocksz: BlockSz,
-) -> BlockReader {
-    stack_offset_set(Some(2));
-    let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(&path);
-    match BlockReader::new(path.clone(), filetype, blocksz) {
-        Ok(br) => {
-            eprintln!("opened {:?}", path);
-            eprintln!("new {:?}", &br);
-            br
-        }
-        Err(err) => {
-            panic!("ERROR: BlockReader.open({:?}, {}) {}", path, blocksz, err);
-        }
-    }
-}
-
-/// helper wrapper to create a new BlockReader
-fn new_BlockReader2(
     path: FPath,
     filetype: FileType,
     blocksz: BlockSz,
@@ -98,7 +76,7 @@ fn test_BlockReader(
     checks: &Checks,
 ) {
     dpfn!("({:?}, {})", path, blocksz);
-    let mut br1 = new_BlockReader2(path.clone(), filetype, blocksz);
+    let mut br1 = new_BlockReader(path.clone(), filetype, blocksz);
 
     for offset in offsets.iter() {
         {
@@ -603,7 +581,7 @@ fn test_blocksz_at_blockoffset(
     blockoffset_input: BlockOffset,
     blocksz_expect: BlockSz,
 ) {
-    let br1 = new_BlockReader2(path, filetype, blocksz);
+    let br1 = new_BlockReader(path, filetype, blocksz);
     let blocksz_actual: BlockSz = br1.blocksz_at_blockoffset(&blockoffset_input);
     assert_eq!(
         blocksz_expect, blocksz_actual,
