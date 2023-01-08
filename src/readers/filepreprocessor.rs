@@ -22,9 +22,6 @@ use std::ffi::OsStr;
 use std::fs::File;
 use std::path::Path;
 
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
 extern crate mime_guess;
 #[doc(hidden)]
 pub use mime_guess::MimeGuess;
