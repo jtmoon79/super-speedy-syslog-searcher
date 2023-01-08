@@ -35,7 +35,6 @@ fi
 # get list of files to process
 #
 
-# output of the debug run
 logs=$(mktemp -t "tmp.s4.compare-current-and-expected_logs_XXXXX")
 
 function exit_() {
@@ -104,6 +103,8 @@ if ! diff --text --brief "${current1}" "${expect1}"; then
     echo
     echo "Difference Preview:"
     ((set -x; diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${current1}" "${expect1}") || true) | head -n 20
+    echo
+    echo "Do you need to run *compare-current-and-expected-update.sh*?"
     echo
 else
     echo

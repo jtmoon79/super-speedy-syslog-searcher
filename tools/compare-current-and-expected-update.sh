@@ -26,14 +26,44 @@ if ! touch "${expect1}"; then
     exit 1
 fi
 
+logs=$(mktemp -t "tmp.s4.compare-current-and-expected_logs_XXXXX")
+
+function exit_() {
+    rm -f -- "${logs}"
+}
+trap exit_ EXIT
+
+path=./logs
+
+# this file selection must agree with `compare-current-and-expected.sh`
+(find "${path}" -xdev -type f -size -2M | sort) > "${logs}"
+
+#
+# print some info for the script user, verify the s4 program can run
+#
+
+echo >&2
+cat "${logs}" >&2
+echo >&2
+echo "$(wc -l < "${logs}") files under \"${path}\"" >&2
+echo >&2
+
+PROGRAM=${PROGRAM-./target/release/s4}
+(set -x; "${PROGRAM}" --version)
+echo >&2
+
+# these arguments must agree with `compare-current-and-expected.sh`
+declare -ar S4_ARGS=(
+    --color=never
+    --tz-offset=+08:00
+    --prepend-filename
+    '-'
+    "${@}"
+)
+
 (
     set -x
-    (find ./logs -xdev -type f -size -3M | sort) \
-    | "${PROGRAM}" \
-        --color=never \
-        --prepend-filename \
-        '--tz-offset=+08:00' \
-        '-' 2>/dev/null
+    "${PROGRAM}" "${S4_ARGS[@]}" 2>/dev/null < "${logs}"
 ) > "${expect1}" || true
 
 if ! chmod -wx -- "${expect1}"; then
