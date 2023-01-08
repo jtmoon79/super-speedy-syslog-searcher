@@ -326,17 +326,16 @@ impl FileType {
         matches!(*self, FileType::Tar | FileType::TarGz)
     }
 
-    /// Returns the tarred version of the `FileType`
-    ///
-    /// XXX: only supports `FileType::File` right now<br/>
-    /// Relates to Issue #7<br/>
-    /// Relates to Issue #14<br/>
-    pub const fn to_tar(&self) -> FileType {
-        if matches!(*self, FileType::File) {
-            return FileType::Tar;
-        }
-
-        FileType::Unknown
+    /// Returns `true` if the file is processable
+    #[inline(always)]
+    pub const fn is_supported(&self) -> bool {
+        matches!(*self,
+            FileType::File
+            | FileType::Gz
+            | FileType::Tar
+            | FileType::Xz
+            | FileType::Unknown
+        )
     }
 }
 

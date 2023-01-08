@@ -368,9 +368,14 @@ impl fmt::Debug for Summary {
                 .field("filesz compressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
                 .finish(),
             // Summary::default()
-            FileType::Unset => f.debug_struct("").finish(),
-            _ => {
-                unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype);
+            FileType::Unknown => {
+                f.debug_struct("").finish()
+            }
+            FileType::Unparseable => {
+                f.debug_struct("").finish()
+            }
+            FileType::Unset | _ => {
+                unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype)
             }
         }
     }

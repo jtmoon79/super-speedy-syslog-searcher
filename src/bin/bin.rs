@@ -2516,15 +2516,20 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
         Some(summary) => {
             eprintln!("{}Summary Processed:", OPT_SUMMARY_PRINT_INDENT);
             match summary.filetype {
-                FileType::Tar | FileType::File => {
+                FileType::File => {
                     eprintln!("{}    file size      {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
+                }
+                FileType::Tar => {
+                    eprintln!("{}    file size archive    {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
+                    eprintln!("{}    file size unarchived {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz_actual);
                 }
                 FileType::Gz | FileType::Xz => {
                     eprintln!("{}    file size compressed   {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
                     eprintln!("{}    file size uncompressed {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz_actual);
                 }
                 ft => {
-                    panic!("Unsupported filetype {:?}", ft);
+                    eprintln!("{}    unsupported filetype {:?}", OPT_SUMMARY_PRINT_INDENT, ft);
+                    return;
                 }
             }
             eprintln!("{}    bytes          {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_bytes);
