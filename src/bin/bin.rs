@@ -1204,11 +1204,11 @@ fn exec_syslogprocessor_thread(
         thread_init_data;
     dpfn!("({:?})", path);
 
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     let thread_cur: thread::Thread = thread::current();
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     let tid: thread::ThreadId = thread_cur.id();
-    #[cfg(any(debug_assertions,test))]
+    #[cfg(any(debug_assertions, test))]
     let tname: &str = <&str>::clone(
         &thread_cur
             .name()
@@ -1225,7 +1225,6 @@ fn exec_syslogprocessor_thread(
     ) {
         Ok(val) => val,
         Err(err) => {
-            dp_err!("SyslogProcessor::new({:?}) failed {}", path.as_str(), err);
             // TODO: [2022/08] this design needs work: the `Error` instance should be passed
             //       back in the channel but not via the Summary... I think....
             //       But moreso, the current design has unnecessary
