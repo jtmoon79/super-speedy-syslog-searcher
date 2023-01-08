@@ -1119,7 +1119,9 @@ impl SyslineReader {
         dpfn!();
         // XXX: DT_PATERN_MAX > 1 is unimplemented
         const_assert!(SyslineReader::DT_PATTERN_MAX == 1);
-        if cfg!(debug_assertions) {
+
+        #[cfg(debug_assertions)]
+        {
             for (k, v) in self.dt_patterns_counts.iter() {
                 let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
                 let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC
@@ -1128,6 +1130,7 @@ impl SyslineReader {
                 dpfo!("self.dt_patterns_counts[{:?}]={:?} is {:?}, {:?}", k, v, data_, data_rex_);
             }
         }
+
         // get maximum value in `dt_patterns_counts`
         // ripped from https://stackoverflow.com/a/60134450/471376
         // test https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=b8eb53f40fd89461c9dad9c976746cc3
@@ -1138,14 +1141,21 @@ impl SyslineReader {
         dpfo!("dt_patterns_counts.retain(v >= {:?})", max_);
         self.dt_patterns_counts
             .retain(|_, v| *v >= max_);
-        if self.dt_patterns_counts.len() != SyslineReader::DT_PATTERN_MAX {
-            dp_err!(
-                "dt_patterns_analysis: self.dt_patterns_counts.len() {}, expected 1",
-                self.dt_patterns_counts.len()
-            );
+
+        #[cfg(debug_assertions)]
+        {
+            if self.dt_patterns_counts.len() != SyslineReader::DT_PATTERN_MAX {
+                eprintln!(
+                    "WARNING: dt_patterns_analysis: self.dt_patterns_counts.len() {}, expected 1",
+                    self.dt_patterns_counts.len()
+                );
+            }
         }
+
         self.dt_patterns_indexes_refresh();
-        if cfg!(debug_assertions) {
+
+        #[cfg(debug_assertions)]
+        {
             for (k, v) in self.dt_patterns_counts.iter() {
                 let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
                 let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC
@@ -1154,6 +1164,7 @@ impl SyslineReader {
                 dpfo!("self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", k, v, data_, data_rex_);
             }
         }
+
         self.analyzed = true;
         dpfx!();
     }

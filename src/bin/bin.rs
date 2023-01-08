@@ -1509,7 +1509,6 @@ impl SummaryPrinted {
 
         eprint!("{}bytes          ", prepend);
         if self.bytes == 0 && sum_.BlockReader_bytes != 0 {
-            #[allow(clippy::single_match)]
             match print_colored_stderr(
                 COLOR_ERROR,
                 color_choice_opt,
@@ -1529,7 +1528,6 @@ impl SummaryPrinted {
 
         eprint!("{}lines          ", prepend);
         if self.lines == 0 && sum_.BlockReader_bytes != 0 {
-            #[allow(clippy::single_match)]
             match print_colored_stderr(
                 COLOR_ERROR,
                 color_choice_opt,
@@ -1549,7 +1547,6 @@ impl SummaryPrinted {
 
         eprint!("{}syslines       ", prepend);
         if self.syslines == 0 && sum_.LineReader_lines != 0 {
-            #[allow(clippy::single_match)]
             match print_colored_stderr(
                 COLOR_ERROR,
                 color_choice_opt,
@@ -1569,7 +1566,6 @@ impl SummaryPrinted {
 
         if self.dt_first.is_none() && sum_.LineReader_lines != 0 {
             eprint!("{}datetime first ", prepend);
-            #[allow(clippy::single_match)]
             match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
                 Err(err) => {
                     eprintln!("\nERROR: print_colored_stderr {:?}", err);
@@ -1586,7 +1582,6 @@ impl SummaryPrinted {
 
         if self.dt_last.is_none() && sum_.LineReader_lines != 0 {
             eprint!("{}datetime last  ", prepend);
-            #[allow(clippy::single_match)]
             match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
                 Err(err) => {
                     eprintln!("\nERROR: print_colored_stderr {:?}", err);
