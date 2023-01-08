@@ -4,7 +4,7 @@
 
 #![allow(non_snake_case)]
 
-use crate::common::{Count, FileMetadata, FileSz, FileType};
+use crate::common::{Count, FPath, FileSz, FileType};
 
 use crate::data::datetime::{DateTimeLOpt, Year};
 
@@ -34,6 +34,8 @@ use std::fmt;
 /// For CLI option `--summary`.
 #[derive(Clone, Default)]
 pub struct Summary {
+    /// the `FileType`
+    pub path: FPath,
     /// the `FileType`
     pub filetype: FileType,
     /// `Count` of bytes stored by `BlockReader`
@@ -140,6 +142,7 @@ impl Summary {
     /// Create a new `Summary`
     #[allow(clippy::too_many_arguments)]
     pub fn new(
+        path: FPath,
         filetype: FileType,
         BlockReader_bytes: Count,
         BlockReader_bytes_total: FileSz,
@@ -197,14 +200,12 @@ impl Summary {
         debug_assert_ge!(BlockReader_blocksz, BLOCKSZ_MIN, "blocksz too small");
         debug_assert_le!(BlockReader_blocksz, BLOCKSZ_MAX, "blocksz too big");
         // XXX: in case of a file without datetime stamp year, syslines may be reprocessed.
-        //      the count of syslines processed may reflect reprocoessing the same line in the file,
+        //      the count of syslines processed may reflect reprocessing the same line in the file,
         //      leading to a `SyslineReader_syslines` that is more than `LineReader_lines`.
         //      See `syslogprocessor.process_missing_year()`.
         //debug_assert_ge!(LineReader_lines, SyslineReader_syslines, "There is less Lines than Syslines");
-        if LineReader_lines < SyslineReader_syslines {
-            dp_wrn!("There is less Lines {} than Syslines {}", LineReader_lines, SyslineReader_syslines);
-        }
         Summary {
+            path,
             filetype,
             BlockReader_bytes,
             BlockReader_bytes_total,
@@ -262,6 +263,7 @@ impl Summary {
     /// (e.g. PermissionDenied, etc.).
     #[allow(clippy::too_many_arguments)]
     pub fn new_failed(
+        path: FPath,
         filetype: FileType,
         BlockReader_blocksz: BlockSz,
         Error_: Option<String>,
@@ -271,6 +273,7 @@ impl Summary {
         debug_assert_le!(BlockReader_blocksz, BLOCKSZ_MAX, "blocksz too big");
 
         Summary {
+            path,
             filetype,
             BlockReader_blocksz,
             Error_,

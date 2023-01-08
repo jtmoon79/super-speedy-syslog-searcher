@@ -1081,6 +1081,7 @@ impl SyslogProcessor {
     ///
     /// [`Summary`]: crate::readers::summary::Summary
     pub fn summary(&self) -> Summary {
+        let path = self.path().clone();
         let filetype = self.filetype();
         let BlockReader_bytes = self
             .syslinereader
@@ -1264,6 +1265,7 @@ impl SyslogProcessor {
         let Error_: Option<String> = self.Error_.clone();
 
         Summary::new(
+            path,
             filetype,
             BlockReader_bytes,
             BlockReader_bytes_total,

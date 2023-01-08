@@ -1240,7 +1240,7 @@ fn exec_syslogprocessor_thread(
             //       copied/cloned. Perhaps only save the `ErrorKind`?
             //       Additionally, this thread should not print error messages, only the main thread should do that.
             //       This needs more thought.
-            let summary = Summary::new_failed(filetype, blocksz, Some(err.to_string()));
+            let summary = Summary::new_failed(path.clone(), filetype, blocksz, Some(err.to_string()));
             let fileerr: FileProcessingResultBlockZero = match err.kind() {
                 ErrorKind::PermissionDenied => {
                     eprintln!("ERROR: {} for {:?}", err, path);
