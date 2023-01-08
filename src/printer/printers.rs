@@ -796,7 +796,9 @@ pub fn write_stdout(buffer: &[u8]) {
     }
 }
 
-/// Safely write the `buffer` to stderr with help of `StderrLock`.
+/// Safely write the `buffer` to stderr with help of [`StderrLock`].
+///
+/// [`StderrLock`]: std::io::StderrLock
 pub fn write_stderr(buffer: &[u8]) {
     let mut stderr_lock = std::io::stderr().lock();
     let mut stdout_lock = std::io::stdout().lock();

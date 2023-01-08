@@ -4,7 +4,7 @@
 
 #![allow(non_snake_case)]
 
-use crate::common::{Count, FileSz, FileType};
+use crate::common::{Count, FileMetadata, FileSz, FileType};
 
 use crate::data::datetime::{DateTimeLOpt, Year};
 
