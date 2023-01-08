@@ -40,6 +40,7 @@
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fmt;
 use std::io::ErrorKind;
+use std::path::PathBuf;
 use std::process::ExitCode;
 use std::str;
 use std::thread;
@@ -86,6 +87,7 @@ use s4lib::debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
 use s4lib::printer::printers::{
     color_rand,
     print_colored_stderr,
+    write_stderr,
     write_stdout,
     // termcolor imports
     Color,
@@ -102,7 +104,7 @@ use s4lib::readers::blockreader::{BlockSz, BLOCKSZ_DEF, BLOCKSZ_MAX, BLOCKSZ_MIN
 
 use s4lib::readers::filepreprocessor::{process_path, ProcessPathResult, ProcessPathResults};
 
-use s4lib::readers::helpers::basename;
+use s4lib::readers::helpers::{basename, fpath_to_path};
 
 use s4lib::readers::summary::{Summary, SummaryOpt};
 
@@ -2497,12 +2499,31 @@ fn print_filepath(
     color_choice: &ColorChoice,
 ) {
     eprint!("File: ");
+    // print path
     match print_colored_stderr(*color, Some(*color_choice), path.as_bytes()) {
-        Ok(()) => {}
+        Ok(_) => {}
         Err(err) => {
             eprintln!("ERROR: {:?}", err);
         }
     };
+    // if symlink or relative path then print target
+    // XXX: experimentation revealed std::fs::Metadata::is_symlink to be unreliable on WSL Ubuntu
+    match std::fs::canonicalize(path) {
+        Ok(pathb) => {
+            match pathb.to_str() {
+                Some(s) => {
+                    if s != path.as_str() {
+                        eprint!(" (");
+                        write_stderr(s.as_bytes());
+                        eprint!(")");
+                    }
+                }
+                None => {}
+            }
+        }
+        Err(_) => {}
+    }
+    // print other facts
     eprint!(" ({}) {:?}", filetype, mimeguess);
     eprintln!();
 }
