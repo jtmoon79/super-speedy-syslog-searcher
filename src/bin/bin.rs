@@ -1,6 +1,6 @@
 // src/bin/bin.rs
 //
-// ‥ … ≤ ≥ ≠ ≟
+// ‥ … ≤ ≥ ≠ ≟ ×
 
 //! Driver program _s4_.
 //!
