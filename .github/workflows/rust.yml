@@ -227,6 +227,7 @@ jobs:
         run: |
           set -eux
           chmod -v +x ./tools/log-files-time-update.sh
+          ./tools/log-files-time-update.sh
           export PROGRAM=./s4_release
           SCRIPT=./tools/compare-current-and-expected.sh
           chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
