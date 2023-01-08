@@ -172,7 +172,7 @@ pub struct XzData {
 /// e.g. `log.xz:syslog`
 ///
 /// [`FPath`]: crate::common::FPath
-pub const SUBPATH_SEP: char = ':';
+pub const SUBPATH_SEP: char = '|';
 
 /// crate `tar` handle for a plain `File`.
 type TarHandle = tar::Archive<File>;
