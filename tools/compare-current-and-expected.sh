@@ -38,19 +38,17 @@ elif [[ ! -r "${expect1}" ]]; then
     exit 1
 fi
 
-declare -a logs=()
-while read log; do
-    logs[${#logs[@]}]=${log}
-done <<< $(find ./logs -xdev -type f -size -3M | sort)
+# TODO: if any arguments are passed then use those
 
 (
     #export RUST_BACKTRACE=1
     set -x
-    "${PROGRAM}" \
+    (find ./logs -xdev -type f -size -3M | sort) \
+    | "${PROGRAM}" \
         --color=never \
         --prepend-filename \
         '--tz-offset=+08:00' \
-        "${logs[@]}" 2>/dev/null
+        '-' 2>/dev/null
 ) > "${current1}" || true
 
 #
