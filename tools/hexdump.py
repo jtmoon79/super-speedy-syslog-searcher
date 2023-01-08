@@ -28,6 +28,8 @@ def main(path: Optional[str], width: int):
             print("")
         else:
             print(" ", end="")
+    print()
+    sys.stdout.flush()
     print(f"printed {count} bytes", file=sys.stderr)
 
 
