@@ -12,13 +12,6 @@ set -euo pipefail
 
 cd "$(dirname "${0}")/.."
 
-(set -x; diff --version) | head -n1
-
-PROGRAMR=${PROGRAMR-./target/release/s4}
-(set -x; "${PROGRAMR}" --version)
-PROGRAMD=${PROGRAMD-./target/debug/s4}
-(set -x; "${PROGRAMD}" --version 2>/dev/null)
-
 do_keep=false
 if [[ "${1-}" = "--keep" ]]; then
     do_keep=true
@@ -26,57 +19,80 @@ if [[ "${1-}" = "--keep" ]]; then
 fi
 
 # output of the release run
-tmpr=$(mktemp -t "compare-s4_release_XXXXX")
+tmpr=$(mktemp -t "tmp.s4.compare-debug-release_release_XXXXX")
 # output of the debug run
-tmpd=$(mktemp -t "compare-s4_debug_XXXXX")
+tmpd=$(mktemp -t "tmp.s4.compare-debug-release_debug_XXXXX")
+# output of the debug run
+logs=$(mktemp -t "tmp.s4.compare-debug-release_logs_XXXXX")
 
 function exit_() {
     if ! ${do_keep}; then
-        rm -f "${tmpr}" "${tmpd}"
+        rm -f -- "${tmpr}" "${tmpd}" "${logs}"
     fi
 }
+trap exit_ EXIT
 
-declare -a logs=()
-while read log; do
-    logs[${#logs[@]}]=${log}
-done <<< $(find ./logs -xdev -type f -size -2M | sort)
+path=./logs
+
+(find "${path}" -xdev -type f -size -2M | sort) > "${logs}"
+
+#
+# print some info for the script user, verify the s4 programs can run
+#
 
 echo >&2
+cat "${logs}" >&2
+echo >&2
+echo "$(wc -l < "${logs}") files under \"${path}\"" >&2
+echo >&2
+
+(set -x; diff --version) | head -n1
+PROGRAMR=${PROGRAMR-./target/release/s4}
+(set -x; "${PROGRAMR}" --version)
+PROGRAMD=${PROGRAMD-./target/debug/s4}
+(set -x; "${PROGRAMD}" --version 2>/dev/null)
+echo >&2
+
+#
+# run s4 release and debug builds
+#
+
+# arguments for both release and debug
+declare -ar S4_ARGS=(
+    --color=never
+    --tz-offset=+08:00
+    --prepend-filename
+    '-'
+    "${@}"
+)
 
 # run the release build
-(
+time (
     set -x
-    "${PROGRAMR}" \
-        --color=never \
-        --prepend-filename \
-        '--tz-offset=+08:00' \
-        "${logs[@]}" 2>/dev/null
-) > "${tmpr}" || true
+    "${PROGRAMR}" "${S4_ARGS[@]}" 2>/dev/null > "${tmpr}" < "${logs}"
+) || true
 
 echo >&2
 
 # run the debug build (might take a few minutes)
-(
+time (
     set -x
-    "${PROGRAMD}" \
-        --color=never \
-        --prepend-filename \
-        '--tz-offset=+08:00' \
-        "${logs[@]}" 2>/dev/null
-) > "${tmpd}" || true
+    "${PROGRAMD}" "${S4_ARGS[@]}" 2>/dev/null > "${tmpd}" < "${logs}"
+) || true
 
 #
-# compare the program outputs
+# compare the program outputs debug and release outputs
 #
 
-# current s4 line count byte count
+# s4 release line count, byte count; only informative
 echo
 s4r_lc=$(wc -l < "${tmpr}")
 s4r_bc=$(wc -c < "${tmpr}")
 echo "super_speedy_syslog_searcher release output '${tmpr}'"
 echo "  Line Count ${s4r_lc}"
 echo "  Byte Count ${s4r_bc}"
-# expected s4 line count byte count
+
+# s4 debug line count, byte count; only informative
 s4d_lc=$(wc -l < "${tmpd}")
 s4d_bc=$(wc -c < "${tmpd}")
 echo "super_speedy_syslog_searcher debug output '${tmpd}'"
