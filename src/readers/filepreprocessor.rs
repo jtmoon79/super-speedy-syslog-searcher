@@ -589,7 +589,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         .follow_links(true)
         .contents_first(true)
         .sort_by_file_name()
-        .same_file_system(true)
+        .same_file_system(false)
     {
         // XXX: what is type `T` in `Result<T, E>` returned by `WalkDir`?
         let path_entry = match entry {
