@@ -102,7 +102,7 @@ if ! diff --text --brief "${current1}" "${expect1}"; then
     echo "Files are not the same. (ಠ_ಠ)"
     echo
     echo "Difference Preview:"
-    ((set -x; diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${current1}" "${expect1}") || true) | head -n 20
+    ((set -x; diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${current1}" "${expect1}") || true) | head -n 100
     echo
     echo "Do you need to run *compare-current-and-expected-update.sh*?"
     echo
