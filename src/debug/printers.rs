@@ -178,7 +178,7 @@ pub fn str_to_String_noraw(str_buf: &str) -> String {
 /// return contents of file utf-8 chars (presumably) at `path` as non-raw String
 ///
 /// only intended for debugging
-#[allow(dead_code, non_snake_case)]
+#[allow(non_snake_case)]
 #[cfg(test)]
 pub fn file_to_String_noraw(path: &FPath) -> String {
     let path_ = std::path::Path::new(path);
