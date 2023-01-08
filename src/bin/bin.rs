@@ -40,7 +40,7 @@
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fmt;
 use std::io::ErrorKind;
-use std::path::PathBuf;
+use std::io::BufRead;  // for stdin::lock().lines()
 use std::process::ExitCode;
 use std::str;
 use std::thread;
@@ -104,7 +104,7 @@ use s4lib::readers::blockreader::{BlockSz, BLOCKSZ_DEF, BLOCKSZ_MAX, BLOCKSZ_MIN
 
 use s4lib::readers::filepreprocessor::{process_path, ProcessPathResult, ProcessPathResults};
 
-use s4lib::readers::helpers::{basename, fpath_to_path};
+use s4lib::readers::helpers::basename;
 
 use s4lib::readers::summary::{Summary, SummaryOpt};
 
@@ -115,6 +115,9 @@ use s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProce
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // command-line parsing
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// user-passed signifier that file paths were passed on STDIN
+const PATHS_ON_STDIN: &str = "-";
 
 lazy_static! {
     /// for user-passed strings of a duration that will be offset from the
@@ -423,9 +426,11 @@ DateTimes supported language is English."
     after_help = CLI_HELP_AFTER,
 )]
 struct CLI_Args {
-    /// Path(s) of syslog files or directories.
-    /// Directories will be recursed, remaining on the same filesystem.
+    /// Path(s) of log files or directories.
+    /// Directories will be recursed.
     /// Symlinks will be followed.
+    /// Paths may also be passed via STDIN, one per line. The user must supply
+    /// argument "-" to signify PATHS are available from STDIN.
     #[clap(required = true)]
     paths: Vec<String>,
 
@@ -962,9 +967,32 @@ fn cli_process_args(
     };
     dpfo!("blocksz {:?}", blocksz);
 
-    let mut fpaths: Vec<FPath> = Vec::<FPath>::new();
+    let mut paths: Vec<FPath> = Vec::<FPath>::with_capacity(args.paths.len() + 1);
+    let mut stdin_check = false;
     for path in args.paths.iter() {
-        fpaths.push(path.clone());
+        match path.as_str() {
+            PATHS_ON_STDIN => {
+                if stdin_check {
+                    eprintln!("WARNING passed special PATHS argument {:?} more than once", PATHS_ON_STDIN);
+                    continue;
+                }
+                stdin_check = true;
+                // stdin input is file paths, one per line
+                for result in std::io::stdin().lock().lines() {
+                    match result {
+                        Ok(line) => {
+                            paths.push(line);
+                        }
+                        Err(err) => {
+                            // don't continue if there was an error
+                            eprintln!("ERROR reading stdin; {}", err);
+                            break;
+                        }
+                    }
+                }
+            }
+            _ => paths.push(path.clone()),
+        }
     }
 
     let tz_offset: FixedOffset = args.tz_offset;
@@ -1031,7 +1059,7 @@ fn cli_process_args(
     dpfo!("summary {:?}", args.summary);
 
     (
-        fpaths,
+        paths,
         blocksz,
         filter_dt_after,
         filter_dt_before,
@@ -1078,8 +1106,12 @@ pub fn main() -> ExitCode {
     ) = cli_process_args();
 
     let mut processed_paths: ProcessPathResults = ProcessPathResults::with_capacity(paths.len() * 4);
-    for fpath in paths.iter() {
-        let ppaths: ProcessPathResults = process_path(fpath);
+    for path in paths.iter() {
+        #[cfg(debug_assertions)]
+        {
+            dpfo!("path {:?}", path);
+        }
+        let ppaths: ProcessPathResults = process_path(path);
         for ppresult in ppaths.into_iter() {
             processed_paths.push(ppresult);
         }
