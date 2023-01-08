@@ -3,7 +3,8 @@
 # compare-current-and-expected-update.sh
 #
 # helper to compare-current-and-expected.sh
-# code in this script must agree with code in that script.
+# code in this script must agree with code in that script, especially the
+# s4 command-line arguments and the `find` search for logs
 #
 
 set -euo pipefail
