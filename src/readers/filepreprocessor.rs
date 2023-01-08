@@ -135,7 +135,7 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
     for mimeguess_ in mimeguess.iter() {
         dpo!("mimeguess_to_filetype: check {:?}", mimeguess_);
         match mimeguess_to_filetype_str(mimeguess_.as_ref()) {
-            FileType::Unset | FileType::Unparseable => {}
+            FileType::Unset => {}
             FileType::Unparseable => {
                 filetype_un = FileType::Unparseable;
             }
