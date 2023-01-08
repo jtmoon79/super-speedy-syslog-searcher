@@ -223,6 +223,13 @@ jobs:
           SCRIPT=./tools/compare-grep-sort.sh
           chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
           "${SCRIPT}"
+      - name: Run Script compare-current-and-expected
+        run: |
+          set -eux
+          export PROGRAM=./s4_release
+          SCRIPT=./tools/compare-current-and-expected.sh
+          chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
+          "${SCRIPT}"
 
   # Run code coverage with rust "nightly" (necessary for some `-Z` features)
   # then upload code coverage result to codecov.io
