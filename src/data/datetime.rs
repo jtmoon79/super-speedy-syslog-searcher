@@ -678,7 +678,6 @@ impl fmt::Debug for DateTimeParseInstr<'_> {
             .field("range_regex", &self.range_regex)
             .field("dtfs", &self.dtfs)
             .field("cgn_first", &self.cgn_first)
-            .field("cgn_last", &self.cgn_last)
             .field("cgn_last", &self.cgn_last);
         f_.field("line", &self._line_num);
 

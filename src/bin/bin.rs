@@ -1499,13 +1499,15 @@ impl SummaryPrinted {
         &self,
         color_choice_opt: Option<ColorChoice>,
         summary_opt: &SummaryOpt,
+        prepend: &str,
     ) {
         let sumd = Summary::default();
         let sum_: &Summary = match summary_opt {
             Some(s) => s,
             None => &sumd,
         };
-        eprint!("{{ bytes: ");
+
+        eprint!("{}bytes          ", prepend);
         if self.bytes == 0 && sum_.BlockReader_bytes != 0 {
             #[allow(clippy::single_match)]
             match print_colored_stderr(
@@ -1516,16 +1518,16 @@ impl SummaryPrinted {
                     .as_bytes(),
             ) {
                 Err(err) => {
-                    eprintln!("ERROR: print_colored_stderr {:?}", err);
+                    eprintln!("\nERROR: print_colored_stderr {:?}", err);
                     return;
                 }
-                _ => {}
+                Ok(_) => eprintln!(),
             }
         } else {
-            eprint!("{}", self.bytes);
+            eprintln!("{}", self.bytes);
         }
 
-        eprint!(", lines: ");
+        eprint!("{}lines          ", prepend);
         if self.lines == 0 && sum_.BlockReader_bytes != 0 {
             #[allow(clippy::single_match)]
             match print_colored_stderr(
@@ -1536,16 +1538,16 @@ impl SummaryPrinted {
                     .as_bytes(),
             ) {
                 Err(err) => {
-                    eprintln!("ERROR: print_colored_stderr {:?}", err);
+                    eprintln!("\nERROR: print_colored_stderr {:?}", err);
                     return;
                 }
-                _ => {}
+                Ok(_) => eprintln!(),
             }
         } else {
-            eprint!("{}", self.lines);
+            eprintln!("{}", self.lines);
         }
 
-        eprint!(", syslines: ");
+        eprint!("{}syslines       ", prepend);
         if self.syslines == 0 && sum_.LineReader_lines != 0 {
             #[allow(clippy::single_match)]
             match print_colored_stderr(
@@ -1556,43 +1558,48 @@ impl SummaryPrinted {
                     .as_bytes(),
             ) {
                 Err(err) => {
-                    eprintln!("ERROR: print_colored_stderr {:?}", err);
+                    eprintln!("\nERROR: print_colored_stderr {:?}", err);
                     return;
                 }
-                _ => {}
+                Ok(_) => eprintln!(),
             }
         } else {
-            eprint!("{}", self.syslines);
+            eprintln!("{}", self.syslines);
         }
 
-        eprint!(", dt_first: ");
         if self.dt_first.is_none() && sum_.LineReader_lines != 0 {
+            eprint!("{}datetime first ", prepend);
             #[allow(clippy::single_match)]
-            match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None".as_bytes()) {
+            match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
                 Err(err) => {
-                    eprintln!("ERROR: print_colored_stderr {:?}", err);
+                    eprintln!("\nERROR: print_colored_stderr {:?}", err);
                     return;
                 }
-                _ => {}
+                Ok(_) => eprintln!(),
             }
         } else {
-            eprint!("{:?}", self.dt_first);
+            match self.dt_first {
+                Some(dt) => eprintln!("{}datetime first {:?}", prepend, dt),
+                None => {}
+            }
         }
 
-        eprint!(", dt_last: ");
         if self.dt_last.is_none() && sum_.LineReader_lines != 0 {
+            eprint!("{}datetime last  ", prepend);
             #[allow(clippy::single_match)]
-            match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None".as_bytes()) {
+            match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
                 Err(err) => {
-                    eprintln!("ERROR: print_colored_stderr {:?}", err);
+                    eprintln!("\nERROR: print_colored_stderr {:?}", err);
                     return;
                 }
-                _ => {}
+                Ok(_) => eprintln!(),
             }
         } else {
-            eprint!("{:?}", self.dt_first);
+            match self.dt_last {
+                Some(dt) => eprintln!("{}datetime last  {:?}", prepend, dt),
+                None => {}
+            }
         }
-        eprint!(" }}");
     }
 
     /// Update a `SummaryPrinted` with information from a printed `Sysline`.
@@ -1662,7 +1669,9 @@ const OPT_SUMMARY_PRINT_CACHE_STATS: bool = true;
 const OPT_SUMMARY_PRINT_DROP_STATS: bool = true;
 
 /// For printing `--summary` lines, indentation.
-const OPT_SUMMARY_PRINT_INDENT: &str = "  ";
+const OPT_SUMMARY_PRINT_INDENT1: &str = "  ";
+const OPT_SUMMARY_PRINT_INDENT2: &str = "      ";
+const OPT_SUMMARY_PRINT_INDENT3: &str = "                   ";
 
 // -------------------------------------------------------------------------------------------------
 
@@ -2532,47 +2541,47 @@ fn print_filepath(
 ///
 /// [`Summary`]: s4lib::readers::summary::Summary
 fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
-    const OPT_SUMMARY_PRINT_INDENT_UNDER: &str = "                   ";
+
     match summary_opt {
         Some(summary) => {
-            eprintln!("{}Summary Processed:", OPT_SUMMARY_PRINT_INDENT);
+            eprintln!("{}Summary Processed:", OPT_SUMMARY_PRINT_INDENT1);
             match summary.filetype {
                 FileType::File => {
-                    eprintln!("{}    file size      {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
+                    eprintln!("{}file size      {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz);
                 }
                 FileType::Tar => {
-                    eprintln!("{}    file size archive    {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
-                    eprintln!("{}    file size unarchived {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz_actual);
+                    eprintln!("{}file size archive    {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz);
+                    eprintln!("{}file size unarchived {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz_actual);
                 }
                 FileType::Gz | FileType::Xz => {
-                    eprintln!("{}    file size compressed   {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz);
-                    eprintln!("{}    file size uncompressed {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_filesz_actual);
+                    eprintln!("{}file size compressed   {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz);
+                    eprintln!("{}file size uncompressed {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz_actual);
                 }
                 ft => {
-                    eprintln!("{}    unsupported filetype {:?}", OPT_SUMMARY_PRINT_INDENT, ft);
+                    eprintln!("{}unsupported filetype {:?}", OPT_SUMMARY_PRINT_INDENT2, ft);
                     return;
                 }
             }
-            eprintln!("{}    bytes          {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_bytes);
-            eprintln!("{}    bytes total    {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_bytes_total);
-            eprintln!("{}    block size     {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocksz);
-            eprintln!("{}    blocks         {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocks);
-            eprintln!("{}    blocks total   {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocks_total);
-            eprintln!("{}    blocks high    {}", OPT_SUMMARY_PRINT_INDENT, summary.BlockReader_blocks_highest);
-            eprintln!("{}    lines          {}", OPT_SUMMARY_PRINT_INDENT, summary.LineReader_lines);
-            eprintln!("{}    lines high     {}", OPT_SUMMARY_PRINT_INDENT, summary.LineReader_lines_stored_highest);
-            eprintln!("{}    syslines       {}", OPT_SUMMARY_PRINT_INDENT, summary.SyslineReader_syslines);
-            eprintln!("{}    syslines high  {}", OPT_SUMMARY_PRINT_INDENT, summary.SyslineReader_syslines_stored_highest);
+            eprintln!("{}bytes          {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_bytes);
+            eprintln!("{}bytes total    {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_bytes_total);
+            eprintln!("{}block size     {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocksz);
+            eprintln!("{}blocks         {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocks);
+            eprintln!("{}blocks total   {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocks_total);
+            eprintln!("{}blocks high    {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocks_highest);
+            eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines);
+            eprintln!("{}lines high     {}", OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines_stored_highest);
+            eprintln!("{}syslines       {}", OPT_SUMMARY_PRINT_INDENT2, summary.SyslineReader_syslines);
+            eprintln!("{}syslines high  {}", OPT_SUMMARY_PRINT_INDENT2, summary.SyslineReader_syslines_stored_highest);
             // print datetime first and last
             match (summary.SyslineReader_pattern_first, summary.SyslineReader_pattern_last) {
                 (Some(dt_first), Some(dt_last)) => {
                     eprintln!(
-                        "{}{}datetime first {:?}",
-                        OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, dt_first,
+                        "{}datetime first {:?}",
+                        OPT_SUMMARY_PRINT_INDENT2, dt_first,
                     );
                     eprintln!(
-                        "{}{}datetime last  {:?}",
-                        OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, dt_last,
+                        "{}datetime last  {:?}",
+                        OPT_SUMMARY_PRINT_INDENT2, dt_last,
                     );
                 }
                 (None, Some(_)) | (Some(_), None) => {
@@ -2581,21 +2590,24 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
                 _ => {}
             }
             // print datetime patterns
+            if !summary.SyslineReader_patterns.is_empty() {
+                eprintln!("{}Parsers:", OPT_SUMMARY_PRINT_INDENT1);
+            }
             for patt in summary
                 .SyslineReader_patterns
                 .iter()
             {
                 let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*patt.0];
                 eprintln!(
-                    "{}{}   @{} {} {:?}",
-                    OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, patt.0, patt.1, dtpd
+                    "{}@[{}] uses {} {:?}",
+                    OPT_SUMMARY_PRINT_INDENT2, patt.0, patt.1, dtpd
                 );
             }
             match summary.SyslogProcessor_missing_year {
                 Some(year) => {
                     eprintln!(
-                        "{}{}datetime format missing year; estimated year of last sysline {:?}",
-                        OPT_SUMMARY_PRINT_INDENT, OPT_SUMMARY_PRINT_INDENT_UNDER, year
+                        "{}datetime format missing year; estimated year of last sysline {:?}",
+                        OPT_SUMMARY_PRINT_INDENT3, year
                     );
                 }
                 None => {}
@@ -2603,7 +2615,7 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
         }
         None => {
             // TODO: [2022/06/07] print filesz
-            eprintln!("{}Summary Processed: None", OPT_SUMMARY_PRINT_INDENT);
+            eprintln!("{}Summary Processed: None", OPT_SUMMARY_PRINT_INDENT1);
         }
     }
 }
@@ -2618,15 +2630,14 @@ fn print_summary_opt_printed(
 ) {
     match summary_print_opt {
         Some(summary_print) => {
-            eprint!("{}Summary Printed  : ", OPT_SUMMARY_PRINT_INDENT);
-            summary_print.print_colored_stderr(Some(*color_choice), summary_opt);
+            eprintln!("{}Summary Printed:", OPT_SUMMARY_PRINT_INDENT1);
+            summary_print.print_colored_stderr(Some(*color_choice), summary_opt, OPT_SUMMARY_PRINT_INDENT2);
         }
         None => {
-            eprint!("{}Summary Printed  : ", OPT_SUMMARY_PRINT_INDENT);
-            SummaryPrinted::default().print_colored_stderr(Some(*color_choice), summary_opt);
+            eprintln!("{}Summary Printed:", OPT_SUMMARY_PRINT_INDENT1);
+            SummaryPrinted::default().print_colored_stderr(Some(*color_choice), summary_opt, OPT_SUMMARY_PRINT_INDENT2);
         }
     }
-    eprintln!();
 }
 
 /// Print the various (optional) [`Summary`] caching and storage statistics
@@ -2655,6 +2666,7 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
             return;
         }
     };
+    eprintln!("{}Processing Stores:", OPT_SUMMARY_PRINT_INDENT1);
     let wide: usize = summary
         .max_hit_miss()
         .to_string()
@@ -2663,8 +2675,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     // SyslineReader
     // SyslineReader::get_boxptrs
     eprintln!(
-        "{}copying: SyslineReader::get_boxptrs()                                  : sgl {:wide$}, dbl  {:wide$}, mult {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT,
+        "{}copying: SyslineReader::get_boxptrs()                        : sgl {:wide$}, dbl  {:wide$}, mult {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.SyslineReader_get_boxptrs_singleptr,
         summary.SyslineReader_get_boxptrs_doubleptr,
         summary.SyslineReader_get_boxptrs_multiptr,
@@ -2673,8 +2685,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     // SyslineReader::syslines
     ratio = ratio64(&summary.SyslineReader_syslines_hit, &summary.SyslineReader_syslines_miss);
     eprintln!(
-        "{}storage: SyslineReader::find_sysline() syslines                        : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
-        OPT_SUMMARY_PRINT_INDENT,
+        "{}storage: SyslineReader::find_sysline() syslines              : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.SyslineReader_syslines_hit,
         summary.SyslineReader_syslines_miss,
         ratio,
@@ -2684,8 +2696,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     ratio =
         ratio64(&summary.SyslineReader_syslines_by_range_hit, &summary.SyslineReader_syslines_by_range_miss);
     eprintln!(
-        "{}caching: SyslineReader::find_sysline() syslines_by_range_map           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT,
+        "{}caching: SyslineReader::find_sysline() syslines_by_range_map : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.SyslineReader_syslines_by_range_hit,
         summary.SyslineReader_syslines_by_range_miss,
         ratio,
@@ -2698,8 +2710,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
         &summary.SyslineReader_find_sysline_lru_cache_miss,
     );
     eprintln!(
-        "{}caching: SyslineReader::find_sysline() LRU cache                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT,
+        "{}caching: SyslineReader::find_sysline() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.SyslineReader_find_sysline_lru_cache_hit,
         summary.SyslineReader_find_sysline_lru_cache_miss,
         ratio,
@@ -2712,8 +2724,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
         &summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
     );
     eprintln!(
-        "{}caching: SyslineReader::parse_datetime_in_line() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT,
+        "{}caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
         summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
         ratio,
@@ -2723,8 +2735,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     // LineReader::_lines
     ratio = ratio64(&summary.LineReader_lines_hits, &summary.LineReader_lines_miss);
     eprintln!(
-        "{}storage: LineReader::find_line() lines                                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
-        OPT_SUMMARY_PRINT_INDENT,
+        "{}storage: LineReader::find_line() lines                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.LineReader_lines_hits,
         summary.LineReader_lines_miss,
         ratio,
@@ -2734,8 +2746,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     ratio =
         ratio64(&summary.LineReader_find_line_lru_cache_hit, &summary.LineReader_find_line_lru_cache_miss);
     eprintln!(
-        "{}caching: LineReader::find_line() LRU cache                             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT,
+        "{}caching: LineReader::find_line() LRU cache                   : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.LineReader_find_line_lru_cache_hit,
         summary.LineReader_find_line_lru_cache_miss,
         ratio,
@@ -2745,8 +2757,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     // BlockReader::_read_blocks
     ratio = ratio64(&summary.BlockReader_read_blocks_hit, &summary.BlockReader_read_blocks_miss);
     eprintln!(
-        "{}storage: BlockReader::read_block() blocks                              : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT,
+        "{}storage: BlockReader::read_block() blocks                    : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.BlockReader_read_blocks_hit,
         summary.BlockReader_read_blocks_miss,
         ratio,
@@ -2759,8 +2771,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
         &summary.BlockReader_read_block_lru_cache_miss,
     );
     eprintln!(
-        "{}caching: BlockReader::read_block() LRU cache                           : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT,
+        "{}caching: BlockReader::read_block() LRU cache                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.BlockReader_read_block_lru_cache_hit,
         summary.BlockReader_read_block_lru_cache_miss,
         ratio,
@@ -2785,27 +2797,28 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
             return;
         }
     };
+    eprintln!("{}Processing Drops:", OPT_SUMMARY_PRINT_INDENT1);
     let wide: usize = summary
         .max_drop()
         .to_string()
         .len();
     eprintln!(
         "{}streaming: BlockReader::drop_block()    : Ok {:wide$} Err {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT,
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.BlockReader_blocks_dropped_ok,
         summary.BlockReader_blocks_dropped_err,
         wide = wide,
     );
     eprintln!(
         "{}streaming: SyslineReader::drop_sysline(): Ok {:wide$} Err {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT,
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.SyslineReader_drop_sysline_ok,
         summary.SyslineReader_drop_sysline_errors,
         wide = wide,
     );
     eprintln!(
         "{}streaming: LineReader::drop_line()      : Ok {:wide$} Err {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT,
+        OPT_SUMMARY_PRINT_INDENT2,
         summary.LineReader_drop_line_ok,
         summary.LineReader_drop_line_errors,
         wide = wide,
@@ -2822,7 +2835,7 @@ fn print_error_summary(
     match summary_opt.as_ref() {
         Some(summary_) => match &summary_.Error_ {
             Some(err_string) => {
-                eprint!("{}Error: ", OPT_SUMMARY_PRINT_INDENT);
+                eprint!("{}Error: ", OPT_SUMMARY_PRINT_INDENT1);
                 #[allow(clippy::single_match)]
                 match print_colored_stderr(COLOR_ERROR, Some(*color_choice), err_string.as_bytes()) {
                     Err(_err) => {}
@@ -2852,8 +2865,8 @@ fn print_file_summary(
 ) {
     eprintln!();
     print_filepath(path, filetype, mimeguess, color, color_choice);
-    print_summary_opt_processed(summary_opt);
     print_summary_opt_printed(summary_print_opt, summary_opt, color_choice);
+    print_summary_opt_processed(summary_opt);
     if OPT_SUMMARY_PRINT_CACHE_STATS {
         print_cache_stats(summary_opt);
     }
