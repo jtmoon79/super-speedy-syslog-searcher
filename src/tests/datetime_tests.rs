@@ -10,16 +10,24 @@ use crate::tests::common::{TZO_0, TZO_E1, TZO_W8};
 
 use crate::data::datetime::{
     bytes_to_regex_to_datetime, datetime_from_str_workaround_Issue660, datetime_parse_from_str,
-    dt_after_or_before, dt_pass_filters, CGP_YEARy, DTFSSet, DTFS_Tz, DateTimeL, DateTimeLOpt,
-    DateTimeParseInstr, DateTimePattern_str, DateTimeRegex_str, FixedOffset, MAP_TZZ_TO_TZz,
-    Result_Filter_DateTime1, Result_Filter_DateTime2, TimeZone, Year, CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL,
-    CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL, CGP_SECOND, CGP_TZZ, CGP_TZ_ALL, CGP_YEAR, DATETIME_PARSE_DATAS,
+    dt_after_or_before, dt_pass_filters, DTFSSet, DTFS_Tz,
+    DateTimeL, DateTimeLOpt, Duration,
+    DateTimeParseInstr, DateTimePattern_str, DateTimeRegex_str,
+    FixedOffset, MAP_TZZ_TO_TZz,
+    Result_Filter_DateTime1, Result_Filter_DateTime2, TimeZone, Year,
+    DATETIME_PARSE_DATAS_LEN, DATETIME_PARSE_DATAS,
+    CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL, CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL,
+    CGP_SECOND, CGP_TZZ, CGP_TZ_ALL, CGP_YEAR, CGP_YEARy,
     DTP_ALL, RP_LB, RP_RB, TZZ_LIST_LOWER, TZZ_LIST_UPPER, TZZ_LOWER_TO_UPPER,
 };
 
 use crate::debug::printers::buffer_to_String_noraw;
 
 use bstr::ByteSlice;
+
+extern crate chrono;
+#[allow(unused_imports)]
+use chrono::{Datelike, Timelike}; // for `with_nanosecond()` and others
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
@@ -40,6 +48,73 @@ extern crate test_case;
 use test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// wrapper for chrono DateTime creation function
+pub fn ymdhms(
+    fixedoffset: &FixedOffset,
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    min: u32,
+    sec: u32
+) -> DateTimeL {
+    fixedoffset.with_ymd_and_hms(
+        year,
+        month,
+        day,
+        hour,
+        min,
+        sec,
+    ).unwrap()
+}
+
+/// wrapper for chrono DateTime creation function
+pub fn ymdhmsn(
+    fixedoffset: &FixedOffset,
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    min: u32,
+    sec: u32,
+    nano: i64
+) -> DateTimeL {
+    fixedoffset
+    .with_ymd_and_hms(
+        year,
+        month,
+        day,
+        hour,
+        min,
+        sec
+    )
+    .unwrap()
+    + Duration::nanoseconds(nano)
+}
+
+/// wrapper for chrono DateTime creation function
+pub fn ymdhmsm(
+    fixedoffset: &FixedOffset,
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    min: u32,
+    sec: u32,
+    micro: i64
+) -> DateTimeL {
+    fixedoffset.with_ymd_and_hms(
+        year,
+        month,
+        day,
+        hour,
+        min,
+        sec
+    )
+    .unwrap()
+    + Duration::microseconds(micro)
+}
 
 /// does regex pattern have a year?
 pub fn regex_pattern_has_year(pattern: &DateTimeRegex_str) -> bool {
@@ -212,11 +287,25 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
     );
 }
 
+/// force the developer to not forget about updating the hardcoded test cases
+/// in the proceeeding test function `test_DATETIME_PARSE_DATAS_test_cases`
+#[test]
+fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {
+    assert_eq!(
+        // this number should match the number `DATETIME_PARSE_DATAS_LEN`
+        83, DATETIME_PARSE_DATAS.len(),
+        "Did you update?\n\n    #[test_case({0})]\n    fn test_DATETIME_PARSE_DATAS_test_cases()\n\nShould be one less than DATETIME_PARSE_DATAS_LEN {0}\n\n",
+        DATETIME_PARSE_DATAS_LEN
+    );
+}
+
 /// match the regexp built-in test cases for all entries in `DATETIME_PARSE_DATAS`
 // XXX: how to generate these test_cases from 0 to DATETIME_PARSE_DATAS_LEN?
 //      until that is determined, run this shell snippet from the project root directory
 //
 //           for i in $(seq 0 $(($(grep -m1 -Fe 'DATETIME_PARSE_DATAS_LEN:' -- ./src/data/datetime.rs | grep -Eoe '[[:digit:]]+') - 1))); do echo '#[test_case('${i}')]'; done
+//
+//      See feature request https://github.com/frondeus/test-case/issues/111
 //
 #[test_case(0)]
 #[test_case(1)]
@@ -290,6 +379,17 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
 #[test_case(69)]
 #[test_case(70)]
 #[test_case(71)]
+#[test_case(72)]
+#[test_case(73)]
+#[test_case(74)]
+#[test_case(75)]
+#[test_case(76)]
+#[test_case(77)]
+#[test_case(78)]
+#[test_case(79)]
+#[test_case(80)]
+#[test_case(81)]
+#[test_case(82)]
 fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     stack_offset_set(Some(2));
 
@@ -706,7 +806,7 @@ lazy_static! {
 
 #[test_case(
     "20000101T000000", "%Y%m%dT%H%M%S", false, &FO_UTC,
-    Some(FO_UTC.with_ymd_and_hms(2000, 1, 1, 0, 0, 0).unwrap());
+    Some(ymdhms(&FO_UTC, 2000, 1, 1, 0, 0, 0));
     "20000101T000000 %Y%m%dT%H%M%S no_tz"
 )]
 #[test_case(
@@ -719,22 +819,22 @@ lazy_static! {
 )]
 #[test_case(
     "20000101T000000,123", "%Y%m%dT%H%M%S,%3f", false, &FO_UTC,
-    Some(FO_UTC.ymd(2000, 1, 1).and_hms_micro(0, 0, 0, 123000));
+    Some(ymdhmsm(&FO_UTC, 2000, 1, 1, 0, 0, 0, 123000));
     "20000101T000000,123 %Y%m%dT%H%M%S,%3f no_tz"
 )]
 #[test_case(
     "20000101T000000,123 -0800", "%Y%m%dT%H%M%S,%3f %:z", true, &FO_W8,
-    Some(FO_W8.ymd(2000, 1, 1).and_hms_micro(0, 0, 0, 123000));
+    Some(ymdhmsm(&FO_W8, 2000, 1, 1, 0, 0, 0, 123000));
     "20000101T000000,123 -0800 %Y%m%dT%H%M%S,%3f %:z has_tz"
 )]
 #[test_case(
     "20000101T000000,123 +1000", "%Y%m%dT%H%M%S,%3f %:z", true, &FO_E10,
-    Some(FO_E10.ymd(2000, 1, 1).and_hms_micro(0, 0, 0, 123000));
+    Some(ymdhmsm(&FO_E10, 2000, 1, 1, 0, 0, 0, 123000));
     "20000101T000000,123 +1000 %Y%m%dT%H%M%S,%3f %:z has_tz"
 )]
 #[test_case(
     "20000101T000000,123 +1000", "%Y%m%dT%H%M%S,%f %:z", true, &FO_E10,
-    Some(FO_E10.ymd(2000, 1, 1).and_hms_nano(0, 0, 0, 123));
+    Some(ymdhmsn(&FO_E10, 2000, 1, 1, 0, 0, 0, 123));
     "20000101T000000,123 +1000 %Y%m%dT%H%M%S,%f %:z has_tz"
 )]
 #[test_case(

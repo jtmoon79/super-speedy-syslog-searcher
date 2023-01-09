@@ -1194,7 +1194,7 @@ pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>january|January|JANUAR
 /// number day of month, 1 to 31, e.g. `"2"` or `"31"`.
 /// Transformed to equivalent `%d` form within function
 /// `captures_to_buffer_bytes` (i.e. `'0'` is prepended if necessary).
-pub const CGP_DAYde: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|1|2|3|4|5|6|7|8|9)";
+pub const CGP_DAYde: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|1|2|3|4|5|6|7|8|9| 1| 2| 3| 4| 5| 6| 7| 8| 9)";
 /// Regex capture group pattern for `strftime` day specifier `%a`,
 /// named day of week, either long name or abbreviated three character name,
 /// e.g. `"Mon"` or `"Monday"`.
@@ -1899,14 +1899,15 @@ pub(crate) const RP_RB: &RegexPattern = r"[\]\)>}]";
 /// Index into the global [`DATETIME_PARSE_DATAS`]
 pub type DateTimeParseInstrsIndex = usize;
 
-/// A run-time created vector of [`DateTimeRegex`] instances that is a counterpart
-/// to [`DATETIME_PARSE_DATAS`]
+/// A run-time created vector of [`DateTimeRegex`] instances that is a
+/// counterpart to [`DATETIME_PARSE_DATAS`]
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 /// Length of [`DATETIME_PARSE_DATAS`]
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
-//      in `datetime_tests.rs`
-pub const DATETIME_PARSE_DATAS_LEN: usize = 82;
+//      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
+//      `DATETIME_PARSE_DATAS_LEN-1`.
+pub const DATETIME_PARSE_DATAS_LEN: usize = 83;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -3174,6 +3175,24 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // Windows 10 ReportingEvents.log format, example with offset:
+    //
+    //               1         2         3         4         5         6         7
+    //     01234567890123456789012345678901234567890123456789012345678901234567890
+    //     {5F45546A-691D-4519-810C-9B159EA7A24F}  2022-10-12 09:26:44:980-0700    1       181 [AGENT_INSTALLING_STARTED]  101     {ADF3720E-8453-44C7-82EF-F9F5DA2D8551}  1       0 Update;ScanForUpdates    Success Content Install Installation Started: Windows has started installing the following update: 9WZDNCRFJ364-MICROSOFT.SKYPEAPP      te2D3dMIjE2PeNSM.86.5.1.0.0.1.0
+    //
+    // very similar to next DTPD!, but with different second-to-fractional divider ":"
+    //
+    DTPD!(
+        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, ":", CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, RP_NODIGIT),
+        DTFSS_YmdHMSfz, 0, 1024, CGN_YEAR, CGN_TZ,
+        &[
+                (40, 68, r"{5F45546A-691D-4519-810C-9B159EA7A24F}  2022-10-12 09:26:44:980-0700    1       181 [AGENT_INSTALLING_STARTED]  101      {ADF3720E-8453-44C7-82EF-F9F5DA2D8551}  1       0 Update;ScanForUpdates    Success Content Download        Download succeeded.     te2D3dMIjE2PeNSM.86.3.1.0.0.85.0")
+        ],
+        line!(),
+    ),
     //
     // general matches anywhere in the first 1024 bytes of the line
     //
@@ -3939,14 +3958,16 @@ pub(crate) fn captures_to_buffer_bytes(
                     copy_u8_to_buffer!(day[0], buffer, at);
                 }
                 2 => {
-                    debug_assert_ne!(
-                        day[0],
-                        b' ',
-                        "bad value for _e_or_d {:?} {:?}",
-                        day,
-                        String::from_utf8_lossy(day)
-                    );
-                    copy_slice_to_buffer!(day, buffer, at);
+                    match day[0] {
+                        b' ' => {
+                            // change day " 8" (%e) to "08" (%d)
+                            copy_u8_to_buffer!(b'0', buffer, at);
+                            copy_u8_to_buffer!(day[1], buffer, at);
+                        }
+                        _ => {
+                            copy_slice_to_buffer!(day, buffer, at);
+                        }
+                    }
                 }
                 _ => {
                     panic!("bad day.len() {}", day.len());
