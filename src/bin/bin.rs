@@ -428,8 +428,8 @@ DateTimes supported language is English."
 struct CLI_Args {
     /// Path(s) of log files or directories.
     /// Directories will be recursed. Symlinks will be followed.
-    /// Paths may also be passed via STDIN, one per line. The user must supply
-    /// argument "-" to signify PATHS are available from STDIN.
+    /// Paths may also be passed via STDIN, one per line. The user must
+    /// supply argument "-" to signify PATHS are available from STDIN.
     #[clap(
         required = true,
         verbatim_doc_comment,
@@ -459,7 +459,7 @@ struct CLI_Args {
     /// For example, "-0800", "+02:00", or "EDT". Ambiguous named timezones
     /// parsed from logs will use this value, e.g. timezone "IST" (to pass a
     /// value with leading "-", quote the argument, e.g. "-t=-0800").
-    /// Default value is the local system timezone offset."
+    /// Default value is the local system timezone offset.
     #[clap(
         short = 't',
         long,
