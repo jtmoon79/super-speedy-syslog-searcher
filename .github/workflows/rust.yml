@@ -77,6 +77,7 @@ jobs:
           cargo build --verbose
 
   job_build_debug_release_test:
+    # all of these steps need to download and build dependency crates
     name: check, clippy, build debug, build release, test
     needs: [job_rust_release_channel, job_rust_msrv_os]
     runs-on: ubuntu-latest
@@ -134,6 +135,7 @@ jobs:
       #     "${SCRIPT}"
 
   job_runs:
+    # all of these steps need the s4 binary and the git-committed logs
     name: run s4
     needs: job_build_debug_release_test
     runs-on: ubuntu-latest
