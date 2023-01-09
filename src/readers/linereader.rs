@@ -1025,7 +1025,7 @@ impl LineReader {
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
                 );
-                return ResultS3LineFind::Found((fo_next, linep.clone()));
+                return ResultS3LineFind::Found((fo_next, linep));
             } else {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
@@ -1048,7 +1048,7 @@ impl LineReader {
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
                 );
-                return ResultS3LineFind::Found((fo_next, linep.clone()));
+                return ResultS3LineFind::Found((fo_next, linep));
             };
         }
         assert!(
@@ -1777,7 +1777,7 @@ impl LineReader {
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
                 );
-                return ResultS3LineFind::Found((fo_next, linep.clone()));
+                return ResultS3LineFind::Found((fo_next, linep));
             } else {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
@@ -1794,7 +1794,7 @@ impl LineReader {
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
                 );
-                return ResultS3LineFind::Found((fo_next, linep.clone()));
+                return ResultS3LineFind::Found((fo_next, linep));
             };
         }
         assert!(

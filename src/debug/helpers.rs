@@ -227,7 +227,7 @@ pub fn create_files_in_tmpdir(
     let mut files = Vec::<FPath>::new();
 
     for fpath in filenames.iter() {
-        let file = match create_file_bytes_name_in_tmpdir(&[], &fpath, &tmpdir) {
+        let file = match create_file_bytes_name_in_tmpdir(&[], fpath, tmpdir) {
             Some(f) => f,
             None => continue,
         };
@@ -268,7 +268,7 @@ pub fn create_files_and_tmpdir(filenames: &[FPath]) -> (TempDir, Vec<FPath>) {
     let mut files = Vec::<FPath>::new();
 
     for fpath in filenames.iter() {
-        let file = match create_file_bytes_name_in_tmpdir(&[], &fpath, &tmpdir) {
+        let file = match create_file_bytes_name_in_tmpdir(&[], fpath, &tmpdir) {
             Some(f) => f,
             None => continue,
         };

@@ -420,7 +420,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
             dpfo!("filetype {:?} not parseable", filetype);
             let mut fpath: FPath;
             let mut path_: &Path = path_clone(path);
-            filetype = path_to_filetype(&path_);
+            filetype = path_to_filetype(path_);
             dpfo!("filetype {:?}", filetype);
             let mut ext_rm = 0;
             while !parseable_filetype(&filetype) && filename_count_extensions(path_) != 0 && ext_rm < 3 {
@@ -430,7 +430,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
                         dpfo!("try again with removed file extension {:?}", path_);
                         fpath = fpath_rm1ext;
                         path_ = fpath_to_path(&fpath);
-                        filetype = path_to_filetype(&path_);
+                        filetype = path_to_filetype(path_);
                         dpfo!("filetype {:?}", filetype);
                     }
                 }

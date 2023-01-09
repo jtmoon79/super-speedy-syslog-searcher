@@ -119,7 +119,7 @@ const NTF5_DATA_LINE4_OFFSET: usize = NTF5_DATA_LINE3_OFFSET
         .len();
 
 lazy_static! {
-    static ref NTF5: NamedTempFile = create_temp_file(&NTF5_DATA);
+    static ref NTF5: NamedTempFile = create_temp_file(NTF5_DATA);
     static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
 }
 
