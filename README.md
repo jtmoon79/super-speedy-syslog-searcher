@@ -119,50 +119,53 @@ passed to narrow the search. It aims to be very fast.
 Usage: s4 [OPTIONS] <PATHS>...
 
 Arguments:
-  <PATHS>...  Path(s) of syslog files or directories. Directories will be
-              recursed, remaining on the same filesystem. Symlinks will be
-              followed
+  <PATHS>...  Path(s) of log files or directories.
+              Directories will be recursed. Symlinks will be followed.
+              Paths may also be passed via STDIN, one per line. The user must
+              supply argument "-" to signify PATHS are available from STDIN.
 
 Options:
   -a, --dt-after <DT_AFTER>
           DateTime Filter After: print syslog lines with a datetime that is at
-          or after this datetime. For example, "20200102T120000" or "-5d"
+          or after this datetime. For example, "20200102T120000" or "-5d".
   -b, --dt-before <DT_BEFORE>
           DateTime Filter Before: print syslog lines with a datetime that is at
-          or before this datetime. For example, "20200103T230000" or "@+1d+11h"
+          or before this datetime.
+          For example, "20200103T230000" or "@+1d+11h"
   -t, --tz-offset <TZ_OFFSET>
-          DateTime Timezone Offset for syslines with a datetime that does not
-          include a timezone, this will be used. For example, "-0800", "+02:00",
-          or "EDT". Ambiguous named timezones parsed from logs will use this
-          value, e.g. timezone "IST". (to pass a value with leading "-", use ",
-          e.g. "-t=-0800").
-          Default is local system timezone offset. [default: -08:00]
+          Default timezone offset for datetimes without a timezone.
+          For example, "-0800", "+02:00", or "EDT". Ambiguous named timezones
+          parsed from logs will use this value, e.g. timezone "IST" (to pass a
+          value with leading "-", quote the argument, e.g. "-t=-0800").
+          Default value is the local system timezone offset.
+          [default: -08:00]
   -u, --prepend-utc
-          Prepend DateTime in the UTC Timezone for every line
+          Prepend DateTime in the UTC Timezone for every line.
   -l, --prepend-local
-          Prepend DateTime in the Local Timezone for every line
+          Prepend DateTime in the Local Timezone for every line.
   -d, --prepend-dt-format <PREPEND_DT_FORMAT>
-          Prepend DateTime using strftime format string
+          Prepend DateTime using strftime format string.
           [default: %Y%m%dT%H%M%S%.3f%z]
   -n, --prepend-filename
-          Prepend file basename to every line
+          Prepend file basename to every line.
   -p, --prepend-filepath
-          Prepend file full path to every line
+          Prepend file full path to every line.
   -w, --prepend-file-align
-          Align column widths of prepended data
+          Align column widths of prepended data.
       --prepend-separator <PREPEND_SEPARATOR>
-          Separator string for prepended data [default: :]
+          Separator string for prepended data. [default: :]
   -c, --color <COLOR_CHOICE>
-          Choose to print to terminal using colors
+          Choose to print to terminal using colors.
           [default: auto] [possible values: always, auto, never]
   -z, --blocksz <BLOCKSZ>
-          Read blocks of this size in bytes. May pass value as any radix
-          (hexadecimal, decimal, octal, binary).
+          Read blocks of this size in bytes.
+          May pass value as any radix (hexadecimal, decimal, octal, binary).
           Using the default value is recommended.
-          Most useful for developers [default: 65535]
+          Most useful for developers.
+          [default: 65535]
   -s, --summary
-          Print a summary of files processed to stderr. Most useful for
-          developers
+          Print a summary of files processed to stderr.
+          Most useful for developers.
   -h, --help
           Print help information
   -V, --version
