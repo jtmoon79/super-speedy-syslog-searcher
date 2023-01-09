@@ -443,7 +443,10 @@ impl SyslogProcessor {
         self.missing_year.is_some()
     }
 
-    fn set_error(&mut self, error: &Error) {
+    fn set_error(
+        &mut self,
+        error: &Error,
+    ) {
         dp_err!("{:?}", error);
         if let Some(ref err_) = self.Error_ {
             dp_wrn!("overwriting previous Error {:?} with Error ({:?})", err_, error);
@@ -561,10 +564,7 @@ impl SyslogProcessor {
                                         let diff: Duration = *dt_cur - *dt_prev;
                                         if diff > min_diff {
                                             year_opt = Some(year_opt.unwrap() - 1);
-                                            dpfo!(
-                                                "year_opt updated {:?}",
-                                                year_opt
-                                            );
+                                            dpfo!("year_opt updated {:?}", year_opt);
                                             self.syslinereader
                                                 .remove_sysline(fo_prev);
                                             fo_prev = fo_prev_prev;
@@ -650,7 +650,10 @@ impl SyslogProcessor {
             return true;
         }
 
-        if self.syslinereader.drop_data(blockoffset) {
+        if self
+            .syslinereader
+            .drop_data(blockoffset)
+        {
             self.drop_block_last = blockoffset;
             dpf1x!("({}) return true", blockoffset);
             return true;
@@ -665,8 +668,11 @@ impl SyslogProcessor {
     ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`Sysline`]: crate::data::sysline::Sysline
-    pub fn drop_data_try(&mut self, syslinep: &SyslineP) -> bool {
-        if ! SyslogProcessor::STREAM_STAGE_DROP {
+    pub fn drop_data_try(
+        &mut self,
+        syslinep: &SyslineP,
+    ) -> bool {
+        if !SyslogProcessor::STREAM_STAGE_DROP {
             return true;
         }
         let bo_first: BlockOffset = (*syslinep).blockoffset_first();
@@ -818,7 +824,10 @@ impl SyslogProcessor {
 
     /// Stage 2: Given the two optional datetime filters, can a datetime be
     /// found between those filters?
-    pub fn process_stage2_find_dt(&mut self, filter_dt_after_opt: &DateTimeLOpt) -> FileProcessingResultBlockZero {
+    pub fn process_stage2_find_dt(
+        &mut self,
+        filter_dt_after_opt: &DateTimeLOpt,
+    ) -> FileProcessingResultBlockZero {
         dpfn!();
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
         self.processingstage = ProcessingStage::Stage2FindDt;
@@ -988,11 +997,7 @@ impl SyslogProcessor {
         let found_min: Count = *BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP
             .get(&blocksz0)
             .unwrap();
-        dpfx!(
-            "block zero blocksz {} found_min {}",
-            blocksz0,
-            found_min
-        );
+        dpfx!("block zero blocksz {} found_min {}", blocksz0, found_min);
         // find `found_min` Lines or whatever can be found within block 0
         while found < found_min {
             fo = match self
@@ -1029,12 +1034,7 @@ impl SyslogProcessor {
             false => FileProcessingResultBlockZero::FileErrNoSyslinesFound,
         };
 
-        dpfx!(
-            "found {} lines, require {} lines, return {:?}",
-            found,
-            found_min,
-            fpr
-        );
+        dpfx!("found {} lines, require {} lines, return {:?}", found, found_min, fpr);
 
         fpr
     }
@@ -1061,19 +1061,27 @@ impl SyslogProcessor {
 
     #[cfg(test)]
     pub(crate) fn dropped_blocks(&self) -> SetDroppedBlocks {
-        self.syslinereader.linereader.blockreader.dropped_blocks.clone()
+        self.syslinereader
+            .linereader
+            .blockreader
+            .dropped_blocks
+            .clone()
     }
 
     #[cfg(test)]
     pub(crate) fn dropped_lines(&self) -> SetDroppedLines {
-        self.syslinereader.linereader.dropped_lines.clone()
+        self.syslinereader
+            .linereader
+            .dropped_lines
+            .clone()
     }
 
     #[cfg(test)]
     pub(crate) fn dropped_syslines(&self) -> SetDroppedSyslines {
-        self.syslinereader.dropped_syslines.clone()
+        self.syslinereader
+            .dropped_syslines
+            .clone()
     }
-
 
     /// Return an up-to-date [`Summary`] instance for this `SyslogProcessor`.
     ///

@@ -174,8 +174,8 @@ pub fn create_dir_in_tmpdir(
         pathb_tmp = pathb_tmp.join(PathBuf::from(c.as_os_str()));
         dpfñ!("create_dir({:?})", pathb_tmp);
         match create_dir(&pathb_tmp) {
-            Ok(_) => {},
-            Err(err) if err.kind() == ErrorKind::AlreadyExists => {},
+            Ok(_) => {}
+            Err(err) if err.kind() == ErrorKind::AlreadyExists => {}
             Err(err) => panic!("Error {:?}", err),
         }
     }
@@ -187,7 +187,7 @@ pub fn create_dir_in_tmpdir(
 pub fn create_file_bytes_name_in_tmpdir(
     data: &[u8],
     name: &FPath,
-    tempdir: &TempDir
+    tempdir: &TempDir,
 ) -> Option<File> {
     let pathb_name: PathBuf = PathBuf::from(name);
 
@@ -220,28 +220,30 @@ pub fn create_file_bytes_name_in_tmpdir(
 }
 
 /// Testing helper to create files within the passed `TempDir`
-pub fn create_files_in_tmpdir(tmpdir: &TempDir, filenames: &[FPath]) -> Vec::<FPath> {
+pub fn create_files_in_tmpdir(
+    tmpdir: &TempDir,
+    filenames: &[FPath],
+) -> Vec<FPath> {
     let mut files = Vec::<FPath>::new();
 
     for fpath in filenames.iter() {
-        let file = match create_file_bytes_name_in_tmpdir(
-            &[],
-            &fpath,
-            &tmpdir,
-        ) {
+        let file = match create_file_bytes_name_in_tmpdir(&[], &fpath, &tmpdir) {
             Some(f) => f,
-            None => continue
+            None => continue,
         };
         let path_ = &file.path().unwrap();
         let fpath: FPath = path_to_fpath(path_);
         files.push(fpath)
-    };
+    }
 
     files
 }
 
 /// Testing helper to create a directory within the passed `TempDir`
-pub fn create_dirs_in_tmpdir(tmpdir: &TempDir, dirnames: &[FPath]) -> Vec::<FPath> {
+pub fn create_dirs_in_tmpdir(
+    tmpdir: &TempDir,
+    dirnames: &[FPath],
+) -> Vec<FPath> {
     let mut fpaths = Vec::<FPath>::new();
     let path = tmpdir.path();
 
@@ -255,29 +257,25 @@ pub fn create_dirs_in_tmpdir(tmpdir: &TempDir, dirnames: &[FPath]) -> Vec::<FPat
             _ => {}
         }
         fpaths.push(path_to_fpath(path_.as_path()));
-    };
+    }
 
     fpaths
 }
 
 /// Testing helper to create a `TempDir` and files
-pub fn create_files_and_tmpdir(filenames: &[FPath]) -> (TempDir, Vec::<FPath>) {
+pub fn create_files_and_tmpdir(filenames: &[FPath]) -> (TempDir, Vec<FPath>) {
     let tmpdir = create_temp_dir();
     let mut files = Vec::<FPath>::new();
 
     for fpath in filenames.iter() {
-        let file = match create_file_bytes_name_in_tmpdir(
-            &[],
-            &fpath,
-            &tmpdir,
-        ) {
+        let file = match create_file_bytes_name_in_tmpdir(&[], &fpath, &tmpdir) {
             Some(f) => f,
-            None => continue
+            None => continue,
         };
         let path_ = &file.path().unwrap();
         let fpath: FPath = path_to_fpath(path_);
         files.push(fpath)
-    };
+    }
 
     (tmpdir, files)
 }

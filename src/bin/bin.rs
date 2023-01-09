@@ -603,12 +603,8 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
 /// `clap` argument parser for `--blocksz`.
 fn cli_parse_blocksz(blockszs: &str) -> std::result::Result<String, String> {
     match cli_process_blocksz(&String::from(blockszs)) {
-        Ok(val) => {
-            Ok(val.to_string())
-        }
-        Err(err) => {
-            Err(err)
-        }
+        Ok(val) => Ok(val.to_string()),
+        Err(err) => Err(err),
     }
 }
 
@@ -626,7 +622,7 @@ fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> 
                 // unambiguous named timezone passed
                 false => tz_offset,
             }
-        },
+        }
         // no entry found, `tzo` is probably a numeric timezone offset,
         // e.g. `+01:00`
         None => tzo,
@@ -640,9 +636,7 @@ fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> 
         "%Y-%m-%d %H:%M:%S %z",
         "%Y-%m-%d %H:%M:%S %#z",
     ] {
-        let dt = datetime_parse_from_str_w_tz(
-            data.as_str(), pattern,
-        );
+        let dt = datetime_parse_from_str_w_tz(data.as_str(), pattern);
         dpfo!("datetime_parse_from_str_w_tz({:?}, {:?}) returned {:?}", data, pattern, dt);
         match dt {
             Some(dt_) => {
@@ -651,16 +645,16 @@ fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> 
             }
             None => {}
         }
-    };
+    }
 
-    Err(
-        format!("Unable to parse a timezone offset for --tz-offset {:?}", tzo)
-    )
+    Err(format!("Unable to parse a timezone offset for --tz-offset {:?}", tzo))
 }
 
 /// `clap` argument validator for `--prepend-dt-format`.
 fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<String, String> {
-    let dt = Utc.with_ymd_and_hms(2000, 1, 1, 0, 0, 0).unwrap();
+    let dt = Utc
+        .with_ymd_and_hms(2000, 1, 1, 0, 0, 0)
+        .unwrap();
     dt.format(prepend_dt_format);
 
     Ok(String::from(prepend_dt_format))
@@ -671,12 +665,8 @@ fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<
 // helper to `string_wdhms_to_duration`
 fn offset_match_to_offset_duration_type(offset_str: &str) -> DUR_OFFSET_TYPE {
     match offset_str.chars().next() {
-        Some('@') => {
-            DUR_OFFSET_TYPE::Other
-        }
-        _ => {
-            DUR_OFFSET_TYPE::Now
-        }
+        Some('@') => DUR_OFFSET_TYPE::Other,
+        _ => DUR_OFFSET_TYPE::Now,
     }
 }
 
@@ -685,18 +675,13 @@ fn offset_match_to_offset_duration_type(offset_str: &str) -> DUR_OFFSET_TYPE {
 // helper to `string_wdhms_to_duration`
 fn offset_match_to_offset_addsub(offset_str: &str) -> DUR_OFFSET_ADDSUB {
     match offset_str.chars().next() {
-        Some('+') => {
-            DUR_OFFSET_ADDSUB::Add
-        }
-        Some('-') => {
-            DUR_OFFSET_ADDSUB::Sub
-        }
+        Some('+') => DUR_OFFSET_ADDSUB::Add,
+        Some('-') => DUR_OFFSET_ADDSUB::Sub,
         _ => {
             panic!("Bad match offset_str {:?}, cannot determine DUR_OFFSET_ADDSUB", offset_str);
         }
     }
 }
-
 
 // regular expression processing of a user-passed duration string like `"-4m2s"`
 // becomes duration of 4 minutes + 2 seconds
@@ -741,7 +726,9 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
     match captures.name(CGN_DUR_OFFSET_SECONDS) {
         Some(match_) => {
             dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_SECONDS, match_.as_str());
-            let s_count = match_.as_str().replace("s", "");
+            let s_count = match_
+                .as_str()
+                .replace("s", "");
             match i64::from_str_radix(s_count.as_str(), 10) {
                 Ok(val) => {
                     seconds = val * addsub;
@@ -757,7 +744,9 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
     match captures.name(CGN_DUR_OFFSET_MINUTES) {
         Some(match_) => {
             dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_MINUTES, match_.as_str());
-            let s_count = match_.as_str().replace("m", "");
+            let s_count = match_
+                .as_str()
+                .replace("m", "");
             match i64::from_str_radix(s_count.as_str(), 10) {
                 Ok(val) => {
                     minutes = val * addsub;
@@ -773,7 +762,9 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
     match captures.name(CGN_DUR_OFFSET_HOURS) {
         Some(match_) => {
             dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_HOURS, match_.as_str());
-            let s_count = match_.as_str().replace("h", "");
+            let s_count = match_
+                .as_str()
+                .replace("h", "");
             match i64::from_str_radix(s_count.as_str(), 10) {
                 Ok(val) => {
                     hours = val * addsub;
@@ -789,7 +780,9 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
     match captures.name(CGN_DUR_OFFSET_DAYS) {
         Some(match_) => {
             dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_DAYS, match_.as_str());
-            let s_count = match_.as_str().replace("d", "");
+            let s_count = match_
+                .as_str()
+                .replace("d", "");
             match i64::from_str_radix(s_count.as_str(), 10) {
                 Ok(val) => {
                     days = val * addsub;
@@ -805,7 +798,9 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
     match captures.name(CGN_DUR_OFFSET_WEEKS) {
         Some(match_) => {
             dpfo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_WEEKS, match_.as_str());
-            let s_count = match_.as_str().replace("w", "");
+            let s_count = match_
+                .as_str()
+                .replace("w", "");
             match i64::from_str_radix(s_count.as_str(), 10) {
                 Ok(val) => {
                     weeks = val * addsub;
@@ -834,7 +829,12 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
 // `val="-1d"` is one day ago.
 // `val="+1m"` is one day added to the `dt_other`.
 // helper function to function `process_dt`.
-fn string_to_rel_offset_datetime(val: &String, tz_offset: &FixedOffset, dt_other_opt: &DateTimeLOpt, now_utc: &DateTime<Utc>) -> DateTimeLOpt {
+fn string_to_rel_offset_datetime(
+    val: &String,
+    tz_offset: &FixedOffset,
+    dt_other_opt: &DateTimeLOpt,
+    now_utc: &DateTime<Utc>,
+) -> DateTimeLOpt {
     let (duration, duration_offset_type) = match string_wdhms_to_duration(val) {
         Some((dur, dur_type)) => (dur, dur_type),
         None => {
@@ -844,17 +844,18 @@ fn string_to_rel_offset_datetime(val: &String, tz_offset: &FixedOffset, dt_other
     match duration_offset_type {
         DUR_OFFSET_TYPE::Now => {
             // drop fractional seconds
-            let now_utc_ = Utc.with_ymd_and_hms(
-                now_utc.year(),
-                now_utc.month(),
-                now_utc.day(),
-                now_utc.hour(),
-                now_utc.minute(),
-                now_utc.second()
-            ).unwrap();
+            let now_utc_ = Utc
+                .with_ymd_and_hms(
+                    now_utc.year(),
+                    now_utc.month(),
+                    now_utc.day(),
+                    now_utc.hour(),
+                    now_utc.minute(),
+                    now_utc.second(),
+                )
+                .unwrap();
             // convert `Utc` to `DateTimeL`
-            let now =
-                tz_offset.from_utc_datetime(&now_utc_.naive_utc());
+            let now = tz_offset.from_utc_datetime(&now_utc_.naive_utc());
             dpfo!("now     {:?}", now);
             let now_off = now.checked_add_signed(duration);
             dpfo!("now_sub {:?}", now_off.unwrap());
@@ -909,16 +910,10 @@ fn process_dt(
         if !has_time {
             dts_.push_str(CLI_DT_FILTER_APPEND_TIME_VALUE);
             pattern.push_str(CLI_DT_FILTER_APPEND_TIME_PATTERN);
-            dpfo!(
-                "appended {:?}, {:?}",
-                CLI_DT_FILTER_APPEND_TIME_VALUE,
-                CLI_DT_FILTER_APPEND_TIME_PATTERN
-            );
+            dpfo!("appended {:?}, {:?}", CLI_DT_FILTER_APPEND_TIME_VALUE, CLI_DT_FILTER_APPEND_TIME_PATTERN);
         }
         dpfo!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", dts_, pattern, has_tz, tz_offset);
-        if let Some(val) =
-            datetime_parse_from_str(dts_.as_str(), pattern.as_str(), *has_tz, tz_offset)
-        {
+        if let Some(val) = datetime_parse_from_str(dts_.as_str(), pattern.as_str(), *has_tz, tz_offset) {
             dto = Some(val);
             dpfx!("return {:?}", dto);
             return dto;
@@ -927,10 +922,8 @@ fn process_dt(
     // could not match specific datetime pattern
     // try relative offset pattern matching, e.g. `"-30m5s"`, `"+2d"`
     dto = match string_to_rel_offset_datetime(&dts, tz_offset, dt_other, now_utc) {
-        Some(dto) => {
-            Some(dto)
-        }
-        None => None
+        Some(dto) => Some(dto),
+        None => None,
     };
     // user-passed string was not parseable
     if dto.is_none() {
@@ -945,9 +938,22 @@ fn process_dt(
 /// Process user-passed CLI argument strings into expected types.
 ///
 /// This function will [`std::process::exit`] if there is an [`Err`].
-fn cli_process_args(
-) -> (FPaths, BlockSz, DateTimeLOpt, DateTimeLOpt, FixedOffset, ColorChoice, bool, bool, String, bool, bool, bool, String, bool)
-{
+fn cli_process_args() -> (
+    FPaths,
+    BlockSz,
+    DateTimeLOpt,
+    DateTimeLOpt,
+    FixedOffset,
+    ColorChoice,
+    bool,
+    bool,
+    String,
+    bool,
+    bool,
+    bool,
+    String,
+    bool,
+) {
     let args = CLI_Args::parse();
 
     dpfo!("args {:?}", args);
@@ -977,7 +983,10 @@ fn cli_process_args(
                 }
                 stdin_check = true;
                 // stdin input is file paths, one per line
-                for result in std::io::stdin().lock().lines() {
+                for result in std::io::stdin()
+                    .lock()
+                    .lines()
+                {
                     match result {
                         Ok(line) => {
                             paths.push(line);
@@ -1000,8 +1009,14 @@ fn cli_process_args(
     let filter_dt_after: DateTimeLOpt;
     let filter_dt_before: DateTimeLOpt;
     let empty_str: String = String::from("");
-    let args_dt_after_s: &String = args.dt_after.as_ref().unwrap_or(&empty_str);
-    let args_dt_before_s: &String = args.dt_before.as_ref().unwrap_or(&empty_str);
+    let args_dt_after_s: &String = args
+        .dt_after
+        .as_ref()
+        .unwrap_or(&empty_str);
+    let args_dt_before_s: &String = args
+        .dt_before
+        .as_ref()
+        .unwrap_or(&empty_str);
 
     // peek at `-a` and `-b` values:
     // if both are relative to the other then print error message and exit
@@ -2188,7 +2203,8 @@ fn processing_loop(
                             None => continue,
                         };
                         let bname: String = basename(path);
-                        let prepend: String = format!("{0:<1$}{2}", bname, prependname_width, cli_prepend_separator);
+                        let prepend: String =
+                            format!("{0:<1$}{2}", bname, prependname_width, cli_prepend_separator);
                         pathid_to_prependname.insert(*pathid, prepend);
                     }
                 } else if cli_opt_prepend_filepath {
@@ -2212,7 +2228,8 @@ fn processing_loop(
                             Some(path_) => path_,
                             None => continue,
                         };
-                        let prepend: String = format!("{0:<1$}{2}", path, prependname_width, cli_prepend_separator);
+                        let prepend: String =
+                            format!("{0:<1$}{2}", path, prependname_width, cli_prepend_separator);
                         pathid_to_prependname.insert(*pathid, prepend);
                     }
                 } else {
@@ -2392,10 +2409,12 @@ fn processing_loop(
             match &summary.Error_ {
                 Some(_) => {
                     if summary.BlockReader_blocks == 0
-                        && ! map_pathid_results_invalid.contains_key(pathid)
+                        && !map_pathid_results_invalid.contains_key(pathid)
                         && map_pathid_results.contains_key(pathid)
                     {
-                        let result = map_pathid_results.remove(pathid).unwrap();
+                        let result = map_pathid_results
+                            .remove(pathid)
+                            .unwrap();
                         map_pathid_results_invalid.insert(*pathid, result);
                     }
                 }
@@ -2476,25 +2495,30 @@ fn processing_loop(
             None => eprintln!(),
         }
         // print the time now as this program sees it
-        let local_now = Local.with_ymd_and_hms(
-            LOCAL_NOW.year(),
-            LOCAL_NOW.month(),
-            LOCAL_NOW.day(),
-            LOCAL_NOW.hour(),
-            LOCAL_NOW.minute(),
-            LOCAL_NOW.second()
-        ).unwrap();
+        let local_now = Local
+            .with_ymd_and_hms(
+                LOCAL_NOW.year(),
+                LOCAL_NOW.month(),
+                LOCAL_NOW.day(),
+                LOCAL_NOW.hour(),
+                LOCAL_NOW.minute(),
+                LOCAL_NOW.second(),
+            )
+            .unwrap();
         eprint!("Datetime Now          : {:?}", local_now);
         // print UTC now without fractional, and with numeric offset `-00:00`
         // instead of `Z`
-        let utc_now = Utc.with_ymd_and_hms(
-            UTC_NOW.year(),
-            UTC_NOW.month(),
-            UTC_NOW.day(),
-            UTC_NOW.hour(),
-            UTC_NOW.minute(),
-            UTC_NOW.second(),
-        ).unwrap().with_timezone(&*FIXEDOFFSET0);
+        let utc_now = Utc
+            .with_ymd_and_hms(
+                UTC_NOW.year(),
+                UTC_NOW.month(),
+                UTC_NOW.day(),
+                UTC_NOW.hour(),
+                UTC_NOW.minute(),
+                UTC_NOW.second(),
+            )
+            .unwrap()
+            .with_timezone(&*FIXEDOFFSET0);
         eprintln!(" ({:?})", utc_now);
         // print crude stats
         eprintln!("Channel Receive ok {}, err {}", chan_recv_ok, chan_recv_err);
@@ -2544,18 +2568,16 @@ fn print_filepath(
     // if symlink or relative path then print target
     // XXX: experimentation revealed std::fs::Metadata::is_symlink to be unreliable on WSL Ubuntu
     match std::fs::canonicalize(path) {
-        Ok(pathb) => {
-            match pathb.to_str() {
-                Some(s) => {
-                    if s != path.as_str() {
-                        eprint!(" (");
-                        write_stderr(s.as_bytes());
-                        eprint!(")");
-                    }
+        Ok(pathb) => match pathb.to_str() {
+            Some(s) => {
+                if s != path.as_str() {
+                    eprint!(" (");
+                    write_stderr(s.as_bytes());
+                    eprint!(")");
                 }
-                None => {}
             }
-        }
+            None => {}
+        },
         Err(_) => {}
     }
     // print other facts
@@ -2567,21 +2589,35 @@ fn print_filepath(
 ///
 /// [`Summary`]: s4lib::readers::summary::Summary
 fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
-
     match summary_opt {
         Some(summary) => {
             eprintln!("{}Summary Processed:", OPT_SUMMARY_PRINT_INDENT1);
             match summary.filetype {
                 FileType::File => {
-                    eprintln!("{}file size      {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz);
+                    eprintln!(
+                        "{}file size      {1} (0x{1:X}) (bytes)",
+                        OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz
+                    );
                 }
                 FileType::Tar => {
-                    eprintln!("{}file size archive    {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz);
-                    eprintln!("{}file size unarchived {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz_actual);
+                    eprintln!(
+                        "{}file size archive    {1} (0x{1:X}) (bytes)",
+                        OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz
+                    );
+                    eprintln!(
+                        "{}file size unarchived {1} (0x{1:X}) (bytes)",
+                        OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz_actual
+                    );
                 }
                 FileType::Gz | FileType::Xz => {
-                    eprintln!("{}file size compressed   {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz);
-                    eprintln!("{}file size uncompressed {1} (0x{1:X}) (bytes)", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz_actual);
+                    eprintln!(
+                        "{}file size compressed   {1} (0x{1:X}) (bytes)",
+                        OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz
+                    );
+                    eprintln!(
+                        "{}file size uncompressed {1} (0x{1:X}) (bytes)",
+                        OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz_actual
+                    );
                 }
                 ft => {
                     eprintln!("{}unsupported filetype {:?}", OPT_SUMMARY_PRINT_INDENT2, ft);
@@ -2590,25 +2626,28 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
             }
             eprintln!("{}bytes          {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_bytes);
             eprintln!("{}bytes total    {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_bytes_total);
-            eprintln!("{}block size     {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocksz);
+            eprintln!(
+                "{}block size     {1} (0x{1:X})",
+                OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocksz
+            );
             eprintln!("{}blocks         {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocks);
             eprintln!("{}blocks total   {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocks_total);
             eprintln!("{}blocks high    {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocks_highest);
             eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines);
-            eprintln!("{}lines high     {}", OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines_stored_highest);
+            eprintln!(
+                "{}lines high     {}",
+                OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines_stored_highest
+            );
             eprintln!("{}syslines       {}", OPT_SUMMARY_PRINT_INDENT2, summary.SyslineReader_syslines);
-            eprintln!("{}syslines high  {}", OPT_SUMMARY_PRINT_INDENT2, summary.SyslineReader_syslines_stored_highest);
+            eprintln!(
+                "{}syslines high  {}",
+                OPT_SUMMARY_PRINT_INDENT2, summary.SyslineReader_syslines_stored_highest
+            );
             // print datetime first and last
             match (summary.SyslineReader_pattern_first, summary.SyslineReader_pattern_last) {
                 (Some(dt_first), Some(dt_last)) => {
-                    eprintln!(
-                        "{}datetime first {:?}",
-                        OPT_SUMMARY_PRINT_INDENT2, dt_first,
-                    );
-                    eprintln!(
-                        "{}datetime last  {:?}",
-                        OPT_SUMMARY_PRINT_INDENT2, dt_last,
-                    );
+                    eprintln!("{}datetime first {:?}", OPT_SUMMARY_PRINT_INDENT2, dt_first,);
+                    eprintln!("{}datetime last  {:?}", OPT_SUMMARY_PRINT_INDENT2, dt_last,);
                 }
                 (None, Some(_)) | (Some(_), None) => {
                     eprintln!("ERROR: only one of dt_first or dt_last fulfilled; this is unexpected.");
@@ -2616,7 +2655,10 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
                 _ => {}
             }
             // print datetime patterns
-            if !summary.SyslineReader_patterns.is_empty() {
+            if !summary
+                .SyslineReader_patterns
+                .is_empty()
+            {
                 eprintln!("{}Parsers:", OPT_SUMMARY_PRINT_INDENT1);
             }
             for patt in summary
@@ -2624,10 +2666,7 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
                 .iter()
             {
                 let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*patt.0];
-                eprintln!(
-                    "{}@[{}] uses {} {:?}",
-                    OPT_SUMMARY_PRINT_INDENT2, patt.0, patt.1, dtpd
-                );
+                eprintln!("{}@[{}] uses {} {:?}", OPT_SUMMARY_PRINT_INDENT2, patt.0, patt.1, dtpd);
             }
             match summary.SyslogProcessor_missing_year {
                 Some(year) => {
@@ -2661,7 +2700,11 @@ fn print_summary_opt_printed(
         }
         None => {
             eprintln!("{}Summary Printed:", OPT_SUMMARY_PRINT_INDENT1);
-            SummaryPrinted::default().print_colored_stderr(Some(*color_choice), summary_opt, OPT_SUMMARY_PRINT_INDENT2);
+            SummaryPrinted::default().print_colored_stderr(
+                Some(*color_choice),
+                summary_opt,
+                OPT_SUMMARY_PRINT_INDENT2,
+            );
         }
     }
 }
@@ -2989,20 +3032,15 @@ fn print_files_processpathresult(
 #[cfg(test)]
 mod tests {
     extern crate test_case;
-    use test_case::test_case;
     use s4lib::data::datetime::DateTime;
+    use test_case::test_case;
 
     use super::{
-        DUR_OFFSET_TYPE,
-        Duration,
-        string_wdhms_to_duration,
-        FixedOffset,
-        TimeZone,
-        UTC_NOW,
-        FIXEDOFFSET0,
+        cli_parse_blocksz, cli_parser_prepend_dt_format, cli_process_blocksz, cli_process_tz_offset,
+        process_dt, BlockSz, DateTimeLOpt, CLI_OPT_PREPEND_FMT,
     };
     use super::{
-        BlockSz, CLI_OPT_PREPEND_FMT, cli_process_tz_offset, cli_parse_blocksz, cli_parser_prepend_dt_format, cli_process_blocksz, DateTimeLOpt, process_dt,
+        string_wdhms_to_duration, Duration, FixedOffset, TimeZone, DUR_OFFSET_TYPE, FIXEDOFFSET0, UTC_NOW,
     };
 
     #[test_case("500", true)]
@@ -3011,15 +3049,20 @@ mod tests {
     #[test_case("0xFFFFFF", true)]
     #[test_case("BAD_BLOCKSZ_VALUE", false)]
     #[test_case("", false)]
-    fn test_cli_parse_blocksz(blocksz_str: &str, is_ok: bool)
-    {
+    fn test_cli_parse_blocksz(
+        blocksz_str: &str,
+        is_ok: bool,
+    ) {
         match is_ok {
             true => assert!(cli_parse_blocksz(blocksz_str).is_ok()),
             false => assert!(!cli_parse_blocksz(blocksz_str).is_ok()),
         }
     }
 
-    #[test_case("0b10101010101", Some(0b10101010101))]
+    #[test_case(
+        "0b10101010101",
+        Some(0b10101010101)
+    )]
     #[test_case("0o44", Some(0o44))]
     #[test_case("00500", Some(500))]
     #[test_case("500", Some(500))]
@@ -3027,8 +3070,10 @@ mod tests {
     #[test_case("0xFFFFFF", Some(0xFFFFFF))]
     #[test_case("BAD_BLOCKSZ_VALUE", None)]
     #[test_case("", None)]
-    fn test_cli_process_blocksz(blocksz_str: &str, expect_: Option<BlockSz>)
-    {
+    fn test_cli_process_blocksz(
+        blocksz_str: &str,
+        expect_: Option<BlockSz>,
+    ) {
         match expect_ {
             Some(val_exp) => {
                 let val_ret = cli_process_blocksz(&String::from(blocksz_str)).unwrap();
@@ -3036,7 +3081,12 @@ mod tests {
             }
             None => {
                 let ret = cli_process_blocksz(&String::from(blocksz_str));
-                assert!(ret.is_err(), "Expected an Error for cli_process_blocksz({:?}), instead got {:?}", blocksz_str, ret);
+                assert!(
+                    ret.is_err(),
+                    "Expected an Error for cli_process_blocksz({:?}), instead got {:?}",
+                    blocksz_str,
+                    ret
+                );
             }
         }
     }
@@ -3071,8 +3121,7 @@ mod tests {
     #[test_case("abc")]
     #[test_case(CLI_OPT_PREPEND_FMT)]
     #[test_case("%Y%Y%Y%Y%Y%Y%Y%%%%")]
-    fn test_cli_parser_prepend_dt_format(prepend_dt_format: &str)
-    {
+    fn test_cli_parser_prepend_dt_format(prepend_dt_format: &str) {
         assert!(cli_parser_prepend_dt_format(prepend_dt_format).is_ok());
     }
 
@@ -3086,8 +3135,11 @@ mod tests {
         Some(FixedOffset::east_opt(-3600).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05 -0100"
     )]
-    fn test_process_dt(dts: Option<String>, tz_offset: FixedOffset, expect: DateTimeLOpt)
-    {
+    fn test_process_dt(
+        dts: Option<String>,
+        tz_offset: FixedOffset,
+        expect: DateTimeLOpt,
+    ) {
         assert_eq!(process_dt(dts, &tz_offset, &None, &UTC_NOW), expect);
     }
 
@@ -3119,8 +3171,12 @@ mod tests {
         Some(FixedOffset::east_opt(-3630).unwrap().with_ymd_and_hms(2000, 1, 3, 7, 4, 5).unwrap());
         "2000-01-02T03:04:05 sub 4h1d offset -3600"
     )]
-    fn test_process_dt_other(dts: Option<String>, tz_offset: FixedOffset, dt_other: DateTime<FixedOffset>, expect: DateTimeLOpt)
-    {
+    fn test_process_dt_other(
+        dts: Option<String>,
+        tz_offset: FixedOffset,
+        dt_other: DateTime<FixedOffset>,
+        expect: DateTimeLOpt,
+    ) {
         assert_eq!(process_dt(dts, &tz_offset, &Some(dt_other), &UTC_NOW), expect);
     }
 
@@ -3158,7 +3214,10 @@ mod tests {
     #[test_case(String::from("-5w4w3d2m1s"), Some((Duration::seconds(-1) + Duration::minutes(-2) + Duration::days(-3) + Duration::weeks(-4), NOW)))]
     // repeat values; only last is used
     #[test_case(String::from("-6w5w4w3d2m1s"), Some((Duration::seconds(-1) + Duration::minutes(-2) + Duration::days(-3) + Duration::weeks(-4), NOW)))]
-    fn test_string_wdhms_to_duration(input: String, expect: Option<(Duration, DUR_OFFSET_TYPE)>) {
+    fn test_string_wdhms_to_duration(
+        input: String,
+        expect: Option<(Duration, DUR_OFFSET_TYPE)>,
+    ) {
         let actual = string_wdhms_to_duration(&input);
         assert_eq!(actual, expect);
     }

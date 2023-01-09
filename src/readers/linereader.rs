@@ -438,11 +438,14 @@ impl LineReader {
     /// Forcefully `drop` the [`Lines`]. For "streaming mode".
     ///
     /// [`Lines`]: crate::data::line::Lines
-    pub fn drop_lines(&mut self, lines: Lines) -> bool {
+    pub fn drop_lines(
+        &mut self,
+        lines: Lines,
+    ) -> bool {
         dpfn!();
         let mut ret = true;
         for linep in lines.into_iter() {
-            if ! self.drop_line(linep) {
+            if !self.drop_line(linep) {
                 ret = false;
             }
         }
@@ -456,7 +459,10 @@ impl LineReader {
     /// The caller must know what they are doing!
     ///
     /// [`Line`s]: crate::data::line::Line
-    pub fn drop_line(&mut self, linep: LineP) -> bool {
+    pub fn drop_line(
+        &mut self,
+        linep: LineP,
+    ) -> bool {
         dpfn!("Line @[{}‥{}]", (*linep).fileoffset_begin(), (*linep).fileoffset_end());
         let mut ret = true;
         let fo_key: FileOffset = (*linep).fileoffset_begin();
@@ -473,17 +479,25 @@ impl LineReader {
                 self.drop_line_ok += 1;
                 #[cfg(test)]
                 {
-                    self.dropped_lines.insert(line.fileoffset_begin());
+                    self.dropped_lines
+                        .insert(line.fileoffset_begin());
                 }
                 // drop blocks referenced by lineparts except the last linepart
                 let take_ = match line.lineparts.len() {
                     0 => 0,
                     val => val - 1,
                 };
-                for linepart in line.lineparts.into_iter().take(take_) {
+                for linepart in line
+                    .lineparts
+                    .into_iter()
+                    .take(take_)
+                {
                     let bo = linepart.blockoffset();
                     drop(linepart);
-                    if ! self.blockreader.drop_block(bo) {
+                    if !self
+                        .blockreader
+                        .drop_block(bo)
+                    {
                         ret = false;
                     }
                 }

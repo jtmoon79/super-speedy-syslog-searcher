@@ -1194,8 +1194,7 @@ pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>january|January|JANUAR
 /// number day of month, 1 to 31, e.g. `"2"` or `"31"`.
 /// Transformed to equivalent `%d` form within function
 /// `captures_to_buffer_bytes` (i.e. `'0'` is prepended if necessary).
-pub const CGP_DAYde: &CaptureGroupPattern =
-    r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|1|2|3|4|5|6|7|8|9)";
+pub const CGP_DAYde: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|1|2|3|4|5|6|7|8|9)";
 /// Regex capture group pattern for `strftime` day specifier `%a`,
 /// named day of week, either long name or abbreviated three character name,
 /// e.g. `"Mon"` or `"Monday"`.
@@ -1231,7 +1230,6 @@ pub const RP_DIGITS: &CaptureGroupPattern = "[[:digit:]]+";
 /// Regex capture group pattern for `strftime` year specifier `%Y`, as
 /// four decimal number characters.
 pub const RP_DIGITS2: &CaptureGroupPattern = r"[[:digit:]]{1,2}";
-
 
 /// for testing
 #[doc(hidden)]
@@ -1274,39 +1272,41 @@ acdt|acst|act|adt|aedt|aest|aet|aft|akdt|akst|almt|amst|amt|anat|aqtt|art|ast|aw
 /// hardcoded listing of named timezone abbreviations
 #[cfg(any(debug_assertions, test))]
 pub(crate) const TZZ_LIST_UPPER: &[&str] = &[
-    "ACDT", "ACST", "ACT", "ACWST", "ADT", "AEDT", "AEST", "AET", "AFT", "AKDT", "AKST", "ALMT", "AMST", "AMT",
-    "ANAT", "AQTT", "ART", "AST", "AWST", "AZOST", "AZOT", "AZT", "BIOT", "BIT", "BNT", "BOT", "BRST", "BRT", "BST",
-    "BTT", "CAT", "CCT", "CDT", "CEST", "CET", "CHADT", "CHAST", "CHOST", "CHOT", "CHST", "CHUT", "CIST", "CKT", "CLST", "CLT", "COST",
-    "COT", "CST", "CT", "CVT", "CWST", "CXT", "DAVT", "DDUT", "DFT", "EASST", "EAST", "EAT", "ECT", "EDT", "EEST",
-    "EET", "EGST", "EGT", "EST", "ET", "FET", "FJT", "FKST", "FKT", "FNT", "GALT", "GAMT", "GET", "GFT",
-    "GILT", "GIT", "GMT", "GST", "GYT", "HAEC", "HDT", "HKT", "HMT", "HOVST", "HOVT", "HST", "ICT", "IDLW", "IDT",
-    "IOT", "IRDT", "IRKT", "IRST", "IST", "JST", "KALT", "KGT", "KOST", "KRAT", "KST", "LHST", "LINT",
-    "MAGT", "MART", "MAWT", "MDT", "MEST", "MET", "MHT", "MIST", "MIT", "MMT", "MSK", "MST", "MUT", "MVT",
-    "MYT", "NCT", "NDT", "NFT", "NOVT", "NPT", "NST", "NT", "NUT", "NZDT", "NZST", "OMST", "ORAT", "PDT",
-    "PET", "PETT", "PGT", "PHOT", "PHST", "PHT", "PKT", "PMDT", "PMST", "PONT", "PST", "PWT", "PYST", "PYT",
-    "RET", "ROTT", "SAKT", "SAMT", "SAST", "SBT", "SCT", "SDT", "SGT", "SLST", "SRET", "SRT", "SST", "SYOT",
-    "TAHT", "TFT", "THA", "TJT", "TKT", "TLT", "TMT", "TOT", "TRT", "TVT", "ULAST", "ULAT", "UTC", "UYST", "UYT",
-    "UZT", "VET", "VLAT", "VOLT", "VOST", "VUT", "WAKT", "WAST", "WAT", "WEST", "WET", "WGST", "WGT", "WIB",
-    "WIT", "WITA", "WST", "YAKT", "YEKT", "ZULU", "Z",
+    "ACDT", "ACST", "ACT", "ACWST", "ADT", "AEDT", "AEST", "AET", "AFT", "AKDT", "AKST", "ALMT", "AMST",
+    "AMT", "ANAT", "AQTT", "ART", "AST", "AWST", "AZOST", "AZOT", "AZT", "BIOT", "BIT", "BNT", "BOT", "BRST",
+    "BRT", "BST", "BTT", "CAT", "CCT", "CDT", "CEST", "CET", "CHADT", "CHAST", "CHOST", "CHOT", "CHST",
+    "CHUT", "CIST", "CKT", "CLST", "CLT", "COST", "COT", "CST", "CT", "CVT", "CWST", "CXT", "DAVT", "DDUT",
+    "DFT", "EASST", "EAST", "EAT", "ECT", "EDT", "EEST", "EET", "EGST", "EGT", "EST", "ET", "FET", "FJT",
+    "FKST", "FKT", "FNT", "GALT", "GAMT", "GET", "GFT", "GILT", "GIT", "GMT", "GST", "GYT", "HAEC", "HDT",
+    "HKT", "HMT", "HOVST", "HOVT", "HST", "ICT", "IDLW", "IDT", "IOT", "IRDT", "IRKT", "IRST", "IST", "JST",
+    "KALT", "KGT", "KOST", "KRAT", "KST", "LHST", "LINT", "MAGT", "MART", "MAWT", "MDT", "MEST", "MET",
+    "MHT", "MIST", "MIT", "MMT", "MSK", "MST", "MUT", "MVT", "MYT", "NCT", "NDT", "NFT", "NOVT", "NPT",
+    "NST", "NT", "NUT", "NZDT", "NZST", "OMST", "ORAT", "PDT", "PET", "PETT", "PGT", "PHOT", "PHST", "PHT",
+    "PKT", "PMDT", "PMST", "PONT", "PST", "PWT", "PYST", "PYT", "RET", "ROTT", "SAKT", "SAMT", "SAST", "SBT",
+    "SCT", "SDT", "SGT", "SLST", "SRET", "SRT", "SST", "SYOT", "TAHT", "TFT", "THA", "TJT", "TKT", "TLT",
+    "TMT", "TOT", "TRT", "TVT", "ULAST", "ULAT", "UTC", "UYST", "UYT", "UZT", "VET", "VLAT", "VOLT", "VOST",
+    "VUT", "WAKT", "WAST", "WAT", "WEST", "WET", "WGST", "WGT", "WIB", "WIT", "WITA", "WST", "YAKT", "YEKT",
+    "ZULU", "Z",
 ];
 
 /// lowercase version of [`TZZ_LIST_UPPER`]
 #[cfg(any(debug_assertions, test))]
 pub(crate) const TZZ_LIST_LOWER: &[&str] = &[
-    "acdt", "acst", "act", "acwst", "adt", "aedt", "aest", "aet", "aft", "akdt", "akst", "almt", "amst", "amt",
-    "anat", "aqtt", "art", "ast", "awst", "azost", "azot", "azt", "biot", "bit", "bnt", "bot", "brst", "brt", "bst",
-    "btt", "cat", "cct", "cdt", "cest", "cet", "chadt", "chast", "chost", "chot", "chst", "chut", "cist", "ckt", "clst", "clt", "cost",
-    "cot", "cst", "ct", "cvt", "cwst", "cxt", "davt", "ddut", "dft", "easst", "east", "eat", "ect", "edt", "eest",
-    "eet", "egst", "egt", "est", "et", "fet", "fjt", "fkst", "fkt", "fnt", "galt", "gamt", "get", "gft",
-    "gilt", "git", "gmt", "gst", "gyt", "haec", "hdt", "hkt", "hmt", "hovst", "hovt", "hst", "ict", "idlw", "idt",
-    "iot", "irdt", "irkt", "irst", "ist", "jst", "kalt", "kgt", "kost", "krat", "kst", "lhst", "lint",
-    "magt", "mart", "mawt", "mdt", "mest", "met", "mht", "mist", "mit", "mmt", "msk", "mst", "mut", "mvt",
-    "myt", "nct", "ndt", "nft", "novt", "npt", "nst", "nt", "nut", "nzdt", "nzst", "omst", "orat", "pdt",
-    "pet", "pett", "pgt", "phot", "phst", "pht", "pkt", "pmdt", "pmst", "pont", "pst", "pwt", "pyst", "pyt",
-    "ret", "rott", "sakt", "samt", "sast", "sbt", "sct", "sdt", "sgt", "slst", "sret", "srt", "sst", "syot",
-    "taht", "tft", "tha", "tjt", "tkt", "tlt", "tmt", "tot", "trt", "tvt", "ulast", "ulat", "utc", "uyst", "uyt",
-    "uzt", "vet", "vlat", "volt", "vost", "vut", "wakt", "wast", "wat", "west", "wet", "wgst", "wgt", "wib",
-    "wit", "wita", "wst", "yakt", "yekt", "zulu", "z",
+    "acdt", "acst", "act", "acwst", "adt", "aedt", "aest", "aet", "aft", "akdt", "akst", "almt", "amst",
+    "amt", "anat", "aqtt", "art", "ast", "awst", "azost", "azot", "azt", "biot", "bit", "bnt", "bot", "brst",
+    "brt", "bst", "btt", "cat", "cct", "cdt", "cest", "cet", "chadt", "chast", "chost", "chot", "chst",
+    "chut", "cist", "ckt", "clst", "clt", "cost", "cot", "cst", "ct", "cvt", "cwst", "cxt", "davt", "ddut",
+    "dft", "easst", "east", "eat", "ect", "edt", "eest", "eet", "egst", "egt", "est", "et", "fet", "fjt",
+    "fkst", "fkt", "fnt", "galt", "gamt", "get", "gft", "gilt", "git", "gmt", "gst", "gyt", "haec", "hdt",
+    "hkt", "hmt", "hovst", "hovt", "hst", "ict", "idlw", "idt", "iot", "irdt", "irkt", "irst", "ist", "jst",
+    "kalt", "kgt", "kost", "krat", "kst", "lhst", "lint", "magt", "mart", "mawt", "mdt", "mest", "met",
+    "mht", "mist", "mit", "mmt", "msk", "mst", "mut", "mvt", "myt", "nct", "ndt", "nft", "novt", "npt",
+    "nst", "nt", "nut", "nzdt", "nzst", "omst", "orat", "pdt", "pet", "pett", "pgt", "phot", "phst", "pht",
+    "pkt", "pmdt", "pmst", "pont", "pst", "pwt", "pyst", "pyt", "ret", "rott", "sakt", "samt", "sast", "sbt",
+    "sct", "sdt", "sgt", "slst", "sret", "srt", "sst", "syot", "taht", "tft", "tha", "tjt", "tkt", "tlt",
+    "tmt", "tot", "trt", "tvt", "ulast", "ulat", "utc", "uyst", "uyt", "uzt", "vet", "vlat", "volt", "vost",
+    "vut", "wakt", "wast", "wat", "west", "wet", "wgst", "wgt", "wib", "wit", "wita", "wst", "yakt", "yekt",
+    "zulu", "z",
 ];
 
 #[cfg(any(debug_assertions, test))]
@@ -4029,7 +4029,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 }
                 9 => {
                     copy_slice_to_buffer!(fractional, buffer, at);
-                },
+                }
                 10 | 11 | 12 => {
                     // fractional is too large, copy only left-most 9 chars
                     copy_slice_to_buffer!(&fractional[..9], buffer, at);
@@ -4053,7 +4053,11 @@ pub(crate) fn captures_to_buffer_bytes(
             // for data passed to chrono `DateTime::parse_from_str`,
             // replace Unicode "minus sign" to ASCII "hyphen-minus"
             // see https://github.com/chronotope/chrono/issues/835
-            let captureb = captures.name(CGN_TZ).as_ref().unwrap().as_bytes();
+            let captureb = captures
+                .name(CGN_TZ)
+                .as_ref()
+                .unwrap()
+                .as_bytes();
             match captureb.starts_with(MINUS_SIGN) {
                 true => {
                     dpfo!("found Unicode 'minus sign', transform to ASCII 'hyphen-minus'");
@@ -4072,7 +4076,7 @@ pub(crate) fn captures_to_buffer_bytes(
                                     // ignore it
                                 }
                             }
-                        },
+                        }
                         Err(_err) => {
                             // something is wrong with captured value, ignore it
                         }

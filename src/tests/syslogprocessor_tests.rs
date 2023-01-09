@@ -98,24 +98,27 @@ const NTF9_DATA_LINE6: &str = "Jul 17 05:37:27 2000 9ggggggg\n";
 const NTF9_DATA_LINE7: &str = "Aug 18 05:38:28 2000 9hhhhhhhh\n";
 const NTF9_DATA_LINE8: &str = "Sep 19 05:39:29 2000 9ììììììììì\n";
 
-const NTF9_DATA: &str =
-    concatcp!(
-        NTF9_DATA_LINE0,
-        NTF9_DATA_LINE1,
-        NTF9_DATA_LINE2,
-        NTF9_DATA_LINE3,
-        NTF9_DATA_LINE4,
-        NTF9_DATA_LINE5,
-        NTF9_DATA_LINE6,
-        NTF9_DATA_LINE7,
-        NTF9_DATA_LINE8,
-    );
+const NTF9_DATA: &str = concatcp!(
+    NTF9_DATA_LINE0,
+    NTF9_DATA_LINE1,
+    NTF9_DATA_LINE2,
+    NTF9_DATA_LINE3,
+    NTF9_DATA_LINE4,
+    NTF9_DATA_LINE5,
+    NTF9_DATA_LINE6,
+    NTF9_DATA_LINE7,
+    NTF9_DATA_LINE8,
+);
 
 const NTF9_DATA_LINE0_OFFSET: usize = 0;
 const NTF9_DATA_LINE1_OFFSET: usize = NTF9_DATA_LINE0_OFFSET
-    + NTF9_DATA_LINE0.as_bytes().len();
+    + NTF9_DATA_LINE0
+        .as_bytes()
+        .len();
 const NTF9_DATA_LINE2_OFFSET: usize = NTF9_DATA_LINE1_OFFSET
-    + NTF9_DATA_LINE1.as_bytes().len();
+    + NTF9_DATA_LINE1
+        .as_bytes()
+        .len();
 const NTF9_BLOCKSZ_MIN: BlockSz = (NTF9_DATA_LINE2_OFFSET + 1) as BlockSz;
 
 //
@@ -138,33 +141,40 @@ const NTF7_2_DATA_LINE11: &str = "ιιιιιιιιιιιιιιιιιιιιιιι
 const NTF7_2_DATA_LINE12: &str = "Jan 31 01:02:03 2001 6-3 KKKKKKKKKK\n";
 const NTF7_2_DATA_LINE13: &str = "ΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛ\n";
 
-const NTF7_2_DATA: &str =
-    concatcp!(
-        NTF7_2_DATA_LINE0,
-        NTF7_2_DATA_LINE1,
-        NTF7_2_DATA_LINE2,
-        NTF7_2_DATA_LINE3,
-        NTF7_2_DATA_LINE4,
-        NTF7_2_DATA_LINE5,
-        NTF7_2_DATA_LINE6,
-        NTF7_2_DATA_LINE7,
-        NTF7_2_DATA_LINE8,
-        NTF7_2_DATA_LINE9,
-        NTF7_2_DATA_LINE10,
-        NTF7_2_DATA_LINE11,
-        NTF7_2_DATA_LINE12,
-        NTF7_2_DATA_LINE13,
-    );
+const NTF7_2_DATA: &str = concatcp!(
+    NTF7_2_DATA_LINE0,
+    NTF7_2_DATA_LINE1,
+    NTF7_2_DATA_LINE2,
+    NTF7_2_DATA_LINE3,
+    NTF7_2_DATA_LINE4,
+    NTF7_2_DATA_LINE5,
+    NTF7_2_DATA_LINE6,
+    NTF7_2_DATA_LINE7,
+    NTF7_2_DATA_LINE8,
+    NTF7_2_DATA_LINE9,
+    NTF7_2_DATA_LINE10,
+    NTF7_2_DATA_LINE11,
+    NTF7_2_DATA_LINE12,
+    NTF7_2_DATA_LINE13,
+);
 
 const NTF7_2_DATA_LINE0_OFFSET: usize = 0;
 const NTF7_2_DATA_LINE1_OFFSET: usize = NTF7_2_DATA_LINE0_OFFSET
-    + NTF7_2_DATA_LINE0.as_bytes().len();
+    + NTF7_2_DATA_LINE0
+        .as_bytes()
+        .len();
 const NTF7_2_DATA_LINE2_OFFSET: usize = NTF7_2_DATA_LINE1_OFFSET
-    + NTF7_2_DATA_LINE1.as_bytes().len();
+    + NTF7_2_DATA_LINE1
+        .as_bytes()
+        .len();
 const NTF7_2_DATA_LINE3_OFFSET: usize = NTF7_2_DATA_LINE2_OFFSET
-    + NTF7_2_DATA_LINE2.as_bytes().len();
+    + NTF7_2_DATA_LINE2
+        .as_bytes()
+        .len();
 const NTF7_2_DATA_LINE4_OFFSET: usize = NTF7_2_DATA_LINE3_OFFSET
-    + NTF7_2_DATA_LINE3.as_bytes().len();
+    + NTF7_2_DATA_LINE3
+        .as_bytes()
+        .len();
 const NTF7_2_BLOCKSZ_MIN: BlockSz = (NTF7_2_DATA_LINE4_OFFSET + NTF7_2_DATA_LINE4_OFFSET % 2 + 2) as BlockSz;
 
 lazy_static! {

@@ -873,7 +873,10 @@ impl BlockReader {
                     Ok(_) => {}
                     Err(err) => {
                         dpf1x!("FileXz: return {:?}", err);
-                        eprintln!("ERROR: FileXz: reader.read_exact() (stream header flags) path {:?} {}", path_std, err);
+                        eprintln!(
+                            "ERROR: FileXz: reader.read_exact() (stream header flags) path {:?} {}",
+                            path_std, err
+                        );
                         return Err(err);
                     }
                 }
@@ -887,7 +890,10 @@ impl BlockReader {
                     Ok(_) => {}
                     Err(err) => {
                         dpf1x!("FileXz: return {:?}", err);
-                        eprintln!("ERROR: FileXz: reader.read_exact() (stream header CRC32) path {:?} {}", path_std, err);
+                        eprintln!(
+                            "ERROR: FileXz: reader.read_exact() (stream header CRC32) path {:?} {}",
+                            path_std, err
+                        );
                         return Err(err);
                     }
                 }
@@ -1463,7 +1469,10 @@ impl BlockReader {
     ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
-    pub fn drop_block(&mut self, blockoffset: BlockOffset) -> bool {
+    pub fn drop_block(
+        &mut self,
+        blockoffset: BlockOffset,
+    ) -> bool {
         //if self.dropped_blocks.contains(&blockoffset) {
         //    return;
         //}
@@ -1477,7 +1486,7 @@ impl BlockReader {
             Some(blockp) => {
                 dpo!("removed block {} from blocks", blockoffset);
                 blockp_opt = Some(blockp)
-            },
+            }
             None => {
                 dpo!("no block {} in blocks", blockoffset);
             }
@@ -1503,34 +1512,28 @@ impl BlockReader {
             }
         }
         match blockp_opt {
-            Some(blockp) => {
-                match Arc::try_unwrap(blockp) {
-                    Ok(block) => {
-                        dpo!(
-                            "dropped block {} @0x{:p}, len {}",
-                            blockoffset,
-                            &block,
-                            block.len()
-                        );
-                        self.dropped_blocks_ok += 1;
-                        #[cfg(test)]
-                        {
-                            self.dropped_blocks.insert(blockoffset);
-                        }
-                    }
-                    Err(_blockp) => {
-                        self.dropped_blocks_err += 1;
-                        dpo!(
-                            "failed to drop block {} @0x{:p}, len {}, strong_count {}",
-                            blockoffset,
-                            _blockp,
-                            (*_blockp).len(),
-                            Arc::strong_count(&_blockp),
-                        );
-                        ret = false;
+            Some(blockp) => match Arc::try_unwrap(blockp) {
+                Ok(block) => {
+                    dpo!("dropped block {} @0x{:p}, len {}", blockoffset, &block, block.len());
+                    self.dropped_blocks_ok += 1;
+                    #[cfg(test)]
+                    {
+                        self.dropped_blocks
+                            .insert(blockoffset);
                     }
                 }
-            }
+                Err(_blockp) => {
+                    self.dropped_blocks_err += 1;
+                    dpo!(
+                        "failed to drop block {} @0x{:p}, len {}, strong_count {}",
+                        blockoffset,
+                        _blockp,
+                        (*_blockp).len(),
+                        Arc::strong_count(&_blockp),
+                    );
+                    ret = false;
+                }
+            },
             None => {
                 dpo!("block {} not found in blocks or LRU cache", blockoffset);
             }
@@ -1589,7 +1592,10 @@ impl BlockReader {
             .blocks_read
             .insert(blockoffset)
         {
-            eprintln!("WARNING: blockreader.blocks_read({}) already had a entry, path {:?}", blockoffset, self.path);
+            eprintln!(
+                "WARNING: blockreader.blocks_read({}) already had a entry, path {:?}",
+                blockoffset, self.path
+            );
         }
     }
 
@@ -2137,10 +2143,7 @@ impl BlockReader {
                     dpfx!("None");
                     return ResultS3ReadBlock::Err(Error::new(
                         ErrorKind::UnexpectedEof,
-                        format!(
-                            "tar.handle.entries_with_seek().entry_iter.nth({}) returned None",
-                            index
-                        ),
+                        format!("tar.handle.entries_with_seek().entry_iter.nth({}) returned None", index),
                     ));
                 }
             }
@@ -2168,10 +2171,7 @@ impl BlockReader {
                         cap,
                         err
                     );
-                    eprintln!(
-                        "entry.read_exact(&block (capacity {})) path {:?} {}",
-                        cap, path_std, err
-                    );
+                    eprintln!("entry.read_exact(&block (capacity {})) path {:?} {}", cap, path_std, err);
                     return ResultS3ReadBlock::Err(err);
                 }
             }

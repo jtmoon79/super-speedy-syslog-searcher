@@ -753,7 +753,13 @@ lazy_static! {
     "20000101T000000,123", "%Y%m%dT%H%M%S,%3f %:z", false, &FO_E10, None;
     "20000101T000000,123 %Y%m%dT%H%M%S,%3f %:z no_tz (None)"
 )]
-fn test_datetime_parse_from_str(data: &str, pattern: &str, has_tz: bool, tz_offset: &FixedOffset, expect_dt: Option<DateTimeL>) {
+fn test_datetime_parse_from_str(
+    data: &str,
+    pattern: &str,
+    has_tz: bool,
+    tz_offset: &FixedOffset,
+    expect_dt: Option<DateTimeL>,
+) {
     match datetime_parse_from_str(data, pattern, has_tz, tz_offset) {
         Some(dt) => {
             assert!(expect_dt.is_some(), "\nExpected None\nReceived {:?}\n", expect_dt);

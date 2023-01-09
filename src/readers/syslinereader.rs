@@ -799,19 +799,26 @@ impl SyslineReader {
     ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
-    pub fn drop_data(&mut self, blockoffset: BlockOffset) -> bool {
+    pub fn drop_data(
+        &mut self,
+        blockoffset: BlockOffset,
+    ) -> bool {
         dpf1n!("({})", blockoffset);
 
         let mut ret = true;
         // vec of `fileoffset` must be ordered which is guaranteed by `syslines: BTreeMap`
         let mut drop_fo: Vec<FileOffset> = Vec::<FileOffset>::with_capacity(self.syslines.len());
-        for (fo, _) in self.syslines.iter().filter(|(_, s)| (*s).blockoffset_last() <= blockoffset) {
+        for (fo, _) in self
+            .syslines
+            .iter()
+            .filter(|(_, s)| (*s).blockoffset_last() <= blockoffset)
+        {
             drop_fo.push(*fo);
         }
         // XXX: it is not straightfoward to get the collection of FileOffset keys to use
         //      This is because it
         // TODO: [2022/06/18] cost-savings: make this a "one time" creation that is reused
-        //       this is challenging, as it runs into borrow errors during `.iter()`        
+        //       this is challenging, as it runs into borrow errors during `.iter()`
         dpf1o!("collected keys {:?}", drop_fo);
         // XXX: using `self.syslines.value_mut()` would be cleaner.
         //      But `self.syslines.value_mut()` causes a clone of the `SyslineP`, which then
@@ -820,7 +827,7 @@ impl SyslineReader {
         //      Instead of `syslines.values_mut()`, use `syslines.keys()` and then `syslines.get_mut`
         //      to get a `&SyslineP`. This does not increase the "strong_count".
         for fo in drop_fo.iter() {
-            if ! self.drop_sysline(fo) {
+            if !self.drop_sysline(fo) {
                 ret = false;
             }
         }
@@ -837,7 +844,10 @@ impl SyslineReader {
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     /// [`FileOffset`]: crate::common::FileOffset
-    pub fn drop_sysline(&mut self, fileoffset: &FileOffset) -> bool {
+    pub fn drop_sysline(
+        &mut self,
+        fileoffset: &FileOffset,
+    ) -> bool {
         dpfn!("({})", fileoffset);
         let mut ret = true;
         let syslinep: SyslineP = match self
@@ -1203,7 +1213,8 @@ impl SyslineReader {
             // before analysis, the uses of all `DateTimeParseInstr` are tracked
             // return index to maximum value
             // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=85ac85f48e6ddff04dc938b742872dc1
-            let max_key_value: Option<(&DateTimeParseInstrsIndex, &Count)> = self.dt_patterns_counts
+            let max_key_value: Option<(&DateTimeParseInstrsIndex, &Count)> = self
+                .dt_patterns_counts
                 .iter()
                 .reduce(|accum, item| if accum.1 >= item.1 { accum } else { item });
             *max_key_value.unwrap().0

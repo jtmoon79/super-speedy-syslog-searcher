@@ -138,7 +138,6 @@ pub struct Summary {
 }
 
 impl Summary {
-
     /// Create a new `Summary`
     #[allow(clippy::too_many_arguments)]
     pub fn new(
@@ -371,12 +370,8 @@ impl fmt::Debug for Summary {
                 .field("filesz compressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
                 .finish(),
             // Summary::default()
-            FileType::Unknown => {
-                f.debug_struct("").finish()
-            }
-            FileType::Unparseable => {
-                f.debug_struct("").finish()
-            }
+            FileType::Unknown => f.debug_struct("").finish(),
+            FileType::Unparseable => f.debug_struct("").finish(),
             FileType::Unset | _ => {
                 unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype)
             }

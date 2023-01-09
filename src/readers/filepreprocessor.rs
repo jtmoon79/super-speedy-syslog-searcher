@@ -58,18 +58,12 @@ pub type ProcessPathResults = Vec<ProcessPathResult>;
 
 /// files without file extensions known to be parseable
 const PARSEABLE_FILENAMES_FILE: [&str; 5] = [
-    "messages",
-    "syslog",
-    "faillog",
-    "lastlog",
-    "kernlog",
+    "messages", "syslog", "faillog", "lastlog", "kernlog",
 ];
 
 /// files without file extensions known to be not parseable
 const UNPARSEABLE_FILENAMES_FILE: [&str; 3] = [
-    "wtmp",
-    "btmp",
-    "utmp",
+    "wtmp", "btmp", "utmp",
 ];
 
 /// Map a single [`MimeGuess`] as a [`str`] into a `FileType`.
@@ -373,9 +367,7 @@ pub fn fpath_to_filetype(path: &FPath) -> FileType {
 /// There are plans for future support of differing files.
 pub fn parseable_filetype(filetype: &FileType) -> bool {
     match filetype {
-        &FileType::Unparseable
-        | &FileType::Unknown
-        | &FileType::Unset => false,
+        &FileType::Unparseable | &FileType::Unknown | &FileType::Unset => false,
         _ => true,
     }
 }
@@ -419,8 +411,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
     let mut filetype: FileType = mimeguess_to_filetype(&mimeguess);
 
     match filetype {
-        FileType::Unknown
-        | FileType::Unset => {
+        FileType::Unknown | FileType::Unset => {
             // The filetype still could not be determined so try removing extensions from the name.
             // Sometimes syslog files get automatically renamed by appending signifiers like `.old`.
             // Files can have several signifiers like `file.log.old.2`.
@@ -432,10 +423,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
             filetype = path_to_filetype(&path_);
             dpfo!("filetype {:?}", filetype);
             let mut ext_rm = 0;
-            while !parseable_filetype(&filetype)
-                && filename_count_extensions(path_) != 0
-                && ext_rm < 3
-            {
+            while !parseable_filetype(&filetype) && filename_count_extensions(path_) != 0 && ext_rm < 3 {
                 match remove_extension(path_) {
                     None => {}
                     Some(fpath_rm1ext) => {
@@ -518,7 +506,8 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         //
         // where `path/file.tar` are on the host filesystem, and `subpath/subfile` are within
         // the `.tar` file
-        let mut fullpath: FPath = String::with_capacity(path.len() + SUBPATH_SEP.len_utf8() + subfpath.len() + 1);
+        let mut fullpath: FPath =
+            String::with_capacity(path.len() + SUBPATH_SEP.len_utf8() + subfpath.len() + 1);
         fullpath.push_str(path.as_str());
         fullpath.push(SUBPATH_SEP);
         fullpath.push_str(subfpath.as_str());
@@ -549,7 +538,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
     dpfn!("({:?})", path);
 
     let std_path: &Path = Path::new(path);
-    if ! std_path.exists() {
+    if !std_path.exists() {
         dpfx!("return FileErrNotExist({:?})", path);
         return vec![ProcessPathResult::FileErrNotExist(path.clone())];
     }
@@ -625,8 +614,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
             continue;
         }
         match filetype {
-            FileType::TarGz
-            | FileType::Unparseable => {
+            FileType::TarGz | FileType::Unparseable => {
                 dpo!("Path not supported {:?}", std_path_entry);
                 paths.push(ProcessPathResult::FileErrNotSupported(fpath_entry, mimeguess));
             }

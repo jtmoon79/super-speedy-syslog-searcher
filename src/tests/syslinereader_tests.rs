@@ -4638,7 +4638,8 @@ fn test_datetime_parse_from_str__good_without_tz1() {
     let p1 = "%Y-%m-%d %H:%M:%S";
     let dt1 = datetime_parse_from_str(dts1, p1, false, &TZO_E8).unwrap();
     let answer1 = TZO_E8
-        .with_ymd_and_hms(2000, 1, 1, 0, 1, 1).unwrap();
+        .with_ymd_and_hms(2000, 1, 1, 0, 1, 1)
+        .unwrap();
     assert_eq!(dt1, answer1);
 }
 
@@ -4649,7 +4650,8 @@ fn test_datetime_parse_from_str__2_good_without_tz() {
     let p1 = "%Y-%m-%d %H:%M:%S";
     let dt1 = datetime_parse_from_str(dts1, p1, false, &TZO_E5).unwrap();
     let answer1 = TZO_E5
-        .with_ymd_and_hms(2000, 1, 1, 0, 2, 1).unwrap();
+        .with_ymd_and_hms(2000, 1, 1, 0, 2, 1)
+        .unwrap();
     assert_eq!(dt1, answer1);
 }
 
@@ -4659,8 +4661,10 @@ fn test_datetime_parse_from_str__3_good_with_tz() {
     let dts2 = "2000-01-01 00:00:02 -0100";
     let p2 = "%Y-%m-%d %H:%M:%S %z";
     let dt2 = datetime_parse_from_str(dts2, p2, true, &TZO_E8).unwrap();
-    let answer2 = FixedOffset::west_opt(HOUR).unwrap()
-        .with_ymd_and_hms(2000, 1, 1, 0, 0, 2).unwrap();
+    let answer2 = FixedOffset::west_opt(HOUR)
+        .unwrap()
+        .with_ymd_and_hms(2000, 1, 1, 0, 0, 2)
+        .unwrap();
     assert_eq!(dt2, answer2);
 }
 
