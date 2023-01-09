@@ -17,7 +17,7 @@ PROGRAM=${PROGRAM-./target/release/s4}
 expect1=./tools/compare-current-and-expected_expected.out
 
 if ! chmod +w -- "${expect1}"; then
-    echo "ERROR unable to remove wx from file '${expect1}'" >&2
+    echo "ERROR unable to write to file '${expect1}'" >&2
     exit 1
 fi
 
@@ -26,26 +26,23 @@ if ! touch "${expect1}"; then
     exit 1
 fi
 
-logs=$(mktemp -t "tmp.s4.compare-current-and-expected_logs_XXXXX")
-
-function exit_() {
-    rm -f -- "${logs}"
-}
-trap exit_ EXIT
-
-path=./logs
-
-# this file selection must agree with `compare-current-and-expected.sh`
-(find "${path}" -xdev -type f -size -2M | sort) > "${logs}"
-
 #
 # print some info for the script user, verify the s4 program can run
 #
 
-echo >&2
+logs='./tools/compare-current-and-expected_logs.txt'
+
+if [[ ! -e "${logs}" ]]; then
+    echo "ERROR file does not exist '${logs}'" >&2
+    exit 1
+elif [[ ! -r "${logs}" ]]; then
+    echo "ERROR file is not readable '${logs}'" >&2
+    exit 1
+fi
+
 cat "${logs}" >&2
 echo >&2
-echo "$(wc -l < "${logs}") files under \"${path}\"" >&2
+echo "$(wc -l < "${logs}") files under \"${logs}\"" >&2
 echo >&2
 
 PROGRAM=${PROGRAM-./target/release/s4}
@@ -70,3 +67,7 @@ if ! chmod -wx -- "${expect1}"; then
     echo "ERROR unable to remove wx from file '${expect1}'" >&2
     exit 1
 fi
+
+echo >&2
+echo "Updated file '${expect1}'" >&2
+echo -e "Now run \e[1mcompare-current-and-expected.sh\e[0m." >&2

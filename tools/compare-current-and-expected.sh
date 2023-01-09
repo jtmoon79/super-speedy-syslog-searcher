@@ -35,25 +35,23 @@ fi
 # get list of files to process
 #
 
-logs=$(mktemp -t "tmp.s4.compare-current-and-expected_logs_XXXXX")
+logs='./tools/compare-current-and-expected_logs.txt'
 
-function exit_() {
-    rm -f -- "${logs}"
-}
-trap exit_ EXIT
-
-path=./logs
-
-(find "${path}" -xdev -type f -size -2M | sort) > "${logs}"
+if [[ ! -e "${logs}" ]]; then
+    echo "ERROR file does not exist '${logs}'" >&2
+    exit 1
+elif [[ ! -r "${logs}" ]]; then
+    echo "ERROR file is not readable '${logs}'" >&2
+    exit 1
+fi
 
 #
 # print some info for the script user, verify the s4 program can run
 #
 
-echo >&2
 cat "${logs}" >&2
 echo >&2
-echo "$(wc -l < "${logs}") files under \"${path}\"" >&2
+echo "$(wc -l < "${logs}") files in \"${logs}\"" >&2
 echo >&2
 
 PROGRAM=${PROGRAM-./target/release/s4}
@@ -104,7 +102,7 @@ if ! diff --text --brief "${current1}" "${expect1}"; then
     echo "Difference Preview:"
     ((set -x; diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${current1}" "${expect1}") || true) | head -n 100
     echo
-    echo "Do you need to run *compare-current-and-expected-update.sh*?"
+    echo -e "Do you need to run \e[1mcompare-current-and-expected-update.sh\e[0m ?"
     echo
 else
     echo
