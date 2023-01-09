@@ -134,7 +134,6 @@ Categories:
 
 <!-- TODO per release: Add Section(s) -->
 
-
 ## 0.1.45 - 2023-01-01
 
 [0.1.44...0.1.45]
