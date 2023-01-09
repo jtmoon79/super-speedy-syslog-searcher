@@ -1,0 +1,9 @@
+[FW UPGRADE][2022-04-04 23:35:45]:[CFU auto check]expect_time == 10152 seconds
+
+[FW UPGRADE][2022-04-04 23:36:46]:Internet is UP, do nett_notify operation !!!
+[FW UPGRADE][2022-04-04 23:37:16]:Banner check after CFU nett_notify!!!
+[FW UPGRADE][2022-04-04 23:37:16]:AUTO FW CHECK: power cycle
+[FW UPGRADE][2022-04-04 16:37:20]:Trying to get URL from beckend...
+[FW UPGRADE][2022-04-04 16:37:20]:Mode is CHECK_ON_DEMAND_GUI, Beta Acceptance is false.
+[FW UPGRADE][2022-04-04 16:37:20]:Successfully receive url: "https://http.gear2.com/dev500/default", the same url as previously
+[FW UPGRADE][2022-04-04 16:37:23]:start download fileinfo!!!!!!!!

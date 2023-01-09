@@ -1,0 +1,19 @@
+2022-04-04 23:35:40 (1378):dyn_log.c:242	  DEBUG: (DYNLOG) - Loglevel:LOG_DEBUG, Logtofile:1, Logtoconsole:1
+2022-04-04 23:35:40 (1378):up_main.c:331	  DEBUG: Starting upagent Version Id is 1.3.10
+2022-04-04 23:35:40 (1378):up_get_dalfld.c:360	  DEBUG: Getting the xId size2022-04-04 23:35:40 (1378):up_get_dalfld.c:363	  DEBUG: Error logs after xid2022-04-04 23:35:40 (1378):up_get_dalfld.c:364	   INFO: XID VD7PK-1910-336-31701
+2022-04-04 23:35:40 (1378):up_get_dalfld.c:368	   INFO: claimed 42SXYZ
+2022-04-04 23:35:40 (1378):up_get_dalfld.c:373	   INFO: FSN 4PMFFCCBBBBB
+2022-04-04 23:35:40 (1378):up_get_dalfld.c:378	   INFO: DeviceModel DEV500
+2022-04-04 23:35:40 (1378):up_get_dalfld.c:383	   INFO: DeviceName DEV500
+2022-04-04 23:35:40 (1378):up_get_dalfld.c:388	   INFO: UpBaseURL https://gear.com/Path/
+2022-04-04 23:35:40 (1378):up_get_dalfld.c:393	   INFO: FwRevision V2.0
+2022-04-04 23:35:40 (1378):up_get_dalfld.c:397	   INFO: DefaultMAC 01:02:03:04:05:6E
+
+2022-04-04 23:35:40 (1378):up_get_dalfld.c:401	  DEBUG: serialNo : 4PMFFCCBBBBB, modelNumber : DEV500, MacAddr : 01:02:03:04:05:6E, fwVersion :V2.0
+2022-04-04 23:35:40 (1378):up_get_set_config.c:1314	  DEBUG: UpAgent:Entry Function:set_module_version_detail Line:1314 input fieldname --:UpagentVersion input version --:1.3.10
+2022-04-04 23:35:40 (1378):up_main.c:350	  DEBUG: !! set_module_version_detail() is called at nett time !!
+2022-04-04 23:35:40 (1378):up_url.c:54	  DEBUG: UpBaseUrl is https://gear.com/Path/
+2022-04-04 23:35:40 (1378):up_url.c:55	  DEBUG: NETT_API is https://gear.com/Path/addXDeviceId/
+2022-04-04 23:35:40 (1378):up_url.c:56	  DEBUG: BITDEF_API is https://gear.com/Path/changeBDStatus/
+2022-04-04 23:35:40 (1378):up_url.c:57	  DEBUG: BDEXPIRE_API is https://gear.com/Path/resetBD/
+2022-04-04 23:35:40 (1378):up_url.c:58	  DEBUG: G-API is https://gear.com/Path/syncCD/
