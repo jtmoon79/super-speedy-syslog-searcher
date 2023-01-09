@@ -468,6 +468,7 @@
 ./Windows10Pro/INF/setupapi.offline.20191207_091437.log|2019/12/07 09:14:37.876
 ./Windows10Pro/INF/setupapi.offline.log|2020/05/27 12:07:06.604
 ./Windows10Pro/INF/setupapi.upgrade.log|2020/05/27 11:27:05.575
+./Windows10Pro/Microsoft Antimalware/Support/MPDetection-12162017-091732.log|2017-12-16T17:20:48.112Z
 ./Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log|2020/05/27 12:25:41
 ./Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log|2022/10/11 14:14:07.233
 ./Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log|2022/09/15 14:13:22.947
