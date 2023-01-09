@@ -720,10 +720,6 @@ const DTP_BdHMSY: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 /// `%Z` transformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSYZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 /// `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
-const DTP_BdHMSYz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
-/// `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
-const DTP_BdHMSYzc: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
-/// `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMSYzp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
 
 /// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
@@ -1116,8 +1112,6 @@ pub(crate) const DTP_ALL: &[&DateTimePattern_str] = &[
     DTP_BdHMSZ,
     DTP_BdHMSY,
     DTP_BdHMSYZ,
-    DTP_BdHMSYz,
-    DTP_BdHMSYzc,
     DTP_BdHMSYzp,
     DTP_BdHMS,
     DTP_BdHMSZ,
