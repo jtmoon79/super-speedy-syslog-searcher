@@ -59,6 +59,18 @@ PROGRAM=${PROGRAM-./target/release/s4}
 echo >&2
 
 #
+# prepare stderr tmp file
+#
+
+# stderr of current
+tmpc=$(mktemp -t "tmp.s4.compare-current-and-expected_stderr_current_XXXXX")
+
+function exit_() {
+    rm -f -- "${tmpc}"
+}
+trap exit_ EXIT
+
+#
 # run s4 program
 #
 
@@ -73,7 +85,7 @@ declare -ar S4_ARGS=(
 
 (
     set -x
-    "${PROGRAM}" "${S4_ARGS[@]}" 2>/dev/null < "${logs}"
+    "${PROGRAM}" "${S4_ARGS[@]}" 2> "${tmpc}" < "${logs}"
 ) > "${current1}" || true
 
 #
@@ -95,13 +107,22 @@ echo "expect super_speedy_syslog_searcher output in file '${expect1}'"
 echo "  Line Count ${ex_lc}"
 echo "  Byte Count ${ex_bc}"
 
+function indent () {
+    sed -Ee 's/^/  /'
+}
+
 declare -i ret=0
 if ! diff --text --brief "${current1}" "${expect1}"; then
     ret=1
     echo "Files are not the same. (ಠ_ಠ)"
     echo
     echo "Difference Preview:"
-    ((set -x; diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${current1}" "${expect1}") || true) | head -n 100
+    set +o pipefail
+    ((set -x; diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${current1}" "${expect1}") || true) | head -n 200 | indent
+    echo
+    echo "stderr output:"
+    echo
+    cat "${tmpc}" | indent
     echo
     echo -e "Do you need to run \e[1mcompare-current-and-expected-update.sh\e[0m ?"
     echo
