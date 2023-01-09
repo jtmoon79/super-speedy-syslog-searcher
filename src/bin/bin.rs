@@ -423,37 +423,47 @@ DateTimes supported language is English."
     version,
     about,
     after_help = CLI_HELP_AFTER,
+    verbatim_doc_comment,
 )]
 struct CLI_Args {
     /// Path(s) of log files or directories.
-    /// Directories will be recursed.
-    /// Symlinks will be followed.
+    /// Directories will be recursed. Symlinks will be followed.
     /// Paths may also be passed via STDIN, one per line. The user must supply
     /// argument "-" to signify PATHS are available from STDIN.
-    #[clap(required = true)]
+    #[clap(
+        required = true,
+        verbatim_doc_comment,
+    )]
     paths: Vec<String>,
 
-    /// DateTime Filter after.
+    /// DateTime Filter After: print syslog lines with a datetime that is at
+    /// or after this datetime. For example, "20200102T120000" or "-5d".
     #[clap(
         short = 'a',
         long,
-        help = "DateTime Filter After: print syslog lines with a datetime that is at or after this datetime. For example, \"20200102T120000\" or \"-5d\""
+        verbatim_doc_comment,
     )]
     dt_after: Option<String>,
 
-    /// DateTime Filter before.
+    /// DateTime Filter Before: print syslog lines with a datetime that is at
+    /// or before this datetime.
+    /// For example, "20200103T230000" or "@+1d+11h"
     #[clap(
         short = 'b',
         long,
-        help = "DateTime Filter Before: print syslog lines with a datetime that is at or before this datetime. For example, \"20200103T230000\" or \"@+1d+11h\""
+        verbatim_doc_comment,
     )]
     dt_before: Option<String>,
 
     /// Default timezone offset for datetimes without a timezone.
+    /// For example, "-0800", "+02:00", or "EDT". Ambiguous named timezones
+    /// parsed from logs will use this value, e.g. timezone "IST" (to pass a
+    /// value with leading "-", quote the argument, e.g. "-t=-0800").
+    /// Default value is the local system timezone offset."
     #[clap(
         short = 't',
         long,
-        help = "DateTime Timezone Offset for syslines with a datetime that does not include a timezone, this will be used. For example, \"-0800\", \"+02:00\", or \"EDT\". Ambiguous named timezones parsed from logs will use this value, e.g. timezone \"IST\". (to pass a value with leading \"-\", use \", e.g. \"-t=-0800\"). Default is local system timezone offset.",
+        verbatim_doc_comment,
         value_parser = cli_process_tz_offset,
         default_value_t=*Local.timestamp_opt(0, 0).unwrap().offset(),
     )]
@@ -463,6 +473,7 @@ struct CLI_Args {
     #[clap(
         short = 'u',
         long = "prepend-utc",
+        verbatim_doc_comment,
         groups = &[
             "group_prepend_dt",
         ],
@@ -473,9 +484,10 @@ struct CLI_Args {
     #[clap(
         short = 'l',
         long = "prepend-local",
+        verbatim_doc_comment,
         groups = &[
             "group_prepend_dt",
-        ]
+        ],
     )]
     prepend_local: bool,
 
@@ -483,6 +495,7 @@ struct CLI_Args {
     #[clap(
         short = 'd',
         long = "prepend-dt-format",
+        verbatim_doc_comment,
         groups = &[
             "group_prepend_dt_format",
         ],
@@ -496,6 +509,7 @@ struct CLI_Args {
     #[clap(
         short = 'n',
         long = "prepend-filename",
+        verbatim_doc_comment,
         groups = &[
             "group_prepend_file",
         ]
@@ -506,6 +520,7 @@ struct CLI_Args {
     #[clap(
         short = 'p',
         long = "prepend-filepath",
+        verbatim_doc_comment,
         groups = &[
             "group_prepend_file",
         ]
@@ -516,6 +531,7 @@ struct CLI_Args {
     #[clap(
         short = 'w',
         long = "prepend-file-align",
+        verbatim_doc_comment,
         requires = "group_prepend_file",
     )]
     prepend_file_align: bool,
@@ -523,6 +539,7 @@ struct CLI_Args {
     /// Separator string for prepended data.
     #[clap(
         long = "prepend-separator",
+        verbatim_doc_comment,
         // TODO: how to require `any("prepend_file", "prepend_dt")`
         default_value_t = String::from(CLI_PREPEND_SEP)
     )]
@@ -533,6 +550,7 @@ struct CLI_Args {
         required = false,
         short = 'c',
         long = "color",
+        verbatim_doc_comment,
         value_enum,
         default_value_t=CLI_Color_Choice::auto,
     )]
@@ -546,6 +564,7 @@ struct CLI_Args {
         required = false,
         short = 'z',
         long,
+        verbatim_doc_comment,
         default_value_t = BLOCKSZ_DEF.to_string(),
         value_parser = cli_parse_blocksz,
     )]
@@ -553,7 +572,11 @@ struct CLI_Args {
 
     /// Print a summary of files processed to stderr.
     /// Most useful for developers.
-    #[clap(short, long)]
+    #[clap(
+        short,
+        long,
+        verbatim_doc_comment,
+    )]
     summary: bool,
 }
 
