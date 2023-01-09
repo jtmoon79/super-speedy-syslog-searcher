@@ -1,0 +1,33 @@
+2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Creating setup mutex...
+2022-10-14 05:56:47, Info                  MOUPG  SetupHost::InitializeComponents
+2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading ID: [e00a2784-f118-4224-ad5f-34438c2f3339] from [C:\$WINDOWS.~BT\Sources\SetupCore.dll]...
+2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading complete.
+2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading AutomationManager manager...
+2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading ID: [ddac9687-e84e-4a51-9ba9-355809d99999] from [C:\$WINDOWS.~BT\Sources\SetupCore.dll]...
+2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading complete.
+2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Looking for automation file...
+2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Initializing automation...
+2022-10-14 05:56:47, Info                  SP     CSetupPlatform::Initialize: Setup log starts:
+2022-10-14 05:56:47, Info                  SP     SEH: Enter CExceptionHandler::CExceptionHandler
+2022-10-14 05:56:47, Info                  SP     SEH: Exit CExceptionHandler::CExceptionHandler
+2022-10-14 05:56:47, Info                  SP     Host system information:
+                                   VM: NO
+                                   Firmware type: PCAT
+                                   Manufacturer: ASUS
+                                   Model : All Series
+                                   BIOS name : BIOS Date: 06/05/19 12:32:00 Ver: 25.04
+                                   BIOS version : 2009
+                                   BIOS release date : 20190605000000.000000+000
+                                   Total memory : 25769803776
+                                   Number of physical CPUs : 1
+                                   Number of logical CPUs : 8
+                                   Processor manufacturer : GenuineIntel
+                                   Processor name : Intel(R) Xeon(R) CPU E3-1246 v3 @ 3.50GHz
+                                   Processor caption : Intel64 Family 6 Model 60 Stepping 3
+                                   Processor architecture : x64
+                                   Processor clock : 3501
+
+2022-10-14 05:56:47, Info                  SP     Antivirus software information:
+                                   Name: Windows Defender, Path: %ProgramFiles%\Windows Defender\MsMpeng.exe, Timestamp: Thu, 13 Oct 2022 19:33:06 GMT, State: 397568
+
+2022-10-14 05:56:47, Info                         SPGenerateCopyListFromConfigFile: Didn't find file list in C:\$WINDOWS.~BT\Sources\setupplatform.cfg, section Footprint.Basic.amd64

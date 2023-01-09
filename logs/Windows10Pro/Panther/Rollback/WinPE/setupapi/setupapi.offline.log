@@ -1,0 +1,91 @@
+>>>  [Load Offline Registry Hive - SYSTEM]
+>>>  Section start 2019/12/06 22:59:07.903
+       os: Version = 10.0.25982, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = amd64
+      cmd: D:\os\obj\amd64fre\temp\0123456789112345678900000000fc4f\makewinpe_builddev.pl-7Ajq\00000000-1111-2222-A160-012345678911\dismhost.exe {00000000-1111-2222-94F4-012345678911}
+     sto: Opened existing hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/winpe-setup/Windows/System32/config/SYSTEM'.
+<<<  Section end 2019/12/06 22:59:07.903
+<<<  [Exit status: SUCCESS]
+
+>>>  [Install Driver Updates]
+>>>  Section start 2019/12/06 23:10:52.136
+       os: Version = 10.0.25982, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = amd64
+      cmd: D:\os\obj\amd64fre\temp\0123456789112345678900000000dbd6\makewinpe_builddev.pl-v63U\00000000-1111-2222-80B9-012345678911\dismhost.exe {00000000-1111-2222-A81D-012345678911}
+     sto: Image State        = Unknown
+     sto: Image Architecture = amd64
+     sto: Image OS Version   = 10.0.25982
+     sto: Image Product Type = WinNT
+     sto: Driver Updates     = 1
+     sto: {Load Offline Registry Hive: SYSTEM} 23:10:52.136
+     sto:      Opened existing hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/SYSTEM'.
+     sto: {Load Offline Registry Hive: exit(0x00000000)} 23:10:52.136
+     sto: {Load Offline Registry Hive: DRIVERS} 23:10:52.136
+     sto:      Opened existing hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/DRIVERS'.
+     sto: {Load Offline Registry Hive: exit(0x00000000)} 23:10:52.136
+     sto: {Publish Driver Package: d:\os\bin\amd64fre\skus\en-us\SkuRamdiskBld\client\image1\Windows\System32\DriverStore\FileRepository\netnwifi.inf_amd64_a2bfd066656fe297\netnwifi.inf} 23:10:52.136
+     sto:      Driver Store   = d:\os\bin\amd64fre\skus\en-us\SkuRamdiskBld\client\image1\Windows\System32\DriverStore (10.0.25982)
+     sto:      Driver Package = netnwifi.inf_amd64_a2bfd066656fe297
+     idb:      {Publish Driver Package: d:\os\bin\amd64fre\skus\en-us\SkuRamdiskBld\client\image1\Windows\System32\DriverStore\FileRepository\netnwifi.inf_amd64_a2bfd066656fe297\netnwifi.inf} 23:10:52.136
+     idb:           Activating driver package 'netnwifi.inf_amd64_a2bfd066656fe297'.
+     cpy:           Published 'netnwifi.inf_amd64_a2bfd066656fe297\netnwifi.inf' to 'netnwifi.inf'.
+     idb:           Indexed 0 driver files for 'netnwifi.inf_amd64_a2bfd066656fe297'.
+     idb:           Indexed 2 device IDs for 'netnwifi.inf_amd64_a2bfd066656fe297'.
+     idb:      {Publish Driver Package: exit(0x00000000)} 23:10:52.152
+     sto: {Publish Driver Package: exit(0x00000000)} 23:10:52.152
+     sto: {Reflect Critical Driver Package: d:\os\bin\amd64fre\skus\en-us\SkuRamdiskBld\client\image1\Windows\System32\DriverStore\FileRepository\netnwifi.inf_amd64_a2bfd066656fe297\netnwifi.inf}
+     sto:      Driver Store   = d:\os\bin\amd64fre\skus\en-us\SkuRamdiskBld\client\image1\Windows\System32\DriverStore (10.0.25982)
+     sto:      Flags          = 0x00040F7F
+     inf:      Class GUID     = {00000000-1111-2222-bfc1-012345678911}
+     inf:      No critical drivers to configure.
+     sto:      {Load Offline Registry Hive: SOFTWARE} 23:10:52.152
+     sto:           Opened existing hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/SOFTWARE'.
+     sto:      {Load Offline Registry Hive: exit(0x00000000)} 23:10:52.152
+     flq:      {FILE_QUEUE_COMMIT} 23:10:52.152
+     flq:      {FILE_QUEUE_COMMIT - exit(0x00000000)} 23:10:52.152
+     sto: {Reflect Critical Driver Package: exit(0x00000000)}
+     sto: {Load Offline Registry Hive: DRIVERS} 23:10:52.199
+     sto:      Opened existing hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/DRIVERS'.
+     sto: {Load Offline Registry Hive: exit(0x00000000)} 23:10:52.199
+     sto: {Unload Offline Registry Hive: SYSTEM} 23:10:52.230
+     sto:      Closed hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/SYSTEM'.
+     sto:      Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/SYSTEM' loaded by another process. Error = 0x00000005, Time = 0 ms
+     sto: {Unload Offline Registry Hive: exit(0x00000000)} 23:10:52.230
+     sto: {Unload Offline Registry Hive: SOFTWARE} 23:10:52.230
+     sto:      Closed hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/SOFTWARE'.
+     sto:      Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/SOFTWARE' loaded by another process. Error = 0x00000005, Time = 0 ms
+     sto: {Unload Offline Registry Hive: exit(0x00000000)} 23:10:52.246
+     sto: {Unload Offline Registry Hive: DRIVERS} 23:10:52.246
+     sto:      Closed hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/DRIVERS'.
+     sto:      Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/DRIVERS' loaded by another process. Error = 0x00000005, Time = 0 ms
+     sto: {Unload Offline Registry Hive: exit(0x00000000)} 23:10:52.246
+<<<  Section end 2019/12/06 23:10:52.246
+<<<  [Exit status: SUCCESS]
+
+
+>>>  [Unload Offline Registry Hive - SYSTEM]
+>>>  Section start 2019/12/06 23:10:53.464
+       os: Version = 10.0.25982, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = amd64
+      cmd: D:\os\obj\amd64fre\temp\0123456789112345678900000000dbd6\makewinpe_builddev.pl-v63U\00000000-1111-2222-80B9-012345678911\dismhost.exe {00000000-1111-2222-A81D-012345678911}
+     sto: Closed hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/SYSTEM'.
+     sto: Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/SYSTEM' loaded by another process. Error = 0x00000005, Time = 0 ms
+<<<  Section end 2019/12/06 23:10:53.464
+<<<  [Exit status: SUCCESS]
+
+
+>>>  [Unload Offline Registry Hive - SOFTWARE]
+>>>  Section start 2019/12/06 23:10:53.464
+       os: Version = 10.0.25982, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = amd64
+      cmd: D:\os\obj\amd64fre\temp\0123456789112345678900000000dbd6\makewinpe_builddev.pl-v63U\00000000-1111-2222-80B9-012345678911\dismhost.exe {00000000-1111-2222-A81D-012345678911}
+     sto: Closed hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/SOFTWARE'.
+     sto: Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/SOFTWARE' loaded by another process. Error = 0x00000005, Time = 15 ms
+<<<  Section end 2019/12/06 23:10:53.480
+<<<  [Exit status: SUCCESS]
+
+
+>>>  [Unload Offline Registry Hive - DRIVERS]
+>>>  Section start 2019/12/06 23:10:53.480
+       os: Version = 10.0.25982, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = amd64
+      cmd: D:\os\obj\amd64fre\temp\0123456789112345678900000000dbd6\makewinpe_builddev.pl-v63U\00000000-1111-2222-80B9-012345678911\dismhost.exe {00000000-1111-2222-A81D-012345678911}
+     sto: Closed hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/DRIVERS'.
+     sto: Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}d:/os/bin/amd64fre/skus/en-us/SkuRamdiskBld/client/image1/Windows/System32/config/DRIVERS' loaded by another process. Error = 0x00000005, Time = 0 ms
+<<<  Section end 2019/12/06 23:10:53.480
+<<<  [Exit status: SUCCESS]
