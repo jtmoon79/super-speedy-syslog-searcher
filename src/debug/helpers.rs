@@ -4,20 +4,18 @@
 
 use crate::common::FPath;
 
-use crate::readers::helpers::{
-    path_to_fpath,
-};
+use crate::readers::helpers::path_to_fpath;
 
-use std::fs::File;
 use std::fs::create_dir;
+use std::fs::File;
 use std::path::PathBuf;
 
+use std::io::ErrorKind;
 #[allow(unused_imports)] // XXX: clippy wrongly marks this as unused
 use std::io::Write; // for `NamedTempFile.write_all`
-use std::io::ErrorKind;
 
 extern crate filepath;
-use filepath::FilePath;  // provide `path` function on `File`
+use filepath::FilePath; // provide `path` function on `File`
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
@@ -28,11 +26,11 @@ use si_trace_print::{dpfo, dpfñ};
 extern crate tempfile;
 
 #[doc(hidden)]
+pub use tempfile::tempdir;
+#[doc(hidden)]
 pub use tempfile::NamedTempFile;
 #[doc(hidden)]
 pub use tempfile::TempDir;
-#[doc(hidden)]
-pub use tempfile::tempdir;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // temporary file helper functions

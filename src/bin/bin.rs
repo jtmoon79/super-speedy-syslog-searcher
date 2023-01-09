@@ -39,17 +39,17 @@
 
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fmt;
+use std::io::BufRead; // for stdin::lock().lines()
 use std::io::ErrorKind;
-use std::io::BufRead;  // for stdin::lock().lines()
 use std::process::ExitCode;
 use std::str;
 use std::thread;
 
 extern crate chrono;
-use chrono::{DateTime, Duration, FixedOffset, Local, TimeZone, Datelike, Timelike};
+use chrono::{DateTime, Datelike, Duration, FixedOffset, Local, TimeZone, Timelike};
 
 extern crate clap;
-use clap::{ValueEnum, Parser};
+use clap::{Parser, ValueEnum};
 
 extern crate const_format;
 use const_format::concatcp;
@@ -66,7 +66,7 @@ extern crate regex;
 use regex::Regex;
 
 extern crate si_trace_print;
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpo, dpf1n, dpf1o, dpf1x, stack::stack_offset_set};
+use si_trace_print::{dpf1n, dpf1o, dpf1x, dpfn, dpfo, dpfx, dpfñ, dpo, stack::stack_offset_set};
 
 extern crate unicode_width;
 
@@ -76,9 +76,8 @@ extern crate s4lib;
 use s4lib::common::{Count, FPath, FPaths, FileOffset, FileType, NLu8a};
 
 use s4lib::data::datetime::{
-    datetime_parse_from_str, datetime_parse_from_str_w_tz,
-    DateTimeLOpt, DateTimeParseInstr, DateTimePattern_str,
-    DATETIME_PARSE_DATAS, MAP_TZZ_TO_TZz, Utc,
+    datetime_parse_from_str, datetime_parse_from_str_w_tz, DateTimeLOpt, DateTimeParseInstr,
+    DateTimePattern_str, MAP_TZZ_TO_TZz, Utc, DATETIME_PARSE_DATAS,
 };
 
 #[allow(unused_imports)]
@@ -271,7 +270,7 @@ enum DUR_OFFSET_TYPE {
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 enum DUR_OFFSET_ADDSUB {
     Add = 1,
-    Sub = -1
+    Sub = -1,
 }
 
 /// CLI time to append in `fn process_dt` when `has_time` is `false`.

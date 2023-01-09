@@ -6,17 +6,15 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::tests::common::{
-    TZO_0, TZO_E1, TZO_W8,
-};
+use crate::tests::common::{TZO_0, TZO_E1, TZO_W8};
 
 use crate::data::datetime::{
     bytes_to_regex_to_datetime, datetime_from_str_workaround_Issue660, datetime_parse_from_str,
-    dt_after_or_before, dt_pass_filters, DTFSSet, DTFS_Tz, DateTimeL, DateTimeLOpt, DateTimeParseInstr,
-    DateTimePattern_str, DateTimeRegex_str, FixedOffset, Result_Filter_DateTime1, Result_Filter_DateTime2,
-    TimeZone, Year, CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL, CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL, CGP_SECOND,
-    CGP_TZ_ALL, CGP_TZZ, CGP_YEAR, CGP_YEARy, DATETIME_PARSE_DATAS, DTP_ALL, MAP_TZZ_TO_TZz, RP_LB, RP_RB,
-    TZZ_LIST_UPPER, TZZ_LIST_LOWER, TZZ_LOWER_TO_UPPER,
+    dt_after_or_before, dt_pass_filters, CGP_YEARy, DTFSSet, DTFS_Tz, DateTimeL, DateTimeLOpt,
+    DateTimeParseInstr, DateTimePattern_str, DateTimeRegex_str, FixedOffset, MAP_TZZ_TO_TZz,
+    Result_Filter_DateTime1, Result_Filter_DateTime2, TimeZone, Year, CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL,
+    CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL, CGP_SECOND, CGP_TZZ, CGP_TZ_ALL, CGP_YEAR, DATETIME_PARSE_DATAS,
+    DTP_ALL, RP_LB, RP_RB, TZZ_LIST_LOWER, TZZ_LIST_UPPER, TZZ_LOWER_TO_UPPER,
 };
 
 use crate::debug::printers::buffer_to_String_noraw;
@@ -31,8 +29,8 @@ use std::collections::HashSet;
 extern crate more_asserts;
 use more_asserts::{assert_gt, assert_le, assert_lt};
 
-extern crate si_trace_print;
 extern crate regex;
+extern crate si_trace_print;
 use si_trace_print::stack::stack_offset_set;
 use si_trace_print::{dpfn, dpfx};
 

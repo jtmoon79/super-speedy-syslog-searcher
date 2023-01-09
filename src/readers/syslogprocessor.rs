@@ -21,7 +21,8 @@ use crate::readers::linereader::SetDroppedLines;
 use crate::readers::syslinereader::SetDroppedSyslines;
 
 use crate::data::datetime::{
-    dt_after_or_before, systemtime_to_datetime, DateTimeL, DateTimeLOpt, Duration, FixedOffset, Result_Filter_DateTime1, SystemTime, Year,
+    dt_after_or_before, systemtime_to_datetime, DateTimeL, DateTimeLOpt, Duration, FixedOffset,
+    Result_Filter_DateTime1, SystemTime, Year,
 };
 
 use crate::data::sysline::SyslineP;
@@ -56,7 +57,7 @@ extern crate rangemap;
 use rangemap::RangeMap;
 
 extern crate si_trace_print;
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpo, dpñ, dpf1n, dpf1x, dpf1ñ};
+use si_trace_print::{dpf1n, dpf1x, dpf1ñ, dpfn, dpfo, dpfx, dpfñ, dpo, dpñ};
 
 extern crate walkdir;
 

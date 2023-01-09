@@ -21,9 +21,9 @@ use crate::data::datetime::SystemTime;
 use crate::debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
 
 use std::borrow::Cow;
-use std::collections::{BTreeMap, BTreeSet};
 #[cfg(test)]
 use std::collections::HashSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fmt;
 use std::fs::Metadata;
 use std::io::prelude::Read;
@@ -53,7 +53,7 @@ extern crate lzma_rs;
 
 extern crate si_trace_print;
 #[allow(unused_imports)]
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ, dpf1n, dpf1o, dpf1x};
+use si_trace_print::{dpf1n, dpf1o, dpf1x, dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ};
 
 // For tar files.
 extern crate tar;

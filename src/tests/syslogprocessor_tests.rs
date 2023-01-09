@@ -23,9 +23,7 @@ use crate::readers::syslinereader::ResultS3SyslineFind;
 
 use crate::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
 
-use crate::tests::common::{
-    TZO_0,
-};
+use crate::tests::common::TZO_0;
 
 extern crate const_format;
 use const_format::concatcp;
@@ -36,9 +34,7 @@ extern crate lazy_static;
 use lazy_static::lazy_static;
 
 extern crate more_asserts;
-use more_asserts::{
-    assert_gt,
-};
+use more_asserts::assert_gt;
 
 extern crate test_case;
 use test_case::test_case;

@@ -10,11 +10,7 @@ use crate::common::{FPath, FileType};
 use crate::readers::blockreader::SUBPATH_SEP;
 
 use crate::readers::helpers::{
-    filename_count_extensions,
-    fpath_to_path,
-    path_to_fpath,
-    path_clone,
-    remove_extension,
+    filename_count_extensions, fpath_to_path, path_clone, path_to_fpath, remove_extension,
 };
 
 use std::borrow::Cow;

@@ -27,9 +27,9 @@ use crate::readers::linereader::{LineReader, ResultS3LineFind};
 #[allow(unused_imports)]
 use crate::debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
 
-use std::collections::{BTreeMap, BTreeSet};
 #[cfg(test)]
 use std::collections::HashSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fmt;
 use std::io::{Error, ErrorKind, Result};
 use std::sync::Arc;
@@ -51,7 +51,7 @@ use rangemap::RangeMap;
 
 extern crate si_trace_print;
 #[allow(unused_imports)]
-use si_trace_print::{dp, dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ, dpf1n, dpf1o, dpf1x, dpf1ñ, p};
+use si_trace_print::{dp, dpf1n, dpf1o, dpf1x, dpf1ñ, dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ, p};
 
 extern crate static_assertions;
 use static_assertions::const_assert;
