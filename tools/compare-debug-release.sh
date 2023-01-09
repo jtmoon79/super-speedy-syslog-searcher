@@ -62,6 +62,7 @@ declare -ar S4_ARGS=(
     --color=never
     --tz-offset=+08:00
     --prepend-filename
+    --prepend-utc
     '-'
     "${@}"
 )
