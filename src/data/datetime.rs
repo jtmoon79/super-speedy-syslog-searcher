@@ -285,6 +285,8 @@ pub enum DTFS_Minute {
 pub enum DTFS_Second {
     /// %S, 00 to 60
     S,
+    /// fill with value `0`
+    _fill,
 }
 
 /// DateTime Format Specifier for a Fractional or fractional second.
@@ -309,9 +311,10 @@ pub enum DTFS_Tz {
     zp,
     /// `%Z` named timezone offset, e.g. `"PST"`
     Z,
-    /// none, must be filled
-    /// the associated `pattern` should use `%:z` as that is the form displayed
-    /// by `chrono::FixedOffset::east(0).as_string().to_str()`
+    /// none, must be filled.
+    /// the associated `pattern` should use `%:z` (variable name substring `Zc`)
+    /// as that is the form displayed by
+    /// `chrono::FixedOffset::east(0).as_string().to_str()`
     _fill,
 }
 
@@ -705,23 +708,8 @@ const DTP_YmdHMSfzc: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%:z";
 const DTP_YmdHMSfz: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
 const DTP_YmdHMSfzp: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%#z";
 
-/// `%Z` is mapped to `%z` by `[captures_to_buffer_bytes`]
-const DTP_YmdHMSfZ: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
-
-const DTP_YbdHMSz: &DateTimePattern_str = "%Y%b%dT%H%M%S%z";
-const DTP_YbdHMSzc: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
-const DTP_YBdHMSz: &DateTimePattern_str = "%Y%B%dT%H%M%S%z";
-/// `%:z` is filled by [`captures_to_buffer_bytes`]
-const DTP_YbdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
-/// `%:z` is filled by [`captures_to_buffer_bytes`]
-const DTP_YBdHMS: &DateTimePattern_str = "%Y%B%dT%H%M%S%:z";
-/// `%:z` is filled by [`captures_to_buffer_bytes`]
-const DTP_YbeHMS: &DateTimePattern_str = "%Y%b%eT%H%M%S%:z";
-/// `%:z` is filled by [`captures_to_buffer_bytes`]
-const DTP_YBeHMS: &DateTimePattern_str = "%Y%B%eT%H%M%S%:z";
-
-/// `%Y` `%:z` is filled by [`captures_to_buffer_bytes`]
-const DTP_beHMS: &DateTimePattern_str = "%Y%b%eT%H%M%S%:z";
+/// no second, chrono will set to value 0
+const DTP_mdHMYZc: &DateTimePattern_str = "%Y%m%dT%H%M%:z";
 
 /// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMS: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
@@ -755,17 +743,6 @@ const DTP_bdHMSY: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 /// `%b` value transformed to `%m` value,
 /// `%:z` filled by [`captures_to_buffer_bytes`]
 const DTP_bdHMSYf: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%:z";
-
-/// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
-const DTP_BeHMS: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-/// `%Y` is filled, `%Z` transformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
-const DTP_BeHMSZ: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-/// `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
-const DTP_BeHMSY: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-/// `%Z` transformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
-const DTP_BeHMSYZ: &DateTimePattern_str = "%Y%m%eT%H%M%S%:z";
-/// `%Y` `%:z` is filled
-const DTP_bdHMS: &DateTimePattern_str = "%Y%b%dT%H%M%S%:z";
 
 // The variable name represents what is available. The value represents it's rearranged form
 // using in function `captures_to_buffer_bytes`.
@@ -1082,6 +1059,7 @@ const DTFSS_YbdHMS: DTFSSet = DTFSSet {
     tz: DTFS_Tz::_fill,
     pattern: DTP_bdHMSYZc,
 };
+
 const DTFSS_ybdHMS: DTFSSet = DTFSSet {
     year: DTFS_Year::y,
     month: DTFS_Month::b,
@@ -1092,6 +1070,18 @@ const DTFSS_ybdHMS: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
     pattern: DTP_bdHMSyZc,
+};
+
+const DTFSS_YmdHM: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::m,
+    day: DTFS_Day::_e_or_d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::_fill,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    pattern: DTP_mdHMYZc,
 };
 
 // TODO: Issue #4 handle dmesg
@@ -1122,15 +1112,6 @@ pub(crate) const DTP_ALL: &[&DateTimePattern_str] = &[
     DTP_YmdHMSfzc,
     DTP_YmdHMSfz,
     DTP_YmdHMSfzp,
-    DTP_YmdHMSfZ,
-    DTP_YbdHMSz,
-    DTP_YbdHMSzc,
-    DTP_YBdHMSz,
-    DTP_YbdHMS,
-    DTP_YBdHMS,
-    DTP_YbeHMS,
-    DTP_YBeHMS,
-    DTP_beHMS,
     DTP_BdHMS,
     DTP_BdHMSZ,
     DTP_BdHMSY,
@@ -1142,7 +1123,6 @@ pub(crate) const DTP_ALL: &[&DateTimePattern_str] = &[
     DTP_BdHMSZ,
     DTP_BdHMSY,
     DTP_BdHMSYZ,
-    DTP_bdHMS,
 ];
 
 // `regex::Captures` capture group names
@@ -1926,7 +1906,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 /// Length of [`DATETIME_PARSE_DATAS`]
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`
-pub const DATETIME_PARSE_DATAS_LEN: usize = 81;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 82;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -3177,6 +3157,23 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // pacman log format, example with offset:
+    //
+    //               1         2
+    //     012345678901234567890
+    //     [2019-03-01 16:56] [PACMAN] synchronizing package lists
+    //
+    DTPD!(
+        concatcp!(r"^\[", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHq, CGP_HOUR, D_Te, CGP_MINUTE, r"\]"),
+        DTFSS_YmdHM, 0, 20, CGN_YEAR, CGN_MINUTE,
+        &[
+            (1, 17, "[2019-03-01 16:56] [PACMAN] synchronizing package lists"),
+            (1, 17, "[2018-05-31 12:19] [PACMAN] Running 'pacman -Syu --root /tmp/newmsys/msys64'"),
+        ],
+        line!(),
+    ),
     //
     // general matches anywhere in the first 1024 bytes of the line
     //
@@ -3855,7 +3852,8 @@ fn month_bB_to_month_m_bytes(
 /// Put [`Captures`] into a `String` buffer in a particular order and
 /// formatting.
 ///
-/// This bridges the [`DateTimeParseInstr::regex_pattern`] to
+/// This bridges the crate `regex` regular expression pattern strings,
+/// [`DateTimeParseInstr::regex_pattern`], to crate `chrono` strftime strings,
 /// [`DateTimeParseInstr::dt_pattern`].
 ///
 /// Directly relates to datetime format `dt_pattern` values in
@@ -3970,7 +3968,12 @@ pub(crate) fn captures_to_buffer_bytes(
     copy_capturegroup_to_buffer!(CGN_MINUTE, captures, buffer, at);
     // second
     dpfo!("process <second>…");
-    copy_capturegroup_to_buffer!(CGN_SECOND, captures, buffer, at);
+    match dtfs.second {
+        DTFS_Second::S => {
+            copy_capturegroup_to_buffer!(CGN_SECOND, captures, buffer, at);
+        }
+        DTFS_Second::_fill => {}
+    }
     // fractional
     dpfo!("process <factional>…");
     match dtfs.fractional {

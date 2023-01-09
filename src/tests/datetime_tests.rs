@@ -414,23 +414,21 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
         dtpat,
         dtpd._line_num
     );
-    // check second
-    assert!(
-        regex_pattern_has_second(regpat),
-        "regex_pattern has not second {:?}; declared at line {}",
+    // check second (optional but must agree)
+    let rp_ss = regex_pattern_has_second(regpat);
+    let dp_ss = dt_pattern_has_second(dtpat);
+    assert_eq!(
+        rp_ss, dp_ss,
+        "regex_pattern has second {}, datetime pattern has second {}; they must agree; declared at line {}\n  regex pattern: {:?}\n  dt_pattern {:?}",
+        rp_ss, dp_ss,
+        dtpd._line_num,
         regpat,
-        dtpd._line_num
-    );
-    assert!(
-        dt_pattern_has_second(dtpat),
-        "dt_pattern does not have a second {:?}; declared at line {}",
         dtpat,
-        dtpd._line_num
     );
     // check fractional (optional but must agree)
     let rp_ss = regex_pattern_has_fractional(regpat);
     let dp_ss = dt_pattern_has_fractional(dtpat);
-    assert_eq!(rp_ss, dp_ss, "regex pattern fractional {}, datetime pattern fractional {} (they must agree); declared at line {}", rp_ss, dp_ss, dtpd._line_num);
+    assert_eq!(rp_ss, dp_ss, "regex pattern fractional {}, datetime pattern fractional {}; they must agree; declared at line {}", rp_ss, dp_ss, dtpd._line_num);
     // check timezone
     if dtfs.has_tz() {
         assert!(
