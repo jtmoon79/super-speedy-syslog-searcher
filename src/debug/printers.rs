@@ -6,8 +6,6 @@
 #[cfg(test)]
 use crate::common::{FPath, FileOpenOptions};
 
-use crate::printer::printers::write_stdout;
-
 extern crate si_trace_print;
 
 #[cfg(any(debug_assertions, test))]
@@ -235,50 +233,4 @@ pub fn flush_stdouterr() {
     match std::io::stderr().flush() {
         _ => {}
     };
-}
-
-/// write to console, `raw` as `true` means "as-is"
-/// else use `char_to_char_noraw` to replace chars in `buffer` (inefficient)
-///
-/// only intended for debugging
-#[doc(hidden)]
-#[allow(dead_code)]
-#[cfg(any(debug_assertions, test))]
-pub fn pretty_print(
-    buffer: &[u8],
-    raw: bool,
-) {
-    if raw {
-        return write_stdout(buffer);
-    }
-    // is this an expensive command? should `stdout` be cached?
-    let stdout: std::io::Stdout = std::io::stdout();
-    let mut stdout_lock = stdout.lock();
-    // XXX: Issue #16 only handles UTF-8/ASCII encoding
-    // XXX: doing this char by char is probably not efficient
-    //let s = match str::from_utf8_lossy(buffer) {
-    let s = match core::str::from_utf8(buffer) {
-        Ok(val) => val,
-        Err(err) => {
-            eprintln!("ERROR: pretty_print: Invalid UTF-8 sequence during from_utf8: {}", err);
-            return;
-        }
-    };
-    let mut dst: [u8; 4] = [0, 0, 0, 0];
-    for c in s.chars() {
-        let c_ = char_to_char_noraw(c);
-        let _cs = c_.encode_utf8(&mut dst);
-        match stdout_lock.write(&dst) {
-            Ok(_) => {}
-            Err(err) => {
-                eprintln!("ERROR: pretty_print: StdoutLock.write({:?}) error {}", &dst, err);
-            }
-        }
-    }
-    match stdout_lock.flush() {
-        Ok(_) => {}
-        Err(err) => {
-            eprintln!("ERROR: pretty_print: stdout flushing error {}", err);
-        }
-    }
 }
