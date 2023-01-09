@@ -1853,8 +1853,6 @@ const D_T: &RegexPattern = "[:]?";
 const D_Te: &RegexPattern = r"[:\-]?";
 /// [`RegexPattern`] divider _day_ to _hour_, `2020/01/01T20:30:00`
 const D_DHq: &RegexPattern = "[ T]?";
-/// [`RegexPattern`] divider _day_ to _hour_ with colon, `2020:01:01:20:30:00`
-const D_DHcq: &RegexPattern = "[ T:]?";
 /// [`RegexPattern`] divider _day_ to _hour_ with dash, `2020:01:01-20:30:00`.
 const D_DHdq: &RegexPattern = r"[ T\-]?";
 /// [`RegexPattern`] divider _day_ to _hour_ with colon or dash,
