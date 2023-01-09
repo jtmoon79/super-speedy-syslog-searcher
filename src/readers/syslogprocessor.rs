@@ -57,7 +57,7 @@ extern crate rangemap;
 use rangemap::RangeMap;
 
 extern crate si_trace_print;
-use si_trace_print::{dpf1n, dpf1x, dpf1ñ, dpfn, dpfo, dpfx, dpfñ, dpo, dpñ};
+use si_trace_print::{dpf1n, dpf1x, dpf1ñ, dpfn, dpfo, dpfx, dpfñ, dpñ};
 
 extern crate walkdir;
 
@@ -920,7 +920,7 @@ impl SyslogProcessor {
         let found_min: Count = *BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP
             .get(&blocksz0)
             .unwrap();
-        dpo!("block zero blocksz {} found_min {:?}", blocksz0, found_min);
+        dpfo!("block zero blocksz {} found_min {:?}", blocksz0, found_min);
         // find `at_max` Syslines within block zero
         while found < found_min {
             fo = match self
