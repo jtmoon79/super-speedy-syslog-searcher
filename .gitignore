@@ -1,6 +1,6 @@
 /target
 *.venv*/
-.idea/
-.vscode/
-tmp/
-valgrind/
+/.idea/
+/.vscode/
+/tmp/
+/valgrind/
