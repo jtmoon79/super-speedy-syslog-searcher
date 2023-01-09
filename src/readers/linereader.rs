@@ -606,8 +606,8 @@ impl LineReader {
                             dpfx!("return ResultS3LineFind::Done");
                             return Some(ResultS3LineFind::Done);
                         }
-                        ResultS3LineFind::Err(err) => {
-                            dpfx!("Err {}", err);
+                        ResultS3LineFind::Err(_err) => {
+                            dpfx!("Err {}", _err);
                             eprintln!(
                                 "ERROR: unexpected Error store in find_line_lru_cache, fileoffset {}",
                                 fileoffset

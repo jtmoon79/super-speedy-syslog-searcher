@@ -579,8 +579,8 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
                 dpo!("Ok({:?})", val);
                 val
             }
-            Err(err) => {
-                dpo!("Err({:?})", err);
+            Err(_err) => {
+                dpo!("Err({:?})", _err);
                 continue;
             }
         };

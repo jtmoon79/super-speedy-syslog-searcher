@@ -853,11 +853,11 @@ impl BlockReader {
                 dpf1o!("FileXz: stream header magic bytes {:?}", buffer_);
                 if cfg!(debug_assertions) {
                     for (i, b_) in buffer_.iter().enumerate() {
-                        let b_ex = XZ_MAGIC_BYTES[i];
-                        let c_ex: char = b_ex as char;
-                        let c_: char = (*b_) as char;
-                        dpf1o!("actual {0:3} (0x{0:02X}) {1:?}", b_, c_);
-                        dpf1o!("expect {0:3} (0x{0:02X}) {1:?}\n", b_ex, c_ex);
+                        let _b_ex = XZ_MAGIC_BYTES[i];
+                        let _c_ex: char = _b_ex as char;
+                        let _c: char = (*b_) as char;
+                        dpf1o!("actual {0:3} (0x{0:02X}) {1:?}", b_, _c);
+                        dpf1o!("expect {0:3} (0x{0:02X}) {1:?}\n", _b_ex, _c_ex);
                     }
                 }
                 if buffer_ != XZ_MAGIC_BYTES {
@@ -989,8 +989,8 @@ impl BlockReader {
                                         break;
                                     }
                                 }
-                                err_ => {
-                                    dpf1o!("FileXz: err {:?}", err_);
+                                _err => {
+                                    dpf1o!("FileXz: err {:?}", _err);
                                 }
                             }
                             dpf1x!("FileXz: xz_decompress Error, return Err({:?})", err);
@@ -2004,8 +2004,8 @@ impl BlockReader {
                                 break;
                             }
                         }
-                        err_ => {
-                            dpfo!("err {:?}", err_);
+                        _err => {
+                            dpfo!("err {:?}", _err);
                         }
                     }
                     dpfx!("xz_decompress Error, return Err({:?})", err);

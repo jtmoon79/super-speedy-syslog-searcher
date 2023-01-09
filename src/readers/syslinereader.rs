@@ -1193,19 +1193,20 @@ impl SyslineReader {
 
     /// Return most-used `DateTimeParseInstrsIndex`.
     pub(crate) fn dt_pattern_index_max_count(&self) -> DateTimeParseInstrsIndex {
-        if cfg!(debug_assertions) {
-            for (_k, _v) in self.dt_patterns_counts.iter() {
-                let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*_k];
-                let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC
-                    .get(*_k)
+        #[cfg(debug_assertions)]
+        {
+            for (k, v) in self.dt_patterns_counts.iter() {
+                let data: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
+                let data_rex: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC
+                    .get(*k)
                     .unwrap();
-                dpfo!("self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", _k, _v, data_, data_rex_);
+                dpfo!("self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", k, v, data, data_rex);
             }
-            for _val in self
+            for val in self
                 .dt_patterns_indexes
                 .iter()
             {
-                dpfo!("self.dt_patterns_indexes {:?}", _val);
+                dpfo!("self.dt_patterns_indexes {:?}", val);
             }
         }
         if !self.analyzed {
@@ -1408,11 +1409,10 @@ impl SyslineReader {
             .get_key_value(&fileoffset)
         {
             Some(range_fo) => {
-                let range: &SyslineRange = range_fo.0;
                 dpfo!(
                     "hit syslines_by_range cache for FileOffset {} (found in range {:?})",
                     fileoffset,
-                    range
+                    range_fo.0
                 );
                 self.syslines_by_range_hit += 1;
                 let fo: &FileOffset = range_fo.1;

@@ -4201,11 +4201,11 @@ pub fn bytes_to_regex_to_datetime(
                 }
             };
             match name_opt {
-                Some(name) => {
+                Some(_name) => {
                     dpo!(
                         "regex captures: {:2} {:<10} {:?}",
                         i,
-                        name,
+                        _name,
                         buffer_to_String_noraw(_match.as_bytes())
                     );
                 }

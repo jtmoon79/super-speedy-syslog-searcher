@@ -448,8 +448,8 @@ impl SyslogProcessor {
         error: &Error,
     ) {
         dp_err!("{:?}", error);
-        if let Some(ref err_) = self.Error_ {
-            dp_wrn!("overwriting previous Error {:?} with Error ({:?})", err_, error);
+        if let Some(ref _err) = self.Error_ {
+            dp_wrn!("overwriting previous Error {:?} with Error ({:?})", _err, error);
         }
         self.Error_ = Some(error.to_string());
     }
