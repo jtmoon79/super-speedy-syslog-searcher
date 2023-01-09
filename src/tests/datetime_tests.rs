@@ -11,14 +11,16 @@ use crate::tests::common::{TZO_0, TZO_E1, TZO_W8};
 use crate::data::datetime::{
     bytes_to_regex_to_datetime, datetime_from_str_workaround_Issue660, datetime_parse_from_str,
     dt_after_or_before, dt_pass_filters, DTFSSet, DTFS_Tz,
-    DateTimeL, DateTimeLOpt, Duration,
+    DateTimeL, DateTimeLOpt, Duration, FixedOffset,
     DateTimeParseInstr, DateTimePattern_str, DateTimeRegex_str,
-    FixedOffset, MAP_TZZ_TO_TZz,
     Result_Filter_DateTime1, Result_Filter_DateTime2, TimeZone, Year,
     DATETIME_PARSE_DATAS_LEN, DATETIME_PARSE_DATAS,
-    CGN_ALL, CGP_DAY_ALL, CGP_FRACTIONAL, CGP_HOUR, CGP_MINUTE, CGP_MONTH_ALL,
-    CGP_SECOND, CGP_TZZ, CGP_TZ_ALL, CGP_YEAR, CGP_YEARy,
-    DTP_ALL, RP_LB, RP_RB, TZZ_LIST_LOWER, TZZ_LIST_UPPER, TZZ_LOWER_TO_UPPER,
+    CGP_HOUR, CGP_MINUTE, CGP_SECOND, CGP_FRACTIONAL, CGP_FRACTIONAL3,
+    CGP_MONTH_ALL, CGN_ALL, CGP_DAY_ALL, CGP_YEAR, CGP_YEARy,
+    CGP_TZZ, CGP_TZ_ALL,
+    TZZ_LIST_LOWER, TZZ_LIST_UPPER, TZZ_LOWER_TO_UPPER, MAP_TZZ_TO_TZz,
+    RP_LB, RP_RB,
+    DTP_ALL,
 };
 
 use crate::debug::printers::buffer_to_String_noraw;
@@ -160,7 +162,7 @@ pub fn regex_pattern_has_second(pattern: &DateTimeRegex_str) -> bool {
 
 /// does regex pattern have a fractional second?
 pub fn regex_pattern_has_fractional(pattern: &DateTimeRegex_str) -> bool {
-    pattern.contains(CGP_FRACTIONAL)
+    pattern.contains(CGP_FRACTIONAL) || pattern.contains(CGP_FRACTIONAL3)
 }
 
 /// does regex pattern have a timezone?
@@ -517,7 +519,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     let dp_ss = dt_pattern_has_second(dtpat);
     assert_eq!(
         rp_ss, dp_ss,
-        "regex_pattern has second {}, datetime pattern has second {}; they must agree; declared at line {}\n  regex pattern: {:?}\n  dt_pattern {:?}",
+        "regex_pattern has second {}, datetime pattern has second {}; they must agree; declared at line {}\n  regex pattern: {:?}\n  dt_pattern {:?}\n",
         rp_ss, dp_ss,
         dtpd._line_num,
         regpat,
@@ -526,7 +528,14 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     // check fractional (optional but must agree)
     let rp_ss = regex_pattern_has_fractional(regpat);
     let dp_ss = dt_pattern_has_fractional(dtpat);
-    assert_eq!(rp_ss, dp_ss, "regex pattern fractional {}, datetime pattern fractional {}; they must agree; declared at line {}", rp_ss, dp_ss, dtpd._line_num);
+    assert_eq!(
+        rp_ss, dp_ss,
+        "regex_pattern has fractional {}, datetime pattern has fractional {}; they must agree; declared at line {}\n  regex pattern: {:?}\n  dt_pattern {:?}\n",
+        rp_ss, dp_ss,
+        dtpd._line_num,
+        regpat,
+        dtpat,
+    );
     // check timezone
     if dtfs.has_tz() {
         assert!(

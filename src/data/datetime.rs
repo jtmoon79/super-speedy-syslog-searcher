@@ -1220,6 +1220,8 @@ pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345][[:digit:]]|60
 /// function `captures_to_buffer_bytes`. Then it is parsed by
 /// `datetime_parse_from_str` using `%f` specifier.
 pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{1,9})";
+/// Like [`CGP_FRACTIONAL`] but only matches 3 digits, `%3f`.
+pub const CGP_FRACTIONAL3: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{3})";
 /// Regex capture group pattern for dmesg uptime fractional seconds in logs
 //pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>[[:digit:]]{1,9}\.[[:digit:]]{3,9})";
 
@@ -1333,16 +1335,16 @@ pub(crate) const CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
 ];
 
 /// no alphabetic or line end, helper to `CGP_TZZ`
-const RP_NOALPHA: &RegexPattern = r"([^[[:alpha:]]]|$)";
+const RP_NOALPHA: &RegexPattern = r"([^[[:alpha:]]]|$|^)";
 
 /// no alphanumeric or line end, helper to `CGP_TZZ` and and `CGP_YEAR`
-const RP_NOALNUM: &RegexPattern = r"([^[[:alnum:]]]|$)";
+const RP_NOALNUM: &RegexPattern = r"([^[[:alnum:]]]|$|^)";
 
 /// no alphanumeric plus minus or line end, helper to `CGP_TZZ` and `CGP_YEAR`
-const RP_NOALNUMpm: &RegexPattern = r"([^[[:alnum:]]\+\-]|$)";
+const RP_NOALNUMpm: &RegexPattern = r"([^[[:alnum:]]\+\-]|$|^)";
 
 /// no numeric or line end, helper to `CGP_TZZ` and `CGP_YEAR`
-const RP_NODIGIT: &RegexPattern = r"([^[[:digit:]]]|$)";
+const RP_NODIGIT: &RegexPattern = r"([^[[:digit:]]]|$|^)";
 
 /// All named timezone abbreviations, maps all chrono strftime `%Z` values
 /// (e.g. `"EDT"`) to equivalent `%:z` value (e.g. `"-04:00"`).
@@ -2895,6 +2897,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
     //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -0700: called for pid 8581, signal 24, core limit 0, dump mode 1
     //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -07:00: called for pid 8581, signal 24, core limit 0, dump mode 1
+    //     ERROR: apport (pid 9) Thu Feb 20 00:59:59 2020: executable: /usr/lib/firefox/firefox (command line "/usr/lib/firefox/firefox"
     //
     DTPD!(
         concatcp!("^", RP_LEVELS, "[:]?", RP_ANYp, RP_BLANK, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKS, CGP_TZzc, RP_NODIGIT),
@@ -2938,6 +2941,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (22, 46, "ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 called for pid 8581, signal 24, core limit 0, dump mode 1"),
             (27, 51, r#"ERROR: apport (pid 529343) Sat Aug 13 08:48:03 2022: executable: /mnt/Projects/super-speedy-syslog-searcher/target/release/s4 (command line "./target/release/s4 -s -wp /dev")"#),
+            (25, 49, r#"ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: executable: /usr/lib/firefox/firefox (command line "/usr/lib/firefox/firefox"#)
         ],
         line!(),
     ),
@@ -3186,7 +3190,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // very similar to next DTPD!, but with different second-to-fractional divider ":"
     //
     DTPD!(
-        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, ":", CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, RP_NODIGIT),
+        concatcp!(RP_NODIGIT, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, ":", CGP_FRACTIONAL3, RP_BLANKq, CGP_TZz, RP_NODIGIT),
         DTFSS_YmdHMSfz, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
                 (40, 68, r"{5F45546A-691D-4519-810C-9B159EA7A24F}  2022-10-12 09:26:44:980-0700    1       181 [AGENT_INSTALLING_STARTED]  101      {ADF3720E-8453-44C7-82EF-F9F5DA2D8551}  1       0 Update;ScanForUpdates    Success Content Download        Download succeeded.     te2D3dMIjE2PeNSM.86.3.1.0.0.85.0")
