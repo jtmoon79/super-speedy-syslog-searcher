@@ -5043,6 +5043,108 @@ synoindexcheckindexbit.log:2018-02-28T15:00:50-0800 do set/clear sharefolder ind
 dtf9c-23-12x2.log:Mar 3 03:00:00 14
 dtf9c-23-12x2.log:Apr 4 04:00:00 15
 dtf9c-23-12x2.log:May 5 05:00:00 16
+pacman.log:[2018-05-31 12:19] [PACMAN] Running 'pacman -Syu --root /tmp/newmsys/msys64'
+pacman.log:[2018-05-31 12:19] [PACMAN] synchronizing package lists
+pacman.log:[2018-05-31 12:19] [PACMAN] starting core system upgrade
+pacman.log:[2018-05-31 12:19] [PACMAN] starting full system upgrade
+pacman.log:[2018-05-31 12:19] [PACMAN] Running 'pacman -S --noconfirm --root /tmp/newmsys/msys64 base'
+pacman.log:[2018-05-31 12:20] [ALPM] transaction started
+pacman.log:[2018-05-31 12:20] [ALPM] installed msys2-runtime (2.10.0-2)
+pacman.log:[2018-05-31 12:20] [ALPM] installed bash (4.4.019-3)
+pacman.log:[2018-05-31 12:20] [ALPM] installed bash-completion (2.8-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed gcc-libs (7.3.0-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed libbz2 (1.0.6-2)
+pacman.log:[2018-05-31 12:20] [ALPM] installed libiconv (1.15-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed libintl (0.19.8.1-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed libgettextpo (0.19.8.1-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed libasprintf (0.19.8.1-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed gettext (0.19.8.1-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed liblzma (5.2.3-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed liblzo2 (2.10-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed gmp (6.1.2-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed libnettle (3.3-1)
+pacman.log:[2018-05-31 12:20] [ALPM] installed coreutils (8.26-3)
+pacman.log:[2018-05-31 12:20] [ALPM] installed icu (60.2-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed ncurses (6.1.20180526-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libreadline (7.0.003-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed zlib (1.2.11-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libxml2 (2.9.7-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed bsdcpio (3.3.2-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed bsdtar (3.3.2-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed bzip2 (1.0.6-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libopenssl (1.0.2.m-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed openssl (1.0.2.m-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed findutils (4.6.0-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed sed (4.4-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libffi (3.2.1-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libpcre (8.40-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed less (529-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed gzip (1.9-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed info (6.3-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libtasn1 (4.13-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libgpg-error (1.27-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libgcrypt (1.8.1-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libxslt (1.1.32-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed glib2 (2.48.2-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libp11-kit (0.23.9-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed p11-kit (0.23.9-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed ca-certificates (20170717-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libdb (5.3.28-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libcrypt (2.1-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libedit (3.1-20170329)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libsqlite (3.21.0-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed heimdal-libs (1.5.3-9)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libunistring (0.9.7-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libidn2 (2.0.4-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libexpat (2.2.5-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libmetalink (0.1.3-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libnghttp2 (1.30.0-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libpsl (0.19.1-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libssh2 (1.8.0-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libcurl (7.58.0-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed curl (7.58.0-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed filesystem (2018.04-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed grep (3.0-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed dash (0.5.9.1-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed dtc (1.4.4-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed file (5.33-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed m4 (1.4.18-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed flex (2.6.4-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed mpfr (4.0.1-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed gawk (4.2.0-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libargp (20110921-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed getent (2.18.90-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed tftp-hpa (5.2-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed inetutils (1.9.4-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed lndir (1.0.3-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed mintty (1~2.8.5-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed msys2-keyring (r9.397a52e-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed msys2-launcher-git (0.3.32.56c2ba7-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed gnupg (1.4.22-3)
+pacman.log:[2018-05-31 12:21] [ALPM] installed pacman-mirrors (20180419-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed which (2.21-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed xz (5.2.3-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed pacman (5.0.1-7)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libarchive (3.3.2-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libpcre16 (8.40-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libpcre32 (8.40-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libpcrecpp (8.40-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libpcreposix (8.40-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed pcre (8.40-2)
+pacman.log:[2018-05-31 12:21] [ALPM] installed pkgfile (17-1)
+pacman.log:[2018-05-31 12:21] [ALPM-SCRIPTLET] ==> Run 'pkgfile --update' to initialize the database
+pacman.log:[2018-05-31 12:21] [ALPM] installed libassuan (2.4.3-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libgpgme (1.6.0-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed libutil-linux (2.26.2-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed wget (1.19.4-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed pactoys-git (r2.07ca37f-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed pax-git (20161104.2-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed rebase (4.4.2-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed time (1.7-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed ttyrec (1.0.8-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed tzcode (2018.c-1)
+pacman.log:[2018-05-31 12:21] [ALPM] installed util-linux (2.26.2-1)
+pacman.log:[2018-05-31 12:21] [ALPM] transaction completed
 dtf9c-23-12x2.log:Jun 6 06:00:00 17
 dtf9d-24-12x2-backwards.log:Jun 6 06:00:00 HDT 18
 dtf9c-23-12x2.log:Jul 7 07:00:00 18
@@ -5721,6 +5823,130 @@ nfsd-adapter.log:2019-02-25T19:30:54-0800 Starting NFS server...
 nfsd-adapter.log:2019-02-25T19:30:55-0800 :: Loading module rpcsec_gss_krb5 ... [  OK  ]
 nfsd-adapter.log:2019-02-25T19:30:55-0800 :: Loading module exportfs ... [  OK  ]
 nfsd-adapter.log:2019-02-25T19:30:55-0800 :: Loading module nfsd ... [  OK  ]
+pacman.log:[2019-03-01 16:56] [PACMAN] Running 'pacman -r /tmp/genbootstrap.wqKtcV/root.x86_64/ -Sy --noconfirm --config=/tmp/genbootstrap.wqKtcV/pacman.conf arch-install-scripts systemd'
+pacman.log:[2019-03-01 16:56] [PACMAN] synchronizing package lists
+pacman.log:[2019-03-01 16:56] [ALPM] transaction started
+pacman.log:[2019-03-01 16:56] [ALPM] installed linux-api-headers (4.17.11-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed tzdata (2018i-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed iana-etc (20190219-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed filesystem (2018.12-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed glibc (2.28-5)
+pacman.log:[2019-03-01 16:56] [ALPM] installed gcc-libs (8.2.1+20181127-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed ncurses (6.1-6)
+pacman.log:[2019-03-01 16:56] [ALPM] installed readline (8.0.0-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed bash (5.0.0-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed gmp (6.1.2-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed mpfr (4.0.2-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed gawk (4.2.1-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed attr (2.4.48-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed acl (2.2.53-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libcap (2.26-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed gdbm (1.18.1-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed db (5.3.28-4)
+pacman.log:[2019-03-01 16:56] [ALPM] installed perl (5.28.1-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed openssl (1.1.1.a-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed coreutils (8.30-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed bzip2 (1.0.6-8)
+pacman.log:[2019-03-01 16:56] [ALPM] installed expat (2.2.6-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed lz4 (1:1.8.3-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed xz (5.2.4-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed zlib (1:1.2.11-3)
+pacman.log:[2019-03-01 16:56] [ALPM] installed zstd (1.3.8-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libarchive (3.3.3-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed findutils (4.6.0-4)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libtasn1 (4.13-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libffi (3.2.1-3)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libgpg-error (1.35-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libgcrypt (1.8.4-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed systemd-libs (241.7-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed device-mapper (2.02.183-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed popt (1.16-10)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libutil-linux (2.33.1-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed json-c (0.13.1-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed argon2 (20171227-3)
+pacman.log:[2019-03-01 16:56] [ALPM] installed cryptsetup (2.1.0-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed e2fsprogs (1.44.5-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libsasl (2.1.27-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libldap (2.4.47-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed keyutils (1.6-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed krb5 (1.16.1-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libcap-ng (0.7.9-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed audit (2.8.4-3)
+pacman.log:[2019-03-01 16:56] [ALPM] installed dbus (1.12.12-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libmnl (1.0.4-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libnftnl (1.1.1-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libnl (3.4.0-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libusb (1.0.22-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libpcap (1.9.0-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libnfnetlink (1.0.1-3)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libnetfilter_conntrack (1.0.7-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed iptables (1:1.8.2-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed cracklib (2.9.6-3)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libtirpc (1.1.4-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed pambase (20190105.1-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed pam (1.3.1-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed kbd (2.0.4-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed kmod (26-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed hwids (20180917-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libunistring (0.9.10-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libidn2 (2.1.1-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libelf (0.175-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libseccomp (2.3.3-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed shadow (4.6-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed util-linux (2.33.1-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed pcre2 (10.32-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed systemd (241.7-2)
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET] Initializing machine ID from random generator.
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET] Created symlink /etc/systemd/system/getty.target.wants/getty@tty1.service → /usr/lib/systemd/system/getty@.service.
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET] Created symlink /etc/systemd/system/multi-user.target.wants/remote-fs.target → /usr/lib/systemd/system/remote-fs.target.
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET] :: Append 'init=/usr/lib/systemd/systemd' to your kernel command line in your
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET]    bootloader to replace sysvinit with systemd, or install systemd-sysvcompat
+pacman.log:[2019-03-01 16:56] [ALPM] installed p11-kit (0.23.15-1)
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET] Created symlink /etc/systemd/user/sockets.target.wants/p11-kit-server.socket → /usr/lib/systemd/user/p11-kit-server.socket.
+pacman.log:[2019-03-01 16:56] [ALPM] installed ca-certificates-utils (20181109-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed ca-certificates-mozilla (3.42.1-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed ca-certificates (20181109-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libssh2 (1.8.0-3)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libpsl (0.20.2-5)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libnghttp2 (1.36.0-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed curl (7.64.0-9)
+pacman.log:[2019-03-01 16:56] [ALPM] installed npth (1.6-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libksba (1.3.5-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libassuan (2.5.3-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed pcre (8.43-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed glib2 (2.58.3-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed libsecret (0.18.7-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed pinentry (1.1.0-4)
+pacman.log:[2019-03-01 16:56] [ALPM] installed nettle (3.4.1-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed gnutls (3.6.6-3)
+pacman.log:[2019-03-01 16:56] [ALPM] installed sqlite (3.27.2-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed gnupg (2.2.13-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed gpgme (1.12.0-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed pacman-mirrorlist (20190109-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed archlinux-keyring (20190123-2)
+pacman.log:[2019-03-01 16:56] [ALPM] installed pacman (5.1.3-1)
+pacman.log:[2019-03-01 16:56] [ALPM] installed arch-install-scripts (21-1)
+pacman.log:[2019-03-01 16:56] [ALPM] transaction completed
+pacman.log:[2019-03-01 16:56] [ALPM] running 'detect-old-perl-modules.hook'...
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET] perl: warning: Setting locale failed.
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET] perl: warning: Please check that your locale settings:
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET]     LANGUAGE = "",
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET]     LC_ALL = (unset),
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET]     LC_MESSAGES = "en_US.UTF-8",
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET]     LANG = "de_DE.UTF-8"
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET]     are supported and installed on your system.
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET] perl: warning: Falling back to the standard locale ("C").
+pacman.log:[2019-03-01 16:56] [ALPM] running 'systemd-catalog.hook'...
+pacman.log:[2019-03-01 16:56] [ALPM] running 'systemd-daemon-reload.hook'...
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET] Running in chroot, ignoring request: daemon-reload
+pacman.log:[2019-03-01 16:56] [ALPM] running 'systemd-hwdb.hook'...
+pacman.log:[2019-03-01 16:56] [ALPM] running 'systemd-sysctl.hook'...
+pacman.log:[2019-03-01 16:56] [ALPM] running 'systemd-sysusers.hook'...
+pacman.log:[2019-03-01 16:56] [ALPM] running 'systemd-tmpfiles.hook'...
+pacman.log:[2019-03-01 16:56] [ALPM] running 'systemd-udev-reload.hook'...
+pacman.log:[2019-03-01 16:56] [ALPM-SCRIPTLET] Running in chroot, ignoring request.
+pacman.log:[2019-03-01 16:56] [ALPM] running 'systemd-update.hook'...
+pacman.log:[2019-03-01 16:56] [ALPM] running 'update-ca-trust.hook'...
 php_timezone_update.log:2019-03-04T09:33:23-0800 Update php timezone
 scrubbing-conf-sync.log:2019-03-04T09:33:23-0800 Mar 04 09:33:23 =============== start scrubbing-conf-sync ================
 synocrond.log:2019-03-04T09:33:23-0800 starting synocrond
@@ -5740,6 +5966,60 @@ pkg-SynologyApplicationService-notification_send.log:2019-03-04T09:35:24-0800 St
 pkg-SynologyApplicationService-VapidSendServer.log:2019-03-04T09:35:29-0800 Start Vapid send server......
 pkgctl-SynologyDrive.log:2019-03-04T09:35:39-0800 ======== start SynologyDrive ========
 syno-move-coredump.log:2019-03-04T11:04:20-0800 there are no coredump files in /var/crash
+pacman.log:[2019-03-07 09:51] [PACMAN] Running '/usr/bin/pacman -Syu --noconfirm bzip2 coreutils diffutils gawk gcc-libs gettext grep gzip inetutils iproute2 iputils less man-db man-pages nano sed sudo tar vi vim wget which'
+pacman.log:[2019-03-07 09:51] [PACMAN] synchronizing package lists
+pacman.log:[2019-03-07 09:51] [PACMAN] starting full system upgrade
+pacman.log:[2019-03-07 09:51] [ALPM] transaction started
+pacman.log:[2019-03-07 09:51] [ALPM] reinstalled gcc-libs (8.2.1+20181127-1)
+pacman.log:[2019-03-07 09:51] [ALPM] reinstalled bzip2 (1.0.6-8)
+pacman.log:[2019-03-07 09:51] [ALPM] upgraded openssl (1.1.1.a-1 -> 1.1.1.b-1)
+pacman.log:[2019-03-07 09:51] [ALPM] reinstalled coreutils (8.30-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed diffutils (3.7-1)
+pacman.log:[2019-03-07 09:51] [ALPM] reinstalled gawk (4.2.1-2)
+pacman.log:[2019-03-07 09:51] [ALPM] installed icu (63.1-2)
+pacman.log:[2019-03-07 09:51] [ALPM] installed libxml2 (2.9.9-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed libcroco (0.6.12+4+g9ad7287-2)
+pacman.log:[2019-03-07 09:51] [ALPM] installed gettext (0.19.8.1-3)
+pacman.log:[2019-03-07 09:51] [ALPM] installed grep (3.3-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed less (530-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed gzip (1.10-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed inetutils (1.9.4-7)
+pacman.log:[2019-03-07 09:51] [ALPM-SCRIPTLET] /usr/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+pacman.log:[2019-03-07 09:51] [ALPM] upgraded libelf (0.175-1 -> 0.176-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed iproute2 (4.20.0-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed iputils (20180629.f6aac8d-4)
+pacman.log:[2019-03-07 09:51] [ALPM-SCRIPTLET] /usr/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+pacman.log:[2019-03-07 09:51] [ALPM] installed groff (1.22.3-8)
+pacman.log:[2019-03-07 09:51] [ALPM] installed libpipeline (1.5.1-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed man-db (2.8.5-2)
+pacman.log:[2019-03-07 09:51] [ALPM] installed man-pages (4.16-2)
+pacman.log:[2019-03-07 09:51] [ALPM] installed file (5.36-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed nano (3.2-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed sed (4.7-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed sudo (1.8.27-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed tar (1.32-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed vi (1:070224-3)
+pacman.log:[2019-03-07 09:51] [ALPM] installed vim-runtime (8.1.0996-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed procps-ng (3.3.15-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed gpm (1.20.7.r27.g1fd1941-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed vim (8.1.0996-1)
+pacman.log:[2019-03-07 09:51] [ALPM] installed wget (1.20.1-3)
+pacman.log:[2019-03-07 09:51] [ALPM] installed which (2.21-3)
+pacman.log:[2019-03-07 09:51] [ALPM] upgraded libsecret (0.18.7-1 -> 0.18.8-2)
+pacman.log:[2019-03-07 09:51] [ALPM] transaction completed
+pacman.log:[2019-03-07 09:51] [ALPM] running 'systemd-daemon-reload.hook'...
+pacman.log:[2019-03-07 09:51] [ALPM-SCRIPTLET] /bin/sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+pacman.log:[2019-03-07 09:51] [ALPM-SCRIPTLET]   Skipped: Current root is not booted.
+pacman.log:[2019-03-07 09:51] [ALPM] running 'systemd-tmpfiles.hook'...
+pacman.log:[2019-03-07 09:51] [ALPM-SCRIPTLET] /bin/sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+pacman.log:[2019-03-07 09:51] [ALPM] running 'systemd-update.hook'...
+pacman.log:[2019-03-07 09:51] [ALPM-SCRIPTLET] /bin/sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+pacman.log:[2019-03-07 09:51] [PACMAN] Running '/usr/bin/pacman -U --force /root/fakeroot-tcp-1.23-1-x86_64.pkg.tar.xz'
+pacman.log:[2019-03-07 09:51] [ALPM] transaction started
+pacman.log:[2019-03-07 09:51] [ALPM] installed fakeroot-tcp (1.23-1)
+pacman.log:[2019-03-07 09:51] [ALPM] transaction completed
+pacman.log:[2019-03-07 09:51] [ALPM] running 'systemd-update.hook'...
+pacman.log:[2019-03-07 09:51] [PACMAN] Running '/usr/bin/pacman -Scc'
 pkgctl-SynologyDrive.log:2019-03-06T23:15:49-0800 ======== stop SynologyDrive ========
 pkgctl-SynologyDrive.log:2019-03-06T23:17:42-0800 ======== start SynologyDrive ========
 synoindexd.log:2019-03-06T23:21:32-0800 Stopping Synology Index Daemon...
@@ -7025,6 +7305,7 @@ term.log:Processing triggers for libc-bin (2.24-11+deb9u4) ...
 term.log:Processing triggers for man-db (2.7.6.1-2) ...
 term.log:Log ended: 2019-10-04  16:07:46
 term.log:
+pacman.log:[2019-10-06 01:13] [PACMAN] Running 'pacman --sync'
 yum.log:Oct 06 01:14:54 Updated: libgcc-4.8.5-39.el7.x86_64
 yum.log:Oct 06 01:14:55 Updated: 1:grub2-common-2.02-0.80.el7.centos.noarch
 yum.log:Oct 06 01:14:55 Updated: centos-release-7-7.1908.0.el7.centos.x86_64
@@ -8518,6 +8799,15 @@ access_log:localhost - - [15/Mar/2020:00:08:26 -0700] "POST / HTTP/1.1" 200 349 
 access_log:localhost - - [15/Mar/2020:00:08:26 -0700] "POST / HTTP/1.1" 200 176 Create-Printer-Subscriptions successful-ok
 access_log.1:localhost - root [15/Mar/2020:00:08:26 -0700] "POST / HTTP/1.1" 200 123 Cancel-Subscription successful-ok
 access_log.1:localhost - - [15/Mar/2020:00:08:26 -0700] "POST / HTTP/1.1" 200 152 Cancel-Subscription client-error-not-found
+pacman.log:[2020-03-15 16:02] [PACMAN] Running 'pacman -S python'
+pacman.log:[2020-03-15 16:02] [PACMAN] Running 'pacman -S python'
+pacman.log:[2020-03-15 16:03] [PACMAN] Running 'pacman -Syy'
+pacman.log:[2020-03-15 16:03] [PACMAN] synchronizing package lists
+pacman.log:[2020-03-15 16:03] [PACMAN] Running 'pacman -S python'
+pacman.log:[2020-03-15 16:04] [PACMAN] Running 'pacman -S python'
+pacman.log:[2020-03-15 16:05] [PACMAN] Running 'pacman -S python'
+pacman.log:[2020-03-15 16:06] [PACMAN] Running 'pacman -S python'
+pacman.log:[2020-03-15 16:07] [PACMAN] Running 'pacman -S python'
 log.nmbd.old:[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
 log.nmbd.old:  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
 log.nmbd.old:[2020/03/15 22:06:49.17491,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
@@ -8591,6 +8881,12 @@ setup.log:2020/03/16 10:54:50   10 install gsettings-desktop-schemas 3.24.1-1
 setup.log:2020/03/16 10:54:50   11 install perl_autorebase           5.30.2-1
 setup.log:2020/03/16 10:54:50   12 install libssh-common             0.8.7-1
 setup.log:
+pacman.log:[2020-03-16 15:53] [PACMAN] Running 'pacman -S python'
+pacman.log:[2020-03-16 15:53] [ALPM] transaction started
+pacman.log:[2020-03-16 15:53] [ALPM] installed libnsl (1.2.0-2)
+pacman.log:[2020-03-16 15:54] [ALPM] installed python (3.8.2-1)
+pacman.log:[2020-03-16 15:54] [ALPM] transaction completed
+pacman.log:[2020-03-16 15:54] [ALPM] running 'systemd-update.hook'...
 dtf9c-12-baddate.log:Apr 4 04:00:00 3 😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃😀😁😂
 dtf9d-24-12x2-backwards.log:Apr 4 04:00:00 HDT 20
 yum.log:Apr 12 14:00:30 Installed: 32:bind-libs-9.11.4-9.P2.el7.x86_64
@@ -11587,6 +11883,7 @@ ubuntu-advantage-timer.log:2022-10-05 07:20:41,357 - timer.py:(46) [DEBUG]: Exec
 ubuntu-advantage-timer.log:2022-10-05 13:44:11,122 - timer.py:(46) [DEBUG]: Executed job: update_messaging
 ubuntu-advantage-timer.log:2022-10-05 13:44:11,123 - timer.py:(46) [DEBUG]: Executed job: update_status
 ubuntu-advantage-timer.log:2022-10-05 19:56:09,575 - timer.py:(46) [DEBUG]: Executed job: update_messaging
+pacman.log:[2022-10-07 16:08] [PACMAN] Running 'pacman -S tree'
 cloud-init.log:2022-10-08 06:18:26,935 - util.py[DEBUG]: Cloud-init v. 21.1-19.el9_0.3 running 'init-local' at Sat, 08 Oct 2022 06:18:26 +0000. Up 8.06 seconds.
 cloud-init.log:2022-10-08 06:18:26,935 - main.py[DEBUG]: No kernel command line url found.
 cloud-init.log:2022-10-08 06:18:26,935 - main.py[DEBUG]: Closing stdin.
@@ -13826,6 +14123,94 @@ CBS.log:2022-10-12 13:28:23, Info                  CBS    Winlogon: Stopping not
 CBS.log:2022-10-12 13:28:23, Info                  CBS    Winlogon: Unloading SysNotify DLL
 CBS.log:2022-10-12 13:28:23, Info                  CBS    Lock: Lock removed: WinlogonNotifyLock, level: 8, total lock:6
 CBS.log:2022-10-12 13:28:23, Info                  CBS    Ending TrustedInstaller finalization.
+setupact.log:2022-10-14 05:56:46, Info                  MOUPG  *************** SetupHost Logging Begin ***************
+setupact.log:2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize
+setupact.log:2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: ModulePath             = [C:\$WINDOWS.~BT\Sources]
+setupact.log:2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: WorkingPath            = [C:\$WINDOWS.~BT\Sources]
+setupact.log:2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: LoggingPath            = [C:\$WINDOWS.~BT\Sources\Panther]
+setupact.log:2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: MediaPath              = [C:\$GetCurrent\media]
+setupact.log:2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: InstallFilePath        = [C:\$GetCurrent\media\Sources\Install.esd]
+setupact.log:2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: ActionListFilePath     = []
+setupact.log:2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: CmdLine                = [/Install /Media /Eula Accept /Quiet  /InstallFile "C:\$GetCurrent\media\Sources\Install.esd" "/migchoice" "upgrade" "/showoobe" "none" "/Compat" "IgnoreWarning" "/noreboot" "/postoobe" "C:\$GetCurrent\SafeOS\SetupComplete.cmd" "/CorrelationVector" "5WwPk9EXm0+M9gJy.999" "/ClientId" "Win10UA:VNL:URL:9252:<1.4.19041.1703>:<1>:{7334C4E4-D444-4333-BAAA-FF7F2F2FCF4F}:[10.0.19043]:[2]" "/DynamicUpdate" "Enable" "/telemetry" "enable" "/UpdateMedia" "Decline" "/SkipSummary" /MediaPath "C:\$GetCurrent\media"]
+setupact.log:2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: Mode                   = [0x2]
+setupact.log:
+setupact.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Creating setup mutex...
+setupact.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost::InitializeComponents
+setupact.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading ID: [3d3ad714-f8d8-4c84-ad5f-10938c2f3339] from [C:\$WINDOWS.~BT\Sources\SetupCore.dll]...
+setupact.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading complete.
+setupact.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading AutomationManager manager...
+setupact.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading ID: [edac948b-844e-4a51-9ba9-34520bd9ff9f] from [C:\$WINDOWS.~BT\Sources\SetupCore.dll]...
+setupact.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading complete.
+setupact.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Looking for automation file...
+setupact.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Initializing automation...
+setupact.log:2022-10-14 05:56:47, Info                  SP     CSetupPlatform::Initialize: Setup log starts:
+setupact.log:2022-10-14 05:56:47, Info                  SP     SEH: Enter CExceptionHandler::CExceptionHandler
+setupact.log:2022-10-14 05:56:47, Info                  SP     SEH: Exit CExceptionHandler::CExceptionHandler
+setupact.log:2022-10-14 05:56:47, Info                  SP     Host system information:
+setupact.log:                                   VM: NO
+setupact.log:                                   Firmware type: PCAT
+setupact.log:                                   Manufacturer: ASUS
+setupact.log:                                   Model : All Series
+setupact.log:                                   BIOS name : BIOS Date: 06/05/19 12:32:00 Ver: 25.04
+setupact.log:                                   BIOS version : 2009
+setupact.log:                                   BIOS release date : 20190605000000.000000+000
+setupact.log:                                   Total memory : 25769803776
+setupact.log:                                   Number of physical CPUs : 1
+setupact.log:                                   Number of logical CPUs : 8
+setupact.log:                                   Processor manufacturer : GenuineIntel
+setupact.log:                                   Processor name : Intel(R) Xeon(R) CPU E3-1246 v3 @ 3.50GHz
+setupact.log:                                   Processor caption : Intel64 Family 6 Model 60 Stepping 3
+setupact.log:                                   Processor architecture : x64
+setupact.log:                                   Processor clock : 3501
+setupact.log:
+setupact.log:2022-10-14 05:56:47, Info                  SP     Antivirus software information:
+setupact.log:                                   Name: Windows Defender, Path: %ProgramFiles%\Windows Defender\MsMpeng.exe, Timestamp: Thu, 13 Oct 2022 19:33:06 GMT, State: 397568
+setupact.log:
+setupact.log:2022-10-14 05:56:47, Info                         SPGenerateCopyListFromConfigFile: Didn't find file list in C:\$WINDOWS.~BT\Sources\setupplatform.cfg, section Footprint.Basic.amd64
+setupact.log:
+setuperr.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Creating setup mutex...
+setuperr.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost::InitializeComponents
+setuperr.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading ID: [e00a2784-f118-4224-ad5f-34438c2f3339] from [C:\$WINDOWS.~BT\Sources\SetupCore.dll]...
+setuperr.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading complete.
+setuperr.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading AutomationManager manager...
+setuperr.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading ID: [ddac9687-e84e-4a51-9ba9-355809d99999] from [C:\$WINDOWS.~BT\Sources\SetupCore.dll]...
+setuperr.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading complete.
+setuperr.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Looking for automation file...
+setuperr.log:2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Initializing automation...
+setuperr.log:2022-10-14 05:56:47, Info                  SP     CSetupPlatform::Initialize: Setup log starts:
+setuperr.log:2022-10-14 05:56:47, Info                  SP     SEH: Enter CExceptionHandler::CExceptionHandler
+setuperr.log:2022-10-14 05:56:47, Info                  SP     SEH: Exit CExceptionHandler::CExceptionHandler
+setuperr.log:2022-10-14 05:56:47, Info                  SP     Host system information:
+setuperr.log:                                   VM: NO
+setuperr.log:                                   Firmware type: PCAT
+setuperr.log:                                   Manufacturer: ASUS
+setuperr.log:                                   Model : All Series
+setuperr.log:                                   BIOS name : BIOS Date: 06/05/19 12:32:00 Ver: 25.04
+setuperr.log:                                   BIOS version : 2009
+setuperr.log:                                   BIOS release date : 20190605000000.000000+000
+setuperr.log:                                   Total memory : 25769803776
+setuperr.log:                                   Number of physical CPUs : 1
+setuperr.log:                                   Number of logical CPUs : 8
+setuperr.log:                                   Processor manufacturer : GenuineIntel
+setuperr.log:                                   Processor name : Intel(R) Xeon(R) CPU E3-1246 v3 @ 3.50GHz
+setuperr.log:                                   Processor caption : Intel64 Family 6 Model 60 Stepping 3
+setuperr.log:                                   Processor architecture : x64
+setuperr.log:                                   Processor clock : 3501
+setuperr.log:
+setuperr.log:2022-10-14 05:56:47, Info                  SP     Antivirus software information:
+setuperr.log:                                   Name: Windows Defender, Path: %ProgramFiles%\Windows Defender\MsMpeng.exe, Timestamp: Thu, 13 Oct 2022 19:33:06 GMT, State: 397568
+setuperr.log:
+setuperr.log:2022-10-14 05:56:47, Info                         SPGenerateCopyListFromConfigFile: Didn't find file list in C:\$WINDOWS.~BT\Sources\setupplatform.cfg, section Footprint.Basic.amd64
+setupact.log:2022-10-14 07:42:33, Info                  CBS    CbsCoreFinalize: CbsEventUnregister
+setupact.log:2022-10-14 07:42:33, Info                  CBS    CbsCoreFinalize: AppContainerUnload
+setupact.log:2022-10-14 07:42:33, Info                  CBS    CbsCoreFinalize: WdsUnload, logging from cbscore will end.
+setupact.log:2022-10-14 07:42:33, Info                  CBS    Ending TiWorker finalization.
+setupact.log:2022-10-14 07:42:33, Info                  CBS    Ending the TrustedInstaller main loop.
+setupact.log:2022-10-14 07:42:33, Info                  CBS    Starting TrustedInstaller finalization.
+setupact.log:2022-10-14 07:42:33, Info                  CBS    Winlogon: Stopping notify server
+setupact.log:2022-10-14 07:42:33, Info                  CBS    Winlogon: Unloading SysNotify DLL
+setupact.log:2022-10-14 07:42:33, Info                  CBS    Lock: Lock removed: WinlogonNotifyLock, level: 8, total lock:6
+setupact.log:2022-10-14 07:42:33, Info                  CBS    Ending TrustedInstaller finalization.
 dtf9c-23-12x2.log.gz:Nov 11 11:00:00 22
 dtf9d-24-12x2-leapday.log:Nov 11 11:00:00 HDT 22
 dtf9c-23-12x2.log.gz:Dec 12 12:00:00 23
