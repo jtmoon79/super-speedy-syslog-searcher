@@ -12,29 +12,12 @@ set -euo pipefail
 
 cd "$(dirname "${0}")/.."
 
-do_keep=false
-if [[ "${1-}" = "--keep" ]]; then
-    do_keep=true
-    shift
-fi
-
 # output of the release run
 tmpr=$(mktemp -t "tmp.s4.compare-debug-release_release_XXXXX")
 # output of the debug run
 tmpd=$(mktemp -t "tmp.s4.compare-debug-release_debug_XXXXX")
-# output of the debug run
-logs=$(mktemp -t "tmp.s4.compare-debug-release_logs_XXXXX")
-
-function exit_() {
-    if ! ${do_keep}; then
-        rm -f -- "${tmpr}" "${tmpd}" "${logs}"
-    fi
-}
-trap exit_ EXIT
-
-path=./logs
-
-(find "${path}" -xdev -type f -size -2M | sort) > "${logs}"
+# logs to process listed one per line
+logs=./tools/compare-debug-release_logs.txt
 
 #
 # print some info for the script user, verify the s4 programs can run
@@ -43,7 +26,7 @@ path=./logs
 echo >&2
 cat "${logs}" >&2
 echo >&2
-echo "$(wc -l < "${logs}") files under \"${path}\"" >&2
+echo "$(wc -l < "${logs}") files in \"${logs}\"" >&2
 echo >&2
 
 (set -x; diff --version) | head -n1
