@@ -7,7 +7,7 @@ and merge plain log files by datetime, including log files that are compressed
 (`.gz`, `.xz`) or archived (`.tar`).
 The first goal of s4 is speedy searching and printing.
 
-[![Build status](https://img.shields.io/github/workflow/status/jtmoon79/super-speedy-syslog-searcher/Rust?style=flat-square&logo=github)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
+[![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=main&style=flat-square&logo=github)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
 [![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/latest?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/latest/)
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
 
