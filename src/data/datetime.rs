@@ -1219,14 +1219,6 @@ pub const CGP_FRACTIONAL3: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{3
 /// Regex capture group pattern for dmesg uptime fractional seconds in logs
 //pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>[[:digit:]]{1,9}\.[[:digit:]]{3,9})";
 
-/// Regex capture group pattern for `strftime` year specifier `%Y`, as
-/// four decimal number characters.
-pub const RP_DIGITS: &CaptureGroupPattern = "[[:digit:]]+";
-
-/// Regex capture group pattern for `strftime` year specifier `%Y`, as
-/// four decimal number characters.
-pub const RP_DIGITS2: &CaptureGroupPattern = r"[[:digit:]]{1,2}";
-
 /// for testing
 #[doc(hidden)]
 #[cfg(test)]
@@ -1339,6 +1331,12 @@ const RP_NOALNUMpm: &RegexPattern = r"([^[[:alnum:]]\+\-]|$|^)";
 
 /// no numeric or line end, helper to `CGP_TZZ` and `CGP_YEAR`
 const RP_NODIGIT: &RegexPattern = r"([^[[:digit:]]]|$|^)";
+
+/// one or more digits
+pub const RP_DIGITS: &RegexPattern = "[[:digit:]]+";
+
+/// one to three digits
+pub const RP_DIGITS3: &RegexPattern = r"[[:digit:]]{1,3}";
 
 /// All named timezone abbreviations, maps all chrono strftime `%Z` values
 /// (e.g. `"EDT"`) to equivalent `%:z` value (e.g. `"-04:00"`).
@@ -2048,15 +2046,20 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // ---------------------------------------------------------------------------------------------
-    // some default rsyslog formats use datetime format ISO 8601
+    // syslog messages using datetime format ISO 8601 / RFC 3339
     //
     //      <14>2023-01-01T15:00:36-08:00 (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩
     //      <29>2023-01-01T14:21:13-08:00 (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩
     //
-    // also see https://ijmacd.github.io/rfc3339-iso8601/
+    // Helpful reference https://ijmacd.github.io/rfc3339-iso8601/
+    //
+    // Highest value syslog priority is 191.
+    // From https://github.com/rsyslog/rsyslog/blob/v8.2212.0/runtime/rsyslog.h#L197
+    //
+    //      #define LOG_MAXPRI 191  /* highest supported valid PRI value --> RFC3164, RFC5424 */
     //
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc),
         DTFSS_YmdHMSzc, 0, 40, CGN_YEAR, CGN_TZ,
         &[
             (4, 29, "<14>2023-01-01T15:00:36-08:00 (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
@@ -2066,7 +2069,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp),
         DTFSS_YmdHMSzp, 0, 40, CGN_YEAR, CGN_TZ,
         &[
             (4, 26, "<14>2023-01-01T15:00:36-08 (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
@@ -2075,7 +2078,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ, RP_NOALNUM),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ, RP_NOALNUM),
         DTFSS_YmdHMSZ, 0, 45, CGN_YEAR, CGN_TZ,
         &[
             (4, 27, "<14>2023-01-01T15:00:36 PST (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
@@ -2085,7 +2088,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, RP_NOALNUM),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, RP_NOALNUM),
         DTFSS_YmdHMSfZ, 0, 45, CGN_YEAR, CGN_TZ,
         &[
             (4, 31, "<14>2023-01-01T15:00:36.172 PST (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
@@ -2095,33 +2098,40 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
         DTFSS_YmdHMS, 0, 45, CGN_YEAR, CGN_SECOND,
         &[
             (4, 23, "<14>2023-01-01T15:00:36 (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
             (4, 23, "<29>2023-01-01T14:21:13(HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
+            (5, 24, "<191>2023-01-01T14:21:13 (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
         ],
         line!(),
     ),
+    // TODO: [2023/01/09] not all TIMESTAMP patterns or other valid message formats are covered.
+    //       see RFC 5424 https://www.rfc-editor.org/rfc/rfc5424.html#page-12
+    //                    https://www.rfc-editor.org/rfc/rfc5424.html#section-6.5
+    //                    https://www.rfc-editor.org/rfc/rfc5424.html#appendix-A.4
     //
-    // some default rsyslog formats use datetime format
+    // Syslog also uses datetime stamp format RFC 3164
+    // The contrived rsyslog messages are derived from the example in RFC 3164 (BSD Syslog Protocol)
     // https://www.rfc-editor.org/rfc/rfc3164.html#section-5.4
     //
     //      <14>Jan  1 15:00:36 2023 HOST dropbear[23732]: Exit (root): Disconnect received
     //      <29>Jan  1 14:21:13 2023 HOST netifd: Network device 'eth0' link is up
     //
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKSq, CGP_TZzc, RP_NODIGIT),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKSq, CGP_TZzc, RP_NODIGIT),
         DTFSS_BdHMSYzc, 0, 40, CGN_MONTH, CGN_TZ,
         &[
             (4, 31, "<14>Jan  1 15:00:36 2023 -02:00 HOST dropbear[23732]: Exit (root): Disconnect received"),
             (4, 31, "<14>Jan 01 15:00:36 2023 -02:00 HOST dropbear[23732]: Exit (root): Disconnect received"),
             (3, 30, "<1>Jan 31 14:21:13 2023 -02:00 HOST netifd: Network device 'eth0' link is up"),
+            (5, 32, "<135>Jan 31 14:21:13 2023 -02:00 HOST netifd: Network device 'eth0' link is up"),
         ],
         line!(),
     ),
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKSq, CGP_TZzp, RP_NODIGIT),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKSq, CGP_TZzp, RP_NODIGIT),
         DTFSS_BdHMSYzp, 0, 40, CGN_MONTH, CGN_TZ,
         &[
             (4, 28, "<14>Jan  1 15:00:36 2023 -02 HOST dropbear[23732]: Exit (root): Disconnect received"),
@@ -2131,7 +2141,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKSq, CGP_TZZ, RP_NOALNUM),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_BLANKSq, CGP_TZZ, RP_NOALNUM),
         DTFSS_BdHMSYZ, 0, 40, CGN_MONTH, CGN_TZ,
         &[
             (4, 29, "<14>Jan  1 15:00:36 2023 WGST HOST dropbear[23732]: Exit (root): Disconnect received"),
@@ -2141,7 +2151,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_NODIGIT),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_NODIGIT),
         DTFSS_BdHMSY, 0, 35, CGN_MONTH, CGN_YEAR,
         &[
             (4, 24, "<14>Jan  1 15:00:36 2023 HOST dropbear[23732]: Exit (root): Disconnect received"),
@@ -2153,7 +2163,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      <14>Jan  1 15:00:36 WIST 2023 HOST dropbear[23732]: Exit (root): Disconnect received
     //
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZzc, RP_BLANKS, CGP_YEAR, RP_NODIGIT),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZzc, RP_BLANKS, CGP_YEAR, RP_NODIGIT),
         DTFSS_BdHMSYzc, 0, 40, CGN_MONTH, CGN_YEAR,
         &[
             (4, 31, "<14>Jan  1 15:00:36 -02:00 2023 HOST dropbear[23732]: Exit (root): Disconnect received"),
@@ -2162,7 +2172,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZzp, RP_BLANKS, CGP_YEAR, RP_NODIGIT),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZzp, RP_BLANKS, CGP_YEAR, RP_NODIGIT),
         DTFSS_BdHMSYzp, 0, 40, CGN_MONTH, CGN_YEAR,
         &[
             (4, 28, "<14>Jan  1 15:00:36 -02 2023 HOST dropbear[23732]: Exit (root): Disconnect received"),
@@ -2171,7 +2181,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZZ, RP_BLANKS, CGP_YEAR, RP_NODIGIT),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_TZZ, RP_BLANKS, CGP_YEAR, RP_NODIGIT),
         DTFSS_BdHMSYZ, 0, 40, CGN_MONTH, CGN_YEAR,
         &[
             (4, 29, "<14>Jan  1 15:00:36 WGST 2023 HOST dropbear[23732]: Exit (root): Disconnect received"),
@@ -2185,12 +2195,15 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      <7>Mar 23 09:35:30 localhost DPKG [9332:<console>.<module>:2] debug info
     //
     DTPD!(
-        concatcp!("^<", RP_DIGITS2, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKSq),
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKSq),
         DTFSS_BdHMS, 0, 30, CGN_MONTH, CGN_SECOND,
         &[
             (4, 19, "<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received"),
             (3, 18, "<1>Jan 31 14:21:13 HOST netifd: Network device 'eth0' link is up"),
             (3, 18, "<7>Mar 23 09:35:30 localhost DPKG [9332:<console>.<module>:2] debug info"),
+            (5, 20, "<144>Mar 23 09:35:30 localhost DPKG [9332:<console>.<module>:2] debug info"),
+            // example scraped from RFC 3164 (https://www.rfc-editor.org/rfc/rfc3164.html#section-5.4)
+            (4, 19, "<34>Oct 11 22:14:15 mymachine su: 'su root' failed for lonvick on /dev/pts/8"),
         ],
         line!(),
     ),
@@ -2229,8 +2242,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // from file `logs/Windows10Pro/debug/mrt.log`
     // example with offset:
     //
-    //               1         2         3         4
-    //     01234567890123456789012345678901234567890
+    //               1         2         3         4          5         6         7         8         9
+    //     01234567890123456789012345678901234567890012345678901234567890123456789012345678901234567890
     //     ---------------------------------------------------------------------------------------
     //     Microsoft Windows Malicious Software Removal Tool v5.83, (build 5.83.13532.1)
     //     Started On Thu Sep 10 10:08:35 2020
@@ -2242,7 +2255,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     Microsoft Windows Malicious Software Removal Tool Finished On Tue Nov 10 18:54:47 2020
     //
     DTPD!(
-        concatcp!("(Started On|started on|STARTED|Started|started|Finished On|finished on|FINISHED|Finished|finished)[:]?", RP_BLANK, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        concatcp!("(Started On|Started on|started on|STARTED|Started|started|Finished On|Finished on|finished on|FINISHED|Finished|finished)[:]?", RP_BLANK, CGP_DAYa, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         DTFSS_YbdHMS, 0, 140, CGN_DAYa, CGN_YEAR,
         &[
             (11, 35, "Started On Thu Sep 10 10:08:35 2020"),
