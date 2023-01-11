@@ -50,7 +50,6 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
         with:
-          # `toochain` should match Cargo.toml:[package]:rust-version
           toolchain: ${{ matrix.msrv }}
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }}
         shell: bash
