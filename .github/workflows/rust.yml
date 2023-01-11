@@ -87,19 +87,26 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v2
       - name: Check (cargo check)
+        shell: bash
         # `cargo check` builds dependences and other things but skips
         # final code generation
         run: |
           set -eux
+          cargo --version
           cargo check --verbose --all-targets
           cargo check --verbose --all-targets --release
       - name: Check clippy
+        shell: bash
         run: |
           set -eux
+          cargo --version
+          cargo clippy --version
           cargo clippy --no-deps --verbose --all-targets --all-features
       - name: Build Debug
+        shell: bash
         run: |
           set -eux
+          cargo --version
           cargo build --verbose
           cp -av ./target/debug/s4 ./s4_debug
       - name: Upload debug binary
@@ -109,8 +116,10 @@ jobs:
           path: ./s4_debug
       # build & upload release
       - name: Build Release
+        shell: bash
         run: |
           set -eux
+          cargo --version
           cargo build --release --verbose
           cp -av ./target/release/s4 ./s4_release
       - name: Upload release binary
@@ -150,10 +159,12 @@ jobs:
         with:
           name: s4_debug
       - name: Run Program Debug
+        shell: bash
         run: |
           set -eux
           S4=./s4_debug
           chmod -v +x -- ${S4}
+          ${S4} --version
           ${S4} --help
           ${S4} --color=never ${S4_TEST_FILES} 2>/dev/null
           ${S4} ${S4_ARGSD} --color=never ${S4_TEST_FILES} 2>/dev/null
@@ -179,10 +190,12 @@ jobs:
         with:
           name: s4_release
       - name: Run Program Release
+        shell: bash
         run: |
           set -eux
           S4=./s4_release
           chmod -v +x -- ${S4}
+          ${S4} --version
           ${S4} --help
           ${S4} --color=never ${S4_TEST_FILES}
           ${S4} ${S4_ARGSR} --color=never ${S4_TEST_FILES}
@@ -204,6 +217,7 @@ jobs:
           ${S4} -s --color=always -u -n -w ${S4_TEST_FILES} &>/dev/null
           ${S4} -s --color=always -u -p -w ${S4_TEST_FILES} &>/dev/null
       - name: Compare Runs of Debug and Release
+        shell: bash
         run: |
           set -eu
           S4R=./s4_release
@@ -220,6 +234,7 @@ jobs:
           diff --version
           diff -y --suppress-common-lines --minimal "${OUTR}" "${OUTD}"
       - name: Run Script compare-grep-sort
+        shell: bash
         run: |
           set -eux
           export PROGRAM=./s4_release
@@ -227,6 +242,7 @@ jobs:
           chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
           "${SCRIPT}"
       - name: Run Script compare-current-and-expected
+        shell: bash
         run: |
           set -eux
           chmod -v +x ./tools/log-files-time-update.sh
@@ -283,6 +299,7 @@ jobs:
           command: test
           args: --lib --no-fail-fast
       - name: grcov
+        shell: bash
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: -Zprofile
@@ -291,6 +308,7 @@ jobs:
                      -Cpanic=abort -Zpanic_abort_tests
         run: |
           set -eux
+          grcov --version
           grcov \
               . \
               --source-dir ./src \
