@@ -11,7 +11,7 @@ categories = ["command-line-utilities", "filesystem"]
 readme = "README.md"
 version = "0.2.47"
 edition = "2021"
-# `rust-version` should match ./github/workflows/rust.yml:rust_msrv:toolchain
+# `rust-version` should match ./github/workflows/rust.yml:rust_msrv:msrv
 rust-version = "1.61.0"
 # Do not set metadata fields `documentation` or `homepage` unless using
 # non-standard websites.
