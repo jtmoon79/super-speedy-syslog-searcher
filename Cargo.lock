@@ -1297,9 +1297,9 @@ dependencies = [
 
 [[package]]
 name = "si_trace_print"
-version = "0.2.5"
+version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6d64924a3d978162a69744e4b8e654ee9fa6bb1572629142ef30faf90e549e9a"
+checksum = "fbea76427e2137fea6148e1a674ef47cf7159edda8e6277fffb656990a61aee1"
 dependencies = [
  "backtrace",
  "const_format",
