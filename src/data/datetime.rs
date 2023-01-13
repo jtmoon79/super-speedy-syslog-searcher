@@ -2342,6 +2342,22 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     2017-05-24T19:14:38-07:00 hostname1 usb-copy-starter
     //
     // ---------------------------------------------------------------------------------------------
+    // from NTP statistics logging files `loopstats`, `clockstats`, `peerstats`, etc...
+    //
+    // example with offset:
+    //
+    //               1         2
+    //     012345678901234567890
+    //     59955 725.605 -0.002167105 47.876 0.012528010 1.558579 9
+    //
+    // according to https://docs.ntpsec.org/latest/monopt.html
+    //
+    //     59955 is the modified Julian Day number
+    //     725.605 time of day (s) past midnight UTC
+    //
+    // other examples from http://www.ntp.org/ntpfaq/NTP-s-trouble.htm
+    //
+    // ---------------------------------------------------------------------------------------------
     //
     // prescripted datetime+tz
     //
