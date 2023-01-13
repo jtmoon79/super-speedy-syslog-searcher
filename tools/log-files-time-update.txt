@@ -45,6 +45,8 @@
 ./FedoraRemix29/dnf.librepo.log|2019-06-16T14:09:37-00:00
 ./FedoraRemix29/dnf.log|2019-06-16T14:11:21-00:00
 ./FedoraRemix29/hawkeye.log|2021-06-16 14:10:30
+./FreeBSD12.3/nginx.log.0|2023-01-07 17:06:07 -08:00
+./FreeBSD12.3/system.log|2023-01-11 17:49:10 -08:00
 ./MinGW64/pacman.log|2018-05-31 12:22
 ./OpenSUSE15/YaST2/y2log|2019-09-17 07:08:12
 ./OpenSUSE15/zypper.log|2019-05-23 16:53:43

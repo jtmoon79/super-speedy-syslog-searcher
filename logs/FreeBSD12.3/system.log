@@ -1,0 +1,14 @@
+Jan 10 18:33:00 hostname  newsyslog[94988]: logfile turned over due to size>500K
+<38>1 2023-01-10T18:33:00.055834-08:00 hostname  sshguard 32449 - - Exiting on signal.
+<38>1 2023-01-10T18:33:00.229544-08:00 hostname  sshguard 96545 - - Now monitoring attacks.
+<43>1 2023-01-11T16:25:00.213959-08:00 hostname syslogd - - - sendto: No buffer space available
+<2>1 2023-01-11T17:17:00.074358-08:00 hostname kernel - - - arprequest: cannot find matching address
+<43>1 2023-01-11T17:45:00.091755-08:00 hostname syslogd - - - sendto: No buffer space available
+<43>1 2023-01-11T17:45:00.092193-08:00 hostname syslogd - - - sendto: No buffer space available
+<43>1 2023-01-11T17:45:00.093079-08:00 hostname syslogd - - - sendto: No buffer space available
+<43>1 2023-01-11T17:45:00.093440-08:00 hostname syslogd - - - sendto: No buffer space available
+<27>1 2023-01-11T17:49:01.418750-08:00 hostname php-fpm 370 - - /rc.newwanip: Accept router advertisements on interface eth0
+<27>1 2023-01-11T17:49:01.446665-08:00 hostname php-fpm 370 - - /rc.newwanip: Starting rtsold process
+<13>1 2023-01-11T17:49:03.456876-08:00 hostname check_reload_status 407 - - Reloading filter
+<27>1 2023-01-11T17:49:08.178051-08:00 hostname rtsold 32793 - - <cap_rssend> sendmsg on eth0: Permission denied
+<35>1 2023-01-11T17:49:09.349595-08:00 hostname sshd 51885 - - error: maximum authentication attempts exceeded for user1 from 192.168.0.1 port 51543 ssh2 [preauth]
