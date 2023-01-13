@@ -602,14 +602,16 @@ impl SyslogProcessor {
             }
             // search for preceding sysline
             fo_prev -= charsz_fo;
-            // sanity check
-            debug_assert_lt!(
-                fo_prev,
-                fo_prev_prev,
-                "fo_prev {} ≥ {} fo_prev_prev, expected <; something is wrong",
-                fo_prev,
-                fo_prev_prev
-            );
+            if fo_prev >= fo_prev_prev {
+                // This will happen in case where the very first line of the file
+                // holds a sysline with datetime pattern without a year, and that
+                // sysline datetime pattern is different than all
+                // proceeding syslines that have a year. (and it should only happen then)
+                // Elicited by example in Issue #74
+                dp_err!("fo_prev {} ≥ {} fo_prev_prev, expected <; something is wrong", fo_prev, fo_prev_prev);
+                // must break otherwise end up in an infinite loop
+                break;
+            }
             syslinep_prev_opt = Some(syslinep.clone());
         }
         dpfx!("return FileOk");
