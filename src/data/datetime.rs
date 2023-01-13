@@ -446,7 +446,7 @@ pub enum DTFS_Tz {
 /// [`NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/naive/struct.NaiveDateTime.html#method.parse_from_str
 /// [`strftime`]: https://docs.rs/chrono/0.4.22/chrono/format/strftime/index.html
 /// [(Rust Playground)]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=00460112beb2a6d078d6bbba72557574
-#[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
+#[derive(Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub struct DTFSSet<'a> {
     pub year: DTFS_Year,
     pub month: DTFS_Month,
@@ -482,6 +482,26 @@ impl DTFSSet<'_> {
             DTFS_Tz::z | DTFS_Tz::zc | DTFS_Tz::zp | DTFS_Tz::Z => true,
             DTFS_Tz::_fill => false,
         }
+    }
+}
+
+impl fmt::Debug for DTFSSet<'_> {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter,
+    ) -> fmt::Result {
+        let mut f_ = f.debug_struct("DTFSSet:");
+        f_.field("year", &self.year)
+            .field("month", &self.month)
+            .field("day", &self.day)
+            .field("hour", &self.hour)
+            .field("second", &self.second)
+            .field("fractional", &self.fractional)
+            .field("tz", &self.tz)
+            .field("pattern", &self.pattern)
+            ;
+
+        f_.finish()
     }
 }
 
@@ -678,11 +698,11 @@ impl fmt::Debug for DateTimeParseInstr<'_> {
         }
         let mut f_ = f.debug_struct("DateTimeParseInstr:");
         f_.field("regex_pattern", &rp)
+            .field("line", &self._line_num)
             .field("range_regex", &self.range_regex)
-            .field("dtfs", &self.dtfs)
             .field("cgn_first", &self.cgn_first)
-            .field("cgn_last", &self.cgn_last);
-        f_.field("line", &self._line_num);
+            .field("cgn_last", &self.cgn_last)
+            .field("", &self.dtfs);
 
         f_.finish()
     }
