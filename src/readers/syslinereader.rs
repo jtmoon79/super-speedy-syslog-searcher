@@ -937,6 +937,7 @@ impl SyslineReader {
         }
 
         const HACK12: &[u8; 2] = b"12";
+        let mut _attempts: usize = 0;
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
         // XXX: it might be faster to skip the special formatting and look directly for the datetime stamp.
@@ -1020,6 +1021,7 @@ impl SyslineReader {
                 // TODO: add stat for tracking this branch of hack pattern matching
                 continue;
             }
+            _attempts += 1;
             // find the datetime string using `Regex`, convert to a `DateTimeL`
             let dt: DateTimeL;
             let dt_beg: LineIndex;
@@ -1034,7 +1036,7 @@ impl SyslineReader {
             return ResultFindDateTime::Ok((dt_beg, dt_end, dt, *index));
         } // end for(pattern, ...)
 
-        dpfx!("return Err(ErrorKind::NotFound);");
+        dpfx!("return Err(ErrorKind::NotFound); tried {} DateTimeParseInstr", _attempts);
         ResultFindDateTime::Err(Error::new(ErrorKind::NotFound, "No datetime found in Line!"))
     }
 
