@@ -2982,7 +2982,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (22, 46, "ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 called for pid 8581, signal 24, core limit 0, dump mode 1"),
             (27, 51, r#"ERROR: apport (pid 529343) Sat Aug 13 08:48:03 2022: executable: /mnt/Projects/super-speedy-syslog-searcher/target/release/s4 (command line "./target/release/s4 -s -wp /dev")"#),
-            (25, 49, r#"ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: executable: /usr/lib/firefox/firefox (command line "/usr/lib/firefox/firefox"#)
+            (25, 49, r#"ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: executable: /usr/lib/firefox/firefox (command line "/usr/lib/firefox/firefox"#),
+            (27, 51, "ERROR: apport (pid 150689) Sun Jan  8 12:53:11 2023: called for pid 150672, signal 6, core limit 0, dump mode 1\n"),
         ],
         line!(),
     ),
