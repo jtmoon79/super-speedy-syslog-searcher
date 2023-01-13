@@ -1893,6 +1893,8 @@ const RP_BLANKq: &RegexPattern = "[[:blank:]]?";
 const RP_BLANKe: &RegexPattern = "([[:blank:]]|$)";
 /// [`RegexPattern`] blank, 1 or 2
 const RP_BLANK12: &RegexPattern = r"[[:blank:]]{1,2}";
+/// [`RegexPattern`] blank, 1 or 2?
+const RP_BLANK12q: &RegexPattern = r"([[:blank:]]{1,2})?";
 /// [`RegexPattern`] blanks
 const RP_BLANKS: &RegexPattern = "[[:blank:]]+";
 /// [`RegexPattern`] blanks?
@@ -1919,7 +1921,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 83;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 94;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2671,6 +2673,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     // ---------------------------------------------------------------------------------------------
     //
+    // matches of datetimes within a "guard" symbols.
+    //
     // from file `./logs/Debian11/apache2/access.log`
     // example with offset:
     //
@@ -2729,7 +2733,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    // ---------------------------------------------------------------------------------------------
     //
     // from file `./logs/Debian11/apache/error.log`
     // example with offset:
@@ -2978,7 +2981,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     DTPD!(
         concatcp!("^", RP_LEVELS, "[:]?", RP_ANYp, RP_BLANK, CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKS, CGP_YEAR, RP_NOALNUM),
-        DTFSS_YbdHMS, 1, 120, CGN_DAYa, CGN_YEAR,
+        DTFSS_YbdHMS, 0, 120, CGN_DAYa, CGN_YEAR,
         &[
             (22, 46, "ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 called for pid 8581, signal 24, core limit 0, dump mode 1"),
             (27, 51, r#"ERROR: apport (pid 529343) Sat Aug 13 08:48:03 2022: executable: /mnt/Projects/super-speedy-syslog-searcher/target/release/s4 (command line "./target/release/s4 -s -wp /dev")"#),
@@ -2997,7 +3000,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     // ---------------------------------------------------------------------------------------------
     //
-    // general matches from start
+    // general matches from beginning of line
     //
     DTPD!(
         concatcp!("^", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, RP_NODIGIT),
@@ -3240,12 +3243,75 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     //
+    // ---------------------------------------------------------------------------------------------
+    //
     // general matches anywhere in the first 1024 bytes of the line
+    //
+    // these are most likely to match datetimes in the log *message*, i.e. a substring that happens
+    // to be a datetime but is not the formal log timestamp. In other words, most likely to cause
+    // errant matches. One reason they are declared last and so attempted last.
+    //
+    DTPD!(
+        concatcp!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, RP_RB),
+        DTFSS_YmdHMSfz, 0, 1024, CGN_YEAR, CGN_TZ,
+        &[
+            (1, 30, "<2000/01/02 00:01:02.123 -1100> a"),
+            (1, 30, "{2000/01/02 00:01:02.123 -1100} a"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzc, RP_RB),
+        DTFSS_YmdHMSfzc, 0, 1024, CGN_YEAR, CGN_TZ,
+        &[
+            (11, 43, "[LOGGER]  {2000/01/03 00:02:03.123456-11:30} ab"),
+            (1, 34, "<2000-01-03T00:02:03.123456 -11:30> ab"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzp, RP_RB),
+        DTFSS_YmdHMSfzp, 0, 1024, CGN_YEAR, CGN_TZ,
+        &[
+            (11, 44, "[LOGGER]  [2000/01/04 00:03:04,123456789 -11]"),
+            (11, 44, "[LOGGER]  [2000/01/04 00:03:04.123456789 -11] abc"),
+            (11, 43, "[LOGGER]  [2000/01/04T00:03:04,123456789-11]abc"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZ, RP_RB),
+        DTFSS_YmdHMSfZ, 0, 1024, CGN_YEAR, CGN_TZ,
+        &[
+            (11, 45, "[LOGGER]\t\t<2000/01/05 00:04:05.123456789 VLAT>:"),
+            (11, 45, "[LOGGER]  <2000/01/05 00:04:05.123456789 VLAT>"),
+            (11, 45, "[LOGGER]  <2000/01/05 00:04:05.123456789 VLAT> abcd"),
+            (11, 45, "[LOGGER]  <2000/01/05 00:04:05.123456789 VLAT>abcd"),
+            (11, 45, "[LOGGER]  <2000/01/05 00:04:05.123456789 VLAT>abcd"),
+            (11, 45, "[LOGGER]  [2000/01/05 00:04:05.123456789 VLAT] abcd"),
+            (11, 45, "[LOGGER]  [2000/01/05-00:04:05.123456789 VLAT]"),
+            (11, 45, "[LOGGER]  (2000/01/05T00:04:05.123456789 vlat) abcd"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_RB),
+        DTFSS_YmdHMSf, 0, 1024, CGN_YEAR, CGN_FRACTIONAL,
+        &[
+            (11, 40, "[LOGGER]  (2020-01-06 00:05:26.123456789) abcdefg"),
+            (21, 50, "[FOOBAR] (PID 2005) (2020-01-06 00:05:26.123456789) foobar!"),
+        ],
+        line!(),
+    ),
     //
     DTPD!(
         concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, RP_NODIGIT),
         DTFSS_YmdHMSfz, 0, 1024, CGN_YEAR, CGN_TZ,
-        &[(0, 29, "2000/01/02 00:01:02.123 -1100 a")],
+        &[
+            (0, 29, "2000/01/02 00:01:02.123 -1100 a"),
+            (0, 29, "2000-01-02T00:01:02.123 -1100 a"),
+            (0, 25, "20000102:000102.123 -1100 a"),
+        ],
         line!(),
     ),
     DTPD!(
@@ -3253,7 +3319,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         DTFSS_YmdHMSfzc, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
             (0, 33, "2000/01/03 00:02:03.123456 -11:30 ab"),
-            (1, 34, "<2000/01/03 00:02:03.123456 -11:30> abc"),
+            (1, 34, "|2000/01/03:00:02:03.123456 -11:30|ab"),
+            (1, 34, "<2000/01/03T00:02:03.123456 -11:30 abc"),
         ],
         line!(),
     ),
@@ -3264,7 +3331,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (0, 33, "2000/01/04 00:03:04,123456789 -11"),
             (0, 33, "2000/01/04 00:03:04,123456789 -11 abc"),
             (0, 33, "2000/01/04 00:03:04,123456789 -11_abc"),
-            (1, 34, "[2000/01/04 00:03:04,123456789 -11] abc"),
+            (1, 34, "|2000/01/04-00:03:04,123456789 -11|abc"),
+            (1, 34, "[2000/01/04T00:03:04,123456789 -11] abc"),
         ],
         line!(),
     ),
@@ -3275,11 +3343,11 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (0, 34, "2000/01/05 00:04:05.123456789 VLAT:"),
             (0, 34, "2000/01/05 00:04:05.123456789 VLAT"),
             (0, 34, "2000/01/05 00:04:05.123456789 VLAT abcd"),
-            (0, 34, "2000/01/05 00:04:05.123456789 VLAT:abcd"),
-            (0, 34, "2000/01/05 00:04:05.123456789 VLAT|abcd"),
-            (1, 35, "[2000/01/05 00:04:05.123456789 VLAT] abcd"),
-            (1, 35, "[2000/01/05 00:04:05.123456789 VLAT]"),
-            (0, 34, "2000/01/05 00:04:05.123456789 vlat abcd"),
+            (0, 34, "2000/01/05:00:04:05.123456789 VLAT:abcd"),
+            (1, 35, "|2000/01/05 00:04:05.123456789 VLAT|abcd"),
+            (1, 35, ":2000/01/05 00:04:05.123456789 VLAT: abcd"),
+            (1, 35, "[2000/01/05T00:04:05.123456789 VLAT]"),
+            (0, 34, "2000/01/05-00:04:05.123456789 vlat abcd"),
         ],
         line!(),
     ),
@@ -3356,13 +3424,13 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZz, RP_NODIGIT),
         DTFSS_BdHMSYz, 0, 1024, CGN_DAYa, CGN_TZ,
         &[
-            (8, 42, "VERBOSE Tuesday Jun 28 2022 01:51:12 +1230"),
-            (8, 38, "VERBOSE Tue Jun 28 2022 01:51:12 +1230 FOOBAR"),
-            (8, 39, "VERBOSE Tue, Jun 28 2022 01:51:12 +1230"),
-            (8, 39, "VERBOSE Tue, Jun  2 2022 01:51:12 +1230"),
-            (8, 39, "VERBOSE Tue, Jun 02 2022 01:51:12 +1230"),
-            (8, 38, "VERBOSE Tue, Jun 2 2022 01:51:12 +1230"),
-            (8, 39, "VERBOSE Tue. Jun 28 2022 01:51:12 +1230 FOOBAR"),
+            (8, 42, "RSYSLOG Tuesday Jun 28 2022 01:51:12 +1230"),
+            (8, 38, "RSYSLOG Tue Jun 28 2022 01:51:12 +1230 FOOBAR"),
+            (8, 39, "RSYSLOG Tue, Jun 28 2022 01:51:12 +1230"),
+            (8, 39, "RSYSLOG Tue, Jun  2 2022 01:51:12 +1230"),
+            (8, 39, "RSYSLOG Tue, Jun 02 2022 01:51:12 +1230"),
+            (8, 38, "RSYSLOG Tue, Jun 2 2022 01:51:12 +1230"),
+            (8, 39, "RSYSLOG Tue. Jun 28 2022 01:51:12 +1230 FOOBAR"),
         ],
         line!(),
     ),
@@ -3375,7 +3443,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (28, 60, "[SOME OTHER FIELD] BLARG<33>Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
             (1, 33, "*Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
             (3, 35, "***Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
-            (11, 43, "[VERBOSE]: Tue, Jun 28 2022 01:51:12 +01:30"),
+            (11, 43, "[RSYSLOG]: Tue, Jun 28 2022 01:51:12 +01:30"),
             (8, 40, "[INFO]: Tue. Jun 28 2022 01:51:12 +01:30:FOOBAR"),
             (7, 38, "[INFO]:Tue Jun 28 2022 01:51:12 +01:30<33>FOOBAR"),
             (6, 37, "[INFO]Tue Jun 28 2022 01:51:12 +01:30FOOBAR"),
@@ -3401,18 +3469,128 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ, RP_NOALPHA),
         DTFSS_BdHMSYZ, 0, 1024, CGN_DAYa, CGN_TZ,
         &[
-            (6, 39, "ERROR Tuesday, Jun 28 2022 01:51:12 WIT"),
-            (6, 36, "ERROR Tue, Jun 28 2022 01:51:12 WITA:FOOBAR"),
-            (6, 35, "ERROR Tue. Jun 28 2022 01:51:12 WST FOOBAR"),
-            (8, 37, "VERBOSE Tue Jun 28 2022 01:51:12 YAKT"),
-            (8, 37, "VERBOSE Tue Jun  2 2022 01:51:12 YAKT"),
-            (8, 37, "VERBOSE Tue Jun 02 2022 01:51:12 YAKT"),
-            (8, 36, "VERBOSE Tue Jun 2 2022 01:51:12 YAKT"),
-            (8, 37, "VERBOSE Tue Jun 28 2022 01:51:12 YEKT FOOBAR"),
-            (8, 37, "VERBOSE Tue Jun 28 2022 01:51:12 yekt foobar"),
-            (8, 38, "VERBOSE Tue June 28 2022 01:51:12 yekt foobar"),
-            (8, 38, "VERBOSE Tue JUNE 28 2022 01:51:12 yekt foobar"),
-            (8, 38, "VERBOSE Tue june 28 2022 01:51:12 yekt foobar"),
+            (6, 39, "LOGGR Tuesday, Jun 28 2022 01:51:12 WIT"),
+            (6, 36, "LOGGR Tue, Jun 28 2022 01:51:12 WITA:FOOBAR"),
+            (6, 35, "LOGGR Tue. Jun 28 2022 01:51:12 WST FOOBAR"),
+            (8, 37, "RSYSLOG Tue Jun 28 2022 01:51:12 YAKT"),
+            (8, 37, "RSYSLOG Tue Jun  2 2022 01:51:12 YAKT"),
+            (8, 37, "RSYSLOG Tue Jun 02 2022 01:51:12 YAKT"),
+            (8, 36, "RSYSLOG Tue Jun 2 2022 01:51:12 YAKT"),
+            (8, 37, "RSYSLOG Tue Jun 28 2022 01:51:12 YEKT FOOBAR"),
+            (8, 37, "RSYSLOG Tue Jun 28 2022 01:51:12 yekt foobar"),
+            (8, 38, "RSYSLOG Tue June 28 2022 01:51:12 yekt foobar"),
+            (8, 38, "RSYSLOG Tue JUNE 28 2022 01:51:12 yekt foobar"),
+            (8, 38, "RSYSLOG Tue june 28 2022 01:51:12 yekt foobar"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
+        DTFSS_BdHMSY, 0, 1024, CGN_DAYa, CGN_SECOND,
+        &[
+            (6, 35, "LOGGR Tuesday, Jun 28 2022 01:51:12 "),
+            (6, 35, "LOGGR Tuesday, Jun 28 2022 01:51:12"),
+            (6, 31, "LOGGR Tue, Jun 28 2022 01:51:12 FOOBAR"),
+            (7, 32, "blarg: Tue. Jun 28 2022 01:51:12 WST"),
+            (8, 32, "RSYSLOG Tue Jun 28 2022 01:51:12[abc"),
+            (8, 32, "RSYSLOG Tue Jun  2 2022 01:51:12[abc"),
+            (8, 32, "RSYSLOG Tue Jun 02 2022 01:51:12;abc"),
+            (8, 31, "RSYSLOG Tue Jun 2 2022 01:51:12 YAKT"),
+            (8, 32, "RSYSLOG Tue Jun 28 2022 01:51:12 YEKT FOOBAR"),
+            (8, 32, "RSYSLOG Tue Jun 28 2022 01:51:12 foobar"),
+            (8, 33, "RSYSLOG Tue June 28 2022 01:51:12               foobar"),
+            (8, 33, "RSYSLOG Tue JUNE 28 2022 01:51:12[YEKT]"),
+            (6, 31, "LOGGR|Tue june 28 2022 01:51:12|YEKT"),
+        ],
+        line!(),
+    ),
+    //
+    DTPD!(
+        concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_BLANK12q, CGP_TZz, RP_NODIGIT),
+        DTFSS_BdHMSYz, 0, 1024, CGN_DAYa, CGN_TZ,
+        &[
+            (27, 57, "ERROR: apport (pid 486722) Thu Jan 12 22:26:47 2023 +1230: called for pid 486450, signal 6, core limit 0, dump mode 1"),
+            (8, 42, "MESSAGE Tuesday Jun 28 01:51:12 2022 +1230"),
+            (8, 38, "MESSAGE Tue Jun 28 01:51:12 2022 +1230 FOOBAR"),
+            (8, 39, "MESSAGE Tue, Jun 28 01:51:12 2022 +1230"),
+            (8, 39, "MESSAGE Tue, Jun  2 01:51:12 2022 +1230"),
+            (8, 39, "MESSAGE Tue, Jun 02 01:51:12 2022 +1230"),
+            (8, 38, "MESSAGE Tue, Jun 2 01:51:12 2022 +1230"),
+            (8, 39, "MESSAGE Tue. Jun 28 01:51:12 2022 +1230 FOOBAR"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_BLANK12q, CGP_TZzc, RP_NODIGIT),
+        DTFSS_BdHMSYzc, 0, 1024, CGN_DAYa, CGN_TZ,
+        &[
+            (27, 58, "ERROR: apport (pid 486722) Thu Jan 12 22:26:47 2023 +12:30: called for pid 486450, signal 6, core limit 0, dump mode 1"),
+            (3, 35, "<7>Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (4, 36, "<33>Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (28, 60, "[SOME OTHER FIELD] BLARG<33>Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (1, 33, "*Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (3, 35, "***Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (11, 43, "[MESSAGE]: Tue, Jun 28 01:51:12 2022 +01:30"),
+            (8, 40, "[INFO]: Tue. Jun 28 01:51:12 2022 +01:30:FOOBAR"),
+            (7, 38, "[INFO]:Tue Jun 28 01:51:12 2022 +01:30<33>FOOBAR"),
+            (6, 37, "[INFO]Tue Jun 28 01:51:12 2022 +01:30FOOBAR"),
+            (7, 38, "{INFO} Tue Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_BLANK12q, CGP_TZzp, RP_NODIGIT),
+        DTFSS_BdHMSYzp, 0, 1024, CGN_DAYa, CGN_TZ,
+        &[
+            (27, 55, "ERROR: apport (pid 486722) Thu Jan 12 22:26:47 2023 +12: called for pid 486450, signal 6, core limit 0, dump mode 1"),
+            (8, 41, "[DEBUG] Tuesday, Jun 28 01:51:12 2022 +01"),
+            (9, 38, "[TRACE1] Tue. Jun 28 01:51:12 2022 +01 FOOBAR"),
+            (9, 38, "[TRACE1] Tue. Jun  2 01:51:12 2022 +01 FOOBAR"),
+            (9, 38, "[TRACE1] Tue. Jun 02 01:51:12 2022 +01 FOOBAR"),
+            (9, 37, "[TRACE1] Tue. Jun 2 01:51:12 2022 +01 FOOBAR"),
+            (9, 38, "[TRACE2] Tue, Jun 28 01:51:12 2022 +01"),
+            (9, 37, "[TRACE1] Tue Jun 28 01:51:12 2022 +01 FOOBAR"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_BLANK12q, CGP_TZZ, RP_NOALPHA),
+        DTFSS_BdHMSYZ, 0, 1024, CGN_DAYa, CGN_TZ,
+        &[
+            (27, 56, "ERROR: apport (pid 486722) Thu Jan 12 22:26:47 2023 WITA: called for pid 486450, signal 6, core limit 0, dump mode 1"),
+            (6, 39, "MESSG Tuesday, Jun 28 01:51:12 2022 WIT"),
+            (6, 36, "MESSG Tue, Jun 28 01:51:12 2022 WITA:FOOBAR"),
+            (6, 35, "MESSG Tue. Jun 28 01:51:12 2022 WST FOOBAR"),
+            (8, 37, "MESSAGE Tue Jun 28 01:51:12 2022 YAKT"),
+            (8, 37, "MESSAGE Tue Jun  2 01:51:12 2022 YAKT"),
+            (8, 37, "MESSAGE Tue Jun 02 01:51:12 2022 YAKT"),
+            (8, 36, "MESSAGE Tue Jun 2 01:51:12 2022 YAKT"),
+            (8, 37, "MESSAGE Tue Jun 28 01:51:12 2022 YEKT FOOBAR"),
+            (8, 37, "MESSAGE Tue Jun 28 01:51:12 2022 yekt foobar"),
+            (8, 38, "MESSAGE Tue June 28 01:51:12 2022 yekt foobar"),
+            (8, 38, "MESSAGE Tue JUNE 28 01:51:12 2022 yekt foobar"),
+            (8, 38, "MESSAGE Tue june 28 01:51:12 2022 yekt foobar"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSY, 0, 1024, CGN_DAYa, CGN_YEAR,
+        &[
+            (27, 51, "ERROR: apport (pid 486722) Thu Jan 12 22:26:47 2023: called for pid 486450, signal 6, core limit 0, dump mode 1"),
+            (6, 35, "MESSG Tuesday, Jun 28 01:51:12 2022 "),
+            (6, 35, "MESSG Tuesday, Jun 28 01:51:12 2022"),
+            (6, 31, "MESSG Tue, Jun 28 01:51:12 2022 FOOBAR"),
+            (7, 32, "messg: Tue. Jun 28 01:51:12 2022 WST"),
+            (8, 32, "MESSAGE Tue Jun 28 01:51:12 2022[abc"),
+            (8, 32, "MESSAGE Tue Jun  2 01:51:12 2022[abc"),
+            (8, 32, "MESSAGE Tue Jun 02 01:51:12 2022;abc"),
+            (8, 31, "MESSAGE Tue Jun 2 01:51:12 2022 YAKT"),
+            (8, 32, "MESSAGE Tue Jun 28 01:51:12 2022 YEKT FOOBAR"),
+            (8, 32, "MESSAGE Tue Jun 28 01:51:12 2022 foobar"),
+            (8, 33, "MESSAGE Tue June 28 01:51:12 2022               foobar"),
+            (8, 33, "FOOBAR! Tue JUNE 28 01:51:12 2022[YEKT]"),
+            (8, 33, "MESSAGE|Tue JUNE 28 01:51:12 2022|YEKT|foobar!"),
         ],
         line!(),
     ),

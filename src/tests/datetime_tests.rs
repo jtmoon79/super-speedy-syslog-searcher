@@ -289,13 +289,19 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
     );
 }
 
-/// force the developer to not forget about updating the hardcoded test cases
-/// in the proceeeding test function `test_DATETIME_PARSE_DATAS_test_cases`
+/// a crude way to help the developer not forget about updating the
+/// hardcoded generated test cases in the proceeeding test function
+/// `test_DATETIME_PARSE_DATAS_test_cases`
 #[test]
 fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {
     assert_eq!(
-        // this number should match the number `DATETIME_PARSE_DATAS_LEN`
-        83, DATETIME_PARSE_DATAS.len(),
+        // THIS NUMBER SHOULD MATCH `DATETIME_PARSE_DATAS_LEN`
+        //
+        // IF YOU CHANGE THIS NUMBER THEN ALSO UPDATE THE GENERATED TEST CASES
+        // FOR `test_DATETIME_PARSE_DATAS_test_cases` BELOW! THOSE TESTS SHOULD
+        // BE FROM ZERO TO ONE LESS THAN THIS NUMBER
+        94,
+        DATETIME_PARSE_DATAS.len(),
         "Did you update?\n\n    #[test_case({0})]\n    fn test_DATETIME_PARSE_DATAS_test_cases()\n\nShould be one less than DATETIME_PARSE_DATAS_LEN {0}\n\n",
         DATETIME_PARSE_DATAS_LEN
     );
@@ -392,6 +398,17 @@ fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {
 #[test_case(80)]
 #[test_case(81)]
 #[test_case(82)]
+#[test_case(83)]
+#[test_case(84)]
+#[test_case(85)]
+#[test_case(86)]
+#[test_case(87)]
+#[test_case(88)]
+#[test_case(89)]
+#[test_case(90)]
+#[test_case(91)]
+#[test_case(92)]
+#[test_case(93)]
 fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     stack_offset_set(Some(2));
 
