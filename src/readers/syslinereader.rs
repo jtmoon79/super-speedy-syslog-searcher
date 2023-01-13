@@ -1132,7 +1132,7 @@ impl SyslineReader {
         // XXX: DT_PATERN_MAX > 1 is unimplemented
         const_assert!(SyslineReader::DT_PATTERN_MAX == 1);
 
-        #[cfg(debug_assertions)]
+        #[cfg(any(debug_assertions, test))]
         {
             for (k, v) in self.dt_patterns_counts.iter() {
                 let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
@@ -1154,7 +1154,7 @@ impl SyslineReader {
         self.dt_patterns_counts
             .retain(|_, v| *v >= max_);
 
-        #[cfg(debug_assertions)]
+        #[cfg(any(debug_assertions, test))]
         {
             if self.dt_patterns_counts.len() != SyslineReader::DT_PATTERN_MAX {
                 eprintln!(
@@ -1166,7 +1166,7 @@ impl SyslineReader {
 
         self.dt_patterns_indexes_refresh();
 
-        #[cfg(debug_assertions)]
+        #[cfg(any(debug_assertions, test))]
         {
             for (k, v) in self.dt_patterns_counts.iter() {
                 let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
@@ -2004,7 +2004,7 @@ impl SyslineReader {
         }
 
         let mut fo_b: FileOffset = fo1;
-        dpo!("find_sysline_year({}): fo_b {:?}", fileoffset, fo_b);
+        dpfo!("({}): fo_b {:?}", fileoffset, fo_b);
         loop {
             dpfo!("({}): self.linereader.find_line({})", fileoffset, fo1);
             let result: ResultS3LineFind = self.linereader.find_line(fo1);
