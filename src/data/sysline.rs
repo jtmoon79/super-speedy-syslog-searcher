@@ -363,7 +363,7 @@ impl Sysline {
 
     /// `Sysline` to `String`.
     ///
-    /// inefficient; only for debugging
+    /// inefficient; only for debugging or testing
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
@@ -393,7 +393,7 @@ impl Sysline {
     /// `Sysline` to `String` but using printable chars for non-printable
     /// and/or formatting characters.
     ///
-    /// inefficient; only for debugging
+    /// inefficient; only for debugging or testing
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
