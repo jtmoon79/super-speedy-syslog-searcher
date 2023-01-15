@@ -41,7 +41,6 @@ if cargo nextest list 2>/dev/null; then
         cargo nextest run \
             --locked \
             --verbose \
-            --test-threads=1 \
             "${args1[@]}" \
             -- \
             "${args2[@]}"
