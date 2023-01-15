@@ -43,6 +43,7 @@ use crate::tests::common::{
 };
 
 use std::str;
+use std::io::Write; // for `flush()`
 
 extern crate const_format;
 use const_format::concatcp;
@@ -3514,12 +3515,12 @@ fn assert_results4(
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-type TestSyslineReaderAnyInputCheck<'a> = (FileOffset, ResultS3SyslineFind_Test, &'a str);
-type TestSyslineReaderAnyInputChecks<'a> = Vec<(FileOffset, ResultS3SyslineFind_Test, &'a str)>;
+type TestSyslineReaderAnyInputCheck<'a> = (FileOffset, ResultS3SyslineFind_Test, FileOffset, &'a str);
+type TestSyslineReaderAnyInputChecks<'a> = Vec<TestSyslineReaderAnyInputCheck<'a>>;
 
 /// test of `SyslineReader::find_sysline` with test-specified fileoffset searches
 #[allow(non_snake_case)]
-fn imp_test_findsysline(
+fn impl_test_findsysline(
     path: &FPath,
     blocksz: BlockSz,
     cache: bool,
@@ -3535,16 +3536,16 @@ fn imp_test_findsysline(
     }
 
     let mut check_i: usize = 0;
-    let mut first_loop = true;
-    for (input_fo, expect_result, expect_val) in input_checks.iter() {
+    let mut done_analysis = false;
+    for (input_fo, expect_result, expect_fo, expect_val) in input_checks.iter() {
         let result = slr.find_sysline(*input_fo);
         assert_results4(input_fo, expect_result, &result);
         match result {
-            ResultS3SyslineFind::Found((_fo, slp)) => {
-                dpfo!("slr.find_sysline({}) returned Found({}, @{:p})", input_fo, _fo, &*slp);
+            ResultS3SyslineFind::Found((fo, slp)) => {
+                dpfo!("slr.find_sysline({}) returned Found({}, @{:p})", input_fo, fo, &*slp);
                 dpfo!(
                     "FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
-                    _fo,
+                    fo,
                     &(*slp),
                     slp.count_lines(),
                     (*slp).len(),
@@ -3557,8 +3558,19 @@ fn imp_test_findsysline(
                 assert_eq!(
                     expect_String, actual_String,
                     "\nexpected string value     {:?}\nfind_sysline({:?}) returned {:?}\n",
-                    expect_String, input_fo, actual_String
+                    expect_String, input_fo, actual_String,
                 );
+                assert_eq!(
+                    &fo, expect_fo,
+                    "mismatched fileoffsets returned by file_sysline({}); expected {}, actual {}, filesz {}",
+                    *input_fo, expect_fo, fo, slr.filesz(),
+                );
+
+                if !done_analysis {
+                    dpfo!("force pattern analysis based on first Found");
+                    done_analysis = true;
+                    assert!(slr.dt_patterns_analysis(), "dt_patterns_analysis() failed");
+                }
             }
             ResultS3SyslineFind::Done => {
                 dpfo!("slr.find_sysline({}) returned Done", input_fo);
@@ -3569,11 +3581,7 @@ fn imp_test_findsysline(
             }
         }
         check_i += 1;
-        if first_loop {
-            // force pattern analysis
-            slr.dt_patterns_analysis();
-            first_loop = false;
-        }
+        println!("\n\n");
     }
     assert_eq!(
         input_checks.len(),
@@ -3591,14 +3599,6 @@ fn imp_test_findsysline(
     dpfx!("({:?}, {})", &path, blocksz);
 }
 
-const test_data_A2_dt6: &str = "\
-2000-01-01 00:00:00
-2000-01-01 00:00:01a
-2000-01-01 00:00:02ab
-2000-01-01 00:00:03abc
-2000-01-01 00:00:04abcd
-2000-01-01 00:00:05abcde";
-
 const test_data_A2_dt6_sysline0: &str = "2000-01-01 00:00:00\n";
 const test_data_A2_dt6_sysline1: &str = "2000-01-01 00:00:01a\n";
 const test_data_A2_dt6_sysline2: &str = "2000-01-01 00:00:02ab\n";
@@ -3606,113 +3606,169 @@ const test_data_A2_dt6_sysline3: &str = "2000-01-01 00:00:03abc\n";
 const test_data_A2_dt6_sysline4: &str = "2000-01-01 00:00:04abcd\n";
 const test_data_A2_dt6_sysline5: &str = "2000-01-01 00:00:05abcde";
 
-type TestDataA2Dt6Checks = [TestSyslineReaderAnyInputCheck<'static>; 50];
+const test_data_A2_dt6: &str = concatcp!(
+    test_data_A2_dt6_sysline0,
+    test_data_A2_dt6_sysline1,
+    test_data_A2_dt6_sysline2,
+    test_data_A2_dt6_sysline3,
+    test_data_A2_dt6_sysline4,
+    test_data_A2_dt6_sysline5,
+);
+
+// remember that `.len()` starts at one, and `FileOffset` starts at zero
+
+const test_data_A2_dt6_sysline0_end: FileOffset = test_data_A2_dt6_sysline0.len() as FileOffset;
+const test_data_A2_dt6_sysline1_end: FileOffset = test_data_A2_dt6_sysline1.len() as FileOffset + test_data_A2_dt6_sysline0_end;
+const test_data_A2_dt6_sysline2_end: FileOffset = test_data_A2_dt6_sysline2.len() as FileOffset + test_data_A2_dt6_sysline1_end;
+const test_data_A2_dt6_sysline3_end: FileOffset = test_data_A2_dt6_sysline3.len() as FileOffset + test_data_A2_dt6_sysline2_end;
+const test_data_A2_dt6_sysline4_end: FileOffset = test_data_A2_dt6_sysline4.len() as FileOffset + test_data_A2_dt6_sysline3_end;
+const test_data_A2_dt6_sysline5_end: FileOffset = test_data_A2_dt6_sysline5.len() as FileOffset + test_data_A2_dt6_sysline4_end;
+
+type TestDataA2Dt6Checks = [TestSyslineReaderAnyInputCheck<'static>; 141];
+type TestDataA2Dt6ChecksVec = Vec::<TestSyslineReaderAnyInputCheck<'static>>;
 
 const test_data_A2_dt6_checks_many: TestDataA2Dt6Checks = [
-    (0, FOUND, test_data_A2_dt6_sysline0),
-    (1, FOUND, test_data_A2_dt6_sysline0),
-    (2, FOUND, test_data_A2_dt6_sysline0),
-    (3, FOUND, test_data_A2_dt6_sysline0),
-    (4, FOUND, test_data_A2_dt6_sysline0),
-    (5, FOUND, test_data_A2_dt6_sysline0),
-    (6, FOUND, test_data_A2_dt6_sysline0),
-    (19, FOUND, test_data_A2_dt6_sysline0),
-    (20, FOUND, test_data_A2_dt6_sysline1),
-    (21, FOUND, test_data_A2_dt6_sysline1),
-    (22, FOUND, test_data_A2_dt6_sysline1),
-    (23, FOUND, test_data_A2_dt6_sysline1),
-    (24, FOUND, test_data_A2_dt6_sysline1),
-    (25, FOUND, test_data_A2_dt6_sysline1),
-    (40, FOUND, test_data_A2_dt6_sysline1),
-    (41, FOUND, test_data_A2_dt6_sysline2),
-    (42, FOUND, test_data_A2_dt6_sysline2),
-    (43, FOUND, test_data_A2_dt6_sysline2),
-    (44, FOUND, test_data_A2_dt6_sysline2),
-    (45, FOUND, test_data_A2_dt6_sysline2),
-    (46, FOUND, test_data_A2_dt6_sysline2),
-    (47, FOUND, test_data_A2_dt6_sysline2),
-    (61, FOUND, test_data_A2_dt6_sysline2),
-    (62, FOUND, test_data_A2_dt6_sysline2),
-    (63, FOUND, test_data_A2_dt6_sysline3),
-    (64, FOUND, test_data_A2_dt6_sysline3),
-    (65, FOUND, test_data_A2_dt6_sysline3),
-    (66, FOUND, test_data_A2_dt6_sysline3),
-    (67, FOUND, test_data_A2_dt6_sysline3),
-    (84, FOUND, test_data_A2_dt6_sysline3),
-    (85, FOUND, test_data_A2_dt6_sysline3),
-    (86, FOUND, test_data_A2_dt6_sysline4),
-    (87, FOUND, test_data_A2_dt6_sysline4),
-    (88, FOUND, test_data_A2_dt6_sysline4),
-    (89, FOUND, test_data_A2_dt6_sysline4),
-    (90, FOUND, test_data_A2_dt6_sysline4),
-    (108, FOUND, test_data_A2_dt6_sysline4),
-    (109, FOUND, test_data_A2_dt6_sysline4),
-    (110, FOUND, test_data_A2_dt6_sysline5),
-    (111, FOUND, test_data_A2_dt6_sysline5),
-    (112, FOUND, test_data_A2_dt6_sysline5),
-    (113, FOUND, test_data_A2_dt6_sysline5),
-    (114, FOUND, test_data_A2_dt6_sysline5),
-    (134, DONE, ""),
-    (135, DONE, ""),
-    (136, DONE, ""),
-    (137, DONE, ""),
-    (138, DONE, ""),
-    (139, DONE, ""),
-    (140, DONE, ""),
-];
-
-/// reverse order `test_data_A2_dt6_checks_many`
-const test_data_A2_dt6_checks_many_rev: TestDataA2Dt6Checks = [
-    (140, DONE, ""),
-    (139, DONE, ""),
-    (138, DONE, ""),
-    (137, DONE, ""),
-    (136, DONE, ""),
-    (135, DONE, ""),
-    (134, DONE, ""),
-    (114, FOUND, test_data_A2_dt6_sysline5),
-    (113, FOUND, test_data_A2_dt6_sysline5),
-    (112, FOUND, test_data_A2_dt6_sysline5),
-    (111, FOUND, test_data_A2_dt6_sysline5),
-    (110, FOUND, test_data_A2_dt6_sysline5),
-    (109, FOUND, test_data_A2_dt6_sysline4),
-    (108, FOUND, test_data_A2_dt6_sysline4),
-    (90, FOUND, test_data_A2_dt6_sysline4),
-    (89, FOUND, test_data_A2_dt6_sysline4),
-    (88, FOUND, test_data_A2_dt6_sysline4),
-    (87, FOUND, test_data_A2_dt6_sysline4),
-    (86, FOUND, test_data_A2_dt6_sysline4),
-    (85, FOUND, test_data_A2_dt6_sysline3),
-    (84, FOUND, test_data_A2_dt6_sysline3),
-    (67, FOUND, test_data_A2_dt6_sysline3),
-    (66, FOUND, test_data_A2_dt6_sysline3),
-    (65, FOUND, test_data_A2_dt6_sysline3),
-    (64, FOUND, test_data_A2_dt6_sysline3),
-    (63, FOUND, test_data_A2_dt6_sysline3),
-    (62, FOUND, test_data_A2_dt6_sysline2),
-    (61, FOUND, test_data_A2_dt6_sysline2),
-    (47, FOUND, test_data_A2_dt6_sysline2),
-    (46, FOUND, test_data_A2_dt6_sysline2),
-    (45, FOUND, test_data_A2_dt6_sysline2),
-    (44, FOUND, test_data_A2_dt6_sysline2),
-    (43, FOUND, test_data_A2_dt6_sysline2),
-    (42, FOUND, test_data_A2_dt6_sysline2),
-    (41, FOUND, test_data_A2_dt6_sysline2),
-    (40, FOUND, test_data_A2_dt6_sysline1),
-    (25, FOUND, test_data_A2_dt6_sysline1),
-    (24, FOUND, test_data_A2_dt6_sysline1),
-    (23, FOUND, test_data_A2_dt6_sysline1),
-    (22, FOUND, test_data_A2_dt6_sysline1),
-    (21, FOUND, test_data_A2_dt6_sysline1),
-    (20, FOUND, test_data_A2_dt6_sysline1),
-    (19, FOUND, test_data_A2_dt6_sysline0),
-    (6, FOUND, test_data_A2_dt6_sysline0),
-    (5, FOUND, test_data_A2_dt6_sysline0),
-    (4, FOUND, test_data_A2_dt6_sysline0),
-    (3, FOUND, test_data_A2_dt6_sysline0),
-    (2, FOUND, test_data_A2_dt6_sysline0),
-    (1, FOUND, test_data_A2_dt6_sysline0),
-    (0, FOUND, test_data_A2_dt6_sysline0),
+    (0, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (1, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (2, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (3, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (4, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (5, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (6, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (7, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (8, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (9, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (10, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (11, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (12, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (13, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (14, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (15, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (16, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (17, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (18, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (19, FOUND, test_data_A2_dt6_sysline0_end, test_data_A2_dt6_sysline0),
+    (20, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (21, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (22, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (23, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (24, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (25, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (26, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (27, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (28, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (29, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (30, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (31, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (32, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (33, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (34, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (35, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (36, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (37, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (38, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (39, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (40, FOUND, test_data_A2_dt6_sysline1_end, test_data_A2_dt6_sysline1),
+    (41, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (42, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (43, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (44, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (45, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (46, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (47, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (48, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (49, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (50, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (51, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (52, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (53, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (54, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (55, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (56, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (57, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (58, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (59, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (60, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (61, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (62, FOUND, test_data_A2_dt6_sysline2_end, test_data_A2_dt6_sysline2),
+    (63, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (64, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (65, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (66, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (67, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (68, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (69, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (70, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (71, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (72, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (73, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (74, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (75, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (76, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (77, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (78, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (79, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (80, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (81, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (82, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (83, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (84, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (85, FOUND, test_data_A2_dt6_sysline3_end, test_data_A2_dt6_sysline3),
+    (86, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (87, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (88, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (89, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (90, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (91, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (92, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (93, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (94, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (95, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (96, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (97, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (98, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (99, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (100, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (101, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (102, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (103, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (104, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (105, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (106, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (107, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (108, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (109, FOUND, test_data_A2_dt6_sysline4_end, test_data_A2_dt6_sysline4),
+    (110, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (111, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (112, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (113, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (114, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (115, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (116, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (117, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (118, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (119, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (120, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (121, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (122, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (123, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (124, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (125, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (126, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (127, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (128, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (129, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (130, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (131, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (132, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (133, FOUND, test_data_A2_dt6_sysline5_end, test_data_A2_dt6_sysline5),
+    (134, DONE, 0, ""),
+    (135, DONE, 0, ""),
+    (136, DONE, 0, ""),
+    (137, DONE, 0, ""),
+    (138, DONE, 0, ""),
+    (139, DONE, 0, ""),
+    (140, DONE, 0, ""),
 ];
 
 lazy_static! {
@@ -3720,32 +3776,113 @@ lazy_static! {
     static ref test_data_A2_dt6_ntf_path: FPath = ntf_fpath(&test_data_A2_dt6_ntf);
 }
 
-#[test_case(true, 2, &test_data_A2_dt6_checks_many; "cache_2")]
-#[test_case(false, 2, &test_data_A2_dt6_checks_many; "nocache_2")]
-#[test_case(true, 2, &test_data_A2_dt6_checks_many_rev; "cache_2_reverse")]
-#[test_case(false, 2, &test_data_A2_dt6_checks_many_rev; "nocache_2_reverse")]
-#[test_case(true, 4, &test_data_A2_dt6_checks_many; "cache_4")]
-#[test_case(false, 4, &test_data_A2_dt6_checks_many; "nocache_4")]
-#[test_case(true, 4, &test_data_A2_dt6_checks_many_rev; "cache_4_reverse")]
-#[test_case(false, 4, &test_data_A2_dt6_checks_many_rev; "nocache_4_reverse")]
-#[test_case(true, 0xF, &test_data_A2_dt6_checks_many; "cache_0xF")]
-#[test_case(false, 0xF, &test_data_A2_dt6_checks_many; "nocache_0xF")]
-#[test_case(true, 0xF, &test_data_A2_dt6_checks_many_rev; "cache_0xF_reverse")]
-#[test_case(false, 0xF, &test_data_A2_dt6_checks_many_rev; "nocache_0xF_reverse")]
-#[test_case(true, 0xFF, &test_data_A2_dt6_checks_many; "cache_0xFF")]
-#[test_case(false, 0xFF, &test_data_A2_dt6_checks_many; "nocache_0xFF")]
-#[test_case(true, 0xFF, &test_data_A2_dt6_checks_many_rev; "cache_0xFF_reverse")]
-#[test_case(false, 0xFF, &test_data_A2_dt6_checks_many_rev; "nocache_0xFF_reverse")]
-#[test_case(true, 0x1FF, &test_data_A2_dt6_checks_many; "cache_0x1FF")]
-#[test_case(false, 0x1FF, &test_data_A2_dt6_checks_many; "nocache_0x1FF")]
-#[test_case(true, 0x1FF, &test_data_A2_dt6_checks_many_rev; "cache_0x1FF_reverse")]
-#[test_case(false, 0x1FF, &test_data_A2_dt6_checks_many_rev; "nocache_0x1FF_reverse")]
+fn copy_TestDataA2Dt6Checks(checks: &TestDataA2Dt6Checks) -> TestDataA2Dt6ChecksVec {
+    let mut data = TestDataA2Dt6ChecksVec::new();
+    // PitA to copy because std::io::Error does not copy or clone
+    // discussed in https://github.com/rust-lang-deprecated/failure/issues/148
+    for check in checks {
+        let result = match &check.1 {
+            ResultS3::Found(_) => FOUND,
+            ResultS3::Done => DONE,
+            ResultS3::Err(_) => ResultS3SyslineFind_Test::Err(
+                std::io::Error::new(
+                    std::io::ErrorKind::Other,
+                    "dummy error",
+                )
+            ),
+        };
+        data.push((check.0, result, check.2, check.3));
+    }
+
+    data
+}
+
+#[test_case(true, false, false, 2, &test_data_A2_dt6_checks_many; "cache_2")]
+#[test_case(false, false, false, 2, &test_data_A2_dt6_checks_many; "nocache_2")]
+#[test_case(true, true, false, 2, &test_data_A2_dt6_checks_many; "cache_2_reverse")]
+#[test_case(false, true, false, 2, &test_data_A2_dt6_checks_many; "nocache_2_reverse")]
+#[test_case(true, false, true, 2, &test_data_A2_dt6_checks_many; "cache_2_swapends")]
+#[test_case(false, false, true, 2, &test_data_A2_dt6_checks_many; "nocache_2_swapends")]
+#[test_case(true, true, true, 2, &test_data_A2_dt6_checks_many; "cache_2_reverse_swapends")]
+#[test_case(false, true, true, 2, &test_data_A2_dt6_checks_many; "nocache_2_reverse_swapends")]
+#[test_case(true, false, false, 4, &test_data_A2_dt6_checks_many; "cache_4")]
+#[test_case(false, false, false, 4, &test_data_A2_dt6_checks_many; "nocache_4")]
+#[test_case(true, true, false, 4, &test_data_A2_dt6_checks_many; "cache_4_reverse")]
+#[test_case(false, true, false, 4, &test_data_A2_dt6_checks_many; "nocache_4_reverse")]
+#[test_case(true, false, false, 0xF, &test_data_A2_dt6_checks_many; "cache_0xF")]
+#[test_case(false, false, false, 0xF, &test_data_A2_dt6_checks_many; "nocache_0xF")]
+#[test_case(true, true, false, 0xF, &test_data_A2_dt6_checks_many; "cache_0xF_reverse")]
+#[test_case(false, true, false, 0xF, &test_data_A2_dt6_checks_many; "nocache_0xF_reverse")]
+#[test_case(true, false, false, 0xFF, &test_data_A2_dt6_checks_many; "cache_0xFF")]
+#[test_case(false, false, false, 0xFF, &test_data_A2_dt6_checks_many; "nocache_0xFF")]
+#[test_case(true, false, true, 0xFF, &test_data_A2_dt6_checks_many; "cache_0xFF_swapends")]
+#[test_case(false, false, true, 0xFF, &test_data_A2_dt6_checks_many; "nocache_0xFF_swapends")]
+#[test_case(true, true, false, 0xFF, &test_data_A2_dt6_checks_many; "cache_0xFF_reverse")]
+#[test_case(false, true, false, 0xFF, &test_data_A2_dt6_checks_many; "nocache_0xFF_reverse")]
+#[test_case(true, true, true, 0xFF, &test_data_A2_dt6_checks_many; "cache_0xFF_reverse_swapends")]
+#[test_case(false, true, true, 0xFF, &test_data_A2_dt6_checks_many; "nocache_0xFF_reverse_swapends")]
+#[test_case(true, false, false, 0x1FF, &test_data_A2_dt6_checks_many; "cache_0x1FF")]
+#[test_case(false, false, false, 0x1FF, &test_data_A2_dt6_checks_many; "nocache_0x1FF")]
+#[test_case(true, false, true, 0x1FF, &test_data_A2_dt6_checks_many; "cache_0x1FF_swapends")]
+#[test_case(false, false, true, 0x1FF, &test_data_A2_dt6_checks_many; "nocache_0x1FF_swapends")]
+#[test_case(true, true, false, 0x1FF, &test_data_A2_dt6_checks_many; "cache_0x1FF_reverse")]
+#[test_case(false, true, false, 0x1FF, &test_data_A2_dt6_checks_many; "nocache_0x1FF_reverse")]
+#[test_case(true, true, true, 0x1FF, &test_data_A2_dt6_checks_many; "cache_0x1FF_reverse_swapends")]
+#[test_case(false, true, true, 0x1FF, &test_data_A2_dt6_checks_many; "nocache_0x1FF_reverse_swapends")]
 fn test_find_sysline_A2_dt6(
     cache: bool,
+    rev_checks: bool,
+    swap_ends: bool,
     blocksz: BlockSz,
     checks: &TestDataA2Dt6Checks,
 ) {
-    imp_test_findsysline(&test_data_A2_dt6_ntf_path, blocksz, cache, checks);
+    match std::io::stdout().flush() {
+        Ok(_) => (),
+        Err(err) => panic!("stdout flush failed: {}", err),
+    };
+    match std::io::stderr().flush() {
+        Ok(_) => (),
+        Err(err) => panic!("stderr flush failed: {}", err),
+    };
+    dpfn!("cache {}, rev_checks {}, swap_ends {}, blocksz 0x{:02X}",
+        cache, rev_checks, swap_ends, blocksz);
+    let mut checks_: TestDataA2Dt6ChecksVec;
+    match (rev_checks, swap_ends) {
+        (true, true) => {
+            checks_ = copy_TestDataA2Dt6Checks(checks);
+            checks_.reverse();
+            // swap every other
+            for at in (0..(checks_.len() / 2)).step_by(2) {
+                let at_end = checks_.len() - at - 1;
+                checks_.swap(at, at_end);
+            }
+        }
+        (true, false) => {
+            checks_ = copy_TestDataA2Dt6Checks(checks);
+            checks_.reverse();
+        }
+        (false, true) => {
+            checks_ = copy_TestDataA2Dt6Checks(checks);
+            // swap every other
+            for at in (0..(checks_.len() / 2)).step_by(2) {
+                let at_end = checks_.len() - at - 1;
+                checks_.swap(at, at_end);
+            }
+        }
+        (false, false) => {
+            dpfo!("checks {}", checks.len());
+            for check in checks.iter() {
+                dpfo!("check({:?} {:?} {:?})", check.0, check.1, check.2);
+            }
+            impl_test_findsysline(&test_data_A2_dt6_ntf_path, blocksz, cache, checks);
+            return;
+        }
+    };
+    dpfo!("checks {}", checks_.len(),);
+    for (i, check) in checks_.iter().enumerate() {
+        dpfo!("check[{}]({:?} {:?} {:?})", i, check.0, check.1, check.2);
+    }
+    impl_test_findsysline(&test_data_A2_dt6_ntf_path, blocksz, cache, &checks_);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -3842,19 +3979,22 @@ fn test_find_sysline_D_invalid1() {
 
 // -------------------------------------------------------------------------------------------------
 
-/// notice the second line is an invalid date that will pass regex match
-#[allow(non_upper_case_globals)]
-const test_data_file_E_dt6: &str = "\
-2001-01-01 00:00:00 _
-2001-02-31 00:00:01 😩
-2001-03-01 00:00:02 😀😁
-2001-04-01 00:00:03 😀😁😂
-2001-05-01 00:00:04 😀😁😂😃
-2001-06-01 00:00:05 😀😁😂😃😄";
-
 const test_data_file_E_dt6_sysline0: &str = "2001-01-01 00:00:00 _\n2001-02-31 00:00:01 😩\n";
 const test_data_file_E_dt6_sysline1: &str = "2001-03-01 00:00:02 😀😁\n";
 const test_data_file_E_dt6_sysline2: &str = "2001-04-01 00:00:03 😀😁😂\n";
+
+// notice the second line, first sysline, is an invalid date that will pass regex match
+const test_data_file_E_dt6: &str = concatcp!(
+    test_data_file_E_dt6_sysline0,
+    test_data_file_E_dt6_sysline1,
+    test_data_file_E_dt6_sysline2,
+    "2001-05-01 00:00:04 😀😁😂😃\n",
+    "2001-06-01 00:00:05 😀😁😂😃😄",
+);
+
+const test_data_file_E_dt6_sysline0_end: FileOffset = test_data_file_E_dt6_sysline0.len() as FileOffset;
+const test_data_file_E_dt6_sysline1_end: FileOffset = test_data_file_E_dt6_sysline0_end + test_data_file_E_dt6_sysline1.len() as FileOffset;
+const test_data_file_E_dt6_sysline2_end: FileOffset = test_data_file_E_dt6_sysline1_end + test_data_file_E_dt6_sysline2.len() as FileOffset;
 
 lazy_static! {
     static ref test_SyslineReader_E_ntf: NamedTempFile = create_temp_file(test_data_file_E_dt6);
@@ -3863,191 +4003,230 @@ lazy_static! {
 
 #[test]
 fn test_find_sysline_E_dt6_0() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(0, FOUND, test_data_file_E_dt6_sysline0)]);
-    imp_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(0, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)]
+    );
+    impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_E_dt6_1() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(1, FOUND, test_data_file_E_dt6_sysline0)]);
-    imp_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(1, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)]
+    );
+    impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_E_dt6_22() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(22, FOUND, test_data_file_E_dt6_sysline0)]);
-    imp_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(22, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)]
+    );
+    impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_E_dt6_42() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(42, FOUND, test_data_file_E_dt6_sysline0)]);
-    imp_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(42, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)]
+    );
+    impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_E_dt6_43() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(43, FOUND, test_data_file_E_dt6_sysline0)]);
-    imp_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [
+            (43, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)
+        ]
+    );
+    impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_E_dt6_44() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(44, FOUND, test_data_file_E_dt6_sysline0)]);
-    imp_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(44, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0)]
+    );
+    impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_E_dt6_75() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(75, FOUND, test_data_file_E_dt6_sysline1)]);
-    imp_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(75, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1)]
+    );
+    impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_E_dt6_76() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(76, FOUND, test_data_file_E_dt6_sysline2)]);
-    imp_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(76, FOUND, test_data_file_E_dt6_sysline2_end, test_data_file_E_dt6_sysline2)]
+    );
+    impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_E_dt6_0______78() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (0, FOUND, test_data_file_E_dt6_sysline0),
-        (1, FOUND, test_data_file_E_dt6_sysline0),
-        (21, FOUND, test_data_file_E_dt6_sysline0),
-        (22, FOUND, test_data_file_E_dt6_sysline0),
-        (23, FOUND, test_data_file_E_dt6_sysline0),
-        (24, FOUND, test_data_file_E_dt6_sysline0),
-        (42, FOUND, test_data_file_E_dt6_sysline0),
-        (43, FOUND, test_data_file_E_dt6_sysline0),
-        (44, FOUND, test_data_file_E_dt6_sysline0),
-        (45, FOUND, test_data_file_E_dt6_sysline0),
-        (46, FOUND, test_data_file_E_dt6_sysline0),
-        (47, FOUND, test_data_file_E_dt6_sysline1),
-        (48, FOUND, test_data_file_E_dt6_sysline1),
-        (49, FOUND, test_data_file_E_dt6_sysline1),
-        (70, FOUND, test_data_file_E_dt6_sysline1),
-        (71, FOUND, test_data_file_E_dt6_sysline1),
-        (72, FOUND, test_data_file_E_dt6_sysline1),
-        (73, FOUND, test_data_file_E_dt6_sysline1),
-        (74, FOUND, test_data_file_E_dt6_sysline1),
-        (75, FOUND, test_data_file_E_dt6_sysline1),
-        (76, FOUND, test_data_file_E_dt6_sysline2),
-        (77, FOUND, test_data_file_E_dt6_sysline2),
-        (78, FOUND, test_data_file_E_dt6_sysline2),
+        (0, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (1, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (21, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (22, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (23, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (24, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (42, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (43, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (44, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (45, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (46, FOUND, test_data_file_E_dt6_sysline0_end, test_data_file_E_dt6_sysline0),
+        (47, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1),
+        (48, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1),
+        (49, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1),
+        (70, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1),
+        (71, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1),
+        (72, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1),
+        (73, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1),
+        (74, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1),
+        (75, FOUND, test_data_file_E_dt6_sysline1_end, test_data_file_E_dt6_sysline1),
+        (76, FOUND, test_data_file_E_dt6_sysline2_end, test_data_file_E_dt6_sysline2),
+        (77, FOUND, test_data_file_E_dt6_sysline2_end, test_data_file_E_dt6_sysline2),
+        (78, FOUND, test_data_file_E_dt6_sysline2_end, test_data_file_E_dt6_sysline2),
     ]);
-    imp_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_E_ntf_path, 4, false, &checks);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-/// notice the fourth line is an invalid date that will pass regex match
-#[allow(non_upper_case_globals)]
-const _test_data_file_F_dt6: &str = "\
-2001-01-01 00:00:00 _
-2001-02-01 00:00:01 😀
-2001-03-01 00:00:02 😀😁
-2001-04-31 00:00:03 😫😫😫
-2001-05-01 00:00:04 😀😁😂😃
-2001-06-01 00:00:05 😀😁😂😃😄";
-
-#[allow(dead_code)]
 const test_data_file_F_dt6_sysline0: &str = "2001-01-01 00:00:00 _\n";
 const test_data_file_F_dt6_sysline1: &str = "2001-02-01 00:00:01 😀\n";
 const test_data_file_F_dt6_sysline2: &str = "2001-03-01 00:00:02 😀😁\n2001-04-31 00:00:03 😫😫😫\n";
 const test_data_file_F_dt6_sysline3: &str = "2001-05-01 00:00:04 😀😁😂😃\n";
 
+// notice the fourth line, third sysline, is an invalid date that will pass regex match
+const test_data_file_F_dt6: &str = concatcp!(
+    test_data_file_F_dt6_sysline0,
+    test_data_file_F_dt6_sysline1,
+    test_data_file_F_dt6_sysline2,
+    test_data_file_F_dt6_sysline3,
+    "2001-05-01 00:00:04 😀😁😂😃\n",
+    "2001-06-01 00:00:05 😀😁😂😃😄"
+);
+
+// remember that `.len()` starts at one, and `FileOffset` starts at zero
+
+const test_data_file_F_dt6_sysline0_end: FileOffset = test_data_file_F_dt6_sysline0.len() as FileOffset;
+const test_data_file_F_dt6_sysline1_end: FileOffset = test_data_file_F_dt6_sysline0_end + test_data_file_F_dt6_sysline1.len() as FileOffset;
+const test_data_file_F_dt6_sysline2_end: FileOffset = test_data_file_F_dt6_sysline1_end + test_data_file_F_dt6_sysline2.len() as FileOffset;
+const test_data_file_F_dt6_sysline3_end: FileOffset = test_data_file_F_dt6_sysline2_end + test_data_file_F_dt6_sysline3.len() as FileOffset;
+
 lazy_static! {
-    static ref test_SyslineReader_F_ntf: NamedTempFile = create_temp_file(_test_data_file_F_dt6);
+    static ref test_SyslineReader_F_ntf: NamedTempFile = create_temp_file(test_data_file_F_dt6);
     static ref test_SyslineReader_F_ntf_path: FPath = ntf_fpath(&test_SyslineReader_F_ntf);
 }
 
 #[test]
 fn test_find_sysline_F_dt6_45() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(45, FOUND, test_data_file_F_dt6_sysline1)]);
-    imp_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(45, FOUND, test_data_file_F_dt6_sysline1_end, test_data_file_F_dt6_sysline1)]
+    );
+    impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_F_dt6_46() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(46, FOUND, test_data_file_F_dt6_sysline1)]);
-    imp_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(46, FOUND, test_data_file_F_dt6_sysline1_end, test_data_file_F_dt6_sysline1)]
+    );
+    impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_F_dt6_47() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(47, FOUND, test_data_file_F_dt6_sysline2)]);
-    imp_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(47, FOUND, test_data_file_F_dt6_sysline2_end, test_data_file_F_dt6_sysline2)]
+    );
+    impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_F_dt6_sysline2_sysline3_108_109() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (108, FOUND, test_data_file_F_dt6_sysline2),
-        (109, FOUND, test_data_file_F_dt6_sysline3),
+        (108, FOUND, test_data_file_F_dt6_sysline2_end, test_data_file_F_dt6_sysline2),
+        (109, FOUND, test_data_file_F_dt6_sysline3_end, test_data_file_F_dt6_sysline3),
     ]);
-    imp_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_F_dt6_sysline2_sysline3_107_110() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (107, FOUND, test_data_file_F_dt6_sysline2),
-        (110, FOUND, test_data_file_F_dt6_sysline3),
+        (107, FOUND, test_data_file_F_dt6_sysline2_end, test_data_file_F_dt6_sysline2),
+        (110, FOUND, test_data_file_F_dt6_sysline3_end, test_data_file_F_dt6_sysline3),
     ]);
-    imp_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_F_dt6_sysline2_sysline3_108_110() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (108, FOUND, test_data_file_F_dt6_sysline2),
-        (110, FOUND, test_data_file_F_dt6_sysline3),
+        (108, FOUND, test_data_file_F_dt6_sysline2_end, test_data_file_F_dt6_sysline2),
+        (110, FOUND, test_data_file_F_dt6_sysline3_end, test_data_file_F_dt6_sysline3),
     ]);
-    imp_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_F_dt6_sysline3_sysline2_109_108() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (109, FOUND, test_data_file_F_dt6_sysline3),
-        (108, FOUND, test_data_file_F_dt6_sysline2),
+        (109, FOUND, test_data_file_F_dt6_sysline3_end, test_data_file_F_dt6_sysline3),
+        (108, FOUND, test_data_file_F_dt6_sysline2_end, test_data_file_F_dt6_sysline2),
     ]);
-    imp_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_F_dt6_sysline3_sysline2_110_107() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (110, FOUND, test_data_file_F_dt6_sysline3),
-        (107, FOUND, test_data_file_F_dt6_sysline2),
+        (110, FOUND, test_data_file_F_dt6_sysline3_end, test_data_file_F_dt6_sysline3),
+        (107, FOUND, test_data_file_F_dt6_sysline2_end, test_data_file_F_dt6_sysline2),
     ]);
-    imp_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_F_dt6_sysline3_sysline2_109_107() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (109, FOUND, test_data_file_F_dt6_sysline3),
-        (107, FOUND, test_data_file_F_dt6_sysline2),
+        (109, FOUND, test_data_file_F_dt6_sysline3_end, test_data_file_F_dt6_sysline3),
+        (107, FOUND, test_data_file_F_dt6_sysline2_end, test_data_file_F_dt6_sysline2),
     ]);
-    imp_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_F_ntf_path, 4, false, &checks);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-/// notice the first line is an invalid date that will pass regex match
-#[allow(non_upper_case_globals)]
-const test_data_file_G_dt4: &str = "\
-2001-02-31 00:00:01 a
-2001-03-01 00:00:02 b
-2001-04-01 00:00:03 c
-2001-05-01 00:00:04 d";
+// the `test_data_file_G_dt4_sysline_` is an invalid date that will pass regex match
+// so not a sysline
+const test_data_file_G_dt4_line0: &str = "2001-02-31 00:00:00 a\n";
+const test_data_file_G_dt4_sysline1: &str = "2001-03-01 00:00:01 b\n";
+const test_data_file_G_dt4_sysline2: &str = "2001-04-01 00:00:02 c\n";
+const test_data_file_G_dt4_sysline3: &str = "2001-05-01 00:00:03 d";
 
-const test_data_file_G_dt4_sysline0: &str = "2001-03-01 00:00:02 b\n";
-const test_data_file_G_dt4_sysline1: &str = "2001-04-01 00:00:03 c\n";
-#[allow(dead_code)]
-const test_data_file_G_dt4_sysline2: &str = "2001-05-01 00:00:04 d";
+/// notice the first line is an invalid date that will pass regex match
+const test_data_file_G_dt4: &str = concatcp!(
+    test_data_file_G_dt4_line0,
+    test_data_file_G_dt4_sysline1,
+    test_data_file_G_dt4_sysline2,
+    test_data_file_G_dt4_sysline3,
+);
+
+// remember that `.len()` starts at one, and `FileOffset` starts at zero
+
+const test_data_file_G_dt4_line0_end: FileOffset = test_data_file_G_dt4_line0.len() as FileOffset;
+const test_data_file_G_dt4_sysline1_end: FileOffset = test_data_file_G_dt4_line0_end + test_data_file_G_dt4_sysline1.len() as FileOffset;
+const test_data_file_G_dt4_sysline2_end: FileOffset = test_data_file_G_dt4_sysline1_end + test_data_file_G_dt4_sysline2.len() as FileOffset;
+const test_data_file_G_dt4_sysline3_end: FileOffset = test_data_file_G_dt4_sysline2_end + test_data_file_G_dt4_sysline3.len() as FileOffset;
 
 lazy_static! {
     static ref test_SyslineReader_G_ntf: NamedTempFile = create_temp_file(test_data_file_G_dt4);
@@ -4056,71 +4235,115 @@ lazy_static! {
 
 #[test]
 fn test_find_sysline_G_dt4_0() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(0, FOUND, test_data_file_G_dt4_sysline0)]);
-    imp_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(0, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1)]
+    );
+    impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
 #[test]
-fn test_find_sysline_G_dt4_42() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(42, FOUND, test_data_file_G_dt4_sysline0)]);
-    imp_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
+fn test_find_sysline_G_dt4_42_42() {
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [
+            (42, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
+            (42, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
+        ]
+    );
+    impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_G_dt4_43() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(43, FOUND, test_data_file_G_dt4_sysline0)]);
-    imp_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(43, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1)]
+    );
+    impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_G_dt4_44() {
-    let checks = TestSyslineReaderAnyInputChecks::from([(44, FOUND, test_data_file_G_dt4_sysline1)]);
-    imp_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
+    let checks = TestSyslineReaderAnyInputChecks::from(
+        [(44, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2)]
+    );
+    impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
 #[test]
-fn test_find_sysline_G_dt4_sysline0_sysline1_43_44() {
+fn test_find_sysline_G_dt4_1_43_44() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (43, FOUND, test_data_file_G_dt4_sysline0),
-        (44, FOUND, test_data_file_G_dt4_sysline1),
+        (1, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
+        (43, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
+        (44, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2),
     ]);
-    imp_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
 #[test]
-fn test_find_sysline_G_dt4_sysline1_sysline0_44_43() {
+fn test_find_sysline_G_dt4_44_43() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (44, FOUND, test_data_file_G_dt4_sysline1),
-        (43, FOUND, test_data_file_G_dt4_sysline0),
+        (44, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2),
+        (43, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
     ]);
-    imp_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
 #[test]
-fn test_find_sysline_G_dt4_sysline1_sysline0_44_45_42_43() {
+fn test_find_sysline_G_dt4_44_45_42_43() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (44, FOUND, test_data_file_G_dt4_sysline1),
-        (45, FOUND, test_data_file_G_dt4_sysline1),
-        (42, FOUND, test_data_file_G_dt4_sysline0),
-        (43, FOUND, test_data_file_G_dt4_sysline0),
+        (44, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2),
+        (45, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2),
+        (42, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
+        (43, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
     ]);
-    imp_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
+}
+
+#[test]
+fn test_find_sysline_G_dt4_43_e11_e12_e21() {
+    let checks = TestSyslineReaderAnyInputChecks::from([
+        (43, FOUND, test_data_file_G_dt4_sysline1_end, test_data_file_G_dt4_sysline1),
+        (test_data_file_G_dt4_sysline1_end, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2),
+        (test_data_file_G_dt4_sysline1_end + 2, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2),
+        (test_data_file_G_dt4_sysline2_end - 1, FOUND, test_data_file_G_dt4_sysline2_end, test_data_file_G_dt4_sysline2),
+    ]);
+    impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
+}
+
+#[test]
+fn test_find_sysline_G_dt4_66() {
+    let checks = TestSyslineReaderAnyInputChecks::from([
+        (66, FOUND, test_data_file_G_dt4_sysline3_end, test_data_file_G_dt4_sysline3),
+    ]);
+    impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
+}
+
+#[test]
+fn test_find_sysline_G_dt4_86_87() {
+    let checks = TestSyslineReaderAnyInputChecks::from([
+        (86, FOUND, test_data_file_G_dt4_sysline3_end, test_data_file_G_dt4_sysline3),
+        (87, DONE, 0, ""),
+    ]);
+    impl_test_findsysline(&test_SyslineReader_G_ntf_path, 4, false, &checks);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-#[allow(non_upper_case_globals)]
-const test_data_file_H_dt4: &str = "\
-2001-02-01 00:00:01 a
-2001-03-01 00:00:02 b
-2001-04-01 00:00:03 c
-2001-05-01 00:00:04 d";
-
 const test_data_file_H_dt4_sysline0: &str = "2001-02-01 00:00:01 a\n";
 const test_data_file_H_dt4_sysline1: &str = "2001-03-01 00:00:02 b\n";
-#[allow(dead_code)]
 const test_data_file_H_dt4_sysline2: &str = "2001-04-01 00:00:03 c\n";
 const test_data_file_H_dt4_sysline3: &str = "2001-05-01 00:00:04 d";
+
+const test_data_file_H_dt4: &str = concatcp!(
+    test_data_file_H_dt4_sysline0,
+    test_data_file_H_dt4_sysline1,
+    test_data_file_H_dt4_sysline2,
+    test_data_file_H_dt4_sysline3,
+);
+
+const test_data_file_H_dt4_sysline0_end: FileOffset = test_data_file_H_dt4_sysline0.len() as FileOffset;
+const test_data_file_H_dt4_sysline1_end: FileOffset = test_data_file_H_dt4_sysline0_end + test_data_file_H_dt4_sysline1.len() as FileOffset;
+const test_data_file_H_dt4_sysline2_end: FileOffset = test_data_file_H_dt4_sysline1_end + test_data_file_H_dt4_sysline2.len() as FileOffset;
+const test_data_file_H_dt4_sysline3_end: FileOffset = test_data_file_H_dt4_sysline2_end + test_data_file_H_dt4_sysline3.len() as FileOffset;
 
 lazy_static! {
     static ref test_SyslineReader_H_ntf: NamedTempFile = create_temp_file(test_data_file_H_dt4);
@@ -4130,52 +4353,52 @@ lazy_static! {
 #[test]
 fn test_find_sysline_H_dt4_sysline0() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (0, FOUND, test_data_file_H_dt4_sysline0),
-        (1, FOUND, test_data_file_H_dt4_sysline0),
-        (2, FOUND, test_data_file_H_dt4_sysline0),
-        (3, FOUND, test_data_file_H_dt4_sysline0),
-        (0, FOUND, test_data_file_H_dt4_sysline0),
-        (10, FOUND, test_data_file_H_dt4_sysline0),
-        (20, FOUND, test_data_file_H_dt4_sysline0),
-        (21, FOUND, test_data_file_H_dt4_sysline0),
+        (0, FOUND, test_data_file_H_dt4_sysline0_end, test_data_file_H_dt4_sysline0),
+        (1, FOUND, test_data_file_H_dt4_sysline0_end, test_data_file_H_dt4_sysline0),
+        (2, FOUND, test_data_file_H_dt4_sysline0_end, test_data_file_H_dt4_sysline0),
+        (3, FOUND, test_data_file_H_dt4_sysline0_end, test_data_file_H_dt4_sysline0),
+        (0, FOUND, test_data_file_H_dt4_sysline0_end, test_data_file_H_dt4_sysline0),
+        (10, FOUND, test_data_file_H_dt4_sysline0_end, test_data_file_H_dt4_sysline0),
+        (20, FOUND, test_data_file_H_dt4_sysline0_end, test_data_file_H_dt4_sysline0),
+        (21, FOUND, test_data_file_H_dt4_sysline0_end, test_data_file_H_dt4_sysline0),
     ]);
-    imp_test_findsysline(&test_SyslineReader_H_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_H_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_H_dt4_sysline1() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (22, FOUND, test_data_file_H_dt4_sysline1),
-        (22, FOUND, test_data_file_H_dt4_sysline1),
-        (22, FOUND, test_data_file_H_dt4_sysline1),
-        (43, FOUND, test_data_file_H_dt4_sysline1),
+        (22, FOUND, test_data_file_H_dt4_sysline1_end, test_data_file_H_dt4_sysline1),
+        (22, FOUND, test_data_file_H_dt4_sysline1_end, test_data_file_H_dt4_sysline1),
+        (22, FOUND, test_data_file_H_dt4_sysline1_end, test_data_file_H_dt4_sysline1),
+        (43, FOUND, test_data_file_H_dt4_sysline1_end, test_data_file_H_dt4_sysline1),
     ]);
-    imp_test_findsysline(&test_SyslineReader_H_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_H_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_H_dt4_sysline3_Found_Done() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (86, FOUND, test_data_file_H_dt4_sysline3),
-        (85, FOUND, test_data_file_H_dt4_sysline3),
-        (87, DONE, ""),
-        (88, DONE, ""),
-        (87, DONE, ""),
-        (66, FOUND, test_data_file_H_dt4_sysline3),
-        (88, DONE, ""),
-        (86, FOUND, test_data_file_H_dt4_sysline3),
+        (86, FOUND, test_data_file_H_dt4_sysline3_end, test_data_file_H_dt4_sysline3),
+        (85, FOUND, test_data_file_H_dt4_sysline3_end, test_data_file_H_dt4_sysline3),
+        (87, DONE, 0, ""),
+        (88, DONE, 0, ""),
+        (87, DONE, 0, ""),
+        (66, FOUND, test_data_file_H_dt4_sysline3_end, test_data_file_H_dt4_sysline3),
+        (88, DONE, 0, ""),
+        (86, FOUND, test_data_file_H_dt4_sysline3_end, test_data_file_H_dt4_sysline3),
     ]);
-    imp_test_findsysline(&test_SyslineReader_H_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_H_ntf_path, 4, false, &checks);
 }
 
 #[test]
 fn test_find_sysline_H_dt4_Done() {
     let checks = TestSyslineReaderAnyInputChecks::from([
-        (87, DONE, ""),
-        (88, DONE, ""),
-        (87, DONE, ""),
+        (87, DONE, 0, ""),
+        (88, DONE, 0, ""),
+        (87, DONE, 0, ""),
     ]);
-    imp_test_findsysline(&test_SyslineReader_H_ntf_path, 4, false, &checks);
+    impl_test_findsysline(&test_SyslineReader_H_ntf_path, 4, false, &checks);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -4270,47 +4493,6 @@ fn test_datetime_parse_data() {
         let _dtpd: &DateTimeParseInstr = slr.datetime_parse_data();
     }
 }
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-/*
-/// quick debug helper
-#[allow(non_snake_case)]
-fn test_SyslineReader_process_file(
-    path: &FPath,
-    blocksz: BlockSz,
-    filter_dt_after_opt: &DateTimeLOpt,
-    filter_dt_before_opt: &DateTimeLOpt,
-) -> Option<Box<SyslineReader>> {
-    dpfn!("({:?}, {}, {:?}, {:?})", &path, blocksz, filter_dt_after_opt, filter_dt_before_opt,);
-    let tzo8 = FixedOffset::west(3600 * 8);
-    let slr: SyslineReader = new_SyslineReader(path, blocksz, tzo8);
-    dpfo!("{:?}", slr);
-    dpfx!();
-
-    Some(Box::new(slr))
-}
-
-/// basic test of SyslineReader things
-#[allow(non_snake_case)]
-fn test_SyslineReader_w_filtering_2(
-    path: &FPath,
-    blocksz: BlockSz,
-    filter_dt_after_opt: &DateTimeLOpt,
-    filter_dt_before_opt: &DateTimeLOpt,
-) {
-    dpfn!("({:?}, {}, {:?}, {:?})", path, blocksz, filter_dt_after_opt, filter_dt_before_opt,);
-    let slr_opt = test_SyslineReader_process_file(path, blocksz, filter_dt_after_opt, filter_dt_before_opt);
-    if let Some(..) = slr_opt {
-        let slr = &slr_opt.unwrap();
-        dpfo!("Found {} Lines, {} Syslines", slr.count_lines_processed(), slr.count_syslines_stored());
-    }
-    dpfx!();
-}
-
-// TODO: add test cases for test_SyslineReader_w_filtering_2
-
-*/
 
 // -------------------------------------------------------------------------------------------------
 
@@ -4423,8 +4605,8 @@ fn impl_test_find_sysline_in_block(
 
     for (fo_input, result_expect, value_expect) in checks.iter() {
         let result = slr.find_sysline_in_block(*fo_input);
-        assert_results4(fo_input, result_expect, &result);
-        match result {
+        assert_results4(fo_input, result_expect, &result.0);
+        match result.0 {
             ResultS3SyslineFind::Found((_fo, slp)) => {
                 let value_actual: String = (*slp).to_String();
                 assert_eq!(

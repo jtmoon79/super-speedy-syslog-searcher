@@ -29,6 +29,7 @@ use more_asserts::{assert_ge, assert_le};
 
 extern crate si_trace_print;
 use si_trace_print::stack::{sn, so, stack_offset_set, sx};
+use si_trace_print::printers::{defo, defn, defx};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -56,6 +57,10 @@ enum ResultS3LineFind_Test {
     Found,
     Done,
 }
+
+// helpful abbreviations
+const RS3T_DONE: ResultS3LineFind_Test = ResultS3LineFind_Test::Done;
+const RS3T_FOUND: ResultS3LineFind_Test = ResultS3LineFind_Test::Found;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1157,26 +1162,26 @@ fn find_line_in_block_all(
     offsets: &Vec<FileOffset>,
 ) {
     for fo1 in offsets {
-        eprintln!("{}LineReader.find_line_in_block({})", so(), fo1);
+        defo!("LineReader.find_line_in_block({})", fo1);
         let result = linereader.find_line_in_block(*fo1);
         match result {
-            ResultS3LineFind::Found((fo, lp)) => {
+            (ResultS3LineFind::Found((fo, lp)), partial) => {
                 let _ln = linereader.count_lines_processed();
-                eprintln!(
-                    "{}ResultS3LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
-                    so(),
+                defo!(
+                    "ResultS3LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     fo,
                     _ln,
                     &*lp,
                     (*lp).len(),
                     (*lp).to_String_noraw()
                 );
+                assert!(partial.is_none());
             }
-            ResultS3LineFind::Done => {
-                eprintln!("{}ResultS3LineFind::Done!", so());
+            (ResultS3LineFind::Done, partial) => {
+                defo!("ResultS3LineFind::Done! partial {:?}", partial);
             }
-            ResultS3LineFind::Err(err) => {
-                eprintln!("{}ResultS3LineFind::Err {}", so(), err);
+            (ResultS3LineFind::Err(err), _) => {
+                defo!("ResultS3LineFind::Err {}", err);
                 panic!("ERROR: find_line({:?}) {:?}", fo1, err);
             }
         }
@@ -1292,7 +1297,7 @@ fn test_find_line_in_block_all_5_4() {
 
 // -------------------------------------------------------------------------------------------------
 
-type TestFindLineInBlockCheck = Vec<(FileOffset, ResultS3LineFind_Test, String)>;
+type TestFindLineInBlockCheck = Vec<(FileOffset, (ResultS3LineFind_Test, Option<&'static str>), String)>;
 
 /// test `LineReader::find_line_in_block` reads passed file offsets
 #[allow(non_snake_case)]
@@ -1317,11 +1322,11 @@ fn test_find_line_in_block(
         lr1.LRU_cache_disable();
     }
 
-    for (fo_in, rs4_expect, str_expect) in in_out.iter() {
+    for (fo_in, (rs4_expect, partial_expect), str_expect) in in_out.iter() {
         eprintln!("{}LineReader.find_line_in_block({})", so(), fo_in);
         let result = lr1.find_line_in_block(*fo_in);
         match result {
-            ResultS3LineFind::Found((fo, lp)) => {
+            (ResultS3LineFind::Found((fo, lp)), partial_actual) => {
                 let _ln = lr1.count_lines_processed();
                 eprintln!(
                     "{}ResultS3LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
@@ -1338,10 +1343,12 @@ fn test_find_line_in_block(
                     "find_line_in_block({})\nexpect {:?}\nactual {:?}\n",
                     *fo_in, str_expect, str_actual,
                 );
-                assert_eq!(rs4_expect, &ResultS3LineFind_Test::Found, "Expected {:?}, got Found", rs4_expect);
+                assert_eq!(rs4_expect, &RS3T_FOUND, "Expected {:?}, got Found", rs4_expect);
+                assert!(partial_actual.is_none(), "unexpected partial for result Found");
+                assert!(partial_expect.is_none(), "bad test check for partial");
             }
-            ResultS3LineFind::Done => {
-                eprintln!("{}ResultS3LineFind::Done!", so());
+            (ResultS3LineFind::Done, partial_actual) => {
+                eprintln!("{}ResultS3LineFind::Done, {:?}", so(), partial_actual);
                 assert_eq!(
                     &"",
                     &str_expect.as_str(),
@@ -1349,9 +1356,26 @@ fn test_find_line_in_block(
                     *fo_in,
                     str_expect,
                 );
-                assert_eq!(rs4_expect, &ResultS3LineFind_Test::Done, "Expected {:?}, got Done", rs4_expect);
+                assert_eq!(rs4_expect, &RS3T_DONE, "Expected {:?}, got Done", rs4_expect);
+                match partial_actual {
+                    Some(line) => {
+                        assert!(partial_expect.is_some(),
+                            "expected partial None but actual partial is Some(line: {:?})",
+                            line.to_String_noraw(),
+                        );
+                        let sa = line.to_String();
+                        let se = partial_expect.unwrap();
+                        assert_eq!(sa.as_str(), se,
+                            "\n  expected partial {:?}\n  actual {:?}\n",
+                            se, sa,
+                        );
+                    }
+                    None => {
+                        assert!(partial_expect.is_none(), "result partial is None but expected {:?}", partial_expect);
+                    }
+                }
             }
-            ResultS3LineFind::Err(err) => {
+            (ResultS3LineFind::Err(err), _) => {
                 eprintln!("{}ResultS3LineFind::Err {}", so(), err);
                 panic!("ERROR: find_line_in_block({:?}) {:?}", fo_in, err);
             }
@@ -1371,167 +1395,167 @@ fn test_find_line_in_block(
 }
 
 #[test]
-fn test_find_line_in_block_empty0() {
-    let in_out: TestFindLineInBlockCheck = vec![(0, ResultS3LineFind_Test::Done, String::from(""))];
+fn test_find_line_in_block_empty0_bszFF() {
+    let in_out: TestFindLineInBlockCheck = vec![(0, (RS3T_DONE, None), String::from(""))];
     test_find_line_in_block(&NTF_EMPTY0_path, true, 0xFF, &in_out);
 }
 
 #[test]
-fn test_find_line_in_block_nl1() {
+fn test_find_line_in_block_nl1_bszFF() {
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("\n")),
-        (1, ResultS3LineFind_Test::Done, String::from("")),
+        (0, (RS3T_FOUND, None), String::from("\n")),
+        (1, (RS3T_DONE, None), String::from("")),
     ];
     test_find_line_in_block(&NTF_NL_1_PATH, true, 0xFF, &in_out);
 }
 
 #[test]
-fn test_find_line_in_block_nl2() {
+fn test_find_line_in_block_nl2_bszFF() {
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("\n")),
-        (1, ResultS3LineFind_Test::Found, String::from("\n")),
-        (2, ResultS3LineFind_Test::Done, String::from("")),
+        (0, (RS3T_FOUND, None), String::from("\n")),
+        (1, (RS3T_FOUND, None), String::from("\n")),
+        (2, (RS3T_DONE, None), String::from("")),
     ];
     test_find_line_in_block(&NTF_NL_2_PATH, true, 0xFF, &in_out);
 }
 
 #[test]
-fn test_find_line_in_block_1() {
+fn test_find_line_in_block_1_bszFF() {
     let data: &str = "abcdef";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("abcdef")),
-        (1, ResultS3LineFind_Test::Found, String::from("abcdef")),
-        (2, ResultS3LineFind_Test::Found, String::from("abcdef")),
-        (3, ResultS3LineFind_Test::Found, String::from("abcdef")),
-        (4, ResultS3LineFind_Test::Found, String::from("abcdef")),
-        (5, ResultS3LineFind_Test::Found, String::from("abcdef")),
-        (6, ResultS3LineFind_Test::Done, String::from("")),
-        (7, ResultS3LineFind_Test::Done, String::from("")),
+        (0, (RS3T_FOUND, None), String::from("abcdef")),
+        (1, (RS3T_FOUND, None), String::from("abcdef")),
+        (2, (RS3T_FOUND, None), String::from("abcdef")),
+        (3, (RS3T_FOUND, None), String::from("abcdef")),
+        (4, (RS3T_FOUND, None), String::from("abcdef")),
+        (5, (RS3T_FOUND, None), String::from("abcdef")),
+        (6, (RS3T_DONE, None), String::from("")),
+        (7, (RS3T_DONE, None), String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
 
 #[test]
-fn test_find_line_in_block_2() {
+fn test_find_line_in_block_2_bszFF() {
     let data: &str = "a\nb";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("a\n")),
-        (1, ResultS3LineFind_Test::Found, String::from("a\n")),
-        (2, ResultS3LineFind_Test::Found, String::from("b")),
-        (3, ResultS3LineFind_Test::Done, String::from("")),
+        (0, (RS3T_FOUND, None), String::from("a\n")),
+        (1, (RS3T_FOUND, None), String::from("a\n")),
+        (2, (RS3T_FOUND, None), String::from("b")),
+        (3, (RS3T_DONE, None), String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
 
 #[test]
-fn test_find_line_in_block_3() {
+fn test_find_line_in_block_3_bszFF() {
     let data: &str = "a\nb\nc";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("a\n")),
-        (1, ResultS3LineFind_Test::Found, String::from("a\n")),
-        (2, ResultS3LineFind_Test::Found, String::from("b\n")),
-        (3, ResultS3LineFind_Test::Found, String::from("b\n")),
-        (4, ResultS3LineFind_Test::Found, String::from("c")),
-        (5, ResultS3LineFind_Test::Done, String::from("")),
+        (0, (RS3T_FOUND, None), String::from("a\n")),
+        (1, (RS3T_FOUND, None), String::from("a\n")),
+        (2, (RS3T_FOUND, None), String::from("b\n")),
+        (3, (RS3T_FOUND, None), String::from("b\n")),
+        (4, (RS3T_FOUND, None), String::from("c")),
+        (5, (RS3T_DONE, None), String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
 
 #[test]
-fn test_find_line_in_block_4() {
+fn test_find_line_in_block_4_bszFF() {
     let data: &str = "a\nb\nc\nd\n";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("a\n")),
-        (1, ResultS3LineFind_Test::Found, String::from("a\n")),
-        (2, ResultS3LineFind_Test::Found, String::from("b\n")),
-        (3, ResultS3LineFind_Test::Found, String::from("b\n")),
-        (4, ResultS3LineFind_Test::Found, String::from("c\n")),
-        (5, ResultS3LineFind_Test::Found, String::from("c\n")),
-        (6, ResultS3LineFind_Test::Found, String::from("d\n")),
-        (7, ResultS3LineFind_Test::Found, String::from("d\n")),
-        (8, ResultS3LineFind_Test::Done, String::from("")),
+        (0,(RS3T_FOUND, None), String::from("a\n")),
+        (1,(RS3T_FOUND, None), String::from("a\n")),
+        (2,(RS3T_FOUND, None), String::from("b\n")),
+        (3,(RS3T_FOUND, None), String::from("b\n")),
+        (4,(RS3T_FOUND, None), String::from("c\n")),
+        (5, (RS3T_FOUND, None), String::from("c\n")),
+        (6, (RS3T_FOUND, None), String::from("d\n")),
+        (7, (RS3T_FOUND, None), String::from("d\n")),
+        (8, (RS3T_DONE, None), String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 0xFF, &in_out);
 }
 
 #[test]
-fn test_find_line_in_block_4x2_2() {
+fn test_find_line_in_block_4x2_bsz2() {
     let data: &str = "abc\ndef\n";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Done, String::from("")),
-        (1, ResultS3LineFind_Test::Done, String::from("")),
-        (2, ResultS3LineFind_Test::Done, String::from("")),
-        (3, ResultS3LineFind_Test::Done, String::from("")),
-        (4, ResultS3LineFind_Test::Done, String::from("")),
-        (5, ResultS3LineFind_Test::Done, String::from("")),
-        (6, ResultS3LineFind_Test::Done, String::from("")),
-        (7, ResultS3LineFind_Test::Done, String::from("")),
-        (8, ResultS3LineFind_Test::Done, String::from("")),
+        (0, (RS3T_DONE, Some("a")), String::from("")),
+        (1, (RS3T_DONE, Some("ab")), String::from("")),
+        (2, (RS3T_DONE, None), String::from("")),
+        (3, (RS3T_DONE, None), String::from("")),
+        (4, (RS3T_DONE, None), String::from("")),
+        (5, (RS3T_DONE, None), String::from("")),
+        (6, (RS3T_DONE, None), String::from("")),
+        (7, (RS3T_DONE, None), String::from("")),
+        (8, (RS3T_DONE, None), String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 2, &in_out);
 }
 
 #[test]
-fn test_find_line_in_block_4x2_3() {
+fn test_find_line_in_block_4x2_bsz3() {
     let data: &str = "abc\ndef\n";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Done, String::from("")),
-        (1, ResultS3LineFind_Test::Done, String::from("")),
-        (2, ResultS3LineFind_Test::Done, String::from("")),
-        (3, ResultS3LineFind_Test::Done, String::from("")),
-        (4, ResultS3LineFind_Test::Done, String::from("")),
-        (5, ResultS3LineFind_Test::Done, String::from("")),
-        (6, ResultS3LineFind_Test::Done, String::from("")),
-        (7, ResultS3LineFind_Test::Done, String::from("")),
+        (0, (RS3T_DONE, Some("a")), String::from("")),
+        (1, (RS3T_DONE, Some("ab")), String::from("")),
+        (2, (RS3T_DONE, Some("abc")), String::from("")),
+        (3, (RS3T_DONE, None), String::from("")),
+        (4, (RS3T_DONE, Some("d")), String::from("")),
+        (5, (RS3T_DONE, Some("de")), String::from("")),
+        (6, (RS3T_DONE, None), String::from("")),
+        (7, (RS3T_DONE, None), String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 3, &in_out);
 }
 
 #[test]
-fn test_find_line_in_block_4x2_4() {
+fn test_find_line_in_block_4x2_bsz4() {
     let data: &str = "abc\ndef\n";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("abc\n")),
-        (1, ResultS3LineFind_Test::Found, String::from("abc\n")),
-        (2, ResultS3LineFind_Test::Found, String::from("abc\n")),
-        (3, ResultS3LineFind_Test::Found, String::from("abc\n")),
-        (4, ResultS3LineFind_Test::Found, String::from("def\n")),
-        (5, ResultS3LineFind_Test::Found, String::from("def\n")),
-        (6, ResultS3LineFind_Test::Found, String::from("def\n")),
-        (7, ResultS3LineFind_Test::Found, String::from("def\n")),
+        (0, (RS3T_FOUND, None), String::from("abc\n")),
+        (1, (RS3T_FOUND, None), String::from("abc\n")),
+        (2, (RS3T_FOUND, None), String::from("abc\n")),
+        (3, (RS3T_FOUND, None), String::from("abc\n")),
+        (4, (RS3T_FOUND, None), String::from("def\n")),
+        (5, (RS3T_FOUND, None), String::from("def\n")),
+        (6, (RS3T_FOUND, None), String::from("def\n")),
+        (7, (RS3T_FOUND, None), String::from("def\n")),
     ];
     test_find_line_in_block(&fpath, true, 4, &in_out);
 }
 
 #[test]
-fn test_find_line_in_block_4x2_5() {
+fn test_find_line_in_block_4x2_bsz5() {
     let data: &str = "abc\ndef\n";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0, ResultS3LineFind_Test::Found, String::from("abc\n")),
-        (1, ResultS3LineFind_Test::Found, String::from("abc\n")),
-        (2, ResultS3LineFind_Test::Found, String::from("abc\n")),
-        (3, ResultS3LineFind_Test::Found, String::from("abc\n")),
-        (4, ResultS3LineFind_Test::Done, String::from("")),
-        (5, ResultS3LineFind_Test::Done, String::from("")),
-        (6, ResultS3LineFind_Test::Done, String::from("")),
-        (7, ResultS3LineFind_Test::Done, String::from("")),
-        (8, ResultS3LineFind_Test::Done, String::from("")),
+        (0, (RS3T_FOUND, None), String::from("abc\n")),
+        (1, (RS3T_FOUND, None), String::from("abc\n")),
+        (2, (RS3T_FOUND, None), String::from("abc\n")),
+        (3, (RS3T_FOUND, None), String::from("abc\n")),
+        (4, (RS3T_DONE, Some("d")), String::from("")),
+        (5, (RS3T_DONE, None), String::from("")),
+        (6, (RS3T_DONE, None), String::from("")),
+        (7, (RS3T_DONE, None), String::from("")),
+        (8, (RS3T_DONE, None), String::from("")),
     ];
     test_find_line_in_block(&fpath, true, 5, &in_out);
 }

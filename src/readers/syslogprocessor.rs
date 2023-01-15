@@ -992,6 +992,7 @@ impl SyslogProcessor {
             }
         };
         let blocksz0: BlockSz = (*blockp).len() as BlockSz;
+        let mut partial_found = false;
         let mut fo: FileOffset = 0;
         // how many lines have been found?
         let mut found: Count = 0;
@@ -1007,16 +1008,22 @@ impl SyslogProcessor {
                 .linereader
                 .find_line_in_block(fo)
             {
-                ResultS3LineFind::Found((fo_next, _linep)) => {
+                (ResultS3LineFind::Found((fo_next, _linep)), _) => {
                     found += 1;
 
                     fo_next
                 }
-                ResultS3LineFind::Done => {
-                    found += 1;
+                (ResultS3LineFind::Done, partial) => {
+                    match partial {
+                        Some(_) => {
+                            found += 1;
+                            partial_found = true;
+                        },
+                        None => {}
+                    }
                     break;
                 }
-                ResultS3LineFind::Err(err) => {
+                (ResultS3LineFind::Err(err), _) => {
                     self.Error_ = Some(err.to_string());
                     dpfx!("return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIo(err);
@@ -1033,10 +1040,10 @@ impl SyslogProcessor {
 
         let fpr: FileProcessingResultBlockZero = match found >= found_min {
             true => FileProcessingResultBlockZero::FileOk,
-            false => FileProcessingResultBlockZero::FileErrNoSyslinesFound,
+            false => FileProcessingResultBlockZero::FileErrNoLinesFound,
         };
 
-        dpfx!("found {} lines, require {} lines, return {:?}", found, found_min, fpr);
+        dpfx!("found {} lines, partial_found {}, require {} lines, return {:?}", found, partial_found, found_min, fpr);
 
         fpr
     }

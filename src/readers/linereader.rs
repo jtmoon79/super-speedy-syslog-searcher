@@ -786,7 +786,7 @@ impl LineReader {
     pub fn find_line_in_block(
         &mut self,
         fileoffset: FileOffset,
-    ) -> ResultS3LineFind {
+    ) -> (ResultS3LineFind, Option<Line>) {
         dpfn!("({})", fileoffset);
 
         // some helpful constants
@@ -798,52 +798,63 @@ impl LineReader {
         // XXX: using cache can result in non-idempotent behavior
         // check fast LRU
         if let Some(results4) = self.check_store_LRU(fileoffset) {
-            dpfx!("({}): return {:?}", fileoffset, results4);
-            return results4;
+            dpfx!("({}): return {:?}, None", fileoffset, results4);
+            return (results4, None);
         }
 
         // handle special cases
         if filesz == 0 {
-            dpfx!("({}): return ResultS3LineFind::Done; file is empty", fileoffset);
-            return ResultS3LineFind::Done;
+            dpfx!("({}): return ResultS3LineFind::Done, None; file is empty", fileoffset);
+            return (ResultS3LineFind::Done, None);
         } else if fileoffset > filesz {
             // TODO: [2021/10] need to decide on consistent behavior for passing fileoffset > filesz
             //       should it really Error or be Done?
             //       Make that consisetent among all LineReader and SyslineReader `find_*` functions
             dpfx!(
-                "({}): return ResultS3LineFind::Done; fileoffset {} was too big filesz {}!",
+                "({}): return ResultS3LineFind::Done, None; fileoffset {} was too big filesz {}!",
                 fileoffset,
                 fileoffset,
                 filesz
             );
-            return ResultS3LineFind::Done;
+            return (ResultS3LineFind::Done, None);
         } else if fileoffset == filesz {
             dpfx!(
-                "({}): return ResultS3LineFind::Done(); fileoffset {} is at end of file {}!",
+                "({}): return ResultS3LineFind::Done(), None; fileoffset {} is at end of file {}!",
                 fileoffset,
                 fileoffset,
                 filesz
             );
-            return ResultS3LineFind::Done;
+            return (ResultS3LineFind::Done, None);
         }
 
         // XXX: using cache can result in non-idempotent behavior
         // check container of `Line`s
         if let Some(results4) = self.check_store(fileoffset) {
-            dpfx!("({}): return {:?}", fileoffset, results4);
-            return results4;
+            dpfx!("({}): return {:?}, None", fileoffset, results4);
+            return (results4, None);
         }
 
         //
-        // could not find `fileoffset` from prior saved information so...
-        // walk through blocks and bytes looking for beginning of a line (a newline character)
-        // start with newline search "part B" (look for line terminating '\n' or end of file)
-        // then do search "part A" (look for line terminating '\n' of previous Line or beginning
-        // of file)
+        // Could not find `fileoffset` from prior saved information so...
+        // 1. search "part B" or "newline B"
+        //    walk through this one block
+        //    start from `fileoffset` and walk forwards
+        //    look for line terminating '\n' or end of file
+        // 2. then do search "part A" or "newline A"
+        //    start from passed `fileoffset` and walk backwards
+        //    look for line terminating '\n' of previous Line or beginning of file
+        //
+        // After step 1., do not access anything after `fileoffset`
+        //
+        // There is a special-case "partial_line" where newline B is not found
+        // but a newline A is found. In this case, return `(Done, Line)`. The `Line`
+        // is temporary and should not be stored.
         //
 
         dpfo!("searching for first newline B (line terminator) …");
 
+        // if NewLine part A cannot be found maybe we can find NewLine part B
+        let mut partial_line= false;
         // FOUND NewLine part A? Line begins after that newline
         let mut found_nl_a = false;
         // FOUND NewLine part B? Line ends at this.
@@ -889,17 +900,17 @@ impl LineReader {
                 val
             }
             ResultS3ReadBlock::Done => {
-                dpfx!("({}) B1: read_block({}) returned Done {:?}", fileoffset, bo_middle, self.path());
-                return ResultS3LineFind::Done;
+                dpfx!("({}) B1: read_block({}) returned Done {:?}, None", fileoffset, bo_middle, self.path());
+                return (ResultS3LineFind::Done, None);
             }
             ResultS3ReadBlock::Err(err) => {
                 dpfx!(
-                    "({}) B1: read_block({}) returned Err, return ResultS3LineFind::Err({:?})",
+                    "({}) B1: read_block({}) returned Err; return ResultS3LineFind::Err({:?}), None",
                     fileoffset,
                     bo_middle,
                     err
                 );
-                return ResultS3LineFind::Err(err);
+                return (ResultS3LineFind::Err(err), None);
             }
         };
 
@@ -972,21 +983,33 @@ impl LineReader {
             nl_b_eof = true;
         }
         if !found_nl_b {
+            partial_line = true;
+            /*
             dpfx!(
-                "({}): failed to find newline B in block {} return Done {:?}",
+                "({}): failed to find newline B in block {}; return Done {:?}, Some({:?})",
                 fileoffset,
                 bo_middle,
-                self.path()
+                self.path(),
+                line,
             );
-            return ResultS3LineFind::Done;
+            return (ResultS3LineFind::Done, Some(line));
+            */
         }
 
-        dpfo!(
-            "({}): found first newline B at FileOffset {}, searching for preceding newline A. Search starts at FileOffset {} …",
-            fileoffset,
-            fo_nl_b,
-            fileoffset,
-        );
+        if partial_line {
+            dpfo!(
+                "({}): did not find first newline B, searching for preceding newline A starting at {}, for possible partial Line …",
+                fileoffset,
+                fileoffset,
+            );
+        } else {
+            dpfo!(
+                "({}): found first newline B at FileOffset {}, searching for preceding newline A. Search starts at FileOffset {} …",
+                fileoffset,
+                fo_nl_b,
+                fileoffset,
+            );
+        }
 
         // if found_nl_a was already found then this function can return
         if found_nl_a {
@@ -1001,6 +1024,22 @@ impl LineReader {
                 self.blocksz(),
             );
             line.prepend(li);
+
+            if partial_line {
+                // NewLine B or EOF was *not* found! So only return a special-case "partial" `Line`.
+                // This temporary `Line` will not be stored in this `LineReader` and
+                // should not be stored by the caller, either.
+                dpfx!(
+                    "({}): found newline A, failed to find newline B in block {}, partial Line; return Done {:?}, Some(@{:p}) {:?}",
+                    fileoffset,
+                    bo_middle,
+                    self.path(),
+                    &line,
+                    line.to_String_noraw(),
+                );
+                return (ResultS3LineFind::Done, Some(line));
+            }
+
             let linep: LineP = self.insert_line(line);
             let fo_next: FileOffset = fo_nl_b + charsz_fo;
             debug_assert_eq!(
@@ -1024,7 +1063,7 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 dpfx!(
-                    "({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}",
+                    "({}) A0: return ResultS3LineFind::Found(({}, @{:p})), None; @[{}, {}] {:?}",
                     fileoffset,
                     fo_next,
                     linep,
@@ -1032,7 +1071,7 @@ impl LineReader {
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
                 );
-                return ResultS3LineFind::Found((fo_next, linep));
+                return (ResultS3LineFind::Found((fo_next, linep)), None);
             } else {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
@@ -1047,7 +1086,7 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 dpfx!(
-                    "({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}",
+                    "({}) A0: return ResultS3LineFind::Found(({}, @{:p})), None; @[{}, {}] {:?}",
                     fileoffset,
                     fo_next,
                     linep,
@@ -1055,23 +1094,26 @@ impl LineReader {
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
                 );
-                return ResultS3LineFind::Found((fo_next, linep));
+                return (ResultS3LineFind::Found((fo_next, linep)), None);
             };
         }
+
         assert!(
             !found_nl_a,
             "already found newline A; was finding it once not good enough? {:?}",
             self.path()
         );
         assert!(
-            found_nl_b,
-            "found newline A, have not found newline B; bird with one wing. {:?}",
-            self.path()
+            // XOR check
+            !found_nl_b ^ !partial_line,
+            "found newline A, found_nl_b {} yet {} partial_line, expected only one; bird with one wing. {:?}",
+            found_nl_b, partial_line,
+            self.path(),
         );
 
         if fileoffset >= charsz_fo {
             let fo_: FileOffset = fileoffset - charsz_fo;
-            if self.lines.contains_key(&fo_) {
+            if !partial_line && self.lines.contains_key(&fo_) {
                 self.lines_hits += 1;
                 dpfo!("({}) A1a: hit in self.lines for FileOffset {} (before part A)", fileoffset, fo_);
                 fo_nl_a = fo_;
@@ -1109,7 +1151,7 @@ impl LineReader {
                             .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                     }
                     dpfx!(
-                        "({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}",
+                        "({}): return ResultS3LineFind::Found({}, {:p}), None;  @[{}, {}] {:?}",
                         fileoffset,
                         fo_next,
                         &*linep,
@@ -1117,7 +1159,7 @@ impl LineReader {
                         (*linep).fileoffset_end(),
                         (*linep).to_String_noraw()
                     );
-                    return ResultS3LineFind::Found((fo_next, linep));
+                    return (ResultS3LineFind::Found((fo_next, linep)), None);
                 }
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
@@ -1132,7 +1174,7 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 dpfx!(
-                    "({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}",
+                    "({}): return ResultS3LineFind::Found({}, {:p}), None;  @[{}, {}] {:?}",
                     fileoffset,
                     fo_next,
                     &*linep,
@@ -1140,7 +1182,7 @@ impl LineReader {
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
                 );
-                return ResultS3LineFind::Found((fo_next, linep));
+                return (ResultS3LineFind::Found((fo_next, linep)), None);
             } else {
                 self.lines_miss += 1;
                 dpfo!(
@@ -1150,37 +1192,63 @@ impl LineReader {
                 );
             }
 
-            match self.get_linep(&fo_) {
-                Some(linep_prev) => {
-                    dpfo!("({}) A1b: self.get_linep({}) returned {:p}", fileoffset, fo_, linep_prev,);
-                    // TODO: Issue #61 enable expression attribute when feature is stable
-                    //       #[allow(unused_assignments)]
-                    found_nl_a = true;
-                    fo_nl_a = (*linep_prev).fileoffset_end();
-                    assert_eq!(
-                        fo_nl_a, fo_,
-                        "get_linep({}) returned Line with fileoffset_end() {}; these should match for file {:?}",
-                        fo_,
-                        fo_nl_a,
-                        self.path(),
-                    );
-                    let li: LinePart = LinePart::new(
-                        bptr_middle,
-                        self.block_index_at_file_offset(fileoffset),
-                        bi_middle_end + 1,
-                        fileoffset,
-                        self.block_offset_at_file_offset(fileoffset),
-                        self.blocksz(),
-                    );
-                    line.prepend(li);
-                    let linep: LineP = self.insert_line(line);
-                    let fo_next: FileOffset = fo_nl_b + charsz_fo;
-                    if nl_b_eof {
-                        debug_assert!(
-                            self.is_line_last(&linep),
-                            "nl_b_eof true yet !is_line_last(linep) file {:?}",
-                            self.path()
+            if ! partial_line {
+                // quick-check if this Line is already known
+                match self.get_linep(&fo_) {
+                    Some(linep_prev) => {
+                        dpfo!("({}) A1b: self.get_linep({}) returned {:p}", fileoffset, fo_, linep_prev,);
+                        // TODO: Issue #61 enable expression attribute when feature is stable
+                        //       #[allow(unused_assignments)]
+                        found_nl_a = true;
+                        fo_nl_a = (*linep_prev).fileoffset_end();
+                        assert_eq!(
+                            fo_nl_a, fo_,
+                            "get_linep({}) returned Line with fileoffset_end() {}; these should match for file {:?}",
+                            fo_,
+                            fo_nl_a,
+                            self.path(),
                         );
+                        let li: LinePart = LinePart::new(
+                            bptr_middle,
+                            self.block_index_at_file_offset(fileoffset),
+                            bi_middle_end + 1,
+                            fileoffset,
+                            self.block_offset_at_file_offset(fileoffset),
+                            self.blocksz(),
+                        );
+                        line.prepend(li);
+                        let linep: LineP = self.insert_line(line);
+                        let fo_next: FileOffset = fo_nl_b + charsz_fo;
+                        if nl_b_eof {
+                            debug_assert!(
+                                self.is_line_last(&linep),
+                                "nl_b_eof true yet !is_line_last(linep) file {:?}",
+                                self.path()
+                            );
+                            if self.find_line_lru_cache_enabled {
+                                self.find_line_lru_cache_put += 1;
+                                dpfo!(
+                                    "({}) A1b: LRU Cache put({}, Found({}, …)) {:?}",
+                                    fileoffset,
+                                    fileoffset,
+                                    fo_next,
+                                    (*linep).to_String_noraw()
+                                );
+                                self.find_line_lru_cache
+                                    .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
+                            }
+                            dpfx!(
+                                "({}): return ResultS3LineFind::Found(({}, {:p})), None;  @[{}, {}] {:?}",
+                                fileoffset,
+                                fo_next,
+                                &*linep,
+                                (*linep).fileoffset_begin(),
+                                (*linep).fileoffset_end(),
+                                (*linep).to_String_noraw()
+                            );
+                            return (ResultS3LineFind::Found((fo_next, linep)), None);
+                        }
+                        debug_assert!(!self.is_line_last(&linep), "nl_b_eof true yet !is_line_last(linep)");
                         if self.find_line_lru_cache_enabled {
                             self.find_line_lru_cache_put += 1;
                             dpfo!(
@@ -1194,7 +1262,7 @@ impl LineReader {
                                 .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                         }
                         dpfx!(
-                            "({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}",
+                            "({}): return ResultS3LineFind::Found(({}, {:p})), None;  @[{}, {}] {:?}",
                             fileoffset,
                             fo_next,
                             &*linep,
@@ -1202,38 +1270,15 @@ impl LineReader {
                             (*linep).fileoffset_end(),
                             (*linep).to_String_noraw()
                         );
-                        return ResultS3LineFind::Found((fo_next, linep));
+                        return (ResultS3LineFind::Found((fo_next, linep)), None);
                     }
-                    debug_assert!(!self.is_line_last(&linep), "nl_b_eof true yet !is_line_last(linep)");
-                    if self.find_line_lru_cache_enabled {
-                        self.find_line_lru_cache_put += 1;
+                    None => {
                         dpfo!(
-                            "({}) A1b: LRU Cache put({}, Found({}, …)) {:?}",
+                            "({}) A1b: self.get_linep({}) returned None (quick check before part A)",
                             fileoffset,
-                            fileoffset,
-                            fo_next,
-                            (*linep).to_String_noraw()
+                            fo_
                         );
-                        self.find_line_lru_cache
-                            .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                     }
-                    dpfx!(
-                        "({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}",
-                        fileoffset,
-                        fo_next,
-                        &*linep,
-                        (*linep).fileoffset_begin(),
-                        (*linep).fileoffset_end(),
-                        (*linep).to_String_noraw()
-                    );
-                    return ResultS3LineFind::Found((fo_next, linep));
-                }
-                None => {
-                    dpfo!(
-                        "({}) A1b: self.get_linep({}) returned None (quick check before part A)",
-                        fileoffset,
-                        fo_
-                    );
                 }
             }
         }
@@ -1255,12 +1300,12 @@ impl LineReader {
 
         if bof != bo_middle {
             dpfx!(
-                "({}): failed to find newline A within block {} return Done {:?}",
+                "({}): failed to find newline A within block {}, return Done {:?}, None",
                 fileoffset,
                 bo_middle,
                 self.path()
             );
-            return ResultS3LineFind::Done;
+            return (ResultS3LineFind::Done, None);
         }
 
         // search for newline A starts within "middle" block
@@ -1313,19 +1358,33 @@ impl LineReader {
         }
         if !found_nl_a {
             dpfo!("({}) A2a: newline A not found in middle block {}", fileoffset, bo_middle);
-            dpfx!("find_line_in_block({}): return Done {:?}", fileoffset, self.path());
-            return ResultS3LineFind::Done;
+            dpfx!("find_line_in_block({}): return Done {:?}, None", fileoffset, self.path());
+            return (ResultS3LineFind::Done, None);
         }
 
         let li: LinePart =
             LinePart::new(bptr_middle, bi_at, bi_middle_end + 1, fo_nl_a1, bo_middle, self.blocksz());
         line.prepend(li);
 
+        if partial_line {
+            // return the bytes from newline A to end of this Block as a special "partial" `Line`
+            dpfx!(
+                "({}): return ResultS3LineFind::Done, partial {:?}; @[{}, {}] {:?}",
+                fileoffset,
+                line,
+                line.fileoffset_begin(),
+                line.fileoffset_end(),
+                line.to_String_noraw()
+            );
+            return (ResultS3LineFind::Done, Some(line));
+        }
+
         let linep: LineP = LineP::new(line);
         let fo_next: FileOffset = fo_nl_b + charsz_fo;
+
         if nl_b_eof {
             dpfx!(
-                "({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}",
+                "({}): return ResultS3LineFind::Found({}, {:p}), None;  @[{}, {}] {:?}",
                 fileoffset,
                 fo_next,
                 &*linep,
@@ -1333,11 +1392,11 @@ impl LineReader {
                 (*linep).fileoffset_end(),
                 (*linep).to_String_noraw()
             );
-            return ResultS3LineFind::Found((fo_next, linep));
+            return (ResultS3LineFind::Found((fo_next, linep)), None);
         }
 
         dpfx!(
-            "({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}",
+            "({}): return ResultS3LineFind::Found({}, {:p}), None; @[{}, {}] {:?}",
             fileoffset,
             fo_next,
             &*linep,
@@ -1346,7 +1405,7 @@ impl LineReader {
             (*linep).to_String_noraw()
         );
 
-        ResultS3LineFind::Found((fo_next, linep))
+        (ResultS3LineFind::Found((fo_next, linep)), None)
     }
 
     /// Find next [`Line`] starting from passed [`FileOffset`].
@@ -1453,7 +1512,7 @@ impl LineReader {
             return ResultS3LineFind::Done;
         } else if fileoffset == filesz {
             dpfx!(
-                "({}): return ResultS3LineFind::Done(); fileoffset {} is at end of file {}!",
+                "({}): return ResultS3LineFind::Done(); fileoffset {} is at end of file, filesz {}!",
                 fileoffset,
                 fileoffset,
                 filesz
