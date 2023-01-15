@@ -56,9 +56,16 @@ pub fn ntf_fpath(ntf: &NamedTempFile) -> FPath {
 
 /// Testing helper function to write a `str` to a temporary file.
 ///
+/// Wrapper for [`create_temp_file_data`].
+pub fn create_temp_file(data: &str) -> NamedTempFile {
+    create_temp_file_data(data.as_bytes())
+}
+
+/// Testing helper function to write a `[u8]` to a temporary file.
+///
 /// BUG: `NamedTempFile` created within `lazy_static` will fail to remove itself
 ///      <https://github.com/Stebalien/tempfile/issues/183>.
-pub fn create_temp_file(data: &str) -> NamedTempFile {
+pub fn create_temp_file_data(data: &[u8]) -> NamedTempFile {
     let mut ntf = match tempfile::Builder::new()
         // use known prefix for easier cleanup
         .prefix::<str>(&STRING_TEMPFILE_PREFIX)
@@ -69,7 +76,7 @@ pub fn create_temp_file(data: &str) -> NamedTempFile {
             panic!("NamedTempFile::new() return Err {}", err);
         }
     };
-    match ntf.write_all(data.as_bytes()) {
+    match ntf.write_all(data) {
         Ok(_) => {}
         Err(err) => {
             panic!("NamedTempFile::write_all() return Err {}", err);
