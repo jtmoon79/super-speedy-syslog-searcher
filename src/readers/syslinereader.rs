@@ -960,6 +960,8 @@ impl SyslineReader {
             // searches within the `Line`
             let mut hack_slice: Bytes;
             let slice_: &[u8];
+            // TODO: [2023/01] cost-savings: track `slice_contains_X_2(HACK12)` at largest slice size
+            //       then before calling `get_boxptrs` check that local variable, skip if unneeded.
             match line.get_boxptrs(dtpd.range_regex.start as LineIndex, slice_end as LineIndex) {
                 LinePartPtrs::NoPtr => {
                     panic!(

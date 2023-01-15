@@ -126,6 +126,8 @@ impl fmt::Debug for LinePart {
     }
 }
 
+// TODO: [2023/01/14] change assert to debug_assert
+
 impl LinePart {
     // XXX: Issue #16 only handles UTF-8/ASCII encoding
     const _CHARSZ: usize = 1;

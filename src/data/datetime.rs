@@ -609,6 +609,7 @@ pub struct DateTimeParseInstr<'a> {
 /// Declare a [`DateTimeParseInstr`] tuple more easily.
 ///
 /// `$test_cases` are not compiled into the release build.
+// TODO: [2023/01] replace name `DTPD` with `DTPI`
 #[macro_export]
 macro_rules! DTPD {
     (
@@ -1970,6 +1971,7 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 94;
 /// [`Line`]: crate::data::line::Line
 // XXX: yet another rust playground for testing regex
 //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=93a47ceb225bae73dfcbce2574b65e91
+// TODO: [2023/01/14] add test of shortest possible match for all DTPD!
 pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] = [
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/Ubuntu18/xrdp.log`

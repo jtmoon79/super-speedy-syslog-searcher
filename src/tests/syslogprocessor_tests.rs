@@ -898,9 +898,3 @@ fn test_blockzero_analysis_nl3_bszFF_FileErrNoLinesFound() {
 }
 
 */
-
-// TODO: [2022/06] need exhaustive test case set for `_test_blockzero_analysis`
-
-// -------------------------------------------------------------------------------------------------
-
-// TODO: [2022/06] test `SyslogProcessor::blockzero_analysis_syslines`

@@ -2,6 +2,8 @@
 
 //! tests for `linereader.rs`
 
+// TODO: [2023/01/14] replace eprintln! with si_trace_print macros
+
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
 
