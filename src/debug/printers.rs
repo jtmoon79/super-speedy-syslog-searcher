@@ -20,6 +20,7 @@ pub use termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
 
 extern crate utf8_iter;
 #[doc(hidden)]
+#[allow(unused_imports)]
 use utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
