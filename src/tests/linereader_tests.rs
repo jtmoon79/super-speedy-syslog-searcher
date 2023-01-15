@@ -137,18 +137,18 @@ fn do_test_LineReader_count(
     data: &str,
     line_count: usize,
 ) {
-    eprintln!("{}do_test_LineReader_count(…, {:?})", sn(), line_count);
+    defn!("do_test_LineReader_count(…, {:?})", line_count);
     let blocksz: BlockSz = 64;
     let ntf = create_temp_file(data);
     let path = ntf_fpath(&ntf);
     let mut lr1 = new_LineReader(&path, blocksz);
     let bufnoraw = buffer_to_String_noraw(data.as_bytes());
-    eprintln!("{}File {:?}", so(), bufnoraw);
+    defo!("File {:?}", bufnoraw);
     process_LineReader(&mut lr1);
     let lc = lr1.count_lines_processed();
     assert_eq!(line_count as u64, lc, "Expected {} count of lines, found {}", line_count, lc);
-    eprintln!("{}{:?}", so(), data.as_bytes());
-    eprintln!("{}do_test_LineReader_count()", sx());
+    defo!("{:?}", data.as_bytes());
+    defx!("do_test_LineReader_count()");
 }
 
 #[test]
