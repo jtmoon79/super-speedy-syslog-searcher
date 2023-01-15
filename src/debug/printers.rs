@@ -6,13 +6,13 @@
 #[cfg(test)]
 use crate::common::{FPath, FileOpenOptions};
 
-extern crate si_trace_print;
-
 #[cfg(any(debug_assertions, test))]
 use std::io::Write; // for `std::io::Stdout.flush`
 
 #[cfg(test)]
 use std::io::prelude::*; // for `std::fs::File.read_to_string`
+
+extern crate si_trace_print;
 
 extern crate termcolor;
 #[doc(hidden)]
