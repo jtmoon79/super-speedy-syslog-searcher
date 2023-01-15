@@ -1390,6 +1390,7 @@ dependencies = [
  "test-case",
  "unicode-width",
  "unroll",
+ "utf8_iter",
  "walkdir",
 ]
 
@@ -1539,6 +1540,12 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[package]]
+name = "utf8_iter"
+version = "1.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "64a8922555b9500e3d865caed19330172cd67cbf82203f1a3311d8c305cc9f33"
 
 [[package]]
 name = "version_check"
