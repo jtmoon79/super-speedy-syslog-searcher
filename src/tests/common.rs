@@ -1,5 +1,7 @@
 // src/tests/common.rs
 
+use std::io::Read; // for `std::fs::File.read`
+
 use crate::common::{FPath, FileOffset, FileType, Path};
 
 use crate::data::datetime::FixedOffset;
@@ -8,16 +10,22 @@ use crate::readers::filepreprocessor::MimeGuess;
 
 use crate::readers::helpers::{fpath_to_path, path_to_fpath};
 
-use crate::readers::blockreader::SUBPATH_SEP;
+use crate::readers::blockreader::{Block, BlockSz, SUBPATH_SEP};
 
 use crate::debug::helpers::{
     create_temp_file_bytes_with_suffix, create_temp_file_with_suffix, ntf_fpath, NamedTempFile,
 };
 
-use crate::debug::printers::str_to_String_noraw;
+use crate::debug::printers::{
+    buffer_to_String_noraw, str_to_String_noraw,
+};
 
 extern crate lazy_static;
 use lazy_static::lazy_static;
+
+extern crate utf8_iter;
+#[allow(unused_imports)]
+use utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -2202,6 +2210,9 @@ pub fn fill(v_: &mut Vec<FileOffset>) {
     }
 }
 
+/// visual horizontal line
+const HORZ_LINE: &str = "────────────────────────────────────────";
+
 /// testing helper to print the raw and noraw version of a file
 ///
 /// only intended to help humans reading stderr output
@@ -2216,11 +2227,62 @@ pub fn eprint_file(path: &FPath) {
     let contents_file_count: usize = contents_file.lines().count();
     let contents_file_noraw: String = str_to_String_noraw(contents_file.as_str());
     eprintln!(
-        "contents_file {:?} ({} lines):\n────────────────────────────────────────\n{}\n────────────────────────────────────────\n{}\n────────────────────────────────────────\n",
+        "contents_file {:?} ({} lines):\n{}\n{}\n{}\n{}\n{}\n",
         path, contents_file_count,
         contents_file_noraw,
+        HORZ_LINE,
+        HORZ_LINE,
         contents_file,
+        HORZ_LINE,
     );
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/// testing helper to print the raw and noraw version of a file
+/// in a block-oriented mannter
+///
+/// only intended to help humans reading stderr output
+pub fn eprint_file_blocks(path: &FPath, blocksz: BlockSz) {
+    let mut buffer: Block = Block::with_capacity(blocksz as usize);
+    // must be manually zeroed out, `fill` does not seem to force elements
+    let mut i: usize = 0;
+    while i < (blocksz as usize) {
+        buffer.push(0);
+        i += 1;
+    }
+    let mut file_: std::fs::File = match std::fs::OpenOptions::new()
+        .read(true)
+        .open(path)
+    {
+        Ok(val) => val,
+        Err(err) => {
+            eprintln!("Error opening file {:?}\n{:?}", path, err);
+            return;
+        }
+    };
+    let mut at_byte: usize = 0;
+    let mut at_block: usize = 0;
+    eprintln!(
+        "contents_file {:?} per block (?? bytes):\n{}",
+        path, HORZ_LINE,
+    );
+    loop {
+        let bytes_read = match file_.read(&mut buffer.as_mut_slice()) {
+            Ok(val) => val,
+            Err(err) => {
+                eprintln!("Error reading file {:?}\n{:?}", path, err);
+                return;
+            }
+        };
+        if bytes_read == 0 {
+            break;
+        }
+        let data = &buffer[..bytes_read];
+        at_byte += data.len();
+        let data_str_noraw: String = buffer_to_String_noraw(data);
+        eprintln!(
+            "@{0:3} 0x{0:03X} [{1:2}]: {2}", at_byte, at_block, data_str_noraw,
+        );
+        at_block += 1;
+    }
+    eprintln!("{}", HORZ_LINE);
+}
