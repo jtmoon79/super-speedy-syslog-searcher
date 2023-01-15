@@ -57,6 +57,25 @@ fn new_BlockReader(
     }
 }
 
+#[test]
+fn test_new_BlockReader_1() {
+    new_BlockReader(
+        (*NTF_LOG_EMPTY_FPATH).clone(),
+        FileType::File,
+        1024
+    );
+}
+
+#[test]
+#[should_panic]
+fn test_new_BlockReader_2_bad_path_panics() {
+    new_BlockReader(
+        FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"),
+        FileType::File,
+        1024
+    );
+}
+
 // -------------------------------------------------------------------------------------------------
 
 type ResultS3_Check = ResultS3<(), ()>;
