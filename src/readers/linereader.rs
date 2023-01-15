@@ -12,7 +12,14 @@ use crate::data::line::{Line, LineP, LinePart, Lines};
 
 use crate::data::datetime::SystemTime;
 
-use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockReader, BlockSz, ResultS3ReadBlock};
+use crate::readers::blockreader::{
+    BlockIndex,
+    BlockOffset,
+    BlockP,
+    BlockReader,
+    BlockSz,
+    ResultS3ReadBlock,
+};
 
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::byte_to_char_noraw;
