@@ -44,7 +44,7 @@ extern crate mime_guess;
 use mime_guess::MimeGuess;
 
 extern crate more_asserts;
-use more_asserts::{assert_le, assert_lt, debug_assert_lt};
+use more_asserts::{assert_le, assert_lt, debug_assert_lt, debug_assert_gt};
 
 extern crate rangemap;
 use rangemap::RangeMap;
@@ -189,11 +189,13 @@ pub struct SyslineReader {
     ///
     /// Initialized once in `fn SyslineReader::new`.
     ///
-    /// Not used after `self.analyzed` becomes `true`.
+    /// Used to determine the best `DateTimeParseInstr` to use for sysline
+    /// matching.
+    /// Not used after `self.analyzed` becomes `true` though still updated.
     ///
     /// [`DATETIME_PARSE_DATAS`]: crate::data::datetime::DATETIME_PARSE_DATAS
     pub(super) dt_patterns_counts: DateTimePatternCounts,
-    /// Keys of `self.dt_patterns_counts` sorted by value.
+    /// Keys of `self.dt_patterns_counts`. Expected to be sorted by value.
     /// Updated in function `dt_patterns_indexes_refresh`.
     ///
     /// Not updated after `self.analyzed` becomes `true`.
@@ -306,23 +308,8 @@ where
 
 /// Implement the `SyslineReader`
 impl SyslineReader {
-    /// Maximum number of datetime patterns to match when first reading a
-    /// file (before settling on one).
-    #[allow(dead_code)]
-    const DT_PATTERN_MAX_PRE_ANALYSIS: usize = 4;
-
     /// Maximum number of datetime patterns for matching the remainder of a syslog file.
-    const DT_PATTERN_MAX: usize = 1;
-
-    /// When this number of syslines has been processed then reduce use of all
-    /// patterns from all patterns in `DATETIME_PARSE_DATAS_REGEX_VEC` to one
-    /// pattern.
-    // TODO: this should not vary among different builds, fixing requires user-controlled
-    //       call to `dt_patterns_analysis`
-    //#[cfg(any(debug_assertions,test))]
-    //const DT_PATTERN_ANALYSIS_THRESHOLD: Count = 1;
-    //#[cfg(not(any(debug_assertions,test)))]
-    const DT_PATTERN_ANALYSIS_THRESHOLD: Count = 5;
+    pub(crate) const DT_PATTERN_MAX: usize = 1;
 
     /// Capacity of internal LRU cache `find_sysline_lru_cache`.
     const FIND_SYSLINE_LRU_CACHE_SZ: usize = 4;
@@ -784,7 +771,7 @@ impl SyslineReader {
         self.syslines_stored_highest = std::cmp::max(self.syslines.len(), self.syslines_stored_highest);
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let fo_end1: FileOffset = fo_end + (self.charsz() as FileOffset);
-        dpfx!("syslines_by_range.insert(({}‥{}], {})", fo_beg, fo_end1, fo_beg);
+        dpfx!("syslines_by_range.insert([{}‥{}), {})", fo_beg, fo_end1, fo_beg);
         self.syslines_by_range
             .insert(fo_beg..fo_end1, fo_beg);
         self.syslines_by_range_put += 1;
@@ -1074,24 +1061,25 @@ impl SyslineReader {
         }
     }
 
+    /// current count of `DateTimeParseInstrs` that have been used as tracked
+    /// by `self.dt_patterns`.
+    pub(crate) fn dt_patterns_counts_in_use(&self) -> usize {
+        self.dt_patterns_counts.iter().filter(|(_index, count)| count > &&0).count()
+    }
+
     /// Helper function to update `parse_datetime_in_line`.
     fn dt_patterns_update(
         &mut self,
         index: DateTimeParseInstrsIndex,
     ) {
-        dpfñ!("({:?})", index);
-        if let std::collections::btree_map::Entry::Vacant(_entry) = self
-            .dt_patterns_counts
-            .entry(index)
-        {
-            panic!("index {} not present in self.dt_patterns_counts", index);
-        } else {
-            // index has been counted, increment it's count
-            let counter: &mut Count = self
-                .dt_patterns_counts
-                .get_mut(&index)
-                .unwrap();
-            *counter += 1;
+        match self.dt_patterns_counts.get_mut(&index) {
+            Some(counter) => {
+                *counter += 1;
+                dpfñ!("dt_patterns_counts({:?}) at {}", index, counter);
+            }
+            None => {
+                panic!("index {} not present in self.dt_patterns_counts", index);
+            }
         }
         // refresh the indexes every time until `dt_patterns_analysis` is called
         if self.analyzed {
@@ -1100,10 +1088,15 @@ impl SyslineReader {
         self.dt_patterns_indexes_refresh();
     }
 
+    /// Refresh the `self.dt_patterns_indexes` from `self.dt_patterns_counts`.
+    /// This is an expensive operation; it is only expected to run during
+    /// blockzero analysis.
+    /// Only useful during the blockzero analysis stage before one final
+    /// `DateTimeParseInstr` is chosen.
     fn dt_patterns_indexes_refresh(&mut self) {
         self.dt_patterns_indexes
             .clear();
-        // get copy of pattern indexes sorted by value
+        // get copy of pattern indexes sorted by value,
         // this makes the most-used parse_data more likely to be used again
         self.dt_patterns_indexes
             .extend(
@@ -1124,11 +1117,9 @@ impl SyslineReader {
     /// datetime-parsing attempts.
     /// Further calls to function `SyslineReader::find_datetime_in_line`
     /// use far less resources.
-    pub(crate) fn dt_patterns_analysis(&mut self) {
-        if self.count_syslines_processed() < SyslineReader::DT_PATTERN_ANALYSIS_THRESHOLD {
-            return;
-        }
+    pub(crate) fn dt_patterns_analysis(&mut self) -> bool {
         dpfn!();
+        debug_assert!(!self.analyzed, "already called dt_patterns_analysis()");
         // XXX: DT_PATERN_MAX > 1 is unimplemented
         const_assert!(SyslineReader::DT_PATTERN_MAX == 1);
 
@@ -1142,6 +1133,7 @@ impl SyslineReader {
                 dpfo!("self.dt_patterns_counts[{:?}]={:?} is {:?}, {:?}", k, v, data_, data_rex_);
             }
         }
+        dpfo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
 
         // get maximum value in `dt_patterns_counts`
         // ripped from https://stackoverflow.com/a/60134450/471376
@@ -1149,17 +1141,31 @@ impl SyslineReader {
         let max_ = self.dt_patterns_counts
             .iter()
             .fold(std::u64::MIN, |a, b| a.max(*(b.1)));
+        if max_ == 0 {
+            // no datetime patterns were found
+            dpfx!("return false");
+            return false;
+        }
         // remove all items < maximum value in `dt_patterns_counts`
         dpfo!("dt_patterns_counts.retain(v >= {:?})", max_);
         self.dt_patterns_counts
             .retain(|_, v| *v >= max_);
+        // if there is a tie for the most-used pattern, then pop_last until
+        // only `DT_PATTERN_MAX` remains
+        while self.dt_patterns_counts.len() > SyslineReader::DT_PATTERN_MAX {
+            // remove the last item in `dt_patterns_counts`
+            dpfo!("dt_patterns_counts.pop_last()");
+            self.dt_patterns_counts.pop_last();
+        }
+        dpfo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
 
         #[cfg(any(debug_assertions, test))]
         {
             if self.dt_patterns_counts.len() != SyslineReader::DT_PATTERN_MAX {
-                eprintln!(
-                    "WARNING: dt_patterns_analysis: self.dt_patterns_counts.len() {}, expected 1",
-                    self.dt_patterns_counts.len()
+                dp_wrn!(
+                    "dt_patterns_analysis: self.dt_patterns_counts.len() {}, expected {}",
+                    self.dt_patterns_counts.len(),
+                    SyslineReader::DT_PATTERN_MAX,
                 );
             }
         }
@@ -1178,7 +1184,9 @@ impl SyslineReader {
         }
 
         self.analyzed = true;
-        dpfx!();
+        dpfx!("return true");
+
+        true
     }
 
     /*
@@ -1231,7 +1239,7 @@ impl SyslineReader {
                 self.dt_patterns_indexes.len(),
                 SyslineReader::DT_PATTERN_MAX
             );
-            // the first and only element is the chosen dt_pattern (and had max count)
+            // the first and only element is the chosen dt_pattern
             *self
                 .dt_patterns_indexes
                 .iter()
@@ -1254,12 +1262,6 @@ impl SyslineReader {
         charsz: &CharSz,
         year_opt: &Option<Year>,
     ) -> ResultParseDateTime {
-        // XXX: would prefer this at the end of this function but borrow error occurs
-        if !self.analyzed {
-            // TODO: [2022/07] `dt_patterns_analysis` should be called by the user, not embedded in the
-            //       inner-workings
-            self.dt_patterns_analysis();
-        }
         dpfn!("(…, {}, year_opt {:?}) line: {:?}", charsz, year_opt, line.to_String_noraw());
 
         // have already determined DateTime formatting for this file, so
@@ -1354,6 +1356,18 @@ impl SyslineReader {
         result
     }
 
+    /// wrapper for a verbose debug check for `find_sysline`.
+    #[inline]
+    fn debug_assert_gt_fo_syslineend(fo: &FileOffset, syslinep: &SyslineP) {
+        debug_assert_gt!(
+            fo,
+            &(*syslinep).fileoffset_end(),
+            "fo {} ≯ {} syslinep.fileoffset_end()",
+            fo,
+            (*syslinep).fileoffset_end(),
+        );
+    }
+
     /// Check various internal storage for already processed
     /// [`Sysline`] at [`FileOffset`].
     ///
@@ -1420,7 +1434,7 @@ impl SyslineReader {
                 let fo: &FileOffset = range_fo.1;
                 let syslinep: SyslineP = self.syslines[fo].clone();
                 // XXX: Issue #16 only handles UTF-8/ASCII encoding
-                let fo_next: FileOffset = (*syslinep).fileoffset_next() + (self.charsz() as FileOffset);
+                let fo_next: FileOffset = (*syslinep).fileoffset_next();
                 if self.is_sysline_last(&syslinep) {
                     dpfx!(
                         "is_sysline_last() true; return ResultS3SyslineFind::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
@@ -1433,6 +1447,7 @@ impl SyslineReader {
                     self.find_sysline_lru_cache_put += 1;
                     self.find_sysline_lru_cache
                         .put(fileoffset, ResultS3SyslineFind::Found((fo_next, syslinep.clone())));
+                    SyslineReader::debug_assert_gt_fo_syslineend(&fo_next, &syslinep);
                     return Some(ResultS3SyslineFind::Found((fo_next, syslinep)));
                 }
                 self.find_sysline_lru_cache_put += 1;
@@ -1446,6 +1461,7 @@ impl SyslineReader {
                     (*syslinep).fileoffset_end(),
                     (*syslinep).to_String_noraw()
                 );
+                SyslineReader::debug_assert_gt_fo_syslineend(&fo_next, &syslinep);
                 return Some(ResultS3SyslineFind::Found((fo_next, syslinep)));
             }
             None => {
@@ -2116,6 +2132,7 @@ impl SyslineReader {
             (*syslinep).fileoffset_end(),
             (*syslinep).to_String_noraw()
         );
+        SyslineReader::debug_assert_gt_fo_syslineend(&fo_b, &syslinep);
 
         ResultS3SyslineFind::Found((fo_b, syslinep))
     }
@@ -2220,6 +2237,7 @@ impl SyslineReader {
                                 _fo_end,
                             );
                             dpfx!("return ResultS3SyslineFind::Found(({}, @{:p})); A", fo, &syslinep,);
+                            SyslineReader::debug_assert_gt_fo_syslineend(&fo, &syslinep);
                             return ResultS3SyslineFind::Found((fo, syslinep));
                         } // end Pass
                         Result_Filter_DateTime1::OccursAtOrAfter => {
@@ -2242,6 +2260,7 @@ impl SyslineReader {
                                     (*syslinep).fileoffset_begin(),
                                     (*syslinep).to_String_noraw(),
                                 );
+                                SyslineReader::debug_assert_gt_fo_syslineend(&fo, &syslinep);
                                 return ResultS3SyslineFind::Found((fo, syslinep));
                             }
                             try_fo_last = try_fo;
@@ -2436,6 +2455,7 @@ impl SyslineReader {
                 (*syslinep).fileoffset_begin(),
                 (*syslinep).to_String_noraw()
             );
+            SyslineReader::debug_assert_gt_fo_syslineend(&fo_, &syslinep);
             return ResultS3SyslineFind::Found((fo_, syslinep));
         } // end loop
 
@@ -2511,6 +2531,7 @@ impl SyslineReader {
                     Result_Filter_DateTime2::InRange => {
                         dpfo!("sysline_pass_filters(…) returned InRange;");
                         dpfx!("return ResultS3SyslineFind::Found(({}, {:?}))", fo, syslinep);
+                        SyslineReader::debug_assert_gt_fo_syslineend(&fo, &syslinep);
                         return ResultS3SyslineFind::Found((fo, syslinep));
                     }
                     Result_Filter_DateTime2::BeforeRange => {

@@ -3494,17 +3494,17 @@ fn assert_results4(
         ResultS3SyslineFind_Test::Found(_) => {
             assert!(
                 matches!(result_actual, ResultS3SyslineFind::Found(_)),
-                "Expected Found, Actual {} for find_sysline({})",
+                "\n  for find_sysline({})\n  Expected Found\n  Actual {:?}\n",
+                fo,
                 actual,
-                fo
             );
         }
         ResultS3SyslineFind_Test::Done => {
             assert!(
                 matches!(result_actual, ResultS3SyslineFind::Done),
-                "Expected Done, Actual {} for find_sysline({})",
+                "\n  for find_sysline({})\n  Expected Done\n  Actual {:?}\n",
+                fo,
                 actual,
-                fo
             );
         }
         _ => {

@@ -50,9 +50,6 @@ use lazy_static::lazy_static;
 extern crate mime_guess;
 use mime_guess::MimeGuess;
 
-extern crate more_asserts;
-use more_asserts::debug_assert_lt;
-
 extern crate rangemap;
 use rangemap::RangeMap;
 
@@ -64,6 +61,9 @@ extern crate walkdir;
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SyslogProcessor
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// `SYSLOG_SZ_MAX` as a `BlockSz`.
+pub(crate) const SYSLOG_SZ_MAX_BSZ: BlockSz = SYSLOG_SZ_MAX as BlockSz;
 
 /// Typed [`FileProcessingResult`] for "block zero analysis".
 ///
@@ -127,8 +127,9 @@ lazy_static! {
     /// [`Line`]: crate::data::line::Line
     pub static ref BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP: MapBszRangeToCount = {
         let mut m = MapBszRangeToCount::new();
-        m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX as BlockSz}, 1);
-        m.insert(BszRange{start: SYSLOG_SZ_MAX as BlockSz, end: BlockSz::MAX}, 2);
+        m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX_BSZ}, 1);
+        m.insert(BszRange{start: SYSLOG_SZ_MAX_BSZ, end: SYSLOG_SZ_MAX_BSZ * 3}, 3);
+        m.insert(BszRange{start: SYSLOG_SZ_MAX_BSZ * 3, end: BlockSz::MAX}, 3);
 
         m
     };
@@ -139,8 +140,8 @@ lazy_static! {
     /// [`Sysline`]: crate::data::sysline::Sysline
     pub static ref BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP: MapBszRangeToCount = {
         let mut m = MapBszRangeToCount::new();
-        m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX as BlockSz}, 1);
-        m.insert(BszRange{start: SYSLOG_SZ_MAX as BlockSz, end: BlockSz::MAX}, 2);
+        m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX_BSZ}, 2);
+        m.insert(BszRange{start: SYSLOG_SZ_MAX_BSZ, end: BlockSz::MAX}, 3);
 
         m
     };
@@ -219,6 +220,9 @@ impl SyslogProcessor {
     #[doc(hidden)]
     #[cfg(any(debug_assertions, test))]
     pub const BLOCKSZ_MIN: BlockSz = 0x2;
+
+    /// Maximum number of datetime patterns for matching the remainder of a syslog file.
+    const DT_PATTERN_MAX: usize = SyslineReader::DT_PATTERN_MAX;
 
     /// `SyslogProcessor` has it's own miminum requirements for `BlockSz`.
     ///
@@ -540,7 +544,7 @@ impl SyslogProcessor {
                 }
                 ResultS3SyslineFind::Err(err) => {
                     self.Error_ = Some(err.to_string());
-                    dpfx!("syslogprocessor.process_missing_year: return FileErrIo({:?})", err);
+                    dpfx!("return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIo(err);
                 }
             };
@@ -613,7 +617,7 @@ impl SyslogProcessor {
                 break;
             }
             syslinep_prev_opt = Some(syslinep.clone());
-        }
+        } // end loop
         dpfx!("return FileOk");
 
         FileProcessingResultBlockZero::FileOk
@@ -923,33 +927,97 @@ impl SyslogProcessor {
             .get(&blocksz0)
             .unwrap();
         dpfo!("block zero blocksz {} found_min {:?}", blocksz0, found_min);
+
         // find `at_max` Syslines within block zero
-        while found < found_min {
+        while found < found_min
+            && self.syslinereader.block_offset_at_file_offset(fo) == 0
+        {
             fo = match self
                 .syslinereader
                 .find_sysline_in_block(fo)
             {
-                ResultS3SyslineFind::Found((fo_next, _slinep)) => {
+                (ResultS3SyslineFind::Found((fo_next, _slinep)), _) => {
                     found += 1;
+                    dpfo!("Found; found {} syslines, fo_next {}", found, fo_next);
 
                     fo_next
                 }
-                ResultS3SyslineFind::Done => {
-                    //found += 1;
+                (ResultS3SyslineFind::Done, partial_found) => {
+                    dpfo!("Done; found {} syslines, partial_found {}", found, partial_found);
+                    if partial_found {
+                        found += 1;
+                    }
                     break;
                 }
-                ResultS3SyslineFind::Err(err) => {
+                (ResultS3SyslineFind::Err(err), _) => {
                     self.set_error(&err);
                     dpfx!("return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIo(err);
                 }
             };
-            if 0 != self
-                .syslinereader
-                .block_offset_at_file_offset(fo)
+        }
+
+        if found == 0 {
+            dpfx!("found {} syslines, require {} syslines, return FileErrNoSyslinesFound", found, found_min);
+            return FileProcessingResultBlockZero::FileErrNoSyslinesFound;
+        }
+
+        let patt_count_a = self.syslinereader.dt_patterns_counts_in_use();
+        dpfo!("dt_patterns_counts_in_use {}", patt_count_a);
+
+        if !self.syslinereader.dt_patterns_analysis() {
+            dp_err!("dt_patterns_analysis() failed which is unexpected; return FileErrNoSyslinesFound");
+            return FileProcessingResultBlockZero::FileErrNoSyslinesFound;
+        }
+
+        let _patt_count_b = self.syslinereader.dt_patterns_counts_in_use();
+        debug_assert_eq!(
+            _patt_count_b,
+            SyslogProcessor::DT_PATTERN_MAX,
+            "expected patterns to be reduced to {}, found {:?}",
+            SyslogProcessor::DT_PATTERN_MAX,
+            _patt_count_b,
+        );
+
+        // if more than one `DateTimeParseInstr` was used then the syslines
+        // must be reparsed using the one chosen `DateTimeParseInstr`
+        if patt_count_a > 1 {
+            dpfo!("must reprocess all syslines using limited patterns (used {} DateTimeParseInstr; must only use {})!", patt_count_a, 1);
+
+            self.syslinereader.clear_syslines();
+            // find `at_max` Syslines within block zero
+            found = 0;
+            fo = 0;
+            while found < found_min
+                && self.syslinereader.block_offset_at_file_offset(fo) == 0
             {
-                break;
+                fo = match self
+                    .syslinereader
+                    .find_sysline_in_block(fo)
+                {
+                    (ResultS3SyslineFind::Found((fo_next, _slinep)), _) => {
+                        found += 1;
+                        dpfo!("Found; found {} syslines, fo_next {}", found, fo_next);
+
+                        fo_next
+                    }
+                    (ResultS3SyslineFind::Done, partial_found) => {
+                        dpfo!("Done; found {} syslines, partial_found {}", found, partial_found);
+                        if partial_found {
+                            found += 1;
+                        }
+                        break;
+                    }
+                    (ResultS3SyslineFind::Err(err), _) => {
+                        self.set_error(&err);
+                        dpfx!("return FileErrIo({:?})", err);
+                        return FileProcessingResultBlockZero::FileErrIo(err);
+                    }
+                };
             }
+            dpfo!("done reprocessing.");
+        } else {
+            dpfo!("no reprocess needed ({} DateTimeParseInstr)!", patt_count_a);
         }
 
         let fpr: FileProcessingResultBlockZero = match found >= found_min {
@@ -1055,6 +1123,15 @@ impl SyslogProcessor {
         assert!(!self.blockzero_analysis_done, "blockzero_analysis_lines should only be completed once.");
         self.blockzero_analysis_done = true;
         self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
+
+        if self.syslinereader.filesz() == 0 {
+            dpfx!("return FileErrEmpty");
+            return FileProcessingResultBlockZero::FileErrEmpty;
+        }
+
+        // TODO: check what percentage of chars are reabable, if it's all
+        //       control chars or too many broken UTF8 sequences then return
+        //       FileErrWrongType (or may new FileErr)
 
         let result: FileProcessingResultBlockZero = self.blockzero_analysis_lines();
         if !result.is_ok() {
