@@ -68,10 +68,11 @@ pub type BlockSz = u64;
 ///
 pub type BlockIndex = usize;
 
-/// Offset into a file in [`Block`s], depends on `BlockSz` runtime value.
+/// Offset into a file in [`Block`s], depends on [`BlockSz`] runtime value.
 /// Zero based.
 ///
 /// [`Block`s]: self::Block
+/// [`BlockSz`]: BlockSz
 pub type BlockOffset = u64;
 
 /// A _block_ of bytes read from some file.
@@ -214,7 +215,7 @@ pub struct TarData {
     pub mtime: TarMTime,
 }
 
-/// A `BlockReader` reads a file in `BlockSz` byte-sized [`Block`s]. It
+/// A `BlockReader` reads a file in [`BlockSz`] byte-sized [`Block`s]. It
 /// interfaces with the filesystem. It handles reading from specialized
 /// storage files like
 /// compressed files (`.gz`, `.xz`) and archive files (`.tar`).
@@ -238,6 +239,7 @@ pub struct TarData {
 /// [`FileType`]: crate::common::FileType
 /// [`LineReader`]: crate::readers::linereader::LineReader
 /// [`Read`]: std::io::Read
+/// [`BlockSz`]: BlockSz
 pub struct BlockReader {
     /// Path to the file.
     path: FPath,
@@ -1599,12 +1601,13 @@ impl BlockReader {
         }
     }
 
-    /// Read up to `BlockSz` bytes of data (one `Block`) from a regular
+    /// Read up to [`BlockSz`] bytes of data (one `Block`) from a regular
     /// filesystem file ([`FileType::File`]).
     ///
     /// Called from `read_block`.
     ///
     /// [`FileType::File`]: crate::common::FileType
+    /// [`BlockSz`]: BlockSz
     #[allow(non_snake_case)]
     fn read_block_File(
         &mut self,
