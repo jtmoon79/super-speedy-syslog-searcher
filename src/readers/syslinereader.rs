@@ -1,5 +1,5 @@
 // src/readers/syslinereader.rs
-// …
+// … ≤ ≥
 
 //! Implements `SyslineReader`, the driver of deriving [`Sysline`]s using a
 //! [`LineReader`].
