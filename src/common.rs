@@ -250,10 +250,35 @@ impl<E> PartialEq for FileProcessingResult<E> {
         &self,
         other: &Self,
     ) -> bool {
-        if self.has_err() && other.has_err() {
-            return true;
+        match self {
+            FileProcessingResult::FileErrEmpty => {
+                matches!(*other, FileProcessingResult::FileErrEmpty)
+            }
+            FileProcessingResult::FileErrNoLinesFound => {
+                matches!(*other, FileProcessingResult::FileErrNoLinesFound)
+            }
+            FileProcessingResult::FileErrNoSyslinesFound => {
+                matches!(*other, FileProcessingResult::FileErrNoSyslinesFound)
+            }
+            FileProcessingResult::FileErrNoSyslinesInDtRange => {
+                matches!(*other, FileProcessingResult::FileErrNoSyslinesInDtRange)
+            }
+            FileProcessingResult::FileErrIo(_) => {
+                matches!(*other, FileProcessingResult::FileErrIo(_))
+            }
+            FileProcessingResult::FileErrWrongType => {
+                matches!(*other, FileProcessingResult::FileErrWrongType)
+            }
+            FileProcessingResult::FileErrDecompress => {
+                matches!(*other, FileProcessingResult::FileErrDecompress)
+            }
+            FileProcessingResult::FileErrStub => {
+                matches!(*other, FileProcessingResult::FileErrStub)
+            }
+            FileProcessingResult::FileOk => {
+                matches!(*other, FileProcessingResult::FileOk)
+            }
         }
-        matches!(self, _other)
     }
 }
 impl<E> Eq for FileProcessingResult<E> {}
