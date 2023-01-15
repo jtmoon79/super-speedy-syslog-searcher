@@ -1515,8 +1515,8 @@ impl BlockReader {
         }
         match blockp_opt {
             Some(blockp) => match Arc::try_unwrap(blockp) {
-                Ok(block) => {
-                    dpo!("dropped block {} @0x{:p}, len {}", blockoffset, &block, block.len());
+                Ok(_block) => {
+                    dpo!("dropped block {} @0x{:p}, len {}", blockoffset, &_block, _block.len());
                     self.dropped_blocks_ok += 1;
                     #[cfg(test)]
                     {

@@ -1060,7 +1060,7 @@ impl SyslogProcessor {
             }
         };
         let blocksz0: BlockSz = (*blockp).len() as BlockSz;
-        let mut partial_found = false;
+        let mut _partial_found = false;
         let mut fo: FileOffset = 0;
         // how many lines have been found?
         let mut found: Count = 0;
@@ -1085,7 +1085,7 @@ impl SyslogProcessor {
                     match partial {
                         Some(_) => {
                             found += 1;
-                            partial_found = true;
+                            _partial_found = true;
                         },
                         None => {}
                     }
@@ -1111,7 +1111,7 @@ impl SyslogProcessor {
             false => FileProcessingResultBlockZero::FileErrNoLinesFound,
         };
 
-        dpfx!("found {} lines, partial_found {}, require {} lines, return {:?}", found, partial_found, found_min, fpr);
+        dpfx!("found {} lines, partial_found {}, require {} lines, return {:?}", found, _partial_found, found_min, fpr);
 
         fpr
     }
