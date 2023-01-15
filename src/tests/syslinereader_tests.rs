@@ -82,6 +82,17 @@ fn new_SyslineReader(
     }
 }
 
+#[test]
+fn test_new_SyslineReader_1() {
+    new_SyslineReader(&NTF_LOG_EMPTY_FPATH, 1024, *TZO_E8);
+}
+
+#[test]
+#[should_panic]
+fn test_new_SyslineReader_2_bad_path_panics() {
+    new_SyslineReader(&FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"), 1024, *TZO_E8);
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// - `FileOffset` is the input
