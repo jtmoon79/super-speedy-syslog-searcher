@@ -78,6 +78,17 @@ fn new_LineReader(
     }
 }
 
+#[test]
+fn test_new_LineReader_1() {
+    new_LineReader(&NTF_NL_1_PATH, 1024);
+}
+
+#[test]
+#[should_panic]
+fn test_new_LineReader_2_bad_path_panics() {
+    new_LineReader(&FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"), 1024);
+}
+
 // -------------------------------------------------------------------------------------------------
 
 /// loop on `LineReader.find_line` until it is done
