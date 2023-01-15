@@ -4,6 +4,7 @@
 
 #![allow(non_upper_case_globals)]
 #![allow(non_snake_case)]
+#![allow(non_camel_case_types)]
 
 use crate::common::{FPath, ResultS3};
 
@@ -60,7 +61,6 @@ use test_case::test_case;
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// check the return type of `find_sysline` to this dummy approximation of `ResultS3SyslineFind`
-#[allow(non_camel_case_types)]
 pub type ResultS3SyslineFind_Test = ResultS3<(), std::io::Error>;
 
 const FOUND: ResultS3SyslineFind_Test = ResultS3SyslineFind_Test::Found(());
@@ -3914,7 +3914,6 @@ fn test_find_sysline_B_dt0_3() {
 
 // -------------------------------------------------------------------------------------------------
 
-#[allow(non_upper_case_globals)]
 const test_data_file_C_dt6: &str = "\
 [DEBUG] 2000-01-01 00:00:00
 [DEBUG] 2000-01-01 00:00:01a
@@ -3923,7 +3922,6 @@ const test_data_file_C_dt6: &str = "\
 [DEBUG] 2000-01-01 00:00:04abcd
 [DEBUG] 2000-01-01 00:00:05abcde";
 
-#[allow(non_upper_case_globals)]
 const test_data_file_C_dt6_checks: [TestSyslineReaderCheck; 6] = [
     ("[DEBUG] 2000-01-01 00:00:00\n", 28),
     ("[DEBUG] 2000-01-01 00:00:01a\n", 57),

@@ -1200,7 +1200,6 @@ fn find_line_in_block_all(
 }
 
 /// test `LineReader::find_line_in_block` read all file offsets
-#[allow(non_snake_case)]
 fn test_find_line_in_block_all(
     path: &FPath,
     cache_enabled: bool,
