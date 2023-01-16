@@ -21,7 +21,7 @@ extern crate lazy_static;
 use lazy_static::lazy_static;
 
 extern crate si_trace_print;
-use si_trace_print::{dpfo, dpfñ};
+use si_trace_print::{defn, defo, defx, defñ};
 
 extern crate tempfile;
 
@@ -168,7 +168,7 @@ pub fn create_temp_file_bytes_with_suffix(
 
 /// Create a temporary directory
 pub fn create_temp_dir() -> TempDir {
-    dpfñ!();
+    defñ!();
     tempfile::tempdir().unwrap()
 }
 
@@ -176,16 +176,18 @@ pub fn create_dir_in_tmpdir(
     pathb: &PathBuf,
     tempdir: &TempDir,
 ) {
+    defn!("({:?}, {:?})", pathb, tempdir);
     let mut pathb_tmp: PathBuf = tempdir.path().to_path_buf();
     for c in pathb.components() {
         pathb_tmp = pathb_tmp.join(PathBuf::from(c.as_os_str()));
-        dpfñ!("create_dir({:?})", pathb_tmp);
+        defñ!("create_dir({:?})", pathb_tmp);
         match create_dir(&pathb_tmp) {
             Ok(_) => {}
             Err(err) if err.kind() == ErrorKind::AlreadyExists => {}
             Err(err) => panic!("Error {:?}", err),
         }
     }
+    defx!();
 }
 
 /// Testing helper function to write a `[u8]` to a file in a temporary directory.
@@ -196,6 +198,7 @@ pub fn create_file_bytes_name_in_tmpdir(
     name: &FPath,
     tempdir: &TempDir,
 ) -> Option<File> {
+    defn!("({:?}, {:?}, …)", name, tempdir);
     let pathb_name: PathBuf = PathBuf::from(name);
 
     // create directories with the passed `name` if `name` ends with "/"
@@ -212,16 +215,18 @@ pub fn create_file_bytes_name_in_tmpdir(
     create_dir_in_tmpdir(&pathb_tmp, tempdir);
 
     // create file with the passed `name`
+    #[allow(for_loops_over_fallibles)]
     for c in pathb_name.components().nth(pathb_name.components().count() - 1) {
         pathb_tmp = pathb_tmp.join(PathBuf::from(c.as_os_str()));
     }
     let path_file = tempdir.path().join(pathb_tmp);
-    dpfo!("File::create({:?})", path_file);
+    defo!("File::create({:?})", path_file);
     let mut file_ = match File::create(path_file) {
         Ok(f) => f,
         Err(err) => panic!("Error {:?}", err),
     };
     file_.write_all(data).unwrap();
+    defx!();
 
     Some(file_)
 }
@@ -231,6 +236,7 @@ pub fn create_files_in_tmpdir(
     tmpdir: &TempDir,
     filenames: &[FPath],
 ) -> Vec<FPath> {
+    defn!("({:?}, {:?})", tmpdir, filenames);
     let mut files = Vec::<FPath>::new();
 
     for fpath in filenames.iter() {
@@ -242,6 +248,7 @@ pub fn create_files_in_tmpdir(
         let fpath: FPath = path_to_fpath(path_);
         files.push(fpath)
     }
+    defx!();
 
     files
 }
@@ -251,12 +258,13 @@ pub fn create_dirs_in_tmpdir(
     tmpdir: &TempDir,
     dirnames: &[FPath],
 ) -> Vec<FPath> {
+    defn!("({:?}, {:?})", tmpdir, dirnames);
     let mut fpaths = Vec::<FPath>::new();
     let path = tmpdir.path();
 
     for fpath in dirnames.iter() {
         let path_ = path.join(fpath);
-        dpfo!("create_dir({:?})", path_);
+        defo!("create_dir({:?})", path_);
         match create_dir(path_.as_path()) {
             Err(err) => {
                 panic!("Error {:?}", err);
@@ -265,12 +273,14 @@ pub fn create_dirs_in_tmpdir(
         }
         fpaths.push(path_to_fpath(path_.as_path()));
     }
+    defx!();
 
     fpaths
 }
 
 /// Testing helper to create a `TempDir` and files
 pub fn create_files_and_tmpdir(filenames: &[FPath]) -> (TempDir, Vec<FPath>) {
+    defn!("({:?})", filenames);
     let tmpdir = create_temp_dir();
     let mut files = Vec::<FPath>::new();
 
@@ -283,6 +293,7 @@ pub fn create_files_and_tmpdir(filenames: &[FPath]) -> (TempDir, Vec<FPath>) {
         let fpath: FPath = path_to_fpath(path_);
         files.push(fpath)
     }
+    defx!();
 
     (tmpdir, files)
 }

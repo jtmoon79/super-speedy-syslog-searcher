@@ -25,57 +25,57 @@ use utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// `d`ebug e`p`rintln! an `err`or
+/// `d`ebug `e`println! an `err`or
 #[macro_export]
-macro_rules! dp_err {
+macro_rules! de_err {
     (
         $($args:tt)*
     ) => {
         #[cfg(any(debug_assertions,test))]
         eprint!("ERROR: ");
         #[cfg(any(debug_assertions,test))]
-        si_trace_print::dp!($($args)*)
+        eprintln!($($args)*)
     }
 }
-pub use dp_err;
+pub use de_err;
 
-/// `d`ebug e`p`rintln! an `warn`ing
+/// `d`ebug `e`println! an `warn`ing
 #[macro_export]
-macro_rules! dp_wrn {
+macro_rules! de_wrn {
     (
         $($args:tt)*
     ) => {
         #[cfg(any(debug_assertions,test))]
         eprint!("WARNING: ");
         #[cfg(any(debug_assertions,test))]
-        si_trace_print::dp!($($args)*)
+        eprintln!($($args)*)
     }
 }
-pub use dp_wrn;
+pub use de_wrn;
 
-/// e`p`rintln! an `err`or
+/// `e`println! an `err`or
 #[macro_export]
-macro_rules! p_err {
+macro_rules! e_err {
     (
         $($args:tt)*
     ) => {
         eprint!("ERROR: ");
-        si_trace_print::p!($($args)*)
+        eprintln!($($args)*)
     }
 }
-pub use p_err;
+pub use e_err;
 
-/// e`p`rintln! a `warn`ing
+/// `e`println! a `warn`ing
 #[macro_export]
-macro_rules! p_wrn {
+macro_rules! e_wrn {
     (
         $($args:tt)*
     ) => {
         eprint!("WARNING: ");
-        si_trace_print::p!($($args)*)
+        eprintln!($($args)*)
     }
 }
-pub use p_wrn;
+pub use e_wrn;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // helper functions - various print and write

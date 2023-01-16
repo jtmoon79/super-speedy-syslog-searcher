@@ -22,7 +22,7 @@ use crate::data::sysline::SyslineP;
 
 use crate::data::datetime::{DateTimeL, FixedOffset};
 
-use crate::debug::printers::dp_err;
+use crate::debug::printers::de_err;
 
 extern crate more_asserts;
 use more_asserts::debug_assert_le;
@@ -165,7 +165,7 @@ macro_rules! write_or_return {
                 // XXX: this will print when this program stdout is truncated, like when piping
                 //      to `head`, e.g. `s4 file.log | head`
                 //          Broken pipe (os error 32)
-                dp_err!(
+                de_err!(
                     "{}.write({}@{:p}) (len {})) error {}",
                     stringify!($stdout),
                     stringify!($slice_),
@@ -191,7 +191,7 @@ macro_rules! setcolor_or_return {
     ($stdout:expr, $color_spec:expr, $color_spec_last:expr) => {
         if $color_spec != $color_spec_last {
             if let Err(err) = $stdout.set_color(&$color_spec) {
-                dp_err!("{}.set_color({:?}) returned error {}", stringify!($stdout), $color_spec, err);
+                de_err!("{}.set_color({:?}) returned error {}", stringify!($stdout), $color_spec, err);
                 return PrinterSyslineResult::Err(err);
             };
             $color_spec_last = $color_spec.clone();
@@ -706,21 +706,21 @@ pub fn print_colored(
     match out.set_color(ColorSpec::new().set_fg(Some(color))) {
         Ok(_) => {}
         Err(err) => {
-            dp_err!("print_colored: std.set_color({:?}) returned error {}", color, err);
+            de_err!("print_colored: std.set_color({:?}) returned error {}", color, err);
             return Err(err);
         }
     };
     match out.write(value) {
         Ok(_) => {}
         Err(err) => {
-            dp_err!("print_colored: out.write(…) returned error {}", err);
+            de_err!("print_colored: out.write(…) returned error {}", err);
             return Err(err);
         }
     }
     match out.reset() {
         Ok(_) => {}
         Err(err) => {
-            dp_err!("print_colored: out.reset() returned error {}", err);
+            de_err!("print_colored: out.reset() returned error {}", err);
             return Err(err);
         }
     }
@@ -782,7 +782,7 @@ pub fn write_stdout(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            dp_err!("stdout_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), _err);
+            de_err!("stdout_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), _err);
         }
     }
     match stdout_lock.flush() {
@@ -791,7 +791,7 @@ pub fn write_stdout(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            dp_err!("stdout_lock.flush() error {}", _err);
+            de_err!("stdout_lock.flush() error {}", _err);
         }
     }
 }
@@ -811,7 +811,7 @@ pub fn write_stderr(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            dp_err!("stderr_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), _err);
+            de_err!("stderr_lock.write(buffer@{:p} (len {})) error {}", buffer, buffer.len(), _err);
         }
     }
     match stderr_lock.flush() {
@@ -820,7 +820,7 @@ pub fn write_stderr(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            dp_err!("stderr flushing error {}", _err);
+            de_err!("stderr flushing error {}", _err);
         }
     }
     if cfg!(debug_assertions) {

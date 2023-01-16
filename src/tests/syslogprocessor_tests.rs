@@ -45,7 +45,9 @@ use more_asserts::assert_gt;
 extern crate test_case;
 use test_case::test_case;
 
-use si_trace_print::stack::stack_offset_set;
+extern crate si_trace_print;
+#[allow(unused_imports)]
+use si_trace_print::printers::{defn, defo, defx, defñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -158,6 +160,7 @@ const NTF9_DATA_LINE2_OFFSET: usize = NTF9_DATA_LINE1_OFFSET
     + NTF9_DATA_LINE1
         .as_bytes()
         .len();
+#[allow(dead_code)]
 const NTF9_DATA_LINE3_OFFSET: usize = NTF9_DATA_LINE2_OFFSET
     + NTF9_DATA_LINE2
         .as_bytes()
@@ -222,21 +225,31 @@ const NTF7_2_DATA_LINE4_OFFSET: usize = NTF7_2_DATA_LINE3_OFFSET
     + NTF7_2_DATA_LINE3
         .as_bytes()
         .len();
+#[allow(dead_code)]
 const NTF7_2_DATA_LINE5_OFFSET: usize = NTF7_2_DATA_LINE4_OFFSET
     + NTF7_2_DATA_LINE4
         .as_bytes()
         .len();
 const NTF7_2_BLOCKSZ_MIN: BlockSz = (NTF7_2_DATA_LINE2_OFFSET + NTF7_2_DATA_LINE2_OFFSET % 2) as BlockSz;
 
+#[allow(dead_code)]
 const NTF7_2_DATA_SYSLINE0: &str = concatcp!(NTF7_2_DATA_LINE0, NTF7_2_DATA_LINE1);
+#[allow(dead_code)]
 const NTF7_2_DATA_SYSLINE1: &str = concatcp!(NTF7_2_DATA_LINE2, NTF7_2_DATA_LINE3);
+#[allow(dead_code)]
 const NTF7_2_DATA_SYSLINE2: &str = concatcp!(NTF7_2_DATA_LINE4, NTF7_2_DATA_LINE5);
+#[allow(dead_code)]
 const NTF7_2_DATA_SYSLINE3: &str = concatcp!(NTF7_2_DATA_LINE6, NTF7_2_DATA_LINE7);
+#[allow(dead_code)]
 const NTF7_2_DATA_SYSLINE4: &str = concatcp!(NTF7_2_DATA_LINE8, NTF7_2_DATA_LINE9);
+#[allow(dead_code)]
 const NTF7_2_DATA_SYSLINE5: &str = concatcp!(NTF7_2_DATA_LINE10, NTF7_2_DATA_LINE11);
+#[allow(dead_code)]
 const NTF7_2_DATA_SYSLINE6: &str = concatcp!(NTF7_2_DATA_LINE12, NTF7_2_DATA_LINE13);
+#[allow(dead_code)]
 const NTF7_2_DATA_SYSLINE7: &str = concatcp!(NTF7_2_DATA_LINE14, NTF7_2_DATA_LINE15);
 
+#[allow(dead_code)]
 const NTF7_2_DATA_SYSLINES: [&str; 8] = [
     NTF7_2_DATA_SYSLINE0,
     NTF7_2_DATA_SYSLINE1,
@@ -415,6 +428,7 @@ fn new_SyslogProcessor(
 ) -> SyslogProcessor {
     let tzo: FixedOffset = *TZO_0;
     let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
+    defñ!("SyslogProcessor::new({:?}, {:?}, {:?})", path, blocksz, tzo);
     match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo, None, None) {
         Ok(val) => val,
         Err(err) => {
@@ -428,10 +442,7 @@ fn new_SyslogProcessor(
 /// test `SyslogProcessor::new`
 #[test]
 fn test_SyslogProcessor_new_empty() {
-    let ntf = create_temp_file("");
-    let path = ntf_fpath(&ntf);
-    let slp = new_SyslogProcessor(&path, SZ);
-    eprintln!("{:?}", slp);
+    new_SyslogProcessor(&*NTF_LOG_EMPTY_FPATH, SZ);
 }
 
 #[test]
@@ -658,7 +669,7 @@ fn test_process_stages_0to5(
     let mut check_counter: usize = 0;
     let mut fo: FileOffset = 0;
     loop {
-        eprintln!("check_counter {}, slp.find_sysline({})", check_counter, fo);
+        defo!("check_counter {}, slp.find_sysline({})", check_counter, fo);
         let result = slp.find_sysline(fo);
         match result {
             ResultS3SyslineFind::Found((fo_, syslinep)) => {

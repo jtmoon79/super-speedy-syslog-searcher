@@ -13,14 +13,14 @@ use crate::readers::blockreader::{BlockSz, BLOCKSZ_MAX, BLOCKSZ_MIN};
 use crate::readers::syslinereader::DateTimePatternCounts;
 
 #[allow(unused_imports)]
-use crate::debug::printers::{dp_err, dp_wrn, p_err, p_wrn};
+use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
 
 extern crate more_asserts;
 use more_asserts::{debug_assert_ge, debug_assert_le};
 
 extern crate si_trace_print;
 #[allow(unused_imports)]
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ};
+use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
 use std::fmt;
 

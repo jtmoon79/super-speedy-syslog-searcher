@@ -24,7 +24,7 @@ pub use mime_guess::MimeGuess;
 
 extern crate si_trace_print;
 #[allow(unused_imports)]
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ};
+use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
 extern crate tar;
 
@@ -76,7 +76,7 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     // see https://docs.rs/mime/latest/mime/
     // see https://docs.rs/mime/latest/src/mime/lib.rs.html
     // see https://github.com/abonander/mime_guess/blob/f6d36d8531bef9ad86f3ee274f65a1a31ea4d9b4/src/mime_types.rs
-    dpfñ!("({:?})", mimeguess_str);
+    defñ!("({:?})", mimeguess_str);
     let lower: String = mimeguess_str.to_lowercase();
 
     // ::mime::PLAIN.as_str();
@@ -120,23 +120,23 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
 ///
 /// [`MimeGuess`]: https://docs.rs/mime_guess/2.0.4/mime_guess/struct.MimeGuess.html
 pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
-    dpfn!("mimeguess_to_filetype({:?})", mimeguess);
+    defn!("mimeguess_to_filetype({:?})", mimeguess);
     let mut filetype_un: FileType = FileType::Unknown;
     for mimeguess_ in mimeguess.iter() {
-        dpo!("mimeguess_to_filetype: check {:?}", mimeguess_);
+        deo!("mimeguess_to_filetype: check {:?}", mimeguess_);
         match mimeguess_to_filetype_str(mimeguess_.as_ref()) {
             FileType::Unset => {}
             FileType::Unparseable => {
                 filetype_un = FileType::Unparseable;
             }
             val => {
-                dpfx!("mimeguess_to_filetype: return {:?}", val);
+                defx!("mimeguess_to_filetype: return {:?}", val);
                 return val;
             }
         }
     }
 
-    dpfx!("mimeguess_to_filetype: return {:?}", filetype_un);
+    defx!("mimeguess_to_filetype: return {:?}", filetype_un);
 
     filetype_un
 }
@@ -150,26 +150,26 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
 /// Does not replace that function!
 /// e.g. calling `path_to_filetype("file.txt")` will return `FileUnknown`.
 pub(crate) fn path_to_filetype(path: &Path) -> FileType {
-    dpfn!("({:?})", path);
+    defn!("({:?})", path);
 
     let file_name: &OsStr = path
         .file_name()
         .unwrap_or_default();
-    dpo!("file_name {:?}", file_name);
+    deo!("file_name {:?}", file_name);
     let file_name_string: String = file_name
         .to_str()
         .unwrap_or_default()
         .to_ascii_lowercase();
     let file_name_s: &str = file_name_string.as_str();
-    dpo!("file_name_s {:?}", file_name_s);
+    deo!("file_name_s {:?}", file_name_s);
 
     if PARSEABLE_FILENAMES_FILE.contains(&file_name_s) {
-        dpfx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_name_s);
+        defx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_name_s);
         return FileType::File;
     }
 
     if UNPARSEABLE_FILENAMES_FILE.contains(&file_name_s) {
-        dpfx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_name_s);
+        defx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_name_s);
         return FileType::Unparseable;
     }
 
@@ -183,7 +183,7 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         .unwrap_or_default()
         .to_ascii_lowercase();
     let file_prefix_s: &str = file_prefix_string.as_str();
-    dpo!("file_prefix {:?}", file_prefix_s);
+    deo!("file_prefix {:?}", file_prefix_s);
 
     let file_suffix: &OsStr = path
         .extension()
@@ -193,10 +193,10 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         .unwrap_or_default()
         .to_ascii_lowercase();
     let file_suffix_s = file_suffix_string.as_str();
-    dpo!("file_suffix {:?}", file_suffix_s);
+    deo!("file_suffix {:?}", file_suffix_s);
 
     if file_suffix_s == "journal" {
-        dpfx!("return Unparseable; .journal");
+        defx!("return Unparseable; .journal");
         return FileType::Unparseable;
     }
 
@@ -205,13 +205,13 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
     // for example `data.tgz`
     // XXX: this should be handled in `path_to_filetype_mimeguess`
     if file_suffix_s == "tgz" {
-        dpfx!("return TarGz; .tgz");
+        defx!("return TarGz; .tgz");
         return FileType::TarGz;
     }
 
     // for example `data.tgz.old`
     if file_prefix_s.ends_with(".tgz") {
-        dpfx!("return TarGz; data.tgz");
+        defx!("return TarGz; data.tgz");
         return FileType::TarGz;
     }
 
@@ -219,18 +219,18 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
 
     // for example, `media.gz.old`
     if file_name_s.ends_with(".gz.old") {
-        dpfx!("return Gz; .gz.old");
+        defx!("return Gz; .gz.old");
         return FileType::Gz;
     }
     // for example, `media.gzip`
     if file_suffix_s == "gzip" {
-        dpfx!("return Gz; .gzip");
+        defx!("return Gz; .gzip");
         return FileType::Gz;
     }
     // for example, `media.gz`
     // XXX: this should be handled in `path_to_filetype_mimeguess`
     if file_suffix_s == "gz" {
-        dpfx!("return Gz; .gz");
+        defx!("return Gz; .gz");
         return FileType::Gz;
     }
 
@@ -238,18 +238,18 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
 
     // for example, `media.xz.old`
     if file_name_s.ends_with(".xz.old") {
-        dpfx!("return Xz; .xz.old");
+        defx!("return Xz; .xz.old");
         return FileType::Xz;
     }
     // for example, `media.xzip`
     if file_suffix_s == "xzip" {
-        dpfx!("return Xz; .xzip");
+        defx!("return Xz; .xzip");
         return FileType::Xz;
     }
     // for example, `media.xz`
     // XXX: this should be handled in `path_to_filetype_mimeguess`
     if file_suffix_s == "xz" {
-        dpfx!("return Xz; .xz");
+        defx!("return Xz; .xz");
         return FileType::Xz;
     }
 
@@ -257,12 +257,12 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
 
     // for example, `var-log.tar.old`
     if file_name_s.ends_with(".tar.old") {
-        dpfx!("return Tar; .tar.old");
+        defx!("return Tar; .tar.old");
         return FileType::Tar;
     }
     // XXX: this should be handled in `path_to_filetype_mimeguess`
     if file_suffix_s == "tar" {
-        dpfx!("return Tar; .tar");
+        defx!("return Tar; .tar");
         return FileType::Tar;
     }
 
@@ -270,17 +270,17 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
 
     // for example, `log_media`
     if file_prefix_s.starts_with("log_") {
-        dpfx!("return File; log_");
+        defx!("return File; log_");
         return FileType::File;
     }
     // for example, `media_log`
     if file_name_s.ends_with("_log") {
-        dpfx!("return File; _log");
+        defx!("return File; _log");
         return FileType::File;
     }
     // for example, `media.log.old`
     if file_name_s.ends_with(".log.old") {
-        dpfx!("return File; .log.old");
+        defx!("return File; .log.old");
         return FileType::File;
     }
 
@@ -288,69 +288,69 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
 
     // for example, `syslog.2`
     if file_prefix_s == "syslog" {
-        dpfx!("return File; syslog.");
+        defx!("return File; syslog.");
         return FileType::File;
     }
 
     // for example, `syslog`
     if file_name_s == "syslog" {
-        dpfx!("return File; syslog");
+        defx!("return File; syslog");
         return FileType::File;
     }
 
     if file_name_s == "kernellog" {
-        dpfx!("return File; kernellog");
+        defx!("return File; kernellog");
         return FileType::File;
     }
 
     if file_name_s == "kernelog" {
-        dpfx!("return File; kernelog");
+        defx!("return File; kernelog");
         return FileType::File;
     }
 
     // for example, `messages.2`
     if file_prefix_s == "messages" {
-        dpfx!("return File; messages.");
+        defx!("return File; messages.");
         return FileType::File;
     }
 
     // for example, `dmesg.2`
     if file_prefix_s == "dmesg" {
-        dpfx!("return File; dmesg.");
+        defx!("return File; dmesg.");
         return FileType::File;
     }
 
     // for example, `dmesg`
     if file_name_s == "dmesg" {
-        dpfx!("return File; dmesg");
+        defx!("return File; dmesg");
         return FileType::File;
     }
 
     // for example, `log.host` as emitted by samba daemon
     if file_name_s.starts_with("log.") {
-        dpfx!("return File; log..");
+        defx!("return File; log..");
         return FileType::File;
     }
 
     // for example, `log.log.host`
     if file_prefix_s == "log" {
-        dpfx!("return File; log.");
+        defx!("return File; log.");
         return FileType::File;
     }
 
     // on cheap embedded systems it may be just named `log`
     if file_name_s == "log" {
-        dpfx!("return File; log");
+        defx!("return File; log");
         return FileType::File;
     }
 
     // some logs have no extension in the name
     if path.extension().is_none() {
-        dpfx!("return File; no path.extension()");
+        defx!("return File; no path.extension()");
         return FileType::File;
     }
 
-    dpfx!("return Unknown");
+    defx!("return Unknown");
 
     FileType::Unknown
 }
@@ -377,11 +377,11 @@ pub fn parseable_filetype(filetype: &FileType) -> bool {
 /// `path_to_filetype`.
 /// Users should prefer this function and not those other functions.
 pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
-    dpfn!("({:?})", path);
+    defn!("({:?})", path);
 
     // first, try to determine the mimetype
     let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
-    dpo!("mimeguess {:?}", mimeguess);
+    deo!("mimeguess {:?}", mimeguess);
 
     if mimeguess.is_empty() {
         // Sometimes syslog files get automatically renamed by appending `.old`
@@ -396,11 +396,11 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
             match remove_extension(path_) {
                 None => {}
                 Some(fpath_rm1ext) => {
-                    dpfo!("no mimeguess found, try again with removed file extension {:?}", fpath_rm1ext);
+                    defo!("no mimeguess found, try again with removed file extension {:?}", fpath_rm1ext);
                     fpath = fpath_rm1ext;
                     path_ = fpath_to_path(&fpath);
                     mimeguess = MimeGuess::from_path(path_);
-                    dpfo!("mimeguess {:?}", mimeguess);
+                    defo!("mimeguess {:?}", mimeguess);
                 }
             }
             ext_rm += 1;
@@ -417,21 +417,21 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
             // Files can have several signifiers like `file.log.old.2`.
             // However, limit attempts as some files could have names like
             // `this.is.a.name.of.a.file`.
-            dpfo!("filetype {:?} not parseable", filetype);
+            defo!("filetype {:?} not parseable", filetype);
             let mut fpath: FPath;
             let mut path_: &Path = path_clone(path);
             filetype = path_to_filetype(path_);
-            dpfo!("filetype {:?}", filetype);
+            defo!("filetype {:?}", filetype);
             let mut ext_rm = 0;
             while !parseable_filetype(&filetype) && filename_count_extensions(path_) != 0 && ext_rm < 3 {
                 match remove_extension(path_) {
                     None => {}
                     Some(fpath_rm1ext) => {
-                        dpfo!("try again with removed file extension {:?}", path_);
+                        defo!("try again with removed file extension {:?}", path_);
                         fpath = fpath_rm1ext;
                         path_ = fpath_to_path(&fpath);
                         filetype = path_to_filetype(path_);
-                        dpfo!("filetype {:?}", filetype);
+                        defo!("filetype {:?}", filetype);
                     }
                 }
                 ext_rm += 1;
@@ -440,7 +440,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
         _ => {}
     }
 
-    dpfx!("return ({:?}, {:?})", filetype, mimeguess);
+    defx!("return ({:?}, {:?})", filetype, mimeguess);
 
     (filetype, mimeguess)
 }
@@ -458,14 +458,14 @@ pub(crate) fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess)
 /// Return a `ProcessPathResult` for each parseable file within
 /// the `.tar` file at `path`.
 pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
-    dpfn!("({:?})", path);
+    defn!("({:?})", path);
 
     let file: File = File::open(path).unwrap();
     let mut archive: tar::Archive<File> = tar::Archive::<File>::new(file);
     let entry_iter: tar::Entries<File> = match archive.entries() {
         Ok(val) => val,
         Err(_err) => {
-            dpfx!("Err {:?}", _err);
+            defx!("Err {:?}", _err);
             //return Result::Err(err);
             return vec![];
         }
@@ -475,13 +475,13 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         let entry: tar::Entry<File> = match entry_res {
             Ok(val) => val,
             Err(_err) => {
-                dpo!("entry Err {:?}", _err);
+                deo!("entry Err {:?}", _err);
                 continue;
             }
         };
         let header: &tar::Header = entry.header();
         let etype: tar::EntryType = header.entry_type();
-        dpo!("entry.header().entry_type() {:?}", etype);
+        deo!("entry.header().entry_type() {:?}", etype);
         // TODO: handle tar types `symlink` and `long_link`, currently they are ignored
         if !etype.is_file() {
             continue;
@@ -489,7 +489,7 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         let subpath: Cow<Path> = match entry.path() {
             Ok(val) => val,
             Err(_err) => {
-                dpo!("entry.path() Err {:?}", _err);
+                deo!("entry.path() Err {:?}", _err);
                 continue;
             }
         };
@@ -514,11 +514,11 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         // XXX: force filetype to be `Tar` (ignore `_filetype_subpath`). Later an attempt
         //      will be made to parse it.
         //      Chained reads are not supported. See Issue #14
-        dpo!("push FileValid({:?}, {:?}, {:?})", fullpath, mimeguess, FileType::Tar);
+        deo!("push FileValid({:?}, {:?}, {:?})", fullpath, mimeguess, FileType::Tar);
         results.push(ProcessPathResult::FileValid(fullpath, mimeguess, FileType::Tar));
     }
 
-    dpfx!("process_path_tar({:?})", path);
+    defx!("process_path_tar({:?})", path);
 
     results
 }
@@ -535,11 +535,11 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
 ///
 /// This behavior assumes a user-passed file path should attempt to be parsed.
 pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
-    dpfn!("({:?})", path);
+    defn!("({:?})", path);
 
     let std_path: &Path = Path::new(path);
     if !std_path.exists() {
-        dpfx!("return FileErrNotExist({:?})", path);
+        defx!("return FileErrNotExist({:?})", path);
         return vec![ProcessPathResult::FileErrNotExist(path.clone())];
     }
 
@@ -553,12 +553,12 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         (filetype, mimeguess) = path_to_filetype_mimeguess(std_path);
         if filetype.is_archived() && filetype.is_supported() {
             // is_archived
-            dpfñ!("return process_path_tar({:?})", path);
+            defñ!("return process_path_tar({:?})", path);
             return process_path_tar(path);
         }
         let paths: Vec<ProcessPathResult> =
             vec![ProcessPathResult::FileValid(path.clone(), mimeguess, filetype)];
-        dpfx!("({:?}) {:?}", path, paths);
+        defx!("({:?}) {:?}", path, paths);
         return paths;
     }
 
@@ -566,7 +566,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
 
     let mut paths: Vec<ProcessPathResult> = Vec::<ProcessPathResult>::new();
 
-    dpo!("WalkDir({:?})…", path);
+    deo!("WalkDir({:?})…", path);
     for entry in walkdir::WalkDir::new(path.as_str())
         .follow_links(true)
         .contents_first(true)
@@ -576,16 +576,16 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         // XXX: what is type `T` in `Result<T, E>` returned by `WalkDir`?
         let path_entry = match entry {
             Ok(val) => {
-                dpo!("Ok({:?})", val);
+                deo!("Ok({:?})", val);
                 val
             }
             Err(_err) => {
-                dpo!("Err({:?})", _err);
+                deo!("Err({:?})", _err);
                 continue;
             }
         };
 
-        dpo!("analayzing {:?}", path_entry);
+        deo!("analayzing {:?}", path_entry);
         let std_path_entry: &Path = path_entry.path();
         let fpath_entry: FPath = path_to_fpath(std_path_entry);
         if !path_entry
@@ -598,7 +598,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
             {
                 continue;
             }
-            dpo!("Path not a file {:?}", path_entry);
+            deo!("Path not a file {:?}", path_entry);
             paths.push(ProcessPathResult::FileErrNotAFile(fpath_entry));
             continue;
         }
@@ -607,7 +607,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         (filetype, mimeguess) = path_to_filetype_mimeguess(std_path_entry);
         if filetype.is_archived() && filetype.is_supported() {
             // is_archived
-            dpfo!("process_path_tar({:?})", std_path_entry);
+            defo!("process_path_tar({:?})", std_path_entry);
             for result in process_path_tar(&fpath_entry).into_iter() {
                 paths.push(result);
             }
@@ -615,19 +615,19 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         }
         match filetype {
             FileType::TarGz | FileType::Unparseable => {
-                dpo!("Path not supported {:?}", std_path_entry);
+                deo!("Path not supported {:?}", std_path_entry);
                 paths.push(ProcessPathResult::FileErrNotSupported(fpath_entry, mimeguess));
             }
             FileType::Unset => {
                 eprintln!("ERROR: filetype {:?} for {:?}", filetype, std_path_entry);
             }
             _ => {
-                dpo!("paths.push(FileValid(({:?}, {:?}, {:?})))", fpath_entry, mimeguess, filetype);
+                deo!("paths.push(FileValid(({:?}, {:?}, {:?})))", fpath_entry, mimeguess, filetype);
                 paths.push(ProcessPathResult::FileValid(fpath_entry, mimeguess, filetype));
             }
         }
     }
-    dpfx!("return {:?}", paths);
+    defx!("return {:?}", paths);
 
     paths
 }

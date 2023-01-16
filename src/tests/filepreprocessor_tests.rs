@@ -38,7 +38,7 @@ use lazy_static::lazy_static;
 
 extern crate si_trace_print;
 use si_trace_print::stack::stack_offset_set;
-use si_trace_print::{dpfn, dpfx};
+use si_trace_print::{defn, defo, defx};
 
 extern crate test_case;
 use test_case::test_case;
@@ -114,9 +114,9 @@ fn test_fpath_to_filetype(
     let fpath: FPath = FPath::from(name);
     let fpath_full: FPath = FPath::from("/var/log/") + fpath.as_str();
     for path in [&fpath, &fpath_full].iter() {
-        eprintln!("test_fpath_to_filetype: fpath_to_filetype({:?})", path);
+        defo!("fpath_to_filetype({:?})", path);
         let filetype = fpath_to_filetype(path);
-        eprintln!("test_fpath_to_filetype: fpath_to_filetype returned {:?}", filetype);
+        defo!("fpath_to_filetype returned {:?}", filetype);
         assert_eq!(check, filetype, "\npath {:?}\nexpected FileType::{:?}\nactual FileType::{:?}\n", path, check, filetype);
     }
 }
@@ -127,7 +127,7 @@ fn test_process_path_fpath(
     path: &FPath,
     checks: &Vec<ProcessPathResult>,
 ) {
-    eprintln!("test_process_path_fpath({:?}, ...)", path);
+    defn!("({:?}, …)", path);
     let results = process_path(path);
     for check in checks.iter() {
         assert!(
@@ -147,6 +147,7 @@ fn test_process_path_fpath(
             checks,
         );
     }
+    defx!();
 }
 
 fn test_process_path_ntf(
@@ -221,7 +222,7 @@ fn test_process_path_1_not_a_file() {
     let fpath: FPath = FPath::from("/dev/null");
     // do not test if path does not exist; avoids failures on unusual platforms
     if !fpath_to_path(&fpath).exists() {
-        eprintln!("Path '{:?}' does not exist, pass test", fpath);
+        defo!("Path '{:?}' does not exist, pass test", fpath);
         return;
     }
     let check: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotAFile(fpath.clone())];
@@ -366,7 +367,7 @@ fn test_process_path_tar(
     path: &FPath,
     checks: &Vec<ProcessPathResult>,
 ) {
-    eprintln!("test_process_path_tar({:?}, ...)", path);
+    defn!("test_process_path_tar({:?}, …)", path);
     let results = process_path_tar(path);
     for check in checks.iter() {
         assert!(
@@ -382,6 +383,7 @@ fn test_process_path_tar(
             path, result, checks,
         );
     }
+    defx!();
 }
 
 #[test]
@@ -497,7 +499,7 @@ fn test_path_to_filetype_mimeguess(
     filetype: FileType,
     mimeguess: &MimeGuess,
 ) {
-    dpfn!("({:?})", path_str);
+    defn!("({:?})", path_str);
     // test the file name and full path
     let fpath: FPath = FPath::from_str(path_str).unwrap();
     let fpath_full: FPath = FPath::from_str("/var/log/").unwrap() + fpath.as_str();
@@ -506,5 +508,5 @@ fn test_path_to_filetype_mimeguess(
         assert_eq!(filetype, filetype_, "\nfpath {:?}\nExpected {:?}\nActual   {:?}\n", fpath_, filetype, filetype_);
         assert_eq!(mimeguess, &mimeguess_, "\nfpath {:?}\nExpected {:?}\nActual   {:?}\n", fpath_, mimeguess, mimeguess_);
     }
-    dpfx!();
+    defx!();
 }

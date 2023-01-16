@@ -31,7 +31,7 @@ use lazy_static::lazy_static;
 
 extern crate si_trace_print;
 use si_trace_print::stack::stack_offset_set;
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ};
+use si_trace_print::{defn, defo, defx, defñ};
 
 extern crate test_case;
 use test_case::test_case;
@@ -47,8 +47,8 @@ fn new_BlockReader(
     stack_offset_set(Some(2));
     match BlockReader::new(path.clone(), filetype, blocksz) {
         Ok(br) => {
-            eprintln!("opened {:?}", path);
-            eprintln!("new {:?}", &br);
+            defo!("opened {:?}", path);
+            defo!("new {:?}", &br);
             br
         }
         Err(err) => {
@@ -93,7 +93,7 @@ fn test_BlockReader(
     offsets: &[BlockOffset],
     checks: &Checks,
 ) {
-    dpfn!("({:?}, {})", path, blocksz);
+    defn!("({:?}, {})", path, blocksz);
     let mut br1 = new_BlockReader(path.clone(), filetype, blocksz);
 
     for offset in offsets.iter() {
@@ -115,7 +115,7 @@ fn test_BlockReader(
 
     for (offset, (block_expect, results3)) in checks.iter() {
         // get the block data before calling `read_block`
-        dpfo!("get_block({})", offset);
+        defo!("get_block({})", offset);
         let block_actual_opt = br1.get_block(offset);
         match br1.read_block(*offset) {
             ResultS3ReadBlock::Found(_) => {
@@ -141,7 +141,7 @@ fn test_BlockReader(
         );
     }
 
-    dpfx!();
+    defx!();
 }
 
 // TODO: [2022/08/05] tests for bad files, unparsable files, multiple streams, etc.
@@ -610,7 +610,7 @@ fn test_blocksz_at_blockoffset(
 
 #[test]
 fn test_count_blocks() {
-    dpfñ!();
+    defñ!();
     assert_eq!(1, BlockReader::count_blocks(1, 1));
     assert_eq!(2, BlockReader::count_blocks(2, 1));
     assert_eq!(3, BlockReader::count_blocks(3, 1));
@@ -639,7 +639,7 @@ fn test_count_blocks() {
 /// quick self-test
 #[test]
 fn test_file_offset_at_block_offset() {
-    dpfñ!();
+    defñ!();
     assert_eq!(0, BlockReader::file_offset_at_block_offset(0, 1));
     assert_eq!(0, BlockReader::file_offset_at_block_offset(0, 2));
     assert_eq!(0, BlockReader::file_offset_at_block_offset(0, 4));
@@ -666,7 +666,7 @@ fn test_file_offset_at_block_offset() {
 /// quick self-test
 #[test]
 fn test_block_offset_at_file_offset() {
-    dpfñ!();
+    defñ!();
     assert_eq!(0, BlockReader::block_offset_at_file_offset(0, 1));
     assert_eq!(1, BlockReader::block_offset_at_file_offset(1, 1));
     assert_eq!(2, BlockReader::block_offset_at_file_offset(2, 1));
@@ -702,7 +702,7 @@ fn test_block_offset_at_file_offset() {
 /// quick self-test
 #[test]
 fn test_block_index_at_file_offset() {
-    dpfñ!();
+    defñ!();
     assert_eq!(0, BlockReader::block_index_at_file_offset(0, 1));
     assert_eq!(0, BlockReader::block_index_at_file_offset(1, 1));
     assert_eq!(0, BlockReader::block_index_at_file_offset(2, 1));
@@ -724,7 +724,7 @@ fn test_block_index_at_file_offset() {
 /// quick self-test
 #[test]
 fn test_file_offset_at_block_offset_index() {
-    dpfñ!();
+    defñ!();
     assert_eq!(0, BlockReader::file_offset_at_block_offset_index(0, 1, 0));
     assert_eq!(1, BlockReader::file_offset_at_block_offset_index(1, 1, 0));
     assert_eq!(2, BlockReader::file_offset_at_block_offset_index(2, 1, 0));

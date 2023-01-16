@@ -16,10 +16,10 @@ use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockReader, 
 use crate::readers::blockreader::Slices;
 
 #[cfg(any(debug_assertions, test))]
-use crate::debug::printers::{buffer_to_String_noraw, char_to_char_noraw, p_err};
+use crate::debug::printers::{buffer_to_String_noraw, char_to_char_noraw, e_err};
 
 #[allow(unused_imports)]
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ};
+use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
 #[cfg(any(debug_assertions, test))]
 use std::borrow::Cow;
@@ -145,7 +145,7 @@ impl LinePart {
         blockoffset: BlockOffset,
         blocksz: BlockSz,
     ) -> LinePart {
-        dpfn!(
+        defn!(
             "LinePart(blocki_beg {}, blocki_end {}, Block @{:p}, fileoffset {}, blockoffset {}, blocksz {}) (blockp.len() {})",
             blocki_beg,
             blocki_end,
@@ -534,7 +534,7 @@ impl Line {
         &mut self,
         linepart: LinePart,
     ) {
-        dpo!("Line.append({:?}) {:?}", &linepart, linepart.to_String_noraw());
+        deo!("Line.append({:?}) {:?}", &linepart, linepart.to_String_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
             // sanity checks; each `LinePart` should be stored in same order as it appears in the
@@ -567,7 +567,7 @@ impl Line {
         &mut self,
         linepart: LinePart,
     ) {
-        dpo!("Line.prepend({:?}) {:?}", &linepart, linepart.to_String_noraw());
+        deo!("Line.prepend({:?}) {:?}", &linepart, linepart.to_String_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
             // sanity checks; each `LinePart` should be stored in same order as it appears in the
@@ -724,7 +724,7 @@ impl Line {
         mut a: LineIndex,
         mut b: LineIndex,
     ) -> LinePartPtrs<'_> {
-        dpfn!(
+        defn!(
             "(…, {}, {}), lineparts {} line.len() {} {:?}",
             a,
             b,
@@ -735,7 +735,7 @@ impl Line {
         debug_assert_le!(a, b, "passed bad LineIndex pair");
         // simple case: `a, b` are past end of `Line`
         if self.len() <= a {
-            dpfx!("return NoPtr");
+            defx!("return NoPtr");
             return LinePartPtrs::NoPtr;
         }
         // ideal case: `a, b` are within one `linepart`
@@ -747,26 +747,26 @@ impl Line {
         let mut bptr_a: Option<Box<&[u8]>> = None;
         for linepart in &self.lineparts {
             let len_ = linepart.len();
-            dpo!("next: a {}, b {}, len_ {}", a1, b1, len_);
+            deo!("next: a {}, b {}, len_ {}", a1, b1, len_);
             if a1 < len_ && b1 <= len_ && !a_found {
                 // ideal case, very efficient
-                dpfx!("return SinglePtr({}, {})", a1, b1);
+                defx!("return SinglePtr({}, {})", a1, b1);
                 return LinePartPtrs::SinglePtr(linepart.block_boxptr_ab(&a1, &b1));
             } else if a1 < len_ && len_ < b1 && !a_found {
                 a_found = true;
                 bptr_a = Some(linepart.block_boxptr_a(&a1));
                 b1 -= len_;
-                dpo!("a_found: bptr_a = block_boxptr_a({})", a1);
+                deo!("a_found: bptr_a = block_boxptr_a({})", a1);
             } else if b1 <= len_ && a_found {
                 // harder case, pretty efficient
-                dpfx!("return DoublePtr({}, {})", a1, b1);
+                defx!("return DoublePtr({}, {})", a1, b1);
                 return LinePartPtrs::DoublePtr(bptr_a.unwrap(), linepart.block_boxptr_b(&b1));
             } else if len_ < b1 && a_found {
-                dpo!("break: a {} < {} && {} < {} b && a_found", a1, len_, len_, b1);
+                deo!("break: a {} < {} && {} < {} b && a_found", a1, len_, len_, b1);
                 bptr_a = None;
                 break;
             } else if a_found {
-                dpo!("break: a_found");
+                deo!("break: a_found");
                 bptr_a = None;
                 break;
             } else {
@@ -776,7 +776,7 @@ impl Line {
         }
         // handle special case where `b` is beyond last `lineparts` but `a` data is within last `linepart`
         if let Some(..) = bptr_a {
-            dpfx!("special case: return SinglePtr({})", a1);
+            defx!("special case: return SinglePtr({})", a1);
             return LinePartPtrs::SinglePtr(bptr_a.unwrap());
         }
 
@@ -784,7 +784,7 @@ impl Line {
         // hardest case: `a, b` are among many `lineparts` (>=3 `Box` pointers required)
         //               less efficient (requires a new `Vec`)
         // TODO: cost-savings: vec capacity will often be less than `lineparts.len()`
-        dpo!("Vec::with_capacity({})", self.lineparts.len());
+        deo!("Vec::with_capacity({})", self.lineparts.len());
         let mut a_found = false;
         let mut b_search = false;
         let mut ptrs: Vec<Box<&[u8]>> = Vec::<Box<&[u8]>>::with_capacity(self.lineparts.len());
@@ -794,7 +794,7 @@ impl Line {
                 a_found = true;
                 b_search = true;
                 if b < len_ {
-                    dpo!(
+                    deo!(
                         "ptrs.push(linepart.block_boxptr_ab({}, {})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]",
                         a,
                         b,
@@ -810,10 +810,10 @@ impl Line {
                         "ptrs is {} elements, expected >= 1; this should have been handled earlier",
                         ptrs.len()
                     );
-                    dpfx!("return MultiPtr {} ptrs", ptrs.len());
+                    defx!("return MultiPtr {} ptrs", ptrs.len());
                     return LinePartPtrs::MultiPtr(ptrs);
                 }
-                dpo!(
+                deo!(
                     "ptrs.push(linepart.block_boxptr_a({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]",
                     a,
                     linepart.blocki_beg,
@@ -825,12 +825,12 @@ impl Line {
                 b -= len_;
                 continue;
             } else if !a_found {
-                dpo!("next: !a_found, a {}, {} linepart.len(), a becomes {}", a, len_, a - len_);
+                deo!("next: !a_found, a {}, {} linepart.len(), a becomes {}", a, len_, a - len_);
                 a -= len_;
                 continue;
             }
             if b_search && b < len_ {
-                dpo!(
+                deo!(
                     "ptrs.push(linepart.block_boxptr_b({})) @Block[{:?}‥{:?}] @[{:?}‥{:?}]",
                     b,
                     linepart.blocki_beg,
@@ -841,7 +841,7 @@ impl Line {
                 ptrs.push(linepart.block_boxptr_b(&b)); // store [..b] (last slice of `Line`)
                 break;
             } else {
-                dpo!(
+                deo!(
                     "ptrs.push(linepart.block_boxptr()) @Block[{:?}‥{:?}] @[{:?}‥{:?}]",
                     linepart.blocki_beg,
                     linepart.blocki_end,
@@ -883,7 +883,7 @@ impl Line {
                 match stdout_lock.write(slice) {
                     Ok(_) => {}
                     Err(err) => {
-                        p_err!(
+                        e_err!(
                             "StdoutLock.write(@{:p}[{}‥{}]) error {}",
                             &*linepart.blockp,
                             linepart.blocki_beg,
@@ -898,7 +898,7 @@ impl Line {
                 let s = match std::str::from_utf8(slice) {
                     Ok(val) => val,
                     Err(err) => {
-                        p_err!("Invalid UTF-8 sequence during from_utf8: {:?}", err);
+                        e_err!("Invalid UTF-8 sequence during from_utf8: {:?}", err);
                         continue;
                     }
                 };
@@ -909,7 +909,7 @@ impl Line {
                     match stdout_lock.write(&dst) {
                         Ok(_) => {}
                         Err(err) => {
-                            p_err!("StdoutLock.write({:?}) error {}", &dst, err);
+                            e_err!("StdoutLock.write({:?}) error {}", &dst, err);
                         }
                     }
                 }
@@ -918,7 +918,7 @@ impl Line {
         match stdout_lock.flush() {
             Ok(_) => {}
             Err(err) => {
-                p_err!("stdout flushing error {}", err);
+                e_err!("stdout flushing error {}", err);
             }
         }
     }

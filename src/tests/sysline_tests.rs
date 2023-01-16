@@ -19,6 +19,10 @@ use crate::readers::blockreader::{Block, BlockIndex, BlockOffset, BlockP, BlockS
 extern crate lazy_static;
 use lazy_static::lazy_static;
 
+extern crate si_trace_print;
+#[allow(unused_imports)]
+use si_trace_print::printers::{defo, defn, defx};
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 #[allow(dead_code)]
@@ -97,10 +101,10 @@ fn new_sysline(
     let mut fo_byte: FileOffset = (BLOCKOFFSET_INIT * (BLOCKSZ as BlockOffset)) as FileOffset;
     let mut line: Line = Line::new();
     let dt = *DT_0;
-    eprintln!("new_sysline1: dt: {:?}\n", dt);
+    defn!("dt: {:?}\n", dt);
     while at_byte < at_stop {
         let mut block: Block = Block::with_capacity(BLOCKSZ as usize);
-        eprintln!("new_sysline1: data.as_bytes().iter().skip({}).take({})", at_byte, BLOCKSZ);
+        defo!("data.as_bytes().iter().skip({}).take({})", at_byte, BLOCKSZ);
         for byte_ in data
             .as_bytes()
             .iter()
@@ -110,11 +114,11 @@ fn new_sysline(
             block.push(*byte_);
         }
         let blocksz = block.len();
-        eprintln!("new_sysline1: block.resize({}, 0)", blocksz);
+        defo!("block.resize({}, 0)", blocksz);
         block.resize(blocksz, 0);
         let blockp: BlockP = BlockP::new(block);
-        eprintln!(
-            "new_sysline1: LinePart::(…, {}, {}, {}, {}, {})",
+        defo!(
+            "LinePart::(…, {}, {}, {}, {}, {})",
             0,
             blocksz - 1,
             fo_byte,
@@ -123,7 +127,6 @@ fn new_sysline(
         );
         let linepart: LinePart =
             LinePart::new(blockp, 0 as BlockIndex, blocksz as BlockIndex, fo_byte, bo_off, BLOCKSZ);
-        //eprintln!("new_sysline1: linepart: {:?}\n", linepart);
         eprintln!();
         line.append(linepart);
         bo_off += 1;

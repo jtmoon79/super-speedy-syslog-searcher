@@ -96,7 +96,7 @@ impl<T, E> ResultS3<T, E> {
     ///
     /// [`Err`]: self::ResultS3#variant.Err
     #[allow(dead_code)]
-    #[must_use = "if you intended to assert that this is err, consider `.unwrap_err()` instead"]
+    #[must_use = "if you intended to assert that this is err, consider `.unwrae_err()` instead"]
     #[inline(always)]
     pub const fn is_err(&self) -> bool {
         !self.is_ok()

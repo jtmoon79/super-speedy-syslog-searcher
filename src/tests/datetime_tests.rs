@@ -42,7 +42,7 @@ use more_asserts::{assert_gt, assert_le, assert_lt};
 extern crate regex;
 extern crate si_trace_print;
 use si_trace_print::stack::stack_offset_set;
-use si_trace_print::{dpfn, dpfx};
+use si_trace_print::{defn, defo, defx};
 
 use std::str;
 
@@ -955,7 +955,7 @@ fn fo_to_fo0(dt_opt: &DateTimeLOpt) -> DateTimeLOpt {
 #[allow(non_snake_case)]
 #[test]
 fn test_dt_pass_filters_fixedoffset2() {
-    dpfn!();
+    defn!();
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = FixedOffset::west_opt(3600 * 2).unwrap();
@@ -1020,16 +1020,16 @@ fn test_dt_pass_filters_fixedoffset2() {
     ] {
         let result = dt_pass_filters(&dt, &da, &db);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for {:?} among dt_pass_filters({:?}, {:?})", exp_result, result, dt, da, db);
-        eprintln!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
+        defo!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
     }
-    dpfx!();
+    defx!();
 }
 
 #[rustfmt::skip]
 #[allow(non_snake_case)]
 #[test]
 fn test_dt_pass_filters_z() {
-    dpfn!();
+    defn!();
 
     fn DTLz(s: &str) -> DateTimeL {
         let tz_dummy = *TZO_0;
@@ -1129,9 +1129,9 @@ dt_pass_filters({:?}, {:?})
 For                  {:?}
 dt_pass_filters({:?}, {:?})
 ", exp_result, result, dt, da, db, dt0, da0, db0);
-        eprintln!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
+        defo!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
     }
-    dpfx!();
+    defx!();
 }
 
 /// basic test of `SyslineReader.dt_after_or_before`
@@ -1139,7 +1139,7 @@ dt_pass_filters({:?}, {:?})
 #[allow(non_snake_case)]
 #[test]
 fn test_dt_after_or_before() {
-    dpfn!();
+    defn!();
 
     fn DTL(s: &str) -> DateTimeL {
         let tzo = *TZO_W8;
@@ -1154,7 +1154,7 @@ fn test_dt_after_or_before() {
     ] {
         let result = dt_after_or_before(&dt, &da);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?})", exp_result, result, dt, da);
-        eprintln!("dt_after_or_before(\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, result);
+        defo!("dt_after_or_before(\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, result);
     }
-    dpfx!();
+    defx!();
 }

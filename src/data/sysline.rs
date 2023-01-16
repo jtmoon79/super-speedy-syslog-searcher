@@ -17,7 +17,7 @@ use crate::data::datetime::{DateTimeLOpt, Duration};
 use crate::data::line::{Line, LineIndex, LineP, LinePart, Lines};
 
 #[allow(unused_imports)]
-use crate::debug::printers::{dp_err, dp_wrn, p_wrn};
+use crate::debug::printers::{de_err, de_wrn, e_wrn};
 
 use std::fmt;
 use std::sync::Arc;
@@ -27,7 +27,7 @@ use more_asserts::debug_assert_ge;
 
 extern crate si_trace_print;
 #[allow(unused_imports)]
-use si_trace_print::{dpfn, dpfo, dpfx, dpfñ, dpn, dpo, dpx, dpñ};
+use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Sysline
@@ -183,7 +183,7 @@ impl Sysline {
         linep: LineP,
     ) {
         self.lines.push(linep);
-        dpñ!("Sysline.push(), self.lines.len() is now {}", self.lines.len());
+        deñ!("Sysline.push(), self.lines.len() is now {}", self.lines.len());
     }
 
     /// The byte offset into the file where this `Sysline` begins.

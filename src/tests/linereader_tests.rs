@@ -96,17 +96,16 @@ fn test_new_LineReader_2_bad_path_panics() {
 /// loop on `LineReader.find_line` until it is done
 /// this is the most straightforward use of `LineReader`
 fn process_LineReader(lr1: &mut LineReader) {
-    eprintln!("{}process_LineReader()", sn());
+    defn!();
     let mut fo1: FileOffset = 0;
     loop {
-        eprintln!("{}LineReader.find_line({})", so(), fo1);
+        defo!("fileoffset {}", fo1);
         let result = lr1.find_line(fo1);
         match result {
             ResultS3LineFind::Found((fo, lp)) => {
                 let count = lr1.count_lines_processed();
-                eprintln!(
-                    "{}ResultS3LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
-                    so(),
+                defo!(
+                    "ResultS3LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     fo,
                     count,
                     &*lp,
@@ -117,16 +116,16 @@ fn process_LineReader(lr1: &mut LineReader) {
                 (*lp).print(false);
             }
             ResultS3LineFind::Done => {
-                eprintln!("{}ResultS3LineFind::Done!", so());
+                defo!("ResultS3LineFind::Done!");
                 break;
             }
             ResultS3LineFind::Err(err) => {
-                eprintln!("{}ResultS3LineFind::Err {}", so(), err);
+                defo!("ResultS3LineFind::Err {}", err);
                 panic!("ERROR: {}", err);
             }
         }
     }
-    eprintln!("{}process_LineReader()", sx());
+    defx!();
 }
 
 // -----------------------------------------------------------------------------
