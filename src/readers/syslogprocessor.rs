@@ -140,8 +140,8 @@ lazy_static! {
     /// [`Sysline`]: crate::data::sysline::Sysline
     pub static ref BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP: MapBszRangeToCount = {
         let mut m = MapBszRangeToCount::new();
-        m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX_BSZ}, 2);
-        m.insert(BszRange{start: SYSLOG_SZ_MAX_BSZ, end: BlockSz::MAX}, 3);
+        m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX_BSZ}, 1);
+        m.insert(BszRange{start: SYSLOG_SZ_MAX_BSZ, end: BlockSz::MAX}, 2);
 
         m
     };
@@ -809,8 +809,10 @@ impl SyslogProcessor {
         self.processingstage = ProcessingStage::Stage1BlockzeroAnalysis;
 
         let result: FileProcessingResultBlockZero = self.blockzero_analysis();
+        // stored syslines may be zero if a "partial" `Line` was examined
+        // e.g. an incomplete and temporary `Line` instance was examined.
         defo!(
-            "blockzero_analysis() returned syslines {}",
+            "blockzero_analysis() stored syslines {}",
             self.syslinereader
                 .count_syslines_stored()
         );
