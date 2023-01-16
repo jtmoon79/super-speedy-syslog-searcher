@@ -54,6 +54,56 @@ use si_trace_print::printers::{defn, defo, defx, defñ};
 const SZ: BlockSz = SyslogProcessor::BLOCKSZ_MIN;
 
 //
+// NTF1S_A
+//
+
+// a one line file with a short datetime pattern
+// 2019-03-01 16:56
+
+const NTF1S_A_DATA_LINE0: &str = "jan 1 12:34:56";
+
+const NTF1S_A_DATA: &str = concatcp!(
+    NTF1S_A_DATA_LINE0,
+);
+
+/// Unix epoch time for time `NTF1S_A_DATA_LINE0` year 2001 at UTC
+const NTF1S_A_MTIME_UNIXEPOCH: i64 = 978381296;
+
+//
+// NTF1S_B
+//
+
+// a one line file with a short datetime pattern
+// 2019-03-01 16:56
+
+const NTF1S_B_DATA_LINE0: &str = "jan 1 12:34:56\n";
+
+const NTF1S_B_DATA: &str = concatcp!(
+    NTF1S_B_DATA_LINE0,
+);
+
+/// Unix epoch time for time `NTF1S_B_DATA_LINE0` year 2001 at UTC
+const NTF1S_B_MTIME_UNIXEPOCH: i64 = 978381296;
+
+//
+// NTF2S_A
+//
+
+// a one line file with a short datetime pattern
+// 2019-03-01 16:56
+
+const NTF2S_A_DATA_LINE0: &str = "jan 1 12:34:56\n";
+const NTF2S_A_DATA_LINE1: &str = "jan 2 23:45:60\n";
+
+const NTF2S_A_DATA: &str = concatcp!(
+    NTF2S_A_DATA_LINE0,
+    NTF2S_A_DATA_LINE1,
+);
+
+/// Unix epoch time for time `NTF1S_B_DATA_LINE0` year 2001 at UTC
+const NTF2S_A_MTIME_UNIXEPOCH: i64 = 978381296;
+
+//
 // NTF5
 //
 
@@ -269,6 +319,90 @@ const NTF0X12000_DATA: &[u8; 12000] = &[0; 12000];
 
 lazy_static! {
     static ref TIMEZONE_0: FixedOffset = FixedOffset::west_opt(0).unwrap();
+
+    //
+    // NTF1S_A
+    //
+
+    static ref NTF1S_A: NamedTempFile = {
+        let ntf = create_temp_file(NTF1S_A_DATA);
+        // set the file's modified time to `NTF1S_A_MTIME_UNIXEPOCH`
+        let mtime = filetime::FileTime::from_unix_time(NTF1S_A_MTIME_UNIXEPOCH, 0);
+        match filetime::set_file_mtime(ntf.path(), mtime) {
+            Ok(_) => {},
+            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+        }
+
+        ntf
+    };
+
+    static ref NTF1S_A_PATH: FPath = {
+        ntf_fpath(&NTF1S_A)
+    };
+
+    // a `DateTimeL` instance three minutes after `NTF1S_A_DATA_LINE0`
+    static ref NTF1S_A_DATA_LINE0_AFTER: DateTimeLOpt = {
+        match DateTimeL::parse_from_rfc3339("2001-01-01T12:37:56-00:00") {
+            Ok(dt) => Some(dt),
+            Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+        }
+    };
+
+    //
+    // NTF1S_B
+    //
+
+    static ref NTF1S_B: NamedTempFile = {
+        let ntf = create_temp_file(NTF1S_B_DATA);
+        // set the file's modified time to `NTF1S_B_MTIME_UNIXEPOCH`
+        let mtime = filetime::FileTime::from_unix_time(NTF1S_B_MTIME_UNIXEPOCH, 0);
+        match filetime::set_file_mtime(ntf.path(), mtime) {
+            Ok(_) => {},
+            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+        }
+
+        ntf
+    };
+
+    static ref NTF1S_B_PATH: FPath = {
+        ntf_fpath(&NTF1S_B)
+    };
+
+    // a `DateTimeL` instance three minutes after `NTF1S_B_DATA_LINE0`
+    static ref NTF1S_B_DATA_LINE0_AFTER: DateTimeLOpt = {
+        match DateTimeL::parse_from_rfc3339("2001-01-01T12:37:56-00:00") {
+            Ok(dt) => Some(dt),
+            Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+        }
+    };
+
+    //
+    // NTF2S_A
+    //
+
+    static ref NTF2S_A: NamedTempFile = {
+        let ntf = create_temp_file(NTF2S_A_DATA);
+        // set the file's modified time to `NTF2S_A_MTIME_UNIXEPOCH`
+        let mtime = filetime::FileTime::from_unix_time(NTF2S_A_MTIME_UNIXEPOCH, 0);
+        match filetime::set_file_mtime(ntf.path(), mtime) {
+            Ok(_) => {},
+            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+        }
+
+        ntf
+    };
+
+    static ref NTF2S_A_PATH: FPath = {
+        ntf_fpath(&NTF2S_A)
+    };
+
+    // a `DateTimeL` instance at `NTF2S_A_DATA_LINE1`
+    static ref NTF2S_A_DATA_LINE1_AFTER: DateTimeLOpt = {
+        match DateTimeL::parse_from_rfc3339("2001-01-02T23:45:60-00:00") {
+            Ok(dt) => Some(dt),
+            Err(err) => panic!("Error parse_from_rfc3339 failed {:?}", err),
+        }
+    };
 
     //
     // NTF5
@@ -550,13 +684,13 @@ fn test_process_stage0(
 #[test_case(
     &*NTF7_2_PATH,
     (NTF7_2_DATA_LINE1_OFFSET + (NTF7_2_DATA_LINE1_OFFSET % 2)) as BlockSz,
-    FILENOSYSLINESFOUND;
+    FILEOK;
     "NTF7_2_PATH NTF7_2_DATA_LINE1_OFFSET"
 )]
 #[test_case(
     &*NTF7_2_PATH,
     (NTF7_2_DATA_LINE2_OFFSET + (NTF7_2_DATA_LINE2_OFFSET % 2)) as BlockSz,
-    FILENOSYSLINESFOUND;
+    FILEOK;
     "NTF7_2_PATH NTF7_2_DATA_LINE2_OFFSET"
 )]
 #[test_case(
@@ -576,17 +710,18 @@ fn test_process_stage0(
 #[test_case(&*NTF7_2_PATH, 0x200, FILEOK)]
 #[test_case(&*NTF7_2_PATH, 0x1000, FILEOK)]
 #[test_case(&*NTF3_PATH, 0x10, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF3_PATH, 0x20, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF3_PATH, 0x28, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF3_PATH, 0x2D, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF3_PATH, 0x30, FILEOK)]
+#[test_case(&*NTF3_PATH, 0x14, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF3_PATH, 0x16, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF3_PATH, 0x18, FILEOK)]
+#[test_case(&*NTF3_PATH, 0x1A, FILEOK)]
+#[test_case(&*NTF3_PATH, 0x20, FILEOK)]
 #[test_case(&*NTF3_PATH, 0x40, FILEOK)]
-#[test_case(&*NTF3_PATH, 0x100, FILEOK)]
+#[test_case(&*NTF3_PATH, 0x1000, FILEOK)]
 #[test_case(&*NTF5X4_PATH, 0x2, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF5X4_PATH, 0x10, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF5X4_PATH, 0x20, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF5X4_PATH, 0x30, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF5X4_PATH, 0x40, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF5X4_PATH, 0x20, FILEOK)]
+#[test_case(&*NTF5X4_PATH, 0x30, FILEOK)]
+#[test_case(&*NTF5X4_PATH, 0x40, FILEOK)]
 #[test_case(&*NTF5X4_PATH, 0x50, FILEOK)]
 #[test_case(&*NTF5X4_PATH, 0x60, FILEOK)]
 #[test_case(&*NTF5X4_PATH, 0x70, FILEOK)]
@@ -595,6 +730,36 @@ fn test_process_stage0(
 #[test_case(&*NTF5X4_PATH, 0x200, FILEOK)]
 #[test_case(&*NTF0X12000_PATH, 0x10, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF0X12000_PATH, SYSLOG_SZ_MAX_BSZ * 2, FILENOLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, 0x2, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, 0x4, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, 0xA, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, 0xB, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, 0xC, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, 0xD, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, 0xE, FILEOK)]
+#[test_case(&*NTF1S_A_PATH, 0xF, FILEOK)]
+#[test_case(&*NTF1S_A_PATH, 0x10, FILEOK)]
+#[test_case(&*NTF1S_A_PATH, 0x100, FILEOK)]
+#[test_case(&*NTF1S_B_PATH, 0x2, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, 0x4, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, 0xA, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, 0xB, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, 0xC, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, 0xD, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, 0xE, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, 0xF, FILEOK)]
+#[test_case(&*NTF1S_B_PATH, 0x10, FILEOK)]
+#[test_case(&*NTF1S_B_PATH, 0x100, FILEOK)]
+#[test_case(&*NTF2S_A_PATH, 0x2, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, 0x4, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, 0xA, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, 0xB, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, 0xC, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, 0xD, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, 0xE, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, 0xF, FILEOK)]
+#[test_case(&*NTF2S_A_PATH, 0x10, FILEOK)]
+#[test_case(&*NTF2S_A_PATH, 0x100, FILEOK)]
 fn test_process_stage1_blockzero_analysis_varying(
     path: &FPath,
     blocksz: BlockSz,
@@ -703,9 +868,10 @@ fn test_process_stages_0to5(
 
 // test files without a year and a `dt_filter_after_opt` do not process
 // the entire file, only back to `dt_filter_after_opt`
-#[test_case(&NTF5_PATH, &None, 5)]
-#[test_case(&NTF5_PATH, &NTF5_DATA_LINE2_BEFORE, 4)]
-#[test_case(&NTF5_PATH, &NTF5_DATA_LINE4_AFTER, 1)]
+#[test_case(&*NTF5_PATH, &None, 5)]
+#[test_case(&*NTF5_PATH, &NTF5_DATA_LINE2_BEFORE, 4)]
+#[test_case(&*NTF5_PATH, &NTF5_DATA_LINE4_AFTER, 1)]
+#[test_case(&*NTF1S_A_PATH, &NTF1S_A_DATA_LINE0_AFTER, 1)]
 fn test_process_stage2_find_dt_and_missing_year(
     path: &FPath,
     filter_dt_after_opt: &DateTimeLOpt,
