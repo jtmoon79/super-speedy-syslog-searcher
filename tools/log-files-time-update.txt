@@ -73,6 +73,9 @@
 ./other/tests/dtf10-10a.log|2022-06-28 01:51:17+0400
 ./other/tests/dtf10-10b.log|2021-06-28 01:51:17.3098147370
 ./other/tests/dtf11-A.log|2000-12-31 00:00:00.3864301130
+./other/tests/dtf12a-x2_patts.log|Jan 31 2022 00:00:07 +0030
+./other/tests/dtf12b-x2_patts.log|Jan 31 2022 00:00:08 +0030
+./other/tests/dtf12c-x3_patts.log|Jan 12 2022 00:00:12 +0030
 ./other/tests/dtf2-2.log|2000-01-01 00:00:01
 ./other/tests/dtf3-1.log|2000-01-01 00:00:00
 ./other/tests/dtf3-2a.log|2000-01-01 00:00:00.301
