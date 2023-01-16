@@ -2243,12 +2243,7 @@ pub fn eprint_file(path: &FPath) {
 /// only intended to help humans reading stderr output
 pub fn eprint_file_blocks(path: &FPath, blocksz: BlockSz) {
     let mut buffer: Block = Block::with_capacity(blocksz as usize);
-    // must be manually zeroed out, `fill` does not seem to force elements
-    let mut i: usize = 0;
-    while i < (blocksz as usize) {
-        buffer.push(0);
-        i += 1;
-    }
+    buffer.resize_with(blocksz as usize, || 0);
     let mut file_: std::fs::File = match std::fs::OpenOptions::new()
         .read(true)
         .open(path)
