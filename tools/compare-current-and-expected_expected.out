@@ -136,6 +136,8 @@ dtf5-6c.log:19991231T160002.000+0000:2000-01-01 00:00:02 [dtf5-6c]6c6-ab
 dtf5-6c.log:19991231T160002.000+0000:6c7-abab
 dtf5-6c.log:19991231T160002.000+0000:6c8-ababab
 dtf-varying-10.log:19991231T160002.000+0000:2000-01-01T00:00:02 Two
+dtf-varying-10.log:19991231T160002.000+0000:[ERROR] 2000-01-01T00:00:03 Three
+dtf-varying-10.log:19991231T160002.000+0000:[2000/01/01 00:00:04.123456] Four
 basic-basic-dt10-repeats.log:19991231T160003.000+0000:2000-01-01 00:00:03 1
 basic-basic-dt10-repeats.log:19991231T160003.000+0000:2000-01-01 00:00:03 2
 basic-basic-dt10-repeats.log:19991231T160003.000+0000:2000-01-01 00:00:03 3
@@ -156,7 +158,6 @@ dtf5-6b.log:19991231T160003.000+0000:6b-abc
 dtf5-6c.log:19991231T160003.000+0000:2000-01-01 00:00:03 [dtf5-6c]6c9-abc
 dtf5-6c.log:19991231T160003.000+0000:6c10-abcabc
 dtf5-6c.log:19991231T160003.000+0000:6c11-abcabcabc
-dtf-varying-10.log:19991231T160003.000+0000:[ERROR] 2000-01-01T00:00:03 Three
 basic-basic-dt10-repeats.log:19991231T160004.000+0000:2000-01-01 00:00:04 1
 basic-basic-dt10-repeats.log:19991231T160004.000+0000:2000-01-01 00:00:04 2
 basic-basic-dt10-repeats.log:19991231T160004.000+0000:2000-01-01 00:00:04 3
@@ -178,7 +179,6 @@ dtf5-6b.log:19991231T160004.000+0000:6b-abcd
 dtf5-6c.log:19991231T160004.000+0000:2000-01-01 00:00:04 [dtf5-6c]6c12-abcd
 dtf5-6c.log:19991231T160004.000+0000:6c13-abcdabcd
 dtf5-6c.log:19991231T160004.000+0000:6c14-abcdabcdabcd
-dtf-varying-10.log:19991231T160004.123+0000:[2000/01/01 00:00:04.123456] Four
 basic-basic-dt10-repeats.log:19991231T160005.000+0000:2000-01-01 00:00:05 1
 basic-basic-dt10-repeats.log:19991231T160005.000+0000:2000-01-01 00:00:05 2
 basic-basic-dt10-repeats.log:19991231T160005.000+0000:2000-01-01 00:00:05 3
@@ -202,6 +202,9 @@ dtf5-6b.log:19991231T160005.000+0000:6b-abcde
 dtf5-6c.log:19991231T160005.000+0000:2000-01-01 00:00:05 [dtf5-6c]6c15-abcde
 dtf5-6c.log:19991231T160005.000+0000:6c16-abcdeabcde
 dtf5-6c.log:19991231T160005.000+0000:6c17-abcdeabcdeabcde
+dtf-varying-10.log:19991231T160005.000+0000:2000-01-01T00:00:05.123-00:00 Five
+dtf-varying-10.log:19991231T160005.000+0000:[20000101-00:00:06] Six
+dtf-varying-10.log:19991231T160005.000+0000:[2000-01-01 00:00:07,123] Seven
 basic-basic-dt10-repeats.log:19991231T160006.000+0000:2000-01-01 00:00:06 1
 basic-basic-dt10-repeats.log:19991231T160006.000+0000:2000-01-01 00:00:06 2
 basic-basic-dt10-repeats.log:19991231T160006.000+0000:2000-01-01 00:00:06 3
@@ -259,6 +262,9 @@ basic-dt27.log:19991231T160008.000+0000:2000-01-01 00:00:08abcdefgh
 dtf5-6c.log:19991231T160008.000+0000:2000-01-01 00:00:08 [dtf5-6c]6c24-abcdefgh
 dtf5-6c.log:19991231T160008.000+0000:6c25-abcdefghabcdefgh
 dtf5-6c.log:19991231T160008.000+0000:6c26-abcdefghabcdefghabcdefgh
+dtf-varying-10.log:19991231T160008.000+0000:2000-01-01 00:00:08.001 Eight
+dtf-varying-10.log:19991231T160008.000+0000: 2000-01-01 00:00:09.001 Nine
+dtf-varying-10.log:19991231T160008.000+0000:  2000-01-01 00:00:10.001 Ten
 basic-basic-dt10-repeats.log:19991231T160009.000+0000:2000-01-01 00:00:09 1
 basic-basic-dt10-repeats.log:19991231T160009.000+0000:2000-01-01 00:00:09 2
 basic-basic-dt10-repeats.log:19991231T160009.000+0000:2000-01-01 00:00:09 3
@@ -324,8 +330,8 @@ basic-dt27.log:19991231T160017.000+0000:2000-01-01 00:00:17abcdefghijklmnopq
 basic-basic-dt20.log:19991231T160018.000+0000:2000-01-01 00:00:18
 basic-dt27.log:19991231T160018.000+0000:2000-01-01 00:00:18abcdefghijklmnopqr
 basic-basic-dt20.log:19991231T160019.000+0000:2000-01-01 00:00:19
-basic-basic-dt20.log:19991231T160019.000+0000:2000-01-01 00:00:20
 basic-dt27.log:19991231T160019.000+0000:2000-01-01 00:00:19abcdefghijklmnopqrs
+basic-basic-dt20.log:19991231T160020.000+0000:2000-01-01 00:00:20
 basic-dt27.log:19991231T160020.000+0000:2000-01-01 00:00:20abcdefghijklmnopqrst
 basic-dt27.log:19991231T160021.000+0000:2000-01-01 00:00:21abcdefghijklmnopqrstu
 basic-dt27.log:19991231T160022.000+0000:2000-01-01 00:00:22abcdefghijklmnopqrstuv
@@ -333,12 +339,6 @@ basic-dt27.log:19991231T160023.000+0000:2000-01-01 00:00:23abcdefghijklmnopqrstu
 basic-dt27.log:19991231T160024.000+0000:2000-01-01 00:00:24abcdefghijklmnopqrstuvwx
 basic-dt27.log:19991231T160025.000+0000:2000-01-01 00:00:25abcdefghijklmnopqrstuvwxy
 basic-dt27.log:19991231T160026.000+0000:2000-01-01 00:00:26abcdefghijklmnopqrstuvwxyz
-dtf-varying-10.log:20000101T000005.123+0000:2000-01-01T00:00:05.123-00:00 Five
-dtf-varying-10.log:19991231T160006.000+0000:[20000101-00:00:06] Six
-dtf-varying-10.log:19991231T160007.000+0000:[2000-01-01 00:00:07,123] Seven
-dtf-varying-10.log:19991231T160008.000+0000:2000-01-01 00:00:08.001 Eight
-dtf-varying-10.log:19991231T160009.000+0000: 2000-01-01 00:00:09.001 Nine
-dtf-varying-10.log:19991231T160010.000+0000:  2000-01-01 00:00:10.001 Ten
 dtf9d-54-12x3-closeyearend-leapday.log:20000101T010000.000+0000:Dec 31 23:00:00 FNT 48
 dtf9d-54-12x3-closeyearend-leapday.log:20000101T010000.000+0000:Dec 31 23:00:00 FNT 49
 dtf9d-54-12x3-closeyearend-leapday.log:20000101T015959.000+0000:Dec 31 23:59:59 FNT 50
@@ -3031,21 +3031,18 @@ dtf9d-24-12x2-backwards.log:20131111T200000.000+0000:Nov 11 11:00:00 HDT 13
 dtf9d-24-12x2-backwards.log:20141010T190000.000+0000:Oct 10 10:00:00 HDT 14
 dtf9d-24-12x2-backwards.log:20150909T180000.000+0000:Sep 9 09:00:00 HDT 15
 dtf9d-24-12x2-backwards.log:20160808T170000.000+0000:Aug 8 08:00:00 HDT 16
-log.nmbd:20161205T123145.000+0000:../source3/nmbd/nmbd.c:976: [2016/12/05 20:31:45, all 0] main
-log.nmbd:20161205T123145.000+0000:  nmbd version 4.1.20 started.
-log.nmbd:20161205T123145.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
-log.smbd:20161205T123145.000+0000:../source3/smbd/server.c:1266: [2016/12/05 20:31:45, all 0] main
-log.smbd:20161205T123145.000+0000:  smbd version 4.1.20 started.
-log.smbd:20161205T123145.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
 log.nmbd:20161205T123145.355+0000:../source3/nmbd/nmbd.c:1017: [2016/12/05 20:31:45.3551, all 0, pid=6494] main
 log.nmbd:20161205T123145.355+0000:  standard input is not a socket, assuming -D option
 log.smbd:20161205T123146.107+0000:../source3/smbd/server.c:1352: [2016/12/05 20:31:46.1075, all 0, pid=6430] main
 log.smbd:20161205T123146.107+0000:  standard input is not a socket, assuming -D option
+log.smbd:20161205T123146.107+0000:../source3/smbd/server.c:1266: [2016/12/05 20:36:46, all 0] main
+log.smbd:20161205T123146.107+0000:  smbd version 4.1.20 started.
+log.smbd:20161205T123146.107+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
 log.nmbd:20161205T123151.355+0000:../source3/nmbd/nmbd.c:66: [2016/12/05 20:31:51.3551, all 0, pid=6494] terminate
 log.nmbd:20161205T123151.355+0000:  Got SIGTERM: going down...
-log.nmbd:20161205T123153.000+0000:../source3/nmbd/nmbd.c:976: [2016/12/05 20:31:53, all 0] main
-log.nmbd:20161205T123153.000+0000:  nmbd version 4.1.20 started.
-log.nmbd:20161205T123153.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
+log.nmbd:20161205T123151.355+0000:../source3/nmbd/nmbd.c:976: [2016/12/05 20:31:53, all 0] main
+log.nmbd:20161205T123151.355+0000:  nmbd version 4.1.20 started.
+log.nmbd:20161205T123151.355+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
 log.nmbd:20161205T123153.355+0000:../source3/nmbd/nmbd.c:1017: [2016/12/05 20:31:53.3551, all 0, pid=7161] main
 log.nmbd:20161205T123153.355+0000:  standard input is not a socket, assuming -D option
 log.nmbd:20161205T123252.355+0000:../source3/nmbd/nmbd.c:66: [2016/12/05 20:32:52.3551, all 0, pid=7161] terminate
@@ -3055,11 +3052,11 @@ log.nmbd:20161205T123252.355+0000:  nmbd version 4.1.20 started.
 log.nmbd:20161205T123252.355+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
 log.nmbd:20161205T123253.355+0000:../source3/nmbd/nmbd.c:1017: [2016/12/05 20:32:53.3551, all 0, pid=7700] main
 log.nmbd:20161205T123253.355+0000:  standard input is not a socket, assuming -D option
-log.smbd:20161205T123646.000+0000:../source3/smbd/server.c:1266: [2016/12/05 20:36:46, all 0] main
-log.smbd:20161205T123646.000+0000:  smbd version 4.1.20 started.
-log.smbd:20161205T123646.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
 log.smbd:20161205T123646.107+0000:../source3/smbd/server.c:1352: [2016/12/05 20:36:46.1075, all 0, pid=8478] main
 log.smbd:20161205T123646.107+0000:  standard input is not a socket, assuming -D option
+log.smbd:20161205T123646.107+0000:../source3/smbd/server.c:1266: [2016/12/05 21:11:54, all 0] main
+log.smbd:20161205T123646.107+0000:  smbd version 4.1.20 started.
+log.smbd:20161205T123646.107+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
 synorelayd.log:20161205T124515.000+0000:Dec  5 20:45:15 2016 synorelayd.cpp:2048 daemon started
 synopkg.log:20161205T124700.000+0000:2016/12/05 20:47:00	(system) trigger	 :
 synopkg.log:20161205T124700.000+0000:			Begin:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 INFO --no-same-owner
@@ -3082,11 +3079,11 @@ synopkg.log:20161205T124700.000+0000:			Begin:	/bin/tar xf /path1/@tmp/@synopkg/
 synopkg.log:20161205T124700.000+0000:2016/12/05 20:47:00	(system) trigger	StorageAnalyzer 1.0.69-0069:
 synorelayd.log:20161205T130055.000+0000:Dec  5 21:00:55 2016 synorelayd.cpp:1625 get sigterm, logout
 synorelayd.log:20161205T130056.000+0000:Dec  5 21:00:56 2016 synorelayd.cpp:2102 daemon stopped
-log.smbd:20161205T131154.000+0000:../source3/smbd/server.c:1266: [2016/12/05 21:11:54, all 0] main
-log.smbd:20161205T131154.000+0000:  smbd version 4.1.20 started.
-log.smbd:20161205T131154.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
 log.smbd:20161205T131154.107+0000:../source3/smbd/server.c:1352: [2016/12/05 21:11:54.1075, all 0, pid=6668] main
 log.smbd:20161205T131154.107+0000:  standard input is not a socket, assuming -D option
+log.smbd:20161205T131154.107+0000:../source3/smbd/server.c:1266: [2016/12/05 21:16:10, all 0] main
+log.smbd:20161205T131154.107+0000:  smbd version 4.1.20 started.
+log.smbd:20161205T131154.107+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
 synorelayd.log:20161205T131203.000+0000:Dec  5 21:12:03 2016 synorelayd.cpp:2048 daemon started
 router.log:20161205T131204.000+0000:err	2016/12/05 21:12:04	PortForward:(src/libsynoportmap.cpp:532) [7364] file=/etc/portforward/router.conf not exists
 router.log:20161205T131208.000+0000:err	2016/12/05 21:12:08	PortForward:(src/libsynonetcheck.cpp:361) [7364] Public IP level is 1
@@ -3095,9 +3092,6 @@ router.log:20161205T131213.000+0000:err	2016/12/05 21:12:13	PortForward:(src/Nat
 router.log:20161205T131253.000+0000:err	2016/12/05 21:12:53	PortForward:(src/libsynoportmap.cpp:426) [7364] upnp no response, timeout
 router.log:20161205T131255.000+0000:err	2016/12/05 21:12:55	PortForward:(src/libsynoportmapHelper.cpp:429) [7364] SLibSynoPortMapRouterDetect() success: manual
 router.log:20161205T131313.000+0000:err	2016/12/05 21:13:13	PortForward:(src/UpnpDetector.cpp:111) [7665] init UPnP faild
-log.smbd:20161205T131610.000+0000:../source3/smbd/server.c:1266: [2016/12/05 21:16:10, all 0] main
-log.smbd:20161205T131610.000+0000:  smbd version 4.1.20 started.
-log.smbd:20161205T131610.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
 log.smbd:20161205T131610.107+0000:../source3/smbd/server.c:1352: [2016/12/05 21:16:10.1075, all 0, pid=1075] main
 synoupdate.log:20161205T133442.000+0000:2016/12/05 21:34:42	start critical update to buildnumber: 8451 original smallfixnumber: 0 new_smallfixnumber: 5 build date: 2016/11/28
 dpkg_upgrade.log:20161205T133443.000+0000:2016/12/05 21:34:43	 ===========[-x /path1//@smallupd@te_deb/flashupdate_6.0-8451-s3_all.deb /flashUpd@teTempFolder]===========
@@ -3906,6 +3900,10 @@ esynoscheduler.log:20161206T053953.000+0000:fire nettup event
 esynoscheduler.log:20161206T053953.000+0000:(7368) esynoscheduler_lib.cpp:1165 not config file exist, path=/usr/syno/etc/esynoscheduler/esynoscheduler-conf.json
 esynoscheduler.log:20161206T053953.000+0000:(7368) esynoscheduler_lib.cpp:1165 not config file exist, path=/usr/syno/etc/esynoscheduler/esynoscheduler-conf.json
 esynoscheduler.log:20161206T053953.000+0000:(7368) esynoscheduler_lib.cpp:768 no task only base on event=[nettup]
+esynoscheduler.log:20161206T053953.000+0000:2016-12-05T22:13:44-08:00 dsnet synoscgi_SYNO.Core.EventScheduler_1_config_get[258]: APIRunner.cpp:977 WARNING: setresgid(0, 0, 0)
+esynoscheduler.log:20161206T053953.000+0000:2016-12-05T22:13:44-08:00 dsnet synoscgi_SYNO.Core.EventScheduler_1_config_get[258]: APIRunner.cpp:978 WARNING: setresuid(0, 0, 0)
+esynoscheduler.log:20161206T053953.000+0000:2016-12-05T22:13:45-08:00 dsnet synoscgi_SYNO.Core.TaskScheduler_1_list_SYNO.Core.EventScheduler_1_list[258]: APIRunner.cpp:977 WARNING: setresgid(0, 0, 0)
+esynoscheduler.log:20161206T053953.000+0000:2016-12-05T22:13:45-08:00 dsnet synoscgi_SYNO.Core.TaskScheduler_1_list_SYNO.Core.EventScheduler_1_list[258]: APIRunner.cpp:978 WARNING: setresuid(0, 0, 0)
 3rdparty-services.log:20161206T053953.000+0000:2016-12-05T21:39:53-0800 ==================== start 3rdparty-services ====================
 3rdparty-services.log:20161206T053953.000+0000:2016-12-05T21:39:53-0800 Tue Dec  6 05:39:53 UTC 2016
 3rdparty-services.log:20161206T053953.000+0000:2016-12-05T21:39:53-0800 Reload related services (flags=0x00000000)
@@ -3927,10 +3925,6 @@ apparmor.log:20161206T060141.000+0000:2016-12-05T22:01:41-08:00 dsnet apparmor_p
 apparmor.log:20161206T060143.000+0000:2016-12-05T22:01:43-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
 pkgctl-DownloadStation.log:20161206T060143.000+0000:2016-12-05T22:01:43-0800 ======== start DownloadStation ========
 pkgctl-StorageAnalyzer.log:20161206T060155.000+0000:2016-12-05T22:01:55-0800 ======== start StorageAnalyzer ========
-esynoscheduler.log:20161206T061344.000+0000:2016-12-05T22:13:44-08:00 dsnet synoscgi_SYNO.Core.EventScheduler_1_config_get[258]: APIRunner.cpp:977 WARNING: setresgid(0, 0, 0)
-esynoscheduler.log:20161206T061344.000+0000:2016-12-05T22:13:44-08:00 dsnet synoscgi_SYNO.Core.EventScheduler_1_config_get[258]: APIRunner.cpp:978 WARNING: setresuid(0, 0, 0)
-esynoscheduler.log:20161206T061345.000+0000:2016-12-05T22:13:45-08:00 dsnet synoscgi_SYNO.Core.TaskScheduler_1_list_SYNO.Core.EventScheduler_1_list[258]: APIRunner.cpp:977 WARNING: setresgid(0, 0, 0)
-esynoscheduler.log:20161206T061345.000+0000:2016-12-05T22:13:45-08:00 dsnet synoscgi_SYNO.Core.TaskScheduler_1_list_SYNO.Core.EventScheduler_1_list[258]: APIRunner.cpp:978 WARNING: setresuid(0, 0, 0)
 mkdhparam.log:20161206T061948.000+0000:2016-12-05T22:19:48-0800 2048 semi-random bytes loaded
 mkdhparam.log:20161206T061948.000+0000:Generating DH parameters, 1024 bit long safe prime, generator 2
 mkdhparam.log:20161206T061948.000+0000:This is going to take a long time
@@ -4877,15 +4871,15 @@ dtf9c-23-12x2.log:20170909T010000.000+0000:Sep 9 09:00:00 8
 history:20170915T054827.000+0000:2017-09-15 13:48:27|radd   |home:cbosdonnat:SLE-12-SP3:Images|dir:///usr/src/packages/SOURCES/repos/home%3Acbosdonnat%3ASLE-12-SP3%3AImages/SUSE_SLE-12-SP3_GA_standard|
 history:20170915T054827.000+0000:2017-09-15 13:48:27|radd   |6e649d96e0cc5a30073bd64298cd26a9|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12-SP3%3AUpdate/standard|
 history:20170915T054827.000+0000:2017-09-15 13:48:27|radd   |3d743a74990ce39e6cc033bd41cdcd0e|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12-SP3%3AGA/standard|
-history:20170915T055117.000+0000:# 2017-09-15 13:51:17 yast2-add-on-3.2.0-1.44.noarch.rpm installed ok
-history:20170915T055117.000+0000:# Additional rpm output:
-history:20170915T055117.000+0000:# warning: /var/cache/kiwi/packages/3d743a74990ce39e6cc033bd41cdcd0e/x86_64/yast2-add-on-3.2.0-1.44.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 39db7c82: NOKEY
-history:20170915T055117.000+0000:#
+history:20170915T054827.000+0000:# 2017-09-15 13:51:17 yast2-add-on-3.2.0-1.44.noarch.rpm installed ok
+history:20170915T054827.000+0000:# Additional rpm output:
+history:20170915T054827.000+0000:# warning: /var/cache/kiwi/packages/3d743a74990ce39e6cc033bd41cdcd0e/x86_64/yast2-add-on-3.2.0-1.44.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 39db7c82: NOKEY
+history:20170915T054827.000+0000:#
 history:20170915T055117.000+0000:2017-09-15 13:51:17|install|yast2-add-on|3.2.0-1.44|noarch||3d743a74990ce39e6cc033bd41cdcd0e|93435ccd608ae378c6a94165e5e5816e9f9d6a940aa5889d4b0375767cc380c5|
-history:20170915T055118.000+0000:# 2017-09-15 13:51:18 yast2-registration-3.2.11-1.22.noarch.rpm installed ok
-history:20170915T055118.000+0000:# Additional rpm output:
-history:20170915T055118.000+0000:# warning: /var/cache/kiwi/packages/3d743a74990ce39e6cc033bd41cdcd0e/x86_64/yast2-registration-3.2.11-1.22.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 39db7c82: NOKEY
-history:20170915T055118.000+0000:#
+history:20170915T055117.000+0000:# 2017-09-15 13:51:18 yast2-registration-3.2.11-1.22.noarch.rpm installed ok
+history:20170915T055117.000+0000:# Additional rpm output:
+history:20170915T055117.000+0000:# warning: /var/cache/kiwi/packages/3d743a74990ce39e6cc033bd41cdcd0e/x86_64/yast2-registration-3.2.11-1.22.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 39db7c82: NOKEY
+history:20170915T055117.000+0000:#
 history:20170915T055118.000+0000:2017-09-15 13:51:18|install|yast2-registration|3.2.11-1.22|noarch|root@workstation|3d743a74990ce39e6cc033bd41cdcd0e|a6badb8b3d3bd4f526b0bba548f3eb617a118812538f7d7937096c74fec84b43|
 history:20170915T054843.000+0000:2017-09-15 13:48:43|install|ncurses-utils|5.9-50.1|x86_64|root@workstation|SLE12:Update|dc3a8a108032a60310a73cf4550e9fbde5b7fa1ae038524ea831c1d5ec15d2ca|
 history:20170915T054843.000+0000:# 2017-09-15 13:48:44 pkg-config-0.28-6.98.x86_64.rpm installed ok
@@ -6103,6 +6097,24 @@ zypper.log:20190523T085343.000+0000:2019-05-23 16:53:43 <1> trenker(30123) [zypp
 zypper.log:20190523T085343.000+0000:2019-05-23 16:53:43 <1> trenker(30123) [zypper] media.h(MediaCallbacks):204 Set media callbacks..
 zypper.log:20190523T085343.000+0000:2019-05-23 16:53:43 <1> trenker(30123) [zypper] Zypper.cc(processGlobalOptions):300 START
 zypper.log:20190523T085343.000+0000:2019-05-23 16:53:43 <5> trenker(30123) [Measure] Measure.cc(log):178 START MEASURE(ReadConfig)
+nvidia-installer.log:20190531T054908.000+0000:creation time: Fri May 31 13:49:08 2019
+nvidia-installer.log:20190531T054908.000+0000:installer version: 340.107
+nvidia-installer.log:20190531T054908.000+0000:
+nvidia-installer.log:20190531T054908.000+0000:PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
+nvidia-installer.log:20190531T054908.000+0000:
+nvidia-installer.log:20190531T054908.000+0000:nvidia-installer command line:
+nvidia-installer.log:20190531T054908.000+0000:    ./nvidia-installer
+nvidia-installer.log:20190531T054908.000+0000:
+nvidia-installer.log:20190531T054908.000+0000:Unable to load: nvidia-installer ncurses v6 user interface
+nvidia-installer.log:20190531T054908.000+0000:
+nvidia-installer.log:20190531T054908.000+0000:Using: nvidia-installer ncurses user interface
+nvidia-installer.log:20190531T054908.000+0000:-> License accepted.
+nvidia-installer.log:20190531T054908.000+0000:-> Installing NVIDIA driver version 340.107.
+nvidia-installer.log:20190531T054908.000+0000:-> Running distribution scripts
+nvidia-installer.log:20190531T054908.000+0000:   executing: '/usr/lib/nvidia/pre-install'...
+nvidia-installer.log:20190531T054908.000+0000:-> done.
+nvidia-installer.log:20190531T054908.000+0000:-> The distribution-provided pre-install script failed!  Are you sure you want to continue? (Answer: Abort installation)
+nvidia-installer.log:20190531T054908.000+0000:ERROR: Installation has failed.  Please see the file '/var/log/nvidia-installer.log' for details.  You may find suggestions on fixing installation problems in the README available on the Linux driver download page at www.nvidia.com.
 dnf.librepo.log:20190616T060908.000+0000:2019-06-16T14:09:08Z DEBUG Librepo version: 1.10.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.64.0 OpenSSL/1.1.1c zlib/1.2.11 brotli/1.0.7 libidn2/2.2.0 libpsl/0.20.2 (+libidn2/2.0.5) libssh/0.8.7/openssl/zlib nghttp2/1.38.0)
 dnf.librepo.log:20190616T060908.000+0000:2019-06-16T14:09:08Z DEBUG Current date: 2019-06-16T14:09:08+0000
 dnf.librepo.log:20190616T060908.000+0000:2019-06-16T14:09:08Z DEBUG Librepo version: 1.10.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.64.0 OpenSSL/1.1.1c zlib/1.2.11 brotli/1.0.7 libidn2/2.2.0 libpsl/0.20.2 (+libidn2/2.0.5) libssh/0.8.7/openssl/zlib nghttp2/1.38.0)
@@ -7966,7 +7978,6 @@ basic-dt-u.log:20191231T160001.000+0000:A
 basic-dt-u-mixnl.log:20191231T160001.000+0000:2020-01-01 00:00:01a
 basic-dt-u-mixnl.log:20191231T160001.000+0000:A
 basic-dt-u-mixnl.log:20191231T160001.000+0000:a
-dt-mix1.log:20191231T160001.000+0000:2020-01-01 00:00:01 a
 basic-dt-u.log:20191231T160002.000+0000:2020-01-01 00:00:02ab
 basic-dt-u.log:20191231T160002.000+0000:AB
 basic-dt-u-mixnl.log:20191231T160002.000+0000:2020-01-01 00:00:02ab
@@ -8080,7 +8091,7 @@ basic-dt-u.log:20191231T160026.000+0000:ABCDEFGHIJKLMNOPQRSTUVWXYZ
 dtf9c-12-baddate.log:20191231T170000.000+0000:Jan 1 01:00:00 0 😀😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃
 dt-mix1.log:20200101T070002.000+0000:2020-01-01 00:00:02 -0700 b
 dt-mix1.log:20200101T070003.000+0000:2020-01-01 00:00:03 -0700 c
-dt-mix1.log:20191231T160004.000+0000:2020-01-01T00:00:04 d
+dt-mix1.log:20200101T070003.000+0000:2020-01-01T00:00:04 d
 dt-mix1.log:20200101T070005.000+0000:2020-01-01T00:00:05 -0700 e
 dt-mix1.log:20200101T070006.000+0000:20200101T000006 -0700 f
 dt-mix1.log:20200101T070006.000+0000:20200101T000007 g
@@ -8137,6 +8148,11 @@ alternatives.log:20200203T055711.000+0000:update-alternatives 2020-02-03 13:57:1
 alternatives.log:20200203T055712.000+0000:update-alternatives 2020-02-03 13:57:12: link group jfr updated to point to /usr/lib/jvm/java-11-openjdk-amd64/bin/jfr
 alternatives.log:20200203T055713.000+0000:update-alternatives 2020-02-03 13:57:13: run with --install /usr/bin/jexec jexec /usr/lib/jvm/java-11-openjdk-amd64/lib/jexec 1111 --slave /usr/share/binfmts/jar jexec-binfmt /usr/lib/jvm/java-11-openjdk-amd64/lib/jar.binfmt
 alternatives.log:20200203T055714.000+0000:update-alternatives 2020-02-03 13:57:14: run with --install /usr/bin/x-dir-browser x-dir-browser /usr/bin/opera 120 --slave /usr/share/man/man1/x-dir-browser.1.gz x-dir-browser.1.gz /usr/share/man/man1/opera.1.gz
+Xorg.0.log.old:20200203T060823.000+0000:[   108.360] (==) Log file: "/var/log/Xorg.0.log", Time: Mon Feb  3 14:08:23 2020
+Xorg.0.log.old:20200203T060823.000+0000:[   108.361] (==) Using config file: "/etc/X11/xorg.conf"
+Xorg.0.log.old:20200203T060823.000+0000:[   108.361] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
+Xorg.0.log.old:20200203T060823.000+0000:[   108.363] (==) ServerLayout "Layout0"
+Xorg.0.log.old:20200203T060823.000+0000:[   108.363] (**) |-->Screen "Screen0" (0)
 log.smbd.1:20200205T191733.158+0000:[2020/02/06 03:17:33.15830,  0] ../lib/util/become_daemon.c:124(daemon_ready)
 log.smbd.1:20200205T191733.158+0000:  STATUS=daemon 'smbd' finished starting up and ready to serve connections
 surveillance.log:20200209T110011.000+0000:Feb  9 19:00:11 [5345][5345][decode-lib][error] mpeg4util.cpp:195:DoFFMpegInitVideo(): Failed to open.
@@ -8177,10 +8193,18 @@ synoservice.log:20200212T104429.000+0000:2020-02-12T02:44:29-08:00 dsnet synopkg
 synoservice.log:20200212T104429.000+0000:2020-02-12T02:44:29-08:00 dsnet synopkgctl: service_reload.c:46 synoservice: finish reload [synomkthumbd].
 synoservice.log:20200212T104429.000+0000:2020-02-12T02:44:29-08:00 dsnet synopkgctl: service_reload.c:20 synoservice: reload [synomkflvd].
 synoservice.log:20200212T104429.000+0000:2020-02-12T02:44:29-08:00 dsnet synopkgctl: service_reload.c:46 synoservice: finish reload [synomkflvd].
+Xorg.0.log:20200217T045058.000+0000:[    91.203] (==) Log file: "/var/log/Xorg.0.log", Time: Mon Feb 17 12:50:58 2020
+Xorg.0.log:20200217T045058.000+0000:[    91.203] (==) Using config file: "/etc/X11/xorg.conf"
+Xorg.0.log:20200217T045058.000+0000:[    91.203] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
+Xorg.0.log:20200217T045058.000+0000:[    91.205] (==) ServerLayout "Layout0"
+Xorg.0.log:20200217T045058.000+0000:[    91.205] (**) |-->Screen "Screen0" (0)
 history.log:20200218T083617.000+0000:Start-Date: 2020-02-18  16:36:17
 history.log:20200218T083617.000+0000:Commandline: apt install autossh
 history.log:20200218T083617.000+0000:Install: autossh:armhf (1.4e-3)
 history.log:20200218T083626.000+0000:End-Date: 2020-02-18  16:36:26
+apport.log.1:20200219T165959.000+0000:ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
+apport.log.1:20200219T165959.000+0000:ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: executable: /usr/lib/firefox/firefox (command line "/usr/lib/firefox/firefox")
+apport.log.1:20200219T165959.000+0000:ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: executable version is blacklisted, ignoring
 auth.log:20200222T223740.000+0000:Feb 23 06:37:40 host5 CRON[1242]: pam_unix(cron:session): session closed for user root
 auth.log:20200222T224701.000+0000:Feb 23 06:47:01 host5 CRON[5523]: pam_unix(cron:session): session opened for user root by (uid=0)
 auth.log:20200222T224709.000+0000:Feb 23 06:47:09 host5 CRON[5523]: pam_unix(cron:session): session closed for user root
@@ -9108,7 +9132,6 @@ setupapi.dev.20201016_232313.log:20200527T043005.362+0000:     dvi:             
 setupapi.dev.20201016_232313.log:20200527T043005.362+0000:     dvi:           Default installer: Exit
 setupapi.dev.20201016_232313.log:20200527T043005.362+0000:     dvi:      {DIF_SELECTBESTCOMPATDRV - exit(0x00000000)} 12:30:05.393
 setupapi.dev.20201016_232313.log:20200527T043005.362+0000:     ndv:      Force Installing Driver:
-setupact.log:20200528T043105.000+0000:﻿2020-05-28 12:31:05, Info                         SetupClnLogInitializationInfo - Getting plugin name
 setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
 setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
 setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                         pszWellKnownDirs:(null)
@@ -9121,7 +9144,6 @@ setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                 
 setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
 setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                         IsProcessElevated - bResult: 1
 setupact.log:20200528T043223.000+0000:2020-05-28 12:32:23, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\Windows\System32\LogFiles\WMI\RtBackup\*]; GLE = 0x5[gle=0x00000005]
-setuperr.log:20200528T043223.000+0000:﻿2020-05-28 12:32:23, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\Windows\System32\LogFiles\WMI\RtBackup\*]; GLE = 0x5[gle=0x00000005]
 setupact.log:20200528T043354.000+0000:2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Trace\*]; GLE = 0x5[gle=0x00000005]
 setupact.log:20200528T043354.000+0000:2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Temp\PSScriptOutputs\*]; GLE = 0x5[gle=0x00000005]
 setupact.log:20200528T043354.000+0000:2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Downloads\*]; GLE = 0x5[gle=0x00000005]
@@ -10362,6 +10384,15 @@ dtf9c-23-12x2.log.gz:20211231T170000.000+0000:Jan 1 01:00:00 12
 setuperr.log:20220101T040940.000+0000:2022-01-01 12:09:40, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
 dtf9d-24-12x2-backwards.log:20220101T100000.000+0000:Jan 1 01:00:00 HDT 23
 dtf9d-24-12x2-leapday.log:20220101T100000.000+0000:Jan 1 01:00:00 HDT 12
+dtf12c-x3_patts.log:20220102T080002.000+0000:2022-01-02 00:00:02 -08:00 LINE TWO!
+dtf12c-x3_patts.log:20220102T080002.000+0000:Tue, Jan 03 2022 00:00:03 +0030 LINE THREE!
+dtf12c-x3_patts.log:20220102T080002.000+0000:2022-01-04 00:00:04 LINE FOUR!
+dtf12c-x3_patts.log:20220105T080005.000+0000:2022-01-05 00:00:05 -08:00 LINE FIVE!
+dtf12c-x3_patts.log:20220105T080005.000+0000:Tue, Jan 06 2022 00:00:06 +0030 LINE SIX!
+dtf12c-x3_patts.log:20220105T080005.000+0000:2022-01-07 00:00:07 LINE SEVEN!
+dtf12c-x3_patts.log:20220108T080008.000+0000:2022-01-08 00:00:08 -08:00 LINE EIGHT!
+dtf12c-x3_patts.log:20220108T080008.000+0000:Tue, Jan 09 2022 00:00:09 +0030 LINE NINE!
+dtf12c-x3_patts.log:20220108T080008.000+0000:2022-01-10 00:00:10 LINE TEN!
 setupact.log:20220109T041006.000+0000:2022-01-09 12:10:06, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
 setupact.log:20220109T041006.000+0000:2022-01-09 12:10:06, Info                         IsWebSetupRunning - WebSetup Running: 0
 setupact.log:20220109T041006.000+0000:2022-01-09 12:10:06, Info                         IsProcessElevated - bResult: 1
@@ -10369,6 +10400,8 @@ setupact.log:20220109T041006.000+0000:2022-01-09 12:10:06, Info                 
 setupact.log:20220109T041006.000+0000:2022-01-09 12:10:06, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
 setupact.log:20220109T041006.000+0000:
 setuperr.log:20220111T040939.000+0000:2022-01-11 12:09:39, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+dtf12c-x3_patts.log:20220111T080011.000+0000:2022-01-11 00:00:11 -08:00 LINE ELEVEN!
+dtf12c-x3_patts.log:20220111T080011.000+0000:Tue, Jan 12 2022 00:00:12 +0030 LINE TWELVE!
 setupact.log:20220119T090532.000+0000:2022-01-19 17:05:32, Info                         IsProcessElevated - bResult: 1
 setupact.log:20220119T090532.000+0000:
 setuperr.log:20220120T051735.000+0000:2022-01-20 13:17:35, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
@@ -10463,6 +10496,21 @@ setupact.log:20220124T052351.000+0000:2022-01-24 13:23:51, Info                 
 setupact.log:20220124T052351.000+0000:
 setupact.log:20220124T052351.000+0000:
 setupact.log:20220124T052351.000+0000:
+dtf12a-x2_patts.log:20220130T233001.000+0000:Tue, Jan 31 2022 00:00:01 +0030 LINE ONE!
+dtf12a-x2_patts.log:20220130T233001.000+0000:2022-01-31 00:00:02 LINE TWO!
+dtf12b-x2_patts.log:20220130T233002.000+0000:Tue, Jan 31 2022 00:00:02 +0030 LINE TWO!
+dtf12b-x2_patts.log:20220130T233002.000+0000:2022-01-31 00:00:03 LINE THREE!
+dtf12a-x2_patts.log:20220130T233003.000+0000:Tue, Jan 31 2022 00:00:03 +0030 LINE THREE!
+dtf12a-x2_patts.log:20220130T233003.000+0000:2022-01-31 00:00:04 LINE FOUR!
+dtf12b-x2_patts.log:20220130T233004.000+0000:Tue, Jan 31 2022 00:00:04 +0030 LINE FOUR!
+dtf12b-x2_patts.log:20220130T233004.000+0000:2022-01-31 00:00:05 LINE FIVE!
+dtf12a-x2_patts.log:20220130T233005.000+0000:Tue, Jan 31 2022 00:00:05 +0030 LINE FIVE!
+dtf12a-x2_patts.log:20220130T233005.000+0000:2022-01-31 00:00:06 LINE SIX!
+dtf12b-x2_patts.log:20220130T233006.000+0000:Tue, Jan 31 2022 00:00:06 +0030 LINE SIX!
+dtf12b-x2_patts.log:20220130T233006.000+0000:2022-01-31 00:00:07 LINE SEVEN!
+dtf12a-x2_patts.log:20220130T233007.000+0000:Tue, Jan 31 2022 00:00:07 +0030 LINE SEVEN!
+dtf12a-x2_patts.log:20220130T233007.000+0000:2022-01-31 00:00:08 LINE EIGHT!
+dtf12b-x2_patts.log:20220130T233008.000+0000:Tue, Jan 31 2022 00:00:08 +0030 LINE EIGHT!
 setupact.log:20220201T061532.000+0000:2022-02-01 14:15:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Space used : 0
 setupact.log:20220201T061532.000+0000:2022-02-01 14:15:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
 setupact.log:20220201T061532.000+0000:2022-02-01 14:15:32, Info                         CSetupFilesCleanup::Initialize - No files to delete : Upgrade Discarded Files
@@ -10550,7 +10598,6 @@ setupact.log:20220220T041815.000+0000:2022-02-20 12:18:15, Info                 
 setupact.log:20220220T041815.000+0000:2022-02-20 12:18:15, Info                         bSilentCleanup:1
 setupact.log:20220220T041815.000+0000:2022-02-20 12:18:15, Info                         bCleanupTemporaryInstallationFiles:0
 setupact.log:20220220T041815.000+0000:
-dism.log:20220222T041813.000+0000:﻿2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
 dism.log:20220222T041813.000+0000:2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: <----- Starting DismApi.dll session -----> - DismInitializeInternal
 dism.log:20220222T041813.000+0000:2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
 dism.log:20220222T041813.000+0000:2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: Host machine information: OS Version=10.0.8708, Running architecture=amd64, Number of processors=4 - DismInitializeInternal
@@ -11389,6 +11436,7 @@ dtf9d-24-12x2-leapday.log:20220808T170000.000+0000:Aug 8 08:00:00 HDT 19
 setupapi.dev.log:20220811T142921.389+0000:[Boot Session: 2022/08/11 22:29:21.389]
 setupapi.dev.log:20220811T142921.389+0000:
 setupapi.dev.log:20220811T142921.389+0000:>>>  [Uninstall Driver Updates]
+apport.log.1:20220813T004803.000+0000:ERROR: apport (pid 529343) Sat Aug 13 08:48:03 2022: executable: /mnt/Projects/project/release/s4 (command line "./target/release/s4 /dev")
 setupact.log:20220815T043238.000+0000:2022-08-15 12:32:38, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
 setupact.log:20220815T043238.000+0000:2022-08-15 12:32:38, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
 setupact.log:20220815T043238.000+0000:2022-08-15 12:32:38, Info                         pszWellKnownDirs:(null)
@@ -11564,7 +11612,6 @@ setupapi.dev.log:20220914T132818.119+0000:     idb:      {Unpublish Driver Packa
 setupapi.dev.log:20220914T132818.119+0000:     idb:           Driver package 'sdbus.inf_amd64_cda3549ab0dfc976' is already active.
 setupapi.dev.log:20220914T132818.119+0000:     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.168
 setupapi.dev.log:20220914T132818.119+0000:     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.168
-CBS.log:20220914T141806.000+0000:﻿2022-09-14 22:18:06, Info                  CBS    TI: --- Initializing Trusted Installer ---
 CBS.log:20220914T141806.000+0000:2022-09-14 22:18:06, Info                  CBS    TI: Last boot time: 2022-09-14 21:59:34.500
 CBS.log:20220914T141806.000+0000:2022-09-14 22:18:06, Info                  CBS    Starting TrustedInstaller initialization.
 CBS.log:20220914T141806.000+0000:2022-09-14 22:18:06, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:4
@@ -11720,6 +11767,11 @@ setupact.log:20220920T060132.000+0000:2022-09-20 14:01:32, Info                 
 setupact.log:20220920T060132.000+0000:2022-09-20 14:01:32, Info                         CSetupFilesCleanup::GetSpaceUsed - Block status: 0
 setupact.log:20220920T060132.000+0000:2022-09-20 14:01:32, Info                         Initialization status:0
 setupact.log:20220920T060132.000+0000:
+apport.log.1:20220920T151539.000+0000:ERROR: apport (pid 2870) Tue Sep 20 23:15:39 2022: called for pid 2870, signal 6, core limit 0, dump mode 1
+apport.log.1:20220920T151539.000+0000:ERROR: apport (pid 2870) Tue Sep 20 23:15:39 2022: executable does not belong to a package, ignoring
+apport.log.1:20220920T152443.000+0000:ERROR: apport (pid 2870) Tue Sep 20 23:24:43 2022: called for pid 2870, signal 6, core limit 0, dump mode 1
+apport.log.1:20220920T152443.000+0000:ERROR: apport (pid 2870) Tue Sep 20 23:24:43 2022: executable: ss (command line "ss -u -d %Y /tmp/a.log")
+apport.log.1:20220920T152443.000+0000:ERROR: apport (pid 2870) Tue Sep 20 23:24:43 2022: executable does not belong to a package, ignoring
 setuperr.log:20220922T054837.000+0000:2022-09-22 13:48:37, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
 CBS.log:20221001T060132.000+0000:2022-10-01 14:01:32, Info                  CBS    TI: --- Initializing Trusted Installer ---
 CBS.log:20221001T060132.000+0000:2022-10-01 14:01:32, Info                  CBS    TI: Last boot time: 2022-09-14 21:59:19.300
@@ -13519,7 +13571,6 @@ ros-sysinit.log:20221009T133123.000+0000:], <nil>"
 ros-sysinit.log:20221009T133123.000+0000:time="2022-10-09T21:31:23Z" level=info msg="Exec [/usr/bin/ros-sysinit]"
 ros-sysinit.log:20221009T133123.000+0000:time="2022-10-09T21:31:23Z" level=info msg="[1/4] Starting loadSystemImages"
 ros-sysinit.log:20221009T133123.000+0000:time="2022-10-09T21:31:23Z" level=info msg="Loading images from /usr/share/ros/images-system.tar"
-system-docker.log:20221009T133123.000+0000:time="2022-10-09T21:31:23Z" level=warning msg="The \"-g / --graph\" flag is deprecated. Please use \"--data-root\" instead"
 system-docker.log:20221009T133123.570+0000:time="2022-10-09T21:31:23.570757835Z" level=info msg="libcontainerd: new containerd process, pid: 310"
 system-docker.log:20221009T133123.591+0000:time="2022-10-09T21:31:23.591559452Z" level=warning msg="failed to rename /var/lib/system-docker/tmp for background deletion: rename /var/lib/system-docker/tmp /var/lib/system-docker/tmp-old: no such file or directory. Deleting synchronously"
 system-docker.log:20221009T133123.684+0000:time="2022-10-09T21:31:23.684310767Z" level=info msg="Graph migration to content-addressability took 0.00 seconds"
@@ -14211,6 +14262,8 @@ setupact.log:20221013T234233.000+0000:2022-10-14 07:42:33, Info                 
 setupact.log:20221013T234233.000+0000:2022-10-14 07:42:33, Info                  CBS    Winlogon: Unloading SysNotify DLL
 setupact.log:20221013T234233.000+0000:2022-10-14 07:42:33, Info                  CBS    Lock: Lock removed: WinlogonNotifyLock, level: 8, total lock:6
 setupact.log:20221013T234233.000+0000:2022-10-14 07:42:33, Info                  CBS    Ending TrustedInstaller finalization.
+apport.log.1:20221014T061958.000+0000:ERROR: apport (pid 707848) Fri Oct 14 14:19:58 2022: executable does not belong to a package, ignoring
+apport.log.1:20221014T062224.000+0000:ERROR: apport (pid 708347) Fri Oct 14 14:22:24 2022: executable: /mnt/Projects/project/target/debug/s4 (command line "./target/debug/s4 ./logs/other/tests/dtf5-6a.log")
 dtf9c-23-12x2.log.gz:20221111T030000.000+0000:Nov 11 11:00:00 22
 dtf9d-24-12x2-leapday.log:20221111T200000.000+0000:Nov 11 11:00:00 HDT 22
 dtf9c-23-12x2.log.gz:20221212T040000.000+0000:Dec 12 12:00:00 23

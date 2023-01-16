@@ -106,6 +106,9 @@
 ./logs/other/tests/dtf9d-24-12x2-leapday.log
 ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
 ./logs/other/tests/dtf-varying-10.log
+./logs/other/tests/dtf12c-x3_patts.log
+./logs/other/tests/dtf12b-x2_patts.log
+./logs/other/tests/dtf12a-x2_patts.log
 ./logs/other/tests/dt-mix1.log
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
