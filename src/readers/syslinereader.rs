@@ -932,12 +932,12 @@ impl SyslineReader {
         // XXX: it might be faster to skip the special formatting and look directly for the datetime stamp.
         //      calls to chrono are long according to the flamegraph.
         //      however, using the demarcating characters ("[", "]") does give better assurance.
-        for (at, index) in parse_data_indexes
+        for (_try, index) in parse_data_indexes
             .iter()
             .enumerate()
         {
             let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*index];
-            defo!("pattern data try {} index {} dtpd.line_num {}", at, index, dtpd._line_num);
+            defo!("pattern data try {} index {} dtpd.line_num {}", _try, index, dtpd._line_num);
 
             if line.len() <= dtpd.range_regex.start {
                 defo!(
@@ -984,6 +984,7 @@ impl SyslineReader {
                     *get_boxptrs_doubleptr += 1;
                 }
                 LinePartPtrs::MultiPtr(vec_box_slice) => {
+                    // inefficient case, hopefully very rarely occurs
                     let mut cap: usize = 0;
                     for box_ in vec_box_slice.iter() {
                         cap += box_.len();
@@ -1004,7 +1005,7 @@ impl SyslineReader {
                 dtpd.range_regex.start,
                 dtpd.range_regex.end,
                 dtpd._line_num,
-                String::from_utf8_lossy(slice_)
+                String::from_utf8_lossy(slice_),
             );
             // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
             if charsz == &1 && dtpd.dtfs.has_year() && !slice_contains_X_2(slice_, HACK12) {
