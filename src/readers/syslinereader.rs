@@ -44,7 +44,7 @@ extern crate mime_guess;
 use mime_guess::MimeGuess;
 
 extern crate more_asserts;
-use more_asserts::{assert_le, assert_lt, debug_assert_lt, debug_assert_gt};
+use more_asserts::{assert_le, assert_lt, debug_assert_le, debug_assert_lt, debug_assert_gt};
 
 extern crate rangemap;
 use rangemap::RangeMap;
@@ -540,10 +540,12 @@ impl SyslineReader {
 
     /// Does the `dt_pattern` have a year? e.g. specificer `%Y` or `%y`.
     pub fn dt_pattern_has_year(&self) -> bool {
-        debug_assert!(
-            !self.syslines.is_empty(),
-            "called dt_pattern_has_year() without having processed some syslines"
-        );
+        #[cfg(debug_assertions)]
+        {
+            if !self.syslines.is_empty() {
+                de_wrn!("called dt_pattern_has_year() without having processed some syslines");
+            }
+        }
         let dtpd: &DateTimeParseInstr = self.datetime_parse_data();
         defñ!("dtpd line {:?}", dtpd._line_num);
 
@@ -949,7 +951,7 @@ impl SyslineReader {
             let slice_end: usize = if line.len() > dtpd.range_regex.end {
                 dtpd.range_regex.end
             } else {
-                line.len() - 1
+                line.len()
             };
             if dtpd.range_regex.start >= slice_end {
                 defo!("bad line slice indexes [{}, {}); continue", dtpd.range_regex.start, slice_end);
@@ -1651,7 +1653,7 @@ impl SyslineReader {
                     fo1 = sysline.fileoffset_end() + (self.charsz() as FileOffset);
                     // sanity check
                     debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}", dt_beg, dt_end);
-                    debug_assert_lt!(
+                    debug_assert_le!(
                         dt_end,
                         fo1 as usize,
                         "bad dt_end {} fileoffset+charsz {}",
@@ -1696,7 +1698,7 @@ impl SyslineReader {
         // find line with datetime B
         //
 
-        let mut fo_b: FileOffset = fo1;
+        let fo_b: FileOffset;
         loop {
             defo!("({}): self.linereader.find_line_in_block({})", fileoffset, fo1);
             let result_ = self
@@ -1730,6 +1732,9 @@ impl SyslineReader {
                         );
                         return (ResultS3SyslineFind::Done, true);
                     }
+                    // line search is exhausted, force `fo_b` to "point" to
+                    // the known `sysline.fileoffset_end()`
+                    fo_b = sysline.fileoffset_end() + self.charsz() as FileOffset;
                     break;
                 }
                 ResultS3LineFind::Err(err) => {
@@ -1924,7 +1929,7 @@ impl SyslineReader {
                     fo1 = sysline.fileoffset_end() + (self.charsz() as FileOffset);
                     // sanity check
                     debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}, dt {:?}", dt_beg, dt_end, dt);
-                    debug_assert_lt!(
+                    debug_assert_le!(
                         dt_end,
                         fo1 as usize,
                         "bad dt_end {} fileoffset+charsz {}, dt {:?}",
