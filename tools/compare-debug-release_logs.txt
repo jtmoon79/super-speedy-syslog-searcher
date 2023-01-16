@@ -1,3 +1,4 @@
+./logs/busybox (via rsyslog)/kernel.log
 ./logs/cygwin/setup.log
 ./logs/Debian11/apache2/access.log
 ./logs/Debian9/clamav/clamd.log
@@ -8,6 +9,9 @@
 ./logs/Orbi/tmp/soap_check_fw_log
 ./logs/other/tests/dtf10-10a.log
 ./logs/other/tests/dtf11-A.log
+./logs/other/tests/dtf12a-x2_patts.log
+./logs/other/tests/dtf12b-x2_patts.log
+./logs/other/tests/dtf12c-x3_patts.log
 ./logs/other/tests/dtf2-2.log
 ./logs/other/tests/dtf3-2b.log
 ./logs/other/tests/dtf4-2a.log
@@ -49,3 +53,4 @@
 ./logs/Ubuntu18/samba/log.smbd
 ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
 ./logs/Windows10Pro/CBS/CBS.log
+./logs/Windows10Pro/debug/mrt.log
