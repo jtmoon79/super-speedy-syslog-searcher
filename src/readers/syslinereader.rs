@@ -1155,12 +1155,18 @@ impl SyslineReader {
         defo!("dt_patterns_counts.retain(v >= {:?})", max_);
         self.dt_patterns_counts
             .retain(|_, v| *v >= max_);
-        // if there is a tie for the most-used pattern, then pop_last until
-        // only `DT_PATTERN_MAX` remains
+        // if there is a tie for the most-used pattern, then `pop_last` until
+        // only `DT_PATTERN_MAX` remains.
+        // XXX: Note that this removal chooses by list ordering preferring to
+        //      keep `DTPD` near the front of `DATETIME_PARSE_DATAS`. It might
+        //      choose the wrong pattern. This should only be a problem for
+        //      very short files that happen to have some equal part of
+        //      datetime patterns that alternate on lines.
         while self.dt_patterns_counts.len() > SyslineReader::DT_PATTERN_MAX {
-            // remove the last item in `dt_patterns_counts`
-            defo!("dt_patterns_counts.pop_last()");
-            self.dt_patterns_counts.pop_last();
+            // TODO: use `pop_last` which is experimental until MSRV 1.66.0
+            //       see https://github.com/rust-lang/rust/issues/62924
+            let rm_key: DateTimeParseInstrsIndex = *self.dt_patterns_counts.iter().last().unwrap().0;
+            self.dt_patterns_counts.remove(&rm_key);
         }
         defo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
 
