@@ -66,7 +66,7 @@ jobs:
       matrix:
         rust_version: ["beta", "nightly"]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust_version }}
@@ -85,7 +85,7 @@ jobs:
     steps:
       # build & upload debug
       - name: git checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Check (cargo check)
         shell: bash
         # `cargo check` builds dependences and other things but skips
@@ -152,7 +152,7 @@ jobs:
     steps:
       # checkout for the log files
       - name: git checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       # download & run debug
       - name: Download debug binary
         uses: actions/download-artifact@v3
@@ -264,7 +264,7 @@ jobs:
     needs: job_runs
     steps:
       - name: git checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: get toolchain nightly
         uses: actions-rs/toolchain@v1
         with:
