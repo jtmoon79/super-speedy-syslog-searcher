@@ -297,7 +297,7 @@ jobs:
                      -Cpanic=abort -Zpanic_abort_tests
         with:
           command: test
-          args: --lib --no-fail-fast
+          args: --no-fail-fast --all-targets
       - name: grcov
         shell: bash
         env:
