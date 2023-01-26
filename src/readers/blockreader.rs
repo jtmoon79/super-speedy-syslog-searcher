@@ -389,6 +389,7 @@ const fn dword_to_u32(buf: &[u8; 4]) -> u32 {
 /// Implements the `BlockReader`.
 impl BlockReader {
     /// Maximum size of a gzip compressed file that will be processed.
+    /// 0x20000000 is 512MB.
     ///
     /// XXX: The gzip standard stores uncompressed "media stream" bytes size in
     ///      within 32 bits, 4 bytes. A larger uncompressed size 0xFFFFFFFF
@@ -603,7 +604,7 @@ impl BlockReader {
                     }
                 }
 
-                def1o!("FileGz:  open_options.read(true).open({:?})", path_std);
+                def1o!("FileGz: open_options.read(true).open({:?})", path_std);
                 let file_gz: File = match open_options
                     .read(true)
                     .open(path_std)
@@ -1255,11 +1256,13 @@ impl BlockReader {
         }
     }
 
-    // TODO: make a `self` version of the following helpers that does not require
-    //       passing `BlockSz`. Save the user some trouble.
-    //       Can also `assert` that passed `FileOffset` is not larger than filesz, greater than zero.
-    //       But keep the public static version available for testing.
-    //       Change the LineReader calls to call `self.blockreader....`
+    // TODO: [2022/03] make a `self` version of the following fn helpers that do not require
+    //       passing `BlockSz`. Save the caller some trouble.
+    //       Can also `assert` that passed `FileOffset` is not larger than filesz,
+    //       greater than zero.
+    //       But keep these public static version available for testing.
+    //       Change the LineReader calls to call
+    //       `self.blockreader.block_offset_at_file_offset_sansbsz()` or whatever it's named.
 
     /// Return nearest preceding `BlockOffset` for given `FileOffset`.
     #[inline(always)]
@@ -1579,10 +1582,10 @@ impl BlockReader {
             .blocks
             .insert(blockoffset, blockp.clone())
         {
-            Some(bp_) => {
+            Some(_bp) => {
                 de_wrn!(
                     "blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p} {:?}",
-                    blockoffset, blockp, bp_, self.path,
+                    blockoffset, blockp, _bp, self.path,
                 );
             }
             _ => {}
@@ -1753,8 +1756,9 @@ impl BlockReader {
             let mut block = Block::with_capacity(blocksz_u);
             // intermediate buffer of size `READSZ` for smaller reads
             let mut block_buf = Block::with_capacity(READSZ);
-            // XXX: `with_capacity, clear, resize` is a verbose way to create a new vector with a run-time determined `capacity`
-            //      and `len`. `len == capacity` is necessary for calls to `decoder.read`.
+            // XXX: `with_capacity, clear, resize` is a verbose way to create a new vector with a
+            //      run-time determined `capacity` and `len`. `len == capacity` is necessary for
+            //      calls to `decoder.read`.
             //      Using `decoder.read_exact` and `decoder.read_to_end` was more difficult.
             //      See https://github.com/rust-lang/flate2-rs/issues/308
             block.clear();
@@ -1790,7 +1794,8 @@ impl BlockReader {
                         );
                         let byte_at: FileOffset =
                             self.file_offset_at_block_offset_self(bo_at) + (read_total as FileOffset);
-                        // in ad-hoc testing, it was found the decoder never recovers from a zero-byte read
+                        // in ad-hoc testing, it was found the decoder never recovers from a
+                        // zero-byte read
                         return ResultS3ReadBlock::Err(
                             Error::new(
                                 ErrorKind::InvalidData,
