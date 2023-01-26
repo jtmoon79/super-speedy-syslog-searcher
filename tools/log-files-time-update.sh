@@ -16,9 +16,8 @@
 
 set -euo pipefail
 
-cd "$(dirname -- "${0}")"
-times_listing=$(realpath "./log-files-time-update.txt")
-cd "../logs"
+cd "$(dirname -- "${0}")/.."
+times_listing=$(realpath "./tools/log-files-time-update.txt")
 
 declare -a files_listed=()
 declare -a files_nodate=()
@@ -68,7 +67,7 @@ done <<< $(cat "${times_listing}")
 
 # touch failed?
 if [[ "${#files_touchfailed[@]}" -gt 0 ]]; then
-    echo -e "Files touch failed from '${times_listing}'\n" >&2
+    echo -e "\nFiles touch failed listed in '${times_listing}'\n" >&2
 fi
 for file in "${!files_touchfailed[@]}"; do
     date=${files_touchfailed["${file}"]}
@@ -78,7 +77,7 @@ done
 
 # file in listing did not exist?
 if [[ "${#files_noexist[@]}" -gt 0 ]]; then
-    echo -e "Files do not exist from '${times_listing}'\n" >&2
+    echo -e "\nFiles do not exist listed in '${times_listing}'\n" >&2
 fi
 for file in "${files_noexist[@]}"; do
     echo -e "\e[1m\e[93m${file}\e[0m" >&2
@@ -87,11 +86,11 @@ done
 
 # file in listing did not have a date?
 if [[ "${#files_nodate[@]}" -gt 0 ]]; then
-    echo -e "Files without a datetime in '${times_listing}'\n" >&2
+    echo -e "\nFiles without a datetime listed in '${times_listing}'\n" >&2
 fi
 for file in "${files_nodate[@]}"; do
     echo -e "\e[1m\e[31m'${file}'\e[0m" >&2
-    tail -n 15 -- "${file}"
+    #tail -n 15 -- "${file}"
     echo
 done
 
@@ -112,4 +111,4 @@ while read -r file_actual; do
         fi
         echo -e "\e[1m\e[93m${file_actual}\e[0m" >&2
     fi
-done <<< $(find . -type f | sort)
+done <<< $(find ./logs/ -type f | sort)
