@@ -3625,10 +3625,23 @@ lazy_static! {
     /// [`Regex`].
     ///
     /// [`Regex`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html
-    pub(crate) static ref DATETIME_PARSE_DATAS_REGEX_VEC: DateTimeParseInstrsRegexVec =
-        DATETIME_PARSE_DATAS.iter().map(
-            |x| Regex::new(x.regex_pattern).unwrap()
-        ).collect();
+    // TODO: cost-savings: each compiled regex requires ≈133,000 Bytes on the heap according
+    //       to `./tools/valgrind-massif.sh`. This is a lot of memory.
+    //       An easy way to reduce baseline heap-use is drop the unused ones.
+    //       That would need to occur after all file threads have passed the stage 1 blockzero analysis.
+    pub(crate) static ref DATETIME_PARSE_DATAS_REGEX_VEC: DateTimeParseInstrsRegexVec = {
+        defn!("init DATETIME_PARSE_DATAS_REGEX_VEC");
+        let mut datas: DateTimeParseInstrsRegexVec = DateTimeParseInstrsRegexVec::with_capacity(
+            DATETIME_PARSE_DATAS_LEN
+        );
+        for (_i, data) in DATETIME_PARSE_DATAS.iter().enumerate() {
+            defo!("init RegEx {:?}", _i);
+            datas.push(Regex::new(data.regex_pattern).unwrap());
+        }
+        defx!();
+
+        datas
+    };
 }
 
 // TODO: Issue #6 handle all Unicode whitespace.
