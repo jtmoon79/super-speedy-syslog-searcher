@@ -930,7 +930,11 @@ impl SyslineReader {
             ));
         }
 
-        const HACK12: &[u8; 2] = b"12";
+        // EZCHECK12 is a fun hack to bypass regex checks for Lines without
+        // `'1'` or `'2'` within some range from the start of the line.
+        const EZCHECK12: &[u8; 2] = b"12";
+        let mut ezcheck12_min: usize = 0;
+
         let mut _attempts: usize = 0;
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
@@ -949,6 +953,15 @@ impl SyslineReader {
                 );
                 continue;
             }
+            if line.len() <= ezcheck12_min {
+                // the Line is shorter than established check for "12"
+                defo!(
+                    "line len {} ≤ {} ezcheck12_min; continue",
+                    line.len(),
+                    ezcheck12_min,
+                );
+                continue;
+            }
             // XXX: Issue #16 only handles UTF-8/ASCII encoding
             let slice_end: usize = if line.len() > dtpd.range_regex.end {
                 dtpd.range_regex.end
@@ -964,7 +977,7 @@ impl SyslineReader {
             // searches within the `Line`
             let mut hack_slice: Bytes;
             let slice_: &[u8];
-            // TODO: [2023/01] cost-savings: track `slice_contains_X_2(HACK12)` at largest slice size
+            // TODO: [2023/01] cost-savings: track `slice_contains_X_2(EZCHECK12)` at largest slice size
             //       then before calling `get_boxptrs` check that local variable, skip if unneeded.
             match line.get_boxptrs(dtpd.range_regex.start as LineIndex, slice_end as LineIndex) {
                 LinePartPtrs::NoPtr => {
@@ -1010,8 +1023,13 @@ impl SyslineReader {
                 String::from_utf8_lossy(slice_),
             );
             // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
-            if charsz == &1 && dtpd.dtfs.has_year() && !slice_contains_X_2(slice_, HACK12) {
-                defo!("skip slice, does not have '1' or '2'");
+            if charsz == &1 && dtpd.dtfs.has_year() && !slice_contains_X_2(slice_, EZCHECK12) {
+                defo!("skip slice, does not have '1' or '2' (EZCHECK12)");
+                if ezcheck12_min < slice_.len() {
+                    // now proven that magic "12" is not in this `Line` up to this byte offset
+                    ezcheck12_min = slice_.len() - charsz;
+                    defo!("ezcheck12_min = {}", ezcheck12_min);
+                }
                 // TODO: add stat for tracking this branch of hack pattern matching
                 continue;
             }
