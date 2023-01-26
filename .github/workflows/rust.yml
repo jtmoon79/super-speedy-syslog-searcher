@@ -42,7 +42,7 @@ jobs:
         # first `msrv` should match Cargo.toml:[package]:rust-version
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
-        msrv: [1.64.0, 1.66.1, 1.68.0]
+        msrv: [1.64.0, 1.66.1]
     runs-on: ${{ matrix.os }}
     steps:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
