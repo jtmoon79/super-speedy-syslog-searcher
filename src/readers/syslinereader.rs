@@ -14,10 +14,15 @@ use crate::data::sysline::{Sysline, SyslineP};
 use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockSz};
 
 use crate::data::datetime::{
-    bytes_to_regex_to_datetime, dt_after_or_before, dt_pass_filters, slice_contains_X_2, DateTimeL,
-    DateTimeLOpt, DateTimeParseInstr, DateTimeParseInstrsIndex, DateTimeRegex, FixedOffset,
-    Result_Filter_DateTime1, Result_Filter_DateTime2, SystemTime, Year, DATETIME_PARSE_DATAS,
-    DATETIME_PARSE_DATAS_LEN, DATETIME_PARSE_DATAS_REGEX_VEC,
+    bytes_to_regex_to_datetime, dt_after_or_before, dt_pass_filters, slice_contains_X_2,
+    DateTimeL, DateTimeLOpt, DateTimeParseInstr, DateTimeParseInstrsIndex, FixedOffset,
+    Result_Filter_DateTime1, Result_Filter_DateTime2, SystemTime, Year,
+    DATETIME_PARSE_DATAS, DATETIME_PARSE_DATAS_LEN,
+};
+
+#[cfg(any(debug_assertions, test))]
+use crate::data::datetime::{
+    DateTimeRegex, DATETIME_PARSE_DATAS_REGEX_VEC
 };
 
 use crate::data::line::{Line, LineIndex, LineP, LinePartPtrs};
@@ -929,9 +934,6 @@ impl SyslineReader {
         let mut _attempts: usize = 0;
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
-        // XXX: it might be faster to skip the special formatting and look directly for the datetime stamp.
-        //      calls to chrono are long according to the flamegraph.
-        //      however, using the demarcating characters ("[", "]") does give better assurance.
         for (_try, index) in parse_data_indexes
             .iter()
             .enumerate()
@@ -1613,8 +1615,8 @@ impl SyslineReader {
                             defo!("({}): partial parse_datetime_in_line_cached returned {:?}", fileoffset, result);
                             match result {
                                 Err(_) => {},
-                                Ok((_dt_beg, _dt_end, dt, _index)) => {
-                                    defo!("({}): partial Line datetime found: {:?}", fileoffset, dt);
+                                Ok((_dt_beg, _dt_end, _dt, _index)) => {
+                                    defo!("({}): partial Line datetime found: {:?}", fileoffset, _dt);
                                     defx!("({}): return ResultS3SyslineFind::Done, true", fileoffset);
                                     return (ResultS3SyslineFind::Done, true);
                                 }
