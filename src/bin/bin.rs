@@ -1764,6 +1764,9 @@ type MapPathIdToPrinterSysline = HashMap<PathId, PrinterSysline>;
 type MapPathIdToFileType = HashMap<PathId, FileType>;
 type MapPathIdToMimeGuess = HashMap<PathId, MimeGuess>;
 
+/// Five seems like a good number for the channel capacity *shrug*
+const CHANNEL_CAPACITY: usize = 5;
+
 /// The main [`Sysline`] processing and printing loop.
 ///
 /// 1. creates threads to process each file
@@ -1959,7 +1962,7 @@ fn processing_loop(
             *filter_dt_before_opt,
             tz_offset,
         );
-        let (chan_send_dt, chan_recv_dt): (ChanSendDatum, ChanRecvDatum) = crossbeam_channel::unbounded();
+        let (chan_send_dt, chan_recv_dt): (ChanSendDatum, ChanRecvDatum) = crossbeam_channel::bounded(CHANNEL_CAPACITY);
         defo!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
         map_pathid_chanrecvdatum.insert(*pathid, chan_recv_dt);
         let basename_: FPath = basename(path);
