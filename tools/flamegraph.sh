@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # Run `cargo flamegraph` with preferred options.
+# Creates a CPU flamegraph of the program run.
 #
 # install:
 #   apt install -y linux-perf linux-tools-generic
@@ -30,6 +31,10 @@ if [[ ! -e "${PERF}" ]]; then
     did_install
     exit 1
 fi
+if [[ ! -x "${PERF}" ]]; then
+    echo "PERF tool is not executable '${PERF}'" >&2
+    exit 1
+fi
 export PERF
 
 #if ! which flamegraph; then
@@ -51,14 +56,25 @@ declare -r bin=./target/release/s4
 declare -r bin_target=s4
 
 export CARGO_PROFILE_RELEASE_DEBUG=true
+#export RUSTFLAGS="-Clink-arg=-fuse-ld=lld -Clink-arg=-Wl,--no-rosegment"
+#export RUSTC_LINKER=$(which clang)
 export RUST_BACKTRACE=1
+
 OUT='flamegraph.svg'
 
-NOTES=$("${bin}" --version)
+(
+    set -x
+    cargo flamegraph -- --version
+)
+rm perf.data perf.data.old
+
 # XXX: if $NOTES contains a '--' then flamegraph.svg will fail to render
-#if [[ -d '.git' ]]; then
-#    NOTES+="; $(git log -n1 --format='%h %D')"
-#fi
+NOTES=$("${bin}" --version)
+
+declare -a logs=()
+while read line; do
+    logs[${#logs[@]}]=${line}
+done <<< $(sed -Ee 's/\|.*//' ./tools/log-files-time-update.txt | head -n 50)
 
 set -x
 
@@ -66,15 +82,15 @@ cargo flamegraph --version
 
 exec \
 cargo flamegraph \
-    -v \
+    --verbose \
     --flamechart \
     --deterministic \
-    -o "${OUT}" \
+    --output "${OUT}" \
     --bin "${bin_target}" \
     --notes "${NOTES}" \
     "${@}" \
     -- \
         --color never \
         -a '20000101T000100' \
-        $(find ./logs/other/tests/ -type f -not \( -name '*.tar' -o -name '*.zip' -o -name 'invalid*' \) ) \
-        >/dev/null
+        "${logs[@]}" \
+        1>/dev/null \
