@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# valgrind-callgrind.sh
+# valgrind-massif.sh
 #
 # Run valgrind with heap profiling by Massif, `valgrind --tool=massif`.
 # https://valgrind.org/docs/manual/ms-manual.html
@@ -36,7 +36,8 @@ declare -r bin=./target/release/s4
 
 echo
 
-declare -a files=(
+# default s4 arguments
+declare -a args=(
     ./logs/other/tests/gen-1000-3-foobar.log
     ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
     ./logs/other/tests/gen-99999-1-Motley_Crue.log
@@ -48,9 +49,10 @@ declare -a files=(
     ./logs/other/tests/gen-100-10-FOOBAR.log
 )
 if [[ ${#} -ge 1 ]]; then
-    files=()
-    for file_ in "${@}"; do
-        files+=("${file_}")
+    # use user-passed arguments
+    args=()
+    for arg in "${@}"; do
+        args+=("${arg}")
     done
 fi
 
@@ -70,7 +72,7 @@ $valgrind \
     --massif-out-file="${OUT}" \
     -- \
     "${bin}" \
-        "${files[@]}" \
+        "${args[@]}" \
     >/dev/null
 
 exec \
