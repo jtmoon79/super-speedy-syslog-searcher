@@ -5,7 +5,8 @@
 # Run valgrind with heap profiling by Massif, `valgrind --tool=massif`.
 # https://valgrind.org/docs/manual/ms-manual.html
 #
-# Script arguments are passed to `s4`.
+# User can set environment variable $PROGRAM.
+# Script arguments are passed to $PROGRAM.
 #
 
 set -euo pipefail
@@ -26,18 +27,19 @@ if ! ms_print=$(which ms_print); then
     exit 1
 fi
 
-declare -r bin=./target/release/s4
+declare -r PROGRAM=${PROGRAM-./target/release/s4}
 
 (set -x; uname -a)
 (set -x; git log -n1 --format='%h %D' 2>/dev/null) || true
-(set -x; "${bin}" --version)
-(set -x; $valgrind --version) | head -n1
-(set -x; $ms_print --version) || true  # --version causes process return code 255
+(set -x; "${PROGRAM}" --version)
+(set -x; "${valgrind}" --version) | head -n1
+(set -x; "${ms_print}" --version) || true  # --version causes process return code 255
 
 echo
 
 # default s4 arguments
 declare -a args=(
+    --color=never
     ./logs/other/tests/gen-1000-3-foobar.log
     ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
     ./logs/other/tests/gen-99999-1-Motley_Crue.log
@@ -48,6 +50,7 @@ declare -a args=(
     ./logs/other/tests/gen-100-10-BRAAAP.log
     ./logs/other/tests/gen-100-10-FOOBAR.log
 )
+
 if [[ ${#} -ge 1 ]]; then
     # use user-passed arguments
     args=()
@@ -64,19 +67,19 @@ LINES_=$(($(tput lines) - 10))
 
 set -x
 
-$valgrind \
+"${valgrind}" \
     --time-stamp=yes \
     --tool=massif \
     --heap=yes \
     --stacks=yes \
     --massif-out-file="${OUT}" \
     -- \
-    "${bin}" \
+    "${PROGRAM}" \
         "${args[@]}" \
     >/dev/null
 
 exec \
-    $ms_print \
+    "${ms_print}" \
     --x=${COLS_} \
     --y=${LINES_} \
     "${OUT}" \

@@ -8,6 +8,10 @@
 #   cargo install flamegraph
 #
 # noted at https://nnethercote.github.io/perf-book/profiling.html
+#
+# User may set environment variable $PROGRAM and $BIN.
+# Passed arguments are passed to $BIN and override default arguments.
+#
 
 set -euo pipefail
 
@@ -52,8 +56,8 @@ export PERF
 #
 #" >&2
 
-declare -r bin=./target/release/s4
-declare -r bin_target=s4
+declare -r PROGRAM=${PROGRAM-./target/release/s4}
+declare -r BIN=${BIN-s4}
 
 export CARGO_PROFILE_RELEASE_DEBUG=true
 #export RUSTFLAGS="-Clink-arg=-fuse-ld=lld -Clink-arg=-Wl,--no-rosegment"
@@ -64,17 +68,32 @@ OUT='flamegraph.svg'
 
 (
     set -x
-    cargo flamegraph -- --version
+    # verify flamegraph can run the binary (just prints the version)
+    # this will recompile the binary so it's ready for flamegraph profiling
+    cargo flamegraph --bin "${BIN}" -- --version
 )
 rm perf.data perf.data.old
 
-# XXX: if $NOTES contains a '--' then flamegraph.svg will fail to render
-NOTES=$("${bin}" --version)
+# XXX: if $NOTES contains a '--' then .svg will fail to render
+NOTES=$("${PROGRAM}" --version)
 
-declare -a logs=()
-while read line; do
-    logs[${#logs[@]}]=${line}
-done <<< $(sed -Ee 's/\|.*//' ./tools/log-files-time-update.txt | head -n 50)
+declare -a args=()
+if [[ ${#} -ge 1 ]]; then
+    # use user-passed arguments
+    for arg in "${@}"; do
+        args+=("${arg}")
+    done
+else
+    # default arguments
+    args+=(
+        --color never
+        -a '20000101T000100'
+    )
+    while read line; do
+        args+=("${line}")
+        # use first 50 files listed in `log-files-time-update.txt`
+    done <<< $(sed -Ee 's/\|.*//' ./tools/log-files-time-update.txt | head -n 50)
+fi
 
 set -x
 
@@ -86,11 +105,9 @@ cargo flamegraph \
     --flamechart \
     --deterministic \
     --output "${OUT}" \
-    --bin "${bin_target}" \
+    --bin "${BIN}" \
     --notes "${NOTES}" \
     "${@}" \
     -- \
-        --color never \
-        -a '20000101T000100' \
-        "${logs[@]}" \
+        "${args[@]}" \
         1>/dev/null \

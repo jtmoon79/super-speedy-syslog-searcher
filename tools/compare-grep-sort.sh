@@ -47,23 +47,16 @@ function exit_() {
 trap exit_ EXIT
 
 declare -a files=(
-    $(ls -1 \
-        `#./logs/other/tests/gen-20-1-☺☻.log` \
-        `#./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log` \
-        `#./logs/other/tests/gen-20-1-🌚🌛🌜🌝.log` \
-        ./logs/other/tests/gen-100-10-.......log \
-        ./logs/other/tests/gen-100-10-BRAAAP.log \
-        ./logs/other/tests/gen-100-10-FOOBAR.log \
-        ./logs/other/tests/gen-100-10-______.log \
-        ./logs/other/tests/gen-100-10-skullcrossbones.log \
-        ./logs/other/tests/gen-100-4-happyface.log \
-        ./logs/other/tests/gen-1000-3-foobar.log \
-        ./logs/other/tests/gen-200-1-jajaja.log \
-        ./logs/other/tests/gen-400-4-shamrock.log \
-        ./logs/other/tests/gen-99999-1-Hüsker_Dü.log \
-        ./logs/other/tests/gen-99999-1-Motley_Crue.log \
-        2>/dev/null || true
-    )
+    ./logs/other/tests/gen-100-10-.......log
+    ./logs/other/tests/gen-100-10-BRAAAP.log
+    ./logs/other/tests/gen-100-10-FOOBAR.log
+    ./logs/other/tests/gen-100-10-______.log
+    ./logs/other/tests/gen-100-10-skullcrossbones.log
+    ./logs/other/tests/gen-100-4-happyface.log
+    ./logs/other/tests/gen-1000-3-foobar.log
+    ./logs/other/tests/gen-200-1-jajaja.log
+    ./logs/other/tests/gen-400-4-shamrock.log
+    ./logs/other/tests/gen-99999-1-Motley_Crue.log
 )
 
 # force reading of files from disk to allow any possible caching,
