@@ -5460,13 +5460,284 @@ const fn slice_contains_50_2(
     false
 }
 
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_51_2(
+    slice_: &[u8; 51],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..50 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_52_2(
+    slice_: &[u8; 52],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..51 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_53_2(
+    slice_: &[u8; 53],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..52 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_54_2(
+    slice_: &[u8; 54],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..53 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_55_2(
+    slice_: &[u8; 55],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..54 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_56_2(
+    slice_: &[u8; 56],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..55 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_57_2(
+    slice_: &[u8; 57],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..56 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_58_2(
+    slice_: &[u8; 58],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..57 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_59_2(
+    slice_: &[u8; 59],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..58 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_60_2(
+    slice_: &[u8; 60],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..59 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_61_2(
+    slice_: &[u8; 61],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..60 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_62_2(
+    slice_: &[u8; 62],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..61 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_63_2(
+    slice_: &[u8; 63],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..62 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_64_2(
+    slice_: &[u8; 64],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..63 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_65_2(
+    slice_: &[u8; 65],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..64 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_66_2(
+    slice_: &[u8; 66],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..65 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_67_2(
+    slice_: &[u8; 67],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..66 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_68_2(
+    slice_: &[u8; 68],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..67 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_69_2(
+    slice_: &[u8; 69],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..68 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
 /// Loop unrolled implementation of `slice.contains` for a byte slice and a
 /// hardcoded array. Uses crate [`unroll`].
 ///
-/// Hardcoded implementation for [`u8`] slices up to 50 length. Runs very fast.
+/// Hardcoded implementation for [`u8`] slices up to 69 length. Runs very fast.
 /// Supports arbitrary length.
 ///
 /// [`unroll`]: https://docs.rs/unroll/0.1.5/unroll/index.html
+//
+// slice index values for the `DTPD!` declarations can be reviewed with:
+//
+//     $ grep -Ee '^[[:space:]]+DTFSS_' -- src/data/datetime.rs  | sort -t ',' -n -k2 -k3 | column -t
+//
 #[inline(always)]
 #[allow(non_snake_case)]
 pub fn slice_contains_X_2(
@@ -5523,6 +5794,25 @@ pub fn slice_contains_X_2(
         48 => slice_contains_48_2(array_ref!(slice_, 0, 48), search),
         49 => slice_contains_49_2(array_ref!(slice_, 0, 49), search),
         50 => slice_contains_50_2(array_ref!(slice_, 0, 50), search),
+        51 => slice_contains_51_2(array_ref!(slice_, 0, 51), search),
+        52 => slice_contains_52_2(array_ref!(slice_, 0, 52), search),
+        53 => slice_contains_53_2(array_ref!(slice_, 0, 53), search),
+        54 => slice_contains_54_2(array_ref!(slice_, 0, 54), search),
+        55 => slice_contains_55_2(array_ref!(slice_, 0, 55), search),
+        56 => slice_contains_56_2(array_ref!(slice_, 0, 56), search),
+        57 => slice_contains_57_2(array_ref!(slice_, 0, 57), search),
+        58 => slice_contains_58_2(array_ref!(slice_, 0, 58), search),
+        59 => slice_contains_59_2(array_ref!(slice_, 0, 59), search),
+        60 => slice_contains_60_2(array_ref!(slice_, 0, 60), search),
+        61 => slice_contains_61_2(array_ref!(slice_, 0, 61), search),
+        62 => slice_contains_62_2(array_ref!(slice_, 0, 62), search),
+        63 => slice_contains_63_2(array_ref!(slice_, 0, 63), search),
+        64 => slice_contains_64_2(array_ref!(slice_, 0, 64), search),
+        65 => slice_contains_65_2(array_ref!(slice_, 0, 65), search),
+        66 => slice_contains_66_2(array_ref!(slice_, 0, 66), search),
+        67 => slice_contains_67_2(array_ref!(slice_, 0, 67), search),
+        68 => slice_contains_68_2(array_ref!(slice_, 0, 68), search),
+        69 => slice_contains_69_2(array_ref!(slice_, 0, 69), search),
         _ => slice_
             .iter()
             .any(|&c| c == search[0] || c == search[1]),
