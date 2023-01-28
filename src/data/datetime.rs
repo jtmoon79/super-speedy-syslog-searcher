@@ -1924,7 +1924,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 94;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 98;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2049,6 +2049,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/synology-DS6/opentftp.log`
     // example with offset:
+    //
     //               1         2
     //     012345678901234567890
     //     [22-Feb-17 21:24:20] Section [ALLOWED-CLIENTS] Invalid entry 192.168.0.0-192.168.0.255 in ini file, ignored
@@ -2084,9 +2085,63 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     //      #define LOG_MAXPRI 191  /* highest supported valid PRI value --> RFC3164, RFC5424 */
     //
+    // an example with fractional seconds
+    //
+    //               1         2         3         4         5
+    //     012345678901234567890123456789012345678901234567890
+    //     <31>2023-01-06T14:35:00.506282-08:00 (host) (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826
+    //     <128> 2023-01-06T14:35:00.506282871 -08:00[host]
+    //
+    // syslog format with fractional seconds
+    DTPD!(
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzc, RP_NODIGIT),
+        DTFSS_YmdHMSfzc, 0, 50, CGN_YEAR, CGN_TZ,
+        &[
+            (4, 36, "<31>2023-01-06T14:35:00.506282-08:00 (host) (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+            (6, 42, "<128> 2023-01-06T14:35:00.506282871 -08:00[host] (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, RP_NODIGIT),
+        DTFSS_YmdHMSfz, 0, 50, CGN_YEAR, CGN_TZ,
+        &[
+            (4, 35, "<31>2023-01-06T14:35:00.506282+0800 (host) (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+            (6, 41, "<128> 2023-01-06T14:35:00.506282871 +0800[host] (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzp, RP_NODIGIT),
+        DTFSS_YmdHMSfzp, 0, 50, CGN_YEAR, CGN_TZ,
+        &[
+            (4, 33, "<31>2023-01-06T14:35:00.506282+08 (host) (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+            (6, 39, "<128> 2023-01-06T14:35:00.506282871 +08[host] (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, RP_NODIGIT),
+        DTFSS_YmdHMSfZ, 0, 50, CGN_YEAR, CGN_TZ,
+        &[
+            (4, 34, "<31>2023-01-06T14:35:00.506282 PST (host) (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+            (6, 40, "<128> 2023-01-06T14:35:00.506282871 WITA[host] (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_NOALNUM),
+        DTFSS_YmdHMSf, 0, 50, CGN_YEAR, CGN_FRACTIONAL,
+        &[
+            (4, 30, "<31>2023-01-06T14:35:00.506282 (host) (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+            (6, 35, "<128> 2023-01-06T14:35:00.506282871[host] (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+        ],
+        line!(),
+    ),
+    // syslog format without fractional seconds
     DTPD!(
         concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc),
-        DTFSS_YmdHMSzc, 0, 40, CGN_YEAR, CGN_TZ,
+        DTFSS_YmdHMSzc, 0, 46, CGN_YEAR, CGN_TZ,
         &[
             (4, 29, "<14>2023-01-01T15:00:36-08:00 (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
             (4, 29, "<14>2023-01-01T15:00:36+00:00 (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
@@ -2096,7 +2151,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     DTPD!(
         concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp),
-        DTFSS_YmdHMSzp, 0, 40, CGN_YEAR, CGN_TZ,
+        DTFSS_YmdHMSzp, 0, 50, CGN_YEAR, CGN_TZ,
         &[
             (4, 26, "<14>2023-01-01T15:00:36-08 (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
             (4, 27, "<29>2023-01-01T14:21:13 -08 (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
@@ -2105,7 +2160,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     DTPD!(
         concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ, RP_NOALNUM),
-        DTFSS_YmdHMSZ, 0, 45, CGN_YEAR, CGN_TZ,
+        DTFSS_YmdHMSZ, 0, 50, CGN_YEAR, CGN_TZ,
         &[
             (4, 27, "<14>2023-01-01T15:00:36 PST (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
             (4, 28, "<29>2023-01-01T14:21:13 CIST (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
@@ -2113,16 +2168,16 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    DTPD!(
-        concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, RP_NOALNUM),
-        DTFSS_YmdHMSfZ, 0, 45, CGN_YEAR, CGN_TZ,
-        &[
-            (4, 31, "<14>2023-01-01T15:00:36.172 PST (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
-            (4, 32, "<29>2023-01-01T14:21:13.376 CIST (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
-            (4, 28, "<29>2023-01-01T14:21:13.376Z (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
-        ],
-        line!(),
-    ),
+    //DTPD!(
+    //    concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, RP_NOALNUM),
+    //    DTFSS_YmdHMSfZ, 0, 50, CGN_YEAR, CGN_TZ,
+    //    &[
+    //        (4, 31, "<14>2023-01-01T15:00:36.172 PST (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
+    //        (4, 32, "<29>2023-01-01T14:21:13.376 CIST (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
+    //        (4, 28, "<29>2023-01-01T14:21:13.376Z (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
+    //    ],
+    //    line!(),
+    //),
     DTPD!(
         concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
         DTFSS_YmdHMS, 0, 45, CGN_YEAR, CGN_SECOND,
