@@ -1927,7 +1927,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 98;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 99;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -3665,6 +3665,24 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (8, 33, "MESSAGE Tue June 28 01:51:12 2022               foobar"),
             (8, 33, "FOOBAR! Tue JUNE 28 01:51:12 2022[YEKT]"),
             (8, 33, "MESSAGE|Tue JUNE 28 01:51:12 2022|YEKT|foobar!"),
+        ],
+        line!(),
+    ),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // file `FedoraRemix29/hawkeye.log`
+    //
+    //                1         2         3         4
+    //      01234567890123456789012345678901234567890
+    //      INFO Jun-16 14:09:58 === Started libdnf-0.31.0 ===
+    //      DEBUG Jun-16 14:09:58 fetching rpmdb
+    //
+    DTPD!(
+        concatcp!(CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
+        DTFSS_BdHMS, 0, 128, CGN_MONTH, CGN_SECOND,
+        &[
+            (5, 20, "INFO Jun-16 14:09:58 === Started libdnf-0.31.0 ==="),
+            (6, 21, "DEBUG Jun-16 14:09:58 fetching rpmdb"),
         ],
         line!(),
     ),
