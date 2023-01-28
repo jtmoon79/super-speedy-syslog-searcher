@@ -8526,6 +8526,50 @@ access.log:20200306T181542.000+0000:192.168.0.8 - - [06/Mar/2020:10:15:42 -0800]
 access.log:20200306T183042.000+0000:192.168.0.8 - - [06/Mar/2020:10:30:42 -0800] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72"
 access.log:20200306T184542.000+0000:192.168.0.8 - - [06/Mar/2020:10:45:42 -0800] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72"
 access.log:20200306T190042.000+0000:192.168.0.8 - - [06/Mar/2020:11:00:42 -0800] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72"
+root.log:20200306T191950.000+0000:20200307_031950 /sbin/e2fsck -pvf
+root.log:20200306T191950.000+0000:
+root.log:20200306T191950.000+0000:       41180 inodes used (26.46%, out of 155648)
+root.log:20200306T191950.000+0000:         193 non-contiguous files (0.5%)
+root.log:20200306T191950.000+0000:          21 non-contiguous directories (0.1%)
+root.log:20200306T191950.000+0000:             # of inodes with ind/dind/tind blocks: 0/0/0
+root.log:20200306T191950.000+0000:             Extent depth histogram: 38267/95
+root.log:20200306T191950.000+0000:      286637 blocks used (46.04%, out of 622544)
+root.log:20200306T191950.000+0000:           0 bad blocks
+root.log:20200306T191950.000+0000:           1 large file
+root.log:20200306T191950.000+0000:
+root.log:20200306T191950.000+0000:       32961 regular files
+root.log:20200306T191950.000+0000:        5099 directories
+root.log:20200306T191950.000+0000:           2 character device files
+root.log:20200306T191950.000+0000:           0 block device files
+root.log:20200306T191950.000+0000:           0 fifos
+root.log:20200306T191950.000+0000:        1225 links
+root.log:20200306T191950.000+0000:        3109 symbolic links (2808 fast symbolic links)
+root.log:20200306T191950.000+0000:           0 sockets
+root.log:20200306T191950.000+0000:------------
+root.log:20200306T191950.000+0000:       42396 files
+root.log:20200306T191950.000+0000:return value: 0
+root.log:20200306T201805.000+0000:20200307_041805 /sbin/e2fsck -pvf
+root.log:20200306T201805.000+0000:
+root.log:20200306T201805.000+0000:       40990 inodes used (26.34%, out of 155648)
+root.log:20200306T201805.000+0000:         182 non-contiguous files (0.4%)
+root.log:20200306T201805.000+0000:          21 non-contiguous directories (0.1%)
+root.log:20200306T201805.000+0000:             # of inodes with ind/dind/tind blocks: 0/0/0
+root.log:20200306T201805.000+0000:             Extent depth histogram: 38077/96
+root.log:20200306T201805.000+0000:      286438 blocks used (46.01%, out of 622544)
+root.log:20200306T201805.000+0000:           0 bad blocks
+root.log:20200306T201805.000+0000:           1 large file
+root.log:20200306T201805.000+0000:
+root.log:20200306T201805.000+0000:       32773 regular files
+root.log:20200306T201805.000+0000:        5099 directories
+root.log:20200306T201805.000+0000:           2 character device files
+root.log:20200306T201805.000+0000:           0 block device files
+root.log:20200306T201805.000+0000:           0 fifos
+root.log:20200306T201805.000+0000:        1225 links
+root.log:20200306T201805.000+0000:        3107 symbolic links (2807 fast symbolic links)
+root.log:20200306T201805.000+0000:           0 sockets
+root.log:20200306T201805.000+0000:------------
+root.log:20200306T201805.000+0000:       42206 files
+root.log:20200306T201805.000+0000:return value: 0
 synomkflvd.log:20200307T014844.000+0000:2020-03-06T17:48:44-0800 Stopping Synology Make FLV Daemon...
 synomkthumbd.log:20200307T014844.000+0000:2020-03-06T17:48:44-0800 Stopping Synology Make Thumb Daemon...
 pkg-SynologyApplicationService-session_watcher.log:20200307T014930.000+0000:2020-03-06T17:49:30-0800 Stop session_watcher ......
@@ -8629,6 +8673,28 @@ dbus-session.log:20200307T041820.000+0000:    </method>
 dbus-session.log:20200307T041820.000+0000:  </interface>
 dbus-session.log:20200307T041820.000+0000:</node>
 dbus-session.log:20200307T041820.000+0000:"
+root.log:20200307T122530.000+0000:20200307_202530 /sbin/e2fsck -pvf
+root.log:20200307T122530.000+0000:
+root.log:20200307T122530.000+0000:       41117 inodes used (26.42%, out of 155648)
+root.log:20200307T122530.000+0000:         185 non-contiguous files (0.4%)
+root.log:20200307T122530.000+0000:          21 non-contiguous directories (0.1%)
+root.log:20200307T122530.000+0000:             # of inodes with ind/dind/tind blocks: 0/0/0
+root.log:20200307T122530.000+0000:             Extent depth histogram: 38201/99
+root.log:20200307T122530.000+0000:      286693 blocks used (46.05%, out of 622544)
+root.log:20200307T122530.000+0000:           0 bad blocks
+root.log:20200307T122530.000+0000:           1 large file
+root.log:20200307T122530.000+0000:
+root.log:20200307T122530.000+0000:       32900 regular files
+root.log:20200307T122530.000+0000:        5099 directories
+root.log:20200307T122530.000+0000:           2 character device files
+root.log:20200307T122530.000+0000:           0 block device files
+root.log:20200307T122530.000+0000:           0 fifos
+root.log:20200307T122530.000+0000:        1225 links
+root.log:20200307T122530.000+0000:        3107 symbolic links (2807 fast symbolic links)
+root.log:20200307T122530.000+0000:           0 sockets
+root.log:20200307T122530.000+0000:------------
+root.log:20200307T122530.000+0000:       42333 files
+root.log:20200307T122530.000+0000:return value: 0
 log.nmbd.1:20200307T160456.324+0000:[2020/03/08 00:04:56.32494,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
 log.nmbd.1:20200307T160456.324+0000:  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
 log.nmbd.1:20200307T160456.324+0000:[2020/03/08 00:04:56.32494,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)

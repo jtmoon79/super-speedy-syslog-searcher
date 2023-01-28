@@ -1873,6 +1873,9 @@ const D_DHdq: &RegexPattern = r"[ T\-]?";
 /// [`RegexPattern`] divider _day_ to _hour_ with colon or dash,
 /// `2020:01:01-20:30:00`.
 const D_DHcdq: &RegexPattern = r"[ T\-:]?";
+/// [`RegexPattern`] divider _day_ to _hour_ with colon or dash or underline,
+/// `2020:01:01_20:30:00`.
+const D_DHcdqu: &RegexPattern = r"[ T\-:_]?";
 /// [`RegexPattern`] divider _fractional_, `2020/01/01T20:30:00,123456`
 const D_SF: &RegexPattern = r"[\.,]";
 
@@ -3362,7 +3365,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    //
     DTPD!(
         concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, RP_NODIGIT),
         DTFSS_YmdHMSfz, 0, 1024, CGN_YEAR, CGN_TZ,
@@ -3420,36 +3422,45 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     //
+    // Synology OS `fsck/root.log`
+    //
+    //               1         2         3
+    //     0123456789012345678901234567890
+    //     20200307_202530 /sbin/e2fsck -pvf
+    //
     DTPD!(
-        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz, RP_NODIGIT),
+        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz, RP_NODIGIT),
         DTFSS_YmdHMSz, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
             (0, 25, "2000/01/07T00:06:02 -1100 abcdefgh"),
             (1, 26, "[2000/01/07T00:06:02 -1100]	abcdefgh"),
+            (0, 21, "20200307_202530 -1100 /sbin/e2fsck -pvf"),
         ],
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc, RP_NODIGIT),
+        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc, RP_NODIGIT),
         DTFSS_YmdHMSzc, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
             (0, 26, "2000-01-08-00:07:03 -11:30 aabcdefghi"),
             (0, 26, "2000-01-08-00:07:03 -11:30	aabcdefghi"),
             (1, 27, "[2000-01-08-00:07:03 -11:30] aabcdefghi"),
+            (0, 22, "20200307_202530 -11:00 /sbin/e2fsck -pvf"),
         ],
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp, RP_NODIGIT),
+        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp, RP_NODIGIT),
         DTFSS_YmdHMSzp, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
             (0, 23, "2000/01/09 00:08:04 -11 abcdefghij"),
             (1, 24, "[2000/01/09 00:08:04 -11] abcdefghij"),
+            (0, 19, "20200307_202530 -11 /sbin/e2fsck -pvf"),
         ],
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_NOALPHA),
+        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_NOALPHA),
         DTFSS_YmdHMSZ, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
             (0, 24, "2000/01/10T00:09:05 VLAT abcdefghijk"),
@@ -3457,6 +3468,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (1, 25, "[2000/01/10T00:09:05 VLAT] abcdefghijk"),
             (1, 25, "[2000/01/10T00:09:05 VLAT] abcdefghijk"),
             (1, 25, "<2000/01/10T00:09:05 VLAT> abcdefghijk"),
+            (0, 20, "20200307_202530 VLAT /sbin/e2fsck -pvf"),
         ],
         line!(),
     ),
@@ -3473,9 +3485,12 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     */
     //
     DTPD!(
-        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
+        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
         DTFSS_YmdHMS, 0, 1024, CGN_YEAR, CGN_SECOND,
-        &[(0, 19, "2020-01-11 00:10:26 abcdefghijkl")],
+        &[
+            (0, 19, "2020-01-11 00:10:26 abcdefghijkl"),
+            (0, 15, "20200307_202530:/sbin/e2fsck -pvf"),
+        ],
         line!(),
     ),
     //
