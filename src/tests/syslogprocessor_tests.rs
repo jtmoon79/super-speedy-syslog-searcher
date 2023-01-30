@@ -28,7 +28,7 @@ use crate::readers::syslogprocessor::{
 };
 
 use crate::tests::common::{
-    eprint_file, eprint_file_blocks, TZO_0, NTF_GZ_EMPTY_FPATH, NTF_LOG_EMPTY_FPATH
+    eprint_file, eprint_file_blocks, FO_0, NTF_GZ_EMPTY_FPATH, NTF_LOG_EMPTY_FPATH
 };
 
 extern crate const_format;
@@ -560,7 +560,7 @@ fn new_SyslogProcessor(
     path: &FPath,
     blocksz: BlockSz,
 ) -> SyslogProcessor {
-    let tzo: FixedOffset = *TZO_0;
+    let tzo: FixedOffset = *FO_0;
     let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
     defñ!("SyslogProcessor::new({:?}, {:?}, {:?})", path, blocksz, tzo);
     match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo, None, None) {

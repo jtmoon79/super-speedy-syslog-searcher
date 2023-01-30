@@ -4,7 +4,7 @@ use std::io::Read; // for `std::fs::File.read`
 
 use crate::common::{FPath, FileOffset, FileType, Path};
 
-use crate::data::datetime::FixedOffset;
+use crate::data::datetime::{DateTime, Local, FixedOffset};
 
 use crate::readers::filepreprocessor::MimeGuess;
 
@@ -29,9 +29,8 @@ use utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-// ready-made MimeGuess
-
 lazy_static! {
+    // ready-made MimeGuess
     pub static ref MIMEGUESS_EMPTY: MimeGuess = MimeGuess::from_ext("");
     pub static ref MIMEGUESS_TXT: MimeGuess = MimeGuess::from_ext("txt");
     pub static ref MIMEGUESS_LOG: MimeGuess = MimeGuess::from_ext("log");
@@ -39,10 +38,8 @@ lazy_static! {
     pub static ref MIMEGUESS_XZ: MimeGuess = MimeGuess::from_ext("xz");
     pub static ref MIMEGUESS_TAR: MimeGuess = MimeGuess::from_ext("tar");
     pub static ref MIMEGUESS_TARGZ: MimeGuess = MimeGuess::from_ext("tgz");
-}
 
-// data from the various forms of the 1 byte, 3 byte, and 8 byte file
-lazy_static! {
+    // data from the various forms of the 1 byte, 3 byte, and 8 byte file
     pub static ref BYTES_A: Vec<u8> = vec![b'A'];
     pub static ref BYTES_AB: Vec<u8> = vec![b'A', b'B'];
     pub static ref BYTES_CD: Vec<u8> = vec![b'C', b'D'];
@@ -51,26 +48,43 @@ lazy_static! {
     pub static ref BYTES_EFGH: Vec<u8> = vec![b'E', b'F', b'G', b'H'];
     pub static ref BYTES_ABCDEFGH: Vec<u8> = vec![b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H'];
 
-    // ready-made TimeZone Offsets
-    pub static ref TZO_W8: FixedOffset = {
-        FixedOffset::west_opt(3600 * 8).unwrap()
-    };
-    pub static ref TZO_E8: FixedOffset = {
-        FixedOffset::east_opt(3600 * 8).unwrap()
-    };
-    pub static ref TZO_W5: FixedOffset = {
-        FixedOffset::west_opt(3600 * 5).unwrap()
-    };
-    pub static ref TZO_E5: FixedOffset = {
-        FixedOffset::east_opt(3600 * 5).unwrap()
-    };
-    pub static ref TZO_E1: FixedOffset = {
-        FixedOffset::east_opt(3600).unwrap()
-    };
-    pub static ref TZO_0: FixedOffset = {
-        FixedOffset::east_opt(0).unwrap()
-    };
+    pub static ref LOCAL_NOW: DateTime<Local> = Local::now();
 
+    // FixedOffset Local
+    pub static ref FO_L: FixedOffset = *LOCAL_NOW.offset();
+    // FixedOffset Zulu / UTC
+    pub static ref FO_Z: FixedOffset = FixedOffset::east_opt(0).unwrap();
+    pub static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+    // FixedOffset West
+    pub static ref FO_W8: FixedOffset = FixedOffset::west_opt(3600 * 8).unwrap();
+    // FixedOffset East
+    pub static ref FO_E10: FixedOffset = FixedOffset::east_opt(3600 * 10).unwrap();
+    // FixedOffset Minus (West)
+    pub static ref FO_M1: FixedOffset = FixedOffset::west_opt(3600 * 1).unwrap();
+    pub static ref FO_M2: FixedOffset = FixedOffset::west_opt(3600 * 2).unwrap();
+    pub static ref FO_M3: FixedOffset = FixedOffset::west_opt(3600 * 3).unwrap();
+    pub static ref FO_M4: FixedOffset = FixedOffset::west_opt(3600 * 4).unwrap();
+    pub static ref FO_M5: FixedOffset = FixedOffset::west_opt(3600 * 5).unwrap();
+    pub static ref FO_M6: FixedOffset = FixedOffset::west_opt(3600 * 6).unwrap();
+    pub static ref FO_M7: FixedOffset = FixedOffset::west_opt(3600 * 7).unwrap();
+    pub static ref FO_M8: FixedOffset = FixedOffset::west_opt(3600 * 8).unwrap();
+    pub static ref FO_M9: FixedOffset = FixedOffset::west_opt(3600 * 9).unwrap();
+    pub static ref FO_M10: FixedOffset = FixedOffset::west_opt(3600 * 10).unwrap();
+    pub static ref FO_M11: FixedOffset = FixedOffset::west_opt(3600 * 11).unwrap();
+    pub static ref FO_M12: FixedOffset = FixedOffset::west_opt(3600 * 12).unwrap();
+    // FixedOffset Plus (East)
+    pub static ref FO_P1: FixedOffset = FixedOffset::east_opt(3600 * 1).unwrap();
+    pub static ref FO_P2: FixedOffset = FixedOffset::east_opt(3600 * 2).unwrap();
+    pub static ref FO_P3: FixedOffset = FixedOffset::east_opt(3600 * 3).unwrap();
+    pub static ref FO_P4: FixedOffset = FixedOffset::east_opt(3600 * 4).unwrap();
+    pub static ref FO_P5: FixedOffset = FixedOffset::east_opt(3600 * 5).unwrap();
+    pub static ref FO_P6: FixedOffset = FixedOffset::east_opt(3600 * 6).unwrap();
+    pub static ref FO_P7: FixedOffset = FixedOffset::east_opt(3600 * 7).unwrap();
+    pub static ref FO_P8: FixedOffset = FixedOffset::east_opt(3600 * 8).unwrap();
+    pub static ref FO_P9: FixedOffset = FixedOffset::east_opt(3600 * 9).unwrap();
+    pub static ref FO_P10: FixedOffset = FixedOffset::east_opt(3600 * 10).unwrap();
+    pub static ref FO_P11: FixedOffset = FixedOffset::east_opt(3600 * 11).unwrap();
+    pub static ref FO_P12: FixedOffset = FixedOffset::east_opt(3600 * 12).unwrap();
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

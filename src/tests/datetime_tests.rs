@@ -6,14 +6,19 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::tests::common::{TZO_0, TZO_E1, TZO_W8};
+use crate::tests::common::{
+    FO_0, FO_P1, FO_M8,
+    FO_E10, FO_L, FO_W8, FO_Z,
+};
 
 use crate::data::datetime::{
+    LineIndex,
+    ymdhms, ymdhmsn, ymdhmsm, ymdhmsn_args, DUMMY_ARGS, O_L, YEAR_FALLBACKDUMMY_VAL,
     bytes_to_regex_to_datetime, datetime_from_str_workaround_Issue660, datetime_parse_from_str,
     dt_after_or_before, dt_pass_filters, DTFSSet, DTFS_Tz,
-    DateTimeL, DateTimeLOpt, Duration, FixedOffset,
+    DateTimeL, DateTimeLOpt, FixedOffset,
     DateTimeParseInstr, DateTimePattern_str, DateTimeRegex_str,
-    Result_Filter_DateTime1, Result_Filter_DateTime2, TimeZone, Year,
+    Result_Filter_DateTime1, Result_Filter_DateTime2, Year,
     DATETIME_PARSE_DATAS_LEN, DATETIME_PARSE_DATAS,
     CGP_HOUR, CGP_MINUTE, CGP_SECOND, CGP_FRACTIONAL, CGP_FRACTIONAL3,
     CGP_MONTH_ALL, CGN_ALL, CGP_DAY_ALL, CGP_YEAR, CGP_YEARy,
@@ -28,11 +33,9 @@ use crate::debug::printers::buffer_to_String_noraw;
 use bstr::ByteSlice;
 
 extern crate chrono;
+// for `with_nanosecond()`, `year()`, and others
 #[allow(unused_imports)]
-use chrono::{Datelike, Timelike}; // for `with_nanosecond()` and others
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
+use chrono::{Datelike, Timelike};
 
 use std::collections::HashSet;
 
@@ -50,73 +53,6 @@ extern crate test_case;
 use test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-/// wrapper for chrono DateTime creation function
-pub fn ymdhms(
-    fixedoffset: &FixedOffset,
-    year: i32,
-    month: u32,
-    day: u32,
-    hour: u32,
-    min: u32,
-    sec: u32
-) -> DateTimeL {
-    fixedoffset.with_ymd_and_hms(
-        year,
-        month,
-        day,
-        hour,
-        min,
-        sec,
-    ).unwrap()
-}
-
-/// wrapper for chrono DateTime creation function
-pub fn ymdhmsn(
-    fixedoffset: &FixedOffset,
-    year: i32,
-    month: u32,
-    day: u32,
-    hour: u32,
-    min: u32,
-    sec: u32,
-    nano: i64
-) -> DateTimeL {
-    fixedoffset
-    .with_ymd_and_hms(
-        year,
-        month,
-        day,
-        hour,
-        min,
-        sec
-    )
-    .unwrap()
-    + Duration::nanoseconds(nano)
-}
-
-/// wrapper for chrono DateTime creation function
-pub fn ymdhmsm(
-    fixedoffset: &FixedOffset,
-    year: i32,
-    month: u32,
-    day: u32,
-    hour: u32,
-    min: u32,
-    sec: u32,
-    micro: i64
-) -> DateTimeL {
-    fixedoffset.with_ymd_and_hms(
-        year,
-        month,
-        day,
-        hour,
-        min,
-        sec
-    )
-    .unwrap()
-    + Duration::microseconds(micro)
-}
 
 /// does regex pattern have a year?
 pub fn regex_pattern_has_year(pattern: &DateTimeRegex_str) -> bool {
@@ -712,31 +648,56 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
     for test_case_ in dtpd._test_cases {
         eprintln!("  Test Data       : {:?}", test_case_);
-        let dta = test_case_.0;
-        let dtb = test_case_.1;
+        let dta: LineIndex = test_case_.0;
+        let dtb: LineIndex = test_case_.1;
         assert_lt!(dta, dtb, "bad indexes");
-        let data = test_case_.2.as_bytes();
+        let data = test_case_.3.as_bytes();
         eprintln!("  Test Data[{:2},{:2}]: {:?}", dta, dtb, &data[dta..dtb].as_bstr());
-        let tz = *TZO_E1;
         let mut year_opt: Option<Year> = None;
         if !dtpd.dtfs.has_year() {
-            year_opt = Some(1980);
+            year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
         }
         let s = buffer_to_String_noraw(data);
-        match bytes_to_regex_to_datetime(data, &index, &year_opt, &tz) {
+        match bytes_to_regex_to_datetime(data, &index, &year_opt, &*FO_L) {
             Some(capdata) => {
                 eprintln!(
                     "Passed dtpd declared at line {} result {:?}, test data {:?}",
                     dtpd._line_num, capdata, s
                 );
-                let a = capdata.0;
-                let b = capdata.1;
+                let a: LineIndex = capdata.0;
+                let b: LineIndex = capdata.1;
                 assert_lt!(a, b, "bad a {} b {}", a, b);
+                // verify indexes returned by the regex
                 assert_eq!(
                     (dta, dtb), (a, b),
                     "For dtpd at line {:?} unexpected index returned\n  test data {:?}\n  expect {:?} {:?}\n  actual {:?} {:?}\n",
                     dtpd._line_num, s, (dta, dtb), &s.as_str()[dta..dtb], (a, b), &s.as_str()[a..b],
                 );
+                let ymdhmsn_args_: ymdhmsn_args = test_case_.2;
+                if ymdhmsn_args_ != DUMMY_ARGS {
+                    // verify datetime processed
+                    let fo: FixedOffset = match ymdhmsn_args_.0 {
+                        O_L => *FO_L,
+                        val if val < 0 => FixedOffset::west_opt(-1 * val).unwrap(),
+                        val if val >= 0 => FixedOffset::east_opt(val).unwrap(),
+                        val => panic!("bad offset value {:?}", val),
+                    };
+                    let dt: DateTimeL = ymdhmsn(
+                        &fo,
+                        ymdhmsn_args_.1,
+                        ymdhmsn_args_.2,
+                        ymdhmsn_args_.3,
+                        ymdhmsn_args_.4,
+                        ymdhmsn_args_.5,
+                        ymdhmsn_args_.6,
+                        ymdhmsn_args_.7,
+                    );
+                    assert_eq!(
+                        dt, capdata.2,
+                        "For dtpd at line {:?} unexpected datetime returned\n  test data {:?}\n  expect {:?}\n  actual {:?}\n",
+                        dtpd._line_num, s, dt, capdata.2,
+                    );
+                }
             }
             None => {
                 panic!(
@@ -802,7 +763,7 @@ fn test_Map_TZ_names() {
 /// declared.
 fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
     stack_offset_set(Some(2));
-    let _tz = *TZO_E1;
+    let _tz = *FO_P1;
     for (index, dtpd) in DATETIME_PARSE_DATAS
         .iter()
         .enumerate()
@@ -812,10 +773,10 @@ fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
         eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
         for test_case in dtpd._test_cases {
             eprintln!("  Test Data       : {:?}", test_case);
-            let _data = test_case.2.as_bytes();
+            let _data = test_case.3.as_bytes();
             let mut _year_opt: Option<Year> = None;
             if !dtpd.dtfs.has_year() {
-                _year_opt = Some(1980);
+                _year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
             }
             for (index_, _dtpd) in DATETIME_PARSE_DATAS
                 .iter()
@@ -829,28 +790,22 @@ fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
     }
 }
 
-lazy_static! {
-    static ref FO_UTC: FixedOffset = *TZO_0;
-    static ref FO_W8: FixedOffset = FixedOffset::west_opt(60 * 60 * 8).unwrap();
-    static ref FO_E10: FixedOffset = FixedOffset::east_opt(60 * 60 * 10).unwrap();
-}
-
 #[test_case(
-    "20000101T000000", "%Y%m%dT%H%M%S", false, &FO_UTC,
-    Some(ymdhms(&FO_UTC, 2000, 1, 1, 0, 0, 0));
+    "20000101T000000", "%Y%m%dT%H%M%S", false, &FO_Z,
+    Some(ymdhms(&FO_Z, 2000, 1, 1, 0, 0, 0));
     "20000101T000000 %Y%m%dT%H%M%S no_tz"
 )]
 #[test_case(
-    "20000101T000000 ", "%Y%m%dT%H%M%S", false, &FO_UTC, None;
+    "20000101T000000 ", "%Y%m%dT%H%M%S", false, &FO_Z, None;
     "20000101T000000  %Y%m%dT%H%M%S no_tz (extra space data)"
 )]
 #[test_case(
-    "20000101T000000", "%Y%m%dT%H%M%S ", false, &FO_UTC, None;
+    "20000101T000000", "%Y%m%dT%H%M%S ", false, &FO_Z, None;
     "20000101T000000 %Y%m%dT%H%M%S  no_tz (extra space pattern)"
 )]
 #[test_case(
-    "20000101T000000,123", "%Y%m%dT%H%M%S,%3f", false, &FO_UTC,
-    Some(ymdhmsm(&FO_UTC, 2000, 1, 1, 0, 0, 0, 123000));
+    "20000101T000000,123", "%Y%m%dT%H%M%S,%3f", false, &FO_Z,
+    Some(ymdhmsm(&FO_Z, 2000, 1, 1, 0, 0, 0, 123000));
     "20000101T000000,123 %Y%m%dT%H%M%S,%3f no_tz"
 )]
 #[test_case(
@@ -950,7 +905,7 @@ fn test_datetime_from_str_workaround_Issue660() {
 fn fo_to_fo0(dt_opt: &DateTimeLOpt) -> DateTimeLOpt {
     #[allow(clippy::manual_map)]
     match dt_opt {
-        Some(dt) => Some(dt.with_timezone(&*TZO_0)),
+        Some(dt) => Some(dt.with_timezone(&*FO_0)),
         None => None,
     }
 }
@@ -1037,7 +992,7 @@ fn test_dt_pass_filters_z() {
     defn!();
 
     fn DTLz(s: &str) -> DateTimeL {
-        let tz_dummy = *TZO_0;
+        let tz_dummy = *FO_0;
         datetime_parse_from_str(s, "%Y%m%dT%H%M%S%z", true, &tz_dummy).unwrap()
     }
 
@@ -1147,7 +1102,7 @@ fn test_dt_after_or_before() {
     defn!();
 
     fn DTL(s: &str) -> DateTimeL {
-        let tzo = *TZO_W8;
+        let tzo = *FO_M8;
         datetime_parse_from_str(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
     }
 

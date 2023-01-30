@@ -39,8 +39,8 @@ use crate::tests::common::eprint_file;
 use crate::tests::common::{
     NTF_GZ_1BYTE_FPATH, NTF_GZ_8BYTE_FPATH, NTF_GZ_EMPTY_FPATH, NTF_LOG_EMPTY_FPATH, NTF_NL_1_PATH,
     NTF_NL_2_PATH, NTF_NL_3_PATH, NTF_NL_4_PATH, NTF_NL_5_PATH, NTF_TAR_0BYTE_FILEA_FPATH,
-    NTF_TAR_1BYTE_FILEA_FPATH, NTF_TAR_1BYTE_FPATH, NTF_TAR_8BYTE_FILEA_FPATH, NTF_WNL_1_PATH, TZO_E5,
-    TZO_E8, TZO_W5, TZO_W8,
+    NTF_TAR_1BYTE_FILEA_FPATH, NTF_TAR_1BYTE_FPATH, NTF_TAR_8BYTE_FILEA_FPATH, NTF_WNL_1_PATH, FO_P5,
+    FO_P8, FO_M5, FO_M8,
 };
 
 use std::str;
@@ -85,13 +85,13 @@ fn new_SyslineReader(
 
 #[test]
 fn test_new_SyslineReader_1() {
-    new_SyslineReader(&NTF_LOG_EMPTY_FPATH, 1024, *TZO_E8);
+    new_SyslineReader(&NTF_LOG_EMPTY_FPATH, 1024, *FO_P8);
 }
 
 #[test]
 #[should_panic]
 fn test_new_SyslineReader_2_bad_path_panics() {
-    new_SyslineReader(&FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"), 1024, *TZO_E8);
+    new_SyslineReader(&FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"), 1024, *FO_P8);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -144,7 +144,7 @@ fn impl_find_sysline(
 ) {
     stack_offset_set(Some(2));
     defn!("(cache {:?}, blocksz {:?})", cache, blocksz);
-    let mut slr = new_SyslineReader(&NTF5_PATH, blocksz, *TZO_E8);
+    let mut slr = new_SyslineReader(&NTF5_PATH, blocksz, *FO_P8);
     if !cache {
         slr.LRU_cache_disable();
     }
@@ -227,7 +227,7 @@ fn impl_test_find_sysline_at_datetime_filter(
     defn!("(…, {:?}, {}, …)", dt_pattern, blocksz);
 
     let path = ntf_fpath(ntf);
-    let tzo: FixedOffset = *TZO_W8;
+    let tzo: FixedOffset = *FO_M8;
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
@@ -3172,7 +3172,7 @@ fn impl_test_find_sysline_between_datetime_filter(
     defn!("(…, {:?}, {}, {}, …)", dt_pattern, cache, blocksz);
 
     let path = ntf_fpath(ntf);
-    let tzo: FixedOffset = *TZO_W8;
+    let tzo: FixedOffset = *FO_M8;
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
@@ -3343,7 +3343,7 @@ fn impl_test_SyslineReader_find_sysline(
     stack_offset_set(Some(2));
     defn!("({:?}, {}, {})", path, blocksz, fileoffset);
     eprint_file(path);
-    let tzo: FixedOffset = *TZO_W8;
+    let tzo: FixedOffset = *FO_M8;
     let mut slr = new_SyslineReader(path, blocksz, tzo);
 
     let mut fo1: FileOffset = fileoffset;
@@ -3541,7 +3541,7 @@ fn impl_test_findsysline(
     stack_offset_set(Some(2));
     defn!("({:?}, {})", path, blocksz);
     eprint_file(path);
-    let tzo: FixedOffset = *TZO_W8;
+    let tzo: FixedOffset = *FO_M8;
     let mut slr = new_SyslineReader(path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
@@ -4416,7 +4416,7 @@ fn test_find_sysline_H_dt4_Done() {
 #[test_case(true; "cache")]
 #[test_case(false; "nocache")]
 fn test_remove_sysline(cache: bool) {
-    let mut slr = new_SyslineReader(&NTF26_PATH, 128, *TZO_E8);
+    let mut slr = new_SyslineReader(&NTF26_PATH, 128, *FO_P8);
     if !cache {
         slr.LRU_cache_disable();
     }
@@ -4447,7 +4447,7 @@ fn test_remove_sysline(cache: bool) {
 #[test_case(true; "cache")]
 #[test_case(false; "nocache")]
 fn test_clear_syslines(cache: bool) {
-    let mut slr = new_SyslineReader(&NTF26_PATH, 128, *TZO_E8);
+    let mut slr = new_SyslineReader(&NTF26_PATH, 128, *FO_P8);
     if !cache {
         slr.LRU_cache_disable();
     }
@@ -4483,7 +4483,7 @@ fn test_clear_syslines(cache: bool) {
 
 #[test]
 fn test_datetime_parse_data() {
-    let mut slr = new_SyslineReader(&NTF26_PATH, 128, *TZO_E8);
+    let mut slr = new_SyslineReader(&NTF26_PATH, 128, *FO_P8);
     let mut fo: FileOffset = 0;
     loop {
         let result = slr.find_sysline(fo);
@@ -4516,7 +4516,7 @@ fn impl_test_find_sysline_rand(
     blocksz: BlockSz,
 ) {
     defn!("({:?}, {})", path, blocksz);
-    let tzo8: FixedOffset = *TZO_W8;
+    let tzo8: FixedOffset = *FO_M8;
     let mut slr = new_SyslineReader(path, blocksz, tzo8);
     defo!("SyslineReader: {:?}", slr);
     let mut offsets_rand = Vec::<FileOffset>::with_capacity(slr.filesz() as usize);
@@ -4828,8 +4828,8 @@ fn test_datetime_parse_from_str__good_without_tz1() {
     // good without timezone
     let dts1 = "2000-01-01 00:01:01";
     let p1 = "%Y-%m-%d %H:%M:%S";
-    let dt1 = datetime_parse_from_str(dts1, p1, false, &TZO_E8).unwrap();
-    let answer1 = TZO_E8
+    let dt1 = datetime_parse_from_str(dts1, p1, false, &FO_P8).unwrap();
+    let answer1 = FO_P8
         .with_ymd_and_hms(2000, 1, 1, 0, 1, 1)
         .unwrap();
     assert_eq!(dt1, answer1);
@@ -4840,8 +4840,8 @@ fn test_datetime_parse_from_str__2_good_without_tz() {
     // good without timezone
     let dts1 = "2000-01-01 00:02:01";
     let p1 = "%Y-%m-%d %H:%M:%S";
-    let dt1 = datetime_parse_from_str(dts1, p1, false, &TZO_E5).unwrap();
-    let answer1 = TZO_E5
+    let dt1 = datetime_parse_from_str(dts1, p1, false, &FO_P5).unwrap();
+    let answer1 = FO_P5
         .with_ymd_and_hms(2000, 1, 1, 0, 2, 1)
         .unwrap();
     assert_eq!(dt1, answer1);
@@ -4852,7 +4852,7 @@ fn test_datetime_parse_from_str__3_good_with_tz() {
     // good with timezone
     let dts2 = "2000-01-01 00:00:02 -0100";
     let p2 = "%Y-%m-%d %H:%M:%S %z";
-    let dt2 = datetime_parse_from_str(dts2, p2, true, &TZO_E8).unwrap();
+    let dt2 = datetime_parse_from_str(dts2, p2, true, &FO_P8).unwrap();
     let answer2 = FixedOffset::west_opt(HOUR)
         .unwrap()
         .with_ymd_and_hms(2000, 1, 1, 0, 0, 2)
@@ -4865,7 +4865,7 @@ fn test_datetime_parse_from_str__4_bad_with_tz() {
     // bad with timezone
     let dts3 = "2000-01-01 00:00:03 BADD";
     let p3 = "%Y-%m-%d %H:%M:%S %z";
-    let dt3 = datetime_parse_from_str(dts3, p3, true, &TZO_E8);
+    let dt3 = datetime_parse_from_str(dts3, p3, true, &FO_P8);
     assert_eq!(dt3, None);
 }
 
@@ -4874,7 +4874,7 @@ fn test_datetime_parse_from_str__5_bad_without_tz() {
     // bad without timezone
     let dts4 = "2000-01-01 00:00:XX";
     let p4 = "%Y-%m-%d %H:%M:%S";
-    let dt4 = datetime_parse_from_str(dts4, p4, false, &TZO_E8);
+    let dt4 = datetime_parse_from_str(dts4, p4, false, &FO_P8);
     assert_eq!(dt4, None);
 }
 
@@ -4906,7 +4906,7 @@ fn test_datetime_soonest2() {
     let vec0 = Vec::<DateTimeL>::with_capacity(0);
     let val = datetime_soonest2(&vec0);
     assert!(val.is_none());
-    let tzo: FixedOffset = *TZO_W8;
+    let tzo: FixedOffset = *FO_M8;
 
     let dt1_a = datetime_parse_from_str("2001-01-01T12:00:00", "%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
     let vec1: Vec<DateTimeL> = vec![dt1_a];
