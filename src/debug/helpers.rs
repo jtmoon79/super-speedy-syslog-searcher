@@ -215,7 +215,7 @@ pub fn create_file_bytes_name_in_tmpdir(
     create_dir_in_tmpdir(&pathb_tmp, tempdir);
 
     // create file with the passed `name`
-    #[allow(for_loops_over_fallibles)]
+    #[allow(clippy::for_loops_over_fallibles)]
     for c in pathb_name.components().nth(pathb_name.components().count() - 1) {
         pathb_tmp = pathb_tmp.join(PathBuf::from(c.as_os_str()));
     }
