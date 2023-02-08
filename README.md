@@ -112,8 +112,8 @@ s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ### `--help`
 
 ```lang-text
-Speedily search and merge log file entries by datetime. DateTime filters may be
-passed to narrow the search. It aims to be very fast.
+Speedily search and merge log file entries by datetime.
+DateTime filters may be passed to narrow the search. It aims to be very fast.
 
 Usage: s4 [OPTIONS] <PATHS>...
 
@@ -152,7 +152,12 @@ Options:
   -w, --prepend-file-align
           Align column widths of prepended data.
       --prepend-separator <PREPEND_SEPARATOR>
-          Separator string for prepended data. [default: :]
+          Separator string for prepended data.
+          [default: :]
+      --sysline-separator <SYSLINE_SEPARATOR>
+          An extra separator string between printed log lines.
+          Keep in mind, one "syslog line" may consist of multiple lines of text.
+          Accepts a set of escape sequences, e.g. "\0" for the null character.
   -c, --color <COLOR_CHOICE>
           Choose to print to terminal using colors.
           [default: auto] [possible values: always, auto, never]
@@ -166,9 +171,9 @@ Options:
           Print a summary of files processed to stderr.
           Most useful for developers.
   -h, --help
-          Print help information
+          Print help
   -V, --version
-          Print version information
+          Print version
 
 DateTime Filters may be strftime specifier patterns:
     "%Y%m%dT%H%M%S"

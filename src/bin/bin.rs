@@ -548,6 +548,18 @@ struct CLI_Args {
     )]
     prepend_separator: String,
 
+    /// An extra separator string between printed log lines.
+    /// Keep in mind, one "syslog line" may consist of multiple lines of text.
+    /// Accepts a set of escape sequences, e.g. "\0" for the null character.
+    #[clap(
+        long = "sysline-separator",
+        required = false,
+        verbatim_doc_comment,
+        default_value_t = String::from(""),
+        hide_default_value = true,
+    )]
+    sysline_separator: String,
+
     /// Choose to print to terminal using colors.
     #[clap(
         required = false,
@@ -961,6 +973,50 @@ fn process_dt(
     dto
 }
 
+mod unescape {
+    // this mod ripped from https://stackoverflow.com/a/58555097/471376
+
+    #[derive(Debug, PartialEq)]
+    pub(super) enum EscapeError {
+        EscapeAtEndOfString,
+        InvalidEscapedChar(char),
+    }
+
+    struct InterpretEscapedString<'a> {
+        s: std::str::Chars<'a>,
+    }
+
+    impl<'a> Iterator for InterpretEscapedString<'a> {
+        type Item = Result<char, EscapeError>;
+
+        fn next(&mut self) -> Option<Self::Item> {
+            self.s.next().map(
+                |c| match c {
+                    '\\' => match self.s.next() {
+                        None => Err(EscapeError::EscapeAtEndOfString),
+                        Some('a') => Ok('\u{07}'), // alert
+                        Some('b') => Ok('\u{08}'), // backspace
+                        Some('e') => Ok('\u{1B}'), // escape
+                        Some('f') => Ok('\u{0C}'), // form feed
+                        Some('n') => Ok('\n'), // newline
+                        Some('r') => Ok('\r'), // carriage return
+                        Some('\\') => Ok('\\'), // backslash
+                        Some('t') => Ok('\t'), // horizontal tab
+                        Some('v') => Ok('\u{0B}'), // vertical tab
+                        Some('0') => Ok('\0'), // null
+                        Some(c) => Err(EscapeError::InvalidEscapedChar(c)),
+                    },
+                    c => Ok(c),
+                }
+            )
+        }
+    }
+
+    pub(super) fn unescape_str(s: &str) -> Result<String, EscapeError> {
+        (InterpretEscapedString { s: s.chars() }).collect()
+    }
+}
+
 /// Process user-passed CLI argument strings into expected types.
 ///
 /// This function will [`std::process::exit`] if there is an [`Err`].
@@ -977,6 +1033,7 @@ fn cli_process_args() -> (
     bool,
     bool,
     bool,
+    String,
     String,
     bool,
 ) {
@@ -1088,6 +1145,14 @@ fn cli_process_args() -> (
         CLI_Color_Choice::never => ColorChoice::Never,
     };
 
+    let sysline_separator: String = match unescape::unescape_str(args.sysline_separator.as_str()) {
+        Ok(val) => val,
+        Err(err) => {
+            eprintln!("ERROR: {:?}", err);
+            std::process::exit(1);
+        }
+    };
+
     defo!("color_choice {:?}", color_choice);
     defo!("prepend_utc {:?}", args.prepend_utc);
     defo!("prepend_local {:?}", args.prepend_local);
@@ -1096,6 +1161,7 @@ fn cli_process_args() -> (
     defo!("prepend_filepath {:?}", args.prepend_filepath);
     defo!("prepend_file_align {:?}", args.prepend_file_align);
     defo!("prepend_separator {:?}", args.prepend_separator);
+    defo!("sysline_separator {:?}", sysline_separator);
     defo!("summary {:?}", args.summary);
 
     (
@@ -1112,6 +1178,7 @@ fn cli_process_args() -> (
         args.prepend_filepath,
         args.prepend_file_align,
         args.prepend_separator,
+        sysline_separator,
         args.summary,
     )
 }
@@ -1142,6 +1209,7 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_filepath,
         cli_opt_prepend_file_align,
         cli_prepend_separator,
+        sysline_separator,
         cli_opt_summary,
     ) = cli_process_args();
 
@@ -1171,6 +1239,7 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_filepath,
         cli_opt_prepend_file_align,
         cli_prepend_separator,
+        sysline_separator,
         cli_opt_summary,
     );
 
@@ -1804,6 +1873,7 @@ fn processing_loop(
     cli_opt_prepend_filepath: bool,
     cli_opt_prepend_file_align: bool,
     cli_prepend_separator: String,
+    sysline_separator: String,
     cli_opt_summary: bool,
 ) -> bool {
     defn!(
@@ -2093,6 +2163,9 @@ fn processing_loop(
 
     // channels that should be disconnected per "game loop" loop iteration
     let mut disconnect = Vec::<PathId>::with_capacity(file_count);
+    // shortcut to the bytes of the `sysline_separator`
+    let sepb: &[u8] = sysline_separator.as_str().as_bytes();
+
     loop {
         disconnect.clear();
 
@@ -2361,6 +2434,7 @@ fn processing_loop(
                     pathid
                 );
                 // print the sysline!
+                // the most important part of this main thread loop
                 let printer: &mut PrinterSysline = map_pathid_printer
                     .get_mut(pathid)
                     .unwrap();
@@ -2376,6 +2450,10 @@ fn processing_loop(
                             eprintln!("ERROR: failed to print {}", err);
                         }
                     }
+                }
+                if ! sepb.is_empty() {
+                    write_stdout(sepb);
+                    summaryprinted.bytes += sepb.len() as Count;
                 }
                 // If a file's last char is not a '\n' then the next printed sysline
                 // (from a different file) will print on the same terminal line.
@@ -3066,7 +3144,7 @@ mod tests {
 
     use super::{
         cli_parse_blocksz, cli_parser_prepend_dt_format, cli_process_blocksz, cli_process_tz_offset,
-        process_dt, BlockSz, DateTimeLOpt, CLI_OPT_PREPEND_FMT,
+        process_dt, BlockSz, DateTimeLOpt, CLI_OPT_PREPEND_FMT, unescape,
     };
     use super::{
         string_wdhms_to_duration, Duration, FixedOffset, TimeZone, DUR_OFFSET_TYPE, FIXEDOFFSET0, UTC_NOW,
@@ -3249,5 +3327,35 @@ mod tests {
     ) {
         let actual = string_wdhms_to_duration(&input);
         assert_eq!(actual, expect);
+    }
+
+    #[test_case("", Some(""))]
+    #[test_case("a", Some("a"))]
+    #[test_case("abc", Some("abc"))]
+    #[test_case(r"\t", Some("\t"))]
+    #[test_case(r"\v", Some("\u{0B}"))]
+    #[test_case(r"\e", Some("\u{1B}"))]
+    #[test_case(r"\0", Some("\u{00}"))]
+    #[test_case(r"-\0-", Some("-\u{00}-"); "dash null dash")]
+    #[test_case(r":\t|", Some(":\t|"); "colon tab vertical pipe")]
+    #[test_case(r":\t\\|", Some(":\t\\|"); "colon tab escape vertical pipe")]
+    #[test_case(r"\\\t", Some("\\\t"); "escape tab")]
+    #[test_case(r"\\t", Some("\\t"); "escape t")]
+    #[test_case(r"\", None)]
+    #[test_case(r"\X", None)]
+    fn test_unescape_str (input: &str, expect: Option<&str>) {
+        let result = unescape::unescape_str(input);
+        match (result, expect) {
+            (Ok(actual_s), Some(expect_s)) => {
+                assert_eq!(actual_s, expect_s, "\nExpected {:?}\nActual   {:?}\n", expect_s, actual_s);
+            }
+            (Ok(actual_s), None) => {
+                panic!("Expected Error, got {:?}", actual_s);
+            }
+            (Err(err), Some(_)) => {
+                panic!("Got Error {:?}", err);
+            }
+            (Err(_), None) => {}
+        }
     }
 }
