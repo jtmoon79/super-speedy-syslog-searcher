@@ -2731,8 +2731,8 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
                     return;
                 }
             }
-            eprintln!("{}bytes          {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_bytes);
-            eprintln!("{}bytes total    {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_bytes_total);
+            eprintln!("{}bytes          {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_bytes);
+            eprintln!("{}bytes total    {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_bytes_total);
             eprintln!(
                 "{}block size     {1} (0x{1:X})",
                 OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocksz
