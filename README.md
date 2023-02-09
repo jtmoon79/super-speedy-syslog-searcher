@@ -373,8 +373,8 @@ for more project definitions.
 ### logging chaos; the problem `s4` solves
 
 In practice, most log file formats are an ad-hoc format that
-may not follow any formal definition. Sorting the log messages is
-prohibitively tedious.
+may not follow any formal definition. Sorting varying log messages by datetime
+is prohibitively tedious.
 
 The following real-world example log files are available in project directory
 `./logs`.
