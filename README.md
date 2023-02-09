@@ -344,8 +344,8 @@ Label `datetime format`](https://github.com/jtmoon79/super-speedy-syslog-searche
 If a matching Issue already exists then consider adding a comment and a large
 snippet from your log file.
 
-If no Issue exists for your particular log file's datetime format then create a
-new Issue.
+If no matching Issue exists for your particular log file's datetime format then
+create a new Issue.
 When submitting a new Issue:
 1. title the Issue "_support for datetime format_" and then the log file name<br/>
    e.g. "_support for datetime format from foobar.log_"
@@ -357,14 +357,14 @@ Here is [an example user-submitted Issue](https://github.com/jtmoon79/super-spee
 
 ### "syslog" and other project definitions
 
-In this project, the term "syslog" is used generously to refer to any
+In this project, the term "_syslog_" is used generously to refer to any
 log message that has a datetime stamp on the first line of log text.
 
-Technically, "syslog" is [defined among several RFCs](https://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents)
+Technically, "_syslog_" is [defined among several RFCs](https://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents)
 proscribing fields, formats, lengths, and other technical constraints.
-In this project, the term "syslog" is interchanged with "log".
+In this project, the term "_syslog_" is interchanged with "_log_".
 
-The term "sysline" refers to a one log message which may comprise
+The term "_sysline_" refers to a one log message which may comprise
 multiple text lines.
 
 See [docs section _Definitions of data_](https://docs.rs/super_speedy_syslog_searcher/latest/s4lib/data/index.html)
