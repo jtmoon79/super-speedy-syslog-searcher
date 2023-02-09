@@ -2169,7 +2169,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 99;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 100;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -3072,6 +3072,26 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // ---------------------------------------------------------------------------------------------
+    //
+    // tomcat catalina stdout log format, from file `./logs/programs/tomcat/catalina.out`
+    // example with offset:
+    //
+    //               1         2         3
+    //     0123456789012345678901234567890
+    //     08-Feb-2023 12:12:09.827 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio2-0.0.0.0-8080"]
+    //
+    DTPD!(
+        concatcp!("^", CGP_DAYde, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL3, RP_NOALNUMpm),
+        DTFSS_bdHMSYf, 0, 30, CGN_DAY, CGN_FRACTIONAL,
+        &[
+            (0, 24, (O_L, 2023, 2, 8, 12, 13, 9, 827000000), r#"08-Feb-2023 12:13:09.827 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio2-0.0.0.0-8080"]"#),
+            (0, 24, (O_L, 2023, 2, 8, 12, 13, 20, 63000000), "08-Feb-2023 12:13:20.063 INFO [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.\nSLF4J: Class path contains multiple SLF4J bindings."),
+        ],
+        line!(),
+    ),
+    // TODO: add new `DTPD!` copied from prior `DTPD!` with varying timezones and more lenient fractional
+    //
+    // ---------------------------------------------------------------------------------------------
     // from file `./logs/synology/synoupdate.log`
     // example with offset:
     //
@@ -3491,7 +3511,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // TODO: add prior without any TZ
-
+    //
     // from file `./logs/programs/proftpd/xferlog`, Issue #42
     // example with offset:
     //
