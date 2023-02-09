@@ -103,7 +103,7 @@ pub enum ProcessingStage {
     /// [`find_sysline`]: self::SyslogProcessor#method.find_sysline
     Stage3StreamSyslines,
     /// If passed CLI option `--summary` then print a summary of
-    /// various informations about the processed file.<br/>
+    /// various information about the processed file.<br/>
     /// Probably only interesting to developers.
     Stage4Summary,
 }

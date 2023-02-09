@@ -1370,7 +1370,7 @@ fn exec_syslogprocessor_thread(
         Err(err) => {
             // TODO: [2022/08] this design needs work: the `Error` instance should be passed
             //       back in the channel but not via the Summary... I think....
-            //       But moreso, the current design has unnecessary
+            //       But more so, the current design has unnecessary
             //       duplication of `Error` information mapped to a `FileProcessingResultBlockZero`.
             //       e.g. remove `FileErrIo` and just have a more general `FileError((ErrorKind, String))`.
             //            Much easier to handle.

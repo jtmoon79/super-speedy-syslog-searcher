@@ -226,7 +226,7 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
 }
 
 /// a crude way to help the developer not forget about updating the
-/// hardcoded generated test cases in the proceeeding test function
+/// hardcoded generated test cases in the proceeding test function
 /// `test_DATETIME_PARSE_DATAS_test_cases`
 #[test]
 fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {

@@ -809,7 +809,7 @@ impl SyslineReader {
         {
             drop_fo.push(*fo);
         }
-        // XXX: it is not straightfoward to get the collection of FileOffset keys to use
+        // XXX: it is not straightforward to get the collection of FileOffset keys to use
         //      This is because it
         // TODO: [2022/06/18] cost-savings: make this a "one time" creation that is reused
         //       this is challenging, as it runs into borrow errors during `.iter()`
