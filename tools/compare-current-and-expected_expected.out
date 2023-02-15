@@ -14392,6 +14392,29 @@ ssnotification.log:20221215T133310.000+0000:Dec 15 21:33:10 [9992][9992] ssnotif
 ssnotification.log:20221215T133310.000+0000:Dec 15 21:33:10 [9992][9992] ssnotify.cpp:487:Send(): Send notification by push serv: EvtType[5] SenderType[0] SenderName[camlilhiknet]
 ssnotification.log:20221215T133411.000+0000:Dec 15 21:34:11 [9992][9992] ssmail.cpp:395:MailSendEvent(): Send email via SDK
 ssnotification.log:20221215T133412.000+0000:Dec 15 21:34:12 [9992][9992] ssmail.cpp:397:MailSendEvent(): Send email via SDK done
+catalina.out:20230208T041209.827+0000:08-Feb-2023 12:12:09.827 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio2-0.0.0.0-8080"]
+catalina.out:20230208T041209.848+0000:08-Feb-2023 12:12:09.848 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 513 ms
+catalina.out:20230208T041209.857+0000:08-Feb-2023 12:12:09.857 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+catalina.out:20230208T041209.857+0000:08-Feb-2023 12:12:09.857 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/8.5.79]
+catalina.out:20230208T041220.063+0000:08-Feb-2023 12:12:20.063 INFO [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+catalina.out:20230208T041220.063+0000:SLF4J: Class path contains multiple SLF4J bindings.
+catalina.out:20230208T041220.063+0000:SLF4J: Found binding in [jar:file:/tomcat/apache-tomcat-8.5.79/lib/slf4j-simple-1.6.4.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+catalina.out:20230208T041220.063+0000:SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+catalina.out:20230208T041220.063+0000:SLF4J: Actual binding is of type [ch.qos.logback.classic.util.ContextSelectorStaticBinder]
+catalina.out:20230208T041220.063+0000:
+catalina.out:20230208T041220.063+0000:  .   ____          _            __ _ _
+catalina.out:20230208T041220.063+0000: /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+catalina.out:20230208T041220.063+0000:( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+catalina.out:20230208T041220.063+0000: \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+catalina.out:20230208T041220.063+0000:  '  |____| .__|_| |_|_| |_\__, | / / / /
+catalina.out:20230208T041220.063+0000: =========|_|==============|___/=/_/_/_/
+catalina.out:20230208T041220.063+0000: :: Spring Boot ::                (v2.7.6)
+catalina.out:20230208T041220.063+0000:
+catalina.out:20230208T041220.063+0000:LOGBACK: No context given for ch.qos.logback.classic.AsyncAppender[null]
+catalina.out:20230208T041248.820+0000:08-Feb-2023 12:12:48.820 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio2-0.0.0.0-8080"]
+catalina.out:20230208T041248.822+0000:08-Feb-2023 12:12:48.822 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 38973 ms
+catalina-access.log:20230214T143020.483+0000:10.0.0.137 - - [14/Feb/2023 14:30:20.483 +0000] GET /api/healthcheck HTTP/1.1 204 - - okhttp/3.12.1 sec=0.000 usec=0 fwd=-,cid=-,- thread=http-nio2-0.0.0.0-8080-exec-12
+catalina-access.log:20230214T143021.440+0000:10.0.0.138 - - [14/Feb/2023 14:30:21.44 +0000] GET /api/endpoint HTTP/1.1 200 96 - Elastic-Heartbeat/8.3.3 (linux; amd64; 1755b5dd3227bf755ee19deb25a803438bdac619; 2022-07-23 00:36:20 +0000 UTC) sec=0.001 usec=1 fwd=-,cid=-,- thread=http-nio2-0.0.0.0-8080-exec-7
 kern.log:20231010T150716.000+0000:Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.10034] Linux version 5.10.0-11-amd64 (debian-kernel@lists.debian.org) (gcc-10 (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2) #1 SMP Debian 5.10.92-1 (2022-01-18)
 kern.log:20231010T150716.000+0000:Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.10034] Command line: BOOT_IMAGE=/boot/vmlinuz-5.10.0-11-amd64 root=UUID=00000000-1111-2222-adf0-012345678911 ro console=tty0 console=ttyS0,10034 earlyprintk=ttyS0,10034 consoleblank=0 net.ifnames=0 biosdevname=0
 kern.log:20231010T150716.000+0000:Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.10034] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'

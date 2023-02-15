@@ -116,6 +116,8 @@
 ./logs/programs/proftpd/controls.log
 ./logs/programs/proftpd/proftpd.log
 ./logs/programs/proftpd/xferlog
+./logs/programs/tomcat/catalina.out
+./logs/programs/tomcat/catalina-access.log
 ./logs/RancherOS-1.5.8/boot/autologin
 ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
 ./logs/RancherOS-1.5.8/boot/cloud-init.save.log

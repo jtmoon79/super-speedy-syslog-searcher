@@ -1,0 +1,2 @@
+10.0.0.137 - - [14/Feb/2023 14:30:20.483 +0000] GET /api/healthcheck HTTP/1.1 204 - - okhttp/3.12.1 sec=0.000 usec=0 fwd=-,cid=-,- thread=http-nio2-0.0.0.0-8080-exec-12
+10.0.0.138 - - [14/Feb/2023 14:30:21.44 +0000] GET /api/endpoint HTTP/1.1 200 96 - Elastic-Heartbeat/8.3.3 (linux; amd64; 1755b5dd3227bf755ee19deb25a803438bdac619; 2022-07-23 00:36:20 +0000 UTC) sec=0.001 usec=1 fwd=-,cid=-,- thread=http-nio2-0.0.0.0-8080-exec-7
