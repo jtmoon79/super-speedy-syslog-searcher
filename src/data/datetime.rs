@@ -989,6 +989,14 @@ const DTP_bdHMSyZc: &DateTimePattern_str = "%y%m%dT%H%M%S%:z";
 const DTP_bdHMSYZp: &DateTimePattern_str = "%Y%m%dT%H%M%S%#z";
 /// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_bdHMSYZz: &DateTimePattern_str = "%Y%m%dT%H%M%S%z";
+
+/// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+const DTP_bdHMSYfZc: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%:z";
+/// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+const DTP_bdHMSYfZp: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%#z";
+/// `%b` value transformed to `%m` value by [`captures_to_buffer_bytes`]
+const DTP_bdHMSYfZz: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%z";
+
 /// `%b` value transformed to `%m` value,
 /// `%Z` transformed to `%:z` by [`captures_to_buffer_bytes`]
 const DTP_bdHMSYZ: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
@@ -1257,6 +1265,39 @@ const DTFSS_bdHMSYzp: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
     pattern: DTP_bdHMSYZp,
+};
+const DTFSS_bdHMSYfz: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::_e_or_d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::f,
+    tz: DTFS_Tz::z,
+    pattern: DTP_bdHMSYfZz,
+};
+const DTFSS_bdHMSYfzc: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::_e_or_d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::f,
+    tz: DTFS_Tz::zc,
+    pattern: DTP_bdHMSYfZc,
+};
+const DTFSS_bdHMSYfzp: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::b,
+    day: DTFS_Day::_e_or_d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::f,
+    tz: DTFS_Tz::zp,
+    pattern: DTP_bdHMSYfZp,
 };
 
 const DTFSS_YbdHMSzc: DTFSSet = DTFSSet {
@@ -2169,7 +2210,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 100;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 104;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -3040,6 +3081,51 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (19, 43, (O_P1, 2022, 10, 11, 0, 10, 26, 0), r#"192.168.0.172 - - {11/oct/2022 00:10:26 +01} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (15, 38, (O_P1, 2022, 10, 11, 0, 10, 26, 0), r#"192.168.0.172	<11-oct-2022 00:10:26+01>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (17, 41, (O_M8, 2020, 3, 7, 6, 30, 43, 0), r#"192.168.0.8 - - [07/Mar/2020:06:30:43 -08] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
+        ],
+        line!(),
+    ),
+    // prior patterns with fractionals 1-9
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYde, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, RP_RB),
+        DTFSS_bdHMSYfz, 0, 300, CGN_DAY, CGN_TZ,
+        &[
+            (19, 49, (O_P1, 2022, 10, 11, 0, 10, 26, 123000000), r#"192.168.0.172 - - [11/Oct/2022:00:10:26.123 +0100] "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (19, 48, (O_P1, 2022, 10, 11, 0, 10, 26, 110000000), r#"192.168.0.172 - - {11/oct/2022 00:10:26.11 +0100} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (15, 42, (O_P1, 2022, 10, 11, 0, 10, 26, 100000000), r#"192.168.0.172	<11-oct-2022 00:10:26.1+0100>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (17, 53, (O_M8, 2020, 3, 7, 6, 30, 43, 123456789), r#"192.168.0.8 - - [07/Mar/2020:06:30:43.123456789 -0800] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYde, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzc, RP_RB),
+        DTFSS_bdHMSYfzc, 0, 300, CGN_DAY, CGN_TZ,
+        &[
+            (19, 50, (O_P1, 2022, 10, 11, 0, 10, 26, 123000000), r#"192.168.0.172 - - [11/Oct/2022:00:10:26.123 +01:00] "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (19, 49, (O_P1, 2022, 10, 11, 0, 10, 26, 110000000), r#"192.168.0.172 - - {11/oct/2022 00:10:26.11 +01:00} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (15, 43, (O_P1, 2022, 10, 11, 0, 10, 26, 100000000), r#"192.168.0.172	<11-oct-2022 00:10:26.1+01:00>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (17, 54, (O_M8, 2020, 3, 7, 6, 30, 43, 123456789), r#"192.168.0.8 - - [07/Mar/2020:06:30:43.123456789 -08:00] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYde, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzp, RP_RB),
+        DTFSS_bdHMSYfzp, 0, 300, CGN_DAY, CGN_TZ,
+        &[
+            (19, 47, (O_P1, 2022, 10, 11, 0, 10, 26, 123000000), r#"192.168.0.172 - - [11/Oct/2022:00:10:26.123 +01] "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (19, 46, (O_P1, 2022, 10, 11, 0, 10, 26, 110000000), r#"192.168.0.172 - - {11/oct/2022 00:10:26.11 +01} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (15, 40, (O_P1, 2022, 10, 11, 0, 10, 26, 100000000), r#"192.168.0.172	<11-oct-2022 00:10:26.1+01>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (17, 51, (O_M8, 2020, 3, 7, 6, 30, 43, 123456789), r#"192.168.0.8 - - [07/Mar/2020:06:30:43.123456789 -08] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYde, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKSq, RP_RB),
+        DTFSS_bdHMSYf, 0, 300, CGN_DAY, CGN_FRACTIONAL,
+        &[
+            (19, 43, (O_L, 2022, 10, 11, 0, 10, 26, 123000000), r#"192.168.0.172 - - [11/Oct/2022:00:10:26.123] "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (19, 42, (O_L, 2022, 10, 11, 0, 10, 26, 110000000), r#"192.168.0.172 - - {11/oct/2022 00:10:26.11 } "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (15, 37, (O_L, 2022, 10, 11, 0, 10, 26, 100000000), r#"192.168.0.172	<11-oct-2022 00:10:26.1        >	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (17, 47, (O_L, 2020, 3, 7, 6, 30, 43, 123456789), r#"192.168.0.8 - - [07/Mar/2020:06:30:43.123456789] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
         ],
         line!(),
     ),
