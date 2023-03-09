@@ -216,16 +216,16 @@ impl fmt::Debug for UtmpxReader {
 #[derive(Clone, Default, Eq, PartialEq, Debug)]
 pub struct SummaryUtmpxReader {
     /// `UtmpxReader::utmp_entries`
-    pub UtmpxReader_utmp_entries: Count,
-    pub UtmpxReader_utmp_entries_max: Count,
-    pub UtmpxReader_utmp_entries_hit: Count,
-    pub UtmpxReader_utmp_entries_miss: Count,
-    pub UtmpxReader_drop_entry_ok: Count,
-    pub UtmpxReader_drop_entry_errors: Count,
+    pub utmpxreader_utmp_entries: Count,
+    pub utmpxreader_utmp_entries_max: Count,
+    pub utmpxreader_utmp_entries_hit: Count,
+    pub utmpxreader_utmp_entries_miss: Count,
+    pub utmpxreader_drop_entry_ok: Count,
+    pub utmpxreader_drop_entry_errors: Count,
     /// datetime soonest seen (not necessarily reflective of entire file)
-    pub UtmpxReader_datetime_first: DateTimeLOpt,
+    pub utmpxreader_datetime_first: DateTimeLOpt,
     /// datetime latest seen (not necessarily reflective of entire file)
-    pub UtmpxReader_datetime_last: DateTimeLOpt,
+    pub utmpxreader_datetime_last: DateTimeLOpt,
 }
 
 /// Implement the UtmpxReader.
@@ -987,24 +987,24 @@ impl UtmpxReader {
     /// [`SummaryUtmpxReader`]: SummaryUtmpxReader
     #[allow(non_snake_case)]
     pub fn summary(&self) -> SummaryUtmpxReader {
-        let UtmpxReader_utmp_entries: Count = self.entries_processed;
-        let UtmpxReader_utmp_entries_max: Count = self.entries_stored_highest as Count;
-        let UtmpxReader_utmp_entries_hit: Count = self.entries_hits as Count;
-        let UtmpxReader_utmp_entries_miss: Count = self.entries_miss as Count;
-        let UtmpxReader_drop_entry_ok: Count = self.drop_entry_ok;
-        let UtmpxReader_drop_entry_errors: Count = self.drop_entry_errors;
-        let UtmpxReader_datetime_first = self.dt_first;
-        let UtmpxReader_datetime_last = self.dt_last;
+        let utmpxreader_utmp_entries: Count = self.entries_processed;
+        let utmpxreader_utmp_entries_max: Count = self.entries_stored_highest as Count;
+        let utmpxreader_utmp_entries_hit: Count = self.entries_hits as Count;
+        let utmpxreader_utmp_entries_miss: Count = self.entries_miss as Count;
+        let utmpxreader_drop_entry_ok: Count = self.drop_entry_ok;
+        let utmpxreader_drop_entry_errors: Count = self.drop_entry_errors;
+        let utmpxreader_datetime_first = self.dt_first;
+        let utmpxreader_datetime_last = self.dt_last;
 
         SummaryUtmpxReader {
-            UtmpxReader_utmp_entries,
-            UtmpxReader_utmp_entries_max,
-            UtmpxReader_utmp_entries_hit,
-            UtmpxReader_utmp_entries_miss,
-            UtmpxReader_drop_entry_ok,
-            UtmpxReader_drop_entry_errors,
-            UtmpxReader_datetime_first,
-            UtmpxReader_datetime_last,
+            utmpxreader_utmp_entries,
+            utmpxreader_utmp_entries_max,
+            utmpxreader_utmp_entries_hit,
+            utmpxreader_utmp_entries_miss,
+            utmpxreader_drop_entry_ok,
+            utmpxreader_drop_entry_errors,
+            utmpxreader_datetime_first,
+            utmpxreader_datetime_last,
         }
     }
 

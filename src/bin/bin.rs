@@ -1414,8 +1414,8 @@ type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 fn exec_syslogprocessor(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
-    tname: &str,
-    tid: thread::ThreadId,
+    _tname: &str,
+    _tid: thread::ThreadId,
 ) {
     let (
         path,
@@ -1548,7 +1548,7 @@ fn exec_syslogprocessor(
         ResultS3SyslineFind::Found((fo, syslinep)) => {
             fo1 = fo;
             let is_last: IsLastLogMessage = syslogproc.is_sysline_last(&syslinep) as IsLastLogMessage;
-            deo!("{:?}({}): Found, chan_send_dt.send({:p}, None, {});", tid, tname, syslinep, is_last);
+            deo!("{:?}({}): Found, chan_send_dt.send({:p}, None, {});", _tid, _tname, syslinep, is_last);
             match chan_send_dt.send((
                 Some(LogMessage::Sysline(syslinep)),
                 None,
@@ -1577,7 +1577,7 @@ fn exec_syslogprocessor(
             search_more = false;
         }
         ResultS3SyslineFind::Err(err) => {
-            deo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", tid, tname, err);
+            deo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, _tname, err);
             eprintln!(
                 "ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}",
                 path, err
@@ -1587,9 +1587,9 @@ fn exec_syslogprocessor(
     }
 
     if !search_more {
-        deo!("{:?}({}): quit searching…", tid, tname);
+        deo!("{:?}({}): quit searching…", _tid, _tname);
         let summary_opt: SummaryOpt = Some(syslogproc.process_stage4_summary());
-        deo!("{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", tid, tname, summary_opt, false);
+        deo!("{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", _tid, _tname, summary_opt, false);
         match chan_send_dt.send((
             None,
             summary_opt,
@@ -1618,7 +1618,7 @@ fn exec_syslogprocessor(
             ResultS3SyslineFind::Found((fo, syslinep)) => {
                 let syslinep_tmp = syslinep.clone();
                 let is_last = syslogproc.is_sysline_last(&syslinep);
-                deo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", tid, tname, syslinep, is_last);
+                deo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", _tid, _tname, syslinep, is_last);
                 match chan_send_dt.send((
                     Some(LogMessage::Sysline(syslinep)),
                     None,
@@ -1653,7 +1653,7 @@ fn exec_syslogprocessor(
                 break;
             }
             ResultS3SyslineFind::Err(err) => {
-                deo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", tid, tname, err);
+                deo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, _tname, err);
                 eprintln!("ERROR: syslogprocessor.find_sysline({}) {}", fo1, err);
                 break;
             }
@@ -1663,7 +1663,7 @@ fn exec_syslogprocessor(
     syslogproc.process_stage4_summary();
 
     let summary = syslogproc.summary_complete();
-    deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", tid, tname, summary, false);
+    deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", _tid, _tname, summary, false);
     match chan_send_dt.send((
         None,
         Some(summary),
@@ -1682,8 +1682,8 @@ fn exec_syslogprocessor(
 fn exec_utmpprocessor(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
-    tname: &str,
-    tid: thread::ThreadId,
+    _tname: &str,
+    _tid: thread::ThreadId,
 ) {
     let (
         path,
@@ -1694,7 +1694,7 @@ fn exec_utmpprocessor(
         filter_dt_before_opt,
         tz_offset,
     ) = thread_init_data;
-    defn!("{:?}({}): ({:?})", tid, tname, path);
+    defn!("{:?}({}): ({:?})", _tid, _tname, path);
     matches!(filetype, FileType::Utmpx);
 
     let mut utmpreader = match UtmpxReader::new(
@@ -1738,7 +1738,7 @@ fn exec_utmpprocessor(
             return;
         }
     };
-    defo!("{:?}({}): utmpreader {:?}", tid, tname, utmpreader);
+    defo!("{:?}({}): utmpreader {:?}", _tid, _tname, utmpreader);
 
     let mut fo: FileOffset = 0;
     //let mut first: bool = true;
@@ -1784,7 +1784,7 @@ fn exec_utmpprocessor(
     }
 
     let summary = utmpreader.summary_complete();
-    deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", tid, tname, summary, false);
+    deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", _tid, _tname, summary, false);
     match chan_send_dt.send((
         None,
         Some(summary),
@@ -1971,7 +1971,7 @@ impl SummaryPrinted {
         eprintln!("{}Summary Printed:", indent1);
 
         eprint!("{}bytes          ", indent2);
-        if self.bytes == 0 && summaryblockreader.BlockReader_bytes != 0 {
+        if self.bytes == 0 && summaryblockreader.blockreader_bytes != 0 {
             match print_colored_stderr(
                 COLOR_ERROR,
                 color_choice_opt,
@@ -1991,7 +1991,7 @@ impl SummaryPrinted {
 
         if summarylinereader_opt.is_some() {
             eprint!("{}lines          ", indent2);
-            if self.lines == 0 && summaryblockreader.BlockReader_bytes != 0 {
+            if self.lines == 0 && summaryblockreader.blockreader_bytes != 0 {
                 match print_colored_stderr(
                     COLOR_ERROR,
                     color_choice_opt,
@@ -2013,7 +2013,7 @@ impl SummaryPrinted {
         match summaryutmpreader_opt {
             Some(summaryutmpreader) => {
                 eprint!("{}utmpx          ", indent2);
-                if self.utmpentries == 0 && summaryutmpreader.UtmpxReader_utmp_entries != 0 {
+                if self.utmpentries == 0 && summaryutmpreader.utmpxreader_utmp_entries != 0 {
                     match print_colored_stderr(
                         COLOR_ERROR,
                         color_choice_opt,
@@ -2037,7 +2037,7 @@ impl SummaryPrinted {
         match summarylinereader_opt {
             Some(summarylinereader) => {
                 eprint!("{}syslines       ", indent2);
-                if self.syslines == 0 && summarylinereader.LineReader_lines != 0 {
+                if self.syslines == 0 && summarylinereader.linereader_lines != 0 {
                     match print_colored_stderr(
                         COLOR_ERROR,
                         color_choice_opt,
@@ -2060,7 +2060,7 @@ impl SummaryPrinted {
 
         match summarylinereader_opt {
             Some(summarylinereader) => {
-                if self.dt_first.is_none() && summarylinereader.LineReader_lines != 0 {
+                if self.dt_first.is_none() && summarylinereader.linereader_lines != 0 {
                     eprint!("{}datetime first ", indent2);
                     match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
                         Err(err) => {
@@ -2075,7 +2075,7 @@ impl SummaryPrinted {
                         None => {}
                     }
                 }
-                if self.dt_last.is_none() && summarylinereader.LineReader_lines != 0 {
+                if self.dt_last.is_none() && summarylinereader.linereader_lines != 0 {
                     eprint!("{}datetime last  ", indent2);
                     match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
                         Err(err) => {
@@ -3007,7 +3007,7 @@ fn processing_loop(
             match &summary.error {
                 Some(_) => {
                     if ! summary.readerdata.is_dummy()
-                        && summary.blockreader().BlockReader_blocks == 0
+                        && summary.blockreader().blockreader_blocks == 0
                         && !map_pathid_results_invalid.contains_key(pathid)
                         && map_pathid_results.contains_key(pathid)
                     {
@@ -3226,32 +3226,32 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
                 _summarysyslogprocessor,
             ),
         ) => {
-            eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summarylinereader.LineReader_lines);
+            eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summarylinereader.linereader_lines);
             eprintln!(
                 "{}lines high     {}",
-                OPT_SUMMARY_PRINT_INDENT2, summarylinereader.LineReader_lines_stored_highest
+                OPT_SUMMARY_PRINT_INDENT2, summarylinereader.linereader_lines_stored_highest
             );
-            eprintln!("{}syslines       {}", OPT_SUMMARY_PRINT_INDENT2, summarysyslinereader.SyslineReader_syslines);
+            eprintln!("{}syslines       {}", OPT_SUMMARY_PRINT_INDENT2, summarysyslinereader.syslinereader_syslines);
             eprintln!(
                 "{}syslines high  {}",
-                OPT_SUMMARY_PRINT_INDENT2, summarysyslinereader.SyslineReader_syslines_stored_highest
+                OPT_SUMMARY_PRINT_INDENT2, summarysyslinereader.syslinereader_syslines_stored_highest
             );
         }
         SummaryReaderData::Utmpx((
             _summaryblockreader,
             summaryutmpreader,
         )) => {
-            eprintln!("{}utmpx          {}", OPT_SUMMARY_PRINT_INDENT2, summaryutmpreader.UtmpxReader_utmp_entries);
+            eprintln!("{}utmpx          {}", OPT_SUMMARY_PRINT_INDENT2, summaryutmpreader.utmpxreader_utmp_entries);
             eprintln!(
                 "{}utmpx high     {}",
-                OPT_SUMMARY_PRINT_INDENT2, summaryutmpreader.UtmpxReader_utmp_entries_max,
+                OPT_SUMMARY_PRINT_INDENT2, summaryutmpreader.utmpxreader_utmp_entries_max,
             );
         }
     }
-    //eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines);
+    //eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summary.linereader_lines);
     //eprintln!(
     //    "{}lines high     {}",
-    //    OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines_stored_highest
+    //    OPT_SUMMARY_PRINT_INDENT2, summary.linereader_lines_stored_highest
     //);
     // print datetime first and last
     match (summary.datetime_first(), summary.datetime_last()) {
@@ -3272,12 +3272,12 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
             summarysyslinereader,
             summarysyslogprocessor,
         )) => {
-            if !summarysyslinereader.SyslineReader_patterns.is_empty()
+            if !summarysyslinereader.syslinereader_patterns.is_empty()
             {
                 eprintln!("{}Parsers:", OPT_SUMMARY_PRINT_INDENT1);
             }
             for patt in summarysyslinereader
-                .SyslineReader_patterns
+                .syslinereader_patterns
                 .iter()
             {
                 let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*patt.0];
@@ -3310,27 +3310,27 @@ fn print_summary_opt_processed_summaryblockreader(
         FileType::File | FileType::Utmpx => {
             eprintln!(
                 "{}file size      {1} (0x{1:X}) (bytes)",
-                indent, summaryblockreader.BlockReader_filesz
+                indent, summaryblockreader.blockreader_filesz
             );
         }
         FileType::Tar => {
             eprintln!(
                 "{}file size archive    {1} (0x{1:X}) (bytes)",
-                indent, summaryblockreader.BlockReader_filesz
+                indent, summaryblockreader.blockreader_filesz
             );
             eprintln!(
                 "{}file size unarchived {1} (0x{1:X}) (bytes)",
-                indent, summaryblockreader.BlockReader_filesz_actual
+                indent, summaryblockreader.blockreader_filesz_actual
             );
         }
         FileType::Gz | FileType::Xz => {
             eprintln!(
                 "{}file size compressed   {1} (0x{1:X}) (bytes)",
-                indent, summaryblockreader.BlockReader_filesz
+                indent, summaryblockreader.blockreader_filesz
             );
             eprintln!(
                 "{}file size uncompressed {1} (0x{1:X}) (bytes)",
-                indent, summaryblockreader.BlockReader_filesz_actual
+                indent, summaryblockreader.blockreader_filesz_actual
             );
         }
         ft => {
@@ -3338,15 +3338,15 @@ fn print_summary_opt_processed_summaryblockreader(
             return;
         }
     }
-    eprintln!("{}bytes          {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_bytes);
-    eprintln!("{}bytes total    {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_bytes_total);
+    eprintln!("{}bytes          {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_bytes);
+    eprintln!("{}bytes total    {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_bytes_total);
     eprintln!(
         "{}block size     {1} (0x{1:X})",
-        OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_blocksz
+        OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_blocksz
     );
-    eprintln!("{}blocks         {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_blocks);
-    eprintln!("{}blocks total   {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_blocks_total);
-    eprintln!("{}blocks high    {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_blocks_highest);
+    eprintln!("{}blocks         {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_blocks);
+    eprintln!("{}blocks total   {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_blocks_total);
+    eprintln!("{}blocks high    {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_blocks_highest);
 }
 
 /// Print the (optional) [`&SummaryPrinted`] (one line).
@@ -3396,28 +3396,28 @@ fn print_cache_stats_summaryblockreader(
     wide: usize,
 ) {
     // BlockReader::_read_blocks
-    let mut ratio = ratio64(&summaryblockreader.BlockReader_read_blocks_hit, &summaryblockreader.BlockReader_read_blocks_miss);
+    let mut ratio = ratio64(&summaryblockreader.blockreader_read_blocks_hit, &summaryblockreader.blockreader_read_blocks_miss);
     eprintln!(
         "{}storage: BlockReader::read_block() blocks                    : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         indent,
-        summaryblockreader.BlockReader_read_blocks_hit,
-        summaryblockreader.BlockReader_read_blocks_miss,
+        summaryblockreader.blockreader_read_blocks_hit,
+        summaryblockreader.blockreader_read_blocks_miss,
         ratio,
-        summaryblockreader.BlockReader_read_blocks_put,
+        summaryblockreader.blockreader_read_blocks_put,
         wide = wide,
     );
     // BlockReader::_read_blocks_cache
     ratio = ratio64(
-        &summaryblockreader.BlockReader_read_block_lru_cache_hit,
-        &summaryblockreader.BlockReader_read_block_lru_cache_miss,
+        &summaryblockreader.blockreader_read_block_lru_cache_hit,
+        &summaryblockreader.blockreader_read_block_lru_cache_miss,
     );
     eprintln!(
         "{}caching: BlockReader::read_block() LRU cache                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         indent,
-        summaryblockreader.BlockReader_read_block_lru_cache_hit,
-        summaryblockreader.BlockReader_read_block_lru_cache_miss,
+        summaryblockreader.blockreader_read_block_lru_cache_hit,
+        summaryblockreader.blockreader_read_block_lru_cache_miss,
         ratio,
-        summaryblockreader.BlockReader_read_block_lru_cache_put,
+        summaryblockreader.blockreader_read_block_lru_cache_put,
         wide = wide,
     );
 }
@@ -3428,25 +3428,25 @@ fn print_cache_stats_summarylinereader(
     wide: usize,
 ) {
     // LineReader::_lines
-    let mut ratio = ratio64(&summarylinereader.LineReader_lines_hits, &summarylinereader.LineReader_lines_miss);
+    let mut ratio = ratio64(&summarylinereader.linereader_lines_hits, &summarylinereader.linereader_lines_miss);
     eprintln!(
         "{}storage: LineReader::find_line() lines                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
         indent,
-        summarylinereader.LineReader_lines_hits,
-        summarylinereader.LineReader_lines_miss,
+        summarylinereader.linereader_lines_hits,
+        summarylinereader.linereader_lines_miss,
         ratio,
         wide = wide,
     );
     // LineReader::_find_line_lru_cache
     ratio =
-        ratio64(&summarylinereader.LineReader_find_line_lru_cache_hit, &summarylinereader.LineReader_find_line_lru_cache_miss);
+        ratio64(&summarylinereader.linereader_find_line_lru_cache_hit, &summarylinereader.linereader_find_line_lru_cache_miss);
     eprintln!(
         "{}caching: LineReader::find_line() LRU cache                   : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         indent,
-        summarylinereader.LineReader_find_line_lru_cache_hit,
-        summarylinereader.LineReader_find_line_lru_cache_miss,
+        summarylinereader.linereader_find_line_lru_cache_hit,
+        summarylinereader.linereader_find_line_lru_cache_miss,
         ratio,
-        summarylinereader.LineReader_find_line_lru_cache_put,
+        summarylinereader.linereader_find_line_lru_cache_put,
         wide = wide,
     );
 }
@@ -3461,59 +3461,59 @@ fn print_cache_stats_summarysyslinereader(
     eprintln!(
         "{}copying: SyslineReader::get_boxptrs()                        : sgl {:wide$}, dbl  {:wide$}, mult {:wide$}",
         indent,
-        summarysyslinereader.SyslineReader_get_boxptrs_singleptr,
-        summarysyslinereader.SyslineReader_get_boxptrs_doubleptr,
-        summarysyslinereader.SyslineReader_get_boxptrs_multiptr,
+        summarysyslinereader.syslinereader_get_boxptrs_singleptr,
+        summarysyslinereader.syslinereader_get_boxptrs_doubleptr,
+        summarysyslinereader.syslinereader_get_boxptrs_multiptr,
         wide = wide,
     );
     // SyslineReader::syslines
-    let mut ratio = ratio64(&summarysyslinereader.SyslineReader_syslines_hit, &summarysyslinereader.SyslineReader_syslines_miss);
+    let mut ratio = ratio64(&summarysyslinereader.syslinereader_syslines_hit, &summarysyslinereader.syslinereader_syslines_miss);
     eprintln!(
         "{}storage: SyslineReader::find_sysline() syslines              : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
         indent,
-        summarysyslinereader.SyslineReader_syslines_hit,
-        summarysyslinereader.SyslineReader_syslines_miss,
+        summarysyslinereader.syslinereader_syslines_hit,
+        summarysyslinereader.syslinereader_syslines_miss,
         ratio,
         wide = wide,
     );
     // SyslineReader::_syslines_by_range
     ratio =
-        ratio64(&summarysyslinereader.SyslineReader_syslines_by_range_hit, &summarysyslinereader.SyslineReader_syslines_by_range_miss);
+        ratio64(&summarysyslinereader.syslinereader_syslines_by_range_hit, &summarysyslinereader.syslinereader_syslines_by_range_miss);
     eprintln!(
         "{}caching: SyslineReader::find_sysline() syslines_by_range_map : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         indent,
-        summarysyslinereader.SyslineReader_syslines_by_range_hit,
-        summarysyslinereader.SyslineReader_syslines_by_range_miss,
+        summarysyslinereader.syslinereader_syslines_by_range_hit,
+        summarysyslinereader.syslinereader_syslines_by_range_miss,
         ratio,
-        summarysyslinereader.SyslineReader_syslines_by_range_put,
+        summarysyslinereader.syslinereader_syslines_by_range_put,
         wide = wide,
     );
     // SyslineReader::_find_sysline_lru_cache
     ratio = ratio64(
-        &summarysyslinereader.SyslineReader_find_sysline_lru_cache_hit,
-        &summarysyslinereader.SyslineReader_find_sysline_lru_cache_miss,
+        &summarysyslinereader.syslinereader_find_sysline_lru_cache_hit,
+        &summarysyslinereader.syslinereader_find_sysline_lru_cache_miss,
     );
     eprintln!(
         "{}caching: SyslineReader::find_sysline() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         indent,
-        summarysyslinereader.SyslineReader_find_sysline_lru_cache_hit,
-        summarysyslinereader.SyslineReader_find_sysline_lru_cache_miss,
+        summarysyslinereader.syslinereader_find_sysline_lru_cache_hit,
+        summarysyslinereader.syslinereader_find_sysline_lru_cache_miss,
         ratio,
-        summarysyslinereader.SyslineReader_find_sysline_lru_cache_put,
+        summarysyslinereader.syslinereader_find_sysline_lru_cache_put,
         wide = wide,
     );
     // SyslineReader::_parse_datetime_in_line_lru_cache
     ratio = ratio64(
-        &summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_hit,
-        &summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_miss,
+        &summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_hit,
+        &summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_miss,
     );
     eprintln!(
         "{}caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
         indent,
-        summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_hit,
-        summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_miss,
+        summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_hit,
+        summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_miss,
         ratio,
-        summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_put,
+        summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_put,
         wide = wide,
     );
 }
@@ -3524,14 +3524,14 @@ fn print_cache_stats_summaryutmpreader(
     wide: usize,
 ) {
     let ratio = ratio64(
-        &summaryutmpreader.UtmpxReader_utmp_entries_hit,
-        &summaryutmpreader.UtmpxReader_utmp_entries_miss,
+        &summaryutmpreader.utmpxreader_utmp_entries_hit,
+        &summaryutmpreader.utmpxreader_utmp_entries_miss,
     );
     eprintln!(
         "{}storage: UtmpxReader::find_entry()                           : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
         indent,
-        summaryutmpreader.UtmpxReader_utmp_entries_hit,
-        summaryutmpreader.UtmpxReader_utmp_entries_miss,
+        summaryutmpreader.utmpxreader_utmp_entries_hit,
+        summaryutmpreader.utmpxreader_utmp_entries_miss,
         ratio,
         wide = wide,
     );
@@ -3626,8 +3626,8 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
     eprintln!(
         "{}streaming: BlockReader::drop_block()    : Ok {:wide$} Err {:wide$}",
         OPT_SUMMARY_PRINT_INDENT2,
-        summaryblockreader.BlockReader_blocks_dropped_ok,
-        summaryblockreader.BlockReader_blocks_dropped_err,
+        summaryblockreader.blockreader_blocks_dropped_ok,
+        summaryblockreader.blockreader_blocks_dropped_err,
         wide = wide,
     );
     match &summary.readerdata {
@@ -3642,15 +3642,15 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
             eprintln!(
                 "{}streaming: SyslineReader::drop_sysline(): Ok {:wide$} Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
-                summarysyslinereader.SyslineReader_drop_sysline_ok,
-                summarysyslinereader.SyslineReader_drop_sysline_errors,
+                summarysyslinereader.syslinereader_drop_sysline_ok,
+                summarysyslinereader.syslinereader_drop_sysline_errors,
                 wide = wide,
             );
             eprintln!(
                 "{}streaming: LineReader::drop_line()      : Ok {:wide$} Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
-                summarylinereader.LineReader_drop_line_ok,
-                summarylinereader.LineReader_drop_line_errors,
+                summarylinereader.linereader_drop_line_ok,
+                summarylinereader.linereader_drop_line_errors,
                 wide = wide,
             );
         }
@@ -3663,8 +3663,8 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
             eprintln!(
                 "{}streaming: UtmpxReader::drop_entry()    : Ok {:wide$} Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
-                summaryutmpreader.UtmpxReader_drop_entry_ok,
-                summaryutmpreader.UtmpxReader_drop_entry_errors,
+                summaryutmpreader.utmpxreader_drop_entry_ok,
+                summaryutmpreader.utmpxreader_drop_entry_errors,
                 wide = wide,
             );
         }

@@ -302,47 +302,47 @@ where
 #[derive(Clone, Default)]
 pub struct SummarySyslineReader {
     /// `SyslineReader::drop_sysline_ok`
-    pub SyslineReader_drop_sysline_ok: Count,
+    pub syslinereader_drop_sysline_ok: Count,
     /// `SyslineReader::drop_sysline_errors`
-    pub SyslineReader_drop_sysline_errors: Count,
+    pub syslinereader_drop_sysline_errors: Count,
     /// `Count` of `Syslines` processed by `SyslineReader`
-    pub SyslineReader_syslines: Count,
+    pub syslinereader_syslines: Count,
     /// "high watermark"` of `Sysline`s stored by `SyslineReader.syslines`
-    pub SyslineReader_syslines_stored_highest: usize,
+    pub syslinereader_syslines_stored_highest: usize,
     /// `SyslineReader::_syslines_hit`
-    pub SyslineReader_syslines_hit: Count,
+    pub syslinereader_syslines_hit: Count,
     /// `SyslineReader::_syslines_miss`
-    pub SyslineReader_syslines_miss: Count,
+    pub syslinereader_syslines_miss: Count,
     /// `SyslineReader::_syslines_by_range_hit`
-    pub SyslineReader_syslines_by_range_hit: Count,
+    pub syslinereader_syslines_by_range_hit: Count,
     /// `SyslineReader::_syslines_by_range_miss`
-    pub SyslineReader_syslines_by_range_miss: Count,
+    pub syslinereader_syslines_by_range_miss: Count,
     /// `SyslineReader::_syslines_by_range_put`
-    pub SyslineReader_syslines_by_range_put: Count,
+    pub syslinereader_syslines_by_range_put: Count,
     /// datetime patterns used by `SyslineReader`
-    pub SyslineReader_patterns: DateTimePatternCounts,
+    pub syslinereader_patterns: DateTimePatternCounts,
     /// datetime soonest seen (not necessarily reflective of entire file)
-    pub SyslineReader_datetime_first: DateTimeLOpt,
+    pub syslinereader_datetime_first: DateTimeLOpt,
     /// datetime latest seen (not necessarily reflective of entire file)
-    pub SyslineReader_datetime_last: DateTimeLOpt,
+    pub syslinereader_datetime_last: DateTimeLOpt,
     /// `SyslineReader::find_sysline`
-    pub SyslineReader_find_sysline_lru_cache_hit: Count,
+    pub syslinereader_find_sysline_lru_cache_hit: Count,
     /// `SyslineReader::find_sysline`
-    pub SyslineReader_find_sysline_lru_cache_miss: Count,
+    pub syslinereader_find_sysline_lru_cache_miss: Count,
     /// `SyslineReader::find_sysline`
-    pub SyslineReader_find_sysline_lru_cache_put: Count,
+    pub syslinereader_find_sysline_lru_cache_put: Count,
     /// `SyslineReader::parse_datetime_in_line`
-    pub SyslineReader_parse_datetime_in_line_lru_cache_hit: Count,
+    pub syslinereader_parse_datetime_in_line_lru_cache_hit: Count,
     /// `SyslineReader::parse_datetime_in_line`
-    pub SyslineReader_parse_datetime_in_line_lru_cache_miss: Count,
+    pub syslinereader_parse_datetime_in_line_lru_cache_miss: Count,
     /// `SyslineReader::parse_datetime_in_line`
-    pub SyslineReader_parse_datetime_in_line_lru_cache_put: Count,
+    pub syslinereader_parse_datetime_in_line_lru_cache_put: Count,
     /// `SyslineReader::get_boxptrs_singleptr`
-    pub SyslineReader_get_boxptrs_singleptr: Count,
+    pub syslinereader_get_boxptrs_singleptr: Count,
     /// `SyslineReader::get_boxptrs_doubleptr`
-    pub SyslineReader_get_boxptrs_doubleptr: Count,
+    pub syslinereader_get_boxptrs_doubleptr: Count,
     /// `SyslineReader::get_boxptrs_multiptr`
-    pub SyslineReader_get_boxptrs_multiptr: Count,
+    pub syslinereader_get_boxptrs_multiptr: Count,
 }
 
 /// Implement the `SyslineReader`
@@ -2640,81 +2640,81 @@ impl SyslineReader {
     }
 
     pub fn summary(&self) -> SummarySyslineReader {
-        let SyslineReader_syslines = self
+        let syslinereader_syslines = self
             .count_syslines_processed();
-        let SyslineReader_syslines_stored_highest = self
+        let syslinereader_syslines_stored_highest = self
             .syslines_stored_highest();
-        let SyslineReader_syslines_hit = self
+        let syslinereader_syslines_hit = self
             .syslines_hit;
-        let SyslineReader_syslines_miss = self
+        let syslinereader_syslines_miss = self
             .syslines_miss;
-        let SyslineReader_syslines_by_range_hit = self
+        let syslinereader_syslines_by_range_hit = self
             .syslines_by_range_hit;
-        let SyslineReader_syslines_by_range_miss = self
+        let syslinereader_syslines_by_range_miss = self
             .syslines_by_range_miss;
-        let SyslineReader_syslines_by_range_put = self
+        let syslinereader_syslines_by_range_put = self
             .syslines_by_range_put;
         // only print patterns with use count > 0, sorted by count
-        let mut SyslineReader_patterns_ = DateTimePatternCounts::new();
-        SyslineReader_patterns_.extend(
+        let mut syslinereader_patterns_ = DateTimePatternCounts::new();
+        syslinereader_patterns_.extend(
             self
                 .dt_patterns_counts
                 .iter()
                 .filter(|&(_k, v)| v > &mut 0),
         );
-        let mut SyslineReader_patterns = DateTimePatternCounts::new();
-        SyslineReader_patterns.extend(
-            SyslineReader_patterns_
+        let mut syslinereader_patterns = DateTimePatternCounts::new();
+        syslinereader_patterns.extend(
+            syslinereader_patterns_
                 .into_iter()
                 .sorted_by(|a, b| Ord::cmp(&b.1, &a.1)),
         );
-        let SyslineReader_find_sysline_lru_cache_hit = self
+        let syslinereader_find_sysline_lru_cache_hit = self
             .find_sysline_lru_cache_hit;
-        let SyslineReader_find_sysline_lru_cache_miss = self
+        let syslinereader_find_sysline_lru_cache_miss = self
             .find_sysline_lru_cache_miss;
-        let SyslineReader_find_sysline_lru_cache_put = self
+        let syslinereader_find_sysline_lru_cache_put = self
             .find_sysline_lru_cache_put;
-        let SyslineReader_parse_datetime_in_line_lru_cache_hit = self
+        let syslinereader_parse_datetime_in_line_lru_cache_hit = self
             .parse_datetime_in_line_lru_cache_hit;
-        let SyslineReader_parse_datetime_in_line_lru_cache_miss = self
+        let syslinereader_parse_datetime_in_line_lru_cache_miss = self
             .parse_datetime_in_line_lru_cache_miss;
-        let SyslineReader_parse_datetime_in_line_lru_cache_put = self
+        let syslinereader_parse_datetime_in_line_lru_cache_put = self
             .parse_datetime_in_line_lru_cache_put;
-        let SyslineReader_get_boxptrs_singleptr = self
+        let syslinereader_get_boxptrs_singleptr = self
             .get_boxptrs_singleptr;
-        let SyslineReader_get_boxptrs_doubleptr = self
+        let syslinereader_get_boxptrs_doubleptr = self
             .get_boxptrs_doubleptr;
-        let SyslineReader_get_boxptrs_multiptr = self
+        let syslinereader_get_boxptrs_multiptr = self
             .get_boxptrs_multiptr;
-        let SyslineReader_drop_sysline_ok = self
+        let syslinereader_drop_sysline_ok = self
             .drop_sysline_ok;
-        let SyslineReader_drop_sysline_errors = self
+        let syslinereader_drop_sysline_errors = self
             .drop_sysline_errors;
-        let SyslineReader_datetime_first = self.dt_first;
-        let SyslineReader_datetime_last = self.dt_last;
+        let syslinereader_datetime_first = self.dt_first;
+        let syslinereader_datetime_last = self.dt_last;
 
         SummarySyslineReader {
-            SyslineReader_syslines,
-            SyslineReader_syslines_stored_highest,
-            SyslineReader_syslines_hit,
-            SyslineReader_syslines_miss,
-            SyslineReader_syslines_by_range_hit,
-            SyslineReader_syslines_by_range_miss,
-            SyslineReader_syslines_by_range_put,
-            SyslineReader_patterns,
-            SyslineReader_find_sysline_lru_cache_hit,
-            SyslineReader_find_sysline_lru_cache_miss,
-            SyslineReader_find_sysline_lru_cache_put,
-            SyslineReader_parse_datetime_in_line_lru_cache_hit,
-            SyslineReader_parse_datetime_in_line_lru_cache_miss,
-            SyslineReader_parse_datetime_in_line_lru_cache_put,
-            SyslineReader_get_boxptrs_singleptr,
-            SyslineReader_get_boxptrs_doubleptr,
-            SyslineReader_get_boxptrs_multiptr,
-            SyslineReader_drop_sysline_ok,
-            SyslineReader_drop_sysline_errors,
-            SyslineReader_datetime_first,
-            SyslineReader_datetime_last,
+            syslinereader_syslines,
+            syslinereader_syslines_stored_highest,
+            syslinereader_syslines_hit,
+            syslinereader_syslines_miss,
+            syslinereader_syslines_by_range_hit,
+            syslinereader_syslines_by_range_miss,
+            syslinereader_syslines_by_range_put,
+            syslinereader_patterns,
+            syslinereader_find_sysline_lru_cache_hit,
+            syslinereader_find_sysline_lru_cache_miss,
+            syslinereader_find_sysline_lru_cache_put,
+            syslinereader_parse_datetime_in_line_lru_cache_hit,
+            syslinereader_parse_datetime_in_line_lru_cache_miss,
+            syslinereader_parse_datetime_in_line_lru_cache_put,
+            syslinereader_get_boxptrs_singleptr,
+            syslinereader_get_boxptrs_doubleptr,
+            syslinereader_get_boxptrs_multiptr,
+            syslinereader_drop_sysline_ok,
+            syslinereader_drop_sysline_errors,
+            syslinereader_datetime_first,
+            syslinereader_datetime_last,
         }
     }
 }

@@ -409,22 +409,22 @@ impl fmt::Debug for BlockReader {
 #[allow(non_snake_case)]
 #[derive(Clone, Default)]
 pub struct SummaryBlockReader {
-    pub BlockReader_bytes: Count,
-    pub BlockReader_bytes_total: FileSz,
-    pub BlockReader_blocks: Count,
-    pub BlockReader_blocks_total: Count,
-    pub BlockReader_blocksz: BlockSz,
-    pub BlockReader_filesz: FileSz,
-    pub BlockReader_filesz_actual: FileSz,
-    pub BlockReader_read_block_lru_cache_hit: Count,
-    pub BlockReader_read_block_lru_cache_miss: Count,
-    pub BlockReader_read_block_lru_cache_put: Count,
-    pub BlockReader_read_blocks_hit: Count,
-    pub BlockReader_read_blocks_miss: Count,
-    pub BlockReader_read_blocks_put: Count,
-    pub BlockReader_blocks_highest: usize,
-    pub BlockReader_blocks_dropped_ok: Count,
-    pub BlockReader_blocks_dropped_err: Count,
+    pub blockreader_bytes: Count,
+    pub blockreader_bytes_total: FileSz,
+    pub blockreader_blocks: Count,
+    pub blockreader_blocks_total: Count,
+    pub blockreader_blocksz: BlockSz,
+    pub blockreader_filesz: FileSz,
+    pub blockreader_filesz_actual: FileSz,
+    pub blockreader_read_block_lru_cache_hit: Count,
+    pub blockreader_read_block_lru_cache_miss: Count,
+    pub blockreader_read_block_lru_cache_put: Count,
+    pub blockreader_read_blocks_hit: Count,
+    pub blockreader_read_blocks_miss: Count,
+    pub blockreader_read_blocks_put: Count,
+    pub blockreader_blocks_highest: usize,
+    pub blockreader_blocks_dropped_ok: Count,
+    pub blockreader_blocks_dropped_err: Count,
 }
 
 /// Helper to unpack DWORD unsigned integers in a gzip header.
@@ -2723,54 +2723,54 @@ impl BlockReader {
 
     #[allow(non_snake_case)]
     pub fn summary(&self) -> SummaryBlockReader {
-        let BlockReader_bytes = self
+        let blockreader_bytes = self
             .count_bytes();
-        let BlockReader_bytes_total = self.filesz() as FileSz;
-        let BlockReader_blocks = self
+        let blockreader_bytes_total = self.filesz() as FileSz;
+        let blockreader_blocks = self
             .count_blocks_processed();
-        let BlockReader_blocks_total = self
+        let blockreader_blocks_total = self
             .blockn;
-        let BlockReader_blocksz = self.blocksz();
-        let BlockReader_filesz = self
+        let blockreader_blocksz = self.blocksz();
+        let blockreader_filesz = self
             .filesz;
-        let BlockReader_filesz_actual = self
+        let blockreader_filesz_actual = self
             .filesz_actual;
-        let BlockReader_read_block_lru_cache_hit = self
+        let blockreader_read_block_lru_cache_hit = self
             .read_block_cache_lru_hit;
-        let BlockReader_read_block_lru_cache_miss = self
+        let blockreader_read_block_lru_cache_miss = self
             .read_block_cache_lru_miss;
-        let BlockReader_read_block_lru_cache_put = self
+        let blockreader_read_block_lru_cache_put = self
             .read_block_cache_lru_put;
-        let BlockReader_read_blocks_hit = self
+        let blockreader_read_blocks_hit = self
             .read_blocks_hit;
-        let BlockReader_read_blocks_miss = self
+        let blockreader_read_blocks_miss = self
             .read_blocks_miss;
-        let BlockReader_read_blocks_put = self
+        let blockreader_read_blocks_put = self
             .read_blocks_put;
-        let BlockReader_blocks_highest = self
+        let blockreader_blocks_highest = self
             .blocks_highest;
-        let BlockReader_blocks_dropped_ok = self
+        let blockreader_blocks_dropped_ok = self
             .dropped_blocks_ok;
-        let BlockReader_blocks_dropped_err = self
+        let blockreader_blocks_dropped_err = self
             .dropped_blocks_err;
 
         SummaryBlockReader {
-            BlockReader_bytes,
-            BlockReader_bytes_total,
-            BlockReader_blocks,
-            BlockReader_blocks_total,
-            BlockReader_blocksz,
-            BlockReader_filesz,
-            BlockReader_filesz_actual,
-            BlockReader_read_block_lru_cache_hit,
-            BlockReader_read_block_lru_cache_miss,
-            BlockReader_read_block_lru_cache_put,
-            BlockReader_read_blocks_hit,
-            BlockReader_read_blocks_miss,
-            BlockReader_read_blocks_put,
-            BlockReader_blocks_highest,
-            BlockReader_blocks_dropped_ok,
-            BlockReader_blocks_dropped_err,
+            blockreader_bytes,
+            blockreader_bytes_total,
+            blockreader_blocks,
+            blockreader_blocks_total,
+            blockreader_blocksz,
+            blockreader_filesz,
+            blockreader_filesz_actual,
+            blockreader_read_block_lru_cache_hit,
+            blockreader_read_block_lru_cache_miss,
+            blockreader_read_block_lru_cache_put,
+            blockreader_read_blocks_hit,
+            blockreader_read_blocks_miss,
+            blockreader_read_blocks_put,
+            blockreader_blocks_highest,
+            blockreader_blocks_dropped_ok,
+            blockreader_blocks_dropped_err,
         }
     }
 

@@ -161,16 +161,16 @@ fn test_UtmpxReader_read_find_entry_2_summary() {
     }
 
     let summaryutmpxreader = utmpreader.summary();
-    assert_eq!(summaryutmpxreader.UtmpxReader_utmp_entries, 2);
-    assert_eq!(summaryutmpxreader.UtmpxReader_utmp_entries_max, 2);
-    assert_eq!(summaryutmpxreader.UtmpxReader_utmp_entries_hit, 1);
-    assert_eq!(summaryutmpxreader.UtmpxReader_utmp_entries_miss, 2);
+    assert_eq!(summaryutmpxreader.utmpxreader_utmp_entries, 2);
+    assert_eq!(summaryutmpxreader.utmpxreader_utmp_entries_max, 2);
+    assert_eq!(summaryutmpxreader.utmpxreader_utmp_entries_hit, 1);
+    assert_eq!(summaryutmpxreader.utmpxreader_utmp_entries_miss, 2);
     assert_eq!(
-        &summaryutmpxreader.UtmpxReader_datetime_first.unwrap(),
+        &summaryutmpxreader.utmpxreader_datetime_first.unwrap(),
         &*UTMPX_ENTRY_DT1,
     );
     assert_eq!(
-        &summaryutmpxreader.UtmpxReader_datetime_last.unwrap(),
+        &summaryutmpxreader.utmpxreader_datetime_last.unwrap(),
         &*UTMPX_ENTRY_DT2,
     );
 
@@ -309,19 +309,19 @@ fn test_UtmpxReader_drops(
     };
 
     assert_eq!(
-        summaryutmpxreader.UtmpxReader_drop_entry_ok,
+        summaryutmpxreader.utmpxreader_drop_entry_ok,
         expect_drop_entry_ok,
     );
     assert_eq!(
-        summaryutmpxreader.UtmpxReader_drop_entry_errors,
+        summaryutmpxreader.utmpxreader_drop_entry_errors,
         expect_drop_entry_err,
     );
     assert_ge!(
-        summaryblockreader.BlockReader_blocks_dropped_ok,
+        summaryblockreader.blockreader_blocks_dropped_ok,
         expect_drop_block_ok,
     );
     assert_eq!(
-        summaryblockreader.BlockReader_blocks_dropped_err,
+        summaryblockreader.blockreader_blocks_dropped_err,
         expect_drop_block_err,
     );
 }

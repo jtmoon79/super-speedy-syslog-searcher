@@ -148,23 +148,23 @@ impl fmt::Debug for LineReader {
 #[derive(Clone, Default)]
 pub struct SummaryLineReader {
     /// `Count` of `Lines` processed by `LineReader`
-    pub LineReader_lines: Count,
+    pub linereader_lines: Count,
     /// "high watermark" of Lines stored in `LineReader.lines`
-    pub LineReader_lines_stored_highest: usize,
+    pub linereader_lines_stored_highest: usize,
     /// `LineReader::lines_hits` for `self.lines`
-    pub LineReader_lines_hits: Count,
+    pub linereader_lines_hits: Count,
     /// `LineReader::lines_miss` for `self.lines`
-    pub LineReader_lines_miss: Count,
+    pub linereader_lines_miss: Count,
     /// `LineReader::find_line()` `self._find_line_lru_cache`
-    pub LineReader_find_line_lru_cache_hit: Count,
+    pub linereader_find_line_lru_cache_hit: Count,
     /// `LineReader::find_line()` `self._find_line_lru_cache`
-    pub LineReader_find_line_lru_cache_miss: Count,
+    pub linereader_find_line_lru_cache_miss: Count,
     /// `LineReader::find_line()` `self._find_line_lru_cache`
-    pub LineReader_find_line_lru_cache_put: Count,
+    pub linereader_find_line_lru_cache_put: Count,
     /// `LineReader::drop_line_ok`
-    pub LineReader_drop_line_ok: Count,
+    pub linereader_drop_line_ok: Count,
     /// `LineReader::drop_line_errors`
-    pub LineReader_drop_line_errors: Count,
+    pub linereader_drop_line_errors: Count,
 }
 
 // XXX: cannot place these within `impl LineReader`?
@@ -2255,35 +2255,35 @@ impl LineReader {
     }
 
     pub fn summary(&self) -> SummaryLineReader {
-        let LineReader_lines = self
+        let linereader_lines = self
             .count_lines_processed();
-        let LineReader_lines_stored_highest = self
+        let linereader_lines_stored_highest = self
             .lines_stored_highest();
-        let LineReader_lines_hits = self
+        let linereader_lines_hits = self
             .lines_hits;
-        let LineReader_lines_miss = self
+        let linereader_lines_miss = self
             .lines_miss;
-        let LineReader_find_line_lru_cache_hit = self
+        let linereader_find_line_lru_cache_hit = self
             .find_line_lru_cache_hit;
-        let LineReader_find_line_lru_cache_miss = self
+        let linereader_find_line_lru_cache_miss = self
             .find_line_lru_cache_miss;
-        let LineReader_find_line_lru_cache_put = self
+        let linereader_find_line_lru_cache_put = self
             .find_line_lru_cache_put;
-        let LineReader_drop_line_ok = self
+        let linereader_drop_line_ok = self
             .drop_line_ok;
-        let LineReader_drop_line_errors = self
+        let linereader_drop_line_errors = self
             .drop_line_errors;
 
         SummaryLineReader {
-            LineReader_lines,
-            LineReader_lines_stored_highest,
-            LineReader_lines_hits,
-            LineReader_lines_miss,
-            LineReader_find_line_lru_cache_hit,
-            LineReader_find_line_lru_cache_miss,
-            LineReader_find_line_lru_cache_put,
-            LineReader_drop_line_ok,
-            LineReader_drop_line_errors,
+            linereader_lines,
+            linereader_lines_stored_highest,
+            linereader_lines_hits,
+            linereader_lines_miss,
+            linereader_find_line_lru_cache_hit,
+            linereader_find_line_lru_cache_miss,
+            linereader_find_line_lru_cache_put,
+            linereader_drop_line_ok,
+            linereader_drop_line_errors,
         }
     }
 }
