@@ -260,11 +260,16 @@ fn test_UtmpxReader_read_find_entry_at_datetime_filter(
     }
 }
 
-#[test_case(NTF_UTMPX_2ENTRY_FPATH.clone(), 2, 2, 0, 384, 0; "a 2_2_0_384_0")]
-#[test_case(NTF_UTMPX_2ENTRY_FPATH.clone(), 64, 2, 0, 6, 0; "b 64_2_0_6_0")]
-#[test_case(NTF_UTMPX_2ENTRY_FPATH.clone(), UTMPX_SZ_BSZ, 2, 0, 2, 0; "c UTMPX_SZ_BSZ_2_0_2_0")]
-#[test_case(NTF_UTMPX_2ENTRY_FPATH.clone(), UTMPX_SZ_BSZ * 2, 2, 0, 1, 0; "d UTMPX_SZ_BSZ*2_0_0_1_0")]
-#[test_case(NTF_UTMPX_2ENTRY_FPATH.clone(), UTMPX_SZ_BSZ * 3, 0, 0, 0, 0; "e UTMPX_SZ_BSZ*3_0_0_0_0")]
+#[test_case(NTF_UTMPX_2ENTRY_FPATH.clone(), 2, 1, 0, 193, 0; "2ENTRY 2")]
+#[test_case(NTF_UTMPX_2ENTRY_FPATH.clone(), 64, 1, 0, 7, 0; "2ENTRY 64")]
+#[test_case(NTF_UTMPX_2ENTRY_FPATH.clone(), UTMPX_SZ_BSZ, 1, 0, 2, 0; "2ENTRY  UTMPX_SZ_BSZ")]
+#[test_case(NTF_UTMPX_2ENTRY_FPATH.clone(), UTMPX_SZ_BSZ * 2, 1, 0, 1, 0; "2ENTRY  UTMPX_SZ_BSZ*2")]
+#[test_case(NTF_UTMPX_2ENTRY_FPATH.clone(), UTMPX_SZ_BSZ * 3, 0, 0, 0, 0; "2ENTRY  UTMPX_SZ_BSZ*3")]
+#[test_case(NTF_UTMPX_3ENTRY_FPATH.clone(), 2, 2, 0, 385, 0; "3ENTRY 2")]
+#[test_case(NTF_UTMPX_3ENTRY_FPATH.clone(), 64, 2, 0, 6, 0; "3ENTRY 64")]
+#[test_case(NTF_UTMPX_3ENTRY_FPATH.clone(), UTMPX_SZ_BSZ, 2, 0, 3, 0; "3ENTRY UTMPX_SZ_BSZ")]
+#[test_case(NTF_UTMPX_3ENTRY_FPATH.clone(), UTMPX_SZ_BSZ * 2, 3, 0, 2, 0; "3ENTRY UTMPX_SZ_BSZ*2")]
+#[test_case(NTF_UTMPX_3ENTRY_FPATH.clone(), UTMPX_SZ_BSZ * 3, 2, 0, 1, 0; "3ENTRY UTMPX_SZ_BSZ*3")]
 fn test_UtmpxReader_drops(
     path: FPath,
     blocksz: BlockSz,
@@ -311,18 +316,22 @@ fn test_UtmpxReader_drops(
     assert_eq!(
         summaryutmpxreader.utmpxreader_drop_entry_ok,
         expect_drop_entry_ok,
+        "drop_entry_ok differs",
     );
     assert_eq!(
         summaryutmpxreader.utmpxreader_drop_entry_errors,
         expect_drop_entry_err,
+        "drop_entry_err differs",
     );
     assert_ge!(
         summaryblockreader.blockreader_blocks_dropped_ok,
         expect_drop_block_ok,
+        "drop_block_ok differs",
     );
     assert_eq!(
         summaryblockreader.blockreader_blocks_dropped_err,
         expect_drop_block_err,
+        "drop_block_err differs",
     );
 }
 
