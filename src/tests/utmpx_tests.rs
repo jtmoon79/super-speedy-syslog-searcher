@@ -138,7 +138,7 @@ fn test_utmpx_new_0() {
 
 #[test]
 fn test_utmpx_new_toosmall() {
-    if let Some(_) = buffer_to_utmpx(&[0; 1]) {
+    if buffer_to_utmpx(&[0; 1]).is_some() {
         panic!("ERROR: buffer_to_utmpx should have failed")
     }
 }
