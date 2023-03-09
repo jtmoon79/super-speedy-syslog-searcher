@@ -4,6 +4,8 @@
 //!
 //! ## Overview of readers
 //!
+//! ### Reading log and syslog files
+//! 
 //! * A [`SyslogProcessor`] drives a [`SyslineReader`] to derive [`Sysline`s].
 //! * A `SyslineReader` drives a [`LineReader`] to derive [`Line`s].
 //! * A `LineReader` drives a [`BlockReader`] to derive [`Block`s].
@@ -17,6 +19,11 @@
 //!   significantly improves program performance.
 //! * A `LineReader` does the majority of `u8` to `char` conversions.
 //!
+//! ### Reading [utmpx files]; _user accounting database_ files
+//!
+//! * A [`UtmpxReader`] drives a [`BlockReader`] to derive [`Utmpx`s].
+//!
+//! <br/>
 //! <br/>
 //!
 //! Also see [_Definitions of data_].
@@ -25,8 +32,8 @@
 //!
 //! ---
 //!
-//! The _s4_ binary program uses a [`SyslogProcessor`] instance, one per file,
-//! to drive processing for a file.
+//! The _s4_ binary program uses a [`SyslogProcessor`] or a [`UtmpxReader`]
+//! instance, one per file, to drive processing for a file.
 //!
 //! <br/>
 //!
@@ -42,6 +49,9 @@
 //! [`LineReader`]: crate::readers::linereader::LineReader
 //! [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
+//! [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
+//! [`Utmpx`s]: crate::data::utmpx::Utmpx
+//! [utmpx files]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143772537#utmpx,_wtmpx_and_btmpx
 
 pub mod blockreader;
 pub mod filepreprocessor;
@@ -50,3 +60,4 @@ pub mod linereader;
 pub mod summary;
 pub mod syslinereader;
 pub mod syslogprocessor;
+pub mod utmpxreader;

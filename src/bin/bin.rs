@@ -11,9 +11,10 @@
 //!
 //! For each parseable file found, a file processing thread is created.
 //! Each file processing thread advances through the stages of processing
-//! using a [`SyslogProcessor`] instance.
+//! using a [`SyslogProcessor`] instance, or using a [`UtmpxReader`].
 //!
-//! During the main processing stage, [`Stage3StreamSyslines`], each thread
+//! For a `SyslogProcessor`, during the main processing stage,
+//! [`Stage3StreamSyslines`], each thread
 //! sends the last processed [`Sysline`] to the main processing thread.
 //! The main processing thread compares the last [`DateTimeL`] received
 //! from all processing threads.
@@ -23,14 +24,19 @@
 //! main processing thread that is has completed processing,
 //! or in case of errors, abruptly closes it's [sending channel].
 //!
-//! Then, if passed CLI option `--summary`, the main processing thread
-//! prints a [`Summary`] about each file processed, and one [`SummaryPrinted`].
+//! A `UtmpxReader` follow the same threaded message-passing pattern but
+//! does not have processing stages.
+//!
+//! If passed CLI option `--summary`, the main processing thread
+//! prints a [`Summary`] about each file processed, and one total
+//! [`SummaryPrinted`].
 //!
 //! [`Stage3StreamSyslines`]: s4lib::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
 //! [`DateTimeL`]: s4lib::data::datetime::DateTimeL
 //! [`Sysline`]: s4lib::data::sysline::Sysline
 //! [sending channel]: self::ChanSendDatum
 //! [`SyslogProcessor`]: s4lib::readers::syslogprocessor::SyslogProcessor
+//! [`UtmpxReader`]: s4lib::readers::utmpxreader::UtmpxReader
 //! [`Summary`]: s4lib::readers::summary::Summary
 //! [`SummaryPrinted`]: self::SummaryPrinted
 
@@ -54,9 +60,8 @@ use clap::{Parser, ValueEnum};
 extern crate const_format;
 use const_format::concatcp;
 
-// TODO [2023/01]: use std::sync::mpsc instead of crossbeam_channel when MSRV is >= 1.67.0
-//                 see https://github.com/rust-lang/rust/pull/93563/
-//                 and https://releases.rs/docs/1.67.0/
+// TODO: [2023/01] use std::sync::mpsc instead of crossbeam_channel when MSRV is >= 1.67.0
+//       see https://github.com/rust-lang/rust/pull/93563/ and https://releases.rs/docs/1.67.0/
 extern crate crossbeam_channel;
 
 extern crate lazy_static;
@@ -76,7 +81,16 @@ extern crate unicode_width;
 // `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
 extern crate s4lib;
 
-use s4lib::common::{Count, FPath, FPaths, FileOffset, FileType, NLu8a};
+use s4lib::common::{
+    Count,
+    FPath,
+    FPaths,
+    FileOffset,
+    FileType,
+    LogMessageType,
+    NLu8a,
+    filetype_to_logmessagetype,
+};
 
 use s4lib::data::datetime::{
     datetime_parse_from_str, datetime_parse_from_str_w_tz, DateTimeLOpt, DateTimeParseInstr,
@@ -94,25 +108,41 @@ use s4lib::printer::printers::{
     // termcolor imports
     Color,
     ColorChoice,
-    PrinterSysline,
+    PrinterLogMessage,
     //
     COLOR_DEFAULT,
     COLOR_ERROR,
 };
 
-use s4lib::data::sysline::{SyslineP, SyslineP_Opt};
+use s4lib::data::utmpx::{UTMPX_SZ, Utmpx};
 
-use s4lib::readers::blockreader::{BlockSz, BLOCKSZ_DEF, BLOCKSZ_MAX, BLOCKSZ_MIN};
+use s4lib::data::sysline::SyslineP;
+
+use s4lib::readers::blockreader::{
+    BlockSz,
+    BLOCKSZ_DEF,
+    BLOCKSZ_MAX,
+    BLOCKSZ_MIN,
+    SummaryBlockReader,
+};
 
 use s4lib::readers::filepreprocessor::{process_path, ProcessPathResult, ProcessPathResults};
 
 use s4lib::readers::helpers::basename;
 
-use s4lib::readers::summary::{Summary, SummaryOpt};
+use s4lib::readers::linereader::SummaryLineReader;
 
-use s4lib::readers::syslinereader::ResultS3SyslineFind;
+use s4lib::readers::summary::{
+    Summary,
+    SummaryOpt,
+    SummaryReaderData,
+};
+
+use s4lib::readers::syslinereader::{ResultS3SyslineFind, SummarySyslineReader};
 
 use s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
+
+use s4lib::readers::utmpxreader::{ResultS3UtmpxFind, UtmpxReader, SummaryUtmpxReader};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // command-line parsing
@@ -403,6 +433,18 @@ the Datetime Filter is presumed to be the local system timezone.
 
 Ambiguous named timezones will be rejected, e.g. \"SST\".
 
+Backslash escape sequences accepted by \"--sysline-separator\" are:
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES0, "\",
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES1, "\",
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES2, "\",
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES3, "\",
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES4, "\",
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES5, "\",
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES6, "\",
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES7, "\",
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES8, "\",
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES9, "\",
+
 Resolved values of \"--dt-after\" and \"--dt-before\" can be reviewed in
 the \"--summary\" output.
 
@@ -549,8 +591,9 @@ struct CLI_Args {
     prepend_separator: String,
 
     /// An extra separator string between printed log lines.
-    /// Keep in mind, one "syslog line" may consist of multiple lines of text.
-    /// Accepts a set of escape sequences, e.g. "\0" for the null character.
+    /// One "syslog line", or "sysline", may have multiple lines of text.
+    /// Accepts a basic set of backslash escape sequences,
+    /// e.g. "\0" for the null character.
     #[clap(
         long = "sysline-separator",
         required = false,
@@ -994,6 +1037,7 @@ mod unescape {
                 |c| match c {
                     '\\' => match self.s.next() {
                         None => Err(EscapeError::EscapeAtEndOfString),
+                        Some('0') => Ok('\0'), // null
                         Some('a') => Ok('\u{07}'), // alert
                         Some('b') => Ok('\u{08}'), // backspace
                         Some('e') => Ok('\u{1B}'), // escape
@@ -1003,7 +1047,6 @@ mod unescape {
                         Some('\\') => Ok('\\'), // backslash
                         Some('t') => Ok('\t'), // horizontal tab
                         Some('v') => Ok('\u{0B}'), // vertical tab
-                        Some('0') => Ok('\0'), // null
                         Some(c) => Err(EscapeError::InvalidEscapedChar(c)),
                     },
                     c => Ok(c),
@@ -1011,6 +1054,19 @@ mod unescape {
             )
         }
     }
+
+    // XXX: these must agree with match statement in prior
+    //      `Iterator for InterpretEscapedString`
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES0: &'static str = r"\0";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES1: &'static str = r"\a";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES2: &'static str = r"\b";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES3: &'static str = r"\e";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES4: &'static str = r"\f";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES5: &'static str = r"\n";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES6: &'static str = r"\r";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES7: &'static str = r"\\";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES8: &'static str = r"\t";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES9: &'static str = r"\v";
 
     pub(super) fn unescape_str(s: &str) -> Result<String, EscapeError> {
         (InterpretEscapedString { s: s.chars() }).collect()
@@ -1206,6 +1262,7 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_local,
         cli_prepend_dt_format,
         cli_opt_prepend_filename,
+        // TODO: [2023/02/26] add option to prepend byte offset along with filename, helpful for development
         cli_opt_prepend_filepath,
         cli_opt_prepend_file_align,
         cli_prepend_separator,
@@ -1282,23 +1339,43 @@ type PathId = usize;
 /// * optional `DateTimeL` as the _before_ datetime filter
 /// * fallback timezone `FixedOffset` for datetime formats without a timezone
 ///
-type ThreadInitData = (FPath, PathId, FileType, BlockSz, DateTimeLOpt, DateTimeLOpt, FixedOffset);
+type ThreadInitData = (
+    FPath,
+    PathId,
+    FileType,
+    BlockSz,
+    DateTimeLOpt,
+    DateTimeLOpt,
+    FixedOffset,
+);
+
+/// The type of log message sent from file processing thread to the main
+/// printing thread enclosing the specific message.
+#[derive(Debug)]
+enum LogMessage {
+    Sysline(SyslineP),
+    Utmpx(Utmpx),
+}
+type LogMessageOpt = Option<LogMessage>;
 
 /// Is this the last [`Sysline`] of the syslog file?
 ///
 /// [`Sysline`]: s4lib::data::sysline::Sysline
-type IsSyslineLast = bool;
+type IsLastLogMessage = bool;
 
 /// The data sent from file processing thread to the main printing thread.
 ///
-/// * optional `Sysline`
-/// * optional `Summary`
-/// * is this the last Sysline?
+/// * optional [`LogMessage`] (`Sysline`/`Utmpx`)
+/// * optional [`Summary`]
+/// * is this the last LogMessage (`Sysline`/`Utmpx`)?
 /// * `FileProcessingResult`
 ///
 /// There should never be a `Sysline` and a `Summary` received simultaneously.
+///
+/// [`LogMessage`]: self::LogMessage
+/// [`Summary`]: s4lib::readers::summary::Summary
 // TODO: Enforce that `Sysline` and `Summary` exclusivity with some kind of union.
-type ChanDatum = (SyslineP_Opt, SummaryOpt, IsSyslineLast, FileProcessingResultBlockZero);
+type ChanDatum = (LogMessageOpt, SummaryOpt, IsLastLogMessage, FileProcessingResultBlockZero);
 
 type MapPathIdDatum = BTreeMap<PathId, ChanDatum>;
 
@@ -1320,8 +1397,6 @@ type ChanRecvDatum = crossbeam_channel::Receiver<ChanDatum>;
 
 type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 
-/// Thread entry point for processing one file.
-///
 /// This creates a [`SyslogProcessor`] and processes the file.<br/>
 /// If it is a syslog file, then continues processing by sending each
 /// processed [`Sysline`] through a [channel] to the main thread which
@@ -1336,27 +1411,22 @@ type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 /// [`SyslogProcessor`]: s4lib::readers::syslogprocessor::SyslogProcessor
 /// [`Sysline`]: s4lib::data::sysline::Sysline
 /// [channel]: self::ChanSendDatum
-fn exec_syslogprocessor_thread(
+fn exec_syslogprocessor(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
+    tname: &str,
+    tid: thread::ThreadId,
 ) {
-    if cfg!(debug_assertions) {
-        stack_offset_set(Some(2));
-    }
-    let (path, _pathid, filetype, blocksz, filter_dt_after_opt, filter_dt_before_opt, tz_offset) =
-        thread_init_data;
+    let (
+        path,
+        _pathid,
+        filetype,
+        blocksz,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
+        tz_offset,
+    ) = thread_init_data;
     defn!("({:?})", path);
-
-    #[cfg(any(debug_assertions, test))]
-    let thread_cur: thread::Thread = thread::current();
-    #[cfg(any(debug_assertions, test))]
-    let tid: thread::ThreadId = thread_cur.id();
-    #[cfg(any(debug_assertions, test))]
-    let tname: &str = <&str>::clone(
-        &thread_cur
-            .name()
-            .unwrap_or(""),
-    );
 
     let mut syslogproc = match SyslogProcessor::new(
         path.clone(),
@@ -1381,7 +1451,13 @@ fn exec_syslogprocessor_thread(
             //       copied/cloned. Perhaps only save the `ErrorKind`?
             //       Additionally, this thread should not print error messages, only the main thread should do that.
             //       This needs more thought.
-            let summary = Summary::new_failed(path.clone(), filetype, blocksz, Some(err.to_string()));
+            let summary = Summary::new_failed(
+                path.clone(),
+                filetype,
+                LogMessageType::Sysline,
+                blocksz,
+                Some(err.to_string())
+            );
             let fileerr: FileProcessingResultBlockZero = match err.kind() {
                 ErrorKind::PermissionDenied => {
                     eprintln!("ERROR: {} for {:?}", err, path);
@@ -1394,7 +1470,12 @@ fn exec_syslogprocessor_thread(
                     FILEERRSTUB
                 }
             };
-            match chan_send_dt.send((None, Some(summary), true, fileerr)) {
+            match chan_send_dt.send((
+                None,
+                Some(summary),
+                true,
+                fileerr,
+            )) {
                 Ok(_) => {}
                 Err(err) => {
                     eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
@@ -1434,7 +1515,12 @@ fn exec_syslogprocessor_thread(
         FileProcessingResultBlockZero::FileOk => {}
         _ => {
             defo!("chan_send_dt.send((None, summary, true))");
-            match chan_send_dt.send((None, Some(syslogproc.summary()), true, result)) {
+            match chan_send_dt.send((
+                None,
+                Some(syslogproc.summary_complete()),
+                true,
+                result,
+            )) {
                 Ok(_) => {}
                 Err(err) => {
                     eprintln!("ERROR: stage1 chan_send_dt.send(…) failed {}", err);
@@ -1461,9 +1547,14 @@ fn exec_syslogprocessor_thread(
     match result {
         ResultS3SyslineFind::Found((fo, syslinep)) => {
             fo1 = fo;
-            let is_last: IsSyslineLast = syslogproc.is_sysline_last(&syslinep) as IsSyslineLast;
+            let is_last: IsLastLogMessage = syslogproc.is_sysline_last(&syslinep) as IsLastLogMessage;
             deo!("{:?}({}): Found, chan_send_dt.send({:p}, None, {});", tid, tname, syslinep, is_last);
-            match chan_send_dt.send((Some(syslinep), None, is_last, FILEOK)) {
+            match chan_send_dt.send((
+                Some(LogMessage::Sysline(syslinep)),
+                None,
+                is_last,
+                FILEOK,
+            )) {
                 Ok(_) => {}
                 Err(err) => {
                     eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
@@ -1499,7 +1590,12 @@ fn exec_syslogprocessor_thread(
         deo!("{:?}({}): quit searching…", tid, tname);
         let summary_opt: SummaryOpt = Some(syslogproc.process_stage4_summary());
         deo!("{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", tid, tname, summary_opt, false);
-        match chan_send_dt.send((None, summary_opt, false, FILEOK)) {
+        match chan_send_dt.send((
+            None,
+            summary_opt,
+            false,
+            FILEOK,
+        )) {
             Ok(_) => {}
             Err(err) => {
                 eprintln!("ERROR: chan_send_dt.send(…) failed {}", err);
@@ -1523,7 +1619,12 @@ fn exec_syslogprocessor_thread(
                 let syslinep_tmp = syslinep.clone();
                 let is_last = syslogproc.is_sysline_last(&syslinep);
                 deo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", tid, tname, syslinep, is_last);
-                match chan_send_dt.send((Some(syslinep), None, is_last, FILEOK)) {
+                match chan_send_dt.send((
+                    Some(LogMessage::Sysline(syslinep)),
+                    None,
+                    is_last,
+                    FILEOK,
+                )) {
                     Ok(_) => {}
                     Err(err) => {
                         eprintln!("ERROR: D chan_send_dt.send(…) failed {}", err);
@@ -1561,9 +1662,14 @@ fn exec_syslogprocessor_thread(
 
     syslogproc.process_stage4_summary();
 
-    let summary = syslogproc.summary();
+    let summary = syslogproc.summary_complete();
     deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", tid, tname, summary, false);
-    match chan_send_dt.send((None, Some(summary), false, FILEOK)) {
+    match chan_send_dt.send((
+        None,
+        Some(summary),
+        false,
+        FILEOK,
+    )) {
         Ok(_) => {}
         Err(err) => {
             eprintln!("ERROR: E chan_send_dt.send(…) failed {}", err);
@@ -1573,16 +1679,168 @@ fn exec_syslogprocessor_thread(
     defx!("({:?})", path);
 }
 
+fn exec_utmpprocessor(
+    chan_send_dt: ChanSendDatum,
+    thread_init_data: ThreadInitData,
+    tname: &str,
+    tid: thread::ThreadId,
+) {
+    let (
+        path,
+        _pathid,
+        filetype,
+        blocksz,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
+        tz_offset,
+    ) = thread_init_data;
+    defn!("{:?}({}): ({:?})", tid, tname, path);
+    matches!(filetype, FileType::Utmpx);
+
+    let mut utmpreader = match UtmpxReader::new(
+        path.clone(),
+        blocksz,
+        tz_offset,
+    ) {
+        Ok(val) => val,
+        Err(err) => {
+            let summary = Summary::new_failed(
+                path.clone(),
+                filetype,
+                LogMessageType::Utmpx,
+                blocksz,
+                Some(err.to_string())
+            );
+            let fileerr: FileProcessingResultBlockZero = match err.kind() {
+                ErrorKind::PermissionDenied => {
+                    eprintln!("ERROR: {} for {:?}", err, path);
+
+                    FileProcessingResultBlockZero::FileErrIo(err)
+                }
+                _ => {
+                    eprintln!("ERROR: {} for {:?}", err, path);
+
+                    FILEERRSTUB
+                }
+            };
+            match chan_send_dt.send((
+                None,
+                Some(summary),
+                true,
+                fileerr,
+            )) {
+                Ok(_) => {}
+                Err(err) => {
+                    eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
+                }
+            }
+            defx!("({:?})", path);
+            return;
+        }
+    };
+    defo!("{:?}({}): utmpreader {:?}", tid, tname, utmpreader);
+
+    let mut fo: FileOffset = 0;
+    //let mut first: bool = true;
+    loop {
+        let result: ResultS3UtmpxFind = utmpreader.find_entry_between_datetime_filters(
+            fo,
+            &filter_dt_after_opt,
+            &filter_dt_before_opt,
+        );
+        let fo_last: FileOffset;
+        match result {
+            ResultS3UtmpxFind::Found((fo_, utmpentry)) => {
+                defo!("ResultS3UtmpxFind::Found(({:?}, ...))", fo_);
+                debug_assert_ne!(fo_, utmpentry.fileoffset_begin());
+                fo_last = fo;
+                fo = fo_;
+                let is_last = utmpreader.is_last(&utmpentry);
+                defo!("chan_send_dt.send((Some(LogMessage::Utmpx({}, …), None, {}, {:?}));", utmpentry.fileoffset_begin(), is_last, FILEOK);
+                match chan_send_dt.send((
+                    Some(LogMessage::Utmpx(utmpentry)),
+                    None,
+                    is_last,
+                    FILEOK,
+                )) {
+                    Ok(_) => {}
+                    Err(err) => {
+                        eprintln!("ERROR: D chan_send_dt.send(…) failed {}", err);
+                    }
+                }
+            }
+            ResultS3UtmpxFind::Done => {
+                defo!("ResultS3UtmpxFind::Done");
+                break;
+            }
+            ResultS3UtmpxFind::Err(err) => {
+                eprintln!("ERROR: find_entry({}) failed; {}", fo, err);
+                defx!("ResultS3UtmpxFind::Err({})", err);
+                // TODO: send error message through channel then return
+                return;
+            }
+        }
+        utmpreader.drop_entries(fo_last);
+    }
+
+    let summary = utmpreader.summary_complete();
+    deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", tid, tname, summary, false);
+    match chan_send_dt.send((
+        None,
+        Some(summary),
+        false,
+        FILEOK,
+    )) {
+        Ok(_) => {}
+        Err(err) => {
+            eprintln!("ERROR: chan_send_dt.send(…) failed {}", err);
+        }
+    }
+
+    defx!("({:?})", path);
+}
+
+/// Thread entry point for processing one file.
+fn exec_fileprocessor_thread(
+    chan_send_dt: ChanSendDatum,
+    thread_init_data: ThreadInitData,
+) {
+    if cfg!(debug_assertions) {
+        stack_offset_set(Some(2));
+    }
+
+    let thread_cur: thread::Thread = thread::current();
+    let tid: thread::ThreadId = thread_cur.id();
+
+    #[cfg(any(debug_assertions, test))]
+    let tname: &str = <&str>::clone(
+        &thread_cur
+            .name()
+            .unwrap_or(""),
+    );
+    #[cfg(not(any(debug_assertions, test)))]
+    let tname: &str = "";
+
+    match &thread_init_data.2 {
+        &FileType::Utmpx => exec_utmpprocessor(chan_send_dt, thread_init_data, tname, tid),
+        _ => exec_syslogprocessor(chan_send_dt, thread_init_data, tname, tid),
+    }
+}
+
 /// Statistics about the main processing thread's printing activity.
 /// Used with CLI option `--summary`.
 #[derive(Copy, Clone, Default)]
 pub struct SummaryPrinted {
     /// count of bytes printed
     pub bytes: Count,
+    /// underlying `LogMessageType`
+    pub logmessagetype: LogMessageType,
     /// count of `Lines` printed
     pub lines: Count,
     /// count of `Syslines` printed
     pub syslines: Count,
+    /// count of `Utmpx` printed
+    pub utmpentries: Count,
     /// last datetime printed
     pub dt_first: DateTimeLOpt,
     pub dt_last: DateTimeLOpt,
@@ -1629,8 +1887,31 @@ impl fmt::Debug for SummaryPrinted {
     }
 }
 
+type MapPathIdSummaryPrint = BTreeMap<PathId, SummaryPrinted>;
+type MapPathIdSummary = HashMap<PathId, Summary>;
+type MapPathIdToProcessPathResult = HashMap<PathId, ProcessPathResult>;
+type MapPathIdToFPath = BTreeMap<PathId, FPath>;
+type MapPathIdToColor = HashMap<PathId, Color>;
+type MapPathIdToPrinterLogMessage = HashMap<PathId, PrinterLogMessage>;
+type MapPathIdToFileType = HashMap<PathId, FileType>;
+type MapPathIdToLogMessageType = HashMap<PathId, LogMessageType>;
+type MapPathIdToMimeGuess = HashMap<PathId, MimeGuess>;
+type SummaryPrintedOpt = Option<SummaryPrinted>;
+
 // TODO: move `SummaryPrinted` into `printer/summary.rs`
 impl SummaryPrinted {
+    pub fn new(logmessagetype: LogMessageType) -> SummaryPrinted {
+        SummaryPrinted {
+            bytes: 0,
+            logmessagetype,
+            lines: 0,
+            syslines: 0,
+            utmpentries: 0,
+            dt_first: None,
+            dt_last: None,
+        }
+    }
+
     /// Print a `SummaryPrinted` with color on stderr.
     ///
     /// Mimics debug print but with colorized zero values.
@@ -1640,16 +1921,57 @@ impl SummaryPrinted {
         &self,
         color_choice_opt: Option<ColorChoice>,
         summary_opt: &SummaryOpt,
-        prepend: &str,
+        indent1: &str,
+        indent2: &str,
     ) {
-        let sumd = Summary::default();
-        let sum_: &Summary = match summary_opt {
+        let summary: &Summary = match summary_opt {
             Some(s) => s,
-            None => &sumd,
+            None => return,
         };
+        let (
+            summaryblockreader,
+            summarylinereader_opt,
+            _summarysyslinereader_opt,
+            _summarysyslogprocessor_opt,
+            summaryutmpreader_opt,
+        ) = match &summary.readerdata {
+            // `Dummy` may occur for files without adequate read permissions
+            SummaryReaderData::Dummy => return,
+            SummaryReaderData::Syslog(
+                (
+                    summaryblockreader,
+                    summarylinereader,
+                    summarysyslinereader,
+                    summarysyslogprocessor,
+                )
+            ) => {
+                (
+                    summaryblockreader,
+                    Some(summarylinereader),
+                    Some(summarysyslinereader),
+                    Some(summarysyslogprocessor),
+                    None,
+                )
+            }
+            SummaryReaderData::Utmpx(
+                (
+                    summaryblockreader,
+                    summaryutmpreader,
+                )
+            ) => {
+                (
+                    summaryblockreader,
+                    None,
+                    None,
+                    None,
+                    Some(summaryutmpreader),
+                )
+            }
+        };
+        eprintln!("{}Summary Printed:", indent1);
 
-        eprint!("{}bytes          ", prepend);
-        if self.bytes == 0 && sum_.BlockReader_bytes != 0 {
+        eprint!("{}bytes          ", indent2);
+        if self.bytes == 0 && summaryblockreader.BlockReader_bytes != 0 {
             match print_colored_stderr(
                 COLOR_ERROR,
                 color_choice_opt,
@@ -1667,115 +1989,188 @@ impl SummaryPrinted {
             eprintln!("{}", self.bytes);
         }
 
-        eprint!("{}lines          ", prepend);
-        if self.lines == 0 && sum_.BlockReader_bytes != 0 {
-            match print_colored_stderr(
-                COLOR_ERROR,
-                color_choice_opt,
-                self.lines
-                    .to_string()
-                    .as_bytes(),
-            ) {
-                Err(err) => {
-                    eprintln!("\nERROR: print_colored_stderr {:?}", err);
-                    return;
+        if summarylinereader_opt.is_some() {
+            eprint!("{}lines          ", indent2);
+            if self.lines == 0 && summaryblockreader.BlockReader_bytes != 0 {
+                match print_colored_stderr(
+                    COLOR_ERROR,
+                    color_choice_opt,
+                    self.lines
+                        .to_string()
+                        .as_bytes(),
+                ) {
+                    Err(err) => {
+                        eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                        return;
+                    }
+                    Ok(_) => eprintln!(),
                 }
-                Ok(_) => eprintln!(),
-            }
-        } else {
-            eprintln!("{}", self.lines);
-        }
-
-        eprint!("{}syslines       ", prepend);
-        if self.syslines == 0 && sum_.LineReader_lines != 0 {
-            match print_colored_stderr(
-                COLOR_ERROR,
-                color_choice_opt,
-                self.syslines
-                    .to_string()
-                    .as_bytes(),
-            ) {
-                Err(err) => {
-                    eprintln!("\nERROR: print_colored_stderr {:?}", err);
-                    return;
-                }
-                Ok(_) => eprintln!(),
-            }
-        } else {
-            eprintln!("{}", self.syslines);
-        }
-
-        if self.dt_first.is_none() && sum_.LineReader_lines != 0 {
-            eprint!("{}datetime first ", prepend);
-            match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
-                Err(err) => {
-                    eprintln!("\nERROR: print_colored_stderr {:?}", err);
-                    return;
-                }
-                Ok(_) => eprintln!(),
-            }
-        } else {
-            match self.dt_first {
-                Some(dt) => eprintln!("{}datetime first {:?}", prepend, dt),
-                None => {}
+            } else {
+                eprintln!("{}", self.lines);
             }
         }
 
-        if self.dt_last.is_none() && sum_.LineReader_lines != 0 {
-            eprint!("{}datetime last  ", prepend);
-            match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
-                Err(err) => {
-                    eprintln!("\nERROR: print_colored_stderr {:?}", err);
-                    return;
+        match summaryutmpreader_opt {
+            Some(summaryutmpreader) => {
+                eprint!("{}utmpx          ", indent2);
+                if self.utmpentries == 0 && summaryutmpreader.UtmpxReader_utmp_entries != 0 {
+                    match print_colored_stderr(
+                        COLOR_ERROR,
+                        color_choice_opt,
+                        self.utmpentries
+                            .to_string()
+                            .as_bytes(),
+                    ) {
+                        Err(err) => {
+                            eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                            return;
+                        }
+                        Ok(_) => eprintln!(),
+                    }
+                } else {
+                    eprintln!("{}", self.utmpentries);
                 }
-                Ok(_) => eprintln!(),
             }
-        } else {
-            match self.dt_last {
-                Some(dt) => eprintln!("{}datetime last  {:?}", prepend, dt),
-                None => {}
+            None => {}
+        }
+
+        match summarylinereader_opt {
+            Some(summarylinereader) => {
+                eprint!("{}syslines       ", indent2);
+                if self.syslines == 0 && summarylinereader.LineReader_lines != 0 {
+                    match print_colored_stderr(
+                        COLOR_ERROR,
+                        color_choice_opt,
+                        self.syslines
+                            .to_string()
+                            .as_bytes(),
+                    ) {
+                        Err(err) => {
+                            eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                            return;
+                        }
+                        Ok(_) => eprintln!(),
+                    }
+                } else {
+                    eprintln!("{}", self.syslines);
+                }
             }
+            None => {}
+        }
+
+        match summarylinereader_opt {
+            Some(summarylinereader) => {
+                if self.dt_first.is_none() && summarylinereader.LineReader_lines != 0 {
+                    eprint!("{}datetime first ", indent2);
+                    match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
+                        Err(err) => {
+                            eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                            return;
+                        }
+                        Ok(_) => eprintln!(),
+                    }
+                } else {
+                    match self.dt_first {
+                        Some(dt) => eprintln!("{}datetime first {:?}", indent1, dt),
+                        None => {}
+                    }
+                }
+                if self.dt_last.is_none() && summarylinereader.LineReader_lines != 0 {
+                    eprint!("{}datetime last  ", indent2);
+                    match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
+                        Err(err) => {
+                            eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                            return;
+                        }
+                        Ok(_) => eprintln!(),
+                    }
+                } else {
+                    match self.dt_last {
+                        Some(dt) => eprintln!("{}datetime last  {:?}", indent1, dt),
+                        None => {}
+                    }
+                }
+        
+            }
+            None => {}
         }
     }
 
-    /// Update a `SummaryPrinted` with information from a printed `Sysline`.
-    //
-    // TODO: 2022/06/21 any way to avoid a `DateTime` copy on every printed sysline?
-    fn summaryprint_update(
+    // TODO: [2022/06/21] cost-savings: any way to avoid a `DateTime` copy on every printed sysline?
+    fn summaryprint_update_dt(
         &mut self,
-        syslinep: &SyslineP,
+        dt: &DateTimeLOpt,
     ) {
-        self.syslines += 1;
-        self.lines += (*syslinep).count_lines();
-        self.bytes += (*syslinep).count_bytes();
-        if let Some(dt) = (*syslinep).dt() {
+        defñ!();
+        if let Some(dt_) = dt {
             match self.dt_first {
                 Some(dt_first) => {
-                    if dt < &dt_first {
-                        self.dt_first = Some(*dt);
+                    if dt_ < &dt_first {
+                        self.dt_first = Some(*dt_);
                     };
                 }
                 None => {
-                    self.dt_first = Some(*dt);
+                    self.dt_first = Some(*dt_);
                 }
             };
             match self.dt_last {
                 Some(dt_last) => {
-                    if dt > &dt_last {
-                        self.dt_last = Some(*dt);
+                    if dt_ > &dt_last {
+                        self.dt_last = Some(*dt_);
                     };
                 }
                 None => {
-                    self.dt_last = Some(*dt);
+                    self.dt_last = Some(*dt_);
                 }
             };
         };
     }
 
-    /// Update a mapping of `PathId` to `SummaryPrinted`.
+    /// Update a `SummaryPrinted` with information from a printed `Sysline`.
+    fn summaryprint_update_sysline(
+        &mut self,
+        syslinep: &SyslineP,
+    ) {
+        defñ!();
+        debug_assert!(matches!(self.logmessagetype, LogMessageType::Sysline | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
+        self.syslines += 1;
+        self.lines += (*syslinep).count_lines();
+        self.bytes += (*syslinep).count_bytes();
+        self.summaryprint_update_dt(&(*syslinep).dt());
+    }
+
+    /// Update a `SummaryPrinted` with information from a printed `Utmpx`.
+    fn summaryprint_update_utmpentry(
+        &mut self,
+        utmpentry: &Utmpx,
+    ) {
+        defñ!();
+        debug_assert!(matches!(self.logmessagetype, LogMessageType::Utmpx | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
+        self.utmpentries += 1;
+        self.bytes += (*utmpentry).len() as Count;
+        self.summaryprint_update_dt(&Some(*utmpentry.dt()));
+    }
+
+    /// Update a `SummaryPrinted` with information from a printed `LogMessage`.
+    fn _summaryprint_update(
+        &mut self,
+        logmessage: &LogMessage,
+    ) {
+        defñ!();
+        match logmessage {
+            LogMessage::Sysline(syslinep) => {
+                self.summaryprint_update_sysline(syslinep);
+            }
+            LogMessage::Utmpx(utmpentry) => {
+                self.summaryprint_update_utmpentry(utmpentry);
+            }
+        };
+    }
+
+    /// Update a mapping of `PathId` to `SummaryPrinted` for a `Sysline`.
     ///
     /// Helper function to function `processing_loop`.
-    fn summaryprint_map_update(
+    fn summaryprint_map_update_sysline(
         syslinep: &SyslineP,
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
@@ -1783,18 +2178,56 @@ impl SummaryPrinted {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
-                sp.summaryprint_update(syslinep);
+                sp.summaryprint_update_sysline(syslinep);
             }
             None => {
-                let mut sp = SummaryPrinted::default();
-                sp.summaryprint_update(syslinep);
+                let mut sp = SummaryPrinted::new(LogMessageType::Sysline);
+                sp.summaryprint_update_sysline(syslinep);
                 map_.insert(*pathid, sp);
             }
         };
     }
-}
 
-type SummaryPrintedOpt = Option<SummaryPrinted>;
+    /// Update a mapping of `PathId` to `SummaryPrinted` for a `Utmpx`.
+    ///
+    /// Helper function to function `processing_loop`.
+    fn summaryprint_map_update_utmpentry(
+        utmpentry: &Utmpx,
+        pathid: &PathId,
+        map_: &mut MapPathIdSummaryPrint,
+    ) {
+        defñ!();
+        match map_.get_mut(pathid) {
+            Some(sp) => {
+                sp.summaryprint_update_utmpentry(utmpentry);
+            }
+            None => {
+                let mut sp = SummaryPrinted::new(LogMessageType::Utmpx);
+                sp.summaryprint_update_utmpentry(utmpentry);
+                map_.insert(*pathid, sp);
+            }
+        };
+    }
+
+    /// Update a mapping of `PathId` to `SummaryPrinted`.
+    ///
+    /// Helper function to function `processing_loop`.
+    fn _summaryprint_map_update(
+        logmessage: &LogMessage,
+        pathid: &PathId,
+        map_: &mut MapPathIdSummaryPrint,
+    ) {
+        defñ!();
+        match logmessage {
+            LogMessage::Sysline(syslinep) => {
+                Self::summaryprint_map_update_sysline(syslinep, pathid, map_)
+            }
+            LogMessage::Utmpx(utmpentry) => {
+                Self::summaryprint_map_update_utmpentry(utmpentry, pathid, map_)
+            }
+        }
+    }
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1811,9 +2244,6 @@ const OPT_SUMMARY_PRINT_INDENT3: &str = "                   ";
 
 // -------------------------------------------------------------------------------------------------
 
-type MapPathIdSummaryPrint = BTreeMap<PathId, SummaryPrinted>;
-type MapPathIdSummary = HashMap<PathId, Summary>;
-
 /// Helper function to function `processing_loop`.
 #[inline(always)]
 fn summary_update(
@@ -1828,13 +2258,6 @@ fn summary_update(
         );
     };
 }
-
-type MapPathIdToProcessPathResult = HashMap<PathId, ProcessPathResult>;
-type MapPathIdToFPath = BTreeMap<PathId, FPath>;
-type MapPathIdToColor = HashMap<PathId, Color>;
-type MapPathIdToPrinterSysline = HashMap<PathId, PrinterSysline>;
-type MapPathIdToFileType = HashMap<PathId, FileType>;
-type MapPathIdToMimeGuess = HashMap<PathId, MimeGuess>;
 
 /// Five seems like a good number for the channel capacity *shrug*
 const CHANNEL_CAPACITY: usize = 5;
@@ -1938,6 +2361,8 @@ fn processing_loop(
     let mut map_pathid_path = MapPathIdToFPath::new();
     // map `PathId` to `FileType`
     let mut map_pathid_filetype = MapPathIdToFileType::with_capacity(file_count);
+    // map `PathId` to `LogMessageType`
+    let mut map_pathid_logmessagetype = MapPathIdToLogMessageType::with_capacity(file_count);
     // map `PathId` to `MimeGuess`
     let mut map_pathid_mimeguess = MapPathIdToMimeGuess::with_capacity(file_count);
     let mut paths_total: usize = 0;
@@ -1952,6 +2377,8 @@ fn processing_loop(
                 defo!("map_pathid_results.push({:?})", path);
                 map_pathid_path.insert(pathid_counter, path.clone());
                 map_pathid_filetype.insert(pathid_counter, *filetype);
+                let logmessagetype: LogMessageType = filetype_to_logmessagetype(*filetype);
+                map_pathid_logmessagetype.insert(pathid_counter, logmessagetype);
                 map_pathid_mimeguess.insert(pathid_counter, *mimeguess);
                 map_pathid_results.insert(pathid_counter, processpathresult);
             }
@@ -2003,9 +2430,12 @@ fn processing_loop(
     let mut map_pathid_color = MapPathIdToColor::with_capacity(file_count);
     // mapping PathId to a `Summary` for `--summary`
     let mut map_pathid_summary = MapPathIdSummary::with_capacity(file_count);
-    // track if an error has been printed regarding a particular sysling_print error
-    // only want to print this particular error once, not hundreds of times
-    let mut has_sysline_print_err: bool = false;
+    // Track if an error has been printed regarding a particular type of
+    // logmessage printing problem.
+    // only want to print this particular error once, not hundreds of times.
+    // These repetitive errors that occur from logmessage printing are usually
+    // due to process pipe failures or terminal malfunctions/oddities.
+    let mut has_print_err: bool = false;
     // "mapping" of PathId to select index, used in `recv_many_data`
     let mut index_select = MapIndexToPathId::with_capacity(file_count);
 
@@ -2041,7 +2471,7 @@ fn processing_loop(
         let basename_: FPath = basename(path);
         match thread::Builder::new()
             .name(basename_.clone())
-            .spawn(move || exec_syslogprocessor_thread(chan_send_dt, thread_data))
+            .spawn(move || exec_fileprocessor_thread(chan_send_dt, thread_data))
         {
             Ok(_joinhandle) => {}
             Err(err) => {
@@ -2141,18 +2571,19 @@ fn processing_loop(
     // crude debugging stats
     let mut chan_recv_ok: Count = 0;
     let mut chan_recv_err: Count = 0;
-    // the `SummaryPrinted` tallying the entire process (tallies each received `SyslineP`)
+    // the `SummaryPrinted` tallying the entire process (tallies each received
+    // LogMessage).
     let mut summaryprinted: SummaryPrinted = SummaryPrinted::default();
     let color_default = COLOR_DEFAULT;
 
     // mapping PathId to colors for printing.
-    let mut map_pathid_printer = MapPathIdToPrinterSysline::with_capacity(file_count);
+    let mut map_pathid_printer = MapPathIdToPrinterLogMessage::with_capacity(file_count);
 
     // count of not okay FileProcessing
     let mut _fileprocessing_not_okay: usize = 0;
 
     // track which paths had syslines
-    let mut paths_printed_syslines: SetPathId = SetPathId::with_capacity(file_count);
+    let mut paths_printed_logmessages: SetPathId = SetPathId::with_capacity(file_count);
 
     //
     // the main processing loop (e.g the "game loop")
@@ -2165,6 +2596,9 @@ fn processing_loop(
     let mut disconnect = Vec::<PathId>::with_capacity(file_count);
     // shortcut to the bytes of the `sysline_separator`
     let sepb: &[u8] = sysline_separator.as_str().as_bytes();
+
+    // buffer to assist printing Utmpx; passed to `Utmpx::as_bytes`
+    let mut buffer_utmp: [u8; UTMPX_SZ * 2] = [0; UTMPX_SZ * 2];
 
     loop {
         disconnect.clear();
@@ -2210,7 +2644,7 @@ fn processing_loop(
                 }
             };
             match result {
-                // (SyslineP_Opt, SummaryOpt, IsSyslineLast, FileProcessingResultBlockZero)
+                // (SyslineP_Opt, SummaryOpt, IsLastLogMessage, FileProcessingResultBlockZero)
                 Ok(chan_datum) => {
                     defo!("B crossbeam_channel::Found for PathId {:?};", pathid);
                     match chan_datum.3 {
@@ -2265,19 +2699,19 @@ fn processing_loop(
             }
 
             if first_print {
-                // One-time creation of prepended datas and SyslinePrinters.
+                // One-time creation of prepended datas and `PrinterLogMessage`.
 
-                // First, get a set of all pathids with awaiting Syslines, ignoring paths
-                // for which no Syslines were found.
-                // No Syslines will be printed for those paths that did not return a Sysline:
+                // First, get a set of all pathids with awaiting LogMessages, ignoring paths
+                // for which no LogMessages were found.
+                // No LogMessages will be printed for those paths that did not return a LogMessage:
                 // - do not include them in determining prepended width (CLI option `-w`).
-                // - do not create a `SyslinePrinter` for them.
-                let mut pathid_with_syslines: SetPathId = SetPathId::with_capacity(map_pathid_datum.len());
+                // - do not create a `PrinterLogMessage` for them.
+                let mut pathid_with_logmessages: SetPathId = SetPathId::with_capacity(map_pathid_datum.len());
                 for (pathid, _) in map_pathid_datum
                     .iter()
                     .filter(|(_k, v)| v.0.is_some())
                 {
-                    pathid_with_syslines.insert(*pathid);
+                    pathid_with_logmessages.insert(*pathid);
                 }
 
                 // Pre-create the prepended strings based on passed CLI options `-w` `-p` `-f`
@@ -2286,7 +2720,7 @@ fn processing_loop(
                     // pre-create prepended filename strings once (`-f`)
                     if cli_opt_prepend_file_align {
                         // determine prepended width (`-w`)
-                        for pathid in pathid_with_syslines.iter() {
+                        for pathid in pathid_with_logmessages.iter() {
                             let path = match map_pathid_path.get(pathid) {
                                 Some(path_) => path_,
                                 None => continue,
@@ -2298,8 +2732,8 @@ fn processing_loop(
                             );
                         }
                     }
-                    pathid_to_prependname = MapPathIdToPrependName::with_capacity(pathid_with_syslines.len());
-                    for pathid in pathid_with_syslines.iter() {
+                    pathid_to_prependname = MapPathIdToPrependName::with_capacity(pathid_with_logmessages.len());
+                    for pathid in pathid_with_logmessages.iter() {
                         let path = match map_pathid_path.get(pathid) {
                             Some(path_) => path_,
                             None => continue,
@@ -2313,7 +2747,7 @@ fn processing_loop(
                     // pre-create prepended filepath strings once (`-p`)
                     if cli_opt_prepend_file_align {
                         // determine prepended width (`-w`)
-                        for pathid in pathid_with_syslines.iter() {
+                        for pathid in pathid_with_logmessages.iter() {
                             let path = match map_pathid_path.get(pathid) {
                                 Some(path_) => path_,
                                 None => continue,
@@ -2324,8 +2758,8 @@ fn processing_loop(
                             );
                         }
                     }
-                    pathid_to_prependname = MapPathIdToPrependName::with_capacity(pathid_with_syslines.len());
-                    for pathid in pathid_with_syslines.iter() {
+                    pathid_to_prependname = MapPathIdToPrependName::with_capacity(pathid_with_logmessages.len());
+                    for pathid in pathid_with_logmessages.iter() {
                         let path = match map_pathid_path.get(pathid) {
                             Some(path_) => path_,
                             None => continue,
@@ -2338,8 +2772,8 @@ fn processing_loop(
                     pathid_to_prependname = MapPathIdToPrependName::with_capacity(0);
                 }
 
-                // Initialize the Sysline printers, one per `PathId` that sent a Sysline.
-                for pathid in pathid_with_syslines.iter() {
+                // Initialize the printers for logmessages, one per `PathId` that sent a Sysline.
+                for pathid in pathid_with_logmessages.iter() {
                     let color_: &Color = map_pathid_color
                         .get(pathid)
                         .unwrap_or(&color_default);
@@ -2366,7 +2800,7 @@ fn processing_loop(
                             // XXX: this should not happen
                             _ => panic!("bad CLI options --local --utc"),
                         };
-                    let printer: PrinterSysline = PrinterSysline::new(
+                    let printer: PrinterLogMessage = PrinterLogMessage::new(
                         color_choice,
                         *color_,
                         prepend_file,
@@ -2390,17 +2824,42 @@ fn processing_loop(
             // XXX: my small investigation into `min`, `max`, `min_by`, `max_by`
             //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33
             //
+
             let pathid: &PathId;
             let chan_datum: &mut ChanDatum;
             (pathid, chan_datum) = match map_pathid_datum
                 .iter_mut()
-                .min_by(|x, y| {
-                    x.1 .0
-                        .as_ref()
-                        .unwrap()
-                        .dt()
-                        .cmp(y.1 .0.as_ref().unwrap().dt())
-                }) {
+                .min_by(|x, y|
+                    {
+                        match x.1.0.as_ref().unwrap() {
+                            crate::LogMessage::Utmpx(utmpentry) => {
+                                let y_dt = match y.1.0.as_ref().unwrap() {
+                                    crate::LogMessage::Utmpx(utmpentry_y) => {
+                                        utmpentry_y.dt()
+                                    }
+                                    crate::LogMessage::Sysline(syslinep_y) => {
+                                        syslinep_y.dt().as_ref().unwrap()
+                                    }
+                                };
+
+                                utmpentry.dt().cmp(y_dt)
+                            }
+                            crate::LogMessage::Sysline(syslinep) => {
+                                let y_dt = match y.1.0.as_ref().unwrap() {
+                                    crate::LogMessage::Utmpx(utmpentry_y) => {
+                                        utmpentry_y.dt()
+                                    }
+                                    crate::LogMessage::Sysline(syslinep_y) => {
+                                        syslinep_y.dt().as_ref().unwrap()
+                                    }
+                                };
+
+                                syslinep.dt().as_ref().unwrap().cmp(y_dt)
+                            }
+                        }
+                    }
+                )
+            {
                 Some(val) => (val.0, val.1),
                 None => {
                     eprintln!("ERROR map_pathid_datum.iter_mut().min_by() returned None");
@@ -2417,61 +2876,93 @@ fn processing_loop(
                     "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId: {:?}",
                     pathid
                 );
-                if cli_opt_summary {
-                    summary_update(pathid, summary, &mut map_pathid_summary);
-                }
+                summary_update(pathid, summary, &mut map_pathid_summary);
                 defo!("A2 will disconnect channel {:?}", pathid);
                 disconnect.push(*pathid);
             } else {
-                // Is last sysline of the file?
+                // Is last log message of the file?
                 let is_last: bool = chan_datum.2;
-                // Sysline of interest
-                let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
-                defo!(
-                    "A3 printing @[{}, {}] PathId: {:?}",
-                    syslinep.fileoffset_begin(),
-                    syslinep.fileoffset_end(),
-                    pathid
-                );
-                // print the sysline!
-                // the most important part of this main thread loop
-                let printer: &mut PrinterSysline = map_pathid_printer
-                    .get_mut(pathid)
-                    .unwrap();
-                match printer.print_sysline(syslinep) {
-                    Ok(_) => {}
-                    Err(err) => {
-                        // Only print a printing error once.
-                        // In case of piping to something like `head`, it looks bad to print
-                        // the same error tens or hundreds of times for a common pipe operation.
-                        if !has_sysline_print_err {
-                            has_sysline_print_err = true;
-                            // BUG: Issue #3 colorization settings in the context of a pipe
-                            eprintln!("ERROR: failed to print {}", err);
+                match chan_datum.0.as_ref().unwrap() {
+                    LogMessage::Sysline(syslinep) => {
+                        //let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
+                        defo!(
+                            "A3.1 printing SyslineP @[{}, {}] PathId: {:?}",
+                            syslinep.fileoffset_begin(),
+                            syslinep.fileoffset_end(),
+                            pathid
+                        );
+                        // print the sysline!
+                        // the most important part of this main thread loop
+                        let printer: &mut PrinterLogMessage = map_pathid_printer
+                            .get_mut(pathid)
+                            .unwrap();
+                        match printer.print_sysline(syslinep) {
+                            Ok(_) => {}
+                            Err(err) => {
+                                // Only print a printing error once.
+                                // In case of piping to something like `head`, it looks bad to print
+                                // the same error tens or hundreds of times for a common pipe operation.
+                                if !has_print_err {
+                                    has_print_err = true;
+                                    // BUG: Issue #3 colorization settings in the context of a pipe
+                                    eprintln!("ERROR: failed to print {}", err);
+                                }
+                            }
+                        }
+                        if ! sepb.is_empty() {
+                            write_stdout(sepb);
+                            if cli_opt_summary {
+                                summaryprinted.bytes += sepb.len() as Count;
+                            }
+                        }
+                        // If a file's last char is not a '\n' then the next printed sysline
+                        // (from a different file) will print on the same terminal line.
+                        // While this is accurate byte-wise, it's difficult to read read and unexpected, and
+                        // makes scripting line-oriented scripting more difficult. This is especially
+                        // visually jarring when prepended data is present (`-l`, `-p`, etc.).
+                        // So in case of no ending '\n', print an extra '\n' to improve human readability
+                        // and scriptability.
+                        if is_last && !(*syslinep).ends_with_newline() {
+                            write_stdout(&NLu8a);
+                            if cli_opt_summary {
+                                summaryprinted.bytes += 1;
+                            }
+                        }
+                        if cli_opt_summary {
+                            paths_printed_logmessages.insert(*pathid);
+                            // update the per processing file `SummaryPrinted`
+                            SummaryPrinted::summaryprint_map_update_sysline(syslinep, pathid, &mut map_pathid_sumpr);
+                            // update the single total program `SummaryPrinted`
+                            summaryprinted.summaryprint_update_sysline(syslinep);
                         }
                     }
-                }
-                if ! sepb.is_empty() {
-                    write_stdout(sepb);
-                    summaryprinted.bytes += sepb.len() as Count;
-                }
-                // If a file's last char is not a '\n' then the next printed sysline
-                // (from a different file) will print on the same terminal line.
-                // While this is accurate byte-wise, it's difficult to read read and unexpected, and
-                // makes scripting line-oriented scripting more difficult. This is especially
-                // visually jarring when prepended data is present (`-l`, `-p`, etc.).
-                // So in case of no ending '\n', print an extra '\n' to improve human readability
-                // and scriptability.
-                if is_last && !(*syslinep).ends_with_newline() {
-                    write_stdout(&NLu8a);
-                    summaryprinted.bytes += 1;
-                }
-                if cli_opt_summary {
-                    paths_printed_syslines.insert(*pathid);
-                    // update the per processing file `SummaryPrinted`
-                    SummaryPrinted::summaryprint_map_update(syslinep, pathid, &mut map_pathid_sumpr);
-                    // update the single total program `SummaryPrinted`
-                    summaryprinted.summaryprint_update(syslinep);
+                    LogMessage::Utmpx(utmpentry) => {
+                        defo!("A3.2 printing Utmpx PathId: {:?}", pathid);
+                        // the most important part of this main thread loop
+                        let printer: &mut PrinterLogMessage = map_pathid_printer
+                            .get_mut(pathid)
+                            .unwrap();
+                        match printer.print_utmpentry(utmpentry, &mut buffer_utmp) {
+                            Ok(_) => {}
+                            Err(err) => {
+                                // Only print a printing error once.
+                                // In case of piping to something like `head`, it looks bad to print
+                                // the same error tens or hundreds of times for a common pipe operation.
+                                if !has_print_err {
+                                    has_print_err = true;
+                                    // BUG: Issue #3 colorization settings in the context of a pipe
+                                    eprintln!("ERROR: failed to print {}", err);
+                                }
+                            }
+                        }
+                        if cli_opt_summary {
+                            paths_printed_logmessages.insert(*pathid);
+                            // update the per processing file `SummaryPrinted`
+                            SummaryPrinted::summaryprint_map_update_utmpentry(utmpentry, pathid, &mut map_pathid_sumpr);
+                            // update the single total program `SummaryPrinted`
+                            summaryprinted.summaryprint_update_utmpentry(utmpentry);
+                        }
+                    }
                 }
             }
             // create a copy of the borrowed key `pathid`, this avoids rustc error:
@@ -2504,7 +2995,7 @@ fn processing_loop(
     // quick count of `Summary` attached Errors
     let mut error_count: usize = 0;
     for (_pathid, summary) in map_pathid_summary.iter() {
-        if summary.Error_.is_some() {
+        if summary.error.is_some() {
             error_count += 1;
         }
     }
@@ -2513,9 +3004,10 @@ fn processing_loop(
         // some errors may occur later in processing, e.g. File Permissions errors,
         // so update `map_pathid_results` and `map_pathid_results_invalid`
         for (pathid, summary) in map_pathid_summary.iter() {
-            match &summary.Error_ {
+            match &summary.error {
                 Some(_) => {
-                    if summary.BlockReader_blocks == 0
+                    if ! summary.readerdata.is_dummy()
+                        && summary.blockreader().BlockReader_blocks == 0
                         && !map_pathid_results_invalid.contains_key(pathid)
                         && map_pathid_results.contains_key(pathid)
                     {
@@ -2534,6 +3026,7 @@ fn processing_loop(
         print_all_files_summaries(
             &map_pathid_path,
             &map_pathid_filetype,
+            &map_pathid_logmessagetype,
             &map_pathid_mimeguess,
             &map_pathid_color,
             &mut map_pathid_summary,
@@ -2541,6 +3034,9 @@ fn processing_loop(
             &color_choice,
             &color_default,
         );
+        if !map_pathid_path.is_empty(){
+            eprintln!();
+        }
         // print a short note about the invalid files
         print_files_processpathresult(
             &map_pathid_results_invalid,
@@ -2555,13 +3051,15 @@ fn processing_loop(
             paths_total,
             map_pathid_results_invalid.len(),
             map_pathid_results.len(),
-            paths_printed_syslines.len(),
+            paths_printed_logmessages.len(),
         );
         // print the `summaryprinted` in a line-oriented manner and with
         // UTC comparisons
         eprintln!("Printed bytes   : {}", summaryprinted.bytes);
         eprintln!("Printed lines   : {}", summaryprinted.lines);
         eprintln!("Printed syslines: {}", summaryprinted.syslines);
+        eprintln!("Printed utmpx   : {}", summaryprinted.utmpentries);
+
         let foffset0 = *FIXEDOFFSET0;
         eprint!("Datetime Filter -a    :");
         match filter_dt_after_opt {
@@ -2660,6 +3158,7 @@ fn processing_loop(
 fn print_filepath(
     path: &FPath,
     filetype: &FileType,
+    logmessagetype: &LogMessageType,
     mimeguess: &MimeGuess,
     color: &Color,
     color_choice: &ColorChoice,
@@ -2688,7 +3187,7 @@ fn print_filepath(
         Err(_) => {}
     }
     // print other facts
-    eprint!(" ({}) {:?}", filetype, mimeguess);
+    eprint!(" ({}) ({}) {:?}", filetype, logmessagetype, mimeguess);
     eprintln!();
 }
 
@@ -2696,86 +3195,95 @@ fn print_filepath(
 ///
 /// [`Summary`]: s4lib::readers::summary::Summary
 fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
-    match summary_opt {
+    let summary = match summary_opt {
         Some(summary) => {
-            eprintln!("{}Summary Processed:", OPT_SUMMARY_PRINT_INDENT1);
-            match summary.filetype {
-                FileType::File => {
-                    eprintln!(
-                        "{}file size      {1} (0x{1:X}) (bytes)",
-                        OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz
-                    );
-                }
-                FileType::Tar => {
-                    eprintln!(
-                        "{}file size archive    {1} (0x{1:X}) (bytes)",
-                        OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz
-                    );
-                    eprintln!(
-                        "{}file size unarchived {1} (0x{1:X}) (bytes)",
-                        OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz_actual
-                    );
-                }
-                FileType::Gz | FileType::Xz => {
-                    eprintln!(
-                        "{}file size compressed   {1} (0x{1:X}) (bytes)",
-                        OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz
-                    );
-                    eprintln!(
-                        "{}file size uncompressed {1} (0x{1:X}) (bytes)",
-                        OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_filesz_actual
-                    );
-                }
-                ft => {
-                    eprintln!("{}unsupported filetype {:?}", OPT_SUMMARY_PRINT_INDENT2, ft);
-                    return;
-                }
-            }
-            eprintln!("{}bytes          {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_bytes);
-            eprintln!("{}bytes total    {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_bytes_total);
-            eprintln!(
-                "{}block size     {1} (0x{1:X})",
-                OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocksz
-            );
-            eprintln!("{}blocks         {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocks);
-            eprintln!("{}blocks total   {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocks_total);
-            eprintln!("{}blocks high    {}", OPT_SUMMARY_PRINT_INDENT2, summary.BlockReader_blocks_highest);
-            eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines);
+            summary
+        }
+        None => {
+            // TODO: [2022/06/07] print filesz
+            eprintln!("{}Summary Processed: None", OPT_SUMMARY_PRINT_INDENT1);
+            return;
+        }
+    };
+    if summary.readerdata.is_dummy() {
+        // `Dummy` may occur for files without adequate read permissions
+        // there will be no interested information in gathered statistics
+        return;
+    }
+    eprintln!("{}Summary Processed:", OPT_SUMMARY_PRINT_INDENT1);
+    print_summary_opt_processed_summaryblockreader(
+        summary,
+        OPT_SUMMARY_PRINT_INDENT2,
+    );
+    match &summary.readerdata {
+        // `Dummy` may occur for files without adequate read permissions
+        SummaryReaderData::Dummy => return,
+        SummaryReaderData::Syslog(
+            (
+                _summaryblockreader,
+                summarylinereader,
+                summarysyslinereader,
+                _summarysyslogprocessor,
+            ),
+        ) => {
+            eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summarylinereader.LineReader_lines);
             eprintln!(
                 "{}lines high     {}",
-                OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines_stored_highest
+                OPT_SUMMARY_PRINT_INDENT2, summarylinereader.LineReader_lines_stored_highest
             );
-            eprintln!("{}syslines       {}", OPT_SUMMARY_PRINT_INDENT2, summary.SyslineReader_syslines);
+            eprintln!("{}syslines       {}", OPT_SUMMARY_PRINT_INDENT2, summarysyslinereader.SyslineReader_syslines);
             eprintln!(
                 "{}syslines high  {}",
-                OPT_SUMMARY_PRINT_INDENT2, summary.SyslineReader_syslines_stored_highest
+                OPT_SUMMARY_PRINT_INDENT2, summarysyslinereader.SyslineReader_syslines_stored_highest
             );
-            // print datetime first and last
-            match (summary.SyslineReader_pattern_first, summary.SyslineReader_pattern_last) {
-                (Some(dt_first), Some(dt_last)) => {
-                    eprintln!("{}datetime first {:?}", OPT_SUMMARY_PRINT_INDENT2, dt_first,);
-                    eprintln!("{}datetime last  {:?}", OPT_SUMMARY_PRINT_INDENT2, dt_last,);
-                }
-                (None, Some(_)) | (Some(_), None) => {
-                    eprintln!("ERROR: only one of dt_first or dt_last fulfilled; this is unexpected.");
-                }
-                _ => {}
-            }
-            // print datetime patterns
-            if !summary
-                .SyslineReader_patterns
-                .is_empty()
+        }
+        SummaryReaderData::Utmpx((
+            _summaryblockreader,
+            summaryutmpreader,
+        )) => {
+            eprintln!("{}utmpx          {}", OPT_SUMMARY_PRINT_INDENT2, summaryutmpreader.UtmpxReader_utmp_entries);
+            eprintln!(
+                "{}utmpx high     {}",
+                OPT_SUMMARY_PRINT_INDENT2, summaryutmpreader.UtmpxReader_utmp_entries_max,
+            );
+        }
+    }
+    //eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines);
+    //eprintln!(
+    //    "{}lines high     {}",
+    //    OPT_SUMMARY_PRINT_INDENT2, summary.LineReader_lines_stored_highest
+    //);
+    // print datetime first and last
+    match (summary.datetime_first(), summary.datetime_last()) {
+        (Some(dt_first), Some(dt_last)) => {
+            eprintln!("{}datetime first {:?}", OPT_SUMMARY_PRINT_INDENT2, dt_first,);
+            eprintln!("{}datetime last  {:?}", OPT_SUMMARY_PRINT_INDENT2, dt_last,);
+        }
+        (None, Some(_)) | (Some(_), None) => {
+            eprintln!("ERROR: only one of dt_first or dt_last fulfilled; this is unexpected.");
+        }
+        _ => {}
+    }
+    // print datetime patterns
+    match &summary.readerdata {
+        SummaryReaderData::Syslog((
+            _summaryblockreader,
+            _summarylinereader,
+            summarysyslinereader,
+            summarysyslogprocessor,
+        )) => {
+            if !summarysyslinereader.SyslineReader_patterns.is_empty()
             {
                 eprintln!("{}Parsers:", OPT_SUMMARY_PRINT_INDENT1);
             }
-            for patt in summary
+            for patt in summarysyslinereader
                 .SyslineReader_patterns
                 .iter()
             {
                 let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*patt.0];
                 eprintln!("{}@[{}] uses {} {:?}", OPT_SUMMARY_PRINT_INDENT2, patt.0, patt.1, dtpd);
             }
-            match summary.SyslogProcessor_missing_year {
+            match summarysyslogprocessor.SyslogProcessor_missing_year {
                 Some(year) => {
                     eprintln!(
                         "{}datetime format missing year; estimated year of last sysline {:?}",
@@ -2785,11 +3293,60 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
                 None => {}
             }
         }
-        None => {
-            // TODO: [2022/06/07] print filesz
-            eprintln!("{}Summary Processed: None", OPT_SUMMARY_PRINT_INDENT1);
+        _ => {}
+    }
+}
+
+/// helper to `print_summary_opt_processed`
+fn print_summary_opt_processed_summaryblockreader(
+    summary: &Summary,
+    indent: &str,
+) {
+    if summary.readerdata.is_dummy() {
+        return;
+    }
+    let summaryblockreader = summary.blockreader();
+    match summary.filetype {
+        FileType::File | FileType::Utmpx => {
+            eprintln!(
+                "{}file size      {1} (0x{1:X}) (bytes)",
+                indent, summaryblockreader.BlockReader_filesz
+            );
+        }
+        FileType::Tar => {
+            eprintln!(
+                "{}file size archive    {1} (0x{1:X}) (bytes)",
+                indent, summaryblockreader.BlockReader_filesz
+            );
+            eprintln!(
+                "{}file size unarchived {1} (0x{1:X}) (bytes)",
+                indent, summaryblockreader.BlockReader_filesz_actual
+            );
+        }
+        FileType::Gz | FileType::Xz => {
+            eprintln!(
+                "{}file size compressed   {1} (0x{1:X}) (bytes)",
+                indent, summaryblockreader.BlockReader_filesz
+            );
+            eprintln!(
+                "{}file size uncompressed {1} (0x{1:X}) (bytes)",
+                indent, summaryblockreader.BlockReader_filesz_actual
+            );
+        }
+        ft => {
+            eprintln!("{}unsupported filetype {:?}", OPT_SUMMARY_PRINT_INDENT2, ft);
+            return;
         }
     }
+    eprintln!("{}bytes          {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_bytes);
+    eprintln!("{}bytes total    {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_bytes_total);
+    eprintln!(
+        "{}block size     {1} (0x{1:X})",
+        OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_blocksz
+    );
+    eprintln!("{}blocks         {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_blocks);
+    eprintln!("{}blocks total   {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_blocks_total);
+    eprintln!("{}blocks high    {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.BlockReader_blocks_highest);
 }
 
 /// Print the (optional) [`&SummaryPrinted`] (one line).
@@ -2802,18 +3359,182 @@ fn print_summary_opt_printed(
 ) {
     match summary_print_opt {
         Some(summary_print) => {
-            eprintln!("{}Summary Printed:", OPT_SUMMARY_PRINT_INDENT1);
-            summary_print.print_colored_stderr(Some(*color_choice), summary_opt, OPT_SUMMARY_PRINT_INDENT2);
+            defñ!("Some(summary_print)");
+            
+            summary_print.print_colored_stderr(
+                Some(*color_choice),
+                summary_opt,
+                OPT_SUMMARY_PRINT_INDENT1,
+                OPT_SUMMARY_PRINT_INDENT2,
+            );
         }
         None => {
-            eprintln!("{}Summary Printed:", OPT_SUMMARY_PRINT_INDENT1);
+            defñ!("None");
             SummaryPrinted::default().print_colored_stderr(
                 Some(*color_choice),
                 summary_opt,
+                OPT_SUMMARY_PRINT_INDENT1,
                 OPT_SUMMARY_PRINT_INDENT2,
             );
         }
     }
+}
+
+fn ratio64(
+    a: &u64,
+    b: &u64,
+) -> f64 {
+    if b == &0 {
+        return 0.0;
+    }
+    (*a as f64) / (*b as f64)
+}
+
+fn print_cache_stats_summaryblockreader(
+    summaryblockreader: &SummaryBlockReader,
+    indent: &str,
+    wide: usize,
+) {
+    // BlockReader::_read_blocks
+    let mut ratio = ratio64(&summaryblockreader.BlockReader_read_blocks_hit, &summaryblockreader.BlockReader_read_blocks_miss);
+    eprintln!(
+        "{}storage: BlockReader::read_block() blocks                    : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        indent,
+        summaryblockreader.BlockReader_read_blocks_hit,
+        summaryblockreader.BlockReader_read_blocks_miss,
+        ratio,
+        summaryblockreader.BlockReader_read_blocks_put,
+        wide = wide,
+    );
+    // BlockReader::_read_blocks_cache
+    ratio = ratio64(
+        &summaryblockreader.BlockReader_read_block_lru_cache_hit,
+        &summaryblockreader.BlockReader_read_block_lru_cache_miss,
+    );
+    eprintln!(
+        "{}caching: BlockReader::read_block() LRU cache                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        indent,
+        summaryblockreader.BlockReader_read_block_lru_cache_hit,
+        summaryblockreader.BlockReader_read_block_lru_cache_miss,
+        ratio,
+        summaryblockreader.BlockReader_read_block_lru_cache_put,
+        wide = wide,
+    );
+}
+
+fn print_cache_stats_summarylinereader(
+    summarylinereader: &SummaryLineReader,
+    indent: &str,
+    wide: usize,
+) {
+    // LineReader::_lines
+    let mut ratio = ratio64(&summarylinereader.LineReader_lines_hits, &summarylinereader.LineReader_lines_miss);
+    eprintln!(
+        "{}storage: LineReader::find_line() lines                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
+        indent,
+        summarylinereader.LineReader_lines_hits,
+        summarylinereader.LineReader_lines_miss,
+        ratio,
+        wide = wide,
+    );
+    // LineReader::_find_line_lru_cache
+    ratio =
+        ratio64(&summarylinereader.LineReader_find_line_lru_cache_hit, &summarylinereader.LineReader_find_line_lru_cache_miss);
+    eprintln!(
+        "{}caching: LineReader::find_line() LRU cache                   : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        indent,
+        summarylinereader.LineReader_find_line_lru_cache_hit,
+        summarylinereader.LineReader_find_line_lru_cache_miss,
+        ratio,
+        summarylinereader.LineReader_find_line_lru_cache_put,
+        wide = wide,
+    );
+}
+
+fn print_cache_stats_summarysyslinereader(
+    summarysyslinereader: &SummarySyslineReader,
+    indent: &str,
+    wide: usize,
+) {
+    // SyslineReader
+    // SyslineReader::get_boxptrs
+    eprintln!(
+        "{}copying: SyslineReader::get_boxptrs()                        : sgl {:wide$}, dbl  {:wide$}, mult {:wide$}",
+        indent,
+        summarysyslinereader.SyslineReader_get_boxptrs_singleptr,
+        summarysyslinereader.SyslineReader_get_boxptrs_doubleptr,
+        summarysyslinereader.SyslineReader_get_boxptrs_multiptr,
+        wide = wide,
+    );
+    // SyslineReader::syslines
+    let mut ratio = ratio64(&summarysyslinereader.SyslineReader_syslines_hit, &summarysyslinereader.SyslineReader_syslines_miss);
+    eprintln!(
+        "{}storage: SyslineReader::find_sysline() syslines              : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
+        indent,
+        summarysyslinereader.SyslineReader_syslines_hit,
+        summarysyslinereader.SyslineReader_syslines_miss,
+        ratio,
+        wide = wide,
+    );
+    // SyslineReader::_syslines_by_range
+    ratio =
+        ratio64(&summarysyslinereader.SyslineReader_syslines_by_range_hit, &summarysyslinereader.SyslineReader_syslines_by_range_miss);
+    eprintln!(
+        "{}caching: SyslineReader::find_sysline() syslines_by_range_map : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        indent,
+        summarysyslinereader.SyslineReader_syslines_by_range_hit,
+        summarysyslinereader.SyslineReader_syslines_by_range_miss,
+        ratio,
+        summarysyslinereader.SyslineReader_syslines_by_range_put,
+        wide = wide,
+    );
+    // SyslineReader::_find_sysline_lru_cache
+    ratio = ratio64(
+        &summarysyslinereader.SyslineReader_find_sysline_lru_cache_hit,
+        &summarysyslinereader.SyslineReader_find_sysline_lru_cache_miss,
+    );
+    eprintln!(
+        "{}caching: SyslineReader::find_sysline() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        indent,
+        summarysyslinereader.SyslineReader_find_sysline_lru_cache_hit,
+        summarysyslinereader.SyslineReader_find_sysline_lru_cache_miss,
+        ratio,
+        summarysyslinereader.SyslineReader_find_sysline_lru_cache_put,
+        wide = wide,
+    );
+    // SyslineReader::_parse_datetime_in_line_lru_cache
+    ratio = ratio64(
+        &summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_hit,
+        &summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_miss,
+    );
+    eprintln!(
+        "{}caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        indent,
+        summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_hit,
+        summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_miss,
+        ratio,
+        summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_put,
+        wide = wide,
+    );
+}
+
+fn print_cache_stats_summaryutmpreader(
+    summaryutmpreader: &SummaryUtmpxReader,
+    indent: &str,
+    wide: usize,
+) {
+    let ratio = ratio64(
+        &summaryutmpreader.UtmpxReader_utmp_entries_hit,
+        &summaryutmpreader.UtmpxReader_utmp_entries_miss,
+    );
+    eprintln!(
+        "{}storage: UtmpxReader::find_entry()                           : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
+        indent,
+        summaryutmpreader.UtmpxReader_utmp_entries_hit,
+        summaryutmpreader.UtmpxReader_utmp_entries_miss,
+        ratio,
+        wide = wide,
+    );
 }
 
 /// Print the various (optional) [`Summary`] caching and storage statistics
@@ -2824,17 +3545,6 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     if summary_opt.is_none() {
         return;
     }
-
-    fn ratio64(
-        a: &u64,
-        b: &u64,
-    ) -> f64 {
-        if b == &0 {
-            return 0.0;
-        }
-        (*a as f64) / (*b as f64)
-    }
-
     let summary: &Summary = match summary_opt.as_ref() {
         Some(summary_) => summary_,
         None => {
@@ -2842,119 +3552,55 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
             return;
         }
     };
+    // `Dummy` may occur for files without adequate read permissions
+    if summary.readerdata.is_dummy() {
+        return;
+    }
     eprintln!("{}Processing Stores:", OPT_SUMMARY_PRINT_INDENT1);
     let wide: usize = summary
         .max_hit_miss()
         .to_string()
         .len();
-    let mut ratio: f64;
-    // SyslineReader
-    // SyslineReader::get_boxptrs
-    eprintln!(
-        "{}copying: SyslineReader::get_boxptrs()                        : sgl {:wide$}, dbl  {:wide$}, mult {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.SyslineReader_get_boxptrs_singleptr,
-        summary.SyslineReader_get_boxptrs_doubleptr,
-        summary.SyslineReader_get_boxptrs_multiptr,
-        wide = wide,
-    );
-    // SyslineReader::syslines
-    ratio = ratio64(&summary.SyslineReader_syslines_hit, &summary.SyslineReader_syslines_miss);
-    eprintln!(
-        "{}storage: SyslineReader::find_sysline() syslines              : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.SyslineReader_syslines_hit,
-        summary.SyslineReader_syslines_miss,
-        ratio,
-        wide = wide,
-    );
-    // SyslineReader::_syslines_by_range
-    ratio =
-        ratio64(&summary.SyslineReader_syslines_by_range_hit, &summary.SyslineReader_syslines_by_range_miss);
-    eprintln!(
-        "{}caching: SyslineReader::find_sysline() syslines_by_range_map : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.SyslineReader_syslines_by_range_hit,
-        summary.SyslineReader_syslines_by_range_miss,
-        ratio,
-        summary.SyslineReader_syslines_by_range_put,
-        wide = wide,
-    );
-    // SyslineReader::_find_sysline_lru_cache
-    ratio = ratio64(
-        &summary.SyslineReader_find_sysline_lru_cache_hit,
-        &summary.SyslineReader_find_sysline_lru_cache_miss,
-    );
-    eprintln!(
-        "{}caching: SyslineReader::find_sysline() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.SyslineReader_find_sysline_lru_cache_hit,
-        summary.SyslineReader_find_sysline_lru_cache_miss,
-        ratio,
-        summary.SyslineReader_find_sysline_lru_cache_put,
-        wide = wide,
-    );
-    // SyslineReader::_parse_datetime_in_line_lru_cache
-    ratio = ratio64(
-        &summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
-        &summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
-    );
-    eprintln!(
-        "{}caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.SyslineReader_parse_datetime_in_line_lru_cache_hit,
-        summary.SyslineReader_parse_datetime_in_line_lru_cache_miss,
-        ratio,
-        summary.SyslineReader_parse_datetime_in_line_lru_cache_put,
-        wide = wide,
-    );
-    // LineReader::_lines
-    ratio = ratio64(&summary.LineReader_lines_hits, &summary.LineReader_lines_miss);
-    eprintln!(
-        "{}storage: LineReader::find_line() lines                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.LineReader_lines_hits,
-        summary.LineReader_lines_miss,
-        ratio,
-        wide = wide,
-    );
-    // LineReader::_find_line_lru_cache
-    ratio =
-        ratio64(&summary.LineReader_find_line_lru_cache_hit, &summary.LineReader_find_line_lru_cache_miss);
-    eprintln!(
-        "{}caching: LineReader::find_line() LRU cache                   : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.LineReader_find_line_lru_cache_hit,
-        summary.LineReader_find_line_lru_cache_miss,
-        ratio,
-        summary.LineReader_find_line_lru_cache_put,
-        wide = wide,
-    );
-    // BlockReader::_read_blocks
-    ratio = ratio64(&summary.BlockReader_read_blocks_hit, &summary.BlockReader_read_blocks_miss);
-    eprintln!(
-        "{}storage: BlockReader::read_block() blocks                    : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.BlockReader_read_blocks_hit,
-        summary.BlockReader_read_blocks_miss,
-        ratio,
-        summary.BlockReader_read_blocks_put,
-        wide = wide,
-    );
-    // BlockReader::_read_blocks_cache
-    ratio = ratio64(
-        &summary.BlockReader_read_block_lru_cache_hit,
-        &summary.BlockReader_read_block_lru_cache_miss,
-    );
-    eprintln!(
-        "{}caching: BlockReader::read_block() LRU cache                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.BlockReader_read_block_lru_cache_hit,
-        summary.BlockReader_read_block_lru_cache_miss,
-        ratio,
-        summary.BlockReader_read_block_lru_cache_put,
-        wide = wide,
-    );
+    match &summary.readerdata {
+        SummaryReaderData::Syslog((
+            summaryblockreader,
+            summarylinereader,
+            summarysyslinereader,
+            _summarysyslogprocessor,
+        )) => {
+            print_cache_stats_summarysyslinereader(
+                summarysyslinereader,
+                OPT_SUMMARY_PRINT_INDENT2,
+                wide,
+            );
+            print_cache_stats_summarylinereader(
+                summarylinereader,
+                OPT_SUMMARY_PRINT_INDENT2,
+                wide,
+            );
+            print_cache_stats_summaryblockreader(
+                summaryblockreader,
+                OPT_SUMMARY_PRINT_INDENT2,
+                wide,
+            );
+        }
+        SummaryReaderData::Utmpx((
+            summaryblockreader,
+            summaryutmpreader,
+        )) => {
+            print_cache_stats_summaryutmpreader(
+                summaryutmpreader,
+                OPT_SUMMARY_PRINT_INDENT2,
+                wide,
+            );
+            print_cache_stats_summaryblockreader(
+                summaryblockreader,
+                OPT_SUMMARY_PRINT_INDENT2,
+                wide,
+            );
+        }
+        SummaryReaderData::Dummy => panic!("Unexpected SummaryReaderData::Dummy"),
+    }
 }
 
 /// Print the (optional) various [`Summary`] drop error statistics
@@ -2962,54 +3608,79 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
 ///
 /// [`Summary`]: s4lib::readers::summary::Summary
 fn print_drop_stats(summary_opt: &SummaryOpt) {
-    if summary_opt.is_none() {
-        return;
-    }
-
-    let summary: &Summary = match summary_opt.as_ref() {
-        Some(summary_) => summary_,
+    let summary: &Summary = match summary_opt {
+        Some(ref summary) => summary,
         None => {
-            eprintln!("ERROR: unexpected None from match summary_opt");
             return;
         }
     };
+    if summary.readerdata.is_dummy() {
+        return;
+    }
     eprintln!("{}Processing Drops:", OPT_SUMMARY_PRINT_INDENT1);
     let wide: usize = summary
         .max_drop()
         .to_string()
         .len();
+    let summaryblockreader = summary.blockreader();
     eprintln!(
         "{}streaming: BlockReader::drop_block()    : Ok {:wide$} Err {:wide$}",
         OPT_SUMMARY_PRINT_INDENT2,
-        summary.BlockReader_blocks_dropped_ok,
-        summary.BlockReader_blocks_dropped_err,
+        summaryblockreader.BlockReader_blocks_dropped_ok,
+        summaryblockreader.BlockReader_blocks_dropped_err,
         wide = wide,
     );
-    eprintln!(
-        "{}streaming: SyslineReader::drop_sysline(): Ok {:wide$} Err {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.SyslineReader_drop_sysline_ok,
-        summary.SyslineReader_drop_sysline_errors,
-        wide = wide,
-    );
-    eprintln!(
-        "{}streaming: LineReader::drop_line()      : Ok {:wide$} Err {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summary.LineReader_drop_line_ok,
-        summary.LineReader_drop_line_errors,
-        wide = wide,
-    );
+    match &summary.readerdata {
+        SummaryReaderData::Syslog(
+            (
+                _summaryblockreader,
+                summarylinereader,
+                summarysyslinereader,
+                _summarysyslogreader,
+            )
+        ) => {
+            eprintln!(
+                "{}streaming: SyslineReader::drop_sysline(): Ok {:wide$} Err {:wide$}",
+                OPT_SUMMARY_PRINT_INDENT2,
+                summarysyslinereader.SyslineReader_drop_sysline_ok,
+                summarysyslinereader.SyslineReader_drop_sysline_errors,
+                wide = wide,
+            );
+            eprintln!(
+                "{}streaming: LineReader::drop_line()      : Ok {:wide$} Err {:wide$}",
+                OPT_SUMMARY_PRINT_INDENT2,
+                summarylinereader.LineReader_drop_line_ok,
+                summarylinereader.LineReader_drop_line_errors,
+                wide = wide,
+            );
+        }
+        SummaryReaderData::Utmpx(
+            (
+                _summaryblockreader,
+                summaryutmpreader,
+            )
+        ) => {
+            eprintln!(
+                "{}streaming: UtmpxReader::drop_entry()    : Ok {:wide$} Err {:wide$}",
+                OPT_SUMMARY_PRINT_INDENT2,
+                summaryutmpreader.UtmpxReader_drop_entry_ok,
+                summaryutmpreader.UtmpxReader_drop_entry_errors,
+                wide = wide,
+            );
+        }
+        SummaryReaderData::Dummy => panic!("Unexpected SummaryReaderData::Dummy"),
+    }
 }
 
-/// Print the [`Summary.Error_`], if any (one line).
+/// Print the [`Summary.error`], if any (one line).
 ///
-/// [`Summary.Error_`]: s4lib::readers::summary::Summary
+/// [`Summary.error`]: s4lib::readers::summary::Summary
 fn print_error_summary(
     summary_opt: &SummaryOpt,
     color_choice: &ColorChoice,
 ) {
     match summary_opt.as_ref() {
-        Some(summary_) => match &summary_.Error_ {
+        Some(summary_) => match &summary_.error {
             Some(err_string) => {
                 eprint!("{}Error: ", OPT_SUMMARY_PRINT_INDENT1);
                 #[allow(clippy::single_match)]
@@ -3030,9 +3701,11 @@ fn print_error_summary(
 ///
 /// [`Summary`]: s4lib::readers::summary::Summary
 /// [`SummaryPrinted`]: self::SummaryPrinted
+#[allow(clippy::too_many_arguments)]
 fn print_file_summary(
     path: &FPath,
     filetype: &FileType,
+    logmessagetype: &LogMessageType,
     mimeguess: &MimeGuess,
     summary_opt: &SummaryOpt,
     summary_print_opt: &SummaryPrintedOpt,
@@ -3040,7 +3713,7 @@ fn print_file_summary(
     color_choice: &ColorChoice,
 ) {
     eprintln!();
-    print_filepath(path, filetype, mimeguess, color, color_choice);
+    print_filepath(path, filetype, logmessagetype, mimeguess, color, color_choice);
     print_summary_opt_printed(summary_print_opt, summary_opt, color_choice);
     print_summary_opt_processed(summary_opt);
     if OPT_SUMMARY_PRINT_CACHE_STATS {
@@ -3063,6 +3736,7 @@ fn print_file_summary(
 fn print_all_files_summaries(
     map_pathid_path: &MapPathIdToFPath,
     map_pathid_filetype: &MapPathIdToFileType,
+    map_pathid_logmessagetype: &MapPathIdToLogMessageType,
     map_pathid_mimeguess: &MapPathIdToMimeGuess,
     map_pathid_color: &MapPathIdToColor,
     map_pathid_summary: &mut MapPathIdSummary,
@@ -3077,13 +3751,16 @@ fn print_all_files_summaries(
         let filetype: &FileType = map_pathid_filetype
             .get(pathid)
             .unwrap_or(&FileType::Unknown);
+        let logmessagetype: &LogMessageType = map_pathid_logmessagetype
+            .get(pathid)
+            .unwrap_or(&LogMessageType::Sysline);
         let mimeguess_default: MimeGuess = MimeGuess::from_ext("");
         let mimeguess: &MimeGuess = map_pathid_mimeguess
             .get(pathid)
             .unwrap_or(&mimeguess_default);
         let summary_opt: SummaryOpt = map_pathid_summary.remove(pathid);
         let summary_print_opt: SummaryPrintedOpt = map_pathid_sumpr.remove(pathid);
-        print_file_summary(path, filetype, mimeguess, &summary_opt, &summary_print_opt, color, color_choice);
+        print_file_summary(path, filetype, logmessagetype, mimeguess, &summary_opt, &summary_print_opt, color, color_choice);
     }
 }
 
@@ -3124,11 +3801,11 @@ fn print_files_processpathresult(
                 print_("(not supported)".to_string(), color_choice, color_error);
             }
             ProcessPathResult::FileErrNotAFile(path) => {
-                print_(format!("File: {}", path), color_choice, color_default);
+                print_(format!("File: {} ", path), color_choice, color_default);
                 print_("(not a file)".to_string(), color_choice, color_error);
             }
             ProcessPathResult::FileErrNotExist(path) => {
-                print_(format!("File: {}", path), color_choice, color_default);
+                print_(format!("File: {} ", path), color_choice, color_default);
                 print_("(does not exist)".to_string(), color_choice, color_error);
             }
         }

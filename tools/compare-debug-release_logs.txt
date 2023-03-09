@@ -44,6 +44,8 @@
 ./logs/other/tests/dtf-varying-10.log
 ./logs/other/tests/dt-mix1.log
 ./logs/programs/proftpd/proftpd.log
+./logs/programs/utmp/host-entry1.wtmp
+./logs/programs/utmp/host-entry6.wtmp
 ./logs/RancherOS-1.5.8/boot/autologin
 ./logs/RockyLinux9/messages
 ./logs/synology-DS6/apparmor.log

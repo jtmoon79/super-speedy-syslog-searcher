@@ -61,6 +61,9 @@ pub struct Sysline {
     /// Datetime is presumed to be on first `Line`.
     pub(crate) dt_end: LineIndex,
     /// Parsed DateTime instance.
+    // TODO: [2023/02/26] can this remove `Option` and be a plain `DateTimeL`?
+    //       would nicely simplify some code.
+    //       (why was it an Option in the first place?)
     pub(crate) dt: DateTimeLOpt,
 }
 
@@ -342,6 +345,7 @@ impl Sysline {
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
+    // TODO fix this non_snake_case (use correct snake_case)
     fn impl_to_String_raw(
         self: &Sysline,
         raw: bool,
@@ -367,6 +371,7 @@ impl Sysline {
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
+    // TODO fix this non_snake_case (use correct snake_case)
     pub fn to_String(self: &Sysline) -> String {
         // get capacity needed
         let mut sz: usize = 0;
@@ -397,6 +402,7 @@ impl Sysline {
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
+    // TODO fix this non_snake_case (use correct snake_case)
     pub fn to_String_noraw(self: &Sysline) -> String {
         self.impl_to_String_raw(false)
     }

@@ -118,6 +118,8 @@
 ./logs/programs/proftpd/xferlog
 ./logs/programs/tomcat/catalina.out
 ./logs/programs/tomcat/catalina-access.log
+./logs/programs/utmp/host-entry1.wtmp
+./logs/programs/utmp/host-entry6.wtmp
 ./logs/RancherOS-1.5.8/boot/autologin
 ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
 ./logs/RancherOS-1.5.8/boot/cloud-init.save.log

@@ -16,13 +16,16 @@ pub use std::path::Path;
 /// [`std::path::Path`].
 ///
 /// An `FPath`can handle "subpaths" (paths into archives or compressed files)
-/// without complaints.
+/// by adding an ad-hoc separator.
 ///
 /// Also, `std::path::Path` does not have trait `Sized` so
 /// instances of `std::path::Path` must be passed-by-reference
 /// (rustc error "`size is not known at compile time`").
-/// This introduces too much difficulty
-/// (have to start marking explicit lifetimes everywhere 😩)
+/// Some code areas then require marking explicit lifetimes 😩
+///
+/// tl;dr it's much easier to use a [`String`] and convert the `Path` as needed.
+///
+/// [`String`]: std::string::String
 pub type FPath = String;
 
 /// a sequence of [`FPath`]s
@@ -50,19 +53,21 @@ pub type Count = u64;
 
 /// [`Result`]-like result extended for `s4` to 3 types.
 ///
-/// For line searching and sysline searching functions.
+/// For various "find" functions implemented by [Readers].
 ///
 /// [`Result`]: std::result::Result
+/// [Readers]: crate::readers
+// TODO: rename from `ResultS3` to `ResultFind`
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ResultS3<T, E> {
-    /// Contains the success data.
+    /// Contains the found data.
     Found(T),
     /// File is empty, or a request reached the end of the file or beyond the
-    /// end, or some other condition that means "Nothing to do, done".
+    /// end, or some other condition that means "_Nothing to do, done_".
     ///
-    /// Does not mean errors happened.
+    /// Does not imply an error occurred.
     Done,
-    /// Contains the error value; something bad happened.
+    /// Something bad happened. Contains the `E` error data.
     Err(E),
 }
 
@@ -304,7 +309,12 @@ pub enum FileType {
     /// a file compressed "xz'd" file, e.g. `log.xz`
     /// (presumed to contain one regular file; see Issue #11)
     Xz,
+    /// a binary [utmp/umtpx format] file
+    ///
+    /// [utmp/umtpx format]: https://man7.org/linux/man-pages/man5/utmp.5.html
+    Utmpx,
     /// a file type known to be unparseable
+    // TODO: [2023/03] fix misspelling, `Unparseable` -> `Unparsable`
     Unparseable,
     /// an unknown file type (catch all)
     Unknown,
@@ -332,6 +342,7 @@ impl std::fmt::Display for FileType {
             FileType::Tar => write!(f, "TAR"),
             FileType::TarGz => write!(f, "TAR GZIP"),
             FileType::Xz => write!(f, "XZ"),
+            FileType::Utmpx => write!(f, "UTMP"),
             FileType::Unparseable => write!(f, "UNPARSEABLE"),
             FileType::Unknown => write!(f, "UNKNOWN"),
         }
@@ -359,10 +370,68 @@ impl FileType {
             | FileType::Gz
             | FileType::Tar
             | FileType::Xz
+            | FileType::Utmpx
             | FileType::Unknown
         )
     }
 }
+
+
+/// The type of message sent from file processing thread to the main printing
+/// thread. Similar to [`LogMessage`] but without the enclosed data.
+///
+/// [`LogMessage`]: s4::LogMessage
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub enum LogMessageType {
+    /// Typical line-oriented log file; a "syslog" file in program parlance.
+    ///
+    /// Relates to a [`Sysline`].
+    ///
+    /// [`Sysline`]: crate::data::sysline::Sysline
+    Sysline,
+    /// A binary [utmp/umtpx format] file.
+    ///
+    /// Relates to a [`Utmpx`].
+    ///
+    /// [utmp/umtpx format]: https://man7.org/linux/man-pages/man5/utmp.5.html
+    /// [`Utmpx`]: crate::data::utmpx::Utmpx
+    Utmpx,
+    /// Special case, used to indicate "ALL" or "ANY" message type.
+    /// Useful for code objects tracking multiple files.
+    #[default]
+    All,
+}
+
+impl std::fmt::Display for LogMessageType {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter,
+    ) -> std::fmt::Result {
+        match self {
+            LogMessageType::Sysline => write!(f, "syslog lines"),
+            LogMessageType::Utmpx => write!(f, "utmpx entries"),
+            LogMessageType::All => write!(f, "ALL"),
+        }
+    }
+}
+
+/// convert a [`FileType`] to a [`LogMessageType`]
+pub fn filetype_to_logmessagetype(filetype: FileType) -> LogMessageType {
+    match filetype {
+        FileType::Utmpx => LogMessageType::Utmpx,
+        _ => LogMessageType::Sysline,
+    }
+}
+
+#[macro_export]
+macro_rules! debug_panic {
+    ($($arg:tt)*) => (
+        if cfg!(debug_assertions) {
+            panic!($($arg)*);
+        }
+    )
+}
+pub use debug_panic;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Blocks and BlockReader

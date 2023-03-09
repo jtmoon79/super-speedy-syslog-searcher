@@ -3,7 +3,6 @@
 //! Miscellaneous helper "readers" functions.
 
 use crate::common::FPath;
-
 #[cfg(test)]
 use crate::common::FileOffset;
 

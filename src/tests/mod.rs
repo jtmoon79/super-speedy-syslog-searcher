@@ -20,3 +20,5 @@ pub mod printers_tests;
 pub mod sysline_tests;
 pub mod syslinereader_tests;
 pub mod syslogprocessor_tests;
+pub mod utmpxreader_tests;
+pub mod utmpx_tests;

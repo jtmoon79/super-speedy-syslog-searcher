@@ -13,7 +13,12 @@ from typing import Optional
 WIDTH = 8
 
 
-def main(path: Optional[str], width: int):
+def main(
+        path: Optional[str],
+        width: int,
+        start: Optional[int],
+        end: Optional[int]
+):
     if path:
         with open(path, "rb") as file_:
             data = file_.read()
@@ -22,19 +27,39 @@ def main(path: Optional[str], width: int):
 
     count: int = 0
     for at, byte_ in enumerate(data):
-        print(f"0x{byte_:02x},", end="")
-        count += 1
-        if (at + 1) % width == 0:
-            print("")
-        else:
-            print(" ", end="")
+        sep = False
+        match (start, end):
+            case (None, None):
+                print(f"0x{byte_:02x},", end="")
+                count += 1
+                sep = True
+            case (start, None):
+                if start <= at:
+                    print(f"0x{byte_:02x},", end="")
+                    count += 1
+                    sep = True
+            case (None, end_):
+                if at < end_:
+                    print(f"0x{byte_:02x},", end="")
+                    count += 1
+                    sep = True
+            case (start, end_):
+                if start <= at < end_:
+                    print(f"0x{byte_:02x},", end="")
+                    count += 1
+                    sep = True
+        if sep:
+            if count % width == 0:
+                print()
+            else:
+                print(" ", end="")
     print()
     sys.stdout.flush()
     print(f"printed {count} bytes", file=sys.stderr)
 
 
 def print_help():
-    print("usage:\n  hexdump.py FILE [WIDTH]", file=sys.stderr)
+    print("usage:\n  hexdump.py FILE [WIDTH] [START BYTE] [END BYTE]", file=sys.stderr)
     sys.exit(1)
 
 
@@ -49,7 +74,13 @@ if __name__ == "__main__":
         print_help()
 
     width = WIDTH
-    if len(sys.argv) == 3:
+    if len(sys.argv) >= 3:
         width = int(sys.argv[2])
-
-    main(path, width)
+    start = None
+    if len(sys.argv) >= 4:
+        start = int(sys.argv[3])
+    end = None
+    if len(sys.argv) >= 5:
+        end = int(sys.argv[4])
+ 
+    main(path, width, start, end)

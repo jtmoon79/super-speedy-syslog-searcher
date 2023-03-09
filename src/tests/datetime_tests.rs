@@ -663,7 +663,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
             year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
         }
         let s = buffer_to_String_noraw(data);
-        match bytes_to_regex_to_datetime(data, &index, &year_opt, &*FO_L) {
+        match bytes_to_regex_to_datetime(data, &index, &year_opt, &FO_L) {
             Some(capdata) => {
                 eprintln!(
                     "Passed dtpd declared at line {} result {:?}, test data {:?}",
@@ -683,7 +683,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
                     // verify datetime processed
                     let fo: FixedOffset = match ymdhmsn_args_.0 {
                         O_L => *FO_L,
-                        val if val < 0 => FixedOffset::west_opt(-1 * val).unwrap(),
+                        val if val < 0 => FixedOffset::west_opt(-val).unwrap(),
                         val if val >= 0 => FixedOffset::east_opt(val).unwrap(),
                         val => panic!("bad offset value {:?}", val),
                     };
@@ -910,7 +910,7 @@ fn test_datetime_from_str_workaround_Issue660() {
 fn fo_to_fo0(dt_opt: &DateTimeLOpt) -> DateTimeLOpt {
     #[allow(clippy::manual_map)]
     match dt_opt {
-        Some(dt) => Some(dt.with_timezone(&*FO_0)),
+        Some(dt) => Some(dt.with_timezone(&FO_0)),
         None => None,
     }
 }

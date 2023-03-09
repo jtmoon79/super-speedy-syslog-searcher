@@ -6,9 +6,7 @@
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 
 use crate::common::{FPath, FileType};
-
 use crate::readers::blockreader::SUBPATH_SEP;
-
 use crate::readers::helpers::{
     filename_count_extensions, fpath_to_path, path_clone, path_to_fpath, remove_extension,
 };
@@ -21,11 +19,9 @@ use std::path::Path;
 extern crate mime_guess;
 #[doc(hidden)]
 pub use mime_guess::MimeGuess;
-
 extern crate si_trace_print;
 #[allow(unused_imports)]
 use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
-
 extern crate tar;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -57,13 +53,27 @@ pub enum ProcessPathResult {
 pub type ProcessPathResults = Vec<ProcessPathResult>;
 
 /// files without file extensions known to be parseable
-const PARSEABLE_FILENAMES_FILE: [&str; 5] = [
-    "messages", "syslog", "faillog", "lastlog", "kernlog",
+const PARSEABLE_FILENAMES_FILE: [&str; 3] = [
+    "messages", "syslog", "kernlog",
 ];
 
-/// files without file extensions known to be not parseable
-const UNPARSEABLE_FILENAMES_FILE: [&str; 3] = [
-    "wtmp", "btmp", "utmp",
+/// [utmpx format] file names.
+///
+/// [utmpx format]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143772537#Location
+const UTMP_FILENAMES_FILE: [&str; 9] = [
+    // Linux, HP-UX
+    "btmp",
+    "utmp",
+    "wtmp",
+    // Solaris
+    "btmpx",
+    "utmpx",
+    "wtmpx",
+    // FreeBSD
+    "utx.active",
+    "utx.lastlogin",
+    // `utx.log` is an ambiguous name, could be a plain log file or utmpx file
+    "utx.log",
 ];
 
 /// Map a single [`MimeGuess`] as a [`str`] into a `FileType`.
@@ -168,9 +178,9 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         return FileType::File;
     }
 
-    if UNPARSEABLE_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_name_s);
-        return FileType::Unparseable;
+    if UTMP_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return Utmpx; UTMP_FILENAMES_FILE.contains({:?})", file_name_s);
+        return FileType::Utmpx;
     }
 
     // XXX: `file_prefix` WIP https://github.com/rust-lang/rust/issues/86319
@@ -198,6 +208,11 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
     if file_suffix_s == "journal" {
         defx!("return Unparseable; .journal");
         return FileType::Unparseable;
+    }
+
+    if UTMP_FILENAMES_FILE.contains(&file_suffix_s) {
+        defx!("return Utmpx; UTMP_FILENAMES_FILE.contains({:?})", file_suffix_s);
+        return FileType::Utmpx;
     }
 
     // FileTgz

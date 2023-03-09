@@ -5,9 +5,21 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::{Bytes, FileType, ResultS3};
-
-use crate::readers::blockreader::{BlockOffset, BlockReader, BlockSz, FPath, FileOffset, ResultS3ReadBlock};
+use crate::common::{Bytes, FileType, FPath, ResultS3};
+use crate::debug::printers::{
+    byte_to_char_noraw,
+};
+use crate::readers::blockreader::{
+    BlockOffset,
+    BlockReader,
+    BlockSz,
+    FileOffset,
+    ResultS3ReadBlock,
+    ResultReadData,
+    ReadData,
+    ReadDataParts,
+    ResultReadDataToBuffer,
+};
 
 #[allow(unused_imports)]
 use crate::debug::helpers::{
@@ -17,11 +29,13 @@ use crate::debug::helpers::{
 
 #[allow(unused_imports)]
 use crate::tests::common::{
-    BYTES_A, BYTES_AB, BYTES_ABCD, BYTES_ABCDEFGH, BYTES_C, BYTES_CD, BYTES_EFGH, NTF_1BYTE_PATH,
-    NTF_3BYTE_PATH, NTF_8BYTE_PATH, NTF_GZ_1BYTE_FPATH, NTF_GZ_8BYTE_FPATH, NTF_GZ_EMPTY_FPATH,
+    BYTES_A, BYTES_AB, BYTES_ABCD, BYTES_ABCDEFGH, BYTES_C, BYTES_CD, BYTES_EFGH, NTF_1BYTE_FPATH,
+    NTF_3BYTE_FPATH, NTF_8BYTE_FPATH, NTF_GZ_1BYTE_FPATH, NTF_GZ_8BYTE_FPATH, NTF_GZ_EMPTY_FPATH,
     NTF_LOG_EMPTY_FPATH, NTF_TAR_0BYTE_FILEA_FPATH, NTF_TAR_1BYTE_FILEA_FPATH, NTF_TAR_1BYTE_FPATH,
     NTF_TAR_3BYTE_OLDGNU_FILEA_FPATH, NTF_TAR_3BYTE_PAX_FILEA_FPATH, NTF_TAR_3BYTE_USTAR_FILEA_FPATH,
     NTF_TAR_8BYTE_FILEA_FPATH, NTF_XZ_1BYTE_FPATH, NTF_XZ_8BYTE_FPATH, NTF_XZ_EMPTY_FPATH,
+    NTF_UTMPX_2ENTRY_FPATH, NTF_UTMPX_2ENTRY_FILETYPE,
+    UTMPX_2ENTRY_FILESZ,
 };
 
 use std::collections::BTreeMap;
@@ -40,7 +54,7 @@ use test_case::test_case;
 
 /// helper wrapper to create a new BlockReader
 fn new_BlockReader(
-    path: FPath,
+    path: &FPath,
     filetype: FileType,
     blocksz: BlockSz,
 ) -> BlockReader {
@@ -60,7 +74,7 @@ fn new_BlockReader(
 #[test]
 fn test_new_BlockReader_1() {
     new_BlockReader(
-        (*NTF_LOG_EMPTY_FPATH).clone(),
+        &NTF_LOG_EMPTY_FPATH,
         FileType::File,
         1024
     );
@@ -70,7 +84,7 @@ fn test_new_BlockReader_1() {
 #[should_panic]
 fn test_new_BlockReader_2_bad_path_panics() {
     new_BlockReader(
-        FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"),
+        &FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"),
         FileType::File,
         1024
     );
@@ -94,7 +108,7 @@ fn test_BlockReader(
     checks: &Checks,
 ) {
     defn!("({:?}, {})", path, blocksz);
-    let mut br1 = new_BlockReader(path.clone(), filetype, blocksz);
+    let mut br1 = new_BlockReader(path, filetype, blocksz);
 
     for offset in offsets.iter() {
         {
@@ -569,31 +583,586 @@ fn test_new_read_block_tar_8byte_99() {
 
 // -------------------------------------------------------------------------------------------------
 
-#[test_case(NTF_LOG_EMPTY_FPATH.clone(), FileType::File, 2, 0, 0; "LOG_0BYTE 2 0 0")]
-#[test_case(NTF_1BYTE_PATH.clone(), FileType::File, 2, 0, 1; "LOG_1BYTE 2 0 1")]
-#[test_case(NTF_3BYTE_PATH.clone(), FileType::File, 2, 0, 2; "LOG_3BYTE 2 0 2")]
-#[test_case(NTF_3BYTE_PATH.clone(), FileType::File, 2, 1, 1; "LOG_3BYTE 2 1 1")]
-#[test_case(NTF_3BYTE_PATH.clone(), FileType::File, 2, 2, 0 => panics; "LOG_3BYTE 2 2 0 panic")]
-#[test_case(NTF_GZ_EMPTY_FPATH.clone(), FileType::Gz, 2, 0, 0; "GZ_0BYTE 2 0 0")]
-#[test_case(NTF_GZ_EMPTY_FPATH.clone(), FileType::Gz, 2, 1, 0 => panics; "GZ_0BYTE 2 1 0 panic")]
-#[test_case(NTF_GZ_1BYTE_FPATH.clone(), FileType::Gz, 2, 0, 1; "GZ_1BYTE 2 0 1")]
-#[test_case(NTF_GZ_1BYTE_FPATH.clone(), FileType::Gz, 2, 1, 0 => panics; "GZ_1BYTE 2 1 0 panic")]
-#[test_case(NTF_GZ_8BYTE_FPATH.clone(), FileType::Gz, 2, 0, 2; "GZ_8BYTE 2 0 2")]
-#[test_case(NTF_GZ_8BYTE_FPATH.clone(), FileType::Gz, 2, 1, 2; "GZ_8BYTE 2 1 2")]
-#[test_case(NTF_GZ_8BYTE_FPATH.clone(), FileType::Gz, 2, 2, 2; "GZ_8BYTE 2 2 2")]
-#[test_case(NTF_GZ_8BYTE_FPATH.clone(), FileType::Gz, 2, 3, 2; "GZ_8BYTE 2 3 2")]
-#[test_case(NTF_GZ_8BYTE_FPATH.clone(), FileType::Gz, 2, 4, 0 => panics; "GZ_8BYTE 2 4 0 panic")]
-#[test_case(NTF_XZ_1BYTE_FPATH.clone(), FileType::Xz, 2, 0, 1; "XZ_1BYTE 2 0 1")]
-#[test_case(NTF_XZ_1BYTE_FPATH.clone(), FileType::Xz, 2, 1, 0 => panics; "XZ_1BYTE 2 1 0 panic")]
-#[test_case(NTF_TAR_1BYTE_FILEA_FPATH.clone(), FileType::Tar, 2, 0, 1; "TAR_1BYTE 2 0 1")]
-#[test_case(NTF_TAR_1BYTE_FILEA_FPATH.clone(), FileType::Tar, 2, 1, 0 => panics; "TAR_1BYTE 2 1 0 panic")]
-#[test_case(NTF_TAR_8BYTE_FILEA_FPATH.clone(), FileType::Tar, 2, 0, 2; "TAR_8BYTE 2 0 2")]
-#[test_case(NTF_TAR_8BYTE_FILEA_FPATH.clone(), FileType::Tar, 2, 1, 2; "TAR_8BYTE 2 1 2")]
-#[test_case(NTF_TAR_8BYTE_FILEA_FPATH.clone(), FileType::Tar, 2, 2, 2; "TAR_8BYTE 2 2 2")]
-#[test_case(NTF_TAR_8BYTE_FILEA_FPATH.clone(), FileType::Tar, 2, 3, 2; "TAR_8BYTE 2 3 2")]
-#[test_case(NTF_TAR_8BYTE_FILEA_FPATH.clone(), FileType::Tar, 2, 4, 0 => panics; "TAR_8BYTE 2 4 0 panic")]
+// `read_data` tests
+
+// RD0
+
+const RD0_SZ: usize = 0;
+const RD0_BUFFER: [u8; RD0_SZ] = [];
+const RD0_FILENAME: &str = "rd0.data";
+const RD0_FT: FileType = FileType::File;
+
+lazy_static! {
+    static ref RD0_NTF: NamedTempFile =
+        create_temp_file_bytes_with_suffix(RD0_BUFFER.as_slice(), &String::from(RD0_FILENAME));
+    static ref RD0_FP: FPath = ntf_fpath(&RD0_NTF);
+}
+
+// RD1
+
+const RD1_SZ: usize = 1;
+const RD1_BUFFER: [u8; RD1_SZ] = [0];
+const RD1_FILENAME: &str = "rd1.data";
+const RD1_FT: FileType = FileType::File;
+
+lazy_static! {
+    static ref RD1_NTF: NamedTempFile =
+        create_temp_file_bytes_with_suffix(RD1_BUFFER.as_slice(), &String::from(RD1_FILENAME));
+    static ref RD1_FP: FPath = ntf_fpath(&RD1_NTF);
+}
+
+// RD2
+
+const RD2_SZ: usize = 2;
+const RD2_BUFFER: [u8; RD2_SZ] = [0, 1];
+const RD2_FILENAME: &str = "rd2.data";
+const RD2_FT: FileType = FileType::File;
+
+lazy_static! {
+    static ref RD2_NTF: NamedTempFile =
+        create_temp_file_bytes_with_suffix(RD2_BUFFER.as_slice(), &String::from(RD2_FILENAME));
+    static ref RD2_FP: FPath = ntf_fpath(&RD2_NTF);
+}
+
+// RD3
+
+const RD3_SZ: usize = 3;
+const RD3_BUFFER: [u8; RD3_SZ] = [0, 1, 2];
+const RD3_FILENAME: &str = "rd3.data";
+const RD3_FT: FileType = FileType::File;
+
+lazy_static! {
+    static ref RD3_NTF: NamedTempFile =
+        create_temp_file_bytes_with_suffix(RD3_BUFFER.as_slice(), &String::from(RD3_FILENAME));
+    static ref RD3_FP: FPath = ntf_fpath(&RD3_NTF);
+}
+
+// RD4
+
+const RD4_SZ: usize = 4;
+const RD4_BUFFER: [u8; RD4_SZ] = [0, 1, 2, 3];
+const RD4_FILENAME: &str = "rd4.data";
+const RD4_FT: FileType = FileType::File;
+
+lazy_static! {
+    static ref RD4_NTF: NamedTempFile =
+        create_temp_file_bytes_with_suffix(RD4_BUFFER.as_slice(), &String::from(RD4_FILENAME));
+    static ref RD4_FP: FPath = ntf_fpath(&RD4_NTF);
+}
+
+// RD5
+
+const RD5_SZ: usize = 5;
+const RD5_BUFFER: [u8; RD5_SZ] = [0, 1, 2, 3, 4];
+const RD5_FILENAME: &str = "rd5.data";
+const RD5_FT: FileType = FileType::File;
+
+lazy_static! {
+    static ref RD5_NTF: NamedTempFile =
+        create_temp_file_bytes_with_suffix(RD5_BUFFER.as_slice(), &String::from(RD5_FILENAME));
+    static ref RD5_FP: FPath = ntf_fpath(&RD5_NTF);
+}
+
+// RD6
+
+const RD6_SZ: usize = 6;
+const RD6_BUFFER: [u8; RD6_SZ] = [0, 1, 2, 3, 4, 5];
+const RD6_FILENAME: &str = "rd6.data";
+const RD6_FT: FileType = FileType::File;
+
+lazy_static! {
+    static ref RD6_NTF: NamedTempFile =
+        create_temp_file_bytes_with_suffix(RD6_BUFFER.as_slice(), &String::from(RD6_FILENAME));
+    static ref RD6_FP: FPath = ntf_fpath(&RD6_NTF);
+}
+
+// RD7
+
+const RD7_SZ: usize = 7;
+const RD7_BUFFER: [u8; RD7_SZ] = [0, 1, 2, 3, 4, 5, 6];
+const RD7_FILENAME: &str = "rd7.data";
+const RD7_FT: FileType = FileType::File;
+
+lazy_static! {
+    static ref RD7_NTF: NamedTempFile =
+        create_temp_file_bytes_with_suffix(RD7_BUFFER.as_slice(), &String::from(RD7_FILENAME));
+    static ref RD7_FP: FPath = ntf_fpath(&RD7_NTF);
+}
+
+// RD16
+
+const RD16_SZ: usize = 16;
+const RD16_BUFFER: [u8; RD16_SZ] = [
+    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09,
+    0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
+];
+const RD16_FILENAME: &str = "rd16.data";
+const RD16_FT: FileType = FileType::File;
+
+lazy_static! {
+    static ref RD16_NTF: NamedTempFile =
+        create_temp_file_bytes_with_suffix(RD16_BUFFER.as_slice(), &String::from(RD16_FILENAME));
+    static ref RD16_FP: FPath = ntf_fpath(&RD16_NTF);
+}
+
+#[derive(Debug, Eq, PartialEq)]
+enum ResultReadData_Test {
+    Found,
+    Done,
+    _Err,
+}
+
+const FOUND_: ResultReadData_Test = ResultReadData_Test::Found;
+const DONE_: ResultReadData_Test = ResultReadData_Test::Done;
+
+#[test_case(&RD0_FP, RD0_FT, 2, 0, 0, false, DONE_, &[]; "RD0_2_0_0")]
+#[test_case(&RD0_FP, RD0_FT, 2, 0, 1, false, DONE_, &[]; "RD0_2_0_1")]
+//
+#[test_case(&RD1_FP, RD1_FT, 2, 0, 0, false, DONE_, &[]; "RD1_2_0_0")]
+#[test_case(&RD1_FP, RD1_FT, 2, 0, 1, false, FOUND_, &[0]; "RD1_2_0_1")]
+#[test_case(&RD1_FP, RD1_FT, 2, 0, 2, false, FOUND_, &[0]; "RD1_2_0_2")]
+#[test_case(&RD1_FP, RD1_FT, 2, 0, 3, false, FOUND_, &[0]; "RD1_2_0_3")]
+#[test_case(&RD1_FP, RD1_FT, 2, 0, 4, false, FOUND_, &[0]; "RD1_2_0_4")]
+#[test_case(&RD1_FP, RD1_FT, 2, 1, 1, false, DONE_, &[]; "RD1_2_1_1")]
+#[test_case(&RD1_FP, RD1_FT, 2, 1, 2, false, DONE_, &[]; "RD1_2_1_2")]
+#[test_case(&RD1_FP, RD1_FT, 2, 1, 3, false, DONE_, &[]; "RD1_2_1_3")]
+//
+#[test_case(&RD2_FP, RD2_FT, 2, 0, 0, false, DONE_, &[]; "RD2_2_0_0")]
+#[test_case(&RD2_FP, RD2_FT, 2, 0, 1, false, FOUND_, &[0]; "RD2_2_0_1")]
+#[test_case(&RD2_FP, RD2_FT, 2, 0, 2, false, FOUND_, &[0, 1]; "RD2_2_0_2")]
+#[test_case(&RD2_FP, RD2_FT, 2, 1, 1, false, DONE_, &[]; "RD2_2_1_1")]
+#[test_case(&RD2_FP, RD2_FT, 2, 1, 2, false, FOUND_, &[1]; "RD2_2_1_2")]
+//
+#[test_case(&RD3_FP, RD3_FT, 2, 0, 0, false, DONE_, &[]; "RD3_2_0_0")]
+#[test_case(&RD3_FP, RD3_FT, 2, 0, 1, false, FOUND_, &[0]; "RD3_2_0_1")]
+#[test_case(&RD3_FP, RD3_FT, 2, 0, 2, false, FOUND_, &[0, 1]; "RD3_2_0_2")]
+#[test_case(&RD3_FP, RD3_FT, 2, 0, 3, false, FOUND_, &[0, 1, 2]; "RD3_2_0_3")]
+#[test_case(&RD3_FP, RD3_FT, 2, 1, 1, false, DONE_, &[]; "RD3_2_1_1")]
+#[test_case(&RD3_FP, RD3_FT, 2, 1, 2, false, FOUND_, &[1]; "RD3_2_1_2")]
+#[test_case(&RD3_FP, RD3_FT, 2, 1, 3, false, FOUND_, &[1, 2]; "RD3_2_1_3")]
+#[test_case(&RD3_FP, RD3_FT, 2, 2, 2, false, DONE_, &[]; "RD3_2_2_2")]
+#[test_case(&RD3_FP, RD3_FT, 2, 2, 3, false, FOUND_, &[2]; "RD3_2_2_3")]
+//
+#[test_case(&RD4_FP, RD4_FT, 2, 0, 0, false, DONE_, &[]; "RD4_2_0_0")]
+#[test_case(&RD4_FP, RD4_FT, 2, 0, 1, false, FOUND_, &[0]; "RD4_2_0_1")]
+#[test_case(&RD4_FP, RD4_FT, 2, 0, 1, true, FOUND_, &[0]; "RD4_2_0_1_oneblock")]
+#[test_case(&RD4_FP, RD4_FT, 2, 0, 2, false, FOUND_, &[0, 1]; "RD4_2_0_2")]
+#[test_case(&RD4_FP, RD4_FT, 2, 0, 2, true, FOUND_, &[0, 1]; "RD4_2_0_2_oneblock")]
+#[test_case(&RD4_FP, RD4_FT, 2, 0, 3, false, FOUND_, &[0, 1, 2]; "RD4_2_0_3")]
+#[test_case(&RD4_FP, RD4_FT, 2, 0, 4, false, FOUND_, &[0, 1, 2, 3]; "RD4_2_0_4")]
+#[test_case(&RD4_FP, RD4_FT, 2, 0, 5, false, FOUND_, &[0, 1, 2, 3]; "RD4_2_0_5")]
+#[test_case(&RD4_FP, RD4_FT, 2, 1, 1, false, DONE_, &[]; "RD4_2_1_1")]
+#[test_case(&RD4_FP, RD4_FT, 2, 1, 2, false, FOUND_, &[1]; "RD4_2_1_2")]
+#[test_case(&RD4_FP, RD4_FT, 2, 1, 3, false, FOUND_, &[1, 2]; "RD4_2_1_3")]
+#[test_case(&RD4_FP, RD4_FT, 2, 1, 4, false, FOUND_, &[1, 2, 3]; "RD4_2_1_4")]
+#[test_case(&RD4_FP, RD4_FT, 2, 2, 2, false, DONE_, &[]; "RD4_2_2_2")]
+#[test_case(&RD4_FP, RD4_FT, 2, 2, 3, false, FOUND_, &[2]; "RD4_2_2_3")]
+#[test_case(&RD4_FP, RD4_FT, 2, 2, 3, true, FOUND_, &[2]; "RD4_2_2_3_oneblock")]
+#[test_case(&RD4_FP, RD4_FT, 2, 2, 4, false, FOUND_, &[2, 3]; "RD4_2_2_4")]
+#[test_case(&RD4_FP, RD4_FT, 2, 2, 4, true, FOUND_, &[2, 3]; "RD4_2_2_4_oneblock")]
+#[test_case(&RD4_FP, RD4_FT, 2, 2, 5, false, FOUND_, &[2, 3]; "RD4_2_2_5")]
+//
+#[test_case(&RD5_FP, RD5_FT, 2, 0, 0, false, DONE_, &[]; "RD5_2_0_0")]
+#[test_case(&RD5_FP, RD5_FT, 2, 0, 1, false, FOUND_, &[0]; "RD5_2_0_1")]
+#[test_case(&RD5_FP, RD5_FT, 2, 0, 1, true, FOUND_, &[0]; "RD5_2_0_1_oneblock")]
+#[test_case(&RD5_FP, RD5_FT, 2, 0, 2, false, FOUND_, &[0, 1]; "RD5_2_0_2")]
+#[test_case(&RD5_FP, RD5_FT, 2, 0, 2, true, FOUND_, &[0, 1]; "RD5_2_0_2_oneblock")]
+#[test_case(&RD5_FP, RD5_FT, 2, 0, 3, false, FOUND_, &[0, 1, 2]; "RD5_2_0_3")]
+#[test_case(&RD5_FP, RD5_FT, 2, 0, 4, false, FOUND_, &[0, 1, 2, 3]; "RD5_2_0_4")]
+#[test_case(&RD5_FP, RD5_FT, 2, 0, 5, false, FOUND_, &[0, 1, 2, 3, 4]; "RD5_2_0_5")]
+#[test_case(&RD5_FP, RD5_FT, 2, 0, 6, false, FOUND_, &[0, 1, 2, 3, 4]; "RD5_2_0_6")]
+#[test_case(&RD5_FP, RD5_FT, 2, 1, 1, false, DONE_, &[]; "RD5_2_1_1")]
+#[test_case(&RD5_FP, RD5_FT, 2, 1, 2, false, FOUND_, &[1]; "RD5_2_1_2")]
+#[test_case(&RD5_FP, RD5_FT, 2, 1, 3, false, FOUND_, &[1, 2]; "RD5_2_1_3")]
+#[test_case(&RD5_FP, RD5_FT, 2, 1, 4, false, FOUND_, &[1, 2, 3]; "RD5_2_1_4")]
+#[test_case(&RD5_FP, RD5_FT, 2, 1, 5, false, FOUND_, &[1, 2, 3, 4]; "RD5_2_1_5")]
+#[test_case(&RD5_FP, RD5_FT, 2, 2, 2, false, DONE_, &[]; "RD5_2_2_2")]
+#[test_case(&RD5_FP, RD5_FT, 2, 2, 3, false, FOUND_, &[2]; "RD5_2_2_3")]
+#[test_case(&RD5_FP, RD5_FT, 2, 2, 3, true, FOUND_, &[2]; "RD5_2_2_3_oneblock")]
+#[test_case(&RD5_FP, RD5_FT, 2, 2, 4, false, FOUND_, &[2, 3]; "RD5_2_2_4")]
+#[test_case(&RD5_FP, RD5_FT, 2, 2, 4, true, FOUND_, &[2, 3]; "RD5_2_2_4_oneblock")]
+#[test_case(&RD5_FP, RD5_FT, 2, 2, 5, false, FOUND_, &[2, 3, 4]; "RD5_2_2_5")]
+#[test_case(&RD5_FP, RD5_FT, 2, 2, 6, false, FOUND_, &[2, 3, 4]; "RD5_2_2_6")]
+//
+#[test_case(&RD6_FP, RD6_FT, 2, 0, 0, false, DONE_, &[]; "RD6_2_0_0")]
+#[test_case(&RD6_FP, RD6_FT, 2, 0, 1, false, FOUND_, &[0]; "RD6_2_0_1")]
+#[test_case(&RD6_FP, RD6_FT, 2, 0, 1, true, FOUND_, &[0]; "RD6_2_0_1_oneblock")]
+#[test_case(&RD6_FP, RD6_FT, 2, 0, 2, false, FOUND_, &[0, 1]; "RD6_2_0_2")]
+#[test_case(&RD6_FP, RD6_FT, 2, 0, 2, true, FOUND_, &[0, 1]; "RD6_2_0_2_oneblock")]
+#[test_case(&RD6_FP, RD6_FT, 2, 0, 3, false, FOUND_, &[0, 1, 2]; "RD6_2_0_3")]
+#[test_case(&RD6_FP, RD6_FT, 2, 0, 4, false, FOUND_, &[0, 1, 2, 3]; "RD6_2_0_4")]
+#[test_case(&RD6_FP, RD6_FT, 2, 0, 5, false, FOUND_, &[0, 1, 2, 3, 4]; "RD6_2_0_5")]
+#[test_case(&RD6_FP, RD6_FT, 2, 0, 6, false, FOUND_, &[0, 1, 2, 3, 4, 5]; "RD6_2_0_6")]
+#[test_case(&RD6_FP, RD6_FT, 2, 1, 1, false, DONE_, &[]; "RD6_2_1_1")]
+#[test_case(&RD6_FP, RD6_FT, 2, 1, 2, false, FOUND_, &[1]; "RD6_2_1_2")]
+#[test_case(&RD6_FP, RD6_FT, 2, 1, 3, false, FOUND_, &[1, 2]; "RD6_2_1_3")]
+#[test_case(&RD6_FP, RD6_FT, 2, 1, 4, false, FOUND_, &[1, 2, 3]; "RD6_2_1_4")]
+#[test_case(&RD6_FP, RD6_FT, 2, 1, 5, false, FOUND_, &[1, 2, 3, 4]; "RD6_2_1_5")]
+#[test_case(&RD6_FP, RD6_FT, 2, 1, 6, false, FOUND_, &[1, 2, 3, 4, 5]; "RD6_2_1_6")]
+#[test_case(&RD6_FP, RD6_FT, 2, 2, 2, false, DONE_, &[]; "RD6_2_2_2")]
+#[test_case(&RD6_FP, RD6_FT, 2, 2, 3, false, FOUND_, &[2]; "RD6_2_2_3")]
+#[test_case(&RD6_FP, RD6_FT, 2, 2, 3, true, FOUND_, &[2]; "RD6_2_2_3_oneblock")]
+#[test_case(&RD6_FP, RD6_FT, 2, 2, 4, false, FOUND_, &[2, 3]; "RD6_2_2_4")]
+#[test_case(&RD6_FP, RD6_FT, 2, 2, 4, true, FOUND_, &[2, 3]; "RD6_2_2_4_oneblock")]
+#[test_case(&RD6_FP, RD6_FT, 2, 2, 5, false, FOUND_, &[2, 3, 4]; "RD6_2_2_5")]
+#[test_case(&RD6_FP, RD6_FT, 2, 2, 6, false, FOUND_, &[2, 3, 4, 5]; "RD6_2_2_6")]
+#[test_case(&RD6_FP, RD6_FT, 2, 3, 3, false, DONE_, &[]; "RD6_2_3_3")]
+#[test_case(&RD6_FP, RD6_FT, 2, 3, 4, false, FOUND_, &[3]; "RD6_2_3_4")]
+#[test_case(&RD6_FP, RD6_FT, 2, 3, 5, false, FOUND_, &[3, 4]; "RD6_2_3_5")]
+#[test_case(&RD6_FP, RD6_FT, 2, 3, 6, false, FOUND_, &[3, 4, 5]; "RD6_2_3_6")]
+//
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 0, false, DONE_, &[]; "RD7_2_0_0")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 1, false, FOUND_, &[0]; "RD7_2_0_1")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 2, false, FOUND_, &[0, 1]; "RD7_2_0_2")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 3, false, FOUND_, &[0, 1, 2]; "RD7_2_0_3")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 4, false, FOUND_, &[0, 1, 2, 3]; "RD7_2_0_4")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 5, false, FOUND_, &[0, 1, 2, 3, 4]; "RD7_2_0_5")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 6, false, FOUND_, &[0, 1, 2, 3, 4, 5]; "RD7_2_0_6")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 7, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6]; "RD7_2_0_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 7, true, DONE_, &[]; "RD7_2_0_7_oneblock")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 8, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6]; "RD7_2_0_8")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 9, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6]; "RD7_2_0_9")]
+#[test_case(&RD7_FP, RD7_FT, 2, 0, 15, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6]; "RD7_2_0_15")]
+#[test_case(&RD7_FP, RD7_FT, 2, 1, 7, false, FOUND_, &[1, 2, 3, 4, 5, 6]; "RD7_2_1_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 3, false, FOUND_, &[2]; "RD7_2_2_3")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 4, false, FOUND_, &[2, 3]; "RD7_2_2_4")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 4, true, FOUND_, &[2, 3]; "RD7_2_2_4_oneblock")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 5, false, FOUND_, &[2, 3, 4]; "RD7_2_2_5")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 6, false, FOUND_, &[2, 3, 4, 5]; "RD7_2_2_6")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 7, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_2_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 8, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_2_8")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 9, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_2_9")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 10, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_2_10")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 11, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_2_11")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 11, true, DONE_, &[]; "RD7_2_2_11_oneblock")]
+#[test_case(&RD7_FP, RD7_FT, 2, 2, 12, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_2_12")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 3, false, DONE_, &[]; "RD7_2_3_3")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 4, false, FOUND_, &[3]; "RD7_2_3_4")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 4, true, FOUND_, &[3]; "RD7_2_3_4_oneblock")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 5, false, FOUND_, &[3, 4]; "RD7_2_3_5")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 6, false, FOUND_, &[3, 4, 5]; "RD7_2_3_6")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 7, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_3_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 8, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_3_8")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 9, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_3_9")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 10, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_3_10")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 11, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_3_11")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 11, true, DONE_, &[]; "RD7_2_3_11_oneblock")]
+#[test_case(&RD7_FP, RD7_FT, 2, 3, 12, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_3_12")]
+#[test_case(&RD7_FP, RD7_FT, 2, 5, 5, false, DONE_, &[]; "RD7_2_5_5")]
+#[test_case(&RD7_FP, RD7_FT, 2, 5, 6, false, FOUND_, &[5]; "RD7_2_5_6")]
+#[test_case(&RD7_FP, RD7_FT, 2, 5, 7, false, FOUND_, &[5, 6]; "RD7_2_5_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 5, 8, false, FOUND_, &[5, 6]; "RD7_2_5_8")]
+#[test_case(&RD7_FP, RD7_FT, 2, 6, 6, false, DONE_, &[]; "RD7_2_6_6")]
+#[test_case(&RD7_FP, RD7_FT, 2, 6, 7, false, FOUND_, &[6]; "RD7_2_6_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 6, 8, false, FOUND_, &[6]; "RD7_2_6_8")]
+#[test_case(&RD7_FP, RD7_FT, 2, 7, 7, false, DONE_, &[]; "RD7_2_7_7")]
+//
+#[test_case(&RD16_FP, RD16_FT, 50, 0, 0, true, DONE_, &[]; "RD16_50_0_0_oneblock")]
+#[test_case(&RD16_FP, RD16_FT, 50, 0, 0, false, DONE_, &[]; "RD16_50_0_0")]
+#[test_case(&RD16_FP, RD16_FT, 50, 1, 1, false, DONE_, &[]; "RD16_50_1_1")]
+#[test_case(&RD16_FP, RD16_FT, 50, 0, 1, true, FOUND_, &[0]; "RD16_50_0_1")]
+#[test_case(&RD16_FP, RD16_FT, 50, 1, 2, true, FOUND_, &[1]; "RD16_50_1_2")]
+#[test_case(&RD16_FP, RD16_FT, 50, 0, 2, true, FOUND_, &[0, 1]; "RD16_50_0_2")]
+#[test_case(&RD16_FP, RD16_FT, 50, 0, 4, true, FOUND_, &[0, 1, 2, 3]; "RD16_50_0_4")]
+#[test_case(&RD16_FP, RD16_FT, 50, 1, 4, true, FOUND_, &[1, 2, 3]; "RD16_50_1_4")]
+#[test_case(&RD16_FP, RD16_FT, 50, 2, 4, true, FOUND_, &[2, 3]; "RD16_50_2_4")]
+#[test_case(&RD16_FP, RD16_FT, 50, 3, 4, true, FOUND_, &[3]; "RD16_50_3_4")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 0, false, DONE_, &[]; "RD16_2_0_0")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 1, false, FOUND_, &[0]; "RD16_2_0_1")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 2, false, FOUND_, &[0, 1]; "RD16_2_0_2")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 3, false, FOUND_, &[0, 1, 2]; "RD16_2_0_3")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 4, false, FOUND_, &[0, 1, 2, 3]; "RD16_2_0_4")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 5, false, FOUND_, &[0, 1, 2, 3, 4]; "RD16_2_0_5")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 6, false, FOUND_, &[0, 1, 2, 3, 4, 5]; "RD16_2_0_6")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 7, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6]; "RD16_2_0_7")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 7, true, DONE_, &[]; "RD16_2_0_7_oneblock")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 8, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6, 7]; "RD16_2_0_8")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 15, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; "RD16_2_0_15")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 16, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; "RD16_2_0_16")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 17, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; "RD16_2_0_17")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 18, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; "RD16_2_0_18")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 19, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; "RD16_2_0_19")]
+#[test_case(&RD16_FP, RD16_FT, 2, 0, 20, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; "RD16_2_0_20")]
+#[test_case(&RD16_FP, RD16_FT, 2, 15, 16, false, FOUND_, &[15]; "RD16_2_15_16")]
+#[test_case(&RD16_FP, RD16_FT, 2, 15, 17, false, FOUND_, &[15]; "RD16_2_15_17")]
+#[test_case(&RD16_FP, RD16_FT, 2, 16, 16, false, DONE_, &[]; "RD16_2_16_16")]
+#[test_case(&RD16_FP, RD16_FT, 2, 1, 11, false, FOUND_, &[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; "RD16_2_1_11")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 3, false, FOUND_, &[2]; "RD16_2_2_3")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 4, false, FOUND_, &[2, 3]; "RD16_2_2_4")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 4, true, FOUND_, &[2, 3]; "RD16_2_2_4_oneblock")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 5, false, FOUND_, &[2, 3, 4]; "RD16_2_2_5")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 6, false, FOUND_, &[2, 3, 4, 5]; "RD16_2_2_6")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 7, false, FOUND_, &[2, 3, 4, 5, 6]; "RD16_2_2_7")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 8, false, FOUND_, &[2, 3, 4, 5, 6, 7]; "RD16_2_2_8")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 9, false, FOUND_, &[2, 3, 4, 5, 6, 7, 8]; "RD16_2_2_9")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 10, false, FOUND_, &[2, 3, 4, 5, 6, 7, 8, 9]; "RD16_2_2_10")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 11, false, FOUND_, &[2, 3, 4, 5, 6, 7, 8, 9, 10]; "RD16_2_2_11")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 11, true, DONE_, &[]; "RD16_2_2_11_oneblock")]
+#[test_case(&RD16_FP, RD16_FT, 2, 2, 12, false, FOUND_, &[2, 3, 4, 5, 6, 7, 8, 9, 10, 11]; "RD16_2_2_12")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 3, false, DONE_, &[]; "RD16_2_3_3")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 4, false, FOUND_, &[3]; "RD16_2_3_4")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 4, true, FOUND_, &[3]; "RD16_2_3_4_oneblock")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 5, false, FOUND_, &[3, 4]; "RD16_2_3_5")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 6, false, FOUND_, &[3, 4, 5]; "RD16_2_3_6")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 7, false, FOUND_, &[3, 4, 5, 6]; "RD16_2_3_7")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 8, false, FOUND_, &[3, 4, 5, 6, 7]; "RD16_2_3_8")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 9, false, FOUND_, &[3, 4, 5, 6, 7, 8]; "RD16_2_3_9")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 10, false, FOUND_, &[3, 4, 5, 6, 7, 8, 9]; "RD16_2_3_10")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 11, false, FOUND_, &[3, 4, 5, 6, 7, 8, 9, 10]; "RD16_2_3_11")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 11, true, DONE_, &[]; "RD16_2_3_11_oneblock")]
+#[test_case(&RD16_FP, RD16_FT, 2, 3, 12, false, FOUND_, &[3, 4, 5, 6, 7, 8, 9, 10, 11]; "RD16_2_3_12")]
+#[test_case(&RD16_FP, RD16_FT, 2, 99999998, 99999999, true, DONE_, &[]; "99999998_99999999_oneblock")]
+#[test_case(&RD16_FP, RD16_FT, 2, 99999998, 99999999, false, DONE_, &[]; "99999998_99999999")]
+fn test_read_data(
+    path: &FPath,
+    filetype: FileType,
+    blocksz: BlockSz,
+    beg: FileOffset,
+    end: FileOffset,
+    oneblock: bool,
+    result: ResultReadData_Test,
+    expect_data: &[u8],
+) {
+    defn!("({}, {}, {}, {}, {}, {}, {:?})", path, filetype, blocksz, beg, end, oneblock, result);
+    if result == DONE_ {
+        assert!(expect_data.is_empty(), "bad test parameters");
+    };
+    let mut br1 = new_BlockReader(path, filetype, blocksz);
+    let data: ReadData = match br1.read_data(beg, end, oneblock){
+        ResultReadData::Found(data) => {
+            assert_eq!(result, FOUND_, "expected result to be {:?}", result);
+
+            data
+        }
+        ResultReadData::Done => {
+            assert_eq!(result, DONE_, "expected result to be {:?}", result);
+            return;
+        }
+        ResultReadData::Err(err) => {
+            panic!("unexpected error: {:?}", err);
+        }
+    };
+    eprintln!("expect_data: {:?}", expect_data);
+
+    let mut at: usize = 0;
+    let a: usize = data.1;
+    let b: usize = data.2;
+    
+    match data.0 {
+        ReadDataParts::One(blockp) => {
+            eprintln!("blockp[{}‥{}]: ", a, b);
+            for c in (*blockp)[a..b].iter() {
+                assert_eq!(c, &expect_data[at], "failed to match byte at index {}", at);
+                at += 1;
+            }
+        }
+        ReadDataParts::Two(blockp1, blockp2) => {
+            eprintln!("blockp1[{}‥]: (len {})", a, (*blockp1)[a..].len());
+            for (i, c) in (*blockp1)[a..].iter().enumerate() {
+                assert_eq!(c, &expect_data[at], "failed to match byte at index {} in blockp1[{}]", at, i);
+                at += 1;
+            }
+            eprintln!("blockp2[‥{}]: (len {})", b, (*blockp2)[..b].len());
+            for (i, c) in (*blockp2)[..b].iter().enumerate() {
+                assert_eq!(c, &expect_data[at], "failed to match byte at index {} in blockp2[{}]", at, i);
+                at += 1;
+            }
+        }
+        ReadDataParts::Many(blockps) => {
+            for (i, blockp) in blockps.iter().enumerate() {
+                for c in (*blockp).iter()
+                {
+                    let c_ = byte_to_char_noraw(*c);
+                    eprintln!("blockps[{}] {:2} 0x{:02X} {:?}", i, at, c, c_);
+                    at += 1;
+                }
+            }
+
+            for (i, c) in expect_data.iter().enumerate()
+            {
+                let c_ = byte_to_char_noraw(*c);
+                eprintln!("expect_data[{}] 0x{:02X} {:?}", i, c, c_);
+            }
+
+            at = 0;
+            for (i, blockp) in blockps.iter().enumerate() {
+                let a_ = if i == 0 { a } else { 0 };
+                let b_ = if i == (*blockps).len() - 1 { b } else { (*blockp).len() };
+                eprintln!("blockp[{}][{}‥{}]", i, a_, b_);
+                for c in (*blockp)[a_..b_].iter()
+                {
+                    eprint!("  {:?} = expect_data[{}] ", c, at);
+                    eprintln!("{:?}", c);
+                    assert_eq!(c, &expect_data[at], "failed to match byte at index {} in blockp {}", at, i);
+                    at += 1;
+                }
+            }
+        }
+    }
+    assert_eq!(at, expect_data.len(), "failed to match all bytes, matched {}, expected {}", at, expect_data.len());
+}
+
+#[test_case(&RD0_FP, RD0_FT, 2, 2, 0, 1, false, DONE_, &[]; "RD0_2_2_0_0")]
+//
+#[test_case(&RD1_FP, RD1_FT, 2, 2, 0, 0, false, DONE_, &[]; "RD1_2_2_0_0")]
+#[test_case(&RD1_FP, RD1_FT, 2, 2, 0, 1, false, FOUND_, &[0]; "RD1_2_2_0_1")]
+#[test_case(&RD1_FP, RD1_FT, 2, 2, 0, 2, false, FOUND_, &[0]; "RD1_2_2_0_2")]
+//
+#[test_case(&RD2_FP, RD2_FT, 2, 2, 0, 0, false, DONE_, &[]; "RD2_2_2_0_0")]
+#[test_case(&RD2_FP, RD2_FT, 2, 2, 0, 1, false, FOUND_, &[0]; "RD2_2_2_0_1")]
+#[test_case(&RD2_FP, RD2_FT, 2, 2, 0, 2, false, FOUND_, &[0, 1]; "RD2_2_2_0_2")]
+#[test_case(&RD2_FP, RD2_FT, 2, 2, 1, 1, false, DONE_, &[]; "RD2_2_2_1_1")]
+#[test_case(&RD2_FP, RD2_FT, 2, 2, 1, 2, false, FOUND_, &[1]; "RD2_2_2_1_2")]
+//
+#[test_case(&RD3_FP, RD3_FT, 2, 4, 0, 0, false, DONE_, &[]; "RD3_2_4_0_0")]
+#[test_case(&RD3_FP, RD3_FT, 2, 4, 0, 1, false, FOUND_, &[0]; "RD3_2_4_0_1")]
+#[test_case(&RD3_FP, RD3_FT, 2, 4, 0, 2, false, FOUND_, &[0, 1]; "RD3_2_4_0_2")]
+#[test_case(&RD3_FP, RD3_FT, 2, 4, 0, 3, false, FOUND_, &[0, 1, 2]; "RD3_2_4_0_3")]
+#[test_case(&RD3_FP, RD3_FT, 2, 4, 1, 1, false, DONE_, &[]; "RD3_2_4_1_1")]
+#[test_case(&RD3_FP, RD3_FT, 2, 4, 1, 2, false, FOUND_, &[1]; "RD3_2_4_1_2")]
+#[test_case(&RD3_FP, RD3_FT, 2, 4, 1, 3, false, FOUND_, &[1, 2]; "RD3_2_4_1_3")]
+#[test_case(&RD3_FP, RD3_FT, 2, 4, 2, 2, false, DONE_, &[]; "RD3_2_4_2_2")]
+#[test_case(&RD3_FP, RD3_FT, 2, 4, 2, 3, false, FOUND_, &[2]; "RD3_2_4_2_3")]
+//
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 0, 0, false, DONE_, &[]; "RD4_2_4_0_0")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 0, 1, false, FOUND_, &[0]; "RD4_2_4_0_1")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 0, 1, true, FOUND_, &[0]; "RD4_2_4_0_1_oneblock")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 0, 2, false, FOUND_, &[0, 1]; "RD4_2_4_0_2")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 0, 2, true, FOUND_, &[0, 1]; "RD4_2_4_0_2_oneblock")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 0, 3, false, FOUND_, &[0, 1, 2]; "RD4_2_4_0_3")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 0, 4, false, FOUND_, &[0, 1, 2, 3]; "RD4_2_4_0_4")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 0, 5, false, FOUND_, &[0, 1, 2, 3]; "RD4_2_4_0_5")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 1, 1, false, DONE_, &[]; "RD4_2_4_1_1")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 1, 2, false, FOUND_, &[1]; "RD4_2_4_1_2")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 1, 3, false, FOUND_, &[1, 2]; "RD4_2_4_1_3")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 1, 4, false, FOUND_, &[1, 2, 3]; "RD4_2_4_1_4")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 2, 2, false, DONE_, &[]; "RD4_2_4_2_2")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 2, 3, false, FOUND_, &[2]; "RD4_2_4_2_3")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 2, 3, true, FOUND_, &[2]; "RD4_2_4_2_3_oneblock")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 2, 4, false, FOUND_, &[2, 3]; "RD4_2_4_2_4")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 2, 4, true, FOUND_, &[2, 3]; "RD4_2_4_2_4_oneblock")]
+#[test_case(&RD4_FP, RD4_FT, 2, 4, 2, 5, false, FOUND_, &[2, 3]; "RD4_2_4_2_5")]
+//
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 0, false, DONE_, &[]; "RD7_2_8_0_0")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 1, false, FOUND_, &[0]; "RD7_2_8_0_1")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 2, false, FOUND_, &[0, 1]; "RD7_2_8_0_2")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 3, false, FOUND_, &[0, 1, 2]; "RD7_2_8_0_3")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 4, false, FOUND_, &[0, 1, 2, 3]; "RD7_2_8_0_4")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 5, false, FOUND_, &[0, 1, 2, 3, 4]; "RD7_2_8_0_5")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 6, false, FOUND_, &[0, 1, 2, 3, 4, 5]; "RD7_2_8_0_6")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 7, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6]; "RD7_2_8_0_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 7, true, DONE_, &[]; "RD7_2_8_0_7_oneblock")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 8, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6]; "RD7_2_8_0_8")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 9, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6]; "RD7_2_8_0_9")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 0, 15, false, FOUND_, &[0, 1, 2, 3, 4, 5, 6]; "RD7_2_8_0_15")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 1, 7, false, FOUND_, &[1, 2, 3, 4, 5, 6]; "RD7_2_8_1_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 3, false, FOUND_, &[2]; "RD7_2_8_2_3")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 4, false, FOUND_, &[2, 3]; "RD7_2_8_2_4")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 4, true, FOUND_, &[2, 3]; "RD7_2_8_2_4_oneblock")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 5, false, FOUND_, &[2, 3, 4]; "RD7_2_8_2_5")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 6, false, FOUND_, &[2, 3, 4, 5]; "RD7_2_8_2_6")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 7, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_8_2_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 8, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_8_2_8")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 9, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_8_2_9")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 10, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_8_2_10")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 11, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_8_2_11")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 11, true, DONE_, &[]; "RD7_2_8_2_11_oneblock")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 2, 12, false, FOUND_, &[2, 3, 4, 5, 6]; "RD7_2_8_2_12")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 3, false, DONE_, &[]; "RD7_2_8_3_3")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 4, false, FOUND_, &[3]; "RD7_2_8_3_4")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 4, true, FOUND_, &[3]; "RD7_2_8_3_4_oneblock")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 5, false, FOUND_, &[3, 4]; "RD7_2_8_3_5")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 6, false, FOUND_, &[3, 4, 5]; "RD7_2_8_3_6")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 7, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_8_3_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 8, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_8_3_8")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 9, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_8_3_9")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 10, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_8_3_10")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 11, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_8_3_11")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 11, true, DONE_, &[]; "RD7_2_8_3_11_oneblock")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 3, 12, false, FOUND_, &[3, 4, 5, 6]; "RD7_2_8_3_12")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 5, 5, false, DONE_, &[]; "RD7_2_8_5_5")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 5, 6, false, FOUND_, &[5]; "RD7_2_8_5_6")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 5, 7, false, FOUND_, &[5, 6]; "RD7_2_8_5_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 5, 8, false, FOUND_, &[5, 6]; "RD7_2_8_5_8")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 6, 6, false, DONE_, &[]; "RD7_2_8_6_6")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 6, 7, false, FOUND_, &[6]; "RD7_2_8_6_7")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 6, 8, false, FOUND_, &[6]; "RD7_2_8_6_8")]
+#[test_case(&RD7_FP, RD7_FT, 2, 8, 7, 7, false, DONE_, &[]; "RD7_2_8_7_7")]
+fn test_read_data_to_buffer(
+    path: &FPath,
+    filetype: FileType,
+    blocksz: BlockSz,
+    capacity: usize,
+    beg: FileOffset,
+    end: FileOffset,
+    oneblock: bool,
+    result: ResultReadData_Test,
+    expect_data: &[u8],
+) {
+    defn!("({}, {}, {}, {}, {},  {}, {}, {:?})", path, filetype, blocksz, capacity, beg, end, oneblock, result);
+    if result == DONE_ {
+        assert!(expect_data.is_empty(), "bad test parameters");
+    };
+    let mut br1 = new_BlockReader(path, filetype, blocksz);
+    // TODO: how to make this vec creation more idiomatic?
+    let mut buffer: Vec<u8> = Vec::with_capacity(capacity);
+    for _ in 0..capacity {
+        buffer.push(0)
+    }
+    let copyn = match br1.read_data_to_buffer(beg, end, oneblock, buffer.as_mut_slice()){
+        ResultReadDataToBuffer::Found(copyn) => {
+            assert_eq!(result, FOUND_, "expected result to be {:?}", result);
+
+            copyn
+        }
+        ResultReadDataToBuffer::Done => {
+            assert_eq!(result, DONE_, "expected result to be {:?}", result);
+            return;
+        }
+        ResultReadDataToBuffer::Err(err) => {
+            panic!("unexpected error: {:?}", err);
+        }
+    };
+    let mut at: usize = 0;
+    eprintln!("expect_data: {:?}", expect_data);
+    eprintln!("buffer:      {:?}", &buffer.as_slice()[..copyn]);
+    eprintln!("buffer.len() {}, copyn {}", buffer.len(), copyn);
+    for (i, c) in buffer.iter().take(copyn).enumerate() {
+        let c_ = &expect_data[i];
+        assert_eq!(c, c_, "failed to match byte at index {}, value {}", i, c_);
+        at += 1;
+    }
+    assert_eq!(at, expect_data.len(), "failed to match all bytes, matched {}, expected {}", at, expect_data.len());
+
+}
+
+// -------------------------------------------------------------------------------------------------
+
+#[test_case(&NTF_LOG_EMPTY_FPATH, FileType::File, 2, 0, 0; "LOG_0BYTE 2 0 0")]
+#[test_case(&NTF_1BYTE_FPATH, FileType::File, 2, 0, 1; "LOG_1BYTE 2 0 1")]
+#[test_case(&NTF_3BYTE_FPATH, FileType::File, 2, 0, 2; "LOG_3BYTE 2 0 2")]
+#[test_case(&NTF_3BYTE_FPATH, FileType::File, 2, 1, 1; "LOG_3BYTE 2 1 1")]
+#[test_case(&NTF_3BYTE_FPATH, FileType::File, 2, 2, 0 => panics; "LOG_3BYTE 2 2 0 panic")]
+#[test_case(&NTF_GZ_EMPTY_FPATH, FileType::Gz, 2, 0, 0; "GZ_0BYTE 2 0 0")]
+#[test_case(&NTF_GZ_EMPTY_FPATH, FileType::Gz, 2, 1, 0 => panics; "GZ_0BYTE 2 1 0 panic")]
+#[test_case(&NTF_GZ_1BYTE_FPATH, FileType::Gz, 2, 0, 1; "GZ_1BYTE 2 0 1")]
+#[test_case(&NTF_GZ_1BYTE_FPATH, FileType::Gz, 2, 1, 0 => panics; "GZ_1BYTE 2 1 0 panic")]
+#[test_case(&NTF_GZ_8BYTE_FPATH, FileType::Gz, 2, 0, 2; "GZ_8BYTE 2 0 2")]
+#[test_case(&NTF_GZ_8BYTE_FPATH, FileType::Gz, 2, 1, 2; "GZ_8BYTE 2 1 2")]
+#[test_case(&NTF_GZ_8BYTE_FPATH, FileType::Gz, 2, 2, 2; "GZ_8BYTE 2 2 2")]
+#[test_case(&NTF_GZ_8BYTE_FPATH, FileType::Gz, 2, 3, 2; "GZ_8BYTE 2 3 2")]
+#[test_case(&NTF_GZ_8BYTE_FPATH, FileType::Gz, 2, 4, 0 => panics; "GZ_8BYTE 2 4 0 panic")]
+#[test_case(&NTF_XZ_1BYTE_FPATH, FileType::Xz, 2, 0, 1; "XZ_1BYTE 2 0 1")]
+#[test_case(&NTF_XZ_1BYTE_FPATH, FileType::Xz, 2, 1, 0 => panics; "XZ_1BYTE 2 1 0 panic")]
+#[test_case(&NTF_TAR_1BYTE_FILEA_FPATH, FileType::Tar, 2, 0, 1; "TAR_1BYTE 2 0 1")]
+#[test_case(&NTF_TAR_1BYTE_FILEA_FPATH, FileType::Tar, 2, 1, 0 => panics; "TAR_1BYTE 2 1 0 panic")]
+#[test_case(&NTF_TAR_8BYTE_FILEA_FPATH, FileType::Tar, 2, 0, 2; "TAR_8BYTE 2 0 2")]
+#[test_case(&NTF_TAR_8BYTE_FILEA_FPATH, FileType::Tar, 2, 1, 2; "TAR_8BYTE 2 1 2")]
+#[test_case(&NTF_TAR_8BYTE_FILEA_FPATH, FileType::Tar, 2, 2, 2; "TAR_8BYTE 2 2 2")]
+#[test_case(&NTF_TAR_8BYTE_FILEA_FPATH, FileType::Tar, 2, 3, 2; "TAR_8BYTE 2 3 2")]
+#[test_case(&NTF_TAR_8BYTE_FILEA_FPATH, FileType::Tar, 2, 4, 0 => panics; "TAR_8BYTE 2 4 0 panic")]
 fn test_blocksz_at_blockoffset(
-    path: FPath,
+    path: &FPath,
     filetype: FileType,
     blocksz: BlockSz,
     blockoffset_input: BlockOffset,

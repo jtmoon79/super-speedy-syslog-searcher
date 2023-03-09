@@ -10,10 +10,10 @@
 ./logs/Debian11/apache2/access.log|2022/10/11 00:10:56 +0000
 ./logs/Debian11/apache2/error.log|Oct 11 00:02:36.467654 2022
 ./logs/Debian11/dpkg.log|2022-10-11 00:09:45
-./logs/Debian11/kern.log|Oct 11 00:02:36
-./logs/Debian11/messages|Oct 11 00:02:36
+./logs/Debian11/kern.log|Oct 11 00:02:36 2022
+./logs/Debian11/messages|Oct 11 00:02:36 2022
 ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log|2022-10-11 00:02:37.377
-./logs/Debian11/user.log|Oct 11 00:02:36
+./logs/Debian11/user.log|Oct 11 00:02:36 2022
 ./logs/Debian9/alternatives.log|2020-02-03 13:57:14
 ./logs/Debian9/apport.log.1|2020-02-20 00:59:59
 ./logs/Debian9/apt/eipp.log|2020-02-25 19:20:24-08:00
@@ -185,12 +185,16 @@
 ./logs/other/tests/zero.log|2022-09-02 21:45:36.0501770530
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log|2022-10-08 06:22:57 +0000
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log|2022-10-07 01:15:36 +0000
+#./logs/programs/ntp/loopstats|???
+#./logs/programs/ntp/peerstats|???
 ./logs/programs/pacman/pacman.log|2022-10-07 16:08:00
 ./logs/programs/proftpd/controls.log|2020-10-03 11:26:13
 ./logs/programs/proftpd/proftpd.log|2020-10-03 11:26:13
 ./logs/programs/proftpd/xferlog|2020-10-03 11:26:13
 ./logs/programs/tomcat/catalina.out|08-Feb-2023 12:12:48
 ./logs/programs/tomcat/catalina-access.log|2023-02-14 14:30:22 +0000
+./logs/programs/utmp/host-entry1.wtmp|Feb 24 08:40:27 2023
+./logs/programs/utmp/host-entry6.wtmp|Feb 24 08:52:26 2023
 ./logs/RancherOS-1.5.8/boot/autologin|2022-10-10T20:23:36 -00:00
 ./logs/RancherOS-1.5.8/boot/cloud-init-save.log|2022-10-10T20:23:26 -00:00
 ./logs/RancherOS-1.5.8/boot/cloud-init.save.log|2022-10-10T20:23:34Z

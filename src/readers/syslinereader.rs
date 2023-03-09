@@ -8,29 +8,22 @@
 //! [`LineReader`]: crate::readers::linereader::LineReader
 
 use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, FileSz, FileType, ResultS3};
-
+use crate::data::line::{Line, LineIndex, LineP, LinePartPtrs};
 use crate::data::sysline::{Sysline, SyslineP};
-
-use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockSz};
-
 use crate::data::datetime::{
     bytes_to_regex_to_datetime, dt_after_or_before, dt_pass_filters, slice_contains_X_2,
     DateTimeL, DateTimeLOpt, DateTimeParseInstr, DateTimeParseInstrsIndex, FixedOffset,
     Result_Filter_DateTime1, Result_Filter_DateTime2, SystemTime, Year,
     DATETIME_PARSE_DATAS, DATETIME_PARSE_DATAS_LEN,
 };
-
 #[cfg(any(debug_assertions, test))]
 use crate::data::datetime::{
     DateTimeRegex, DATETIME_PARSE_DATAS_REGEX_VEC
 };
-
-use crate::data::line::{Line, LineIndex, LineP, LinePartPtrs};
-
-use crate::readers::linereader::{LineReader, ResultS3LineFind};
-
 #[allow(unused_imports)]
 use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
+use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockSz};
+use crate::readers::linereader::{LineReader, ResultS3LineFind};
 
 #[cfg(test)]
 use std::collections::HashSet;
@@ -41,23 +34,17 @@ use std::sync::Arc;
 
 extern crate itertools;
 use itertools::Itertools; // brings in `sorted_by`
-
 extern crate lru;
 use lru::LruCache;
-
 extern crate mime_guess;
 use mime_guess::MimeGuess;
-
 extern crate more_asserts;
-use more_asserts::{assert_le, assert_lt, debug_assert_le, debug_assert_lt, debug_assert_gt};
-
+use more_asserts::{assert_le, debug_assert_le, debug_assert_lt, debug_assert_gt};
 extern crate rangemap;
 use rangemap::RangeMap;
-
 extern crate si_trace_print;
 #[allow(unused_imports)]
 use si_trace_print::{def1n, def1o, def1x, def1ñ, defn, defo, defx, defñ, den, deo, dex, deñ};
-
 extern crate static_assertions;
 use static_assertions::const_assert;
 
@@ -106,6 +93,7 @@ pub type SetDroppedSyslines = HashSet<FileOffset>;
 /// [`Sysline`] Searching result.
 ///
 /// [`Sysline`]: crate::data::sysline::Sysline
+// TODO: rename `ResultS3SyslineFind` with `ResultSyslineFind`
 pub type ResultS3SyslineFind = ResultS3<(FileOffset, SyslineP), Error>;
 
 /// Storage for `Sysline`.
@@ -309,6 +297,52 @@ where
         }
         eprintln!("]");
     }
+}
+
+#[derive(Clone, Default)]
+pub struct SummarySyslineReader {
+    /// `SyslineReader::drop_sysline_ok`
+    pub SyslineReader_drop_sysline_ok: Count,
+    /// `SyslineReader::drop_sysline_errors`
+    pub SyslineReader_drop_sysline_errors: Count,
+    /// `Count` of `Syslines` processed by `SyslineReader`
+    pub SyslineReader_syslines: Count,
+    /// "high watermark"` of `Sysline`s stored by `SyslineReader.syslines`
+    pub SyslineReader_syslines_stored_highest: usize,
+    /// `SyslineReader::_syslines_hit`
+    pub SyslineReader_syslines_hit: Count,
+    /// `SyslineReader::_syslines_miss`
+    pub SyslineReader_syslines_miss: Count,
+    /// `SyslineReader::_syslines_by_range_hit`
+    pub SyslineReader_syslines_by_range_hit: Count,
+    /// `SyslineReader::_syslines_by_range_miss`
+    pub SyslineReader_syslines_by_range_miss: Count,
+    /// `SyslineReader::_syslines_by_range_put`
+    pub SyslineReader_syslines_by_range_put: Count,
+    /// datetime patterns used by `SyslineReader`
+    pub SyslineReader_patterns: DateTimePatternCounts,
+    /// datetime soonest seen (not necessarily reflective of entire file)
+    pub SyslineReader_datetime_first: DateTimeLOpt,
+    /// datetime latest seen (not necessarily reflective of entire file)
+    pub SyslineReader_datetime_last: DateTimeLOpt,
+    /// `SyslineReader::find_sysline`
+    pub SyslineReader_find_sysline_lru_cache_hit: Count,
+    /// `SyslineReader::find_sysline`
+    pub SyslineReader_find_sysline_lru_cache_miss: Count,
+    /// `SyslineReader::find_sysline`
+    pub SyslineReader_find_sysline_lru_cache_put: Count,
+    /// `SyslineReader::parse_datetime_in_line`
+    pub SyslineReader_parse_datetime_in_line_lru_cache_hit: Count,
+    /// `SyslineReader::parse_datetime_in_line`
+    pub SyslineReader_parse_datetime_in_line_lru_cache_miss: Count,
+    /// `SyslineReader::parse_datetime_in_line`
+    pub SyslineReader_parse_datetime_in_line_lru_cache_put: Count,
+    /// `SyslineReader::get_boxptrs_singleptr`
+    pub SyslineReader_get_boxptrs_singleptr: Count,
+    /// `SyslineReader::get_boxptrs_doubleptr`
+    pub SyslineReader_get_boxptrs_doubleptr: Count,
+    /// `SyslineReader::get_boxptrs_multiptr`
+    pub SyslineReader_get_boxptrs_multiptr: Count,
 }
 
 /// Implement the `SyslineReader`
@@ -655,17 +689,17 @@ impl SyslineReader {
     ) -> bool {
         let fo_end: FileOffset = sysline.fileoffset_end();
         if fo_end == self.fileoffset_last() {
-            defñ!("return true");
+            //defñ!("return true");
             return true;
         }
-        assert_lt!(
+        debug_assert_lt!(
             fo_end,
             self.filesz(),
             "fileoffset_end {} is at or after filesz() {}",
             fo_end,
-            self.filesz()
+            self.filesz(),
         );
-        defñ!("return false");
+        //defñ!("return false");
 
         false
     }
@@ -902,6 +936,7 @@ impl SyslineReader {
     ///
     /// [`Ok`]: self::ResultFindDateTime
     /// [`Err`]: self::ResultFindDateTime
+    #[allow(clippy::too_many_arguments)]
     pub fn find_datetime_in_line(
         line: &Line,
         parse_data_indexes: &DateTimeParseDatasIndexes,
@@ -1416,11 +1451,11 @@ impl SyslineReader {
                 .find_sysline_lru_cache
                 .get(&fileoffset)
             {
-                Some(results4) => {
+                Some(result) => {
                     self.find_sysline_lru_cache_hit += 1;
                     defo!("found LRU cached for fileoffset {}", fileoffset);
                     // the `.get` returns a reference `&ResultS3SyslineFind` so must return a new `ResultS3SyslineFind`
-                    match results4 {
+                    match result {
                         ResultS3SyslineFind::Found(val) => {
                             defx!(
                                 "return ResultS3SyslineFind::Found(({}, …)) @[{}, {}] from LRU cache",
@@ -1563,7 +1598,7 @@ impl SyslineReader {
         self.find_sysline_in_block_year(fileoffset, &None)
     }
 
-    /// Find [`Sysline`] at fileoffset within the same `Block`
+    /// Implementation of find [`Sysline`] at fileoffset within the same `Block`
     /// (does not cross block boundaries).
     ///
     /// This does a linear search over the `Block`, _O(n)_.
@@ -1586,9 +1621,9 @@ impl SyslineReader {
     ) -> (ResultS3SyslineFind, bool) {
         defn!("({}, {:?})", fileoffset, year_opt);
 
-        if let Some(results4) = self.check_store(fileoffset) {
-            defx!("({}): return {:?}, false", fileoffset, results4);
-            return (results4, false);
+        if let Some(result) = self.check_store(fileoffset) {
+            defx!("({}): return {:?}, false", fileoffset, result);
+            return (result, false);
         }
 
         defo!("({}): searching for first sysline datetime A …", fileoffset);
@@ -1873,9 +1908,9 @@ impl SyslineReader {
     ) -> ResultS3SyslineFind {
         defn!("({}, {:?})", fileoffset, year_opt);
 
-        if let Some(results4) = self.check_store(fileoffset) {
-            defx!("({}): return {:?}", fileoffset, results4);
-            return results4;
+        if let Some(result) = self.check_store(fileoffset) {
+            defx!("({}): return {:?}", fileoffset, result);
+            return result;
         }
 
         let charsz_fo: FileOffset = self.charsz() as FileOffset;
@@ -2220,6 +2255,8 @@ impl SyslineReader {
     pub fn find_sysline_at_datetime_filter(
         &mut self,
         fileoffset: FileOffset,
+        // TODO: [2023/02/26] type alias for `Option<DateTimeL>` that are meant
+        //       as broad filters versus meant as instance values.
         dt_filter: &DateTimeLOpt,
     ) -> ResultS3SyslineFind {
         defn!("(SyslineReader@{:p}, {}, {:?})", self, fileoffset, dt_filter);
@@ -2498,7 +2535,9 @@ impl SyslineReader {
         ResultS3SyslineFind::Done
     }
 
-    /// Wrapper function for `dt_after_or_before`.
+    /// Wrapper function for [`dt_after_or_before`].
+    ///
+    /// [`dt_after_or_before`]: crate::data::datetime::dt_after_or_before
     pub fn sysline_dt_after_or_before(
         syslinep: &SyslineP,
         dt_filter: &DateTimeLOpt,
@@ -2519,7 +2558,9 @@ impl SyslineReader {
         dt_after_or_before(dt, dt_filter)
     }
 
-    /// Wrapper function for call to `dt_pass_filters`.
+    /// Wrapper function for [`dt_pass_filters`].
+    ///
+    /// [`dt_pass_filters`]: crate::data::datetime::dt_pass_filters
     pub fn sysline_pass_filters(
         syslinep: &SyslineP,
         dt_filter_after: &DateTimeLOpt,
@@ -2596,5 +2637,84 @@ impl SyslineReader {
         defx!("return ResultS3SyslineFind::Done");
 
         ResultS3SyslineFind::Done
+    }
+
+    pub fn summary(&self) -> SummarySyslineReader {
+        let SyslineReader_syslines = self
+            .count_syslines_processed();
+        let SyslineReader_syslines_stored_highest = self
+            .syslines_stored_highest();
+        let SyslineReader_syslines_hit = self
+            .syslines_hit;
+        let SyslineReader_syslines_miss = self
+            .syslines_miss;
+        let SyslineReader_syslines_by_range_hit = self
+            .syslines_by_range_hit;
+        let SyslineReader_syslines_by_range_miss = self
+            .syslines_by_range_miss;
+        let SyslineReader_syslines_by_range_put = self
+            .syslines_by_range_put;
+        // only print patterns with use count > 0, sorted by count
+        let mut SyslineReader_patterns_ = DateTimePatternCounts::new();
+        SyslineReader_patterns_.extend(
+            self
+                .dt_patterns_counts
+                .iter()
+                .filter(|&(_k, v)| v > &mut 0),
+        );
+        let mut SyslineReader_patterns = DateTimePatternCounts::new();
+        SyslineReader_patterns.extend(
+            SyslineReader_patterns_
+                .into_iter()
+                .sorted_by(|a, b| Ord::cmp(&b.1, &a.1)),
+        );
+        let SyslineReader_find_sysline_lru_cache_hit = self
+            .find_sysline_lru_cache_hit;
+        let SyslineReader_find_sysline_lru_cache_miss = self
+            .find_sysline_lru_cache_miss;
+        let SyslineReader_find_sysline_lru_cache_put = self
+            .find_sysline_lru_cache_put;
+        let SyslineReader_parse_datetime_in_line_lru_cache_hit = self
+            .parse_datetime_in_line_lru_cache_hit;
+        let SyslineReader_parse_datetime_in_line_lru_cache_miss = self
+            .parse_datetime_in_line_lru_cache_miss;
+        let SyslineReader_parse_datetime_in_line_lru_cache_put = self
+            .parse_datetime_in_line_lru_cache_put;
+        let SyslineReader_get_boxptrs_singleptr = self
+            .get_boxptrs_singleptr;
+        let SyslineReader_get_boxptrs_doubleptr = self
+            .get_boxptrs_doubleptr;
+        let SyslineReader_get_boxptrs_multiptr = self
+            .get_boxptrs_multiptr;
+        let SyslineReader_drop_sysline_ok = self
+            .drop_sysline_ok;
+        let SyslineReader_drop_sysline_errors = self
+            .drop_sysline_errors;
+        let SyslineReader_datetime_first = self.dt_first;
+        let SyslineReader_datetime_last = self.dt_last;
+
+        SummarySyslineReader {
+            SyslineReader_syslines,
+            SyslineReader_syslines_stored_highest,
+            SyslineReader_syslines_hit,
+            SyslineReader_syslines_miss,
+            SyslineReader_syslines_by_range_hit,
+            SyslineReader_syslines_by_range_miss,
+            SyslineReader_syslines_by_range_put,
+            SyslineReader_patterns,
+            SyslineReader_find_sysline_lru_cache_hit,
+            SyslineReader_find_sysline_lru_cache_miss,
+            SyslineReader_find_sysline_lru_cache_put,
+            SyslineReader_parse_datetime_in_line_lru_cache_hit,
+            SyslineReader_parse_datetime_in_line_lru_cache_miss,
+            SyslineReader_parse_datetime_in_line_lru_cache_put,
+            SyslineReader_get_boxptrs_singleptr,
+            SyslineReader_get_boxptrs_doubleptr,
+            SyslineReader_get_boxptrs_multiptr,
+            SyslineReader_drop_sysline_ok,
+            SyslineReader_drop_sysline_errors,
+            SyslineReader_datetime_first,
+            SyslineReader_datetime_last,
+        }
     }
 }

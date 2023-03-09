@@ -52,7 +52,7 @@ use std::collections::HashMap;
 use std::fmt;
 
 #[doc(hidden)]
-pub use std::time::SystemTime;
+pub use std::time::{SystemTime, UNIX_EPOCH};
 
 extern crate arrayref;
 use arrayref::array_ref;
@@ -148,6 +148,11 @@ pub type DateTimeLOpt = Option<DateTimeL>;
 #[cfg(test)]
 type fos = i32;
 
+#[cfg(any(debug_assertions,test))]
+lazy_static! {
+    static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+}
+
 #[cfg(test)]
 pub(crate) const YEAR_FALLBACKDUMMY_VAL: i32 = 1972;
 /// For datetimes missing a year, in some circumstances a filler year must be
@@ -160,6 +165,17 @@ pub(crate) const YEAR_FALLBACKDUMMY_VAL: i32 = 1972;
 ///      (i.e. [`blockreader.mtime()`](BlockReader)) being true.
 const YEAR_FALLBACKDUMMY: &str = "1972";
 
+/// Convert a `T` to a [`SystemTime`].
+///
+/// [`SystemTime`]: std::time::SystemTime
+pub fn convert_to_systemtime<T>(epoch_seconds: T)
+    -> SystemTime where u64: From<T>
+{
+    UNIX_EPOCH + std::time::Duration::from_secs(epoch_seconds.try_into().unwrap())
+}
+
+/// create a `DateTime`
+///
 /// wrapper for chrono DateTime creation function
 #[cfg(test)]
 pub fn ymdhms(
@@ -181,8 +197,11 @@ pub fn ymdhms(
     ).unwrap()
 }
 
+/// create a `DateTime` with milliseconds
+///
 /// wrapper for chrono DateTime creation function
 #[cfg(test)]
+#[allow(clippy::too_many_arguments)]
 pub fn ymdhmsl(
     fixedoffset: &FixedOffset,
     year: i32,
@@ -205,8 +224,11 @@ pub fn ymdhmsl(
     + Duration::milliseconds(milli)
 }
 
+/// create a `DateTime` with microseconds
+///
 /// wrapper for chrono DateTime creation function
 #[cfg(test)]
+#[allow(clippy::too_many_arguments)]
 pub fn ymdhmsm(
     fixedoffset: &FixedOffset,
     year: i32,
@@ -229,8 +251,11 @@ pub fn ymdhmsm(
     + Duration::microseconds(micro)
 }
 
+/// create a `DateTime` with nanoseconds
+///
 /// wrapper for chrono DateTime creation function
 #[cfg(test)]
+#[allow(clippy::too_many_arguments)]
 pub fn ymdhmsn(
     fixedoffset: &FixedOffset,
     year: i32,
@@ -269,7 +294,7 @@ const O_0: fos = 0;
 pub(crate) const O_L: fos = i32::max_value();
 // Offset Minus (or West)
 #[cfg(test)]
-const O_M1: fos = -1 * 3600;
+const O_M1: fos = -3600;
 #[cfg(test)]
 const O_M2: fos = -2 * 3600;
 #[cfg(test)]
@@ -308,9 +333,9 @@ const O_M12: fos = -12 * 3600;
 const O_M1230: fos = -12 * 3600 - 30 * 60;
 // Offset Plus (or East)
 #[cfg(test)]
-const O_P1: fos = 1 * 3600;
+const O_P1: fos = 3600;
 #[cfg(test)]
-const O_P130: fos = 1 * 3600 + 30 * 60;
+const O_P130: fos = 3600 + 30 * 60;
 #[allow(dead_code)]
 #[cfg(test)]
 const O_P2: fos = 2 * 3600;
@@ -697,7 +722,7 @@ pub struct DTFSSet<'a> {
     /// strftime pattern passed to [`chrono::DateTime::parse_from_str`] or
     /// [`chrono::NaiveDateTime::parse_from_str`]
     /// in function [`datetime_parse_from_str`]. Directly relates to order of capture group extractions and `push_str`
-    /// done in [`captures_to_buffer_bytes`].
+    /// done in private `captures_to_buffer_bytes`.
     ///
     /// `pattern` is interdependent with other members.
     ///
@@ -2344,7 +2369,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     012345678901234567890
     //     [22-Feb-17 21:24:20] Section [ALLOWED-CLIENTS] Invalid entry 192.168.0.0-192.168.0.255 in ini file, ignored
     //
-    // The `"17"` is the shortended year and `"22"` the day of the month, see
+    // The `"17"` is the shortened year and `"22"` the day of the month, see
     // source code
     //      https://sourceforge.net/projects/tftp-server/files/tftp%20server%20single%20port/opentftpspV1.66.tar.gz/download
     // file path
@@ -2661,8 +2686,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!("^", RP_LB, CGP_MONTHm, D_D, CGP_DAYde, D_D, CGP_YEAR, D_DHdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_RB),
         DTFSS_YmdHMSf, 0, 40, CGN_MONTH, CGN_FRACTIONAL,
         &[
-            (1, 25, (O_L, 2019, 8, 10, 1, 46, 44, 004200000), r#"(08/10/2019-01:46:44.0042) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_Policy_Config01_Location02" during apply"#),
-            (1, 25, (O_L, 2020, 5, 27, 12, 25, 43, 087700000), "(05/27/2020-12:25:43.0877) Total number of objects successfully migrated :2346, failed objects :16"),
+            (1, 25, (O_L, 2019, 8, 10, 1, 46, 44, 4200000), r#"(08/10/2019-01:46:44.0042) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_Policy_Config01_Location02" during apply"#),
+            (1, 25, (O_L, 2020, 5, 27, 12, 25, 43, 87700000), "(05/27/2020-12:25:43.0877) Total number of objects successfully migrated :2346, failed objects :16"),
         ],
         line!(),
     ),
@@ -5072,17 +5097,17 @@ pub fn dt_pass_filters(
     dt_filter_before: &DateTimeLOpt,
 ) -> Result_Filter_DateTime2 {
     defn!("({:?}, {:?}, {:?})", dt, dt_filter_after, dt_filter_before);
+    // TODO: use `match` statement instead of `if` statements
     if dt_filter_after.is_none() && dt_filter_before.is_none() {
         defx!("return {:?}; (no dt filters)", Result_Filter_DateTime2::InRange);
         return Result_Filter_DateTime2::InRange;
     }
     if dt_filter_after.is_some() && dt_filter_before.is_some() {
-        defo!(
-            "comparing datetime dt_filter_after {:?} < {:?} dt < {:?} dt_fiter_before ???",
-            &dt_filter_after.unwrap(),
-            dt,
-            &dt_filter_before.unwrap()
-        );
+        defo!(" after {:?}" , dt_filter_after.unwrap().with_timezone(&*FO_0));
+        defo!("     <");
+        defo!("    dt {:?}", dt.with_timezone(&*FO_0));
+        defo!("     <");
+        defo!("before {:?}", dt_filter_before.unwrap().with_timezone(&*FO_0));
         let da = &dt_filter_after.unwrap();
         let db = &dt_filter_before.unwrap();
         assert_le!(da, db, "Bad datetime range values filter_after {:?} {:?} filter_before", da, db);
@@ -5101,7 +5126,9 @@ pub fn dt_pass_filters(
 
         Result_Filter_DateTime2::InRange
     } else if dt_filter_after.is_some() {
-        defo!("comparing datetime dt_filter_after {:?} < {:?} dt ???", &dt_filter_after.unwrap(), dt);
+        defo!("after {:?}", dt_filter_after.unwrap().with_timezone(&*FO_0));
+        defo!("    <");
+        defo!("   dt {:?}", dt.with_timezone(&*FO_0));
         let da = &dt_filter_after.unwrap();
         if dt < da {
             defx!("return {:?}", Result_Filter_DateTime2::BeforeRange);
@@ -5111,7 +5138,9 @@ pub fn dt_pass_filters(
 
         Result_Filter_DateTime2::InRange
     } else {
-        defo!("comparing datetime dt {:?} < {:?} dt_filter_before ???", dt, &dt_filter_before.unwrap());
+        defo!("before {:?}", dt_filter_before.unwrap().with_timezone(&*FO_0));
+        defo!("     <");
+        defo!("    dt {:?}", dt.with_timezone(&*FO_0));
         let db = &dt_filter_before.unwrap();
         if db < dt {
             defx!("return {:?}", Result_Filter_DateTime2::AfterRange);

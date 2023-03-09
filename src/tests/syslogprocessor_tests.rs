@@ -576,7 +576,7 @@ fn new_SyslogProcessor(
 /// test `SyslogProcessor::new`
 #[test]
 fn test_SyslogProcessor_new_empty() {
-    new_SyslogProcessor(&*NTF_LOG_EMPTY_FPATH, SZ);
+    new_SyslogProcessor(&NTF_LOG_EMPTY_FPATH, SZ);
 }
 
 #[test]
@@ -663,9 +663,9 @@ const FILEDECOMPRESS: FileProcessingResultBlockZero = FileProcessingResultBlockZ
 #[allow(dead_code)]
 const FILESTUB: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrStub;
 
-#[test_case(&*NTF_LOG_EMPTY_FPATH, SYSLOG_SZ_MAX_BSZ, FILEEMPTY)]
-#[test_case(&*NTF_GZ_EMPTY_FPATH, SYSLOG_SZ_MAX_BSZ, FILEEMPTY)]
-#[test_case(&*NTF3_PATH, SYSLOG_SZ_MAX_BSZ, FILEOK)]
+#[test_case(&NTF_LOG_EMPTY_FPATH, SYSLOG_SZ_MAX_BSZ, FILEEMPTY)]
+#[test_case(&NTF_GZ_EMPTY_FPATH, SYSLOG_SZ_MAX_BSZ, FILEEMPTY)]
+#[test_case(&NTF3_PATH, SYSLOG_SZ_MAX_BSZ, FILEOK)]
 fn test_process_stage0(
     path: &FPath,
     blocksz: BlockSz,

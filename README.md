@@ -3,9 +3,10 @@
 Speedily search and merge log file entries by datetime.
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
-and merge plain log files by datetime, including log files that are compressed
-(`.gz`, `.xz`) or archived (`.tar`). It will parse a variety of log message
-datetime formats.
+and merge log files by datetime, including log files that are compressed
+(`.gz`, `.xz`), archived (`.tar`), or [utmpx struct format](https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx)
+(`utmp`).
+It will parse a variety of log message datetime formats.
 
 The first goal of `s4` is speedy searching and printing.
 
@@ -24,7 +25,7 @@ The first goal of `s4` is speedy searching and printing.
 
 <!---toc start--->
 - [Use](#use)
-  - [Install `super_speedy_syslog_searcher`](#install-superspeedysyslog_searcher)
+  - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
   - [Run `s4`](#run-s4)
   - [`--help`](#--help)
 - [About](#about)
@@ -280,6 +281,8 @@ A longer rambling pontification about this project is in
 - Prepends datetime and file paths, for easy programmatic parsing or visual
   traversal of varying syslog messages
 - Recognizes multi-line log messages
+- Parses [utmpx format](https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx)
+  log files
 - Parses formal datetime formats:
   - [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3)
   - [RFC 3164](https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2)

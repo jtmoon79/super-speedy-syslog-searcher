@@ -136,7 +136,7 @@ impl LinePart {
     ///
     /// Remember that `blocki_end` points to one byte past
     /// because it used directly in byte array slice notation (exclusive).
-    /// i.e. `(*blockp)[blocki_beg..blocki_end]`
+    /// i.e. `(*blockp)[blocki_beg‥blocki_end]`
     pub fn new(
         blockp: BlockP,
         blocki_beg: BlockIndex,
@@ -298,6 +298,7 @@ impl LinePart {
 
     /// `Line` to `String` but using printable chars for non-printable and/or
     /// formatting characters.
+    // TODO fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
@@ -305,6 +306,7 @@ impl LinePart {
         self.impl_to_String_raw(false)
     }
 
+    // TODO fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
@@ -932,6 +934,7 @@ impl Line {
     /// XXX: very inefficient and not always correct! *only* intended to help
     ///      humans visually inspect stderr output.
     ///
+    // TODO fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]

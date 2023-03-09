@@ -4,137 +4,96 @@
 
 #![allow(non_snake_case)]
 
-use crate::common::{Count, FPath, FileSz, FileType};
-
-use crate::data::datetime::{DateTimeLOpt, Year};
-
-use crate::readers::blockreader::{BlockSz, BLOCKSZ_MAX, BLOCKSZ_MIN};
-
-use crate::readers::syslinereader::DateTimePatternCounts;
-
+use crate::common::{
+    Count,
+    FPath,
+    FileType,
+    LogMessageType,
+};
+use crate::common::debug_panic;
+use crate::data::datetime::DateTimeLOpt;
 #[allow(unused_imports)]
 use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
-
-extern crate more_asserts;
-use more_asserts::{debug_assert_ge, debug_assert_le};
-
-extern crate si_trace_print;
-#[allow(unused_imports)]
-use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use crate::readers::blockreader::{
+    BlockSz,
+    BLOCKSZ_MAX,
+    BLOCKSZ_MIN,
+    SummaryBlockReader,
+};
+use crate::readers::linereader::SummaryLineReader;
+use crate::readers::syslinereader::SummarySyslineReader;
+use crate::readers::syslogprocessor::SummarySyslogProcessor;
+use crate::readers::utmpxreader::SummaryUtmpxReader;
 
 use std::fmt;
+
+use ::min_max::max;
+use ::more_asserts::{debug_assert_ge, debug_assert_le};
+#[allow(unused_imports)]
+use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Summary
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// Accumulated statistics to print about activity of a `SyslineReader`
-/// and it's underlying `LineReader` and it's underlying `BlockReader`.
+/// wrapper for various `Summary*` data types for different files corresponding
+/// to [`LogMessage`] variants.
+///
+/// [`LogMessage`]: s4::LogMessage
+#[derive(Clone, Default)]
+pub enum SummaryReaderData {
+    /// Unset. Useful for stand-in value where nothing actually occurred; e.g.
+    /// files without adequate read permissions.
+    #[default]
+    Dummy,
+    /// For a [`SyslogProcessor`] and underlying readers.
+    ///
+    /// [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
+    Syslog((SummaryBlockReader, SummaryLineReader, SummarySyslineReader, SummarySyslogProcessor)),
+    /// For a [`UtmpxReader`] and underlying readers.
+    ///
+    /// [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
+    Utmpx((SummaryBlockReader, SummaryUtmpxReader)),
+}
+
+impl SummaryReaderData {
+    pub fn is_dummy(&self) -> bool {
+        match self {
+            SummaryReaderData::Dummy => true,
+            _ => false,
+        }
+    }
+}
+
+/// Accumulated statistics about processing and printing activity of a single
+/// file processed by a `SyslineReader` and it's underlying `LineReader` and
+/// it's underlying `BlockReader`, _or_ a `UtmpxReader` and it's underlying
+/// `BlockReader`.
 ///
 /// For CLI option `--summary`.
 #[derive(Clone, Default)]
 pub struct Summary {
-    /// the `FileType`
+    /// the `FPath` of the processed file
     pub path: FPath,
-    /// the `FileType`
+    /// the `FileType` of the processed file
     pub filetype: FileType,
-    /// `Count` of bytes stored by `BlockReader`
-    pub BlockReader_bytes: Count,
-    /// count of bytes in file
-    pub BlockReader_bytes_total: FileSz,
-    /// `Count` of `Block`s read by `BlockReader`
-    pub BlockReader_blocks: Count,
-    /// `Count` of `Block`s in file
-    pub BlockReader_blocks_total: Count,
-    /// `BlockSz` of `BlockReader`
-    pub BlockReader_blocksz: BlockSz,
-    /// `filesz()` of file, size of file on disk
-    pub BlockReader_filesz: FileSz,
-    /// `filesz()` of file, for compressed files this is the uncompressed filesz
-    pub BlockReader_filesz_actual: FileSz,
-    /// `Count` of `Lines` processed by `LineReader`
-    pub LineReader_lines: Count,
-    /// "high watermark" of Lines stored in `LineReader.lines`
-    pub LineReader_lines_stored_highest: usize,
-    /// `Count` of `Syslines` processed by `SyslineReader`
-    pub SyslineReader_syslines: Count,
-    /// "high watermark"` of `Sysline`s stored by `SyslineReader.syslines`
-    pub SyslineReader_syslines_stored_highest: usize,
-    /// `SyslineReader::_syslines_hit`
-    pub SyslineReader_syslines_hit: Count,
-    /// `SyslineReader::_syslines_miss`
-    pub SyslineReader_syslines_miss: Count,
-    /// `SyslineReader::_syslines_by_range_hit`
-    pub SyslineReader_syslines_by_range_hit: Count,
-    /// `SyslineReader::_syslines_by_range_miss`
-    pub SyslineReader_syslines_by_range_miss: Count,
-    /// `SyslineReader::_syslines_by_range_put`
-    pub SyslineReader_syslines_by_range_put: Count,
-    /// datetime patterns used by `SyslineReader`
-    pub SyslineReader_patterns: DateTimePatternCounts,
-    /// datetime soonest seen (not necessarily reflective of entire file)
-    pub SyslineReader_pattern_first: DateTimeLOpt,
-    /// datetime latest seen (not necessarily reflective of entire file)
-    pub SyslineReader_pattern_last: DateTimeLOpt,
-    /// `SyslineReader::find_sysline`
-    pub SyslineReader_find_sysline_lru_cache_hit: Count,
-    /// `SyslineReader::find_sysline`
-    pub SyslineReader_find_sysline_lru_cache_miss: Count,
-    /// `SyslineReader::find_sysline`
-    pub SyslineReader_find_sysline_lru_cache_put: Count,
-    /// `SyslineReader::parse_datetime_in_line`
-    pub SyslineReader_parse_datetime_in_line_lru_cache_hit: Count,
-    /// `SyslineReader::parse_datetime_in_line`
-    pub SyslineReader_parse_datetime_in_line_lru_cache_miss: Count,
-    /// `SyslineReader::parse_datetime_in_line`
-    pub SyslineReader_parse_datetime_in_line_lru_cache_put: Count,
-    /// `SyslineReader::get_boxptrs_singleptr`
-    pub SyslineReader_get_boxptrs_singleptr: Count,
-    /// `SyslineReader::get_boxptrs_doubleptr`
-    pub SyslineReader_get_boxptrs_doubleptr: Count,
-    /// `SyslineReader::get_boxptrs_multiptr`
-    pub SyslineReader_get_boxptrs_multiptr: Count,
-    /// `LineReader::lines_hits` for `self.lines`
-    pub LineReader_lines_hits: Count,
-    /// `LineReader::lines_miss` for `self.lines`
-    pub LineReader_lines_miss: Count,
-    /// `LineReader::find_line()` `self._find_line_lru_cache`
-    pub LineReader_find_line_lru_cache_hit: Count,
-    /// `LineReader::find_line()` `self._find_line_lru_cache`
-    pub LineReader_find_line_lru_cache_miss: Count,
-    /// `LineReader::find_line()` `self._find_line_lru_cache`
-    pub LineReader_find_line_lru_cache_put: Count,
-    /// `BlockReader::read_block`
-    pub BlockReader_read_block_lru_cache_hit: Count,
-    /// `BlockReader::read_block`
-    pub BlockReader_read_block_lru_cache_miss: Count,
-    /// `BlockReader::read_block`
-    pub BlockReader_read_block_lru_cache_put: Count,
-    /// `BlockReader::read_block`
-    pub BlockReader_read_blocks_hit: Count,
-    /// `BlockReader::read_block`
-    pub BlockReader_read_blocks_miss: Count,
-    /// `BlockReader::read_block`
-    pub BlockReader_read_blocks_put: Count,
-    /// `BlockReader::blocks_highest`
-    pub BlockReader_blocks_highest: usize,
-    /// `BlockReader::blocks_dropped_ok`
-    pub BlockReader_blocks_dropped_ok: Count,
-    /// `BlockReader::blocks_dropped_err`
-    pub BlockReader_blocks_dropped_err: Count,
-    /// `LineReader::drop_line_ok`
-    pub LineReader_drop_line_ok: Count,
-    /// `LineReader::drop_line_errors`
-    pub LineReader_drop_line_errors: Count,
-    /// `SyslineReader::drop_sysline_ok`
-    pub SyslineReader_drop_sysline_ok: Count,
-    /// `SyslineReader::drop_sysline_errors`
-    pub SyslineReader_drop_sysline_errors: Count,
-    /// `SyslogProcessor::missing_year`
-    pub SyslogProcessor_missing_year: Option<Year>,
-    /// The last IO error as a String, if any
-    // XXX: `Error` does not implement `Clone`, see https://doc.rust-lang.org/std/io/struct.Error.html
-    pub Error_: Option<String>,
+    /// the `LogMessageType` of the processed file
+    pub logmessagetype: LogMessageType,
+    /// Data specific to the particular readers and processors.
+    ///
+    /// When `logmessagetype` is [`LogMessageType::Sysline`] then this must be
+    /// [`SummaryReaderData::Syslog`].
+    ///
+    /// When `logmessagetype` is [`LogMessageType::Sysline`] then this must be
+    /// [`SummaryReaderData::Utmpx`].
+    pub readerdata: SummaryReaderData,
+    /// The first encountered [`Error`], if any, as a `String`.
+    ///
+    /// Annoyingly, cannot [Clone or Copy `Error`].
+    ///
+    /// [`Error`]: std::io::Error
+    /// [Clone or Copy `Error`]: https://github.com/rust-lang/rust/issues/24135
+    pub error: Option<String>,
 }
 
 impl Summary {
@@ -143,117 +102,66 @@ impl Summary {
     pub fn new(
         path: FPath,
         filetype: FileType,
-        BlockReader_bytes: Count,
-        BlockReader_bytes_total: FileSz,
-        BlockReader_blocks: Count,
-        BlockReader_blocks_total: Count,
-        BlockReader_blocksz: BlockSz,
-        BlockReader_filesz: FileSz,
-        BlockReader_filesz_actual: FileSz,
-        LineReader_lines: Count,
-        LineReader_lines_stored_highest: usize,
-        SyslineReader_syslines: Count,
-        SyslineReader_syslines_stored_highest: usize,
-        SyslineReader_syslines_hit: Count,
-        SyslineReader_syslines_miss: Count,
-        SyslineReader_syslines_by_range_hit: Count,
-        SyslineReader_syslines_by_range_miss: Count,
-        SyslineReader_syslines_by_range_put: Count,
-        SyslineReader_patterns: DateTimePatternCounts,
-        SyslineReader_pattern_first: DateTimeLOpt,
-        SyslineReader_pattern_last: DateTimeLOpt,
-        SyslineReader_find_sysline_lru_cache_hit: Count,
-        SyslineReader_find_sysline_lru_cache_miss: Count,
-        SyslineReader_find_sysline_lru_cache_put: Count,
-        SyslineReader_parse_datetime_in_line_lru_cache_hit: Count,
-        SyslineReader_parse_datetime_in_line_lru_cache_miss: Count,
-        SyslineReader_parse_datetime_in_line_lru_cache_put: Count,
-        SyslineReader_get_boxptrs_singleptr: Count,
-        SyslineReader_get_boxptrs_doubleptr: Count,
-        SyslineReader_get_boxptrs_multiptr: Count,
-        LineReader_lines_hits: Count,
-        LineReader_lines_miss: Count,
-        LineReader_find_line_lru_cache_hit: Count,
-        LineReader_find_line_lru_cache_miss: Count,
-        LineReader_find_line_lru_cache_put: Count,
-        BlockReader_read_block_lru_cache_hit: Count,
-        BlockReader_read_block_lru_cache_miss: Count,
-        BlockReader_read_block_lru_cache_put: Count,
-        BlockReader_read_blocks_hit: Count,
-        BlockReader_read_blocks_miss: Count,
-        BlockReader_read_blocks_put: Count,
-        BlockReader_blocks_highest: usize,
-        BlockReader_blocks_dropped_ok: Count,
-        BlockReader_blocks_dropped_err: Count,
-        LineReader_drop_line_ok: Count,
-        LineReader_drop_line_errors: Count,
-        SyslineReader_drop_sysline_ok: Count,
-        SyslineReader_drop_sysline_errors: Count,
-        SyslogProcessor_missing_year: Option<Year>,
-        Error_: Option<String>,
+        logmessagetype: LogMessageType,
+        summaryblockreader: SummaryBlockReader,
+        summarylinereader_opt: Option<SummaryLineReader>,
+        summarysyslinereader_opt: Option<SummarySyslineReader>,
+        summarysyslogprocessor_opt: Option<SummarySyslogProcessor>,
+        summaryutmpreader_opt: Option<SummaryUtmpxReader>,
+        error: Option<String>,
     ) -> Summary {
         // some sanity checks
-        debug_assert_ge!(BlockReader_bytes, BlockReader_blocks, "There is less bytes than Blocks");
-        debug_assert_ge!(BlockReader_bytes, LineReader_lines, "There is less bytes than Lines");
-        debug_assert_ge!(BlockReader_bytes, SyslineReader_syslines, "There is less bytes than Syslines");
-        debug_assert_ge!(BlockReader_blocksz, BLOCKSZ_MIN, "blocksz too small");
-        debug_assert_le!(BlockReader_blocksz, BLOCKSZ_MAX, "blocksz too big");
+        debug_assert_ge!(summaryblockreader.BlockReader_bytes, summaryblockreader.BlockReader_blocks, "There is less bytes than Blocks");
+        debug_assert_ge!(summaryblockreader.BlockReader_blocksz, BLOCKSZ_MIN, "blocksz too small");
+        debug_assert_le!(summaryblockreader.BlockReader_blocksz, BLOCKSZ_MAX, "blocksz too big");
         // XXX: in case of a file without datetime stamp year, syslines may be reprocessed.
         //      the count of syslines processed may reflect reprocessing the same line in the file,
         //      leading to a `SyslineReader_syslines` that is more than `LineReader_lines`.
         //      See `syslogprocessor.process_missing_year()`.
         //debug_assert_ge!(LineReader_lines, SyslineReader_syslines, "There is less Lines than Syslines");
-        Summary {
-            path,
-            filetype,
-            BlockReader_bytes,
-            BlockReader_bytes_total,
-            BlockReader_blocks,
-            BlockReader_blocks_total,
-            BlockReader_blocksz,
-            BlockReader_filesz,
-            BlockReader_filesz_actual,
-            LineReader_lines,
-            LineReader_lines_stored_highest,
-            SyslineReader_syslines,
-            SyslineReader_syslines_stored_highest,
-            SyslineReader_syslines_hit,
-            SyslineReader_syslines_miss,
-            SyslineReader_syslines_by_range_hit,
-            SyslineReader_syslines_by_range_miss,
-            SyslineReader_syslines_by_range_put,
-            SyslineReader_patterns,
-            SyslineReader_pattern_first,
-            SyslineReader_pattern_last,
-            SyslineReader_find_sysline_lru_cache_hit,
-            SyslineReader_find_sysline_lru_cache_miss,
-            SyslineReader_find_sysline_lru_cache_put,
-            SyslineReader_parse_datetime_in_line_lru_cache_hit,
-            SyslineReader_parse_datetime_in_line_lru_cache_miss,
-            SyslineReader_parse_datetime_in_line_lru_cache_put,
-            SyslineReader_get_boxptrs_singleptr,
-            SyslineReader_get_boxptrs_doubleptr,
-            SyslineReader_get_boxptrs_multiptr,
-            LineReader_lines_hits,
-            LineReader_lines_miss,
-            LineReader_find_line_lru_cache_hit,
-            LineReader_find_line_lru_cache_miss,
-            LineReader_find_line_lru_cache_put,
-            BlockReader_read_block_lru_cache_hit,
-            BlockReader_read_block_lru_cache_miss,
-            BlockReader_read_block_lru_cache_put,
-            BlockReader_read_blocks_hit,
-            BlockReader_read_blocks_miss,
-            BlockReader_read_blocks_put,
-            BlockReader_blocks_highest,
-            BlockReader_blocks_dropped_ok,
-            BlockReader_blocks_dropped_err,
-            LineReader_drop_line_ok,
-            LineReader_drop_line_errors,
-            SyslineReader_drop_sysline_ok,
-            SyslineReader_drop_sysline_errors,
-            SyslogProcessor_missing_year,
-            Error_,
+        match logmessagetype {
+            LogMessageType::Sysline => {
+                let summarylinereader = summarylinereader_opt.unwrap();
+                let summarysyslinereader = summarysyslinereader_opt.unwrap();
+                let summarysyslogprocessor = summarysyslogprocessor_opt.unwrap();
+                debug_assert_ge!(summaryblockreader.BlockReader_bytes, summarylinereader.LineReader_lines, "There is less bytes than Lines");
+                debug_assert_ge!(summaryblockreader.BlockReader_bytes, summarysyslinereader.SyslineReader_syslines, "There is less bytes than Syslines");
+                let readerdata: SummaryReaderData = SummaryReaderData::Syslog(
+                    (
+                        summaryblockreader,
+                        summarylinereader,
+                        summarysyslinereader,
+                        summarysyslogprocessor,
+                    ),
+                );
+                Summary {
+                    path,
+                    filetype,
+                    logmessagetype,
+                    readerdata,
+                    error,
+                }
+            }
+            LogMessageType::Utmpx => {
+                let summaryutmpreader = summaryutmpreader_opt.unwrap();
+                debug_assert_ge!(summaryblockreader.BlockReader_bytes, summaryutmpreader.UtmpxReader_utmp_entries, "There is less bytes than Utmpx Entries");
+                let readerdata: SummaryReaderData = SummaryReaderData::Utmpx(
+                    (
+                        summaryblockreader,
+                        summaryutmpreader,
+                    ),
+                );
+                Summary {
+                    path,
+                    filetype,
+                    logmessagetype,
+                    readerdata,
+                    error,
+                }
+            }
+            LogMessageType::All => {
+                panic!("LogMessageType::All is not supported");
+            }
         }
     }
 
@@ -264,8 +172,9 @@ impl Summary {
     pub fn new_failed(
         path: FPath,
         filetype: FileType,
+        logmessagetype: LogMessageType,
         BlockReader_blocksz: BlockSz,
-        Error_: Option<String>,
+        error: Option<String>,
     ) -> Summary {
         // some sanity checks
         debug_assert_ge!(BlockReader_blocksz, BLOCKSZ_MIN, "blocksz too small");
@@ -274,9 +183,73 @@ impl Summary {
         Summary {
             path,
             filetype,
-            BlockReader_blocksz,
-            Error_,
+            logmessagetype,
+            readerdata: SummaryReaderData::Dummy,
+            error,
             ..Default::default()
+        }
+    }
+
+    pub fn blockreader(&self) -> &SummaryBlockReader {
+        match &self.readerdata {
+            SummaryReaderData::Dummy => {
+                // `Dummy` can occur for files without adequate read permissions
+                panic!("Summary::blockreader() called on readerdata type SummaryReaderData::Dummy");
+            },
+            SummaryReaderData::Syslog(
+                (
+                    summaryblockreader,
+                    _summarylinereader,
+                    _summarysyslinereader,
+                    _summarysyslogprocessor,
+                )
+            ) => summaryblockreader,
+            SummaryReaderData::Utmpx(
+                (
+                    summaryblockreader,
+                    _summaryutmpreader,
+                )
+            ) => summaryblockreader,
+        }
+    }
+
+    pub fn datetime_first(&self) -> &DateTimeLOpt {
+        match &self.readerdata {
+            SummaryReaderData::Dummy => panic!("Summary::datetime_first() called on Summary::Dummy"),
+            SummaryReaderData::Syslog(
+                (
+                    _summaryblockreader,
+                    _summarylinereader,
+                    summarysyslinereader,
+                    _summarysyslogprocessor,
+                )
+            ) => &summarysyslinereader.SyslineReader_datetime_first,
+            SummaryReaderData::Utmpx(
+                (
+                    _summaryblockreader,
+                    summaryutmpreader,
+                )
+            ) => &summaryutmpreader.UtmpxReader_datetime_first,
+        }
+    }
+
+    pub fn datetime_last(&self) -> &DateTimeLOpt {
+        match &self.readerdata {
+            SummaryReaderData::Dummy => panic!("Summary::datetime_last() called on Summary::Dummy"),
+            SummaryReaderData::Syslog(
+                (
+                    _summaryblockreader,
+                    _summarylinereader,
+                    summarysyslinereader,
+                    _summarysyslogprocessor,
+                )
+            ) => &summarysyslinereader.SyslineReader_datetime_last,
+            SummaryReaderData::Utmpx(
+                (
+                    _summaryblockreader,
+                    summaryutmpreader,
+                )
+            ) => &summaryutmpreader.UtmpxReader_datetime_last,
         }
     }
 
@@ -284,53 +257,105 @@ impl Summary {
     ///
     /// Helpful to format teriminal column widths.
     pub fn max_hit_miss(&self) -> Count {
-        *[
-            self.SyslineReader_syslines_hit,
-            self.SyslineReader_syslines_miss,
-            self.SyslineReader_syslines_by_range_hit,
-            self.SyslineReader_syslines_by_range_miss,
-            self.SyslineReader_syslines_by_range_put,
-            self.SyslineReader_find_sysline_lru_cache_hit,
-            self.SyslineReader_find_sysline_lru_cache_hit,
-            self.SyslineReader_find_sysline_lru_cache_hit,
-            self.SyslineReader_find_sysline_lru_cache_miss,
-            self.SyslineReader_find_sysline_lru_cache_put,
-            self.SyslineReader_parse_datetime_in_line_lru_cache_hit,
-            self.SyslineReader_parse_datetime_in_line_lru_cache_miss,
-            self.SyslineReader_parse_datetime_in_line_lru_cache_put,
-            self.SyslineReader_get_boxptrs_singleptr,
-            self.SyslineReader_get_boxptrs_doubleptr,
-            self.SyslineReader_get_boxptrs_multiptr,
-            self.LineReader_lines_hits,
-            self.LineReader_lines_miss,
-            self.LineReader_find_line_lru_cache_hit,
-            self.LineReader_find_line_lru_cache_miss,
-            self.LineReader_find_line_lru_cache_put,
-            self.BlockReader_read_block_lru_cache_hit,
-            self.BlockReader_read_block_lru_cache_miss,
-            self.BlockReader_read_block_lru_cache_put,
-            self.BlockReader_read_blocks_hit,
-            self.BlockReader_read_blocks_miss,
-            self.BlockReader_read_blocks_put,
-        ]
-        .iter()
-        .max()
-        .unwrap()
+        match &self.readerdata {
+            SummaryReaderData::Dummy => 0,
+            SummaryReaderData::Syslog(
+                (
+                    summaryblockreader,
+                    summarylinereader,
+                    summarysyslinereader,
+                    _summarysyslogprocessor,
+                )
+            ) => {
+                max!(
+                    summaryblockreader.BlockReader_read_block_lru_cache_hit,
+                    summaryblockreader.BlockReader_read_block_lru_cache_miss,
+                    summaryblockreader.BlockReader_read_block_lru_cache_put,
+                    summaryblockreader.BlockReader_read_blocks_hit,
+                    summaryblockreader.BlockReader_read_blocks_miss,
+                    summaryblockreader.BlockReader_read_blocks_put,
+                    summarylinereader.LineReader_lines_hits,
+                    summarylinereader.LineReader_lines_miss,
+                    summarylinereader.LineReader_find_line_lru_cache_hit,
+                    summarylinereader.LineReader_find_line_lru_cache_miss,
+                    summarylinereader.LineReader_find_line_lru_cache_put,
+                    summarysyslinereader.SyslineReader_syslines_hit,
+                    summarysyslinereader.SyslineReader_syslines_miss,
+                    summarysyslinereader.SyslineReader_syslines_by_range_hit,
+                    summarysyslinereader.SyslineReader_syslines_by_range_miss,
+                    summarysyslinereader.SyslineReader_syslines_by_range_put,
+                    summarysyslinereader.SyslineReader_find_sysline_lru_cache_hit,
+                    summarysyslinereader.SyslineReader_find_sysline_lru_cache_hit,
+                    summarysyslinereader.SyslineReader_find_sysline_lru_cache_hit,
+                    summarysyslinereader.SyslineReader_find_sysline_lru_cache_miss,
+                    summarysyslinereader.SyslineReader_find_sysline_lru_cache_put,
+                    summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_hit,
+                    summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_miss,
+                    summarysyslinereader.SyslineReader_parse_datetime_in_line_lru_cache_put,
+                    summarysyslinereader.SyslineReader_get_boxptrs_singleptr,
+                    summarysyslinereader.SyslineReader_get_boxptrs_doubleptr,
+                    summarysyslinereader.SyslineReader_get_boxptrs_multiptr
+                )
+            }
+            SummaryReaderData::Utmpx(
+                (
+                    summaryblockreader,
+                    summaryutmpreader,
+                )
+            ) => {
+                max!(
+                    summaryblockreader.BlockReader_read_block_lru_cache_hit,
+                    summaryblockreader.BlockReader_read_block_lru_cache_miss,
+                    summaryblockreader.BlockReader_read_block_lru_cache_put,
+                    summaryblockreader.BlockReader_read_blocks_hit,
+                    summaryblockreader.BlockReader_read_blocks_miss,
+                    summaryblockreader.BlockReader_read_blocks_put,
+                    summaryutmpreader.UtmpxReader_utmp_entries_max,
+                    summaryutmpreader.UtmpxReader_utmp_entries_miss
+                )
+            }
+        }
     }
 
     /// Return maximum value for drop number.
     ///
     /// Helpful to format teriminal column widths.
     pub fn max_drop(&self) -> Count {
-        *[
-            self.LineReader_drop_line_ok,
-            self.LineReader_drop_line_errors,
-            self.SyslineReader_drop_sysline_ok,
-            self.SyslineReader_drop_sysline_errors,
-        ]
-        .iter()
-        .max()
-        .unwrap()
+        match &self.readerdata {
+            SummaryReaderData::Dummy => {
+                debug_panic!("Should not be called on Dummy");
+
+                0
+            },
+            SummaryReaderData::Syslog(
+                (
+                    summaryblockreader,
+                    summarylinereader,
+                    summarysyslinereader,
+                    _summarysyslogprocessor
+                )
+            ) => {
+                max!(
+                    summaryblockreader.BlockReader_blocks_dropped_ok,
+                    summaryblockreader.BlockReader_blocks_dropped_err,
+                    summarylinereader.LineReader_drop_line_ok,
+                    summarylinereader.LineReader_drop_line_errors,
+                    summarysyslinereader.SyslineReader_drop_sysline_ok,
+                    summarysyslinereader.SyslineReader_drop_sysline_errors
+                )
+            }
+            SummaryReaderData::Utmpx(
+                (
+                    summaryblockreader,
+                    _summaryutmpreader,
+                )
+            ) => {
+                max!(
+                    summaryblockreader.BlockReader_blocks_dropped_ok,
+                    summaryblockreader.BlockReader_blocks_dropped_err
+                )
+            }
+        }
     }
 }
 
@@ -339,41 +364,73 @@ impl fmt::Debug for Summary {
         &self,
         f: &mut fmt::Formatter,
     ) -> fmt::Result {
-        match self.filetype {
-            FileType::Tar | FileType::File => f
-                .debug_struct("")
-                .field("bytes", &self.BlockReader_bytes)
-                .field("bytes total", &self.BlockReader_bytes_total)
-                .field("lines", &self.LineReader_lines)
-                .field("lines stored highest", &self.LineReader_lines_stored_highest)
-                .field("syslines", &self.SyslineReader_syslines)
-                .field("syslines stored highest", &self.SyslineReader_syslines_stored_highest)
-                .field("blocks", &self.BlockReader_blocks)
-                .field("blocks total", &self.BlockReader_blocks_total)
-                .field("blocks stored highest", &self.BlockReader_blocks_highest)
-                .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
-                .field("filesz", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
-                .finish(),
-            FileType::Gz | FileType::Xz => f
-                .debug_struct("")
-                .field("bytes", &self.BlockReader_bytes)
-                .field("bytes total", &self.BlockReader_bytes_total)
-                .field("lines", &self.LineReader_lines)
-                .field("lines stored highest", &self.LineReader_lines_stored_highest)
-                .field("syslines", &self.SyslineReader_syslines)
-                .field("syslines stored highest", &self.SyslineReader_syslines_stored_highest)
-                .field("blocks", &self.BlockReader_blocks)
-                .field("blocks total", &self.BlockReader_blocks_total)
-                .field("blocks stored high", &self.BlockReader_blocks_highest)
-                .field("blocksz", &format_args!("{0} (0x{0:X})", &self.BlockReader_blocksz))
-                .field("filesz uncompressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz_actual))
-                .field("filesz compressed", &format_args!("{0} (0x{0:X})", &self.BlockReader_filesz))
-                .finish(),
-            // Summary::default()
-            FileType::Unknown => f.debug_struct("").finish(),
-            FileType::Unparseable => f.debug_struct("").finish(),
-            FileType::Unset | _ => {
-                unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype)
+        match &self.readerdata {
+            SummaryReaderData::Dummy => f.debug_struct("").finish(),
+            SummaryReaderData::Syslog(
+                (
+                    summaryblockreader,
+                    summarylinereader,
+                    summarysyslinereader,
+                    _summarysyslogprocessor
+                )
+            ) => {
+                match self.filetype {
+                    FileType::Tar | FileType::File => f
+                        .debug_struct("")
+                        .field("bytes", &summaryblockreader.BlockReader_bytes)
+                        .field("bytes total", &summaryblockreader.BlockReader_bytes_total)
+                        .field("lines", &summarylinereader.LineReader_lines)
+                        .field("lines stored highest", &summarylinereader.LineReader_lines_stored_highest)
+                        .field("syslines", &summarysyslinereader.SyslineReader_syslines)
+                        .field("syslines stored highest", &summarysyslinereader.SyslineReader_syslines_stored_highest)
+                        .field("blocks", &summaryblockreader.BlockReader_blocks)
+                        .field("blocks total", &summaryblockreader.BlockReader_blocks_total)
+                        .field("blocks stored highest", &summaryblockreader.BlockReader_blocks_highest)
+                        .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.BlockReader_blocksz))
+                        .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.BlockReader_filesz))
+                        .finish(),
+                    FileType::Gz | FileType::Xz => f
+                        .debug_struct("")
+                        .field("bytes", &summaryblockreader.BlockReader_bytes)
+                        .field("bytes total", &summaryblockreader.BlockReader_bytes_total)
+                        .field("lines", &summarylinereader.LineReader_lines)
+                        .field("lines stored highest", &summarylinereader.LineReader_lines_stored_highest)
+                        .field("syslines", &summarysyslinereader.SyslineReader_syslines)
+                        .field("syslines stored highest", &summarysyslinereader.SyslineReader_syslines_stored_highest)
+                        .field("blocks", &summaryblockreader.BlockReader_blocks)
+                        .field("blocks total", &summaryblockreader.BlockReader_blocks_total)
+                        .field("blocks stored high", &summaryblockreader.BlockReader_blocks_highest)
+                        .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.BlockReader_blocksz))
+                        .field("filesz uncompressed", &format_args!("{0} (0x{0:X})", &summaryblockreader.BlockReader_filesz_actual))
+                        .field("filesz compressed", &format_args!("{0} (0x{0:X})", &summaryblockreader.BlockReader_filesz))
+                        .finish(),
+                    // Summary::default()
+                    FileType::Unknown => f.debug_struct("").finish(),
+                    FileType::Unparseable => f.debug_struct("").finish(),
+                    FileType::Unset | _ =>
+                        unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype),
+                }
+            }
+            SummaryReaderData::Utmpx(
+                (
+                    summaryblockreader,
+                    summaryutmpreader,
+                )
+            ) => {
+                match self.filetype {
+                    FileType::Utmpx => f
+                        .debug_struct("")
+                        .field("bytes", &summaryblockreader.BlockReader_bytes)
+                        .field("bytes total", &summaryblockreader.BlockReader_bytes_total)
+                        .field("utmp entries", &summaryutmpreader.UtmpxReader_utmp_entries)
+                        .field("blocks", &summaryblockreader.BlockReader_blocks)
+                        .field("blocks total", &summaryblockreader.BlockReader_blocks_total)
+                        .field("blocks stored highest", &summaryblockreader.BlockReader_blocks_highest)
+                        .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.BlockReader_blocksz))
+                        .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.BlockReader_filesz))
+                        .finish(),
+                    ft => panic!("Unpexected filetype {}", ft),
+                }
             }
         }
     }

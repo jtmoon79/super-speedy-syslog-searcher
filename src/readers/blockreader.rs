@@ -1,5 +1,5 @@
 // src/readers/blockreader.rs
-// …
+// … ‥
 
 //! Implements [`Block`s] and [`BlockReader`], the driver of reading bytes
 //! from a file.
@@ -9,14 +9,10 @@
 
 #[doc(hidden)]
 pub use crate::common::{Count, FPath, FileOffset, FileSz, FileType};
-
 use crate::common::{File, FileMetadata, FileOpenOptions, ResultS3};
-
 #[cfg(test)]
 use crate::common::Bytes;
-
 use crate::data::datetime::SystemTime;
-
 #[allow(unused_imports)]
 use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
 
@@ -34,28 +30,23 @@ use std::time::Duration;
 
 extern crate lru;
 use lru::LruCache;
-
 extern crate mime_guess;
 use mime_guess::MimeGuess;
-
 extern crate more_asserts;
-use more_asserts::{assert_ge, assert_le, debug_assert_le};
-
-// For gzip files.
+#[allow(unused_imports)]
+use more_asserts::{assert_ge, assert_le, debug_assert_ge, debug_assert_gt, debug_assert_le, debug_assert_lt};
+// `flate2` is for gzip files.
 extern crate flate2;
 use flate2::read::GzDecoder;
 use flate2::GzHeader;
-
-// For xz files.
+// `lzma_rs` is for xz files.
 // Crate `lzma-rs` is the only pure rust crate.
 // Other crates interface to liblzma which not ideal.
 extern crate lzma_rs;
-
 extern crate si_trace_print;
 #[allow(unused_imports)]
-use si_trace_print::{def1n, def1o, def1x, defn, defo, defx, defñ, den, deo, dex, deñ};
-
-// For tar files.
+use si_trace_print::{def1n, def1o, def1x, defn, defo, defx, defñ, den, deo, dex, deñ, pfn, pfo, pfx};
+// `tar` is for tar files.
 extern crate tar;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -102,11 +93,58 @@ pub type BlocksTracked = BTreeSet<BlockOffset>;
 /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
 pub type BlocksLRUCache = LruCache<BlockOffset, BlockP>;
 
-/// A typed [`ResultS3`] for function `read_block`.
+/// A typed [`ResultS3`] for function [`BlockReader::read_block`].
 ///
 /// [`ResultS3`]: crate::common::ResultS3
+/// [`BlockReader::read_block`]: BlockReader::read_block
+// TODO: rename `ResultS3ReadBlock` with `ResultReadBlock`
 #[allow(non_upper_case_globals)]
 pub type ResultS3ReadBlock = ResultS3<BlockP, Error>;
+
+/// Return type for [`BlockReader::read_data`].
+///
+/// Avoids allocating a new `Vec` for common cases where one or two `BlockP`
+/// are returned.
+///
+/// [`BlockReader::read_data`]: BlockReader::read_data
+pub enum ReadDataParts {
+    /// One `BlockP` returned.
+    One(BlockP),
+    /// Two `BlockP` returned.
+    Two(BlockP, BlockP),
+    /// Three or more `BlockP` returned (allocates a `Vec`).
+    Many(Vec<BlockP>),
+}
+
+pub type ReadData = (ReadDataParts, BlockIndex, BlockIndex);
+
+/// A typed [`ResultS3`] for function [`read_data`].
+///
+/// [`ResultS3`]: crate::common::ResultS3
+/// [`read_data`]: BlockReader::read_data
+#[allow(non_upper_case_globals)]
+pub type ResultReadData = ResultS3<ReadData, Error>;
+
+/// A typed [`ResultS3`] for function [`read_data_to_buffer`].
+///
+/// [`ResultS3`]: crate::common::ResultS3
+/// [`read_data_to_buffer`]: BlockReader::read_data_to_buffer
+#[allow(non_upper_case_globals)]
+pub type ResultReadDataToBuffer = ResultS3<usize, Error>;
+
+/// helper to `read_data_to_buffer` to check buffer length, exit with error.
+macro_rules! read_data_to_buffer_len_check {
+    ($arg1:expr, $arg2:expr) => (
+        if $arg1 < $arg2 {
+            let err = Error::new(
+                ErrorKind::Other,
+                format!("buffer too small, len {}, need {}", $arg1, $arg2),
+            );
+            defx!("return {:?}", err);
+            return ResultReadDataToBuffer::Err(err);
+        }
+    )
+}
 
 /// Absolute minimum Block Size in bytes (inclusive).
 pub const BLOCKSZ_MIN: BlockSz = 1;
@@ -351,7 +389,6 @@ impl fmt::Debug for BlockReader {
         f.debug_struct("BlockReader")
             .field("path", &self.path)
             .field("file", &self.file)
-            //.field("file_metadata", &self._file_metadata)
             .field("mimeguess", &self.mimeguess_)
             .field("filesz", &self.filesz())
             .field("blockn", &self.blockn)
@@ -367,6 +404,27 @@ impl fmt::Debug for BlockReader {
             .field("insert", &self.read_blocks_put)
             .finish()
     }
+}
+
+#[allow(non_snake_case)]
+#[derive(Clone, Default)]
+pub struct SummaryBlockReader {
+    pub BlockReader_bytes: Count,
+    pub BlockReader_bytes_total: FileSz,
+    pub BlockReader_blocks: Count,
+    pub BlockReader_blocks_total: Count,
+    pub BlockReader_blocksz: BlockSz,
+    pub BlockReader_filesz: FileSz,
+    pub BlockReader_filesz_actual: FileSz,
+    pub BlockReader_read_block_lru_cache_hit: Count,
+    pub BlockReader_read_block_lru_cache_miss: Count,
+    pub BlockReader_read_block_lru_cache_put: Count,
+    pub BlockReader_read_blocks_hit: Count,
+    pub BlockReader_read_blocks_miss: Count,
+    pub BlockReader_read_blocks_put: Count,
+    pub BlockReader_blocks_highest: usize,
+    pub BlockReader_blocks_dropped_ok: Count,
+    pub BlockReader_blocks_dropped_err: Count,
 }
 
 /// Helper to unpack DWORD unsigned integers in a gzip header.
@@ -501,7 +559,8 @@ impl BlockReader {
         let mut tar_opt: Option<TarData> = None;
         let mut read_blocks_put: Count = 0;
         match filetype {
-            FileType::File => {
+            FileType::File
+            | FileType::Utmpx => {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
             }
@@ -1187,7 +1246,7 @@ impl BlockReader {
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
             FileType::Gz | FileType::Xz | FileType::Tar => self.filesz_actual,
-            FileType::File => self.filesz,
+            FileType::File | FileType::Utmpx => self.filesz,
             _ => 0,
         }
     }
@@ -1225,7 +1284,9 @@ impl BlockReader {
     //       (or a non-meaningful placeholder value).
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
-            FileType::File | FileType::Xz => self.file_metadata_modified,
+            FileType::File
+            | FileType::Utmpx
+            | FileType::Xz => self.file_metadata_modified,
             FileType::Gz => {
                 let mtime = self
                     .gz
@@ -1264,6 +1325,9 @@ impl BlockReader {
     //       Change the LineReader calls to call
     //       `self.blockreader.block_offset_at_file_offset_sansbsz()` or whatever it's named.
 
+    // TODO: [2023/02] rename function sub-names `file_offset` to `fileoffset`,
+    //       `block_offset` to `blockoffset`, `block_index` to `blockindex`
+
     /// Return nearest preceding `BlockOffset` for given `FileOffset`.
     #[inline(always)]
     pub const fn block_offset_at_file_offset(
@@ -1271,6 +1335,15 @@ impl BlockReader {
         blocksz: BlockSz,
     ) -> BlockOffset {
         (file_offset / blocksz) as BlockOffset
+    }
+
+    /// Return nearest preceding `BlockOffset` for given `FileOffset`.
+    #[inline(always)]
+    const fn block_offset_at_file_offset_self(
+        &self,
+        file_offset: FileOffset,
+    ) -> BlockOffset {
+        BlockReader::block_offset_at_file_offset(file_offset, self.blocksz)
     }
 
     /// See [BlockReader::file_offset_at_block_offset].
@@ -1322,6 +1395,16 @@ impl BlockReader {
             )) as BlockIndex
     }
 
+    /// Return `BlockIndex` (byte offset into a `Block`) for the `Block` that
+    /// corresponds to the passed `FileOffset`.
+    #[inline(always)]
+    pub const fn block_index_at_file_offset_self(
+        &self,
+        file_offset: FileOffset,
+    ) -> BlockIndex {
+        BlockReader::block_index_at_file_offset(file_offset, self.blocksz)
+    }
+
     /// Return `Count` of [`Block`s] in a file.
     ///
     /// Equivalent to the _last [`BlockOffset`] + 1_.
@@ -1341,7 +1424,7 @@ impl BlockReader {
 
     /// Specific `BlockSz` (size in bytes) of block at `BlockOffset`.
     // TODO: assert this is true when storing a `Block`
-    pub fn blocksz_at_blockoffset_(
+    fn blocksz_at_blockoffset_impl(
         blockoffset: &BlockOffset,
         blockoffset_last: &BlockOffset,
         blocksz: &BlockSz,
@@ -1385,7 +1468,7 @@ impl BlockReader {
         blockoffset: &BlockOffset,
     ) -> BlockSz {
         defñ!("({})", blockoffset);
-        BlockReader::blocksz_at_blockoffset_(
+        BlockReader::blocksz_at_blockoffset_impl(
             blockoffset,
             &self.blockoffset_last(),
             &self.blocksz,
@@ -1496,24 +1579,26 @@ impl BlockReader {
                 deo!("no block {} in blocks", blockoffset);
             }
         }
-        match self
-            .read_block_lru_cache
-            .pop(&blockoffset)
-        {
-            Some(blockp) => {
-                deo!("removed block {} from LRU cache", blockoffset);
-                match blockp_opt {
-                    Some(ref blockp_) => {
-                        debug_assert_eq!(&blockp, blockp_, "For blockoffset {}, blockp in blocks != block in LRU cache", blockoffset);
-                    }
-                    None => {
-                        deo!("WARNING: block {} only in LRU cache, not in blocks", blockoffset);
-                        blockp_opt = Some(blockp);
+        if self.read_block_lru_cache_enabled {
+            match self
+                .read_block_lru_cache
+                .pop(&blockoffset)
+            {
+                Some(blockp) => {
+                    deo!("removed block {} from LRU cache", blockoffset);
+                    match blockp_opt {
+                        Some(ref blockp_) => {
+                            debug_assert_eq!(&blockp, blockp_, "For blockoffset {}, blockp in blocks != block in LRU cache", blockoffset);
+                        }
+                        None => {
+                            deo!("WARNING: block {} only in LRU cache, not in blocks", blockoffset);
+                            blockp_opt = Some(blockp);
+                        }
                     }
                 }
-            }
-            None => {
-                deo!("no block {} in LRU cache", blockoffset);
+                None => {
+                    deo!("no block {} in LRU cache", blockoffset);
+                }
             }
         }
         match blockp_opt {
@@ -1617,9 +1702,8 @@ impl BlockReader {
         blockoffset: BlockOffset,
     ) -> ResultS3ReadBlock {
         defn!("({})", blockoffset);
-        debug_assert_eq!(
-            self.filetype,
-            FileType::File,
+        debug_assert!(
+            matches!(self.filetype, FileType::File | FileType::Utmpx),
             "wrong FileType {:?} for calling read_block_FILE",
             self.filetype
         );
@@ -2326,7 +2410,8 @@ impl BlockReader {
         }
 
         match self.filetype {
-            FileType::File => self.read_block_File(blockoffset),
+            FileType::File
+            | FileType::Utmpx => self.read_block_File(blockoffset),
             FileType::Gz => self.read_block_FileGz(blockoffset),
             FileType::Xz => self.read_block_FileXz(blockoffset),
             FileType::Tar => self.read_block_FileTar(blockoffset),
@@ -2334,6 +2419,272 @@ impl BlockReader {
                 panic!("Unsupported filetype {:?}", self.filetype);
             }
         }
+    }
+
+    /// return data \[`fileoffset_beg`, `fileoffset_end`), inclusive range to
+    /// exclusive range, as sequence of
+    /// [`BlockP`] with associated start [`BlockIndex`] and end `BlockIndex`.
+    ///
+    /// The returned "start `BlockIndex`" pertains to the first `BlockP` in the
+    /// returned sequence. The returned "end `BlockIndex`" pertains to the
+    /// last `BlockP` in the returned sequence.
+    ///
+    /// The return value contains enum [`ReadDataParts`]. This enum  allows the
+    /// most common cases of one or
+    /// two [`BlockP`] to be returned without allocation of a [`Vec`].
+    /// In the rare case of three or more `BlockP`s then a `Vec` is allocated.
+    ///
+    /// Argument `oneblock` when `true` requires the [`Found`] referred data
+    /// to reside within one [`Block`].
+    /// If the data is not contained within one `Block` then returns [`Done`].
+    ///
+    /// [`BlockP`]: BlockP
+    /// [`Block`]: Block
+    /// [`BlockIndex`s]: BlockIndex
+    /// [`BlockIndex`]: BlockIndex
+    /// [`ReadDataParts`]: ReadDataParts
+    /// [`Vec`]: Vec
+    /// [`Done`]: crate::common::ResultS3#variant.Done
+    /// [`Found`]: crate::common::ResultS3#variant.Found
+    pub(crate) fn read_data(
+        &mut self,
+        fileoffset_beg: FileOffset,
+        fileoffset_end: FileOffset,
+        oneblock: bool,
+    ) -> ResultReadData
+    {
+        defn!("({}, {}, {})", fileoffset_beg, fileoffset_end, oneblock);
+        debug_assert_le!(fileoffset_beg, fileoffset_end);
+        let fileoffset_end: FileOffset = std::cmp::min(fileoffset_end, self.filesz());
+
+        if fileoffset_beg >= fileoffset_end {
+            defx!("offsets mismatch, return Done");
+            return ResultReadData::Done;
+        }
+
+        let bo_last: BlockOffset = self.blockoffset_last();
+        let mut bo1: BlockOffset = self.block_offset_at_file_offset_self(fileoffset_beg);
+        let blockp1 = match self.read_block(bo1) {
+            ResultS3ReadBlock::Found(blockp) => {
+                defo!("read_block({}) returned Found Block len {}", bo1, (*blockp).len());
+
+                blockp
+            }
+            ResultS3ReadBlock::Done => {
+                defx!("read_block({}) returned Done; returning Done", bo1);
+                return ResultReadData::Done;
+            }
+            ResultS3ReadBlock::Err(err) => {
+                defx!("read_block({}) returned Error {:?}", bo1, err);
+                return ResultReadData::Err(err);
+            }
+        };
+        let bi1: BlockIndex = self.block_index_at_file_offset_self(fileoffset_beg);
+        let mut bi2: BlockIndex = self.block_index_at_file_offset_self(fileoffset_end);
+        let bo2: BlockOffset = match bi2 {
+            0 => {
+                bi2 = self.blocksz as BlockIndex;
+
+                self.block_offset_at_file_offset_self(fileoffset_end) - 1
+            }
+            _ => self.block_offset_at_file_offset_self(fileoffset_end),
+        };
+        debug_assert_le!(bo1, bo2);
+
+        // the input argument `fileoffset_end` is exclusive range
+        // whereas BlockOffset `bo2` must be inclusive range
+        // so adjust accordingly
+        if bo1 == bo2 {
+            // data resides within one block
+            bi2 = std::cmp::min(bi2, (*blockp1).len() as BlockIndex);
+            defx!("return Found(One(len {}, {}, {}))", (*blockp1).len(), bi1, bi2);
+            let rd: ReadData = (ReadDataParts::One(blockp1), bi1, bi2);
+            return ResultReadData::Found(rd);
+        }
+        if bo1 == bo_last {
+            // passed parameters that refer to data beyond the end of the file
+            bi2 = std::cmp::min(bi2, (*blockp1).len() as BlockIndex);
+            defx!("return Found(One(len {}, {}, {}))", (*blockp1).len(), bi1, bi2);
+            let rd: ReadData = (ReadDataParts::One(blockp1), bi1, bi2);
+            return ResultReadData::Found(rd);
+        }
+
+        if oneblock {
+            defx!("return ResultReadData::Done; oneblock but [{}, {}) spans more than one block", fileoffset_beg, fileoffset_end);
+            return ResultReadData::Done;
+        }
+
+        if bo1 + 1 == bo2 {
+            // data spans two blocks
+            let blockp2 = match self.read_block(bo2) {
+                ResultS3ReadBlock::Found(blockp) => {
+                    defo!("read_block({}) returned Found Block len {}", bo2, (*blockp).len());
+
+                    blockp
+                }
+                ResultS3ReadBlock::Done => {
+                    defo!("read_block({}) returned Done", bo2);
+                    let err = Error::new(
+                        ErrorKind::Other,
+                        format!("read_block({}) returned Done, block_last is {}", bo2, bo_last),
+                    );
+                    defx!("return {:?}", err);
+                    return ResultReadData::Err(err);
+                }
+                ResultS3ReadBlock::Err(err) => {
+                    defx!("read_block({}) returned Error {:?}", bo2, err);
+                    return ResultReadData::Err(err);
+                }
+            };
+
+            if bo2 == bo_last {
+                bi2 = std::cmp::min(bi2, (*blockp2).len() as BlockIndex);
+            }
+            defx!("return Found(Two(…, {}, {}))", bi1, bi2);
+            let rd: ReadData = (ReadDataParts::Two(blockp1, blockp2), bi1, bi2);
+            return ResultReadData::Found(rd);
+        }
+
+        // data spans more than two blocks
+        let mut blockps: Vec<BlockP> = Vec::with_capacity(3);
+        defo!("blockps.push({})", bo1);
+        blockps.push(blockp1);
+
+        bo1 += 1;
+        while bo1 <= bo2 {
+            match self.read_block(bo1) {
+                ResultS3ReadBlock::Found(blockp) => {
+                    defo!("read_block({}) returned Found Block len {}", bo1, (*blockp).len());
+                    defo!("blockps.push({})", bo1);
+                    blockps.push(blockp);
+                }
+                ResultS3ReadBlock::Done => {
+                    defo!("read_block({}) returned Done (fileoffset_end {} larger than filesz)", bo1, fileoffset_end);
+                    break;
+                }
+                ResultS3ReadBlock::Err(err) => {
+                    defx!("read_block({}) returned Error {:?}", bo1, err);
+                    return ResultReadData::Err(err);
+                }
+            };
+            bo1 += 1;
+        }
+        bi2 = std::cmp::min(bi2, blockps.last().unwrap().len() as BlockIndex);
+
+        defx!("return Found(Many(…, {}, {}))", bi1, bi2);
+        let rd: ReadData = (ReadDataParts::Many(blockps), bi1, bi2);
+
+        ResultReadData::Found(rd)
+    }
+
+    /// Read data from the file into the passed buffer. Calls [`read_data`].
+    /// When successful, [`Found`] contains number of bytes read into the passed
+    /// `buffer`.
+    /// Data is read inclusive of `fileoffset_beg` and exclusive of
+    /// `fileoffset_end`.
+    ///
+    /// Argument `oneblock` is passed to `read_data`.
+    ///
+    /// [`read_data`]: self::read_data
+    /// [`Found`]: ResultReadDataToBuffer
+    pub fn read_data_to_buffer(
+        &mut self,
+        fileoffset_beg: FileOffset,
+        fileoffset_end: FileOffset,
+        oneblock: bool,
+        buffer: &mut [u8]
+    ) -> ResultReadDataToBuffer {
+        defn!("({}, {}, {}, buffer len {})", fileoffset_beg, fileoffset_end, oneblock, buffer.len());
+        read_data_to_buffer_len_check!(buffer.len(), 1);
+        let readdata: ReadData = match self.read_data(
+            fileoffset_beg,
+            fileoffset_end,
+            oneblock,
+        ) {
+            ResultReadData::Found(readdata) => readdata,
+            ResultReadData::Done => {
+                defx!("return ResultReadDataToBuffer::Done");
+                return ResultReadDataToBuffer::Done;
+            }
+            ResultReadData::Err(err) => {
+                defx!("return ResultReadDataToBuffer::Err({})", err);
+                return ResultReadDataToBuffer::Err(err);
+            }
+        };
+
+        let mut at: usize = 0;
+        let bi1: usize = readdata.1;
+        let bi2: usize = readdata.2;
+        match readdata.0 {
+            ReadDataParts::One(blockp) => {
+                //let n = std::cmp::min((*blockp).len(), bi2 - bi1);
+                let n = bi2 - bi1;
+                defo!("copy ‥{}", at + n);
+                read_data_to_buffer_len_check!(buffer.len(), at + n);
+                buffer[..at + n].copy_from_slice(&(*blockp).as_slice()[bi1..bi1 + n]);
+                at += n;
+            }
+            ReadDataParts::Two(blockp1, blockp2) => {
+                debug_assert!(!oneblock);
+                if oneblock {
+                    defx!("return ResultReadDataToBuffer::Done; oneblock but had two blocks");
+                    return ResultReadDataToBuffer::Done;
+                }
+                // two blocks
+                // first block
+                debug_assert_eq!((*blockp1).len(), self.blocksz() as usize);
+                //let n = std::cmp::min((*blockp1).len(), (*blockp1).len() - bi1);
+                let n = (*blockp1).len() - bi1;
+                defo!("copy ‥{}", at + n);
+                read_data_to_buffer_len_check!(buffer.len(), at + n);
+                buffer[..at + n].copy_from_slice(&(*blockp1).as_slice()[bi1..]);
+                at += n;
+                // last block
+                //let n = std::cmp::min((*blockp2).len() - at, bi2);
+                let n = bi2;
+                defo!("copy {}‥{}", at, at + n);
+                read_data_to_buffer_len_check!(buffer.len(), at + n);
+                buffer[at..at + n].copy_from_slice(&(*blockp2).as_slice()[..n]);
+                at += n;
+            }
+            ReadDataParts::Many(blockps) => {
+                debug_assert!(!oneblock);
+                if oneblock {
+                    defx!("return ResultReadDataToBuffer::Done; oneblock but had many blocks");
+                    return ResultReadDataToBuffer::Done;
+                }
+                debug_assert_ge!(blockps.len(), 3);
+                // more than two blocks
+                let len_: usize = blockps.len();
+                defo!("readdata (blockps.len()={}, {}, {})", len_, bi1, bi2);
+                // first block
+                debug_assert_eq!(blockps[0].len(), self.blocksz() as usize);
+                //let n = std::cmp::min(blockps[0].len(), blockps[0].len() - bi1);
+                let n = blockps[0].len() - bi1;
+                defo!("copy ‥{}", at + n);
+                read_data_to_buffer_len_check!(buffer.len(), at + n);
+                buffer[..at + n].copy_from_slice(&blockps[0].as_slice()[bi1..bi1 + n]);
+                at += n;
+                // middle block(s)
+                for blockp in blockps.iter().skip(1).take(len_ - 2) {
+                    debug_assert_eq!((*blockp).len(), self.blocksz() as usize);
+                    let n = (*blockp).len();
+                    defo!("copy {}‥{}", at, at + n);
+                    read_data_to_buffer_len_check!(buffer.len(), at + n);
+                    buffer[at..at + n].copy_from_slice(&blockp.as_slice()[..n]);
+                    at += n;
+                };
+                // last block
+                //let n = std::cmp::min(blockps[len_ - 1].len(), bi2);
+                let n = bi2;
+                defo!("copy {}‥{}", at, at + n);
+                read_data_to_buffer_len_check!(buffer.len(), at + n);
+                buffer[at..at + n].copy_from_slice(&blockps[len_ - 1].as_slice()[..n]);
+                at += n;
+            }
+        }
+
+        ResultReadDataToBuffer::Found(at)
     }
 
     /// Wrapper function to open a `.tar` file.
@@ -2369,4 +2720,58 @@ impl BlockReader {
 
         None
     }
+
+    #[allow(non_snake_case)]
+    pub fn summary(&self) -> SummaryBlockReader {
+        let BlockReader_bytes = self
+            .count_bytes();
+        let BlockReader_bytes_total = self.filesz() as FileSz;
+        let BlockReader_blocks = self
+            .count_blocks_processed();
+        let BlockReader_blocks_total = self
+            .blockn;
+        let BlockReader_blocksz = self.blocksz();
+        let BlockReader_filesz = self
+            .filesz;
+        let BlockReader_filesz_actual = self
+            .filesz_actual;
+        let BlockReader_read_block_lru_cache_hit = self
+            .read_block_cache_lru_hit;
+        let BlockReader_read_block_lru_cache_miss = self
+            .read_block_cache_lru_miss;
+        let BlockReader_read_block_lru_cache_put = self
+            .read_block_cache_lru_put;
+        let BlockReader_read_blocks_hit = self
+            .read_blocks_hit;
+        let BlockReader_read_blocks_miss = self
+            .read_blocks_miss;
+        let BlockReader_read_blocks_put = self
+            .read_blocks_put;
+        let BlockReader_blocks_highest = self
+            .blocks_highest;
+        let BlockReader_blocks_dropped_ok = self
+            .dropped_blocks_ok;
+        let BlockReader_blocks_dropped_err = self
+            .dropped_blocks_err;
+
+        SummaryBlockReader {
+            BlockReader_bytes,
+            BlockReader_bytes_total,
+            BlockReader_blocks,
+            BlockReader_blocks_total,
+            BlockReader_blocksz,
+            BlockReader_filesz,
+            BlockReader_filesz_actual,
+            BlockReader_read_block_lru_cache_hit,
+            BlockReader_read_block_lru_cache_miss,
+            BlockReader_read_block_lru_cache_put,
+            BlockReader_read_blocks_hit,
+            BlockReader_read_blocks_miss,
+            BlockReader_read_blocks_put,
+            BlockReader_blocks_highest,
+            BlockReader_blocks_dropped_ok,
+            BlockReader_blocks_dropped_err,
+        }
+    }
+
 }

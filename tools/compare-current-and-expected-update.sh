@@ -53,8 +53,9 @@ echo >&2
 declare -ar S4_ARGS=(
     --color=never
     --tz-offset=+08:00
-    --prepend-filename
+    --prepend-filepath
     --prepend-utc
+    --summary
     '-'
     "${@}"
 )
@@ -65,8 +66,8 @@ declare -ar S4_ARGS=(
 ) > "${expect1}" || true
 
 if ! chmod -wx -- "${expect1}"; then
-    echo "ERROR unable to remove wx from file '${expect1}'" >&2
-    exit 1
+    echo "WARNING unable to remove wx from file '${expect1}'" >&2
+    # on Linux running on Windows NTFS mount, this is not a fatal error
 fi
 
 echo >&2

@@ -7,11 +7,8 @@
 //! [`BlockReader`]: crate::readers::blockreader::BlockReader
 
 use crate::common::{CharSz, Count, FPath, FileOffset, FileSz, FileType, NLu8, ResultS3};
-
 use crate::data::line::{Line, LineP, LinePart, Lines};
-
 use crate::data::datetime::SystemTime;
-
 use crate::readers::blockreader::{
     BlockIndex,
     BlockOffset,
@@ -20,7 +17,6 @@ use crate::readers::blockreader::{
     BlockSz,
     ResultS3ReadBlock,
 };
-
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::byte_to_char_noraw;
 
@@ -31,18 +27,11 @@ use std::fmt;
 use std::io::{Error, Result};
 use std::sync::Arc;
 
-extern crate lru;
-use lru::LruCache;
-
-extern crate mime_guess;
-use mime_guess::MimeGuess;
-
-extern crate more_asserts;
-use more_asserts::assert_ge;
-
-extern crate si_trace_print;
+use ::lru::LruCache;
+use ::mime_guess::MimeGuess;
+use ::more_asserts::debug_assert_ge;
 #[allow(unused_imports)]
-use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // LineReader
@@ -65,6 +54,7 @@ pub type FoToFo = BTreeMap<FileOffset, FileOffset>;
 /// [`LineReader.find_line()`] searching results.
 ///
 /// [`LineReader.find_line()`]: self::LineReader#method.find_line
+// TODO: rename `ResultS3LineFind` with `ResultLineFind`
 pub type ResultS3LineFind = ResultS3<(FileOffset, LineP), Error>;
 
 /// Internal LRU cache for [`LineReader.find_line()`].
@@ -146,18 +136,35 @@ impl fmt::Debug for LineReader {
         &self,
         f: &mut fmt::Formatter,
     ) -> fmt::Result {
-        //let f_ = match &self.file_metadata {
-        //    None => format!("None"),
-        //    Some(val) => format!("{:?}", val.file_type()),
-        //};
         f.debug_struct("LineReader")
-            //.field("@", format!("{:p}", &self))
             .field("LRU cache enabled?", &self.find_line_lru_cache_enabled)
             .field("charsz", &self.charsz())
             .field("lines", &self.lines)
             .field("blockreader", &self.blockreader)
             .finish()
     }
+}
+
+#[derive(Clone, Default)]
+pub struct SummaryLineReader {
+    /// `Count` of `Lines` processed by `LineReader`
+    pub LineReader_lines: Count,
+    /// "high watermark" of Lines stored in `LineReader.lines`
+    pub LineReader_lines_stored_highest: usize,
+    /// `LineReader::lines_hits` for `self.lines`
+    pub LineReader_lines_hits: Count,
+    /// `LineReader::lines_miss` for `self.lines`
+    pub LineReader_lines_miss: Count,
+    /// `LineReader::find_line()` `self._find_line_lru_cache`
+    pub LineReader_find_line_lru_cache_hit: Count,
+    /// `LineReader::find_line()` `self._find_line_lru_cache`
+    pub LineReader_find_line_lru_cache_miss: Count,
+    /// `LineReader::find_line()` `self._find_line_lru_cache`
+    pub LineReader_find_line_lru_cache_put: Count,
+    /// `LineReader::drop_line_ok`
+    pub LineReader_drop_line_ok: Count,
+    /// `LineReader::drop_line_errors`
+    pub LineReader_drop_line_errors: Count,
 }
 
 // XXX: cannot place these within `impl LineReader`?
@@ -173,8 +180,7 @@ const CHARSZ: CharSz = CHARSZ_MIN;
 /// Implement the LineReader.
 impl LineReader {
     /// Internal LRU cache size (entries).
-    // TODO: fix variable name "LRC" -> "LRU"
-    const FIND_LINE_LRC_CACHE_SZ: usize = 8;
+    const FIND_LINE_LRU_CACHE_SZ: usize = 8;
 
     // `LineReader::blockzero_analysis` must find at least this many `Line` within
     // block zero (first block) for the file to be considered a text file.
@@ -188,14 +194,14 @@ impl LineReader {
     ) -> Result<LineReader> {
         defñ!("LineReader::new({:?}, {:?}, {:?})", path, filetype, blocksz);
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
-        assert_ge!(
+        debug_assert_ge!(
             blocksz,
             (CHARSZ_MIN as BlockSz),
             "BlockSz {} is too small, must be greater than or equal {}",
             blocksz,
             CHARSZ_MAX
         );
-        assert_ne!(blocksz, 0, "BlockSz is zero");
+        debug_assert!(blocksz != 0, "BlockSz is zero");
         let blockreader = BlockReader::new(path, filetype, blocksz)?;
         Ok(LineReader {
             blockreader,
@@ -208,7 +214,7 @@ impl LineReader {
             charsz_: CHARSZ,
             find_line_lru_cache_enabled: true,
             find_line_lru_cache: LinesLRUCache::new(
-                std::num::NonZeroUsize::new(LineReader::FIND_LINE_LRC_CACHE_SZ).unwrap(),
+                std::num::NonZeroUsize::new(LineReader::FIND_LINE_LRU_CACHE_SZ).unwrap(),
             ),
             find_line_lru_cache_hit: 0,
             find_line_lru_cache_miss: 0,
@@ -276,7 +282,7 @@ impl LineReader {
         self.find_line_lru_cache
             .clear();
         self.find_line_lru_cache
-            .resize(std::num::NonZeroUsize::new(LineReader::FIND_LINE_LRC_CACHE_SZ).unwrap());
+            .resize(std::num::NonZeroUsize::new(LineReader::FIND_LINE_LRU_CACHE_SZ).unwrap());
     }
 
     /// Disable internal LRU cache used by `find_line`.
@@ -287,9 +293,9 @@ impl LineReader {
             .clear();
     }
 
-    /// See [BlockReader::mtime].
+    /// See [`BlockReader::mtime`].
     ///
-    /// [BlockReader::mtime]: crate::readers::blockreader::BlockReader#method.mtime
+    /// [`BlockReader::mtime`]: crate::readers::blockreader::BlockReader#method.mtime
     pub fn mtime(&self) -> SystemTime {
         self.blockreader.mtime()
     }
@@ -588,44 +594,45 @@ impl LineReader {
         fileoffset: FileOffset,
     ) -> Option<ResultS3LineFind> {
         // check LRU cache first (this is very fast)
-        if self.find_line_lru_cache_enabled {
-            match self
-                .find_line_lru_cache
-                .get(&fileoffset)
-            {
-                Some(rlp) => {
-                    defn!("({}): found LRU cached for offset {}", fileoffset, fileoffset);
-                    self.find_line_lru_cache_hit += 1;
-                    // `find_line_lru_cache.get(&fileoffset)` returns reference so must create new `ResultS3LineFind` here
-                    // and return that
-                    match rlp {
-                        ResultS3LineFind::Found(val) => {
-                            defx!(
-                                "return ResultS3LineFind::Found(({}, …)) @[{}, {}] {:?}",
-                                val.0,
-                                val.1.fileoffset_begin(),
-                                val.1.fileoffset_end(),
-                                val.1.to_String_noraw()
-                            );
-                            return Some(ResultS3LineFind::Found((val.0, val.1.clone())));
-                        }
-                        ResultS3LineFind::Done => {
-                            defx!("return ResultS3LineFind::Done");
-                            return Some(ResultS3LineFind::Done);
-                        }
-                        ResultS3LineFind::Err(_err) => {
-                            defx!("Err {}", _err);
-                            eprintln!(
-                                "ERROR: unexpected Error store in find_line_lru_cache, fileoffset {}",
-                                fileoffset
-                            );
-                        }
+        if ! self.find_line_lru_cache_enabled {
+            return None;
+        }
+        match self
+            .find_line_lru_cache
+            .get(&fileoffset)
+        {
+            Some(rlp) => {
+                defn!("({}): found LRU cached for offset {}", fileoffset, fileoffset);
+                self.find_line_lru_cache_hit += 1;
+                // `find_line_lru_cache.get(&fileoffset)` returns reference so must create new `ResultS3LineFind` here
+                // and return that
+                match rlp {
+                    ResultS3LineFind::Found(val) => {
+                        defx!(
+                            "return ResultS3LineFind::Found(({}, …)) @[{}, {}] {:?}",
+                            val.0,
+                            val.1.fileoffset_begin(),
+                            val.1.fileoffset_end(),
+                            val.1.to_String_noraw()
+                        );
+                        return Some(ResultS3LineFind::Found((val.0, val.1.clone())));
+                    }
+                    ResultS3LineFind::Done => {
+                        defx!("return ResultS3LineFind::Done");
+                        return Some(ResultS3LineFind::Done);
+                    }
+                    ResultS3LineFind::Err(_err) => {
+                        defx!("Err {}", _err);
+                        eprintln!(
+                            "ERROR: unexpected Error store in find_line_lru_cache, fileoffset {}",
+                            fileoffset
+                        );
                     }
                 }
-                None => {
-                    self.find_line_lru_cache_miss += 1;
-                    defñ!("fileoffset {} not found in LRU cache", fileoffset);
-                }
+            }
+            None => {
+                self.find_line_lru_cache_miss += 1;
+                defñ!("fileoffset {} not found in LRU cache", fileoffset);
             }
         }
 
@@ -763,6 +770,14 @@ impl LineReader {
     /// Returned `ResultS3LineFind(fileoffset, …)` may refer to a different
     /// proceeding `Block`.
     ///
+    /// The second parameter of the returned tuple is a "partial" `Line`.
+    /// That is, a `Line` that starts in `Block` but extends to the next
+    /// `Block`. In this case, the result, the first tuple parameter,
+    /// will be `ResultS3LineFind::Done`. The returned `Line` is not stored
+    /// by this `LineReader` and should be quickly dropped by the caller. If
+    /// the "partial" `Line` is held too long then the underlying `Block`
+    /// cannot be dropped during the "streaming" stage.
+    ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`Found`]: crate::common::ResultS3
     /// [`Done`]: crate::common::ResultS3
@@ -789,18 +804,14 @@ impl LineReader {
     ) -> (ResultS3LineFind, Option<Line>) {
         defn!("({})", fileoffset);
 
-        // some helpful constants
-        let charsz_fo: FileOffset = self.charsz_ as FileOffset;
-        let charsz_bi: BlockIndex = self.charsz_ as BlockIndex;
-        let filesz: FileSz = self.filesz();
-        let blockoffset_last: BlockOffset = self.blockoffset_last();
-
         // XXX: using cache can result in non-idempotent behavior
         // check fast LRU
-        if let Some(results4) = self.check_store_LRU(fileoffset) {
-            defx!("({}): return {:?}, None", fileoffset, results4);
-            return (results4, None);
+        if let Some(result) = self.check_store_LRU(fileoffset) {
+            defx!("({}): return {:?}, None", fileoffset, result);
+            return (result, None);
         }
+
+        let filesz: FileSz = self.filesz();
 
         // handle special cases
         if filesz == 0 {
@@ -811,7 +822,7 @@ impl LineReader {
             //       should it really Error or be Done?
             //       Make that consisetent among all LineReader and SyslineReader `find_*` functions
             defx!(
-                "({}): return ResultS3LineFind::Done, None; fileoffset {} was too big filesz {}!",
+                "({}): WARNING: return ResultS3LineFind::Done, None; fileoffset {} was too big filesz {}!",
                 fileoffset,
                 fileoffset,
                 filesz
@@ -827,11 +838,11 @@ impl LineReader {
             return (ResultS3LineFind::Done, None);
         }
 
-        // XXX: using cache can result in non-idempotent behavior
         // check container of `Line`s
-        if let Some(results4) = self.check_store(fileoffset) {
-            defx!("({}): return {:?}, None", fileoffset, results4);
-            return (results4, None);
+        // XXX: using cache can result in non-idempotent behavior
+        if let Some(result) = self.check_store(fileoffset) {
+            defx!("({}): return {:?}, None", fileoffset, result);
+            return (result, None);
         }
 
         //
@@ -852,6 +863,10 @@ impl LineReader {
         //
 
         defo!("searching for first newline B (line terminator) …");
+
+        let charsz_fo: FileOffset = self.charsz_ as FileOffset;
+        let charsz_bi: BlockIndex = self.charsz_ as BlockIndex;
+        let blockoffset_last: BlockOffset = self.blockoffset_last();
 
         // if NewLine part A cannot be found maybe we can find NewLine part B
         let mut partial_line= false;
@@ -916,7 +931,7 @@ impl LineReader {
 
         let mut bi_at: BlockIndex = bi_middle;
         let bi_stop: BlockIndex = bptr_middle.len() as BlockIndex;
-        assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
+        debug_assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
 
         // XXX: only handle UTF-8/ASCII encoding
         defo!("({}) B1: scan middle block {} forwards, starting from blockindex {} (fileoffset {}) searching for newline B",
@@ -951,7 +966,7 @@ impl LineReader {
           // if (newline B not found and the "middle" block was the last block) then eof is newline B
         if !found_nl_b && bo_middle == blockoffset_last {
             found_nl_b = true;
-            assert_ge!(bi_at, charsz_bi, "blockindex begin {} is less than charsz {} before attempt to subtract to determine newline B1 at end of file for file {:?}", bi_at, charsz_bi, self.path());
+            debug_assert_ge!(bi_at, charsz_bi, "blockindex begin {} is less than charsz {} before attempt to subtract to determine newline B1 at end of file for file {:?}", bi_at, charsz_bi, self.path());
             let bi_: usize = bi_at - charsz_bi;
             fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_);
             bi_nl_b = bi_;
@@ -964,7 +979,7 @@ impl LineReader {
                 blockoffset_last,
             );
             nl_b_eof = true;
-            assert_eq!(
+            debug_assert_eq!(
                 fo_nl_b, filesz - 1,
                 "newline B1 fileoffset {} is at end of file, yet filesz is {}; there was a bad calculation of newline B1 from blockoffset {} blockindex {} (blockoffset last {}), for file {:?}",
                 fo_nl_b,
@@ -975,7 +990,7 @@ impl LineReader {
                 self.path(),
             );
         } else if found_nl_b && self.is_fileoffset_last(fo_nl_b) {
-            assert_eq!(
+            debug_assert_eq!(
                 bo_middle, blockoffset_last,
                 "blockoffset 'middle' {}, blockoffset last {}, yet newline B FileOffset {} is last byte of filesz {}, for file {:?}",
                 bo_middle, blockoffset_last, fo_nl_b, self.filesz(), self.path(),
@@ -1014,7 +1029,7 @@ impl LineReader {
         // if found_nl_a was already found then this function can return
         if found_nl_a {
             defo!("({}) A0: already found newline A and newline B, return early", fileoffset);
-            assert_eq!(fo_nl_a, 0, "newline A is {}, only reason newline A should be found at this point was if passed fileoffset 0, (passed fileoffset {}), for file {:?}", fo_nl_a, fileoffset, self.path());
+            debug_assert_eq!(fo_nl_a, 0, "newline A is {}, only reason newline A should be found at this point was if passed fileoffset 0, (passed fileoffset {}), for file {:?}", fo_nl_a, fileoffset, self.path());
             let li: LinePart = LinePart::new(
                 bptr_middle,
                 self.block_index_at_file_offset(fo_nl_a),
@@ -1118,7 +1133,7 @@ impl LineReader {
                 defo!("({}) A1a: hit in self.lines for FileOffset {} (before part A)", fileoffset, fo_);
                 fo_nl_a = fo_;
                 let linep_prev: LineP = self.lines[&fo_nl_a].clone();
-                assert_eq!(
+                debug_assert_eq!(
                     fo_nl_a,
                     (*linep_prev).fileoffset_end(),
                     "get_linep({}) returned Line with fileoffset_end() {}; these should match for file {:?}",
@@ -1201,7 +1216,7 @@ impl LineReader {
                         //       #[allow(unused_assignments)]
                         found_nl_a = true;
                         fo_nl_a = (*linep_prev).fileoffset_end();
-                        assert_eq!(
+                        debug_assert_eq!(
                             fo_nl_a, fo_,
                             "get_linep({}) returned Line with fileoffset_end() {}; these should match for file {:?}",
                             fo_,
@@ -1490,9 +1505,9 @@ impl LineReader {
         let blockoffset_last: BlockOffset = self.blockoffset_last();
 
         // check fast LRU first
-        if let Some(results4) = self.check_store_LRU(fileoffset) {
-            defx!("({}): return {:?}", fileoffset, results4);
-            return results4;
+        if let Some(result) = self.check_store_LRU(fileoffset) {
+            defx!("({}): return {:?}", fileoffset, result);
+            return result;
         }
 
         // handle special cases
@@ -1521,9 +1536,9 @@ impl LineReader {
         }
 
         // check container of `Line`s
-        if let Some(results4) = self.check_store(fileoffset) {
-            defx!("({}): return {:?}", fileoffset, results4);
-            return results4;
+        if let Some(result) = self.check_store(fileoffset) {
+            defx!("({}): return {:?}", fileoffset, result);
+            return result;
         }
 
         //
@@ -1595,7 +1610,7 @@ impl LineReader {
             };
             let mut bi_at: BlockIndex = bi_middle;
             let bi_stop: BlockIndex = bptr_middle.len() as BlockIndex;
-            assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
+            debug_assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
             // XXX: Issue #16 only handles UTF-8/ASCII encoding
             //bi_beg = bi_stop - charsz_bi;
             defo!("B1: scan middle block {} forwards (block len {}), starting from blockindex {} (fileoffset {}) searching for newline B", bo_middle, (*bptr_middle).len(), bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at));
@@ -1625,7 +1640,7 @@ impl LineReader {
               // if (newline B not found and the "middle" block was the last block) then eof is newline B
             if !found_nl_b && bo_middle == blockoffset_last {
                 found_nl_b = true;
-                assert_ge!(bi_at, charsz_bi, "blockindex begin {} is less than charsz {} before attempt to subtract to determine newline B1 at end of file {:?}", bi_at, charsz_bi, self.path());
+                debug_assert_ge!(bi_at, charsz_bi, "blockindex begin {} is less than charsz {} before attempt to subtract to determine newline B1 at end of file {:?}", bi_at, charsz_bi, self.path());
                 let bi_: BlockIndex = bi_at - charsz_bi;
                 fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_);
                 bi_middle_end = bi_;
@@ -1637,7 +1652,7 @@ impl LineReader {
                 );
                 fo_nl_b_in_middle = true;
                 nl_b_eof = true;
-                assert_eq!(
+                debug_assert_eq!(
                     fo_nl_b, filesz - 1,
                     "newline B1 fileoffset {} is at end of file, yet filesz is {}; there was a bad calculation of newline B1 from blockoffset {} blockindex {} (blockoffset last {}) for file {:?}",
                     fo_nl_b,
@@ -1690,14 +1705,14 @@ impl LineReader {
                 };
                 bi_beg = 0;
                 bi_end = (*bptr).len() as BlockIndex;
-                assert_ge!(
+                debug_assert_ge!(
                     bi_end,
                     charsz_bi,
                     "blockindex bi_end {} is less than charsz; not yet handled, file {:?}",
                     bi_end,
                     self.path()
                 );
-                assert_ne!(
+                debug_assert_ne!(
                     bi_end, 0,
                     "blockindex bi_end is zero; Block at blockoffset {}, BlockP @0x{:p}, has len() zero",
                     bof, bptr
@@ -1765,10 +1780,10 @@ impl LineReader {
             if !found_nl_b && bof > blockoffset_last {
                 bof = blockoffset_last;
                 found_nl_b = true;
-                assert_ne!(bi_beg, BI_UNINIT, "blockindex begin is uninitialized");
-                assert_ne!(bi_end, BI_UNINIT, "blockindex end is uninitialized");
-                assert_ge!(bi_beg, charsz_bi, "blockindex begin {} is less than charsz {} before attempt to subtract to determine newline B2 at end of file {:?}", bi_beg, charsz_bi, self.path());
-                assert_eq!(bi_beg, bi_end, "blockindex begin {} != {} blockindex end, yet entire last block was searched (last blockoffset {}) file {:?}", bi_beg, bi_end, blockoffset_last, self.path());
+                debug_assert_ne!(bi_beg, BI_UNINIT, "blockindex begin is uninitialized");
+                debug_assert_ne!(bi_end, BI_UNINIT, "blockindex end is uninitialized");
+                debug_assert_ge!(bi_beg, charsz_bi, "blockindex begin {} is less than charsz {} before attempt to subtract to determine newline B2 at end of file {:?}", bi_beg, charsz_bi, self.path());
+                debug_assert_eq!(bi_beg, bi_end, "blockindex begin {} != {} blockindex end, yet entire last block was searched (last blockoffset {}) file {:?}", bi_beg, bi_end, blockoffset_last, self.path());
                 let bi_: BlockIndex = bi_beg - charsz_bi;
                 fo_nl_b = self.file_offset_at_block_offset_index(bof, bi_);
                 nl_b_eof = true;
@@ -1779,7 +1794,7 @@ impl LineReader {
                     fo_nl_b,
                     blockoffset_last,
                 );
-                assert_eq!(
+                debug_assert_eq!(
                     fo_nl_b, filesz - 1,
                     "newline B2 fileoffset {} is supposed to be the end of file, yet filesz is {}; bad calculation of newline B2 from blockoffset {} blockindex {} (last blockoffset {}) (bi_beg {} bi_end {}) (charsz {}) file {:?}",
                     fo_nl_b,
@@ -1808,7 +1823,7 @@ impl LineReader {
         // if found_nl_a was already found then this function can return
         if found_nl_a {
             defo!("A0: already found newline A and newline B, return early");
-            assert_eq!(fo_nl_a, 0, "newline A is {}, only reason newline A should be found at this point was if passed fileoffset 0, (passed fileoffset {}) file {:?}", fo_nl_a, fileoffset, self.path());
+            debug_assert_eq!(fo_nl_a, 0, "newline A is {}, only reason newline A should be found at this point was if passed fileoffset 0, (passed fileoffset {}) file {:?}", fo_nl_a, fileoffset, self.path());
             let li: LinePart = LinePart::new(
                 bptr_middle,
                 self.block_index_at_file_offset(fo_nl_a),
@@ -1884,7 +1899,7 @@ impl LineReader {
                 defo!("A1a: hit in self.lines for FileOffset {} (before part A)", fo_);
                 fo_nl_a = fo_;
                 let linep_prev: LineP = self.lines[&fo_nl_a].clone();
-                assert_eq!(
+                debug_assert_eq!(
                     fo_nl_a,
                     (*linep_prev).fileoffset_end(),
                     "get_linep({}) returned Line with fileoffset_end() {}; these should match; file {:?}",
@@ -1935,7 +1950,7 @@ impl LineReader {
                     //       #[allow(unused_assignments)]
                     found_nl_a = true;
                     fo_nl_a = (*linep_prev).fileoffset_end();
-                    assert_eq!(
+                    debug_assert_eq!(
                         fo_nl_a,
                         fo_,
                         "get_linep({}) returned Line with fileoffset_end() {}; these should match; file {:?}",
@@ -2104,7 +2119,7 @@ impl LineReader {
                     }
                 };
                 let blen: BlockIndex = bptr.len() as BlockIndex;
-                assert_ge!(
+                debug_assert_ge!(
                     blen,
                     charsz_bi,
                     "blen is less than charsz; not yet handled, file {:?}",
@@ -2237,5 +2252,38 @@ impl LineReader {
         );
 
         ResultS3LineFind::Found((fo_end + 1, linep))
+    }
+
+    pub fn summary(&self) -> SummaryLineReader {
+        let LineReader_lines = self
+            .count_lines_processed();
+        let LineReader_lines_stored_highest = self
+            .lines_stored_highest();
+        let LineReader_lines_hits = self
+            .lines_hits;
+        let LineReader_lines_miss = self
+            .lines_miss;
+        let LineReader_find_line_lru_cache_hit = self
+            .find_line_lru_cache_hit;
+        let LineReader_find_line_lru_cache_miss = self
+            .find_line_lru_cache_miss;
+        let LineReader_find_line_lru_cache_put = self
+            .find_line_lru_cache_put;
+        let LineReader_drop_line_ok = self
+            .drop_line_ok;
+        let LineReader_drop_line_errors = self
+            .drop_line_errors;
+
+        SummaryLineReader {
+            LineReader_lines,
+            LineReader_lines_stored_highest,
+            LineReader_lines_hits,
+            LineReader_lines_miss,
+            LineReader_find_line_lru_cache_hit,
+            LineReader_find_line_lru_cache_miss,
+            LineReader_find_line_lru_cache_put,
+            LineReader_drop_line_ok,
+            LineReader_drop_line_errors,
+        }
     }
 }

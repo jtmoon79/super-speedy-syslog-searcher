@@ -1,10 +1,20 @@
 // src/tests/common.rs
 
-use std::io::Read; // for `std::fs::File.read`
+use std::io::Read;
+#[allow(unused_imports)]
+use std::sync::Arc; // for `std::fs::File.read`
 
-use crate::common::{FPath, FileOffset, FileType, Path};
+use crate::common::{FPath, FileOffset, FileType, FileSz, Path};
 
-use crate::data::datetime::{DateTime, Local, FixedOffset};
+use crate::data::datetime::{
+    DateTime,
+    DateTimeL,
+    Local,
+    FixedOffset,
+    ymdhms,
+    ymdhmsn,
+};
+use crate::data::utmpx::UTMPX_SZ;
 
 use crate::readers::filepreprocessor::MimeGuess;
 
@@ -60,7 +70,7 @@ lazy_static! {
     // FixedOffset East
     pub static ref FO_E10: FixedOffset = FixedOffset::east_opt(3600 * 10).unwrap();
     // FixedOffset Minus (West)
-    pub static ref FO_M1: FixedOffset = FixedOffset::west_opt(3600 * 1).unwrap();
+    pub static ref FO_M1: FixedOffset = FixedOffset::west_opt(3600).unwrap();
     pub static ref FO_M2: FixedOffset = FixedOffset::west_opt(3600 * 2).unwrap();
     pub static ref FO_M3: FixedOffset = FixedOffset::west_opt(3600 * 3).unwrap();
     pub static ref FO_M4: FixedOffset = FixedOffset::west_opt(3600 * 4).unwrap();
@@ -73,7 +83,7 @@ lazy_static! {
     pub static ref FO_M11: FixedOffset = FixedOffset::west_opt(3600 * 11).unwrap();
     pub static ref FO_M12: FixedOffset = FixedOffset::west_opt(3600 * 12).unwrap();
     // FixedOffset Plus (East)
-    pub static ref FO_P1: FixedOffset = FixedOffset::east_opt(3600 * 1).unwrap();
+    pub static ref FO_P1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
     pub static ref FO_P2: FixedOffset = FixedOffset::east_opt(3600 * 2).unwrap();
     pub static ref FO_P3: FixedOffset = FixedOffset::east_opt(3600 * 3).unwrap();
     pub static ref FO_P4: FixedOffset = FixedOffset::east_opt(3600 * 4).unwrap();
@@ -126,7 +136,6 @@ lazy_static! {
     pub static ref NTF_LOG_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_LOG_EMPTY.path())
     };
-    pub static ref NTF_LOG_EMPTY_FILETYPE: FileType = FileType::File;
     pub static ref NTF_LOG_EMPTY_MIMEGUESS: MimeGuess = {
         MimeGuess::from_path(NTF_LOG_EMPTY.path())
     };
@@ -134,15 +143,16 @@ lazy_static! {
     // 1 byte file
 
     pub static ref NTF_1BYTE: NamedTempFile = create_temp_log("A");
-    pub static ref NTF_1BYTE_PATH: FPath = ntf_fpath(&NTF_1BYTE);
+    pub static ref NTF_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE);
 
     pub static ref NTF_3BYTE: NamedTempFile = create_temp_log("ABC");
-    pub static ref NTF_3BYTE_PATH: FPath = ntf_fpath(&NTF_3BYTE);
+    pub static ref NTF_3BYTE_FPATH: FPath = ntf_fpath(&NTF_3BYTE);
 
     pub static ref NTF_8BYTE: NamedTempFile = create_temp_log("ABCDEFGH");
-    pub static ref NTF_8BYTE_PATH: FPath = ntf_fpath(&NTF_8BYTE);
-
+    pub static ref NTF_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE);
 }
+
+pub const NTF_LOG_EMPTY_FILETYPE: FileType = FileType::File;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -170,11 +180,12 @@ lazy_static! {
     pub static ref NTF_GZ_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_GZ_EMPTY.path())
     };
-    pub static ref NTF_GZ_EMPTY_FILETYPE: FileType = FileType::Gz;
+    
     pub static ref NTF_GZ_EMPTY_MIMEGUESS: MimeGuess = {
         MimeGuess::from_path(NTF_GZ_EMPTY.path())
     };
 }
+pub const NTF_GZ_EMPTY_FILETYPE: FileType = FileType::Gz;
 
 /// gzip of a one-byte file using `gzip`:
 ///
@@ -239,11 +250,11 @@ lazy_static! {
     pub static ref NTF_XZ_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_XZ_EMPTY.path())
     };
-    pub static ref NTF_XZ_EMPTY_FILETYPE: FileType = FileType::Gz;
     pub static ref NTF_XZ_EMPTY_MIMEGUESS: MimeGuess = {
         MimeGuess::from_path(NTF_XZ_EMPTY.path())
     };
 }
+pub const NTF_XZ_EMPTY_FILETYPE: FileType = FileType::Gz;
 
 /// xz of a one-byte file:
 ///
@@ -408,7 +419,6 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_0BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_0BYTE_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_0BYTE_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -416,6 +426,7 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
+pub const NTF_TAR_0BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1048,7 +1059,6 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_1BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_1BYTE_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_1BYTE_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1056,6 +1066,7 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
+pub const NTF_TAR_1BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1206,7 +1217,6 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_OLDGNU_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_3BYTE_OLDGNU_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_3BYTE_OLDGNU_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1214,6 +1224,7 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
+pub const NTF_TAR_3BYTE_OLDGNU_FILEA_FILETYPE: FileType = FileType::Tar;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1424,7 +1435,6 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_PAX_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_3BYTE_PAX_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_3BYTE_PAX_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1432,6 +1442,7 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
+pub const NTF_TAR_3BYTE_PAX_FILEA_FILETYPE: FileType = FileType::Tar;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1582,7 +1593,6 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_USTAR_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_3BYTE_USTAR_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_3BYTE_USTAR_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1590,6 +1600,7 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
+pub const NTF_TAR_3BYTE_USTAR_FILEA_FILETYPE: FileType = FileType::Tar;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1740,7 +1751,6 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_V7_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_3BYTE_V7_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_3BYTE_V7_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1748,6 +1758,7 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
+pub const NTF_TAR_3BYTE_V7_FILEA_FILETYPE: FileType = FileType::Tar;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1900,7 +1911,6 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_8BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_8BYTE_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_8BYTE_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1908,6 +1918,7 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
+pub const NTF_TAR_8BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1937,7 +1948,6 @@ lazy_static! {
     pub static ref NTF_TGZ_8BYTE: NamedTempFile =
         create_temp_file_bytes_with_suffix(&TGZ_8BYTE_DATA, &String::from(TGZ_8BYTE_FILENAME));
     pub static ref NTF_TGZ_8BYTE_FPATH: FPath = ntf_fpath(&NTF_TGZ_8BYTE);
-    pub static ref NTF_TGZ_8BYTE_FILETYPE: FileType = FileType::TarGz;
     pub static ref NTF_TGZ_8BYTE_MIMEGUESS: MimeGuess = {
         let path = fpath_to_path(&NTF_TGZ_8BYTE_FPATH);
 
@@ -1950,7 +1960,6 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TGZ_8BYTE_FILEA_FILETYPE: FileType = FileType::TarGz;
     pub static ref NTF_TGZ_8BYTE_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TGZ_8BYTE_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -1958,6 +1967,8 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
+pub const NTF_TGZ_8BYTE_FILETYPE: FileType = FileType::TarGz;
+pub const NTF_TGZ_8BYTE_FILEA_FILETYPE: FileType = FileType::TarGz;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -2176,7 +2187,6 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_AB_FILEA_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_AB_FILEA_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_AB_FILEA_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -2191,7 +2201,6 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_AB_FILEB_FILETYPE: FileType = FileType::Tar;
     pub static ref NTF_TAR_AB_FILEB_MIMEGUESS: MimeGuess = {
         let fpath = FPath::from(TAR_AB_FILEB_FILENAME);
         let path = fpath_to_path(&fpath);
@@ -2199,6 +2208,297 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
+pub const NTF_TAR_AB_FILEA_FILETYPE: FileType = FileType::Tar;
+pub const NTF_TAR_AB_FILEB_FILETYPE: FileType = FileType::Tar;
+
+// -------------------------------------------------------------------------------------------------
+
+/*
+
+XXX: cannot declare a `utmpx` directly because of the private
+     `__glibc_reserved` field.
+
+const UTMPX1_ut_user: [i8; 32] = [
+    0x61, 0x64, 0x6d, 0x69, 0x6e, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+];
+
+const UTMPX1: utmpx = utmpx {
+    ut_type: 7,
+    ut_pid: 0,
+    ut_line: [0; 32],
+    ut_id: [0x74, 0x73, 0x2f, 0x30,],
+    ut_user: UTMPX1_ut_user,
+    ut_host: [0; 256],
+    ut_exit: __exit_status {
+        e_termination: 0,
+        e_exit: 0,
+    },
+    ut_session: 0,
+    ut_tv: __timeval {
+        tv_sec: 0,
+        tv_usec: 0,
+    },
+    ut_addr_v6: [0; 4],
+    #[cfg(target_os = "windows")]
+    __glibc_reserved: [0; 20],
+};
+
+*/
+
+/// scraped `/var/log/utmp` file, manually modified
+///
+/// ut_type INIT_PROCESS 5
+/// ut_pid 41908
+/// ut_line 'pts/1'
+/// ut_id 'ts/1'
+/// ut_user 'admin'
+/// ut_host '192.168.1.5'
+/// ut_session 25
+/// addr_v6 2F7CA8C0:B5:0:0
+/// e_termination 7
+/// e_exit 1
+/// tv_sec.tv_usec 1577836800.119284 (2020-01-01T12:00:00.000119284+00:00)
+///                     43200
+///                ==========
+///                1577880000
+///                0x5E0C89C0
+///
+pub const UTMPX_BUFFER1: [u8; UTMPX_SZ] = [
+    0x05, 0x00, 0x02, 0x00, 0xb4, 0xa3, 0x00, 0x00, b'p', b't',
+    b's', b'/', b'1', 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    b't', b's', b'/', b'1', b'a', b'd', b'm', b'i', b'n', 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, b'1', b'9', b'2', b'.',
+    b'1', b'6', b'8', b'.', b'1', b'.', b'5', 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x07, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0xc0, 0x89, 0x0c, 0x5e, 0x00, 0x00, 0x00, 0x00, 0xd0, 0xa8,
+    0x7c, 0x2f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+];
+
+/// two seconds after `UTMPX_BUFFER1`
+///
+/// ut_type USER_PROCESS 7
+/// ut_pid 13236
+/// ut_line 'pts/0'
+/// ut_id 'ts/0'
+/// ut_user 'root'
+/// ut_host '192.168.1.4'
+/// ut_session 5
+/// e_termination 7
+/// e_exit 3
+/// tv_sec.tv_usec 1577836802.000123636 (2020-01-01T12:00:02.000123636+00:00)
+///
+///
+pub const UTMPX_BUFFER2: [u8; UTMPX_SZ] = [
+    0x07, 0x00, 0x00, 0x00, 0xb4, 0x33, 0x00, 0x00, 0x70, 0x74,
+    0x73, 0x2f, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x74, 0x73, 0x2f, 0x30, 0x72, 0x6f, 0x6f, 0x74, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x31, 0x39, 0x32, 0x2e,
+    0x31, 0x36, 0x38, 0x2e, 0x31, 0x2e, 0x34, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x07, 0x00, 0x03, 0x00, 0x05, 0x00, 0x00, 0x00,
+    0xc2, 0x89, 0x0c, 0x5e, 0xf4, 0xe2, 0x01, 0x00, 0xc0, 0xa8,
+    0x7c, 0x2f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+];
+
+/// four seconds after `UTMPX_BUFFER1`
+///
+/// ut_type USER_PROCESS 7
+/// ut_pid 13236
+/// ut_line 'pts/0'
+/// ut_id 'ts/0'
+/// ut_user 'root'
+/// ut_host '192.168.1.4'
+/// ut_session 5
+/// e_termination 7
+/// e_exit 3
+/// tv_sec.tv_usec 1577836804.000123636 (2020-01-01T12:00:04.000123636+00:00)
+///
+pub const UTMPX_BUFFER3: [u8; UTMPX_SZ] = [
+    0x07, 0x00, 0x00, 0x00, 0xb4, 0x33, 0x00, 0x00, 0x70, 0x74,
+    0x73, 0x2f, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x74, 0x73, 0x2f, 0x30, 0x72, 0x6f, 0x6f, 0x74, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x31, 0x39, 0x32, 0x2e,
+    0x31, 0x36, 0x38, 0x2e, 0x31, 0x2e, 0x34, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x07, 0x00, 0x03, 0x00, 0x05, 0x00, 0x00, 0x00,
+    0xc4, 0x89, 0x0c, 0x5e, 0xf4, 0xe2, 0x01, 0x00, 0xc0, 0xa8,
+    0x7c, 0x2f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+];
+
+pub const UTMPX_1ENTRY_FILENAME: &str = "1entry.utmp";
+pub const UTMPX_1ENTRY_FILESZ: FileSz = UTMPX_BUFFER1.len() as FileSz;
+
+pub const UTMPX_2ENTRY_FILENAME: &str = "2entry.utmp";
+pub const UTMPX_2ENTRY_FILESZ: FileSz = (
+    UTMPX_BUFFER1.len()
+    + UTMPX_BUFFER2.len()
+) as FileSz;
+
+pub const UTMPX_3ENTRY_FILENAME: &str = "3entry.utmp";
+pub const UTMPX_3ENTRY_FILESZ: FileSz = (
+    UTMPX_BUFFER1.len()
+    + UTMPX_BUFFER2.len()
+    + UTMPX_BUFFER3.len()
+) as FileSz;
+
+lazy_static! {
+    pub static ref UTMPX_1ENTRY_DATA: Vec<u8> = {
+        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(UTMPX_BUFFER1.len());
+        v_.append(&mut UTMPX_BUFFER1.as_slice().to_vec());
+
+        v_
+    };
+    pub static ref NTF_UTMPX_1ENTRY: NamedTempFile =
+        create_temp_file_bytes_with_suffix(
+            UTMPX_1ENTRY_DATA.as_slice(),
+            &String::from(UTMPX_1ENTRY_FILENAME)
+        );
+    pub static ref NTF_UTMPX_1ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_1ENTRY);
+    pub static ref NTF_UTMPX_1ENTRY_MIMEGUESS: MimeGuess = {
+        MimeGuess::from_path(fpath_to_path(&NTF_UTMPX_1ENTRY_FPATH))
+    };
+
+    pub static ref UTMPX_2ENTRY_DATA: Vec<u8> = {
+        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(
+            UTMPX_BUFFER1.len()
+            + UTMPX_BUFFER2.len()
+        );
+        v_.append(&mut UTMPX_BUFFER1.as_slice().to_vec());
+        v_.append(&mut UTMPX_BUFFER2.as_slice().to_vec());
+
+        v_
+    };
+    pub static ref NTF_UTMPX_2ENTRY: NamedTempFile =
+        create_temp_file_bytes_with_suffix(
+            UTMPX_2ENTRY_DATA.as_slice(),
+            &String::from(UTMPX_2ENTRY_FILENAME)
+        );
+    pub static ref NTF_UTMPX_2ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_2ENTRY);
+    pub static ref NTF_UTMPX_2ENTRY_MIMEGUESS: MimeGuess = {
+        MimeGuess::from_path(fpath_to_path(&NTF_UTMPX_2ENTRY_FPATH))
+    };
+
+    pub static ref UTMPX_3ENTRY_DATA: Vec<u8> = {
+        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(UTMPX_BUFFER1.len() + UTMPX_BUFFER2.len());
+        v_.append(&mut UTMPX_BUFFER1.as_slice().to_vec());
+        v_.append(&mut UTMPX_BUFFER2.as_slice().to_vec());
+        v_.append(&mut UTMPX_BUFFER3.as_slice().to_vec());
+
+        v_
+    };
+    pub static ref NTF_UTMPX_3ENTRY: NamedTempFile =
+        create_temp_file_bytes_with_suffix(
+            UTMPX_3ENTRY_DATA.as_slice(),
+            &String::from(UTMPX_3ENTRY_FILENAME)
+        );
+    pub static ref NTF_UTMPX_3ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_3ENTRY);
+    pub static ref NTF_UTMPX_3ENTRY_MIMEGUESS: MimeGuess = {
+        MimeGuess::from_path(fpath_to_path(&NTF_UTMPX_3ENTRY_FPATH))
+    };
+
+    pub static ref UTMPX_ENTRY_DT1: DateTimeL = {
+        ymdhms(&FO_0, 2020, 1, 1, 12, 0, 0)
+    };
+    pub static ref UTMPX_ENTRY_DT2: DateTimeL = {
+        ymdhmsn(&FO_0, 2020, 1, 1, 12, 0, 2, 123636000)
+    };
+    pub static ref UTMPX_ENTRY_DT3: DateTimeL = {
+        ymdhmsn(&FO_0, 2020, 1, 1, 12, 0, 4, 123636000)
+    };
+}
+pub const NTF_UTMPX_2ENTRY_FILETYPE: FileType = FileType::Utmpx;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -2275,7 +2575,7 @@ pub fn eprint_file_blocks(path: &FPath, blocksz: BlockSz) {
         path, HORZ_LINE,
     );
     loop {
-        let bytes_read = match file_.read(&mut buffer.as_mut_slice()) {
+        let bytes_read = match file_.read(buffer.as_mut_slice()) {
             Ok(val) => val,
             Err(err) => {
                 eprintln!("Error reading file {:?}\n{:?}", path, err);

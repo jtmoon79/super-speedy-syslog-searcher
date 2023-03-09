@@ -216,6 +216,9 @@ pub fn create_file_bytes_name_in_tmpdir(
 
     // create file with the passed `name`
     #[allow(clippy::for_loops_over_fallibles)]
+    #[allow(for_loops_over_fallibles)]
+    // XXX: manual inspection shows this code is safe; no risk of "fallible"
+    //      changes during the for-loop
     for c in pathb_name.components().nth(pathb_name.components().count() - 1) {
         pathb_tmp = pathb_tmp.join(PathBuf::from(c.as_os_str()));
     }
@@ -265,11 +268,8 @@ pub fn create_dirs_in_tmpdir(
     for fpath in dirnames.iter() {
         let path_ = path.join(fpath);
         defo!("create_dir({:?})", path_);
-        match create_dir(path_.as_path()) {
-            Err(err) => {
-                panic!("Error {:?}", err);
-            }
-            _ => {}
+        if let Err(err) = create_dir(path_.as_path()) {
+            panic!("Error {:?}", err);
         }
         fpaths.push(path_to_fpath(path_.as_path()));
     }

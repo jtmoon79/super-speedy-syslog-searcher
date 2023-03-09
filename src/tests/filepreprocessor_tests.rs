@@ -101,10 +101,13 @@ fn test_mimeguess_to_filetype_targz() {
 #[test_case("data.tar.old", FileType::Tar)]
 #[test_case("data.tgz.old", FileType::TarGz)]
 #[test_case("system@f908d314a1582401a39ccfe0c6f4c6f7-0000000000381214-0005ff52833aaf76.journal", FileType::Unparseable)]
-#[test_case("wtmp", FileType::Unparseable)]
-#[test_case("btmp", FileType::Unparseable)]
-#[test_case("utmp", FileType::Unparseable)]
-#[test_case("UTMP", FileType::Unparseable; "UTMP")]
+#[test_case("wtmp", FileType::Utmpx; "wtmp")]
+#[test_case("btmp", FileType::Utmpx; "btmp")]
+#[test_case("utmp", FileType::Utmpx; "utmp")]
+#[test_case("UTMP", FileType::Utmpx; "UTMP_")]
+#[test_case("host.wtmp", FileType::Utmpx)]
+#[test_case("192.168.1.1.btmp", FileType::Utmpx)]
+#[test_case("file.utmp", FileType::Utmpx)]
 #[test_case("SOMEFILE", FileType::File)]
 fn test_fpath_to_filetype(
     name: &str,
@@ -167,7 +170,7 @@ fn test_process_path_1_log() {
         ProcessPathResult::FileValid(
             NTF_LOG_EMPTY_FPATH.clone(),
             *NTF_LOG_EMPTY_MIMEGUESS,
-            *NTF_LOG_EMPTY_FILETYPE,
+            NTF_LOG_EMPTY_FILETYPE,
         ),
     ];
     test_process_path_ntf(&NTF_LOG_EMPTY, &check);
@@ -179,7 +182,7 @@ fn test_process_path_1_gz() {
         ProcessPathResult::FileValid(
             NTF_GZ_EMPTY_FPATH.clone(),
             *NTF_GZ_EMPTY_MIMEGUESS,
-            *NTF_GZ_EMPTY_FILETYPE,
+            NTF_GZ_EMPTY_FILETYPE,
         ),
     ];
     test_process_path_ntf(&NTF_GZ_EMPTY, &check);
@@ -191,7 +194,7 @@ fn test_process_path_1_tar() {
         ProcessPathResult::FileValid(
             NTF_TAR_1BYTE_FILEA_FPATH.clone(),
             *NTF_TAR_1BYTE_FILEA_MIMEGUESS,
-            *NTF_TAR_1BYTE_FILEA_FILETYPE,
+            NTF_TAR_1BYTE_FILEA_FILETYPE,
         ),
     ];
     test_process_path_ntf(&NTF_TAR_1BYTE, &check);
@@ -204,7 +207,7 @@ fn test_process_path_1_tgz() {
         ProcessPathResult::FileValid(
             NTF_TGZ_8BYTE_FPATH.clone(),
             *NTF_TGZ_8BYTE_MIMEGUESS,
-            *NTF_TGZ_8BYTE_FILETYPE,
+            NTF_TGZ_8BYTE_FILETYPE,
         ),
     ];
     test_process_path_ntf(&NTF_TGZ_8BYTE, &check);
@@ -390,7 +393,9 @@ fn test_process_path_tar(
 fn test_process_path_tar_tar1_file1() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
-            NTF_TAR_8BYTE_FILEA_FPATH.clone(), *NTF_TAR_8BYTE_FILEA_MIMEGUESS, *NTF_TAR_8BYTE_FILEA_FILETYPE,
+            NTF_TAR_8BYTE_FILEA_FPATH.clone(),
+            *NTF_TAR_8BYTE_FILEA_MIMEGUESS,
+            NTF_TAR_8BYTE_FILEA_FILETYPE,
         ),
     ];
 
@@ -401,10 +406,14 @@ fn test_process_path_tar_tar1_file1() {
 fn test_process_path_tar_tar1_file2() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
-            NTF_TAR_AB_FILEA_FPATH.clone(), *NTF_TAR_AB_FILEA_MIMEGUESS, *NTF_TAR_AB_FILEA_FILETYPE,
+            NTF_TAR_AB_FILEA_FPATH.clone(),
+            *NTF_TAR_AB_FILEA_MIMEGUESS,
+            NTF_TAR_AB_FILEA_FILETYPE,
         ),
         ProcessPathResult::FileValid(
-            NTF_TAR_AB_FILEB_FPATH.clone(), *NTF_TAR_AB_FILEB_MIMEGUESS, *NTF_TAR_AB_FILEB_FILETYPE,
+            NTF_TAR_AB_FILEB_FPATH.clone(),
+            *NTF_TAR_AB_FILEB_MIMEGUESS,
+            NTF_TAR_AB_FILEB_FILETYPE,
         ),
     ];
 
@@ -419,6 +428,7 @@ lazy_static! {
 
 /// test `fpath_to_filetype_mimeguess` (and `path_to_filetype_mimeguess`)
 #[test_case("messages", FileType::File, &MIMEGUESS_EMPTY)]
+#[test_case("pagefile.sys", FileType::File, &MIMEGUESS_EMPTY)]
 #[test_case("syslog", FileType::File, &MIMEGUESS_EMPTY)]
 #[test_case("syslog.3", FileType::File, &MIMEGUESS_EMPTY)]
 #[test_case("output.txt", FileType::File, &MIMEGUESS_TXT)]
@@ -489,9 +499,22 @@ lazy_static! {
 #[test_case("192.168.1.100.log.gz.old.1", FileType::Gz, &MIMEGUESS_GZ)]
 #[test_case("log.192.168.1.100", FileType::File, &MIMEGUESS_EMPTY)]
 #[test_case("setup.log.full", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("btmp", FileType::Unparseable, &MIMEGUESS_EMPTY)]
-#[test_case("utmp", FileType::Unparseable, &MIMEGUESS_EMPTY)]
-#[test_case("wtmp", FileType::Unparseable, &MIMEGUESS_EMPTY)]
+#[test_case("setup.log.full.1", FileType::File, &MIMEGUESS_TXT)]
+#[test_case("setup.log.full.old", FileType::File, &MIMEGUESS_TXT)]
+#[test_case("setup.log.full.old.1", FileType::File, &MIMEGUESS_TXT)]
+#[test_case("setup.log.full.old.2", FileType::File, &MIMEGUESS_TXT)]
+#[test_case("utx.log", FileType::File, &MIMEGUESS_TXT)]
+#[test_case("utx.active", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("utx.lastlogin", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("btmp", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("utmp", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("wtmp", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("btmpx", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("utmpx", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("wtmpx", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("btmp.1", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("utmp.2", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("wtmp.1", FileType::Utmpx, &MIMEGUESS_EMPTY)]
 #[test_case("-", FileType::File, &MIMEGUESS_EMPTY; "dash")]
 #[test_case("$", FileType::File, &MIMEGUESS_EMPTY; "dollar")]
 fn test_path_to_filetype_mimeguess(

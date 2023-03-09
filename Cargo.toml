@@ -7,6 +7,7 @@ repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
 authors = ["James Thomas Moon"]
 license = "MIT"
 keywords = ["syslog", "log", "log-parser", "search", "merge"]
+# see https://crates.io/category_slugs
 categories = ["command-line-utilities", "filesystem"]
 readme = "README.md"
 version = "0.2.52"
@@ -44,6 +45,7 @@ lazy_static = "1.4.0"
 lru = "0.8.1"
 lzma-rs = "0.2.0"
 mime_guess = "2.0.4"
+min-max = "0.1.8"
 more-asserts = "0.3.1"
 mut_static = "5.0.0"
 rand = "0.8.5"
@@ -58,6 +60,8 @@ unroll = "0.1.5"
 walkdir = "2.3.2"
 utf8_iter = "1.0.3"
 
+
+
 [lib]
 name = "s4lib"
 path = "src/lib.rs"
@@ -70,6 +74,8 @@ bench = false
 #plugin = false
 #proc-macro = false
 #harness = false
+[target.'cfg(not(windows))'.dependencies]
+uapi = "0.2.10"
 
 [[bin]]
 name = "s4"
@@ -91,6 +97,15 @@ memchr = "2.5.0"
 tempdir = "0.3.7"
 tempfile = "3.3.0"
 test-case = "2.2.2"
+
+# release build optimizations
+# from https://github.com/johnthagen/min-sized-rust
+#[profile.release]
+#strip = true  # Automatically strip symbols from the binary.
+#opt-level = "z"  # Optimize for size.
+#lto = true  # linker to optimize at the link stage
+#codegen-units = 1
+#panic = "abort"
 
 # other helpful development tools
 # cargo install --locked cargo-expand cargo-nextest

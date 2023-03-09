@@ -1,9 +1,11 @@
 // src/data/mod.rs
 
 //! The `data` module is specialized data containers for
-//! [`Blocks`], [`Line`]s, and [`Sysline`]s.
+//! [`Blocks`], [`Line`]s, [`Sysline`]s, and [`Utmpx`].
 //!
 //! ## Definitions of data
+//!
+//! ### Block
 //!
 //! A "block" is a sequence of contiguous bytes in a file that:
 //!
@@ -12,7 +14,7 @@
 //!
 //! A "block" is represented by a [`Block`] and retrieved by a [`BlockReader`].
 //!
-//! <br/>
+//! ### Line
 //!
 //! A "line" is sequence of bytes residing on "blocks" that:
 //!
@@ -21,7 +23,7 @@
 //!
 //! A "line" is represented by a [`Line`] and found by a [`LineReader`].
 //!
-//! <br/>
+//! ### Sysline
 //!
 //! A "sysline" is sequence of "lines" that:
 //!
@@ -31,7 +33,7 @@
 //! A "sysline" is represented by a [`Sysline`] and found by a
 //! [`SyslineReader`].
 //!
-//! <br/>
+//! ### Syslog
 //!
 //! A "syslog" is a file that:
 //!
@@ -42,6 +44,12 @@
 //! In this project and source code, "syslog" is not specifically referring to
 //! an [RFC 5424] compliant message.
 //!
+//! ### Utmpx
+//!
+//! A [`Utmpx`] is information about a processed [`utmpx`] structure
+//! processed from a file.
+//!
+//! <br/>
 //! <br/>
 //!
 //! _The "Readers" are not rust "Readers"; "_Reader_" structs do not implement
@@ -60,7 +68,10 @@
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 //! [RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424.html
 //! [a certain minimum]: static@crate::readers::syslogprocessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP
+//! [`Utmpx`]: crate::data::utmpx::Utmpx
+//! [`utmpx`]: ::uapi::c::utmpx
 
 pub mod datetime;
 pub mod line;
 pub mod sysline;
+pub mod utmpx;
