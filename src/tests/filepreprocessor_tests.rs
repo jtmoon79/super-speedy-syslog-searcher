@@ -29,19 +29,12 @@ use crate::readers::helpers::{fpath_to_path, path_to_fpath};
 
 use crate::debug::helpers::{create_files_and_tmpdir, ntf_fpath, NamedTempFile};
 
-extern crate filepath;
 #[allow(unused_imports)]
-use filepath::FilePath; // provide `path` function on `File`
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate si_trace_print;
-use si_trace_print::stack::stack_offset_set;
-use si_trace_print::{defn, defo, defx};
-
-extern crate test_case;
-use test_case::test_case;
+use ::filepath::FilePath; // provide `path` function on `File`
+use ::lazy_static::lazy_static;
+use ::si_trace_print::stack::stack_offset_set;
+use ::si_trace_print::{defn, defo, defx};
+use ::test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

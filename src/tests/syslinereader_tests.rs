@@ -46,18 +46,11 @@ use crate::tests::common::{
 use std::str;
 use std::io::Write; // for `flush()`
 
-extern crate const_format;
-use const_format::concatcp;
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate si_trace_print;
+use ::const_format::concatcp;
+use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
-use si_trace_print::{defn, defo, defx, deo, stack::stack_offset_set};
-
-extern crate test_case;
-use test_case::test_case;
+use ::si_trace_print::{defn, defo, defx, deo, stack::stack_offset_set};
+use ::test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

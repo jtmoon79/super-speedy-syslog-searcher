@@ -23,15 +23,10 @@ use crate::debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
 
 use crate::debug::printers::{buffer_to_String_noraw, byte_to_char_noraw, str_to_String_noraw};
 
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate more_asserts;
-use more_asserts::{assert_ge, assert_le};
-
-extern crate si_trace_print;
-use si_trace_print::stack::{sn, so, stack_offset_set, sx};
-use si_trace_print::printers::{defo, defn, defx};
+use ::lazy_static::lazy_static;
+use ::more_asserts::{assert_ge, assert_le};
+use ::si_trace_print::stack::{sn, so, stack_offset_set, sx};
+use ::si_trace_print::printers::{defo, defn, defx};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

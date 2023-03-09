@@ -1,9 +1,5 @@
 // src/tests/common.rs
 
-use std::io::Read;
-#[allow(unused_imports)]
-use std::sync::Arc; // for `std::fs::File.read`
-
 use crate::common::{FPath, FileOffset, FileType, FileSz, Path};
 
 use crate::data::datetime::{
@@ -30,12 +26,13 @@ use crate::debug::printers::{
     buffer_to_String_noraw, str_to_String_noraw,
 };
 
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate utf8_iter;
+use std::io::Read;
 #[allow(unused_imports)]
-use utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
+use std::sync::Arc; // for `std::fs::File.read`
+
+use ::lazy_static::lazy_static;
+#[allow(unused_imports)]
+use ::utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

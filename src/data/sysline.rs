@@ -22,12 +22,9 @@ use crate::debug::printers::{de_err, de_wrn, e_wrn};
 use std::fmt;
 use std::sync::Arc;
 
-extern crate more_asserts;
-use more_asserts::debug_assert_ge;
-
-extern crate si_trace_print;
+use ::more_asserts::debug_assert_ge;
 #[allow(unused_imports)]
-use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Sysline

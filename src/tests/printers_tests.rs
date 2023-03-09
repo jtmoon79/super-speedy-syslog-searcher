@@ -184,7 +184,7 @@ fn test_PrinterLogMessage_print_utmpx(
         prepend_offset,
     );
 
-    let mut buffer: &mut [u8] = &mut [0; 1024];
+    let buffer: &mut [u8] = &mut [0; 1024];
     let mut ur = UtmpxReader::new(
         NTF_UTMPX_2ENTRY_FPATH.clone(),
         1024,

@@ -37,7 +37,7 @@ use crate::tests::common::{
 use std::mem::size_of_val;
 use std::str; // for `from_utf8`
 
-use chrono::FixedOffset;
+use ::chrono::FixedOffset;
 use ::test_case::test_case;
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]

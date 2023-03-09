@@ -16,12 +16,9 @@ use crate::data::sysline::{Sysline, SyslineP};
 
 use crate::readers::blockreader::{Block, BlockIndex, BlockOffset, BlockP, BlockSz};
 
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate si_trace_print;
+use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
-use si_trace_print::printers::{defo, defn, defx};
+use ::si_trace_print::printers::{defo, defn, defx};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

@@ -16,13 +16,11 @@ use std::ffi::OsStr;
 use std::fs::File;
 use std::path::Path;
 
-extern crate mime_guess;
 #[doc(hidden)]
-pub use mime_guess::MimeGuess;
-extern crate si_trace_print;
+pub use ::mime_guess::MimeGuess;
 #[allow(unused_imports)]
-use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
-extern crate tar;
+use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::tar;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // FilePreProcessor

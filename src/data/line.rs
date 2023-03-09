@@ -18,9 +18,6 @@ use crate::readers::blockreader::Slices;
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{buffer_to_String_noraw, char_to_char_noraw, e_err};
 
-#[allow(unused_imports)]
-use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
-
 #[cfg(any(debug_assertions, test))]
 use std::borrow::Cow;
 
@@ -31,8 +28,10 @@ use std::io::prelude::*;
 
 use std::sync::Arc;
 
-extern crate more_asserts;
-use more_asserts::{
+#[allow(unused_imports)]
+use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+
+use ::more_asserts::{
     assert_ge, assert_gt, assert_le, assert_lt, debug_assert_gt, debug_assert_le, debug_assert_lt,
 };
 

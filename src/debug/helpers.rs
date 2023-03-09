@@ -14,23 +14,15 @@ use std::io::ErrorKind;
 #[allow(unused_imports)] // XXX: clippy wrongly marks this as unused
 use std::io::Write; // for `NamedTempFile.write_all`
 
-extern crate filepath;
-use filepath::FilePath; // provide `path` function on `File`
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate si_trace_print;
-use si_trace_print::{defn, defo, defx, defñ};
-
-extern crate tempfile;
-
+use ::filepath::FilePath; // provide `path` function on `File`
+use ::lazy_static::lazy_static;
+use ::si_trace_print::{defn, defo, defx, defñ};
 #[doc(hidden)]
-pub use tempfile::tempdir;
+pub use ::tempfile::tempdir;
 #[doc(hidden)]
-pub use tempfile::NamedTempFile;
+pub use ::tempfile::NamedTempFile;
 #[doc(hidden)]
-pub use tempfile::TempDir;
+pub use ::tempfile::TempDir;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // temporary file helper functions

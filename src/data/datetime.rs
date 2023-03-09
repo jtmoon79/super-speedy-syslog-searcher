@@ -73,27 +73,14 @@ pub use chrono::{
     Utc,
 };
 
-extern crate const_format;
-use const_format::concatcp;
-
-extern crate const_str;
-use const_str::to_byte_array;
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate more_asserts;
-use more_asserts::{assert_le, debug_assert_ge, debug_assert_le, debug_assert_lt};
-
-extern crate regex;
-use regex::bytes::Regex;
-
-extern crate si_trace_print;
+use ::const_format::concatcp;
+use ::const_str::to_byte_array;
+use ::lazy_static::lazy_static;
+use ::more_asserts::{assert_le, debug_assert_ge, debug_assert_le, debug_assert_lt};
+use ::regex::bytes::Regex;
 #[allow(unused_imports)]
-use si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
-
-extern crate unroll;
-use unroll::unroll_for_loops;
+use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::unroll::unroll_for_loops;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // DateTime Regex Matching and strftime formatting

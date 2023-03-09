@@ -89,7 +89,6 @@ use crate::readers::summary::Summary;
 use std::collections::BTreeMap;
 use std::collections::HashSet;
 use std::fmt;
-//use std::hash::Hash;
 use std::io::{Error, ErrorKind, Result};
 
 use ::mime_guess::MimeGuess;

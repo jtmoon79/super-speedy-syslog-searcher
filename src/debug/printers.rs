@@ -12,16 +12,11 @@ use std::io::Write; // for `std::io::Stdout.flush`
 #[cfg(test)]
 use std::io::prelude::*; // for `std::fs::File.read_to_string`
 
-extern crate si_trace_print;
-
-extern crate termcolor;
 #[doc(hidden)]
-pub use termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
-
-extern crate utf8_iter;
+pub use ::termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
 #[doc(hidden)]
 #[allow(unused_imports)]
-use utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
+use ::utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

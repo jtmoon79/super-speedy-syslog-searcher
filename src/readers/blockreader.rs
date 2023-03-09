@@ -28,26 +28,21 @@ use std::path::Path;
 use std::sync::Arc;
 use std::time::Duration;
 
-extern crate lru;
-use lru::LruCache;
-extern crate mime_guess;
-use mime_guess::MimeGuess;
-extern crate more_asserts;
+use ::lru::LruCache;
+use ::mime_guess::MimeGuess;
 #[allow(unused_imports)]
-use more_asserts::{assert_ge, assert_le, debug_assert_ge, debug_assert_gt, debug_assert_le, debug_assert_lt};
+use ::more_asserts::{assert_ge, assert_le, debug_assert_ge, debug_assert_gt, debug_assert_le, debug_assert_lt};
 // `flate2` is for gzip files.
-extern crate flate2;
-use flate2::read::GzDecoder;
+use ::flate2::read::GzDecoder;
 use flate2::GzHeader;
 // `lzma_rs` is for xz files.
 // Crate `lzma-rs` is the only pure rust crate.
 // Other crates interface to liblzma which not ideal.
-extern crate lzma_rs;
-extern crate si_trace_print;
+use ::lzma_rs;
 #[allow(unused_imports)]
-use si_trace_print::{def1n, def1o, def1x, defn, defo, defx, defñ, den, deo, dex, deñ, pfn, pfo, pfx};
+use ::si_trace_print::{def1n, def1o, def1x, defn, defo, defx, defñ, den, deo, dex, deñ, pfn, pfo, pfx};
 // `tar` is for tar files.
-extern crate tar;
+use ::tar;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

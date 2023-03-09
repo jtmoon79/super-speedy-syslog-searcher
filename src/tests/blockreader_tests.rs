@@ -40,15 +40,10 @@ use crate::tests::common::{
 
 use std::collections::BTreeMap;
 
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate si_trace_print;
-use si_trace_print::stack::stack_offset_set;
-use si_trace_print::{defn, defo, defx, defñ};
-
-extern crate test_case;
-use test_case::test_case;
+use ::lazy_static::lazy_static;
+use ::si_trace_print::stack::stack_offset_set;
+use ::si_trace_print::{defn, defo, defx, defñ};
+use ::test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

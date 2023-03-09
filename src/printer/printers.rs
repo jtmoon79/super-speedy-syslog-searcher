@@ -9,19 +9,6 @@
 //! [`Sysline`s]: crate::data::sysline::Sysline
 //! [`Utmpx`s]: crate::data::utmpx::Utmpx
 
-use std::hint::black_box;
-use std::io::{
-    Error,
-    ErrorKind,
-    Result,
-    StdoutLock,
-    Write, // for `std::io::Stdout.flush`
-};
-
-extern crate termcolor;
-#[doc(hidden)]
-pub use termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
-
 use crate::data::datetime::{DateTimeL, FixedOffset};
 
 use crate::data::line::{LineIndex, LineP};
@@ -32,8 +19,19 @@ use crate::data::utmpx::{InfoAsBytes, Utmpx};
 
 use crate::debug::printers::de_err;
 
-extern crate more_asserts;
-use more_asserts::debug_assert_le;
+use std::hint::black_box;
+use std::io::{
+    Error,
+    ErrorKind,
+    Result,
+    StdoutLock,
+    Write, // for `std::io::Stdout.flush`
+};
+
+#[doc(hidden)]
+pub use ::termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
+
+use ::more_asserts::debug_assert_le;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // globals and constants

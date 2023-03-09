@@ -31,23 +31,13 @@ use crate::tests::common::{
     eprint_file, eprint_file_blocks, FO_0, NTF_GZ_EMPTY_FPATH, NTF_LOG_EMPTY_FPATH
 };
 
-extern crate const_format;
-use const_format::concatcp;
-
-extern crate filetime;
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate more_asserts;
-use more_asserts::assert_gt;
-
-extern crate test_case;
-use test_case::test_case;
-
-extern crate si_trace_print;
+use ::const_format::concatcp;
+use ::filetime;
+use ::lazy_static::lazy_static;
+use ::more_asserts::assert_gt;
+use ::test_case::test_case;
 #[allow(unused_imports)]
-use si_trace_print::printers::{defn, defo, defx, defñ};
+use ::si_trace_print::printers::{defn, defo, defx, defñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

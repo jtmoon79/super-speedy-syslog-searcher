@@ -32,21 +32,14 @@ use std::fmt;
 use std::io::{Error, ErrorKind, Result};
 use std::sync::Arc;
 
-extern crate itertools;
-use itertools::Itertools; // brings in `sorted_by`
-extern crate lru;
-use lru::LruCache;
-extern crate mime_guess;
-use mime_guess::MimeGuess;
-extern crate more_asserts;
-use more_asserts::{assert_le, debug_assert_le, debug_assert_lt, debug_assert_gt};
-extern crate rangemap;
-use rangemap::RangeMap;
-extern crate si_trace_print;
+use ::itertools::Itertools; // brings in `sorted_by`
+use ::lru::LruCache;
+use ::mime_guess::MimeGuess;
+use ::more_asserts::{assert_le, debug_assert_le, debug_assert_lt, debug_assert_gt};
+use ::rangemap::RangeMap;
 #[allow(unused_imports)]
-use si_trace_print::{def1n, def1o, def1x, def1ñ, defn, defo, defx, defñ, den, deo, dex, deñ};
-extern crate static_assertions;
-use static_assertions::const_assert;
+use ::si_trace_print::{def1n, def1o, def1x, def1ñ, defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::static_assertions::const_assert;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // DateTime typing, strings, and formatting

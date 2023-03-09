@@ -52,12 +52,10 @@ use std::fmt::Debug;
 use std::io::{Error, ErrorKind, Result};
 
 use ::chrono::Datelike;
-//use ::itertools::Itertools; // attaches `sorted_by`
 use ::lazy_static::lazy_static;
 use ::mime_guess::MimeGuess;
 use ::rangemap::RangeMap;
 use ::si_trace_print::{def1n, def1x, def1ñ, defn, defo, defx, defñ, deñ};
-//use ::walkdir;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SyslogProcessor

@@ -30,27 +30,18 @@ use crate::data::datetime::{
 
 use crate::debug::printers::buffer_to_String_noraw;
 
-use bstr::ByteSlice;
-
-extern crate chrono;
-// for `with_nanosecond()`, `year()`, and others
-#[allow(unused_imports)]
-use chrono::{Datelike, Timelike};
-
 use std::collections::HashSet;
-
-extern crate more_asserts;
-use more_asserts::{assert_gt, assert_le, assert_lt};
-
-extern crate regex;
-extern crate si_trace_print;
-use si_trace_print::stack::stack_offset_set;
-use si_trace_print::{defn, defo, defx};
-
 use std::str;
 
-extern crate test_case;
-use test_case::test_case;
+// for `with_nanosecond()`, `year()`, and others
+#[allow(unused_imports)]
+use ::chrono::{Datelike, Timelike};
+use ::bstr::ByteSlice;
+use ::more_asserts::{assert_gt, assert_le, assert_lt};
+use ::regex;
+use ::si_trace_print::stack::stack_offset_set;
+use ::si_trace_print::{defn, defo, defx};
+use ::test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
