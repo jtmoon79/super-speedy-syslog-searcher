@@ -10,7 +10,7 @@ keywords = ["syslog", "log", "log-parser", "search", "merge"]
 # see https://crates.io/category_slugs
 categories = ["command-line-utilities", "filesystem"]
 readme = "README.md"
-version = "0.2.52"
+version = "0.3.53"
 edition = "2021"
 # `rust-version` should match ./github/workflows/rust.yml:rust_msrv:msrv
 rust-version = "1.64.0"
