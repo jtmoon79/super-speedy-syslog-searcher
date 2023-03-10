@@ -6,16 +6,11 @@
 
 #[doc(hidden)]
 pub use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, NLc, NLu8};
-
 use crate::readers::blockreader::BlockOffset;
-
 #[cfg(test)]
 use crate::readers::blockreader::Slices;
-
 use crate::data::datetime::{DateTimeLOpt, Duration};
-
 use crate::data::line::{Line, LineIndex, LineP, LinePart, Lines};
-
 #[allow(unused_imports)]
 use crate::debug::printers::{de_err, de_wrn, e_wrn};
 

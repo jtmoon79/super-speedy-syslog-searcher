@@ -7,15 +7,10 @@
 #![allow(non_camel_case_types)]
 
 use crate::common::{FPath, ResultS3};
-
 use crate::readers::blockreader::{BlockSz, FileOffset};
-
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
-
 use crate::readers::helpers::{fill, randomize};
-
 use crate::readers::syslinereader::{ResultS3SyslineFind, SyslineReader};
-
 use crate::data::datetime::{
     datetime_parse_from_str,
     //
@@ -26,15 +21,10 @@ use crate::data::datetime::{
     // chrono imports
     TimeZone,
 };
-
 use crate::tests::datetime_tests::dt_pattern_has_tz;
-
 use crate::debug::helpers::{create_temp_file, create_temp_file_bytes, ntf_fpath, NamedTempFile};
-
 use crate::debug::printers::str_to_String_noraw;
-
 use crate::tests::common::eprint_file;
-
 #[allow(unused_imports)]
 use crate::tests::common::{
     NTF_GZ_1BYTE_FPATH, NTF_GZ_8BYTE_FPATH, NTF_GZ_EMPTY_FPATH, NTF_LOG_EMPTY_FPATH, NTF_NL_1_PATH,

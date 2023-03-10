@@ -5,8 +5,6 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use std::str::FromStr;
-
 use crate::tests::common::{
     MIMEGUESS_EMPTY, MIMEGUESS_GZ, MIMEGUESS_LOG, MIMEGUESS_TAR, MIMEGUESS_TARGZ, MIMEGUESS_TXT,
     MIMEGUESS_XZ, NTF_GZ_EMPTY, NTF_GZ_EMPTY_FILETYPE, NTF_GZ_EMPTY_FPATH, NTF_GZ_EMPTY_MIMEGUESS,
@@ -17,17 +15,15 @@ use crate::tests::common::{
     NTF_TAR_AB_FILEB_FILETYPE, NTF_TAR_AB_FILEB_FPATH, NTF_TAR_AB_FILEB_MIMEGUESS, NTF_TAR_AB_FPATH,
     NTF_TGZ_8BYTE, NTF_TGZ_8BYTE_FILETYPE, NTF_TGZ_8BYTE_FPATH, NTF_TGZ_8BYTE_MIMEGUESS,
 };
-
 use crate::common::{FPath, FileType, Path};
-
 use crate::readers::filepreprocessor::{
     fpath_to_filetype, fpath_to_filetype_mimeguess, mimeguess_to_filetype, process_path, process_path_tar,
     MimeGuess, ProcessPathResult,
 };
-
 use crate::readers::helpers::{fpath_to_path, path_to_fpath};
-
 use crate::debug::helpers::{create_files_and_tmpdir, ntf_fpath, NamedTempFile};
+
+use std::str::FromStr;
 
 #[allow(unused_imports)]
 use ::filepath::FilePath; // provide `path` function on `File`

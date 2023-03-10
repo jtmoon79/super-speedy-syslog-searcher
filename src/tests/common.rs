@@ -1,7 +1,6 @@
 // src/tests/common.rs
 
 use crate::common::{FPath, FileOffset, FileType, FileSz, Path};
-
 use crate::data::datetime::{
     DateTime,
     DateTimeL,
@@ -11,17 +10,12 @@ use crate::data::datetime::{
     ymdhmsn,
 };
 use crate::data::utmpx::UTMPX_SZ;
-
 use crate::readers::filepreprocessor::MimeGuess;
-
 use crate::readers::helpers::{fpath_to_path, path_to_fpath};
-
 use crate::readers::blockreader::{Block, BlockSz, SUBPATH_SEP};
-
 use crate::debug::helpers::{
     create_temp_file_bytes_with_suffix, create_temp_file_with_suffix, ntf_fpath, NamedTempFile,
 };
-
 use crate::debug::printers::{
     buffer_to_String_noraw, str_to_String_noraw,
 };

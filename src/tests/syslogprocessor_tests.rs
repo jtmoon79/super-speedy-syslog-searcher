@@ -6,29 +6,30 @@
 #![allow(non_camel_case_types)]
 
 use crate::common::{Count, FPath, FileOffset};
-
 use crate::data::sysline::SyslineP;
-
 use crate::debug::helpers::{
     create_temp_file, create_temp_file_data, ntf_fpath, NamedTempFile
 };
-
 use crate::readers::blockreader::BlockSz;
-
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
-
 use crate::data::datetime::{
-    datetime_parse_from_str, DateTimeL, DateTimeLOpt, DateTimePattern_str, FixedOffset, SystemTime,
+    datetime_parse_from_str,
+    DateTimeL,
+    DateTimeLOpt,
+    DateTimePattern_str,
+    FixedOffset,
+    SystemTime,
 };
-
 use crate::readers::syslinereader::ResultS3SyslineFind;
-
 use crate::readers::syslogprocessor::{
     FileProcessingResultBlockZero, SyslogProcessor, SYSLOG_SZ_MAX_BSZ,
 };
-
 use crate::tests::common::{
-    eprint_file, eprint_file_blocks, FO_0, NTF_GZ_EMPTY_FPATH, NTF_LOG_EMPTY_FPATH
+    eprint_file,
+    eprint_file_blocks,
+    FO_0,
+    NTF_GZ_EMPTY_FPATH,
+    NTF_LOG_EMPTY_FPATH,
 };
 
 use ::const_format::concatcp;

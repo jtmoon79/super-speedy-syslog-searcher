@@ -51,37 +51,19 @@ use std::process::ExitCode;
 use std::str;
 use std::thread;
 
-extern crate chrono;
-use chrono::{DateTime, Datelike, Duration, FixedOffset, Local, TimeZone, Timelike};
-
-extern crate clap;
-use clap::{Parser, ValueEnum};
-
-extern crate const_format;
-use const_format::concatcp;
-
+use ::chrono::{DateTime, Datelike, Duration, FixedOffset, Local, TimeZone, Timelike};
+use ::clap::{Parser, ValueEnum};
+use ::const_format::concatcp;
 // TODO: [2023/01] use std::sync::mpsc instead of crossbeam_channel when MSRV is >= 1.67.0
 //       see https://github.com/rust-lang/rust/pull/93563/ and https://releases.rs/docs/1.67.0/
-extern crate crossbeam_channel;
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate mime_guess;
-use mime_guess::MimeGuess;
-
-extern crate regex;
-use regex::Regex;
-
-extern crate si_trace_print;
-use si_trace_print::{def1n, def1o, def1x, defn, defo, defx, defñ, deo, stack::stack_offset_set};
-
-extern crate unicode_width;
-
+use ::crossbeam_channel;
+use ::lazy_static::lazy_static;
+use ::mime_guess::MimeGuess;
+use ::regex::Regex;
+use ::si_trace_print::{def1n, def1o, def1x, defn, defo, defx, defñ, deo, stack::stack_offset_set};
+use ::unicode_width;
 // `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
-extern crate s4lib;
-
-use s4lib::common::{
+use ::s4lib::common::{
     Count,
     FPath,
     FPaths,
@@ -91,16 +73,13 @@ use s4lib::common::{
     NLu8a,
     filetype_to_logmessagetype,
 };
-
-use s4lib::data::datetime::{
+use ::s4lib::data::datetime::{
     datetime_parse_from_str, datetime_parse_from_str_w_tz, DateTimeLOpt, DateTimeParseInstr,
     DateTimePattern_str, MAP_TZZ_TO_TZz, Utc, DATETIME_PARSE_DATAS,
 };
-
 #[allow(unused_imports)]
-use s4lib::debug::printers::{de_err, de_wrn, e_err, e_wrn};
-
-use s4lib::printer::printers::{
+use ::s4lib::debug::printers::{de_err, de_wrn, e_err, e_wrn};
+use ::s4lib::printer::printers::{
     color_rand,
     print_colored_stderr,
     write_stderr,
@@ -113,36 +92,26 @@ use s4lib::printer::printers::{
     COLOR_DEFAULT,
     COLOR_ERROR,
 };
-
-use s4lib::data::utmpx::{UTMPX_SZ, Utmpx};
-
-use s4lib::data::sysline::SyslineP;
-
-use s4lib::readers::blockreader::{
+use ::s4lib::data::utmpx::{UTMPX_SZ, Utmpx};
+use ::s4lib::data::sysline::SyslineP;
+use ::s4lib::readers::blockreader::{
     BlockSz,
     BLOCKSZ_DEF,
     BLOCKSZ_MAX,
     BLOCKSZ_MIN,
     SummaryBlockReader,
 };
-
-use s4lib::readers::filepreprocessor::{process_path, ProcessPathResult, ProcessPathResults};
-
-use s4lib::readers::helpers::basename;
-
-use s4lib::readers::linereader::SummaryLineReader;
-
-use s4lib::readers::summary::{
+use ::s4lib::readers::filepreprocessor::{process_path, ProcessPathResult, ProcessPathResults};
+use ::s4lib::readers::helpers::basename;
+use ::s4lib::readers::linereader::SummaryLineReader;
+use ::s4lib::readers::summary::{
     Summary,
     SummaryOpt,
     SummaryReaderData,
 };
-
-use s4lib::readers::syslinereader::{ResultS3SyslineFind, SummarySyslineReader};
-
-use s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
-
-use s4lib::readers::utmpxreader::{ResultS3UtmpxFind, UtmpxReader, SummaryUtmpxReader};
+use ::s4lib::readers::syslinereader::{ResultS3SyslineFind, SummarySyslineReader};
+use ::s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
+use ::s4lib::readers::utmpxreader::{ResultS3UtmpxFind, UtmpxReader, SummaryUtmpxReader};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // command-line parsing

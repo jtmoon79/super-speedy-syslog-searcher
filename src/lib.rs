@@ -18,16 +18,11 @@
 //! [`Sysline`]: crate::data::sysline::Sysline
 
 pub mod common;
-
 pub mod data;
-
 #[doc(hidden)]
 pub mod debug;
-
 pub mod printer;
-
 pub mod readers;
-
 #[cfg(test)]
 pub mod tests;
 

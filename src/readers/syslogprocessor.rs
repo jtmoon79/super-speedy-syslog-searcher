@@ -24,12 +24,25 @@ use crate::common::{
     filetype_to_logmessagetype,
 };
 use crate::data::datetime::{
-    dt_after_or_before, systemtime_to_datetime, DateTimeL, DateTimeLOpt, Duration, FixedOffset,
-    Result_Filter_DateTime1, SystemTime, Year,
+    dt_after_or_before,
+    systemtime_to_datetime,
+    DateTimeL,
+    DateTimeLOpt,
+    Duration,
+    FixedOffset,
+    Result_Filter_DateTime1,
+    SystemTime,
+    Year,
 };
 use crate::data::sysline::SyslineP;
 use crate::{de_err, de_wrn};
-use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockSz, ResultS3ReadBlock};
+use crate::readers::blockreader::{
+    BlockIndex,
+    BlockOffset,
+    BlockP,
+    BlockSz,
+    ResultS3ReadBlock,
+};
 #[cfg(test)]
 use crate::readers::blockreader::SetDroppedBlocks;
 #[cfg(test)]

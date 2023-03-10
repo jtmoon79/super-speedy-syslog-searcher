@@ -4,9 +4,7 @@
 
 #[doc(hidden)]
 pub use std::fs::File;
-
 use std::fmt::Debug;
-
 #[doc(hidden)]
 pub use std::path::Path;
 

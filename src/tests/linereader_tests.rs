@@ -8,20 +8,17 @@
 #![allow(non_upper_case_globals)]
 
 use crate::tests::common::{eprint_file, fill, randomize};
-
 use crate::common::{Bytes, FPath, FileOffset};
-
 use crate::readers::blockreader::BlockSz;
-
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
-
 use crate::data::line::{LineIndex, LineP, LinePartPtrs};
-
 use crate::readers::linereader::{LineReader, ResultS3LineFind};
-
 use crate::debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
-
-use crate::debug::printers::{buffer_to_String_noraw, byte_to_char_noraw, str_to_String_noraw};
+use crate::debug::printers::{
+    buffer_to_String_noraw,
+    byte_to_char_noraw,
+    str_to_String_noraw,
+};
 
 use ::lazy_static::lazy_static;
 use ::more_asserts::{assert_ge, assert_le};

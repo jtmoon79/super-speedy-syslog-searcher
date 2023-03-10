@@ -9,28 +9,21 @@
 
 #[doc(hidden)]
 pub use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, NLu8, ResultS3};
-
 use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockReader, BlockSz};
-
 #[cfg(any(debug_assertions, test))]
 use crate::readers::blockreader::Slices;
-
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{buffer_to_String_noraw, char_to_char_noraw, e_err};
 
 #[cfg(any(debug_assertions, test))]
 use std::borrow::Cow;
-
 use std::fmt;
-
 #[cfg(any(debug_assertions, test))]
 use std::io::prelude::*;
-
 use std::sync::Arc;
 
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
-
 use ::more_asserts::{
     assert_ge, assert_gt, assert_le, assert_lt, debug_assert_gt, debug_assert_le, debug_assert_lt,
 };

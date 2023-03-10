@@ -40,26 +40,19 @@
 
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{buffer_to_String_noraw, str_to_String_noraw};
-
 #[doc(hidden)]
 pub use crate::data::line::{LineIndex, Range_LineIndex};
 
 use std::collections::BTreeMap;
-
 #[cfg(any(debug_assertions, test))]
 use std::collections::HashMap;
-
 use std::fmt;
-
 #[doc(hidden)]
 pub use std::time::{SystemTime, UNIX_EPOCH};
 
-extern crate arrayref;
-use arrayref::array_ref;
-
-extern crate chrono;
+use ::arrayref::array_ref;
 #[doc(hidden)]
-pub use chrono::{
+pub use ::chrono::{
     DateTime,
     Datelike, // adds method `.year()` onto `DateTime`
     Duration,
@@ -72,7 +65,6 @@ pub use chrono::{
     TimeZone,
     Utc,
 };
-
 use ::const_format::concatcp;
 use ::const_str::to_byte_array;
 use ::lazy_static::lazy_static;

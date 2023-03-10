@@ -10,13 +10,9 @@
 //! [`Utmpx`s]: crate::data::utmpx::Utmpx
 
 use crate::data::datetime::{DateTimeL, FixedOffset};
-
 use crate::data::line::{LineIndex, LineP};
-
 use crate::data::sysline::SyslineP;
-
 use crate::data::utmpx::{InfoAsBytes, Utmpx};
-
 use crate::debug::printers::de_err;
 
 use std::hint::black_box;
@@ -30,7 +26,6 @@ use std::io::{
 
 #[doc(hidden)]
 pub use ::termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
-
 use ::more_asserts::debug_assert_le;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

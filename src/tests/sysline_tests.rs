@@ -7,13 +7,9 @@
 #![allow(non_camel_case_types)]
 
 use crate::common::FileOffset;
-
 use crate::data::datetime::{DateTimeL, Duration};
-
 use crate::data::line::{Line, LineP, LinePart};
-
 use crate::data::sysline::{Sysline, SyslineP};
-
 use crate::readers::blockreader::{Block, BlockIndex, BlockOffset, BlockP, BlockSz};
 
 use ::lazy_static::lazy_static;

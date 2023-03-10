@@ -8,7 +8,6 @@ use crate::common::{FPath, FileOpenOptions};
 
 #[cfg(any(debug_assertions, test))]
 use std::io::Write; // for `std::io::Stdout.flush`
-
 #[cfg(test)]
 use std::io::prelude::*; // for `std::fs::File.read_to_string`
 
