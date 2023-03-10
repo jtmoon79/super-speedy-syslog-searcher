@@ -1,8 +1,8 @@
 // src/readers/utmpreader.rs
 
 //! Implements a [`UtmpxReader`],
-//! the driver of deriving [`Utmpx`s] from [utmpx format] file
-//! using a [`BlockReader`].
+//! the driver of deriving [`Utmpx`s] from a [utmpx format] file using a
+//! [`BlockReader`].
 //!
 //! Sibling of [`SyslogProcessor`]. But simpler in a number of ways due to
 //! predictable format of the utmpx files.
@@ -727,9 +727,9 @@ impl UtmpxReader {
         }
 
         // check container of `Utmpx`s
-        if let Some(utmpentry) = self.check_store(fileoffset) {
-            defx!("({}): return ResultS3UtmpxFind::Found(({:?}, …)); check_store found it", fileoffset, utmpentry.fileoffset_end());
-            return ResultS3UtmpxFind::Found((utmpentry.fileoffset_end(), utmpentry));
+        if let Some(utmpx) = self.check_store(fileoffset) {
+            defx!("({}): return ResultS3UtmpxFind::Found(({:?}, …)); check_store found it", fileoffset, utmpx.fileoffset_end());
+            return ResultS3UtmpxFind::Found((utmpx.fileoffset_end(), utmpx));
         }
 
         #[cfg(debug_assertions)]
@@ -780,14 +780,14 @@ impl UtmpxReader {
                 return ResultS3UtmpxFind::Err(err);
             }
         };
-        let utmpentry: Utmpx = Utmpx::new(fileoffset, &self.tz_offset, utmp_);
-        defo!("found utmp entry: {:?}", utmpentry);
-        self.insert_entry(utmpentry.clone());
-        let fo_end: FileOffset = utmpentry.fileoffset_end();
+        let utmpx: Utmpx = Utmpx::new(fileoffset, &self.tz_offset, utmp_);
+        defo!("found utmp entry: {:?}", utmpx);
+        self.insert_entry(utmpx.clone());
+        let fo_end: FileOffset = utmpx.fileoffset_end();
 
-        defx!("({}) return ResultS3UtmpxFind::Found({}, {:?})", fileoffset, fo_end, utmpentry);
+        defx!("({}) return ResultS3UtmpxFind::Found({}, {:?})", fileoffset, fo_end, utmpx);
 
-        ResultS3UtmpxFind::Found((fo_end, utmpentry))
+        ResultS3UtmpxFind::Found((fo_end, utmpx))
     }
 
     /// Find the nearest [`Utmpx`] at or after the `fileoffset` and
@@ -830,9 +830,9 @@ impl UtmpxReader {
         loop {
             let result = self.find_entry(fo_a);
             match result {
-                ResultS3UtmpxFind::Found((fo_, utmpentry)) => {
-                    defo!("compare dt_filter {} to utmpentry.dt() {}", dtf, utmpentry.dt());
-                    if utmpentry.dt() < dtf {
+                ResultS3UtmpxFind::Found((fo_, utmpx)) => {
+                    defo!("compare dt_filter {} to utmpx.dt() {}", dtf, utmpx.dt());
+                    if utmpx.dt() < dtf {
                         debug_assert_le!(fo_, fo_b);
                         fo_prior = fo_a;
                         // jump forward
@@ -842,12 +842,12 @@ impl UtmpxReader {
                         }
                         defo!("jumped forward: cursor range is now [{}, {}]", fo_a, fo_b);
                         if fo_prior == fo_a {
-                            if ! self.is_last(&utmpentry) {
+                            if ! self.is_last(&utmpx) {
                                 pfx!("!is_last; early return ResultS3UtmpxFind::Found(({}, …)); A1", fo_b);
                                 return self.find_entry(fo_b);
                             }
                             defx!("return ResultS3UtmpxFind::Found(({}, …)); A2", fo_);
-                            return ResultS3UtmpxFind::Found((fo_, utmpentry));
+                            return ResultS3UtmpxFind::Found((fo_, utmpx));
                         }
                     }
                     else {
@@ -864,7 +864,7 @@ impl UtmpxReader {
                         defo!("jumped backward: cursor range is now [{}, {}]", fo_a, fo_b);
                         if fo_prior == fo_b {
                             defx!("return ResultS3UtmpxFind::Found(({}, …)); B", fo_);
-                            return ResultS3UtmpxFind::Found((fo_, utmpentry));
+                            return ResultS3UtmpxFind::Found((fo_, utmpx));
                         }
                     }
                 }

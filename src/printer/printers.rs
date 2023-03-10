@@ -428,22 +428,22 @@ impl PrinterLogMessage {
     ///
     /// Users should call this function.
     ///
-    /// [`Utmpx`]: crate::data::utmpentry::Utmpx
+    /// [`Utmpx`]: crate::data::utmpx::Utmpx
     #[inline(always)]
-    pub fn print_utmpentry(
+    pub fn print_utmpx(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
-            (false, false, false) => self.print_utmpentry_(utmpentry, buffer),
-            (false, true, false) => self.print_utmpentry_prependfile(utmpentry, buffer),
-            (false, false, true) => self.print_utmpentry_prependdate(utmpentry, buffer),
-            (false, true, true) => self.print_utmpentry_prependfile_prependdate(utmpentry, buffer),
-            (true, false, false) => self.print_utmpentry_color(utmpentry, buffer),
-            (true, true, false) => self.print_utmpentry_prependfile_color(utmpentry, buffer),
-            (true, false, true) => self.print_utmpentry_prependdate_color(utmpentry, buffer),
-            (true, true, true) => self.print_utmpentry_prependfile_prependdate_color(utmpentry, buffer),
+            (false, false, false) => self.print_utmpx_(utmpx, buffer),
+            (false, true, false) => self.print_utmpx_prependfile(utmpx, buffer),
+            (false, false, true) => self.print_utmpx_prependdate(utmpx, buffer),
+            (false, true, true) => self.print_utmpx_prependfile_prependdate(utmpx, buffer),
+            (true, false, false) => self.print_utmpx_color(utmpx, buffer),
+            (true, true, false) => self.print_utmpx_prependfile_color(utmpx, buffer),
+            (true, false, true) => self.print_utmpx_prependdate_color(utmpx, buffer),
+            (true, true, true) => self.print_utmpx_prependfile_prependdate_color(utmpx, buffer),
         }
     }
 
@@ -479,16 +479,16 @@ impl PrinterLogMessage {
         dt_delayedformat.to_string()
     }
 
-    /// Helper function to transform [`utmpentry.dt`] to a `String`.
+    /// Helper function to transform [`utmpx.dt`] to a `String`.
     ///
-    /// [`utmpentry.dt`]: crate::data::utmpx::utmpentry#structfield.dt
+    /// [`utmpx.dt`]: crate::data::utmpx::utmpx#structfield.dt
     #[inline(always)]
-    fn datetime_to_string_utmpentry(
+    fn datetime_to_string_utmpx(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
     ) -> String {
-        // write the `utmpentry.dt` into a `String` once
-        let dt_: DateTimeL = (*utmpentry)
+        // write the `utmpx.dt` into a `String` once
+        let dt_: DateTimeL = (*utmpx)
             .dt()
             .with_timezone(
                 &self
@@ -742,13 +742,13 @@ impl PrinterLogMessage {
 
     /// Print a [`Utmpx`] without anything special.
     ///
-    /// [`Utmpx`]: crate::data::utmpentry::Utmpx
-    fn print_utmpentry_(
+    /// [`Utmpx`]: crate::data::utmpx::Utmpx
+    fn print_utmpx_(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
-        let at = match utmpentry.as_bytes(buffer) {
+        let at = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
@@ -760,10 +760,10 @@ impl PrinterLogMessage {
 
     /// Print a [`Utmpx`] with prepended datetime.
     ///
-    /// [`Utmpx`]: crate::data::utmpentry::Utmpx
-    fn print_utmpentry_prependdate(
+    /// [`Utmpx`]: crate::data::utmpx::Utmpx
+    fn print_utmpx_prependdate(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
         debug_assert!(
@@ -773,9 +773,9 @@ impl PrinterLogMessage {
             self.prepend_date_offset
         );
 
-        let dt_string: String = self.datetime_to_string_utmpentry(utmpentry);
+        let dt_string: String = self.datetime_to_string_utmpx(utmpx);
         let dtb: &[u8] = dt_string.as_bytes();
-        let at = match utmpentry.as_bytes(buffer) {
+        let at = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
@@ -789,10 +789,10 @@ impl PrinterLogMessage {
 
     /// prints [`Utmpx`] with prepended filename.
     ///
-    /// [`Utmpx`]: crate::data::utmpentry::Utmpx
-    fn print_utmpentry_prependfile(
+    /// [`Utmpx`]: crate::data::utmpx::Utmpx
+    fn print_utmpx_prependfile(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
@@ -802,7 +802,7 @@ impl PrinterLogMessage {
             .as_ref()
             .unwrap()
             .as_bytes();
-        let at = match utmpentry.as_bytes(buffer) {
+        let at = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
@@ -815,10 +815,10 @@ impl PrinterLogMessage {
 
     /// Print a [`Utmpx`] with prepended filename and datetime.
     ///
-    /// [`Utmpx`]: crate::data::utmpentry::Utmpx
-    fn print_utmpentry_prependfile_prependdate(
+    /// [`Utmpx`]: crate::data::utmpx::Utmpx
+    fn print_utmpx_prependfile_prependdate(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
@@ -829,14 +829,14 @@ impl PrinterLogMessage {
             self.prepend_date_offset
         );
 
-        let dt_string: String = self.datetime_to_string_utmpentry(utmpentry);
+        let dt_string: String = self.datetime_to_string_utmpx(utmpx);
         let dtb: &[u8] = dt_string.as_bytes();
         let prepend_file: &[u8] = self
             .prepend_file
             .as_ref()
             .unwrap()
             .as_bytes();
-        let at = match utmpentry.as_bytes(buffer) {
+        let at = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
@@ -851,13 +851,13 @@ impl PrinterLogMessage {
 
     /// Prints [`Utmpx`] in color.
     ///
-    /// [`Utmpx`]: crate::data::utmpentry::Utmpx
-    fn print_utmpentry_color(
+    /// [`Utmpx`]: crate::data::utmpx::Utmpx
+    fn print_utmpx_color(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
-        let (at, beg, end) = match utmpentry.as_bytes(buffer) {
+        let (at, beg, end) = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
                 let err = Error::new(
@@ -883,15 +883,15 @@ impl PrinterLogMessage {
 
     /// Print a [`Utmpx`] in color and prepended datetime.
     ///
-    /// [`Utmpx`]: crate::data::utmpentry::Utmpx
-    fn print_utmpentry_prependdate_color(
+    /// [`Utmpx`]: crate::data::utmpx::Utmpx
+    fn print_utmpx_prependdate_color(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
-        let dt_string: String = self.datetime_to_string_utmpentry(utmpentry);
+        let dt_string: String = self.datetime_to_string_utmpx(utmpx);
         let dtb: &[u8] = dt_string.as_bytes();
-        let (at, beg, end) = match utmpentry.as_bytes(buffer) {
+        let (at, beg, end) = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
                 let err = Error::new(
@@ -920,10 +920,10 @@ impl PrinterLogMessage {
 
     /// Prints [`Utmpx`] in color and prepended filename.
     ///
-    /// [`Utmpx`]: crate::data::utmpentry::Utmpx
-    fn print_utmpentry_prependfile_color(
+    /// [`Utmpx`]: crate::data::utmpx::Utmpx
+    fn print_utmpx_prependfile_color(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
         let prepend_file: &[u8] = self
@@ -931,7 +931,7 @@ impl PrinterLogMessage {
             .as_ref()
             .unwrap()
             .as_bytes();
-        let (at, beg, end) = match utmpentry.as_bytes(buffer) {
+        let (at, beg, end) = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
                 let err = Error::new(
@@ -960,20 +960,20 @@ impl PrinterLogMessage {
 
     /// Print a [`Utmpx`] in color and prepended filename and datetime.
     ///
-    /// [`Utmpx`]: crate::data::utmpentry::Utmpx
-    fn print_utmpentry_prependfile_prependdate_color(
+    /// [`Utmpx`]: crate::data::utmpx::Utmpx
+    fn print_utmpx_prependfile_prependdate_color(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
-        let dt_string: String = self.datetime_to_string_utmpentry(utmpentry);
+        let dt_string: String = self.datetime_to_string_utmpx(utmpx);
         let dtb: &[u8] = dt_string.as_bytes();
         let prepend_file: &[u8] = self
             .prepend_file
             .as_ref()
             .unwrap()
             .as_bytes();
-        let (at, beg, end) = match utmpentry.as_bytes(buffer) {
+        let (at, beg, end) = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
                 let err = Error::new(

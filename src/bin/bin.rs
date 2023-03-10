@@ -1750,15 +1750,15 @@ fn exec_utmpprocessor(
         );
         let fo_last: FileOffset;
         match result {
-            ResultS3UtmpxFind::Found((fo_, utmpentry)) => {
+            ResultS3UtmpxFind::Found((fo_, utmpx)) => {
                 defo!("ResultS3UtmpxFind::Found(({:?}, ...))", fo_);
-                debug_assert_ne!(fo_, utmpentry.fileoffset_begin());
+                debug_assert_ne!(fo_, utmpx.fileoffset_begin());
                 fo_last = fo;
                 fo = fo_;
-                let is_last = utmpreader.is_last(&utmpentry);
-                defo!("chan_send_dt.send((Some(LogMessage::Utmpx({}, …), None, {}, {:?}));", utmpentry.fileoffset_begin(), is_last, FILEOK);
+                let is_last = utmpreader.is_last(&utmpx);
+                defo!("chan_send_dt.send((Some(LogMessage::Utmpx({}, …), None, {}, {:?}));", utmpx.fileoffset_begin(), is_last, FILEOK);
                 match chan_send_dt.send((
-                    Some(LogMessage::Utmpx(utmpentry)),
+                    Some(LogMessage::Utmpx(utmpx)),
                     None,
                     is_last,
                     FILEOK,
@@ -2140,15 +2140,15 @@ impl SummaryPrinted {
     }
 
     /// Update a `SummaryPrinted` with information from a printed `Utmpx`.
-    fn summaryprint_update_utmpentry(
+    fn summaryprint_update_utmpx(
         &mut self,
-        utmpentry: &Utmpx,
+        utmpx: &Utmpx,
     ) {
         defñ!();
         debug_assert!(matches!(self.logmessagetype, LogMessageType::Utmpx | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
         self.utmpentries += 1;
-        self.bytes += (*utmpentry).len() as Count;
-        self.summaryprint_update_dt(&Some(*utmpentry.dt()));
+        self.bytes += (*utmpx).len() as Count;
+        self.summaryprint_update_dt(&Some(*utmpx.dt()));
     }
 
     /// Update a `SummaryPrinted` with information from a printed `LogMessage`.
@@ -2161,8 +2161,8 @@ impl SummaryPrinted {
             LogMessage::Sysline(syslinep) => {
                 self.summaryprint_update_sysline(syslinep);
             }
-            LogMessage::Utmpx(utmpentry) => {
-                self.summaryprint_update_utmpentry(utmpentry);
+            LogMessage::Utmpx(utmpx) => {
+                self.summaryprint_update_utmpx(utmpx);
             }
         };
     }
@@ -2191,19 +2191,19 @@ impl SummaryPrinted {
     /// Update a mapping of `PathId` to `SummaryPrinted` for a `Utmpx`.
     ///
     /// Helper function to function `processing_loop`.
-    fn summaryprint_map_update_utmpentry(
-        utmpentry: &Utmpx,
+    fn summaryprint_map_update_utmpx(
+        utmpx: &Utmpx,
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
     ) {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
-                sp.summaryprint_update_utmpentry(utmpentry);
+                sp.summaryprint_update_utmpx(utmpx);
             }
             None => {
                 let mut sp = SummaryPrinted::new(LogMessageType::Utmpx);
-                sp.summaryprint_update_utmpentry(utmpentry);
+                sp.summaryprint_update_utmpx(utmpx);
                 map_.insert(*pathid, sp);
             }
         };
@@ -2222,8 +2222,8 @@ impl SummaryPrinted {
             LogMessage::Sysline(syslinep) => {
                 Self::summaryprint_map_update_sysline(syslinep, pathid, map_)
             }
-            LogMessage::Utmpx(utmpentry) => {
-                Self::summaryprint_map_update_utmpentry(utmpentry, pathid, map_)
+            LogMessage::Utmpx(utmpx) => {
+                Self::summaryprint_map_update_utmpx(utmpx, pathid, map_)
             }
         }
     }
@@ -2832,22 +2832,22 @@ fn processing_loop(
                 .min_by(|x, y|
                     {
                         match x.1.0.as_ref().unwrap() {
-                            crate::LogMessage::Utmpx(utmpentry) => {
+                            crate::LogMessage::Utmpx(utmpx) => {
                                 let y_dt = match y.1.0.as_ref().unwrap() {
-                                    crate::LogMessage::Utmpx(utmpentry_y) => {
-                                        utmpentry_y.dt()
+                                    crate::LogMessage::Utmpx(utmpx_y) => {
+                                        utmpx_y.dt()
                                     }
                                     crate::LogMessage::Sysline(syslinep_y) => {
                                         syslinep_y.dt().as_ref().unwrap()
                                     }
                                 };
 
-                                utmpentry.dt().cmp(y_dt)
+                                utmpx.dt().cmp(y_dt)
                             }
                             crate::LogMessage::Sysline(syslinep) => {
                                 let y_dt = match y.1.0.as_ref().unwrap() {
-                                    crate::LogMessage::Utmpx(utmpentry_y) => {
-                                        utmpentry_y.dt()
+                                    crate::LogMessage::Utmpx(utmpx_y) => {
+                                        utmpx_y.dt()
                                     }
                                     crate::LogMessage::Sysline(syslinep_y) => {
                                         syslinep_y.dt().as_ref().unwrap()
@@ -2936,13 +2936,13 @@ fn processing_loop(
                             summaryprinted.summaryprint_update_sysline(syslinep);
                         }
                     }
-                    LogMessage::Utmpx(utmpentry) => {
+                    LogMessage::Utmpx(utmpx) => {
                         defo!("A3.2 printing Utmpx PathId: {:?}", pathid);
                         // the most important part of this main thread loop
                         let printer: &mut PrinterLogMessage = map_pathid_printer
                             .get_mut(pathid)
                             .unwrap();
-                        match printer.print_utmpentry(utmpentry, &mut buffer_utmp) {
+                        match printer.print_utmpx(utmpx, &mut buffer_utmp) {
                             Ok(_) => {}
                             Err(err) => {
                                 // Only print a printing error once.
@@ -2958,9 +2958,9 @@ fn processing_loop(
                         if cli_opt_summary {
                             paths_printed_logmessages.insert(*pathid);
                             // update the per processing file `SummaryPrinted`
-                            SummaryPrinted::summaryprint_map_update_utmpentry(utmpentry, pathid, &mut map_pathid_sumpr);
+                            SummaryPrinted::summaryprint_map_update_utmpx(utmpx, pathid, &mut map_pathid_sumpr);
                             // update the single total program `SummaryPrinted`
-                            summaryprinted.summaryprint_update_utmpentry(utmpentry);
+                            summaryprinted.summaryprint_update_utmpx(utmpx);
                         }
                     }
                 }

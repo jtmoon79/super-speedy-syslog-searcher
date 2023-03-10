@@ -197,12 +197,12 @@ fn test_PrinterLogMessage_print_utmpx(
         match result {
             ResultS3UtmpxFind::Found((fo_, utmpx_)) => {
                 fo = fo_;
-                match plm.print_utmpentry(&utmpx_, buffer) {
+                match plm.print_utmpx(&utmpx_, buffer) {
                     Ok(_) => {
                         prints += 1;
                     }
                     Err(err) => {
-                        panic!("ERROR: plm.print_utmpentry({:?}) returned Err({})", fo_, err);
+                        panic!("ERROR: plm.print_utmpx({:?}) returned Err({})", fo_, err);
                     }
                 }
             }

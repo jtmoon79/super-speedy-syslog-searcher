@@ -117,7 +117,7 @@ fn test_UtmpxReader_read_find_entry_2() {
     loop {
         let result: ResultS3UtmpxFind = utmpreader.find_entry(fo);
         match result {
-            ResultS3UtmpxFind::Found((fo_, _utmpentry)) => {
+            ResultS3UtmpxFind::Found((fo_, _utmpx)) => {
                 fo = fo_;
             }
             ResultS3UtmpxFind::Done => {
@@ -142,7 +142,7 @@ fn test_UtmpxReader_read_find_entry_2_summary() {
     loop {
         let result: ResultS3UtmpxFind = utmpreader.find_entry(fo);
         match result {
-            ResultS3UtmpxFind::Found((fo_, _utmpentry)) => {
+            ResultS3UtmpxFind::Found((fo_, _utmpx)) => {
                 fo = fo_;
             }
             ResultS3UtmpxFind::Done => {
@@ -234,7 +234,7 @@ fn test_UtmpxReader_read_find_entry_at_datetime_filter(
             &dt_filter,
         );
     match result {
-        ResultS3UtmpxFind::Found((fo_, _utmpentry)) => {
+        ResultS3UtmpxFind::Found((fo_, _utmpx)) => {
             match expect {
                 FOUND => {
                     let fo_i = expect_fo_index * UTMPX_SZ_FO;
@@ -287,7 +287,7 @@ fn test_UtmpxReader_drops(
     loop {
         let result: ResultS3UtmpxFind = utmpreader.find_entry(fo);
         match result {
-            ResultS3UtmpxFind::Found((fo_, _utmpentry)) => {
+            ResultS3UtmpxFind::Found((fo_, _utmpx)) => {
                 fo_last = fo;
                 fo = fo_;
             }
@@ -391,14 +391,14 @@ fn test_UtmpxReader_find_entry_between_datetime_filters(
         );
 
     match result {
-        ResultS3UtmpxFind::Found((_fo, utmpentry)) => {
+        ResultS3UtmpxFind::Found((_fo, utmpx)) => {
             match expect {
                 FOUND => {
                     let fo_exp: FileOffset = UTMPX_SZ_FO * expect_index;
-                    assert_eq!(utmpentry.fileoffset, fo_exp,
+                    assert_eq!(utmpx.fileoffset, fo_exp,
                         "expected Utmpx with offset {}, got entry with offset {}",
                         fo_exp,
-                        utmpentry.fileoffset,
+                        utmpx.fileoffset,
                     );
                 }
                 DONE => {
