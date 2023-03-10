@@ -74,7 +74,7 @@ bench = false
 #plugin = false
 #proc-macro = false
 #harness = false
-[target.'cfg(not(windows))'.dependencies]
+[target.'cfg(not(any(windows,macos,ios,vxworks)))'.dependencies]
 uapi = "0.2.10"
 
 [[bin]]

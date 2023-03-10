@@ -2237,7 +2237,6 @@ const UTMPX1: utmpx = utmpx {
         tv_usec: 0,
     },
     ut_addr_v6: [0; 4],
-    #[cfg(target_os = "windows")]
     __glibc_reserved: [0; 20],
 };
 

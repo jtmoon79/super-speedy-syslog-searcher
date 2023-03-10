@@ -32,7 +32,14 @@ use ::lazy_static::lazy_static;
 // if not windows then use crate `uapi` structs
 // (crate `uapi` will not compile under windows)
 #[doc(hidden)]
-#[cfg(not(target_os = "windows"))]
+#[cfg(not(
+    any(
+        target_os = "windows",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "vxworks",
+    )
+))]
 pub use ::uapi::c::{
     utmpx,
     __timeval,
@@ -54,7 +61,8 @@ use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-// If `target_os` is "windows" then manually define a `utmpx` struct.
+// If `target_os` is "windows" or other non-supporting OS then manually define
+// a `utmpx` struct.
 // It is not expected that this code would be used when running on Windows
 // but it's not impossible.
 //
@@ -63,7 +71,14 @@ use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 // and "Copyright (c) The uapi developers"
 
 #[doc(hidden)]
-#[cfg(target_os = "windows")]
+#[cfg(
+    any(
+        target_os = "windows",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "vxworks",
+    )
+)]
 #[derive(Clone, Copy)]
 #[repr(C)]
 pub struct __timeval {
@@ -72,7 +87,14 @@ pub struct __timeval {
 }
 
 #[doc(hidden)]
-#[cfg(target_os = "windows")]
+#[cfg(
+    any(
+        target_os = "windows",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "vxworks",
+    )
+)]
 #[derive(Clone, Copy)]
 #[repr(C)]
 pub struct __exit_status {
@@ -81,7 +103,14 @@ pub struct __exit_status {
 }
 
 #[doc(hidden)]
-#[cfg(target_os = "windows")]
+#[cfg(
+    any(
+        target_os = "windows",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "vxworks",
+    )
+)]
 #[derive(Clone, Copy)]
 #[repr(C)]
 pub struct utmpx {
