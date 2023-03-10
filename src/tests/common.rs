@@ -2256,10 +2256,6 @@ const UTMPX1: utmpx = utmpx {
 /// e_termination 7
 /// e_exit 1
 /// tv_sec.tv_usec 1577836800.119284 (2020-01-01T12:00:00.000119284+00:00)
-///                     43200
-///                ==========
-///                1577880000
-///                0x5E0C89C0
 ///
 pub const UTMPX_BUFFER1: [u8; UTMPX_SZ] = [
     0x05, 0x00, 0x02, 0x00, 0xb4, 0xa3, 0x00, 0x00, b'p', b't',
@@ -2315,7 +2311,6 @@ pub const UTMPX_BUFFER1: [u8; UTMPX_SZ] = [
 /// e_termination 7
 /// e_exit 3
 /// tv_sec.tv_usec 1577836802.000123636 (2020-01-01T12:00:02.000123636+00:00)
-///
 ///
 pub const UTMPX_BUFFER2: [u8; UTMPX_SZ] = [
     0x07, 0x00, 0x00, 0x00, 0xb4, 0x33, 0x00, 0x00, 0x70, 0x74,
