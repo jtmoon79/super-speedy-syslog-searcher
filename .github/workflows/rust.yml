@@ -31,6 +31,7 @@ env:
                  ./logs/other/tests/gen-20-1-faces.log
                  ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
                  ./logs/other/tests/gen-20-2-2-faces.log
+                 ./logs/programs/utmp/host-entry6.wtmp
 jobs:
 
   job_rust_msrv_os:
