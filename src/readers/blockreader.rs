@@ -895,11 +895,11 @@ impl BlockReader {
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {}
                     Err(err) => {
-                        def1x!("FileXz: return {:?}", err);
-                        eprintln!(
-                            "ERROR: FileXz: reader.read_exact() (stream header magic bytes) path {:?} {}",
+                        de_err!(
+                            "FileXz: reader.read_exact() (stream header magic bytes) path {:?} {}",
                             path_std, err
                         );
+                        def1x!("FileXz: return {:?}", err);
                         return Err(err);
                     }
                 }
