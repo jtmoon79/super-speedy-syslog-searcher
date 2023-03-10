@@ -60,8 +60,6 @@ unroll = "0.1.5"
 walkdir = "2.3.2"
 utf8_iter = "1.0.3"
 
-
-
 [lib]
 name = "s4lib"
 path = "src/lib.rs"
