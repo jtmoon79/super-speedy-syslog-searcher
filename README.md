@@ -277,11 +277,10 @@ A longer rambling pontification about this project is in
 
 ### Features
 
-- Prepends datetime and file paths, for easy programmatic parsing or visual
-  traversal of varying syslog messages
+- Prepends datetime and file paths, for easy programmatic parsing or visual traversal of varying
+  syslog messages
 - Recognizes multi-line log messages
-- Parses [utmpx format](https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx)
-  log files
+- Parses [utmpx login record format](https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx) files
 - Parses formal datetime formats:
   - [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3)
   - [RFC 3164](https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2)
@@ -290,7 +289,7 @@ A longer rambling pontification about this project is in
   - [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles) \*\*
 - Parses many ad-hoc datetime formats
   - Tested against "in the wild" log files from varying Linux distributions
-    (see project `./logs/`)
+    (see project path `./logs/`)
 - Comparable speed as GNU `grep` and `sort`
   (see project tool `./tools/compare-grep-sort.sh`; run in github Actions, Job
   _run `s4`_, Step _Run script compare-grep-sort_)
