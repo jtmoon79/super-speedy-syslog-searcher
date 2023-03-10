@@ -13,25 +13,25 @@ use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 const BLOCKSZ: BlockSz = 0x200;
 
-fn new_SyslineReader(
+fn new_syslinereader(
     path: FPath,
     filetype: FileType,
 ) -> SyslineReader {
-    let tz_offset: FixedOffset = FixedOffset::east(0);
-    let syslinereader1 = match SyslineReader::new(path.clone(), filetype, BLOCKSZ, tz_offset) {
+    let tz_offset: FixedOffset = FixedOffset::east_opt(0).unwrap();
+    let sr = match SyslineReader::new(path.clone(), filetype, BLOCKSZ, tz_offset) {
         | Result::Ok(val) => val,
         | Result::Err(err) => {
             panic!("Sysline::new({:?}, {:?}, {:?}, {:?}) error {}", path, filetype, BLOCKSZ, tz_offset, err);
         }
     };
 
-    syslinereader1
+    sr
 }
 
 #[inline(never)]
 fn syslinereader_baseline_init() {
     let path: FPath = FPath::from("./logs/other/tests/dtf2-2.log");
-    let syslinereader1 = new_SyslineReader(path, FileType::File);
+    let syslinereader1 = new_syslinereader(path, FileType::File);
 
     black_box(syslinereader1);
 }
