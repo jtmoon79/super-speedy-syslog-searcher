@@ -171,11 +171,11 @@ lazy_static! {
     };
 }
 
-/// A [`Utmpx`] holds a [`utmpx`] and it's [`FileOffset`] and derived
+/// A [`Utmpx`] holds a [C struct `utmpx`] and it's [`FileOffset`] and derived
 /// [`DateTimeL`].
 ///
 /// [`Utmpx`]: self::Utmpx
-/// [`utmpx`]: https://docs.rs/uapi/0.2.10/uapi/c/struct.utmpx.html
+/// [C struct `utmpx`]: https://docs.rs/uapi/0.2.10/uapi/c/struct.utmpx.html
 /// [`FileOffset`]: crate::common::FileOffset
 /// [`DateTimeL`]: crate::data::datetime::DateTimeL
 #[derive(Clone, Copy)]

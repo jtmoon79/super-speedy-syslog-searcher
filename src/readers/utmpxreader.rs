@@ -102,8 +102,8 @@ use ::si_trace_print::{de, defn, defo, defx, defñ, den, deo, dex, deñ, pfo, pf
 
 /// Map [`FileOffset`] To [`Utmpx`].
 ///
-/// Storage for Lines found from the underlying `BlockReader`
-/// FileOffset key is the first byte/offset that begins the `Line`
+/// Storage for `Utmpx` found from the underlying `BlockReader`.
+/// FileOffset key is the first byte/offset that begins the `Utmpx`.
 ///
 /// [`FileOffset`]: crate::common::FileOffset
 /// [`Utmpx`]: crate::data::utmpx::Utmpx
@@ -174,11 +174,9 @@ pub struct UtmpxReader {
     ///
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     pub(super) dt_last: DateTimeLOpt,
-    /// Count of Ok to Arc::try_unwrap(linep), effectively `Count` of
-    /// dropped `Line`.
+    /// `Count` of dropped `Utmpx`.
     pub(super) drop_entry_ok: Count,
-    /// `Count` of failures to Arc::try_unwrap(linep).
-    /// A failure does not mean an error.
+    /// `Count` of failed drop attempts of `Utmpx`.
     pub(super) drop_entry_errors: Count,
     /// Largest `BlockOffset` of successfully dropped blocks.
     pub(super) blockoffset_drop_last: BlockOffset,
@@ -229,11 +227,6 @@ pub struct SummaryUtmpxReader {
 
 /// Implement the UtmpxReader.
 impl UtmpxReader {
-
-    // `UtmpxReader::blockzero_analysis` must find at least this many `Line` within
-    // block zero (first block) for the file to be considered a text file.
-    // If the file has only one block then different considerations apply.
-
     /// Create a new `UtmpxReader`.
     pub fn new(
         path: FPath,
@@ -310,8 +303,8 @@ impl UtmpxReader {
     pub fn mtime(&self) -> SystemTime {
         self.blockreader.mtime()
     }
-// LAST WORKING HERE 2023/03/09 02:00:00 need to update these docstrings
-    /// `Count` of `Line`s processed by this `UtmpxReader`
+
+    /// `Count` of `Utmpx`s processed by this `UtmpxReader`
     /// (i.e. `self.entries_processed`).
     #[inline(always)]
     pub fn count_entries_processed(&self) -> Count {
@@ -905,7 +898,7 @@ impl UtmpxReader {
                 match Self::entry_pass_filters(&entry, dt_filter_after, dt_filter_before) {
                     Result_Filter_DateTime2::InRange => {
                         defo!("entry_pass_filters(…) returned InRange;");
-                        defx!("return ResultS3SyslineFind::Found(({}, {:?}))", fo, entry);
+                        defx!("return ResultS3UtmpxFind::Found(({}, {:?}))", fo, entry);
                         return ResultS3UtmpxFind::Found((fo, entry));
                     }
                     Result_Filter_DateTime2::BeforeRange => {
@@ -948,12 +941,7 @@ impl UtmpxReader {
         entry: &Utmpx,
         dt_filter: &DateTimeLOpt,
     ) -> Result_Filter_DateTime1 {
-        defñ!(
-            "(Utmpx@[{:?}, {:?}], {:?})",
-            entry.fileoffset_begin(),
-            entry.fileoffset_end(),
-            dt_filter,
-        );
+        defñ!("({:?})", dt_filter);
 
         dt_after_or_before(entry.dt(), dt_filter)
     }
@@ -968,13 +956,7 @@ impl UtmpxReader {
         dt_filter_after: &DateTimeLOpt,
         dt_filter_before: &DateTimeLOpt,
     ) -> Result_Filter_DateTime2 {
-        defn!(
-            "(Utmpx[{:?}, {:?}], {:?}, {:?})",
-            entry.fileoffset_begin(),
-            entry.fileoffset_end(),
-            dt_filter_after,
-            dt_filter_before,
-        );
+        defn!("({:?}, {:?})", dt_filter_after, dt_filter_before);
 
         let result: Result_Filter_DateTime2 = dt_pass_filters(entry.
             dt(),
