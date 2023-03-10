@@ -12,8 +12,8 @@ categories = ["command-line-utilities", "filesystem"]
 readme = "README.md"
 version = "0.3.53"
 edition = "2021"
-# `rust-version` should match ./github/workflows/rust.yml:rust_msrv:msrv
-rust-version = "1.64.0"
+# `rust-version` (MSRV) should match ./github/workflows/rust.yml:rust_msrv:msrv
+rust-version = "1.66.0"
 # Do not set metadata fields `documentation` or `homepage` unless using
 # non-standard websites.
 # See <https://rust-lang.github.io/api-guidelines/documentation.html#cargotoml-includes-all-common-metadata-c-metadata>
