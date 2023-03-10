@@ -161,7 +161,7 @@ Categories:
 
 ### New
 
-- (LIB) add support for utmpx login records (major refactoring) ([b227f531a6f348cdd9b3fa5fe010adf979dd8e98])
+- (LIB) add support for utmpx login records (major refactoring) [Issue #70] ([b227f531a6f348cdd9b3fa5fe010adf979dd8e98])
 
 ### Changes
 
@@ -836,6 +836,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [Issue #66]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/66
 [Issue #67]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/67
 [Issue #69]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/69
+[Issue #70]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/70
 [Issue #71]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/71
 [Issue #74]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/74
 [Issue #75]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/75
