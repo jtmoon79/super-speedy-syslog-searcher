@@ -2,8 +2,7 @@
 //
 // compare `slice.contains` to a custom search
 
-extern crate criterion;
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 const B70: &[u8; 70] = b"\
 0123456789112345678921234567893123456789412345678951234567896123456789";

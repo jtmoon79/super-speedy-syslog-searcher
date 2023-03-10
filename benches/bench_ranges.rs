@@ -5,14 +5,10 @@
 // <https://docs.rs/rangemap/latest/rangemap/>
 //
 
-extern crate criterion;
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
 
-extern crate rangemap;
-use rangemap::{RangeMap, RangeSet};
-
-type RangeMapT = RangeMap<u64, u64>;
-type RangeSetT = RangeSet<u64>;
+//type RangeMapT = RangeMap<u64, u64>;
+//type RangeSetT = RangeSet<u64>;
 
 fn baseline_no_ranges() {
     black_box(0);

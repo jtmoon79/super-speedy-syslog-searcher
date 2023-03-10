@@ -2,20 +2,12 @@
 
 //! Benchmark functions of `crate::readers::syslinereader::SyslineReader`
 
-extern crate s4lib;
+use ::s4lib::common::{FPath, FileType};
+use ::s4lib::data::datetime::FixedOffset;
+use ::s4lib::readers::blockreader::BlockSz;
+use ::s4lib::readers::syslinereader::SyslineReader;
 
-use s4lib::common::{FPath, FileType};
-
-use s4lib::data::datetime::FixedOffset;
-
-use s4lib::readers::blockreader::BlockSz;
-
-use s4lib::readers::syslinereader::SyslineReader;
-
-use s4lib::readers::filepreprocessor::{process_path, ProcessPathResult, ProcessPathResults};
-
-extern crate criterion;
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

@@ -8,11 +8,8 @@
     non_snake_case
 )]
 
-extern crate criterion;
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
+use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
+use ::lazy_static::lazy_static;
 
 //
 // test data

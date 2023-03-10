@@ -20,23 +20,13 @@
     non_snake_case
 )]
 
-extern crate arraystring;
-
-extern crate bstr;
-use bstr::ByteSlice; // adds method `to_bstr` on some built-ins
-
-extern crate criterion;
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
-
-extern crate encoding_rs;
-
-//extern crate jetscii;
-//use jetscii::bytes;
-
-extern crate lazy_static;
-use lazy_static::lazy_static;
-
-extern crate memchr;
+use ::arraystring;
+use ::bstr::ByteSlice; // adds method `to_bstr` on some built-ins
+use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
+use ::encoding_rs;
+//use ::jetscii::bytes;
+use ::lazy_static::lazy_static;
+//use ::memchr;
 
 type Bytes = Vec<u8>;
 
