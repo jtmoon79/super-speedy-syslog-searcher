@@ -24,9 +24,7 @@ use crate::data::utmpx::{
     tv_sec_type,
     tv_usec_type,
 };
-use crate::debug::printers::{
-    buffer_to_String_noraw,
-};
+use crate::debug::printers::buffer_to_String_noraw;
 use crate::readers::blockreader::{BlockOffset, BlockSz};
 use crate::tests::common::{
     FO_0,

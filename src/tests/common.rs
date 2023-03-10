@@ -2408,6 +2408,11 @@ pub const UTMPX_BUFFER3: [u8; UTMPX_SZ] = [
     0x00, 0x00, 0x00, 0x00,
 ];
 
+pub const UTMPX_BUFFER_00: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
+pub const UTMPX_BUFFER_55: [u8; UTMPX_SZ] = [0x55; UTMPX_SZ];
+pub const UTMPX_BUFFER_AA: [u8; UTMPX_SZ] = [0xAA; UTMPX_SZ];
+pub const UTMPX_BUFFER_FF: [u8; UTMPX_SZ] = [0xFF; UTMPX_SZ];
+
 pub const UTMPX_1ENTRY_FILENAME: &str = "1entry.utmp";
 pub const UTMPX_1ENTRY_FILESZ: FileSz = UTMPX_BUFFER1.len() as FileSz;
 
@@ -2424,7 +2429,22 @@ pub const UTMPX_3ENTRY_FILESZ: FileSz = (
     + UTMPX_BUFFER3.len()
 ) as FileSz;
 
+pub const UTMPX_00_ENTRY_FILENAME: &str = "00_entry.utmp";
+pub const UTMPX_00_ENTRY_FILESZ: FileSz = UTMPX_BUFFER_00.len() as FileSz;
+
+pub const UTMPX_55_ENTRY_FILENAME: &str = "55_entry.utmp";
+pub const UTMPX_55_ENTRY_FILESZ: FileSz = UTMPX_BUFFER_55.len() as FileSz;
+
+pub const UTMPX_AA_ENTRY_FILENAME: &str = "AA_entry.utmp";
+pub const UTMPX_AA_ENTRY_FILESZ: FileSz = UTMPX_BUFFER_AA.len() as FileSz;
+
+pub const UTMPX_FF_ENTRY_FILENAME: &str = "FF_entry.utmp";
+pub const UTMPX_FF_ENTRY_FILESZ: FileSz = UTMPX_BUFFER_FF.len() as FileSz;
+
 lazy_static! {
+
+    // UTMPX_1ENTRY
+
     pub static ref UTMPX_1ENTRY_DATA: Vec<u8> = {
         let mut v_: Vec<u8> = Vec::<u8>::with_capacity(UTMPX_BUFFER1.len());
         v_.append(&mut UTMPX_BUFFER1.as_slice().to_vec());
@@ -2440,6 +2460,8 @@ lazy_static! {
     pub static ref NTF_UTMPX_1ENTRY_MIMEGUESS: MimeGuess = {
         MimeGuess::from_path(fpath_to_path(&NTF_UTMPX_1ENTRY_FPATH))
     };
+
+    // UTMPX_2ENTRY
 
     pub static ref UTMPX_2ENTRY_DATA: Vec<u8> = {
         let mut v_: Vec<u8> = Vec::<u8>::with_capacity(
@@ -2461,6 +2483,8 @@ lazy_static! {
         MimeGuess::from_path(fpath_to_path(&NTF_UTMPX_2ENTRY_FPATH))
     };
 
+    // UTMPX_3ENTRY
+
     pub static ref UTMPX_3ENTRY_DATA: Vec<u8> = {
         let mut v_: Vec<u8> = Vec::<u8>::with_capacity(UTMPX_BUFFER1.len() + UTMPX_BUFFER2.len());
         v_.append(&mut UTMPX_BUFFER1.as_slice().to_vec());
@@ -2478,6 +2502,68 @@ lazy_static! {
     pub static ref NTF_UTMPX_3ENTRY_MIMEGUESS: MimeGuess = {
         MimeGuess::from_path(fpath_to_path(&NTF_UTMPX_3ENTRY_FPATH))
     };
+
+    // UTMPX_00
+
+    pub static ref UTMPX_00_ENTRY_DATA: Vec<u8> = {
+        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(UTMPX_BUFFER_00.len());
+        v_.append(&mut UTMPX_BUFFER_00.as_slice().to_vec());
+
+        v_
+    };
+    pub static ref NTF_UTMPX_00_ENTRY: NamedTempFile =
+        create_temp_file_bytes_with_suffix(
+            UTMPX_00_ENTRY_DATA.as_slice(),
+            &String::from(UTMPX_00_ENTRY_FILENAME)
+        );
+    pub static ref NTF_UTMPX_00_ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_00_ENTRY);
+
+    // UTMPX_55
+
+    pub static ref UTMPX_55_ENTRY_DATA: Vec<u8> = {
+        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(UTMPX_BUFFER_55.len());
+        v_.append(&mut UTMPX_BUFFER_55.as_slice().to_vec());
+
+        v_
+    };
+    pub static ref NTF_UTMPX_55_ENTRY: NamedTempFile =
+        create_temp_file_bytes_with_suffix(
+            UTMPX_55_ENTRY_DATA.as_slice(),
+            &String::from(UTMPX_55_ENTRY_FILENAME)
+        );
+    pub static ref NTF_UTMPX_55_ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_55_ENTRY);
+
+    // UTMPX_AA
+
+    pub static ref UTMPX_AA_ENTRY_DATA: Vec<u8> = {
+        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(UTMPX_BUFFER_AA.len());
+        v_.append(&mut UTMPX_BUFFER_AA.as_slice().to_vec());
+
+        v_
+    };
+    pub static ref NTF_UTMPX_AA_ENTRY: NamedTempFile =
+        create_temp_file_bytes_with_suffix(
+            UTMPX_AA_ENTRY_DATA.as_slice(),
+            &String::from(UTMPX_AA_ENTRY_FILENAME)
+        );
+    pub static ref NTF_UTMPX_AA_ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_AA_ENTRY);
+
+    // UTMPX_FF
+
+    pub static ref UTMPX_FF_ENTRY_DATA: Vec<u8> = {
+        let mut v_: Vec<u8> = Vec::<u8>::with_capacity(UTMPX_BUFFER_FF.len());
+        v_.append(&mut UTMPX_BUFFER_FF.as_slice().to_vec());
+
+        v_
+    };
+    pub static ref NTF_UTMPX_FF_ENTRY: NamedTempFile =
+        create_temp_file_bytes_with_suffix(
+            UTMPX_FF_ENTRY_DATA.as_slice(),
+            &String::from(UTMPX_FF_ENTRY_FILENAME)
+        );
+    pub static ref NTF_UTMPX_FF_ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_FF_ENTRY);
+
+    // DATETIMES
 
     pub static ref UTMPX_ENTRY_DT1: DateTimeL = {
         ymdhms(&FO_0, 2020, 1, 1, 12, 0, 0)

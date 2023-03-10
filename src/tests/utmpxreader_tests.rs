@@ -25,6 +25,10 @@ use crate::tests::common::{
     NTF_UTMPX_1ENTRY_FPATH,
     NTF_UTMPX_2ENTRY_FPATH,
     NTF_UTMPX_3ENTRY_FPATH,
+    NTF_UTMPX_00_ENTRY_FPATH,
+    NTF_UTMPX_55_ENTRY_FPATH,
+    NTF_UTMPX_AA_ENTRY_FPATH,
+    NTF_UTMPX_FF_ENTRY_FPATH,
     UTMPX_ENTRY_DT1,
     UTMPX_ENTRY_DT2,
 };
@@ -105,27 +109,76 @@ fn test_UtmpxReader_summary0() {
     let _summary = ur.summary_complete();
 }
 
-#[test]
-fn test_UtmpxReader_read_find_entry_2() {
+#[test_case(&NTF_UTMPX_1ENTRY_FPATH, 2, 0, FOUND, 1; "UTMPX_1ENTRY a")]
+#[test_case(&NTF_UTMPX_1ENTRY_FPATH, 16, 0, FOUND, 1; "UTMPX_1ENTRY b")]
+#[test_case(&NTF_UTMPX_1ENTRY_FPATH, BSZ, 0, FOUND, 1; "UTMPX_1ENTRY c")]
+#[test_case(&NTF_UTMPX_1ENTRY_FPATH, BSZ, 9999, DONE, 0; "UTMPX_1ENTRY d")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, 2, 0, FOUND, 1; "UTMPX_2ENTRY a")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, 16, 0, FOUND, 1; "UTMPX_2ENTRY b")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, BSZ, 0, FOUND, 1; "UTMPX_2ENTRY c")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, BSZ, 5, FOUND, 1; "UTMPX_2ENTRY d")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, BSZ, UTMPX_SZ_FO - 1, FOUND, 1; "UTMPX_2ENTRY e")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, BSZ, UTMPX_SZ_FO, FOUND, 2; "UTMPX_2ENTRY f")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, BSZ, UTMPX_SZ_FO + 5, FOUND, 2; "UTMPX_2ENTRY g")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, BSZ, UTMPX_SZ_FO * 2, DONE, 0; "UTMPX_2ENTRY h")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, BSZ, UTMPX_SZ_FO * 2 + 1, DONE, 0; "UTMPX_2ENTRY i")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, BSZ, 9999, DONE, 0; "UTMPX_2ENTRY j")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, BSZ, 0, FOUND, 1; "UTMPX_3ENTRY a")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, BSZ, UTMPX_SZ_FO, FOUND, 2; "UTMPX_3ENTRY b")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, BSZ, UTMPX_SZ_FO * 2 - 1, FOUND, 2; "UTMPX_3ENTRY c")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, BSZ, UTMPX_SZ_FO * 2, FOUND, 3; "UTMPX_3ENTRY d")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, BSZ, UTMPX_SZ_FO * 2 + 1, FOUND, 3; "UTMPX_3ENTRY e")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, BSZ, UTMPX_SZ_FO * 3 - 1, FOUND, 3; "UTMPX_3ENTRY f")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, BSZ, UTMPX_SZ_FO * 3, DONE, 0; "UTMPX_3ENTRY g")]
+#[test_case(&NTF_UTMPX_00_ENTRY_FPATH, 2, 0, FOUND, 1; "UTMPX_00 a")]
+#[test_case(&NTF_UTMPX_00_ENTRY_FPATH, BSZ, 0, FOUND, 1; "UTMPX_00 b")]
+#[test_case(&NTF_UTMPX_00_ENTRY_FPATH, BSZ, UTMPX_SZ_FO, DONE, 0; "UTMPX_00 c")]
+#[test_case(&NTF_UTMPX_55_ENTRY_FPATH, 2, 0, FOUND, 1; "UTMPX_55 a")]
+#[test_case(&NTF_UTMPX_55_ENTRY_FPATH, BSZ, 0, FOUND, 1; "UTMPX_55 b")]
+#[test_case(&NTF_UTMPX_55_ENTRY_FPATH, BSZ, UTMPX_SZ_FO, DONE, 0; "UTMPX_55 c")]
+#[test_case(&NTF_UTMPX_AA_ENTRY_FPATH, 2, 0, FOUND, 1; "UTMPX_AA a")]
+#[test_case(&NTF_UTMPX_AA_ENTRY_FPATH, BSZ, 0, FOUND, 1; "UTMPX_AA b")]
+#[test_case(&NTF_UTMPX_AA_ENTRY_FPATH, BSZ, UTMPX_SZ_FO, DONE, 0; "UTMPX_AA c")]
+#[test_case(&NTF_UTMPX_FF_ENTRY_FPATH, 2, 0, FOUND, 1; "UTMPX_FF a")]
+#[test_case(&NTF_UTMPX_FF_ENTRY_FPATH, BSZ, 0, FOUND, 1; "UTMPX_FF b")]
+#[test_case(&NTF_UTMPX_FF_ENTRY_FPATH, BSZ, UTMPX_SZ_FO, DONE, 0; "UTMPX_FF c")]
+fn test_UtmpxReader_read_find_entry(
+    path: &FPath,
+    blocksz: BlockSz,
+    fo: FileOffset,
+    expect: ResultS3UtmpxFind_Test,
+    expect_fo_index: FileOffset,
+) {
     let mut utmpreader = new_UtmpxReader(
-        &NTF_UTMPX_2ENTRY_FPATH,
-        BSZ,
-        *FO_P8
+        &path,
+        blocksz,
+        *FO_0,
     );
 
-    let mut fo: FileOffset = 0;
-    loop {
-        let result: ResultS3UtmpxFind = utmpreader.find_entry(fo);
-        match result {
-            ResultS3UtmpxFind::Found((fo_, _utmpx)) => {
-                fo = fo_;
+    let result: ResultS3UtmpxFind = utmpreader.find_entry(fo);
+    match result {
+        ResultS3UtmpxFind::Found((fo_, _utmpx)) => {
+            match expect {
+                FOUND => {
+                    let fo_i = expect_fo_index * UTMPX_SZ_FO;
+                    assert_eq!(fo_ , fo_i, "expected fileoffset ({} * {}) = {}, got {}",
+                        expect_fo_index, UTMPX_SZ_FO, fo_i, fo_);
+                }
+                DONE => {
+                    panic!("expected DONE");
+                }
             }
-            ResultS3UtmpxFind::Done => {
-                break;
+        }
+        ResultS3UtmpxFind::Done => {
+            match expect {
+                FOUND => {
+                    panic!("expected FOUND");
+                }
+                DONE => {}
             }
-            ResultS3UtmpxFind::Err(err) => {
-                panic!("Error {}", err);
-            }
+        }
+        ResultS3UtmpxFind::Err(err) => {
+            panic!("Error {}", err);
         }
     }
 }
@@ -195,23 +248,24 @@ enum ResultS3UtmpxFind_Test {
 const FOUND: ResultS3UtmpxFind_Test = ResultS3UtmpxFind_Test::Found;
 const DONE: ResultS3UtmpxFind_Test = ResultS3UtmpxFind_Test::Done;
 
-#[test_case(&*NTF_UTMPX_1ENTRY_FPATH, 0, 0, FOUND, 1; "a 1ENTRY")]
-#[test_case(&*NTF_UTMPX_1ENTRY_FPATH, 0, 1, DONE, 0; "b 1ENTRY")]
-#[test_case(&*NTF_UTMPX_1ENTRY_FPATH, UTMPX_SZ_FO, 1, DONE, 0; "c 1ENTRY")]
-#[test_case(&*NTF_UTMPX_2ENTRY_FPATH, 0, 0, FOUND, 1; "a 2ENTRY")]
-#[test_case(&*NTF_UTMPX_2ENTRY_FPATH, 0, 1, FOUND, 2; "b 2ENTRY")]
-#[test_case(&*NTF_UTMPX_2ENTRY_FPATH, UTMPX_SZ_FO, 1, FOUND, 2; "c 2ENTRY")]
-#[test_case(&*NTF_UTMPX_2ENTRY_FPATH, UTMPX_SZ_FO, 4, DONE, 0; "d 2ENTRY")]
-#[test_case(&*NTF_UTMPX_3ENTRY_FPATH, 0, 0, FOUND, 1; "a 3ENTRY")]
-#[test_case(&*NTF_UTMPX_3ENTRY_FPATH, 0, 1, FOUND, 2; "b 3ENTRY")]
-#[test_case(&*NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO, 1, FOUND, 2; "c 3ENTRY")]
-#[test_case(&*NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 2, 0, FOUND, 3; "d 3ENTRY")]
-#[test_case(&*NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 2, 1, FOUND, 3; "e 3ENTRY")]
-#[test_case(&*NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 2, 2, FOUND, 3; "f 3ENTRY")]
-#[test_case(&*NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 2, 4, FOUND, 3; "g 3ENTRY")]
-#[test_case(&*NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 2, 5, DONE, 0; "h 3ENTRY")]
-#[test_case(&*NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 3, 1, DONE, 0; "i 3ENTRY")]
-#[test_case(&*NTF_UTMPX_3ENTRY_FPATH, 0, 5000, DONE, 0; "j 3ENTRY")]
+#[test_case(&NTF_UTMPX_1ENTRY_FPATH, 0, 0, FOUND, 1; "a 1ENTRY")]
+#[test_case(&NTF_UTMPX_1ENTRY_FPATH, 0, 1, DONE, 0; "b 1ENTRY")]
+#[test_case(&NTF_UTMPX_1ENTRY_FPATH, UTMPX_SZ_FO, 1, DONE, 0; "c 1ENTRY")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, 0, 0, FOUND, 1; "a 2ENTRY")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, 0, 1, FOUND, 2; "b 2ENTRY")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, UTMPX_SZ_FO, 1, FOUND, 2; "c 2ENTRY")]
+#[test_case(&NTF_UTMPX_2ENTRY_FPATH, UTMPX_SZ_FO, 4, DONE, 0; "d 2ENTRY")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, 0, 0, FOUND, 1; "a 3ENTRY")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, 0, 1, FOUND, 2; "b 3ENTRY")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO, 1, FOUND, 2; "c 3ENTRY")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 2, 0, FOUND, 3; "d 3ENTRY")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 2, 1, FOUND, 3; "e 3ENTRY")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 2, 2, FOUND, 3; "f 3ENTRY")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 2, 4, FOUND, 3; "g 3ENTRY")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 2, 5, DONE, 0; "h 3ENTRY")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, UTMPX_SZ_FO * 3, 1, DONE, 0; "i 3ENTRY")]
+#[test_case(&NTF_UTMPX_3ENTRY_FPATH, 0, 5000, DONE, 0; "j 3ENTRY")]
+#[test_case(&NTF_UTMPX_00_ENTRY_FPATH, 0, 0, DONE, 0; "UTMPX_00")]
 fn test_UtmpxReader_read_find_entry_at_datetime_filter(
     path: &FPath,
     fo: FileOffset,

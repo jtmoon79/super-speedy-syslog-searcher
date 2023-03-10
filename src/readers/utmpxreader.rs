@@ -726,6 +726,8 @@ impl UtmpxReader {
             return ResultS3UtmpxFind::Done;
         }
 
+        let fileoffset = fileoffset - (fileoffset % UTMPX_SZ_FO);
+
         // check container of `Utmpx`s
         if let Some(utmpx) = self.check_store(fileoffset) {
             defx!("({}): return ResultS3UtmpxFind::Found(({:?}, …)); check_store found it", fileoffset, utmpx.fileoffset_end());
@@ -802,6 +804,8 @@ impl UtmpxReader {
         dt_filter: &DateTimeLOpt,
     ) -> ResultS3UtmpxFind {
         defn!("({}, {:?})", fileoffset, dt_filter);
+
+        let fileoffset = fileoffset - (fileoffset % UTMPX_SZ_FO);
 
         let dtf = match dt_filter {
             Some(dt_) => dt_,
@@ -892,6 +896,8 @@ impl UtmpxReader {
         dt_filter_before: &DateTimeLOpt,
     ) -> ResultS3UtmpxFind {
         defn!("({}, {:?}, {:?})", fileoffset, dt_filter_after, dt_filter_before);
+
+        let fileoffset = fileoffset - (fileoffset % UTMPX_SZ_FO);
 
         match self.find_entry_at_datetime_filter(fileoffset, dt_filter_after) {
             ResultS3UtmpxFind::Found((fo, entry)) => {
