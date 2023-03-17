@@ -2135,6 +2135,7 @@ lazy_static! {
         for tzZ_zc in TZZ_ALL.iter() {
             if map.insert(tzZ_zc.0, tzZ_zc.1).is_some() {
                 // duplicate key entries are set to empty string
+                // (this is an ambiguous named timezone)
                 map.insert(tzZ_zc.0, "");
             }
         }

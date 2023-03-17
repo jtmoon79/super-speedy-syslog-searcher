@@ -470,10 +470,12 @@ struct CLI_Args {
     dt_before: Option<String>,
 
     /// Default timezone offset for datetimes without a timezone.
-    /// For example, "-0800", "+02:00", or "EDT". Ambiguous named timezones
-    /// parsed from logs will use this value, e.g. timezone "IST" (to pass a
-    /// value with leading "-", quote the argument, e.g. "-t=-0800").
-    /// Default value is the local system timezone offset.
+    /// For example, datetime string "20200102T120000" does not have a timezone
+    /// offset so the -t value would be used.
+    /// Example values, "-0800", "+02:00", or "EDT".
+    /// Ambiguous named timezones will be rejected, e.g. "SST".
+    /// To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
+    /// If not passed then the local system timezone offset is used.
     #[clap(
         short = 't',
         long,
