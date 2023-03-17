@@ -2571,7 +2571,7 @@ fn processing_loop(
     let mut paths_printed_logmessages: SetPathId = SetPathId::with_capacity(file_count);
 
     //
-    // the main processing loop (e.g the "game loop")
+    // the main processing loop (e.g. the "game loop")
     //
     // process the "receiving sysline" channels from the running file processing threads.
     // print the earliest available `Sysline`.
@@ -3084,7 +3084,7 @@ fn processing_loop(
             }
             None => eprintln!(),
         }
-        // print the time now as this program sees it
+        // print the time now as this program sees it, drop sub-second values
         let local_now = Local
             .with_ymd_and_hms(
                 LOCAL_NOW.year(),
