@@ -29,22 +29,56 @@ use std::fmt;
 use std::mem::size_of;
 
 use ::lazy_static::lazy_static;
-// if not windows then use crate `uapi` structs
-// (crate `uapi` will not compile under windows)
+
+/// target_os that support `uapi` crate.
 #[doc(hidden)]
-#[cfg(not(
-    any(
-        target_os = "windows",
-        target_os = "macos",
-        target_os = "ios",
-        target_os = "vxworks",
-    )
-))]
-pub use ::uapi::c::{
-    utmpx,
-    __timeval,
-    __exit_status,
-};
+macro_rules! cfg_supports_uapi {
+    { $($item:item)* } => {
+        $(
+            #[cfg(not(
+                any(
+                    target_os = "android",
+                    target_os = "freebsd",
+                    target_os = "windows",
+                    target_os = "macos",
+                    target_os = "ios",
+                    target_os = "vxworks",
+                )
+            ))]
+            $item
+        )*
+    }
+}
+
+/// target_os that do not support `uapi` crate.
+///
+/// Must match prior `cfg_supports_uapi!` macro.
+#[doc(hidden)]
+macro_rules! cfg_not_supports_uapi {
+    { $($item:item)* } => {
+        $(
+            #[cfg(
+                any(
+                    target_os = "android",
+                    target_os = "freebsd",
+                    target_os = "windows",
+                    target_os = "macos",
+                    target_os = "ios",
+                    target_os = "vxworks",
+                )
+            )]
+            $item
+        )*
+    }
+}
+
+cfg_supports_uapi!{
+    pub use ::uapi::c::{
+        utmpx,
+        __timeval,
+        __exit_status,
+    };
+}
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_ge,
@@ -63,69 +97,45 @@ use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
 // If `target_os` is "windows" or other non-supporting OS then manually define
 // a `utmpx` struct.
-// It is not expected that this code would be used when running on Windows
-// but it's not impossible.
 //
 // The following code is copied and modified from crate `uapi` https://docs.rs/uapi/0.2.10/uapi/c/struct.utmpx.html
 // which is under the MIT license https://github.com/mahkoh/uapi/blob/86d032c60bb33c4aa888085f9b50bf6e19f7ba24/LICENSE-MIT
 // and "Copyright (c) The uapi developers"
 
-#[doc(hidden)]
-#[cfg(
-    any(
-        target_os = "windows",
-        target_os = "macos",
-        target_os = "ios",
-        target_os = "vxworks",
-    )
-)]
-#[derive(Clone, Copy)]
-#[repr(C)]
-pub struct __timeval {
-    pub tv_sec: i32,
-    pub tv_usec: i32,
-}
+cfg_not_supports_uapi!{
+    #[doc(hidden)]
+    #[derive(Clone, Copy)]
+    #[repr(C)]
+    pub struct __timeval {
+        pub tv_sec: i32,
+        pub tv_usec: i32,
+    }
 
-#[doc(hidden)]
-#[cfg(
-    any(
-        target_os = "windows",
-        target_os = "macos",
-        target_os = "ios",
-        target_os = "vxworks",
-    )
-)]
-#[derive(Clone, Copy)]
-#[repr(C)]
-pub struct __exit_status {
-    pub e_termination: i16,
-    pub e_exit: i16,
-}
+    #[doc(hidden)]
+    #[derive(Clone, Copy)]
+    #[repr(C)]
+    pub struct __exit_status {
+        pub e_termination: i16,
+        pub e_exit: i16,
+    }
 
-#[doc(hidden)]
-#[cfg(
-    any(
-        target_os = "windows",
-        target_os = "macos",
-        target_os = "ios",
-        target_os = "vxworks",
-    )
-)]
-#[derive(Clone, Copy)]
-#[repr(C)]
-pub struct utmpx {
-    pub ut_type: i16,
-    pub ut_pid: i32,
-    pub ut_line: [i8; 32],
-    pub ut_id: [i8; 4],
-    pub ut_user: [i8; 32],
-    pub ut_host: [i8; 256],
-    pub ut_exit: __exit_status,
-    pub ut_session: i32,
-    pub ut_tv: __timeval,
-    pub ut_addr_v6: [i32; 4],
-    /* private fields */
-    pub __glibc_reserved: [i8; 20],
+    #[doc(hidden)]
+    #[derive(Clone, Copy)]
+    #[repr(C)]
+    pub struct utmpx {
+        pub ut_type: i16,
+        pub ut_pid: i32,
+        pub ut_line: [i8; 32],
+        pub ut_id: [i8; 4],
+        pub ut_user: [i8; 32],
+        pub ut_host: [i8; 256],
+        pub ut_exit: __exit_status,
+        pub ut_session: i32,
+        pub ut_tv: __timeval,
+        pub ut_addr_v6: [i32; 4],
+        /* private fields */
+        pub __glibc_reserved: [i8; 20],
+    }
 }
 
 // end copied code from crate `uapi` under MIT license
