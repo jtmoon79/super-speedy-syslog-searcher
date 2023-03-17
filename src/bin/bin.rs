@@ -2361,6 +2361,17 @@ fn processing_loop(
         paths_total += 1;
     }
 
+    // shrink to fit
+    map_pathid_filetype.shrink_to_fit();
+    map_pathid_logmessagetype.shrink_to_fit();
+    map_pathid_mimeguess.shrink_to_fit();
+    map_pathid_results.shrink_to_fit();
+
+    // rebind to be immutable
+    let map_pathid_filetype = map_pathid_filetype;
+    let map_pathid_logmessagetype = map_pathid_logmessagetype;
+    let map_pathid_mimeguess = map_pathid_mimeguess;
+
     for (_pathid, result_invalid) in map_pathid_results_invalid.iter() {
         match result_invalid {
             ProcessPathResult::FileErrNoPermissions(path, _) => {
@@ -2414,6 +2425,9 @@ fn processing_loop(
     for pathid in map_pathid_path.keys() {
         map_pathid_color.insert(*pathid, color_rand());
     }
+    // XXX: probably a no-op
+    map_pathid_color.shrink_to_fit();
+
     for (pathid, path) in map_pathid_path.iter() {
         let (filetype, _) = match map_pathid_results.get(pathid) {
             Some(processpathresult) => match processpathresult {
