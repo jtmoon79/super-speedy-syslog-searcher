@@ -338,21 +338,7 @@ A longer rambling pontification about this project is in
 ### Requesting Support For DateTime Formats; your particular log file
 
 If you have found a log file that _Super Speedy Syslog Searcher_ does not parse
-then you may create a new Issue.
-
-Before creating a new Issue, please [search the prior Issues that have
-Label `datetime format`](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues?q=is%3Aopen+is%3Aissue+label%3A%22datetime+format%22+).
-If a matching Issue already exists then consider adding a comment and a large
-snippet from your log file.
-
-If no matching Issue exists for your particular log file's datetime format then
-create a new Issue.
-When submitting a new Issue:
-1. title the Issue "_support for datetime format_" and then the log file name<br/>
-   e.g. "_support for datetime format from foobar.log_"
-2. include a large snippet of the log file
-3. describe the software and operating systems from which the log sample came<br/>
-   e.g. "_taken from foobar 4.1, Rocky Linux 5_".
+then you may create a [new Issue type _Feature request (datetime format)_](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose).
 
 Here is [an example user-submitted Issue](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/81).
 
