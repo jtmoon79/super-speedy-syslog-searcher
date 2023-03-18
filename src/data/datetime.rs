@@ -46,11 +46,11 @@ pub use crate::data::line::{LineIndex, Range_LineIndex};
 use std::collections::BTreeMap;
 #[cfg(any(debug_assertions, test))]
 use std::collections::HashMap;
+use std::convert::TryFrom; // for passing array slices as references
 use std::fmt;
 #[doc(hidden)]
 pub use std::time::{SystemTime, UNIX_EPOCH};
 
-use ::arrayref::array_ref;
 #[doc(hidden)]
 pub use ::chrono::{
     DateTime,
@@ -6123,6 +6123,425 @@ const fn slice_contains_69_2(
     false
 }
 
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_70_2(
+    slice_: &[u8; 70],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..69 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_71_2(
+    slice_: &[u8; 71],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..70 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_72_2(
+    slice_: &[u8; 72],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..71 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_73_2(
+    slice_: &[u8; 73],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..72 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_74_2(
+    slice_: &[u8; 74],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..73 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_75_2(
+    slice_: &[u8; 75],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..74 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_76_2(
+    slice_: &[u8; 76],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..75 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_77_2(
+    slice_: &[u8; 77],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..76 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_78_2(
+    slice_: &[u8; 78],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..77 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_79_2(
+    slice_: &[u8; 79],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..78 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_80_2(
+    slice_: &[u8; 80],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..79 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_81_2(
+    slice_: &[u8; 81],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..80 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_82_2(
+    slice_: &[u8; 82],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..81 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_83_2(
+    slice_: &[u8; 83],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..82 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_84_2(
+    slice_: &[u8; 84],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..83 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_85_2(
+    slice_: &[u8; 85],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..84 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_86_2(
+    slice_: &[u8; 86],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..85 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_87_2(
+    slice_: &[u8; 87],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..86 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_88_2(
+    slice_: &[u8; 88],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..87 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_89_2(
+    slice_: &[u8; 89],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..88 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_90_2(
+    slice_: &[u8; 90],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..89 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_91_2(
+    slice_: &[u8; 91],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..90 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_92_2(
+    slice_: &[u8; 92],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..91 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_93_2(
+    slice_: &[u8; 93],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..92 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_94_2(
+    slice_: &[u8; 94],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..93 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_95_2(
+    slice_: &[u8; 95],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..94 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_96_2(
+    slice_: &[u8; 96],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..95 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_97_2(
+    slice_: &[u8; 97],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..96 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
+#[inline(always)]
+#[unroll_for_loops]
+const fn slice_contains_98_2(
+    slice_: &[u8; 98],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..97 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+#[inline(always)]
+#[unroll_for_loops]
+
+const fn slice_contains_99_2(
+    slice_: &[u8; 99],
+    search: &[u8; 2],
+) -> bool {
+    for i in 0..98 {
+        if slice_[i] == search[0] || slice_[i] == search[1] {
+            return true;
+        }
+    }
+    false
+}
+
 /// Loop unrolled implementation of `slice.contains` for a byte slice and a
 /// hardcoded array. Uses crate [`unroll`].
 ///
@@ -6142,76 +6561,106 @@ pub fn slice_contains_X_2(
     search: &[u8; 2],
 ) -> bool {
     match slice_.len() {
-        2 => slice_contains_2_2(array_ref!(slice_, 0, 2), search),
-        3 => slice_contains_3_2(array_ref!(slice_, 0, 3), search),
-        4 => slice_contains_4_2(array_ref!(slice_, 0, 4), search),
-        5 => slice_contains_5_2(array_ref!(slice_, 0, 5), search),
-        6 => slice_contains_6_2(array_ref!(slice_, 0, 6), search),
-        7 => slice_contains_7_2(array_ref!(slice_, 0, 7), search),
-        8 => slice_contains_8_2(array_ref!(slice_, 0, 8), search),
-        9 => slice_contains_9_2(array_ref!(slice_, 0, 9), search),
-        10 => slice_contains_10_2(array_ref!(slice_, 0, 10), search),
-        11 => slice_contains_11_2(array_ref!(slice_, 0, 11), search),
-        12 => slice_contains_12_2(array_ref!(slice_, 0, 12), search),
-        13 => slice_contains_13_2(array_ref!(slice_, 0, 13), search),
-        14 => slice_contains_14_2(array_ref!(slice_, 0, 14), search),
-        15 => slice_contains_15_2(array_ref!(slice_, 0, 15), search),
-        16 => slice_contains_16_2(array_ref!(slice_, 0, 16), search),
-        17 => slice_contains_17_2(array_ref!(slice_, 0, 17), search),
-        18 => slice_contains_18_2(array_ref!(slice_, 0, 18), search),
-        19 => slice_contains_19_2(array_ref!(slice_, 0, 19), search),
-        20 => slice_contains_20_2(array_ref!(slice_, 0, 20), search),
-        21 => slice_contains_21_2(array_ref!(slice_, 0, 21), search),
-        22 => slice_contains_22_2(array_ref!(slice_, 0, 22), search),
-        23 => slice_contains_23_2(array_ref!(slice_, 0, 23), search),
-        24 => slice_contains_24_2(array_ref!(slice_, 0, 24), search),
-        25 => slice_contains_25_2(array_ref!(slice_, 0, 25), search),
-        26 => slice_contains_26_2(array_ref!(slice_, 0, 26), search),
-        27 => slice_contains_27_2(array_ref!(slice_, 0, 27), search),
-        28 => slice_contains_28_2(array_ref!(slice_, 0, 28), search),
-        29 => slice_contains_29_2(array_ref!(slice_, 0, 29), search),
-        30 => slice_contains_30_2(array_ref!(slice_, 0, 30), search),
-        31 => slice_contains_31_2(array_ref!(slice_, 0, 31), search),
-        32 => slice_contains_32_2(array_ref!(slice_, 0, 32), search),
-        33 => slice_contains_33_2(array_ref!(slice_, 0, 33), search),
-        34 => slice_contains_34_2(array_ref!(slice_, 0, 34), search),
-        35 => slice_contains_35_2(array_ref!(slice_, 0, 35), search),
-        36 => slice_contains_36_2(array_ref!(slice_, 0, 36), search),
-        37 => slice_contains_37_2(array_ref!(slice_, 0, 37), search),
-        38 => slice_contains_38_2(array_ref!(slice_, 0, 38), search),
-        39 => slice_contains_39_2(array_ref!(slice_, 0, 39), search),
-        40 => slice_contains_40_2(array_ref!(slice_, 0, 40), search),
-        41 => slice_contains_41_2(array_ref!(slice_, 0, 41), search),
-        42 => slice_contains_42_2(array_ref!(slice_, 0, 42), search),
-        43 => slice_contains_43_2(array_ref!(slice_, 0, 43), search),
-        44 => slice_contains_44_2(array_ref!(slice_, 0, 44), search),
-        45 => slice_contains_45_2(array_ref!(slice_, 0, 45), search),
-        46 => slice_contains_46_2(array_ref!(slice_, 0, 46), search),
-        47 => slice_contains_47_2(array_ref!(slice_, 0, 47), search),
-        48 => slice_contains_48_2(array_ref!(slice_, 0, 48), search),
-        49 => slice_contains_49_2(array_ref!(slice_, 0, 49), search),
-        50 => slice_contains_50_2(array_ref!(slice_, 0, 50), search),
-        51 => slice_contains_51_2(array_ref!(slice_, 0, 51), search),
-        52 => slice_contains_52_2(array_ref!(slice_, 0, 52), search),
-        53 => slice_contains_53_2(array_ref!(slice_, 0, 53), search),
-        54 => slice_contains_54_2(array_ref!(slice_, 0, 54), search),
-        55 => slice_contains_55_2(array_ref!(slice_, 0, 55), search),
-        56 => slice_contains_56_2(array_ref!(slice_, 0, 56), search),
-        57 => slice_contains_57_2(array_ref!(slice_, 0, 57), search),
-        58 => slice_contains_58_2(array_ref!(slice_, 0, 58), search),
-        59 => slice_contains_59_2(array_ref!(slice_, 0, 59), search),
-        60 => slice_contains_60_2(array_ref!(slice_, 0, 60), search),
-        61 => slice_contains_61_2(array_ref!(slice_, 0, 61), search),
-        62 => slice_contains_62_2(array_ref!(slice_, 0, 62), search),
-        63 => slice_contains_63_2(array_ref!(slice_, 0, 63), search),
-        64 => slice_contains_64_2(array_ref!(slice_, 0, 64), search),
-        65 => slice_contains_65_2(array_ref!(slice_, 0, 65), search),
-        66 => slice_contains_66_2(array_ref!(slice_, 0, 66), search),
-        67 => slice_contains_67_2(array_ref!(slice_, 0, 67), search),
-        68 => slice_contains_68_2(array_ref!(slice_, 0, 68), search),
-        69 => slice_contains_69_2(array_ref!(slice_, 0, 69), search),
+        2 => slice_contains_2_2(<&[u8; 2]>::try_from(slice_).unwrap(), search),
+        3 => slice_contains_3_2(<&[u8; 3]>::try_from(slice_).unwrap(), search),
+        4 => slice_contains_4_2(<&[u8; 4]>::try_from(slice_).unwrap(), search),
+        5 => slice_contains_5_2(<&[u8; 5]>::try_from(slice_).unwrap(), search),
+        6 => slice_contains_6_2(<&[u8; 6]>::try_from(slice_).unwrap(), search),
+        7 => slice_contains_7_2(<&[u8; 7]>::try_from(slice_).unwrap(), search),
+        8 => slice_contains_8_2(<&[u8; 8]>::try_from(slice_).unwrap(), search),
+        9 => slice_contains_9_2(<&[u8; 9]>::try_from(slice_).unwrap(), search),
+        10 => slice_contains_10_2(<&[u8; 10]>::try_from(slice_).unwrap(), search),
+        11 => slice_contains_11_2(<&[u8; 11]>::try_from(slice_).unwrap(), search),
+        12 => slice_contains_12_2(<&[u8; 12]>::try_from(slice_).unwrap(), search),
+        13 => slice_contains_13_2(<&[u8; 13]>::try_from(slice_).unwrap(), search),
+        14 => slice_contains_14_2(<&[u8; 14]>::try_from(slice_).unwrap(), search),
+        15 => slice_contains_15_2(<&[u8; 15]>::try_from(slice_).unwrap(), search),
+        16 => slice_contains_16_2(<&[u8; 16]>::try_from(slice_).unwrap(), search),
+        17 => slice_contains_17_2(<&[u8; 17]>::try_from(slice_).unwrap(), search),
+        18 => slice_contains_18_2(<&[u8; 18]>::try_from(slice_).unwrap(), search),
+        19 => slice_contains_19_2(<&[u8; 19]>::try_from(slice_).unwrap(), search),
+        20 => slice_contains_20_2(<&[u8; 20]>::try_from(slice_).unwrap(), search),
+        21 => slice_contains_21_2(<&[u8; 21]>::try_from(slice_).unwrap(), search),
+        22 => slice_contains_22_2(<&[u8; 22]>::try_from(slice_).unwrap(), search),
+        23 => slice_contains_23_2(<&[u8; 23]>::try_from(slice_).unwrap(), search),
+        24 => slice_contains_24_2(<&[u8; 24]>::try_from(slice_).unwrap(), search),
+        25 => slice_contains_25_2(<&[u8; 25]>::try_from(slice_).unwrap(), search),
+        26 => slice_contains_26_2(<&[u8; 26]>::try_from(slice_).unwrap(), search),
+        27 => slice_contains_27_2(<&[u8; 27]>::try_from(slice_).unwrap(), search),
+        28 => slice_contains_28_2(<&[u8; 28]>::try_from(slice_).unwrap(), search),
+        29 => slice_contains_29_2(<&[u8; 29]>::try_from(slice_).unwrap(), search),
+        30 => slice_contains_30_2(<&[u8; 30]>::try_from(slice_).unwrap(), search),
+        31 => slice_contains_31_2(<&[u8; 31]>::try_from(slice_).unwrap(), search),
+        32 => slice_contains_32_2(<&[u8; 32]>::try_from(slice_).unwrap(), search),
+        33 => slice_contains_33_2(<&[u8; 33]>::try_from(slice_).unwrap(), search),
+        34 => slice_contains_34_2(<&[u8; 34]>::try_from(slice_).unwrap(), search),
+        35 => slice_contains_35_2(<&[u8; 35]>::try_from(slice_).unwrap(), search),
+        36 => slice_contains_36_2(<&[u8; 36]>::try_from(slice_).unwrap(), search),
+        37 => slice_contains_37_2(<&[u8; 37]>::try_from(slice_).unwrap(), search),
+        38 => slice_contains_38_2(<&[u8; 38]>::try_from(slice_).unwrap(), search),
+        39 => slice_contains_39_2(<&[u8; 39]>::try_from(slice_).unwrap(), search),
+        40 => slice_contains_40_2(<&[u8; 40]>::try_from(slice_).unwrap(), search),
+        41 => slice_contains_41_2(<&[u8; 41]>::try_from(slice_).unwrap(), search),
+        42 => slice_contains_42_2(<&[u8; 42]>::try_from(slice_).unwrap(), search),
+        43 => slice_contains_43_2(<&[u8; 43]>::try_from(slice_).unwrap(), search),
+        44 => slice_contains_44_2(<&[u8; 44]>::try_from(slice_).unwrap(), search),
+        45 => slice_contains_45_2(<&[u8; 45]>::try_from(slice_).unwrap(), search),
+        46 => slice_contains_46_2(<&[u8; 46]>::try_from(slice_).unwrap(), search),
+        47 => slice_contains_47_2(<&[u8; 47]>::try_from(slice_).unwrap(), search),
+        48 => slice_contains_48_2(<&[u8; 48]>::try_from(slice_).unwrap(), search),
+        49 => slice_contains_49_2(<&[u8; 49]>::try_from(slice_).unwrap(), search),
+        50 => slice_contains_50_2(<&[u8; 50]>::try_from(slice_).unwrap(), search),
+        51 => slice_contains_51_2(<&[u8; 51]>::try_from(slice_).unwrap(), search),
+        52 => slice_contains_52_2(<&[u8; 52]>::try_from(slice_).unwrap(), search),
+        53 => slice_contains_53_2(<&[u8; 53]>::try_from(slice_).unwrap(), search),
+        54 => slice_contains_54_2(<&[u8; 54]>::try_from(slice_).unwrap(), search),
+        55 => slice_contains_55_2(<&[u8; 55]>::try_from(slice_).unwrap(), search),
+        56 => slice_contains_56_2(<&[u8; 56]>::try_from(slice_).unwrap(), search),
+        57 => slice_contains_57_2(<&[u8; 57]>::try_from(slice_).unwrap(), search),
+        58 => slice_contains_58_2(<&[u8; 58]>::try_from(slice_).unwrap(), search),
+        59 => slice_contains_59_2(<&[u8; 59]>::try_from(slice_).unwrap(), search),
+        60 => slice_contains_60_2(<&[u8; 60]>::try_from(slice_).unwrap(), search),
+        61 => slice_contains_61_2(<&[u8; 61]>::try_from(slice_).unwrap(), search),
+        62 => slice_contains_62_2(<&[u8; 62]>::try_from(slice_).unwrap(), search),
+        63 => slice_contains_63_2(<&[u8; 63]>::try_from(slice_).unwrap(), search),
+        64 => slice_contains_64_2(<&[u8; 64]>::try_from(slice_).unwrap(), search),
+        65 => slice_contains_65_2(<&[u8; 65]>::try_from(slice_).unwrap(), search),
+        66 => slice_contains_66_2(<&[u8; 66]>::try_from(slice_).unwrap(), search),
+        67 => slice_contains_67_2(<&[u8; 67]>::try_from(slice_).unwrap(), search),
+        68 => slice_contains_68_2(<&[u8; 68]>::try_from(slice_).unwrap(), search),
+        69 => slice_contains_69_2(<&[u8; 69]>::try_from(slice_).unwrap(), search),
+        70 => slice_contains_70_2(<&[u8; 70]>::try_from(slice_).unwrap(), search),
+        71 => slice_contains_71_2(<&[u8; 71]>::try_from(slice_).unwrap(), search),
+        72 => slice_contains_72_2(<&[u8; 72]>::try_from(slice_).unwrap(), search),
+        73 => slice_contains_73_2(<&[u8; 73]>::try_from(slice_).unwrap(), search),
+        74 => slice_contains_74_2(<&[u8; 74]>::try_from(slice_).unwrap(), search),
+        75 => slice_contains_75_2(<&[u8; 75]>::try_from(slice_).unwrap(), search),
+        76 => slice_contains_76_2(<&[u8; 76]>::try_from(slice_).unwrap(), search),
+        77 => slice_contains_77_2(<&[u8; 77]>::try_from(slice_).unwrap(), search),
+        78 => slice_contains_78_2(<&[u8; 78]>::try_from(slice_).unwrap(), search),
+        79 => slice_contains_79_2(<&[u8; 79]>::try_from(slice_).unwrap(), search),
+        80 => slice_contains_80_2(<&[u8; 80]>::try_from(slice_).unwrap(), search),
+        81 => slice_contains_81_2(<&[u8; 81]>::try_from(slice_).unwrap(), search),
+        82 => slice_contains_82_2(<&[u8; 82]>::try_from(slice_).unwrap(), search),
+        83 => slice_contains_83_2(<&[u8; 83]>::try_from(slice_).unwrap(), search),
+        84 => slice_contains_84_2(<&[u8; 84]>::try_from(slice_).unwrap(), search),
+        85 => slice_contains_85_2(<&[u8; 85]>::try_from(slice_).unwrap(), search),
+        86 => slice_contains_86_2(<&[u8; 86]>::try_from(slice_).unwrap(), search),
+        87 => slice_contains_87_2(<&[u8; 87]>::try_from(slice_).unwrap(), search),
+        88 => slice_contains_88_2(<&[u8; 88]>::try_from(slice_).unwrap(), search),
+        89 => slice_contains_89_2(<&[u8; 89]>::try_from(slice_).unwrap(), search),
+        90 => slice_contains_90_2(<&[u8; 90]>::try_from(slice_).unwrap(), search),
+        91 => slice_contains_91_2(<&[u8; 91]>::try_from(slice_).unwrap(), search),
+        92 => slice_contains_92_2(<&[u8; 92]>::try_from(slice_).unwrap(), search),
+        93 => slice_contains_93_2(<&[u8; 93]>::try_from(slice_).unwrap(), search),
+        94 => slice_contains_94_2(<&[u8; 94]>::try_from(slice_).unwrap(), search),
+        95 => slice_contains_95_2(<&[u8; 95]>::try_from(slice_).unwrap(), search),
+        96 => slice_contains_96_2(<&[u8; 96]>::try_from(slice_).unwrap(), search),
+        97 => slice_contains_97_2(<&[u8; 97]>::try_from(slice_).unwrap(), search),
+        98 => slice_contains_98_2(<&[u8; 98]>::try_from(slice_).unwrap(), search),
+        99 => slice_contains_99_2(<&[u8; 99]>::try_from(slice_).unwrap(), search),
         _ => slice_
             .iter()
             .any(|&c| c == search[0] || c == search[1]),
-    }
+   }
 }
