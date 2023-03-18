@@ -160,8 +160,8 @@ Options:
           Align column widths of prepended data.
       --prepend-separator <PREPEND_SEPARATOR>
           Separator string for prepended data. [default: :]
-      --sysline-separator <SYSLINE_SEPARATOR>
-          An extra separator string between printed log lines.
+      --separator <LOG_MESSAGE_SEPARATOR>
+          An extra separator string between printed log messages.
           One "syslog line", or "sysline", may have multiple lines of text.
           Accepts a basic set of backslash escape sequences,
           e.g. "\0" for the null character.
@@ -236,7 +236,7 @@ the Datetime Filter is presumed to be the local system timezone.
 
 Ambiguous named timezones will be rejected, e.g. "SST".
 
-Backslash escape sequences accepted by "--sysline-separator" are:
+Backslash escape sequences accepted by "--separator" are:
     "\0",
     "\a",
     "\b",

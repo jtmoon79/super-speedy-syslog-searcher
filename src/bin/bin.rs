@@ -398,7 +398,7 @@ the Datetime Filter is presumed to be the local system timezone.
 
 Ambiguous named timezones will be rejected, e.g. \"SST\".
 
-Backslash escape sequences accepted by \"--sysline-separator\" are:
+Backslash escape sequences accepted by \"--separator\" are:
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES0, "\",
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES1, "\",
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES2, "\",
@@ -557,18 +557,18 @@ struct CLI_Args {
     )]
     prepend_separator: String,
 
-    /// An extra separator string between printed log lines.
+    /// An extra separator string between printed log messages.
     /// One "syslog line", or "sysline", may have multiple lines of text.
     /// Accepts a basic set of backslash escape sequences,
     /// e.g. "\0" for the null character.
     #[clap(
-        long = "sysline-separator",
+        long = "separator",
         required = false,
         verbatim_doc_comment,
         default_value_t = String::from(""),
         hide_default_value = true,
     )]
-    sysline_separator: String,
+    log_message_separator: String,
 
     /// Choose to print to terminal using colors.
     #[clap(
@@ -1212,7 +1212,7 @@ fn cli_process_args() -> (
         CLI_Color_Choice::never => ColorChoice::Never,
     };
 
-    let sysline_separator: String = match unescape::unescape_str(args.sysline_separator.as_str()) {
+    let log_message_separator: String = match unescape::unescape_str(args.log_message_separator.as_str()) {
         Ok(val) => val,
         Err(err) => {
             eprintln!("ERROR: {:?}", err);
@@ -1228,7 +1228,7 @@ fn cli_process_args() -> (
     defo!("prepend_filepath {:?}", args.prepend_filepath);
     defo!("prepend_file_align {:?}", args.prepend_file_align);
     defo!("prepend_separator {:?}", args.prepend_separator);
-    defo!("sysline_separator {:?}", sysline_separator);
+    defo!("log_message_separator {:?}", log_message_separator);
     defo!("summary {:?}", args.summary);
 
     (
@@ -1245,7 +1245,7 @@ fn cli_process_args() -> (
         args.prepend_filepath,
         args.prepend_file_align,
         args.prepend_separator,
-        sysline_separator,
+        log_message_separator,
         args.summary,
     )
 }
@@ -1277,7 +1277,7 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_filepath,
         cli_opt_prepend_file_align,
         cli_prepend_separator,
-        sysline_separator,
+        log_message_separator,
         cli_opt_summary,
     ) = cli_process_args();
 
@@ -1307,7 +1307,7 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_filepath,
         cli_opt_prepend_file_align,
         cli_prepend_separator,
-        sysline_separator,
+        log_message_separator,
         cli_opt_summary,
     );
 
@@ -2307,7 +2307,7 @@ fn processing_loop(
     cli_opt_prepend_filepath: bool,
     cli_opt_prepend_file_align: bool,
     cli_prepend_separator: String,
-    sysline_separator: String,
+    log_message_separator: String,
     cli_opt_summary: bool,
 ) -> bool {
     defn!(
@@ -2619,8 +2619,10 @@ fn processing_loop(
 
     // channels that should be disconnected per "game loop" loop iteration
     let mut disconnect = Vec::<PathId>::with_capacity(file_count);
-    // shortcut to the bytes of the `sysline_separator`
-    let sepb: &[u8] = sysline_separator.as_str().as_bytes();
+    // shortcut to the "sep"arator "b"ytes of the `log_message_separator`
+    let sepb: &[u8] = log_message_separator.as_str().as_bytes();
+    // shortcut to check if `sepb` should be printed
+    let sepb_print: bool = ! sepb.is_empty();
 
     // buffer to assist printing Utmpx; passed to `Utmpx::as_bytes`
     let mut buffer_utmp: [u8; UTMPX_SZ * 2] = [0; UTMPX_SZ * 2];
@@ -2934,7 +2936,7 @@ fn processing_loop(
                                 }
                             }
                         }
-                        if ! sepb.is_empty() {
+                        if sepb_print {
                             write_stdout(sepb);
                             if cli_opt_summary {
                                 summaryprinted.bytes += sepb.len() as Count;
@@ -2978,6 +2980,12 @@ fn processing_loop(
                                     // BUG: Issue #3 colorization settings in the context of a pipe
                                     eprintln!("ERROR: failed to print {}", err);
                                 }
+                            }
+                        }
+                        if sepb_print {
+                            write_stdout(sepb);
+                            if cli_opt_summary {
+                                summaryprinted.bytes += sepb.len() as Count;
                             }
                         }
                         if cli_opt_summary {
