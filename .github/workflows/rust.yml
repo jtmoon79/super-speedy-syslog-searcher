@@ -133,7 +133,7 @@ jobs:
       #   run: cargo bench --no-run
       #  tests
       - name: Run Tests
-        run: cargo test --verbose
+        run: cargo test --verbose --all-targets
       - name: Build Documentation
         run: cargo doc --locked --release --frozen --no-deps -v
       - name: Publish Dry Run
