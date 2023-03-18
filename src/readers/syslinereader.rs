@@ -983,7 +983,7 @@ impl SyslineReader {
         const EZCHECK12: &[u8; 2] = b"12";
         let mut ezcheck12_min: usize = 0;
 
-        #[cfg(debug_assertions)]
+        #[cfg(any(debug_assertions, test))]
         let mut _attempts: usize = 0;
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
@@ -1085,7 +1085,7 @@ impl SyslineReader {
                 continue;
             }
             *ezcheck12_miss += 1;
-            #[cfg(debug_assertions)]
+            #[cfg(any(debug_assertions, test))]
             {
                 _attempts += 1;
             }
