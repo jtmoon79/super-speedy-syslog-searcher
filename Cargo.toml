@@ -99,6 +99,14 @@ tempdir = "0.3.7"
 tempfile = "3.3.0"
 test-case = "2.2.2"
 
+# release build optimizations
+# from https://github.com/johnthagen/min-sized-rust
+# also see https://doc.rust-lang.org/cargo/reference/profiles.html
+[profile.release]
+codegen-units = 1
+panic = "abort"
+strip = true
+
 # other helpful development tools
 # cargo install --locked cargo-expand cargo-nextest
 
