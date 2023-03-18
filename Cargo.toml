@@ -106,6 +106,14 @@ codegen-units = 1
 panic = "abort"
 strip = true
 
+# XXX: waiting on flamegraph #257
+#      https://github.com/flamegraph-rs/flamegraph/issues/257
+[profile.flamegraph]
+inherits = "release"
+codegen-units = 16
+panic = "unwind"
+strip = false
+
 # other helpful development tools
 # cargo install --locked cargo-expand cargo-nextest
 

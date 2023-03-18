@@ -56,6 +56,11 @@ export PERF
 #
 #" >&2
 
+(
+    set -x
+    cargo flamegraph --version
+)
+
 declare -r PROGRAM=${PROGRAM-./target/release/s4}
 declare -r BIN=${BIN-s4}
 
@@ -69,10 +74,9 @@ OUT='flamegraph.svg'
 (
     set -x
     # verify flamegraph can run the binary (just prints the version)
-    # this will recompile the binary so it's ready for flamegraph profiling
     cargo flamegraph --bin "${BIN}" -- --version
-)
-rm perf.data perf.data.old
+) || true
+rm -f -- perf.data perf.data.old
 
 # XXX: if $NOTES contains a '--' then .svg will fail to render
 NOTES=$("${PROGRAM}" --version)
@@ -92,12 +96,22 @@ else
     while read line; do
         args+=("${line}")
         # use first 50 files listed in `log-files-time-update.txt`
-    done <<< $(sed -Ee 's/\|.*//' ./tools/log-files-time-update.txt | head -n 50)
+    done <<< $(sed -Ee 's/\|.*//' ./tools/log-files-time-update.txt \
+               | sed -Ee '/^#/d' \
+               | head -n 50
+               )
 fi
+
+# This is higher than default 997 and will not cause CPU/IO overload
+# warning and dropped chunks (found by trial and error, probably host dependent).
+FREQ=3000
+
+NOTES+="; --freq ${FREQ}"
 
 set -x
 
-cargo flamegraph --version
+# XXX: waiting on https://github.com/flamegraph-rs/flamegraph/issues/257
+# cargo build --profile flamegraph
 
 exec \
 cargo flamegraph \
@@ -107,6 +121,7 @@ cargo flamegraph \
     --output "${OUT}" \
     --bin "${BIN}" \
     --notes "${NOTES}" \
+    --freq ${FREQ} \
     "${@}" \
     -- \
         "${args[@]}" \
