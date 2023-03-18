@@ -225,7 +225,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {
         // IF YOU CHANGE THIS NUMBER THEN ALSO UPDATE THE GENERATED TEST CASES
         // FOR `test_DATETIME_PARSE_DATAS_test_cases` BELOW! THOSE TESTS SHOULD
         // BE FROM ZERO TO ONE LESS THAN THIS NUMBER
-        104,
+        113,
         DATETIME_PARSE_DATAS.len(),
         "Did you update?\n\n    #[test_case({0})]\n    fn test_DATETIME_PARSE_DATAS_test_cases()\n\nShould be one less than DATETIME_PARSE_DATAS_LEN {0}\n\n",
         DATETIME_PARSE_DATAS_LEN
@@ -344,6 +344,15 @@ fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {
 #[test_case(101)]
 #[test_case(102)]
 #[test_case(103)]
+#[test_case(104)]
+#[test_case(105)]
+#[test_case(106)]
+#[test_case(107)]
+#[test_case(108)]
+#[test_case(109)]
+#[test_case(110)]
+#[test_case(111)]
+#[test_case(112)]
 fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     stack_offset_set(Some(2));
 

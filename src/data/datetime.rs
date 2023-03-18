@@ -2217,7 +2217,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 104;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 113;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -4032,13 +4032,95 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     // ---------------------------------------------------------------------------------------------
     //
-    // file `FedoraRemix29/hawkeye.log`
+    // file `FedoraRemix29/hawkeye.log` (with variations)
     //
     //                1         2         3         4
     //      01234567890123456789012345678901234567890
     //      INFO Jun-16 14:09:58 === Started libdnf-0.31.0 ===
     //      DEBUG Jun-16 14:09:58 fetching rpmdb
     //
+    DTPD!(
+        concatcp!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzc, RP_NOALNUM),
+        DTFSS_BdHMSYzc, 0, 64, CGN_MONTH, CGN_TZ,
+        &[
+            (5, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -07:00 === Started libdnf-0.31.0 ==="),
+            (6, 33, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -07:00 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZz, RP_NOALNUM),
+        DTFSS_BdHMSYz, 0, 64, CGN_MONTH, CGN_TZ,
+        &[
+            (5, 31, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -0700 === Started libdnf-0.31.0 ==="),
+            (6, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -0700 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzp, RP_NOALNUM),
+        DTFSS_BdHMSYzp, 0, 64, CGN_MONTH, CGN_TZ,
+        &[
+            (5, 29, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -07 === Started libdnf-0.31.0 ==="),
+            (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -07 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSY, 0, 64, CGN_MONTH, CGN_YEAR,
+        &[
+            (5, 25, (O_L, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 === Started libdnf-0.31.0 ==="),
+            (6, 26, (O_L, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
+        DTFSS_BdHMS, 0, 64, CGN_MONTH, CGN_SECOND,
+        &[
+            (5, 20, (O_L, YD, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 === Started libdnf-0.31.0 ==="),
+            (6, 21, (O_L, YD, 6, 16, 14, 9, 58, 0), "DEBUG Jun-16 14:09:58 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    // same pattern without specifying leading RP_LEVELS, e.g. `DEBUG `
+    DTPD!(
+        concatcp!(CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzc, RP_NOALNUM),
+        DTFSS_BdHMSYzc, 0, 128, CGN_MONTH, CGN_TZ,
+        &[
+            (5, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -07:00 === Started libdnf-0.31.0 ==="),
+            (6, 33, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -07:00 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZz, RP_NOALNUM),
+        DTFSS_BdHMSYz, 0, 128, CGN_MONTH, CGN_TZ,
+        &[
+            (5, 31, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -0700 === Started libdnf-0.31.0 ==="),
+            (6, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -0700 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzp, RP_NOALNUM),
+        DTFSS_BdHMSYzp, 0, 128, CGN_MONTH, CGN_TZ,
+        &[
+            (5, 29, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -07 === Started libdnf-0.31.0 ==="),
+            (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -07 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSY, 0, 128, CGN_MONTH, CGN_YEAR,
+        &[
+            (5, 25, (O_L, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 === Started libdnf-0.31.0 ==="),
+            (6, 26, (O_L, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 fetching rpmdb"),
+        ],
+        line!(),
+    ),
     DTPD!(
         concatcp!(CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
         DTFSS_BdHMS, 0, 128, CGN_MONTH, CGN_SECOND,
