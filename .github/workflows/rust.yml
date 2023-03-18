@@ -136,7 +136,7 @@ jobs:
         run: cargo test --verbose
       - name: Build Documentation
         run: cargo doc --locked --release --frozen --no-deps -v
-      - name: Check Publish
+      - name: Publish Dry Run
         run: cargo publish --verbose --dry-run --allow-dirty
       # - name: Run valgrind
       #   run: |
