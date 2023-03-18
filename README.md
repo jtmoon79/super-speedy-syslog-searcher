@@ -138,10 +138,12 @@ Options:
           For example, "20200103T230000" or "@+1d+11h"
   -t, --tz-offset <TZ_OFFSET>
           Default timezone offset for datetimes without a timezone.
-          For example, "-0800", "+02:00", or "EDT". Ambiguous named timezones
-          parsed from logs will use this value, e.g. timezone "IST" (to pass a
-          value with leading "-", quote the argument, e.g. "-t=-0800").
-          Default value is the local system timezone offset.
+          For example, datetime string "20200102T120000" does not have a timezone
+          offset so the -t value would be used.
+          Example values, "-0800", "+02:00", or "EDT".
+          Ambiguous named timezones will be rejected, e.g. "SST".
+          To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
+          If not passed then the local system timezone offset is used.
           [default: -08:00]
   -u, --prepend-utc
           Prepend DateTime in the UTC Timezone for every line.
@@ -157,12 +159,12 @@ Options:
   -w, --prepend-file-align
           Align column widths of prepended data.
       --prepend-separator <PREPEND_SEPARATOR>
-          Separator string for prepended data.
-          [default: :]
+          Separator string for prepended data. [default: :]
       --sysline-separator <SYSLINE_SEPARATOR>
           An extra separator string between printed log lines.
-          Keep in mind, one "syslog line" may consist of multiple lines of text.
-          Accepts a set of escape sequences, e.g. "\0" for the null character.
+          One "syslog line", or "sysline", may have multiple lines of text.
+          Accepts a basic set of backslash escape sequences,
+          e.g. "\0" for the null character.
   -c, --color <COLOR_CHOICE>
           Choose to print to terminal using colors.
           [default: auto] [possible values: always, auto, never]
@@ -170,8 +172,7 @@ Options:
           Read blocks of this size in bytes.
           May pass value as any radix (hexadecimal, decimal, octal, binary).
           Using the default value is recommended.
-          Most useful for developers.
-          [default: 65535]
+          Most useful for developers. [default: 65535]
   -s, --summary
           Print a summary of files processed to stderr.
           Most useful for developers.
@@ -234,6 +235,18 @@ Without a timezone offset (strftime specifier "%z" or "%Z"),
 the Datetime Filter is presumed to be the local system timezone.
 
 Ambiguous named timezones will be rejected, e.g. "SST".
+
+Backslash escape sequences accepted by "--sysline-separator" are:
+    "\0",
+    "\a",
+    "\b",
+    "\e",
+    "\f",
+    "\n",
+    "\r",
+    "\\",
+    "\t",
+    "\v",
 
 Resolved values of "--dt-after" and "--dt-before" can be reviewed in
 the "--summary" output.
