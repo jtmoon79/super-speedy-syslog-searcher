@@ -740,6 +740,8 @@ impl fmt::Debug for DTFSSet<'_> {
             .field("second", &self.second)
             .field("fractional", &self.fractional)
             .field("tz", &self.tz)
+            .field("year?", &self.has_year())
+            .field("tz?", &self.has_tz())
             .field("pattern", &self.pattern)
             ;
 
