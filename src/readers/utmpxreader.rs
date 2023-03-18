@@ -840,7 +840,7 @@ impl UtmpxReader {
                         defo!("jumped forward: cursor range is now [{}, {}]", fo_a, fo_b);
                         if fo_prior == fo_a {
                             if ! self.is_last(&utmpx) {
-                                pfx!("!is_last; early return ResultS3UtmpxFind::Found(({}, …)); A1", fo_b);
+                                defx!("!is_last; early return ResultS3UtmpxFind::Found(({}, …)); A1", fo_b);
                                 return self.find_entry(fo_b);
                             }
                             defx!("return ResultS3UtmpxFind::Found(({}, …)); A2", fo_);
