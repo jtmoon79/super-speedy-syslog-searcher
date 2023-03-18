@@ -35,49 +35,85 @@ use ::lazy_static::lazy_static;
 macro_rules! cfg_supports_uapi {
     { $($item:item)* } => {
         $(
-            #[cfg(not(
-                any(
-                    target_os = "android",
-                    target_os = "freebsd",
-                    target_os = "windows",
-                    target_os = "macos",
-                    target_os = "ios",
-                    target_os = "vxworks",
-                )
+            #[cfg(not(any(
+                target_os = "windows",
+            )))]
+            $item
+        )*
+    }
+}
+
+/// target_os that does not support `uapi` crate.
+#[doc(hidden)]
+macro_rules! cfg_supports_uapi_not {
+    { $($item:item)* } => {
+        $(
+            #[cfg(any(
+                // Windows fails to compile with `uapi` crate.
+                //      running: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\cl.exe" "-nologo" "-MD" "-Z7" "-Brepro" "-W4" "-FoD:\\a\\super-speedy-syslog-searcher\\super-speedy-syslog-searcher\\target\\debug\\build\\uapi-1fbc59aac9b2d86f\\out\\src/black_box.o" "-c" "src/black_box.c"
+                //      src/black_box.c(2): error C2065: 'asm': undeclared identifier
+                //      src/black_box.c(2): error C2143: syntax error: missing ';' before 'volatile'
+                target_os = "windows",
             ))]
             $item
         )*
     }
 }
 
-/// target_os that do not support `uapi` crate.
+/// Support `uapi` but uses old `utmpx` version 1 definitions.
 ///
-/// Must match prior `cfg_supports_uapi!` macro.
+/// Does not define:
+///          ut_exit
+///          ut_session
+///          ut_addr_v6
+///
+/// See https://github.com/freebsd/freebsd-src/blob/release/13.1.0/include/utmpx.h#L43-L56
+/// See https://github.com/mahkoh/uapi/issues/15
 #[doc(hidden)]
-macro_rules! cfg_not_supports_uapi {
+#[allow(unused_macros)]
+macro_rules! cfg_uapi_old {
     { $($item:item)* } => {
         $(
-            #[cfg(
-                any(
-                    target_os = "android",
-                    target_os = "freebsd",
-                    target_os = "windows",
-                    target_os = "macos",
-                    target_os = "ios",
-                    target_os = "vxworks",
-                )
-            )]
+            #[cfg(any(
+                target_os = "freebsd",
+                target_os = "macos",
+                target_os = "ios",
+            ))]
+            $item
+        )*
+    }
+}
+
+/// Support `uapi` but uses new `utmpx` definitions.
+#[doc(hidden)]
+#[allow(unused_macros)]
+macro_rules! cfg_uapi_new {
+    { $($item:item)* } => {
+        $(
+            #[cfg(not(any(
+                target_os = "freebsd",
+                target_os = "macos",
+                target_os = "ios",
+            )))]
             $item
         )*
     }
 }
 
 cfg_supports_uapi!{
-    pub use ::uapi::c::{
-        utmpx,
-        __timeval,
-        __exit_status,
-    };
+    pub use ::uapi::c::utmpx;
+}
+cfg_supports_uapi!{
+    // FreeBSD does not define __timeval, __exit_status
+    // compile fails with:
+    //      error[E0432]: unresolved imports `uapi::c::__timeval`, `uapi::c::__exit_status`
+    // also see https://github.com/mahkoh/uapi/issues/15
+    cfg_uapi_new!{
+        pub use ::uapi::c::{
+            __timeval,
+            __exit_status,
+        };
+    }
 }
 #[allow(unused_imports)]
 use ::more_asserts::{
@@ -95,30 +131,39 @@ use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-// If `target_os` is "windows" or other non-supporting OS then manually define
-// a `utmpx` struct.
-//
 // The following code is copied and modified from crate `uapi` https://docs.rs/uapi/0.2.10/uapi/c/struct.utmpx.html
 // which is under the MIT license https://github.com/mahkoh/uapi/blob/86d032c60bb33c4aa888085f9b50bf6e19f7ba24/LICENSE-MIT
 // and "Copyright (c) The uapi developers"
 
-cfg_not_supports_uapi!{
-    #[doc(hidden)]
-    #[derive(Clone, Copy)]
-    #[repr(C)]
-    pub struct __timeval {
-        pub tv_sec: i32,
-        pub tv_usec: i32,
-    }
+#[cfg(any(
+    target_os = "freebsd",
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "windows",
+))]
+#[doc(hidden)]
+#[derive(Clone, Copy)]
+#[repr(C)]
+pub struct __timeval {
+    pub tv_sec: i32,
+    pub tv_usec: i32,
+}
 
-    #[doc(hidden)]
-    #[derive(Clone, Copy)]
-    #[repr(C)]
-    pub struct __exit_status {
-        pub e_termination: i16,
-        pub e_exit: i16,
-    }
+#[cfg(any(
+    target_os = "freebsd",
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "windows",
+))]
+#[doc(hidden)]
+#[derive(Clone, Copy)]
+#[repr(C)]
+pub struct __exit_status {
+    pub e_termination: i16,
+    pub e_exit: i16,
+}
 
+cfg_supports_uapi_not!{
     #[doc(hidden)]
     #[derive(Clone, Copy)]
     #[repr(C)]
@@ -216,17 +261,43 @@ impl fmt::Debug for Utmpx {
     }
 }
 
+#[cfg(not(any(
+    target_os = "freebsd",
+    target_os = "macos",
+    target_os = "ios",
+)))]
 /// [`__timeval.tv_sec` second type] from `utmpx.h`
 ///
 /// [`__timeval.tv_sec` second type]: https://docs.rs/uapi/0.2.10/uapi/c/struct.__timeval.html
 #[allow(non_camel_case_types)]
 pub type tv_sec_type = i32;
 
+#[cfg(any(
+    target_os = "freebsd",
+    target_os = "macos",
+    target_os = "ios",
+))]
+#[allow(non_camel_case_types)]
+pub type tv_sec_type = i64;
+
+#[cfg(not(any(
+    target_os = "freebsd",
+    target_os = "macos",
+    target_os = "ios",
+)))]
 /// [`__timeval.tv_usec` microsecond type] from `utmpx.h`
 ///
 /// [`__timeval.tv_usec` microsecond type]: https://docs.rs/uapi/0.2.10/uapi/c/struct.__timeval.html
 #[allow(non_camel_case_types)]
 pub type tv_usec_type = i32;
+
+#[cfg(any(
+    target_os = "freebsd",
+    target_os = "macos",
+    target_os = "ios",
+))]
+#[allow(non_camel_case_types)]
+pub type tv_usec_type = i64;
 
 /// nanosecond type
 #[allow(non_camel_case_types)]
@@ -353,8 +424,8 @@ impl Utmpx {
         // See
         //  https://docs.rs/uapi/0.2.10/uapi/c/struct.utmpx.html
         //  https://docs.rs/uapi/0.2.10/uapi/c/struct.__timeval.html
-        let tv_sec: tv_sec_type = entry.ut_tv.tv_sec;
-        let tv_usec: tv_usec_type = entry.ut_tv.tv_usec;
+        let tv_sec: tv_sec_type = entry.ut_tv.tv_sec.into();
+        let tv_usec: tv_usec_type = entry.ut_tv.tv_usec.into();
         // XXX: still not sure if it's better to panic or somehow alert caller
         //      that the time conversion failed. A failed time conversion means
         //      the data is most likely invalid/wrong format.
@@ -561,46 +632,55 @@ impl Utmpx {
             set_i8_buffer_at_or_err!(buffer, at, *b_);
         }
 
-        // ut_session
+        // cfg_uapi_new!
+        #[cfg(not(any(
+            target_os = "freebsd",
+            target_os = "macos",
+            target_os = "ios",
+        )))]
+        {
+            // ut_session
 
-        for b_ in "' ut_session ".bytes() {
-            set_u8_buffer_at_or_err!(buffer, at, b_);
-        }
+            for b_ in "' ut_session ".bytes() {
+                set_u8_buffer_at_or_err!(buffer, at, b_);
+            }
 
-        for b_ in utmpx1.ut_session.to_string().as_str().bytes() {
-            set_u8_buffer_at_or_err!(buffer, at, b_);
-        }
+            for b_ in utmpx1.ut_session.to_string().as_str().bytes() {
+                set_u8_buffer_at_or_err!(buffer, at, b_);
+            }
 
-        // ut_addr_v6
+            // ut_addr_v6
 
-        for b in format!(" ut_addr_v6 {0:X}:{1:X}:{2:X}:{3:X} ",
-            &utmpx1.ut_addr_v6[0],
-            &utmpx1.ut_addr_v6[1],
-            &utmpx1.ut_addr_v6[2],
-            &utmpx1.ut_addr_v6[3],
-        ).as_str().as_bytes().iter() {
-            let b_ = *b;
-            set_u8_buffer_at_or_err!(buffer, at, b_);
-        }
+            for b in format!(" ut_addr_v6 {0:X}:{1:X}:{2:X}:{3:X} ",
+                &utmpx1.ut_addr_v6[0],
+                &utmpx1.ut_addr_v6[1],
+                &utmpx1.ut_addr_v6[2],
+                &utmpx1.ut_addr_v6[3],
+            ).as_str().as_bytes().iter() {
+                let b_ = *b;
+                set_u8_buffer_at_or_err!(buffer, at, b_);
+            }
 
-        // ut_exit.e_termination
+            // ut_exit.e_termination
 
-        for b_ in "e_termination ".bytes() {
-            set_u8_buffer_at_or_err!(buffer, at, b_);
-        }
+            for b_ in "e_termination ".bytes() {
+                set_u8_buffer_at_or_err!(buffer, at, b_);
+            }
 
-        for b_ in utmpx1.ut_exit.e_termination.to_string().as_str().bytes() {
-            set_u8_buffer_at_or_err!(buffer, at, b_);
-        }
+            for b_ in utmpx1.ut_exit.e_termination.to_string().as_str().bytes() {
+                set_u8_buffer_at_or_err!(buffer, at, b_);
+            }
 
-        // ut_exit.e_exit
+            // ut_exit.e_exit
 
-        for b_ in " e_exit ".bytes() {
-            set_u8_buffer_at_or_err!(buffer, at, b_);
-        }
+            for b_ in " e_exit ".bytes() {
+                set_u8_buffer_at_or_err!(buffer, at, b_);
+            }
 
-        for b_ in utmpx1.ut_exit.e_exit.to_string().as_str().bytes() {
-            set_u8_buffer_at_or_err!(buffer, at, b_);
+            for b_ in utmpx1.ut_exit.e_exit.to_string().as_str().bytes() {
+                set_u8_buffer_at_or_err!(buffer, at, b_);
+            }
+
         }
 
         if at >= buflen {
@@ -854,18 +934,26 @@ impl Utmpx {
         }
         buf.push_str("' ");
 
-        buf.push_str(format!("ut_session {} ", &utmpx1.ut_session).as_str());
-        buf.push_str(format!("addr_v6 {0:X}:{1:X}:{2:X}:{3:X} ",
-            &utmpx1.ut_addr_v6[0],
-            &utmpx1.ut_addr_v6[1],
-            &utmpx1.ut_addr_v6[2],
-            &utmpx1.ut_addr_v6[3],
-        ).as_str());
-        //for (i, ut_addr_v6) in utmpx1.ut_addr_v6.iter().enumerate() {
-        //    println!("utmpx.ut_addr_v6[{1:2}]: {0:02} (0x{0:2x}) (0b{0:08b})", &ut_addr_v6, i);
-        //}
-        buf.push_str(format!("e_termination {} ", &utmpx1.ut_exit.e_termination).as_str());
-        buf.push_str(format!("e_exit {} ", &utmpx1.ut_exit.e_exit).as_str());
+        // cfg_uapi_new!
+        #[cfg(not(any(
+            target_os = "freebsd",
+            target_os = "macos",
+            target_os = "ios",
+        )))]
+        {
+            buf.push_str(format!("ut_session {} ", &utmpx1.ut_session).as_str());
+            buf.push_str(format!("addr_v6 {0:X}:{1:X}:{2:X}:{3:X} ",
+                &utmpx1.ut_addr_v6[0],
+                &utmpx1.ut_addr_v6[1],
+                &utmpx1.ut_addr_v6[2],
+                &utmpx1.ut_addr_v6[3],
+            ).as_str());
+            //for (i, ut_addr_v6) in utmpx1.ut_addr_v6.iter().enumerate() {
+            //    println!("utmpx.ut_addr_v6[{1:2}]: {0:02} (0x{0:2x}) (0b{0:08b})", &ut_addr_v6, i);
+            //}
+            buf.push_str(format!("e_termination {} ", &utmpx1.ut_exit.e_termination).as_str());
+            buf.push_str(format!("e_exit {} ", &utmpx1.ut_exit.e_exit).as_str());
+        }
 
         let _tv_sec = utmpx1.ut_tv.tv_sec;
         let _tv_usec = utmpx1.ut_tv.tv_usec;

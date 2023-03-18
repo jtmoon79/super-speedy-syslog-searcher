@@ -72,7 +72,10 @@ bench = false
 #plugin = false
 #proc-macro = false
 #harness = false
-[target.'cfg(not(any(windows,macos,ios,vxworks)))'.dependencies]
+# fails to compile on Windows due to:
+#     src/black_box.c(2): error C2065: 'asm': undeclared identifier
+# from https://github.com/mahkoh/uapi/blob/v0.2.10/uapi/src/black_box.c#L2
+[target.'cfg(not(any(windows)))'.dependencies]
 uapi = "0.2.10"
 
 [[bin]]
@@ -95,15 +98,6 @@ memchr = "2.5.0"
 tempdir = "0.3.7"
 tempfile = "3.3.0"
 test-case = "2.2.2"
-
-# release build optimizations
-# from https://github.com/johnthagen/min-sized-rust
-#[profile.release]
-#strip = true  # Automatically strip symbols from the binary.
-#opt-level = "z"  # Optimize for size.
-#lto = true  # linker to optimize at the link stage
-#codegen-units = 1
-#panic = "abort"
 
 # other helpful development tools
 # cargo install --locked cargo-expand cargo-nextest
