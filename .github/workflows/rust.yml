@@ -95,8 +95,8 @@ jobs:
         run: |
           set -eux
           cargo --version
-          cargo check --verbose --all-targets
-          cargo check --verbose --all-targets --release
+          cargo check --all-targets
+          cargo check --all-targets --release
       - name: Check clippy
         shell: bash
         run: |
