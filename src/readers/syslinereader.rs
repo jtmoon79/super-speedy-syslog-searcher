@@ -254,6 +254,13 @@ pub struct SyslineReader {
     ///
     /// [`Arc::try_unwrap(syslinep)`]: std::sync::Arc#method.try_unwrap
     pub(super) drop_sysline_errors: Count,
+    /// `Count` of EZCHECK12 that allowed skipping regular expression
+    /// matching for a `Line`.
+    pub (super) ezcheck12_hit: Count,
+    /// `Count` of EZCHECK12 that missed.
+    pub (super) ezcheck12_miss: Count,
+    /// Highest EXCHECK12 length ignored.
+    pub (super) ezcheck12_hit_max: LineIndex,
     /// testing-only tracker of successfully dropped `Sysline`
     #[cfg(test)]
     pub(crate) dropped_syslines: SetDroppedSyslines,
@@ -336,6 +343,12 @@ pub struct SummarySyslineReader {
     pub syslinereader_get_boxptrs_doubleptr: Count,
     /// `SyslineReader::get_boxptrs_multiptr`
     pub syslinereader_get_boxptrs_multiptr: Count,
+    /// `SyslineReader::ezcheck12_hit`
+    pub syslinereader_ezcheck12_hit: Count,
+    /// `SyslineReader::ezcheck12_miss`
+    pub syslinereader_ezcheck12_miss: Count,
+    /// `SyslineReader::ezcheck12_hit_max`
+    pub syslinereader_ezcheck12_hit_max: LineIndex,
 }
 
 /// Implement the `SyslineReader`
@@ -419,6 +432,9 @@ impl SyslineReader {
             analyzed: false,
             drop_sysline_ok: 0,
             drop_sysline_errors: 0,
+            ezcheck12_hit: 0,
+            ezcheck12_miss: 0,
+            ezcheck12_hit_max: 0,
             #[cfg(test)]
             dropped_syslines: SetDroppedSyslines::new(),
         })
@@ -939,6 +955,9 @@ impl SyslineReader {
         get_boxptrs_singleptr: &mut Count,
         get_boxptrs_doubleptr: &mut Count,
         get_boxptrs_multiptr: &mut Count,
+        ezcheck12_hit: &mut Count,
+        ezcheck12_miss: &mut Count,
+        ezcheck12_hit_max: &mut LineIndex,
     ) -> ResultFindDateTime {
         defn!(
             "(…, …, {:?}, year_opt {:?}, {:?}) line {:?}",
@@ -958,11 +977,13 @@ impl SyslineReader {
             ));
         }
 
-        // EZCHECK12 is a fun hack to bypass regex checks for Lines without
-        // `'1'` or `'2'` within some range from the start of the line.
+        // EZCHECK12 is a fun hack to bypass regex checks.
+        // Lines without `'1'` or `'2'` within some range from the start of the
+        // line probably do not have a datetime.
         const EZCHECK12: &[u8; 2] = b"12";
         let mut ezcheck12_min: usize = 0;
 
+        #[cfg(debug_assertions)]
         let mut _attempts: usize = 0;
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
@@ -1005,8 +1026,6 @@ impl SyslineReader {
             // searches within the `Line`
             let mut hack_slice: Bytes;
             let slice_: &[u8];
-            // TODO: [2023/01] cost-savings: track `slice_contains_X_2(EZCHECK12)` at largest slice size
-            //       then before calling `get_boxptrs` check that local variable, skip if unneeded.
             match line.get_boxptrs(dtpd.range_regex.start as LineIndex, slice_end as LineIndex) {
                 LinePartPtrs::NoPtr => {
                     panic!(
@@ -1050,7 +1069,10 @@ impl SyslineReader {
                 dtpd._line_num,
                 String::from_utf8_lossy(slice_),
             );
-            // hack efficiency improvement, presumes all found years will have a '1' or a '2' in them
+            // XXX: hack efficiency improvement, presumes all found years will
+            //      have a '1' or a '2' in them.
+            //      Regular expression matching is very expensive according to
+            //      `tools/flamegraph.sh`. Skip where possible.
             if charsz == &1 && dtpd.dtfs.has_year() && !slice_contains_X_2(slice_, EZCHECK12) {
                 defo!("skip slice, does not have '1' or '2' (EZCHECK12)");
                 if ezcheck12_min < slice_.len() {
@@ -1058,16 +1080,20 @@ impl SyslineReader {
                     ezcheck12_min = slice_.len() - charsz;
                     defo!("ezcheck12_min = {}", ezcheck12_min);
                 }
-                // TODO: add stat for tracking this branch of hack pattern matching
+                *ezcheck12_hit += 1;
+                *ezcheck12_hit_max = std::cmp::max(*ezcheck12_hit_max, ezcheck12_min);
                 continue;
             }
-            _attempts += 1;
+            *ezcheck12_miss += 1;
+            #[cfg(debug_assertions)]
+            {
+                _attempts += 1;
+            }
             // find the datetime string using `Regex`, convert to a `DateTimeL`
             let dt: DateTimeL;
             let dt_beg: LineIndex;
             let dt_end: LineIndex;
             (dt_beg, dt_end, dt) =
-                //match str_to_regex_to_datetime(dts, index, tz_offset) {
                 match bytes_to_regex_to_datetime(slice_, index, year_opt, tz_offset) {
                     None => continue,
                     Some(val) => val,
@@ -1349,6 +1375,9 @@ impl SyslineReader {
             &mut self.get_boxptrs_singleptr,
             &mut self.get_boxptrs_doubleptr,
             &mut self.get_boxptrs_multiptr,
+            &mut self.ezcheck12_hit,
+            &mut self.ezcheck12_miss,
+            &mut self.ezcheck12_hit_max,
         );
         let data: FindDateTimeData = match result {
             Ok(val) => val,
@@ -2683,6 +2712,9 @@ impl SyslineReader {
             .drop_sysline_ok;
         let syslinereader_drop_sysline_errors = self
             .drop_sysline_errors;
+        let syslinereader_ezcheck12_hit = self.ezcheck12_hit;
+        let syslinereader_ezcheck12_miss = self.ezcheck12_miss;
+        let syslinereader_ezcheck12_hit_max = self.ezcheck12_hit_max;
         let syslinereader_datetime_first = self.dt_first;
         let syslinereader_datetime_last = self.dt_last;
 
@@ -2706,6 +2738,9 @@ impl SyslineReader {
             syslinereader_get_boxptrs_multiptr,
             syslinereader_drop_sysline_ok,
             syslinereader_drop_sysline_errors,
+            syslinereader_ezcheck12_hit,
+            syslinereader_ezcheck12_miss,
+            syslinereader_ezcheck12_hit_max,
             syslinereader_datetime_first,
             syslinereader_datetime_last,
         }

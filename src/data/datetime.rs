@@ -4863,6 +4863,8 @@ pub fn bytes_to_regex_to_datetime(
         }
     };
 
+    // The regular expression matching call. According to `tools/flamegraph.sh`
+    // this is a very expensive function call.
     let captures: regex::bytes::Captures = match regex_.captures(data) {
         None => {
             defx!("regex: no captures (returned None)");

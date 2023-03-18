@@ -3405,15 +3405,19 @@ fn print_summary_opt_printed(
     }
 }
 
-fn ratio64(
+/// create percentage of `a` to `a + b`
+fn percent64(
     a: &u64,
     b: &u64,
 ) -> f64 {
-    if b == &0 {
+    let den = (*a as f64) + (*b as f64);
+    if den == 0.0 {
         return 0.0;
     }
-    (*a as f64) / (*b as f64)
+    ((*a as f64) / den) * 100.0
 }
+
+const WIDEP: usize = 4;
 
 fn print_cache_stats_summaryblockreader(
     summaryblockreader: &SummaryBlockReader,
@@ -3421,29 +3425,31 @@ fn print_cache_stats_summaryblockreader(
     wide: usize,
 ) {
     // BlockReader::_read_blocks
-    let mut ratio = ratio64(&summaryblockreader.blockreader_read_blocks_hit, &summaryblockreader.blockreader_read_blocks_miss);
+    let mut percent = percent64(&summaryblockreader.blockreader_read_blocks_hit, &summaryblockreader.blockreader_read_blocks_miss);
     eprintln!(
-        "{}storage: BlockReader::read_block() blocks                    : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        "{}storage: BlockReader::read_block() blocks                    : hit {:wide$}, miss {:wide$}, {:widep$.1}%, put {:wide$}",
         indent,
         summaryblockreader.blockreader_read_blocks_hit,
         summaryblockreader.blockreader_read_blocks_miss,
-        ratio,
+        percent,
         summaryblockreader.blockreader_read_blocks_put,
         wide = wide,
+        widep = WIDEP,
     );
     // BlockReader::_read_blocks_cache
-    ratio = ratio64(
+    percent = percent64(
         &summaryblockreader.blockreader_read_block_lru_cache_hit,
         &summaryblockreader.blockreader_read_block_lru_cache_miss,
     );
     eprintln!(
-        "{}caching: BlockReader::read_block() LRU cache                 : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        "{}caching: BlockReader::read_block() LRU cache                 : hit {:wide$}, miss {:wide$}, {:widep$.1}%, put {:wide$}",
         indent,
         summaryblockreader.blockreader_read_block_lru_cache_hit,
         summaryblockreader.blockreader_read_block_lru_cache_miss,
-        ratio,
+        percent,
         summaryblockreader.blockreader_read_block_lru_cache_put,
         wide = wide,
+        widep = WIDEP,
     );
 }
 
@@ -3453,26 +3459,28 @@ fn print_cache_stats_summarylinereader(
     wide: usize,
 ) {
     // LineReader::_lines
-    let mut ratio = ratio64(&summarylinereader.linereader_lines_hits, &summarylinereader.linereader_lines_miss);
+    let mut percent = percent64(&summarylinereader.linereader_lines_hits, &summarylinereader.linereader_lines_miss);
     eprintln!(
-        "{}storage: LineReader::find_line() lines                       : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
+        "{}storage: LineReader::find_line() lines                       : hit {:wide$}, miss {:wide$}, {:widep$.1}%",
         indent,
         summarylinereader.linereader_lines_hits,
         summarylinereader.linereader_lines_miss,
-        ratio,
+        percent,
         wide = wide,
+        widep = WIDEP,
     );
     // LineReader::_find_line_lru_cache
-    ratio =
-        ratio64(&summarylinereader.linereader_find_line_lru_cache_hit, &summarylinereader.linereader_find_line_lru_cache_miss);
+    percent =
+        percent64(&summarylinereader.linereader_find_line_lru_cache_hit, &summarylinereader.linereader_find_line_lru_cache_miss);
     eprintln!(
-        "{}caching: LineReader::find_line() LRU cache                   : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        "{}caching: LineReader::find_line() LRU cache                   : hit {:wide$}, miss {:wide$}, {:widep$.1}%, put {:wide$}",
         indent,
         summarylinereader.linereader_find_line_lru_cache_hit,
         summarylinereader.linereader_find_line_lru_cache_miss,
-        ratio,
+        percent,
         summarylinereader.linereader_find_line_lru_cache_put,
         wide = wide,
+        widep = WIDEP,
     );
 }
 
@@ -3492,54 +3500,73 @@ fn print_cache_stats_summarysyslinereader(
         wide = wide,
     );
     // SyslineReader::syslines
-    let mut ratio = ratio64(&summarysyslinereader.syslinereader_syslines_hit, &summarysyslinereader.syslinereader_syslines_miss);
+    let mut percent = percent64(&summarysyslinereader.syslinereader_syslines_hit, &summarysyslinereader.syslinereader_syslines_miss);
     eprintln!(
-        "{}storage: SyslineReader::find_sysline() syslines              : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
+        "{}storage: SyslineReader::find_sysline() syslines              : hit {:wide$}, miss {:wide$}, {:widep$.1}%",
         indent,
         summarysyslinereader.syslinereader_syslines_hit,
         summarysyslinereader.syslinereader_syslines_miss,
-        ratio,
+        percent,
         wide = wide,
+        widep = WIDEP,
     );
     // SyslineReader::_syslines_by_range
-    ratio =
-        ratio64(&summarysyslinereader.syslinereader_syslines_by_range_hit, &summarysyslinereader.syslinereader_syslines_by_range_miss);
+    percent =
+        percent64(&summarysyslinereader.syslinereader_syslines_by_range_hit, &summarysyslinereader.syslinereader_syslines_by_range_miss);
     eprintln!(
-        "{}caching: SyslineReader::find_sysline() syslines_by_range_map : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        "{}caching: SyslineReader::find_sysline() syslines_by_range_map : hit {:wide$}, miss {:wide$}, {:widep$.1}%, put {:wide$}",
         indent,
         summarysyslinereader.syslinereader_syslines_by_range_hit,
         summarysyslinereader.syslinereader_syslines_by_range_miss,
-        ratio,
+        percent,
         summarysyslinereader.syslinereader_syslines_by_range_put,
         wide = wide,
+        widep = WIDEP,
     );
     // SyslineReader::_find_sysline_lru_cache
-    ratio = ratio64(
+    percent = percent64(
         &summarysyslinereader.syslinereader_find_sysline_lru_cache_hit,
         &summarysyslinereader.syslinereader_find_sysline_lru_cache_miss,
     );
     eprintln!(
-        "{}caching: SyslineReader::find_sysline() LRU cache             : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        "{}caching: SyslineReader::find_sysline() LRU cache             : hit {:wide$}, miss {:wide$}, {:widep$.1}%, put {:wide$}",
         indent,
         summarysyslinereader.syslinereader_find_sysline_lru_cache_hit,
         summarysyslinereader.syslinereader_find_sysline_lru_cache_miss,
-        ratio,
+        percent,
         summarysyslinereader.syslinereader_find_sysline_lru_cache_put,
         wide = wide,
+        widep = WIDEP,
     );
     // SyslineReader::_parse_datetime_in_line_lru_cache
-    ratio = ratio64(
+    percent = percent64(
         &summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_hit,
         &summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_miss,
     );
     eprintln!(
-        "{}caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit {:wide$}, miss {:wide$}, ratio {:1.2}, put {:wide$}",
+        "{}caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit {:wide$}, miss {:wide$}, {:widep$.1}%, put {:wide$}",
         indent,
         summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_hit,
         summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_miss,
-        ratio,
+        percent,
         summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_put,
         wide = wide,
+        widep = WIDEP,
+    );
+    // SyslineReader::ezcheck12
+    percent = percent64(
+        &summarysyslinereader.syslinereader_ezcheck12_hit,
+        &summarysyslinereader.syslinereader_ezcheck12_miss,
+    );
+    eprintln!(
+        "{}optimize:SyslineReader::ezcheck12                            : hit {:wide$}, miss {:wide$}, {:widep$.1}%, largest skipped {}",
+        indent,
+        summarysyslinereader.syslinereader_ezcheck12_hit,
+        summarysyslinereader.syslinereader_ezcheck12_miss,
+        percent,
+        summarysyslinereader.syslinereader_ezcheck12_hit_max,
+        wide = wide,
+        widep = WIDEP,
     );
 }
 
@@ -3548,17 +3575,18 @@ fn print_cache_stats_summaryutmpreader(
     indent: &str,
     wide: usize,
 ) {
-    let ratio = ratio64(
+    let percent = percent64(
         &summaryutmpreader.utmpxreader_utmp_entries_hit,
         &summaryutmpreader.utmpxreader_utmp_entries_miss,
     );
     eprintln!(
-        "{}storage: UtmpxReader::find_entry()                           : hit {:wide$}, miss {:wide$}, ratio {:1.2}",
+        "{}storage: UtmpxReader::find_entry()                           : hit {:wide$}, miss {:wide$}, {:widep$.1}%",
         indent,
         summaryutmpreader.utmpxreader_utmp_entries_hit,
         summaryutmpreader.utmpxreader_utmp_entries_miss,
-        ratio,
+        percent,
         wide = wide,
+        widep = WIDEP,
     );
 }
 
@@ -3593,8 +3621,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
             summarysyslinereader,
             _summarysyslogprocessor,
         )) => {
-            print_cache_stats_summarysyslinereader(
-                summarysyslinereader,
+            print_cache_stats_summaryblockreader(
+                summaryblockreader,
                 OPT_SUMMARY_PRINT_INDENT2,
                 wide,
             );
@@ -3603,8 +3631,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
                 OPT_SUMMARY_PRINT_INDENT2,
                 wide,
             );
-            print_cache_stats_summaryblockreader(
-                summaryblockreader,
+            print_cache_stats_summarysyslinereader(
+                summarysyslinereader,
                 OPT_SUMMARY_PRINT_INDENT2,
                 wide,
             );
@@ -3649,7 +3677,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
         .len();
     let summaryblockreader = summary.blockreader();
     eprintln!(
-        "{}streaming: BlockReader::drop_block()    : Ok {:wide$} Err {:wide$}",
+            "{}streaming: BlockReader::drop_block()    : Ok {:wide$}, Err {:wide$}",
         OPT_SUMMARY_PRINT_INDENT2,
         summaryblockreader.blockreader_blocks_dropped_ok,
         summaryblockreader.blockreader_blocks_dropped_err,
@@ -3665,17 +3693,17 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
             )
         ) => {
             eprintln!(
-                "{}streaming: SyslineReader::drop_sysline(): Ok {:wide$} Err {:wide$}",
-                OPT_SUMMARY_PRINT_INDENT2,
-                summarysyslinereader.syslinereader_drop_sysline_ok,
-                summarysyslinereader.syslinereader_drop_sysline_errors,
-                wide = wide,
-            );
-            eprintln!(
-                "{}streaming: LineReader::drop_line()      : Ok {:wide$} Err {:wide$}",
+                "{}streaming: LineReader::drop_line()      : Ok {:wide$}, Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
                 summarylinereader.linereader_drop_line_ok,
                 summarylinereader.linereader_drop_line_errors,
+                wide = wide,
+            );
+            eprintln!(
+                "{}streaming: SyslineReader::drop_sysline(): Ok {:wide$}, Err {:wide$}",
+                OPT_SUMMARY_PRINT_INDENT2,
+                summarysyslinereader.syslinereader_drop_sysline_ok,
+                summarysyslinereader.syslinereader_drop_sysline_errors,
                 wide = wide,
             );
         }
@@ -3686,7 +3714,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
             )
         ) => {
             eprintln!(
-                "{}streaming: UtmpxReader::drop_entry()    : Ok {:wide$} Err {:wide$}",
+                "{}streaming: UtmpxReader::drop_entry()    : Ok {:wide$}, Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
                 summaryutmpreader.utmpxreader_drop_entry_ok,
                 summaryutmpreader.utmpxreader_drop_entry_errors,
