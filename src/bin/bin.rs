@@ -150,46 +150,42 @@ enum CLI_Color_Choice {
 /// Subset of [`DateTimeParseInstr`] for calls to
 /// function [`datetime_parse_from_str`].
 ///
-/// (DateTimePattern_str, has year, has timezone, has time)
+/// (DateTimePattern_str, has year, has timezone, has_Z, has time)
 ///
 /// [`DateTimeParseInstr`]: s4lib::data::datetime::DateTimeParseInstr
 /// [`datetime_parse_from_str`]: s4lib::data::datetime#fn.datetime_parse_from_str
-type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool);
+type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool, bool);
 
-// TODO: reject ambiguous timezone names.
-//       best way to do this is to modify `DTPD!` defined in `datetime.rs` to
-//       have a flag, "is it acceptable for CLI?". Then gather those at
-//       run-time (or build-time), and iterate through them.
-//       This allows re-using the facilities built in datetime.rs, and not having
-//       divergent methods for transforming datetime string to `DateTimeL`.
-const CLI_DT_FILTER_PATTERN1: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S", true, false, true);
-const CLI_DT_FILTER_PATTERN2: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%z", true, true, true);
-const CLI_DT_FILTER_PATTERN3: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%:z", true, true, true);
-const CLI_DT_FILTER_PATTERN4: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%#z", true, true, true);
-const CLI_DT_FILTER_PATTERN5: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%Z", true, true, true);
-const CLI_DT_FILTER_PATTERN6: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S", true, false, true);
-const CLI_DT_FILTER_PATTERN7: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %z", true, true, true);
-const CLI_DT_FILTER_PATTERN8: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %:z", true, true, true);
-const CLI_DT_FILTER_PATTERN9: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %#z", true, true, true);
-const CLI_DT_FILTER_PATTERN10: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %Z", true, true, true);
-const CLI_DT_FILTER_PATTERN11: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false, true);
-const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %z", true, true, true);
-const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %:z", true, true, true);
-const CLI_DT_FILTER_PATTERN14: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %#z", true, true, true);
-const CLI_DT_FILTER_PATTERN15: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", true, true, true);
-const CLI_DT_FILTER_PATTERN16: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false, true);
-const CLI_DT_FILTER_PATTERN17: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true, true);
-const CLI_DT_FILTER_PATTERN18: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %:z", true, true, true);
-const CLI_DT_FILTER_PATTERN19: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %#z", true, true, true);
-const CLI_DT_FILTER_PATTERN20: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true, true);
-const CLI_DT_FILTER_PATTERN21: CLI_DT_Filter_Pattern = ("%Y%m%d", true, false, false);
-const CLI_DT_FILTER_PATTERN22: CLI_DT_Filter_Pattern = ("%Y-%m-%d", true, false, false);
-const CLI_DT_FILTER_PATTERN23: CLI_DT_Filter_Pattern = ("%Y/%m/%d", true, false, false);
-const CLI_DT_FILTER_PATTERN24: CLI_DT_Filter_Pattern = ("%Y%m%d %z", true, true, false);
-const CLI_DT_FILTER_PATTERN25: CLI_DT_Filter_Pattern = ("%Y%m%d %:z", true, true, false);
-const CLI_DT_FILTER_PATTERN26: CLI_DT_Filter_Pattern = ("%Y%m%d %#z", true, true, false);
-const CLI_DT_FILTER_PATTERN27: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, false);
-const CLI_DT_FILTER_PATTERN28: CLI_DT_Filter_Pattern = ("+%s", false, false, true);
+// XXX: use of `%Z` must be at the end of the `DateTimePattern_str` value
+//      for use in `process_dt` function.
+const CLI_DT_FILTER_PATTERN1: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S", true, false, false, true);
+const CLI_DT_FILTER_PATTERN2: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN3: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%:z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN4: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%#z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN5: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%Z", true, true, true, true);
+const CLI_DT_FILTER_PATTERN6: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S", true, false, false, true);
+const CLI_DT_FILTER_PATTERN7: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN8: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %:z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN9: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %#z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN10: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %Z", true, true, true, true);
+const CLI_DT_FILTER_PATTERN11: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false, false, true);
+const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %:z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN14: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %#z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN15: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", true, true, true, true);
+const CLI_DT_FILTER_PATTERN16: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false, false, true);
+const CLI_DT_FILTER_PATTERN17: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN18: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %:z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN19: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %#z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN20: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true);
+const CLI_DT_FILTER_PATTERN21: CLI_DT_Filter_Pattern = ("%Y%m%d", true, false, false, false);
+const CLI_DT_FILTER_PATTERN22: CLI_DT_Filter_Pattern = ("%Y-%m-%d", true, false, false, false);
+const CLI_DT_FILTER_PATTERN23: CLI_DT_Filter_Pattern = ("%Y/%m/%d", true, false, false, false);
+const CLI_DT_FILTER_PATTERN24: CLI_DT_Filter_Pattern = ("%Y%m%d %z", true, true, false, false);
+const CLI_DT_FILTER_PATTERN25: CLI_DT_Filter_Pattern = ("%Y%m%d %:z", true, true, false, false);
+const CLI_DT_FILTER_PATTERN26: CLI_DT_Filter_Pattern = ("%Y%m%d %#z", true, true, false, false);
+const CLI_DT_FILTER_PATTERN27: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, true, false);
+const CLI_DT_FILTER_PATTERN28: CLI_DT_Filter_Pattern = ("+%s", false, false, false, true);
 
 const CLI_FILTER_PATTERNS_COUNT: usize = 28;
 
@@ -938,7 +934,7 @@ fn string_to_rel_offset_datetime(
 ///
 /// [`DateTimeL`]: s4lib::data::datetime::DateTimeL
 fn process_dt(
-    dts_opt: Option<String>,
+    dts_opt: &Option<String>,
     tz_offset: &FixedOffset,
     dt_other: &DateTimeLOpt,
     now_utc: &DateTime<Utc>,
@@ -953,9 +949,33 @@ fn process_dt(
     };
     let dto: DateTimeLOpt;
     // try to match user-passed string to chrono strftime format strings
-    for (pattern_, _has_year, has_tz, has_time) in CLI_FILTER_PATTERNS.iter() {
+    for (pattern_, _has_year, has_tz, has_tzZ, has_time) in CLI_FILTER_PATTERNS.iter() {
         let mut pattern: String = String::from(*pattern_);
         let mut dts_: String = dts.clone();
+        // if !has_tzZ then modify trailing string timezone (e.g. "PDT") to
+        // numeric timezone (e.g. "-0700")
+        // modify pattern `%Z` to `%z`
+        // XXX: presumes %Z and %Z value is at end of `pattern_`
+        if *has_tzZ {
+            defo!("has_tzZ {:?}", dts_);
+            let mut val_Z: String = String::with_capacity(5);
+            while dts_.chars().rev().next().unwrap().is_alphabetic() {
+                match dts_.pop() {
+                    Some(c) => val_Z.insert(0, c),
+                    None => continue
+                }
+            }
+            if MAP_TZZ_TO_TZz.contains_key(val_Z.as_str()) {
+                dts_.push_str(MAP_TZZ_TO_TZz.get(val_Z.as_str()).unwrap());
+            } else {
+                defo!("has_tzZ WARNING failed to find MAP_TZZ_TO_TZz({:?})", val_Z);
+                continue;
+            }
+            defo!("has_tzZ replaced Z value {:?}", dts_);
+
+            pattern = pattern_.replacen("%Z", "%z", 1);
+            defo!("has_tzZ replaced \"%Z\" with \"%z\" {:?}", pattern);
+        }
         // if !has_time then modify the value and pattern
         // e.g. `"20220101"` becomes `"20220101 T000000"`
         //      `"%Y%d%m"` becomes `"%Y%d%m T%H%M%S"`
@@ -977,14 +997,34 @@ fn process_dt(
         Some(dto) => Some(dto),
         None => None,
     };
-    // user-passed string was not parseable
-    if dto.is_none() {
-        eprintln!("ERROR: Unable to parse a datetime from {:?}", dts);
-        std::process::exit(1);
-    }
     defx!("return {:?}", dto);
 
     dto
+}
+
+/// Transform a user-passed datetime `String` into a [`DateTimeL`].
+///
+/// Wrapper to `process_dt`. Exits if `process_dt` returns `None`.
+///
+/// [`DateTimeL`]: s4lib::data::datetime::DateTimeL
+fn process_dt_exit(
+    dts_opt: &Option<String>,
+    tz_offset: &FixedOffset,
+    dt_other: &DateTimeLOpt,
+    now_utc: &DateTime<Utc>,
+) -> DateTimeLOpt {
+    if dts_opt.is_none() {
+        return None;
+    }
+
+    match process_dt(dts_opt, tz_offset, dt_other, now_utc) {
+        Some(dto) => Some(dto),
+        None => {
+            // user-passed string was not parseable
+            eprintln!("ERROR: Unable to parse a datetime from {:?}", dts_opt);
+            std::process::exit(1);
+        }
+    }
 }
 
 mod unescape {
@@ -1140,16 +1180,16 @@ fn cli_process_args() -> (
         (Some((_, DUR_OFFSET_TYPE::Other)), _) => {
             // special-case: process `-b` value then process `-a` value
             // e.g. `-a "@+1d" -b "20010203"`
-            filter_dt_before = process_dt(args.dt_before, &tz_offset, &None, &UTC_NOW);
+            filter_dt_before = process_dt_exit(&args.dt_before, &tz_offset, &None, &UTC_NOW);
             defo!("filter_dt_before {:?}", filter_dt_before);
-            filter_dt_after = process_dt(args.dt_after, &tz_offset, &filter_dt_before, &UTC_NOW);
+            filter_dt_after = process_dt_exit(&args.dt_after, &tz_offset, &filter_dt_before, &UTC_NOW);
             defo!("filter_dt_after {:?}", filter_dt_after);
         }
         _ => {
             // normal case: process `-a` value then process `-b` value
-            filter_dt_after = process_dt(args.dt_after, &tz_offset, &None, &UTC_NOW);
+            filter_dt_after = process_dt_exit(&args.dt_after, &tz_offset, &None, &UTC_NOW);
             defo!("filter_dt_after {:?}", filter_dt_after);
-            filter_dt_before = process_dt(args.dt_before, &tz_offset, &filter_dt_after, &UTC_NOW);
+            filter_dt_before = process_dt_exit(&args.dt_before, &tz_offset, &filter_dt_after, &UTC_NOW);
             defo!("filter_dt_before {:?}", filter_dt_before);
         }
     }
@@ -3809,7 +3849,8 @@ mod tests {
         process_dt, BlockSz, DateTimeLOpt, CLI_OPT_PREPEND_FMT, unescape,
     };
     use super::{
-        string_wdhms_to_duration, Duration, FixedOffset, TimeZone, DUR_OFFSET_TYPE, FIXEDOFFSET0, UTC_NOW,
+        string_wdhms_to_duration, Duration, FixedOffset, TimeZone, DUR_OFFSET_TYPE, FIXEDOFFSET0,
+        UTC_NOW,
     };
 
     #[test_case("500", true)]
@@ -3900,16 +3941,35 @@ mod tests {
         "2000-01-02T03:04:05"
     )]
     #[test_case(
+        Some(String::from("+946782245")), *FIXEDOFFSET0,
+        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
+        "+946782245"
+    )]
+    #[test_case(
         Some(String::from("2000-01-02T03:04:05 -0100")), *FIXEDOFFSET0,
         Some(FixedOffset::east_opt(-3600).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05 -0100"
+    )]
+    #[test_case(
+        Some(String::from("2000-01-02T03:04:05PDT")), *FIXEDOFFSET0,
+        Some(FixedOffset::east_opt(-25200).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
+        "2000-01-02T03:04:05 PDT"
+    )]
+    #[test_case(
+        Some(String::from("2000-01-02T03:04:05FOOO")), *FIXEDOFFSET0, None; "2000-01-02T03:04:05 FOOO"
+    )]
+    #[test_case(
+        Some(String::from("2000/01/02 03:04:05")), *FIXEDOFFSET0,
+        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
+        "2000-01-02T03:04:05 No TZ"
     )]
     fn test_process_dt(
         dts: Option<String>,
         tz_offset: FixedOffset,
         expect: DateTimeLOpt,
     ) {
-        assert_eq!(process_dt(dts, &tz_offset, &None, &UTC_NOW), expect);
+        let dt = process_dt(&dts, &tz_offset, &None, &UTC_NOW);
+        assert_eq!(dt, expect);
     }
 
     #[test_case(
@@ -3946,7 +4006,8 @@ mod tests {
         dt_other: DateTime<FixedOffset>,
         expect: DateTimeLOpt,
     ) {
-        assert_eq!(process_dt(dts, &tz_offset, &Some(dt_other), &UTC_NOW), expect);
+        let dt = process_dt(&dts, &tz_offset, &Some(dt_other), &UTC_NOW);
+        assert_eq!(dt, expect);
     }
 
     const NOW: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Now;
