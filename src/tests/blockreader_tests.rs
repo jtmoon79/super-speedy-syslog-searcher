@@ -1348,3 +1348,19 @@ fn test_file_offset_at_block_offset_index() {
     assert_eq!(13, BlockReader::file_offset_at_block_offset_index(3, 4, 1));
     assert_eq!(17, BlockReader::file_offset_at_block_offset_index(4, 4, 1));
 }
+
+/// test `BlockReader::summary` before doing any processing
+#[test_case(&NTF_LOG_EMPTY_FPATH, FileType::File, 2)]
+#[test_case(&NTF_1BYTE_FPATH, FileType::File, 2)]
+fn test_BlockReader_summary_empty(
+    path: &FPath,
+    filetype: FileType,
+    blocksz: BlockSz,
+) {
+    let blockreader = new_BlockReader(
+        path, filetype, blocksz
+    );
+    _ = blockreader.summary();
+}
+
+// TODO: [2023/03/23] test `BlockReader::summary` after doing some processing
