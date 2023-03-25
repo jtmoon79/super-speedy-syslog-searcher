@@ -982,3 +982,21 @@ fn test_process_stage0to3_drop_data(
     let dropped_blocks = slp.dropped_blocks();
     assert_gt!(dropped_blocks.len(), 0, "Expected *some* dropped Blocks but zero were dropped, blocksz {:?}, filesz {:?}", blocksz, slp.filesz());
 }
+
+/// test `SyslogProcessor::summary` and `SyslogProcessor::summary_complete`
+/// before doing any processing
+#[test_case(&NTF_LOG_EMPTY_FPATH, 0x100)]
+#[test_case(&NTF_GZ_8BYTE_FPATH, 0x100)]
+fn test_SyslogProcessor_summary_empty(
+    path: &FPath,
+    blocksz: BlockSz,
+) {
+    let syslogprocessor = new_SyslogProcessor(
+        path,
+        blocksz,
+    );
+    _ = syslogprocessor.summary();
+    _ = syslogprocessor.summary_complete();
+}
+
+// TODO: [2023/03/23]  test `SyslogProcessor::summary` and `SyslogProcessor::summary_complete`
