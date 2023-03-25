@@ -44,11 +44,6 @@
 //       `e_termination` and `e_exit` in `struct exit_status`
 //       https://elixir.bootlin.com/glibc/glibc-2.37/source/bits/utmp.h#L48
 
-// TODO: [2023/02/27] reivewing https://github.com/openbsd/src/blob/24e9bd867b8d4b967f896aaa4b182c6616ac610b/include/utmp.h
-//       it is clear that `utmp` and `utmpx` are very different structures.
-//       Rename this file, and all vars from "utmp" to "utmpx" to avoid confusion.
-
-// TODO: [2023/03/09] make imports style consistent in all other files.
 
 use crate::de_wrn;
 use crate::common::{
@@ -166,6 +161,7 @@ pub struct UtmpxReader {
     /// Intended for `--summary`.
     ///
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
+    // TODO: [2023/03/22] change behavior to be "first printed" instead of "first processed"
     pub(super) dt_first: DateTimeLOpt,
     /// Last (latest) processed [`DateTimeL`] (not necessarily printed,
     /// not representative of the entire file).
@@ -173,6 +169,7 @@ pub struct UtmpxReader {
     /// Intended for `--summary`.
     ///
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
+    // TODO: [2023/03/22] change behavior to be "last printed" instead of "last processed"
     pub(super) dt_last: DateTimeLOpt,
     /// `Count` of dropped `Utmpx`.
     pub(super) drop_entry_ok: Count,

@@ -256,7 +256,6 @@ impl fmt::Debug for Utmpx {
         f.debug_struct("Utmpx")
             .field("fileoffset", &self.fileoffset)
             .field("dt", &self.dt)
-            // TODO: complete this
             .finish()
     }
 }

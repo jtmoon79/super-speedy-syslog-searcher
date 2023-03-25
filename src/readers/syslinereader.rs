@@ -157,6 +157,7 @@ pub struct SyslineReader {
     ///
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     // TODO: [2022/07/27] cost-savings: save the ref
+    // TODO: [2023/03/22] change behavior to be "first printed" instead of "first processed"
     pub(super) dt_first: DateTimeLOpt,
     pub(super) dt_first_prev: DateTimeLOpt,
     /// Last (latest) processed [`DateTimeL`] (not necessarily printed,
@@ -166,6 +167,7 @@ pub struct SyslineReader {
     ///
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     // TODO: [2022/07/27] cost-savings: save the ref
+    // TODO: [2023/03/22] change behavior to be "last printed" instead of "last processed"
     pub(super) dt_last: DateTimeLOpt,
     pub(super) dt_last_prev: DateTimeLOpt,
     /// `Count`s found patterns stored in `dt_patterns`.
