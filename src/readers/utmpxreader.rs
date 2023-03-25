@@ -230,7 +230,7 @@ impl UtmpxReader {
         blocksz: BlockSz,
         tz_offset: FixedOffset,
     ) -> Result<UtmpxReader> {
-        defñ!("UtmpxReader::new({:?}, {:?}, {:?})", path, blocksz, tz_offset);
+        defñ!("({:?}, {:?}, {:?})", path, blocksz, tz_offset);
         let blockreader = BlockReader::new(path, FileType::Utmpx, blocksz)?;
         Ok(
             UtmpxReader
@@ -729,7 +729,7 @@ impl UtmpxReader {
             de!("WARNING: fileoffset {} not multiple of {}", fileoffset, UTMPX_SZ_FO);
         }
 
-        defo!("searching for utmp entry …");
+        defo!("searching for utmpx entry …");
 
         let mut buffer: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
         let at: usize = match self.blockreader.read_data_to_buffer(
