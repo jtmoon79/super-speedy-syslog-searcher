@@ -36,8 +36,8 @@ use std::mem::size_of_val;
 use std::str; // for `from_utf8`
 
 use ::chrono::FixedOffset;
-use ::test_case::test_case;
 use ::lazy_static::lazy_static;
+use ::test_case::test_case;
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_ge,

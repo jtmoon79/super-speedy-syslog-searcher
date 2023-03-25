@@ -30,6 +30,7 @@ use crate::tests::common::{
     FO_0,
     NTF_GZ_EMPTY_FPATH,
     NTF_LOG_EMPTY_FPATH,
+    NTF_GZ_8BYTE_FPATH,
 };
 
 use ::const_format::concatcp;

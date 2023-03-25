@@ -22,15 +22,35 @@ use crate::data::datetime::{
     TimeZone,
 };
 use crate::tests::datetime_tests::dt_pattern_has_tz;
-use crate::debug::helpers::{create_temp_file, create_temp_file_bytes, ntf_fpath, NamedTempFile};
+use crate::debug::helpers::{
+    create_temp_file,
+    create_temp_file_bytes,
+    ntf_fpath,
+    NamedTempFile,
+};
 use crate::debug::printers::str_to_String_noraw;
 use crate::tests::common::eprint_file;
 #[allow(unused_imports)]
 use crate::tests::common::{
-    NTF_GZ_1BYTE_FPATH, NTF_GZ_8BYTE_FPATH, NTF_GZ_EMPTY_FPATH, NTF_LOG_EMPTY_FPATH, NTF_NL_1_PATH,
-    NTF_NL_2_PATH, NTF_NL_3_PATH, NTF_NL_4_PATH, NTF_NL_5_PATH, NTF_TAR_0BYTE_FILEA_FPATH,
-    NTF_TAR_1BYTE_FILEA_FPATH, NTF_TAR_1BYTE_FPATH, NTF_TAR_8BYTE_FILEA_FPATH, NTF_WNL_1_PATH, FO_P5,
-    FO_P8, FO_M5, FO_M8,
+    NTF_GZ_1BYTE_FPATH,
+    NTF_GZ_8BYTE_FPATH,
+    NTF_GZ_EMPTY_FPATH,
+    NTF_XZ_1BYTE_FPATH,
+    NTF_LOG_EMPTY_FPATH,
+    NTF_NL_1_PATH,
+    NTF_NL_2_PATH,
+    NTF_NL_3_PATH,
+    NTF_NL_4_PATH,
+    NTF_NL_5_PATH,
+    NTF_TAR_0BYTE_FILEA_FPATH,
+    NTF_TAR_1BYTE_FILEA_FPATH,
+    NTF_TAR_1BYTE_FPATH,
+    NTF_TAR_8BYTE_FILEA_FPATH,
+    NTF_WNL_1_PATH,
+    FO_P5,
+    FO_P8,
+    FO_M5,
+    FO_M8,
 };
 
 use std::str;
