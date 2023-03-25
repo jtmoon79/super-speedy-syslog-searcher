@@ -97,18 +97,7 @@ fn test_UtmpxReader_helpers0() {
 
 const BSZ: BlockSz = 400;
 
-#[test]
-fn test_UtmpxReader_summary0() {
-    const BSZ: BlockSz = 64;
-    let ur = new_UtmpxReader(
-        &NTF_UTMPX_2ENTRY_FPATH,
-        BSZ,
-        *FO_P8
-    );
-    let _summaryutmpxreader = ur.summary();
-    let _summary = ur.summary_complete();
-}
-
+/// test `UtmpxReader::find_entry`
 #[test_case(&NTF_UTMPX_1ENTRY_FPATH, 2, 0, FOUND, 1; "UTMPX_1ENTRY a")]
 #[test_case(&NTF_UTMPX_1ENTRY_FPATH, 16, 0, FOUND, 1; "UTMPX_1ENTRY b")]
 #[test_case(&NTF_UTMPX_1ENTRY_FPATH, BSZ, 0, FOUND, 1; "UTMPX_1ENTRY c")]
@@ -183,6 +172,24 @@ fn test_UtmpxReader_read_find_entry(
     }
 }
 
+/// test `UtmpxReader::summary` and `UtmpxReader::summary_complete`
+/// before doing any processing
+#[test_case(&NTF_LOG_EMPTY_FPATH)]
+#[test_case(&NTF_UTMPX_1ENTRY_FPATH)]
+fn test_UtmpxReader_summary_empty(
+    path: &FPath,
+) {
+    let utmpreader = new_UtmpxReader(
+        path,
+        BSZ,
+        *FO_0,
+    );
+    _ = utmpreader.summary();
+    _ = utmpreader.summary_complete();
+}
+
+/// test `UtmpxReader::find_entry` and `UtmpxReader::summary`
+/// and `UtmpxReader::summary_complete`
 #[test]
 fn test_UtmpxReader_read_find_entry_2_summary() {
     let mut utmpreader = new_UtmpxReader(
