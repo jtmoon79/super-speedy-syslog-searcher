@@ -2709,7 +2709,11 @@ fn processing_loop(
     }
 
     if map_pathid_chanrecvdatum.is_empty() {
-        de_err!("map_pathid_chanrecvdatum.is_empty(); nothing to do.");
+        // No threads were created. This can happen if user passes only paths
+        // that do not exist. Print summary (optional) and return.
+        if ! cli_opt_summary {
+            return false;
+        }
         eprintln!("Summary:");
         print_summary_opt_printed(&None, &None, &color_choice);
         eprintln!(
