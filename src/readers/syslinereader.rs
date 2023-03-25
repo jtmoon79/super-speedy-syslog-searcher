@@ -2287,7 +2287,9 @@ impl SyslineReader {
         let filesz: FileSz = self.filesz();
         let _fo_end: FileOffset = filesz as FileOffset;
         let mut try_fo: FileOffset = fileoffset;
+        #[allow(unused_assignments)]
         let mut try_fo_last: FileOffset = try_fo;
+        #[allow(unused_assignments)]
         let mut fo_last: FileOffset = fileoffset;
         let mut syslinep_opt: Option<SyslineP> = None;
         let mut fo_a: FileOffset = fileoffset; // begin "range cursor" marker

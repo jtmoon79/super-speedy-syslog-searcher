@@ -150,7 +150,7 @@ fn test_UtmpxReader_read_find_entry(
     expect_fo_index: FileOffset,
 ) {
     let mut utmpreader = new_UtmpxReader(
-        &path,
+        path,
         blocksz,
         *FO_0,
     );
