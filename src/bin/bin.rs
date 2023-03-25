@@ -967,7 +967,7 @@ fn process_dt(
         if *has_tzZ {
             defo!("has_tzZ {:?}", dts_);
             let mut val_Z: String = String::with_capacity(5);
-            while dts_.chars().rev().next().unwrap().is_alphabetic() {
+            while dts_.chars().rev().next().unwrap_or('\0').is_alphabetic() {
                 match dts_.pop() {
                     Some(c) => val_Z.insert(0, c),
                     None => continue
