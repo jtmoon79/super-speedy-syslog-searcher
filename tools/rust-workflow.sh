@@ -31,7 +31,7 @@ cargo msrv verify
 
 cargo build
 cargo build --release
-cargo test
+cargo test --all-targets
 cargo check --all-targets
 cargo check --all-targets --release
 cargo clippy --no-deps --all-targets --all-features
