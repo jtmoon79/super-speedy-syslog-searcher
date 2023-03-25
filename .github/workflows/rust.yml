@@ -104,6 +104,12 @@ jobs:
           cargo --version
           cargo clippy --version
           cargo clippy --no-deps --verbose --all-targets --all-features
+      - name: Bench Dry Run
+        shell: bash
+        run: |
+          set -eux
+          cargo --version
+          cargo bench --no-run
       - name: Build Debug
         shell: bash
         run: |
@@ -129,9 +135,6 @@ jobs:
         with:
           name: s4_release
           path: ./s4_release
-      # - name: Bench
-      #   run: cargo bench --no-run
-      #  tests
       - name: Run Tests
         run: cargo test --verbose --all-targets
       - name: Build Documentation

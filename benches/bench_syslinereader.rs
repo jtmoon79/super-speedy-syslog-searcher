@@ -41,7 +41,7 @@ fn syslinereader_baseline_init() {
 // criterion runners
 
 fn criterion_benchmark(c: &mut Criterion) {
-    let mut bg = c.benchmark_group("SyslineReader");
+    let mut bg = c.benchmark_group("syslinereader");
     bg.bench_function("syslinereader_baseline_init", |b| b.iter(syslinereader_baseline_init));
 }
 

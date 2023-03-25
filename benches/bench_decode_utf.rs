@@ -466,7 +466,7 @@ let dts = &data_slice.as_bstr();
 
 fn criterion_benchmark(c: &mut Criterion) {
     Datas_check();
-    let mut bg = c.benchmark_group("decode utf8");
+    let mut bg = c.benchmark_group("decode_utf");
     bg.bench_function("dutf8_baseline_no_decoding", |b| b.iter(dutf8_baseline_no_decoding));
     bg.bench_function("dutf8_encodingrs_decode_to_string", |b| b.iter(dutf8_encodingrs_decode_to_string));
     bg.bench_function("dutf8_encodingrs_decode_to_string_without_replacement", |b| {

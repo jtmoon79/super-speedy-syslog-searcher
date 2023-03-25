@@ -20,7 +20,7 @@ fn baseline_no_ranges() {
 // criterion runners
 
 fn criterion_benchmark(c: &mut Criterion) {
-    let mut bg = c.benchmark_group("RangeMap");
+    let mut bg = c.benchmark_group("ranges");
     bg.bench_function("baseline_no_ranges", |b| b.iter(baseline_no_ranges));
 }
 
