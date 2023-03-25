@@ -78,6 +78,13 @@ const UTMP_FILENAMES_FILE: [&str; 9] = [
     "utx.log",
 ];
 
+/// [evtx format] file name extensions.
+///
+/// [evtx format]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
+const EVTX_FILENAMES_EXT: [&str; 1] = [
+    "evtx",
+];
+
 /// Map a single [`MimeGuess`] as a [`str`] into a `FileType`.
 ///
 /// Mimetype values are in [`mime_types.rs`].
@@ -206,6 +213,11 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         .to_ascii_lowercase();
     let file_suffix_s = file_suffix_string.as_str();
     deo!("file_suffix {:?}", file_suffix_s);
+
+    if EVTX_FILENAMES_EXT.contains(&file_suffix_s) {
+        defx!("return Evtx; EVTX_FILENAMES_EXT.contains({:?})", file_suffix_s);
+        return FileType::Evtx;
+    }
 
     if file_suffix_s == "journal" {
         defx!("return Unparseable; .journal");

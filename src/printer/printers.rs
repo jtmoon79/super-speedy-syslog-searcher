@@ -9,6 +9,8 @@
 //! [`Sysline`s]: crate::data::sysline::Sysline
 //! [`Utmpx`s]: crate::data::utmpx::Utmpx
 
+use crate::common::NLu8;
+use crate::data::evtx::Evtx;
 use crate::data::datetime::{DateTimeL, FixedOffset};
 use crate::data::line::{LineIndex, LineP};
 use crate::data::sysline::SyslineP;
@@ -24,9 +26,14 @@ use std::io::{
     Write, // for `std::io::Stdout.flush`
 };
 
+use ::bstr::ByteSlice;
 #[doc(hidden)]
 pub use ::termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
-use ::more_asserts::debug_assert_le;
+#[allow(unused_imports)]
+use ::more_asserts::{
+    debug_assert_le,
+    debug_assert_lt,
+};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // globals and constants
@@ -43,6 +50,8 @@ pub const COLOR_DEFAULT: Color = Color::White;
 ///
 /// [`Color`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
 pub const COLOR_ERROR: Color = Color::Red;
+
+const CHARSZ: usize = 1;
 
 /// A preselection of [`Color`s] for printing syslines.
 /// Chosen for a dark background console.
@@ -134,8 +143,10 @@ pub struct PrinterLogMessage {
     /// color settings for plain text (not sysline)
     color_spec_default: ColorSpec,
     /// color of printed logmessage data
+    // TODO: [2023/03/22] remove this
     _color_logmessage: Color,
     /// color settings for sysline text
+    // TODO: [2023/03/22] rename from `color_spec_sysline` to `color_spec_text`
     color_spec_sysline: ColorSpec,
     /// color settings for sysline dateline text
     color_spec_datetime: ColorSpec,
@@ -160,9 +171,11 @@ pub struct PrinterLogMessage {
 /// Macro to write to given stdout. If there is an error then
 /// `return PrinterLogMessageResult::Err`.
 macro_rules! write_or_return {
-    ($stdout:expr, $slice_:expr) => {
+    ($stdout:expr, $slice_:expr, $printed:expr) => {
         match $stdout.write_all($slice_) {
-            Ok(_) => {}
+            Ok(_) => {
+                $printed += $slice_.len();
+            }
             Err(err) => {
                 // XXX: this will print when this program stdout is truncated, like when piping
                 //      to `head`, e.g. `s4 file.log | head`
@@ -205,10 +218,10 @@ macro_rules! setcolor_or_return {
 //      So a macro is a decent workaround.
 /// Macro helper to print a single line in color
 macro_rules! print_color_line {
-    ($stdout_color:expr, $linep:expr) => {{
+    ($stdout_color:expr, $linep:expr, $printed:expr) => {{
         for linepart in (*$linep).lineparts.iter() {
             let slice: &[u8] = linepart.as_slice();
-            write_or_return!($stdout_color, slice);
+            write_or_return!($stdout_color, slice, $printed);
         }
     }};
 }
@@ -219,7 +232,7 @@ macro_rules! print_color_line {
 /// Macro helper to print a single line in color and highlight the datetime
 /// within the line
 macro_rules! print_color_line_highlight_dt {
-    ($self:expr, $linep:expr, $dt_beg:expr, $dt_end:expr) => {{
+    ($self:expr, $linep:expr, $dt_beg:expr, $dt_end:expr, $printed:expr) => {{
         debug_assert_le!(
             $dt_beg,
             $dt_end,
@@ -262,17 +275,17 @@ macro_rules! print_color_line_highlight_dt {
                 // print line contents before the datetime
                 if !slice_a.is_empty() {
                     setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
-                    write_or_return!($self.stdout_color, slice_a);
+                    write_or_return!($self.stdout_color, slice_a, $printed);
                 }
                 // print line contents of the entire datetime
                 if !slice_b_dt.is_empty() {
                     setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
-                    write_or_return!($self.stdout_color, slice_b_dt);
+                    write_or_return!($self.stdout_color, slice_b_dt, $printed);
                 }
                 // print line contents after the datetime
                 if !slice_c.is_empty() {
                     setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
-                    write_or_return!($self.stdout_color, slice_c);
+                    write_or_return!($self.stdout_color, slice_c, $printed);
                 }
             // datetime begins in this linepart, extends into next linepart
             } else if at <= $dt_beg && $dt_beg < at_end && at_end <= $dt_end {
@@ -292,12 +305,12 @@ macro_rules! print_color_line_highlight_dt {
                 // print line contents before the datetime
                 if !slice_a.is_empty() {
                     setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
-                    write_or_return!($self.stdout_color, slice_a);
+                    write_or_return!($self.stdout_color, slice_a, $printed);
                 }
                 // print line contents of the partial datetime
                 if !slice_b_dt.is_empty() {
                     setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
-                    write_or_return!($self.stdout_color, slice_b_dt);
+                    write_or_return!($self.stdout_color, slice_b_dt, $printed);
                 }
             // datetime began in previous linepart, extends into this linepart and ends within this linepart
             } else if $dt_beg < at && at <= $dt_end && $dt_end <= at_end {
@@ -316,23 +329,23 @@ macro_rules! print_color_line_highlight_dt {
                 // print line contents of the partial datetime
                 if !slice_a_dt.is_empty() {
                     setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
-                    write_or_return!($self.stdout_color, slice_a_dt);
+                    write_or_return!($self.stdout_color, slice_a_dt, $printed);
                 }
                 // print line contents after the datetime
                 if !slice_b.is_empty() {
                     setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
-                    write_or_return!($self.stdout_color, slice_b);
+                    write_or_return!($self.stdout_color, slice_b, $printed);
                 }
             // datetime began in previous linepart, extends into next linepart
             } else if $dt_beg < at && at_end <= $dt_end {
                 // print entire linepart which is the partial datetime
                 setcolor_or_return!($self.stdout_color, $self.color_spec_datetime, $self.color_spec_last);
-                write_or_return!($self.stdout_color, slice);
+                write_or_return!($self.stdout_color, slice, $printed);
             // datetime is not in this linepart
             } else {
                 // print entire linepart
                 setcolor_or_return!($self.stdout_color, $self.color_spec_sysline, $self.color_spec_last);
-                write_or_return!($self.stdout_color, slice);
+                write_or_return!($self.stdout_color, slice, $printed);
             }
             at += slice.len() as LineIndex;
         }
@@ -342,7 +355,7 @@ macro_rules! print_color_line_highlight_dt {
 /// Aliased [`Result`] returned by various [`PrinterLogMessage`] functions.
 ///
 /// [`Result`]: std::io::Result
-pub type PrinterLogMessageResult = Result<()>;
+pub type PrinterLogMessageResult = Result<usize>;
 
 impl PrinterLogMessage {
     /// Create a new `PrinterLogMessage`.
@@ -406,7 +419,8 @@ impl PrinterLogMessage {
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
         // TODO: [2022/06/19] how to determine if "Auto" has become Always or Never?
-        // see https://docs.rs/termcolor/latest/termcolor/#detecting-presence-of-a-terminal
+        //       see https://docs.rs/termcolor/latest/termcolor/#detecting-presence-of-a-terminal
+        // TODO: [2023/03/23] refactor `print_sysline*` similar to `print_evtx*`
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
             (false, false, false) => self.print_sysline_(syslinep),
             (false, true, false) => self.print_sysline_prependfile(syslinep),
@@ -430,6 +444,7 @@ impl PrinterLogMessage {
         utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
+        // TODO: [2023/03/23] refactor `print_utmp*` similar to `print_evtx*`
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
             (false, false, false) => self.print_utmpx_(utmpx, buffer),
             (false, true, false) => self.print_utmpx_prependfile(utmpx, buffer),
@@ -442,12 +457,36 @@ impl PrinterLogMessage {
         }
     }
 
+    /// Prints the [`Evtx`] based on `PrinterLogMessage` settings.
+    ///
+    /// Users should call this function.
+    ///
+    /// [`Evtx`]: crate::data::evtx::Evtx
+    #[inline(always)]
+    pub fn print_evtx(
+        &mut self,
+        evtx: &Evtx,
+    ) -> PrinterLogMessageResult {
+        match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
+            (false, false, false) => self.print_evtx_(evtx),
+            (false, do_prepend_file, do_prepend_date) => {
+                self.print_evtx_prepend(evtx, do_prepend_file, do_prepend_date)
+            }
+            (true, do_prepend_file, do_prepend_date) => {
+                match (do_prepend_file, do_prepend_date) {
+                    (false, false) => self.print_evtx_color(evtx),
+                    (do_prepend_file, do_prepend_date) => self.print_evtx_prepend_color(evtx, do_prepend_file, do_prepend_date),
+                }
+            }
+        }
+    }
+
     /// Helper function to transform [`sysline.dt`] to a `String`.
     ///
     /// [`sysline.dt`]: crate::data::sysline::Sysline
     #[inline(always)]
     fn datetime_to_string_sysline(
-        &mut self,
+        &self,
         syslinep: &SyslineP,
     ) -> String {
         // write the `syslinep.dt` into a `String` once
@@ -479,11 +518,34 @@ impl PrinterLogMessage {
     /// [`utmpx.dt`]: crate::data::utmpx::utmpx#structfield.dt
     #[inline(always)]
     fn datetime_to_string_utmpx(
-        &mut self,
+        &self,
         utmpx: &Utmpx,
     ) -> String {
         // write the `utmpx.dt` into a `String` once
         let dt_: DateTimeL = (*utmpx)
+            .dt()
+            .with_timezone(
+                &self
+                    .prepend_date_offset
+                    .unwrap(),
+            );
+        let dt_delayedformat = dt_.format(
+            self.prepend_date_format.as_str(),
+        );
+
+        dt_delayedformat.to_string()
+    }
+
+    /// Helper function to transform [`evtx.dt`] to a `String`.
+    ///
+    /// [`evtx.dt`]: crate::data::evtx::Evtx#structfield.dt
+    #[inline(always)]
+    fn datetime_to_string_evtx(
+        &self,
+        evtx: &Evtx,
+    ) -> String {
+        // write the `evtx.dt` into a `String` once
+        let dt_: DateTimeL = evtx
             .dt()
             .with_timezone(
                 &self
@@ -507,12 +569,13 @@ impl PrinterLogMessage {
         linep: &LineP,
         stdout_lock: &mut StdoutLock,
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         for linepart in (*linep).lineparts.iter() {
             let slice: &[u8] = linepart.as_slice();
-            write_or_return!(stdout_lock, slice);
+            write_or_return!(stdout_lock, slice, printed);
         }
 
-        PrinterLogMessageResult::Ok(())
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Print a [`Sysline`] without anything special.
@@ -522,19 +585,23 @@ impl PrinterLogMessage {
         &mut self,
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
-            self.print_line(linep, &mut stdout_lock)?;
+            printed += self.print_line(linep, &mut stdout_lock)?;
+        }
+        if let Result::Err(err) = stdout_lock.flush() {
+            return PrinterLogMessageResult::Err(err);
         }
 
-        stdout_lock.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Print a [`Sysline`] with prepended datetime.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_sysline_prependdate(
-        &mut self,
+        &self,
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
         debug_assert!(
@@ -544,26 +611,31 @@ impl PrinterLogMessage {
             self.prepend_date_offset
         );
 
+        let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_sysline(syslinep);
         let dtb: &[u8] = dt_string.as_bytes();
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
-            write_or_return!(stdout_lock, dtb);
-            self.print_line(linep, &mut stdout_lock)?;
+            write_or_return!(stdout_lock, dtb, printed);
+            printed += self.print_line(linep, &mut stdout_lock)?;
+        }
+        if let Result::Err(err) = stdout_lock.flush() {
+            return PrinterLogMessageResult::Err(err);
         }
 
-        stdout_lock.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// print a [`Sysline`] with prepended filename.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_sysline_prependfile(
-        &mut self,
+        &self,
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
 
+        let mut printed: usize = 0;
         let prepend_file: &[u8] = self
             .prepend_file
             .as_ref()
@@ -571,18 +643,21 @@ impl PrinterLogMessage {
             .as_bytes();
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
-            write_or_return!(stdout_lock, prepend_file);
-            self.print_line(linep, &mut stdout_lock)?;
+            write_or_return!(stdout_lock, prepend_file, printed);
+            printed += self.print_line(linep, &mut stdout_lock)?;
+        }
+        if let Result::Err(err) = stdout_lock.flush() {
+            return PrinterLogMessageResult::Err(err);
         }
 
-        stdout_lock.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Print a [`Sysline`] with prepended filename and datetime.
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     fn print_sysline_prependfile_prependdate(
-        &mut self,
+        &self,
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
@@ -593,6 +668,7 @@ impl PrinterLogMessage {
             self.prepend_date_offset
         );
 
+        let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_sysline(syslinep);
         let dtb: &[u8] = dt_string.as_bytes();
         let prepend_file: &[u8] = self
@@ -602,12 +678,15 @@ impl PrinterLogMessage {
             .as_bytes();
         let mut stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
-            write_or_return!(stdout_lock, prepend_file);
-            write_or_return!(stdout_lock, dtb);
-            self.print_line(linep, &mut stdout_lock)?;
+            write_or_return!(stdout_lock, prepend_file, printed);
+            write_or_return!(stdout_lock, dtb, printed);
+            printed += self.print_line(linep, &mut stdout_lock)?;
+        }
+        if let Result::Err(err) = stdout_lock.flush() {
+            return PrinterLogMessageResult::Err(err);
         }
 
-        stdout_lock.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Prints [`Sysline`] in color.
@@ -617,6 +696,7 @@ impl PrinterLogMessage {
         &mut self,
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         let mut line_first = true;
         let stdout_lock = self.stdout.lock();
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
@@ -624,16 +704,19 @@ impl PrinterLogMessage {
             if line_first {
                 let dt_beg = (*syslinep).dt_beg;
                 let dt_end = (*syslinep).dt_end;
-                print_color_line_highlight_dt!(self, linep, dt_beg, dt_end);
+                print_color_line_highlight_dt!(self, linep, dt_beg, dt_end, printed);
                 line_first = false;
             } else {
-                print_color_line!(self.stdout_color, linep);
+                print_color_line!(self.stdout_color, linep, printed);
             }
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         black_box(&stdout_lock);
+        if let Result::Err(err) = self.stdout_color.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        self.stdout_color.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Print a [`Sysline`] in color and prepended datetime.
@@ -643,27 +726,31 @@ impl PrinterLogMessage {
         &mut self,
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         let mut line_first = true;
         let dt_string: String = self.datetime_to_string_sysline(syslinep);
         let dtb: &[u8] = dt_string.as_bytes();
         let stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
-            write_or_return!(self.stdout_color, dtb);
+            write_or_return!(self.stdout_color, dtb, printed);
             setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
             if line_first {
                 let dt_beg = (*syslinep).dt_beg;
                 let dt_end = (*syslinep).dt_end;
-                print_color_line_highlight_dt!(self, linep, dt_beg, dt_end);
+                print_color_line_highlight_dt!(self, linep, dt_beg, dt_end, printed);
                 line_first = false;
             } else {
-                print_color_line!(self.stdout_color, linep);
+                print_color_line!(self.stdout_color, linep, printed);
             }
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         black_box(&stdout_lock);
+        if let Result::Err(err) = self.stdout_color.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        self.stdout_color.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Prints [`Sysline`] in color and prepended filename.
@@ -673,6 +760,7 @@ impl PrinterLogMessage {
         &mut self,
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         let mut line_first = true;
         let prepend_file: &[u8] = self
             .prepend_file
@@ -682,21 +770,24 @@ impl PrinterLogMessage {
         let stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
-            write_or_return!(self.stdout_color, prepend_file);
+            write_or_return!(self.stdout_color, prepend_file, printed);
             setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
             if line_first {
                 let dt_beg = (*syslinep).dt_beg;
                 let dt_end = (*syslinep).dt_end;
-                print_color_line_highlight_dt!(self, linep, dt_beg, dt_end);
+                print_color_line_highlight_dt!(self, linep, dt_beg, dt_end, printed);
                 line_first = false;
             } else {
-                print_color_line!(self.stdout_color, linep);
+                print_color_line!(self.stdout_color, linep, printed);
             }
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         black_box(&stdout_lock);
+        if let Result::Err(err) = self.stdout_color.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        self.stdout_color.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Print a [`Sysline`] in color and prepended filename and datetime.
@@ -706,6 +797,7 @@ impl PrinterLogMessage {
         &mut self,
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         let mut line_first = true;
         let dt_string: String = self.datetime_to_string_sysline(syslinep);
         let dtb: &[u8] = dt_string.as_bytes();
@@ -717,47 +809,54 @@ impl PrinterLogMessage {
         let stdout_lock = self.stdout.lock();
         for linep in (*syslinep).lines.iter() {
             setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
-            write_or_return!(self.stdout_color, prepend_file);
-            write_or_return!(self.stdout_color, dtb);
+            write_or_return!(self.stdout_color, prepend_file, printed);
+            write_or_return!(self.stdout_color, dtb, printed);
             setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
             if line_first {
                 let dt_beg = (*syslinep).dt_beg;
                 let dt_end = (*syslinep).dt_end;
-                print_color_line_highlight_dt!(self, linep, dt_beg, dt_end);
+                print_color_line_highlight_dt!(self, linep, dt_beg, dt_end, printed);
                 line_first = false;
             } else {
-                print_color_line!(self.stdout_color, linep);
+                print_color_line!(self.stdout_color, linep, printed);
             }
         }
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         black_box(&stdout_lock);
+        if let Result::Err(err) = self.stdout_color.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        self.stdout_color.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Print a [`Utmpx`] without anything special.
     ///
     /// [`Utmpx`]: crate::data::utmpx::Utmpx
     fn print_utmpx_(
-        &mut self,
+        &self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         let at = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
         let mut stdout_lock = self.stdout.lock();
-        write_or_return!(stdout_lock, &buffer[..at]);
+        write_or_return!(stdout_lock, &buffer[..at], printed);
+        if let Result::Err(err) = stdout_lock.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        stdout_lock.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Print a [`Utmpx`] with prepended datetime.
     ///
     /// [`Utmpx`]: crate::data::utmpx::Utmpx
     fn print_utmpx_prependdate(
-        &mut self,
+        &self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
@@ -768,6 +867,7 @@ impl PrinterLogMessage {
             self.prepend_date_offset
         );
 
+        let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_utmpx(utmpx);
         let dtb: &[u8] = dt_string.as_bytes();
         let at = match utmpx.as_bytes(buffer) {
@@ -776,10 +876,13 @@ impl PrinterLogMessage {
         };
 
         let mut stdout_lock = self.stdout.lock();
-        write_or_return!(stdout_lock, dtb);
-        write_or_return!(stdout_lock, &buffer[..at]);
+        write_or_return!(stdout_lock, dtb, printed);
+        write_or_return!(stdout_lock, &buffer[..at], printed);
+        if let Result::Err(err) = stdout_lock.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        stdout_lock.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// prints [`Utmpx`] with prepended filename.
@@ -792,6 +895,7 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
 
+        let mut printed: usize = 0;
         let prepend_file: &[u8] = self
             .prepend_file
             .as_ref()
@@ -802,10 +906,13 @@ impl PrinterLogMessage {
             InfoAsBytes::Fail(at) => at,
         };
         let mut stdout_lock = self.stdout.lock();
-        write_or_return!(stdout_lock, prepend_file);
-        write_or_return!(stdout_lock, &buffer[..at]);
+        write_or_return!(stdout_lock, prepend_file, printed);
+        write_or_return!(stdout_lock, &buffer[..at], printed);
+        if let Result::Err(err) = stdout_lock.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        stdout_lock.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Print a [`Utmpx`] with prepended filename and datetime.
@@ -824,6 +931,7 @@ impl PrinterLogMessage {
             self.prepend_date_offset
         );
 
+        let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_utmpx(utmpx);
         let dtb: &[u8] = dt_string.as_bytes();
         let prepend_file: &[u8] = self
@@ -837,11 +945,14 @@ impl PrinterLogMessage {
         };
 
         let mut stdout_lock = self.stdout.lock();
-        write_or_return!(stdout_lock, dtb);
-        write_or_return!(stdout_lock, prepend_file);
-        write_or_return!(stdout_lock, &buffer[..at]);
+        write_or_return!(stdout_lock, dtb, printed);
+        write_or_return!(stdout_lock, prepend_file, printed);
+        write_or_return!(stdout_lock, &buffer[..at], printed);
+        if let Result::Err(err) = stdout_lock.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        stdout_lock.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Prints [`Utmpx`] in color.
@@ -852,6 +963,7 @@ impl PrinterLogMessage {
         utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         let (at, beg, end) = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
@@ -862,18 +974,20 @@ impl PrinterLogMessage {
                 return PrinterLogMessageResult::Err(err);
             }
         };
-
         let stdout_lock = self.stdout.lock();
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[..beg]);
+        write_or_return!(self.stdout_color, &buffer[..beg], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_datetime, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[beg..end]);
+        write_or_return!(self.stdout_color, &buffer[beg..end], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[end..at]);
+        write_or_return!(self.stdout_color, &buffer[end..at], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         black_box(&stdout_lock);
+        if let Result::Err(err) = self.stdout_color.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        self.stdout_color.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Print a [`Utmpx`] in color and prepended datetime.
@@ -884,6 +998,7 @@ impl PrinterLogMessage {
         utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_utmpx(utmpx);
         let dtb: &[u8] = dt_string.as_bytes();
         let (at, beg, end) = match utmpx.as_bytes(buffer) {
@@ -896,21 +1011,23 @@ impl PrinterLogMessage {
                 return PrinterLogMessageResult::Err(err);
             }
         };
-        
 
         let stdout_lock = self.stdout.lock();
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
-        write_or_return!(self.stdout_color, dtb);
+        write_or_return!(self.stdout_color, dtb, printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[..beg]);
+        write_or_return!(self.stdout_color, &buffer[..beg], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_datetime, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[beg..end]);
+        write_or_return!(self.stdout_color, &buffer[beg..end], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[end..at]);
+        write_or_return!(self.stdout_color, &buffer[end..at], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         black_box(&stdout_lock);
+        if let Result::Err(err) = self.stdout_color.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        self.stdout_color.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Prints [`Utmpx`] in color and prepended filename.
@@ -921,6 +1038,7 @@ impl PrinterLogMessage {
         utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         let prepend_file: &[u8] = self
             .prepend_file
             .as_ref()
@@ -936,21 +1054,23 @@ impl PrinterLogMessage {
                 return PrinterLogMessageResult::Err(err);
             }
         };
-        
 
         let stdout_lock = self.stdout.lock();
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
-        write_or_return!(self.stdout_color, prepend_file);
+        write_or_return!(self.stdout_color, prepend_file, printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[..beg]);
+        write_or_return!(self.stdout_color, &buffer[..beg], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_datetime, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[beg..end]);
+        write_or_return!(self.stdout_color, &buffer[beg..end], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[end..at]);
+        write_or_return!(self.stdout_color, &buffer[end..at], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         black_box(&stdout_lock);
+        if let Result::Err(err) = self.stdout_color.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        self.stdout_color.flush()
+        PrinterLogMessageResult::Ok(printed)
     }
 
     /// Print a [`Utmpx`] in color and prepended filename and datetime.
@@ -961,6 +1081,7 @@ impl PrinterLogMessage {
         utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_utmpx(utmpx);
         let dtb: &[u8] = dt_string.as_bytes();
         let prepend_file: &[u8] = self
@@ -981,18 +1102,200 @@ impl PrinterLogMessage {
 
         let stdout_lock = self.stdout.lock();
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
-        write_or_return!(self.stdout_color, prepend_file);
-        write_or_return!(self.stdout_color, dtb);
+        write_or_return!(self.stdout_color, prepend_file, printed);
+        write_or_return!(self.stdout_color, dtb, printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[..beg]);
+        write_or_return!(self.stdout_color, &buffer[..beg], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_datetime, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[beg..end]);
+        write_or_return!(self.stdout_color, &buffer[beg..end], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
-        write_or_return!(self.stdout_color, &buffer[end..at]);
+        write_or_return!(self.stdout_color, &buffer[end..at], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         black_box(&stdout_lock);
+        if let Result::Err(err) = self.stdout_color.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
 
-        self.stdout_color.flush()
+        PrinterLogMessageResult::Ok(printed)
+    }
+
+    /// Print a [`Evtx`] without anything special. Optimized for this simple
+    /// common case.
+    ///
+    /// [`Evtx`]: crate::data::evtx::Evtx
+    fn print_evtx_(
+        &self,
+        evtx: &Evtx,
+    ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
+        let mut stdout_lock = self.stdout.lock();
+        write_or_return!(stdout_lock, evtx.as_bytes(), printed);
+        if let Result::Err(err) = stdout_lock.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
+
+        PrinterLogMessageResult::Ok(printed)
+    }
+
+    /// Print a [`Evtx`] with prepended file and/or datetime.
+    ///
+    /// [`Evtx`]: crate::data::evtx::Evtx
+    fn print_evtx_prepend(
+        &self,
+        evtx: &Evtx,
+        do_prependfile: bool,
+        do_prependdate: bool,
+    ) -> PrinterLogMessageResult {
+        debug_assert!(
+            self.prepend_date_offset
+                .is_some(),
+            "self.prepend_date_offset is {:?}",
+            self.prepend_date_offset
+        );
+
+        let mut printed: usize = 0;
+        let prepend_file: &[u8] = match do_prependfile {
+            true => self
+                    .prepend_file
+                    .as_ref()
+                    .unwrap()
+                    .as_bytes(),
+            false => &[],
+        };
+        let prepend_date_s: String;
+        let prepend_date: &[u8] = match do_prependdate {
+            true => {
+                prepend_date_s = self.datetime_to_string_evtx(evtx);
+                prepend_date_s.as_bytes()
+            }
+            false => &[],
+        };
+        let data = evtx.as_bytes();
+        let mut a: usize = 0;
+        let mut stdout_lock = self.stdout.lock();
+        while let Some(b) = data[a..].find_byte(NLu8) {
+            let line = &data[a..a + b + CHARSZ];
+            a += b + CHARSZ;
+            if line.is_empty() {
+                continue;
+            }
+            if do_prependfile {
+                write_or_return!(stdout_lock, prepend_file, printed);
+            }
+            if do_prependdate {
+                write_or_return!(stdout_lock, prepend_date, printed);
+            }
+            write_or_return!(stdout_lock, line, printed);
+        }
+
+        if let Result::Err(err) = stdout_lock.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
+
+        PrinterLogMessageResult::Ok(printed)
+    }
+
+    /// Prints [`Evtx`] in color. Optimized for this simple common case.
+    ///
+    /// [`Evtx`]: crate::data::evtx::Evtx
+    fn print_evtx_color(
+        &mut self,
+        evtx: &Evtx,
+    ) -> PrinterLogMessageResult {
+        let (beg, end) = match evtx.dt_beg_end() {
+            Some((beg, end)) => (*beg, *end),
+            None => (0, 0)
+        };
+        debug_assert_lt!(beg, end, "beg: {}, end: {}", beg, end);
+        let mut printed: usize = 0;
+        let data = evtx.as_bytes();
+        let stdout_lock = self.stdout.lock();
+        setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
+        write_or_return!(self.stdout_color, &data[..beg], printed);
+        setcolor_or_return!(self.stdout_color, self.color_spec_datetime, self.color_spec_last);
+        write_or_return!(self.stdout_color, &data[beg..end], printed);
+        setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
+        write_or_return!(self.stdout_color, &data[end..], printed);
+        setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
+        black_box(&stdout_lock);
+        if let Result::Err(err) = self.stdout_color.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
+
+        PrinterLogMessageResult::Ok(printed)
+    }
+
+    /// Print a [`Evtx`] in color and prepended filename and/or datetime.
+    ///
+    /// [`Evtx`]: crate::data::evtx::Evtx
+    fn print_evtx_prepend_color(
+        &mut self,
+        evtx: &Evtx,
+        do_prependfile: bool,
+        do_prependdate: bool,
+    ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
+        let prepend_file: &[u8] = match do_prependfile {
+            true => self
+                    .prepend_file
+                    .as_ref()
+                    .unwrap()
+                    .as_bytes(),
+            false => &[],
+        };
+        let prepend_date_s: String;
+        let prepend_date: &[u8] = match do_prependdate {
+            true => {
+                prepend_date_s = self.datetime_to_string_evtx(evtx);
+                prepend_date_s.as_bytes()
+            }
+            false => &[],
+        };
+        let (beg, end) = match evtx.dt_beg_end() {
+            Some((beg, end)) => (*beg, *end),
+            None => (0, 0)
+        };
+        debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
+        let data = evtx.as_bytes();
+        let mut at: usize = 0;
+        let mut a: usize = 0;
+        let stdout_lock = self.stdout.lock();
+        while let Some(b) = data[a..].find_byte(NLu8) {
+            let line = &data[a..a + b + CHARSZ];
+            a += b + CHARSZ;
+            if line.is_empty() {
+                continue;
+            }
+            let len = line.len();
+            setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
+            if do_prependfile {
+                write_or_return!(self.stdout_color, prepend_file, printed);
+            }
+            if do_prependdate {
+                write_or_return!(self.stdout_color, prepend_date, printed);
+            }
+            match (at <= beg, end < at + len) {
+                (true, true) => {
+                    setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
+                    write_or_return!(self.stdout_color, &line[..beg - at], printed);
+                    setcolor_or_return!(self.stdout_color, self.color_spec_datetime, self.color_spec_last);
+                    write_or_return!(self.stdout_color, &line[beg - at..end - at], printed);
+                    setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
+                    write_or_return!(self.stdout_color, &line[end - at..], printed);
+                }
+                _ => {
+                    setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
+                    write_or_return!(self.stdout_color, line, printed);
+                }
+            }
+            at += line.len();
+        }
+        if let Result::Err(err) = self.stdout_color.flush() {
+            return PrinterLogMessageResult::Err(err);
+        }
+        black_box(&stdout_lock);
+
+        PrinterLogMessageResult::Ok(printed)
     }
 }
 

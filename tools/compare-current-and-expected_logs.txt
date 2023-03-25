@@ -112,6 +112,7 @@
 ./logs/other/tests/dt-mix1.log
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
 ./logs/programs/pacman/pacman.log
 ./logs/programs/proftpd/controls.log
 ./logs/programs/proftpd/proftpd.log

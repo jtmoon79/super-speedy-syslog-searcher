@@ -24,6 +24,7 @@ use crate::readers::linereader::SummaryLineReader;
 use crate::readers::syslinereader::SummarySyslineReader;
 use crate::readers::syslogprocessor::SummarySyslogProcessor;
 use crate::readers::utmpxreader::SummaryUtmpxReader;
+use crate::readers::evtxreader::SummaryEvtxReader;
 
 use std::fmt;
 
@@ -35,6 +36,20 @@ use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // Summary
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+#[macro_export]
+macro_rules! debug_assert_none {
+    ($($arg:expr),+) => {
+        $(
+            if cfg!(debug_assertions) {
+                match $arg {
+                    None => {}
+                    Some(..) => panic!("'{}' is not None", stringify!($arg))
+                }
+            }
+        )+
+    };
+}
 
 /// wrapper for various `Summary*` data types for different files corresponding
 /// to [`LogMessage`] variants.
@@ -54,6 +69,7 @@ pub enum SummaryReaderData {
     ///
     /// [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
     Utmpx((SummaryBlockReader, SummaryUtmpxReader)),
+    Etvx(SummaryEvtxReader)
 }
 
 impl SummaryReaderData {
@@ -103,17 +119,24 @@ impl Summary {
         path: FPath,
         filetype: FileType,
         logmessagetype: LogMessageType,
-        summaryblockreader: SummaryBlockReader,
+        summaryblockreader_opt: Option<SummaryBlockReader>,
         summarylinereader_opt: Option<SummaryLineReader>,
         summarysyslinereader_opt: Option<SummarySyslineReader>,
         summarysyslogprocessor_opt: Option<SummarySyslogProcessor>,
         summaryutmpreader_opt: Option<SummaryUtmpxReader>,
+        summaryevtxreader_opt: Option<SummaryEvtxReader>,
         error: Option<String>,
     ) -> Summary {
-        // some sanity checks
-        debug_assert_ge!(summaryblockreader.blockreader_bytes, summaryblockreader.blockreader_blocks, "There is less bytes than Blocks");
-        debug_assert_ge!(summaryblockreader.blockreader_blocksz, BLOCKSZ_MIN, "blocksz too small");
-        debug_assert_le!(summaryblockreader.blockreader_blocksz, BLOCKSZ_MAX, "blocksz too big");
+        #[cfg(debug_assertions)]
+        match summaryblockreader_opt.as_ref() {
+            // XXX: random sanity checks
+            Some(summaryblockreader) => {
+                debug_assert_ge!(summaryblockreader.blockreader_bytes, summaryblockreader.blockreader_blocks, "There is less bytes than Blocks");
+                debug_assert_ge!(summaryblockreader.blockreader_blocksz, BLOCKSZ_MIN, "blocksz too small");
+                debug_assert_le!(summaryblockreader.blockreader_blocksz, BLOCKSZ_MAX, "blocksz too big");
+            }
+            None => {}
+        }
         // XXX: in case of a file without datetime stamp year, syslines may be reprocessed.
         //      the count of syslines processed may reflect reprocessing the same line in the file,
         //      leading to a `syslinereader_syslines` that is more than `linereader_lines`.
@@ -121,6 +144,11 @@ impl Summary {
         //debug_assert_ge!(linereader_lines, syslinereader_syslines, "There is less Lines than Syslines");
         match logmessagetype {
             LogMessageType::Sysline => {
+                debug_assert_none!(
+                    summaryutmpreader_opt,
+                    summaryevtxreader_opt
+                );
+                let summaryblockreader = summaryblockreader_opt.unwrap();
                 let summarylinereader = summarylinereader_opt.unwrap();
                 let summarysyslinereader = summarysyslinereader_opt.unwrap();
                 let summarysyslogprocessor = summarysyslogprocessor_opt.unwrap();
@@ -143,6 +171,13 @@ impl Summary {
                 }
             }
             LogMessageType::Utmpx => {
+                debug_assert_none!(
+                    summarylinereader_opt,
+                    summarysyslinereader_opt,
+                    summarysyslogprocessor_opt,
+                    summaryevtxreader_opt
+                );
+                let summaryblockreader = summaryblockreader_opt.unwrap();
                 let summaryutmpreader = summaryutmpreader_opt.unwrap();
                 debug_assert_ge!(summaryblockreader.blockreader_bytes, summaryutmpreader.utmpxreader_utmp_entries, "There is less bytes than Utmpx Entries");
                 let readerdata: SummaryReaderData = SummaryReaderData::Utmpx(
@@ -150,6 +185,26 @@ impl Summary {
                         summaryblockreader,
                         summaryutmpreader,
                     ),
+                );
+                Summary {
+                    path,
+                    filetype,
+                    logmessagetype,
+                    readerdata,
+                    error,
+                }
+            }
+            LogMessageType::Evtx => {
+                debug_assert_none!(
+                    summaryblockreader_opt,
+                    summarylinereader_opt,
+                    summarysyslinereader_opt,
+                    summarysyslogprocessor_opt,
+                    summaryutmpreader_opt
+                );
+                let summaryevtxreader = summaryevtxreader_opt.unwrap();
+                let readerdata: SummaryReaderData = SummaryReaderData::Etvx(
+                    summaryevtxreader
                 );
                 Summary {
                     path,
@@ -190,7 +245,8 @@ impl Summary {
         }
     }
 
-    pub fn blockreader(&self) -> &SummaryBlockReader {
+    /// helper to get optional `SummaryBlockReader` reference
+    pub fn blockreader(&self) -> Option<&SummaryBlockReader> {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
                 // `Dummy` can occur for files without adequate read permissions
@@ -203,16 +259,22 @@ impl Summary {
                     _summarysyslinereader,
                     _summarysyslogprocessor,
                 )
-            ) => summaryblockreader,
+            ) => Some(summaryblockreader),
             SummaryReaderData::Utmpx(
                 (
                     summaryblockreader,
                     _summaryutmpreader,
                 )
-            ) => summaryblockreader,
+            ) => Some(summaryblockreader),
+            SummaryReaderData::Etvx(_) => None,
         }
     }
 
+    pub fn has_blockreader(&self) -> bool {
+        self.blockreader().is_some()
+    }
+
+    /// chronologically earliest printed datetime in file
     pub fn datetime_first(&self) -> &DateTimeLOpt {
         match &self.readerdata {
             SummaryReaderData::Dummy => panic!("Summary::datetime_first() called on Summary::Dummy"),
@@ -230,9 +292,12 @@ impl Summary {
                     summaryutmpreader,
                 )
             ) => &summaryutmpreader.utmpxreader_datetime_first,
+            SummaryReaderData::Etvx(summaryevtxreader)
+                => &summaryevtxreader.evtxreader_datetime_first_accepted,
         }
     }
 
+    /// chronologically latest printed datetime in file
     pub fn datetime_last(&self) -> &DateTimeLOpt {
         match &self.readerdata {
             SummaryReaderData::Dummy => panic!("Summary::datetime_last() called on Summary::Dummy"),
@@ -250,6 +315,8 @@ impl Summary {
                     summaryutmpreader,
                 )
             ) => &summaryutmpreader.utmpxreader_datetime_last,
+            SummaryReaderData::Etvx(summaryevtxreader)
+                => &summaryevtxreader.evtxreader_datetime_last_accepted,
         }
     }
 
@@ -314,6 +381,12 @@ impl Summary {
                     summaryutmpreader.utmpxreader_utmp_entries_miss
                 )
             }
+            SummaryReaderData::Etvx(summaryevtxreader) => {
+                max!(
+                    summaryevtxreader.evtxreader_entries_accepted,
+                    summaryevtxreader.evtxreader_entries_processed
+                )
+            }
         }
     }
 
@@ -354,6 +427,9 @@ impl Summary {
                     summaryblockreader.blockreader_blocks_dropped_ok,
                     summaryblockreader.blockreader_blocks_dropped_err
                 )
+            }
+            SummaryReaderData::Etvx(_summaryevtxreader) => {
+                0
             }
         }
     }
@@ -428,6 +504,16 @@ impl fmt::Debug for Summary {
                         .field("blocks stored highest", &summaryblockreader.blockreader_blocks_highest)
                         .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
                         .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
+                        .finish(),
+                    ft => panic!("Unpexected filetype {}", ft),
+                }
+            }
+            SummaryReaderData::Etvx(summaryevtxreader) => {
+                match self.filetype {
+                    FileType::Evtx => f
+                        .debug_struct("")
+                        .field("evtx entries processed", &summaryevtxreader.evtxreader_entries_processed)
+                        .field("evtx entries accepted", &summaryevtxreader.evtxreader_entries_accepted)
                         .finish(),
                     ft => panic!("Unpexected filetype {}", ft),
                 }

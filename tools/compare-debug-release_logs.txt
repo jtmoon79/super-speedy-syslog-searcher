@@ -43,6 +43,7 @@
 ./logs/other/tests/dtf9d-24-12x2-leapday.log
 ./logs/other/tests/dtf-varying-10.log
 ./logs/other/tests/dt-mix1.log
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
 ./logs/programs/proftpd/proftpd.log
 ./logs/programs/utmp/host-entry1.wtmp
 ./logs/programs/utmp/host-entry6.wtmp

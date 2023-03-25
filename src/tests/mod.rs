@@ -13,6 +13,8 @@
 pub mod blockreader_tests;
 pub mod common;
 pub mod datetime_tests;
+pub mod evtx_tests;
+pub mod evtxreader_tests;
 pub mod filepreprocessor_tests;
 pub mod line_tests;
 pub mod linereader_tests;

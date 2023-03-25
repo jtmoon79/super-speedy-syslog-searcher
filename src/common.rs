@@ -311,6 +311,10 @@ pub enum FileType {
     ///
     /// [utmp/umtpx format]: https://man7.org/linux/man-pages/man5/utmp.5.html
     Utmpx,
+    /// a [Windows XML EventLog] file
+    ///
+    /// [Windows XML EventLog]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
+    Evtx,
     /// a file type known to be unparseable
     // TODO: [2023/03] fix misspelling, `Unparseable` -> `Unparsable`
     Unparseable,
@@ -341,6 +345,7 @@ impl std::fmt::Display for FileType {
             FileType::TarGz => write!(f, "TAR GZIP"),
             FileType::Xz => write!(f, "XZ"),
             FileType::Utmpx => write!(f, "UTMP"),
+            FileType::Evtx => write!(f, "EVTX"),
             FileType::Unparseable => write!(f, "UNPARSEABLE"),
             FileType::Unknown => write!(f, "UNKNOWN"),
         }
@@ -369,6 +374,7 @@ impl FileType {
             | FileType::Tar
             | FileType::Xz
             | FileType::Utmpx
+            | FileType::Evtx
             | FileType::Unknown
         )
     }
@@ -394,6 +400,10 @@ pub enum LogMessageType {
     /// [utmp/umtpx format]: https://man7.org/linux/man-pages/man5/utmp.5.html
     /// [`Utmpx`]: crate::data::utmpx::Utmpx
     Utmpx,
+    /// A [Windows XML EventLog] file.
+    ///
+    /// [Windows XML EventLog]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
+    Evtx,
     /// Special case, used to indicate "ALL" or "ANY" message type.
     /// Useful for code objects tracking multiple files.
     #[default]
@@ -408,6 +418,7 @@ impl std::fmt::Display for LogMessageType {
         match self {
             LogMessageType::Sysline => write!(f, "syslog lines"),
             LogMessageType::Utmpx => write!(f, "utmpx entries"),
+            LogMessageType::Evtx => write!(f, "evtx entries"),
             LogMessageType::All => write!(f, "ALL"),
         }
     }
@@ -417,6 +428,7 @@ impl std::fmt::Display for LogMessageType {
 pub fn filetype_to_logmessagetype(filetype: FileType) -> LogMessageType {
     match filetype {
         FileType::Utmpx => LogMessageType::Utmpx,
+        FileType::Evtx => LogMessageType::Evtx,
         _ => LogMessageType::Sysline,
     }
 }
@@ -451,6 +463,9 @@ pub type CharSz = usize;
 /// *N*ew*L*ine as a [`char`].
 #[allow(non_upper_case_globals)]
 pub const NLc: char = '\n';
+/// *N*ew*L*ine as a [`str`].
+#[allow(non_upper_case_globals)]
+pub const NLs: &str = "\n";
 /// Single-byte *N*ew*L*ine `char` as [`u8`].
 #[allow(non_upper_case_globals)]
 pub const NLu8: u8 = 10;

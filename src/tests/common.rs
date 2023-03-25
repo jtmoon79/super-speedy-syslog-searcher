@@ -8,6 +8,7 @@ use crate::data::datetime::{
     FixedOffset,
     ymdhms,
     ymdhmsn,
+    ymdhmsm,
 };
 use crate::data::utmpx::UTMPX_SZ;
 use crate::readers::filepreprocessor::MimeGuess;
@@ -20,6 +21,7 @@ use crate::debug::printers::{
     buffer_to_String_noraw, str_to_String_noraw,
 };
 
+use std::fs::File;
 use std::io::Read;
 #[allow(unused_imports)]
 use std::sync::Arc; // for `std::fs::File.read`
@@ -39,6 +41,8 @@ lazy_static! {
     pub static ref MIMEGUESS_XZ: MimeGuess = MimeGuess::from_ext("xz");
     pub static ref MIMEGUESS_TAR: MimeGuess = MimeGuess::from_ext("tar");
     pub static ref MIMEGUESS_TARGZ: MimeGuess = MimeGuess::from_ext("tgz");
+    pub static ref MIMEGUESS_UTMP: MimeGuess = MimeGuess::from_ext("utmp");
+    pub static ref MIMEGUESS_EVTX: MimeGuess = MimeGuess::from_ext("evtx");
 
     // data from the various forms of the 1 byte, 3 byte, and 8 byte file
     pub static ref BYTES_A: Vec<u8> = vec![b'A'];
@@ -50,6 +54,7 @@ lazy_static! {
     pub static ref BYTES_ABCDEFGH: Vec<u8> = vec![b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H'];
 
     pub static ref LOCAL_NOW: DateTime<Local> = Local::now();
+    pub static ref DATETIME_NOW_Z0: DateTime<FixedOffset> = LOCAL_NOW.with_timezone(&*FO_Z);
 
     // FixedOffset Local
     pub static ref FO_L: FixedOffset = *LOCAL_NOW.offset();
@@ -2570,6 +2575,104 @@ lazy_static! {
     };
 }
 pub const NTF_UTMPX_2ENTRY_FILETYPE: FileType = FileType::Utmpx;
+
+// -------------------------------------------------------------------------------------------------
+
+// EVTX data
+
+pub const EVTX_NE_STR_PATH: &str = "../../logs/programs/evtx/NoEvents.evtx";
+pub const EVTX_NE_DATA: &[u8] = include_bytes!("../../logs/programs/evtx/NoEvents.evtx");
+pub const EVTX_NE_STR_PATH_PROJD: &str = "./logs/programs/evtx/NoEvents.evtx";
+
+/*
+
+File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx (EVTX) (evtx entries) MimeGuess([])
+  Summary Printed:
+      bytes          321782
+      Events         227
+      datetime first 2023-03-10T03:49:43.558721+00:00
+      datetime last  2023-03-17T21:21:46.786681+00:00
+  Summary Processed:
+      file size           1052672 (0x101000) (bytes)
+      Events processed    227
+      Events accepted     227
+      Events out of order 1
+      datetime first      2023-03-10T03:49:43.558721+00:00
+      datetime last       2023-03-17T21:21:46.786681+00:00
+
+*/
+
+pub const EVTX_KPNP_STR_PATH: &str = "../../logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx";
+pub const EVTX_KPNP_DATA: &[u8] = include_bytes!("../../logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx");
+pub const EVTX_KPNP_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx";
+/// the first Event in the file
+pub const EVTX_KPNP_DATA1_S: &str = r#"
+<?xml version="1.0" encoding="utf-8"?>
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Kernel-PnP" Guid="9C205A39-1250-487D-ABD7-E831C6290539">
+    </Provider>
+    <EventID>403</EventID>
+    <Version>0</Version>
+    <Level>3</Level>
+    <Task>0</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x4000000000000000</Keywords>
+    <TimeCreated SystemTime="2023-03-10T03:49:43.558721Z">
+    </TimeCreated>
+    <EventRecordID>1</EventRecordID>
+    <Correlation>
+    </Correlation>
+    <Execution ProcessID="4" ThreadID="8">
+    </Execution>
+    <Channel>Microsoft-Windows-Kernel-PnP/Configuration</Channel>
+    <Computer>minwinpc</Computer>
+    <Security UserID="S-1-5-18">
+    </Security>
+  </System>
+  <EventData>
+    <Data Name="DeviceInstanceId">ROOT\ACPI_HAL\0000</Data>
+    <Data Name="DriverName">hal.inf</Data>
+    <Data Name="ClassGuid">4D36E966-E325-11CE-BFC1-08002BE10318</Data>
+    <Data Name="DriverDate">06/21/2006</Data>
+    <Data Name="DriverVersion">10.0.22621.1</Data>
+    <Data Name="DriverProvider">Microsoft</Data>
+    <Data Name="DriverInbox">true</Data>
+    <Data Name="DriverSection">ACPI_AMD64_HAL</Data>
+    <Data Name="DriverRank">0xff0000</Data>
+    <Data Name="MatchingDeviceId">acpiapic</Data>
+    <Data Name="OutrankedDrivers"></Data>
+    <Data Name="DeviceUpdated">false</Data>
+    <Data Name="Status">0x0</Data>
+    <Data Name="ParentDeviceInstanceId">HTREE\ROOT\0</Data>
+  </EventData>
+</Event>
+"#;
+
+lazy_static! {
+
+    // EVTX_NE
+
+    pub static ref EVTX_NE_FPATH: FPath = FPath::from(EVTX_NE_STR_PATH_PROJD);
+    pub static ref EVTX_NE_F: File =
+        File::open(fpath_to_path(&EVTX_NE_FPATH)).unwrap();
+    pub static ref EVTX_NE_MIMEGUESS: MimeGuess =
+        MimeGuess::from_path(fpath_to_path(&EVTX_NE_FPATH));
+
+    // EVTX_KPNP
+
+    pub static ref EVTX_KPNP_FPATH: FPath = FPath::from(EVTX_KPNP_STR_PATH_PROJD);
+    pub static ref EVTX_KPNP_F: File =
+        File::open(fpath_to_path(&EVTX_KPNP_FPATH)).unwrap();
+    pub static ref EVTX_KPNP_MIMEGUESS: MimeGuess =
+        MimeGuess::from_path(fpath_to_path(&EVTX_KPNP_FPATH));
+    /// Entry 1 datetime
+    pub static ref EVTX_KPNP_ENTRY1_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
+    /// Entry last datetime
+    pub static ref EVTX_KPNP_ENTRY227_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+}
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

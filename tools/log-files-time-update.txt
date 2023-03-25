@@ -185,6 +185,7 @@
 ./logs/other/tests/zero.log|2022-09-02 21:45:36.0501770530
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log|2022-10-08 06:22:57 +0000
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log|2022-10-07 01:15:36 +0000
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx|2023-03-10T03:49:40
 #./logs/programs/ntp/loopstats|???
 #./logs/programs/ntp/peerstats|???
 ./logs/programs/pacman/pacman.log|2022-10-07 16:08:00

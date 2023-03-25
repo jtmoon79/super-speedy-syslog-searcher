@@ -1228,10 +1228,11 @@ impl SyslogProcessor {
             path,
             filetype,
             logmessagetype,
-            summaryblockreader,
+            Some(summaryblockreader),
             Some(summarylinereader),
             Some(summarysyslinereader),
             Some(summarysyslogprocessor),
+            None,
             None,
             error,
         )

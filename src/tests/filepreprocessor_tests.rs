@@ -67,9 +67,20 @@ fn test_mimeguess_to_filetype_targz() {
     test_mimeguess_to_filetype(&MIMEGUESS_TARGZ, FileType::TarGz);
 }
 
+#[test]
+fn test_mimeguess_to_filetype_utmp() {
+    test_mimeguess_to_filetype(&MIMEGUESS_UTMP, FileType::Unknown);
+}
+
+#[test]
+fn test_mimeguess_to_filetype_evtx() {
+    test_mimeguess_to_filetype(&MIMEGUESS_EVTX, FileType::Unknown);
+}
+
 // -------------------------------------------------------------------------------------------------
 
 #[test_case("log", FileType::File)]
+#[test_case("LOG", FileType::File; "LOG ALLCAPS")]
 #[test_case("log.log", FileType::File)]
 #[test_case("log_media", FileType::File)]
 #[test_case("media_log", FileType::File)]
@@ -83,21 +94,27 @@ fn test_mimeguess_to_filetype_targz() {
 #[test_case("log.1", FileType::File)]
 #[test_case("log.2", FileType::File)]
 #[test_case("data.gz", FileType::Gz)]
+#[test_case("DATA.GZ", FileType::Gz; "DATA.GZ ALLCAPS")]
 #[test_case("data.gz.old", FileType::Gz)]
 #[test_case("data.gzip", FileType::Gz)]
 #[test_case("data.tgz", FileType::TarGz)]
 #[test_case("data.tar", FileType::Tar)]
+#[test_case("DATA.TAR", FileType::Tar; "DATA.TAR ALLCAPS")]
 #[test_case("data.tar.old", FileType::Tar)]
 #[test_case("data.tgz.old", FileType::TarGz)]
 #[test_case("system@f908d314a1582401a39ccfe0c6f4c6f7-0000000000381214-0005ff52833aaf76.journal", FileType::Unparseable)]
 #[test_case("wtmp", FileType::Utmpx; "wtmp")]
+#[test_case("WTMP", FileType::Utmpx; "WTMP ALLCAPS")]
 #[test_case("btmp", FileType::Utmpx; "btmp")]
 #[test_case("utmp", FileType::Utmpx; "utmp")]
-#[test_case("UTMP", FileType::Utmpx; "UTMP_")]
+#[test_case("UTMP", FileType::Utmpx; "UTMP ALLCAPS")]
 #[test_case("host.wtmp", FileType::Utmpx)]
 #[test_case("192.168.1.1.btmp", FileType::Utmpx)]
 #[test_case("file.utmp", FileType::Utmpx)]
-#[test_case("SOMEFILE", FileType::File)]
+#[test_case("somefile", FileType::File)]
+#[test_case("SOMEFILE", FileType::File; "SOMEFILE ALLCAPS")]
+#[test_case("file.evtx", FileType::Evtx)]
+#[test_case("FILE.EVTX", FileType::Evtx; "FILE.EVTX ALLCAPS")]
 fn test_fpath_to_filetype(
     name: &str,
     check: FileType,
@@ -417,6 +434,7 @@ lazy_static! {
 
 /// test `fpath_to_filetype_mimeguess` (and `path_to_filetype_mimeguess`)
 #[test_case("messages", FileType::File, &MIMEGUESS_EMPTY)]
+#[test_case("MESSAGES", FileType::File, &MIMEGUESS_EMPTY; "MESSAGES ALLCAPS")]
 #[test_case("pagefile.sys", FileType::File, &MIMEGUESS_EMPTY)]
 #[test_case("syslog", FileType::File, &MIMEGUESS_EMPTY)]
 #[test_case("syslog.3", FileType::File, &MIMEGUESS_EMPTY)]
@@ -426,6 +444,7 @@ lazy_static! {
 #[test_case("cloud-init-output.log", FileType::File, &MIMEGUESS_LOG)]
 #[test_case("droplet-agent.update.log", FileType::File, &MIMEGUESS_LOG)]
 #[test_case("kern.log", FileType::File, &MIMEGUESS_LOG)]
+#[test_case("KERN.LOG", FileType::File, &MIMEGUESS_LOG; "KERN.LOG ALLCAPS")]
 #[test_case("kern.log.1", FileType::File, &MIMEGUESS_LOG)]
 #[test_case("kern.log.2", FileType::File, &MIMEGUESS_LOG)]
 #[test_case("aptitude.4", FileType::File, &MIMEGUESS_EMPTY)]
@@ -439,6 +458,7 @@ lazy_static! {
 #[test_case("logs.tar", FileType::Tar, &MIMEGUESS_TAR)]
 #[test_case("LOGS.TAR", FileType::Tar, &MIMEGUESS_TAR; "LOGS.TAR")]
 #[test_case("log.1.tar", FileType::Tar, &MIMEGUESS_TAR)]
+#[test_case("LOG.1.TAR", FileType::Tar, &MIMEGUESS_TAR; "LOG.1.TAR ALLCAPS")]
 #[test_case("data.tgz.old.1", FileType::TarGz, &MIMEGUESS_TARGZ)]
 #[test_case("data.tgz.old", FileType::TarGz, &MIMEGUESS_TARGZ)]
 #[test_case("HOSTNAME.log", FileType::File, &MIMEGUESS_TXT)]
@@ -498,12 +518,17 @@ lazy_static! {
 #[test_case("btmp", FileType::Utmpx, &MIMEGUESS_EMPTY)]
 #[test_case("utmp", FileType::Utmpx, &MIMEGUESS_EMPTY)]
 #[test_case("wtmp", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("WTMP", FileType::Utmpx, &MIMEGUESS_EMPTY; "WTMP ALLCAPS")]
 #[test_case("btmpx", FileType::Utmpx, &MIMEGUESS_EMPTY)]
 #[test_case("utmpx", FileType::Utmpx, &MIMEGUESS_EMPTY)]
 #[test_case("wtmpx", FileType::Utmpx, &MIMEGUESS_EMPTY)]
 #[test_case("btmp.1", FileType::Utmpx, &MIMEGUESS_EMPTY)]
 #[test_case("utmp.2", FileType::Utmpx, &MIMEGUESS_EMPTY)]
 #[test_case("wtmp.1", FileType::Utmpx, &MIMEGUESS_EMPTY)]
+#[test_case("WTMP.1", FileType::Utmpx, &MIMEGUESS_EMPTY; "WTMP.1 ALLCAPS")]
+#[test_case("file.evtx", FileType::Evtx, &MIMEGUESS_EVTX)]
+#[test_case("FILE.EVTX", FileType::Evtx, &MIMEGUESS_EVTX; "FILE.EVTX ALLCAPS")]
+#[test_case("file.evtx.1", FileType::Evtx, &MIMEGUESS_EVTX)]
 #[test_case("-", FileType::File, &MIMEGUESS_EMPTY; "dash")]
 #[test_case("$", FileType::File, &MIMEGUESS_EMPTY; "dollar")]
 fn test_path_to_filetype_mimeguess(

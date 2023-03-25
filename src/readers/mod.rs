@@ -54,6 +54,7 @@
 //! [utmpx files]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143772537#utmpx,_wtmpx_and_btmpx
 
 pub mod blockreader;
+pub mod evtxreader;
 pub mod filepreprocessor;
 pub mod helpers;
 pub mod linereader;

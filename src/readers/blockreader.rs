@@ -555,7 +555,8 @@ impl BlockReader {
         let mut read_blocks_put: Count = 0;
         match filetype {
             FileType::File
-            | FileType::Utmpx => {
+            | FileType::Utmpx
+            | FileType::Evtx => {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
             }
@@ -1241,7 +1242,10 @@ impl BlockReader {
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
             FileType::Gz | FileType::Xz | FileType::Tar => self.filesz_actual,
-            FileType::File | FileType::Utmpx => self.filesz,
+            FileType::File
+            | FileType::Utmpx
+            | FileType::Evtx
+            => self.filesz,
             _ => 0,
         }
     }
@@ -1281,6 +1285,7 @@ impl BlockReader {
         match self.filetype {
             FileType::File
             | FileType::Utmpx
+            | FileType::Evtx
             | FileType::Xz => self.file_metadata_modified,
             FileType::Gz => {
                 let mtime = self
@@ -1698,7 +1703,10 @@ impl BlockReader {
     ) -> ResultS3ReadBlock {
         defn!("({})", blockoffset);
         debug_assert!(
-            matches!(self.filetype, FileType::File | FileType::Utmpx),
+            matches!(self.filetype,
+                FileType::File
+                | FileType::Evtx
+                | FileType::Utmpx),
             "wrong FileType {:?} for calling read_block_FILE",
             self.filetype
         );
@@ -2406,6 +2414,7 @@ impl BlockReader {
 
         match self.filetype {
             FileType::File
+            | FileType::Evtx
             | FileType::Utmpx => self.read_block_File(blockoffset),
             FileType::Gz => self.read_block_FileGz(blockoffset),
             FileType::Xz => self.read_block_FileXz(blockoffset),

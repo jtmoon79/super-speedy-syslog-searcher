@@ -1010,11 +1010,12 @@ impl UtmpxReader {
             path,
             filetype,
             logmessagetype,
-            summaryblockreader,
+            Some(summaryblockreader),
             None,
             None,
             None,
             Some(summaryutmpreader),
+            None,
             error,
         )
     }

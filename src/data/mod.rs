@@ -71,7 +71,9 @@
 //! [`Utmpx`]: crate::data::utmpx::Utmpx
 //! [`utmpx`]: ::uapi::c::utmpx
 
+pub mod common;
 pub mod datetime;
+pub mod evtx;
 pub mod line;
 pub mod sysline;
 pub mod utmpx;

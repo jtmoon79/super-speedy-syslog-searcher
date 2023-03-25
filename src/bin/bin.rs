@@ -11,7 +11,8 @@
 //!
 //! For each parseable file found, a file processing thread is created.
 //! Each file processing thread advances through the stages of processing
-//! using a [`SyslogProcessor`] instance, or using a [`UtmpxReader`].
+//! using a [`SyslogProcessor`] instance, a [`UtmpxReader`] instance, or
+//! a [`EvtxReader`] instance.
 //!
 //! For a `SyslogProcessor`, during the main processing stage,
 //! [`Stage3StreamSyslines`], each thread
@@ -37,6 +38,7 @@
 //! [sending channel]: self::ChanSendDatum
 //! [`SyslogProcessor`]: s4lib::readers::syslogprocessor::SyslogProcessor
 //! [`UtmpxReader`]: s4lib::readers::utmpxreader::UtmpxReader
+//! [`EvtxReader`]: s4lib::readers::evtxreader::EvtxReader
 //! [`Summary`]: s4lib::readers::summary::Summary
 //! [`SummaryPrinted`]: self::SummaryPrinted
 
@@ -92,6 +94,11 @@ use ::s4lib::printer::printers::{
     COLOR_DEFAULT,
     COLOR_ERROR,
 };
+use ::s4lib::data::common::{
+    LogMessage,
+    LogMessageOpt,
+};
+use ::s4lib::data::evtx::Evtx;
 use ::s4lib::data::utmpx::{UTMPX_SZ, Utmpx};
 use ::s4lib::data::sysline::SyslineP;
 use ::s4lib::readers::blockreader::{
@@ -101,6 +108,7 @@ use ::s4lib::readers::blockreader::{
     BLOCKSZ_MIN,
     SummaryBlockReader,
 };
+use ::s4lib::readers::evtxreader::{EvtxReader, ResultS3EvtxFind};
 use ::s4lib::readers::filepreprocessor::{process_path, ProcessPathResult, ProcessPathResults};
 use ::s4lib::readers::helpers::basename;
 use ::s4lib::readers::linereader::SummaryLineReader;
@@ -1360,15 +1368,6 @@ type ThreadInitData = (
     FixedOffset,
 );
 
-/// The type of log message sent from file processing thread to the main
-/// printing thread enclosing the specific message.
-#[derive(Debug)]
-enum LogMessage {
-    Sysline(SyslineP),
-    Utmpx(Utmpx),
-}
-type LogMessageOpt = Option<LogMessage>;
-
 /// Is this the last [`Sysline`] of the syslog file?
 ///
 /// [`Sysline`]: s4lib::data::sysline::Sysline
@@ -1752,7 +1751,6 @@ fn exec_utmpprocessor(
     defo!("{:?}({}): utmpreader {:?}", _tid, _tname, utmpreader);
 
     let mut fo: FileOffset = 0;
-    //let mut first: bool = true;
     loop {
         let result: ResultS3UtmpxFind = utmpreader.find_entry_between_datetime_filters(
             fo,
@@ -1811,6 +1809,115 @@ fn exec_utmpprocessor(
     defx!("({:?})", path);
 }
 
+fn exec_evtxprocessor(
+    chan_send_dt: ChanSendDatum,
+    thread_init_data: ThreadInitData,
+    _tname: &str,
+    _tid: thread::ThreadId,
+) {
+    let (
+        path,
+        _pathid,
+        filetype,
+        _blocksz,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
+        _tz_offset,
+    ) = thread_init_data;
+    defn!("{:?}({}): ({:?})", _tid, _tname, path);
+    matches!(filetype, FileType::Utmpx);
+
+    let mut evtxreader = match EvtxReader::new(path.clone()) {
+        Ok(val) => val,
+        Err(err) => {
+            let summary = Summary::new_failed(
+                path.clone(),
+                filetype,
+                LogMessageType::Utmpx,
+                0,
+                Some(err.to_string())
+            );
+            let fileerr: FileProcessingResultBlockZero = match err.kind() {
+                ErrorKind::PermissionDenied => {
+                    eprintln!("ERROR: {} for {:?}", err, path);
+
+                    FileProcessingResultBlockZero::FileErrIo(err)
+                }
+                _ => {
+                    eprintln!("ERROR: {} for {:?}", err, path);
+
+                    FILEERRSTUB
+                }
+            };
+            match chan_send_dt.send((
+                None,
+                Some(summary),
+                true,
+                fileerr,
+            )) {
+                Ok(_) => {}
+                Err(err) => {
+                    eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
+                }
+            }
+            defx!("({:?})", path);
+            return;
+        }
+    };
+    defo!("{:?}({}): evtxreader {:?}", _tid, _tname, evtxreader);
+
+    for result in evtxreader.next_between_datetime_filters(
+            filter_dt_after_opt,
+            filter_dt_before_opt,
+        )
+    {
+        match result {
+            ResultS3EvtxFind::Found((_id, evtx)) => {
+                defo!("ResultS3EvtxFind::Found(({:?}, {:?}))", _id, evtx);
+                let is_last = false;
+                defo!("chan_send_dt.send((Some(LogMessage::Evtx({}, …), None, {}, {:?}));", _id, is_last, FILEOK);
+                match chan_send_dt.send((
+                    Some(LogMessage::Evtx(evtx)),
+                    None,
+                    is_last,
+                    FILEOK,
+                )) {
+                    Ok(_) => {}
+                    Err(err) => {
+                        eprintln!("ERROR: D chan_send_dt.send(…) failed {}", err);
+                    }
+                }
+            }
+            ResultS3EvtxFind::Done => {
+                defo!("ResultS3EvtxFind::Done");
+                break;
+            }
+            ResultS3EvtxFind::Err(err) => {
+                eprintln!("ERROR: find_entry_between_datetime_filters() failed; {}", err);
+                defx!("ResultS3EvtxFind::Err({})", err);
+                // TODO: send error message through channel then return
+                return;
+            }
+        }
+    }
+
+    let summary = evtxreader.summary_complete();
+    deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", _tid, _tname, summary, false);
+    match chan_send_dt.send((
+        None,
+        Some(summary),
+        false,
+        FILEOK,
+    )) {
+        Ok(_) => {}
+        Err(err) => {
+            eprintln!("ERROR: chan_send_dt.send(…) failed {}", err);
+        }
+    }
+
+    defx!("({:?})", path);
+}
+
 /// Thread entry point for processing one file.
 fn exec_fileprocessor_thread(
     chan_send_dt: ChanSendDatum,
@@ -1832,8 +1939,9 @@ fn exec_fileprocessor_thread(
     #[cfg(not(any(debug_assertions, test)))]
     let tname: &str = "";
 
-    match &thread_init_data.2 {
-        &FileType::Utmpx => exec_utmpprocessor(chan_send_dt, thread_init_data, tname, tid),
+    match thread_init_data.2 {
+        FileType::Utmpx => exec_utmpprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Evtx => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
         _ => exec_syslogprocessor(chan_send_dt, thread_init_data, tname, tid),
     }
 }
@@ -1852,6 +1960,8 @@ pub struct SummaryPrinted {
     pub syslines: Count,
     /// count of `Utmpx` printed
     pub utmpentries: Count,
+    /// count of `Evtx` printed
+    pub evtxentries: Count,
     /// last datetime printed
     pub dt_first: DateTimeLOpt,
     pub dt_last: DateTimeLOpt,
@@ -1918,12 +2028,13 @@ impl SummaryPrinted {
             lines: 0,
             syslines: 0,
             utmpentries: 0,
+            evtxentries: 0,
             dt_first: None,
             dt_last: None,
         }
     }
 
-    /// Print a `SummaryPrinted` with color on stderr.
+    /// Print a `SummaryPrinted` with color on stderr for a file.
     ///
     /// Mimics debug print but with colorized zero values.
     /// Only colorize if associated `SummaryOpt` has corresponding
@@ -1940,11 +2051,12 @@ impl SummaryPrinted {
             None => return,
         };
         let (
-            summaryblockreader,
+            summaryblockreader_opt,
             summarylinereader_opt,
             _summarysyslinereader_opt,
             _summarysyslogprocessor_opt,
             summaryutmpreader_opt,
+            summaryevtxreader_opt,
         ) = match &summary.readerdata {
             // `Dummy` may occur for files without adequate read permissions
             SummaryReaderData::Dummy => return,
@@ -1957,10 +2069,11 @@ impl SummaryPrinted {
                 )
             ) => {
                 (
-                    summaryblockreader,
+                    Some(summaryblockreader),
                     Some(summarylinereader),
                     Some(summarysyslinereader),
                     Some(summarysyslogprocessor),
+                    None,
                     None,
                 )
             }
@@ -1971,54 +2084,70 @@ impl SummaryPrinted {
                 )
             ) => {
                 (
-                    summaryblockreader,
+                    Some(summaryblockreader),
                     None,
                     None,
                     None,
                     Some(summaryutmpreader),
+                    None,
+                )
+            }
+            SummaryReaderData::Etvx(summaryevtxreader) => {
+                (
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    Some(summaryevtxreader),
                 )
             }
         };
         eprintln!("{}Summary Printed:", indent1);
 
-        eprint!("{}bytes          ", indent2);
-        if self.bytes == 0 && summaryblockreader.blockreader_bytes != 0 {
-            match print_colored_stderr(
-                COLOR_ERROR,
-                color_choice_opt,
-                self.bytes
-                    .to_string()
-                    .as_bytes(),
-            ) {
-                Err(err) => {
-                    eprintln!("\nERROR: print_colored_stderr {:?}", err);
-                    return;
-                }
-                Ok(_) => eprintln!(),
-            }
-        } else {
-            eprintln!("{}", self.bytes);
-        }
-
-        if summarylinereader_opt.is_some() {
-            eprint!("{}lines          ", indent2);
-            if self.lines == 0 && summaryblockreader.blockreader_bytes != 0 {
-                match print_colored_stderr(
-                    COLOR_ERROR,
-                    color_choice_opt,
-                    self.lines
-                        .to_string()
-                        .as_bytes(),
-                ) {
-                    Err(err) => {
-                        eprintln!("\nERROR: print_colored_stderr {:?}", err);
-                        return;
+        match summaryblockreader_opt {
+            Some(summaryblockreader) => {
+                eprint!("{}bytes          ", indent2);
+                if self.bytes == 0 && summaryblockreader.blockreader_bytes != 0 {
+                    match print_colored_stderr(
+                        COLOR_ERROR,
+                        color_choice_opt,
+                        self.bytes
+                            .to_string()
+                            .as_bytes(),
+                    ) {
+                        Err(err) => {
+                            eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                            return;
+                        }
+                        Ok(_) => eprintln!(),
                     }
-                    Ok(_) => eprintln!(),
+                } else {
+                    eprintln!("{}", self.bytes);
                 }
-            } else {
-                eprintln!("{}", self.lines);
+
+                if summarylinereader_opt.is_some() {
+                    eprint!("{}lines          ", indent2);
+                    if self.lines == 0 && summaryblockreader.blockreader_bytes != 0 {
+                        match print_colored_stderr(
+                            COLOR_ERROR,
+                            color_choice_opt,
+                            self.lines
+                                .to_string()
+                                .as_bytes(),
+                        ) {
+                            Err(err) => {
+                                eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                                return;
+                            }
+                            Ok(_) => eprintln!(),
+                        }
+                    } else {
+                        eprintln!("{}", self.lines);
+                    }
+                }
             }
+            None => {},
         }
 
         match summaryutmpreader_opt {
@@ -2082,11 +2211,13 @@ impl SummaryPrinted {
                     }
                 } else {
                     match self.dt_first {
-                        Some(dt) => eprintln!("{}datetime first {:?}", indent1, dt),
+                        Some(dt) => eprintln!("{}datetime first {:?}", indent2, dt),
                         None => {}
                     }
                 }
                 if self.dt_last.is_none() && summarylinereader.linereader_lines != 0 {
+                    // if no datetime_last was processed but lines were processed
+                    // then hint at an error with colored text
                     eprint!("{}datetime last  ", indent2);
                     match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
                         Err(err) => {
@@ -2097,11 +2228,26 @@ impl SummaryPrinted {
                     }
                 } else {
                     match self.dt_last {
-                        Some(dt) => eprintln!("{}datetime last  {:?}", indent1, dt),
+                        Some(dt) => eprintln!("{}datetime last  {:?}", indent2, dt),
                         None => {}
                     }
                 }
         
+            }
+            None => {}
+        }
+        match summaryevtxreader_opt {
+            Some(summaryevtxreader) => {
+                eprintln!("{}bytes          {}", indent2, self.bytes);
+                eprintln!("{}Events         {}", indent2, self.evtxentries);
+                match summaryevtxreader.evtxreader_datetime_first_accepted {
+                    Some(dt) => eprintln!("{}datetime first {:?}", indent2, dt),
+                    None => {}
+                }
+                match summaryevtxreader.evtxreader_datetime_last_accepted {
+                    Some(dt) => eprintln!("{}datetime last  {:?}", indent2, dt),
+                    None => {}
+                }
             }
             None => {}
         }
@@ -2141,12 +2287,13 @@ impl SummaryPrinted {
     fn summaryprint_update_sysline(
         &mut self,
         syslinep: &SyslineP,
+        printed: Count,
     ) {
         defñ!();
         debug_assert!(matches!(self.logmessagetype, LogMessageType::Sysline | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
         self.syslines += 1;
         self.lines += (*syslinep).count_lines();
-        self.bytes += (*syslinep).count_bytes();
+        self.bytes += printed;
         self.summaryprint_update_dt(&(*syslinep).dt());
     }
 
@@ -2154,26 +2301,44 @@ impl SummaryPrinted {
     fn summaryprint_update_utmpx(
         &mut self,
         utmpx: &Utmpx,
+        printed: Count,
     ) {
         defñ!();
         debug_assert!(matches!(self.logmessagetype, LogMessageType::Utmpx | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
         self.utmpentries += 1;
-        self.bytes += (*utmpx).len() as Count;
+        self.bytes += printed;
         self.summaryprint_update_dt(&Some(*utmpx.dt()));
+    }
+
+    /// Update a `SummaryPrinted` with information from a printed `Evtx`.
+    fn summaryprint_update_evtx(
+        &mut self,
+        evtx: &Evtx,
+        printed: Count,
+    ) {
+        defñ!();
+        debug_assert!(matches!(self.logmessagetype, LogMessageType::Evtx | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
+        self.evtxentries += 1;
+        self.bytes += printed;
+        self.summaryprint_update_dt(&Some(*evtx.dt()));
     }
 
     /// Update a `SummaryPrinted` with information from a printed `LogMessage`.
     fn _summaryprint_update(
         &mut self,
         logmessage: &LogMessage,
+        printed: Count,
     ) {
         defñ!();
         match logmessage {
             LogMessage::Sysline(syslinep) => {
-                self.summaryprint_update_sysline(syslinep);
+                self.summaryprint_update_sysline(syslinep, printed);
             }
             LogMessage::Utmpx(utmpx) => {
-                self.summaryprint_update_utmpx(utmpx);
+                self.summaryprint_update_utmpx(utmpx, printed);
+            }
+            LogMessage::Evtx(evtx) => {
+                self.summaryprint_update_evtx(evtx, printed);
             }
         };
     }
@@ -2185,15 +2350,16 @@ impl SummaryPrinted {
         syslinep: &SyslineP,
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
+        printed: Count,
     ) {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
-                sp.summaryprint_update_sysline(syslinep);
+                sp.summaryprint_update_sysline(syslinep, printed);
             }
             None => {
                 let mut sp = SummaryPrinted::new(LogMessageType::Sysline);
-                sp.summaryprint_update_sysline(syslinep);
+                sp.summaryprint_update_sysline(syslinep, printed);
                 map_.insert(*pathid, sp);
             }
         };
@@ -2206,15 +2372,38 @@ impl SummaryPrinted {
         utmpx: &Utmpx,
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
+        printed: Count,
     ) {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
-                sp.summaryprint_update_utmpx(utmpx);
+                sp.summaryprint_update_utmpx(utmpx, printed);
             }
             None => {
                 let mut sp = SummaryPrinted::new(LogMessageType::Utmpx);
-                sp.summaryprint_update_utmpx(utmpx);
+                sp.summaryprint_update_utmpx(utmpx, printed);
+                map_.insert(*pathid, sp);
+            }
+        };
+    }
+
+    /// Update a mapping of `PathId` to `SummaryPrinted` for a `Utmpx`.
+    ///
+    /// Helper function to function `processing_loop`.
+    fn summaryprint_map_update_evtx(
+        evtx: &Evtx,
+        pathid: &PathId,
+        map_: &mut MapPathIdSummaryPrint,
+        printed: Count,
+    ) {
+        defñ!();
+        match map_.get_mut(pathid) {
+            Some(sp) => {
+                sp.summaryprint_update_evtx(evtx, printed);
+            }
+            None => {
+                let mut sp = SummaryPrinted::new(LogMessageType::Evtx);
+                sp.summaryprint_update_evtx(evtx, printed);
                 map_.insert(*pathid, sp);
             }
         };
@@ -2227,14 +2416,18 @@ impl SummaryPrinted {
         logmessage: &LogMessage,
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
+        printed: Count,
     ) {
         defñ!();
         match logmessage {
             LogMessage::Sysline(syslinep) => {
-                Self::summaryprint_map_update_sysline(syslinep, pathid, map_)
+                Self::summaryprint_map_update_sysline(syslinep, pathid, map_, printed)
             }
             LogMessage::Utmpx(utmpx) => {
-                Self::summaryprint_map_update_utmpx(utmpx, pathid, map_)
+                Self::summaryprint_map_update_utmpx(utmpx, pathid, map_, printed)
+            }
+            LogMessage::Evtx(evtx) => {
+                Self::summaryprint_map_update_evtx(evtx, pathid, map_, printed)
             }
         }
     }
@@ -2867,6 +3060,9 @@ fn processing_loop(
                                     crate::LogMessage::Sysline(syslinep_y) => {
                                         syslinep_y.dt().as_ref().unwrap()
                                     }
+                                    crate::LogMessage::Evtx(evtx_y) => {
+                                        evtx_y.dt()
+                                    }
                                 };
 
                                 utmpx.dt().cmp(y_dt)
@@ -2879,9 +3075,27 @@ fn processing_loop(
                                     crate::LogMessage::Sysline(syslinep_y) => {
                                         syslinep_y.dt().as_ref().unwrap()
                                     }
+                                    crate::LogMessage::Evtx(evtx_y) => {
+                                        evtx_y.dt()
+                                    }
                                 };
 
                                 syslinep.dt().as_ref().unwrap().cmp(y_dt)
+                            }
+                            crate::LogMessage::Evtx(evtx) => {
+                                let y_dt = match y.1.0.as_ref().unwrap() {
+                                    crate::LogMessage::Utmpx(utmpx_y) => {
+                                        utmpx_y.dt()
+                                    }
+                                    crate::LogMessage::Sysline(syslinep_y) => {
+                                        syslinep_y.dt().as_ref().unwrap()
+                                    }
+                                    crate::LogMessage::Evtx(evtx_y) => {
+                                        evtx_y.dt()
+                                    }
+                                };
+
+                                evtx.dt().cmp(y_dt)
                             }
                         }
                     }
@@ -2923,8 +3137,9 @@ fn processing_loop(
                         let printer: &mut PrinterLogMessage = map_pathid_printer
                             .get_mut(pathid)
                             .unwrap();
+                        let mut printed: Count = 0;
                         match printer.print_sysline(syslinep) {
-                            Ok(_) => {}
+                            Ok(printed_) => printed = printed_ as Count,
                             Err(err) => {
                                 // Only print a printing error once.
                                 // In case of piping to something like `head`, it looks bad to print
@@ -2958,9 +3173,9 @@ fn processing_loop(
                         if cli_opt_summary {
                             paths_printed_logmessages.insert(*pathid);
                             // update the per processing file `SummaryPrinted`
-                            SummaryPrinted::summaryprint_map_update_sysline(syslinep, pathid, &mut map_pathid_sumpr);
+                            SummaryPrinted::summaryprint_map_update_sysline(syslinep, pathid, &mut map_pathid_sumpr, printed);
                             // update the single total program `SummaryPrinted`
-                            summaryprinted.summaryprint_update_sysline(syslinep);
+                            summaryprinted.summaryprint_update_sysline(syslinep, printed);
                         }
                     }
                     LogMessage::Utmpx(utmpx) => {
@@ -2969,8 +3184,9 @@ fn processing_loop(
                         let printer: &mut PrinterLogMessage = map_pathid_printer
                             .get_mut(pathid)
                             .unwrap();
+                        let mut printed: Count = 0;
                         match printer.print_utmpx(utmpx, &mut buffer_utmp) {
-                            Ok(_) => {}
+                            Ok(printed_) => printed = printed_ as Count,
                             Err(err) => {
                                 // Only print a printing error once.
                                 // In case of piping to something like `head`, it looks bad to print
@@ -2991,9 +3207,43 @@ fn processing_loop(
                         if cli_opt_summary {
                             paths_printed_logmessages.insert(*pathid);
                             // update the per processing file `SummaryPrinted`
-                            SummaryPrinted::summaryprint_map_update_utmpx(utmpx, pathid, &mut map_pathid_sumpr);
+                            SummaryPrinted::summaryprint_map_update_utmpx(utmpx, pathid, &mut map_pathid_sumpr, printed);
                             // update the single total program `SummaryPrinted`
-                            summaryprinted.summaryprint_update_utmpx(utmpx);
+                            summaryprinted.summaryprint_update_utmpx(utmpx, printed);
+                        }
+                    }
+                    LogMessage::Evtx(evtx) => {
+                        defo!("A3.3 printing Evtx PathId: {:?}", pathid);
+                        // the most important part of this main thread loop
+                        let printer: &mut PrinterLogMessage = map_pathid_printer
+                            .get_mut(pathid)
+                            .unwrap();
+                        let mut printed: Count = 0;
+                        match printer.print_evtx(evtx) {
+                            Ok(printed_) => printed = printed_ as Count,
+                            Err(err) => {
+                                // Only print a printing error once.
+                                // In case of piping to something like `head`, it looks bad to print
+                                // the same error tens or hundreds of times for a common pipe operation.
+                                if !has_print_err {
+                                    has_print_err = true;
+                                    // BUG: Issue #3 colorization settings in the context of a pipe
+                                    eprintln!("ERROR: failed to print {}", err);
+                                }
+                            }
+                        }
+                        if sepb_print {
+                            write_stdout(sepb);
+                            if cli_opt_summary {
+                                summaryprinted.bytes += sepb.len() as Count;
+                            }
+                        }
+                        if cli_opt_summary {
+                            paths_printed_logmessages.insert(*pathid);
+                            // update the per processing file `SummaryPrinted`
+                            SummaryPrinted::summaryprint_map_update_evtx(evtx, pathid, &mut map_pathid_sumpr, printed);
+                            // update the single total program `SummaryPrinted`
+                            summaryprinted.summaryprint_update_evtx(evtx, printed);
                         }
                     }
                 }
@@ -3040,7 +3290,8 @@ fn processing_loop(
             match &summary.error {
                 Some(_) => {
                     if ! summary.readerdata.is_dummy()
-                        && summary.blockreader().blockreader_blocks == 0
+                        && summary.has_blockreader()
+                        && summary.blockreader().unwrap().blockreader_blocks == 0
                         && !map_pathid_results_invalid.contains_key(pathid)
                         && map_pathid_results.contains_key(pathid)
                     {
@@ -3078,6 +3329,7 @@ fn processing_loop(
             &COLOR_ERROR,
         );
         eprintln!();
+        // here is the final printed summary of the all files
         eprintln!("Summary:");
         eprintln!(
             "Paths considered {}, paths not processed {}, files processed {}, files printed {}",
@@ -3088,10 +3340,11 @@ fn processing_loop(
         );
         // print the `summaryprinted` in a line-oriented manner and with
         // UTC comparisons
-        eprintln!("Printed bytes   : {}", summaryprinted.bytes);
-        eprintln!("Printed lines   : {}", summaryprinted.lines);
-        eprintln!("Printed syslines: {}", summaryprinted.syslines);
-        eprintln!("Printed utmpx   : {}", summaryprinted.utmpentries);
+        eprintln!("Printed bytes      : {}", summaryprinted.bytes);
+        eprintln!("Printed lines      : {}", summaryprinted.lines);
+        eprintln!("Printed syslines   : {}", summaryprinted.syslines);
+        eprintln!("Printed utmpx      : {}", summaryprinted.utmpentries);
+        eprintln!("Printed evtx Events: {}", summaryprinted.evtxentries);
 
         let foffset0 = *FIXEDOFFSET0;
         eprint!("Datetime Filter -a    :");
@@ -3224,10 +3477,13 @@ fn print_filepath(
     eprintln!();
 }
 
-/// Print the (optional) [`Summary`] (multiple lines).
+/// Print the (optional) [`Summary`] (multiple lines) processed sections.
 ///
 /// [`Summary`]: s4lib::readers::summary::Summary
-fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
+fn print_summary_opt_processed(
+    summary_opt: &SummaryOpt,
+    color_choice: &ColorChoice,
+) {
     let summary = match summary_opt {
         Some(summary) => {
             summary
@@ -3243,10 +3499,12 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
         // there will be no interested information in gathered statistics
         return;
     }
-    eprintln!("{}Summary Processed:", OPT_SUMMARY_PRINT_INDENT1);
+    let indent1 = OPT_SUMMARY_PRINT_INDENT1;
+    let indent2 = OPT_SUMMARY_PRINT_INDENT2;
+    eprintln!("{}Summary Processed:", indent1);
     print_summary_opt_processed_summaryblockreader(
         summary,
-        OPT_SUMMARY_PRINT_INDENT2,
+        indent2,
     );
     match &summary.readerdata {
         // `Dummy` may occur for files without adequate read permissions
@@ -3259,38 +3517,65 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
                 _summarysyslogprocessor,
             ),
         ) => {
-            eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summarylinereader.linereader_lines);
+            eprintln!("{}lines          {}", indent2, summarylinereader.linereader_lines);
             eprintln!(
                 "{}lines high     {}",
-                OPT_SUMMARY_PRINT_INDENT2, summarylinereader.linereader_lines_stored_highest
+                indent2, summarylinereader.linereader_lines_stored_highest
             );
-            eprintln!("{}syslines       {}", OPT_SUMMARY_PRINT_INDENT2, summarysyslinereader.syslinereader_syslines);
+            eprintln!("{}syslines       {}", indent2, summarysyslinereader.syslinereader_syslines);
             eprintln!(
                 "{}syslines high  {}",
-                OPT_SUMMARY_PRINT_INDENT2, summarysyslinereader.syslinereader_syslines_stored_highest
+                indent2, summarysyslinereader.syslinereader_syslines_stored_highest
             );
         }
         SummaryReaderData::Utmpx((
             _summaryblockreader,
             summaryutmpreader,
         )) => {
-            eprintln!("{}utmpx          {}", OPT_SUMMARY_PRINT_INDENT2, summaryutmpreader.utmpxreader_utmp_entries);
+            eprintln!("{}utmpx          {}", indent2, summaryutmpreader.utmpxreader_utmp_entries);
             eprintln!(
                 "{}utmpx high     {}",
-                OPT_SUMMARY_PRINT_INDENT2, summaryutmpreader.utmpxreader_utmp_entries_max,
+                indent2, summaryutmpreader.utmpxreader_utmp_entries_max,
             );
         }
+        SummaryReaderData::Etvx(summaryevtxreader) => {
+            eprintln!(
+                "{}file size           {1} (0x{1:X}) (bytes)",
+                indent2, summaryevtxreader.evtxreader_filesz,
+            );
+            eprintln!("{}Events processed    {}", indent2, summaryevtxreader.evtxreader_entries_processed);
+            eprintln!("{}Events accepted     {}", indent2, summaryevtxreader.evtxreader_entries_accepted);
+            eprint!("{}Events out of order ", indent2);
+            if summaryevtxreader.evtxreader_out_of_order == 0 {
+                eprintln!("{}", summaryevtxreader.evtxreader_out_of_order);
+            } else {
+                let data = format!("{}", summaryevtxreader.evtxreader_out_of_order);
+                match print_colored_stderr(
+                    COLOR_ERROR,
+                    Some(*color_choice),
+                    data.as_bytes(),
+                ) {
+                    Err(_) => {}
+                    Ok(_) => eprintln!(),
+                }
+            }
+            match summaryevtxreader.evtxreader_datetime_first_processed {
+                Some(dt) => eprintln!("{}datetime first      {:?}", indent2, dt),
+                None => {}
+            }
+            match summaryevtxreader.evtxreader_datetime_last_processed {
+                Some(dt) => eprintln!("{}datetime last       {:?}", indent2, dt),
+                None => {}
+            }
+            // for evtx files, nothing left to print about it so return
+            return;
+        }
     }
-    //eprintln!("{}lines          {}", OPT_SUMMARY_PRINT_INDENT2, summary.linereader_lines);
-    //eprintln!(
-    //    "{}lines high     {}",
-    //    OPT_SUMMARY_PRINT_INDENT2, summary.linereader_lines_stored_highest
-    //);
     // print datetime first and last
     match (summary.datetime_first(), summary.datetime_last()) {
         (Some(dt_first), Some(dt_last)) => {
-            eprintln!("{}datetime first {:?}", OPT_SUMMARY_PRINT_INDENT2, dt_first,);
-            eprintln!("{}datetime last  {:?}", OPT_SUMMARY_PRINT_INDENT2, dt_last,);
+            eprintln!("{}datetime first {:?}", indent2, dt_first,);
+            eprintln!("{}datetime last  {:?}", indent2, dt_last,);
         }
         (None, Some(_)) | (Some(_), None) => {
             eprintln!("ERROR: only one of dt_first or dt_last fulfilled; this is unexpected.");
@@ -3314,7 +3599,7 @@ fn print_summary_opt_processed(summary_opt: &SummaryOpt) {
                 .iter()
             {
                 let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*patt.0];
-                eprintln!("{}@[{}] uses {} {:?}", OPT_SUMMARY_PRINT_INDENT2, patt.0, patt.1, dtpd);
+                eprintln!("{}@[{}] uses {} {:?}", indent2, patt.0, patt.1, dtpd);
             }
             match summarysyslogprocessor.SyslogProcessor_missing_year {
                 Some(year) => {
@@ -3338,9 +3623,18 @@ fn print_summary_opt_processed_summaryblockreader(
     if summary.readerdata.is_dummy() {
         return;
     }
-    let summaryblockreader = summary.blockreader();
+    let summaryblockreader = match summary.blockreader() {
+        Some(summaryblockreader) => {
+            summaryblockreader
+        }
+        None => {
+            return;
+        }
+    };
+    debug_assert_ne!(summary.filetype, FileType::Evtx);
     match summary.filetype {
-        FileType::File | FileType::Utmpx => {
+        FileType::File
+        | FileType::Utmpx => {
             eprintln!(
                 "{}file size      {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz
@@ -3367,22 +3661,23 @@ fn print_summary_opt_processed_summaryblockreader(
             );
         }
         ft => {
-            eprintln!("{}unsupported filetype {:?}", OPT_SUMMARY_PRINT_INDENT2, ft);
+            eprintln!("{}unsupported filetype {:?}", indent, ft);
             return;
         }
     }
-    eprintln!("{}bytes          {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_bytes);
-    eprintln!("{}bytes total    {1} (0x{1:X})", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_bytes_total);
+    eprintln!("{}bytes          {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes);
+    eprintln!("{}bytes total    {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes_total);
     eprintln!(
         "{}block size     {1} (0x{1:X})",
-        OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_blocksz
+        indent, summaryblockreader.blockreader_blocksz
     );
-    eprintln!("{}blocks         {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_blocks);
-    eprintln!("{}blocks total   {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_blocks_total);
-    eprintln!("{}blocks high    {}", OPT_SUMMARY_PRINT_INDENT2, summaryblockreader.blockreader_blocks_highest);
+    eprintln!("{}blocks         {}", indent, summaryblockreader.blockreader_blocks);
+    eprintln!("{}blocks total   {}", indent, summaryblockreader.blockreader_blocks_total);
+    eprintln!("{}blocks high    {}", indent, summaryblockreader.blockreader_blocks_highest);
 }
 
-/// Print the (optional) [`&SummaryPrinted`] (one line).
+/// Print the (optional) [`&SummaryPrinted`] (one line) printed section for
+/// one file.
 ///
 /// [`&SummaryPrinted`]: self::SummaryPrinted
 fn print_summary_opt_printed(
@@ -3617,7 +3912,6 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     if summary.readerdata.is_dummy() {
         return;
     }
-    eprintln!("{}Processing Stores:", OPT_SUMMARY_PRINT_INDENT1);
     let wide: usize = summary
         .max_hit_miss()
         .to_string()
@@ -3629,6 +3923,7 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
             summarysyslinereader,
             _summarysyslogprocessor,
         )) => {
+            eprintln!("{}Processing Stores:", OPT_SUMMARY_PRINT_INDENT1);
             print_cache_stats_summaryblockreader(
                 summaryblockreader,
                 OPT_SUMMARY_PRINT_INDENT2,
@@ -3649,6 +3944,7 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
             summaryblockreader,
             summaryutmpreader,
         )) => {
+            eprintln!("{}Processing Stores:", OPT_SUMMARY_PRINT_INDENT1);
             print_cache_stats_summaryutmpreader(
                 summaryutmpreader,
                 OPT_SUMMARY_PRINT_INDENT2,
@@ -3660,6 +3956,7 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
                 wide,
             );
         }
+        SummaryReaderData::Etvx(_summaryevtxreader) => {}
         SummaryReaderData::Dummy => panic!("Unexpected SummaryReaderData::Dummy"),
     }
 }
@@ -3678,19 +3975,28 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
     if summary.readerdata.is_dummy() {
         return;
     }
+    // force early return for Evtx
+    match summary.filetype {
+        FileType::Evtx => { return; }
+        _ => {}
+    }
     eprintln!("{}Processing Drops:", OPT_SUMMARY_PRINT_INDENT1);
     let wide: usize = summary
         .max_drop()
         .to_string()
         .len();
-    let summaryblockreader = summary.blockreader();
-    eprintln!(
-            "{}streaming: BlockReader::drop_block()    : Ok {:wide$}, Err {:wide$}",
-        OPT_SUMMARY_PRINT_INDENT2,
-        summaryblockreader.blockreader_blocks_dropped_ok,
-        summaryblockreader.blockreader_blocks_dropped_err,
-        wide = wide,
-    );
+    match summary.blockreader() {
+        Some(summaryblockreader) => {
+            eprintln!(
+                    "{}streaming: BlockReader::drop_block()    : Ok {:wide$}, Err {:wide$}",
+                OPT_SUMMARY_PRINT_INDENT2,
+                summaryblockreader.blockreader_blocks_dropped_ok,
+                summaryblockreader.blockreader_blocks_dropped_err,
+                wide = wide,
+            );
+        }
+        None => {}
+    }
     match &summary.readerdata {
         SummaryReaderData::Syslog(
             (
@@ -3728,6 +4034,9 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
                 summaryutmpreader.utmpxreader_drop_entry_errors,
                 wide = wide,
             );
+        }
+        SummaryReaderData::Etvx(_summaryevtxreader) => {
+            panic!("Unexpected SummaryReaderData::Etvx");
         }
         SummaryReaderData::Dummy => panic!("Unexpected SummaryReaderData::Dummy"),
     }
@@ -3776,7 +4085,7 @@ fn print_file_summary(
     eprintln!();
     print_filepath(path, filetype, logmessagetype, mimeguess, color, color_choice);
     print_summary_opt_printed(summary_print_opt, summary_opt, color_choice);
-    print_summary_opt_processed(summary_opt);
+    print_summary_opt_processed(summary_opt, color_choice);
     if OPT_SUMMARY_PRINT_CACHE_STATS {
         print_cache_stats(summary_opt);
     }
