@@ -24,12 +24,13 @@ use ::lazy_static::lazy_static;
 use ::more_asserts::{assert_ge, assert_le};
 use ::si_trace_print::stack::{sn, so, stack_offset_set, sx};
 use ::si_trace_print::printers::{defo, defn, defx};
+use ::test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 lazy_static! {
     static ref NTF_EMPTY0: NamedTempFile = create_temp_file("");
-    static ref NTF_EMPTY0_path: FPath = ntf_fpath(&NTF_EMPTY0);
+    static ref NTF_EMPTY0_PATH: FPath = ntf_fpath(&NTF_EMPTY0);
     static ref NTF_NL_1: NamedTempFile = create_temp_file("\n");
     static ref NTF_NL_1_PATH: FPath = ntf_fpath(&NTF_NL_1);
     static ref NTF_NL_2: NamedTempFile = create_temp_file("\n\n");
@@ -345,7 +346,7 @@ fn _test_LineReader_all(
 
 #[test]
 fn test_LineReader_all0_empty() {
-    _test_LineReader_all(&NTF_EMPTY0_path, true, 0x4);
+    _test_LineReader_all(&NTF_EMPTY0_PATH, true, 0x4);
 }
 
 #[test]
@@ -484,7 +485,7 @@ fn test_LineReader_all_reversed(
 
 #[test]
 fn test_LineReader_all_reversed0_empty() {
-    test_LineReader_all_reversed(&NTF_EMPTY0_path, true, 0x4);
+    test_LineReader_all_reversed(&NTF_EMPTY0_PATH, true, 0x4);
 }
 
 #[test]
@@ -596,7 +597,7 @@ fn test_LineReader_half_even(
 
 #[test]
 fn test_LineReader_half_even_0_empty() {
-    test_LineReader_half_even(&NTF_EMPTY0_path, 0x4);
+    test_LineReader_half_even(&NTF_EMPTY0_PATH, 0x4);
 }
 
 #[test]
@@ -747,7 +748,7 @@ fn test_LineReader_half_odd(
 
 #[test]
 fn test_LineReader_half_odd_0_empty() {
-    test_LineReader_half_odd(&NTF_EMPTY0_path, 0x4);
+    test_LineReader_half_odd(&NTF_EMPTY0_PATH, 0x4);
 }
 
 #[test]
@@ -855,7 +856,7 @@ fn test_LineReader_rand(
 
 #[test]
 fn test_LineReader_rand0_empty() {
-    test_LineReader_rand(&NTF_EMPTY0_path, 0x4);
+    test_LineReader_rand(&NTF_EMPTY0_PATH, 0x4);
 }
 
 #[test]
@@ -999,7 +1000,7 @@ test_LineReader_precise_order_2 line 2 of 2
 #[test]
 fn test_LineReader_precise_order_empty0__0_1() {
     let offsets: Vec<FileOffset> = vec![0, 1];
-    test_LineReader_precise_order(&NTF_EMPTY0_path, true, 0xF, &offsets);
+    test_LineReader_precise_order(&NTF_EMPTY0_PATH, true, 0xF, &offsets);
 }
 
 #[test]
@@ -1224,12 +1225,12 @@ fn test_find_line_in_block_all(
 
 #[test]
 fn test_find_line_in_block_all_empty0() {
-    test_find_line_in_block_all(&NTF_EMPTY0_path, true, 0xF);
+    test_find_line_in_block_all(&NTF_EMPTY0_PATH, true, 0xF);
 }
 
 #[test]
 fn test_find_line_in_block_all_empty0_nocache() {
-    test_find_line_in_block_all(&NTF_EMPTY0_path, false, 0xF);
+    test_find_line_in_block_all(&NTF_EMPTY0_PATH, false, 0xF);
 }
 
 #[test]
@@ -1400,7 +1401,7 @@ fn test_find_line_in_block(
 #[test]
 fn test_find_line_in_block_empty0_bszFF() {
     let in_out: TestFindLineInBlockCheck = vec![(0, (RS3T_DONE, None), String::from(""))];
-    test_find_line_in_block(&NTF_EMPTY0_path, true, 0xFF, &in_out);
+    test_find_line_in_block(&NTF_EMPTY0_PATH, true, 0xFF, &in_out);
 }
 
 #[test]
@@ -1894,3 +1895,15 @@ fn test_Line_get_boxptrs_2_bsz_0x3() {
 fn test_Line_get_boxptrs_2_bsz_0x2() {
     test_Line_get_boxptrs_2_(0x2);
 }
+
+/// test `LineReader::summary` before doing any processing
+#[test_case(&NTF_EMPTY0_PATH)]
+#[test_case(&NTF_NL_1_PATH)]
+fn test_LineReader_summary_empty(
+    path: &FPath,
+) {
+    let linereader = new_LineReader(path, 0x2);
+    _ = linereader.summary();
+}
+
+// TODO: [2023/03/23] test `LineReader::summary` after doing some processing
