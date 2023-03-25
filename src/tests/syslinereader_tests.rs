@@ -4988,3 +4988,24 @@ fn test_datetime_soonest2() {
 
     defx!();
 }
+
+/// test `SyslineReader::summary` before doing any processing
+#[test_case(&NTF_LOG_EMPTY_FPATH, 64, *FO_M5)]
+//#[test_case(&NTF_TAR_1BYTE_FILEA_FPATH, 64, *FO_P8)]
+#[test_case(&NTF_GZ_EMPTY_FPATH, 64, *FO_P8)]
+#[test_case(&NTF_GZ_1BYTE_FPATH, 64, *FO_P8)]
+#[test_case(&NTF_XZ_1BYTE_FPATH, 64, *FO_P8)]
+fn test_SyslineReader_summary_empty(
+    path: &FPath,
+    blocksz: BlockSz,
+    fixedoffset: FixedOffset,
+) {
+    let syslinereader = new_SyslineReader(
+        path,
+        blocksz,
+        fixedoffset,
+    );
+    _ = syslinereader.summary();
+}
+
+// TODO: [2023/03/23] test `SyslineReader::summary` after doing some processing
