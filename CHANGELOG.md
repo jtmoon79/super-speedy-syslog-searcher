@@ -20,107 +20,107 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
   - [New](#new-1)
   - [Changes](#changes-1)
   - [Fixes](#fixes-1)
-- [0.3.54 - 2023-03-17](#0354---2023-03-17)
+- [0.3.54](#0354)
   - [New](#new-2)
   - [Fixes](#fixes-2)
-- [0.3.53 - 2023-03-10](#0353---2023-03-10)
+- [0.3.53](#0353)
   - [New](#new-3)
   - [Changes](#changes-2)
-- [0.2.52 - 2023-02-15](#0252---2023-02-15)
+- [0.2.52](#0252)
   - [New](#new-4)
-- [0.2.51 - 2023-02-09](#0251---2023-02-09)
+- [0.2.51](#0251)
   - [New](#new-5)
-- [0.2.50 - 2023-01-29](#0250---2023-01-29)
+- [0.2.50](#0250)
   - [New](#new-6)
   - [Changes](#changes-3)
   - [Fixes](#fixes-3)
-- [0.2.49 - 2023-01-26](#0249---2023-01-26)
+- [0.2.49](#0249)
   - [Changes](#changes-4)
   - [Fixes](#fixes-4)
-- [0.2.48 - 2023-01-15](#0248---2023-01-15)
+- [0.2.48](#0248)
   - [New](#new-7)
   - [Changes](#changes-5)
   - [Fixes](#fixes-5)
-- [0.2.47 - 2023-01-09](#0247---2023-01-09)
-- [0.2.46 - 2023-01-09](#0246---2023-01-09)
+- [0.2.47](#0247)
+- [0.2.46](#0246)
   - [New](#new-8)
   - [Changes](#changes-6)
   - [Fixes](#fixes-6)
-- [0.1.45 - 2023-01-01](#0145---2023-01-01)
+- [0.1.45](#0145)
   - [New](#new-9)
   - [Changes](#changes-7)
-- [0.1.44 - 2022-12-29](#0144---2022-12-29)
+- [0.1.44](#0144)
   - [New](#new-10)
   - [Changes](#changes-8)
   - [Fixes](#fixes-7)
-- [0.1.43 - 2022-12-26](#0143---2022-12-26)
+- [0.1.43](#0143)
   - [New](#new-11)
   - [Changes](#changes-9)
-- [0.1.42 - 2022-12-19](#0142---2022-12-19)
+- [0.1.42](#0142)
   - [Changes](#changes-10)
-- [0.1.41 - 2022-12-18](#0141---2022-12-18)
+- [0.1.41](#0141)
   - [Changes](#changes-11)
   - [Fixes](#fixes-8)
-- [0.1.40 - 2022-11-22](#0140---2022-11-22)
+- [0.1.40](#0140)
   - [New](#new-12)
   - [Changes](#changes-12)
-- [0.1.39 - 2022-10-19](#0139---2022-10-19)
+- [0.1.39](#0139)
   - [Changes](#changes-13)
-- [0.1.38 - 2022-10-16](#0138---2022-10-16)
+- [0.1.38](#0138)
   - [New](#new-13)
   - [Changes](#changes-14)
-- [0.0.37 - 2022-10-12](#0037---2022-10-12)
+- [0.0.37](#0037)
   - [New](#new-14)
   - [Changes](#changes-15)
-- [0.0.36 - 2022-10-10](#0036---2022-10-10)
+- [0.0.36](#0036)
   - [New](#new-15)
   - [Fixes](#fixes-9)
   - [Changes](#changes-16)
-- [0.0.35 - 2022-10-09](#0035---2022-10-09)
+- [0.0.35](#0035)
   - [New](#new-16)
   - [Fixes](#fixes-10)
-- [0.0.34 - 2022-10-07](#0034---2022-10-07)
+- [0.0.34](#0034)
   - [New](#new-17)
   - [Fixes](#fixes-11)
-- [0.0.33 - 2022-09-21](#0033---2022-09-21)
+- [0.0.33](#0033)
   - [New](#new-18)
-- [0.0.32 - 2022-09-20](#0032---2022-09-20)
+- [0.0.32](#0032)
   - [New](#new-19)
   - [Fixes](#fixes-12)
-- [0.0.31 - 2022-09-19](#0031---2022-09-19)
+- [0.0.31](#0031)
   - [New](#new-20)
-- [0.0.30 - 2022-09-18](#0030---2022-09-18)
+- [0.0.30](#0030)
   - [New](#new-21)
   - [Changes](#changes-17)
-- [0.0.29 - 2022-09-17](#0029---2022-09-17)
+- [0.0.29](#0029)
   - [Changes](#changes-18)
-- [0.0.28 - 2022-09-17](#0028---2022-09-17)
+- [0.0.28](#0028)
   - [New](#new-22)
   - [Changes](#changes-19)
   - [Fixes](#fixes-13)
-- [0.0.27 - 2022-09-16](#0027---2022-09-16)
+- [0.0.27](#0027)
   - [New](#new-23)
   - [Changes](#changes-20)
-- [0.0.26 - 2022-08-12](#0026---2022-08-12)
+- [0.0.26](#0026)
   - [New](#new-24)
   - [Changes](#changes-21)
   - [Fixes](#fixes-14)
-- [0.0.25 - 2022-07-28](#0025---2022-07-28)
+- [0.0.25](#0025)
   - [New](#new-25)
   - [Changes](#changes-22)
   - [Fixes](#fixes-15)
-- [0.0.24 - 2022-07-20](#0024---2022-07-20)
+- [0.0.24](#0024)
   - [New](#new-26)
   - [Changes](#changes-23)
-- [0.0.23 - 2022-07-12](#0023---2022-07-12)
+- [0.0.23](#0023)
   - [New](#new-27)
   - [Changes](#changes-24)
   - [Fixes](#fixes-16)
-- [0.0.22 - 2022-07-10](#0022---2022-07-10)
+- [0.0.22](#0022)
   - [New](#new-28)
   - [Fixes](#fixes-17)
   - [Changes](#changes-25)
-- [0.0.21 - 2022-06-24](#0021---2022-06-24)
+- [0.0.21](#0021)
   - [New](#new-29)
   - [Fixes](#fixes-18)
 
@@ -166,7 +166,11 @@ Categories:
 
 <!-- TODO per release: Add Section(s) -->
 
+---
+
 ## 0.4.56
+
+_Released 2023-03-24_
 
 [0.3.55...0.4.56]
 
@@ -183,7 +187,11 @@ Categories:
 
 - (TEST) add various `Summary` tests ([7f3911b07cc4788fe2cdb4e8d421fe5f156cac59]) ([9f5391ba1ff4b7c8aa43d6ab3da57ee7693e0b9d]) ([5b2b6f808c100077fc94c7019821a01896f7b652]) ([0923408bff8036c1b1c37bfba0a71012845c0935]) ([d03737cda4c53aba353a32f33fd32f7fa74738ad])
 
+---
+
 ## 0.3.55
+
+_Released 2023-03-18_
 
 [0.3.54...0.3.55]
 
@@ -204,7 +212,11 @@ Categories:
 - (BIN) bin.rs fix --separator, use for utmpx ([24f00e77839701e01123b61e4d7daefcab264a9b])
 - (LIB) utmpxreader.rs fix errant println! ([50fec201f1094269a1dc53bca88b25e33d7ceec4])
 
-## 0.3.54 - 2023-03-17
+---
+
+## 0.3.54
+
+_Released 2023-03-17_
 
 [0.2.53...0.3.54]
 
@@ -218,7 +230,11 @@ Categories:
 - (BIN) bin.rs user-passed %Z for filters [Issue #85]([98c4b362743dbf5b5ef95234caa389e74dcac1ac])
 - (LIB) fix FreeBSD compile of `uapi` and define `umptx` ([62e89e2917a36d73110a860a5f490e4fbb19a6b2])
 
-## 0.3.53 - 2023-03-10
+---
+
+## 0.3.53
+
+_Released 2023-03-10_
 
 [0.2.52...0.3.53]
 
@@ -230,7 +246,11 @@ Categories:
 
 - (BUILD) MSRV 1.66.0
 
-## 0.2.52 - 2023-02-15
+---
+
+## 0.2.52
+
+_Released 2023-02-15_
 
 [0.2.51...0.2.52]
 
@@ -238,7 +258,11 @@ Categories:
 
 - (LIB) datetime.rs add format catalina apache access  [Issue #82] ([5337dd907a456236ebd038f7b3df6fa4e1687a68]) ([997a365d6a6c72f8a3e847f1c253b1f236f05a5f])
 
-## 0.2.51 - 2023-02-09
+---
+
+## 0.2.51
+
+_Released 2023-02-09_
 
 [0.2.50...0.2.51]
 
@@ -248,7 +272,11 @@ Categories:
 - (BIN) print bytes counts in hex ([e46b1f943753dc0a5bf1b45b458f0fde643ebdf5])
 - (LIB) datetime pattern for tomcat catalina [Issue #81] ([8def2f69f1d0b55c73ccb0fe7e35435b67d79c6f])
 
-## 0.2.50 - 2023-01-29
+---
+
+## 0.2.50
+
+_Released 2023-01-29_
 
 [0.2.49...0.2.50]
 
@@ -273,7 +301,11 @@ Categories:
 
 - (BIN) bin.rs bounded channel queue [Issue #76] ([ac509a2c0f12541ac4db4107a423ada59732c4dd])
 
-## 0.2.49 - 2023-01-26
+---
+
+## 0.2.49
+
+_Released 2023-01-26_
 
 [0.2.48...0.2.49]
 
@@ -294,7 +326,11 @@ Categories:
 - (LIB) syslogprocessor.rs fix expected sysline count in blockzero ([e3ca0e225065cf4fe610fd0f49748dc8cab48f71])
 - (TEST) common.rs fix PartialEq for FileProcessingResult ([85d51b6b68b108f4a7c8cb9455961420c2cfff43])
 
-## 0.2.48 - 2023-01-15
+---
+
+## 0.2.48
+
+_Released 2023-01-15_
 
 ### New
 
@@ -334,14 +370,22 @@ Categories:
 - (LIB) syslinereader.rs fix one-off error in get_boxptr ([619da4158649e2fc038bc0ecb9b36e82931508b6])
 - (LIB) syslogprocessor.rs fix expected sysline count in blockzero ([e3ca0e225065cf4fe610fd0f49748dc8cab48f71])
 
-## 0.2.47 - 2023-01-09
+---
+
+## 0.2.47
+
+_Released 2023-01-09_
 
 [0.2.46...0.2.47]
 
 - (BIN) bin.rs fix typo in clap help ([b03da48883f07bd1e089f080dc4bc6fa9cfc8578])
 - (DOCS) README update --help ([cdaad462bfea78e0e079853e198a32ec89a5d7bc])
 
-## 0.2.46 - 2023-01-09
+---
+
+## 0.2.46
+
+_Released 2023-01-09_
 
 [0.1.45...0.2.46]
 
@@ -385,7 +429,11 @@ Categories:
 - (PROJECT) .gitignore add leading path for dirs ([f355964d7b4c6bcc0d5cd726df4ff360f2adac23])
 - (TOOLS) hexdump.py flush stderr, stdout ([bbe3b00626693af8310454616c08b8358fedb042])
 
-## 0.1.45 - 2023-01-01
+---
+
+## 0.1.45
+
+_Released 2023-01-01_
 
 [0.1.44...0.1.45]
 
@@ -399,7 +447,11 @@ Categories:
 - (LIB) be more sure of matching year ([fda61f8ffc7ddd95556f4109b9e735cdde2c1b93])
 - (TEST) more stringent and precise DTPD check ([fda61f8ffc7ddd95556f4109b9e735cdde2c1b93]) ([60aa5d1c1e983aad9b0921e3e066935742605b52])
 
-## 0.1.44 - 2022-12-29
+---
+
+## 0.1.44
+
+_Released 2022-12-29_
 
 [0.1.43...0.1.44]
 
@@ -420,7 +472,11 @@ Categories:
 
 - (LIB) syslinereader do not panic in case of unexpected Done [Issue #67] ([2da339822a4f62266149b8d53925840c0860c9a2])
 
-## 0.1.43 - 2022-12-26
+---
+
+## 0.1.43
+
+_Released 2022-12-26_
 
 [0.1.42...0.1.43]
 
@@ -434,7 +490,11 @@ Categories:
 - (DOCS) update README ([cb8ed82e9ee18dc1b0f3ffdd2c22d99402a8c870])
 - (BIN) update --help for `--blocksz` ([2157861027eff2cade51aa950a6a4300e86a1e50])
 
-## 0.1.42 - 2022-12-19
+---
+
+## 0.1.42
+
+_Released 2022-12-19_
 
 [0.1.41...0.1.42]
 
@@ -443,7 +503,11 @@ Categories:
 - (BIN) (BUILD) update clap from 3 to 4 ([f58f506f17d6b76343d5bd814749259e3b380cc2])
 - (BUILD) cargo update ([41bb25a10b5bc70c228f9f5930d4f0aaba9eafbd])
 
-## 0.1.41 - 2022-12-18
+---
+
+## 0.1.41
+
+_Released 2022-12-18_
 
 [0.1.40...0.1.41]
 
@@ -458,7 +522,11 @@ Categories:
 
 - (LIB)(BIN) fix drop, add more summary stats, tests [Issue #66] ([916259ba70c903d2b2d85b4bd3eddffa98cec370])
 
-## 0.1.40 - 2022-11-22
+---
+
+## 0.1.40
+
+_Released 2022-11-22_
 
 [0.1.39...0.1.40]
 
@@ -468,8 +536,13 @@ Categories:
 
 ### Changes
 
-- (BIN) add summary _syslines stored high_ ([d1f5895f1e5a55cbbcbfc4072bbde53a7a85fc
-## 0.1.39 - 2022-10-19
+- (BIN) add summary _syslines stored high_ ([d1f5895f1e5a55cbbcbfc4072bbde53a7a85fc])
+
+---
+
+## 0.1.39
+
+_Released 2022-10-19_
 
 [0.1.38...0.1.39]
 
@@ -483,7 +556,9 @@ Categories:
 
 ---
 
-## 0.1.38 - 2022-10-16
+## 0.1.38
+
+_Released 2022-10-16_
 
 [0.0.37...0.1.38]
 
@@ -498,7 +573,9 @@ Categories:
 
 ---
 
-## 0.0.37 - 2022-10-12
+## 0.0.37
+
+_Released 2022-10-12_
 
 [0.0.36...0.0.37]
 
@@ -513,9 +590,9 @@ Categories:
 
 ---
 
-<!-- TODO per release: Add Section(s) -->
+## 0.0.36
 
-## 0.0.36 - 2022-10-10
+_Released 2022-10-10_
 
 [0.0.35...0.0.36]
 
@@ -535,7 +612,9 @@ Categories:
 
 ---
 
-## 0.0.35 - 2022-10-09
+## 0.0.35
+
+_Released 2022-10-09_
 
 [0.0.34...0.0.35]
 
@@ -554,7 +633,9 @@ Categories:
 
 ---
 
-## 0.0.34 - 2022-10-07
+## 0.0.34
+
+_Released 2022-10-07_
 
 [0.0.33...0.0.34]
 
@@ -573,7 +654,9 @@ Categories:
 
 ---
 
-## 0.0.33 - 2022-09-21
+## 0.0.33
+
+_Released 2022-09-21_
 
 [0.0.32...0.0.33]
 
@@ -584,7 +667,9 @@ Categories:
 
 ---
 
-## 0.0.32 - 2022-09-20
+## 0.0.32
+
+_Released 2022-09-20_
 
 [0.0.31...0.0.32]
 
@@ -598,7 +683,9 @@ Categories:
 
 ---
 
-## 0.0.31 - 2022-09-19
+## 0.0.31
+
+_Released 2022-09-19_
 
 [0.0.30...0.0.31]
 
@@ -608,7 +695,9 @@ Categories:
 
 ---
 
-## 0.0.30 - 2022-09-18
+## 0.0.30
+
+_Released 2022-09-18_
 
 [0.0.29...0.0.30]
 
@@ -623,7 +712,9 @@ Categories:
 
 ---
 
-## 0.0.29 - 2022-09-17
+## 0.0.29
+
+_Released 2022-09-17_
 
 [0.0.28...0.0.29]
 
@@ -639,7 +730,9 @@ Categories:
 
 ---
 
-## 0.0.28 - 2022-09-17
+## 0.0.28
+
+_Released 2022-09-17_
 
 [0.0.27...0.0.28]
 
@@ -664,7 +757,11 @@ Categories:
 
 - (TOOLS) tools chmod 100755 ([a13786623e5b9117418dc6ff86c1f0519e9074f0])
 
-## 0.0.27 - 2022-09-16
+---
+
+## 0.0.27
+
+_Released 2022-09-16_
 
 [0.0.26...0.0.27]
 
@@ -694,7 +791,9 @@ Categories:
 
 ---
 
-## 0.0.26 - 2022-08-12
+## 0.0.26
+
+_Released 2022-08-12_
 
 [0.0.25...0.0.26]
 
@@ -741,7 +840,9 @@ Categories:
 
 ---
 
-## 0.0.25 - 2022-07-28
+## 0.0.25
+
+_Released 2022-07-28_
 
 [0.0.24...0.0.25]
 
@@ -763,7 +864,9 @@ Categories:
 ---
 
 
-## 0.0.24 - 2022-07-20
+## 0.0.24
+
+_Released 2022-07-20_
 
 [0.0.23...0.0.24]
 
@@ -777,7 +880,9 @@ Categories:
 
 ---
 
-## 0.0.23 - 2022-07-12
+## 0.0.23
+
+_Released 2022-07-12_
 
 [0.0.22...0.0.23]
 
@@ -806,7 +911,9 @@ Categories:
 
 ---
 
-## 0.0.22 - 2022-07-10
+## 0.0.22
+
+_Released 2022-07-10_
 
 [0.0.21...0.0.22]
 
@@ -833,7 +940,9 @@ Categories:
 
 ---
 
-## 0.0.21 - 2022-06-24
+## 0.0.21
+
+_Released 2022-06-24_
 
 [0.0.1...0.0.21]
 
