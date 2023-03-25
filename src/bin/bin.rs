@@ -1001,7 +1001,7 @@ fn process_dt(
     } // end for … in CLI_FILTER_PATTERNS
     // could not match specific datetime pattern
     // try relative offset pattern matching, e.g. `"-30m5s"`, `"+2d"`
-    dto = match string_to_rel_offset_datetime(&dts, tz_offset, dt_other, now_utc) {
+    dto = match string_to_rel_offset_datetime(dts, tz_offset, dt_other, now_utc) {
         Some(dto) => Some(dto),
         None => None,
     };
@@ -1029,7 +1029,9 @@ fn process_dt_exit(
         Some(dto) => Some(dto),
         None => {
             // user-passed string was not parseable
-            eprintln!("ERROR: Unable to parse a datetime from {:?}", dts_opt);
+            eprintln!("ERROR: Unable to parse a datetime from {:?}",
+                dts_opt.as_ref().unwrap()
+            );
             std::process::exit(1);
         }
     }
@@ -2175,6 +2177,8 @@ impl SummaryPrinted {
         }
 
         match summarylinereader_opt {
+            // if lines were processed but no syslines were processed
+            // then hint at an error with colored text
             Some(summarylinereader) => {
                 eprint!("{}syslines       ", indent2);
                 if self.syslines == 0 && summarylinereader.linereader_lines != 0 {
@@ -2201,6 +2205,8 @@ impl SummaryPrinted {
         match summarylinereader_opt {
             Some(summarylinereader) => {
                 if self.dt_first.is_none() && summarylinereader.linereader_lines != 0 {
+                    // if no datetime_first was processed but lines were processed
+                    // then hint at an error with colored text
                     eprint!("{}datetime first ", indent2);
                     match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
                         Err(err) => {
@@ -2485,6 +2491,7 @@ const CHANNEL_CAPACITY: usize = 5;
 /// [`Sysline`]: s4lib::data::sysline::Sysline
 /// [`Summary`]: s4lib::readers::summary::Summary
 /// [channel]: self::ChanRecvDatum
+// XXX: this is a very large function
 #[allow(clippy::too_many_arguments)]
 fn processing_loop(
     mut paths_results: ProcessPathResults,
