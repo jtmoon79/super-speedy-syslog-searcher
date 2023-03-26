@@ -301,7 +301,7 @@ A longer rambling pontification about this project is in
   - [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.8)
   - [RFC 5424](https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3)
   - [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles) \*\*
-- Parses [Windows Event Log] files \*\*\*
+- Parses [Windows Event Log] files
 - Parses many ad-hoc datetime formats
   - Tested against "in the wild" log files from varying Linux distributions
     (see project path `./logs/`)
@@ -338,14 +338,10 @@ A longer rambling pontification about this project is in
     - [_Ordinal dates_](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates), i.e. "day of the year", format `YYYY-DDD`, e.g. `"2022-321"`
     - [_Week dates_](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates), i.e. "week-numbering year", format `YYYY-Www-D`, e.g. `"2022-W25-1"`
     - times [without minutes and seconds](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Times) (i.e. only `hh`)
-- \*\*\* Does not reorder chronologically "out of order" Windows Event Log
-  Events. [Issue #86]
-- \*\*\*\* Only for unarchived, uncompressed files
+- \*\*\* Only for unarchived, uncompressed files
   ([Issue #9](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/9),
   [Issue #12](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12),
   [Issue #13](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13))
-
-[Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
 
 ### Hacks
 
