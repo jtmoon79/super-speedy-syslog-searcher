@@ -316,6 +316,7 @@ A longer rambling pontification about this project is in
 - Accepts arbitrarily large files \*\*\*\*
 
 [utmpx login record format]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
+[RFC 2822]: https://www.rfc-editor.org/rfc/rfc2822#section-3.3
 [RFC 3164]: https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339#section-5.8
 [RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3
