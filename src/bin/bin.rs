@@ -594,7 +594,7 @@ struct CLI_Args {
     prepend_separator: String,
 
     /// An extra separator string between printed log messages.
-    /// One "syslog line", or "sysline", may have multiple lines of text.
+    /// Per log message not per line of text.
     /// Accepts a basic set of backslash escape sequences,
     /// e.g. "\0" for the null character.
     #[clap(
