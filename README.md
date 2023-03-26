@@ -313,7 +313,7 @@ A longer rambling pontification about this project is in
   (see project tool `./tools/compare-grep-sort.sh`; run in github Actions, Job
   _run `s4`_, Step _Run script compare-grep-sort_)
 - Processes invalid UTF-8
-- Accepts arbitrarily large files \*\*\*\*
+- Accepts arbitrarily large files \*\*\*
 
 [utmpx login record format]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
 [RFC 2822]: https://www.rfc-editor.org/rfc/rfc2822#section-3.3
