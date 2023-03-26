@@ -333,7 +333,7 @@ A longer rambling pontification about this project is in
 
 ### Limitations
 
-- Only processes UTF-8 or ASCII encoded log files. ([Issue #16])
+- Only processes UTF-8 or ASCII encoded syslog files. ([Issue #16])
 - Cannot processes multi-file `.gz` files (only processes first stream found).
   ([Issue #8])
 - Cannot processes multi-file `.xz` files (only processes first stream found).
@@ -356,6 +356,7 @@ A longer rambling pontification about this project is in
     - [_Week dates_], i.e. "week-numbering year", format `YYYY-Www-D`, e.g. `"2022-W25-1"`
     - times [without minutes and seconds] (i.e. only `hh`)
 - \*\*\* Only for unarchived, uncompressed files ([Issue #9], [Issue #12], [Issue #13])
+  and not for EVTX files ([Issue #86])
 
 [Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
@@ -369,11 +370,12 @@ A longer rambling pontification about this project is in
 [Issue #9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/9
 [Issue #12]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12
 [Issue #13]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13
+[Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
 
 ### Hacks
 
-- Entire `.xz` files are read into memory during the initial `open`
-  ([Issue #12])
+- Entire `.xz` files are read into memory during the initial `open` ([Issue #12])
+- Entire `.evtx` files are read into memory before printing ([Issue #86])
 
 <br/>
 
