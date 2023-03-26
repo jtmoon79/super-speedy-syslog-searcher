@@ -7,9 +7,6 @@
 //! Sibling of [`SyslogProcessor`]. But simpler in a number of ways due to
 //! the predictable format of the evtx files.
 //!
-//! Evtx files may not store Events in chronological order. This means merging
-//! evtx files may have errant behavior. See [Issue #86].
-//!
 //! [`EvtxReader`]: self::EvtxReader
 //! [`Etmpx`s]: crate::data::etmpx::Etmpx
 //! [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
@@ -17,7 +14,6 @@
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 //! [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
 
-use crate::de_wrn;
 use crate::common::{
     File,
     FileOpenOptions,
@@ -28,17 +24,17 @@ use crate::common::{
     FPath,
     FileType,
     filetype_to_logmessagetype,
-    ResultS3,
 };
 use crate::data::datetime::{
+    DateTimeL,
     DateTimeLOpt,
     FixedOffset,
     Result_Filter_DateTime2,
-    dt_pass_filters,
 };
-use crate::data::evtx::{Evtx, RecordId};
+use crate::data::evtx::Evtx;
 use crate::readers::summary::Summary;
 
+use std::collections::BTreeMap;
 use std::fmt;
 use std::path::Path;
 use std::io::{Error, ErrorKind, Result};
@@ -51,6 +47,9 @@ use ::evtx::{
     EvtxParser,
     ParserSettings,
 };
+use ::lazy_static::lazy_static;
+#[allow(unused_imports)]
+use ::more_asserts::{assert_le, debug_assert_ge, debug_assert_le, debug_assert_lt};
 #[allow(unused_imports)]
 use ::si_trace_print::{de, defn, defo, defx, defñ, den, deo, dex, deñ, pfo, pfn, pfx};
 
@@ -58,21 +57,125 @@ use ::si_trace_print::{de, defn, defo, defx, defñ, den, deo, dex, deñ, pfo, pf
 // EvtxReader
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// [`EvtxReader.find`*] functions results.
+/// The `DateTime` used by [`EvtxParser`], field [`EvtxRecord.timestamp`] which
+/// is referred to as a "timestamp".
+/// 
+/// [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
+/// [`EvtxRecord.timestamp`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html#structfield.timestamp
+type Timestamp = DateTime<Utc>;
+/// Optional [`Timestamp`].
+type TimestampOpt = Option<Timestamp>;
+
+type EventsKey = (Timestamp, usize);
+type Events = BTreeMap<EventsKey, Evtx>;
+
+lazy_static! {
+    static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+}
+
+/// Convert a `evtx` "timestamp" (`DateTime<Utc>`)
+/// to a `s4` "datetime" (`DateTimeL`).
+fn timestamp_to_datetimel(
+    timestamp: &Timestamp,
+) -> DateTimeL {
+    timestamp.with_timezone(
+        &FixedOffset::east_opt(0).unwrap()
+    )
+}
+
+/// Convert a `s4` "datetime" (`DateTimeL`)
+/// to a `evtx` "timestamp" (`DateTime<Utc>`).
+fn datetimel_to_timestamp(
+    datetime: &DateTimeL,
+) -> Timestamp {
+    datetime.with_timezone(&Utc)
+}
+
+/// Convert a `s4` "datetime" (`DateTimeL`)
+/// to a `evtx` "timestamp" (`DateTime<Utc>`).
+fn datetimelopt_to_timestampopt(
+    datetimeopt: &DateTimeLOpt,
+) -> TimestampOpt {
+    match datetimeopt {
+        Some(dt) => {
+            Some(datetimel_to_timestamp(dt))
+        }
+        None => None,
+    }
+}
+
+/// A version of [`dt_pass_filters`] that takes a [`Timestamp`] instead of a
+/// [`DateTimeL`].
 ///
-/// [`EvtxReader.find`*]: self::EvtxReader#method.find_entry
-pub type ResultS3EvtxFind = ResultS3<(RecordId, Evtx), Error>;
+/// [`dt_pass_filters`]: crate::data::datetime::dt_pass_filters
+/// [`Timestamp`]: self::Timestamp
+/// [`DateTimeL`]: crate::data::datetime::DateTimeL
+pub fn ts_pass_filters(
+    ts: &Timestamp,
+    ts_filter_after: &TimestampOpt,
+    ts_filter_before: &TimestampOpt,
+) -> Result_Filter_DateTime2 {
+    defn!("({:?}, {:?}, {:?})", ts, ts_filter_after, ts_filter_before);
+    match (ts_filter_after, ts_filter_before) {
+        (None, None) => {
+            defx!("return InRange; (no dt filters)");
+            return Result_Filter_DateTime2::InRange;
+        }
+        (Some(da), Some(db)) => {
+            debug_assert_le!(da, db, "Bad datetime range values filter_after {:?} {:?} filter_before", da, db);
+            if ts < da {
+                defx!("return BeforeRange");
+                return Result_Filter_DateTime2::BeforeRange;
+            }
+            if db < ts {
+                defx!("return AfterRange");
+                return Result_Filter_DateTime2::AfterRange;
+            }
+            // assert da < dt && ts < db
+            debug_assert_le!(da, ts, "Unexpected range values da ts");
+            debug_assert_le!(ts, db, "Unexpected range values ts db");
+            defx!("return InRange");
+    
+            Result_Filter_DateTime2::InRange
+        }
+        (Some(da), None) => {
+            if ts < da {
+                defx!("return BeforeRange");
+                return Result_Filter_DateTime2::BeforeRange;
+            }
+            defx!("return InRange");
+    
+            Result_Filter_DateTime2::InRange
+        }
+        (None, Some(db)) => {
+            if db < ts {
+                defx!("return AfterRange");
+                return Result_Filter_DateTime2::AfterRange;
+            }
+            defx!("return InRange");
+    
+            Result_Filter_DateTime2::InRange
+        }
+    }
+}
 
 /// A wrapper for using [`EvtxParser`] to read a [evtx format file].
 ///
-/// .evtx files in the wild were found to store entries in a non-chronological order, e.g. the
-/// XML value at `Event.System.TimeCreated` are not necessarily in ascending order.
-/// About 2/3 of the files on a long-running Windows 11 system were found to be in this
-/// "out of order" state.
-/// More accurately, using `evtx_dump` to dump a .evtx file displayed entries in non-chronological
-/// order (so unlikely but possibly a problem with `evtx_dump`). Either way, that is the underlying
+/// .evtx files in the wild were found to store event in a non-chronological
+/// order, e.g. the XML value at `Event.System.TimeCreated` are not
+/// necessarily in ascending order.
+/// About 2/3 of the files on a long-running Windows 11 system were found to be
+/// in this "out of order" state.
+/// More accurately, using `evtx_dump` to dump a .evtx file displayed events in
+/// non-chronological order (so unlikely but possibly a problem with
+/// `evtx_dump`). Either way, that is the underlying
 /// library used to read the .evtx files so it's a problem for this program.
-/// This is not mitigated and may lead to unexpected behavior. See [Issue #86].
+/// This `EvtxReader` wrapper sorts the events by timestamp and then by
+/// order of enumeration.
+/// Unfortunately, this means the entire file must be read into memory before
+/// Events can be further processed (compared to other log messages) and then
+/// printed.
+/// Also see [Issue #86].
 ///
 /// [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
 /// [evtx format file]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
@@ -82,6 +185,9 @@ pub struct EvtxReader {
     ///
     /// [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
     evtxparser: EvtxParser<File>,
+    /// The [`Evtx`]s read from the file, sorted by timestamp and then by
+    /// enumeration order.
+    events: Events,
     /// The [`FPath`] of the file being read.
     ///
     /// [`FPath`]: crate::common::FPath
@@ -89,41 +195,44 @@ pub struct EvtxReader {
     /// `Count` of [`Evtx`s] processed.
     ///
     /// [`Evtx`s]: crate::data::evtx::Evtx
-    pub(super) entries_processed: Box<Count>,
+    //pub(super) events_processed: Box<Count>,
+    pub(super) events_processed: Count,
     /// `Count` of [`Evtx`s] accepted by the datetime filters.
     ///
     /// [`Evtx`s]: crate::data::evtx::Evtx
-    pub(super) entries_accepted: Count,
-    /// First (soonest) processed [`DateTimeL`].
+    pub(super) events_accepted: Count,
+    /// First (soonest) processed [`Timestamp`].
     ///
     /// Intended for `--summary`.
     ///
-    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
-    pub(super) dt_first_processed: DateTimeLOpt,
-    /// Last (latest) processed [`DateTimeL`].
+    /// [`Timestamp`]: super::Timestamp
+    pub(super) ts_first_processed: TimestampOpt,
+    /// Last (latest) processed [`Timestamp`].
     ///
     /// Intended for `--summary`.
     ///
-    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
-    pub(super) dt_last_processed: DateTimeLOpt,
-    /// First (soonest) accepted (printed) [`DateTimeL`].
+    /// [`Timestamp`]: super::Timestamp
+    pub(super) ts_last_processed: TimestampOpt,
+    /// First (soonest) accepted (printed) [`Timestamp`].
     ///
     /// Intended for `--summary`.
     ///
-    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
-    pub(super) dt_first_accepted: DateTimeLOpt,
-    /// Last (latest) accepted (printed) [`DateTimeL`].
+    /// [`Timestamp`]: super::Timestamp
+    pub(super) ts_first_accepted: TimestampOpt,
+    /// Last (latest) accepted (printed) [`Timestamp`].
     ///
     /// Intended for `--summary`.
     ///
-    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
-    pub(super) dt_last_accepted: DateTimeLOpt,
+    /// [`Timestamp`]: super::Timestamp
+    pub(super) ts_last_accepted: TimestampOpt,
     /// File Size of the file being read in bytes.
     filesz: FileSz,
-    /// Internal tracking of "out of order" state.
-    out_of_order_dt: Option<DateTime<Utc>>,
+    /// Internal tracking of "`out_of_order`" state.
+    //out_of_order_dt: Option<DateTime<Utc>>,
     /// Count of EVTX entries found to be out of order.
     out_of_order: Count,
+    /// has `self.analyze()` been called?
+    analyzed: bool,
     /// The last [`Error`], if any, as a `String`
     ///
     /// Annoyingly, cannot [Clone or Copy `Error`].
@@ -140,10 +249,10 @@ impl<'a> fmt::Debug for EvtxReader {
     ) -> fmt::Result {
         f.debug_struct("EvtxReader")
             .field("Path", &self.path)
-            .field("Entries Processed", &*self.entries_processed)
-            .field("Entries Accepted", &self.entries_accepted)
-            .field("dt_first_accepted", &self.dt_first_accepted)
-            .field("dt_last_accepted", &self.dt_last_accepted)
+            .field("Events Processed", &self.events_processed)
+            .field("Events Accepted", &self.events_accepted)
+            .field("ts_first_accepted", &self.ts_first_accepted)
+            .field("ts_last_accepted", &self.ts_last_accepted)
             .field("Error?", &self.error)
             .finish()
     }
@@ -152,8 +261,8 @@ impl<'a> fmt::Debug for EvtxReader {
 #[allow(non_snake_case)]
 #[derive(Clone, Default, Eq, PartialEq, Debug)]
 pub struct SummaryEvtxReader {
-    pub evtxreader_entries_processed: Count,
-    pub evtxreader_entries_accepted: Count,
+    pub evtxreader_events_processed: Count,
+    pub evtxreader_events_accepted: Count,
     /// datetime soonest processed
     pub evtxreader_datetime_first_processed: DateTimeLOpt,
     /// datetime latest processed
@@ -212,259 +321,135 @@ impl<'a> EvtxReader {
             EvtxReader
             {
                 evtxparser,
+                events: Events::new(),
                 path,
-                entries_processed: Box::new(0),
-                entries_accepted: 0,
-                dt_first_processed: DateTimeLOpt::None,
-                dt_last_processed: DateTimeLOpt::None,
-                dt_first_accepted: DateTimeLOpt::None,
-                dt_last_accepted: DateTimeLOpt::None,
+                events_processed: 0,
+                events_accepted: 0,
+                ts_first_processed: TimestampOpt::None,
+                ts_last_processed: TimestampOpt::None,
+                ts_first_accepted: TimestampOpt::None,
+                ts_last_accepted: TimestampOpt::None,
                 filesz,
-                out_of_order_dt: None,
                 out_of_order: 0,
+                analyzed: false,
                 error: None,
             }
         )
     }
 
-    pub fn next_between_datetime_filters(
+    /// Read the entire file and store in order.
+    ///
+    /// This should be called once before reading the via `next`.
+    pub fn analyze(
         &mut self,
-        dt_filter_after: DateTimeLOpt,
-        dt_filter_before: DateTimeLOpt,
-    ) -> impl Iterator<Item = ResultS3EvtxFind> + '_ {
-        defñ!("({:?}, {:?})", dt_filter_after, dt_filter_before);
-        // XXX: this sequence of linked iterator filters is somewhat messy
-        //      due to closure lifetimes, and `move`s of the passed variables.
-        //      The particular arrangement of accesses to local variables and
-        //      `self.*` fields was found from trial and error.
-        self.evtxparser.records()
-            .inspect(
-                // special inspection prior to handling the `result`
-                // XXX: this is one closure that can acccess `self.*` fields
-                //      cannot call `self.*` in some other linked iterator closures
-                |result|
-                {
-                *self.entries_processed += 1;
-                // monitor for "out of order" Events.
-                // when two sequential Events have datetimes in the wrong
-                // chronological order then increment `self.out_of_order`.
-                // `dt_a` is earlier in the file so it should have earlier
-                // datetime then current `timestamp`.
-                // If not then increment `self.out_of_order`.
-                // Issue #86
-                let timestamp = match result {
-                    Ok(serialrecord) => serialrecord.timestamp,
-                    Err(_err) => {
-                        return;
+        dt_filter_after: &DateTimeLOpt,
+        dt_filter_before: &DateTimeLOpt,
+    ) {
+        defn!("({:?}, {:?})", dt_filter_after, dt_filter_before);
+        let ts_filter_after = datetimelopt_to_timestampopt(dt_filter_after);
+        let ts_filter_before = datetimelopt_to_timestampopt(dt_filter_before);
+        let mut timestamp_last: TimestampOpt = TimestampOpt::None;
+        for (index, result) in self.evtxparser.records().enumerate() {
+            match result {
+                Ok(record) => {
+                    // update fields *processed
+                    self.events_processed += 1;
+                    match self.ts_first_processed.as_ref() {
+                        Some(ts_first_) => {
+                            if ts_first_ > &record.timestamp {
+                                self.ts_first_processed = Some(record.timestamp);
+                            }
+                        }
+                        None => self.ts_first_processed = Some(record.timestamp),
                     }
-                };
-                let dt_a = self.out_of_order_dt;
-                self.out_of_order_dt = Some(timestamp);
-                match (&dt_a, &self.out_of_order_dt) {
-                    (&Some(dt_a), &Some(dt_b)) => {
-                        if dt_a > dt_b {
+                    match self.ts_last_processed.as_ref() {
+                        Some(ts_last_) => {
+                            if ts_last_ < &record.timestamp {
+                                self.ts_last_processed = Some(record.timestamp);
+                            }
+                        }
+                        None => self.ts_last_processed = Some(record.timestamp),
+                    }
+                    // update "out of order" counter
+                    if let Some(ts_last_) = timestamp_last.as_ref() {
+                        if ts_last_ > &record.timestamp {
                             self.out_of_order += 1;
                         }
                     }
-                    _ => {}
-                }
-                // update `self.dt_first_processed` and `self.dt_last_processed`
-                let timestamp = timestamp.with_timezone(
-                    &FixedOffset::east_opt(0).unwrap()
-                );
-                match self.dt_first_processed.as_ref() {
-                    Some(dt_first_) => {
-                        if dt_first_ > &timestamp {
-                            self.dt_first_processed = Some(
-                                timestamp.with_timezone(
-                                        &FixedOffset::east_opt(0).unwrap()
-                                    )
-                            );
+                    timestamp_last = Some(record.timestamp);
+
+                    // filter by date
+                    match ts_pass_filters(
+                        &record.timestamp,
+                        &ts_filter_after,
+                        &ts_filter_before,
+                    ) {
+                        Result_Filter_DateTime2::InRange => {
+                            defo!("InRange");
+                        }
+                        Result_Filter_DateTime2::BeforeRange => {
+                            defo!("BeforeRange");
+                            continue;
+                        }
+                        Result_Filter_DateTime2::AfterRange => {
+                            defo!("AfterRange");
+                            continue;
                         }
                     }
-                    None => {
-                        self.dt_first_processed = Some(
-                            timestamp.with_timezone(
-                                &FixedOffset::east_opt(0).unwrap()
-                            )
-                        );
-                    }
-                }
-                match self.dt_last_processed.as_ref() {
-                    Some(dt_last_) => {
-                        if dt_last_ < &timestamp {
-                            self.dt_last_processed = Some(
-                                timestamp.with_timezone(
-                                    &FixedOffset::east_opt(0).unwrap()
-                                )
-                            );
-                        }
-                    }
-                    None => {
-                        self.dt_last_processed = Some(
-                            timestamp.with_timezone(
-                                &FixedOffset::east_opt(0).unwrap()
-                            )
-                        );
-                    }
-                }
-            })
-            // XXX: .evtx files may not have Events in chronological order.
-            //      so every Event must be checked for acceptable datetime range.
-            //      This is annoying because:
-            //      1. the Entry will not be printed for the user in the correct
-            //         chronological order.
-            //      2. the entirety file of every .evtx file must be processed.
-            //      If .evtx file was in chronological order then this could
-            //      be `take_while` instead of `filter` which would be
-            //      faster.
-            //      Issue #86
-            .filter(
-                // take records while they are in the datetime range
-                // cannot access any `self.*` in this closure
-                move |result|
-                {
-                    defn!("take_while(result<SerializedEvtxRecord>)");
-                    match result {
-                        Ok(serialrecord) => {
-                            match (&dt_filter_after, &dt_filter_before) {
-                                (&None, &None) => {
-                                    // if no filters then skip upcoming
-                                    // timestamp conversion
-                                    return true;
-                                }
-                                _ => {}
-                            }
-                            let datetime = serialrecord.timestamp.with_timezone(
-                                &FixedOffset::east_opt(0).unwrap()
-                            );
-                            match dt_pass_filters(
-                                &datetime,
-                                &dt_filter_after,
-                                &dt_filter_before,
-                            ) {
-                                Result_Filter_DateTime2::InRange => {
-                                    defx!("take_while(result<SerializedEvtxRecord>): InRange");
 
-                                    true
-                                }
-                                Result_Filter_DateTime2::BeforeRange => {
-                                    defx!("take_while(result<SerializedEvtxRecord>): BeforeRange");
+                    let timestamp = record.timestamp;
+                    let evtx =
+                        Evtx::from_evtxrs(&record);
+                    self.events.insert((timestamp, index), evtx);
 
-                                    false
-                                }
-                                Result_Filter_DateTime2::AfterRange => {
-                                    defx!("take_while(result<SerializedEvtxRecord>): AfterRange");
-
-                                    false
-                                }
+                    // update fields *accepted
+                    self.events_accepted += 1;
+                    match self.ts_first_accepted.as_ref() {
+                        Some(ts_first_) => {
+                            if ts_first_ > &timestamp {
+                                self.ts_first_accepted = Some(timestamp);
                             }
                         }
-                        Err(_error) => {
-                            defx!("take_while(result<SerializedEvtxRecord>): Error: {}", _error);
-                            de_wrn!("take_while(result<SerializedEvtxRecord>): Error: {}", _error);
-                            // XXX: cannot call `self.set_evtxerror(err)` here due to rustc error:
-                            //      cannot move out of `self` because it is borrowed
+                        None => self.ts_first_accepted = Some(timestamp),
+                    }
+                    match self.ts_last_accepted.as_ref() {
+                        Some(ts_last_) => {
+                            if ts_last_ < &timestamp {
+                                self.ts_last_accepted = Some(timestamp);
+                            }
+                        }
+                        None => self.ts_last_accepted = Some(timestamp),
+                    }
+                }
+                Err(err) => {
+                    self.error = Some(err.to_string());
+                }
+            }
+        }
+        self.analyzed = true;
 
-                            false
-                        }
-                    }
-                }
-            )
-            .inspect(
-                // track various statistics about the returned `SerializedEvtxRecord`
-                // XXX: this is one closure that can acccess `self.*` fields
-                //      cannot call `self.*` in some other linked iterator closures
-                |result| {
-                    defn!("inspect(result<SerializedEvtxRecord>):");
-                    match result {
-                        Ok(serialrecord) => {
-                            // XXX: would prefer to call `self.dt_first_last_update` here
-                            //      but due to lifetime issues, it is not possible (or extremely tedious).
-                            //      compiler complains:
-                            //           evtxreader.rs(362, 9): borrow occurs here
-                            //           evtxreader.rs(407, 29): second borrow occurs due to use of `*self` in closure
-                            //           evtxreader.rs(357, 9): let's call the lifetime of this reference `'1`
-                            //           evtxreader.rs(362, 9): returning this value requires that `self.evtxparser` is borrowed for `'1`
-                            let timestamp = &serialrecord.timestamp;
-                            match self.dt_first_accepted.as_ref() {
-                                Some(dt_first_) => {
-                                    if dt_first_ > timestamp {
-                                        self.dt_first_accepted = Some(
-                                            timestamp.with_timezone(
-                                                    &FixedOffset::east_opt(0).unwrap()
-                                                )
-                                        );
-                                    }
-                                }
-                                None => {
-                                    self.dt_first_accepted = Some(
-                                        timestamp.with_timezone(
-                                            &FixedOffset::east_opt(0).unwrap()
-                                        )
-                                    );
-                                }
-                            }
-                            match self.dt_last_accepted.as_ref() {
-                                Some(dt_last_) => {
-                                    if dt_last_ < timestamp {
-                                        self.dt_last_accepted = Some(
-                                            timestamp.with_timezone(
-                                                &FixedOffset::east_opt(0).unwrap()
-                                            )
-                                        );
-                                    }
-                                }
-                                None => {
-                                    self.dt_last_accepted = Some(
-                                        timestamp.with_timezone(
-                                            &FixedOffset::east_opt(0).unwrap()
-                                        )
-                                    );
-                                }
-                            }
-                            self.entries_accepted += 1;
-                            defx!("inspect(serialrecord): Ok; entries_accepted: {}", self.entries_accepted);
-                        }
-                        Err(error) => {
-                            defx!("inspect(serialrecord): Error: {}", error);
-                            de_wrn!("inspect(serialrecord): Error: {}", error);
-                            self.error = Some(error.to_string());
-                        }
-                    }
-                }
-            )
-            .map(
-                // map `Result<SerializedEvtxRecord>` to `ResultS3EvtxFind`
-                |resultserializedrecord|
-                {
-                    defñ!(".map(resultserializedrecord)");
-                    match Evtx::from_resultserializedrecord(&resultserializedrecord) {
-                        Ok(evtx) => {
-                            ResultS3EvtxFind::Found((0, evtx))
-                        }
-                        Err(error) => {
-                            // XXX: cannot set `self.error` here due to:
-                            //      two closures require unique access to `self.error` at the same time
-                            //      second closure is constructed here
-                            de_wrn!("Evtx::from_resultserializedrecord: {}", error);
-                            ResultS3EvtxFind::Err(error)
-                        }
-                    }
-                }
-            )
+        defx!();
+    }
+
+    pub fn next(
+        &mut self,
+    ) -> Option<Evtx> {
+        defñ!();
+        debug_assert!(self.analyzed, "must call `analyze()` before calling `next()`");
+
+        self.events.pop_first().map(|(_key, evtx)| evtx)
     }
 
     /// `Count` of `Evtx`s processed by this `EvtxReader`
-    /// (i.e. `self.entries_processed`).
+    /// (i.e. `self.events_processed`).
     #[inline(always)]
-    pub fn count_entries_processed(&self) -> Count {
-        *self.entries_processed
+    pub fn count_events_processed(&self) -> Count {
+        self.events_processed
     }
 
     #[inline(always)]
-    pub fn count_entries_accepted(&self) -> Count {
-        self.entries_accepted
+    pub fn count_events_accepted(&self) -> Count {
+        self.events_accepted
     }
 
     #[inline(always)]
@@ -482,22 +467,60 @@ impl<'a> EvtxReader {
         self.filesz
     }
 
+    /// return the `DateTimeL` of the first `Evtx` processed
+    pub fn dt_first_processed(&self) -> DateTimeLOpt {
+        match self.ts_first_processed {
+            TimestampOpt::None => DateTimeLOpt::None,
+            TimestampOpt::Some(ts) =>
+                DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+        }
+    }
+
+    /// return the `DateTimeL` of the last `Evtx` processed
+    pub fn dt_last_processed(&self) -> DateTimeLOpt {
+        match self.ts_last_processed {
+            TimestampOpt::None => DateTimeLOpt::None,
+            TimestampOpt::Some(ts) =>
+                DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+        }
+    }
+
+    /// return the `DateTimeL` of the first `Evtx` accepted by the datetime
+    /// filters
+    pub fn dt_first_accepted(&self) -> DateTimeLOpt {
+        match self.ts_first_accepted {
+            TimestampOpt::None => DateTimeLOpt::None,
+            TimestampOpt::Some(ts) =>
+                DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+        }
+    }
+
+    /// return the `DateTimeL` of the last `Evtx` accepted by the datetime
+    /// filters
+    pub fn dt_last_accepted(&self) -> DateTimeLOpt {
+        match self.ts_last_accepted {
+            TimestampOpt::None => DateTimeLOpt::None,
+            TimestampOpt::Some(ts) =>
+                DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+        }
+    }
+
     /// Return an up-to-date `SummaryEvtxReader` instance for this
     /// `EvtxReader`.
     #[allow(non_snake_case)]
     pub fn summary(&self) -> SummaryEvtxReader {
-        let evtxreader_entries_processed: Count = self.count_entries_processed();
-        let evtxreader_entries_accepted: Count = self.count_entries_accepted();
-        let evtxreader_datetime_first_processed = self.dt_first_processed;
-        let evtxreader_datetime_last_processed = self.dt_last_processed;
-        let evtxreader_datetime_first_accepted = self.dt_first_accepted;
-        let evtxreader_datetime_last_accepted = self.dt_last_accepted;
+        let evtxreader_events_processed: Count = self.count_events_processed();
+        let evtxreader_events_accepted: Count = self.count_events_accepted();
+        let evtxreader_datetime_first_processed = self.dt_first_processed();
+        let evtxreader_datetime_last_processed = self.dt_last_processed();
+        let evtxreader_datetime_first_accepted = self.dt_first_accepted();
+        let evtxreader_datetime_last_accepted = self.dt_last_accepted();
         let evtxreader_filesz = self.filesz();
         let evtxreader_out_of_order = self.out_of_order;
 
         SummaryEvtxReader {
-            evtxreader_entries_processed,
-            evtxreader_entries_accepted,
+            evtxreader_events_processed,
+            evtxreader_events_accepted,
             evtxreader_datetime_first_processed,
             evtxreader_datetime_last_processed,
             evtxreader_datetime_first_accepted,

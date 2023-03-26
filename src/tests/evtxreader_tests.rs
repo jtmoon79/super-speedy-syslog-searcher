@@ -9,10 +9,7 @@ use crate::common::{Count, FileSz, FPath, FileType, LogMessageType};
 use crate::data::datetime::DateTimeLOpt;
 use crate::data::evtx::{DtBegEndPairOpt, Evtx};
 use crate::readers::summary::SummaryReaderData;
-use crate::readers::evtxreader::{
-    EvtxReader,
-    ResultS3EvtxFind,
-};
+use crate::readers::evtxreader::EvtxReader;
 use crate::tests::common::{
     NTF_LOG_EMPTY_FPATH,
     EVTX_NE_FPATH,
@@ -22,6 +19,7 @@ use crate::tests::common::{
     EVTX_KPNP_DATA1_S,
 };
 
+use criterion::black_box;
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
 use ::more_asserts::{assert_gt, assert_ge};
@@ -108,8 +106,8 @@ fn test_EvtxReader_summary_empty(
 )]
 fn test_EvtxReader_next_summary(
     path: &FPath,
-    entries_processed: Count,
-    entries_accepted: Count,
+    events_processed: Count,
+    events_accepted: Count,
     filesz: FileSz,
     out_of_order: Count,
     datetime_first_accepted: DateTimeLOpt,
@@ -120,34 +118,24 @@ fn test_EvtxReader_next_summary(
     let mut evtxreader = EvtxReader::new(
         path.clone(),
     ).unwrap();
-    for result in evtxreader.next_between_datetime_filters(None, None) {
-        match result {
-            ResultS3EvtxFind::Found((_id, evtx)) => {
-                defo!("ResultS3EvtxFind::Found(({:?}, {:?}))", _id, evtx);
-            }
-            ResultS3EvtxFind::Done => {
-                defo!("ResultS3EvtxFind::Done");
-                break;
-            }
-            ResultS3EvtxFind::Err(err) => {
-                panic!("Error from next_between_datetime_filters: {}", err);
-            }
-        }
+    evtxreader.analyze(&None, &None);
+    while let Some(evtx_) = evtxreader.next() {
+        black_box(evtx_);
     }
 
     // assert EvtxReader
-    assert_eq!(evtxreader.count_entries_processed(), entries_processed,
-        "count_entries_processed");
-    assert_eq!(evtxreader.count_entries_accepted(), entries_accepted,
-        "count_entries_accepted");
+    assert_eq!(evtxreader.count_events_processed(), events_processed,
+        "count_events_processed");
+    assert_eq!(evtxreader.count_events_accepted(), events_accepted,
+        "count_events_accepted");
     assert_eq!(evtxreader.filesz(), filesz, "filesz");
 
     // assert SummaryEvtxReader
     let summary = evtxreader.summary();
-    assert_eq!(summary.evtxreader_entries_processed, entries_processed,
-        "summary.count_entries_processed");
-    assert_eq!(summary.evtxreader_entries_accepted, entries_accepted,
-        "summary.count_entries_accepted");
+    assert_eq!(summary.evtxreader_events_processed, events_processed,
+        "summary.count_events_processed");
+    assert_eq!(summary.evtxreader_events_accepted, events_accepted,
+        "summary.count_events_accepted");
     assert_eq!(summary.evtxreader_filesz, filesz, "summary.filesz");
     assert_eq!(summary.evtxreader_out_of_order, out_of_order,
         "summary.out_of_order");
@@ -169,7 +157,7 @@ fn test_EvtxReader_next_summary(
     assert_eq!(summary_c.datetime_first(), &datetime_first_accepted);
     assert_eq!(summary_c.datetime_last(), &datetime_last_accepted);
     assert_eq!(summary_c.max_drop(), 0);
-    assert_eq!(summary_c.max_hit_miss(), entries_processed);
+    assert_eq!(summary_c.max_hit_miss(), events_processed);
     match summary_c.readerdata {
         SummaryReaderData::Etvx(_summary_evtx) => {}
         _ => {

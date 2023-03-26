@@ -383,8 +383,8 @@ impl Summary {
             }
             SummaryReaderData::Etvx(summaryevtxreader) => {
                 max!(
-                    summaryevtxreader.evtxreader_entries_accepted,
-                    summaryevtxreader.evtxreader_entries_processed
+                    summaryevtxreader.evtxreader_events_accepted,
+                    summaryevtxreader.evtxreader_events_processed
                 )
             }
         }
@@ -512,8 +512,8 @@ impl fmt::Debug for Summary {
                 match self.filetype {
                     FileType::Evtx => f
                         .debug_struct("")
-                        .field("evtx entries processed", &summaryevtxreader.evtxreader_entries_processed)
-                        .field("evtx entries accepted", &summaryevtxreader.evtxreader_entries_accepted)
+                        .field("evtx events processed", &summaryevtxreader.evtxreader_events_processed)
+                        .field("evtx events accepted", &summaryevtxreader.evtxreader_events_accepted)
                         .finish(),
                     ft => panic!("Unpexected filetype {}", ft),
                 }

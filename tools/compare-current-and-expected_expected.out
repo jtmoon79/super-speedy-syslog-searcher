@@ -20140,6 +20140,80 @@
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230310T034952.759+0000:    <Data Name="Status">0x0</Data>
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230310T034952.759+0000:  </EventData>
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230310T034952.759+0000:</Event>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:<?xml version="1.0" encoding="utf-8"?>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:  <System>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Provider Name="Microsoft-Windows-Kernel-PnP" Guid="9C205A39-1250-487D-ABD7-E831C6290539">
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    </Provider>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <EventID>400</EventID>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Version>0</Version>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Level>4</Level>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Task>0</Task>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Opcode>0</Opcode>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Keywords>0x4000000000000000</Keywords>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <TimeCreated SystemTime="2023-03-16T02:54:33.114503Z">
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    </TimeCreated>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <EventRecordID>204</EventRecordID>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Correlation>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    </Correlation>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Execution ProcessID="4" ThreadID="288">
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    </Execution>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Channel>Microsoft-Windows-Kernel-PnP/Configuration</Channel>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Computer>b527c22f-097a-438f-904f-884ce1227bda</Computer>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Security UserID="S-1-5-18">
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    </Security>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:  </System>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:  <EventData>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DeviceInstanceId">SW\{96E080C7-143C-11D1-B40F-00A0C9223196}\{3C0D501A-140B-11D1-B40F-00A0C9223196}</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverName">ksfilter.inf</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="ClassGuid">4D36E96C-E325-11CE-BFC1-08002BE10318</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverDate">06/21/2006</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverVersion">10.0.22621.1</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverProvider">Microsoft</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverInbox">true</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverSection">MSKSSRV.NT</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverRank">0xff0000</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="MatchingDeviceId">SW\{96E080C7-143C-11D1-B40F-00A0C9223196}</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="OutrankedDrivers"></Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DeviceUpdated">false</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="Status">0x0</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="ParentDeviceInstanceId">ROOT\SYSTEM\0000</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:  </EventData>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:</Event>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:<?xml version="1.0" encoding="utf-8"?>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:  <System>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Provider Name="Microsoft-Windows-Kernel-PnP" Guid="9C205A39-1250-487D-ABD7-E831C6290539">
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    </Provider>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <EventID>410</EventID>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Version>0</Version>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Level>4</Level>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Task>0</Task>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Opcode>0</Opcode>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Keywords>0x4000000000000000</Keywords>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <TimeCreated SystemTime="2023-03-16T02:54:33.120211Z">
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    </TimeCreated>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <EventRecordID>205</EventRecordID>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Correlation>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    </Correlation>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Execution ProcessID="4" ThreadID="288">
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    </Execution>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Channel>Microsoft-Windows-Kernel-PnP/Configuration</Channel>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Computer>b527c22f-097a-438f-904f-884ce1227bda</Computer>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Security UserID="S-1-5-18">
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    </Security>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:  </System>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:  <EventData>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="DeviceInstanceId">SW\{96E080C7-143C-11D1-B40F-00A0C9223196}\{3C0D501A-140B-11D1-B40F-00A0C9223196}</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="DriverName">ksfilter.inf</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="ClassGuid">4D36E96C-E325-11CE-BFC1-08002BE10318</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="ServiceName">MSKSSRV</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="LowerFilters"></Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="UpperFilters"></Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="Problem">0x0</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="Status">0x0</Data>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:  </EventData>
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:</Event>
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T035430.807+0000:<?xml version="1.0" encoding="utf-8"?>
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T035430.807+0000:<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T035430.807+0000:  <System>
@@ -21976,80 +22050,6 @@
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T035432.123+0000:    <Data Name="ParentDeviceInstanceId">ACPI\VMBus\0</Data>
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T035432.123+0000:  </EventData>
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T035432.123+0000:</Event>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:<?xml version="1.0" encoding="utf-8"?>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:  <System>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Provider Name="Microsoft-Windows-Kernel-PnP" Guid="9C205A39-1250-487D-ABD7-E831C6290539">
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    </Provider>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <EventID>400</EventID>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Version>0</Version>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Level>4</Level>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Task>0</Task>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Opcode>0</Opcode>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Keywords>0x4000000000000000</Keywords>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <TimeCreated SystemTime="2023-03-16T02:54:33.114503Z">
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    </TimeCreated>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <EventRecordID>204</EventRecordID>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Correlation>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    </Correlation>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Execution ProcessID="4" ThreadID="288">
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    </Execution>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Channel>Microsoft-Windows-Kernel-PnP/Configuration</Channel>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Computer>b527c22f-097a-438f-904f-884ce1227bda</Computer>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Security UserID="S-1-5-18">
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    </Security>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:  </System>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:  <EventData>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DeviceInstanceId">SW\{96E080C7-143C-11D1-B40F-00A0C9223196}\{3C0D501A-140B-11D1-B40F-00A0C9223196}</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverName">ksfilter.inf</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="ClassGuid">4D36E96C-E325-11CE-BFC1-08002BE10318</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverDate">06/21/2006</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverVersion">10.0.22621.1</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverProvider">Microsoft</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverInbox">true</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverSection">MSKSSRV.NT</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DriverRank">0xff0000</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="MatchingDeviceId">SW\{96E080C7-143C-11D1-B40F-00A0C9223196}</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="OutrankedDrivers"></Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="DeviceUpdated">false</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="Status">0x0</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:    <Data Name="ParentDeviceInstanceId">ROOT\SYSTEM\0000</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:  </EventData>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.114+0000:</Event>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:<?xml version="1.0" encoding="utf-8"?>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:  <System>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Provider Name="Microsoft-Windows-Kernel-PnP" Guid="9C205A39-1250-487D-ABD7-E831C6290539">
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    </Provider>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <EventID>410</EventID>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Version>0</Version>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Level>4</Level>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Task>0</Task>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Opcode>0</Opcode>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Keywords>0x4000000000000000</Keywords>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <TimeCreated SystemTime="2023-03-16T02:54:33.120211Z">
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    </TimeCreated>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <EventRecordID>205</EventRecordID>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Correlation>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    </Correlation>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Execution ProcessID="4" ThreadID="288">
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    </Execution>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Channel>Microsoft-Windows-Kernel-PnP/Configuration</Channel>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Computer>b527c22f-097a-438f-904f-884ce1227bda</Computer>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Security UserID="S-1-5-18">
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    </Security>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:  </System>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:  <EventData>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="DeviceInstanceId">SW\{96E080C7-143C-11D1-B40F-00A0C9223196}\{3C0D501A-140B-11D1-B40F-00A0C9223196}</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="DriverName">ksfilter.inf</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="ClassGuid">4D36E96C-E325-11CE-BFC1-08002BE10318</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="ServiceName">MSKSSRV</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="LowerFilters"></Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="UpperFilters"></Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="Problem">0x0</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:    <Data Name="Status">0x0</Data>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:  </EventData>
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230316T025433.120+0000:</Event>
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230317T212145.771+0000:<?xml version="1.0" encoding="utf-8"?>
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230317T212145.771+0000:<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx:20230317T212145.771+0000:  <System>

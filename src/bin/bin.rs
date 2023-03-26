@@ -1868,37 +1868,24 @@ fn exec_evtxprocessor(
     };
     defo!("{:?}({}): evtxreader {:?}", _tid, _tname, evtxreader);
 
-    for result in evtxreader.next_between_datetime_filters(
-            filter_dt_after_opt,
-            filter_dt_before_opt,
-        )
+    evtxreader.analyze(
+        &filter_dt_after_opt,
+        &filter_dt_before_opt,
+    );
+
+    while let Some(evtx) = evtxreader.next()
     {
-        match result {
-            ResultS3EvtxFind::Found((_id, evtx)) => {
-                defo!("ResultS3EvtxFind::Found(({:?}, {:?}))", _id, evtx);
-                let is_last = false;
-                defo!("chan_send_dt.send((Some(LogMessage::Evtx({}, …), None, {}, {:?}));", _id, is_last, FILEOK);
-                match chan_send_dt.send((
-                    Some(LogMessage::Evtx(evtx)),
-                    None,
-                    is_last,
-                    FILEOK,
-                )) {
-                    Ok(_) => {}
-                    Err(err) => {
-                        eprintln!("ERROR: D chan_send_dt.send(…) failed {}", err);
-                    }
-                }
-            }
-            ResultS3EvtxFind::Done => {
-                defo!("ResultS3EvtxFind::Done");
-                break;
-            }
-            ResultS3EvtxFind::Err(err) => {
-                eprintln!("ERROR: find_entry_between_datetime_filters() failed; {}", err);
-                defx!("ResultS3EvtxFind::Err({})", err);
-                // TODO: send error message through channel then return
-                return;
+        let is_last = false;
+        defo!("chan_send_dt.send(…, None, {}, {:?}));", is_last, FILEOK);
+        match chan_send_dt.send((
+            Some(LogMessage::Evtx(evtx)),
+            None,
+            is_last,
+            FILEOK,
+        )) {
+            Ok(_) => {}
+            Err(err) => {
+                eprintln!("ERROR: D chan_send_dt.send(…) failed {}", err);
             }
         }
     }
@@ -3554,8 +3541,8 @@ fn print_summary_opt_processed(
                 "{}file size           {1} (0x{1:X}) (bytes)",
                 indent2, summaryevtxreader.evtxreader_filesz,
             );
-            eprintln!("{}Events processed    {}", indent2, summaryevtxreader.evtxreader_entries_processed);
-            eprintln!("{}Events accepted     {}", indent2, summaryevtxreader.evtxreader_entries_accepted);
+            eprintln!("{}Events processed    {}", indent2, summaryevtxreader.evtxreader_events_processed);
+            eprintln!("{}Events accepted     {}", indent2, summaryevtxreader.evtxreader_events_accepted);
             eprint!("{}Events out of order ", indent2);
             if summaryevtxreader.evtxreader_out_of_order == 0 {
                 eprintln!("{}", summaryevtxreader.evtxreader_out_of_order);
