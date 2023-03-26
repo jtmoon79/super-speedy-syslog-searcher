@@ -53,7 +53,15 @@ use std::process::ExitCode;
 use std::str;
 use std::thread;
 
-use ::chrono::{DateTime, Datelike, Duration, FixedOffset, Local, TimeZone, Timelike};
+use ::chrono::{
+    DateTime,
+    Datelike,
+    Duration,
+    FixedOffset,
+    Local,
+    TimeZone,
+    Timelike,
+};
 use ::clap::{Parser, ValueEnum};
 use ::const_format::concatcp;
 // TODO: [2023/01] use std::sync::mpsc instead of crossbeam_channel when MSRV is >= 1.67.0
@@ -62,7 +70,17 @@ use ::crossbeam_channel;
 use ::lazy_static::lazy_static;
 use ::mime_guess::MimeGuess;
 use ::regex::Regex;
-use ::si_trace_print::{def1n, def1o, def1x, defn, defo, defx, defñ, deo, stack::stack_offset_set};
+use ::si_trace_print::{
+    def1n,
+    def1o,
+    def1x,
+    defn,
+    defo,
+    defx,
+    defñ,
+    deo,
+    stack::stack_offset_set,
+};
 use ::unicode_width;
 // `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
 use ::s4lib::common::{
@@ -76,8 +94,14 @@ use ::s4lib::common::{
     filetype_to_logmessagetype,
 };
 use ::s4lib::data::datetime::{
-    datetime_parse_from_str, datetime_parse_from_str_w_tz, DateTimeLOpt, DateTimeParseInstr,
-    DateTimePattern_str, MAP_TZZ_TO_TZz, Utc, DATETIME_PARSE_DATAS,
+    datetime_parse_from_str,
+    datetime_parse_from_str_w_tz,
+    DateTimeLOpt,
+    DateTimeParseInstr,
+    DateTimePattern_str,
+    MAP_TZZ_TO_TZz,
+    Utc,
+    DATETIME_PARSE_DATAS,
 };
 #[allow(unused_imports)]
 use ::s4lib::debug::printers::{de_err, de_wrn, e_err, e_wrn};
@@ -108,8 +132,12 @@ use ::s4lib::readers::blockreader::{
     BLOCKSZ_MIN,
     SummaryBlockReader,
 };
-use ::s4lib::readers::evtxreader::{EvtxReader, ResultS3EvtxFind};
-use ::s4lib::readers::filepreprocessor::{process_path, ProcessPathResult, ProcessPathResults};
+use ::s4lib::readers::evtxreader::EvtxReader;
+use ::s4lib::readers::filepreprocessor::{
+    process_path,
+    ProcessPathResult,
+    ProcessPathResults,
+};
 use ::s4lib::readers::helpers::basename;
 use ::s4lib::readers::linereader::SummaryLineReader;
 use ::s4lib::readers::summary::{

@@ -68,7 +68,7 @@ pub use ::chrono::{
 use ::const_format::concatcp;
 use ::const_str::to_byte_array;
 use ::lazy_static::lazy_static;
-use ::more_asserts::{assert_le, debug_assert_ge, debug_assert_le, debug_assert_lt};
+use ::more_asserts::{debug_assert_ge, debug_assert_le, debug_assert_lt};
 use ::regex::bytes::Regex;
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
