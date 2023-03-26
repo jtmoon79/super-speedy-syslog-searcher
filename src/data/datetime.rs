@@ -5112,21 +5112,16 @@ pub fn dt_after_or_before(
     dt_filter: &DateTimeLOpt,
 ) -> Result_Filter_DateTime1 {
     if dt_filter.is_none() {
-        defñ!("return Result_Filter_DateTime1::Pass; (no dt filters)");
+        defñ!("return Pass; (no dt filters)");
         return Result_Filter_DateTime1::Pass;
     }
 
     let dt_a = &dt_filter.unwrap();
-    defn!("comparing dt datetime {:?} to filter datetime {:?}", dt, dt_a);
     if dt < dt_a {
-        defx!("return Result_Filter_DateTime1::OccursBefore; (dt {:?} is before dt_filter {:?})", dt, dt_a);
+        defñ!("return OccursBefore; (dt {:?} is before dt_filter {:?})", dt, dt_a);
         return Result_Filter_DateTime1::OccursBefore;
     }
-    defx!(
-        "return Result_Filter_DateTime1::OccursAtOrAfter; (dt {:?} is at or after dt_filter {:?})",
-        dt,
-        dt_a
-    );
+    defñ!("return OccursAtOrAfter; (dt {:?} is at or after dt_filter {:?})", dt, dt_a);
 
     Result_Filter_DateTime1::OccursAtOrAfter
 }
@@ -5163,58 +5158,45 @@ pub fn dt_pass_filters(
     dt_filter_before: &DateTimeLOpt,
 ) -> Result_Filter_DateTime2 {
     defn!("({:?}, {:?}, {:?})", dt, dt_filter_after, dt_filter_before);
-    // TODO: use `match` statement instead of `if` statements
-    if dt_filter_after.is_none() && dt_filter_before.is_none() {
-        defx!("return {:?}; (no dt filters)", Result_Filter_DateTime2::InRange);
-        return Result_Filter_DateTime2::InRange;
-    }
-    if dt_filter_after.is_some() && dt_filter_before.is_some() {
-        defo!(" after {:?}" , dt_filter_after.unwrap().with_timezone(&*FO_0));
-        defo!("     <");
-        defo!("    dt {:?}", dt.with_timezone(&*FO_0));
-        defo!("     <");
-        defo!("before {:?}", dt_filter_before.unwrap().with_timezone(&*FO_0));
-        let da = &dt_filter_after.unwrap();
-        let db = &dt_filter_before.unwrap();
-        assert_le!(da, db, "Bad datetime range values filter_after {:?} {:?} filter_before", da, db);
-        if dt < da {
-            defx!("return {:?}", Result_Filter_DateTime2::BeforeRange);
-            return Result_Filter_DateTime2::BeforeRange;
+    match (dt_filter_after, dt_filter_before) {
+        (None, None) => {
+            defx!("return InRange; (no dt filters)");
+            return Result_Filter_DateTime2::InRange;
         }
-        if db < dt {
-            defx!("return {:?}", Result_Filter_DateTime2::AfterRange);
-            return Result_Filter_DateTime2::AfterRange;
-        }
-        // assert da < dt && dt < db
-        assert_le!(da, dt, "Unexpected range values da dt");
-        assert_le!(dt, db, "Unexpected range values dt db");
-        defx!("return Result_Filter_DateTime2::InRange");
+        (Some(da), Some(db)) => {
+            debug_assert_le!(da, db, "Bad datetime range values filter_after {:?} {:?} filter_before", da, db);
+            if dt < da {
+                defx!("return BeforeRange");
+                return Result_Filter_DateTime2::BeforeRange;
+            }
+            if db < dt {
+                defx!("return AfterRange");
+                return Result_Filter_DateTime2::AfterRange;
+            }
+            debug_assert_le!(da, dt, "Unexpected range values da dt");
+            debug_assert_le!(dt, db, "Unexpected range values dt db");
+            defx!("return InRange");
 
-        Result_Filter_DateTime2::InRange
-    } else if dt_filter_after.is_some() {
-        defo!("after {:?}", dt_filter_after.unwrap().with_timezone(&*FO_0));
-        defo!("    <");
-        defo!("   dt {:?}", dt.with_timezone(&*FO_0));
-        let da = &dt_filter_after.unwrap();
-        if dt < da {
-            defx!("return {:?}", Result_Filter_DateTime2::BeforeRange);
-            return Result_Filter_DateTime2::BeforeRange;
+            Result_Filter_DateTime2::InRange
         }
-        defx!("return Result_Filter_DateTime2::InRange");
+        (Some(da), None) => {
+            if dt < da {
+                defx!("return BeforeRange");
+                return Result_Filter_DateTime2::BeforeRange;
+            }
+            defx!("return InRange");
 
-        Result_Filter_DateTime2::InRange
-    } else {
-        defo!("before {:?}", dt_filter_before.unwrap().with_timezone(&*FO_0));
-        defo!("     <");
-        defo!("    dt {:?}", dt.with_timezone(&*FO_0));
-        let db = &dt_filter_before.unwrap();
-        if db < dt {
-            defx!("return {:?}", Result_Filter_DateTime2::AfterRange);
-            return Result_Filter_DateTime2::AfterRange;
+            Result_Filter_DateTime2::InRange
         }
-        defx!("return {:?}", Result_Filter_DateTime2::InRange);
+        (None, Some(db)) => {
+            if db < dt {
+                defx!("return AfterRange");
+                return Result_Filter_DateTime2::AfterRange;
+            }
+            defx!("return InRange");
 
-        Result_Filter_DateTime2::InRange
+            Result_Filter_DateTime2::InRange
+        }
     }
 }
 
