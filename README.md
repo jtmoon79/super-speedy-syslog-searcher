@@ -63,7 +63,7 @@ On Windows, the ad-hoc logs under `C:\Windows\Logs`
 s4.exe C:\Windows\Logs
 ```
 
-or the [EVTX] logs found under `C:\Windows\System32\winevt\Logs`
+Or the [EVTX] logs found under `C:\Windows\System32\winevt\Logs`
 
 ```lang-text
 s4.exe C:\Windows\System32\winevt\Logs
