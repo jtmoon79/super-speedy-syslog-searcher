@@ -289,20 +289,22 @@ and wanted to create an open-source tool for a recurring need of some
 Software Test Engineers 😄
 
 A longer rambling pontification about this project is in
-[`Extended-Thoughts.md`](./Extended-Thoughts.md).
+[`Extended-Thoughts.md`].
+
+[`Extended-Thoughts.md`]: ./Extended-Thoughts.md
 
 ### Features
 
 - Prepends datetime and file paths, for easy programmatic parsing or visual traversal of varying
   syslog messages
 - Recognizes multi-line log messages
-- Parses [utmpx login record format](https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx) files
+- Parses [utmpx login record format] files
 - Parses formal datetime formats:
-  - [RFC 2822](https://www.rfc-editor.org/rfc/rfc2822#section-3.3)
-  - [RFC 3164](https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2)
-  - [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.8)
-  - [RFC 5424](https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3)
-  - [ISO 8601](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles) \*\*
+  - [RFC 2822]
+  - [RFC 3164]
+  - [RFC 3339]
+  - [RFC 5424]
+  - [ISO 8601] \*\*
 - Parses [Windows Event Log] files
 - Parses many ad-hoc datetime formats
   - Tested against "in the wild" log files from varying Linux distributions
@@ -313,42 +315,56 @@ A longer rambling pontification about this project is in
 - Processes invalid UTF-8
 - Accepts arbitrarily large files \*\*\*\*
 
-[Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/eventmanifestschema-schema
+[utmpx login record format]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
+[RFC 3164]: https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2
+[RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339#section-5.8
+[RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3
+[ISO 8601]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles
+[Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log
 
 ### Limitations
 
-- Only processes UTF-8 or ASCII encoded log files.
-  ([Issue #16](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16))
-- Cannot processes multi-file `.gz` files (only processes first stream found)
-  ([Issue #8](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8))
-- Cannot processes multi-file `.xz` files (only processes first stream found)
-  ([Issue #11](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11))
+- Only processes UTF-8 or ASCII encoded log files. ([Issue #16])
+- Cannot processes multi-file `.gz` files (only processes first stream found).
+  ([Issue #8])
+- Cannot processes multi-file `.xz` files (only processes first stream found).
+  ([Issue #11])
 - Cannot process archive files or compressed files within other archive files
   or compressed files,
-  e.g. `logs.tgz` ([Issue #14](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14))
+  e.g. `logs.tgz` ([Issue #14])
   e.g. file `syslog.xz` file within archive `logs.tar`
-- Cannot process `.zip` archives ([Issue #39](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39))
+- Cannot process `.zip` archives ([Issue #39])
 - \*\* ISO 8601
   - ISO 8601 forms recognized
-  (using [ISO descriptive format](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates))
+  (using [ISO descriptive format])
     - `YYYY-MM-DDThh:mm:ss`
     - `YYYY-MM-DDThhmmss`
     - `YYYYMMDDThhmmss`
     (may use date-time separator character `'T'` or character blank space `' '`)
   - ISO 8601 forms not recognized:
     - Absent seconds
-    - [_Ordinal dates_](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates), i.e. "day of the year", format `YYYY-DDD`, e.g. `"2022-321"`
-    - [_Week dates_](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates), i.e. "week-numbering year", format `YYYY-Www-D`, e.g. `"2022-W25-1"`
-    - times [without minutes and seconds](https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Times) (i.e. only `hh`)
-- \*\*\* Only for unarchived, uncompressed files
-  ([Issue #9](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/9),
-  [Issue #12](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12),
-  [Issue #13](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13))
+    - [_Ordinal dates_], i.e. "day of the year", format `YYYY-DDD`, e.g. `"2022-321"`
+    - [_Week dates_], i.e. "week-numbering year", format `YYYY-Www-D`, e.g. `"2022-W25-1"`
+    - times [without minutes and seconds] (i.e. only `hh`)
+- \*\*\* Only for unarchived, uncompressed files ([Issue #9], [Issue #12], [Issue #13])
+
+[Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
+[Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
+[Issue #11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11
+[Issue #14]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14
+[Issue #39]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39
+[ISO descriptive format]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates
+[_Ordinal dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates
+[_Week dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates
+[without minutes and seconds]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Times
+[Issue #9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/9
+[Issue #12]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12
+[Issue #13]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13
 
 ### Hacks
 
 - Entire `.xz` files are read into memory during the initial `open`
-  ([Issue #12](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12))
+  ([Issue #12])
 
 <br/>
 
@@ -357,24 +373,29 @@ A longer rambling pontification about this project is in
 ### Requesting Support For DateTime Formats; your particular log file
 
 If you have found a log file that _Super Speedy Syslog Searcher_ does not parse
-then you may create a [new Issue type _Feature request (datetime format)_](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose).
+then you may create a [new Issue type _Feature request (datetime format)_].
 
-Here is [an example user-submitted Issue](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/81).
+Here is [an example user-submitted Issue].
+
+[new Issue type _Feature request (datetime format)_]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
+[an example user-submitted Issue]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/81
 
 ### "syslog" and other project definitions
 
 In this project, the term "_syslog_" is used generously to refer to any
 log message that has a datetime stamp on the first line of log text.
 
-Technically, "_syslog_" is [defined among several RFCs](https://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents)
+Technically, "_syslog_" is [defined among several RFCs]
 proscribing fields, formats, lengths, and other technical constraints.
 In this project, the term "_syslog_" is interchanged with "_log_".
 
 The term "_sysline_" refers to a one log message which may comprise
 multiple text lines.
 
-See [docs section _Definitions of data_](https://docs.rs/super_speedy_syslog_searcher/latest/s4lib/data/index.html)
-for more project definitions.
+See [docs section _Definitions of data_] for more project definitions.
+
+[defined among several RFCs]: ttps://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents
+[docs section _Definitions of data_]: https://docs.rs/super_speedy_syslog_searcher/latest/s4lib/data/index.html
 
 ### logging chaos; the problem `s4` solves
 
@@ -386,7 +407,7 @@ The following real-world example log files are available in project directory
 `./logs`.
 
 For example, the open-source nginx web server
-[logs access attempts in an ad-hoc format](https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#setting-up-the-access-log) in the file `access.log`
+[logs access attempts in an ad-hoc format] in the file `access.log`
 
 ```text
 192.168.0.115 - - [08/Oct/2022:22:26:35 +0000] "GET /DOES-NOT-EXIST HTTP/1.1" 404 0 "-" "curl/7.76.1" "-"
@@ -510,10 +531,14 @@ a datetime stamp, is difficult to impossible.
 
 Hence the need for _Super Speedy Syslog Searcher_! 🦸
 
+[logs access attempts in an ad-hoc format]: https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#setting-up-the-access-log
+
 ### Further Reading
 
-- [`CHANGELOG.md`](./CHANGELOG.md)
-- [`Extended-Thoughts.md`](./Extended-Thoughts.md)
+- [`CHANGELOG.md`]
+- [`Extended-Thoughts.md`]
+
+[`CHANGELOG.md`]: ./CHANGELOG.md
 
 ---
 
