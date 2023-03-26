@@ -160,10 +160,11 @@ Options:
   -w, --prepend-file-align
           Align column widths of prepended data.
       --prepend-separator <PREPEND_SEPARATOR>
-          Separator string for prepended data. [default: :]
+          Separator string for prepended data.
+          [default: :]
       --separator <LOG_MESSAGE_SEPARATOR>
           An extra separator string between printed log messages.
-          One "syslog line", or "sysline", may have multiple lines of text.
+          Per log message not per line of text.
           Accepts a basic set of backslash escape sequences,
           e.g. "\0" for the null character.
   -c, --color <COLOR_CHOICE>
@@ -173,7 +174,8 @@ Options:
           Read blocks of this size in bytes.
           May pass value as any radix (hexadecimal, decimal, octal, binary).
           Using the default value is recommended.
-          Most useful for developers. [default: 65535]
+          Most useful for developers.
+          [default: 65535]
   -s, --summary
           Print a summary of files processed to stderr.
           Most useful for developers.
