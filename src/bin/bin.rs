@@ -3355,17 +3355,13 @@ fn processing_loop(
             &COLOR_ERROR,
         );
         eprintln!();
+
         // here is the final printed summary of the all files
         eprintln!("Summary:");
-        eprintln!(
-            "Paths considered {}, paths not processed {}, files processed {}, files printed {}",
-            paths_total,
-            map_pathid_results_invalid.len(),
-            map_pathid_results.len(),
-            paths_printed_logmessages.len(),
-        );
-        // print the `summaryprinted` in a line-oriented manner and with
-        // UTC comparisons
+        eprintln!("Paths considered   : {}", paths_total);
+        eprintln!("Paths not processed: {}", map_pathid_results_invalid.len());
+        eprintln!("Files processed    : {}", map_pathid_results.len());
+        eprintln!("Files printed      : {}", paths_printed_logmessages.len());
         eprintln!("Printed bytes      : {}", summaryprinted.bytes);
         eprintln!("Printed lines      : {}", summaryprinted.lines);
         eprintln!("Printed syslines   : {}", summaryprinted.syslines);
@@ -3437,8 +3433,9 @@ fn processing_loop(
             .unwrap()
             .with_timezone(&*FIXEDOFFSET0);
         eprintln!(" ({:?})", utc_now);
-        // print crude stats
-        eprintln!("Channel Receive ok {}, err {}", chan_recv_ok, chan_recv_err);
+        // print basic stats about the channel
+        eprintln!("Channel Receive ok  : {}", chan_recv_ok);
+        eprintln!("Channel Receive err : {}", chan_recv_err);
     } // cli_opt_summary
 
     defo!("E chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
@@ -3451,10 +3448,6 @@ fn processing_loop(
         defo!("F chan_recv_err {}; return false", chan_recv_err);
         ret = false;
     }
-    //if _fileprocessing_not_okay > 0 {
-    //    defo!("F fileprocessing_not_okay {}; return false", _fileprocessing_not_okay);
-    //    ret = false;
-    //}
     if error_count > 0 {
         defo!("F error_count {}; return false", error_count);
         ret = false;
