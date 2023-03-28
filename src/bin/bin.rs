@@ -3367,6 +3367,7 @@ fn processing_loop(
         eprintln!("Printed syslines   : {}", summaryprinted.syslines);
         eprintln!("Printed utmpx      : {}", summaryprinted.utmpentries);
         eprintln!("Printed evtx Events: {}", summaryprinted.evtxentries);
+        // TODO: [2023/03/26] print count of EVTX files "out of order".
 
         let foffset0 = *FIXEDOFFSET0;
         eprint!("Datetime Filter -a    :");

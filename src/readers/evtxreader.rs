@@ -340,6 +340,8 @@ impl<'a> EvtxReader {
     /// Read the entire file and store in order.
     ///
     /// This should be called once before reading the via `next`.
+    // TODO: [2023/03/26] add handling of files without "out of order" events.
+    //       much more efficient and worth the divergent code paths.
     pub fn analyze(
         &mut self,
         dt_filter_after: &DateTimeLOpt,
