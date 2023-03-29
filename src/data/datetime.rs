@@ -352,6 +352,10 @@ const O_CHUT: fos = O_P10;
 #[cfg(test)]
 const O_CIST: fos = O_M8;
 #[cfg(test)]
+const O_EDT: fos = O_M4;
+#[cfg(test)]
+const O_CAT: fos = O_P2;
+#[cfg(test)]
 const O_PDT: fos = O_M7;
 #[cfg(test)]
 const O_PETT: fos = O_P12;
@@ -1497,6 +1501,10 @@ pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>january|January|JANUAR
 pub const CGP_DAYde: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|1|2|3|4|5|6|7|8|9| 1| 2| 3| 4| 5| 6| 7| 8| 9)";
 /// Regex capture group pattern for `strftime` day specifier `%a`,
 /// named day of week, either long name or abbreviated three character name,
+/// e.g. `"Mon"`.
+pub const CGP_DAYa3: &RegexPattern = r"(?P<dayIgnore>mon|Mon|MON|tue|Tue|TUE|wed|Wed|WED|thu|Thu|THU|fri|Fri|FRI|sat|Sat|SAT|sun|Sun|SUN)";
+/// Regex capture group pattern for `strftime` day specifier `%a`,
+/// named day of week, either long name or abbreviated three character name,
 /// e.g. `"Mon"` or `"Monday"`.
 pub const CGP_DAYa: &RegexPattern = r"(?P<dayIgnore>monday|Monday|MONDAY|mon|Mon|MON|tuesday|Tuesday|TUESDAY|tue|Tue|TUE|wednesday|Wednesday|WEDNESDAY|wed|Wed|WED|thursday|Thursday|THURSDAY|thu|Thu|THU|friday|Friday|FRIDAY|fri|Fri|FRI|saturday|Saturday|SATURDAY|sat|Sat|SAT|sunday|Sunday|SUNDAY|sun|Sun|SUN)";
 /// Regex capture group pattern for `strftime` hour specifier `%H`, 00 to 24.
@@ -1538,7 +1546,11 @@ pub(crate) const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
 /// for testing
 #[doc(hidden)]
 #[cfg(test)]
-pub(crate) const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[CGP_DAYde];
+pub(crate) const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
+    CGP_DAYde,
+    CGP_DAYa3,
+    CGP_DAYa,
+];
 
 // Regarding timezone formatting, ISO 8601 allows Unicode "minus sign".
 // See https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114291504#Time_offsets_from_UTC
@@ -1647,6 +1659,9 @@ pub const RP_DIGITS: &RegexPattern = "[[:digit:]]+";
 
 /// one to three digits
 pub const RP_DIGITS3: &RegexPattern = r"[[:digit:]]{1,3}";
+
+/// field name header for date in RFC 2822 line-oriented message
+pub const RP_RFC2822_DATE: &RegexPattern = "[Dd][Aa][Tt][Ee]:";
 
 /// All named timezone abbreviations, maps all chrono strftime `%Z` values
 /// (e.g. `"EDT"`) to equivalent `%:z` value (e.g. `"-04:00"`).
@@ -2217,7 +2232,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 113;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 119;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2951,6 +2966,76 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (0, 32, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "sunday Jun 28 2022 01:51:12 yekt FOOBAR"),
             (0, 32, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "SUNDAY Jun 28 2022 01:51:12 YEKT FOOBAR"),
             (0, 33, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "SUNDAY, Jun 28 2022 01:51:12 YEKT FOOBAR"),
+            //(0, 30, (O_EDT, 2018, 11, 13, 22, 55, 18, 0), "Sat, 13 Oct 2018 22:55:18 EDT hello this datetime stamp from https://dencode.com/date/rfc2822")
+        ],
+        line!(),
+    ),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // RFC 2822
+    //
+    // https://dencode.com/date/rfc2822 uses leading zero for day of month
+    // https://www.rfc-editor.org/rfc/rfc2822.html#page-41 no leading zero for day of month
+    //
+    DTPD!(
+        concatcp!("^", CGP_DAYa3, ",", RP_BLANK, CGP_DAYde, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_YEAR, RP_cq, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZz, RP_NODIGIT),
+        DTFSS_BdHMSYz, 0, 45, CGN_DAYa, CGN_TZ,
+        &[
+            (0, 31, (O_P1230, 2022, 6, 28, 1, 51, 12, 0), "Mon, 28 Jun 2022 01:51:12 +1230"),
+            (0, 31, (O_M5, 2018, 10, 7, 22, 55, 18, 0), "Sat, 07 Oct 2018 22:55:18 -0500 hello this datetime stamp from https://dencode.com/date/rfc2822"),
+            (0, 30, (O_P2, 2003, 7, 1, 10, 52, 37, 0), "Tue, 1 Jul 2003 10:52:37 +0200 from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_DAYa3, ",", RP_BLANK, CGP_DAYde, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_YEAR, RP_cq, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzc, RP_NODIGIT),
+        DTFSS_BdHMSYzc, 0, 45, CGN_DAYa, CGN_TZ,
+        &[
+            (0, 32, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "Mon, 28 Jun 2022 01:51:12 +01:30"),
+            (0, 32, (O_M5, 2018, 10, 7, 22, 55, 18, 0), "Sat, 07 Oct 2018 22:55:18 -05:00 hello this datetime stamp from https://dencode.com/date/rfc2822"),
+            (0, 31, (O_P2, 2003, 7, 1, 10, 52, 37, 0), "Tue, 1 Jul 2003 10:52:37 +02:00 from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_DAYa3, ",", RP_BLANK, CGP_DAYde, RP_BLANK, CGP_MONTHb, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ, RP_NOALPHA),
+        DTFSS_BdHMSYZ, 0, 45, CGN_DAYa, CGN_TZ,
+        &[
+            (0, 29, (O_WIT, 2022, 6, 28, 1, 51, 12, 0), "Mon, 28 Jun 2022 01:51:12 WIT"),
+            (0, 29, (O_EDT, 2018, 10, 7, 22, 55, 18, 0), "Sat, 07 Oct 2018 22:55:18 EDT hello this datetime stamp from https://dencode.com/date/rfc2822"),
+            (0, 28, (O_CAT, 2003, 7, 1, 10, 52, 37, 0), "Tue, 1 Jul 2003 10:52:37 CAT from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
+        ],
+        line!(),
+    ),
+    // RFC 2822 with leading field title "Date:"
+    // taken from https://www.rfc-editor.org/rfc/rfc2822#appendix-A.1
+    DTPD!(
+        concatcp!("^", RP_RFC2822_DATE, RP_BLANKq, CGP_DAYa3, ",", RP_BLANK, CGP_DAYde, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_YEAR, RP_cq, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZz, RP_NODIGIT),
+        DTFSS_BdHMSYz, 0, 45, CGN_DAYa, CGN_TZ,
+        &[
+            (6, 37, (O_P1230, 2022, 6, 28, 1, 51, 12, 0), "Date:	Mon, 28 Jun 2022 01:51:12 +1230"),
+            (6, 37, (O_M5, 2018, 10, 7, 22, 55, 18, 0), "DATE: Sat, 07 Oct 2018 22:55:18 -0500 hello this datetime stamp from https://dencode.com/date/rfc2822"),
+            (5, 35, (O_P2, 2003, 7, 1, 10, 52, 37, 0), "date:tue, 1 jul 2003 10:52:37 +0200 from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_RFC2822_DATE, RP_BLANKq, CGP_DAYa3, ",", RP_BLANK, CGP_DAYde, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_YEAR, RP_cq, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzc, RP_NODIGIT),
+        DTFSS_BdHMSYzc, 0, 45, CGN_DAYa, CGN_TZ,
+        &[
+            (6, 38, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "Date:	Mon, 28 Jun 2022 01:51:12 +01:30"),
+            (6, 38, (O_M5, 2018, 10, 7, 22, 55, 18, 0), "DATE: Sat, 07 Oct 2018 22:55:18 -05:00 hello this datetime stamp from https://dencode.com/date/rfc2822"),
+            (5, 36, (O_P2, 2003, 7, 1, 10, 52, 37, 0), "date:tue, 1 jul 2003 10:52:37 +02:00 from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", RP_RFC2822_DATE, RP_BLANKq, CGP_DAYa3, ",", RP_BLANK, CGP_DAYde, RP_BLANK, CGP_MONTHb, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ, RP_NOALPHA),
+        DTFSS_BdHMSYZ, 0, 45, CGN_DAYa, CGN_TZ,
+        &[
+            (6, 35, (O_WIT, 2022, 6, 28, 1, 51, 12, 0), "Date:	Mon, 28 Jun 2022 01:51:12 WIT"),
+            (6, 35, (O_EDT, 2018, 10, 7, 22, 55, 18, 0), "DATE: Sat, 07 Oct 2018 22:55:18 EDT hello this datetime stamp from https://dencode.com/date/rfc2822"),
+            (5, 33, (O_CAT, 2003, 7, 1, 10, 52, 37, 0), "date:tue, 1 jul 2003 10:52:37 CAT from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
         ],
         line!(),
     ),

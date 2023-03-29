@@ -225,7 +225,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {
         // IF YOU CHANGE THIS NUMBER THEN ALSO UPDATE THE GENERATED TEST CASES
         // FOR `test_DATETIME_PARSE_DATAS_test_cases` BELOW! THOSE TESTS SHOULD
         // BE FROM ZERO TO ONE LESS THAN THIS NUMBER
-        113,
+        119,
         DATETIME_PARSE_DATAS.len(),
         "Did you update?\n\n    #[test_case({0})]\n    fn test_DATETIME_PARSE_DATAS_test_cases()\n\nShould be one less than DATETIME_PARSE_DATAS_LEN {0}\n\n",
         DATETIME_PARSE_DATAS_LEN
@@ -353,6 +353,12 @@ fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {
 #[test_case(110)]
 #[test_case(111)]
 #[test_case(112)]
+#[test_case(113)]
+#[test_case(114)]
+#[test_case(115)]
+#[test_case(116)]
+#[test_case(117)]
+#[test_case(118)]
 fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     stack_offset_set(Some(2));
 
@@ -671,10 +677,12 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
                 let b: LineIndex = capdata.1;
                 assert_lt!(a, b, "bad a {} b {}", a, b);
                 // verify indexes returned by the regex
+                let s_a_b = buffer_to_String_noraw(data[a..b].as_bstr());
+                let s_dta_dtb = buffer_to_String_noraw(data[dta..dtb].as_bstr());
                 assert_eq!(
                     (dta, dtb), (a, b),
                     "For dtpd at line {:?} unexpected index returned\n  test data {:?}\n  expect {:?} {:?}\n  actual {:?} {:?}\n",
-                    dtpd._line_num, s, (dta, dtb), &s.as_str()[dta..dtb], (a, b), &s.as_str()[a..b],
+                    dtpd._line_num, s, (dta, dtb), &s_dta_dtb, (a, b), &s_a_b,
                 );
                 let ymdhmsn_args_: ymdhmsn_args = test_case_.2;
                 if ymdhmsn_args_ != DUMMY_ARGS {
