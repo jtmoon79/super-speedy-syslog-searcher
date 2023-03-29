@@ -882,7 +882,7 @@ impl LineReader {
         // if  line is terminated by end-of-file then "points" to last char of file.
         let mut fo_nl_b: FileOffset = fileoffset;
         // BlockIndex NewLine B
-        let mut bi_nl_b: BlockIndex;
+        //let mut bi_nl_b: BlockIndex;
         // NewLine B EOF?
         // was newline B actually the end of file?
         let mut nl_b_eof: bool = false;
@@ -945,9 +945,9 @@ impl LineReader {
             if (*bptr_middle)[bi_at] == NLu8 {
                 found_nl_b = true;
                 fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_at);
-                bi_nl_b = bi_at;
+                //bi_nl_b = bi_at;
                 bi_middle_end = bi_at;
-                defo!("B1: bi_middle_end {:?} bi_nl_b {:?} fo_nl_b {:?}", bi_middle_end, bi_nl_b, fo_nl_b);
+                defo!("B1: bi_middle_end {:?} fo_nl_b {:?}", bi_middle_end, fo_nl_b);
                 defo!(
                     "B1: found newline B in middle block during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
                     bo_middle,
@@ -969,12 +969,11 @@ impl LineReader {
             debug_assert_ge!(bi_at, charsz_bi, "blockindex begin {} is less than charsz {} before attempt to subtract to determine newline B1 at end of file for file {:?}", bi_at, charsz_bi, self.path());
             let bi_: usize = bi_at - charsz_bi;
             fo_nl_b = self.file_offset_at_block_offset_index(bo_middle, bi_);
-            bi_nl_b = bi_;
+            //bi_nl_b = bi_;
             bi_middle_end = bi_;
             defo!(
-                "B1: bi_middle_end {:?} bi_nl_b {:?} fo_nl_b {:?} blockoffset_last {:?}",
+                "B1: bi_middle_end {:?} fo_nl_b {:?} blockoffset_last {:?}",
                 bi_middle_end,
-                bi_nl_b,
                 fo_nl_b,
                 blockoffset_last,
             );
@@ -1214,7 +1213,7 @@ impl LineReader {
                         defo!("({}) A1b: self.get_linep({}) returned {:p}", fileoffset, fo_, linep_prev,);
                         // TODO: Issue #61 enable expression attribute when feature is stable
                         //       #[allow(unused_assignments)]
-                        found_nl_a = true;
+                        //found_nl_a = true;
                         fo_nl_a = (*linep_prev).fileoffset_end();
                         debug_assert_eq!(
                             fo_nl_a, fo_,
@@ -1366,9 +1365,8 @@ impl LineReader {
         }
         if !found_nl_a && begof {
             found_nl_a = true;
-            // TODO: Issue #61 enable expression attribute when feature is stable
-            //       #[allow(unused_assignments)]
-            fo_nl_a = 0;
+            //#[allow(unused_assignments)]
+            //fo_nl_a = 0;
             fo_nl_a1 = 0;
         }
         if !found_nl_a {
@@ -1948,7 +1946,7 @@ impl LineReader {
                     defo!("A1b: self.get_linep({}) returned {:p}", fo_, linep_prev,);
                     // TODO: Issue #61 enable expression attribute when feature is stable
                     //       #[allow(unused_assignments)]
-                    found_nl_a = true;
+                    //found_nl_a = true;
                     fo_nl_a = (*linep_prev).fileoffset_end();
                     debug_assert_eq!(
                         fo_nl_a,
@@ -2075,10 +2073,10 @@ impl LineReader {
             found_nl_a = true;
             // TODO: Issue #61 enable expression attribute when feature is stable
             //       #[allow(unused_assignments)]
-            fo_nl_a = 0;
+            //fo_nl_a = 0;
             // TODO: Issue #61 enable expression attribute when feature is stable
             //       #[allow(unused_assignments)]
-            fo_nl_a1 = 0;
+            //fo_nl_a1 = 0;
         }
 
         if !found_nl_a && !begof {

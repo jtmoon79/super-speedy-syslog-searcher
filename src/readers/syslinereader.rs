@@ -2290,7 +2290,6 @@ impl SyslineReader {
         #[allow(unused_assignments)]
         let mut try_fo_last: FileOffset = try_fo;
         #[allow(unused_assignments)]
-        let mut fo_last: FileOffset = fileoffset;
         let mut syslinep_opt: Option<SyslineP> = None;
         let mut fo_a: FileOffset = fileoffset; // begin "range cursor" marker
         let mut fo_b: FileOffset = _fo_end; // end "range cursor" marker
@@ -2326,9 +2325,8 @@ impl SyslineReader {
                     match SyslineReader::sysline_dt_after_or_before(&syslinep, dt_filter) {
                         Result_Filter_DateTime1::Pass => {
                             defo!(
-                                "Pass => fo {} fo_last {} try_fo {} try_fo_last {} (fo_end {})",
+                                "Pass => fo {} try_fo {} try_fo_last {} (fo_end {})",
                                 fo,
-                                fo_last,
                                 try_fo,
                                 try_fo_last,
                                 _fo_end,
@@ -2340,7 +2338,7 @@ impl SyslineReader {
                         Result_Filter_DateTime1::OccursAtOrAfter => {
                             // the Sysline found by `find_sysline(try_fo)` occurs at or after filter `dt_filter`, so search backward
                             // i.e. move end marker `fo_b` backward
-                            defo!("OccursAtOrAfter => fo {} fo_last {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, fo_last, try_fo, try_fo_last, fo_a, fo_b, _fo_end);
+                            defo!("OccursAtOrAfter => fo {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, try_fo, try_fo_last, fo_a, fo_b, _fo_end);
                             // short-circuit a common case, passed fileoffset is past the `dt_filter`, can immediately return
                             // XXX: does this mean my algorithm sucks?
                             if try_fo == fileoffset {
@@ -2381,7 +2379,7 @@ impl SyslineReader {
                         Result_Filter_DateTime1::OccursBefore => {
                             // the Sysline found by `find_sysline(try_fo)` occurs before filter `dt_filter`, so search forthward
                             // i.e. move begin marker `fo_a` forthward
-                            defo!("OccursBefore =>    fo {} fo_last {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, fo_last, try_fo, try_fo_last, fo_a, fo_b, _fo_end);
+                            defo!("OccursBefore =>    fo {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, try_fo, try_fo_last, fo_a, fo_b, _fo_end);
                             let syslinep_foe: FileOffset = (*syslinep).fileoffset_end();
                             try_fo_last = try_fo;
                             assert_le!(try_fo_last, syslinep_foe, "Unexpected values try_fo_last {} syslinep_foe {}, last tried offset (passed to self.find_sysline({})) is beyond returned Sysline@{:p}.fileoffset_end() {}!? FPath {:?}", try_fo_last, syslinep_foe, try_fo, syslinep, syslinep_foe, self.path());
@@ -2400,8 +2398,7 @@ impl SyslineReader {
                             try_fo = fo_a + ((fo_b - fo_a) / 2);
                         } // end OccursBefore
                     } // end SyslineReader::sysline_dt_after_or_before()
-                    defo!("                    fo {} fo_last {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, fo_last, try_fo, try_fo_last, fo_a, fo_b, _fo_end);
-                    fo_last = fo;
+                    defo!("                    fo {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, try_fo, try_fo_last, fo_a, fo_b, _fo_end);
                     syslinep_opt = Some(syslinep);
                     // TODO: [2021/09/26]
                     //       I think this could do an early check and potentially skip a few loops.
