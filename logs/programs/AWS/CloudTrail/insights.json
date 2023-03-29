@@ -1,0 +1,59 @@
+{
+    "Records": [
+        {
+            "eventVersion": "1.07",
+            "eventTime": "2019-11-14T00:51:00Z",
+            "awsRegion": "us-east-1",
+            "eventID": "EXAMPLE8-9621-4d00-b913-beca2EXAMPLE",
+            "eventType": "AwsCloudTrailInsight",
+            "recipientAccountId": "123456789012",
+            "sharedEventID": "EXAMPLE2-1729-42f1-b735-5d8c0EXAMPLE",
+            "insightDetails": {
+                "state": "Start",
+                "eventSource": "ssm.amazonaws.com",
+                "eventName": "UpdateInstanceInformation",
+                "insightType": "ApiCallRateInsight",
+                "insightContext": {
+                    "statistics": {
+                        "baseline": {
+                            "average": 85.4202380952
+                        },
+                        "insight": {
+                            "average": 664
+                        }
+                    }
+                }
+            },
+            "eventCategory": "Insight"
+        },
+        {
+            "eventVersion": "1.07",
+            "eventTime": "2019-11-14T00:52:00Z",
+            "awsRegion": "us-east-1",
+            "eventID": "EXAMPLEc-28be-486c-8928-49ce6EXAMPLE",
+            "eventType": "AwsCloudTrailInsight",
+            "recipientAccountId": "123456789012",
+            "sharedEventID": "EXAMPLE2-1729-42f1-b735-5d8c0EXAMPLE",
+            "insightDetails": {
+                "state": "End",
+                "eventSource": "ssm.amazonaws.com",
+                "eventName": "UpdateInstanceInformation",
+                "insightType": "ApiCallRateInsight",
+                "insightContext": {
+                    "statistics": {
+                        "baseline": {
+                            "average": 85.4202380952
+                        },
+                        "insight": {
+                            "average": 664
+                        },
+                        "insightDuration": 1
+                    }
+                }
+            },
+            "eventCategory": "Insight"
+        }
+    ]
+}
+
+
