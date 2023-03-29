@@ -63,7 +63,7 @@ On Windows, the ad-hoc logs under `C:\Windows\Logs`
 s4.exe C:\Windows\Logs
 ```
 
-Or the [EVTX] logs found under `C:\Windows\System32\winevt\Logs`
+Or the [Windows Event logs]
 
 ```lang-text
 s4.exe C:\Windows\System32\winevt\Logs
@@ -121,7 +121,7 @@ datetime (with the help of GNU `date`)
 s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ```
 
-[EVTX]: https://github.com/libyal/libevtx/blob/20221101/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
+[Windows Event logs]: https://github.com/libyal/libevtx/blob/20221101/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
 
 ### `--help`
 
