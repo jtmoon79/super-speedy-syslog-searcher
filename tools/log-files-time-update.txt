@@ -188,6 +188,19 @@
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx|2023-03-10T03:49:40
 #./logs/programs/ntp/loopstats|???
 #./logs/programs/ntp/peerstats|???
+./logs/programs/apache/access.log|2020-01-20T21:32:14 -0700
+./logs/programs/AWS/Amazon Cloudfront/access.log|2019-12-13T22:37:02
+./logs/programs/AWS/Amazon S3/server.log|2019-02-6T00:01:57 +0000
+./logs/programs/AWS/application_load_balancer.log|2018-11-30T22:22:49Z
+./logs/programs/AWS/CloudTrail/ec2.json
+./logs/programs/AWS/CloudTrail/iam.json
+./logs/programs/AWS/CloudTrail/insights.json
+./logs/programs/AWS/elasticloadbalancer.log|2015-05-13T23:39:44
+./logs/programs/evtx/NoEvents.evtx|2023-02-01T00:00:00
+./logs/programs/Microsoft IIS/example.log|2020-03-01T23:58:11
+./logs/programs/Microsoft IIS/w3c.log|2015-01-01T19:12:42
+./logs/programs/ntp/loopstats
+./logs/programs/ntp/peerstats
 ./logs/programs/pacman/pacman.log|2022-10-07 16:08:00
 ./logs/programs/proftpd/controls.log|2020-10-03 11:26:13
 ./logs/programs/proftpd/proftpd.log|2020-10-03 11:26:13
@@ -219,6 +232,27 @@
 ./logs/RockyLinux9/nginx/access.log|2022-10-08 22:27:55 -00:00
 ./logs/RockyLinux9/nginx/error.log|2022-10-08 22:27:55 -00:00
 ./logs/RockyLinux9/secure|2022-10-08 22:31:17 -00:00
+./logs/standards/ctime.log|Oct 13 22:55:18 2018
+./logs/standards/ISO8601-Date-Extend.log|2018-10-13T22:55:18.912-04:00
+./logs/standards/ISO8601-Date-Ordinal.log|2018-10-13T22:55:18.912-04:00
+./logs/standards/ISO8601-Date-Week.log|2018-10-13T22:55:18.912-04:00
+./logs/standards/ISO8601-YY-MM-DD.log|1999-01-03T00:00:00
+./logs/standards/ISO8601-YYYY-DD-MMTHH-MM-SS.log|2007-04-05T14:30:01
+./logs/standards/ISO8601-YYYY-DDD.log
+./logs/standards/ISO8601-YYYY-MM-DD.log|1981-04-06T00:00:00
+./logs/standards/ISO8601-YYYYDDMMTHHMM.log|2007-04-05T14:31:00
+./logs/standards/ISO8601-YYYYDDMMTHHMMSS.log|2007-04-05T14:30:01
+./logs/standards/ISO8601-YYYYMM.log|1981-04-01T00:00:00
+./logs/standards/ISO8601-YYYYMMDD.log|1981-04-06T00:00:00
+./logs/standards/Japanese-era.log
+./logs/standards/RFC-2822.log|2018-11-13T22:55:19
+./logs/standards/RFC-3164.log|1998-10-11T22:14:16
+./logs/standards/RFC-5424-2dot-0400.log|1985-04-12T19:20:51-04:00
+./logs/standards/RFC-5424-2dotZ.log|1985-04-12T23:20:51Z
+./logs/standards/RFC-5424-3dotZ.log|2003-10-11T22:14:16Z
+./logs/standards/RFC-5424-6dot-0700.log|2003-08-24T05:14:16-07:00
+./logs/standards/Unix-ms.log
+./logs/standards/W3C-DTF.log|2018-10-13T22:55:19-04:00
 ./logs/synology-DS6/apparmor.log|2016-12-05 22:01:43-08:00
 ./logs/synology-DS6/auth.log|2016-12-05 20:47:00-08:00
 ./logs/synology-DS6/checker.log|2019-07-17 02:31:58-07:00
