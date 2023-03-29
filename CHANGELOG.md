@@ -184,6 +184,7 @@ _Released 2023-03-29_
 
 - (BIN) Allow user-passed timezone for prepended datetime. ([630b8ce945dd2f87d88c357afec26a0a5bdbed60])
 - (PROJECT) add logs/programs/{AWS,Microsoft IIS,apache} ([ee4515f1fd7e5161b5eab5bce0262971996f843f])
+- (LIB) Parse RFC 2822 [Issue #29] ([38d1c47305125d9bd4e9275ef99d9767af3f1380])
 
 ### Changes
 
@@ -1036,6 +1037,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [Issue #22]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/22
 [Issue #23]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/23
 [Issue #28]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/28
+[Issue #29]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/29
 [Issue #35]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/35
 [Issue #38]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/38
 [Issue #41]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/41
@@ -1158,6 +1160,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [35fbb1dade0bbfd40042b5154430df5754caa92e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/35fbb1dade0bbfd40042b5154430df5754caa92e
 [361e986710d8c97932b87bffc096e6af122ef58e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/361e986710d8c97932b87bffc096e6af122ef58e
 [368eba9b473b0c31ebd232bd89bc2aabd5a15d53]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/368eba9b473b0c31ebd232bd89bc2aabd5a15d53
+[38d1c47305125d9bd4e9275ef99d9767af3f1380]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/38d1c47305125d9bd4e9275ef99d9767af3f1380
 [3963e070fd8849ce327d9cdb4ef7bbbe52d0d7e2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3963e070fd8849ce327d9cdb4ef7bbbe52d0d7e2
 [3980d5b67bbd371d84cbb313f51e950dae436d54]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3980d5b67bbd371d84cbb313f51e950dae436d54
 [3ac5374edd67a53e0c1492e487db90e9d36a91fd]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3ac5374edd67a53e0c1492e487db90e9d36a91fd
