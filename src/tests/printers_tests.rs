@@ -21,12 +21,16 @@ use crate::printer::printers::{
     PrinterLogMessage,
 };
 use crate::readers::blockreader::BlockSz;
+use crate::readers::evtxreader::EvtxReader;
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
 use crate::readers::syslinereader::{ResultS3SyslineFind, SyslineReader};
 use crate::readers::utmpxreader::{ResultS3UtmpxFind, UtmpxReader};
 use crate::tests::common::{
+    FO_0,
     FO_P8,
     NTF_UTMPX_2ENTRY_FPATH,
+    EVTX_KPNP_FPATH,
+    EVTX_KPNP_EVENT_COUNT,
 };
 
 use ::const_format::concatcp;
@@ -61,7 +65,7 @@ fn test_PrinterLogMessage_new() {
         Color::Red,
         None,
         None,
-        None,
+        *FO_0,
     );
 }
 
@@ -94,7 +98,7 @@ fn new_PrinterLogMessage(
         color,
         pf,
         pd,
-        prepend_offset,
+        prepend_offset.unwrap_or(*FO_0),
     )
 }
 
@@ -111,7 +115,7 @@ const DATE: &str = "20000101T000000";
 #[test_case(CCN, CLR, None, None, None; "c")]
 #[test_case(CCA, CLR, Some(FILEN), None, None; "d")]
 #[test_case(CCU, CLR, None, Some(DATE), None; "e")]
-#[test_case(CCN, CLR, None, None, Some(*FO_P8) => panics; "f missing prepend_datetime")]
+#[test_case(CCN, CLR, None, None, Some(*FO_P8); "f")]
 #[test_case(CCA, CLR, Some(FILEN), Some(DATE), None; "g")]
 #[test_case(CCU, CLR, Some(FILEN), Some(DATE), Some(*FO_P8); "h")]
 #[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8); "i")]
@@ -165,7 +169,7 @@ const FILEU: &str = "foo.utmp";
 #[test_case(CCN, CLR, None, None, None; "u_c")]
 #[test_case(CCA, CLR, Some(FILEU), None, None; "u_d")]
 #[test_case(CCU, CLR, None, Some(DATE), None; "u_e")]
-#[test_case(CCN, CLR, None, None, Some(*FO_P8) => panics; "u_f missing prepend_datetime")]
+#[test_case(CCN, CLR, None, None, Some(*FO_P8); "u_f")]
 #[test_case(CCA, CLR, Some(FILEU), Some(DATE), None; "u_g")]
 #[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8); "u_h")]
 #[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8); "u_i")]
@@ -215,4 +219,47 @@ fn test_PrinterLogMessage_print_utmpx(
         }
     }
     assert_eq!(prints, 2, "Expected 2 prints, got {}", prints);
+}
+
+#[test_case(CCA, CLR, None, None, None; "u_a")]
+#[test_case(CCU, CLR, None, None, None; "u_b")]
+#[test_case(CCN, CLR, None, None, None; "u_c")]
+#[test_case(CCA, CLR, Some(FILEU), None, None; "u_d")]
+#[test_case(CCU, CLR, None, Some(DATE), None; "u_e")]
+#[test_case(CCN, CLR, None, None, Some(*FO_P8); "u_f")]
+#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None; "u_g")]
+#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8); "u_h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8); "u_i")]
+fn test_PrinterLogMessage_print_evtx(
+    colorchoice: ColorChoice,
+    color: Color,
+    prepend_file: Option<&str>,
+    prepend_date: Option<&str>,
+    prepend_offset: Option<FixedOffset>,
+) {
+    let mut plm = new_PrinterLogMessage(
+        colorchoice,
+        color,
+        prepend_file,
+        prepend_date,
+        prepend_offset,
+    );
+
+    let mut er = EvtxReader::new(EVTX_KPNP_FPATH.clone()).unwrap();
+    let mut prints: usize = 0;
+    er.analyze(&None, &None);
+    while let Some(evtx) = er.next()
+    {
+        match plm.print_evtx(&evtx) {
+            Ok(_) => {
+                prints += 1;
+            }
+            Err(err) => {
+                panic!("ERROR: plm.print_evtx({:?}) returned Err({})", evtx, err);
+            }
+        }
+    }
+    let expect_prints: usize = *EVTX_KPNP_EVENT_COUNT as usize;
+    assert_eq!(prints, expect_prints,
+        "Expected {} prints, got {}", expect_prints, prints);
 }

@@ -1,6 +1,6 @@
 // src/tests/common.rs
 
-use crate::common::{FPath, FileOffset, FileType, FileSz, Path};
+use crate::common::{Count, FPath, FileOffset, FileType, FileSz, Path};
 use crate::data::datetime::{
     DateTime,
     DateTimeL,
@@ -2658,6 +2658,7 @@ lazy_static! {
     // EVTX_NE
 
     pub static ref EVTX_NE_FPATH: FPath = FPath::from(EVTX_NE_STR_PATH_PROJD);
+    pub static ref EVTX_NE_EVENT_COUNT: Count = 0;
     pub static ref EVTX_NE_F: File =
         File::open(fpath_to_path(&EVTX_NE_FPATH)).unwrap();
     pub static ref EVTX_NE_MIMEGUESS: MimeGuess =
@@ -2666,6 +2667,7 @@ lazy_static! {
     // EVTX_KPNP
 
     pub static ref EVTX_KPNP_FPATH: FPath = FPath::from(EVTX_KPNP_STR_PATH_PROJD);
+    pub static ref EVTX_KPNP_EVENT_COUNT: Count = 227;
     pub static ref EVTX_KPNP_F: File =
         File::open(fpath_to_path(&EVTX_KPNP_FPATH)).unwrap();
     pub static ref EVTX_KPNP_MIMEGUESS: MimeGuess =

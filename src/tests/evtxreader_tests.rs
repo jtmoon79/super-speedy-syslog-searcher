@@ -16,6 +16,7 @@ use crate::tests::common::{
     EVTX_KPNP_FPATH,
     EVTX_KPNP_ENTRY1_DT,
     EVTX_KPNP_ENTRY227_DT,
+    EVTX_KPNP_EVENT_COUNT,
     EVTX_KPNP_DATA1_S,
 };
 
@@ -95,8 +96,8 @@ fn test_EvtxReader_summary_empty(
 )]
 #[test_case(
     &EVTX_KPNP_FPATH,
-    227,
-    227,
+    *EVTX_KPNP_EVENT_COUNT,
+    *EVTX_KPNP_EVENT_COUNT,
     1052672,
     1,
     Some(*EVTX_KPNP_ENTRY1_DT),
