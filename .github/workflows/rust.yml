@@ -19,9 +19,9 @@ env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
   # run options for debug
-  S4_ARGSD: -z 0x2 -s
+  S4_ARGSD: --blocksz 0x2 -s
   # run options for release
-  S4_ARGSR: -z 0x40 -s
+  S4_ARGSR: --blocksz 0x40 -s
   # run files
   S4_TEST_FILES: ./logs/other/tests/dtf2-2.log
                  ./logs/other/tests/dtf3-2a.log
@@ -233,9 +233,10 @@ jobs:
           set -x
           time ${S4R} --version
           time ${S4D} --version
-          ${S4R} -s -z 0x800 --color=never ${S4_TEST_FILES} | tee "${OUTR}"
-          ${S4D} -s -z 0x800 --color=never ${S4_TEST_FILES} 2>/dev/null | \
-              tee "${OUTD}"
+          ${S4R} -s --blocksz 0x800 --color=never ${S4_TEST_FILES} \
+            | tee "${OUTR}"
+          ${S4D} -s --blocksz 0x800 --color=never ${S4_TEST_FILES} 2>/dev/null \
+            | tee "${OUTD}"
           diff --version
           diff -y --suppress-common-lines --minimal "${OUTR}" "${OUTD}"
       - name: Run Script compare-grep-sort

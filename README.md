@@ -147,20 +147,29 @@ Options:
           For example, "20200103T230000" or "@+1d+11h"
   -t, --tz-offset <TZ_OFFSET>
           Default timezone offset for datetimes without a timezone.
-          For example, datetime string "20200102T120000" does not have a timezone
-          offset so the -t value would be used.
-          Example values, "-0800", "+02:00", or "EDT".
-          Ambiguous named timezones will be rejected, e.g. "SST".
+          For example, log message "20200102T120000 Starting" has a datetime
+          substring "20200102T120000". The datetime substring does not have a
+          timezone offset so the TZ_OFFSET value would be used.
+          Example values, "+12", "-0800", "+02:00", or "EDT".
           To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
-          If not passed then the local system timezone offset is used.
-          [default: -08:00]
+          If not passed then the local system timezone offset is used. [default: -07:00]
+  -z, --prepend-tz <PREPEND_TZ>
+          Prepend a DateTime in the timezone PREPEND_TZ for every line.
+          Used in PREPEND_DT_FORMAT.
   -u, --prepend-utc
-          Prepend DateTime in the UTC Timezone for every line.
+          Prepend a DateTime in the UTC timezone offset for every line.
+          This is the same as "--prepend-tz Z".
+          Used in PREPEND_DT_FORMAT.
   -l, --prepend-local
-          Prepend DateTime in the Local Timezone for every line.
+          Prepend DateTime in the local system timezone offset for every line.
+          This is the same as "--prepend-tz +XX" where +XX is the local system
+          timezone offset.
+          Used in PREPEND_DT_FORMAT.
   -d, --prepend-dt-format <PREPEND_DT_FORMAT>
-          Prepend DateTime using strftime format string.
-          [default: %Y%m%dT%H%M%S%.3f%z]
+          Prepend a DateTime using the strftime format string.
+          If PREPEND_TZ is set then that value is used for any timezone offsets,
+          i.e. strftime "%z" "%:z" "%Z" values, otherwise the timezone offset value
+          is the local system timezone offset. [Default: %Y%m%dT%H%M%S%.3f%z]
   -n, --prepend-filename
           Prepend file basename to every line.
   -p, --prepend-filepath
@@ -168,22 +177,19 @@ Options:
   -w, --prepend-file-align
           Align column widths of prepended data.
       --prepend-separator <PREPEND_SEPARATOR>
-          Separator string for prepended data.
-          [default: :]
+          Separator string for prepended data. [default: :]
       --separator <LOG_MESSAGE_SEPARATOR>
           An extra separator string between printed log messages.
           Per log message not per line of text.
           Accepts a basic set of backslash escape sequences,
           e.g. "\0" for the null character.
   -c, --color <COLOR_CHOICE>
-          Choose to print to terminal using colors.
-          [default: auto] [possible values: always, auto, never]
-  -z, --blocksz <BLOCKSZ>
+          Choose to print to terminal using colors. [default: auto] [possible values: always, auto, never]
+      --blocksz <BLOCKSZ>
           Read blocks of this size in bytes.
           May pass value as any radix (hexadecimal, decimal, octal, binary).
           Using the default value is recommended.
-          Most useful for developers.
-          [default: 65535]
+          Most useful for developers. [default: 65535]
   -s, --summary
           Print a summary of files processed to stderr.
           Most useful for developers.
@@ -246,6 +252,14 @@ Without a timezone offset (strftime specifier "%z" or "%Z"),
 the Datetime Filter is presumed to be the local system timezone.
 
 Ambiguous named timezones will be rejected, e.g. "SST".
+
+--prepend-tz and --dt-offset function indepdendently:
+--prepend-tz affects what is pre-printed before each printed log message line.
+--dt-offset is used to interpret processed log message datetime stamps that
+do not have a timezone offset.
+
+--prepend-tz accepts numieric timezone offsets, e.g. "+09:00", "+0900", or "+09",
+and named timezone offsets, e.g. "JST".
 
 Backslash escape sequences accepted by "--separator" are:
     "\0",

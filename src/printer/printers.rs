@@ -34,6 +34,8 @@ use ::more_asserts::{
     debug_assert_le,
     debug_assert_lt,
 };
+#[allow(unused_imports)]
+use ::si_trace_print::{defn, defo, defx, defñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // globals and constants
@@ -161,7 +163,7 @@ pub struct PrinterLogMessage {
     /// format string for printed date
     prepend_date_format: String,
     /// timezone offset of printed date
-    prepend_date_offset: Option<FixedOffset>,
+    prepend_date_offset: FixedOffset,
     /// last value passed to `self.stdout_color.set_color()`
     ///
     /// used by macro `setcolor_or_return`
@@ -364,8 +366,12 @@ impl PrinterLogMessage {
         color_logmessage: Color,
         prepend_file: Option<String>,
         prepend_date_format: Option<String>,
-        prepend_date_offset: Option<FixedOffset>,
+        prepend_date_offset: FixedOffset,
     ) -> PrinterLogMessage {
+        defñ!(
+            "color_choice {:?}, color_logmessage {:?}, prepend_file {:?}, prepend_date_format {:?}, prepend_date_offset {:?}",
+            color_choice, color_logmessage, prepend_file, prepend_date_format, prepend_date_offset
+        );
         // get a stdout handle once
         let stdout = std::io::stdout();
         let stdout_color = termcolor::StandardStream::stdout(color_choice);
@@ -381,14 +387,8 @@ impl PrinterLogMessage {
         color_spec_datetime.set_fg(Some(color_logmessage));
         color_spec_datetime.set_underline(true);
         let color_spec_last = color_spec_default.clone();
-        let do_prepend_date = prepend_date_offset.is_some();
         let prepend_date_format_: String = prepend_date_format.unwrap_or_default();
-        if do_prepend_date {
-            assert!(
-                !prepend_date_format_.is_empty(),
-                "passed a prepend_date_offset, must pass a prepend_date_format"
-            );
-        }
+        let do_prepend_date = !prepend_date_format_.is_empty();
 
         PrinterLogMessage {
             stdout,
@@ -500,11 +500,7 @@ impl PrinterLogMessage {
         let dt_: DateTimeL = (*syslinep)
             .dt
             .unwrap()
-            .with_timezone(
-                &self
-                    .prepend_date_offset
-                    .unwrap(),
-            );
+            .with_timezone(&self.prepend_date_offset);
         let dt_delayedformat = dt_.format(
             self.prepend_date_format
                 .as_str(),
@@ -524,11 +520,7 @@ impl PrinterLogMessage {
         // write the `utmpx.dt` into a `String` once
         let dt_: DateTimeL = (*utmpx)
             .dt()
-            .with_timezone(
-                &self
-                    .prepend_date_offset
-                    .unwrap(),
-            );
+            .with_timezone(&self.prepend_date_offset);
         let dt_delayedformat = dt_.format(
             self.prepend_date_format.as_str(),
         );
@@ -547,11 +539,7 @@ impl PrinterLogMessage {
         // write the `evtx.dt` into a `String` once
         let dt_: DateTimeL = evtx
             .dt()
-            .with_timezone(
-                &self
-                    .prepend_date_offset
-                    .unwrap(),
-            );
+            .with_timezone(&self.prepend_date_offset);
         let dt_delayedformat = dt_.format(
             self.prepend_date_format.as_str(),
         );
@@ -604,12 +592,7 @@ impl PrinterLogMessage {
         &self,
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
-        debug_assert!(
-            self.prepend_date_offset
-                .is_some(),
-            "self.prepend_date_offset is {:?}",
-            self.prepend_date_offset
-        );
+        debug_assert!(!self.prepend_date_format.is_empty());
 
         let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_sysline(syslinep);
@@ -661,12 +644,7 @@ impl PrinterLogMessage {
         syslinep: &SyslineP,
     ) -> PrinterLogMessageResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
-        debug_assert!(
-            self.prepend_date_offset
-                .is_some(),
-            "self.prepend_date_offset is {:?}",
-            self.prepend_date_offset
-        );
+        debug_assert!(!self.prepend_date_format.is_empty());
 
         let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_sysline(syslinep);
@@ -860,12 +838,7 @@ impl PrinterLogMessage {
         utmpx: &Utmpx,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
-        debug_assert!(
-            self.prepend_date_offset
-                .is_some(),
-            "self.prepend_date_offset is {:?}",
-            self.prepend_date_offset
-        );
+        debug_assert!(!self.prepend_date_format.is_empty());
 
         let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_utmpx(utmpx);
@@ -924,12 +897,7 @@ impl PrinterLogMessage {
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
-        debug_assert!(
-            self.prepend_date_offset
-                .is_some(),
-            "self.prepend_date_offset is {:?}",
-            self.prepend_date_offset
-        );
+        debug_assert!(!self.prepend_date_format.is_empty());
 
         let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_utmpx(utmpx);
@@ -1146,12 +1114,7 @@ impl PrinterLogMessage {
         do_prependfile: bool,
         do_prependdate: bool,
     ) -> PrinterLogMessageResult {
-        debug_assert!(
-            self.prepend_date_offset
-                .is_some(),
-            "self.prepend_date_offset is {:?}",
-            self.prepend_date_offset
-        );
+        debug_assert!(!self.prepend_date_format.is_empty());
 
         let mut printed: usize = 0;
         let prepend_file: &[u8] = match do_prependfile {

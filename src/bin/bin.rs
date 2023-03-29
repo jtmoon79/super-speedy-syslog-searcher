@@ -43,7 +43,6 @@
 //! [`SummaryPrinted`]: self::SummaryPrinted
 
 #![allow(non_camel_case_types)]
-#![allow(non_snake_case)]
 
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fmt;
@@ -53,6 +52,7 @@ use std::process::ExitCode;
 use std::str;
 use std::thread;
 
+use chrono::LocalResult;
 use ::chrono::{
     DateTime,
     Datelike,
@@ -161,6 +161,8 @@ lazy_static! {
     /// current datetime.
     static ref UTC_NOW: DateTime<Utc> = Utc::now();
     static ref LOCAL_NOW: DateTime<Local> = DateTime::from(UTC_NOW.clone());
+    static ref LOCAL_NOW_OFFSET: FixedOffset = *LOCAL_NOW.offset();
+    static ref LOCAL_NOW_OFFSET_STR: String = LOCAL_NOW_OFFSET.to_string();
     static ref FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
 }
 
@@ -434,6 +436,14 @@ the Datetime Filter is presumed to be the local system timezone.
 
 Ambiguous named timezones will be rejected, e.g. \"SST\".
 
+--prepend-tz and --dt-offset function indepdendently:
+--prepend-tz affects what is pre-printed before each printed log message line.
+--dt-offset is used to interpret processed log message datetime stamps that
+do not have a timezone offset.
+
+--prepend-tz accepts numieric timezone offsets, e.g. \"+09:00\", \"+0900\", or \"+09\",
+and named timezone offsets, e.g. \"JST\".
+
 Backslash escape sequences accepted by \"--separator\" are:
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES0, "\",
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES1, "\",
@@ -455,6 +465,8 @@ DateTimes supported are only of the Gregorian calendar.
 
 DateTimes supported language is English."
 );
+
+static mut PREPEND_DT_FORMAT_PASSED: bool = false;
 
 /// clap command-line arguments build-time definitions.
 //
@@ -502,10 +514,10 @@ struct CLI_Args {
     dt_before: Option<String>,
 
     /// Default timezone offset for datetimes without a timezone.
-    /// For example, datetime string "20200102T120000" does not have a timezone
-    /// offset so the -t value would be used.
-    /// Example values, "-0800", "+02:00", or "EDT".
-    /// Ambiguous named timezones will be rejected, e.g. "SST".
+    /// For example, log message "20200102T120000 Starting" has a datetime
+    /// substring "20200102T120000". The datetime substring does not have a
+    /// timezone offset so the TZ_OFFSET value would be used.
+    /// Example values, "+12", "-0800", "+02:00", or "EDT".
     /// To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
     /// If not passed then the local system timezone offset is used.
     #[clap(
@@ -513,11 +525,26 @@ struct CLI_Args {
         long,
         verbatim_doc_comment,
         value_parser = cli_process_tz_offset,
-        default_value_t=*Local.timestamp_opt(0, 0).unwrap().offset(),
+        default_value_t=*LOCAL_NOW_OFFSET,
     )]
     tz_offset: FixedOffset,
 
-    /// Prepend DateTime in the UTC Timezone for every line.
+    /// Prepend a DateTime in the timezone PREPEND_TZ for every line.
+    /// Used in PREPEND_DT_FORMAT.
+    #[clap(
+        short = 'z',
+        long = "prepend-tz",
+        verbatim_doc_comment,
+        groups = &[
+            "group_prepend_dt",
+        ],
+        value_parser = cli_process_tz_offset,
+    )]
+    prepend_tz: Option<FixedOffset>,
+
+    /// Prepend a DateTime in the UTC timezone offset for every line.
+    /// This is the same as "--prepend-tz Z".
+    /// Used in PREPEND_DT_FORMAT.
     #[clap(
         short = 'u',
         long = "prepend-utc",
@@ -528,7 +555,10 @@ struct CLI_Args {
     )]
     prepend_utc: bool,
 
-    /// Prepend DateTime in the Local Timezone for every line.
+    /// Prepend DateTime in the local system timezone offset for every line.
+    /// This is the same as "--prepend-tz +XX" where +XX is the local system
+    /// timezone offset.
+    /// Used in PREPEND_DT_FORMAT.
     #[clap(
         short = 'l',
         long = "prepend-local",
@@ -539,7 +569,7 @@ struct CLI_Args {
     )]
     prepend_local: bool,
 
-    /// Prepend DateTime using strftime format string.
+    // Prepend a DateTime using strftime format string.
     #[clap(
         short = 'd',
         long = "prepend-dt-format",
@@ -547,11 +577,15 @@ struct CLI_Args {
         groups = &[
             "group_prepend_dt_format",
         ],
-        requires = "group_prepend_dt",
+        hide_default_value = true,
+        help = concatcp!("Prepend a DateTime using the strftime format string.
+If PREPEND_TZ is set then that value is used for any timezone offsets,
+i.e. strftime \"%z\" \"%:z\" \"%Z\" values, otherwise the timezone offset value
+is the local system timezone offset. [Default: ", CLI_OPT_PREPEND_FMT, "]"),
         value_parser = cli_parser_prepend_dt_format,
-        default_value_t = String::from(CLI_OPT_PREPEND_FMT),
+        default_value = None,
     )]
-    prepend_dt_format: String,
+    prepend_dt_format: Option<String>,
 
     /// Prepend file basename to every line.
     #[clap(
@@ -623,7 +657,6 @@ struct CLI_Args {
     /// Most useful for developers.
     #[clap(
         required = false,
-        short = 'z',
         long,
         verbatim_doc_comment,
         default_value_t = BLOCKSZ_DEF.to_string(),
@@ -735,10 +768,24 @@ fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> 
 }
 
 /// `clap` argument validator for `--prepend-dt-format`.
+///
+/// Returning `Ok(None)` means that the user did not pass a value for `--prepend-dt-format`.
 fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<String, String> {
-    let dt = Utc
-        .with_ymd_and_hms(2000, 1, 1, 0, 0, 0)
-        .unwrap();
+    defñ!("cli_parser_prepend_dt_format({:?})", prepend_dt_format);
+    unsafe {
+        PREPEND_DT_FORMAT_PASSED = true;
+    }
+    if prepend_dt_format.is_empty() {
+        return Ok(String::default());
+    }
+    let result = Utc
+        .with_ymd_and_hms(2000, 1, 1, 0, 0, 0);
+    let dt = match result {
+        LocalResult::Single(dt) => dt,
+        LocalResult::Ambiguous(dt, _) => dt,
+        LocalResult::None =>
+            return Err(format!("Unable to parse a datetime format for --prepend-dt-format {:?} (this datetime is invalid)", prepend_dt_format)),
+    };
     dt.format(prepend_dt_format);
 
     Ok(String::from(prepend_dt_format))
@@ -985,6 +1032,7 @@ fn process_dt(
     };
     let dto: DateTimeLOpt;
     // try to match user-passed string to chrono strftime format strings
+    #[allow(non_snake_case)]
     for (pattern_, _has_year, has_tz, has_tzZ, has_time) in CLI_FILTER_PATTERNS.iter() {
         let mut pattern: String = String::from(*pattern_);
         let mut dts_: String = dts.clone();
@@ -1132,9 +1180,8 @@ fn cli_process_args() -> (
     DateTimeLOpt,
     FixedOffset,
     ColorChoice,
-    bool,
-    bool,
-    String,
+    FixedOffset,
+    Option<String>,
     bool,
     bool,
     bool,
@@ -1249,6 +1296,7 @@ fn cli_process_args() -> (
         CLI_Color_Choice::auto => ColorChoice::Auto,
         CLI_Color_Choice::never => ColorChoice::Never,
     };
+    defo!("color_choice {:?}", color_choice);
 
     let log_message_separator: String = match unescape::unescape_str(args.log_message_separator.as_str()) {
         Ok(val) => val,
@@ -1258,10 +1306,53 @@ fn cli_process_args() -> (
         }
     };
 
-    defo!("color_choice {:?}", color_choice);
+    defo!("args.prepend_dt_format {:?}", args.prepend_dt_format);
+    let mut prepend_dt_format: Option<String> = None;
+    unsafe {
+        if PREPEND_DT_FORMAT_PASSED {
+            prepend_dt_format = Some(String::from(""));
+        }
+    }
+    if args.prepend_dt_format.is_some() {
+        if !args.prepend_dt_format.as_ref().unwrap().is_empty() {
+            prepend_dt_format = Some(args.prepend_dt_format.unwrap());
+        }
+    }
+
+    defo!("args.prepend_tz {:?}", args.prepend_tz);
+    let cli_opt_prepend_offset: FixedOffset;
+    if args.prepend_tz.is_some() {
+        match args.prepend_tz {
+            Some(fixedoffset) => {
+                cli_opt_prepend_offset = fixedoffset;
+                if prepend_dt_format.is_none() {
+                    prepend_dt_format = Some(String::from(CLI_OPT_PREPEND_FMT));
+                }
+            }
+            None => {
+                eprintln!("ERROR: Unable to parse --prepend-tz argument");
+                std::process::exit(1);
+            }
+        }
+    } else if args.prepend_utc {
+        cli_opt_prepend_offset = *FIXEDOFFSET0;
+        if prepend_dt_format.is_none() {
+            prepend_dt_format = Some(String::from(CLI_OPT_PREPEND_FMT));
+        }
+    } else if args.prepend_local {
+        cli_opt_prepend_offset = *LOCAL_NOW_OFFSET;
+        if prepend_dt_format.is_none() {
+            prepend_dt_format = Some(String::from(CLI_OPT_PREPEND_FMT));
+        }
+    } else {
+        cli_opt_prepend_offset = *LOCAL_NOW_OFFSET;
+    }
+    defo!("prepend_dt_format {:?}", prepend_dt_format);
+
     defo!("prepend_utc {:?}", args.prepend_utc);
     defo!("prepend_local {:?}", args.prepend_local);
-    defo!("prepend_dt_format {:?}", args.prepend_dt_format);
+    defo!("cli_opt_prepend_offset {:?}", cli_opt_prepend_offset);
+
     defo!("prepend_filename {:?}", args.prepend_filename);
     defo!("prepend_filepath {:?}", args.prepend_filepath);
     defo!("prepend_file_align {:?}", args.prepend_file_align);
@@ -1276,9 +1367,8 @@ fn cli_process_args() -> (
         filter_dt_before,
         tz_offset,
         color_choice,
-        args.prepend_utc,
-        args.prepend_local,
-        args.prepend_dt_format,
+        cli_opt_prepend_offset,
+        prepend_dt_format,
         args.prepend_filename,
         args.prepend_filepath,
         args.prepend_file_align,
@@ -1307,8 +1397,7 @@ pub fn main() -> ExitCode {
         filter_dt_before,
         tz_offset,
         color_choice,
-        cli_opt_prepend_utc,
-        cli_opt_prepend_local,
+        cli_opt_prepend_offset,
         cli_prepend_dt_format,
         cli_opt_prepend_filename,
         // TODO: [2023/02/26] add option to prepend byte offset along with filename, helpful for development
@@ -1338,8 +1427,7 @@ pub fn main() -> ExitCode {
         &filter_dt_before,
         tz_offset,
         color_choice,
-        cli_opt_prepend_utc,
-        cli_opt_prepend_local,
+        cli_opt_prepend_offset,
         cli_prepend_dt_format,
         cli_opt_prepend_filename,
         cli_opt_prepend_filepath,
@@ -2515,9 +2603,8 @@ fn processing_loop(
     filter_dt_before_opt: &DateTimeLOpt,
     tz_offset: FixedOffset,
     color_choice: ColorChoice,
-    cli_opt_prepend_utc: bool,
-    cli_opt_prepend_local: bool,
-    cli_prepend_dt_format: String,
+    cli_opt_prepend_offset: FixedOffset,
+    cli_prepend_dt_format: Option<String>,
     cli_opt_prepend_filename: bool,
     cli_opt_prepend_filepath: bool,
     cli_opt_prepend_file_align: bool,
@@ -2526,27 +2613,15 @@ fn processing_loop(
     cli_opt_summary: bool,
 ) -> bool {
     defn!(
-        "({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})",
+        "({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})",
         paths_results,
         blocksz,
         filter_dt_after_opt,
         filter_dt_before_opt,
         color_choice,
-        cli_opt_prepend_utc,
-        cli_opt_prepend_local,
+        cli_opt_prepend_offset,
         cli_prepend_dt_format,
         cli_opt_summary
-    );
-
-    // XXX: sanity check
-    assert!(
-        !(cli_opt_prepend_filename && cli_opt_prepend_filepath),
-        "Cannot both cli_opt_prepend_filename && cli_opt_prepend_filepath"
-    );
-    // XXX: sanity check
-    assert!(
-        !(cli_opt_prepend_utc && cli_opt_prepend_local),
-        "Cannot both cli_opt_prepend_utc && cli_opt_prepend_local"
     );
 
     if paths_results.is_empty() {
@@ -3033,25 +3108,16 @@ fn processing_loop(
                             ),
                             false => None,
                         };
-                    let prepend_date_format: Option<String> =
-                        match cli_opt_prepend_local || cli_opt_prepend_utc {
-                            true => Some(cli_prepend_dt_format.clone() + cli_prepend_separator.as_str()),
-                            false => None,
-                        };
-                    let prepend_date_offset: Option<FixedOffset> =
-                        match (cli_opt_prepend_local, cli_opt_prepend_utc) {
-                            (true, false) => Some(*Local::now().offset()),
-                            (false, true) => Some(*FIXEDOFFSET0),
-                            (false, false) => None,
-                            // XXX: this should not happen
-                            _ => panic!("bad CLI options --local --utc"),
-                        };
+                    let prepend_date_format: Option<String> = match cli_prepend_dt_format {
+                        Some(ref s) => Some(s.to_owned() + cli_prepend_separator.as_str()),
+                        None => None,
+                    };
                     let printer: PrinterLogMessage = PrinterLogMessage::new(
                         color_choice,
                         *color_,
                         prepend_file,
                         prepend_date_format,
-                        prepend_date_offset,
+                        cli_opt_prepend_offset,
                     );
                     map_pathid_printer.insert(*pathid, printer);
                 }
@@ -4208,15 +4274,7 @@ mod tests {
     extern crate test_case;
     use s4lib::data::datetime::DateTime;
     use test_case::test_case;
-
-    use super::{
-        cli_parse_blocksz, cli_parser_prepend_dt_format, cli_process_blocksz, cli_process_tz_offset,
-        process_dt, BlockSz, DateTimeLOpt, CLI_OPT_PREPEND_FMT, unescape,
-    };
-    use super::{
-        string_wdhms_to_duration, Duration, FixedOffset, TimeZone, DUR_OFFSET_TYPE, FIXEDOFFSET0,
-        UTC_NOW,
-    };
+    use super::*;
 
     #[test_case("500", true)]
     #[test_case("0x2", true)]
@@ -4296,8 +4354,8 @@ mod tests {
     #[test_case("abc")]
     #[test_case(CLI_OPT_PREPEND_FMT)]
     #[test_case("%Y%Y%Y%Y%Y%Y%Y%%%%")]
-    fn test_cli_parser_prepend_dt_format(prepend_dt_format: &str) {
-        assert!(cli_parser_prepend_dt_format(prepend_dt_format).is_ok());
+    fn test_cli_parser_prepend_dt_format(input: &str) {
+        assert!(cli_parser_prepend_dt_format(input).is_ok());
     }
 
     #[test_case(
