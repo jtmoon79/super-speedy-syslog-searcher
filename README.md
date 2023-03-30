@@ -461,7 +461,7 @@ Here is a log snippet from a Debian 11 host, file `/var/log/alternatives.log`:
 update-alternatives 2022-10-10 23:59:47: run with --quiet --remove rcp /usr/bin/ssh
 ```
 
-And a snippet from the same Debian 11 host, file `/var/log/alternatives.log`:
+And a snippet from the same Debian 11 host, file `/var/log/dpkg.log`:
 
 ```text
 2022-10-10 15:15:02 upgrade gpgv:amd64 2.2.27-2 2.2.27-2+deb11u1
