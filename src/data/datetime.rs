@@ -18,8 +18,8 @@
 //! - `regex` crate [Regular Expression syntax].
 //!
 //! The most relevant functions are:
-//! - [`bytes_to_regex_to_datetime`] which calls
-//! - [`captures_to_buffer_bytes`]
+//! 1. [`bytes_to_regex_to_datetime`] which calls private function:
+//! 2. [`captures_to_buffer_bytes`]
 //!
 //! The most relevant constant is [`DATETIME_PARSE_DATAS`].
 //!
@@ -842,7 +842,7 @@ impl fmt::Debug for DTFSSet<'_> {
 ///    Later, in function `bytes_to_regex_to_datetime`, the offsets are
 ///    returned as a pair, `(Some(5, 25))`.
 ///    These offsets values are stored by the controlling
-///    [`SyslineReader`], and later passed to a [`SyslinePrinter`] which
+///    [`SyslineReader`], and later passed to a [`PrinterLogMessage`] which
 ///    highlights the datetime substring within the line (if `--color` is
 ///    enabled).
 ///
@@ -863,7 +863,7 @@ impl fmt::Debug for DTFSSet<'_> {
 /// [`pub const DATETIME_PARSE_DATAS`]: DATETIME_PARSE_DATAS
 /// [`DTFSSet`]: DTFSSet
 /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
-/// [`SyslinePrinter`]: crate::printer::printers::SyslinePrinter
+/// [`PrinterLogMessage`]: crate::printer::printers::PrinterLogMessage
 /// [`Line`]: crate::data::line::Line
 /// [`DTPD!`]: DTPD!
 // TODO: [2022/10] each _test_cases entry should include an expected chrono
@@ -4322,8 +4322,11 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
 ];
 
 lazy_static! {
-    /// Run-time created copy of [`DATETIME_PARSE_DATAS`] with compiled
-    /// [`Regex`].
+    /// Run-time created mapping of compiled [`Regex`].
+    ///
+    /// This has the same mapping of index values as
+    /// `DATETIME_PARSE_DATAS` array but `DATETIME_PARSE_DATAS_REGEX_VEC`
+    /// maps to the compiled `Regex`.
     ///
     /// [`Regex`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html
     // TODO: cost-savings: each compiled regex requires ≈133,000 Bytes on the heap according

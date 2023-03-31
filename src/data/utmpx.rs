@@ -244,7 +244,7 @@ pub struct Utmpx {
     /// The derived DateTime instance using function
     /// [`convert_tvsec_utvcsec_datetime`].
     ///
-    /// [`convert_tvsec_utvcsec_datetime`]: super::convert_tvsec_utvcsec_datetime
+    /// [`convert_tvsec_utvcsec_datetime`]: convert_tvsec_utvcsec_datetime
     dt: DateTimeL,
 }
 

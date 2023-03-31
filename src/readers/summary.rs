@@ -54,7 +54,7 @@ macro_rules! debug_assert_none {
 /// wrapper for various `Summary*` data types for different files corresponding
 /// to [`LogMessage`] variants.
 ///
-/// [`LogMessage`]: s4::LogMessage
+/// [`LogMessage`]: crate::data::common::LogMessage
 #[derive(Clone, Default)]
 pub enum SummaryReaderData {
     /// Unset. Useful for stand-in value where nothing actually occurred; e.g.

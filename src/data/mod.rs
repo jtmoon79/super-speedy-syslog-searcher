@@ -70,6 +70,7 @@
 //! [a certain minimum]: static@crate::readers::syslogprocessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP
 //! [`Utmpx`]: crate::data::utmpx::Utmpx
 //! [`utmpx`]: ::uapi::c::utmpx
+//! [`Read`]: std::io::Read
 
 pub mod common;
 pub mod datetime;

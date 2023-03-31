@@ -384,7 +384,7 @@ impl FileType {
 /// The type of message sent from file processing thread to the main printing
 /// thread. Similar to [`LogMessage`] but without the enclosed data.
 ///
-/// [`LogMessage`]: s4::LogMessage
+/// [`LogMessage`]: crate::data::common::LogMessage
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub enum LogMessageType {
     /// Typical line-oriented log file; a "syslog" file in program parlance.

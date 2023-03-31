@@ -8,7 +8,7 @@
 //! the predictable format of the evtx files.
 //!
 //! [`EvtxReader`]: self::EvtxReader
-//! [`Etmpx`s]: crate::data::etmpx::Etmpx
+//! [`Etmpx`s]: crate::data::evtx::Evtx
 //! [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
 //! [Windows Event Log `.evtx` format]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
@@ -62,12 +62,12 @@ use ::si_trace_print::{de, defn, defo, defx, defñ, def1ñ, den, deo, dex, deñ,
 /// 
 /// [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
 /// [`EvtxRecord.timestamp`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html#structfield.timestamp
-type Timestamp = DateTime<Utc>;
+pub type Timestamp = DateTime<Utc>;
 /// Optional [`Timestamp`].
-type TimestampOpt = Option<Timestamp>;
+pub type TimestampOpt = Option<Timestamp>;
 
-type EventsKey = (Timestamp, usize);
-type Events = BTreeMap<EventsKey, Evtx>;
+pub type EventsKey = (Timestamp, usize);
+pub type Events = BTreeMap<EventsKey, Evtx>;
 
 lazy_static! {
     static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
@@ -75,7 +75,7 @@ lazy_static! {
 
 /// Convert a `evtx` "timestamp" (`DateTime<Utc>`)
 /// to a `s4` "datetime" (`DateTimeL`).
-fn timestamp_to_datetimel(
+pub fn timestamp_to_datetimel(
     timestamp: &Timestamp,
 ) -> DateTimeL {
     timestamp.with_timezone(
@@ -85,7 +85,7 @@ fn timestamp_to_datetimel(
 
 /// Convert a `s4` "datetime" (`DateTimeL`)
 /// to a `evtx` "timestamp" (`DateTime<Utc>`).
-fn datetimel_to_timestamp(
+pub fn datetimel_to_timestamp(
     datetime: &DateTimeL,
 ) -> Timestamp {
     datetime.with_timezone(&Utc)
@@ -93,7 +93,7 @@ fn datetimel_to_timestamp(
 
 /// Convert a `s4` "datetime" (`DateTimeL`)
 /// to a `evtx` "timestamp" (`DateTime<Utc>`).
-fn datetimelopt_to_timestampopt(
+pub fn datetimelopt_to_timestampopt(
     datetimeopt: &DateTimeLOpt,
 ) -> TimestampOpt {
     match datetimeopt {
@@ -104,11 +104,10 @@ fn datetimelopt_to_timestampopt(
     }
 }
 
-/// A version of [`dt_pass_filters`] that takes a [`Timestamp`] instead of a
+/// A version of [`dt_pass_filters`] that takes a `Timestamp` instead of a
 /// [`DateTimeL`].
 ///
 /// [`dt_pass_filters`]: crate::data::datetime::dt_pass_filters
-/// [`Timestamp`]: self::Timestamp
 /// [`DateTimeL`]: crate::data::datetime::DateTimeL
 pub fn ts_pass_filters(
     ts: &Timestamp,
@@ -205,25 +204,25 @@ pub struct EvtxReader {
     ///
     /// Intended for `--summary`.
     ///
-    /// [`Timestamp`]: super::Timestamp
+    /// [`Timestamp`]: Timestamp
     pub(super) ts_first_processed: TimestampOpt,
     /// Last (latest) processed [`Timestamp`].
     ///
     /// Intended for `--summary`.
     ///
-    /// [`Timestamp`]: super::Timestamp
+    /// [`Timestamp`]: Timestamp
     pub(super) ts_last_processed: TimestampOpt,
     /// First (soonest) accepted (printed) [`Timestamp`].
     ///
     /// Intended for `--summary`.
     ///
-    /// [`Timestamp`]: super::Timestamp
+    /// [`Timestamp`]: Timestamp
     pub(super) ts_first_accepted: TimestampOpt,
     /// Last (latest) accepted (printed) [`Timestamp`].
     ///
     /// Intended for `--summary`.
     ///
-    /// [`Timestamp`]: super::Timestamp
+    /// [`Timestamp`]: Timestamp
     pub(super) ts_last_accepted: TimestampOpt,
     /// File Size of the file being read in bytes.
     filesz: FileSz,

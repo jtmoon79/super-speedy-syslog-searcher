@@ -96,12 +96,10 @@ pub type BlocksLRUCache = LruCache<BlockOffset, BlockP>;
 #[allow(non_upper_case_globals)]
 pub type ResultS3ReadBlock = ResultS3<BlockP, Error>;
 
-/// Return type for [`BlockReader::read_data`].
+/// Return type for private function `BlockReader::read_data`.
 ///
 /// Avoids allocating a new `Vec` for common cases where one or two `BlockP`
 /// are returned.
-///
-/// [`BlockReader::read_data`]: BlockReader::read_data
 pub enum ReadDataParts {
     /// One `BlockP` returned.
     One(BlockP),
@@ -113,10 +111,9 @@ pub enum ReadDataParts {
 
 pub type ReadData = (ReadDataParts, BlockIndex, BlockIndex);
 
-/// A typed [`ResultS3`] for function [`read_data`].
+/// A typed [`ResultS3`] for private function `read_data`.
 ///
 /// [`ResultS3`]: crate::common::ResultS3
-/// [`read_data`]: BlockReader::read_data
 #[allow(non_upper_case_globals)]
 pub type ResultReadData = ResultS3<ReadData, Error>;
 
@@ -2584,7 +2581,8 @@ impl BlockReader {
         ResultReadData::Found(rd)
     }
 
-    /// Read data from the file into the passed buffer. Calls [`read_data`].
+    /// Read data from the file into the passed buffer. Calls private
+    /// function `read_data`.
     /// When successful, [`Found`] contains number of bytes read into the passed
     /// `buffer`.
     /// Data is read inclusive of `fileoffset_beg` and exclusive of
@@ -2592,7 +2590,6 @@ impl BlockReader {
     ///
     /// Argument `oneblock` is passed to `read_data`.
     ///
-    /// [`read_data`]: self::read_data
     /// [`Found`]: ResultReadDataToBuffer
     pub fn read_data_to_buffer(
         &mut self,

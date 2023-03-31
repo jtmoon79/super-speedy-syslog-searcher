@@ -133,10 +133,10 @@ pub type SetDroppedEntries = HashSet<FileOffset>;
 /// [`Read`]: std::io::Read
 pub struct UtmpxReader {
     pub(crate) blockreader: BlockReader,
-    /// Timezone to use for conversions using
+    /// Timezone to use for conversions using function
     /// [`convert_tvsec_utvcsec_datetime`].
     ///
-    /// [`convert_tvsec_utvcsec_datetime`]: crate::utmp::convert_tvsec_utvcsec_datetime
+    /// [`convert_tvsec_utvcsec_datetime`]: crate::data::utmpx::convert_tvsec_utvcsec_datetime
     pub(crate) tz_offset: FixedOffset,
     /// Track [`Utmpx`] found among blocks in `blockreader`. Key is
     /// [`FileOffset`] which should match [`Utmpx.fileoffset_beg`].
@@ -500,7 +500,7 @@ impl UtmpxReader {
     /// up to and including the passed `fileoffset`.
     ///
     /// [`Utmpx`s]: crate::data::utmpx::Utmpx
-    /// [`Block`s]: crate::data::block::Block
+    /// [`Block`s]: crate::readers::blockreader::Block
     pub fn drop_entries(
         &mut self,
         fileoffset: FileOffset,
@@ -566,7 +566,7 @@ impl UtmpxReader {
     /// The caller must know what they are doing!
     ///
     /// [`Utmpx`]: crate::data::utmpx::Utmpx
-    /// [`Block`s]: crate::data::block::Block
+    /// [`Block`s]: crate::readers::blockreader::Block
     /// [`FileOffset`]: crate::common::FileOffset
     fn drop_entry(
         &mut self,
@@ -647,7 +647,7 @@ impl UtmpxReader {
     /// [`utmpx`]: https://docs.rs/uapi/0.2.10/uapi/c/struct.utmpx.html
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`Done`]: crate::common::ResultS3#variant.Done
-    /// [`find_entry`]: self::find_entry
+    /// [`find_entry`]: Self::find_entry
     pub fn find_entry_in_block(
         &mut self,
         fileoffset: FileOffset,
@@ -677,12 +677,12 @@ impl UtmpxReader {
     ///
     /// [`utmpx`]: https://docs.rs/uapi/0.2.10/uapi/c/struct.utmpx.html 
     /// [`Block`]: crate::readers::blockreader::Block
-    /// [`Found`]: super::ResultS3UtmpxFind#variant.Found
-    /// [`Done`]: super::ResultS3UtmpxFind#variant.Done
-    /// [`Err`]: super::ResultS3UtmpxFind#variant.Err
+    /// [`Found`]: super::utmpxreader::ResultS3UtmpxFind#variant.Found
+    /// [`Done`]: super::utmpxreader::ResultS3UtmpxFind#variant.Done
+    /// [`Err`]: super::utmpxreader::ResultS3UtmpxFind#variant.Err
     /// [`Result::Err`]: std::result::Result#variant.Err
     /// [`FileOffset`]: crate::common::FileOffset
-    /// [`find_entry_in_block`]: self::find_entry_in_block
+    /// [`find_entry_in_block`]: BlockReader#method.find_entry_in_block
     /// [`Utmpx.fileoffset_end`]: crate::data::utmpx::Utmpx#method.fileoffset_end
     pub fn find_entry(
         &mut self,

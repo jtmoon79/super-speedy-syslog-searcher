@@ -696,9 +696,10 @@ impl SyslogProcessor {
         false
     }
 
-    /// Call [`drop_block`] for the [`Block`] *preceding* the first block of the
+    /// Call [`drop_data`] for the [`Block`] *preceding* the first block of the
     /// passed [`Sysline`].
     ///
+    /// [`drop_data`]: Self#method.drop_data
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`Sysline`]: crate::data::sysline::Sysline
     pub fn drop_data_try(
