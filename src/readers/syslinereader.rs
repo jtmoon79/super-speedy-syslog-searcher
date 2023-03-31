@@ -11,10 +11,22 @@ use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, FileSz, FileType, R
 use crate::data::line::{Line, LineIndex, LineP, LinePartPtrs};
 use crate::data::sysline::{Sysline, SyslineP};
 use crate::data::datetime::{
-    bytes_to_regex_to_datetime, dt_after_or_before, dt_pass_filters, slice_contains_X_2,
-    DateTimeL, DateTimeLOpt, DateTimeParseInstr, DateTimeParseInstrsIndex, FixedOffset,
-    Result_Filter_DateTime1, Result_Filter_DateTime2, SystemTime, Year,
-    DATETIME_PARSE_DATAS, DATETIME_PARSE_DATAS_LEN,
+    bytes_to_regex_to_datetime,
+    dt_after_or_before,
+    dt_pass_filters,
+    DateTimeL,
+    DateTimeLOpt,
+    DateTimeParseInstr,
+    DateTimeParseInstrsIndex,
+    FixedOffset,
+    Result_Filter_DateTime1,
+    Result_Filter_DateTime2,
+    SystemTime,
+    Year,
+    DATETIME_PARSE_DATAS,
+    DATETIME_PARSE_DATAS_LEN,
+    slice_contains_X_2,
+    slice_contains_D2,
 };
 #[cfg(any(debug_assertions, test))]
 use crate::data::datetime::{
@@ -256,13 +268,28 @@ pub struct SyslineReader {
     ///
     /// [`Arc::try_unwrap(syslinep)`]: std::sync::Arc#method.try_unwrap
     pub(super) drop_sysline_errors: Count,
-    /// `Count` of EZCHECK12 that allowed skipping regular expression
-    /// matching for a `Line`.
+    /// `Count` of EZCHECK12 attempts that "hit".
+    ///
+    /// EZCHECK12 is a simple hack to skipping regular expression matching for
+    /// a `Line`. Regular expression matching is expensive.
+    ///
+    /// This hack is only applicable to ASCII/UTF-8 encoded text files.
     pub (super) ezcheck12_hit: Count,
-    /// `Count` of EZCHECK12 that missed.
+    /// `Count` of EZCHECK12 attempts that missed.
     pub (super) ezcheck12_miss: Count,
-    /// Highest EXCHECK12 length ignored.
+    /// Highest EXCHECK12 `Line` byte length ignored.
     pub (super) ezcheck12_hit_max: LineIndex,
+    /// `Count` of EZCHECKD2 attempts that "hit".
+    ///
+    /// EZCHECKD2 is a simple hack to skipping regular expression matching for
+    /// a `Line`. Regular expression matching is expensive.
+    ///
+    /// This hack is only applicable to ASCII/UTF-8 encoded text files.
+    pub (super) ezcheckd2_hit: Count,
+    /// `Count` of EZCHECKD2 attempts that missed.
+    pub (super) ezcheckd2_miss: Count,
+    /// Highest EXCHECKD2 `Line` byte length ignored.
+    pub (super) ezcheckd2_hit_max: LineIndex,
     /// testing-only tracker of successfully dropped `Sysline`
     #[cfg(test)]
     pub(crate) dropped_syslines: SetDroppedSyslines,
@@ -351,6 +378,12 @@ pub struct SummarySyslineReader {
     pub syslinereader_ezcheck12_miss: Count,
     /// `SyslineReader::ezcheck12_hit_max`
     pub syslinereader_ezcheck12_hit_max: LineIndex,
+    /// `SyslineReader::ezcheckd2_hit`
+    pub syslinereader_ezcheckd2_hit: Count,
+    /// `SyslineReader::ezcheckd2_miss`
+    pub syslinereader_ezcheckd2_miss: Count,
+    /// `SyslineReader::ezcheckd2_hit_max`
+    pub syslinereader_ezcheckd2_hit_max: LineIndex,
 }
 
 /// Implement the `SyslineReader`
@@ -437,6 +470,9 @@ impl SyslineReader {
             ezcheck12_hit: 0,
             ezcheck12_miss: 0,
             ezcheck12_hit_max: 0,
+            ezcheckd2_hit: 0,
+            ezcheckd2_miss: 0,
+            ezcheckd2_hit_max: 0,
             #[cfg(test)]
             dropped_syslines: SetDroppedSyslines::new(),
         })
@@ -960,6 +996,9 @@ impl SyslineReader {
         ezcheck12_hit: &mut Count,
         ezcheck12_miss: &mut Count,
         ezcheck12_hit_max: &mut LineIndex,
+        ezcheckd2_hit: &mut Count,
+        ezcheckd2_miss: &mut Count,
+        ezcheckd2_hit_max: &mut LineIndex,
     ) -> ResultFindDateTime {
         defn!(
             "(…, …, {:?}, year_opt {:?}, {:?}) line {:?}",
@@ -984,9 +1023,11 @@ impl SyslineReader {
         // line probably do not have a datetime.
         const EZCHECK12: &[u8; 2] = b"12";
         let mut ezcheck12_min: usize = 0;
+        let mut ezcheckd2_min: usize = 0;
 
         #[cfg(any(debug_assertions, test))]
         let mut _attempts: usize = 0;
+
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
         for (_try, index) in parse_data_indexes
@@ -1006,10 +1047,21 @@ impl SyslineReader {
             }
             if line.len() <= ezcheck12_min {
                 // the Line is shorter than established check for "12"
+                *ezcheck12_hit += 1;
                 defo!(
                     "line len {} ≤ {} ezcheck12_min; continue",
                     line.len(),
                     ezcheck12_min,
+                );
+                continue;
+            }
+            if line.len() <= ezcheckd2_min {
+                // the Line is shorter than established check for two digits
+                *ezcheckd2_hit += 1;
+                defo!(
+                    "line len {} ≤ {} ezcheckd2_min; continue",
+                    line.len(),
+                    ezcheckd2_min,
                 );
                 continue;
             }
@@ -1071,26 +1123,56 @@ impl SyslineReader {
                 dtpd._line_num,
                 String::from_utf8_lossy(slice_),
             );
+
             // XXX: hack efficiency improvement, presumes all found years will
             //      have a '1' or a '2' in them.
             //      Regular expression matching is very expensive according to
             //      `tools/flamegraph.sh`. Skip where possible.
-            if charsz == &1 && dtpd.dtfs.has_year() && !slice_contains_X_2(slice_, EZCHECK12) {
-                defo!("skip slice, does not have '1' or '2' (EZCHECK12)");
-                if ezcheck12_min < slice_.len() {
-                    // now proven that magic "12" is not in this `Line` up to this byte offset
-                    ezcheck12_min = slice_.len() - charsz;
-                    defo!("ezcheck12_min = {}", ezcheck12_min);
+            //      Only applicable to ASCII/UTF-8 encoded text files.
+            if charsz == &1 && dtpd.dtfs.has_year4() {
+                if !slice_contains_X_2(slice_, EZCHECK12) {
+                    defo!("skip slice, does not have '1' or '2' (EZCHECK12)");
+                    if ezcheck12_min < slice_.len() {
+                        // now proven that magic "12" is not in this `Line` up
+                        // to this byte offset
+                        ezcheck12_min = slice_.len() - charsz;
+                        defo!("ezcheck12_min = {}", ezcheck12_min);
+                    }
+                    *ezcheck12_hit += 1;
+                    *ezcheck12_hit_max = std::cmp::max(*ezcheck12_hit_max, ezcheck12_min);
+                    continue;
+                } else {
+                    *ezcheck12_miss += 1;
                 }
-                *ezcheck12_hit += 1;
-                *ezcheck12_hit_max = std::cmp::max(*ezcheck12_hit_max, ezcheck12_min);
-                continue;
             }
-            *ezcheck12_miss += 1;
+
+            // XXX: hack efficiency improvement, presumes a datetime substring
+            //      will have two consecutive digit chars in it.
+            //      Regular expression matching is very expensive according to
+            //      `tools/flamegraph.sh`. Skip where possible.
+            //      Only applicable to ASCII/UTF-8 encoded text files.
+            if charsz == &1 && dtpd.dtfs.has_d2() {
+                if !slice_contains_D2(slice_) {
+                    defo!("skip slice (EZCHECKD2)");
+                    if ezcheckd2_min < slice_.len() {
+                        // now proven that this `Line` does not have two
+                        // consecutive digits up to this byte offset
+                        ezcheckd2_min = slice_.len() - charsz;
+                        defo!("ezcheckd2_min = {}", ezcheckd2_min);
+                    }
+                    *ezcheckd2_hit += 1;
+                    *ezcheckd2_hit_max = std::cmp::max(*ezcheckd2_hit_max, ezcheckd2_min);
+                    continue;
+                } else {
+                    *ezcheckd2_miss += 1;
+                }
+            }
+
             #[cfg(any(debug_assertions, test))]
             {
                 _attempts += 1;
             }
+
             // find the datetime string using `Regex`, convert to a `DateTimeL`
             let dt: DateTimeL;
             let dt_beg: LineIndex;
@@ -1380,6 +1462,9 @@ impl SyslineReader {
             &mut self.ezcheck12_hit,
             &mut self.ezcheck12_miss,
             &mut self.ezcheck12_hit_max,
+            &mut self.ezcheckd2_hit,
+            &mut self.ezcheckd2_miss,
+            &mut self.ezcheckd2_hit_max,
         );
         let data: FindDateTimeData = match result {
             Ok(val) => val,
@@ -2716,6 +2801,9 @@ impl SyslineReader {
         let syslinereader_ezcheck12_hit = self.ezcheck12_hit;
         let syslinereader_ezcheck12_miss = self.ezcheck12_miss;
         let syslinereader_ezcheck12_hit_max = self.ezcheck12_hit_max;
+        let syslinereader_ezcheckd2_hit = self.ezcheckd2_hit;
+        let syslinereader_ezcheckd2_miss = self.ezcheckd2_miss;
+        let syslinereader_ezcheckd2_hit_max = self.ezcheckd2_hit_max;
         let syslinereader_datetime_first = self.dt_first;
         let syslinereader_datetime_last = self.dt_last;
 
@@ -2742,6 +2830,9 @@ impl SyslineReader {
             syslinereader_ezcheck12_hit,
             syslinereader_ezcheck12_miss,
             syslinereader_ezcheck12_hit_max,
+            syslinereader_ezcheckd2_hit,
+            syslinereader_ezcheckd2_miss,
+            syslinereader_ezcheckd2_hit_max,
             syslinereader_datetime_first,
             syslinereader_datetime_last,
         }

@@ -717,17 +717,65 @@ pub struct DTFSSet<'a> {
 }
 
 impl DTFSSet<'_> {
-    pub fn has_year(&self) -> bool {
+
+    /// does the `DTFSSet` expect a year?
+    pub const fn has_year(&self) -> bool {
         match self.year {
             DTFS_Year::Y | DTFS_Year::y => true,
             DTFS_Year::_fill => false,
         }
     }
-    pub fn has_tz(&self) -> bool {
+
+    /// does the `DTFSSet` expect a 4-digit year?
+    pub const fn has_year4(&self) -> bool {
+        match self.year {
+            DTFS_Year::Y => true,
+            DTFS_Year::y | DTFS_Year::_fill => false,
+        }
+    }
+
+    /// does the `DTFSSet` expect a timezone?
+    pub const fn has_tz(&self) -> bool {
         match self.tz {
             DTFS_Tz::z | DTFS_Tz::zc | DTFS_Tz::zp | DTFS_Tz::Z => true,
             DTFS_Tz::_fill => false,
         }
+    }
+
+    /// does the `DTFSSet` expect to capture a sequence of two decimal digits?
+    pub const fn has_d2(&self) -> bool {
+        // XXX: always `true` because only one type of `DTFS_Minute` currently
+        //      implemented
+        true
+        /*
+        match self.year {
+            DTFS_Year::Y => return true,
+            _ => {}
+        }
+        match self.month {
+            DTFS_Month::m => return true,
+            _ => {}
+        }
+        match self.hour {
+            DTFS_Hour::H
+            | DTFS_Hour::I => return true,
+            _ => {}
+        }
+        match self.minute {
+            DTFS_Minute::M => return true,
+            _ => {}
+        }
+        match self.second {
+            DTFS_Second::S => return true,
+            _ => {}
+        }
+        match self.tz {
+            DTFS_Tz::z | DTFS_Tz::zc | DTFS_Tz::zp => return true,
+            _ => {}
+        }
+
+        false
+        */
     }
 }
 
@@ -6816,4 +6864,38 @@ pub fn slice_contains_X_2(
             .iter()
             .any(|&c| c == search[0] || c == search[1]),
    }
+}
+
+/// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
+#[inline(always)]
+#[allow(non_snake_case)]
+pub fn slice_contains_D2(
+    slice_: &[u8],
+) -> bool {
+    let mut byte_last_d: bool = false;
+    if slice_.len() < 2 {
+        return false;
+    }
+    for byte_ in slice_.iter() {
+        match byte_ {
+            b'0'
+            | b'1'
+            | b'2'
+            | b'3'
+            | b'4'
+            | b'5'
+            | b'6'
+            | b'7'
+            | b'8'
+            | b'9' => {
+                if byte_last_d {
+                    return true;
+                }
+                byte_last_d = true;
+            },
+            _ => byte_last_d = false,
+        }
+    }
+
+    false
 }

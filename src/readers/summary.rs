@@ -361,7 +361,11 @@ impl Summary {
                     summarysyslinereader.syslinereader_parse_datetime_in_line_lru_cache_put,
                     summarysyslinereader.syslinereader_get_boxptrs_singleptr,
                     summarysyslinereader.syslinereader_get_boxptrs_doubleptr,
-                    summarysyslinereader.syslinereader_get_boxptrs_multiptr
+                    summarysyslinereader.syslinereader_get_boxptrs_multiptr,
+                    summarysyslinereader.syslinereader_ezcheck12_hit,
+                    summarysyslinereader.syslinereader_ezcheck12_miss,
+                    summarysyslinereader.syslinereader_ezcheckd2_hit,
+                    summarysyslinereader.syslinereader_ezcheckd2_miss
                 )
             }
             SummaryReaderData::Utmpx(

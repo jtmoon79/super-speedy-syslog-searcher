@@ -12,19 +12,52 @@ use crate::tests::common::{
 };
 use crate::data::datetime::{
     LineIndex,
-    ymdhms, ymdhmsn, ymdhmsm, ymdhmsn_args, DUMMY_ARGS, O_L, YEAR_FALLBACKDUMMY_VAL,
-    bytes_to_regex_to_datetime, datetime_from_str_workaround_Issue660, datetime_parse_from_str,
-    dt_after_or_before, dt_pass_filters, DTFSSet, DTFS_Tz,
-    DateTimeL, DateTimeLOpt, FixedOffset,
-    DateTimeParseInstr, DateTimePattern_str, DateTimeRegex_str,
-    Result_Filter_DateTime1, Result_Filter_DateTime2, Year,
-    DATETIME_PARSE_DATAS_LEN, DATETIME_PARSE_DATAS,
-    CGP_HOUR, CGP_MINUTE, CGP_SECOND, CGP_FRACTIONAL, CGP_FRACTIONAL3,
-    CGP_MONTH_ALL, CGN_ALL, CGP_DAY_ALL, CGP_YEAR, CGP_YEARy,
-    CGP_TZZ, CGP_TZ_ALL,
-    TZZ_LIST_LOWER, TZZ_LIST_UPPER, TZZ_LOWER_TO_UPPER, MAP_TZZ_TO_TZz,
-    RP_LB, RP_RB,
+    ymdhms,
+    ymdhmsn,
+    ymdhmsm,
+    ymdhmsn_args,
+    DUMMY_ARGS,
+    O_L,
+    YEAR_FALLBACKDUMMY_VAL,
+    bytes_to_regex_to_datetime,
+    datetime_from_str_workaround_Issue660,
+    datetime_parse_from_str,
+    dt_after_or_before,
+    dt_pass_filters,
+    DTFSSet,
+    DTFS_Tz,
+    DateTimeL,
+    DateTimeLOpt,
+    FixedOffset,
+    DateTimeParseInstr,
+    DateTimePattern_str,
+    DateTimeRegex_str,
+    Result_Filter_DateTime1,
+    Result_Filter_DateTime2,
+    Year,
+    DATETIME_PARSE_DATAS_LEN,
+    DATETIME_PARSE_DATAS,
+    CGP_HOUR,
+    CGP_MINUTE,
+    CGP_SECOND,
+    CGP_FRACTIONAL,
+    CGP_FRACTIONAL3,
+    CGP_MONTH_ALL,
+    CGN_ALL,
+    CGP_DAY_ALL,
+    CGP_YEAR,
+    CGP_YEARy,
+    CGP_TZZ,
+    CGP_TZ_ALL,
+    TZZ_LIST_LOWER,
+    TZZ_LIST_UPPER,
+    TZZ_LOWER_TO_UPPER,
+    MAP_TZZ_TO_TZz,
+    RP_LB,
+    RP_RB,
     DTP_ALL,
+    slice_contains_X_2,
+    slice_contains_D2,
 };
 use crate::debug::printers::buffer_to_String_noraw;
 
@@ -1128,4 +1161,113 @@ fn test_dt_after_or_before() {
         defo!("dt_after_or_before(\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, result);
     }
     defx!();
+}
+
+#[test_case(b"", b"xy", false)]
+#[test_case(b"a", b"xy", false)]
+#[test_case(b"ab", b"xy", false)]
+#[test_case(b"abc", b"xy", false)]
+#[test_case(b"abcd", b"xy", false)]
+#[test_case(b"abcde", b"xy", false)]
+#[test_case(b"abcdef", b"xy", false)]
+#[test_case(b"ax", b"xy", true)]
+#[test_case(b"xa", b"xy", true)]
+#[test_case(b"xbc", b"xy", true)]
+#[test_case(b"axc", b"xy", true)]
+#[test_case(b"abx", b"xy", true)]
+#[test_case(b"xbcd", b"xy", true)]
+#[test_case(b"axcd", b"xy", true)]
+#[test_case(b"abxd", b"xy", true)]
+#[test_case(b"abcx", b"xy", true)]
+#[test_case(b"xbcde", b"xy", true)]
+#[test_case(b"axcde", b"xy", true)]
+#[test_case(b"abxde", b"xy", true)]
+#[test_case(b"abcxe", b"xy", true)]
+#[test_case(b"abcdx", b"xy", true)]
+#[test_case(b"xbcdef", b"xy", true)]
+#[test_case(b"axcdef", b"xy", true)]
+#[test_case(b"abxdef", b"xy", true)]
+#[test_case(b"abcxef", b"xy", true)]
+#[test_case(b"abcdxf", b"xy", true)]
+#[test_case(b"abcdex", b"xy", true)]
+#[test_case(b"ay", b"xy", true)]
+#[test_case(b"ya", b"xy", true)]
+#[test_case(b"ybc", b"xy", true)]
+#[test_case(b"ayc", b"xy", true)]
+#[test_case(b"aby", b"xy", true)]
+#[test_case(b"ybcd", b"xy", true)]
+#[test_case(b"aycd", b"xy", true)]
+#[test_case(b"abyd", b"xy", true)]
+#[test_case(b"abcy", b"xy", true)]
+#[test_case(b"ybcde", b"xy", true)]
+#[test_case(b"aycde", b"xy", true)]
+#[test_case(b"abyde", b"xy", true)]
+#[test_case(b"abcye", b"xy", true)]
+#[test_case(b"abcdy", b"xy", true)]
+#[test_case(b"ybcdef", b"xy", true)]
+#[test_case(b"aycdef", b"xy", true)]
+#[test_case(b"abydef", b"xy", true)]
+#[test_case(b"abcyef", b"xy", true)]
+#[test_case(b"abcdyf", b"xy", true)]
+#[test_case(b"abcdey", b"xy", true)]
+#[test_case(b"ax", b"xx", true)]
+#[test_case(b"xx", b"xx", true)]
+#[test_case(
+    b"abcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrst",
+    b"12",
+    false
+)]
+#[test_case(
+    b"1bcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrst",
+    b"12",
+    true
+)]
+#[test_case(
+    b"2bcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrst",
+    b"12",
+    true
+)]
+#[test_case(
+    b"abcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrs1",
+    b"12",
+    true
+)]
+#[test_case(
+    b"abcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrstabcdefghijklmnopqrs2",
+    b"12",
+    true
+)]
+fn test_slice_contains_X_2(data: &[u8], search: &[u8; 2], expect: bool) {
+    let actual = slice_contains_X_2(data, search);
+    assert_eq!(expect, actual);
+}
+
+#[test_case(b"", false)]
+#[test_case(b"a", false)]
+#[test_case(b"ab", false)]
+#[test_case(b"abc", false)]
+#[test_case(b"abcd", false)]
+#[test_case(b"1", false)]
+#[test_case(b"1a", false)]
+#[test_case(b"a1", false)]
+#[test_case(b"1bc", false)]
+#[test_case(b"a1c", false)]
+#[test_case(b"ab1", false)]
+#[test_case(b"1bcd", false)]
+#[test_case(b"a1cd", false)]
+#[test_case(b"ab1d", false)]
+#[test_case(b"abc1", false)]
+#[test_case(b"12", true)]
+#[test_case(b"12c", true)]
+#[test_case(b"a12", true)]
+#[test_case(b"1a2", false)]
+#[test_case(b"12cd", true)]
+#[test_case(b"a12d", true)]
+#[test_case(b"ab12", true)]
+#[test_case(b"1b2d", false)]
+#[test_case(b"1bc2", false)]
+#[test_case(b"a1c2", false)]
+fn test_slice_contains_D2(data: &[u8], expect: bool) {
+    let actual = slice_contains_D2(data);
+    assert_eq!(expect, actual);
 }
