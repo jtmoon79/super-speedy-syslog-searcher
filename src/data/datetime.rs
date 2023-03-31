@@ -5378,7 +5378,7 @@ const fn slice_contains_2_2(
     slice_: &[u8; 2],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..1 {
+    for i in 0..2 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5392,7 +5392,7 @@ const fn slice_contains_3_2(
     slice_: &[u8; 3],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..2 {
+    for i in 0..3 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5406,7 +5406,7 @@ const fn slice_contains_4_2(
     slice_: &[u8; 4],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..3 {
+    for i in 0..4 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5420,7 +5420,7 @@ const fn slice_contains_5_2(
     slice_: &[u8; 5],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..4 {
+    for i in 0..5 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5434,7 +5434,7 @@ const fn slice_contains_6_2(
     slice_: &[u8; 6],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..5 {
+    for i in 0..6 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5448,7 +5448,7 @@ const fn slice_contains_7_2(
     slice_: &[u8; 7],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..6 {
+    for i in 0..7 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5462,7 +5462,7 @@ const fn slice_contains_8_2(
     slice_: &[u8; 8],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..7 {
+    for i in 0..8 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5476,7 +5476,7 @@ const fn slice_contains_9_2(
     slice_: &[u8; 9],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..8 {
+    for i in 0..9 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5490,7 +5490,7 @@ const fn slice_contains_10_2(
     slice_: &[u8; 10],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..9 {
+    for i in 0..10 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5504,7 +5504,7 @@ const fn slice_contains_11_2(
     slice_: &[u8; 11],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..10 {
+    for i in 0..11 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5518,7 +5518,7 @@ const fn slice_contains_12_2(
     slice_: &[u8; 12],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..11 {
+    for i in 0..12 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5532,7 +5532,7 @@ const fn slice_contains_13_2(
     slice_: &[u8; 13],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..12 {
+    for i in 0..13 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5546,7 +5546,7 @@ const fn slice_contains_14_2(
     slice_: &[u8; 14],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..13 {
+    for i in 0..14 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5560,7 +5560,7 @@ const fn slice_contains_15_2(
     slice_: &[u8; 15],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..14 {
+    for i in 0..15 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5574,7 +5574,7 @@ const fn slice_contains_16_2(
     slice_: &[u8; 16],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..15 {
+    for i in 0..16 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5588,7 +5588,7 @@ const fn slice_contains_17_2(
     slice_: &[u8; 17],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..16 {
+    for i in 0..17 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5602,7 +5602,7 @@ const fn slice_contains_18_2(
     slice_: &[u8; 18],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..17 {
+    for i in 0..18 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5616,7 +5616,7 @@ const fn slice_contains_19_2(
     slice_: &[u8; 19],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..18 {
+    for i in 0..19 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5630,7 +5630,7 @@ const fn slice_contains_20_2(
     slice_: &[u8; 20],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..19 {
+    for i in 0..20 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5644,7 +5644,7 @@ const fn slice_contains_21_2(
     slice_: &[u8; 21],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..20 {
+    for i in 0..21 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5658,7 +5658,7 @@ const fn slice_contains_22_2(
     slice_: &[u8; 22],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..21 {
+    for i in 0..22 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5672,7 +5672,7 @@ const fn slice_contains_23_2(
     slice_: &[u8; 23],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..22 {
+    for i in 0..23 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5686,7 +5686,7 @@ const fn slice_contains_24_2(
     slice_: &[u8; 24],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..23 {
+    for i in 0..24 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5700,7 +5700,7 @@ const fn slice_contains_25_2(
     slice_: &[u8; 25],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..24 {
+    for i in 0..25 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5714,7 +5714,7 @@ const fn slice_contains_26_2(
     slice_: &[u8; 26],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..25 {
+    for i in 0..26 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5728,7 +5728,7 @@ const fn slice_contains_27_2(
     slice_: &[u8; 27],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..26 {
+    for i in 0..27 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5742,7 +5742,7 @@ const fn slice_contains_28_2(
     slice_: &[u8; 28],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..27 {
+    for i in 0..28 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5756,7 +5756,7 @@ const fn slice_contains_29_2(
     slice_: &[u8; 29],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..28 {
+    for i in 0..29 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5770,7 +5770,7 @@ const fn slice_contains_30_2(
     slice_: &[u8; 30],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..29 {
+    for i in 0..30 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5784,7 +5784,7 @@ const fn slice_contains_31_2(
     slice_: &[u8; 31],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..30 {
+    for i in 0..31 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5798,7 +5798,7 @@ const fn slice_contains_32_2(
     slice_: &[u8; 32],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..31 {
+    for i in 0..32 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5812,7 +5812,7 @@ const fn slice_contains_33_2(
     slice_: &[u8; 33],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..32 {
+    for i in 0..33 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5826,7 +5826,7 @@ const fn slice_contains_34_2(
     slice_: &[u8; 34],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..33 {
+    for i in 0..34 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5840,7 +5840,7 @@ const fn slice_contains_35_2(
     slice_: &[u8; 35],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..34 {
+    for i in 0..35 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5854,7 +5854,7 @@ const fn slice_contains_36_2(
     slice_: &[u8; 36],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..35 {
+    for i in 0..36 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5868,7 +5868,7 @@ const fn slice_contains_37_2(
     slice_: &[u8; 37],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..36 {
+    for i in 0..37 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5882,7 +5882,7 @@ const fn slice_contains_38_2(
     slice_: &[u8; 38],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..37 {
+    for i in 0..38 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5896,7 +5896,7 @@ const fn slice_contains_39_2(
     slice_: &[u8; 39],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..38 {
+    for i in 0..39 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5910,7 +5910,7 @@ const fn slice_contains_40_2(
     slice_: &[u8; 40],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..39 {
+    for i in 0..40 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5924,7 +5924,7 @@ const fn slice_contains_41_2(
     slice_: &[u8; 41],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..40 {
+    for i in 0..41 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5938,7 +5938,7 @@ const fn slice_contains_42_2(
     slice_: &[u8; 42],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..41 {
+    for i in 0..42 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5952,7 +5952,7 @@ const fn slice_contains_43_2(
     slice_: &[u8; 43],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..42 {
+    for i in 0..43 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5966,7 +5966,7 @@ const fn slice_contains_44_2(
     slice_: &[u8; 44],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..43 {
+    for i in 0..44 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5980,7 +5980,7 @@ const fn slice_contains_45_2(
     slice_: &[u8; 45],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..44 {
+    for i in 0..45 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -5994,7 +5994,7 @@ const fn slice_contains_46_2(
     slice_: &[u8; 46],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..45 {
+    for i in 0..46 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6008,7 +6008,7 @@ const fn slice_contains_47_2(
     slice_: &[u8; 47],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..46 {
+    for i in 0..47 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6022,7 +6022,7 @@ const fn slice_contains_48_2(
     slice_: &[u8; 48],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..47 {
+    for i in 0..48 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6036,7 +6036,7 @@ const fn slice_contains_49_2(
     slice_: &[u8; 49],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..48 {
+    for i in 0..49 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6050,7 +6050,7 @@ const fn slice_contains_50_2(
     slice_: &[u8; 50],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..49 {
+    for i in 0..50 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6064,7 +6064,7 @@ const fn slice_contains_51_2(
     slice_: &[u8; 51],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..50 {
+    for i in 0..51 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6078,7 +6078,7 @@ const fn slice_contains_52_2(
     slice_: &[u8; 52],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..51 {
+    for i in 0..52 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6092,7 +6092,7 @@ const fn slice_contains_53_2(
     slice_: &[u8; 53],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..52 {
+    for i in 0..53 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6106,7 +6106,7 @@ const fn slice_contains_54_2(
     slice_: &[u8; 54],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..53 {
+    for i in 0..54 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6120,7 +6120,7 @@ const fn slice_contains_55_2(
     slice_: &[u8; 55],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..54 {
+    for i in 0..55 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6134,7 +6134,7 @@ const fn slice_contains_56_2(
     slice_: &[u8; 56],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..55 {
+    for i in 0..56 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6148,7 +6148,7 @@ const fn slice_contains_57_2(
     slice_: &[u8; 57],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..56 {
+    for i in 0..57 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6162,7 +6162,7 @@ const fn slice_contains_58_2(
     slice_: &[u8; 58],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..57 {
+    for i in 0..58 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6176,7 +6176,7 @@ const fn slice_contains_59_2(
     slice_: &[u8; 59],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..58 {
+    for i in 0..59 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6190,7 +6190,7 @@ const fn slice_contains_60_2(
     slice_: &[u8; 60],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..59 {
+    for i in 0..60 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6204,7 +6204,7 @@ const fn slice_contains_61_2(
     slice_: &[u8; 61],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..60 {
+    for i in 0..61 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6218,7 +6218,7 @@ const fn slice_contains_62_2(
     slice_: &[u8; 62],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..61 {
+    for i in 0..62 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6232,7 +6232,7 @@ const fn slice_contains_63_2(
     slice_: &[u8; 63],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..62 {
+    for i in 0..63 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6246,7 +6246,7 @@ const fn slice_contains_64_2(
     slice_: &[u8; 64],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..63 {
+    for i in 0..64 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6260,7 +6260,7 @@ const fn slice_contains_65_2(
     slice_: &[u8; 65],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..64 {
+    for i in 0..65 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6274,7 +6274,7 @@ const fn slice_contains_66_2(
     slice_: &[u8; 66],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..65 {
+    for i in 0..66 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6288,7 +6288,7 @@ const fn slice_contains_67_2(
     slice_: &[u8; 67],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..66 {
+    for i in 0..67 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6302,7 +6302,7 @@ const fn slice_contains_68_2(
     slice_: &[u8; 68],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..67 {
+    for i in 0..68 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6316,7 +6316,7 @@ const fn slice_contains_69_2(
     slice_: &[u8; 69],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..68 {
+    for i in 0..69 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6330,7 +6330,7 @@ const fn slice_contains_70_2(
     slice_: &[u8; 70],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..69 {
+    for i in 0..70 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6343,7 +6343,7 @@ const fn slice_contains_71_2(
     slice_: &[u8; 71],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..70 {
+    for i in 0..71 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6357,7 +6357,7 @@ const fn slice_contains_72_2(
     slice_: &[u8; 72],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..71 {
+    for i in 0..72 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6371,7 +6371,7 @@ const fn slice_contains_73_2(
     slice_: &[u8; 73],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..72 {
+    for i in 0..73 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6385,7 +6385,7 @@ const fn slice_contains_74_2(
     slice_: &[u8; 74],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..73 {
+    for i in 0..74 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6399,7 +6399,7 @@ const fn slice_contains_75_2(
     slice_: &[u8; 75],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..74 {
+    for i in 0..75 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6413,7 +6413,7 @@ const fn slice_contains_76_2(
     slice_: &[u8; 76],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..75 {
+    for i in 0..76 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6427,7 +6427,7 @@ const fn slice_contains_77_2(
     slice_: &[u8; 77],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..76 {
+    for i in 0..77 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6441,7 +6441,7 @@ const fn slice_contains_78_2(
     slice_: &[u8; 78],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..77 {
+    for i in 0..78 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6455,7 +6455,7 @@ const fn slice_contains_79_2(
     slice_: &[u8; 79],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..78 {
+    for i in 0..79 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6469,7 +6469,7 @@ const fn slice_contains_80_2(
     slice_: &[u8; 80],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..79 {
+    for i in 0..80 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6483,7 +6483,7 @@ const fn slice_contains_81_2(
     slice_: &[u8; 81],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..80 {
+    for i in 0..81 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6497,7 +6497,7 @@ const fn slice_contains_82_2(
     slice_: &[u8; 82],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..81 {
+    for i in 0..82 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6511,7 +6511,7 @@ const fn slice_contains_83_2(
     slice_: &[u8; 83],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..82 {
+    for i in 0..83 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6525,7 +6525,7 @@ const fn slice_contains_84_2(
     slice_: &[u8; 84],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..83 {
+    for i in 0..84 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6539,7 +6539,7 @@ const fn slice_contains_85_2(
     slice_: &[u8; 85],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..84 {
+    for i in 0..85 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6553,7 +6553,7 @@ const fn slice_contains_86_2(
     slice_: &[u8; 86],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..85 {
+    for i in 0..86 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6567,7 +6567,7 @@ const fn slice_contains_87_2(
     slice_: &[u8; 87],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..86 {
+    for i in 0..87 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6581,7 +6581,7 @@ const fn slice_contains_88_2(
     slice_: &[u8; 88],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..87 {
+    for i in 0..88 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6595,7 +6595,7 @@ const fn slice_contains_89_2(
     slice_: &[u8; 89],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..88 {
+    for i in 0..89 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6609,7 +6609,7 @@ const fn slice_contains_90_2(
     slice_: &[u8; 90],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..89 {
+    for i in 0..90 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6623,7 +6623,7 @@ const fn slice_contains_91_2(
     slice_: &[u8; 91],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..90 {
+    for i in 0..91 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6637,7 +6637,7 @@ const fn slice_contains_92_2(
     slice_: &[u8; 92],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..91 {
+    for i in 0..92 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6651,7 +6651,7 @@ const fn slice_contains_93_2(
     slice_: &[u8; 93],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..92 {
+    for i in 0..93 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6665,7 +6665,7 @@ const fn slice_contains_94_2(
     slice_: &[u8; 94],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..93 {
+    for i in 0..94 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6679,7 +6679,7 @@ const fn slice_contains_95_2(
     slice_: &[u8; 95],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..94 {
+    for i in 0..95 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6693,7 +6693,7 @@ const fn slice_contains_96_2(
     slice_: &[u8; 96],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..95 {
+    for i in 0..96 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6707,7 +6707,7 @@ const fn slice_contains_97_2(
     slice_: &[u8; 97],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..96 {
+    for i in 0..97 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6721,7 +6721,7 @@ const fn slice_contains_98_2(
     slice_: &[u8; 98],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..97 {
+    for i in 0..98 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
@@ -6735,7 +6735,7 @@ const fn slice_contains_99_2(
     slice_: &[u8; 99],
     search: &[u8; 2],
 ) -> bool {
-    for i in 0..98 {
+    for i in 0..99 {
         if slice_[i] == search[0] || slice_[i] == search[1] {
             return true;
         }
