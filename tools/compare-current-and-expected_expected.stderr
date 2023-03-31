@@ -1988,6 +1988,40 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old (/mnt/c/Users/jtmmo/Projects
       streaming: LineReader::drop_line()      : Ok 0, Err 0
       streaming: SyslineReader::drop_sysline(): Ok 0, Err 0
 
+File: ./logs/other/tests/empty.log (/mnt/c/Users/jtmmo/Projects/super-speedy-syslog-searcher/logs/other/tests/empty.log) (TEXT) (syslog lines) MimeGuess(["text/plain"])
+  Summary Printed:
+      bytes          0
+      lines          0
+      syslines       0
+  Summary Processed:
+      file size      0 (0x0) (bytes)
+      bytes          0 (0x0)
+      bytes total    0 (0x0)
+      block size     65535 (0xFFFF)
+      blocks         0
+      blocks total   0
+      blocks high    0
+      lines          0
+      lines high     0
+      syslines       0
+      syslines high  0
+  Processing Stores:
+      storage: BlockReader::read_block() blocks                    : hit 0, miss 0,  0.0%, put 0
+      caching: BlockReader::read_block() LRU cache                 : hit 0, miss 0,  0.0%, put 0
+      storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0
+      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
+      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 0,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 0,  0.0%, put 0
+      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 0,  0.0%, put 0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 0,  0.0%, put 0
+      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
+  Processing Drops:
+      streaming: BlockReader::drop_block()    : Ok 0, Err 0
+      streaming: LineReader::drop_line()      : Ok 0, Err 0
+      streaming: SyslineReader::drop_sysline(): Ok 0, Err 0
+
 File: ./logs/other/tests/basic-basic-dt10-repeats.log (/mnt/c/Users/jtmmo/Projects/super-speedy-syslog-searcher/logs/other/tests/basic-basic-dt10-repeats.log) (TEXT) (syslog lines) MimeGuess(["text/plain"])
   Summary Printed:
       bytes          5225
@@ -15095,9 +15129,9 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log (/mnt/c/Use
 
 
 Summary:
-Paths considered   : 421
+Paths considered   : 422
 Paths not processed: 0
-Files processed    : 421
+Files processed    : 422
 Files printed      : 392
 Printed bytes      : 3303764
 Printed lines      : 14484
@@ -15106,5 +15140,5 @@ Printed utmpx      : 7
 Printed evtx Events: 227
 Datetime Filter -a    :
 Datetime Filter -b    :
-Channel Receive ok  : 12771
+Channel Receive ok  : 12772
 Channel Receive err : 0

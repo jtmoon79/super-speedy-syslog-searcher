@@ -53,6 +53,7 @@
 ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
 ./logs/Orbi/var/log/soapclient/soap_agent
 ./logs/Orbi/var/log/soapclient/soap_agent.old
+./logs/other/tests/empty.log
 ./logs/other/tests/basic-basic-dt10-repeats.log
 ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
 ./logs/other/tests/basic-basic-dt20.log
