@@ -12,17 +12,33 @@ set -euo pipefail
 cd "$(dirname "${0}")/.."
 
 PROGRAM=${PROGRAM-./target/release/s4}
+# verify s4 can run
 (set -x; "${PROGRAM}" --version)
 
-expect1=./tools/compare-current-and-expected_expected.out
+expect_out=./tools/compare-current-and-expected_expected.stdout
+expect_err=./tools/compare-current-and-expected_expected.stderr
 
-if ! chmod +w -- "${expect1}"; then
-    echo "ERROR unable to write to file '${expect1}'" >&2
+touch "${expect_out}" "${expect_err}" || true
+
+if ! chmod +w -- "${expect_out}"; then
+    echo "ERROR unable to write to file '${expect_out}'" >&2
     exit 1
 fi
 
-if ! touch "${expect1}"; then
-    echo "ERROR unable to write to file '${expect1}'" >&2
+# check twice for CI environments
+if ! touch "${expect_out}"; then
+    echo "ERROR unable to write to file '${expect_out}'" >&2
+    exit 1
+fi
+
+if ! chmod +w -- "${expect_err}"; then
+    echo "ERROR unable to write to file '${expect_err}'" >&2
+    exit 1
+fi
+
+# check twice for CI environments
+if ! touch "${expect_err}"; then
+    echo "ERROR unable to write to file '${expect_err}'" >&2
     exit 1
 fi
 
@@ -42,7 +58,7 @@ fi
 
 cat "${logs}" >&2
 echo >&2
-echo "$(wc -l < "${logs}") files under \"${logs}\"" >&2
+echo "$(wc -l < "${logs}") files in \"${logs}\"" >&2
 echo >&2
 
 PROGRAM=${PROGRAM-./target/release/s4}
@@ -62,14 +78,35 @@ declare -ar S4_ARGS=(
 
 (
     set -x
-    "${PROGRAM}" "${S4_ARGS[@]}" 2>/dev/null < "${logs}"
-) > "${expect1}" || true
+    "${PROGRAM}" "${S4_ARGS[@]}" < "${logs}"
+) 1> "${expect_out}" 2> "${expect_err}" || true
 
-if ! chmod -wx -- "${expect1}"; then
-    echo "WARNING unable to remove wx from file '${expect1}'" >&2
+# XXX: the following `sed` command must match `compare-current-and-expected.sh`
+# - remove the printing of the current time
+# - remove the printing of the datetime first and last. It might use
+#   the local system timezone
+# - remove warnings as they are printed in unpredictable order
+sed -i -E \
+    -e '/^Datetime Now[ ]*:.*$/d' \
+    -e '/^[ ]*datetime first[ ]*.*$/d' \
+    -e '/^[ ]*datetime last[ ]*.*$/d' \
+    -e '/^Datetime printed first[ ]*:.*$/d' \
+    -e '/^Datetime printed last[ ]*:.*$/d' \
+    -e '/^WARNING: no syslines found .*$/d' \
+    -- "${expect_err}"
+
+if ! chmod -wx -- "${expect_out}"; then
+    echo "WARNING unable to remove wx from file '${expect_out}'" >&2
+    # on Linux running on Windows NTFS mount, this is not a fatal error
+fi
+
+if ! chmod -wx -- "${expect_err}"; then
+    echo "WARNING unable to remove wx from file '${expect_err}'" >&2
     # on Linux running on Windows NTFS mount, this is not a fatal error
 fi
 
 echo >&2
-echo "Updated file '${expect1}'" >&2
+echo "Updated file '${expect_out}'" >&2
+echo "Updated file '${expect_err}'" >&2
+echo >&2
 echo -e "Now run \e[1mcompare-current-and-expected.sh\e[0m." >&2
