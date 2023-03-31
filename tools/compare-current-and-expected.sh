@@ -90,6 +90,7 @@ declare -ar S4_ARGS=(
     "${@}"
 )
 
+echo "${PS4}${PROGRAM} ${S4_ARGS[@]} < ${logs}" >&2
 (
     set -x
     "${PROGRAM}" "${S4_ARGS[@]}" < "${logs}"
@@ -118,32 +119,32 @@ echo
 s4out_lc=$(wc -l < "${current_out}")
 s4out_bc=$(wc -c < "${current_out}")
 echo "current stdout output in file '$(basename "${current_out}")'"
-echo "  Line Count ${s4out_lc} (stdout)"
-echo "  Byte Count ${s4out_bc} (stdout)"
+echo "  Line Count ${s4out_lc}"
+echo "  Byte Count ${s4out_bc}"
 
 # expected s4 stdout line count, byte count; only informative
 echo
 exout_lc=$(wc -l < "${expect_out}")
 exout_bc=$(wc -c < "${expect_out}")
 echo "expect stdout output in file '$(basename ${expect_out})'"
-echo "  Line Count ${exout_lc} (stdout)"
-echo "  Byte Count ${exout_bc} (stdout)"
+echo "  Line Count ${exout_lc}"
+echo "  Byte Count ${exout_bc}"
 
 # current s4 stderr line count, byte count; only informative
 echo
 s4err_lc=$(wc -l < "${current_err}")
 s4err_bc=$(wc -c < "${current_err}")
 echo "current stderr output in file '$(basename ${current_err})'"
-echo "  Line Count ${s4err_lc} (stderr)"
-echo "  Byte Count ${s4err_bc} (stderr)"
+echo "  Line Count ${s4err_lc}"
+echo "  Byte Count ${s4err_bc}"
 
 # expected s4 stderr line count, byte count; only informative
 echo
 exerr_lc=$(wc -l < "${expect_err}")
 exerr_bc=$(wc -c < "${expect_err}")
 echo "expect stderr output in file '$(basename ${expect_err})'"
-echo "  Line Count ${exerr_lc} (stderr)"
-echo "  Byte Count ${exerr_bc} (stderr)"
+echo "  Line Count ${exerr_lc}"
+echo "  Byte Count ${exerr_bc}"
 
 function indent () {
     sed -E -e 's/^/  /'
@@ -155,7 +156,7 @@ declare -i ret=0
 # compare stdout
 if ! diff --text --brief "${current_out}" "${expect_out}"; then
     ret=1
-    echo "Files for stdout are not the same. (ಠ_ಠ)"
+    echo "Outputs of stdout are not the same. (ಠ_ಠ)"
     echo
     echo "Difference Preview:"
     set +o pipefail
@@ -169,14 +170,14 @@ if ! diff --text --brief "${current_out}" "${expect_out}"; then
     echo
 else
     echo
-    echo "Files for stdout are the same. (ʘ‿ʘ)"
+    echo "Outputs of stdout are the same. (ʘ‿ʘ)"
     echo
 fi
 
 # compare stderr
 if ! diff --text --brief "${current_err}" "${expect_err}"; then
     ret=1
-    echo "Files for stderr are not the same. (ಠ_ಠ)"
+    echo "Outputs of stderr is not the same. (ಠ_ಠ)"
     echo
     echo "Difference Preview:"
     set +o pipefail
@@ -190,7 +191,7 @@ if ! diff --text --brief "${current_err}" "${expect_err}"; then
     echo
 else
     echo
-    echo "Files for stderr are the same. (ʘ‿ʘ)"
+    echo "Outputs of stderr are the same. (ʘ‿ʘ)"
     echo
 fi
 

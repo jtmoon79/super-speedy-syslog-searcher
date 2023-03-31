@@ -7,6 +7,7 @@
 ./logs/MinGW64/pacman.log
 ./logs/OpenSUSE15/zypp/history
 ./logs/Orbi/tmp/soap_check_fw_log
+./logs/other/tests/empty.log
 ./logs/other/tests/dtf10-10a.log
 ./logs/other/tests/dtf11-A.log
 ./logs/other/tests/dtf12a-x2_patts.log
