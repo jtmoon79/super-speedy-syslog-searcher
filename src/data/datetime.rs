@@ -3791,11 +3791,15 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     // very similar to next DTPD!, but with different second-to-fractional divider ":"
     //
+    // XXX: the `ReportingEvents.log` file is UTF-16 encoded
+    //      So it's not currently parseable. See Issue #16
+    //
     DTPD!(
         concatcp!(RP_NODIGIT, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, ":", CGP_FRACTIONAL3, RP_BLANKq, CGP_TZz, RP_NODIGIT),
         DTFSS_YmdHMSfz, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
-                (40, 68, (O_M7, 2022, 10, 12, 9, 26, 44, 980000000), r"{5F45546A-691D-4519-810C-9B159EA7A24F}  2022-10-12 09:26:44:980-0700    1       181 [AGENT_INSTALLING_STARTED]  101      {ADF3720E-8453-44C7-82EF-F9F5DA2D8551}  1       0 Update;ScanForUpdates    Success Content Download        Download succeeded.     te2D3dMIjE2PeNSM.86.3.1.0.0.85.0")
+                (40, 68, (O_M7, 2022, 10, 12, 9, 26, 44, 980000000), r"{5F45546A-691D-4519-810C-9B159EA7A24F}  2022-10-12 09:26:44:980-0700    1       181 [AGENT_INSTALLING_STARTED]  101      {ADF3720E-8453-44C7-82EF-F9F5DA2D8551}  1       0 Update;ScanForUpdates    Success Content Download        Download succeeded.     te2D3dMIjE2PeNSM.86.3.1.0.0.85.0"),
+                (40, 68, (O_M7, 2022, 10, 12, 9, 26, 44, 169000000), r"{F4A3F9DB-F870-4022-A079-D5D2B596519D}  2022-10-12 09:26:44:169-0700    1       162 [AGENT_DOWNLOAD_SUCCEEDED]  101     {ADF3720E-8453-44C7-82EF-F9F5DA2D8551}  1       0       Update;ScanForUpdates   SuccessContent Download Download succeeded.     te2D3dMIjE2PeNSM.86.3.1.0.0.85.0"),
         ],
         line!(),
     ),
