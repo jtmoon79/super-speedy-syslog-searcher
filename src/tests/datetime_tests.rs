@@ -58,6 +58,7 @@ use crate::data::datetime::{
     DTP_ALL,
     slice_contains_X_2,
     slice_contains_D2,
+    slice_contains_12_D2,
 };
 use crate::debug::printers::buffer_to_String_noraw;
 
@@ -1270,4 +1271,51 @@ fn test_slice_contains_X_2(data: &[u8], search: &[u8; 2], expect: bool) {
 fn test_slice_contains_D2(data: &[u8], expect: bool) {
     let actual = slice_contains_D2(data);
     assert_eq!(expect, actual);
+}
+
+#[test_case(b"", false)]
+#[test_case(b"a", false)]
+#[test_case(b"1", true)]
+#[test_case(b"3", false)]
+#[test_case(b"ab", false)]
+#[test_case(b"3a", false)]
+#[test_case(b"a3", false)]
+#[test_case(b"1a", true)]
+#[test_case(b"a2", true)]
+#[test_case(b"12", true)]
+#[test_case(b"34", true)]
+#[test_case(b"abc", false)]
+#[test_case(b"3bc", false)]
+#[test_case(b"a3c", false)]
+#[test_case(b"ab3", false)]
+#[test_case(b"2bc", true)]
+#[test_case(b"a2c", true)]
+#[test_case(b"ab2", true)]
+#[test_case(b"12c", true)]
+#[test_case(b"a12", true)]
+#[test_case(b"1a2", true)]
+#[test_case(b"34c", true)]
+#[test_case(b"a34", true)]
+#[test_case(b"3a4", false)]
+#[test_case(b"abcd", false)]
+#[test_case(b"3bcd", false)]
+#[test_case(b"a3cd", false)]
+#[test_case(b"ab3d", false)]
+#[test_case(b"abc3", false)]
+#[test_case(b"1bcd", true)]
+#[test_case(b"a1cd", true)]
+#[test_case(b"ab1d", true)]
+#[test_case(b"abc1", true)]
+#[test_case(b"12cd", true)]
+#[test_case(b"a12d", true)]
+#[test_case(b"ab12", true)]
+#[test_case(b"34cd", true)]
+#[test_case(b"a34d", true)]
+#[test_case(b"ab34", true)]
+#[test_case(b"3b4d", false)]
+#[test_case(b"3bc4", false)]
+#[test_case(b"a3c4", false)]
+fn test_slice_contains_12_D2(data: &[u8], expect: bool) {
+    let actual = slice_contains_12_D2(data);
+    assert_eq!(actual, expect);
 }

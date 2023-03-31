@@ -27,6 +27,7 @@ use crate::data::datetime::{
     DATETIME_PARSE_DATAS_LEN,
     slice_contains_X_2,
     slice_contains_D2,
+    slice_contains_12_D2,
 };
 #[cfg(any(debug_assertions, test))]
 use crate::data::datetime::{
@@ -37,6 +38,7 @@ use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
 use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockSz};
 use crate::readers::linereader::{LineReader, ResultS3LineFind};
 
+use std::cmp::{max, min};
 #[cfg(test)]
 use std::collections::HashSet;
 use std::collections::{BTreeMap, BTreeSet};
@@ -290,6 +292,16 @@ pub struct SyslineReader {
     pub (super) ezcheckd2_miss: Count,
     /// Highest EXCHECKD2 `Line` byte length ignored.
     pub (super) ezcheckd2_hit_max: LineIndex,
+    /// `Count` of EZCHECK12D2 attempts that "hit".
+    ///
+    /// EZCHECK12D2 combines both EZCHECK12 and EZCHECKD2 in one function.
+    ///
+    /// This hack is only applicable to ASCII/UTF-8 encoded text files.
+    pub (super) ezcheck12d2_hit: Count,
+    /// `Count` of EZCHECK12D2 attempts that missed.
+    pub (super) ezcheck12d2_miss: Count,
+    /// Highest EXCHECK12D2 `Line` byte length ignored.
+    pub (super) ezcheck12d2_hit_max: LineIndex,
     /// testing-only tracker of successfully dropped `Sysline`
     #[cfg(test)]
     pub(crate) dropped_syslines: SetDroppedSyslines,
@@ -384,6 +396,12 @@ pub struct SummarySyslineReader {
     pub syslinereader_ezcheckd2_miss: Count,
     /// `SyslineReader::ezcheckd2_hit_max`
     pub syslinereader_ezcheckd2_hit_max: LineIndex,
+    /// `SyslineReader::ezcheck12d2_hit`
+    pub syslinereader_ezcheck12d2_hit: Count,
+    /// `SyslineReader::ezcheck12d2_miss`
+    pub syslinereader_ezcheck12d2_miss: Count,
+    /// `SyslineReader::ezcheck12d2_hit_max`
+    pub syslinereader_ezcheck12d2_hit_max: LineIndex,
 }
 
 /// Implement the `SyslineReader`
@@ -474,6 +492,9 @@ impl SyslineReader {
             ezcheckd2_hit: 0,
             ezcheckd2_miss: 0,
             ezcheckd2_hit_max: 0,
+            ezcheck12d2_hit: 0,
+            ezcheck12d2_miss: 0,
+            ezcheck12d2_hit_max: 0,
             #[cfg(test)]
             dropped_syslines: SetDroppedSyslines::new(),
         })
@@ -857,7 +878,7 @@ impl SyslineReader {
         self.syslines
             .insert(fo_beg, syslinep.clone());
         self.syslines_count += 1;
-        self.syslines_stored_highest = std::cmp::max(self.syslines.len(), self.syslines_stored_highest);
+        self.syslines_stored_highest = max(self.syslines.len(), self.syslines_stored_highest);
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let fo_end1: FileOffset = fo_end + (self.charsz() as FileOffset);
         defx!("syslines_by_range.insert([{}‥{}), {})", fo_beg, fo_end1, fo_beg);
@@ -976,6 +997,123 @@ impl SyslineReader {
         ret
     }
 
+    /// Do the EZCHECKs and return `true` if the `slice_` was found to pass
+    /// any EZCHECK12 or EZCHECKD2, e.g. `true` means the `slice_` can be
+    /// bypass further DTPD processing.
+    ///
+    /// Helper to `find_datetime_in_line`.
+    #[inline(always)]
+    pub(crate) fn ezcheck_slice(
+        dtpd: &DateTimeParseInstr,
+        slice_: &[u8],
+        charsz: CharSz,
+        ezcheck12_min: &mut LineIndex,
+        ezcheckd2_min: &mut LineIndex,
+        ezcheck12d2_min: &mut LineIndex,
+        ezcheck12_hit: &mut Count,
+        ezcheck12_miss: &mut Count,
+        ezcheck12_hit_max: &mut LineIndex,
+        ezcheckd2_hit: &mut Count,
+        ezcheckd2_miss: &mut Count,
+        ezcheckd2_hit_max: &mut LineIndex,
+        ezcheck12d2_hit: &mut Count,
+        ezcheck12d2_miss: &mut Count,
+        ezcheck12d2_hit_max: &mut LineIndex,
+    ) -> bool {
+        defn!();
+        // EZCHECK12 is a fun hack to bypass regex checks.
+        // Lines without `'1'` or `'2'` within some range from the start of the
+        // line probably do not have a datetime.
+        const EZCHECK12: &[u8; 2] = b"12";
+        debug_assert_eq!(charsz, 1);
+        if charsz != 1 {
+            defx!("charsz is {} != 1", charsz);
+            return false;
+        }
+
+        match (dtpd.dtfs.has_year4(), dtpd.dtfs.has_d2()) {
+            (true, false) => {
+                // hack efficiency improvement; presumes all found years will
+                // have a '1' or a '2' in them. So if no '1' or '2' is found
+                // then a datetime substring is not in the `slice_`.
+                // Only applicable to ASCII/UTF-8 encoded text files.
+                // Regular expression matching is very expensive according to
+                // `tools/flamegraph.sh`. Skip where possible.
+                if !slice_contains_X_2(
+                    &slice_[min(*ezcheck12_min, slice_.len())..],
+                    EZCHECK12
+                ) {
+                    defo!("skip slice (EZCHECK12)");
+                    if dtpd.range_regex.start == 0 && *ezcheck12_min < slice_.len() {
+                        // now proven that magic "12" is not in this `Line` up
+                        // to this byte offset
+                        *ezcheck12_min = slice_.len() - charsz;
+                        defo!("ezcheck12_min = {}", ezcheck12_min);
+                    }
+                    *ezcheck12_hit += 1;
+                    *ezcheck12_hit_max = max(*ezcheck12_hit_max, *ezcheck12_min);
+                    defx!("return true (EZCHECK12)");
+                    return true;
+                } else {
+                    *ezcheck12_miss += 1;
+                }
+            }
+            (false, true) => {
+                // hack efficiency improvement; presumes a datetime substring
+                // will have two consecutive digit chars in it. So if there
+                // no two consecutive digits then a datetime substring is not
+                // in the `slice_`.
+                // Only applicable to ASCII/UTF-8 encoded text files.
+                // Regular expression matching is very expensive according to
+                // `tools/flamegraph.sh`. Skip where possible.
+                if !slice_contains_D2(
+                    &slice_[min(*ezcheckd2_min, slice_.len())..]
+                ) {
+                    defo!("skip slice (EZCHECKD2)");
+                    if dtpd.range_regex.start == 0 && *ezcheckd2_min < slice_.len() {
+                        // now proven that this `Line` does not have two
+                        // consecutive digits up to this byte offset
+                        *ezcheckd2_min = slice_.len() - charsz;
+                        defo!("ezcheckd2_min = {}", ezcheckd2_min);
+                    }
+                    *ezcheckd2_hit += 1;
+                    *ezcheckd2_hit_max = max(*ezcheckd2_hit_max, *ezcheckd2_min);
+                    defx!("return true (EZCHECKD2)");
+                    return true;
+                } else {
+                    *ezcheckd2_miss += 1;
+                }
+            }
+            (true, true) => {
+                // hack efficiency improvement;
+                // combines both prior hack efficient improvements into
+                // one function call
+                if !slice_contains_12_D2(
+                    &slice_[min(*ezcheck12d2_min, slice_.len())..]
+                ) {
+                    defo!("skip slice (EZCHECK12D2)");
+                    if dtpd.range_regex.start == 0 && *ezcheck12d2_min < slice_.len() {
+                        // now proven that magic "12" is not in this `Line` up
+                        // to this byte offset
+                        *ezcheck12d2_min = slice_.len() - charsz;
+                        defo!("ezcheck12d2_min = {}", ezcheck12d2_min);
+                    }
+                    *ezcheck12d2_hit += 1;
+                    *ezcheck12d2_hit_max = max(*ezcheck12d2_hit_max, *ezcheck12d2_min);
+                    defx!("return true (EZCHECK12D2)");
+                    return true;
+                } else {
+                    *ezcheck12d2_miss += 1;
+                }
+            }
+            (false, false) => {}
+        }
+
+        defx!("return false");
+
+        false
+    }
+
     /// If datetime found in `Line` returns [`Ok`] around
     /// indexes into `Line` of found datetime string
     /// (start of string, end of string)`
@@ -988,7 +1126,7 @@ impl SyslineReader {
     pub fn find_datetime_in_line(
         line: &Line,
         parse_data_indexes: &DateTimeParseDatasIndexes,
-        charsz: &CharSz,
+        charsz: CharSz,
         year_opt: &Option<Year>,
         tz_offset: &FixedOffset,
         get_boxptrs_singleptr: &mut Count,
@@ -1000,6 +1138,9 @@ impl SyslineReader {
         ezcheckd2_hit: &mut Count,
         ezcheckd2_miss: &mut Count,
         ezcheckd2_hit_max: &mut LineIndex,
+        ezcheck12d2_hit: &mut Count,
+        ezcheck12d2_miss: &mut Count,
+        ezcheck12d2_hit_max: &mut LineIndex,
     ) -> ResultFindDateTime {
         defn!(
             "(…, …, {:?}, year_opt {:?}, {:?}) line {:?}",
@@ -1019,15 +1160,12 @@ impl SyslineReader {
             ));
         }
 
-        // EZCHECK12 is a fun hack to bypass regex checks.
-        // Lines without `'1'` or `'2'` within some range from the start of the
-        // line probably do not have a datetime.
-        const EZCHECK12: &[u8; 2] = b"12";
-        let mut ezcheck12_min: usize = 0;
-        let mut ezcheckd2_min: usize = 0;
-
         #[cfg(any(debug_assertions, test))]
         let mut _attempts: usize = 0;
+
+        let mut ezcheck12_min: LineIndex = 0;
+        let mut ezcheckd2_min: LineIndex = 0;
+        let mut ezcheck12d2_min: LineIndex = 0;
 
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
@@ -1040,38 +1178,32 @@ impl SyslineReader {
 
             if line.len() <= dtpd.range_regex.start {
                 defo!(
-                    "line too short {} for  requested start {}; continue",
+                    "line too short {} for requested start {}; continue",
                     line.len(),
                     dtpd.range_regex.start
                 );
                 continue;
             }
             if line.len() <= ezcheck12_min {
-                // the Line is shorter than established check for "12"
+                // the Line is shorter than ezcheck for "12"
                 *ezcheck12_hit += 1;
-                defo!(
-                    "line len {} ≤ {} ezcheck12_min; continue",
-                    line.len(),
-                    ezcheck12_min,
-                );
+                defo!("line len {} ≤ {} ezcheck12_min; continue", line.len(), ezcheck12_min);
                 continue;
             }
             if line.len() <= ezcheckd2_min {
-                // the Line is shorter than established check for two digits
+                // the Line is shorter than ezcheck for two digits
                 *ezcheckd2_hit += 1;
-                defo!(
-                    "line len {} ≤ {} ezcheckd2_min; continue",
-                    line.len(),
-                    ezcheckd2_min,
-                );
+                defo!("line len {} ≤ {} ezcheckd2_min; continue", line.len(), ezcheckd2_min);
+                continue;
+            }
+            if line.len() <= ezcheck12d2_min {
+                // the Line is shorter than ezchecks
+                *ezcheck12d2_hit += 1;
+                defo!("line len {} ≤ {} ezcheckd2_min; continue", line.len(), ezcheckd2_min);
                 continue;
             }
             // XXX: Issue #16 only handles UTF-8/ASCII encoding
-            let slice_end: usize = if line.len() > dtpd.range_regex.end {
-                dtpd.range_regex.end
-            } else {
-                line.len()
-            };
+            let slice_end: usize = min(line.len(), dtpd.range_regex.end);
             if dtpd.range_regex.start >= slice_end {
                 defo!("bad line slice indexes [{}, {}); continue", dtpd.range_regex.start, slice_end);
                 continue;
@@ -1083,11 +1215,10 @@ impl SyslineReader {
             let slice_: &[u8];
             match line.get_boxptrs(dtpd.range_regex.start as LineIndex, slice_end as LineIndex) {
                 LinePartPtrs::NoPtr => {
-                    panic!(
-                        "line.get_boxptrs({}, {}) returned NoPtr which means it was passed non-sense values",
-                        dtpd.range_regex.start, slice_end
-                    );
-                    //continue;
+                    if cfg!(debug_assertions) || cfg!(test) {
+                        panic!("LinePartPtrs::NoPtr for slice [{}, {});", dtpd.range_regex.start, slice_end);
+                    }
+                    continue;
                 }
                 LinePartPtrs::SinglePtr(box_slice) => {
                     slice_ = *box_slice;
@@ -1114,6 +1245,7 @@ impl SyslineReader {
                     *get_boxptrs_multiptr += 1;
                 }
             };
+
             defo!(
                 "slice len {} [{}, {}) (requested [{}, {})) using DTPD from {}, data {:?}",
                 slice_.len(),
@@ -1125,48 +1257,26 @@ impl SyslineReader {
                 String::from_utf8_lossy(slice_),
             );
 
-            // XXX: hack efficiency improvement, presumes all found years will
-            //      have a '1' or a '2' in them.
-            //      Regular expression matching is very expensive according to
-            //      `tools/flamegraph.sh`. Skip where possible.
-            //      Only applicable to ASCII/UTF-8 encoded text files.
-            if charsz == &1 && dtpd.dtfs.has_year4() {
-                if !slice_contains_X_2(slice_, EZCHECK12) {
-                    defo!("skip slice, does not have '1' or '2' (EZCHECK12)");
-                    if ezcheck12_min < slice_.len() {
-                        // now proven that magic "12" is not in this `Line` up
-                        // to this byte offset
-                        ezcheck12_min = slice_.len() - charsz;
-                        defo!("ezcheck12_min = {}", ezcheck12_min);
-                    }
-                    *ezcheck12_hit += 1;
-                    *ezcheck12_hit_max = std::cmp::max(*ezcheck12_hit_max, ezcheck12_min);
-                    continue;
-                } else {
-                    *ezcheck12_miss += 1;
-                }
-            }
-
-            // XXX: hack efficiency improvement, presumes a datetime substring
-            //      will have two consecutive digit chars in it.
-            //      Regular expression matching is very expensive according to
-            //      `tools/flamegraph.sh`. Skip where possible.
-            //      Only applicable to ASCII/UTF-8 encoded text files.
-            if charsz == &1 && dtpd.dtfs.has_d2() {
-                if !slice_contains_D2(slice_) {
-                    defo!("skip slice (EZCHECKD2)");
-                    if ezcheckd2_min < slice_.len() {
-                        // now proven that this `Line` does not have two
-                        // consecutive digits up to this byte offset
-                        ezcheckd2_min = slice_.len() - charsz;
-                        defo!("ezcheckd2_min = {}", ezcheckd2_min);
-                    }
-                    *ezcheckd2_hit += 1;
-                    *ezcheckd2_hit_max = std::cmp::max(*ezcheckd2_hit_max, ezcheckd2_min);
-                    continue;
-                } else {
-                    *ezcheckd2_miss += 1;
-                }
+            if charsz == 1
+            && SyslineReader::ezcheck_slice(
+                    dtpd,
+                    slice_,
+                    charsz,
+                    &mut ezcheck12_min,
+                    &mut ezcheckd2_min,
+                    &mut ezcheck12d2_min,
+                    ezcheck12_hit,
+                    ezcheck12_miss,
+                    ezcheck12_hit_max,
+                    ezcheckd2_hit,
+                    ezcheckd2_miss,
+                    ezcheckd2_hit_max,
+                    ezcheck12d2_hit,
+                    ezcheck12d2_miss,
+                    ezcheck12d2_hit_max,
+                )
+            {
+                continue;
             }
 
             #[cfg(any(debug_assertions, test))]
@@ -1429,7 +1539,7 @@ impl SyslineReader {
     fn parse_datetime_in_line(
         &mut self,
         line: &Line,
-        charsz: &CharSz,
+        charsz: CharSz,
         year_opt: &Option<Year>,
     ) -> ResultParseDateTime {
         defn!("(…, {}, year_opt {:?}) line: {:?}", charsz, year_opt, line.to_String_noraw());
@@ -1466,6 +1576,9 @@ impl SyslineReader {
             &mut self.ezcheckd2_hit,
             &mut self.ezcheckd2_miss,
             &mut self.ezcheckd2_hit_max,
+            &mut self.ezcheck12d2_hit,
+            &mut self.ezcheck12d2_miss,
+            &mut self.ezcheck12d2_hit_max,
         );
         let data: FindDateTimeData = match result {
             Ok(val) => val,
@@ -1488,7 +1601,7 @@ impl SyslineReader {
     fn parse_datetime_in_line_cached(
         &mut self,
         linep: &LineP,
-        charsz: &CharSz,
+        charsz: CharSz,
         year_opt: &Option<Year>,
     ) -> ResultParseDateTime {
         if self.parse_datetime_in_line_lru_cache_enabled {
@@ -1774,7 +1887,11 @@ impl SyslineReader {
                             // received Done but also a partial Line (the terminating Newline was
                             // not found in the current Block). Try to match a datetime on this
                             // partial Line. Do not store this Line, do not create a new Sysline.
-                            let result = self.parse_datetime_in_line_cached(&LineP::new(line), &self.charsz(), year_opt);
+                            let result = self.parse_datetime_in_line_cached(
+                                &LineP::new(line),
+                                self.charsz(),
+                                year_opt,
+                            );
                             defo!("({}): partial parse_datetime_in_line_cached returned {:?}", fileoffset, result);
                             match result {
                                 Err(_) => {},
@@ -1802,7 +1919,11 @@ impl SyslineReader {
                 }
             };
             let result: ResultParseDateTime =
-                self.parse_datetime_in_line_cached(&linep, &self.charsz(), year_opt);
+                self.parse_datetime_in_line_cached(
+                    &linep,
+                    self.charsz(),
+                    year_opt
+                );
             defo!("({}): A parse_datetime_in_line_cached returned {:?}", fileoffset, result);
             match result {
                 Err(_) => {}
@@ -1922,7 +2043,11 @@ impl SyslineReader {
             };
 
             let result: ResultParseDateTime =
-                self.parse_datetime_in_line_cached(&linep, &self.charsz(), year_opt);
+                self.parse_datetime_in_line_cached(
+                    &linep,
+                    self.charsz(),
+                    year_opt
+                );
             defo!("({}): B parse_datetime_in_line_cached returned {:?}", fileoffset, result);
             match result {
                 Err(_) => {
@@ -2082,9 +2207,13 @@ impl SyslineReader {
                     return ResultS3SyslineFind::Err(err);
                 }
             };
-            fo_a_max = std::cmp::max(fo_a_max, fo2);
+            fo_a_max = max(fo_a_max, fo2);
             let result: ResultParseDateTime =
-                self.parse_datetime_in_line_cached(&linep, &self.charsz(), year_opt);
+                self.parse_datetime_in_line_cached(
+                    &linep,
+                    self.charsz(),
+                    year_opt,
+                );
             defo!("({}): A parse_datetime_in_line_cached returned {:?}", fileoffset, result);
             match result {
                 Err(_) => {
@@ -2259,7 +2388,7 @@ impl SyslineReader {
                 }
             };
             let result: ResultParseDateTime =
-                self.parse_datetime_in_line_cached(&linep, &self.charsz(), year_opt);
+                self.parse_datetime_in_line_cached(&linep, self.charsz(), year_opt);
             defo!("({}): B parse_datetime_in_line_cached returned {:?}", fileoffset, result);
             match result {
                 Err(_) => {
@@ -2445,7 +2574,7 @@ impl SyslineReader {
                                 return ResultS3SyslineFind::Found((fo, syslinep));
                             }
                             try_fo_last = try_fo;
-                            fo_b = std::cmp::min((*syslinep).fileoffset_begin(), try_fo_last);
+                            fo_b = min((*syslinep).fileoffset_begin(), try_fo_last);
                             defo!(
                                 "                    ∴ try_fo = fo_a {} + ((fo_b {} - {} fo_a) / 2);",
                                 fo_a,
@@ -2474,7 +2603,7 @@ impl SyslineReader {
                                 syslinep_foe,
                                 fo_b
                             );
-                            fo_a = std::cmp::min(syslinep_foe, fo_b);
+                            fo_a = min(syslinep_foe, fo_b);
                             defo!(
                                 "                    ∴ try_fo = fo_a {} + ((fo_b {} - {} fo_a) / 2);",
                                 fo_a,
@@ -2805,6 +2934,9 @@ impl SyslineReader {
         let syslinereader_ezcheckd2_hit = self.ezcheckd2_hit;
         let syslinereader_ezcheckd2_miss = self.ezcheckd2_miss;
         let syslinereader_ezcheckd2_hit_max = self.ezcheckd2_hit_max;
+        let syslinereader_ezcheck12d2_hit = self.ezcheck12d2_hit;
+        let syslinereader_ezcheck12d2_miss = self.ezcheck12d2_miss;
+        let syslinereader_ezcheck12d2_hit_max = self.ezcheck12d2_hit_max;
         let syslinereader_datetime_first = self.dt_first;
         let syslinereader_datetime_last = self.dt_last;
 
@@ -2834,6 +2966,9 @@ impl SyslineReader {
             syslinereader_ezcheckd2_hit,
             syslinereader_ezcheckd2_miss,
             syslinereader_ezcheckd2_hit_max,
+            syslinereader_ezcheck12d2_hit,
+            syslinereader_ezcheck12d2_miss,
+            syslinereader_ezcheck12d2_hit_max,
             syslinereader_datetime_first,
             syslinereader_datetime_last,
         }

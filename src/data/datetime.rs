@@ -1005,6 +1005,36 @@ impl fmt::Debug for DateTimeParseInstr<'_> {
     }
 }
 
+impl DateTimeParseInstr<'_> {
+    /// wrapper to [`DTFSSet::has_year`]
+    ///
+    /// [`DTFSSet::has_year`]: crate::data::datetime::DTFSSet#method.has_year
+    pub const fn has_year(&self) -> bool {
+        self.dtfs.has_year()
+    }
+
+    /// wrapper to [`DTFSSet::has_year4`]
+    ///
+    /// [`DTFSSet::has_year4`]: crate::data::datetime::DTFSSet#method.has_year4
+    pub const fn has_year4(&self) -> bool {
+        self.dtfs.has_year4()
+    }
+
+    /// wrapper to [`DTFSSet::has_tz`]
+    ///
+    /// [`DTFSSet::has_tz`]: DTFSSet#method.has_tz
+    pub const fn has_tz(&self) -> bool {
+        self.dtfs.has_tz()
+    }
+
+    /// wrapper to [`DTFSSet::has_d2`]
+    ///
+    /// [`DTFSSet::has_d2`]: crate::data::datetime::DTFSSet#method.has_d2
+    pub const fn has_d2(&self) -> bool {
+        self.dtfs.has_d2()
+    }
+}
+
 // `strftime` patterns used in `DTFSSet!` declarations
 
 // TODO: [2022/10/08] refactor for consistent naming of  `DTP_*` variables:
@@ -6877,14 +6907,51 @@ pub fn slice_contains_D2(
     slice_: &[u8],
 ) -> bool {
     let mut byte_last_d: bool = false;
-    if slice_.len() < 2 {
-        return false;
-    }
     for byte_ in slice_.iter() {
         match byte_ {
             b'0'
             | b'1'
             | b'2'
+            | b'3'
+            | b'4'
+            | b'5'
+            | b'6'
+            | b'7'
+            | b'8'
+            | b'9' => {
+                if byte_last_d {
+                    return true;
+                }
+                byte_last_d = true;
+            },
+            _ => byte_last_d = false,
+        }
+    }
+
+    false
+}
+
+/// Combination of prior functions `slice_contains_X_2` and
+/// `slice_contains_D2`.
+///
+/// This combined hack check function is more efficient.
+///
+/// - Returns `true` if `slice_` contains `'1'` or `'2'` (as UTF8 bytes).
+/// - Returns `true` if `slice_` contains two consecutive "digit" chars
+///   (as UTF8 bytes).
+#[inline(always)]
+#[allow(non_snake_case)]
+pub (crate) fn slice_contains_12_D2(
+    slice_: &[u8],
+) -> bool {
+    let mut byte_last_d: bool = false;
+    for byte_ in slice_.iter() {
+        match byte_ {
+            b'1'
+            | b'2' => {
+                return true;
+            }
+            b'0'
             | b'3'
             | b'4'
             | b'5'

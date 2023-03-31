@@ -6,20 +6,21 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::{FPath, ResultS3};
+use crate::common::{Count, FPath, ResultS3};
+use crate::data::line::LineIndex;
 use crate::readers::blockreader::{BlockSz, FileOffset};
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
 use crate::readers::helpers::{fill, randomize};
 use crate::readers::syslinereader::{ResultS3SyslineFind, SyslineReader};
 use crate::data::datetime::{
     datetime_parse_from_str,
-    //
     DateTimeL,
     DateTimeParseInstr,
     DateTimePattern_str,
     FixedOffset,
-    // chrono imports
     TimeZone,
+    DATETIME_PARSE_DATAS,
+    DATETIME_PARSE_DATAS_LEN,
 };
 use crate::tests::datetime_tests::dt_pattern_has_tz;
 use crate::debug::helpers::{
@@ -56,11 +57,14 @@ use crate::tests::common::{
 use std::str;
 use std::io::Write; // for `flush()`
 
+use ::bstr::ByteSlice;
 use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, deo, stack::stack_offset_set};
 use ::test_case::test_case;
+#[allow(unused_imports)]
+use ::more_asserts::{assert_gt, assert_le};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -5009,3 +5013,182 @@ fn test_SyslineReader_summary_empty(
 }
 
 // TODO: [2023/03/23] test `SyslineReader::summary` after doing some processing
+
+/// index of `DTPD` that has `has_year4() && has_d2()` and qualifies for
+/// EZCHECK12D2
+const INDEX_12D2: usize = 0;
+
+/// index of `DTPD` that has `!has_year4()` and only qualifies for EZCHECKD2
+const INDEX_D2: usize = 6;
+
+/// value that does not match EZCHECK12D2 (no digits)
+const VALUE_NO_12D2: &[u8] = b"abcdefghijklmnopqrstuvwxyz".as_slice();
+const VALUE_NO_12D2_LEN: usize = VALUE_NO_12D2.len();
+const VALUE_NO_12D2_LEN1: usize = VALUE_NO_12D2_LEN - 1;
+
+/// value that only matches EZCHECK12 (`1`)
+const VALUE_12: &[u8] = b"abcdefghijkl_1_pqrstuvwxyz".as_slice();
+const VALUE_12_LEN: usize = VALUE_12.len();
+const VALUE_12_LEN1: usize = VALUE_12_LEN - 1;
+
+/// value that only matches EZCHECKD2 (`90`)
+const VALUE_D2: &[u8] = b"abcdefghijklmno_90_tuvwxyz".as_slice();
+
+// test cases empty
+#[test_case(
+    INDEX_12D2,
+    b"".as_slice(),
+    0, 0, 0, // *_min
+    0, 0, 0, // ezcheck12
+    0, 0, 0, // ezcheckd2
+    1, 0, 0, // ezcheck12d2
+    true;
+    "empty A"
+)]
+#[test_case(
+    INDEX_D2,
+    b"".as_slice(),
+    0, 0, 0, // *_min
+    0, 0, 0, // ezcheck12
+    1, 0, 0, // ezcheckd2
+    0, 0, 0, // ezcheck12d2
+    true;
+    "empty B"
+)]
+// test cases VALUE_NO_12D2
+#[test_case(
+    INDEX_12D2,
+    VALUE_NO_12D2,
+    0, 0, VALUE_NO_12D2_LEN1, // *_min
+    0, 0, 0, // ezcheck12
+    0, 0, 0, // ezcheckd2
+    1, 0, VALUE_NO_12D2_LEN1, // ezcheck12d2
+    true;
+    "VALUE_NO_12D2 C"
+)]
+#[test_case(
+    INDEX_D2,
+    VALUE_NO_12D2,
+    0, VALUE_NO_12D2_LEN1, 0, // *_min
+    0, 0, 0, // ezcheck12
+    1, 0, VALUE_NO_12D2_LEN1, // ezcheckd2
+    0, 0, 0, // ezcheck12d2
+    true;
+    "VALUE_NO_12D2 D"
+)]
+// test cases EZCHECK12
+#[test_case(
+    INDEX_12D2,
+    VALUE_12,
+    0, 0, 0, // *_min
+    0, 0, 0, // ezcheck12
+    0, 0, 0, // ezcheckd2
+    0, 1, 0, // ezcheck12d2
+    false;
+    "EZCHECK12 E"
+)]
+#[test_case(
+    INDEX_D2,
+    VALUE_12,
+    0, VALUE_12_LEN1, 0,
+    0, 0, 0, // ezcheck12
+    1, 0, VALUE_12_LEN1, // ezcheckd2
+    0, 0, 0, // ezcheck12d2
+    true;
+    "EZCHECK12 F"
+)]
+// test cases VALUE_D2
+#[test_case(
+    INDEX_12D2,
+    VALUE_D2,
+    0, 0, 0, // *_min
+    0, 0, 0, // ezcheck12
+    0, 0, 0, // ezcheckd2
+    0, 1, 0, // ezcheck12d2
+    false;
+    "EZCHECKD2 G"
+)]
+#[test_case(
+    INDEX_D2,
+    VALUE_D2,
+    0, 0, 0, // *_min
+    0, 0, 0, // ezcheck12
+    0, 1, 0, // ezcheckd2
+    0, 0, 0, // ezcheck12d2
+    false;
+    "EZCHECKD2 H"
+)]
+fn test_ezcheck_slice(
+    index: usize,
+    slice_: &[u8],
+    expect_ezcheck12_min: LineIndex,
+    expect_ezcheckd2_min: LineIndex,
+    expect_ezcheck12d2_min: LineIndex,
+    expect_ezcheck12_hit: Count,
+    expect_ezcheck12_miss: Count,
+    expect_ezcheck12_hit_max: LineIndex,
+    expect_ezcheckd2_hit: Count,
+    expect_ezcheckd2_miss: Count,
+    expect_ezcheckd2_hit_max: LineIndex,
+    expect_ezcheck12d2_hit: Count,
+    expect_ezcheck12d2_miss: Count,
+    expect_ezcheck12d2_hit_max: LineIndex,
+    expect_result: bool,
+) {
+    assert_le!(index, DATETIME_PARSE_DATAS_LEN, "bad index {}", index);
+    eprintln!("test_ezcheck_slice: index: {:?}", index);
+    let dtpd = &DATETIME_PARSE_DATAS[index];
+    let mut ezcheck12_min: LineIndex = 0;
+    let mut ezcheckd2_min: LineIndex = 0;
+    let mut ezcheck12d2_min: LineIndex = 0;
+    let mut ezcheck12_hit: Count = 0;
+    let mut ezcheck12_miss: Count = 0;
+    let mut ezcheck12_hit_max: LineIndex = 0;
+    let mut ezcheckd2_hit: Count = 0;
+    let mut ezcheckd2_miss: Count = 0;
+    let mut ezcheckd2_hit_max: LineIndex = 0;
+    let mut ezcheck12d2_hit: Count = 0;
+    let mut ezcheck12d2_miss: Count = 0;
+    let mut ezcheck12d2_hit_max: LineIndex = 0;
+    eprintln!("test_ezcheck_slice: slice: {:?}", slice_.as_bstr());
+    eprintln!("test_ezcheck_slice: dtpd.has_year4: {:?}, dtpd.has_d2: {:?}",
+        dtpd.has_year4(), dtpd.has_d2());
+    let result = SyslineReader::ezcheck_slice(
+        &dtpd,
+        slice_,
+        1,
+        &mut ezcheck12_min,
+        &mut ezcheckd2_min,
+        &mut ezcheck12d2_min,
+        &mut ezcheck12_hit,
+        &mut ezcheck12_miss,
+        &mut ezcheck12_hit_max,
+        &mut ezcheckd2_hit,
+        &mut ezcheckd2_miss,
+        &mut ezcheckd2_hit_max,
+        &mut ezcheck12d2_hit,
+        &mut ezcheck12d2_miss,
+        &mut ezcheck12d2_hit_max,
+    );
+    assert_eq!(result, expect_result, "ezcheck_slice result");
+    assert_eq!(
+        (ezcheck12_min, ezcheckd2_min, ezcheck12d2_min),
+        (expect_ezcheck12_min, expect_ezcheckd2_min, expect_ezcheck12d2_min),
+        "\n(ezcheck12_min, ezcheckd2_min, ezcheck12d2_min)\n(expect_ezcheck12_min, expect_ezcheckd2_min, expect_ezcheck12d2_min)\n"
+    );
+    assert_eq!(
+        (ezcheck12_hit, ezcheck12_miss, ezcheck12_hit_max),
+        (expect_ezcheck12_hit, expect_ezcheck12_miss, expect_ezcheck12_hit_max),
+        "\n(ezcheck12_hit, ezcheck12_miss, ezcheck12_hit_max)\n(expect_ezcheck12_hit, expect_ezcheck12_miss, expect_ezcheck12_hit_max)\n"
+    );
+    assert_eq!(
+        (ezcheckd2_hit, ezcheckd2_miss, ezcheckd2_hit_max),
+        (expect_ezcheckd2_hit, expect_ezcheckd2_miss, expect_ezcheckd2_hit_max),
+        "\n(ezcheckd2_hit, ezcheckd2_miss, ezcheckd2_hit_max)\n(expect_ezcheckd2_hit, expect_ezcheckd2_miss, expect_ezcheckd2_hit_max)\n"
+    );
+    assert_eq!(
+        (ezcheck12d2_hit, ezcheck12d2_miss, ezcheck12d2_hit_max),
+        (expect_ezcheck12d2_hit, expect_ezcheck12d2_miss, expect_ezcheck12d2_hit_max),
+        "\n(ezcheck12d2_hit, ezcheck12d2_miss, ezcheck12d2_hit_max)\n(expect_ezcheck12d2_hit, expect_ezcheck12d2_miss, expect_ezcheck12d2_hit_max)\n"
+    );
+}

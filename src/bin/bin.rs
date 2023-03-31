@@ -3972,6 +3972,21 @@ fn print_cache_stats_summarysyslinereader(
         wide = wide,
         widep = WIDEP,
     );
+    // SyslineReader::ezcheck12d2
+    percent = percent64(
+        &summarysyslinereader.syslinereader_ezcheck12d2_hit,
+        &summarysyslinereader.syslinereader_ezcheck12d2_miss,
+    );
+    eprintln!(
+        "{}optimize:SyslineReader::ezcheck12d2                          : hit {:wide$}, miss {:wide$}, {:widep$.1}%, largest skipped {}",
+        indent,
+        summarysyslinereader.syslinereader_ezcheck12d2_hit,
+        summarysyslinereader.syslinereader_ezcheck12d2_miss,
+        percent,
+        summarysyslinereader.syslinereader_ezcheck12d2_hit_max,
+        wide = wide,
+        widep = WIDEP,
+    );
 }
 
 fn print_cache_stats_summaryutmpreader(
