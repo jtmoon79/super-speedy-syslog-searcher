@@ -401,10 +401,11 @@ impl SyslineReader {
     /// is less then it is presumed no datetime string could fit on the line.
     ///
     /// This allows skipping a few datetime searches that would fail.
+    ///
+    /// XXX: developer must manually set this correctly
     const DATETIME_STR_MIN: usize = 8;
 
     /// Default state of LRU caches.
-    // TODO: add this to other LRU cache-having structs
     const CACHE_ENABLE_DEFAULT: bool = true;
 
     pub fn new(

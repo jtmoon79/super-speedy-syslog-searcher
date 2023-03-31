@@ -457,6 +457,9 @@ impl BlockReader {
     /// Cache slots for `read_block` LRU cache.
     const READ_BLOCK_LRU_CACHE_SZ: usize = 4;
 
+    /// Default state of LRU cache.
+    const CACHE_ENABLE_DEFAULT: bool = true;
+
     /// Create a new `BlockReader`.
     ///
     /// Opens the file at `path`. Configures settings based on passed
@@ -1202,7 +1205,7 @@ impl BlockReader {
             read_block_lru_cache: BlocksLRUCache::new(
                 std::num::NonZeroUsize::new(BlockReader::READ_BLOCK_LRU_CACHE_SZ).unwrap(),
             ),
-            read_block_lru_cache_enabled: true,
+            read_block_lru_cache_enabled: BlockReader::CACHE_ENABLE_DEFAULT,
             read_block_cache_lru_hit: 0,
             read_block_cache_lru_miss: 0,
             read_block_cache_lru_put: 0,

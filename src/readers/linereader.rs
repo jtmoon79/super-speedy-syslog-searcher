@@ -182,6 +182,9 @@ impl LineReader {
     /// Internal LRU cache size (entries).
     const FIND_LINE_LRU_CACHE_SZ: usize = 8;
 
+    /// Default state of LRU cache.
+    const CACHE_ENABLE_DEFAULT: bool = true;
+
     // `LineReader::blockzero_analysis` must find at least this many `Line` within
     // block zero (first block) for the file to be considered a text file.
     // If the file has only one block then different considerations apply.
@@ -212,7 +215,7 @@ impl LineReader {
             foend_to_fobeg: FoToFo::new(),
             lines_processed: 0,
             charsz_: CHARSZ,
-            find_line_lru_cache_enabled: true,
+            find_line_lru_cache_enabled: LineReader::CACHE_ENABLE_DEFAULT,
             find_line_lru_cache: LinesLRUCache::new(
                 std::num::NonZeroUsize::new(LineReader::FIND_LINE_LRU_CACHE_SZ).unwrap(),
             ),
