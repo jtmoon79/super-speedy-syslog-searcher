@@ -4342,7 +4342,7 @@ lazy_static! {
             defo!("init RegEx {:?}", _i);
             datas.push(Regex::new(data.regex_pattern).unwrap());
         }
-        defx!();
+        defx!("init DATETIME_PARSE_DATAS_REGEX_VEC");
 
         datas
     };
