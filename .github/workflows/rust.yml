@@ -123,9 +123,9 @@ jobs:
       #     chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
       #     "${SCRIPT}"
 
-  job_check_clippy:
+  job_check:
     # this job downloads and builds dependency crates
-    name: check, clippy
+    name: check
     needs: [job_rust_release_channel, job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
@@ -140,6 +140,15 @@ jobs:
           cargo --version
           cargo check --all-targets
           cargo check --all-targets --release
+
+  job_clippy:
+    # this job downloads and builds dependency crates
+    name: clippy
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
       - name: Clippy
         shell: bash
         run: |
