@@ -108,6 +108,7 @@ sed -i -E \
     -e '/^Datetime printed first[ ]*:.*$/d' \
     -e '/^Datetime printed last[ ]*:.*$/d' \
     -e '/^WARNING: no syslines found .*$/d' \
+    -e '/^[ ]+realpath .*$/d' \
     -- "${current_err}"
 
 #

@@ -93,6 +93,7 @@ sed -i -E \
     -e '/^Datetime printed first[ ]*:.*$/d' \
     -e '/^Datetime printed last[ ]*:.*$/d' \
     -e '/^WARNING: no syslines found .*$/d' \
+    -e '/^[ ]+realpath .*$/d' \
     -- "${expect_err}"
 
 if ! chmod -wx -- "${expect_out}"; then
