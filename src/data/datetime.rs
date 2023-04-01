@@ -866,8 +866,6 @@ impl fmt::Debug for DTFSSet<'_> {
 /// [`PrinterLogMessage`]: crate::printer::printers::PrinterLogMessage
 /// [`Line`]: crate::data::line::Line
 /// [`DTPD!`]: DTPD!
-// TODO: [2022/10] each _test_cases entry should include an expected chrono
-//       DateTime value that is compared to the processed value.
 #[derive(Hash)]
 pub struct DateTimeParseInstr<'a> {
     /// Regex pattern for [`captures`].
