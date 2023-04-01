@@ -1,4 +1,5 @@
-+ ./target/release/s4 --color=never --tz-offset=+08:00 --prepend-filepath --prepend-utc --summary -
+WARNING: WARNING: no syslines found "./logs/Ubuntu18/installer/media-info"
+no syslines found "./logs/Ubuntu18/installer/initial-status"
 
 Files:
 
