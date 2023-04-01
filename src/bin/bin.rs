@@ -1410,10 +1410,7 @@ pub fn main() -> ExitCode {
 
     let mut processed_paths: ProcessPathResults = ProcessPathResults::with_capacity(paths.len() * 4);
     for path in paths.iter() {
-        #[cfg(debug_assertions)]
-        {
-            defo!("path {:?}", path);
-        }
+        defo!("path {:?}", path);
         let ppaths: ProcessPathResults = process_path(path);
         for ppresult in ppaths.into_iter() {
             processed_paths.push(ppresult);
@@ -1437,13 +1434,14 @@ pub fn main() -> ExitCode {
         cli_opt_summary,
     );
 
-    defx!();
-
-    if ret {
+    let exitcode = if ret {
         ExitCode::SUCCESS
     } else {
         ExitCode::FAILURE
-    }
+    };
+    defx!("exitcode {:?}", exitcode);
+
+    exitcode
 }
 
 // -------------------------------------------------------------------------------------------------
