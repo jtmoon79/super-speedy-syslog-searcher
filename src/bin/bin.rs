@@ -2212,7 +2212,7 @@ impl SummaryPrinted {
 
         match summaryblockreader_opt {
             Some(summaryblockreader) => {
-                eprint!("{}bytes          ", indent2);
+                eprint!("{}bytes         : ", indent2);
                 if self.bytes == 0 && summaryblockreader.blockreader_bytes != 0 {
                     match print_colored_stderr(
                         COLOR_ERROR,
@@ -2232,7 +2232,7 @@ impl SummaryPrinted {
                 }
 
                 if summarylinereader_opt.is_some() {
-                    eprint!("{}lines          ", indent2);
+                    eprint!("{}lines         : ", indent2);
                     if self.lines == 0 && summaryblockreader.blockreader_bytes != 0 {
                         match print_colored_stderr(
                             COLOR_ERROR,
@@ -2257,7 +2257,7 @@ impl SummaryPrinted {
 
         match summaryutmpreader_opt {
             Some(summaryutmpreader) => {
-                eprint!("{}utmpx          ", indent2);
+                eprint!("{}utmpx         : ", indent2);
                 if self.utmpentries == 0 && summaryutmpreader.utmpxreader_utmp_entries != 0 {
                     match print_colored_stderr(
                         COLOR_ERROR,
@@ -2283,7 +2283,7 @@ impl SummaryPrinted {
             // if lines were processed but no syslines were processed
             // then hint at an error with colored text
             Some(summarylinereader) => {
-                eprint!("{}syslines       ", indent2);
+                eprint!("{}syslines      : ", indent2);
                 if self.syslines == 0 && summarylinereader.linereader_lines != 0 {
                     match print_colored_stderr(
                         COLOR_ERROR,
@@ -2310,7 +2310,7 @@ impl SummaryPrinted {
                 if self.dt_first.is_none() && summarylinereader.linereader_lines != 0 {
                     // if no datetime_first was processed but lines were processed
                     // then hint at an error with colored text
-                    eprint!("{}datetime first ", indent2);
+                    eprint!("{}datetime first: ", indent2);
                     match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
                         Err(err) => {
                             eprintln!("\nERROR: print_colored_stderr {:?}", err);
@@ -2320,14 +2320,14 @@ impl SummaryPrinted {
                     }
                 } else {
                     match self.dt_first {
-                        Some(dt) => eprintln!("{}datetime first {:?}", indent2, dt),
+                        Some(dt) => eprintln!("{}datetime first: {:?}", indent2, dt),
                         None => {}
                     }
                 }
                 if self.dt_last.is_none() && summarylinereader.linereader_lines != 0 {
                     // if no datetime_last was processed but lines were processed
                     // then hint at an error with colored text
-                    eprint!("{}datetime last  ", indent2);
+                    eprint!("{}datetime last : ", indent2);
                     match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
                         Err(err) => {
                             eprintln!("\nERROR: print_colored_stderr {:?}", err);
@@ -2337,7 +2337,7 @@ impl SummaryPrinted {
                     }
                 } else {
                     match self.dt_last {
-                        Some(dt) => eprintln!("{}datetime last  {:?}", indent2, dt),
+                        Some(dt) => eprintln!("{}datetime last : {:?}", indent2, dt),
                         None => {}
                     }
                 }
@@ -2347,14 +2347,14 @@ impl SummaryPrinted {
         }
         match summaryevtxreader_opt {
             Some(summaryevtxreader) => {
-                eprintln!("{}bytes          {}", indent2, self.bytes);
-                eprintln!("{}Events         {}", indent2, self.evtxentries);
+                eprintln!("{}bytes         : {}", indent2, self.bytes);
+                eprintln!("{}Events        : {}", indent2, self.evtxentries);
                 match summaryevtxreader.evtxreader_datetime_first_accepted {
-                    Some(dt) => eprintln!("{}datetime first {:?}", indent2, dt),
+                    Some(dt) => eprintln!("{}datetime first: {:?}", indent2, dt),
                     None => {}
                 }
                 match summaryevtxreader.evtxreader_datetime_last_accepted {
-                    Some(dt) => eprintln!("{}datetime last  {:?}", indent2, dt),
+                    Some(dt) => eprintln!("{}datetime last : {:?}", indent2, dt),
                     None => {}
                 }
             }
@@ -3543,15 +3543,16 @@ fn print_filepath(
             eprintln!("ERROR: {:?}", err);
         }
     };
+    eprintln!("\n{}About:", OPT_SUMMARY_PRINT_INDENT1);
     // if symlink or relative path then print target
     // XXX: experimentation revealed std::fs::Metadata::is_symlink to be unreliable on WSL Ubuntu
     match std::fs::canonicalize(path) {
         Ok(pathb) => match pathb.to_str() {
             Some(s) => {
                 if s != path.as_str() {
-                    eprint!(" (");
+                    eprint!("{}realpath      : ", OPT_SUMMARY_PRINT_INDENT2);
                     write_stderr(s.as_bytes());
-                    eprint!(")");
+                    eprintln!();
                 }
             }
             None => {}
@@ -3559,8 +3560,9 @@ fn print_filepath(
         Err(_) => {}
     }
     // print other facts
-    eprint!(" ({}) ({}) {:?}", filetype, logmessagetype, mimeguess);
-    eprintln!();
+    eprintln!("{}filetype      : {}", OPT_SUMMARY_PRINT_INDENT2, filetype);
+    eprintln!("{}logmessagetype: {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
+    eprintln!("{}MIME guess    : {:?}", OPT_SUMMARY_PRINT_INDENT2, mimeguess);
 }
 
 /// Print the (optional) [`Summary`] (multiple lines) processed sections.
@@ -3603,14 +3605,14 @@ fn print_summary_opt_processed(
                 _summarysyslogprocessor,
             ),
         ) => {
-            eprintln!("{}lines          {}", indent2, summarylinereader.linereader_lines);
+            eprintln!("{}lines         : {}", indent2, summarylinereader.linereader_lines);
             eprintln!(
-                "{}lines high     {}",
+                "{}lines high    : {}",
                 indent2, summarylinereader.linereader_lines_stored_highest
             );
-            eprintln!("{}syslines       {}", indent2, summarysyslinereader.syslinereader_syslines);
+            eprintln!("{}syslines      : {}", indent2, summarysyslinereader.syslinereader_syslines);
             eprintln!(
-                "{}syslines high  {}",
+                "{}syslines high : {}",
                 indent2, summarysyslinereader.syslinereader_syslines_stored_highest
             );
         }
@@ -3618,20 +3620,20 @@ fn print_summary_opt_processed(
             _summaryblockreader,
             summaryutmpreader,
         )) => {
-            eprintln!("{}utmpx          {}", indent2, summaryutmpreader.utmpxreader_utmp_entries);
+            eprintln!("{}utmpx         : {}", indent2, summaryutmpreader.utmpxreader_utmp_entries);
             eprintln!(
-                "{}utmpx high     {}",
+                "{}utmpx high    : {}",
                 indent2, summaryutmpreader.utmpxreader_utmp_entries_max,
             );
         }
         SummaryReaderData::Etvx(summaryevtxreader) => {
             eprintln!(
-                "{}file size           {1} (0x{1:X}) (bytes)",
+                "{}file size          : {1} (0x{1:X}) (bytes)",
                 indent2, summaryevtxreader.evtxreader_filesz,
             );
-            eprintln!("{}Events processed    {}", indent2, summaryevtxreader.evtxreader_events_processed);
-            eprintln!("{}Events accepted     {}", indent2, summaryevtxreader.evtxreader_events_accepted);
-            eprint!("{}Events out of order ", indent2);
+            eprintln!("{}Events processed   : {}", indent2, summaryevtxreader.evtxreader_events_processed);
+            eprintln!("{}Events accepted    : {}", indent2, summaryevtxreader.evtxreader_events_accepted);
+            eprint!("{}Events out of order: ", indent2);
             if summaryevtxreader.evtxreader_out_of_order == 0 {
                 eprintln!("{}", summaryevtxreader.evtxreader_out_of_order);
             } else {
@@ -3646,11 +3648,11 @@ fn print_summary_opt_processed(
                 }
             }
             match summaryevtxreader.evtxreader_datetime_first_processed {
-                Some(dt) => eprintln!("{}datetime first      {:?}", indent2, dt),
+                Some(dt) => eprintln!("{}datetime first     : {:?}", indent2, dt),
                 None => {}
             }
             match summaryevtxreader.evtxreader_datetime_last_processed {
-                Some(dt) => eprintln!("{}datetime last       {:?}", indent2, dt),
+                Some(dt) => eprintln!("{}datetime last      : {:?}", indent2, dt),
                 None => {}
             }
             // for evtx files, nothing left to print about it so return
@@ -3660,8 +3662,8 @@ fn print_summary_opt_processed(
     // print datetime first and last
     match (summary.datetime_first(), summary.datetime_last()) {
         (Some(dt_first), Some(dt_last)) => {
-            eprintln!("{}datetime first {:?}", indent2, dt_first,);
-            eprintln!("{}datetime last  {:?}", indent2, dt_last,);
+            eprintln!("{}datetime first: {:?}", indent2, dt_first,);
+            eprintln!("{}datetime last : {:?}", indent2, dt_last,);
         }
         (None, Some(_)) | (Some(_), None) => {
             eprintln!("ERROR: only one of dt_first or dt_last fulfilled; this is unexpected.");
@@ -3722,44 +3724,44 @@ fn print_summary_opt_processed_summaryblockreader(
         FileType::File
         | FileType::Utmpx => {
             eprintln!(
-                "{}file size      {1} (0x{1:X}) (bytes)",
+                "{}file size     : {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz
             );
         }
         FileType::Tar => {
             eprintln!(
-                "{}file size archive    {1} (0x{1:X}) (bytes)",
+                "{}file size archive   : {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz
             );
             eprintln!(
-                "{}file size unarchived {1} (0x{1:X}) (bytes)",
+                "{}file size unarchived: {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz_actual
             );
         }
         FileType::Gz | FileType::Xz => {
             eprintln!(
-                "{}file size compressed   {1} (0x{1:X}) (bytes)",
+                "{}file size compressed  : {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz
             );
             eprintln!(
-                "{}file size uncompressed {1} (0x{1:X}) (bytes)",
+                "{}file size uncompressed: {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz_actual
             );
         }
         ft => {
-            eprintln!("{}unsupported filetype {:?}", indent, ft);
+            eprintln!("{}unsupported filetype: {:?}", indent, ft);
             return;
         }
     }
-    eprintln!("{}bytes          {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes);
-    eprintln!("{}bytes total    {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes_total);
+    eprintln!("{}bytes         : {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes);
+    eprintln!("{}bytes total   : {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes_total);
     eprintln!(
-        "{}block size     {1} (0x{1:X})",
+        "{}block size    : {1} (0x{1:X})",
         indent, summaryblockreader.blockreader_blocksz
     );
-    eprintln!("{}blocks         {}", indent, summaryblockreader.blockreader_blocks);
-    eprintln!("{}blocks total   {}", indent, summaryblockreader.blockreader_blocks_total);
-    eprintln!("{}blocks high    {}", indent, summaryblockreader.blockreader_blocks_highest);
+    eprintln!("{}blocks        : {}", indent, summaryblockreader.blockreader_blocks);
+    eprintln!("{}blocks total  : {}", indent, summaryblockreader.blockreader_blocks_total);
+    eprintln!("{}blocks high   : {}", indent, summaryblockreader.blockreader_blocks_highest);
 }
 
 /// Print the (optional) [`&SummaryPrinted`] (one line) printed section for
