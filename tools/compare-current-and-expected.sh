@@ -23,11 +23,11 @@ expect_out=./tools/compare-current-and-expected_expected.stdout
 current_err=./tools/compare-current-and-expected_current.stderr
 expect_err=./tools/compare-current-and-expected_expected.stderr
 
-if ! touch "${current_out}"; then
+if ! truncate -s 0 "${current_out}"; then
     echo "ERROR unable to write to file '${current_out}'" >&2
     exit 1
 fi
-if ! touch "${current_err}"; then
+if ! truncate -s 0 "${current_err}"; then
     echo "ERROR unable to write to file '${current_err}'" >&2
     exit 1
 fi
