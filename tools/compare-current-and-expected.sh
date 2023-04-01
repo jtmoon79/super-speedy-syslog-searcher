@@ -112,6 +112,7 @@ sed -i -E \
     -e '/.*no syslines found.*$/d' \
     -e '/^[ ]+realpath .*$/d' \
     -e '0,/^\+ \..*$/d' \
+    -e '/.*DateTimeParseInstr:.*/d' \
     -- "${current_err}"
 
 #

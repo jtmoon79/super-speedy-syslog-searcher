@@ -97,6 +97,7 @@ sed -i -E \
     -e '/.*no syslines found.*$/d' \
     -e '/^[ ]+realpath .*$/d' \
     -e '0,/^\+ \..*$/d' \
+    -e '/.*DateTimeParseInstr:.*/d' \
     -- "${expect_err}"
 
 if ! chmod -wx -- "${expect_out}"; then
