@@ -50,12 +50,11 @@ pub type Lines = Vec<LineP>;
 /// [`Block`]: crate::readers::blockreader::Block
 pub type LineIndex = usize;
 
-// TODO: rename to rust-like `RangeLineIndex`
 /// Half-open [`Range`] of [`LineIndex`].
 ///
 /// [`Range`]: std::ops::Range
 /// [`LineIndex`]: self::LineIndex
-pub type Range_LineIndex = std::ops::Range<LineIndex>;
+pub type RangeLineIndex = std::ops::Range<LineIndex>;
 
 /// Thread-safe [Atomic Reference Counting pointer] to a
 /// [`Line`].
@@ -694,7 +693,7 @@ impl Line {
     //           fn get_boxptrs(...) -> either::Either<Box<&[u8]>, Vec<Box<&[u8]>>>
     //      causes error `experimental Sized`
     //
-    // TODO: use `&Range_LineIndex` instead of `a` `b`
+    // TODO: use `&RangeLineIndex` instead of `a` `b`
     //
     /// Get [`Box`] pointer(s) to an underlying `&[u8]` slice that is
     /// part of this `Line`.

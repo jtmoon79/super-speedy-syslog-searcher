@@ -41,7 +41,7 @@
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{buffer_to_String_noraw, str_to_String_noraw};
 #[doc(hidden)]
-pub use crate::data::line::{LineIndex, Range_LineIndex};
+pub use crate::data::line::{LineIndex, RangeLineIndex};
 
 use std::collections::BTreeMap;
 #[cfg(any(debug_assertions, test))]
@@ -887,7 +887,7 @@ pub struct DateTimeParseInstr<'a> {
     ///
     /// [`Line`]: crate::data::line::Line
     /// [`Regex`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html#method.captures
-    pub range_regex: Range_LineIndex,
+    pub range_regex: RangeLineIndex,
     /// Capture named group first (left-most) position in `regex_pattern`.
     pub cgn_first: &'a CaptureGroupName,
     /// Capture named group last (right-most) position in `regex_pattern`.
@@ -919,7 +919,7 @@ macro_rules! DTPD {
         DateTimeParseInstr {
             regex_pattern: $dtr,
             dtfs: $dtfs,
-            range_regex: Range_LineIndex {
+            range_regex: RangeLineIndex {
                 start: $sib,
                 end: $sie,
             },
@@ -5376,7 +5376,6 @@ pub fn dt_pass_filters(
 /// month, day, and time, combined with the passed `Year`.
 ///
 /// In case of error, return a copy of the passed `DateTimeL`.
-// TODO: errors should return `Error`
 pub fn datetime_with_year(
     datetime: &DateTimeL,
     year: &Year,
