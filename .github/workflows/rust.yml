@@ -35,6 +35,7 @@ env:
 jobs:
 
   job_rust_msrv_os:
+    # this job downloads and builds dependency crates
     name: build MSRV ${{ matrix.msrv }} on ${{ matrix.os }}
     strategy:
       fail-fast: true
@@ -61,6 +62,7 @@ jobs:
           cargo build --verbose
 
   job_rust_release_channel:
+    # this job downloads and builds dependency crates
     name: build release channel ${{ matrix.rust_version }}
     runs-on: ubuntu-latest
     strategy:
@@ -79,37 +81,15 @@ jobs:
           cargo --version
           cargo build --verbose
 
-  job_build_debug_release_test:
-    # all of these steps need to download and build dependency crates
-    name: check, clippy, build debug, build release, test
+  job_build_debug_release:
+    # this job downloads and builds dependency crates
+    name: build debug, build release, upload
     needs: [job_rust_release_channel, job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       # build & upload debug
       - name: git checkout
         uses: actions/checkout@v3
-      - name: Check
-        shell: bash
-        # `cargo check` builds dependences and other things but skips
-        # final code generation
-        run: |
-          set -eux
-          cargo --version
-          cargo check --all-targets
-          cargo check --all-targets --release
-      - name: Clippy
-        shell: bash
-        run: |
-          set -eux
-          cargo --version
-          cargo clippy --version
-          cargo clippy --no-deps --verbose --all-targets --all-features
-      - name: Bench Dry Run
-        shell: bash
-        run: |
-          set -eux
-          cargo --version
-          cargo bench --no-run
       - name: Build Debug
         shell: bash
         run: |
@@ -135,12 +115,6 @@ jobs:
         with:
           name: s4_release
           path: ./s4_release
-      - name: Run Tests
-        run: cargo test --verbose --all-targets
-      - name: Build Documentation
-        run: cargo doc --locked --release --frozen --no-deps -v
-      - name: Publish Dry Run
-        run: cargo publish --verbose --dry-run --allow-dirty
       # - name: Run valgrind
       #   run: |
       #     set -eux
@@ -149,10 +123,74 @@ jobs:
       #     chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
       #     "${SCRIPT}"
 
+  job_check_clippy:
+    # this job downloads and builds dependency crates
+    name: check, clippy
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+      - name: Check
+        shell: bash
+        # `cargo check` builds dependences and other things but skips
+        # final code generation
+        run: |
+          set -eux
+          cargo --version
+          cargo check --all-targets
+          cargo check --all-targets --release
+      - name: Clippy
+        shell: bash
+        run: |
+          set -eux
+          cargo --version
+          cargo clippy --version
+          cargo clippy --no-deps --verbose --all-targets --all-features
+
+  job_bench:
+    # this job downloads and builds dependency crates
+    name: bench
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+      - name: Bench Dry Run
+        shell: bash
+        run: |
+          set -eux
+          cargo --version
+          cargo bench --no-run
+
+  job_test:
+    # this job downloads and builds dependency crates
+    name: test
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+      - name: Run Tests
+        run: cargo test --verbose --all-targets
+
+  job_doc_publish:
+    # this job downloads and builds dependency crates
+    name: doc, publish
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+      - name: Build Documentation
+        run: cargo doc --locked --release --frozen --no-deps -v
+      - name: Publish Dry Run
+        run: cargo publish --verbose --dry-run --allow-dirty
+
   job_runs:
     # all of these steps need the s4 binary and the git-committed logs
     name: run s4
-    needs: job_build_debug_release_test
+    needs: job_build_debug_release
     runs-on: ubuntu-latest
     steps:
       # checkout for the log files
