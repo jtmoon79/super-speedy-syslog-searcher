@@ -1738,7 +1738,8 @@ fn exec_syslogprocessor(
     // the majority of sysline processing for this file occurs in this loop
     let mut syslinep_last_opt: Option<SyslineP> = None;
     loop {
-        // TODO: [2022/06/20] see note about refactoring `find` functions so they are more intuitive
+        // TODO: [2022/06/20] see note about refactoring `find` functions so
+        //                    they are more intuitive
         let result: ResultS3SyslineFind = syslogproc.find_sysline_between_datetime_filters(fo1);
         match result {
             ResultS3SyslineFind::Found((fo, syslinep)) => {
@@ -1901,7 +1902,7 @@ fn exec_utmpprocessor(
             ResultS3UtmpxFind::Err(err) => {
                 eprintln!("ERROR: find_entry({}) failed; {}", fo, err);
                 defx!("ResultS3UtmpxFind::Err({})", err);
-                // TODO: send error message through channel then return
+                // TODO: send error message through channel then return, remove this eprintln!
                 return;
             }
         }
@@ -2626,21 +2627,6 @@ fn processing_loop(
         defx!("paths_results.is_empty(); nothing to do");
         return true;
     }
-
-    // TODO: [2022/06/02] this point needs a PathToPaths thingy that expands user-passed Paths to all possible paths_valid,
-    //       e.g.
-    //       given a directory path, returns paths_valid of possible syslog files found recursively.
-    //       given a symlink, follows the symlink
-    //       given a path to a tar file, returns paths_valid of possible syslog files within that .tar file.
-    //       given a plain valid file path, just returns that path
-    //       would return `Vec<(path: FPath, subpath: FPath, type_: FILE_TYPE, Option<result>: common::FileProcessingResult)>`
-    //         where `path` is actual path,
-    //         `subpath` is path within a .tar/.zip file
-    //         `type_` is enum for `FILE` `FILE_IN_ARCHIVE_TAR`, `FILE_IN_ARCHIVE_TAR_COMPRESS_GZ`,
-    //           `FILE_COMPRESS_GZ`, etc.
-    //          `result` of `Some(FileProcessingResult)` if processing has completed or just `None`
-    //       (this might be a better place for mimeguess and mimeanalysis?)
-    //       Would be best to first implement `FILE`, then `FILE_COMPRESS_GZ`, then `FILE_IN_ARCHIVE_TAR`
 
     // precount the number of valid files that will be processed
     let file_count: usize = paths_results
@@ -3575,7 +3561,6 @@ fn print_summary_opt_processed(
             summary
         }
         None => {
-            // TODO: [2022/06/07] print filesz
             eprintln!("{}Summary Processed: None", OPT_SUMMARY_PRINT_INDENT1);
             return;
         }
