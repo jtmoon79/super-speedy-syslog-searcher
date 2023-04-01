@@ -183,7 +183,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v3
       - name: Build Documentation
-        run: cargo doc --locked --release --frozen --no-deps -v
+        run: cargo doc --locked --release --no-deps -v
       - name: Publish Dry Run
         run: cargo publish --verbose --dry-run --allow-dirty
 
