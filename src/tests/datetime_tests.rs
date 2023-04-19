@@ -1140,15 +1140,18 @@ dt_pass_filters({:?}, {:?})
 }
 
 /// basic test of `SyslineReader.dt_after_or_before`
-/// TODO: add tests with TZ
 #[allow(non_snake_case)]
 #[test]
 fn test_dt_after_or_before() {
     defn!();
 
     fn DTL(s: &str) -> DateTimeL {
-        let tzo = *FO_M8;
-        datetime_parse_from_str(s, "%Y%m%dT%H%M%S", false, &tzo).unwrap()
+        let tz_offset = *FO_M8;
+        datetime_parse_from_str(s, "%Y%m%dT%H%M%S", false, &tz_offset).unwrap()
+    }
+
+    fn DTLz(s: &str, tz_offset: &FixedOffset) -> DateTimeL {
+        datetime_parse_from_str(s, "%Y%m%dT%H%M%S%z", true, &tz_offset).unwrap()
     }
 
     for (dt, da, exp_result) in [
@@ -1156,6 +1159,8 @@ fn test_dt_after_or_before() {
         (DTL("20000101T010101"), Some(DTL("20000101T010103")), Result_Filter_DateTime1::OccursBefore),
         (DTL("20000101T010100"), Some(DTL("20000101T010100")), Result_Filter_DateTime1::OccursAtOrAfter),
         (DTL("20000101T010109"), Some(DTL("20000101T010108")), Result_Filter_DateTime1::OccursAtOrAfter),
+        (DTLz("20000101T010106+0100", &FixedOffset::east(60*60)), None, Result_Filter_DateTime1::Pass),
+        (DTLz("20000101T010101+0100", &FixedOffset::east(60*60)), Some(DTLz("20000101T010103-0700", &FixedOffset::west(7*60*60))), Result_Filter_DateTime1::OccursBefore),
     ] {
         let result = dt_after_or_before(&dt, &da);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?})", exp_result, result, dt, da);
