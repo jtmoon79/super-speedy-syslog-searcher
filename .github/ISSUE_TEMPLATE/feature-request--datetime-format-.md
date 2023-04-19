@@ -14,9 +14,15 @@ Paste this into a markdown fenced text block.
 
 Describe the software and operating systems from which the log snippet came e.g. "_taken from foobar 4.1, Rocky Linux 5_".
 
+Report the the log file type according to [`file`](https://www.man7.org/linux/man-pages/man1/file.1.html)
+e.g. "_some.log: Unicode text, UTF-8 text_".
+The most important information here is the encoding.
+On Windows, use GNU Win32 [`file.exe`](https://gnuwin32.sourceforge.net/packages/file.htm)
+
 ### Issue title
 
-Title the Issue "_support for datetime format_" and then the log file name. e.g. "_support for datetime format from foobar.log_"
+Title the Issue "_support for datetime format_" and then the log file name.
+e.g. "_support for datetime format from foobar.log_"
 
 ### Before Submitting
 
