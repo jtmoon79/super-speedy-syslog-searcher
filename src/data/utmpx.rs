@@ -8,7 +8,7 @@
 //! [`utmp`]: https://elixir.bootlin.com/glibc/glibc-2.37/source/bits/utmp.h#L57
 
 #[doc(hidden)]
-pub use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, NLu8, ResultS3};
+use crate::common::FileOffset;
 use crate::data::datetime::{
     DateTimeL,
     DateTimeLOpt,
