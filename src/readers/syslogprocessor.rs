@@ -68,7 +68,7 @@ use ::chrono::Datelike;
 use ::lazy_static::lazy_static;
 use ::mime_guess::MimeGuess;
 use ::rangemap::RangeMap;
-use ::si_trace_print::{def1n, def1x, def1ñ, defn, defo, defx, defñ, deñ};
+use ::si_trace_print::{def1n, def1x, def1ñ, defn, defo, defx, defñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // SyslogProcessor
@@ -276,7 +276,7 @@ impl SyslogProcessor {
         filter_dt_after_opt: DateTimeLOpt,
         filter_dt_before_opt: DateTimeLOpt,
     ) -> Result<SyslogProcessor> {
-        deñ!("SyslogProcessor::new({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
+        def1ñ!("({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
         if blocksz < SyslogProcessor::BLOCKSZ_MIN {
             return Result::Err(
                 Error::new(
