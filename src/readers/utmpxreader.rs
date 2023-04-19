@@ -12,6 +12,8 @@
 //!
 //! This is an _s4lib_ structure used by the binary program _s4_.
 //!
+//! Implements [Issue #70].
+//!
 //! [`UtmpxReader`]: self::UtmpxReader
 //! [`Utmpx`s]: crate::data::utmpx::Utmpx
 //! [`BlockReader`]: crate::readers::blockreader::BlockReader
@@ -19,6 +21,7 @@
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 //! [open-source binary file format]: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/utmpx.h.html
 //! [POSIX binary file format]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143772537#utmpx,_wtmpx_and_btmpx
+//! [Issue #70]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/70
 
 // TODO: [2023/02/27] create sibling of this for
 //       parsing `lastlog` files.
