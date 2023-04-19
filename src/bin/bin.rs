@@ -869,7 +869,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
                     seconds = val * addsub;
                 }
                 Err(err) => {
-                    eprintln!("ERROR: Unable to parse seconds from {:?} {}", match_.as_str(), err);
+                    e_err!("Unable to parse seconds from {:?} {}", match_.as_str(), err);
                     std::process::exit(1);
                 }
             }
@@ -887,7 +887,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
                     minutes = val * addsub;
                 }
                 Err(err) => {
-                    eprintln!("ERROR: Unable to parse minutes from {:?} {}", match_.as_str(), err);
+                    e_err!("Unable to parse minutes from {:?} {}", match_.as_str(), err);
                     std::process::exit(1);
                 }
             }
@@ -905,7 +905,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
                     hours = val * addsub;
                 }
                 Err(err) => {
-                    eprintln!("ERROR: Unable to parse hours from {:?} {}", match_.as_str(), err);
+                    e_err!("Unable to parse hours from {:?} {}", match_.as_str(), err);
                     std::process::exit(1);
                 }
             }
@@ -923,7 +923,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
                     days = val * addsub;
                 }
                 Err(err) => {
-                    eprintln!("ERROR: Unable to parse days from {:?} {}", match_.as_str(), err);
+                    e_err!("Unable to parse days from {:?} {}", match_.as_str(), err);
                     std::process::exit(1);
                 }
             }
@@ -941,7 +941,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
                     weeks = val * addsub;
                 }
                 Err(err) => {
-                    eprintln!("ERROR: Unable to parse weeks from {:?} {}", match_.as_str(), err);
+                    e_err!("Unable to parse weeks from {:?} {}", match_.as_str(), err);
                     std::process::exit(1);
                 }
             }
@@ -1007,7 +1007,7 @@ fn string_to_rel_offset_datetime(
                     other_off
                 }
                 None => {
-                    eprintln!("ERROR: passed relative offset to other datetime {:?}, but other datetime was not set", val);
+                    e_err!("passed relative offset to other datetime {:?}, but other datetime was not set", val);
                     std::process::exit(1);
                 }
             }
@@ -1109,9 +1109,7 @@ fn process_dt_exit(
         Some(dto) => Some(dto),
         None => {
             // user-passed string was not parseable
-            eprintln!("ERROR: Unable to parse a datetime from {:?}",
-                dts_opt.as_ref().unwrap()
-            );
+            e_err!("Unable to parse a datetime from {:?}", dts_opt.as_ref().unwrap_or(&String::from("")));
             std::process::exit(1);
         }
     }
@@ -1205,7 +1203,7 @@ fn cli_process_args() -> (
     let blocksz: BlockSz = match cli_process_blocksz(&blockszs) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: {}", err);
+            e_err!("{}", err);
             std::process::exit(1);
         }
     };
@@ -1263,7 +1261,7 @@ fn cli_process_args() -> (
     // else process `-a` then `-b`
     match (string_wdhms_to_duration(args_dt_after_s), string_wdhms_to_duration(args_dt_before_s)) {
         (Some((_, DUR_OFFSET_TYPE::Other)), Some((_, DUR_OFFSET_TYPE::Other))) => {
-            eprintln!("ERROR: cannot pass both --dt-after and --dt-before as relative to the other");
+            e_err!("cannot pass both --dt-after and --dt-before as relative to the other");
             std::process::exit(1);
         }
         (Some((_, DUR_OFFSET_TYPE::Other)), _) => {
@@ -1287,7 +1285,7 @@ fn cli_process_args() -> (
     match (filter_dt_after, filter_dt_before) {
         (Some(dta), Some(dtb)) => {
             if dta > dtb {
-                eprintln!("ERROR: Datetime --dt-after ({}) is after Datetime --dt-before ({})", dta, dtb);
+                e_err!("Datetime --dt-after ({}) is after Datetime --dt-before ({})", dta, dtb);
                 std::process::exit(1);
             }
         }
@@ -1305,7 +1303,7 @@ fn cli_process_args() -> (
     let log_message_separator: String = match unescape::unescape_str(args.log_message_separator.as_str()) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("ERROR: {:?}", err);
+            e_err!("{:?}", err);
             std::process::exit(1);
         }
     };
@@ -1334,7 +1332,7 @@ fn cli_process_args() -> (
                 }
             }
             None => {
-                eprintln!("ERROR: Unable to parse --prepend-tz argument");
+                e_err!("Unable to parse --prepend-tz argument");
                 std::process::exit(1);
             }
         }
@@ -1590,12 +1588,12 @@ fn exec_syslogprocessor(
             );
             let fileerr: FileProcessingResultBlockZero = match err.kind() {
                 ErrorKind::PermissionDenied => {
-                    eprintln!("ERROR: {} for {:?}", err, path);
+                    e_err!("{} for {:?}", err, path);
 
                     FileProcessingResultBlockZero::FileErrIo(err)
                 }
                 _ => {
-                    eprintln!("ERROR: {} for {:?}", err, path);
+                    e_err!("{} for {:?}", err, path);
 
                     FILEERRSTUB
                 }
@@ -1607,9 +1605,8 @@ fn exec_syslogprocessor(
                 fileerr,
             )) {
                 Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
-                }
+                Err(err) =>
+                    e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
             }
             defx!("({:?})", path);
             return;
@@ -1652,9 +1649,8 @@ fn exec_syslogprocessor(
                 result,
             )) {
                 Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: stage1 chan_send_dt.send(…) failed {}", err);
-                }
+                Err(err) =>
+                    e_err!("stage1 chan_send_dt.send(…) failed {} for {:?}", err, path)
             }
             defx!("({:?})", path);
             return;
@@ -1686,9 +1682,8 @@ fn exec_syslogprocessor(
                 FILEOK,
             )) {
                 Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
-                }
+                Err(err) =>
+                    e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
             }
             // XXX: sanity check
             if is_last {
@@ -1708,8 +1703,8 @@ fn exec_syslogprocessor(
         }
         ResultS3SyslineFind::Err(err) => {
             deo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, _tname, err);
-            eprintln!(
-                "ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}",
+            e_err!(
+                "SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}",
                 path, err
             );
             search_more = false;
@@ -1727,9 +1722,8 @@ fn exec_syslogprocessor(
             FILEOK,
         )) {
             Ok(_) => {}
-            Err(err) => {
-                eprintln!("ERROR: chan_send_dt.send(…) failed {}", err);
-            }
+            Err(err) =>
+                e_err!("chan_send_dt.send(…) failed {} for {:?}", err, path)
         }
         defx!("({:?})", path);
 
@@ -1757,9 +1751,8 @@ fn exec_syslogprocessor(
                     FILEOK,
                 )) {
                     Ok(_) => {}
-                    Err(err) => {
-                        eprintln!("ERROR: D chan_send_dt.send(…) failed {}", err);
-                    }
+                    Err(err) =>
+                        e_err!("D chan_send_dt.send(…) failed {} for {:?}", err, path)
                 }
                 fo1 = fo;
                 // XXX: sanity check
@@ -1802,9 +1795,8 @@ fn exec_syslogprocessor(
         FILEOK,
     )) {
         Ok(_) => {}
-        Err(err) => {
-            eprintln!("ERROR: E chan_send_dt.send(…) failed {}", err);
-        }
+        Err(err) =>
+            e_err!("E chan_send_dt.send(…) failed {} for {:?}", err, path)
     }
 
     defx!("({:?})", path);
@@ -1844,12 +1836,12 @@ fn exec_utmpprocessor(
             );
             let fileerr: FileProcessingResultBlockZero = match err.kind() {
                 ErrorKind::PermissionDenied => {
-                    eprintln!("ERROR: {} for {:?}", err, path);
+                    e_err!("{} for {:?}", err, path);
 
                     FileProcessingResultBlockZero::FileErrIo(err)
                 }
                 _ => {
-                    eprintln!("ERROR: {} for {:?}", err, path);
+                    e_err!("{} for {:?}", err, path);
 
                     FILEERRSTUB
                 }
@@ -1861,9 +1853,8 @@ fn exec_utmpprocessor(
                 fileerr,
             )) {
                 Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
-                }
+                Err(err) =>
+                    e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
             }
             defx!("({:?})", path);
             return;
@@ -1894,9 +1885,8 @@ fn exec_utmpprocessor(
                     FILEOK,
                 )) {
                     Ok(_) => {}
-                    Err(err) => {
-                        eprintln!("ERROR: D chan_send_dt.send(…) failed {}", err);
-                    }
+                    Err(err) =>
+                        e_err!("D chan_send_dt.send(…) failed {} for {:?}", err, path)
                 }
             }
             ResultS3UtmpxFind::Done => {
@@ -1922,9 +1912,8 @@ fn exec_utmpprocessor(
         FILEOK,
     )) {
         Ok(_) => {}
-        Err(err) => {
-            eprintln!("ERROR: chan_send_dt.send(…) failed {}", err);
-        }
+        Err(err) =>
+            e_err!("chan_send_dt.send(…) failed {} for {:?}", err, path)
     }
 
     defx!("({:?})", path);
@@ -1960,12 +1949,12 @@ fn exec_evtxprocessor(
             );
             let fileerr: FileProcessingResultBlockZero = match err.kind() {
                 ErrorKind::PermissionDenied => {
-                    eprintln!("ERROR: {} for {:?}", err, path);
+                    e_err!("{} for {:?}", err, path);
 
                     FileProcessingResultBlockZero::FileErrIo(err)
                 }
                 _ => {
-                    eprintln!("ERROR: {} for {:?}", err, path);
+                    e_err!("{} for {:?}", err, path);
 
                     FILEERRSTUB
                 }
@@ -1977,9 +1966,8 @@ fn exec_evtxprocessor(
                 fileerr,
             )) {
                 Ok(_) => {}
-                Err(err) => {
-                    eprintln!("ERROR: A chan_send_dt.send(…) failed {}", err);
-                }
+                Err(err) =>
+                    e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
             }
             defx!("({:?})", path);
             return;
@@ -2224,8 +2212,8 @@ impl SummaryPrinted {
                             .to_string()
                             .as_bytes(),
                     ) {
-                        Err(err) => {
-                            eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                        Err(e) => {
+                            eprintln!("\nERROR: print_colored_stderr {:?}", e);
                             return;
                         }
                         Ok(_) => eprintln!(),
@@ -2244,8 +2232,8 @@ impl SummaryPrinted {
                                 .to_string()
                                 .as_bytes(),
                         ) {
-                            Err(err) => {
-                                eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                            Err(e) => {
+                                eprintln!("\nERROR: print_colored_stderr {:?}", e);
                                 return;
                             }
                             Ok(_) => eprintln!(),
@@ -2269,8 +2257,8 @@ impl SummaryPrinted {
                             .to_string()
                             .as_bytes(),
                     ) {
-                        Err(err) => {
-                            eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                        Err(e) => {
+                            eprintln!("\nERROR: print_colored_stderr {:?}", e);
                             return;
                         }
                         Ok(_) => eprintln!(),
@@ -2295,8 +2283,8 @@ impl SummaryPrinted {
                             .to_string()
                             .as_bytes(),
                     ) {
-                        Err(err) => {
-                            eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                        Err(e) => {
+                            eprintln!("\nERROR: print_colored_stderr {:?}", e);
                             return;
                         }
                         Ok(_) => eprintln!(),
@@ -2315,8 +2303,8 @@ impl SummaryPrinted {
                     // then hint at an error with colored text
                     eprint!("{}datetime first: ", indent2);
                     match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
-                        Err(err) => {
-                            eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                        Err(e) => {
+                            eprintln!("\nERROR: print_colored_stderr {:?}", e);
                             return;
                         }
                         Ok(_) => eprintln!(),
@@ -2332,8 +2320,8 @@ impl SummaryPrinted {
                     // then hint at an error with colored text
                     eprint!("{}datetime last : ", indent2);
                     match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
-                        Err(err) => {
-                            eprintln!("\nERROR: print_colored_stderr {:?}", err);
+                        Err(e) => {
+                            eprintln!("\nERROR: print_colored_stderr {:?}", e);
                             return;
                         }
                         Ok(_) => eprintln!(),
@@ -2344,10 +2332,10 @@ impl SummaryPrinted {
                         None => {}
                     }
                 }
-        
             }
             None => {}
         }
+
         match summaryevtxreader_opt {
             Some(summaryevtxreader) => {
                 eprintln!("{}bytes         : {}", indent2, self.bytes);
@@ -2751,7 +2739,7 @@ fn processing_loop(
             Some(processpathresult) => match processpathresult {
                 ProcessPathResult::FileValid(path, _m, filetype) => (filetype, path),
                 val => {
-                    eprintln!("ERROR: unhandled ProcessPathResult {:?}", val);
+                    e_err!("unhandled ProcessPathResult {:?}", val);
                     continue;
                 }
             },
@@ -2778,7 +2766,7 @@ fn processing_loop(
         {
             Ok(_joinhandle) => {}
             Err(err) => {
-                eprintln!("ERROR: thread.name({:?}).spawn() pathid {} failed {:?}", basename_, pathid, err);
+                e_err!("thread.name({:?}).spawn() pathid {} failed {:?}", basename_, pathid, err);
                 map_pathid_chanrecvdatum.remove(pathid);
                 map_pathid_color.remove(pathid);
                 continue;
@@ -2844,7 +2832,7 @@ fn processing_loop(
         let pathid: &PathId = match map_index_pathid.get(&index) {
             Some(pathid_) => pathid_,
             None => {
-                eprintln!("ERROR: failed to map_index_pathid.get({})", index);
+                e_err!("failed to map_index_pathid.get({})", index);
                 return None;
             }
         };
@@ -2852,7 +2840,7 @@ fn processing_loop(
         let chan: &ChanRecvDatum = match pathid_chans.get(pathid) {
             Some(chan_) => chan_,
             None => {
-                eprintln!("ERROR: failed to pathid_chans.get({})", pathid);
+                e_err!("failed to pathid_chans.get({})", pathid);
                 return None;
             }
         };
@@ -2948,7 +2936,7 @@ fn processing_loop(
             {
                 Some(val) => val,
                 None => {
-                    eprintln!("ERROR: recv_many_chan returned None which is unexpected");
+                    e_err!("recv_many_chan returned None which is unexpected");
                     continue;
                 }
             };
@@ -3227,7 +3215,7 @@ fn processing_loop(
                                 if !has_print_err {
                                     has_print_err = true;
                                     // BUG: Issue #3 colorization settings in the context of a pipe
-                                    eprintln!("ERROR: failed to print {}", err);
+                                    e_err!("failed to print {}", err);
                                 }
                             }
                         }
@@ -3274,7 +3262,7 @@ fn processing_loop(
                                 if !has_print_err {
                                     has_print_err = true;
                                     // BUG: Issue #3 colorization settings in the context of a pipe
-                                    eprintln!("ERROR: failed to print {}", err);
+                                    e_err!("failed to print {}", err);
                                 }
                             }
                         }
@@ -3308,7 +3296,7 @@ fn processing_loop(
                                 if !has_print_err {
                                     has_print_err = true;
                                     // BUG: Issue #3 colorization settings in the context of a pipe
-                                    eprintln!("ERROR: failed to print {}", err);
+                                    e_err!("failed to print {}", err);
                                 }
                             }
                         }
@@ -3525,12 +3513,14 @@ fn print_filepath(
 ) {
     eprint!("File: ");
     // print path
-    match print_colored_stderr(*color, Some(*color_choice), path.as_bytes()) {
+    match print_colored_stderr(
+        *color,
+        Some(*color_choice),
+        path.as_bytes()
+    ) {
         Ok(_) => {}
-        Err(err) => {
-            eprintln!("ERROR: {:?}", err);
-        }
-    };
+        Err(e) => e_err!("print_colored_stderr: {:?}", e)
+    }
     eprintln!("\n{}About:", OPT_SUMMARY_PRINT_INDENT1);
     // if symlink or relative path then print target
     // XXX: experimentation revealed std::fs::Metadata::is_symlink to be unreliable on WSL Ubuntu
@@ -3630,8 +3620,8 @@ fn print_summary_opt_processed(
                     Some(*color_choice),
                     data.as_bytes(),
                 ) {
-                    Err(_) => {}
                     Ok(_) => eprintln!(),
+                    Err(e) => e_err!("print_colored_stderr: {:?}", e)
                 }
             }
             match summaryevtxreader.evtxreader_datetime_first_processed {
@@ -4009,7 +3999,7 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
     let summary: &Summary = match summary_opt.as_ref() {
         Some(summary_) => summary_,
         None => {
-            eprintln!("ERROR: unexpected None from match summary_opt");
+            e_err!("unexpected None from match summary_opt");
             return;
         }
     };
@@ -4160,8 +4150,8 @@ fn print_error_summary(
                 eprint!("{}Error: ", OPT_SUMMARY_PRINT_INDENT1);
                 #[allow(clippy::single_match)]
                 match print_colored_stderr(COLOR_ERROR, Some(*color_choice), err_string.as_bytes()) {
-                    Err(_err) => {}
-                    _ => {}
+                    Ok(_) => {}
+                    Err(e) => e_err!("print_colored_stderr: {:?}", e)
                 }
                 eprintln!();
             }
@@ -4255,10 +4245,8 @@ fn print_files_processpathresult(
         color: &Color,
     ) {
         match print_colored_stderr(*color, Some(*color_choice), buffer.as_bytes()) {
-            Ok(()) => {}
-            Err(err) => {
-                eprintln!("ERROR: {:?}", err);
-            }
+            Ok(_) => {}
+            Err(e) => e_err!("print_colored_stderr: {:?}", e)
         };
     }
 
