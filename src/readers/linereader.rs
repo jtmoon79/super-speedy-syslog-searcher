@@ -31,7 +31,7 @@ use ::lru::LruCache;
 use ::mime_guess::MimeGuess;
 use ::more_asserts::debug_assert_ge;
 #[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::si_trace_print::{defn, defo, defx, defñ, def1ñ, den, deo, dex, deñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // LineReader
@@ -195,7 +195,7 @@ impl LineReader {
         filetype: FileType,
         blocksz: BlockSz,
     ) -> Result<LineReader> {
-        defñ!("LineReader::new({:?}, {:?}, {:?})", path, filetype, blocksz);
+        def1ñ!("({:?}, {:?}, {:?})", path, filetype, blocksz);
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         debug_assert_ge!(
             blocksz,
