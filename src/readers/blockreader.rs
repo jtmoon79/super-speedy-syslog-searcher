@@ -8,7 +8,7 @@
 //! [`BlockReader`]: crate::readers::blockreader::BlockReader
 
 #[doc(hidden)]
-pub use crate::common::{Count, FPath, FileOffset, FileSz, FileType};
+use crate::common::{Count, FPath, FileOffset, FileSz, FileType};
 use crate::common::{File, FileMetadata, FileOpenOptions, ResultS3};
 #[cfg(test)]
 use crate::common::Bytes;
