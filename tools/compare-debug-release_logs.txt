@@ -45,6 +45,8 @@
 ./logs/other/tests/dtf-varying-10.log
 ./logs/other/tests/dt-mix1.log
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
+./logs/programs/journal/RHE_91_system.journal
+./logs/programs/journal/Ubuntu22-user-1000x3.journal
 ./logs/programs/proftpd/proftpd.log
 ./logs/programs/utmp/host-entry1.wtmp
 ./logs/programs/utmp/host-entry6.wtmp

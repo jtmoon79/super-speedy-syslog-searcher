@@ -6,11 +6,11 @@ File: ./logs/CentOS7/yum.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 53507
       lines         : 499
       syslines      : 499
-  Summary Processed:
+  Processed:
       file size     : 29555 (0x7373) (bytes)
       bytes         : 29555 (0x7373)
       bytes total   : 29555 (0x7373)
@@ -47,11 +47,11 @@ File: ./logs/cygwin/setup.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 9897
       lines         : 77
       syslines      : 76
-  Summary Processed:
+  Processed:
       file size     : 6124 (0x17EC) (bytes)
       bytes         : 6124 (0x17EC)
       bytes total   : 6124 (0x17EC)
@@ -87,11 +87,11 @@ File: ./logs/cygwin/setup.log.full
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 8233
       lines         : 77
       syslines      : 12
-  Summary Processed:
+  Processed:
       file size     : 4075 (0xFEB) (bytes)
       bytes         : 4075 (0xFEB)
       bytes total   : 4075 (0xFEB)
@@ -127,11 +127,11 @@ File: ./logs/Debian11/alternatives.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5092
       lines         : 15
       syslines      : 15
-  Summary Processed:
+  Processed:
       file size     : 4222 (0x107E) (bytes)
       bytes         : 4222 (0x107E)
       bytes total   : 4222 (0x107E)
@@ -167,11 +167,11 @@ File: ./logs/Debian11/apache2/access.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1034
       lines         : 5
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 734 (0x2DE) (bytes)
       bytes         : 734 (0x2DE)
       bytes total   : 734 (0x2DE)
@@ -207,11 +207,11 @@ File: ./logs/Debian11/apache2/error.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 988
       lines         : 5
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 693 (0x2B5) (bytes)
       bytes         : 693 (0x2B5)
       bytes total   : 693 (0x2B5)
@@ -247,11 +247,11 @@ File: ./logs/Debian11/dpkg.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5510
       lines         : 49
       syslines      : 48
-  Summary Processed:
+  Processed:
       file size     : 3060 (0xBF4) (bytes)
       bytes         : 3060 (0xBF4)
       bytes total   : 3060 (0xBF4)
@@ -287,11 +287,11 @@ File: ./logs/Debian11/kern.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4480
       lines         : 21
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size     : 3430 (0xD66) (bytes)
       bytes         : 3430 (0xD66)
       bytes total   : 3430 (0xD66)
@@ -328,11 +328,11 @@ File: ./logs/Debian11/messages
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 4308
       lines         : 21
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size     : 3258 (0xCBA) (bytes)
       bytes         : 3258 (0xCBA)
       bytes total   : 3258 (0xCBA)
@@ -369,11 +369,11 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1066
       lines         : 5
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 596 (0x254) (bytes)
       bytes         : 596 (0x254)
       bytes total   : 596 (0x254)
@@ -409,11 +409,11 @@ File: ./logs/Debian11/user.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4388
       lines         : 25
       syslines      : 25
-  Summary Processed:
+  Processed:
       file size     : 3138 (0xC42) (bytes)
       bytes         : 3138 (0xC42)
       bytes total   : 3138 (0xC42)
@@ -450,11 +450,11 @@ File: ./logs/Debian9/alternatives.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3846
       lines         : 19
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 2763 (0xACB) (bytes)
       bytes         : 2763 (0xACB)
       bytes total   : 2763 (0xACB)
@@ -490,11 +490,11 @@ File: ./logs/Debian9/apport.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1063
       lines         : 6
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 745 (0x2E9) (bytes)
       bytes         : 745 (0x2E9)
       bytes total   : 745 (0x2E9)
@@ -530,11 +530,11 @@ File: ./logs/Debian9/apt/eipp.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 374 (0x176) (bytes)
       bytes         : 374 (0x176)
       bytes total   : 374 (0x176)
@@ -569,11 +569,11 @@ File: ./logs/Debian9/apt/history.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 801
       lines         : 9
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 298 (0x12A) (bytes)
       bytes         : 298 (0x12A)
       bytes total   : 298 (0x12A)
@@ -609,11 +609,11 @@ File: ./logs/Debian9/aptitude.4
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 1725
       lines         : 18
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 834 (0x342) (bytes)
       bytes         : 834 (0x342)
       bytes total   : 834 (0x342)
@@ -649,11 +649,11 @@ File: ./logs/Debian9/apt/term.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 32898
       lines         : 292
       syslines      : 7
-  Summary Processed:
+  Processed:
       file size     : 17422 (0x440E) (bytes)
       bytes         : 17422 (0x440E)
       bytes total   : 17422 (0x440E)
@@ -689,11 +689,11 @@ File: ./logs/Debian9/auth.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2683
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1752 (0x6D8) (bytes)
       bytes         : 1752 (0x6D8)
       bytes total   : 1752 (0x6D8)
@@ -730,11 +730,11 @@ File: ./logs/Debian9/boot.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 1106 (0x452) (bytes)
       bytes         : 1106 (0x452)
       bytes total   : 1106 (0x452)
@@ -769,11 +769,11 @@ File: ./logs/Debian9/clamav/clamd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1026
       lines         : 8
       syslines      : 8
-  Summary Processed:
+  Processed:
       file size     : 570 (0x23A) (bytes)
       bytes         : 570 (0x23A)
       bytes total   : 570 (0x23A)
@@ -809,11 +809,11 @@ File: ./logs/Debian9/dpkg.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2064
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1095 (0x447) (bytes)
       bytes         : 1095 (0x447)
       bytes total   : 1095 (0x447)
@@ -849,11 +849,11 @@ File: ./logs/Debian9/kern.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2550
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1619 (0x653) (bytes)
       bytes         : 1619 (0x653)
       bytes total   : 1619 (0x653)
@@ -890,11 +890,11 @@ File: ./logs/Debian9/messages.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 206
       lines         : 1
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 153 (0x99) (bytes)
       bytes         : 153 (0x99)
       bytes total   : 153 (0x99)
@@ -931,11 +931,11 @@ File: ./logs/Debian9/nginx/access.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5320
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 4237 (0x108D) (bytes)
       bytes         : 4237 (0x108D)
       bytes total   : 4237 (0x108D)
@@ -971,11 +971,11 @@ File: ./logs/Debian9/nginx/access.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5358
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 4237 (0x108D) (bytes)
       bytes         : 4237 (0x108D)
       bytes total   : 4237 (0x108D)
@@ -1011,11 +1011,11 @@ File: ./logs/Debian9/nginx/error.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5054
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 3990 (0xF96) (bytes)
       bytes         : 3990 (0xF96)
       bytes total   : 3990 (0xF96)
@@ -1051,11 +1051,11 @@ File: ./logs/Debian9/nginx/error.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5092
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 3990 (0xF96) (bytes)
       bytes         : 3990 (0xF96)
       bytes total   : 3990 (0xF96)
@@ -1091,11 +1091,11 @@ File: ./logs/Debian9/samba/log.192.168.0.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 282
       lines         : 2
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 158 (0x9E) (bytes)
       bytes         : 158 (0x9E)
       bytes total   : 158 (0x9E)
@@ -1131,11 +1131,11 @@ File: ./logs/Debian9/samba/log.192.168.0.2
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 283
       lines         : 2
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 159 (0x9F) (bytes)
       bytes         : 159 (0x9F)
       bytes total   : 159 (0x9F)
@@ -1171,11 +1171,11 @@ File: ./logs/Debian9/samba/log.host1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 271
       lines         : 2
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 159 (0x9F) (bytes)
       bytes         : 159 (0x9F)
       bytes total   : 159 (0x9F)
@@ -1211,11 +1211,11 @@ File: ./logs/Debian9/samba/log.host2
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 270
       lines         : 2
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 158 (0x9E) (bytes)
       bytes         : 158 (0x9E)
       bytes total   : 158 (0x9E)
@@ -1251,11 +1251,11 @@ File: ./logs/Debian9/samba/log.nmbd
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 391
       lines         : 3
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 226 (0xE2) (bytes)
       bytes         : 226 (0xE2)
       bytes total   : 226 (0xE2)
@@ -1291,11 +1291,11 @@ File: ./logs/Debian9/samba/log.nmbd.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2724
       lines         : 18
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 1783 (0x6F7) (bytes)
       bytes         : 1783 (0x6F7)
       bytes total   : 1783 (0x6F7)
@@ -1331,11 +1331,11 @@ File: ./logs/Debian9/samba/log.nmbd.old
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2760
       lines         : 18
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 1783 (0x6F7) (bytes)
       bytes         : 1783 (0x6F7)
       bytes total   : 1783 (0x6F7)
@@ -1371,11 +1371,11 @@ File: ./logs/Debian9/samba/log.smbd.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 267
       lines         : 2
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 153 (0x99) (bytes)
       bytes         : 153 (0x99)
       bytes total   : 153 (0x99)
@@ -1411,11 +1411,11 @@ File: ./logs/Debian9/syslog
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2742
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1849 (0x739) (bytes)
       bytes         : 1849 (0x739)
       bytes total   : 1849 (0x739)
@@ -1452,11 +1452,11 @@ File: ./logs/Debian9/user.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 517
       lines         : 3
       syslines      : 3
-  Summary Processed:
+  Processed:
       file size     : 364 (0x16C) (bytes)
       bytes         : 364 (0x16C)
       bytes total   : 364 (0x16C)
@@ -1493,11 +1493,11 @@ File: ./logs/Debian9/Xorg.0.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 556
       lines         : 5
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 1249 (0x4E1) (bytes)
       bytes         : 1249 (0x4E1)
       bytes total   : 1249 (0x4E1)
@@ -1533,11 +1533,11 @@ File: ./logs/Debian9/Xorg.0.log.old
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 576
       lines         : 5
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 1250 (0x4E2) (bytes)
       bytes         : 1250 (0x4E2)
       bytes total   : 1250 (0x4E2)
@@ -1573,11 +1573,11 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4845
       lines         : 27
       syslines      : 27
-  Summary Processed:
+  Processed:
       file size     : 3171 (0xC63) (bytes)
       bytes         : 3171 (0xC63)
       bytes total   : 3171 (0xC63)
@@ -1613,11 +1613,11 @@ File: ./logs/FedoraRemix29/dnf.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 62339
       lines         : 476
       syslines      : 226
-  Summary Processed:
+  Processed:
       file size     : 36635 (0x8F1B) (bytes)
       bytes         : 36635 (0x8F1B)
       bytes total   : 36635 (0x8F1B)
@@ -1653,11 +1653,11 @@ File: ./logs/FedoraRemix29/hawkeye.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5613
       lines         : 37
       syslines      : 36
-  Summary Processed:
+  Processed:
       file size     : 3467 (0xD8B) (bytes)
       bytes         : 3467 (0xD8B)
       bytes total   : 3467 (0xD8B)
@@ -1694,11 +1694,11 @@ File: ./logs/MinGW64/pacman.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 10901
       lines         : 102
       syslines      : 102
-  Summary Processed:
+  Processed:
       file size     : 5699 (0x1643) (bytes)
       bytes         : 5699 (0x1643)
       bytes total   : 5699 (0x1643)
@@ -1734,11 +1734,11 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 3079
       lines         : 20
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size     : 1979 (0x7BB) (bytes)
       bytes         : 1979 (0x7BB)
       bytes total   : 1979 (0x7BB)
@@ -1774,11 +1774,11 @@ File: ./logs/OpenSUSE15/zypper.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3791
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2765 (0xACD) (bytes)
       bytes         : 2765 (0xACD)
       bytes total   : 2765 (0xACD)
@@ -1814,11 +1814,11 @@ File: ./logs/OpenSUSE15/zypp/history
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 6949
       lines         : 39
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 4765 (0x129D) (bytes)
       bytes         : 4765 (0x129D)
       bytes total   : 4765 (0x129D)
@@ -1854,11 +1854,11 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 1192
       lines         : 9
       syslines      : 8
-  Summary Processed:
+  Processed:
       file size     : 643 (0x283) (bytes)
       bytes         : 643 (0x283)
       bytes total   : 643 (0x283)
@@ -1894,11 +1894,11 @@ File: ./logs/Orbi/tmp/dal_ash.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1308
       lines         : 9
       syslines      : 8
-  Summary Processed:
+  Processed:
       file size     : 831 (0x33F) (bytes)
       bytes         : 831 (0x33F)
       bytes total   : 831 (0x33F)
@@ -1934,11 +1934,11 @@ File: ./logs/Orbi/tmp/soap_check_fw_log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2280
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1159 (0x487) (bytes)
       bytes         : 1159 (0x487)
       bytes total   : 1159 (0x487)
@@ -1974,11 +1974,11 @@ File: ./logs/Orbi/tmp/UpAgent.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2872
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 1865 (0x749) (bytes)
       bytes         : 1865 (0x749)
       bytes total   : 1865 (0x749)
@@ -2014,11 +2014,11 @@ File: ./logs/Orbi/tmp/xagent.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2583
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1595 (0x63B) (bytes)
       bytes         : 1595 (0x63B)
       bytes total   : 1595 (0x63B)
@@ -2054,11 +2054,11 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 3327
       lines         : 19
       syslines      : 17
-  Summary Processed:
+  Processed:
       file size     : 1864 (0x748) (bytes)
       bytes         : 1864 (0x748)
       bytes total   : 1864 (0x748)
@@ -2094,11 +2094,11 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 3403
       lines         : 19
       syslines      : 17
-  Summary Processed:
+  Processed:
       file size     : 1864 (0x748) (bytes)
       bytes         : 1864 (0x748)
       bytes total   : 1864 (0x748)
@@ -2134,11 +2134,11 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 3408
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2135 (0x857) (bytes)
       bytes         : 2135 (0x857)
       bytes total   : 2135 (0x857)
@@ -2174,11 +2174,11 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 3382
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2033 (0x7F1) (bytes)
       bytes         : 2033 (0x7F1)
       bytes total   : 2033 (0x7F1)
@@ -2214,11 +2214,11 @@ File: ./logs/other/tests/empty.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 0 (0x0) (bytes)
       bytes         : 0 (0x0)
       bytes total   : 0 (0x0)
@@ -2253,11 +2253,11 @@ File: ./logs/other/tests/basic-basic-dt10-repeats.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5225
       lines         : 55
       syslines      : 55
-  Summary Processed:
+  Processed:
       file size     : 1210 (0x4BA) (bytes)
       bytes         : 1210 (0x4BA)
       bytes total   : 1210 (0x4BA)
@@ -2293,11 +2293,11 @@ File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 6104
       lines         : 55
       syslines      : 55
-  Summary Processed:
+  Processed:
       file size     : 1539 (0x603) (bytes)
       bytes         : 1539 (0x603)
       bytes total   : 1539 (0x603)
@@ -2333,11 +2333,11 @@ File: ./logs/other/tests/basic-basic-dt20.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1699
       lines         : 20
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size     : 399 (0x18F) (bytes)
       bytes         : 399 (0x18F)
       bytes total   : 399 (0x18F)
@@ -2373,11 +2373,11 @@ File: ./logs/other/tests/basic-dt1.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 78
       lines         : 1
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 20 (0x14) (bytes)
       bytes         : 20 (0x14)
       bytes total   : 20 (0x14)
@@ -2413,11 +2413,11 @@ File: ./logs/other/tests/basic-dt27.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2483
       lines         : 27
       syslines      : 27
-  Summary Processed:
+  Processed:
       file size     : 890 (0x37A) (bytes)
       bytes         : 890 (0x37A)
       bytes total   : 890 (0x37A)
@@ -2453,11 +2453,11 @@ File: ./logs/other/tests/basic-dt2b.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 279
       lines         : 4
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 43 (0x2B) (bytes)
       bytes         : 43 (0x2B)
       bytes total   : 43 (0x2B)
@@ -2493,11 +2493,11 @@ File: ./logs/other/tests/basic-dt2.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 156
       lines         : 2
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 40 (0x28) (bytes)
       bytes         : 40 (0x28)
       bytes total   : 40 (0x28)
@@ -2533,11 +2533,11 @@ File: ./logs/other/tests/basic-dt6.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 482
       lines         : 6
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 134 (0x86) (bytes)
       bytes         : 134 (0x86)
       bytes total   : 134 (0x86)
@@ -2573,11 +2573,11 @@ File: ./logs/other/tests/basic-dt-u.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4454
       lines         : 54
       syslines      : 27
-  Summary Processed:
+  Processed:
       file size     : 1268 (0x4F4) (bytes)
       bytes         : 1268 (0x4F4)
       bytes total   : 1268 (0x4F4)
@@ -2613,11 +2613,11 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4791
       lines         : 64
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 631 (0x277) (bytes)
       bytes         : 631 (0x277)
       bytes total   : 631 (0x277)
@@ -2653,11 +2653,11 @@ File: ./logs/other/tests/dtf10-10a.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 762
       lines         : 8
       syslines      : 8
-  Summary Processed:
+  Processed:
       file size     : 298 (0x12A) (bytes)
       bytes         : 298 (0x12A)
       bytes total   : 298 (0x12A)
@@ -2693,11 +2693,11 @@ File: ./logs/other/tests/dtf10-10b.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1152
       lines         : 13
       syslines      : 8
-  Summary Processed:
+  Processed:
       file size     : 398 (0x18E) (bytes)
       bytes         : 398 (0x18E)
       bytes total   : 398 (0x18E)
@@ -2733,11 +2733,11 @@ File: ./logs/other/tests/dtf11-A.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1208
       lines         : 13
       syslines      : 13
-  Summary Processed:
+  Processed:
       file size     : 480 (0x1E0) (bytes)
       bytes         : 480 (0x1E0)
       bytes total   : 480 (0x1E0)
@@ -2773,11 +2773,11 @@ File: ./logs/other/tests/dtf2-2.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 225
       lines         : 3
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 60 (0x3C) (bytes)
       bytes         : 60 (0x3C)
       bytes total   : 60 (0x3C)
@@ -2813,11 +2813,11 @@ File: ./logs/other/tests/dtf3-1.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 84
       lines         : 1
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 29 (0x1D) (bytes)
       bytes         : 29 (0x1D)
       bytes total   : 29 (0x1D)
@@ -2853,11 +2853,11 @@ File: ./logs/other/tests/dtf3-2a.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 180
       lines         : 2
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 68 (0x44) (bytes)
       bytes         : 68 (0x44)
       bytes total   : 68 (0x44)
@@ -2893,11 +2893,11 @@ File: ./logs/other/tests/dtf3-2b.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 295
       lines         : 4
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 71 (0x47) (bytes)
       bytes         : 71 (0x47)
       bytes total   : 71 (0x47)
@@ -2933,11 +2933,11 @@ File: ./logs/other/tests/dtf4-2a.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 194
       lines         : 2
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 82 (0x52) (bytes)
       bytes         : 82 (0x52)
       bytes total   : 82 (0x52)
@@ -2973,11 +2973,11 @@ File: ./logs/other/tests/dtf4-2b.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 252
       lines         : 3
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 84 (0x54) (bytes)
       bytes         : 84 (0x54)
       bytes total   : 84 (0x54)
@@ -3013,11 +3013,11 @@ File: ./logs/other/tests/dtf5-1.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 83
       lines         : 1
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 28 (0x1C) (bytes)
       bytes         : 28 (0x1C)
       bytes total   : 28 (0x1C)
@@ -3053,11 +3053,11 @@ File: ./logs/other/tests/dtf5-2a.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 172
       lines         : 2
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 60 (0x3C) (bytes)
       bytes         : 60 (0x3C)
       bytes total   : 60 (0x3C)
@@ -3093,11 +3093,11 @@ File: ./logs/other/tests/dtf5-2b.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 287
       lines         : 4
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 63 (0x3F) (bytes)
       bytes         : 63 (0x3F)
       bytes total   : 63 (0x3F)
@@ -3133,11 +3133,11 @@ File: ./logs/other/tests/dtf5-2c.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 402
       lines         : 6
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 66 (0x42) (bytes)
       bytes         : 66 (0x42)
       bytes total   : 66 (0x42)
@@ -3173,11 +3173,11 @@ File: ./logs/other/tests/dtf5-3-LF-CR.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 433
       lines         : 4
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 189 (0xBD) (bytes)
       bytes         : 189 (0xBD)
       bytes total   : 189 (0xBD)
@@ -3213,11 +3213,11 @@ File: ./logs/other/tests/dtf5-3-r-n.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 553
       lines         : 6
       syslines      : 3
-  Summary Processed:
+  Processed:
       file size     : 199 (0xC7) (bytes)
       bytes         : 199 (0xC7)
       bytes total   : 199 (0xC7)
@@ -3253,11 +3253,11 @@ File: ./logs/other/tests/dtf5-6a.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 530
       lines         : 6
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 194 (0xC2) (bytes)
       bytes         : 194 (0xC2)
       bytes total   : 194 (0xC2)
@@ -3293,11 +3293,11 @@ File: ./logs/other/tests/dtf5-6a.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 542
       lines         : 6
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 194 (0xC2) (bytes)
       bytes         : 194 (0xC2)
       bytes total   : 194 (0xC2)
@@ -3333,11 +3333,11 @@ File: ./logs/other/tests/dtf5-6a.log.gz
       filetype      : GZIP
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["application/gzip"])
-  Summary Printed:
+  Printed:
       bytes         : 548
       lines         : 6
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size compressed  : 89 (0x59) (bytes)
       file size uncompressed: 194 (0xC2) (bytes)
       bytes         : 194 (0xC2)
@@ -3374,11 +3374,11 @@ File: ./logs/other/tests/dtf5-6a.log.gz.tar|dtf5-6a.log.gz
       filetype      : TAR
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["application/gzip"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size archive   : 10240 (0x2800) (bytes)
       file size unarchived: 89 (0x59) (bytes)
       bytes         : 89 (0x59)
@@ -3414,11 +3414,11 @@ File: ./logs/other/tests/dtf5-6a.log.old
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 554
       lines         : 6
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 194 (0xC2) (bytes)
       bytes         : 194 (0xC2)
       bytes total   : 194 (0xC2)
@@ -3454,11 +3454,11 @@ File: ./logs/other/tests/dtf5-6a.log.xz
       filetype      : XZ
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["application/x-xz"])
-  Summary Printed:
+  Printed:
       bytes         : 548
       lines         : 6
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size compressed  : 124 (0x7C) (bytes)
       file size uncompressed: 194 (0xC2) (bytes)
       bytes         : 194 (0xC2)
@@ -3495,11 +3495,11 @@ File: ./logs/other/tests/dtf5-6b.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 921
       lines         : 12
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 249 (0xF9) (bytes)
       bytes         : 249 (0xF9)
       bytes total   : 249 (0xF9)
@@ -3535,11 +3535,11 @@ File: ./logs/other/tests/dtf5-6c.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2621
       lines         : 32
       syslines      : 11
-  Summary Processed:
+  Processed:
       file size     : 829 (0x33D) (bytes)
       bytes         : 829 (0x33D)
       bytes total   : 829 (0x33D)
@@ -3575,11 +3575,11 @@ File: ./logs/other/tests/dtf6z-1.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 469
       lines         : 5
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 189 (0xBD) (bytes)
       bytes         : 189 (0xBD)
       bytes total   : 189 (0xBD)
@@ -3615,11 +3615,11 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2520
       lines         : 20
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size     : 1260 (0x4EC) (bytes)
       bytes         : 1260 (0x4EC)
       bytes total   : 1260 (0x4EC)
@@ -3655,11 +3655,11 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
       filetype      : GZIP
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["application/gzip"])
-  Summary Printed:
+  Printed:
       bytes         : 2580
       lines         : 20
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size compressed  : 253 (0xFD) (bytes)
       file size uncompressed: 1260 (0x4EC) (bytes)
       bytes         : 1260 (0x4EC)
@@ -3696,11 +3696,11 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2600
       lines         : 20
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size     : 1260 (0x4EC) (bytes)
       bytes         : 1260 (0x4EC)
       bytes total   : 1260 (0x4EC)
@@ -3736,11 +3736,11 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
       filetype      : GZIP
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["application/gzip"])
-  Summary Printed:
+  Printed:
       bytes         : 2660
       lines         : 20
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size compressed  : 257 (0x101) (bytes)
       file size uncompressed: 1260 (0x4EC) (bytes)
       bytes         : 1260 (0x4EC)
@@ -3777,11 +3777,11 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVEL
       filetype      : TAR
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3360
       lines         : 20
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size archive   : 10240 (0x2800) (bytes)
       file size unarchived: 1260 (0x4EC) (bytes)
       bytes         : 1260 (0x4EC)
@@ -3818,11 +3818,11 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
       filetype      : XZ
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["application/x-xz"])
-  Summary Printed:
+  Printed:
       bytes         : 2580
       lines         : 20
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size compressed  : 284 (0x11C) (bytes)
       file size uncompressed: 1260 (0x4EC) (bytes)
       bytes         : 1260 (0x4EC)
@@ -3859,11 +3859,11 @@ File: ./logs/other/tests/dtf7-5-LEVELS.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 582
       lines         : 5
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 272 (0x110) (bytes)
       bytes         : 272 (0x110)
       bytes total   : 272 (0x110)
@@ -3899,11 +3899,11 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2640
       lines         : 20
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size     : 1380 (0x564) (bytes)
       bytes         : 1380 (0x564)
       bytes total   : 1380 (0x564)
@@ -3939,11 +3939,11 @@ File: ./logs/other/tests/dtf9a-2.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 590
       lines         : 2
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 478 (0x1DE) (bytes)
       bytes         : 478 (0x1DE)
       bytes total   : 478 (0x1DE)
@@ -3980,11 +3980,11 @@ File: ./logs/other/tests/dtf9b-12-leapday.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4266
       lines         : 12
       syslines      : 11
-  Summary Processed:
+  Processed:
       file size     : 3486 (0xD9E) (bytes)
       bytes         : 3486 (0xD9E)
       bytes total   : 3486 (0xD9E)
@@ -4021,11 +4021,11 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4266
       lines         : 12
       syslines      : 11
-  Summary Processed:
+  Processed:
       file size     : 3486 (0xD9E) (bytes)
       bytes         : 3486 (0xD9E)
       bytes total   : 3486 (0xD9E)
@@ -4062,11 +4062,11 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       filetype      : TAR
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2381
       lines         : 25
       syslines      : 23
-  Summary Processed:
+  Processed:
       file size archive   : 10240 (0x2800) (bytes)
       file size unarchived: 431 (0x1AF) (bytes)
       bytes         : 431 (0x1AF)
@@ -4104,11 +4104,11 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1981
       lines         : 25
       syslines      : 23
-  Summary Processed:
+  Processed:
       file size     : 431 (0x1AF) (bytes)
       bytes         : 431 (0x1AF)
       bytes total   : 431 (0x1AF)
@@ -4145,11 +4145,11 @@ File: ./logs/other/tests/dtf9c-23-12x2.log.gz
       filetype      : GZIP
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["application/gzip"])
-  Summary Printed:
+  Printed:
       bytes         : 2056
       lines         : 25
       syslines      : 23
-  Summary Processed:
+  Processed:
       file size compressed  : 207 (0xCF) (bytes)
       file size uncompressed: 431 (0x1AF) (bytes)
       bytes         : 431 (0x1AF)
@@ -4187,11 +4187,11 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3195
       lines         : 38
       syslines      : 37
-  Summary Processed:
+  Processed:
       file size     : 839 (0x347) (bytes)
       bytes         : 839 (0x347)
       bytes total   : 839 (0x347)
@@ -4228,11 +4228,11 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2254
       lines         : 24
       syslines      : 23
-  Summary Processed:
+  Processed:
       file size     : 526 (0x20E) (bytes)
       bytes         : 526 (0x20E)
       bytes total   : 526 (0x20E)
@@ -4269,11 +4269,11 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2277
       lines         : 25
       syslines      : 23
-  Summary Processed:
+  Processed:
       file size     : 527 (0x20F) (bytes)
       bytes         : 527 (0x20F)
       bytes total   : 527 (0x20F)
@@ -4310,11 +4310,11 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5679
       lines         : 54
       syslines      : 53
-  Summary Processed:
+  Processed:
       file size     : 1197 (0x4AD) (bytes)
       bytes         : 1197 (0x4AD)
       bytes total   : 1197 (0x4AD)
@@ -4351,11 +4351,11 @@ File: ./logs/other/tests/dtf-varying-10.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 926
       lines         : 10
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 296 (0x128) (bytes)
       bytes         : 296 (0x128)
       bytes total   : 296 (0x128)
@@ -4391,11 +4391,11 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1124
       lines         : 11
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 450 (0x1C2) (bytes)
       bytes         : 450 (0x1C2)
       bytes total   : 450 (0x1C2)
@@ -4431,11 +4431,11 @@ File: ./logs/other/tests/dtf12b-x2_patts.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 713
       lines         : 7
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 295 (0x127) (bytes)
       bytes         : 295 (0x127)
       bytes total   : 295 (0x127)
@@ -4471,11 +4471,11 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 807
       lines         : 8
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 295 (0x127) (bytes)
       bytes         : 295 (0x127)
       bytes total   : 295 (0x127)
@@ -4511,11 +4511,11 @@ File: ./logs/other/tests/dt-mix1.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1518
       lines         : 20
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 420 (0x1A4) (bytes)
       bytes         : 420 (0x1A4)
       bytes total   : 420 (0x1A4)
@@ -4551,11 +4551,11 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 6529
       lines         : 33
       syslines      : 30
-  Summary Processed:
+  Processed:
       file size     : 3856 (0xF10) (bytes)
       bytes         : 3856 (0xF10)
       bytes total   : 3856 (0xF10)
@@ -4591,11 +4591,11 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 6502 (0x1966) (bytes)
       bytes         : 6502 (0x1966)
       bytes total   : 6502 (0x1966)
@@ -4630,25 +4630,55 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
       filetype      : EVTX
       logmessagetype: evtx entries
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 1117407
       Events        : 227
-  Summary Processed:
+  Processed:
       file size          : 1052672 (0x101000) (bytes)
       Events processed   : 227
       Events accepted    : 227
       Events out of order: 1
+
+File: ./logs/programs/journal/RHE_91_system.journal
+  About:
+      filetype      : JOURNAL
+      logmessagetype: journal entries
+      MIME guess    : MimeGuess([])
+  Printed:
+      bytes         : 345468
+      journal events: 2081
+  Processed:
+      file size     : 4644864 (0x46E000) (bytes)
+      journal events: 2081
+      out of order  : 0
+      lib. API calls: 55126
+      API errors    : 0
+
+File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
+  About:
+      filetype      : JOURNAL
+      logmessagetype: journal entries
+      MIME guess    : MimeGuess([])
+  Printed:
+      bytes         : 537
+      journal events: 3
+  Processed:
+      file size     : 8388608 (0x800000) (bytes)
+      journal events: 3
+      out of order  : 0
+      lib. API calls: 113
+      API errors    : 0
 
 File: ./logs/programs/pacman/pacman.log
   About:
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 23588
       lines         : 195
       syslines      : 195
-  Summary Processed:
+  Processed:
       file size     : 12083 (0x2F33) (bytes)
       bytes         : 12083 (0x2F33)
       bytes total   : 12083 (0x2F33)
@@ -4684,11 +4714,11 @@ File: ./logs/programs/proftpd/controls.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1042
       lines         : 6
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 670 (0x29E) (bytes)
       bytes         : 670 (0x29E)
       bytes total   : 670 (0x29E)
@@ -4724,11 +4754,11 @@ File: ./logs/programs/proftpd/proftpd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3233
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2074 (0x81A) (bytes)
       bytes         : 2074 (0x81A)
       bytes total   : 2074 (0x81A)
@@ -4764,11 +4794,11 @@ File: ./logs/programs/proftpd/xferlog
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 450
       lines         : 3
       syslines      : 3
-  Summary Processed:
+  Processed:
       file size     : 279 (0x117) (bytes)
       bytes         : 279 (0x117)
       bytes total   : 279 (0x117)
@@ -4804,11 +4834,11 @@ File: ./logs/programs/tomcat/catalina.out
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 3113
       lines         : 21
       syslines      : 7
-  Summary Processed:
+  Processed:
       file size     : 1832 (0x728) (bytes)
       bytes         : 1832 (0x728)
       bytes total   : 1832 (0x728)
@@ -4844,11 +4874,11 @@ File: ./logs/programs/tomcat/catalina-access.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 568
       lines         : 2
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 432 (0x1B0) (bytes)
       bytes         : 432 (0x1B0)
       bytes total   : 432 (0x1B0)
@@ -4884,10 +4914,10 @@ File: ./logs/programs/utmp/host-entry1.wtmp
       filetype      : UTMP
       logmessagetype: utmpx entries
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 220
       utmpx         : 1
-  Summary Processed:
+  Processed:
       file size     : 384 (0x180) (bytes)
       bytes         : 384 (0x180)
       bytes total   : 384 (0x180)
@@ -4910,10 +4940,10 @@ File: ./logs/programs/utmp/host-entry6.wtmp
       filetype      : UTMP
       logmessagetype: utmpx entries
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 1383
       utmpx         : 6
-  Summary Processed:
+  Processed:
       file size     : 2304 (0x900) (bytes)
       bytes         : 2304 (0x900)
       bytes total   : 2304 (0x900)
@@ -4936,11 +4966,11 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 309
       lines         : 2
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 183 (0xB7) (bytes)
       bytes         : 183 (0xB7)
       bytes total   : 183 (0xB7)
@@ -4976,11 +5006,11 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1682
       lines         : 10
       syslines      : 8
-  Summary Processed:
+  Processed:
       file size     : 952 (0x3B8) (bytes)
       bytes         : 952 (0x3B8)
       bytes total   : 952 (0x3B8)
@@ -5016,11 +5046,11 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 875
       lines         : 5
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 510 (0x1FE) (bytes)
       bytes         : 510 (0x1FE)
       bytes total   : 510 (0x1FE)
@@ -5056,11 +5086,11 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3470
       lines         : 21
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 2168 (0x878) (bytes)
       bytes         : 2168 (0x878)
       bytes total   : 2168 (0x878)
@@ -5096,11 +5126,11 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4375
       lines         : 21
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 3010 (0xBC2) (bytes)
       bytes         : 3010 (0xBC2)
       bytes total   : 3010 (0xBC2)
@@ -5136,11 +5166,11 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3074
       lines         : 21
       syslines      : 20
-  Summary Processed:
+  Processed:
       file size     : 1709 (0x6AD) (bytes)
       bytes         : 1709 (0x6AD)
       bytes total   : 1709 (0x6AD)
@@ -5176,11 +5206,11 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2948
       lines         : 21
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 1499 (0x5DB) (bytes)
       bytes         : 1499 (0x5DB)
       bytes total   : 1499 (0x5DB)
@@ -5216,11 +5246,11 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1486
       lines         : 10
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 826 (0x33A) (bytes)
       bytes         : 826 (0x33A)
       bytes total   : 826 (0x33A)
@@ -5256,11 +5286,11 @@ File: ./logs/RancherOS-1.5.8/dockerlaunch.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 7482
       lines         : 45
       syslines      : 45
-  Summary Processed:
+  Processed:
       file size     : 4557 (0x11CD) (bytes)
       bytes         : 4557 (0x11CD)
       bytes total   : 4557 (0x11CD)
@@ -5296,11 +5326,11 @@ File: ./logs/RancherOS-1.5.8/docker.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 13070
       lines         : 66
       syslines      : 66
-  Summary Processed:
+  Processed:
       file size     : 9256 (0x2428) (bytes)
       bytes         : 9256 (0x2428)
       bytes total   : 9256 (0x2428)
@@ -5336,11 +5366,11 @@ File: ./logs/RancherOS-1.5.8/messages
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 40584
       lines         : 234
       syslines      : 231
-  Summary Processed:
+  Processed:
       file size     : 27246 (0x6A6E) (bytes)
       bytes         : 27246 (0x6A6E)
       bytes total   : 27246 (0x6A6E)
@@ -5377,11 +5407,11 @@ File: ./logs/RancherOS-1.5.8/syslog
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 1817
       lines         : 10
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1267 (0x4F3) (bytes)
       bytes         : 1267 (0x4F3)
       bytes total   : 1267 (0x4F3)
@@ -5418,11 +5448,11 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3553
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 2501 (0x9C5) (bytes)
       bytes         : 2501 (0x9C5)
       bytes total   : 2501 (0x9C5)
@@ -5458,11 +5488,11 @@ File: ./logs/RockyLinux9/cron
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 18216
       lines         : 116
       syslines      : 116
-  Summary Processed:
+  Processed:
       file size     : 12532 (0x30F4) (bytes)
       bytes         : 12532 (0x30F4)
       bytes total   : 12532 (0x30F4)
@@ -5499,11 +5529,11 @@ File: ./logs/RockyLinux9/dnf.librepo.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 22391
       lines         : 104
       syslines      : 104
-  Summary Processed:
+  Processed:
       file size     : 16151 (0x3F17) (bytes)
       bytes         : 16151 (0x3F17)
       bytes total   : 16151 (0x3F17)
@@ -5539,11 +5569,11 @@ File: ./logs/RockyLinux9/dnf.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 96649
       lines         : 763
       syslines      : 677
-  Summary Processed:
+  Processed:
       file size     : 56973 (0xDE8D) (bytes)
       bytes         : 56973 (0xDE8D)
       bytes total   : 56973 (0xDE8D)
@@ -5579,11 +5609,11 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4584
       lines         : 39
       syslines      : 36
-  Summary Processed:
+  Processed:
       file size     : 2400 (0x960) (bytes)
       bytes         : 2400 (0x960)
       bytes total   : 2400 (0x960)
@@ -5619,11 +5649,11 @@ File: ./logs/RockyLinux9/hawkey.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3219
       lines         : 28
       syslines      : 28
-  Summary Processed:
+  Processed:
       file size     : 1679 (0x68F) (bytes)
       bytes         : 1679 (0x68F)
       bytes total   : 1679 (0x68F)
@@ -5659,11 +5689,11 @@ File: ./logs/RockyLinux9/messages
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 385032
       lines         : 2432
       syslines      : 2432
-  Summary Processed:
+  Processed:
       file size     : 256136 (0x3E888) (bytes)
       bytes         : 256136 (0x3E888)
       bytes total   : 256136 (0x3E888)
@@ -5700,11 +5730,11 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 7671
       lines         : 37
       syslines      : 37
-  Summary Processed:
+  Processed:
       file size     : 5229 (0x146D) (bytes)
       bytes         : 5229 (0x146D)
       bytes total   : 5229 (0x146D)
@@ -5741,11 +5771,11 @@ File: ./logs/RockyLinux9/nginx/access.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 796
       lines         : 4
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 552 (0x228) (bytes)
       bytes         : 552 (0x228)
       bytes total   : 552 (0x228)
@@ -5781,11 +5811,11 @@ File: ./logs/RockyLinux9/nginx/error.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 581
       lines         : 2
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 461 (0x1CD) (bytes)
       bytes         : 461 (0x1CD)
       bytes total   : 461 (0x1CD)
@@ -5821,11 +5851,11 @@ File: ./logs/RockyLinux9/secure
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 101304
       lines         : 546
       syslines      : 545
-  Summary Processed:
+  Processed:
       file size     : 73458 (0x11EF2) (bytes)
       bytes         : 73458 (0x11EF2)
       bytes total   : 73458 (0x11EF2)
@@ -5862,11 +5892,11 @@ File: ./logs/synology-DS6/apparmor.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2844
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1742 (0x6CE) (bytes)
       bytes         : 1742 (0x6CE)
       bytes total   : 1742 (0x6CE)
@@ -5902,11 +5932,11 @@ File: ./logs/synology-DS6/auth.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3193
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2167 (0x877) (bytes)
       bytes         : 2167 (0x877)
       bytes total   : 2167 (0x877)
@@ -5942,11 +5972,11 @@ File: ./logs/synology-DS6/checker.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2794
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1711 (0x6AF) (bytes)
       bytes         : 1711 (0x6AF)
       bytes total   : 1711 (0x6AF)
@@ -5982,11 +6012,11 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1275
       lines         : 7
       syslines      : 7
-  Summary Processed:
+  Processed:
       file size     : 813 (0x32D) (bytes)
       bytes         : 813 (0x32D)
       bytes total   : 813 (0x32D)
@@ -6023,11 +6053,11 @@ File: ./logs/synology-DS6/datascrubbing.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3603
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2406 (0x966) (bytes)
       bytes         : 2406 (0x966)
       bytes total   : 2406 (0x966)
@@ -6063,11 +6093,11 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 101
       lines         : 1
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 25 (0x19) (bytes)
       bytes         : 25 (0x19)
       bytes total   : 25 (0x19)
@@ -6103,11 +6133,11 @@ File: ./logs/synology-DS6/disk.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3211
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2185 (0x889) (bytes)
       bytes         : 2185 (0x889)
       bytes total   : 2185 (0x889)
@@ -6143,11 +6173,11 @@ File: ./logs/synology-DS6/dmesg
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2677
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1708 (0x6AC) (bytes)
       bytes         : 1708 (0x6AC)
       bytes total   : 1708 (0x6AC)
@@ -6183,11 +6213,11 @@ File: ./logs/synology-DS6/downloadstation.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3421
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2186 (0x88A) (bytes)
       bytes         : 2186 (0x88A)
       bytes total   : 2186 (0x88A)
@@ -6223,11 +6253,11 @@ File: ./logs/synology-DS6/dpkg.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2482
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1456 (0x5B0) (bytes)
       bytes         : 1456 (0x5B0)
       bytes total   : 1456 (0x5B0)
@@ -6263,11 +6293,11 @@ File: ./logs/synology-DS6/dpkg_upgrade.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2589
       lines         : 19
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 1411 (0x583) (bytes)
       bytes         : 1411 (0x583)
       bytes total   : 1411 (0x583)
@@ -6303,11 +6333,11 @@ File: ./logs/synology-DS6/esynoscheduler.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2843
       lines         : 19
       syslines      : 3
-  Summary Processed:
+  Processed:
       file size     : 1627 (0x65B) (bytes)
       bytes         : 1627 (0x65B)
       bytes total   : 1627 (0x65B)
@@ -6343,11 +6373,11 @@ File: ./logs/synology-DS6/fsck/root.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5861
       lines         : 66
       syslines      : 3
-  Summary Processed:
+  Processed:
       file size     : 1967 (0x7AF) (bytes)
       bytes         : 1967 (0x7AF)
       bytes total   : 1967 (0x7AF)
@@ -6383,11 +6413,11 @@ File: ./logs/synology-DS6/ha.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3545
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2557 (0x9FD) (bytes)
       bytes         : 2557 (0x9FD)
       bytes total   : 2557 (0x9FD)
@@ -6423,11 +6453,11 @@ File: ./logs/synology-DS6/iscsi.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3353
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2308 (0x904) (bytes)
       bytes         : 2308 (0x904)
       bytes total   : 2308 (0x904)
@@ -6463,11 +6493,11 @@ File: ./logs/synology-DS6/kern.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3290
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2264 (0x8D8) (bytes)
       bytes         : 2264 (0x8D8)
       bytes total   : 2264 (0x8D8)
@@ -6503,11 +6533,11 @@ File: ./logs/synology-DS6/messages
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 4617
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 3591 (0xE07) (bytes)
       bytes         : 3591 (0xE07)
       bytes total   : 3591 (0xE07)
@@ -6543,11 +6573,11 @@ File: ./logs/synology-DS6/opentftp.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2391
       lines         : 21
       syslines      : 21
-  Summary Processed:
+  Processed:
       file size     : 1173 (0x495) (bytes)
       bytes         : 1173 (0x495)
       bytes total   : 1173 (0x495)
@@ -6583,11 +6613,11 @@ File: ./logs/synology-DS6/packages/CloudSync.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2893
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1601 (0x641) (bytes)
       bytes         : 1601 (0x641)
       bytes total   : 1601 (0x641)
@@ -6623,11 +6653,11 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2362
       lines         : 19
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 956 (0x3BC) (bytes)
       bytes         : 956 (0x3BC)
       bytes total   : 956 (0x3BC)
@@ -6663,11 +6693,11 @@ File: ./logs/synology-DS6/packages/FileStation.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3196
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1866 (0x74A) (bytes)
       bytes         : 1866 (0x74A)
       bytes total   : 1866 (0x74A)
@@ -6703,11 +6733,11 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3020
       lines         : 19
       syslines      : 3
-  Summary Processed:
+  Processed:
       file size     : 1652 (0x674) (bytes)
       bytes         : 1652 (0x674)
       bytes total   : 1652 (0x674)
@@ -6743,11 +6773,11 @@ File: ./logs/synology-DS6/packages/HyperBackup.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2930
       lines         : 19
       syslines      : 16
-  Summary Processed:
+  Processed:
       file size     : 1600 (0x640) (bytes)
       bytes         : 1600 (0x640)
       bytes total   : 1600 (0x640)
@@ -6783,11 +6813,11 @@ File: ./logs/synology-DS6/packages/HyperBackupVault.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2895
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1470 (0x5BE) (bytes)
       bytes         : 1470 (0x5BE)
       bytes total   : 1470 (0x5BE)
@@ -6823,11 +6853,11 @@ File: ./logs/synology-DS6/packages/LogCenter.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2215
       lines         : 19
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 923 (0x39B) (bytes)
       bytes         : 923 (0x39B)
       bytes total   : 923 (0x39B)
@@ -6863,11 +6893,11 @@ File: ./logs/synology-DS6/packages/Node.js_v4.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3050
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1739 (0x6CB) (bytes)
       bytes         : 1739 (0x6CB)
       bytes total   : 1739 (0x6CB)
@@ -6903,11 +6933,11 @@ File: ./logs/synology-DS6/packages/Node.js_v8.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3346
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2035 (0x7F3) (bytes)
       bytes         : 2035 (0x7F3)
       bytes total   : 2035 (0x7F3)
@@ -6943,11 +6973,11 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2457
       lines         : 19
       syslines      : 7
-  Summary Processed:
+  Processed:
       file size     : 1051 (0x41B) (bytes)
       bytes         : 1051 (0x41B)
       bytes total   : 1051 (0x41B)
@@ -6983,11 +7013,11 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2824
       lines         : 19
       syslines      : 3
-  Summary Processed:
+  Processed:
       file size     : 1342 (0x53E) (bytes)
       bytes         : 1342 (0x53E)
       bytes total   : 1342 (0x53E)
@@ -7023,11 +7053,11 @@ File: ./logs/synology-DS6/packages/SynoFinder.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3147
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1836 (0x72C) (bytes)
       bytes         : 1836 (0x72C)
       bytes total   : 1836 (0x72C)
@@ -7063,11 +7093,11 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3190
       lines         : 19
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 1575 (0x627) (bytes)
       bytes         : 1575 (0x627)
       bytes total   : 1575 (0x627)
@@ -7103,11 +7133,11 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2872
       lines         : 19
       syslines      : 13
-  Summary Processed:
+  Processed:
       file size     : 1504 (0x5E0) (bytes)
       bytes         : 1504 (0x5E0)
       bytes total   : 1504 (0x5E0)
@@ -7143,11 +7173,11 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2549
       lines         : 19
       syslines      : 3
-  Summary Processed:
+  Processed:
       file size     : 1143 (0x477) (bytes)
       bytes         : 1143 (0x477)
       bytes total   : 1143 (0x477)
@@ -7183,11 +7213,11 @@ File: ./logs/synology-DS6/packages/USBCopy.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2840
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1586 (0x632) (bytes)
       bytes         : 1586 (0x632)
       bytes total   : 1586 (0x632)
@@ -7223,11 +7253,11 @@ File: ./logs/synology-DS6/postgresql.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3466
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2326 (0x916) (bytes)
       bytes         : 2326 (0x916)
       bytes total   : 2326 (0x916)
@@ -7263,11 +7293,11 @@ File: ./logs/synology-DS6/router.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3368
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2304 (0x900) (bytes)
       bytes         : 2304 (0x900)
       bytes total   : 2304 (0x900)
@@ -7303,11 +7333,11 @@ File: ./logs/synology-DS6/samba/log.nmbd
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 1873
       lines         : 16
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 1063 (0x427) (bytes)
       bytes         : 1063 (0x427)
       bytes total   : 1063 (0x427)
@@ -7343,11 +7373,11 @@ File: ./logs/synology-DS6/samba/log.smbd
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 1898
       lines         : 16
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 1091 (0x443) (bytes)
       bytes         : 1091 (0x443)
       bytes total   : 1091 (0x443)
@@ -7383,11 +7413,11 @@ File: ./logs/synology-DS6/scemd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3394
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2349 (0x92D) (bytes)
       bytes         : 2349 (0x92D)
       bytes total   : 2349 (0x92D)
@@ -7423,11 +7453,11 @@ File: ./logs/synology-DS6/sfdisk.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2905
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1841 (0x731) (bytes)
       bytes         : 1841 (0x731)
       bytes total   : 1841 (0x731)
@@ -7463,11 +7493,11 @@ File: ./logs/synology-DS6/smart_extend_log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 762
       lines         : 8
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 266 (0x10A) (bytes)
       bytes         : 266 (0x10A)
       bytes total   : 266 (0x10A)
@@ -7503,11 +7533,11 @@ File: ./logs/synology-DS6/smart_quick_log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 754
       lines         : 8
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 266 (0x10A) (bytes)
       bytes         : 266 (0x10A)
       bytes total   : 266 (0x10A)
@@ -7543,11 +7573,11 @@ File: ./logs/synology-DS6/space_operation_error.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3702
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2353 (0x931) (bytes)
       bytes         : 2353 (0x931)
       bytes total   : 2353 (0x931)
@@ -7584,11 +7614,11 @@ File: ./logs/synology-DS6/surveillance/ssnotification.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3594
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2131 (0x853) (bytes)
       bytes         : 2131 (0x853)
       bytes total   : 2131 (0x853)
@@ -7625,11 +7655,11 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3482
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2133 (0x855) (bytes)
       bytes         : 2133 (0x855)
       bytes total   : 2133 (0x855)
@@ -7666,11 +7696,11 @@ File: ./logs/synology-DS6/surveillance/surveillance.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3490
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2065 (0x811) (bytes)
       bytes         : 2065 (0x811)
       bytes total   : 2065 (0x811)
@@ -7707,11 +7737,11 @@ File: ./logs/synology-DS6/synobackup.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2454
       lines         : 15
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 1554 (0x612) (bytes)
       bytes         : 1554 (0x612)
       bytes total   : 1554 (0x612)
@@ -7747,11 +7777,11 @@ File: ./logs/synology-DS6/synocmsclient.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1805
       lines         : 19
       syslines      : 11
-  Summary Processed:
+  Processed:
       file size     : 608 (0x260) (bytes)
       bytes         : 608 (0x260)
       bytes total   : 608 (0x260)
@@ -7787,11 +7817,11 @@ File: ./logs/synology-DS6/synocontentextractd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4937
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 3626 (0xE2A) (bytes)
       bytes         : 3626 (0xE2A)
       bytes total   : 3626 (0xE2A)
@@ -7827,11 +7857,11 @@ File: ./logs/synology-DS6/synocrond-execute.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 2453 (0x995) (bytes)
       bytes         : 2453 (0x995)
       bytes total   : 2453 (0x995)
@@ -7866,11 +7896,11 @@ File: ./logs/synology-DS6/synocrond.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2288
       lines         : 11
       syslines      : 11
-  Summary Processed:
+  Processed:
       file size     : 1639 (0x667) (bytes)
       bytes         : 1639 (0x667)
       bytes total   : 1639 (0x667)
@@ -7906,11 +7936,11 @@ File: ./logs/synology-DS6/synofeasibilitycheck.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4795
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 3465 (0xD89) (bytes)
       bytes         : 3465 (0xD89)
       bytes total   : 3465 (0xD89)
@@ -7946,11 +7976,11 @@ File: ./logs/synology-DS6/synoindex.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1907
       lines         : 8
       syslines      : 8
-  Summary Processed:
+  Processed:
       file size     : 1435 (0x59B) (bytes)
       bytes         : 1435 (0x59B)
       bytes total   : 1435 (0x59B)
@@ -7986,11 +8016,11 @@ File: ./logs/synology-DS6/synolog/synobackup.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2792
       lines         : 16
       syslines      : 15
-  Summary Processed:
+  Processed:
       file size     : 1704 (0x6A8) (bytes)
       bytes         : 1704 (0x6A8)
       bytes total   : 1704 (0x6A8)
@@ -8026,11 +8056,11 @@ File: ./logs/synology-DS6/synolog/synobackup_server.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3561
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2136 (0x858) (bytes)
       bytes         : 2136 (0x858)
       bytes total   : 2136 (0x858)
@@ -8066,11 +8096,11 @@ File: ./logs/synology-DS6/synologydrive.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3495
       lines         : 18
       syslines      : 17
-  Summary Processed:
+  Processed:
       file size     : 2361 (0x939) (bytes)
       bytes         : 2361 (0x939)
       bytes total   : 2361 (0x939)
@@ -8106,11 +8136,11 @@ File: ./logs/synology-DS6/synophoto.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3903
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2782 (0xADE) (bytes)
       bytes         : 2782 (0xADE)
       bytes total   : 2782 (0xADE)
@@ -8146,11 +8176,11 @@ File: ./logs/synology-DS6/synopkg.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3190
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 2107 (0x83B) (bytes)
       bytes         : 2107 (0x83B)
       bytes total   : 2107 (0x83B)
@@ -8186,11 +8216,11 @@ File: ./logs/synology-DS6/synopoweroff.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3980
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2802 (0xAF2) (bytes)
       bytes         : 2802 (0xAF2)
       bytes total   : 2802 (0xAF2)
@@ -8226,11 +8256,11 @@ File: ./logs/synology-DS6/synorelayd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2234
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1094 (0x446) (bytes)
       bytes         : 1094 (0x446)
       bytes total   : 1094 (0x446)
@@ -8266,11 +8296,11 @@ File: ./logs/synology-DS6/synoreport.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2160
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1020 (0x3FC) (bytes)
       bytes         : 1020 (0x3FC)
       bytes total   : 1020 (0x3FC)
@@ -8306,11 +8336,11 @@ File: ./logs/synology-DS6/synoscheduler.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3072
       lines         : 18
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 1938 (0x792) (bytes)
       bytes         : 1938 (0x792)
       bytes total   : 1938 (0x792)
@@ -8346,11 +8376,11 @@ File: ./logs/synology-DS6/synoservice.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3103
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1944 (0x798) (bytes)
       bytes         : 1944 (0x798)
       bytes total   : 1944 (0x798)
@@ -8386,11 +8416,11 @@ File: ./logs/synology-DS6/synotifyd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2655
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1534 (0x5FE) (bytes)
       bytes         : 1534 (0x5FE)
       bytes total   : 1534 (0x5FE)
@@ -8426,11 +8456,11 @@ File: ./logs/synology-DS6/synoupdate.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2371
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1231 (0x4CF) (bytes)
       bytes         : 1231 (0x4CF)
       bytes total   : 1231 (0x4CF)
@@ -8466,11 +8496,11 @@ File: ./logs/synology-DS6/syslog.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3290
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2226 (0x8B2) (bytes)
       bytes         : 2226 (0x8B2)
       bytes total   : 2226 (0x8B2)
@@ -8506,11 +8536,11 @@ File: ./logs/synology-DS6/sysnotify.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4116
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2995 (0xBB3) (bytes)
       bytes         : 2995 (0xBB3)
       bytes total   : 2995 (0xBB3)
@@ -8546,11 +8576,11 @@ File: ./logs/synology-DS6/upstart/3rdparty-services.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2912
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1487 (0x5CF) (bytes)
       bytes         : 1487 (0x5CF)
       bytes total   : 1487 (0x5CF)
@@ -8586,11 +8616,11 @@ File: ./logs/synology-DS6/upstart/apparmor.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2318
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1064 (0x428) (bytes)
       bytes         : 1064 (0x428)
       bytes total   : 1064 (0x428)
@@ -8626,11 +8656,11 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1000
       lines         : 8
       syslines      : 8
-  Summary Processed:
+  Processed:
       file size     : 408 (0x198) (bytes)
       bytes         : 408 (0x198)
       bytes total   : 408 (0x198)
@@ -8666,11 +8696,11 @@ File: ./logs/synology-DS6/upstart/avahi.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2774
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1577 (0x629) (bytes)
       bytes         : 1577 (0x629)
       bytes total   : 1577 (0x629)
@@ -8706,11 +8736,11 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 901
       lines         : 6
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 493 (0x1ED) (bytes)
       bytes         : 493 (0x1ED)
       bytes total   : 493 (0x1ED)
@@ -8746,11 +8776,11 @@ File: ./logs/synology-DS6/upstart/crond.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2163
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 966 (0x3C6) (bytes)
       bytes         : 966 (0x3C6)
       bytes total   : 966 (0x3C6)
@@ -8786,11 +8816,11 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 18133
       lines         : 178
       syslines      : 3
-  Summary Processed:
+  Processed:
       file size     : 5673 (0x1629) (bytes)
       bytes         : 5673 (0x1629)
       bytes total   : 5673 (0x1629)
@@ -8826,11 +8856,11 @@ File: ./logs/synology-DS6/upstart/dbus-system.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2558
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1247 (0x4DF) (bytes)
       bytes         : 1247 (0x4DF)
       bytes total   : 1247 (0x4DF)
@@ -8866,11 +8896,11 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2571
       lines         : 12
       syslines      : 12
-  Summary Processed:
+  Processed:
       file size     : 1683 (0x693) (bytes)
       bytes         : 1683 (0x693)
       bytes total   : 1683 (0x693)
@@ -8906,11 +8936,11 @@ File: ./logs/synology-DS6/upstart/DiskHealthCk.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 332
       lines         : 2
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 192 (0xC0) (bytes)
       bytes         : 192 (0xC0)
       bytes total   : 192 (0xC0)
@@ -8946,11 +8976,11 @@ File: ./logs/synology-DS6/upstart/dsm-services.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2990
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1660 (0x67C) (bytes)
       bytes         : 1660 (0x67C)
       bytes total   : 1660 (0x67C)
@@ -8986,11 +9016,11 @@ File: ./logs/synology-DS6/upstart/dsmupdate.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2856
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1583 (0x62F) (bytes)
       bytes         : 1583 (0x62F)
       bytes total   : 1583 (0x62F)
@@ -9026,11 +9056,11 @@ File: ./logs/synology-DS6/upstart/eaupgrade.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2983
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1710 (0x6AE) (bytes)
       bytes         : 1710 (0x6AE)
       bytes total   : 1710 (0x6AE)
@@ -9066,11 +9096,11 @@ File: ./logs/synology-DS6/upstart/findhostd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2564
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 1291 (0x50B) (bytes)
       bytes         : 1291 (0x50B)
       bytes total   : 1291 (0x50B)
@@ -9106,11 +9136,11 @@ File: ./logs/synology-DS6/upstart/ftpd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2078
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 900 (0x384) (bytes)
       bytes         : 900 (0x384)
       bytes total   : 900 (0x384)
@@ -9146,11 +9176,11 @@ File: ./logs/synology-DS6/upstart/hotplugd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 824
       lines         : 4
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 560 (0x230) (bytes)
       bytes         : 560 (0x230)
       bytes total   : 560 (0x230)
@@ -9186,11 +9216,11 @@ File: ./logs/synology-DS6/upstart/inetd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1912
       lines         : 19
       syslines      : 11
-  Summary Processed:
+  Processed:
       file size     : 715 (0x2CB) (bytes)
       bytes         : 715 (0x2CB)
       bytes total   : 715 (0x2CB)
@@ -9226,11 +9256,11 @@ File: ./logs/synology-DS6/upstart/iptablesTc.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2565
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1273 (0x4F9) (bytes)
       bytes         : 1273 (0x4F9)
       bytes total   : 1273 (0x4F9)
@@ -9266,11 +9296,11 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2697
       lines         : 19
       syslines      : 17
-  Summary Processed:
+  Processed:
       file size     : 1234 (0x4D2) (bytes)
       bytes         : 1234 (0x4D2)
       bytes total   : 1234 (0x4D2)
@@ -9306,11 +9336,11 @@ File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2499
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1093 (0x445) (bytes)
       bytes         : 1093 (0x445)
       bytes total   : 1093 (0x445)
@@ -9346,11 +9376,11 @@ File: ./logs/synology-DS6/upstart/is_plugind.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3785
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2493 (0x9BD) (bytes)
       bytes         : 2493 (0x9BD)
       bytes total   : 2493 (0x9BD)
@@ -9386,11 +9416,11 @@ File: ./logs/synology-DS6/upstart/job-monitor-handler.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2413
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 950 (0x3B6) (bytes)
       bytes         : 950 (0x3B6)
       bytes total   : 950 (0x3B6)
@@ -9426,11 +9456,11 @@ File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3496
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1976 (0x7B8) (bytes)
       bytes         : 1976 (0x7B8)
       bytes total   : 1976 (0x7B8)
@@ -9466,11 +9496,11 @@ File: ./logs/synology-DS6/upstart/minissdpd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2303
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 1030 (0x406) (bytes)
       bytes         : 1030 (0x406)
       bytes total   : 1030 (0x406)
@@ -9506,11 +9536,11 @@ File: ./logs/synology-DS6/upstart/mkcert.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2614
       lines         : 19
       syslines      : 15
-  Summary Processed:
+  Processed:
       file size     : 1398 (0x576) (bytes)
       bytes         : 1398 (0x576)
       bytes total   : 1398 (0x576)
@@ -9546,11 +9576,11 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1528
       lines         : 12
       syslines      : 8
-  Summary Processed:
+  Processed:
       file size     : 724 (0x2D4) (bytes)
       bytes         : 724 (0x2D4)
       bytes total   : 724 (0x2D4)
@@ -9586,11 +9616,11 @@ File: ./logs/synology-DS6/upstart/netatalk.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2104
       lines         : 19
       syslines      : 17
-  Summary Processed:
+  Processed:
       file size     : 850 (0x352) (bytes)
       bytes         : 850 (0x352)
       bytes total   : 850 (0x352)
@@ -9626,11 +9656,11 @@ File: ./logs/synology-DS6/upstart/network.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2318
       lines         : 19
       syslines      : 7
-  Summary Processed:
+  Processed:
       file size     : 1083 (0x43B) (bytes)
       bytes         : 1083 (0x43B)
       bytes total   : 1083 (0x43B)
@@ -9666,11 +9696,11 @@ File: ./logs/synology-DS6/upstart/nfsd-adapter.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2523
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1193 (0x4A9) (bytes)
       bytes         : 1193 (0x4A9)
       bytes total   : 1193 (0x4A9)
@@ -9706,11 +9736,11 @@ File: ./logs/synology-DS6/upstart/nginx.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2358
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1161 (0x489) (bytes)
       bytes         : 1161 (0x489)
       bytes total   : 1161 (0x489)
@@ -9746,11 +9776,11 @@ File: ./logs/synology-DS6/upstart/nmbd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2274
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1096 (0x448) (bytes)
       bytes         : 1096 (0x448)
       bytes total   : 1096 (0x448)
@@ -9786,11 +9816,11 @@ File: ./logs/synology-DS6/upstart/opentftp.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2005
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 751 (0x2EF) (bytes)
       bytes         : 751 (0x2EF)
       bytes total   : 751 (0x2EF)
@@ -9826,11 +9856,11 @@ File: ./logs/synology-DS6/upstart/pgsql-adapter.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2437
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1088 (0x440) (bytes)
       bytes         : 1088 (0x440)
       bytes total   : 1088 (0x440)
@@ -9866,11 +9896,11 @@ File: ./logs/synology-DS6/upstart/pgsql.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2599
       lines         : 19
       syslines      : 15
-  Summary Processed:
+  Processed:
       file size     : 1402 (0x57A) (bytes)
       bytes         : 1402 (0x57A)
       bytes total   : 1402 (0x57A)
@@ -9906,11 +9936,11 @@ File: ./logs/synology-DS6/upstart/php_timezone_update.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2337
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 874 (0x36A) (bytes)
       bytes         : 874 (0x36A)
       bytes total   : 874 (0x36A)
@@ -9946,11 +9976,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-CloudSync.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2902
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1496 (0x5D8) (bytes)
       bytes         : 1496 (0x5D8)
       bytes total   : 1496 (0x5D8)
@@ -9986,11 +10016,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-DownloadStation.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2821
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1301 (0x515) (bytes)
       bytes         : 1301 (0x515)
       bytes total   : 1301 (0x515)
@@ -10026,11 +10056,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2935
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1491 (0x5D3) (bytes)
       bytes         : 1491 (0x5D3)
       bytes total   : 1491 (0x5D3)
@@ -10066,11 +10096,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-GlacierBackup.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2741
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1259 (0x4EB) (bytes)
       bytes         : 1259 (0x4EB)
       bytes total   : 1259 (0x4EB)
@@ -10106,11 +10136,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackup.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2613
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1169 (0x491) (bytes)
       bytes         : 1169 (0x491)
       bytes total   : 1169 (0x491)
@@ -10146,11 +10176,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2805
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1266 (0x4F2) (bytes)
       bytes         : 1266 (0x4F2)
       bytes total   : 1266 (0x4F2)
@@ -10186,11 +10216,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-LogCenter.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2648
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1242 (0x4DA) (bytes)
       bytes         : 1242 (0x4DA)
       bytes total   : 1242 (0x4DA)
@@ -10226,11 +10256,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v4.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2553
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1128 (0x468) (bytes)
       bytes         : 1128 (0x468)
       bytes total   : 1128 (0x468)
@@ -10266,11 +10296,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3248
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1823 (0x71F) (bytes)
       bytes         : 1823 (0x71F)
       bytes total   : 1823 (0x71F)
@@ -10306,11 +10336,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-OAuthService.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2652
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1189 (0x4A5) (bytes)
       bytes         : 1189 (0x4A5)
       bytes total   : 1189 (0x4A5)
@@ -10346,11 +10376,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2767
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1247 (0x4DF) (bytes)
       bytes         : 1247 (0x4DF)
       bytes total   : 1247 (0x4DF)
@@ -10386,11 +10416,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-SurveillanceStation.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2874
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1278 (0x4FE) (bytes)
       bytes         : 1278 (0x4FE)
       bytes total   : 1278 (0x4FE)
@@ -10426,11 +10456,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynoFinder.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2657
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1232 (0x4D0) (bytes)
       bytes         : 1232 (0x4D0)
       bytes total   : 1232 (0x4D0)
@@ -10466,11 +10496,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3101
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1372 (0x55C) (bytes)
       bytes         : 1372 (0x55C)
       bytes total   : 1372 (0x55C)
@@ -10506,11 +10536,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2746
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1264 (0x4F0) (bytes)
       bytes         : 1264 (0x4F0)
       bytes total   : 1264 (0x4F0)
@@ -10546,11 +10576,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2765
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1245 (0x4DD) (bytes)
       bytes         : 1245 (0x4DD)
       bytes total   : 1245 (0x4DD)
@@ -10586,11 +10616,11 @@ File: ./logs/synology-DS6/upstart/pkgctl-USBCopy.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2833
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1465 (0x5B9) (bytes)
       bytes         : 1465 (0x5B9)
       bytes total   : 1465 (0x5B9)
@@ -10626,11 +10656,11 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-localarchive.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3738
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 2142 (0x85E) (bytes)
       bytes         : 2142 (0x85E)
       bytes total   : 2142 (0x85E)
@@ -10666,11 +10696,11 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2806
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1324 (0x52C) (bytes)
       bytes         : 1324 (0x52C)
       bytes total   : 1324 (0x52C)
@@ -10706,11 +10736,11 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1794
       lines         : 14
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 688 (0x2B0) (bytes)
       bytes         : 688 (0x2B0)
       bytes total   : 688 (0x2B0)
@@ -10746,11 +10776,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_se
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3090
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1076 (0x434) (bytes)
       bytes         : 1076 (0x434)
       bytes total   : 1076 (0x434)
@@ -10786,11 +10816,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3012
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1036 (0x40C) (bytes)
       bytes         : 1036 (0x40C)
       bytes total   : 1036 (0x40C)
@@ -10826,11 +10856,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-VapidSendServer
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3040
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1064 (0x428) (bytes)
       bytes         : 1064 (0x428)
       bytes total   : 1064 (0x428)
@@ -10866,11 +10896,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-assessment.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3270
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1598 (0x63E) (bytes)
       bytes         : 1598 (0x63E)
       bytes total   : 1598 (0x63E)
@@ -10906,11 +10936,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-check-center.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3316
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1606 (0x646) (bytes)
       bytes         : 1606 (0x646)
       bytes total   : 1606 (0x646)
@@ -10946,11 +10976,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-concept.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3149
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1534 (0x5FE) (bytes)
       bytes         : 1534 (0x5FE)
       bytes total   : 1534 (0x5FE)
@@ -10986,11 +11016,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-face-extraction.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3430
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1663 (0x67F) (bytes)
       bytes         : 1663 (0x67F)
       bytes total   : 1663 (0x67F)
@@ -11026,11 +11056,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3118
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1522 (0x5F2) (bytes)
       bytes         : 1522 (0x5F2)
       bytes total   : 1522 (0x5F2)
@@ -11066,11 +11096,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-geocoding.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3202
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1549 (0x60D) (bytes)
       bytes         : 1549 (0x60D)
       bytes total   : 1549 (0x60D)
@@ -11106,11 +11136,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3308
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1617 (0x651) (bytes)
       bytes         : 1617 (0x651)
       bytes total   : 1617 (0x651)
@@ -11146,11 +11176,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-notify-center.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3354
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1625 (0x659) (bytes)
       bytes         : 1625 (0x659)
       bytes total   : 1625 (0x659)
@@ -11186,11 +11216,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3506
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1701 (0x6A5) (bytes)
       bytes         : 1701 (0x6A5)
       bytes total   : 1701 (0x6A5)
@@ -11226,11 +11256,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-task-center.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3278
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1587 (0x633) (bytes)
       bytes         : 1587 (0x633)
       bytes total   : 1587 (0x633)
@@ -11266,11 +11296,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumb.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3050
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1473 (0x5C1) (bytes)
       bytes         : 1473 (0x5C1)
       bytes total   : 1473 (0x5C1)
@@ -11306,11 +11336,11 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumbnail-provider.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3544
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1720 (0x6B8) (bytes)
       bytes         : 1720 (0x6B8)
       bytes total   : 1720 (0x6B8)
@@ -11346,11 +11376,11 @@ File: ./logs/synology-DS6/upstart/pkg-synoreport.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3490
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2122 (0x84A) (bytes)
       bytes         : 2122 (0x84A)
       bytes total   : 2122 (0x84A)
@@ -11386,11 +11416,11 @@ File: ./logs/synology-DS6/upstart/pppoerelay.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2724
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1432 (0x598) (bytes)
       bytes         : 1432 (0x598)
       bytes total   : 1432 (0x598)
@@ -11426,11 +11456,11 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 171
       lines         : 1
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 97 (0x61) (bytes)
       bytes         : 97 (0x61)
       bytes total   : 97 (0x61)
@@ -11466,11 +11496,11 @@ File: ./logs/synology-DS6/upstart/rc.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2318
       lines         : 19
       syslines      : 16
-  Summary Processed:
+  Processed:
       file size     : 1178 (0x49A) (bytes)
       bytes         : 1178 (0x49A)
       bytes total   : 1178 (0x49A)
@@ -11506,11 +11536,11 @@ File: ./logs/synology-DS6/upstart/rc-sysinit.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2864
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1572 (0x624) (bytes)
       bytes         : 1572 (0x624)
       bytes total   : 1572 (0x624)
@@ -11546,11 +11576,11 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2366
       lines         : 19
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 960 (0x3C0) (bytes)
       bytes         : 960 (0x3C0)
       bytes total   : 960 (0x3C0)
@@ -11586,11 +11616,11 @@ File: ./logs/synology-DS6/upstart/rsyncd-adapter.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2546
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1178 (0x49A) (bytes)
       bytes         : 1178 (0x49A)
       bytes total   : 1178 (0x49A)
@@ -11626,11 +11656,11 @@ File: ./logs/synology-DS6/upstart/s2s_daemon.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2196
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 904 (0x388) (bytes)
       bytes         : 904 (0x388)
       bytes total   : 904 (0x388)
@@ -11666,11 +11696,11 @@ File: ./logs/synology-DS6/upstart/scemd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2483
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1286 (0x506) (bytes)
       bytes         : 1286 (0x506)
       bytes total   : 1286 (0x506)
@@ -11706,11 +11736,11 @@ File: ./logs/synology-DS6/upstart/scrubbing-conf-sync.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3382
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1919 (0x77F) (bytes)
       bytes         : 1919 (0x77F)
       bytes total   : 1919 (0x77F)
@@ -11746,11 +11776,11 @@ File: ./logs/synology-DS6/upstart/smallupdate.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 885
       lines         : 6
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 471 (0x1D7) (bytes)
       bytes         : 471 (0x1D7)
       bytes total   : 471 (0x1D7)
@@ -11786,11 +11816,11 @@ File: ./logs/synology-DS6/upstart/smbd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2563
       lines         : 19
       syslines      : 16
-  Summary Processed:
+  Processed:
       file size     : 1385 (0x569) (bytes)
       bytes         : 1385 (0x569)
       bytes total   : 1385 (0x569)
@@ -11826,11 +11856,11 @@ File: ./logs/synology-DS6/upstart/sshd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1938
       lines         : 19
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 760 (0x2F8) (bytes)
       bytes         : 760 (0x2F8)
       bytes total   : 760 (0x2F8)
@@ -11866,11 +11896,11 @@ File: ./logs/synology-DS6/upstart/ssh-sftp.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2216
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 962 (0x3C2) (bytes)
       bytes         : 962 (0x3C2)
       bytes total   : 962 (0x3C2)
@@ -11906,11 +11936,11 @@ File: ./logs/synology-DS6/upstart/ssh-shell.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2367
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1094 (0x446) (bytes)
       bytes         : 1094 (0x446)
       bytes total   : 1094 (0x446)
@@ -11946,11 +11976,11 @@ File: ./logs/synology-DS6/upstart/syno-auth-check.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2332
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 945 (0x3B1) (bytes)
       bytes         : 945 (0x3B1)
       bytes total   : 945 (0x3B1)
@@ -11986,11 +12016,11 @@ File: ./logs/synology-DS6/upstart/synocgid.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2159
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 905 (0x389) (bytes)
       bytes         : 905 (0x389)
       bytes total   : 905 (0x389)
@@ -12026,11 +12056,11 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3553
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2033 (0x7F1) (bytes)
       bytes         : 2033 (0x7F1)
       bytes total   : 2033 (0x7F1)
@@ -12066,11 +12096,11 @@ File: ./logs/synology-DS6/upstart/synoconfd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2634
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1361 (0x551) (bytes)
       bytes         : 1361 (0x551)
       bytes total   : 1361 (0x551)
@@ -12106,11 +12136,11 @@ File: ./logs/synology-DS6/upstart/synocrond.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2120
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 847 (0x34F) (bytes)
       bytes         : 847 (0x34F)
       bytes total   : 847 (0x34F)
@@ -12146,11 +12176,11 @@ File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2679
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1159 (0x487) (bytes)
       bytes         : 1159 (0x487)
       bytes total   : 1159 (0x487)
@@ -12186,11 +12216,11 @@ File: ./logs/synology-DS6/upstart/synoindexd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2432
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1140 (0x474) (bytes)
       bytes         : 1140 (0x474)
       bytes total   : 1140 (0x474)
@@ -12226,11 +12256,11 @@ File: ./logs/synology-DS6/upstart/synologand.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2253
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 961 (0x3C1) (bytes)
       bytes         : 961 (0x3C1)
       bytes total   : 961 (0x3C1)
@@ -12266,11 +12296,11 @@ File: ./logs/synology-DS6/upstart/synologd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2183
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 929 (0x3A1) (bytes)
       bytes         : 929 (0x3A1)
       bytes total   : 929 (0x3A1)
@@ -12306,11 +12336,11 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2191
       lines         : 16
       syslines      : 16
-  Summary Processed:
+  Processed:
       file size     : 799 (0x31F) (bytes)
       bytes         : 799 (0x31F)
       bytes total   : 799 (0x31F)
@@ -12346,11 +12376,11 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2586
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 952 (0x3B8) (bytes)
       bytes         : 952 (0x3B8)
       bytes total   : 952 (0x3B8)
@@ -12386,11 +12416,11 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd-ssl.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2663
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 953 (0x3B9) (bytes)
       bytes         : 953 (0x3B9)
       bytes total   : 953 (0x3B9)
@@ -12426,11 +12456,11 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1253
       lines         : 9
       syslines      : 9
-  Summary Processed:
+  Processed:
       file size     : 470 (0x1D6) (bytes)
       bytes         : 470 (0x1D6)
       bytes total   : 470 (0x1D6)
@@ -12466,11 +12496,11 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 930
       lines         : 7
       syslines      : 7
-  Summary Processed:
+  Processed:
       file size     : 328 (0x148) (bytes)
       bytes         : 328 (0x148)
       bytes total   : 328 (0x148)
@@ -12506,11 +12536,11 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1965
       lines         : 15
       syslines      : 15
-  Summary Processed:
+  Processed:
       file size     : 945 (0x3B1) (bytes)
       bytes         : 945 (0x3B1)
       bytes total   : 945 (0x3B1)
@@ -12546,11 +12576,11 @@ File: ./logs/synology-DS6/upstart/synomkthumbd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2160
       lines         : 16
       syslines      : 16
-  Summary Processed:
+  Processed:
       file size     : 1040 (0x410) (bytes)
       bytes         : 1040 (0x410)
       bytes total   : 1040 (0x410)
@@ -12586,11 +12616,11 @@ File: ./logs/synology-DS6/upstart/synomount.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2092
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 819 (0x333) (bytes)
       bytes         : 819 (0x333)
       bytes total   : 819 (0x333)
@@ -12626,11 +12656,11 @@ File: ./logs/synology-DS6/upstart/syno-move-coredump.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2736
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1292 (0x50C) (bytes)
       bytes         : 1292 (0x50C)
       bytes total   : 1292 (0x50C)
@@ -12666,11 +12696,11 @@ File: ./logs/synology-DS6/upstart/synonetd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2148
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 894 (0x37E) (bytes)
       bytes         : 894 (0x37E)
       bytes total   : 894 (0x37E)
@@ -12706,11 +12736,11 @@ File: ./logs/synology-DS6/upstart/syno-network-check.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2993
       lines         : 19
       syslines      : 15
-  Summary Processed:
+  Processed:
       file size     : 1549 (0x60D) (bytes)
       bytes         : 1549 (0x60D)
       bytes total   : 1549 (0x60D)
@@ -12746,11 +12776,11 @@ File: ./logs/synology-DS6/upstart/synopkgctl-launcher.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2508
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1045 (0x415) (bytes)
       bytes         : 1045 (0x415)
       bytes total   : 1045 (0x415)
@@ -12786,11 +12816,11 @@ File: ./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3348
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1828 (0x724) (bytes)
       bytes         : 1828 (0x724)
       bytes total   : 1828 (0x724)
@@ -12826,11 +12856,11 @@ File: ./logs/synology-DS6/upstart/synoscgi.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3498
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 2244 (0x8C4) (bytes)
       bytes         : 2244 (0x8C4)
       bytes total   : 2244 (0x8C4)
@@ -12866,11 +12896,11 @@ File: ./logs/synology-DS6/upstart/synoscheduler.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3059
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1710 (0x6AE) (bytes)
       bytes         : 1710 (0x6AE)
       bytes total   : 1710 (0x6AE)
@@ -12906,11 +12936,11 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2394
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 893 (0x37D) (bytes)
       bytes         : 893 (0x37D)
       bytes total   : 893 (0x37D)
@@ -12946,11 +12976,11 @@ File: ./logs/synology-DS6/upstart/syno-share-check.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2814
       lines         : 19
       syslines      : 16
-  Summary Processed:
+  Processed:
       file size     : 1408 (0x580) (bytes)
       bytes         : 1408 (0x580)
       bytes total   : 1408 (0x580)
@@ -12986,11 +13016,11 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2194
       lines         : 13
       syslines      : 13
-  Summary Processed:
+  Processed:
       file size     : 1050 (0x41A) (bytes)
       bytes         : 1050 (0x41A)
       bytes total   : 1050 (0x41A)
@@ -13026,11 +13056,11 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 249
       lines         : 2
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 113 (0x71) (bytes)
       bytes         : 113 (0x71)
       bytes total   : 113 (0x71)
@@ -13066,11 +13096,11 @@ File: ./logs/synology-DS6/upstart/synosnmp-service-handler.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2528
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 970 (0x3CA) (bytes)
       bytes         : 970 (0x3CA)
       bytes total   : 970 (0x3CA)
@@ -13106,11 +13136,11 @@ File: ./logs/synology-DS6/upstart/synostoraged.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2598
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1268 (0x4F4) (bytes)
       bytes         : 1268 (0x4F4)
       bytes total   : 1268 (0x4F4)
@@ -13146,11 +13176,11 @@ File: ./logs/synology-DS6/upstart/synovpnclient.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2223
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 874 (0x36A) (bytes)
       bytes         : 874 (0x36A)
       bytes total   : 874 (0x36A)
@@ -13186,11 +13216,11 @@ File: ./logs/synology-DS6/upstart/synowifid-handler.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3159
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1734 (0x6C6) (bytes)
       bytes         : 1734 (0x6C6)
       bytes total   : 1734 (0x6C6)
@@ -13226,11 +13256,11 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2354
       lines         : 19
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 948 (0x3B4) (bytes)
       bytes         : 948 (0x3B4)
       bytes total   : 948 (0x3B4)
@@ -13266,11 +13296,11 @@ File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2739
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1219 (0x4C3) (bytes)
       bytes         : 1219 (0x4C3)
       bytes total   : 1219 (0x4C3)
@@ -13306,11 +13336,11 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2430
       lines         : 19
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 1138 (0x472) (bytes)
       bytes         : 1138 (0x472)
       bytes total   : 1138 (0x472)
@@ -13346,11 +13376,11 @@ File: ./logs/synology-DS6/upstart/syslog-ng.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2964
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1691 (0x69B) (bytes)
       bytes         : 1691 (0x69B)
       bytes total   : 1691 (0x69B)
@@ -13386,11 +13416,11 @@ File: ./logs/synology-DS6/upstart/syslog-notify.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2222
       lines         : 19
       syslines      : 16
-  Summary Processed:
+  Processed:
       file size     : 873 (0x369) (bytes)
       bytes         : 873 (0x369)
       bytes total   : 873 (0x369)
@@ -13426,11 +13456,11 @@ File: ./logs/synology-DS6/upstart/system-profile-tuning.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2600
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1099 (0x44B) (bytes)
       bytes         : 1099 (0x44B)
       bytes total   : 1099 (0x44B)
@@ -13466,11 +13496,11 @@ File: ./logs/synology-DS6/upstart/telnetd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2118
       lines         : 19
       syslines      : 15
-  Summary Processed:
+  Processed:
       file size     : 883 (0x373) (bytes)
       bytes         : 883 (0x373)
       bytes total   : 883 (0x373)
@@ -13506,11 +13536,11 @@ File: ./logs/synology-DS6/upstart/umount-root-fs.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2404
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1036 (0x40C) (bytes)
       bytes         : 1036 (0x40C)
       bytes total   : 1036 (0x40C)
@@ -13546,11 +13576,11 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2231
       lines         : 19
       syslines      : 11
-  Summary Processed:
+  Processed:
       file size     : 749 (0x2ED) (bytes)
       bytes         : 749 (0x2ED)
       bytes total   : 749 (0x2ED)
@@ -13586,11 +13616,11 @@ File: ./logs/synology-DS6/upstart/update-apppriv-remote.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2502
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 1001 (0x3E9) (bytes)
       bytes         : 1001 (0x3E9)
       bytes total   : 1001 (0x3E9)
@@ -13626,11 +13656,11 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2481
       lines         : 19
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 1189 (0x4A5) (bytes)
       bytes         : 1189 (0x4A5)
       bytes total   : 1189 (0x4A5)
@@ -13666,11 +13696,11 @@ File: ./logs/synology-DS6/usbcopyd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2975
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1873 (0x751) (bytes)
       bytes         : 1873 (0x751)
       bytes total   : 1873 (0x751)
@@ -13706,11 +13736,11 @@ File: ./logs/Ubuntu18/apt/history.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 944
       lines         : 5
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 660 (0x294) (bytes)
       bytes         : 660 (0x294)
       bytes total   : 660 (0x294)
@@ -13746,11 +13776,11 @@ File: ./logs/Ubuntu18/apt/term.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2517
       lines         : 18
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 1546 (0x60A) (bytes)
       bytes         : 1546 (0x60A)
       bytes total   : 1546 (0x60A)
@@ -13786,11 +13816,11 @@ File: ./logs/Ubuntu18/cups/access_log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 338
       lines         : 2
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 224 (0xE0) (bytes)
       bytes         : 224 (0xE0)
       bytes total   : 224 (0xE0)
@@ -13826,11 +13856,11 @@ File: ./logs/Ubuntu18/cups/access_log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 1003
       lines         : 6
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 649 (0x289) (bytes)
       bytes         : 649 (0x289)
       bytes total   : 649 (0x289)
@@ -13866,11 +13896,11 @@ File: ./logs/Ubuntu18/cups/error_log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 178
       lines         : 1
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 120 (0x78) (bytes)
       bytes         : 120 (0x78)
       bytes total   : 120 (0x78)
@@ -13906,11 +13936,11 @@ File: ./logs/Ubuntu18/fontconfig.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 1557 (0x615) (bytes)
       bytes         : 1557 (0x615)
       bytes total   : 1557 (0x615)
@@ -13945,11 +13975,11 @@ File: ./logs/Ubuntu18/gpu-manager.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 672 (0x2A0) (bytes)
       bytes         : 672 (0x2A0)
       bytes total   : 672 (0x2A0)
@@ -13984,11 +14014,11 @@ File: ./logs/Ubuntu18/gpu-manager-switch.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 679 (0x2A7) (bytes)
       bytes         : 679 (0x2A7)
       bytes total   : 679 (0x2A7)
@@ -14023,11 +14053,11 @@ File: ./logs/Ubuntu18/installer/initial-status
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 860 (0x35C) (bytes)
       bytes         : 860 (0x35C)
       bytes total   : 860 (0x35C)
@@ -14062,11 +14092,11 @@ File: ./logs/Ubuntu18/installer/media-info
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 62 (0x3E) (bytes)
       bytes         : 62 (0x3E)
       bytes total   : 62 (0x3E)
@@ -14101,11 +14131,11 @@ File: ./logs/Ubuntu18/installer/telemetry
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 424 (0x1A8) (bytes)
       bytes         : 424 (0x1A8)
       bytes total   : 424 (0x1A8)
@@ -14140,11 +14170,11 @@ File: ./logs/Ubuntu18/kern.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2659
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1671 (0x687) (bytes)
       bytes         : 1671 (0x687)
       bytes total   : 1671 (0x687)
@@ -14181,11 +14211,11 @@ File: ./logs/Ubuntu18/nvidia-installer.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1932
       lines         : 18
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 874 (0x36A) (bytes)
       bytes         : 874 (0x36A)
       bytes total   : 874 (0x36A)
@@ -14221,11 +14251,11 @@ File: ./logs/Ubuntu18/prime-offload.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 55 (0x37) (bytes)
       bytes         : 55 (0x37)
       bytes total   : 55 (0x37)
@@ -14260,11 +14290,11 @@ File: ./logs/Ubuntu18/prime-supported.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 30 (0x1E) (bytes)
       bytes         : 30 (0x1E)
       bytes total   : 30 (0x1E)
@@ -14299,11 +14329,11 @@ File: ./logs/Ubuntu18/samba/log.
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2006
       lines         : 19
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 1018 (0x3FA) (bytes)
       bytes         : 1018 (0x3FA)
       bytes total   : 1018 (0x3FA)
@@ -14339,11 +14369,11 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2351
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1211 (0x4BB) (bytes)
       bytes         : 1211 (0x4BB)
       bytes total   : 1211 (0x4BB)
@@ -14379,11 +14409,11 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.2
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2301
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1161 (0x489) (bytes)
       bytes         : 1161 (0x489)
       bytes total   : 1161 (0x489)
@@ -14419,11 +14449,11 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2351
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1211 (0x4BB) (bytes)
       bytes         : 1211 (0x4BB)
       bytes total   : 1211 (0x4BB)
@@ -14459,11 +14489,11 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.4
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2351
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1211 (0x4BB) (bytes)
       bytes         : 1211 (0x4BB)
       bytes total   : 1211 (0x4BB)
@@ -14499,11 +14529,11 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.5
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2289
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1149 (0x47D) (bytes)
       bytes         : 1149 (0x47D)
       bytes total   : 1149 (0x47D)
@@ -14539,11 +14569,11 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.6
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2298
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1158 (0x486) (bytes)
       bytes         : 1158 (0x486)
       bytes total   : 1158 (0x486)
@@ -14579,11 +14609,11 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.7
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2298
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1158 (0x486) (bytes)
       bytes         : 1158 (0x486)
       bytes total   : 1158 (0x486)
@@ -14619,11 +14649,11 @@ File: ./logs/Ubuntu18/samba/log.nmbd
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2810
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1746 (0x6D2) (bytes)
       bytes         : 1746 (0x6D2)
       bytes total   : 1746 (0x6D2)
@@ -14659,11 +14689,11 @@ File: ./logs/Ubuntu18/samba/log.nmbd.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2526
       lines         : 19
       syslines      : 7
-  Summary Processed:
+  Processed:
       file size     : 1424 (0x590) (bytes)
       bytes         : 1424 (0x590)
       bytes total   : 1424 (0x590)
@@ -14699,11 +14729,11 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2896
       lines         : 19
       syslines      : 10
-  Summary Processed:
+  Processed:
       file size     : 1756 (0x6DC) (bytes)
       bytes         : 1756 (0x6DC)
       bytes total   : 1756 (0x6DC)
@@ -14739,11 +14769,11 @@ File: ./logs/Ubuntu18/samba/log.smbd
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 1956
       lines         : 19
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 892 (0x37C) (bytes)
       bytes         : 892 (0x37C)
       bytes total   : 892 (0x37C)
@@ -14779,11 +14809,11 @@ File: ./logs/Ubuntu18/samba/log.smbd.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2243
       lines         : 19
       syslines      : 7
-  Summary Processed:
+  Processed:
       file size     : 1141 (0x475) (bytes)
       bytes         : 1141 (0x475)
       bytes total   : 1141 (0x475)
@@ -14819,11 +14849,11 @@ File: ./logs/Ubuntu18/vmware/hostd-62.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3840
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2681 (0xA79) (bytes)
       bytes         : 2681 (0xA79)
       bytes total   : 2681 (0xA79)
@@ -14859,11 +14889,11 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3783
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 2681 (0xA79) (bytes)
       bytes         : 2681 (0xA79)
       bytes total   : 2681 (0xA79)
@@ -14899,11 +14929,11 @@ File: ./logs/Ubuntu18/vmware-installer
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2588
       lines         : 18
       syslines      : 18
-  Summary Processed:
+  Processed:
       file size     : 1544 (0x608) (bytes)
       bytes         : 1544 (0x608)
       bytes total   : 1544 (0x608)
@@ -14939,11 +14969,11 @@ File: ./logs/Ubuntu18/xrdp.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2285
       lines         : 19
       syslines      : 19
-  Summary Processed:
+  Processed:
       file size     : 1335 (0x537) (bytes)
       bytes         : 1335 (0x537)
       bytes total   : 1335 (0x537)
@@ -14979,11 +15009,11 @@ File: ./logs/Ubuntu22/alternatives.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 7456
       lines         : 13
       syslines      : 13
-  Summary Processed:
+  Processed:
       file size     : 6676 (0x1A14) (bytes)
       bytes         : 6676 (0x1A14)
       bytes total   : 6676 (0x1A14)
@@ -15019,11 +15049,11 @@ File: ./logs/Ubuntu22/apport.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 794
       lines         : 5
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 524 (0x20C) (bytes)
       bytes         : 524 (0x20C)
       bytes total   : 524 (0x20C)
@@ -15059,11 +15089,11 @@ File: ./logs/Ubuntu22/apt/eipp.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 266 (0x10A) (bytes)
       bytes         : 266 (0x10A)
       bytes total   : 266 (0x10A)
@@ -15098,11 +15128,11 @@ File: ./logs/Ubuntu22/apt/history.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2137
       lines         : 13
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 1397 (0x575) (bytes)
       bytes         : 1397 (0x575)
       bytes total   : 1397 (0x575)
@@ -15138,11 +15168,11 @@ File: ./logs/Ubuntu22/apt/term.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2082
       lines         : 13
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 1381 (0x565) (bytes)
       bytes         : 1381 (0x565)
       bytes total   : 1381 (0x565)
@@ -15178,11 +15208,11 @@ File: ./logs/Ubuntu22/auth.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2183
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 1483 (0x5CB) (bytes)
       bytes         : 1483 (0x5CB)
       bytes total   : 1483 (0x5CB)
@@ -15219,11 +15249,11 @@ File: ./logs/Ubuntu22/auth.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2160
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 1432 (0x598) (bytes)
       bytes         : 1432 (0x598)
       bytes total   : 1432 (0x598)
@@ -15260,11 +15290,11 @@ File: ./logs/Ubuntu22/cloud-init.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2240
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 1456 (0x5B0) (bytes)
       bytes         : 1456 (0x5B0)
       bytes total   : 1456 (0x5B0)
@@ -15300,11 +15330,11 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2140
       lines         : 13
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 1431 (0x597) (bytes)
       bytes         : 1431 (0x597)
       bytes total   : 1431 (0x597)
@@ -15340,11 +15370,11 @@ File: ./logs/Ubuntu22/dmesg
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 1162 (0x48A) (bytes)
       bytes         : 1162 (0x48A)
       bytes total   : 1162 (0x48A)
@@ -15379,11 +15409,11 @@ File: ./logs/Ubuntu22/dmesg.0
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 1161 (0x489) (bytes)
       bytes         : 1161 (0x489)
       bytes total   : 1161 (0x489)
@@ -15418,11 +15448,11 @@ File: ./logs/Ubuntu22/dpkg.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1724
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 1024 (0x400) (bytes)
       bytes         : 1024 (0x400)
       bytes total   : 1024 (0x400)
@@ -15458,11 +15488,11 @@ File: ./logs/Ubuntu22/dpkg.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1679
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 951 (0x3B7) (bytes)
       bytes         : 951 (0x3B7)
       bytes total   : 951 (0x3B7)
@@ -15498,11 +15528,11 @@ File: ./logs/Ubuntu22/droplet-agent.update.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 932 (0x3A4) (bytes)
       bytes         : 932 (0x3A4)
       bytes total   : 932 (0x3A4)
@@ -15537,11 +15567,11 @@ File: ./logs/Ubuntu22/kern.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3583
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 2883 (0xB43) (bytes)
       bytes         : 2883 (0xB43)
       bytes total   : 2883 (0xB43)
@@ -15578,11 +15608,11 @@ File: ./logs/Ubuntu22/kern.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2212
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 1484 (0x5CC) (bytes)
       bytes         : 1484 (0x5CC)
       bytes total   : 1484 (0x5CC)
@@ -15619,11 +15649,11 @@ File: ./logs/Ubuntu22/syslog
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 2158
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 1486 (0x5CE) (bytes)
       bytes         : 1486 (0x5CE)
       bytes total   : 1486 (0x5CE)
@@ -15660,11 +15690,11 @@ File: ./logs/Ubuntu22/syslog.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess([])
-  Summary Printed:
+  Printed:
       bytes         : 1958
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 1258 (0x4EA) (bytes)
       bytes         : 1258 (0x4EA)
       bytes total   : 1258 (0x4EA)
@@ -15701,11 +15731,11 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 1764
       lines         : 12
       syslines      : 12
-  Summary Processed:
+  Processed:
       file size     : 948 (0x3B4) (bytes)
       bytes         : 948 (0x3B4)
       bytes total   : 948 (0x3B4)
@@ -15741,11 +15771,11 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2085
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 1105 (0x451) (bytes)
       bytes         : 1105 (0x451)
       bytes total   : 1105 (0x451)
@@ -15781,11 +15811,11 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2689
       lines         : 14
       syslines      : 1
-  Summary Processed:
+  Processed:
       file size     : 1429 (0x595) (bytes)
       bytes         : 1429 (0x595)
       bytes total   : 1429 (0x595)
@@ -15821,11 +15851,11 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 2448
       lines         : 14
       syslines      : 14
-  Summary Processed:
+  Processed:
       file size     : 1258 (0x4EA) (bytes)
       bytes         : 1258 (0x4EA)
       bytes total   : 1258 (0x4EA)
@@ -15861,11 +15891,11 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 28471
       lines         : 158
       syslines      : 151
-  Summary Processed:
+  Processed:
       file size     : 19561 (0x4C69) (bytes)
       bytes         : 19561 (0x4C69)
       bytes total   : 19561 (0x4C69)
@@ -15901,11 +15931,11 @@ File: ./logs/Windows10Pro/comsetup.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 761 (0x2F9) (bytes)
       bytes         : 761 (0x2F9)
       bytes total   : 761 (0x2F9)
@@ -15940,11 +15970,11 @@ File: ./logs/Windows10Pro/debug/mrt.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 4034
       lines         : 47
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 1427 (0x593) (bytes)
       bytes         : 1427 (0x593)
       bytes total   : 1427 (0x593)
@@ -15980,11 +16010,11 @@ File: ./logs/Windows10Pro/DirectX.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 2745 (0xAB9) (bytes)
       bytes         : 2745 (0xAB9)
       bytes total   : 2745 (0xAB9)
@@ -16019,11 +16049,11 @@ File: ./logs/Windows10Pro/DISM/dism.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 21768
       lines         : 110
       syslines      : 93
-  Summary Processed:
+  Processed:
       file size     : 15435 (0x3C4B) (bytes)
       bytes         : 15435 (0x3C4B)
       bytes total   : 15435 (0x3C4B)
@@ -16059,11 +16089,11 @@ File: ./logs/Windows10Pro/DtcInstall.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 770 (0x302) (bytes)
       bytes         : 770 (0x302)
       bytes total   : 770 (0x302)
@@ -16098,11 +16128,11 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5543
       lines         : 41
       syslines      : 4
-  Summary Processed:
+  Processed:
       file size     : 2335 (0x91F) (bytes)
       bytes         : 2335 (0x91F)
       bytes total   : 2335 (0x91F)
@@ -16138,11 +16168,11 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 6162
       lines         : 41
       syslines      : 2
-  Summary Processed:
+  Processed:
       file size     : 3610 (0xE1A) (bytes)
       bytes         : 3610 (0xE1A)
       bytes total   : 3610 (0xE1A)
@@ -16178,11 +16208,11 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 25506
       lines         : 152
       syslines      : 9
-  Summary Processed:
+  Processed:
       file size     : 12586 (0x312A) (bytes)
       bytes         : 12586 (0x312A)
       bytes total   : 12586 (0x312A)
@@ -16218,11 +16248,11 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 3696
       lines         : 26
       syslines      : 6
-  Summary Processed:
+  Processed:
       file size     : 1919 (0x77F) (bytes)
       bytes         : 1919 (0x77F)
       bytes total   : 1919 (0x77F)
@@ -16258,11 +16288,11 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 16261
       lines         : 128
       syslines      : 5
-  Summary Processed:
+  Processed:
       file size     : 7330 (0x1CA2) (bytes)
       bytes         : 7330 (0x1CA2)
       bytes total   : 7330 (0x1CA2)
@@ -16298,11 +16328,11 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 674 (0x2A2) (bytes)
       bytes         : 674 (0x2A2)
       bytes total   : 674 (0x2A2)
@@ -16337,11 +16367,11 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 332426 (0x5128A) (bytes)
       bytes         : 65535 (0xFFFF)
       bytes total   : 332426 (0x5128A)
@@ -16376,11 +16406,11 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 18434 (0x4802) (bytes)
       bytes         : 18434 (0x4802)
       bytes total   : 18434 (0x4802)
@@ -16415,11 +16445,11 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 9656
       lines         : 55
       syslines      : 35
-  Summary Processed:
+  Processed:
       file size     : 5256 (0x1488) (bytes)
       bytes         : 5256 (0x1488)
       bytes total   : 5256 (0x1488)
@@ -16455,11 +16485,11 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 5356
       lines         : 33
       syslines      : 15
-  Summary Processed:
+  Processed:
       file size     : 2716 (0xA9C) (bytes)
       bytes         : 2716 (0xA9C)
       bytes total   : 2716 (0xA9C)
@@ -16495,11 +16525,11 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 6149 (0x1805) (bytes)
       bytes         : 6149 (0x1805)
       bytes total   : 6149 (0x1805)
@@ -16534,11 +16564,11 @@ File: ./logs/Windows10Pro/PFRO.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 22346 (0x574A) (bytes)
       bytes         : 22346 (0x574A)
       bytes total   : 22346 (0x574A)
@@ -16573,11 +16603,11 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 12932 (0x3284) (bytes)
       bytes         : 12932 (0x3284)
       bytes total   : 12932 (0x3284)
@@ -16612,11 +16642,11 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 90920 (0x16328) (bytes)
       bytes         : 65535 (0xFFFF)
       bytes total   : 90920 (0x16328)
@@ -16651,11 +16681,11 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 235538
       lines         : 1299
       syslines      : 1204
-  Summary Processed:
+  Processed:
       file size     : 125229 (0x1E92D) (bytes)
       bytes         : 125229 (0x1E92D)
       bytes total   : 125229 (0x1E92D)
@@ -16691,11 +16721,11 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 23913
       lines         : 104
       syslines      : 104
-  Summary Processed:
+  Processed:
       file size     : 15258 (0x3B9A) (bytes)
       bytes         : 15258 (0x3B9A)
       bytes total   : 15258 (0x3B9A)
@@ -16731,11 +16761,11 @@ File: ./logs/Windows10Pro/System32/NetSetupMig.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 1373 (0x55D) (bytes)
       bytes         : 1373 (0x55D)
       bytes total   : 1373 (0x55D)
@@ -16770,11 +16800,11 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 8189
       lines         : 42
       syslines      : 40
-  Summary Processed:
+  Processed:
       file size     : 4997 (0x1385) (bytes)
       bytes         : 4997 (0x1385)
       bytes total   : 4997 (0x1385)
@@ -16810,11 +16840,11 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       filetype      : TEXT
       logmessagetype: syslog lines
       MIME guess    : MimeGuess(["text/plain"])
-  Summary Printed:
+  Printed:
       bytes         : 0
       lines         : 0
       syslines      : 0
-  Summary Processed:
+  Processed:
       file size     : 118786 (0x1D002) (bytes)
       bytes         : 65535 (0xFFFF)
       bytes total   : 118786 (0x1D002)
@@ -16845,17 +16875,19 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       streaming: SyslineReader::drop_sysline(): Ok 0, Err 0
 
 
-Summary:
-Paths considered   : 422
-Paths not processed: 0
-Files processed    : 422
-Files printed      : 392
-Printed bytes      : 3303764
-Printed lines      : 14484
-Printed syslines   : 12116
-Printed utmpx      : 7
-Printed evtx Events: 227
-Datetime Filter -a    :
-Datetime Filter -b    :
-Channel Receive ok  : 12772
-Channel Receive err : 0
+Program Summary:
+
+Paths considered      : 424
+Paths not processed   : 0
+Files processed       : 424
+Files printed         : 394
+Printed bytes         : 3649769
+Printed lines         : 14484
+Printed syslines      : 12116
+Printed utmpx         : 7
+Printed evtx events   : 227
+Printed journal events: 2084
+Datetime filter -a    :
+Datetime filter -b    :
+Channel Receive ok    : 14858
+Channel Receive err   : 0

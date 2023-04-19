@@ -554,14 +554,16 @@ impl BlockReader {
         let mut xz_opt: Option<XzData> = None;
         let mut tar_opt: Option<TarData> = None;
         let mut read_blocks_put: Count = 0;
+
         match filetype {
             FileType::File
             | FileType::Utmpx
-            | FileType::Evtx => {
+            => {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
             }
             FileType::Gz => {
+                // TODO: [2023/04] move this large check of code into private function
                 blocksz = blocksz_;
                 def1o!("FileGz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
 
@@ -722,6 +724,7 @@ impl BlockReader {
                 def1o!("FileGz: created {:?}", gz_opt);
             }
             FileType::Xz => {
+                // TODO: [2023/04] move this large check of code into private function
                 blocksz = blocksz_;
                 def1o!("FileXz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
                 def1o!("FileXz: open_options.read(true).open({:?})", path_std);
@@ -1166,11 +1169,21 @@ impl BlockReader {
                     mtime,
                 });
             }
-            _ => {
-                return Result::Err(Error::new(
-                    ErrorKind::Unsupported,
-                    format!("Unsupported FileType {:?}", filetype),
-                ));
+            FileType::Journal
+            | FileType::Evtx
+            | FileType::TarGz
+            => {
+                // XXX: this is not an absolute; a BlockReader could be used by
+                //      EvtxReader or JournalReader. This is really just
+                //      an assumption check.
+                unimplemented!("BlockReader is not implemented for filetype {:?}", filetype);
+            }
+            // something is wrong if these are encountered
+            FileType::Unknown
+            | FileType::Unparseable
+            | FileType::Unset
+            => {
+                panic!("BlockReader::new bad filetype {:?}", filetype);
             }
         }
 
@@ -1242,12 +1255,22 @@ impl BlockReader {
     /// For plain files, returns the file size reported by the filesystem.
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
-            FileType::Gz | FileType::Xz | FileType::Tar => self.filesz_actual,
             FileType::File
             | FileType::Utmpx
-            | FileType::Evtx
             => self.filesz,
-            _ => 0,
+            FileType::Gz
+            | FileType::Xz
+            | FileType::Tar
+            => self.filesz_actual,
+            // XXX: cannot use `format!` macros in `const fn`
+            // assumption checks; not a rule "set in stone"
+            FileType::Journal => panic!("BlockReader not used for Journal"),
+            FileType::TarGz => panic!("fileszBlockReader not implemented for TarGz"),
+            FileType::Evtx => panic!("BlockReader not implemented for Evtx"),
+            // something is wrong if these are encountered
+            FileType::Unset => panic!("Unexpected Unset"),
+            FileType::Unknown => panic!("Unexpected Unknown"),
+            FileType::Unparseable => panic!("Unexpected Unparseable"),
         }
     }
 
@@ -1286,7 +1309,6 @@ impl BlockReader {
         match self.filetype {
             FileType::File
             | FileType::Utmpx
-            | FileType::Evtx
             | FileType::Xz => self.file_metadata_modified,
             FileType::Gz => {
                 let mtime = self
@@ -1312,9 +1334,15 @@ impl BlockReader {
                     self.file_metadata_modified
                 }
             }
-            _ => {
-                unimplemented!("Unsupported filetype {:?}", self.filetype);
-            }
+            // BlockReader not used for these filetypes
+            FileType::Evtx
+            | FileType::Journal
+            | FileType::TarGz
+            => unimplemented!("Unsupported filetype {:?}", self.filetype),
+            // something is wrong if these are encountered
+            FileType::Unset => panic!("Unexpected Unset"),
+            FileType::Unknown => panic!("Unexpected Unknown"),
+            FileType::Unparseable => panic!("Unexpected Unparseable"),
         }
     }
 
@@ -1704,10 +1732,11 @@ impl BlockReader {
     ) -> ResultS3ReadBlock {
         defn!("({})", blockoffset);
         debug_assert!(
-            matches!(self.filetype,
+            matches!(
+                self.filetype,
                 FileType::File
-                | FileType::Evtx
-                | FileType::Utmpx),
+                | FileType::Utmpx
+            ),
             "wrong FileType {:?} for calling read_block_FILE",
             self.filetype
         );
@@ -2414,15 +2443,22 @@ impl BlockReader {
         }
 
         match self.filetype {
-            FileType::File
-            | FileType::Evtx
-            | FileType::Utmpx => self.read_block_File(blockoffset),
+            FileType::Utmpx
+            | FileType::File
+            => self.read_block_File(blockoffset),
             FileType::Gz => self.read_block_FileGz(blockoffset),
             FileType::Xz => self.read_block_FileXz(blockoffset),
             FileType::Tar => self.read_block_FileTar(blockoffset),
-            _ => {
-                panic!("Unsupported filetype {:?}", self.filetype);
-            }
+            // these are known to not work with BlockReader
+            | FileType::Evtx
+            | FileType::TarGz
+            | FileType::Journal
+            => panic!("Unsupported filetype in BlockReader::read_block {:?}", self.filetype),
+            // something is wrong if these are encountered
+            | FileType::Unknown
+            | FileType::Unparseable
+            | FileType::Unset
+            => panic!("BlockReader::read_block bad filetype {:?}", self.filetype),
         }
     }
 

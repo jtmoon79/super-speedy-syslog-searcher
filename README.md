@@ -3,8 +3,9 @@
 Speedily search and merge log file entries by datetime.
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
-and merge log files by datetime, including log files that are compressed
-(`.gz`, `.xz`), archived (`.tar`), utmpx login records (`utmp`, `wtmp`),
+and merge log files by datetime, including log files that are
+compressed (`.gz`, `.xz`), archived (`.tar`), utmpx user accounting records
+(`utmp`, `wtmp`), systemd journal files (`*.journal`),
 or Microsoft Event Logs (`.evtx`).
 It will parse a variety of formal and ad-hoc log message datetime formats.
 
@@ -33,8 +34,12 @@ The first goal of `s4` is speedy searching and printing.
   - [Limitations](#limitations)
   - [Hacks](#hacks)
 - [More](#more)
+  - [Building locally](#building-locally)
+  - [Parsing `.journal` files](#parsing-journal-files)
   - [Requesting Support For DateTime Formats; your particular log file](#requesting-support-for-datetime-formats-your-particular-log-file)
   - ["syslog" and other project definitions](#syslog-and-other-project-definitions)
+    - [syslog](#syslog)
+    - [log message](#log-message)
   - [logging chaos; the problem `s4` solves](#logging-chaos-the-problem-s4-solves)
   - [Further Reading](#further-reading)
 <!---toc end--->
@@ -51,7 +56,7 @@ cargo install super_speedy_syslog_searcher
 
 ### Run `s4`
 
-For example, print all the syslog lines in syslog files under `/var/log/`
+For example, print all the log messages in syslog files under `/var/log/`
 
 ```lang-text
 s4 /var/log
@@ -69,13 +74,13 @@ Or the [Windows Event logs]
 s4.exe C:\Windows\System32\winevt\Logs
 ```
 
-Print the syslog lines after January 1, 2022 at 00:00:00
+Print the log messages after January 1, 2022 at 00:00:00
 
 ```lang-text
 s4 /var/log -a 20220101
 ```
 
-Print the syslog lines from January 1, 2022 00:00:00 to January 2, 2022
+Print the log messages from January 1, 2022 00:00:00 to January 2, 2022
 
 ```lang-text
 s4 /var/log -a 20220101 -b 20220102
@@ -87,33 +92,33 @@ or
 s4 /var/log -a 20220101 -b @+1d
 ```
 
-Print the syslog lines on January 1, 2022, from 12:00:00 to 16:00:00
+Print the log messages on January 1, 2022, from 12:00:00 to 16:00:00
 
 ```lang-text
 s4 /var/log -a 20220101T120000 -b 20220101T160000
 ```
 
-Print only the syslog lines since yesterday at this time
+Print only the log messages since yesterday at this time
 
 ```lang-text
 s4 /var/log -a=-1d
 ```
 
-Print only the syslog lines that occurred two days ago
+Print only the log messages that occurred two days ago
 (with the help of GNU `date`)
 
 ```lang-text
 s4 /var/log -a $(date -d "2 days ago" '+%Y%m%d') -b @+1d
 ```
 
-Print only the syslog lines that occurred two days ago during the noon hour
+Print only the log messages that occurred two days ago during the noon hour
 (with the help of GNU `date`)
 
 ```lang-text
 s4 /var/log -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S') -b @+1h
 ```
 
-Print only the syslog lines that occurred two days ago during the noon hour in
+Print only the log messages that occurred two days ago during the noon hour in
 Bengaluru, India (timezone offset +05:30) and prepended with equivalent UTC
 datetime (with the help of GNU `date`)
 
@@ -127,7 +132,8 @@ s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 
 ```lang-text
 Speedily search and merge log file entries by datetime.
-DateTime filters may be passed to narrow the search. It aims to be very fast.
+DateTime filters may be passed to narrow the search.
+It aims to be very fast.
 
 Usage: s4 [OPTIONS] <PATHS>...
 
@@ -152,7 +158,8 @@ Options:
           timezone offset so the TZ_OFFSET value would be used.
           Example values, "+12", "-0800", "+02:00", or "EDT".
           To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
-          If not passed then the local system timezone offset is used. [default: -07:00]
+          If not passed then the local system timezone offset is used.
+          [default: -07:00]
   -z, --prepend-tz <PREPEND_TZ>
           Prepend a DateTime in the timezone PREPEND_TZ for every line.
           Used in PREPEND_DT_FORMAT.
@@ -168,8 +175,9 @@ Options:
   -d, --prepend-dt-format <PREPEND_DT_FORMAT>
           Prepend a DateTime using the strftime format string.
           If PREPEND_TZ is set then that value is used for any timezone offsets,
-          i.e. strftime "%z" "%:z" "%Z" values, otherwise the timezone offset value
-          is the local system timezone offset. [Default: %Y%m%dT%H%M%S%.3f%z]
+          i.e. strftime "%z" "%:z" "%Z" values, otherwise the timezone offset
+          value is the local system timezone offset.
+          [Default: %Y%m%dT%H%M%S%.3f%z]
   -n, --prepend-filename
           Prepend file basename to every line.
   -p, --prepend-filepath
@@ -183,8 +191,15 @@ Options:
           Per log message not per line of text.
           Accepts a basic set of backslash escape sequences,
           e.g. "\0" for the null character.
+      --journal-output <JOURNAL_OUTPUT>
+          The format for .journal file log messages.
+          Matches journalctl --output options.
+          : [default: short]
+            [possible values: short, short-precise, short-iso, short-iso-precise,
+             short-full, short-monotonic, short-unix, verbose, export, cat]
   -c, --color <COLOR_CHOICE>
-          Choose to print to terminal using colors. [default: auto] [possible values: always, auto, never]
+          Choose to print to terminal using colors. [default: auto]
+          [possible values: always, auto, never]
       --blocksz <BLOCKSZ>
           Read blocks of this size in bytes.
           May pass value as any radix (hexadecimal, decimal, octal, binary).
@@ -281,6 +296,9 @@ DateTime strftime specifiers are described at https://docs.rs/chrono/latest/chro
 DateTimes supported are only of the Gregorian calendar.
 
 DateTimes supported language is English.
+
+Is s4 failing to parse a log file? Report an Issue at
+https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
 ```
 
 ## About
@@ -320,7 +338,7 @@ A longer rambling pontification about this project is in
 - Prepends datetime and file paths, for easy programmatic parsing or visual traversal of varying
   syslog messages
 - Recognizes multi-line log messages
-- Parses [utmpx login record format] files
+- Parses ["utmpx" user accounting records] files
 - Parses formal datetime formats:
   - [RFC 2822]
   - [RFC 3164]
@@ -328,6 +346,7 @@ A longer rambling pontification about this project is in
   - [RFC 5424]
   - [ISO 8601] \*\*
 - Parses [Windows Event Log] files
+- Parses [systemd journal] files with printing options matching [`journalctl`]
 - Parses many ad-hoc datetime formats
   - Tested against "in the wild" log files from varying Linux distributions
     (see project path `./logs/`)
@@ -337,13 +356,15 @@ A longer rambling pontification about this project is in
 - Processes invalid UTF-8
 - Accepts arbitrarily large files \*\*\*
 
-[utmpx login record format]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
+["utmpx" user accounting records]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
 [RFC 2822]: https://www.rfc-editor.org/rfc/rfc2822#section-3.3
 [RFC 3164]: https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339#section-5.8
 [RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3
 [ISO 8601]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles
 [Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log
+[systemd journal]: https://systemd.io/JOURNAL_FILE_FORMAT/
+[`journalctl`]: https://www.man7.org/linux/man-pages/man1/journalctl.1.html
 
 ### Limitations
 
@@ -395,6 +416,19 @@ A longer rambling pontification about this project is in
 
 ## More
 
+### Building locally
+
+Building on Linux requires:
+
+- `rust` _minimal_ or more
+- `gcc` (which should install `cc`, `libc`, and `libc-headers`)
+
+From the git cloned project directory run `cargo build`.
+
+### Parsing `.journal` files
+
+Requires `libsystemd` to be installed to then use `libsystemd.so`.
+
 ### Requesting Support For DateTime Formats; your particular log file
 
 If you have found a log file that _Super Speedy Syslog Searcher_ does not parse
@@ -406,6 +440,8 @@ Here is [an example user-submitted Issue].
 [an example user-submitted Issue]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/81
 
 ### "syslog" and other project definitions
+
+#### syslog
 
 In this project, the term "_syslog_" is used generously to refer to any
 log message that has a datetime stamp on the first line of log text.
@@ -421,6 +457,12 @@ See [docs section _Definitions of data_] for more project definitions.
 
 [defined among several RFCs]: ttps://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents
 [docs section _Definitions of data_]: https://docs.rs/super_speedy_syslog_searcher/latest/s4lib/data/index.html
+
+#### log message
+
+A "log message" is a single log entry for any type of logging scheme;
+an entry in a utmpx file, an entry in a systemd journal, an entry in a
+Windows Event Log, a formal syslog message, or an ad-hoc log message.
 
 ### logging chaos; the problem `s4` solves
 

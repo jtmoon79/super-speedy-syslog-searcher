@@ -135,7 +135,6 @@ fn test_mimeguess_to_filetype_evtx() {
 #[test_case("DATA.TAR", FileType::Tar; "DATA.TAR ALLCAPS")]
 #[test_case("data.tar.old", FileType::Tar)]
 #[test_case("data.tgz.old", FileType::TarGz)]
-#[test_case("system@f908d314a1582401a39ccfe0c6f4c6f7-0000000000381214-0005ff52833aaf76.journal", FileType::Unparseable)]
 #[test_case("wtmp", FileType::Utmpx; "wtmp")]
 #[test_case("WTMP", FileType::Utmpx; "WTMP ALLCAPS")]
 #[test_case("btmp", FileType::Utmpx; "btmp")]
@@ -148,6 +147,10 @@ fn test_mimeguess_to_filetype_evtx() {
 #[test_case("SOMEFILE", FileType::File; "SOMEFILE ALLCAPS")]
 #[test_case("file.evtx", FileType::Evtx)]
 #[test_case("FILE.EVTX", FileType::Evtx; "FILE.EVTX ALLCAPS")]
+#[test_case("a.journal", FileType::Journal)]
+#[test_case("A.JOURNAL", FileType::Journal; "A.JOURNAL ALLCAPS")]
+#[test_case("user-1000.journal", FileType::Journal)]
+#[test_case("system@a8b80590f2654a95aed5c11b3c9e3c48-0000000000000001-0005f6f737b6b0e0.journal", FileType::Journal)]
 fn test_fpath_to_filetype(
     name: &str,
     check: FileType,
@@ -387,7 +390,7 @@ fn test_process_path_dir7_dirAB_files4() {
 
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
-            fpaths.get(0).unwrap().clone(), MimeGuess::from_ext("journal"), FileType::File
+            fpaths.get(0).unwrap().clone(), MimeGuess::from_ext("journal"), FileType::Journal
         ),
         ProcessPathResult::FileValid(
             fpaths.get(1).unwrap().clone(), MimeGuess::from_ext("bmp"), FileType::File

@@ -16,6 +16,8 @@ pub mod datetime_tests;
 pub mod evtx_tests;
 pub mod evtxreader_tests;
 pub mod filepreprocessor_tests;
+pub mod journal_tests;
+pub mod journalreader_tests;
 pub mod line_tests;
 pub mod linereader_tests;
 pub mod printers_tests;

@@ -207,6 +207,171 @@ where
     }
 }
 
+/// [`Result`]-like result extended for `s4` to 4 types, distinguishing between
+/// errors that should halt file processing and errors that should not.
+///
+/// For various "find" functions implemented by [Readers].
+///
+/// [`Result`]: std::result::Result
+/// [Readers]: crate::readers
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ResultFind4<T, E> {
+    /// Contains the found data.
+    Found(T),
+    /// File is empty, or a request reached the end of the file or beyond the
+    /// end, or some other condition that means "_Nothing to do, done_".
+    ///
+    /// Does not imply an error occurred.
+    Done,
+    /// Something bad happened. Contains the `E` error data. Further file
+    /// processing should be halted.
+    Err(E),
+    /// Something bad happened. Contains the `E` error data. File prcessing
+    /// can continue.
+    ErrIgnore(E),
+}
+
+// XXX: ripped from '\.rustup\toolchains\beta-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core\src\result.rs'
+//      https://doc.rust-lang.org/src/core/result.rs.html#501-659
+
+impl<T, E> ResultFind4<T, E> {
+    // Querying the contained values
+
+    /// Returns `true` if the result is [`Found`], [`Done`].
+    ///
+    /// [`Found`]: self::ResultFind4#variant.Found
+    /// [`Done`]: self::ResultFind4#variant.Done
+    /// [`Err`]: self::ResultFind4#variant.Err
+    #[allow(dead_code)]
+    #[must_use = "if you intended to assert that this is ok, consider `.unwrap()` instead"]
+    #[inline(always)]
+    pub const fn is_ok(&self) -> bool {
+        matches!(*self, ResultFind4::Found(_) | ResultFind4::Done)
+    }
+
+    /// Returns `true` if the result is [`Found`].
+    ///
+    /// [`Found`]: self::ResultFind4#variant.Found
+    #[inline(always)]
+    pub const fn is_found(&self) -> bool {
+        matches!(*self, ResultFind4::Found(_))
+    }
+
+    /// Returns `true` if the result is [`Err`].
+    ///
+    /// [`Err`]: self::ResultFind4#variant.Err
+    #[allow(dead_code)]
+    #[must_use = "if you intended to assert that this is err, consider `.unwrae_err()` instead"]
+    #[inline(always)]
+    pub const fn is_err(&self) -> bool {
+        !self.is_ok()
+    }
+
+    /// Returns `true` if the result is [`Done`].
+    ///
+    /// [`Done`]: self::ResultFind4#variant.Done
+    #[inline(always)]
+    pub const fn is_done(&self) -> bool {
+        matches!(*self, ResultFind4::Done)
+    }
+
+    /// Returns `true` if the result is an [`Found`] value containing the given
+    /// value.
+    ///
+    /// [`Found`]: self::ResultFind4#variant.Found
+    #[allow(dead_code)]
+    #[must_use]
+    #[inline(always)]
+    pub fn contains<U>(
+        &self,
+        x: &U,
+    ) -> bool
+    where
+        U: PartialEq<T>,
+    {
+        match self {
+            ResultFind4::Found(y) => x == y,
+            _ => false,
+        }
+    }
+
+    /// Returns `true` if the result is an [`Err`] value containing the given
+    /// value.
+    ///
+    /// [`Err`]: self::ResultFind4#variant.Err
+    #[allow(dead_code)]
+    #[must_use]
+    #[inline(always)]
+    pub fn contains_err<F>(
+        &self,
+        f: &F,
+    ) -> bool
+    where
+        F: PartialEq<E>,
+    {
+        match self {
+            ResultFind4::Err(e) => f == e,
+            ResultFind4::ErrIgnore(e) => f == e,
+            _ => false,
+        }
+    }
+
+    // Adapter for each variant
+
+    /// Converts from `ResultFind4<T, E>` to [`Option<T>`].
+    ///
+    /// Converts `self` into an [`Option<T>`], consuming `self`,
+    /// and discarding the error, if any.
+    #[allow(dead_code)]
+    #[inline(always)]
+    pub fn ok(self) -> Option<T> {
+        match self {
+            ResultFind4::Found(x) => Some(x),
+            _ => None
+        }
+    }
+
+    /// Converts from `ResultFind4<T, E>` to [`Option<E>`].
+    ///
+    /// Converts `self` into an [`Option<E>`], consuming `self`,
+    /// and discarding the success value, if any.
+    #[allow(dead_code)]
+    #[inline(always)]
+    pub fn err(self) -> Option<E> {
+        match self {
+            ResultFind4::Found(_) => None,
+            ResultFind4::Done => None,
+            ResultFind4::ErrIgnore(x)
+            | ResultFind4::Err(x) => Some(x),
+        }
+    }
+}
+
+impl<T, E> std::fmt::Display for ResultFind4<T, E>
+where
+    E: std::fmt::Display,
+{
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
+        match self {
+            ResultFind4::Found(_) => {
+                write!(f, "ResultFind4::Found")
+            }
+            ResultFind4::Done => {
+                write!(f, "ResultFind4::Done")
+            }
+            ResultFind4::Err(err) => {
+                write!(f, "ResultFind4::Err({})", err)
+            }
+            ResultFind4::ErrIgnore(err) => {
+                write!(f, "ResultFind4::ErrIgnore({})", err)
+            }
+        }
+    }
+}
+
 /// Enum return value for various [filepreprocessor] functions.
 ///
 /// [filepreprocessor]: crate::readers::filepreprocessor
@@ -222,6 +387,7 @@ pub enum FileProcessingResult<E> {
     /// TODO: [2022/08] stub value, redesign bin.rs data passing channels to pass the actual
     ///       error, not via Summary._Error
     FileErrStub,
+    FileErrChanSend,
     FileOk,
 }
 
@@ -278,6 +444,9 @@ impl<E> PartialEq for FileProcessingResult<E> {
             FileProcessingResult::FileErrStub => {
                 matches!(*other, FileProcessingResult::FileErrStub)
             }
+            FileProcessingResult::FileErrChanSend => {
+                matches!(*other, FileProcessingResult::FileErrChanSend)
+            }
             FileProcessingResult::FileOk => {
                 matches!(*other, FileProcessingResult::FileOk)
             }
@@ -291,6 +460,9 @@ impl<E> Eq for FileProcessingResult<E> {}
 ///
 /// [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
+// TODO: [2023/04] types Unset, Unparseable, Unknown are confusing to keep around
+//       and make extra work for all match statements.
+//       Can they be removed?
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FileType {
     /// an unset value, the default, encountering this value is an error
@@ -315,6 +487,10 @@ pub enum FileType {
     ///
     /// [Windows XML EventLog]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
     Evtx,
+    /// a [systemd Journal file]
+    ///
+    /// [systemd Journal file]: https://systemd.io/JOURNAL_FILE_FORMAT/
+    Journal,
     /// a file type known to be unparseable
     // TODO: [2023/03] fix misspelling, `Unparseable` -> `Unparsable`
     Unparseable,
@@ -346,6 +522,7 @@ impl std::fmt::Display for FileType {
             FileType::Xz => write!(f, "XZ"),
             FileType::Utmpx => write!(f, "UTMP"),
             FileType::Evtx => write!(f, "EVTX"),
+            FileType::Journal => write!(f, "JOURNAL"),
             FileType::Unparseable => write!(f, "UNPARSEABLE"),
             FileType::Unknown => write!(f, "UNKNOWN"),
         }
@@ -375,6 +552,7 @@ impl FileType {
             | FileType::Xz
             | FileType::Utmpx
             | FileType::Evtx
+            | FileType::Journal
             | FileType::Unknown
         )
     }
@@ -404,6 +582,13 @@ pub enum LogMessageType {
     ///
     /// [Windows XML EventLog]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
     Evtx,
+    /// A [systemd Journal file].
+    ///
+    /// Relates to a [`JournalEntry`].
+    ///
+    /// [systemd Journal file]: https://systemd.io/JOURNAL_FILE_FORMAT/
+    /// [`JournalEntry`]: crate::data::journal::JournalEntry
+    Journal,
     /// Special case, used to indicate "ALL" or "ANY" message type.
     /// Useful for code objects tracking multiple files.
     #[default]
@@ -419,6 +604,7 @@ impl std::fmt::Display for LogMessageType {
             LogMessageType::Sysline => write!(f, "syslog lines"),
             LogMessageType::Utmpx => write!(f, "utmpx entries"),
             LogMessageType::Evtx => write!(f, "evtx entries"),
+            LogMessageType::Journal => write!(f, "journal entries"),
             LogMessageType::All => write!(f, "ALL"),
         }
     }
@@ -429,6 +615,7 @@ pub fn filetype_to_logmessagetype(filetype: FileType) -> LogMessageType {
     match filetype {
         FileType::Utmpx => LogMessageType::Utmpx,
         FileType::Evtx => LogMessageType::Evtx,
+        FileType::Journal => LogMessageType::Journal,
         _ => LogMessageType::Sysline,
     }
 }

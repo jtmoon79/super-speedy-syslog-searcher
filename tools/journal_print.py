@@ -27,6 +27,9 @@ except ImportError as err:
     print("Or with pip:\n    pip install systemd-python", file=sys.stderr)
     sys.exit(1)
 
+# TODO allow passing field names to print, overrides default field name tuple
+#      use argparse to do this.
+
 # default Journal File
 JOURNAL_FILE = "./logs/programs/journal/user-1000.journal"
 KEY_MONOTONIC_TIMESTAMP = "__MONOTONIC_TIMESTAMP"

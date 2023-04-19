@@ -229,10 +229,13 @@ lazy_static! {
 /// A [`Utmpx`] holds a [C struct `utmpx`] and it's [`FileOffset`] and derived
 /// [`DateTimeL`].
 ///
+/// [`utmpx`] is a user accounting record.
+///
 /// [`Utmpx`]: self::Utmpx
 /// [C struct `utmpx`]: https://docs.rs/uapi/0.2.10/uapi/c/struct.utmpx.html
 /// [`FileOffset`]: crate::common::FileOffset
 /// [`DateTimeL`]: crate::data::datetime::DateTimeL
+/// [`utmpx`]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
 #[derive(Clone, Copy)]
 pub struct Utmpx {
     /// The [`utmpx`] entry data.
@@ -315,7 +318,6 @@ pub type BufIndex = usize;
 /// - end index of datetime substring
 ///
 /// Variant `Fail` holds number of bytes copied
-/// 
 ///
 /// [`as_bytes`]: self::Utmpx::as_bytes
 pub enum InfoAsBytes {

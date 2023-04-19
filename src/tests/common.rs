@@ -10,6 +10,9 @@ use crate::data::datetime::{
     ymdhmsn,
     ymdhmsm,
 };
+use crate::data::journal::{
+    EpochMicroseconds,
+};
 use crate::data::utmpx::UTMPX_SZ;
 use crate::readers::filepreprocessor::MimeGuess;
 use crate::readers::helpers::{fpath_to_path, path_to_fpath};
@@ -68,6 +71,7 @@ lazy_static! {
     // FixedOffset West
     pub static ref FO_W8: FixedOffset = FixedOffset::west_opt(3600 * 8).unwrap();
     // FixedOffset East
+    pub static ref FO_E1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
     pub static ref FO_E10: FixedOffset = FixedOffset::east_opt(3600 * 10).unwrap();
     // FixedOffset Minus (West)
     pub static ref FO_M1: FixedOffset = FixedOffset::west_opt(3600).unwrap();
@@ -95,6 +99,21 @@ lazy_static! {
     pub static ref FO_P10: FixedOffset = FixedOffset::east_opt(3600 * 10).unwrap();
     pub static ref FO_P11: FixedOffset = FixedOffset::east_opt(3600 * 11).unwrap();
     pub static ref FO_P12: FixedOffset = FixedOffset::east_opt(3600 * 12).unwrap();
+
+    // Datetimes
+
+    /// 1970-01-01T00:00:00+00:00
+    pub static ref DT_0: DateTimeL = ymdhms(&*FO_0, 0, 0, 0, 0, 0, 0);
+    /// 1970-01-01T01:00:00+01:00
+    pub static ref DT_0_E1: DateTimeL = ymdhms(&*FO_E1, 0, 0, 0, 1, 0, 0);
+    /// matches `DT_0`
+    pub static ref TS_0: EpochMicroseconds = 0;
+    /// 1970-01-12T13:46:40.456123+00:00
+    pub static ref DT_1: DateTimeL = ymdhmsm(&*FO_0, 1970, 1, 12, 13, 46, 40, 456123);
+    /// 1970-01-12T14:46:40.456123+01:00 (matches `DT_1`)
+    pub static ref DT_1_E1: DateTimeL = ymdhmsm(&*FO_E1, 1970, 1, 12, 14, 46, 40, 456123);
+    /// matches `DT_1`
+    pub static ref TS_1: EpochMicroseconds = 1_000_000_456_123;
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -150,6 +169,7 @@ lazy_static! {
 
     pub static ref NTF_8BYTE: NamedTempFile = create_temp_log("ABCDEFGH");
     pub static ref NTF_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE);
+
 }
 
 pub const NTF_LOG_EMPTY_FILETYPE: FileType = FileType::File;
@@ -2679,6 +2699,83 @@ lazy_static! {
     pub static ref EVTX_KPNP_ENTRY227_DT: DateTimeL =
         ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
 }
+
+// -------------------------------------------------------------------------------------------------
+
+// Journal data
+
+lazy_static! {
+
+    // empty file with suffix .journal
+
+    pub static ref NTF_JOURNAL_EMPTY: NamedTempFile = {
+        create_temp_file_with_suffix(&"", &String::from(".journal"))
+    };
+    pub static ref NTF_JOURNAL_EMPTY_FPATH: FPath = {
+        path_to_fpath(NTF_JOURNAL_EMPTY.path())
+    };
+    pub static ref NTF_JOURNAL_EMPTY_MIMEGUESS: MimeGuess = {
+        MimeGuess::from_path(NTF_JOURNAL_EMPTY.path())
+    };
+
+    // .journal file taken from a new Red Hat Enterprise 9.1 system
+
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_FPATH: FPath =
+        FPath::from("./logs/programs/journal/RHE_91_system.journal");
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_PATH: &'static Path =
+        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_FPATH);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_FPATH_MIMEGUESS: MimeGuess =
+        MimeGuess::from_path(&*JOURNAL_FILE_RHE_91_SYSTEM_FPATH);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_EXISTS: bool =
+        JOURNAL_FILE_RHE_91_SYSTEM_PATH.exists();
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT: Count = 2081;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_EVENT_FILESZ: FileSz = 4644864;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+
+    // .journal file taken from an Ubuntu 22 system
+
+    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH: FPath =
+        FPath::from("./logs/programs/journal/Ubuntu22-user-1000x3.journal");
+    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH: &'static Path =
+        fpath_to_path(&JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH);
+    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH_MIMEGUESS: MimeGuess =
+        MimeGuess::from_path(&*JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH);
+    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_EXISTS: bool =
+        JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH.exists();
+    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT: Count = 3;
+    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_FILESZ: FileSz = 8388608;
+    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 2, 7, 6, 40, 60134);
+    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 2, 7, 7, 0, 789680);
+
+}
+
+// .journal file taken from a new Red Hat Enterprise 9.1 system, first entry printed
+
+pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORT: &str =
+    &"Apr 10 20:56:30 drano kernel: Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n";
+pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTPRECISE: &str =
+    &"Apr 10 20:56:30.138000 drano kernel: Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n";
+pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTISO: &str =
+    &"2023-04-10 20:56:30 drano kernel: Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n";
+pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTISOPRECISE: &str =
+    &"2023-04-10T20:56:30.138000+0000 drano kernel: Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n";
+pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTFULL: &str =
+    &"Mon 2023-04-10 20:56:30 +00:00 drano kernel: Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n";
+pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTMONOTONIC: &str =
+    &"[    4.554769] drano kernel: Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n";
+pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTUNIX: &str =
+    &"1681160190.138000 drano kernel: Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n";
+pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_VERBOSE: &str =
+    &"Mon 2023-04-10 20:56:30.138000 +00:00 [s=90a351b904294e209b9d0794de354860;i=1;b=5f1352760aa4490e946c08e5c1fe1c12;m=458011;t=5f9019bf19690;x=d504f5ee792b1167]\n    _TRANSPORT=kernel\n    _BOOT_ID=5f1352760aa4490e946c08e5c1fe1c12\n    _MACHINE_ID=b52998310a374c8b9c676f49cc62d044\n    _HOSTNAME=drano\n    PRIORITY=5\n    MESSAGE=Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n    SYSLOG_FACILITY=0\n    SYSLOG_IDENTIFIER=kernel\n    _SOURCE_MONOTONIC_TIMESTAMP=0\n    __MONOTONIC_TIMESTAMP=4554769\n";
+pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_EXPORT: &str =
+    &"__CURSOR=s=90a351b904294e209b9d0794de354860;i=1;b=5f1352760aa4490e946c08e5c1fe1c12;m=458011;t=5f9019bf19690;x=d504f5ee792b1167\n__REALTIME_TIMESTAMP=1681160190138000\n__MONOTONIC_TIMESTAMP=4554769\n_SOURCE_MONOTONIC_TIMESTAMP=0\n_TRANSPORT=kernel\nPRIORITY=5\nSYSLOG_FACILITY=0\nSYSLOG_IDENTIFIER=kernel\nMESSAGE=Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n_BOOT_ID=5f1352760aa4490e946c08e5c1fe1c12\n_MACHINE_ID=b52998310a374c8b9c676f49cc62d044\n_HOSTNAME=drano\n\n";
+pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_CAT: &str =
+    &"Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n";
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

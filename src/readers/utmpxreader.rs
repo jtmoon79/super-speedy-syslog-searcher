@@ -1031,6 +1031,7 @@ impl UtmpxReader {
             None,
             Some(summaryutmpreader),
             None,
+            None,
             error,
         )
     }

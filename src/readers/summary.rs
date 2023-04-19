@@ -17,14 +17,16 @@ use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
 use crate::readers::blockreader::{
     BlockSz,
     BLOCKSZ_MAX,
-    BLOCKSZ_MIN,
     SummaryBlockReader,
 };
+#[cfg(any(debug_assertions, test))]
+use crate::readers::blockreader::BLOCKSZ_MIN;
 use crate::readers::linereader::SummaryLineReader;
 use crate::readers::syslinereader::SummarySyslineReader;
 use crate::readers::syslogprocessor::SummarySyslogProcessor;
 use crate::readers::utmpxreader::SummaryUtmpxReader;
 use crate::readers::evtxreader::SummaryEvtxReader;
+use crate::readers::journalreader::SummaryJournalReader;
 
 use std::fmt;
 
@@ -69,7 +71,14 @@ pub enum SummaryReaderData {
     ///
     /// [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
     Utmpx((SummaryBlockReader, SummaryUtmpxReader)),
-    Etvx(SummaryEvtxReader)
+    /// For a [`EvtxReader`].
+    ///
+    /// [`EvtxReader`]: crate::readers::evtxreader::EvtxReader
+    Etvx(SummaryEvtxReader),
+    /// For a [`JournalReader`] and underlying readers.
+    ///
+    /// [`JournalReader`]: crate::readers::journalreader::JournalReader
+    Journal(SummaryJournalReader),
 }
 
 impl SummaryReaderData {
@@ -125,6 +134,7 @@ impl Summary {
         summarysyslogprocessor_opt: Option<SummarySyslogProcessor>,
         summaryutmpreader_opt: Option<SummaryUtmpxReader>,
         summaryevtxreader_opt: Option<SummaryEvtxReader>,
+        summaryjournalreader_opt: Option<SummaryJournalReader>,
         error: Option<String>,
     ) -> Summary {
         #[cfg(debug_assertions)]
@@ -214,6 +224,19 @@ impl Summary {
                     error,
                 }
             }
+            LogMessageType::Journal => {
+                let summaryjournalreader = summaryjournalreader_opt.unwrap();
+                let readerdata: SummaryReaderData = SummaryReaderData::Journal(
+                    summaryjournalreader
+                );
+                Summary {
+                    path,
+                    filetype,
+                    logmessagetype,
+                    readerdata,
+                    error,
+                }
+            }
             LogMessageType::All => {
                 panic!("LogMessageType::All is not supported");
             }
@@ -232,7 +255,7 @@ impl Summary {
         error: Option<String>,
     ) -> Summary {
         // some sanity checks
-        debug_assert_ge!(blockreader_blocksz, BLOCKSZ_MIN, "blocksz too small");
+        //debug_assert_ge!(blockreader_blocksz, BLOCKSZ_MIN, "blocksz too small");
         debug_assert_le!(blockreader_blocksz, BLOCKSZ_MAX, "blocksz too big");
 
         Summary {
@@ -267,6 +290,7 @@ impl Summary {
                 )
             ) => Some(summaryblockreader),
             SummaryReaderData::Etvx(_) => None,
+            SummaryReaderData::Journal(_) => None,
         }
     }
 
@@ -294,6 +318,8 @@ impl Summary {
             ) => &summaryutmpreader.utmpxreader_datetime_first,
             SummaryReaderData::Etvx(summaryevtxreader)
                 => &summaryevtxreader.evtxreader_datetime_first_accepted,
+            SummaryReaderData::Journal(summaryjournalreader)
+                => &summaryjournalreader.journalreader_datetime_first_accepted,
         }
     }
 
@@ -317,6 +343,8 @@ impl Summary {
             ) => &summaryutmpreader.utmpxreader_datetime_last,
             SummaryReaderData::Etvx(summaryevtxreader)
                 => &summaryevtxreader.evtxreader_datetime_last_accepted,
+            SummaryReaderData::Journal(summaryjournalreader)
+                => &summaryjournalreader.journalreader_datetime_last_accepted,
         }
     }
 
@@ -391,6 +419,12 @@ impl Summary {
                     summaryevtxreader.evtxreader_events_processed
                 )
             }
+            SummaryReaderData::Journal(summaryjournalreader) => {
+                max!(
+                    summaryjournalreader.journalreader_events_accepted,
+                    summaryjournalreader.journalreader_events_processed
+                )
+            }
         }
     }
 
@@ -433,6 +467,9 @@ impl Summary {
                 )
             }
             SummaryReaderData::Etvx(_summaryevtxreader) => {
+                0
+            }
+            SummaryReaderData::Journal(_summaryjournalreader) => {
                 0
             }
         }
@@ -518,6 +555,16 @@ impl fmt::Debug for Summary {
                         .debug_struct("")
                         .field("evtx events processed", &summaryevtxreader.evtxreader_events_processed)
                         .field("evtx events accepted", &summaryevtxreader.evtxreader_events_accepted)
+                        .finish(),
+                    ft => panic!("Unpexected filetype {}", ft),
+                }
+            }
+            SummaryReaderData::Journal(summaryjournalreader) => {
+                match self.filetype {
+                    FileType::Journal => f
+                        .debug_struct("")
+                        .field("journal events processed", &summaryjournalreader.journalreader_events_processed)
+                        .field("journal events accepted", &summaryjournalreader.journalreader_events_accepted)
                         .finish(),
                     ft => panic!("Unpexected filetype {}", ft),
                 }

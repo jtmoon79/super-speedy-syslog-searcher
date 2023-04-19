@@ -79,7 +79,7 @@ use ::si_trace_print::{
 
 /// The `DateTime` used by [`EvtxParser`], field [`EvtxRecord.timestamp`] which
 /// is referred to as a "timestamp".
-/// 
+///
 /// [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
 /// [`EvtxRecord.timestamp`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html#structfield.timestamp
 pub type Timestamp = DateTime<Utc>;
@@ -573,6 +573,7 @@ impl<'a> EvtxReader {
             None,
             None,
             Some(summaryevtxreader),
+            None,
             error,
         )
     }

@@ -1,0 +1,17 @@
+# Cargo.toml
+#
+# ad-hoc sub-project for generating bindgen bindings of sd-journal.h
+
+[package]
+name = "bindgen-sd-journal_h"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+[dependencies]
+libloading = "0.7"
+nix = "0.26.2"
+
+[build-dependencies]
+bindgen = "0.53.1"
+const_format = "0.2.30"
