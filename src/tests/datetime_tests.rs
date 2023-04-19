@@ -7,7 +7,7 @@
 #![allow(non_camel_case_types)]
 
 use crate::tests::common::{
-    FO_0, FO_P1, FO_M8,
+    FO_0, FO_P1, FO_M7, FO_M8,
     FO_E10, FO_L, FO_W8, FO_Z,
 };
 use crate::data::datetime::{
@@ -1159,8 +1159,12 @@ fn test_dt_after_or_before() {
         (DTL("20000101T010101"), Some(DTL("20000101T010103")), Result_Filter_DateTime1::OccursBefore),
         (DTL("20000101T010100"), Some(DTL("20000101T010100")), Result_Filter_DateTime1::OccursAtOrAfter),
         (DTL("20000101T010109"), Some(DTL("20000101T010108")), Result_Filter_DateTime1::OccursAtOrAfter),
-        (DTLz("20000101T010106+0100", &FixedOffset::east(60*60)), None, Result_Filter_DateTime1::Pass),
-        (DTLz("20000101T010101+0100", &FixedOffset::east(60*60)), Some(DTLz("20000101T010103-0700", &FixedOffset::west(7*60*60))), Result_Filter_DateTime1::OccursBefore),
+        (DTLz("20000101T010106+0100", &FO_P1), None, Result_Filter_DateTime1::Pass),
+        (
+            DTLz("20000101T010101+0100", &FO_P1),
+            Some(DTLz("20000101T010103-0700", &FO_M7)),
+            Result_Filter_DateTime1::OccursBefore
+        ),
     ] {
         let result = dt_after_or_before(&dt, &da);
         assert_eq!(exp_result, result, "Expected {:?} Got {:?} for ({:?}, {:?})", exp_result, result, dt, da);

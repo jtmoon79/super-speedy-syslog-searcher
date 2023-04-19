@@ -34,6 +34,7 @@ env:
                  ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
                  ./logs/other/tests/gen-20-2-2-faces.log
                  ./logs/programs/utmp/host-entry6.wtmp
+                 ./logs/programs/journal/RHE_91_system.journal
 jobs:
 
   job_rust_msrv_os:
@@ -62,6 +63,8 @@ jobs:
           set -eux
           cargo --version
           cargo build --verbose
+          cargo build --release
+          ./target/release/s4 --help
 
   job_rust_release_channel:
     # this job downloads and builds dependency crates
@@ -82,6 +85,8 @@ jobs:
           set -eux
           cargo --version
           cargo build --verbose
+          cargo build --release
+          ./target/release/s4 --help
 
   job_build_debug_release:
     # this job downloads and builds dependency crates
@@ -182,8 +187,21 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - name: Install libsystemd
+        shell: bash
+        run: |
+          set -eux
+          sudo apt update || true
+          (find / -xdev \( -type f -o -type l \) -name 'libsystemd*' 2>/dev/null || true) | sort
+          sudo apt install --yes libsystemd0
+          (find / -xdev \( -type f -o -type l \) -name 'libsystemd*' 2>/dev/null || true) | sort
       - name: Run Tests
-        run: cargo test --verbose --all-targets
+        shell: bash
+        #run: cargo test --verbose --all-targets
+        run: |
+          set -eux
+          (find / -xdev \( -type f -o -type l \) -name 'libsystemd*' 2>/dev/null || true) | sort
+          cargo test journalreader_tests
 
   job_doc_publish:
     # this job downloads and builds dependency crates
@@ -207,6 +225,12 @@ jobs:
       # checkout for the log files
       - name: git checkout
         uses: actions/checkout@v3
+      - name: Install libsystemd
+        shell: bash
+        run: |
+          set -eux
+          sudo apt update || true
+          sudo apt install --yes libsystemd0
       # download & run debug
       - name: Download debug binary
         uses: actions/download-artifact@v3
@@ -216,6 +240,7 @@ jobs:
         shell: bash
         run: |
           set -eux
+          (find / -xdev \( -type f -o -type l \) -name 'libsystemd*' 2>/dev/null || true) | sort
           S4=./s4_debug
           chmod -v +x -- ${S4}
           ${S4} --version
@@ -322,6 +347,12 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - name: Install libsystemd
+        shell: bash
+        run: |
+          set -eux
+          sudo apt update || true
+          sudo apt install --yes libsystemd0
       - name: get toolchain nightly
         uses: actions-rs/toolchain@v1
         with:

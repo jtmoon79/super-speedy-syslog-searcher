@@ -24,6 +24,19 @@
 //! * A [`UtmpxReader`] drives a [`BlockReader`] to derive [`Utmpx`s].
 //!
 //! <br/>
+//!
+//! ### Reading [evtx files]; Windows Event Log XML files
+//!
+//! * A [`EvtxReader`] drives a [`EvtxParser`] to derive [`Evtx`s].
+//!
+//! <br/>
+//!
+//! ### Reading [`systemd` journal files]
+//!
+//! * A [`JournalReader`] drives a [`JournalApiPtr`] to derive
+//! [Journal entries].
+//!
+//! <br/>
 //! <br/>
 //!
 //! Also see [_Definitions of data_].
@@ -32,8 +45,9 @@
 //!
 //! ---
 //!
-//! The _s4_ binary program uses a [`SyslogProcessor`] or a [`UtmpxReader`]
-//! instance, one per file, to drive processing for a file.
+//! The _s4_ binary program uses a [`SyslogProcessor`], a [`UtmpxReader`],
+//! a [`EvtxReader`], or a [`JournalReader`], instance,
+//! one per file, to drive processing of the file.
 //!
 //! <br/>
 //!
@@ -50,13 +64,22 @@
 //! [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 //! [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
+//! [`EvtxReader`]: crate::readers::evtxreader::EvtxReader
+//! [`systemd` journal files]: https://systemd.io/JOURNAL_FILES/
+//! [`JournalReader`]: crate::readers::journalreader::JournalReader
+//! [`JournalApiPtr`]: crate::libload::systemd_dlopen2::JournalApiPtr
+//! [Journal entries]: https://systemd.io/JOURNAL_FILE_FORMAT/
 //! [`Utmpx`s]: crate::data::utmpx::Utmpx
 //! [utmpx files]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143772537#utmpx,_wtmpx_and_btmpx
+//! [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
+//! [`Evtx`s]: crate::data::evtx::Evtx
+//! [evtx files]: https://en.wikipedia.org/w/index.php?title=Event_Viewer&oldid=1130075772#Windows_Vista
 
 pub mod blockreader;
 pub mod evtxreader;
 pub mod filepreprocessor;
 pub mod helpers;
+pub mod journalreader;
 pub mod linereader;
 pub mod summary;
 pub mod syslinereader;

@@ -1,7 +1,8 @@
 // src/readers/filepreprocssor.rs
 
 //! A collection of functions to search for potentially parseable files,
-//! and prepare data needed to create a [`SyslogProcessor`] instance.
+//! and prepare data needed to create a [`SyslogProcessor`] instance or other
+//! "Reader" instance for file processing.
 //!
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 
@@ -41,7 +42,7 @@ use ::tar;
 pub enum ProcessPathResult {
     /// File can be processed by `s4`
     FileValid(FPath, MimeGuess, FileType),
-    // TODO: [2022/06] not currently checked until too late
+    // TODO: [2022/06] `FileErrNoPermissions` not currently checked until too late
     /// Filesystem permissions do not allow reading the file
     FileErrNoPermissions(FPath, MimeGuess),
     /// File is a known or unknown type and is not supported
@@ -50,6 +51,8 @@ pub enum ProcessPathResult {
     FileErrNotAFile(FPath),
     /// Path does not exist
     FileErrNotExist(FPath),
+    /// Error loading necessary shared libraries
+    FileErrLoadingLibrary(FPath, &'static str, FileType),
 }
 
 pub type ProcessPathResults = Vec<ProcessPathResult>;
@@ -83,6 +86,13 @@ const UTMP_FILENAMES_FILE: [&str; 9] = [
 /// [evtx format]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
 const EVTX_FILENAMES_EXT: [&str; 1] = [
     "evtx",
+];
+
+/// journal format [file name extensions].
+///
+/// [file name extensions]: https://github.com/systemd/systemd/blob/v249/src/libsystemd/sd-journal/journal-file.c#L3774
+const JOURNAL_FILENAMES_EXT: [&str; 1] = [
+    "journal",
 ];
 
 /// Map a single [`MimeGuess`] as a [`str`] into a `FileType`.
@@ -219,9 +229,9 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         return FileType::Evtx;
     }
 
-    if file_suffix_s == "journal" {
-        defx!("return Unparseable; .journal");
-        return FileType::Unparseable;
+    if JOURNAL_FILENAMES_EXT.contains(&file_suffix_s) {
+        defx!("return Journal; JOURNAL_FILENAMES_EXT.contains({:?})", file_suffix_s);
+        return FileType::Journal;
     }
 
     if UTMP_FILENAMES_FILE.contains(&file_suffix_s) {

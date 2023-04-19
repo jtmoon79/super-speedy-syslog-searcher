@@ -1,7 +1,8 @@
 // src/readers/syslogprocessor.rs
 // …
 
-//! Implements a [`SyslogProcessor`], the driver of processing a "syslog" file.
+//! Implements a [`SyslogProcessor`], the driver of the processing stages for
+//! a "syslog" file using a [`SyslineReader`].
 //!
 //! Sibling of [`UtmpxReader`]. But far more complicated due to the
 //! ad-hoc nature of log files.
@@ -9,6 +10,7 @@
 //! This is an _s4lib_ structure used by the binary program _s4_.
 //!
 //! [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
+//! [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 //! [`SyslogProcessor`]: SyslogProcessor
 
 #![allow(non_snake_case)]
@@ -1234,6 +1236,7 @@ impl SyslogProcessor {
             Some(summarylinereader),
             Some(summarysyslinereader),
             Some(summarysyslogprocessor),
+            None,
             None,
             None,
             error,

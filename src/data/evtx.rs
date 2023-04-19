@@ -6,17 +6,11 @@
 //! [`EvtxRecord`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html
 
 #[doc(hidden)]
-pub use crate::common::{
-    Bytes,
-    CharSz,
-    Count,
-    FPath,
-    FileOffset,
+use crate::common::{
     NLs,
     NLc,
-    NLu8,
-    ResultS3,
 };
+use crate::data::common::DtBegEndPairOpt;
 use crate::data::datetime::{
     DateTimeL,
 };
@@ -66,14 +60,6 @@ pub type ResultEvtxRS = std::result::Result<EvtxRS, EvtxError>;
 
 const TIMECREATED_BEG_SUBSTR: &str = "<TimeCreated SystemTime=\"";
 const TIMECREATED_END_SUBCHAR: char = '\"';
-
-/// Type alias for bytes offsets of the beginning and end of the
-/// datetime substring within the [`EvtxRecord`] XML data.
-///
-/// [`EvtxRecord`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html
-pub type DtBegEndPair = (usize, usize);
-/// Type alias for [`Option`] of [`DtBegEndPair`].
-pub type DtBegEndPairOpt = Option<DtBegEndPair>;
 
 /// A [`Evtx`] holds information taken from an [`EvtxRecord`].
 ///

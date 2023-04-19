@@ -1,11 +1,16 @@
 // src/data/mod.rs
 
 //! The `data` module is specialized data containers for
-//! [`Blocks`], [`Line`]s, [`Sysline`]s, and [`Utmpx`].
+//! [`Blocks`], [`Line`]s, [`Sysline`]s, [`Utmpx`], [`Evtx`],
+//! and [`JournalEntry`]s.
 //!
 //! ## Definitions of data
 //!
-//! ### Block
+//! ### Sysline
+//!
+//! A `Sysline` is composed of several specialized structs.
+//!
+//! #### Block
 //!
 //! A "block" is a sequence of contiguous bytes in a file that:
 //!
@@ -14,7 +19,7 @@
 //!
 //! A "block" is represented by a [`Block`] and retrieved by a [`BlockReader`].
 //!
-//! ### Line
+//! #### Line
 //!
 //! A "line" is sequence of bytes residing on "blocks" that:
 //!
@@ -23,7 +28,7 @@
 //!
 //! A "line" is represented by a [`Line`] and found by a [`LineReader`].
 //!
-//! ### Sysline
+//! #### Sysline
 //!
 //! A "sysline" is sequence of "lines" that:
 //!
@@ -33,6 +38,10 @@
 //! A "sysline" is represented by a [`Sysline`] and found by a
 //! [`SyslineReader`].
 //!
+//! A `Sysline` represents a "log message".
+//!
+//! It is not necessarily referring to an [RFC 5424] compliant log message.
+//!
 //! ### Syslog
 //!
 //! A "syslog" is a file that:
@@ -41,13 +50,30 @@
 //!
 //! A "syslog" is processed by a [`SyslogProcessor`].
 //!
-//! In this project and source code, "syslog" is not specifically referring to
-//! an [RFC 5424] compliant message.
+//! In this project and source code, "syslog" is used loosely; it is not
+//! necessarily referring to an [RFC 5424] compliant log file.
 //!
 //! ### Utmpx
 //!
 //! A [`Utmpx`] is information about a processed [`utmpx`] structure
-//! processed from a file.
+//! processed from a file. It is processed by a [`UtmpxReader`]. It uses an
+//! underlying [`BlockReader`] to read from the file.
+//!
+//! A `Utmpx` represents a "log message".
+//!
+//! ### Evtx
+//!
+//! A [`Evtx`] is information about a processed [`evtx`] structure
+//! processed from a file. It is processed by a [`EvtxReader`].
+//!
+//! An `Evtx` represents a "log message".
+//!
+//! ### Journal
+//!
+//! A [`JournalEntry`] is information about a processed [systemd journal entry].
+//! It is processed by a [`JournalReader`].
+//!
+//! A `JournalEntry` represents a "log message".
 //!
 //! <br/>
 //! <br/>
@@ -61,6 +87,9 @@
 //! [`BlockReader`]: crate::readers::blockreader::BlockReader
 //! [`LineReader`]: crate::readers::linereader::LineReader
 //! [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
+//! [`JournalReader`]: crate::readers::journalreader::JournalReader
+//! [`EvtxReader`]: crate::readers::evtxreader::EvtxReader
+//! [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
 //! [`Block`]: crate::readers::blockreader::Block
 //! [`Blocks`]: crate::readers::blockreader::Block
 //! [`Line`]: crate::data::line::Line
@@ -69,12 +98,17 @@
 //! [RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424.html
 //! [a certain minimum]: static@crate::readers::syslogprocessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP
 //! [`Utmpx`]: crate::data::utmpx::Utmpx
-//! [`utmpx`]: ::uapi::c::utmpx
+//! [`utmpx`]: crate::data::utmpx::utmpx
+//! [`Evtx`]: crate::data::evtx::Evtx
+//! [`evtx`]: crate::data::evtx::SerializedEvtxRecord
+//! [`JournalEntry`]: crate::data::journal::JournalEntry
+//! [systemd journal entry]: https://systemd.io/JOURNAL_FILE_FORMAT/
 //! [`Read`]: std::io::Read
 
 pub mod common;
 pub mod datetime;
 pub mod evtx;
+pub mod journal;
 pub mod line;
 pub mod sysline;
 pub mod utmpx;

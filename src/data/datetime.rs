@@ -93,6 +93,9 @@ pub type Year = i32;
 /// [`captures_to_buffer_bytes`]: captures_to_buffer_bytes
 pub type DateTimePattern_str = str;
 
+/// Analogous to [`DateTimePattern_str`], but for `String` instances.
+pub type DateTimePattern_string = String;
+
 /// Regular expression formatting pattern, passed to [`regex::bytes::Regex`].
 ///
 /// [`regex::bytes::Regex`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html
