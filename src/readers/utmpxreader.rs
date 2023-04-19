@@ -92,7 +92,21 @@ use std::io::{Error, ErrorKind, Result};
 use ::mime_guess::MimeGuess;
 use ::more_asserts::debug_assert_le;
 #[allow(unused_imports)]
-use ::si_trace_print::{de, defn, defo, defx, defñ, den, deo, dex, deñ, pfo, pfn, pfx};
+use ::si_trace_print::{
+    de,
+    defn,
+    defo,
+    defx,
+    defñ,
+    def1ñ,
+    den,
+    deo,
+    dex,
+    deñ,
+    pfo,
+    pfn,
+    pfx,
+};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // UtmpxReader
