@@ -247,7 +247,7 @@ impl UtmpxReader {
         blocksz: BlockSz,
         tz_offset: FixedOffset,
     ) -> Result<UtmpxReader> {
-        defñ!("({:?}, {:?}, {:?})", path, blocksz, tz_offset);
+        def1ñ!("({:?}, {:?}, {:?})", path, blocksz, tz_offset);
         let blockreader = BlockReader::new(path, FileType::Utmpx, blocksz)?;
         Ok(
             UtmpxReader
