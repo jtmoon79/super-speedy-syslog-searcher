@@ -129,7 +129,7 @@ type fos = i32;
 
 #[cfg(any(debug_assertions,test))]
 lazy_static! {
-    static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+    pub static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
 }
 
 #[cfg(test)]
@@ -5294,10 +5294,10 @@ pub fn dt_after_or_before(
     Result_Filter_DateTime1::OccursAtOrAfter
 }
 
-/// How does the passed [`DateTimeL`], `dt`, pass the optional `DateTimeLOpt`
-/// filter instances,
-/// `dt_filter_after` and `dt_filter_before`?  Is `dt` before ([`BeforeRange`]),
-/// after ([`AfterRange`]), or in between ([`InRange`])?
+/// How does the passed `dt` pass the optional `DateTimeLOpt`
+/// filter instances, `dt_filter_after` and `dt_filter_before`?
+/// Is `dt` before ([`BeforeRange`]), after ([`AfterRange`]),
+/// or in between ([`InRange`])?
 ///
 /// If both filters are `Some` and `dt: DateTimeL` is "between" the filters then
 /// return `InRange`.<br/>
