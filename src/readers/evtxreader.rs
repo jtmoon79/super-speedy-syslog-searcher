@@ -7,12 +7,15 @@
 //! Sibling of [`SyslogProcessor`]. But simpler in a number of ways due to
 //! the predictable format of the evtx files.
 //!
+//! Implements [Issue #87] and [Issue #86].
+//!
 //! [`EvtxReader`]: self::EvtxReader
 //! [`Etmpx`s]: crate::data::evtx::Evtx
 //! [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
 //! [Windows Event Log `.evtx` format]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 //! [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
+//! [Issue #87]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/87
 
 use crate::common::{
     File,
