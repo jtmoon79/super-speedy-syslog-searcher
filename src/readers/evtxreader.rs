@@ -54,7 +54,24 @@ use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
 use ::more_asserts::{assert_le, debug_assert_ge, debug_assert_le, debug_assert_lt};
 #[allow(unused_imports)]
-use ::si_trace_print::{de, defn, defo, defx, defñ, def1ñ, den, deo, dex, deñ, pfo, pfn, pfx};
+use ::si_trace_print::{
+    de,
+    defn,
+    def1n,
+    defo,
+    def1o,
+    defx,
+    def1x,
+    defñ,
+    def1ñ,
+    den,
+    deo,
+    dex,
+    deñ,
+    pfo,
+    pfn,
+    pfx,
+};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // EvtxReader
