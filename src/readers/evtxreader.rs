@@ -300,26 +300,26 @@ impl<'a> EvtxReader {
     pub fn new(
         path: FPath,
     ) -> Result<EvtxReader> {
-        defn!("({:?})", path);
+        def1n!("({:?})", path);
 
         // get the file size according to the file metadata
         let path_std: &Path = Path::new(&path);
         let mut open_options = FileOpenOptions::new();
-        defo!("open_options.read(true).open({:?})", path);
+        def1o!("open_options.read(true).open({:?})", path);
         let file: File = match open_options
             .read(true)
             .open(path_std)
         {
             Ok(val) => val,
             Err(err) => {
-                defx!("return {:?}", err);
+                def1x!("return {:?}", err);
                 return Err(err);
             }
         };
         let filesz: FileSz = match file.metadata() {
             Ok(val) => val.len() as FileSz,
             Err(err) => {
-                defx!("return {:?}", err);
+                def1x!("return {:?}", err);
                 eprintln!("ERROR: File::metadata() path {:?} {}", path_std, err);
                 return Err(err);
             }
@@ -336,6 +336,7 @@ impl<'a> EvtxReader {
                 ));
             }
         };
+        def1x!();
         Ok(
             EvtxReader
             {
