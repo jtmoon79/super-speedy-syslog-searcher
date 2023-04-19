@@ -2,6 +2,8 @@
 #
 # codecov Code Coverage definitions
 # See https://docs.codecov.com/docs/codecov-yaml
+#
+# yaml-language-server: $schema=https://json.schemastore.org/codecov
 ---
 codecov:
   bot: "codecov-io"
