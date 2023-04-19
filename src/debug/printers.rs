@@ -1,7 +1,6 @@
 // src/debug/printers.rs
-//
-// A hodge-podge of printer functions and helpers for test and debug builds.
-//
+
+//! A hodge-podge of printer functions and helpers for test and debug builds.
 
 #[cfg(test)]
 use crate::common::{FPath, FileOpenOptions};
@@ -25,10 +24,12 @@ macro_rules! de_err {
     (
         $($args:tt)*
     ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprint!("ERROR: ");
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
+        {
+            #[cfg(any(debug_assertions,test))]
+            eprint!("ERROR: ");
+            #[cfg(any(debug_assertions,test))]
+            eprintln!($($args)*)
+        }
     }
 }
 pub use de_err;
@@ -39,10 +40,12 @@ macro_rules! de_wrn {
     (
         $($args:tt)*
     ) => {
-        #[cfg(any(debug_assertions,test))]
-        eprint!("WARNING: ");
-        #[cfg(any(debug_assertions,test))]
-        eprintln!($($args)*)
+        {
+            #[cfg(any(debug_assertions,test))]
+            eprint!("WARNING: ");
+            #[cfg(any(debug_assertions,test))]
+            eprintln!($($args)*)
+        }
     }
 }
 pub use de_wrn;
@@ -53,8 +56,10 @@ macro_rules! e_err {
     (
         $($args:tt)*
     ) => {
-        eprint!("ERROR: ");
-        eprintln!($($args)*)
+        {
+            eprint!("ERROR: ");
+            eprintln!($($args)*)
+        }
     }
 }
 pub use e_err;
@@ -65,8 +70,10 @@ macro_rules! e_wrn {
     (
         $($args:tt)*
     ) => {
-        eprint!("WARNING: ");
-        eprintln!($($args)*)
+        {
+            eprint!("WARNING: ");
+            eprintln!($($args)*)
+        }
     }
 }
 pub use e_wrn;
