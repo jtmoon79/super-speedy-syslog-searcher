@@ -1,6 +1,8 @@
 # rust.yml
 #
 # github workflows action file for super-speedy-syslog-searcher
+#
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
 ---
 name: Rust
 on:
