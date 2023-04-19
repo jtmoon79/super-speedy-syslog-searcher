@@ -52,7 +52,20 @@ use ::mime_guess::MimeGuess;
 use ::more_asserts::{assert_le, debug_assert_le, debug_assert_lt, debug_assert_gt};
 use ::rangemap::RangeMap;
 #[allow(unused_imports)]
-use ::si_trace_print::{def1n, def1o, def1x, def1ñ, defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::si_trace_print::{
+    def1n,
+    def1o,
+    def1x,
+    def1ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+};
 use ::static_assertions::const_assert;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -432,7 +445,7 @@ impl SyslineReader {
         blocksz: BlockSz,
         tz_offset: FixedOffset,
     ) -> Result<SyslineReader> {
-        deñ!("SyslineReader::new({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
+        def1ñ!("({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
         let lr = match LineReader::new(path, filetype, blocksz) {
             Ok(val) => val,
             Err(err) => {
