@@ -463,7 +463,11 @@ DateTime strftime specifiers are described at https://docs.rs/chrono/latest/chro
 
 DateTimes supported are only of the Gregorian calendar.
 
-DateTimes supported language is English."
+DateTimes supported language is English.
+
+Is s4 failing to parse a log file? Report an Issue at
+https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
+"
 );
 
 static mut PREPEND_DT_FORMAT_PASSED: bool = false;
