@@ -353,6 +353,7 @@ where
     }
 }
 
+// TODO: [2023/04] remove redundant variable prefix name `syslinereader_`
 #[derive(Clone, Default)]
 pub struct SummarySyslineReader {
     /// `SyslineReader::drop_sysline_ok`

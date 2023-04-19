@@ -223,6 +223,7 @@ impl fmt::Debug for UtmpxReader {
     }
 }
 
+// TODO: [2023/04] remove redundant variable prefix name `utmpxreader_`
 #[allow(non_snake_case)]
 #[derive(Clone, Default, Eq, PartialEq, Debug)]
 pub struct SummaryUtmpxReader {

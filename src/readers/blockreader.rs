@@ -398,6 +398,7 @@ impl fmt::Debug for BlockReader {
     }
 }
 
+// TODO: [2023/04] remove redundant variable prefix name `blockreader_`
 #[allow(non_snake_case)]
 #[derive(Clone, Default)]
 pub struct SummaryBlockReader {

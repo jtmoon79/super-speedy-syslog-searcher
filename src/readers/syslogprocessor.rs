@@ -233,6 +233,7 @@ impl Debug for SyslogProcessor {
     }
 }
 
+// TODO: [2023/04] remove redundant variable prefix name `syslogprocessor_`
 #[derive(Clone, Default)]
 pub struct SummarySyslogProcessor {
     /// `SyslogProcessor::missing_year`

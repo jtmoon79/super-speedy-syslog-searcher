@@ -145,6 +145,7 @@ impl fmt::Debug for LineReader {
     }
 }
 
+// TODO: [2023/04] remove redundant variable prefix name `linereader_`
 #[derive(Clone, Default)]
 pub struct SummaryLineReader {
     /// `Count` of `Lines` processed by `LineReader`

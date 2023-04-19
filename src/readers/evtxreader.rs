@@ -277,6 +277,7 @@ impl<'a> fmt::Debug for EvtxReader {
     }
 }
 
+// TODO: [2023/04] remove redundant variable prefix name `evtxreader_`
 #[allow(non_snake_case)]
 #[derive(Clone, Default, Eq, PartialEq, Debug)]
 pub struct SummaryEvtxReader {
