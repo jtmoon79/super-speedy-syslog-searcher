@@ -5,7 +5,7 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::{Bytes, FileType, FPath, ResultS3};
+use crate::common::{Bytes, FileOffset, FileType, FPath, ResultS3};
 use crate::debug::printers::{
     byte_to_char_noraw,
 };
@@ -13,7 +13,6 @@ use crate::readers::blockreader::{
     BlockOffset,
     BlockReader,
     BlockSz,
-    FileOffset,
     ResultS3ReadBlock,
     ResultReadData,
     ReadData,
