@@ -6,9 +6,9 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::{Count, FPath, ResultS3};
+use crate::common::{Count, FileOffset, FPath, ResultS3};
 use crate::data::line::LineIndex;
-use crate::readers::blockreader::{BlockSz, FileOffset};
+use crate::readers::blockreader::BlockSz;
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
 use crate::readers::helpers::{fill, randomize};
 use crate::readers::syslinereader::{ResultS3SyslineFind, SyslineReader};

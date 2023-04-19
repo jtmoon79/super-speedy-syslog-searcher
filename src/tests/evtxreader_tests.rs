@@ -7,7 +7,8 @@
 
 use crate::common::{Count, FileSz, FPath, FileType, LogMessageType};
 use crate::data::datetime::DateTimeLOpt;
-use crate::data::evtx::{DtBegEndPairOpt, Evtx};
+use crate::data::common::DtBegEndPairOpt;
+use crate::data::evtx::Evtx;
 use crate::readers::summary::SummaryReaderData;
 use crate::readers::evtxreader::EvtxReader;
 use crate::tests::common::{
@@ -20,7 +21,7 @@ use crate::tests::common::{
     EVTX_KPNP_DATA1_S,
 };
 
-use criterion::black_box;
+use ::criterion::black_box;
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
 use ::more_asserts::{assert_gt, assert_ge};
