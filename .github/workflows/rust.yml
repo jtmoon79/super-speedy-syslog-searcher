@@ -61,6 +61,7 @@ jobs:
         shell: bash
         run: |
           set -eux
+          rustc --print cfg
           cargo --version
           cargo build --verbose
           cargo build --release
