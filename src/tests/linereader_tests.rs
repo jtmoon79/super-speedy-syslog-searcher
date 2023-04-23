@@ -7,43 +7,40 @@
 #![allow(non_snake_case)]
 #![allow(non_upper_case_globals)]
 
-use crate::tests::common::{eprint_file, fill, randomize};
-use crate::common::{Bytes, FPath, FileOffset};
+use crate::tests::common::{
+    eprint_file,
+    fill,
+    randomize,
+    NTF_NL_1_PATH,
+    NTF_NL_2_PATH,
+    NTF_NL_3_PATH,
+    NTF_NL_4_PATH,
+    NTF_NL_5_PATH,
+    NTF_LOG_EMPTY_FPATH,
+    NTF_SYSLINE_2_PATH,
+};
+use crate::common::{Bytes, Count, FPath, FileOffset};
 use crate::readers::blockreader::BlockSz;
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
 use crate::data::line::{LineIndex, LineP, LinePartPtrs};
-use crate::readers::linereader::{LineReader, ResultS3LineFind};
-use crate::debug::helpers::{create_temp_file, ntf_fpath, NamedTempFile};
+use crate::readers::linereader::{
+    LineReader,
+    ResultS3LineFind,
+    SummaryLineReader,
+};
+use crate::debug::helpers::{create_temp_file, ntf_fpath};
 use crate::debug::printers::{
     buffer_to_String_noraw,
     byte_to_char_noraw,
     str_to_String_noraw,
 };
 
-use ::lazy_static::lazy_static;
 use ::more_asserts::{assert_ge, assert_le};
 use ::si_trace_print::stack::{sn, so, stack_offset_set, sx};
 use ::si_trace_print::printers::{defo, defn, defx};
 use ::test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-lazy_static! {
-    static ref NTF_EMPTY0: NamedTempFile = create_temp_file("");
-    static ref NTF_EMPTY0_PATH: FPath = ntf_fpath(&NTF_EMPTY0);
-    static ref NTF_NL_1: NamedTempFile = create_temp_file("\n");
-    static ref NTF_NL_1_PATH: FPath = ntf_fpath(&NTF_NL_1);
-    static ref NTF_NL_2: NamedTempFile = create_temp_file("\n\n");
-    static ref NTF_NL_2_PATH: FPath = ntf_fpath(&NTF_NL_2);
-    static ref NTF_NL_3: NamedTempFile = create_temp_file("\n\n\n");
-    static ref NTF_NL_3_PATH: FPath = ntf_fpath(&NTF_NL_3);
-    static ref NTF_NL_4: NamedTempFile = create_temp_file("\n\n\n\n");
-    static ref NTF_NL_4_PATH: FPath = ntf_fpath(&NTF_NL_4);
-    static ref NTF_NL_5: NamedTempFile = create_temp_file("\n\n\n\n\n");
-    static ref NTF_NL_5_PATH: FPath = ntf_fpath(&NTF_NL_5);
-}
-
-// -------------------------------------------------------------------------------------------------
 
 /// dummy version of `ResultS3LineFind` for asserting return enum of `LineReader::find_line`
 #[allow(non_camel_case_types)]
@@ -346,7 +343,7 @@ fn _test_LineReader_all(
 
 #[test]
 fn test_LineReader_all0_empty() {
-    _test_LineReader_all(&NTF_EMPTY0_PATH, true, 0x4);
+    _test_LineReader_all(&*NTF_LOG_EMPTY_FPATH, true, 0x4);
 }
 
 #[test]
@@ -485,7 +482,7 @@ fn test_LineReader_all_reversed(
 
 #[test]
 fn test_LineReader_all_reversed0_empty() {
-    test_LineReader_all_reversed(&NTF_EMPTY0_PATH, true, 0x4);
+    test_LineReader_all_reversed(&*NTF_LOG_EMPTY_FPATH, true, 0x4);
 }
 
 #[test]
@@ -597,7 +594,7 @@ fn test_LineReader_half_even(
 
 #[test]
 fn test_LineReader_half_even_0_empty() {
-    test_LineReader_half_even(&NTF_EMPTY0_PATH, 0x4);
+    test_LineReader_half_even(&*NTF_LOG_EMPTY_FPATH, 0x4);
 }
 
 #[test]
@@ -748,7 +745,7 @@ fn test_LineReader_half_odd(
 
 #[test]
 fn test_LineReader_half_odd_0_empty() {
-    test_LineReader_half_odd(&NTF_EMPTY0_PATH, 0x4);
+    test_LineReader_half_odd(&*NTF_LOG_EMPTY_FPATH, 0x4);
 }
 
 #[test]
@@ -856,7 +853,7 @@ fn test_LineReader_rand(
 
 #[test]
 fn test_LineReader_rand0_empty() {
-    test_LineReader_rand(&NTF_EMPTY0_PATH, 0x4);
+    test_LineReader_rand(&*NTF_LOG_EMPTY_FPATH, 0x4);
 }
 
 #[test]
@@ -1000,7 +997,7 @@ test_LineReader_precise_order_2 line 2 of 2
 #[test]
 fn test_LineReader_precise_order_empty0__0_1() {
     let offsets: Vec<FileOffset> = vec![0, 1];
-    test_LineReader_precise_order(&NTF_EMPTY0_PATH, true, 0xF, &offsets);
+    test_LineReader_precise_order(&*NTF_LOG_EMPTY_FPATH, true, 0xF, &offsets);
 }
 
 #[test]
@@ -1225,12 +1222,12 @@ fn test_find_line_in_block_all(
 
 #[test]
 fn test_find_line_in_block_all_empty0() {
-    test_find_line_in_block_all(&NTF_EMPTY0_PATH, true, 0xF);
+    test_find_line_in_block_all(&*NTF_LOG_EMPTY_FPATH, true, 0xF);
 }
 
 #[test]
 fn test_find_line_in_block_all_empty0_nocache() {
-    test_find_line_in_block_all(&NTF_EMPTY0_PATH, false, 0xF);
+    test_find_line_in_block_all(&*NTF_LOG_EMPTY_FPATH, false, 0xF);
 }
 
 #[test]
@@ -1401,7 +1398,7 @@ fn test_find_line_in_block(
 #[test]
 fn test_find_line_in_block_empty0_bszFF() {
     let in_out: TestFindLineInBlockCheck = vec![(0, (RS3T_DONE, None), String::from(""))];
-    test_find_line_in_block(&NTF_EMPTY0_PATH, true, 0xFF, &in_out);
+    test_find_line_in_block(&*NTF_LOG_EMPTY_FPATH, true, 0xFF, &in_out);
 }
 
 #[test]
@@ -1897,7 +1894,7 @@ fn test_Line_get_boxptrs_2_bsz_0x2() {
 }
 
 /// test `LineReader::summary` before doing any processing
-#[test_case(&NTF_EMPTY0_PATH)]
+#[test_case(&*NTF_LOG_EMPTY_FPATH)]
 #[test_case(&NTF_NL_1_PATH)]
 fn test_LineReader_summary_empty(
     path: &FPath,
@@ -1906,4 +1903,107 @@ fn test_LineReader_summary_empty(
     _ = linereader.summary();
 }
 
-// TODO: [2023/03/23] test `LineReader::summary` after doing some processing
+#[test_case(
+    &NTF_NL_1_PATH,
+    0x2,
+    1,
+    1,
+    0,
+    1,
+    0,
+    2,
+    1,
+    0,
+    0
+)]
+#[test_case(
+    &NTF_SYSLINE_2_PATH,
+    0x2,
+    2,
+    2,
+    0,
+    3,
+    0,
+    3,
+    2,
+    0,
+    0
+)]
+/// test `LineReader.Summary()`
+fn test_SummaryLineReader(
+    path: &FPath,
+    blocksz: BlockSz,
+    linereader_lines: Count,
+    linereader_lines_stored_highest: usize,
+    linereader_lines_hits: Count,
+    linereader_lines_miss: Count,
+    linereader_find_line_lru_cache_hit: Count,
+    linereader_find_line_lru_cache_miss: Count,
+    linereader_find_line_lru_cache_put: Count,
+    linereader_drop_line_ok: Count,
+    linereader_drop_line_errors: Count,
+) {
+    // create a `LineReader` and read all the lines in the file
+    let mut lr = new_LineReader(path, blocksz);
+    let mut fo: FileOffset = 0;
+    loop {
+        match lr.find_line(fo) {
+            ResultS3LineFind::Found((fo_, _)) => {
+                fo = fo_;
+            }
+            ResultS3LineFind::Done => {
+                break;
+            }
+            ResultS3LineFind::Err(err) => {
+                panic!("LineReader::new({:?}, {:?}) ResultS3LineFind::Err {}", path, blocksz, err);
+            }
+        }
+    }
+
+    let summary: SummaryLineReader = lr.summary();
+    assert_eq!(
+        summary.linereader_lines,
+        linereader_lines,
+        "linereader_lines 1"
+    );
+    assert_eq!(
+        summary.linereader_lines_stored_highest,
+        linereader_lines_stored_highest,
+        "linereader_lines_stored_highest 2"
+    );
+    assert_eq!(
+        summary.linereader_lines_hits,
+        linereader_lines_hits,
+        "linereader_lines_hits 3"
+    );
+    assert_eq!(
+        summary.linereader_lines_miss,
+        linereader_lines_miss,
+        "linereader_lines_miss 4"
+    );
+    assert_eq!(
+        summary.linereader_find_line_lru_cache_hit,
+        linereader_find_line_lru_cache_hit,
+        "linereader_find_line_lru_cache_hit 5"
+    );
+    assert_eq!(
+        summary.linereader_find_line_lru_cache_miss,
+        linereader_find_line_lru_cache_miss,
+        "linereader_find_line_lru_cache_miss 6"
+    );
+    assert_eq!(
+        summary.linereader_find_line_lru_cache_put,
+        linereader_find_line_lru_cache_put,
+        "linereader_find_line_lru_cache_put 7"
+    );
+    assert_eq!(
+        summary.linereader_drop_line_ok,
+        linereader_drop_line_ok,
+        "linereader_drop_line_ok 8"
+    );
+    assert_eq!(
+        summary.linereader_drop_line_errors,
+        linereader_drop_line_errors,
+        "linereader_drop_line_errors 9"
+    );
+}
