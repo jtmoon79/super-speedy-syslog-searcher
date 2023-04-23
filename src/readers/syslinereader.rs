@@ -354,7 +354,7 @@ where
 }
 
 // TODO: [2023/04] remove redundant variable prefix name `syslinereader_`
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct SummarySyslineReader {
     /// `SyslineReader::drop_sysline_ok`
     pub syslinereader_drop_sysline_ok: Count,

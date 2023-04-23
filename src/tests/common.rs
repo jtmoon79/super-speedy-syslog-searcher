@@ -172,6 +172,28 @@ lazy_static! {
     pub static ref NTF_8BYTE: NamedTempFile = create_temp_log("ABCDEFGH");
     pub static ref NTF_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE);
 
+    // 1 sysline file
+
+    pub static ref NTF_SYSLINE_1: NamedTempFile = create_temp_log(
+        "2000-01-02T03:04:05+00:00 INFO: sysline #1\n"
+    );
+    pub static ref NTF_SYSLINE_1_PATH: FPath = ntf_fpath(&NTF_SYSLINE_1);
+    pub static ref NTF_SYSLINE_1_SYSLINE1_DT: DateTimeL = {
+        ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 5)
+    };
+
+	// 2 sysline file
+
+    pub static ref NTF_SYSLINE_2: NamedTempFile = create_temp_log(
+        "2000-01-02T03:04:05+00:00 VERBOSE: sysline #1\n2000-01-02T03:04:06+00:00 DEBUG: sysline #2\n"
+    );
+    pub static ref NTF_SYSLINE_2_PATH: FPath = ntf_fpath(&NTF_SYSLINE_2);
+    pub static ref NTF_SYSLINE_2_SYSLINE1_DT: DateTimeL = {
+        ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 5)
+    };
+    pub static ref NTF_SYSLINE_2_SYSLINE2_DT: DateTimeL = {
+        ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 6)
+    };
 }
 
 pub const NTF_LOG_EMPTY_FILETYPE: FileType = FileType::File;

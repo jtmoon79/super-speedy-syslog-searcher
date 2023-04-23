@@ -7,11 +7,16 @@
 #![allow(non_camel_case_types)]
 
 use crate::common::{Count, FileOffset, FPath, ResultS3};
+use crate::data::datetime::DateTimeLOpt;
 use crate::data::line::LineIndex;
 use crate::readers::blockreader::BlockSz;
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
 use crate::readers::helpers::{fill, randomize};
-use crate::readers::syslinereader::{ResultS3SyslineFind, SyslineReader};
+use crate::readers::syslinereader::{
+    ResultS3SyslineFind,
+    SyslineReader,
+    SummarySyslineReader,
+};
 use crate::data::datetime::{
     datetime_parse_from_str,
     DateTimeL,
@@ -43,11 +48,17 @@ use crate::tests::common::{
     NTF_NL_3_PATH,
     NTF_NL_4_PATH,
     NTF_NL_5_PATH,
+    NTF_SYSLINE_1_PATH,
+    NTF_SYSLINE_1_SYSLINE1_DT,
+    NTF_SYSLINE_2_PATH,
+    NTF_SYSLINE_2_SYSLINE1_DT,
+    NTF_SYSLINE_2_SYSLINE2_DT,
     NTF_TAR_0BYTE_FILEA_FPATH,
     NTF_TAR_1BYTE_FILEA_FPATH,
     NTF_TAR_1BYTE_FPATH,
     NTF_TAR_8BYTE_FILEA_FPATH,
     NTF_WNL_1_PATH,
+    FO_0,
     FO_P5,
     FO_P8,
     FO_M5,
@@ -5012,8 +5023,6 @@ fn test_SyslineReader_summary_empty(
     _ = syslinereader.summary();
 }
 
-// TODO: [2023/03/23] test `SyslineReader::summary` after doing some processing
-
 /// index of `DTPD` that has `has_year4() && has_d2()` and qualifies for
 /// EZCHECK12D2
 const INDEX_12D2: usize = 0;
@@ -5190,5 +5199,358 @@ fn test_ezcheck_slice(
         (ezcheck12d2_hit, ezcheck12d2_miss, ezcheck12d2_hit_max),
         (expect_ezcheck12d2_hit, expect_ezcheck12d2_miss, expect_ezcheck12d2_hit_max),
         "\n(ezcheck12d2_hit, ezcheck12d2_miss, ezcheck12d2_hit_max)\n(expect_ezcheck12d2_hit, expect_ezcheck12d2_miss, expect_ezcheck12d2_hit_max)\n"
+    );
+}
+
+#[test_case(
+    &*NTF_GZ_8BYTE_FPATH,
+    0x60,
+    *FO_0,
+    true,
+    None,
+	None,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    0,
+    2,
+    0,
+    None,
+    None,
+    0,
+    2,
+    2,
+    0,
+    4,
+    0,
+    476,
+    0,
+    0,
+    0,
+    0,
+    0,
+    24,
+    0,
+    7,
+    452,
+    0,
+    7
+)]
+#[test_case(
+    &*NTF_SYSLINE_1_PATH,
+    0x20,
+    *FO_0,
+    true,
+    None,
+	None,
+    0,
+    0,
+    1,
+    1,
+    0,
+    2,
+    0,
+    2,
+    1,
+    Some(*NTF_SYSLINE_1_SYSLINE1_DT),
+    Some(*NTF_SYSLINE_1_SYSLINE1_DT),
+    0,
+    2,
+    2,
+    0,
+    1,
+    0,
+    4,
+    70,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    0,
+    0,
+    70,
+    0
+)]
+#[test_case(
+    &*NTF_SYSLINE_1_PATH,
+    0x20,
+    *FO_0,
+    false,
+    None,
+	None,
+    0,
+    0,
+    1,
+    1,
+    0,
+    2,
+    0,
+    2,
+    1,
+    Some(*NTF_SYSLINE_1_SYSLINE1_DT),
+    Some(*NTF_SYSLINE_1_SYSLINE1_DT),
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    70,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    0,
+    0,
+    70,
+    0
+)]
+#[test_case(
+    &*NTF_SYSLINE_2_PATH,
+    0x8,
+    *FO_0,
+    true,
+    None,
+	None,
+    0,
+    0,
+    2,
+    2,
+    0,
+    3,
+    0,
+    3,
+    2,
+    Some(*NTF_SYSLINE_2_SYSLINE1_DT),
+    Some(*NTF_SYSLINE_2_SYSLINE2_DT),
+    0,
+    3,
+    3,
+    1,
+    2,
+    0,
+    0,
+    0,
+    148,
+    0,
+    0,
+    0,
+    0,
+    8,
+    0,
+    0,
+    140,
+    0
+)]
+fn test_syslinereadersummary(
+    path: &FPath,
+    blocksz: BlockSz,
+    tzo: FixedOffset,
+    cache: bool,
+    dt_filter_after: DateTimeLOpt,
+	dt_filter_before: DateTimeLOpt,
+    syslinereader_drop_sysline_ok: Count,
+    syslinereader_drop_sysline_errors: Count,
+    syslinereader_syslines: Count,
+    syslinereader_syslines_stored_highest: usize,
+    syslinereader_syslines_hit: Count,
+    syslinereader_syslines_miss: Count,
+    syslinereader_syslines_by_range_hit: Count,
+    syslinereader_syslines_by_range_miss: Count,
+    syslinereader_syslines_by_range_put: Count,
+    syslinereader_datetime_first: DateTimeLOpt,
+    syslinereader_datetime_last: DateTimeLOpt,
+    syslinereader_find_sysline_lru_cache_hit: Count,
+    syslinereader_find_sysline_lru_cache_miss: Count,
+    syslinereader_find_sysline_lru_cache_put: Count,
+    syslinereader_parse_datetime_in_line_lru_cache_hit: Count,
+    syslinereader_parse_datetime_in_line_lru_cache_miss: Count,
+    syslinereader_parse_datetime_in_line_lru_cache_put: Count,
+    syslinereader_get_boxptrs_singleptr: Count,
+    syslinereader_get_boxptrs_doubleptr: Count,
+    syslinereader_get_boxptrs_multiptr: Count,
+    syslinereader_ezcheck12_hit: Count,
+    syslinereader_ezcheck12_miss: Count,
+    syslinereader_ezcheck12_hit_max: LineIndex,
+    syslinereader_ezcheckd2_hit: Count,
+    syslinereader_ezcheckd2_miss: Count,
+    syslinereader_ezcheckd2_hit_max: LineIndex,
+    syslinereader_ezcheck12d2_hit: Count,
+    syslinereader_ezcheck12d2_miss: Count,
+    syslinereader_ezcheck12d2_hit_max: LineIndex,
+) {
+    let mut slr = new_SyslineReader(path, blocksz, tzo);
+    if !cache {
+        slr.LRU_cache_disable();
+    }
+    let mut fo: FileOffset = 0;
+    loop {
+        let result = slr.find_sysline_between_datetime_filters(fo, &dt_filter_after, &dt_filter_before);
+        match result {
+            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+                fo = fo_;
+            }
+            ResultS3SyslineFind::Done => {
+                break;
+            }
+            ResultS3SyslineFind::Err(err) => {
+                panic!("During test unexpected result Error {}", err);
+            }
+        }
+    }
+    let summary: SummarySyslineReader = slr.summary();
+    eprintln!("\nsummary: {:?}", summary);
+    assert_eq!(
+            syslinereader_drop_sysline_ok,
+            summary.syslinereader_drop_sysline_ok,
+            "syslinereader_drop_sysline_ok 1"
+    );
+    assert_eq!(
+            syslinereader_drop_sysline_errors,
+            summary.syslinereader_drop_sysline_errors,
+            "syslinereader_drop_sysline_errors 2"
+    );
+    assert_eq!(
+            syslinereader_syslines,
+            summary.syslinereader_syslines,
+            "syslinereader_syslines 3"
+    );
+    assert_eq!(
+            syslinereader_syslines_stored_highest,
+            summary.syslinereader_syslines_stored_highest,
+            "syslinereader_syslines_stored_highest 4"
+    );
+    assert_eq!(
+            syslinereader_syslines_hit,
+            summary.syslinereader_syslines_hit,
+            "syslinereader_syslines_hit 5"
+    );
+    assert_eq!(
+            syslinereader_syslines_miss,
+            summary.syslinereader_syslines_miss,
+            "syslinereader_syslines_miss 6"
+    );
+    assert_eq!(
+            syslinereader_syslines_by_range_hit,
+            summary.syslinereader_syslines_by_range_hit,
+            "syslinereader_syslines_by_range_hit 7"
+    );
+    assert_eq!(
+            syslinereader_syslines_by_range_miss,
+            summary.syslinereader_syslines_by_range_miss,
+            "syslinereader_syslines_by_range_miss 8"
+    );
+    assert_eq!(
+            syslinereader_syslines_by_range_put,
+            summary.syslinereader_syslines_by_range_put,
+            "syslinereader_syslines_by_range_put 9"
+    );
+    assert_eq!(
+            syslinereader_datetime_first,
+            summary.syslinereader_datetime_first,
+            "syslinereader_datetime_first 10"
+    );
+    assert_eq!(
+            syslinereader_datetime_last,
+            summary.syslinereader_datetime_last,
+            "syslinereader_datetime_last 11"
+    );
+    assert_eq!(
+            syslinereader_find_sysline_lru_cache_hit,
+            summary.syslinereader_find_sysline_lru_cache_hit,
+            "syslinereader_find_sysline_lru_cache_hit 12"
+    );
+    assert_eq!(
+            syslinereader_find_sysline_lru_cache_miss,
+            summary.syslinereader_find_sysline_lru_cache_miss,
+            "syslinereader_find_sysline_lru_cache_miss 13"
+    );
+    assert_eq!(
+            syslinereader_find_sysline_lru_cache_put,
+            summary.syslinereader_find_sysline_lru_cache_put,
+            "syslinereader_find_sysline_lru_cache_put 14"
+    );
+    assert_eq!(
+            syslinereader_parse_datetime_in_line_lru_cache_hit,
+            summary.syslinereader_parse_datetime_in_line_lru_cache_hit,
+            "syslinereader_parse_datetime_in_line_lru_cache_hit 15"
+    );
+    assert_eq!(
+            syslinereader_parse_datetime_in_line_lru_cache_miss,
+            summary.syslinereader_parse_datetime_in_line_lru_cache_miss,
+            "syslinereader_parse_datetime_in_line_lru_cache_miss 16"
+    );
+    assert_eq!(
+            syslinereader_parse_datetime_in_line_lru_cache_put,
+            summary.syslinereader_parse_datetime_in_line_lru_cache_put,
+            "syslinereader_parse_datetime_in_line_lru_cache_put 17"
+    );
+    assert_eq!(
+            syslinereader_get_boxptrs_singleptr,
+            summary.syslinereader_get_boxptrs_singleptr,
+            "syslinereader_get_boxptrs_singleptr 18"
+    );
+    assert_eq!(
+            syslinereader_get_boxptrs_doubleptr,
+            summary.syslinereader_get_boxptrs_doubleptr,
+            "syslinereader_get_boxptrs_doubleptr 19"
+    );
+    assert_eq!(
+            syslinereader_get_boxptrs_multiptr,
+            summary.syslinereader_get_boxptrs_multiptr,
+            "syslinereader_get_boxptrs_multiptr 20"
+    );
+    assert_eq!(
+        syslinereader_ezcheck12_hit,
+        summary.syslinereader_ezcheck12_hit,
+        "syslinereader_ezcheck12_hit 21"
+    );
+    assert_eq!(
+        syslinereader_ezcheck12_miss,
+        summary.syslinereader_ezcheck12_miss,
+        "syslinereader_ezcheck12_miss 22"
+    );
+    assert_eq!(
+        syslinereader_ezcheck12_hit_max,
+        summary.syslinereader_ezcheck12_hit_max,
+        "syslinereader_ezcheck12_hit_max 23"
+    );
+    assert_eq!(
+        syslinereader_ezcheckd2_hit,
+        summary.syslinereader_ezcheckd2_hit,
+        "syslinereader_ezcheckd2_hit 24"
+    );
+    assert_eq!(
+        syslinereader_ezcheckd2_miss,
+        summary.syslinereader_ezcheckd2_miss,
+        "syslinereader_ezcheckd2_miss 25"
+    );
+    assert_eq!(
+        syslinereader_ezcheckd2_hit_max,
+        summary.syslinereader_ezcheckd2_hit_max,
+        "syslinereader_ezcheckd2_hit_max 26"
+    );
+    assert_eq!(
+        syslinereader_ezcheck12d2_hit,
+        summary.syslinereader_ezcheck12d2_hit,
+        "syslinereader_ezcheck12d2_hit 27"
+    );
+    assert_eq!(
+        syslinereader_ezcheck12d2_miss,
+        summary.syslinereader_ezcheck12d2_miss,
+        "syslinereader_ezcheck12d2_miss 28"
+    );
+    assert_eq!(
+        syslinereader_ezcheck12d2_hit_max,
+        summary.syslinereader_ezcheck12d2_hit_max,
+        "syslinereader_ezcheck12d2_hit_max 29"
     );
 }
