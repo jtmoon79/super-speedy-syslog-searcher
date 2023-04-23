@@ -26,7 +26,7 @@ pub use std::path::Path;
 /// [`String`]: std::string::String
 pub type FPath = String;
 
-/// a sequence of [`FPath`]s
+/// A sequence of [`FPath`]s
 pub type FPaths = Vec<FPath>;
 
 #[doc(hidden)]

@@ -61,7 +61,8 @@ pub type ResultEvtxRS = std::result::Result<EvtxRS, EvtxError>;
 const TIMECREATED_BEG_SUBSTR: &str = "<TimeCreated SystemTime=\"";
 const TIMECREATED_END_SUBCHAR: char = '\"';
 
-/// A [`Evtx`] holds information taken from an [`EvtxRecord`].
+/// A `Evtx` holds information taken from an [`EvtxRecord`], a
+/// [Windows Event Log] record.
 ///
 /// Here is an example EVTX Event written by crate [`evtx`] as XML:
 ///
@@ -99,6 +100,7 @@ const TIMECREATED_END_SUBCHAR: char = '\"';
 /// [`Evtx`]: self::Evtx
 /// [`EvtxRecord`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html
 /// [`evtx`]: https://docs.rs/evtx/0.8.1/evtx/index.html
+/// [Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Evtx {
     id: RecordId,
