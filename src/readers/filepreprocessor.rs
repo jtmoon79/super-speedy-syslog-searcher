@@ -95,6 +95,16 @@ const JOURNAL_FILENAMES_EXT: [&str; 1] = [
     "journal",
 ];
 
+/// Odd strings that are appended to normal files by various programs and
+/// services.
+///
+/// For example, `~` is appended to some .journal files in OpenSUSE Tumbleweed,
+/// e.g. `system.journal~`.
+const EXT_JUNK_APPEND_STR: [&str; 2] = [
+    "~",
+    "-",
+];
+
 /// Map a single [`MimeGuess`] as a [`str`] into a `FileType`.
 ///
 /// Mimetype values are in [`mime_types.rs`].
@@ -437,16 +447,41 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
     let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
     deo!("mimeguess {:?}", mimeguess);
 
+    const RM_LIMIT: i32 = 3;
+
     if mimeguess.is_empty() {
         // Sometimes syslog files get automatically renamed by appending `.old`
         // to the filename, or a number, e.g. `file.log.old`, `kern.log.1`.
         // If so, try MimeGuess without the extra extensions.
-        // However, limit attempts as some files could have names like
-        // `this.is.a.name.of.a.file`.
+        // However, limit attempts to `RM_LIMIT` as some files could have names
+        // like `this.is.a.long.name.of.a.file.with.dots`.
         let mut fpath: FPath;
         let mut path_: &Path = path_clone(path);
         let mut ext_rm = 0;
-        while mimeguess.is_empty() && filename_count_extensions(path_) != 0 && ext_rm < 3 {
+        while mimeguess.is_empty() && filename_count_extensions(path_) != 0 && ext_rm < RM_LIMIT {
+            // some files have junk appended to the filename, e.g. `system.journal~`
+            // so remove the junk characters and try again
+            for junk_end in EXT_JUNK_APPEND_STR.iter() {
+                if path_
+                    .extension()
+                    .unwrap_or(path_.file_name().unwrap_or_default())
+                    .to_str()
+                    .unwrap_or_default()
+                    .ends_with(junk_end)
+                {
+                    defo!("no mimeguess found, try again with removed {:?}", junk_end);
+                    let fpath2 = path_to_fpath(path_).trim_end_matches(junk_end).to_string();
+                    let path2 = fpath_to_path(&fpath2);
+                    mimeguess = MimeGuess::from_path(path2);
+                    defo!("mimeguess {:?}", mimeguess);
+                    if !mimeguess.is_empty() {
+                        break;
+                    }
+                }
+            }
+            if !mimeguess.is_empty() {
+                break;
+            }
             match remove_extension(path_) {
                 None => {}
                 Some(fpath_rm1ext) => {
@@ -466,22 +501,47 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
 
     match filetype {
         FileType::Unknown | FileType::Unset => {
-            // The filetype still could not be determined so try removing extensions from the name.
-            // Sometimes syslog files get automatically renamed by appending signifiers like `.old`.
-            // Files can have several signifiers like `file.log.old.2`.
-            // However, limit attempts as some files could have names like
-            // `this.is.a.name.of.a.file`.
-            defo!("filetype {:?} not parseable", filetype);
+            // The filetype still could not be determined so try removing
+            // extensions from the name. Sometimes syslog files get
+            // automatically renamed by appending signifiers like `.old`.
+            // Files can have several signifiers like `file.log.old.2`
+            // or characters appended like `file.log~`.
+            // However, limit attempts to `RM_LIMIT` as some files could
+            // have names like `this.is.a.long.name.of.a.file.with.dots`.
+            defo!("filetype '{:?}' is not parseable", filetype);
             let mut fpath: FPath;
             let mut path_: &Path = path_clone(path);
             filetype = path_to_filetype(path_);
             defo!("filetype {:?}", filetype);
             let mut ext_rm = 0;
-            while !parseable_filetype(&filetype) && filename_count_extensions(path_) != 0 && ext_rm < 3 {
+            while !processable_filetype(&filetype) && filename_count_extensions(path_) != 0 && ext_rm < RM_LIMIT {
+                // some files have junk appended to the filename, e.g. `system.journal~`
+                // so remove the junk characters and try again
+                for junk_end in EXT_JUNK_APPEND_STR.iter() {
+                    if path_
+                        .extension()
+                        .unwrap_or(path_.file_name().unwrap_or_default())
+                        .to_str()
+                        .unwrap_or_default()
+                        .ends_with(junk_end)
+                    {
+                        defo!("no filetype found, try again with removed {:?}", junk_end);
+                        let fpath2 = path_to_fpath(path_).trim_end_matches(junk_end).to_string();
+                        let path2 = fpath_to_path(&fpath2);
+                        filetype = path_to_filetype(path2);
+                        defo!("filetype {:?}", filetype);
+                        if processable_filetype(&filetype) {
+                            break;
+                        }
+                    }
+                }
+                if processable_filetype(&filetype) {
+                    break;
+                }
                 match remove_extension(path_) {
                     None => {}
                     Some(fpath_rm1ext) => {
-                        defo!("try again with removed file extension {:?}", path_);
+                        defo!("no filetype found, try again with removed file extension {:?}", fpath_rm1ext);
                         fpath = fpath_rm1ext;
                         path_ = fpath_to_path(&fpath);
                         filetype = path_to_filetype(path_);
