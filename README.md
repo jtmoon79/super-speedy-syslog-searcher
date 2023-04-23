@@ -348,7 +348,7 @@ A longer rambling pontification about this project is in
 - Parses [Windows Event Log] files
 - Parses [systemd journal] files with printing options matching [`journalctl`]
 - Parses many ad-hoc datetime formats
-  - Tested against "in the wild" log files from varying Linux distributions
+  - Tested against "in the wild" log files from varying sources
     (see project path `./logs/`)
 - Comparable speed as GNU `grep` and `sort`
   (see project tool `./tools/compare-grep-sort.sh`; run in github Actions, Job
