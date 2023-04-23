@@ -108,6 +108,9 @@ cfg_supports_uapi!{
     // compile fails with:
     //      error[E0432]: unresolved imports `uapi::c::__timeval`, `uapi::c::__exit_status`
     // also see https://github.com/mahkoh/uapi/issues/15
+    //
+    // BUG: Similar problem on Alpine Linux 3.17 but `cfg_supports_uapi` does not protect against that.
+    //      see https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/100
     cfg_uapi_new!{
         pub use ::uapi::c::{
             __timeval,
