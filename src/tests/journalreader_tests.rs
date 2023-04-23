@@ -4,6 +4,7 @@
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
+#![allow(clippy::too_many_arguments)]
 
 use std::io::ErrorKind;
 use std::path::Path;

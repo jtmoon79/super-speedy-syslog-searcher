@@ -5,6 +5,7 @@
 #![allow(non_upper_case_globals)]
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
+#![allow(clippy::too_many_arguments)]
 
 use crate::common::{Count, FileOffset, FPath, ResultS3};
 use crate::data::datetime::DateTimeLOpt;
@@ -5163,7 +5164,7 @@ fn test_ezcheck_slice(
     eprintln!("test_ezcheck_slice: dtpd.has_year4: {:?}, dtpd.has_d2: {:?}",
         dtpd.has_year4(), dtpd.has_d2());
     let result = SyslineReader::ezcheck_slice(
-        &dtpd,
+        dtpd,
         slice_,
         1,
         &mut ezcheck12_min,

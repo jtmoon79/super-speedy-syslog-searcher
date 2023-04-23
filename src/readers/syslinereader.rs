@@ -1017,6 +1017,7 @@ impl SyslineReader {
     ///
     /// Helper to `find_datetime_in_line`.
     #[inline(always)]
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn ezcheck_slice(
         dtpd: &DateTimeParseInstr,
         slice_: &[u8],
