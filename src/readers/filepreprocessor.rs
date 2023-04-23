@@ -59,7 +59,9 @@ pub type ProcessPathResults = Vec<ProcessPathResult>;
 
 /// files without file extensions known to be parseable
 const PARSEABLE_FILENAMES_FILE: [&str; 3] = [
-    "messages", "syslog", "kernlog",
+    "messages",
+    "syslog",
+    "kernlog",
 ];
 
 /// [utmpx format] file names.
