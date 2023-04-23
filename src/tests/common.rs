@@ -50,6 +50,8 @@ lazy_static! {
     pub static ref MIMEGUESS_TARGZ: MimeGuess = MimeGuess::from_ext("tgz");
     pub static ref MIMEGUESS_UTMP: MimeGuess = MimeGuess::from_ext("utmp");
     pub static ref MIMEGUESS_EVTX: MimeGuess = MimeGuess::from_ext("evtx");
+    pub static ref MIMEGUESS_ETL: MimeGuess = MimeGuess::from_ext("etl");
+    pub static ref MIMEGUESS_ZIP: MimeGuess = MimeGuess::from_ext("zip");
 
     // data from the various forms of the 1 byte, 3 byte, and 8 byte file
     pub static ref BYTES_A: Vec<u8> = vec![b'A'];
@@ -1987,7 +1989,7 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
-pub const NTF_TGZ_8BYTE_FILETYPE: FileType = FileType::TarGz;
+pub const NTF_TGZ_8BYTE_FILETYPE: FileType = FileType::Unparseable;
 pub const NTF_TGZ_8BYTE_FILEA_FILETYPE: FileType = FileType::TarGz;
 
 // -------------------------------------------------------------------------------------------------

@@ -13,8 +13,10 @@ use crate::tests::common::{
     MIMEGUESS_TARGZ,
     MIMEGUESS_TXT,
     MIMEGUESS_UTMP,
-    MIMEGUESS_EVTX,
     MIMEGUESS_XZ,
+    MIMEGUESS_EVTX,
+    MIMEGUESS_ETL,
+    MIMEGUESS_ZIP,
     NTF_GZ_EMPTY,
     NTF_GZ_EMPTY_FILETYPE,
     NTF_GZ_EMPTY_FPATH,
@@ -97,7 +99,7 @@ fn test_mimeguess_to_filetype_tar() {
 
 #[test]
 fn test_mimeguess_to_filetype_targz() {
-    test_mimeguess_to_filetype(&MIMEGUESS_TARGZ, FileType::TarGz);
+    test_mimeguess_to_filetype(&MIMEGUESS_TARGZ, FileType::Unparseable);
 }
 
 #[test]
@@ -130,11 +132,11 @@ fn test_mimeguess_to_filetype_evtx() {
 #[test_case("DATA.GZ", FileType::Gz; "DATA.GZ ALLCAPS")]
 #[test_case("data.gz.old", FileType::Gz)]
 #[test_case("data.gzip", FileType::Gz)]
-#[test_case("data.tgz", FileType::TarGz)]
+#[test_case("data.tgz", FileType::Unparseable)]
 #[test_case("data.tar", FileType::Tar)]
 #[test_case("DATA.TAR", FileType::Tar; "DATA.TAR ALLCAPS")]
 #[test_case("data.tar.old", FileType::Tar)]
-#[test_case("data.tgz.old", FileType::TarGz)]
+#[test_case("data.tgz.old", FileType::Unparseable)]
 #[test_case("wtmp", FileType::Utmpx; "wtmp")]
 #[test_case("WTMP", FileType::Utmpx; "WTMP ALLCAPS")]
 #[test_case("btmp", FileType::Utmpx; "btmp")]
@@ -488,15 +490,15 @@ lazy_static! {
 #[test_case("syslog.gz", FileType::Gz, &MIMEGUESS_GZ)]
 #[test_case("syslog.9.gz", FileType::Gz, &MIMEGUESS_GZ)]
 #[test_case("SYSLOG.9.GZ", FileType::Gz, &MIMEGUESS_GZ; "SYSLOG.9.GZ")]
-#[test_case("logs.tgz", FileType::TarGz, &MIMEGUESS_TARGZ)]
+#[test_case("logs.tgz", FileType::Unparseable, &MIMEGUESS_TARGZ)]
 #[test_case("unattended-upgrades-dpkg.log.3.gz", FileType::Gz, &MIMEGUESS_GZ)]
 #[test_case("eipp.log.xz", FileType::Xz, &MIMEGUESS_XZ)]
 #[test_case("logs.tar", FileType::Tar, &MIMEGUESS_TAR)]
 #[test_case("LOGS.TAR", FileType::Tar, &MIMEGUESS_TAR; "LOGS.TAR")]
 #[test_case("log.1.tar", FileType::Tar, &MIMEGUESS_TAR)]
 #[test_case("LOG.1.TAR", FileType::Tar, &MIMEGUESS_TAR; "LOG.1.TAR ALLCAPS")]
-#[test_case("data.tgz.old.1", FileType::TarGz, &MIMEGUESS_TARGZ)]
-#[test_case("data.tgz.old", FileType::TarGz, &MIMEGUESS_TARGZ)]
+#[test_case("data.tgz.old.1", FileType::Unparseable, &MIMEGUESS_TARGZ)]
+#[test_case("data.tgz.old", FileType::Unparseable, &MIMEGUESS_TARGZ)]
 #[test_case("HOSTNAME.log", FileType::File, &MIMEGUESS_TXT)]
 #[test_case("log.HOSTNAME", FileType::File, &MIMEGUESS_EMPTY)]
 #[test_case("log.nmbd", FileType::File, &MIMEGUESS_EMPTY)]
@@ -506,10 +508,10 @@ lazy_static! {
 #[test_case("log.gz.1", FileType::Gz, &MIMEGUESS_GZ)]
 #[test_case("log.gz.2", FileType::Gz, &MIMEGUESS_GZ)]
 #[test_case("log.gz.99", FileType::Gz, &MIMEGUESS_GZ)]
-#[test_case("log.tgz.99", FileType::TarGz, &MIMEGUESS_TARGZ)]
-#[test_case("logs.tgz.99", FileType::TarGz, &MIMEGUESS_TARGZ)]
-#[test_case("LOGS.TGZ.99", FileType::TarGz, &MIMEGUESS_TARGZ; "LOGS.TGZ.99")]
-#[test_case("-.tgz.99", FileType::TarGz, &MIMEGUESS_TARGZ)]
+#[test_case("log.tgz.99", FileType::Unparseable, &MIMEGUESS_TARGZ)]
+#[test_case("logs.tgz.99", FileType::Unparseable, &MIMEGUESS_TARGZ)]
+#[test_case("LOGS.TGZ.99", FileType::Unparseable, &MIMEGUESS_TARGZ; "LOGS.TGZ.99")]
+#[test_case("-.tgz.99", FileType::Unparseable, &MIMEGUESS_TARGZ)]
 #[test_case("soap_agent", FileType::File, &MIMEGUESS_EMPTY)]
 #[test_case("soap_agent.old", FileType::File, &MIMEGUESS_EMPTY)]
 #[test_case("soap_agent.old.old", FileType::File, &MIMEGUESS_EMPTY)]

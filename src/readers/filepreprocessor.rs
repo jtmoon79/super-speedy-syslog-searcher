@@ -120,26 +120,37 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     const TEXT_STAR: &str = "text/*";
     // ::mime::UTF_8.as_str();
     const UTF8_: &str = "utf-8";
-
     // see https://www.rfc-editor.org/rfc/rfc6713.html#section-3
     const APP_GZIP: &str = "application/gzip";
     // see https://superuser.com/a/901963/167043
     const APP_XGZIP: &str = "application/x-gzip";
-
     const APP_X_XZ: &str = "application/x-xz";
-
     const APP_TAR: &str = "application/x-tar";
     const APP_GTAR: &str = "application/x-gtar";
-
+    // known unparseable log file types
     const APP_TARGZ: &str = "application/x-compressed";
+    const APP_ETL: &str = "application/etl";
+    const APP_ZIP: &str = "application/zip";
+    const APP_BZ: &str = "application/x-bzip";
+    const APP_BZ2: &str = "application/x-bzip2";
 
     match lower.as_str() {
         PLAIN | TEXT | TEXT_PLAIN | TEXT_PLAIN_UTF8 | TEXT_STAR | UTF8_ => FileType::File,
         APP_GZIP | APP_XGZIP => FileType::Gz,
         APP_X_XZ => FileType::Xz,
         APP_TAR | APP_GTAR => FileType::Tar,
-        APP_TARGZ => FileType::TarGz,
-        // ???
+        // XXX: `.targz` is an odd case because currently it has it's own
+        //      `FileType` but is still not supported.
+        //      This was due to overplanning.
+        //      See Issue #14
+        APP_TARGZ
+        // Support for `.bz` and `.bz2` is Issue #40
+        | APP_BZ
+        | APP_BZ2
+        // Support for `.etl` is Issue #99
+        | APP_ETL
+        // Support for `.zip` is Issue #39
+        | APP_ZIP => FileType::Unparseable,
         _ => FileType::Unknown,
     }
 }
@@ -239,19 +250,20 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         return FileType::Utmpx;
     }
 
-    // FileTgz
+    // FileTgz (returns `Unparseable`)
+    // Known to be unparseable. Someday it should be supported. Issue #14
 
     // for example `data.tgz`
     // XXX: this should be handled in `path_to_filetype_mimeguess`
     if file_suffix_s == "tgz" {
-        defx!("return TarGz; .tgz");
-        return FileType::TarGz;
+        defx!("return Unparseable; .tgz");
+        return FileType::Unparseable;
     }
 
     // for example `data.tgz.old`
     if file_prefix_s.ends_with(".tgz") {
-        defx!("return TarGz; data.tgz");
-        return FileType::TarGz;
+        defx!("return Unparseable; data.tgz");
+        return FileType::Unparseable;
     }
 
     // FileGz
@@ -404,9 +416,12 @@ pub fn fpath_to_filetype(path: &FPath) -> FileType {
 /// Is the `FileType` processing implemented by `s4lib`?
 ///
 /// There are plans for future support of differing files.
-pub fn parseable_filetype(filetype: &FileType) -> bool {
+pub fn processable_filetype(filetype: &FileType) -> bool {
+    defñ!("({:?})", filetype);
     match filetype {
-        &FileType::Unparseable | &FileType::Unknown | &FileType::Unset => false,
+        &FileType::Unknown | &FileType::Unset => false,
+        // `FileType::Unparseable` is not parseable but
+        // but is explicitly recognized as such.
         _ => true,
     }
 }

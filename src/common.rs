@@ -475,6 +475,11 @@ pub enum FileType {
     /// a plain file within a `.tar` archive file
     Tar,
     /// a file within a compressed gzipped `.tar` or `.tgz` archive file
+    /// Currently unparseable. See [Issue #14]
+    ///
+    /// This ended up here from overzealous planning. It is not currently used.
+    ///
+    /// [Issue #14]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14
     TarGz,
     /// a file compressed "xz'd" file, e.g. `log.xz`
     /// (presumed to contain one regular file; see Issue #11)

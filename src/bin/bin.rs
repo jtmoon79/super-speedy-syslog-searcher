@@ -2943,10 +2943,21 @@ fn processing_loop(
         .drain(..)
         .enumerate()
     {
+        defo!("match {:?}", processpathresult);
         match processpathresult {
             // XXX: use `ref` to avoid "use of partially moved value" error
             ProcessPathResult::FileValid(ref path, ref mimeguess, ref filetype) => {
-                if matches!(filetype, FileType::Journal) {
+                if matches!(filetype, FileType::Unparseable) {
+                    // known unparseable file
+                    defo!("paths_invalid_results.push(FileErrUnparseable)");
+                    map_pathid_results_invalid.insert(
+                        pathid_counter,
+                        ProcessPathResult::FileErrNotSupported(path.clone(), *mimeguess),
+                    );
+                    paths_total += 1;
+                    continue;
+                }
+                else if matches!(filetype, FileType::Journal) {
                     defo!("load_library_systemd()");
                     match load_library_systemd() {
                         LoadLibraryError::Ok => {}
@@ -2957,6 +2968,7 @@ fn processing_loop(
                                 pathid_counter,
                                 ProcessPathResult::FileErrLoadingLibrary(path.clone(), LIB_NAME_SYSTEMD, *filetype)
                             );
+                            paths_total += 1;
                             continue;
                         }
                         LoadLibraryError::PrevErr => {
@@ -2965,6 +2977,7 @@ fn processing_loop(
                                 pathid_counter,
                                 ProcessPathResult::FileErrLoadingLibrary(path.clone(), LIB_NAME_SYSTEMD, *filetype)
                             );
+                            paths_total += 1;
                             continue;
                         }
                     }
