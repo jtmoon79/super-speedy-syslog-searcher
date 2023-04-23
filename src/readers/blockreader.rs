@@ -1182,9 +1182,7 @@ impl BlockReader {
             FileType::Unknown
             | FileType::Unparseable
             | FileType::Unset
-            => {
-                panic!("BlockReader::new bad filetype {:?}", filetype);
-            }
+            => panic!("BlockReader::new bad filetype {:?}", filetype),
         }
 
         // XXX: don't assert on `filesz` vs `filesz_actual`; for some `.gz` files they can be
