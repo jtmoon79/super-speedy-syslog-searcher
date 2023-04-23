@@ -5,7 +5,15 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::{Bytes, FileOffset, FileType, FPath, ResultS3};
+use crate::common::{
+    Bytes,
+    Count,
+    FileSz,
+    FileOffset,
+    FileType,
+    FPath,
+    ResultS3,
+};
 use crate::debug::printers::{
     byte_to_char_noraw,
 };
@@ -18,6 +26,7 @@ use crate::readers::blockreader::{
     ReadData,
     ReadDataParts,
     ResultReadDataToBuffer,
+    SummaryBlockReader,
 };
 #[allow(unused_imports)]
 use crate::debug::helpers::{
@@ -40,6 +49,7 @@ use crate::tests::common::{
     NTF_1BYTE_FPATH,
     NTF_3BYTE_FPATH,
     NTF_8BYTE_FPATH,
+    NTF_SYSLINE_2_PATH,
     NTF_GZ_1BYTE_FPATH,
     NTF_GZ_8BYTE_FPATH,
     NTF_GZ_EMPTY_FPATH,
@@ -1362,4 +1372,188 @@ fn test_BlockReader_summary_empty(
     _ = blockreader.summary();
 }
 
-// TODO: [2023/03/23] test `BlockReader::summary` after doing some processing
+#[test_case(
+    &NTF_LOG_EMPTY_FPATH,
+    FileType::File,
+    0x2,
+    0,
+    0,
+    0,
+    0,
+    2,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+)]
+#[test_case(
+    &NTF_1BYTE_FPATH,
+    FileType::File,
+    0x2,
+    0,
+    1,
+    0,
+    1,
+    2,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+)]
+#[test_case(
+    &NTF_SYSLINE_2_PATH,
+    FileType::File,
+    0x2,
+    88,
+    90,
+    44,
+    45,
+    2,
+    90,
+    90,
+    0,
+    44,
+    44,
+    0,
+    44,
+    44,
+    4,
+    41,
+    0
+)]
+/// test `BlockReader.Summary()`
+fn test_SummaryBlockReader(
+    path: &FPath,
+    filetype: FileType,
+    blocksz: BlockSz,
+    blockreader_bytes: Count,
+    blockreader_bytes_total: FileSz,
+    blockreader_blocks: Count,
+    blockreader_blocks_total: Count,
+    blockreader_blocksz: BlockSz,
+    blockreader_filesz: FileSz,
+    blockreader_filesz_actual: FileSz,
+    blockreader_read_block_lru_cache_hit: Count,
+    blockreader_read_block_lru_cache_miss: Count,
+    blockreader_read_block_lru_cache_put: Count,
+    blockreader_read_blocks_hit: Count,
+    blockreader_read_blocks_miss: Count,
+    blockreader_read_blocks_put: Count,
+    blockreader_blocks_highest: usize,
+    blockreader_blocks_dropped_ok: Count,
+    blockreader_blocks_dropped_err: Count,
+) {
+    let mut blockreader = new_BlockReader(path, filetype, blocksz);
+    for bo in 0..blockreader.blockoffset_last() {
+        match blockreader.read_block(bo) {
+            ResultS3ReadBlock::Found(_block) => {
+                // do nothing
+            }
+            ResultS3ReadBlock::Done => {
+                panic!("read_block({}) failed: Done was unexpected", bo);
+            }
+            ResultS3ReadBlock::Err(e) => {
+                panic!("read_block({}) failed: {}", bo, e);
+            }
+        }
+        if bo > 2 {
+            blockreader.drop_block(bo - 2);
+        }
+    }
+
+    let summary: SummaryBlockReader = blockreader.summary();
+    assert_eq!(
+        blockreader_bytes,
+        summary.blockreader_bytes,
+        "blockreader_bytes 1"
+    );
+    assert_eq!(
+        blockreader_bytes_total,
+        summary.blockreader_bytes_total,
+        "blockreader_bytes_total 2"
+    );
+    assert_eq!(
+        blockreader_blocks,
+        summary.blockreader_blocks,
+        "blockreader_blocks 3"
+    );
+    assert_eq!(
+        blockreader_blocks_total,
+        summary.blockreader_blocks_total,
+        "blockreader_blocks_total 4"
+    );
+    assert_eq!(
+        blockreader_blocksz,
+        summary.blockreader_blocksz,
+        "blockreader_blocksz 5"
+    );
+    assert_eq!(
+        blockreader_filesz,
+        summary.blockreader_filesz,
+        "blockreader_filesz 6"
+    );
+    assert_eq!(
+        blockreader_filesz_actual,
+        summary.blockreader_filesz_actual,
+        "blockreader_filesz_actual 7"
+    );
+    assert_eq!(
+        blockreader_read_block_lru_cache_hit,
+        summary.blockreader_read_block_lru_cache_hit,
+        "blockreader_read_block_lru_cache_hit 8"
+    );
+    assert_eq!(
+        blockreader_read_block_lru_cache_miss,
+        summary.blockreader_read_block_lru_cache_miss,
+        "blockreader_read_block_lru_cache_miss 9"
+    );
+    assert_eq!(
+        blockreader_read_block_lru_cache_put,
+        summary.blockreader_read_block_lru_cache_put,
+        "blockreader_read_block_lru_cache_put 10"
+    );
+    assert_eq!(
+        blockreader_read_blocks_hit,
+        summary.blockreader_read_blocks_hit,
+        "blockreader_read_blocks_hit 11"
+    );
+    assert_eq!(
+        blockreader_read_blocks_miss,
+        summary.blockreader_read_blocks_miss,
+        "blockreader_read_blocks_miss 12"
+    );
+    assert_eq!(
+        blockreader_read_blocks_put,
+        summary.blockreader_read_blocks_put,
+        "blockreader_read_blocks_put 13"
+    );
+    assert_eq!(
+        blockreader_blocks_highest,
+        summary.blockreader_blocks_highest,
+        "blockreader_blocks_highest 14"
+    );
+    assert_eq!(
+        blockreader_blocks_dropped_ok,
+        summary.blockreader_blocks_dropped_ok,
+        "blockreader_blocks_dropped_ok 15"
+    );
+    assert_eq!(
+        blockreader_blocks_dropped_err,
+        summary.blockreader_blocks_dropped_err,
+        "blockreader_blocks_dropped_err 16"
+    );
+}
