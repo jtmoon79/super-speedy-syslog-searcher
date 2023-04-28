@@ -8,6 +8,8 @@
 //! [`utmp`]: https://elixir.bootlin.com/glibc/glibc-2.37/source/bits/utmp.h#L57
 
 #[doc(hidden)]
+use crate::de_err;
+#[doc(hidden)]
 use crate::common::FileOffset;
 use crate::data::datetime::{
     DateTimeL,
@@ -271,11 +273,27 @@ impl fmt::Debug for Utmpx {
     target_os = "macos",
     target_os = "ios",
 )))]
-/// [`__timeval.tv_sec` second type] from `utmpx.h`
+/// [`__timeval.tv_sec` second type] from `utmpx.h` but as `i64`.
 ///
+/// Not all impelementations use `i32` for this field.
+/// For example,
+/// [FreeBSD may use either `i32` or `i64` as the underlying `__time_t`]
+/// depending on the architecture.
+/// [Linux also varies on some architectures].
+///
+/// Also see [Issue #108].
+///
+/// [FreeBSD may use either `i32` or `i64` as the underlying `__time_t`]: https://github.com/freebsd/freebsd-src/blob/cae85a647ad76d191ac61c3bff67b49aabd716ba/sys/x86/include/_types.h#L74-L81
 /// [`__timeval.tv_sec` second type]: https://docs.rs/uapi/0.2.10/uapi/c/struct.__timeval.html
+/// [Linux also varies on some architectures]: https://elixir.bootlin.com/linux/v6.3/source/include/uapi/asm-generic/posix_types.h#L93
+/// [Issue #108]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/108
 #[allow(non_camel_case_types)]
-pub type tv_sec_type = i32;
+pub type tv_sec_type = i64;
+// XXX: cannot declare
+//          pub type tv_sec_type = ::uapi::c::__timeval::tv_sec;
+//      results in compile error
+//          ambiguous associated typerustcClick for full compiler diagnostic
+//          utmpx.rs(279, 24): if there were a trait named `Example` with associated type `tv_sec` implemented for `__timeval`, you could use the fully-qualified path: `<__timeval as Example>::tv_sec`
 
 #[cfg(any(
     target_os = "freebsd",
@@ -290,11 +308,13 @@ pub type tv_sec_type = i64;
     target_os = "macos",
     target_os = "ios",
 )))]
-/// [`__timeval.tv_usec` microsecond type] from `utmpx.h`
+/// [`__timeval.tv_usec` microsecond type] from `utmpx.h` but as `i64`.
+///
+/// See [`tv_sec_type`] for more information.
 ///
 /// [`__timeval.tv_usec` microsecond type]: https://docs.rs/uapi/0.2.10/uapi/c/struct.__timeval.html
 #[allow(non_camel_case_types)]
-pub type tv_usec_type = i32;
+pub type tv_usec_type = i64;
 
 #[cfg(any(
     target_os = "freebsd",
@@ -304,7 +324,9 @@ pub type tv_usec_type = i32;
 #[allow(non_camel_case_types)]
 pub type tv_usec_type = i64;
 
-/// nanosecond type
+/// Nanosecond type for chrono [`FixedOffset::timestamp_opt`].
+///
+/// [`FixedOffset::timestamp_opt`]: https://docs.rs/chrono/0.4.24/chrono/offset/struct.FixedOffset.html#method.timestamp_opt
 #[allow(non_camel_case_types)]
 pub type nsecs_type = u32;
 
@@ -341,32 +363,30 @@ pub fn convert_tvsec_utvcsec_datetime(
     tv_usec: tv_usec_type,
     tz_offset: &FixedOffset,
 ) -> DateTimeLOpt {
-    // Firstly, convert microseconds to nanoseconds.
-    // If conversion fails then use zero.
+    // Firstly, convert i64 to i32.
     let mut nsec: nsecs_type = match tv_usec.try_into() {
         Ok(val) => val,
-        Err(_) => 0,
-    };
-    nsec = match nsec.checked_mul(1000) {
-        Some(val) => val,
-        None => 0,
-    };
-    // Secondly, convert seconds.
-    // If conversion fails then return None.
-    let tv_sec_i64: i64 = match tv_sec.try_into() {
-        Ok(val) => val,
-        Err(_) => {
+        Err(_err) => {
+            de_err!("failed to convert tv_usec 0x{:X} to nsecs_type: {}", tv_usec, _err);
             return None;
         }
     };
+    // Secondly, multiply by 1000 to get nanoseconds.
+    nsec = match nsec.checked_mul(1000) {
+        Some(val) => val,
+        None => {
+            de_err!("failed to multiply nsec 0x{:X} * 1000: overflow", nsec);
+            0
+        }
+    };
 
-    defñ!("{:?}.timestamp({}, {})", tz_offset, tv_sec_i64, nsec);
+    defñ!("{:?}.timestamp({}, {})", tz_offset, tv_sec, nsec);
     match tz_offset.timestamp_opt(
-        tv_sec_i64, nsec
+        tv_sec, nsec
     ) {
         LocalResult::None => {
             // try again with zero nanoseconds
-            match tz_offset.timestamp_opt(tv_sec_i64, 0) {
+            match tz_offset.timestamp_opt(tv_sec, 0) {
                 LocalResult::None => None,
                 LocalResult::Single(dt) => Some(dt),
                 LocalResult::Ambiguous(dt, _) => Some(dt),
@@ -425,14 +445,27 @@ impl Utmpx {
         tz_offset: &FixedOffset,
         entry: utmpx,
     ) -> Utmpx {
-        // See
-        //  https://docs.rs/uapi/0.2.10/uapi/c/struct.utmpx.html
-        //  https://docs.rs/uapi/0.2.10/uapi/c/struct.__timeval.html
-        let tv_sec: tv_sec_type = entry.ut_tv.tv_sec.into();
-        let tv_usec: tv_usec_type = entry.ut_tv.tv_usec.into();
-        // XXX: still not sure if it's better to panic or somehow alert caller
-        //      that the time conversion failed. A failed time conversion means
-        //      the data is most likely invalid/wrong format.
+        // Timeval can 32 bit or 64 bit depending on the platform.
+        // For example, in FreeBSD 12.1 it can be either.
+        // See https://github.com/freebsd/freebsd-src/blob/cae85a647ad76d191ac61c3bff67b49aabd716ba/sys/sys/_timeval.h#L50
+        // But force it to be 32 bit.
+        // Relates to Issue #108
+        let tv_sec: tv_sec_type = match entry.ut_tv.tv_sec.try_into() {
+            Ok(val) => val,
+            Err(_err) => {
+                de_err!("entry.ut_tv.tv_sec failed to convert {:?}; {}", entry.ut_tv.tv_sec, _err);
+                0
+            },
+        };
+        let tv_usec: tv_usec_type = match entry.ut_tv.tv_usec.try_into() {
+            Ok(val) => val,
+            Err(_err) => {
+                de_err!("entry.ut_tv.tv_usec failed to convert {:?}; {}", entry.ut_tv.tv_usec, _err);
+                0
+            },
+        };
+        // TODO: return `None` if `tv_sec` is zero or
+        //       `convert_tvsec_utvcsec_datetime` returns `None`.
         let dt = match convert_tvsec_utvcsec_datetime(tv_sec, tv_usec, tz_offset) {
             Some(dt) => dt,
             None => {

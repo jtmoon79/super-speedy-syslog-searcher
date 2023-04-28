@@ -85,6 +85,10 @@ fn test_UTMPX_SZ() {
 }
 
 #[test_case(
+    1893543133, 999999, *FO_0,
+    Some(ymdhmsm(&FO_0, 2030, 1, 2, 0, 12, 13, 999999)))
+]
+#[test_case(
     1677566475, 1345, *FO_0,
     Some(ymdhmsm(&FO_0, 2023, 2, 28, 6, 41, 15, 1345)))
 ]
@@ -92,14 +96,8 @@ fn test_UTMPX_SZ() {
     0, 0, *FO_0,
     Some(ymdhms(&FO_0, 1970, 1, 1, 0, 0, 0)))
 ]
-#[test_case(
-    tv_sec_type::MAX, tv_usec_type::MAX, *FO_0,
-    Some(ymdhms(&FO_0, 2038, 1, 19, 3, 14, 7)))
-]
-#[test_case(
-    tv_sec_type::MIN, tv_usec_type::MIN, *FO_0,
-    Some(ymdhms(&FO_0, 1901, 12, 13, 20, 45, 52)))
-]
+#[test_case(tv_sec_type::MAX, tv_usec_type::MAX, *FO_0, None)]
+#[test_case(tv_sec_type::MIN, tv_usec_type::MIN, *FO_0, None)]
 fn test_convert_tvsec_utvcsec_datetime(
     tv_sec: tv_sec_type,
     tv_usec: tv_usec_type,
