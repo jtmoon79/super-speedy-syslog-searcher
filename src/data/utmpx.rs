@@ -448,7 +448,7 @@ impl Utmpx {
         // Timeval can 32 bit or 64 bit depending on the platform.
         // For example, in FreeBSD 12.1 it can be either.
         // See https://github.com/freebsd/freebsd-src/blob/cae85a647ad76d191ac61c3bff67b49aabd716ba/sys/sys/_timeval.h#L50
-        // But force it to be 32 bit.
+        // But use 64 bit here.
         // Relates to Issue #108
         let tv_sec: tv_sec_type = match entry.ut_tv.tv_sec.try_into() {
             Ok(val) => val,
