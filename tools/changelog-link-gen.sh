@@ -41,13 +41,15 @@ grep -oEe '\[Issue #([[:digit:]]+)\]' -- "${CHANGELOG}" \
 
 # match tag comparison link, e.g.
 #
+#    [0.0.26..main]
 #    [0.0.25...0.0.26]
 #
 # prints
 #
+#    [0.0.26..main]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.26..main
 #    [0.0.25...0.0.26]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.25...0.0.26
 #
-grep -oEe '\[[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.\.\.[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,2}\]' -- "${CHANGELOG}" \
+grep -oEe '\[[[:alnum:]\._]+\.\.[[:alnum:]\._]+\]' -- "${CHANGELOG}" \
     | tr -d '[]' \
     | sort -n -t '.' -k1 -k2 -k3 \
     | sed -Ee 's|^(.+)$|[\1]: '"${URL_PROJECT}"'/compare/\1|g' \
