@@ -1190,6 +1190,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [0.5.59...0.6.60]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.5.59...0.6.60
 [0.6.61...0.6.61]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.61...0.6.61
 [0.6.61...0.6.62]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.61...0.6.62
+[0.6.62..main]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.62..main
 [001f0c3db2c5751a35946f572aca6bf07c9efcaf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/001f0c3db2c5751a35946f572aca6bf07c9efcaf
 [003b29bab508b32750cb303c70db9dc75cc04eab]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/003b29bab508b32750cb303c70db9dc75cc04eab
 [01f395903cff248be11ecf6f12974a3951aa7e92]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/01f395903cff248be11ecf6f12974a3951aa7e92
