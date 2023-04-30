@@ -432,9 +432,18 @@ pub fn processable_filetype(filetype: &FileType) -> bool {
     defñ!("({:?})", filetype);
     match filetype {
         &FileType::Unknown | &FileType::Unset => false,
+        FileType::File
+        | FileType::Gz
+        | FileType::Tar
+        | FileType::TarGz
+        | FileType::Xz
+        | FileType::Utmpx
+        | FileType::Evtx
+        | FileType::Journal
         // `FileType::Unparseable` is not parseable but
         // but is explicitly recognized as such.
-        _ => true,
+        | FileType::Unparseable
+        => true,
     }
 }
 
@@ -553,7 +562,16 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
                 ext_rm += 1;
             }
         }
-        _ => {}
+        FileType::File
+        | FileType::Gz
+        | FileType::Tar
+        | FileType::TarGz
+        | FileType::Xz
+        | FileType::Utmpx
+        | FileType::Evtx
+        | FileType::Journal
+        | FileType::Unparseable
+        => {},
     }
 
     defx!("return ({:?}, {:?})", filetype, mimeguess);
@@ -737,7 +755,15 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
             FileType::Unset => {
                 eprintln!("ERROR: filetype {:?} for {:?}", filetype, std_path_entry);
             }
-            _ => {
+            | FileType::File
+            | FileType::Gz
+            | FileType::Tar
+            | FileType::Xz
+            | FileType::Utmpx
+            | FileType::Evtx
+            | FileType::Journal
+            | FileType::Unknown
+            => {
                 deo!("paths.push(FileValid(({:?}, {:?}, {:?})))", fpath_entry, mimeguess, filetype);
                 paths.push(ProcessPathResult::FileValid(fpath_entry, mimeguess, filetype));
             }

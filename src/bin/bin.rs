@@ -4153,7 +4153,9 @@ fn print_summary_opt_processed_summaryblockreader(
     debug_assert_ne!(summary.filetype, FileType::Journal);
     match summary.filetype {
         FileType::File
-        | FileType::Utmpx => {
+        | FileType::Utmpx
+        | FileType::Unknown
+        => {
             eprintln!(
                 "{}file size     : {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz
@@ -4179,8 +4181,13 @@ fn print_summary_opt_processed_summaryblockreader(
                 indent, summaryblockreader.blockreader_filesz_actual
             );
         }
-        ft => {
-            eprintln!("{}unsupported filetype: {:?}", indent, ft);
+        FileType::TarGz
+        | FileType::Evtx
+        | FileType::Journal
+        | FileType::Unset
+        | FileType::Unparseable
+        => {
+            eprintln!("{}unsupported filetype: {:?}", indent, summary.filetype);
             return;
         }
     }

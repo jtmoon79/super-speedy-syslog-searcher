@@ -558,6 +558,7 @@ impl BlockReader {
         match filetype {
             FileType::File
             | FileType::Utmpx
+            | FileType::Unknown
             => {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
@@ -1179,10 +1180,10 @@ impl BlockReader {
                 unimplemented!("BlockReader is not implemented for filetype {:?}", filetype);
             }
             // something is wrong if these are encountered
-            FileType::Unknown
+            //FileType::Unknown
             | FileType::Unparseable
             | FileType::Unset
-            => panic!("BlockReader::new bad filetype {:?}", filetype),
+            => panic!("BlockReader::new bad filetype {:?} for path {:?}", filetype, path),
         }
 
         // XXX: don't assert on `filesz` vs `filesz_actual`; for some `.gz` files they can be
@@ -1255,6 +1256,7 @@ impl BlockReader {
         match self.filetype {
             FileType::File
             | FileType::Utmpx
+            | FileType::Unknown
             => self.filesz,
             FileType::Gz
             | FileType::Xz
@@ -1267,7 +1269,6 @@ impl BlockReader {
             FileType::Evtx => panic!("BlockReader not implemented for Evtx"),
             // something is wrong if these are encountered
             FileType::Unset => panic!("Unexpected Unset"),
-            FileType::Unknown => panic!("Unexpected Unknown"),
             FileType::Unparseable => panic!("Unexpected Unparseable"),
         }
     }
@@ -2441,8 +2442,9 @@ impl BlockReader {
         }
 
         match self.filetype {
-            FileType::Utmpx
-            | FileType::File
+            FileType::File
+            | FileType::Utmpx
+            | FileType::Unknown
             => self.read_block_File(blockoffset),
             FileType::Gz => self.read_block_FileGz(blockoffset),
             FileType::Xz => self.read_block_FileXz(blockoffset),
@@ -2453,7 +2455,6 @@ impl BlockReader {
             | FileType::Journal
             => panic!("Unsupported filetype in BlockReader::read_block {:?}", self.filetype),
             // something is wrong if these are encountered
-            | FileType::Unknown
             | FileType::Unparseable
             | FileType::Unset
             => panic!("BlockReader::read_block bad filetype {:?}", self.filetype),

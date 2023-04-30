@@ -621,7 +621,15 @@ pub fn filetype_to_logmessagetype(filetype: FileType) -> LogMessageType {
         FileType::Utmpx => LogMessageType::Utmpx,
         FileType::Evtx => LogMessageType::Evtx,
         FileType::Journal => LogMessageType::Journal,
-        _ => LogMessageType::Sysline,
+        FileType::File
+        | FileType::Gz
+        | FileType::Tar
+        | FileType::Xz
+        | FileType::Unknown
+        => LogMessageType::Sysline,
+        FileType::TarGz => panic!("unexpected filetype TarGz"),
+        FileType::Unparseable => panic!("unexpected filetype Unparseable"),
+        FileType::Unset => panic!("unexpected filetype Unset"),
     }
 }
 
