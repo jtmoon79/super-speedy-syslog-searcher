@@ -1734,6 +1734,8 @@ pub(crate) const TZZ_LIST_LOWER: &[&str] = &[
 #[cfg(any(debug_assertions, test))]
 lazy_static! {
     /// map lowercase `%Z` timezones (e.g. "pst") to uppercase (e.g. "PST")
+    // TODO: [2023/04/29] replace with compile-time `phf::phf_map`
+    //       see https://github.com/rust-phf/rust-phf
     pub(crate) static ref TZZ_LOWER_TO_UPPER: HashMap<&'static str, &'static str> = {
         assert_eq!(TZZ_LIST_UPPER.len(), TZZ_LIST_LOWER.len());
         let mut map = HashMap::<&'static str, &'static str>::new();
@@ -2264,7 +2266,9 @@ lazy_static! {
     /// e.g. `"SST"` maps to `""`. See [Issue #59].
     ///
     /// [Issue #59]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/59
-    // must be `pub` to allow access from `src/bin/bin.rs`
+    // XXX: must be `pub` to allow access from `src/bin/bin.rs`
+    // TODO: [2023/04/29] replace with compile-time `phf::phf_map`
+    //       see https://github.com/rust-phf/rust-phf
     pub static ref MAP_TZZ_TO_TZz: Map_TZZ_to_TZz<'static> = {
         let mut map = Map_TZZ_to_TZz::new();
         #[allow(non_snake_case)]
@@ -3653,7 +3657,10 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     DTPD!(
         concatcp!("^", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, RP_NODIGIT),
         DTFSS_YmdHMSfz, 0, 50, CGN_YEAR, CGN_TZ,
-        &[(0, 29, (O_M11, 2000, 1, 2, 0, 0, 2, 123000000), "2000/01/02 00:00:02.123 -1100 a")],
+        &[
+            (0, 29, (O_M11, 2000, 1, 2, 0, 0, 2, 123000000), "2000/01/02 00:00:02.123 -1100 a"),
+
+        ],
         line!(),
     ),
     DTPD!(
@@ -4406,6 +4413,36 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //    line!(),
     //),
 ];
+
+// TODO: [2023/04/29] the initialisation of `DATETIME_PARSE_DATAS_REGEX_VEC` takes much
+//       time during program startup. Like 1/4 to 1/3. I'm concerned that
+//       these is duplication of the created `RegEx` instances. I tried to
+//       prove this wasn't the case by checking the address of the `RegEx`
+//       instances in use. They were the same. e.g. thread 1 address of `RegEx`
+//       at `DATETIME_PARSE_DATAS_REGEX_VEC[0]` is `X` and thread 2 address of
+//       `RegEx` at `DATETIME_PARSE_DATAS_REGEX_VEC[0]` is also `X`.
+//       However, then I found this bug in `rust`:
+//            https://github.com/rust-lang/rust/issues/79738
+//       > this code actually leads to two allocations containing 42, i.e.,
+//       > FOO and BAR point to different things. The linker later merges the two,
+//       > so the issue is currently not directly observable. 
+//       ```rust
+//       pub mod a {
+//           #[no_mangle]
+//           pub static FOO: &i32 = &42;
+//       }
+//       pub mod b {
+//           #[no_mangle]
+//           pub static BAR: &i32 = &*crate::a::FOO;
+//       }
+//       fn main() {
+//           assert_eq!(a::FOO as *const _, b::BAR as *const _);
+//       }
+//       ```
+//       I have to spend some time to prove if this is happening with the
+//       `RegEx` instances in `DATETIME_PARSE_DATAS_REGEX_VEC`.
+//       Obviously, this code uses `lazy_static` and the bug is for `static`.
+//       But either way, after find that rust bug I'm less sure of my original conclusion.
 
 lazy_static! {
     /// Run-time created mapping of compiled [`Regex`].
