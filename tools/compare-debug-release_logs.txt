@@ -60,3 +60,4 @@
 ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
 ./logs/Windows10Pro/CBS/CBS.log
 ./logs/Windows10Pro/debug/mrt.log
+./logs/Windows10Pro/Performance/WinSAT/winsat.log
