@@ -1687,8 +1687,8 @@ const CGP_TZzc: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012][[:digit:]]:[[:dig
 const CGP_TZzp: &CaptureGroupPattern = r"(?P<tz>[\+\-−][012][[:digit:]])";
 /// `strftime` specifier `%Z` e.g. `"ACST"`, all lowercase also allowed
 pub(crate) const CGP_TZZ: &CaptureGroupPattern = "(?P<tz>\
-ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOST|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EASST|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVST|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PETT|PET|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAST|ULAT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WITA|WIT|WST|YAKT|YEKT|ZULU|Z|\
-acdt|acst|act|adt|aedt|aest|aet|aft|akdt|akst|almt|amst|amt|anat|aqtt|art|ast|awst|azost|azot|azt|biot|bit|bnt|bot|brst|brt|bst|btt|cat|cct|cdt|cest|cet|chost|chot|chst|chut|cist|ckt|clst|clt|cost|cot|cst|ct|cvt|cwst|cxt|davt|ddut|dft|easst|east|eat|ect|edt|eest|eet|egst|egt|est|et|fet|fjt|fkst|fkt|fnt|galt|gamt|get|gft|gilt|git|gmt|gst|gyt|haec|hdt|hkt|hmt|hovst|hovt|hst|ict|idlw|idt|iot|irdt|irkt|irst|ist|jst|kalt|kgt|kost|krat|kst|lhst|lint|magt|mart|mawt|mdt|mest|met|mht|mist|mit|mmt|msk|mst|mut|mvt|myt|nct|ndt|nft|novt|npt|nst|nt|nut|nzdt|nzst|omst|orat|pdt|pett|pet|pgt|phot|phst|pht|pkt|pmdt|pmst|pont|pst|pwt|pyst|pyt|ret|rott|sakt|samt|sast|sbt|sct|sdt|sgt|slst|sret|srt|sst|syot|taht|tft|tha|tjt|tkt|tlt|tmt|tot|trt|tvt|ulast|ulat|utc|uyst|uyt|uzt|vet|vlat|volt|vost|vut|wakt|wast|wat|west|wet|wgst|wgt|wib|wita|wit|wst|yakt|yekt|zulu|z\
+ACDT|ACST|ACT|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHOST|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EASST|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVST|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PETT|PET|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAST|ULAT|UT|UTC|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WITA|WIT|WST|YAKT|YEKT|ZULU|Z|\
+acdt|acst|act|adt|aedt|aest|aet|aft|akdt|akst|almt|amst|amt|anat|aqtt|art|ast|awst|azost|azot|azt|biot|bit|bnt|bot|brst|brt|bst|btt|cat|cct|cdt|cest|cet|chost|chot|chst|chut|cist|ckt|clst|clt|cost|cot|cst|ct|cvt|cwst|cxt|davt|ddut|dft|easst|east|eat|ect|edt|eest|eet|egst|egt|est|et|fet|fjt|fkst|fkt|fnt|galt|gamt|get|gft|gilt|git|gmt|gst|gyt|haec|hdt|hkt|hmt|hovst|hovt|hst|ict|idlw|idt|iot|irdt|irkt|irst|ist|jst|kalt|kgt|kost|krat|kst|lhst|lint|magt|mart|mawt|mdt|mest|met|mht|mist|mit|mmt|msk|mst|mut|mvt|myt|nct|ndt|nft|novt|npt|nst|nt|nut|nzdt|nzst|omst|orat|pdt|pett|pet|pgt|phot|phst|pht|pkt|pmdt|pmst|pont|pst|pwt|pyst|pyt|ret|rott|sakt|samt|sast|sbt|sct|sdt|sgt|slst|sret|srt|sst|syot|taht|tft|tha|tjt|tkt|tlt|tmt|tot|trt|tvt|ulast|ulat|ut|utc|uyst|uyt|uzt|vet|vlat|volt|vost|vut|wakt|wast|wat|west|wet|wgst|wgt|wib|wita|wit|wst|yakt|yekt|zulu|z\
 )";
 
 /// hardcoded listing of named timezone abbreviations
@@ -1706,7 +1706,7 @@ pub(crate) const TZZ_LIST_UPPER: &[&str] = &[
     "NST", "NT", "NUT", "NZDT", "NZST", "OMST", "ORAT", "PDT", "PETT", "PET", "PGT", "PHOT", "PHST", "PHT",
     "PKT", "PMDT", "PMST", "PONT", "PST", "PWT", "PYST", "PYT", "RET", "ROTT", "SAKT", "SAMT", "SAST", "SBT",
     "SCT", "SDT", "SGT", "SLST", "SRET", "SRT", "SST", "SYOT", "TAHT", "TFT", "THA", "TJT", "TKT", "TLT",
-    "TMT", "TOT", "TRT", "TVT", "ULAST", "ULAT", "UTC", "UYST", "UYT", "UZT", "VET", "VLAT", "VOLT", "VOST",
+    "TMT", "TOT", "TRT", "TVT", "ULAST", "ULAT", "UT", "UTC", "UYST", "UYT", "UZT", "VET", "VLAT", "VOLT", "VOST",
     "VUT", "WAKT", "WAST", "WAT", "WEST", "WET", "WGST", "WGT", "WIB", "WITA", "WIT", "WST", "YAKT", "YEKT",
     "ZULU", "Z",
 ];
@@ -1726,7 +1726,7 @@ pub(crate) const TZZ_LIST_LOWER: &[&str] = &[
     "nst", "nt", "nut", "nzdt", "nzst", "omst", "orat", "pdt", "pett", "pet", "pgt", "phot", "phst", "pht",
     "pkt", "pmdt", "pmst", "pont", "pst", "pwt", "pyst", "pyt", "ret", "rott", "sakt", "samt", "sast", "sbt",
     "sct", "sdt", "sgt", "slst", "sret", "srt", "sst", "syot", "taht", "tft", "tha", "tjt", "tkt", "tlt",
-    "tmt", "tot", "trt", "tvt", "ulast", "ulat", "utc", "uyst", "uyt", "uzt", "vet", "vlat", "volt", "vost",
+    "tmt", "tot", "trt", "tvt", "ulast", "ulat", "ut", "utc", "uyst", "uyt", "uzt", "vet", "vlat", "volt", "vost",
     "vut", "wakt", "wast", "wat", "west", "wet", "wgst", "wgt", "wib", "wita", "wit", "wst", "yakt", "yekt",
     "zulu", "z",
 ];
@@ -1824,8 +1824,7 @@ pub const RP_RFC2822_DATE: &RegexPattern = "[Dd][Aa][Tt][Ee]:";
 ///
 /// [_List of time zone abbreviations_]: https://en.wikipedia.org/w/index.php?title=List_of_time_zone_abbreviations&oldid=1106679802
 /// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/format/strftime/#fn7
-
-pub const TZZ_ALL: [(&str, &str); 420] = [
+pub const TZZ_ALL: [(&str, &str); 422] = [
     // uppercase
     ("ACDT", "+10:30"),
     ("ACST", "+09:30"),
@@ -2013,6 +2012,7 @@ pub const TZZ_ALL: [(&str, &str); 420] = [
     ("TVT", "+12:00"),
     ("ULAST", "+09:00"),
     ("ULAT", "+08:00"),
+    ("UT", "-00:00"),
     ("UTC", "-00:00"),
     ("UYST", "-02:00"),
     ("UYT", "-03:00"),
@@ -2224,6 +2224,7 @@ pub const TZZ_ALL: [(&str, &str); 420] = [
     ("tvt", "+12:00"),
     ("ulast", "+09:00"),
     ("ulat", "+08:00"),
+    ("ut", "-00:00"),
     ("utc", "-00:00"),
     ("uyst", "-02:00"),
     ("uyt", "-03:00"),
@@ -2270,7 +2271,7 @@ lazy_static! {
         for tzZ_zc in TZZ_ALL.iter() {
             if map.insert(tzZ_zc.0, tzZ_zc.1).is_some() {
                 // duplicate key entries are set to empty string
-                // (this is an ambiguous named timezone)
+                // (this signifies an ambiguous named timezone)
                 map.insert(tzZ_zc.0, "");
             }
         }
