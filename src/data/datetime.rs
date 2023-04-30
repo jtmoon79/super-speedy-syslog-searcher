@@ -487,6 +487,8 @@ pub enum DTFS_Year {
 pub enum DTFS_Month {
     /// %m, month numbers 00 to 12
     m,
+    /// %m, month numbers 0 to 12 (`s`ingle-digit)
+    ms,
     /// %b, month abbreviated to three characters.
     b,
     /// %B, month full name, transformed to form `%b` in
@@ -512,6 +514,8 @@ pub enum DTFS_Day {
 pub enum DTFS_Hour {
     /// %H, 24 hour, 00 to 23
     H,
+    /// %H, 24 hour, 0 to 23 (`s`ingle-digit)
+    Hs,
     /// %k, 24 hour, 0 to 23
     k,
     /// %I, 12 hour, 01 to 12
@@ -1110,6 +1114,18 @@ const DTFSS_YmdHMS: DTFSSet = DTFSSet {
     tz: DTFS_Tz::_fill,
     pattern: DTP_YmdHMSzc,
 };
+// single-digit month, single-digit hour
+const DTFSS_YmsdHsMS: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::ms,
+    day: DTFS_Day::_e_or_d,
+    hour: DTFS_Hour::Hs,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    pattern: DTP_YmdHMSzc,
+};
 const DTFSS_YmdHMSz: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
     month: DTFS_Month::m,
@@ -1559,6 +1575,9 @@ pub const CGP_YEAR: &CaptureGroupPattern = r"(?P<year>[12][[:digit:]]{3})";
 /// Regex capture group pattern for `strftime` year specifier `%y`, as
 /// two decimal number characters.
 pub const CGP_YEARy: &CaptureGroupPattern = r"(?P<year>[[:digit:]]{2})";
+/// Regex capture group pattern for `strftime` month specifier `%m`, but using
+/// single digit month numbers `"1"` to `"12"`.
+pub const CGP_MONTHms: &CaptureGroupPattern = r"(?P<month>1|2|3|4|5|6|7|8|9|10|11|12)";
 /// Regex capture group pattern for `strftime` month specifier `%m`,
 /// month numbers `"01"` to `"12"`.
 pub const CGP_MONTHm: &CaptureGroupPattern = r"(?P<month>01|02|03|04|05|06|07|08|09|10|11|12)";
@@ -1589,6 +1608,10 @@ pub const CGP_DAYa: &RegexPattern = r"(?P<dayIgnore>monday|Monday|MONDAY|mon|Mon
 /// Regex capture group pattern for `strftime` hour specifier `%H`, 00 to 24.
 pub const CGP_HOUR: &CaptureGroupPattern =
     r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
+/// Regex capture group pattern for `strftime` hour specifier `%H`, 0 to 24.
+/// single-digit
+pub const CGP_HOURs: &CaptureGroupPattern =
+    r"(?P<hour>0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
 /// Regex capture group pattern for `strftime` hour specifier `%h`, 1 to 12.
 pub const CGP_HOURh: &CaptureGroupPattern = r"(?P<hour>|1|2|3|4|5|6|7|8|9|10|11|12)";
 /// Regex capture group pattern for `strftime` minute specifier `%M`, 00 to 59.
@@ -1617,6 +1640,7 @@ pub const CGP_FRACTIONAL3: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{3
 #[cfg(test)]
 pub(crate) const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
     CGP_MONTHm,
+    CGP_MONTHms,
     CGP_MONTHb,
     CGP_MONTHB,
     CGP_MONTHBb,
@@ -1629,6 +1653,15 @@ pub(crate) const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
     CGP_DAYde,
     CGP_DAYa3,
     CGP_DAYa,
+];
+
+/// for testing
+#[doc(hidden)]
+#[cfg(test)]
+pub(crate) const CGP_HOUR_ALL: &[&CaptureGroupPattern] = &[
+    CGP_HOUR,
+    CGP_HOURs,
+    CGP_HOURh,
 ];
 
 // Regarding timezone formatting, ISO 8601 allows Unicode "minus sign".
@@ -1722,16 +1755,22 @@ pub(crate) const CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
 ];
 
 /// no alphabetic or line end, helper to `CGP_TZZ`
-const RP_NOALPHA: &RegexPattern = r"([^[[:alpha:]]]|$|^)";
+const RP_NOALPHA: &RegexPattern = r"([^[[:alpha:]]]|$)";
 
 /// no alphanumeric or line end, helper to `CGP_TZZ` and and `CGP_YEAR`
-const RP_NOALNUM: &RegexPattern = r"([^[[:alnum:]]]|$|^)";
+const RP_NOALNUM: &RegexPattern = r"([^[[:alnum:]]]|$)";
+
+/// no alphanumeric or line begin, helper to `CGP_TZZ` and and `CGP_YEAR`
+const RP_NOALNUMb: &RegexPattern = r"([^[[:alnum:]]]|^)";
 
 /// no alphanumeric plus minus or line end, helper to `CGP_TZZ` and `CGP_YEAR`
-const RP_NOALNUMpm: &RegexPattern = r"([^[[:alnum:]]\+\-]|$|^)";
+const RP_NOALNUMpm: &RegexPattern = r"([^[[:alnum:]]\+\-]|$)";
 
 /// no numeric or line end, helper to `CGP_TZZ` and `CGP_YEAR`
-const RP_NODIGIT: &RegexPattern = r"([^[[:digit:]]]|$|^)";
+const RP_NODIGIT: &RegexPattern = r"([^[[:digit:]]]|$)";
+
+/// no numeric or line begin, helper to `CGP_TZZ` and `CGP_YEAR`
+const RP_NODIGITb: &RegexPattern = r"([^[[:digit:]]]|^)";
 
 /// one or more digits
 pub const RP_DIGITS: &RegexPattern = "[[:digit:]]+";
@@ -2243,6 +2282,11 @@ lazy_static! {
 /// [`RegexPattern`] divider _date?_ `2020/01/01` or `2020-01-01` or
 /// `2020 01 01` or `20200101`
 const D_Dq: &RegexPattern = r"[ /\-]?";
+/// [`RegexPattern`] divider _date?_ `2020/01/01` or `2020-01-01` or
+/// `2020 01 01` or `20200101` or `2020\01\01`
+/// Uses `\` which is typically only seen in messier datetime formats, like
+/// those without timezones.
+const D_Deq: &RegexPattern = r"[ /\-\\]?";
 /// [`RegexPattern`] divider _date_, `2020/01/01` or `2020-01-01` or
 /// `2020 01 01`
 const D_D: &RegexPattern = r"[ /\-]";
@@ -2311,7 +2355,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 119;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 121;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -3346,6 +3390,21 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    DTPD!(
+        concatcp!(RP_NOALNUMb, "(START|END|Start|End|start|end)", RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_YEAR, D_Deq, CGP_MONTHms, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOURs, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
+        DTFSS_YmsdHsMS, 0, 1024, CGN_YEAR, CGN_SECOND,
+        &[
+            // from `C:/Windows/Performance/WinSAT/winsat.log`
+            // a datetime format with redundant `AM` and `PM`, see Issue #64
+            // with single-digit month and single-month hour
+            (50, 67, (O_L, 2023, 2, 22, 4, 5, 7, 0), r"59805625 (9340) - exe\logging.cpp:0841: --- START 2023\2\22 4:05:07 AM ---1"),
+            (50, 67, (O_L, 2023, 2, 22, 1, 5, 7, 0), r"59805625 (9340) - exe\logging.cpp:0841: --- START 2023\2\22 1:05:07 AM ---2"),
+            (50, 68, (O_L, 2023, 2, 22, 12, 5, 7, 0), r"59805625 (9340) - exe\logging.cpp:0841: --- Start 2023\2\22 12:05:07 AM ---3"),
+            (50, 69, (O_L, 2023, 11, 22, 12, 5, 7, 0), r"59805625 (9340) - exe\logging.cpp:0841: --- start 2023\11\22 12:05:07 AM ---4"),
+            (48, 67, (O_L, 2023, 11, 22, 12, 5, 7, 0), r"59805625 (9340) - exe\logging.cpp:0841: --- End 2023\11\22 12:05:07 AM ---5"),
+        ],
+        line!(),
+    ),
     // TODO: add new `DTPD!` copied from prior `DTPD!` with varying timezones and more lenient fractional
     //
     // ---------------------------------------------------------------------------------------------
@@ -3826,7 +3885,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      So it's not currently parseable. See Issue #16
     //
     DTPD!(
-        concatcp!(RP_NODIGIT, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, ":", CGP_FRACTIONAL3, RP_BLANKq, CGP_TZz, RP_NODIGIT),
+        concatcp!(RP_NODIGITb, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, ":", CGP_FRACTIONAL3, RP_BLANKq, CGP_TZz, RP_NODIGIT),
         DTFSS_YmdHMSfz, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
                 (40, 68, (O_M7, 2022, 10, 12, 9, 26, 44, 980000000), r"{5F45546A-691D-4519-810C-9B159EA7A24F}  2022-10-12 09:26:44:980-0700    1       181 [AGENT_INSTALLING_STARTED]  101      {ADF3720E-8453-44C7-82EF-F9F5DA2D8551}  1       0 Update;ScanForUpdates    Success Content Download        Download succeeded.     te2D3dMIjE2PeNSM.86.3.1.0.0.85.0"),
@@ -3943,10 +4002,11 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_NODIGIT),
+        concatcp!(CGP_YEAR, D_Deq, CGP_MONTHm, D_Deq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_NODIGIT),
         DTFSS_YmdHMSf, 0, 1024, CGN_YEAR, CGN_FRACTIONAL,
         &[
             (0, 29, (O_L, 2020, 1, 6, 0, 5, 26, 123456789), "2020-01-06 00:05:26.123456789 abcdefg"),
+            (0, 29, (O_L, 2020, 1, 6, 0, 5, 26, 123456789), r"2020\01\06 00:05:26.123456789 abcdefg"),
             (20, 49, (O_L, 2020, 1, 6, 0, 5, 26, 123456789), "[FOOBAR] (PID 2005) 2020-01-06 00:05:26.123456789 foobar!"),
         ],
         line!(),
@@ -4015,14 +4075,38 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     */
     //
     DTPD!(
-        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
+        concatcp!(CGP_YEAR, D_Deq, CGP_MONTHm, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
         DTFSS_YmdHMS, 0, 1024, CGN_YEAR, CGN_SECOND,
         &[
             (0, 19, (O_L, 2020, 1, 11, 0, 10, 26, 0), "2020-01-11 00:10:26 abcdefghijkl"),
+            (0, 19, (O_L, 2020, 1, 11, 0, 10, 26, 0), r"2020\01\11 00:10:26 abcdefghijkl"),
             (0, 15, (O_L, 2020, 3, 7, 20, 25, 30, 0), "20200307_202530:/sbin/e2fsck -pvf"),
+            // from `C:/Windows/Performance/WinSAT/winsat.log`
+            // a datetime format with redundant `AM` and `PM`, see Issue #64
+            (50, 69, (O_L, 2023, 2, 22, 16, 4, 7, 0), r"59805625 (9340) - exe\logging.cpp:0841: --- START 2023\02\22 16:04:07 PM ---"),
         ],
         line!(),
     ),
+    // variation of prior using single-digit months and hours; Issue #64
+    DTPD!(
+        concatcp!(CGP_YEAR, D_Deq, CGP_MONTHms, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOURs, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
+        DTFSS_YmsdHsMS, 0, 1024, CGN_YEAR, CGN_SECOND,
+        &[
+            (0, 17, (O_L, 2020, 1, 11, 0, 10, 26, 0), "2020-1-11 0:10:26 abcdefghijkl 0"),
+            (0, 18, (O_L, 2020, 12, 11, 0, 10, 26, 0), "2020-12-11 0:10:26 abcdefghijkl 1"),
+            (0, 17, (O_L, 2020, 1, 11, 0, 10, 26, 0), r"2020\1\11 0:10:26 abcdefghijkl 2"),
+            (0, 18, (O_L, 2020, 1, 11, 14, 10, 26, 0), r"2020\1\11 14:10:26 abcdefghijkl 3"),
+            (0, 13, (O_L, 2020, 3, 7, 4, 25, 30, 0), "2020307_42530:/sbin/e2fsck -pvf"),
+            // from `C:/Windows/Performance/WinSAT/winsat.log`
+            // a datetime format with redundant `AM` and `PM`, see Issue #64
+            // with single-digit month and hour
+            (50, 67, (O_L, 2023, 2, 22, 4, 5, 7, 0), r"59805625 (9340) - exe\logging.cpp:0841: --- START 2023\2\22 4:05:07 AM ---"),
+            (50, 67, (O_L, 2023, 2, 22, 1, 5, 7, 0), r"59805625 (9340) - exe\logging.cpp:0841: --- START 2023\2\22 1:05:07 AM ---"),
+        ],
+        line!(),
+    ),
+    //
+    // another general match variation
     //
     DTPD!(
         concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZz, RP_NODIGIT),
@@ -4626,21 +4710,23 @@ macro_rules! copy_capturegroup_to_buffer {
         $buffer:ident,
         $at:ident
     ) => {
-        let len_: usize = $captures
-            .name($name)
-            .as_ref()
-            .unwrap()
-            .as_bytes()
-            .len();
-        defo!("copy_capturegroup_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
-        $buffer[$at..$at + len_].copy_from_slice(
-            $captures
+        {
+            let len_: usize = $captures
                 .name($name)
                 .as_ref()
                 .unwrap()
-                .as_bytes(),
-        );
-        $at += len_;
+                .as_bytes()
+                .len();
+            defo!("copy_capturegroup_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
+            $buffer[$at..$at + len_].copy_from_slice(
+                $captures
+                    .name($name)
+                    .as_ref()
+                    .unwrap()
+                    .as_bytes(),
+            );
+            $at += len_;
+        }
     };
 }
 
@@ -4651,10 +4737,12 @@ macro_rules! copy_slice_to_buffer {
         $buffer:ident,
         $at:ident
     ) => {
-        let len_: usize = $u8_slice.len();
-        defo!("copy_slice_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
-        $buffer[$at..$at + len_].copy_from_slice($u8_slice);
-        $at += len_;
+        {
+            let len_: usize = $u8_slice.len();
+            defo!("copy_slice_to_buffer! buffer[{:?}‥{:?}]", $at, $at + len_);
+            $buffer[$at..$at + len_].copy_from_slice($u8_slice);
+            $at += len_;
+        }
     };
 }
 
@@ -4665,9 +4753,11 @@ macro_rules! copy_u8_to_buffer {
         $buffer:ident,
         $at:ident
     ) => {
-        defo!("copy_slice_to_buffer! buffer[{:?}] = {:?}", $at, $u8_);
-        $buffer[$at] = $u8_;
-        $at += 1;
+        {
+            defo!("copy_slice_to_buffer! buffer[{:?}] = {:?}", $at, $u8_);
+            $buffer[$at] = $u8_;
+            $at += 1;
+        }
     };
 }
 
@@ -4869,6 +4959,24 @@ pub(crate) fn captures_to_buffer_bytes(
     // month
     defo!("process <month>…");
     match dtfs.month {
+        DTFS_Month::m => {
+            copy_capturegroup_to_buffer!(CGN_MONTH, captures, buffer, at);
+        }
+        DTFS_Month::ms => {
+            let month = captures.name(CGN_MONTH).as_ref().unwrap().as_bytes();
+            // chrono strftime expects numeric months to be two-digit
+            // so prepend `0` if necessary
+            match month.len() {
+                1 => {
+                    copy_slice_to_buffer!(&[b'0'], buffer, at);
+                    copy_slice_to_buffer!(month, buffer, at);
+                }
+                _val => {
+                    debug_assert_eq!(_val, 2, "unexpected Month length {}", _val);
+                    copy_slice_to_buffer!(month, buffer, at);
+                }
+            }
+        }
         DTFS_Month::b | DTFS_Month::B => {
             month_bB_to_month_m_bytes(
                 captures
@@ -4879,9 +4987,6 @@ pub(crate) fn captures_to_buffer_bytes(
                 &mut buffer[at..at + 2],
             );
             at += 2;
-        }
-        DTFS_Month::m => {
-            copy_capturegroup_to_buffer!(CGN_MONTH, captures, buffer, at);
         }
     }
     // day
@@ -4927,10 +5032,34 @@ pub(crate) fn captures_to_buffer_bytes(
     copy_u8_to_buffer!(b'T', buffer, at);
     // hour
     defo!("process <hour>…");
-    copy_capturegroup_to_buffer!(CGN_HOUR, captures, buffer, at);
+    match dtfs.hour {
+        DTFS_Hour::I
+        | DTFS_Hour::k
+        | DTFS_Hour::l
+        | DTFS_Hour::H => {
+            copy_capturegroup_to_buffer!(CGN_HOUR, captures, buffer, at);
+        }
+        DTFS_Hour::Hs => {
+            let hour: &[u8] = captures.name(CGN_HOUR).as_ref().unwrap().as_bytes();
+            // chrono strftime expects numeric hour to be two-digit
+            // so prepend `0` if necessary
+            match hour.len() {
+                1 => {
+                    copy_slice_to_buffer!(&[b'0'], buffer, at);
+                    copy_slice_to_buffer!(hour, buffer, at);
+                }
+                _val => {
+                    debug_assert_eq!(_val, 2, "unexpected Month length {}", _val);
+                    copy_slice_to_buffer!(hour, buffer, at);
+                }
+            }
+        }
+    }
     // minute
     defo!("process <minute>…");
-    copy_capturegroup_to_buffer!(CGN_MINUTE, captures, buffer, at);
+    match dtfs.minute {
+        DTFS_Minute::M => copy_capturegroup_to_buffer!(CGN_MINUTE, captures, buffer, at),
+    }
     // second
     defo!("process <second>…");
     match dtfs.second {

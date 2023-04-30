@@ -37,7 +37,7 @@ use crate::data::datetime::{
     Year,
     DATETIME_PARSE_DATAS_LEN,
     DATETIME_PARSE_DATAS,
-    CGP_HOUR,
+    CGP_HOUR_ALL,
     CGP_MINUTE,
     CGP_SECOND,
     CGP_FRACTIONAL,
@@ -106,7 +106,13 @@ pub fn regex_pattern_has_day(pattern: &DateTimeRegex_str) -> bool {
 
 /// does regex pattern have a hour?
 pub fn regex_pattern_has_hour(pattern: &DateTimeRegex_str) -> bool {
-    pattern.contains(CGP_HOUR)
+    for pat in CGP_HOUR_ALL.iter() {
+        if pattern.contains(pat) {
+            return true;
+        }
+    }
+
+    false
 }
 
 /// does regex pattern have a minute?
@@ -259,7 +265,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {
         // IF YOU CHANGE THIS NUMBER THEN ALSO UPDATE THE GENERATED TEST CASES
         // FOR `test_DATETIME_PARSE_DATAS_test_cases` BELOW! THOSE TESTS SHOULD
         // BE FROM ZERO TO ONE LESS THAN THIS NUMBER
-        119,
+        121,
         DATETIME_PARSE_DATAS.len(),
         "Did you update?\n\n    #[test_case({0})]\n    fn test_DATETIME_PARSE_DATAS_test_cases()\n\nShould be one less than DATETIME_PARSE_DATAS_LEN {0}\n\n",
         DATETIME_PARSE_DATAS_LEN
@@ -393,6 +399,8 @@ fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {
 #[test_case(116)]
 #[test_case(117)]
 #[test_case(118)]
+#[test_case(119)]
+#[test_case(120)]
 fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     stack_offset_set(Some(2));
 
