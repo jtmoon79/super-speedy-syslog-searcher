@@ -204,7 +204,7 @@ _Released 2023-05-01_
 ### Changes
 
 - (LIB) datetime.rs use compile-time map timezone names to values [Issue #84] ([98ebe687ce608c985a5bce2d3e9410fa234a931a])
-- syslinreader.rs pre-create FixedOffset strings [Issue #84] ([3b950014411d743e3e5527f652e5a2d4aff9a847])
+- (LIB) syslinreader.rs pre-create FixedOffset strings [Issue #84] ([3b950014411d743e3e5527f652e5a2d4aff9a847])
 - (LIB) datetime.rs support RFC 2822 timezone "UT" ([dd8248c388a6f8df54c12f5dd010de613a0e21ee])
 
 ### Fixes
