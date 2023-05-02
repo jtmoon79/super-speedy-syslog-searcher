@@ -4902,11 +4902,10 @@ pub(crate) fn captures_to_buffer_bytes(
     buffer: &mut [u8],
     captures: &regex::bytes::Captures,
     year_opt: &Option<Year>,
-    tz_offset: &FixedOffset,
     tz_offset_string: &String,
     dtfs: &DTFSSet,
 ) -> usize {
-    defn!("(…, …, year_opt {:?}, tz_offset {:?}, …)", year_opt, tz_offset);
+    defn!("(…, …, year_opt {:?}, tz_offset {:?}, …)", year_opt, tz_offset_string);
 
     let mut at: usize = 0;
 
@@ -5048,7 +5047,7 @@ pub(crate) fn captures_to_buffer_bytes(
         DTFS_Second::_fill => {}
     }
     // fractional
-    defo!("process <factional>…");
+    defo!("process <fractional>…");
     match dtfs.fractional {
         DTFS_Fractional::f => {
             defo!("matched DTFS_Fractional::f");
@@ -5291,7 +5290,6 @@ pub fn bytes_to_regex_to_datetime(
         &mut buffer,
         &captures,
         year_opt,
-        tz_offset,
         tz_offset_string,
         &dtpd.dtfs
     );
