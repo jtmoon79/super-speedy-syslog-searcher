@@ -7,8 +7,15 @@
 #![allow(non_camel_case_types)]
 
 use crate::tests::common::{
-    FO_0, FO_P1, FO_M7, FO_M8,
-    FO_E10, FO_L, FO_W8, FO_Z,
+    FO_0,
+    FO_P1,
+    FO_M7,
+    FO_M8,
+    FO_E10,
+    FO_L,
+    FO_L_STR,
+    FO_W8,
+    FO_Z,
 };
 use crate::data::datetime::{
     LineIndex,
@@ -49,9 +56,6 @@ use crate::data::datetime::{
     CGP_YEARy,
     CGP_TZZ,
     CGP_TZ_ALL,
-    TZZ_LIST_LOWER,
-    TZZ_LIST_UPPER,
-    TZZ_LOWER_TO_UPPER,
     MAP_TZZ_TO_TZz,
     RP_LB,
     RP_RB,
@@ -766,47 +770,48 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
 /// check of structures containing timezone names and timezone values
 fn test_Map_TZ_names() {
     let regex = regex::Regex::new(CGP_TZZ).unwrap();
-    assert_eq!(TZZ_LIST_UPPER.len(), TZZ_LIST_LOWER.len(), "TZZ_LIST_UPPER len {} != {} TZZ_LIST_LOWER len", TZZ_LIST_UPPER.len(), TZZ_LIST_LOWER.len());
-    for up in TZZ_LIST_UPPER {
-        assert!(MAP_TZZ_TO_TZz.contains_key(up), "Named timezone {:?} not found in MAP_TZZ_TO_TZz", up);
-    }
-    for lo in TZZ_LIST_LOWER {
-        let up = lo.to_ascii_uppercase();
-        assert!(MAP_TZZ_TO_TZz.contains_key(up.as_str()), "Named timezone {:?} (lower {:?}) not found in MAP_TZZ_TO_TZz", up, lo);
-    }
-    // tz_name example "PST"
+    // tz_name example "PST" or "pst"
     // tz_val example "-07:00"
-    for (tz_name, tz_val) in MAP_TZZ_TO_TZz.iter() {
+    for (tz_name, tz_val) in MAP_TZZ_TO_TZz.entries()  {
+        let tz_name_u = tz_name.to_ascii_uppercase();
+        let tz_name_l = tz_name.to_ascii_lowercase();
+        assert!(tz_name == &tz_name_u.as_str() || tz_name == &tz_name_l.as_str(),
+            "Bad timezone name {:?} not all uppercase or all lowercase", tz_name
+        );
+        assert!(MAP_TZZ_TO_TZz.contains_key(&tz_name_u),
+            "Key {:?} as uppercase {:?} not found in MAP_TZZ_TO_TZz", tz_name, tz_name_u
+        );
+        assert!(MAP_TZZ_TO_TZz.contains_key(&tz_name_l),
+            "Key {:?} as lowercase {:?} not found in MAP_TZZ_TO_TZz", tz_name, tz_name_l
+        );
+        assert!(regex.is_match(tz_name), "Key {:?} from MAP_TZZ_TO_TZz not matched by CGP_TZZ Regex", tz_name);
+        let captures = regex.captures(tz_name).unwrap();
+        assert_eq!(captures.len(), 2, "CGP_TZZ Regex captured {:?} != 2 expected", captures.len());
+        let tz_name_captured = captures.get(1).unwrap().as_str();
+        assert_eq!(&tz_name_captured, tz_name, "CGP_TZZ Regex captured {:?} != {:?} expected", tz_name_captured, tz_name);
+        assert!(CGP_TZZ.contains(tz_name), "CGP_TZZ does not contain name {:?} from MAP_TZZ_TO_TZz", tz_name);
         if ! tz_val.is_empty() {
-            assert!(tz_val.starts_with('+') || tz_val.starts_with('-'), "Bad timezone value starts_with {:?} for entry {:?}", tz_val, tz_name);
+            assert_eq!(tz_val.len(), 6, "Bad timezone value {:?} length {:?} for entry {:?}", tz_val, tz_val.len(), tz_name);
+            assert!("+-".contains(tz_val.chars().nth(0).unwrap()), "Bad timezone value starts_with {:?} for entry {:?}", tz_val, tz_name);
+            assert!("01".contains(tz_val.chars().nth(1).unwrap()), "Bad timezone value {:?} for entry {:?}", tz_val, tz_name);
+            assert!("0123456789".contains(tz_val.chars().nth(2).unwrap()), "Bad timezone value {:?} for entry {:?}", tz_val, tz_name);
+            assert!(":".contains(tz_val.chars().nth(3).unwrap()), "Bad timezone value {:?} for entry {:?}", tz_val, tz_name);
             assert!(tz_val.ends_with(":00") || tz_val.ends_with(":30") || tz_val.ends_with(":45"), "Bad timezone value ends_with {:?} for entry {:?}", tz_val, tz_name);
             assert!(tz_val.contains(':'), "Bad timezone value {:?} not contains ':' for entry {:?}", tz_val, tz_name);
-            assert_eq!(tz_val.len(), 6, "Bad timezone value {:?} length {:?} for entry {:?}", tz_val, tz_val.len(), tz_name);
-        } // empty value means the name is ambiguous
-        assert!(TZZ_LIST_UPPER.contains(tz_name) || TZZ_LIST_LOWER.contains(tz_name), "Named timezone {:?} not in TZZ_LIST_UPPER or TZZ_LIST_LOWER", tz_name);
+        } else {
+            // empty value means the name is ambiguous
+            let tz_val_u = MAP_TZZ_TO_TZz.get(&tz_name_u.as_str()).unwrap();
+            let tz_val_l = MAP_TZZ_TO_TZz.get(&tz_name_l.as_str()).unwrap();
+            assert!(tz_val_u.is_empty(), "Ambiguous timezone name {:?} has uppercase version {:?} that is not empty {:?}", tz_name, tz_name_u, tz_val_u);
+            assert!(tz_val_l.is_empty(), "Ambiguous timezone name {:?} has lowercase version {:?} that is not empty {:?}", tz_name, tz_name_l, tz_val_l);
+        }
     }
-    for (index, tz_upper) in TZZ_LIST_UPPER.iter().enumerate() {
-        let tz_lower = TZZ_LIST_LOWER[index];
-        let tz_lower_to_upper = tz_lower.to_ascii_uppercase();
-        assert_eq!(
-            tz_upper, &tz_lower_to_upper.as_str(),
-            "TZZ_LIST_UPPER[{}]={:?} != TZZ_LIST_LOWER[{}]={:?} ({:?})",
-            index, tz_upper, index, tz_lower, tz_lower_to_upper,
-        );
-    }
-    for (lo, up) in TZZ_LOWER_TO_UPPER.iter() {
-        assert!(regex.is_match(lo), "Key {:?} from TZZ_LOWER_TO_UPPER not matched by regex CGP_TZZ", lo);
-        assert!(regex.is_match(up), "Value {:?} from TZZ_LOWER_TO_UPPER not matched by regex CGP_TZZ", up);
-    }
-    for (tz_name, _tz_val) in MAP_TZZ_TO_TZz.iter() {
-        assert!(regex.is_match(tz_name), "Key {:?} from MAP_TZZ_TO_TZz not matched by regex CGP_TZZ", tz_name);
-        assert!(
-            TZZ_LIST_UPPER.contains(tz_name) != TZZ_LIST_LOWER.contains(tz_name),
-            "Key {:?} from MAP_TZZ_TO_TZz {} in TZZ_LIST_UPPER, {} in TZZ_LIST_LOWER",
-            tz_name,
-            if TZZ_LIST_UPPER.contains(tz_name) { "is" } else { "not" },
-            if TZZ_LIST_LOWER.contains(tz_name) { "is" } else { "not" },
-        );
+    let start = CGP_TZZ.find('>');
+    assert!(start.is_some(), "CGP_TZZ does not contain start '>'");
+    let end = CGP_TZZ.find(')');
+    assert!(end.is_some(), "CGP_TZZ does not contain end ')'");
+    for val in CGP_TZZ[start.unwrap() + 1..end.unwrap()].split('|') {
+        assert!(MAP_TZZ_TO_TZz.contains_key(val), "Substring {:?} from regex CGP_TZZ not found in MAP_TZZ_TO_TZz", val);
     }
 }
 
