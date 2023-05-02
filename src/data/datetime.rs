@@ -1606,12 +1606,10 @@ pub const CGP_DAYa3: &RegexPattern = r"(?P<dayIgnore>mon|Mon|MON|tue|Tue|TUE|wed
 /// e.g. `"Mon"` or `"Monday"`.
 pub const CGP_DAYa: &RegexPattern = r"(?P<dayIgnore>monday|Monday|MONDAY|mon|Mon|MON|tuesday|Tuesday|TUESDAY|tue|Tue|TUE|wednesday|Wednesday|WEDNESDAY|wed|Wed|WED|thursday|Thursday|THURSDAY|thu|Thu|THU|friday|Friday|FRIDAY|fri|Fri|FRI|saturday|Saturday|SATURDAY|sat|Sat|SAT|sunday|Sunday|SUNDAY|sun|Sun|SUN)";
 /// Regex capture group pattern for `strftime` hour specifier `%H`, 00 to 24.
-pub const CGP_HOUR: &CaptureGroupPattern =
-    r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
+pub const CGP_HOUR: &CaptureGroupPattern = r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
 /// Regex capture group pattern for `strftime` hour specifier `%H`, 0 to 24.
 /// single-digit
-pub const CGP_HOURs: &CaptureGroupPattern =
-    r"(?P<hour>0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
+pub const CGP_HOURs: &CaptureGroupPattern = r"(?P<hour>0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
 /// Regex capture group pattern for `strftime` hour specifier `%h`, 1 to 12.
 pub const CGP_HOURh: &CaptureGroupPattern = r"(?P<hour>|1|2|3|4|5|6|7|8|9|10|11|12)";
 /// Regex capture group pattern for `strftime` minute specifier `%M`, 00 to 59.
@@ -1670,9 +1668,9 @@ pub(crate) const CGP_HOUR_ALL: &[&CaptureGroupPattern] = &[
 // processing by chrono `DateTime::parse_from_str`.
 // See https://github.com/chronotope/chrono/issues/835
 
-/// Unicode "minus sign"
+/// Unicode "minus sign" `U+2212`
 const MINUS_SIGN: &[u8] = "−".as_bytes();
-/// Unicode/ASCII "hyphen-minus"
+/// Unicode/ASCII "hyphen-minus" `U+002D`
 const HYPHEN_MINUS: &[u8] = "-".as_bytes();
 
 // The "|" operator will match in order. And pattern ordering matters.
