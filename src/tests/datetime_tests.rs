@@ -709,7 +709,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
             year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
         }
         let s = buffer_to_String_noraw(data);
-        match bytes_to_regex_to_datetime(data, &index, &year_opt, &FO_L) {
+        match bytes_to_regex_to_datetime(data, &index, &year_opt, &FO_L, &FO_L_STR) {
             Some(capdata) => {
                 eprintln!(
                     "Passed dtpd declared at line {} result {:?}, test data {:?}",

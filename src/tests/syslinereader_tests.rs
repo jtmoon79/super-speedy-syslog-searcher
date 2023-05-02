@@ -5227,7 +5227,7 @@ fn test_ezcheck_slice(
     0,
     4,
     0,
-    476,
+    484,
     0,
     0,
     0,
@@ -5236,9 +5236,10 @@ fn test_ezcheck_slice(
     24,
     0,
     7,
-    452,
+    460,
     0,
-    7
+    7;
+    "NTF_GZ_8BYTE_FPATH"
 )]
 #[test_case(
     &*NTF_SYSLINE_1_PATH,
@@ -5265,7 +5266,7 @@ fn test_ezcheck_slice(
     1,
     0,
     4,
-    70,
+    71,
     0,
     0,
     0,
@@ -5274,8 +5275,9 @@ fn test_ezcheck_slice(
     4,
     0,
     0,
-    70,
-    0
+    71,
+    0;
+    "NTF_SYSLINE_1_PATH (cache)"
 )]
 #[test_case(
     &*NTF_SYSLINE_1_PATH,
@@ -5302,7 +5304,7 @@ fn test_ezcheck_slice(
     0,
     0,
     4,
-    70,
+    71,
     0,
     0,
     0,
@@ -5311,8 +5313,9 @@ fn test_ezcheck_slice(
     4,
     0,
     0,
-    70,
-    0
+    71,
+    0;
+    "NTF_SYSLINE_1_PATH (no cache)"
 )]
 #[test_case(
     &*NTF_SYSLINE_2_PATH,
@@ -5340,7 +5343,7 @@ fn test_ezcheck_slice(
     0,
     0,
     0,
-    148,
+    150,
     0,
     0,
     0,
@@ -5348,8 +5351,9 @@ fn test_ezcheck_slice(
     8,
     0,
     0,
-    140,
-    0
+    142,
+    0;
+    "NTF_SYSLINE_2_PATH"
 )]
 fn test_syslinereadersummary(
     path: &FPath,

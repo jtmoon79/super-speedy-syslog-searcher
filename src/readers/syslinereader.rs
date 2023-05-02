@@ -223,6 +223,8 @@ pub struct SyslineReader {
     ///
     /// [`FixedOffset`]: https://docs.rs/chrono/0.4.22/chrono/offset/struct.FixedOffset.html
     tz_offset: FixedOffset,
+    /// precompute `tz_offset` as a `String`
+    tz_offset_string: String,
     /// Enable or disable the internal LRU cache for `find_sysline()`.
     find_sysline_lru_cache_enabled: bool,
     /// Internal [LRU cache] for `find_sysline()`.
@@ -480,6 +482,7 @@ impl SyslineReader {
             dt_patterns_counts,
             dt_patterns_indexes,
             tz_offset,
+            tz_offset_string: tz_offset.to_string(),
             find_sysline_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
             find_sysline_lru_cache: SyslinesLRUCache::new(
                 std::num::NonZeroUsize::new(SyslineReader::FIND_SYSLINE_LRU_CACHE_SZ).unwrap(),
@@ -1144,6 +1147,7 @@ impl SyslineReader {
         charsz: CharSz,
         year_opt: &Option<Year>,
         tz_offset: &FixedOffset,
+        tz_offset_string: &String,
         get_boxptrs_singleptr: &mut Count,
         get_boxptrs_doubleptr: &mut Count,
         get_boxptrs_multiptr: &mut Count,
@@ -1304,7 +1308,7 @@ impl SyslineReader {
             let dt_beg: LineIndex;
             let dt_end: LineIndex;
             (dt_beg, dt_end, dt) =
-                match bytes_to_regex_to_datetime(slice_, index, year_opt, tz_offset) {
+                match bytes_to_regex_to_datetime(slice_, index, year_opt, tz_offset, tz_offset_string) {
                     None => continue,
                     Some(val) => val,
             };
@@ -1582,6 +1586,7 @@ impl SyslineReader {
             charsz,
             year_opt,
             &self.tz_offset,
+            &self.tz_offset_string,
             &mut self.get_boxptrs_singleptr,
             &mut self.get_boxptrs_doubleptr,
             &mut self.get_boxptrs_multiptr,

@@ -4963,6 +4963,7 @@ pub(crate) fn captures_to_buffer_bytes(
     captures: &regex::bytes::Captures,
     year_opt: &Option<Year>,
     tz_offset: &FixedOffset,
+    tz_offset_string: &String,
     dtfs: &DTFSSet,
 ) -> usize {
     defn!("(…, …, year_opt {:?}, tz_offset {:?}, …)", year_opt, tz_offset);
@@ -5177,9 +5178,7 @@ pub(crate) fn captures_to_buffer_bytes(
     defo!("process <tz>…");
     match dtfs.tz {
         DTFS_Tz::_fill => {
-            // TODO: cost-savings: pass pre-created TZ `&str`
-            let tzs: String = tz_offset.to_string();
-            copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
+            copy_slice_to_buffer!(tz_offset_string.as_bytes(), buffer, at);
         }
         DTFS_Tz::z | DTFS_Tz::zc | DTFS_Tz::zp => {
             // for data passed to chrono `DateTime::parse_from_str`,
@@ -5235,24 +5234,18 @@ pub(crate) fn captures_to_buffer_bytes(
                         true => {
                             // given an ambiguous timezone name, fallback to
                             // passed TZ offset
-                            // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
-                            let tzs: String = tz_offset.to_string();
-                            copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
+                            copy_slice_to_buffer!(tz_offset_string.as_bytes(), buffer, at);
                         }
                         false => {
-                            // given an unambiguous timezone name, use
-                            // associated offset
-                            // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
-                            let tzs: String = tz_offset_val.to_string();
-                            copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
+                            // given an unambiguous timezone name, use associated offset
+                            copy_slice_to_buffer!(tz_offset_val.as_bytes(), buffer, at);
                         }
                     }
                 }
                 None => {
                     // cannot find entry in MAP_TZZ_TO_TZz, use passed TZ offset
-                    // TODO: cost-savings: pre-create the `tz_offset` entries as bytes
-                    let tzs: String = tz_offset.to_string();
-                    copy_slice_to_buffer!(tzs.as_bytes(), buffer, at);
+                    debug_panic!("captured named timezone {:?} not found in MAP_TZZ_TO_TZz", tzZ);
+                    copy_slice_to_buffer!(tz_offset_string.as_bytes(), buffer, at);
                 }
             }
         }
@@ -5275,8 +5268,9 @@ pub fn bytes_to_regex_to_datetime(
     index: &DateTimeParseInstrsIndex,
     year_opt: &Option<Year>,
     tz_offset: &FixedOffset,
+    tz_offset_string: &String,
 ) -> Option<CapturedDtData> {
-    defn!("(…, {:?}, {:?}, {:?})", index, year_opt, tz_offset);
+    defn!("(…, {:?}, {:?}, {:?}, {:?})", index, year_opt, tz_offset, tz_offset_string);
 
     let regex_: &Regex = match DATETIME_PARSE_DATAS_REGEX_VEC.get(*index) {
         Some(val) => val,
@@ -5351,7 +5345,14 @@ pub fn bytes_to_regex_to_datetime(
     // TODO: [2022/06/26] cost-savings: avoid a `String` alloc by passing precreated buffer
     const BUFLEN: usize = 35;
     let mut buffer: [u8; BUFLEN] = [0; BUFLEN];
-    let copiedn = captures_to_buffer_bytes(&mut buffer, &captures, year_opt, tz_offset, &dtpd.dtfs);
+    let copiedn = captures_to_buffer_bytes(
+        &mut buffer,
+        &captures,
+        year_opt,
+        tz_offset,
+        tz_offset_string,
+        &dtpd.dtfs
+    );
 
     // use the `dt_format` to parse the buffer of regex matches
     let buffer_s: &str = u8_to_str(&buffer[0..copiedn]).unwrap();

@@ -67,6 +67,7 @@ lazy_static! {
 
     // FixedOffset Local
     pub static ref FO_L: FixedOffset = *LOCAL_NOW.offset();
+    pub static ref FO_L_STR: String = String::from(&*FO_L.to_string());
     // FixedOffset Zulu / UTC
     pub static ref FO_Z: FixedOffset = FixedOffset::east_opt(0).unwrap();
     pub static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
