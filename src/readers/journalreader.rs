@@ -199,6 +199,10 @@ use ::more_asserts::{
     debug_assert_le,
     debug_assert_lt,
 };
+// XXX: it would be better-suited to use rust feature `#[cfg(accessible(..))]`
+//      which is unfortunately still unimplemented, see rust-lang/rust#64797
+//      https://github.com/rust-lang/rust/issues/64797
+//      Relates to Issue #100 jtmoon79/super-speedy-syslog-searcher#100
 #[cfg(not(target_os = "windows"))]
 pub use ::nix::errno::Errno;
 #[allow(unused_imports)]
@@ -236,6 +240,10 @@ use crate::libload::systemd_dlopen2::{
 // XXX: ripped from `nix` crate
 // stub `Errno` for to allow Windows to build
 // minimal set of `Errno` values that were tested on Windows 11
+// XXX: it would be better-suited to use rust feature `#[cfg(accessible(..))]`
+//      which is unfortunately still unimplemented, see rust-lang/rust#64797
+//      https://github.com/rust-lang/rust/issues/64797
+//      Relates to Issue #100 jtmoon79/super-speedy-syslog-searcher#100
 #[cfg(target_os = "windows")]
 mod errno {
     use ::libc;
