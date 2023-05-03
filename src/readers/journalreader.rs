@@ -234,7 +234,7 @@ use crate::libload::systemd_dlopen2::{
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 // XXX: ripped from `nix` crate
-// stub `Errno` for to allow Windows to buil
+// stub `Errno` for to allow Windows to build
 // minimal set of `Errno` values that were tested on Windows 11
 #[cfg(target_os = "windows")]
 mod errno {
@@ -1149,7 +1149,7 @@ impl<'a> JournalReader {
     }
 
     // The following `fn call_*` functions have a somewhat awkward
-    // impelementation. `self` cannot be passed as a mutable reference
+    // implementation. `self` cannot be passed as a mutable reference
     // because multiple mutable borrows then occur. So callers must pass
     // individual references to members of `self`.
 
@@ -1722,7 +1722,7 @@ impl<'a> JournalReader {
                 }
                 dt_uses_source
             }
-            // if `DT_USES_SOURCE_OVERRIDE` is not set, then fallback to actaully
+            // if `DT_USES_SOURCE_OVERRIDE` is not set, then fallback to actually
             // analysing which fields were available.
             // prefer `_SOURCE_REALTIME_TIMESTAMP` as `journalctl` does.
             None => match source_realtime_timestamp {

@@ -119,7 +119,7 @@ pub enum DtUsesSource {
     RealtimeTimestamp,
 }
 
-/// Compile-time override of default preferrence of datetime source.
+/// Compile-time override of default preference of datetime source.
 /// See [Issue #101].
 ///
 /// [Issue #101]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/101

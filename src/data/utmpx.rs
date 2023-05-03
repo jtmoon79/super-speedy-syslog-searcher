@@ -275,7 +275,7 @@ impl fmt::Debug for Utmpx {
 )))]
 /// [`__timeval.tv_sec` second type] from `utmpx.h` but as `i64`.
 ///
-/// Not all impelementations use `i32` for this field.
+/// Not all implementations use `i32` for this field.
 /// For example,
 /// [FreeBSD may use either `i32` or `i64` as the underlying `__time_t`]
 /// depending on the architecture.

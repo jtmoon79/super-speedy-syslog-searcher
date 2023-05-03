@@ -226,7 +226,7 @@ pub enum ResultFind4<T, E> {
     /// Something bad happened. Contains the `E` error data. Further file
     /// processing should be halted.
     Err(E),
-    /// Something bad happened. Contains the `E` error data. File prcessing
+    /// Something bad happened. Contains the `E` error data. File processing
     /// can continue.
     ErrIgnore(E),
 }

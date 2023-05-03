@@ -11,7 +11,7 @@ Print all events from .journal file in the order returned by
 `python-systemd:journal.Reader.get_next`, which itself calls
 `libsytemd` API `sd_journal_next`.
 
-Setting environemnt variable `LD_LIBRARY_PATH` can affect which
+Setting environment variable `LD_LIBRARY_PATH` can affect which
 `libsystemd.so` is used.
 """
 
@@ -135,7 +135,7 @@ if __name__ == "__main__":
                     mt_ts = str(mt_ts.timestamp)
                     print(f"{sep}{mt_ts}", end="")
                 else:
-                    # defalt print at least a space to piping stdout to
+                    # default print at least a space to piping stdout to
                     # `column -t -s '|'` will correctly parse
                     value = entry.get(field, " ")
                     # replace some control characters with glyph representations

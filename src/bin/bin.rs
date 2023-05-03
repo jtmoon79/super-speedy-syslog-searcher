@@ -3456,7 +3456,7 @@ fn processing_loop(
                 .min_by(|x, y|
                     {
                         // TODO: [2023/04] create Trait that has `dt() -> &DateTimeL` function,
-                        //       then replace this repeated code here. Use the Generic insance
+                        //       then replace this repeated code here. Use the Generic instance
                         //       to call `dt()`.
                         match x.1.0.as_ref().unwrap() {
                             crate::LogMessage::Utmpx(utmpx) => {
