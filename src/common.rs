@@ -528,7 +528,7 @@ impl std::fmt::Display for FileType {
             FileType::Utmpx => write!(f, "UTMP"),
             FileType::Evtx => write!(f, "EVTX"),
             FileType::Journal => write!(f, "JOURNAL"),
-            FileType::Unparseable => write!(f, "UNPARSEABLE"),
+            FileType::Unparseable => write!(f, "UNPARSABLE"),
             FileType::Unknown => write!(f, "UNKNOWN"),
         }
     }
