@@ -1733,7 +1733,7 @@ pub const RP_RFC2822_DATE: &RegexPattern = "(date|Date|DATE):";
 /// about matching named abbreviated timezones, e.g. `"EDT"`.
 /// Chrono provides `%Z` strftime specifier
 /// yet rejects named timezones when passed to [`DateTime::parse_from_str`].
-/// `TZZ_ALL` provides the necessary mapping.
+/// `MAP_TZZ_TO_TZz` provides the necessary mapping.
 ///
 /// However, due to duplicate timezone names, some valid timezone names
 /// will result in the default timezone. For example, there are three named
