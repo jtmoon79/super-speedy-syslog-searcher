@@ -268,7 +268,7 @@ the Datetime Filter is presumed to be the local system timezone.
 
 Ambiguous named timezones will be rejected, e.g. "SST".
 
---prepend-tz and --dt-offset function indepdendently:
+--prepend-tz and --dt-offset function independently:
 --prepend-tz affects what is pre-printed before each printed log message line.
 --dt-offset is used to interpret processed log message datetime stamps that
 do not have a timezone offset.
