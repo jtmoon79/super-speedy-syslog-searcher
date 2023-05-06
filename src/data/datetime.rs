@@ -487,11 +487,12 @@ pub enum DTFS_Year {
 pub enum DTFS_Month {
     /// %m, month numbers 00 to 12
     m,
-    /// %m, month numbers 0 to 12 (`s`ingle-digit)
+    /// %m, month numbers 0 to 12 (`s`ingle-digit), transformed to form `%m` in
+    /// in `captures_to_buffer_bytes`.
     ms,
-    /// %b, month abbreviated to three characters.
+    /// %b, month abbreviated to three characters, e.g. `"Jan"`.
     b,
-    /// %B, month full name, transformed to form `%b` in
+    /// %B, month full name, e.g. `"January"`, transformed to form `%b` in
     /// function `month_bB_to_month_m_bytes` called by
     /// function `captures_to_buffer_bytes`
     B,
@@ -514,8 +515,6 @@ pub enum DTFS_Day {
 pub enum DTFS_Hour {
     /// %H, 24 hour, 00 to 23
     H,
-    /// %H, 24 hour, 0 to 23 (`s`ingle-digit)
-    Hs,
     /// %k, 24 hour, 0 to 23
     k,
     /// %I, 12 hour, 01 to 12
@@ -1115,11 +1114,11 @@ const DTFSS_YmdHMS: DTFSSet = DTFSSet {
     pattern: DTP_YmdHMSzc,
 };
 // single-digit month, single-digit hour
-const DTFSS_YmsdHsMS: DTFSSet = DTFSSet {
+const DTFSS_YmsdkMS: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
     month: DTFS_Month::ms,
     day: DTFS_Day::_e_or_d,
-    hour: DTFS_Hour::Hs,
+    hour: DTFS_Hour::k,
     minute: DTFS_Minute::M,
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
@@ -3358,7 +3357,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     DTPD!(
         concatcp!(RP_NOALNUMb, "(START|END|Start|End|start|end)", RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_YEAR, D_Deq, CGP_MONTHms, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOURs, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
-        DTFSS_YmsdHsMS, 0, 1024, CGN_YEAR, CGN_SECOND,
+        DTFSS_YmsdkMS, 0, 1024, CGN_YEAR, CGN_SECOND,
         &[
             // from `C:/Windows/Performance/WinSAT/winsat.log`
             // a datetime format with redundant `AM` and `PM`, see Issue #64
@@ -4059,7 +4058,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // variation of prior using single-digit months and hours; Issue #64
     DTPD!(
         concatcp!(CGP_YEAR, D_Deq, CGP_MONTHms, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOURs, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
-        DTFSS_YmsdHsMS, 0, 1024, CGN_YEAR, CGN_SECOND,
+        DTFSS_YmsdkMS, 0, 1024, CGN_YEAR, CGN_SECOND,
         &[
             (0, 17, (O_L, 2020, 1, 11, 0, 10, 26, 0), "2020-1-11 0:10:26 abcdefghijkl 0"),
             (0, 18, (O_L, 2020, 12, 11, 0, 10, 26, 0), "2020-12-11 0:10:26 abcdefghijkl 1"),
@@ -5033,12 +5032,11 @@ pub(crate) fn captures_to_buffer_bytes(
     defo!("process <hour>…");
     match dtfs.hour {
         DTFS_Hour::I
-        | DTFS_Hour::k
         | DTFS_Hour::l
         | DTFS_Hour::H => {
             copy_capturegroup_to_buffer!(CGN_HOUR, captures, buffer, at);
         }
-        DTFS_Hour::Hs => {
+        DTFS_Hour::k => {
             let hour: &[u8] = captures.name(CGN_HOUR).as_ref().unwrap().as_bytes();
             // chrono strftime expects numeric hour to be two-digit
             // so prepend `0` if necessary
