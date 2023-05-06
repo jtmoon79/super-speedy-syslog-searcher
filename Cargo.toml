@@ -112,7 +112,7 @@ codegen-units = 1
 panic = "abort"
 strip = true
 
-# XXX: waiting on flamegraph #257
+# XXX: waiting on flamegraph #257 to allow using this
 #      https://github.com/flamegraph-rs/flamegraph/issues/257
 [profile.flamegraph]
 inherits = "release"
