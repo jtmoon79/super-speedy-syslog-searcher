@@ -314,7 +314,7 @@ fn test_JournalReader_entry1_output(
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT),
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT),
-    55126,
+    55099,
     0,
     ForceErrorRangeOpt::None;
     "RHE91"

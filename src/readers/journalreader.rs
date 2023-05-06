@@ -138,7 +138,7 @@
 //! [Issue #17]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/17
 //! [`DT_USES_SOURCE_OVERRIDE`]: DT_USES_SOURCE_OVERRIDE
 
-use crate::{de_err, debug_panic};
+use crate::de_err;
 
 use crate::common::{
     File,
@@ -175,7 +175,7 @@ use crate::data::journal::{
 };
 use crate::readers::summary::Summary;
 
-use std::collections::{BTreeMap, HashMap, HashSet};
+use std::collections::{BTreeMap, HashMap};
 use std::fmt;
 use std::ffi::{CStr, CString};
 use std::io::{Error, ErrorKind, Result};
@@ -1824,15 +1824,21 @@ impl<'a> JournalReader {
         let mut data_comm: Option<&[u8]> = None;
         let mut data_pid: Option<&[u8]> = None;
         let mut data_message: Option<&[u8]> = None;
-        let mut keys_to_copy: HashSet<&'static [u8]> = HashSet::from([
-                KEY_HOSTNAME_BYTES,
-                KEY_SYSLOG_IDENTIFIER_BYTES,
-                KEY_SYSLOG_PID_BYTES,
-                KEY_COMM_BYTES,
-                KEY_PID_BYTES,
-                KEY_MESSAGE_BYTES,
-            ]
-        );
+        // track which keys have been found, stop calling
+        // `sd_journal_enumerate_available_data` when the necessary keys
+        // are found
+        // XXX: a local hashset or hashmap to track foudn keys would be
+        //      nice-looking but it was found to use too much resources
+        //      according to flamegraph;
+        //      about 10% of this function was spent modifying the local hashset.
+        //      A static hashset or hashmap was too tedious and also used a
+        //      measureable amount of resources.
+        let mut key_hostname_found: bool = false;
+        let mut key_syslog_identifier_found: bool = false;
+        let mut key_syslog_pid_found: bool = false;
+        let mut key_comm_found: bool = false;
+        let mut key_pid_found: bool = false;
+        let mut key_message_found: bool = false;
 
         // instead of just a `loop` use a `while` loop with a emergency counter
         let mut emerg_stop_data_enumerate = 0;
@@ -1866,34 +1872,53 @@ impl<'a> JournalReader {
                     continue;
                 }
             };
-            def1o!("key: {:?}", key.as_bstr());
-            if keys_to_copy.remove(key) {
-                match key {
-                    KEY_HOSTNAME_BYTES => {
-                        data_hostname = Some(&data[keyn..]);
-                    }
-                    KEY_SYSLOG_IDENTIFIER_BYTES => {
-                        data_syslog_identifier = Some(&data[keyn..]);
-                    }
-                    KEY_SYSLOG_PID_BYTES => {
-                        data_syslog_pid = Some(&data[keyn..]);
-                    }
-                    KEY_COMM_BYTES => {
-                        data_comm = Some(&data[keyn..]);
-                    }
-                    KEY_PID_BYTES => {
-                        data_pid = Some(&data[keyn..]);
-                    }
-                    KEY_MESSAGE_BYTES => {
-                        data_message = Some(&data[keyn..]);
-                    }
-                    _val => {
-                        debug_panic!("sd_journal_enumerate_available_data() call returned invalid data; unknown key {:?}", _val);
-                    }
+            def1o!("key {:?}", key.as_bstr());
+            match key {
+                // these match cases must be the same values as those
+                // used to initialize `self.entries_next_short`
+                KEY_HOSTNAME_BYTES => {
+                    key_hostname_found = true;
+                    data_hostname = Some(&data[keyn..]);
                 }
+                KEY_SYSLOG_IDENTIFIER_BYTES => {
+                    key_syslog_identifier_found = true;
+                    data_syslog_identifier = Some(&data[keyn..]);
+                }
+                KEY_SYSLOG_PID_BYTES => {
+                    key_syslog_pid_found = true;
+                    data_syslog_pid = Some(&data[keyn..]);
+                }
+                KEY_COMM_BYTES => {
+                    key_comm_found = true;
+                    data_comm = Some(&data[keyn..]);
+                }
+                KEY_PID_BYTES => {
+                    key_pid_found = true;
+                    data_pid = Some(&data[keyn..]);
+                }
+                KEY_MESSAGE_BYTES => {
+                    key_message_found = true;
+                    data_message = Some(&data[keyn..]);
+                }
+                _ => {}
             }
-            if keys_to_copy.is_empty() {
-                break;
+            match (
+                key_hostname_found,
+                key_syslog_identifier_found,
+                key_syslog_pid_found,
+                key_comm_found,
+                key_pid_found,
+                key_message_found
+            ) {
+                (true, true, true, _, true, true) => {
+                    // if all the keys are found then break out of the loop
+                    // if all the keys except `_COMM` are found
+                    // then break out of the loop (key `_COMM` is only used if
+                    // `SYSLOG_IDENTIFIER` is not available)
+                    def1o!("all needed keys were found; break");
+                    break;
+                }
+                _ => {}
             }
         } // end while
 
@@ -1906,6 +1931,7 @@ impl<'a> JournalReader {
             &source_realtime_timestamp,
         );
         if ! is_monotonic {
+            def1o!("write field 1 Datetime");
             debug_assert_ne!(datetime_format, "", "datetime_format must not be empty");
             let dts: String = dt.format(datetime_format).to_string();
             let dtsb: &[u8] = dts.as_str().as_bytes();
@@ -1913,6 +1939,7 @@ impl<'a> JournalReader {
             dt_a = 0;
             dt_b = dtsb.len();
         } else {
+            def1o!("write field 1 monotonic_usec");
             debug_assert_eq!(datetime_format, "", "datetime_format must be empty for `short-monotonic`");
             match self.get_monotonic_usec() {
                 Some(mu) => {
@@ -1941,21 +1968,24 @@ impl<'a> JournalReader {
         // field 2 `_HOSTNAME`
         match data_hostname {
             Some(data) => {
+                def1o!("write field 2 _HOSTNAME");
                 buffer.push(b' ');
                 buffer.push_str(data);
             }
             None => {}
         }
 
-        // field 3 `SYSLOG_IDENTIFIER[SYSLOG_PID]` or `_COMM`
+        // field 3 `SYSLOG_IDENTIFIER` or `_COMM`
         match data_syslog_identifier {
             Some(data) => {
+                def1o!("write field 3 SYSLOG_IDENTIFIER");
                 buffer.push(b' ');
                 buffer.push_str(data);
             }
             None => {
                 match data_comm {
                     Some(data) => {
+                        def1o!("write field 3 _COMM");
                         buffer.push(b' ');
                         buffer.push_str(data);
                     }
@@ -1967,6 +1997,7 @@ impl<'a> JournalReader {
         // field 4 prefer `_PID`
         match data_pid {
             Some(data) => {
+                def1o!("write field 4 _PID");
                 buffer.push(b'[');
                 buffer.push_str(data);
                 buffer.push(b']');
@@ -1975,6 +2006,7 @@ impl<'a> JournalReader {
                 // field 4 `SYSLOG_PID` if no `_PID`
                 match data_syslog_pid {
                     Some(data) => {
+                        def1o!("write field 4 SYSLOG_PID");
                         buffer.push(b'[');
                         buffer.push_str(data);
                         buffer.push(b']');
@@ -1987,6 +2019,7 @@ impl<'a> JournalReader {
         // field 5 `MESSAGE`
         match data_message {
             Some(data) => {
+                def1o!("write field 5 MESSAGE");
                 buffer.push_str(": ");
                 buffer.push_str(data);
             }
@@ -1994,6 +2027,7 @@ impl<'a> JournalReader {
         }
 
         // end of log line
+        def1o!("write ENTRY_END_U8");
         buffer.push(ENTRY_END_U8);
 
         self.em_first_last_update_accepted_all(
