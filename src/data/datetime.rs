@@ -2453,7 +2453,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // ---------------------------------------------------------------------------------------------
-    // syslog messages using datetime format ISO 8601 / RFC 3339
+    // syslog messages using datetime format ISO 8601 / RFC 3339 (real "syslog" messages)
     //
     //      <14>2023-01-01T15:00:36-08:00 (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩
     //      <29>2023-01-01T14:21:13-08:00 (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩
@@ -2548,16 +2548,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    //DTPD!(
-    //    concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, RP_NOALNUM),
-    //    DTFSS_YmdHMSfZ, 0, 50, CGN_YEAR, CGN_TZ,
-    //    &[
-    //        (4, 31, DUMMY_ARGS, "<14>2023-01-01T15:00:36.172 PST (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
-    //        (4, 32, DUMMY_ARGS, "<29>2023-01-01T14:21:13.376 CIST (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
-    //        (4, 28, DUMMY_ARGS, "<29>2023-01-01T14:21:13.376Z (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
-    //    ],
-    //    line!(),
-    //),
     DTPD!(
         concatcp!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
         DTFSS_YmdHMS, 0, 45, CGN_YEAR, CGN_SECOND,
@@ -2756,6 +2746,37 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    //
+    // ---------------------------------------------------------------------------------------------
+    // from the beginning of file `C:/Windows/INF/setupapi.setup.log`,
+    // the `Boot Session` is printed once at the beginning, then it prints
+    // `Section [start|end]`
+    //
+    //     [Device Install Log]
+    //          OS Version = 10.0.22621
+    //          Service Pack = 0.0
+    //          Suite = 0x0100
+    //          ProductType = 1
+    //          Architecture = amd64
+    //
+    //     [BeginLog]
+    //
+    //     [Boot Session: 2023/02/21 07:06:52.500]
+    //
+    //     >>>  [Sysprep Specialize - {8effc0f9-2fb5-a7ad-8a21-581222c83283}]
+    //     >>>  Section start 2023/02/21 07:06:59.461
+    //       set: System Information:
+    //       set:      BIOS Release Date: 11/11/2023
+    //       set:      BIOS Vendor: American Megatrends Inc.
+    //       set:      BIOS Version: 2003
+    //       set:      System Family: To be filled by O.E.M.
+    //       set:      System Manufacturer: ASUS
+    //         set: Initialized PnP data. Time = 47 ms. 07:06:59.524
+    //         set: Cleaned up unneeded PnP data. Time = 0 ms. 07:07:05.689
+    //         set: Installed primitive drivers. Time = 15 ms. 07:07:05.706
+    //     <<<  Section end 2023/02/21 07:07:05.710
+    //     <<<  [Exit status: SUCCESS]
+
     //
     // ---------------------------------------------------------------------------------------------
     //
