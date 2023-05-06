@@ -98,7 +98,15 @@ else
         # use first 50 files listed in `log-files-time-update.txt`
     done <<< $(sed -Ee 's/\|.*//' ./tools/log-files-time-update.txt \
                | sed -Ee '/^#/d' \
-               | head -n 50
+               | head -n 50;
+                echo './logs/other/tests/gen-1000-3-foobar.log.gz'
+                echo './logs/other/tests/gen-100-10-skullcrossbones.log.xz'
+                echo './logs/other/tests/gen-100-10-skullcrossbones.tar'
+                echo './logs/programs/journal/CentOS_7_system.journal'
+                echo './logs/programs/journal/RHE_91_system.journal'
+                echo './logs/programs/journal/Ubuntu20_system.journal'
+                echo './logs/programs/journal/Ubuntu22-user-1000.journal'
+                echo './logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx'
                )
 fi
 
@@ -106,12 +114,18 @@ fi
 # warning and dropped chunks (found by trial and error, probably host dependent).
 FREQ=3000
 
-NOTES+="; --freq ${FREQ}"
+NOTES+="; -freq ${FREQ}"
 
 set -x
 
+# force important variables to echo in debug ouput
+PERF=${PERF}
+CARGO_PROFILE_RELEASE_DEBUG=${CARGO_PROFILE_RELEASE_DEBUG}
+RUST_BACKTRACE=${RUST_BACKTRACE}
+
 # XXX: waiting on https://github.com/flamegraph-rs/flamegraph/issues/257
-# cargo build --profile flamegraph
+#      to allow underlying `cargo build` to use `--profile flamegraph`
+#      instead of hardcoded `--profile release`
 
 exec \
 cargo flamegraph \
