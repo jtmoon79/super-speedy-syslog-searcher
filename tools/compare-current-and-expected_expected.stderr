@@ -4651,7 +4651,7 @@ File: ./logs/programs/journal/RHE_91_system.journal
       file size     : 4644864 (0x46E000) (bytes)
       journal events: 2081
       out of order  : 0
-      lib. API calls: 55126
+      lib. API calls: 55099
       API errors    : 0
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
