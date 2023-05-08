@@ -229,6 +229,7 @@
 ./logs/RancherOS-1.5.8/messages|2022-10-10 22:26:52 -00:00
 ./logs/RancherOS-1.5.8/syslog|2022-10-10T20:31:24 -00:00
 ./logs/RancherOS-1.5.8/system-docker.log|2022-10-10T20:23:29.278 -00:00
+./logs/RedHatEnterprise9/audit/audit.log|2023-05-08T06:09:58 -00:00
 ./logs/RockyLinux9/cron|2022-10-08T22:07:57 +0000
 ./logs/RockyLinux9/dnf.librepo.log|2022-10-08 22:26:51 -00:00
 ./logs/RockyLinux9/dnf.log|2022-10-08T22:26:52+0000

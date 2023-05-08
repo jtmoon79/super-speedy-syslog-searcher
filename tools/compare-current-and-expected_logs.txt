@@ -141,6 +141,7 @@
 ./logs/RancherOS-1.5.8/messages
 ./logs/RancherOS-1.5.8/syslog
 ./logs/RancherOS-1.5.8/system-docker.log
+./logs/RedHatEnterprise9/audit/audit.log
 ./logs/RockyLinux9/cron
 ./logs/RockyLinux9/dnf.librepo.log
 ./logs/RockyLinux9/dnf.log

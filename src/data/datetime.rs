@@ -479,6 +479,8 @@ pub enum DTFS_Year {
     /// none provided, must be filled.
     /// the associated `pattern` should use "%Y`
     _fill,
+    /// no year, do not fill
+    _none,
 }
 
 /// DateTime Format Specifier for a Month.
@@ -496,6 +498,8 @@ pub enum DTFS_Month {
     /// function `month_bB_to_month_m_bytes` called by
     /// function `captures_to_buffer_bytes`
     B,
+    /// no month, must be filled.
+    _none,
 }
 
 /// DateTime Format Specifier for a Day.
@@ -507,6 +511,8 @@ pub enum DTFS_Day {
     /// `%d` (" 8" or "08") captured will be changed to `%e` ("08") in
     /// `fn captures_to_buffer_bytes`
     _e_or_d,
+    /// no day, do not fill
+    _none,
 }
 
 /// DateTime Format Specifier for an Hour.
@@ -521,6 +527,8 @@ pub enum DTFS_Hour {
     I,
     /// %l, 12 hour, 1 to 12
     l,
+    /// no hour, do not fill
+    _none,
 }
 
 /// DateTime Format Specifier for a Minute.
@@ -529,6 +537,8 @@ pub enum DTFS_Hour {
 pub enum DTFS_Minute {
     /// %M, 00 to 59
     M,
+    /// no minute, do not fill
+    _none,
 }
 
 /// DateTime Format Specifier for a Second.
@@ -539,6 +549,8 @@ pub enum DTFS_Second {
     S,
     /// fill with value `0`
     _fill,
+    /// no second, do not fill
+    _none,
 }
 
 /// DateTime Format Specifier for a Fractional or fractional second.
@@ -547,7 +559,7 @@ pub enum DTFS_Second {
 pub enum DTFS_Fractional {
     /// %f, subsecond decimal digits
     f,
-    /// none, will not be filled
+    /// no fractional, will not be filled
     _none,
 }
 
@@ -568,6 +580,18 @@ pub enum DTFS_Tz {
     /// as that is the form displayed by
     /// `chrono::FixedOffset::east(0).as_string().to_str()`
     _fill,
+    /// no timezone, will not be filled
+    _none,
+}
+
+/// DateTime Format Specifier for a Unix Epoch.
+/// Follows chrono `strftime` specifier formatting.
+#[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
+pub enum DTFS_Epoch {
+    /// `%s` Unix Epoch in seconds
+    s,
+    /// none, will not be filled.
+    _none,
 }
 
 /// `DTFSSet`, "DateTime Format Specifer Set", is essentially instructions
@@ -708,6 +732,7 @@ pub struct DTFSSet<'a> {
     pub second: DTFS_Second,
     pub fractional: DTFS_Fractional,
     pub tz: DTFS_Tz,
+    pub epoch: DTFS_Epoch,
     /// strftime pattern passed to [`chrono::DateTime::parse_from_str`] or
     /// [`chrono::NaiveDateTime::parse_from_str`]
     /// in function [`datetime_parse_from_str`]. Directly relates to order of capture group extractions and `push_str`
@@ -727,8 +752,10 @@ impl DTFSSet<'_> {
     /// does the `DTFSSet` expect a year?
     pub const fn has_year(&self) -> bool {
         match self.year {
-            DTFS_Year::Y | DTFS_Year::y => true,
-            DTFS_Year::_fill => false,
+            DTFS_Year::Y
+            | DTFS_Year::y => true,
+            DTFS_Year::_fill
+            | DTFS_Year::_none => false,
         }
     }
 
@@ -736,52 +763,108 @@ impl DTFSSet<'_> {
     pub const fn has_year4(&self) -> bool {
         match self.year {
             DTFS_Year::Y => true,
-            DTFS_Year::y | DTFS_Year::_fill => false,
+            DTFS_Year::y
+            | DTFS_Year::_fill
+            | DTFS_Year::_none
+            => false,
+        }
+    }
+
+    /// does the `DTFSSet` expect a month?
+    pub const fn has_month(&self) -> bool {
+        match self.month {
+            DTFS_Month::m
+            | DTFS_Month::ms
+            | DTFS_Month::b
+            | DTFS_Month::B => true,
+            DTFS_Month::_none => false,
+        }
+    }
+
+    /// does the `DTFSSet` expect a day?
+    pub const fn has_day(&self) -> bool {
+        match self.day {
+            DTFS_Day::_e_or_d => true,
+            DTFS_Day::_none => false,
+        }
+    }
+
+    /// does the `DTFSSet` expect a hour?
+    pub const fn has_hour(&self) -> bool {
+        match self.hour {
+            DTFS_Hour::H
+            | DTFS_Hour::k
+            | DTFS_Hour::I
+            | DTFS_Hour::l => true,
+            DTFS_Hour::_none => false,
+        }
+    }
+
+    /// does the `DTFSSet` expect a minute?
+    pub const fn has_minute(&self) -> bool {
+        match self.minute {
+            DTFS_Minute::M => true,
+            DTFS_Minute::_none => false,
         }
     }
 
     /// does the `DTFSSet` expect a timezone?
     pub const fn has_tz(&self) -> bool {
         match self.tz {
-            DTFS_Tz::z | DTFS_Tz::zc | DTFS_Tz::zp | DTFS_Tz::Z => true,
-            DTFS_Tz::_fill => false,
+            DTFS_Tz::z
+            | DTFS_Tz::zc
+            | DTFS_Tz::zp
+            | DTFS_Tz::Z => true,
+            DTFS_Tz::_fill
+            | DTFS_Tz::_none => false,
         }
     }
 
     /// does the `DTFSSet` expect to capture a sequence of two decimal digits?
     pub const fn has_d2(&self) -> bool {
-        // XXX: always `true` because only one type of `DTFS_Minute` currently
-        //      implemented
-        true
-        /*
         match self.year {
             DTFS_Year::Y => return true,
-            _ => {}
+            DTFS_Year::y
+            | DTFS_Year::_fill
+            | DTFS_Year::_none => {}
         }
         match self.month {
             DTFS_Month::m => return true,
-            _ => {}
+            DTFS_Month::ms
+            | DTFS_Month::b
+            | DTFS_Month::B
+            | DTFS_Month::_none => {}
         }
         match self.hour {
             DTFS_Hour::H
             | DTFS_Hour::I => return true,
-            _ => {}
+            DTFS_Hour::k
+            | DTFS_Hour::l
+            | DTFS_Hour::_none => {}
         }
         match self.minute {
             DTFS_Minute::M => return true,
-            _ => {}
+            DTFS_Minute::_none => {}
         }
         match self.second {
             DTFS_Second::S => return true,
-            _ => {}
+            DTFS_Second::_fill
+            | DTFS_Second::_none => {}
         }
         match self.tz {
-            DTFS_Tz::z | DTFS_Tz::zc | DTFS_Tz::zp => return true,
-            _ => {}
+            DTFS_Tz::z
+            | DTFS_Tz::zc
+            | DTFS_Tz::zp => return true,
+            DTFS_Tz::Z
+            | DTFS_Tz::_fill
+            | DTFS_Tz::_none => {}
+        }
+        match self.epoch {
+            DTFS_Epoch::s => return true,
+            DTFS_Epoch::_none => {}
         }
 
         false
-        */
     }
 }
 
@@ -1098,6 +1181,8 @@ const DTP_bdHMSY: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 /// `%b` value transformed to `%m` value,
 /// `%:z` filled by [`captures_to_buffer_bytes`]
 const DTP_bdHMSYf: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%:z";
+/// `%s.%f` value
+const DTP_sf: &DateTimePattern_str = "%sT.%f";
 
 // The variable name represents what is available. The value represents it's rearranged form
 // using in function `captures_to_buffer_bytes`.
@@ -1111,6 +1196,7 @@ const DTFSS_YmdHMS: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSzc,
 };
 // single-digit month, single-digit hour
@@ -1123,6 +1209,7 @@ const DTFSS_YmsdkMS: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSzc,
 };
 const DTFSS_YmdHMSz: DTFSSet = DTFSSet {
@@ -1134,6 +1221,7 @@ const DTFSS_YmdHMSz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSz,
 };
 const DTFSS_YmdHMSzc: DTFSSet = DTFSSet {
@@ -1145,6 +1233,7 @@ const DTFSS_YmdHMSzc: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zc,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSzc,
 };
 const DTFSS_YmdHMSzp: DTFSSet = DTFSSet {
@@ -1156,6 +1245,7 @@ const DTFSS_YmdHMSzp: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSzp,
 };
 const DTFSS_YmdHMSZ: DTFSSet = DTFSSet {
@@ -1167,6 +1257,7 @@ const DTFSS_YmdHMSZ: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSz,
 };
 
@@ -1179,6 +1270,7 @@ const DTFSS_YmdHMSf: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSfzc,
 };
 const DTFSS_YmdHMSfz: DTFSSet = DTFSSet {
@@ -1190,6 +1282,7 @@ const DTFSS_YmdHMSfz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSfz,
 };
 const DTFSS_YmdHMSfzc: DTFSSet = DTFSSet {
@@ -1201,6 +1294,7 @@ const DTFSS_YmdHMSfzc: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::zc,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSfzc,
 };
 const DTFSS_YmdHMSfzp: DTFSSet = DTFSSet {
@@ -1212,6 +1306,7 @@ const DTFSS_YmdHMSfzp: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::zp,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSfzp,
 };
 const DTFSS_YmdHMSfZ: DTFSSet = DTFSSet {
@@ -1223,6 +1318,7 @@ const DTFSS_YmdHMSfZ: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::Z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_YmdHMSfzc,
 };
 
@@ -1235,6 +1331,7 @@ const DTFSS_BdHMS: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_BdHMS,
 };
 const DTFSS_BdHMSZ: DTFSSet = DTFSSet {
@@ -1246,6 +1343,7 @@ const DTFSS_BdHMSZ: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_BdHMSZ,
 };
 const DTFSS_BdHMSY: DTFSSet = DTFSSet {
@@ -1257,6 +1355,7 @@ const DTFSS_BdHMSY: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_BdHMSY,
 };
 const DTFSS_BdHMSYZ: DTFSSet = DTFSSet {
@@ -1268,6 +1367,7 @@ const DTFSS_BdHMSYZ: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_BdHMSYZ,
 };
 const DTFSS_BdHMSYz: DTFSSet = DTFSSet {
@@ -1279,6 +1379,7 @@ const DTFSS_BdHMSYz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_BdHMSYZ,
 };
 const DTFSS_BdHMSYzc: DTFSSet = DTFSSet {
@@ -1290,6 +1391,7 @@ const DTFSS_BdHMSYzc: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zc,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_BdHMSYZ,
 };
 const DTFSS_BdHMSYzp: DTFSSet = DTFSSet {
@@ -1301,6 +1403,7 @@ const DTFSS_BdHMSYzp: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_BdHMSYzp,
 };
 
@@ -1313,6 +1416,7 @@ const DTFSS_bdHMSY: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSY,
 };
 const DTFSS_bdHMSYf: DTFSSet = DTFSSet {
@@ -1324,6 +1428,7 @@ const DTFSS_bdHMSYf: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYf,
 };
 const DTFSS_bdHMSYZ: DTFSSet = DTFSSet {
@@ -1335,6 +1440,7 @@ const DTFSS_bdHMSYZ: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYZ,
 };
 const DTFSS_bdHMSYz: DTFSSet = DTFSSet {
@@ -1346,6 +1452,7 @@ const DTFSS_bdHMSYz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYZz,
 };
 const DTFSS_bdHMSYzc: DTFSSet = DTFSSet {
@@ -1357,6 +1464,7 @@ const DTFSS_bdHMSYzc: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zc,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYZc,
 };
 const DTFSS_bdHMSYzp: DTFSSet = DTFSSet {
@@ -1368,6 +1476,7 @@ const DTFSS_bdHMSYzp: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYZp,
 };
 const DTFSS_bdHMSYfz: DTFSSet = DTFSSet {
@@ -1379,6 +1488,7 @@ const DTFSS_bdHMSYfz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYfZz,
 };
 const DTFSS_bdHMSYfzc: DTFSSet = DTFSSet {
@@ -1390,6 +1500,7 @@ const DTFSS_bdHMSYfzc: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::zc,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYfZc,
 };
 const DTFSS_bdHMSYfzp: DTFSSet = DTFSSet {
@@ -1401,6 +1512,7 @@ const DTFSS_bdHMSYfzp: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::zp,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYfZp,
 };
 
@@ -1413,6 +1525,7 @@ const DTFSS_YbdHMSzc: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zc,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYZc,
 };
 const DTFSS_YbdHMSzp: DTFSSet = DTFSSet {
@@ -1424,6 +1537,7 @@ const DTFSS_YbdHMSzp: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYZp,
 };
 const DTFSS_YbdHMSz: DTFSSet = DTFSSet {
@@ -1435,6 +1549,7 @@ const DTFSS_YbdHMSz: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYZz,
 };
 const DTFSS_YbdHMSZ: DTFSSet = DTFSSet {
@@ -1446,6 +1561,7 @@ const DTFSS_YbdHMSZ: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYZ,
 };
 const DTFSS_YbdHMS: DTFSSet = DTFSSet {
@@ -1457,6 +1573,7 @@ const DTFSS_YbdHMS: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSYZc,
 };
 
@@ -1469,6 +1586,7 @@ const DTFSS_ybdHMS: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_bdHMSyZc,
 };
 
@@ -1478,10 +1596,24 @@ const DTFSS_YmdHM: DTFSSet = DTFSSet {
     day: DTFS_Day::_e_or_d,
     hour: DTFS_Hour::H,
     minute: DTFS_Minute::M,
-    second: DTFS_Second::_fill,
+    second: DTFS_Second::_none,
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
     pattern: DTP_mdHMYZc,
+};
+
+const DTFSS_sf: DTFSSet = DTFSSet {
+    year: DTFS_Year::_none,
+    month: DTFS_Month::_none,
+    day: DTFS_Day::_none,
+    hour: DTFS_Hour::_none,
+    minute: DTFS_Minute::_none,
+    second: DTFS_Second::_none,
+    fractional: DTFS_Fractional::f,
+    tz: DTFS_Tz::_none,
+    epoch: DTFS_Epoch::s,
+    pattern: DTP_sf,
 };
 
 // TODO: Issue #4 handle dmesg
@@ -1545,11 +1677,13 @@ const CGN_FRACTIONAL: &CaptureGroupName = "fractional";
 const CGN_TZ: &CaptureGroupName = "tz";
 // special case: `dmesg` uptime
 //const CGN_UPTIME: &CaptureGroupName = "uptime";
+/// special case: Unix epoch seconds
+const CGN_EPOCH: &CaptureGroupName = "epoch";
 
 /// all capture group names, for testing
 #[doc(hidden)]
 #[cfg(test)]
-pub(crate) const CGN_ALL: [&CaptureGroupName; 9] = [
+pub(crate) const CGN_ALL: [&CaptureGroupName; 10] = [
     CGN_YEAR,
     CGN_MONTH,
     CGN_DAY,
@@ -1560,6 +1694,7 @@ pub(crate) const CGN_ALL: [&CaptureGroupName; 9] = [
     CGN_FRACTIONAL,
     CGN_TZ,
     //CGN_UPTIME,
+    CGN_EPOCH,
 ];
 
 // saved rust playground for quick testing regex patterns
@@ -1631,6 +1766,8 @@ pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{1,
 pub const CGP_FRACTIONAL3: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{3})";
 /// Regex capture group pattern for dmesg uptime fractional seconds in logs
 //pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>[[:digit:]]{1,9}\.[[:digit:]]{3,9})";
+/// Regex capture group pattern for Unix epoch in seconds
+pub const CGP_EPOCH: &CaptureGroupPattern = r"(?P<epoch>[[:digit:]]{1,12})";
 
 /// for testing
 #[doc(hidden)]
@@ -2299,7 +2436,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 121;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 122;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -3841,6 +3978,24 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     // ---------------------------------------------------------------------------------------------
     //
+    // Red Hat Audit log format, example with offset:
+    //
+    //               1         2         3         4         5         6
+    //     0123456789012345678901234567890123456789012345678901234567890
+    //     type=DAEMON_START msg=audit(1681160194.260:3932): op=start ver=3.0.7 format=enriched kernel=5.14.0-162.6.1.el9_1.x86_64 auid=4294967295 pid=718 uid=0 ses=4294967295 subj=system_u:system_r:auditd_t:s0 res=success�AUID="unset" UID="root"
+    //
+    DTPD!(
+        concatcp!(RP_BLANK, r"msg=audit\(", CGP_EPOCH, ".", CGP_FRACTIONAL3, r":[[:digit:]]{1,5}\):", RP_BLANK),
+        DTFSS_sf, 0, 100, CGN_EPOCH, CGN_FRACTIONAL,
+        &[
+            (28, 42, (O_L, 2023, 4, 10, 20, 56, 34, 260000000), r#"type=DAEMON_START msg=audit(1681160194.260:3932): op=start ver=3.0.7 format=enriched kernel=5.14.0-162.6.1.el9_1.x86_64 auid=4294967295 pid=718 uid=0 ses=4294967295 subj=system_u:system_r:auditd_t:s0 res=success�AUID="unset" UID="root""#),
+            (31, 45, (O_L, 2023, 5, 8, 6, 9, 26, 814000000), r#"type=CRYPTO_KEY_USER msg=audit(1683526166.814:492): pid=13862 uid=0 auid=0 ses=6 subj=system_u:system_r:sshd_t:s0-s0:c0.c1023 msg='op=destroy kind=server fp=SHA256:34:76:7b:a4:dc:bb:e0:b6:5e:5d:73:e9:a1:db:89:21:c0:0d:ca:54:f4:7d:46:9c:b2:87:c4:ed:0b:d4:3f:59 direction=? spid=13900 suid=0  exe="/usr/sbin/sshd" hostname=? addr=? terminal=? res=success'UID="root" AUID="root" SUID="root""#),
+        ],
+        line!(),
+    ),
+
+    // ---------------------------------------------------------------------------------------------
+    //
     // Windows 10 ReportingEvents.log format, example with offset:
     //
     //               1         2         3         4         5         6         7
@@ -4929,33 +5084,50 @@ pub(crate) fn captures_to_buffer_bytes(
 
     let mut at: usize = 0;
 
-    // year
-    defo!("process <year>…");
-    match captures
-        .name(CGN_YEAR)
-        .as_ref()
-    {
-        Some(match_) => {
-            copy_slice_to_buffer!(match_.as_bytes(), buffer, at);
+    defo!("process <epoch> {:?}…", dtfs.epoch);
+    match dtfs.epoch {
+        DTFS_Epoch::s => {
+            copy_capturegroup_to_buffer!(CGN_EPOCH, captures, buffer, at);
         }
-        None => {
-            match year_opt {
-                Some(year) => {
-                    // TODO: 2022/07/11 cost-savings: pass in `Option<&[u8]>`, avoid creating `String`
-                    let year_s: String = year.to_string();
-                    debug_assert_eq!(year_s.len(), 4, "Bad year string {:?}", year_s);
-                    defo!("using fallback year {:?}", year_s);
-                    copy_slice_to_buffer!(year_s.as_bytes(), buffer, at);
+        DTFS_Epoch::_none => {}
+    }
+
+    // year
+    defo!("process <year> {:?}…", dtfs.year);
+    match dtfs.year {
+        DTFS_Year::Y
+        | DTFS_Year::y => {
+            copy_capturegroup_to_buffer!(CGN_YEAR, captures, buffer, at);
+        }
+        | DTFS_Year::_fill => {
+            match captures
+                .name(CGN_YEAR)
+                .as_ref()
+            {
+                Some(match_) => {
+                    copy_slice_to_buffer!(match_.as_bytes(), buffer, at);
                 }
                 None => {
-                    defo!("using hardcoded dummy year {:?}", YEAR_FALLBACKDUMMY);
-                    copy_slice_to_buffer!(YEAR_FALLBACKDUMMY.as_bytes(), buffer, at);
+                    match year_opt {
+                        Some(year) => {
+                            // TODO: 2022/07/11 cost-savings: pass in `Option<&[u8]>`, avoid creating `String`
+                            let year_s: String = year.to_string();
+                            debug_assert_eq!(year_s.len(), 4, "Bad year string {:?}", year_s);
+                            defo!("using fallback year {:?}", year_s);
+                            copy_slice_to_buffer!(year_s.as_bytes(), buffer, at);
+                        }
+                        None => {
+                            defo!("using hardcoded dummy year {:?}", YEAR_FALLBACKDUMMY);
+                            copy_slice_to_buffer!(YEAR_FALLBACKDUMMY.as_bytes(), buffer, at);
+                        }
+                    }
                 }
             }
         }
+        DTFS_Year::_none => {}
     }
     // month
-    defo!("process <month>…");
+    defo!("process <month> {:?}…", dtfs.month);
     match dtfs.month {
         DTFS_Month::m => {
             copy_capturegroup_to_buffer!(CGN_MONTH, captures, buffer, at);
@@ -4986,9 +5158,10 @@ pub(crate) fn captures_to_buffer_bytes(
             );
             at += 2;
         }
+        DTFS_Month::_none => {}
     }
     // day
-    defo!("process <day>…");
+    defo!("process <day> {:?}…", dtfs.day);
     match dtfs.day {
         DTFS_Day::_e_or_d => {
             let day: &[u8] = captures
@@ -5021,6 +5194,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 }
             }
         }
+        DTFS_Day::_none => {}
     }
     // Day pattern `%a` (`Monday`, 'Tue`, etc.) (capture group `CGN_DAYa`) is captured but not
     // passed along to chrono functions.
@@ -5029,7 +5203,7 @@ pub(crate) fn captures_to_buffer_bytes(
     defo!("process date-time divider…");
     copy_u8_to_buffer!(b'T', buffer, at);
     // hour
-    defo!("process <hour>…");
+    defo!("process <hour> {:?}…", dtfs.hour);
     match dtfs.hour {
         DTFS_Hour::I
         | DTFS_Hour::l
@@ -5051,22 +5225,27 @@ pub(crate) fn captures_to_buffer_bytes(
                 }
             }
         }
+        DTFS_Hour::_none => {}
     }
     // minute
-    defo!("process <minute>…");
+    defo!("process <minute> {:?}…", dtfs.minute);
     match dtfs.minute {
         DTFS_Minute::M => copy_capturegroup_to_buffer!(CGN_MINUTE, captures, buffer, at),
+        DTFS_Minute::_none => {}
     }
     // second
-    defo!("process <second>…");
+    defo!("process <second> {:?}…", dtfs.second);
     match dtfs.second {
         DTFS_Second::S => {
             copy_capturegroup_to_buffer!(CGN_SECOND, captures, buffer, at);
         }
-        DTFS_Second::_fill => {}
+        DTFS_Second::_fill => {
+            copy_slice_to_buffer!(b"00", buffer, at);
+        }
+        DTFS_Second::_none => {}
     }
     // fractional
-    defo!("process <fractional>…");
+    defo!("process <fractional> {:?}…", dtfs.fractional);
     match dtfs.fractional {
         DTFS_Fractional::f => {
             defo!("matched DTFS_Fractional::f");
@@ -5133,7 +5312,7 @@ pub(crate) fn captures_to_buffer_bytes(
         DTFS_Fractional::_none => {}
     }
     // tz
-    defo!("process <tz>…");
+    defo!("process <tz> {:?}…", dtfs.tz);
     match dtfs.tz {
         DTFS_Tz::_fill => {
             copy_slice_to_buffer!(tz_offset_string.as_bytes(), buffer, at);
@@ -5207,6 +5386,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 }
             }
         }
+        DTFS_Tz::_none => {}
     }
 
     defx!("return {:?}", at);
