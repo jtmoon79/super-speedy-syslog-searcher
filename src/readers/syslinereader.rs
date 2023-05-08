@@ -85,7 +85,7 @@ use ::static_assertions::const_assert;
 pub type DateTimePatternCounts = BTreeMap<DateTimeParseInstrsIndex, Count>;
 
 /// Collection of `DateTimeParseInstrsIndex`.
-pub type DateTimeParseDatasIndexes = BTreeSet<DateTimeParseInstrsIndex>;
+pub type DateTimeParseDatasIndexes = Vec<DateTimeParseInstrsIndex>;
 
 /// Data returned by `SyslineReader::find_datetime_in_line` and
 /// `SyslineReader::parse_datetime_in_line`.
@@ -140,9 +140,8 @@ type SyslinesLRUCache = LruCache<FileOffset, ResultS3SyslineFind>;
 /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
 type LineParsedCache = LruCache<FileOffset, FindDateTimeData>;
 
-/// A specialized reader that uses [`LineReader`] to find [`Sysline`s] in a file.
-/// A `SyslineReader` has specialized knowledge of associating a parsed
-/// datetime to a sequence of lines, and then creating a `Sysline`.
+/// A specialized reader that uses [`LineReader`] to find a datetime
+/// in a [`Line`] and then can create a [`Sysline`s] from those `Line`s.
 ///
 /// A `SyslineReader` does some `[u8]` to `char` interpretation.
 ///
@@ -152,6 +151,7 @@ type LineParsedCache = LruCache<FileOffset, FindDateTimeData>;
 /// _XXX: not a rust "Reader"; does not implement trait [`Read`]._
 ///
 /// [`LineReader`]: crate::readers::linereader::LineReader
+/// [`Line`]: crate::data::line::Line
 /// [`Sysline`s]: crate::data::sysline::Sysline
 /// [`Read`]: std::io::Read
 pub struct SyslineReader {
@@ -452,16 +452,15 @@ impl SyslineReader {
         let lr = match LineReader::new(path, filetype, blocksz) {
             Ok(val) => val,
             Err(err) => {
-                //eprintln!("ERROR: LineReader::new({}, {}) failed {}", path, blocksz, err);
                 return Err(err);
             }
         };
         let mut dt_patterns_counts = DateTimePatternCounts::new();
-        let mut dt_patterns_indexes = DateTimeParseDatasIndexes::new();
+        let mut dt_patterns_indexes = DateTimeParseDatasIndexes::with_capacity(DATETIME_PARSE_DATAS_LEN);
         let mut index = 0;
         while index < DATETIME_PARSE_DATAS_LEN {
             dt_patterns_counts.insert(index as DateTimeParseInstrsIndex, 0);
-            dt_patterns_indexes.insert(index as DateTimeParseInstrsIndex);
+            dt_patterns_indexes.push(index as DateTimeParseInstrsIndex);
             index += 1;
         }
         Ok(SyslineReader {
@@ -1141,7 +1140,7 @@ impl SyslineReader {
     /// [`Ok`]: self::ResultFindDateTime
     /// [`Err`]: self::ResultFindDateTime
     #[allow(clippy::too_many_arguments)]
-    pub fn find_datetime_in_line(
+    pub(crate) fn find_datetime_in_line(
         line: &Line,
         parse_data_indexes: &DateTimeParseDatasIndexes,
         charsz: CharSz,
@@ -1361,24 +1360,29 @@ impl SyslineReader {
     }
 
     /// Helper function to update `parse_datetime_in_line`.
-    fn dt_patterns_update(
+    pub(crate) fn dt_patterns_update(
         &mut self,
         index: DateTimeParseInstrsIndex,
     ) {
+        defn!("({:?})", index);
+        debug_assert_lt!(index, DATETIME_PARSE_DATAS_LEN);
         match self.dt_patterns_counts.get_mut(&index) {
             Some(counter) => {
                 *counter += 1;
-                defñ!("dt_patterns_counts({:?}) at {}", index, counter);
+                defo!("dt_patterns_counts({:?}) has count {}", index, counter);
             }
             None => {
                 panic!("index {} not present in self.dt_patterns_counts", index);
             }
         }
+        defo!("dt_patterns_counts {:?}", self.dt_patterns_counts);
         // refresh the indexes every time until `dt_patterns_analysis` is called
         if self.analyzed {
+            defx!("already analyzed");
             return;
         }
         self.dt_patterns_indexes_refresh();
+        defx!();
     }
 
     /// Refresh the `self.dt_patterns_indexes` from `self.dt_patterns_counts`.
@@ -1386,21 +1390,42 @@ impl SyslineReader {
     /// blockzero analysis.
     /// Only useful during the blockzero analysis stage before one final
     /// `DateTimeParseInstr` is chosen.
-    fn dt_patterns_indexes_refresh(&mut self) {
+    pub(crate) fn dt_patterns_indexes_refresh(&mut self) {
+        //defn!("dt_patterns_indexes {:?}", self.dt_patterns_indexes);
+        defn!("dt_patterns_indexes.clear()");
         self.dt_patterns_indexes
             .clear();
         // get copy of pattern indexes sorted by value,
         // this makes the most-used parse_data more likely to be used again
+        defo!("dt_patterns_indexes {:?}", self.dt_patterns_indexes);
         self.dt_patterns_indexes
             .extend(
                 self.dt_patterns_counts
                     .iter()
                     .sorted_by(
-                        |a, b| Ord::cmp(&b.1, &a.1), // sort by value (second tuple item)
+                        // sort by value (second tuple item)
+                        |a, b| Ord::cmp(&b.1, &a.1),
                     )
                     .map(|(k, _v)| k), // copy only the key (first tuple item) which is an index
             );
-        defñ!("dt_patterns_indexes {:?}", self.dt_patterns_indexes);
+        defx!("dt_patterns_indexes {:?}", self.dt_patterns_indexes);
+    }
+
+    /// reset the internal pattern tracking
+    /// for testing only
+    #[cfg(test)]
+    pub(crate) fn dt_patterns_reset(&mut self) {
+        defñ!();
+        let mut index: DateTimeParseInstrsIndex = 0;
+        self.analyzed = false;
+        self.dt_patterns_counts.clear();
+        self.dt_patterns_indexes.clear();
+        while index < DATETIME_PARSE_DATAS_LEN {
+            self.dt_patterns_counts.insert(index, 0);
+            //self.dt_patterns_indexes.insert(index);
+            self.dt_patterns_indexes.push(index);
+            index += 1;
+        }
     }
 
     /// Analyze `Sysline`s gathered.
@@ -1531,6 +1556,10 @@ impl SyslineReader {
         } else {
             defo!("after analysis");
             // after analysis, only one `DateTimeParseInstr` is used
+            // and it is presumed that element is the first in
+            // `dt_patterns_indexes`
+            // XXX: does not support matching multiple patterns after
+            //      "block zero" analysis stages
             debug_assert_eq!(
                 self.dt_patterns_indexes.len(),
                 SyslineReader::DT_PATTERN_MAX,
@@ -1538,11 +1567,9 @@ impl SyslineReader {
                 self.dt_patterns_indexes.len(),
                 SyslineReader::DT_PATTERN_MAX
             );
-            // the first and only element is the chosen dt_pattern
             *self
                 .dt_patterns_indexes
-                .iter()
-                .next()
+                .first()
                 .unwrap()
         }
     }
@@ -1618,7 +1645,7 @@ impl SyslineReader {
     ///
     /// Call `self.parse_datetime_in_line` with help of LRU cache
     /// `self.parse_datetime_in_line_lru_cache`.
-    fn parse_datetime_in_line_cached(
+    pub(crate) fn parse_datetime_in_line_cached(
         &mut self,
         linep: &LineP,
         charsz: CharSz,

@@ -7,26 +7,48 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
-use crate::common::{Count, FileOffset, FPath, ResultS3};
-use crate::data::datetime::DateTimeLOpt;
-use crate::data::line::LineIndex;
-use crate::readers::blockreader::BlockSz;
+use crate::common::{
+    CharSz,
+    Count,
+    FileOffset,
+    FPath,
+    ResultS3,
+};
+use crate::data::line::{
+    LinePart,
+    Line,
+    LineP,
+    LineIndex
+};
+use crate::readers::blockreader::{
+    Block,
+    BlockIndex,
+    BlockP,
+    BlockSz,
+};
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
 use crate::readers::helpers::{fill, randomize};
 use crate::readers::syslinereader::{
+    DateTimeParseDatasIndexes,
     ResultS3SyslineFind,
     SyslineReader,
     SummarySyslineReader,
+    ResultFindDateTime,
 };
 use crate::data::datetime::{
     datetime_parse_from_str,
     DateTimeL,
+    DateTimeLOpt,
     DateTimeParseInstr,
     DateTimePattern_str,
     FixedOffset,
     TimeZone,
+    Year,
+    DateTimeParseInstrsIndex,
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_LEN,
+    ymdhmsn,
+    O_L,
 };
 use crate::tests::datetime_tests::dt_pattern_has_tz;
 use crate::debug::helpers::{
@@ -60,6 +82,7 @@ use crate::tests::common::{
     NTF_TAR_8BYTE_FILEA_FPATH,
     NTF_WNL_1_PATH,
     FO_0,
+    FO_L,
     FO_P5,
     FO_P8,
     FO_M5,
@@ -222,6 +245,267 @@ fn test_find_sysline_A0(
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// helper for common operations in `test_find_datetime_in_line`
+/// and `test_parse_datetime_in_line_cached__no_cache`
+fn helper_extract_dtpi_info(
+    dtpi: &DateTimeParseInstr,
+    index: DateTimeParseInstrsIndex,
+    test_case_index: usize
+) -> (
+    LineIndex,
+    LineIndex,
+    BlockP,
+    Line,
+    DateTimeParseDatasIndexes,
+    Year,
+    FixedOffset,
+    String,
+    DateTimeL,
+    String,
+)
+{
+    let (a_expect, b_expect, zymdhmsn, data) = dtpi._test_cases.iter().nth(test_case_index).unwrap();
+    let block: Block = Block::from(data.as_bytes());
+    let blockp: BlockP = BlockP::new(block);
+    let linepart = LinePart::new(
+        blockp.clone(),
+        0,
+        data.len() as BlockIndex,
+        0,
+        0,
+        data.len() as BlockSz,
+    );
+    let line = Line::new_from_linepart(linepart);
+    let mut indexes: DateTimeParseDatasIndexes = DateTimeParseDatasIndexes::new();
+    indexes.push(index);
+    let year = zymdhmsn.1 as Year;
+    let fo: FixedOffset = match zymdhmsn.0 {
+        O_L => *FO_L,
+        val if val < 0 => FixedOffset::west_opt(-val).unwrap(),
+        val if val >= 0 => FixedOffset::east_opt(val).unwrap(),
+        val => panic!("bad offset value {:?}", val),
+    };
+    let fo_string: String = fo.to_string();
+    let dt_expect: DateTimeL = ymdhmsn(
+        &fo,
+        year,
+        zymdhmsn.2,
+        zymdhmsn.3,
+        zymdhmsn.4,
+        zymdhmsn.5,
+        zymdhmsn.6,
+        zymdhmsn.7,
+    );
+
+    (
+        *a_expect,
+        *b_expect,
+        blockp,
+        line,
+        indexes,
+        year,
+        fo,
+        fo_string,
+        dt_expect,
+        dt_expect.to_string(),
+    )
+}
+
+/// test `SyslineReader::find_datetime_in_line`
+#[test]
+fn test_find_datetime_in_line() {
+    let mut get_boxptrs_singleptr: Count = 0;
+    let mut get_boxptrs_doubleptr: Count = 0;
+    let mut get_boxptrs_multiptr: Count = 0;
+    let mut ezcheck12_hit: Count = 0;
+    let mut ezcheck12_miss: Count = 0;
+    let mut ezcheck12_hit_max: LineIndex = 0;
+    let mut ezcheckd2_hit: Count = 0;
+    let mut ezcheckd2_miss: Count = 0;
+    let mut ezcheckd2_hit_max: LineIndex = 0;
+    let mut ezcheck12d2_hit: Count = 0;
+    let mut ezcheck12d2_miss: Count = 0;
+    let mut ezcheck12d2_hit_max: LineIndex = 0;
+
+    for (i, dtpi) in DATETIME_PARSE_DATAS.iter().enumerate() {
+        let mut j: usize = 0;
+        while j < dtpi._test_cases.len() {
+            defo!("test case {:?} {:?} (line num {})", i, j, dtpi._line_num);
+            let (
+                a_expect,
+                b_expect,
+                _blockp,
+                line,
+                indexes,
+                year,
+                fo,
+                fo_string,
+                dt_expect,
+                dt_expect_string,
+            ) = helper_extract_dtpi_info(dtpi, i, j);
+            // assert `SyslineReader::find_datetime_in_line`
+            defo!("SyslineReader::find_datetime_in_line(...)");
+            match SyslineReader::find_datetime_in_line(
+                &line,
+                &indexes,
+                1 as CharSz,
+                &Some(year),
+                &fo,
+                &fo_string,
+                &mut get_boxptrs_singleptr,
+                &mut get_boxptrs_doubleptr,
+                &mut get_boxptrs_multiptr,
+                &mut ezcheck12_hit,
+                &mut ezcheck12_miss,
+                &mut ezcheck12_hit_max,
+                &mut ezcheckd2_hit,
+                &mut ezcheckd2_miss,
+                &mut ezcheckd2_hit_max,
+                &mut ezcheck12d2_hit,
+                &mut ezcheck12d2_miss,
+                &mut ezcheck12d2_hit_max,
+            ) {
+                ResultFindDateTime::Ok((a_actual, b_actual, dt_actual, index)) => {
+                    assert_eq!(
+                        a_expect,
+                        a_actual,
+                        "\nfind_datetime_in_line() a\nExpected {:?}\nActual   {:?}\n",
+                        a_expect,
+                        a_actual,
+                    );
+                    assert_eq!(
+                        b_expect,
+                        b_actual,
+                        "\nfind_datetime_in_line() b\nExpected {:?}\nActual   {:?}\n",
+                        b_expect,
+                        b_actual,
+                    );
+                    let dt_actual_string = dt_actual.to_string();
+                    assert_eq!(
+                        dt_expect,
+                        dt_actual,
+                        "\nfind_datetime_in_line() dt\nExpected {:?}\nActual   {:?}\n",
+                        dt_expect_string,
+                        dt_actual_string,
+                    );
+                    assert_eq!(
+                        i,
+                        index,
+                        "\nfind_datetime_in_line() index\nExpected {:?}\nActual   {:?}\n",
+                        i,
+                        index,
+                    );
+                }
+                ResultFindDateTime::Err(err) => {
+                    assert!(false, "returned Error; failed to match test line at index {:?}, case {:?}; Error {:?}", i, j, err);
+                }
+            }
+            eprintln!();
+            j += 1;
+        }
+    }
+}
+
+/// test `SyslineReader.parse_datetime_in_line_cached`
+#[test]
+fn test_parse_datetime_in_line_cached__no_cache() {
+    let mut slr = new_SyslineReader(&*NTF_LOG_EMPTY_FPATH, 0x100, *FO_L);
+    slr.LRU_cache_disable();
+
+    for (i, dtpi) in DATETIME_PARSE_DATAS.iter().enumerate() {
+        let mut j: usize = 0;
+        while j < dtpi._test_cases.len() {
+            defo!("test case {:?} {:?} (line num {})", i, j, dtpi._line_num);
+            let (
+                a_expect,
+                b_expect,
+                blockp,
+                line,
+                indexes,
+                year,
+                fo,
+                fo_string,
+                dt_expect,
+                dt_expect_string,
+            ) = helper_extract_dtpi_info(dtpi, i, j);
+            let linep = LineP::new(line);
+            slr.dt_patterns_reset();
+            slr.dt_patterns_indexes_refresh();
+            slr.dt_patterns_update(i);
+            // this assert repeats `test_dt_pattern_index_max_count` which is fine
+            assert_eq!(
+                slr.dt_pattern_index_max_count(), i,
+                "unexpected dt_pattern_index_max_count, expected {}", i
+            );
+            // assert `SyslineReader::parse_datetime_in_line_cached`
+            defo!("slr.parse_datetime_in_line_cached(...)");
+            match slr.parse_datetime_in_line_cached(
+                &linep,
+                1 as CharSz,
+                &Some(year)
+            ) {
+                ResultFindDateTime::Ok((a_actual, b_actual, dt_actual, index)) => {
+                    eprintln!("data {:?}", &(*blockp).as_bstr());
+                    let slice_ = &(*blockp)[a_actual..b_actual];
+                    eprintln!("data datetime substring [{}..{}] {:?}", a_actual, b_actual, slice_.as_bstr());
+                    assert_eq!(
+                        a_expect,
+                        a_actual,
+                        "\nparse_datetime_in_line_cached() a\nExpected {:?}\nActual   {:?}\n",
+                        a_expect,
+                        a_actual,
+                    );
+                    assert_eq!(
+                        b_expect,
+                        b_actual,
+                        "\nparse_datetime_in_line_cached() b\nExpected {:?}\nActual   {:?}\n",
+                        b_expect,
+                        b_actual,
+                    );
+                    let dt_actual_string = dt_actual.to_string();
+                    assert_eq!(
+                        dt_expect,
+                        dt_actual,
+                        "\nparse_datetime_in_line_cached() dt\nExpected {:?}\nActual   {:?}\n",
+                        dt_expect_string,
+                        dt_actual_string,
+                    );
+                    assert_eq!(
+                        i,
+                        index,
+                        "\nfind_datetime_in_line() index\nExpected {:?}\nActual   {:?}\n",
+                        i,
+                        index,
+                    );
+                }
+                ResultFindDateTime::Err(err) => {
+                    assert!(false, "returned Error; failed to match test line at index {:?}, case {:?}; Error {:?}", i, j, err);
+                }
+            }
+            eprintln!();
+            j += 1;
+        }
+    }
+}
+
+/// test `SyslineReader.test_dt_pattern_index_max_count`
+#[test]
+fn test_dt_pattern_index_max_count() {
+    let mut slr = new_SyslineReader(&*NTF_LOG_EMPTY_FPATH, 0x100, *FO_L);
+    let mut i: usize = 0;
+    while i < DATETIME_PARSE_DATAS_LEN {
+        slr.dt_patterns_reset();
+        slr.dt_patterns_indexes_refresh();
+        slr.dt_patterns_update(i);
+        let c = slr.dt_pattern_index_max_count();
+        assert_eq!(
+            c, i,
+            "unexpected dt_pattern_index_max_count {}, expected {}", c, i
+        );
+        i += 1;
+    }
+}
 
 /// - First `FileOffset` input to `find_sysline_at_datetime_filter`
 /// - Second `&str` input to `datetime_parse_from_str`
@@ -5343,15 +5627,15 @@ fn test_ezcheck_slice(
     0,
     0,
     0,
-    150,
+    76,
     0,
     0,
     0,
     0,
-    8,
+    4,
     0,
     0,
-    142,
+    72,
     0;
     "NTF_SYSLINE_2_PATH"
 )]
