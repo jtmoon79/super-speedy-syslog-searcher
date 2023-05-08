@@ -3,10 +3,10 @@
 Speedily search and merge log file entries by datetime.
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
-and merge log files by datetime, including log files that are
-compressed (`.gz`, `.xz`), archived (`.tar`), utmpx user accounting records
-(`utmp`, `wtmp`), systemd journal files (`.journal`),
-or Microsoft Event Logs (`.evtx`).
+and merge varying log files by datetime, including log files that are
+compressed (`.gz`, `.xz`), or archived (`.tar`), and binary format logs including
+utmpx user accounting records (`utmp`, `wtmp`), systemd journal logs
+(`.journal`), and Microsoft Event Logs (`.evtx`).
 It will parse a variety of formal and ad-hoc log message datetime formats.
 
 The first goal of `s4` is speedy searching and printing.
@@ -335,21 +335,25 @@ A longer rambling pontification about this project is in
 
 ### Features
 
-- Prepends datetime and file paths, for easy programmatic parsing or visual traversal of varying
-  syslog messages
-- Recognizes multi-line log messages
-- Parses ["utmpx" user accounting records] files
-- Parses formal datetime formats:
-  - [RFC 2822]
-  - [RFC 3164]
-  - [RFC 3339]
-  - [RFC 5424]
-  - [ISO 8601] \*\*
-- Parses [Windows Event Log] files
-- Parses [systemd journal] files with printing options matching [`journalctl`]
-- Parses many ad-hoc datetime formats
-  - Tested against "in the wild" log files from varying sources
-    (see project path `./logs/`)
+- Parses:
+  - Formal datetime formats:
+    - [RFC 2822]
+    - [RFC 3164]
+    - [RFC 3339]
+    - [RFC 5424]
+    - [ISO 8601] \*\*
+  - [Red Hat Audit Log] files
+  - binary ["utmpx" user accounting records] files
+  - binary [Windows Event Log] files
+  - binary [systemd journal] files with printing options matching [`journalctl`]
+  - many varying text log messages with ad-hoc datetime formats
+  - multi-line log messages
+- Inspects `.tar` archive files for parseable log files
+- Inspects `.gz` and `.xz` compressed files for parseable log files
+- Tested against "in the wild" log files from varying sources
+  (see project path [`./logs/`])
+- Prepends datetime and file paths, for easy programmatic parsing or
+  visual traversal of varying log messages
 - Comparable speed as GNU `grep` and `sort`
   (see project tool `./tools/compare-grep-sort.sh`; run in github Actions, Job
   _run `s4`_, Step _Run script compare-grep-sort_)
@@ -362,9 +366,11 @@ A longer rambling pontification about this project is in
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339#section-5.8
 [RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3
 [ISO 8601]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles
+[Red Hat Audit Log]: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/security_guide/sec-understanding_audit_log_files
 [Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log
 [systemd journal]: https://systemd.io/JOURNAL_FILE_FORMAT/
 [`journalctl`]: https://www.man7.org/linux/man-pages/man1/journalctl.1.html
+[`./logs/`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/main/logs
 
 ### Limitations
 
