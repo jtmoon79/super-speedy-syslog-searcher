@@ -1163,6 +1163,24 @@ fn test_read_data_to_buffer(
 
 }
 
+#[test_case(&NTF_LOG_EMPTY_FPATH, FileType::File)]
+#[test_case(&NTF_1BYTE_FPATH, FileType::File)]
+#[test_case(&NTF_3BYTE_FPATH, FileType::File)]
+#[test_case(&NTF_GZ_EMPTY_FPATH, FileType::Gz)]
+#[test_case(&NTF_GZ_1BYTE_FPATH, FileType::Gz)]
+#[test_case(&NTF_GZ_8BYTE_FPATH, FileType::Gz)]
+#[test_case(&NTF_XZ_1BYTE_FPATH, FileType::Xz)]
+#[test_case(&NTF_TAR_1BYTE_FILEA_FPATH, FileType::Tar)]
+#[test_case(&NTF_TAR_8BYTE_FILEA_FPATH, FileType::Tar)]
+fn test_mtime(
+    path: &FPath,
+    filetype: FileType,
+) {
+    let br1 = new_BlockReader(path, filetype, 0x100);
+    // merely run the function
+    _ = br1.mtime();
+}
+
 // -------------------------------------------------------------------------------------------------
 
 #[test_case(&NTF_LOG_EMPTY_FPATH, FileType::File, 2, 0, 0; "LOG_0BYTE 2 0 0")]

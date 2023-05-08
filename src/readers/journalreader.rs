@@ -159,6 +159,7 @@ use crate::data::datetime::{
     DateTimeLOpt,
     Result_Filter_DateTime1,
     Result_Filter_DateTime2,
+    SystemTime,
 };
 use crate::data::journal::{
     ENTRY_END_U8,
@@ -927,6 +928,8 @@ pub struct JournalReader {
     pub(super) ts_last_processed: EpochMicrosecondsOpt,
     /// File Size of the file being read in bytes.
     filesz: FileSz,
+    /// file Last Modified time from file-system metadata
+    mtime: SystemTime,
     /// Has `self.analyze()` been called?
     analyzed: bool,
     /// Number of systemd API calls (calls using `journal_api_ptr`).
@@ -1009,14 +1012,18 @@ impl<'a> JournalReader {
                 return Err(err);
             }
         };
-        let filesz: FileSz = match file.metadata() {
-            Result::Ok(val) => val.len() as FileSz,
+        let metadata = match file.metadata() {
+            Result::Ok(val) => val,
             Result::Err(err) => {
                 defx!("return {:?}", err);
                 eprintln!("ERROR: File::metadata() path {:?} {}", path_std, err);
                 return Err(err);
             }
         };
+        let filesz: FileSz = metadata.len() as FileSz;
+        let mtime: SystemTime = metadata.modified().unwrap_or(
+            SystemTime::now()
+        );
 
         // create the `JournalFile` file descriptor handle
         let mut journal_handle: Box<sd_journal> = Box::new(
@@ -1070,6 +1077,7 @@ impl<'a> JournalReader {
                 ts_first_processed: EpochMicrosecondsOpt::None,
                 ts_last_processed: EpochMicrosecondsOpt::None,
                 filesz,
+                mtime,
                 analyzed: false,
                 api_calls: 1,
                 api_call_errors: 0,
@@ -1079,6 +1087,10 @@ impl<'a> JournalReader {
                 force_error_range_opt: None,
             }
         )
+    }
+
+    pub fn mtime(&self) -> SystemTime {
+        self.mtime
     }
 
     /// Set the file cursor to the first record after the given

@@ -69,6 +69,14 @@ fn test_EvtxReader_new(path: &FPath, ok: bool) {
     }
 }
 
+#[test_case(&EVTX_NE_FPATH)]
+#[test_case(&EVTX_KPNP_FPATH)]
+fn test_mtime(path: &FPath) {
+    let er1 = EvtxReader::new(path.clone()).unwrap();
+    // merely run the function
+    _ = er1.mtime();
+}
+
 /// test `EvtxReader::summary` and `EvtxReader::summary_complete`
 /// before doing any processing
 #[test_case(&EVTX_NE_FPATH)]

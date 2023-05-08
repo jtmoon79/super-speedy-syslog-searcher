@@ -57,7 +57,6 @@
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::fmt;
 use std::io::BufRead; // for stdin::lock().lines()
-use std::io::ErrorKind;
 use std::io::Error;
 use std::process::ExitCode;
 use std::str;
@@ -94,6 +93,7 @@ use ::si_trace_print::{
 };
 use ::unicode_width;
 // `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
+use ::s4lib::debug_panic;
 use ::s4lib::common::{
     Count,
     FPath,
@@ -108,12 +108,14 @@ use ::s4lib::common::{
 use ::s4lib::data::datetime::{
     datetime_parse_from_str,
     datetime_parse_from_str_w_tz,
+    DateTimeL,
     DateTimeLOpt,
     DateTimeParseInstr,
     DateTimePattern_str,
     MAP_TZZ_TO_TZz,
     Utc,
     DATETIME_PARSE_DATAS,
+    systemtime_to_datetime,
 };
 #[allow(unused_imports)]
 use ::s4lib::debug::printers::{de_err, de_wrn, e_err, e_wrn};
@@ -130,10 +132,7 @@ use ::s4lib::printer::printers::{
     COLOR_DEFAULT,
     COLOR_ERROR,
 };
-use ::s4lib::data::common::{
-    LogMessage,
-    LogMessageOpt,
-};
+use ::s4lib::data::common::LogMessage;
 use ::s4lib::data::evtx::Evtx;
 use ::s4lib::data::journal::{
     JournalEntry,
@@ -1555,10 +1554,34 @@ type IsLastLogMessage = bool;
 ///
 /// [`LogMessage`]: self::LogMessage
 /// [`Summary`]: s4lib::readers::summary::Summary
-// TODO: Enforce that `Sysline` and `Summary` exclusivity with some kind of union.
-type ChanDatum = (LogMessageOpt, SummaryOpt, IsLastLogMessage, FileProcessingResultBlockZero);
+#[derive(
+    //Clone,
+    //Copy,
+    Debug,
+    //PartialEq,
+    //Eq,
+    //PartialOrd,
+    //Ord,
+)]
+enum ChanDatum {
+    /// first data sent from file processing thread to main printing thread
+    /// one should be sent during the entire thread
+    FileInfo(DateTimeLOpt, FileProcessingResultBlockZero),
+    /// data sent from file processing thread to main printing thread
+    /// a processed log message for printing
+    /// zero or more of these are sent during the entire thread
+    NewMessage(LogMessage, IsLastLogMessage),
+    /// last data sent from file processing thread to main printing thread
+    /// zero or one should be sent during the entire thread
+    ///
+    // XXX: Would be ideal to store `FileProcessingResultBlockZero` in the
+    //      `Summary`. But the `FileProcessingResultBlockZero` has an
+    //      explicit lifetime because it can carry a `Error`.
+    //      This complicates everything.
+    FileSummary(SummaryOpt, FileProcessingResultBlockZero),
+}
 
-type MapPathIdDatum = BTreeMap<PathId, ChanDatum>;
+type MapPathIdDatum = BTreeMap<PathId, (LogMessage, IsLastLogMessage)>;
 
 type SetPathId = HashSet<PathId>;
 
@@ -1577,6 +1600,18 @@ type ChanSendDatum = crossbeam_channel::Sender<ChanDatum>;
 type ChanRecvDatum = crossbeam_channel::Receiver<ChanDatum>;
 
 type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
+
+/// helper to send a [`ChanDatum::NewMessage`] to the main printing thread
+/// and print an error if there was an error sending.
+#[inline(always)]
+fn chan_send(chan_send_dt: &ChanSendDatum, chan_datum: ChanDatum, path: &FPath) {
+    match chan_send_dt.send(chan_datum)
+    {
+        Ok(_) => {}
+        Err(err) =>
+            e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
+    }
+}
 
 /// This creates a [`SyslogProcessor`] and processes the file.<br/>
 /// If it is a syslog file, then continues processing by sending each
@@ -1621,90 +1656,56 @@ fn exec_syslogprocessor(
     ) {
         Ok(val) => val,
         Err(err) => {
-            // TODO: [2022/08] this design needs work: the `Error` instance should be passed
-            //       back in the channel but not via the Summary... I think....
-            //       But more so, the current design has unnecessary
-            //       duplication of `Error` information mapped to a `FileProcessingResultBlockZero`.
-            //       e.g. remove `FileErrIo` and just have a more general `FileError((ErrorKind, String))`.
-            //            Much easier to handle.
-            //       The `FileProcessResult` should travel inside or outside the `Summary` and
-            //       should not duplicate the information conveyed by the `Error` instance. Get rid
-            //       of this tedious mapping. However, complicating that change this is the design
-            //       of `Error`; they are difficult to pass around because they cannot be
-            //       copied/cloned. Perhaps only save the `ErrorKind`?
-            //       Additionally, this thread should not print error messages, only the main thread should do that.
-            //       This needs more thought.
+            let err_string = err.to_string();
+            // send `ChanDatum::FileInfo`
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileInfo(DateTimeLOpt::None, FileProcessingResultBlockZero::FileErrIo(err)),
+                &path
+            );
+            // send `ChanDatum::FileSummary`
             let summary = Summary::new_failed(
                 path.clone(),
                 filetype,
                 LogMessageType::Sysline,
                 blocksz,
-                Some(err.to_string())
+                Some(err_string)
             );
-            let fileerr: FileProcessingResultBlockZero = match err.kind() {
-                ErrorKind::PermissionDenied => {
-                    e_err!("{} for {:?}", err, path);
-
-                    FileProcessingResultBlockZero::FileErrIo(err)
-                }
-                _ => {
-                    e_err!("{} for {:?}", err, path);
-
-                    FILEERRSTUB
-                }
-            };
-            match chan_send_dt.send((
-                None,
-                Some(summary),
-                true,
-                fileerr,
-            )) {
-                Ok(_) => {}
-                Err(err) =>
-                    e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
-            }
-            defx!("({:?})", path);
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
+                &path
+            );
+            defx!("({:?}) return early due to error", path);
             return;
         }
     };
     defo!("syslogproc {:?}", syslogproc);
 
-    syslogproc.process_stage0_valid_file_check();
+    // send `ChanDatum::FileInfo`
+    let result = syslogproc.process_stage0_valid_file_check();
+    let mtime = syslogproc.mtime();
+    let dt = systemtime_to_datetime(&tz_offset, &mtime);
+    match chan_send_dt.send(ChanDatum::FileInfo(DateTimeLOpt::Some(dt), result)
+    ) {
+        Ok(_) => {}
+        Err(err) =>
+            e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
+    }
 
     let result = syslogproc.process_stage1_blockzero_analysis();
-    match &result {
-        FileProcessingResultBlockZero::FileErrNoLinesFound =>
-            e_wrn!("no lines found {:?}", path),
-        FileProcessingResultBlockZero::FileErrNoSyslinesFound =>
-            e_wrn!("no syslines found {:?}", path),
-        FileProcessingResultBlockZero::FileErrDecompress =>
-            e_wrn!("could not decompress {:?}", path),
-        FileProcessingResultBlockZero::FileErrWrongType =>
-            e_wrn!("bad path {:?}", path),
-        FileProcessingResultBlockZero::FileErrIo(err) =>
-            e_err!("Error {} for {:?}", err, path),
-        FileProcessingResultBlockZero::FileErrChanSend =>
-            panic!("Should not receive ChannelSend Error {:?}", path),
-        FileProcessingResultBlockZero::FileOk => {}
-        FileProcessingResultBlockZero::FileErrEmpty => {}
-        FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange => {}
-        FileProcessingResultBlockZero::FileErrStub => {}
-    }
     match result {
         FileProcessingResultBlockZero::FileOk => {}
         _ => {
-            defo!("chan_send_dt.send((None, summary, true))");
-            match chan_send_dt.send((
-                None,
-                Some(syslogproc.summary_complete()),
-                true,
-                result,
-            )) {
-                Ok(_) => {}
-                Err(err) =>
-                    e_err!("stage1 chan_send_dt.send(…) failed {} for {:?}", err, path)
-            }
-            defx!("({:?})", path);
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(
+                    Some(syslogproc.summary_complete()),
+                    result,
+                ),
+                &path
+            );
+            defx!("({:?}) return early due to error", path);
             return;
         }
     }
@@ -1712,8 +1713,16 @@ fn exec_syslogprocessor(
     // find first sysline acceptable to the passed filters
     match syslogproc.process_stage2_find_dt(&filter_dt_after_opt) {
         FileProcessingResultBlockZero::FileOk => {}
-        _result => {
-            defx!("Result {:?} ({:?})", _result, path);
+        result => {
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(
+                    Some(syslogproc.summary_complete()),
+                    result,
+                ),
+                &path
+            );
+            defx!("({:?}) return early during stage2", path);
             return;
         }
     }
@@ -1728,18 +1737,16 @@ fn exec_syslogprocessor(
             fo1 = fo;
             let is_last: IsLastLogMessage = syslogproc.is_sysline_last(&syslinep) as IsLastLogMessage;
             deo!("{:?}({}): Found, chan_send_dt.send({:p}, None, {});", _tid, _tname, syslinep, is_last);
-            match chan_send_dt.send((
-                Some(LogMessage::Sysline(syslinep)),
-                None,
-                is_last,
-                FILEOK,
-            )) {
-                Ok(_) => {}
-                Err(err) =>
-                    e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
-            }
-            // XXX: sanity check
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::NewMessage(
+                    LogMessage::Sysline(syslinep),
+                    is_last,
+                ),
+                &path
+            );
             if is_last {
+                // XXX: sanity check
                 assert!(
                     !sent_is_last,
                     "is_last {}, yet sent_is_last was also {} (is_last was already sent!)",
@@ -1756,10 +1763,6 @@ fn exec_syslogprocessor(
         }
         ResultS3SyslineFind::Err(err) => {
             deo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, _tname, err);
-            e_err!(
-                "SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}",
-                path, err
-            );
             file_err = Some(FileProcessingResultBlockZero::FileErrIo(err));
             search_more = false;
         }
@@ -1768,18 +1771,15 @@ fn exec_syslogprocessor(
     if !search_more {
         deo!("{:?}({}): quit searching…", _tid, _tname);
         let summary_opt: SummaryOpt = Some(syslogproc.process_stage4_summary());
-        deo!("{:?}({}): !search_more chan_send_dt.send((None, {:?}, {}));", _tid, _tname, summary_opt, false);
-        match chan_send_dt.send((
-            None,
-            summary_opt,
-            false,
-            file_err.unwrap_or(FILEOK),
-        )) {
-            Ok(_) => {}
-            Err(err) =>
-                e_err!("chan_send_dt.send(…) failed {} for {:?}", err, path)
-        }
-        defx!("({:?})", path);
+        chan_send(
+            &chan_send_dt,
+            ChanDatum::FileSummary(
+                summary_opt,
+                file_err.unwrap_or(FILEOK),
+            ),
+            &path
+        );
+        defx!("({:?}) return early, no more searching to do", path);
 
         return;
     }
@@ -1797,17 +1797,14 @@ fn exec_syslogprocessor(
             ResultS3SyslineFind::Found((fo, syslinep)) => {
                 let syslinep_tmp = syslinep.clone();
                 let is_last = syslogproc.is_sysline_last(&syslinep);
-                deo!("{:?}({}): chan_send_dt.send(({:p}, None, {}));", _tid, _tname, syslinep, is_last);
-                match chan_send_dt.send((
-                    Some(LogMessage::Sysline(syslinep)),
-                    None,
-                    is_last,
-                    FILEOK,
-                )) {
-                    Ok(_) => {}
-                    Err(err) =>
-                        e_err!("D chan_send_dt.send(…) failed {} for {:?}", err, path)
-                }
+                chan_send(
+                    &chan_send_dt,
+                    ChanDatum::NewMessage(
+                        LogMessage::Sysline(syslinep),
+                        is_last,
+                    ),
+                    &path
+                );
                 fo1 = fo;
                 // XXX: sanity check
                 if is_last {
@@ -1843,16 +1840,14 @@ fn exec_syslogprocessor(
 
     let summary = syslogproc.summary_complete();
     deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", _tid, _tname, summary, false);
-    match chan_send_dt.send((
-        None,
-        Some(summary),
-        false,
-        file_err.unwrap_or(FILEOK),
-    )) {
-        Ok(_) => {}
-        Err(err) =>
-            e_err!("E chan_send_dt.send(…) failed {} for {:?}", err, path)
-    }
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileSummary(
+            Some(summary),
+            file_err.unwrap_or(FILEOK),
+        ),
+        &path
+    );
 
     defx!("({:?})", path);
 }
@@ -1884,40 +1879,43 @@ fn exec_utmpprocessor(
     ) {
         Ok(val) => val,
         Err(err) => {
+            let err_string = err.to_string();
+            // send `ChanDatum::FileInfo`
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileInfo(
+                    DateTimeLOpt::None,
+                    FileProcessingResultBlockZero::FileErrIo(err)
+                ),
+                &path
+            );
+            // send `ChanDatum::FileSummary`
             let summary = Summary::new_failed(
                 path.clone(),
                 filetype,
                 LogMessageType::Utmpx,
                 blocksz,
-                Some(err.to_string())
+                Some(err_string)
             );
-            let fileerr: FileProcessingResultBlockZero = match err.kind() {
-                ErrorKind::PermissionDenied => {
-                    e_err!("{} for {:?}", err, path);
-
-                    FileProcessingResultBlockZero::FileErrIo(err)
-                }
-                _ => {
-                    e_err!("{} for {:?}", err, path);
-
-                    FILEERRSTUB
-                }
-            };
-            match chan_send_dt.send((
-                None,
-                Some(summary),
-                true,
-                fileerr,
-            )) {
-                Ok(_) => {}
-                Err(err) =>
-                    e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
-            }
-            defx!("({:?})", path);
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
+                &path
+            );
+            defx!("({:?}) return early due to error", path);
             return;
         }
     };
     defo!("{:?}({}): utmpreader {:?}", _tid, _tname, utmpreader);
+
+    // send `ChanDatum::FileInfo`
+    let mtime = utmpreader.mtime();
+    let dt = systemtime_to_datetime(&tz_offset, &mtime);
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileInfo(DateTimeLOpt::Some(dt), FILEOK),
+        &path
+    );
 
     let mut file_err: Option<FileProcessingResultBlockZero> = None;
     let mut fo: FileOffset = 0;
@@ -1935,25 +1933,22 @@ fn exec_utmpprocessor(
                 fo_last = fo;
                 fo = fo_;
                 let is_last = utmpreader.is_last(&utmpx);
-                defo!("chan_send_dt.send((Some(LogMessage::Utmpx({}, …), None, {}, {:?}));", utmpx.fileoffset_begin(), is_last, FILEOK);
-                match chan_send_dt.send((
-                    Some(LogMessage::Utmpx(utmpx)),
-                    None,
-                    is_last,
-                    FILEOK,
-                )) {
-                    Ok(_) => {}
-                    Err(err) =>
-                        e_err!("D chan_send_dt.send(…) failed {} for {:?}", err, path)
-                }
+                chan_send(
+                    &chan_send_dt,
+                    ChanDatum::NewMessage(
+                        LogMessage::Utmpx(utmpx),
+                        is_last,
+                    ),
+                    &path
+                );
             }
             ResultS3UtmpxFind::Done => {
                 defo!("ResultS3UtmpxFind::Done");
                 break;
             }
             ResultS3UtmpxFind::Err(err) => {
-                e_err!("find_entry({}) failed; {} for {:?}", fo, err, path);
-                defx!("ResultS3UtmpxFind::Err({})", err);
+                de_err!("find_entry({}) failed; {} for {:?}", fo, err, path);
+                defo!("ResultS3UtmpxFind::Err({})", err);
                 file_err = Some(FileProcessingResultBlockZero::FileErrIo(err));
                 break;
             }
@@ -1962,17 +1957,14 @@ fn exec_utmpprocessor(
     }
 
     let summary = utmpreader.summary_complete();
-    deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", _tid, _tname, summary, false);
-    match chan_send_dt.send((
-        None,
-        Some(summary),
-        false,
-        file_err.unwrap_or(FILEOK),
-    )) {
-        Ok(_) => {}
-        Err(err) =>
-            e_err!("chan_send_dt.send(…) failed {} for {:?}", err, path)
-    }
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileSummary(
+            Some(summary),
+            file_err.unwrap_or(FILEOK),
+        ),
+        &path
+    );
 
     defx!("({:?})", path);
 }
@@ -1991,86 +1983,80 @@ fn exec_evtxprocessor(
         _blocksz,
         filter_dt_after_opt,
         filter_dt_before_opt,
-        _tz_offset,
+        tz_offset,
     ) = thread_init_data;
-    defn!("{:?}({}): ({:?})", _tid, _tname, path);
+    defn!("{:?}({}): ({:?}, {:?})", _tid, _tname, path, tz_offset);
     debug_assert!(matches!(filetype, FileType::Evtx));
     debug_assert!(matches!(_logmessagespecificdata, LogMessageSpecificData::None));
 
     let mut evtxreader = match EvtxReader::new(path.clone()) {
         Ok(val) => val,
         Err(err) => {
+            let err_string = err.to_string();
+            // send `ChanDatum::FileInfo`
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileInfo(
+                    DateTimeLOpt::None,
+                    FileProcessingResultBlockZero::FileErrIo(err)
+                ),
+                &path
+            );
+            // send `ChanDatum::FileSummary`
             let summary = Summary::new_failed(
                 path.clone(),
                 filetype,
                 LogMessageType::Utmpx,
                 0,
-                Some(err.to_string())
+                Some(err_string)
             );
-            let fileerr: FileProcessingResultBlockZero = match err.kind() {
-                ErrorKind::PermissionDenied => {
-                    e_err!("{} for {:?}", err, path);
-
-                    FileProcessingResultBlockZero::FileErrIo(err)
-                }
-                _ => {
-                    e_err!("{} for {:?}", err, path);
-
-                    FILEERRSTUB
-                }
-            };
-            match chan_send_dt.send((
-                None,
-                Some(summary),
-                true,
-                fileerr,
-            )) {
-                Ok(_) => {}
-                Err(err) =>
-                    e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
-            }
-            defx!("({:?})", path);
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
+                &path
+            );
+            defx!("({:?}) return early due to error", path);
             return;
         }
     };
     defo!("{:?}({}): evtxreader {:?}", _tid, _tname, evtxreader);
+
+    // send `ChanDatum::FileInfo`
+    let mtime = evtxreader.mtime();
+    let dt = systemtime_to_datetime(&tz_offset, &mtime);
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileInfo(DateTimeLOpt::Some(dt), FILEOK),
+        &path
+    );
 
     evtxreader.analyze(
         &filter_dt_after_opt,
         &filter_dt_before_opt,
     );
 
-    let mut file_err: Option<FileProcessingResultBlockZero> = None;
     while let Some(evtx) = evtxreader.next()
     {
         let is_last = false;
-        defo!("chan_send_dt.send(…, None, {}, {:?}));", is_last, FILEOK);
-        match chan_send_dt.send((
-            Some(LogMessage::Evtx(evtx)),
-            None,
-            is_last,
-            FILEOK,
-        )) {
-            Ok(_) => {}
-            Err(err) => {
-                e_err!("D chan_send_dt.send(…) failed {} for {:?}", err, path);
-                file_err = Some(FileProcessingResultBlockZero::FileErrChanSend);
-            }
-        }
+        chan_send(
+            &chan_send_dt,
+            ChanDatum::NewMessage(
+                LogMessage::Evtx(evtx),
+                is_last,
+            ),
+            &path
+        );
     }
 
     let summary = evtxreader.summary_complete();
-    deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", _tid, _tname, summary, false);
-    match chan_send_dt.send((
-        None,
-        Some(summary),
-        false,
-        file_err.unwrap_or(FILEOK),
-    )) {
-        Ok(_) => {}
-        Err(err) =>
-            e_err!("chan_send_dt.send(…) failed {} for {:?}", err, path)
-    }
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileSummary(
+            Some(summary),
+            FILEOK,
+        ),
+        &path
+    );
 
     defx!("({:?})", path);
 }
@@ -2098,8 +2084,8 @@ fn exec_journalprocessor(
     let journal_output = match logmessagespecificdata {
         LogMessageSpecificData::Journal(journal_output) => journal_output,
         _ => {
-            e_err!("logmessagespecificdata is not Journal");
-            defx!("logmessagespecificdata is not Journal");
+            e_err!("logmessagespecificdata is not Journal which is unexpected");
+            defx!("({:?}) return early due logmessagespecificdata is not Journal", path);
             return;
         }
     };
@@ -2111,40 +2097,40 @@ fn exec_journalprocessor(
     ) {
         Ok(val) => val,
         Err(err) => {
+            let err_string = err.to_string();
+            // send `ChanDatum::FileInfo`
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileInfo(DateTimeLOpt::None, FileProcessingResultBlockZero::FileErrIo(err)),
+                &path
+            );
+            // send `ChanDatum::FileSummary`
             let summary = Summary::new_failed(
                 path.clone(),
                 filetype,
                 LogMessageType::Journal,
                 0,
-                Some(err.to_string())
+                Some(err_string)
             );
-            let fileerr: FileProcessingResultBlockZero = match err.kind() {
-                ErrorKind::PermissionDenied => {
-                    e_err!("{} for {:?}", err, path);
-
-                    FileProcessingResultBlockZero::FileErrIo(err)
-                }
-                _ => {
-                    e_err!("{} for {:?}", err, path);
-
-                    FILEERRSTUB
-                }
-            };
-            match chan_send_dt.send((
-                None,
-                Some(summary),
-                true,
-                fileerr,
-            )) {
-                Ok(_) => {}
-                Err(err) =>
-                    e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
-            }
-            defx!("({:?})", path);
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
+                &path
+            );
+            defx!("({:?}) return early due to error", path);
             return;
         }
     };
     defo!("{:?}({}): journalreader {:?}", _tid, _tname, journalreader);
+
+    // send `ChanDatum::FileInfo`
+    let mtime = journalreader.mtime();
+    let dt = systemtime_to_datetime(&tz_offset, &mtime);
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileInfo(DateTimeLOpt::Some(dt), FILEOK),
+        &path
+    );
 
     defo!("filter_dt_after_opt {:?}", filter_dt_after_opt);
     let ts_filter_after = datetimelopt_to_realtime_timestamp_opt(&filter_dt_after_opt);
@@ -2155,24 +2141,17 @@ fn exec_journalprocessor(
     ) {
         Ok(_) => {}
         Err(err) => {
-            defx!("ERROR: journalreader.analyze(…) failed {}", err);
-            let summary = Summary::new_failed(
-                path.clone(),
-                filetype,
-                LogMessageType::Journal,
-                0,
-                Some(err.to_string())
+            let mut summary = journalreader.summary_complete();
+            summary.error = Some(err.to_string());
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(
+                    Some(summary),
+                    FileProcessingResult::FileErrIo(err)
+                ),
+                &path
             );
-            match chan_send_dt.send((
-                None,
-                Some(summary),
-                true,
-                FileProcessingResultBlockZero::FileErrIo(err),
-            )) {
-                Ok(_) => {}
-                Err(err) =>
-                    e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
-            }
+            defx!("({:?}) ERROR: journalreader.analyze(…) failed", path);
             return;
         }
     }
@@ -2186,17 +2165,14 @@ fn exec_journalprocessor(
         match result {
             ResultNext::Found(journalentry) => {
                 let is_last = false;
-                defo!("chan_send_dt.send(…, None, {}, {:?}));", is_last, FILEOK);
-                match chan_send_dt.send((
-                    Some(LogMessage::Journal(journalentry)),
-                    None,
-                    is_last,
-                    FILEOK,
-                )) {
-                    Ok(_) => {}
-                    Err(err) =>
-                        e_err!("D chan_send_dt.send(…) failed {} for {:?}", err, path)
-                }
+                chan_send(
+                    &chan_send_dt,
+                    ChanDatum::NewMessage(
+                        LogMessage::Journal(journalentry),
+                        is_last,
+                    ),
+                    &path
+                );
             }
             ResultNext::Done => {
                 break;
@@ -2212,17 +2188,14 @@ fn exec_journalprocessor(
     }
 
     let summary = journalreader.summary_complete();
-    deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", _tid, _tname, summary, false);
-    match chan_send_dt.send((
-        None,
-        Some(summary),
-        false,
-        result_err.unwrap_or(FILEOK),
-    )) {
-        Ok(_) => {}
-        Err(err) =>
-            e_err!("chan_send_dt.send(…) failed {} for {:?}", err, path)
-    }
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileSummary(
+            Some(summary),
+            result_err.unwrap_or(FILEOK),
+        ),
+        &path
+    );
 
     defx!("({:?})", path);
 }
@@ -2326,6 +2299,8 @@ type MapPathIdToProcessPathResult = HashMap<PathId, ProcessPathResult>;
 type MapPathIdToFPath = BTreeMap<PathId, FPath>;
 type MapPathIdToColor = HashMap<PathId, Color>;
 type MapPathIdToPrinterLogMessage = HashMap<PathId, PrinterLogMessage>;
+type MapPathIdToModifiedTime = HashMap<PathId, DateTimeLOpt>;
+type MapPathIdToFileProcessingResultBlockZero = HashMap<PathId, FileProcessingResultBlockZero>;
 type MapPathIdToFileType = HashMap<PathId, FileType>;
 type MapPathIdToLogMessageType = HashMap<PathId, LogMessageType>;
 type MapPathIdToMimeGuess = HashMap<PathId, MimeGuess>;
@@ -2601,34 +2576,30 @@ impl SummaryPrinted {
         }
     }
 
-    // TODO: [2022/06/21] cost-savings: avoid a `DateTime` copy on every printed
-    //       thing, pass instead `&Option<&DateTimeL>`
     fn summaryprint_update_dt(
         &mut self,
-        dt: &DateTimeLOpt,
+        dt: &DateTimeL,
     ) {
         defñ!();
-        if let Some(dt_) = dt {
-            match self.dt_first {
-                Some(dt_first) => {
-                    if dt_ < &dt_first {
-                        self.dt_first = Some(*dt_);
-                    };
-                }
-                None => {
-                    self.dt_first = Some(*dt_);
-                }
-            };
-            match self.dt_last {
-                Some(dt_last) => {
-                    if dt_ > &dt_last {
-                        self.dt_last = Some(*dt_);
-                    };
-                }
-                None => {
-                    self.dt_last = Some(*dt_);
-                }
-            };
+        match self.dt_first {
+            Some(dt_first) => {
+                if dt < &dt_first {
+                    self.dt_first = Some(*dt);
+                };
+            }
+            None => {
+                self.dt_first = Some(*dt);
+            }
+        };
+        match self.dt_last {
+            Some(dt_last) => {
+                if dt > &dt_last {
+                    self.dt_last = Some(*dt);
+                };
+            }
+            None => {
+                self.dt_last = Some(*dt);
+            }
         };
     }
 
@@ -2644,7 +2615,7 @@ impl SummaryPrinted {
         self.syslines += 1;
         self.lines += (*syslinep).count_lines();
         self.bytes += printed;
-        self.summaryprint_update_dt(&(*syslinep).dt());
+        self.summaryprint_update_dt((*syslinep).dt());
     }
 
     /// Update a `SummaryPrinted` with information from a printed `Utmpx`.
@@ -2658,7 +2629,7 @@ impl SummaryPrinted {
             LogMessageType::Utmpx | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
         self.utmpentries += 1;
         self.bytes += printed;
-        self.summaryprint_update_dt(&Some(*utmpx.dt()));
+        self.summaryprint_update_dt(utmpx.dt());
     }
 
     /// Update a `SummaryPrinted` with information from a printed `Evtx`.
@@ -2672,7 +2643,7 @@ impl SummaryPrinted {
             LogMessageType::Evtx | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
         self.evtxentries += 1;
         self.bytes += printed;
-        self.summaryprint_update_dt(&Some(*evtx.dt()));
+        self.summaryprint_update_dt(evtx.dt());
     }
 
     fn summaryprint_update_journalentry(
@@ -2685,7 +2656,7 @@ impl SummaryPrinted {
             LogMessageType::Journal | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
         self.journalentries += 1;
         self.bytes += printed;
-        self.summaryprint_update_dt(&Some(*journalentry.dt()));
+        self.summaryprint_update_dt(journalentry.dt());
     }
 
     /// Update a `SummaryPrinted` with information from a printed `LogMessage`.
@@ -2931,6 +2902,23 @@ fn processing_loop(
     let mut map_pathid_results_invalid = MapPathIdToProcessPathResult::with_capacity(file_count);
     // use `map_pathid_path` for iterating, it is a BTreeMap (which iterates in consistent key order)
     let mut map_pathid_path = MapPathIdToFPath::new();
+    // map `PathId` to the last `FileProcessResult
+    let mut map_pathid_file_processing_result= MapPathIdToFileProcessingResultBlockZero::with_capacity(file_count);
+    // map `PathId` to file's file-system _Modified Time_ attribute
+    let mut map_pathid_modified_time = MapPathIdToModifiedTime::with_capacity(file_count);
+    // map `PathId` to  acknowledgement of receipt of a `ChanDatum::FileInfo` message.
+    // Every `exec_*process` thread must first send a `ChanDatum::FileInfo` message
+    // before sending any `ChanDatum::NewMessage`.
+    // This tracks the threads for which either a `ChanDatum::FileInfo`
+    // is expected and whether it's been recieved. When all expected `ChanDatum::FileInfo`
+    // messages have been received, then any errors should be printed, and this map is cleared.
+    // In other words, it holds 3 states in this sequence:
+    // 1. maps to values that are not all `true` and not empty
+    // 2. maps to values that are all `true` and not empty
+    // 3. cleared (and empty)
+    // This helps to coordinate printing error messages in a predictable manner
+    // and order. See Issue #104
+    let mut map_pathid_received_fileinfo = HashMap::<PathId, bool>::with_capacity(file_count);
     // map `PathId` to `FileType`
     let mut map_pathid_filetype = MapPathIdToFileType::with_capacity(file_count);
     // map `PathId` to `LogMessageType`
@@ -2985,6 +2973,7 @@ fn processing_loop(
                 defo!("map_pathid_results.push({:?})", path);
                 map_pathid_path.insert(pathid_counter, path.clone());
                 map_pathid_filetype.insert(pathid_counter, *filetype);
+                map_pathid_received_fileinfo.insert(pathid_counter, false);
                 let logmessagetype: LogMessageType = filetype_to_logmessagetype(*filetype);
                 map_pathid_logmessagetype.insert(pathid_counter, logmessagetype);
                 map_pathid_mimeguess.insert(pathid_counter, *mimeguess);
@@ -2997,6 +2986,8 @@ fn processing_loop(
         };
         paths_total += 1;
     }
+    // none of these maps should be empty; sanity check one of them
+    debug_assert!(!map_pathid_received_fileinfo.is_empty());
 
     // shrink to fit
     map_pathid_filetype.shrink_to_fit();
@@ -3156,9 +3147,17 @@ fn processing_loop(
             // load `select` with "operations" (receive channels)
             select.recv(pathid_chan.1);
         }
-        assert!(!map_index_pathid.is_empty(),
-            "Did not load any recv operations for select.select(). Overzealous filter? possible channels count {}, filter {:?}", pathid_chans.len(), filter_
-        );
+        if map_index_pathid.is_empty() {
+            // no channels to receive from
+            // this can occur if a file processing thread exits improperly
+            // (panics or other early returns without ever sending a `ChanDatum`)
+            e_err!(
+                "BUG: Did not load any recv operations for select.select(). Overzealous filter? possible channels count {}, filter {:?}",
+                pathid_chans.len(),
+                filter_
+            );
+            return None;
+        }
         def1o!("map_index_pathid: {:?}", map_index_pathid);
         // `select()` blocks until one of the loaded channel operations becomes ready
         let soper: crossbeam_channel::SelectedOperation = select.select();
@@ -3168,7 +3167,7 @@ fn processing_loop(
         let pathid: &PathId = match map_index_pathid.get(&index) {
             Some(pathid_) => pathid_,
             None => {
-                e_err!("failed to map_index_pathid.get({})", index);
+                e_err!("BUG: failed to map_index_pathid.get({})", index);
                 return None;
             }
         };
@@ -3176,7 +3175,7 @@ fn processing_loop(
         let chan: &ChanRecvDatum = match pathid_chans.get(pathid) {
             Some(chan_) => chan_,
             None => {
-                e_err!("failed to pathid_chans.get({})", pathid);
+                e_err!("BUG: failed to pathid_chans.get({})", pathid);
                 return None;
             }
         };
@@ -3194,7 +3193,7 @@ fn processing_loop(
     //
 
     let mut first_print = true;
-    let mut map_pathid_datum = MapPathIdDatum::new();
+    let mut map_pathid_datum: MapPathIdDatum = MapPathIdDatum::new();
     // `set_pathid_datum` shadows `map_pathid_datum` for faster filters in `recv_many_chan`
     // precreated buffer
     let mut set_pathid = SetPathId::with_capacity(file_count);
@@ -3229,6 +3228,8 @@ fn processing_loop(
     let sepb: &[u8] = log_message_separator.as_str().as_bytes();
     // shortcut to check if `sepb` should be printed
     let sepb_print: bool = ! sepb.is_empty();
+    // debug sanity check
+    let mut _count_since_received_fileinfo: usize = 0;
 
     // buffer to assist printing Utmpx; passed to `Utmpx::as_bytes`
     let mut buffer_utmp: [u8; UTMPX_SZ * 2] = [0; UTMPX_SZ * 2];
@@ -3236,7 +3237,8 @@ fn processing_loop(
     loop {
         disconnect.clear();
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             defo!("map_pathid_datum.len() {}", map_pathid_datum.len());
             for (pathid, _datum) in map_pathid_datum.iter() {
                 let _path: &FPath = map_pathid_path
@@ -3258,63 +3260,181 @@ fn processing_loop(
             }
         }
 
-        if map_pathid_chanrecvdatum.len() != map_pathid_datum.len() {
-            // if…
-            // `map_pathid_chanrecvdatum` does not have a `ChanRecvDatum` (and thus a `SyslineP` and
-            // thus a `DatetimeL`) for every channel (file being processed).
-            // (Every channel must return a `DatetimeL` to to then compare *all* of them, see which is earliest).
+        if map_pathid_chanrecvdatum.len() != map_pathid_datum.len()
+            || ! map_pathid_received_fileinfo.is_empty()
+        {
+            // IF…
+            // `map_pathid_chanrecvdatum` does not have a `LogMessage` (and thus a `DatetimeL`)
+            // for every channel (files being processed).
+            // (every channel must return a `DatetimeL` to then compare *all* of them and see which
+            // is earliest).
             // So call `recv_many_chan` to check if any channels have a new `ChanRecvDatum` to
             // provide.
+            // …OR…
+            // have not yet recieved a `ChanDatum::FileInfo` for every processing thread.
+            // …SO…
+            // call `recv_many_chan` and wait for any channels (file processing threads) to send
+            // a `ChanDatum`.
+
 
             let pathid: PathId;
             let result: RecvResult4;
-            (pathid, result) = match recv_many_chan(&map_pathid_chanrecvdatum, &mut index_select, &set_pathid)
-            {
+            // here is the wait on the channels (file processing threads)
+            (pathid, result) = match recv_many_chan(
+                &map_pathid_chanrecvdatum,
+                &mut index_select,
+                &set_pathid,
+            ) {
                 Some(val) => val,
                 None => {
-                    e_err!("recv_many_chan returned None which is unexpected");
-                    continue;
+                    e_err!("BUG: recv_many_chan returned None which is unexpected; break early from processing loop");
+                    break;
                 }
             };
+            _count_since_received_fileinfo += 1;
+            defo!("B_ recv_many_chan returned result for PathId {:?};", pathid);
             match result {
-                // (SyslineP_Opt, SummaryOpt, IsLastLogMessage, FileProcessingResultBlockZero)
                 Ok(chan_datum) => {
-                    defo!("B crossbeam_channel::Found for PathId {:?};", pathid);
-                    match chan_datum.3 {
-                        FileProcessingResultBlockZero::FileOk => {}
-                        _ => {
-                            _fileprocessing_not_okay += 1;
+                    defo!("B0 crossbeam_channel::Found for PathId {:?};", pathid);
+                    match chan_datum {
+                        ChanDatum::FileInfo(dt_opt, file_processing_result) => {
+                            defo!("B1 received ChanDatum::FileInfo for {:?}", pathid);
+                            defo!("B1 received modified_time {:?} for {:?}", dt_opt, pathid);
+                            match map_pathid_modified_time.insert(pathid, dt_opt) {
+                                Some(_) => debug_panic!("Already had stored DateTimeLOpt for PathID {:?}", pathid),
+                                None => {}
+                            }
+                            defo!("B1 received file_processing_result {:?} for {:?}", file_processing_result, pathid);
+                            if ! file_processing_result.is_ok() {
+                                _fileprocessing_not_okay += 1;
+                            }
+                            map_pathid_file_processing_result.insert(pathid, file_processing_result);
+                            defo!("B1 map_pathid_received_fileinfo.insert({:?}, true)", pathid);
+                            map_pathid_received_fileinfo.insert(pathid, true);
+                            _count_since_received_fileinfo = 0;
                         }
-                    }
-                    if let Some(summary) = chan_datum.1 {
-                        assert!(chan_datum.0.is_none(), "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId {:?}", pathid);
-                        summary_update(&pathid, summary, &mut map_pathid_summary);
-                        defo!("B will disconnect channel {:?}", pathid);
-                        // receiving a `Summary` means that was the last data sent on the channel
-                        disconnect.push(pathid);
-                    } else {
-                        assert!(
-                            chan_datum.0.is_some(),
-                            "ChanDatum None(Summary) and None(SyslineP); should have one Some(). PathId {:?}",
-                            pathid
-                        );
-                        map_pathid_datum.insert(pathid, chan_datum);
-                        set_pathid.insert(pathid);
+                        ChanDatum::NewMessage(log_message, is_last_message) => {
+                            defo!("B2 received ChanDatum::NewMessage for PathID {:?}", pathid);
+                            map_pathid_datum.insert(pathid, (log_message, is_last_message));
+                            set_pathid.insert(pathid);
+                        }
+                        ChanDatum::FileSummary(summary_opt, file_processing_result) => {
+                            defo!("B3 received ChanDatum::FileSummary for {:?}", pathid);
+                            match summary_opt {
+                                Some(summary) => summary_update(&pathid, summary, &mut map_pathid_summary),
+                                None => debug_panic!("No summary recieved for FileSummary with PathID {}", pathid),
+                            }
+                            defo!("B3 will disconnect channel {:?}", pathid);
+                            disconnect.push(pathid);
+                            if ! file_processing_result.is_ok() {
+                                _fileprocessing_not_okay += 1;
+                            }
+                            // only save the `FileProcessingResult` if it is not `FileOk` or `FileStub`
+                            // and if an `FileOk` is not already in the map
+                            if ! file_processing_result.is_ok()
+                               && ! file_processing_result.is_stub()
+                               && ! map_pathid_file_processing_result.get(&pathid).unwrap_or(&FILEOK).is_ok()
+                            {
+                                map_pathid_file_processing_result.insert(pathid, file_processing_result);
+                            }
+                        }
                     }
                     chan_recv_ok += 1;
                 }
                 Err(crossbeam_channel::RecvError) => {
-                    defo!("B crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", pathid);
+                    defo!("B0 crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", pathid);
                     // this channel was closed by the sender, it should be disconnected
                     disconnect.push(pathid);
                     chan_recv_err += 1;
                 }
             }
+
+            // debug sanity check for infinite loop
+            #[cfg(debug_assertions)]
+            {
+                // how long has it been since a `ChanDatum::FileInfo` was received?
+                // was it longer than maximum possible number of file processing threads?
+                if ! map_pathid_received_fileinfo.is_empty()
+                   && _count_since_received_fileinfo > file_count
+                {
+                    // very likely stuck in a loop, e.g. a file processing thread
+                    // exited before sending a `ChanDatum::FileInfo`
+                    panic!(
+                        "count_since_recieved_fileinfo_or_summary {} > file_count {}",
+                        _count_since_received_fileinfo, file_count
+                    );
+                }
+            }
+
+            if ! map_pathid_received_fileinfo.is_empty()
+                && map_pathid_received_fileinfo.iter().all(|(_, v)| v == &true)
+            {
+                defo!("C map_pathid_received_fileinfo.all() are true");
+
+                // debug sanity check
+                #[cfg(debug_assertions)]
+                {
+                    for (k, _v) in map_pathid_received_fileinfo.iter()
+                    {
+                        assert!(map_pathid_path.contains_key(k),
+                            "map_pathid_received_fileinfo PathID key {:?} not in map_pathid_path", k);
+                    }
+                }
+
+                for (pathid, file_processing_result) in map_pathid_file_processing_result.iter() {
+                    defo!("C process file_processing_result {:?} for {:?}", file_processing_result, pathid);
+                    match file_processing_result {
+                        FileProcessingResultBlockZero::FileOk => {}
+                        _ => {
+                            let path = match map_pathid_path.get(pathid) {
+                                Some(path_) => path_,
+                                None => {
+                                    debug_panic!("PathID {:?} not in map_pathid_path", pathid);
+                                    continue;
+                                }
+                            };
+                            // Here is the printing of the error messages prior to printing
+                            // any processed log messages. These errors might also be printed
+                            // later during the `--summary` printing.
+                            match &file_processing_result {
+                                FileProcessingResultBlockZero::FileErrTooSmall =>
+                                    e_wrn!("file too small {:?}", path),
+                                FileProcessingResultBlockZero::FileErrNullBytes =>
+                                    e_wrn!("file contains too many null bytes {:?}", path),
+                                FileProcessingResultBlockZero::FileErrNoLinesFound =>
+                                    e_wrn!("no lines found {:?}", path),
+                                FileProcessingResultBlockZero::FileErrNoSyslinesFound =>
+                                    e_wrn!("no syslines found {:?}", path),
+                                FileProcessingResultBlockZero::FileErrDecompress =>
+                                    e_wrn!("could not decompress {:?}", path),
+                                FileProcessingResultBlockZero::FileErrWrongType =>
+                                    e_wrn!("bad path {:?}", path),
+                                FileProcessingResultBlockZero::FileErrIo(err) =>
+                                    e_err!("{} for {:?}", err, path),
+                                FileProcessingResultBlockZero::FileErrChanSend =>
+                                    panic!("Should not receive ChannelSend Error {:?}", path),
+                                FileProcessingResultBlockZero::FileOk => {}
+                                FileProcessingResultBlockZero::FileErrEmpty => {}
+                                FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange => {}
+                                FileProcessingResultBlockZero::FileErrStub => {}
+                            }
+                        }
+                    }
+                }
+                // all `ChanDatum::FileInfo` have been received so clear the tracking map
+                defo!("C map_pathid_received_fileinfo.clear()");
+                map_pathid_received_fileinfo.clear();
+            }
         } else {
-            // else…
+            // ELSE…
             // There is a DateTime available for *every* channel (one channel is one File Processing
             // thread). The datetimes can be compared among all remaining files. The sysline with
             // the earliest datetime is printed.
+            // …AND…
+            // Every file processing thread has sent a `ChanDatum::FileInfo`
+            // …SO…
+            // no need to call `recv_many_chan` to check for new `ChanDatum`s. Process the data
+            // that has been collected from the processing threads (i.e. print a log message).
 
             if cfg!(debug_assertions) {
                 for (_i, (_k, _v)) in map_pathid_chanrecvdatum
@@ -3332,7 +3452,8 @@ fn processing_loop(
             }
 
             if first_print {
-                // One-time creation of prepended datas and `PrinterLogMessage`.
+                // One-time creation of `PrinterLogMessage` and optional prepended strings
+                // (user options `--prepend-filename`, `--prepend-filepath`, `--prepend-width`).
 
                 // First, get a set of all pathids with awaiting LogMessages, ignoring paths
                 // for which no LogMessages were found.
@@ -3342,7 +3463,6 @@ fn processing_loop(
                 let mut pathid_with_logmessages: SetPathId = SetPathId::with_capacity(map_pathid_datum.len());
                 for (pathid, _) in map_pathid_datum
                     .iter()
-                    .filter(|(_k, v)| v.0.is_some())
                 {
                     pathid_with_logmessages.insert(*pathid);
                 }
@@ -3437,281 +3557,190 @@ fn processing_loop(
                 first_print = false;
             } // if first_print
 
-            // (path, channel data) for the sysline with earliest datetime ("minimum" datetime)
+            // (path, channel data) for the log message with earliest datetime ("minimum" datetime)
             //
-            // Here is part of the "sorting" of syslines process by datetime.
+            // Here is part of the "sorting" of different log messages from different files
+            // by datetime.
             // In case of tie datetime values, the tie-breaker will be order of `BTreeMap::iter_mut` which
             // iterates in order of key sort. https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html#method.iter_mut
-            //
-            // XXX: assume `unwrap` will never fail
             //
             // XXX: my small investigation into `min`, `max`, `min_by`, `max_by`
             //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33
             //
 
             let pathid: &PathId;
-            let chan_datum: &mut ChanDatum;
-            (pathid, chan_datum) = match map_pathid_datum
+            let log_message: &LogMessage;
+            // Is last log message of the file?
+            let is_last: bool;
+            // select the logmessage with earliest datetime
+            (pathid, log_message, is_last) = match map_pathid_datum
                 .iter_mut()
                 .min_by(|x, y|
                     {
-                        // TODO: [2023/04] create Trait that has `dt() -> &DateTimeL` function,
-                        //       then replace this repeated code here. Use the Generic instance
-                        //       to call `dt()`.
-                        match x.1.0.as_ref().unwrap() {
-                            crate::LogMessage::Utmpx(utmpx) => {
-                                let y_dt = match y.1.0.as_ref().unwrap() {
-                                    crate::LogMessage::Utmpx(utmpx_y) => {
-                                        utmpx_y.dt()
-                                    }
-                                    crate::LogMessage::Sysline(syslinep_y) => {
-                                        // TODO: [2023/04] change this function `dt` to always return `DateTimeL`
-                                        //       then create antoehr function `dt_opt` that returns
-                                        //       `Option<DateTimeL>`. Can get rid of this extraneous `as_ref().unwrap()`.
-                                        syslinep_y.dt().as_ref().unwrap()
-                                    }
-                                    crate::LogMessage::Evtx(evtx_y) => {
-                                        evtx_y.dt()
-                                    }
-                                    crate::LogMessage::Journal(journalentry_y) => {
-                                        journalentry_y.dt()
-                                    }
-                                };
-
-                                utmpx.dt().cmp(y_dt)
-                            }
-                            crate::LogMessage::Sysline(syslinep) => {
-                                let y_dt = match y.1.0.as_ref().unwrap() {
-                                    crate::LogMessage::Utmpx(utmpx_y) => {
-                                        utmpx_y.dt()
-                                    }
-                                    crate::LogMessage::Sysline(syslinep_y) => {
-                                        syslinep_y.dt().as_ref().unwrap()
-                                    }
-                                    crate::LogMessage::Evtx(evtx_y) => {
-                                        evtx_y.dt()
-                                    }
-                                    crate::LogMessage::Journal(journalentry_y) => {
-                                        journalentry_y.dt()
-                                    }
-                                };
-
-                                syslinep.dt().as_ref().unwrap().cmp(y_dt)
-                            }
-                            crate::LogMessage::Evtx(evtx) => {
-                                let y_dt = match y.1.0.as_ref().unwrap() {
-                                    crate::LogMessage::Utmpx(utmpx_y) => {
-                                        utmpx_y.dt()
-                                    }
-                                    crate::LogMessage::Sysline(syslinep_y) => {
-                                        syslinep_y.dt().as_ref().unwrap()
-                                    }
-                                    crate::LogMessage::Evtx(evtx_y) => {
-                                        evtx_y.dt()
-                                    }
-                                    crate::LogMessage::Journal(journalentry_y) => {
-                                        journalentry_y.dt()
-                                    }
-                                };
-
-                                evtx.dt().cmp(y_dt)
-                            }
-                            crate::LogMessage::Journal(journalentry) => {
-                                let y_dt = match y.1.0.as_ref().unwrap() {
-                                    crate::LogMessage::Utmpx(utmpx_y) => {
-                                        utmpx_y.dt()
-                                    }
-                                    crate::LogMessage::Sysline(syslinep_y) => {
-                                        syslinep_y.dt().as_ref().unwrap()
-                                    }
-                                    crate::LogMessage::Evtx(evtx_y) => {
-                                        evtx_y.dt()
-                                    }
-                                    crate::LogMessage::Journal(journalentry_y) => {
-                                        journalentry_y.dt()
-                                    }
-                                };
-
-                                journalentry.dt().cmp(y_dt)
-                            }
-                        }
+                        x.1.0.dt().cmp(y.1.0.dt())
                     }
                 )
             {
-                Some(val) => (val.0, val.1),
+                Some(val) => (val.0, &val.1.0, val.1.1),
                 None => {
-                    eprintln!("ERROR map_pathid_datum.iter_mut().min_by() returned None");
+                    de_err!("map_pathid_datum.iter_mut().min_by() returned None");
                     // XXX: not sure what else to do here
                     continue;
                 }
             };
 
-            if let Some(summary) = chan_datum.1.clone() {
-                // Receiving a Summary implies the last data was sent on the channel
-                defo!("A2 chan_datum has Summary, PathId: {:?}", pathid);
-                assert!(
-                    chan_datum.0.is_none(),
-                    "ChanDatum Some(Summary) and Some(SyslineP); should only have one Some(). PathId: {:?}",
-                    pathid
-                );
-                summary_update(pathid, summary, &mut map_pathid_summary);
-                defo!("A2 will disconnect channel {:?}", pathid);
-                disconnect.push(*pathid);
-            } else {
-                // Is last log message of the file?
-                let is_last: bool = chan_datum.2;
-                // the designated printer for this pathid
-                let printer: &mut PrinterLogMessage = map_pathid_printer
-                    .get_mut(pathid)
-                    .unwrap();
-                match chan_datum.0.as_ref().unwrap() {
-                    LogMessage::Sysline(syslinep) => {
-                        //let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
-                        defo!(
-                            "A3.1 printing SyslineP @[{}, {}] PathId: {:?}",
-                            syslinep.fileoffset_begin(),
-                            syslinep.fileoffset_end(),
-                            pathid
-                        );
-                        // print the sysline!
-                        // the most important part of this main thread loop
-                        let mut printed: Count = 0;
-                        match printer.print_sysline(syslinep) {
-                            Ok(printed_) => printed = printed_ as Count,
-                            Err(err) => {
-                                // Only print a printing error once.
-                                if !has_print_err {
-                                    has_print_err = true;
-                                    // BUG: Issue #3 colorization settings in the context of a pipe
-                                    e_err!("failed to print {}", err);
-                                }
+            // the designated printer for this pathid
+            let printer: &mut PrinterLogMessage = map_pathid_printer
+                .get_mut(pathid)
+                .unwrap();
+            match log_message {
+                LogMessage::Sysline(syslinep) => {
+                    //let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
+                    defo!(
+                        "A3.1 printing SyslineP @[{}, {}] PathId: {:?}",
+                        syslinep.fileoffset_begin(),
+                        syslinep.fileoffset_end(),
+                        pathid
+                    );
+                    // print the sysline!
+                    // the most important part of this main thread loop
+                    let mut printed: Count = 0;
+                    match printer.print_sysline(syslinep) {
+                        Ok(printed_) => printed = printed_ as Count,
+                        Err(err) => {
+                            // Only print a printing error once.
+                            if !has_print_err {
+                                has_print_err = true;
+                                // BUG: Issue #3 colorization settings in the context of a pipe
+                                e_err!("failed to print {}", err);
                             }
-                        }
-                        if sepb_print {
-                            write_stdout(sepb);
-                            if cli_opt_summary {
-                                summaryprinted.bytes += sepb.len() as Count;
-                            }
-                        }
-                        // If a file's last char is not a '\n' then the next printed sysline
-                        // (from a different file) will print on the same terminal line.
-                        // While this is accurate byte-wise, it's difficult to read read and unexpected, and
-                        // makes scripting line-oriented scripting more difficult. This is especially
-                        // visually jarring when prepended data is present (`-l`, `-p`, etc.).
-                        // So in case of no ending '\n', print an extra '\n' to improve human readability
-                        // and scriptability.
-                        if is_last && !(*syslinep).ends_with_newline() {
-                            write_stdout(&NLu8a);
-                            if cli_opt_summary {
-                                summaryprinted.bytes += 1;
-                            }
-                        }
-                        if cli_opt_summary {
-                            paths_printed_logmessages.insert(*pathid);
-                            // update the per processing file `SummaryPrinted`
-                            SummaryPrinted::summaryprint_map_update_sysline(syslinep, pathid, &mut map_pathid_sumpr, printed);
-                            // update the single total program `SummaryPrinted`
-                            summaryprinted.summaryprint_update_sysline(syslinep, printed);
                         }
                     }
-                    LogMessage::Utmpx(utmpx) => {
-                        defo!("A3.2 printing Utmpx PathId: {:?}", pathid);
-                        // the most important part of this main thread loop
-                        let mut printed: Count = 0;
-                        match printer.print_utmpx(utmpx, &mut buffer_utmp) {
-                            Ok(printed_) => printed = printed_ as Count,
-                            Err(err) => {
-                                // Only print a printing error once.
-                                if !has_print_err {
-                                    has_print_err = true;
-                                    // BUG: Issue #3 colorization settings in the context of a pipe
-                                    e_err!("failed to print {}", err);
-                                }
-                            }
-                        }
-                        if sepb_print {
-                            write_stdout(sepb);
-                            if cli_opt_summary {
-                                summaryprinted.bytes += sepb.len() as Count;
-                            }
-                        }
+                    if sepb_print {
+                        write_stdout(sepb);
                         if cli_opt_summary {
-                            paths_printed_logmessages.insert(*pathid);
-                            // update the per processing file `SummaryPrinted`
-                            SummaryPrinted::summaryprint_map_update_utmpx(utmpx, pathid, &mut map_pathid_sumpr, printed);
-                            // update the single total program `SummaryPrinted`
-                            summaryprinted.summaryprint_update_utmpx(utmpx, printed);
+                            summaryprinted.bytes += sepb.len() as Count;
                         }
                     }
-                    LogMessage::Evtx(evtx) => {
-                        defo!("A3.3 printing Evtx PathId: {:?}", pathid);
-                        // the most important part of this main thread loop
-                        let mut printed: Count = 0;
-                        match printer.print_evtx(evtx) {
-                            Ok(printed_) => printed = printed_ as Count,
-                            Err(err) => {
-                                // Only print a printing error once.
-                                if !has_print_err {
-                                    has_print_err = true;
-                                    // BUG: Issue #3 colorization settings in the context of a pipe
-                                    e_err!("failed to print {}", err);
-                                }
-                            }
-                        }
-                        if sepb_print {
-                            write_stdout(sepb);
-                            if cli_opt_summary {
-                                summaryprinted.bytes += sepb.len() as Count;
-                            }
-                        }
+                    // If a file's last char is not a '\n' then the next printed sysline
+                    // (from a different file) will print on the same terminal line.
+                    // While this is accurate byte-wise, it's difficult to read read and unexpected, and
+                    // makes scripting line-oriented scripting more difficult. This is especially
+                    // visually jarring when prepended data is present (`-l`, `-p`, etc.).
+                    // So in case of no ending '\n', print an extra '\n' to improve human readability
+                    // and scriptability.
+                    if is_last && !(*syslinep).ends_with_newline() {
+                        write_stdout(&NLu8a);
                         if cli_opt_summary {
-                            paths_printed_logmessages.insert(*pathid);
-                            // update the per processing file `SummaryPrinted`
-                            SummaryPrinted::summaryprint_map_update_evtx(evtx, pathid, &mut map_pathid_sumpr, printed);
-                            // update the single total program `SummaryPrinted`
-                            summaryprinted.summaryprint_update_evtx(evtx, printed);
+                            summaryprinted.bytes += 1;
                         }
                     }
-                    LogMessage::Journal(journalentry) => {
-                        defo!("A3.4 printing JournalEntry PathId: {:?}", pathid);
-                        // the most important part of this main thread loop
-                        let mut printed: Count = 0;
-                        match printer.print_journalentry(journalentry) {
-                            Ok(printed_) => printed = printed_ as Count,
-                            Err(err) => {
-                                // Only print a printing error once.
-                                if !has_print_err {
-                                    has_print_err = true;
-                                    // BUG: Issue #3 colorization settings in the context of a pipe
-                                    e_err!("failed to print {}", err);
-                                }
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        // update the per processing file `SummaryPrinted`
+                        SummaryPrinted::summaryprint_map_update_sysline(syslinep, pathid, &mut map_pathid_sumpr, printed);
+                        // update the single total program `SummaryPrinted`
+                        summaryprinted.summaryprint_update_sysline(syslinep, printed);
+                    }
+                }
+                LogMessage::Utmpx(utmpx) => {
+                    defo!("A3.2 printing Utmpx PathId: {:?}", pathid);
+                    // the most important part of this main thread loop
+                    let mut printed: Count = 0;
+                    match printer.print_utmpx(utmpx, &mut buffer_utmp) {
+                        Ok(printed_) => printed = printed_ as Count,
+                        Err(err) => {
+                            // Only print a printing error once.
+                            if !has_print_err {
+                                has_print_err = true;
+                                // BUG: Issue #3 colorization settings in the context of a pipe
+                                e_err!("failed to print {}", err);
                             }
                         }
-                        if sepb_print {
-                            write_stdout(sepb);
-                            if cli_opt_summary {
-                                summaryprinted.bytes += sepb.len() as Count;
-                            }
-                        }
+                    }
+                    if sepb_print {
+                        write_stdout(sepb);
                         if cli_opt_summary {
-                            paths_printed_logmessages.insert(*pathid);
-                            // update the per processing file `SummaryPrinted`
-                            SummaryPrinted::summaryprint_map_update_journalentry(journalentry, pathid, &mut map_pathid_sumpr, printed);
-                            // update the single total program `SummaryPrinted`
-                            summaryprinted.summaryprint_update_journalentry(journalentry, printed);
+                            summaryprinted.bytes += sepb.len() as Count;
                         }
+                    }
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        // update the per processing file `SummaryPrinted`
+                        SummaryPrinted::summaryprint_map_update_utmpx(utmpx, pathid, &mut map_pathid_sumpr, printed);
+                        // update the single total program `SummaryPrinted`
+                        summaryprinted.summaryprint_update_utmpx(utmpx, printed);
+                    }
+                }
+                LogMessage::Evtx(evtx) => {
+                    defo!("A3.3 printing Evtx PathId: {:?}", pathid);
+                    // the most important part of this main thread loop
+                    let mut printed: Count = 0;
+                    match printer.print_evtx(&evtx) {
+                        Ok(printed_) => printed = printed_ as Count,
+                        Err(err) => {
+                            // Only print a printing error once.
+                            if !has_print_err {
+                                has_print_err = true;
+                                // BUG: Issue #3 colorization settings in the context of a pipe
+                                e_err!("failed to print {}", err);
+                            }
+                        }
+                    }
+                    if sepb_print {
+                        write_stdout(sepb);
+                        if cli_opt_summary {
+                            summaryprinted.bytes += sepb.len() as Count;
+                        }
+                    }
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        // update the per processing file `SummaryPrinted`
+                        SummaryPrinted::summaryprint_map_update_evtx(&evtx, pathid, &mut map_pathid_sumpr, printed);
+                        // update the single total program `SummaryPrinted`
+                        summaryprinted.summaryprint_update_evtx(&evtx, printed);
+                    }
+                }
+                LogMessage::Journal(journalentry) => {
+                    defo!("A3.4 printing JournalEntry PathId: {:?}", pathid);
+                    // the most important part of this main thread loop
+                    let mut printed: Count = 0;
+                    match printer.print_journalentry(&journalentry) {
+                        Ok(printed_) => printed = printed_ as Count,
+                        Err(err) => {
+                            // Only print a printing error once.
+                            if !has_print_err {
+                                has_print_err = true;
+                                // BUG: Issue #3 colorization settings in the context of a pipe
+                                e_err!("failed to print {}", err);
+                            }
+                        }
+                    }
+                    if sepb_print {
+                        write_stdout(sepb);
+                        if cli_opt_summary {
+                            summaryprinted.bytes += sepb.len() as Count;
+                        }
+                    }
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        // update the per processing file `SummaryPrinted`
+                        SummaryPrinted::summaryprint_map_update_journalentry(&journalentry, pathid, &mut map_pathid_sumpr, printed);
+                        // update the single total program `SummaryPrinted`
+                        summaryprinted.summaryprint_update_journalentry(&journalentry, printed);
                     }
                 }
             }
-            // create a copy of the borrowed key `pathid`, this avoids rustc error:
-            //     cannot borrow `map_pathid_datum` as mutable more than once at a time
+            // XXX: create a copy of the borrowed key `pathid`, this avoids rustc error:
+            //         cannot borrow `map_pathid_datum` as mutable more than once at a time
             let pathid_: PathId = *pathid;
             map_pathid_datum.remove(&pathid_);
             set_pathid.remove(&pathid_);
-        }
+        } // else (datetime available)
+
         // remove channels (and keys) that are marked disconnected
         for pathid in disconnect.iter() {
-            defo!("C map_pathid_chanrecvdatum.remove({:?});", pathid);
+            defo!("C disconnect channel: map_pathid_chanrecvdatum.remove({:?});", pathid);
             map_pathid_chanrecvdatum.remove(pathid);
             defo!("C pathid_to_prependname.remove({:?});", pathid);
             pathid_to_prependname.remove(pathid);
@@ -3764,6 +3793,8 @@ fn processing_loop(
         // print details about all the valid files
         print_all_files_summaries(
             &map_pathid_path,
+            &map_pathid_modified_time,
+            &map_pathid_file_processing_result,
             &map_pathid_filetype,
             &map_pathid_logmessagetype,
             &map_pathid_mimeguess,
@@ -3898,6 +3929,8 @@ fn processing_loop(
 /// Print the file About section (multiple lines).
 fn print_file_about(
     path: &FPath,
+    modified_time: &DateTimeLOpt,
+    file_processing_result: Option<&FileProcessingResultBlockZero>,
     filetype: &FileType,
     logmessagetype: &LogMessageType,
     mimeguess: &MimeGuess,
@@ -3931,9 +3964,31 @@ fn print_file_about(
         Err(_) => {}
     }
     // print other facts
-    eprintln!("{}filetype      : {}", OPT_SUMMARY_PRINT_INDENT2, filetype);
-    eprintln!("{}logmessagetype: {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
-    eprintln!("{}MIME guess    : {:?}", OPT_SUMMARY_PRINT_INDENT2, mimeguess);
+    eprintln!("{}filetype       : {}", OPT_SUMMARY_PRINT_INDENT2, filetype);
+    eprintln!("{}logmessagetype : {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
+    eprintln!("{}MIME guess     : {:?}", OPT_SUMMARY_PRINT_INDENT2, mimeguess);
+    // print `FileProcessingResult` if it was not okay
+    match file_processing_result {
+        Some(result) => {
+            if ! result.is_ok() {
+                eprint!("{}Processing Err : ", OPT_SUMMARY_PRINT_INDENT2);
+                match print_colored_stderr(
+                    COLOR_ERROR,
+                    Some(*color_choice),
+                    match result {
+                        FileProcessingResultBlockZero::FileErrIo(e) =>
+                            format!("FileErrIo: {}", e),
+                        _ => format!("{:?}", result),
+                    }.as_bytes()
+                ) {
+                    Ok(_) => {}
+                    Err(e) => e_err!("print_colored_stderr: {:?}", e)
+                }
+                eprintln!();
+            }
+        }
+        None => {}
+    }
 }
 
 /// Print the (optional) [`Summary`] (multiple lines) processed sections.
@@ -4639,6 +4694,8 @@ fn print_error_summary(
 #[allow(clippy::too_many_arguments)]
 fn print_file_summary(
     path: &FPath,
+    modified_time: &DateTimeLOpt,
+    file_processing_result: Option<&FileProcessingResultBlockZero>,
     filetype: &FileType,
     logmessagetype: &LogMessageType,
     mimeguess: &MimeGuess,
@@ -4649,7 +4706,7 @@ fn print_file_summary(
 ) {
     eprintln!();
 
-    print_file_about(path, filetype, logmessagetype, mimeguess, color, color_choice);
+    print_file_about(path, modified_time, file_processing_result, filetype, logmessagetype, mimeguess, color, color_choice);
     print_summary_opt_printed(summary_print_opt, summary_opt, color_choice);
     print_summary_opt_processed(summary_opt, color_choice);
     if OPT_SUMMARY_PRINT_CACHE_STATS {
@@ -4671,6 +4728,8 @@ fn print_file_summary(
 #[allow(clippy::too_many_arguments)]
 fn print_all_files_summaries(
     map_pathid_path: &MapPathIdToFPath,
+    map_pathid_modified_time: &MapPathIdToModifiedTime,
+    map_pathid_file_processing_result: &MapPathIdToFileProcessingResultBlockZero,
     map_pathid_filetype: &MapPathIdToFileType,
     map_pathid_logmessagetype: &MapPathIdToLogMessageType,
     map_pathid_mimeguess: &MapPathIdToMimeGuess,
@@ -4684,6 +4743,9 @@ fn print_all_files_summaries(
         let color: &Color = map_pathid_color
             .get(pathid)
             .unwrap_or(color_default);
+        let modified_time: &DateTimeLOpt = map_pathid_modified_time.get(pathid)
+            .unwrap_or(&DateTimeLOpt::None);
+        let file_processing_result = map_pathid_file_processing_result.get(pathid);
         let filetype: &FileType = map_pathid_filetype
             .get(pathid)
             .unwrap_or(&FileType::Unknown);
@@ -4696,7 +4758,18 @@ fn print_all_files_summaries(
             .unwrap_or(&mimeguess_default);
         let summary_opt: SummaryOpt = map_pathid_summary.remove(pathid);
         let summary_print_opt: SummaryPrintedOpt = map_pathid_sumpr.remove(pathid);
-        print_file_summary(path, filetype, logmessagetype, mimeguess, &summary_opt, &summary_print_opt, color, color_choice);
+        print_file_summary(
+            path,
+            modified_time,
+            file_processing_result,
+            filetype,
+            logmessagetype,
+            mimeguess,
+            &summary_opt,
+            &summary_print_opt,
+            color,
+            color_choice,
+        );
     }
 }
 

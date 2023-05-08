@@ -128,7 +128,7 @@ fn new_sysline(
     }
     let linep: LineP = LineP::new(line);
     let lines = vec![linep];
-    let sysline: Sysline = Sysline::from_parts(lines, DT_BEG0, DT_END0, Some(dt));
+    let sysline: Sysline = Sysline::from_parts(lines, DT_BEG0, DT_END0, dt);
 
     sysline
 }

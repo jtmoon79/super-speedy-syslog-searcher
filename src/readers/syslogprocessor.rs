@@ -587,30 +587,19 @@ impl SyslogProcessor {
             // from that fileoffset again
             match syslinep_prev_opt {
                 Some(syslinep_prev) => {
-                    match (*syslinep_prev).dt() {
-                        Some(dt_prev) => {
-                            let dt_cur_opt: &Option<DateTimeL> = (*syslinep).dt();
-                            match dt_cur_opt {
-                                Some(dt_cur) => {
-                                    // normally `dt_cur` should have a datetime *before or equal* to `dt_prev`
-                                    // but if not, then there was probably a year rollover
-                                    if dt_cur > dt_prev {
-                                        let diff: Duration = *dt_cur - *dt_prev;
-                                        if diff > min_diff {
-                                            year_opt = Some(year_opt.unwrap() - 1);
-                                            defo!("year_opt updated {:?}", year_opt);
-                                            self.syslinereader
-                                                .remove_sysline(fo_prev);
-                                            fo_prev = fo_prev_prev;
-                                            syslinep_prev_opt = Some(syslinep_prev.clone());
-                                            continue;
-                                        }
-                                    }
-                                }
-                                None => {}
-                            }
+                    // normally `dt_cur` should have a datetime *before or equal* to `dt_prev`
+                    // but if not, then there was probably a year rollover
+                    if (*syslinep).dt() > (*syslinep_prev).dt() {
+                        let diff: Duration = *(*syslinep).dt() - *(*syslinep_prev).dt();
+                        if diff > min_diff {
+                            year_opt = Some(year_opt.unwrap() - 1);
+                            defo!("year_opt updated {:?}", year_opt);
+                            self.syslinereader
+                                .remove_sysline(fo_prev);
+                            fo_prev = fo_prev_prev;
+                            syslinep_prev_opt = Some(syslinep_prev.clone());
+                            continue;
                         }
-                        None => {}
                     }
                 }
                 None => {}
@@ -622,17 +611,12 @@ impl SyslogProcessor {
             }
             // if user-passed `--dt-after` and the sysline is prior to that filter then
             // stop processing
-            match syslinep.dt().as_ref() {
-                Some(dt) => {
-                    match dt_after_or_before(dt, filter_dt_after_opt) {
-                        Result_Filter_DateTime1::OccursBefore => {
-                            defo!("dt_after_or_before({:?},  {:?}) returned OccursBefore; break", dt, filter_dt_after_opt);
-                            break;
-                        }
-                        Result_Filter_DateTime1::OccursAtOrAfter | Result_Filter_DateTime1::Pass => {},
-                    }
+            match dt_after_or_before(syslinep.dt(), filter_dt_after_opt) {
+                Result_Filter_DateTime1::OccursBefore => {
+                    defo!("dt_after_or_before({:?},  {:?}) returned OccursBefore; break", syslinep.dt(), filter_dt_after_opt);
+                    break;
                 }
-                None => {}
+                Result_Filter_DateTime1::OccursAtOrAfter | Result_Filter_DateTime1::Pass => {},
             }
             // search for preceding sysline
             fo_prev -= charsz_fo;

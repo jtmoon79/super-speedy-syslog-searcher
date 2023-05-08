@@ -378,14 +378,20 @@ where
 #[derive(Debug)]
 pub enum FileProcessingResult<E> {
     FileErrEmpty,
+    FileErrTooSmall,
+    FileErrNullBytes,
     FileErrNoLinesFound,
     FileErrNoSyslinesFound,
     FileErrNoSyslinesInDtRange,
+    /// Carries the `E` error data. This is how an [`Error`] is carried between
+    /// a processing thread and the main printing thread.
+    ///
+    /// [`Error`]: std::io::Error
     FileErrIo(E),
     FileErrWrongType,
     FileErrDecompress,
-    /// TODO: [2022/08] stub value, redesign bin.rs data passing channels to pass the actual
-    ///       error, not via Summary._Error
+    /// Do not use this error. Merely a stand-in.
+    /// The real error should have been processed elsewhere.
     FileErrStub,
     FileErrChanSend,
     FileOk,
@@ -400,6 +406,14 @@ impl<E> FileProcessingResult<E> {
         matches!(*self, FileProcessingResult::FileOk)
     }
 
+    /// Returns `true` if the result is [`FileErrStub`].
+    ///
+    /// [`FileErrStub`]: self::FileProcessingResult#variant.FileErrStub
+    #[inline(always)]
+    pub const fn is_stub(&self) -> bool {
+        matches!(*self, FileProcessingResult::FileErrStub)
+    }
+
     /// Returns `true` if the result is [`FileErrIo`].
     ///
     /// [`FileErrIo`]: self::FileProcessingResult#variant.FileErrIo
@@ -411,7 +425,7 @@ impl<E> FileProcessingResult<E> {
 
 /// Manually implement [`PartialEq`].
 ///
-/// `#[derive(PartialEq)]` does not seem to work.
+/// `#[derive(PartialEq)]` often fails because `E` does not implement it.
 ///
 /// [PartialEq]: std::cmp::PartialEq
 impl<E> PartialEq for FileProcessingResult<E> {
@@ -422,6 +436,12 @@ impl<E> PartialEq for FileProcessingResult<E> {
         match self {
             FileProcessingResult::FileErrEmpty => {
                 matches!(*other, FileProcessingResult::FileErrEmpty)
+            }
+            FileProcessingResult::FileErrTooSmall => {
+                matches!(*other, FileProcessingResult::FileErrTooSmall)
+            }
+            FileProcessingResult::FileErrNullBytes => {
+                matches!(*other, FileProcessingResult::FileErrNullBytes)
             }
             FileProcessingResult::FileErrNoLinesFound => {
                 matches!(*other, FileProcessingResult::FileErrNoLinesFound)

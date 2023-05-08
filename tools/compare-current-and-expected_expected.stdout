@@ -78,6 +78,7 @@
 ./logs/other/tests/dtf5-6b.log:19991231T160000.000+0000:6b
 ./logs/other/tests/dtf5-6c.log:19991231T160000.000+0000:2000-01-01 00:00:00 [dtf5-6c]6c1
 ./logs/other/tests/dtf5-6c.log:19991231T160000.000+0000:6c2
+./logs/other/tests/invalid2.log:19991231T160000.000+0000:20000101T000000 end of this line has an invalid utf8 char �
 ./logs/other/tests/dtf3-2a.log:19991231T160000.001+0000:2000-01-01 00:00:00.001 [dtf3-2a]a
 ./logs/other/tests/dtf3-2b.log:19991231T160000.002+0000:2000-01-01 00:00:00.002 [dtf3-2b]
 ./logs/other/tests/dtf3-2b.log:19991231T160000.002+0000:
@@ -114,6 +115,7 @@
 ./logs/other/tests/dtf5-6c.log:19991231T160001.000+0000:6c4-aa
 ./logs/other/tests/dtf5-6c.log:19991231T160001.000+0000:6c5-aaa
 ./logs/other/tests/dtf-varying-10.log:19991231T160001.000+0000:2000-01-01 00:00:01 One
+./logs/other/tests/invalid2.log:19991231T160001.000+0000:20000101T000001 this line has valid utf8 char
 ./logs/other/tests/basic-basic-dt10-repeats.log:19991231T160002.000+0000:2000-01-01 00:00:02 1
 ./logs/other/tests/basic-basic-dt10-repeats.log:19991231T160002.000+0000:2000-01-01 00:00:02 2
 ./logs/other/tests/basic-basic-dt10-repeats-longlines.log:19991231T160002.000+0000:2000-01-01 00:00:02 11
@@ -3031,32 +3033,35 @@
 ./logs/other/tests/dtf9d-24-12x2-backwards.log:20141010T190000.000+0000:Oct 10 10:00:00 HDT 14
 ./logs/other/tests/dtf9d-24-12x2-backwards.log:20150909T180000.000+0000:Sep 9 09:00:00 HDT 15
 ./logs/other/tests/dtf9d-24-12x2-backwards.log:20160808T170000.000+0000:Aug 8 08:00:00 HDT 16
-./logs/synology-DS6/samba/log.nmbd:20161205T123145.355+0000:../source3/nmbd/nmbd.c:1017: [2016/12/05 20:31:45.3551, all 0, pid=6494] main
-./logs/synology-DS6/samba/log.nmbd:20161205T123145.355+0000:  standard input is not a socket, assuming -D option
-./logs/synology-DS6/samba/log.smbd:20161205T123146.107+0000:../source3/smbd/server.c:1352: [2016/12/05 20:31:46.1075, all 0, pid=6430] main
-./logs/synology-DS6/samba/log.smbd:20161205T123146.107+0000:  standard input is not a socket, assuming -D option
-./logs/synology-DS6/samba/log.smbd:20161205T123146.107+0000:../source3/smbd/server.c:1266: [2016/12/05 20:36:46, all 0] main
-./logs/synology-DS6/samba/log.smbd:20161205T123146.107+0000:  smbd version 4.1.20 started.
-./logs/synology-DS6/samba/log.smbd:20161205T123146.107+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
-./logs/synology-DS6/samba/log.nmbd:20161205T123151.355+0000:../source3/nmbd/nmbd.c:66: [2016/12/05 20:31:51.3551, all 0, pid=6494] terminate
-./logs/synology-DS6/samba/log.nmbd:20161205T123151.355+0000:  Got SIGTERM: going down...
-./logs/synology-DS6/samba/log.nmbd:20161205T123151.355+0000:../source3/nmbd/nmbd.c:976: [2016/12/05 20:31:53, all 0] main
-./logs/synology-DS6/samba/log.nmbd:20161205T123151.355+0000:  nmbd version 4.1.20 started.
-./logs/synology-DS6/samba/log.nmbd:20161205T123151.355+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
-./logs/synology-DS6/samba/log.nmbd:20161205T123153.355+0000:../source3/nmbd/nmbd.c:1017: [2016/12/05 20:31:53.3551, all 0, pid=7161] main
-./logs/synology-DS6/samba/log.nmbd:20161205T123153.355+0000:  standard input is not a socket, assuming -D option
-./logs/synology-DS6/samba/log.nmbd:20161205T123252.355+0000:../source3/nmbd/nmbd.c:66: [2016/12/05 20:32:52.3551, all 0, pid=7161] terminate
-./logs/synology-DS6/samba/log.nmbd:20161205T123252.355+0000:  Got SIGTERM: going down...
-./logs/synology-DS6/samba/log.nmbd:20161205T123252.355+0000:../source3/nmbd/nmbd.c:976: [2016/12/05 20:32:53, all 0] main
-./logs/synology-DS6/samba/log.nmbd:20161205T123252.355+0000:  nmbd version 4.1.20 started.
-./logs/synology-DS6/samba/log.nmbd:20161205T123252.355+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
-./logs/synology-DS6/samba/log.nmbd:20161205T123253.355+0000:../source3/nmbd/nmbd.c:1017: [2016/12/05 20:32:53.3551, all 0, pid=7700] main
-./logs/synology-DS6/samba/log.nmbd:20161205T123253.355+0000:  standard input is not a socket, assuming -D option
-./logs/synology-DS6/samba/log.smbd:20161205T123646.107+0000:../source3/smbd/server.c:1352: [2016/12/05 20:36:46.1075, all 0, pid=8478] main
-./logs/synology-DS6/samba/log.smbd:20161205T123646.107+0000:  standard input is not a socket, assuming -D option
-./logs/synology-DS6/samba/log.smbd:20161205T123646.107+0000:../source3/smbd/server.c:1266: [2016/12/05 21:11:54, all 0] main
-./logs/synology-DS6/samba/log.smbd:20161205T123646.107+0000:  smbd version 4.1.20 started.
-./logs/synology-DS6/samba/log.smbd:20161205T123646.107+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
+./logs/synology-DS6/samba/log.nmbd:20161205T123145.000+0000:../source3/nmbd/nmbd.c:976: [2016/12/05 20:31:45, all 0] main
+./logs/synology-DS6/samba/log.nmbd:20161205T123145.000+0000:  nmbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.nmbd:20161205T123145.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
+./logs/synology-DS6/samba/log.nmbd:20161205T123145.000+0000:../source3/nmbd/nmbd.c:1017: [2016/12/05 20:31:45.3551, all 0, pid=6494] main
+./logs/synology-DS6/samba/log.nmbd:20161205T123145.000+0000:  standard input is not a socket, assuming -D option
+./logs/synology-DS6/samba/log.smbd:20161205T123145.000+0000:../source3/smbd/server.c:1266: [2016/12/05 20:31:45, all 0] main
+./logs/synology-DS6/samba/log.smbd:20161205T123145.000+0000:  smbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.smbd:20161205T123145.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
+./logs/synology-DS6/samba/log.smbd:20161205T123146.000+0000:../source3/smbd/server.c:1352: [2016/12/05 20:31:46.1075, all 0, pid=6430] main
+./logs/synology-DS6/samba/log.smbd:20161205T123146.000+0000:  standard input is not a socket, assuming -D option
+./logs/synology-DS6/samba/log.nmbd:20161205T123151.000+0000:../source3/nmbd/nmbd.c:66: [2016/12/05 20:31:51.3551, all 0, pid=6494] terminate
+./logs/synology-DS6/samba/log.nmbd:20161205T123151.000+0000:  Got SIGTERM: going down...
+./logs/synology-DS6/samba/log.nmbd:20161205T123153.000+0000:../source3/nmbd/nmbd.c:976: [2016/12/05 20:31:53, all 0] main
+./logs/synology-DS6/samba/log.nmbd:20161205T123153.000+0000:  nmbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.nmbd:20161205T123153.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
+./logs/synology-DS6/samba/log.nmbd:20161205T123153.000+0000:../source3/nmbd/nmbd.c:1017: [2016/12/05 20:31:53.3551, all 0, pid=7161] main
+./logs/synology-DS6/samba/log.nmbd:20161205T123153.000+0000:  standard input is not a socket, assuming -D option
+./logs/synology-DS6/samba/log.nmbd:20161205T123252.000+0000:../source3/nmbd/nmbd.c:66: [2016/12/05 20:32:52.3551, all 0, pid=7161] terminate
+./logs/synology-DS6/samba/log.nmbd:20161205T123252.000+0000:  Got SIGTERM: going down...
+./logs/synology-DS6/samba/log.nmbd:20161205T123253.000+0000:../source3/nmbd/nmbd.c:976: [2016/12/05 20:32:53, all 0] main
+./logs/synology-DS6/samba/log.nmbd:20161205T123253.000+0000:  nmbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.nmbd:20161205T123253.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
+./logs/synology-DS6/samba/log.nmbd:20161205T123253.000+0000:../source3/nmbd/nmbd.c:1017: [2016/12/05 20:32:53.3551, all 0, pid=7700] main
+./logs/synology-DS6/samba/log.nmbd:20161205T123253.000+0000:  standard input is not a socket, assuming -D option
+./logs/synology-DS6/samba/log.smbd:20161205T123646.000+0000:../source3/smbd/server.c:1266: [2016/12/05 20:36:46, all 0] main
+./logs/synology-DS6/samba/log.smbd:20161205T123646.000+0000:  smbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.smbd:20161205T123646.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
+./logs/synology-DS6/samba/log.smbd:20161205T123646.000+0000:../source3/smbd/server.c:1352: [2016/12/05 20:36:46.1075, all 0, pid=8478] main
+./logs/synology-DS6/samba/log.smbd:20161205T123646.000+0000:  standard input is not a socket, assuming -D option
 ./logs/synology-DS6/synorelayd.log:20161205T124515.000+0000:Dec  5 20:45:15 2016 synorelayd.cpp:2048 daemon started
 ./logs/synology-DS6/synopkg.log:20161205T124700.000+0000:2016/12/05 20:47:00	(system) trigger	 :
 ./logs/synology-DS6/synopkg.log:20161205T124700.000+0000:			Begin:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 INFO --no-same-owner
@@ -3079,11 +3084,11 @@
 ./logs/synology-DS6/synopkg.log:20161205T124700.000+0000:2016/12/05 20:47:00	(system) trigger	StorageAnalyzer 1.0.69-0069:
 ./logs/synology-DS6/synorelayd.log:20161205T130055.000+0000:Dec  5 21:00:55 2016 synorelayd.cpp:1625 get sigterm, logout
 ./logs/synology-DS6/synorelayd.log:20161205T130056.000+0000:Dec  5 21:00:56 2016 synorelayd.cpp:2102 daemon stopped
-./logs/synology-DS6/samba/log.smbd:20161205T131154.107+0000:../source3/smbd/server.c:1352: [2016/12/05 21:11:54.1075, all 0, pid=6668] main
-./logs/synology-DS6/samba/log.smbd:20161205T131154.107+0000:  standard input is not a socket, assuming -D option
-./logs/synology-DS6/samba/log.smbd:20161205T131154.107+0000:../source3/smbd/server.c:1266: [2016/12/05 21:16:10, all 0] main
-./logs/synology-DS6/samba/log.smbd:20161205T131154.107+0000:  smbd version 4.1.20 started.
-./logs/synology-DS6/samba/log.smbd:20161205T131154.107+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
+./logs/synology-DS6/samba/log.smbd:20161205T131154.000+0000:../source3/smbd/server.c:1266: [2016/12/05 21:11:54, all 0] main
+./logs/synology-DS6/samba/log.smbd:20161205T131154.000+0000:  smbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.smbd:20161205T131154.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
+./logs/synology-DS6/samba/log.smbd:20161205T131154.000+0000:../source3/smbd/server.c:1352: [2016/12/05 21:11:54.1075, all 0, pid=6668] main
+./logs/synology-DS6/samba/log.smbd:20161205T131154.000+0000:  standard input is not a socket, assuming -D option
 ./logs/synology-DS6/synorelayd.log:20161205T131203.000+0000:Dec  5 21:12:03 2016 synorelayd.cpp:2048 daemon started
 ./logs/synology-DS6/router.log:20161205T131204.000+0000:err	2016/12/05 21:12:04	PortForward:(src/libsynoportmap.cpp:532) [7364] file=/etc/portforward/router.conf not exists
 ./logs/synology-DS6/router.log:20161205T131208.000+0000:err	2016/12/05 21:12:08	PortForward:(src/libsynonetcheck.cpp:361) [7364] Public IP level is 1
@@ -3092,7 +3097,10 @@
 ./logs/synology-DS6/router.log:20161205T131253.000+0000:err	2016/12/05 21:12:53	PortForward:(src/libsynoportmap.cpp:426) [7364] upnp no response, timeout
 ./logs/synology-DS6/router.log:20161205T131255.000+0000:err	2016/12/05 21:12:55	PortForward:(src/libsynoportmapHelper.cpp:429) [7364] SLibSynoPortMapRouterDetect() success: manual
 ./logs/synology-DS6/router.log:20161205T131313.000+0000:err	2016/12/05 21:13:13	PortForward:(src/UpnpDetector.cpp:111) [7665] init UPnP faild
-./logs/synology-DS6/samba/log.smbd:20161205T131610.107+0000:../source3/smbd/server.c:1352: [2016/12/05 21:16:10.1075, all 0, pid=1075] main
+./logs/synology-DS6/samba/log.smbd:20161205T131610.000+0000:../source3/smbd/server.c:1266: [2016/12/05 21:16:10, all 0] main
+./logs/synology-DS6/samba/log.smbd:20161205T131610.000+0000:  smbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.smbd:20161205T131610.000+0000:  Copyright Andrew Tridgell and the Samba Team 1992-2013
+./logs/synology-DS6/samba/log.smbd:20161205T131610.000+0000:../source3/smbd/server.c:1352: [2016/12/05 21:16:10.1075, all 0, pid=1075] main
 ./logs/synology-DS6/synoupdate.log:20161205T133442.000+0000:2016/12/05 21:34:42	start critical update to buildnumber: 8451 original smallfixnumber: 0 new_smallfixnumber: 5 build date: 2016/11/28
 ./logs/synology-DS6/dpkg_upgrade.log:20161205T133443.000+0000:2016/12/05 21:34:43	 ===========[-x /path1//@smallupd@te_deb/flashupdate_6.0-8451-s3_all.deb /flashUpd@teTempFolder]===========
 ./logs/synology-DS6/synoupdate.log:20161205T133443.000+0000:2016/12/05 21:34:43	Start of the update...
@@ -7978,12 +7986,14 @@
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160001.000+0000:2020-01-01 00:00:01a
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160001.000+0000:A
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160001.000+0000:a
+./logs/other/tests/dt-mix1.log:20191231T160001.000+0000:2020-01-01 00:00:01 a
 ./logs/other/tests/basic-dt-u.log:20191231T160002.000+0000:2020-01-01 00:00:02ab
 ./logs/other/tests/basic-dt-u.log:20191231T160002.000+0000:AB
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160002.000+0000:2020-01-01 00:00:02ab
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160002.000+0000:AB
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160002.000+0000:aB
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160002.000+0000:ab
+./logs/other/tests/dt-mix1.log:20191231T160002.000+0000:2020-01-01 00:00:02 -0700 b
 ./logs/other/tests/basic-dt-u.log:20191231T160003.000+0000:2020-01-01 00:00:03abc
 ./logs/other/tests/basic-dt-u.log:20191231T160003.000+0000:ABC
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160003.000+0000:2020-01-01 00:00:03abc
@@ -7991,6 +8001,7 @@
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160003.000+0000:aBC
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160003.000+0000:abC
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160003.000+0000:abc
+./logs/other/tests/dt-mix1.log:20191231T160003.000+0000:2020-01-01 00:00:03 -0700 c
 ./logs/other/tests/basic-dt-u.log:20191231T160004.000+0000:2020-01-01 00:00:04abcd
 ./logs/other/tests/basic-dt-u.log:20191231T160004.000+0000:ABCD
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160004.000+0000:2020-01-01 00:00:04abcd
@@ -7999,6 +8010,7 @@
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160004.000+0000:abCD
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160004.000+0000:abcD
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160004.000+0000:abcd
+./logs/other/tests/dt-mix1.log:20191231T160004.000+0000:2020-01-01T00:00:04 d
 ./logs/other/tests/basic-dt-u.log:20191231T160005.000+0000:2020-01-01 00:00:05abcde
 ./logs/other/tests/basic-dt-u.log:20191231T160005.000+0000:ABCDE
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160005.000+0000:2020-01-01 00:00:05abcde
@@ -8007,6 +8019,7 @@
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160005.000+0000:abCDE
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160005.000+0000:abcDE
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160005.000+0000:abcde
+./logs/other/tests/dt-mix1.log:20191231T160005.000+0000:2020-01-01T00:00:05 -0700 e
 ./logs/other/tests/basic-dt-u.log:20191231T160006.000+0000:2020-01-01 00:00:06abcdef
 ./logs/other/tests/basic-dt-u.log:20191231T160006.000+0000:ABCDEF
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160006.000+0000:2020-01-01 00:00:06abcdef
@@ -8017,6 +8030,7 @@
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160006.000+0000:abcdEF
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160006.000+0000:abcdeF
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160006.000+0000:abcdef
+./logs/other/tests/dt-mix1.log:20191231T160006.000+0000:20200101T000006 -0700 f
 ./logs/other/tests/basic-dt-u.log:20191231T160007.000+0000:2020-01-01 00:00:07abcdefg
 ./logs/other/tests/basic-dt-u.log:20191231T160007.000+0000:ABCDEFG
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160007.000+0000:2020-01-01 00:00:07abcdefg
@@ -8028,6 +8042,7 @@
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160007.000+0000:abcdeFG
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160007.000+0000:abcdefG
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160007.000+0000:abcdefg
+./logs/other/tests/dt-mix1.log:20191231T160007.000+0000:20200101T000007 g
 ./logs/other/tests/basic-dt-u.log:20191231T160008.000+0000:2020-01-01 00:00:08abcdefgh
 ./logs/other/tests/basic-dt-u.log:20191231T160008.000+0000:ABCDEFGH
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160008.000+0000:2020-01-01 00:00:08abcdefgh
@@ -8041,6 +8056,7 @@
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160008.000+0000:abcdefGH
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160008.000+0000:abcdefgH
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160008.000+0000:abcdefgh
+./logs/other/tests/dt-mix1.log:20191231T160008.000+0000:20200101T000008 h
 ./logs/other/tests/basic-dt-u.log:20191231T160009.000+0000:2020-01-01 00:00:09abcdefghi
 ./logs/other/tests/basic-dt-u.log:20191231T160009.000+0000:ABCDEFGHI
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160009.000+0000:2020-01-01 00:00:09abcdefghi
@@ -8054,8 +8070,21 @@
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160009.000+0000:abcdefgHI
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160009.000+0000:abcdefghI
 ./logs/other/tests/basic-dt-u-mixnl.log:20191231T160009.000+0000:abcdefghi
+./logs/other/tests/dt-mix1.log:20191231T160009.000+0000:20200101T000009 i
 ./logs/other/tests/basic-dt-u.log:20191231T160010.000+0000:2020-01-01 00:00:10abcdefghij
 ./logs/other/tests/basic-dt-u.log:20191231T160010.000+0000:ABCDEFGHIJ
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:20200101T000010 j
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:Jan 01 00:00:11 k
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:Jan 01 00:00:12 l
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:Jan 01 00:00:13 m
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:Jan 01 00:00:14 n
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:Jan 01 00:00:15 o
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:Jan 01 00:00:17 p
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:Jan 01 00:00:18 q
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:Jan 01 00:00:19 r
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:Jan 01 00:00:20 s
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:Jan 01 00:00:21 t
+./logs/other/tests/dt-mix1.log:20191231T160010.000+0000:01-01 00:00:22 u
 ./logs/other/tests/basic-dt-u.log:20191231T160011.000+0000:2020-01-01 00:00:11abcdefghijk
 ./logs/other/tests/basic-dt-u.log:20191231T160011.000+0000:ABCDEFGHIJK
 ./logs/other/tests/basic-dt-u.log:20191231T160012.000+0000:2020-01-01 00:00:12abcdefghijkl
@@ -8089,26 +8118,6 @@
 ./logs/other/tests/basic-dt-u.log:20191231T160026.000+0000:2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz
 ./logs/other/tests/basic-dt-u.log:20191231T160026.000+0000:ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ./logs/other/tests/dtf9c-12-baddate.log:20191231T170000.000+0000:Jan 1 01:00:00 0 😀😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃
-./logs/other/tests/dt-mix1.log:20200101T070002.000+0000:2020-01-01 00:00:02 -0700 b
-./logs/other/tests/dt-mix1.log:20200101T070003.000+0000:2020-01-01 00:00:03 -0700 c
-./logs/other/tests/dt-mix1.log:20200101T070003.000+0000:2020-01-01T00:00:04 d
-./logs/other/tests/dt-mix1.log:20200101T070005.000+0000:2020-01-01T00:00:05 -0700 e
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:20200101T000006 -0700 f
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:20200101T000007 g
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:20200101T000008 h
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:20200101T000009 i
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:20200101T000010 j
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:Jan 01 00:00:11 k
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:Jan 01 00:00:12 l
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:Jan 01 00:00:13 m
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:Jan 01 00:00:14 n
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:Jan 01 00:00:15 o
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:Jan 01 00:00:17 p
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:Jan 01 00:00:18 q
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:Jan 01 00:00:19 r
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:Jan 01 00:00:20 s
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:Jan 01 00:00:21 t
-./logs/other/tests/dt-mix1.log:20200101T070006.000+0000:01-01 00:00:22 u
 ./logs/Ubuntu18/xrdp.log:20200113T030306.000+0000:[20200113-11:03:06] [DEBUG] Testing if xrdp can listen on 192.168.0.0 port 3389.
 ./logs/Ubuntu18/xrdp.log:20200113T030306.000+0000:[20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)
 ./logs/Ubuntu18/xrdp.log:20200113T030308.000+0000:[20200113-11:03:08] [INFO ] starting xrdp with pid 16415
@@ -8128,6 +8137,16 @@
 ./logs/Ubuntu18/xrdp.log:20200113T041909.000+0000:[20200113-12:19:09] [DEBUG] Closed socket 16 (AF_INET6 ::1 port 16415)
 ./logs/Ubuntu18/xrdp.log:20200113T041909.000+0000:[20200113-12:19:09] [DEBUG] Closed socket 12 (AF_INET6 ::ffff:192.168.0.1 port 3389)
 ./logs/Ubuntu18/xrdp.log:20200113T041909.000+0000:[20200113-12:19:09] [DEBUG] xrdp_mm_module_cleanup
+./logs/Debian9/Xorg.0.log.old:20200116T221409.000+0000:[   108.360] Current Operating System: Linux host7 5.3.0-28-generic #30~18.04.1-Ubuntu SMP Fri Jan 17 06:14:09 UTC 2020 x86_64
+./logs/Debian9/Xorg.0.log.old:20200116T221409.000+0000:[   108.360] Kernel command line: NETT_IMAGE=/nett/vmlinuz-5.3.0-28-generic root=UUID=30453-1111-2222-bc97-012345678911 ro
+./logs/Debian9/Xorg.0.log.old:20200116T221409.000+0000:[   108.360] Build Date: 18 December 2019  08:15:29AM
+./logs/Debian9/Xorg.0.log.old:20200116T221409.000+0000:[   108.360] xorg-server-hwe-18.04 2:1.20.5+git20191008-0ubuntu1~18.04.1 (For technical support please see http://dir.ubuntu.com/support) 
+./logs/Debian9/Xorg.0.log.old:20200116T221409.000+0000:[   108.360] Current version of pixman: 0.34.0
+./logs/Debian9/Xorg.0.log.old:20200116T221409.000+0000:[   108.360] 	Before reporting problems, check http://wiki.x.org
+./logs/Debian9/Xorg.0.log.old:20200116T221409.000+0000:	to make sure that you have the latest version.
+./logs/Debian9/Xorg.0.log.old:20200116T221409.000+0000:[   108.360] Markers: (--) probed, (**) from config file, (==) default setting,
+./logs/Debian9/Xorg.0.log.old:20200116T221409.000+0000:	(++) from command line, (!!) notice, (II) informational,
+./logs/Debian9/Xorg.0.log.old:20200116T221409.000+0000:	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
 ./logs/other/tests/dtf9c-12-baddate.log:20200201T180000.000+0000:Feb 2 02:00:00 1 😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃😀
 ./logs/Debian9/alternatives.log:20200203T055501.000+0000:update-alternatives 2020-02-03 13:55:01: run with --install /usr/bin/pager pager /bin/more 50 --slave /usr/share/man/man1/pager.1.gz pager.1.gz /usr/share/man/man1/more.1.gz
 ./logs/Debian9/alternatives.log:20200203T055502.000+0000:update-alternatives 2020-02-03 13:55:02: run with --remove pager /usr/bin/pg
@@ -8148,6 +8167,16 @@
 ./logs/Debian9/alternatives.log:20200203T055712.000+0000:update-alternatives 2020-02-03 13:57:12: link group jfr updated to point to /usr/lib/jvm/java-11-openjdk-amd64/bin/jfr
 ./logs/Debian9/alternatives.log:20200203T055713.000+0000:update-alternatives 2020-02-03 13:57:13: run with --install /usr/bin/jexec jexec /usr/lib/jvm/java-11-openjdk-amd64/lib/jexec 1111 --slave /usr/share/binfmts/jar jexec-binfmt /usr/lib/jvm/java-11-openjdk-amd64/lib/jar.binfmt
 ./logs/Debian9/alternatives.log:20200203T055714.000+0000:update-alternatives 2020-02-03 13:57:14: run with --install /usr/bin/x-dir-browser x-dir-browser /usr/bin/opera 120 --slave /usr/share/man/man1/x-dir-browser.1.gz x-dir-browser.1.gz /usr/share/man/man1/opera.1.gz
+./logs/Debian9/Xorg.0.log:20200203T060559.000+0000:[    91.203] Current Operating System: Linux host7 5.3.0-40-generic #32~18.04.1-Ubuntu SMP Mon Feb 3 14:05:59 UTC 2020 x86_64
+./logs/Debian9/Xorg.0.log:20200203T060559.000+0000:[    91.203] Kernel command line: NETT_IMAGE=/nett/vmlinuz-5.3.0-40-generic root=UUID=19808-1111-2222-bc97-012345678911 ro
+./logs/Debian9/Xorg.0.log:20200203T060559.000+0000:[    91.203] Build Date: 18 December 2019  08:15:29AM
+./logs/Debian9/Xorg.0.log:20200203T060559.000+0000:[    91.203] xorg-server-hwe-18.04 2:1.20.5+git20191008-0ubuntu1~18.04.1 (For technical support please see http://dir.ubuntu.com/support) 
+./logs/Debian9/Xorg.0.log:20200203T060559.000+0000:[    91.203] Current version of pixman: 0.34.0
+./logs/Debian9/Xorg.0.log:20200203T060559.000+0000:[    91.203] 	Before reporting problems, check http://wiki.x.org
+./logs/Debian9/Xorg.0.log:20200203T060559.000+0000:	to make sure that you have the latest version.
+./logs/Debian9/Xorg.0.log:20200203T060559.000+0000:[    91.203] Markers: (--) probed, (**) from config file, (==) default setting,
+./logs/Debian9/Xorg.0.log:20200203T060559.000+0000:	(++) from command line, (!!) notice, (II) informational,
+./logs/Debian9/Xorg.0.log:20200203T060559.000+0000:	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
 ./logs/Debian9/Xorg.0.log.old:20200203T060823.000+0000:[   108.360] (==) Log file: "/var/log/Xorg.0.log", Time: Mon Feb  3 14:08:23 2020
 ./logs/Debian9/Xorg.0.log.old:20200203T060823.000+0000:[   108.361] (==) Using config file: "/etc/X11/xorg.conf"
 ./logs/Debian9/Xorg.0.log.old:20200203T060823.000+0000:[   108.361] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
@@ -9198,6 +9227,7 @@
 ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log:20200527T043005.362+0000:     dvi:           Default installer: Exit
 ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log:20200527T043005.362+0000:     dvi:      {DIF_SELECTBESTCOMPATDRV - exit(0x00000000)} 12:30:05.393
 ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log:20200527T043005.362+0000:     ndv:      Force Installing Driver:
+./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20200528T043105.000+0000:﻿2020-05-28 12:31:05, Info                         SetupClnLogInitializationInfo - Getting plugin name
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                         SetupClnLogInitializationInfo - session being initialized for Plugin: Previous Installations
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                         Client Process:C:\WINDOWS\system32\cleanmgr.exe
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                         pszWellKnownDirs:(null)
@@ -9210,6 +9240,7 @@
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Previous Installations
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20200528T043105.000+0000:2020-05-28 12:31:05, Info                         IsProcessElevated - bResult: 1
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20200528T043223.000+0000:2020-05-28 12:32:23, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\Windows\System32\LogFiles\WMI\RtBackup\*]; GLE = 0x5[gle=0x00000005]
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log:20200528T043223.000+0000:﻿2020-05-28 12:32:23, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\Windows\System32\LogFiles\WMI\RtBackup\*]; GLE = 0x5[gle=0x00000005]
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20200528T043354.000+0000:2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Trace\*]; GLE = 0x5[gle=0x00000005]
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20200528T043354.000+0000:2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Temp\PSScriptOutputs\*]; GLE = 0x5[gle=0x00000005]
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20200528T043354.000+0000:2020-05-28 12:33:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Downloads\*]; GLE = 0x5[gle=0x00000005]
@@ -10483,28 +10514,29 @@
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20211226T041237.000+0000:2021-12-26 12:12:37, Info                         bCleanWindowsOld:0
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20211226T041237.000+0000:2021-12-26 12:12:37, Info                         bRemoveUninstall:0
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20211226T041237.000+0000:
+./logs/other/tests/dtf12c-x3_patts.log:20211231T160001.000+0000:2022-01-01 00:00:01 LINE ONE!
 ./logs/other/tests/dtf9c-23-12x2.log.gz:20211231T170000.000+0000:Jan 1 01:00:00 12
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log:20220101T040940.000+0000:2022-01-01 12:09:40, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
 ./logs/other/tests/dtf9d-24-12x2-backwards.log:20220101T100000.000+0000:Jan 1 01:00:00 HDT 23
 ./logs/other/tests/dtf9d-24-12x2-leapday.log:20220101T100000.000+0000:Jan 1 01:00:00 HDT 12
-./logs/other/tests/dtf12c-x3_patts.log:20220102T080002.000+0000:2022-01-02 00:00:02 -08:00 LINE TWO!
-./logs/other/tests/dtf12c-x3_patts.log:20220102T080002.000+0000:Tue, Jan 03 2022 00:00:03 +0030 LINE THREE!
-./logs/other/tests/dtf12c-x3_patts.log:20220102T080002.000+0000:2022-01-04 00:00:04 LINE FOUR!
-./logs/other/tests/dtf12c-x3_patts.log:20220105T080005.000+0000:2022-01-05 00:00:05 -08:00 LINE FIVE!
-./logs/other/tests/dtf12c-x3_patts.log:20220105T080005.000+0000:Tue, Jan 06 2022 00:00:06 +0030 LINE SIX!
-./logs/other/tests/dtf12c-x3_patts.log:20220105T080005.000+0000:2022-01-07 00:00:07 LINE SEVEN!
-./logs/other/tests/dtf12c-x3_patts.log:20220108T080008.000+0000:2022-01-08 00:00:08 -08:00 LINE EIGHT!
-./logs/other/tests/dtf12c-x3_patts.log:20220108T080008.000+0000:Tue, Jan 09 2022 00:00:09 +0030 LINE NINE!
-./logs/other/tests/dtf12c-x3_patts.log:20220108T080008.000+0000:2022-01-10 00:00:10 LINE TEN!
+./logs/other/tests/dtf12c-x3_patts.log:20220101T160002.000+0000:2022-01-02 00:00:02 -08:00 LINE TWO!
+./logs/other/tests/dtf12c-x3_patts.log:20220101T160002.000+0000:Tue, Jan 03 2022 00:00:03 +0030 LINE THREE!
+./logs/other/tests/dtf12c-x3_patts.log:20220103T160004.000+0000:2022-01-04 00:00:04 LINE FOUR!
+./logs/other/tests/dtf12c-x3_patts.log:20220104T160005.000+0000:2022-01-05 00:00:05 -08:00 LINE FIVE!
+./logs/other/tests/dtf12c-x3_patts.log:20220104T160005.000+0000:Tue, Jan 06 2022 00:00:06 +0030 LINE SIX!
+./logs/other/tests/dtf12c-x3_patts.log:20220106T160007.000+0000:2022-01-07 00:00:07 LINE SEVEN!
+./logs/other/tests/dtf12c-x3_patts.log:20220107T160008.000+0000:2022-01-08 00:00:08 -08:00 LINE EIGHT!
+./logs/other/tests/dtf12c-x3_patts.log:20220107T160008.000+0000:Tue, Jan 09 2022 00:00:09 +0030 LINE NINE!
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220109T041006.000+0000:2022-01-09 12:10:06, Info                         CSetupFilesCleanup::GetSpaceUsed - Calculating the space for session: Windows ESD Installation Files
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220109T041006.000+0000:2022-01-09 12:10:06, Info                         IsWebSetupRunning - WebSetup Running: 0
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220109T041006.000+0000:2022-01-09 12:10:06, Info                         IsProcessElevated - bResult: 1
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220109T041006.000+0000:2022-01-09 12:10:06, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\ESD\Windows
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220109T041006.000+0000:2022-01-09 12:10:06, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220109T041006.000+0000:
+./logs/other/tests/dtf12c-x3_patts.log:20220109T160010.000+0000:2022-01-10 00:00:10 LINE TEN!
+./logs/other/tests/dtf12c-x3_patts.log:20220110T160011.000+0000:2022-01-11 00:00:11 -08:00 LINE ELEVEN!
+./logs/other/tests/dtf12c-x3_patts.log:20220110T160011.000+0000:Tue, Jan 12 2022 00:00:12 +0030 LINE TWELVE!
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log:20220111T040939.000+0000:2022-01-11 12:09:39, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
-./logs/other/tests/dtf12c-x3_patts.log:20220111T080011.000+0000:2022-01-11 00:00:11 -08:00 LINE ELEVEN!
-./logs/other/tests/dtf12c-x3_patts.log:20220111T080011.000+0000:Tue, Jan 12 2022 00:00:12 +0030 LINE TWELVE!
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220119T090532.000+0000:2022-01-19 17:05:32, Info                         IsProcessElevated - bResult: 1
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220119T090532.000+0000:
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log:20220120T051735.000+0000:2022-01-20 13:17:35, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
@@ -10701,6 +10733,7 @@
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220220T041815.000+0000:2022-02-20 12:18:15, Info                         bSilentCleanup:1
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220220T041815.000+0000:2022-02-20 12:18:15, Info                         bCleanupTemporaryInstallationFiles:0
 ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log:20220220T041815.000+0000:
+./logs/Windows10Pro/DISM/dism.log:20220222T041813.000+0000:﻿2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
 ./logs/Windows10Pro/DISM/dism.log:20220222T041813.000+0000:2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: <----- Starting DismApi.dll session -----> - DismInitializeInternal
 ./logs/Windows10Pro/DISM/dism.log:20220222T041813.000+0000:2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
 ./logs/Windows10Pro/DISM/dism.log:20220222T041813.000+0000:2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: Host machine information: OS Version=10.0.8708, Running architecture=amd64, Number of processors=4 - DismInitializeInternal
@@ -11789,6 +11822,7 @@
 ./logs/Windows10Pro/INF/setupapi.dev.log:20220914T132818.119+0000:     idb:           Driver package 'sdbus.inf_amd64_cda3549ab0dfc976' is already active.
 ./logs/Windows10Pro/INF/setupapi.dev.log:20220914T132818.119+0000:     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.168
 ./logs/Windows10Pro/INF/setupapi.dev.log:20220914T132818.119+0000:     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.168
+./logs/Windows10Pro/CBS/CBS.log:20220914T141806.000+0000:﻿2022-09-14 22:18:06, Info                  CBS    TI: --- Initializing Trusted Installer ---
 ./logs/Windows10Pro/CBS/CBS.log:20220914T141806.000+0000:2022-09-14 22:18:06, Info                  CBS    TI: Last boot time: 2022-09-14 21:59:34.500
 ./logs/Windows10Pro/CBS/CBS.log:20220914T141806.000+0000:2022-09-14 22:18:06, Info                  CBS    Starting TrustedInstaller initialization.
 ./logs/Windows10Pro/CBS/CBS.log:20220914T141806.000+0000:2022-09-14 22:18:06, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:4
@@ -13748,15 +13782,16 @@
 ./logs/RancherOS-1.5.8/boot/ros-sysinit.log:20221009T133123.000+0000:time="2022-10-09T21:31:23Z" level=info msg="Exec [/usr/bin/ros-sysinit]"
 ./logs/RancherOS-1.5.8/boot/ros-sysinit.log:20221009T133123.000+0000:time="2022-10-09T21:31:23Z" level=info msg="[1/4] Starting loadSystemImages"
 ./logs/RancherOS-1.5.8/boot/ros-sysinit.log:20221009T133123.000+0000:time="2022-10-09T21:31:23Z" level=info msg="Loading images from /usr/share/ros/images-system.tar"
-./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.570+0000:time="2022-10-09T21:31:23.570757835Z" level=info msg="libcontainerd: new containerd process, pid: 310"
-./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.591+0000:time="2022-10-09T21:31:23.591559452Z" level=warning msg="failed to rename /var/lib/system-docker/tmp for background deletion: rename /var/lib/system-docker/tmp /var/lib/system-docker/tmp-old: no such file or directory. Deleting synchronously"
-./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.684+0000:time="2022-10-09T21:31:23.684310767Z" level=info msg="Graph migration to content-addressability took 0.00 seconds"
-./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.685+0000:time="2022-10-09T21:31:23.685236036Z" level=info msg="Loading containers: start."
-./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.796+0000:time="2022-10-09T21:31:23.796745851Z" level=info msg="Loading containers: done."
-./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.849+0000:time="2022-10-09T21:31:23.849196668Z" level=info msg="Docker daemon" commit=6368e2fd3 graphdriver(s)=overlay2 version=17.06-ros6
-./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.849+0000:time="2022-10-09T21:31:23.849248255Z" level=info msg="Daemon has completed initialization"
-./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.859+0000:time="2022-10-09T21:31:23.859065359Z" level=info msg="API listen on /var/run/system-docker.sock"
-./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.859+0000:
+./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.000+0000:time="2022-10-09T21:31:23Z" level=warning msg="The \"-g / --graph\" flag is deprecated. Please use \"--data-root\" instead"
+./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.000+0000:time="2022-10-09T21:31:23.570757835Z" level=info msg="libcontainerd: new containerd process, pid: 310"
+./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.000+0000:time="2022-10-09T21:31:23.591559452Z" level=warning msg="failed to rename /var/lib/system-docker/tmp for background deletion: rename /var/lib/system-docker/tmp /var/lib/system-docker/tmp-old: no such file or directory. Deleting synchronously"
+./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.000+0000:time="2022-10-09T21:31:23.684310767Z" level=info msg="Graph migration to content-addressability took 0.00 seconds"
+./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.000+0000:time="2022-10-09T21:31:23.685236036Z" level=info msg="Loading containers: start."
+./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.000+0000:time="2022-10-09T21:31:23.796745851Z" level=info msg="Loading containers: done."
+./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.000+0000:time="2022-10-09T21:31:23.849196668Z" level=info msg="Docker daemon" commit=6368e2fd3 graphdriver(s)=overlay2 version=17.06-ros6
+./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.000+0000:time="2022-10-09T21:31:23.849248255Z" level=info msg="Daemon has completed initialization"
+./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.000+0000:time="2022-10-09T21:31:23.859065359Z" level=info msg="API listen on /var/run/system-docker.sock"
+./logs/RancherOS-1.5.8/system-docker.log:20221009T133123.000+0000:
 ./logs/RancherOS-1.5.8/boot/ros-sysinit.log:20221009T133136.000+0000:time="2022-10-09T21:31:36Z" level=info msg="Done loading images from /usr/share/ros/images-system.tar"
 ./logs/RancherOS-1.5.8/boot/ros-sysinit.log:20221009T133136.000+0000:time="2022-10-09T21:31:36Z" level=debug msg="Loaded a docker image: [rancher/os-logrotate:v1.5.8]"
 ./logs/RancherOS-1.5.8/boot/ros-sysinit.log:20221009T133136.000+0000:time="2022-10-09T21:31:36Z" level=debug msg="Loaded a docker image: [rancher/os-syslog:v1.5.8]"
@@ -14174,16 +14209,16 @@
 ./logs/RancherOS-1.5.8/boot/init.log:20221010T122327.000+0000:nameserver 192.168.0.2
 ./logs/RancherOS-1.5.8/boot/init.log:20221010T122327.000+0000:], <nil>"
 ./logs/RancherOS-1.5.8/boot/init.log:20221010T122327.000+0000:time="2022-10-10T20:23:27Z" level=debug msg="Launching Docker /usr/bin/system-dockerd system-dockerd [--graph /var/lib/system-docker --restart=false --bip 192.168.0.1/16 --config-file /etc/docker/system-docker.json --group root --pidfile /var/run/system-docker.pid --storage-driver overlay2 --userland-proxy=false --exec-root /var/run/system-docker --host unix:///var/run/system-docker.sock --log-opt max-file=2 --log-opt max-size=25m]"
-./logs/RancherOS-1.5.8/system-docker.log:20221010T122327.563+0000:time="2022-10-10T20:23:27.563483936Z" level=info msg="libcontainerd: new containerd process, pid: 304"
-./logs/RancherOS-1.5.8/system-docker.log:20221010T122328.666+0000:time="2022-10-10T20:23:28.666693038Z" level=info msg="Graph migration to content-addressability took 0.00 seconds"
-./logs/RancherOS-1.5.8/system-docker.log:20221010T122328.667+0000:time="2022-10-10T20:23:28.667323054Z" level=info msg="Loading containers: start."
-./logs/RancherOS-1.5.8/system-docker.log:20221010T122328.849+0000:time="2022-10-10T20:23:28.849218202Z" level=warning msg="libcontainerd: client is out of sync, restore was called on a fully synced container (012345678911234567892123456789312345678941234567895123456789176c)."
-./logs/RancherOS-1.5.8/system-docker.log:20221010T122328.849+0000:time="2022-10-10T20:23:28.849536737Z" level=warning msg="libcontainerd: failed to retrieve container 012345678911234567892123456789312345678941234567895123456789176c state: rpc error: code = Unknown desc = containerd: container not found"
-./logs/RancherOS-1.5.8/system-docker.log:20221010T122329.017+0000:time="2022-10-10T20:23:29.017561314Z" level=info msg="Removing stale sandbox 012345678911234567892123456789312345678941234567895123456789e8b2 (012345678911234567892123456789312345678941234567895123456789176c)"
-./logs/RancherOS-1.5.8/system-docker.log:20221010T122329.132+0000:time="2022-10-10T20:23:29.132914765Z" level=info msg="Loading containers: done."
-./logs/RancherOS-1.5.8/system-docker.log:20221010T122329.169+0000:time="2022-10-10T20:23:29.169798457Z" level=info msg="Docker daemon" commit=6368e2fd3 graphdriver(s)=overlay2 version=17.06-ros6
-./logs/RancherOS-1.5.8/system-docker.log:20221010T122329.169+0000:time="2022-10-10T20:23:29.169840203Z" level=info msg="Daemon has completed initialization"
-./logs/RancherOS-1.5.8/system-docker.log:20221010T122329.178+0000:time="2022-10-10T20:23:29.178060591Z" level=info msg="API listen on /var/run/system-docker.sock"
+./logs/RancherOS-1.5.8/system-docker.log:20221010T122327.000+0000:time="2022-10-10T20:23:27.563483936Z" level=info msg="libcontainerd: new containerd process, pid: 304"
+./logs/RancherOS-1.5.8/system-docker.log:20221010T122328.000+0000:time="2022-10-10T20:23:28.666693038Z" level=info msg="Graph migration to content-addressability took 0.00 seconds"
+./logs/RancherOS-1.5.8/system-docker.log:20221010T122328.000+0000:time="2022-10-10T20:23:28.667323054Z" level=info msg="Loading containers: start."
+./logs/RancherOS-1.5.8/system-docker.log:20221010T122328.000+0000:time="2022-10-10T20:23:28.849218202Z" level=warning msg="libcontainerd: client is out of sync, restore was called on a fully synced container (012345678911234567892123456789312345678941234567895123456789176c)."
+./logs/RancherOS-1.5.8/system-docker.log:20221010T122328.000+0000:time="2022-10-10T20:23:28.849536737Z" level=warning msg="libcontainerd: failed to retrieve container 012345678911234567892123456789312345678941234567895123456789176c state: rpc error: code = Unknown desc = containerd: container not found"
+./logs/RancherOS-1.5.8/system-docker.log:20221010T122329.000+0000:time="2022-10-10T20:23:29.017561314Z" level=info msg="Removing stale sandbox 012345678911234567892123456789312345678941234567895123456789e8b2 (012345678911234567892123456789312345678941234567895123456789176c)"
+./logs/RancherOS-1.5.8/system-docker.log:20221010T122329.000+0000:time="2022-10-10T20:23:29.132914765Z" level=info msg="Loading containers: done."
+./logs/RancherOS-1.5.8/system-docker.log:20221010T122329.000+0000:time="2022-10-10T20:23:29.169798457Z" level=info msg="Docker daemon" commit=6368e2fd3 graphdriver(s)=overlay2 version=17.06-ros6
+./logs/RancherOS-1.5.8/system-docker.log:20221010T122329.000+0000:time="2022-10-10T20:23:29.169840203Z" level=info msg="Daemon has completed initialization"
+./logs/RancherOS-1.5.8/system-docker.log:20221010T122329.000+0000:time="2022-10-10T20:23:29.178060591Z" level=info msg="API listen on /var/run/system-docker.sock"
 ./logs/RancherOS-1.5.8/boot/netconf.log:20221010T122333.000+0000:time="2022-10-10T20:23:33Z" level=warning msg="Failed to run cmd: [dhcpcd -MA4 -U eth1], error: exit status 1"
 ./logs/RancherOS-1.5.8/boot/netconf.log:20221010T122333.000+0000:time="2022-10-10T20:23:33Z" level=debug msg="getDhcpLease eth1: "
 ./logs/RancherOS-1.5.8/boot/netconf.log:20221010T122333.000+0000:time="2022-10-10T20:23:33Z" level=debug msg="line: []"

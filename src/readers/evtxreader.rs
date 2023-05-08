@@ -33,6 +33,7 @@ use crate::data::datetime::{
     DateTimeLOpt,
     FixedOffset,
     Result_Filter_DateTime2,
+    SystemTime,
 };
 use crate::data::evtx::Evtx;
 use crate::readers::summary::Summary;
@@ -246,6 +247,8 @@ pub struct EvtxReader {
     pub(super) ts_last_accepted: TimestampOpt,
     /// File Size of the file being read in bytes.
     filesz: FileSz,
+    /// file Last Modified time from file-system metadata
+    mtime: SystemTime,
     /// Internal tracking of "`out_of_order`" state.
     //out_of_order_dt: Option<DateTime<Utc>>,
     /// Count of EVTX entries found to be out of order.
@@ -317,14 +320,18 @@ impl<'a> EvtxReader {
                 return Err(err);
             }
         };
-        let filesz: FileSz = match file.metadata() {
-            Ok(val) => val.len() as FileSz,
-            Err(err) => {
-                def1x!("return {:?}", err);
+        let metadata = match file.metadata() {
+            Result::Ok(val) => val,
+            Result::Err(err) => {
+                defx!("return {:?}", err);
                 eprintln!("ERROR: File::metadata() path {:?} {}", path_std, err);
                 return Err(err);
             }
         };
+        let filesz: FileSz = metadata.len() as FileSz;
+        let mtime: SystemTime = metadata.modified().unwrap_or(
+            SystemTime::now()
+        );
 
         // create the EvtxParser
         let settings = ParserSettings::default().num_threads(0);
@@ -351,11 +358,16 @@ impl<'a> EvtxReader {
                 ts_first_accepted: TimestampOpt::None,
                 ts_last_accepted: TimestampOpt::None,
                 filesz,
+                mtime,
                 out_of_order: 0,
                 analyzed: false,
                 error: None,
             }
         )
+    }
+
+    pub fn mtime(&self) -> SystemTime {
+        self.mtime
     }
 
     /// Read the entire file and store in order.

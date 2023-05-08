@@ -82,6 +82,14 @@ fn test_new_LineReader_2_bad_path_panics() {
     new_LineReader(&FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"), 1024);
 }
 
+#[test_case(&NTF_NL_1_PATH)]
+#[test_case(&NTF_SYSLINE_2_PATH)]
+fn test_mtime(path: &FPath) {
+    let lr1 = new_LineReader(path, 0x100);
+    // merely run the function
+    _ = lr1.mtime();
+}
+
 // -------------------------------------------------------------------------------------------------
 
 /// loop on `LineReader.find_line` until it is done

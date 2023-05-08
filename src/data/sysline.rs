@@ -5,11 +5,22 @@
 //! [`Sysline`]: crate::data::sysline::Sysline
 
 #[doc(hidden)]
-pub use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, NLc, NLu8};
+pub use crate::common::{
+    Bytes,
+    CharSz,
+    Count,
+    FPath,
+    FileOffset,
+    NLc,
+    NLu8,
+};
 use crate::readers::blockreader::BlockOffset;
 #[cfg(test)]
 use crate::readers::blockreader::Slices;
-use crate::data::datetime::{DateTimeLOpt, Duration};
+use crate::data::datetime::{
+    DateTimeL,
+    Duration,
+};
 use crate::data::line::{Line, LineIndex, LineP, LinePart, Lines};
 #[allow(unused_imports)]
 use crate::debug::printers::{de_err, de_wrn, e_wrn};
@@ -53,10 +64,7 @@ pub struct Sysline {
     /// Datetime is presumed to be on first `Line`.
     pub(crate) dt_end: LineIndex,
     /// Parsed DateTime instance.
-    // TODO: [2023/02/26] can this remove `Option` and be a plain `DateTimeL`?
-    //       would nicely simplify some code.
-    //       (why was it an Option in the first place?)
-    pub(crate) dt: DateTimeLOpt,
+    dt: DateTimeL,
 }
 // TODO: [2023/04] replace `dt_beg` and `dt_end` with
 //        `common::DtBegEndPairOpt`
@@ -93,17 +101,6 @@ impl std::fmt::Debug for Sysline {
     }
 }
 
-impl Default for Sysline {
-    fn default() -> Self {
-        Self {
-            lines: Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY),
-            dt_beg: LI_NULL,
-            dt_end: LI_NULL,
-            dt: None,
-        }
-    }
-}
-
 impl Sysline {
     /// Default [`with_capacity`] for a [`Lines`], most often will only need 1
     /// capacity as the found "sysline" will likely be one `Line`.
@@ -115,9 +112,18 @@ impl Sysline {
     // XXX: Issue #16 only handles UTF-8/ASCII encoding
     const CHARSZ: usize = 1;
 
-    /// Create a default `Sysline`.
-    pub fn new() -> Sysline {
-        Sysline::default()
+    /// Create a `Sysline` from passed arguments.
+    pub fn new_no_lines(
+        dt_beg: LineIndex,
+        dt_end: LineIndex,
+        dt: DateTimeL,
+    ) -> Sysline {
+        Sysline {
+            lines: Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY),
+            dt_beg,
+            dt_end,
+            dt,
+        }
     }
 
     /// Create a `Sysline` from passed arguments.
@@ -125,7 +131,7 @@ impl Sysline {
         lines: Lines,
         dt_beg: LineIndex,
         dt_end: LineIndex,
-        dt: DateTimeLOpt,
+        dt: DateTimeL,
     ) -> Sysline {
         Sysline {
             lines,
@@ -140,7 +146,7 @@ impl Sysline {
     }
 
     /// Return a reference to `self.dt`
-    pub fn dt(self: &Sysline) -> &DateTimeLOpt {
+    pub fn dt(self: &Sysline) -> &DateTimeL {
         &self.dt
     }
 
@@ -165,11 +171,7 @@ impl Sysline {
         otherp: &SyslineP,
     ) -> Duration {
         // XXX: would prefer not to make copies, but using refs is not supported
-        (*self.dt.as_ref().unwrap())
-            - (*(*otherp)
-                .dt()
-                .as_ref()
-                .unwrap())
+        self.dt - (*(*otherp).dt())
     }
 
     /// Append the passed [`LineP`] to `self.lines`.

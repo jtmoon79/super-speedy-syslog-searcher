@@ -2,6 +2,7 @@
 
 //! Common types and constants for `readers`.
 
+use crate::data::datetime::DateTimeL;
 use crate::data::evtx::Evtx;
 use crate::data::sysline::SyslineP;
 use crate::data::utmpx::Utmpx;
@@ -17,6 +18,18 @@ pub enum LogMessage {
     Journal(JournalEntry),
 }
 pub type LogMessageOpt = Option<LogMessage>;
+
+impl LogMessage {
+    /// Returns the datetime of the log message.
+    pub fn dt(&self) -> &DateTimeL {
+        match self {
+            LogMessage::Sysline(sysline) => sysline.dt(),
+            LogMessage::Utmpx(utmpx) => utmpx.dt(),
+            LogMessage::Evtx(evtx) => evtx.dt(),
+            LogMessage::Journal(journal) => journal.dt(),
+        }
+    }
+}
 
 /// Type alias for bytes offsets of the beginning and end of the
 /// datetime substring within a `String`.

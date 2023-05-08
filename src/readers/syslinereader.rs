@@ -1873,7 +1873,7 @@ impl SyslineReader {
 
         let mut _fo_a: FileOffset = 0;
         let mut fo1: FileOffset = fileoffset;
-        let mut sysline = Sysline::new();
+        let mut sysline: Sysline;
         loop {
             defo!("({}): self.linereader.find_line_in_block({})", fileoffset, fo1);
             let result_ = self
@@ -1952,9 +1952,11 @@ impl SyslineReader {
                 Ok((dt_beg, dt_end, dt, _index)) => {
                     // a datetime was found! beginning of a sysline
                     _fo_a = fo1;
-                    sysline.dt_beg = dt_beg;
-                    sysline.dt_end = dt_end;
-                    sysline.dt = Some(dt);
+                    sysline = Sysline::new_no_lines(
+                        dt_beg,
+                        dt_end,
+                        dt,
+                    );
                     defo!(
                         "({}): A sl.dt_beg {}, sl.dt_end {}, sl.push({:?})",
                         fileoffset,
@@ -2096,7 +2098,7 @@ impl SyslineReader {
             "({}): found sysline with datetime B at FileOffset {} dt {:?} {:?}",
             fileoffset,
             fo_b,
-            sysline.dt,
+            sysline.dt(),
             sysline.to_String_noraw(),
         );
 
@@ -2185,7 +2187,7 @@ impl SyslineReader {
         // FileOffset
         let mut fo1: FileOffset = fileoffset;
         // the new Sysline instance
-        let mut sysline = Sysline::new();
+        let mut sysline: Sysline;
 
         loop {
             defo!("({}): self.linereader.find_line({})", fileoffset, fo1);
@@ -2242,9 +2244,11 @@ impl SyslineReader {
                 Ok((dt_beg, dt_end, dt, _index)) => {
                     // a datetime was found! beginning of a sysline
                     _fo_a = fo1;
-                    sysline.dt_beg = dt_beg;
-                    sysline.dt_end = dt_end;
-                    sysline.dt = Some(dt);
+                    sysline = Sysline::new_no_lines(
+                        dt_beg,
+                        dt_end,
+                        dt,
+                    );
                     defo!("({}): A sl.push({:?})", fileoffset, (*linep).to_String_noraw());
                     sysline.push(linep);
                     fo1 = sysline.fileoffset_end() + (self.charsz() as FileOffset);
@@ -2439,7 +2443,7 @@ impl SyslineReader {
             "({}): found sysline with datetime B at FileOffset {} {:?} {:?}",
             fileoffset,
             fo_b,
-            sysline.dt,
+            sysline.dt(),
             sysline.to_String_noraw(),
         );
 
@@ -2554,7 +2558,7 @@ impl SyslineReader {
                     defo!(
                         "sysline_dt_after_or_before(@{:p} ({:?}), {:?})",
                         &syslinep,
-                        (*syslinep).dt,
+                        (*syslinep).dt(),
                         dt_filter,
                     );
                     match SyslineReader::sysline_dt_after_or_before(&syslinep, dt_filter) {
@@ -2734,18 +2738,18 @@ impl SyslineReader {
                     "syslinep      : fo_beg {:3}, fo_end {:3} {:?} {:?}",
                     fo_beg,
                     (*syslinep).fileoffset_end(),
-                    (*syslinep).dt.unwrap(),
+                    (*syslinep).dt(),
                     (*syslinep).to_String_noraw()
                 );
                 defo!(
                     "syslinep_next : fo_beg {:3}, fo_end {:3} {:?} {:?}",
                     (*syslinep_next).fileoffset_begin(),
                     (*syslinep_next).fileoffset_end(),
-                    (*syslinep_next).dt.unwrap(),
+                    (*syslinep_next).dt(),
                     (*syslinep_next).to_String_noraw()
                 );
-                let syslinep_compare = dt_after_or_before(&(*syslinep).dt.unwrap(), dt_filter);
-                let syslinep_next_compare = dt_after_or_before(&(*syslinep_next).dt.unwrap(), dt_filter);
+                let syslinep_compare = dt_after_or_before(&(*syslinep).dt(), dt_filter);
+                let syslinep_next_compare = dt_after_or_before(&(*syslinep_next).dt(), dt_filter);
                 defo!("match({:?}, {:?})", syslinep_compare, syslinep_next_compare);
                 syslinep = match (syslinep_compare, syslinep_next_compare) {
                     (_, Result_Filter_DateTime1::Pass) | (Result_Filter_DateTime1::Pass, _) => {
@@ -2806,12 +2810,8 @@ impl SyslineReader {
             (*syslinep).fileoffset_end(),
             dt_filter,
         );
-        assert!((*syslinep).dt.is_some(), "Sysline@{:p} does not have a datetime set.", &syslinep);
 
-        let dt: &DateTimeL = (*syslinep)
-            .dt
-            .as_ref()
-            .unwrap();
+        let dt: &DateTimeL = (*syslinep).dt();
 
         dt_after_or_before(dt, dt_filter)
     }
@@ -2831,11 +2831,7 @@ impl SyslineReader {
             dt_filter_after,
             dt_filter_before,
         );
-        assert!((*syslinep).dt.is_some(), "Sysline @{:p} does not have a datetime set.", &syslinep);
-        let dt: &DateTimeL = (*syslinep)
-            .dt
-            .as_ref()
-            .unwrap();
+        let dt: &DateTimeL = (*syslinep).dt();
         let result: Result_Filter_DateTime2 = dt_pass_filters(dt, dt_filter_after, dt_filter_before);
         defx!("(…) return {:?};", result);
 

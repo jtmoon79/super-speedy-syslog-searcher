@@ -2295,7 +2295,7 @@ pub type DateTimeParseInstrsIndex = usize;
 /// counterpart to [`DATETIME_PARSE_DATAS`]
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
-/// Length of [`DATETIME_PARSE_DATAS`]
+/// Length of [`DATETIME_PARSE_DATAS`] (one past last index)
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.

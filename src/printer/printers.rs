@@ -526,8 +526,7 @@ impl PrinterLogMessage {
         //      https://docs.rs/chrono/latest/chrono/format/struct.DelayedFormat.html
         //
         let dt_: DateTimeL = (*syslinep)
-            .dt
-            .unwrap()
+            .dt()
             .with_timezone(&self.prepend_date_offset);
         let dt_delayedformat = dt_.format(
             self.prepend_date_format

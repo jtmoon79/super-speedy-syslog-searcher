@@ -182,6 +182,19 @@ fn test_errno_to_errorkind() {
     assert_eq!(ErrorKind::PermissionDenied, ek);
 }
 
+#[test_case(&JOURNAL_FILE_RHE_91_SYSTEM_FPATH)]
+#[test_case(&JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH)]
+fn test_mtime(path: &FPath) {
+    load_library_systemd();
+    let jr1 = JournalReader::new(
+        path.clone(),
+        JournalOutput::Short,
+        *FO_0,
+    ).unwrap();
+    // merely run the function
+    _ = jr1.mtime();
+}
+
 /// test creating a new `JournalReader`
 #[test_case(&NTF_JOURNAL_EMPTY_FPATH, false)]
 #[test_case(&FPath::from("BAD PATH"), false)]
