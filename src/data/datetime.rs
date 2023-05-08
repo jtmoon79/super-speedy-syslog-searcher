@@ -5247,7 +5247,8 @@ pub fn bytes_to_regex_to_datetime(
             return None;
         }
         Some(captures) => {
-            deo!("regex: captures.len() {}", captures.len());
+            deo!("regex: captured using DTPD! at index {}", index);
+            deo!("regex captures: len {}", captures.len());
 
             captures
         }
