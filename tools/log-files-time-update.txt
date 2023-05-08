@@ -172,16 +172,17 @@
 ./logs/other/tests/test1-nl_Win.log|2022-09-02 21:45:36.0501770530
 ./logs/other/tests/test1-no-nl.log|2022-09-02 21:45:36.0501770530
 ./logs/other/tests/test2.log|2022-09-02 21:45:36.0501770530
-./logs/other/tests/test2.log.gz|
-./logs/other/tests/test2.tar|
-./logs/other/tests/test2.tar.gz|
+./logs/other/tests/test2.log.gz|2000-01-01 00:00:00 +0000
+./logs/other/tests/test2.tar|2000-01-01 00:00:00 +0000
+./logs/other/tests/test2.tar.gz|2000-01-01 00:00:00 +0000
 ./logs/other/tests/test3-hex.log|2022-09-02 21:45:36.0501770530
 ./logs/other/tests/test.log|2022-09-02 21:45:36.0501770530
-./logs/other/tests/test.log.gz|
-./logs/other/tests/test.log.tar|
-./logs/other/tests/test.log.tar.gz|
-./logs/other/tests/test.tar|
-./logs/other/tests/test.tar.gz|
+./logs/other/tests/test.log.gz|2000-01-01 00:00:00 +0000
+./logs/other/tests/test.log.tar|2000-01-01 00:00:00 +0000
+./logs/other/tests/test.log.tar.gz|2000-01-01 00:00:00 +0000
+./logs/other/tests/test.tar|2000-01-01 00:00:00 +0000
+./logs/other/tests/test.tar.gz|2000-01-01 00:00:00 +0000
+./logs/other/tests/zero100.log|2000-01-01 00:00:00 +0000
 ./logs/other/tests/zero.log|2022-09-02 21:45:36.0501770530
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log|2022-10-08 06:22:57 +0000
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log|2022-10-07 01:15:36 +0000

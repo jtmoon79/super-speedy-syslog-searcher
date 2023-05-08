@@ -78,6 +78,19 @@ const NTF1S_B_DATA: &str = concatcp!(
 const NTF1S_B_MTIME_UNIXEPOCH: i64 = 978381296;
 
 //
+// NTF1S_C - deliberately short data
+//
+
+const NTF1S_C_DATA_LINE0: &str = "ABC";
+
+const NTF1S_C_DATA: &str = concatcp!(
+    NTF1S_C_DATA_LINE0,
+);
+
+/// Unix epoch time for time `NTF1S_C_DATA_LINE0` year 2001 at UTC
+const NTF1S_C_MTIME_UNIXEPOCH: i64 = 978381296;
+
+//
 // NTF2S_A
 //
 
@@ -369,6 +382,26 @@ lazy_static! {
     };
 
     //
+    // NTF1S_C
+    //
+
+    static ref NTF1S_C: NamedTempFile = {
+        let ntf = create_temp_file(NTF1S_C_DATA);
+        // set the file's modified time to `NTF1S_C_MTIME_UNIXEPOCH`
+        let mtime = filetime::FileTime::from_unix_time(NTF1S_C_MTIME_UNIXEPOCH, 0);
+        match filetime::set_file_mtime(ntf.path(), mtime) {
+            Ok(_) => {},
+            Err(err) => panic!("Error failed to set_file_mtime({:?}, {:?}) {:?}", ntf.path(), mtime, err),
+        }
+
+        ntf
+    };
+
+    static ref NTF1S_C_PATH: FPath = {
+        ntf_fpath(&NTF1S_C)
+    };
+
+    //
     // NTF2S_A
     //
 
@@ -646,6 +679,8 @@ const FILEOK: FileProcessingResultBlockZero = FileProcessingResultBlockZero::Fil
 const FILEEMPTY: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrEmpty;
 const FILENOLINESFOUND: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrNoLinesFound;
 const FILENOSYSLINESFOUND: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrNoSyslinesFound;
+const FILENULLBYTES: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrNullBytes;
+const FILETOOSMALL: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrTooSmall;
 #[allow(dead_code)]
 const FILENOSYSLINESINRANGE: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange;
 #[allow(dead_code)]
@@ -720,8 +755,8 @@ fn test_process_stage0(
 #[test_case(&*NTF5X4_PATH, 0x80, FILEOK)]
 #[test_case(&*NTF5X4_PATH, 0x100, FILEOK)]
 #[test_case(&*NTF5X4_PATH, 0x200, FILEOK)]
-#[test_case(&*NTF0X12000_PATH, 0x10, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF0X12000_PATH, SYSLOG_SZ_MAX_BSZ * 2, FILENOLINESFOUND)]
+#[test_case(&*NTF0X12000_PATH, 0x10, FILENULLBYTES)]
+#[test_case(&*NTF0X12000_PATH, SYSLOG_SZ_MAX_BSZ * 2, FILENULLBYTES)]
 #[test_case(&*NTF1S_A_PATH, 0x2, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_A_PATH, 0x4, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_A_PATH, 0xA, FILENOSYSLINESFOUND)]
@@ -742,6 +777,16 @@ fn test_process_stage0(
 #[test_case(&*NTF1S_B_PATH, 0xF, FILEOK)]
 #[test_case(&*NTF1S_B_PATH, 0x10, FILEOK)]
 #[test_case(&*NTF1S_B_PATH, 0x100, FILEOK)]
+#[test_case(&*NTF1S_C_PATH, 0x2, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_C_PATH, 0x4, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0xA, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0xB, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0xC, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0xD, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0xE, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0xF, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0x10, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0x100, FILETOOSMALL)]
 #[test_case(&*NTF2S_A_PATH, 0x2, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF2S_A_PATH, 0x4, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF2S_A_PATH, 0xA, FILENOSYSLINESFOUND)]

@@ -44,6 +44,10 @@
 ./logs/other/tests/dtf9d-24-12x2-leapday.log
 ./logs/other/tests/dtf-varying-10.log
 ./logs/other/tests/dt-mix1.log
+./logs/other/tests/invalid1a.log
+./logs/other/tests/invalid1b.log
+./logs/other/tests/invalid2.log
+./logs/other/tests/zero100.log
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
 ./logs/programs/journal/RHE_91_system.journal
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal

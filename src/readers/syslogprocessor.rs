@@ -259,6 +259,22 @@ impl SyslogProcessor {
     #[cfg(not(any(debug_assertions, test)))]
     pub const BLOCKSZ_MIN: BlockSz = 0x40;
 
+    /// Minimum number of bytes needed to perform `blockzero_analysis_bytes`.
+    ///
+    /// Pretty sure this is smaller than the smallest possible timestamp that
+    /// can be processed by the `DTPD!` in `DATETIME_PARSE_DATAS`.
+    /// In other words, a file that only has a datetimestamp followed by an
+    /// empty log message.
+    ///
+    /// It's okay if this is too small as the later processing stages will
+    /// be certain of any possible datetime patterns.
+    pub const BLOCKZERO_ANALYSIS_BYTES_MIN: BlockSz = 6;
+
+    /// If the first number of bytes are zero bytes (NULL bytes) then
+    /// stop processing the file. It's extremely unlikely this is a syslog
+    /// file and more likely it's some sort of binary data file.
+    pub const BLOCKZERO_ANALYSIS_BYTES_NULL_MAX: usize = 128;
+
     /// Allow "streaming" stage to drop data?
     /// Compile-time "option" to aid manual debugging.
     #[doc(hidden)]
@@ -909,6 +925,140 @@ impl SyslogProcessor {
         self.summary_complete()
     }
 
+    /// Review bytes in the first block ("zero block").
+    /// If enough `Line` found then return [`FileOk`]
+    /// else return [`FileErrNoLinesFound`].
+    ///
+    /// [`FileOk`]: self::FileProcessingResultBlockZero
+    /// [`FileErrNoLinesFound`]: self::FileProcessingResultBlockZero
+    pub(super) fn blockzero_analysis_bytes(&mut self) -> FileProcessingResultBlockZero {
+        defn!();
+        self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
+
+        let blockp: BlockP = match self
+            .syslinereader
+            .linereader
+            .blockreader
+            .read_block(0)
+        {
+            ResultS3ReadBlock::Found(blockp_) => blockp_,
+            ResultS3ReadBlock::Done => {
+                defx!("return FileErrEmpty");
+                return FileProcessingResultBlockZero::FileErrEmpty;
+            }
+            ResultS3ReadBlock::Err(err) => {
+                self.set_error(&err);
+                defx!("return FileErrIo({:?})", err);
+                return FileProcessingResultBlockZero::FileErrIo(err);
+            }
+        };
+        // if the first block is too small then there will not be enough
+        // data to parse a `Line` or `Sysline`
+        let blocksz0: BlockSz = (*blockp).len() as BlockSz;
+        let require_sz: BlockSz = std::cmp::min(Self::BLOCKZERO_ANALYSIS_BYTES_MIN, self.blocksz());
+        defo!("blocksz0 {} < {} require_sz", blocksz0, require_sz);
+        if blocksz0 < require_sz {
+            defx!("return FileErrTooSmall");
+            return FileProcessingResultBlockZero::FileErrTooSmall;
+        }
+        // if the first `BLOCKZERO_ANALYSIS_BYTES_NULL_MAX` bytes are all
+        // zero then this is not a text file and processing should stop.
+        if (*blockp).iter().take(Self::BLOCKZERO_ANALYSIS_BYTES_NULL_MAX).all(|&b| b == 0) {
+            defx!("return FileErrNullBytes");
+            return FileProcessingResultBlockZero::FileErrNullBytes;
+        }
+
+        defx!("return FileOk");
+
+        FileProcessingResultBlockZero::FileOk
+    }
+
+    /// Attempt to find a minimum number of [`Line`s] within the first block
+    /// (block zero).
+    /// If enough `Line` found then return [`FileOk`]
+    /// else return [`FileErrNoLinesFound`].
+    ///
+    /// [`Line`s]: crate::data::line::Line
+    /// [`FileOk`]: self::FileProcessingResultBlockZero
+    /// [`FileErrNoLinesFound`]: self::FileProcessingResultBlockZero
+    pub(super) fn blockzero_analysis_lines(&mut self) -> FileProcessingResultBlockZero {
+        defn!();
+        self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
+
+        let blockp: BlockP = match self
+            .syslinereader
+            .linereader
+            .blockreader
+            .read_block(0)
+        {
+            ResultS3ReadBlock::Found(blockp_) => blockp_,
+            ResultS3ReadBlock::Done => {
+                defx!("return FileErrEmpty");
+                return FileProcessingResultBlockZero::FileErrEmpty;
+            }
+            ResultS3ReadBlock::Err(err) => {
+                self.set_error(&err);
+                defx!("return FileErrIo({:?})", err);
+                return FileProcessingResultBlockZero::FileErrIo(err);
+            }
+        };
+        let blocksz0: BlockSz = (*blockp).len() as BlockSz;
+        let mut _partial_found = false;
+        let mut fo: FileOffset = 0;
+        // how many lines have been found?
+        let mut found: Count = 0;
+        // must find at least this many lines in block zero to be FileOk
+        let found_min: Count = *BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP
+            .get(&blocksz0)
+            .unwrap();
+        defx!("block zero blocksz {} found_min {}", blocksz0, found_min);
+        // find `found_min` Lines or whatever can be found within block 0
+        while found < found_min {
+            fo = match self
+                .syslinereader
+                .linereader
+                .find_line_in_block(fo)
+            {
+                (ResultS3LineFind::Found((fo_next, _linep)), _) => {
+                    found += 1;
+
+                    fo_next
+                }
+                (ResultS3LineFind::Done, partial) => {
+                    match partial {
+                        Some(_) => {
+                            found += 1;
+                            _partial_found = true;
+                        },
+                        None => {}
+                    }
+                    break;
+                }
+                (ResultS3LineFind::Err(err), _) => {
+                    self.set_error(&err);
+                    defx!("return FileErrIo({:?})", err);
+                    return FileProcessingResultBlockZero::FileErrIo(err);
+                }
+            };
+            if 0 != self
+                .syslinereader
+                .linereader
+                .block_offset_at_file_offset(fo)
+            {
+                break;
+            }
+        }
+
+        let fpr: FileProcessingResultBlockZero = match found >= found_min {
+            true => FileProcessingResultBlockZero::FileOk,
+            false => FileProcessingResultBlockZero::FileErrNoLinesFound,
+        };
+
+        defx!("found {} lines, partial_found {}, require {} lines, return {:?}", found, _partial_found, found_min, fpr);
+
+        fpr
+    }
+
     /// Attempt to find a minimum number of [`Sysline`] within the first block.
     /// If enough `Sysline` found then return [`FileOk`]
     /// else return [`FileErrNoSyslinesFound`].
@@ -1049,92 +1199,6 @@ impl SyslogProcessor {
         fpr
     }
 
-    /// Attempt to find a minimum number of [`Line`s] within the first block
-    /// (block zero).
-    /// If enough `Line` found then return [`FileOk`]
-    /// else return [`FileErrNoLinesFound`].
-    ///
-    /// [`Line`s]: crate::data::line::Line
-    /// [`FileOk`]: self::FileProcessingResultBlockZero
-    /// [`FileErrNoLinesFound`]: self::FileProcessingResultBlockZero
-    pub(super) fn blockzero_analysis_lines(&mut self) -> FileProcessingResultBlockZero {
-        defn!();
-        self.assert_stage(ProcessingStage::Stage1BlockzeroAnalysis);
-
-        let blockp: BlockP = match self
-            .syslinereader
-            .linereader
-            .blockreader
-            .read_block(0)
-        {
-            ResultS3ReadBlock::Found(blockp_) => blockp_,
-            ResultS3ReadBlock::Done => {
-                defx!("return FileErrEmpty");
-                return FileProcessingResultBlockZero::FileErrEmpty;
-            }
-            ResultS3ReadBlock::Err(err) => {
-                self.set_error(&err);
-                defx!("return FileErrIo({:?})", err);
-                return FileProcessingResultBlockZero::FileErrIo(err);
-            }
-        };
-        let blocksz0: BlockSz = (*blockp).len() as BlockSz;
-        let mut _partial_found = false;
-        let mut fo: FileOffset = 0;
-        // how many lines have been found?
-        let mut found: Count = 0;
-        // must find at least this many lines in block zero to be FileOk
-        let found_min: Count = *BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP
-            .get(&blocksz0)
-            .unwrap();
-        defx!("block zero blocksz {} found_min {}", blocksz0, found_min);
-        // find `found_min` Lines or whatever can be found within block 0
-        while found < found_min {
-            fo = match self
-                .syslinereader
-                .linereader
-                .find_line_in_block(fo)
-            {
-                (ResultS3LineFind::Found((fo_next, _linep)), _) => {
-                    found += 1;
-
-                    fo_next
-                }
-                (ResultS3LineFind::Done, partial) => {
-                    match partial {
-                        Some(_) => {
-                            found += 1;
-                            _partial_found = true;
-                        },
-                        None => {}
-                    }
-                    break;
-                }
-                (ResultS3LineFind::Err(err), _) => {
-                    self.set_error(&err);
-                    defx!("return FileErrIo({:?})", err);
-                    return FileProcessingResultBlockZero::FileErrIo(err);
-                }
-            };
-            if 0 != self
-                .syslinereader
-                .linereader
-                .block_offset_at_file_offset(fo)
-            {
-                break;
-            }
-        }
-
-        let fpr: FileProcessingResultBlockZero = match found >= found_min {
-            true => FileProcessingResultBlockZero::FileOk,
-            false => FileProcessingResultBlockZero::FileErrNoLinesFound,
-        };
-
-        defx!("found {} lines, partial_found {}, require {} lines, return {:?}", found, _partial_found, found_min, fpr);
-
-        fpr
-    }
-
     /// Call `self.blockzero_analysis_lines`.
     /// If that passes then call `self.blockzero_analysis_syslines`.
     pub(super) fn blockzero_analysis(&mut self) -> FileProcessingResultBlockZero {
@@ -1148,9 +1212,11 @@ impl SyslogProcessor {
             return FileProcessingResultBlockZero::FileErrEmpty;
         }
 
-        // TODO: check what percentage of chars are reabable, if it's all
-        //       control chars or too many broken UTF8 sequences then return
-        //       FileErrWrongType (or may new FileErr)
+        let result: FileProcessingResultBlockZero = self.blockzero_analysis_bytes();
+        if !result.is_ok() {
+            defx!("syslinereader.blockzero_analysis_bytes() was !is_ok(), return {:?}", result);
+            return result;
+        };
 
         let result: FileProcessingResultBlockZero = self.blockzero_analysis_lines();
         if !result.is_ok() {
