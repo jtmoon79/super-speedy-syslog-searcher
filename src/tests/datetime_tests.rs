@@ -699,21 +699,26 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     // regex matching tests
     //
     eprintln!("Test Regex self-tests …");
-    eprintln!("  Regex Pattern   : {:?}", dtpd.regex_pattern);
-    eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
+    eprintln!("  Regex Pattern     : {:?}", dtpd.regex_pattern);
+    eprintln!("  DateTime Pattern  : {:?}", dtpd.dtfs.pattern);
     for test_case_ in dtpd._test_cases {
-        eprintln!("  Test Data       : {:?}", test_case_);
+        eprintln!("  Test Data all          : {:?}", test_case_);
+        let data = test_case_.3.as_bytes();
+        eprintln!("  Test Data              : {:?}", test_case_.3);
+        let slice_a: usize = std::cmp::min(dtpd.range_regex.start, data.len());
+        let slice_b: usize = std::cmp::min(dtpd.range_regex.end, data.len());
+        let slice_ = &data[slice_a..slice_b];
+        eprintln!("  Test Data slice [{:2},{:2}]: {:?}", dtpd.range_regex.start, dtpd.range_regex.end, slice_.as_bstr());
         let dta: LineIndex = test_case_.0;
         let dtb: LineIndex = test_case_.1;
         assert_lt!(dta, dtb, "bad indexes");
-        let data = test_case_.3.as_bytes();
-        eprintln!("  Test Data[{:2},{:2}]: {:?}", dta, dtb, &data[dta..dtb].as_bstr());
+        eprintln!("  Test Data expect[{:2},{:2}]: {:?}", dta, dtb, &data[dta..dtb].as_bstr());
         let mut year_opt: Option<Year> = None;
         if !dtpd.dtfs.has_year() {
             year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
         }
         let s = buffer_to_String_noraw(data);
-        match bytes_to_regex_to_datetime(data, &index, &year_opt, &FO_L, &FO_L_STR) {
+        match bytes_to_regex_to_datetime(slice_, &index, &year_opt, &FO_L, &FO_L_STR) {
             Some(capdata) => {
                 eprintln!(
                     "Passed dtpd declared at line {} result {:?}, test data {:?}",
