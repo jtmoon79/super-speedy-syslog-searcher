@@ -255,6 +255,15 @@ lazy_static! {
 ///
 /// [`SYSTEMD_JOURNAL_API`]: static@SYSTEMD_JOURNAL_API
 pub fn journal_api() -> JournalApiPtr {
+    #[cfg(debug_assertions)]
+    {
+        if SYSTEMD_JOURNAL_API.read().is_err() {
+            panic!("failed to read SYSTEMD_JOURNAL_API failed; did you call load_library_systemd() previously?");
+        }
+        if SYSTEMD_JOURNAL_API.read().unwrap().as_ref().is_none() {
+            panic!("SYSTEMD_JOURNAL_API holds None; did you call load_library_systemd() previously?");
+        }
+    }
     SYSTEMD_JOURNAL_API.read().unwrap().as_ref().unwrap().clone()
 }
 
