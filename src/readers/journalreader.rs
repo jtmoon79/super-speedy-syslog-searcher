@@ -1853,6 +1853,9 @@ impl<'a> JournalReader {
         let mut key_message_found: bool = false;
 
         // instead of just a `loop` use a `while` loop with a emergency counter
+        // TODO: [2023/05/07] enumerating over all the data takes much time according to
+        //       flamegraph. Instead, just fetch exactly the data needed. There's only 5, maximum 6
+        //       queries to do.
         let mut emerg_stop_data_enumerate = 0;
         while emerg_stop_data_enumerate < 200 {
             emerg_stop_data_enumerate += 1;
