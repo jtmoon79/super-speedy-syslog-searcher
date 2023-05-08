@@ -422,10 +422,10 @@ fn test_parse_datetime_in_line_cached__no_cache() {
                 b_expect,
                 blockp,
                 line,
-                indexes,
+                _indexes,
                 year,
-                fo,
-                fo_string,
+                _fo,
+                _fo_string,
                 dt_expect,
                 dt_expect_string,
             ) = helper_extract_dtpi_info(dtpi, i, j);

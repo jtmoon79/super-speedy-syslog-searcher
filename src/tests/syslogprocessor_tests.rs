@@ -677,7 +677,6 @@ fn test_find_sysline_between_datetime_filters_Done() {
 
 const FILEOK: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileOk;
 const FILEEMPTY: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrEmpty;
-const FILENOLINESFOUND: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrNoLinesFound;
 const FILENOSYSLINESFOUND: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrNoSyslinesFound;
 const FILENULLBYTES: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrNullBytes;
 const FILETOOSMALL: FileProcessingResultBlockZero = FileProcessingResultBlockZero::FileErrTooSmall;
