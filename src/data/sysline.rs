@@ -69,9 +69,6 @@ pub struct Sysline {
 // TODO: [2023/04] replace `dt_beg` and `dt_end` with
 //        `common::DtBegEndPairOpt`
 
-/// A signifier value for "not set" or "null" - because sometimes Option is a PitA.
-const LI_NULL: LineIndex = LineIndex::MAX;
-
 impl std::fmt::Debug for Sysline {
     fn fmt(
         &self,
