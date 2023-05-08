@@ -7,7 +7,16 @@
 //! [`Sysline`]: crate::data::sysline::Sysline
 //! [`LineReader`]: crate::readers::linereader::LineReader
 
-use crate::common::{Bytes, CharSz, Count, FPath, FileOffset, FileSz, FileType, ResultS3};
+use crate::common::{
+    Bytes,
+    CharSz,
+    Count,
+    FPath,
+    FileOffset,
+    FileSz,
+    FileType,
+    ResultS3,
+};
 use crate::data::line::{Line, LineIndex, LineP, LinePartPtrs};
 use crate::data::sysline::{Sysline, SyslineP};
 use crate::data::datetime::{
@@ -41,7 +50,7 @@ use crate::readers::linereader::{LineReader, ResultS3LineFind};
 use std::cmp::{max, min};
 #[cfg(test)]
 use std::collections::HashSet;
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeMap;
 use std::fmt;
 use std::io::{Error, ErrorKind, Result};
 use std::sync::Arc;
