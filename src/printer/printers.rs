@@ -45,6 +45,11 @@ use ::si_trace_print::{defn, defo, defx, defñ};
 /// [`Color`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
 pub const COLOR_DEFAULT: Color = Color::White;
 
+/// [`Color`] for printing prepended data like datetime, file name, etc.
+///
+/// [`Color`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
+pub const COLOR_DIMMED: Color = Color::Rgb(0xC0, 0xC0, 0xC0);
+
 /// [`Color`] for printing some user-facing error messages.
 ///
 /// [`Color`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
