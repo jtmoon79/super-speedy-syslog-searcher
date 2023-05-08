@@ -3746,7 +3746,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     DTPD!(
         concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZz, RP_BLANK, CGP_YEAR, RP_NOALNUM),
-        DTFSS_BdHMSYz, 0, 40, CGN_DAYa, CGN_YEAR,
+        DTFSS_BdHMSYz, 0, 45, CGN_DAYa, CGN_YEAR,
         &[
             (0, 29, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 -0000 2016 try umount root [1] times"),
             (0, 30, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC  5 21:01:12 +0000 2016 try umount root [1] times"),
