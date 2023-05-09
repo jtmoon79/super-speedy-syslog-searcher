@@ -277,6 +277,7 @@ fn test_JournalReader_new_(path: &FPath, ok: bool) {
     &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_CAT;
     "RHE91 cat"
 )]
+/// test each type of `--journal-output`
 fn test_JournalReader_entry1_output(
     path: &Path,
     journal_output: JournalOutput,
