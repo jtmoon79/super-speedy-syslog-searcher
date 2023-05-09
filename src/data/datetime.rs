@@ -479,7 +479,7 @@ pub enum DTFS_Year {
     /// none provided, must be filled.
     /// the associated `pattern` should use "%Y`
     _fill,
-    /// no year, do not fill
+    /// no year
     _none,
 }
 
@@ -489,16 +489,19 @@ pub enum DTFS_Year {
 pub enum DTFS_Month {
     /// %m, month numbers 00 to 12
     m,
-    /// %m, month numbers 0 to 12 (`s`ingle-digit), transformed to form `%m` in
-    /// in `captures_to_buffer_bytes`.
+    /// %m, month numbers 0 to 12 (`s`ingle-digit)
+    ///
+    /// Transformed to form `%m` in function `captures_to_buffer_bytes`.
     ms,
     /// %b, month abbreviated to three characters, e.g. `"Jan"`.
     b,
-    /// %B, month full name, e.g. `"January"`, transformed to form `%b` in
+    /// %B, month full name, e.g. `"January"`
+    ///
+    /// Transformed to form `%b` in
     /// function `month_bB_to_month_m_bytes` called by
     /// function `captures_to_buffer_bytes`
     B,
-    /// no month, must be filled.
+    /// no month
     _none,
 }
 
@@ -508,10 +511,11 @@ pub enum DTFS_Month {
 pub enum DTFS_Day {
     /// `%d`, day number 01 to 31
     /// `%e`, day number 1 to 31
-    /// `%d` (" 8" or "08") captured will be changed to `%e` ("08") in
-    /// `fn captures_to_buffer_bytes`
+    ///
+    /// Single-digit `" 8"` or `"8"` is transformed to `"08"` in
+    /// function `captures_to_buffer_bytes`.
     _e_or_d,
-    /// no day, do not fill
+    /// no day
     _none,
 }
 
@@ -527,7 +531,7 @@ pub enum DTFS_Hour {
     I,
     /// %l, 12 hour, 1 to 12
     l,
-    /// no hour, do not fill
+    /// no hour
     _none,
 }
 
@@ -537,7 +541,7 @@ pub enum DTFS_Hour {
 pub enum DTFS_Minute {
     /// %M, 00 to 59
     M,
-    /// no minute, do not fill
+    /// no minute
     _none,
 }
 
@@ -549,7 +553,7 @@ pub enum DTFS_Second {
     S,
     /// fill with value `0`
     _fill,
-    /// no second, do not fill
+    /// no second
     _none,
 }
 
@@ -559,7 +563,7 @@ pub enum DTFS_Second {
 pub enum DTFS_Fractional {
     /// %f, subsecond decimal digits
     f,
-    /// no fractional, will not be filled
+    /// no fractional
     _none,
 }
 
@@ -576,11 +580,11 @@ pub enum DTFS_Tz {
     /// `%Z` named timezone offset, e.g. `"PST"`
     Z,
     /// none, must be filled.
-    /// the associated `pattern` should use `%:z` (variable name substring `Zc`)
+    /// The associated `pattern` should use `%:z` (variable name substring `Zc`)
     /// as that is the form displayed by
     /// `chrono::FixedOffset::east(0).as_string().to_str()`
     _fill,
-    /// no timezone, will not be filled
+    /// no timezone
     _none,
 }
 
@@ -590,7 +594,7 @@ pub enum DTFS_Tz {
 pub enum DTFS_Epoch {
     /// `%s` Unix Epoch in seconds
     s,
-    /// none, will not be filled.
+    /// none
     _none,
 }
 
