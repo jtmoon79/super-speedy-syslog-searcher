@@ -1,13 +1,15 @@
 # Super Speedy Syslog Searcher! (`s4`) <!-- omit in toc -->
 
-Speedily search and merge log file entries by datetime.
+Speedily search and merge log messages by datetime.
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
-and merge varying log files by datetime, including log files that are
-compressed (`.gz`, `.xz`), or archived (`.tar`), and binary format logs including
-utmpx user accounting records (`utmp`, `wtmp`), systemd journal logs
-(`.journal`), and Microsoft Event Logs (`.evtx`).
+and merge varying log message from varying log files, sorted by datetime.
+This includes log files that are compressed (`.gz`, `.xz`), or archived (`.tar`),
+and binary format logs including utmpx user accounting records (`utmp`, `wtmp`),
+systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
 It will parse a variety of formal and ad-hoc log message datetime formats.
+
+Datetime filters may be passed to narrow the search to a datetime range.
 
 The first goal of `s4` is speedy searching and printing.
 
@@ -50,9 +52,13 @@ The first goal of `s4` is speedy searching and printing.
 
 ### Install `super_speedy_syslog_searcher`
 
+Assuming [rust is installed], run
+
 ```lang-text
 cargo install super_speedy_syslog_searcher
 ```
+
+[rust is installed]: https://www.rust-lang.org/tools/install
 
 ### Run `s4`
 
@@ -62,7 +68,7 @@ For example, print all the log messages in syslog files under `/var/log/`
 s4 /var/log
 ```
 
-On Windows, the ad-hoc logs under `C:\Windows\Logs`
+On Windows, print the ad-hoc logs under `C:\Windows\Logs`
 
 ```lang-text
 s4.exe C:\Windows\Logs
@@ -336,7 +342,7 @@ A longer rambling pontification about this project is in
 ### Features
 
 - Parses:
-  - Formal datetime formats:
+  - Ad-hoc log messages using formal datetime formats:
     - [RFC 2822]
     - [RFC 3164]
     - [RFC 3339]
