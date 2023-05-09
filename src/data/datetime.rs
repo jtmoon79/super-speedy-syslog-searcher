@@ -5487,7 +5487,6 @@ pub fn bytes_to_regex_to_datetime(
     let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*index];
     // copy regex matches into a buffer with predictable ordering
     // this ordering relates to datetime format strings in `DATETIME_PARSE_DATAS`
-    // TODO: [2022/06/26] cost-savings: avoid a `String` alloc by passing precreated buffer
     const BUFLEN: usize = 35;
     let mut buffer: [u8; BUFLEN] = [0; BUFLEN];
     let copiedn = captures_to_buffer_bytes(
@@ -5509,7 +5508,7 @@ pub fn bytes_to_regex_to_datetime(
     };
 
     // derive the `LineIndex` bounds of the datetime substring within `data`
-    // TODO: cost-savings: only track dt_first dt_last if using `--color`
+    // TODO: cost-savings: only track dt_first dt_last if passed `--color`
     let dt_beg: LineIndex = match captures.name(dtpd.cgn_first) {
         Some(match_) => match_.start() as LineIndex,
         None => 0,
