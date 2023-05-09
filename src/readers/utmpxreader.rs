@@ -224,6 +224,9 @@ impl fmt::Debug for UtmpxReader {
 }
 
 // TODO: [2023/04] remove redundant variable prefix name `utmpxreader_`
+// TODO: [2023/05] instead of having 1:1 manual copying of `UtmpxReader`
+//       fields to `SummaryUtmpxReader` fields, just store a
+//       `SummaryUtmpxReader` in `UtmpxReader` and update directly.
 #[allow(non_snake_case)]
 #[derive(Clone, Default, Eq, PartialEq, Debug)]
 pub struct SummaryUtmpxReader {

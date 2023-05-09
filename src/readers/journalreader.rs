@@ -962,6 +962,9 @@ impl<'a> fmt::Debug for JournalReader {
 }
 
 // TODO: [2023/04] remove redundant variable prefix name `journalreader_`
+// TODO: [2023/05] instead of having 1:1 manual copying of `JournalReader`
+//       fields to `SummaryJournalReader` fields, just store a
+//       `SummaryJournalReader` in `JournalReader` and update directly.
 #[allow(non_snake_case)]
 #[derive(Clone, Default, Eq, PartialEq, Debug)]
 pub struct SummaryJournalReader{

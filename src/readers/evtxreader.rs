@@ -281,6 +281,9 @@ impl<'a> fmt::Debug for EvtxReader {
 }
 
 // TODO: [2023/04] remove redundant variable prefix name `evtxreader_`
+// TODO: [2023/05] instead of having 1:1 manual copying of `EvtxReader`
+//       fields to `SummaryEvtxReader` fields, just store a
+//       `SummaryEvtxReader` in `EvtxReader` and update directly.
 #[allow(non_snake_case)]
 #[derive(Clone, Default, Eq, PartialEq, Debug)]
 pub struct SummaryEvtxReader {

@@ -399,6 +399,9 @@ impl fmt::Debug for BlockReader {
 }
 
 // TODO: [2023/04] remove redundant variable prefix name `blockreader_`
+// TODO: [2023/05] instead of having 1:1 manual copying of `BlockReader`
+//       fields to `SummaryBlockReader` fields, just store a
+//       `SummaryBlockReader` in `BlockReader` and update directly.
 #[allow(non_snake_case)]
 #[derive(Clone, Default)]
 pub struct SummaryBlockReader {
