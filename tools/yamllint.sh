@@ -2,6 +2,8 @@
 #
 # run yamllint in one command with parameters I prefer
 #
+# Requires Python package `yamllint`
+#
 
 set -eu
 
@@ -13,6 +15,9 @@ set -x
 
 exec \
   "${PYTHON-python3}" -m yamllint \
+    --config-file ./tools/yamllint.yml \
+    "./tools/yamllint.yml" \
     "./.github/workflows/rust.yml" \
     "./.github/codecov.yml" \
+    "./.github/dependabot.yml" \
    "${@}"
