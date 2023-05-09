@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# vim: set fileencoding=utf-8 :
-# file: print_journal_events.py
+# file: journal_print.py
 #
 # helper tool to double-check .journal file entries found using
 # python-systemd:journal.Reader
+#
+# Requires Python package `systemd-python`
 
 __doc__: str = """\
 Print all events from .journal file in the order returned by

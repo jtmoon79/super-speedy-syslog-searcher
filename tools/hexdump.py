@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# file: hexdump.py
 #
 # quick Python script to dump a file to hex format that can be copy+pasted into
 # a rust `[u8]` array
