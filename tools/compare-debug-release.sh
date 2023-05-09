@@ -45,7 +45,14 @@ declare -ar S4_ARGS=(
     --color=never
     --tz-offset=+08:00
     --prepend-filename
+    --prepend-file-align
     --prepend-utc
+    --prepend-separator='┋'
+    --separator='⇳\n'
+    --journal-output=export
+    --dt-after='19990303T000000+0000'
+    --dt-before='20230410T221032+0000'
+    --summary
     '-'
     "${@}"
 )
