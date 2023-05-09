@@ -282,6 +282,8 @@ pub struct SyslineReader {
     ///
     /// [`DATETIME_PARSE_DATAS_REGEX_VEC`]: static@crate::data::datetime::DATETIME_PARSE_DATAS_REGEX_VEC
     analyzed: bool,
+    /// `Count` of RegEx::captures` attempts.
+    pub(super) regex_captures_attempted: Count,
     /// `Count` of `Ok` to [`Arc::try_unwrap(syslinep)`], effectively a count of
     /// [`Sysline`] dropped.
     ///
@@ -370,10 +372,6 @@ where
 //       `SummarySyslineReader` in `SyslineReader` and update directly.
 #[derive(Clone, Debug, Default)]
 pub struct SummarySyslineReader {
-    /// `SyslineReader::drop_sysline_ok`
-    pub syslinereader_drop_sysline_ok: Count,
-    /// `SyslineReader::drop_sysline_errors`
-    pub syslinereader_drop_sysline_errors: Count,
     /// `Count` of `Syslines` processed by `SyslineReader`
     pub syslinereader_syslines: Count,
     /// "high watermark"` of `Sysline`s stored by `SyslineReader.syslines`
@@ -412,6 +410,12 @@ pub struct SummarySyslineReader {
     pub syslinereader_get_boxptrs_doubleptr: Count,
     /// `SyslineReader::get_boxptrs_multiptr`
     pub syslinereader_get_boxptrs_multiptr: Count,
+    /// `SyslineReader::regex_captures_attempted`
+    pub syslinereader_regex_captures_attempted: Count,
+    /// `SyslineReader::drop_sysline_ok`
+    pub syslinereader_drop_sysline_ok: Count,
+    /// `SyslineReader::drop_sysline_errors`
+    pub syslinereader_drop_sysline_errors: Count,
     /// `SyslineReader::ezcheck12_hit`
     pub syslinereader_ezcheck12_hit: Count,
     /// `SyslineReader::ezcheck12_miss`
@@ -512,6 +516,7 @@ impl SyslineReader {
             get_boxptrs_doubleptr: 0,
             get_boxptrs_multiptr: 0,
             analyzed: false,
+            regex_captures_attempted: 0,
             drop_sysline_ok: 0,
             drop_sysline_errors: 0,
             ezcheck12_hit: 0,
@@ -1162,6 +1167,7 @@ impl SyslineReader {
         get_boxptrs_singleptr: &mut Count,
         get_boxptrs_doubleptr: &mut Count,
         get_boxptrs_multiptr: &mut Count,
+        regex_captures_attempt: &mut Count,
         ezcheck12_hit: &mut Count,
         ezcheck12_miss: &mut Count,
         ezcheck12_hit_max: &mut LineIndex,
@@ -1315,6 +1321,7 @@ impl SyslineReader {
             }
 
             // find the datetime string using `Regex`, convert to a `DateTimeL`
+            *regex_captures_attempt += 1;
             let dt: DateTimeL;
             let dt_beg: LineIndex;
             let dt_end: LineIndex;
@@ -1629,6 +1636,7 @@ impl SyslineReader {
             &mut self.get_boxptrs_singleptr,
             &mut self.get_boxptrs_doubleptr,
             &mut self.get_boxptrs_multiptr,
+            &mut self.regex_captures_attempted,
             &mut self.ezcheck12_hit,
             &mut self.ezcheck12_miss,
             &mut self.ezcheck12_hit_max,
@@ -2979,6 +2987,8 @@ impl SyslineReader {
             .get_boxptrs_doubleptr;
         let syslinereader_get_boxptrs_multiptr = self
             .get_boxptrs_multiptr;
+        let syslinereader_regex_captures_attempted = self
+            .regex_captures_attempted;
         let syslinereader_drop_sysline_ok = self
             .drop_sysline_ok;
         let syslinereader_drop_sysline_errors = self
@@ -3013,6 +3023,7 @@ impl SyslineReader {
             syslinereader_get_boxptrs_singleptr,
             syslinereader_get_boxptrs_doubleptr,
             syslinereader_get_boxptrs_multiptr,
+            syslinereader_regex_captures_attempted,
             syslinereader_drop_sysline_ok,
             syslinereader_drop_sysline_errors,
             syslinereader_ezcheck12_hit,

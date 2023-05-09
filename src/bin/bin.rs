@@ -4548,6 +4548,12 @@ fn print_cache_stats_summarysyslinereader(
         wide = wide,
         widep = WIDEP,
     );
+    // SyslineReader::regex_captures_attempted
+    eprintln!(
+        "{}process: regex captures attempted                            : {:?}",
+        indent,
+        summarysyslinereader.syslinereader_regex_captures_attempted,
+    );
 }
 
 fn print_cache_stats_summaryutmpreader(

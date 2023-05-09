@@ -315,6 +315,7 @@ fn helper_extract_dtpi_info(
 /// test `SyslineReader::find_datetime_in_line`
 #[test]
 fn test_find_datetime_in_line() {
+    let mut regex_captures_attempt: Count = 0;
     let mut get_boxptrs_singleptr: Count = 0;
     let mut get_boxptrs_doubleptr: Count = 0;
     let mut get_boxptrs_multiptr: Count = 0;
@@ -353,6 +354,7 @@ fn test_find_datetime_in_line() {
                 &Some(year),
                 &fo,
                 &fo_string,
+                &mut regex_captures_attempt,
                 &mut get_boxptrs_singleptr,
                 &mut get_boxptrs_doubleptr,
                 &mut get_boxptrs_multiptr,
@@ -5511,6 +5513,7 @@ fn test_ezcheck_slice(
     0,
     4,
     0,
+    0,
     488,
     0,
     0,
@@ -5549,6 +5552,7 @@ fn test_ezcheck_slice(
     0,
     1,
     0,
+    75,
     4,
     71,
     0,
@@ -5587,6 +5591,7 @@ fn test_ezcheck_slice(
     0,
     0,
     0,
+    75,
     4,
     71,
     0,
@@ -5625,6 +5630,7 @@ fn test_ezcheck_slice(
     1,
     2,
     0,
+    76,
     0,
     0,
     76,
@@ -5663,6 +5669,7 @@ fn test_syslinereadersummary(
     syslinereader_parse_datetime_in_line_lru_cache_hit: Count,
     syslinereader_parse_datetime_in_line_lru_cache_miss: Count,
     syslinereader_parse_datetime_in_line_lru_cache_put: Count,
+    syslinereader_regex_captures_attempted: Count,
     syslinereader_get_boxptrs_singleptr: Count,
     syslinereader_get_boxptrs_doubleptr: Count,
     syslinereader_get_boxptrs_multiptr: Count,
@@ -5783,63 +5790,68 @@ fn test_syslinereadersummary(
             "syslinereader_parse_datetime_in_line_lru_cache_put 17"
     );
     assert_eq!(
+        syslinereader_regex_captures_attempted,
+        summary.syslinereader_regex_captures_attempted,
+        "syslinereader_regex_captures_attempted 18"
+    );
+    assert_eq!(
             syslinereader_get_boxptrs_singleptr,
             summary.syslinereader_get_boxptrs_singleptr,
-            "syslinereader_get_boxptrs_singleptr 18"
+            "syslinereader_get_boxptrs_singleptr 19"
     );
     assert_eq!(
             syslinereader_get_boxptrs_doubleptr,
             summary.syslinereader_get_boxptrs_doubleptr,
-            "syslinereader_get_boxptrs_doubleptr 19"
+            "syslinereader_get_boxptrs_doubleptr 20"
     );
     assert_eq!(
             syslinereader_get_boxptrs_multiptr,
             summary.syslinereader_get_boxptrs_multiptr,
-            "syslinereader_get_boxptrs_multiptr 20"
+            "syslinereader_get_boxptrs_multiptr 21"
     );
     assert_eq!(
         syslinereader_ezcheck12_hit,
         summary.syslinereader_ezcheck12_hit,
-        "syslinereader_ezcheck12_hit 21"
+        "syslinereader_ezcheck12_hit 22"
     );
     assert_eq!(
         syslinereader_ezcheck12_miss,
         summary.syslinereader_ezcheck12_miss,
-        "syslinereader_ezcheck12_miss 22"
+        "syslinereader_ezcheck12_miss 23"
     );
     assert_eq!(
         syslinereader_ezcheck12_hit_max,
         summary.syslinereader_ezcheck12_hit_max,
-        "syslinereader_ezcheck12_hit_max 23"
+        "syslinereader_ezcheck12_hit_max 24"
     );
     assert_eq!(
         syslinereader_ezcheckd2_hit,
         summary.syslinereader_ezcheckd2_hit,
-        "syslinereader_ezcheckd2_hit 24"
+        "syslinereader_ezcheckd2_hit 25"
     );
     assert_eq!(
         syslinereader_ezcheckd2_miss,
         summary.syslinereader_ezcheckd2_miss,
-        "syslinereader_ezcheckd2_miss 25"
+        "syslinereader_ezcheckd2_miss 26"
     );
     assert_eq!(
         syslinereader_ezcheckd2_hit_max,
         summary.syslinereader_ezcheckd2_hit_max,
-        "syslinereader_ezcheckd2_hit_max 26"
+        "syslinereader_ezcheckd2_hit_max 27"
     );
     assert_eq!(
         syslinereader_ezcheck12d2_hit,
         summary.syslinereader_ezcheck12d2_hit,
-        "syslinereader_ezcheck12d2_hit 27"
+        "syslinereader_ezcheck12d2_hit 28"
     );
     assert_eq!(
         syslinereader_ezcheck12d2_miss,
         summary.syslinereader_ezcheck12d2_miss,
-        "syslinereader_ezcheck12d2_miss 28"
+        "syslinereader_ezcheck12d2_miss 29"
     );
     assert_eq!(
         syslinereader_ezcheck12d2_hit_max,
         summary.syslinereader_ezcheck12d2_hit_max,
-        "syslinereader_ezcheck12d2_hit_max 29"
+        "syslinereader_ezcheck12d2_hit_max 30"
     );
 }
