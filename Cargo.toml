@@ -2,7 +2,9 @@
 
 [package]
 name = "super_speedy_syslog_searcher"
-description = "Speedily search and merge log file entries by datetime. DateTime filters may be passed to narrow the search. It aims to be very fast."
+# The `description` should roughly match the first three paragraph sentences
+# in `README.md`
+description = "Speedily search and merge log messages by datetime. DateTime filters may be passed to narrow the search. It aims to be very fast."
 repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
 authors = ["James Thomas Moon"]
 license = "MIT"
