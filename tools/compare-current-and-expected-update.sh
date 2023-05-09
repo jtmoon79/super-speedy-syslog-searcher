@@ -61,20 +61,10 @@ echo >&2
 echo "$(wc -l < "${logs}") files in \"${logs}\"" >&2
 echo >&2
 
-PROGRAM=${PROGRAM-./target/release/s4}
+source "$(dirname "${0}")/compare-current-and-expected-common.sh"
+
 (set -x; "${PROGRAM}" --version)
 echo >&2
-
-# these arguments must agree with `compare-current-and-expected.sh`
-declare -ar S4_ARGS=(
-    --color=never
-    --tz-offset=+08:00
-    --prepend-filepath
-    --prepend-utc
-    --summary
-    '-'
-    "${@}"
-)
 
 (
     set -x

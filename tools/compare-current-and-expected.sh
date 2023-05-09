@@ -71,7 +71,10 @@ echo >&2
 echo "$(wc -l < "${logs}") files in \"${logs}\"" >&2
 echo >&2
 
-PROGRAM=${PROGRAM-./target/release/s4}
+
+# define `S4_ARGS`, `PROGRAM`
+source "$(dirname "${0}")/compare-current-and-expected-common.sh"
+
 # verify s4 can run
 (set -x; "${PROGRAM}" --version)
 echo >&2
@@ -79,16 +82,6 @@ echo >&2
 #
 # run s4 program
 #
-
-declare -ar S4_ARGS=(
-    --color=never
-    --tz-offset=+08:00
-    --prepend-filepath
-    --prepend-utc
-    --summary
-    '-'
-    "${@}"
-)
 
 echo "${PS4}${PROGRAM} ${S4_ARGS[@]} < ${logs}" >&2
 (
