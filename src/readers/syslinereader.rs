@@ -365,6 +365,9 @@ where
 }
 
 // TODO: [2023/04] remove redundant variable prefix name `syslinereader_`
+// TODO: [2023/05] instead of having 1:1 manual copying of `SyslineReader`
+//       fields to `SummarySyslineReader` fields, just store a
+//       `SummarySyslineReader` in `SyslineReader` and update directly.
 #[derive(Clone, Debug, Default)]
 pub struct SummarySyslineReader {
     /// `SyslineReader::drop_sysline_ok`
