@@ -3,7 +3,7 @@
 Speedily search and merge log messages by datetime.
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
-and merge varying log message from varying log files, sorted by datetime.
+and merge varying log messages from varying log files, sorted by datetime.
 This includes log files that are compressed (`.gz`, `.xz`), or archived (`.tar`),
 and binary format logs including utmpx user accounting records (`utmp`, `wtmp`),
 systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
@@ -137,7 +137,7 @@ s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ### `--help`
 
 ```lang-text
-Speedily search and merge log file entries by datetime.
+Speedily search and merge log messages by datetime.
 DateTime filters may be passed to narrow the search.
 It aims to be very fast.
 
@@ -181,8 +181,8 @@ Options:
   -d, --prepend-dt-format <PREPEND_DT_FORMAT>
           Prepend a DateTime using the strftime format string.
           If PREPEND_TZ is set then that value is used for any timezone offsets,
-          i.e. strftime "%z" "%:z" "%Z" values, otherwise the timezone offset
-          value is the local system timezone offset.
+          i.e. strftime "%z" "%:z" "%Z" values, otherwise the timezone offset value
+          is the local system timezone offset.
           [Default: %Y%m%dT%H%M%S%.3f%z]
   -n, --prepend-filename
           Prepend file basename to every line.
@@ -201,11 +201,11 @@ Options:
           The format for .journal file log messages.
           Matches journalctl --output options.
           : [default: short]
-            [possible values: short, short-precise, short-iso, short-iso-precise,
-             short-full, short-monotonic, short-unix, verbose, export, cat]
+          [possible values: short, short-precise, short-iso, short-iso-precise, short-full,
+           short-monotonic, short-unix, verbose, export, cat]
   -c, --color <COLOR_CHOICE>
-          Choose to print to terminal using colors. [default: auto]
-          [possible values: always, auto, never]
+          Choose to print to terminal using colors.
+          [default: auto] [possible values: always, auto, never]
       --blocksz <BLOCKSZ>
           Read blocks of this size in bytes.
           May pass value as any radix (hexadecimal, decimal, octal, binary).
@@ -381,9 +381,9 @@ A longer rambling pontification about this project is in
 ### Limitations
 
 - Only processes UTF-8 or ASCII encoded syslog files. ([Issue #16])
-- Cannot processes multi-file `.gz` files (only processes first stream found).
+- Cannot process multi-file `.gz` files (only processes first stream found).
   ([Issue #8])
-- Cannot processes multi-file `.xz` files (only processes first stream found).
+- Cannot process multi-file `.xz` files (only processes first stream found).
   ([Issue #11])
 - \*\*\* Cannot process archive files or compressed files within other
   archive files or compressed files ([Issue #14]),<br/>
