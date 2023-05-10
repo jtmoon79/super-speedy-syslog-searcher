@@ -187,7 +187,7 @@ Categories:
 
 [unreleased diff]
 
-[unreleased diff]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/latest...HEAD
+[unreleased diff]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/latest...main
 
 <!-- TODO per release: Add Section(s) -->
 
