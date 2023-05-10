@@ -226,6 +226,40 @@ jobs:
       - name: Publish Dry Run
         run: cargo publish --verbose --dry-run --allow-dirty
 
+  job_yamllint:
+    # this job install Python PIP packages
+    name: yamllint
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+      - name: Use Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+      - name: Install dependencies
+        run: |
+          set -eux
+          python --version
+          python -m pip \
+            --disable-pip-version-check \
+            --no-python-version-warning \
+            --version
+          python -m pip install \
+            --disable-pip-version-check \
+            --no-python-version-warning \
+            --no-color \
+            yamllint
+          python -m pip list \
+            --disable-pip-version-check \
+            --no-python-version-warning \
+            -v -v
+      - name: Run yamllint.sh
+        run: |
+          # XXX: ignore yamllint.sh errors, see Issue #120
+          PYTHON=python ./tools/yamllint.sh || true
+
   job_runs:
     # all of these steps need the s4 binary and the git-committed logs
     name: run s4
