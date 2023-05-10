@@ -209,14 +209,14 @@ _Released 2023-05-09_
 ### Changes
 
 - bin.rs refactor channel data passing  [Issue #104] [Issue #60] ([0ea897a7665eff58d9c148ee53559504301e4a52])
-- journalreader.rs efficient key tracking in next_short [Issue #84] ([781063204d0437481e6033a3f1cf5c6c66db102f])
-- miscellaneous codepspell fixes ([524e269e8b6584fdcd60ff551a4f0a5d49e7384e]) ([0c6af5d6d031fd90fd472452bd42ddffab313da4]) ([5bb8a5d1c4331d8e4b0391509abae2277012215d]) ([860b213f7690873f076c098c74b83bb8822a1ba9]) ([af93d662852bbed6a3c13ca4f54ae4a63af56c20]) ([])
+- journalreader.rs efficient key tracking in `next_short` [Issue #84] ([781063204d0437481e6033a3f1cf5c6c66db102f])
+- miscellaneous codepspell fixes ([524e269e8b6584fdcd60ff551a4f0a5d49e7384e]) ([0c6af5d6d031fd90fd472452bd42ddffab313da4]) ([5bb8a5d1c4331d8e4b0391509abae2277012215d]) ([860b213f7690873f076c098c74b83bb8822a1ba9]) ([af93d662852bbed6a3c13ca4f54ae4a63af56c20])
 - datetime.rs remove duplicate enum `DTFS_Hour::Hs` ([cc1cb8aa305b3dc17f9df7c0ad8c898bc931b0c2])
-- syslogprocessor.rs add blockzero_analysis_bytes ([cdd64dfe9773aa85ccdcf1099290b273519169d6])
+- syslogprocessor.rs add `blockzero_analysis_bytes` ([cdd64dfe9773aa85ccdcf1099290b273519169d6])
 - datetime_test.rs test builtins using slice ([b8989f3f0e848138b6de90b81b2c774e775a015d])
 - compare-current-and-expected common args, more args ([d395d94cddeea82f7117682882407feb35258fad])
 - compare-debug-release.sh pass more args to s4 ([dfab1e709a370d468ffb3540f3c6d3e280e97017])
-- github add dependabot.yml ([877177bc4a0ca42544ece0facd2f40273b86c239])
+- github add `dependabot.yml` ([877177bc4a0ca42544ece0facd2f40273b86c239])
 - dependabot: bump libc from 0.2.141 to 0.2.144 ([8e98a8f387132a3a13f53d359086a80caa484cfd])
 - dependabot: bump regex from 1.7.1 to 1.8.1 ([66414e9db930cd116e78a692fa0590a3f574aea2])
 - dependabot: bump crossbeam-channel from 0.5.7 to 0.5.8 ([06640e3218bbbe8bdf97c9a54907fcb1a9491876])
