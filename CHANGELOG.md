@@ -235,7 +235,7 @@ _Released 2023-05-09_
 
 _Released 2023-05-01_
 
-[0.6.63..0.6.63]
+[0.6.63..0.6.64]
 
 ### New
 
@@ -258,7 +258,7 @@ _Released 2023-05-01_
 
 _Released 2023-04-27_
 
-[0.6.62..main]
+[0.6.62..0.6.63]
 
 ### Fixes
 
@@ -1262,8 +1262,10 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [0.5.59...0.6.60]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.5.59...0.6.60
 [0.6.61...0.6.61]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.61...0.6.61
 [0.6.61...0.6.62]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.61...0.6.62
+[0.6.62..0.6.63]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.62..0.6.63
 [0.6.62..main]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.62..main
 [0.6.63..0.6.63]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.63..0.6.63
+[0.6.63..0.6.64]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.63..0.6.64
 [0.6.63..main]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.63..main
 [0.6.64..main]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.64..main
 [001f0c3db2c5751a35946f572aca6bf07c9efcaf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/001f0c3db2c5751a35946f572aca6bf07c9efcaf
