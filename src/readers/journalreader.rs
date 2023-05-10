@@ -1842,7 +1842,7 @@ impl<'a> JournalReader {
         // track which keys have been found, stop calling
         // `sd_journal_enumerate_available_data` when the necessary keys
         // are found
-        // XXX: a local hashset or hashmap to track foudn keys would be
+        // XXX: a local hashset or hashmap to track found keys would be
         //      nice-looking but it was found to use too much resources
         //      according to flamegraph;
         //      about 10% of this function was spent modifying the local hashset.

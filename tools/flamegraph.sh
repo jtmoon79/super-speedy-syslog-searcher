@@ -118,7 +118,7 @@ NOTES+="; -freq ${FREQ}"
 
 set -x
 
-# force important variables to echo in debug ouput
+# force important variables to echo in debug output
 PERF=${PERF}
 CARGO_PROFILE_RELEASE_DEBUG=${CARGO_PROFILE_RELEASE_DEBUG}
 RUST_BACKTRACE=${RUST_BACKTRACE}

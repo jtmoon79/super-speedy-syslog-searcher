@@ -1,6 +1,6 @@
 // src/data/journal.rs
 
-//! Data representatin of `.journal` file log message entries.
+//! Data representation of `.journal` file log message entries.
 
 #[doc(hidden)]
 pub use crate::common::{

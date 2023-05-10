@@ -2951,7 +2951,7 @@ fn processing_loop(
     // Every `exec_*process` thread must first send a `ChanDatum::FileInfo` message
     // before sending any `ChanDatum::NewMessage`.
     // This tracks the threads for which either a `ChanDatum::FileInfo`
-    // is expected and whether it's been recieved. When all expected `ChanDatum::FileInfo`
+    // is expected and whether it's been received. When all expected `ChanDatum::FileInfo`
     // messages have been received, then any errors should be printed, and this map is cleared.
     // In other words, it holds 3 states in this sequence:
     // 1. maps to values that are not all `true` and not empty
@@ -3312,7 +3312,7 @@ fn processing_loop(
             // So call `recv_many_chan` to check if any channels have a new `ChanRecvDatum` to
             // provide.
             // …OR…
-            // have not yet recieved a `ChanDatum::FileInfo` for every processing thread.
+            // have not yet received a `ChanDatum::FileInfo` for every processing thread.
             // …SO…
             // call `recv_many_chan` and wait for any channels (file processing threads) to send
             // a `ChanDatum`.
@@ -3363,7 +3363,7 @@ fn processing_loop(
                             defo!("B3 received ChanDatum::FileSummary for {:?}", pathid);
                             match summary_opt {
                                 Some(summary) => summary_update(&pathid, summary, &mut map_pathid_summary),
-                                None => debug_panic!("No summary recieved for FileSummary with PathID {}", pathid),
+                                None => debug_panic!("No summary received for FileSummary with PathID {}", pathid),
                             }
                             defo!("B3 will disconnect channel {:?}", pathid);
                             disconnect.push(pathid);
