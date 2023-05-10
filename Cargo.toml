@@ -46,7 +46,7 @@ evtx = { version = "0.8.1", features = ["multithreading"] }
 flate2 = "1.0.25"
 itertools = "0.10.5"
 lazy_static = "1.4.0"
-lru = "0.8.1"
+lru = "0.10.0"
 lzma-rs = "0.2.0"
 mime_guess = "2.0.4"
 min-max = "0.1.8"
