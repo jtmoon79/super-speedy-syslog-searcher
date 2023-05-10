@@ -197,6 +197,14 @@ Categories:
 
 _Released 2023-05-09_
 
+<!--
+  TODO: BUG: fix diff link arrangment, this next link should be [0.6.63..0.6.64]
+             in other words, the links are offset by onei
+             in other words, it doesn't make sense for the diff link under section
+             _0.6.64_ to show the difference between it and `main`.
+             It should show the difference between it and _0.6.63_, the prior release.
+-->
+
 [0.6.64..main]
 
 ### New
