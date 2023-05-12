@@ -12,141 +12,144 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 <!-- Table of Contents updated by "Markdown All In One" extension for Visual Studio Code -->
 
 - [Unreleased](#unreleased)
-- [0.6.64](#0664)
+- [0.6.65](#0665)
   - [New](#new)
   - [Changes](#changes)
-  - [Fixes](#fixes)
-- [0.6.63](#0663)
+- [0.6.64](#0664)
   - [New](#new-1)
   - [Changes](#changes-1)
+  - [Fixes](#fixes)
+- [0.6.63](#0663)
+  - [New](#new-2)
+  - [Changes](#changes-2)
   - [Fixes](#fixes-1)
 - [0.6.62](#0662)
   - [Fixes](#fixes-2)
 - [0.6.61](#0661)
-  - [New](#new-2)
-  - [Changes](#changes-2)
+  - [New](#new-3)
+  - [Changes](#changes-3)
   - [Fixes](#fixes-3)
 - [0.6.60](#0660)
-  - [New](#new-3)
+  - [New](#new-4)
 - [0.5.59](#0559)
-  - [Changes](#changes-3)
+  - [Changes](#changes-4)
   - [Fixes](#fixes-4)
 - [0.5.58](#0558)
-  - [New](#new-4)
-  - [Changes](#changes-4)
-- [0.4.57](#0457)
+  - [New](#new-5)
   - [Changes](#changes-5)
+- [0.4.57](#0457)
+  - [Changes](#changes-6)
   - [Fixes](#fixes-5)
 - [0.4.56](#0456)
-  - [New](#new-5)
-  - [Changes](#changes-6)
-  - [Fixes](#fixes-6)
-- [0.3.55](#0355)
   - [New](#new-6)
   - [Changes](#changes-7)
+  - [Fixes](#fixes-6)
+- [0.3.55](#0355)
+  - [New](#new-7)
+  - [Changes](#changes-8)
   - [Fixes](#fixes-7)
 - [0.3.54](#0354)
-  - [New](#new-7)
+  - [New](#new-8)
   - [Fixes](#fixes-8)
 - [0.3.53](#0353)
-  - [New](#new-8)
-  - [Changes](#changes-8)
-- [0.2.52](#0252)
   - [New](#new-9)
-- [0.2.51](#0251)
-  - [New](#new-10)
-- [0.2.50](#0250)
-  - [New](#new-11)
   - [Changes](#changes-9)
+- [0.2.52](#0252)
+  - [New](#new-10)
+- [0.2.51](#0251)
+  - [New](#new-11)
+- [0.2.50](#0250)
+  - [New](#new-12)
+  - [Changes](#changes-10)
   - [Fixes](#fixes-9)
 - [0.2.49](#0249)
-  - [Changes](#changes-10)
+  - [Changes](#changes-11)
   - [Fixes](#fixes-10)
 - [0.2.48](#0248)
-  - [New](#new-12)
-  - [Changes](#changes-11)
+  - [New](#new-13)
+  - [Changes](#changes-12)
   - [Fixes](#fixes-11)
 - [0.2.47](#0247)
 - [0.2.46](#0246)
-  - [New](#new-13)
-  - [Changes](#changes-12)
-  - [Fixes](#fixes-12)
-- [0.1.45](#0145)
   - [New](#new-14)
   - [Changes](#changes-13)
-- [0.1.44](#0144)
+  - [Fixes](#fixes-12)
+- [0.1.45](#0145)
   - [New](#new-15)
   - [Changes](#changes-14)
-  - [Fixes](#fixes-13)
-- [0.1.43](#0143)
+- [0.1.44](#0144)
   - [New](#new-16)
   - [Changes](#changes-15)
-- [0.1.42](#0142)
+  - [Fixes](#fixes-13)
+- [0.1.43](#0143)
+  - [New](#new-17)
   - [Changes](#changes-16)
-- [0.1.41](#0141)
+- [0.1.42](#0142)
   - [Changes](#changes-17)
+- [0.1.41](#0141)
+  - [Changes](#changes-18)
   - [Fixes](#fixes-14)
 - [0.1.40](#0140)
-  - [New](#new-17)
-  - [Changes](#changes-18)
-- [0.1.39](#0139)
-  - [Changes](#changes-19)
-- [0.1.38](#0138)
   - [New](#new-18)
+  - [Changes](#changes-19)
+- [0.1.39](#0139)
   - [Changes](#changes-20)
-- [0.0.37](#0037)
+- [0.1.38](#0138)
   - [New](#new-19)
   - [Changes](#changes-21)
-- [0.0.36](#0036)
+- [0.0.37](#0037)
   - [New](#new-20)
   - [Changes](#changes-22)
+- [0.0.36](#0036)
+  - [New](#new-21)
+  - [Changes](#changes-23)
   - [Fixes](#fixes-15)
 - [0.0.35](#0035)
-  - [New](#new-21)
+  - [New](#new-22)
   - [Fixes](#fixes-16)
 - [0.0.34](#0034)
-  - [New](#new-22)
+  - [New](#new-23)
   - [Fixes](#fixes-17)
 - [0.0.33](#0033)
-  - [New](#new-23)
-- [0.0.32](#0032)
   - [New](#new-24)
+- [0.0.32](#0032)
+  - [New](#new-25)
   - [Fixes](#fixes-18)
 - [0.0.31](#0031)
-  - [New](#new-25)
-- [0.0.30](#0030)
   - [New](#new-26)
-  - [Changes](#changes-23)
-- [0.0.29](#0029)
-  - [Changes](#changes-24)
-- [0.0.28](#0028)
+- [0.0.30](#0030)
   - [New](#new-27)
+  - [Changes](#changes-24)
+- [0.0.29](#0029)
   - [Changes](#changes-25)
-  - [Fixes](#fixes-19)
-- [0.0.27](#0027)
+- [0.0.28](#0028)
   - [New](#new-28)
   - [Changes](#changes-26)
-- [0.0.26](#0026)
+  - [Fixes](#fixes-19)
+- [0.0.27](#0027)
   - [New](#new-29)
   - [Changes](#changes-27)
-  - [Fixes](#fixes-20)
-- [0.0.25](#0025)
+- [0.0.26](#0026)
   - [New](#new-30)
   - [Changes](#changes-28)
-  - [Fixes](#fixes-21)
-- [0.0.24](#0024)
+  - [Fixes](#fixes-20)
+- [0.0.25](#0025)
   - [New](#new-31)
   - [Changes](#changes-29)
-- [0.0.23](#0023)
+  - [Fixes](#fixes-21)
+- [0.0.24](#0024)
   - [New](#new-32)
   - [Changes](#changes-30)
-  - [Fixes](#fixes-22)
-- [0.0.22](#0022)
+- [0.0.23](#0023)
   - [New](#new-33)
   - [Changes](#changes-31)
+  - [Fixes](#fixes-22)
+- [0.0.22](#0022)
+  - [New](#new-34)
+  - [Changes](#changes-32)
   - [Fixes](#fixes-23)
 - [0.0.21](#0021)
-  - [New](#new-34)
+  - [New](#new-35)
   - [Fixes](#fixes-24)
 
 ---
@@ -193,49 +196,67 @@ Categories:
 
 ---
 
+<!--
+  TODO: BUG: fix diff link arrangment
+             the link under `## 0.6.64` be [0.6.63..0.6.64]
+             in other words, the links are offset by one
+             in other words, it doesn't make sense for the diff link under section
+             _0.6.64_ to show the difference between _0.6.64_ and the prior release _0.6.63_.
+-->
+
+## 0.6.65
+
+_Released 2023-05-11_
+
+[0.6.65..main]
+
+### New
+
+- (CI) rust.yml add job_yamllint [Issue #120] ([8bdeafddf2131da83ad916da83ddacb27c363132]) ([6e68808588e0bb24fee292f2b236ed4adcbcbfd2])
+- (TEST) add logs dtf13a.log dtf13b.log dtf13c.log dtf13d.log ([c0f32a8351b2738429e4583169a1bed3781deb73])
+
+### Changes
+
+- (LIB) datetime.rs allow lenient matching timezone ([0c45a5c30d2546af0789f12c0497ce3d0ddeef38])
+- (TOOLS) compare-current-and-expected.sh --prepend-dt-format='%Y%m%dT%H%M%S.%9f' ([a264d18db3089d067687f3f6e9f31e62379cd38a])
+
+---
+
 ## 0.6.64
 
 _Released 2023-05-09_
 
-<!--
-  TODO: BUG: fix diff link arrangment, this next link should be [0.6.63..0.6.64]
-             in other words, the links are offset by onei
-             in other words, it doesn't make sense for the diff link under section
-             _0.6.64_ to show the difference between it and `main`.
-             It should show the difference between it and _0.6.63_, the prior release.
--->
-
-[0.6.64..main]
+[0.6.64..0.6.65]
 
 ### New
 
-- bin.rs print datetimes as UTC dimmed ([e51c30f16a3fb478829bade3350a429d54ee3e94])
-- parse Red Hat Audit logs, parse epochs [Issue #112] ([0fceba274b8dbefb01ed890d3c211fd85211822b]) ([69ef9f7b8d04b0afa5885040b51ef50c18873fea])
-- src/ Summary statistics for regex capture attempts ([281adc0d2ebea05a6f47fca2ccabffe865295c16])
-- yamlllint.yml add rules for yamllint.sh ([fa5ff7329049623be8379968adf2946360a780cb])
+- (BIN) bin.rs print datetimes as UTC dimmed ([e51c30f16a3fb478829bade3350a429d54ee3e94])
+- (LIB) parse Red Hat Audit logs, parse epochs [Issue #112] ([0fceba274b8dbefb01ed890d3c211fd85211822b]) ([69ef9f7b8d04b0afa5885040b51ef50c18873fea])
+- (BIN) (LIB) src/ Summary statistics for regex capture attempts ([281adc0d2ebea05a6f47fca2ccabffe865295c16])
+- (TOOLS) yamlllint.yml add rules for yamllint.sh ([fa5ff7329049623be8379968adf2946360a780cb])
 
 ### Changes
 
-- bin.rs refactor channel data passing  [Issue #104] [Issue #60] ([0ea897a7665eff58d9c148ee53559504301e4a52])
-- journalreader.rs efficient key tracking in `next_short` [Issue #84] ([781063204d0437481e6033a3f1cf5c6c66db102f])
-- miscellaneous codepspell fixes ([524e269e8b6584fdcd60ff551a4f0a5d49e7384e]) ([0c6af5d6d031fd90fd472452bd42ddffab313da4]) ([5bb8a5d1c4331d8e4b0391509abae2277012215d]) ([860b213f7690873f076c098c74b83bb8822a1ba9]) ([af93d662852bbed6a3c13ca4f54ae4a63af56c20])
-- datetime.rs remove duplicate enum `DTFS_Hour::Hs` ([cc1cb8aa305b3dc17f9df7c0ad8c898bc931b0c2])
-- syslogprocessor.rs add `blockzero_analysis_bytes` ([cdd64dfe9773aa85ccdcf1099290b273519169d6])
-- datetime_test.rs test builtins using slice ([b8989f3f0e848138b6de90b81b2c774e775a015d])
-- compare-current-and-expected common args, more args ([d395d94cddeea82f7117682882407feb35258fad])
-- compare-debug-release.sh pass more args to s4 ([dfab1e709a370d468ffb3540f3c6d3e280e97017])
-- github add `dependabot.yml` ([877177bc4a0ca42544ece0facd2f40273b86c239])
-- dependabot: bump libc from 0.2.141 to 0.2.144 ([8e98a8f387132a3a13f53d359086a80caa484cfd])
-- dependabot: bump regex from 1.7.1 to 1.8.1 ([66414e9db930cd116e78a692fa0590a3f574aea2])
-- dependabot: bump crossbeam-channel from 0.5.7 to 0.5.8 ([06640e3218bbbe8bdf97c9a54907fcb1a9491876])
-- dependabot: bump tempfile from 3.4.0 to 3.5.0  ([210f01c36f0e7b8415ae595fbda857cff44277fb])
-- dependabot: bump lru from 0.8.1 to 0.10.0 ([75f7c9fa0fdb16e471281c701b71759e728df81d])
-- dependabot: bump clap from 4.2.1 to 4.2.7  ([33447dd116c091bd968eedf78675dc8c94b46982])
+- (BIN) bin.rs refactor channel data passing  [Issue #104] [Issue #60] ([0ea897a7665eff58d9c148ee53559504301e4a52])
+- (LIB) journalreader.rs efficient key tracking in `next_short` [Issue #84] ([781063204d0437481e6033a3f1cf5c6c66db102f])
+- (LIB) (BIN) miscellaneous codepspell fixes ([524e269e8b6584fdcd60ff551a4f0a5d49e7384e]) ([0c6af5d6d031fd90fd472452bd42ddffab313da4]) ([5bb8a5d1c4331d8e4b0391509abae2277012215d]) ([860b213f7690873f076c098c74b83bb8822a1ba9]) ([af93d662852bbed6a3c13ca4f54ae4a63af56c20])
+- (LIB) datetime.rs remove duplicate enum `DTFS_Hour::Hs` ([cc1cb8aa305b3dc17f9df7c0ad8c898bc931b0c2])
+- (LIB) syslogprocessor.rs add `blockzero_analysis_bytes` ([cdd64dfe9773aa85ccdcf1099290b273519169d6])
+- (TEST) datetime_test.rs test builtins using slice ([b8989f3f0e848138b6de90b81b2c774e775a015d])
+- (TOOLS) compare-current-and-expected common args, more args ([d395d94cddeea82f7117682882407feb35258fad])
+- (TOOLS) compare-debug-release.sh pass more args to s4 ([dfab1e709a370d468ffb3540f3c6d3e280e97017])
+- (CI) github add `dependabot.yml` ([877177bc4a0ca42544ece0facd2f40273b86c239])
+- (LIB) dependabot: bump libc from 0.2.141 to 0.2.144 ([8e98a8f387132a3a13f53d359086a80caa484cfd])
+- (LIB) dependabot: bump regex from 1.7.1 to 1.8.1 ([66414e9db930cd116e78a692fa0590a3f574aea2])
+- (LIB) dependabot: bump crossbeam-channel from 0.5.7 to 0.5.8 ([06640e3218bbbe8bdf97c9a54907fcb1a9491876])
+- (LIB) dependabot: bump tempfile from 3.4.0 to 3.5.0  ([210f01c36f0e7b8415ae595fbda857cff44277fb])
+- (LIB) dependabot: bump lru from 0.8.1 to 0.10.0 ([75f7c9fa0fdb16e471281c701b71759e728df81d])
+- (LIB) dependabot: bump clap from 4.2.1 to 4.2.7  ([33447dd116c091bd968eedf78675dc8c94b46982])
 
 ### Fixes
 
-- syslinereader.rs fix sort of indexes  ([f1baa4d5f07e31c179c983a0b855cbc240903859])
-- datetime.rs fix too short slice recommendation ([2af24cbfbb1645e2cd364a9ab4434e0892619939])
+- (LIB) syslinereader.rs fix sort of indexes ([f1baa4d5f07e31c179c983a0b855cbc240903859])
+- (LIB) datetime.rs fix too short slice recommendation ([2af24cbfbb1645e2cd364a9ab4434e0892619939])
 
 ---
 
@@ -1228,6 +1249,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [Issue #105]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/105
 [Issue #108]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/108
 [Issue #112]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/112
+[Issue #120]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/120
 [0.0.1...0.0.21]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.1...0.0.21
 [0.0.21...0.0.22]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.21...0.0.22
 [0.0.22...0.0.23]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.22...0.0.23
@@ -1275,7 +1297,9 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [0.6.63..0.6.63]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.63..0.6.63
 [0.6.63..0.6.64]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.63..0.6.64
 [0.6.63..main]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.63..main
+[0.6.64..0.6.65]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.64..0.6.65
 [0.6.64..main]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.64..main
+[0.6.65..main]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.65..main
 [001f0c3db2c5751a35946f572aca6bf07c9efcaf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/001f0c3db2c5751a35946f572aca6bf07c9efcaf
 [003b29bab508b32750cb303c70db9dc75cc04eab]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/003b29bab508b32750cb303c70db9dc75cc04eab
 [01f395903cff248be11ecf6f12974a3951aa7e92]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/01f395903cff248be11ecf6f12974a3951aa7e92
@@ -1296,6 +1320,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [0a46b5aee7eb99e19a9a2a91ed81d759978b6024]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0a46b5aee7eb99e19a9a2a91ed81d759978b6024
 [0a5ce1e0011920909cfa5bc022f95b3a502ff244]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0a5ce1e0011920909cfa5bc022f95b3a502ff244
 [0bee4492533b7a88dfb43a9965b9026bcdefc705]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0bee4492533b7a88dfb43a9965b9026bcdefc705
+[0c45a5c30d2546af0789f12c0497ce3d0ddeef38]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0c45a5c30d2546af0789f12c0497ce3d0ddeef38
 [0c6af5d6d031fd90fd472452bd42ddffab313da4]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0c6af5d6d031fd90fd472452bd42ddffab313da4
 [0c7efef500543e3176b1538c90065cad3d624c50]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0c7efef500543e3176b1538c90065cad3d624c50
 [0ca431ce8b510b6714420a8954f587eccd84a01d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0ca431ce8b510b6714420a8954f587eccd84a01d
@@ -1416,6 +1441,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [6baae7cc71bf42de7584025bf53843f3c0ff8f6c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6baae7cc71bf42de7584025bf53843f3c0ff8f6c
 [6d64fd6d8ee1b5338877004d22ecfaf18ed47ba7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6d64fd6d8ee1b5338877004d22ecfaf18ed47ba7
 [6e284ff06182c3f684c16d49c6bfba8795a862b6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6e284ff06182c3f684c16d49c6bfba8795a862b6
+[6e68808588e0bb24fee292f2b236ed4adcbcbfd2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6e68808588e0bb24fee292f2b236ed4adcbcbfd2
 [6f7831f10b187cb72f0ec7568db8ae9c8482a146]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6f7831f10b187cb72f0ec7568db8ae9c8482a146
 [705dd66a0d7771b67d2d1b57de9619cd969939f7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/705dd66a0d7771b67d2d1b57de9619cd969939f7
 [70dcb6e4bebf26ed60cd26df4eb321417f106da5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/70dcb6e4bebf26ed60cd26df4eb321417f106da5
@@ -1455,6 +1481,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [8a47ad83cd68c7eec60db4ff734f8ead3d54b977]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8a47ad83cd68c7eec60db4ff734f8ead3d54b977
 [8a50df10142c2c8d6c81eaabfb10919d1c3efa0b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8a50df10142c2c8d6c81eaabfb10919d1c3efa0b
 [8b28a796072ec619470e61539ea6803be8f6da36]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8b28a796072ec619470e61539ea6803be8f6da36
+[8bdeafddf2131da83ad916da83ddacb27c363132]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8bdeafddf2131da83ad916da83ddacb27c363132
 [8be5e30f4b82fc97cb03e05d086412e050b333db]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8be5e30f4b82fc97cb03e05d086412e050b333db
 [8c9a919deb3aed74a11f45ca375f28ded421f4c5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8c9a919deb3aed74a11f45ca375f28ded421f4c5
 [8cd40b522d2e87dd69dd21704c5f128d6d05847b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8cd40b522d2e87dd69dd21704c5f128d6d05847b
@@ -1488,6 +1515,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [a13786623e5b9117418dc6ff86c1f0519e9074f0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a13786623e5b9117418dc6ff86c1f0519e9074f0
 [a1e1a680278843d4f871f5556bee679282a8d268]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a1e1a680278843d4f871f5556bee679282a8d268
 [a25699295eed0a20eeb3571e0c401d4c901928eb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a25699295eed0a20eeb3571e0c401d4c901928eb
+[a264d18db3089d067687f3f6e9f31e62379cd38a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a264d18db3089d067687f3f6e9f31e62379cd38a
 [a4fd91f4b1340a754754b8bec841eb60102988bf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a4fd91f4b1340a754754b8bec841eb60102988bf
 [a503554d9c0bbae7751b1e448156a7dc43f32def]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a503554d9c0bbae7751b1e448156a7dc43f32def
 [a71c5e81761deb547c315296004167e13f82fe9b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a71c5e81761deb547c315296004167e13f82fe9b
@@ -1530,6 +1558,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [bc4112866bb713538fc48c209408313c634306b2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bc4112866bb713538fc48c209408313c634306b2
 [bd44896a30627bafefa64c1cbc78229113130b9d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bd44896a30627bafefa64c1cbc78229113130b9d
 [bd49cdc8220e8adcfea71f04c6ebcfb51946336b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bd49cdc8220e8adcfea71f04c6ebcfb51946336b
+[c0f32a8351b2738429e4583169a1bed3781deb73]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c0f32a8351b2738429e4583169a1bed3781deb73
 [c1262d43fcdfdf9b2d3604786757bdf3a8ed77cf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c1262d43fcdfdf9b2d3604786757bdf3a8ed77cf
 [c225eb65b2330d6f61580c37504421144308febc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c225eb65b2330d6f61580c37504421144308febc
 [c332a73363492a1e1874e68fc0c12e3bfd2b96ae]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c332a73363492a1e1874e68fc0c12e3bfd2b96ae
