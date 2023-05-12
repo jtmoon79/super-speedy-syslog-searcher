@@ -13,6 +13,7 @@ declare -arg S4_ARGS=(
     --prepend-filepath
     --prepend-file-align
     --prepend-utc
+    --prepend-dt-format='%Y%m%dT%H%M%S.%9f'
     --prepend-separator='┋'
     --separator='⇳\n'
     --journal-output=export

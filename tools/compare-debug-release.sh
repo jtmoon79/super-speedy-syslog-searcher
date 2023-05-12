@@ -47,6 +47,7 @@ declare -ar S4_ARGS=(
     --prepend-filename
     --prepend-file-align
     --prepend-utc
+    --prepend-dt-format='%Y%m%dT%H%M%S.%9f'
     --prepend-separator='┋'
     --separator='⇳\n'
     --journal-output=export
