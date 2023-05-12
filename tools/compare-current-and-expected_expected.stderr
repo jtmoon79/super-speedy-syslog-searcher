@@ -1636,15 +1636,15 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       caching: BlockReader::read_block() LRU cache                 : hit  29, miss   1, 96.7%, put   1
       storage: LineReader::find_line() lines                       : hit   0, miss  53,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  27, miss  28, 49.1%, put  27
-      copying: SyslineReader::get_boxptrs()                        : sgl 104, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 103, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  27,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  27,  0.0%, put  27
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  27,  3.6%, put  27
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  26, miss  27, 49.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 100,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 104
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss  99,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 103
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -1677,15 +1677,15 @@ File: ./logs/FedoraRemix29/dnf.log
       caching: BlockReader::read_block() LRU cache                 : hit 478, miss   1, 99.8%, put   1
       storage: LineReader::find_line() lines                       : hit  39, miss 912,  4.1%
       caching: LineReader::find_line() LRU cache                   : hit 228, miss 477, 32.3%, put 476
-      copying: SyslineReader::get_boxptrs()                        : sgl 514, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 513, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss 226,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss 226,  0.0%, put 226
       caching: SyslineReader::find_sysline() LRU cache             : hit   2, miss 226,  0.9%, put 226
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 225, miss 476, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  10, miss 500,  2.0%, largest skipped 49
-      process: regex captures attempted                            : 504
+      optimize:SyslineReader::ezcheck12d2                          : hit  10, miss 499,  2.0%, largest skipped 49
+      process: regex captures attempted                            : 503
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5275,15 +5275,15 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       caching: BlockReader::read_block() LRU cache                 : hit   4, miss   1, 80.0%, put   1
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   2, miss   3, 40.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 102, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 101, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   2
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   2, 33.3%, put   2
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss   2, 33.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss  97,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 102
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss  96,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 101
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5316,15 +5316,15 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
       caching: BlockReader::read_block() LRU cache                 : hit  12, miss   1, 92.3%, put   1
       storage: LineReader::find_line() lines                       : hit   0, miss  19,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   8, miss  11, 42.1%, put  10
-      copying: SyslineReader::get_boxptrs()                        : sgl 110, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 109, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   8,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   8,  0.0%, put   8
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   8, 11.1%, put   8
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   7, miss  10, 41.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 104,  1.0%, largest skipped 9
-      process: regex captures attempted                            : 109
+      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 103,  1.0%, largest skipped 9
+      process: regex captures attempted                            : 108
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5357,15 +5357,15 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
       caching: BlockReader::read_block() LRU cache                 : hit   7, miss   1, 87.5%, put   1
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   5, miss   6, 45.5%, put   5
-      copying: SyslineReader::get_boxptrs()                        : sgl 105, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 104, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   5, 44.4%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 100,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 105
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss  99,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 104
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5398,15 +5398,15 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
       caching: BlockReader::read_block() LRU cache                 : hit  23, miss   1, 95.8%, put   1
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
       caching: LineReader::find_line() LRU cache                   : hit  18, miss  22, 45.0%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 120, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 119, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  18,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  18,  0.0%, put  18
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  18,  5.3%, put  18
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  17, miss  21, 44.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 114,  0.9%, largest skipped 9
-      process: regex captures attempted                            : 119
+      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 113,  0.9%, largest skipped 9
+      process: regex captures attempted                            : 118
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5439,15 +5439,15 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       caching: BlockReader::read_block() LRU cache                 : hit  23, miss   1, 95.8%, put   1
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
       caching: LineReader::find_line() LRU cache                   : hit  18, miss  22, 45.0%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 120, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 119, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  18,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  18,  0.0%, put  18
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  18,  5.3%, put  18
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  17, miss  21, 44.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 114,  0.9%, largest skipped 9
-      process: regex captures attempted                            : 119
+      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 113,  0.9%, largest skipped 9
+      process: regex captures attempted                            : 118
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5480,15 +5480,15 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       caching: BlockReader::read_block() LRU cache                 : hit  23, miss   1, 95.8%, put   1
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
       caching: LineReader::find_line() LRU cache                   : hit  20, miss  22, 47.6%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 120, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 119, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  21, 47.5%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 115,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 120
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 114,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 119
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5521,15 +5521,15 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
       caching: BlockReader::read_block() LRU cache                 : hit  23, miss   1, 95.8%, put   1
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
       caching: LineReader::find_line() LRU cache                   : hit  18, miss  22, 45.0%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 120, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 119, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  18,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  18,  0.0%, put  18
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  18,  5.3%, put  18
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  17, miss  21, 44.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 114,  0.9%, largest skipped 9
-      process: regex captures attempted                            : 119
+      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 113,  0.9%, largest skipped 9
+      process: regex captures attempted                            : 118
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5562,15 +5562,15 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
       caching: BlockReader::read_block() LRU cache                 : hit  12, miss   1, 92.3%, put   1
       storage: LineReader::find_line() lines                       : hit   0, miss  19,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  11, 47.6%, put  10
-      copying: SyslineReader::get_boxptrs()                        : sgl 110, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 109, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  10, 47.4%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 105,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 110
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 104,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 109
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5603,15 +5603,15 @@ File: ./logs/RancherOS-1.5.8/dockerlaunch.log
       caching: BlockReader::read_block() LRU cache                 : hit  47, miss   1, 97.9%, put   1
       storage: LineReader::find_line() lines                       : hit   0, miss  89,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  45, miss  46, 49.5%, put  45
-      copying: SyslineReader::get_boxptrs()                        : sgl 145, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 144, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  45,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  45,  0.0%, put  45
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  45,  2.2%, put  45
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  44, miss  45, 49.4%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 140,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 145
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 139,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 144
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5644,15 +5644,15 @@ File: ./logs/RancherOS-1.5.8/docker.log
       caching: BlockReader::read_block() LRU cache                 : hit  69, miss   1, 98.6%, put   1
       storage: LineReader::find_line() lines                       : hit   0, miss 133,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  68, miss  68, 50.0%, put  67
-      copying: SyslineReader::get_boxptrs()                        : sgl 283, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 282, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  66,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  66,  0.0%, put  66
       caching: SyslineReader::find_sysline() LRU cache             : hit   2, miss  66,  2.9%, put  66
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  65, miss  67, 49.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   1, miss  11,  8.3%, largest skipped 21
-      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 270,  0.4%, largest skipped 19
-      process: regex captures attempted                            : 281
+      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 269,  0.4%, largest skipped 19
+      process: regex captures attempted                            : 280
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -5748,9 +5748,9 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       logmessagetype : syslog lines
       MIME guess     : MimeGuess(["text/plain"])
   Printed:
-      bytes         : 4623
-      lines         : 20
-      syslines      : 19
+      bytes         : 4389
+      lines         : 19
+      syslines      : 18
   Processed:
       file size     : 2501 (0x9C5) (bytes)
       bytes         : 2501 (0x9C5)
@@ -5762,22 +5762,22 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       lines         : 21
       lines high    : 21
       syslines      : 19
-      syslines high : 19
+      syslines high : 18
   Parsers:
   Processing Stores:
       storage: BlockReader::read_block() blocks                    : hit   0, miss   1,  0.0%, put   1
       caching: BlockReader::read_block() LRU cache                 : hit  23, miss   1, 95.8%, put   1
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
-      caching: LineReader::find_line() LRU cache                   : hit  19, miss  22, 46.3%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 241, dbl    0, mult   0
+      caching: LineReader::find_line() LRU cache                   : hit  21, miss  22, 48.8%, put  21
+      copying: SyslineReader::get_boxptrs()                        : sgl 338, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  19,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  19,  0.0%, put  19
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  19,  5.0%, put  19
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  18, miss  21, 46.2%, put   0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  17, miss  24, 41.5%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   7, miss   5, 58.3%, largest skipped 77
-      optimize:SyslineReader::ezcheck12d2                          : hit 115, miss 114, 50.2%, largest skipped 77
-      process: regex captures attempted                            : 119
+      optimize:SyslineReader::ezcheckd2                            : hit   7, miss  10, 41.2%, largest skipped 77
+      optimize:SyslineReader::ezcheck12d2                          : hit 116, miss 205, 36.1%, largest skipped 77
+      process: regex captures attempted                            : 215
   Processing Drops:
       streaming: BlockReader::drop_block()    : Ok 0, Err 0
       streaming: LineReader::drop_line()      : Ok 0, Err 0
@@ -17509,13 +17509,13 @@ Paths considered      : 429
 Paths not processed   : 0
 Files processed       : 429
 Files printed         : 397
-Printed bytes         : 11898926
-Printed lines         : 14565
-Printed syslines      : 12118
+Printed bytes         : 11898688
+Printed lines         : 14564
+Printed syslines      : 12117
 Printed utmpx         : 7
 Printed evtx events   : 227
 Printed journal events: 2081
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 15291
+Channel Receive ok    : 15290
 Channel Receive err   : 0

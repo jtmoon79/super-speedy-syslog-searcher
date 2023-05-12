@@ -2547,13 +2547,14 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^", RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZ, RP_RB),
+        concatcp!("^", RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, RP_RB),
         DTFSS_YmdHMSfZ, 0, 40, CGN_YEAR, CGN_TZ,
         &[
             (1, 35, (O_VLAT, 2000, 1, 1, 0, 0, 5, 123456789), "(2000/01/01 00:00:05.123456789 VLAT) ../source3/smbd/oplock.c:1340(init_oplocks)"),
             (1, 34, (O_WAT, 2000, 1, 1, 0, 0, 5, 123456789), "<2000/01/01 00:00:05.123456789 WAT> ../source3/smbd/oplock.c:1340(init_oplocks)"),
             (1, 34, (O_PST, 2000, 1, 1, 0, 0, 5, 123456789), "<2000/01/01 00:00:05.123456789 PST> ../source3/smbd/oplock.c:1340(init_oplocks)"),
             (1, 34, (O_PST, 2000, 1, 1, 0, 0, 5, 123456789), "<2000/01/01 00:00:05.123456789 pst> ../source3/smbd/oplock.c:1340(init_oplocks)"),
+            (1, 33, (O_PST, 2000, 1, 1, 0, 0, 5, 123456789), "<2000/01/01 00:00:05.123456789pst> ../source3/smbd/oplock.c:1340(init_oplocks)"),
         ],
         line!(),
     ),
@@ -2646,6 +2647,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (4, 34, (O_PST, 2023, 1, 6, 14, 35, 0, 506282000), "<31>2023-01-06T14:35:00.506282 PST (host) (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
             (6, 40, (O_WITA, 2023, 1, 6, 14, 35, 0, 506282871), "<128> 2023-01-06T14:35:00.506282871 WITA[host] (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
+            (6, 39, (O_WITA, 2023, 1, 6, 14, 35, 0, 506282871), "<128> 2023-01-06T14:35:00.506282871WITA[host] (192.168.0.1) [unbound[63893] daemon:debug] [63893]:  [63893:0] debug: cache memory msg=76002 rrset=120560 infra=18065 val=78826"),
         ],
         line!(),
     ),
@@ -2684,6 +2686,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (4, 27, (O_PST, 2023, 2, 1, 15, 0, 36, 0), "<14>2023-02-01T15:00:36 PST (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received ⸨<14>Jan  1 15:00:36 HOST dropbear[23732]: Exit (root): Disconnect received⸩"),
             (4, 28, (O_CIST, 2023, 2, 1, 14, 21, 13, 0), "<29>2023-02-01T14:21:13 CIST (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
+            (4, 27, (O_CIST, 2023, 2, 1, 14, 21, 13, 0), "<29>2023-02-01T14:21:13CIST (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
             (4, 24, (O_Z, 2023, 2, 1, 14, 21, 13, 0), "<29>2023-02-01T14:21:13Z (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up ⸨<29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up⸩"),
         ],
         line!(),
@@ -2739,6 +2742,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (4, 29, (O_WGST, 2023, 1, 1, 15, 0, 36, 0), "<14>Jan  1 15:00:36 2023 WGST HOST dropbear[23732]: Exit (root): Disconnect received"),
             (4, 29, (O_WGST, 2023, 1, 1, 15, 0, 36, 0), "<14>Jan 01 15:00:36 2023 WGST HOST dropbear[23732]: Exit (root): Disconnect received"),
             (3, 28, (O_WGST, 2023, 1, 31, 14, 21, 13, 0), "<1>Jan 31 14:21:13 2023 WGST HOST netifd: Network device 'eth0' link is up"),
+            (3, 27, (O_WGST, 2023, 1, 31, 14, 21, 13, 0), "<1>Jan 31 14:21:13 2023WGST HOST netifd: Network device 'eth0' link is up"),
         ],
         line!(),
     ),
@@ -3232,7 +3236,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (0, 29, (O_WIT, 2022, 6, 28, 1, 51, 12, 0), "Mon, 28 Jun 2022 01:51:12 WIT"),
             (0, 29, (O_EDT, 2018, 10, 7, 22, 55, 18, 0), "Sat, 07 Oct 2018 22:55:18 EDT hello this datetime stamp from https://dencode.com/date/rfc2822"),
-            (0, 28, (O_CAT, 2003, 7, 1, 10, 52, 37, 0), "Tue, 1 Jul 2003 10:52:37 CAT from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
+            (0, 29, (O_CAT, 2003, 7, 1, 10, 52, 37, 0), "Tue, 1 Jul 2003 10:52:37  CAT from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
         ],
         line!(),
     ),
@@ -3264,7 +3268,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (6, 35, (O_WIT, 2022, 6, 28, 1, 51, 12, 0), "Date:	Mon, 28 Jun 2022 01:51:12 WIT"),
             (6, 35, (O_EDT, 2018, 10, 7, 22, 55, 18, 0), "DATE: Sat, 07 Oct 2018 22:55:18 EDT hello this datetime stamp from https://dencode.com/date/rfc2822"),
-            (5, 33, (O_CAT, 2003, 7, 1, 10, 52, 37, 0), "date:tue, 1 jul 2003 10:52:37 CAT from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
+            (5, 34, (O_CAT, 2003, 7, 1, 10, 52, 37, 0), "date:tue, 1 jul 2003 10:52:37  CAT from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
         ],
         line!(),
     ),
@@ -3373,12 +3377,13 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(RP_LB, CGP_DAYde, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_RB),
+        concatcp!(RP_LB, CGP_DAYde, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ, RP_RB),
         DTFSS_bdHMSYZ, 0, 300, CGN_DAY, CGN_TZ,
         &[
             (19, 44, (O_CHUT, 2022, 10, 11, 0, 10, 26, 0), r#"192.168.0.172 - - [11/Oct/2022:00:10:26 CHUT] "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (19, 44, (O_CHUT, 2022, 10, 11, 0, 10, 26, 0), r#"192.168.0.172 - - {11/oct/2022 00:10:26 CHUT} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (15, 40, (O_CHUT, 2022, 10, 11, 0, 10, 26, 0), r#"192.168.0.172	<11-oct-2022 00:10:26 CHUT>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
+            (15, 32, (O_Z, 2022, 10, 11, 0, 10, 26, 0), r#"192.168.0.172	<11OCT2022T001026Z>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (17, 42, (O_CHUT, 2020, 3, 7, 6, 30, 43, 0), r#"192.168.0.8 - - [07/Mar/2020:06:30:43 CHUT] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
         ],
         line!(),
@@ -3654,6 +3659,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (5, 34, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "ERR: sat Jan 31 2000 08:45:55 PONT err:‼"),
             (5, 34, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "ERR: Sat jan 31 2000 08:45:55 PONT err:‼"),
             (5, 38, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "ERR: Sat january 31 2000 08:45:55 PONT err:‼"),
+            (5, 37, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "ERR: Sat january 31 2000 08:45:55PONT err:‼"),
         ],
         line!(),
     ),
@@ -3777,9 +3783,14 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZ, RP_NOALPHA),
+        concatcp!("^", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, RP_NOALPHA),
         DTFSS_YmdHMSfZ, 0, 50, CGN_YEAR, CGN_TZ,
-        &[(0, 34, (O_PETT, 2000, 1, 5, 0, 0, 5, 123456789), "2000/01/05 00:00:05.123456789 PETT abcd")],
+        &[
+            (0, 34, (O_PETT, 2000, 1, 5, 0, 0, 5, 123456789), "2000/01/05 00:00:05.123456789 PETT abcd"),
+            (0, 33, (O_PETT, 2000, 1, 5, 0, 0, 5, 123456789), "2000/01/05 00:00:05.123456789PETT abcd"),
+            (0, 33, (O_PETT, 2000, 1, 5, 0, 0, 5, 123456789), "2000/01/05 00:00:05.123456789PETT:abcd"),
+            (0, 33, (O_PETT, 2000, 1, 5, 0, 0, 5, 123456789), "2000/01/05 00:00:05.123456789PETT|abcd"),
+        ],
         line!(),
     ),
     DTPD!(
@@ -3835,15 +3846,16 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!("^", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_NOALPHA),
+        concatcp!("^", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ, RP_NOALPHA),
         DTFSS_YmdHMSZ, 0, 50, CGN_YEAR, CGN_TZ,
         &[
             (0, 24, (O_VLAT, 2000, 1, 10, 0, 0, 5, 0), "2000/01/10T00:00:05 VLAT abcdefghijk"),
             (0, 23, (O_PST, 2000, 1, 10, 0, 0, 5, 0), "2000/01/10T00:00:05 pst abcdefghijk"),
             (0, 24, (O_VLAT, 2000, 1, 10, 0, 0, 5, 0), "2000/01/10T00:00:05 VLAT "),
-            (0, 23, (O_PST, 2000, 1, 10, 0, 0, 5, 0), "2000/01/10T00:00:05 pst "),
+            (0, 23, (O_PST, 2000, 1, 10, 0, 0, 5, 0), "2000/01/10T00:00:05 pst\tfoo"),
             (0, 24, (O_VLAT, 2000, 1, 10, 0, 0, 5, 0), "2000/01/10T00:00:05 VLAT"),
-            (0, 23, (O_PST, 2000, 1, 10, 0, 0, 5, 0), "2000/01/10T00:00:05 pst"),
+            (0, 23, (O_PST, 2000, 1, 10, 0, 0, 5, 0), "2000/01/10T00:00:05 pst123"),
+            (0, 22, (O_PST, 2000, 1, 10, 0, 0, 5, 0), "2000/01/10T00:00:05pst:foo"),
         ],
         line!(),
     ),
@@ -3869,7 +3881,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // CGP_DAY version
     //
     DTPD!(
-        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ, RP_BLANK12, CGP_YEAR, RP_NOALNUM),
         DTFSS_BdHMSYZ, 0, 45, CGN_DAYa, CGN_YEAR,
         &[
             (0, 27, (O_PST, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 PST 2016 try umount root [1] times"),
@@ -3881,7 +3893,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (0, 27, (O_PDT, 2017, 5, 8, 8, 33, 0, 0), "mon May 8 08:33:00 PDT 2017 try umount root [1] times"),
             (0, 28, (O_PST, 2018, 2, 28, 14, 58, 7, 0), "Wed Feb 28 14:58:07 PST 2018 try umount root [1] times"),
             (0, 34, (O_PST, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY Feb 28 14:58:07 PST 2018 try umount root [1] times"),
-            (0, 39, (O_PST, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY February 28 14:58:07 PST 2018 try umount root [1] times"),
+            (0, 40, (O_PST, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY February 28 14:58:07\tPST\t\t2018 try umount root [1] times"),
         ],
         line!(),
     ),
@@ -4058,7 +4070,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZ, RP_RB),
+        concatcp!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, RP_RB),
         DTFSS_YmdHMSfZ, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
             (11, 45, (O_VLAT, 2000, 1, 5, 0, 4, 35, 123456789), "[LOGGER]\t\t<2000/01/05 00:04:35.123456789 VLAT>:"),
@@ -4068,6 +4080,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (11, 45, (O_VLAT, 2000, 1, 5, 0, 4, 35, 123456789), "[LOGGER]  <2000/01/05 00:04:35.123456789 VLAT>abcd"),
             (11, 45, (O_VLAT, 2000, 1, 5, 0, 4, 35, 123456789), "[LOGGER]  [2000/01/05 00:04:35.123456789 VLAT] abcd"),
             (11, 45, (O_VLAT, 2000, 1, 5, 0, 4, 35, 123456789), "[LOGGER]  [2000/01/05-00:04:35.123456789 VLAT]"),
+            (11, 44, (O_VLAT, 2000, 1, 5, 0, 4, 35, 123456789), "[LOGGER]  [2000/01/05-00:04:35.123456789VLAT]"),
             (11, 45, (O_VLAT, 2000, 1, 5, 0, 4, 35, 123456789), "[LOGGER]  (2000/01/05T00:04:35.123456789 vlat) abcd"),
         ],
         line!(),
@@ -4114,7 +4127,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANK, CGP_TZZ, RP_NOALPHA),
+        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, RP_NOALPHA),
         DTFSS_YmdHMSfZ, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
             (0, 34, (O_VLAT, 2000, 1, 5, 0, 34, 35, 123456789), "2000/01/05 00:34:35.123456789 VLAT:"),
@@ -4124,6 +4137,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (1, 35, (O_VLAT, 2000, 1, 5, 0, 34, 35, 123456789), "|2000/01/05 00:34:35.123456789 VLAT|abcd"),
             (1, 35, (O_VLAT, 2000, 1, 5, 0, 34, 35, 123456789), ":2000/01/05 00:34:35.123456789 VLAT: abcd"),
             (1, 35, (O_VLAT, 2000, 1, 5, 0, 34, 35, 123456789), "[2000/01/05T00:34:35.123456789 VLAT]"),
+            (1, 34, (O_VLAT, 2000, 1, 5, 0, 34, 35, 123456789), "[2000/01/05T00:34:35.123456789VLAT]"),
             (0, 34, (O_VLAT, 2000, 1, 5, 0, 34, 35, 123456789), "2000/01/05-00:34:35.123456789 vlat abcd"),
         ],
         line!(),
@@ -4177,7 +4191,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     DTPD!(
-        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ, RP_NOALPHA),
+        concatcp!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ, RP_NOALPHA),
         DTFSS_YmdHMSZ, 0, 1024, CGN_YEAR, CGN_TZ,
         &[
             (0, 24, (O_VLAT, 2000, 1, 10, 0, 9, 5, 0), "2000/01/10T00:09:05 VLAT abcdefghijk"),
@@ -4185,6 +4199,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (1, 25, (O_VLAT, 2000, 1, 10, 0, 9, 5, 0), "[2000/01/10T00:09:05 VLAT] abcdefghijk"),
             (1, 25, (O_VLAT, 2000, 1, 10, 0, 9, 5, 0), "[2000/01/10T00:09:05 VLAT] abcdefghijk"),
             (1, 25, (O_VLAT, 2000, 1, 10, 0, 9, 5, 0), "<2000/01/10T00:09:05 VLAT> abcdefghijk"),
+            (1, 24, (O_VLAT, 2000, 1, 10, 0, 9, 5, 0), "<2000/01/10T00:09:05VLAT> abcdefghijk"),
             (0, 20, (O_VLAT, 2020, 3, 7, 20, 25, 30, 0), "20200307_202530 VLAT /sbin/e2fsck -pvf"),
         ],
         line!(),
@@ -4295,7 +4310,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (8, 37, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "RSYSLOG Tue Jun 28 2022 01:51:12 yekt foobar"),
             (8, 38, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "RSYSLOG Tue June 28 2022 01:51:12 yekt foobar"),
             (8, 38, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "RSYSLOG Tue JUNE 28 2022 01:51:12 yekt foobar"),
-            (8, 38, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "RSYSLOG Tue june 28 2022 01:51:12 yekt foobar"),
+            (8, 39, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "RSYSLOG Tue june 28 2022 01:51:12\t\tyekt\tfoobar"),
         ],
         line!(),
     ),
@@ -4385,6 +4400,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (8, 38, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "MESSAGE Tue June 28 01:51:12 2022 yekt foobar"),
             (8, 38, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "MESSAGE Tue JUNE 28 01:51:12 2022 yekt foobar"),
             (8, 38, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "MESSAGE Tue june 28 01:51:12 2022 yekt foobar"),
+            (8, 39, (O_YEKT, 2022, 6, 28, 1, 51, 12, 0), "MESSAGE Tue june 28 01:51:12 2022  yekt\tfoobar"),
         ],
         line!(),
     ),
