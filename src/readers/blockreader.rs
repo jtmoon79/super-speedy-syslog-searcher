@@ -1743,7 +1743,7 @@ impl BlockReader {
             self.filetype
         );
 
-        let seek = (self.blocksz * blockoffset) as u64;
+        let seek: u64 = self.blocksz * blockoffset;
         deo!("self.file.seek({})", seek);
         match self
             .file

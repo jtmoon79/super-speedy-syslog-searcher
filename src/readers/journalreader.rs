@@ -588,7 +588,7 @@ impl FromStr for JournalOutput {
 
 impl JournalOutput {
     pub fn iterator() -> Iter<'static, JournalOutput> {
-        static JOURNAL_OUTPUTS: [JournalOutput; (JournalOutput::Cat as usize) + 1 as usize] = [
+        static JOURNAL_OUTPUTS: [JournalOutput; (JournalOutput::Cat as usize) + 1] = [
             JournalOutput::Short,
             JournalOutput::ShortPrecise,
             JournalOutput::ShortIso,
@@ -634,16 +634,16 @@ const DATETIME_FORMAT_VERBOSE: &str = "%a %Y-%m-%d %H:%M:%S.%6f %Z";
 // TODO: [2023/04] submit PR to `nix` project with a hard-coded mapping
 //       of `Errno` to `ErrorKind`
 pub fn errno_to_errorkind(err: &Errno) -> ErrorKind {
-    match err {
-        &Errno::EACCES => ErrorKind::PermissionDenied,
-        &Errno::EADDRINUSE => ErrorKind::AddrInUse,
-        &Errno::EADDRNOTAVAIL => ErrorKind::AddrNotAvailable,
-        &Errno::EAFNOSUPPORT => ErrorKind::AddrNotAvailable,
-        &Errno::EALREADY => ErrorKind::AlreadyExists,
-        &Errno::EBADF => ErrorKind::InvalidInput,
-        &Errno::EBADMSG => ErrorKind::InvalidData,
-        &Errno::EBUSY => ErrorKind::Other,
-        &Errno::ECANCELED => ErrorKind::Interrupted,
+    match *err {
+        Errno::EACCES => ErrorKind::PermissionDenied,
+        Errno::EADDRINUSE => ErrorKind::AddrInUse,
+        Errno::EADDRNOTAVAIL => ErrorKind::AddrNotAvailable,
+        Errno::EAFNOSUPPORT => ErrorKind::AddrNotAvailable,
+        Errno::EALREADY => ErrorKind::AlreadyExists,
+        Errno::EBADF => ErrorKind::InvalidInput,
+        Errno::EBADMSG => ErrorKind::InvalidData,
+        Errno::EBUSY => ErrorKind::Other,
+        Errno::ECANCELED => ErrorKind::Interrupted,
         _ => ErrorKind::Other,
     }
 }
@@ -1984,13 +1984,10 @@ impl<'a> JournalReader {
         debug_assert_le!(dt_a, dt_b, "bad datetime indexes");
 
         // field 2 `_HOSTNAME`
-        match data_hostname {
-            Some(data) => {
-                def1o!("write field 2 _HOSTNAME");
-                buffer.push(b' ');
-                buffer.push_str(data);
-            }
-            None => {}
+        if let Some(data) = data_hostname {
+            def1o!("write field 2 _HOSTNAME");
+            buffer.push(b' ');
+            buffer.push_str(data);
         }
 
         // field 3 `SYSLOG_IDENTIFIER` or `_COMM`
@@ -2001,13 +1998,10 @@ impl<'a> JournalReader {
                 buffer.push_str(data);
             }
             None => {
-                match data_comm {
-                    Some(data) => {
-                        def1o!("write field 3 _COMM");
-                        buffer.push(b' ');
-                        buffer.push_str(data);
-                    }
-                    None => {}
+                if let Some(data) = data_comm {
+                    def1o!("write field 3 _COMM");
+                    buffer.push(b' ');
+                    buffer.push_str(data);
                 }
             }
         }
@@ -2022,26 +2016,20 @@ impl<'a> JournalReader {
             }
             None => {
                 // field 4 `SYSLOG_PID` if no `_PID`
-                match data_syslog_pid {
-                    Some(data) => {
-                        def1o!("write field 4 SYSLOG_PID");
-                        buffer.push(b'[');
-                        buffer.push_str(data);
-                        buffer.push(b']');
-                    }
-                    None => {}
+                if let Some(data) = data_syslog_pid {
+                    def1o!("write field 4 SYSLOG_PID");
+                    buffer.push(b'[');
+                    buffer.push_str(data);
+                    buffer.push(b']');
                 }
             }
         }
 
         // field 5 `MESSAGE`
-        match data_message {
-            Some(data) => {
-                def1o!("write field 5 MESSAGE");
-                buffer.push_str(": ");
-                buffer.push_str(data);
-            }
-            None => {}
+        if let Some(data) = data_message {
+            def1o!("write field 5 MESSAGE");
+            buffer.push_str(": ");
+            buffer.push_str(data);
         }
 
         // end of log line
@@ -2488,8 +2476,6 @@ impl<'a> JournalReader {
         // line 1 Datetime and Cursor
 
         // field 1 Datetime
-        let dt_a: usize;
-        let dt_b: usize;
         let dt = realtime_or_source_realtime_timestamp_to_datetimel(
             &self.fixed_offset,
             &realtime_timestamp,
@@ -2499,8 +2485,8 @@ impl<'a> JournalReader {
         let dtsb: &[u8] = dts.as_str().as_bytes();
         def1o!("field 1 datetime");
         buffer.push_str(dtsb);
-        dt_a = 0;
-        dt_b = dtsb.len();
+        let dt_a: usize = 0;
+        let dt_b: usize = dtsb.len();
         debug_assert_le!(dt_a, dt_b, "bad datetime indexes");
         buffer.push(b' ');
 
@@ -2762,11 +2748,8 @@ impl<'a> JournalReader {
         realtime_timestamp: &EpochMicroseconds,
         source_realtime_timestamp: &EpochMicrosecondsOpt,
     ) {
-        match DT_USES_SOURCE_OVERRIDE {
-            Some(dt) => {
-                dt_uses_source = dt;
-            }
-            None => {}
+        if let Some(dt) = DT_USES_SOURCE_OVERRIDE {
+            dt_uses_source = dt;
         }
         match dt_uses_source {
             DtUsesSource::RealtimeTimestamp => {

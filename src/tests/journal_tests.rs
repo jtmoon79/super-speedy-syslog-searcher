@@ -42,7 +42,7 @@ fn test_journalentry_new() {
     );
 }
 
-const JOURNAL_ENTRY_EXPORT: &'static str = "\
+const JOURNAL_ENTRY_EXPORT: &str = "\
 __CURSOR=s=e992f143877046059b264a0f907056b6;i=6ff;b=26d74a46deff4872be6d4ca6e885a198;m=46c65ea;t=5f840a88a4b39;x=e7933c3b47482d45
 __REALTIME_TIMESTAMP=1680331472784185
 __MONOTONIC_TIMESTAMP=74212842
@@ -128,7 +128,7 @@ fn test_journalentry_export_source_realtime_timestamp() {
     assert_le!(a, b);
 }
 
-const JOURNAL_ENTRY_SHORTFULL: &'static str =
+const JOURNAL_ENTRY_SHORTFULL: &str =
     "1970-01-12T13:46:40 UTC ubuntu22Acorn ubuntu-appindicators@ubuntu.com[1306]: unable to update icon for livepatch\n";
 
 #[test]

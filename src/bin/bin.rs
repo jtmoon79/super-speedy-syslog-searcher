@@ -1194,16 +1194,16 @@ mod unescape {
 
     // XXX: these must agree with match statement in prior
     //      `Iterator for InterpretEscapedString`
-    pub(super) const BACKSLASH_ESCAPE_SEQUENCES0: &'static str = r"\0";
-    pub(super) const BACKSLASH_ESCAPE_SEQUENCES1: &'static str = r"\a";
-    pub(super) const BACKSLASH_ESCAPE_SEQUENCES2: &'static str = r"\b";
-    pub(super) const BACKSLASH_ESCAPE_SEQUENCES3: &'static str = r"\e";
-    pub(super) const BACKSLASH_ESCAPE_SEQUENCES4: &'static str = r"\f";
-    pub(super) const BACKSLASH_ESCAPE_SEQUENCES5: &'static str = r"\n";
-    pub(super) const BACKSLASH_ESCAPE_SEQUENCES6: &'static str = r"\r";
-    pub(super) const BACKSLASH_ESCAPE_SEQUENCES7: &'static str = r"\\";
-    pub(super) const BACKSLASH_ESCAPE_SEQUENCES8: &'static str = r"\t";
-    pub(super) const BACKSLASH_ESCAPE_SEQUENCES9: &'static str = r"\v";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES0: &str = r"\0";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES1: &str = r"\a";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES2: &str = r"\b";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES3: &str = r"\e";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES4: &str = r"\f";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES5: &str = r"\n";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES6: &str = r"\r";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES7: &str = r"\\";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES8: &str = r"\t";
+    pub(super) const BACKSLASH_ESCAPE_SEQUENCES9: &str = r"\v";
 
     pub(super) fn unescape_str(s: &str) -> Result<String, EscapeError> {
         (InterpretEscapedString { s: s.chars() }).collect()

@@ -271,18 +271,15 @@ impl JournalEntry {
 
         #[cfg(debug_assertions)]
         {
-            match DT_USES_SOURCE_OVERRIDE {
-                None => {
-                    match dt_uses_source {
-                        DtUsesSource::RealtimeTimestamp => {
-                            assert!(source_realtime_timestamp.is_none());
-                        }
-                        DtUsesSource::SourceRealtimeTimestamp => {
-                            assert!(source_realtime_timestamp.is_some());
-                        }
+            if DT_USES_SOURCE_OVERRIDE.is_none() {
+                match dt_uses_source {
+                    DtUsesSource::RealtimeTimestamp => {
+                        assert!(source_realtime_timestamp.is_none());
+                    }
+                    DtUsesSource::SourceRealtimeTimestamp => {
+                        assert!(source_realtime_timestamp.is_some());
                     }
                 }
-                Some(_) => {}
             }
         }
 
