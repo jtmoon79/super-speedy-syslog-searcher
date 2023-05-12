@@ -2490,6 +2490,10 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 122;
 // XXX: yet another rust playground for testing regex
 //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=93a47ceb225bae73dfcbce2574b65e91
 // TODO: [2023/01/14] add test of shortest possible match for all DTPD!
+// TODO: [2023/05/11] modify `_tests` to allow testing invalid patterns, e.g.
+//       ("2000-XY-01T00:00:00Z")
+//       consider a two-value enum `DateTimeParseInstrTest` with variants
+//       `Valid` and `Invalid`
 pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] = [
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/Ubuntu18/xrdp.log`
