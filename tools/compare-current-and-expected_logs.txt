@@ -67,6 +67,10 @@
 ./logs/other/tests/dtf10-10a.log
 ./logs/other/tests/dtf10-10b.log
 ./logs/other/tests/dtf11-A.log
+./logs/other/tests/dtf13a.log
+./logs/other/tests/dtf13b.log
+./logs/other/tests/dtf13c.log
+./logs/other/tests/dtf13d.log
 ./logs/other/tests/dtf2-2.log
 ./logs/other/tests/dtf3-1.log
 ./logs/other/tests/dtf3-2a.log

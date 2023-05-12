@@ -76,6 +76,10 @@
 ./logs/other/tests/dtf12a-x2_patts.log|Jan 31 2022 00:00:07 +0030
 ./logs/other/tests/dtf12b-x2_patts.log|Jan 31 2022 00:00:08 +0030
 ./logs/other/tests/dtf12c-x3_patts.log|Jan 12 2022 00:00:12 +0030
+./logs/other/tests/dtf13a.log|2021-05-09 19:43:19Z
+./logs/other/tests/dtf13b.log|2021-05-09 19:43:19Z
+./logs/other/tests/dtf13c.log|2021-05-09 19:43:19Z
+./logs/other/tests/dtf13d.log|2021-05-09 19:43:19Z
 ./logs/other/tests/dtf2-2.log|2000-01-01 00:00:01
 ./logs/other/tests/dtf3-1.log|2000-01-01 00:00:00
 ./logs/other/tests/dtf3-2a.log|2000-01-01 00:00:00.301

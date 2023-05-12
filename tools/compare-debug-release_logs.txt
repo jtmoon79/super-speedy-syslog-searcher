@@ -13,6 +13,10 @@
 ./logs/other/tests/dtf12a-x2_patts.log
 ./logs/other/tests/dtf12b-x2_patts.log
 ./logs/other/tests/dtf12c-x3_patts.log
+./logs/other/tests/dtf13a.log
+./logs/other/tests/dtf13b.log
+./logs/other/tests/dtf13c.log
+./logs/other/tests/dtf13d.log
 ./logs/other/tests/dtf2-2.log
 ./logs/other/tests/dtf3-2b.log
 ./logs/other/tests/dtf4-2a.log
