@@ -410,7 +410,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: install
-          args: --verbose -- rustfilt grcov
+          args: -- rustfilt grcov
       - name: cargo build with special profiling
         uses: actions-rs/cargo@v1
         env:
@@ -421,7 +421,6 @@ jobs:
                      -Cpanic=abort -Zpanic_abort_tests
         with:
           command: build
-          args: --verbose
       - name: cargo test with special profiling
         uses: actions-rs/cargo@v1
         env:
