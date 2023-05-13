@@ -6779,13 +6779,13 @@ File: ./logs/synology-DS6/downloadstation.log
       logmessagetype : syslog lines
       MIME guess     : MimeGuess(["text/plain"])
   Printed:
-      bytes         : 4295
+      bytes         : 4296
       lines         : 19
       syslines      : 19
   Processed:
-      file size     : 2186 (0x88A) (bytes)
-      bytes         : 2186 (0x88A)
-      bytes total   : 2186 (0x88A)
+      file size     : 2187 (0x88B) (bytes)
+      bytes         : 2187 (0x88B)
+      bytes total   : 2187 (0x88B)
       block size    : 65535 (0xFFFF)
       blocks        : 1
       blocks total  : 1
@@ -7148,13 +7148,13 @@ File: ./logs/synology-DS6/opentftp.log
       logmessagetype : syslog lines
       MIME guess     : MimeGuess(["text/plain"])
   Printed:
-      bytes         : 3504
+      bytes         : 3505
       lines         : 21
       syslines      : 21
   Processed:
-      file size     : 1173 (0x495) (bytes)
-      bytes         : 1173 (0x495)
-      bytes total   : 1173 (0x495)
+      file size     : 1174 (0x496) (bytes)
+      bytes         : 1174 (0x496)
+      bytes total   : 1174 (0x496)
       block size    : 65535 (0xFFFF)
       blocks        : 1
       blocks total  : 1
@@ -8215,13 +8215,13 @@ File: ./logs/synology-DS6/surveillance/ssnotification.log
       logmessagetype : syslog lines
       MIME guess     : MimeGuess(["text/plain"])
   Printed:
-      bytes         : 4240
+      bytes         : 4204
       lines         : 19
       syslines      : 19
   Processed:
-      file size     : 2131 (0x853) (bytes)
-      bytes         : 2131 (0x853)
-      bytes total   : 2131 (0x853)
+      file size     : 2095 (0x82F) (bytes)
+      bytes         : 2095 (0x82F)
+      bytes total   : 2095 (0x82F)
       block size    : 65535 (0xFFFF)
       blocks        : 1
       blocks total  : 1
@@ -10185,13 +10185,13 @@ File: ./logs/synology-DS6/upstart/mkcert.log
       logmessagetype : syslog lines
       MIME guess     : MimeGuess(["text/plain"])
   Printed:
-      bytes         : 3507
+      bytes         : 3521
       lines         : 19
       syslines      : 15
   Processed:
-      file size     : 1398 (0x576) (bytes)
-      bytes         : 1398 (0x576)
-      bytes total   : 1398 (0x576)
+      file size     : 1412 (0x584) (bytes)
+      bytes         : 1412 (0x584)
+      bytes total   : 1412 (0x584)
       block size    : 65535 (0xFFFF)
       blocks        : 1
       blocks total  : 1
@@ -17714,7 +17714,7 @@ Paths considered      : 434
 Paths not processed   : 0
 Files processed       : 434
 Files printed         : 402
-Printed bytes         : 11978657
+Printed bytes         : 11978637
 Printed lines         : 14580
 Printed syslines      : 12133
 Printed utmpx         : 7
