@@ -560,7 +560,7 @@ info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task starte
 
 <br/>
 
-Here are is a snippet from a Windows 10 Pro host, log file
+Here are is a snippet from a Windows 10 host, log file
 `${env:SystemRoot}\debug\mrt.log`
 
 ```text
@@ -568,7 +568,7 @@ Microsoft Windows Malicious Software Removal Tool v5.83, (build 5.83.13532.1)
 Started On Thu Sep 10 10:08:35 2020
 ```
 
-And a snippet from the same Windows host, log file
+And a snippet from the same Windows 10 host, log file
 `${env:SystemRoot}\comsetup.log`
 
 ```text
@@ -577,21 +577,21 @@ COM+[12:24:34]: Setup started - [DATE:05,27,2020 TIME: 12:24 pm]
 COM+[12:24:34]: ********************************************************************************
 ```
 
-And a snippet from the same Windows host, log file
+And a snippet from the same Windows 10 host, log file
 `${env:SystemRoot}\DirectX.log`
 
 ```text
 11/01/19 20:03:40: infinst: Installed file C:\WINDOWS\system32\xactengine2_1.dll
 ```
 
-And a snippet from the same Windows host, log file
+And a snippet from the same Windows 10 host, log file
 `${env:SystemRoot}/Microsoft.NET/Framework/v4.0.30319/ngen.log`
 
 ```text
 09/15/2022 14:13:22.951 [515]: 1>Warning: System.IO.FileNotFoundException: Could not load file or assembly
 ```
 
-And a snippet from the same Windows host, log file
+And a snippet from the same Windows 10 host, log file
 `${env:SystemRoot}/Performance/WinSAT/winsat.log`
 
 ```text
