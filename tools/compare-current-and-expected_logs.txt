@@ -118,6 +118,7 @@
 ./logs/other/tests/invalid1a.log
 ./logs/other/tests/invalid1b.log
 ./logs/other/tests/invalid2.log
+./logs/other/tests/unknown
 ./logs/other/tests/zero100.log
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
