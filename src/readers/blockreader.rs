@@ -43,7 +43,23 @@ use flate2::GzHeader;
 // Other crates interface to liblzma which not ideal.
 use ::lzma_rs;
 #[allow(unused_imports)]
-use ::si_trace_print::{def1n, def1o, def1x, defn, defo, defx, defñ, den, deo, dex, deñ, pfn, pfo, pfx};
+use ::si_trace_print::{
+    def1n,
+    def1o,
+    def1x,
+    def1ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+    pfn,
+    pfo,
+    pfx,
+};
 // `tar` is for tar files.
 use ::tar;
 
@@ -1311,6 +1327,7 @@ impl BlockReader {
     // TODO: also handle when `self.file_metadata_modified` is zero
     //       (or a non-meaningful placeholder value).
     pub fn mtime(&self) -> SystemTime {
+        def1ñ!();
         match self.filetype {
             FileType::File
             | FileType::Utmpx
