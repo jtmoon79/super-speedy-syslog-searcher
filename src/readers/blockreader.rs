@@ -29,7 +29,6 @@ use std::io::prelude::Read;
 use std::io::{BufReader, Error, ErrorKind, Result, Seek, SeekFrom, Take};
 use std::path::Path;
 use std::sync::Arc;
-use std::time::Duration;
 
 use ::lru::LruCache;
 use ::mime_guess::MimeGuess;
