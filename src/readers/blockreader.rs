@@ -1311,6 +1311,7 @@ impl BlockReader {
         match self.filetype {
             FileType::File
             | FileType::Utmpx
+            | FileType::Unknown
             | FileType::Xz => self.file_metadata_modified,
             FileType::Gz => {
                 let mtime = self
@@ -1343,7 +1344,6 @@ impl BlockReader {
             => unimplemented!("Unsupported filetype {:?}", self.filetype),
             // something is wrong if these are encountered
             FileType::Unset => panic!("Unexpected Unset"),
-            FileType::Unknown => panic!("Unexpected Unknown"),
             FileType::Unparseable => panic!("Unexpected Unparseable"),
         }
     }

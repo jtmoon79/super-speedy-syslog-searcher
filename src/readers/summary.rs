@@ -492,7 +492,10 @@ impl fmt::Debug for Summary {
                 )
             ) => {
                 match self.filetype {
-                    FileType::Tar | FileType::File => f
+                    FileType::File
+                    | FileType::Tar
+                    | FileType::Utmpx
+                    | FileType::Unknown => f
                         .debug_struct("")
                         .field("bytes", &summaryblockreader.blockreader_bytes)
                         .field("bytes total", &summaryblockreader.blockreader_bytes_total)
@@ -506,7 +509,8 @@ impl fmt::Debug for Summary {
                         .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
                         .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
                         .finish(),
-                    FileType::Gz | FileType::Xz => f
+                    FileType::Gz
+                    | FileType::Xz => f
                         .debug_struct("")
                         .field("bytes", &summaryblockreader.blockreader_bytes)
                         .field("bytes total", &summaryblockreader.blockreader_bytes_total)
@@ -522,9 +526,11 @@ impl fmt::Debug for Summary {
                         .field("filesz compressed", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
                         .finish(),
                     // Summary::default()
-                    FileType::Unknown => f.debug_struct("").finish(),
-                    FileType::Unparseable => f.debug_struct("").finish(),
-                    FileType::Unset | _ =>
+                    FileType::Evtx
+                    | FileType::Journal
+                    | FileType::Unparseable => f.debug_struct("").finish(),
+                    FileType::TarGz
+                    | FileType::Unset =>
                         unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype),
                 }
             }
