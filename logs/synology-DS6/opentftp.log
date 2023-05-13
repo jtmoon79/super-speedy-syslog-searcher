@@ -2,7 +2,7 @@
 [31-Jan-17 11:25:21] TFTP Server Stopped !
 [22-Feb-17 21:24:20] TFTP Server SinglePort Version 1.66 Unix Built 2003 Starting..
 [22-Feb-17 21:24:20] Section [ALLOWED-CLIENTS] Invalid entry 192.168.0.0-192.168.0.255 in ini file, ignored
-[22-Feb-17 21:24:20] username: root
+[22-Feb-17 21:24:20] username: user2
 [22-Feb-17 21:24:20] alias / is mapped to /path3/
 [22-Feb-17 21:24:20] permitted clients: all
 [22-Feb-17 21:24:20] max blksize: 9873

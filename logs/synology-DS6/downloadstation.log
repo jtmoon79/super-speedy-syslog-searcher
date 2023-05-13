@@ -4,7 +4,7 @@
 2019-08-31T14:59:47-07:00 dsnet synorsstool: taskget.c:331 Reach max task number of user
 2019-08-31T14:59:47-07:00 dsnet synorsstool: RssFeedHandler.cpp:371 Tasks reach max limit. User [user1] max tasks is [2048].
 2019-08-31T14:59:47-07:00 dsnet synorsstool: RssFeedHandler.cpp:190 Failed to update RSS feed, id[1], code[526]
-2019-08-31T14:59:48-07:00 dsnet synorsstool: RssFeedHandler.cpp:306 Failed to download rss feed , url[https://anchor.fm/s/25460/podcast/rss]
+2019-08-31T14:59:48-07:00 dsnet synorsstool: RssFeedHandler.cpp:306 Failed to download rss feed , url[https://anchor.fm/s/125460/podcast/rss]
 2019-08-31T14:59:48-07:00 dsnet synorsstool: RssFeedHandler.cpp:190 Failed to update RSS feed, id[10], code[2404]
 2019-08-31T14:59:57-07:00 dsnet synorsstool: taskget.c:331 Reach max task number of user
 2019-08-31T14:59:57-07:00 dsnet synorsstool: RssFeedHandler.cpp:371 Tasks reach max limit. User [user1] max tasks is [2048].
