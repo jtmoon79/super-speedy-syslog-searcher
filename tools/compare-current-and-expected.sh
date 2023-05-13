@@ -8,7 +8,8 @@
 # The success of this tests depends upon
 # - the `./logs` directory being clean
 # - the `./logs` files being updated with `log-files-time-update.sh`
-# - git commits affecting `./logs` being reflected in file `compare-current-and-expected_expected.out`
+# - git commits affecting `./logs` being reflected in files
+#   `compare-current-and-expected_expected.stdout` `compare-current-and-expected_expected.stderr`
 #
 # comparison for stdout and stderr are done separately. This is because
 # stderr output must be edited after the run as it changes on each run
