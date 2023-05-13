@@ -435,43 +435,44 @@ DateTime Filters may be strftime specifier patterns:
     "\"
     \"",
     CLI_DT_FILTER_PATTERN28.0,
-    "\"
+    "\"",
+    r#"
 
 Or, DateTime Filter may be custom relative offset patterns:
-    \"+DwDdDhDmDs\" or \"-DwDdDhDmDs\"
-    \"@+DwDdDhDmDs\" or \"@-DwDdDhDmDs\"
+    "+DwDdDhDmDs" or "-DwDdDhDmDs"
+    "@+DwDdDhDmDs" or "@-DwDdDhDmDs"
 
-Pattern \"+%s\" is Unix epoch timestamp in seconds with a preceding \"+\".
-For example, value \"+946684800\" is be January 1, 2000 at 00:00, GMT.
+Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
+For example, value "+946684800" is be January 1, 2000 at 00:00, GMT.
 
-Custom relative offset pattern \"+DwDdDhDmDs\" and \"-DwDdDhDmDs\" is the offset
-from now (program start time) where \"D\" is a decimal number.
+Custom relative offset pattern "+DwDdDhDmDs" and "-DwDdDhDmDs" is the offset
+from now (program start time) where "D" is a decimal number.
 Each lowercase identifier is an offset duration:
-\"w\" is weeks, \"d\" is days, \"h\" is hours, \"m\" is minutes, \"s\" is seconds.
-For example, value \"-1w22h\" is one week and twenty-two hours in the past.
-Value \"+30s\" is thirty seconds in the future.
+"w" is weeks, "d" is days, "h" is hours, "m" is minutes, "s" is seconds.
+For example, value "-1w22h" is one week and twenty-two hours in the past.
+Value "+30s" is thirty seconds in the future.
 
-Custom relative offset pattern \"@+DwDdDhDmDs\" and \"@-DwDdDhDmDs\" is relative
+Custom relative offset pattern "@+DwDdDhDmDs" and "@-DwDdDhDmDs" is relative
 offset from the other datetime.
-Arguments \"-a 20220102 -b @+1d\" are equivalent to \"-a 20220102 -b 20220103\".
-Arguments \"-a @-6h -b 20220101T120000\" are equivalent to
-\"-a 20220101T060000 -b 20220101T120000\".
+Arguments "-a 20220102 -b @+1d" are equivalent to "-a 20220102 -b 20220103".
+Arguments "-a @-6h -b 20220101T120000" are equivalent to
+"-a 20220101T060000 -b 20220101T120000".
 
-Without a timezone offset (strftime specifier \"%z\" or \"%Z\"),
+Without a timezone offset (strftime specifier "%z" or "%Z"),
 the Datetime Filter is presumed to be the local system timezone.
 
-Ambiguous named timezones will be rejected, e.g. \"SST\".
+Ambiguous named timezones will be rejected, e.g. "SST".
 
 --prepend-tz and --dt-offset function independently:
 --prepend-tz affects what is pre-printed before each printed log message line.
 --dt-offset is used to interpret processed log message datetime stamps that
 do not have a timezone offset.
 
---prepend-tz accepts numieric timezone offsets, e.g. \"+09:00\", \"+0900\", or \"+09\",
-and named timezone offsets, e.g. \"JST\".
+--prepend-tz accepts numieric timezone offsets, e.g. "+09:00", "+0900", or "+09",
+and named timezone offsets, e.g. "JST".
 
-Backslash escape sequences accepted by \"--separator\" are:
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES0, "\",
+Backslash escape sequences accepted by "--separator" are:
+    ""#, unescape::BACKSLASH_ESCAPE_SEQUENCES0, "\",
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES1, "\",
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES2, "\",
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES3, "\",
@@ -480,12 +481,13 @@ Backslash escape sequences accepted by \"--separator\" are:
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES6, "\",
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES7, "\",
     \"", unescape::BACKSLASH_ESCAPE_SEQUENCES8, "\",
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES9, "\",
+    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES9, r#"",
 
-Resolved values of \"--dt-after\" and \"--dt-before\" can be reviewed in
-the \"--summary\" output.
+Resolved values of "--dt-after" and "--dt-before" can be reviewed in
+the "--summary" output.
 
-DateTime strftime specifiers are described at https://docs.rs/chrono/latest/chrono/format/strftime/
+DateTime strftime specifiers are described at
+https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
 
@@ -493,7 +495,7 @@ DateTimes supported language is English.
 
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
-"
+"#
 );
 
 static mut PREPEND_DT_FORMAT_PASSED: bool = false;
@@ -608,10 +610,10 @@ struct CLI_Args {
             "group_prepend_dt_format",
         ],
         hide_default_value = true,
-        help = concatcp!("Prepend a DateTime using the strftime format string.
+        help = concatcp!(r#"Prepend a DateTime using the strftime format string.
 If PREPEND_TZ is set then that value is used for any timezone offsets,
-i.e. strftime \"%z\" \"%:z\" \"%Z\" values, otherwise the timezone offset value
-is the local system timezone offset. [Default: ", CLI_OPT_PREPEND_FMT, "]"),
+i.e. strftime "%z" "%:z" "%Z" values, otherwise the timezone offset value
+is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         value_parser = cli_parser_prepend_dt_format,
         default_value = None,
     )]
@@ -1100,7 +1102,7 @@ fn process_dt(
             defo!("has_tzZ replaced Z value {:?}", dts_);
 
             pattern = pattern_.replacen("%Z", "%z", 1);
-            defo!("has_tzZ replaced \"%Z\" with \"%z\" {:?}", pattern);
+            defo!(r#"has_tzZ replaced "%Z" with "%z" {:?}"#, pattern);
         }
         // if !has_time then modify the value and pattern
         // e.g. `"20220101"` becomes `"20220101 T000000"`
