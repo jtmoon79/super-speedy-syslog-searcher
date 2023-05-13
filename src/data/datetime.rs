@@ -5734,6 +5734,22 @@ pub fn systemtime_to_datetime(
     dtu.with_timezone(fixedoffset)
 }
 
+/// Convert passed seconds since Unix Epoch to a `SystemTime`.
+pub fn seconds_to_systemtime(
+    seconds: &u64,
+) -> SystemTime {
+    let duration = std::time::Duration::from_secs(*seconds);
+    SystemTime::UNIX_EPOCH.checked_add(duration).unwrap()
+}
+
+/// Return the year of the `systemtime`
+pub fn systemtime_year(
+    systemtime: &SystemTime,
+) -> Year {
+    let dtu: DateTime<Utc> = (*systemtime).into();
+    dtu.year()
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // search a slice quickly (loop unroll version)
 // loop unrolled implementation of `slice.contains` for a byte slice and a hardcoded array

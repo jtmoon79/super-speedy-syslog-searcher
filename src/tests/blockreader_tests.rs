@@ -15,6 +15,9 @@ use crate::common::{
     FPath,
     ResultS3,
 };
+use crate::data::datetime::{
+    systemtime_year,
+};
 use crate::debug::printers::{
     byte_to_char_noraw,
 };
@@ -52,26 +55,36 @@ use crate::tests::common::{
     NTF_8BYTE_FPATH,
     NTF_SYSLINE_2_PATH,
     NTF_GZ_1BYTE_FPATH,
+    NTF_GZ_1BYTE_SYSTEMTIME,
     NTF_GZ_8BYTE_FPATH,
+    NTF_GZ_8BYTE_SYSTEMTIME,
     NTF_GZ_EMPTY_FPATH,
+    NTF_GZ_EMPTY_SYSTEMTIME,
     NTF_LOG_EMPTY_FPATH,
+    NTF_UNKNOWN_EMPTY_FPATH,
     NTF_TAR_0BYTE_FILEA_FPATH,
     NTF_TAR_1BYTE_FILEA_FPATH,
+    NTF_TAR_1BYTE_FILEA_SYSTEMTIME,
     NTF_TAR_1BYTE_FPATH,
     NTF_TAR_3BYTE_OLDGNU_FILEA_FPATH,
     NTF_TAR_3BYTE_PAX_FILEA_FPATH,
     NTF_TAR_3BYTE_USTAR_FILEA_FPATH,
     NTF_TAR_8BYTE_FILEA_FPATH,
+    NTF_TAR_8BYTE_FILEA_SYSTEMTIME,
     NTF_XZ_1BYTE_FPATH,
     NTF_XZ_8BYTE_FPATH,
     NTF_XZ_EMPTY_FPATH,
     NTF_UTMPX_2ENTRY_FPATH,
     NTF_UTMPX_2ENTRY_FILETYPE,
     UTMPX_2ENTRY_FILESZ,
+    LOCAL_NOW,
+    UTC_NOW,
 };
 
 use std::collections::BTreeMap;
+use std::time::SystemTime;
 
+use ::chrono::Datelike;
 use ::lazy_static::lazy_static;
 use ::si_trace_print::stack::stack_offset_set;
 use ::si_trace_print::{defn, defo, defx, defñ};
@@ -1163,22 +1176,57 @@ fn test_read_data_to_buffer(
 
 }
 
-#[test_case(&NTF_LOG_EMPTY_FPATH, FileType::File)]
-#[test_case(&NTF_1BYTE_FPATH, FileType::File)]
-#[test_case(&NTF_3BYTE_FPATH, FileType::File)]
-#[test_case(&NTF_GZ_EMPTY_FPATH, FileType::Gz)]
-#[test_case(&NTF_GZ_1BYTE_FPATH, FileType::Gz)]
-#[test_case(&NTF_GZ_8BYTE_FPATH, FileType::Gz)]
-#[test_case(&NTF_XZ_1BYTE_FPATH, FileType::Xz)]
-#[test_case(&NTF_TAR_1BYTE_FILEA_FPATH, FileType::Tar)]
-#[test_case(&NTF_TAR_8BYTE_FILEA_FPATH, FileType::Tar)]
+/// Test `BlockReader.mtime()`.
+/// Only precisely compare returned `SystemTime` for the "temporary" files with known
+/// `SystemTime`s. Otherwise, just compare that the year returned is the
+/// current year (just don't run this test at 11:59:59 on New Year's Eve;
+/// you should be having fun not running these tests!).
+#[test_case(&NTF_LOG_EMPTY_FPATH, FileType::File, None)]
+#[test_case(&NTF_UNKNOWN_EMPTY_FPATH, FileType::Unknown, None)]
+#[test_case(&NTF_1BYTE_FPATH, FileType::File, None)]
+#[test_case(&NTF_3BYTE_FPATH, FileType::File, None)]
+#[test_case(
+    &NTF_GZ_EMPTY_FPATH,
+    FileType::Gz,
+    Some(*NTF_GZ_EMPTY_SYSTEMTIME)
+)]
+#[test_case(
+    &NTF_GZ_1BYTE_FPATH,
+    FileType::Gz,
+    Some(*NTF_GZ_1BYTE_SYSTEMTIME)
+)]
+#[test_case(
+    &NTF_GZ_8BYTE_FPATH,
+    FileType::Gz,
+    Some(*NTF_GZ_8BYTE_SYSTEMTIME)
+)]
+#[test_case(&NTF_XZ_1BYTE_FPATH, FileType::Xz, None)]
+#[test_case(
+    &NTF_TAR_1BYTE_FILEA_FPATH,
+    FileType::Tar,
+    Some(*NTF_TAR_1BYTE_FILEA_SYSTEMTIME)
+)]
+#[test_case(
+    &NTF_TAR_8BYTE_FILEA_FPATH,
+    FileType::Tar,
+    Some(*NTF_TAR_8BYTE_FILEA_SYSTEMTIME)
+)]
 fn test_mtime(
     path: &FPath,
     filetype: FileType,
+    mtime_expect: Option<SystemTime>,
 ) {
     let br1 = new_BlockReader(path, filetype, 0x100);
-    // merely run the function
-    _ = br1.mtime();
+    let mtime_ = br1.mtime();
+    match mtime_expect {
+        Some(mt) =>
+            assert_eq!(mt, mtime_, "\nmtime expected != actual for path {:?}", path),
+        None => {
+            let year_expect = (*UTC_NOW).year();
+            let year_actual = systemtime_year(&mtime_);
+            assert_eq!(year_expect, year_actual, "\nyear expected != actual for path {:?}", path);
+        }
+    }
 }
 
 // -------------------------------------------------------------------------------------------------

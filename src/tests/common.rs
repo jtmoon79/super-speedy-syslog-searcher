@@ -6,6 +6,9 @@ use crate::data::datetime::{
     DateTimeL,
     Local,
     FixedOffset,
+    SystemTime,
+    Utc,
+    seconds_to_systemtime,
     ymdhms,
     ymdhmsn,
     ymdhmsm,
@@ -20,6 +23,7 @@ use crate::readers::blockreader::{Block, BlockSz, SUBPATH_SEP};
 use crate::debug::helpers::{
     create_temp_file_bytes_with_suffix,
     create_temp_file_with_suffix,
+    create_temp_file_with_name_exact,
     ntf_fpath,
     NamedTempFile,
 };
@@ -64,6 +68,7 @@ lazy_static! {
 
     pub static ref LOCAL_NOW: DateTime<Local> = Local::now();
     pub static ref DATETIME_NOW_Z0: DateTime<FixedOffset> = LOCAL_NOW.with_timezone(&*FO_Z);
+    pub static ref UTC_NOW: DateTime<Utc> = (*LOCAL_NOW).into();
 
     // FixedOffset Local
     pub static ref FO_L: FixedOffset = *LOCAL_NOW.offset();
@@ -150,7 +155,7 @@ lazy_static! {
     pub static ref NTF_WNL_1: NamedTempFile = create_temp_log("\r\n");
     pub static ref NTF_WNL_1_PATH: FPath = ntf_fpath(&NTF_WNL_1);
 
-    // empty files with suffix
+    // empty log file with suffix
 
     pub static ref NTF_LOG_EMPTY: NamedTempFile = {
         create_temp_log("")
@@ -160,6 +165,20 @@ lazy_static! {
     };
     pub static ref NTF_LOG_EMPTY_MIMEGUESS: MimeGuess = {
         MimeGuess::from_path(NTF_LOG_EMPTY.path())
+    };
+
+    // empty unknown file with suffix
+
+    pub static ref NTF_UNKNOWN_EMPTY: NamedTempFile = {
+        let mut name = String::from("tmp-s4-UKNNOWN-");
+        name.push_str((*LOCAL_NOW).format("%Y%m%dT%H%M%S").to_string().as_str());
+        create_temp_file_with_name_exact("", &name)
+    };
+    pub static ref NTF_UNKNOWN_EMPTY_FPATH: FPath = {
+        path_to_fpath(NTF_UNKNOWN_EMPTY.path())
+    };
+    pub static ref NTF_UNKOWN_EMPTY_MIMEGUESS: MimeGuess = {
+        MimeGuess::from_path(NTF_UNKNOWN_EMPTY.path())
     };
 
     // 1 byte file
@@ -225,10 +244,12 @@ lazy_static! {
     pub static ref NTF_GZ_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_GZ_EMPTY.path())
     };
-    
     pub static ref NTF_GZ_EMPTY_MIMEGUESS: MimeGuess = {
         MimeGuess::from_path(NTF_GZ_EMPTY.path())
     };
+    pub static ref NTF_GZ_EMPTY_SYSTEMTIME: SystemTime = seconds_to_systemtime(
+        &1_659_160_049
+    );
 }
 pub const NTF_GZ_EMPTY_FILETYPE: FileType = FileType::Gz;
 
@@ -248,6 +269,9 @@ lazy_static! {
         create_temp_file_bytes_with_suffix(&GZ_1BYTE_DATA, &String::from("-one-byte.gz"));
     pub static ref NTF_GZ_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE_GZ);
     pub static ref NTF_GZ_1BYTE_PATH: &'static Path = fpath_to_path(&NTF_GZ_1BYTE_FPATH);
+    pub static ref NTF_GZ_1BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(
+        &1_659_160_178
+    );
 }
 
 ///
@@ -267,6 +291,9 @@ lazy_static! {
         create_temp_file_bytes_with_suffix(&GZ_8BYTE_DATA, &String::from("-eight-byte.gz"));
     pub static ref NTF_GZ_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_GZ);
     pub static ref NTF_GZ_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_GZ_8BYTE_FPATH);
+    pub static ref NTF_GZ_8BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(
+        &1_659_322_953
+    );
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1110,6 +1137,9 @@ lazy_static! {
 
         MimeGuess::from_path(path)
     };
+    pub static ref NTF_TAR_1BYTE_FILEA_SYSTEMTIME: SystemTime = seconds_to_systemtime(
+        &1_659_164_896
+    );
 }
 pub const NTF_TAR_1BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
 
@@ -1962,6 +1992,9 @@ lazy_static! {
 
         MimeGuess::from_path(path)
     };
+    pub static ref NTF_TAR_8BYTE_FILEA_SYSTEMTIME: SystemTime = seconds_to_systemtime(
+        &1_659_730_196
+    );
 }
 pub const NTF_TAR_8BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
 

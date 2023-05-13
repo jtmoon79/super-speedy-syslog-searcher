@@ -12,7 +12,10 @@ use crate::common::{Count, FPath, FileOffset, FileSz, FileType};
 use crate::common::{File, FileMetadata, FileOpenOptions, ResultS3};
 #[cfg(test)]
 use crate::common::Bytes;
-use crate::data::datetime::SystemTime;
+use crate::data::datetime::{
+    seconds_to_systemtime,
+    SystemTime,
+};
 #[allow(unused_imports)]
 use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
 
@@ -1320,7 +1323,8 @@ impl BlockReader {
                     .unwrap()
                     .mtime;
                 if mtime != 0 {
-                    SystemTime::UNIX_EPOCH + Duration::from_secs(mtime as u64)
+                    let seconds = mtime as u64;
+                    seconds_to_systemtime(&seconds)
                 } else {
                     self.file_metadata_modified
                 }
@@ -1332,7 +1336,8 @@ impl BlockReader {
                     .unwrap()
                     .mtime;
                 if mtime != 0 {
-                    SystemTime::UNIX_EPOCH + Duration::from_secs(mtime)
+                    let seconds = mtime as u64;
+                    seconds_to_systemtime(&seconds)
                 } else {
                     self.file_metadata_modified
                 }

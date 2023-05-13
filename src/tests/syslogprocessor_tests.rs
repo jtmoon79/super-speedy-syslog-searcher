@@ -19,6 +19,7 @@ use crate::data::datetime::{
     DateTimePattern_str,
     FixedOffset,
     SystemTime,
+    seconds_to_systemtime,
 };
 use crate::readers::syslinereader::ResultS3SyslineFind;
 use crate::readers::syslogprocessor::{
@@ -563,18 +564,14 @@ lazy_static! {
     // Thursday, June 1, 1972 1:00:00 AM GMT+00:00
     // Wednesday, May 31, 1972 6:00:00 PM GMT-07:00
     static ref SYSTEMTIME_1972_06_01: SystemTime = {
-        let duration: std::time::Duration = std::time::Duration::from_secs(76208400);
-
-        SystemTime::UNIX_EPOCH.checked_add(duration).unwrap()
+        seconds_to_systemtime(&76208400)
     };
 
     // 107744400
     // Friday, June 1, 1973 1:00:00 AM GMT+00:00
     // Thursday, May 31, 1973 6:00:00 PM GMT-07:00
     static ref SYSTEMTIME_1973_06_01: SystemTime = {
-        let duration: std::time::Duration = std::time::Duration::from_secs(107744400);
-
-        SystemTime::UNIX_EPOCH.checked_add(duration).unwrap()
+        seconds_to_systemtime(&107744400)
     };
 }
 
