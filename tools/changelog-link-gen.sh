@@ -12,7 +12,7 @@ set -euo pipefail
 
 cd "$(dirname -- "${0}")/.."
 
-readonly URL_PROJECT='https://github.com/jtmoon79/super-speedy-syslog-searcher'
+readonly URL_PROJECT=${URL_PROJECT-'https://github.com/jtmoon79/super-speedy-syslog-searcher'}
 CHANGELOG='./CHANGELOG.md'
 tmp_CHANGELOG=$(mktemp)
 tmp_links=$(mktemp)
