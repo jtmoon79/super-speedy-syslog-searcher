@@ -38,7 +38,7 @@ bstr = "1.4.0"
 chrono = "0.4.24"
 clap = { version = "4.2.7", features = ["derive"] }
 const_format = "0.2.30"
-const-str = "0.4.3"
+const-str = "0.5.4"
 crossbeam-channel = "0.5.8"
 dlopen2 = "0.4"
 encoding_rs = "0.8.32"
