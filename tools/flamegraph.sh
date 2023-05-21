@@ -10,7 +10,8 @@
 # noted at https://nnethercote.github.io/perf-book/profiling.html
 #
 # User may set environment variable $PROGRAM and $BIN.
-# Passed arguments are passed to $BIN and override default arguments.
+# Arguments passed to this script are passed to $BIN and override default
+# arguments.
 #
 
 set -euo pipefail
@@ -41,27 +42,12 @@ if [[ ! -x "${PERF}" ]]; then
 fi
 export PERF
 
-#if ! which flamegraph; then
-#    echo "flamegraph is not in the PATH" >&2
-#    did_install
-#    exit 1
-#fi
-
-#echo "Cargo.toml must have:
-#
-#    [profile.bench]
-#    debug = true
-#    [profile.release]
-#    debug = true
-#
-#" >&2
-
 (
     set -x
     cargo flamegraph --version
 )
 
-declare -r PROGRAM=${PROGRAM-./target/release/s4}
+declare -r PROGRAM=${PROGRAM-./target/flamegraph/s4}
 declare -r BIN=${BIN-s4}
 
 export CARGO_PROFILE_RELEASE_DEBUG=true
@@ -74,11 +60,13 @@ OUT='flamegraph.svg'
 (
     set -x
     # verify flamegraph can run the binary (just prints the version)
-    cargo flamegraph --bin "${BIN}" -- --version
+    # ignore errors; will not capture any data because the program run-time is
+    # too short
+    cargo flamegraph --profile flamegraph --bin "${BIN}" -- --version
 ) || true
-rm -f -- perf.data perf.data.old
+rm -f -- perf.data perf.data.old "${OUT}"
 
-# XXX: if $NOTES contains a '--' then .svg will fail to render
+# NOTE: if $NOTES contains a '--' then .svg will fail to render
 NOTES=$("${PROGRAM}" --version)
 
 declare -a args=()
@@ -123,14 +111,11 @@ PERF=${PERF}
 CARGO_PROFILE_RELEASE_DEBUG=${CARGO_PROFILE_RELEASE_DEBUG}
 RUST_BACKTRACE=${RUST_BACKTRACE}
 
-# XXX: waiting on https://github.com/flamegraph-rs/flamegraph/issues/257
-#      to allow underlying `cargo build` to use `--profile flamegraph`
-#      instead of hardcoded `--profile release`
-
 exec \
 cargo flamegraph \
     --verbose \
     --flamechart \
+    --profile flamegraph \
     --deterministic \
     --output "${OUT}" \
     --bin "${BIN}" \
