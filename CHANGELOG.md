@@ -376,7 +376,7 @@ _Released 2023-03-29_
 
 ### New
 
-- (BIN) Allow user-passed timezone for prepended datetime. ([630b8ce945dd2f87d88c357afec26a0a5bdbed60])
+- (BIN) Allow user-passed timezone for prepended datetime [Issue #27] ([630b8ce945dd2f87d88c357afec26a0a5bdbed60])
 - (PROJECT) add logs/programs/{AWS,Microsoft IIS,apache} ([ee4515f1fd7e5161b5eab5bce0262971996f843f])
 - (LIB) Parse RFC 2822 [Issue #29] ([38d1c47305125d9bd4e9275ef99d9767af3f1380])
 
@@ -1231,6 +1231,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [Issue #21]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/21
 [Issue #22]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/22
 [Issue #23]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/23
+[Issue #27]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/27
 [Issue #28]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/28
 [Issue #29]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/29
 [Issue #35]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/35
