@@ -233,25 +233,30 @@ const CLI_DT_FILTER_PATTERN8: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %:z", 
 const CLI_DT_FILTER_PATTERN9: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %#z", true, true, false, true);
 const CLI_DT_FILTER_PATTERN10: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %Z", true, true, true, true);
 const CLI_DT_FILTER_PATTERN11: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false, false, true);
-const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %:z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN14: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %#z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN15: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", true, true, true, true);
-const CLI_DT_FILTER_PATTERN16: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false, false, true);
-const CLI_DT_FILTER_PATTERN17: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN18: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %:z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN19: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %#z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN20: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true);
-const CLI_DT_FILTER_PATTERN21: CLI_DT_Filter_Pattern = ("%Y%m%d", true, false, false, false);
-const CLI_DT_FILTER_PATTERN22: CLI_DT_Filter_Pattern = ("%Y-%m-%d", true, false, false, false);
-const CLI_DT_FILTER_PATTERN23: CLI_DT_Filter_Pattern = ("%Y/%m/%d", true, false, false, false);
-const CLI_DT_FILTER_PATTERN24: CLI_DT_Filter_Pattern = ("%Y%m%d %z", true, true, false, false);
-const CLI_DT_FILTER_PATTERN25: CLI_DT_Filter_Pattern = ("%Y%m%d %:z", true, true, false, false);
-const CLI_DT_FILTER_PATTERN26: CLI_DT_Filter_Pattern = ("%Y%m%d %#z", true, true, false, false);
-const CLI_DT_FILTER_PATTERN27: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, true, false);
-const CLI_DT_FILTER_PATTERN28: CLI_DT_Filter_Pattern = ("+%s", false, false, false, true);
+const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false, false, true);
+const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S%z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN14: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S%:z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN15: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S%#z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN16: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S%Z", true, true, true, true);
+const CLI_DT_FILTER_PATTERN17: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN18: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %:z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN19: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %#z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN20: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", true, true, true, true);
+const CLI_DT_FILTER_PATTERN21: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false, false, true);
+const CLI_DT_FILTER_PATTERN22: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN23: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %:z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN24: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %#z", true, true, false, true);
+const CLI_DT_FILTER_PATTERN25: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true);
+const CLI_DT_FILTER_PATTERN26: CLI_DT_Filter_Pattern = ("%Y%m%d", true, false, false, false);
+const CLI_DT_FILTER_PATTERN27: CLI_DT_Filter_Pattern = ("%Y-%m-%d", true, false, false, false);
+const CLI_DT_FILTER_PATTERN28: CLI_DT_Filter_Pattern = ("%Y/%m/%d", true, false, false, false);
+const CLI_DT_FILTER_PATTERN29: CLI_DT_Filter_Pattern = ("%Y%m%d %z", true, true, false, false);
+const CLI_DT_FILTER_PATTERN30: CLI_DT_Filter_Pattern = ("%Y%m%d %:z", true, true, false, false);
+const CLI_DT_FILTER_PATTERN31: CLI_DT_Filter_Pattern = ("%Y%m%d %#z", true, true, false, false);
+const CLI_DT_FILTER_PATTERN32: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, true, false);
+const CLI_DT_FILTER_PATTERN33: CLI_DT_Filter_Pattern = ("+%s", false, false, false, true);
 
-const CLI_FILTER_PATTERNS_COUNT: usize = 28;
+const CLI_FILTER_PATTERNS_COUNT: usize = 33;
 
 /// CLI acceptable datetime filter patterns for the user-passed `-a` or `-b`
 const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
@@ -283,6 +288,11 @@ const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] =
     &CLI_DT_FILTER_PATTERN26,
     &CLI_DT_FILTER_PATTERN27,
     &CLI_DT_FILTER_PATTERN28,
+    &CLI_DT_FILTER_PATTERN29,
+    &CLI_DT_FILTER_PATTERN30,
+    &CLI_DT_FILTER_PATTERN31,
+    &CLI_DT_FILTER_PATTERN32,
+    &CLI_DT_FILTER_PATTERN33,
 ];
 
 const CGN_DUR_OFFSET_TYPE: &str = "offset_type";
@@ -435,6 +445,21 @@ DateTime Filters may be strftime specifier patterns:
     "\"
     \"",
     CLI_DT_FILTER_PATTERN28.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN29.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN30.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN31.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN32.0,
+    "\"
+    \"",
+    CLI_DT_FILTER_PATTERN33.0,
     "\"",
     r#"
 
@@ -5017,7 +5042,12 @@ mod tests {
         tz_offset: FixedOffset,
         expect: DateTimeLOpt,
     ) {
+        eprintln!(
+            "test_process_dt: process_dt({:?}, {:?}, &None, UTC_NOW: {:?})",
+            dts, tz_offset, &*UTC_NOW,
+        );
         let dt = process_dt(&dts, &tz_offset, &None, &UTC_NOW);
+        eprintln!("test_process_dt: dt: {:?}", dt);
         assert_eq!(dt, expect);
     }
 
