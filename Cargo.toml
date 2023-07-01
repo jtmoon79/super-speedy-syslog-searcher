@@ -35,7 +35,7 @@ exclude = [
 [dependencies]
 backtrace = "0.3.67"
 bstr = "1.5.0"
-chrono = "0.4.25"
+chrono = "0.4.26"
 clap = { version = "4.3.8", features = ["derive"] }
 const_format = "0.2.30"
 const-str = "0.5.4"
