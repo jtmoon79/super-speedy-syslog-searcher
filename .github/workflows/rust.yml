@@ -74,7 +74,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        rust_version: ["beta", "nightly"]
+        rust_version: ["beta"]
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
@@ -381,7 +381,7 @@ jobs:
           "${PROGRAM}" --version
           "${SCRIPT}"
 
-  # Run code coverage with rust "nightly" (necessary for some `-Z` features)
+  # Run code coverage with rust "stable" (necessary for some `-Z` features)
   # then upload code coverage result to codecov.io
   # Help from:
   # - https://github.com/marketplace/actions/rust-grcov
@@ -400,11 +400,11 @@ jobs:
           set -eux
           sudo apt update || true
           sudo apt install --yes libsystemd0
-      - name: get toolchain nightly
+      - name: get toolchain stable
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: nightly
+          toolchain: stable
           override: true
       - name: cargo install
         uses: actions-rs/cargo@v1
