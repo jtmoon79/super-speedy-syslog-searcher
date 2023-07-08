@@ -407,8 +407,8 @@ jobs:
           "${PROGRAM}" --version
           "${SCRIPT}"
 
-  # Run code coverage with rust "stable" (necessary for some `-Z` features)
-  # then upload code coverage result to codecov.io
+  # Run code coverage with rust "stable" then upload code coverage result to
+  # codecov.io
   # Help from:
   # - https://github.com/marketplace/actions/rust-grcov
   # - https://eipi.xyz/blog/rust-code-coverage-with-github-workflows/
