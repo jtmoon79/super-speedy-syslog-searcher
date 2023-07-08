@@ -4,6 +4,11 @@
 # See https://docs.codecov.com/docs/codecov-yaml
 #
 # yaml-language-server: $schema=https://json.schemastore.org/codecov
+#
+# Validate this file with command:
+#     curl --data-binary @.github/codecov.yml https://codecov.io/validate
+# or
+#     tools/codecov-validate.sh
 ---
 codecov:
   bot: "codecov-io"
