@@ -253,7 +253,7 @@ jobs:
         run: cargo publish --verbose --dry-run --allow-dirty
 
   job_yamllint:
-    # this job install Python PIP packages
+    # this job installs Python PIP packages
     name: yamllint
     needs: [job_rust_release_channel, job_rust_msrv_os]
     runs-on: ubuntu-latest
@@ -282,8 +282,7 @@ jobs:
             --no-python-version-warning \
             -v -v
       - name: Run yamllint.sh
-        run: |
-          PYTHON=python ./tools/yamllint.sh --format github
+        run: PYTHON=python ./tools/yamllint.sh --format github
 
   job_codecov_validate:
     name: codecov validate
