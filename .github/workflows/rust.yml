@@ -39,7 +39,7 @@ jobs:
 
   job_rust_msrv_os:
     # this job downloads and builds dependency crates
-    name: build MSRV ${{ matrix.msrv }} on ${{ matrix.os }}
+    name: build ${{ matrix.msrv }} on ${{ matrix.os }}
     strategy:
       fail-fast: true
       matrix:
