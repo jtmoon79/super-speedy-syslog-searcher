@@ -226,30 +226,30 @@ _Released 2023-07-08_
 
 ### Changes
 
-- (LIB) dependabot: bump flamegraph from 0.6.2 to 0.6.3 ([addbc642be40f93ba3df1588dcb165cbc9b4f0d1])
-- (LIB) dependabot: bump lzma-rs from 0.2.0 to 0.3.0 ([d31c14564c2bc27ed4e7790a54b16d09a01c3be9])
-- (LIB) dependabot: bump test-case from 2.2.2 to 3.1.0 ([2e772970ab86a9541ad56a1702b4a219412ea88b])
-- (LIB) dependabot: bump const-str from 0.4.3 to 0.5.4 ([56adf88149e87aebbf87c70fc4531545d2c11daa])
-- (LIB) dependabot: bump const_format from 0.2.30 to 0.2.31 ([861be6713cfc5f4996251fe23e26f67dd80001d8])
 - (LIB) dependabot: bump bstr from 1.4.0 to 1.5.0 ([f5bd4e3a8260d8bc5224c5cb851ac0dfe854ee7e])
-- (LIB) dependabot: bump filetime from 0.2.20 to 0.2.21 ([11c9d0bbe8651fb8e057e88166afb450534d03f4])
+- (LIB) dependabot: bump chrono from 0.4.24 to 0.4.25 ([bea60aae98c6f7b6ffbb23a30fc58d825397a3e0])
+- (LIB) dependabot: bump chrono from 0.4.25 to 0.4.26 ([9522093d0c183c35dec4c457214a219da905baa6])
 - (LIB) dependabot: bump clap from 4.2.7 to 4.3.0 ([87a884bbfc07b43cf6b2cf8dadc64eab8bf7a702])
 - (LIB) dependabot: bump clap from 4.3.0 to 4.3.8 ([7cc5fbcc0c214c4daedfd3cc447fd788864fd9f9])
 - (LIB) dependabot: bump clap from 4.3.8 to 4.3.10 ([d340bd2985295b3ccf4559c4ab1ac3588501ca4b])
+- (LIB) dependabot: bump const-str from 0.4.3 to 0.5.4 ([56adf88149e87aebbf87c70fc4531545d2c11daa])
+- (LIB) dependabot: bump const-str from 0.5.4 to 0.5.5 ([2030a7392e792e00727f80f9a2d83257b851f519])
+- (LIB) dependabot: bump const_format from 0.2.30 to 0.2.31 ([861be6713cfc5f4996251fe23e26f67dd80001d8])
 - (LIB) dependabot: bump dlopen2 from 0.4.1 to 0.5.0 ([eeb3632bd465d4937204f1d4c3e5f72a953bcfa6])
+- (LIB) dependabot: bump filetime from 0.2.20 to 0.2.21 ([11c9d0bbe8651fb8e057e88166afb450534d03f4])
+- (LIB) dependabot: bump flamegraph from 0.6.2 to 0.6.3 ([addbc642be40f93ba3df1588dcb165cbc9b4f0d1])
 - (LIB) dependabot: bump libc from 0.2.144 to 0.2.147 ([53596672c4cc4e9b47ee60d4e96af69aeb21d3dd])
-- (LIB) dependabot: bump chrono from 0.4.24 to 0.4.25 ([bea60aae98c6f7b6ffbb23a30fc58d825397a3e0])
-- (LIB) dependabot: bump chrono from 0.4.25 to 0.4.26 ([9522093d0c183c35dec4c457214a219da905baa6])
+- (LIB) dependabot: bump lzma-rs from 0.2.0 to 0.3.0 ([d31c14564c2bc27ed4e7790a54b16d09a01c3be9])
+- (LIB) dependabot: bump phf from 0.11.1 to 0.11.2 ([ebf4fd3f494ad12521f1f9ef1d4548282447e8d0])
 - (LIB) dependabot: bump regex from 1.8.1 to 1.8.3 ([f4cdd62e98bd1edb356650f70f116c44927f9673])
 - (LIB) dependabot: bump regex from 1.8.3 to 1.8.4 ([ee4c9d0c34ef366f008f83767e0b2b88a9e90a4d])
 - (LIB) dependabot: bump tempfile from 3.5.0 to 3.6.0 ([ff0f46959254dd193a3b7abb63699ac58106e204])
-- (LIB) dependabot: bump const-str from 0.5.4 to 0.5.5 ([2030a7392e792e00727f80f9a2d83257b851f519])
-- (LIB) dependabot: bump phf from 0.11.1 to 0.11.2 ([ebf4fd3f494ad12521f1f9ef1d4548282447e8d0])
+- (LIB) dependabot: bump test-case from 2.2.2 to 3.1.0 ([2e772970ab86a9541ad56a1702b4a219412ea88b])
 - (TOOLS) flamegraph.sh use `--profile flamegraph` ([d4f5e0af96e5ce9d83c12e46a345dc5525d27a95])
 - (TEST) bin.rs add 3 more test cases for datetime parsing ([943619bec76c9f49eac11ca7e94543bba2b8d8d7])
 - (CI) rust.yml update grcov flags ([707d472928022d51dc7da2fe5322194928871f5b])
 - (CI) rust.yml upload binary for all platforms at MSRV ([6ff633ccb93a9e75e0e0b7291a2571921d85092a])
-- (CI) rust.yml expand versoin matrix ([597c0807e426e2d17f6a6b49a37665899b6bc074])
+- (CI) rust.yml expand version matrix ([597c0807e426e2d17f6a6b49a37665899b6bc074])
 - (CI) rust.yml NFC reword job name ([1677328e42072057bcac2622726bd973255477c5]) 
 
 ### Fixes
@@ -310,6 +310,12 @@ _Released 2023-05-09_
 
 ### Changes
 
+- (LIB) dependabot: bump clap from 4.2.1 to 4.2.7  ([33447dd116c091bd968eedf78675dc8c94b46982])
+- (LIB) dependabot: bump crossbeam-channel from 0.5.7 to 0.5.8 ([06640e3218bbbe8bdf97c9a54907fcb1a9491876])
+- (LIB) dependabot: bump libc from 0.2.141 to 0.2.144 ([8e98a8f387132a3a13f53d359086a80caa484cfd])
+- (LIB) dependabot: bump lru from 0.8.1 to 0.10.0 ([75f7c9fa0fdb16e471281c701b71759e728df81d])
+- (LIB) dependabot: bump regex from 1.7.1 to 1.8.1 ([66414e9db930cd116e78a692fa0590a3f574aea2])
+- (LIB) dependabot: bump tempfile from 3.4.0 to 3.5.0  ([210f01c36f0e7b8415ae595fbda857cff44277fb])
 - (BIN) bin.rs refactor channel data passing  [Issue #104] [Issue #60] ([0ea897a7665eff58d9c148ee53559504301e4a52])
 - (LIB) journalreader.rs efficient key tracking in `next_short` [Issue #84] ([781063204d0437481e6033a3f1cf5c6c66db102f])
 - (LIB) (BIN) miscellaneous codepspell fixes ([524e269e8b6584fdcd60ff551a4f0a5d49e7384e]) ([0c6af5d6d031fd90fd472452bd42ddffab313da4]) ([5bb8a5d1c4331d8e4b0391509abae2277012215d]) ([860b213f7690873f076c098c74b83bb8822a1ba9]) ([af93d662852bbed6a3c13ca4f54ae4a63af56c20])
@@ -319,12 +325,6 @@ _Released 2023-05-09_
 - (TOOLS) compare-current-and-expected common args, more args ([d395d94cddeea82f7117682882407feb35258fad])
 - (TOOLS) compare-debug-release.sh pass more args to s4 ([dfab1e709a370d468ffb3540f3c6d3e280e97017])
 - (CI) github add `dependabot.yml` ([877177bc4a0ca42544ece0facd2f40273b86c239])
-- (LIB) dependabot: bump libc from 0.2.141 to 0.2.144 ([8e98a8f387132a3a13f53d359086a80caa484cfd])
-- (LIB) dependabot: bump regex from 1.7.1 to 1.8.1 ([66414e9db930cd116e78a692fa0590a3f574aea2])
-- (LIB) dependabot: bump crossbeam-channel from 0.5.7 to 0.5.8 ([06640e3218bbbe8bdf97c9a54907fcb1a9491876])
-- (LIB) dependabot: bump tempfile from 3.4.0 to 3.5.0  ([210f01c36f0e7b8415ae595fbda857cff44277fb])
-- (LIB) dependabot: bump lru from 0.8.1 to 0.10.0 ([75f7c9fa0fdb16e471281c701b71759e728df81d])
-- (LIB) dependabot: bump clap from 4.2.1 to 4.2.7  ([33447dd116c091bd968eedf78675dc8c94b46982])
 
 ### Fixes
 
