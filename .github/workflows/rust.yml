@@ -48,6 +48,9 @@ jobs:
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
         msrv: ["1.66.0", "1.67.1", "1.68.0", "1.70.0"]
+    env:
+      # should match first value in list above
+      MSRV_UPLOAD: "1.66.0"
     runs-on: ${{ matrix.os }}
     steps:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
@@ -66,6 +69,24 @@ jobs:
           cargo build --verbose
           cargo build --release
           ./target/release/s4 --help
+      - name: Upload release binary ${{ matrix.os }}
+        if: ${{ matrix.os == 'windows-latest' }} && ${{ matrix.msrv == env.MSRV_UPLOAD }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: s4.exe ${{ matrix.os }}
+          path: ./target/release/s4.exe
+      - name: Upload release binary ${{ matrix.os }}
+        if: ${{ matrix.os == 'ubuntu-latest' }} && ${{ matrix.msrv == env.MSRV_UPLOAD }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: s4 ${{ matrix.os }}
+          path: ./target/release/s4
+      - name: Upload release binary ${{ matrix.os }}
+        if: ${{ matrix.os == 'macos-latest' }} && ${{ matrix.msrv == env.MSRV_UPLOAD }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: s4 ${{ matrix.os }}
+          path: ./target/release/s4
 
   job_rust_release_channel:
     # this job downloads and builds dependency crates
@@ -105,7 +126,7 @@ jobs:
           cargo --version
           cargo build --verbose
           cp -av ./target/debug/s4 ./s4_debug
-      - name: Upload debug binary
+      - name: Upload debug binary for test
         uses: actions/upload-artifact@v3
         with:
           name: s4_debug
@@ -118,11 +139,16 @@ jobs:
           cargo --version
           cargo build --release --verbose
           cp -av ./target/release/s4 ./s4_release
-      - name: Upload release binary
+      - name: Upload release binary for test
         uses: actions/upload-artifact@v3
         with:
           name: s4_release
           path: ./s4_release
+      - name: Upload release binary (Ubuntu Linux)
+        uses: actions/upload-artifact@v3
+        with:
+          name: s4
+          path: ./target/release/s4
       # - name: Run valgrind
       #   run: |
       #     set -eux
