@@ -2,6 +2,7 @@
 #
 # Configuration for yamllint.
 ---
+extends: default
 rules:
   document-start:
     present: true
@@ -19,6 +20,8 @@ rules:
   line-length:
     allow-non-breakable-words: true
     allow-non-breakable-inline-mappings: true
+    max: 120
+    level: warning
   new-lines:
     type: unix
   new-line-at-end-of-file: "enable"

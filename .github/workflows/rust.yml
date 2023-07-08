@@ -283,8 +283,7 @@ jobs:
             -v -v
       - name: Run yamllint.sh
         run: |
-          # XXX: ignore yamllint.sh errors, see Issue #120
-          PYTHON=python ./tools/yamllint.sh || true
+          PYTHON=python ./tools/yamllint.sh --format github
 
   job_runs:
     # all of these steps need the s4 binary and the git-committed logs
