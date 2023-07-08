@@ -191,6 +191,9 @@ Categories:
   (TOOLS) - changes to scripts under `tools/`
   (PROJECT) - changes to READMEs, CHANGELOG, other non-source tweaks
 
+Helpful `git log` command for generating changelog entries:
+
+    git log --pretty=format:'- %s %Cred([%H])%Creset%C(yellow)%d%Creset' --abbrev-commit ...<tag>
 -->
 
 ## Unreleased
