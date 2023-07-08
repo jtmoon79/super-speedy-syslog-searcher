@@ -228,7 +228,7 @@ jobs:
                   \( -type f -o -type l \) \
                   -name 'libsystemd*' 2>/dev/null || true) \
               | sort
-      - name: Run Tests
+      - name: test (limited)
         shell: bash
         #run: cargo test --verbose --all-targets
         run: |
