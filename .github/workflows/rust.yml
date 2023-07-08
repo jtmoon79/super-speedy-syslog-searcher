@@ -57,7 +57,7 @@ jobs:
       - run: |
           git config --global core.protectNTFS false
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: ${{ matrix.msrv }}
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }}
@@ -98,7 +98,7 @@ jobs:
         rust_version: ["beta"]
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: ${{ matrix.rust_version }}
       - uses: Swatinem/rust-cache@v2
