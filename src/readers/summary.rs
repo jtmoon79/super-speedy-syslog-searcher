@@ -19,7 +19,7 @@ use crate::readers::blockreader::{
     BLOCKSZ_MAX,
     SummaryBlockReader,
 };
-#[cfg(any(debug_assertions, test))]
+#[cfg(debug_assertions)]
 use crate::readers::blockreader::BLOCKSZ_MIN;
 use crate::readers::linereader::SummaryLineReader;
 use crate::readers::syslinereader::SummarySyslineReader;
