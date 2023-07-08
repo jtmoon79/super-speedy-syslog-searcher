@@ -4846,7 +4846,6 @@ mod tests {
         DateTimePattern_string,
         DateTimeL,
     };
-    #[cfg(debug_assertions)]
     use s4lib::data::datetime::ymdhmsl;
     use test_case::test_case;
     use super::*;
