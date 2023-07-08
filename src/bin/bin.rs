@@ -772,7 +772,9 @@ fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<
         LocalResult::None =>
             return Err(format!("Unable to parse a datetime format for --prepend-dt-format {:?} (this datetime is invalid)", prepend_dt_format)),
     };
-    dt.format(prepend_dt_format);
+    // try to format the datetime with the given format string in case something
+    // panics then panic sooner rather than later
+    _ = dt.format(prepend_dt_format);
 
     Ok(String::from(prepend_dt_format))
 }
