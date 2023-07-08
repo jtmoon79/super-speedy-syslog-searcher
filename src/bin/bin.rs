@@ -4909,7 +4909,9 @@ mod tests {
     #[test_case("+02:30", FixedOffset::east_opt(9000).unwrap(); "+02:30 east(9000)")]
     #[test_case("+02:35", FixedOffset::east_opt(9300).unwrap(); "+02:30 east(9300)")]
     #[test_case("+23:00", FixedOffset::east_opt(82800).unwrap(); "+23:00 east(82800)")]
+    #[test_case("gmt", *FIXEDOFFSET0; "GMT (0)")]
     #[test_case("UTC", *FIXEDOFFSET0; "UTC east(0)")]
+    #[test_case("Z", *FIXEDOFFSET0; "Z (0)")]
     #[test_case("vlat", FixedOffset::east_opt(36000).unwrap(); "vlat east(36000)")]
     #[test_case("IDLW", FixedOffset::east_opt(-43200).unwrap(); "IDLW east(-43200)")]
     fn test_cli_process_tz_offset(in_: &str, out_fo: FixedOffset) {
@@ -4954,7 +4956,9 @@ mod tests {
         "2000-01-02T03:04:05 PDT"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05FOOO")), *FIXEDOFFSET0, None; "2000-01-02T03:04:05 FOOO"
+        // bad timezone
+        Some(String::from("2000-01-02T03:04:05FOOO")), *FIXEDOFFSET0, None;
+        "2000-01-02T03:04:05 FOOO"
     )]
     #[test_case(
         Some(String::from("2000/01/02 03:04:05")), *FIXEDOFFSET0,
