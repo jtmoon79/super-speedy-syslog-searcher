@@ -285,6 +285,16 @@ jobs:
         run: |
           PYTHON=python ./tools/yamllint.sh --format github
 
+  job_codecov_validate:
+    name: codecov validate
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+      - name: Run codecov-validate.sh
+        run: ./tools/codecov-validate.sh -v
+
   job_runs:
     # all of these steps need the s4 binary and the git-committed logs
     name: run s4
