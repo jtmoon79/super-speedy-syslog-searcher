@@ -182,7 +182,7 @@ pub fn ymdhms(
 /// create a `DateTime` with milliseconds
 ///
 /// wrapper for chrono DateTime creation function
-#[cfg(test)]
+#[cfg(debug_assertions)]
 #[allow(clippy::too_many_arguments)]
 pub fn ymdhmsl(
     fixedoffset: &FixedOffset,

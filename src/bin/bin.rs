@@ -220,79 +220,70 @@ enum CLI_Color_Choice {
 /// [`datetime_parse_from_str`]: s4lib::data::datetime#fn.datetime_parse_from_str
 type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool, bool);
 
-// XXX: use of `%Z` must be at the end of the `DateTimePattern_str` value
-//      for use in `process_dt` function.
-const CLI_DT_FILTER_PATTERN1: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S", true, false, false, true);
-const CLI_DT_FILTER_PATTERN2: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN3: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%:z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN4: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%#z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN5: CLI_DT_Filter_Pattern = ("%Y%m%dT%H%M%S%Z", true, true, true, true);
-const CLI_DT_FILTER_PATTERN6: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S", true, false, false, true);
-const CLI_DT_FILTER_PATTERN7: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN8: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %:z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN9: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %#z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN10: CLI_DT_Filter_Pattern = ("%Y-%m-%d %H:%M:%S %Z", true, true, true, true);
-const CLI_DT_FILTER_PATTERN11: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false, false, true);
-const CLI_DT_FILTER_PATTERN12: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S", true, false, false, true);
-const CLI_DT_FILTER_PATTERN13: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S%z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN14: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S%:z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN15: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S%#z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN16: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S%Z", true, true, true, true);
-const CLI_DT_FILTER_PATTERN17: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN18: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %:z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN19: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %#z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN20: CLI_DT_Filter_Pattern = ("%Y-%m-%dT%H:%M:%S %Z", true, true, true, true);
-const CLI_DT_FILTER_PATTERN21: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S", true, false, false, true);
-const CLI_DT_FILTER_PATTERN22: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN23: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %:z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN24: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %#z", true, true, false, true);
-const CLI_DT_FILTER_PATTERN25: CLI_DT_Filter_Pattern = ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true);
-const CLI_DT_FILTER_PATTERN26: CLI_DT_Filter_Pattern = ("%Y%m%d", true, false, false, false);
-const CLI_DT_FILTER_PATTERN27: CLI_DT_Filter_Pattern = ("%Y-%m-%d", true, false, false, false);
-const CLI_DT_FILTER_PATTERN28: CLI_DT_Filter_Pattern = ("%Y/%m/%d", true, false, false, false);
-const CLI_DT_FILTER_PATTERN29: CLI_DT_Filter_Pattern = ("%Y%m%d %z", true, true, false, false);
-const CLI_DT_FILTER_PATTERN30: CLI_DT_Filter_Pattern = ("%Y%m%d %:z", true, true, false, false);
-const CLI_DT_FILTER_PATTERN31: CLI_DT_Filter_Pattern = ("%Y%m%d %#z", true, true, false, false);
-const CLI_DT_FILTER_PATTERN32: CLI_DT_Filter_Pattern = ("%Y%m%d %Z", true, true, true, false);
-const CLI_DT_FILTER_PATTERN33: CLI_DT_Filter_Pattern = ("+%s", false, false, false, true);
-
-const CLI_FILTER_PATTERNS_COUNT: usize = 33;
+const CLI_FILTER_PATTERNS_COUNT: usize = 48;
 
 /// CLI acceptable datetime filter patterns for the user-passed `-a` or `-b`
-const CLI_FILTER_PATTERNS: [&CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
-    &CLI_DT_FILTER_PATTERN1,
-    &CLI_DT_FILTER_PATTERN2,
-    &CLI_DT_FILTER_PATTERN3,
-    &CLI_DT_FILTER_PATTERN4,
-    &CLI_DT_FILTER_PATTERN5,
-    &CLI_DT_FILTER_PATTERN6,
-    &CLI_DT_FILTER_PATTERN7,
-    &CLI_DT_FILTER_PATTERN8,
-    &CLI_DT_FILTER_PATTERN9,
-    &CLI_DT_FILTER_PATTERN10,
-    &CLI_DT_FILTER_PATTERN11,
-    &CLI_DT_FILTER_PATTERN12,
-    &CLI_DT_FILTER_PATTERN13,
-    &CLI_DT_FILTER_PATTERN14,
-    &CLI_DT_FILTER_PATTERN15,
-    &CLI_DT_FILTER_PATTERN16,
-    &CLI_DT_FILTER_PATTERN17,
-    &CLI_DT_FILTER_PATTERN18,
-    &CLI_DT_FILTER_PATTERN19,
-    &CLI_DT_FILTER_PATTERN20,
-    &CLI_DT_FILTER_PATTERN21,
-    &CLI_DT_FILTER_PATTERN22,
-    &CLI_DT_FILTER_PATTERN23,
-    &CLI_DT_FILTER_PATTERN24,
-    &CLI_DT_FILTER_PATTERN25,
-    &CLI_DT_FILTER_PATTERN26,
-    &CLI_DT_FILTER_PATTERN27,
-    &CLI_DT_FILTER_PATTERN28,
-    &CLI_DT_FILTER_PATTERN29,
-    &CLI_DT_FILTER_PATTERN30,
-    &CLI_DT_FILTER_PATTERN31,
-    &CLI_DT_FILTER_PATTERN32,
-    &CLI_DT_FILTER_PATTERN33,
+const CLI_FILTER_PATTERNS: [CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
+    // XXX: use of `%Z` must be at the end of the `DateTimePattern_str` value
+    //      for use in `process_dt` function.
+    // YYYYmmddTHH:MM:SS*
+    ("%Y%m%dT%H%M%S", true, false, false, true),
+    ("%Y%m%dT%H%M%S.%3f", true, false, false, true),
+    ("%Y%m%dT%H%M%S%z", true, true, false, true),
+    ("%Y%m%dT%H%M%S.%3f%z", true, true, false, true),
+    ("%Y%m%dT%H%M%S%:z", true, true, false, true),
+    ("%Y%m%dT%H%M%S.%3f%:z", true, true, false, true),
+    ("%Y%m%dT%H%M%S%#z", true, true, false, true),
+    ("%Y%m%dT%H%M%S.%3f%#z", true, true, false, true),
+    ("%Y%m%dT%H%M%S%Z", true, true, true, true),
+    ("%Y%m%dT%H%M%S.%3f%Z", true, true, true, true),
+    // YYYY-mm-dd HH:MM:SS*
+    ("%Y-%m-%d %H:%M:%S", true, false, false, true),
+    ("%Y-%m-%d %H:%M:%S.%3f", true, false, false, true),
+    ("%Y-%m-%d %H:%M:%S %z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S.%3f %z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S %:z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S %#z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S %Z", true, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%3f %Z", true, true, true, true),
+    // YYYY-mm-dd HH:MM:SS*
+    ("%Y-%m-%dT%H:%M:%S", true, false, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f", true, false, false, true),
+    ("%Y-%m-%dT%H:%M:%S%z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f%z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S%:z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S%#z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S%Z", true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f%Z", true, true, true, true),
+    // YYYY-mm-dd HH:MM:SS *
+    ("%Y-%m-%dT%H:%M:%S %z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f %z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S %:z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S %#z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S %Z", true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f %Z", true, true, true, true),
+    // YYYY/mm/dd HH:MM:SS*
+    ("%Y/%m/%d %H:%M:%S", true, false, false, true),
+    ("%Y/%m/%d %H:%M:%S.%3f", true, false, false, true),
+    ("%Y/%m/%d %H:%M:%S %z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S.%3f %z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S %:z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S %#z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%3f %Z", true, true, true, true),
+    // YYYYmmdd
+    ("%Y%m%d", true, false, false, false),
+    // YYYY-mm-dd
+    ("%Y-%m-%d", true, false, false, false),
+    // YYYY/mm/dd
+    ("%Y/%m/%d", true, false, false, false),
+    // YYYYmmdd
+    ("%Y%m%d %z", true, true, false, false),
+    ("%Y%m%d %:z", true, true, false, false),
+    ("%Y%m%d %#z", true, true, false, false),
+    ("%Y%m%d %Z", true, true, true, false),
+    // s
+    ("+%s", false, false, false, true),
 ];
 
 const CGN_DUR_OFFSET_TYPE: &str = "offset_type";
@@ -363,105 +354,31 @@ const CLI_HELP_AFTER: &str = concatcp!(
     "\
 DateTime Filters may be strftime specifier patterns:
     \"",
-    CLI_DT_FILTER_PATTERN1.0,
+    CLI_FILTER_PATTERNS[0].0,
+    "*\"
+    \"",
+    CLI_FILTER_PATTERNS[10].0,
+    "*\"
+    \"",
+    CLI_FILTER_PATTERNS[18].0,
+    "*\"
+    \"",
+    CLI_FILTER_PATTERNS[32].0,
+    "*\"
+    \"",
+    CLI_FILTER_PATTERNS[40].0,
     "\"
     \"",
-    CLI_DT_FILTER_PATTERN2.0,
+    CLI_FILTER_PATTERNS[41].0,
     "\"
     \"",
-    CLI_DT_FILTER_PATTERN3.0,
+    CLI_FILTER_PATTERNS[42].0,
     "\"
     \"",
-    CLI_DT_FILTER_PATTERN4.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN5.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN6.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN7.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN8.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN9.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN10.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN11.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN12.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN13.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN14.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN15.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN16.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN17.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN18.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN19.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN20.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN21.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN22.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN23.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN24.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN25.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN26.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN27.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN28.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN29.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN30.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN31.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN32.0,
-    "\"
-    \"",
-    CLI_DT_FILTER_PATTERN33.0,
+    CLI_FILTER_PATTERNS[47].0,
     "\"",
     r#"
+Each * is an optional trailing 3-digit fractional sub-seconds and/or timezone.
 
 Or, DateTime Filter may be custom relative offset patterns:
     "+DwDdDhDmDs" or "-DwDdDhDmDs"
@@ -4923,7 +4840,12 @@ fn print_files_processpathresult(
 #[cfg(test)]
 mod tests {
     extern crate test_case;
-    use s4lib::data::datetime::DateTimeL;
+    use s4lib::data::datetime::{
+        DateTimePattern_string,
+        DateTimeL,
+    };
+    #[cfg(debug_assertions)]
+    use s4lib::data::datetime::ymdhmsl;
     use test_case::test_case;
     use super::*;
 
@@ -5037,6 +4959,16 @@ mod tests {
         Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05 No TZ"
     )]
+    #[test_case(
+        Some(String::from("2000/01/02 03:04:05.678")), *FIXEDOFFSET0,
+        Some(ymdhmsl(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678));
+        "2000-01-02T03:04:05.678"
+    )]
+    #[test_case(
+        // bad fractional; can only be %3f
+        Some(String::from("2000/01/02 03:04:05.678901")), *FIXEDOFFSET0, None;
+        "2000-01-02T03:04:05.678901"
+    )]
     fn test_process_dt(
         dts: Option<String>,
         tz_offset: FixedOffset,
@@ -5047,7 +4979,7 @@ mod tests {
             dts, tz_offset, &*UTC_NOW,
         );
         let dt = process_dt(&dts, &tz_offset, &None, &UTC_NOW);
-        eprintln!("test_process_dt: dt: {:?}", dt);
+        eprintln!("test_process_dt: process_dt returned {:?}", dt);
         assert_eq!(dt, expect);
     }
 
@@ -5087,6 +5019,56 @@ mod tests {
     ) {
         let dt = process_dt(&dts, &tz_offset, &Some(dt_other), &UTC_NOW);
         assert_eq!(dt, expect);
+    }
+
+    #[test]
+    fn test_cli_filter_patterns() {
+        #[allow(non_snake_case)]
+        for (pattern_, _has_year, has_tz, has_tzZ, has_time) in CLI_FILTER_PATTERNS.iter() {
+            let pattern: DateTimePattern_string = DateTimePattern_string::from(*pattern_);
+
+            let has_tz_actual = pattern.contains("%z")
+                || pattern.contains("%:z")
+                || pattern.contains("%#z")
+                || pattern.contains("%Z");
+            assert!(
+                has_tz == &has_tz_actual,
+                "has_tz: {} != {} actual in pattern {:?}",
+                has_tz, has_tz_actual, pattern
+            );
+
+            let has_tzZ_actual = pattern.contains("%Z");
+            assert!(
+                has_tzZ == &has_tzZ_actual,
+                "has_tzZ: {} != {} actual in {:?}",
+                has_tzZ, has_tzZ_actual, pattern
+            );
+            if has_tzZ_actual {
+                assert!(
+                    pattern.ends_with("%z")
+                    || pattern.ends_with("%:z")
+                    || pattern.ends_with("%#z")
+                    || pattern.ends_with("%Z"),
+                    "has_tz pattern must end with timezone strftime specifier in {:?}",
+                    pattern
+                );
+            }
+
+            assert!(!(*has_tzZ && !has_tz), "has_tzZ && !has_tz");
+
+            let has_time_actual = pattern.contains("%H")
+                || pattern.contains("%M")
+                || pattern.contains("%S")
+                || pattern.contains("%s")
+                || pattern.contains("%3f");
+            assert!(
+                has_time == &has_time_actual,
+                "has_time: {} != {} actual in {:?}",
+                has_time,
+                has_time_actual,
+                pattern
+            );
+        }
     }
 
     const NOW: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Now;
