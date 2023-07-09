@@ -847,7 +847,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
             defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_SECONDS, match_.as_str());
             let s_count = match_
                 .as_str()
-                .replace("s", "");
+                .replace('s', "");
             match i64::from_str_radix(s_count.as_str(), 10) {
                 Ok(val) => {
                     seconds = val * addsub;
@@ -865,7 +865,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
             defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_MINUTES, match_.as_str());
             let s_count = match_
                 .as_str()
-                .replace("m", "");
+                .replace('m', "");
             match i64::from_str_radix(s_count.as_str(), 10) {
                 Ok(val) => {
                     minutes = val * addsub;
@@ -883,7 +883,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
             defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_HOURS, match_.as_str());
             let s_count = match_
                 .as_str()
-                .replace("h", "");
+                .replace('h', "");
             match i64::from_str_radix(s_count.as_str(), 10) {
                 Ok(val) => {
                     hours = val * addsub;
@@ -901,7 +901,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
             defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_DAYS, match_.as_str());
             let s_count = match_
                 .as_str()
-                .replace("d", "");
+                .replace('d', "");
             match i64::from_str_radix(s_count.as_str(), 10) {
                 Ok(val) => {
                     days = val * addsub;
@@ -919,7 +919,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
             defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_WEEKS, match_.as_str());
             let s_count = match_
                 .as_str()
-                .replace("w", "");
+                .replace('w', "");
             match i64::from_str_radix(s_count.as_str(), 10) {
                 Ok(val) => {
                     weeks = val * addsub;
@@ -3663,7 +3663,7 @@ fn processing_loop(
                     defo!("A3.3 printing Evtx PathId: {:?}", pathid);
                     // the most important part of this main thread loop
                     let mut printed: Count = 0;
-                    match printer.print_evtx(&evtx) {
+                    match printer.print_evtx(evtx) {
                         Ok(printed_) => printed = printed_ as Count,
                         Err(err) => {
                             // Only print a printing error once.
@@ -3683,16 +3683,16 @@ fn processing_loop(
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
-                        SummaryPrinted::summaryprint_map_update_evtx(&evtx, pathid, &mut map_pathid_sumpr, printed);
+                        SummaryPrinted::summaryprint_map_update_evtx(evtx, pathid, &mut map_pathid_sumpr, printed);
                         // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_evtx(&evtx, printed);
+                        summaryprinted.summaryprint_update_evtx(evtx, printed);
                     }
                 }
                 LogMessage::Journal(journalentry) => {
                     defo!("A3.4 printing JournalEntry PathId: {:?}", pathid);
                     // the most important part of this main thread loop
                     let mut printed: Count = 0;
-                    match printer.print_journalentry(&journalentry) {
+                    match printer.print_journalentry(journalentry) {
                         Ok(printed_) => printed = printed_ as Count,
                         Err(err) => {
                             // Only print a printing error once.
@@ -3712,9 +3712,9 @@ fn processing_loop(
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
-                        SummaryPrinted::summaryprint_map_update_journalentry(&journalentry, pathid, &mut map_pathid_sumpr, printed);
+                        SummaryPrinted::summaryprint_map_update_journalentry(journalentry, pathid, &mut map_pathid_sumpr, printed);
                         // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_journalentry(&journalentry, printed);
+                        summaryprinted.summaryprint_update_journalentry(journalentry, printed);
                     }
                 }
             }
