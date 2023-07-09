@@ -415,8 +415,7 @@ jobs:
           "${PROGRAM}" --version
           "${SCRIPT}"
 
-  # Run code coverage with rust "stable" then upload code coverage result to
-  # codecov.io
+  # Run code coverage then upload code coverage result to codecov.io
   # Help from:
   # - https://github.com/marketplace/actions/rust-grcov
   # - https://eipi.xyz/blog/rust-code-coverage-with-github-workflows/
@@ -477,7 +476,7 @@ jobs:
         with:
           command: test
           args: --no-fail-fast --all-targets
-      - name: grcov
+      - name: run grcov
         shell: bash
         env:
           CARGO_INCREMENTAL: 0
@@ -518,4 +517,46 @@ jobs:
           #
           # list of acceptable formats:
           # https://docs.codecov.com/docs/supported-report-formats
+  # Run code coverage using cargo-llvm-cov then upload to coveralls.io
+  job_code_coverage_llvm:
+    name: llvm-cov
+    runs-on: ubuntu-latest
+    needs: job_runs
+    env:
+      COVERALLS_FILE: ./coveralls.lcov
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+      - name: Install libsystemd
+        shell: bash
+        run: |
+          set -eux
+          sudo apt update || true
+          sudo apt install --yes libsystemd0
+      - name: get toolchain stable
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: install cargo-llvm-cov
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: -- cargo-llvm-cov
+      - name: add llvm-tools-preview
+        shell: bash
+        run: rustup component add llvm-tools-preview
+      - name: run llvm-cov
+        shell: bash
+        run: |
+          set -eux
+          cargo llvm-cov --version
+          cargo llvm-cov show-env
+          cargo llvm-cov --verbose --lcov --output-path "${COVERALLS_FILE}"
+      - name: upload coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          file: ${{ env.COVERALLS_FILE }}
+          format: lcov
 ...
