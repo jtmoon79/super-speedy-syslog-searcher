@@ -236,15 +236,29 @@ jobs:
                   -name 'libsystemd*' 2>/dev/null || true) \
               | sort
       - name: test (limited)
+        # sanity check tests requiring libsystemd can run
         shell: bash
-        #run: cargo test --verbose --all-targets
         run: |
           set -eux
+          # can libsystemd be found?
           (find / -xdev \
                   \( -type f -o -type l \) \
                   -name 'libsystemd*' 2>/dev/null || true) \
               | sort
+          # run tests that use libsystemd
           cargo test journalreader_tests
+      - name: install nextest
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: cargo-nextest --locked
+      - name: nextest (all)
+        shell: bash
+        run: |
+          set -eux
+          cargo nextest --version
+          export NEXTEST_TEST_THREADS="num-cpus"
+          cargo nextest run --bin s4 --lib --fail-fast --final-status-level=all
 
   job_doc_publish:
     # this job downloads and builds dependency crates
@@ -524,6 +538,7 @@ jobs:
           #
           # list of acceptable formats:
           # https://docs.codecov.com/docs/supported-report-formats
+
   # Run code coverage using cargo-llvm-cov then upload to coveralls.io
   job_code_coverage_llvm:
     name: llvm-cov
