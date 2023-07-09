@@ -20,6 +20,8 @@ on:
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
+  # should match first value in matrix.msrv
+  MSRV_UPLOAD: "1.66.0"
   # run options for debug
   S4_ARGSD: --blocksz 0x2 -s
   # run options for release
@@ -48,17 +50,15 @@ jobs:
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
         msrv: ["1.66.0", "1.67.1", "1.68.0", "1.70.0"]
-    env:
-      # should match first value in list above
-      MSRV_UPLOAD: "1.66.0"
     runs-on: ${{ matrix.os }}
     steps:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
       - run: |
           git config --global core.protectNTFS false
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions-rs/toolchain@v1
         with:
+          profile: minimal
           toolchain: ${{ matrix.msrv }}
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }}
         shell: bash
@@ -95,30 +95,37 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        rust_version: ["beta"]
+        rust_version: ["stable", "beta"]
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ matrix.rust_version }}
         with:
+          profile: minimal
           toolchain: ${{ matrix.rust_version }}
       - uses: Swatinem/rust-cache@v2
       - name: Build using rust ${{ matrix.rust_version }}
         run: |
           set -eux
           cargo --version
-          cargo build --verbose
+          cargo build
           cargo build --release
           ./target/release/s4 --help
 
   job_build_debug_release:
     # this job downloads and builds dependency crates
-    name: build debug, build release, upload
+    name: build debug and release, upload
     needs: [job_rust_release_channel, job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       # build & upload debug
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }}
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
       - name: Build Debug
         shell: bash
         run: |
@@ -434,11 +441,11 @@ jobs:
           set -eux
           sudo apt update || true
           sudo apt install --yes libsystemd0
-      - name: get toolchain stable
+      - name: toolchain ${{ env.MSRV_UPLOAD }}
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
+          toolchain: ${{ env.MSRV_UPLOAD }}
           override: true
       - name: cargo install
         uses: actions-rs/cargo@v1
@@ -533,11 +540,11 @@ jobs:
           set -eux
           sudo apt update || true
           sudo apt install --yes libsystemd0
-      - name: get toolchain stable
+      - name: toolchain ${{ env.MSRV_UPLOAD }} minimal
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
+          toolchain: ${{ env.MSRV_UPLOAD }}
           override: true
       - name: install cargo-llvm-cov
         uses: actions-rs/cargo@v1
