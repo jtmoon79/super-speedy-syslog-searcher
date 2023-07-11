@@ -395,12 +395,12 @@ DateTime Filters may be strftime specifier patterns:
     r#"
 Each * is an optional trailing 3-digit fractional sub-seconds and/or timezone.
 
-Or, DateTime Filter may be custom relative offset patterns:
-    "+DwDdDhDmDs" or "-DwDdDhDmDs"
-    "@+DwDdDhDmDs" or "@-DwDdDhDmDs"
-
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 For example, value "+946684800" is be January 1, 2000 at 00:00, GMT.
+
+DateTime Filters may be custom relative offset patterns:
+    "+DwDdDhDmDs" or "-DwDdDhDmDs"
+    "@+DwDdDhDmDs" or "@-DwDdDhDmDs"
 
 Custom relative offset pattern "+DwDdDhDmDs" and "-DwDdDhDmDs" is the offset
 from now (program start time) where "D" is a decimal number.
@@ -418,27 +418,26 @@ Arguments "-a @-6h -b 20220101T120000" are equivalent to
 Without a timezone offset (strftime specifier "%z" or "%Z"),
 the Datetime Filter is presumed to be the local system timezone.
 
+Timezones may be numeric timezone offsets, e.g. "+09:00", "+0900", or "+09",
+or named timezone offsets, e.g. "JST".
 Ambiguous named timezones will be rejected, e.g. "SST".
 
 --prepend-tz and --dt-offset function independently:
---prepend-tz affects what is pre-printed before each printed log message line.
 --dt-offset is used to interpret processed log message datetime stamps that
 do not have a timezone offset.
+--prepend-tz affects what is pre-printed before each printed log message line.
 
---prepend-tz accepts numieric timezone offsets, e.g. "+09:00", "+0900", or "+09",
-and named timezone offsets, e.g. "JST".
-
-Backslash escape sequences accepted by "--separator" are:
-    ""#, unescape::BACKSLASH_ESCAPE_SEQUENCES0, "\",
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES1, "\",
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES2, "\",
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES3, "\",
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES4, "\",
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES5, "\",
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES6, "\",
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES7, "\",
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES8, "\",
-    \"", unescape::BACKSLASH_ESCAPE_SEQUENCES9, r#"",
+--separator accepts backslash escape sequences:
+    ""#, unescape::BACKSLASH_ESCAPE_SEQUENCES0, "\",\
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES1, "\",\
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES2, "\",\
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES3, "\",\
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES4, "\",\
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES5, "\",\
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES6, "\",\
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES7, "\",\
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES8, "\",\
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES9, r#"",
 
 Resolved values of "--dt-after" and "--dt-before" can be reviewed in
 the "--summary" output.
