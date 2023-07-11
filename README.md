@@ -154,16 +154,18 @@ Arguments:
 Options:
   -a, --dt-after <DT_AFTER>
           DateTime Filter After: print syslog lines with a datetime that is at
-          or after this datetime. For example, "20200102T120000" or "-5d".
+          or after this datetime.
+          For example, "20200102T120000" or "-5d".
   -b, --dt-before <DT_BEFORE>
           DateTime Filter Before: print syslog lines with a datetime that is at
           or before this datetime.
-          For example, "20200103T230000" or "@+1d+11h"
+          For example, "2020-01-03T23:00:00.321-05:30" or "@+1d+11h"
   -t, --tz-offset <TZ_OFFSET>
           Default timezone offset for datetimes without a timezone.
-          For example, log message "20200102T120000 Starting" has a datetime
-          substring "20200102T120000". The datetime substring does not have a
-          timezone offset so the TZ_OFFSET value would be used.
+          For example, log message "[20200102T120000] Starting service" has a
+          datetime substring "20200102T120000".
+          The datetime substring does not have a timezone offset
+          so the TZ_OFFSET value would be used.
           Example values, "+12", "-0800", "+02:00", or "EDT".
           To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
           If not passed then the local system timezone offset is used.
@@ -193,7 +195,8 @@ Options:
   -w, --prepend-file-align
           Align column widths of prepended data.
       --prepend-separator <PREPEND_SEPARATOR>
-          Separator string for prepended data. [default: :]
+          Separator string for prepended data.
+          [default: :]
       --separator <LOG_MESSAGE_SEPARATOR>
           An extra separator string between printed log messages.
           Per log message not per line of text.
@@ -202,17 +205,18 @@ Options:
       --journal-output <JOURNAL_OUTPUT>
           The format for .journal file log messages.
           Matches journalctl --output options.
-          : [default: short]
-          [possible values: short, short-precise, short-iso, short-iso-precise, short-full,
-           short-monotonic, short-unix, verbose, export, cat]
+          [default: short]
+          [possible values: short, short-precise, short-iso, short-iso-precise, short-full, short-monotonic, short-unix, verbose, export, cat]
   -c, --color <COLOR_CHOICE>
           Choose to print to terminal using colors.
-          [default: auto] [possible values: always, auto, never]
+          [default: auto]
+          [possible values: always, auto, never]
       --blocksz <BLOCKSZ>
           Read blocks of this size in bytes.
           May pass value as any radix (hexadecimal, decimal, octal, binary).
           Using the default value is recommended.
-          Most useful for developers. [default: 65535]
+          Most useful for developers.
+          [default: 65535]
   -s, --summary
           Print a summary of files processed to stderr.
           Most useful for developers.
@@ -225,19 +229,18 @@ DateTime Filters may be strftime specifier patterns:
     "%Y%m%dT%H%M%S*"
     "%Y-%m-%d %H:%M:%S*"
     "%Y-%m-%dT%H:%M:%S*"
-    "%Y/%m/%d %H:%M:%S*"
     "%Y%m%d"
     "%Y-%m-%d"
     "%Y/%m/%d"
     "+%s"
 Each * is an optional trailing 3-digit fractional sub-seconds and/or timezone.
 
-Or, DateTime Filter may be custom relative offset patterns:
-    "+DwDdDhDmDs" or "-DwDdDhDmDs"
-    "@+DwDdDhDmDs" or "@-DwDdDhDmDs"
-
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 For example, value "+946684800" is be January 1, 2000 at 00:00, GMT.
+
+DateTime Filters may be custom relative offset patterns:
+    "+DwDdDhDmDs" or "-DwDdDhDmDs"
+    "@+DwDdDhDmDs" or "@-DwDdDhDmDs"
 
 Custom relative offset pattern "+DwDdDhDmDs" and "-DwDdDhDmDs" is the offset
 from now (program start time) where "D" is a decimal number.
@@ -255,32 +258,23 @@ Arguments "-a @-6h -b 20220101T120000" are equivalent to
 Without a timezone offset (strftime specifier "%z" or "%Z"),
 the Datetime Filter is presumed to be the local system timezone.
 
+Timezones may be numeric timezone offsets, e.g. "+09:00", "+0900", or "+09",
+or named timezone offsets, e.g. "JST".
 Ambiguous named timezones will be rejected, e.g. "SST".
 
 --prepend-tz and --dt-offset function independently:
---prepend-tz affects what is pre-printed before each printed log message line.
 --dt-offset is used to interpret processed log message datetime stamps that
 do not have a timezone offset.
+--prepend-tz affects what is pre-printed before each printed log message line.
 
---prepend-tz accepts numieric timezone offsets, e.g. "+09:00", "+0900", or "+09",
-and named timezone offsets, e.g. "JST".
-
-Backslash escape sequences accepted by "--separator" are:
-    "\0",
-    "\a",
-    "\b",
-    "\e",
-    "\f",
-    "\n",
-    "\r",
-    "\\",
-    "\t",
-    "\v",
+--separator accepts backslash escape sequences:
+    "\0","\a","\b","\e","\f","\n","\r","\\","\t","\v",
 
 Resolved values of "--dt-after" and "--dt-before" can be reviewed in
 the "--summary" output.
 
-DateTime strftime specifiers are described at https://docs.rs/chrono/latest/chrono/format/strftime/
+DateTime strftime specifiers are described at
+https://docs.rs/chrono/latest/chrono/format/strftime/
 
 DateTimes supported are only of the Gregorian calendar.
 
