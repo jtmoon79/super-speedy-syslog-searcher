@@ -575,7 +575,7 @@ jobs:
           set -eux
           cargo llvm-cov --version
           cargo llvm-cov show-env
-          cargo llvm-cov --verbose --lcov --output-path "${COVERALLS_FILE}"
+          cargo llvm-cov --lcov --output-path "${COVERALLS_FILE}"
       - name: upload coveralls
         uses: coverallsapp/github-action@v2
         with:
