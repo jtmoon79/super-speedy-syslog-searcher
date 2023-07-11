@@ -220,7 +220,7 @@ enum CLI_Color_Choice {
 /// [`datetime_parse_from_str`]: s4lib::data::datetime#fn.datetime_parse_from_str
 type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool, bool);
 
-const CLI_FILTER_PATTERNS_COUNT: usize = 48;
+const CLI_FILTER_PATTERNS_COUNT: usize = 52;
 
 /// CLI acceptable datetime filter patterns for the user-passed `-a` or `-b`
 const CLI_FILTER_PATTERNS: [CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
@@ -229,46 +229,69 @@ const CLI_FILTER_PATTERNS: [CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = 
     // YYYYmmddTHH:MM:SS*
     ("%Y%m%dT%H%M%S", true, false, false, true),
     ("%Y%m%dT%H%M%S.%3f", true, false, false, true),
+    // %z
     ("%Y%m%dT%H%M%S%z", true, true, false, true),
     ("%Y%m%dT%H%M%S.%3f%z", true, true, false, true),
+    // %:z
     ("%Y%m%dT%H%M%S%:z", true, true, false, true),
     ("%Y%m%dT%H%M%S.%3f%:z", true, true, false, true),
+    // %#z
     ("%Y%m%dT%H%M%S%#z", true, true, false, true),
     ("%Y%m%dT%H%M%S.%3f%#z", true, true, false, true),
+    // %Z
     ("%Y%m%dT%H%M%S%Z", true, true, true, true),
     ("%Y%m%dT%H%M%S.%3f%Z", true, true, true, true),
     // YYYY-mm-dd HH:MM:SS*
     ("%Y-%m-%d %H:%M:%S", true, false, false, true),
     ("%Y-%m-%d %H:%M:%S.%3f", true, false, false, true),
+    // %z
     ("%Y-%m-%d %H:%M:%S %z", true, true, false, true),
     ("%Y-%m-%d %H:%M:%S.%3f %z", true, true, false, true),
+    // %:z
     ("%Y-%m-%d %H:%M:%S %:z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S.%3f %:z", true, true, false, true),
+    // %#z
     ("%Y-%m-%d %H:%M:%S %#z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S.%3f %#z", true, true, false, true),
+    // %Z
     ("%Y-%m-%d %H:%M:%S %Z", true, true, true, true),
     ("%Y-%m-%d %H:%M:%S.%3f %Z", true, true, true, true),
-    // YYYY-mm-dd HH:MM:SS*
+    // YYYY-mm-ddTHH:MM:SS*
     ("%Y-%m-%dT%H:%M:%S", true, false, false, true),
     ("%Y-%m-%dT%H:%M:%S.%3f", true, false, false, true),
+    // %z
     ("%Y-%m-%dT%H:%M:%S%z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f%z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S%:z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S%#z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S%Z", true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f%Z", true, true, true, true),
-    // YYYY-mm-dd HH:MM:SS *
     ("%Y-%m-%dT%H:%M:%S %z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S.%3f %z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f%z", true, true, false, true),
+    // %:z
+    ("%Y-%m-%dT%H:%M:%S%:z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f%:z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S %:z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f %:z", true, true, false, true),
+    // %#z
+    ("%Y-%m-%dT%H:%M:%S%#z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f%#z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S %#z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f %#z", true, true, false, true),
+    // %Z
+    ("%Y-%m-%dT%H:%M:%S%Z", true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f%Z", true, true, true, true),
     ("%Y-%m-%dT%H:%M:%S %Z", true, true, true, true),
     ("%Y-%m-%dT%H:%M:%S.%3f %Z", true, true, true, true),
     // YYYY/mm/dd HH:MM:SS*
     ("%Y/%m/%d %H:%M:%S", true, false, false, true),
     ("%Y/%m/%d %H:%M:%S.%3f", true, false, false, true),
+    // %z
     ("%Y/%m/%d %H:%M:%S %z", true, true, false, true),
     ("%Y/%m/%d %H:%M:%S.%3f %z", true, true, false, true),
+    // %:z
     ("%Y/%m/%d %H:%M:%S %:z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S.%3f %:z", true, true, false, true),
+    // %#z
     ("%Y/%m/%d %H:%M:%S %#z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S.%3f %#z", true, true, false, true),
+    // %Z
     ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true),
     ("%Y/%m/%d %H:%M:%S.%3f %Z", true, true, true, true),
     // YYYYmmdd
@@ -277,11 +300,6 @@ const CLI_FILTER_PATTERNS: [CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = 
     ("%Y-%m-%d", true, false, false, false),
     // YYYY/mm/dd
     ("%Y/%m/%d", true, false, false, false),
-    // YYYYmmdd
-    ("%Y%m%d %z", true, true, false, false),
-    ("%Y%m%d %:z", true, true, false, false),
-    ("%Y%m%d %#z", true, true, false, false),
-    ("%Y%m%d %Z", true, true, true, false),
     // s
     ("+%s", false, false, false, true),
 ];
@@ -360,22 +378,19 @@ DateTime Filters may be strftime specifier patterns:
     CLI_FILTER_PATTERNS[10].0,
     "*\"
     \"",
-    CLI_FILTER_PATTERNS[18].0,
+    CLI_FILTER_PATTERNS[20].0,
     "*\"
     \"",
-    CLI_FILTER_PATTERNS[32].0,
-    "*\"
-    \"",
-    CLI_FILTER_PATTERNS[40].0,
+    CLI_FILTER_PATTERNS[48].0,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[41].0,
+    CLI_FILTER_PATTERNS[49].0,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[42].0,
+    CLI_FILTER_PATTERNS[50].0,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[47].0,
+    CLI_FILTER_PATTERNS[51].0,
     "\"",
     r#"
 Each * is an optional trailing 3-digit fractional sub-seconds and/or timezone.
@@ -479,7 +494,7 @@ struct CLI_Args {
 
     /// DateTime Filter Before: print syslog lines with a datetime that is at
     /// or before this datetime.
-    /// For example, "20200103T230000" or "@+1d+11h"
+    /// For example, "2020-01-03T23:00:00.321-05:30" or "@+1d+11h"
     #[clap(
         short = 'b',
         long,
@@ -488,9 +503,10 @@ struct CLI_Args {
     dt_before: Option<String>,
 
     /// Default timezone offset for datetimes without a timezone.
-    /// For example, log message "20200102T120000 Starting" has a datetime
-    /// substring "20200102T120000". The datetime substring does not have a
-    /// timezone offset so the TZ_OFFSET value would be used.
+    /// For example, log message "[20200102T120000] Starting service" has a
+    /// datetime substring "20200102T120000".
+    /// The datetime substring does not have a timezone offset
+    /// so the TZ_OFFSET value would be used.
     /// Example values, "+12", "-0800", "+02:00", or "EDT".
     /// To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
     /// If not passed then the local system timezone offset is used.
