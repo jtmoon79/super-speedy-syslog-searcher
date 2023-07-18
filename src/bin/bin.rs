@@ -220,80 +220,108 @@ enum CLI_Color_Choice {
 /// [`datetime_parse_from_str`]: s4lib::data::datetime#fn.datetime_parse_from_str
 type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool, bool);
 
-const CLI_FILTER_PATTERNS_COUNT: usize = 52;
+const CLI_FILTER_PATTERNS_COUNT: usize = 76;
 
 /// CLI acceptable datetime filter patterns for the user-passed `-a` or `-b`
+// XXX: this is a an inelegant brute-force approach to matching potential
+//      datetime patterns in the user-passed `-a` or `-b` arguments. But it
+//      works and in ad-hoc experiments it didn't appear to add any significant
+//      run-time.
 const CLI_FILTER_PATTERNS: [CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
     // XXX: use of `%Z` must be at the end of the `DateTimePattern_str` value
-    //      for use in `process_dt` function.
+    //      as this is an assumption of the `process_dt` function.
     // YYYYmmddTHH:MM:SS*
     ("%Y%m%dT%H%M%S", true, false, false, true),
     ("%Y%m%dT%H%M%S.%3f", true, false, false, true),
+    ("%Y%m%dT%H%M%S.%6f", true, false, false, true),
     // %z
     ("%Y%m%dT%H%M%S%z", true, true, false, true),
     ("%Y%m%dT%H%M%S.%3f%z", true, true, false, true),
+    ("%Y%m%dT%H%M%S.%6f%z", true, true, false, true),
     // %:z
     ("%Y%m%dT%H%M%S%:z", true, true, false, true),
     ("%Y%m%dT%H%M%S.%3f%:z", true, true, false, true),
+    ("%Y%m%dT%H%M%S.%6f%:z", true, true, false, true),
     // %#z
     ("%Y%m%dT%H%M%S%#z", true, true, false, true),
     ("%Y%m%dT%H%M%S.%3f%#z", true, true, false, true),
+    ("%Y%m%dT%H%M%S.%6f%#z", true, true, false, true),
     // %Z
     ("%Y%m%dT%H%M%S%Z", true, true, true, true),
     ("%Y%m%dT%H%M%S.%3f%Z", true, true, true, true),
+    ("%Y%m%dT%H%M%S.%6f%Z", true, true, true, true),
     // YYYY-mm-dd HH:MM:SS*
     ("%Y-%m-%d %H:%M:%S", true, false, false, true),
     ("%Y-%m-%d %H:%M:%S.%3f", true, false, false, true),
+    ("%Y-%m-%d %H:%M:%S.%6f", true, false, false, true),
     // %z
     ("%Y-%m-%d %H:%M:%S %z", true, true, false, true),
     ("%Y-%m-%d %H:%M:%S.%3f %z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S.%6f %z", true, true, false, true),
     // %:z
     ("%Y-%m-%d %H:%M:%S %:z", true, true, false, true),
     ("%Y-%m-%d %H:%M:%S.%3f %:z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S.%6f %:z", true, true, false, true),
     // %#z
     ("%Y-%m-%d %H:%M:%S %#z", true, true, false, true),
     ("%Y-%m-%d %H:%M:%S.%3f %#z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S.%6f %#z", true, true, false, true),
     // %Z
     ("%Y-%m-%d %H:%M:%S %Z", true, true, true, true),
     ("%Y-%m-%d %H:%M:%S.%3f %Z", true, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%6f %Z", true, true, true, true),
     // YYYY-mm-ddTHH:MM:SS*
     ("%Y-%m-%dT%H:%M:%S", true, false, false, true),
     ("%Y-%m-%dT%H:%M:%S.%3f", true, false, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f", true, false, false, true),
     // %z
     ("%Y-%m-%dT%H:%M:%S%z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S %z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S.%3f %z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f %z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S.%3f%z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f%z", true, true, false, true),
     // %:z
     ("%Y-%m-%dT%H:%M:%S%:z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S.%3f%:z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f%:z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S %:z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S.%3f %:z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f %:z", true, true, false, true),
     // %#z
     ("%Y-%m-%dT%H:%M:%S%#z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S.%3f%#z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f%#z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S %#z", true, true, false, true),
     ("%Y-%m-%dT%H:%M:%S.%3f %#z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f %#z", true, true, false, true),
     // %Z
     ("%Y-%m-%dT%H:%M:%S%Z", true, true, true, true),
     ("%Y-%m-%dT%H:%M:%S.%3f%Z", true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f%Z", true, true, true, true),
     ("%Y-%m-%dT%H:%M:%S %Z", true, true, true, true),
     ("%Y-%m-%dT%H:%M:%S.%3f %Z", true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f %Z", true, true, true, true),
     // YYYY/mm/dd HH:MM:SS*
     ("%Y/%m/%d %H:%M:%S", true, false, false, true),
     ("%Y/%m/%d %H:%M:%S.%3f", true, false, false, true),
+    ("%Y/%m/%d %H:%M:%S.%6f", true, false, false, true),
     // %z
     ("%Y/%m/%d %H:%M:%S %z", true, true, false, true),
     ("%Y/%m/%d %H:%M:%S.%3f %z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S.%6f %z", true, true, false, true),
     // %:z
     ("%Y/%m/%d %H:%M:%S %:z", true, true, false, true),
     ("%Y/%m/%d %H:%M:%S.%3f %:z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S.%6f %:z", true, true, false, true),
     // %#z
     ("%Y/%m/%d %H:%M:%S %#z", true, true, false, true),
     ("%Y/%m/%d %H:%M:%S.%3f %#z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S.%6f %#z", true, true, false, true),
     // %Z
     ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true),
     ("%Y/%m/%d %H:%M:%S.%3f %Z", true, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%6f %Z", true, true, true, true),
     // YYYYmmdd
     ("%Y%m%d", true, false, false, false),
     // YYYY-mm-dd
@@ -375,25 +403,29 @@ DateTime Filters may be strftime specifier patterns:
     CLI_FILTER_PATTERNS[0].0,
     "*\"
     \"",
-    CLI_FILTER_PATTERNS[10].0,
+    CLI_FILTER_PATTERNS[15].0,
     "*\"
     \"",
-    CLI_FILTER_PATTERNS[20].0,
+    CLI_FILTER_PATTERNS[30].0,
     "*\"
     \"",
-    CLI_FILTER_PATTERNS[48].0,
+    CLI_FILTER_PATTERNS[57].0,
+    "*\"
+    \"",
+    CLI_FILTER_PATTERNS[72].0,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[49].0,
+    CLI_FILTER_PATTERNS[73].0,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[50].0,
+    CLI_FILTER_PATTERNS[74].0,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[51].0,
+    CLI_FILTER_PATTERNS[75].0,
     "\"",
     r#"
-Each * is an optional trailing 3-digit fractional sub-seconds and/or timezone.
+Each * is an optional trailing 3-digit fractional sub-seconds,
+or 6-digit fractional sub-seconds, and/or timezone.
 
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 For example, value "+946684800" is be January 1, 2000 at 00:00, GMT.
@@ -415,11 +447,11 @@ Arguments "-a 20220102 -b @+1d" are equivalent to "-a 20220102 -b 20220103".
 Arguments "-a @-6h -b 20220101T120000" are equivalent to
 "-a 20220101T060000 -b 20220101T120000".
 
-Without a timezone offset (strftime specifier "%z" or "%Z"),
-the Datetime Filter is presumed to be the local system timezone.
+Without a timezone, the Datetime Filter is presumed to be the local
+system timezone.
 
-Timezones may be numeric timezone offsets, e.g. "+09:00", "+0900", or "+09",
-or named timezone offsets, e.g. "JST".
+Command-line passed timezones may be numeric timezone offsets,
+e.g. "+09:00", "+0900", or "+09", or named timezone offsets, e.g. "JST".
 Ambiguous named timezones will be rejected, e.g. "SST".
 
 --prepend-tz and --dt-offset function independently:
@@ -4861,7 +4893,9 @@ mod tests {
         DateTimePattern_string,
         DateTimeL,
     };
-    use s4lib::data::datetime::ymdhmsl;
+    use s4lib::data::datetime::{
+        ymdhmsl, ymdhmsm,
+    };
     use test_case::test_case;
     use super::*;
 
@@ -4955,6 +4989,36 @@ mod tests {
         "2000-01-02T03:04:05"
     )]
     #[test_case(
+        Some(String::from("2000-01-02T03:04:05.678")), *FIXEDOFFSET0,
+        Some(ymdhmsl(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678));
+        "2000-01-02T03:04:05.678"
+    )]
+    #[test_case(
+        Some(String::from("2000-01-02T03:04:05.678901")), *FIXEDOFFSET0,
+        Some(ymdhmsm(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678901));
+        "2000-01-02T03:04:05.678901"
+    )]
+    #[test_case(
+        Some(String::from("2000-01-02T03:04:05.678901-01")), *FIXEDOFFSET0,
+        Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        "2000-01-02T03:04:05.678901-01"
+    )]
+    #[test_case(
+        Some(String::from("2000-01-02T03:04:05.678901-0100")), *FIXEDOFFSET0,
+        Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        "2000-01-02T03:04:05.678901-0100"
+    )]
+    #[test_case(
+        Some(String::from("2000-01-02T03:04:05.678901-01:00")), *FIXEDOFFSET0,
+        Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        "2000-01-02T03:04:05.678901-01:00"
+    )]
+    #[test_case(
+        Some(String::from("2000-01-02T03:04:05.678901 AZOT")), *FIXEDOFFSET0,
+        Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        "2000-01-02T03:04:05.678901 AZOT"
+    )]
+    #[test_case(
         Some(String::from("+946782245")), *FIXEDOFFSET0,
         Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "+946782245"
@@ -4982,12 +5046,12 @@ mod tests {
     #[test_case(
         Some(String::from("2000/01/02 03:04:05.678")), *FIXEDOFFSET0,
         Some(ymdhmsl(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678));
-        "2000-01-02T03:04:05.678"
+        "2000-01-02 03:04:05.678"
     )]
     #[test_case(
-        // bad fractional; can only be %3f
-        Some(String::from("2000/01/02 03:04:05.678901")), *FIXEDOFFSET0, None;
-        "2000-01-02T03:04:05.678901"
+        Some(String::from("2000/01/02 03:04:05.678901")), *FIXEDOFFSET0,
+        Some(ymdhmsm(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678901));
+        "2000-01-02 03:04:05.678901"
     )]
     fn test_process_dt(
         dts: Option<String>,

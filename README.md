@@ -206,7 +206,9 @@ Options:
           The format for .journal file log messages.
           Matches journalctl --output options.
           [default: short]
-          [possible values: short, short-precise, short-iso, short-iso-precise, short-full, short-monotonic, short-unix, verbose, export, cat]
+          [possible values: short, short-precise, short-iso, short-iso-precise,
+                            short-full, short-monotonic, short-unix, verbose,
+                            export, cat]
   -c, --color <COLOR_CHOICE>
           Choose to print to terminal using colors.
           [default: auto]
@@ -229,11 +231,13 @@ DateTime Filters may be strftime specifier patterns:
     "%Y%m%dT%H%M%S*"
     "%Y-%m-%d %H:%M:%S*"
     "%Y-%m-%dT%H:%M:%S*"
+    "%Y/%m/%d %H:%M:%S*"
     "%Y%m%d"
     "%Y-%m-%d"
     "%Y/%m/%d"
     "+%s"
-Each * is an optional trailing 3-digit fractional sub-seconds and/or timezone.
+Each * is an optional trailing 3-digit fractional sub-seconds,
+or 6-digit fractional sub-seconds, and/or timezone.
 
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 For example, value "+946684800" is be January 1, 2000 at 00:00, GMT.
@@ -255,11 +259,11 @@ Arguments "-a 20220102 -b @+1d" are equivalent to "-a 20220102 -b 20220103".
 Arguments "-a @-6h -b 20220101T120000" are equivalent to
 "-a 20220101T060000 -b 20220101T120000".
 
-Without a timezone offset (strftime specifier "%z" or "%Z"),
-the Datetime Filter is presumed to be the local system timezone.
+Without a timezone, the Datetime Filter is presumed to be the local system
+timezone.
 
-Timezones may be numeric timezone offsets, e.g. "+09:00", "+0900", or "+09",
-or named timezone offsets, e.g. "JST".
+Command-line passed timezones may be numeric timezone offsets,
+e.g. "+09:00", "+0900", or "+09", or named timezone offsets, e.g. "JST".
 Ambiguous named timezones will be rejected, e.g. "SST".
 
 --prepend-tz and --dt-offset function independently:

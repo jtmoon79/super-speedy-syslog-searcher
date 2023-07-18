@@ -65,7 +65,7 @@ cat "${files[@]}" > /dev/null
 
 # search for datetimes between
 declare -r after_dt='20000101T000000'
-declare -r befor_dt='20000101T025959'
+declare -r befor_dt='20000101T025959.999999'
 # regexp equivalent of $after_dt $befor_dt
 declare -r regex_dt='^20000101T0[012][[:digit:]]{4}'
 # declare s4 args once
