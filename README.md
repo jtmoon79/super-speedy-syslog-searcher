@@ -34,6 +34,7 @@ The first goal of `s4` is speedy searching and printing.
   - [Run `s4`](#run-s4)
   - [`--help`](#--help)
 - [About](#about)
+  - [Why `s4`?](#why-s4)
   - [Features](#features)
   - [Limitations](#limitations)
   - [Hacks](#hacks)
@@ -44,8 +45,15 @@ The first goal of `s4` is speedy searching and printing.
   - ["syslog" and other project definitions](#syslog-and-other-project-definitions)
     - [syslog](#syslog)
     - [log message](#log-message)
-  - [logging chaos; the problem `s4` solves](#logging-chaos-the-problem-s4-solves)
-  - [Further Reading](#further-reading)
+- [logging chaos; the problem `s4` solves](#logging-chaos-the-problem-s4-solves)
+  - [open-source software examples](#open-source-software-examples)
+    - [nginx webserver](#nginx-webserver)
+    - [Debian 11](#debian-11)
+  - [commercial software examples](#commercial-software-examples)
+    - [Synology DiskStation](#synology-diskstation)
+    - [Microsoft Windows 10](#microsoft-windows-10)
+  - [Summary](#summary)
+- [Further Reading](#further-reading)
 <!---toc end--->
 
 ---
@@ -290,6 +298,8 @@ https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
 
 ## About
 
+### Why `s4`?
+
 _Super Speedy Syslog Searcher_ (`s4`) is meant to aid Engineers in reviewing
 varying log files in a datetime-sorted manner.
 The primary use-case is to aid investigating problems wherein the time of
@@ -315,10 +325,10 @@ developer](https://github.com/jtmoon79) wanted an excuse to learn rust 🦀,
 and wanted to create an open-source tool for a recurring need of some
 Software Test Engineers 😄
 
-A longer rambling pontification about this project is in
-[`Extended-Thoughts.md`].
+See the real-world example rationale in section
+[_logging chaos; the problem `s4` solves_].
 
-[`Extended-Thoughts.md`]: ./Extended-Thoughts.md
+[_logging chaos; the problem `s4` solves_]: (#logging-chaos-the-problem-s4-solves)
 
 ### Features
 
@@ -457,7 +467,7 @@ A "log message" is a single log entry for any type of logging scheme;
 an entry in a utmpx file, an entry in a systemd journal, an entry in a
 Windows Event Log, a formal syslog message, or an ad-hoc log message.
 
-### logging chaos; the problem `s4` solves
+## logging chaos; the problem `s4` solves
 
 In practice, most log file formats are an ad-hoc format that
 may not follow any formal definition. Sorting varying log messages by datetime
@@ -465,6 +475,10 @@ is prohibitively tedious.
 
 The following real-world example log files are available in project directory
 `./logs`.
+
+### open-source software examples
+
+#### nginx webserver
 
 For example, the open-source nginx web server
 [logs access attempts in an ad-hoc format] in the file `access.log`
@@ -482,13 +496,7 @@ which is an entirely dissimilar log format to the neighboring nginx log file,
 
 nginx is following the bad example set by the apache web server.
 
-<br/>
-
-Commercial software and computer hardware vendors nearly always use
-ad-hoc log message formatting that is even more unpredictable among each log
-file on the same system.
-
-<br/>
+#### Debian 11
 
 Here is a log snippet from a Debian 11 host, file `/var/log/alternatives.log`:
 
@@ -515,7 +523,13 @@ file `/var/log/unattended-upgrades/unattended-upgrades-shutdown.log`:
 2022-10-10 23:07:16,775 WARNING - Unable to monitor PrepareForShutdown() signal, polling instead.
 ```
 
-<br/>
+### commercial software examples
+
+Commercial software and computer hardware vendors nearly always use
+ad-hoc log message formatting that is even more unpredictable among each log
+file on the same system.
+
+#### Synology DiskStation
 
 Here is a log snippet from a Synology DiskStation package _DownloadStation_:
 
@@ -539,7 +553,7 @@ info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task starte
 
 (yes, those are tab characters)
 
-<br/>
+#### Microsoft Windows 10
 
 Here are is a snippet from a Windows 10 host, log file
 `${env:SystemRoot}\debug\mrt.log`
@@ -582,7 +596,7 @@ And a snippet from the same Windows 10 host, log file
 
 (yes, it reads hour `14`, and `PM`…  🙄)
 
-<br/>
+### Summary
 
 This chaotic logging approach is typical of commercial and open-source software.
 And it's a mess!
@@ -593,7 +607,7 @@ Hence the need for _Super Speedy Syslog Searcher_! 🦸
 
 [logs access attempts in an ad-hoc format]: https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#setting-up-the-access-log
 
-### Further Reading
+## Further Reading
 
 - [`CHANGELOG.md`]
 - [`Extended-Thoughts.md`]
