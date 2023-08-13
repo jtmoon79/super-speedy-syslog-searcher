@@ -61,6 +61,7 @@ jobs:
           git config --global core.protectNTFS false
       - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ matrix.msrv }} minimal
         with:
           profile: minimal
           toolchain: ${{ matrix.msrv }}
@@ -103,7 +104,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
-        name: toolchain ${{ matrix.rust_version }}
+        name: toolchain ${{ matrix.rust_version }} minimal
         with:
           profile: minimal
           toolchain: ${{ matrix.rust_version }}
@@ -126,7 +127,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
-        name: toolchain ${{ env.MSRV_UPLOAD }}
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
         with:
           profile: minimal
           toolchain: ${{ env.MSRV_UPLOAD }}
@@ -459,8 +460,8 @@ jobs:
           set -eux
           sudo apt update || true
           sudo apt install --yes libsystemd0
-      - name: toolchain ${{ env.VERSION_GRCOV }}
-        uses: actions-rs/toolchain@v1
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.VERSION_GRCOV }} minimal
         with:
           profile: minimal
           toolchain: ${{ env.VERSION_GRCOV }}
@@ -559,8 +560,8 @@ jobs:
           set -eux
           sudo apt update || true
           sudo apt install --yes libsystemd0
-      - name: toolchain ${{ env.MSRV_UPLOAD }} minimal
-        uses: actions-rs/toolchain@v1
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
         with:
           profile: minimal
           toolchain: ${{ env.MSRV_UPLOAD }}
