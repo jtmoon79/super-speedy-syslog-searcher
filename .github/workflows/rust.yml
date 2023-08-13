@@ -23,6 +23,9 @@ env:
   # default rust version
   # should match first value in matrix.msrv
   MSRV_UPLOAD: "1.66.0"
+  # rust version for grcov job
+  # should be equal or greater than $MSRV_UPLOAD
+  VERSION_GRCOV: "1.67.0"
   # run options for debug
   S4_ARGSD: --blocksz 0x2 -s
   # run options for release
@@ -456,11 +459,11 @@ jobs:
           set -eux
           sudo apt update || true
           sudo apt install --yes libsystemd0
-      - name: toolchain ${{ env.MSRV_UPLOAD }}
+      - name: toolchain ${{ env.VERSION_GRCOV }}
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: ${{ env.MSRV_UPLOAD }}
+          toolchain: ${{ env.VERSION_GRCOV }}
           override: true
       - name: cargo install
         uses: actions-rs/cargo@v1
