@@ -613,6 +613,7 @@ Hence the need for _Super Speedy Syslog Searcher_! 🦸
 - [`Extended-Thoughts.md`]
 
 [`CHANGELOG.md`]: ./CHANGELOG.md
+[`Extended-Thoughts.md`]: ./Extended-Thoughts.md
 
 ---
 
