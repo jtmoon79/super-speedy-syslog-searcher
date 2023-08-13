@@ -20,6 +20,7 @@ on:
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
+  # default rust version
   # should match first value in matrix.msrv
   MSRV_UPLOAD: "1.66.0"
   # run options for debug
