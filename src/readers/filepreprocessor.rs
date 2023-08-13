@@ -32,10 +32,10 @@ use ::tar;
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 // TODO: [2022/06/06] a `struct FilePreProcessed` should be implemented
-//     it should hold the `ProcessPathResult`, `MimeGuess`, and other stuff collected
-//     during preprocessing here, and then give that to `SyslogProcessor` that gives it
-//     to `BlockReader`
-//     See Issue #15
+//       it should hold the `ProcessPathResult`, `MimeGuess`, and other stuff collected
+//       during preprocessing here, and then give that to `SyslogProcessor` which gives it
+//       to `BlockReader`
+//       See Issue #15
 
 /// Initial path processing return type.
 #[derive(Debug, Eq, PartialEq)]
@@ -657,7 +657,7 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
     results
 }
 
-/// Return all parseable files in the Path.
+/// Return all parseable files in the `path`.
 ///
 /// Given a directory, recurses the directory.<br/>
 /// Given a plain file path, returns that path.<br/>

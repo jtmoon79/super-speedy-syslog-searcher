@@ -16,14 +16,12 @@ pub use std::path::Path;
 /// An `FPath`can handle "subpaths" (paths into archives or compressed files)
 /// by adding an ad-hoc separator.
 ///
-/// Also, `std::path::Path` does not have trait `Sized` so
+/// It's easier to pass around a [`String`] than a `Path`.
+/// `std::path::Path` does not have trait `Sized` so
 /// instances of `std::path::Path` must be passed-by-reference
 /// (rustc error "`size is not known at compile time`").
-/// Some code areas then require marking explicit lifetimes 😩
-///
-/// tl;dr it's much easier to use a [`String`] and convert the `Path` as needed.
-///
-/// [`String`]: std::string::String
+/// Some code areas then require marking explicit lifetimes 😩<br/>
+/// It's much easier to use a [`String`] and convert the `Path` as needed.
 pub type FPath = String;
 
 /// A sequence of [`FPath`]s
@@ -39,7 +37,7 @@ pub type FileOpenOptions = std::fs::OpenOptions;
 pub type FileSz = u64;
 
 /// A general-purpose counting type, typically used for internal statistics
-/// counting.
+/// (Summary) counting.
 pub type Count = u64;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

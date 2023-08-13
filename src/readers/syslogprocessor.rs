@@ -109,16 +109,17 @@ pub enum ProcessingStage {
     /// If passed CLI option `--before` then find the last [`Sysline`] with
     /// datetime at or before the user-passed [`DateTimeL`].
     ///
-    /// While advancing, try to `drop` previously processed data
-    /// (a.k.a. "streaming mode"). See function [`find_sysline`].
+    /// While advancing, try to `drop` previously processed data `Block`s,
+    /// `Line`s, and `Sysline`s to lessen memory allocated.
+    /// a.k.a. "_streaming stage_".
+    /// Also see function [`find_sysline`].
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     /// [`find_sysline`]: self::SyslogProcessor#method.find_sysline
     Stage3StreamSyslines,
     /// If passed CLI option `--summary` then print a summary of
-    /// various information about the processed file.<br/>
-    /// Probably only interesting to developers.
+    /// various information about the processed file.
     Stage4Summary,
 }
 
@@ -171,7 +172,7 @@ lazy_static! {
 ///
 /// A `SyslogProcessor` is driven by a thread to fully process one syslog file.
 ///
-/// During "[streaming mode]", the `SyslogProcessor` will proactively `drop`
+/// During "[streaming stage]", the `SyslogProcessor` will proactively `drop`
 /// data that has been processed and printed. It does so by calling
 /// private function `drop_block` during function [`find_sysline`].
 ///
@@ -180,7 +181,7 @@ lazy_static! {
 /// [`LineReader`]: crate::readers::linereader::LineReader
 /// [`BlockReader`]: crate::readers::blockreader::BlockReader
 /// [`find_sysline`]: self::SyslogProcessor#method.find_sysline
-/// [streaming mode]: self::ProcessingStage#variant.Stage3StreamSyslines
+/// [streaming stage]: self::ProcessingStage#variant.Stage3StreamSyslines
 pub struct SyslogProcessor {
     syslinereader: SyslineReader,
     /// Current `ProcessingStage`.
@@ -275,7 +276,7 @@ impl SyslogProcessor {
     /// file and more likely it's some sort of binary data file.
     pub const BLOCKZERO_ANALYSIS_BYTES_NULL_MAX: usize = 128;
 
-    /// Allow "streaming" stage to drop data?
+    /// Allow "streaming stage" to drop data?
     /// Compile-time "option" to aid manual debugging.
     #[doc(hidden)]
     const STREAM_STAGE_DROP: bool = true;
@@ -725,13 +726,13 @@ impl SyslogProcessor {
     /// and in some cases calls private function `drop_block` to drop
     /// previously processed [`Sysline`], [`Line`], and [`Block`s].
     ///
-    /// This is what implements the "streaming" in "[streaming mode]".
+    /// This is what implements the "streaming" in "[streaming stage]".
     ///
     /// [`self.syslinereader.find_sysline(fileoffset)`]: crate::readers::syslinereader::SyslineReader#method.find_sysline
     /// [`Block`s]: crate::readers::blockreader::Block
     /// [`Line`]: crate::data::line::Line
     /// [`Sysline`]: crate::data::sysline::Sysline
-    /// [streaming mode]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
+    /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     pub fn find_sysline(
         &mut self,
         fileoffset: FileOffset,
@@ -897,12 +898,13 @@ impl SyslogProcessor {
         FileProcessingResultBlockZero::FileOk
     }
 
-    /// Stage 3: during streaming, processed and printed data stored by
+    /// Stage 3: during "[streaming]", processed and printed data stored by
     /// underlying "Readers" is proactively dropped
     /// (removed from process memory).
     ///
-    /// See [`find_sysline`].
+    /// Also see [`find_sysline`].
     ///
+    /// [streaming]: ProcessingStage#variant.Stage3StreamSyslines
     /// [`find_sysline`]: self::SyslogProcessor#method.find_sysline
     pub fn process_stage3_stream_syslines(&mut self) -> FileProcessingResultBlockZero {
         defñ!();

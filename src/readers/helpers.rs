@@ -33,7 +33,7 @@ pub fn path_clone(path: &std::path::Path) -> &std::path::Path {
     std::path::Path::new(path.as_os_str())
 }
 
-/// Count of a `char` in `str`.
+/// Count instances of a particular `c` in `s`.
 pub fn count_chars_in_str(
     s: &str,
     c: char,
@@ -93,7 +93,7 @@ pub fn randomize(v_: &mut Vec<FileOffset>) {
     }
 }
 
-/// testing helper
+/// Testing helper.
 #[doc(hidden)]
 #[cfg(test)]
 pub fn fill(v_: &mut Vec<FileOffset>) {

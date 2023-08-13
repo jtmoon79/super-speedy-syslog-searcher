@@ -42,13 +42,10 @@ use ::si_trace_print::{defn, defo, defx, defñ, def1ñ, den, deo, dex, deñ};
 /// Storage for Lines found from the underlying `BlockReader`
 /// FileOffset key is the first byte/offset that begins the `Line`
 ///
-/// [`FileOffset`]: crate::common::FileOffset
 /// [`Line`]: crate::data::line::Line
 pub type FoToLine = BTreeMap<FileOffset, LineP>;
 
 /// Map [`FileOffset`] To `FileOffset`
-///
-/// [`FileOffset`]: crate::common::FileOffset
 pub type FoToFo = BTreeMap<FileOffset, FileOffset>;
 
 /// [`LineReader.find_line()`] searching results.
@@ -67,10 +64,10 @@ pub type SetDroppedLines = HashSet<FileOffset>;
 
 /// A specialized reader that uses [`BlockReader`] to find [`Lines`] in a file.
 /// A `LineReader` knows how to process sequences of bytes of data among
-/// different `Block`s, and create a `Line`.
+/// different `Block`s to create a `Line`.
 ///
-/// The `LineReader` does much `[u8]` to `char` interpretation. It does the most
-/// work in this regard ([`SyslineReader`] does some).
+/// The `LineReader` does most of the `[u8]` to `char` interpretation for
+/// text log files. [`SyslineReader`] also does a little.
 ///
 /// A `LineReader` stores past lookups of data in `self.lines`.
 ///
@@ -88,7 +85,7 @@ pub struct LineReader {
     ///
     /// [`Line`]: crate::data::line::Line
     pub(crate) lines: FoToLine,
-    /// "high watermark" of Lines stored in `self.lines`
+    /// Internal stats - "high watermark" of Lines stored in `self.lines`
     lines_stored_highest: usize,
     /// Internal stats - hits of `self.lines` in `find_line()`
     /// and other functions.
@@ -101,7 +98,9 @@ pub struct LineReader {
     /// `Count` of `Line`s processed.
     ///
     /// Distinct from `self.lines.len()` as that may have contents removed
-    /// during "streaming" stage.
+    /// during "[streaming stage]".
+    ///
+    /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     pub(super) lines_processed: Count,
     /// Smallest size character in bytes.
     // XXX: Issue #16 only handles UTF-8/ASCII encoding
@@ -455,9 +454,10 @@ impl LineReader {
         linep
     }
 
-    /// Forcefully `drop` the [`Lines`]. For "streaming mode".
+    /// Forcefully `drop` the [`Lines`]. For "[streaming stage]".
     ///
     /// [`Lines`]: crate::data::line::Lines
+    /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     pub fn drop_lines(
         &mut self,
         lines: Lines,
@@ -474,11 +474,12 @@ impl LineReader {
         ret
     }
 
-    /// Forcefully `drop` the [`Line`]. For "streaming mode".
+    /// Forcefully `drop` the [`Line`]. For "[streaming stage]".
     ///
     /// The caller must know what they are doing!
     ///
     /// [`Line`s]: crate::data::line::Line
+    /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     pub fn drop_line(
         &mut self,
         linep: LineP,
@@ -783,13 +784,14 @@ impl LineReader {
     /// will be `ResultS3LineFind::Done`. The returned `Line` is not stored
     /// by this `LineReader` and should be quickly dropped by the caller. If
     /// the "partial" `Line` is held too long then the underlying `Block`
-    /// cannot be dropped during the "streaming" stage.
+    /// cannot be dropped during the "[streaming stage]".
     ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`Found`]: crate::common::ResultS3
     /// [`Done`]: crate::common::ResultS3
     /// [`Line`]: crate::data::line::Line
     /// [`FileOffset`]: crate::common::FileOffset
+    /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     //
     // TODO: [2022/05] add test for this:
     //       Keep in mind, a `Line` with terminating-newline as the last byte a `Block`

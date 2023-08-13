@@ -127,9 +127,15 @@ pub enum ReadDataParts {
     Many(Vec<BlockP>),
 }
 
+/// Returned by private function `BlockReader::read_data`.
+///
+/// A tuple of:
+/// - `ReadDataParts` enum
+/// - `BlockIndex` of the first `BlockP` in the `ReadDataParts` enum
+/// - `BlockIndex` of the last `BlockP` in the `ReadDataParts` enum
 pub type ReadData = (ReadDataParts, BlockIndex, BlockIndex);
 
-/// A typed [`ResultS3`] for private function `read_data`.
+/// A typed [`ResultS3`] for private function `BlockReader::read_data`.
 ///
 /// [`ResultS3`]: crate::common::ResultS3
 #[allow(non_upper_case_globals)]
@@ -138,11 +144,13 @@ pub type ResultReadData = ResultS3<ReadData, Error>;
 /// A typed [`ResultS3`] for function [`read_data_to_buffer`].
 ///
 /// [`ResultS3`]: crate::common::ResultS3
-/// [`read_data_to_buffer`]: BlockReader::read_data_to_buffer
+/// [`read_data_to_buffer`]: BlockReader#method.read_data_to_buffer
 #[allow(non_upper_case_globals)]
 pub type ResultReadDataToBuffer = ResultS3<usize, Error>;
 
-/// helper to `read_data_to_buffer` to check buffer length, exit with error.
+/// helper to `BlockReader::read_data_to_buffer` to check buffer length.
+/// In case of error, return from caller function with
+/// `ResultReadDataToBuffer::Err`.
 macro_rules! read_data_to_buffer_len_check {
     ($arg1:expr, $arg2:expr) => (
         if $arg1 < $arg2 {
@@ -211,8 +219,8 @@ pub struct XzData {
 }
 
 // TODO: Issue #7
-//       it is not impossible for paths to have ':', use '\0' instead
-//       is even less likely to be in a path. But use ':' when printing paths.
+//       it is not impossible for paths to have '|', use '\0' instead
+//       is even less likely to be in a path. Use ':' when printing paths.
 
 /// Separator `char` symbol for a filesystem path and subpath within a
 /// compressed file or an archive file. Used by an [`FPath`].
@@ -232,7 +240,7 @@ type TarHandle = tar::Archive<File>;
 /// under `char chksum[8];`.
 ///
 /// [`tar::Archive::<File>::headers()`]: https://docs.rs/tar/0.4.38/tar/struct.Header.html
-type TarChecksum = u32;
+pub type TarChecksum = u32;
 
 /// _Modified Systemtime_ copied [`tar::Archive::<File>::headers()`].
 ///
@@ -240,7 +248,7 @@ type TarChecksum = u32;
 /// under `char mtime[12];`.
 ///
 /// [`tar::Archive::<File>::headers()`]: https://docs.rs/tar/0.4.38/tar/struct.Header.html
-type TarMTime = u64;
+pub type TarMTime = u64;
 
 /// Data and readers for a file within a `.tar` file, used by [`BlockReader`].
 pub struct TarData {
@@ -293,6 +301,7 @@ pub struct BlockReader {
     path: FPath,
     /// Subpath to file. Only for `filetype.is_archived()` files.
     // XXX: Relates to Issue #7
+    // TODO: rename `_subpath` to `subpath`
     _subpath: Option<FPath>,
     /// The file handle.
     file: File,
@@ -312,6 +321,7 @@ pub struct BlockReader {
     /// The [`MimeGuess::from_path`] result.
     ///
     /// [`MimeGuess::from_path`]: https://docs.rs/mime_guess/2.0.4/mime_guess/fn.from_path.html
+    // TODO: rename `mimeguess_` to `mimeguess`
     mimeguess_: MimeGuess,
     /// Enum that guides file-handling behavior in functions `read`, and `new`.
     filetype: FileType,
@@ -346,8 +356,11 @@ pub struct BlockReader {
     /// `Count` of bytes stored by the `BlockReader`.
     ///
     /// May not match `self.blocks.iter().map(|x| sum += x.len()); sum` as
-    /// `self.blocks` may have some elements `drop`ped during streaming.
+    /// `self.blocks` may have some elements `drop`ped during [streaming stage].
+    ///
+    /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     // BUG: [2022/12/18] not tracked consistently
+    // TODO: rename `count_bytes_` to `count_bytes`
     count_bytes_: Count,
     /// Storage of blocks `read` from storage. Lookups O(log(n)). May `drop`
     /// data.
@@ -357,8 +370,10 @@ pub struct BlockReader {
     blocks: Blocks,
     /// Track blocks read in `read_block`. Never drops data.
     ///
-    /// Useful for when streaming kicks-in and some key+value of `self.blocks`
+    /// Useful for when [streaming] kicks-in and some key+value of `self.blocks`
     /// have been dropped.
+    ///
+    /// [streaming]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     blocks_read: BlocksTracked,
     /// Internal [LRU cache] for `fn read_block()`. Lookups _O(1)_.
     ///
@@ -443,8 +458,8 @@ pub struct SummaryBlockReader {
 
 /// Helper to unpack DWORD unsigned integers in a gzip header.
 ///
-/// The rust built-in [`u32::from_be_bytes`] and [`u32::from_le_bytes`] failed for test file compressed
-/// with GNU gzip 1.10.
+/// The rust built-in [`u32::from_be_bytes`] and [`u32::from_le_bytes`] failed
+/// for test file compressed with GNU gzip 1.10.
 ///
 /// [`u32::from_be_bytes`]: https://doc.rust-lang.org/std/primitive.u32.html#method.from_be_bytes
 /// [`u32::from_le_bytes`]: https://doc.rust-lang.org/std/primitive.u32.html#method.from_le_bytes
@@ -482,7 +497,7 @@ impl BlockReader {
     /// Create a new `BlockReader`.
     ///
     /// Opens the file at `path`. Configures settings based on passed
-    /// `FileType`.
+    /// `filetype`.
     pub fn new(
         path: FPath,
         filetype: FileType,
@@ -523,7 +538,7 @@ impl BlockReader {
         }
         let path_std: &Path = Path::new(&path);
 
-        // TODO: Issue #15 pass in `mimeguess`; avoid repeats of the tedious operation
+        // TODO: Issue #15 pass in `mimeguess`; avoid repeat call of `MimeGuess::from_path`
         let mimeguess_: MimeGuess = MimeGuess::from_path(path_std);
 
         let mut open_options = FileOpenOptions::new();
@@ -585,7 +600,7 @@ impl BlockReader {
                 blocksz = blocksz_;
             }
             FileType::Gz => {
-                // TODO: [2023/04] move this large check of code into private function
+                // TODO: [2023/04] move this large chunk of code into private function
                 blocksz = blocksz_;
                 def1o!("FileGz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
 
@@ -746,7 +761,7 @@ impl BlockReader {
                 def1o!("FileGz: created {:?}", gz_opt);
             }
             FileType::Xz => {
-                // TODO: [2023/04] move this large check of code into private function
+                // TODO: [2023/04] move this large chunk of code into private function
                 blocksz = blocksz_;
                 def1o!("FileXz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
                 def1o!("FileXz: open_options.read(true).open({:?})", path_std);
@@ -1195,9 +1210,6 @@ impl BlockReader {
             | FileType::Evtx
             | FileType::TarGz
             => {
-                // XXX: this is not an absolute; a BlockReader could be used by
-                //      EvtxReader or JournalReader. This is really just
-                //      an assumption check.
                 unimplemented!("BlockReader is not implemented for filetype {:?}", filetype);
             }
             // something is wrong if these are encountered
@@ -1207,8 +1219,8 @@ impl BlockReader {
             => panic!("BlockReader::new bad filetype {:?} for path {:?}", filetype, path),
         }
 
-        // XXX: don't assert on `filesz` vs `filesz_actual`; for some `.gz` files they can be
-        //      either gt, lt, or eq.
+        // XXX: don't assert on `filesz` vs `filesz_actual` to sanity check them.
+        //      for some `.gz` files they can be either gt, lt, or eq.
 
         let blockn: Count = BlockReader::count_blocks(filesz_actual, blocksz);
         let blocks_highest = blocks.len();
@@ -1251,7 +1263,7 @@ impl BlockReader {
         })
     }
 
-    /// Return a reference to the file path `FPath` processed, `self.path`.
+    /// Return a reference to `self.path`.
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
         &self.path
@@ -1273,6 +1285,9 @@ impl BlockReader {
     /// See Issue #12.
     ///
     /// For plain files, returns the file size reported by the filesystem.
+    ///
+    /// Users of this struct should always use this instead of accessing
+    /// `self.filesz` or `self.filesz_actual` directly.
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
             FileType::File
@@ -1569,7 +1584,9 @@ impl BlockReader {
     /// `Count` of blocks read by this `BlockReader`.
     ///
     /// Not always the same as blocks currently stored (those may be `drop`ped
-    /// during streaming stage).
+    /// during [streaming stage]).
+    ///
+    /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     #[inline(always)]
     pub fn count_blocks_processed(&self) -> Count {
         self.blocks_read.len() as Count
@@ -1603,12 +1620,13 @@ impl BlockReader {
     }
 
     /// Forcefully `drop` the [`Block`] at [`BlockOffset`].
-    /// For "streaming mode".
+    /// For "[streaming stage]".
     ///
     /// The caller must know what they are doing!
     ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
+    /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     pub fn drop_block(
         &mut self,
         blockoffset: BlockOffset,
@@ -2436,7 +2454,7 @@ impl BlockReader {
                     "requested block {} is in self.blocks_read but not in self.blocks",
                     blockoffset
                 );
-                // BUG: during streaming, this might panic!
+                // BUG: during streaming stage, this might panic!
                 let blockp: BlockP = self
                     .blocks
                     .get_mut(&blockoffset)
@@ -2559,7 +2577,7 @@ impl BlockReader {
         // whereas BlockOffset `bo2` must be inclusive range
         // so adjust accordingly
         if bo1 == bo2 {
-            // data resides within one block
+            // data resides within one Block
             bi2 = std::cmp::min(bi2, (*blockp1).len() as BlockIndex);
             defx!("return Found(One(len {}, {}, {}))", (*blockp1).len(), bi1, bi2);
             let rd: ReadData = (ReadDataParts::One(blockp1), bi1, bi2);
@@ -2579,7 +2597,7 @@ impl BlockReader {
         }
 
         if bo1 + 1 == bo2 {
-            // data spans two blocks
+            // data spans two Blocks
             let blockp2 = match self.read_block(bo2) {
                 ResultS3ReadBlock::Found(blockp) => {
                     defo!("read_block({}) returned Found Block len {}", bo2, (*blockp).len());
@@ -2609,7 +2627,7 @@ impl BlockReader {
             return ResultReadData::Found(rd);
         }
 
-        // data spans more than two blocks
+        // data spans more than two Blocks
         let mut blockps: Vec<BlockP> = Vec::with_capacity(3);
         defo!("blockps.push({})", bo1);
         blockps.push(blockp1);
@@ -2641,7 +2659,7 @@ impl BlockReader {
         ResultReadData::Found(rd)
     }
 
-    /// Read data from the file into the passed buffer. Calls private
+    /// Read data from the file into the passed `buffer`. Calls private
     /// function `read_data`.
     /// When successful, [`Found`] contains number of bytes read into the passed
     /// `buffer`.
