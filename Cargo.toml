@@ -103,7 +103,7 @@ flamegraph = "0.6.3"
 jetscii = "0.5.3"
 memchr = "2.5.0"
 tempdir = "0.3.7"
-tempfile = "3.7.1"
+tempfile = "3.8.0"
 test-case = "3.1.0"
 
 # release build optimizations
