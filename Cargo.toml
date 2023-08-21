@@ -43,7 +43,7 @@ crossbeam-channel = "0.5.8"
 dlopen2 = "0.6"
 encoding_rs = "0.8.32"
 evtx = { version = "0.8.1", features = ["multithreading"] }
-flate2 = "1.0.26"
+flate2 = "1.0.27"
 itertools = "0.11.0"
 lazy_static = "1.4.0"
 lru = "0.11.0"
