@@ -33,7 +33,6 @@ exclude = [
 ]
 
 [dependencies]
-backtrace = "0.3.67"
 bstr = "1.6.0"
 chrono = "0.4.26"
 clap = { version = "4.3.23", features = ["derive"] }
