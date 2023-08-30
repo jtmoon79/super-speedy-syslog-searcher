@@ -16,7 +16,6 @@ use crate::data::datetime::{
     DateTimeLOpt,
     FixedOffset,
     LocalResult,
-    NaiveDateTime,
     TimeZone,
 };
 use crate::readers::blockreader::{
@@ -223,12 +222,8 @@ pub const UT_TYPE_VAL_TO_STR: &[&str] = &[
 
 lazy_static! {
     /// fallback `DateTimeL` for failed conversions
-    static ref DEFAULT_DT: DateTimeL = {
-        DateTimeL::from_utc(
-            NaiveDateTime::from_timestamp_opt(0, 0).unwrap(),
-            FixedOffset::east_opt(0).unwrap(),
-        )
-    };
+    static ref DEFAULT_DT: DateTimeL =
+        FixedOffset::east_opt(0).unwrap().with_ymd_and_hms(1970, 1, 1, 0, 0, 0).unwrap();
 }
 
 /// A [`Utmpx`] holds a [C struct `utmpx`] and it's [`FileOffset`] and derived

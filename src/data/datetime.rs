@@ -38,7 +38,7 @@
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
 
-use crate::debug_panic;
+use crate::{de_err, de_wrn, debug_panic};
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{buffer_to_String_noraw, str_to_String_noraw};
 #[doc(hidden)]
@@ -276,6 +276,8 @@ pub(crate) const O_L: fos = i32::max_value();
 #[cfg(test)]
 const O_M1: fos = -3600;
 #[cfg(test)]
+const O_M1_30: fos = -3600 - 30 * 60;
+#[cfg(test)]
 const O_M2: fos = -2 * 3600;
 #[cfg(test)]
 const O_M3: fos = -3 * 3600;
@@ -315,7 +317,7 @@ const O_M1230: fos = -12 * 3600 - 30 * 60;
 #[cfg(test)]
 const O_P1: fos = 3600;
 #[cfg(test)]
-const O_P130: fos = 3600 + 30 * 60;
+const O_P1_30: fos = 3600 + 30 * 60;
 #[allow(dead_code)]
 #[cfg(test)]
 const O_P2: fos = 2 * 3600;
@@ -1806,9 +1808,9 @@ pub(crate) const CGP_HOUR_ALL: &[&CaptureGroupPattern] = &[
 // processing by chrono `DateTime::parse_from_str`.
 // See https://github.com/chronotope/chrono/issues/835
 
-/// Unicode "minus sign" `U+2212`
+/// Unicode MINUS SIGN `U+2212`
 const MINUS_SIGN: &[u8] = "−".as_bytes();
-/// Unicode/ASCII "hyphen-minus" `U+002D`
+/// Unicode/ASCII HYPHEN-MINUS `U+002D`
 const HYPHEN_MINUS: &[u8] = "-".as_bytes();
 
 // The "|" operator will match in order. And pattern ordering matters.
@@ -3164,14 +3166,14 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!("^", CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzc, RP_NODIGIT),
         DTFSS_BdHMSYzc, 0, 45, CGN_DAYa, CGN_TZ,
         &[
-            (0, 31, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "WED Jun 28 2022 01:51:12 +01:30"),
-            (0, 32, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "Wed, Jun 28 2022 01:51:12 +01:30"),
-            (0, 32, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "wed. Jun 28 2022 01:51:12 +01:30 FOOBAR"),
-            (0, 32, (O_P130, 2022, 6, 2, 1, 51, 12, 0), "wed. Jun 02 2022 01:51:12 +01:30 FOOBAR"),
-            (0, 31, (O_P130, 2022, 6, 2, 1, 51, 12, 0), "wed. Jun 2 2022 01:51:12 +01:30 FOOBAR"),
-            (0, 37, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "Wednesday Jun 28 2022 01:51:12 +01:30"),
-            (0, 38, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "Wednesday, Jun 28 2022 01:51:12 +01:30"),
-            (0, 31, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "thu Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (0, 31, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "WED Jun 28 2022 01:51:12 +01:30"),
+            (0, 32, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "Wed, Jun 28 2022 01:51:12 +01:30"),
+            (0, 32, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "wed. Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (0, 32, (O_P1_30, 2022, 6, 2, 1, 51, 12, 0), "wed. Jun 02 2022 01:51:12 +01:30 FOOBAR"),
+            (0, 31, (O_P1_30, 2022, 6, 2, 1, 51, 12, 0), "wed. Jun 2 2022 01:51:12 +01:30 FOOBAR"),
+            (0, 37, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "Wednesday Jun 28 2022 01:51:12 +01:30"),
+            (0, 38, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "Wednesday, Jun 28 2022 01:51:12 +01:30"),
+            (0, 31, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "thu Jun 28 2022 01:51:12 +01:30 FOOBAR"),
         ],
         line!(),
     ),
@@ -3226,7 +3228,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!("^", CGP_DAYa3, ",", RP_BLANK, CGP_DAYde, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_YEAR, RP_cq, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzc, RP_NODIGIT),
         DTFSS_BdHMSYzc, 0, 45, CGN_DAYa, CGN_TZ,
         &[
-            (0, 32, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "Mon, 28 Jun 2022 01:51:12 +01:30"),
+            (0, 32, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "Mon, 28 Jun 2022 01:51:12 +01:30"),
             (0, 32, (O_M5, 2018, 10, 7, 22, 55, 18, 0), "Sat, 07 Oct 2018 22:55:18 -05:00 hello this datetime stamp from https://dencode.com/date/rfc2822"),
             (0, 31, (O_P2, 2003, 7, 1, 10, 52, 37, 0), "Tue, 1 Jul 2003 10:52:37 +02:00 from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
         ],
@@ -3258,7 +3260,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!("^", RP_RFC2822_DATE, RP_BLANKq, CGP_DAYa3, ",", RP_BLANK, CGP_DAYde, RP_BLANK, CGP_MONTHb, RP_BLANK, CGP_YEAR, RP_cq, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzc, RP_NODIGIT),
         DTFSS_BdHMSYzc, 0, 45, CGN_DAYa, CGN_TZ,
         &[
-            (6, 38, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "Date:	Mon, 28 Jun 2022 01:51:12 +01:30"),
+            (6, 38, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "Date:	Mon, 28 Jun 2022 01:51:12 +01:30"),
             (6, 38, (O_M5, 2018, 10, 7, 22, 55, 18, 0), "DATE: Sat, 07 Oct 2018 22:55:18 -05:00 hello this datetime stamp from https://dencode.com/date/rfc2822"),
             (5, 36, (O_P2, 2003, 7, 1, 10, 52, 37, 0), "date:tue, 1 jul 2003 10:52:37 +02:00 from https://www.rfc-editor.org/rfc/rfc2822.html#page-41"),
         ],
@@ -3836,7 +3838,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             // been processed by the `printer::printers::PrinterSysline`).
             // Hence, the offsets for `begin`, `end`, must account for Unicode
             // char "minus sign" (which is larger than typical 1-byte ASCII).
-            (0, 27, (O_M1, 2020, 1, 2, 3, 4, 5, 0), "2020-01-02T03:04:05−01:00 To represent a negative offset, ISO 8601 specifies using a minus sign, (−)."),
+            (0, 27, (O_M1, 2020, 1, 2, 3, 4, 5, 0), "2020-01-02T03:04:05−01:00 To represent a negative offset, ISO 8601 specifies using a minus sign, (−) (U+2212)."),
 
         ],
         line!(),
@@ -3844,7 +3846,10 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     DTPD!(
         concatcp!("^", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp, RP_NODIGIT),
         DTFSS_YmdHMSzp, 0, 50, CGN_YEAR, CGN_TZ,
-        &[(0, 23, (O_M11, 2000, 1, 9, 0, 0, 4, 0), "2000/01/09 00:00:04 -11 abcdefghij")],
+        &[
+            (0, 23, (O_M11, 2000, 1, 9, 0, 0, 4, 0), "2000/01/09 00:00:04 -11 abcdefghij"),
+            (0, 25, (O_M11, 2000, 1, 9, 0, 0, 4, 0), "2000/01/09 00:00:04 −11 abcdefghij"), // U+2212
+        ],
         line!(),
     ),
     DTPD!(
@@ -3868,6 +3873,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (0, 19, (O_L, 2020, 1, 11, 0, 0, 26, 0), "2020-01-11 00:00:26 abcdefghijkl"),
             (0, 19, (O_L, 2020, 1, 11, 0, 0, 26, 0), "2020-01-11 00:00:26 pstxxxxxxxxx"),
+            (0, 19, (O_L, 2020, 1, 11, 0, 0, 26, 0), "2020-01-11 00:00:26 −pstxxxxxxxxx"), // U+2212
         ],
         line!(),
     ),
@@ -3904,6 +3910,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         DTFSS_BdHMSYz, 0, 45, CGN_DAYa, CGN_YEAR,
         &[
             (0, 29, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 -0000 2016 try umount root [1] times"),
+            (0, 31, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 −0000 2016 try umount root [1] times"), // U+2212
             (0, 30, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC  5 21:01:12 +0000 2016 try umount root [1] times"),
             (0, 30, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC 05 21:01:12 +0000 2016 try umount root [1] times"),
             (0, 30, (O_M1130, 2016, 12, 5, 21, 1, 12, 0), "mon dec  5 21:01:12 -1130 2016 try umount root [1] times"),
@@ -3920,6 +3927,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         DTFSS_BdHMSYzc, 0, 45, CGN_DAYa, CGN_YEAR,
         &[
             (0, 30, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 -00:00 2016 try umount root [1] times"),
+            (0, 32, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 −00:00 2016 try umount root [1] times"), // U+2212
             (0, 31, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC  5 21:01:12 +00:00 2016 try umount root [1] times"),
             (0, 31, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC 05 21:01:12 +00:00 2016 try umount root [1] times"),
             (0, 31, (O_M1130, 2016, 12, 5, 21, 1, 12, 0), "mon dec  5 21:01:12 -11:30 2016 try umount root [1] times"),
@@ -4049,6 +4057,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (1, 30, (O_M11, 2000, 1, 2, 5, 1, 32, 123000000), "<2000/01/02 05:01:32.123 -1100> a"),
             (1, 30, (O_M11, 2000, 1, 2, 5, 1, 32, 123000000), "{2000/01/02 05:01:32.123 -1100} a"),
+            (1, 32, (O_M11, 2000, 1, 2, 5, 1, 32, 123000000), "{2000/01/02 05:01:32.123 −1100} a"), // U+2212
         ],
         line!(),
     ),
@@ -4058,6 +4067,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (11, 43, (O_M1130, 2000, 1, 3, 5, 2, 33, 123456000), "[LOGGER]  {2000/01/03 05:02:33.123456-11:30} ab"),
             (1, 34, (O_M1130, 2000, 1, 3, 5, 2, 33, 123456000), "<2000-01-03T05:02:33.123456 -11:30> ab"),
+            (1, 36, (O_M1130, 2000, 1, 3, 5, 2, 33, 123456000), "<2000-01-03T05:02:33.123456 −11:30> ab"), // U+2212
         ],
         line!(),
     ),
@@ -4067,6 +4077,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (11, 44, (O_M11, 2000, 1, 4, 0, 3, 34, 123456789), "[LOGGER]  [2000/01/04 00:03:34,123456789 -11]"),
             (11, 44, (O_M11, 2000, 1, 4, 0, 3, 34, 123456789), "[LOGGER]  [2000/01/04 00:03:34.123456789 -11] abc"),
+            (11, 46, (O_M11, 2000, 1, 4, 0, 3, 34, 123456789), "[LOGGER]  [2000/01/04 00:03:34.123456789 −11] abc"), // U+2212
             (11, 43, (O_M11, 2000, 1, 4, 0, 3, 34, 123456789), "[LOGGER]  [2000/01/04T00:03:34,123456789-11]abc"),
         ],
         line!(),
@@ -4262,6 +4273,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (8, 39, (O_P1230, 2022, 6, 2, 1, 51, 12, 0), "RSYSLOG Tue, Jun  2 2022 01:51:12 +1230"),
             (8, 39, (O_P1230, 2022, 6, 2, 1, 51, 12, 0), "RSYSLOG Tue, Jun 02 2022 01:51:12 +1230"),
             (8, 38, (O_P1230, 2022, 6, 2, 1, 51, 12, 0), "RSYSLOG Tue, Jun 2 2022 01:51:12 +1230"),
+            (8, 38, (O_M11, 2022, 6, 2, 1, 51, 12, 0), "RSYSLOG Tue, Jun 2 2022 01:51:12 -1100"),
+            (8, 40, (O_M11, 2022, 6, 2, 1, 51, 12, 0), "RSYSLOG Tue, Jun 2 2022 01:51:12 −1100"), // U+2212
             (8, 39, (O_P1230, 2022, 6, 28, 1, 51, 12, 0), "RSYSLOG Tue. Jun 28 2022 01:51:12 +1230 FOOBAR"),
         ],
         line!(),
@@ -4270,16 +4283,18 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!(CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzc, RP_NODIGIT),
         DTFSS_BdHMSYzc, 0, 1024, CGN_DAYa, CGN_TZ,
         &[
-            (3, 35, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "<7>Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
-            (4, 36, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "<33>Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
-            (28, 60, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "[SOME OTHER FIELD] BLARG<33>Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
-            (1, 33, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "*Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
-            (3, 35, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "***Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
-            (11, 43, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "[RSYSLOG]: Tue, Jun 28 2022 01:51:12 +01:30"),
-            (8, 40, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "[INFO]: Tue. Jun 28 2022 01:51:12 +01:30:FOOBAR"),
-            (7, 38, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "[INFO]:Tue Jun 28 2022 01:51:12 +01:30<33>FOOBAR"),
-            (6, 37, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "[INFO]Tue Jun 28 2022 01:51:12 +01:30FOOBAR"),
-            (7, 38, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "{INFO} Tue Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (3, 35, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "<7>Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (4, 36, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "<33>Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (28, 60, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "[SOME OTHER FIELD] BLARG<33>Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (1, 33, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "*Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (3, 35, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "***Tue, Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (11, 43, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "[RSYSLOG]: Tue, Jun 28 2022 01:51:12 +01:30"),
+            (8, 40, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "[INFO]: Tue. Jun 28 2022 01:51:12 +01:30:FOOBAR"),
+            (7, 38, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "[INFO]:Tue Jun 28 2022 01:51:12 +01:30<33>FOOBAR"),
+            (6, 37, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "[INFO]Tue Jun 28 2022 01:51:12 +01:30FOOBAR"),
+            (7, 38, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "{INFO} Tue Jun 28 2022 01:51:12 +01:30 FOOBAR"),
+            (7, 38, (O_M1_30, 2022, 6, 28, 1, 51, 12, 0), "{INFO} Tue Jun 28 2022 01:51:12 -01:30 FOOBAR"),
+            (7, 40, (O_M1_30, 2022, 6, 28, 1, 51, 12, 0), "{INFO} Tue Jun 28 2022 01:51:12 −01:30 FOOBAR"), // U+2212
         ],
         line!(),
     ),
@@ -4294,6 +4309,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (9, 37, (O_P1, 2022, 6, 2, 1, 51, 12, 0), "[TRACE1] Tue. Jun 2 2022 01:51:12 +01 FOOBAR"),
             (9, 38, (O_P1, 2022, 6, 28, 1, 51, 12, 0), "[TRACE2] Tue, Jun 28 2022 01:51:12 +01"),
             (9, 37, (O_P1, 2022, 6, 28, 1, 51, 12, 0), "[TRACE1] Tue Jun 28 2022 01:51:12 +01 FOOBAR"),
+            (9, 37, (O_M1, 2022, 6, 28, 1, 51, 12, 0), "[TRACE1] Tue Jun 28 2022 01:51:12 -01 FOOBAR"),
+            (9, 39, (O_M1, 2022, 6, 28, 1, 51, 12, 0), "[TRACE1] Tue Jun 28 2022 01:51:12 −01 FOOBAR"), // U+2212
         ],
         line!(),
     ),
@@ -4357,16 +4374,16 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         DTFSS_BdHMSYzc, 0, 1024, CGN_DAYa, CGN_TZ,
         &[
             (27, 58, (O_P1230, 2023, 1, 12, 22, 26, 47, 0), "ERROR: apport (pid 486722) Thu Jan 12 22:26:47 2023 +12:30: called for pid 486450, signal 6, core limit 0, dump mode 1"),
-            (3, 35, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "<7>Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
-            (4, 36, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "<33>Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
-            (28, 60, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "[SOME OTHER FIELD] BLARG<33>Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
-            (1, 33, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "*Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
-            (3, 35, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "***Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
-            (11, 43, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "[MESSAGE]: Tue, Jun 28 01:51:12 2022 +01:30"),
-            (8, 40, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "[INFO]: Tue. Jun 28 01:51:12 2022 +01:30:FOOBAR"),
-            (7, 38, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "[INFO]:Tue Jun 28 01:51:12 2022 +01:30<33>FOOBAR"),
-            (6, 37, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "[INFO]Tue Jun 28 01:51:12 2022 +01:30FOOBAR"),
-            (7, 38, (O_P130, 2022, 6, 28, 1, 51, 12, 0), "{INFO} Tue Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (3, 35, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "<7>Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (4, 36, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "<33>Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (28, 60, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "[SOME OTHER FIELD] BLARG<33>Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (1, 33, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "*Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (3, 35, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "***Tue, Jun 28 01:51:12 2022 +01:30 FOOBAR"),
+            (11, 43, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "[MESSAGE]: Tue, Jun 28 01:51:12 2022 +01:30"),
+            (8, 40, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "[INFO]: Tue. Jun 28 01:51:12 2022 +01:30:FOOBAR"),
+            (7, 38, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "[INFO]:Tue Jun 28 01:51:12 2022 +01:30<33>FOOBAR"),
+            (6, 37, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "[INFO]Tue Jun 28 01:51:12 2022 +01:30FOOBAR"),
+            (7, 38, (O_P1_30, 2022, 6, 28, 1, 51, 12, 0), "{INFO} Tue Jun 28 01:51:12 2022 +01:30 FOOBAR"),
         ],
         line!(),
     ),
@@ -4451,6 +4468,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (5, 31, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -0700 === Started libdnf-0.31.0 ==="),
             (6, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -0700 fetching rpmdb"),
+            (6, 34, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 −0700 fetching rpmdb"), // U+2212
         ],
         line!(),
     ),
@@ -4460,6 +4478,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (5, 29, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -07 === Started libdnf-0.31.0 ==="),
             (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -07 fetching rpmdb"),
+            (6, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 −07 fetching rpmdb"), // U+2212
         ],
         line!(),
     ),
@@ -4617,6 +4636,10 @@ lazy_static! {
 //       <https://en.wikipedia.org/wiki/Unicode_character_property#Whitespace>.
 //
 /// Match spaces at beginning and ending of `value`.
+/// Return `true` if mismatch of whitespace was found between `value` and
+/// `pattern`, e.g. `value` is `"2022-01-01T02:03:04"`
+/// but pattern is `"    %Y-%d-%mT%H:%M:%S"`.
+/// Else return `false`.
 ///
 /// Workaround for chrono
 /// [Issue #660](https://github.com/chronotope/chrono/issues/660).
@@ -4745,17 +4768,15 @@ pub fn u8_to_str(data: &[u8]) -> Option<&str> {
     Some(dts)
 }
 
-/// Convert a [`&str`] to a chrono [`Option<DateTime<FixedOffset>>`]
-/// instance.
+/// Convert `data` to a chrono [`Option<DateTime<FixedOffset>>`] instance.
 ///
 /// Compensate for a missing timezone.
 ///
 /// - `data` to parse that has a datetime string
-/// - strftime `pattern` to use for parsing
+/// - strftime `pattern` to use for parsing, must complement `data`
 /// - `has_tz`, the `pattern` has a timezone (`%Z`, `%z`, etc.)?
 /// - `tz_offset` fallback timezone offset when `!has_tz`
 ///
-/// [`&str`]: str
 /// [`Option<DateTime<FixedOffset>>`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#impl-DateTime%3CFixedOffset%3E
 pub fn datetime_parse_from_str(
     data: &str,
@@ -4782,6 +4803,7 @@ pub fn datetime_parse_from_str(
                 );
                 // HACK: workaround chrono Issue #660 by checking for matching begin, end of `data`
                 //       and `dt_pattern`
+                //       See Issue #6
                 if !datetime_from_str_workaround_Issue660(data, pattern) {
                     defn!("skip match due to chrono Issue #660");
                     return None;
@@ -4797,8 +4819,8 @@ pub fn datetime_parse_from_str(
             }
         }
     } else {
-        // !has_tz
-        // no timezone in `pattern` so first convert to a `NaiveDateTime` instance
+        // !has_tz (no timezone in `data`)
+        // first convert to a `NaiveDateTime` instance
         let dt_naive = match NaiveDateTime::parse_from_str(data, pattern) {
             Ok(val) => {
                 defo!(
@@ -4822,7 +4844,7 @@ pub fn datetime_parse_from_str(
                 return None;
             }
         };
-        // second convert the `NaiveDateTime` instance to `DateTime<FixedOffset>` instance
+        // second convert the `NaiveDateTime` instance to a `DateTime<FixedOffset>` instance
         match tz_offset
             .from_local_datetime(&dt_naive)
             .earliest()
@@ -5077,8 +5099,7 @@ fn month_bB_to_month_m_bytes(
     }
 }
 
-/// Put [`Captures`] into a `String` buffer in a particular order and
-/// formatting.
+/// Put [`Captures`] into `buffer` in a particular order and formatting.
 ///
 /// This bridges the crate `regex` regular expression pattern strings,
 /// [`DateTimeParseInstr::regex_pattern`], to crate `chrono` strftime strings,
@@ -5090,6 +5111,9 @@ fn month_bB_to_month_m_bytes(
 /// Transforms `%B` acceptable value to `%m` acceptable value.
 ///
 /// Transforms `%e` acceptable value to `%d` acceptable value.
+///
+/// Transforms timezone offset inidicator MINUS SIGN `−` (U+2212) into
+/// HYPHEN-MINUS `-` (U+2D), e.g `−0700` becomes `-0700`.
 ///
 /// [`Captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
 /// [`DateTimeParseInstr::regex_pattern`]: crate::data::datetime::DateTimeParseInstr::regex_pattern
@@ -5323,11 +5347,13 @@ pub(crate) fn captures_to_buffer_bytes(
                     copy_slice_to_buffer!(fractional, buffer, at);
                 }
                 10 | 11 | 12 => {
-                    // fractional is too large, copy only left-most 9 chars
+                    // fractional is too large; copy only left-most 9 chars
                     copy_slice_to_buffer!(&fractional[..9], buffer, at);
+                    de_wrn!("fractional string {:?} is length {} bytes, only copying 9 bytes", fractional, len)
                 }
                 _ => {
-                    // something is very wrong
+                    // something is wrong with this matched string; ignore it
+                    de_err!("unexpected fractional string match {:?} length {} bytes", fractional, len)
                 }
             }
         }
@@ -5342,7 +5368,10 @@ pub(crate) fn captures_to_buffer_bytes(
         DTFS_Tz::z | DTFS_Tz::zc | DTFS_Tz::zp => {
             // for data passed to chrono `DateTime::parse_from_str`,
             // replace Unicode "minus sign" to ASCII "hyphen-minus"
-            // see https://github.com/chronotope/chrono/issues/835
+            // see Issue https://github.com/chronotope/chrono/issues/835
+            // XXX: chrono 0.4.27 handles MINUS SIGN (U+2212)
+            //      see PR https://github.com/chronotope/chrono/pull/1087
+            //      however, keep this code here as it works fine
             let captureb = captures
                 .name(CGN_TZ)
                 .as_ref()
