@@ -74,9 +74,6 @@ test = true
 doc = true
 doctest = true
 bench = false
-#plugin = false
-#proc-macro = false
-#harness = false
 # fails to compile on Windows due to:
 #     src/black_box.c(2): error C2065: 'asm': undeclared identifier
 # from https://github.com/mahkoh/uapi/blob/v0.2.10/uapi/src/black_box.c#L2
