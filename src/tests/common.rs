@@ -13,9 +13,7 @@ use crate::data::datetime::{
     ymdhmsn,
     ymdhmsm,
 };
-use crate::data::journal::{
-    EpochMicroseconds,
-};
+use crate::data::journal::EpochMicroseconds;
 use crate::data::utmpx::UTMPX_SZ;
 use crate::readers::filepreprocessor::MimeGuess;
 use crate::readers::helpers::{fpath_to_path, path_to_fpath};
