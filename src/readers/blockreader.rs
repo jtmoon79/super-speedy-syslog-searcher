@@ -36,7 +36,7 @@ use ::mime_guess::MimeGuess;
 use ::more_asserts::{assert_ge, assert_le, debug_assert_ge, debug_assert_gt, debug_assert_le, debug_assert_lt};
 // `flate2` is for gzip files.
 use ::flate2::read::GzDecoder;
-use flate2::GzHeader;
+use ::flate2::GzHeader;
 // `lzma_rs` is for xz files.
 // Crate `lzma-rs` is the only pure rust crate.
 // Other crates interface to liblzma which not ideal.
@@ -628,7 +628,7 @@ impl BlockReader {
                 //       How to handle large gzipped files correctly?
                 //       First, how to detect that the stored filesz is a rollover value?
                 //       Second, the file could be streamed and the filesz calculated from that
-                //       activity. However, streaming, for example, a 3GB log.gz that uncompresses to
+                //       activity. However, streaming, for example, a 3GB log.gz that decompresses to
                 //       10GB is very inefficient.
                 //       Third, similar to "Second" but for very large files, i.e. a 32GB log.gz file, what then?
                 if filesz > BlockReader::GZ_MAX_SZ {
@@ -1875,7 +1875,7 @@ impl BlockReader {
                 if bo_at == blockoffset {
                     defx!("({}): return Found", blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
-                    //      which could happen during streaming stage
+                    //      which could happen if streaming stage occurs too soon
                     let blockp: BlockP = self
                         .blocks
                         .get_mut(&bo_at)
@@ -1898,7 +1898,7 @@ impl BlockReader {
                 self.read_blocks_miss += 1;
             }
 
-            // XXX: for some reason large block sizes are more likely to fail `.read`
+            // XXX: for unknown reasons (bug), large block sizes are more likely to fail `.read`
             //      so do many smaller reads of a size that succeeds more often
             let blocksz_u: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
             // bytes to read in all `.read()` except the last
