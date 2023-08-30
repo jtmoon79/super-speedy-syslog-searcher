@@ -20,7 +20,6 @@ The first goal of `s4` is speedy searching and printing.
 
 [![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher)
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher)
-[![codecov.io](https://img.shields.io/codecov/c/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=codecov)](https://codecov.io/gh/jtmoon79/super-speedy-syslog-searcher)
 [![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=main)
 [![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/latest.svg)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
 
