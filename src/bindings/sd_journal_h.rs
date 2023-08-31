@@ -8,6 +8,14 @@
 //! with installed source package `libsystemd-dev`
 //! version _249.11-0ubuntu3.7_.
 //!
+//! Typically, _bindgen_ bindings are generated during every `cargo build`.
+//! However, that requires adding an unstable additional process to the normal
+//! `cargo build` process which must run on many different platforms.
+//! Additionally, `sd-journal.h` is not expected to introduce
+//! ABI breaking changes.
+//! So instead of complicating the build, generate this file `sd_journal_h.rs`
+//! once and commit that to the repository (this file).
+//!
 //! See project path `./bindgen` for the source code used to
 //! generate this file.
 //!
