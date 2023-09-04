@@ -570,7 +570,6 @@ impl SyslogProcessor {
         filter_dt_after_opt: &DateTimeLOpt,
     ) -> FileProcessingResultBlockZero {
         defn!("({:?}, {:?})", mtime, filter_dt_after_opt);
-        //self.assert_stage(ProcessingStage::Stage2FindDt);
         debug_assert!(!self.did_process_missing_year(), "process_missing_year() must only be called once");
         let dt_mtime: DateTimeL = systemtime_to_datetime(&self.tz_offset, &mtime);
         let year: Year = dt_mtime.date_naive().year() as Year;
@@ -825,7 +824,7 @@ impl SyslogProcessor {
         &self,
         stage_expact: ProcessingStage,
     ) {
-        assert_eq!(
+        debug_assert_eq!(
             self.processingstage, stage_expact,
             "Unexpected Processing Stage {:?}, expected Processing Stage {:?}",
             self.processingstage, stage_expact,
@@ -882,8 +881,9 @@ impl SyslogProcessor {
         result
     }
 
-    /// Stage 2: Given the two optional datetime filters, can a datetime be
-    /// found between those filters?
+    /// Stage 2: Given the an optional datetime filter (user-passed
+    /// `--dt-after`), can a log message with a datetime after that filter be
+    /// found?
     pub fn process_stage2_find_dt(
         &mut self,
         filter_dt_after_opt: &DateTimeLOpt,
