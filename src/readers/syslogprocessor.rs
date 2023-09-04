@@ -899,9 +899,6 @@ impl SyslogProcessor {
         {
             defo!("!dt_pattern_has_year()");
             let mtime: SystemTime = self.mtime();
-            // TODO: pass `dt_after` datetime filter, avoid processing syslines
-            //       with datetime prior to `dt_after`.
-            //       Issue #65
             match self.process_missing_year(mtime, filter_dt_after_opt) {
                 FileProcessingResultBlockZero::FileOk => {}
                 result => {
