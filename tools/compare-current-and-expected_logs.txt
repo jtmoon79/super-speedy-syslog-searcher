@@ -71,6 +71,7 @@
 ./logs/other/tests/dtf13b.log
 ./logs/other/tests/dtf13c.log
 ./logs/other/tests/dtf13d.log
+./logs/other/tests/dtf14a.log
 ./logs/other/tests/dtf2-2.log
 ./logs/other/tests/dtf3-1.log
 ./logs/other/tests/dtf3-2a.log

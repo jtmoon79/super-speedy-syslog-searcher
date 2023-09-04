@@ -2440,7 +2440,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
 //      `DATETIME_PARSE_DATAS_LEN-1`.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 122;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 127;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2494,6 +2494,13 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 122;
 //       ("2000-XY-01T00:00:00Z")
 //       consider a two-value enum `DateTimeParseInstrTest` with variants
 //       `Valid` and `Invalid`
+// TODO: [2023/09/03] cost-savings: regular expression initialization requires a large amount of startup
+//       time during `s4` program startup. Many of the regular expressions here could combine
+//       the timezone matching. The timezones matching could be reduced for the
+//       numeric timezones, CGP_TZz, CGP_TZzc, CGP_TZzp, into one `CGP_TZz_`.
+//       Leave the alphabetic timezone CGP_TZZ because it's matching is a little more delicate.
+//       Later, the `fn captures_to_buffer_bytes` would modify the numeric timezone into a
+//       format acceptable for passing the data to `chrono::DateTime::parse_from_str`.
 pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] = [
     // ---------------------------------------------------------------------------------------------
     // from file `./logs/Ubuntu18/xrdp.log`
@@ -3987,6 +3994,60 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     // ---------------------------------------------------------------------------------------------
     //
+    // file `logs/other/tests/dtf14a.log`
+    //
+    //                1         2         3         4
+    //      01234567890123456789012345678901234567890
+    //      2023 Aug 31 20:01:05 UTC [ERROR] dev-disk-a error 0x08320105
+    //      2023 Aug 31 20:01:09 UTC [WARNING] dev-disk-a disconnected.
+    //
+    DTPD!(
+        concatcp!("^", CGP_YEAR, RP_BLANK12, CGP_MONTHBb, RP_BLANK12q, CGP_DAYde, RP_BLANK12q, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12q, CGP_TZzc, RP_NOALNUM),
+        DTFSS_YbdHMSzc, 0, 30, CGN_YEAR, CGN_TZ,
+        &[
+            (0, 27, (O_0, 2023, 8, 31, 20, 1, 5, 0), "2023 Aug 31 20:01:05 -00:00 [ERROR] dev-disk-a error 0x08320105"),
+            (0, 27, (O_P1, 2023, 8, 31, 20, 1, 9, 0), "2023 Aug 31 20:01:09 +01:00 [WARNING] dev-disk-a disconnected."),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_YEAR, RP_BLANK12, CGP_MONTHBb, RP_BLANK12q, CGP_DAYde, RP_BLANK12q, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12q, CGP_TZz, RP_NOALNUM),
+        DTFSS_YbdHMSz, 0, 30, CGN_YEAR, CGN_TZ,
+        &[
+            (0, 26, (O_0, 2023, 8, 31, 20, 1, 5, 0), "2023 Aug 31 20:01:05 -0000 [ERROR] dev-disk-a error 0x08320105"),
+            (0, 26, (O_P1, 2023, 8, 31, 20, 1, 9, 0), "2023 Aug 31 20:01:09 +0100 [WARNING] dev-disk-a disconnected."),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_YEAR, RP_BLANK12, CGP_MONTHBb, RP_BLANK12q, CGP_DAYde, RP_BLANK12q, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12q, CGP_TZzp, RP_NOALNUM),
+        DTFSS_YbdHMSzp, 0, 30, CGN_YEAR, CGN_TZ,
+        &[
+            (0, 24, (O_0, 2023, 8, 31, 20, 1, 5, 0), "2023 Aug 31 20:01:05 -00 [ERROR] dev-disk-a error 0x08320105"),
+            (0, 24, (O_P1, 2023, 8, 31, 20, 1, 9, 0), "2023 Aug 31 20:01:09 +01 [WARNING] dev-disk-a disconnected."),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_YEAR, RP_BLANK12, CGP_MONTHBb, RP_BLANK12q, CGP_DAYde, RP_BLANK12q, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12q, CGP_TZZ, RP_NOALNUM),
+        DTFSS_YbdHMSZ, 0, 30, CGN_YEAR, CGN_TZ,
+        &[
+            (0, 24, (O_0, 2023, 8, 31, 20, 1, 5, 0), "2023 Aug 31 20:01:05 UTC [ERROR] dev-disk-a error 0x08320105"),
+            (0, 25, (O_P1, 2023, 8, 31, 20, 1, 9, 0), "2023 Aug 31 20:01:09 WEST [WARNING] dev-disk-a disconnected."),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_YEAR, RP_BLANK12, CGP_MONTHBb, RP_BLANK12q, CGP_DAYde, RP_BLANK12q, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
+        DTFSS_YbdHMS, 0, 25, CGN_YEAR, CGN_SECOND,
+        &[
+            (0, 20, (O_L, 2023, 8, 31, 20, 1, 5, 0), "2023 Aug 31 20:01:05 [ERROR] dev-disk-a error 0x08320105"),
+            (0, 20, (O_L, 2023, 8, 31, 20, 1, 9, 0), "2023 Aug 31 20:01:09 [WARNING] dev-disk-a disconnected."),
+        ],
+        line!(),
+    ),
+    // ---------------------------------------------------------------------------------------------
+    //
     // pacman log format, example with offset:
     //
     //               1         2
@@ -5100,6 +5161,8 @@ fn month_bB_to_month_m_bytes(
 }
 
 /// Put [`Captures`] into `buffer` in a particular order and formatting.
+/// This is to prepare the matched data for passing to a later call to
+/// [`DateTime::parse_from_str`] (called outside of this function).
 ///
 /// This bridges the crate `regex` regular expression pattern strings,
 /// [`DateTimeParseInstr::regex_pattern`], to crate `chrono` strftime strings,
@@ -5118,6 +5181,7 @@ fn month_bB_to_month_m_bytes(
 /// [`Captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
 /// [`DateTimeParseInstr::regex_pattern`]: crate::data::datetime::DateTimeParseInstr::regex_pattern
 /// [`DateTimeParseInstr::dt_pattern`]: crate::data::datetime::DateTimeParseInstr::dt_pattern
+/// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#method.parse_from_str
 #[inline(always)]
 pub(crate) fn captures_to_buffer_bytes(
     buffer: &mut [u8],
