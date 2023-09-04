@@ -1612,12 +1612,12 @@ fn chan_send(chan_send_dt: &ChanSendDatum, chan_datum: ChanDatum, path: &FPath) 
 /// processed [`Sysline`] through a [channel] to the main thread which
 /// will print it.
 ///
-/// Tuple `chan_send_dt` data described in [`ChanDatum`].
+/// This function drives a `SyslogProcessor` instance through it's formal
+/// stages (described by [`ProcessingStage`]). During each stage, this function
+/// makes the expected `SyslogProcessor::find*` calls (and does some other
+/// checks).
 ///
-/// Tuple `thread_init_data` described in [`ThreadInitData`].
-///
-/// [`ThreadInitData`]: self::ThreadInitData
-/// [`ChanDatum`]: self::ChanDatum
+/// [`ProcessingStage`]: s4lib::readers::syslogprocessor::ProcessingStage
 /// [`SyslogProcessor`]: s4lib::readers::syslogprocessor::SyslogProcessor
 /// [`Sysline`]: s4lib::data::sysline::Sysline
 /// [channel]: self::ChanSendDatum
@@ -1846,6 +1846,8 @@ fn exec_syslogprocessor(
     defx!("({:?})", path);
 }
 
+/// This function drives a `UtmpxReader` instance through it's stages and
+/// makes the expected "find" calls (and other checks) during each stage.
 fn exec_utmpprocessor(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
