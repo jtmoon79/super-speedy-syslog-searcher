@@ -315,7 +315,7 @@ fn helper_extract_dtpi_info(
 /// test `SyslineReader::find_datetime_in_line`
 #[test]
 fn test_find_datetime_in_line() {
-    let mut regex_captures_attempt: Count = 0;
+    let mut regex_captures_attempted: Count = 0;
     let mut get_boxptrs_singleptr: Count = 0;
     let mut get_boxptrs_doubleptr: Count = 0;
     let mut get_boxptrs_multiptr: Count = 0;
@@ -354,10 +354,10 @@ fn test_find_datetime_in_line() {
                 &Some(year),
                 &fo,
                 &fo_string,
-                &mut regex_captures_attempt,
                 &mut get_boxptrs_singleptr,
                 &mut get_boxptrs_doubleptr,
                 &mut get_boxptrs_multiptr,
+                &mut regex_captures_attempted,
                 &mut ezcheck12_hit,
                 &mut ezcheck12_miss,
                 &mut ezcheck12_hit_max,

@@ -1167,7 +1167,7 @@ impl SyslineReader {
         get_boxptrs_singleptr: &mut Count,
         get_boxptrs_doubleptr: &mut Count,
         get_boxptrs_multiptr: &mut Count,
-        regex_captures_attempt: &mut Count,
+        regex_captures_attempted: &mut Count,
         ezcheck12_hit: &mut Count,
         ezcheck12_miss: &mut Count,
         ezcheck12_hit_max: &mut LineIndex,
@@ -1321,7 +1321,7 @@ impl SyslineReader {
             }
 
             // find the datetime string using `Regex`, convert to a `DateTimeL`
-            *regex_captures_attempt += 1;
+            *regex_captures_attempted += 1;
             let dt: DateTimeL;
             let dt_beg: LineIndex;
             let dt_end: LineIndex;
