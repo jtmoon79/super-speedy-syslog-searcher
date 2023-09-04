@@ -160,6 +160,20 @@ lazy_static! {
 
         m
     };
+
+    /// 25 hours.
+    /// For processing syslog files without a year.
+    /// If there is a datetime jump backwards more than this value then
+    /// a year rollover happened.
+    ///
+    /// e.g. given log messages
+    ///     Dec 31 23:59:59 [INFO] One!
+    ///     Jan 1 00:00:00 [INFO] Happy New Year!!!
+    /// These messages interpreted as the same year would be a jump backwards
+    /// in time.
+    /// Of course, this apparent "jump backwards" means the year changed.
+    // XXX: cannot make `const` because `secs` is a private field
+    static ref BACKWARDS_TIME_JUMP_MEANS_NEW_YEAR: Duration = Duration::seconds(60 * 60 * 25);
 }
 
 /// The `SyslogProcessor` uses [`SyslineReader`] to find [`Sysline`s] in a file.
@@ -555,10 +569,6 @@ impl SyslogProcessor {
         self.missing_year = Some(year);
         let mut year_opt: Option<Year> = Some(year);
         let charsz_fo: FileOffset = self.charsz() as FileOffset;
-        // 25 hours
-        // if there is a datetime jump backwards of more than `min_diff` then a year rollover
-        // happened
-        let min_diff: Duration = Duration::seconds(60 * 60 * 25);
 
         // The previously stored `Sysline`s have a filler year that is most likely incorrect.
         // The underlying `Sysline` instance cannot be updated behind an `Arc`.
@@ -608,7 +618,7 @@ impl SyslogProcessor {
                     // but if not, then there was probably a year rollover
                     if (*syslinep).dt() > (*syslinep_prev).dt() {
                         let diff: Duration = *(*syslinep).dt() - *(*syslinep_prev).dt();
-                        if diff > min_diff {
+                        if diff > *BACKWARDS_TIME_JUMP_MEANS_NEW_YEAR {
                             year_opt = Some(year_opt.unwrap() - 1);
                             defo!("year_opt updated {:?}", year_opt);
                             self.syslinereader
