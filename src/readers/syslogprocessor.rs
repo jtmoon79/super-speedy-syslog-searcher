@@ -4,6 +4,14 @@
 //! Implements a [`SyslogProcessor`], the driver of the processing stages for
 //! a "syslog" file using a [`SyslineReader`].
 //!
+//! A "syslog" file in this context means any text-based file with logged
+//! messages with a datetime stamp.
+//! The file may use a formally defined log message format (e.g. RFC 5424)
+//! or an ad-hoc log message format (most log files).<br/>
+//! The two common assumptions are that:
+//! 1. each log message has a datetime stamp on the first line
+//! 2. log messages are in chronological order
+//!
 //! Sibling of [`UtmpxReader`]. But far more complicated due to the
 //! ad-hoc nature of log files.
 //! 
