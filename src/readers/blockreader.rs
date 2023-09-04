@@ -374,6 +374,7 @@ pub struct BlockReader {
     /// have been dropped.
     ///
     /// [streaming]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
+    // XXX: memory usage: O(n) = one entry per Block read
     blocks_read: BlocksTracked,
     /// Internal [LRU cache] for `fn read_block()`. Lookups _O(1)_.
     ///
@@ -2069,7 +2070,7 @@ impl BlockReader {
         ResultS3ReadBlock::Done
     }
 
-    /// Fead a block of data from storage for a compressed `xz` file
+    /// Read a block of data from storage for a compressed `xz` file
     /// ([`FileType::Xz`]).
     /// `blockoffset` refers to the uncompressed version of the file.
     ///
@@ -2115,7 +2116,6 @@ impl BlockReader {
             {
                 self.read_blocks_hit += 1;
                 if bo_at == blockoffset {
-                    defx!("({}): return Found", blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
                     //      which could happen during streaming stage
                     let blockp: BlockP = self
@@ -2124,6 +2124,7 @@ impl BlockReader {
                         .unwrap()
                         .clone();
                     self.store_block_in_LRU_cache(bo_at, &blockp);
+                    defx!("({}): return Found", blockoffset);
                     return ResultS3ReadBlock::Found(blockp);
                 }
                 bo_at += 1;
@@ -2183,6 +2184,7 @@ impl BlockReader {
             let blocklen_sz: BlockSz = block.len() as BlockSz;
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                defx!("({}): return Err", blockoffset);
                 return ResultS3ReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
@@ -2196,6 +2198,7 @@ impl BlockReader {
                 // last block, is blocksz correct?
                 if blocklen_sz > self.blocksz {
                     let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                    defx!("({}): return Err", blockoffset);
                     return ResultS3ReadBlock::Err(
                         Error::new(
                             ErrorKind::InvalidData,
@@ -2209,6 +2212,7 @@ impl BlockReader {
             } else if blocklen_sz != self.blocksz {
                 // not last block, is blocksz correct?
                 let byte_at = self.file_offset_at_block_offset_self(bo_at) + blocklen_sz;
+                defx!("({}): return Err", blockoffset);
                 return ResultS3ReadBlock::Err(
                     Error::new(
                         ErrorKind::InvalidData,
