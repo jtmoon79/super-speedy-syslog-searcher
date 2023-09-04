@@ -7,6 +7,10 @@
 //! [`Sysline`]: crate::data::sysline::Sysline
 //! [`LineReader`]: crate::readers::linereader::LineReader
 
+// TODO: [2023/09/04] sometimes a `FixedOffset` is named `tz_offset`.
+//       Other times the same variable becomes `fo_offset` or `offset`.
+//       Pick one and be consistent about it everywhere.
+
 use crate::common::{
     Bytes,
     CharSz,
