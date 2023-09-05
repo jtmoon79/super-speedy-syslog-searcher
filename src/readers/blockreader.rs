@@ -18,6 +18,7 @@ use crate::data::datetime::{
 };
 #[allow(unused_imports)]
 use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
+use crate::debug_panic;
 
 use std::borrow::Cow;
 #[cfg(test)]
@@ -33,7 +34,7 @@ use std::sync::Arc;
 use ::lru::LruCache;
 use ::mime_guess::MimeGuess;
 #[allow(unused_imports)]
-use ::more_asserts::{assert_ge, assert_le, debug_assert_ge, debug_assert_gt, debug_assert_le, debug_assert_lt};
+use ::more_asserts::{assert_ge, assert_gt, assert_le, debug_assert_ge, debug_assert_gt, debug_assert_le, debug_assert_lt};
 // `flate2` is for gzip files.
 use ::flate2::read::GzDecoder;
 use ::flate2::GzHeader;
@@ -394,7 +395,7 @@ pub struct BlockReader {
     pub(crate) read_blocks_hit: Count,
     /// Internal storage `Count` of lookup miss.
     pub(crate) read_blocks_miss: Count,
-    /// Internal storage `Count` of `self.blocks.insert`.
+    /// Internal storage `Count` of calls to `self.blocks.insert`.
     pub(crate) read_blocks_put: Count,
     /// Internal tracking of "high watermark" of `self.blocks` size
     pub(crate) blocks_highest: usize,
@@ -480,12 +481,12 @@ impl BlockReader {
     /// 0x20000000 is 512MB.
     ///
     /// XXX: The gzip standard stores uncompressed "media stream" bytes size in
-    ///      within 32 bits, 4 bytes. A larger uncompressed size 0xFFFFFFFF
-    ///      will store the modulo.
+    ///      within 32 bits, 4 bytes. An uncompressed size greater than
+    ///      0xFFFFFFFF will store the modulo.
     ///      So there is no certain way to determine the size of the
     ///      "media stream".
     ///      This terrible hack just aborts processing .gz files that might be
-    ///      over that size.
+    ///      over size 0xFFFFFFFF (undercuts the size).
     ///      Issue #8
     const GZ_MAX_SZ: FileSz = 0x20000000;
 
@@ -494,6 +495,9 @@ impl BlockReader {
 
     /// Default state of LRU cache.
     const CACHE_ENABLE_DEFAULT: bool = true;
+
+    /// "streamed" files will drop "old" Blocks during `read_block()`
+    const READ_BLOCK_LOOKBACK_DROP: bool = true;
 
     /// Create a new `BlockReader`.
     ///
@@ -631,7 +635,8 @@ impl BlockReader {
                 //       Second, the file could be streamed and the filesz calculated from that
                 //       activity. However, streaming, for example, a 3GB log.gz that decompresses to
                 //       10GB is very inefficient.
-                //       Third, similar to "Second" but for very large files, i.e. a 32GB log.gz file, what then?
+                //       Third, similar to "Second" but for very large files that are too large
+                //       to hold in memory, i.e. a 64GB log.gz file, what then?
                 if filesz > BlockReader::GZ_MAX_SZ {
                     def1x!("FileGz: return Err(InvalidData)");
                     return Result::Err(
@@ -1620,6 +1625,26 @@ impl BlockReader {
             .clear();
     }
 
+    /// Is the current file a "streaming" file? i.e. must the file be read in
+    /// a linear manner starting from the first byte? Compressed files
+    /// must be read in this manner.
+    ///
+    /// If `true` then it is presumed calls to `read_block_File` will
+    /// always be in sequential (linear) manner; i.e. only increasing values of
+    /// the passed `blockoffset`.
+    ///
+    /// If `false` then no presumptions are made about the value of
+    /// `blockoffset` passed to `read_block_File`.
+    pub fn streamed_file(&self) -> bool {
+        matches!(
+            self.filetype,
+            FileType::Gz
+            | FileType::Tar
+            | FileType::TarGz
+            | FileType::Xz
+        )
+    }
+
     /// Forcefully `drop` the [`Block`] at [`BlockOffset`].
     /// For "[streaming stage]".
     ///
@@ -1632,9 +1657,6 @@ impl BlockReader {
         &mut self,
         blockoffset: BlockOffset,
     ) -> bool {
-        //if self.dropped_blocks.contains(&blockoffset) {
-        //    return;
-        //}
         defn!("({:?})", blockoffset);
         let mut ret = true;
         let mut blockp_opt: Option<BlockP> = None;
@@ -1757,6 +1779,7 @@ impl BlockReader {
                 "blockreader.blocks_read({}) already had a entry, path {:?}",
                 blockoffset, self.path
             );
+            debug_panic!("blockreader.blocks_read({}) already had a entry, path {:?}", blockoffset, self.path);
         }
     }
 
@@ -1852,7 +1875,7 @@ impl BlockReader {
             self.filetype
         );
 
-        // handle special case right away
+        // handle special case immediately
         if self.filesz_actual == 0 {
             defx!("filesz 0; return Done");
             return ResultS3ReadBlock::Done;
@@ -1863,6 +1886,7 @@ impl BlockReader {
             Some(bo_) => *bo_,
             None => 0,
         };
+        let mut bo_at_old: BlockOffset = bo_at;
 
         while bo_at <= blockoffset {
             // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
@@ -2009,7 +2033,7 @@ impl BlockReader {
 
             // sanity check: check returned Block is expected number of bytes
             let blocklen_sz: BlockSz = block.len() as BlockSz;
-            deo!(
+            defo!(
                 "({}): block.len() {}, blocksz {}, blockoffset at {}",
                 blockoffset,
                 blocklen_sz,
@@ -2059,10 +2083,25 @@ impl BlockReader {
             let blockp = BlockP::new(block);
             self.store_block_in_storage(bo_at, &blockp);
             self.store_block_in_LRU_cache(bo_at, &blockp);
+
+            // This file must be streamed i.e. Blocks are read in sequential
+            // order. So drop old blocks so RAM usage is not O(n).
+            // Since the Blocks dropped here were first read then dropped
+            // within this function then no other entity has stored
+            // a cloned `BlockP` pointer; the Block is certain to be
+            // destroyed here.
+            // In other words, it is presumed the caller will never call
+            // `read_block_FileGz` with a `blockoffset` value less than the
+            // value passed here (if that happened then runtime would be
+            // O(n²).
+            if BlockReader::READ_BLOCK_LOOKBACK_DROP && bo_at_old < bo_at {
+                self.drop_block(bo_at_old);
+            }
             if bo_at == blockoffset {
                 defx!("({}): return Found", blockoffset);
                 return ResultS3ReadBlock::Found(blockp);
             }
+            bo_at_old = bo_at;
             bo_at += 1;
         } // while bo_at <= blockoffset
         defx!("({}): return Done", blockoffset);
@@ -2095,7 +2134,7 @@ impl BlockReader {
             self.filetype
         );
 
-        // handle special case right away
+        // handle special case immediately
         if self.filesz_actual == 0 {
             defx!("filesz 0; return Done");
             return ResultS3ReadBlock::Done;
@@ -2106,6 +2145,7 @@ impl BlockReader {
             Some(bo_) => *bo_,
             None => 0,
         };
+
         while bo_at <= blockoffset {
             // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
             // was *ever* read.
@@ -2123,14 +2163,20 @@ impl BlockReader {
                         .get_mut(&bo_at)
                         .unwrap()
                         .clone();
-                    self.store_block_in_LRU_cache(bo_at, &blockp);
+                    // drop "old" blocks
+                    let mut bo_drop = bo_at;
+                    while bo_drop > 0 && bo_drop <= blockoffset {
+                        defo!("drop old block {}", bo_drop - 1);
+                        self.drop_block(bo_drop - 1);
+                        bo_drop += 1;
+                    }
                     defx!("({}): return Found", blockoffset);
                     return ResultS3ReadBlock::Found(blockp);
                 }
                 bo_at += 1;
                 continue;
             } else {
-                deo!("blocks_read.contains({}) missed (does not contain key)", bo_at);
+                defo!("blocks_read.contains({}) missed (does not contain key)", bo_at);
                 debug_assert!(
                     !self
                         .blocks
@@ -2319,7 +2365,7 @@ impl BlockReader {
             }
         };
 
-        // handle special case right away
+        // handle special case immediately
         // also file size zero cause `entry.read_exact` to return an error
         if self.filesz_actual == 0 {
             defx!("({}): filesz_actual 0; return Done", blockoffset);

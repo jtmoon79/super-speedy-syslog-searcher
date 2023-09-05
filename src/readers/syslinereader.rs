@@ -2520,6 +2520,19 @@ impl SyslineReader {
         ResultS3SyslineFind::Found((fo_b, syslinep))
     }
 
+    pub fn find_sysline_at_datetime_filter(
+        &mut self,
+        fileoffset: FileOffset,
+        dt_filter: &DateTimeLOpt,
+    ) -> ResultS3SyslineFind {
+        defn!("(SyslineReader@{:p}, {}, {:?})", self, fileoffset, dt_filter);
+        if self.linereader.blockreader.streamed_file() {
+            self.find_sysline_at_datetime_filter_linear_search(fileoffset, dt_filter)
+        } else {
+            self.find_sysline_at_datetime_filter_binary_search(fileoffset, dt_filter)
+        }
+    }
+
     /// Find first [`Sysline`] at or after [`FileOffset`] that is at or
     /// after `dt_filter`.
     ///
@@ -2566,23 +2579,24 @@ impl SyslineReader {
     // TODO: [2022/07/25] enforce by assertion
     //       if the in-use datetime pattern has no year, then year processing has already occurred.
     //
-    pub fn find_sysline_at_datetime_filter(
+    pub fn find_sysline_at_datetime_filter_binary_search(
         &mut self,
         fileoffset: FileOffset,
-        // TODO: [2023/02/26] type alias for `Option<DateTimeL>` that are meant
-        //       as broad filters versus meant as instance values.
+        // TODO: [2023/02/26] add a type alias for `Option<DateTimeL>` that are meant
+        //       as broad filters (like this) versus meant as instance values.
         dt_filter: &DateTimeLOpt,
     ) -> ResultS3SyslineFind {
         defn!("(SyslineReader@{:p}, {}, {:?})", self, fileoffset, dt_filter);
         let filesz: FileSz = self.filesz();
-        let _fo_end: FileOffset = filesz as FileOffset;
+        let fo_end: FileOffset = filesz as FileOffset;
         let mut try_fo: FileOffset = fileoffset;
         #[allow(unused_assignments)]
         let mut try_fo_last: FileOffset = try_fo;
         #[allow(unused_assignments)]
         let mut syslinep_opt: Option<SyslineP> = None;
         let mut fo_a: FileOffset = fileoffset; // begin "range cursor" marker
-        let mut fo_b: FileOffset = _fo_end; // end "range cursor" marker
+        let mut fo_b: FileOffset = fo_end; // end "range cursor" marker
+
         loop {
             // TODO: [2021/09/26]
             //       this could be faster.
@@ -2619,7 +2633,7 @@ impl SyslineReader {
                                 fo,
                                 try_fo,
                                 try_fo_last,
-                                _fo_end,
+                                fo_end,
                             );
                             defx!("return ResultS3SyslineFind::Found(({}, @{:p})); A", fo, &syslinep,);
                             SyslineReader::debug_assert_gt_fo_syslineend(&fo, &syslinep);
@@ -2628,7 +2642,7 @@ impl SyslineReader {
                         Result_Filter_DateTime1::OccursAtOrAfter => {
                             // the Sysline found by `find_sysline(try_fo)` occurs at or after filter `dt_filter`, so search backward
                             // i.e. move end marker `fo_b` backward
-                            defo!("OccursAtOrAfter => fo {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, try_fo, try_fo_last, fo_a, fo_b, _fo_end);
+                            defo!("OccursAtOrAfter => fo {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, try_fo, try_fo_last, fo_a, fo_b, fo_end);
                             // short-circuit a common case, passed fileoffset is past the `dt_filter`, can immediately return
                             // XXX: does this mean my algorithm sucks?
                             if try_fo == fileoffset {
@@ -2669,7 +2683,7 @@ impl SyslineReader {
                         Result_Filter_DateTime1::OccursBefore => {
                             // the Sysline found by `find_sysline(try_fo)` occurs before filter `dt_filter`, so search forthward
                             // i.e. move begin marker `fo_a` forthward
-                            defo!("OccursBefore =>    fo {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, try_fo, try_fo_last, fo_a, fo_b, _fo_end);
+                            defo!("OccursBefore =>    fo {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, try_fo, try_fo_last, fo_a, fo_b, fo_end);
                             let syslinep_foe: FileOffset = (*syslinep).fileoffset_end();
                             try_fo_last = try_fo;
                             assert_le!(try_fo_last, syslinep_foe, "Unexpected values try_fo_last {} syslinep_foe {}, last tried offset (passed to self.find_sysline({})) is beyond returned Sysline@{:p}.fileoffset_end() {}!? FPath {:?}", try_fo_last, syslinep_foe, try_fo, syslinep, syslinep_foe, self.path());
@@ -2688,7 +2702,7 @@ impl SyslineReader {
                             try_fo = fo_a + ((fo_b - fo_a) / 2);
                         } // end OccursBefore
                     } // end SyslineReader::sysline_dt_after_or_before()
-                    defo!("                    fo {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, try_fo, try_fo_last, fo_a, fo_b, _fo_end);
+                    defo!("                    fo {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, try_fo, try_fo_last, fo_a, fo_b, fo_end);
                     syslinep_opt = Some(syslinep);
                     // TODO: [2021/09/26]
                     //       I think this could do an early check and potentially skip a few loops.
@@ -2704,7 +2718,7 @@ impl SyslineReader {
                         try_fo_last,
                         fo_a,
                         fo_b,
-                        _fo_end
+                        fo_end
                     );
                     try_fo_last = try_fo;
                     defo!(
@@ -2720,7 +2734,7 @@ impl SyslineReader {
                         try_fo_last,
                         fo_a,
                         fo_b,
-                        _fo_end
+                        fo_end
                     );
                 } // end Done
                 ResultS3SyslineFind::Err(_err) => {
@@ -2729,7 +2743,7 @@ impl SyslineReader {
                     break;
                 } // end Err
             } // match result
-            defo!("next loop will try offset {} (fo_end {})", try_fo, _fo_end);
+            defo!("next loop will try offset {} (fo_end {})", try_fo, fo_end);
 
             // TODO: 2022/03/18 this latter part hints at a check that could be done sooner,
             //       before `try_fo==try_fo_last`, that would result in a bit less loops.
@@ -2848,6 +2862,65 @@ impl SyslineReader {
         ResultS3SyslineFind::Done
     }
 
+    /// Find first [`Sysline`] at or after [`FileOffset`] that is at or
+    /// after `dt_filter`.
+    ///
+    /// This does a linear search over the file, _O(n)_.
+    ///
+    /// Intended for use with "streaming" files, i.e. compressed files that can
+    /// only be read in a sequential manner. Normal text files should use
+    /// `find_sysline_at_datetime_filter_binary_search` which is more efficient.
+    ///
+    /// See [`find_sysline_at_datetime_filter_binary_search`] for further
+    /// details.
+    ///
+    /// [`find_sysline_at_datetime_filter_binary_search`]: SyslineReader::find_sysline_at_datetime_filter_binary_search
+    pub fn find_sysline_at_datetime_filter_linear_search(
+        &mut self,
+        fileoffset: FileOffset,
+        dt_filter: &DateTimeLOpt,
+    ) -> ResultS3SyslineFind {
+        defn!("(SyslineReader@{:p}, {}, {:?})", self, fileoffset, dt_filter);
+        let mut fo_cursor: FileOffset = fileoffset;
+
+        loop {
+            defo!("self.find_sysline({})", fo_cursor);
+            match self.find_sysline(fo_cursor) {
+                ResultS3SyslineFind::Found((fo, syslinep)) => {
+                    defo!("self.find_sysline({}) returned Found", fo_cursor);
+                    match SyslineReader::sysline_dt_after_or_before(&syslinep, dt_filter) {
+                        Result_Filter_DateTime1::Pass
+                        | Result_Filter_DateTime1::OccursAtOrAfter => {
+                            SyslineReader::debug_assert_gt_fo_syslineend(&fo, &syslinep);
+                            defx!("return ResultS3SyslineFind::Found(({}, @{:p}))", fo_cursor, &syslinep);
+                            return ResultS3SyslineFind::Found((fo_cursor, syslinep));
+                        }
+                        Result_Filter_DateTime1::OccursBefore => {
+                            // advance the "cursor"
+                            defo!("advance fo_cursor from {} to {}", fo_cursor, fo);
+                            debug_assert_gt!(fo, fo_cursor, "fo_cursor not advancing");
+                            fo_cursor = fo;
+                        }
+                    }
+                    return ResultS3SyslineFind::Found((fo_cursor, syslinep))
+                }
+                ResultS3SyslineFind::Done => {
+                    defo!("self.find_sysline({}) returned Done", fo_cursor);
+                    break;
+                }
+                ResultS3SyslineFind::Err(err) => {
+                    defo!("self.find_sysline({}) returned Err({})", fo_cursor, err,);
+                    de_err!("{}", err);
+                    defx!("return ResultS3SyslineFind::Err");
+                    return ResultS3SyslineFind::Err(err)
+                }
+            }
+        }
+        defx!("return ResultS3SyslineFind::Done");
+
+        ResultS3SyslineFind::Done
+    }
+
     /// Wrapper function for [`dt_after_or_before`].
     ///
     /// [`dt_after_or_before`]: crate::data::datetime::dt_after_or_before
@@ -2904,7 +2977,7 @@ impl SyslineReader {
     ) -> ResultS3SyslineFind {
         defn!("({}, {:?}, {:?})", fileoffset, dt_filter_after, dt_filter_before);
 
-        match self.find_sysline_at_datetime_filter(fileoffset, dt_filter_after) {
+        match self.find_sysline_at_datetime_filter_binary_search(fileoffset, dt_filter_after) {
             ResultS3SyslineFind::Found((fo, syslinep)) => {
                 defo!("returned ResultS3SyslineFind::Found(({}, {:?}))", fo, syslinep);
                 match Self::sysline_pass_filters(&syslinep, dt_filter_after, dt_filter_before) {
