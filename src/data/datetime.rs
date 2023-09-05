@@ -5646,7 +5646,9 @@ pub fn bytes_to_regex_to_datetime(
 pub enum Result_Filter_DateTime1 {
     /// like Skip
     Pass,
+    /// the `DateTimeL` instance occurs at or after the datetime filter
     OccursAtOrAfter,
+    /// the `DateTimeL` instance occurs before the datetime filter
     OccursBefore,
 }
 
