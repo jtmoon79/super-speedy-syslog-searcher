@@ -64,7 +64,6 @@ pub use ::chrono::{
     Utc,
 };
 use ::const_format::concatcp;
-use ::const_str::to_byte_array;
 use ::lazy_static::lazy_static;
 use ::more_asserts::{debug_assert_ge, debug_assert_le, debug_assert_lt};
 use ::phf::phf_map;
@@ -5021,105 +5020,102 @@ macro_rules! copy_u8_to_buffer {
 
 // Variables `const MONTH_` are helpers to [`month_bB_to_month_m_bytes`].
 //
-// TODO: replace `to_byte_array` with rust experimental feature `const_str_as_bytes`
-//       https://doc.bccnsoft.com/docs/rust-1.36.0-docs-html/unstable-book/library-features/const-str-as-bytes.html#const_str_as_bytes
-//       https://github.com/rust-lang/rust/issues/57563
-//
 // MONTH_XY_B_l, month XY as `%B` form, lowercase
 // MONTH_XY_b_l, month XY as `%b` form, lowercase
 // MONTH_XY_B_u, month XY as `%B` form, uppercase
 // MONTH_XY_b_u, month XY as `%b` form, uppercase
 // MONTH_XY_b_U, month XY as `%b` form, uppercase all
 
-const MONTH_01_b_l: &[u8] = &to_byte_array!("jan");
-const MONTH_01_b_u: &[u8] = &to_byte_array!("Jan");
-const MONTH_01_b_U: &[u8] = &to_byte_array!("JAN");
-const MONTH_01_B_l: &[u8] = &to_byte_array!("january");
-const MONTH_01_B_u: &[u8] = &to_byte_array!("January");
-const MONTH_01_B_U: &[u8] = &to_byte_array!("JANUARY");
-const MONTH_01_m: &[u8] = &to_byte_array!("01");
-const MONTH_02_b_l: &[u8] = &to_byte_array!("feb");
-const MONTH_02_b_u: &[u8] = &to_byte_array!("Feb");
-const MONTH_02_b_U: &[u8] = &to_byte_array!("FEB");
-const MONTH_02_B_l: &[u8] = &to_byte_array!("february");
-const MONTH_02_B_u: &[u8] = &to_byte_array!("February");
-const MONTH_02_B_U: &[u8] = &to_byte_array!("FEBRUARY");
-const MONTH_02_m: &[u8] = &to_byte_array!("02");
-const MONTH_03_b_l: &[u8] = &to_byte_array!("mar");
-const MONTH_03_b_u: &[u8] = &to_byte_array!("Mar");
-const MONTH_03_b_U: &[u8] = &to_byte_array!("MAR");
-const MONTH_03_B_l: &[u8] = &to_byte_array!("march");
-const MONTH_03_B_u: &[u8] = &to_byte_array!("March");
-const MONTH_03_B_U: &[u8] = &to_byte_array!("MARCH");
-const MONTH_03_m: &[u8] = &to_byte_array!("03");
-const MONTH_04_b_l: &[u8] = &to_byte_array!("apr");
-const MONTH_04_b_u: &[u8] = &to_byte_array!("Apr");
-const MONTH_04_b_U: &[u8] = &to_byte_array!("APR");
-const MONTH_04_B_l: &[u8] = &to_byte_array!("april");
-const MONTH_04_B_u: &[u8] = &to_byte_array!("April");
-const MONTH_04_B_U: &[u8] = &to_byte_array!("APRIL");
-const MONTH_04_m: &[u8] = &to_byte_array!("04");
-const MONTH_05_b_l: &[u8] = &to_byte_array!("may");
-const MONTH_05_b_u: &[u8] = &to_byte_array!("May");
-const MONTH_05_b_U: &[u8] = &to_byte_array!("MAY");
+const MONTH_01_b_l: &[u8] = b"jan";
+const MONTH_01_b_u: &[u8] = b"Jan";
+const MONTH_01_b_U: &[u8] = b"JAN";
+const MONTH_01_B_l: &[u8] = b"january";
+const MONTH_01_B_u: &[u8] = b"January";
+const MONTH_01_B_U: &[u8] = b"JANUARY";
+const MONTH_01_m: &[u8] = b"01";
+const MONTH_02_b_l: &[u8] = b"feb";
+const MONTH_02_b_u: &[u8] = b"Feb";
+const MONTH_02_b_U: &[u8] = b"FEB";
+const MONTH_02_B_l: &[u8] = b"february";
+const MONTH_02_B_u: &[u8] = b"February";
+const MONTH_02_B_U: &[u8] = b"FEBRUARY";
+const MONTH_02_m: &[u8] = b"02";
+const MONTH_03_b_l: &[u8] = b"mar";
+const MONTH_03_b_u: &[u8] = b"Mar";
+const MONTH_03_b_U: &[u8] = b"MAR";
+const MONTH_03_B_l: &[u8] = b"march";
+const MONTH_03_B_u: &[u8] = b"March";
+const MONTH_03_B_U: &[u8] = b"MARCH";
+const MONTH_03_m: &[u8] = b"03";
+const MONTH_04_b_l: &[u8] = b"apr";
+const MONTH_04_b_u: &[u8] = b"Apr";
+const MONTH_04_b_U: &[u8] = b"APR";
+const MONTH_04_B_l: &[u8] = b"april";
+const MONTH_04_B_u: &[u8] = b"April";
+const MONTH_04_B_U: &[u8] = b"APRIL";
+const MONTH_04_m: &[u8] = b"04";
+const MONTH_05_b_l: &[u8] = b"may";
+const MONTH_05_b_u: &[u8] = b"May";
+const MONTH_05_b_U: &[u8] = b"MAY";
 #[allow(dead_code)]
-const MONTH_05_B_l: &[u8] = &to_byte_array!("may"); // not used, defined for completeness
+const MONTH_05_B_l: &[u8] = b"may"; // not used, defined for completeness
 #[allow(dead_code)]
-const MONTH_05_B_u: &[u8] = &to_byte_array!("May"); // not used, defined for completeness
+const MONTH_05_B_u: &[u8] = b"May"; // not used, defined for completeness
 #[allow(dead_code)]
-const MONTH_05_B_U: &[u8] = &to_byte_array!("MAY"); // not used, defined for completeness
-const MONTH_05_m: &[u8] = &to_byte_array!("05");
-const MONTH_06_b_l: &[u8] = &to_byte_array!("jun");
-const MONTH_06_b_u: &[u8] = &to_byte_array!("Jun");
-const MONTH_06_b_U: &[u8] = &to_byte_array!("JUN");
-const MONTH_06_B_l: &[u8] = &to_byte_array!("june");
-const MONTH_06_B_u: &[u8] = &to_byte_array!("June");
-const MONTH_06_B_U: &[u8] = &to_byte_array!("JUNE");
-const MONTH_06_m: &[u8] = &to_byte_array!("06");
-const MONTH_07_b_l: &[u8] = &to_byte_array!("jul");
-const MONTH_07_b_u: &[u8] = &to_byte_array!("Jul");
-const MONTH_07_b_U: &[u8] = &to_byte_array!("JUL");
-const MONTH_07_B_l: &[u8] = &to_byte_array!("july");
-const MONTH_07_B_u: &[u8] = &to_byte_array!("July");
-const MONTH_07_B_U: &[u8] = &to_byte_array!("JULY");
-const MONTH_07_m: &[u8] = &to_byte_array!("07");
-const MONTH_08_b_l: &[u8] = &to_byte_array!("aug");
-const MONTH_08_b_u: &[u8] = &to_byte_array!("Aug");
-const MONTH_08_b_U: &[u8] = &to_byte_array!("AUG");
-const MONTH_08_B_l: &[u8] = &to_byte_array!("august");
-const MONTH_08_B_u: &[u8] = &to_byte_array!("August");
-const MONTH_08_B_U: &[u8] = &to_byte_array!("AUGUST");
-const MONTH_08_m: &[u8] = &to_byte_array!("08");
-const MONTH_09_b_l: &[u8] = &to_byte_array!("sep");
-const MONTH_09_b_u: &[u8] = &to_byte_array!("Sep");
-const MONTH_09_b_U: &[u8] = &to_byte_array!("SEP");
-const MONTH_09_B_l: &[u8] = &to_byte_array!("september");
-const MONTH_09_B_u: &[u8] = &to_byte_array!("September");
-const MONTH_09_B_U: &[u8] = &to_byte_array!("SEPTEMBER");
-const MONTH_09_m: &[u8] = &to_byte_array!("09");
-const MONTH_10_b_l: &[u8] = &to_byte_array!("oct");
-const MONTH_10_b_u: &[u8] = &to_byte_array!("Oct");
-const MONTH_10_b_U: &[u8] = &to_byte_array!("OCT");
-const MONTH_10_B_l: &[u8] = &to_byte_array!("october");
-const MONTH_10_B_u: &[u8] = &to_byte_array!("October");
-const MONTH_10_B_U: &[u8] = &to_byte_array!("OCTOBER");
-const MONTH_10_m: &[u8] = &to_byte_array!("10");
-const MONTH_11_b_l: &[u8] = &to_byte_array!("nov");
-const MONTH_11_b_u: &[u8] = &to_byte_array!("Nov");
-const MONTH_11_b_U: &[u8] = &to_byte_array!("NOV");
-const MONTH_11_B_l: &[u8] = &to_byte_array!("november");
-const MONTH_11_B_u: &[u8] = &to_byte_array!("November");
-const MONTH_11_B_U: &[u8] = &to_byte_array!("NOVEMBER");
-const MONTH_11_m: &[u8] = &to_byte_array!("11");
-const MONTH_12_b_l: &[u8] = &to_byte_array!("dec");
-const MONTH_12_b_u: &[u8] = &to_byte_array!("Dec");
-const MONTH_12_b_U: &[u8] = &to_byte_array!("DEC");
-const MONTH_12_B_l: &[u8] = &to_byte_array!("december");
-const MONTH_12_B_u: &[u8] = &to_byte_array!("December");
-const MONTH_12_B_U: &[u8] = &to_byte_array!("DECEMBER");
-const MONTH_12_m: &[u8] = &to_byte_array!("12");
+const MONTH_05_B_U: &[u8] = b"MAY"; // not used, defined for completeness
+const MONTH_05_m: &[u8] = b"05";
+const MONTH_06_b_l: &[u8] = b"jun";
+const MONTH_06_b_u: &[u8] = b"Jun";
+const MONTH_06_b_U: &[u8] = b"JUN";
+const MONTH_06_B_l: &[u8] = b"june";
+const MONTH_06_B_u: &[u8] = b"June";
+const MONTH_06_B_U: &[u8] = b"JUNE";
+const MONTH_06_m: &[u8] = b"06";
+const MONTH_07_b_l: &[u8] = b"jul";
+const MONTH_07_b_u: &[u8] = b"Jul";
+const MONTH_07_b_U: &[u8] = b"JUL";
+const MONTH_07_B_l: &[u8] = b"july";
+const MONTH_07_B_u: &[u8] = b"July";
+const MONTH_07_B_U: &[u8] = b"JULY";
+const MONTH_07_m: &[u8] = b"07";
+const MONTH_08_b_l: &[u8] = b"aug";
+const MONTH_08_b_u: &[u8] = b"Aug";
+const MONTH_08_b_U: &[u8] = b"AUG";
+const MONTH_08_B_l: &[u8] = b"august";
+const MONTH_08_B_u: &[u8] = b"August";
+const MONTH_08_B_U: &[u8] = b"AUGUST";
+const MONTH_08_m: &[u8] = b"08";
+const MONTH_09_b_l: &[u8] = b"sep";
+const MONTH_09_b_u: &[u8] = b"Sep";
+const MONTH_09_b_U: &[u8] = b"SEP";
+const MONTH_09_B_l: &[u8] = b"september";
+const MONTH_09_B_u: &[u8] = b"September";
+const MONTH_09_B_U: &[u8] = b"SEPTEMBER";
+const MONTH_09_m: &[u8] = b"09";
+const MONTH_10_b_l: &[u8] = b"oct";
+const MONTH_10_b_u: &[u8] = b"Oct";
+const MONTH_10_b_U: &[u8] = b"OCT";
+const MONTH_10_B_l: &[u8] = b"october";
+const MONTH_10_B_u: &[u8] = b"October";
+const MONTH_10_B_U: &[u8] = b"OCTOBER";
+const MONTH_10_m: &[u8] = b"10";
+const MONTH_11_b_l: &[u8] = b"nov";
+const MONTH_11_b_u: &[u8] = b"Nov";
+const MONTH_11_b_U: &[u8] = b"NOV";
+const MONTH_11_B_l: &[u8] = b"november";
+const MONTH_11_B_u: &[u8] = b"November";
+const MONTH_11_B_U: &[u8] = b"NOVEMBER";
+const MONTH_11_m: &[u8] = b"11";
+const MONTH_12_b_l: &[u8] = b"dec";
+const MONTH_12_b_u: &[u8] = b"Dec";
+const MONTH_12_b_U: &[u8] = b"DEC";
+const MONTH_12_B_l: &[u8] = b"december";
+const MONTH_12_B_u: &[u8] = b"December";
+const MONTH_12_B_U: &[u8] = b"DECEMBER";
+const MONTH_12_m: &[u8] = b"12";
 
-/// Transform `%B`, `%b` (i.e. `"January"`, `"Jan"`) to `%m` (i.e. `"01"`).
+/// Transform strftime `%B`, `%b` (i.e. `"January"`, `"Jan"`) to
+/// strftime `%m` (i.e. `"01"`).
 ///
 /// Helper to [`captures_to_buffer_bytes`].
 #[allow(non_snake_case)]
