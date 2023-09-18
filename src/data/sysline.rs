@@ -88,7 +88,6 @@ impl std::fmt::Debug for Sysline {
         f.debug_struct("Sysline")
             .field("fileoffset_begin()", &self.fileoffset_begin())
             .field("fileoffset_end()", &self.fileoffset_end())
-            .field("lines @", &format_args!("{:p}", &self.lines))
             .field("lines.len", &self.lines.len())
             .field("dt_beg", &self.dt_beg)
             .field("dt_end", &self.dt_end)

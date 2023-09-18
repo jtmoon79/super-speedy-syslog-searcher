@@ -428,8 +428,7 @@ impl fmt::Debug for Line {
         let mut li_s = String::new();
         for li in self.lineparts.iter() {
             li_s.push_str(&format!(
-                " @{:p} (blocki_beg {}, blocki_end {}, len() {}, BlockP.len() {}, fileoffset {}, blockoffset {})",
-                &li,
+                " (blocki_beg {}, blocki_end {}, len() {}, BlockP.len() {}, fileoffset {}, blockoffset {})",
                 &li.blocki_beg,
                 &li.blocki_end,
                 &li.len(),
@@ -450,7 +449,6 @@ impl fmt::Debug for Line {
         f.debug_struct("Line")
             .field("line.fileoffset_begin()", &fo_b)
             .field("line.fileoffset_end()", &fo_e)
-            .field("lineparts @", &format_args!("{:p}", &self))
             .field("lineparts.len", &self.lineparts.len())
             .field("lineparts", &li_s)
             .finish()
