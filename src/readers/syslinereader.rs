@@ -1196,7 +1196,7 @@ impl SyslineReader {
             defx!("return Err(ErrorKind::InvalidInput);");
             return ResultFindDateTime::Err(Error::new(
                 ErrorKind::InvalidInput,
-                "Line is too short to hold a datetime",
+                format!("Line (length {}) is too short to hold a datetime", line.len()),
             ));
         }
 
