@@ -485,7 +485,8 @@ impl<E> Eq for FileProcessingResult<E> {}
 pub enum FileType {
     /// an unset value, the default, encountering this value is an error
     Unset,
-    /// a plain vanilla file, e.g. `file.log`
+    /// a plain vanilla file, e.g. `file.log`. Presumed to be a "syslog" file
+    /// as the term is loosely used in this project.
     File,
     /// a compressed gzipped file, e.g. `log.gz`,
     /// (presumed to contain one regular file; see Issue #8)
