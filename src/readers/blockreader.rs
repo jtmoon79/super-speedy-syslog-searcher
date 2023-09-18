@@ -1636,6 +1636,7 @@ impl BlockReader {
     /// If `false` then no presumptions are made about the value of
     /// `blockoffset` passed to `read_block_File`.
     pub fn streamed_file(&self) -> bool {
+        defñ!();
         matches!(
             self.filetype,
             FileType::Gz
