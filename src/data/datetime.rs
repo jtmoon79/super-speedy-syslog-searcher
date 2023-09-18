@@ -2436,9 +2436,9 @@ pub type DateTimeParseInstrsIndex = usize;
 pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 
 /// Length of [`DATETIME_PARSE_DATAS`] (one past last index)
-// XXX: do not forget to update `#[test_case()]` for test `test_DATETIME_PARSE_DATAS_test_cases`
-//      in `datetime_tests.rs`. Should have test cases, `#[test_case(XX)]`, for values `0` to
-//      `DATETIME_PARSE_DATAS_LEN-1`.
+// XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
+//      in `datetime_tests.rs`. The `test_matrix` range end value must match
+//      this value.
 pub const DATETIME_PARSE_DATAS_LEN: usize = 127;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.

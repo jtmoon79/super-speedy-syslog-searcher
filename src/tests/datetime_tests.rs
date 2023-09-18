@@ -80,7 +80,7 @@ use ::more_asserts::{assert_gt, assert_le, assert_lt};
 use ::regex;
 use ::si_trace_print::stack::stack_offset_set;
 use ::si_trace_print::{defn, defo, defx};
-use ::test_case::test_case;
+use ::test_case::{test_case, test_matrix};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -271,159 +271,12 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
     );
 }
 
-/// a crude way to help the developer not forget about updating the
-/// hardcoded generated test cases in the proceeding test function
-/// `test_DATETIME_PARSE_DATAS_test_cases`
-#[test]
-fn test_DATETIME_PARSE_DATAS_test_cases_has_all_test_cases() {
-    assert_eq!(
-        // THIS NUMBER SHOULD MATCH `DATETIME_PARSE_DATAS_LEN`
-        //
-        // IF YOU CHANGE THIS NUMBER THEN ALSO UPDATE THE GENERATED TEST CASES
-        // FOR `test_DATETIME_PARSE_DATAS_test_cases` BELOW! THOSE TESTS SHOULD
-        // BE FROM ZERO TO ONE LESS THAN THIS NUMBER
-        127,
-        DATETIME_PARSE_DATAS.len(),
-        "Did you update?\n\n    #[test_case({0})]\n    fn test_DATETIME_PARSE_DATAS_test_cases()\n\nShould be one less than DATETIME_PARSE_DATAS_LEN {0}\n\n",
-        DATETIME_PARSE_DATAS_LEN
-    );
-}
-
-/// match the regexp built-in test cases for all entries in `DATETIME_PARSE_DATAS`
-// XXX: how to generate these test_cases from 0 to DATETIME_PARSE_DATAS_LEN?
-//      until that is determined, run this shell snippet from the project root directory
-//
-//           for i in $(seq 0 $(($(grep -m1 -Fe 'DATETIME_PARSE_DATAS_LEN:' -- ./src/data/datetime.rs | grep -Eoe '[[:digit:]]+') - 1))); do echo '#[test_case('${i}')]'; done
-//
-//      See feature request https://github.com/frondeus/test-case/issues/111
-//
-#[test_case(0)]
-#[test_case(1)]
-#[test_case(2)]
-#[test_case(3)]
-#[test_case(4)]
-#[test_case(5)]
-#[test_case(6)]
-#[test_case(7)]
-#[test_case(8)]
-#[test_case(9)]
-#[test_case(10)]
-#[test_case(11)]
-#[test_case(12)]
-#[test_case(13)]
-#[test_case(14)]
-#[test_case(15)]
-#[test_case(16)]
-#[test_case(17)]
-#[test_case(18)]
-#[test_case(19)]
-#[test_case(20)]
-#[test_case(21)]
-#[test_case(22)]
-#[test_case(23)]
-#[test_case(24)]
-#[test_case(25)]
-#[test_case(26)]
-#[test_case(27)]
-#[test_case(28)]
-#[test_case(29)]
-#[test_case(30)]
-#[test_case(31)]
-#[test_case(32)]
-#[test_case(33)]
-#[test_case(34)]
-#[test_case(35)]
-#[test_case(36)]
-#[test_case(37)]
-#[test_case(38)]
-#[test_case(39)]
-#[test_case(40)]
-#[test_case(41)]
-#[test_case(42)]
-#[test_case(43)]
-#[test_case(44)]
-#[test_case(45)]
-#[test_case(46)]
-#[test_case(47)]
-#[test_case(48)]
-#[test_case(49)]
-#[test_case(50)]
-#[test_case(51)]
-#[test_case(52)]
-#[test_case(53)]
-#[test_case(54)]
-#[test_case(55)]
-#[test_case(56)]
-#[test_case(57)]
-#[test_case(58)]
-#[test_case(59)]
-#[test_case(60)]
-#[test_case(61)]
-#[test_case(62)]
-#[test_case(63)]
-#[test_case(64)]
-#[test_case(65)]
-#[test_case(66)]
-#[test_case(67)]
-#[test_case(68)]
-#[test_case(69)]
-#[test_case(70)]
-#[test_case(71)]
-#[test_case(72)]
-#[test_case(73)]
-#[test_case(74)]
-#[test_case(75)]
-#[test_case(76)]
-#[test_case(77)]
-#[test_case(78)]
-#[test_case(79)]
-#[test_case(80)]
-#[test_case(81)]
-#[test_case(82)]
-#[test_case(83)]
-#[test_case(84)]
-#[test_case(85)]
-#[test_case(86)]
-#[test_case(87)]
-#[test_case(88)]
-#[test_case(89)]
-#[test_case(90)]
-#[test_case(91)]
-#[test_case(92)]
-#[test_case(93)]
-#[test_case(94)]
-#[test_case(95)]
-#[test_case(96)]
-#[test_case(97)]
-#[test_case(98)]
-#[test_case(99)]
-#[test_case(100)]
-#[test_case(101)]
-#[test_case(102)]
-#[test_case(103)]
-#[test_case(104)]
-#[test_case(105)]
-#[test_case(106)]
-#[test_case(107)]
-#[test_case(108)]
-#[test_case(109)]
-#[test_case(110)]
-#[test_case(111)]
-#[test_case(112)]
-#[test_case(113)]
-#[test_case(114)]
-#[test_case(115)]
-#[test_case(116)]
-#[test_case(117)]
-#[test_case(118)]
-#[test_case(119)]
-#[test_case(120)]
-#[test_case(121)]
-#[test_case(122)]
-#[test_case(123)]
-#[test_case(124)]
-#[test_case(125)]
-#[test_case(126)]
+/// match the regexp built-in test cases for all entries in
+/// `DATETIME_PARSE_DATAS`.
+///
+/// Must manually update the `test_matrix` range end value to the same as
+/// `DATETIME_PARSE_DATAS_LEN`.
+#[test_matrix(0..127)]
 fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     stack_offset_set(Some(2));
 
