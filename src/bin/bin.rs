@@ -1674,18 +1674,21 @@ fn exec_syslogprocessor(
             return;
         }
     };
-    defo!("syslogproc {:?}", syslogproc);
+    deo!("{:?}({}): syslogproc {:?}", _tid, _tname, syslogproc);
 
     // send `ChanDatum::FileInfo`
     let result = syslogproc.process_stage0_valid_file_check();
     let mtime = syslogproc.mtime();
     let dt = systemtime_to_datetime(&tz_offset, &mtime);
-    match chan_send_dt.send(ChanDatum::FileInfo(DateTimeLOpt::Some(dt), result)
+    match chan_send_dt.send(
+        ChanDatum::FileInfo(DateTimeLOpt::Some(dt), result)
     ) {
         Ok(_) => {}
         Err(err) =>
             e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
     }
+
+    deo!("{:?}({}): processing stage 1", _tid, _tname);
 
     let result = syslogproc.process_stage1_blockzero_analysis();
     match result {
@@ -1699,10 +1702,12 @@ fn exec_syslogprocessor(
                 ),
                 &path
             );
-            defx!("({:?}) return early due to error", path);
+            defx!("({:?}) return during stage 1 due to error", path);
             return;
         }
     }
+
+    deo!("{:?}({}): processing stage 2", _tid, _tname);
 
     // find first sysline acceptable to the passed filters
     match syslogproc.process_stage2_find_dt(&filter_dt_after_opt) {
@@ -1716,7 +1721,7 @@ fn exec_syslogprocessor(
                 ),
                 &path
             );
-            defx!("({:?}) return early during stage2", path);
+            defx!("({:?}) return during stage 2, no datetime within filters", path);
             return;
         }
     }
@@ -1763,7 +1768,7 @@ fn exec_syslogprocessor(
     }
 
     if !search_more {
-        deo!("{:?}({}): quit searching…", _tid, _tname);
+        deo!("{:?}({}): last line so quit searching", _tid, _tname);
         let summary_opt: SummaryOpt = Some(syslogproc.process_stage4_summary());
         chan_send(
             &chan_send_dt,
@@ -1773,10 +1778,12 @@ fn exec_syslogprocessor(
             ),
             &path
         );
-        defx!("({:?}) return early, no more searching to do", path);
+        defx!("({:?}) return early during stage 2, at last line so no more searching to do", path);
 
         return;
     }
+
+    deo!("{:?}({}): processing stage 3", _tid, _tname);
 
     // find all proceeding syslines acceptable to the passed filters
     syslogproc.process_stage3_stream_syslines();
@@ -1829,6 +1836,8 @@ fn exec_syslogprocessor(
             }
         }
     }
+
+    deo!("{:?}({}): processing stage 4", _tid, _tname);
 
     syslogproc.process_stage4_summary();
 
