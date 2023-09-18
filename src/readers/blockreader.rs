@@ -391,9 +391,9 @@ pub struct BlockReader {
     pub(crate) read_block_cache_lru_miss: Count,
     /// Internal LRU cache `Count` of lookup `.put`.
     pub(crate) read_block_cache_lru_put: Count,
-    /// Internal storage `Count` of lookup hit.
+    /// Internal storage `Count` of lookup hit during `fn read_block()`.
     pub(crate) read_blocks_hit: Count,
-    /// Internal storage `Count` of lookup miss.
+    /// Internal storage `Count` of lookup miss during `fn read_block()`.
     pub(crate) read_blocks_miss: Count,
     /// Internal storage `Count` of calls to `self.blocks.insert`.
     pub(crate) read_blocks_put: Count,
@@ -2467,7 +2467,7 @@ impl BlockReader {
         }
         {
             // check storages
-            // check fast LRU cache
+            // check fast LRU cache storage
             if self.read_block_lru_cache_enabled {
                 match self
                     .read_block_lru_cache
