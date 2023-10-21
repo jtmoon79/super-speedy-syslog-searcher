@@ -44,7 +44,6 @@ use crate::data::datetime::{
     Result_Filter_DateTime1,
     Result_Filter_DateTime2,
     Year,
-    DATETIME_PARSE_DATAS_LEN,
     DATETIME_PARSE_DATAS,
     CGP_HOUR_ALL,
     CGP_MINUTE,
