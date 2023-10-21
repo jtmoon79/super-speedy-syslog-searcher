@@ -21,6 +21,7 @@
 //!
 //! [`sd-journal.h`]: https://github.com/systemd/systemd/blob/v249/src/systemd/sd-journal.h
 
+#![allow(clippy::all)]
 #![allow(unused_variables)]
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
