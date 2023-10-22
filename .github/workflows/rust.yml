@@ -13,10 +13,10 @@ on:
       - src/**.rs
   pull_request:
     paths:
-      - benches/**
       - .github/**
       - Cargo.toml
       - src/**.rs
+      - benches/**
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
@@ -221,9 +221,9 @@ jobs:
           cargo --version
           cargo bench --no-run
 
-  job_test:
+  job_test_linux:
     # this job downloads and builds dependency crates
-    name: test
+    name: test linux
     needs: [job_rust_release_channel, job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
@@ -255,18 +255,66 @@ jobs:
               | sort
           # run tests that use libsystemd
           cargo test journalreader_tests
-      - name: install nextest
-        uses: actions-rs/cargo@v1
-        with:
-          command: install
-          args: cargo-nextest --locked
+      - name: install cargo-binstall
+        uses: cargo-bins/cargo-binstall@main
+      - name: install nextest binary
+        run: cargo binstall -y --force cargo-nextest
       - name: nextest (all)
         shell: bash
         run: |
           set -eux
           cargo nextest --version
           export NEXTEST_TEST_THREADS="num-cpus"
-          cargo nextest run --bin s4 --lib --fail-fast --final-status-level=all
+          cargo nextest run --bin s4 --lib --no-fail-fast --final-status-level=fail
+
+  job_test_macos:
+    name: test Mac OS
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: macos-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+      - name: install cargo-binstall
+        uses: cargo-bins/cargo-binstall@main
+      - name: install nextest binary
+        run: cargo binstall -y --force cargo-nextest
+      - name: create log.tgz
+        shell: bash
+        run: |
+          set -eux
+          uname -a
+          sudo -- tar -zcvf /tmp/log.tgz /var/log/
+      - name: upload log.tgz
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.os }} log.tgz
+          path: /tmp/log.tgz
+      - name: nextest (all)
+        shell: bash
+        run: |
+          set -eux
+          cargo nextest --version
+          export NEXTEST_TEST_THREADS="num-cpus"
+          cargo nextest run --bin s4 --lib --no-fail-fast --final-status-level=fail
+
+  job_test_windows:
+    name: test Windows
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: windows-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+      - name: install cargo-binstall
+        uses: cargo-bins/cargo-binstall@main
+      - name: install nextest binary
+        run: cargo binstall -y --force cargo-nextest
+      - name: nextest (all)
+        shell: powershell
+        run: |
+          Set-PSDebug -Trace 1
+          cargo.exe nextest --version
+          ${env:NEXTEST_TEST_THREADS}="num-cpus"
+          cargo.exe nextest run --bin s4 --lib --no-fail-fast --final-status-level=fail
 
   job_doc_publish:
     # this job downloads and builds dependency crates
@@ -414,7 +462,6 @@ jobs:
           ${S4} -s --color=always -u -p -w ${S4_TEST_FILES} &>/dev/null
       - name: Run Script compare-debug-release.sh
         shell: bash
-        # TODO: run compare-debug-release.sh instead of this manual thing
         run: |
           set -eu
           export PROGRAMR=./s4_release
