@@ -1,0 +1,38 @@
+./logs/synology-DS6/usbcopyd.log┋20170525T021438.000000000┋2017-05-24T19:14:38-07:00 dsnet usb-copy-starter: service-ctrl.cpp:516 Repo volume was empty, create default repo volume as [/path1].
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170525T021439.000000000┋2017-05-24T19:14:39-07:00 dsnet usb-copy-starter: [WARN] updater-core.cpp(247): UpdaterCore: new install
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170525T021440.000000000┋2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] app.cpp(2866): app thread starts receiving messages
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170525T021440.000000000┋2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] app.cpp(1667): link daemon, version: 0037
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170525T021440.000000000┋2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] app.cpp(1488): USBCopyd: StartAll
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170525T021440.000000000┋2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] app.cpp(1693): Link Daemon
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170525T021440.000000000┋2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] file-processor.cpp(459): FileProcessor (1) up.
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170525T021440.000000000┋2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] hardware-controller.cpp(222): HardwareController (2) up.
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170525T021440.000000000┋2017-05-24T19:14:40-07:00 dsnet usb-copyd: [INFO] task-processor.cpp(518): TaskProcessor (0) up.
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170619T081850.000000000┋2017-06-19T01:18:50-07:00 dsnet usb-copyd: [WARN] task-entry-handler.cpp(58): Can not find task entry for task_id '0'
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170619T081850.000000000┋2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] app.cpp(1509): USBCopyd: PauseProcessors
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170619T081850.000000000┋2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] hardware-controller.cpp(252): HardwareController (2): turn off LED.
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170619T081850.000000000┋2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] hardware-controller.cpp(257): HardwareController (2) down.
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170619T081850.000000000┋2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] file-processor.cpp(501): FileProcessor (1) down.
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170619T081850.000000000┋2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] task-processor.cpp(561): TaskProcessor (0) down.
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170619T081850.000000000┋2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] app.cpp(1737): Unlink Daemon
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170619T081850.000000000┋2017-06-19T01:18:50-07:00 dsnet usb-copyd: [INFO] app.cpp(2889): app thread down
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170619T081851.000000000┋2017-06-19T01:18:51-07:00 dsnet usb-copy-starter: daemon is dead
+⇳
+./logs/synology-DS6/usbcopyd.log┋20170619T081907.000000000┋2017-06-19T01:19:07-07:00 dsnet share-hook: USBCOPY: [ERR] share-hook.cpp(318): Failed to send share hook notify 'Vol'
+⇳

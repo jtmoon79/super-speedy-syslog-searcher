@@ -1,0 +1,14 @@
+./logs/synology-DS6/upstart/synolog-service-handler-sftp.log┋20161209T025619.000000000┋2016-12-08T18:56:19-0800 Checking if need to run synologd...
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-sftp.log┋20161209T025619.000000000┋2016-12-08T18:56:19-0800 ftpd is disabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-sftp.log┋20161209T025619.000000000┋2016-12-08T18:56:19-0800 ftpd-ssl is enabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-sftp.log┋20161209T025619.000000000┋2016-12-08T18:56:19-0800 sftp is enabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-sftp.log┋20161209T025619.000000000┋2016-12-08T18:56:19-0800 tftp is disabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-sftp.log┋20161209T025619.000000000┋2016-12-08T18:56:19-0800 samba is enabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-sftp.log┋20161209T025619.000000000┋2016-12-08T18:56:19-0800 atalk is enabled.
+⇳

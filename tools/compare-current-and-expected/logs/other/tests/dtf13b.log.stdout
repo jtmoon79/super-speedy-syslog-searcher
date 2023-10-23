@@ -1,0 +1,6 @@
+./logs/other/tests/dtf13b.log┋20210509T194318.616300000┋2021-05-09T19:43:18,6163UTC [2021-05-09 02:43:18] [INFO] [foobar.py] hello
+⇳
+./logs/other/tests/dtf13b.log┋20210509T194318.637300000┋2021-05-09T19:43:18,6373UTC [2021-05-09 02:43:18] [DEBUG] [foobar.py] doodle
+⇳
+./logs/other/tests/dtf13b.log┋20210509T194318.638300000┋2021-05-09T19:43:18,6383UTC [2021-05-09 02:43:18] [INFO] [foobar.py] goodbye⇳
+

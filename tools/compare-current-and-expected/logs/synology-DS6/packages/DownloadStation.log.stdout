@@ -1,0 +1,20 @@
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋2019/06/23 21:13:34	(system) trigger DownloadStation 3.8.13-3519 Begin start-stop-status start
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋rm: cannot remove '/var/packages/DownloadStation/etc/download/settings.json': No such file or directory
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋rm: cannot remove '/var/packages/DownloadStation/etc/amule/statistics.dat': No such file or directory
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋pgsql is enabled.
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋Update download queue table and set all pid to -1
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test upload_rate in download_queue table
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test seeders in download_queue table
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋Check current amule version...
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋No need to upgrade amule.conf...
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test destination column in download_queue table
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test rss_feed table in download db
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test uid column in user_setting table
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test enable_watchffolder column in user_setting table
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test unzip_password column in download_queue table
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test unzip_progress column in download_queue table
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test is_regex column in rss_filter table
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test task_plugin table in download db
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test thumbnail table in download db
+./logs/synology-DS6/packages/DownloadStation.log┋20190623T131334.000000000┋test thumbnail_status column in download_queue table
+⇳

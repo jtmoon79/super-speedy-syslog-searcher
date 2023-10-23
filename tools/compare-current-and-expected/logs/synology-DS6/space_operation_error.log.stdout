@@ -1,0 +1,38 @@
+./logs/synology-DS6/space_operation_error.log┋20171205T123140.000000000┋Dec 05 20:31:40 command="/sbin/mdadm -C /dev/md2 -e 1.2 -amd -R -l5 -f -n3 -x0 /dev/sdb5 /dev/sdc5 /dev/sdd5" Error="mdadm: array /dev/md2 started. "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T123248.000000000┋Dec 05 20:32:48 command="/sbin/mkfs.ext4 /dev/vg1000/lv -F -P" Error="mke2fs 1.42.6 (21-Sep-2012) "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T130110.000000000┋Dec 05 21:01:10 command="/sbin/mdadm -S /dev/md2" Error="mdadm: stopped /dev/md2 "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T131138.000000000┋Dec 05 21:11:38 command="/sbin/mdadm /dev/md2 -A -u 08fabd7e:0e1f9d8d:12d5ead4:dfa624f3 --run /dev/sdb5 /dev/sdc5 /dev/sdd5" Error="mdadm: /dev/md2 has been started with 3 drives. "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T131606.000000000┋Dec 05 21:16:06 command="/sbin/mdadm -S /dev/md2" Error="mdadm: stopped /dev/md2 "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T131607.000000000┋Dec 05 21:16:07 command="/sbin/mdadm -S /dev/md2" Error="mdadm: stopped /dev/md2 "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T131703.000000000┋Dec 05 21:17:03 command="/sbin/sfdisk --fast-delete -1 /dev/sda" Error="Error: /dev/sda: unrecognised disk label "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T131704.000000000┋Dec 05 21:17:04 command="/sbin/sfdisk -M1 /dev/sda" Error="Error: /dev/sda: unrecognised disk label "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T131704.000000000┋Dec 05 21:17:04 command="/sbin/mdadm /dev/md0 -a /dev/sda1" Error="mdadm: added /dev/sda1 "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T131705.000000000┋Dec 05 21:17:05 command="/sbin/mdadm /dev/md1 -a /dev/sda2" Error="mdadm: added /dev/sda2 "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T131707.000000000┋Dec 05 21:17:07 command="/sbin/mdadm -C /dev/md2 -e 1.2 -amd -R -l6 -f -n4 -x0 /dev/sda3 /dev/sdb3 /dev/sdc3 /dev/sdd3" Error="mdadm: array /dev/md2 started. "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T131758.000000000┋Dec 05 21:17:58 command="/sbin/mkfs.ext4 /dev/md2 -F -P" Error="mke2fs 1.42.6 (21-Sep-2012) "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T133705.000000000┋Dec 05 21:37:05 command="/sbin/mdadm -S /dev/md2" Error="mdadm: stopped /dev/md2 "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20171205T133938.000000000┋Dec 05 21:39:38 command="/sbin/mdadm /dev/md2 -A -u 33dca6fe:aed8c6fe:7293b39f:afe0ed52 --run /dev/sda3 /dev/sdb3 /dev/sdc3 /dev/sdd3" Error="mdadm: /dev/md2 has been started with 4 drives. "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20180102T173836.000000000┋Jan 03 01:38:36 command="/sbin/mdadm -S /dev/md2" Error="mdadm: stopped /dev/md2 "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20180102T174049.000000000┋Jan 03 01:40:49 command="/sbin/mdadm /dev/md2 -A -u 33dca6fe:aed8c6fe:7293b39f:afe0ed52 --run /dev/sda3 /dev/sdb3 /dev/sdc3 /dev/sdd3" Error="mdadm: /dev/md2 has been started with 4 drives. "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20180103T155634.000000000┋Jan 03 23:56:34 command="/sbin/mdadm /dev/md2 -A -u 33dca6fe:aed8c6fe:7293b39f:afe0ed52 --run /dev/sda3 /dev/sdb3 /dev/sdc3 /dev/sdd3" Error="mdadm: /dev/md2 has been started with 4 drives. "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20180108T053543.000000000┋Jan 08 13:35:43 command="/sbin/mdadm /dev/md2 -A -u 33dca6fe:aed8c6fe:7293b39f:afe0ed52 --run /dev/sda3 /dev/sdb3 /dev/sdc3 /dev/sdd3" Error="mdadm: /dev/md2 has been started with 4 drives. "
+⇳
+./logs/synology-DS6/space_operation_error.log┋20180124T152408.000000000┋Jan 24 23:24:08 command="/sbin/mdadm -S /dev/md2" Error="mdadm: stopped /dev/md2 "
+⇳

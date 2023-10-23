@@ -1,0 +1,23 @@
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋[2020/03/08 00:07:47.9908,  3] ../source3/param/loadparm.c:3860(lp_load_ex)
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  lp_load_ex: refreshing parameters
+⇳
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋[2020/03/08 00:07:47.9908,  3] ../source3/param/loadparm.c:549(init_globals)
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  Initialising global parameters
+⇳
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋[2020/03/08 00:07:47.9908,  3] ../source3/param/loadparm.c:2774(lp_do_section)
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  Processing section "[global]"
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter workgroup = DESKTOP
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter server string = %h server (Samba, Ubuntu)
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter server min protocol = SMB3
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter dns proxy = no
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter local master = no
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter os level = 333
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter preferred master = no
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter domain master = no
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter log level = 4
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter log file = /var/log/samba/log.%m
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter max log size = 1000
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋  doing parameter syslog = 0
+⇳
+./logs/Ubuntu18/samba/log.smbd┋20200307T160747.990800000┋[2020/03/08 00:07:47.9908,  1] ../lib/param/loadparm.c:1823(lpcfg_do_global_parameter)
+⇳

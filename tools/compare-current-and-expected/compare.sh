@@ -139,95 +139,95 @@ function compare_single_file() {
     declare -r log=${1}
 }
 
+declare diff_found=false
+
 # compare stdout
 if ! diff --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
     ret=1
-    echo "Outputs of stdout are not the same. (ಠ_ಠ)"
+    echo "Output of stdout are not the same. (ಠ_ಠ)"
     echo
     echo "Difference Preview of stdout:"
     set +o pipefail
     ((set -x; diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${CURRENT_OUT}" "${EXPECT_OUT}") || true) | head -n 200 | indent
     echo
-    # be precise about what is missing by checking the hashes listing in
-    # per-line format:
-    #     log file name|md5sum
-    echo "Individual files with differences in stdout:"
-    declare -i hash_diff_count=0
-    while read -r hash_line; do
-        if [[ "${hash_line}" = '' ]]; then
-            continue
-        fi
-        log_file=$(echo -n "${hash_line}" | cut -f1 -d'|')
-        expect_hash=$(echo -n "${hash_line}" | cut -f2 -d'|')
-        tmpr=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
-        (
-            set +e; set +o pipefail;
-            "${PROGRAM}" "${S4_ARGS[@]}" "${log_file}" 1>"${tmpr}" 2>/dev/null
-        ) || true
-        current_hash=$(cat "${tmpr}" | md5sum_clean)
-        if [[ "${expect_hash}" != "${current_hash}" ]]; then
-            echo "    ${log_file}"
-            hash_diff_count+=1
-        fi
-    done < "${HASHES_STDOUT}"
-    if [[ ${hash_diff_count} -gt 0 ]]; then
-        echo
-        echo "Found ${hash_diff_count} differences in stdout outputs."
-        echo "Command:"
-        echo "${PROGRAM} ${S4_ARGS_QUOTED}… 2>/dev/null"
-    fi
     echo
     echo -e "Do you need to run \e[1mcompare-current-and-expected-update.sh\e[0m ?"
     echo
 else
     echo
-    echo "Outputs of stdout are the same. (ʘ‿ʘ)"
+    echo "Output of stdout are the same. (ʘ‿ʘ)"
     echo
 fi
 
 # compare stderr
 if ! diff --text --brief "${CURRENT_ERR}" "${EXPECT_ERR}"; then
     ret=1
-    echo "Outputs of stderr is not the same. (ಠ_ಠ)"
+    echo "Output of stderr is not the same. (ಠ_ಠ)"
     echo
     echo "Difference Preview of stderr:"
     set +o pipefail
-    ((set +e; set -x; diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${CURRENT_ERR}" "${EXPECT_ERR}") || true) | head -n 100 | indent
-    echo
-    # be precise about what is missing by checking the hashes listing in
-    # per-line format:
-    #     log file name|md5sum
-    echo "Individual files with differences in stderr:"
-    tmpr=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
-    declare -i hash_diff_count=0
-    while read -r hash_line; do
-        if [[ "${hash_line}" = '' ]]; then
-            continue
-        fi
-        log_file=$(echo -n "${hash_line}" | cut -f1 -d'|')
-        expect_hash=$(echo -n "${hash_line}" | cut -f2 -d'|')
-        (
-            "${PROGRAM}" "${S4_ARGS[@]}" "${log_file}" 1>/dev/null 2>"${tmpr}"
-        ) || true
-        current_hash=$(cat "${tmpr}" | stderr_clean_1 | md5sum_clean)
-        if [[ "${expect_hash}" != "${current_hash}" ]]; then
-            echo "    ${log_file}"
-            hash_diff_count+=1
-        fi
-    done < "${HASHES_STDERR}"
-    rm -f "${tmpr}"
-    if [[ ${hash_diff_count} -gt 0 ]]; then
-        echo
-        echo "Found ${hash_diff_count} differences in stderr outputs."
-        echo "Command:"
-        echo "${PROGRAM} ${S4_ARGS_QUOTED}… 1>/dev/null"
-    fi
-    echo
-    echo -e "Do you need to run \e[1mcompare-current-and-expected/update.sh\e[0m ?"
+    ((set +e; set -x;
+        diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${CURRENT_ERR}" "${EXPECT_ERR}") || true
+    ) | head -n 100 | indent
     echo
 else
     echo
-    echo "Outputs of stderr are the same. (ʘ‿ʘ)"
+    echo "Output of stderr are the same. (ʘ‿ʘ)"
+    echo
+fi
+
+tmp1=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
+tmp2=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
+declare -i diff_log=0
+declare -i same_log=0
+while read -r log_file; do
+    if [[ "${log_file}" = '' ]] || [[ "${log_file:0:1}" = '#' ]]; then
+        continue
+    fi
+    log_file_stdout="${HERE}/${log_file}.stdout"
+    log_file_stderr="${HERE}/${log_file}.stderr"
+    (
+        set +e; set +o pipefail;
+        "${PROGRAM}" "${S4_ARGS[@]}" "${log_file}" 1>"${tmp1}" 2>"${tmp2}"
+    ) || true
+    stderr_clean "${tmp2}"
+
+    if ! diff --text --brief "${log_file_stdout}" "${tmp1}" &>/dev/null; then
+        diff_log+=1
+        ret=1
+        echo "    Different stdout ${log_file_stdout}" >&2
+        ((set +e
+            diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${log_file_stdout}" "${tmp1}") || true
+        ) | head -n 10 | indent
+        echo >&2
+    else
+        same_log+=1
+    fi
+    if ! diff --text --brief "${log_file_stderr}" "${tmp2}" &>/dev/null; then
+        diff_log+=1
+        ret=1
+        echo "    Different stderr ${log_file_stderr}" >&2
+        ((set +e
+            diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${log_file_stderr}" "${tmp2}") || true
+        ) | head -n 10 | indent
+        echo >&2
+    else
+        same_log+=1
+    fi
+done < "${LOGS}"
+
+echo
+echo "Outputs of ${same_log} individual comparisons are the same. (ʘ‿ʘ)"
+if [[ ${diff_log} -gt 0 ]]; then
+    echo "Outputs of ${diff_log} individual comparisons were not the same. (ಠ_ಠ)"
+fi
+echo
+
+rm -f "${tmp1}" "${tmp2}"
+
+if [[ ${ret} -ne 0 ]]; then
+    echo
+    echo -e "Do you need to run \e[1m$(dirname "${0}")/update.sh\e[0m ?"
     echo
 fi
 

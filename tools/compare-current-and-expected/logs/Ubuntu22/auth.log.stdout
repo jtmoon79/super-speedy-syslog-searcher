@@ -1,0 +1,28 @@
+./logs/Ubuntu22/auth.log┋20221003T135212.000000000┋Oct  3 21:52:12 host4b sshd[1295]: Postponed publickey for root from 192.168.0.8 port 1366 ssh2 [preauth]
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135214.000000000┋Oct  3 21:52:14 host4b sshd[1295]: Connection closed by authenticating user root 192.168.0.8 port 1366 [preauth]
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135300.000000000┋Oct  3 21:53:00 host4b sshd[1299]: Accepted publickey for root from 192.168.0.8 port 1366 ssh2: RSA SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135300.000000000┋Oct  3 21:53:00 host4b sshd[1299]: pam_unix(sshd:session): session opened for user root(uid=0) by (uid=0)
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135301.000000000┋Oct  3 21:53:01 host4b systemd-logind[769]: New session 1 of user root.
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135301.000000000┋Oct  3 21:53:01 host4b systemd: pam_unix(systemd-user:session): session opened for user root(uid=0) by (uid=0)
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135658.000000000┋Oct  3 21:56:58 host4b sshd[2053]: Accepted publickey for root from 192.168.0.8 port 1366 ssh2: RSA SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135658.000000000┋Oct  3 21:56:58 host4b sshd[2053]: pam_unix(sshd:session): session opened for user root(uid=0) by (uid=0)
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135658.000000000┋Oct  3 21:56:58 host4b systemd-logind[769]: New session 3 of user root.
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135744.000000000┋Oct  3 21:57:44 host4b sshd[2506]: Accepted publickey for root from 192.168.0.8 port 1366 ssh2: ED25519 SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135744.000000000┋Oct  3 21:57:44 host4b sshd[2506]: pam_unix(sshd:session): session opened for user root(uid=0) by (uid=0)
+⇳
+./logs/Ubuntu22/auth.log┋20221003T135744.000000000┋Oct  3 21:57:44 host4b systemd-logind[769]: New session 4 of user root.
+⇳
+./logs/Ubuntu22/auth.log┋20221003T141545.000000000┋Oct  3 22:15:45 host4b sshd[3019]: Invalid user user from 192.168.0.99 port 8454
+⇳
+./logs/Ubuntu22/auth.log┋20221003T141545.000000000┋Oct  3 22:15:45 host4b sshd[3019]: pam_unix(sshd:auth): check pass; user unknown
+⇳

@@ -1,0 +1,22 @@
+./logs/synology-DS6/esynoscheduler.log┋20161206T043150.000000000┋Mon Dec  5 20:31:50 PST 2016
+./logs/synology-DS6/esynoscheduler.log┋20161206T043150.000000000┋fire nettup event
+./logs/synology-DS6/esynoscheduler.log┋20161206T043150.000000000┋(7061) esynoscheduler_lib.cpp:1165 not config file exist, path=/usr/syno/etc/esynoscheduler/esynoscheduler-conf.json
+./logs/synology-DS6/esynoscheduler.log┋20161206T043150.000000000┋(7061) esynoscheduler_lib.cpp:1165 not config file exist, path=/usr/syno/etc/esynoscheduler/esynoscheduler-conf.json
+./logs/synology-DS6/esynoscheduler.log┋20161206T043150.000000000┋(7061) esynoscheduler_lib.cpp:768 no task only base on event=[nettup]
+⇳
+./logs/synology-DS6/esynoscheduler.log┋20161206T051203.000000000┋Mon Dec  5 21:12:03 PST 2016
+./logs/synology-DS6/esynoscheduler.log┋20161206T051203.000000000┋fire nettup event
+./logs/synology-DS6/esynoscheduler.log┋20161206T051203.000000000┋(7323) esynoscheduler_lib.cpp:1165 not config file exist, path=/usr/syno/etc/esynoscheduler/esynoscheduler-conf.json
+./logs/synology-DS6/esynoscheduler.log┋20161206T051203.000000000┋(7323) esynoscheduler_lib.cpp:1165 not config file exist, path=/usr/syno/etc/esynoscheduler/esynoscheduler-conf.json
+./logs/synology-DS6/esynoscheduler.log┋20161206T051203.000000000┋(7323) esynoscheduler_lib.cpp:768 no task only base on event=[nettup]
+⇳
+./logs/synology-DS6/esynoscheduler.log┋20161206T053953.000000000┋Mon Dec  5 21:39:53 PST 2016
+./logs/synology-DS6/esynoscheduler.log┋20161206T053953.000000000┋fire nettup event
+./logs/synology-DS6/esynoscheduler.log┋20161206T053953.000000000┋(7368) esynoscheduler_lib.cpp:1165 not config file exist, path=/usr/syno/etc/esynoscheduler/esynoscheduler-conf.json
+./logs/synology-DS6/esynoscheduler.log┋20161206T053953.000000000┋(7368) esynoscheduler_lib.cpp:1165 not config file exist, path=/usr/syno/etc/esynoscheduler/esynoscheduler-conf.json
+./logs/synology-DS6/esynoscheduler.log┋20161206T053953.000000000┋(7368) esynoscheduler_lib.cpp:768 no task only base on event=[nettup]
+./logs/synology-DS6/esynoscheduler.log┋20161206T053953.000000000┋2016-12-05T22:13:44-08:00 dsnet synoscgi_SYNO.Core.EventScheduler_1_config_get[258]: APIRunner.cpp:977 WARNING: setresgid(0, 0, 0)
+./logs/synology-DS6/esynoscheduler.log┋20161206T053953.000000000┋2016-12-05T22:13:44-08:00 dsnet synoscgi_SYNO.Core.EventScheduler_1_config_get[258]: APIRunner.cpp:978 WARNING: setresuid(0, 0, 0)
+./logs/synology-DS6/esynoscheduler.log┋20161206T053953.000000000┋2016-12-05T22:13:45-08:00 dsnet synoscgi_SYNO.Core.TaskScheduler_1_list_SYNO.Core.EventScheduler_1_list[258]: APIRunner.cpp:977 WARNING: setresgid(0, 0, 0)
+./logs/synology-DS6/esynoscheduler.log┋20161206T053953.000000000┋2016-12-05T22:13:45-08:00 dsnet synoscgi_SYNO.Core.TaskScheduler_1_list_SYNO.Core.EventScheduler_1_list[258]: APIRunner.cpp:978 WARNING: setresuid(0, 0, 0)
+⇳

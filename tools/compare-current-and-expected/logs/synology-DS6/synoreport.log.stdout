@@ -1,0 +1,38 @@
+./logs/synology-DS6/synoreport.log┋20170513T200007.000000000┋2017-05-14 04-00-07:  
+⇳
+./logs/synology-DS6/synoreport.log┋20170513T200007.000000000┋2017-05-14 04-00-07: -------------------- report start
+⇳
+./logs/synology-DS6/synoreport.log┋20170513T200007.000000000┋2017-05-14 04-00-07:  * do INDEX BEFORE data insert
+⇳
+./logs/synology-DS6/synoreport.log┋20170513T211002.000000000┋2017-05-14 05-10-02: Traverse Time:  4194.24164 sec
+⇳
+./logs/synology-DS6/synoreport.log┋20170513T211002.000000000┋2017-05-14 05-10-02: 	>> scan share [Vol] time:	 4194.24164 sec
+⇳
+./logs/synology-DS6/synoreport.log┋20170513T211044.000000000┋2017-05-14 05-10-44: [step data_gathering] time:	 4235.24164 sec
+⇳
+./logs/synology-DS6/synoreport.log┋20170513T211514.000000000┋2017-05-14 05-15-14: -------------------- report end, time:	 4506.24164 sec
+⇳
+./logs/synology-DS6/synoreport.log┋20170514T200007.000000000┋2017-05-15 04-00-07:  
+⇳
+./logs/synology-DS6/synoreport.log┋20170514T200007.000000000┋2017-05-15 04-00-07: -------------------- report start
+⇳
+./logs/synology-DS6/synoreport.log┋20170514T200007.000000000┋2017-05-15 04-00-07:  * do INDEX BEFORE data insert
+⇳
+./logs/synology-DS6/synoreport.log┋20170514T210251.000000000┋2017-05-15 05-02-51: Traverse Time:  3762.24164 sec
+⇳
+./logs/synology-DS6/synoreport.log┋20170514T210251.000000000┋2017-05-15 05-02-51: 	>> scan share [Vol] time:	 3762.24164 sec
+⇳
+./logs/synology-DS6/synoreport.log┋20170514T210334.000000000┋2017-05-15 05-03-34: [step data_gathering] time:	 3805.24164 sec
+⇳
+./logs/synology-DS6/synoreport.log┋20170514T210757.000000000┋2017-05-15 05-07-57: -------------------- report end, time:	 4070.24164 sec
+⇳
+./logs/synology-DS6/synoreport.log┋20170515T200006.000000000┋2017-05-16 04-00-06:  
+⇳
+./logs/synology-DS6/synoreport.log┋20170515T200006.000000000┋2017-05-16 04-00-06: -------------------- report start
+⇳
+./logs/synology-DS6/synoreport.log┋20170515T200006.000000000┋2017-05-16 04-00-06:  * do INDEX BEFORE data insert
+⇳
+./logs/synology-DS6/synoreport.log┋20170515T204518.000000000┋2017-05-16 04-45-18: Traverse Time:  2710.24164 sec
+⇳
+./logs/synology-DS6/synoreport.log┋20170515T204518.000000000┋2017-05-16 04-45-18: 	>> scan share [Vol] time:	 2710.24164 sec
+⇳

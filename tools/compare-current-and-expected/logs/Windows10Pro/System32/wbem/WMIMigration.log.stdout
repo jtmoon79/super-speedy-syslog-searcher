@@ -1,0 +1,82 @@
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174644.004200000┋(08/10/2019-01:46:44.0042) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_Policy_Config01_Location02" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174644.007400000┋(08/10/2019-01:46:44.0074) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_Policy_Result01_Location02" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174644.007400000┋(08/10/2019-01:46:44.0074) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_BitLocker" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174644.007400000┋(08/10/2019-01:46:44.0074) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_EnterpriseModernAppManagement_EffectiveRelease03" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174644.007400000┋(08/10/2019-01:46:44.0074) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_EnterpriseModernAppManagement_ReleaseManagement01_01" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.049600000┋(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_StorageHealthReport" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.049600000┋(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_StorageHealth" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.049600000┋(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthAction" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.049600000┋(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecord" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.049600000┋(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecordReal64" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.049600000┋(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecordUInt64" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.049600000┋(08/10/2019-01:46:45.0496) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthActionEvent" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.057400000┋(08/10/2019-01:46:45.0574) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_StorageHealthReport" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.057400000┋(08/10/2019-01:46:45.0574) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_StorageHealth" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.057400000┋(08/10/2019-01:46:45.0574) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthAction" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.058900000┋(08/10/2019-01:46:45.0589) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecord" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.058900000┋(08/10/2019-01:46:45.0589) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecordReal64" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.058900000┋(08/10/2019-01:46:45.0589) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecordUInt64" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.058900000┋(08/10/2019-01:46:45.0589) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthActionEvent" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.060500000┋(08/10/2019-01:46:45.0605) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_StorageHealthReport" during apply
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.060500000┋
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.099600000┋(08/10/2019-01:46:45.0996) Total number of objects successfully migrated :2329, failed objects :0
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20190809T174645.099600000┋
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.034600000┋(05/27/2020-12:25:43.0346) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecord" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.034600000┋(05/27/2020-12:25:43.0346) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecordReal64" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.034600000┋(05/27/2020-12:25:43.0346) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthRecordUInt64" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.034600000┋(05/27/2020-12:25:43.0346) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\MS_409:MSFT_HealthActionEvent" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.042400000┋(05/27/2020-12:25:43.0424) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_StorageHealthReport" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.042400000┋(05/27/2020-12:25:43.0424) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_StorageHealth" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.044000000┋(05/27/2020-12:25:43.0440) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthAction" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.045500000┋(05/27/2020-12:25:43.0455) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecord" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.045500000┋(05/27/2020-12:25:43.0455) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecordReal64" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.045500000┋(05/27/2020-12:25:43.0455) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthRecordUInt64" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.045500000┋(05/27/2020-12:25:43.0455) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage\Providers_v2:MSFT_HealthActionEvent" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.047100000┋(05/27/2020-12:25:43.0471) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_StorageHealthReport" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.048700000┋(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_StorageHealth" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.048700000┋(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_HealthAction" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.048700000┋(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_HealthRecord" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.048700000┋(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_HealthRecordReal64" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.048700000┋(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_HealthRecordUInt64" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.048700000┋(05/27/2020-12:25:43.0487) Filtering object "\\HOST\ROOT\Microsoft\Windows\Storage:MSFT_HealthActionEvent" during apply
+⇳
+./logs/Windows10Pro/System32/wbem/WMIMigration.log┋20200527T042543.087700000┋(05/27/2020-12:25:43.0877) Total number of objects successfully migrated :2346, failed objects :16⇳
+

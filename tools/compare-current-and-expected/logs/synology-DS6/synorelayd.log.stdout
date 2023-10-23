@@ -1,0 +1,38 @@
+./logs/synology-DS6/synorelayd.log┋20161205T124515.000000000┋Dec  5 20:45:15 2016 synorelayd.cpp:2048 daemon started
+⇳
+./logs/synology-DS6/synorelayd.log┋20161205T130055.000000000┋Dec  5 21:00:55 2016 synorelayd.cpp:1625 get sigterm, logout
+⇳
+./logs/synology-DS6/synorelayd.log┋20161205T130056.000000000┋Dec  5 21:00:56 2016 synorelayd.cpp:2102 daemon stopped
+⇳
+./logs/synology-DS6/synorelayd.log┋20161205T131203.000000000┋Dec  5 21:12:03 2016 synorelayd.cpp:2048 daemon started
+⇳
+./logs/synology-DS6/synorelayd.log┋20161205T133657.000000000┋Dec  5 21:36:57 2016 synorelayd.cpp:1625 get sigterm, logout
+⇳
+./logs/synology-DS6/synorelayd.log┋20161205T133657.000000000┋Dec  5 21:36:57 2016 synorelayd.cpp:2102 daemon stopped
+⇳
+./logs/synology-DS6/synorelayd.log┋20161205T133954.000000000┋Dec  5 21:39:54 2016 synorelayd.cpp:2048 daemon started
+⇳
+./logs/synology-DS6/synorelayd.log┋20161213T165456.000000000┋Dec 14 00:54:56 2016 request.cpp:555 curl error: 56, Error
+⇳
+./logs/synology-DS6/synorelayd.log┋20161213T165528.000000000┋Dec 14 00:55:28 2016 request.cpp:539 curl error: 6, Error
+⇳
+./logs/synology-DS6/synorelayd.log┋20161213T181650.000000000┋Dec 14 02:16:50 2016 request.cpp:555 curl error: 56, Error
+⇳
+./logs/synology-DS6/synorelayd.log┋20161213T181710.000000000┋Dec 14 02:17:10 2016 request.cpp:539 curl error: 6, Error
+⇳
+./logs/synology-DS6/synorelayd.log┋20170102T173828.000000000┋Jan  3 01:38:28 2017 synorelayd.cpp:1625 get sigterm, logout
+⇳
+./logs/synology-DS6/synorelayd.log┋20170102T173828.000000000┋Jan  3 01:38:28 2017 synorelayd.cpp:2102 daemon stopped
+⇳
+./logs/synology-DS6/synorelayd.log┋20170102T174112.000000000┋Jan  3 01:41:12 2017 synorelayd.cpp:2048 daemon started
+⇳
+./logs/synology-DS6/synorelayd.log┋20170103T155658.000000000┋Jan  3 23:56:58 2017 synorelayd.cpp:2048 daemon started
+⇳
+./logs/synology-DS6/synorelayd.log┋20170108T053612.000000000┋Jan  8 13:36:12 2017 synorelayd.cpp:2048 daemon started
+⇳
+./logs/synology-DS6/synorelayd.log┋20170124T152400.000000000┋Jan 24 23:24:00 2017 synorelayd.cpp:1625 get sigterm, logout
+⇳
+./logs/synology-DS6/synorelayd.log┋20170124T152401.000000000┋Jan 24 23:24:01 2017 synorelayd.cpp:2102 daemon stopped
+⇳
+./logs/synology-DS6/synorelayd.log┋20170124T152630.000000000┋Jan 24 23:26:30 2017 synorelayd.cpp:2048 daemon started
+⇳

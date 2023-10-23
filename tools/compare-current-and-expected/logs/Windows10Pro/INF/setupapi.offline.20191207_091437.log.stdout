@@ -1,0 +1,161 @@
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191206T233649.142000000┋[Boot Session: 2019/12/07 07:36:49.142]
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191206T233649.142000000┋
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191206T233649.142000000┋>>>  [Load Offline Registry Hive - SYSTEM]
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋>>>  Section start 2019/12/07 09:13:02.810
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋       os: Version = 10.0.31664, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = x86
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋      cmd: "D:\wd\in\BuildChunkArtifact\00000000-1111-2222-132f-012345678911\amd64fre\DESKTOPIMAGING\cbss.exe" /ls /o:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows /log:D:\ld\compiler\Client_Starter.log /b:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter_batchfile.tmp /s:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\staged_wim\Client\Starter
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋     sto: Opened existing hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SYSTEM'.
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋<<<  Section end 2019/12/07 09:13:02.810
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋<<<  [Exit status: SUCCESS]
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋>>>  [Load Offline Registry Hive - DRIVERS]
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋>>>  Section start 2019/12/07 09:13:02.810
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋       os: Version = 10.0.31664, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = x86
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋      cmd: "D:\wd\in\BuildChunkArtifact\00000000-1111-2222-132f-012345678911\amd64fre\DESKTOPIMAGING\cbss.exe" /ls /o:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows /log:D:\ld\compiler\Client_Starter.log /b:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter_batchfile.tmp /s:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\staged_wim\Client\Starter
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋     sto: Opened existing hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/DRIVERS'.
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋<<<  Section end 2019/12/07 09:13:02.810
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋<<<  [Exit status: SUCCESS]
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋>>>  [Load Offline Registry Hive - SOFTWARE]
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋>>>  Section start 2019/12/07 09:13:02.810
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋       os: Version = 10.0.31664, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = x86
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋      cmd: "D:\wd\in\BuildChunkArtifact\00000000-1111-2222-132f-012345678911\amd64fre\DESKTOPIMAGING\cbss.exe" /ls /o:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows /log:D:\ld\compiler\Client_Starter.log /b:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter_batchfile.tmp /s:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\staged_wim\Client\Starter
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.810000000┋     sto: Opened existing hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SOFTWARE'.
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.826000000┋<<<  Section end 2019/12/07 09:13:02.826
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.826000000┋<<<  [Exit status: SUCCESS]
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.826000000┋
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011302.826000000┋>>>  [Stage Driver Updates]
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋>>>  Section start 2019/12/07 09:13:04.060
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋       os: Version = 10.0.31664, Service Pack = 0.0, Suite = 0x0190, ProductType = 3, Architecture = x86
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋      cmd: "D:\wd\in\BuildChunkArtifact\00000000-1111-2222-132f-012345678911\amd64fre\DESKTOPIMAGING\cbss.exe" /ls /o:D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starte>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: Image State        = Unknown
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: Image Architecture = amd64
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: Image OS Version   = 10.0.31664
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: Image Product Type = WinNT
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: Driver Updates     = 649
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Load Offline Registry Hive: SYSTEM} 09:13:04.076
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Opened existing hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SYSTEM'.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Load Offline Registry Hive: exit(0x00000000)} 09:13:04.076
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Load Offline Registry Hive: DRIVERS} 09:13:04.076
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Opened existing hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/DRIVERS'.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Load Offline Registry Hive: exit(0x00000000)} 09:13:04.076
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Import Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_multiprt.inf_31bf3856ad364e35_10.0.31664.1_none_460ca375>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Driver Store   = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore (10.0.31664)
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Driver Package = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_multiprt.inf_31bf3856ad364e35_10.0.31664.1_none_460ca3759b>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Architecture   = amd64
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Flags          = 0x00000245
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Provider       = Microsoft
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Class GUID     = {00000000-1111-2222-bf5d-012345678911}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Driver Version = 06/21/2006,10.0.31664.1
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Version Flags  = 0x00000010
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Import Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_netclient.inf_31bf3856ad364e35_10.0.31664.1_none_fbf12>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Driver Store   = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore (10.0.31664)
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Driver Package = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_netclient.inf_31bf3856ad364e35_10.0.31664.1_none_fbf126b>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Architecture   = amd64
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Flags          = 0x00000245
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Provider       = Microsoft
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Class GUID     = {00000000-1111-2222-bfc1-012345678911}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Driver Version = 06/21/2006,10.0.31664.1
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Version Flags  = 0x00000010
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      {Query Configurability: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_netclient.inf_31bf3856ad364e35_10.0.31664.1_none_>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋!    inf:           Found legacy AddReg operation defining class installers (Installer32). Code = 1307
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           Driver package is fully isolated.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋!    inf:           Driver package 'c_netclient.inf' is NOT configurable.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      {Query Configurability: exit(0x00000000)} 09:13:06.169
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sig:      Signer Score  = 0x0D000003 (Inbox)
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:      {FILE_QUEUE_COMMIT} 09:13:06.169
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:           Hardlinking 'D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_netclient.inf_31bf3856ad364e35_10.0.31664.1_none_fbf126>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:      {FILE_QUEUE_COMMIT - exit(0x00000000)} 09:13:06.169
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:      {Register Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore\FileRepository\c_netclient.inf_amd64_b7f9bb717>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:           Created driver package object 'c_netclient.inf_amd64_b7f9bb71730aaf1a' in DRIVERS database node.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:           Created driver INF file object 'c_netclient.inf' in DRIVERS database node.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:           Registered driver package 'c_netclient.inf_amd64_b7f9bb71730aaf1a' with 'c_netclient.inf'.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:           {Configure Device Setup Class: {00000000-1111-2222-bfc1-012345678911}}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:                Class Name = NetClient
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:           {Configure Device Setup Class: exit(0x00000000)}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:           {FILE_QUEUE_COMMIT} 09:13:06.185
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:           {FILE_QUEUE_COMMIT - exit(0x00000000)} 09:13:06.185
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:      {Register Driver Package: exit(0x00000000)} 09:13:06.185
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Driver Store Filename = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore\FileRepository\c_netclient.inf_amd64_b7f9bb71730>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Import Driver Package: exit(0x00000000)} 09:13:06.185
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Import Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_1394.inf_31bf3856ad364e35_10.0.31664.1_none_6118cd98bd>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Driver Store   = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore (10.0.31664)
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Driver Package = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_1394.inf_31bf3856ad364e35_10.0.31664.1_none_6118cd98bdc1>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Architecture   = amd64
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Flags          = 0x00000245
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Provider       = Microsoft
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Class GUID     = {00000000-1111-2222-bec7-012345678911}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Driver Version = 06/21/2006,10.0.31664.1
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Version Flags  = 0x00000010
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      {Query Configurability: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_1394.inf_31bf3856ad364e35_10.0.31664.1_none_6118c>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           Driver package is fully isolated.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           Driver package 'c_1394.inf' is configurable.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      {Query Configurability: exit(0x00000000)} 09:13:06.216
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sig:      Signer Score  = 0x0D000003 (Inbox)
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:      {FILE_QUEUE_COMMIT} 09:13:06.216
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:           Hardlinking 'D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\WinSxS\amd64_dual_c_1394.inf_31bf3856ad364e35_10.0.31664.1_none_6118cd98bdc>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:      {FILE_QUEUE_COMMIT - exit(0x00000000)} 09:13:06.216
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:      {Register Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore\FileRepository\c_1394.inf_amd64_cac08af12caec6>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:           Created driver package object 'c_1394.inf_amd64_cac08af12caec647' in SYSTEM database node.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:           Created driver INF file object 'c_1394.inf' in SYSTEM database node.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:           Registered driver package 'c_1394.inf_amd64_cac08af12caec647' with 'c_1394.inf'.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:           {Configure Device Setup Class: {00000000-1111-2222-bec7-012345678911}}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:                Class Name = 1394
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:           {Configure Device Setup Class: exit(0x00000000)}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:           {FILE_QUEUE_COMMIT} 09:13:06.216
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:           {FILE_QUEUE_COMMIT - exit(0x00000000)} 09:13:06.216
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     idb:      {Register Driver Package: exit(0x00000000)} 09:13:06.216
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Driver Store Filename = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore\FileRepository\c_1394.inf_amd64_cac08af12caec647>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Import Driver Package: exit(0x00000000)} 09:13:06.216
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Reflect Critical Driver Package: D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore\FileRepository\wvmic_ext.inf_amd64_34d742f3>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Driver Store   = D:\wd\compilerTemp\BMT.SE.kyappx5f.5lp\Starter\Windows\System32\DriverStore (10.0.31664)
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Flags          = 0x00040F7F
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Class GUID     = {00000000-1111-2222-bfc1-012345678911}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      Class Options  = Configurable BootCritical
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      {Configure Driver: Microsoft Hyper-V Remote Desktop Virtualization}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           Section Name = VmIcRdv.NT
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           Hardware Id  = vmbus\{00000000-1111-2222-98dd-012345678911}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           {Configure Driver Configuration: VmIcRdv.NT}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:                Service Name  = <none>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:                Config Flags  = 0x00000000
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           {Configure Driver Configuration: exit(0x00000000)}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      {Configure Driver: exit(0x00000000)}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      {Configure Driver: Microsoft Hyper-V Volume Shadow Copy}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           Section Name = VmIcVss.NT
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           Hardware Id  = vmbus\{00000000-1111-2222-892e-012345678911}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           {Configure Driver Configuration: VmIcVss.NT}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:                Service Name  = <none>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:                Config Flags  = 0x00000000
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:           {Configure Driver Configuration: exit(0x00000000)}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     inf:      {Configure Driver: exit(0x00000000)}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:      {FILE_QUEUE_COMMIT} 09:14:37.406
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     flq:      {FILE_QUEUE_COMMIT - exit(0x00000000)} 09:14:37.406
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Reflect Critical Driver Package: exit(0x00000000)}
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Unload Offline Registry Hive: SYSTEM} 09:14:37.720
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Closed hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SYSTEM'.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SYSTEM' load>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Unload Offline Registry Hive: exit(0x00000000)} 09:14:37.755
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Unload Offline Registry Hive: SOFTWARE} 09:14:37.755
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Closed hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SOFTWARE'.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/SOFTWARE' lo>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Unload Offline Registry Hive: exit(0x00000000)} 09:14:37.876
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Unload Offline Registry Hive: DRIVERS} 09:14:37.876
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Closed hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/DRIVERS'.
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto:      Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}D:/wd/compilerTemp/BMT.SE.kyappx5f.5lp/Starter/Windows/System32/config/DRIVERS' loa>
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011304.060000000┋     sto: {Unload Offline Registry Hive: exit(0x00000000)} 09:14:37.876
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011437.876000000┋<<<  Section end 2019/12/07 09:14:37.876
+./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log┋20191207T011437.876000000┋<<<  [Exit status: SUCCESS]⇳
+

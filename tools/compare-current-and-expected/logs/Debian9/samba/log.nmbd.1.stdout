@@ -1,0 +1,24 @@
+./logs/Debian9/samba/log.nmbd.1┋20200301T204805.426000000┋[2020/03/02 04:48:05.4260,  0] ../source3/nmbd/nmbd_namequery.c:109(query_name_response)
+./logs/Debian9/samba/log.nmbd.1┋20200301T204805.426000000┋  query_name_response: Multiple (2) responses received for a query on subnet 192.168.0.178 for name NET<1d>.
+./logs/Debian9/samba/log.nmbd.1┋20200301T204805.426000000┋  This response was from IP 192.168.0.161, reporting an IP address of 192.168.0.161.
+⇳
+./logs/Debian9/samba/log.nmbd.1┋20200301T205255.426000000┋[2020/03/02 04:52:55.4260,  0] ../source3/nmbd/nmbd_namequery.c:109(query_name_response)
+./logs/Debian9/samba/log.nmbd.1┋20200301T205255.426000000┋  query_name_response: Multiple (2) responses received for a query on subnet 192.168.0.178 for name NET<1d>.
+./logs/Debian9/samba/log.nmbd.1┋20200301T205255.426000000┋  This response was from IP 192.168.0.161, reporting an IP address of 192.168.0.161.
+⇳
+./logs/Debian9/samba/log.nmbd.1┋20200301T205802.426000000┋[2020/03/02 04:58:02.4260,  0] ../source3/nmbd/nmbd_namequery.c:109(query_name_response)
+./logs/Debian9/samba/log.nmbd.1┋20200301T205802.426000000┋  query_name_response: Multiple (2) responses received for a query on subnet 192.168.0.178 for name NET<1d>.
+./logs/Debian9/samba/log.nmbd.1┋20200301T205802.426000000┋  This response was from IP 192.168.0.161, reporting an IP address of 192.168.0.161.
+⇳
+./logs/Debian9/samba/log.nmbd.1┋20200301T210308.426000000┋[2020/03/02 05:03:08.4260,  0] ../source3/nmbd/nmbd_namequery.c:109(query_name_response)
+./logs/Debian9/samba/log.nmbd.1┋20200301T210308.426000000┋  query_name_response: Multiple (2) responses received for a query on subnet 192.168.0.178 for name NET<1d>.
+./logs/Debian9/samba/log.nmbd.1┋20200301T210308.426000000┋  This response was from IP 192.168.0.161, reporting an IP address of 192.168.0.161.
+⇳
+./logs/Debian9/samba/log.nmbd.1┋20200301T210812.426000000┋[2020/03/02 05:08:12.4260,  0] ../source3/nmbd/nmbd_namequery.c:109(query_name_response)
+./logs/Debian9/samba/log.nmbd.1┋20200301T210812.426000000┋  query_name_response: Multiple (2) responses received for a query on subnet 192.168.0.178 for name NET<1d>.
+./logs/Debian9/samba/log.nmbd.1┋20200301T210812.426000000┋  This response was from IP 192.168.0.161, reporting an IP address of 192.168.0.161.
+⇳
+./logs/Debian9/samba/log.nmbd.1┋20200301T211326.426000000┋[2020/03/02 05:13:26.4260,  0] ../source3/nmbd/nmbd_namequery.c:109(query_name_response)
+./logs/Debian9/samba/log.nmbd.1┋20200301T211326.426000000┋  query_name_response: Multiple (2) responses received for a query on subnet 192.168.0.178 for name NET<1d>.
+./logs/Debian9/samba/log.nmbd.1┋20200301T211326.426000000┋  This response was from IP 192.168.0.161, reporting an IP address of 192.168.0.161.
+⇳

@@ -1,0 +1,17 @@
+./logs/Orbi/tmp/dal_ash.log┋20220510T092040.000000000┋2022-05-10 17:20:40 (540):ash_sot.c:102	  DEBUG: ASH-SOT: MULTI MACs TOTAL INDEX:1
+⇳
+./logs/Orbi/tmp/dal_ash.log┋20220510T092040.000000000┋2022-05-10 17:20:40 (540):ash_sot.c:106	  DEBUG: ASH-SOT: Multi On demand: Device MAC: 01:02:03:04:05:c3
+⇳
+./logs/Orbi/tmp/dal_ash.log┋20220510T092040.000000000┋2022-05-10 17:20:40 (540):ash_sot.c:108	  DEBUG: ASH-SOT: Multi On demand: Device IP: 
+⇳
+./logs/Orbi/tmp/dal_ash.log┋20220510T092040.000000000┋2022-05-10 17:20:40 (540):ash_sot.c:120	  DEBUG: ASH-SOT: dil_update_table_field MAC: 01:02:03:04:05:c3
+./logs/Orbi/tmp/dal_ash.log┋20220510T092040.000000000┋, DID: 4224-1111-2222-9735-012345678911
+⇳
+./logs/Orbi/tmp/dal_ash.log┋20220510T092040.000000000┋2022-05-10 17:20:40 (540):dilapi.c:2061	   INFO: DIL: Producer ID is acceptable :30
+⇳
+./logs/Orbi/tmp/dal_ash.log┋20220510T092040.000000000┋2022-05-10 17:20:40 (540):dilapi.c:1665	  DEBUG: DIL: Total InUse MAC Address Entries are :91
+⇳
+./logs/Orbi/tmp/dal_ash.log┋20220510T092040.000000000┋2022-05-10 17:20:40 (540):dilapi.c:2286	  DEBUG: DIL:MAC Address sanity check passed 
+⇳
+./logs/Orbi/tmp/dal_ash.log┋20220510T092040.000000000┋2022-05-10 17:20:40 (540):dilapi.c:1721	  DEBUG: DIL:Entry Function:check_update_mapping_table Line:1721 Devicem01:02:03:04:05:74:c3 producer id:30
+⇳

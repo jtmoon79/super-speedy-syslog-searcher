@@ -1,0 +1,38 @@
+./logs/synology-DS6/packages/Node.js_v4.log┋20190623T131316.000000000┋2019/06/23 21:13:16	(system) trigger Node.js_v4 4.8.7-0166 Begin start-stop-status start
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20190623T131316.000000000┋2019/06/23 21:13:16	(system) trigger Node.js_v4 4.8.7-0166 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20190818T132826.000000000┋2019/08/18 21:28:26	(system) trigger Node.js_v4 4.8.7-0166 Begin start-stop-status start
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20190818T132826.000000000┋2019/08/18 21:28:26	(system) trigger Node.js_v4 4.8.7-0166 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20190831T062532.000000000┋2019/08/31 14:25:32	(system) trigger Node.js_v4 4.8.7-0166 Begin start-stop-status start
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20190831T062533.000000000┋2019/08/31 14:25:33	(system) trigger Node.js_v4 4.8.7-0166 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20190908T112526.000000000┋2019/09/08 19:25:26	(system) trigger Node.js_v4 4.8.7-0166 Begin start-stop-status start
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20190908T112526.000000000┋2019/09/08 19:25:26	(system) trigger Node.js_v4 4.8.7-0166 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191019T105924.000000000┋2019/10/19 18:59:24	(system) trigger Node.js_v4 4.8.7-0166 Begin start-stop-status stop
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191019T105924.000000000┋2019/10/19 18:59:24	(system) trigger Node.js_v4 4.8.7-0166 End start-stop-status stop ret=[0]
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191019T110340.000000000┋2019/10/19 19:03:40	(system) trigger Node.js_v4 4.8.7-0166 Begin start-stop-status start
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191019T110341.000000000┋2019/10/19 19:03:41	(system) trigger Node.js_v4 4.8.7-0166 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191114T130154.000000000┋2019/11/14 21:01:54	(system) trigger Node.js_v4 4.8.7-0166 Begin start-stop-status stop
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191114T130154.000000000┋2019/11/14 21:01:54	(system) trigger Node.js_v4 4.8.7-0166 End start-stop-status stop ret=[0]
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191114T130609.000000000┋2019/11/14 21:06:09	(system) trigger Node.js_v4 4.8.7-0166 Begin start-stop-status start
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191114T130610.000000000┋2019/11/14 21:06:10	(system) trigger Node.js_v4 4.8.7-0166 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191116T061639.000000000┋2019/11/16 14:16:39	(system) trigger Node.js_v4 4.8.7-0166 Begin start-stop-status stop
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191116T061639.000000000┋2019/11/16 14:16:39	(system) trigger Node.js_v4 4.8.7-0166 End start-stop-status stop ret=[0]
+⇳
+./logs/synology-DS6/packages/Node.js_v4.log┋20191116T061943.000000000┋2019/11/16 14:19:43	(system) trigger Node.js_v4 4.8.7-0166 Begin start-stop-status start
+⇳

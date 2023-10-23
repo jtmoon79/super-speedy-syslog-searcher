@@ -1,0 +1,38 @@
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] Linux version 3.10.77 (root@build3) (gcc version 4.9.3 4639 (prerelease) (crosstool-NG 1.20.0) ) #8451 SMP Wed Aug 17 05:12:58 CST 2016
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] CPU: ARMv7 Processor [414fc091] revision 1 (ARMv7), cr=10c53c7d
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] Memory policy: ECC disabled, Data cache writealloc
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 1283
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] Kernel command line: console=ttyS0,1283 ip=off initrd=0x3000000 root=/dev/md0 rw HddHotplug=4 syno_hw_version=DS5000 hd_power_on_seq=4 ihd_num=4 netif_num=1 syno_hdd_detect=39,40,41,43 syno_hdd_enable=26,27,37,38 flash_size=8
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] Support HDD Hotplug.
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] Synology Hardware Version: DS5000-j
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] Internal HD num: 4
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] Internal netif num: 1
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] SYNO GPIO hdd detect pin: 39 40 41 43 
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] SYNO GPIO hdd enable pin: 26 27 37 38 
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] Memory: 508280k/508280k available, 16008k reserved, 0K highmem
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283] Virtual kernel memory layout:
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283]     fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283]     vmalloc : 0xa0800000 - 0xfff00000   (1527 MB)
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283]     lowmem  : 0x80000000 - 0xa0000000   ( 512 MB)
+⇳
+./logs/synology-DS6/kern.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1283]     modules : 0x7f000000 - 0x80000000   (  16 MB)
+⇳

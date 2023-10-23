@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 Thu Dec  8 18:56:18 PST 2016
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 Start SFTP...
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 start: Job is already running: sshd
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 Thu Dec  8 18:56:18 PST 2016
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 Stop SFTP...
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025619.000000000┋2016-12-08T18:56:19-0800 Thu Dec  8 18:56:19 PST 2016
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025619.000000000┋2016-12-08T18:56:19-0800 Start SFTP...
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025619.000000000┋2016-12-08T18:56:19-0800 start: Job is already running: sshd
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025701.000000000┋2016-12-08T18:57:01-0800 Thu Dec  8 18:57:01 PST 2016
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025701.000000000┋2016-12-08T18:57:01-0800 Stop SFTP...
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025702.000000000┋2016-12-08T18:57:02-0800 Thu Dec  8 18:57:02 PST 2016
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025702.000000000┋2016-12-08T18:57:02-0800 Start SFTP...
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025702.000000000┋2016-12-08T18:57:02-0800 sshd start/running, process 3135
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025702.000000000┋2016-12-08T18:57:02-0800 Thu Dec  8 18:57:02 PST 2016
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025702.000000000┋2016-12-08T18:57:02-0800 Stop SFTP...
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025702.000000000┋2016-12-08T18:57:02-0800 Thu Dec  8 18:57:02 PST 2016
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025702.000000000┋2016-12-08T18:57:02-0800 Start SFTP...
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025702.000000000┋2016-12-08T18:57:02-0800 start: Job is already running: sshd
+⇳
+./logs/synology-DS6/upstart/ssh-sftp.log┋20161209T025705.000000000┋2016-12-08T18:57:05-0800 Thu Dec  8 18:57:05 PST 2016
+⇳

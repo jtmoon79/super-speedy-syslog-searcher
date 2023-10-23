@@ -1,0 +1,24 @@
+./logs/synology-DS6/packages/LogCenter.log┋20190623T131316.000000000┋2019/06/23 21:13:16	(system) trigger LogCenter 1.1.7-0138 Begin start-stop-status start
+./logs/synology-DS6/packages/LogCenter.log┋20190623T131316.000000000┋pkg-LogCenter-recvrule stop/waiting
+./logs/synology-DS6/packages/LogCenter.log┋20190623T131316.000000000┋pkg-LogCenter-syslog started.
+./logs/synology-DS6/packages/LogCenter.log┋20190623T131316.000000000┋pkg-LogCenter-syslog start/running
+./logs/synology-DS6/packages/LogCenter.log┋20190623T131316.000000000┋pkg-LogCenter-localarchive started.
+⇳
+./logs/synology-DS6/packages/LogCenter.log┋20190623T131323.000000000┋2019/06/23 21:13:23	(system) trigger LogCenter 1.1.7-0138 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132450.000000000┋2019/08/18 21:24:50	(system) trigger LogCenter 1.1.7-0138 Begin start-stop-status stop
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132450.000000000┋pkg-LogCenter-localarchive start/running
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132450.000000000┋pkg-LogCenter-localarchive stoped.
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132450.000000000┋pkg-LogCenter-recvrule stop/waiting
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132450.000000000┋pkg-LogCenter-recvrule stoped.
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132450.000000000┋pkg-LogCenter-client stop/waiting
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132450.000000000┋pkg-LogCenter-client stoped.
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132450.000000000┋pkg-LogCenter-syslog stoped.
+⇳
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132505.000000000┋2019/08/18 21:25:05	(system) trigger LogCenter 1.1.7-0138 End start-stop-status stop ret=[0]
+⇳
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132826.000000000┋2019/08/18 21:28:26	(system) trigger LogCenter 1.1.7-0138 Begin start-stop-status start
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132826.000000000┋pkg-LogCenter-recvrule stop/waiting
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132826.000000000┋pkg-LogCenter-syslog started.
+./logs/synology-DS6/packages/LogCenter.log┋20190818T132826.000000000┋pkg-LogCenter-syslog start/running
+⇳

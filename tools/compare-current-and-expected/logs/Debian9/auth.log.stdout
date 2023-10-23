@@ -1,0 +1,38 @@
+./logs/Debian9/auth.log┋20200222T223740.000000000┋Feb 23 06:37:40 host5 CRON[1242]: pam_unix(cron:session): session closed for user root
+⇳
+./logs/Debian9/auth.log┋20200222T224701.000000000┋Feb 23 06:47:01 host5 CRON[5523]: pam_unix(cron:session): session opened for user root by (uid=0)
+⇳
+./logs/Debian9/auth.log┋20200222T224709.000000000┋Feb 23 06:47:09 host5 CRON[5523]: pam_unix(cron:session): session closed for user root
+⇳
+./logs/Debian9/auth.log┋20200222T231701.000000000┋Feb 23 07:17:01 host5 CRON[5551]: pam_unix(cron:session): session opened for user root by (uid=0)
+⇳
+./logs/Debian9/auth.log┋20200222T231703.000000000┋Feb 23 07:17:03 host5 CRON[5551]: pam_unix(cron:session): session closed for user root
+⇳
+./logs/Debian9/auth.log┋20200223T001701.000000000┋Feb 23 08:17:01 host5 CRON[5600]: pam_unix(cron:session): session opened for user root by (uid=0)
+⇳
+./logs/Debian9/auth.log┋20200223T001705.000000000┋Feb 23 08:17:05 host5 CRON[5600]: pam_unix(cron:session): session closed for user root
+⇳
+./logs/Debian9/auth.log┋20200223T011701.000000000┋Feb 23 09:17:01 host5 CRON[5693]: pam_unix(cron:session): session opened for user root by (uid=0)
+⇳
+./logs/Debian9/auth.log┋20200223T011706.000000000┋Feb 23 09:17:06 host5 CRON[5693]: pam_unix(cron:session): session closed for user root
+⇳
+./logs/Debian9/auth.log┋20200223T021701.000000000┋Feb 23 10:17:01 host5 CRON[5750]: pam_unix(cron:session): session opened for user root by (uid=0)
+⇳
+./logs/Debian9/auth.log┋20200223T021709.000000000┋Feb 23 10:17:09 host5 CRON[5750]: pam_unix(cron:session): session closed for user root
+⇳
+./logs/Debian9/auth.log┋20200223T031701.000000000┋Feb 23 11:17:01 host5 CRON[5829]: pam_unix(cron:session): session opened for user root by (uid=0)
+⇳
+./logs/Debian9/auth.log┋20200223T031710.000000000┋Feb 23 11:17:10 host5 CRON[5829]: pam_unix(cron:session): session closed for user root
+⇳
+./logs/Debian9/auth.log┋20200223T040001.000000000┋Feb 23 12:00:01 host5 CRON[5884]: pam_unix(cron:session): session opened for user root by (uid=0)
+⇳
+./logs/Debian9/auth.log┋20200223T040001.000000000┋Feb 23 12:00:01 host5 CRON[5884]: pam_unix(cron:session): session closed for user root
+⇳
+./logs/Debian9/auth.log┋20200223T041701.000000000┋Feb 23 12:17:01 host5 CRON[5900]: pam_unix(cron:session): session opened for user root by (uid=0)
+⇳
+./logs/Debian9/auth.log┋20200223T041711.000000000┋Feb 23 12:17:11 host5 CRON[5900]: pam_unix(cron:session): session closed for user root
+⇳
+./logs/Debian9/auth.log┋20200223T051701.000000000┋Feb 23 13:17:01 host5 CRON[6160]: pam_unix(cron:session): session opened for user root by (uid=0)
+⇳
+./logs/Debian9/auth.log┋20200223T051711.000000000┋Feb 23 13:17:11 host5 CRON[6160]: pam_unix(cron:session): session closed for user root
+⇳

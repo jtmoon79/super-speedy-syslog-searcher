@@ -1,0 +1,18 @@
+./logs/RancherOS-1.5.8/boot/cloud-init-save.log┋20221010T202326.000000000┋time="2022-10-10T20:23:26Z" level=debug msg="line: []"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init-save.log┋20221010T202326.000000000┋time="2022-10-10T20:23:26Z" level=debug msg="runCmds(on ): []"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init-save.log┋20221010T202326.000000000┋time="2022-10-10T20:23:26Z" level=info msg="writing to /etc/resolv.conf: nameservers: [192.168.0.3 192.168.0.2], search: []"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init-save.log┋20221010T202326.000000000┋time="2022-10-10T20:23:26Z" level=debug msg="Resolve.conf == [nameserver 192.168.0.3
+./logs/RancherOS-1.5.8/boot/cloud-init-save.log┋20221010T202326.000000000┋nameserver 192.168.0.2
+./logs/RancherOS-1.5.8/boot/cloud-init-save.log┋20221010T202326.000000000┋], <nil>"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init-save.log┋20221010T202326.000000000┋time="2022-10-10T20:23:26Z" level=info msg="Apply Network Config SyncHostname"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init-save.log┋20221010T202326.000000000┋time="2022-10-10T20:23:26Z" level=error msg="Failed to run command [wpa_cli terminate -i eth0]: exit status 255"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init-save.log┋20221010T202326.000000000┋time="2022-10-10T20:23:26Z" level=error msg="Failed to run command [wpa_cli terminate -i eth1]: exit status 255"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init-save.log┋20221010T202326.000000000┋time="2022-10-10T20:23:26Z" level=error msg="Failed to run command [&{/usr/sbin/dhcpcd [dhcpcd -x] []  <nil> 0xc42000e018 0xc42000e020 [] <nil> 0xc4201c10b0 exit status 1 <nil> <nil> true [0xc42000e810 0xc42000e018 0xc42000e020] [0xc42000e810] [] [] 0xc4201edec0 <nil>}]: exit status 1"⇳
+

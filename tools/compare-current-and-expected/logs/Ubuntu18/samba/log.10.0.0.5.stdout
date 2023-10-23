@@ -1,0 +1,29 @@
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋[2020/03/05 12:21:13.7648,  3] ../source3/smbd/oplock.c:1340(init_oplocks)
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋  init_oplocks: initializing messages.
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋[2020/03/05 12:21:13.7648,  3] ../source3/smbd/process.c:1959(process_smb)
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋  Transaction 0 of length 216 (0 toread)
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋[2020/03/05 12:21:13.7648,  3] ../source3/smbd/process.c:1539(switch_message)
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋  switch message SMBnegprot (pid 7648) conn 0x0
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋[2020/03/05 12:21:13.7648,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋[2020/03/05 12:21:13.7648,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋  Requested protocol [PC NETWORK PROGRAM 1.0]
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋[2020/03/05 12:21:13.7648,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋  Requested protocol [MICROSOFT NETWORKS 1.03]
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋[2020/03/05 12:21:13.7648,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋  Requested protocol [MICROSOFT NETWORKS 3.0]
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋[2020/03/05 12:21:13.7648,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋  Requested protocol [LANMAN1.0]
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋[2020/03/05 12:21:13.7648,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋  Requested protocol [LM1.2X002]
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.5┋20200305T042113.764800000┋[2020/03/05 12:21:13.7648,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+⇳

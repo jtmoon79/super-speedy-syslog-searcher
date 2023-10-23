@@ -1,0 +1,25 @@
+./logs/synology-DS6/upstart/sshd.log┋20161209T025405.000000000┋2016-12-08T18:54:05-0800 Thu Dec  8 18:54:05 PST 2016
+⇳
+./logs/synology-DS6/upstart/sshd.log┋20161209T025405.000000000┋2016-12-08T18:54:05-0800  creating ssh1 RSA host key
+⇳
+./logs/synology-DS6/upstart/sshd.log┋20161209T025405.000000000┋2016-12-08T18:54:05-0800 Generating public/private rsa1 key pair.
+⇳
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋2016-12-08T18:54:10-0800 Your identification has been saved in /etc/ssh/ssh_host_key.
+⇳
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋2016-12-08T18:54:10-0800 Your public key has been saved in /etc/ssh/ssh_host_key.pub.
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋The key fingerprint is:
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq+nnnnnnnnn/DDDDDDDD/vvvvvvvvvvvvvvv root@dsnet
+⇳
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋2016-12-08T18:54:10-0800 The key's randomart image is:
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋+---[RSA1 2048]---+
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋|    ....o        |
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋|  .. ... +       |
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋| .... . . .      |
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋|...  .   o. =    |
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋|o  *  . .... .   |
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋| .. +. o.oo   .  |
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋|   =...o   . .   |
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋|   . ..   ...    |
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋| ...  ..     .   |
+./logs/synology-DS6/upstart/sshd.log┋20161209T025410.000000000┋+----[SHA256]-----+
+⇳

@@ -1,0 +1,311 @@
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141806.000000000┋﻿2022-09-14 22:18:06, Info                  CBS    TI: --- Initializing Trusted Installer ---
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141806.000000000┋2022-09-14 22:18:06, Info                  CBS    TI: Last boot time: 2022-09-14 21:59:34.500
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141806.000000000┋2022-09-14 22:18:06, Info                  CBS    Starting TrustedInstaller initialization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141806.000000000┋2022-09-14 22:18:06, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:4
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141806.000000000┋2022-09-14 22:18:06, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:5
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141806.000000000┋2022-09-14 22:18:06, Info                  CBS    Lock: New lock added: WinlogonNotifyLock, level: 8, total lock:6
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141806.000000000┋2022-09-14 22:18:06, Info                  CBS    Ending TrustedInstaller initialization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141806.000000000┋2022-09-14 22:18:06, Info                  CBS    Starting the TrustedInstaller main loop.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141806.000000000┋2022-09-14 22:18:06, Info                  CBS    TrustedInstaller service starts successfully.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    No startup processing required, TrustedInstaller service was not set as autostart
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Startup processing thread terminated normally
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    TI: Startup Processing completes, release startup processing lock.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Starting TiWorker initialization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Lock: New lock added: TiWorkerClassFactory, level: 30, total lock:2
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Ending TiWorker initialization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Starting the TiWorker main loop.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    TiWorker starts successfully.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Lock: New lock added: CCbsWorker, level: 5, total lock:3
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Universal Time is: 2022-09-15 05:18:07.052
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Loaded Servicing Stack v10.0.11274.1940 with Core: C:\WINDOWS\winsxs\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.11274.1940_none_7dd80d767cb5c7b0\cbscore.dll
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Build: 11274.1.amd64fre.vb_release.18421-1406
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CSI    00000001@2022/9/15:05:18:07.054 WcpInitialize: wcp.dll version 10.0.11274.1940 (WinBuild.18421.0800)
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Lock: New lock added: CCbsSessionManager, level: 11, total lock:9
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Lock: New lock added: CSIInventoryCriticalSection, level: 64, total lock:10
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    NonStart: Set pending store consistency check.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Session: 30984386_2313972518 initialized by client LanguageFeaturesOnDemand, external staging directory: (null), external registry directory: (null)
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    FOD: ActionList.xml is not cached.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    FOD: WUFodMetadataCache not available; falling back to InboxFodMetadataCache: hr = 0x80070002
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-Accessibility-Braille-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Installed
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detect Parent, Package: Microsoft-Windows-Holographic-Desktop-FOD-Package~0123456789112345~amd64~~10.0.11274.1, Parent: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.1, Disposition = Detect, VersionComp: EQ, BuildComp: GE, RevisionComp: GE, Exist: present
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.1889, state: Superseded
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.2006, state: Installed
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-Holographic-Desktop-FOD-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Installed
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: Higher version found for package: Microsoft-Windows-StepsRecorder-Package~0123456789112345~amd64~~10.0.11274.1, superseded. (Version on system:Microsoft-Windows-StepsRecorder-Package~0123456789112345~amd64~~10.0.11274.746)
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-StepsRecorder-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Superseded
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detect Parent, Package: Microsoft-Windows-QuickAssist-Package~0123456789112345~amd64~~10.0.11274.1, Parent: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.1, Disposition = Detect, VersionComp: EQ, BuildComp: GE, RevisionComp: GE, Exist: present
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.1889, state: Superseded
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Client-Features-Package~0123456789112345~amd64~~10.0.11274.2006, state: Installed
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: Higher version found for package: Microsoft-Windows-QuickAssist-Package~0123456789112345~amd64~~10.0.11274.1, superseded. (Version on system:Microsoft-Windows-QuickAssist-Package~0123456789112345~amd64~~10.0.11274.1566)
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-QuickAssist-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Superseded
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detect Parent, Package: Microsoft-Windows-WirelessDisplay-FOD-Package~0123456789112345~amd64~~10.0.11274.1, Parent: Microsoft-Windows-RegulatedPackages-Package~0123456789112345~amd64~~10.0.11274.1, Disposition = Detect, VersionComp: EQ, BuildComp: GE, RevisionComp: GE, Exist: present
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-RegulatedPackages-Package~0123456789112345~amd64~~10.0.11274.1889, state: Superseded
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-RegulatedPackages-Package~0123456789112345~amd64~~10.0.11274.2006, state: Installed
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-WirelessDisplay-FOD-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Installed
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl:Feature On Demand package without explicit comparator, using GE on build version
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl:Feature On Demand package without explicit comparator, using GE on build version
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detect Parent, Package: Microsoft-Windows-InternetExplorer-Optional-Package~0123456789112345~amd64~~11.0.11274.1, Parent: Microsoft-Windows-Foundation-Package~0123456789112345~amd64~~10.0.11274.1, Disposition = Detect, VersionComp: EQ, BuildComp: GE, RevisionComp: GE, Exist: present
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Foundation-Package~0123456789112345~amd64~~10.0.11274.1, state: Installed
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: Higher version found for package: Microsoft-Windows-InternetExplorer-Optional-Package~0123456789112345~amd64~~11.0.11274.1, superseded. (Version on system:Microsoft-Windows-InternetExplorer-Optional-Package~0123456789112345~amd64~~11.0.11274.1566)
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋2022-09-14 22:18:07, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-InternetExplorer-Optional-Package~0123456789112345~amd64~~11.0.11274.1, applicable state: Superseded
+./logs/Windows10Pro/CBS/CBS.log┋20220914T141807.000000000┋
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T184530.000000000┋2022-09-15 02:45:30, Info                  CBS    Appl: detectParent: parent found: Microsoft-Windows-Foundation-Package~0123456789112345~amd64~~10.0.11274.1, state: Installed
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220914T184530.000000000┋2022-09-15 02:45:30, Info                  CBS    Appl: Evaluating package applicability for package Microsoft-Windows-LanguageFeatures-Speech-en-in-Package~0123456789112345~amd64~~10.0.11274.1, applicable state: Installed
+./logs/Windows10Pro/CBS/CBS.log┋20220914T184530.000000000┋
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220915T060005.000000000┋2022-09-15 14:00:05, Info                  CBS    Appl: detectParent: no parent found, go absent
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220915T060005.000000000┋2022-09-15 14:00:05, Info                  CBS    Appl: detect Parent, Package: Package_for_KB4537759~0123456789112345~amd64~~192.168.0.0, Parent: Microsoft-Windows-PPIProEdition~0123456789112345~amd64~~10.0.11274.1, Disposition = Detect, VersionComp: EQ, BuildComp: EQ, RevisionComp: GE, Exist: present
+./logs/Windows10Pro/CBS/CBS.log┋20220915T060005.000000000┋
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200538.000000000┋2022-09-17 04:05:38, Info                  CBS    Appl: DetectUpdate, Package: Microsoft-Hyper-V-ClientEdition-Package~0123456789112345~amd64~~10.0.11274.2006, Local Parent: Microsoft-Hyper-V-All, Intended State: Installed
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200538.000000000┋2022-09-17 04:05:38, Info                  CBS    Appl: Package: Microsoft-Hyper-V-ClientEdition-Package~0123456789112345~amd64~~10.0.11274.2006, Update: Microsoft-Hyper-V-Tools-All, Applicable: Applicable, Disposition: Installed
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200538.000000000┋
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋2022-09-17 04:07:39, Info                  CBS    Trusted Installer is shutting down because: SHUTDOWN_REASON_AUTOSTOP
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋2022-09-17 04:07:39, Info                  CBS    TiWorker signaled for shutdown, going to exit.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋2022-09-17 04:07:39, Info                  CBS    Deleting the contents of directory: \\?\C:\WINDOWS\CbsTemp
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋2022-09-17 04:07:39, Info                  CBS    Deletion of: \\?\C:\WINDOWS\CbsTemp successful
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋2022-09-17 04:07:39, Info                  CBS    CbsCoreFinalize: ExecutionEngineFinalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋2022-09-17 04:07:39, Info                  CBS    Execution Engine Finalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋2022-09-17 04:07:39, Info                  CBS    Execution Engine Finalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋2022-09-17 04:07:39, Info                  CBS    Lock: Lock removed: TiWorkerClassFactory, level: 30, total lock:3
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋2022-09-17 04:07:39, Info                  CBS    Lock: Lock removed: CCbsWorker, level: 5, total lock:2
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋2022-09-17 04:07:39, Info                  CBS    Ending the TiWorker main loop.
+./logs/Windows10Pro/CBS/CBS.log┋20220916T200739.000000000┋
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140531.000000000┋2022-09-18 22:05:31, Info                  CBS    Starting TrustedInstaller initialization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140531.000000000┋2022-09-18 22:05:31, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:4
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140531.000000000┋2022-09-18 22:05:31, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:5
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140531.000000000┋2022-09-18 22:05:31, Info                  CBS    Lock: New lock added: WinlogonNotifyLock, level: 8, total lock:6
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140531.000000000┋2022-09-18 22:05:31, Info                  CBS    Ending TrustedInstaller initialization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140531.000000000┋2022-09-18 22:05:31, Info                  CBS    Starting the TrustedInstaller main loop.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140531.000000000┋2022-09-18 22:05:31, Info                  CBS    TrustedInstaller service starts successfully.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    No startup processing required, TrustedInstaller service was not set as autostart
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Startup processing thread terminated normally
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    TI: Startup Processing completes, release startup processing lock.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Starting TiWorker initialization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Lock: New lock added: TiWorkerClassFactory, level: 30, total lock:2
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Ending TiWorker initialization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Starting the TiWorker main loop.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    TiWorker starts successfully.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Lock: New lock added: CCbsWorker, level: 5, total lock:3
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Universal Time is: 2022-09-19 05:05:32.095
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Loaded Servicing Stack v10.0.11274.1940 with Core: C:\WINDOWS\winsxs\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.11274.1940_none_7dd80d767cb5c7b0\cbscore.dll
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Build: 11274.1.amd64fre.vb_release.18421-1406
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CSI    00000001@2022/9/19:05:05:32.098 WcpInitialize: wcp.dll version 10.0.11274.1940 (WinBuild.18421.0800)
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Lock: New lock added: CCbsSessionManager, level: 11, total lock:9
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Lock: New lock added: CSIInventoryCriticalSection, level: 64, total lock:10
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    NonStart: Set pending store consistency check.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋2022-09-18 22:05:32, Info                  CBS    Session: 30985189_1905706297 initialized by client WinMgmt, external staging directory: (null), external registry directory: (null)
+./logs/Windows10Pro/CBS/CBS.log┋20220918T140532.000000000┋
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    TI: --- Initializing Trusted Installer ---
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    TI: Last boot time: 2022-09-14 21:59:19.300
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    Starting TrustedInstaller initialization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:4
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    Lock: New lock added: CCbsPublicSessionClassFactory, level: 30, total lock:5
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    Lock: New lock added: WinlogonNotifyLock, level: 8, total lock:6
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    Ending TrustedInstaller initialization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    Starting the TrustedInstaller main loop.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    TrustedInstaller service starts successfully.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    No startup processing required, TrustedInstaller service was not set as autostart
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    Startup processing thread terminated normally
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋2022-10-01 14:01:32, Info                  CBS    TI: Startup Processing completes, release startup processing lock.
+./logs/Windows10Pro/CBS/CBS.log┋20221001T060132.000000000┋
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052610.000000000┋2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack_1940~0123456789112345~amd64~~11274.1940.1.0] since it is permanent
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052610.000000000┋2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.1022.1.1] since it is permanent
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052610.000000000┋2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.1081.1.2] since it is permanent
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052610.000000000┋2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.1161.1.1] since it is permanent
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052610.000000000┋2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.1220.1.0] since it is permanent
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052610.000000000┋2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.860.1.0] since it is permanent
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052610.000000000┋2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.925.1.1] since it is permanent
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052610.000000000┋2022-10-12 13:26:10, Info                  CBS    Skipping package [Package_for_ServicingStack~0123456789112345~amd64~~11274.985.1.1] since it is permanent
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Trusted Installer is shutting down because: SHUTDOWN_REASON_AUTOSTOP
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    TiWorker signaled for shutdown, going to exit.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Deleting the contents of directory: \\?\C:\WINDOWS\CbsTemp
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Deletion of: \\?\C:\WINDOWS\CbsTemp successful
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: ExecutionEngineFinalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Execution Engine Finalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Execution Engine Finalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Lock: Lock removed: TiWorkerClassFactory, level: 30, total lock:3
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Lock: Lock removed: CCbsWorker, level: 5, total lock:2
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Ending the TiWorker main loop.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Starting TiWorker finalization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: ExecutionEngineFinalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CBS Engine already deactivated
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CBS Engine already deactivated
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: ComponentAnalyzerFinalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: PackageTrackerFinalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: CoreResourcesUnload
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: SessionManagerFinalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Lock: Lock removed: CSIInventoryCriticalSection, level: 64, total lock:10
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    Lock: Lock removed: CCbsSessionManager, level: 11, total lock:9
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: CapabilityManagerFinalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: PublicObjectMonitorFinalize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: Enter vCoreInitializeLock
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CBS    CbsCoreFinalize: WcpUnload
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052822.000000000┋2022-10-12 13:28:22, Info                  CSI    00001b37 Direct SIL provider: Number of files opened: 11274.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CSI    00001b38 Direct SIL provider: Number of files opened: 18421.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: DrupUnload
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: CfgMgr32Unload
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: DpxUnload
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: SrUnload
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: CbsEsdUnload
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: CbsTraceInfoUninitialize
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: CbsEventUnregister
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: AppContainerUnload
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    CbsCoreFinalize: WdsUnload, logging from cbscore will end.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    Ending TiWorker finalization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    Ending the TrustedInstaller main loop.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    Starting TrustedInstaller finalization.
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    Winlogon: Stopping notify server
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    Winlogon: Unloading SysNotify DLL
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    Lock: Lock removed: WinlogonNotifyLock, level: 8, total lock:6
+⇳
+./logs/Windows10Pro/CBS/CBS.log┋20221012T052823.000000000┋2022-10-12 13:28:23, Info                  CBS    Ending TrustedInstaller finalization.⇳
+

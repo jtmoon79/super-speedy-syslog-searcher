@@ -1,0 +1,24 @@
+./logs/synology-DS6/upstart/syslog-acc.log┋20190624T041022.000000000┋2019-06-23T21:10:22-0700 Error: near line 4: table histogram already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190624T041022.000000000┋Error: near line 10: index his_device_idx already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190624T041022.000000000┋Error: near line 12: table eps already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190624T041022.000000000┋Error: near line 19: index eps_stamp_idx already exists
+⇳
+./logs/synology-DS6/upstart/syslog-acc.log┋20190819T042736.000000000┋2019-08-18T21:27:36-0700 Error: near line 4: table histogram already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190819T042736.000000000┋Error: near line 10: index his_device_idx already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190819T042736.000000000┋Error: near line 12: table eps already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190819T042736.000000000┋Error: near line 19: index eps_stamp_idx already exists
+⇳
+./logs/synology-DS6/upstart/syslog-acc.log┋20190831T212441.000000000┋2019-08-31T14:24:41-0700 Error: near line 4: table histogram already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190831T212441.000000000┋Error: near line 10: index his_device_idx already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190831T212441.000000000┋Error: near line 12: table eps already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190831T212441.000000000┋Error: near line 19: index eps_stamp_idx already exists
+⇳
+./logs/synology-DS6/upstart/syslog-acc.log┋20190909T022427.000000000┋2019-09-08T19:24:27-0700 Error: near line 4: table histogram already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190909T022427.000000000┋Error: near line 10: index his_device_idx already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190909T022427.000000000┋Error: near line 12: table eps already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20190909T022427.000000000┋Error: near line 19: index eps_stamp_idx already exists
+⇳
+./logs/synology-DS6/upstart/syslog-acc.log┋20191020T020243.000000000┋2019-10-19T19:02:43-0700 Error: near line 4: table histogram already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20191020T020243.000000000┋Error: near line 10: index his_device_idx already exists
+./logs/synology-DS6/upstart/syslog-acc.log┋20191020T020243.000000000┋Error: near line 12: table eps already exists
+⇳

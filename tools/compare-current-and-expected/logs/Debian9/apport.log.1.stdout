@@ -1,0 +1,12 @@
+./logs/Debian9/apport.log.1┋20200219T165959.000000000┋ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: called for pid 8581, signal 24, core limit 0, dump mode 1
+⇳
+./logs/Debian9/apport.log.1┋20200219T165959.000000000┋ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: executable: /usr/lib/firefox/firefox (command line "/usr/lib/firefox/firefox")
+⇳
+./logs/Debian9/apport.log.1┋20200219T165959.000000000┋ERROR: apport (pid 9359) Thu Feb 20 00:59:59 2020: executable version is blacklisted, ignoring
+⇳
+./logs/Debian9/apport.log.1┋20220813T004803.000000000┋ERROR: apport (pid 529343) Sat Aug 13 08:48:03 2022: executable: /mnt/Projects/project/release/s4 (command line "./target/release/s4 /dev")
+⇳
+./logs/Debian9/apport.log.1┋20221014T061958.000000000┋ERROR: apport (pid 707848) Fri Oct 14 14:19:58 2022: executable does not belong to a package, ignoring
+⇳
+./logs/Debian9/apport.log.1┋20221014T062224.000000000┋ERROR: apport (pid 708347) Fri Oct 14 14:22:24 2022: executable: /mnt/Projects/project/target/debug/s4 (command line "./target/debug/s4 ./logs/other/tests/dtf5-6a.log")⇳
+

@@ -1,0 +1,29 @@
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋2016/12/05 20:47:00	(system) trigger	 :
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋			Begin:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 INFO --no-same-owner
+⇳
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋2016/12/05 20:47:00	(system) trigger	 :
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋			End:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 INFO --no-same-owner	ret=[0]
+⇳
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋2016/12/05 20:47:00	(system) trigger	 :
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋			Begin:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 conf --no-same-owner
+⇳
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋2016/12/05 20:47:00	(system) trigger	 :
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋			End:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 conf --no-same-owner	ret=[0]
+⇳
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋2016/12/05 20:47:00	(system) trigger	StorageAnalyzer 1.0.69-0069:
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋			Begin:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 scripts/start-stop-status --no-same-owner --no-same-permissions
+⇳
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋2016/12/05 20:47:00	(system) trigger	StorageAnalyzer 1.0.69-0069:
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋			End:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 scripts/start-stop-status --no-same-owner --no-same-permissions	ret=[0]
+⇳
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋2016/12/05 20:47:00	(system) trigger	StorageAnalyzer 1.0.69-0069:
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋			Begin:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 scripts/preinst --no-same-owner --no-same-permissions
+⇳
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋2016/12/05 20:47:00	(system) trigger	StorageAnalyzer 1.0.69-0069:
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋			End:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 scripts/preinst --no-same-owner --no-same-permissions	ret=[0]
+⇳
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋2016/12/05 20:47:00	(system) trigger	StorageAnalyzer 1.0.69-0069:
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋			Begin:	/bin/tar xf /path1/@tmp/@synopkg/@download/StorageAnalyzer/@SYNOPKG_DOWNLOAD_StorageAnalyzer -C /path1/@tmp/584642C40 scripts/postinst --no-same-owner --no-same-permissions
+⇳
+./logs/synology-DS6/synopkg.log┋20161205T124700.000000000┋2016/12/05 20:47:00	(system) trigger	StorageAnalyzer 1.0.69-0069:
+⇳

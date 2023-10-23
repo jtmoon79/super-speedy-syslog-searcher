@@ -1,0 +1,11 @@
+./logs/other/tests/dtf12b-x2_patts.log┋20220130T233002.000000000┋Tue, Jan 31 2022 00:00:02 +0030 LINE TWO!
+./logs/other/tests/dtf12b-x2_patts.log┋20220130T233002.000000000┋2022-01-31 00:00:03 LINE THREE!
+⇳
+./logs/other/tests/dtf12b-x2_patts.log┋20220130T233004.000000000┋Tue, Jan 31 2022 00:00:04 +0030 LINE FOUR!
+./logs/other/tests/dtf12b-x2_patts.log┋20220130T233004.000000000┋2022-01-31 00:00:05 LINE FIVE!
+⇳
+./logs/other/tests/dtf12b-x2_patts.log┋20220130T233006.000000000┋Tue, Jan 31 2022 00:00:06 +0030 LINE SIX!
+./logs/other/tests/dtf12b-x2_patts.log┋20220130T233006.000000000┋2022-01-31 00:00:07 LINE SEVEN!
+⇳
+./logs/other/tests/dtf12b-x2_patts.log┋20220130T233008.000000000┋Tue, Jan 31 2022 00:00:08 +0030 LINE EIGHT!⇳
+

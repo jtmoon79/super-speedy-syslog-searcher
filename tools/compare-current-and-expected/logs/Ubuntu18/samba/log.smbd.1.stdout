@@ -1,0 +1,26 @@
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T035704.343000000┋[2020/03/05 11:57:04.3430,  0] ../lib/util/become_daemon.c:124(daemon_ready)
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T035704.343000000┋  STATUS=daemon 'smbd' finished starting up and ready to serve connections
+⇳
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T035723.343000000┋[2020/03/05 11:57:23.3430,  0] ../lib/util/become_daemon.c:124(daemon_ready)
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T035723.343000000┋  STATUS=daemon 'smbd' finished starting up and ready to serve connections
+⇳
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T035859.343000000┋[2020/03/05 11:58:59.3430,  0] ../lib/util/become_daemon.c:124(daemon_ready)
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T035859.343000000┋  STATUS=daemon 'smbd' finished starting up and ready to serve connections
+⇳
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041136.343000000┋[2020/03/05 12:11:36.3430,  0] ../lib/util/become_daemon.c:124(daemon_ready)
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041136.343000000┋  STATUS=daemon 'smbd' finished starting up and ready to serve connections
+⇳
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋[2020/03/05 12:16:44.3430,  3] ../source3/param/loadparm.c:3860(lp_load_ex)
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋  lp_load_ex: refreshing parameters
+⇳
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋[2020/03/05 12:16:44.3430,  3] ../source3/param/loadparm.c:549(init_globals)
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋  Initialising global parameters
+⇳
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋[2020/03/05 12:16:44.3430,  3] ../source3/param/loadparm.c:2774(lp_do_section)
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋  Processing section "[global]"
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋  doing parameter workgroup = DESKTOP
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋  doing parameter server string = %h server (Samba, Ubuntu)
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋  doing parameter dns proxy = no
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋  doing parameter local master = no
+./logs/Ubuntu18/samba/log.smbd.1┋20200305T041644.343000000┋  doing parameter os level = 333
+⇳

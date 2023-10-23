@@ -1,0 +1,4 @@
+./logs/synology-DS6/upstart/DiskHealthCk.log┋20161206T043150.000000000┋2016-12-05T20:31:50-0800 cat: /usr/syno/etc/disk_health_record_time: No such file or directory
+⇳
+./logs/synology-DS6/upstart/DiskHealthCk.log┋20161206T043150.000000000┋2016-12-05T20:31:50-0800 cat: /usr/syno/etc/disk_health_record_time: No such file or directory
+⇳

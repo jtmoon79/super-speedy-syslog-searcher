@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/synologd.log┋20161209T025617.000000000┋2016-12-08T18:56:17-0800 Fri Dec  9 02:56:17 UTC 2016
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025617.000000000┋2016-12-08T18:56:17-0800 26107 26107 26107 7195 7194 7193 6678
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025617.000000000┋2016-12-08T18:56:17-0800 Checking synolog database existence...
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025617.000000000┋2016-12-08T18:56:17-0800 psql: FATAL:  database "synolog" does not exist
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025617.000000000┋2016-12-08T18:56:17-0800 Creating synolog database...
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 Creating synolog tables...
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 CREATE TABLE
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 CREATE TABLE
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 CREATE TABLE
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 CREATE TABLE
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 CREATE TABLE
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 CREATE TABLE
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 Checking if need to run synologd...
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 ftpd is disabled.
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 ftpd-ssl is enabled.
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 sftp is disabled.
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 tftp is disabled.
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 samba is enabled.
+⇳
+./logs/synology-DS6/upstart/synologd.log┋20161209T025618.000000000┋2016-12-08T18:56:18-0800 atalk is enabled.
+⇳

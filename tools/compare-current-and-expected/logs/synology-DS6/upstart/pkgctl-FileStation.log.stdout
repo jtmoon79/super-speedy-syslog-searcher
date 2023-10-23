@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170223T225236.000000000┋2017-02-23T14:52:36-0800 ======== start FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170307T171317.000000000┋2017-03-07T09:13:17-0800 ======== stop FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170307T171600.000000000┋2017-03-07T09:16:00-0800 ======== start FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170309T205504.000000000┋2017-03-09T12:55:04-0800 ======== stop FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170310T041544.000000000┋2017-03-09T20:15:44-0800 ======== start FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170508T153230.000000000┋2017-05-08T08:32:30-0700 ======== stop FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170508T153233.000000000┋2017-05-08T08:32:33-0700 
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170508T153600.000000000┋2017-05-08T08:36:00-0700 ======== start FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170513T054419.000000000┋2017-05-12T22:44:19-0700 ======== stop FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170513T054637.000000000┋2017-05-12T22:46:37-0700 ======== start FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170524T164104.000000000┋2017-05-24T09:41:04-0700 ======== stop FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170524T164341.000000000┋2017-05-24T09:43:41-0700 ======== start FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170619T081848.000000000┋2017-06-19T01:18:48-0700 ======== stop FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.Finder.Bookmark".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.DownloadStation2.BTSearch".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/local/packages/@appstore/USBCopy/bin/usb-copy-starter".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.FileStation.BackgroundTask".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170619T082217.000000000┋2017-06-19T01:22:17-0700 ======== start FileStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-FileStation.log┋20170917T165703.000000000┋2017-09-17T09:57:03-0700 ======== start FileStation ========
+⇳

@@ -1,0 +1,38 @@
+./logs/Debian9/nginx/error.log┋20200305T223043.000000000┋2020/03/06 06:30:43 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200305T224543.000000000┋2020/03/06 06:45:43 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200305T230043.000000000┋2020/03/06 07:00:43 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200305T231543.000000000┋2020/03/06 07:15:43 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200305T233043.000000000┋2020/03/06 07:30:43 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200305T234543.000000000┋2020/03/06 07:45:43 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T000043.000000000┋2020/03/06 08:00:43 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T001543.000000000┋2020/03/06 08:15:43 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T003043.000000000┋2020/03/06 08:30:43 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T004542.000000000┋2020/03/06 08:45:42 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T010042.000000000┋2020/03/06 09:00:42 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T011542.000000000┋2020/03/06 09:15:42 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T013042.000000000┋2020/03/06 09:30:42 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T014542.000000000┋2020/03/06 09:45:42 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T020042.000000000┋2020/03/06 10:00:42 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T021542.000000000┋2020/03/06 10:15:42 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T023042.000000000┋2020/03/06 10:30:42 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T024542.000000000┋2020/03/06 10:45:42 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳
+./logs/Debian9/nginx/error.log┋20200306T030042.000000000┋2020/03/06 11:00:42 [error] 411#411: *2035 open() "/opt/dir/path2/feed.rss" failed (2: No such file or directory), client: 192.168.0.8, server: host5, request: "GET /path2/feed.rss HTTP/1.1", host: "host5.net"
+⇳

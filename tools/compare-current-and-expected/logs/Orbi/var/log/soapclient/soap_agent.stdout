@@ -1,0 +1,38 @@
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T062257.000000000┋{2022-05-10 14:22:57}[agent.c:1173] config satellite1 is 01:02:03:04:05:C8 192.168.0.5 DEV501 4PNF7C5V05119 -97 V2.0 1 01:02:03:04:05:6E wired 1
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T062257.000000000┋{2022-05-10 14:22:57}[agent.c:1173] config satellite2 is 01:02:03:04:05:8A 192.168.0.6 DEV501 4PNF7C5U05118 -68 V2.0 1 01:02:03:04:05:6E wired 1
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T062257.000000000┋{2022-05-10 14:22:57}[agent.c:1173] config satellite3 is 
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T063440.000000000┋{2022-05-10 14:34:40}[agent.c:1169] config check start, config is satellite, delimiters is   
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T063440.000000000┋{2022-05-10 14:34:40}[agent.c:1173] config satellite1 is 01:02:03:04:05:C8 192.168.0.5 DEV501 4PNF7C5V05119 -97 V2.0 1 01:02:03:04:05:6E wired 1
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T063440.000000000┋{2022-05-10 14:34:40}[agent.c:1173] config satellite2 is 01:02:03:04:05:8A 192.168.0.6 DEV501 4PNF7C5U05118 -68 V2.0 1 01:02:03:04:05:6E wired 1
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T063440.000000000┋{2022-05-10 14:34:40}[agent.c:1173] config satellite3 is 
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T064612.000000000┋{2022-05-10 14:46:12}[agent.c:1169] config check start, config is satellite, delimiters is   
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T064612.000000000┋{2022-05-10 14:46:12}[agent.c:1173] config satellite1 is 01:02:03:04:05:C8 192.168.0.5 DEV501 4PNF7C5V05119 -97 V2.0 1 01:02:03:04:05:6E wired 1
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T064612.000000000┋{2022-05-10 14:46:12}[agent.c:1173] config satellite2 is 01:02:03:04:05:8A 192.168.0.6 DEV501 4PNF7C5U05118 -68 V2.0 1 01:02:03:04:05:6E wired 1
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T064612.000000000┋{2022-05-10 14:46:12}[agent.c:1173] config satellite3 is 
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T065750.000000000┋{2022-05-10 14:57:50}[agent.c:1169] config check start, config is satellite, delimiters is   
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T065750.000000000┋{2022-05-10 14:57:50}[agent.c:1173] config satellite1 is 01:02:03:04:05:C8 192.168.0.5 DEV501 4PNF7C5V05119 -97 V2.0 1 01:02:03:04:05:6E wired 1
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T065750.000000000┋{2022-05-10 14:57:50}[agent.c:1173] config satellite2 is 01:02:03:04:05:8A 192.168.0.6 DEV501 4PNF7C5U05118 -68 V2.0 1 01:02:03:04:05:6E wired 1
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T065750.000000000┋{2022-05-10 14:57:50}[agent.c:1173] config satellite3 is 
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T070927.000000000┋{2022-05-10 15:09:27}[agent.c:1169] config check start, config is satellite, delimiters is   
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T070927.000000000┋{2022-05-10 15:09:27}[agent.c:1173] config satellite1 is 01:02:03:04:05:C8 192.168.0.5 DEV501 4PNF7C5V05119 -97 V2.0 1 01:02:03:04:05:6E wired 1
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T070927.000000000┋{2022-05-10 15:09:27}[agent.c:1173] config satellite2 is 01:02:03:04:05:8A 192.168.0.6 DEV501 4PNF7C5U05118 -68 V2.0 1 01:02:03:04:05:6E wired 1
+⇳
+./logs/Orbi/var/log/soapclient/soap_agent┋20220510T070927.000000000┋{2022-05-10 15:09:27}[agent.c:1173] config satellite3 is 
+⇳

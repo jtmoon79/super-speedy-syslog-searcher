@@ -1,0 +1,29 @@
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋[2020/03/05 12:17:59.5513,  3] ../source3/smbd/oplock.c:1340(init_oplocks)
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋  init_oplocks: initializing messages.
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋[2020/03/05 12:17:59.5513,  3] ../source3/smbd/process.c:1959(process_smb)
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋  Transaction 0 of length 73 (0 toread)
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋[2020/03/05 12:17:59.5513,  3] ../source3/smbd/process.c:1539(switch_message)
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋  switch message SMBnegprot (pid 5513) conn 0x0
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋[2020/03/05 12:17:59.5513,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋[2020/03/05 12:17:59.5513,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋  Requested protocol [NT LM 0.12]
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋[2020/03/05 12:17:59.5513,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋  Requested protocol [SMB 2.002]
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋[2020/03/05 12:17:59.5513,  3] ../source3/smbd/negprot.c:629(reply_negprot)
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋  Requested protocol [SMB 2.???]
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋[2020/03/05 12:17:59.5513,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋[2020/03/05 12:17:59.5513,  3] ../source3/smbd/smb2_negprot.c:290(smbd_smb2_request_process_negprot)
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋  Selected protocol SMB2_FF
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.7┋20200305T041759.551300000┋[2020/03/05 12:17:59.5513,  3] ../auth/gensec/gensec_start.c:977(gensec_register)
+⇳

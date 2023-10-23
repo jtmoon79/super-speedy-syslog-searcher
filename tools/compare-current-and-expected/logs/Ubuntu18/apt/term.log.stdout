@@ -1,0 +1,19 @@
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Log started: 2020-03-05  11:56:54
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Selecting previously unselected package python-dnspython.
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4917 files and directories currently installed.)
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Preparing to unpack .../0-python-dnspython_1.15.0-1_all.deb ...
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Unpacking python-dnspython (1.15.0-1) ...
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Selecting previously unselected package tdb-tools.
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Preparing to unpack .../1-tdb-tools_1.3.15-2_amd64.deb ...
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Unpacking tdb-tools (1.3.15-2) ...
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Selecting previously unselected package samba.
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Preparing to unpack .../2-samba_2%3a4.7.6+dfsg~ubuntu-0ubuntu2.15_amd64.deb ...
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Unpacking samba (2:4.7.6+dfsg~ubuntu-0ubuntu2.15) ...
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Selecting previously unselected package attr.
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Preparing to unpack .../3-attr_1%3a2.4.47-2build1_amd64.deb ...
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Unpacking attr (1:2.4.47-2build1) ...
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Selecting previously unselected package libibverbs1:amd64.
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Preparing to unpack .../4-libibverbs1_17.1-1ubuntu0.2_amd64.deb ...
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Unpacking libibverbs1:amd64 (17.1-1ubuntu0.2) ...
+./logs/Ubuntu18/apt/term.log┋20200305T035654.000000000┋Selecting previously unselected package ibverbs-providers:amd64.
+⇳

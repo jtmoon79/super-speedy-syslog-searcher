@@ -1,0 +1,4 @@
+./logs/Debian9/samba/log.nmbd┋20200301T222611.256350000┋[2020/03/02 06:26:11.25635,  0]
+./logs/Debian9/samba/log.nmbd┋20200301T222611.256350000┋  query_name_response: Multiple (2) responses received for a query on subnet 192.168.0.178 for name NET<1d>.
+./logs/Debian9/samba/log.nmbd┋20200301T222611.256350000┋  This response was from IP 192.168.0.161, reporting an IP address of 192.168.0.161.
+⇳

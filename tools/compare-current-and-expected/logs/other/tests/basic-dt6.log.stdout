@@ -1,0 +1,12 @@
+./logs/other/tests/basic-dt6.log┋19991231T160000.000000000┋2000-01-01 00:00:00
+⇳
+./logs/other/tests/basic-dt6.log┋19991231T160001.000000000┋2000-01-01 00:00:01a
+⇳
+./logs/other/tests/basic-dt6.log┋19991231T160002.000000000┋2000-01-01 00:00:02ab
+⇳
+./logs/other/tests/basic-dt6.log┋19991231T160003.000000000┋2000-01-01 00:00:03abc
+⇳
+./logs/other/tests/basic-dt6.log┋19991231T160004.000000000┋2000-01-01 00:00:04abcd
+⇳
+./logs/other/tests/basic-dt6.log┋19991231T160005.000000000┋2000-01-01 00:00:05abcde⇳
+

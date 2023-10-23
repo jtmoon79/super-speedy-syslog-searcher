@@ -91,38 +91,23 @@ echo >&2
 echo "Updated file '${EXPECT_OUT}'" >&2
 echo "Updated file '${EXPECT_ERR}'" >&2
 
-# update per-file hash listing
-echo "Updating files, expecting ${logs_wc} hashes:" >&2
-echo "    ${HASHES_STDOUT}" >&2
-echo "    ${HASHES_STDERR}" >&2
-echo -n > "${HASHES_STDOUT}"
-echo -n > "${HASHES_STDERR}"
-declare -i hash_count=0
-tmp1=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
-tmp2=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
+# update per-file runs
 while read -r log_file; do
-    if [[ "${log_file}" = '' ]]; then
+    if [[ "${log_file}" = '' ]] || [[ "${log_file:0:1}" = '#' ]]; then
         continue
     fi
+    log_file_stdout="${HERE}/${log_file}.stdout"
+    log_file_stderr="${HERE}/${log_file}.stderr"
+    mkdir -p "$(dirname -- "${log_file_stdout}")"
     # run s4 and save stdout, stderr
     (
-        "${PROGRAM}" "${S4_ARGS[@]}" "${log_file}" 1>"${tmp1}" 2>"${tmp2}"
+        "${PROGRAM}" "${S4_ARGS[@]}" "${log_file}" 1>"${log_file_stdout}" 2>"${log_file_stderr}"
     ) || true
-    # store hash stdout
-    hash=$(cat "${tmp1}" | md5sum_clean)
-    echo "${log_file}|${hash}" >> "${HASHES_STDOUT}"
-    # store hash stderr
-    hash=$(cat "${tmp2}" | stderr_clean_1 | md5sum_clean)
-    echo "${log_file}|${hash}" >> "${HASHES_STDERR}"
-    hash_count+=1
-    echo -n '.' >&2
+    echo "Updated file '${log_file_stdout}'" >&2
+    stderr_clean "${log_file_stderr}"
+    echo "Updated file '${log_file_stderr}'" >&2
 done < "${LOGS}"
-rm -f "${tmp1}" "${tmp2}"
-echo >&2
-echo "Updated ${hash_count} hashes in files:" >&2
-echo "    '${HASHES_STDOUT}'" >&2
-echo "    '${HASHES_STDERR}'" >&2
 
 echo >&2
 
-echo -e "Now run \e[1mcompare-current-and-expected/compare.sh\e[0m." >&2
+echo -e "Now run \e[1m$(dirname "${0}")/compare.sh\e[0m." >&2

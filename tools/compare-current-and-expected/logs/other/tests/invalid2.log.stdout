@@ -1,0 +1,4 @@
+./logs/other/tests/invalid2.log┋19991231T160000.000000000┋20000101T000000 end of this line has an invalid utf8 char �
+⇳
+./logs/other/tests/invalid2.log┋19991231T160001.000000000┋20000101T000001 this line has valid utf8 char⇳
+

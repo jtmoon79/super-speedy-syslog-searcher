@@ -1,0 +1,21 @@
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190629T041449.000000000┋2019-06-28T21:14:49-0700 Exception in thread Thread-1:
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190629T041449.000000000┋Traceback (most recent call last):
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190629T041449.000000000┋  File "/usr/lib/python2.7/threading.py", line 801, in __nettstrap_inner
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190629T041449.000000000┋    self.run()
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190629T041449.000000000┋  File "/usr/lib/python2.7/site-packages/WSDiscovery.py", line 947, in run
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190629T041449.000000000┋    self._recvMessages()
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190629T041449.000000000┋  File "/usr/lib/python2.7/site-packages/WSDiscovery.py", line 955, in _recvMessages
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190629T041449.000000000┋    sock = socket.fromfd(fd, socket.AF_INET, socket.SOCK_DGRAM)
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190629T041449.000000000┋error: [Errno 9] Bad file descriptor
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190629T041449.000000000┋
+⇳
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190905T013813.000000000┋2019-09-04T18:38:13-0700 Exception in thread Thread-1:
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190905T013813.000000000┋Traceback (most recent call last):
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190905T013813.000000000┋  File "/usr/lib/python2.7/threading.py", line 801, in __nettstrap_inner
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190905T013813.000000000┋    self.run()
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190905T013813.000000000┋  File "/usr/lib/python2.7/site-packages/WSDiscovery.py", line 947, in run
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190905T013813.000000000┋    self._recvMessages()
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190905T013813.000000000┋  File "/usr/lib/python2.7/site-packages/WSDiscovery.py", line 955, in _recvMessages
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190905T013813.000000000┋    sock = socket.fromfd(fd, socket.AF_INET, socket.SOCK_DGRAM)
+./logs/synology-DS6/upstart/synowsdiscoveryd.log┋20190905T013813.000000000┋error: [Errno 9] Bad file descriptor
+⇳

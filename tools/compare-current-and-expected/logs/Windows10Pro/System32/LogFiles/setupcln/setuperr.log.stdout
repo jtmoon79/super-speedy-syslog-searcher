@@ -1,0 +1,210 @@
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200528T043223.000000000┋﻿2020-05-28 12:32:23, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\Windows\System32\LogFiles\WMI\RtBackup\*]; GLE = 0x5[gle=0x00000005]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200531T132920.000000000┋2020-05-31 21:29:20, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\Windows\System32\LogFiles\WMI\RtBackup\*]; GLE = 0x5[gle=0x00000005]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200602T065829.000000000┋2020-06-02 14:58:29, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200606T061854.000000000┋2020-06-06 14:18:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows.old\ProgramData\Microsoft\Windows Defender Advanced Threat Protection\Temp\PSScriptOutputs\*]; GLE = 0x5[gle=0x00000005]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200611T054626.000000000┋2020-06-11 13:46:26, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200619T191147.000000000┋2020-06-20 03:11:47, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200627T053024.000000000┋2020-06-27 13:30:24, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~LS\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200703T114234.000000000┋2020-07-03 19:42:34, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200705T070740.000000000┋2020-07-05 15:07:40, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200712T053028.000000000┋2020-07-12 13:30:28, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200719T054916.000000000┋2020-07-19 13:49:16, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200730T043819.000000000┋2020-07-30 12:38:19, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200807T043122.000000000┋2020-08-07 12:31:22, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200815T090444.000000000┋2020-08-15 17:04:44, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200823T061625.000000000┋2020-08-23 14:16:25, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~LS\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200831T044621.000000000┋2020-08-31 12:46:21, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200908T054031.000000000┋2020-09-08 13:40:31, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~WS\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20200915T060755.000000000┋2020-09-15 14:07:55, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201003T063442.000000000┋2020-10-03 14:34:42, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201011T044737.000000000┋2020-10-11 12:47:37, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201021T064815.000000000┋2020-10-21 14:48:15, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201029T071406.000000000┋2020-10-29 15:14:06, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~LS\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201106T034531.000000000┋2020-11-06 11:45:31, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201114T043543.000000000┋2020-11-14 12:35:43, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~WS\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201122T034553.000000000┋2020-11-22 11:45:53, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201203T063631.000000000┋2020-12-03 14:36:31, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201211T034428.000000000┋2020-12-11 11:44:28, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201217T073122.000000000┋2020-12-17 15:31:22, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20201224T052509.000000000┋2020-12-24 13:25:09, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~LS\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210101T052500.000000000┋2021-01-01 13:25:00, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210112T052351.000000000┋2021-01-12 13:23:51, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210124T070628.000000000┋2021-01-24 15:06:28, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210206T110243.000000000┋2021-02-06 19:02:43, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210214T073919.000000000┋2021-02-14 15:39:19, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210223T041345.000000000┋2021-02-23 12:13:45, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210305T041245.000000000┋2021-03-05 12:12:45, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210314T051608.000000000┋2021-03-14 13:16:08, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210323T070331.000000000┋2021-03-23 15:03:31, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210329T102137.000000000┋2021-03-29 18:21:37, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210406T044345.000000000┋2021-04-06 12:43:45, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210414T075519.000000000┋2021-04-14 15:55:19, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210422T052139.000000000┋2021-04-22 13:21:39, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210501T045145.000000000┋2021-05-01 12:51:45, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210511T045223.000000000┋2021-05-11 12:52:23, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210522T052541.000000000┋2021-05-22 13:25:41, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210530T193438.000000000┋2021-05-31 03:34:38, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210609T050627.000000000┋2021-06-09 13:06:27, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210617T045511.000000000┋2021-06-17 12:55:11, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210628T065423.000000000┋2021-06-28 14:54:23, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210706T054902.000000000┋2021-07-06 13:49:02, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210716T075946.000000000┋2021-07-16 15:59:46, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210724T082601.000000000┋2021-07-24 16:26:01, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210803T045035.000000000┋2021-08-03 12:50:35, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210813T043056.000000000┋2021-08-13 12:30:56, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210823T045654.000000000┋2021-08-23 12:56:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210901T045910.000000000┋2021-09-01 12:59:10, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210905T232105.000000000┋2021-09-06 07:21:05, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210913T060818.000000000┋2021-09-13 14:08:18, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210922T114742.000000000┋2021-09-22 19:47:42, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210924T065736.000000000┋2021-09-24 14:57:36, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210926T152737.000000000┋2021-09-26 23:27:37, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20210928T225723.000000000┋2021-09-29 06:57:23, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211001T062718.000000000┋2021-10-01 14:27:18, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211003T074708.000000000┋2021-10-03 15:47:08, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211005T145818.000000000┋2021-10-05 22:58:18, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211014T063709.000000000┋2021-10-14 14:37:09, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211024T051252.000000000┋2021-10-24 13:12:52, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211102T084421.000000000┋2021-11-02 16:44:21, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211112T034718.000000000┋2021-11-12 11:47:18, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211121T042509.000000000┋2021-11-21 12:25:09, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211203T042527.000000000┋2021-12-03 12:25:27, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211213T044804.000000000┋2021-12-13 12:48:04, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20211223T041239.000000000┋2021-12-23 12:12:39, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220101T040940.000000000┋2022-01-01 12:09:40, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220111T040939.000000000┋2022-01-11 12:09:39, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220120T051735.000000000┋2022-01-20 13:17:35, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220203T051704.000000000┋2022-02-03 13:17:04, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220212T041338.000000000┋2022-02-12 12:13:38, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220222T041814.000000000┋2022-02-22 12:18:14, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220303T041726.000000000┋2022-03-03 12:17:26, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Windows\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220312T042705.000000000┋2022-03-12 12:27:05, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220312T042705.000000000┋2022-03-12 12:27:05, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220321T085426.000000000┋2022-03-21 16:54:26, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220330T081310.000000000┋2022-03-30 16:13:10, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220330T081310.000000000┋2022-03-30 16:13:10, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~LS\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220408T122602.000000000┋2022-04-08 20:26:02, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220416T043256.000000000┋2022-04-16 12:32:56, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~LS\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220426T092803.000000000┋2022-04-26 17:28:03, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220505T064418.000000000┋2022-05-05 14:44:18, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~LS\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220512T055210.000000000┋2022-05-12 13:52:10, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~BT\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220602T045847.000000000┋2022-06-02 12:58:47, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220609T043014.000000000┋2022-06-09 12:30:14, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220621T043244.000000000┋2022-06-21 12:32:44, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220629T045204.000000000┋2022-06-29 12:52:04, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220711T063155.000000000┋2022-07-11 14:31:55, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220720T043932.000000000┋2022-07-20 12:39:32, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220729T053639.000000000┋2022-07-29 13:36:39, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220806T044926.000000000┋2022-08-06 12:49:26, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220815T043246.000000000┋2022-08-15 12:32:46, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220824T060454.000000000┋2022-08-24 14:04:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220903T043243.000000000┋2022-09-03 12:32:43, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220912T043304.000000000┋2022-09-12 12:33:04, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20220922T054837.000000000┋2022-09-22 13:48:37, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20221008T060131.000000000┋2022-10-08 14:01:31, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\ESD\Download\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log┋20221012T052620.000000000┋2022-10-12 13:26:20, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\Windows\Panther\*]; GLE = 0x3[gle=0x00000003]
+⇳

@@ -1,0 +1,38 @@
+./logs/synology-DS6/synoupdate.log┋20161205T133442.000000000┋2016/12/05 21:34:42	start critical update to buildnumber: 8451 original smallfixnumber: 0 new_smallfixnumber: 5 build date: 2016/11/28
+⇳
+./logs/synology-DS6/synoupdate.log┋20161205T133443.000000000┋2016/12/05 21:34:43	Start of the update...
+⇳
+./logs/synology-DS6/synoupdate.log┋20161205T133649.000000000┋2016/12/05 21:36:49	Congratulations!! The update has been completed!!
+⇳
+./logs/synology-DS6/synoupdate.log┋20161205T133650.000000000┋2016/12/05 21:36:50	Finished apply small update!
+⇳
+./logs/synology-DS6/synoupdate.log┋20161205T133650.000000000┋2016/12/05 21:36:50	Finished update before renett!
+⇳
+./logs/synology-DS6/synoupdate.log┋20161205T133927.000000000┋2016/12/05 21:39:27	Finished critical update!!!
+⇳
+./logs/synology-DS6/synoupdate.log┋20170102T173552.000000000┋2017/01/03 01:35:52	start critical update to buildnumber: 8451 original smallfixnumber: 5 new_smallfixnumber: 7 build date: 2016/12/20
+⇳
+./logs/synology-DS6/synoupdate.log┋20170102T173553.000000000┋2017/01/03 01:35:53	Start of the update...
+⇳
+./logs/synology-DS6/synoupdate.log┋20170102T173756.000000000┋2017/01/03 01:37:56	Congratulations!! The update has been completed!!
+⇳
+./logs/synology-DS6/synoupdate.log┋20170102T173757.000000000┋2017/01/03 01:37:57	Finished apply small update!
+⇳
+./logs/synology-DS6/synoupdate.log┋20170102T173757.000000000┋2017/01/03 01:37:57	Finished update before renett!
+⇳
+./logs/synology-DS6/synoupdate.log┋20170102T174038.000000000┋2017/01/03 01:40:38	Finished critical update!!!
+⇳
+./logs/synology-DS6/synoupdate.log┋20170124T152148.000000000┋2017/01/24 23:21:48	start critical update to buildnumber: 8451 original smallfixnumber: 7 new_smallfixnumber: 9 build date: 2017/01/16
+⇳
+./logs/synology-DS6/synoupdate.log┋20170124T152149.000000000┋2017/01/24 23:21:49	Start of the update...
+⇳
+./logs/synology-DS6/synoupdate.log┋20170124T152353.000000000┋2017/01/24 23:23:53	Congratulations!! The update has been completed!!
+⇳
+./logs/synology-DS6/synoupdate.log┋20170124T152353.000000000┋2017/01/24 23:23:53	Finished apply small update!
+⇳
+./logs/synology-DS6/synoupdate.log┋20170124T152353.000000000┋2017/01/24 23:23:53	Finished update before renett!
+⇳
+./logs/synology-DS6/synoupdate.log┋20170124T152555.000000000┋2017/01/24 23:25:55	Finished critical update!!!
+⇳
+./logs/synology-DS6/synoupdate.log┋20170223T064526.000000000┋2017/02/23 14:45:26	Start of the update...
+⇳

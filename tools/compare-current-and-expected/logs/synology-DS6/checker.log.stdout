@@ -1,0 +1,38 @@
+./logs/synology-DS6/checker.log┋20190710T093420.000000000┋2019-07-10T02:34:20-07:00 dsnet checker: checker.cpp:363 DSM build 528 checker version 18
+⇳
+./logs/synology-DS6/checker.log┋20190710T093420.000000000┋2019-07-10T02:34:20-07:00 dsnet checker: checker.cpp:374 Current smallfixnumber: [0], available: [2]
+⇳
+./logs/synology-DS6/checker.log┋20190710T093420.000000000┋2019-07-10T02:34:20-07:00 dsnet checker: checker.cpp:244 Check for nano 2 id [37]
+⇳
+./logs/synology-DS6/checker.log┋20190710T093420.000000000┋2019-07-10T02:34:20-07:00 dsnet checker: checker.cpp:251 Check [37] requested update. End checking.
+⇳
+./logs/synology-DS6/checker.log┋20190710T093420.000000000┋2019-07-10T02:34:20-07:00 dsnet checker: checker.cpp:381 Need to update.
+⇳
+./logs/synology-DS6/checker.log┋20190712T110247.000000000┋2019-07-12T04:02:47-07:00 dsnet checker: checker.cpp:363 DSM build 528 checker version 18
+⇳
+./logs/synology-DS6/checker.log┋20190712T110247.000000000┋2019-07-12T04:02:47-07:00 dsnet checker: checker.cpp:374 Current smallfixnumber: [0], available: [2]
+⇳
+./logs/synology-DS6/checker.log┋20190712T110247.000000000┋2019-07-12T04:02:47-07:00 dsnet checker: checker.cpp:244 Check for nano 2 id [37]
+⇳
+./logs/synology-DS6/checker.log┋20190712T110247.000000000┋2019-07-12T04:02:47-07:00 dsnet checker: checker.cpp:251 Check [37] requested update. End checking.
+⇳
+./logs/synology-DS6/checker.log┋20190712T110247.000000000┋2019-07-12T04:02:47-07:00 dsnet checker: checker.cpp:381 Need to update.
+⇳
+./logs/synology-DS6/checker.log┋20190714T092813.000000000┋2019-07-14T02:28:13-07:00 dsnet checker: checker.cpp:363 DSM build 528 checker version 18
+⇳
+./logs/synology-DS6/checker.log┋20190714T092813.000000000┋2019-07-14T02:28:13-07:00 dsnet checker: checker.cpp:374 Current smallfixnumber: [0], available: [2]
+⇳
+./logs/synology-DS6/checker.log┋20190714T092813.000000000┋2019-07-14T02:28:13-07:00 dsnet checker: checker.cpp:244 Check for nano 2 id [37]
+⇳
+./logs/synology-DS6/checker.log┋20190714T092813.000000000┋2019-07-14T02:28:13-07:00 dsnet checker: checker.cpp:251 Check [37] requested update. End checking.
+⇳
+./logs/synology-DS6/checker.log┋20190714T092813.000000000┋2019-07-14T02:28:13-07:00 dsnet checker: checker.cpp:381 Need to update.
+⇳
+./logs/synology-DS6/checker.log┋20190717T093158.000000000┋2019-07-17T02:31:58-07:00 dsnet checker: checker.cpp:363 DSM build 528 checker version 18
+⇳
+./logs/synology-DS6/checker.log┋20190717T093158.000000000┋2019-07-17T02:31:58-07:00 dsnet checker: checker.cpp:374 Current smallfixnumber: [0], available: [2]
+⇳
+./logs/synology-DS6/checker.log┋20190717T093158.000000000┋2019-07-17T02:31:58-07:00 dsnet checker: checker.cpp:244 Check for nano 2 id [37]
+⇳
+./logs/synology-DS6/checker.log┋20190717T093158.000000000┋2019-07-17T02:31:58-07:00 dsnet checker: checker.cpp:251 Check [37] requested update. End checking.
+⇳

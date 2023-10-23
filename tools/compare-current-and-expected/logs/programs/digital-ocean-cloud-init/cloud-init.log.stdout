@@ -1,0 +1,63 @@
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T221826.935000000┋2022-10-08 06:18:26,935 - util.py[DEBUG]: Cloud-init v. 21.1-19.el9_0.3 running 'init-local' at Sat, 08 Oct 2022 06:18:26 +0000. Up 8.06 seconds.
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T221826.935000000┋2022-10-08 06:18:26,935 - main.py[DEBUG]: No kernel command line url found.
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T221826.935000000┋2022-10-08 06:18:26,935 - main.py[DEBUG]: Closing stdin.
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T221826.935000000┋
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222252.743000000┋2022-10-08 06:22:52,743 - util.py[DEBUG]: Reading from /run/cloud-init/tmp/tmpsifytoke/openstack/2012-08-10/network_data.json (quiet=False)
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222252.743000000┋2022-10-08 06:22:52,743 - util.py[DEBUG]: Read 1456 bytes from /run/cloud-init/tmp/tmpsifytoke/openstack/2012-08-10/network_data.json
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222252.743000000┋
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222256.632000000┋2022-10-08 06:22:56,632 - handlers.py[DEBUG]: start: modules-config/config-puppet: running config-puppet with frequency once-per-instance
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222256.632000000┋2022-10-08 06:22:56,632 - helpers.py[DEBUG]: config-puppet already ran (freq=once-per-instance)
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222256.633000000┋2022-10-08 06:22:56,633 - handlers.py[DEBUG]: finish: modules-config/config-puppet: SUCCESS: config-puppet previously ran
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222256.633000000┋2022-10-08 06:22:56,633 - stages.py[DEBUG]: Running module chef (<module 'cloudinit.config.cc_chef' from '/usr/lib/python3.9/site-packages/cloudinit/config/cc_chef.py'>) with frequency always
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222256.633000000┋
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.562000000┋2022-10-08 06:22:57,562 - handlers.py[DEBUG]: start: modules-final/config-final-message: running config-final-message with frequency always
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.562000000┋2022-10-08 06:22:57,562 - helpers.py[DEBUG]: Running config-final-message using lock (<cloudinit.helpers.DummyLock object at 0x7fe66ab2dbe0>)
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.562000000┋2022-10-08 06:22:57,562 - util.py[DEBUG]: Reading from /proc/uptime (quiet=False)
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.562000000┋2022-10-08 06:22:57,562 - util.py[DEBUG]: Read 11 bytes from /proc/uptime
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.574000000┋2022-10-08 06:22:57,574 - util.py[DEBUG]: Cloud-init v. 21.1-19.el9_0.3 finished at Sat, 08 Oct 2022 06:22:57 +0000. Datasource DataSourceConfigDrive [net,ver=2][source=/dev/vdb].  Up 13.91 seconds
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.574000000┋2022-10-08 06:22:57,574 - util.py[DEBUG]: Writing to /var/lib/cloud/instance/boot-finished - wb: [644] 61 bytes
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.578000000┋2022-10-08 06:22:57,578 - util.py[DEBUG]: Restoring selinux mode for /var/lib/cloud/instances/556/boot-finished (recursive=False)
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.583000000┋2022-10-08 06:22:57,583 - util.py[DEBUG]: Restoring selinux mode for /var/lib/cloud/instances/556/boot-finished (recursive=False)
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.583000000┋2022-10-08 06:22:57,583 - handlers.py[DEBUG]: finish: modules-final/config-final-message: SUCCESS: config-final-message ran successfully
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.583000000┋2022-10-08 06:22:57,583 - stages.py[DEBUG]: Running module power-state-change (<module 'cloudinit.config.cc_power_state_change' from '/usr/lib/python3.9/site-packages/cloudinit/config/cc_power_state_change.py'>) with frequency once-per-instance
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.585000000┋2022-10-08 06:22:57,585 - handlers.py[DEBUG]: start: modules-final/config-power-state-change: running config-power-state-change with frequency once-per-instance
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.585000000┋2022-10-08 06:22:57,585 - helpers.py[DEBUG]: config-power-state-change already ran (freq=once-per-instance)
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.585000000┋2022-10-08 06:22:57,585 - handlers.py[DEBUG]: finish: modules-final/config-power-state-change: SUCCESS: config-power-state-change previously ran
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.585000000┋2022-10-08 06:22:57,585 - main.py[DEBUG]: Ran 11 modules with 0 failures
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.585000000┋2022-10-08 06:22:57,585 - atomic_helper.py[DEBUG]: Atomically writing to file /var/lib/cloud/data/status.json (via temporary file /var/lib/cloud/data/tmpncaeqda1) - w: [644] 605 bytes/chars
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.587000000┋2022-10-08 06:22:57,587 - atomic_helper.py[DEBUG]: Atomically writing to file /var/lib/cloud/data/result.json (via temporary file /var/lib/cloud/data/tmpgtqqah3k) - w: [644] 101 bytes/chars
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.587000000┋2022-10-08 06:22:57,587 - util.py[DEBUG]: Creating symbolic link from '/run/cloud-init/result.json' => '../../var/lib/cloud/data/result.json'
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.587000000┋2022-10-08 06:22:57,587 - util.py[DEBUG]: Reading from /proc/uptime (quiet=False)
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.587000000┋2022-10-08 06:22:57,587 - util.py[DEBUG]: Read 11 bytes from /proc/uptime
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.587000000┋2022-10-08 06:22:57,587 - util.py[DEBUG]: cloud-init mode 'modules' took 0.219 seconds (0.22)
+⇳
+./logs/programs/digital-ocean-cloud-init/cloud-init.log┋20221007T222257.587000000┋2022-10-08 06:22:57,587 - handlers.py[DEBUG]: finish: modules-final: SUCCESS: running modules for final⇳
+

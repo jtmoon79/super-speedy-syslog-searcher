@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800 Mon Dec  5 20:36:44 PST 2016
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800 eth0      Link encap:Ethernet  HWaddr 01:02:03:04:05:DE  
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           inet addr:192.168.0.147  Bcast:192.168.0.255  Mask:192.168.0.0
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           inet6 addr: fe80::211:32ff:fe66:26de/64 Scope:Link
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           RX packets:1576 errors:0 dropped:0 overruns:0 frame:0
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           TX packets:1602 errors:0 dropped:0 overruns:0 carrier:0
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           collisions:0 txqueuelen:1024 
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           RX bytes:2653 (429.9 KiB)  TX bytes:2653 (2.1 MiB)
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           Interrupt:193 
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800 
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800 lo        Link encap:Local Loopback
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           inet addr:192.168.0.1  Mask:192.168.0.0
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           inet6 addr: ::1/128 Scope:Host
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           UP LOOPBACK RUNNING  MTU:2653  Metric:1
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           RX packets:60 errors:0 dropped:0 overruns:0 frame:0
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           TX packets:60 errors:0 dropped:0 overruns:0 carrier:0
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           collisions:0 txqueuelen:0 
+⇳
+./logs/synology-DS6/upstart/pppoerelay.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800           RX bytes:5123 (5.0 KiB)  TX bytes:5123 (5.0 KiB)
+⇳

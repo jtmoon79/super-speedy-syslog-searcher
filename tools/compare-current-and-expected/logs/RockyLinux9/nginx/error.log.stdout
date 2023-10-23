@@ -1,0 +1,4 @@
+./logs/RockyLinux9/nginx/error.log┋20221008T142740.000000000┋2022/10/08 22:27:40 [error] 6068#6068: *3 open() "/usr/share/nginx/html/DOES-NOT-EXIST" failed (2: No such file or directory), client: 192.168.0.115, server: _, request: "GET /DOES-NOT-EXIST HTTP/1.0", host: "192.168.0.115"
+⇳
+./logs/RockyLinux9/nginx/error.log┋20221008T142755.000000000┋2022/10/08 22:27:55 [error] 6068#6068: *4 open() "/usr/share/nginx/html/REALLY-DOES-NOT-EXIST" failed (2: No such file or directory), client: 192.168.0.115, server: _, request: "GET /REALLY-DOES-NOT-EXIST HTTP/1.0", host: "192.168.0.115"⇳
+

@@ -1,0 +1,27 @@
+./logs/synology-DS6/samba/log.smbd┋20161205T123145.000000000┋../source3/smbd/server.c:1266: [2016/12/05 20:31:45, all 0] main
+./logs/synology-DS6/samba/log.smbd┋20161205T123145.000000000┋  smbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.smbd┋20161205T123145.000000000┋  Copyright Andrew Tridgell and the Samba Team 1992-2013
+⇳
+./logs/synology-DS6/samba/log.smbd┋20161205T123146.000000000┋../source3/smbd/server.c:1352: [2016/12/05 20:31:46.1075, all 0, pid=6430] main
+./logs/synology-DS6/samba/log.smbd┋20161205T123146.000000000┋  standard input is not a socket, assuming -D option
+⇳
+./logs/synology-DS6/samba/log.smbd┋20161205T123646.000000000┋../source3/smbd/server.c:1266: [2016/12/05 20:36:46, all 0] main
+./logs/synology-DS6/samba/log.smbd┋20161205T123646.000000000┋  smbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.smbd┋20161205T123646.000000000┋  Copyright Andrew Tridgell and the Samba Team 1992-2013
+⇳
+./logs/synology-DS6/samba/log.smbd┋20161205T123646.000000000┋../source3/smbd/server.c:1352: [2016/12/05 20:36:46.1075, all 0, pid=8478] main
+./logs/synology-DS6/samba/log.smbd┋20161205T123646.000000000┋  standard input is not a socket, assuming -D option
+⇳
+./logs/synology-DS6/samba/log.smbd┋20161205T131154.000000000┋../source3/smbd/server.c:1266: [2016/12/05 21:11:54, all 0] main
+./logs/synology-DS6/samba/log.smbd┋20161205T131154.000000000┋  smbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.smbd┋20161205T131154.000000000┋  Copyright Andrew Tridgell and the Samba Team 1992-2013
+⇳
+./logs/synology-DS6/samba/log.smbd┋20161205T131154.000000000┋../source3/smbd/server.c:1352: [2016/12/05 21:11:54.1075, all 0, pid=6668] main
+./logs/synology-DS6/samba/log.smbd┋20161205T131154.000000000┋  standard input is not a socket, assuming -D option
+⇳
+./logs/synology-DS6/samba/log.smbd┋20161205T131610.000000000┋../source3/smbd/server.c:1266: [2016/12/05 21:16:10, all 0] main
+./logs/synology-DS6/samba/log.smbd┋20161205T131610.000000000┋  smbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.smbd┋20161205T131610.000000000┋  Copyright Andrew Tridgell and the Samba Team 1992-2013
+⇳
+./logs/synology-DS6/samba/log.smbd┋20161205T131610.000000000┋../source3/smbd/server.c:1352: [2016/12/05 21:16:10.1075, all 0, pid=1075] main
+⇳

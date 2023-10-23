@@ -1,0 +1,30 @@
+./logs/synology-DS6/upstart/inetd.log┋20190629T025854.000000000┋2019-06-28T19:58:54-0700 Fri Jun 28 19:58:54 PDT 2019
+⇳
+./logs/synology-DS6/upstart/inetd.log┋20190629T025854.000000000┋2019-06-28T19:58:54-0700 Starting inetd
+⇳
+./logs/synology-DS6/upstart/inetd.log┋20190819T042447.000000000┋2019-08-18T21:24:47-0700 Sun Aug 18 21:24:47 PDT 2019
+./logs/synology-DS6/upstart/inetd.log┋20190819T042447.000000000┋Stopped inetd
+⇳
+./logs/synology-DS6/upstart/inetd.log┋20190819T042757.000000000┋2019-08-18T21:27:57-0700 Sun Aug 18 21:27:57 PDT 2019
+./logs/synology-DS6/upstart/inetd.log┋20190819T042757.000000000┋Starting inetd
+⇳
+./logs/synology-DS6/upstart/inetd.log┋20190831T212155.000000000┋2019-08-31T14:21:55-0700 Sat Aug 31 14:21:55 PDT 2019
+./logs/synology-DS6/upstart/inetd.log┋20190831T212155.000000000┋Stopped inetd
+⇳
+./logs/synology-DS6/upstart/inetd.log┋20190831T212503.000000000┋2019-08-31T14:25:03-0700 Sat Aug 31 14:25:03 PDT 2019
+./logs/synology-DS6/upstart/inetd.log┋20190831T212503.000000000┋Starting inetd
+⇳
+./logs/synology-DS6/upstart/inetd.log┋20190909T022450.000000000┋2019-09-08T19:24:50-0700 Sun Sep  8 19:24:50 PDT 2019
+./logs/synology-DS6/upstart/inetd.log┋20190909T022450.000000000┋Starting inetd
+⇳
+./logs/synology-DS6/upstart/inetd.log┋20191020T015922.000000000┋2019-10-19T18:59:22-0700 Sat Oct 19 18:59:22 PDT 2019
+./logs/synology-DS6/upstart/inetd.log┋20191020T015922.000000000┋Stopped inetd
+⇳
+./logs/synology-DS6/upstart/inetd.log┋20191020T020310.000000000┋2019-10-19T19:03:10-0700 Sat Oct 19 19:03:10 PDT 2019
+./logs/synology-DS6/upstart/inetd.log┋20191020T020310.000000000┋Starting inetd
+⇳
+./logs/synology-DS6/upstart/inetd.log┋20191115T050151.000000000┋2019-11-14T21:01:51-0800 Thu Nov 14 21:01:51 PST 2019
+./logs/synology-DS6/upstart/inetd.log┋20191115T050151.000000000┋Stopped inetd
+⇳
+./logs/synology-DS6/upstart/inetd.log┋20191115T050542.000000000┋2019-11-14T21:05:42-0800 Thu Nov 14 21:05:42 PST 2019
+⇳

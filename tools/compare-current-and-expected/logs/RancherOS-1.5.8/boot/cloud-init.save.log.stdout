@@ -1,0 +1,10 @@
+./logs/RancherOS-1.5.8/boot/cloud-init.save.log┋20221009T213141.000000000┋time="2022-10-09T21:31:41Z" level=debug msg="START: [cloud-init-execute -pre-console] in /"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init.save.log┋20221009T213141.000000000┋time="2022-10-09T21:31:41Z" level=info msg="Running cloud-init-execute: pre-console=true, console=false"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init.save.log┋20221010T202334.000000000┋time="2022-10-10T20:23:34Z" level=debug msg="START: [cloud-init-execute -pre-console] in /"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init.save.log┋20221010T202334.000000000┋time="2022-10-10T20:23:34Z" level=info msg="Running cloud-init-execute: pre-console=true, console=false"
+⇳
+./logs/RancherOS-1.5.8/boot/cloud-init.save.log┋20221010T202334.000000000┋time="2022-10-10T20:23:34Z" level=info msg="Skipped resizing /dev/vda because /var/lib/rancher/resizefs.done exists"⇳
+

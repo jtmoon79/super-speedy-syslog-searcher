@@ -1,0 +1,22 @@
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋2019/06/23 21:15:15	(system) trigger SynologyMoments 1.3.2-0696 Begin start-stop-status start
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋pkg-SynologyMoments-task-center start/running, process 3912
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋pkg-SynologyMoments-task-center start/running, process 3912
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋pkg-SynologyMoments-thumbnail-provider start/running, process 3912
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋pkg-SynologyMoments-thumbnail-provider start/running, process 3912
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋pkg-SynologyMoments-apid start/running, process 3912
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋pkg-SynologyMoments-apid start/running, process 3912
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋pkg-SynologyMoments-check-center start/running, process 3912
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋pkg-SynologyMoments-check-center start/running, process 3912
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋pkg-SynologyMoments-notify-center start/running, process 3912
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131515.000000000┋pkg-SynologyMoments-notify-center start/running, process 3912
+⇳
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T131545.000000000┋2019/06/23 21:15:45	(system) trigger SynologyMoments 1.3.2-0696 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T175325.000000000┋2019/06/24 01:53:25	stop SynologyMoments 1.3.2-0696 Begin start-stop-status stop
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T175325.000000000┋pkg-SynologyMoments-notify-center stop/waiting
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T175325.000000000┋pkg-SynologyMoments-notify-center stop/waiting
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T175325.000000000┋pkg-SynologyMoments-check-center stop/waiting
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T175325.000000000┋pkg-SynologyMoments-check-center stop/waiting
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T175325.000000000┋pkg-SynologyMoments-apid stop/waiting
+./logs/synology-DS6/packages/SynologyMoments.log┋20190623T175325.000000000┋pkg-SynologyMoments-apid stop/waiting
+⇳
