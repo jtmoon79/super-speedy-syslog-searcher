@@ -1,0 +1,38 @@
+./logs/synology-DS6/datascrubbing.log┋20180801T211654.000000000┋2018-08-01T14:16:54-07:00 dsnet configupdate: space_data_scrubbing_set_section.c:155 File '/var/lib/datascrubbing/datascrubbing.status' doesn't exist
+⇳
+./logs/synology-DS6/datascrubbing.log┋20180801T211654.000000000┋2018-08-01T14:16:54-07:00 dsnet configupdate: space_data_scrubbing_set_section.c:273 Failed to add section 'ScrubbingGeneral'
+⇳
+./logs/synology-DS6/datascrubbing.log┋20180801T211654.000000000┋2018-08-01T14:16:54-07:00 dsnet configupdate: configupdate_dsm_lib.c:3239 Failed to get value of key in hash '/usr/syno/etc/datascrubbing.conf'
+⇳
+./logs/synology-DS6/datascrubbing.log┋20180801T211655.000000000┋2018-08-01T14:16:55-07:00 dsnet synoraidtool: space_data_scrubbing_config_sync.c:590 start sync data scrubbing config
+⇳
+./logs/synology-DS6/datascrubbing.log┋20180801T211655.000000000┋2018-08-01T14:16:55-07:00 dsnet synoraidtool: space_data_scrubbing_get_section.c:72 Copy data scrubbing config to tmp
+⇳
+./logs/synology-DS6/datascrubbing.log┋20180801T211655.000000000┋2018-08-01T14:16:55-07:00 dsnet synoraidtool: space_data_scrubbing_config_sync.c:272 Section 'ScrubbingGeneral' not found or some key in section not found, auto generate default section
+⇳
+./logs/synology-DS6/datascrubbing.log┋20180801T211655.000000000┋2018-08-01T14:16:55-07:00 dsnet synoraidtool: space_data_scrubbing_config_sync.c:341 Reset config of space '/dev/md2'
+⇳
+./logs/synology-DS6/datascrubbing.log┋20180801T211656.000000000┋2018-08-01T14:16:56-07:00 dsnet synoraidtool: space_data_scrubbing_config_sync.c:400 Reset config of 'md2'
+⇳
+./logs/synology-DS6/datascrubbing.log┋20180801T211657.000000000┋2018-08-01T14:16:57-07:00 dsnet synoraidtool: space_data_scrubbing_schedule_set.c:80 Set '1' to space '/dev/md2'
+⇳
+./logs/synology-DS6/datascrubbing.log┋20180904T212341.000000000┋2018-09-04T14:23:41-07:00 dsnet synoraidtool: space_data_scrubbing_config_sync.c:590 start sync data scrubbing config
+⇳
+./logs/synology-DS6/datascrubbing.log┋20180904T212341.000000000┋2018-09-04T14:23:41-07:00 dsnet synoraidtool: space_data_scrubbing_get_section.c:72 Copy data scrubbing config to tmp
+⇳
+./logs/synology-DS6/datascrubbing.log┋20181015T210908.000000000┋2018-10-15T14:09:08-07:00 dsnet synoraidtool: space_data_scrubbing_config_sync.c:590 start sync data scrubbing config
+⇳
+./logs/synology-DS6/datascrubbing.log┋20181015T210908.000000000┋2018-10-15T14:09:08-07:00 dsnet synoraidtool: space_data_scrubbing_config_sync.c:590 start sync data scrubbing config
+⇳
+./logs/synology-DS6/datascrubbing.log┋20181015T210908.000000000┋2018-10-15T14:09:08-07:00 dsnet synoraidtool: SYSTEM:	Last message 'space_data_scrubbing' repeated 1 times, suppressed by syslog-ng on dsnet
+⇳
+./logs/synology-DS6/datascrubbing.log┋20181015T210908.000000000┋2018-10-15T14:09:08-07:00 dsnet synoraidtool: space_data_scrubbing_get_section.c:72 Copy data scrubbing config to tmp
+⇳
+./logs/synology-DS6/datascrubbing.log┋20181015T210908.000000000┋2018-10-15T14:09:08-07:00 dsnet synoraidtool: space_data_scrubbing_get_section.c:72 Copy data scrubbing config to tmp
+⇳
+./logs/synology-DS6/datascrubbing.log┋20181025T192610.000000000┋2018-10-25T12:26:10-07:00 dsnet synoraidtool: space_data_scrubbing_config_sync.c:590 start sync data scrubbing config
+⇳
+./logs/synology-DS6/datascrubbing.log┋20181025T192610.000000000┋2018-10-25T12:26:10-07:00 dsnet synoraidtool: space_data_scrubbing_config_sync.c:590 start sync data scrubbing config
+⇳
+./logs/synology-DS6/datascrubbing.log┋20181025T192610.000000000┋2018-10-25T12:26:10-07:00 dsnet synoraidtool: SYSTEM:	Last message 'space_data_scrubbing' repeated 1 times, suppressed by syslog-ng on dsnet
+⇳

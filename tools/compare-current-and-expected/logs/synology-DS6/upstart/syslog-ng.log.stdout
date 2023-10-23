@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/syslog-ng.log┋20161206T043105.000000000┋2016-12-05T20:31:05-0800 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20161206T043105.000000000┋2016-12-05T20:31:05-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20161206T050112.000000000┋2016-12-05T21:01:12-0800 @@@@@@@@@@@@2016-12-05T21:11:26-0800 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20161206T051126.000000000┋2016-12-05T21:11:26-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20161206T053706.000000000┋2016-12-05T21:37:06-0800 @@@@@@@@@@@@@@@@@@@@2016-12-05T21:38:43-0800 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20161206T053843.000000000┋2016-12-05T21:38:43-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170103T093837.000000000┋2017-01-03T01:38:37-0800 @@@@@@@@@@@@2017-01-03T01:40:14-0800 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170103T094014.000000000┋2017-01-03T01:40:14-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170104T075622.000000000┋2017-01-03T23:56:22-0800 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170104T075622.000000000┋2017-01-03T23:56:22-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170108T213531.000000000┋2017-01-08T13:35:31-0800 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170108T213531.000000000┋2017-01-08T13:35:31-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170125T072409.000000000┋2017-01-24T23:24:09-0800 @@@@@@@@@@@@2017-01-24T23:25:45-0800 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170125T072545.000000000┋2017-01-24T23:25:45-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170131T082138.000000000┋2017-01-31T00:21:38-0800 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170131T082139.000000000┋2017-01-31T00:21:39-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170205T070649.000000000┋2017-02-04T23:06:49-0800 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170205T070649.000000000┋2017-02-04T23:06:49-0800 Referenced filter rule not found in filter() expression; rule='f_synodr_replica_programs'
+⇳
+./logs/synology-DS6/upstart/syslog-ng.log┋20170223T224940.000000000┋2017-02-23T14:49:40-0800 @@@@@@@@@@@@@@@@2017-02-23T14:51:44-0800 Starting syslog-ng
+⇳

@@ -1,0 +1,24 @@
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133443.000000000┋2016/12/05 21:34:43	 ===========[-x /path1//@smallupd@te_deb/flashupdate_6.0-8451-s3_all.deb /flashUpd@teTempFolder]===========
+⇳
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133649.000000000┋2016/12/05 21:36:49	 ===========[-x /path1//@smallupd@te_deb/smallupdate_6.0-8451-s5_all.deb /smallUpd@teTempFolder]===========
+⇳
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133843.000000000┋2016/12/05 21:38:43	 ===========[-i /smallupd@te/curl-7.x-armada38x-bin_7.47.0-8451-s5_all.deb ]===========
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133843.000000000┋Authenticating /smallupd@te/curl-7.x-armada38x-bin_7.47.0-8451-s5_all.deb ...
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133843.000000000┋passed
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133843.000000000┋Selecting previously unselected package curl-7.x-armada38x-bin.
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133843.000000000┋(Reading database ... 0 files and directories currently installed.)
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133843.000000000┋Unpacking curl-7.x-armada38x-bin (from .../curl-7.x-armada38x-bin_7.47.0-8451-s5_all.deb) ...
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133843.000000000┋Setting up curl-7.x-armada38x-bin (7.47.0-8451-s5) ...
+⇳
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133845.000000000┋2016/12/05 21:38:45	 ===========[-i /smallupd@te/dsm-AdminCenter-armada38x-bin_6.0-8451-s5_all.deb ]===========
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133845.000000000┋Authenticating /smallupd@te/dsm-AdminCenter-armada38x-bin_6.0-8451-s5_all.deb ...
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133845.000000000┋passed
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133845.000000000┋Selecting previously unselected package dsm-admincenter-armada38x-bin.
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133845.000000000┋(Reading database ... 6 files and directories currently installed.)
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133845.000000000┋Unpacking dsm-admincenter-armada38x-bin (from .../dsm-AdminCenter-armada38x-bin_6.0-8451-s5_all.deb) ...
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133845.000000000┋Setting up dsm-admincenter-armada38x-bin (6.0-8451-s5) ...
+⇳
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133847.000000000┋2016/12/05 21:38:47	 ===========[-i /smallupd@te/dsm-armada38x-bin_6.0-8451-s5_all.deb ]===========
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133847.000000000┋Authenticating /smallupd@te/dsm-armada38x-bin_6.0-8451-s5_all.deb ...
+./logs/synology-DS6/dpkg_upgrade.log┋20161205T133847.000000000┋passed
+⇳

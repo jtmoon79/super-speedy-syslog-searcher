@@ -1,0 +1,1440 @@
+./logs/RockyLinux9/dnf.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 DDEBUG timer: config: 259 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 DDEBUG Command: yum install -y gpgme
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 DDEBUG Extra commands: ['install', '-y', 'gpgme']
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175319.000000000┋2022-09-12T17:53:19+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175320.000000000┋2022-09-12T17:53:20+0000 DEBUG repo: downloading from remote: baseos
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175320.000000000┋2022-09-12T17:53:20+0000 DEBUG countme: no event for baseos: budget to spend: 1
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175331.000000000┋2022-09-12T17:53:31+0000 DEBUG baseos: using metadata from Fri Sep  2 21:53:14 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175331.000000000┋2022-09-12T17:53:31+0000 DEBUG repo: downloading from remote: appstream
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175331.000000000┋2022-09-12T17:53:31+0000 DEBUG countme: event triggered for appstream: bucket 1
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175404.000000000┋2022-09-12T17:54:04+0000 DEBUG appstream: using metadata from Tue Sep  6 19:05:15 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175404.000000000┋2022-09-12T17:54:04+0000 DEBUG repo: downloading from remote: extras
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175404.000000000┋2022-09-12T17:54:04+0000 DEBUG countme: event triggered for extras: bucket 1
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175407.000000000┋2022-09-12T17:54:07+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175407.000000000┋2022-09-12T17:54:07+0000 INFO Last metadata expiration check: 0:00:02 ago on Mon Sep 12 17:54:05 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175407.000000000┋2022-09-12T17:54:07+0000 DDEBUG timer: sack setup: 29278 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175407.000000000┋2022-09-12T17:54:07+0000 DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175414.000000000┋2022-09-12T17:54:14+0000 INFO Package gpgme-1.15.1-6.el9.x86_64 is already installed.
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175414.000000000┋2022-09-12T17:54:14+0000 DEBUG --> Starting dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175415.000000000┋2022-09-12T17:54:15+0000 DEBUG --> Finished dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175415.000000000┋2022-09-12T17:54:15+0000 DDEBUG timer: depsolve: 425 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175415.000000000┋2022-09-12T17:54:15+0000 INFO Dependencies resolved.
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175415.000000000┋2022-09-12T17:54:15+0000 INFO Nothing to do.
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175415.000000000┋2022-09-12T17:54:15+0000 INFO Complete!
+⇳
+./logs/RockyLinux9/dnf.log┋20220912T175415.000000000┋2022-09-12T17:54:15+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DDEBUG timer: config: 18 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DDEBUG Command: yum remove -y droplet-agent
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DDEBUG Base command: remove
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DDEBUG Extra commands: ['remove', '-y', 'droplet-agent']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DDEBUG timer: sack setup: 237 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 INFO No match for argument: droplet-agent
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 WARNING No packages marked for removal.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DEBUG --> Starting dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DEBUG --> Finished dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DDEBUG timer: depsolve: 10 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 INFO Dependencies resolved.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 INFO Nothing to do.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 INFO Complete!
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DDEBUG timer: config: 5 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DDEBUG Command: yum install -y gpgme ca-certificates
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DDEBUG Extra commands: ['install', '-y', 'gpgme', 'ca-certificates']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DEBUG countme: event triggered for baseos: bucket 3
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DEBUG reviving: failed for 'baseos', mismatched repomd.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DEBUG repo: downloading from remote: baseos
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 DEBUG countme: no event for baseos: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061845.000000000┋2022-10-08T06:18:45+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061845.000000000┋2022-10-08T06:18:45+0000 DEBUG countme: no event for appstream: budget to spend: 1
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061845.000000000┋2022-10-08T06:18:45+0000 DEBUG reviving: failed for 'appstream', mismatched repomd.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061845.000000000┋2022-10-08T06:18:45+0000 DEBUG repo: downloading from remote: appstream
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061845.000000000┋2022-10-08T06:18:45+0000 DEBUG countme: event triggered for appstream: bucket 2
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061848.000000000┋2022-10-08T06:18:48+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061848.000000000┋2022-10-08T06:18:48+0000 DEBUG countme: no event for extras: budget to spend: 1
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 DEBUG reviving: 'extras' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 DDEBUG timer: sack setup: 5677 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 INFO Package gpgme-1.15.1-6.el9.x86_64 is already installed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 INFO Package ca-certificates-2020.2.50-94.el9.noarch is already installed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 DEBUG --> Starting dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 DEBUG ---> Package ca-certificates.noarch 2020.2.50-94.el9 will be upgraded
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 DEBUG ---> Package ca-certificates.noarch 2022.2.54-90.2.el9 will be an upgrade
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 DEBUG --> Finished dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 DDEBUG timer: depsolve: 21 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 INFO Dependencies resolved.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 INFO ================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋ Package               Architecture Version                  Repository    Size
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋Upgrading:
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋ ca-certificates       noarch       2022.2.54-90.2.el9       baseos       823 k
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋Transaction Summary
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋Upgrade  1 Package
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 INFO Total download size: 823 k
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 INFO Downloading Packages:
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 INFO --------------------------------------------------------------------------------
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 INFO Total                                           2.0 MB/s | 823 kB     00:00
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 INFO Running transaction check
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 INFO Transaction check succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 INFO Running transaction test
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 INFO Transaction test succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 DDEBUG timer: transaction test: 47 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 INFO Running transaction
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 DDEBUG RPM transaction start.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061852.000000000┋2022-10-08T06:18:52+0000 DDEBUG RPM transaction over.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061852.000000000┋2022-10-08T06:18:52+0000 DDEBUG timer: verify transaction: 216 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061852.000000000┋2022-10-08T06:18:52+0000 DDEBUG timer: transaction: 2510 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061852.000000000┋2022-10-08T06:18:52+0000 DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061852.000000000┋2022-10-08T06:18:52+0000 DEBUG Upgraded: ca-certificates-2022.2.54-90.2.el9.noarch
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 INFO Complete!
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DDEBUG /var/cache/dnf/baseos-0123456789112345/packages/ca-certificates-2022.2.54-90.2.el9.noarch.rpm removed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DDEBUG timer: config: 9 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DDEBUG Command: yum --disablerepo=* --enablerepo=droplet-agent makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DDEBUG Extra commands: ['--disablerepo=*', '--enablerepo=droplet-agent', 'makecache']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DEBUG droplet-agent: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 DEBUG repo: downloading from remote: droplet-agent
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061854.000000000┋2022-10-08T06:18:54+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061854.000000000┋2022-10-08T06:18:54+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061854.000000000┋2022-10-08T06:18:54+0000 DDEBUG timer: sack setup: 972 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061854.000000000┋2022-10-08T06:18:54+0000 DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061854.000000000┋2022-10-08T06:18:54+0000 INFO Metadata cache created.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061854.000000000┋2022-10-08T06:18:54+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DDEBUG timer: config: 8 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DDEBUG Command: yum install -y droplet-agent
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DDEBUG Extra commands: ['install', '-y', 'droplet-agent']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG repo: using cache for: droplet-agent
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG repo: using cache for: baseos
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG repo: using cache for: appstream
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG repo: using cache for: extras
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 INFO Last metadata expiration check: 0:00:01 ago on Sat Oct  8 06:18:54 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DDEBUG timer: sack setup: 294 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG --> Starting dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG ---> Package droplet-agent.x86_64 1.2.4-1 will be installed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DEBUG --> Finished dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 DDEBUG timer: depsolve: 23 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 INFO Dependencies resolved.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 INFO ================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋ Package              Architecture  Version          Repository            Size
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋Installing:
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋ droplet-agent        x86_64        1.2.4-1          droplet-agent        2.2 M
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋Transaction Summary
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋Install  1 Package
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 INFO Total download size: 2.2 M
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 INFO Installed size: 5.1 M
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 INFO Downloading Packages:
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 INFO --------------------------------------------------------------------------------
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 INFO Total                                           8.8 MB/s | 2.2 MB     00:00
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 CRITICAL Importing GPG key 0xFC7DB4C2:
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋ Userid     : "DigitalOcean Droplet Engineering <eng-droplet@digitalocean.com>"
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋ Fingerprint: D2A1 FC6A A38C 233F 09FB 0443 3569 6F43 FC7D B4C2
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋ From       : https://repos-droplet.digitalocean.com/gpg.key
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 INFO Key imported successfully
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 INFO Running transaction check
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 INFO Transaction check succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 INFO Running transaction test
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 INFO Transaction test succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 DDEBUG timer: transaction test: 34 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 INFO Running transaction
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 DEBUG RPMDB altered outside of YUM.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 DDEBUG RPM transaction start.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061900.000000000┋2022-10-08T06:19:00+0000 DDEBUG RPM transaction over.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061900.000000000┋2022-10-08T06:19:00+0000 DDEBUG timer: verify transaction: 160 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061900.000000000┋2022-10-08T06:19:00+0000 DDEBUG timer: transaction: 4293 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061900.000000000┋2022-10-08T06:19:00+0000 DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061901.000000000┋2022-10-08T06:19:01+0000 DEBUG Installed: droplet-agent-1.2.4-1.x86_64
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061901.000000000┋2022-10-08T06:19:01+0000 INFO Complete!
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061901.000000000┋2022-10-08T06:19:01+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T061901.000000000┋2022-10-08T06:19:01+0000 DDEBUG /var/cache/dnf/droplet-agent-0123456789112345/packages/droplet-agent.1.2.4.amd64.rpm removed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 DDEBUG timer: config: 13 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 DDEBUG Command: yum install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 DDEBUG Extra commands: ['install']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DDEBUG timer: config: 3 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DDEBUG Command: yum install tree
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DDEBUG Extra commands: ['install', 'tree']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG repo: using cache for: droplet-agent
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG repo: using cache for: baseos
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG repo: using cache for: appstream
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG repo: using cache for: extras
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 INFO Last metadata expiration check: 0:04:28 ago on Sat Oct  8 06:18:54 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DDEBUG timer: sack setup: 265 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG --> Starting dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG ---> Package tree.x86_64 1.8.0-10.el9 will be installed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DEBUG --> Finished dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 DDEBUG timer: depsolve: 16 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 INFO Dependencies resolved.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 INFO ====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋ Package                             Architecture                          Version                                      Repository                             Size
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋Installing:
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋ tree                                x86_64                                1.8.0-10.el9                                 baseos                                 55 k
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋Transaction Summary
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋Install  1 Package
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 INFO Total download size: 55 k
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 INFO Installed size: 113 k
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062323.000000000┋2022-10-08T06:23:23+0000 INFO Downloading Packages:
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 INFO --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 INFO Total                                                                                                                               240 kB/s |  55 kB     00:00
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 INFO Running transaction check
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 INFO Transaction check succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 INFO Running transaction test
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 INFO Transaction test succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 DDEBUG timer: transaction test: 72 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 INFO Running transaction
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 DDEBUG RPM transaction start.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 DDEBUG RPM transaction over.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 DDEBUG timer: verify transaction: 160 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 DDEBUG timer: transaction: 350 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 DEBUG Installed: tree-1.8.0-10.el9.x86_64
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 INFO Complete!
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 DDEBUG /var/cache/dnf/baseos-0123456789112345/packages/tree-1.8.0-10.el9.x86_64.rpm removed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DDEBUG timer: config: 4 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DDEBUG Command: yum install aptitude
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DDEBUG Extra commands: ['install', 'aptitude']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG repo: using cache for: droplet-agent
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG repo: using cache for: baseos
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG repo: using cache for: appstream
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG repo: using cache for: extras
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 INFO Last metadata expiration check: 0:04:59 ago on Sat Oct  8 06:18:54 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DDEBUG timer: sack setup: 140 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 INFO No match for argument: aptitude
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 SUBDEBUG
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋Traceback (most recent call last):
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋    return _main(base, args, cli_class, option_parser_class)
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋    return cli_run(cli, base)
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋    cli.run()
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1055, in run
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋    return self.command.run()
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/install.py", line 118, in run
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋    raise dnf.exceptions.PackagesNotAvailableError(_("Unable to find a match"),
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋dnf.exceptions.PackagesNotAvailableError: Unable to find a match: aptitude
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 CRITICAL Error: Unable to find a match: aptitude
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DDEBUG timer: config: 3 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DDEBUG Command: yum install syslog-ng
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DDEBUG Extra commands: ['install', 'syslog-ng']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG repo: using cache for: baseos
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG repo: using cache for: appstream
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG repo: using cache for: extras
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DDEBUG timer: sack setup: 236 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 INFO No match for argument: syslog-ng
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 SUBDEBUG
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋Traceback (most recent call last):
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋    return _main(base, args, cli_class, option_parser_class)
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋    return cli_run(cli, base)
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋    cli.run()
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1055, in run
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋    return self.command.run()
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/install.py", line 118, in run
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋    raise dnf.exceptions.PackagesNotAvailableError(_("Unable to find a match"),
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋dnf.exceptions.PackagesNotAvailableError: Unable to find a match: syslog-ng
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 CRITICAL Error: Unable to find a match: syslog-ng
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DDEBUG timer: config: 4 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DDEBUG Command: yum install rsyslog
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DDEBUG Extra commands: ['install', 'rsyslog']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DEBUG repo: using cache for: droplet-agent
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DEBUG repo: using cache for: baseos
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 DEBUG repo: using cache for: appstream
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 DEBUG repo: using cache for: extras
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 INFO Last metadata expiration check: 0:00:04 ago on Sat Oct  8 06:24:15 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 DDEBUG timer: sack setup: 153 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 INFO Package rsyslog-8.2102.0-101.el9_0.1.x86_64 is already installed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 DEBUG --> Starting dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 DEBUG --> Finished dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 DDEBUG timer: depsolve: 12 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 INFO Dependencies resolved.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 INFO Nothing to do.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 INFO Complete!
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T062420.000000000┋2022-10-08T06:24:20+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 DDEBUG timer: config: 4 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 WARNING Failed determining last makecache time.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG droplet-agent: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG baseos: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG appstream: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG extras: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG countme: no event for baseos: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG reviving: 'baseos' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG countme: no event for appstream: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG reviving: 'appstream' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG countme: event triggered for extras: bucket 2
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG reviving: 'extras' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DDEBUG timer: sack setup: 962 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 INFO Metadata cache created.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DDEBUG timer: config: 3 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DDEBUG Command: yum install nginx
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DDEBUG Extra commands: ['install', 'nginx']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 DEBUG repo: using cache for: baseos
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DEBUG repo: using cache for: appstream
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DEBUG repo: using cache for: extras
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DDEBUG timer: sack setup: 245 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DEBUG --> Starting dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DEBUG ---> Package rocky-logos-httpd.noarch 90.11-1.el9 will be installed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DEBUG ---> Package nginx-filesystem.noarch 1:1.20.1-10.el9 will be installed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DEBUG ---> Package nginx.x86_64 1:1.20.1-10.el9 will be installed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DEBUG --> Finished dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 DDEBUG timer: depsolve: 12 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 INFO Dependencies resolved.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 INFO ====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋ Package                                     Architecture                     Version                                     Repository                           Size
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋Installing:
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋ nginx                                       x86_64                           1:1.20.1-10.el9                             appstream                           594 k
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋Installing dependencies:
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋ nginx-filesystem                            noarch                           1:1.20.1-10.el9                             appstream                            11 k
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋ rocky-logos-httpd                           noarch                           90.11-1.el9                                 appstream                            24 k
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋Transaction Summary
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋Install  3 Packages
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 INFO Total download size: 629 k
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065108.000000000┋2022-10-08T06:51:08+0000 INFO Installed size: 1.8 M
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065109.000000000┋2022-10-08T06:51:09+0000 INFO Downloading Packages:
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065109.000000000┋2022-10-08T06:51:09+0000 INFO --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065109.000000000┋2022-10-08T06:51:09+0000 INFO Total                                                                                                                               1.9 MB/s | 629 kB     00:00
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065109.000000000┋2022-10-08T06:51:09+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065110.000000000┋2022-10-08T06:51:10+0000 INFO Running transaction check
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065110.000000000┋2022-10-08T06:51:10+0000 INFO Transaction check succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065110.000000000┋2022-10-08T06:51:10+0000 INFO Running transaction test
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065110.000000000┋2022-10-08T06:51:10+0000 INFO Transaction test succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065110.000000000┋2022-10-08T06:51:10+0000 DDEBUG timer: transaction test: 58 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065110.000000000┋2022-10-08T06:51:10+0000 INFO Running transaction
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065110.000000000┋2022-10-08T06:51:10+0000 DDEBUG RPM transaction start.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DDEBUG RPM transaction over.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DDEBUG timer: verify transaction: 69 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DDEBUG timer: transaction: 1008 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DEBUG Installed: nginx-1:1.20.1-10.el9.x86_64
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DEBUG Installed: nginx-filesystem-1:1.20.1-10.el9.noarch
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DEBUG Installed: rocky-logos-httpd-90.11-1.el9.noarch
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 INFO Complete!
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DDEBUG /var/cache/dnf/appstream-0123456789112345/packages/nginx-filesystem-1.20.1-10.el9.noarch.rpm removed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DDEBUG /var/cache/dnf/appstream-0123456789112345/packages/nginx-1.20.1-10.el9.x86_64.rpm removed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T065111.000000000┋2022-10-08T06:51:11+0000 DDEBUG /var/cache/dnf/appstream-0123456789112345/packages/rocky-logos-httpd-90.11-1.el9.noarch.rpm removed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DDEBUG timer: config: 5 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 INFO Metadata cache refreshed recently.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DDEBUG timer: config: 3 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG droplet-agent: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG baseos: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG appstream: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG extras: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 DEBUG countme: no event for baseos: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DEBUG reviving: 'baseos' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DEBUG countme: no event for appstream: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DEBUG reviving: 'appstream' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DEBUG countme: no event for extras: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DEBUG reviving: 'extras' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DDEBUG timer: sack setup: 1031 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 INFO Metadata cache created.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DDEBUG timer: config: 5 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 INFO Metadata cache refreshed recently.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DDEBUG timer: config: 4 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 INFO Metadata cache refreshed recently.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DDEBUG timer: config: 3 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DEBUG droplet-agent: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DEBUG baseos: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DEBUG appstream: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 DEBUG extras: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 DEBUG countme: no event for baseos: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 DEBUG reviving: 'baseos' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 DEBUG countme: no event for appstream: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 DEBUG reviving: 'appstream' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 DEBUG countme: no event for extras: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135629.000000000┋2022-10-08T13:56:29+0000 DEBUG reviving: 'extras' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135629.000000000┋2022-10-08T13:56:29+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135629.000000000┋2022-10-08T13:56:29+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135629.000000000┋2022-10-08T13:56:29+0000 DDEBUG timer: sack setup: 1045 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135629.000000000┋2022-10-08T13:56:29+0000 INFO Metadata cache created.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T135629.000000000┋2022-10-08T13:56:29+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150047.000000000┋2022-10-08T15:00:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150047.000000000┋2022-10-08T15:00:47+0000 DDEBUG timer: config: 4 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 INFO Metadata cache refreshed recently.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T150048.000000000┋2022-10-08T15:00:48+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DDEBUG timer: config: 3 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 INFO Metadata cache refreshed recently.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DDEBUG timer: config: 3 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DEBUG droplet-agent: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DEBUG baseos: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DEBUG appstream: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 DEBUG extras: has expired and will be refreshed.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 DEBUG countme: no event for baseos: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 DEBUG reviving: 'baseos' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 DEBUG countme: no event for appstream: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 DEBUG reviving: 'appstream' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 DEBUG countme: no event for extras: window already counted
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181049.000000000┋2022-10-08T18:10:49+0000 DEBUG reviving: 'extras' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181049.000000000┋2022-10-08T18:10:49+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181049.000000000┋2022-10-08T18:10:49+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181049.000000000┋2022-10-08T18:10:49+0000 DDEBUG timer: sack setup: 1107 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181049.000000000┋2022-10-08T18:10:49+0000 INFO Metadata cache created.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T181049.000000000┋2022-10-08T18:10:49+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DDEBUG timer: config: 4 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 INFO Metadata cache refreshed recently.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DDEBUG timer: config: 6 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DEBUG DNF version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DDEBUG Command: dnf makecache --timer
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DDEBUG Base command: makecache
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DDEBUG Extra commands: ['makecache', '--timer']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DEBUG Making cache files for all metadata files.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 INFO Metadata cache refreshed recently.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DDEBUG timer: config: 3 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DDEBUG Command: yum install lsof
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DDEBUG Extra commands: ['install', 'lsof']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG reviving: 'droplet-agent' can be revived - repomd matches.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG repo: using cache for: baseos
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG repo: using cache for: appstream
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG repo: using cache for: extras
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DDEBUG timer: sack setup: 241 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG --> Starting dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG ---> Package lsof.x86_64 4.94.0-3.el9 will be installed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DEBUG --> Finished dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 DDEBUG timer: depsolve: 9 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 INFO Dependencies resolved.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 INFO ====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋ Package                             Architecture                          Version                                      Repository                             Size
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋Installing:
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋ lsof                                x86_64                                4.94.0-3.el9                                 baseos                                238 k
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋Transaction Summary
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋Install  1 Package
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 INFO Total download size: 238 k
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 INFO Installed size: 624 k
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222542.000000000┋2022-10-08T22:25:42+0000 INFO Downloading Packages:
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 INFO --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 INFO Total                                                                                                                               387 kB/s | 238 kB     00:00
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 INFO Running transaction check
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 INFO Transaction check succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 INFO Running transaction test
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 INFO Transaction test succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 DDEBUG timer: transaction test: 40 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 INFO Running transaction
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 DDEBUG RPM transaction start.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 DDEBUG RPM transaction over.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 DDEBUG timer: verify transaction: 157 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 DDEBUG timer: transaction: 347 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 DEBUG Installed: lsof-4.94.0-3.el9.x86_64
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 INFO Complete!
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 DDEBUG /var/cache/dnf/baseos-0123456789112345/packages/lsof-4.94.0-3.el9.x86_64.rpm removed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DDEBUG timer: config: 3 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG YUM version: 4.10.0
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DDEBUG Command: yum install lynx
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DDEBUG Installroot: /
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DDEBUG Releasever: 9
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DDEBUG Base command: install
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DDEBUG Extra commands: ['install', 'lynx']
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG User-Agent: constructed: 'libdnf (Rocky Linux 9.0; generic; Linux.x86_64)'
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG repo: using cache for: droplet-agent
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG droplet-agent: using metadata from Tue Sep 27 00:33:04 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG repo: using cache for: baseos
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG baseos: using metadata from Mon Oct  3 15:40:13 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG repo: using cache for: appstream
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG appstream: using metadata from Mon Oct  3 15:40:28 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG repo: using cache for: extras
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG extras: using metadata from Tue Aug 30 09:33:21 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 INFO Last metadata expiration check: 0:01:10 ago on Sat Oct  8 22:25:40 2022.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DDEBUG timer: sack setup: 115 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG --> Starting dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG ---> Package rocky-indexhtml.noarch 9.0-2.el9 will be installed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG ---> Package lynx.x86_64 2.8.9-18.el9 will be installed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DEBUG --> Finished dependency resolution
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 DDEBUG timer: depsolve: 10 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 INFO Dependencies resolved.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 INFO ====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋ Package                                    Architecture                      Version                                    Repository                            Size
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋Installing:
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋ lynx                                       x86_64                            2.8.9-18.el9                               appstream                            1.5 M
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋Installing dependencies:
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋ rocky-indexhtml                            noarch                            9.0-2.el9                                  appstream                            263 k
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋Transaction Summary
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋====================================================================================================================================================================
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋Install  2 Packages
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 INFO Total download size: 1.8 M
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 INFO Installed size: 6.6 M
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222651.000000000┋2022-10-08T22:26:51+0000 INFO Downloading Packages:
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 INFO --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 INFO Total                                                                                                                               7.8 MB/s | 1.8 MB     00:00
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 INFO Running transaction check
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 INFO Transaction check succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 INFO Running transaction test
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 INFO Transaction test succeeded.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DDEBUG timer: transaction test: 63 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 INFO Running transaction
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DDEBUG RPM transaction start.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DDEBUG RPM transaction over.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DDEBUG timer: verify transaction: 167 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DDEBUG timer: transaction: 593 ms
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DEBUG Installed: lynx-2.8.9-18.el9.x86_64
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DEBUG Installed: rocky-indexhtml-9.0-2.el9.noarch
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 INFO Complete!
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DDEBUG Cleaning up.
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DDEBUG /var/cache/dnf/appstream-0123456789112345/packages/rocky-indexhtml-9.0-2.el9.noarch.rpm removed
+⇳
+./logs/RockyLinux9/dnf.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 DDEBUG /var/cache/dnf/appstream-0123456789112345/packages/lynx-2.8.9-18.el9.x86_64.rpm removed⇳
+

@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170525T021438.000000000┋2017-05-24T19:14:38-0700 ======== start USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170619T081848.000000000┋2017-06-19T01:18:48-0700 ======== stop USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.Finder.Bookmark".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.DownloadStation2.BTSearch".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/local/packages/@appstore/USBCopy/bin/usb-copy-starter".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.FileStation.BackgroundTask".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170619T082309.000000000┋2017-06-19T01:23:09-0700 ======== start USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170917T165707.000000000┋2017-09-17T09:57:07-0700 ======== start USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170917T170129.000000000┋2017-09-17T10:01:29-0700 ======== stop USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170917T170542.000000000┋2017-09-17T10:05:42-0700 ======== start USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170917T170940.000000000┋2017-09-17T10:09:40-0700 ======== stop USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20170917T171221.000000000┋2017-09-17T10:12:21-0700 ======== start USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20171003T051909.000000000┋2017-10-02T22:19:09-0700 ======== stop USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20171003T052152.000000000┋2017-10-02T22:21:52-0700 ======== start USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20171010T045057.000000000┋2017-10-09T21:50:57-0700 ======== stop USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20171010T045336.000000000┋2017-10-09T21:53:36-0700 ======== start USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20171010T053315.000000000┋2017-10-09T22:33:15-0700 ======== stop USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20171010T053325.000000000┋2017-10-09T22:33:25-0700 ======== start USBCopy ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-USBCopy.log┋20171019T171849.000000000┋2017-10-19T10:18:49-0700 ======== stop USBCopy ========
+⇳

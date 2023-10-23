@@ -1,0 +1,18 @@
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170205T090017.000000000┋2017-02-05T01:00:17-0800 synoscgi: unrecognized option '--mode=apid'
+⇳
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170205T090017.000000000┋2017-02-05T01:00:17-0800 Copyright (c) 2003-2016 Synology Inc. All rights reserved.
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170205T090017.000000000┋
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170205T090017.000000000┋Usage: synoscgi (Version 8451)
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170205T090017.000000000┋	--idle-child={childNumber} (optional, default: 10) max idle child number
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170205T090017.000000000┋	--max-child={childNumber} (optional, default: 9689) max child number
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170205T090017.000000000┋	--help
+⇳
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170218T225918.000000000┋2017-02-18T14:59:18-0800 synoscgi: unrecognized option '--mode=apid'
+⇳
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170218T225918.000000000┋2017-02-18T14:59:18-0800 Copyright (c) 2003-2016 Synology Inc. All rights reserved.
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170218T225918.000000000┋
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170218T225918.000000000┋Usage: synoscgi (Version 8451)
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170218T225918.000000000┋	--idle-child={childNumber} (optional, default: 10) max idle child number
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170218T225918.000000000┋	--max-child={childNumber} (optional, default: 9689) max child number
+./logs/synology-DS6/upstart/pkg-surveillance-apid.log┋20170218T225918.000000000┋	--help
+⇳

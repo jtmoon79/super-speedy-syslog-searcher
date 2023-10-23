@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T215544.000000000┋2018-09-04T14:55:44-0700 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T215544.000000000┋2018-09-04T14:55:44-0700 [2018-09-04T14:55:44.8906] Referenced filter rule not found in filter() expression; rule='f_synoconn'
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T215908.000000000┋2018-09-04T14:59:08-0700 no tables in statement !
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T220227.000000000┋2018-09-04T15:02:27-0700 no tables in statement !
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T220228.000000000┋2018-09-04T15:02:28-0700 no tables in statement !
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T220234.000000000┋2018-09-04T15:02:34-0700 no tables in statement !
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222356.000000000┋2018-09-04T15:23:56-0700 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222357.000000000┋2018-09-04T15:23:57-0700 [2018-09-04T15:23:57.8906] Referenced filter rule not found in filter() expression; rule='f_synoconn'
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222357.000000000┋2018-09-04T15:23:57-0700 no tables in statement !
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222404.000000000┋2018-09-04T15:24:04-0700 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222404.000000000┋2018-09-04T15:24:04-0700 [2018-09-04T15:24:04.8906] Referenced filter rule not found in filter() expression; rule='f_synoconn'
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222404.000000000┋2018-09-04T15:24:04-0700 no tables in statement !
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222413.000000000┋2018-09-04T15:24:13-0700 no tables in statement !
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222432.000000000┋2018-09-04T15:24:32-0700 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222432.000000000┋2018-09-04T15:24:32-0700 [2018-09-04T15:24:32.8906] Referenced filter rule not found in filter() expression; rule='f_synoconn'
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222432.000000000┋2018-09-04T15:24:32-0700 no tables in statement !
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222452.000000000┋2018-09-04T15:24:52-0700 Starting syslog-ng
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222453.000000000┋2018-09-04T15:24:53-0700 [2018-09-04T15:24:53.8906] Referenced filter rule not found in filter() expression; rule='f_synoconn'
+⇳
+./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log┋20180904T222453.000000000┋2018-09-04T15:24:53-0700 no tables in statement !
+⇳

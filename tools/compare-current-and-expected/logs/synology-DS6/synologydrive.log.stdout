@@ -1,0 +1,35 @@
+./logs/synology-DS6/synologydrive.log┋20181206T102757.000000000┋2018-12-06T02:27:57-08:00 dsnet updater-svr: Start updater, database is located at '/path1'
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T102758.000000000┋2018-12-06T02:27:58-08:00 dsnet updater-svr: End updater, ret = 0
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T102758.000000000┋2018-12-06T02:27:58-08:00 dsnet cloud-control: ( 6298:221) [ERROR] engine/sqlite_engine.cpp(104): sqlite3_exec error: no such table: config_table (1) sql = SELECT key, value FROM config_table;
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T102758.000000000┋2018-12-06T02:27:58-08:00 dsnet cloud-control: ( 6298:221) [ERROR] db-util.cpp(527): GetConfig failed
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T102758.000000000┋2018-12-06T02:27:58-08:00 dsnet cloud-control: ( 6298:221) [ERROR] engine/sqlite_engine.cpp(104): sqlite3_exec error: no such table: config_table (1) sql = SELECT key, value FROM config_table;
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T102758.000000000┋2018-12-06T02:27:58-08:00 dsnet cloud-control: ( 6298:221) [ERROR] db-util.cpp(527): GetConfig failed
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T102759.000000000┋2018-12-06T02:27:59-08:00 dsnet cloud-control: ( 6298:221) [ERROR] service-ctrl.cpp(1428): first time installation, add default application privilege
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T103149.000000000┋2018-12-06T02:31:49-08:00 dsnet synoscgi_SYNO.SynologyDrive.AppIntegration_1_get[221]: (221:221) [ERROR] get.cpp(70): GetAppIntegrationByNamespace failed: protocol error, reason = 'failed to get app' (-401)
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T103149.000000000┋2018-12-06T02:31:49-08:00 dsnet synoscgi_SYNO.SynologyDrive.AppIntegration_1_get[221]: (221:221) [ERROR] request-handler.cpp(547): failed to handle API 'SYNO.SynologyDrive.AppIntegration.get
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T103149.000000000┋2018-12-06T02:31:49-08:00 dsnet synoscgi_SYNO.SynologyDrive.AppIntegration_1_get[221]: (221:221) [ERROR] request-handler.cpp(552): error code: 1000, error message: get app failed, error line: 71.
+./logs/synology-DS6/synologydrive.log┋20181206T103149.000000000┋DETAIL:  Key (external_id, meta)=(100, 2) already exists.
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T103203.000000000┋2018-12-06T02:32:03-08:00 dsnet synoscgi_SYNO.SynologyDrive.SCIM.User_1_get[221]: GroupDao.cpp:89 Create resource entity failed.
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T103203.000000000┋2018-12-06T02:32:03-08:00 dsnet synoscgi_SYNO.SynologyDrive.SCIM.User_1_get[221]: SCIMGroupProvisioning.cpp:68 create group failed.
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T103203.000000000┋2018-12-06T02:32:03-08:00 dsnet synoscgi_SYNO.SynologyDrive.SCIM.User_1_get[221]: UserDao.cpp:213 Can not create external id 1026 exist.
+⇳
+./logs/synology-DS6/synologydrive.log┋20181206T103203.000000000┋2018-12-06T02:32:03-08:00 dsnet synoscgi_SYNO.SynologyDrive.SCIM.User_1_get[221]: SCIMUserProvisioning.cpp:102 create user failed.
+⇳
+./logs/synology-DS6/synologydrive.log┋20181210T021027.000000000┋2018-12-09T18:10:27-08:00 dsnet rsyncd[221]: connect from host1.net (192.168.0.180)
+⇳
+./logs/synology-DS6/synologydrive.log┋20181217T230911.000000000┋2018-12-17T15:09:11-08:00 dsnet rsyncd[5497]: rsyncd version 3.0.9 starting, listening on port 873
+⇳
+./logs/synology-DS6/synologydrive.log┋20181217T230911.000000000┋2018-12-17T15:09:11-08:00 dsnet rsyncd[5497]: rsyncd version 3.0.9 starting, listening on port 873
+⇳

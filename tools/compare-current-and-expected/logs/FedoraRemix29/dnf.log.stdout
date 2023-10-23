@@ -1,0 +1,702 @@
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z INFO --- logging initialized ---
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z DDEBUG timer: config: 2 ms
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z DEBUG DNF version: 4.2.5
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z DDEBUG Command: dnf --installroot /tmp/tmp.NTapzr1VBm/dist/ --releasever 30 --setopt=deltarpm=False --disableplugin=local --disableplugin=spacewalk --forcearch x86_64 install @buildsys-build
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z DDEBUG Installroot: /tmp/tmp.NTapzr1VBm/dist/
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z DDEBUG Releasever: 30
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z DEBUG cachedir: /tmp/tmp.NTapzr1VBm/dist/var/cache/dnf
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z DDEBUG Base command: install
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z DDEBUG Extra commands: ['--installroot', '/tmp/tmp.NTapzr1VBm/dist/', '--releasever', '30', '--setopt=deltarpm=False', '--disableplugin=local', '--disableplugin=spacewalk', '--forcearch', 'x86_64', 'install', '@buildsys-build']
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140908.000000000┋2019-06-16T14:09:08Z DEBUG repo: downloading from remote: fedora
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140929.000000000┋2019-06-16T14:09:29Z DEBUG fedora: using metadata from Thu 25 Apr 2019 11:49:41 PM UTC.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140929.000000000┋2019-06-16T14:09:29Z DEBUG repo: downloading from remote: updates
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140934.000000000┋2019-06-16T14:09:34Z DEBUG updates: using metadata from Sun 16 Jun 2019 01:04:52 AM UTC.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140934.000000000┋2019-06-16T14:09:34Z INFO Last metadata expiration check: 0:00:04 ago on Sun 16 Jun 2019 02:09:30 PM UTC.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140934.000000000┋2019-06-16T14:09:34Z DEBUG No module defaults found
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140936.000000000┋2019-06-16T14:09:36Z DDEBUG timer: sack setup: 28226 ms
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140936.000000000┋2019-06-16T14:09:36Z DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140936.000000000┋2019-06-16T14:09:36Z DEBUG No module defaults found
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140936.000000000┋2019-06-16T14:09:36Z DDEBUG Getting group metadata
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140936.000000000┋2019-06-16T14:09:36Z DDEBUG Adding group file from repository: fedora
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140936.000000000┋2019-06-16T14:09:36Z DDEBUG Adding group file from repository: updates
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DDEBUG timer: loading comps: 173 ms
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG Adding packages from group 'buildsys-build': {<libcomps.Package object 'gawk' at 0x7f2264299330>, <libcomps.Package object 'shadow-utils' at 0x7f2264299420>, <libcomps.Package object 'diffutils' at 0x7f22642992a0>, <libcomps.Package object 'gzip' at 0x7f2264299378>, <libcomps.Package object 'util-linux' at 0x7f2264299468>, <libcomps.Package object 'make' at 0x7f22642993a8>, <libcomps.Package object 'bash' at 0x7f22642991e0>, <libcomps.Package object 'redhat-rpm-config' at 0x7f22642993d8>, <libcomps.Package object 'glibc-minimal-langpack' at 0x7f2264299348>, <libcomps.Package object 'findutils' at 0x7f2264299318>, <libcomps.Package object 'fedora-release' at 0x7f2264299300>, <libcomps.Package object 'sed' at 0x7f2264299408>, <libcomps.Package object 'rpm-build' at 0x7f22642993f0>, <libcomps.Package object 'grep' at 0x7f2264299360>, <libcomps.Package object 'which' at 0x7f2264299480>, <libcomps.Package object 'patch' at 0x7f22642993c0>, <libcomps.Package object 'tar' at 0x7f2264299438>, <libcomps.Package object 'info' at 0x7f2264299390>, <libcomps.Package object 'unzip' at 0x7f2264299450>, <libcomps.Package object 'cpio' at 0x7f2264299288>, <libcomps.Package object 'coreutils' at 0x7f2264299270>, <libcomps.Package object 'xz' at 0x7f2264299498>, <libcomps.Package object 'bzip2' at 0x7f22642991b0>}
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG --> Starting dependency resolution
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package alternatives.x86_64 1.11-4.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package audit-libs.x86_64 3.0-0.7.20190326git03e7489.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package basesystem.noarch 11-7.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package binutils.x86_64 2.31.1-29.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package brotli.x86_64 1.0.7-3.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package bzip2.x86_64 1.0.6-29.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package bzip2-libs.x86_64 1.0.6-29.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package ca-certificates.noarch 2018.2.26-3.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package cpio.x86_64 2.12-10.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package cracklib.x86_64 2.9.6-19.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package ctags.x86_64 5.8-25.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package cyrus-sasl-lib.x86_64 2.1.27-0.6rc7.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package diffutils.x86_64 3.7-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package dwz.x86_64 0.12-10.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package efi-srpm-macros.noarch 4-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package expat.x86_64 2.2.6-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package fedora-gpg-keys.noarch 30-1 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package fedora-repos.noarch 30-1 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package file.x86_64 5.36-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package file-libs.x86_64 5.36-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package filesystem.x86_64 3.10-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package findutils.x86_64 1:4.6.0-22.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package fpc-srpm-macros.noarch 1.2-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package gawk.x86_64 4.2.1-6.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package gc.x86_64 7.6.4-5.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package gdbm-libs.x86_64 1:1.18-4.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package ghc-srpm-macros.noarch 1.4.2-9.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package gmp.x86_64 1:6.1.2-10.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package gnat-srpm-macros.noarch 4-9.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package go-srpm-macros.noarch 2-19.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package grep.x86_64 3.1-9.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package guile22.x86_64 2.2.4-3.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package gzip.x86_64 1.9-9.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package info.x86_64 6.6-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package keyutils-libs.x86_64 1.6-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libacl.x86_64 2.2.53-3.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libarchive.x86_64 3.3.3-6.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libatomic_ops.x86_64 7.6.6-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libattr.x86_64 2.4.48-5.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libbabeltrace.x86_64 1.5.6-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libblkid.x86_64 2.33.2-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libcap.x86_64 2.26-5.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libcap-ng.x86_64 0.7.9-7.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libcom_err.x86_64 1.44.6-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libdb.x86_64 5.3.28-37.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libdb-utils.x86_64 5.3.28-37.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libfdisk.x86_64 2.33.2-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libffi.x86_64 3.1-19.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libgcrypt.x86_64 1.8.4-3.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libgpg-error.x86_64 1.33-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libipt.x86_64 2.0-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libmetalink.x86_64 0.1.3-8.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libmount.x86_64 2.33.2-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libnsl2.x86_64 1.2.0-4.20180605git4a062cf.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libpkgconf.x86_64 1.6.1-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libpsl.x86_64 0.20.2-6.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libpwquality.x86_64 1.4.0-12.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libselinux.x86_64 2.9-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libsemanage.x86_64 2.9-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libsepol.x86_64 2.9-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libsigsegv.x86_64 2.11-7.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libsmartcols.x86_64 2.33.2-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libssh.x86_64 0.8.7-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libtasn1.x86_64 4.13-7.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libtirpc.x86_64 1.1.4-2.rc2.fc30.1 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libtool-ltdl.x86_64 2.4.6-29.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libunistring.x86_64 0.9.10-5.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libutempter.x86_64 1.1.6-16.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libuuid.x86_64 2.33.2-1.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libverto.x86_64 0.3.0-7.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package libxml2.x86_64 2.9.9-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package lua-libs.x86_64 5.3.5-5.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package lz4-libs.x86_64 1.8.3-2.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package make.x86_64 1:4.2.1-13.fc30 will be installed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋2019-06-16T14:09:37Z DEBUG ---> Package mpfr.x86_64 3.1.6-4.fc30 will be installed
+./logs/FedoraRemix29/dnf.log┋20190616T140937.000000000┋
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋2019-06-16T14:11:10Z DDEBUG timer: depsolve: 660 ms
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋2019-06-16T14:11:10Z INFO Dependencies resolved.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋2019-06-16T14:11:10Z INFO ========================================================================================================================
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ Package                                Arch     Version                                 Repository                Size
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋========================================================================================================================
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋Installing:
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ cracklib-dicts                         x86_64   2.9.6-19.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        3.9 M
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ wslu                                   noarch   2.2.1-1                                 whitewaterfoundry_wslu   243 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋Installing dependencies:
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ cairo                                  x86_64   1.16.0-5.fc30                           updates
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        677 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ cairo-gobject                          x86_64   1.16.0-5.fc30                           updates
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         18 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ cups-libs                              x86_64   1:2.2.11-2.fc30                         updates
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        252 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ dbus-libs                              x86_64   1:1.12.14-1.fc30                        updates
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        147 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ emacs-filesystem                       noarch   1:26.2-1.fc30                           updates
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        9.6 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ fontconfig                             x86_64   2.13.1-8.fc30                           updates
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        238 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXt                                  x86_64   1.1.5-11.20190424gitba4ec9376.fc30      updates
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        169 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libgomp                                x86_64   9.1.1-1.fc30                            updates
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        216 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ librsvg2                               x86_64   2.45.6-1.fc30                           updates
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        2.1 M
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ ImageMagick                            x86_64   1:6.9.10.28-1.fc30                      fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        157 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ ImageMagick-libs                       x86_64   1:6.9.10.28-1.fc30                      fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        2.2 M
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ OpenEXR-libs                           x86_64   2.2.0-16.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        671 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ adobe-mappings-cmap                    noarch   20171205-5.fc30                         fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        2.1 M
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ adobe-mappings-cmap-deprecated         noarch   20171205-5.fc30                         fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        118 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ adobe-mappings-pdf                     noarch   20180407-3.fc30                         fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        706 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ avahi-libs                             x86_64   0.7-18.fc30                             fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         59 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ bc                                     x86_64   1.07.1-8.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        115 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ fftw-libs-double                       x86_64   3.3.8-4.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        984 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ fontpackages-filesystem                noarch   1.44-24.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        8.2 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ freetype                               x86_64   2.9.1-7.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        355 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ fribidi                                x86_64   1.0.5-2.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         82 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ gdk-pixbuf2                            x86_64   2.38.1-1.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        456 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ google-droid-sans-fonts                noarch   20120715-15.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        2.5 M
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ graphite2                              x86_64   1.3.10-7.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        109 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ harfbuzz                               x86_64   2.3.1-1.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        534 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ ilmbase                                x86_64   2.2.0-15.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        106 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ jbig2dec-libs                          x86_64   0.14-5.fc30                             fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         63 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ jbigkit-libs                           x86_64   2.1-16.fc30                             fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         49 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ lcms2                                  x86_64   2.9-5.fc30                              fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        150 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libICE                                 x86_64   1.0.9-15.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         65 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libSM                                  x86_64   1.2.3-2.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         40 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libX11                                 x86_64   1.6.7-1.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        593 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libX11-common                          noarch   1.6.7-1.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        155 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXau                                 x86_64   1.0.9-1.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         30 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXcursor                             x86_64   1.1.15-5.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         28 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXext                                x86_64   1.3.3-11.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         35 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXfixes                              x86_64   5.0.3-9.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         17 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXft                                 x86_64   2.3.2-12.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         58 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXi                                  x86_64   1.7.9-9.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         36 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXinerama                            x86_64   1.1.4-3.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         13 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXmu                                 x86_64   1.1.2-13.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         69 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXrandr                              x86_64   1.5.1-9.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         25 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXrender                             x86_64   0.9.10-9.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         25 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXxf86misc                           x86_64   1.0.4-3.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         20 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libXxf86vm                             x86_64   1.1.4-11.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         17 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libcroco                               x86_64   0.6.13-1.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        104 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libdatrie                              x86_64   0.2.9-9.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         29 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libfontenc                             x86_64   1.1.3-10.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         29 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libgs                                  x86_64   9.26-4.fc30                             fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        3.0 M
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libidn                                 x86_64   1.35-5.fc30                             fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        228 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libijs                                 x86_64   0.35-9.fc30                             fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         28 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libjpeg-turbo                          x86_64   2.0.2-1.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        158 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libmcpp                                x86_64   2.7.2-23.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         75 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libpaper                               x86_64   1.1.24-24.fc30                          fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         38 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libpng                                 x86_64   2:1.6.36-1.fc30                         fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        106 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libthai                                x86_64   0.1.28-2.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        199 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libtiff                                x86_64   4.0.10-4.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        166 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libwebp                                x86_64   1.0.2-2.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        255 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libwmf-lite                            x86_64   0.2.12-1.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         67 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ libxcb                                 x86_64   1.13.1-2.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        202 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ mcpp                                   x86_64   2.7.2-23.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         27 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ openjpeg2                              x86_64   2.3.1-1.fc30                            fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        145 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ pango                                  x86_64   1.43.0-3.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        261 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ pixman                                 x86_64   0.38.0-1.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        243 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ shared-mime-info                       x86_64   1.12-2.fc30                             fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        321 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-bookman-fonts               noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        856 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-c059-fonts                  noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        883 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-d050000l-fonts              noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         78 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-fonts                       noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         11 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-fonts-common                noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         23 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-gothic-fonts                noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        654 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-nimbus-mono-ps-fonts        noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        800 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-nimbus-roman-fonts          noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        864 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-nimbus-sans-fonts           noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        1.3 M
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-p052-fonts                  noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        982 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-standard-symbols-ps-fonts   noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         43 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ urw-base35-z003-fonts                  noarch   20170801-12.fc30                        fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        279 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ xorg-x11-font-utils                    x86_64   1:7.5-41.fc30                           fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋         96 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋ xorg-x11-server-utils                  x86_64   7.7-28.fc30                             fedora
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋        177 k
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋Transaction Summary
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋========================================================================================================================
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋Install  81 Packages
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋2019-06-16T14:11:10Z INFO Total download size: 33 M
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋2019-06-16T14:11:10Z INFO Installed size: 123 M
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141110.000000000┋2019-06-16T14:11:10Z INFO Downloading Packages:
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141112.000000000┋2019-06-16T14:11:12Z INFO ------------------------------------------------------------------------------------------------------------------------
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141112.000000000┋2019-06-16T14:11:12Z INFO Total
+./logs/FedoraRemix29/dnf.log┋20190616T141112.000000000┋         19 MB/s |  33 MB     00:01
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141112.000000000┋2019-06-16T14:11:12Z INFO Running transaction check
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141112.000000000┋2019-06-16T14:11:12Z INFO Transaction check succeeded.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141112.000000000┋2019-06-16T14:11:12Z INFO Running transaction test
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141113.000000000┋2019-06-16T14:11:13Z INFO Transaction test succeeded.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141113.000000000┋2019-06-16T14:11:13Z DDEBUG timer: transaction test: 356 ms
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141113.000000000┋2019-06-16T14:11:13Z INFO Running transaction
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141113.000000000┋2019-06-16T14:11:13Z DDEBUG RPM transaction start.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141119.000000000┋2019-06-16T14:11:19Z DDEBUG RPM transaction over.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141119.000000000┋2019-06-16T14:11:19Z DDEBUG timer: verify transaction: 44 ms
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141119.000000000┋2019-06-16T14:11:19Z DDEBUG timer: transaction: 6453 ms
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141119.000000000┋2019-06-16T14:11:19Z DEBUG Completion plugin: Generating completion cache...
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z INFO
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋Installed:
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  cracklib-dicts-2.9.6-19.fc30.x86_64                     wslu-2.2.1-1.noarch
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  cairo-1.16.0-5.fc30.x86_64                              cairo-gobject-1.16.0-5.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  cups-libs-1:2.2.11-2.fc30.x86_64                        dbus-libs-1:1.12.14-1.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  emacs-filesystem-1:26.2-1.fc30.noarch                   fontconfig-2.13.1-8.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libXt-1.1.5-11.20190424gitba4ec9376.fc30.x86_64         libgomp-9.1.1-1.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  librsvg2-2.45.6-1.fc30.x86_64                           ImageMagick-1:6.9.10.28-1.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  ImageMagick-libs-1:6.9.10.28-1.fc30.x86_64              OpenEXR-libs-2.2.0-16.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  adobe-mappings-cmap-20171205-5.fc30.noarch              adobe-mappings-cmap-deprecated-20171205-5.fc30.noarch
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  adobe-mappings-pdf-20180407-3.fc30.noarch               avahi-libs-0.7-18.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  bc-1.07.1-8.fc30.x86_64                                 fftw-libs-double-3.3.8-4.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  fontpackages-filesystem-1.44-24.fc30.noarch             freetype-2.9.1-7.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  fribidi-1.0.5-2.fc30.x86_64                             gdk-pixbuf2-2.38.1-1.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  google-droid-sans-fonts-20120715-15.fc30.noarch         graphite2-1.3.10-7.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  harfbuzz-2.3.1-1.fc30.x86_64                            ilmbase-2.2.0-15.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  jbig2dec-libs-0.14-5.fc30.x86_64                        jbigkit-libs-2.1-16.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  lcms2-2.9-5.fc30.x86_64                                 libICE-1.0.9-15.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libSM-1.2.3-2.fc30.x86_64                               libX11-1.6.7-1.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libX11-common-1.6.7-1.fc30.noarch                       libXau-1.0.9-1.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libXcursor-1.1.15-5.fc30.x86_64                         libXext-1.3.3-11.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libXfixes-5.0.3-9.fc30.x86_64                           libXft-2.3.2-12.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libXi-1.7.9-9.fc30.x86_64                               libXinerama-1.1.4-3.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libXmu-1.1.2-13.fc30.x86_64                             libXrandr-1.5.1-9.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libXrender-0.9.10-9.fc30.x86_64                         libXxf86misc-1.0.4-3.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libXxf86vm-1.1.4-11.fc30.x86_64                         libcroco-0.6.13-1.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libdatrie-0.2.9-9.fc30.x86_64                           libfontenc-1.1.3-10.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libgs-9.26-4.fc30.x86_64                                libidn-1.35-5.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libijs-0.35-9.fc30.x86_64                               libjpeg-turbo-2.0.2-1.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libmcpp-2.7.2-23.fc30.x86_64                            libpaper-1.1.24-24.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libpng-2:1.6.36-1.fc30.x86_64                           libthai-0.1.28-2.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libtiff-4.0.10-4.fc30.x86_64                            libwebp-1.0.2-2.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  libwmf-lite-0.2.12-1.fc30.x86_64                        libxcb-1.13.1-2.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  mcpp-2.7.2-23.fc30.x86_64                               openjpeg2-2.3.1-1.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  pango-1.43.0-3.fc30.x86_64                              pixman-0.38.0-1.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  shared-mime-info-1.12-2.fc30.x86_64                     urw-base35-bookman-fonts-20170801-12.fc30.noarch
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  urw-base35-c059-fonts-20170801-12.fc30.noarch           urw-base35-d050000l-fonts-20170801-12.fc30.noarch
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  urw-base35-fonts-20170801-12.fc30.noarch                urw-base35-fonts-common-20170801-12.fc30.noarch
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  urw-base35-gothic-fonts-20170801-12.fc30.noarch         urw-base35-nimbus-mono-ps-fonts-20170801-12.fc30.noarch
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  urw-base35-nimbus-roman-fonts-20170801-12.fc30.noarch   urw-base35-nimbus-sans-fonts-20170801-12.fc30.noarch
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  urw-base35-p052-fonts-20170801-12.fc30.noarch           urw-base35-standard-symbols-ps-fonts-20170801-12.fc30.noarch
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  urw-base35-z003-fonts-20170801-12.fc30.noarch           xorg-x11-font-utils-1:7.5-41.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋  xorg-x11-server-utils-7.7-28.fc30.x86_64
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z INFO Complete!
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG Cleaning up.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/librsvg2-2.45.6-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/adobe-mappings-pdf-20180407-3.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/pango-1.43.0-3.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libX11-common-1.6.7-1.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/whitewaterfoundry_wslu-06373811a945ad76/packages/wslu-2.2.1-1.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-fonts-common-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/lcms2-2.9-5.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libthai-0.1.28-2.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXmu-1.1.2-13.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/ImageMagick-libs-6.9.10.28-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libijs-0.35-9.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libpaper-1.1.24-24.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXft-2.3.2-12.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libtiff-4.0.10-4.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/fribidi-1.0.5-2.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libidn-1.35-5.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libfontenc-1.1.3-10.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libICE-1.0.9-15.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/fontpackages-filesystem-1.44-24.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXi-1.7.9-9.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/OpenEXR-libs-2.2.0-16.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libwebp-1.0.2-2.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/dbus-libs-1.12.14-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/libgomp-9.1.1-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/pixman-0.38.0-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/jbig2dec-libs-0.14-5.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libxcb-1.13.1-2.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/emacs-filesystem-26.2-1.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/adobe-mappings-cmap-20171205-5.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXrender-0.9.10-9.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libcroco-0.6.13-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/mcpp-2.7.2-23.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/graphite2-1.3.10-7.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-nimbus-mono-ps-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libdatrie-0.2.9-9.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-nimbus-roman-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libwmf-lite-0.2.12-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/ilmbase-2.2.0-15.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXau-1.0.9-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libjpeg-turbo-2.0.2-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXfixes-5.0.3-9.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/google-droid-sans-fonts-20120715-15.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/libXt-1.1.5-11.20190424gitba4ec9376.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXxf86misc-1.0.4-3.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/adobe-mappings-cmap-deprecated-20171205-5.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/fontconfig-2.13.1-8.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/bc-1.07.1-8.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-standard-symbols-ps-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/harfbuzz-2.3.1-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXinerama-1.1.4-3.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/cups-libs-2.2.11-2.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libX11-1.6.7-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/xorg-x11-font-utils-7.5-41.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-d050000l-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/shared-mime-info-1.12-2.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/cairo-gobject-1.16.0-5.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-nimbus-sans-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/xorg-x11-server-utils-7.7-28.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/cracklib-dicts-2.9.6-19.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/openjpeg2-2.3.1-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/avahi-libs-0.7-18.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-z003-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/ImageMagick-6.9.10.28-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/jbigkit-libs-2.1-16.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXcursor-1.1.15-5.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libSM-1.2.3-2.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXrandr-1.5.1-9.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/gdk-pixbuf2-2.38.1-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libpng-1.6.36-1.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXxf86vm-1.1.4-11.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libgs-9.26-4.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libmcpp-2.7.2-23.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-bookman-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/freetype-2.9.1-7.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-gothic-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-p052-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/fftw-libs-double-3.3.8-4.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/urw-base35-c059-fonts-20170801-12.fc30.noarch.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/fedora-a924e206df91842b/packages/libXext-1.3.3-11.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG /var/cache/dnf/updates-d6521d96a82a4d6a/packages/cairo-1.16.0-5.fc30.x86_64.rpm removed
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z INFO --- logging initialized ---
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG timer: config: 2 ms
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG DNF version: 4.2.5
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG Command: dnf -y reinstall crypto-policies --exclude=grub*,dracut*,grubby,kpartx,kmod,os-prober,libkcapi*
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG Installroot: /
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG Releasever: 30
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG cachedir: /var/cache/dnf
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG Base command: reinstall
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DDEBUG Extra commands: ['-y', 'reinstall', 'crypto-policies', '--exclude=grub*,dracut*,grubby,kpartx,kmod,os-prober,libkcapi*']
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG Unknown configuration value: failovermethod=priority in /etc/yum.repos.d/fedora-updates-modular.repo; Configuration: OptionBinding with id "failovermethod" does not exist
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG Unknown configuration value: failovermethod=priority in /etc/yum.repos.d/fedora-updates-modular.repo; Configuration: OptionBinding with id "failovermethod" does not exist
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG Unknown configuration value: failovermethod=priority in /etc/yum.repos.d/fedora-updates-modular.repo; Configuration: OptionBinding with id "failovermethod" does not exist
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG repo: using cache for: fedora-modular
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG fedora-modular: using metadata from Thu Apr 25 23:47:30 2019.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG repo: using cache for: updates-modular
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG updates-modular: using metadata from Fri Jun 14 00:55:05 2019.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG repo: using cache for: updates
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141120.000000000┋2019-06-16T14:11:20Z DEBUG updates: using metadata from Sun Jun 16 01:04:52 2019.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141121.000000000┋2019-06-16T14:11:21Z DEBUG repo: using cache for: fedora
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141121.000000000┋2019-06-16T14:11:21Z DEBUG fedora: using metadata from Thu Apr 25 23:49:41 2019.
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141121.000000000┋2019-06-16T14:11:21Z DEBUG repo: using cache for: whitewaterfoundry_wslu
+⇳
+./logs/FedoraRemix29/dnf.log┋20190616T141121.000000000┋2019-06-16T14:11:21Z DEBUG whitewaterfoundry_wslu: using metadata from Tue Jun 11 00:02:21 2019.⇳
+

@@ -1,0 +1,2 @@
+./logs/Debian9/messages.log┋20220222T222506.000000000┋Feb 23 06:25:06 host5 liblogging-stdlog:  [origin software="rsyslogd" swVersion="8.24.0" x-pid="219" x-info="http://dir.rsyslog.com"] rsyslogd was HUPed
+⇳

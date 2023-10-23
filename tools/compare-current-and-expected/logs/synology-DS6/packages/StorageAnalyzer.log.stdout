@@ -1,0 +1,26 @@
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T131316.000000000┋2019/06/23 21:13:16	(system) trigger StorageAnalyzer 2.0.1-0198 Begin start-stop-status start
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T131316.000000000┋Copyright (c) 2003-2019 Synology Inc. All rights reserved.
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T131316.000000000┋
+⇳
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T131320.000000000┋2019/06/23 21:13:20	(system) trigger StorageAnalyzer 2.0.1-0198 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T175132.000000000┋2019/06/24 01:51:32	stop StorageAnalyzer 2.0.1-0198 Begin start-stop-status stop
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T175132.000000000┋Copyright (c) 2003-2019 Synology Inc. All rights reserved.
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T175132.000000000┋
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T175132.000000000┋synoreport: no process found
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T175132.000000000┋/bin/rm: cannot remove '/usr/local/etc/nginx/conf.d': Is a directory
+⇳
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T175133.000000000┋2019/06/24 01:51:33	stop StorageAnalyzer 2.0.1-0198 End start-stop-status stop ret=[0]
+⇳
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T175214.000000000┋2019/06/24 01:52:14	start StorageAnalyzer 2.0.1-0198 Begin start-stop-status start
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T175214.000000000┋Copyright (c) 2003-2019 Synology Inc. All rights reserved.
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T175214.000000000┋
+⇳
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190623T175215.000000000┋2019/06/24 01:52:15	start StorageAnalyzer 2.0.1-0198 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190624T174629.000000000┋2019/06/25 01:46:29	stop StorageAnalyzer 2.0.1-0198 Begin start-stop-status stop
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190624T174629.000000000┋Copyright (c) 2003-2019 Synology Inc. All rights reserved.
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190624T174629.000000000┋
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190624T174629.000000000┋synoreport: no process found
+./logs/synology-DS6/packages/StorageAnalyzer.log┋20190624T174629.000000000┋/bin/rm: cannot remove '/usr/local/etc/nginx/conf.d': Is a directory
+⇳

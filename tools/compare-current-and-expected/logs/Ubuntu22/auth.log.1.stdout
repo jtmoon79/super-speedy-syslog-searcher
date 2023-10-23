@@ -1,0 +1,28 @@
+./logs/Ubuntu22/auth.log.1┋20220917T230012.000000000┋Sep 18 07:00:12 host4b sshd[1492]: Failed password for root from 192.168.0.120 port 1492 ssh2
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230013.000000000┋Sep 18 07:00:13 host4b sshd[1492]: Received disconnect from 192.168.0.120 port 1492:11: Bye Bye [preauth]
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230013.000000000┋Sep 18 07:00:13 host4b sshd[1492]: Disconnected from authenticating user root 192.168.0.120 port 1492 [preauth]
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230021.000000000┋Sep 18 07:00:21 host4b sshd[1492]: Invalid user gnat from 192.168.0.61 port 1492
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230021.000000000┋Sep 18 07:00:21 host4b sshd[1492]: pam_unix(sshd:auth): check pass; user unknown
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230021.000000000┋Sep 18 07:00:21 host4b sshd[1492]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.0.61 
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230024.000000000┋Sep 18 07:00:24 host4b sshd[1492]: Failed password for invalid user gnat from 192.168.0.61 port 1492 ssh2
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230027.000000000┋Sep 18 07:00:27 host4b sshd[1492]: Received disconnect from 192.168.0.61 port 1492:11: Bye Bye [preauth]
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230027.000000000┋Sep 18 07:00:27 host4b sshd[1492]: Disconnected from invalid user gnat 192.168.0.61 port 1492 [preauth]
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230033.000000000┋Sep 18 07:00:33 host4b sshd[1492]: Invalid user fw from 192.168.0.17 port 1492
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230033.000000000┋Sep 18 07:00:33 host4b sshd[1492]: pam_unix(sshd:auth): check pass; user unknown
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230033.000000000┋Sep 18 07:00:33 host4b sshd[1492]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.0.17 
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230035.000000000┋Sep 18 07:00:35 host4b sshd[1492]: Failed password for invalid user fw from 192.168.0.17 port 1492 ssh2
+⇳
+./logs/Ubuntu22/auth.log.1┋20220917T230035.000000000┋Sep 18 07:00:35 host4b sshd[1492]: Received disconnect from 192.168.0.17 port 1492:11: Bye Bye [preauth]
+⇳

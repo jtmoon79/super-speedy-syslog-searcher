@@ -1,0 +1,28 @@
+./logs/Ubuntu22/syslog.1┋20220917T230010.000000000┋Sep 18 07:00:10 host4b systemd[1]: logrotate.service: Deactivated successfully.
+⇳
+./logs/Ubuntu22/syslog.1┋20220917T230010.000000000┋Sep 18 07:00:10 host4b systemd[1]: Finished Rotate log files.
+⇳
+./logs/Ubuntu22/syslog.1┋20220917T231701.000000000┋Sep 18 07:17:01 host4b CRON[7600]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+⇳
+./logs/Ubuntu22/syslog.1┋20220917T234301.000000000┋Sep 18 07:43:01 host4b snapd[7600]: storehelpers.go:748: cannot refresh: snap has no updates available: "core20", "lxd", "snapd"
+⇳
+./logs/Ubuntu22/syslog.1┋20220917T234301.000000000┋Sep 18 07:43:01 host4b snapd[7600]: autorefresh.go:540: auto-refresh: all snaps are up-to-date
+⇳
+./logs/Ubuntu22/syslog.1┋20220918T001701.000000000┋Sep 18 08:17:01 host4b CRON[7600]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+⇳
+./logs/Ubuntu22/syslog.1┋20220918T011701.000000000┋Sep 18 09:17:01 host4b CRON[7600]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+⇳
+./logs/Ubuntu22/syslog.1┋20220918T021001.000000000┋Sep 18 10:10:01 host4b CRON[7600]: (root) CMD (test -e /run/systemd/system || SERVICE_MODE=1 /sbin/e2scrub_all -A -r)
+⇳
+./logs/Ubuntu22/syslog.1┋20220918T021055.000000000┋Sep 18 10:10:55 host4b systemd[1]: Starting Online ext4 Metadata Check for All Filesystems...
+⇳
+./logs/Ubuntu22/syslog.1┋20220918T021055.000000000┋Sep 18 10:10:55 host4b systemd[1]: e2scrub_all.service: Deactivated successfully.
+⇳
+./logs/Ubuntu22/syslog.1┋20220918T021055.000000000┋Sep 18 10:10:55 host4b systemd[1]: Finished Online ext4 Metadata Check for All Filesystems.
+⇳
+./logs/Ubuntu22/syslog.1┋20220918T021155.000000000┋Sep 18 10:11:55 host4b systemd[1]: Starting Daily man-db regeneration...
+⇳
+./logs/Ubuntu22/syslog.1┋20220918T021155.000000000┋Sep 18 10:11:55 host4b systemd[1]: man-db.service: Deactivated successfully.
+⇳
+./logs/Ubuntu22/syslog.1┋20220918T021155.000000000┋Sep 18 10:11:55 host4b systemd[1]: Finished Daily man-db regeneration.
+⇳

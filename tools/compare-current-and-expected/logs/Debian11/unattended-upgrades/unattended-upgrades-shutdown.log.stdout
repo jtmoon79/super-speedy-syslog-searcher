@@ -1,0 +1,10 @@
+./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log┋20221010T150716.775000000┋2022-10-10 23:07:16,775 WARNING - Unable to monitor PrepareForShutdown() signal, polling instead.
+⇳
+./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log┋20221010T150716.776000000┋2022-10-10 23:07:16,776 WARNING - To enable monitoring the PrepareForShutdown() signal instead of polling please install the python3-gi package
+⇳
+./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log┋20221010T160222.463000000┋2022-10-11 00:02:22,463 WARNING - SIGTERM or SIGHUP received, stopping unattended-upgrades only if it is running
+⇳
+./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log┋20221010T160237.174000000┋2022-10-11 00:02:37,174 WARNING - Unable to monitor PrepareForShutdown() signal, polling instead.
+⇳
+./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log┋20221010T160237.174000000┋2022-10-11 00:02:37,174 WARNING - To enable monitoring the PrepareForShutdown() signal instead of polling please install the python3-gi package⇳
+

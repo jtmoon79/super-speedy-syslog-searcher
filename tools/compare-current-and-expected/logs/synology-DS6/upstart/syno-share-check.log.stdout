@@ -1,0 +1,35 @@
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043139.000000000┋2016-12-05T20:31:39-0800 Dec 05 20:31:39 =============== start syno-share-check ================
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043140.000000000┋2016-12-05T20:31:40-0800 synocheckshare: Pass SYNOCheckShareSyncConf()
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043140.000000000┋synocheckshare: Pass SYNOCheckShareRestore()
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043140.000000000┋2016-12-05T20:31:40-0800 synocheckshare: Pass SYNOICheckServiceLink()
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043140.000000000┋synocheckshare: Pass SYNOCheckShareMoveKeyFiles()
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043140.000000000┋2016-12-05T20:31:40-0800 Empyt admin password and enabled, skip automount.
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043140.000000000┋2016-12-05T20:31:40-0800 synocheckshare: Pass SYNOCheckShareAutoMount()
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043140.000000000┋2016-12-05T20:31:40-0800 synocheckshare: Pass SYNOIServiceShareEnableDefaultDS()
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043140.000000000┋2016-12-05T20:31:40-0800 synocheckshare: Pass SYNOCheckShareSetEadirPerm()
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043141.000000000┋2016-12-05T20:31:41-0800 synosharesnap: Pass SYNOShareSnapSnapshotDirHandler(nett-check)
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043142.000000000┋2016-12-05T20:31:42-0800 synocheckiscsitrg: Pass.
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043143.000000000┋2016-12-05T20:31:43-0800 Skip update config because not found /.old_patch_info/VERSION
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T043143.000000000┋2016-12-05T20:31:43-0800 Dec 05 20:31:43 =============== finish syno-share-check ===============
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T051142.000000000┋2016-12-05T21:11:42-0800 Dec 05 21:11:42 =============== start syno-share-check ================
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T051142.000000000┋2016-12-05T21:11:42-0800 synocheckshare: Pass SYNOCheckShareSyncConf()
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T051142.000000000┋2016-12-05T21:11:42-0800 synocheckshare: Pass SYNOCheckShareRestore()
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T051143.000000000┋2016-12-05T21:11:43-0800 synocheckshare: Pass SYNOICheckServiceLink()
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T051143.000000000┋synocheckshare: Pass SYNOCheckShareMoveKeyFiles()
+⇳
+./logs/synology-DS6/upstart/syno-share-check.log┋20161206T051143.000000000┋2016-12-05T21:11:43-0800 synocheckshare: Pass SYNOCheckShareAutoMount()
+⇳

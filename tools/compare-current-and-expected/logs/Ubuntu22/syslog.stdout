@@ -1,0 +1,28 @@
+./logs/Ubuntu22/syslog┋20221003T134821.000000000┋Oct  3 21:48:21 host4b systemd[1]: rsyslog.service: Sent signal SIGHUP to main process 757 (rsyslogd) on client request.
+⇳
+./logs/Ubuntu22/syslog┋20221003T134821.000000000┋Oct  3 21:48:21 host4b systemd[1]: logrotate.service: Deactivated successfully.
+⇳
+./logs/Ubuntu22/syslog┋20221003T134821.000000000┋Oct  3 21:48:21 host4b systemd[1]: Finished Rotate log files.
+⇳
+./logs/Ubuntu22/syslog┋20221003T134823.000000000┋Oct  3 21:48:23 host4b ModemManager[802]: <info>  [base-manager] couldn't check support for device '/sys/devices/pci0000:00/0000:00:03.0': not supported by any plugin
+⇳
+./logs/Ubuntu22/syslog┋20221003T134823.000000000┋Oct  3 21:48:23 host4b ModemManager[802]: <info>  [base-manager] couldn't check support for device '/sys/devices/pci0000:00/0000:00:04.0': not supported by any plugin
+⇳
+./logs/Ubuntu22/syslog┋20221003T134824.000000000┋Oct  3 21:48:24 host4b systemd[1]: tmp-snap.rootfs_KSvaiJ.mount: Deactivated successfully.
+⇳
+./logs/Ubuntu22/syslog┋20221003T134825.000000000┋Oct  3 21:48:25 host4b systemd[1]: dmesg.service: Deactivated successfully.
+⇳
+./logs/Ubuntu22/syslog┋20221003T134825.000000000┋Oct  3 21:48:25 host4b snapd[763]: AppArmor status: apparmor is enabled and all features are available
+⇳
+./logs/Ubuntu22/syslog┋20221003T134826.000000000┋Oct  3 21:48:26 host4b snapd[763]: overlord.go:263: Acquiring state lock file
+⇳
+./logs/Ubuntu22/syslog┋20221003T134826.000000000┋Oct  3 21:48:26 host4b snapd[763]: overlord.go:268: Acquired state lock file
+⇳
+./logs/Ubuntu22/syslog┋20221003T134826.000000000┋Oct  3 21:48:26 host4b snapd[763]: daemon.go:247: started snapd/2.57.1 (series 16; classic) ubuntu/22.04 (amd64) linux/5.15.0-47-generic.
+⇳
+./logs/Ubuntu22/syslog┋20221003T134826.000000000┋Oct  3 21:48:26 host4b kernel: [   30.7734] loop6: detected capacity change from 0 to 8
+⇳
+./logs/Ubuntu22/syslog┋20221003T134826.000000000┋Oct  3 21:48:26 host4b systemd[1]: tmp-syscheck\x2dmountpoint\x2d741297994.mount: Deactivated successfully.
+⇳
+./logs/Ubuntu22/syslog┋20221003T134826.000000000┋Oct  3 21:48:26 host4b snapd[763]: daemon.go:340: adjusting startup timeout by 45s (pessimistic estimate of 30s plus 5s per snap)
+⇳

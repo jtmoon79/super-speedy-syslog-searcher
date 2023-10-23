@@ -1,0 +1,33 @@
+./logs/Debian9/alternatives.log┋20200203T055501.000000000┋update-alternatives 2020-02-03 13:55:01: run with --install /usr/bin/pager pager /bin/more 50 --slave /usr/share/man/man1/pager.1.gz pager.1.gz /usr/share/man/man1/more.1.gz
+⇳
+./logs/Debian9/alternatives.log┋20200203T055502.000000000┋update-alternatives 2020-02-03 13:55:02: run with --remove pager /usr/bin/pg
+./logs/Debian9/alternatives.log┋20200203T055502.000000000┋update-alternatives BAD DATETIME
+⇳
+./logs/Debian9/alternatives.log┋20200203T055503.000000000┋update-alternatives 2020-02-03 13:55:03: run with --install /usr/bin/ps
+./logs/Debian9/alternatives.log┋20200203T055503.000000000┋
+⇳
+./logs/Debian9/alternatives.log┋20200203T055604.000000000┋update-alternatives 2020-02-03 13:56:04: run with --install /usr/bin/rmid rmid /usr/lib/jvm/java-11-openjdk-amd64/bin/rmid 1111 --slave /usr/share/man/man1/rmid.1.gz rmid.1.gz /usr/lib/jvm/java-11-openjdk-amd64/man/man1/rmid.1.gz
+./logs/Debian9/alternatives.log┋20200203T055604.000000000┋Baz
+⇳
+./logs/Debian9/alternatives.log┋20200203T055605.000000000┋update-alternatives 2020-02-03 13:56:05: run with --install /usr/bin/java java /usr/lib/jvm/java-11-openjdk-amd64/bin/java 1111 --slave /usr/share/man/man1/java.1.gz java.1.gz /usr/lib/jvm/java-11-openjdk-amd64/man/man1/java.1.gz
+⇳
+./logs/Debian9/alternatives.log┋20200203T055606.000000000┋update-alternatives 2020-02-03 13:56:06: run with --install /usr/bin/keytool keytool /usr/lib/jvm/java-11-openjdk-amd64/bin/keytool 1111 --slave /usr/share/man/man1/keytool.1.gz keytool.1.gz /usr/lib/jvm/java-11-openjdk-amd64/man/man1/keytool.1.gz
+./logs/Debian9/alternatives.log┋20200203T055606.000000000┋Foo
+./logs/Debian9/alternatives.log┋20200203T055606.000000000┋Bar
+⇳
+./logs/Debian9/alternatives.log┋20200203T055607.000000000┋update-alternatives 2020-02-03 13:56:07: run with --install /usr/bin/jjs jjs /usr/lib/jvm/java-11-openjdk-amd64/bin/jjs 1111 --slave /usr/share/man/man1/jjs.1.gz jjs.1.gz /usr/lib/jvm/java-11-openjdk-amd64/man/man1/jjs.1.gz
+⇳
+./logs/Debian9/alternatives.log┋20200203T055608.000000000┋update-alternatives 2020-02-03 13:56:08: run with --install /usr/bin/pack200 pack200 /usr/lib/jvm/java-11-openjdk-amd64/bin/pack200 1111 --slave /usr/share/man/man1/pack200.1.gz pack200.1.gz /usr/lib/jvm/java-11-openjdk-amd64/man/man1/pack200.1.gz
+⇳
+./logs/Debian9/alternatives.log┋20200203T055709.000000000┋update-alternatives 2020-02-03 13:57:09: run with --install /usr/bin/rmiregistry rmiregistry /usr/lib/jvm/java-11-openjdk-amd64/bin/rmiregistry 1111 --slave /usr/share/man/man1/rmiregistry.1.gz rmiregistry.1.gz /usr/lib/jvm/java-11-openjdk-amd64/man/man1/rmiregistry.1.gz
+⇳
+./logs/Debian9/alternatives.log┋20200203T055710.000000000┋update-alternatives 2020-02-03 13:57:10: run with --install /usr/bin/unpack200 unpack200 /usr/lib/jvm/java-11-openjdk-amd64/bin/unpack200 1111 --slave /usr/share/man/man1/unpack200.1.gz unpack200.1.gz /usr/lib/jvm/java-11-openjdk-amd64/man/man1/unpack200.1.gz
+⇳
+./logs/Debian9/alternatives.log┋20200203T055711.000000000┋update-alternatives 2020-02-03 13:57:11: run with --install /usr/bin/jfr jfr /usr/lib/jvm/java-11-openjdk-amd64/bin/jfr 1111
+⇳
+./logs/Debian9/alternatives.log┋20200203T055712.000000000┋update-alternatives 2020-02-03 13:57:12: link group jfr updated to point to /usr/lib/jvm/java-11-openjdk-amd64/bin/jfr
+⇳
+./logs/Debian9/alternatives.log┋20200203T055713.000000000┋update-alternatives 2020-02-03 13:57:13: run with --install /usr/bin/jexec jexec /usr/lib/jvm/java-11-openjdk-amd64/lib/jexec 1111 --slave /usr/share/binfmts/jar jexec-binfmt /usr/lib/jvm/java-11-openjdk-amd64/lib/jar.binfmt
+⇳
+./logs/Debian9/alternatives.log┋20200203T055714.000000000┋update-alternatives 2020-02-03 13:57:14: run with --install /usr/bin/x-dir-browser x-dir-browser /usr/bin/opera 120 --slave /usr/share/man/man1/x-dir-browser.1.gz x-dir-browser.1.gz /usr/share/man/man1/opera.1.gz
+⇳

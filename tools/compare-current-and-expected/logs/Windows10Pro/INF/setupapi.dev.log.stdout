@@ -1,0 +1,43 @@
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220811T142921.389000000┋[Boot Session: 2022/08/11 22:29:21.389]
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220811T142921.389000000┋
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220811T142921.389000000┋>>>  [Uninstall Driver Updates]
+⇳
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋>>>  Section start 2022/09/14 21:28:18.119
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋      cmd: C:\WINDOWS\winsxs\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.27105.1940_none_7dd80d767cb5c7b0\TiWorker.exe -Embedding
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: Image State        = Specialized
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: Image Architecture = amd64
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: Image OS Version   = 10.0.27105
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: Image Product Type = WinNT
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: Transaction        = CbsDriversAndPrimitives
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: Driver Updates     = 15
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\wvpci.inf_amd64_86afbe8940682d27\wvpci.inf} 21:28:18.156
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto:      Driver Package = wvpci.inf_amd64_86afbe8940682d27
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:      {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\wvpci.inf_amd64_86afbe8940682d27\wvpci.inf} 21:28:18.156
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:           Driver package 'wvpci.inf_amd64_f09d7f57f733d44b' is already active.
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.157
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.158
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\wvmbus.inf_amd64_b3e8f3ce60e5c8b5\wvmbus.inf} 21:28:18.158
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto:      Driver Package = wvmbus.inf_amd64_b3e8f3ce60e5c8b5
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:      {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\wvmbus.inf_amd64_b3e8f3ce60e5c8b5\wvmbus.inf} 21:28:18.159
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:           Driver package 'wvmbus.inf_amd64_ddd906c20fb3f5c6' is already active.
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.160
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.160
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\prnms002.inf_amd64_8dc867f097f52bb8\prnms002.inf} 21:28:18.161
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto:      Driver Package = prnms002.inf_amd64_8dc867f097f52bb8
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:      {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\prnms002.inf_amd64_8dc867f097f52bb8\prnms002.inf} 21:28:18.162
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:           Driver package 'prnms002.inf_amd64_7f999cfa1546d587' is already active.
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.163
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.163
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\prnms003.inf_x86_13f668b4ea0e3e37\prnms003.inf} 21:28:18.164
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto:      Driver Package = prnms003.inf_x86_13f668b4ea0e3e37
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:      {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\prnms003.inf_x86_13f668b4ea0e3e37\prnms003.inf} 21:28:18.165
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:           Driver package 'prnms003.inf_amd64_63cd996b3eeb2f69' is already active.
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.166
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.166
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\sdbus.inf_amd64_0364ef1a434bfc53\sdbus.inf} 21:28:18.166
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto:      Driver Package = sdbus.inf_amd64_0364ef1a434bfc53
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:      {Unpublish Driver Package: C:\WINDOWS\System32\DriverStore\FileRepository\sdbus.inf_amd64_0364ef1a434bfc53\sdbus.inf} 21:28:18.167
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:           Driver package 'sdbus.inf_amd64_cda3549ab0dfc976' is already active.
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     idb:      {Unpublish Driver Package: exit(0x00000000)} 21:28:18.168
+./logs/Windows10Pro/INF/setupapi.dev.log┋20220914T132818.119000000┋     sto: {Unpublish Driver Package: exit(0x00000000)} 21:28:18.168⇳
+

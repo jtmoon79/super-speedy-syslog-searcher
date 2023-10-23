@@ -1,0 +1,14 @@
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋2022-07-31 19:12:53,084 - util.py[WARNING]: Failed writing file: /etc/resolv.conf
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋Cloud-init v. 22.2-0ubuntu1~22.04.3 running 'init' at Sun, 31 Jul 2022 19:13:08 +0000. Up 20.92 seconds.
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: +++++++++++++++++++++++++++++++++++++++Net device info+++++++++++++++++++++++++++++++++++++++
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: +--------+------+------------------------------+---------------+--------+-------------------+
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: | Device |  Up  |           Address            |      Mask     | Scope  |     Hw-Address    |
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: +--------+------+------------------------------+---------------+--------+-------------------+
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: |  eth0  | True |       192.168.0.172        | 192.168.0.0 | global | 01:02:03:04:05:0e |
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: |  eth0  | True |          192.168.0.5           |  192.168.0.0  | global | 01:02:03:04:05:0e |
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: |  eth0  | True | fe80::984c:9fff:fe1e:9e0e/64 |       .       |  link  | 01:02:03:04:05:0e |
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: |  eth1  | True |          192.168.0.2          | 192.168.0.0 | global | 01:02:03:04:05:c3 |
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: |  eth1  | True | fe80::3405:7aff:fe72:aec3/64 |       .       |  link  | 01:02:03:04:05:c3 |
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: |   lo   | True |          192.168.0.1           |   192.168.0.0   |  host  |         .         |
+./logs/Ubuntu22/cloud-init-output.log┋20220731T111253.084000000┋ci-info: |   lo   | True |           ::1/128            |       .       |  host  |         .         |
+⇳

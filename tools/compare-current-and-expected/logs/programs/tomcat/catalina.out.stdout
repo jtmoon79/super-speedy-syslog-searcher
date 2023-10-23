@@ -1,0 +1,28 @@
+./logs/programs/tomcat/catalina.out┋20230208T041209.827000000┋08-Feb-2023 12:12:09.827 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio2-0.0.0.0-8080"]
+⇳
+./logs/programs/tomcat/catalina.out┋20230208T041209.848000000┋08-Feb-2023 12:12:09.848 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 513 ms
+⇳
+./logs/programs/tomcat/catalina.out┋20230208T041209.857000000┋08-Feb-2023 12:12:09.857 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+⇳
+./logs/programs/tomcat/catalina.out┋20230208T041209.857000000┋08-Feb-2023 12:12:09.857 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/8.5.79]
+⇳
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋08-Feb-2023 12:12:20.063 INFO [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋SLF4J: Class path contains multiple SLF4J bindings.
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋SLF4J: Found binding in [jar:file:/tomcat/apache-tomcat-8.5.79/lib/slf4j-simple-1.6.4.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋SLF4J: Actual binding is of type [ch.qos.logback.classic.util.ContextSelectorStaticBinder]
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋  .   ____          _            __ _ _
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋  '  |____| .__|_| |_|_| |_\__, | / / / /
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋ =========|_|==============|___/=/_/_/_/
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋ :: Spring Boot ::                (v2.7.6)
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋
+./logs/programs/tomcat/catalina.out┋20230208T041220.063000000┋LOGBACK: No context given for ch.qos.logback.classic.AsyncAppender[null]
+⇳
+./logs/programs/tomcat/catalina.out┋20230208T041248.820000000┋08-Feb-2023 12:12:48.820 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio2-0.0.0.0-8080"]
+⇳
+./logs/programs/tomcat/catalina.out┋20230208T041248.822000000┋08-Feb-2023 12:12:48.822 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 38973 ms
+⇳

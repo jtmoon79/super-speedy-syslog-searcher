@@ -1,0 +1,3 @@
+./logs/Debian9/samba/log.smbd.1┋20200205T191733.158300000┋[2020/02/06 03:17:33.15830,  0] ../lib/util/become_daemon.c:124(daemon_ready)
+./logs/Debian9/samba/log.smbd.1┋20200205T191733.158300000┋  STATUS=daemon 'smbd' finished starting up and ready to serve connections
+⇳

@@ -1,0 +1,37 @@
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043135.000000000┋2016-12-05T20:31:35-0800 Mon Dec 5 20:31:35 PST 2016: start ssdpd
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043135.000000000┋2016-12-05T20:31:35-0800 target interface:  -i eth0
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 /usr/syno/bin/reg_ssdp_service /usr/syno/etc/ssdp/ssdp.conf
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 --
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 Register [DSM] to ssdpd
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 Request on [eth0]
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 (15): upnp:rootdevice
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 (58): uuid:3596-1111-2222-0000-012345678911::upnp:rootdevice
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 (28): Synology/DSM/192.168.0.147
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 (50): http://192.168.0.147:5000/ssdp/desc-DSM-eth0.xml
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 Connected.
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 ----
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043136.000000000┋2016-12-05T20:31:36-0800 done.
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043644.000000000┋2016-12-05T20:36:44-0800 Mon Dec 5 20:36:44 PST 2016: stop ssdpd
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043646.000000000┋2016-12-05T20:36:46-0800 Mon Dec 5 20:36:46 PST 2016: start ssdpd
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043646.000000000┋2016-12-05T20:36:46-0800 target interface:  -i eth0
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043647.000000000┋2016-12-05T20:36:47-0800 /usr/syno/bin/reg_ssdp_service /usr/syno/etc/ssdp/ssdp.conf
+⇳
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043647.000000000┋2016-12-05T20:36:47-0800 --
+./logs/synology-DS6/upstart/minissdpd.log┋20161206T043647.000000000┋Register [DSM] to ssdpd
+⇳

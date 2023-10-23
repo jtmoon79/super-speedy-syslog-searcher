@@ -1,0 +1,24 @@
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190623T131411.000000000┋2019/06/23 21:14:11	(system) trigger SynologyApplicationService 1.5.4-0320 Begin start-stop-status start
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190623T131411.000000000┋pkg-SynologyApplicationService-notification_send start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190623T131411.000000000┋pkg-SynologyApplicationService-notification_send start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190623T131411.000000000┋pkg-SynologyApplicationService-pgbouncer start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190623T131411.000000000┋pkg-SynologyApplicationService-pgbouncer start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190623T131411.000000000┋pkg-SynologyApplicationService-VapidSendServer start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190623T131411.000000000┋pkg-SynologyApplicationService-VapidSendServer start/running, process 1453
+⇳
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190623T131426.000000000┋2019/06/23 21:14:26	(system) trigger SynologyApplicationService 1.5.4-0320 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190818T132849.000000000┋2019/08/18 21:28:49	(system) trigger SynologyApplicationService 1.5.4-0320 Begin start-stop-status start
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190818T132849.000000000┋pkg-SynologyApplicationService-notification_send start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190818T132849.000000000┋pkg-SynologyApplicationService-notification_send start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190818T132849.000000000┋pkg-SynologyApplicationService-pgbouncer start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190818T132849.000000000┋pkg-SynologyApplicationService-pgbouncer start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190818T132849.000000000┋pkg-SynologyApplicationService-VapidSendServer start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190818T132849.000000000┋pkg-SynologyApplicationService-VapidSendServer start/running, process 1453
+⇳
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190818T132908.000000000┋2019/08/18 21:29:08	(system) trigger SynologyApplicationService 1.5.4-0320 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190831T062558.000000000┋2019/08/31 14:25:58	(system) trigger SynologyApplicationService 1.5.4-0320 Begin start-stop-status start
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190831T062558.000000000┋pkg-SynologyApplicationService-notification_send start/running, process 1453
+./logs/synology-DS6/packages/SynologyApplicationService.log┋20190831T062558.000000000┋pkg-SynologyApplicationService-notification_send start/running, process 1453
+⇳

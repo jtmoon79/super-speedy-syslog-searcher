@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20181206T102737.000000000┋2018-12-06T02:27:37-0800 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20181217T230629.000000000┋2018-12-17T15:06:29-0800 ======== stop SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20181217T231015.000000000┋2018-12-17T15:10:15-0800 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20181231T011327.000000000┋2018-12-30T17:13:27-0800 ======== stop SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20181231T011425.000000000┋2018-12-30T17:14:25-0800 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190103T080611.000000000┋2019-01-03T00:06:11-0800 ======== stop SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190103T081022.000000000┋2019-01-03T00:10:22-0800 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190212T004637.000000000┋2019-02-11T16:46:37-0800 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190212T032545.000000000┋2019-02-11T19:25:45-0800 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190304T173539.000000000┋2019-03-04T09:35:39-0800 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190307T071549.000000000┋2019-03-06T23:15:49-0800 ======== stop SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190307T071742.000000000┋2019-03-06T23:17:42-0800 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190507T232348.000000000┋2019-05-07T16:23:48-0700 ======== stop SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190507T232415.000000000┋2019-05-07T16:24:15-0700 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190624T040657.000000000┋2019-06-23T21:06:57-0700 ======== stop SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190624T041427.000000000┋2019-06-23T21:14:27-0700 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190819T042459.000000000┋2019-08-18T21:24:59-0700 /proc/self/fd/9: line 2:  2373 Terminated              /sbin/initctl emit syno.pkgctl.stopping NAME="$SELF"
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190819T042909.000000000┋2019-08-18T21:29:09-0700 ======== start SynologyDrive ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log┋20190831T212203.000000000┋2019-08-31T14:22:03-0700 initctl: Event failed
+⇳

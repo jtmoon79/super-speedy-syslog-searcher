@@ -1,0 +1,12 @@
+./logs/Ubuntu18/cups/access_log.1┋20200314T070747.000000000┋localhost - - [14/Mar/2020:00:07:47 -0700] "POST / HTTP/1.1" 200 349 Create-Printer-Subscriptions successful-ok
+⇳
+./logs/Ubuntu18/cups/access_log.1┋20200314T070747.000000000┋localhost - - [14/Mar/2020:00:07:47 -0700] "POST / HTTP/1.1" 200 176 Create-Printer-Subscriptions successful-ok
+⇳
+./logs/Ubuntu18/cups/access_log.1┋20200315T070648.000000000┋localhost - - [15/Mar/2020:00:06:48 -0700] "POST / HTTP/1.1" 401 186 Renew-Subscription successful-ok
+⇳
+./logs/Ubuntu18/cups/access_log.1┋20200315T070648.000000000┋localhost - root [15/Mar/2020:00:06:48 -0700] "POST / HTTP/1.1" 200 186 Renew-Subscription successful-ok
+⇳
+./logs/Ubuntu18/cups/access_log.1┋20200315T070826.000000000┋localhost - root [15/Mar/2020:00:08:26 -0700] "POST / HTTP/1.1" 200 123 Cancel-Subscription successful-ok
+⇳
+./logs/Ubuntu18/cups/access_log.1┋20200315T070826.000000000┋localhost - - [15/Mar/2020:00:08:26 -0700] "POST / HTTP/1.1" 200 152 Cancel-Subscription client-error-not-found
+⇳

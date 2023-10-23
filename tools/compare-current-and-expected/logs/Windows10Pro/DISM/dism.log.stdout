@@ -1,0 +1,205 @@
+./logs/Windows10Pro/DISM/dism.log┋20220222T041813.000000000┋﻿2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220222T041813.000000000┋2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: <----- Starting DismApi.dll session -----> - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220222T041813.000000000┋2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220222T041813.000000000┋2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: Host machine information: OS Version=10.0.8708, Running architecture=amd64, Number of processors=4 - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220222T041813.000000000┋2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: API Version 10.0.8708.844 - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220222T041813.000000000┋2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: Parent process command line: C:\WINDOWS\system32\cleanmgr.exe /autoclean /d C: - DismInitializeInternal
+./logs/Windows10Pro/DISM/dism.log┋20220222T041813.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220304T041733.000000000┋2022-03-04 12:17:33, Info                  DISM   DISM Provider Store: PID=5436 TID=8708 Attempting to initialize the logger from the Image Session. - CDISMProviderStore::Final_OnConnect
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220304T041733.000000000┋2022-03-04 12:17:33, Info                  DISM   DISM Provider Store: PID=5436 TID=8708 Connecting to the provider located at C:\Users\user1\AppData\Local\Temp\00000000-1111-2222-974A-012345678911\LogProvider.dll. - CDISMProviderStore::Internal_LoadProvider
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220304T041733.000000000┋2022-03-04 12:17:33, Info                  DISM   Initialized Panther logging at C:\WINDOWS\Logs\DISM\dism.log
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220304T041733.000000000┋2022-03-04 12:17:33, Info                  DISM   DISM Provider Store: PID=5436 TID=8708 Found and Initialized the DISM Logger. - CDISMProviderStore::Internal_InitializeLogger
+./logs/Windows10Pro/DISM/dism.log┋20220304T041733.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220316T053228.000000000┋2022-03-16 13:32:28, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220316T053228.000000000┋2022-03-16 13:32:28, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: <----- Starting DismApi.dll session -----> - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220316T053228.000000000┋2022-03-16 13:32:28, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220316T053228.000000000┋2022-03-16 13:32:28, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: Host machine information: OS Version=10.0.8708, Running architecture=amd64, Number of processors=4 - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220316T053228.000000000┋2022-03-16 13:32:28, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: API Version 10.0.8708.844 - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220316T053228.000000000┋2022-03-16 13:32:28, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: Parent process command line: C:\WINDOWS\system32\cleanmgr.exe /autoclean /d C: - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220316T053228.000000000┋2022-03-16 13:32:28, Info                  DISM   API: PID=8708 TID=8708 Enter DismInitializeInternal - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220316T053228.000000000┋2022-03-16 13:32:28, Info                  DISM   API: PID=8708 TID=8708 Input parameters: LogLevel: 2, LogFilePath: (null), ScratchDirectory: (null) - DismInitializeInternal
+./logs/Windows10Pro/DISM/dism.log┋20220316T053228.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: <----- Starting DismApi.dll session -----> - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: Host machine information: OS Version=10.0.8708, Running architecture=amd64, Number of processors=4 - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: API Version 10.0.8708.844 - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: Parent process command line: C:\WINDOWS\system32\cleanmgr.exe /autoclean /d C: - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Enter DismInitializeInternal - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Input parameters: LogLevel: 2, LogFilePath: (null), ScratchDirectory: (null) - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   Initialized Panther logging at C:\WINDOWS\Logs\DISM\dism.log
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Initialized GlobalConfig - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Initialized SessionTable - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Lookup in table by path failed for: DummyPath-00000000-1111-2222-B99D-012345678911 - CTransactionalImageTable::LookupImagePath
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Waiting for m_pInternalThread to start - CCommandThread::Start
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Enter CCommandThread::CommandThreadProcedureStub - CCommandThread::CommandThreadProcedureStub
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Enter CCommandThread::ExecuteLoop - CCommandThread::ExecuteLoop
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 CommandThread StartupEvent signaled - CCommandThread::WaitForStartup
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 m_pInternalThread started - CCommandThread::Start
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Created g_internalDismSession - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Leave DismInitializeInternal - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Enter DismOpenSessionInternal - DismOpenSessionInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋2022-04-06 14:44:44, Info                  DISM   API: PID=8708 TID=8708 Input parameters: ImagePath: DISM_{00000000-1111-2222-A258-012345678911}, WindowsDirectory: (null), SystemDrive: (null) - DismOpenSessionInternal
+./logs/Windows10Pro/DISM/dism.log┋20220406T064444.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064457.000000000┋2022-04-06 14:44:57, Info                  DISM   API: PID=8708 TID=8708 Deleted g_internalDismSession - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064457.000000000┋2022-04-06 14:44:57, Info                  DISM   API: PID=8708 TID=8708 Shutdown SessionTable - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064457.000000000┋2022-04-06 14:44:57, Info                  DISM   API: PID=8708 TID=8708 Leave DismShutdownInternal - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064457.000000000┋2022-04-06 14:44:57, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                          - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064457.000000000┋2022-04-06 14:44:57, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: <----- Ending DismApi.dll session -----> - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064457.000000000┋2022-04-06 14:44:57, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                          - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220406T064457.000000000┋2022-04-06 14:44:57, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows Upgrade Log Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+./logs/Windows10Pro/DISM/dism.log┋20220406T064457.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055606.000000000┋2022-05-04 13:56:06, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055606.000000000┋2022-05-04 13:56:06, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: <----- Starting DismApi.dll session -----> - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055606.000000000┋2022-05-04 13:56:06, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055606.000000000┋2022-05-04 13:56:06, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: Host machine information: OS Version=10.0.8708, Running architecture=amd64, Number of processors=4 - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055606.000000000┋2022-05-04 13:56:06, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: API Version 10.0.8708.844 - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055606.000000000┋2022-05-04 13:56:06, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: Parent process command line: C:\WINDOWS\system32\cleanmgr.exe /autoclean /d C: - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055606.000000000┋2022-05-04 13:56:06, Info                  DISM   API: PID=8708 TID=8708 Enter DismInitializeInternal - DismInitializeInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055606.000000000┋2022-05-04 13:56:06, Info                  DISM   API: PID=8708 TID=8708 Input parameters: LogLevel: 2, LogFilePath: (null), ScratchDirectory: (null) - DismInitializeInternal
+./logs/Windows10Pro/DISM/dism.log┋20220504T055606.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055621.000000000┋2022-05-04 13:56:21, Info                  DISM   API: PID=8708 TID=8708 Deleted g_internalDismSession - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055621.000000000┋2022-05-04 13:56:21, Info                  DISM   API: PID=8708 TID=8708 Shutdown SessionTable - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055621.000000000┋2022-05-04 13:56:21, Info                  DISM   API: PID=8708 TID=8708 Leave DismShutdownInternal - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055621.000000000┋2022-05-04 13:56:21, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                          - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055621.000000000┋2022-05-04 13:56:21, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: <----- Ending DismApi.dll session -----> - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055621.000000000┋2022-05-04 13:56:21, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                          - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220504T055621.000000000┋2022-05-04 13:56:21, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows Upgrade Log Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+./logs/Windows10Pro/DISM/dism.log┋20220504T055621.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220605T164339.000000000┋2022-06-06 00:43:39, Info                  DISM   Initialized Panther logging at C:\WINDOWS\Logs\DISM\dism.log
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220605T164339.000000000┋2022-06-06 00:43:39, Info                  DISM   Initialized Panther logging at C:\WINDOWS\Logs\DISM\dism.log
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220605T164339.000000000┋2022-06-06 00:43:39, Info                  DISM   DISM Manager: PID=8708 TID=8708 Image session successfully loaded from the temporary location: C:\Users\user1\AppData\Local\Temp\00000000-1111-2222-B59B-012345678911 - CDISMManager::CreateImageSession
+./logs/Windows10Pro/DISM/dism.log┋20220605T164339.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM Provider Store: PID=3144 TID=8708 Getting the collection of providers from a local provider store type. - CDISMProviderStore::GetProviderCollection
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM Provider Store: PID=3144 TID=8708 Connecting to the provider located at C:\WINDOWS\system32\Dism\FolderProvider.dll. - CDISMProviderStore::Internal_LoadProvider
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Warning               DISM   DISM Provider Store: PID=3144 TID=8708 Failed to load the provider: C:\WINDOWS\system32\Dism\SiloedPackageProvider.dll. - CDISMProviderStore::Internal_GetProvider(hr:0x8007007e)
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM Provider Store: PID=3144 TID=8708 Connecting to the provider located at C:\WINDOWS\system32\Dism\FfuProvider.dll. - CDISMProviderStore::Internal_LoadProvider
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM Provider Store: PID=3144 TID=8708 Connecting to the provider located at C:\WINDOWS\system32\Dism\WimProvider.dll. - CDISMProviderStore::Internal_LoadProvider
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM Provider Store: PID=3144 TID=8708 Connecting to the provider located at C:\WINDOWS\system32\Dism\VHDProvider.dll. - CDISMProviderStore::Internal_LoadProvider
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM Provider Store: PID=3144 TID=8708 Connecting to the provider located at C:\WINDOWS\system32\Dism\ImagingProvider.dll. - CDISMProviderStore::Internal_LoadProvider
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Warning               DISM   DISM Provider Store: PID=3144 TID=8708 Failed to load the provider: C:\WINDOWS\system32\Dism\MetaDeployProvider.dll. - CDISMProviderStore::Internal_GetProvider(hr:0x8007007e)
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM FFU Provider: PID=3144 TID=8708 [C:\] is not recognized by the DISM FFU provider. - CFfuImage::Initialize
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋[3144] [0x8007007b] FIOReadFileIntoBuffer:(1452): The filename, directory name, or volume label syntax is incorrect.
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋[3144] [0xc142011c] UnmarshallImageHandleFromDirectory:(641)
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋[3144] [0xc142011c] WIMGetMountedImageHandle:(2906)
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM WIM Provider: PID=3144 TID=8708 [C:\] is not a WIM mount point. - CWimMountedImageInfo::Initialize
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM VHD Provider: PID=3144 TID=8708 [C:\] is not recognized by the DISM VHD provider. - CVhdImage::Initialize
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM FFU Provider: PID=3144 TID=8708 [C:\] is not recognized by the DISM FFU provider. - CFfuImage::Initialize
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM Imaging Provider: PID=3144 TID=8708 The provider FfuManager does not support CreateDismImage on C:\ - CGenericImagingManager::CreateDismImage
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM VHD Provider: PID=3144 TID=8708 [C:\] is not recognized by the DISM VHD provider. - CVhdImage::Initialize
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋2022-07-08 14:47:14, Info                  DISM   DISM Imaging Provider: PID=3144 TID=8708 The provider VHDManager does not support CreateDismImage on C:\ - CGenericImagingManager::CreateDismImage
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋[3144] [0x8007007b] FIOReadFileIntoBuffer:(1452): The filename, directory name, or volume label syntax is incorrect.
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋[3144] [0xc142011c] UnmarshallImageHandleFromDirectory:(641)
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋[3144] [0xc142011c] WIMGetMountedImageHandle:(2906)
+./logs/Windows10Pro/DISM/dism.log┋20220708T064714.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220909T043254.000000000┋2022-09-09 12:32:54, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$WINDOWS.~Q
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220909T043254.000000000┋2022-09-09 12:32:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$WINDOWS.~Q\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220909T043254.000000000┋2022-09-09 12:32:54, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$INPLACE.~TR
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220909T043254.000000000┋2022-09-09 12:32:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$INPLACE.~TR\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220909T043254.000000000┋2022-09-09 12:32:54, Info                         CSetupFilesCleanup::CleanVolume - Iterating on: C:\$Windows.~LS
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220909T043254.000000000┋2022-09-09 12:32:54, Error                        EnumeratePathEx: FindFirstFile failed for [\\?\C:\$Windows.~LS\*]; GLE = 0x3[gle=0x00000003]
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220909T043254.000000000┋2022-09-09 12:32:54, Info                         CSetupFilesCleanup::CleanVolume - Return status: 80070003
+./logs/Windows10Pro/DISM/dism.log┋20220909T043254.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20220911T043304.000000000┋2022-09-11 12:33:04, Info                  DISM   PID=8708 TID=8708 Successfully loaded the ImageSession at "C:\WINDOWS\system32\Dism" - CDISMManager::LoadLocalImageSession
+./logs/Windows10Pro/DISM/dism.log┋20220911T043304.000000000┋
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20221012T052621.000000000┋2022-10-12 13:26:21, Info                  DISM   API: PID=8708 TID=8708 Deleted g_internalDismSession - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20221012T052621.000000000┋2022-10-12 13:26:21, Info                  DISM   API: PID=8708 TID=8708 Shutdown SessionTable - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20221012T052621.000000000┋2022-10-12 13:26:21, Info                  DISM   API: PID=8708 TID=8708 Leave DismShutdownInternal - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20221012T052621.000000000┋2022-10-12 13:26:21, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                          - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20221012T052621.000000000┋2022-10-12 13:26:21, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: <----- Ending DismApi.dll session -----> - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20221012T052621.000000000┋2022-10-12 13:26:21, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                          - DismShutdownInternal
+⇳
+./logs/Windows10Pro/DISM/dism.log┋20221012T052621.000000000┋2022-10-12 13:26:21, Info                         CSetupFilesCleanup::Deactivate - session deactivated for Plugin:Windows Upgrade Log Files, Client Process:C:\WINDOWS\system32\cleanmgr.exe
+⇳

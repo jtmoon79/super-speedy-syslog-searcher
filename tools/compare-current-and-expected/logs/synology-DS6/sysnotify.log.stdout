@@ -1,0 +1,38 @@
+./logs/synology-DS6/sysnotify.log┋20180803T110247.000000000┋2018-08-03T04:02:47-07:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanDSMPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20180805T093453.000000000┋2018-08-05T02:34:53-07:00 dsnet synoupgrade[25231]: sysnotify_send_notification.c:599 SYSNOTIFY: [DSMAutoUpdateNotifyNewVersion] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20180810T110244.000000000┋2018-08-10T04:02:44-07:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanDSMPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20180817T110245.000000000┋2018-08-17T04:02:45-07:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanDSMPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20180824T110246.000000000┋2018-08-24T04:02:46-07:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanDSMPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20180831T110245.000000000┋2018-08-31T04:02:45-07:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanDSMPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20180904T211144.000000000┋2018-09-04T14:11:44-07:00 dsnet synoscgi_SYNO.Core.Upgrade.Server.Download_1_start[25231]: sysnotify_send_notification.c:599 SYSNOTIFY: [DSMUpdateAvailable] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20180914T110252.000000000┋2018-09-14T04:02:52-07:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181010T093342.000000000┋2018-10-10T02:33:42-07:00 dsnet synoupgrade[25231]: sysnotify_send_notification.c:599 SYSNOTIFY: [DSMAutoUpdateNotifyNewVersion] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181012T110255.000000000┋2018-10-12T04:02:55-07:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanDSMPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181015T022210.000000000┋2018-10-14T19:22:10-07:00 dsnet synoscgi_SYNO.Core.Upgrade.Server.Download_1_start[25231]: sysnotify_send_notification.c:599 SYSNOTIFY: [DSMUpdateAvailable] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181024T092639.000000000┋2018-10-24T02:26:39-07:00 dsnet synoupgrade[25231]: sysnotify_send_notification.c:599 SYSNOTIFY: [DSMAutoUpdateNotifyNewVersion] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181025T191938.000000000┋2018-10-25T12:19:38-07:00 dsnet synoscgi_SYNO.Core.Upgrade.Server.Download_1_start[25231]: sysnotify_send_notification.c:599 SYSNOTIFY: [DSMUpdateAvailable] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181109T120253.000000000┋2018-11-09T04:02:53-08:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181116T120253.000000000┋2018-11-16T04:02:53-08:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181123T120254.000000000┋2018-11-23T04:02:54-08:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181130T120252.000000000┋2018-11-30T04:02:52-08:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanPackageOutOfDate] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181212T102533.000000000┋2018-12-12T02:25:33-08:00 dsnet synoupgrade[25231]: sysnotify_send_notification.c:599 SYSNOTIFY: [DSMAutoUpdateNotifyNewVersion] was sent to desktop,mail
+⇳
+./logs/synology-DS6/sysnotify.log┋20181214T120305.000000000┋2018-12-14T04:03:05-08:00 dsnet synonotifycustom: sysnotify_send_notification.c:599 SYSNOTIFY: [SecurityScanDSMPackageOutOfDate] was sent to desktop,mail
+⇳

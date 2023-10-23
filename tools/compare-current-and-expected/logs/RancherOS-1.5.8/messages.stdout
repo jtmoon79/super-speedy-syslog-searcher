@@ -1,0 +1,465 @@
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Linux version 4.14.138-rancher (root@012345678911) (gcc version 7.4.0 (GCC)) #1 SMP Sat Aug 10 11:25:46 UTC 2019
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Command line: BOOT_IMAGE=../vmlinuz-4.14.138-rancher printk.devkmsg=on rancher.state.dev=LABEL=RANCHER_STATE rancher.state.wait panic=10 console=tty0 console=tty1 printk.devkmsg=on notsc clocksource=kvm-clock rancher.network.interfaces.eth0.ipv4ll rancher.cloud_init.datasources=["digitalocean"] rancher.autologin=tty1 rancher.autologin=ttyS0 initrd=../initrd-v1.5.8
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] KERNEL supported cpus:
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969]   Intel GenuineIntel
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969]   AMD AuthenticAMD
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969]   Centaur CentaurHauls
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] x86/fpu: Enabled xstate features 0x7, context size is 832 bytes, using 'standard' format.
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] e820: BIOS-provided physical RAM map:
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] BIOS-e820: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] BIOS-e820: [mem 0x0000000000100000-0x000000003ffd7fff] usable
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] BIOS-e820: [mem 0x000000003ffd8000-0x000000003fffffff] reserved
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] BIOS-e820: [mem 0x00000000feffc000-0x00000000feffffff] reserved
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] BIOS-e820: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] NX (Execute Disable) protection: active
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] SMBIOS 2.8 present.
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] DMI: DigitalOcean Droplet/Droplet, BIOS 20171212 12/12/2017
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Hypervisor detected: KVM
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] tsc: Fast TSC calibration using PIT
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] e820: last_pfn = 0x3ffd8 max_arch_pfn = 0x400000000
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] x86/PAT: Configuration [0-7]: WB  WC  UC- UC  WB  WP  UC- WT
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] found SMP MP-table at [mem 0x000f5c60-0x000f5c6f]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Scanning 1 areas for low memory corruption
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] RAMDISK: [mem 0x38786000-0x3ffd7fff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: Early table checksum verification disabled
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: RSDP 0x00000000000F5A50 2969 (v00 BOCHS )
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: RSDT 0x000000003FFE1930 2969 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: FACP 0x000000003FFE172C 2969 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: DSDT 0x000000003FFE0040 0016EC (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: FACS 0x000000003FFE0000 2969
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: APIC 0x000000003FFE17A0 2969 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: HPET 0x000000003FFE1818 2969 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: SRAT 0x000000003FFE1850 0000B8 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: WAET 0x000000003FFE1908 2969 (v01 BOCHS  BXPC     00000001 BXPC 00000001)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] SRAT: PXM 0 -> APIC 0x00 -> Node 0
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: SRAT: Node 0 PXM 0 [mem 0x00000000-0x0009ffff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: SRAT: Node 0 PXM 0 [mem 0x00100000-0x3fffffff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] NUMA: Node 0 [mem 0x00000000-0x0009ffff] + [mem 0x00100000-0x3ffd7fff] -> [mem 0x00000000-0x3ffd7fff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] NODE_DATA(0) allocated [mem 0x38781000-0x38785fff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] kvm-clock: Using msrs 4b564d01 and 4b564d00
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] kvm-clock: cpu 0, msr 0:3877d001, primary cpu clock
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] kvm-clock: using sched offset of 0123456789 cycles
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] clocksource: kvm-clock: mask: 0xffffffffffffffff max_cycles: 0x1cd42e4dffb, max_idle_ns: 012345678911 ns
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Zone ranges:
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969]   DMA32    [mem 0x0000000001000000-0x000000003ffd7fff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969]   Normal   empty
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969]   Device   empty
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Movable zone start for each node
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Early memory node ranges
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969]   node   0: [mem 0x0000000000001000-0x000000000009efff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969]   node   0: [mem 0x0000000000100000-0x000000003ffd7fff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Initmem setup node 0 [mem 0x0000000000001000-0x000000003ffd7fff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: PM-Timer IO Port: 0x608
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: LAPIC_NMI (acpi_id[0xff] dfl dfl lint[0x1])
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] IOAPIC[0]: apic_id 0, version 17, address 0xfec00000, GSI 0-23
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: INT_SRC_OVR (bus 0 bus_irq 5 global_irq 5 high level)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: INT_SRC_OVR (bus 0 bus_irq 10 global_irq 10 high level)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: INT_SRC_OVR (bus 0 bus_irq 11 global_irq 11 high level)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Using ACPI (MADT) for SMP configuration information
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: HPET id: 0x8086a201 base: 0xfed00000
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] smpboot: Allowing 1 CPUs, 0 hotplug CPUs
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] PM: Registered nosave memory: [mem 0x00000000-0x00000fff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] PM: Registered nosave memory: [mem 0x0009f000-0x0009ffff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] PM: Registered nosave memory: [mem 0x000a0000-0x000effff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] PM: Registered nosave memory: [mem 0x000f0000-0x000fffff]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] e820: [mem 0x40000000-0xfeffbfff] available for PCI devices
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Booting paravirtualized kernel on KVM
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 0123456789112345 ns
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] random: get_random_bytes called from start_kernel+0x82/0x46a with crng_init=0
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] setup_percpu: NR_CPUS:256 nr_cpumask_bits:256 nr_cpu_ids:1 nr_node_ids:1
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] percpu: Embedded 45 pages/cpu s146456 r8192 d29672 u2097152
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] KVM setup async PF for cpu 0
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] kvm-stealtime: cpu 0, msr 38416240
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Built 1 zonelists, mobility grouping on.  Total pages: 2969
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Policy zone: DMA32
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Kernel command line: BOOT_IMAGE=../vmlinuz-4.14.138-rancher printk.devkmsg=on rancher.state.dev=LABEL=RANCHER_STATE rancher.state.wait panic=10 console=tty0 console=tty1 printk.devkmsg=on notsc clocksource=kvm-clock rancher.network.interfaces.eth0.ipv4ll rancher.cloud_init.datasources=["digitalocean"] rancher.autologin=tty1 rancher.autologin=ttyS0 initrd=../initrd-v1.5.8
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] tsc: Kernel compiled with CONFIG_X86_TSC, cannot disable TSC completely
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] PID hash table entries: 4096 (order: 3, 25890 bytes)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Memory: 884796K/1048024K available (10252K kernel code, 1516K rwdata, 3868K rodata, 1596K init, 1096K bss, 163228K reserved, 0K cma-reserved)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Kernel/User page tables isolation: enabled
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ftrace: allocating 25890 entries in 152 pages
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Hierarchical RCU implementation.
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969]    RCU restricting CPUs from NR_CPUS=256 to nr_cpu_ids=1.
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=1
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] NR_IRQS: 25890, nr_irqs: 256, preallocated irqs: 16
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Console: colour VGA+ 80x25
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] console [tty0] enabled
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] clocksource: hpet: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604467 ns
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] tsc: Detected 2494.140 MHz processor
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Calibrating delay loop (skipped) preset value.. 4988.28 BogoMIPS (lpj=25890)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] pid_max: default: 25890 minimum: 301
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: Core revision 20170728
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: 1 ACPI AML tables successfully acquired and loaded
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Security Framework initialized
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Yama: becoming mindful.
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] SELinux:  Initializing.
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] AppArmor: AppArmor disabled by boot time parameter
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Dentry cache hash table entries: 2969 (order: 8, 25890 bytes)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Inode-cache hash table entries: 25890 (order: 7, 2969 bytes)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Mount-cache hash table entries: 2048 (order: 2, 25890 bytes)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Mountpoint-cache hash table entries: 2048 (order: 2, 25890 bytes)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] mce: CPU supports 10 MCE banks
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Last level iTLB entries: 4KB 0, 2MB 0, 4MB 0
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Last level dTLB entries: 4KB 0, 2MB 0, 4MB 0, 1GB 0
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Spectre V1 : Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Spectre V2 : Mitigation: Full generic retpoline
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Spectre V2 : Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Spectre V2 : Enabling Restricted Speculation for firmware calls
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Spectre V2 : mitigation: Enabling conditional Indirect Branch Prediction Barrier
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Speculative Store Bypass: Mitigation: Speculative Store Bypass disabled via prctl and seccomp
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] MDS: Mitigation: Clear CPU buffers
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Freeing SMP alternatives memory: 20K
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] smpboot: Max logical packages: 1
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] x2apic enabled
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Switched APIC routing to physical x2apic.
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] smpboot: CPU0: Intel DO-Regular (family: 0x6, model: 0x3f, stepping: 0x2)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Performance Events: unsupported p6 CPU model 63 no PMU driver, software events only.
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] Hierarchical SRCU implementation.
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] NMI watchdog: Perf event create on CPU 0 failed with -2
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] NMI watchdog: Perf NMI watchdog permanently disabled
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] smp: Bringing up secondary CPUs ...
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] smp: Brought up 1 node, 1 CPU
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] smpboot: Total of 1 processors activated (4988.28 BogoMIPS)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] devtmpfs: initialized
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] x86/mm: Memory block size: 128MB
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] evm: security.selinux
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] evm: security.SMACK64
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] evm: security.SMACK64EXEC
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] evm: security.SMACK64TRANSMUTE
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] evm: security.SMACK64MMAP
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] evm: security.ima
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] evm: security.capability
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 0123456789112345 ns
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] futex hash table entries: 256 (order: 2, 25890 bytes)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] pinctrl core: initialized pinctrl subsystem
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] RTC time: 21:31:16, date: 10/09/22
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] NET: Registered protocol family 16
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] cpuidle: using governor ladder
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] cpuidle: using governor menu
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: bus type PCI registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] PCI: Using configuration type 1 for base access
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] HugeTLB registered 2.00 MiB page size, pre-allocated 0 pages
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: Added _OSI(Module Device)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: Added _OSI(Processor Device)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: Added _OSI(3.0 _SCP Extensions)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: Added _OSI(Processor Aggregator Device)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: Interpreter enabled
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: (supports S0 S3 S4 S5)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: Using IOAPIC for interrupt routing
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: Enabled 2 GPEs in block 00 to 0F
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpi PNP0A03:00: _OSC: OS supports [ASPM ClockPM Segments MSI]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpi PNP0A03:00: _OSC failed (AE_NOT_FOUND); disabling ASPM
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpi PNP0A03:00: fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [3] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [4] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [5] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [6] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [7] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [8] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [9] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [10] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [11] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [12] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [13] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [14] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [15] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [16] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [17] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [18] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [19] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [20] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [21] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [22] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [23] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [24] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [25] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [26] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [27] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [28] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [29] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [30] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] acpiphp: Slot [31] registered
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] PCI host bridge to bus 0000:00
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋Oct  9 21:31:38 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [    0.2969] pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+./logs/RancherOS-1.5.8/messages┋20221009T133138.000000000┋
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[9]: ntpd: time set +0.18065 s
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: ntpd 4.2.8p12@1.3728-o Sat Feb 23 20:00:00 UTC 2019 (1): Starting
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Command line: ntpd --nofork -g
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: proto: precision = 0.071 usec (-24)
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Listen and drop on 0 v6wildcard [::]:123
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Listen and drop on 1 v4wildcard 192.168.0.0:123
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Listen normally on 2 lo 192.168.0.1:123
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Listen normally on 3 eth0 192.168.0.184:123
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Listen normally on 4 eth0 192.168.0.202:123
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Listen normally on 5 eth0 192.168.0.5:123
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Listen normally on 6 eth1 192.168.0.2:123
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Listen normally on 7 lo [::1]:123
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Listen normally on 8 eth0 [fe80::440:281f:fe9a:6e78%2]:123
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: Listening on routing socket on fd #25 for interface updates
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: kernel reports TIME_ERROR: 0x41: Clock Unsynchronized
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133148.000000000┋Oct  9 21:31:48 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: kernel reports TIME_ERROR: 0x41: Clock Unsynchronized
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133315.000000000┋Oct  9 21:33:15 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [  118.18065] random: crng init done
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133315.000000000┋Oct  9 21:33:15 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [  118.18065] random: 4 urandom warning(s) missed due to ratelimiting
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133316.000000000┋Oct  9 21:33:16 rancheros-s-1vcpu-1gb-nyc1-01 kernel: [  119.18065] IPv6: ADDRCONF(NETDEV_UP): docker0: link is not ready
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T133732.000000000┋Oct  9 21:37:32 rancheros-s-1vcpu-1gb-nyc1-01 ntpd[1]: kernel reports TIME_ERROR: 0x41: Clock Unsynchronized
+./logs/RancherOS-1.5.8/messages┋20221009T133732.000000000┋
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T134302.000000000┋Oct  9 21:43:02 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1281]: User root not allowed because account is locked
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T134318.000000000┋Oct  9 21:43:18 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1281]: Connection closed by invalid user root 192.168.0.8 port 25890 [preauth]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T134443.000000000┋Oct  9 21:44:43 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1285]: Accepted publickey for rancher from 192.168.0.8 port 25890 ssh2: RSA SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T135214.000000000┋Oct  9 21:52:14 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1287]: Received disconnect from 192.168.0.8 port 25890:11: disconnected by user
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T135214.000000000┋Oct  9 21:52:14 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1287]: Disconnected from user rancher 192.168.0.8 port 25890
+⇳
+./logs/RancherOS-1.5.8/messages┋20221009T135310.000000000┋Oct  9 21:53:10 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1324]: Accepted publickey for rancher from 192.168.0.8 port 25890 ssh2: RSA SHA256:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
+./logs/RancherOS-1.5.8/messages┋20221009T135310.000000000┋
+⇳
+./logs/RancherOS-1.5.8/messages┋20221010T123123.000000000┋Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: error: Could not get shadow information for NOUSER
+⇳
+./logs/RancherOS-1.5.8/messages┋20221010T123123.000000000┋Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Failed password for invalid user root from 192.168.00.77 port 17196 ssh2
+⇳
+./logs/RancherOS-1.5.8/messages┋20221010T123123.000000000┋Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Failed password for invalid user root from 192.168.00.77 port 17196 ssh2
+⇳
+./logs/RancherOS-1.5.8/messages┋20221010T123123.000000000┋Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Failed password for invalid user root from 192.168.00.77 port 17196 ssh2
+⇳
+./logs/RancherOS-1.5.8/messages┋20221010T123123.000000000┋Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Received disconnect from 192.168.00.77 port 17196:11:  [preauth]
+⇳
+./logs/RancherOS-1.5.8/messages┋20221010T123123.000000000┋Oct 10 20:31:23 rancheros-s-1vcpu-1gb-nyc1-01 sshd[1540]: Disconnected from invalid user root 192.168.00.77 port 17196 [preauth]⇳
+

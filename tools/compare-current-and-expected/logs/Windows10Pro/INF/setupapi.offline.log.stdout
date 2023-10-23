@@ -1,0 +1,32 @@
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋>>>  Section start 2020/05/27 11:29:27.787
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋       os: Version = 10.0.27595, Service Pack = 0.0, Suite = 0x0100, ProductType = 1, Architecture = amd64
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋      cmd: C:\WINDOWS\TEMP\00000000-1111-2222-9BE8-012345678911\dismhost.exe {00000000-1111-2222-B129-012345678911}
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋     sto: Opened existing hive key '{00000000-1111-2222-ac95-012345678911}C:/$WINDOWS.~BT/NewOS/Windows/System32/config/SYSTEM'.
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋<<<  Section end 2020/05/27 11:29:27.787
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋<<<  [Exit status: SUCCESS]
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋>>>  [Unload Offline Registry Hive - SYSTEM]
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋>>>  Section start 2020/05/27 11:29:27.787
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋       os: Version = 10.0.27595, Service Pack = 0.0, Suite = 0x0100, ProductType = 1, Architecture = amd64
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋      cmd: C:\WINDOWS\TEMP\00000000-1111-2222-9BE8-012345678911\dismhost.exe {00000000-1111-2222-B129-012345678911}
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋     sto: Closed hive key '{00000000-1111-2222-ac95-012345678911}C:/$WINDOWS.~BT/NewOS/Windows/System32/config/SYSTEM'.
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋     sto: Unable to unload hive key '{00000000-1111-2222-ac95-012345678911}C:/$WINDOWS.~BT/NewOS/Windows/System32/config/SYSTEM' loaded by another process. Error = 0x00000005, Time = 0 ms
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋<<<  Section end 2020/05/27 11:29:27.787
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋<<<  [Exit status: SUCCESS]
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T032927.787000000┋>>>  [Load Offline Registry Hive - DRIVERS]
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T040706.557000000┋>>>  Section start 2020/05/27 12:07:06.557
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T040706.557000000┋       os: Version = 10.0.27595, Service Pack = 0.0, Suite = 0x0100, ProductType = 1, Architecture = amd64
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T040706.557000000┋      cmd: C:\WINDOWS\TEMP\00000000-1111-2222-9C8F-012345678911\dismhost.exe {00000000-1111-2222-B32D-012345678911}
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T040706.557000000┋     sto: Loaded hive 'C:\$WINDOWS.~BT\NewOS\Windows\System32\config\DRIVERS'. Time = 47 ms
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T040706.557000000┋     sto: Opened hive key '{00000000-1111-2222-ac95-012345678911}C:/$WINDOWS.~BT/NewOS/Windows/System32/config/DRIVERS'.
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T040706.557000000┋     sto: Delay unloading hive key '{00000000-1111-2222-ac95-012345678911}C:/$WINDOWS.~BT/NewOS/Windows/System32/config/DRIVERS'.
+⇳
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T040706.604000000┋<<<  Section end 2020/05/27 12:07:06.604
+./logs/Windows10Pro/INF/setupapi.offline.log┋20200527T040706.604000000┋<<<  [Exit status: SUCCESS]⇳
+

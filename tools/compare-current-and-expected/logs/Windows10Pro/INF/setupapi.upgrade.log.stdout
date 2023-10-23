@@ -1,0 +1,133 @@
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200521T030350.069000000┋>>>  Section start 2020/05/21 11:03:50.069
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200521T030350.069000000┋      cmd: C:\WINDOWS\winsxs\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.30942.772_none_5f13f94c58ff41d3\TiWorker.exe -Embedding
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200521T030350.069000000┋     ump: DeviceInstall service is not disabled.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200521T030350.069000000┋     ump: DeviceInstall service is not started.
+⇳
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200521T030350.069000000┋<<<  Section end 2020/05/21 11:03:50.069
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200521T030350.069000000┋<<<  [Exit status: SUCCESS]
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200521T030350.069000000┋
+⇳
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200521T035631.590000000┋[Boot Session: 2020/05/21 11:56:31.590]
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200521T035631.590000000┋
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200521T035631.590000000┋>>>  [Setup PnP Migration - Gather]
+⇳
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋>>>  Section start 2020/05/27 11:26:56.528
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋      cmd: "C:\$WINDOWS.~BT\Sources\mighost.exe" {00000000-1111-2222-BD66-012345678911} /InitDoneEvent:MigHost.{00000000-1111-2222-BD66-012345678911}.Event /Pa
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Device: exit(0x00000000)} 11:27:05.294
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Device USB\VID_0D8C&PID_000C\6&a26c238&0&1:
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Description:        USB Composite Device
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Parent Device:      USB\VID_04B4&PID_6560\5&42c8554&0&1
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Present:            No
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Driver INF Name:    usb.inf
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Driver Package Id:  usb.inf_amd64_cdeeae6bb013a19f
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Class Name:         USB
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Provider Name:      Microsoft
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Driver Date:        06/21/2006
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Driver Version:     10.0.30942.693
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Matching Device Id: USB\COMPOSITE
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Driver Rank:        0x00FF2003
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Device: USB\VID_0D8C&PID_000C\6&a26c238&0&1} 11:27:05.309
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Migrating device interface '\\?\usb#vid_0d8c&pid_000c#6&a26c238&0&1#{00000000-1111-2222-901f-012345678911}'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Migrating function driver service 'usbccgp'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: BcmBtRSupport} 11:27:05.387
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.387
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'BthA2dp' owned by 'microsoft_bluetooth_a2dp_src.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'BthEnum' owned by 'tdibth.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'BthHFAud' owned by 'microsoft_bluetooth_hfp.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'BthHFEnum' owned by 'microsoft_bluetooth_hfp_hf.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'BthLEEnum' owned by 'bthleenum.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'BthMini' owned by 'bth.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: BthMini} 11:27:05.387
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.387
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'BTHMODEM' owned by 'bthspp.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'BthPan' owned by 'bthpan.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'BTHPORT' owned by 'oem13.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: BTHPORT} 11:27:05.387
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set:      Migrating BTHPORT service [full upgrade].
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.497
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'BTHUSB' owned by 'oem13.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'btwampfl' owned by 'oem13.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: btwampfl} 11:27:05.497
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.497
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'cdrom' owned by 'cdrom.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'CompositeBus' owned by 'compositebus.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'disk' owned by 'disk.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'drmkaud' owned by 'wdmaudio.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'HdAudAddService' owned by 'hdaudio.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'HDAudBus' owned by 'hdaudbus.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'HidUsb' owned by 'input.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'i8042prt' owned by 'keyboard.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: i8042prt} 11:27:05.512
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.512
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'intelide' owned by 'mshdc.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: intelide} 11:27:05.512
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.512
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'intelppm' owned by 'cpu.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: intelppm} 11:27:05.512
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.512
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'isapnp' owned by 'machine.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: isapnp} 11:27:05.512
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.528
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'kbdclass' owned by 'termkbd.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'kbdhid' owned by 'keyboard.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'kdnic' owned by 'kdnic.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'kmloop' owned by 'netloop.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'LVRS64' owned by 'oem21.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'LVUVC64' owned by 'oem15.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'Microsoft_Bluetooth_AvrcpTransport' owned by 'microsoft_bluetooth_avrcptransport.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'monitor' owned by 'monitor.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'mouclass' owned by 'termmou.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'mouhid' owned by 'msmouse.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'msisadrv' owned by 'machine.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'MSKSSRV' owned by 'ksfilter.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'MSPCLOCK' owned by 'ksfilter.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'MSPQM' owned by 'ksfilter.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'mssmbios' owned by 'mssmbios.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'MSTEE' owned by 'ksfilter.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'NdisVirtualBus' owned by 'ndisvirtualbus.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'NVHDA' owned by 'oem5.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'pci' owned by 'pci.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'pciide' owned by 'mshdc.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'Processor' owned by 'cpu.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: Processor} 11:27:05.544
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.544
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'RFCOMM' owned by 'tdibth.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'RTL8167' owned by 'oem17.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'sermouse' owned by 'msmouse.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: sermouse} 11:27:05.544
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.544
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'spaceport' owned by 'spaceport.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'storahci' owned by 'mshdc.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: storahci} 11:27:05.544
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.544
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'swenum' owned by 'swenum.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'tapexpressvpn' owned by 'oem11.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'terminpt' owned by 'termmou.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'tsusbhub' owned by 'tsusbhub.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'UmPass' owned by 'bthleenum.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: UmPass} 11:27:05.559
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.559
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'usbaudio' owned by 'oem21.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'usbccgp' owned by 'usb.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'usbehci' owned by 'usbport.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'usbhub' owned by 'usb.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'USBHUB3' owned by 'usbhub3.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'usbohci' owned by 'usbport.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'usbuhci' owned by 'usbport.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: usbuhci} 11:27:05.559
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: {Migrate Service: exit(0x00000000)} 11:27:05.559
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'usbvideo' owned by 'usbvideo.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'USBXHCI' owned by 'usbxhci.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'VClone' owned by 'oem2.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'vdrvroot' owned by 'vdrvroot.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'vhdmp' owned by 'vhdmp.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'Vid' owned by 'wvid.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'volmgr' owned by 'volmgr.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'WINUSB' owned by 'wpdmtp.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Driver service 'WUDFWpdMtp' owned by 'wpdmtp.inf'.
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032656.528000000┋     set: Not migrating LogLevel.
+⇳
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032705.575000000┋<<<  Section end 2020/05/27 11:27:05.575
+./logs/Windows10Pro/INF/setupapi.upgrade.log┋20200527T032705.575000000┋<<<  [Exit status: SUCCESS]⇳
+

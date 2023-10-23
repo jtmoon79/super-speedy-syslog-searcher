@@ -23,8 +23,6 @@ declare -rg CURRENT_OUT="${_HERE}/current.stdout"
 declare -rg EXPECT_OUT="${_HERE}/expected.stdout"
 declare -rg CURRENT_ERR="${_HERE}/current.stderr"
 declare -rg EXPECT_ERR="${_HERE}/expected.stderr"
-declare -rg HASHES_STDOUT="${_HERE}/hashes.stdout.txt"
-declare -rg HASHES_STDERR="${_HERE}/hashes.stderr.txt"
 declare -rg LOGS="${_HERE}/logs.txt"
 
 declare -arg S4_ARGS=(
@@ -44,23 +42,22 @@ declare -arg S4_ARGS=(
 )
 declare -rg S4_ARGS_QUOTED=$(for arg in "${S4_ARGS[@]}"; do echo -n "'${arg}' "; done)
 
-function md5sum_clean () {
-    # run md5sum for piped binary data and trim trailing text
-    if [[ ${#} -ne 0 ]]; then
-        echo "ERROR function md5sum_clean is pipe-only, no arguemnts" >&2
-        exit 1
-    fi
-    md5sum --binary - | sed -Ee 's/ \*-$//'
-}
-
 function stderr_clean () {
     # remove text lines from `s4` stderr that vary from run to run
     # $1 is a file path
     #
-    # - remove the printing of the current time
-    # - remove the printing of the datetime first and last. It might use
-    #   the local system timezone
+    # - remove the printing of the current time `Datetime Now`
+    # - remove the printing of the `datetime first` and `datetime last`.
+    #   It might use the local system timezone which varies from system to
+    #   system.
+    # - remove the printing of `Modified Time` as it may vary based on the
+    #   filesystem.
+    # - remove the realpath as it varies depending on the repo. path.
     # - remove warnings as they are printed in an unpredictable order
+    # - XXX: remove `streaming: `, `blocks high:`, `lines high:` "streaming"
+    #        summary. It is a temporary workaround for Issue #213
+    # - remove `DateTimeParseInstr` as it varies due to changes in the
+    #   `datetime.rs` as `DateTimeParseInstr` includes a line number.
     if [[ ${#} -ne 1 ]]; then
         echo "ERROR function stderr_clean must be passed one file argument" >&2
         exit 1
@@ -74,17 +71,10 @@ function stderr_clean () {
         -e '/^Datetime printed last[ ]*:.*$/d' \
         -e '/^[ ]+Modified Time [ ]*:.*$/d' \
         -e '/^[ ]+realpath .*$/d' \
+        -e '/^[ ]+streaming: .*$/d' \
+        -e '/^[ ]+blocks high[ ]+: .*$/d' \
+        -e '/^[ ]+lines high[ ]+: .*$/d' \
         -e '0,/^\+ \..*$/d' \
         -e '/.*DateTimeParseInstr:.*/d' \
         "${1}"
-}
-
-function stderr_clean_1 () {
-    # remove datetime text lines from `s4` stderr
-    if [[ ${#} -ne 0 ]]; then
-        echo "ERROR function stderr_clean_1 reads stdin pipe, no arguments" >&2
-        exit 1
-    fi
-    sed -E \
-        -e '/^Datetime Now[ ]*:.*$/d'
 }

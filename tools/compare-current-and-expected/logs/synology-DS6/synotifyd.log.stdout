@@ -1,0 +1,38 @@
+./logs/synology-DS6/synotifyd.log┋20161206T050054.000000000┋2016-12-05T21:00:54-08:00 dsnet synotifyd: daemon.cpp:638 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20161206T053433.000000000┋2016-12-05T21:34:33-08:00 dsnet synotifyd: daemon.cpp:638 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20161211T065942.000000000┋2016-12-10T22:59:42-08:00 dsnet synotifyd: daemon.cpp:317 Cannot get volume manager, share: homes
+⇳
+./logs/synology-DS6/synotifyd.log┋20170103T093542.000000000┋2017-01-03T01:35:42-08:00 dsnet synotifyd: daemon.cpp:638 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170125T072139.000000000┋2017-01-24T23:21:39-08:00 dsnet synotifyd: daemon.cpp:638 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170223T224604.000000000┋2017-02-23T14:46:04-08:00 dsnet synotifyd: daemon.cpp:638 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170307T171315.000000000┋2017-03-07T09:13:15-08:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170309T205502.000000000┋2017-03-09T12:55:02-08:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170508T153228.000000000┋2017-05-08T08:32:28-07:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170513T054418.000000000┋2017-05-12T22:44:18-07:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170524T164103.000000000┋2017-05-24T09:41:03-07:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170619T081846.000000000┋2017-06-19T01:18:46-07:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170917T170126.000000000┋2017-09-17T10:01:26-07:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170917T170938.000000000┋2017-09-17T10:09:38-07:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20170917T171328.000000000┋2017-09-17T10:13:28-07:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20181217T230554.000000000┋2018-12-17T15:05:54-08:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳
+./logs/synology-DS6/synotifyd.log┋20181217T230921.000000000┋2018-12-17T15:09:21-08:00 dsnet synotifyd: event_receiver.cpp:177 Add failed, path=/path1/Vol
+⇳
+./logs/synology-DS6/synotifyd.log┋20181217T230921.000000000┋2018-12-17T15:09:21-08:00 dsnet synotifyd: event_receiver.cpp:177 Add failed, path=/path1/Vol
+⇳
+./logs/synology-DS6/synotifyd.log┋20190103T080536.000000000┋2019-01-03T00:05:36-08:00 dsnet synotifyd: daemon.cpp:663 In kill handler(15)
+⇳

@@ -1,0 +1,28 @@
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T144712.455000000┋2022-10-03 22:47:12,455 INFO Starting unattended upgrades script
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T144712.456000000┋2022-10-03 22:47:12,456 INFO Allowed origins are: o=Ubuntu,a=jammy, o=Ubuntu,a=jammy-security, o=UbuntuESMApps,a=jammy-apps-security, o=UbuntuESM,a=jammy-infra-security
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T144712.457000000┋2022-10-03 22:47:12,457 INFO Initial blacklist: 
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T144712.457000000┋2022-10-03 22:47:12,457 INFO Initial whitelist (not strict): 
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T144713.841000000┋2022-10-03 22:47:13,841 INFO No packages found that can be upgraded unattended and no pending auto-removals
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T193926.726000000┋2022-10-04 03:39:26,726 INFO Starting unattended upgrades script
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T193926.728000000┋2022-10-04 03:39:26,728 INFO Allowed origins are: o=Ubuntu,a=jammy, o=Ubuntu,a=jammy-security, o=UbuntuESMApps,a=jammy-apps-security, o=UbuntuESM,a=jammy-infra-security
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T193926.728000000┋2022-10-04 03:39:26,728 INFO Initial blacklist: 
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T193926.728000000┋2022-10-04 03:39:26,728 INFO Initial whitelist (not strict): 
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T222212.436000000┋2022-10-04 06:22:12,436 INFO Starting unattended upgrades script
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T222212.437000000┋2022-10-04 06:22:12,437 INFO Allowed origins are: o=Ubuntu,a=jammy, o=Ubuntu,a=jammy-security, o=UbuntuESMApps,a=jammy-apps-security, o=UbuntuESM,a=jammy-infra-security
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T222212.437000000┋2022-10-04 06:22:12,437 INFO Initial blacklist: 
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T222212.437000000┋2022-10-04 06:22:12,437 INFO Initial whitelist (not strict): 
+⇳
+./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log┋20221003T222228.605000000┋2022-10-04 06:22:28,605 INFO Packages that will be upgraded: bind9-dnsutils bind9-host bind9-libs curl gcc-12-base
+⇳

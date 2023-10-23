@@ -1,0 +1,4 @@
+./logs/RancherOS-1.5.8/boot/autologin┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="START: [/usr/bin/autologin rancher:tty1] in /"
+⇳
+./logs/RancherOS-1.5.8/boot/autologin┋20221010T202336.000000000┋time="2022-10-10T20:23:36Z" level=debug msg="START: [/usr/bin/autologin rancher:tty1] in /"⇳
+

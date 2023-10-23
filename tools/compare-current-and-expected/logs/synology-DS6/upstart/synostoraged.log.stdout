@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/synostoraged.log┋20161206T043139.000000000┋2016-12-05T20:31:39-0800 Tue Dec 6 04:31:39 UTC 2016 Starting synostoraged
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20161206T043139.000000000┋2016-12-05T20:31:39-0800 synocheckhotspare: Pass 
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20161206T050055.000000000┋2016-12-05T21:00:55-0800 Tue Dec 6 05:00:55 UTC 2016 synostoraged stopped
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20161206T051142.000000000┋2016-12-05T21:11:42-0800 Tue Dec 6 05:11:42 UTC 2016 Starting synostoraged
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20161206T051142.000000000┋2016-12-05T21:11:42-0800 synocheckhotspare: Pass 
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20161206T053435.000000000┋2016-12-05T21:34:35-0800 Tue Dec 6 05:34:35 UTC 2016 synostoraged stopped
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20161206T053942.000000000┋2016-12-05T21:39:42-0800 Tue Dec 6 05:39:42 UTC 2016 Starting synostoraged
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20161206T053942.000000000┋2016-12-05T21:39:42-0800 synocheckhotspare: Pass 
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170103T093545.000000000┋2017-01-03T01:35:45-0800 Tue Jan 3 09:35:45 UTC 2017 synostoraged stopped
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170103T094052.000000000┋2017-01-03T01:40:52-0800 Tue Jan 3 09:40:52 UTC 2017 Starting synostoraged
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170103T094052.000000000┋2017-01-03T01:40:52-0800 synocheckhotspare: Pass 
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170104T075639.000000000┋2017-01-03T23:56:39-0800 Wed Jan 4 07:56:39 UTC 2017 Starting synostoraged
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170104T075639.000000000┋2017-01-03T23:56:39-0800 synocheckhotspare: Pass 
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170108T213550.000000000┋2017-01-08T13:35:50-0800 Sun Jan 8 21:35:50 UTC 2017 Starting synostoraged
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170108T213550.000000000┋2017-01-08T13:35:50-0800 synocheckhotspare: Pass 
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170125T072142.000000000┋2017-01-24T23:21:42-0800 Wed Jan 25 07:21:42 UTC 2017 synostoraged stopped
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170125T072611.000000000┋2017-01-24T23:26:11-0800 Wed Jan 25 07:26:11 UTC 2017 Starting synostoraged
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170125T072611.000000000┋2017-01-24T23:26:11-0800 synocheckhotspare: Pass 
+⇳
+./logs/synology-DS6/upstart/synostoraged.log┋20170131T082157.000000000┋2017-01-31T00:21:57-0800 Tue Jan 31 08:21:57 UTC 2017 Starting synostoraged
+⇳

@@ -1,0 +1,29 @@
+./logs/synology-DS6/synobackup.log┋20170221T133610.000000000┋info	2017/02/21 21:36:10	user1:	Setting of backup task [Local Storage 1] was created to backup to [share2/Backup.hbk].
+⇳
+./logs/synology-DS6/synobackup.log┋20170221T133633.000000000┋info	2017/02/21 21:36:33	SYSTEM:	[Local][Local Storage 1] Backup task started.
+⇳
+./logs/synology-DS6/synobackup.log┋20170221T134216.000000000┋info	2017/02/21 21:42:16	SYSTEM:	[Local][Local Storage 1] Backup task finished successfully.
+⇳
+./logs/synology-DS6/synobackup.log┋20170221T134217.000000000┋info	2017/02/21 21:42:17	SYSTEM:	[Local Storage 1] Trigger version rotation.
+⇳
+./logs/synology-DS6/synobackup.log┋20170221T134439.000000000┋info	2017/02/21 21:44:39	user1:	[Local][Local Storage 1] Renamed task to [Local Backup Task 1].
+⇳
+./logs/synology-DS6/synobackup.log┋20170221T134535.000000000┋info	2017/02/21 21:45:35	SYSTEM:	Task [Local Backup Task 1] data was deleted from backup destination [share2].
+⇳
+./logs/synology-DS6/synobackup.log┋20170221T134536.000000000┋info	2017/02/21 21:45:36	SYSTEM:	Backup task [Local Backup Task 1] was removed.
+⇳
+./logs/synology-DS6/synobackup.log┋20170221T135010.000000000┋info	2017/02/21 21:50:10	user1:	Setting of backup task [Backup Task LocalBackup1] was created to backup to [share2/Backup1.hbk].
+⇳
+./logs/synology-DS6/synobackup.log┋20170221T135048.000000000┋info	2017/02/21 21:50:48	SYSTEM:	[Local][Backup Task LocalBackup1] Backup task started.
+⇳
+./logs/synology-DS6/synobackup.log┋20170222T185558.000000000┋err	2017/02/23 02:55:58	SYSTEM:	[Local][Backup Task LocalBackup1] Exception occured while backing up data. (Capacity at destination is insufficient.) [Path: /volume2/share2/Backup1.hbk]
+⇳
+./logs/synology-DS6/synobackup.log┋20170222T185603.000000000┋err	2017/02/23 02:56:03	SYSTEM:	[Local][Backup Task LocalBackup1] Failed to backup data.
+⇳
+./logs/synology-DS6/synobackup.log┋20170222T185604.000000000┋err	2017/02/23 02:56:04	SYSTEM:	[Local][Backup Task LocalBackup1] Failed to run backup task.
+⇳
+./logs/synology-DS6/synobackup.log┋20170223T183004.000000000┋info	2017/02/24 02:30:04	SYSTEM:	[Local][Backup Task LocalBackup1] Backup task started.
+⇳
+./logs/synology-DS6/synobackup.log┋20170223T194357.000000000┋warning	2017/02/24 03:43:57	SYSTEM:	[Local][Backup Task LocalBackup1] Backup folder [Vol/DS] failed. (The backup source shared folder is encrypted and not mounted. Please mount the backup source shared folder and try again.)
+./logs/synology-DS6/synobackup.log┋20170223T194357.000000000┋
+⇳

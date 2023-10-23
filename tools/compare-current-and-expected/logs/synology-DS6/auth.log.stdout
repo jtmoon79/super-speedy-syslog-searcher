@@ -1,0 +1,38 @@
+./logs/synology-DS6/auth.log┋20161206T043155.000000000┋2016-12-05T20:31:55-08:00 DiskStation : ERROR: stat(/usr/syno/synoman/webman/csp_report.cgi) [No such file or directory]
+⇳
+./logs/synology-DS6/auth.log┋20161206T043155.000000000┋2016-12-05T20:31:55-08:00 DiskStation : ERROR: stat(/usr/syno/synoman/webman/csp_report.cgi) [No such file or directory]
+⇳
+./logs/synology-DS6/auth.log┋20161206T043157.000000000┋2016-12-05T20:31:57-08:00 DiskStation : ERROR: stat(/usr/syno/synoman/webman/csp_report.cgi) [No such file or directory]
+⇳
+./logs/synology-DS6/auth.log┋20161206T043251.000000000┋2016-12-05T20:32:51-08:00 DiskStation SYSTEM:	Last message 'ERROR: stat(/usr/syn' repeated 2 times, suppressed by syslog-ng on DiskStation
+⇳
+./logs/synology-DS6/auth.log┋20161206T043251.000000000┋2016-12-05T20:32:51-08:00 DiskStation su: pam_unix(su:session): session opened for user postgres by (uid=0)
+⇳
+./logs/synology-DS6/auth.log┋20161206T043259.000000000┋2016-12-05T20:32:59-08:00 DiskStation su: pam_unix(su:session): session closed for user postgres
+⇳
+./logs/synology-DS6/auth.log┋20161206T043259.000000000┋2016-12-05T20:32:59-08:00 DiskStation su: pam_unix(su:session): session opened for user postgres by (uid=0)
+⇳
+./logs/synology-DS6/auth.log┋20161206T043300.000000000┋2016-12-05T20:33:00-08:00 DiskStation su: pam_unix(su:session): session closed for user postgres
+⇳
+./logs/synology-DS6/auth.log┋20161206T043301.000000000┋2016-12-05T20:33:01-08:00 DiskStation su: pam_unix(su:session): session opened for user postgres by (uid=0)
+⇳
+./logs/synology-DS6/auth.log┋20161206T043301.000000000┋2016-12-05T20:33:01-08:00 DiskStation su: pam_unix(su:session): session closed for user postgres
+⇳
+./logs/synology-DS6/auth.log┋20161206T043520.000000000┋2016-12-05T20:35:20-08:00 DiskStation : ERROR: stat(/usr/syno/synoman/webman/csp_report.cgi) [No such file or directory]
+⇳
+./logs/synology-DS6/auth.log┋20161206T043640.000000000┋2016-12-05T20:36:40-08:00 dsnet synocgid: pam_unix(webui:account): account user1 has password changed in future
+⇳
+./logs/synology-DS6/auth.log┋20161206T043642.000000000┋2016-12-05T20:36:42-08:00 dsnet : ERROR: stat(/usr/syno/synoman/webman/csp_report.cgi) [No such file or directory]
+⇳
+./logs/synology-DS6/auth.log┋20161206T043642.000000000┋2016-12-05T20:36:42-08:00 dsnet : ERROR: stat(/usr/syno/synoman/webman/csp_report.cgi) [No such file or directory]
+⇳
+./logs/synology-DS6/auth.log┋20161206T043643.000000000┋2016-12-05T20:36:43-08:00 dsnet : ERROR: stat(/usr/syno/synoman/webman/csp_report.cgi) [No such file or directory]
+⇳
+./logs/synology-DS6/auth.log┋20161206T044543.000000000┋2016-12-05T20:45:43-08:00 dsnet : ERROR: stat(/usr/syno/synoman/webman/csp_report.cgi) [No such file or directory]
+⇳
+./logs/synology-DS6/auth.log┋20161206T044543.000000000┋2016-12-05T20:45:43-08:00 dsnet : ERROR: stat(/usr/syno/synoman/webman/csp_report.cgi) [No such file or directory]
+⇳
+./logs/synology-DS6/auth.log┋20161206T044543.000000000┋2016-12-05T20:45:43-08:00 dsnet : ERROR: stat(/usr/syno/synoman/webman/csp_report.cgi) [No such file or directory]
+⇳
+./logs/synology-DS6/auth.log┋20161206T044700.000000000┋2016-12-05T20:47:00-08:00 dsnet SYSTEM:	Last message 'ERROR: stat(/usr/syn' repeated 8 times, suppressed by syslog-ng on dsnet
+⇳

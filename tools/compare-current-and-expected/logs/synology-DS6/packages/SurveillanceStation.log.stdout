@@ -1,0 +1,22 @@
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋2019/06/23 21:13:20	(system) trigger SurveillanceStation 8.2.4-5847 Begin start-stop-status start
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋SurveillanceStation
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋start
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋false
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋initctl: Unknown job: pkg-surveillance-apid
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋Start Surveillance [8.2.4-5847] begin.
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋Start Surveillance [8.2.4-5847] end.
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋ln: failed to create symbolic link '/etc/httpd/sites-enabled/ssliveview.alias.conf': No such file or directory
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋ln: failed to create symbolic link '/etc/httpd/sites-enabled/ssrtsp.alias.conf': No such file or directory
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋ln: failed to create symbolic link '/lib/httpd/modules/mod_ssliveview.so': No such file or directory
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋ln: failed to create symbolic link '/lib/httpd/modules/mod_ssrtsp.so': No such file or directory
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131320.000000000┋PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/modules/json.so' - /usr/lib/php/modules/json.so: cannot open shared object file: No such file or directory in Unknown on line 0
+⇳
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190623T131419.000000000┋2019/06/23 21:14:19	(system) trigger SurveillanceStation 8.2.4-5847 End start-stop-status start ret=[0]
+⇳
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190818T132450.000000000┋2019/08/18 21:24:50	(system) trigger SurveillanceStation 8.2.4-5847 Begin start-stop-status stop
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190818T132450.000000000┋SurveillanceStation
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190818T132450.000000000┋stop
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190818T132450.000000000┋false
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190818T132450.000000000┋initctl: Unknown job: pkg-surveillance-apid
+./logs/synology-DS6/packages/SurveillanceStation.log┋20190818T132450.000000000┋PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/modules/json.so' - /usr/lib/php/modules/json.so: cannot open shared object file: No such file or directory in Unknown on line 0
+⇳

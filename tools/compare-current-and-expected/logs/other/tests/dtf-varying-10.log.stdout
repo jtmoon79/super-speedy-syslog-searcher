@@ -1,0 +1,14 @@
+./logs/other/tests/dtf-varying-10.log┋19991231T160001.000000000┋2000-01-01 00:00:01 One
+⇳
+./logs/other/tests/dtf-varying-10.log┋19991231T160002.000000000┋2000-01-01T00:00:02 Two
+./logs/other/tests/dtf-varying-10.log┋19991231T160002.000000000┋[ERROR] 2000-01-01T00:00:03 Three
+./logs/other/tests/dtf-varying-10.log┋19991231T160002.000000000┋[2000/01/01 00:00:04.123456] Four
+⇳
+./logs/other/tests/dtf-varying-10.log┋19991231T160005.000000000┋2000-01-01T00:00:05.123-00:00 Five
+./logs/other/tests/dtf-varying-10.log┋19991231T160005.000000000┋[20000101-00:00:06] Six
+./logs/other/tests/dtf-varying-10.log┋19991231T160005.000000000┋[2000-01-01 00:00:07,123] Seven
+⇳
+./logs/other/tests/dtf-varying-10.log┋19991231T160008.000000000┋2000-01-01 00:00:08.001 Eight
+./logs/other/tests/dtf-varying-10.log┋19991231T160008.000000000┋ 2000-01-01 00:00:09.001 Nine
+./logs/other/tests/dtf-varying-10.log┋19991231T160008.000000000┋  2000-01-01 00:00:10.001 Ten⇳
+

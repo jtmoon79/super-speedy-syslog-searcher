@@ -1,5 +1,4 @@
 ./logs/CentOS7/yum.log
-./INTENTIONAL MISSING FILE
 ./logs/cygwin/setup.log
 ./logs/cygwin/setup.log.full
 ./logs/Debian11/alternatives.log

@@ -1,0 +1,38 @@
+./logs/Debian9/kern.log┋20220306T095449.000000000┋Mar  6 17:54:49 host5 kernel: [14147.14147] CIFS VFS: Server host6 has not responded in 180 seconds. Reconnecting...
+⇳
+./logs/Debian9/kern.log┋20220306T095449.000000000┋Mar  6 17:54:49 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095449.000000000┋Mar  6 17:54:49 host5 kernel: [14147.14147] reconnect tcon failed rc = -2
+⇳
+./logs/Debian9/kern.log┋20220306T095452.000000000┋Mar  6 17:54:52 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095454.000000000┋Mar  6 17:54:54 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095456.000000000┋Mar  6 17:54:56 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095458.000000000┋Mar  6 17:54:58 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095500.000000000┋Mar  6 17:55:00 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095502.000000000┋Mar  6 17:55:02 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095505.000000000┋Mar  6 17:55:05 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095507.000000000┋Mar  6 17:55:07 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095509.000000000┋Mar  6 17:55:09 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095511.000000000┋Mar  6 17:55:11 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095513.000000000┋Mar  6 17:55:13 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095515.000000000┋Mar  6 17:55:15 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095517.000000000┋Mar  6 17:55:17 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095519.000000000┋Mar  6 17:55:19 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095521.000000000┋Mar  6 17:55:21 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳
+./logs/Debian9/kern.log┋20220306T095523.000000000┋Mar  6 17:55:23 host5 kernel: [14147.14147] CIFS VFS: BAD_NETWORK_NAME: \\host6\Vol
+⇳

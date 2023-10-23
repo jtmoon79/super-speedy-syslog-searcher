@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20161206T044741.000000000┋2016-12-05T20:47:41-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20161206T050056.000000000┋2016-12-05T21:00:56-0800 ======== stop DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20161206T051158.000000000┋2016-12-05T21:11:58-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20161206T051540.000000000┋2016-12-05T21:15:40-0800 ======== stop DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20161206T060143.000000000┋2016-12-05T22:01:43-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170103T093532.000000000┋2017-01-03T01:35:32-0800 ======== stop DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170103T094106.000000000┋2017-01-03T01:41:06-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170104T075651.000000000┋2017-01-03T23:56:51-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170106T071051.000000000┋2017-01-05T23:10:51-0800 ======== stop DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170106T071103.000000000┋2017-01-05T23:11:03-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170108T213605.000000000┋2017-01-08T13:36:05-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170125T072130.000000000┋2017-01-24T23:21:30-0800 ======== stop DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170125T072625.000000000┋2017-01-24T23:26:25-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170131T082211.000000000┋2017-01-31T00:22:11-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170205T070722.000000000┋2017-02-04T23:07:22-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170209T101628.000000000┋2017-02-09T02:16:28-0800 ======== stop DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170209T101647.000000000┋2017-02-09T02:16:47-0800 ======== start DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170223T224554.000000000┋2017-02-23T14:45:54-0800 ======== stop DownloadStation ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-DownloadStation.log┋20170223T224555.000000000┋2017-02-23T14:45:55-0800 /proc/self/fd/9: line 3:   416 Terminated              /usr/syno/sbin/synopkgctl stop "$SELF"
+⇳

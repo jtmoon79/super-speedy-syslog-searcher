@@ -1,0 +1,74 @@
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221858.000000000┋Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 main.go:23: Launching DigitalOcean Droplet Agent (code name: DOTTY)
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221858.000000000┋Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 main.go:26: Config Loaded. Agent Starting (version:v1.2.4)
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221858.000000000┋Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 sshmgr.go:305: Did not find sshd port from sshd_config, using default port:22
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221858.000000000┋Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 sshmgr.go:82: SSH Manager Initialized. sshd_config:[/etc/ssh/sshd_config], sshd_port:[22]
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221858.000000000┋Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 new_watcher_linux.go:11: Launching SSH Port Knocking Watcher
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221858.000000000┋Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 ssh_watcher.go:51: [SSH Watcher] Running
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221858.000000000┋Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 sshmgr.go:237: [WatchSSHDConfig] watching file: /etc/ssh/sshd_config
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221858.000000000┋Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 bgjobs.go:15: [authorized_keys files updater] launched
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221858.000000000┋Oct  8 06:18:58 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:58 main.go:120: droplet metadata updated to [{"dotty_status":"running","ssh_info":{"port":22}}]
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 main.go:91: [Droplet Agent] Shutting down
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 ssh_watcher.go:92: [SSH Watcher] Shutting down
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 ssh_watcher.go:95: [SSH Watcher] Shutting down all actioners
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 do_managed_keys_actioner.go:89: [DO-Managed Keys Actioner] Shutting down
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 do_managed_keys_actioner.go:106: [DO-Managed Keys Actioner] Bye-bye
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 ssh_watcher.go:107: [SSH Watcher] Bye-bye
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 bgjobs.go:21: [authorized_keys files updater] agent closing
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 bgjobs.go:32: [authorized_keys files updater] stopped
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 ssh_watcher.go:84: [SSH Watcher] Stopped
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[5846]: INFO:2022/10/08 06:18:59 main.go:74: Watcher finished
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 main.go:23: Launching DigitalOcean Droplet Agent (code name: DOTTY)
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 main.go:26: Config Loaded. Agent Starting (version:v1.2.4)
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 sshmgr.go:305: Did not find sshd port from sshd_config, using default port:22
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 sshmgr.go:82: SSH Manager Initialized. sshd_config:[/etc/ssh/sshd_config], sshd_port:[22]
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 new_watcher_linux.go:11: Launching SSH Port Knocking Watcher
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 ssh_watcher.go:51: [SSH Watcher] Running
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 sshmgr.go:237: [WatchSSHDConfig] watching file: /etc/ssh/sshd_config
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221859.000000000┋Oct  8 06:18:59 localhost DropletAgent[7569]: INFO:2022/10/08 06:18:59 bgjobs.go:15: [authorized_keys files updater] launched
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T221900.000000000┋Oct  8 06:19:00 localhost DropletAgent[7569]: INFO:2022/10/08 06:19:00 main.go:120: droplet metadata updated to [{"dotty_status":"running","ssh_info":{"port":22}}]
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 main.go:23: Launching DigitalOcean Droplet Agent (code name: DOTTY)
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 main.go:26: Config Loaded. Agent Starting (version:v1.2.4)
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 sshmgr.go:305: Did not find sshd port from sshd_config, using default port:22
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 sshmgr.go:82: SSH Manager Initialized. sshd_config:[/etc/ssh/sshd_config], sshd_port:[22]
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 new_watcher_linux.go:11: Launching SSH Port Knocking Watcher
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 ssh_watcher.go:51: [SSH Watcher] Running
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 sshmgr.go:237: [WatchSSHDConfig] watching file: /etc/ssh/sshd_config
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 bgjobs.go:15: [authorized_keys files updater] launched
+⇳
+./logs/RockyLinux9/messages-DropletAgent┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 DropletAgent[863]: INFO:2022/10/08 06:22:55 main.go:120: droplet metadata updated to [{"dotty_status":"running","ssh_info":{"port":22}}]
+⇳

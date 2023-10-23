@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/synologand.log┋20180801T211655.000000000┋2018-08-01T14:16:55-0700 Plugin [abnormal_login.json] is loaded.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180801T211655.000000000┋2018-08-01T14:16:55-0700 Plugin [brute_force_attack.json] is loaded.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180904T212341.000000000┋2018-09-04T14:23:41-0700 Checklist exists. Skip...
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180904T212342.000000000┋2018-09-04T14:23:42-0700 Plugin [abnormal_login.json] is loaded.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180904T212342.000000000┋2018-09-04T14:23:42-0700 Plugin [brute_force_attack.json] is loaded.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180904T215545.000000000┋2018-09-04T14:55:45-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180904T222355.000000000┋2018-09-04T15:23:55-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180904T222404.000000000┋2018-09-04T15:24:04-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180904T222431.000000000┋2018-09-04T15:24:31-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180904T222452.000000000┋2018-09-04T15:24:52-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180904T222550.000000000┋2018-09-04T15:25:50-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20180904T222614.000000000┋2018-09-04T15:26:14-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20181015T204554.000000000┋2018-10-15T13:45:54-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20181015T204715.000000000┋2018-10-15T13:47:15-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20181015T204733.000000000┋2018-10-15T13:47:33-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20181015T205615.000000000┋2018-10-15T13:56:15-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20181015T205749.000000000┋2018-10-15T13:57:49-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20181015T205801.000000000┋2018-10-15T13:58:01-0700 connection closed.
+⇳
+./logs/synology-DS6/upstart/synologand.log┋20181015T210907.000000000┋2018-10-15T14:09:07-0700 Checklist exists. Skip...
+⇳

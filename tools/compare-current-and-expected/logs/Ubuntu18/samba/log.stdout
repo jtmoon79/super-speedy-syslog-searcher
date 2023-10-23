@@ -1,0 +1,25 @@
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋[2020/03/05 12:16:44.4347,  2] ../source3/lib/tallocmsg.c:56(register_msg_pool_usage)
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  Registered MSG_REQ_POOL_USAGE
+⇳
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋[2020/03/05 12:16:44.4347,  2] ../source3/lib/dmallocmsg.c:78(register_dmalloc_msgs)
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  Registered MSG_REQ_DMALLOC_MARK and LOG_CHANGED
+⇳
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋[2020/03/05 12:16:44.4347,  3] ../source3/param/loadparm.c:3860(lp_load_ex)
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  lp_load_ex: refreshing parameters
+⇳
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋[2020/03/05 12:16:44.4347,  3] ../source3/param/loadparm.c:549(init_globals)
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  Initialising global parameters
+⇳
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋[2020/03/05 12:16:44.4347,  2] ../source3/param/loadparm.c:321(max_open_files)
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (18054)
+⇳
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋[2020/03/05 12:16:44.4347,  3] ../source3/param/loadparm.c:2774(lp_do_section)
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  Processing section "[global]"
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  doing parameter workgroup = DESKTOP
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  doing parameter server string = %h server (Samba, Ubuntu)
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  doing parameter dns proxy = no
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  doing parameter local master = no
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  doing parameter os level = 333
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  doing parameter preferred master = no
+./logs/Ubuntu18/samba/log┋20200305T041644.434700000┋  doing parameter domain master = no
+⇳

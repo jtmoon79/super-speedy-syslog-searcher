@@ -1,0 +1,38 @@
+./logs/synology-DS6/apparmor.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    0.1167] AppArmor: AppArmor initialized
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T043105.000000000┋2016-12-05T20:31:05-08:00 DiskStation kernel: [    1.1167] AppArmor: AppArmor Filesystem Enabled
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T043121.000000000┋2016-12-05T20:31:21-08:00 DiskStation root: AppArmor: apparmor_reload_profile finish
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T044706.000000000┋2016-12-05T20:47:06-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T044739.000000000┋2016-12-05T20:47:39-08:00 dsnet apparmor_parser: AppArmor: generated cache "/etc/apparmor.d/cache/usr.syno.sbin.synoscgi"
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T044741.000000000┋2016-12-05T20:47:41-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T051126.000000000┋2016-12-05T21:11:26-08:00 dsnet kernel: [    0.1167] AppArmor: AppArmor initialized
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T051126.000000000┋2016-12-05T21:11:26-08:00 dsnet kernel: [    1.1167] AppArmor: AppArmor Filesystem Enabled
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T051131.000000000┋2016-12-05T21:11:31-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T051155.000000000┋2016-12-05T21:11:55-08:00 dsnet apparmor_parser: AppArmor: generated cache "/etc/apparmor.d/cache/usr.syno.sbin.synoscgi"
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T051157.000000000┋2016-12-05T21:11:57-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T051547.000000000┋2016-12-05T21:15:47-08:00 dsnet apparmor_parser: AppArmor: generated cache "/etc/apparmor.d/cache/usr.syno.sbin.synoscgi"
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T051548.000000000┋2016-12-05T21:15:48-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T051550.000000000┋2016-12-05T21:15:50-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T053843.000000000┋2016-12-05T21:38:43-08:00 dsnet kernel: [    0.1167] AppArmor: AppArmor initialized
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T053843.000000000┋2016-12-05T21:38:43-08:00 dsnet kernel: [    1.1167] AppArmor: AppArmor Filesystem Enabled
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T053932.000000000┋2016-12-05T21:39:32-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T060141.000000000┋2016-12-05T22:01:41-08:00 dsnet apparmor_parser: AppArmor: generated cache "/etc/apparmor.d/cache/usr.syno.sbin.synoscgi"
+⇳
+./logs/synology-DS6/apparmor.log┋20161206T060143.000000000┋2016-12-05T22:01:43-08:00 dsnet root: AppArmor: apparmor_reload_profile finish
+⇳

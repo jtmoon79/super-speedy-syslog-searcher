@@ -1,0 +1,8 @@
+./logs/other/tests/unknown┋20210509T194318.626000000┋20210509T194318.626-00:00[VERBOSE] This file
+⇳
+./logs/other/tests/unknown┋20210509T194318.647000000┋20210509T194318.647-00:00[DEBUG] does not have
+⇳
+./logs/other/tests/unknown┋20210509T194318.648000000┋20210509T194318.648-00:00[INFO] a known extension.
+⇳
+./logs/other/tests/unknown┋20210509T194318.648000000┋20210509T194318.648-00:00[WARNING] It is unknown!⇳
+

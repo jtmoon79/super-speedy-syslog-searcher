@@ -1,0 +1,58 @@
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋2017-09-15 13:48:27|radd   |home:cbosdonnat:SLE-12-SP3:Images|dir:///usr/src/packages/SOURCES/repos/home%3Acbosdonnat%3ASLE-12-SP3%3AImages/SUSE_SLE-12-SP3_GA_standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋2017-09-15 13:48:27|radd   |6e649d96e0cc5a30073bd64298cd26a9|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12-SP3%3AUpdate/standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋2017-09-15 13:48:27|radd   |3d743a74990ce39e6cc033bd41cdcd0e|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12-SP3%3AGA/standard|
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋# 2017-09-15 13:51:17 yast2-add-on-3.2.0-1.44.noarch.rpm installed ok
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋# Additional rpm output:
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋# warning: /var/cache/kiwi/packages/3d743a74990ce39e6cc033bd41cdcd0e/x86_64/yast2-add-on-3.2.0-1.44.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 39db7c82: NOKEY
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋#
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T055117.000000000┋2017-09-15 13:51:17|install|yast2-add-on|3.2.0-1.44|noarch||3d743a74990ce39e6cc033bd41cdcd0e|93435ccd608ae378c6a94165e5e5816e9f9d6a940aa5889d4b0375767cc380c5|
+./logs/OpenSUSE15/zypp/history┋20170915T055117.000000000┋# 2017-09-15 13:51:18 yast2-registration-3.2.11-1.22.noarch.rpm installed ok
+./logs/OpenSUSE15/zypp/history┋20170915T055117.000000000┋# Additional rpm output:
+./logs/OpenSUSE15/zypp/history┋20170915T055117.000000000┋# warning: /var/cache/kiwi/packages/3d743a74990ce39e6cc033bd41cdcd0e/x86_64/yast2-registration-3.2.11-1.22.noarch.rpm: Header V3 RSA/SHA256 Signature, key ID 39db7c82: NOKEY
+./logs/OpenSUSE15/zypp/history┋20170915T055117.000000000┋#
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T055118.000000000┋2017-09-15 13:51:18|install|yast2-registration|3.2.11-1.22|noarch|root@workstation|3d743a74990ce39e6cc033bd41cdcd0e|a6badb8b3d3bd4f526b0bba548f3eb617a118812538f7d7937096c74fec84b43|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054843.000000000┋2017-09-15 13:48:43|install|ncurses-utils|5.9-50.1|x86_64|root@workstation|SLE12:Update|dc3a8a108032a60310a73cf4550e9fbde5b7fa1ae038524ea831c1d5ec15d2ca|
+./logs/OpenSUSE15/zypp/history┋20170915T054843.000000000┋# 2017-09-15 13:48:44 pkg-config-0.28-6.98.x86_64.rpm installed ok
+./logs/OpenSUSE15/zypp/history┋20170915T054843.000000000┋# Additional rpm output:
+./logs/OpenSUSE15/zypp/history┋20170915T054843.000000000┋# warning: /usr/src/packages/KIWIROOT-tbz/var/cache/kiwi/packages/SLE12:GA/x86_64/pkg-config-0.28-6.98.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID 39db7c82: NOKEY
+./logs/OpenSUSE15/zypp/history┋20170915T054843.000000000┋#
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋2017-09-15 13:48:44|install|pkg-config|0.28-6.98|x86_64|root@workstation|SLE12:GA|17aa0061c85c951d6ec0204a4f97d7c4127649dc4d1a2915fbd5c2418cc91ce2|
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋# 2017-09-15 13:48:44 libustr-1_0-1-1.0.4-31.197.x86_64.rpm installed ok
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋# Additional rpm output:
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋# warning: /usr/src/packages/KIWIROOT-tbz/var/cache/kiwi/packages/SLE12:GA/x86_64/libustr-1_0-1-1.0.4-31.197.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID 39db7c82: NOKEY
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋#
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋2017-09-15 13:48:44|install|libustr-1_0-1|1.0.4-31.197|x86_64||SLE12:GA|34e74a355374dbdff10cb6dba9b44670d870279c35d1a9198833d6aada887323|
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋# 2017-09-15 13:48:44 libqrencode3-3.4.3-1.31.x86_64.rpm installed ok
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋# Additional rpm output:
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋# warning: /usr/src/packages/KIWIROOT-tbz/var/cache/kiwi/packages/SLE12:GA/x86_64/libqrencode3-3.4.3-1.31.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID 39db7c82: NOKEY
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋#
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054844.000000000┋2017-09-15 13:48:44|install|libqrencode3|3.4.3-1.31|x86_64||SLE12:GA|979385e6ba97015898a1ff47faab92afb3710687c75c3f8c3bf6c0c6775d0f9b|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋2017-09-15 13:48:27|radd   |home:cbosdonnat:SLE-12-SP3:Images|dir:///usr/src/packages/SOURCES/repos/home%3Acbosdonnat%3ASLE-12-SP3%3AImages/SUSE_SLE-12-SP3_GA_standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋2017-09-15 13:48:27|radd   |6e649d96e0cc5a30073bd64298cd26a9|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12-SP3%3AUpdate/standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋2017-09-15 13:48:27|radd   |3d743a74990ce39e6cc033bd41cdcd0e|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12-SP3%3AGA/standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054827.000000000┋2017-09-15 13:48:27|radd   |0f05fc840c03e5699cb249bcf80efc5f|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12-SP2%3AUpdate/standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054828.000000000┋2017-09-15 13:48:28|radd   |267d99736c824141f3cc5891afb74569|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12-SP2%3AGA/standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054828.000000000┋2017-09-15 13:48:28|radd   |81cdc88aa94b0ac56c52e12f5ce09e0d|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12-SP1%3AUpdate/standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054828.000000000┋2017-09-15 13:48:28|radd   |abbbd539aea0f492d6e19692ba95ba6f|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12-SP1%3AGA/standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054828.000000000┋2017-09-15 13:48:28|radd   |SLE12:Update|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12%3AUpdate/standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054828.000000000┋2017-09-15 13:48:28|radd   |SLE12:GA|dir:///usr/src/packages/SOURCES/repos/SUSE%3ASLE-12%3AGA/standard|
+⇳
+./logs/OpenSUSE15/zypp/history┋20170915T054834.000000000┋2017-09-15 13:48:34|command|root@workstation|'zypper' '--non-interactive' '--pkg-cache-dir' '/usr/src/packages/KIWIROOT-tbz/var/cache/kiwi/packages' '--reposd-dir' '/usr/src/packages/KIWIROOT-tbz/var/cache/kiwi/zypper/repos' '--solv-cache-dir' '/usr/src/packages/KIWIROOT-tbz/var/cache/kiwi/zypper/solv' '--cache-dir' '/usr/src/packages/KIWIROOT-tbz/var/cache/kiwi/zypper' '--raw-cache-dir' '/usr/src/packages/KIWIROOT-tbz/var/cache/kiwi/zypper/raw' '--config' '/usr/src/packages/KIWIROOT-tbz/tmp44aYOJ' '--root' '/usr/src/packages/KIWIROOT-tbz' 'install' '--auto-agree-with-licenses' '--no-recommends' 'acl' 'cracklib-dict-small' 'dbus-1' 'dracut' 'elfutils' 'filesystem' 'fipscheck' 'glibc-locale' 'kbd' 'kmod' 'ncurses-utils' 'pam-config' 'pinentry' 'pkg-config' 'sg3_utils' 'sles-release' 'sles-release-MINI' 'systemd' 'systemd-presets-branding-SLE' 'udev' 'zypper'|
+⇳

@@ -1,0 +1,38 @@
+./logs/synology-DS6/synophoto.log┋20181206T223624.000000000┋2018-12-06T14:36:24-08:00 dsnet synoscgi_SYNO.Photo.Setting.User_2_set[5603]: /source/synophoto/src/webapi/module/Photo/Setting/user_setting.cpp:222 User user1(1026) enable GeoCoding
+⇳
+./logs/synology-DS6/synophoto.log┋20181206T223624.000000000┋2018-12-06T14:36:24-08:00 dsnet synoscgi_SYNO.Photo.Setting.User_2_set[5603]: /source/synophoto/src/webapi/module/Photo/Setting/user_setting.cpp:227 User user1(1026) enable FaceExtraction
+⇳
+./logs/synology-DS6/synophoto.log┋20181217T230706.000000000┋2018-12-17T15:07:06-08:00 dsnet synophoto-bin-team-library-tool: /source/synophoto/src/bin/team_library_tool.cpp:107 �,��,�:-��L��,��L�
+⇳
+./logs/synology-DS6/synophoto.log┋20181217T230917.000000000┋2018-12-17T15:09:17-08:00 dsnet synophoto-bin-team-library-tool: /source/synophoto/src/bin/team_library_tool.cpp:107 �,�
+⇳
+./logs/synology-DS6/synophoto.log┋20181217T230917.000000000┋2018-12-17T15:09:17-08:00 dsnet synophoto-bin-team-library-tool: /source/synophoto/src/bin/team_library_tool.cpp:107 �,�
+⇳
+./logs/synology-DS6/synophoto.log┋20181217T230931.000000000┋2018-12-17T15:09:31-08:00 dsnet synophoto-bin-team-library-tool: SYSTEM:	Last message '/source/synophoto/sr' repeated 1 times, suppressed by syslog-ng on dsnet
+⇳
+./logs/synology-DS6/synophoto.log┋20181217T230931.000000000┋2018-12-17T15:09:31-08:00 dsnet synophoto-thumbnail-provider: /source/synophoto/src/daemon/thumbnail-provider/main.cpp:35 Exception: PDT,M3.2.0,M11.1.0
+⇳
+./logs/synology-DS6/synophoto.log┋20181217T230931.000000000┋2018-12-17T15:09:31-08:00 dsnet synophoto-thumbnail-provider: /source/synophoto/src/daemon/thumbnail-provider/main.cpp:35 Exception: PDT,M3.2.0,M11.1.0
+⇳
+./logs/synology-DS6/synophoto.log┋20181217T231139.000000000┋2018-12-17T15:11:39-08:00 dsnet synophoto-bin-update-sphere: /source/synophoto/src/bin/update_sphere.cpp:90 [UpdateSphere] >> user1(id: 1, uid: 5603)
+⇳
+./logs/synology-DS6/synophoto.log┋20181217T231141.000000000┋2018-12-17T15:11:41-08:00 dsnet synophoto-bin-update-sphere: /source/synophoto/src/bin/update_sphere.cpp:90 [UpdateSphere] << user1(id: 1, uid: 9018)
+⇳
+./logs/synology-DS6/synophoto.log┋20181225T094309.000000000┋2018-12-25T01:43:09-08:00 dsnet synophoto-bin-update-sphere: /source/synophoto/src/bin/update_sphere.cpp:90 [UpdateSphere] >> user1(id: 1, uid: 5603)
+⇳
+./logs/synology-DS6/synophoto.log┋20181225T094309.000000000┋2018-12-25T01:43:09-08:00 dsnet synophoto-bin-update-sphere: /source/synophoto/src/bin/update_sphere.cpp:90 [UpdateSphere] << user1(id: 1, uid: 9018)
+⇳
+./logs/synology-DS6/synophoto.log┋20181231T011513.000000000┋2018-12-30T17:15:13-08:00 dsnet synophoto-bin-update-sphere: /source/synophoto/src/bin/update_sphere.cpp:90 [UpdateSphere] >> user1(id: 1, uid: 5603)
+⇳
+./logs/synology-DS6/synophoto.log┋20181231T011513.000000000┋2018-12-30T17:15:13-08:00 dsnet synophoto-bin-update-sphere: /source/synophoto/src/bin/update_sphere.cpp:90 [UpdateSphere] << user1(id: 1, uid: 9018)
+⇳
+./logs/synology-DS6/synophoto.log┋20190103T080709.000000000┋2019-01-03T00:07:09-08:00 dsnet synophoto-bin-team-library-tool: /source/synophoto/src/bin/team_library_tool.cpp:107 ��^
+⇳
+./logs/synology-DS6/synophoto.log┋20190103T080919.000000000┋2019-01-03T00:09:19-08:00 dsnet synophoto-bin-team-library-tool: /source/synophoto/src/bin/team_library_tool.cpp:107 ���
+⇳
+./logs/synology-DS6/synophoto.log┋20190103T080919.000000000┋2019-01-03T00:09:19-08:00 dsnet synophoto-bin-team-library-tool: /source/synophoto/src/bin/team_library_tool.cpp:107 ���
+⇳
+./logs/synology-DS6/synophoto.log┋20190103T081141.000000000┋2019-01-03T00:11:41-08:00 dsnet synophoto-bin-update-sphere: /source/synophoto/src/bin/update_sphere.cpp:90 [UpdateSphere] >> user1(id: 1, uid: 5603)
+⇳
+./logs/synology-DS6/synophoto.log┋20190103T081143.000000000┋2019-01-03T00:11:43-08:00 dsnet synophoto-bin-update-sphere: /source/synophoto/src/bin/update_sphere.cpp:90 [UpdateSphere] << user1(id: 1, uid: 5603)
+⇳

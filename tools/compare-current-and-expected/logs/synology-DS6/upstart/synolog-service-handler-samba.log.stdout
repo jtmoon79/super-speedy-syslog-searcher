@@ -1,0 +1,18 @@
+./logs/synology-DS6/upstart/synolog-service-handler-samba.log┋20161206T051610.000000000┋2016-12-05T21:16:10-0800 Checking if need to run synologd...
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-samba.log┋20161206T051610.000000000┋2016-12-05T21:16:10-0800 ftpd is disabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-samba.log┋20161206T051610.000000000┋2016-12-05T21:16:10-0800 ftpd-ssl is disabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-samba.log┋20161206T051610.000000000┋2016-12-05T21:16:10-0800 sftp is disabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-samba.log┋20161206T051610.000000000┋2016-12-05T21:16:10-0800 tftp is disabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-samba.log┋20161206T051610.000000000┋2016-12-05T21:16:10-0800 samba is enabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-samba.log┋20161206T051610.000000000┋2016-12-05T21:16:10-0800 atalk is enabled.
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-samba.log┋20161206T051610.000000000┋2016-12-05T21:16:10-0800 No need to start synologd...
+⇳
+./logs/synology-DS6/upstart/synolog-service-handler-samba.log┋20161206T051610.000000000┋2016-12-05T21:16:10-0800 warn: The runkey of service [synolog] has been set to "No"
+⇳

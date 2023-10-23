@@ -1,0 +1,75 @@
+./logs/RockyLinux9/dnf.rpm.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061850.000000000┋2022-10-08T06:18:50+0000 SUBDEBUG Upgrade: ca-certificates-2022.2.54-90.2.el9.noarch
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061851.000000000┋2022-10-08T06:18:51+0000 SUBDEBUG Upgraded: ca-certificates-2020.2.50-94.el9.noarch
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 SUBDEBUG Installed: droplet-agent-1.2.4-1.x86_64
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061858.000000000┋2022-10-08T06:18:58+0000 INFO enable systemd service
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061858.000000000┋Created symlink /etc/systemd/system/multi-user.target.wants/droplet-agent.service → /etc/systemd/system/droplet-agent.service.
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061858.000000000┋
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061859.000000000┋2022-10-08T06:18:59+0000 INFO enable systemd service
+./logs/RockyLinux9/dnf.rpm.log┋20221008T061859.000000000┋
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 SUBDEBUG Installed: tree-1.8.0-10.el9.x86_64
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T065110.000000000┋2022-10-08T06:51:10+0000 SUBDEBUG Installed: nginx-filesystem-1:1.20.1-10.el9.noarch
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T065110.000000000┋2022-10-08T06:51:10+0000 SUBDEBUG Installed: rocky-logos-httpd-90.11-1.el9.noarch
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T065110.000000000┋2022-10-08T06:51:10+0000 SUBDEBUG Installed: nginx-1:1.20.1-10.el9.x86_64
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T150047.000000000┋2022-10-08T15:00:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T222543.000000000┋2022-10-08T22:25:43+0000 SUBDEBUG Installed: lsof-4.94.0-3.el9.x86_64
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 INFO --- logging initialized ---
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 SUBDEBUG Installed: rocky-indexhtml-9.0-2.el9.noarch
+⇳
+./logs/RockyLinux9/dnf.rpm.log┋20221008T222652.000000000┋2022-10-08T22:26:52+0000 SUBDEBUG Installed: lynx-2.8.9-18.el9.x86_64⇳
+

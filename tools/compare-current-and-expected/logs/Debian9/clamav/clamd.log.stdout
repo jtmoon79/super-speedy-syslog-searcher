@@ -1,0 +1,16 @@
+./logs/Debian9/clamav/clamd.log┋20191004T052136.000000000┋Fri Oct  4 13:21:36 2019 -> +++ Started at Fri Oct  4 13:21:36 2019
+⇳
+./logs/Debian9/clamav/clamd.log┋20191004T052137.000000000┋Fri Oct  4 13:21:37 2019 -> Received 0 file descriptor(s) from systemd.
+⇳
+./logs/Debian9/clamav/clamd.log┋20191004T052137.000000000┋Fri Oct  4 13:21:37 2019 -> clamd daemon 0.101.4 (OS: linux-gnueabihf, ARCH: arm, CPU: arm)
+⇳
+./logs/Debian9/clamav/clamd.log┋20191004T052137.000000000┋Fri Oct  4 13:21:37 2019 -> Running as user clamav (UID 112, GID 117)
+⇳
+./logs/Debian9/clamav/clamd.log┋20191004T052137.000000000┋Fri Oct  4 13:21:37 2019 -> Log file size limited to 0123456789 bytes.
+⇳
+./logs/Debian9/clamav/clamd.log┋20191004T052137.000000000┋Fri Oct  4 13:21:37 2019 -> Reading databases from /var/lib/clamav
+⇳
+./logs/Debian9/clamav/clamd.log┋20191004T052137.000000000┋Fri Oct  4 13:21:37 2019 -> Not loading PUA signatures.
+⇳
+./logs/Debian9/clamav/clamd.log┋20191004T052137.000000000┋Fri Oct  4 13:21:37 2019 -> Bytecode: Security mode set to "TrustSigned".
+⇳

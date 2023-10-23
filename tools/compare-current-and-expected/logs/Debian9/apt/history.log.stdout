@@ -1,0 +1,13 @@
+./logs/Debian9/apt/history.log┋20190913T112011.000000000┋Start-Date: 2019-09-13  19:20:11
+./logs/Debian9/apt/history.log┋20190913T112011.000000000┋Commandline: apt-get install tmux
+./logs/Debian9/apt/history.log┋20190913T112011.000000000┋Install: libutempter0:armhf (1.1.6-3, automatic), tmux:armhf (2.3-4)
+⇳
+./logs/Debian9/apt/history.log┋20190913T112022.000000000┋End-Date: 2019-09-13  19:20:22
+./logs/Debian9/apt/history.log┋20190913T112022.000000000┋
+⇳
+./logs/Debian9/apt/history.log┋20200218T083617.000000000┋Start-Date: 2020-02-18  16:36:17
+./logs/Debian9/apt/history.log┋20200218T083617.000000000┋Commandline: apt install autossh
+./logs/Debian9/apt/history.log┋20200218T083617.000000000┋Install: autossh:armhf (1.4e-3)
+⇳
+./logs/Debian9/apt/history.log┋20200218T083626.000000000┋End-Date: 2020-02-18  16:36:26
+⇳

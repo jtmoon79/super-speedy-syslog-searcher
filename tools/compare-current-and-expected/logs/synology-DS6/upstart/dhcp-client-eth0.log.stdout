@@ -1,0 +1,24 @@
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20170508T153233.000000000┋2017-05-08T08:32:33-0700 
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20170524T164119.000000000┋2017-05-24T09:41:19-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.DownloadStation2.BTSearch".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.Finder.Bookmark".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.DownloadStation2.BTSearch".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/local/packages/@appstore/USBCopy/bin/usb-copy-starter".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.FileStation.BackgroundTask".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20191116T225620.000000000┋2019-11-16T14:56:20-0800 /usr/sbin/apparmor_parser: Unable to remove "/usr/local/packages/@appstore/USBCopy/bin/usb-copy-starter".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20191116T225621.000000000┋2019-11-16T14:56:21-0800 /usr/sbin/apparmor_parser: Unable to remove "/volume*/@appstore/HyperBackupVault/bin/img_backupd".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20191116T225621.000000000┋2019-11-16T14:56:21-0800 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.Photo.Browse.Album".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20191116T225623.000000000┋2019-11-16T14:56:23-0800 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.DownloadStation2.BTSearch".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20191116T225635.000000000┋2019-11-16T14:56:35-0800 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.SynologyDrive.AppIntegration".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/dhcp-client-eth0.log┋20191116T225641.000000000┋2019-11-16T14:56:41-0800 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.Personal.Application".  Profile doesn't exist
+⇳

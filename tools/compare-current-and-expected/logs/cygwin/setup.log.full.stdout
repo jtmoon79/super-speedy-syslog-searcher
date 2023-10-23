@@ -1,0 +1,89 @@
+./logs/cygwin/setup.log.full┋20220323T060020.000000000┋2022/03/23 14:00:20 Starting cygwin install, version 2.918
+⇳
+./logs/cygwin/setup.log.full┋20220323T060020.000000000┋2022/03/23 14:00:20 User has backup/restore rights
+⇳
+./logs/cygwin/setup.log.full┋20220323T060020.000000000┋2022/03/23 14:00:20 User has symlink creation right
+⇳
+./logs/cygwin/setup.log.full┋20220323T060020.000000000┋2022/03/23 14:00:20 Current Directory: C:\Users\user1\AppData\Local\Temp\scoped_dir27748_1637863670
+./logs/cygwin/setup.log.full┋20220323T060020.000000000┋Could not open service McShield for query, start and stop. McAfee may not be installed, or we don't have access.
+⇳
+./logs/cygwin/setup.log.full┋20220323T060022.000000000┋2022/03/23 14:00:22 source: network install
+⇳
+./logs/cygwin/setup.log.full┋20220323T060022.000000000┋2022/03/23 14:00:22 root: C:\cygwin system
+⇳
+./logs/cygwin/setup.log.full┋20220323T060023.000000000┋2022/03/23 14:00:23 Selected local directory: C:\Users\user1\AppData\Local\Temp\scoped_dir27748_1637863670
+⇳
+./logs/cygwin/setup.log.full┋20220323T060024.000000000┋2022/03/23 14:00:24 net: Preconfig
+./logs/cygwin/setup.log.full┋20220323T060024.000000000┋Loaded cached mirror list
+./logs/cygwin/setup.log.full┋20220323T060024.000000000┋User-Agent: default is "Cygwin-Setup/2.918 (Windows NT 10.0.19044;Win64;0409;SymLinkPriv)"
+./logs/cygwin/setup.log.full┋20220323T060024.000000000┋Fetched URL: https://cygwin.com/mirrors.lst
+⇳
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋2022/03/23 14:00:49 site: https://mirrors.sonic.net/cygwin/
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋Request for URL https://mirrors.sonic.net/cygwin/x86_64/setup.zst.sig satisfied from cache
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋Fetched URL: https://mirrors.sonic.net/cygwin/x86_64/setup.zst.sig
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋Request for URL https://mirrors.sonic.net/cygwin/x86_64/setup.zst satisfied from cache
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋Fetched URL: https://mirrors.sonic.net/cygwin/x86_64/setup.zst
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋signature: sig_type 0, pk_alg 17, hash_alg 2
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋signature: tried key cygwin, returned 0x0100004f Invalid data
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋signature: sig_type 0, pk_alg 1, hash_alg 8
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋signature: tried key cygwin, returned 0x00000000 Success
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋.ini setup_version is 2.918, our setup_version is 2.918
+./logs/cygwin/setup.log.full┋20220323T060049.000000000┋INSTALLED.DB version 3
+⇳
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋2022/03/23 14:00:54 solving: 0 tasks, update: yes, use test packages: no
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: solver started
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: dosplitprovides=0, noupdateprovide=0, noinfarchcheck=0
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: allowuninstall=0, allowdowngrade=0, allownamechange=1, allowarchchange=0, allowvendorchange=1
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: promoteepoch=0, forbidselfconflicts=0
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: obsoleteusesprovides=0, implicitobsoleteusesprovides=0, obsoleteusescolors=0, implicitobsoleteusescolors=0
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: dontinstallrecommended=0, addalreadyrecommended=0
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: number of solvables: 56049, memory used: 3065 K
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: number of ids: 28639 + 55805
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: string memory used: 111 K array + 491 K data,  rel memory used: 653 K array
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: string hash memory: 256 K, rel hash memory : 512 K
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: provide ids: 12183
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: provide space needed: 41645 + 111610
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: shrunk whatprovidesdata from 41645 to 41621
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: shrunk whatprovidesauxdata from 41645 to 29459
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: whatprovides memory used: 333 K id array, 598 K data
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: whatprovidesaux memory used: 111 K id array, 115 K data
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: WARNING: pool_addfileprovides was not called, this may result in slow operation
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: lazywhatprovidesq size: 0 entries
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: createwhatprovides took 5 ms
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: obsoletes data: 1 entries
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: added 3974 pkg rules for installed solvables
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: added 883 pkg rules for updaters of installed solvables
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: added 0 pkg rules for packages involved in a job
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: added 0 pkg rules because of weak dependencies
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: 937 of 27978 installable solvables considered for solving
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: pruned rules from 4858 to 4858
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv:   binary: 1727
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv:   normal: 3130, 19318 literals
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: pkg rule memory used: 113 K
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: pkg rule creation took 2 ms
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: choice rule creation took 2 ms
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: 4857 pkg rules, 2 * 245 update rules, 0 job rules, 0 infarch rules, 0 dup rules, 0 choice rules, 0 best rules
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: overall rule memory used: 125 K
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: solving...
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: resolving job rules
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: resolving installed packages
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: deciding orphaned packages
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: solver statistics: 0 learned rules, 0 unsolvable, 0 minimization steps
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: done solving.
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: solver took 1 ms
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: final solver statistics: 0 problems, 0 learned rules, 0 unsolvable
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: solver_solve took 12 ms
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv:
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: transaction:
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv:
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: orphaned packages:
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv:   base-0.0-0.any (kept)
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv:   _windows-10.0.19044.any (kept)
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv:
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: ordering transaction
+./logs/cygwin/setup.log.full┋20220323T060054.000000000┋libsolv: transaction elements: 0
+⇳
+./logs/cygwin/setup.log.full┋20220323T063849.000000000┋2022/03/23 14:38:49 mbox : Are you sure you want to exit setup? Any current download or installation will be aborted.
+⇳
+./logs/cygwin/setup.log.full┋20220323T063851.000000000┋2022/03/23 14:38:51 Ending cygwin install
+⇳

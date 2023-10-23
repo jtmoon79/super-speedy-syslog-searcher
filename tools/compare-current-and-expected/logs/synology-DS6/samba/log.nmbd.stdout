@@ -1,0 +1,27 @@
+./logs/synology-DS6/samba/log.nmbd┋20161205T123145.000000000┋../source3/nmbd/nmbd.c:976: [2016/12/05 20:31:45, all 0] main
+./logs/synology-DS6/samba/log.nmbd┋20161205T123145.000000000┋  nmbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.nmbd┋20161205T123145.000000000┋  Copyright Andrew Tridgell and the Samba Team 1992-2013
+⇳
+./logs/synology-DS6/samba/log.nmbd┋20161205T123145.000000000┋../source3/nmbd/nmbd.c:1017: [2016/12/05 20:31:45.3551, all 0, pid=6494] main
+./logs/synology-DS6/samba/log.nmbd┋20161205T123145.000000000┋  standard input is not a socket, assuming -D option
+⇳
+./logs/synology-DS6/samba/log.nmbd┋20161205T123151.000000000┋../source3/nmbd/nmbd.c:66: [2016/12/05 20:31:51.3551, all 0, pid=6494] terminate
+./logs/synology-DS6/samba/log.nmbd┋20161205T123151.000000000┋  Got SIGTERM: going down...
+⇳
+./logs/synology-DS6/samba/log.nmbd┋20161205T123153.000000000┋../source3/nmbd/nmbd.c:976: [2016/12/05 20:31:53, all 0] main
+./logs/synology-DS6/samba/log.nmbd┋20161205T123153.000000000┋  nmbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.nmbd┋20161205T123153.000000000┋  Copyright Andrew Tridgell and the Samba Team 1992-2013
+⇳
+./logs/synology-DS6/samba/log.nmbd┋20161205T123153.000000000┋../source3/nmbd/nmbd.c:1017: [2016/12/05 20:31:53.3551, all 0, pid=7161] main
+./logs/synology-DS6/samba/log.nmbd┋20161205T123153.000000000┋  standard input is not a socket, assuming -D option
+⇳
+./logs/synology-DS6/samba/log.nmbd┋20161205T123252.000000000┋../source3/nmbd/nmbd.c:66: [2016/12/05 20:32:52.3551, all 0, pid=7161] terminate
+./logs/synology-DS6/samba/log.nmbd┋20161205T123252.000000000┋  Got SIGTERM: going down...
+⇳
+./logs/synology-DS6/samba/log.nmbd┋20161205T123253.000000000┋../source3/nmbd/nmbd.c:976: [2016/12/05 20:32:53, all 0] main
+./logs/synology-DS6/samba/log.nmbd┋20161205T123253.000000000┋  nmbd version 4.1.20 started.
+./logs/synology-DS6/samba/log.nmbd┋20161205T123253.000000000┋  Copyright Andrew Tridgell and the Samba Team 1992-2013
+⇳
+./logs/synology-DS6/samba/log.nmbd┋20161205T123253.000000000┋../source3/nmbd/nmbd.c:1017: [2016/12/05 20:32:53.3551, all 0, pid=7700] main
+./logs/synology-DS6/samba/log.nmbd┋20161205T123253.000000000┋  standard input is not a socket, assuming -D option
+⇳

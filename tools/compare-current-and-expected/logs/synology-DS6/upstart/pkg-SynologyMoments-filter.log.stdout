@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190130T211128.000000000┋2019-01-30T13:11:28-0800 pkg-SynologyMoments-filter stop/pre-start, process 5577
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190130T211128.000000000┋2019-01-30T13:11:28-0800 Wed Jan 30 21:11:28 UTC 2019: stop synophoto-filter
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190131T095301.000000000┋2019-01-31T01:53:01-0800 pkg-SynologyMoments-filter stop/pre-start, process 5577
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190131T095302.000000000┋2019-01-31T01:53:02-0800 Thu Jan 31 09:53:02 UTC 2019: stop synophoto-filter
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190201T100057.000000000┋2019-02-01T02:00:57-0800 pkg-SynologyMoments-filter stop/pre-start, process 5577
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190201T100057.000000000┋2019-02-01T02:00:57-0800 Fri Feb  1 10:00:57 UTC 2019: stop synophoto-filter
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190202T095316.000000000┋2019-02-02T01:53:16-0800 pkg-SynologyMoments-filter stop/pre-start, process 1401
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190202T095316.000000000┋2019-02-02T01:53:16-0800 Sat Feb  2 09:53:16 UTC 2019: stop synophoto-filter
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190203T100308.000000000┋2019-02-03T02:03:08-0800 pkg-SynologyMoments-filter stop/pre-start, process 5577
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190203T100308.000000000┋2019-02-03T02:03:08-0800 Sun Feb  3 10:03:08 UTC 2019: stop synophoto-filter
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190204T094624.000000000┋2019-02-04T01:46:24-0800 pkg-SynologyMoments-filter stop/pre-start, process 5577
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190204T094624.000000000┋2019-02-04T01:46:24-0800 Mon Feb  4 09:46:24 UTC 2019: stop synophoto-filter
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190205T095212.000000000┋2019-02-05T01:52:12-0800 pkg-SynologyMoments-filter stop/pre-start, process 5577
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190205T095212.000000000┋2019-02-05T01:52:12-0800 Tue Feb  5 09:52:12 UTC 2019: stop synophoto-filter
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190206T094129.000000000┋2019-02-06T01:41:29-0800 pkg-SynologyMoments-filter stop/pre-start, process 5577
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190206T094130.000000000┋2019-02-06T01:41:30-0800 Wed Feb  6 09:41:30 UTC 2019: stop synophoto-filter
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190207T094516.000000000┋2019-02-07T01:45:16-0800 pkg-SynologyMoments-filter stop/pre-start, process 5577
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190207T094516.000000000┋2019-02-07T01:45:16-0800 Thu Feb  7 09:45:16 UTC 2019: stop synophoto-filter
+⇳
+./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log┋20190208T094339.000000000┋2019-02-08T01:43:39-0800 pkg-SynologyMoments-filter stop/pre-start, process 1900
+⇳

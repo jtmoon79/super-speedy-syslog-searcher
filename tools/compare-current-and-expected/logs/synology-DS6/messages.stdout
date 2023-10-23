@@ -1,0 +1,38 @@
+./logs/synology-DS6/messages┋20200308T212530.000000000┋2020-03-08T14:25:30-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212531.000000000┋2020-03-08T14:25:31-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212532.000000000┋2020-03-08T14:25:32-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212533.000000000┋2020-03-08T14:25:33-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212538.000000000┋2020-03-08T14:25:38-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212539.000000000┋2020-03-08T14:25:39-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212540.000000000┋2020-03-08T14:25:40-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212541.000000000┋2020-03-08T14:25:41-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212543.000000000┋2020-03-08T14:25:43-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212544.000000000┋2020-03-08T14:25:44-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212545.000000000┋2020-03-08T14:25:45-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212547.000000000┋2020-03-08T14:25:47-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212549.000000000┋2020-03-08T14:25:49-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212550.000000000┋2020-03-08T14:25:50-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212552.000000000┋2020-03-08T14:25:52-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212554.000000000┋2020-03-08T14:25:54-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212557.000000000┋2020-03-08T14:25:57-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212558.000000000┋2020-03-08T14:25:58-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳
+./logs/synology-DS6/messages┋20200308T212559.000000000┋2020-03-08T14:25:59-07:00 dsnet mv: synoacl_archive_copy.c:41 Failed to set ACL archive into : [/path1/homes/user1/rem1/device55/20200302AM/device55-28857-5057-0123456789.mp4], errno=[300]
+⇳

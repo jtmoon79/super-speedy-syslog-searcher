@@ -1,0 +1,6 @@
+./logs/other/tests/dtf5-2b.log┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-2b]
+./logs/other/tests/dtf5-2b.log┋19991231T160000.000000000┋
+⇳
+./logs/other/tests/dtf5-2b.log┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-2b]a
+./logs/other/tests/dtf5-2b.log┋19991231T160001.000000000┋a⇳
+

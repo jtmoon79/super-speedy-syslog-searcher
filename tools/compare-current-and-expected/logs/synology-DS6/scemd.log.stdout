@@ -1,0 +1,38 @@
+./logs/synology-DS6/scemd.log┋20161206T043129.000000000┋2016-12-05T20:31:29-08:00 DiskStation syno_scemd_connector: scemd_connector/scemd_connector.c:133 Fail to sendto() for scemd connector client.
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043130.000000000┋2016-12-05T20:31:30-08:00 DiskStation syno_scemd_connector: scemd_connector/scemd_connector.c:133 Fail to sendto() for scemd connector client.
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043134.000000000┋2016-12-05T20:31:34-08:00 DiskStation syno_scemd_connector: scemd_connector/scemd_connector.c:133 Fail to sendto() for scemd connector client.
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation syno_scemd_connector: SYSTEM:	Last message 'scemd_connector/scem' repeated 2 times, suppressed by syslog-ng on DiskStation
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation scemd: event_handler.c:291 event handler thread 0123456789 created
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation scemd: event_handler.c:98 Fail to sendto() for scemd event handler client.
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation scemd: show_module_type.c:35 fan_type=7, raid_type=1, led_type=1, thermal_type=2, diskled_ctrl_type=1, auto_poweron_type=1, dual_power_type=1, usbcopy_type=0, fan_number=2, eunit_pwron_type=0, pis_type=2, rtc_type=4, lcm_type=2, wifi_wps_type=254
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation scemd: fan_config_get.c:46 Type: INTERNAL Fan Mode: LOW 
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation scemd: manage_services.c:496 hw polling thread 0123456789 created
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation scemd: manage_services.c:496 disk led ctrl thread 0123456789 created
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation scemd: manage_services.c:496 fan gpio detect thread 0123456789 created
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation scemd: manage_services.c:496 scemd connector thread 0123456789 created
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation scemd: manage_services.c:496 led ctrl thread 0123456789 created
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043141.000000000┋2016-12-05T20:31:41-08:00 DiskStation scemd: scemd_connector.c:150 scemd connector thread start.
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043150.000000000┋2016-12-05T20:31:50-08:00 DiskStation scemd: fan_config_get.c:46 Type: INTERNAL Fan Mode: LOW 
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043150.000000000┋2016-12-05T20:31:50-08:00 DiskStation scemd: raid_sys_volume_check.c:164 MD0 active disks 3, designed disks 4 
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043150.000000000┋2016-12-05T20:31:50-08:00 DiskStation scemd: raid_sys_volume_check.c:164 MD1 active disks 3, designed disks 4 
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043150.000000000┋2016-12-05T20:31:50-08:00 DiskStation scemd: polling_hibernation_timer.c:1194 Hibernation enable, idle minutes 20
+⇳
+./logs/synology-DS6/scemd.log┋20161206T043150.000000000┋2016-12-05T20:31:50-08:00 DiskStation scemd: polling_hibernation_timer.c:1205 SATA Deep sleep timer 1
+⇳

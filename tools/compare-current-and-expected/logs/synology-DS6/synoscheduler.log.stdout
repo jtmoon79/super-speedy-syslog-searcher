@@ -1,0 +1,36 @@
+./logs/synology-DS6/synoscheduler.log┋20161206T043701.000000000┋2016-12-05T20:37:01-08:00 dsnet synoscgi_SYNO.Storage.CGI.Smart.Scheduler_1_set[8344]: backends/backend_synoschedule.c:34 /tmp/scheduled_tasks not found [0x2000 file_get_key_value.c:81]
+⇳
+./logs/synology-DS6/synoscheduler.log┋20161206T043701.000000000┋2016-12-05T20:37:01-08:00 dsnet synoscgi_SYNO.Storage.CGI.Smart.Scheduler_1_set[8344]: backends/backend_synoschedule.c:34 /tmp/scheduled_tasks not found [0x2000 file_get_key_value.c:81]
+⇳
+./logs/synology-DS6/synoscheduler.log┋20161206T043701.000000000┋2016-12-05T20:37:01-08:00 dsnet synoscgi_SYNO.Storage.CGI.Smart.Scheduler_1_set: SYSTEM:	Last message 'backends/backend_syn' repeated 1 times, suppressed by syslog-ng on dsnet
+⇳
+./logs/synology-DS6/synoscheduler.log┋20161206T043701.000000000┋2016-12-05T20:37:01-08:00 dsnet synoscgi_SYNO.Storage.CGI.Smart.Scheduler_1_set[8344]: backends/backend_synoschedule.c:403 /usr/syno/etc/scheduled_tasks not found [0x2000 file_get_key_value.c:81]
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 220 smtp.gmail.com ESMTP qqqsqqqqqq097pfl.28 - gsmtp
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: Write cmd: EHLO dsnet
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 250-smtp.gmail.com at your service, [192.168.0.12]
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 250-SIZE 5718
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 250-8BITMIME
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 250-ENHANCEDSTATUSCODES
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 250-PIPELINING
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 250-CHUNKING
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 250 SMTPUTF8
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 235 2.7.0 Accepted
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: Write cmd: MAIL From: <host3@gmail.com>a
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: response: 250 2.1.0 OK q82sm19382097pfl.28 - gsmtp
+⇳
+./logs/synology-DS6/synoscheduler.log┋20170515T110005.000000000┋2017-05-15T04:00:05-07:00 dsnet synoschedtask: Write cmd: RCPT To: <host1@gmail.com>
+⇳

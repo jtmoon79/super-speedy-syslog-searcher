@@ -1,0 +1,35 @@
+./logs/synology-DS6/upstart/smbd.log┋20161206T043143.000000000┋2016-12-05T20:31:43-0800 check function "getaddrinfo" ...
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043143.000000000┋2016-12-05T20:31:43-0800 getaddrinfo success for name 192.168.0.0
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043144.000000000┋2016-12-05T20:31:44-0800 check tdb: /etc/samba/private/secrets.tdb ... not exist
+./logs/synology-DS6/upstart/smbd.log┋20161206T043144.000000000┋check tdb: /var/lib/samba/account_policy.tdb ... not exist
+./logs/synology-DS6/upstart/smbd.log┋20161206T043144.000000000┋check tdb: /var/lib/samba/share_info.tdb ... not exist
+./logs/synology-DS6/upstart/smbd.log┋20161206T043144.000000000┋check tdb: /var/lib/samba/registry.tdb ... not exist
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043643.000000000┋2016-12-05T20:36:43-0800 smbd stoped (0 sec)
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043645.000000000┋2016-12-05T20:36:45-0800 check function "getaddrinfo" ...
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043645.000000000┋2016-12-05T20:36:45-0800 getaddrinfo success for name 192.168.0.0
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043645.000000000┋2016-12-05T20:36:45-0800 check tdb: /etc/samba/private/secrets.tdb ... mv: cannot stat '/etc/samba/private/secrets.tdb.bkp': No such file or directory
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043645.000000000┋2016-12-05T20:36:45-0800 done
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043645.000000000┋2016-12-05T20:36:45-0800 check tdb: /var/lib/samba/account_policy.tdb ... mv: cannot stat '/var/lib/samba/account_policy.tdb.bkp': No such file or directory
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043645.000000000┋2016-12-05T20:36:45-0800 done
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043645.000000000┋2016-12-05T20:36:45-0800 check tdb: /var/lib/samba/share_info.tdb ... mv: cannot stat '/var/lib/samba/share_info.tdb.bkp': No such file or directory
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043645.000000000┋2016-12-05T20:36:45-0800 done
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043645.000000000┋2016-12-05T20:36:45-0800 check tdb: /var/lib/samba/registry.tdb ... mv: cannot stat '/var/lib/samba/registry.tdb.bkp': No such file or directory
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T043646.000000000┋2016-12-05T20:36:46-0800 done
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T050056.000000000┋2016-12-05T21:00:56-0800 smbd stoped (1 sec)
+⇳
+./logs/synology-DS6/upstart/smbd.log┋20161206T051147.000000000┋2016-12-05T21:11:47-0800 check function "getaddrinfo" ...
+⇳

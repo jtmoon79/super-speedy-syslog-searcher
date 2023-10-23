@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/synowifid-handler.log┋20161206T043120.000000000┋2016-12-05T20:31:20-0800 warn: The runkey of service [synowifid] has been set to "No"
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20161206T043150.000000000┋2016-12-05T20:31:50-0800 /bin/ls: cannot access /tmp/wireless.info*: No such file or directory
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20161206T051130.000000000┋2016-12-05T21:11:30-0800 warn: The runkey of service [synowifid] has been set to "No"
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20161206T051203.000000000┋2016-12-05T21:12:03-0800 /bin/ls: cannot access /tmp/wireless.info*: No such file or directory
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20161206T053931.000000000┋2016-12-05T21:39:31-0800 warn: The runkey of service [synowifid] has been set to "No"
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20161206T053953.000000000┋2016-12-05T21:39:53-0800 /bin/ls: cannot access /tmp/wireless.info*: No such file or directory
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170103T094041.000000000┋2017-01-03T01:40:41-0800 warn: The runkey of service [synowifid] has been set to "No"
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170103T094112.000000000┋2017-01-03T01:41:12-0800 /bin/ls: cannot access /tmp/wireless.info*: No such file or directory
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170104T075626.000000000┋2017-01-03T23:56:26-0800 warn: The runkey of service [synowifid] has been set to "No"
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170104T075658.000000000┋2017-01-03T23:56:58-0800 /bin/ls: cannot access /tmp/wireless.info*: No such file or directory
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170108T213535.000000000┋2017-01-08T13:35:35-0800 warn: The runkey of service [synowifid] has been set to "No"
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170108T213611.000000000┋2017-01-08T13:36:11-0800 /bin/ls: cannot access /tmp/wireless.info*: No such file or directory
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170125T072559.000000000┋2017-01-24T23:25:59-0800 warn: The runkey of service [synowifid] has been set to "No"
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170125T072630.000000000┋2017-01-24T23:26:30-0800 /bin/ls: cannot access /tmp/wireless.info*: No such file or directory
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170131T082142.000000000┋2017-01-31T00:21:42-0800 warn: The runkey of service [synowifid] has been set to "No"
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170131T082217.000000000┋2017-01-31T00:22:17-0800 /bin/ls: cannot access /tmp/wireless.info*: No such file or directory
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170205T070652.000000000┋2017-02-04T23:06:52-0800 warn: The runkey of service [synowifid] has been set to "No"
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170205T070728.000000000┋2017-02-04T23:07:28-0800 /bin/ls: cannot access /tmp/wireless.info*: No such file or directory
+⇳
+./logs/synology-DS6/upstart/synowifid-handler.log┋20170223T225159.000000000┋2017-02-23T14:51:59-0800 warn: The runkey of service [synowifid] has been set to "No"
+⇳
