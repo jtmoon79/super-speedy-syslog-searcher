@@ -405,25 +405,17 @@ jobs:
           ${S4} -s --color=always -l -p -w ${S4_TEST_FILES} &>/dev/null
           ${S4} -s --color=always -u -n -w ${S4_TEST_FILES} &>/dev/null
           ${S4} -s --color=always -u -p -w ${S4_TEST_FILES} &>/dev/null
-      - name: Compare Runs of Debug and Release
+      - name: Run Script compare-debug-release.sh
         shell: bash
+        # TODO: run compare-debug-release.sh instead of this manual thing
         run: |
           set -eu
-          S4R=./s4_release
-          S4D=./s4_debug
-          OUTR=output-release.txt
-          OUTD=output-debug.txt
-          chmod -v +x -- "${S4R}" "${S4D}"
-          set -x
-          time ${S4R} --version
-          time ${S4D} --version
-          ${S4R} -s --blocksz 0x800 --color=never ${S4_TEST_FILES} \
-              | tee "${OUTR}"
-          ${S4D} -s --blocksz 0x800 --color=never ${S4_TEST_FILES} 2>/dev/null \
-              | tee "${OUTD}"
-          diff --version
-          diff -y --suppress-common-lines --minimal "${OUTR}" "${OUTD}"
-      - name: Run Script compare-grep-sort
+          export PROGRAMR=./s4_release
+          export PROGRAMD=./s4_debug
+          SCRIPT=./tools/compare-debug-release.sh
+          chmod -v +x -- "${PROGRAMR}" "${PROGRAMD}"
+          "${SCRIPT}"
+      - name: Run Script compare-grep-sort.sh
         shell: bash
         run: |
           set -eux
