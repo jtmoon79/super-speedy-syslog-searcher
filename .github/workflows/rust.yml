@@ -16,7 +16,7 @@ on:
       - benches/**
       - .github/**
       - Cargo.toml
-      - "**.rs"
+      - src/**.rs
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
@@ -26,6 +26,9 @@ env:
   # rust version for grcov job
   # should be equal or greater than $MSRV_UPLOAD
   VERSION_GRCOV: "1.67.0"
+  # rust version for llvm_cov job
+  # should be equal or greater than $MSRV_UPLOAD
+  VERSION_LLVM_COV: "1.70.0"
   # run options for debug
   S4_ARGSD: --blocksz 0x2 -s
   # run options for release
@@ -53,7 +56,7 @@ jobs:
         # first `msrv` should match Cargo.toml:[package]:rust-version
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
-        msrv: ["1.66.0", "1.67.1", "1.68.0", "1.70.0"]
+        msrv: ["1.66.0", "1.68.0", "1.70.0", "1.72.0"]
     runs-on: ${{ matrix.os }}
     steps:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
@@ -402,25 +405,17 @@ jobs:
           ${S4} -s --color=always -l -p -w ${S4_TEST_FILES} &>/dev/null
           ${S4} -s --color=always -u -n -w ${S4_TEST_FILES} &>/dev/null
           ${S4} -s --color=always -u -p -w ${S4_TEST_FILES} &>/dev/null
-      - name: Compare Runs of Debug and Release
+      - name: Run Script compare-debug-release.sh
         shell: bash
+        # TODO: run compare-debug-release.sh instead of this manual thing
         run: |
           set -eu
-          S4R=./s4_release
-          S4D=./s4_debug
-          OUTR=output-release.txt
-          OUTD=output-debug.txt
-          chmod -v +x -- "${S4R}" "${S4D}"
-          set -x
-          time ${S4R} --version
-          time ${S4D} --version
-          ${S4R} -s --blocksz 0x800 --color=never ${S4_TEST_FILES} \
-              | tee "${OUTR}"
-          ${S4D} -s --blocksz 0x800 --color=never ${S4_TEST_FILES} 2>/dev/null \
-              | tee "${OUTD}"
-          diff --version
-          diff -y --suppress-common-lines --minimal "${OUTR}" "${OUTD}"
-      - name: Run Script compare-grep-sort
+          export PROGRAMR=./s4_release
+          export PROGRAMD=./s4_debug
+          SCRIPT=./tools/compare-debug-release.sh
+          chmod -v +x -- "${PROGRAMR}" "${PROGRAMD}"
+          "${SCRIPT}"
+      - name: Run Script compare-grep-sort.sh
         shell: bash
         run: |
           set -eux
@@ -458,10 +453,10 @@ jobs:
           sudo apt update || true
           sudo apt install --yes libsystemd0
       - uses: actions-rs/toolchain@v1
-        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        name: toolchain ${{ env.VERSION_LLVM_COV }} minimal
         with:
           profile: minimal
-          toolchain: ${{ env.MSRV_UPLOAD }}
+          toolchain: ${{ env.VERSION_LLVM_COV }}
           override: true
       - name: install cargo-llvm-cov
         uses: actions-rs/cargo@v1
