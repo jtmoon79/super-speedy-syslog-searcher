@@ -325,6 +325,7 @@ jobs:
 
   job_runs:
     # all of these steps need the s4 binary and the git-committed logs
+    # with modified filesystem datetime
     name: run s4
     needs: job_build_debug_release
     runs-on: ubuntu-latest
@@ -332,6 +333,12 @@ jobs:
       # checkout for the log files
       - name: git checkout
         uses: actions/checkout@v3
+      - name: set log file filesystem Modified Time
+        shell: bash
+        run: |
+          set -eux
+          chmod -v +x ./tools/log-files-time-update.sh
+          ./tools/log-files-time-update.sh
       - name: Install libsystemd
         shell: bash
         run: |
@@ -428,8 +435,6 @@ jobs:
         shell: bash
         run: |
           set -eux
-          chmod -v +x ./tools/log-files-time-update.sh
-          ./tools/log-files-time-update.sh
           export PROGRAM=./s4_release
           SCRIPT=./tools/compare-current-and-expected/compare.sh
           chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
