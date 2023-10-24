@@ -102,6 +102,7 @@ if ! diff --text --brief "${tmpr}" "${tmpd}"; then
 else
     echo
     echo "Files are the same. (ʘ‿ʘ)"
+    rm -f "${tmpr}" "${tmpd}"
     echo
 fi
 
