@@ -1,0 +1,20 @@
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T043206.000000000┋2016-12-05T20:32:06-0800 2048 semi-random bytes loaded
+⇳
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T043206.000000000┋2016-12-05T20:32:06-0800 Generating DH parameters, 2048 bit long safe prime, generator 2
+⇳
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T043206.000000000┋2016-12-05T20:32:06-0800 This is going to take a long time
+⇳
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T051204.000000000┋2016-12-05T21:12:04-0800 2048 semi-random bytes loaded
+⇳
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T051204.000000000┋2016-12-05T21:12:04-0800 Generating DH parameters, 2048 bit long safe prime, generator 2
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T051204.000000000┋This is going to take a long time
+⇳
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T053958.000000000┋2016-12-05T21:39:58-0800 2048 semi-random bytes loaded
+⇳
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T053958.000000000┋2016-12-05T21:39:58-0800 Generating DH parameters, 2048 bit long safe prime, generator 2
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T053958.000000000┋This is going to take a long time
+⇳
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T061948.000000000┋2016-12-05T22:19:48-0800 2048 semi-random bytes loaded
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T061948.000000000┋Generating DH parameters, 1024 bit long safe prime, generator 2
+./logs/synology-DS6/upstart/mkdhparam.log┋20161206T061948.000000000┋This is going to take a long time
+⇳

@@ -1,0 +1,35 @@
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T043120.000000000┋2016-12-05T20:31:20-0800 No such package LogCenter
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T043120.000000000┋2016-12-05T20:31:20-0800 Status: [255]
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T043120.000000000┋2016-12-05T20:31:20-0800 ready to start syslog-notify for DSM
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T050055.000000000┋2016-12-05T21:00:55-0800 No such package LogCenter
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T050055.000000000┋2016-12-05T21:00:55-0800 Status: [255]
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T051130.000000000┋2016-12-05T21:11:30-0800 No such package LogCenter
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T051130.000000000┋2016-12-05T21:11:30-0800 Status: [255]
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T051130.000000000┋ready to start syslog-notify for DSM
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T051557.000000000┋2016-12-05T21:15:57-0800 No such package LogCenter
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T051557.000000000┋Status: [255]
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T051608.000000000┋2016-12-05T21:16:08-0800 No such package LogCenter
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T051608.000000000┋Status: [255]
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T051608.000000000┋2016-12-05T21:16:08-0800 ready to start syslog-notify for DSM
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T053433.000000000┋2016-12-05T21:34:33-0800 No such package LogCenter
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T053433.000000000┋2016-12-05T21:34:33-0800 Status: [255]
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T053931.000000000┋2016-12-05T21:39:31-0800 No such package LogCenter
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T053931.000000000┋2016-12-05T21:39:31-0800 Status: [255]
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20161206T053931.000000000┋2016-12-05T21:39:31-0800 ready to start syslog-notify for DSM
+⇳
+./logs/synology-DS6/upstart/syslog-notify.log┋20170103T093542.000000000┋2017-01-03T01:35:42-0800 No such package LogCenter
+⇳

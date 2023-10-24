@@ -463,10 +463,10 @@ impl LineReader {
         lines: Lines,
     ) -> bool {
         defn!();
-        let mut ret = true;
+        let mut ret = false;
         for linep in lines.into_iter() {
-            if !self.drop_line(linep) {
-                ret = false;
+            if self.drop_line(linep) {
+                ret = true;
             }
         }
         defx!("return {}", ret);
@@ -485,7 +485,7 @@ impl LineReader {
         linep: LineP,
     ) -> bool {
         defn!("Line @[{}‥{}]", (*linep).fileoffset_begin(), (*linep).fileoffset_end());
-        let mut ret = true;
+        let mut ret = false;
         let fo_key: FileOffset = (*linep).fileoffset_begin();
         self.find_line_lru_cache
             .pop(&fo_key);
@@ -515,11 +515,11 @@ impl LineReader {
                 {
                     let bo = linepart.blockoffset();
                     drop(linepart);
-                    if !self
+                    if self
                         .blockreader
                         .drop_block(bo)
                     {
-                        ret = false;
+                        ret = true;
                     }
                 }
             }
@@ -529,7 +529,6 @@ impl LineReader {
                     Arc::strong_count(&_linep)
                 );
                 self.drop_line_errors += 1;
-                ret = false;
             }
         }
         defx!("return {}", ret);

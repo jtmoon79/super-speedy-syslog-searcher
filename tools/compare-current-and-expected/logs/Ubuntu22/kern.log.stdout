@@ -1,0 +1,28 @@
+./logs/Ubuntu22/kern.log┋20221003T134826.000000000┋Oct  3 21:48:26 host4b kernel: [   30.6102] loop6: detected capacity change from 0 to 8
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134834.000000000┋Oct  3 21:48:34 host4b kernel: [   39.6102] loop6: detected capacity change from 0 to 1543
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] kauditd_printk_skb: 8 callbacks suppressed
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] audit: type=1400 audit(0123456789.560:33): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/snap/snapd/1543/usr/lib/snapd/snap-confine" pid=1139 comm="apparmor_parser"
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] audit: type=1400 audit(0123456789.560:34): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/snap/snapd/1543/usr/lib/snapd/snap-confine//mount-namespace-capture-helper" pid=1139 comm="apparmor_parser"
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] audit: type=1400 audit(0123456789.580:35): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap-update-ns.lxd" pid=1141 comm="apparmor_parser"
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] audit: type=1400 audit(0123456789.588:36): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.activate" pid=1142 comm="apparmor_parser"
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] audit: type=1400 audit(0123456789.592:37): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.benchmark" pid=1143 comm="apparmor_parser"
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] audit: type=1400 audit(0123456789.596:38): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.buginfo" pid=1144 comm="apparmor_parser"
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] audit: type=1400 audit(0123456789.600:39): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.check-kernel" pid=1145 comm="apparmor_parser"
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] audit: type=1400 audit(0123456789.608:40): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.daemon" pid=1146 comm="apparmor_parser"
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] audit: type=1400 audit(0123456789.612:41): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.hook.configure" pid=1147 comm="apparmor_parser"
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134835.000000000┋Oct  3 21:48:35 host4b kernel: [   40.6102] audit: type=1400 audit(0123456789.616:42): apparmor="STATUS" operation="profile_replace" info="same as current profile, skipping" profile="unconfined" name="snap.lxd.hook.install" pid=1148 comm="apparmor_parser"
+⇳
+./logs/Ubuntu22/kern.log┋20221003T134837.000000000┋Oct  3 21:48:37 host4b kernel: [   41.6102] loop7: detected capacity change from 0 to 8
+⇳

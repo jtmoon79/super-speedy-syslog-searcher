@@ -1,0 +1,29 @@
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋[2020/03/15 22:17:15.1202,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+⇳
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋[2020/03/15 22:17:15.1202,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.19: found.
+⇳
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋[2020/03/15 22:17:15.1202,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+⇳
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋[2020/03/15 22:17:15.1202,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+⇳
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋[2020/03/15 22:17:15.1202,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.19: found.
+⇳
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋[2020/03/15 22:17:15.1202,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+⇳
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋[2020/03/15 22:17:15.1202,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+⇳
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋[2020/03/15 22:17:15.1202,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141715.120200000┋  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.19: found.
+⇳
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141717.120200000┋[2020/03/15 22:17:17.1202,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141717.120200000┋  find_workgroup_on_subnet: workgroup search for DESKTOP on subnet 192.168.0.1: found.
+⇳
+./logs/Ubuntu18/samba/log.nmbd┋20200315T141717.120200000┋[2020/03/15 22:17:17.1202,  4] ../source3/nmbd/nmbd_workgroupdb.c:165(find_workgroup_on_subnet)
+⇳

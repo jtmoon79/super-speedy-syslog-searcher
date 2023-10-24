@@ -1,0 +1,38 @@
+./logs/Debian9/dpkg.log.1┋20200223T083830.000000000┋2020-02-23 16:38:30 startup archives unpack
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083831.000000000┋2020-02-23 16:38:31 install tree:armhf <none> 1.7.0-5
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083831.000000000┋2020-02-23 16:38:31 status half-installed tree:armhf 1.7.0-5
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083831.000000000┋2020-02-23 16:38:31 status triggers-pending man-db:armhf 192.168.0.1-2
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083832.000000000┋2020-02-23 16:38:32 status unpacked tree:armhf 1.7.0-5
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083832.000000000┋2020-02-23 16:38:32 status unpacked tree:armhf 1.7.0-5
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083833.000000000┋2020-02-23 16:38:33 startup packages configure
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083833.000000000┋2020-02-23 16:38:33 configure tree:armhf 1.7.0-5 <none>
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083833.000000000┋2020-02-23 16:38:33 status unpacked tree:armhf 1.7.0-5
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083833.000000000┋2020-02-23 16:38:33 status half-configured tree:armhf 1.7.0-5
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083833.000000000┋2020-02-23 16:38:33 status installed tree:armhf 1.7.0-5
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083833.000000000┋2020-02-23 16:38:33 trigproc man-db:armhf 192.168.0.1-2 <none>
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083833.000000000┋2020-02-23 16:38:33 status half-configured man-db:armhf 192.168.0.1-2
+⇳
+./logs/Debian9/dpkg.log.1┋20200223T083836.000000000┋2020-02-23 16:38:36 status installed man-db:armhf 192.168.0.1-2
+⇳
+./logs/Debian9/dpkg.log.1┋20200225T004204.000000000┋2020-02-25 08:42:04 startup archives unpack
+⇳
+./logs/Debian9/dpkg.log.1┋20200225T004205.000000000┋2020-02-25 08:42:05 install iotop:armhf <none> 0.6-2
+⇳
+./logs/Debian9/dpkg.log.1┋20200225T004205.000000000┋2020-02-25 08:42:05 status half-installed iotop:armhf 0.6-2
+⇳
+./logs/Debian9/dpkg.log.1┋20200225T004206.000000000┋2020-02-25 08:42:06 status triggers-pending man-db:armhf 192.168.0.1-2
+⇳
+./logs/Debian9/dpkg.log.1┋20200225T004206.000000000┋2020-02-25 08:42:06 status unpacked iotop:armhf 0.6-2
+⇳

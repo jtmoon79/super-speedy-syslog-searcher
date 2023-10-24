@@ -1,0 +1,38 @@
+./logs/Orbi/tmp/xagent.log┋20220404T153606.000000000┋2022-04-04 23:36:06 (6075):xagent.c:517	   INFO: xagent started as daemon.
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153606.000000000┋2022-04-04 23:36:06 (6075):xagent.c:525	   INFO: USI Profile Path: /opt/etc/usi/usi.profile -> profiles/d2.profile
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153606.000000000┋2022-04-04 23:36:06 (6075):xagent.c:542	   INFO: USI Config Path: /opt/etc
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153606.000000000┋2022-04-04 23:36:06 (6075):config_usi.c:83	   INFO: Can't commit nvram, error: Command not defined.
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153606.000000000┋2022-04-04 23:36:06 (6075):config_usi.c:83	   INFO: Can't commit nvram, error: Command not defined.
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153606.000000000┋2022-04-04 23:36:06 (6075):config_usi.c:83	   INFO: Can't commit nvram, error: Command not defined.
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153606.000000000┋2022-04-04 23:36:06 (6075):config_usi.c:83	   INFO: Can't commit nvram, error: Command not defined.
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153606.000000000┋2022-04-04 23:36:06 (6075):watchdog.c:181	   INFO: xagent locked the watchdog pid file.
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):xagent.c:429	   INFO: Xagent version release-3.5.7_DEV500_585a474_usi started.
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):xagent.c:436	   INFO: xagent locked the pid file.
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):xagent.c:439	  DEBUG: curl_global_init...
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):xagent.c:441	  DEBUG: curl_global_init completed.
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):xagent.c:261	  DEBUG: xagent_main...
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):xagent.c:275	  DEBUG: clear_thread_signal_mask...
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):http_helper.c:95	  DEBUG: curl_share_init...
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):http_helper.c:102	  DEBUG: curl_share_setopt...
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):http_helper.c:109	  DEBUG: curl_share_setopt...
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):http_helper.c:115	  DEBUG: curl_share_setopt...
+⇳
+./logs/Orbi/tmp/xagent.log┋20220404T153608.000000000┋2022-04-04 23:36:08 (6075):http_helper.c:121	  DEBUG: curl_share_setopt...
+⇳

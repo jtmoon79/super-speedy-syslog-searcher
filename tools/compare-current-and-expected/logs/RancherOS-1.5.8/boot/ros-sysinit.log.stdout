@@ -1,0 +1,39 @@
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23Z" level=debug msg="START: [/usr/bin/ros-sysinit] in /"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23Z" level=info msg="Resolv.conf == [nameserver 192.168.0.3
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213123.000000000┋nameserver 192.168.0.2
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213123.000000000┋], <nil>"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23Z" level=info msg="Exec [/usr/bin/ros-sysinit]"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23Z" level=info msg="[1/4] Starting loadSystemImages"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23Z" level=info msg="Loading images from /usr/share/ros/images-system.tar"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213136.000000000┋time="2022-10-09T21:31:36Z" level=info msg="Done loading images from /usr/share/ros/images-system.tar"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213136.000000000┋time="2022-10-09T21:31:36Z" level=debug msg="Loaded a docker image: [rancher/os-logrotate:v1.5.8]"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213136.000000000┋time="2022-10-09T21:31:36Z" level=debug msg="Loaded a docker image: [rancher/os-syslog:v1.5.8]"
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221009T213136.000000000┋
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221010T202335.000000000┋time="2022-10-10T20:23:35Z" level=info msg="[18/19] [subscriber]: Started "
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221010T202335.000000000┋time="2022-10-10T20:23:35Z" level=debug msg="[18/19] [preload-user-images]: Started container name=preload-user-images"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221010T202335.000000000┋time="2022-10-10T20:23:35Z" level=info msg="[19/19] [preload-user-images]: Started "
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221010T202335.000000000┋time="2022-10-10T20:23:35Z" level=info msg="Project [os]: Project started "
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221010T202335.000000000┋time="2022-10-10T20:23:35Z" level=debug msg="[2/4] Done start project"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221010T202335.000000000┋time="2022-10-10T20:23:35Z" level=info msg="[3/4] Starting sync"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221010T202336.000000000┋time="2022-10-10T20:23:36Z" level=debug msg="[3/4] Done sync"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221010T202336.000000000┋time="2022-10-10T20:23:36Z" level=info msg="[4/4] Starting banner"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221010T202336.000000000┋time="2022-10-10T20:23:36Z" level=info msg="RancherOS v1.5.8 started"
+⇳
+./logs/RancherOS-1.5.8/boot/ros-sysinit.log┋20221010T202336.000000000┋time="2022-10-10T20:23:36Z" level=debug msg="[4/4] Done banner"⇳
+

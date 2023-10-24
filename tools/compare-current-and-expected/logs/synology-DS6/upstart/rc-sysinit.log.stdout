@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/rc-sysinit.log┋20161206T043150.000000000┋2016-12-05T20:31:50-0800 Mon Dec 5 20:31:50 PST 2016 start before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20161206T043150.000000000┋2016-12-05T20:31:50-0800 Mon Dec 5 20:31:50 PST 2016 finish before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20161206T051203.000000000┋2016-12-05T21:12:03-0800 Mon Dec 5 21:12:03 PST 2016 start before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20161206T051203.000000000┋2016-12-05T21:12:03-0800 Mon Dec 5 21:12:03 PST 2016 finish before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20161206T053953.000000000┋2016-12-05T21:39:53-0800 Mon Dec 5 21:39:53 PST 2016 start before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20161206T053953.000000000┋2016-12-05T21:39:53-0800 Mon Dec 5 21:39:53 PST 2016 finish before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170103T094111.000000000┋2017-01-03T01:41:11-0800 Tue Jan 3 01:41:11 PST 2017 start before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170103T094111.000000000┋2017-01-03T01:41:11-0800 Tue Jan 3 01:41:11 PST 2017 finish before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170104T075657.000000000┋2017-01-03T23:56:57-0800 Tue Jan 3 23:56:57 PST 2017 start before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170104T075657.000000000┋2017-01-03T23:56:57-0800 Tue Jan 3 23:56:57 PST 2017 finish before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170108T213610.000000000┋2017-01-08T13:36:10-0800 Sun Jan 8 13:36:10 PST 2017 start before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170108T213611.000000000┋2017-01-08T13:36:11-0800 Sun Jan 8 13:36:11 PST 2017 finish before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170125T072630.000000000┋2017-01-24T23:26:30-0800 Tue Jan 24 23:26:30 PST 2017 start before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170125T072630.000000000┋2017-01-24T23:26:30-0800 Tue Jan 24 23:26:30 PST 2017 finish before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170131T082216.000000000┋2017-01-31T00:22:16-0800 Tue Jan 31 00:22:16 PST 2017 start before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170131T082217.000000000┋2017-01-31T00:22:17-0800 Tue Jan 31 00:22:17 PST 2017 finish before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170205T070727.000000000┋2017-02-04T23:07:27-0800 Sat Feb 4 23:07:27 PST 2017 start before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170205T070728.000000000┋2017-02-04T23:07:28-0800 Sat Feb 4 23:07:28 PST 2017 finish before-dsm-ready task
+⇳
+./logs/synology-DS6/upstart/rc-sysinit.log┋20170223T225302.000000000┋2017-02-23T14:53:02-0800 Thu Feb 23 14:53:02 PST 2017 start before-dsm-ready task
+⇳

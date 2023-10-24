@@ -1,0 +1,37 @@
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20161206T050055.000000000┋2016-12-05T21:00:55-0800 Disabling WD idle3 timer ...
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20161206T050055.000000000┋2016-12-05T21:00:55-0800 Disable /dev/sdb WD idle3 timer successfully
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20161206T050055.000000000┋Disable /dev/sdc WD idle3 timer successfully
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20161206T050055.000000000┋2016-12-05T21:00:55-0800 Disable /dev/sdd WD idle3 timer successfully
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20161206T053656.000000000┋2016-12-05T21:36:56-0800 Disabling WD idle3 timer ...
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20161206T053657.000000000┋2016-12-05T21:36:57-0800 /dev/sdb already disable WD idle3 timer
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20161206T053657.000000000┋2016-12-05T21:36:57-0800 /dev/sdc already disable WD idle3 timer
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20161206T053657.000000000┋2016-12-05T21:36:57-0800 /dev/sdd already disable WD idle3 timer
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170103T093828.000000000┋2017-01-03T01:38:28-0800 Disabling WD idle3 timer ...
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170103T093828.000000000┋2017-01-03T01:38:28-0800 /dev/sdb already disable WD idle3 timer
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170103T093828.000000000┋2017-01-03T01:38:28-0800 /dev/sdc already disable WD idle3 timer
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170103T093828.000000000┋2017-01-03T01:38:28-0800 /dev/sdd already disable WD idle3 timer
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170125T072359.000000000┋2017-01-24T23:23:59-0800 Disabling WD idle3 timer ...
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170125T072400.000000000┋2017-01-24T23:24:00-0800 /dev/sdb already disable WD idle3 timer
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170125T072400.000000000┋2017-01-24T23:24:00-0800 /dev/sdc already disable WD idle3 timer
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170125T072400.000000000┋2017-01-24T23:24:00-0800 /dev/sdd already disable WD idle3 timer
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170223T224928.000000000┋2017-02-23T14:49:28-0800 Disabling WD idle3 timer ...
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170223T224929.000000000┋2017-02-23T14:49:29-0800 /dev/sdb already disable WD idle3 timer
+⇳
+./logs/synology-DS6/upstart/WDidle3Dis.log┋20170223T224929.000000000┋2017-02-23T14:49:29-0800 /dev/sdc already disable WD idle3 timer
+⇳

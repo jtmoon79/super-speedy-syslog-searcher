@@ -486,7 +486,7 @@
 ./logs/Ubuntu18/samba/log.10.0.0.5|2020/03/05 12:21:14
 ./logs/Ubuntu18/samba/log.10.0.0.6|2020/03/05 12:17:59.555
 ./logs/Ubuntu18/samba/log.10.0.0.7|2020/03/05 12:18:02
-./logs/Ubuntu18/samba/log.|2020/03/05 12:16:46
+./logs/Ubuntu18/samba/log|2020/03/05 12:16:46
 ./logs/Ubuntu18/samba/log.nmbd.1|2020/03/08 00:04:56
 ./logs/Ubuntu18/samba/log.nmbd|2020/03/15 22:17:17.120
 ./logs/Ubuntu18/samba/log.nmbd.old|2020/03/15 22:06:52.383

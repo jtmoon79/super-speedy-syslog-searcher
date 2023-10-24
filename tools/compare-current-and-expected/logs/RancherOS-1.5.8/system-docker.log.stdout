@@ -1,0 +1,21 @@
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23Z" level=warning msg="The \"-g / --graph\" flag is deprecated. Please use \"--data-root\" instead"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23.570757835Z" level=info msg="libcontainerd: new containerd process, pid: 310"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23.591559452Z" level=warning msg="failed to rename /var/lib/system-docker/tmp for background deletion: rename /var/lib/system-docker/tmp /var/lib/system-docker/tmp-old: no such file or directory. Deleting synchronously"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23.684310767Z" level=info msg="Graph migration to content-addressability took 0.00 seconds"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23.685236036Z" level=info msg="Loading containers: start."
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23.796745851Z" level=info msg="Loading containers: done."
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23.849196668Z" level=info msg="Docker daemon" commit=6368e2fd3 graphdriver(s)=overlay2 version=17.06-ros6
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23.849248255Z" level=info msg="Daemon has completed initialization"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-09T21:31:23.859065359Z" level=info msg="API listen on /var/run/system-docker.sock"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-10T20:23:27.563483936Z" level=info msg="libcontainerd: new containerd process, pid: 304"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-10T20:23:28.666693038Z" level=info msg="Graph migration to content-addressability took 0.00 seconds"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-10T20:23:28.667323054Z" level=info msg="Loading containers: start."
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-10T20:23:28.849218202Z" level=warning msg="libcontainerd: client is out of sync, restore was called on a fully synced container (012345678911234567892123456789312345678941234567895123456789176c)."
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-10T20:23:28.849536737Z" level=warning msg="libcontainerd: failed to retrieve container 012345678911234567892123456789312345678941234567895123456789176c state: rpc error: code = Unknown desc = containerd: container not found"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-10T20:23:29.017561314Z" level=info msg="Removing stale sandbox 012345678911234567892123456789312345678941234567895123456789e8b2 (012345678911234567892123456789312345678941234567895123456789176c)"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-10T20:23:29.132914765Z" level=info msg="Loading containers: done."
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-10T20:23:29.169798457Z" level=info msg="Docker daemon" commit=6368e2fd3 graphdriver(s)=overlay2 version=17.06-ros6
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-10T20:23:29.169840203Z" level=info msg="Daemon has completed initialization"
+./logs/RancherOS-1.5.8/system-docker.log┋20221009T213123.000000000┋time="2022-10-10T20:23:29.178060591Z" level=info msg="API listen on /var/run/system-docker.sock"⇳
+

@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170223T225302.000000000┋2017-02-23T14:53:02-0800 ==================== wait 3rdparty-services ====================
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170223T225302.000000000┋2017-02-23T14:53:02-0800 Thu Feb 23 22:53:02 UTC 2017
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170223T225304.000000000┋2017-02-23T14:53:04-0800 Reload related services (flags=0x40000000)
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170223T225309.000000000┋2017-02-23T14:53:09-0800 Waiting for following services: pkgctl-SurveillanceStation pkgctl-DownloadStation pkgctl-StorageAnalyzer pkgctl-HyperBackup 
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170223T225319.000000000┋2017-02-23T14:53:19-0800 Reload related services (flags=0x40000000)
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170223T225323.000000000┋2017-02-23T14:53:23-0800 Waiting for following services: pkgctl-SurveillanceStation pkgctl-DownloadStation 
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170223T225333.000000000┋2017-02-23T14:53:33-0800 Reload related services (flags=0x40000000)
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170307T171559.000000000┋2017-03-07T09:15:59-0800 ==================== wait 3rdparty-services ====================
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170307T171559.000000000┋2017-03-07T09:15:59-0800 Tue Mar  7 17:15:59 UTC 2017
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170307T171601.000000000┋2017-03-07T09:16:01-0800 Waiting for following services: pkgctl-SurveillanceStation pkgctl-DownloadStation pkgctl-StorageAnalyzer pkgctl-HyperBackup pkgctl-FileStation pkgctl-SynoFinder 
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170307T171612.000000000┋2017-03-07T09:16:12-0800 Reload related services (flags=0x40000000)
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170307T171617.000000000┋2017-03-07T09:16:17-0800 Waiting for following services: pkgctl-SurveillanceStation pkgctl-DownloadStation pkgctl-SynoFinder 
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170307T171627.000000000┋2017-03-07T09:16:27-0800 Waiting for following services: pkgctl-SurveillanceStation pkgctl-SynoFinder 
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170307T171637.000000000┋2017-03-07T09:16:37-0800 Reload related services (flags=0x40000000)
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170310T041544.000000000┋2017-03-09T20:15:44-0800 ==================== wait 3rdparty-services ====================
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170310T041544.000000000┋2017-03-09T20:15:44-0800 Fri Mar 10 04:15:44 UTC 2017
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170310T041545.000000000┋2017-03-09T20:15:45-0800 Waiting for following services: pkgctl-SurveillanceStation pkgctl-DownloadStation pkgctl-StorageAnalyzer pkgctl-HyperBackup pkgctl-FileStation pkgctl-SynoFinder 
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170310T041555.000000000┋2017-03-09T20:15:55-0800 Reload related services (flags=0x40000000)
+⇳
+./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log┋20170310T041558.000000000┋2017-03-09T20:15:58-0800 Waiting for following services: pkgctl-SurveillanceStation pkgctl-DownloadStation 
+⇳

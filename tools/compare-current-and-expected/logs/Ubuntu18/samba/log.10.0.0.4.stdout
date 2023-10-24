@@ -1,0 +1,29 @@
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋[2020/03/05 16:00:49.6018,  3] ../source3/smbd/oplock.c:1340(init_oplocks)
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋  init_oplocks: initializing messages.
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋[2020/03/05 16:00:49.6018,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋[2020/03/05 16:00:49.6018,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋[2020/03/05 16:00:49.6018,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋[2020/03/05 16:00:49.6018,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋  setting sec ctx (0, 0) - sec_ctx_stack_ndx = 0
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋[2020/03/05 16:00:49.6018,  3] ../source3/smbd/server_exit.c:244(exit_server_common)
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋  Server exit (failed to receive smb request)
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋[2020/03/05 16:00:49.6018,  3] ../source3/smbd/oplock.c:1340(init_oplocks)
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋  init_oplocks: initializing messages.
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋[2020/03/05 16:00:49.6018,  3] ../source3/smbd/process.c:1959(process_smb)
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋  Transaction 0 of length 88 (0 toread)
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋[2020/03/05 16:00:49.6018,  3] ../source3/smbd/process.c:1539(switch_message)
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋  switch message SMBnegprot (pid 6018) conn 0x0
+⇳
+./logs/Ubuntu18/samba/log.10.0.0.4┋20200305T080049.601800000┋[2020/03/05 16:00:49.6018,  4] ../source3/smbd/sec_ctx.c:320(set_sec_ctx_internal)
+⇳

@@ -1,0 +1,45 @@
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T042320.500000000┋[Boot Session: 2020/05/27 12:23:20.500]
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T042320.500000000┋
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T042320.500000000┋>>>  [Device Installation Restrictions Policy Check]
+⇳
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043003.284000000┋>>>  Section start 2020/05/27 12:30:03.284
+⇳
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043003.862000000┋<<<  Section end 2020/05/27 12:30:03.862
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043003.862000000┋<<<  [Exit status: SUCCESS]
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043003.862000000┋
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043003.862000000┋
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043003.862000000┋>>>  [Device Install (UpdateDriverForPlugAndPlayDevices) - *msloop]
+⇳
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋>>>  Section start 2020/05/27 12:30:05.362
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋      cmd: "C:\Program Files\Npcap\NPFInstall.exe"  -il
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     ndv: INF path: C:\WINDOWS\inf\netloop.inf
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     ndv: Install flags: 0x00000001
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     ndv: {Update Device Driver - ROOT\NET\0001}
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     ndv:      Search options: 0x00000080
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     ndv:      Searching single INF 'C:\WINDOWS\inf\netloop.inf'
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:      {Build Driver List} 12:30:05.362
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:           Searching for hardware ID(s):
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                *msloop
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:           Created Driver Node:
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                HardwareID   - *MSLOOP
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                InfName      - C:\WINDOWS\System32\DriverStore\FileRepository\netloop.inf_amd64_762588e32974f9e8\netloop.inf
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                DevDesc      - Microsoft KM-TEST Loopback Adapter
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                Section      - kmloop.ndi.NT
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                Rank         - 0x00ff0000
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                Signer Score - INBOX
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                DrvDate      - 06/21/2006
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                Version      - 10.0.27515.1
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:      {Build Driver List - exit(0x00000000)} 12:30:05.377
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:      {DIF_SELECTBESTCOMPATDRV} 12:30:05.377
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:           Default installer: Enter 12:30:05.377
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                {Select Best Driver}
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                     Class GUID of device changed to: {00000000-1111-2222-bfc1-012345678911}.
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                     Selected Driver:
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                          Description - Microsoft KM-TEST Loopback Adapter
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                          InfFile     - c:\windows\system32\driverstore\filerepository\netloop.inf_amd64_762588e32974f9e8\netloop.inf
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                          Section     - kmloop.ndi
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:                {Select Best Driver - exit(0x00000000)}
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:           Default installer: Exit
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     dvi:      {DIF_SELECTBESTCOMPATDRV - exit(0x00000000)} 12:30:05.393
+./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log┋20200527T043005.362000000┋     ndv:      Force Installing Driver:⇳
+

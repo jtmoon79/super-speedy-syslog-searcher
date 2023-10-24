@@ -1,0 +1,90 @@
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="START: [/usr/bin/dockerlaunch /usr/bin/dockerd --log-opt max-file=2 --log-opt max-size=25m --host unix:///var/run/docker.sock --group docker] in /"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Launch config dfs.Config{Fork:false, PidOne:false, CommandName:"", DNSConfig:netconf.DNSConfig{Nameservers:[]string(nil), Search:[]string(nil)}, BridgeName:"", BridgeAddress:"", BridgeMtu:0, CgroupHierarchy:map[string]string(nil), LogFile:"", NoLog:false, NoFiles:0x0, Environment:[]string(nil), GraphDirectory:"", DaemonConfig:""}"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting devtmpfs /dev devtmpfs "
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /dev/pts devpts "
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting shm /dev/shm tmpfs rw,nosuid,nodev,noexec,relatime,size=65536k"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting mqueue /dev/mqueue mqueue rw,nosuid,nodev,noexec,relatime"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /proc proc "
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /run tmpfs "
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys sysfs "
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup tmpfs "
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/selinux selinuxfs ro"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: #subsys_name        hierarchy       num_cgroups     enabled"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: cpuset      1       11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: cpu 5       11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: cpuacct     5       11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: blkio       6       11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: memory      7       16      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: devices     2       11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: freezer     8       11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: net_cls     3       11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: perf_event  9       11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: net_prio    3       11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: hugetlb     4       11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="/proc/cgroups: pids        10      11      1"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup/cpuset cgroup cpuset"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup/cpu,cpuacct cgroup cpu,cpuacct"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup/memory cgroup memory"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup/freezer cgroup freezer"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup/perf_event cgroup perf_event"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup/hugetlb cgroup hugetlb"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup/blkio cgroup blkio"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup/devices cgroup devices"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup/net_cls,net_prio cgroup net_cls,net_prio"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Mounting none /sys/fs/cgroup/pids cgroup pids"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Done mouting cgroupfs"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Creating /root/.ssh"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Not copying /usr/etc/ssl/certs/ca-certificates.crt, does not exists"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Not copying /usr/etc/passwd, does not exists"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Not copying /usr/etc/group, does not exists"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Copying folder /etc/docker"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Copying folder /etc/selinux"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Copying folder /etc/selinux/ros"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Copying folder /etc/selinux/ros/policy"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Copying folder /etc/selinux/ros/contexts"
+⇳
+./logs/RancherOS-1.5.8/dockerlaunch.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="Launching Docker /usr/bin/dockerd dockerd [--log-opt max-file=2 --log-opt max-size=25m --host unix:///var/run/docker.sock --group docker]"⇳
+

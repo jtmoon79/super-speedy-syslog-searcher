@@ -1,0 +1,39 @@
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋time="2022-10-10T20:23:22Z" level=debug msg="START: [/init] in /"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋time="2022-10-10T20:23:22Z" level=info msg="[1/23] Starting set env WITH NIL cfg"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋time="2022-10-10T20:23:22Z" level=debug msg="Booting off an in-memory filesystem"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋time="2022-10-10T20:23:22Z" level=debug msg="[1/23] Done set env"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋time="2022-10-10T20:23:22Z" level=info msg="[2/23] Starting preparefs WITH NIL cfg"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋time="2022-10-10T20:23:22Z" level=debug msg="Mounting devtmpfs /dev devtmpfs "
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋time="2022-10-10T20:23:22Z" level=debug msg="Mounting none /dev/pts devpts "
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋time="2022-10-10T20:23:22Z" level=debug msg="Mounting shm /dev/shm tmpfs rw,nosuid,nodev,noexec,relatime,size=65536k"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋time="2022-10-10T20:23:22Z" level=debug msg="Mounting mqueue /dev/mqueue mqueue rw,nosuid,nodev,noexec,relatime"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋time="2022-10-10T20:23:22Z" level=debug msg="Mounting none /proc proc "
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202322.000000000┋
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202327.000000000┋time="2022-10-10T20:23:27Z" level=debug msg="Not copying /usr/etc/selinux/ros/seusers => /etc/selinux/ros/seusers already exists"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202327.000000000┋time="2022-10-10T20:23:27Z" level=debug msg="Copying folder /etc/selinux/ros/policy"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202327.000000000┋time="2022-10-10T20:23:27Z" level=debug msg="Not copying /usr/etc/selinux/ros/policy/policy.29 => /etc/selinux/ros/policy/policy.29 already exists"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202327.000000000┋time="2022-10-10T20:23:27Z" level=debug msg="Copying folder /etc/selinux/ros/contexts"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202327.000000000┋time="2022-10-10T20:23:27Z" level=debug msg="Not copying /usr/etc/selinux/ros/contexts/failsafe_context => /etc/selinux/ros/contexts/failsafe_context already exists"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202327.000000000┋time="2022-10-10T20:23:27Z" level=debug msg="Not copying /usr/etc/selinux/ros/contexts/lxc_contexts => /etc/selinux/ros/contexts/lxc_contexts already exists"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202327.000000000┋time="2022-10-10T20:23:27Z" level=debug msg="Resolve.conf == [nameserver 192.168.0.3
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202327.000000000┋nameserver 192.168.0.2
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202327.000000000┋], <nil>"
+⇳
+./logs/RancherOS-1.5.8/boot/init.log┋20221010T202327.000000000┋time="2022-10-10T20:23:27Z" level=debug msg="Launching Docker /usr/bin/system-dockerd system-dockerd [--graph /var/lib/system-docker --restart=false --bip 192.168.0.1/16 --config-file /etc/docker/system-docker.json --group root --pidfile /var/run/system-docker.pid --storage-driver overlay2 --userland-proxy=false --exec-root /var/run/system-docker --host unix:///var/run/system-docker.sock --log-opt max-file=2 --log-opt max-size=25m]"⇳
+

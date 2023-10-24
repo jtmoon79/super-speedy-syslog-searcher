@@ -1,0 +1,8 @@
+./logs/RockyLinux9/nginx/access.log┋20221008T222635.000000000┋192.168.0.115 - - [08/Oct/2022:22:26:35 +0000] "GET / HTTP/1.1" 200 7620 "-" "curl/7.76.1" "-"
+⇳
+./logs/RockyLinux9/nginx/access.log┋20221008T222707.000000000┋192.168.0.115 - - [08/Oct/2022:22:27:07 +0000] "GET / HTTP/1.0" 200 7620 "-" "Lynx/2.8.9rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/3.0.1" "-"
+⇳
+./logs/RockyLinux9/nginx/access.log┋20221008T222740.000000000┋192.168.0.115 - - [08/Oct/2022:22:27:40 +0000] "GET /DOES-NOT-EXIST HTTP/1.0" 404 3332 "-" "Lynx/2.8.9rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/3.0.1" "-"
+⇳
+./logs/RockyLinux9/nginx/access.log┋20221008T222755.000000000┋192.168.0.115 - - [08/Oct/2022:22:27:55 +0000] "GET /REALLY-DOES-NOT-EXIST HTTP/1.0" 404 3332 "-" "Lynx/2.8.9rel.1 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/3.0.1" "-"⇳
+

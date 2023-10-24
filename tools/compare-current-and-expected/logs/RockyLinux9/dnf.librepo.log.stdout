@@ -1,0 +1,208 @@
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175318.000000000┋2022-09-12T17:53:18+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175320.000000000┋2022-09-12T17:53:20+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175322.000000000┋2022-09-12T17:53:22+0000 INFO Downloading: http://forksystems.mm.fcix.net/rocky/9.0/BaseOS/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175323.000000000┋2022-09-12T17:53:23+0000 INFO Downloading: http://forksystems.mm.fcix.net/rocky/9.0/BaseOS/x86_64/os/repodata/00000000-1111-2222-9c44-012345678911-PRIMARY.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175323.000000000┋2022-09-12T17:53:23+0000 INFO Downloading: http://forksystems.mm.fcix.net/rocky/9.0/BaseOS/x86_64/os/repodata/00000000-1111-2222-a41e-012345678911-FILELISTS.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175323.000000000┋2022-09-12T17:53:23+0000 INFO Downloading: http://forksystems.mm.fcix.net/rocky/9.0/BaseOS/x86_64/os/repodata/00000000-1111-2222-a41e-012345678911-GROUPS.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175331.000000000┋2022-09-12T17:53:31+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-9&countme=1
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175333.000000000┋2022-09-12T17:53:33+0000 INFO Downloading: http://mirror.siena.edu/rocky/9.0/AppStream/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175333.000000000┋2022-09-12T17:53:33+0000 INFO Downloading: http://mirror.siena.edu/rocky/9.0/AppStream/x86_64/os/repodata/00000000-1111-2222-9ccd-012345678911-PRIMARY.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175333.000000000┋2022-09-12T17:53:33+0000 INFO Downloading: http://mirror.siena.edu/rocky/9.0/AppStream/x86_64/os/repodata/00000000-1111-2222-8b28-012345678911-FILELISTS.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175333.000000000┋2022-09-12T17:53:33+0000 INFO Downloading: http://mirror.siena.edu/rocky/9.0/AppStream/x86_64/os/repodata/00000000-1111-2222-8b28-012345678911-GROUPS.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175404.000000000┋2022-09-12T17:54:04+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=extras-9&countme=1
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175405.000000000┋2022-09-12T17:54:05+0000 INFO Downloading: http://mirrors.rit.edu/rocky/9.0/extras/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175405.000000000┋2022-09-12T17:54:05+0000 INFO Downloading: http://mirrors.rit.edu/rocky/9.0/extras/x86_64/os/repodata/00000000-1111-2222-9f8e-012345678911-PRIMARY.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20220912T175405.000000000┋2022-09-12T17:54:05+0000 INFO Downloading: http://mirrors.rit.edu/rocky/9.0/extras/x86_64/os/repodata/00000000-1111-2222-816c-012345678911-FILELISTS.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061842.000000000┋2022-10-08T06:18:42+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9&countme=3
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 INFO Downloading: https://dl.rockylinux.org/pub/rocky/9.0/BaseOS/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061843.000000000┋2022-10-08T06:18:43+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061844.000000000┋2022-10-08T06:18:44+0000 INFO Downloading: http://mirrors.radwebhosting.com/rockylinux/9.0/BaseOS/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061844.000000000┋2022-10-08T06:18:44+0000 INFO Downloading: http://mirrors.radwebhosting.com/rockylinux/9.0/BaseOS/x86_64/os/repodata/00000000-1111-2222-8836-012345678911-PRIMARY.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061844.000000000┋2022-10-08T06:18:44+0000 INFO Downloading: http://mirrors.radwebhosting.com/rockylinux/9.0/BaseOS/x86_64/os/repodata/00000000-1111-2222-a500-012345678911-FILELISTS.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061844.000000000┋2022-10-08T06:18:44+0000 INFO Downloading: http://mirrors.radwebhosting.com/rockylinux/9.0/BaseOS/x86_64/os/repodata/00000000-1111-2222-a500-012345678911-GROUPS.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061845.000000000┋2022-10-08T06:18:45+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061845.000000000┋2022-10-08T06:18:45+0000 INFO Downloading: https://mirror.fcix.net/rocky/9.0/AppStream/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061845.000000000┋2022-10-08T06:18:45+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-9&countme=2
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061846.000000000┋2022-10-08T06:18:46+0000 INFO Downloading: http://ash.mirrors.clouvider.net/rocky/9.0/AppStream/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061846.000000000┋2022-10-08T06:18:46+0000 INFO Downloading: http://ash.mirrors.clouvider.net/rocky/9.0/AppStream/x86_64/os/repodata/00000000-1111-2222-bfb9-012345678911-PRIMARY.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061846.000000000┋2022-10-08T06:18:46+0000 INFO Downloading: http://ash.mirrors.clouvider.net/rocky/9.0/AppStream/x86_64/os/repodata/00000000-1111-2222-9d64-012345678911-FILELISTS.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061846.000000000┋2022-10-08T06:18:46+0000 INFO Downloading: http://ash.mirrors.clouvider.net/rocky/9.0/AppStream/x86_64/os/repodata/00000000-1111-2222-9d64-012345678911-GROUPS.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061848.000000000┋2022-10-08T06:18:48+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=extras-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061848.000000000┋2022-10-08T06:18:48+0000 INFO Downloading: http://atl.mirrors.clouvider.net/rocky/9.0/extras/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061849.000000000┋2022-10-08T06:18:49+0000 INFO Downloading: https://dl.rockylinux.org/pub/rocky/9.0/BaseOS/x86_64/os/Packages/c/ca-certificates-2022.2.54-90.2.el9.noarch.rpm
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061853.000000000┋2022-10-08T06:18:53+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061854.000000000┋2022-10-08T06:18:54+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/744535d2d929a2bce864af8fbba29b28956a00122d6bf94f90efb62b4900fdfa-filelists.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061854.000000000┋2022-10-08T06:18:54+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/52741e070db97c6420998825ac77aa2d4b03c51660d1007d5b617338e6366f69-prestodelta.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061854.000000000┋2022-10-08T06:18:54+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/d82018341083e77e21e650bb9d4593368420205282f08974c1a5fc3964039cae-primary.xml.gz
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061855.000000000┋2022-10-08T06:18:55+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/droplet-agent.1.2.4.amd64.rpm
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T061856.000000000┋2022-10-08T06:18:56+0000 INFO Downloading: https://repos-droplet.digitalocean.com/gpg.key
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T062317.000000000┋2022-10-08T06:23:17+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T062322.000000000┋2022-10-08T06:23:22+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T062323.000000000┋2022-10-08T06:23:23+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T062324.000000000┋2022-10-08T06:23:24+0000 INFO Downloading: http://mirrors.rit.edu/rocky/9.0/BaseOS/x86_64/os/Packages/t/tree-1.8.0-10.el9.x86_64.rpm
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T062353.000000000┋2022-10-08T06:23:53+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T062415.000000000┋2022-10-08T06:24:15+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T062419.000000000┋2022-10-08T06:24:19+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T063547.000000000┋2022-10-08T06:35:47+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 INFO Downloading: http://forksystems.mm.fcix.net/rocky/9.0/BaseOS/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 INFO Downloading: https://repos.eggycrew.com/rockylinux/9.0/AppStream/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=extras-9&countme=2
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T063548.000000000┋2022-10-08T06:35:48+0000 INFO Downloading: http://mirror.phx1.us.spryservers.net/rockylinux/9.0/extras/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T065107.000000000┋2022-10-08T06:51:07+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T065109.000000000┋2022-10-08T06:51:09+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T065109.000000000┋2022-10-08T06:51:09+0000 INFO Downloading: http://atl.mirrors.clouvider.net/rocky/9.0/AppStream/x86_64/os/Packages/r/rocky-logos-httpd-90.11-1.el9.noarch.rpm
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T065109.000000000┋2022-10-08T06:51:09+0000 INFO Downloading: http://atl.mirrors.clouvider.net/rocky/9.0/AppStream/x86_64/os/Packages/n/nginx-filesystem-1.20.1-10.el9.noarch.rpm
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T065109.000000000┋2022-10-08T06:51:09+0000 INFO Downloading: http://atl.mirrors.clouvider.net/rocky/9.0/AppStream/x86_64/os/Packages/n/nginx-1.20.1-10.el9.x86_64.rpm
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T083347.000000000┋2022-10-08T08:33:47+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T101343.000000000┋2022-10-08T10:13:43+0000 INFO Downloading: https://mirror.fcix.net/rocky/9.0/BaseOS/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 INFO Downloading: https://mirror2.sandyriver.net/pub/rocky/9.0/AppStream/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=extras-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T101344.000000000┋2022-10-08T10:13:44+0000 INFO Downloading: http://nyc.mirrors.clouvider.net/rocky/9.0/extras/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T112747.000000000┋2022-10-08T11:27:47+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T124847.000000000┋2022-10-08T12:48:47+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T135627.000000000┋2022-10-08T13:56:27+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 INFO Downloading: https://mirror.pit.teraswitch.com/rocky/9.0/BaseOS/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 INFO Downloading: https://mirror.fcix.net/rocky/9.0/AppStream/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=extras-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T135628.000000000┋2022-10-08T13:56:28+0000 INFO Downloading: http://mirror.cogentco.com/pub/linux/rocky/9.0/extras/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T150047.000000000┋2022-10-08T15:00:47+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T164547.000000000┋2022-10-08T16:45:47+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T181047.000000000┋2022-10-08T18:10:47+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 INFO Downloading: http://mirrors.radwebhosting.com/rockylinux/9.0/BaseOS/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 INFO Downloading: http://mirror.usi.edu/pub/rocky/9.0/AppStream/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=extras-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T181048.000000000┋2022-10-08T18:10:48+0000 INFO Downloading: http://mirror.phx1.us.spryservers.net/rockylinux/9.0/extras/x86_64/os/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T193747.000000000┋2022-10-08T19:37:47+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T205148.000000000┋2022-10-08T20:51:48+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T222540.000000000┋2022-10-08T22:25:40+0000 INFO Downloading: https://repos-droplet.digitalocean.com/yum/droplet-agent/x86_64/repodata/repomd.xml
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T222542.000000000┋2022-10-08T22:25:42+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T222542.000000000┋2022-10-08T22:25:42+0000 INFO Downloading: https://mirror2.sandyriver.net/pub/rocky/9.0/BaseOS/x86_64/os/Packages/l/lsof-4.94.0-3.el9.x86_64.rpm
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T222650.000000000┋2022-10-08T22:26:50+0000 INFO Librepo version: 1.14.2 with CURL_GLOBAL_ACK_EINTR support (libcurl/7.76.1 OpenSSL/3.0.1 zlib/1.2.11 brotli/1.0.9 libidn2/2.3.0 libpsl/0.21.1 (+libidn2/2.3.0) libssh/0.9.6/openssl/zlib nghttp2/1.43.0)
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T222651.000000000┋2022-10-08T22:26:51+0000 INFO Downloading: https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-9
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T222651.000000000┋2022-10-08T22:26:51+0000 INFO Downloading: http://mirrors.rit.edu/rocky/9.0/AppStream/x86_64/os/Packages/r/rocky-indexhtml-9.0-2.el9.noarch.rpm
+⇳
+./logs/RockyLinux9/dnf.librepo.log┋20221008T222651.000000000┋2022-10-08T22:26:51+0000 INFO Downloading: http://mirrors.rit.edu/rocky/9.0/AppStream/x86_64/os/Packages/l/lynx-2.8.9-18.el9.x86_64.rpm⇳
+

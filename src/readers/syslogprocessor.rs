@@ -701,7 +701,7 @@ impl SyslogProcessor {
         // `syslinereader.drop_data` is an expensive function, skip if possible.
         if blockoffset == self.drop_block_last {
             def1x!("({}) skip block, return true", blockoffset);
-            return true;
+            return false;
         }
 
         if self
@@ -728,7 +728,7 @@ impl SyslogProcessor {
         syslinep: &SyslineP,
     ) -> bool {
         if !SyslogProcessor::STREAM_STAGE_DROP {
-            return true;
+            return false;
         }
         let bo_first: BlockOffset = (*syslinep).blockoffset_first();
         if bo_first > 1 {

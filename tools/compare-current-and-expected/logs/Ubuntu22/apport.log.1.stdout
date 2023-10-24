@@ -1,0 +1,10 @@
+./logs/Ubuntu22/apport.log.1┋20220920T151539.000000000┋ERROR: apport (pid 2870) Tue Sep 20 23:15:39 2022: called for pid 2870, signal 6, core limit 0, dump mode 1
+⇳
+./logs/Ubuntu22/apport.log.1┋20220920T151539.000000000┋ERROR: apport (pid 2870) Tue Sep 20 23:15:39 2022: executable does not belong to a package, ignoring
+⇳
+./logs/Ubuntu22/apport.log.1┋20220920T152443.000000000┋ERROR: apport (pid 2870) Tue Sep 20 23:24:43 2022: called for pid 2870, signal 6, core limit 0, dump mode 1
+⇳
+./logs/Ubuntu22/apport.log.1┋20220920T152443.000000000┋ERROR: apport (pid 2870) Tue Sep 20 23:24:43 2022: executable: ss (command line "ss -u -d %Y /tmp/a.log")
+⇳
+./logs/Ubuntu22/apport.log.1┋20220920T152443.000000000┋ERROR: apport (pid 2870) Tue Sep 20 23:24:43 2022: executable does not belong to a package, ignoring
+⇳

@@ -1,0 +1,6 @@
+./logs/programs/proftpd/xferlog┋20201003T032612.000000000┋Sat Oct 03 11:26:12 2020 0 192.168.0.8 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c
+⇳
+./logs/programs/proftpd/xferlog┋20201003T032612.000000000┋Sat Oct 03 11:26:12 2020 0 192.168.0.8 2323 /var/log/proftpd/proftpd.log b _ o r root ftp 0 * c
+⇳
+./logs/programs/proftpd/xferlog┋20201003T032612.000000000┋Sat Oct 03 11:26:12 2020 0 192.168.0.8 0 /var/log/proftpd/controls.log b _ o r root ftp 0 * c
+⇳

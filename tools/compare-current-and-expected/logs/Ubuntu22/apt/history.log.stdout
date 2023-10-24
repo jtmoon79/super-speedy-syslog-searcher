@@ -1,0 +1,18 @@
+./logs/Ubuntu22/apt/history.log┋20221003T222229.000000000┋Start-Date: 2022-10-04  06:22:29
+./logs/Ubuntu22/apt/history.log┋20221003T222229.000000000┋Commandline: /usr/bin/unattended-upgrade
+./logs/Ubuntu22/apt/history.log┋20221003T222229.000000000┋Upgrade: vim:amd64 (2:8.2.3995-1ubuntu2, 2:8.2.3995-1ubuntu2.1), vim-common:amd64 (2:8.2.3995-1ubuntu2, 2:8.2.3995-1ubuntu2.1), vim-tiny:amd64 (2:8.2.3995-1ubuntu2, 2:8.2.3995-1ubuntu2.1), vim-runtime:amd64 (2:8.2.3995-1ubuntu2, 2:8.2.3995-1ubuntu2.1)
+⇳
+./logs/Ubuntu22/apt/history.log┋20221003T222231.000000000┋End-Date: 2022-10-04  06:22:31
+./logs/Ubuntu22/apt/history.log┋20221003T222231.000000000┋
+⇳
+./logs/Ubuntu22/apt/history.log┋20221003T222237.000000000┋Start-Date: 2022-10-04  06:22:37
+./logs/Ubuntu22/apt/history.log┋20221003T222237.000000000┋Commandline: /usr/bin/unattended-upgrade
+./logs/Ubuntu22/apt/history.log┋20221003T222237.000000000┋Upgrade: libgomp1:amd64 (12-6008-1ubuntu1, 12.1.0-2ubuntu1~22.04), libcc1-0:amd64 (12-6008-1ubuntu1, 12.1.0-2ubuntu1~22.04), libitm1:amd64 (12-6008-1ubuntu1, 12.1.0-2ubuntu1~22.04), libquadmath0:amd64 (12-6008-1ubuntu1, 12.1.0-2ubuntu1~22.04), libubsan1:amd64 (12-6008-1ubuntu1, 12.1.0-2ubuntu1~22.04), liblsan0:amd64 (12-6008-1ubuntu1, 12.1.0-2ubuntu1~22.04), gcc-12-base:amd64 (12-6008-1ubuntu1, 12.1.0-2ubuntu1~22.04), libstdc++6:amd64 (12-6008-1ubuntu1, 12.1.0-2ubuntu1~22.04), libatomic1:amd64 (12-6008-1ubuntu1, 12.1.0-2ubuntu1~22.04), libgcc-s1:amd64 (12-6008-1ubuntu1, 12.1.0-2ubuntu1~22.04)
+⇳
+./logs/Ubuntu22/apt/history.log┋20221003T222238.000000000┋End-Date: 2022-10-04  06:22:38
+./logs/Ubuntu22/apt/history.log┋20221003T222238.000000000┋
+⇳
+./logs/Ubuntu22/apt/history.log┋20221003T222244.000000000┋Start-Date: 2022-10-04  06:22:44
+./logs/Ubuntu22/apt/history.log┋20221003T222244.000000000┋Commandline: /usr/bin/unattended-upgrade
+./logs/Ubuntu22/apt/history.log┋20221003T222244.000000000┋Install: linux-image-5.15.0-48-generic:amd64 (5.15.0-48.54, automatic), linux-headers-5.15.0-48-generic:amd64 (5.15.0-48.54, automatic), linux-modules-5.15.0-48-generic:amd64 (5.15.0-48.54, automatic), linux-headers-5.15.0-48:amd64 (5.15.0-48.54, automatic)
+⇳

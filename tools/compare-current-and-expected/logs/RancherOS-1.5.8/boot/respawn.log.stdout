@@ -1,0 +1,41 @@
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=debug msg="START: [respawn -f /etc/respawn.conf] in /"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221009T213143.000000000┋time="2022-10-09T21:31:43Z" level=info msg="respawn RancherOS
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20210205T192713.000000000┋built: '2021-02-05T19:27:13Z', v1.5.8"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="sending SIGTERM to 1049"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="sending SIGTERM to 1050"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="sending SIGTERM to 1046"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="sending SIGTERM to 1044"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="sending SIGTERM to 1041"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="sending SIGTERM to 1043"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="sending SIGTERM to 1047"
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=error msg="Wait cmd to exit: /sbin/agetty --noclear tty5 linux, err: signal: terminated"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="/sbin/agetty --noclear tty5 linux : not restarting, exiting"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="FINISHED: /sbin/agetty --noclear tty6 linux"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="FINISHED: /sbin/agetty --noclear tty5 linux"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=error msg="Wait cmd to exit: /sbin/agetty -n -l /usr/bin/autologin -o rancher:tty1 --noclear tty1 linux, err: signal: terminated"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="/sbin/agetty -n -l /usr/bin/autologin -o rancher:tty1 --noclear tty1 linux : not restarting, exiting"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="FINISHED: /sbin/agetty -n -l /usr/bin/autologin -o rancher:tty1 --noclear tty1 linux"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202335.000000000┋time="2022-10-10T20:23:35Z" level=debug msg="START: [respawn -f /etc/respawn.conf] in /"
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20221010T202335.000000000┋time="2022-10-10T20:23:35Z" level=info msg="respawn RancherOS
+⇳
+./logs/RancherOS-1.5.8/boot/respawn.log┋20210205T192713.000000000┋built: '2021-02-05T19:27:13Z', v1.5.8"⇳
+

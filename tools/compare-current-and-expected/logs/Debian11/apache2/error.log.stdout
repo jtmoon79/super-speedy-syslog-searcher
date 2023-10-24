@@ -1,0 +1,10 @@
+./logs/Debian11/apache2/error.log┋20221010T155629.204202000┋[Mon Oct 10 23:56:29.204202 2022] [mpm_event:notice] [pid 11709:tid 140582486756672] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations
+⇳
+./logs/Debian11/apache2/error.log┋20221010T155629.204401000┋[Mon Oct 10 23:56:29.204401 2022] [core:notice] [pid 11709:tid 140582486756672] AH00094: Command line: '/usr/sbin/apache2'
+⇳
+./logs/Debian11/apache2/error.log┋20221010T160222.680476000┋[Tue Oct 11 00:02:22.680476 2022] [mpm_event:notice] [pid 11709:tid 140582486756672] AH00492: caught SIGWINCH, shutting down gracefully
+⇳
+./logs/Debian11/apache2/error.log┋20221010T160236.463026000┋[Tue Oct 11 00:02:36.463026 2022] [mpm_event:notice] [pid 581:tid 139747178732864] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations
+⇳
+./logs/Debian11/apache2/error.log┋20221010T160236.467654000┋[Tue Oct 11 00:02:36.467654 2022] [core:notice] [pid 581:tid 139747178732864] AH00094: Command line: '/usr/sbin/apache2'⇳
+

@@ -1,0 +1,38 @@
+./logs/synology-DS6/synolog/synobackup_server.log┋20181224T160454.000000000┋info	2018/12/25 00:04:54	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup destination [/path1/Vol/host78_1.hbk] created.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181224T160530.000000000┋info	2018/12/25 00:05:30	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup started.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181224T162416.000000000┋info	2018/12/25 00:24:16	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup complete.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181224T164213.000000000┋info	2018/12/25 00:42:13	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Started to retrieve data [Share1] from version [2018-12-25 00:05:22].
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181224T165938.000000000┋info	2018/12/25 00:59:38	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Finished retrieving data [Share1] from version [2018-12-25 00:05:22].
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181224T172018.000000000┋info	2018/12/25 01:20:18	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup started.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181224T172119.000000000┋info	2018/12/25 01:21:19	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup complete.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181224T190108.000000000┋info	2018/12/25 03:01:08	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup started.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181224T190224.000000000┋info	2018/12/25 03:02:24	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup complete.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181225T190102.000000000┋info	2018/12/26 03:01:02	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup started.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181225T190225.000000000┋info	2018/12/26 03:02:25	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup complete.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181226T190028.000000000┋info	2018/12/27 03:00:28	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup started.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181226T190049.000000000┋info	2018/12/27 03:00:49	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup complete.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181227T190031.000000000┋info	2018/12/28 03:00:31	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup started.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181227T190051.000000000┋info	2018/12/28 03:00:51	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup complete.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181228T190102.000000000┋info	2018/12/29 03:01:02	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup started.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181228T190134.000000000┋info	2018/12/29 03:01:34	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[192.168.0.80] Backup complete.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181228T190158.000000000┋info	2018/12/29 03:01:58	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[Localhost] Backup rotation started.
+⇳
+./logs/synology-DS6/synolog/synobackup_server.log┋20181228T190249.000000000┋info	2018/12/29 03:02:49	user2:	{"TARGET_UNIQUE_ID":"1","USER":"user2"}	[Localhost] Version [2018-12-25 00:05:22] rotated.
+⇳

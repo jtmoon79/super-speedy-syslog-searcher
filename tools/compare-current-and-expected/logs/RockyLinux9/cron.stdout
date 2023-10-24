@@ -1,0 +1,232 @@
+./logs/RockyLinux9/cron┋20221007T221837.000000000┋Oct  8 06:18:37 localhost crond[930]: (CRON) STARTUP (1.5.7)
+⇳
+./logs/RockyLinux9/cron┋20221007T221837.000000000┋Oct  8 06:18:37 localhost crond[930]: (CRON) INFO (Syslog will be used instead of sendmail.)
+⇳
+./logs/RockyLinux9/cron┋20221007T221837.000000000┋Oct  8 06:18:37 localhost crond[930]: (CRON) INFO (RANDOM_DELAY will be scaled with factor 21% if used.)
+⇳
+./logs/RockyLinux9/cron┋20221007T221837.000000000┋Oct  8 06:18:37 localhost crond[930]: (CRON) INFO (running with inotify support)
+⇳
+./logs/RockyLinux9/cron┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 crond[879]: (CRON) STARTUP (1.5.7)
+⇳
+./logs/RockyLinux9/cron┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 crond[879]: (CRON) INFO (Syslog will be used instead of sendmail.)
+⇳
+./logs/RockyLinux9/cron┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 crond[879]: (CRON) INFO (RANDOM_DELAY will be scaled with factor 42% if used.)
+⇳
+./logs/RockyLinux9/cron┋20221007T222255.000000000┋Oct  8 06:22:55 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 crond[879]: (CRON) INFO (running with inotify support)
+⇳
+./logs/RockyLinux9/cron┋20221007T230101.000000000┋Oct  8 07:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[3912]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221007T230101.000000000┋Oct  8 07:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[3912]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221007T230101.000000000┋Oct  8 07:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Anacron started on 2022-10-08
+⇳
+./logs/RockyLinux9/cron┋20221007T230101.000000000┋Oct  8 07:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Will run job `cron.daily' in 34 min.
+⇳
+./logs/RockyLinux9/cron┋20221007T230101.000000000┋Oct  8 07:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Will run job `cron.weekly' in 54 min.
+⇳
+./logs/RockyLinux9/cron┋20221007T230101.000000000┋Oct  8 07:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Will run job `cron.monthly' in 74 min.
+⇳
+./logs/RockyLinux9/cron┋20221007T230101.000000000┋Oct  8 07:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Jobs will be executed sequentially
+⇳
+./logs/RockyLinux9/cron┋20221007T230101.000000000┋Oct  8 07:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[3912]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221007T230101.000000000┋Oct  8 07:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[3912]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221007T231314.000000000┋Oct  8 07:13:14 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[3912]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221007T231314.000000000┋Oct  8 07:13:14 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[3911]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221007T233501.000000000┋Oct  8 07:35:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Job `cron.daily' started
+⇳
+./logs/RockyLinux9/cron┋20221007T233501.000000000┋Oct  8 07:35:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Job `cron.daily' terminated
+⇳
+./logs/RockyLinux9/cron┋20221007T235501.000000000┋Oct  8 07:55:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Job `cron.weekly' started
+⇳
+./logs/RockyLinux9/cron┋20221007T235501.000000000┋Oct  8 07:55:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Job `cron.weekly' terminated
+⇳
+./logs/RockyLinux9/cron┋20221008T000101.000000000┋Oct  8 08:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4041]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T000101.000000000┋Oct  8 08:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4041]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T000101.000000000┋Oct  8 08:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4041]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T000101.000000000┋Oct  8 08:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4041]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T001501.000000000┋Oct  8 08:15:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Job `cron.monthly' started
+⇳
+./logs/RockyLinux9/cron┋20221008T001501.000000000┋Oct  8 08:15:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Job `cron.monthly' terminated
+⇳
+./logs/RockyLinux9/cron┋20221008T001501.000000000┋Oct  8 08:15:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 anacron[3923]: Normal exit (3 jobs run)
+⇳
+./logs/RockyLinux9/cron┋20221008T001550.000000000┋Oct  8 08:15:50 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4041]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T001550.000000000┋Oct  8 08:15:50 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4040]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T010101.000000000┋Oct  8 09:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4117]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T010101.000000000┋Oct  8 09:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4117]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T010101.000000000┋Oct  8 09:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4117]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T010101.000000000┋Oct  8 09:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4117]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T010554.000000000┋Oct  8 09:05:54 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4117]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T010554.000000000┋Oct  8 09:05:54 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4116]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T020101.000000000┋Oct  8 10:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4184]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T020101.000000000┋Oct  8 10:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4184]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T020101.000000000┋Oct  8 10:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4184]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T020101.000000000┋Oct  8 10:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4184]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T020638.000000000┋Oct  8 10:06:38 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4184]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T020638.000000000┋Oct  8 10:06:38 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4183]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T030101.000000000┋Oct  8 11:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4251]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T030101.000000000┋Oct  8 11:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4251]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T030101.000000000┋Oct  8 11:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4251]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T030101.000000000┋Oct  8 11:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4251]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T031039.000000000┋Oct  8 11:10:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4251]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T031039.000000000┋Oct  8 11:10:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4250]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T040101.000000000┋Oct  8 12:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4322]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T040101.000000000┋Oct  8 12:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4322]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T040101.000000000┋Oct  8 12:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4322]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T040101.000000000┋Oct  8 12:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4322]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T041209.000000000┋Oct  8 12:12:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4322]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T041209.000000000┋Oct  8 12:12:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4321]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T050101.000000000┋Oct  8 13:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4398]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T050101.000000000┋Oct  8 13:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4398]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T050101.000000000┋Oct  8 13:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4398]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T050101.000000000┋Oct  8 13:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4398]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T050421.000000000┋Oct  8 13:04:21 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4398]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T050421.000000000┋Oct  8 13:04:21 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4397]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T060101.000000000┋Oct  8 14:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4508]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T060101.000000000┋Oct  8 14:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4508]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T060101.000000000┋Oct  8 14:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4508]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T060101.000000000┋Oct  8 14:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4508]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T060939.000000000┋Oct  8 14:09:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4508]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T060939.000000000┋Oct  8 14:09:39 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4507]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T070101.000000000┋Oct  8 15:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4575]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T070101.000000000┋Oct  8 15:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4575]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T070101.000000000┋Oct  8 15:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4575]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T070101.000000000┋Oct  8 15:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4575]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T071301.000000000┋Oct  8 15:13:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4575]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T071301.000000000┋Oct  8 15:13:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4574]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T080101.000000000┋Oct  8 16:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4648]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T080101.000000000┋Oct  8 16:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4648]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T080101.000000000┋Oct  8 16:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4648]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T080101.000000000┋Oct  8 16:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4648]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T081236.000000000┋Oct  8 16:12:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4648]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T081236.000000000┋Oct  8 16:12:36 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4647]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T090101.000000000┋Oct  8 17:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4717]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T090101.000000000┋Oct  8 17:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4717]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T090101.000000000┋Oct  8 17:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4717]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T090101.000000000┋Oct  8 17:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4717]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T090915.000000000┋Oct  8 17:09:15 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4717]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T090915.000000000┋Oct  8 17:09:15 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4716]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T100101.000000000┋Oct  8 18:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4792]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T100101.000000000┋Oct  8 18:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4792]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T100101.000000000┋Oct  8 18:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4792]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T100101.000000000┋Oct  8 18:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4792]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T100811.000000000┋Oct  8 18:08:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4792]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T100811.000000000┋Oct  8 18:08:11 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4791]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T110101.000000000┋Oct  8 19:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4876]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T110101.000000000┋Oct  8 19:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4876]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T110101.000000000┋Oct  8 19:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4876]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T110101.000000000┋Oct  8 19:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4876]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T110734.000000000┋Oct  8 19:07:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4876]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T110734.000000000┋Oct  8 19:07:34 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4875]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T120101.000000000┋Oct  8 20:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4953]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T120101.000000000┋Oct  8 20:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4953]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T120101.000000000┋Oct  8 20:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4953]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T120101.000000000┋Oct  8 20:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4953]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T120922.000000000┋Oct  8 20:09:22 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[4953]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T120922.000000000┋Oct  8 20:09:22 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[4952]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T130101.000000000┋Oct  8 21:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[5015]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T130101.000000000┋Oct  8 21:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[5015]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T130101.000000000┋Oct  8 21:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[5015]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T130101.000000000┋Oct  8 21:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[5015]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T130809.000000000┋Oct  8 21:08:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[5015]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T130809.000000000┋Oct  8 21:08:09 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[5014]: (root) CMDEND (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T140101.000000000┋Oct  8 22:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[5215]: (root) CMD (run-parts /etc/cron.hourly)
+⇳
+./logs/RockyLinux9/cron┋20221008T140101.000000000┋Oct  8 22:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[5215]: (/etc/cron.hourly) starting 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T140101.000000000┋Oct  8 22:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[5215]: (/etc/cron.hourly) finished 0anacron
+⇳
+./logs/RockyLinux9/cron┋20221008T140101.000000000┋Oct  8 22:01:01 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[5215]: (/etc/cron.hourly) starting droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T140757.000000000┋Oct  8 22:07:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 run-parts[5215]: (/etc/cron.hourly) finished droplet-agent
+⇳
+./logs/RockyLinux9/cron┋20221008T140757.000000000┋Oct  8 22:07:57 rockylinux-s-1vcpu-512mb-10gb-nyc1-01 CROND[5214]: (root) CMDEND (run-parts /etc/cron.hourly)⇳
+

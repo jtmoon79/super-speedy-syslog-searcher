@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043250.000000000┋2016-12-05T20:32:50-0800 [2016-12-05 20:32:50 PST]: Start PostgreSQL
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043250.000000000┋2016-12-05T20:32:50-0800 [2016-12-05 20:32:50 PST]: Compatibility check is failed. Please check /var/log/postgresql.log for further information.
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043251.000000000┋2016-12-05T20:32:51-0800 [2016-12-05 20:32:51 PST]: Initialize PostgreSQL database
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043259.000000000┋2016-12-05T20:32:59-0800 touch: missing file operand
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043259.000000000┋2016-12-05T20:32:59-0800 Try 'touch --help' for more information.
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043259.000000000┋2016-12-05T20:32:59-0800 pgsql start/running, process 7839
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043301.000000000┋2016-12-05T20:33:01-0800 [2016-12-05 20:33:01 PST]: pgsql is ready after waiting 2 seconds...
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043301.000000000┋2016-12-05T20:33:01-0800 Create pgsql user MediaIndex
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043301.000000000┋2016-12-05T20:33:01-0800 Create database: mediaserver, owner: MediaIndex
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043302.000000000┋2016-12-05T20:33:02-0800 BEGIN
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043302.000000000┋2016-12-05T20:33:02-0800 CREATE TABLE
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043302.000000000┋2016-12-05T20:33:02-0800 CREATE INDEX
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043302.000000000┋2016-12-05T20:33:02-0800 CREATE INDEX
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043302.000000000┋2016-12-05T20:33:02-0800 CREATE INDEX
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043302.000000000┋2016-12-05T20:33:02-0800 CREATE INDEX
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043302.000000000┋2016-12-05T20:33:02-0800 CREATE INDEX
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043303.000000000┋2016-12-05T20:33:03-0800 CREATE INDEX
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043303.000000000┋2016-12-05T20:33:03-0800 CREATE INDEX
+⇳
+./logs/synology-DS6/upstart/pgsql-adapter.log┋20161206T043303.000000000┋2016-12-05T20:33:03-0800 CREATE INDEX
+⇳

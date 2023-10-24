@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170223T225249.000000000┋2017-02-23T14:52:49-0800 ======== start SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170307T171317.000000000┋2017-03-07T09:13:17-0800 ======== stop SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170307T171600.000000000┋2017-03-07T09:16:00-0800 ======== start SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170309T205504.000000000┋2017-03-09T12:55:04-0800 ======== stop SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170310T041544.000000000┋2017-03-09T20:15:44-0800 ======== start SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170508T153230.000000000┋2017-05-08T08:32:30-0700 ======== stop SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170508T153610.000000000┋2017-05-08T08:36:10-0700 ======== start SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170513T054419.000000000┋2017-05-12T22:44:19-0700 ======== stop SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170513T054637.000000000┋2017-05-12T22:46:37-0700 ======== start SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170524T164104.000000000┋2017-05-24T09:41:04-0700 ======== stop SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170524T164341.000000000┋2017-05-24T09:43:41-0700 ======== start SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170524T164900.000000000┋2017-05-24T09:49:00-0700 ======== stop SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170524T164906.000000000┋2017-05-24T09:49:06-0700 ======== start SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170619T081848.000000000┋2017-06-19T01:18:48-0700 ======== stop SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170619T081853.000000000┋2017-06-19T01:18:53-0700 /usr/sbin/apparmor_parser: Unable to remove "/usr/syno/sbin/synoscgi//SYNO.Finder.Bookmark".  Profile doesn't exist
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170619T082231.000000000┋2017-06-19T01:22:31-0700 ======== start SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170917T165703.000000000┋2017-09-17T09:57:03-0700 ======== start SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170917T170129.000000000┋2017-09-17T10:01:29-0700 ======== stop SynoFinder ========
+⇳
+./logs/synology-DS6/upstart/pkgctl-SynoFinder.log┋20170917T170504.000000000┋2017-09-17T10:05:04-0700 ======== start SynoFinder ========
+⇳

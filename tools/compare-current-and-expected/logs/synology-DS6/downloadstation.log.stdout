@@ -1,0 +1,38 @@
+./logs/synology-DS6/downloadstation.log┋20190831T215946.000000000┋2019-08-31T14:59:46-07:00 dsnet synorsstool: taskget.c:331 Reach max task number of user
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215946.000000000┋2019-08-31T14:59:46-07:00 dsnet synorsstool: RssFeedHandler.cpp:371 Tasks reach max limit. User [user1] max tasks is [2048].
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215946.000000000┋2019-08-31T14:59:46-07:00 dsnet synorsstool: RssFeedHandler.cpp:190 Failed to update RSS feed, id[8], code[526]
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215947.000000000┋2019-08-31T14:59:47-07:00 dsnet synorsstool: taskget.c:331 Reach max task number of user
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215947.000000000┋2019-08-31T14:59:47-07:00 dsnet synorsstool: RssFeedHandler.cpp:371 Tasks reach max limit. User [user1] max tasks is [2048].
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215947.000000000┋2019-08-31T14:59:47-07:00 dsnet synorsstool: RssFeedHandler.cpp:190 Failed to update RSS feed, id[1], code[526]
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215948.000000000┋2019-08-31T14:59:48-07:00 dsnet synorsstool: RssFeedHandler.cpp:306 Failed to download rss feed , url[https://anchor.fm/s/125460/podcast/rss]
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215948.000000000┋2019-08-31T14:59:48-07:00 dsnet synorsstool: RssFeedHandler.cpp:190 Failed to update RSS feed, id[10], code[2404]
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215957.000000000┋2019-08-31T14:59:57-07:00 dsnet synorsstool: taskget.c:331 Reach max task number of user
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215957.000000000┋2019-08-31T14:59:57-07:00 dsnet synorsstool: RssFeedHandler.cpp:371 Tasks reach max limit. User [user1] max tasks is [2048].
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215957.000000000┋2019-08-31T14:59:57-07:00 dsnet synorsstool: RssFeedHandler.cpp:190 Failed to update RSS feed, id[4], code[526]
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215958.000000000┋2019-08-31T14:59:58-07:00 dsnet synorsstool: taskget.c:331 Reach max task number of user
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215958.000000000┋2019-08-31T14:59:58-07:00 dsnet synorsstool: RssFeedHandler.cpp:371 Tasks reach max limit. User [user1] max tasks is [2048].
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T215958.000000000┋2019-08-31T14:59:58-07:00 dsnet synorsstool: RssFeedHandler.cpp:190 Failed to update RSS feed, id[6], code[526]
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T220000.000000000┋2019-08-31T15:00:00-07:00 dsnet synodldbrpcd: query_base.cpp:51 Query execute failed: Cannot execute query. ERROR:  invalid regular expression: quantifier operand invalid
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T220000.000000000┋2019-08-31T15:00:00-07:00 dsnet synodldbrpcd: db/operator.cpp:74 Failed to execute list operation
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T220002.000000000┋2019-08-31T15:00:02-07:00 dsnet synodldbrpcd: query_base.cpp:51 Query execute failed: Cannot execute query. ERROR:  invalid regular expression: quantifier operand invalid
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T220002.000000000┋2019-08-31T15:00:02-07:00 dsnet synodldbrpcd: db/operator.cpp:74 Failed to execute list operation
+⇳
+./logs/synology-DS6/downloadstation.log┋20190831T220008.000000000┋2019-08-31T15:00:08-07:00 dsnet synorsstool: taskget.c:331 Reach max task number of user
+⇳

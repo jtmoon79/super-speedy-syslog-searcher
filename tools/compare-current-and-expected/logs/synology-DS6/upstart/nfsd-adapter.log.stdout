@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T032931.000000000┋2019-02-25T19:29:31-0800 Starting NFS server...
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T032931.000000000┋2019-02-25T19:29:31-0800 :: Loading module rpcsec_gss_krb5 ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T032931.000000000┋2019-02-25T19:29:31-0800 :: Loading module exportfs ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T032931.000000000┋2019-02-25T19:29:31-0800 :: Loading module nfsd ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T033053.000000000┋2019-02-25T19:30:53-0800 svcgssd: no process found
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T033053.000000000┋2019-02-25T19:30:53-0800 :: Unloading module nfsd ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T033054.000000000┋2019-02-25T19:30:54-0800 :: Unloading module exportfs ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T033054.000000000┋2019-02-25T19:30:54-0800 :: Unloading module rpcsec_gss_krb5 ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T033054.000000000┋2019-02-25T19:30:54-0800 Starting NFS server...
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T033055.000000000┋2019-02-25T19:30:55-0800 :: Loading module rpcsec_gss_krb5 ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T033055.000000000┋2019-02-25T19:30:55-0800 :: Loading module exportfs ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190226T033055.000000000┋2019-02-25T19:30:55-0800 :: Loading module nfsd ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190304T173454.000000000┋2019-03-04T09:34:54-0800 Starting NFS server...
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190304T173454.000000000┋2019-03-04T09:34:54-0800 :: Loading module rpcsec_gss_krb5 ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190304T173454.000000000┋2019-03-04T09:34:54-0800 :: Loading module exportfs ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190304T173455.000000000┋2019-03-04T09:34:55-0800 :: Loading module nfsd ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190624T040625.000000000┋2019-06-23T21:06:25-0700 svcgssd: no process found
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190624T040628.000000000┋2019-06-23T21:06:28-0700 :: Unloading module nfsd ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/nfsd-adapter.log┋20190624T040628.000000000┋2019-06-23T21:06:28-0700 :: Unloading module exportfs ... [  OK  ]
+⇳

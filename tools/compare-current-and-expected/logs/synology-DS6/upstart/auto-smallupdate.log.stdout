@@ -1,0 +1,16 @@
+./logs/synology-DS6/upstart/auto-smallupdate.log┋20181015T210931.000000000┋2018-10-15T14:09:31-0700 start nettup smallupdate
+⇳
+./logs/synology-DS6/upstart/auto-smallupdate.log┋20181015T210932.000000000┋2018-10-15T14:09:32-0700 UPGRADE_CHECK_SMALLUPDATE
+⇳
+./logs/synology-DS6/upstart/auto-smallupdate.log┋20181015T210932.000000000┋2018-10-15T14:09:32-0700 No smallupdate available!
+⇳
+./logs/synology-DS6/upstart/auto-smallupdate.log┋20181015T210932.000000000┋2018-10-15T14:09:32-0700 end nettup smallupdate
+⇳
+./logs/synology-DS6/upstart/auto-smallupdate.log┋20190624T041114.000000000┋2019-06-23T21:11:14-0700 start nettup smallupdate
+⇳
+./logs/synology-DS6/upstart/auto-smallupdate.log┋20190624T041114.000000000┋2019-06-23T21:11:14-0700 UPGRADE_CHECK_SMALLUPDATE
+⇳
+./logs/synology-DS6/upstart/auto-smallupdate.log┋20190624T041115.000000000┋2019-06-23T21:11:15-0700 No smallupdate available!
+⇳
+./logs/synology-DS6/upstart/auto-smallupdate.log┋20190624T041115.000000000┋2019-06-23T21:11:15-0700 end nettup smallupdate
+⇳

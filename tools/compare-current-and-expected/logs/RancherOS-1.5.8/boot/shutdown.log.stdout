@@ -1,0 +1,20 @@
+./logs/RancherOS-1.5.8/boot/shutdown.log┋20221010T202314.000000000┋time="2022-10-10T20:23:14Z" level=info msg="Setting shutdown timeout to 60 (rancher.shutdown_timeout set to 60)"
+⇳
+./logs/RancherOS-1.5.8/boot/shutdown.log┋20221010T202314.000000000┋time="2022-10-10T20:23:14Z" level=info msg="Stopping /docker : 012345678911"
+⇳
+./logs/RancherOS-1.5.8/boot/shutdown.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="Stopping /ntp : 012345678911"
+⇳
+./logs/RancherOS-1.5.8/boot/shutdown.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="Stopping /network : 012345678911"
+⇳
+./logs/RancherOS-1.5.8/boot/shutdown.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="Stopping /udev : 012345678911"
+⇳
+./logs/RancherOS-1.5.8/boot/shutdown.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="Stopping /system-cron : 012345678911"
+⇳
+./logs/RancherOS-1.5.8/boot/shutdown.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="Stopping /syslog : 012345678911"
+⇳
+./logs/RancherOS-1.5.8/boot/shutdown.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="Stopping /acpid : 012345678911"
+⇳
+./logs/RancherOS-1.5.8/boot/shutdown.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="Console Stopping [/console] : 012345678911"
+⇳
+./logs/RancherOS-1.5.8/boot/shutdown.log┋20221010T202315.000000000┋time="2022-10-10T20:23:15Z" level=info msg="Console Waiting [/console] : 012345678911"⇳
+

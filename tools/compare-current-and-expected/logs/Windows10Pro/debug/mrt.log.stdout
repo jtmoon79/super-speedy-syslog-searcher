@@ -1,0 +1,52 @@
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋Started On Thu Sep 10 10:08:35 2020
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋Engine: 1.1.13532.4
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋Signatures: 1.321.2265.0
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋MpGear: 1.1.13532.1
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋Run Mode: Scan Run From Windows Update
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋Results Summary:
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋----------------
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋No infection found.
+./logs/Windows10Pro/debug/mrt.log┋20200910T020835.000000000┋Successfully Submitted Heartbeat Report
+⇳
+./logs/Windows10Pro/debug/mrt.log┋20200910T021505.000000000┋Microsoft Windows Malicious Software Removal Tool Finished On Thu Sep 10 10:15:05 2020
+./logs/Windows10Pro/debug/mrt.log┋20200910T021505.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20200910T021505.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20200910T021505.000000000┋Return code: 0 (0x0)
+./logs/Windows10Pro/debug/mrt.log┋20200910T021505.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20200910T021505.000000000┋---------------------------------------------------------------------------------------
+./logs/Windows10Pro/debug/mrt.log┋20200910T021505.000000000┋Microsoft Windows Malicious Software Removal Tool v5.84, (build 5.84.13532.1)
+⇳
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋Started On Tue Nov 10 18:47:03 2020
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋Engine: 1.1.13532.4
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋Signatures: 1.325.1177.0
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋MpGear: 1.1.13532.1
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋Run Mode: Scan Run From Windows Update
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋Results Summary:
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋----------------
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋No infection found.
+./logs/Windows10Pro/debug/mrt.log┋20201110T104703.000000000┋Successfully Submitted Heartbeat Report
+⇳
+./logs/Windows10Pro/debug/mrt.log┋20201110T105447.000000000┋Microsoft Windows Malicious Software Removal Tool Finished On Tue Nov 10 18:54:47 2020
+./logs/Windows10Pro/debug/mrt.log┋20201110T105447.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20201110T105447.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20201110T105447.000000000┋Return code: 0 (0x0)
+./logs/Windows10Pro/debug/mrt.log┋20201110T105447.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20201110T105447.000000000┋---------------------------------------------------------------------------------------
+./logs/Windows10Pro/debug/mrt.log┋20201110T105447.000000000┋Microsoft Windows Malicious Software Removal Tool v5.85, (build 5.85.13532.1)
+⇳
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋Started On Wed Jan 13 00:47:49 2021
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋Engine: 1.1.13532.5
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋Signatures: 1.327.1904.0
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋MpGear: 1.1.13532.1
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋Run Mode: Scan Run From Windows Update
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋Results Summary:
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋----------------
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋No infection found.
+./logs/Windows10Pro/debug/mrt.log┋20210112T164749.000000000┋Successfully Submitted Heartbeat Report⇳
+

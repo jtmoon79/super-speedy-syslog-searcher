@@ -1,0 +1,74 @@
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160000.000000000┋2020-01-01 00:00:00
+⇳
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160001.000000000┋2020-01-01 00:00:01a
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160001.000000000┋A
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160001.000000000┋a
+⇳
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160002.000000000┋2020-01-01 00:00:02ab
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160002.000000000┋AB
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160002.000000000┋aB
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160002.000000000┋ab
+⇳
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160003.000000000┋2020-01-01 00:00:03abc
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160003.000000000┋ABC
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160003.000000000┋aBC
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160003.000000000┋abC
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160003.000000000┋abc
+⇳
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160004.000000000┋2020-01-01 00:00:04abcd
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160004.000000000┋ABCD
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160004.000000000┋aBCD
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160004.000000000┋abCD
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160004.000000000┋abcD
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160004.000000000┋abcd
+⇳
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160005.000000000┋2020-01-01 00:00:05abcde
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160005.000000000┋ABCDE
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160005.000000000┋aBCDE
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160005.000000000┋abCDE
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160005.000000000┋abcDE
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160005.000000000┋abcde
+⇳
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160006.000000000┋2020-01-01 00:00:06abcdef
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160006.000000000┋ABCDEF
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160006.000000000┋aBCDEF
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160006.000000000┋abCDEF
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160006.000000000┋abcDEF
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160006.000000000┋abcdEF
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160006.000000000┋abcdeF
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160006.000000000┋abcdef
+⇳
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160007.000000000┋2020-01-01 00:00:07abcdefg
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160007.000000000┋ABCDEFG
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160007.000000000┋aBCDEFG
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160007.000000000┋abCDEFG
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160007.000000000┋abcDEFG
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160007.000000000┋abcdEFG
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160007.000000000┋abcdeFG
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160007.000000000┋abcdefG
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160007.000000000┋abcdefg
+⇳
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋2020-01-01 00:00:08abcdefgh
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋ABCDEFGH
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋aBCDEFGH
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋abCDEFGH
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋abcDEFGH
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋abcdEFGH
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋abcdeFGH
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋abcdefGH
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋abcdefGH
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋abcdefgH
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160008.000000000┋abcdefgh
+⇳
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋2020-01-01 00:00:09abcdefghi
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋ABCDEFGHI
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋aBCDEFGHI
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋abCDEFGHI
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋abcDEFGHI
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋abcdEFGHI
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋abcdeFGHI
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋abcdefGHI
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋abcdefgHI
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋abcdefghI
+./logs/other/tests/basic-dt-u-mixnl.log┋20191231T160009.000000000┋abcdefghi⇳
+

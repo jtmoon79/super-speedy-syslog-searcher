@@ -1,0 +1,90 @@
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋2022-10-14 05:56:46, Info                  MOUPG  *************** SetupHost Logging Begin ***************
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: ModulePath             = [C:\$WINDOWS.~BT\Sources]
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: WorkingPath            = [C:\$WINDOWS.~BT\Sources]
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: LoggingPath            = [C:\$WINDOWS.~BT\Sources\Panther]
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: MediaPath              = [C:\$GetCurrent\media]
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: InstallFilePath        = [C:\$GetCurrent\media\Sources\Install.esd]
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: ActionListFilePath     = []
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: CmdLine                = [/Install /Media /Eula Accept /Quiet  /InstallFile "C:\$GetCurrent\media\Sources\Install.esd" "/migchoice" "upgrade" "/showoobe" "none" "/Compat" "IgnoreWarning" "/noreboot" "/postoobe" "C:\$GetCurrent\SafeOS\SetupComplete.cmd" "/CorrelationVector" "5WwPk9EXm0+M9gJy.999" "/ClientId" "Win10UA:VNL:URL:9252:<1.4.19041.1703>:<1>:{7334C4E4-D444-4333-BAAA-FF7F2F2FCF4F}:[10.0.19043]:[2]" "/DynamicUpdate" "Enable" "/telemetry" "enable" "/UpdateMedia" "Decline" "/SkipSummary" /MediaPath "C:\$GetCurrent\media"]
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋2022-10-14 05:56:46, Info                  MOUPG  SetupHost::Initialize: Mode                   = [0x2]
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215646.000000000┋
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Creating setup mutex...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost::InitializeComponents
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading ID: [3d3ad714-f8d8-4c84-ad5f-10938c2f3339] from [C:\$WINDOWS.~BT\Sources\SetupCore.dll]...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading complete.
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading AutomationManager manager...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading ID: [edac948b-844e-4a51-9ba9-34520bd9ff9f] from [C:\$WINDOWS.~BT\Sources\SetupCore.dll]...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading complete.
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Looking for automation file...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Initializing automation...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  SP     CSetupPlatform::Initialize: Setup log starts:
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  SP     SEH: Enter CExceptionHandler::CExceptionHandler
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  SP     SEH: Exit CExceptionHandler::CExceptionHandler
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  SP     Host system information:
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   VM: NO
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Firmware type: PCAT
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Manufacturer: ASUS
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Model : All Series
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   BIOS name : BIOS Date: 06/05/19 12:32:00 Ver: 25.04
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   BIOS version : 2009
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   BIOS release date : 20190605000000.000000+000
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Total memory : 25769803776
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Number of physical CPUs : 1
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Number of logical CPUs : 8
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Processor manufacturer : GenuineIntel
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Processor name : Intel(R) Xeon(R) CPU E3-1246 v3 @ 3.50GHz
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Processor caption : Intel64 Family 6 Model 60 Stepping 3
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Processor architecture : x64
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Processor clock : 3501
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  SP     Antivirus software information:
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋                                   Name: Windows Defender, Path: %ProgramFiles%\Windows Defender\MsMpeng.exe, Timestamp: Thu, 13 Oct 2022 19:33:06 GMT, State: 397568
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                         SPGenerateCopyListFromConfigFile: Didn't find file list in C:\$WINDOWS.~BT\Sources\setupplatform.cfg, section Footprint.Basic.amd64
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T215647.000000000┋
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T234233.000000000┋2022-10-14 07:42:33, Info                  CBS    CbsCoreFinalize: CbsEventUnregister
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T234233.000000000┋2022-10-14 07:42:33, Info                  CBS    CbsCoreFinalize: AppContainerUnload
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T234233.000000000┋2022-10-14 07:42:33, Info                  CBS    CbsCoreFinalize: WdsUnload, logging from cbscore will end.
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T234233.000000000┋2022-10-14 07:42:33, Info                  CBS    Ending TiWorker finalization.
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T234233.000000000┋2022-10-14 07:42:33, Info                  CBS    Ending the TrustedInstaller main loop.
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T234233.000000000┋2022-10-14 07:42:33, Info                  CBS    Starting TrustedInstaller finalization.
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T234233.000000000┋2022-10-14 07:42:33, Info                  CBS    Winlogon: Stopping notify server
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T234233.000000000┋2022-10-14 07:42:33, Info                  CBS    Winlogon: Unloading SysNotify DLL
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T234233.000000000┋2022-10-14 07:42:33, Info                  CBS    Lock: Lock removed: WinlogonNotifyLock, level: 8, total lock:6
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log┋20221013T234233.000000000┋2022-10-14 07:42:33, Info                  CBS    Ending TrustedInstaller finalization.⇳
+

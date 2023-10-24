@@ -1,0 +1,12 @@
+./logs/programs/proftpd/controls.log┋20201003T032411.475000000┋2020-10-03 11:24:11,475 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root DENIED
+⇳
+./logs/programs/proftpd/controls.log┋20201003T032411.475000000┋2020-10-03 11:24:11,475 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root NONE
+⇳
+./logs/programs/proftpd/controls.log┋20201003T032413.595000000┋2020-10-03 11:24:13,595 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root DENIED
+⇳
+./logs/programs/proftpd/controls.log┋20201003T032411.475000000┋2020-10-03 11:24:11,475 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root NONE
+⇳
+./logs/programs/proftpd/controls.log┋20201003T032534.697000000┋2020-10-03 11:25:34,697 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root OKAY
+⇳
+./logs/programs/proftpd/controls.log┋20201003T032612.137000000┋2020-10-03 11:26:12,137 host3 proftpd[11305] 192.168.0.1 (192.168.0.8[192.168.0.8]): Control access root OKAY
+⇳

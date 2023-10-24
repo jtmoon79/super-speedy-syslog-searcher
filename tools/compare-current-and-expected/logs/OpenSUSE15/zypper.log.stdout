@@ -1,0 +1,38 @@
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zypper] main.cc(main):74 ===== Hi, me zypper 1.14.27
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zypper] main.cc(main):75 ===== 'zypper' '--non-interactive' '--pkg-cache-dir' '/var/cache/kiwi/packages' '--reposd-dir' '/var/cache/kiwi/zypper/repos' '--solv-cache-dir' '/var/cache/kiwi/zypper/solv' '--cache-dir' '/var/cache/kiwi/zypper' '--raw-cache-dir' '/var/cache/kiwi/zypper/raw' '--config' '/tmpo3v3vxfh' 'install' '--auto-agree-with-licenses' '--no-recommends' 'aaa_base-extras' 'bc' 'bind-utils' 'binutils' 'bzip2' 'ca-certificates' 'ca-certificates-mozilla' 'command-not-found' 'coreutils' 'cpp' 'diffstat' 'dos2unix' 'emacs-nox' 'gcc' 'gcc-c++' 'git-core' 'gzip' 'iproute2' 'iputils' 'joe' 'less' 'libyui-ncurses-pkg' 'lsb-release' 'make' 'man' 'man-pages' 'mc' 'netcat' 'nmap' 'openSUSE-build-key' 'openSUSE-release' 'openssh' 'patch' 'patterns-openSUSE-minimal_base' 'screen' 'strace' 'sudo' 'sysconfig-netconfig' 'tar' 'tcpdump' 'unzip' 'util-linux' 'vim' 'w3m' 'wget' 'which' 'wicked' 'yast2-packager' 'zip' =====
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zconfig] ZConfig.cc(_autodetectSystemArchitecture):73 Uname architecture is 'x86_64'
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zconfig] ZConfig.cc(_autodetectTextLocale):209 Default text locale is 'en'
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zconfig] ZConfig.cc(Impl):341 libzypp: 17.11.4
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zypp] IniParser.cc(parse):84 Start parsing /tmpatx8svai[g___]
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zypp] IniParser.cc(parse):138 Done parsing /tmpatx8svai[_eF_]
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [Progress++] ProgressData.cc(report):88 {#1|/tmpatx8svai}END
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zconfig] ZConfig.cc(Impl):609 ZConfig singleton created.
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zconfig] ZConfig.cc(ZConfig):808 libzypp: 17.11.4
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zconfig] ZConfig.cc(ZConfig):808 libsolv: 0.7.3
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zconfig] ZConfig.cc(ZConfig):808 zypp.conf: '/tmpatx8svai'
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zconfig] ZConfig.cc(ZConfig):808 TextLocale: 'en' (en)
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zconfig] ZConfig.cc(ZConfig):808 SystemArchitecture: 'x86_64' (x86_64)
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zypp] PathInfo.cc(assert_dir):354 mkdir /var/tmp/zypp.9OiR25/zypper 30123
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zypper] Zypper.cc(Zypper):189 Zypper instance created.
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zypper] media.h(MediaCallbacks):204 Set media callbacks..
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <1> trenker(30123) [zypper] Zypper.cc(processGlobalOptions):300 START
+⇳
+./logs/OpenSUSE15/zypper.log┋20190523T085343.000000000┋2019-05-23 16:53:43 <5> trenker(30123) [Measure] Measure.cc(log):178 START MEASURE(ReadConfig)
+⇳

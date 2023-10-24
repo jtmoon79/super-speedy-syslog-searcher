@@ -1,0 +1,36 @@
+./logs/Ubuntu18/vmware-installer┋20190506T032434.032000000┋[2019-05-06 11:24:34,032] 
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.033000000┋[2019-05-06 11:24:34,033] 
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.033000000┋[2019-05-06 11:24:34,033] Installer running.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.033000000┋[2019-05-06 11:24:34,033] Command Line Arguments:
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.074000000┋[2019-05-06 11:24:34,074] Successfully loaded GTK libraries.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.147000000┋[2019-05-06 11:24:34,147] Using UI type gtk
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.156000000┋[2019-05-06 11:24:34,156] Opening database file /etc/vmware-installer/database
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.431000000┋[2019-05-06 11:24:34,431] Could not locate installer App Control.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.438000000┋[2019-05-06 11:24:34,438] Opening database file /etc/vmware-installer/database
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.565000000┋[2019-05-06 11:24:34,565] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/update.py already exists, overwriting.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.569000000┋[2019-05-06 11:24:34,569] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/versions.py already exists, overwriting.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.577000000┋[2019-05-06 11:24:34,577] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/systemType.py already exists, overwriting.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.586000000┋[2019-05-06 11:24:34,586] destination /tmp/tmpV4Bnej/.installer/15.0.3/__init__.py already exists, overwriting.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.598000000┋[2019-05-06 11:24:34,598] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/initscript.py already exists, overwriting.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.691000000┋[2019-05-06 11:24:34,691] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/update.py already exists, overwriting.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.695000000┋[2019-05-06 11:24:34,695] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/versions.py already exists, overwriting.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.703000000┋[2019-05-06 11:24:34,703] destination /tmp/tmpV4Bnej/.installer/15.0.3/include/systemType.py already exists, overwriting.
+⇳
+./logs/Ubuntu18/vmware-installer┋20190506T032434.712000000┋[2019-05-06 11:24:34,712] destination /tmp/tmpV4Bnej/.installer/15.0.3/__init__.py already exists, overwriting.
+⇳

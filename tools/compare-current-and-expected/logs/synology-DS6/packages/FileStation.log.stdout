@@ -1,0 +1,38 @@
+./logs/synology-DS6/packages/FileStation.log┋20190623T131154.000000000┋2019/06/23 21:11:54	upgrade FileStation 1.2.4-0255 Begin preupgrade
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131154.000000000┋2019/06/23 21:11:54	upgrade FileStation 1.2.4-0255 End preupgrade ret=[0]
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131154.000000000┋2019/06/23 21:11:54	upgrade FileStation 1.2.4-0255 Begin preuninst
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131154.000000000┋2019/06/23 21:11:54	upgrade FileStation 1.2.4-0255 End preuninst ret=[0]
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131154.000000000┋2019/06/23 21:11:54	upgrade FileStation 1.2.4-0255 Begin /bin/rm -rf /usr/local/packages/@appstore/FileStation
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131155.000000000┋2019/06/23 21:11:55	upgrade FileStation 1.2.4-0255 End /bin/rm -rf /usr/local/packages/@appstore/FileStation ret=[0]
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131155.000000000┋2019/06/23 21:11:55	upgrade FileStation 1.2.4-0255 Begin postuninst
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131155.000000000┋2019/06/23 21:11:55	upgrade FileStation 1.2.4-0255 End postuninst ret=[0]
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin preinst
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 End preinst ret=[0]
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin /bin/mv -f /var/tmp/pkginstall/package /usr/local/packages/@appstore/FileStation
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 End /bin/mv -f /var/tmp/pkginstall/package /usr/local/packages/@appstore/FileStation ret=[0]
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin /bin/mkdir -p /var/packages/FileStation
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 End /bin/mkdir -p /var/packages/FileStation ret=[0]
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin /bin/mv -f /var/tmp/pkginstall/INFO /var/packages/FileStation/INFO
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 End /bin/mv -f /var/tmp/pkginstall/INFO /var/packages/FileStation/INFO ret=[0]
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin /bin/rm -rf /var/packages/FileStation/scripts
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 End /bin/rm -rf /var/packages/FileStation/scripts ret=[0]
+⇳
+./logs/synology-DS6/packages/FileStation.log┋20190623T131156.000000000┋2019/06/23 21:11:56	upgrade FileStation 1.2.5-0269 Begin /bin/mv -f /var/tmp/pkginstall/scripts /var/packages/FileStation/scripts
+⇳

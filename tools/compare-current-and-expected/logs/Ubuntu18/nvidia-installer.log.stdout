@@ -1,0 +1,19 @@
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋creation time: Fri May 31 13:49:08 2019
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋installer version: 340.107
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋nvidia-installer command line:
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋    ./nvidia-installer
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋Unable to load: nvidia-installer ncurses v6 user interface
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋Using: nvidia-installer ncurses user interface
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋-> License accepted.
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋-> Installing NVIDIA driver version 340.107.
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋-> Running distribution scripts
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋   executing: '/usr/lib/nvidia/pre-install'...
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋-> done.
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋-> The distribution-provided pre-install script failed!  Are you sure you want to continue? (Answer: Abort installation)
+./logs/Ubuntu18/nvidia-installer.log┋20190531T054908.000000000┋ERROR: Installation has failed.  Please see the file '/var/log/nvidia-installer.log' for details.  You may find suggestions on fixing installation problems in the README available on the Linux driver download page at www.nvidia.com.
+⇳

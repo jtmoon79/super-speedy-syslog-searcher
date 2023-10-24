@@ -1,0 +1,48 @@
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Creating setup mutex...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost::InitializeComponents
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading ID: [e00a2784-f118-4224-ad5f-34438c2f3339] from [C:\$WINDOWS.~BT\Sources\SetupCore.dll]...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading complete.
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading AutomationManager manager...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading ID: [ddac9687-e84e-4a51-9ba9-355809d99999] from [C:\$WINDOWS.~BT\Sources\SetupCore.dll]...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Loading complete.
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Looking for automation file...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  MOUPG  SetupHost: Initializing automation...
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  SP     CSetupPlatform::Initialize: Setup log starts:
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  SP     SEH: Enter CExceptionHandler::CExceptionHandler
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  SP     SEH: Exit CExceptionHandler::CExceptionHandler
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  SP     Host system information:
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   VM: NO
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Firmware type: PCAT
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Manufacturer: ASUS
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Model : All Series
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   BIOS name : BIOS Date: 06/05/19 12:32:00 Ver: 25.04
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   BIOS version : 2009
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   BIOS release date : 20190605000000.000000+000
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Total memory : 25769803776
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Number of physical CPUs : 1
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Number of logical CPUs : 8
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Processor manufacturer : GenuineIntel
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Processor name : Intel(R) Xeon(R) CPU E3-1246 v3 @ 3.50GHz
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Processor caption : Intel64 Family 6 Model 60 Stepping 3
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Processor architecture : x64
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Processor clock : 3501
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                  SP     Antivirus software information:
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋                                   Name: Windows Defender, Path: %ProgramFiles%\Windows Defender\MsMpeng.exe, Timestamp: Thu, 13 Oct 2022 19:33:06 GMT, State: 397568
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋
+⇳
+./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log┋20221013T215647.000000000┋2022-10-14 05:56:47, Info                         SPGenerateCopyListFromConfigFile: Didn't find file list in C:\$WINDOWS.~BT\Sources\setupplatform.cfg, section Footprint.Basic.amd64⇳
+

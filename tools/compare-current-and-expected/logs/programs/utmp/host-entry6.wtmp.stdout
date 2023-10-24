@@ -1,0 +1,12 @@
+20230224T084027.123636000┋./logs/programs/utmp/host-entry6.wtmp┋USER_PROCESS ut_pid 13236 ut_line 'pts/0' ut_id 'ts/0' ut_user 'admin' ut_host '192.168.100.11' ut_session 0 ut_addr_v6 2F7CA8C0:0:0:0 e_termination 0 e_exit 0 1677228027.123636
+⇳
+20230224T084202.013372000┋./logs/programs/utmp/host-entry6.wtmp┋USER_PROCESS ut_pid 13898 ut_line 'pts/1' ut_id 'ts/1' ut_user 'admin' ut_host '192.168.100.11' ut_session 0 ut_addr_v6 2F7CA8C0:0:0:0 e_termination 0 e_exit 0 1677228122.13372
+⇳
+20230224T085124.381158000┋./logs/programs/utmp/host-entry6.wtmp┋USER_PROCESS ut_pid 15449 ut_line 'pts/2' ut_id 'ts/2' ut_user 'root' ut_host '192.168.100.12' ut_session 0 ut_addr_v6 B47CA8C0:0:0:0 e_termination 0 e_exit 0 1677228684.381158
+⇳
+20230224T085225.870871000┋./logs/programs/utmp/host-entry6.wtmp┋USER_PROCESS ut_pid 15946 ut_line 'pts/3' ut_id 'ts/3' ut_user 'root' ut_host '192.168.100.12' ut_session 0 ut_addr_v6 B47CA8C0:0:0:0 e_termination 0 e_exit 0 1677228745.870871
+⇳
+20230224T085226.517171000┋./logs/programs/utmp/host-entry6.wtmp┋DEAD_PROCESS ut_pid 13893 ut_line 'pts/1' ut_id '' ut_user '' ut_host '' ut_session 0 ut_addr_v6 0:0:0:0 e_termination 0 e_exit 0 1677228746.517171
+⇳
+20230224T085226.987104000┋./logs/programs/utmp/host-entry6.wtmp┋DEAD_PROCESS ut_pid 13209 ut_line 'pts/0' ut_id '' ut_user '' ut_host '' ut_session 0 ut_addr_v6 0:0:0:0 e_termination 0 e_exit 0 1677228746.987104
+⇳

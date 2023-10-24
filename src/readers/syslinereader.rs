@@ -983,7 +983,7 @@ impl SyslineReader {
         fileoffset: &FileOffset,
     ) -> bool {
         defn!("({})", fileoffset);
-        let mut ret = true;
+        let mut ret = false;
         let syslinep: SyslineP = match self
             .syslines
             .remove(fileoffset)
@@ -1019,14 +1019,13 @@ impl SyslineReader {
                 {
                     self.dropped_syslines.insert(sysline.fileoffset_begin());
                 }
-                if ! self.linereader.drop_lines(sysline.lines) {
-                    ret = false;
+                if self.linereader.drop_lines(sysline.lines) {
+                    ret = true;
                 }
             }
             Err(_syslinep) => {
                 defo!("Arc::try_unwrap(syslinep) failed to drop Sysline, strong_count {}", Arc::strong_count(&_syslinep));
                 self.drop_sysline_errors += 1;
-                ret = false;
             }
         }
         defx!("return {}", ret);

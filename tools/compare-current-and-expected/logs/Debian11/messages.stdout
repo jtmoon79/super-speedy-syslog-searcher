@@ -1,0 +1,41 @@
+./logs/Debian11/messages┋20221010T150716.000000000┋Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.6924] Linux version 5.10.0-11-amd64 (debian-kernel@lists.debian.org) (gcc-10 (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2) #1 SMP Debian 5.10.92-1 (2022-01-18)
+⇳
+./logs/Debian11/messages┋20221010T150716.000000000┋Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.6924] Command line: BOOT_IMAGE=/boot/vmlinuz-5.10.0-11-amd64 root=UUID=00000000-1111-2222-adf0-012345678911 ro console=tty0 console=ttyS0,6924 earlyprintk=ttyS0,6924 consoleblank=0 net.ifnames=0 biosdevname=0
+⇳
+./logs/Debian11/messages┋20221010T150716.000000000┋Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.6924] x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+⇳
+./logs/Debian11/messages┋20221010T150716.000000000┋Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.6924] x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+⇳
+./logs/Debian11/messages┋20221010T150716.000000000┋Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.6924] x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+⇳
+./logs/Debian11/messages┋20221010T150716.000000000┋Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.6924] x86/fpu: xstate_offset[2]:  576, xstate_sizes[2]:  256
+⇳
+./logs/Debian11/messages┋20221010T150716.000000000┋Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.6924] x86/fpu: Enabled xstate features 0x7, context size is 832 bytes, using 'standard' format.
+⇳
+./logs/Debian11/messages┋20221010T150716.000000000┋Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.6924] BIOS-provided physical RAM map:
+⇳
+./logs/Debian11/messages┋20221010T150716.000000000┋Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.6924] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
+⇳
+./logs/Debian11/messages┋20221010T150716.000000000┋Oct 10 23:07:16 debian-s-1vcpu-1gb-nyc1-01 kernel: [    0.6924] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+./logs/Debian11/messages┋20221010T150716.000000000┋
+⇳
+./logs/Debian11/messages┋20221010T160236.000000000┋Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 kernel: [    4.6924] audit: type=1400 audit(0123456789.592:5): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/bin/man" pid=293 comm="apparmor_parser"
+⇳
+./logs/Debian11/messages┋20221010T160236.000000000┋Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 kernel: [    4.6924] audit: type=1400 audit(0123456789.592:6): apparmor="STATUS" operation="profile_load" profile="unconfined" name="man_filter" pid=293 comm="apparmor_parser"
+⇳
+./logs/Debian11/messages┋20221010T160236.000000000┋Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 kernel: [    4.6924] audit: type=1400 audit(0123456789.592:7): apparmor="STATUS" operation="profile_load" profile="unconfined" name="man_groff" pid=293 comm="apparmor_parser"
+⇳
+./logs/Debian11/messages┋20221010T160236.000000000┋Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 kernel: [    4.6924] audit: type=1400 audit(0123456789.620:8): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/sbin/chronyd" pid=296 comm="apparmor_parser"
+⇳
+./logs/Debian11/messages┋20221010T160236.000000000┋Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 kernel: [    4.6924] qxl 0000:00:02.0: [drm] fb0: qxldrmfb frame buffer device
+⇳
+./logs/Debian11/messages┋20221010T160236.000000000┋Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 kernel: [    4.6924] audit: type=1400 audit(0123456789.676:9): apparmor="STATUS" operation="profile_load" profile="unconfined" name="tcpdump" pid=300 comm="apparmor_parser"
+⇳
+./logs/Debian11/messages┋20221010T160236.000000000┋Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 DigitalOcean: writing resolvers  to /etc/systemd/resolved.conf.d/DigitalOcean.conf
+⇳
+./logs/Debian11/messages┋20221010T160236.000000000┋Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 DigitalOcean: adding random seed to /dev/urandom
+⇳
+./logs/Debian11/messages┋20221010T160236.000000000┋Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 rsyslogd: imuxsock: Acquired UNIX socket '/run/systemd/journal/syslog' (fd 3) from systemd.  [v8.2102.0]
+⇳
+./logs/Debian11/messages┋20221010T160236.000000000┋Oct 11 00:02:36 debian-s-1vcpu-1gb-nyc1-01 rsyslogd: [origin software="rsyslogd" swVersion="8.2102.0" x-pid="562" x-info="https://www.rsyslog.com"] start⇳
+

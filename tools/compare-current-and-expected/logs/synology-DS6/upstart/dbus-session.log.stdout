@@ -1,0 +1,181 @@
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋2020-03-06T20:18:20-0800 method return sender=org.freedesktop.DBus -> dest=:1.0 reply_serial=2
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋   string "<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋<node>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋  <interface name="org.freedesktop.DBus">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="Hello">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="RequestName">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="ReleaseName">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="StartServiceByName">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="UpdateActivationEnvironment">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="a{ss}"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="NameHasOwner">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="b"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="ListNames">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="as"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="ListActivatableNames">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="as"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="AddMatch">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="RemoveMatch">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="GetNameOwner">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="ListQueuedOwners">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="as"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="GetConnectionUnixUser">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="GetConnectionUnixProcessID">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="GetAdtAuditSessionData">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="ay"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="GetConnectionSELinuxSecurityContext">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="ay"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="ReloadConfig">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="GetId">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <signal name="NameOwnerChanged">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </signal>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <signal name="NameLost">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </signal>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <signal name="NameAcquired">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </signal>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋  </interface>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋  <interface name="org.freedesktop.DBus.Introspectable">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    <method name="Introspect">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋      <arg direction="out" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋  </interface>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋</node>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T041820.000000000┋"
+⇳
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋2020-03-07T12:25:46-0800 method return sender=org.freedesktop.DBus -> dest=:1.0 reply_serial=2
+⇳
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋2020-03-07T12:25:46-0800    string "<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋<node>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋  <interface name="org.freedesktop.DBus">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="Hello">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="RequestName">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="ReleaseName">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="StartServiceByName">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="UpdateActivationEnvironment">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="a{ss}"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="NameHasOwner">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="b"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="ListNames">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="as"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="ListActivatableNames">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="as"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="AddMatch">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="RemoveMatch">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="GetNameOwner">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="ListQueuedOwners">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="as"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="GetConnectionUnixUser">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="GetConnectionUnixProcessID">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="u"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="GetAdtAuditSessionData">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="ay"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="GetConnectionSELinuxSecurityContext">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="in" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="ay"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="ReloadConfig">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="GetId">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <signal name="NameOwnerChanged">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </signal>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <signal name="NameLost">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </signal>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <signal name="NameAcquired">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </signal>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋  </interface>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋  <interface name="org.freedesktop.DBus.Introspectable">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    <method name="Introspect">
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋      <arg direction="out" type="s"/>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋    </method>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋  </interface>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋</node>
+./logs/synology-DS6/upstart/dbus-session.log┋20200307T202546.000000000┋"⇳
+

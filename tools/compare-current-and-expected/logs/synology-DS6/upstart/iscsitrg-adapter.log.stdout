@@ -1,0 +1,38 @@
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T043139.000000000┋2016-12-05T20:31:39-0800 Starting iscsitrg
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T043140.000000000┋2016-12-05T20:31:40-0800 :: Running lunbackup garbage collection ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T050059.000000000┋2016-12-05T21:00:59-0800 Stopped iscsitrg
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T050059.000000000┋2016-12-05T21:00:59-0800 initctl: Job has already been stopped: iscsi_pluginengined
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T051147.000000000┋2016-12-05T21:11:47-0800 Starting iscsitrg
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T051148.000000000┋2016-12-05T21:11:48-0800 :: Running lunbackup garbage collection ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T051553.000000000┋2016-12-05T21:15:53-0800 Stopped iscsitrg
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T051553.000000000┋2016-12-05T21:15:53-0800 iscsi_pluginengined stop/waiting
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T051607.000000000┋2016-12-05T21:16:07-0800 Starting iscsitrg
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T051608.000000000┋2016-12-05T21:16:08-0800 :: Running lunbackup garbage collection ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T053439.000000000┋2016-12-05T21:34:39-0800 Stopped iscsitrg
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T053439.000000000┋2016-12-05T21:34:39-0800 iscsi_pluginengined stop/waiting
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T053946.000000000┋2016-12-05T21:39:46-0800 Starting iscsitrg
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20161206T053947.000000000┋2016-12-05T21:39:47-0800 :: Running lunbackup garbage collection ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20170103T093548.000000000┋2017-01-03T01:35:48-0800 Stopped iscsitrg
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20170103T093548.000000000┋2017-01-03T01:35:48-0800 iscsi_pluginengined stop/waiting
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20170103T094057.000000000┋2017-01-03T01:40:57-0800 Starting iscsitrg
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20170103T094058.000000000┋2017-01-03T01:40:58-0800 :: Running lunbackup garbage collection ... [  OK  ]
+⇳
+./logs/synology-DS6/upstart/iscsitrg-adapter.log┋20170104T075643.000000000┋2017-01-03T23:56:43-0800 Starting iscsitrg
+⇳
