@@ -20,6 +20,8 @@ use std::borrow::Cow;
 use std::ffi::OsStr;
 use std::fs::File;
 use std::path::Path;
+#[cfg(test)]
+use std::str::FromStr; // for `String::from_str`
 
 #[doc(hidden)]
 pub use ::mime_guess::MimeGuess;
@@ -53,6 +55,60 @@ pub enum ProcessPathResult {
     FileErrNotExist(FPath),
     /// Error loading necessary shared libraries
     FileErrLoadingLibrary(FPath, &'static str, FileType),
+}
+
+#[cfg(test)]
+/// helper to `copy_process_path_result_canonicalize_path`
+fn canonicalize_fpath(fpath: &FPath) -> FPath {
+    let path: &Path = fpath_to_path(fpath);
+    match path.canonicalize() {
+        Ok(pathbuf) => {
+            let s = FPath::from_str(pathbuf.to_str().unwrap());
+            return s.unwrap();
+        }
+        Err(_) => {
+            // best effort: return the value passed-in
+            return fpath.clone();
+        }
+    }
+}
+
+#[cfg(test)]
+/// Test helper to canonicalize the path contained by `ProcessPathResult`
+///
+/// Some Windows hosts return the MS-DOS shortened form of a path.
+/// Later, that will fail comparisons to the canonical full form of the same
+/// path.
+/// e.g. `"C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\.tmp6TC2W5\\file1"`
+///      !=
+///      `"C:\\Users\\runneradmin\\AppData\\Local\\Temp\\.tmp6TC2W5\\file1"`
+/// This function should resolve the first string to the second string.
+pub(crate) fn copy_process_path_result_canonicalize_path(ppr: ProcessPathResult) -> ProcessPathResult {
+    match ppr {
+        ProcessPathResult::FileValid(fpath, m, f) => {
+            let fpath_c = canonicalize_fpath(&fpath);
+            return ProcessPathResult::FileValid(fpath_c, m, f);
+        }
+        ProcessPathResult::FileErrNoPermissions(fpath, m) => {
+            let fpath_c = canonicalize_fpath(&fpath);
+            return ProcessPathResult::FileErrNoPermissions(fpath_c, m);
+        }
+        ProcessPathResult::FileErrNotSupported(fpath, m) => {
+            let fpath_c = canonicalize_fpath(&fpath);
+            return ProcessPathResult::FileErrNotSupported(fpath_c, m);
+        }
+        ProcessPathResult::FileErrNotAFile(fpath) => {
+            let fpath_c = canonicalize_fpath(&fpath);
+            return ProcessPathResult::FileErrNotAFile(fpath_c);
+        }
+        ProcessPathResult::FileErrNotExist(fpath) => {
+            let fpath_c = canonicalize_fpath(&fpath);
+            return ProcessPathResult::FileErrNotExist(fpath_c);
+        }
+        ret => {
+            return ret;
+        }
+    }
 }
 
 pub type ProcessPathResults = Vec<ProcessPathResult>;
