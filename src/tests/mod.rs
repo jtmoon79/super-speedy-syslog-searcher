@@ -25,4 +25,5 @@ pub mod sysline_tests;
 pub mod syslinereader_tests;
 pub mod syslogprocessor_tests;
 pub mod utmpxreader_tests;
+#[cfg(not(target_os="macos"))]
 pub mod utmpx_tests;
