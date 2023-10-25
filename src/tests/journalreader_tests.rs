@@ -182,6 +182,7 @@ fn test_errno_to_errorkind() {
     assert_eq!(ErrorKind::PermissionDenied, ek);
 }
 
+#[cfg(not(target_os="windows"))]
 #[test_case(&JOURNAL_FILE_RHE_91_SYSTEM_FPATH)]
 #[test_case(&JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH)]
 fn test_mtime(path: &FPath) {
@@ -196,6 +197,7 @@ fn test_mtime(path: &FPath) {
 }
 
 /// test creating a new `JournalReader`
+#[cfg(not(target_os="windows"))]
 #[test_case(&NTF_JOURNAL_EMPTY_FPATH, false)]
 #[test_case(&FPath::from("BAD PATH"), false)]
 #[test_case(&*JOURNAL_FILE_RHE_91_SYSTEM_FPATH, true)]
@@ -216,7 +218,37 @@ fn test_JournalReader_new_(path: &FPath, ok: bool) {
     }
 }
 
+/// test loading systemd on Windows
+#[cfg(target_os="windows")]
+#[test]
+fn test_load_library_systemd_windows() {
+    match load_library_systemd() {
+        LoadLibraryError::Err(_err) => {}
+        _ => {
+            panic!("load_library_systemd succeeded on Windows which is unexpected")
+        }
+    }
+}
+
+/// test creating a new `JournalReader` on Windows
+#[cfg(target_os="windows")]
+#[test]
+#[should_panic]
+fn test_JournalReader_new_windows() {
+    match JournalReader::new(
+        NTF_JOURNAL_EMPTY_FPATH.clone(),
+        JournalOutput::Short,
+        *FO_0,
+    ) {
+        Ok(_) => {
+            panic!("JournalReader::new succeeded on Windows which is unexpected")
+        }
+        Err(_err) => {}
+    }
+}
+
 /// test the output of the first entry returned by `JournalReader::next()`
+#[cfg(not(target_os="windows"))]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::Short,
@@ -319,6 +351,7 @@ fn test_JournalReader_entry1_output(
 }
 
 /// test the summary statistics after processing the entire file
+#[cfg(not(target_os="windows"))]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     *JOURNAL_FILE_RHE_91_SYSTEM_EVENT_FILESZ,

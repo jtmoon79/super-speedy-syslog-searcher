@@ -507,6 +507,7 @@ pub struct imaxdiv_t {
     pub quot: ::std::os::raw::c_long,
     pub rem: ::std::os::raw::c_long,
 }
+#[cfg(not(target_os="windows"))]
 #[test]
 fn bindgen_test_layout_imaxdiv_t() {
     assert_eq!(
@@ -615,6 +616,7 @@ pub type register_t = ::std::os::raw::c_long;
 pub struct __sigset_t {
     pub __val: [::std::os::raw::c_ulong; 16usize],
 }
+#[cfg(not(target_os="windows"))]
 #[test]
 fn bindgen_test_layout___sigset_t() {
     assert_eq!(
@@ -645,6 +647,7 @@ pub struct timeval {
     pub tv_sec: __time_t,
     pub tv_usec: __suseconds_t,
 }
+#[cfg(not(target_os="windows"))]
 #[test]
 fn bindgen_test_layout_timeval() {
     assert_eq!(
@@ -684,6 +687,7 @@ pub struct timespec {
     pub tv_sec: __time_t,
     pub tv_nsec: __syscall_slong_t,
 }
+#[cfg(not(target_os="windows"))]
 #[test]
 fn bindgen_test_layout_timespec() {
     assert_eq!(
@@ -724,6 +728,7 @@ pub type __fd_mask = ::std::os::raw::c_long;
 pub struct fd_set {
     pub __fds_bits: [__fd_mask; 16usize],
 }
+#[cfg(not(target_os="windows"))]
 #[test]
 fn bindgen_test_layout_fd_set() {
     assert_eq!(
@@ -1049,6 +1054,7 @@ pub struct __pthread_rwlock_arch_t {
     pub __pad2: ::std::os::raw::c_ulong,
     pub __flags: ::std::os::raw::c_uint,
 }
+#[cfg(not(target_os="windows"))]
 #[test]
 fn bindgen_test_layout___pthread_rwlock_arch_t() {
     assert_eq!(
