@@ -9,7 +9,7 @@ use crate::bindings::sd_journal_h::{
     size_t,
     sd_journal,
 };
-
+use std::fmt;
 use std::sync::{RwLock, Arc};
 
 #[cfg(not(windows))]
@@ -276,6 +276,40 @@ pub enum LoadLibraryError {
     /// A previous attempt to load the library failed (the previous attempt
     /// returned `Err`). No more attempts will be made to load the library.
     PrevErr,
+}
+
+impl PartialEq for LoadLibraryError {
+    /// allow `Err` == `PrevErr`
+    fn eq(&self, other: &LoadLibraryError) -> bool {
+        match (self, other) {
+            (&LoadLibraryError::Ok, &LoadLibraryError::Ok) |
+            (&LoadLibraryError::Err(_), &LoadLibraryError::Err(_)) |
+            (&LoadLibraryError::Err(_), &LoadLibraryError::PrevErr) |
+            (&LoadLibraryError::PrevErr, &LoadLibraryError::Err(_)) |
+            (&LoadLibraryError::PrevErr, &LoadLibraryError::PrevErr) => true,
+            _ => false,
+        }
+    }
+}
+impl Eq for LoadLibraryError {}
+
+impl fmt::Debug for LoadLibraryError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            LoadLibraryError::Ok => {
+                f.debug_struct("LoadLibraryError::Ok")
+                .finish()
+            }
+            LoadLibraryError::Err(_) => {
+                f.debug_struct("LoadLibraryError::Err")
+                .finish()
+            }
+            LoadLibraryError::PrevErr => {
+                f.debug_struct("LoadLibraryError::PrevErr")
+                .finish()
+            }
+        }
+    }
 }
 
 /// Wrapper to set the global static variables.

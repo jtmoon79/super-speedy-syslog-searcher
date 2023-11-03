@@ -2321,20 +2321,31 @@ const UTMPX1: utmpx = utmpx {
 
 */
 
+pub const SYSTEMD_NOT_AVAILABLE: bool = cfg!(target_os = "windows") || cfg!(target_os = "macos");
+pub const UTMPX_NON_STANDARD: bool = cfg!(target_os = "macos");
+
+// utmpx file formats differ among Unixii
+// See this difference in Mac OS and Linux
+//     https://github.com/libyal/dtformats/blob/55007dcac48efff42c497e739208ebfb88e4048d/documentation/Utmp%20login%20records%20format.asciidoc
+// See Issue #217
+
 /// scraped `/var/log/utmp` file, manually modified
 ///
-/// ut_type INIT_PROCESS 5
-/// ut_pid 41908
-/// ut_line 'pts/1'
-/// ut_id 'ts/1'
-/// ut_user 'admin'
-/// ut_host '192.168.1.5'
-/// ut_session 25
-/// addr_v6 2F7CA8C0:B5:0:0
-/// e_termination 7
-/// e_exit 1
-/// tv_sec.tv_usec 1577836800.119284 (2020-01-01T12:00:00.000119284+00:00)
+/// 384 bytes
 ///
+/// - ut_type INIT_PROCESS 5
+/// - ut_pid 41908
+/// - ut_line 'pts/1'
+/// - ut_id 'ts/1'
+/// - ut_user 'admin'
+/// - ut_host '192.168.1.5'
+/// - ut_session 25
+/// - addr_v6 2F7CA8C0:B5:0:0
+/// - e_termination 7
+/// - e_exit 1
+/// - tv_sec.tv_usec 1577836800.119284 (2020-01-01T12:00:00.000119284+00:00)
+///
+#[cfg(not(target_os = "macos"))]
 pub const UTMPX_BUFFER1: [u8; UTMPX_SZ] = [
     0x05, 0x00, 0x02, 0x00, 0xb4, 0xa3, 0x00, 0x00, b'p', b't',
     b's', b'/', b'1', 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -2376,20 +2387,26 @@ pub const UTMPX_BUFFER1: [u8; UTMPX_SZ] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
 ];
+/// same as the other `UTMPX_BUFFER1` but 640 bytes
+#[cfg(target_os = "macos")]
+pub const UTMPX_BUFFER1: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
 
 /// two seconds after `UTMPX_BUFFER1`
 ///
-/// ut_type USER_PROCESS 7
-/// ut_pid 13236
-/// ut_line 'pts/0'
-/// ut_id 'ts/0'
-/// ut_user 'root'
-/// ut_host '192.168.1.4'
-/// ut_session 5
-/// e_termination 7
-/// e_exit 3
-/// tv_sec.tv_usec 1577836802.000123636 (2020-01-01T12:00:02.000123636+00:00)
+/// 384 bytes
 ///
+/// - ut_type USER_PROCESS 7
+/// - ut_pid 13236
+/// - ut_line 'pts/0'
+/// - ut_id 'ts/0'
+/// - ut_user 'root'
+/// - ut_host '192.168.1.4'
+/// - ut_session 5
+/// - e_termination 7
+/// - e_exit 3
+/// - tv_sec.tv_usec 1577836802.000123636 (2020-01-01T12:00:02.000123636+00:00)
+///
+#[cfg(not(target_os = "macos"))]
 pub const UTMPX_BUFFER2: [u8; UTMPX_SZ] = [
     0x07, 0x00, 0x00, 0x00, 0xb4, 0x33, 0x00, 0x00, 0x70, 0x74,
     0x73, 0x2f, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -2431,20 +2448,26 @@ pub const UTMPX_BUFFER2: [u8; UTMPX_SZ] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
 ];
+/// same as the other `UTMPX_BUFFER2` but 640 bytes
+#[cfg(target_os = "macos")]
+pub const UTMPX_BUFFER2: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
 
 /// four seconds after `UTMPX_BUFFER1`
 ///
-/// ut_type USER_PROCESS 7
-/// ut_pid 13236
-/// ut_line 'pts/0'
-/// ut_id 'ts/0'
-/// ut_user 'root'
-/// ut_host '192.168.1.4'
-/// ut_session 5
-/// e_termination 7
-/// e_exit 3
-/// tv_sec.tv_usec 1577836804.000123636 (2020-01-01T12:00:04.000123636+00:00)
+/// 384 bytes
 ///
+/// - ut_type USER_PROCESS 7
+/// - ut_pid 13236
+/// - ut_line 'pts/0'
+/// - ut_id 'ts/0'
+/// - ut_user 'root'
+/// - ut_host '192.168.1.4'
+/// - ut_session 5
+/// - e_termination 7
+/// - e_exit 3
+/// - tv_sec.tv_usec 1577836804.000123636 (2020-01-01T12:00:04.000123636+00:00)
+///
+#[cfg(not(target_os = "macos"))]
 pub const UTMPX_BUFFER3: [u8; UTMPX_SZ] = [
     0x07, 0x00, 0x00, 0x00, 0xb4, 0x33, 0x00, 0x00, 0x70, 0x74,
     0x73, 0x2f, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -2486,6 +2509,9 @@ pub const UTMPX_BUFFER3: [u8; UTMPX_SZ] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
 ];
+/// same as the other `UTMPX_BUFFER3` but 640 bytes
+#[cfg(target_os = "macos")]
+pub const UTMPX_BUFFER3: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
 
 pub const UTMPX_BUFFER_00: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
 pub const UTMPX_BUFFER_55: [u8; UTMPX_SZ] = [0x55; UTMPX_SZ];

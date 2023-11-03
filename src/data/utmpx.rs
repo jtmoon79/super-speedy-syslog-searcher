@@ -189,7 +189,7 @@ cfg_supports_uapi_not!{
 
 // end copied code from crate `uapi` under MIT license
 
-/// [`size_of::<utmpx>`] (384).
+/// [`size_of::<utmpx>`]; 384 typically, 640 on Mac OS.
 ///
 /// [`size_of::<utmpx>`]: std::mem::size_of
 pub const UTMPX_SZ: usize = size_of::<utmpx>();
