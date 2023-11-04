@@ -72,6 +72,7 @@ jobs:
         shell: bash
         run: |
           set -eux
+          rustup override set ${{ matrix.msrv }}
           rustc --print cfg
           cargo --version
           cargo build --verbose
@@ -171,6 +172,71 @@ jobs:
       #     SCRIPT=./tools/valgrind-dhat.sh
       #     chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
       #     "${SCRIPT}"
+
+  job_cross_targets:
+    name: cross check ${{ matrix.target }}
+    # TODO: uncomment `needs`
+    # needs: [job_rust_release_channel, job_rust_msrv_os]
+    strategy:
+      matrix:
+        target:
+          # from https://doc.rust-lang.org/nightly/rustc/platform-support.html
+          # listings should follow the same order
+          # Tier 1
+          - aarch64-unknown-linux-gnu
+          - i686-pc-windows-gnu
+          - i686-pc-windows-msvc
+          - i686-unknown-linux-gnu
+          - x86_64-apple-darwin
+          - x86_64-pc-windows-gnu
+          - x86_64-pc-windows-msvc
+          - x86_64-unknown-linux-gnu
+          # Tier 2 w host tools
+          - aarch64-apple-darwin
+          - aarch64-pc-windows-msvc
+          - aarch64-unknown-linux-musl
+          - arm-unknown-linux-gnueabi
+          - arm-unknown-linux-gnueabihf
+          - armv7-unknown-linux-gnueabihf
+          - loongarch64-unknown-linux-gnu
+          - powerpc-unknown-linux-gnu
+          - powerpc64-unknown-linux-gnu
+          - powerpc64le-unknown-linux-gnu
+          - riscv64gc-unknown-linux-gnu
+          - s390x-unknown-linux-gnu
+          - x86_64-unknown-freebsd
+          - x86_64-unknown-illumos
+          - x86_64-unknown-linux-musl
+          - x86_64-unknown-netbsd
+          # Tier 2 without host tools
+          # just a few chosen
+          - x86_64-sun-solaris
+          - wasm32-unknown-emscripten
+          - aarch64-apple-ios
+          - aarch64-linux-android
+          - wasm32-unknown-unknown
+          - wasm32-wasi
+          - x86_64-apple-ios
+          - x86_64-linux-android
+          # Tier 3
+          - i686-unknown-netbsd
+          - i686-unknown-openbsd
+          - x86_64-unknown-openbsd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: cargo install cross
+      - uses: Swatinem/rust-cache@v2
+      - run: |
+          set -eux
+          rustup target add ${{ matrix.target }}
+          cross --version
+          cross check --target ${{ matrix.target }}
 
   job_check:
     # this job downloads and builds dependency crates
