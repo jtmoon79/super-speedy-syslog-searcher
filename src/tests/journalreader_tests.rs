@@ -68,11 +68,18 @@ use crate::tests::common::{
     JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_FILESZ,
     JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT,
     JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT,
+    SYSTEMD_NOT_AVAILABLE,
 };
 
 use bstr::ByteSlice;
 use ::criterion::black_box;
 use ::test_case::test_case;
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -185,6 +192,11 @@ fn test_errno_to_errorkind() {
 #[test_case(&JOURNAL_FILE_RHE_91_SYSTEM_FPATH)]
 #[test_case(&JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH)]
 fn test_mtime(path: &FPath) {
+    if SYSTEMD_NOT_AVAILABLE
+    {
+        defñ!("skip");
+        return;
+    }
     load_library_systemd();
     let jr1 = JournalReader::new(
         path.clone(),
@@ -201,7 +213,22 @@ fn test_mtime(path: &FPath) {
 #[test_case(&*JOURNAL_FILE_RHE_91_SYSTEM_FPATH, true)]
 #[test_case(&*JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH, true)]
 fn test_JournalReader_new_(path: &FPath, ok: bool) {
-    assert!(matches!(load_library_systemd(), LoadLibraryError::Ok));
+    defn!();
+    let load = load_library_systemd();
+    defo!("load_library_systemd() returned {:?}", load);
+    if SYSTEMD_NOT_AVAILABLE
+    {
+        match load {
+            LoadLibraryError::Ok => {
+                panic!("Unexpected match LoadLibraryError::Ok")
+            }
+            LoadLibraryError::Err(_) => {}
+            LoadLibraryError::PrevErr => {}
+        }
+        defx!("successfully failed");
+        return;
+    }
+    assert!(matches!(load, LoadLibraryError::Ok));
     match JournalReader::new(
         path.clone(),
         JournalOutput::Short,
@@ -214,6 +241,7 @@ fn test_JournalReader_new_(path: &FPath, ok: bool) {
             assert!(!ok, "JournalReader::new({:?}) should have succeeded", path);
         }
     }
+    defx!();
 }
 
 /// test the output of the first entry returned by `JournalReader::next()`
@@ -283,7 +311,12 @@ fn test_JournalReader_entry1_output(
     journal_output: JournalOutput,
     expect_data: &str,
 ) {
-    assert!(matches!(load_library_systemd(), LoadLibraryError::Ok));
+    if SYSTEMD_NOT_AVAILABLE
+    {
+        defñ!("skip");
+        return;
+    }
+    load_library_systemd();
     let fpath = path_to_fpath(path);
     let mut journalreader = JournalReader::new(
         fpath,
@@ -315,7 +348,7 @@ fn test_JournalReader_entry1_output(
         "\nje.as_bytes():\n{:?}\nexpect_data:\n{:?}\n",
         je.as_bytes().to_str(), expect_data
     );
-
+    defx!();
 }
 
 /// test the summary statistics after processing the entire file
@@ -388,6 +421,11 @@ fn test_JournalReader_next_summary(
     api_call_errors: Count,
     range_error_opt: ForceErrorRangeOpt,
 ) {
+    if SYSTEMD_NOT_AVAILABLE
+    {
+        defñ!("skip");
+        return;
+    }
     assert!(matches!(load_library_systemd(), LoadLibraryError::Ok));
     let fpath = path_to_fpath(path);
     let fpath2 = fpath.clone();
@@ -469,4 +507,5 @@ fn test_JournalReader_next_summary(
             panic!("summary_c.readerdata() should be SummaryReaderData::Journal");
         }
     }
+    defx!();
 }

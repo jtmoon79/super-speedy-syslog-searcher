@@ -47,6 +47,7 @@ use crate::tests::common::{
 };
 use crate::common::{FPath, FileType, Path};
 use crate::readers::filepreprocessor::{
+    copy_process_path_result_canonicalize_path,
     fpath_to_filetype,
     fpath_to_filetype_mimeguess,
     mimeguess_to_filetype,
@@ -172,26 +173,55 @@ fn test_fpath_to_filetype(
 
 fn test_process_path_fpath(
     path: &FPath,
-    checks: &Vec<ProcessPathResult>,
+    checks: Vec<ProcessPathResult>,
 ) {
     defn!("({:?}, …)", path);
     let results = process_path(path);
-    for check in checks.iter() {
+    for (i, result) in results.iter().enumerate() {
+        defo!("result[{}] = {:?}", i, result);
+    }
+    // XXX: create a copy of `results`, canonicalize every `fpath` within each `ProcessPathResult`
+    //      on some Windows systems, `process_path` will return an MS-DOS shortened form of a path
+    //      e.g. `"C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\.tmp6TC2W5\\file1"`
+    //           !=
+    //           `"C:\\Users\\runneradmin\\AppData\\Local\\Temp\\.tmp6TC2W5\\file1"`
+    //      So try harder to make sure the comparison succeeds.
+    let mut results_can: Vec<ProcessPathResult> = vec![];
+    for result in results.into_iter() {
+        let result_can = copy_process_path_result_canonicalize_path(result);
+        results_can.push(result_can);
+    }
+    for (i, result_can) in results_can.iter().enumerate() {
+        defo!("result_can[{}] = {:?}", i, result_can);
+    }
+    // create copy of `checks` for the same reason as `results_can` above
+    let mut checks_can: Vec<ProcessPathResult> = vec![];
+    for check in checks.into_iter() {
+        let check_can = copy_process_path_result_canonicalize_path(check);
+        checks_can.push(check_can);
+    }
+    for (i, check_can) in checks_can.iter().enumerate() {
+        defo!("check_can[{}] = {:?}", i, check_can);
+    }
+    // check that each `check` is in the `results`
+    for (i, check) in checks_can.iter().enumerate() {
+        defo!("check[{}] = {:?}", i, check);
         assert!(
-            results.contains(check),
+            results_can.contains(check),
             "\nprocess_path({:?})\n  the check {:?}\n  is not contained in the results:\n       {:?}\n",
             path,
             check,
-            results,
+            results_can,
         );
     }
-    for result in results.iter() {
+    // check that each `result` is in the `checks`
+    for result in results_can.iter() {
         assert!(
-            checks.contains(result),
+            checks_can.contains(result),
             "\nprocess_path({:?})\n  the result {:?}\n  is not contained in the checks:\n       {:?}\n",
             path,
             result,
-            checks,
+            checks_can,
         );
     }
     defx!();
@@ -199,69 +229,69 @@ fn test_process_path_fpath(
 
 fn test_process_path_ntf(
     ntf: &NamedTempFile,
-    check: &Vec<ProcessPathResult>,
+    checks: Vec<ProcessPathResult>,
 ) {
     stack_offset_set(Some(2));
     let path = ntf_fpath(ntf);
-    test_process_path_fpath(&path, check);
+    test_process_path_fpath(&path, checks);
 }
 
 // test individual files
 
 #[test]
 fn test_process_path_1_log() {
-    let check: Vec<ProcessPathResult> = vec![
+    let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_LOG_EMPTY_FPATH.clone(),
             *NTF_LOG_EMPTY_MIMEGUESS,
             NTF_LOG_EMPTY_FILETYPE,
         ),
     ];
-    test_process_path_ntf(&NTF_LOG_EMPTY, &check);
+    test_process_path_ntf(&NTF_LOG_EMPTY, checks);
 }
 
 #[test]
 fn test_process_path_1_gz() {
-    let check: Vec<ProcessPathResult> = vec![
+    let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_GZ_EMPTY_FPATH.clone(),
             *NTF_GZ_EMPTY_MIMEGUESS,
             NTF_GZ_EMPTY_FILETYPE,
         ),
     ];
-    test_process_path_ntf(&NTF_GZ_EMPTY, &check);
+    test_process_path_ntf(&NTF_GZ_EMPTY, checks);
 }
 
 #[test]
 fn test_process_path_1_tar() {
-    let check: Vec<ProcessPathResult> = vec![
+    let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_TAR_1BYTE_FILEA_FPATH.clone(),
             *NTF_TAR_1BYTE_FILEA_MIMEGUESS,
             NTF_TAR_1BYTE_FILEA_FILETYPE,
         ),
     ];
-    test_process_path_ntf(&NTF_TAR_1BYTE, &check);
+    test_process_path_ntf(&NTF_TAR_1BYTE, checks);
 }
 
 #[test]
 fn test_process_path_1_tgz() {
     // XXX: TarGz is recognized but not supported Issue #14
-    let check: Vec<ProcessPathResult> = vec![
+    let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_TGZ_8BYTE_FPATH.clone(),
             *NTF_TGZ_8BYTE_MIMEGUESS,
             NTF_TGZ_8BYTE_FILETYPE,
         ),
     ];
-    test_process_path_ntf(&NTF_TGZ_8BYTE, &check);
+    test_process_path_ntf(&NTF_TGZ_8BYTE, checks);
 }
 
 #[test]
 fn test_process_path_1_not_exist() {
     let path: FPath = FPath::from("/THIS/FILE/DOES/NOT/EXIST!");
-    let check: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotExist(path.clone())];
-    test_process_path_fpath(&path, &check);
+    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotExist(path.clone())];
+    test_process_path_fpath(&path, checks);
 }
 
 #[test]
@@ -272,8 +302,8 @@ fn test_process_path_1_not_a_file() {
         defo!("Path '{:?}' does not exist, pass test", fpath);
         return;
     }
-    let check: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotAFile(fpath.clone())];
-    test_process_path_fpath(&fpath, &check);
+    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotAFile(fpath.clone())];
+    test_process_path_fpath(&fpath, checks);
 }
 
 // test directories of files
@@ -283,10 +313,10 @@ fn test_process_path_dir1_file1() {
     let filenames = &[FPath::from("file1")];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let check: Vec<ProcessPathResult> =
+    let checks: Vec<ProcessPathResult> =
         vec![ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), *MIMEGUESS_EMPTY, FileType::File)];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), &check);
+    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
 }
 
 #[test]
@@ -297,12 +327,12 @@ fn test_process_path_dir2_file1_txt1() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let check: Vec<ProcessPathResult> = vec![
+    let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), *MIMEGUESS_EMPTY, FileType::File),
         ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), *MIMEGUESS_TXT, FileType::File),
     ];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), &check);
+    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
 }
 
 #[test]
@@ -314,13 +344,13 @@ fn test_process_path_dir3_gz1_tar1_txt1() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let check: Vec<ProcessPathResult> = vec![
+    let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), *MIMEGUESS_GZ, FileType::Gz),
         // no .tar file in results
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), *MIMEGUESS_TXT, FileType::File),
     ];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), &check);
+    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
 }
 
 #[test]
@@ -330,10 +360,10 @@ fn test_process_path_dir4_dirA_file1() {
     )];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let check: Vec<ProcessPathResult> =
+    let checks: Vec<ProcessPathResult> =
         vec![ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), *MIMEGUESS_TXT, FileType::File)];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), &check);
+    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
 }
 
 #[test]
@@ -347,13 +377,13 @@ fn test_process_path_dir5_dirABC_files3() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let check: Vec<ProcessPathResult> = vec![
+    let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), *MIMEGUESS_TXT, FileType::File),
         ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), *MIMEGUESS_TXT, FileType::File),
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), *MIMEGUESS_GZ, FileType::Gz),
     ];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), &check);
+    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
 }
 
 #[test]
@@ -368,7 +398,7 @@ fn test_process_path_dir6_dirABC_files6() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let check: Vec<ProcessPathResult> = vec![
+    let checks: Vec<ProcessPathResult> = vec![
         // fileA12.tar will not be in results
         ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), *MIMEGUESS_GZ, FileType::Gz),
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), *MIMEGUESS_XZ, FileType::Xz),
@@ -377,7 +407,7 @@ fn test_process_path_dir6_dirABC_files6() {
         ProcessPathResult::FileErrNotSupported(fpaths.get(5).unwrap().clone(), *MIMEGUESS_TARGZ),
     ];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), &check);
+    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
 }
 
 #[test]
@@ -390,7 +420,7 @@ fn test_process_path_dir7_dirAB_files4() {
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
-    let check: Vec<ProcessPathResult> = vec![
+    let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             fpaths.get(0).unwrap().clone(), MimeGuess::from_ext("journal"), FileType::Journal
         ),
@@ -405,7 +435,7 @@ fn test_process_path_dir7_dirAB_files4() {
         ),
     ];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), &check);
+    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
 }
 
 // -------------------------------------------------------------------------------------------------

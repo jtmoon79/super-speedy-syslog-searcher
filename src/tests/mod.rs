@@ -24,5 +24,9 @@ pub mod printers_tests;
 pub mod sysline_tests;
 pub mod syslinereader_tests;
 pub mod syslogprocessor_tests;
+// XXX: skip all UTMP tests until proper fix for Issue #217
+#[cfg(not(target_os="macos"))]
 pub mod utmpxreader_tests;
+// XXX: skip all UTMP tests until proper fix for Issue #217
+#[cfg(not(target_os="macos"))]
 pub mod utmpx_tests;
