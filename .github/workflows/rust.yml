@@ -242,7 +242,7 @@ jobs:
       - run: |
           set -eux
           cross --version
-          cross check --target ${{ matrix.target }}
+          cross check --lib --bins --target ${{ matrix.target }}
 
   job_check:
     # this job downloads and builds dependency crates
