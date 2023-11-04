@@ -278,17 +278,6 @@ jobs:
         uses: cargo-bins/cargo-binstall@main
       - name: install nextest binary
         run: cargo binstall -y --force cargo-nextest
-      - name: create log.tgz
-        shell: bash
-        run: |
-          set -eux
-          uname -a
-          sudo -- tar -zcvf /tmp/log.tgz /var/log/
-      - name: upload log.tgz
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.os }} log.tgz
-          path: /tmp/log.tgz
       - name: nextest (all)
         shell: bash
         run: |
