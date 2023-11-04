@@ -10,11 +10,13 @@ on:
     paths:
       - .github/**
       - Cargo.toml
+      - Cargo.lock
       - src/**.rs
   pull_request:
     paths:
       - .github/**
       - Cargo.toml
+      - Cargo.lock
       - src/**.rs
       - benches/**
 env:
