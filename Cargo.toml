@@ -94,7 +94,6 @@ arraystring = "0.3.0"
 criterion = "0.4.0"
 filepath = "0.1.2"
 filetime = "0.2.22"
-flamegraph = "0.6.3"
 jetscii = "0.5.3"
 memchr = "2.6.4"
 tempdir = "0.3.7"
@@ -110,6 +109,8 @@ panic = "abort"
 strip = true
 
 [profile.flamegraph]
+# XXX: requires manual install of `flamegraph`
+#      not added to `dev-dependencies` due to MSRV 1.70.0
 inherits = "release"
 codegen-units = 16
 panic = "unwind"
