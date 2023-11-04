@@ -24,7 +24,7 @@ env:
   RUST_BACKTRACE: 1
   # default rust version
   # should match first value in matrix.msrv
-  MSRV_UPLOAD: "1.66.0"
+  MSRV_UPLOAD: "1.67.0"
   # rust version for grcov job
   # should be equal or greater than $MSRV_UPLOAD
   VERSION_GRCOV: "1.67.0"
@@ -58,7 +58,7 @@ jobs:
         # first `msrv` should match Cargo.toml:[package]:rust-version
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
-        msrv: ["1.66.0", "1.68.0", "1.70.0", "1.72.0"]
+        msrv: ["1.67.0", "1.68.0", "1.70.0", "1.72.0"]
     runs-on: ${{ matrix.os }}
     steps:
       # Issue #62: `git config` to workaround `git checkout` error on Windows

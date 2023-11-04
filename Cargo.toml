@@ -15,7 +15,7 @@ readme = "README.md"
 version = "0.6.68"
 edition = "2021"
 # `rust-version` (MSRV) should match ./github/workflows/rust.yml:rust_msrv:msrv
-rust-version = "1.66.0"
+rust-version = "1.67.0"
 # Do not set metadata fields `documentation` or `homepage` unless using
 # non-standard websites.
 # See <https://rust-lang.github.io/api-guidelines/documentation.html#cargotoml-includes-all-common-metadata-c-metadata>
@@ -35,7 +35,7 @@ exclude = [
 [dependencies]
 bstr = "1.7.0"
 chrono = "0.4.28"
-clap = { version = "4.1.0", features = ["derive"] }
+clap = { version = "=4.1.0", features = ["derive"] }
 const_format = "0.2.31"
 crossbeam-channel = "0.5.8"
 dlopen2 = "0.6"
