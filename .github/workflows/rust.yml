@@ -68,11 +68,11 @@ jobs:
         with:
           profile: minimal
           toolchain: ${{ matrix.msrv }}
+      - run: rustup override set ${{ matrix.msrv }}
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }}
         shell: bash
         run: |
           set -eux
-          rustup override set ${{ matrix.msrv }}
           rustc --print cfg
           cargo --version
           cargo build --verbose
@@ -112,6 +112,7 @@ jobs:
         with:
           profile: minimal
           toolchain: ${{ matrix.rust_version }}
+      - run: rustup override set ${{ matrix.rust_version }}
       - uses: Swatinem/rust-cache@v2
       - name: Build using rust ${{ matrix.rust_version }}
         run: |
@@ -135,6 +136,7 @@ jobs:
         with:
           profile: minimal
           toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Build Debug
         shell: bash
         run: |
@@ -230,11 +232,13 @@ jobs:
         with:
           profile: minimal
           toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - run: cargo install cross
+      - run: rustup target add ${{ matrix.target }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - uses: Swatinem/rust-cache@v2
       - run: |
           set -eux
-          rustup target add ${{ matrix.target }}
           cross --version
           cross check --target ${{ matrix.target }}
 
@@ -246,6 +250,12 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Check
         shell: bash
         # `cargo check` builds dependences and other things but skips
@@ -264,6 +274,12 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Clippy
         shell: bash
         run: |
@@ -280,6 +296,12 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Bench Dry Run
         shell: bash
         run: |
@@ -295,6 +317,12 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Install libsystemd
         shell: bash
         run: |
@@ -340,6 +368,13 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+          override: true
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: install cargo-binstall
         uses: cargo-bins/cargo-binstall@main
       - name: install nextest binary
@@ -359,6 +394,13 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+          override: true
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: install cargo-binstall
         uses: cargo-bins/cargo-binstall@main
       - name: install nextest binary
@@ -436,6 +478,13 @@ jobs:
       # checkout for the log files
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+          override: true
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: set log file filesystem Modified Time
         shell: bash
         run: |
@@ -565,6 +614,7 @@ jobs:
           profile: minimal
           toolchain: ${{ env.VERSION_LLVM_COV }}
           override: true
+      - run: rustup override set ${{ env.VERSION_LLVM_COV }}
       - name: install cargo-llvm-cov
         uses: actions-rs/cargo@v1
         with:
