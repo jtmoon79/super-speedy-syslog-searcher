@@ -1498,9 +1498,7 @@ impl SyslineReader {
         //      very short files that happen to have some equal part of
         //      datetime patterns that alternate on lines.
         while self.dt_patterns_counts.len() > SyslineReader::DT_PATTERN_MAX {
-            // TODO: use `pop_last` which is experimental until MSRV 1.66.0
-            //       see https://github.com/rust-lang/rust/issues/62924
-            let rm_key: DateTimeParseInstrsIndex = *self.dt_patterns_counts.iter().last().unwrap().0;
+            let rm_key: DateTimeParseInstrsIndex = self.dt_patterns_counts.pop_last().unwrap().0;
             self.dt_patterns_counts.remove(&rm_key);
         }
         defo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
