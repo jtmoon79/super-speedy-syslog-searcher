@@ -109,11 +109,9 @@ impl fmt::Debug for LinePart {
         f: &mut fmt::Formatter,
     ) -> fmt::Result {
         f.debug_struct("LinePart")
-            .field("LinePart @", &format_args!("{:p}", &self))
             .field("blocki_beg", &self.blocki_beg)
             .field("blocki_end", &self.blocki_end)
             .field("len", &self.len())
-            .field("blockp @", &format_args!("{:p}", &(*self.blockp)))
             .field("fileoffset", &self.fileoffset)
             .field("blockoffset", &self.blockoffset)
             .finish()
@@ -140,10 +138,9 @@ impl LinePart {
         blocksz: BlockSz,
     ) -> LinePart {
         defn!(
-            "LinePart(blocki_beg {}, blocki_end {}, Block @{:p}, fileoffset {}, blockoffset {}, blocksz {}) (blockp.len() {})",
+            "LinePart(blocki_beg {}, blocki_end {}, fileoffset {}, blockoffset {}, blocksz {}) (blockp.len() {})",
             blocki_beg,
             blocki_end,
-            &*blockp,
             fileoffset,
             blockoffset,
             blocksz,

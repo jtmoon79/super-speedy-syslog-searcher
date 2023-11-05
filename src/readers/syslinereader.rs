@@ -1932,10 +1932,9 @@ impl SyslineReader {
             let (fo2, linep) = match result {
                 ResultS3LineFind::Found((fo_, linep_)) => {
                     defo!(
-                        "({}): A FileOffset {} Line @{:p} len {} parts {} {:?}",
+                        "({}): A FileOffset {} Line len {} parts {} {:?}",
                         fileoffset,
                         fo_,
-                        &*linep_,
                         (*linep_).len(),
                         (*linep_).count_lineparts(),
                         (*linep_).to_String_noraw()
@@ -2071,10 +2070,9 @@ impl SyslineReader {
             let (fo2, linep) = match result {
                 ResultS3LineFind::Found((fo_, linep_)) => {
                     defo!(
-                        "({}): B got Found(FileOffset {}, Line @{:p}) len {} parts {} {:?}",
+                        "({}): B got Found(FileOffset {}, Line) len {} parts {} {:?}",
                         fileoffset,
                         fo_,
-                        &*linep_,
                         (*linep_).len(),
                         (*linep_).count_lineparts(),
                         (*linep_).to_String_noraw()
@@ -2243,9 +2241,8 @@ impl SyslineReader {
             let (fo2, linep) = match result {
                 ResultS3LineFind::Found((fo_, linep_)) => {
                     defo!(
-                        "A FileOffset {} Line @{:p} len {} parts {} {:?}",
+                        "A FileOffset {} Line len {} parts {} {:?}",
                         fo_,
-                        &*linep_,
                         (*linep_).len(),
                         (*linep_).count_lineparts(),
                         (*linep_).to_String_noraw()
@@ -2433,10 +2430,9 @@ impl SyslineReader {
             let (fo2, linep) = match result {
                 ResultS3LineFind::Found((fo_, linep_)) => {
                     defo!(
-                        "({}): B got Found(FileOffset {}, Line @{:p}) len {} parts {} {:?}",
+                        "({}): B got Found(FileOffset {}, Line) len {} parts {} {:?}",
                         fileoffset,
                         fo_,
-                        &*linep_,
                         (*linep_).len(),
                         (*linep_).count_lineparts(),
                         (*linep_).to_String_noraw()

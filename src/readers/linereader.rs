@@ -423,11 +423,11 @@ impl LineReader {
         &mut self,
         line: Line,
     ) -> LineP {
-        defn!("(Line @{:p})", &line);
+        defn!("Line @[{}‥{}]", line.fileoffset_begin(), line.fileoffset_end());
         let fo_beg: FileOffset = line.fileoffset_begin();
         let fo_end: FileOffset = line.fileoffset_end();
         let linep: LineP = LineP::new(line);
-        deo!("lines.insert({}, Line @{:p})", fo_beg, &(*linep));
+        deo!("lines.insert({})", fo_beg);
         debug_assert!(
             !self
                 .lines
@@ -449,7 +449,7 @@ impl LineReader {
         self.foend_to_fobeg
             .insert(fo_end, fo_beg);
         self.lines_processed += 1;
-        defx!("returning @{:p}", linep);
+        defx!("returning LineP");
 
         linep
     }
@@ -683,9 +683,8 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 dex!(
-                    "return ResultS3LineFind::Found({}, {:p}) @[{}, {}] {:?}",
+                    "return ResultS3LineFind::Found({}, LineP) @[{}, {}] {:?}",
                     fo_next,
-                    &*linep,
                     (*linep).fileoffset_begin(),
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
@@ -699,9 +698,8 @@ impl LineReader {
                     .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
             }
             dex!(
-                "return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}",
+                "return ResultS3LineFind::Found({}, LineP)  @[{}, {}] {:?}",
                 fo_next,
-                &*linep,
                 (*linep).fileoffset_begin(),
                 (*linep).fileoffset_end(),
                 (*linep).to_String_noraw()
@@ -729,9 +727,8 @@ impl LineReader {
                             .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                     }
                     defx!(
-                        "return ResultS3LineFind::Found({}, {:p}) @[{}, {}] {:?}",
+                        "return ResultS3LineFind::Found({}, LineP) @[{}, {}] {:?}",
                         fo_next,
-                        &*linep,
                         (*linep).fileoffset_begin(),
                         (*linep).fileoffset_end(),
                         (*linep).to_String_noraw()
@@ -750,9 +747,8 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 defx!(
-                    "return ResultS3LineFind::Found({}, {:p}) @[{}, {}] {:?}",
+                    "return ResultS3LineFind::Found({}, LineP) @[{}, {}] {:?}",
                     fo_next,
-                    &*linep,
                     (*linep).fileoffset_begin(),
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
@@ -915,9 +911,8 @@ impl LineReader {
         {
             ResultS3ReadBlock::Found(val) => {
                 defo!(
-                    "B1: read_block({}) returned Found Block @{:p} len {} while searching for newline A",
+                    "B1: read_block({}) returned Found Block len {} while searching for newline A",
                     bo_middle,
-                    &(*val),
                     (*val).len()
                 );
                 val
@@ -1085,10 +1080,9 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 defx!(
-                    "({}) A0: return ResultS3LineFind::Found(({}, @{:p})), None; @[{}, {}] {:?}",
+                    "({}) A0: return ResultS3LineFind::Found(({}, LineP)), None; @[{}, {}] {:?}",
                     fileoffset,
                     fo_next,
-                    linep,
                     (*linep).fileoffset_begin(),
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
@@ -1108,10 +1102,9 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 defx!(
-                    "({}) A0: return ResultS3LineFind::Found(({}, @{:p})), None; @[{}, {}] {:?}",
+                    "({}) A0: return ResultS3LineFind::Found(({}, LineP)), None; @[{}, {}] {:?}",
                     fileoffset,
                     fo_next,
-                    linep,
                     (*linep).fileoffset_begin(),
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
@@ -1173,10 +1166,9 @@ impl LineReader {
                             .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                     }
                     defx!(
-                        "({}): return ResultS3LineFind::Found({}, {:p}), None;  @[{}, {}] {:?}",
+                        "({}): return ResultS3LineFind::Found({}, LineP), None;  @[{}, {}] {:?}",
                         fileoffset,
                         fo_next,
-                        &*linep,
                         (*linep).fileoffset_begin(),
                         (*linep).fileoffset_end(),
                         (*linep).to_String_noraw()
@@ -1196,10 +1188,9 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 defx!(
-                    "({}): return ResultS3LineFind::Found({}, {:p}), None;  @[{}, {}] {:?}",
+                    "({}): return ResultS3LineFind::Found({}, LineP), None;  @[{}, {}] {:?}",
                     fileoffset,
                     fo_next,
-                    &*linep,
                     (*linep).fileoffset_begin(),
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
@@ -1218,7 +1209,7 @@ impl LineReader {
                 // quick-check if this Line is already known
                 match self.get_linep(&fo_) {
                     Some(linep_prev) => {
-                        defo!("({}) A1b: self.get_linep({}) returned {:p}", fileoffset, fo_, linep_prev,);
+                        defo!("({}) A1b: self.get_linep({}) returned Line", fileoffset, fo_);
                         // TODO: Issue #61 enable expression attribute when feature is stable
                         //       #[allow(unused_assignments)]
                         //found_nl_a = true;
@@ -1260,10 +1251,9 @@ impl LineReader {
                                     .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                             }
                             defx!(
-                                "({}): return ResultS3LineFind::Found(({}, {:p})), None;  @[{}, {}] {:?}",
+                                "({}): return ResultS3LineFind::Found(({}, LineP)), None;  @[{}, {}] {:?}",
                                 fileoffset,
                                 fo_next,
-                                &*linep,
                                 (*linep).fileoffset_begin(),
                                 (*linep).fileoffset_end(),
                                 (*linep).to_String_noraw()
@@ -1284,10 +1274,9 @@ impl LineReader {
                                 .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                         }
                         defx!(
-                            "({}): return ResultS3LineFind::Found(({}, {:p})), None;  @[{}, {}] {:?}",
+                            "({}): return ResultS3LineFind::Found(({}, LineP)), None;  @[{}, {}] {:?}",
                             fileoffset,
                             fo_next,
-                            &*linep,
                             (*linep).fileoffset_begin(),
                             (*linep).fileoffset_end(),
                             (*linep).to_String_noraw()
@@ -1405,10 +1394,9 @@ impl LineReader {
 
         if nl_b_eof {
             defx!(
-                "({}): return ResultS3LineFind::Found({}, {:p}), None;  @[{}, {}] {:?}",
+                "({}): return ResultS3LineFind::Found({}, LineP), None;  @[{}, {}] {:?}",
                 fileoffset,
                 fo_next,
-                &*linep,
                 (*linep).fileoffset_begin(),
                 (*linep).fileoffset_end(),
                 (*linep).to_String_noraw()
@@ -1417,10 +1405,9 @@ impl LineReader {
         }
 
         defx!(
-            "({}): return ResultS3LineFind::Found({}, {:p}), None; @[{}, {}] {:?}",
+            "({}): return ResultS3LineFind::Found({}, LineP), None; @[{}, {}] {:?}",
             fileoffset,
             fo_next,
-            &*linep,
             (*linep).fileoffset_begin(),
             (*linep).fileoffset_end(),
             (*linep).to_String_noraw()
@@ -1502,7 +1489,7 @@ impl LineReader {
         &mut self,
         fileoffset: FileOffset,
     ) -> ResultS3LineFind {
-        defn!("(LineReader@{:p}, {})", self, fileoffset);
+        defn!("({})", fileoffset);
 
         // some helpful constants
         let charsz_fo: FileOffset = self.charsz_ as FileOffset;
@@ -1594,9 +1581,8 @@ impl LineReader {
             {
                 ResultS3ReadBlock::Found(val) => {
                     defo!(
-                        "B1: read_block({}) returned Found Block @{:p} len {} while searching for newline A",
+                        "B1: read_block({}) returned Found Block len {} while searching for newline A",
                         bo_middle,
-                        &(*val),
                         (*val).len()
                     );
                     val
@@ -1689,9 +1675,8 @@ impl LineReader {
                 {
                     ResultS3ReadBlock::Found(val) => {
                         defo!(
-                            "B2: read_block({}) returned Found Block @{:p} len {} while searching for newline B",
+                            "B2: read_block({}) returned Found Block len {} while searching for newline B",
                             bof,
-                            &(*val),
                             (*val).len()
                         );
                         val
@@ -1856,10 +1841,9 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 defx!(
-                    "({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}",
+                    "({}) A0: return ResultS3LineFind::Found(({}, LineP)) @[{}, {}] {:?}",
                     fileoffset,
                     fo_next,
-                    linep,
                     (*linep).fileoffset_begin(),
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
@@ -1873,10 +1857,9 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 defx!(
-                    "({}) A0: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}",
+                    "({}) A0: return ResultS3LineFind::Found(({}, LineP)) @[{}, {}] {:?}",
                     fileoffset,
                     fo_next,
-                    linep,
                     (*linep).fileoffset_begin(),
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
@@ -1936,10 +1919,9 @@ impl LineReader {
                         .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                 }
                 defx!(
-                    "({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}",
+                    "({}): return ResultS3LineFind::Found({}, LineP)  @[{}, {}] {:?}",
                     fileoffset,
                     fo_next,
-                    &*linep,
                     (*linep).fileoffset_begin(),
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
@@ -1951,7 +1933,7 @@ impl LineReader {
             }
             match self.get_linep(&fo_) {
                 Some(linep_prev) => {
-                    defo!("A1b: self.get_linep({}) returned {:p}", fo_, linep_prev,);
+                    defo!("A1b: self.get_linep({}) returned Line", fo_);
                     // TODO: Issue #61 enable expression attribute when feature is stable
                     //       #[allow(unused_assignments)]
                     //found_nl_a = true;
@@ -1987,10 +1969,9 @@ impl LineReader {
                             .put(fileoffset, ResultS3LineFind::Found((fo_next, linep.clone())));
                     }
                     defx!(
-                        "({}): return ResultS3LineFind::Found({}, {:p})  @[{}, {}] {:?}",
+                        "({}): return ResultS3LineFind::Found({}, LineP)  @[{}, {}] {:?}",
                         fileoffset,
                         fo_next,
-                        &*linep,
                         (*linep).fileoffset_begin(),
                         (*linep).fileoffset_end(),
                         (*linep).to_String_noraw()
@@ -2103,9 +2084,8 @@ impl LineReader {
                 {
                     ResultS3ReadBlock::Found(val) => {
                         defo!(
-                            "A4: read_block({}) returned Found Block @{:p} len {} while searching for newline A",
+                            "A4: read_block({}) returned Found Block len {} while searching for newline A",
                             bof,
-                            &(*val),
                             (*val).len()
                         );
                         val
@@ -2248,10 +2228,9 @@ impl LineReader {
                 .put(fileoffset, ResultS3LineFind::Found((fo_end + 1, linep.clone())));
         }
         defx!(
-            "({}) D: return ResultS3LineFind::Found(({}, @{:p})) @[{}, {}] {:?}",
+            "({}) D: return ResultS3LineFind::Found(({}, LineP)) @[{}, {}] {:?}",
             fileoffset,
             fo_end + 1,
-            &*linep,
             (*linep).fileoffset_begin(),
             (*linep).fileoffset_end(),
             (*linep).to_String_noraw()
