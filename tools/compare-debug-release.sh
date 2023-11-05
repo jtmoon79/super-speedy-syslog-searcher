@@ -17,7 +17,8 @@ tmpr=$(mktemp -t "tmp.s4.compare-debug-release_release_XXXXX")
 # output of the debug run
 tmpd=$(mktemp -t "tmp.s4.compare-debug-release_debug_XXXXX")
 # logs to process listed one per line
-logs=./tools/compare-debug-release_logs.txt
+declare -r logs=./tools/compare-debug-release_logs.txt
+readonly tmpr tmpd
 
 #
 # print some info for the script user, verify the s4 programs can run
@@ -35,6 +36,7 @@ PROGRAMR=${PROGRAMR-./target/release/s4}
 PROGRAMD=${PROGRAMD-./target/debug/s4}
 (set -x; "${PROGRAMD}" --version 2>/dev/null)
 echo >&2
+readonly PROGRAMR PROGRAMD
 
 #
 # run s4 release and debug builds
