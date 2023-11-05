@@ -1,0 +1,6 @@
+Mar 15 15:15:21 f13b newsyslog[566]: logfile first created
+Mar 15 22:16:37 f13b dhclient[400]: em0 link state up -> down
+Mar 15 22:16:42 f13b dhclient[400]: em0 link state down -> up
+Mar 17 20:09:14 f13b saslpasswd2[6384]: DIGEST-MD5 common mech free
+Mar 17 20:09:14 f13b sasldblistusers2[6386]: DIGEST-MD5 common mech free
+Mar 17 20:09:14 f13b saslpasswd2[6388]: DIGEST-MD5 common mech free

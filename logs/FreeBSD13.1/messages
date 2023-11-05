@@ -1,0 +1,1556 @@
+Mar 15 15:15:21 f13b newsyslog[566]: logfile first created
+Mar 15 15:15:21 f13b syslogd: kernel boot file is /boot/kernel/kernel
+Mar 15 15:15:21 f13b kernel: ---<<BOOT>>---
+Mar 15 15:15:21 f13b kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+Mar 15 15:15:21 f13b kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+Mar 15 15:15:21 f13b kernel: 	The Regents of the University of California. All rights reserved.
+Mar 15 15:15:21 f13b kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+Mar 15 15:15:21 f13b kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+Mar 15 15:15:21 f13b kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+Mar 15 15:15:21 f13b kernel: VT(vga): text 80x25
+Mar 15 15:15:21 f13b kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4492.86-MHz K8-class CPU)
+Mar 15 15:15:21 f13b kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+Mar 15 15:15:21 f13b kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+Mar 15 15:15:21 f13b kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+Mar 15 15:15:21 f13b kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+Mar 15 15:15:21 f13b kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+Mar 15 15:15:21 f13b kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+Mar 15 15:15:21 f13b kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+Mar 15 15:15:21 f13b kernel:   TSC: P-state invariant
+Mar 15 15:15:21 f13b kernel: real memory  = 2147418112 (2047 MB)
+Mar 15 15:15:21 f13b kernel: avail memory = 2038870016 (1944 MB)
+Mar 15 15:15:21 f13b kernel: Event timer "LAPIC" quality 100
+Mar 15 15:15:21 f13b kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+Mar 15 15:15:21 f13b kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+Mar 15 15:15:21 f13b kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+Mar 15 15:15:21 f13b kernel: random: registering fast source Intel Secure Key RNG
+Mar 15 15:15:21 f13b kernel: random: fast provider: "Intel Secure Key RNG"
+Mar 15 15:15:21 f13b kernel: random: unblocking device.
+Mar 15 15:15:21 f13b kernel: ioapic0: MADT APIC ID 2 != hw id 0
+Mar 15 15:15:21 f13b kernel: ioapic0 <Version 2.0> irqs 0-23
+Mar 15 15:15:21 f13b kernel: Launching APs: 1
+Mar 15 15:15:21 f13b kernel: random: entropy device external interface
+Mar 15 15:15:21 f13b kernel: kbd1 at kbdmux0
+Mar 15 15:15:21 f13b kernel: vtvga0: <VT VGA driver>
+Mar 15 15:15:21 f13b kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+Mar 15 15:15:21 f13b kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+Mar 15 15:15:21 f13b kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+Mar 15 15:15:21 f13b kernel: acpi0: <VBOX VBOXXSDT>
+Mar 15 15:15:21 f13b kernel: acpi0: Power Button (fixed)
+Mar 15 15:15:21 f13b kernel: acpi0: Sleep Button (fixed)
+Mar 15 15:15:21 f13b kernel: cpu0: <ACPI CPU> on acpi0
+Mar 15 15:15:21 f13b kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+Mar 15 15:15:21 f13b kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+Mar 15 15:15:21 f13b kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+Mar 15 15:15:21 f13b kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+Mar 15 15:15:21 f13b kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+Mar 15 15:15:21 f13b kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+Mar 15 15:15:21 f13b kernel: pci0: <ACPI PCI bus> on pcib0
+Mar 15 15:15:21 f13b kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+Mar 15 15:15:21 f13b kernel: isa0: <ISA bus> on isab0
+Mar 15 15:15:21 f13b kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+Mar 15 15:15:21 f13b kernel: ata0: <ATA channel> at channel 0 on atapci0
+Mar 15 15:15:21 f13b kernel: ata1: <ATA channel> at channel 1 on atapci0
+Mar 15 15:15:21 f13b kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+Mar 15 15:15:21 f13b kernel: vgapci0: Boot video device
+Mar 15 15:15:21 f13b kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+Mar 15 15:15:21 f13b kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+Mar 15 15:15:21 f13b kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+Mar 15 15:15:21 f13b kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+Mar 15 15:15:21 f13b kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+Mar 15 15:15:21 f13b kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+Mar 15 15:15:21 f13b kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+Mar 15 15:15:21 f13b kernel: usbus0 on ohci0
+Mar 15 15:15:21 f13b kernel: usbus0: 12Mbps Full Speed USB v1.0
+Mar 15 15:15:21 f13b kernel: pci0: <bridge> at device 7.0 (no driver attached)
+Mar 15 15:15:21 f13b kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+Mar 15 15:15:21 f13b kernel: usbus1: EHCI version 1.0
+Mar 15 15:15:21 f13b kernel: usbus1 on ehci0
+Mar 15 15:15:21 f13b kernel: usbus1: 480Mbps High Speed USB v2.0
+Mar 15 15:15:21 f13b kernel: acpi_acad0: <AC Adapter> on acpi0
+Mar 15 15:15:21 f13b kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+Mar 15 15:15:21 f13b kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+Mar 15 15:15:21 f13b kernel: kbd0 at atkbd0
+Mar 15 15:15:21 f13b kernel: atkbd0: [GIANT-LOCKED]
+Mar 15 15:15:21 f13b kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+Mar 15 15:15:21 f13b kernel: psm0: [GIANT-LOCKED]
+Mar 15 15:15:21 f13b kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+Mar 15 15:15:21 f13b kernel: psm0: model IntelliMouse Explorer, device ID 4
+Mar 15 15:15:21 f13b kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+Mar 15 15:15:21 f13b kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+Mar 15 15:15:21 f13b kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+Mar 15 15:15:21 f13b kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+Mar 15 15:15:21 f13b kernel: Event timer "RTC" frequency 32768 Hz quality 0
+Mar 15 15:15:21 f13b kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+Mar 15 15:15:21 f13b kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+Mar 15 15:15:21 f13b kernel: Falling back to slow TSC calibration.
+Mar 15 15:15:21 f13b kernel: Timecounter "TSC-low" frequency 1123037218 Hz quality 0
+Mar 15 15:15:21 f13b kernel: Timecounters tick every 10.000 msec
+Mar 15 15:15:21 f13b kernel: ZFS filesystem version: 5
+Mar 15 15:15:21 f13b kernel: ZFS storage pool version: features support (5000)
+Mar 15 15:15:21 f13b kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+Mar 15 15:15:21 f13b kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+Mar 15 15:15:21 f13b kernel: uhub0 on usbus0
+Mar 15 15:15:21 f13b kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+Mar 15 15:15:21 f13b kernel: uhub1 on usbus1
+Mar 15 15:15:21 f13b kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+Mar 15 15:15:21 f13b kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+Mar 15 15:15:21 f13b kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+Mar 15 15:15:21 f13b kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+Mar 15 15:15:21 f13b kernel: ada0: Serial Number VB2fd10c19-19494b1d
+Mar 15 15:15:21 f13b kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+Mar 15 15:15:21 f13b kernel: ada0: 16384MB (33554432 512 byte sectors)
+Mar 15 15:15:21 f13b kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+Mar 15 15:15:21 f13b kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+Mar 15 15:15:21 f13b kernel: cd0: Serial Number VB2-01700376
+Mar 15 15:15:21 f13b kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+Mar 15 15:15:21 f13b kernel: cd0: Attempt to query device size failed: NOT READY, Medium not present
+Mar 15 15:15:21 f13b kernel: uhub0: 12 ports with 12 removable, self powered
+Mar 15 15:15:21 f13b kernel: Root mount waiting for: usbus1
+Mar 15 15:15:21 f13b syslogd: last message repeated 3 times
+Mar 15 15:15:21 f13b kernel: uhub1: 12 ports with 12 removable, self powered
+Mar 15 15:15:21 f13b kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+Mar 15 15:15:21 f13b kernel: intsmb0: intr IRQ 9 enabled revision 0
+Mar 15 15:15:21 f13b kernel: smbus0: <System Management Bus> on intsmb0
+Mar 15 15:15:21 f13b kernel: lo0: link state changed to UP
+Mar 15 15:15:21 f13b kernel: em0: link state changed to UP
+Mar 15 22:15:45 f13b login[842]: ROOT LOGIN (root) ON ttyv0
+Mar 15 22:16:37 f13b kernel: em0: link state changed to DOWN
+Mar 15 22:16:42 f13b kernel: em0: link state changed to UP
+Mar 15 22:16:44 f13b shutdown[861]: reboot by root: 
+Mar 15 22:16:44 f13b kernel: .
+Mar 15 22:16:44 f13b syslogd: exiting on signal 15
+Mar 15 22:17:16 f13b syslogd: kernel boot file is /boot/kernel/kernel
+Mar 15 22:17:16 f13b kernel: ---<<BOOT>>---
+Mar 15 22:17:16 f13b kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+Mar 15 22:17:16 f13b kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+Mar 15 22:17:16 f13b kernel: 	The Regents of the University of California. All rights reserved.
+Mar 15 22:17:16 f13b kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+Mar 15 22:17:16 f13b kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+Mar 15 22:17:16 f13b kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+Mar 15 22:17:16 f13b kernel: VT(vga): text 80x25
+Mar 15 22:17:16 f13b kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4489.26-MHz K8-class CPU)
+Mar 15 22:17:16 f13b kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+Mar 15 22:17:16 f13b kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+Mar 15 22:17:16 f13b kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+Mar 15 22:17:16 f13b kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+Mar 15 22:17:16 f13b kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+Mar 15 22:17:16 f13b kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+Mar 15 22:17:16 f13b kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+Mar 15 22:17:16 f13b kernel:   TSC: P-state invariant
+Mar 15 22:17:16 f13b kernel: real memory  = 2147418112 (2047 MB)
+Mar 15 22:17:16 f13b kernel: avail memory = 2038870016 (1944 MB)
+Mar 15 22:17:16 f13b kernel: Event timer "LAPIC" quality 100
+Mar 15 22:17:16 f13b kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+Mar 15 22:17:16 f13b kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+Mar 15 22:17:16 f13b kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+Mar 15 22:17:16 f13b kernel: random: registering fast source Intel Secure Key RNG
+Mar 15 22:17:16 f13b kernel: random: fast provider: "Intel Secure Key RNG"
+Mar 15 22:17:16 f13b kernel: random: unblocking device.
+Mar 15 22:17:16 f13b kernel: ioapic0: MADT APIC ID 2 != hw id 0
+Mar 15 22:17:16 f13b kernel: ioapic0 <Version 2.0> irqs 0-23
+Mar 15 22:17:16 f13b kernel: Launching APs: 1
+Mar 15 22:17:16 f13b kernel: random: entropy device external interface
+Mar 15 22:17:16 f13b kernel: kbd1 at kbdmux0
+Mar 15 22:17:16 f13b kernel: vtvga0: <VT VGA driver>
+Mar 15 22:17:16 f13b kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+Mar 15 22:17:16 f13b kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+Mar 15 22:17:16 f13b kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+Mar 15 22:17:16 f13b kernel: acpi0: <VBOX VBOXXSDT>
+Mar 15 22:17:16 f13b kernel: acpi0: Power Button (fixed)
+Mar 15 22:17:16 f13b kernel: acpi0: Sleep Button (fixed)
+Mar 15 22:17:16 f13b kernel: cpu0: <ACPI CPU> on acpi0
+Mar 15 22:17:16 f13b kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+Mar 15 22:17:16 f13b kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+Mar 15 22:17:16 f13b kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+Mar 15 22:17:16 f13b kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+Mar 15 22:17:16 f13b kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+Mar 15 22:17:16 f13b kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+Mar 15 22:17:16 f13b kernel: pci0: <ACPI PCI bus> on pcib0
+Mar 15 22:17:16 f13b kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+Mar 15 22:17:16 f13b kernel: isa0: <ISA bus> on isab0
+Mar 15 22:17:16 f13b kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+Mar 15 22:17:16 f13b kernel: ata0: <ATA channel> at channel 0 on atapci0
+Mar 15 22:17:16 f13b kernel: ata1: <ATA channel> at channel 1 on atapci0
+Mar 15 22:17:16 f13b kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+Mar 15 22:17:16 f13b kernel: vgapci0: Boot video device
+Mar 15 22:17:16 f13b kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+Mar 15 22:17:16 f13b kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+Mar 15 22:17:16 f13b kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+Mar 15 22:17:16 f13b kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+Mar 15 22:17:16 f13b kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+Mar 15 22:17:16 f13b kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+Mar 15 22:17:16 f13b kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+Mar 15 22:17:16 f13b kernel: usbus0 on ohci0
+Mar 15 22:17:16 f13b kernel: usbus0: 12Mbps Full Speed USB v1.0
+Mar 15 22:17:16 f13b kernel: pci0: <bridge> at device 7.0 (no driver attached)
+Mar 15 22:17:16 f13b kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+Mar 15 22:17:16 f13b kernel: usbus1: EHCI version 1.0
+Mar 15 22:17:16 f13b kernel: usbus1 on ehci0
+Mar 15 22:17:16 f13b kernel: usbus1: 480Mbps High Speed USB v2.0
+Mar 15 22:17:16 f13b kernel: acpi_acad0: <AC Adapter> on acpi0
+Mar 15 22:17:16 f13b kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+Mar 15 22:17:16 f13b kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+Mar 15 22:17:16 f13b kernel: kbd0 at atkbd0
+Mar 15 22:17:16 f13b kernel: atkbd0: [GIANT-LOCKED]
+Mar 15 22:17:16 f13b kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+Mar 15 22:17:16 f13b kernel: psm0: [GIANT-LOCKED]
+Mar 15 22:17:16 f13b kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+Mar 15 22:17:16 f13b kernel: psm0: model IntelliMouse Explorer, device ID 4
+Mar 15 22:17:16 f13b kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+Mar 15 22:17:16 f13b kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+Mar 15 22:17:16 f13b kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+Mar 15 22:17:16 f13b kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+Mar 15 22:17:16 f13b kernel: Event timer "RTC" frequency 32768 Hz quality 0
+Mar 15 22:17:16 f13b kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+Mar 15 22:17:16 f13b kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+Mar 15 22:17:16 f13b kernel: Falling back to slow TSC calibration.
+Mar 15 22:17:16 f13b kernel: Timecounter "TSC-low" frequency 1123029594 Hz quality 0
+Mar 15 22:17:16 f13b kernel: Timecounters tick every 10.000 msec
+Mar 15 22:17:16 f13b kernel: ZFS filesystem version: 5
+Mar 15 22:17:16 f13b kernel: ZFS storage pool version: features support (5000)
+Mar 15 22:17:16 f13b kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+Mar 15 22:17:16 f13b kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+Mar 15 22:17:16 f13b kernel: uhub0 on usbus0
+Mar 15 22:17:16 f13b kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+Mar 15 22:17:16 f13b kernel: uhub1 on usbus1
+Mar 15 22:17:16 f13b kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+Mar 15 22:17:16 f13b kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+Mar 15 22:17:16 f13b kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+Mar 15 22:17:16 f13b kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+Mar 15 22:17:16 f13b kernel: ada0: Serial Number VB2fd10c19-19494b1d
+Mar 15 22:17:16 f13b kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+Mar 15 22:17:16 f13b kernel: ada0: 16384MB (33554432 512 byte sectors)
+Mar 15 22:17:16 f13b kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+Mar 15 22:17:16 f13b kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+Mar 15 22:17:16 f13b kernel: cd0: Serial Number VB2-01700376
+Mar 15 22:17:16 f13b kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+Mar 15 22:17:16 f13b kernel: cd0: Attempt to query device size failed: NOT READY, Medium not present
+Mar 15 22:17:16 f13b kernel: uhub0: 12 ports with 12 removable, self powered
+Mar 15 22:17:16 f13b kernel: Root mount waiting for: usbus1
+Mar 15 22:17:16 f13b syslogd: last message repeated 3 times
+Mar 15 22:17:16 f13b kernel: uhub1: 12 ports with 12 removable, self powered
+Mar 15 22:17:16 f13b kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+Mar 15 22:17:16 f13b kernel: intsmb0: intr IRQ 9 enabled revision 0
+Mar 15 22:17:16 f13b kernel: smbus0: <System Management Bus> on intsmb0
+Mar 15 22:17:16 f13b kernel: lo0: link state changed to UP
+Mar 15 22:17:16 f13b kernel: em0: link state changed to UP
+Mar 15 22:17:34 f13b syslogd: last message repeated 1 times
+Mar 15 22:17:42 f13b login[789]: ROOT LOGIN (root) ON ttyv0
+Mar 15 22:19:11 f13b pkg-static[827]: pkg-1.19.0 installed
+Mar 15 22:19:16 f13b pkg[842]: indexinfo-0.3.1 installed
+Mar 15 22:19:16 f13b pkg[842]: readline-8.2.0 installed
+Mar 15 22:19:16 f13b pkg[842]: gettext-runtime-0.21.1 installed
+Mar 15 22:19:17 f13b pkg[842]: bash-5.2.15 installed
+Mar 15 22:19:22 f13b pkg[877]: libunistring-1.1 installed
+Mar 15 22:19:22 f13b pkg[877]: libidn2-2.3.4 installed
+Mar 15 22:19:22 f13b pkg[877]: libnghttp2-1.48.0 installed
+Mar 15 22:19:22 f13b pkg[877]: libssh2-1.10.0_1,3 installed
+Mar 15 22:19:22 f13b pkg[877]: libpsl-0.21.1_6 installed
+Mar 15 22:19:22 f13b pkg[877]: curl-7.87.0 installed
+Mar 15 22:23:00 f13b syslogd: last message repeated 1 times
+Mar 15 22:23:34 f13b pkg[1450]: mpdecimal-2.5.1 installed
+Mar 15 22:23:34 f13b pkg[1450]: libffi-3.4.4 installed
+Mar 15 22:23:36 f13b pkg[1450]: python39-3.9.16 installed
+Mar 15 22:23:36 f13b pkg[1450]: vim-9.0.0981 installed
+Mar 15 22:24:21 f13b shutdown[1597]: reboot by root: 
+Mar 15 22:24:21 f13b kernel: .
+Mar 15 22:24:21 f13b syslogd: exiting on signal 15
+Mar 15 22:24:58 f13b syslogd: kernel boot file is /boot/kernel/kernel
+Mar 15 22:24:58 f13b kernel: ---<<BOOT>>---
+Mar 15 22:24:58 f13b kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+Mar 15 22:24:58 f13b kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+Mar 15 22:24:58 f13b kernel: 	The Regents of the University of California. All rights reserved.
+Mar 15 22:24:58 f13b kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+Mar 15 22:24:58 f13b kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+Mar 15 22:24:58 f13b kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+Mar 15 22:24:58 f13b kernel: VT(vga): text 80x25
+Mar 15 22:24:58 f13b kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4458.88-MHz K8-class CPU)
+Mar 15 22:24:58 f13b kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+Mar 15 22:24:58 f13b kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+Mar 15 22:24:58 f13b kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+Mar 15 22:24:58 f13b kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+Mar 15 22:24:58 f13b kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+Mar 15 22:24:58 f13b kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+Mar 15 22:24:58 f13b kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+Mar 15 22:24:58 f13b kernel:   TSC: P-state invariant
+Mar 15 22:24:58 f13b kernel: real memory  = 2147418112 (2047 MB)
+Mar 15 22:24:58 f13b kernel: avail memory = 2038870016 (1944 MB)
+Mar 15 22:24:58 f13b kernel: Event timer "LAPIC" quality 100
+Mar 15 22:24:58 f13b kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+Mar 15 22:24:58 f13b kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+Mar 15 22:24:58 f13b kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+Mar 15 22:24:58 f13b kernel: random: registering fast source Intel Secure Key RNG
+Mar 15 22:24:58 f13b kernel: random: fast provider: "Intel Secure Key RNG"
+Mar 15 22:24:58 f13b kernel: random: unblocking device.
+Mar 15 22:24:58 f13b kernel: ioapic0: MADT APIC ID 2 != hw id 0
+Mar 15 22:24:58 f13b kernel: ioapic0 <Version 2.0> irqs 0-23
+Mar 15 22:24:58 f13b kernel: Launching APs: 1
+Mar 15 22:24:58 f13b kernel: random: entropy device external interface
+Mar 15 22:24:58 f13b kernel: kbd1 at kbdmux0
+Mar 15 22:24:58 f13b kernel: vtvga0: <VT VGA driver>
+Mar 15 22:24:58 f13b kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+Mar 15 22:24:58 f13b kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+Mar 15 22:24:58 f13b kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+Mar 15 22:24:58 f13b kernel: acpi0: <VBOX VBOXXSDT>
+Mar 15 22:24:58 f13b kernel: acpi0: Power Button (fixed)
+Mar 15 22:24:58 f13b kernel: acpi0: Sleep Button (fixed)
+Mar 15 22:24:58 f13b kernel: cpu0: <ACPI CPU> on acpi0
+Mar 15 22:24:58 f13b kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+Mar 15 22:24:58 f13b kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+Mar 15 22:24:58 f13b kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+Mar 15 22:24:58 f13b kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+Mar 15 22:24:58 f13b kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+Mar 15 22:24:58 f13b kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+Mar 15 22:24:58 f13b kernel: pci0: <ACPI PCI bus> on pcib0
+Mar 15 22:24:58 f13b kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+Mar 15 22:24:58 f13b kernel: isa0: <ISA bus> on isab0
+Mar 15 22:24:58 f13b kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+Mar 15 22:24:58 f13b kernel: ata0: <ATA channel> at channel 0 on atapci0
+Mar 15 22:24:58 f13b kernel: ata1: <ATA channel> at channel 1 on atapci0
+Mar 15 22:24:58 f13b kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+Mar 15 22:24:58 f13b kernel: vgapci0: Boot video device
+Mar 15 22:24:58 f13b kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+Mar 15 22:24:58 f13b kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+Mar 15 22:24:58 f13b kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+Mar 15 22:24:58 f13b kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+Mar 15 22:24:58 f13b kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+Mar 15 22:24:58 f13b kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+Mar 15 22:24:58 f13b kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+Mar 15 22:24:58 f13b kernel: usbus0 on ohci0
+Mar 15 22:24:58 f13b kernel: usbus0: 12Mbps Full Speed USB v1.0
+Mar 15 22:24:58 f13b kernel: pci0: <bridge> at device 7.0 (no driver attached)
+Mar 15 22:24:58 f13b kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+Mar 15 22:24:58 f13b kernel: usbus1: EHCI version 1.0
+Mar 15 22:24:58 f13b kernel: usbus1 on ehci0
+Mar 15 22:24:58 f13b kernel: usbus1: 480Mbps High Speed USB v2.0
+Mar 15 22:24:58 f13b kernel: acpi_acad0: <AC Adapter> on acpi0
+Mar 15 22:24:58 f13b kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+Mar 15 22:24:58 f13b kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+Mar 15 22:24:58 f13b kernel: kbd0 at atkbd0
+Mar 15 22:24:58 f13b kernel: atkbd0: [GIANT-LOCKED]
+Mar 15 22:24:58 f13b kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+Mar 15 22:24:58 f13b kernel: psm0: [GIANT-LOCKED]
+Mar 15 22:24:58 f13b kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+Mar 15 22:24:58 f13b kernel: psm0: model IntelliMouse Explorer, device ID 4
+Mar 15 22:24:58 f13b kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+Mar 15 22:24:58 f13b kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+Mar 15 22:24:58 f13b kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+Mar 15 22:24:58 f13b kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+Mar 15 22:24:58 f13b kernel: Event timer "RTC" frequency 32768 Hz quality 0
+Mar 15 22:24:58 f13b kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+Mar 15 22:24:58 f13b kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+Mar 15 22:24:58 f13b kernel: Falling back to slow TSC calibration.
+Mar 15 22:24:58 f13b kernel: Timecounter "TSC-low" frequency 1123031160 Hz quality 0
+Mar 15 22:24:58 f13b kernel: Timecounters tick every 10.000 msec
+Mar 15 22:24:58 f13b kernel: ZFS filesystem version: 5
+Mar 15 22:24:58 f13b kernel: ZFS storage pool version: features support (5000)
+Mar 15 22:24:58 f13b kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+Mar 15 22:24:58 f13b kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+Mar 15 22:24:58 f13b kernel: uhub0 on usbus0
+Mar 15 22:24:58 f13b kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+Mar 15 22:24:58 f13b kernel: uhub1 on usbus1
+Mar 15 22:24:58 f13b kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+Mar 15 22:24:58 f13b kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+Mar 15 22:24:58 f13b kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+Mar 15 22:24:58 f13b kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+Mar 15 22:24:58 f13b kernel: ada0: Serial Number VB2fd10c19-19494b1d
+Mar 15 22:24:58 f13b kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+Mar 15 22:24:58 f13b kernel: ada0: 16384MB (33554432 512 byte sectors)
+Mar 15 22:24:58 f13b kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+Mar 15 22:24:58 f13b kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+Mar 15 22:24:58 f13b kernel: cd0: Serial Number VB2-01700376
+Mar 15 22:24:58 f13b kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+Mar 15 22:24:58 f13b kernel: cd0: Attempt to query device size failed: NOT READY, Medium not present
+Mar 15 22:24:58 f13b kernel: uhub0: 12 ports with 12 removable, self powered
+Mar 15 22:24:58 f13b kernel: Root mount waiting for: usbus1
+Mar 15 22:24:58 f13b syslogd: last message repeated 3 times
+Mar 15 22:24:58 f13b kernel: uhub1: 12 ports with 12 removable, self powered
+Mar 15 22:24:58 f13b kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+Mar 15 22:24:58 f13b kernel: intsmb0: intr IRQ 9 enabled revision 0
+Mar 15 22:24:58 f13b kernel: smbus0: <System Management Bus> on intsmb0
+Mar 15 22:24:58 f13b kernel: lo0: link state changed to UP
+Mar 15 22:24:58 f13b kernel: em0: link state changed to UP
+Mar 17 14:51:58 f13b reboot[8754]: rebooted by root
+Mar 17 14:51:58 f13b syslogd: exiting on signal 15
+Mar 17 14:52:34 f13b syslogd: kernel boot file is /boot/kernel/kernel
+Mar 17 14:52:34 f13b kernel: ---<<BOOT>>---
+Mar 17 14:52:34 f13b kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+Mar 17 14:52:34 f13b kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+Mar 17 14:52:34 f13b kernel: 	The Regents of the University of California. All rights reserved.
+Mar 17 14:52:34 f13b kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+Mar 17 14:52:34 f13b kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+Mar 17 14:52:34 f13b kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+Mar 17 14:52:34 f13b kernel: VT(vga): text 80x25
+Mar 17 14:52:34 f13b kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4492.93-MHz K8-class CPU)
+Mar 17 14:52:34 f13b kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+Mar 17 14:52:34 f13b kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+Mar 17 14:52:34 f13b kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+Mar 17 14:52:34 f13b kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+Mar 17 14:52:34 f13b kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+Mar 17 14:52:34 f13b kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+Mar 17 14:52:34 f13b kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+Mar 17 14:52:34 f13b kernel:   TSC: P-state invariant
+Mar 17 14:52:34 f13b kernel: real memory  = 2147418112 (2047 MB)
+Mar 17 14:52:34 f13b kernel: avail memory = 2038870016 (1944 MB)
+Mar 17 14:52:34 f13b kernel: Event timer "LAPIC" quality 100
+Mar 17 14:52:34 f13b kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+Mar 17 14:52:34 f13b kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+Mar 17 14:52:34 f13b kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+Mar 17 14:52:34 f13b kernel: random: registering fast source Intel Secure Key RNG
+Mar 17 14:52:34 f13b kernel: random: fast provider: "Intel Secure Key RNG"
+Mar 17 14:52:34 f13b kernel: random: unblocking device.
+Mar 17 14:52:34 f13b kernel: ioapic0: MADT APIC ID 2 != hw id 0
+Mar 17 14:52:34 f13b kernel: ioapic0 <Version 2.0> irqs 0-23
+Mar 17 14:52:34 f13b kernel: Launching APs: 1
+Mar 17 14:52:34 f13b kernel: random: entropy device external interface
+Mar 17 14:52:34 f13b kernel: kbd1 at kbdmux0
+Mar 17 14:52:34 f13b kernel: vtvga0: <VT VGA driver>
+Mar 17 14:52:34 f13b kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+Mar 17 14:52:34 f13b kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+Mar 17 14:52:34 f13b kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+Mar 17 14:52:34 f13b kernel: acpi0: <VBOX VBOXXSDT>
+Mar 17 14:52:34 f13b kernel: acpi0: Power Button (fixed)
+Mar 17 14:52:34 f13b kernel: acpi0: Sleep Button (fixed)
+Mar 17 14:52:34 f13b kernel: cpu0: <ACPI CPU> on acpi0
+Mar 17 14:52:34 f13b kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+Mar 17 14:52:34 f13b kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+Mar 17 14:52:34 f13b kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+Mar 17 14:52:34 f13b kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+Mar 17 14:52:34 f13b kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+Mar 17 14:52:34 f13b kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+Mar 17 14:52:34 f13b kernel: pci0: <ACPI PCI bus> on pcib0
+Mar 17 14:52:34 f13b kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+Mar 17 14:52:34 f13b kernel: isa0: <ISA bus> on isab0
+Mar 17 14:52:34 f13b kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+Mar 17 14:52:34 f13b kernel: ata0: <ATA channel> at channel 0 on atapci0
+Mar 17 14:52:34 f13b kernel: ata1: <ATA channel> at channel 1 on atapci0
+Mar 17 14:52:34 f13b kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+Mar 17 14:52:34 f13b kernel: vgapci0: Boot video device
+Mar 17 14:52:34 f13b kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+Mar 17 14:52:34 f13b kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+Mar 17 14:52:34 f13b kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+Mar 17 14:52:34 f13b kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+Mar 17 14:52:34 f13b kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+Mar 17 14:52:34 f13b kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+Mar 17 14:52:34 f13b kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+Mar 17 14:52:34 f13b kernel: usbus0 on ohci0
+Mar 17 14:52:34 f13b kernel: usbus0: 12Mbps Full Speed USB v1.0
+Mar 17 14:52:34 f13b kernel: pci0: <bridge> at device 7.0 (no driver attached)
+Mar 17 14:52:34 f13b kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+Mar 17 14:52:34 f13b kernel: usbus1: EHCI version 1.0
+Mar 17 14:52:34 f13b kernel: usbus1 on ehci0
+Mar 17 14:52:34 f13b kernel: usbus1: 480Mbps High Speed USB v2.0
+Mar 17 14:52:34 f13b kernel: acpi_acad0: <AC Adapter> on acpi0
+Mar 17 14:52:34 f13b kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+Mar 17 14:52:34 f13b kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+Mar 17 14:52:34 f13b kernel: kbd0 at atkbd0
+Mar 17 14:52:34 f13b kernel: atkbd0: [GIANT-LOCKED]
+Mar 17 14:52:34 f13b kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+Mar 17 14:52:34 f13b kernel: psm0: [GIANT-LOCKED]
+Mar 17 14:52:34 f13b kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+Mar 17 14:52:34 f13b kernel: psm0: model IntelliMouse Explorer, device ID 4
+Mar 17 14:52:34 f13b kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+Mar 17 14:52:34 f13b kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+Mar 17 14:52:34 f13b kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+Mar 17 14:52:34 f13b kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+Mar 17 14:52:34 f13b kernel: Event timer "RTC" frequency 32768 Hz quality 0
+Mar 17 14:52:34 f13b kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+Mar 17 14:52:34 f13b kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+Mar 17 14:52:34 f13b kernel: Falling back to slow TSC calibration.
+Mar 17 14:52:34 f13b kernel: Timecounter "TSC-low" frequency 1123026397 Hz quality 0
+Mar 17 14:52:34 f13b kernel: Timecounters tick every 10.000 msec
+Mar 17 14:52:34 f13b kernel: ZFS filesystem version: 5
+Mar 17 14:52:34 f13b kernel: ZFS storage pool version: features support (5000)
+Mar 17 14:52:34 f13b kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+Mar 17 14:52:34 f13b kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+Mar 17 14:52:34 f13b kernel: uhub0 on usbus0
+Mar 17 14:52:34 f13b kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+Mar 17 14:52:34 f13b kernel: uhub1 on usbus1
+Mar 17 14:52:34 f13b kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+Mar 17 14:52:34 f13b kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+Mar 17 14:52:34 f13b kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+Mar 17 14:52:34 f13b kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+Mar 17 14:52:34 f13b kernel: ada0: Serial Number VB2fd10c19-19494b1d
+Mar 17 14:52:34 f13b kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+Mar 17 14:52:34 f13b kernel: ada0: 16384MB (33554432 512 byte sectors)
+Mar 17 14:52:34 f13b kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+Mar 17 14:52:34 f13b kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+Mar 17 14:52:34 f13b kernel: cd0: Serial Number VB2-01700376
+Mar 17 14:52:34 f13b kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+Mar 17 14:52:34 f13b kernel: cd0: 50MB (25903 2048 byte sectors)
+Mar 17 14:52:34 f13b kernel: uhub0: 12 ports with 12 removable, self powered
+Mar 17 14:52:34 f13b kernel: Root mount waiting for: usbus1
+Mar 17 14:52:34 f13b syslogd: last message repeated 3 times
+Mar 17 14:52:34 f13b kernel: uhub1: 12 ports with 12 removable, self powered
+Mar 17 14:52:34 f13b kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+Mar 17 14:52:34 f13b kernel: intsmb0: intr IRQ 9 enabled revision 0
+Mar 17 14:52:34 f13b kernel: smbus0: <System Management Bus> on intsmb0
+Mar 17 14:52:34 f13b kernel: lo0: link state changed to UP
+Mar 17 14:52:34 f13b kernel: em0: link state changed to UP
+Mar 17 14:55:57 f13b pkg[1397]: xorgproto-2022.1 installed
+Mar 17 14:55:57 f13b pkg[1397]: libXau-1.0.9 installed
+Mar 17 14:55:57 f13b pkg[1397]: libpthread-stubs-0.4 installed
+Mar 17 14:55:57 f13b pkg[1397]: libXdmcp-1.1.3 installed
+Mar 17 14:55:58 f13b pkg[1397]: libxcb-1.15 installed
+Mar 17 14:55:58 f13b pkg[1397]: libICE-1.1.0_1,1 installed
+Mar 17 14:55:58 f13b pkg[1397]: libX11-1.7.2,1 installed
+Mar 17 14:55:58 f13b pkg[1397]: libSM-1.2.3,1 installed
+Mar 17 14:55:58 f13b pkg[1397]: libXrender-0.9.10_2 installed
+Mar 17 14:55:58 f13b pkg[1397]: libXext-1.3.4,1 installed
+Mar 17 14:55:58 f13b pkg[1397]: libXt-1.2.1,1 installed
+Mar 17 14:55:58 f13b pkg[1397]: libXrandr-1.5.2 installed
+Mar 17 14:55:58 f13b pkg[1397]: expat-2.5.0 installed
+Mar 17 14:55:58 f13b pkg[1397]: libXfixes-6.0.0 installed
+Mar 17 14:55:58 f13b pkg[1397]: libXmu-1.1.3,1 installed
+Mar 17 14:55:58 f13b pkg[1397]: dbus-1.14.4,1 installed
+Mar 17 14:55:58 f13b pkg[1397]: libXcursor-1.2.0 installed
+Mar 17 14:55:59 f13b pkg[1397]: xrandr-1.5.2 installed
+Mar 17 14:55:59 f13b pkg[1397]: virtualbox-ose-additions-6.1.36_1 installed
+Mar 17 14:57:24 f13b reboot[1685]: rebooted by root
+Mar 17 14:57:24 f13b syslogd: exiting on signal 15
+Mar 17 14:58:07 f13b syslogd: kernel boot file is /boot/kernel/kernel
+Mar 17 14:58:07 f13b kernel: ---<<BOOT>>---
+Mar 17 14:58:07 f13b kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+Mar 17 14:58:07 f13b kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+Mar 17 14:58:07 f13b kernel: 	The Regents of the University of California. All rights reserved.
+Mar 17 14:58:07 f13b kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+Mar 17 14:58:07 f13b kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+Mar 17 14:58:07 f13b kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+Mar 17 14:58:07 f13b kernel: VT(vga): text 80x25
+Mar 17 14:58:07 f13b kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4490.93-MHz K8-class CPU)
+Mar 17 14:58:07 f13b kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+Mar 17 14:58:07 f13b kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+Mar 17 14:58:07 f13b kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+Mar 17 14:58:07 f13b kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+Mar 17 14:58:07 f13b kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+Mar 17 14:58:07 f13b kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+Mar 17 14:58:07 f13b kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+Mar 17 14:58:07 f13b kernel:   TSC: P-state invariant
+Mar 17 14:58:07 f13b kernel: real memory  = 2147418112 (2047 MB)
+Mar 17 14:58:07 f13b kernel: avail memory = 2038865920 (1944 MB)
+Mar 17 14:58:07 f13b kernel: Event timer "LAPIC" quality 100
+Mar 17 14:58:07 f13b kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+Mar 17 14:58:07 f13b kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+Mar 17 14:58:07 f13b kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+Mar 17 14:58:07 f13b kernel: random: registering fast source Intel Secure Key RNG
+Mar 17 14:58:07 f13b kernel: random: fast provider: "Intel Secure Key RNG"
+Mar 17 14:58:07 f13b kernel: random: unblocking device.
+Mar 17 14:58:07 f13b kernel: ioapic0: MADT APIC ID 2 != hw id 0
+Mar 17 14:58:07 f13b kernel: ioapic0 <Version 2.0> irqs 0-23
+Mar 17 14:58:07 f13b kernel: Launching APs: 1
+Mar 17 14:58:07 f13b kernel: random: entropy device external interface
+Mar 17 14:58:07 f13b kernel: kbd1 at kbdmux0
+Mar 17 14:58:07 f13b kernel: vtvga0: <VT VGA driver>
+Mar 17 14:58:07 f13b kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+Mar 17 14:58:07 f13b kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+Mar 17 14:58:07 f13b kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+Mar 17 14:58:07 f13b kernel: acpi0: <VBOX VBOXXSDT>
+Mar 17 14:58:07 f13b kernel: acpi0: Power Button (fixed)
+Mar 17 14:58:07 f13b kernel: acpi0: Sleep Button (fixed)
+Mar 17 14:58:07 f13b kernel: cpu0: <ACPI CPU> on acpi0
+Mar 17 14:58:07 f13b kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+Mar 17 14:58:07 f13b kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+Mar 17 14:58:07 f13b kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+Mar 17 14:58:07 f13b kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+Mar 17 14:58:07 f13b kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+Mar 17 14:58:07 f13b kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+Mar 17 14:58:07 f13b kernel: pci0: <ACPI PCI bus> on pcib0
+Mar 17 14:58:07 f13b kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+Mar 17 14:58:07 f13b kernel: isa0: <ISA bus> on isab0
+Mar 17 14:58:07 f13b kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+Mar 17 14:58:07 f13b kernel: ata0: <ATA channel> at channel 0 on atapci0
+Mar 17 14:58:07 f13b kernel: ata1: <ATA channel> at channel 1 on atapci0
+Mar 17 14:58:07 f13b kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+Mar 17 14:58:07 f13b kernel: vgapci0: Boot video device
+Mar 17 14:58:07 f13b kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+Mar 17 14:58:07 f13b kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+Mar 17 14:58:07 f13b kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+Mar 17 14:58:07 f13b kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+Mar 17 14:58:07 f13b kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+Mar 17 14:58:07 f13b kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+Mar 17 14:58:07 f13b kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+Mar 17 14:58:07 f13b kernel: usbus0 on ohci0
+Mar 17 14:58:07 f13b kernel: usbus0: 12Mbps Full Speed USB v1.0
+Mar 17 14:58:07 f13b kernel: pci0: <bridge> at device 7.0 (no driver attached)
+Mar 17 14:58:07 f13b kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+Mar 17 14:58:07 f13b kernel: usbus1: EHCI version 1.0
+Mar 17 14:58:07 f13b kernel: usbus1 on ehci0
+Mar 17 14:58:07 f13b kernel: usbus1: 480Mbps High Speed USB v2.0
+Mar 17 14:58:07 f13b kernel: acpi_acad0: <AC Adapter> on acpi0
+Mar 17 14:58:07 f13b kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+Mar 17 14:58:07 f13b kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+Mar 17 14:58:07 f13b kernel: kbd0 at atkbd0
+Mar 17 14:58:07 f13b kernel: atkbd0: [GIANT-LOCKED]
+Mar 17 14:58:07 f13b kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+Mar 17 14:58:07 f13b kernel: psm0: [GIANT-LOCKED]
+Mar 17 14:58:07 f13b kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+Mar 17 14:58:07 f13b kernel: psm0: model IntelliMouse Explorer, device ID 4
+Mar 17 14:58:07 f13b kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+Mar 17 14:58:07 f13b kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+Mar 17 14:58:07 f13b kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+Mar 17 14:58:07 f13b kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+Mar 17 14:58:07 f13b kernel: Event timer "RTC" frequency 32768 Hz quality 0
+Mar 17 14:58:07 f13b kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+Mar 17 14:58:07 f13b kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+Mar 17 14:58:07 f13b kernel: Falling back to slow TSC calibration.
+Mar 17 14:58:07 f13b kernel: Timecounter "TSC-low" frequency 1122177330 Hz quality 0
+Mar 17 14:58:07 f13b kernel: Timecounters tick every 10.000 msec
+Mar 17 14:58:07 f13b kernel: ZFS filesystem version: 5
+Mar 17 14:58:07 f13b kernel: ZFS storage pool version: features support (5000)
+Mar 17 14:58:07 f13b kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+Mar 17 14:58:07 f13b kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+Mar 17 14:58:07 f13b kernel: uhub0 on usbus0
+Mar 17 14:58:07 f13b kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+Mar 17 14:58:07 f13b kernel: uhub1 on usbus1
+Mar 17 14:58:07 f13b kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+Mar 17 14:58:07 f13b kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+Mar 17 14:58:07 f13b kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+Mar 17 14:58:07 f13b kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+Mar 17 14:58:07 f13b kernel: ada0: Serial Number VB2fd10c19-19494b1d
+Mar 17 14:58:07 f13b kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+Mar 17 14:58:07 f13b kernel: ada0: 16384MB (33554432 512 byte sectors)
+Mar 17 14:58:07 f13b kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+Mar 17 14:58:07 f13b kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+Mar 17 14:58:07 f13b kernel: cd0: Serial Number VB2-01700376
+Mar 17 14:58:07 f13b kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+Mar 17 14:58:07 f13b kernel: cd0: 50MB (25903 2048 byte sectors)
+Mar 17 14:58:07 f13b kernel: uhub0: 12 ports with 12 removable, self powered
+Mar 17 14:58:07 f13b kernel: Root mount waiting for: usbus1
+Mar 17 14:58:07 f13b syslogd: last message repeated 3 times
+Mar 17 14:58:07 f13b kernel: uhub1: 12 ports with 12 removable, self powered
+Mar 17 14:58:07 f13b kernel: vboxguest0 port 0xd040-0xd05f mem 0xf0400000-0xf07fffff,0xf0800000-0xf0803fff irq 20 at device 4.0 on pci0
+Mar 17 14:58:07 f13b kernel: vboxguest: loaded successfully
+Mar 17 14:58:07 f13b kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+Mar 17 14:58:07 f13b kernel: intsmb0: intr IRQ 9 enabled revision 0
+Mar 17 14:58:07 f13b kernel: smbus0: <System Management Bus> on intsmb0
+Mar 17 14:58:07 f13b kernel: lo0: link state changed to UP
+Mar 17 14:58:07 f13b kernel: em0: link state changed to UP
+Mar 17 15:26:32 f13b pkg[1814]: perl5-5.32.1_3 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-TimeDate-2.33,1 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-HTTP-Date-6.05 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-URI-5.17 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-Encode-Locale-1.05 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-LWP-MediaTypes-6.04 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-IO-HTML-1.004 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-Clone-0.46 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-Socket6-0.29 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-HTML-Tagset-3.20_1 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-HTTP-Message-6.44 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-Net-SSLeay-1.92 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-GSSAPI-0.28_2 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-IO-Socket-INET6-2.72_1 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-HTML-Parser-3.80 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-Mozilla-CA-20221114 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-Digest-HMAC-1.04 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-IO-Socket-SSL-2.078 installed
+Mar 17 15:26:32 f13b pkg[1814]: p5-CGI-4.54 installed
+Mar 17 15:26:33 f13b pkg[1814]: pcre2-10.40 installed
+Mar 17 15:26:33 f13b pkg[1814]: p5-Error-0.17029 installed
+Mar 17 15:26:33 f13b pkg[1814]: p5-Authen-SASL-2.16_1 installed
+Mar 17 15:26:33 f13b pkg[1814]: git-2.39.2 installed
+Mar 17 15:29:38 f13b pkg[2341]: tree-2.0.4 installed
+Mar 17 19:56:03 f13b pkg[5565]: libsmi-0.4.8_1 installed
+Mar 17 19:56:03 f13b pkg[5565]: libpcap-1.10.1_2 installed
+Mar 17 19:56:03 f13b pkg[5565]: tcpdump-4.99.1 installed
+Mar 17 19:56:41 f13b kernel: em0: promiscuous mode enabled
+Mar 17 19:56:42 f13b kernel: em0: promiscuous mode disabled
+Mar 17 19:56:45 f13b kernel: em0: promiscuous mode enabled
+Mar 17 19:56:58 f13b kernel: em0: promiscuous mode disabled
+Mar 17 19:58:38 f13b kernel: em0: promiscuous mode enabled
+Mar 17 19:58:50 f13b kernel: em0: promiscuous mode disabled
+Mar 17 19:59:14 f13b kernel: em0: promiscuous mode enabled
+Mar 17 19:59:21 f13b kernel: em0: promiscuous mode disabled
+Mar 17 20:01:22 f13b kernel: em0: promiscuous mode enabled
+Mar 17 20:01:38 f13b kernel: em0: promiscuous mode disabled
+Mar 17 20:09:13 f13b pkg[6212]: libiconv-1.17 installed
+Mar 17 20:09:13 f13b pkg[6212]: py39-setuptools-63.1.0 installed
+Mar 17 20:09:13 f13b pkg[6212]: libxml2-2.10.3_1 installed
+Mar 17 20:09:13 f13b pkg[6212]: liblz4-1.9.4,1 installed
+Mar 17 20:09:13 f13b pkg[6212]: py39-zipp-3.4.0 installed
+Mar 17 20:09:13 f13b pkg[6212]: gmp-6.2.1 installed
+Mar 17 20:09:13 f13b pkg[6212]: libtasn1-4.19.0 installed
+Mar 17 20:09:14 f13b pkg[6212]: glib-2.74.5,2 installed
+Mar 17 20:09:14 f13b pkg[6212]: ca_root_nss-3.86 installed
+Mar 17 20:09:14 f13b pkg[6212]: talloc-2.3.4 installed
+Mar 17 20:09:14 f13b pkg[6212]: nettle-3.8.1 installed
+Mar 17 20:09:14 f13b pkg[6212]: zstd-1.5.2_1 installed
+Mar 17 20:09:14 f13b pkg[6212]: libgpg-error-1.46 installed
+Mar 17 20:09:14 f13b pkg[6212]: p11-kit-0.24.1_1 installed
+Mar 17 20:09:14 f13b pkg[6212]: cyrus-sasl-2.1.28 installed
+Mar 17 20:09:14 f13b pkg[6212]: dbus-glib-0.112 installed
+Mar 17 20:09:14 f13b pkg[6212]: gnome_subr-1.0 installed
+Mar 17 20:09:14 f13b pkg[6212]: libdaemon-0.14_1 installed
+Mar 17 20:09:14 f13b pkg[6212]: py39-importlib-metadata-4.8.1 installed
+Mar 17 20:09:14 f13b pkg[6212]: libevent-2.1.12 installed
+Mar 17 20:09:14 f13b pkg[6212]: gdbm-1.23 installed
+Mar 17 20:09:15 f13b pkg[6212]: avahi-app-0.8_1 installed
+Mar 17 20:09:15 f13b pkg[6212]: lmdb-0.9.29_1,1 installed
+Mar 17 20:09:15 f13b pkg[6212]: popt-1.19 installed
+Mar 17 20:09:15 f13b pkg[6212]: libgcrypt-1.9.4_1 installed
+Mar 17 20:09:15 f13b pkg[6212]: libunwind-20211201_1 installed
+Mar 17 20:09:15 f13b pkg[6212]: libarchive-3.6.1_1,1 installed
+Mar 17 20:09:15 f13b pkg[6212]: jansson-2.14 installed
+Mar 17 20:09:15 f13b pkg[6212]: py39-dnspython-2.2.1_1,1 installed
+Mar 17 20:09:15 f13b pkg[6212]: tdb-1.4.7,1 installed
+Mar 17 20:09:15 f13b pkg[6212]: gnutls-3.7.9 installed
+Mar 17 20:09:16 f13b pkg[6212]: openldap26-client-2.6.3 installed
+Mar 17 20:09:16 f13b pkg[6212]: tevent-0.13.0_1 installed
+Mar 17 20:09:16 f13b pkg[6212]: py39-markdown-3.3.7 installed
+Mar 17 20:09:16 f13b pkg[6212]: libinotify-20211018 installed
+Mar 17 20:09:16 f13b pkg[6212]: libsunacl-1.0.1 installed
+Mar 17 20:09:16 f13b pkg[6212]: gamin-0.1.10_10 installed
+Mar 17 20:09:17 f13b pkg[6212]: samba413-4.13.17_4 installed
+Mar 17 20:09:17 f13b pkg[6212]: fusefs-libs-2.9.9_2 installed
+Mar 17 20:09:17 f13b pkg[6212]: fusefs-smbnetfs-0.6.1_4 installed
+Mar 17 20:25:13 f13b login[805]: ROOT LOGIN (root) ON ttyv0
+Mar 18 04:01:01 f13b pkg[11582]: htop-3.2.2 installed
+Mar 29 11:24:02 f13b shutdown[55641]: halt by root: 
+Mar 29 11:24:02 f13b kernel: .
+Mar 29 11:24:02 f13b syslogd: exiting on signal 15
+Apr 15 14:48:55 f13b syslogd: kernel boot file is /boot/kernel/kernel
+Apr 15 14:48:55 f13b kernel: ---<<BOOT>>---
+Apr 15 14:48:55 f13b kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+Apr 15 14:48:55 f13b kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+Apr 15 14:48:55 f13b kernel: 	The Regents of the University of California. All rights reserved.
+Apr 15 14:48:55 f13b kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+Apr 15 14:48:55 f13b kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+Apr 15 14:48:55 f13b kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+Apr 15 14:48:55 f13b kernel: VT(vga): text 80x25
+Apr 15 14:48:55 f13b kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4491.57-MHz K8-class CPU)
+Apr 15 14:48:55 f13b kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+Apr 15 14:48:55 f13b kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+Apr 15 14:48:55 f13b kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+Apr 15 14:48:55 f13b kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+Apr 15 14:48:55 f13b kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+Apr 15 14:48:55 f13b kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+Apr 15 14:48:55 f13b kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+Apr 15 14:48:55 f13b kernel:   TSC: P-state invariant
+Apr 15 14:48:55 f13b kernel: real memory  = 2147418112 (2047 MB)
+Apr 15 14:48:55 f13b kernel: avail memory = 2038865920 (1944 MB)
+Apr 15 14:48:55 f13b kernel: Event timer "LAPIC" quality 100
+Apr 15 14:48:55 f13b kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+Apr 15 14:48:55 f13b kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+Apr 15 14:48:55 f13b kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+Apr 15 14:48:55 f13b kernel: random: registering fast source Intel Secure Key RNG
+Apr 15 14:48:55 f13b kernel: random: fast provider: "Intel Secure Key RNG"
+Apr 15 14:48:55 f13b kernel: random: unblocking device.
+Apr 15 14:48:55 f13b kernel: ioapic0: MADT APIC ID 2 != hw id 0
+Apr 15 14:48:55 f13b kernel: ioapic0 <Version 2.0> irqs 0-23
+Apr 15 14:48:55 f13b kernel: Launching APs: 1
+Apr 15 14:48:55 f13b kernel: random: entropy device external interface
+Apr 15 14:48:55 f13b kernel: kbd1 at kbdmux0
+Apr 15 14:48:55 f13b kernel: vtvga0: <VT VGA driver>
+Apr 15 14:48:55 f13b kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+Apr 15 14:48:55 f13b kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+Apr 15 14:48:55 f13b kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+Apr 15 14:48:55 f13b kernel: acpi0: <VBOX VBOXXSDT>
+Apr 15 14:48:55 f13b kernel: acpi0: Power Button (fixed)
+Apr 15 14:48:55 f13b kernel: acpi0: Sleep Button (fixed)
+Apr 15 14:48:55 f13b kernel: cpu0: <ACPI CPU> on acpi0
+Apr 15 14:48:55 f13b kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+Apr 15 14:48:55 f13b kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+Apr 15 14:48:55 f13b kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+Apr 15 14:48:55 f13b kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+Apr 15 14:48:55 f13b kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+Apr 15 14:48:55 f13b kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+Apr 15 14:48:55 f13b kernel: pci0: <ACPI PCI bus> on pcib0
+Apr 15 14:48:55 f13b kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+Apr 15 14:48:55 f13b kernel: isa0: <ISA bus> on isab0
+Apr 15 14:48:55 f13b kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+Apr 15 14:48:55 f13b kernel: ata0: <ATA channel> at channel 0 on atapci0
+Apr 15 14:48:55 f13b kernel: ata1: <ATA channel> at channel 1 on atapci0
+Apr 15 14:48:55 f13b kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+Apr 15 14:48:55 f13b kernel: vgapci0: Boot video device
+Apr 15 14:48:55 f13b kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+Apr 15 14:48:55 f13b kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+Apr 15 14:48:55 f13b kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+Apr 15 14:48:55 f13b kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+Apr 15 14:48:55 f13b kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+Apr 15 14:48:55 f13b kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+Apr 15 14:48:55 f13b kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+Apr 15 14:48:55 f13b kernel: usbus0 on ohci0
+Apr 15 14:48:55 f13b kernel: usbus0: 12Mbps Full Speed USB v1.0
+Apr 15 14:48:55 f13b kernel: pci0: <bridge> at device 7.0 (no driver attached)
+Apr 15 14:48:55 f13b kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+Apr 15 14:48:55 f13b kernel: usbus1: EHCI version 1.0
+Apr 15 14:48:55 f13b kernel: usbus1 on ehci0
+Apr 15 14:48:55 f13b kernel: usbus1: 480Mbps High Speed USB v2.0
+Apr 15 14:48:55 f13b kernel: acpi_acad0: <AC Adapter> on acpi0
+Apr 15 14:48:55 f13b kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+Apr 15 14:48:55 f13b kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+Apr 15 14:48:55 f13b kernel: kbd0 at atkbd0
+Apr 15 14:48:55 f13b kernel: atkbd0: [GIANT-LOCKED]
+Apr 15 14:48:55 f13b kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+Apr 15 14:48:55 f13b kernel: psm0: [GIANT-LOCKED]
+Apr 15 14:48:55 f13b kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+Apr 15 14:48:55 f13b kernel: psm0: model IntelliMouse Explorer, device ID 4
+Apr 15 14:48:55 f13b kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+Apr 15 14:48:55 f13b kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+Apr 15 14:48:55 f13b kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+Apr 15 14:48:55 f13b kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+Apr 15 14:48:55 f13b kernel: Event timer "RTC" frequency 32768 Hz quality 0
+Apr 15 14:48:55 f13b kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+Apr 15 14:48:55 f13b kernel: Timecounter "TSC-low" frequency 1123017564 Hz quality 0
+Apr 15 14:48:55 f13b kernel: Timecounters tick every 10.000 msec
+Apr 15 14:48:55 f13b kernel: ZFS filesystem version: 5
+Apr 15 14:48:55 f13b kernel: ZFS storage pool version: features support (5000)
+Apr 15 14:48:55 f13b kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+Apr 15 14:48:55 f13b kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+Apr 15 14:48:55 f13b kernel: uhub0 on usbus0
+Apr 15 14:48:55 f13b kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+Apr 15 14:48:55 f13b kernel: uhub1 on usbus1
+Apr 15 14:48:55 f13b kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+Apr 15 14:48:55 f13b kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+Apr 15 14:48:55 f13b kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+Apr 15 14:48:55 f13b kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+Apr 15 14:48:55 f13b kernel: ada0: Serial Number VB2fd10c19-19494b1d
+Apr 15 14:48:55 f13b kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+Apr 15 14:48:55 f13b kernel: ada0: 16384MB (33554432 512 byte sectors)
+Apr 15 14:48:55 f13b kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+Apr 15 14:48:55 f13b kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+Apr 15 14:48:55 f13b kernel: cd0: Serial Number VB2-01700376
+Apr 15 14:48:55 f13b kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+Apr 15 14:48:55 f13b kernel: cd0: 50MB (25903 2048 byte sectors)
+Apr 15 14:48:55 f13b kernel: uhub0: 12 ports with 12 removable, self powered
+Apr 15 14:48:55 f13b kernel: Root mount waiting for: usbus1
+Apr 15 14:48:55 f13b syslogd: last message repeated 3 times
+Apr 15 14:48:55 f13b kernel: uhub1: 12 ports with 12 removable, self powered
+Apr 15 14:48:55 f13b kernel: vboxguest0 port 0xd040-0xd05f mem 0xf0400000-0xf07fffff,0xf0800000-0xf0803fff irq 20 at device 4.0 on pci0
+Apr 15 14:48:55 f13b kernel: vboxguest: loaded successfully
+Apr 15 14:48:55 f13b kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+Apr 15 14:48:55 f13b kernel: intsmb0: intr IRQ 9 enabled revision 0
+Apr 15 14:48:55 f13b kernel: smbus0: <System Management Bus> on intsmb0
+Apr 15 14:48:55 f13b kernel: lo0: link state changed to UP
+Apr 15 14:48:55 f13b kernel: em0: link state changed to UP
+Apr 15 22:08:34 f13b login[848]: ROOT LOGIN (root) ON ttyv0
+Apr 16 23:53:46 f13b shutdown[5801]: halt by root: 
+Apr 16 23:53:46 f13b kernel: .
+Apr 16 23:53:46 f13b syslogd: exiting on signal 15
+Apr 22 05:25:48 f13b syslogd: kernel boot file is /boot/kernel/kernel
+Apr 22 05:25:48 f13b kernel: ---<<BOOT>>---
+Apr 22 05:25:48 f13b kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+Apr 22 05:25:48 f13b kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+Apr 22 05:25:48 f13b kernel: 	The Regents of the University of California. All rights reserved.
+Apr 22 05:25:48 f13b kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+Apr 22 05:25:48 f13b kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+Apr 22 05:25:48 f13b kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+Apr 22 05:25:48 f13b kernel: VT(vga): text 80x25
+Apr 22 05:25:48 f13b kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4493.47-MHz K8-class CPU)
+Apr 22 05:25:48 f13b kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+Apr 22 05:25:48 f13b kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+Apr 22 05:25:48 f13b kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+Apr 22 05:25:48 f13b kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+Apr 22 05:25:48 f13b kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+Apr 22 05:25:48 f13b kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+Apr 22 05:25:48 f13b kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+Apr 22 05:25:48 f13b kernel:   TSC: P-state invariant
+Apr 22 05:25:48 f13b kernel: real memory  = 2147418112 (2047 MB)
+Apr 22 05:25:48 f13b kernel: avail memory = 2038865920 (1944 MB)
+Apr 22 05:25:48 f13b kernel: Event timer "LAPIC" quality 100
+Apr 22 05:25:48 f13b kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+Apr 22 05:25:48 f13b kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+Apr 22 05:25:48 f13b kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+Apr 22 05:25:48 f13b kernel: random: registering fast source Intel Secure Key RNG
+Apr 22 05:25:48 f13b kernel: random: fast provider: "Intel Secure Key RNG"
+Apr 22 05:25:48 f13b kernel: random: unblocking device.
+Apr 22 05:25:48 f13b kernel: ioapic0: MADT APIC ID 2 != hw id 0
+Apr 22 05:25:48 f13b kernel: ioapic0 <Version 2.0> irqs 0-23
+Apr 22 05:25:48 f13b kernel: Launching APs: 1
+Apr 22 05:25:48 f13b kernel: random: entropy device external interface
+Apr 22 05:25:48 f13b kernel: kbd1 at kbdmux0
+Apr 22 05:25:48 f13b kernel: vtvga0: <VT VGA driver>
+Apr 22 05:25:48 f13b kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+Apr 22 05:25:48 f13b kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+Apr 22 05:25:48 f13b kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+Apr 22 05:25:48 f13b kernel: acpi0: <VBOX VBOXXSDT>
+Apr 22 05:25:48 f13b kernel: acpi0: Power Button (fixed)
+Apr 22 05:25:48 f13b kernel: acpi0: Sleep Button (fixed)
+Apr 22 05:25:48 f13b kernel: cpu0: <ACPI CPU> on acpi0
+Apr 22 05:25:48 f13b kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+Apr 22 05:25:48 f13b kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+Apr 22 05:25:48 f13b kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+Apr 22 05:25:48 f13b kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+Apr 22 05:25:48 f13b kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+Apr 22 05:25:48 f13b kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+Apr 22 05:25:48 f13b kernel: pci0: <ACPI PCI bus> on pcib0
+Apr 22 05:25:48 f13b kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+Apr 22 05:25:48 f13b kernel: isa0: <ISA bus> on isab0
+Apr 22 05:25:48 f13b kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+Apr 22 05:25:48 f13b kernel: ata0: <ATA channel> at channel 0 on atapci0
+Apr 22 05:25:48 f13b kernel: ata1: <ATA channel> at channel 1 on atapci0
+Apr 22 05:25:48 f13b kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+Apr 22 05:25:48 f13b kernel: vgapci0: Boot video device
+Apr 22 05:25:48 f13b kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+Apr 22 05:25:48 f13b kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+Apr 22 05:25:48 f13b kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+Apr 22 05:25:48 f13b kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+Apr 22 05:25:48 f13b kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+Apr 22 05:25:48 f13b kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+Apr 22 05:25:48 f13b kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+Apr 22 05:25:48 f13b kernel: usbus0 on ohci0
+Apr 22 05:25:48 f13b kernel: usbus0: 12Mbps Full Speed USB v1.0
+Apr 22 05:25:48 f13b kernel: pci0: <bridge> at device 7.0 (no driver attached)
+Apr 22 05:25:48 f13b kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+Apr 22 05:25:48 f13b kernel: usbus1: EHCI version 1.0
+Apr 22 05:25:48 f13b kernel: usbus1 on ehci0
+Apr 22 05:25:48 f13b kernel: usbus1: 480Mbps High Speed USB v2.0
+Apr 22 05:25:48 f13b kernel: acpi_acad0: <AC Adapter> on acpi0
+Apr 22 05:25:48 f13b kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+Apr 22 05:25:48 f13b kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+Apr 22 05:25:48 f13b kernel: kbd0 at atkbd0
+Apr 22 05:25:48 f13b kernel: atkbd0: [GIANT-LOCKED]
+Apr 22 05:25:48 f13b kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+Apr 22 05:25:48 f13b kernel: psm0: [GIANT-LOCKED]
+Apr 22 05:25:48 f13b kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+Apr 22 05:25:48 f13b kernel: psm0: model IntelliMouse Explorer, device ID 4
+Apr 22 05:25:48 f13b kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+Apr 22 05:25:48 f13b kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+Apr 22 05:25:48 f13b kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+Apr 22 05:25:48 f13b kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+Apr 22 05:25:48 f13b kernel: Event timer "RTC" frequency 32768 Hz quality 0
+Apr 22 05:25:48 f13b kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+Apr 22 05:25:48 f13b kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+Apr 22 05:25:48 f13b kernel: Falling back to slow TSC calibration.
+Apr 22 05:25:48 f13b kernel: Timecounter "TSC-low" frequency 1122228773 Hz quality 0
+Apr 22 05:25:48 f13b kernel: Timecounters tick every 10.000 msec
+Apr 22 05:25:48 f13b kernel: ZFS filesystem version: 5
+Apr 22 05:25:48 f13b kernel: ZFS storage pool version: features support (5000)
+Apr 22 05:25:48 f13b kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+Apr 22 05:25:48 f13b kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+Apr 22 05:25:48 f13b kernel: uhub0 on usbus1
+Apr 22 05:25:48 f13b kernel: uhub0: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+Apr 22 05:25:48 f13b kernel: uhub1 on usbus0
+Apr 22 05:25:48 f13b kernel: uhub1: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+Apr 22 05:25:48 f13b kernel: pcm0: measured ac97 link rate at 47187 Hz
+Apr 22 05:25:48 f13b kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+Apr 22 05:25:48 f13b kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+Apr 22 05:25:48 f13b kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+Apr 22 05:25:48 f13b kernel: ada0: Serial Number VB2fd10c19-19494b1d
+Apr 22 05:25:48 f13b kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+Apr 22 05:25:48 f13b kernel: ada0: 16384MB (33554432 512 byte sectors)
+Apr 22 05:25:48 f13b kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+Apr 22 05:25:48 f13b kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+Apr 22 05:25:48 f13b kernel: cd0: Serial Number VB2-01700376
+Apr 22 05:25:48 f13b kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+Apr 22 05:25:48 f13b kernel: cd0: 50MB (25903 2048 byte sectors)
+Apr 22 05:25:48 f13b kernel: uhub1: 12 ports with 12 removable, self powered
+Apr 22 05:25:48 f13b kernel: Root mount waiting for: usbus1
+Apr 22 05:25:48 f13b syslogd: last message repeated 3 times
+Apr 22 05:25:48 f13b kernel: uhub0: 12 ports with 12 removable, self powered
+Apr 22 05:25:48 f13b kernel: vboxguest0 port 0xd040-0xd05f mem 0xf0400000-0xf07fffff,0xf0800000-0xf0803fff irq 20 at device 4.0 on pci0
+Apr 22 05:25:48 f13b kernel: vboxguest: loaded successfully
+Apr 22 05:25:48 f13b kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+Apr 22 05:25:48 f13b kernel: intsmb0: intr IRQ 9 enabled revision 0
+Apr 22 05:25:48 f13b kernel: smbus0: <System Management Bus> on intsmb0
+Apr 22 05:25:48 f13b kernel: lo0: link state changed to UP
+Apr 22 05:25:48 f13b kernel: em0: link state changed to UP
+Apr 22 12:26:34 f13b login[848]: ROOT LOGIN (root) ON ttyv0
+Apr 22 13:06:59 f13b reboot[1780]: rebooted by root
+Apr 22 13:06:59 f13b syslogd: exiting on signal 15
+Apr 22 13:07:40 f13b syslogd: kernel boot file is /boot/kernel/kernel
+Apr 22 13:07:40 f13b kernel: ---<<BOOT>>---
+Apr 22 13:07:40 f13b kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+Apr 22 13:07:40 f13b kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+Apr 22 13:07:40 f13b kernel: 	The Regents of the University of California. All rights reserved.
+Apr 22 13:07:40 f13b kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+Apr 22 13:07:40 f13b kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+Apr 22 13:07:40 f13b kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+Apr 22 13:07:40 f13b kernel: VT(vga): text 80x25
+Apr 22 13:07:40 f13b kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4493.24-MHz K8-class CPU)
+Apr 22 13:07:40 f13b kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+Apr 22 13:07:40 f13b kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+Apr 22 13:07:40 f13b kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+Apr 22 13:07:40 f13b kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+Apr 22 13:07:40 f13b kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+Apr 22 13:07:40 f13b kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+Apr 22 13:07:40 f13b kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+Apr 22 13:07:40 f13b kernel:   TSC: P-state invariant
+Apr 22 13:07:40 f13b kernel: real memory  = 2147418112 (2047 MB)
+Apr 22 13:07:40 f13b kernel: avail memory = 2038865920 (1944 MB)
+Apr 22 13:07:40 f13b kernel: Event timer "LAPIC" quality 100
+Apr 22 13:07:40 f13b kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+Apr 22 13:07:40 f13b kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+Apr 22 13:07:40 f13b kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+Apr 22 13:07:40 f13b kernel: random: registering fast source Intel Secure Key RNG
+Apr 22 13:07:40 f13b kernel: random: fast provider: "Intel Secure Key RNG"
+Apr 22 13:07:40 f13b kernel: random: unblocking device.
+Apr 22 13:07:40 f13b kernel: ioapic0: MADT APIC ID 2 != hw id 0
+Apr 22 13:07:40 f13b kernel: ioapic0 <Version 2.0> irqs 0-23
+Apr 22 13:07:40 f13b kernel: Launching APs: 1
+Apr 22 13:07:40 f13b kernel: random: entropy device external interface
+Apr 22 13:07:40 f13b kernel: kbd1 at kbdmux0
+Apr 22 13:07:40 f13b kernel: vtvga0: <VT VGA driver>
+Apr 22 13:07:40 f13b kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+Apr 22 13:07:40 f13b kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+Apr 22 13:07:40 f13b kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+Apr 22 13:07:40 f13b kernel: acpi0: <VBOX VBOXXSDT>
+Apr 22 13:07:40 f13b kernel: acpi0: Power Button (fixed)
+Apr 22 13:07:40 f13b kernel: acpi0: Sleep Button (fixed)
+Apr 22 13:07:40 f13b kernel: cpu0: <ACPI CPU> on acpi0
+Apr 22 13:07:40 f13b kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+Apr 22 13:07:40 f13b kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+Apr 22 13:07:40 f13b kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+Apr 22 13:07:40 f13b kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+Apr 22 13:07:40 f13b kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+Apr 22 13:07:40 f13b kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+Apr 22 13:07:40 f13b kernel: pci0: <ACPI PCI bus> on pcib0
+Apr 22 13:07:40 f13b kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+Apr 22 13:07:40 f13b kernel: isa0: <ISA bus> on isab0
+Apr 22 13:07:40 f13b kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+Apr 22 13:07:40 f13b kernel: ata0: <ATA channel> at channel 0 on atapci0
+Apr 22 13:07:40 f13b kernel: ata1: <ATA channel> at channel 1 on atapci0
+Apr 22 13:07:40 f13b kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+Apr 22 13:07:40 f13b kernel: vgapci0: Boot video device
+Apr 22 13:07:40 f13b kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+Apr 22 13:07:40 f13b kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+Apr 22 13:07:40 f13b kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+Apr 22 13:07:40 f13b kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+Apr 22 13:07:40 f13b kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+Apr 22 13:07:40 f13b kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+Apr 22 13:07:40 f13b kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+Apr 22 13:07:40 f13b kernel: usbus0 on ohci0
+Apr 22 13:07:40 f13b kernel: usbus0: 12Mbps Full Speed USB v1.0
+Apr 22 13:07:40 f13b kernel: pci0: <bridge> at device 7.0 (no driver attached)
+Apr 22 13:07:40 f13b kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+Apr 22 13:07:40 f13b kernel: usbus1: EHCI version 1.0
+Apr 22 13:07:40 f13b kernel: usbus1 on ehci0
+Apr 22 13:07:40 f13b kernel: usbus1: 480Mbps High Speed USB v2.0
+Apr 22 13:07:40 f13b kernel: acpi_acad0: <AC Adapter> on acpi0
+Apr 22 13:07:40 f13b kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+Apr 22 13:07:40 f13b kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+Apr 22 13:07:40 f13b kernel: kbd0 at atkbd0
+Apr 22 13:07:40 f13b kernel: atkbd0: [GIANT-LOCKED]
+Apr 22 13:07:40 f13b kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+Apr 22 13:07:40 f13b kernel: psm0: [GIANT-LOCKED]
+Apr 22 13:07:40 f13b kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+Apr 22 13:07:40 f13b kernel: psm0: model IntelliMouse Explorer, device ID 4
+Apr 22 13:07:40 f13b kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+Apr 22 13:07:40 f13b kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+Apr 22 13:07:40 f13b kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+Apr 22 13:07:40 f13b kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+Apr 22 13:07:40 f13b kernel: Event timer "RTC" frequency 32768 Hz quality 0
+Apr 22 13:07:40 f13b kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+Apr 22 13:07:40 f13b kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+Apr 22 13:07:40 f13b kernel: Falling back to slow TSC calibration.
+Apr 22 13:07:40 f13b kernel: Timecounter "TSC-low" frequency 1123076503 Hz quality 0
+Apr 22 13:07:40 f13b kernel: Timecounters tick every 10.000 msec
+Apr 22 13:07:40 f13b kernel: ZFS filesystem version: 5
+Apr 22 13:07:40 f13b kernel: ZFS storage pool version: features support (5000)
+Apr 22 13:07:40 f13b kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+Apr 22 13:07:40 f13b kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+Apr 22 13:07:40 f13b kernel: uhub0 on usbus0
+Apr 22 13:07:40 f13b kernel: uhub1 on usbus1
+Apr 22 13:07:40 f13b kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+Apr 22 13:07:40 f13b kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+Apr 22 13:07:40 f13b kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+Apr 22 13:07:40 f13b kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+Apr 22 13:07:40 f13b kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+Apr 22 13:07:40 f13b kernel: ada0: Serial Number VB2fd10c19-19494b1d
+Apr 22 13:07:40 f13b kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+Apr 22 13:07:40 f13b kernel: ada0: 16384MB (33554432 512 byte sectors)
+Apr 22 13:07:40 f13b kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+Apr 22 13:07:40 f13b kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+Apr 22 13:07:40 f13b kernel: cd0: Serial Number VB2-01700376
+Apr 22 13:07:40 f13b kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+Apr 22 13:07:40 f13b kernel: cd0: 50MB (25903 2048 byte sectors)
+Apr 22 13:07:40 f13b kernel: uhub0: 12 ports with 12 removable, self powered
+Apr 22 13:07:40 f13b kernel: Root mount waiting for: usbus1
+Apr 22 13:07:40 f13b syslogd: last message repeated 3 times
+Apr 22 13:07:40 f13b kernel: uhub1: 12 ports with 12 removable, self powered
+Apr 22 13:07:40 f13b kernel: vboxguest0 port 0xd040-0xd05f mem 0xf0400000-0xf07fffff,0xf0800000-0xf0803fff irq 20 at device 4.0 on pci0
+Apr 22 13:07:40 f13b kernel: vboxguest: loaded successfully
+Apr 22 13:07:40 f13b kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+Apr 22 13:07:40 f13b kernel: intsmb0: intr IRQ 9 enabled revision 0
+Apr 22 13:07:40 f13b kernel: smbus0: <System Management Bus> on intsmb0
+Apr 22 13:07:40 f13b kernel: lo0: link state changed to UP
+Apr 22 13:07:40 f13b kernel: em0: link state changed to UP
+Apr 22 13:18:30 f13b login[823]: ROOT LOGIN (root) ON ttyv0
+Apr 22 14:48:24 f13b pkg[2016]: pkg upgraded: 1.19.0 -> 1.19.1_1 
+Apr 22 14:49:41 f13b pkg[2035]: vim upgraded: 9.0.0981 -> 9.0.1366 
+Apr 22 14:49:59 f13b shutdown[2076]: reboot by root: 
+Apr 22 14:49:59 f13b kernel: .
+Apr 22 14:49:59 f13b syslogd: exiting on signal 15
+Apr 22 14:50:34 buzz syslogd: kernel boot file is /boot/kernel/kernel
+Apr 22 14:50:34 buzz kernel: ---<<BOOT>>---
+Apr 22 14:50:34 buzz kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+Apr 22 14:50:34 buzz kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+Apr 22 14:50:34 buzz kernel: 	The Regents of the University of California. All rights reserved.
+Apr 22 14:50:34 buzz kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+Apr 22 14:50:34 buzz kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+Apr 22 14:50:34 buzz kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+Apr 22 14:50:34 buzz kernel: VT(vga): text 80x25
+Apr 22 14:50:34 buzz kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4492.65-MHz K8-class CPU)
+Apr 22 14:50:34 buzz kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+Apr 22 14:50:34 buzz kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+Apr 22 14:50:34 buzz kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+Apr 22 14:50:34 buzz kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+Apr 22 14:50:34 buzz kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+Apr 22 14:50:34 buzz kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+Apr 22 14:50:34 buzz kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+Apr 22 14:50:34 buzz kernel:   TSC: P-state invariant
+Apr 22 14:50:34 buzz kernel: real memory  = 2147418112 (2047 MB)
+Apr 22 14:50:34 buzz kernel: avail memory = 2038865920 (1944 MB)
+Apr 22 14:50:34 buzz kernel: Event timer "LAPIC" quality 100
+Apr 22 14:50:34 buzz kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+Apr 22 14:50:34 buzz kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+Apr 22 14:50:34 buzz kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+Apr 22 14:50:34 buzz kernel: random: registering fast source Intel Secure Key RNG
+Apr 22 14:50:34 buzz kernel: random: fast provider: "Intel Secure Key RNG"
+Apr 22 14:50:34 buzz kernel: random: unblocking device.
+Apr 22 14:50:34 buzz kernel: ioapic0: MADT APIC ID 2 != hw id 0
+Apr 22 14:50:34 buzz kernel: ioapic0 <Version 2.0> irqs 0-23
+Apr 22 14:50:34 buzz kernel: Launching APs: 1
+Apr 22 14:50:34 buzz kernel: random: entropy device external interface
+Apr 22 14:50:34 buzz kernel: kbd1 at kbdmux0
+Apr 22 14:50:34 buzz kernel: vtvga0: <VT VGA driver>
+Apr 22 14:50:34 buzz kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+Apr 22 14:50:34 buzz kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+Apr 22 14:50:34 buzz kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+Apr 22 14:50:34 buzz kernel: acpi0: <VBOX VBOXXSDT>
+Apr 22 14:50:34 buzz kernel: acpi0: Power Button (fixed)
+Apr 22 14:50:34 buzz kernel: acpi0: Sleep Button (fixed)
+Apr 22 14:50:34 buzz kernel: cpu0: <ACPI CPU> on acpi0
+Apr 22 14:50:34 buzz kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+Apr 22 14:50:34 buzz kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+Apr 22 14:50:34 buzz kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+Apr 22 14:50:34 buzz kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+Apr 22 14:50:34 buzz kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+Apr 22 14:50:34 buzz kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+Apr 22 14:50:34 buzz kernel: pci0: <ACPI PCI bus> on pcib0
+Apr 22 14:50:34 buzz kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+Apr 22 14:50:34 buzz kernel: isa0: <ISA bus> on isab0
+Apr 22 14:50:34 buzz kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+Apr 22 14:50:34 buzz kernel: ata0: <ATA channel> at channel 0 on atapci0
+Apr 22 14:50:34 buzz kernel: ata1: <ATA channel> at channel 1 on atapci0
+Apr 22 14:50:34 buzz kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+Apr 22 14:50:34 buzz kernel: vgapci0: Boot video device
+Apr 22 14:50:34 buzz kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+Apr 22 14:50:34 buzz kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+Apr 22 14:50:34 buzz kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+Apr 22 14:50:34 buzz kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+Apr 22 14:50:34 buzz kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+Apr 22 14:50:34 buzz kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+Apr 22 14:50:34 buzz kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+Apr 22 14:50:34 buzz kernel: usbus0 on ohci0
+Apr 22 14:50:34 buzz kernel: usbus0: 12Mbps Full Speed USB v1.0
+Apr 22 14:50:34 buzz kernel: pci0: <bridge> at device 7.0 (no driver attached)
+Apr 22 14:50:34 buzz kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+Apr 22 14:50:34 buzz kernel: usbus1: EHCI version 1.0
+Apr 22 14:50:34 buzz kernel: usbus1 on ehci0
+Apr 22 14:50:34 buzz kernel: usbus1: 480Mbps High Speed USB v2.0
+Apr 22 14:50:34 buzz kernel: acpi_acad0: <AC Adapter> on acpi0
+Apr 22 14:50:34 buzz kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+Apr 22 14:50:34 buzz kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+Apr 22 14:50:34 buzz kernel: kbd0 at atkbd0
+Apr 22 14:50:34 buzz kernel: atkbd0: [GIANT-LOCKED]
+Apr 22 14:50:34 buzz kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+Apr 22 14:50:34 buzz kernel: psm0: [GIANT-LOCKED]
+Apr 22 14:50:34 buzz kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+Apr 22 14:50:34 buzz kernel: psm0: model IntelliMouse Explorer, device ID 4
+Apr 22 14:50:34 buzz kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+Apr 22 14:50:34 buzz kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+Apr 22 14:50:34 buzz kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+Apr 22 14:50:34 buzz kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+Apr 22 14:50:34 buzz kernel: Event timer "RTC" frequency 32768 Hz quality 0
+Apr 22 14:50:34 buzz kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+Apr 22 14:50:34 buzz kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+Apr 22 14:50:34 buzz kernel: Falling back to slow TSC calibration.
+Apr 22 14:50:34 buzz kernel: Timecounter "TSC-low" frequency 1122564501 Hz quality 0
+Apr 22 14:50:34 buzz kernel: Timecounters tick every 10.000 msec
+Apr 22 14:50:34 buzz kernel: ZFS filesystem version: 5
+Apr 22 14:50:34 buzz kernel: ZFS storage pool version: features support (5000)
+Apr 22 14:50:34 buzz kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+Apr 22 14:50:34 buzz kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+Apr 22 14:50:34 buzz kernel: uhub0 on usbus0
+Apr 22 14:50:34 buzz kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+Apr 22 14:50:34 buzz kernel: uhub1 on usbus1
+Apr 22 14:50:34 buzz kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+Apr 22 14:50:34 buzz kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+Apr 22 14:50:34 buzz kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+Apr 22 14:50:34 buzz kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+Apr 22 14:50:34 buzz kernel: ada0: Serial Number VB2fd10c19-19494b1d
+Apr 22 14:50:34 buzz kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+Apr 22 14:50:34 buzz kernel: ada0: 16384MB (33554432 512 byte sectors)
+Apr 22 14:50:34 buzz kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+Apr 22 14:50:34 buzz kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+Apr 22 14:50:34 buzz kernel: cd0: Serial Number VB2-01700376
+Apr 22 14:50:34 buzz kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+Apr 22 14:50:34 buzz kernel: cd0: 50MB (25903 2048 byte sectors)
+Apr 22 14:50:34 buzz kernel: uhub0: 12 ports with 12 removable, self powered
+Apr 22 14:50:34 buzz kernel: Root mount waiting for: usbus1
+Apr 22 14:50:34 buzz syslogd: last message repeated 3 times
+Apr 22 14:50:34 buzz kernel: uhub1: 12 ports with 12 removable, self powered
+Apr 22 14:50:34 buzz kernel: vboxguest0 port 0xd040-0xd05f mem 0xf0400000-0xf07fffff,0xf0800000-0xf0803fff irq 20 at device 4.0 on pci0
+Apr 22 14:50:34 buzz kernel: vboxguest: loaded successfully
+Apr 22 14:50:34 buzz kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+Apr 22 14:50:34 buzz kernel: intsmb0: intr IRQ 9 enabled revision 0
+Apr 22 14:50:34 buzz kernel: smbus0: <System Management Bus> on intsmb0
+Apr 22 14:50:34 buzz kernel: lo0: link state changed to UP
+Apr 22 14:50:34 buzz kernel: em0: link state changed to UP
+Apr 22 14:50:52 buzz login[831]: ROOT LOGIN (root) ON ttyv0
+Apr 22 14:51:27 buzz pkg[1574]: git upgraded: 2.39.2 -> 2.40.0 
+Apr 22 23:03:06 buzz pkg[4717]: python3-3_3 installed
+Apr 22 23:03:16 buzz pkg[4762]: python-3.9_3,2 installed
+Apr 22 23:36:54 buzz shutdown[4875]: halt by root: 
+Apr 22 23:36:54 buzz kernel: .
+Apr 22 23:36:55 buzz syslogd: exiting on signal 15
+May  6 05:06:26 buzz syslogd: kernel boot file is /boot/kernel/kernel
+May  6 05:06:26 buzz kernel: ---<<BOOT>>---
+May  6 05:06:26 buzz kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+May  6 05:06:26 buzz kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+May  6 05:06:26 buzz kernel: 	The Regents of the University of California. All rights reserved.
+May  6 05:06:26 buzz kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+May  6 05:06:26 buzz kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+May  6 05:06:26 buzz kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+May  6 05:06:26 buzz kernel: VT(vga): text 80x25
+May  6 05:06:26 buzz kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4492.61-MHz K8-class CPU)
+May  6 05:06:26 buzz kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+May  6 05:06:26 buzz kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+May  6 05:06:26 buzz kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+May  6 05:06:26 buzz kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+May  6 05:06:26 buzz kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+May  6 05:06:26 buzz kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+May  6 05:06:26 buzz kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+May  6 05:06:26 buzz kernel:   TSC: P-state invariant
+May  6 05:06:26 buzz kernel: real memory  = 2147418112 (2047 MB)
+May  6 05:06:26 buzz kernel: avail memory = 2038865920 (1944 MB)
+May  6 05:06:26 buzz kernel: Event timer "LAPIC" quality 100
+May  6 05:06:26 buzz kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+May  6 05:06:26 buzz kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+May  6 05:06:26 buzz kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+May  6 05:06:26 buzz kernel: random: registering fast source Intel Secure Key RNG
+May  6 05:06:26 buzz kernel: random: fast provider: "Intel Secure Key RNG"
+May  6 05:06:26 buzz kernel: random: unblocking device.
+May  6 05:06:26 buzz kernel: ioapic0: MADT APIC ID 2 != hw id 0
+May  6 05:06:26 buzz kernel: ioapic0 <Version 2.0> irqs 0-23
+May  6 05:06:26 buzz kernel: Launching APs: 1
+May  6 05:06:26 buzz kernel: random: entropy device external interface
+May  6 05:06:26 buzz kernel: kbd1 at kbdmux0
+May  6 05:06:26 buzz kernel: vtvga0: <VT VGA driver>
+May  6 05:06:26 buzz kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+May  6 05:06:26 buzz kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+May  6 05:06:26 buzz kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+May  6 05:06:26 buzz kernel: acpi0: <VBOX VBOXXSDT>
+May  6 05:06:26 buzz kernel: acpi0: Power Button (fixed)
+May  6 05:06:26 buzz kernel: acpi0: Sleep Button (fixed)
+May  6 05:06:26 buzz kernel: cpu0: <ACPI CPU> on acpi0
+May  6 05:06:26 buzz kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+May  6 05:06:26 buzz kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+May  6 05:06:26 buzz kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+May  6 05:06:26 buzz kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+May  6 05:06:26 buzz kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+May  6 05:06:26 buzz kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+May  6 05:06:26 buzz kernel: pci0: <ACPI PCI bus> on pcib0
+May  6 05:06:26 buzz kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+May  6 05:06:26 buzz kernel: isa0: <ISA bus> on isab0
+May  6 05:06:26 buzz kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+May  6 05:06:26 buzz kernel: ata0: <ATA channel> at channel 0 on atapci0
+May  6 05:06:26 buzz kernel: ata1: <ATA channel> at channel 1 on atapci0
+May  6 05:06:26 buzz kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+May  6 05:06:26 buzz kernel: vgapci0: Boot video device
+May  6 05:06:26 buzz kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+May  6 05:06:26 buzz kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+May  6 05:06:26 buzz kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+May  6 05:06:26 buzz kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+May  6 05:06:26 buzz kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+May  6 05:06:26 buzz kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+May  6 05:06:26 buzz kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+May  6 05:06:26 buzz kernel: usbus0 on ohci0
+May  6 05:06:26 buzz kernel: usbus0: 12Mbps Full Speed USB v1.0
+May  6 05:06:26 buzz kernel: pci0: <bridge> at device 7.0 (no driver attached)
+May  6 05:06:26 buzz kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+May  6 05:06:26 buzz kernel: usbus1: EHCI version 1.0
+May  6 05:06:26 buzz kernel: usbus1 on ehci0
+May  6 05:06:26 buzz kernel: usbus1: 480Mbps High Speed USB v2.0
+May  6 05:06:26 buzz kernel: acpi_acad0: <AC Adapter> on acpi0
+May  6 05:06:26 buzz kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+May  6 05:06:26 buzz kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+May  6 05:06:26 buzz kernel: kbd0 at atkbd0
+May  6 05:06:26 buzz kernel: atkbd0: [GIANT-LOCKED]
+May  6 05:06:26 buzz kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+May  6 05:06:26 buzz kernel: psm0: [GIANT-LOCKED]
+May  6 05:06:26 buzz kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+May  6 05:06:26 buzz kernel: psm0: model IntelliMouse Explorer, device ID 4
+May  6 05:06:26 buzz kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+May  6 05:06:26 buzz kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+May  6 05:06:26 buzz kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+May  6 05:06:26 buzz kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+May  6 05:06:26 buzz kernel: Event timer "RTC" frequency 32768 Hz quality 0
+May  6 05:06:26 buzz kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+May  6 05:06:26 buzz kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+May  6 05:06:26 buzz kernel: Falling back to slow TSC calibration.
+May  6 05:06:26 buzz kernel: Timecounter "TSC-low" frequency 1123034423 Hz quality 0
+May  6 05:06:26 buzz kernel: Timecounters tick every 10.000 msec
+May  6 05:06:26 buzz kernel: ZFS filesystem version: 5
+May  6 05:06:26 buzz kernel: ZFS storage pool version: features support (5000)
+May  6 05:06:26 buzz kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+May  6 05:06:26 buzz kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+May  6 05:06:26 buzz kernel: uhub0 on usbus0
+May  6 05:06:26 buzz kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+May  6 05:06:26 buzz kernel: uhub1 on usbus1
+May  6 05:06:26 buzz kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+May  6 05:06:26 buzz kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+May  6 05:06:26 buzz kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+May  6 05:06:26 buzz kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+May  6 05:06:26 buzz kernel: ada0: Serial Number VB2fd10c19-19494b1d
+May  6 05:06:26 buzz kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+May  6 05:06:26 buzz kernel: ada0: 16384MB (33554432 512 byte sectors)
+May  6 05:06:26 buzz kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+May  6 05:06:26 buzz kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+May  6 05:06:26 buzz kernel: cd0: Serial Number VB2-01700376
+May  6 05:06:26 buzz kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+May  6 05:06:26 buzz kernel: cd0: 50MB (25903 2048 byte sectors)
+May  6 05:06:26 buzz kernel: uhub0: 12 ports with 12 removable, self powered
+May  6 05:06:26 buzz kernel: Root mount waiting for: usbus1
+May  6 05:06:26 buzz syslogd: last message repeated 3 times
+May  6 05:06:26 buzz kernel: uhub1: 12 ports with 12 removable, self powered
+May  6 05:06:26 buzz kernel: vboxguest0 port 0xd040-0xd05f mem 0xf0400000-0xf07fffff,0xf0800000-0xf0803fff irq 20 at device 4.0 on pci0
+May  6 05:06:26 buzz kernel: vboxguest: loaded successfully
+May  6 05:06:26 buzz kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+May  6 05:06:26 buzz kernel: intsmb0: intr IRQ 9 enabled revision 0
+May  6 05:06:26 buzz kernel: smbus0: <System Management Bus> on intsmb0
+May  6 05:06:26 buzz kernel: lo0: link state changed to UP
+May  6 05:06:26 buzz kernel: em0: link state changed to UP
+May  6 12:12:41 buzz login[861]: ROOT LOGIN (root) ON ttyv0
+May  6 12:18:43 buzz halt[2110]: halted by root
+May  6 12:18:43 buzz syslogd: exiting on signal 15
+May  9 14:15:01 buzz syslogd: kernel boot file is /boot/kernel/kernel
+May  9 14:15:01 buzz kernel: ---<<BOOT>>---
+May  9 14:15:01 buzz kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+May  9 14:15:01 buzz kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+May  9 14:15:01 buzz kernel: 	The Regents of the University of California. All rights reserved.
+May  9 14:15:01 buzz kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+May  9 14:15:01 buzz kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+May  9 14:15:01 buzz kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+May  9 14:15:01 buzz kernel: VT(vga): text 80x25
+May  9 14:15:01 buzz kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4492.82-MHz K8-class CPU)
+May  9 14:15:01 buzz kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+May  9 14:15:01 buzz kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+May  9 14:15:01 buzz kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+May  9 14:15:01 buzz kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+May  9 14:15:01 buzz kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+May  9 14:15:01 buzz kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+May  9 14:15:01 buzz kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+May  9 14:15:01 buzz kernel:   TSC: P-state invariant
+May  9 14:15:01 buzz kernel: real memory  = 2147418112 (2047 MB)
+May  9 14:15:01 buzz kernel: avail memory = 2038865920 (1944 MB)
+May  9 14:15:01 buzz kernel: Event timer "LAPIC" quality 100
+May  9 14:15:01 buzz kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+May  9 14:15:01 buzz kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+May  9 14:15:01 buzz kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+May  9 14:15:01 buzz kernel: random: registering fast source Intel Secure Key RNG
+May  9 14:15:01 buzz kernel: random: fast provider: "Intel Secure Key RNG"
+May  9 14:15:01 buzz kernel: random: unblocking device.
+May  9 14:15:01 buzz kernel: ioapic0: MADT APIC ID 2 != hw id 0
+May  9 14:15:01 buzz kernel: ioapic0 <Version 2.0> irqs 0-23
+May  9 14:15:01 buzz kernel: Launching APs: 1
+May  9 14:15:01 buzz kernel: random: entropy device external interface
+May  9 14:15:01 buzz kernel: kbd1 at kbdmux0
+May  9 14:15:01 buzz kernel: vtvga0: <VT VGA driver>
+May  9 14:15:01 buzz kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+May  9 14:15:01 buzz kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+May  9 14:15:01 buzz kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+May  9 14:15:01 buzz kernel: acpi0: <VBOX VBOXXSDT>
+May  9 14:15:01 buzz kernel: acpi0: Power Button (fixed)
+May  9 14:15:01 buzz kernel: acpi0: Sleep Button (fixed)
+May  9 14:15:01 buzz kernel: cpu0: <ACPI CPU> on acpi0
+May  9 14:15:01 buzz kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+May  9 14:15:01 buzz kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+May  9 14:15:01 buzz kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+May  9 14:15:01 buzz kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+May  9 14:15:01 buzz kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+May  9 14:15:01 buzz kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+May  9 14:15:01 buzz kernel: pci0: <ACPI PCI bus> on pcib0
+May  9 14:15:01 buzz kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+May  9 14:15:01 buzz kernel: isa0: <ISA bus> on isab0
+May  9 14:15:01 buzz kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+May  9 14:15:01 buzz kernel: ata0: <ATA channel> at channel 0 on atapci0
+May  9 14:15:01 buzz kernel: ata1: <ATA channel> at channel 1 on atapci0
+May  9 14:15:01 buzz kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+May  9 14:15:01 buzz kernel: vgapci0: Boot video device
+May  9 14:15:01 buzz kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+May  9 14:15:01 buzz kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+May  9 14:15:01 buzz kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+May  9 14:15:01 buzz kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+May  9 14:15:01 buzz kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+May  9 14:15:01 buzz kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+May  9 14:15:01 buzz kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+May  9 14:15:01 buzz kernel: usbus0 on ohci0
+May  9 14:15:01 buzz kernel: usbus0: 12Mbps Full Speed USB v1.0
+May  9 14:15:01 buzz kernel: pci0: <bridge> at device 7.0 (no driver attached)
+May  9 14:15:01 buzz kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+May  9 14:15:01 buzz kernel: usbus1: EHCI version 1.0
+May  9 14:15:01 buzz kernel: usbus1 on ehci0
+May  9 14:15:01 buzz kernel: usbus1: 480Mbps High Speed USB v2.0
+May  9 14:15:01 buzz kernel: acpi_acad0: <AC Adapter> on acpi0
+May  9 14:15:01 buzz kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+May  9 14:15:01 buzz kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+May  9 14:15:01 buzz kernel: kbd0 at atkbd0
+May  9 14:15:01 buzz kernel: atkbd0: [GIANT-LOCKED]
+May  9 14:15:01 buzz kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+May  9 14:15:01 buzz kernel: psm0: [GIANT-LOCKED]
+May  9 14:15:01 buzz kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+May  9 14:15:01 buzz kernel: psm0: model IntelliMouse Explorer, device ID 4
+May  9 14:15:01 buzz kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+May  9 14:15:01 buzz kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+May  9 14:15:01 buzz kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+May  9 14:15:01 buzz kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+May  9 14:15:01 buzz kernel: Event timer "RTC" frequency 32768 Hz quality 0
+May  9 14:15:01 buzz kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+May  9 14:15:01 buzz kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+May  9 14:15:01 buzz kernel: Falling back to slow TSC calibration.
+May  9 14:15:01 buzz kernel: Timecounter "TSC-low" frequency 1122403908 Hz quality 0
+May  9 14:15:01 buzz kernel: Timecounters tick every 10.000 msec
+May  9 14:15:01 buzz kernel: ZFS filesystem version: 5
+May  9 14:15:01 buzz kernel: ZFS storage pool version: features support (5000)
+May  9 14:15:01 buzz kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+May  9 14:15:01 buzz kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+May  9 14:15:01 buzz kernel: uhub0 on usbus0
+May  9 14:15:01 buzz kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+May  9 14:15:01 buzz kernel: uhub1 on usbus1
+May  9 14:15:01 buzz kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+May  9 14:15:01 buzz kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+May  9 14:15:01 buzz kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+May  9 14:15:01 buzz kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+May  9 14:15:01 buzz kernel: ada0: Serial Number VB2fd10c19-19494b1d
+May  9 14:15:01 buzz kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+May  9 14:15:01 buzz kernel: ada0: 16384MB (33554432 512 byte sectors)
+May  9 14:15:01 buzz kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+May  9 14:15:01 buzz kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+May  9 14:15:01 buzz kernel: cd0: Serial Number VB2-01700376
+May  9 14:15:01 buzz kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+May  9 14:15:01 buzz kernel: cd0: 50MB (25903 2048 byte sectors)
+May  9 14:15:01 buzz kernel: uhub0: 12 ports with 12 removable, self powered
+May  9 14:15:01 buzz kernel: Root mount waiting for: usbus1
+May  9 14:15:01 buzz syslogd: last message repeated 3 times
+May  9 14:15:01 buzz kernel: uhub1: 12 ports with 12 removable, self powered
+May  9 14:15:01 buzz kernel: vboxguest0 port 0xd040-0xd05f mem 0xf0400000-0xf07fffff,0xf0800000-0xf0803fff irq 20 at device 4.0 on pci0
+May  9 14:15:01 buzz kernel: vboxguest: loaded successfully
+May  9 14:15:01 buzz kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+May  9 14:15:01 buzz kernel: intsmb0: intr IRQ 9 enabled revision 0
+May  9 14:15:01 buzz kernel: smbus0: <System Management Bus> on intsmb0
+May  9 14:15:01 buzz kernel: lo0: link state changed to UP
+May  9 14:15:01 buzz kernel: em0: link state changed to UP
+May  9 21:15:21 buzz login[834]: ROOT LOGIN (root) ON ttyv0
+May  9 23:31:53 buzz halt[3789]: halted by root
+May  9 23:31:53 buzz syslogd: exiting on signal 15
+Oct 26 01:41:47 buzz syslogd: kernel boot file is /boot/kernel/kernel
+Oct 26 01:41:47 buzz kernel: ---<<BOOT>>---
+Oct 26 01:41:47 buzz kernel: Copyright (c) 1992-2021 The FreeBSD Project.
+Oct 26 01:41:47 buzz kernel: Copyright (c) 1979, 1980, 1983, 1986, 1988, 1989, 1991, 1992, 1993, 1994
+Oct 26 01:41:47 buzz kernel: 	The Regents of the University of California. All rights reserved.
+Oct 26 01:41:47 buzz kernel: FreeBSD is a registered trademark of The FreeBSD Foundation.
+Oct 26 01:41:47 buzz kernel: FreeBSD 13.1-RELEASE releng/13.1-n250148-fc952ac2212 GENERIC amd64
+Oct 26 01:41:47 buzz kernel: FreeBSD clang version 13.0.0 (git@github.com:llvm/llvm-project.git llvmorg-13.0.0-0-gd7b669b3a303)
+Oct 26 01:41:47 buzz kernel: VT(vga): text 80x25
+Oct 26 01:41:47 buzz kernel: CPU: AMD Ryzen 7 7700X 8-Core Processor              (4493.24-MHz K8-class CPU)
+Oct 26 01:41:47 buzz kernel:   Origin="AuthenticAMD"  Id=0xa60f12  Family=0x19  Model=0x61  Stepping=2
+Oct 26 01:41:47 buzz kernel:   Features=0x1783fbff<FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,MMX,FXSR,SSE,SSE2,HTT>
+Oct 26 01:41:47 buzz kernel:   Features2=0x42d82203<SSE3,PCLMULQDQ,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AESNI,RDRAND>
+Oct 26 01:41:47 buzz kernel:   AMD Features=0x2a500800<SYSCALL,NX,MMX+,FFXSR,RDTSCP,LM>
+Oct 26 01:41:47 buzz kernel:   AMD Features2=0x1f3<LAHF,CMP,CR8,ABM,SSE4A,MAS,Prefetch>
+Oct 26 01:41:47 buzz kernel:   Structured Extended Features=0x840509<FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT>
+Oct 26 01:41:47 buzz kernel:   AMD Extended Feature Extensions ID EBX=0x4000000<SSB_NO>
+Oct 26 01:41:47 buzz kernel:   TSC: P-state invariant
+Oct 26 01:41:47 buzz kernel: real memory  = 2147418112 (2047 MB)
+Oct 26 01:41:47 buzz kernel: avail memory = 2038865920 (1944 MB)
+Oct 26 01:41:47 buzz kernel: Event timer "LAPIC" quality 100
+Oct 26 01:41:47 buzz kernel: ACPI APIC Table: <VBOX   VBOXAPIC>
+Oct 26 01:41:47 buzz kernel: FreeBSD/SMP: Multiprocessor System Detected: 2 CPUs
+Oct 26 01:41:47 buzz kernel: FreeBSD/SMP: 1 package(s) x 2 core(s)
+Oct 26 01:41:47 buzz kernel: random: registering fast source Intel Secure Key RNG
+Oct 26 01:41:47 buzz kernel: random: fast provider: "Intel Secure Key RNG"
+Oct 26 01:41:47 buzz kernel: random: unblocking device.
+Oct 26 01:41:47 buzz kernel: ioapic0: MADT APIC ID 2 != hw id 0
+Oct 26 01:41:47 buzz kernel: ioapic0 <Version 2.0> irqs 0-23
+Oct 26 01:41:47 buzz kernel: Launching APs: 1
+Oct 26 01:41:47 buzz kernel: random: entropy device external interface
+Oct 26 01:41:47 buzz kernel: kbd1 at kbdmux0
+Oct 26 01:41:47 buzz kernel: vtvga0: <VT VGA driver>
+Oct 26 01:41:47 buzz kernel: smbios0: <System Management BIOS> at iomem 0xfff60-0xfff7e
+Oct 26 01:41:47 buzz kernel: smbios0: Version: 2.5, BCD Revision: 2.5
+Oct 26 01:41:47 buzz kernel: aesni0: <AES-CBC,AES-CCM,AES-GCM,AES-ICM,AES-XTS>
+Oct 26 01:41:47 buzz kernel: acpi0: <VBOX VBOXXSDT>
+Oct 26 01:41:47 buzz kernel: acpi0: Power Button (fixed)
+Oct 26 01:41:47 buzz kernel: acpi0: Sleep Button (fixed)
+Oct 26 01:41:47 buzz kernel: cpu0: <ACPI CPU> on acpi0
+Oct 26 01:41:47 buzz kernel: attimer0: <AT timer> port 0x40-0x43,0x50-0x53 on acpi0
+Oct 26 01:41:47 buzz kernel: Timecounter "i8254" frequency 1193182 Hz quality 0
+Oct 26 01:41:47 buzz kernel: Event timer "i8254" frequency 1193182 Hz quality 100
+Oct 26 01:41:47 buzz kernel: Timecounter "ACPI-fast" frequency 3579545 Hz quality 900
+Oct 26 01:41:47 buzz kernel: acpi_timer0: <32-bit timer at 3.579545MHz> port 0x4008-0x400b on acpi0
+Oct 26 01:41:47 buzz kernel: pcib0: <ACPI Host-PCI bridge> port 0xcf8-0xcff on acpi0
+Oct 26 01:41:47 buzz kernel: pci0: <ACPI PCI bus> on pcib0
+Oct 26 01:41:47 buzz kernel: isab0: <PCI-ISA bridge> at device 1.0 on pci0
+Oct 26 01:41:47 buzz kernel: isa0: <ISA bus> on isab0
+Oct 26 01:41:47 buzz kernel: atapci0: <Intel PIIX4 UDMA33 controller> port 0x1f0-0x1f7,0x3f6,0x170-0x177,0x376,0xd000-0xd00f at device 1.1 on pci0
+Oct 26 01:41:47 buzz kernel: ata0: <ATA channel> at channel 0 on atapci0
+Oct 26 01:41:47 buzz kernel: ata1: <ATA channel> at channel 1 on atapci0
+Oct 26 01:41:47 buzz kernel: vgapci0: <VGA-compatible display> port 0xd010-0xd01f mem 0xe0000000-0xe0ffffff,0xf0000000-0xf01fffff irq 18 at device 2.0 on pci0
+Oct 26 01:41:47 buzz kernel: vgapci0: Boot video device
+Oct 26 01:41:47 buzz kernel: em0: <Intel(R) Legacy PRO/1000 MT 82540EM> port 0xd020-0xd027 mem 0xf0200000-0xf021ffff irq 19 at device 3.0 on pci0
+Oct 26 01:41:47 buzz kernel: em0: Using 1024 TX descriptors and 1024 RX descriptors
+Oct 26 01:41:47 buzz kernel: em0: Ethernet address: 08:00:27:64:c7:9b
+Oct 26 01:41:47 buzz kernel: em0: netmap queues/slots: TX 1/1024, RX 1/1024
+Oct 26 01:41:47 buzz kernel: pcm0: <Intel ICH (82801AA)> port 0xd100-0xd1ff,0xd200-0xd23f irq 21 at device 5.0 on pci0
+Oct 26 01:41:47 buzz kernel: pcm0: <SigmaTel STAC9700/83/84 AC97 Codec>
+Oct 26 01:41:47 buzz kernel: ohci0: <Apple KeyLargo/Intrepid USB controller> mem 0xf0804000-0xf0804fff irq 22 at device 6.0 on pci0
+Oct 26 01:41:47 buzz kernel: usbus0 on ohci0
+Oct 26 01:41:47 buzz kernel: usbus0: 12Mbps Full Speed USB v1.0
+Oct 26 01:41:47 buzz kernel: pci0: <bridge> at device 7.0 (no driver attached)
+Oct 26 01:41:47 buzz kernel: ehci0: <Intel 82801FB (ICH6) USB 2.0 controller> mem 0xf0805000-0xf0805fff irq 19 at device 11.0 on pci0
+Oct 26 01:41:47 buzz kernel: usbus1: EHCI version 1.0
+Oct 26 01:41:47 buzz kernel: usbus1 on ehci0
+Oct 26 01:41:47 buzz kernel: usbus1: 480Mbps High Speed USB v2.0
+Oct 26 01:41:47 buzz kernel: acpi_acad0: <AC Adapter> on acpi0
+Oct 26 01:41:47 buzz kernel: atkbdc0: <Keyboard controller (i8042)> port 0x60,0x64 irq 1 on acpi0
+Oct 26 01:41:47 buzz kernel: atkbd0: <AT Keyboard> irq 1 on atkbdc0
+Oct 26 01:41:47 buzz kernel: kbd0 at atkbd0
+Oct 26 01:41:47 buzz kernel: atkbd0: [GIANT-LOCKED]
+Oct 26 01:41:47 buzz kernel: psm0: <PS/2 Mouse> irq 12 on atkbdc0
+Oct 26 01:41:47 buzz kernel: psm0: [GIANT-LOCKED]
+Oct 26 01:41:47 buzz kernel: WARNING: Device "psm" is Giant locked and may be deleted before FreeBSD 14.0.
+Oct 26 01:41:47 buzz kernel: psm0: model IntelliMouse Explorer, device ID 4
+Oct 26 01:41:47 buzz kernel: orm0: <ISA Option ROMs> at iomem 0xc0000-0xc7fff,0xe2000-0xeffff pnpid ORM0000 on isa0
+Oct 26 01:41:47 buzz kernel: vga0: <Generic ISA VGA> at port 0x3c0-0x3df iomem 0xa0000-0xbffff pnpid PNP0900 on isa0
+Oct 26 01:41:47 buzz kernel: atrtc0: <AT realtime clock> at port 0x70 irq 8 on isa0
+Oct 26 01:41:47 buzz kernel: atrtc0: registered as a time-of-day clock, resolution 1.000000s
+Oct 26 01:41:47 buzz kernel: Event timer "RTC" frequency 32768 Hz quality 0
+Oct 26 01:41:47 buzz kernel: atrtc0: non-PNP ISA device will be removed from GENERIC in FreeBSD 14.
+Oct 26 01:41:47 buzz kernel: Statistical TSC calibration failed!  Clocks might be ticking at variable rates.
+Oct 26 01:41:47 buzz kernel: Falling back to slow TSC calibration.
+Oct 26 01:41:47 buzz kernel: Timecounter "TSC-low" frequency 1123039867 Hz quality 0
+Oct 26 01:41:47 buzz kernel: Timecounters tick every 10.000 msec
+Oct 26 01:41:47 buzz kernel: ZFS filesystem version: 5
+Oct 26 01:41:47 buzz kernel: ZFS storage pool version: features support (5000)
+Oct 26 01:41:47 buzz kernel: ugen0.1: <Apple OHCI root HUB> at usbus0
+Oct 26 01:41:47 buzz kernel: ugen1.1: <Intel EHCI root HUB> at usbus1
+Oct 26 01:41:47 buzz kernel: uhub0 on usbus0
+Oct 26 01:41:47 buzz kernel: uhub1 on usbus1
+Oct 26 01:41:47 buzz kernel: uhub1: <Intel EHCI root HUB, class 9/0, rev 2.00/1.00, addr 1> on usbus1
+Oct 26 01:41:47 buzz kernel: uhub0: <Apple OHCI root HUB, class 9/0, rev 1.00/1.00, addr 1> on usbus0
+Oct 26 01:41:47 buzz kernel: pcm0: measured ac97 link rate at 47247 Hz
+Oct 26 01:41:47 buzz kernel: Trying to mount root from zfs:zroot/ROOT/default []...
+Oct 26 01:41:47 buzz kernel: ada0 at ata0 bus 0 scbus0 target 0 lun 0
+Oct 26 01:41:47 buzz kernel: ada0: <VBOX HARDDISK 1.0> ATA-6 device
+Oct 26 01:41:47 buzz kernel: ada0: Serial Number VB2fd10c19-19494b1d
+Oct 26 01:41:47 buzz kernel: ada0: 33.300MB/s transfers (UDMA2, PIO 65536bytes)
+Oct 26 01:41:47 buzz kernel: ada0: 16384MB (33554432 512 byte sectors)
+Oct 26 01:41:47 buzz kernel: cd0 at ata1 bus 0 scbus1 target 0 lun 0
+Oct 26 01:41:47 buzz kernel: cd0: <VBOX CD-ROM 1.0> Removable CD-ROM SCSI device
+Oct 26 01:41:47 buzz kernel: cd0: Serial Number VB2-01700376
+Oct 26 01:41:47 buzz kernel: cd0: 33.300MB/s transfers (UDMA2, ATAPI 12bytes, PIO 65534bytes)
+Oct 26 01:41:47 buzz kernel: cd0: 50MB (25903 2048 byte sectors)
+Oct 26 01:41:47 buzz kernel: uhub0: 12 ports with 12 removable, self powered
+Oct 26 01:41:47 buzz kernel: Root mount waiting for: usbus1
+Oct 26 01:41:47 buzz syslogd: last message repeated 3 times
+Oct 26 01:41:47 buzz kernel: uhub1: 12 ports with 12 removable, self powered
+Oct 26 01:41:47 buzz kernel: vboxguest0 port 0xd040-0xd05f mem 0xf0400000-0xf07fffff,0xf0800000-0xf0803fff irq 20 at device 4.0 on pci0
+Oct 26 01:41:47 buzz kernel: vboxguest: loaded successfully
+Oct 26 01:41:47 buzz kernel: intsmb0: <Intel PIIX4 SMBUS Interface> irq 23 at device 7.0 on pci0
+Oct 26 01:41:47 buzz kernel: intsmb0: intr IRQ 9 enabled revision 0
+Oct 26 01:41:47 buzz kernel: smbus0: <System Management Bus> on intsmb0
+Oct 26 01:41:47 buzz kernel: lo0: link state changed to UP
+Oct 26 01:41:47 buzz kernel: em0: link state changed to UP
+Oct 26 08:46:22 buzz login[848]: ROOT LOGIN (root) ON ttyv0

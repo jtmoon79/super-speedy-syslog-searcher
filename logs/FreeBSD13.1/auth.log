@@ -1,0 +1,80 @@
+Mar 15 15:15:21 f13b newsyslog[566]: logfile first created
+Mar 15 22:15:38 f13b sshd[791]: Server listening on :: port 14898.
+Mar 15 22:15:38 f13b sshd[791]: Server listening on 192.168.0.0 port 14898.
+Mar 15 22:15:45 f13b login[842]: login on ttyv0 as root
+Mar 15 22:15:45 f13b login[842]: ROOT LOGIN (root) ON ttyv0
+Mar 15 22:16:44 f13b shutdown[861]: reboot by root: 
+Mar 15 22:16:44 f13b sshd[791]: Received signal 15; terminating.
+Mar 15 22:17:23 f13b sshd[764]: Server listening on :: port 14898.
+Mar 15 22:17:23 f13b sshd[764]: Server listening on 192.168.0.0 port 14898.
+Mar 15 22:17:30 f13b sshd[797]: error: PAM: Authentication error for root from uboo.boo
+Mar 15 22:17:34 f13b syslogd: last message repeated 1 times
+Mar 15 22:17:42 f13b login[789]: login on ttyv0 as root
+Mar 15 22:17:42 f13b login[789]: ROOT LOGIN (root) ON ttyv0
+Mar 15 22:19:26 f13b sshd[797]: fatal: Timeout before authentication for 192.168.1.2 port 14898
+Mar 15 22:22:55 f13b sshd[1403]: error: PAM: Authentication error for root from uboo.boo
+Mar 15 22:23:00 f13b syslogd: last message repeated 1 times
+Mar 15 22:23:01 f13b sshd[1403]: Connection reset by authenticating user root 192.168.1.2 port 14898 [preauth]
+Mar 15 22:24:21 f13b shutdown[1597]: reboot by root: 
+Mar 15 22:24:21 f13b sshd[764]: Received signal 15; terminating.
+Mar 15 22:25:05 f13b sshd[768]: Server listening on 192.168.0.0 port 14898.
+Mar 15 22:25:22 f13b sshd[801]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Mar 17 14:52:36 f13b sshd[782]: Server listening on 192.168.0.0 port 14898.
+Mar 17 14:52:43 f13b sshd[815]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Mar 17 14:58:14 f13b sshd[780]: Server listening on 192.168.0.0 port 14898.
+Mar 17 14:58:47 f13b sshd[813]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Mar 17 19:57:50 f13b sshd[5720]: error: maximum authentication attempts exceeded for root from 192.168.1.2 port 14898 ssh2 [preauth]
+Mar 17 19:57:50 f13b sshd[5720]: Disconnecting authenticating user root 192.168.1.2 port 14898: Too many authentication failures [preauth]
+Mar 17 19:58:01 f13b sshd[5722]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Mar 17 19:58:01 f13b sshd[5722]: Received disconnect from 192.168.1.2 port 14898:11: disconnected by user
+Mar 17 19:58:01 f13b sshd[5722]: Disconnected from user root 192.168.1.2 port 14898
+Mar 17 19:59:30 f13b sshd[5956]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Mar 17 19:59:30 f13b sshd[5956]: Received disconnect from 192.168.1.2 port 14898:11: disconnected by user
+Mar 17 19:59:30 f13b sshd[5956]: Disconnected from user root 192.168.1.2 port 14898
+Mar 17 20:01:45 f13b sshd[6150]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Mar 17 20:01:45 f13b sshd[6150]: Received disconnect from 192.168.1.2 port 14898:11: disconnected by user
+Mar 17 20:01:45 f13b sshd[6150]: Disconnected from user root 192.168.1.2 port 14898
+Mar 17 20:25:13 f13b login[805]: login on ttyv0 as root
+Mar 17 20:25:13 f13b login[805]: ROOT LOGIN (root) ON ttyv0
+Mar 18 03:49:26 f13b sshd[813]: Received disconnect from 192.168.1.2 port 14898:11: disconnected by user
+Mar 18 03:49:26 f13b sshd[813]: Disconnected from user root 192.168.1.2 port 14898
+Mar 18 03:54:55 f13b sshd[14898]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Mar 28 20:00:36 f13b sshd[14898]: Received disconnect from 192.168.1.2 port 14898:11: disconnected by user
+Mar 28 20:00:36 f13b sshd[14898]: Disconnected from user root 192.168.1.2 port 14898
+Mar 28 20:02:05 f13b sshd[14898]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Mar 29 11:23:48 f13b sshd[14898]: Received disconnect from 192.168.1.2 port 14898:11: disconnected by user
+Mar 29 11:23:48 f13b sshd[14898]: Disconnected from user root 192.168.1.2 port 14898
+Mar 29 11:24:02 f13b shutdown[14898]: halt by root: 
+Mar 29 11:24:02 f13b sshd[780]: Received signal 15; terminating.
+Apr 15 21:49:03 f13b sshd[823]: Server listening on 192.168.0.0 port 14898.
+Apr 15 22:08:34 f13b login[848]: login on ttyv0 as root
+Apr 15 22:08:34 f13b login[848]: ROOT LOGIN (root) ON ttyv0
+Apr 15 22:18:22 f13b sshd[1366]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Apr 16 23:53:46 f13b shutdown[5801]: halt by root: 
+Apr 16 23:53:46 f13b sshd[823]: Received signal 15; terminating.
+Apr 22 12:25:54 f13b sshd[823]: Server listening on 192.168.0.0 port 14898.
+Apr 22 12:26:34 f13b login[848]: login on ttyv0 as root
+Apr 22 12:26:34 f13b login[848]: ROOT LOGIN (root) ON ttyv0
+Apr 22 13:06:15 f13b sshd[1423]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Apr 22 13:07:47 f13b sshd[798]: Server listening on 192.168.0.0 port 14898.
+Apr 22 13:18:30 f13b login[823]: login on ttyv0 as root
+Apr 22 13:18:30 f13b login[823]: ROOT LOGIN (root) ON ttyv0
+Apr 22 13:18:37 f13b sshd[1185]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Apr 22 14:49:59 f13b shutdown[2076]: reboot by root: 
+Apr 22 14:49:59 f13b sshd[798]: Received signal 15; terminating.
+Apr 22 14:50:41 buzz sshd[806]: Server listening on 192.168.0.0 port 14898.
+Apr 22 14:50:52 buzz login[831]: login on ttyv0 as root
+Apr 22 14:50:52 buzz login[831]: ROOT LOGIN (root) ON ttyv0
+Apr 22 14:51:02 buzz sshd[1174]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Apr 22 23:36:54 buzz shutdown[4875]: halt by root: 
+Apr 22 23:36:54 buzz sshd[806]: Received signal 15; terminating.
+May  6 12:06:33 buzz sshd[836]: Server listening on 192.168.0.0 port 14898.
+May  6 12:12:41 buzz login[861]: login on ttyv0 as root
+May  6 12:12:41 buzz login[861]: ROOT LOGIN (root) ON ttyv0
+May  9 21:15:13 buzz sshd[809]: Server listening on 192.168.0.0 port 14898.
+May  9 21:15:21 buzz login[834]: login on ttyv0 as root
+May  9 21:15:21 buzz login[834]: ROOT LOGIN (root) ON ttyv0
+May  9 21:25:26 buzz sshd[1272]: Accepted keyboard-interactive/pam for root from 192.168.1.2 port 14898 ssh2
+Oct 26 08:41:54 buzz sshd[823]: Server listening on 192.168.0.0 port 14898.
+Oct 26 08:46:22 buzz login[848]: login on ttyv0 as root
+Oct 26 08:46:22 buzz login[848]: ROOT LOGIN (root) ON ttyv0

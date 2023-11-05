@@ -1,0 +1,595 @@
+May 10 03:03:51 localhost syslogd[241]: restart
+May 10 03:03:51 localhost /netbsd: [   1.0000000] Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
+May 10 03:03:51 localhost /netbsd: [   1.0000000]     2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
+May 10 03:03:51 localhost /netbsd: [   1.0000000]     2018, 2019, 2020, 2021, 2022
+May 10 03:03:51 localhost /netbsd: [   1.0000000]     The NetBSD Foundation, Inc.  All rights reserved.
+May 10 03:03:51 localhost /netbsd: [   1.0000000] Copyright (c) 1982, 1986, 1989, 1991, 1993
+May 10 03:03:51 localhost /netbsd: [   1.0000000]     The Regents of the University of California.  All rights reserved.
+May 10 03:03:51 localhost /netbsd: 
+May 10 03:03:51 localhost /netbsd: [   1.0000000] NetBSD 9.3 (GENERIC) #0: Thu Aug  4 15:30:37 UTC 2022
+May 10 03:03:51 localhost /netbsd: [   1.0000000] 	mkrepro@mkrepro.NetBSD.org:/usr/src/sys/arch/i386/compile/GENERIC
+May 10 03:03:51 localhost /netbsd: [   1.0000000] total memory = 1023 MB
+May 10 03:03:51 localhost /netbsd: [   1.0000000] avail memory = 986 MB
+May 10 03:03:51 localhost /netbsd: [   1.0000000] cpu_rng: RDSEED
+May 10 03:03:51 localhost /netbsd: [   1.0000000] rnd: seeded with 256 bits
+May 10 03:03:51 localhost /netbsd: [   1.0000000] timecounter: Timecounters tick every 10.000 msec
+May 10 03:03:51 localhost /netbsd: [   1.0000000] Kernelized RAIDframe activated
+May 10 03:03:51 localhost /netbsd: [   1.0000000] running cgd selftest aes-xts-256 aes-xts-512 done
+May 10 03:03:51 localhost /netbsd: [   1.0000000] timecounter: Timecounter "i8254" frequency 1193182 Hz quality 100
+May 10 03:03:51 localhost /netbsd: [   1.0000030] innotek GmbH VirtualBox (1.2)
+May 10 03:03:51 localhost /netbsd: [   1.0000030] mainbus0 (root)
+May 10 03:03:51 localhost /netbsd: [   1.0000030] ACPI: RSDP 0x00000000000E0000 000024 (v02 VBOX  )
+May 10 03:03:51 localhost /netbsd: [   1.0000030] ACPI: XSDT 0x000000003FFF0030 00003C (v01 VBOX   VBOXXSDT 00000001 ASL  00000061)
+May 10 03:03:51 localhost /netbsd: [   1.0000030] ACPI: FACP 0x000000003FFF00F0 0000F4 (v04 VBOX   VBOXFACP 00000001 ASL  00000061)
+May 10 03:03:51 localhost /netbsd: [   1.0000030] ACPI: DSDT 0x000000003FFF0610 002353 (v02 VBOX   VBOXBIOS 00000002 INTL 20100528)
+May 10 03:03:51 localhost /netbsd: [   1.0000030] ACPI: FACS 0x000000003FFF0200 000040
+May 10 03:03:51 localhost /netbsd: [   1.0000030] ACPI: APIC 0x000000003FFF0240 00005C (v02 VBOX   VBOXAPIC 00000001 ASL  00000061)
+May 10 03:03:51 localhost /netbsd: [   1.0000030] ACPI: SSDT 0x000000003FFF02A0 00036C (v01 VBOX   VBOXCPUT 00000002 INTL 20100528)
+May 10 03:03:51 localhost /netbsd: [   1.0000030] ACPI: 2 ACPI AML tables successfully acquired and loaded
+May 10 03:03:51 localhost /netbsd: [   1.0000030] ioapic0 at mainbus0 apid 2: pa 0xfec00000, version 0x20, 24 pins
+May 10 03:03:51 localhost /netbsd: [   1.0000030] cpu0 at mainbus0 apid 0
+May 10 03:03:51 localhost /netbsd: [   1.0000030] cpu0: AMD Ryzen 7 7700X 8-Core Processor             , id 0xa60f12
+May 10 03:03:51 localhost /netbsd: [   1.0000030] cpu0: package 0, core 0, smt 0
+May 10 03:03:51 localhost /netbsd: [   1.0000030] cpu1 at mainbus0 apid 1
+May 10 03:03:51 localhost /netbsd: [   1.0000030] cpu1: AMD Ryzen 7 7700X 8-Core Processor             , id 0xa60f12
+May 10 03:03:51 localhost /netbsd: [   1.0000030] cpu1: package 0, core 0, smt 1
+May 10 03:03:51 localhost /netbsd: [   1.0000030] acpi0 at mainbus0: Intel ACPICA 20190405
+May 10 03:03:51 localhost /netbsd: [   1.0000030] acpi0: X/RSDT: OemId <VBOX  ,VBOXXSDT,00000001>, AslId <ASL ,00000061>
+May 10 03:03:51 localhost /netbsd: [   1.0000030] acpi0: SCI interrupting at int 9
+May 10 03:03:51 localhost /netbsd: [   1.0000030] acpi0: fixed power button present
+May 10 03:03:51 localhost /netbsd: [   1.0000030] acpi0: fixed sleep button present
+May 10 03:03:51 localhost /netbsd: [   1.0000030] timecounter: Timecounter "ACPI-Safe" frequency 3579545 Hz quality 900
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pckbc1 at acpi0 (PS2K, PNP0303) (kbd port): io 0x60,0x64 irq 1
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pckbc2 at acpi0 (PS2M, PNP0F03) (aux port): irq 12
+May 10 03:03:51 localhost /netbsd: [   1.0466857] attimer1 at acpi0 (TIMR, PNP0100): io 0x40-0x43,0x50-0x53
+May 10 03:03:51 localhost /netbsd: [   1.0466857] acpivga0 at acpi0 (GFX0): ACPI Display Adapter
+May 10 03:03:51 localhost /netbsd: [   1.0466857] acpiout0 at acpivga0 (VGA, 0x0100): ACPI Display Output Device
+May 10 03:03:51 localhost /netbsd: [   1.0466857] acpivga0: connected output devices:
+May 10 03:03:51 localhost /netbsd: [   1.0466857] acpivga0:   0x0100 (acpiout0): VGA Analog Monitor, index 0, port 0, head 0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] acpiacad0 at acpi0 (AC, ACPI0003-0): ACPI AC Adapter
+May 10 03:03:51 localhost /netbsd: [   1.0466857] apm0 at acpi0: Power Management spec V1.2
+May 10 03:03:51 localhost /netbsd: [   1.0466857] ACPI: Enabled 2 GPEs in block 00 to 07
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pckbd0 at pckbc1 (kbd slot)
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pckbc1: using irq 1 for kbd slot
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wskbd0 at pckbd0: console keyboard
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pms0 at pckbc1 (aux slot)
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pckbc1: using irq 12 for aux slot
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wsmouse0 at pms0 mux 0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pci0 at mainbus0 bus 0: configuration mode 1
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pci0: This pci host supports neither MSI nor MSI-X.
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pci0: i/o space, memory space enabled, rd/line, rd/mult, wr/inv ok
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pchb0 at pci0 dev 0 function 0: vendor 8086 product 1237 (rev. 0x02)
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pcib0 at pci0 dev 1 function 0: vendor 8086 product 7000 (rev. 0x00)
+May 10 03:03:51 localhost /netbsd: [   1.0466857] piixide0 at pci0 dev 1 function 1: Intel 82371AB IDE controller (PIIX4) (rev. 0x01)
+May 10 03:03:51 localhost /netbsd: [   1.0466857] piixide0: bus-master DMA support present
+May 10 03:03:51 localhost /netbsd: [   1.0466857] piixide0: primary channel configured to compatibility mode
+May 10 03:03:51 localhost /netbsd: [   1.0466857] piixide0: primary channel interrupting at ioapic0 pin 14
+May 10 03:03:51 localhost /netbsd: [   1.0466857] atabus0 at piixide0 channel 0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] piixide0: secondary channel configured to compatibility mode
+May 10 03:03:51 localhost /netbsd: [   1.0466857] piixide0: secondary channel interrupting at ioapic0 pin 15
+May 10 03:03:51 localhost /netbsd: [   1.0466857] atabus1 at piixide0 channel 1
+May 10 03:03:51 localhost /netbsd: [   1.0466857] vga0 at pci0 dev 2 function 0: vendor 15ad product 0405 (rev. 0x00)
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wsdisplay0 at vga0 kbdmux 1: console (80x25, vt100 emulation), using wskbd0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wsmux1: connecting to wsdisplay0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] drm at vga0 not configured
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wm0 at pci0 dev 3 function 0, 32-bit DMA: Intel i82540EM 1000BASE-T Ethernet (rev. 0x02)
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wm0: interrupting at ioapic0 pin 19
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wm0: 32-bit 33MHz PCI bus
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wm0: 64 words (6 address bits) MicroWire EEPROM
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wm0: Ethernet address 08:00:27:32:d9:e5
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wm0: 0x2<LOCK_EECD>
+May 10 03:03:51 localhost /netbsd: [   1.0466857] makphy0 at wm0 phy 1: Marvell 88E1011 Gigabit PHY, rev. 4
+May 10 03:03:51 localhost /netbsd: [   1.0466857] makphy0: 10baseT, 10baseT-FDX, 100baseTX, 100baseTX-FDX, auto
+May 10 03:03:51 localhost /netbsd: [   1.0466857] wm0: Clear PME# now
+May 10 03:03:51 localhost /netbsd: [   1.0466857] vendor 80ee product cafe (miscellaneous system) at pci0 dev 4 function 0 not configured
+May 10 03:03:51 localhost /netbsd: [   1.0466857] auich0 at pci0 dev 5 function 0: i82801AA (ICH) AC-97 Audio
+May 10 03:03:51 localhost /netbsd: [   1.0466857] auich0: interrupting at ioapic0 pin 21
+May 10 03:03:51 localhost /netbsd: [   1.0466857] auich0: ac97: SigmaTel STAC9700 codec; no 3D stereo
+May 10 03:03:51 localhost /netbsd: [   1.0466857] auich0: ac97: ext id 0x809<AC97_23,VRM,VRA>
+May 10 03:03:51 localhost /netbsd: [   1.0466857] ohci0 at pci0 dev 6 function 0: vendor 106b product 003f (rev. 0x00)
+May 10 03:03:51 localhost /netbsd: [   1.0466857] ohci0: interrupting at ioapic0 pin 22
+May 10 03:03:51 localhost /netbsd: [   1.0466857] ohci0: OHCI version 1.0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] usb0 at ohci0: USB revision 1.0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] piixpm0 at pci0 dev 7 function 0: vendor 8086 product 7113 (rev. 0x08)
+May 10 03:03:51 localhost /netbsd: [   1.0466857] piixpm0: interrupting at ioapic0 pin 23
+May 10 03:03:51 localhost /netbsd: [   1.0466857] iic0 at piixpm0 port 0: I2C bus
+May 10 03:03:51 localhost /netbsd: [   1.0466857] ehci0 at pci0 dev 11 function 0: vendor 8086 product 265c (rev. 0x00)
+May 10 03:03:51 localhost /netbsd: [   1.0466857] ehci0: interrupting at ioapic0 pin 19
+May 10 03:03:51 localhost /netbsd: [   1.0466857] ehci0: EHCI version 1.0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] usb1 at ehci0: USB revision 2.0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] isa0 at pcib0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] pcppi0 at isa0 port 0x61
+May 10 03:03:51 localhost /netbsd: [   1.0466857] midi0 at pcppi0: PC speaker
+May 10 03:03:51 localhost /netbsd: [   1.0466857] sysbeep0 at pcppi0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] isapnp0 at isa0 port 0x279
+May 10 03:03:51 localhost /netbsd: [   1.0466857] attimer1: attached to pcppi0
+May 10 03:03:51 localhost /netbsd: [   1.0466857] isapnp0: no ISA Plug 'n Play devices found
+May 10 03:03:51 localhost /netbsd: [   1.0466857] acpicpu0 at cpu0: ACPI CPU
+May 10 03:03:51 localhost /netbsd: [   1.0466857] acpicpu0: C1: HLT, lat   0 us, pow     0 mW
+May 10 03:03:51 localhost /netbsd: [   1.0466857] acpicpu1 at cpu1: ACPI CPU
+May 10 03:03:51 localhost /netbsd: [   1.0466857] timecounter: Timecounter "clockinterrupt" frequency 100 Hz quality 0
+May 10 03:03:51 localhost /netbsd: [   2.0963814] autoconfiguration error: ERROR: 26670 cycle TSC drift observed
+May 10 03:03:51 localhost /netbsd: [   2.0963814] acpiacad0: AC adapter online.
+May 10 03:03:51 localhost /netbsd: [   2.4472724] auich0: measured ac97 link rate at 47991 Hz, will use 48000 Hz
+May 10 03:03:51 localhost /netbsd: [   2.4472724] audio0 at auich0: playback, capture, full duplex, independent
+May 10 03:03:51 localhost /netbsd: [   2.4472724] audio0: slinear_le:16 2ch 48000Hz, blk 1920 bytes (10ms) for playback
+May 10 03:03:51 localhost /netbsd: [   2.4472724] audio0: slinear_le:16 2ch 48000Hz, blk 1920 bytes (10ms) for recording
+May 10 03:03:51 localhost /netbsd: [   2.4587839] IPsec: Initialized Security Association Processing.
+May 10 03:03:51 localhost /netbsd: [   2.4774586] uhub0 at usb0: NetBSD (0000) OHCI root hub (0000), class 9/0, rev 1.00/1.00, addr 1
+May 10 03:03:51 localhost /netbsd: [   2.4774586] uhub0: 12 ports with 12 removable, self powered
+May 10 03:03:51 localhost /netbsd: [   2.4774586] uhub1 at usb1: NetBSD (0000) EHCI root hub (0000), class 9/0, rev 2.00/1.00, addr 1
+May 10 03:03:51 localhost /netbsd: [   2.4877714] uhub1: 12 ports with 12 removable, self powered
+May 10 03:03:51 localhost /netbsd: [   5.4551594] wd0 at atabus0 drive 0
+May 10 03:03:51 localhost /netbsd: [   5.4551594] wd0: <VBOX HARDDISK>
+May 10 03:03:51 localhost /netbsd: [   5.4551594] wd0: drive supports 128-sector PIO transfers, LBA addressing
+May 10 03:03:51 localhost /netbsd: [   5.4551594] wd0: 16384 MB, 33288 cyl, 16 head, 63 sec, 512 bytes/sect x 33554432 sectors
+May 10 03:03:51 localhost /netbsd: [   5.4693780] wd0: GPT GUID: 82a381b9-4030-422b-85dd-2e3bb28076f1
+May 10 03:03:51 localhost /netbsd: [   5.4693780] dk0 at wd0: "e0aeb59f-708d-459b-8eaf-7856b89940b3", 31457213 blocks at 64, type: ffs
+May 10 03:03:51 localhost /netbsd: [   5.4752173] dk1 at wd0: "9c829486-e5b6-4746-9623-89fb1cafe401", 2097119 blocks at 31457280, type: swap
+May 10 03:03:51 localhost /netbsd: [   5.4752173] wd0: 32-bit data port
+May 10 03:03:51 localhost /netbsd: [   5.4752173] wd0: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+May 10 03:03:51 localhost /netbsd: [   5.4752173] wd0(piixide0:0:0): using PIO mode 4, Ultra-DMA mode 2 (Ultra/33) (using DMA)
+May 10 03:03:51 localhost /netbsd: [   5.4752173] atapibus0 at atabus1: 2 targets
+May 10 03:03:51 localhost /netbsd: [   5.4852043] cd0 at atapibus0 drive 0: <VBOX CD-ROM, VB2-01700376, 1.0> cdrom removable
+May 10 03:03:51 localhost /netbsd: [   5.4852043] cd0: 32-bit data port
+May 10 03:03:51 localhost /netbsd: [   5.4852043] cd0: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+May 10 03:03:51 localhost /netbsd: [   5.4952581] cd0(piixide0:1:0): using PIO mode 4, Ultra-DMA mode 2 (Ultra/33) (using DMA)
+May 10 03:03:51 localhost /netbsd: [   5.4952581] WARNING: 1 error while detecting hardware; check system log.
+May 10 03:03:51 localhost /netbsd: [   5.5077983] boot device: wd0
+May 10 03:03:51 localhost /netbsd: [   5.5077983] root on dk0 dumps on dk1
+May 10 03:03:51 localhost /netbsd: [   5.5077983] root file system type: ffs
+May 10 03:03:51 localhost /netbsd: [   5.5161968] kern.module.path=/stand/i386/9.3/modules
+May 10 03:03:51 localhost /netbsd: [  16.1129791] wsdisplay0: screen 1 added (80x25, vt100 emulation)
+May 10 03:03:51 localhost /netbsd: [  16.1129791] wsdisplay0: screen 2 added (80x25, vt100 emulation)
+May 10 03:03:51 localhost /netbsd: [  16.1129791] wsdisplay0: screen 3 added (80x25, vt100 emulation)
+May 10 03:03:51 localhost /netbsd: [  16.1129791] wsdisplay0: screen 4 added (80x25, vt100 emulation)
+May 10 03:03:55 localhost dhcpcd[214]: wm0: no IPv6 Routers available
+May 10 03:03:59 localhost ntpdate[270]: step time server 5.78.89.3 offset 0.602062 sec
+May 10 03:04:03 localhost savecore: no core dump
+May 10 03:04:46 localhost syslogd[241]: Exiting on signal 15
+May 10 03:05:29 localhost syslogd[199]: restart
+May 10 03:05:29 localhost /netbsd: [   1.0000000] Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
+May 10 03:05:29 localhost /netbsd: [   1.0000000]     2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
+May 10 03:05:29 localhost /netbsd: [   1.0000000]     2018, 2019, 2020, 2021, 2022
+May 10 03:05:29 localhost /netbsd: [   1.0000000]     The NetBSD Foundation, Inc.  All rights reserved.
+May 10 03:05:29 localhost /netbsd: [   1.0000000] Copyright (c) 1982, 1986, 1989, 1991, 1993
+May 10 03:05:29 localhost /netbsd: [   1.0000000]     The Regents of the University of California.  All rights reserved.
+May 10 03:05:29 localhost /netbsd: 
+May 10 03:05:29 localhost /netbsd: [   1.0000000] NetBSD 9.3 (GENERIC) #0: Thu Aug  4 15:30:37 UTC 2022
+May 10 03:05:29 localhost /netbsd: [   1.0000000] 	mkrepro@mkrepro.NetBSD.org:/usr/src/sys/arch/i386/compile/GENERIC
+May 10 03:05:29 localhost /netbsd: [   1.0000000] total memory = 1023 MB
+May 10 03:05:29 localhost /netbsd: [   1.0000000] avail memory = 986 MB
+May 10 03:05:29 localhost /netbsd: [   1.0000000] cpu_rng: RDSEED
+May 10 03:05:29 localhost /netbsd: [   1.0000000] rnd: seeded with 256 bits
+May 10 03:05:29 localhost /netbsd: [   1.0000000] timecounter: Timecounters tick every 10.000 msec
+May 10 03:05:29 localhost /netbsd: [   1.0000000] Kernelized RAIDframe activated
+May 10 03:05:29 localhost /netbsd: [   1.0000000] running cgd selftest aes-xts-256 aes-xts-512 done
+May 10 03:05:29 localhost /netbsd: [   1.0000000] timecounter: Timecounter "i8254" frequency 1193182 Hz quality 100
+May 10 03:05:29 localhost /netbsd: [   1.0000030] innotek GmbH VirtualBox (1.2)
+May 10 03:05:29 localhost /netbsd: [   1.0000030] mainbus0 (root)
+May 10 03:05:29 localhost /netbsd: [   1.0000030] ACPI: RSDP 0x00000000000E0000 000024 (v02 VBOX  )
+May 10 03:05:29 localhost /netbsd: [   1.0000030] ACPI: XSDT 0x000000003FFF0030 00003C (v01 VBOX   VBOXXSDT 00000001 ASL  00000061)
+May 10 03:05:29 localhost /netbsd: [   1.0000030] ACPI: FACP 0x000000003FFF00F0 0000F4 (v04 VBOX   VBOXFACP 00000001 ASL  00000061)
+May 10 03:05:29 localhost /netbsd: [   1.0000030] ACPI: DSDT 0x000000003FFF0610 002353 (v02 VBOX   VBOXBIOS 00000002 INTL 20100528)
+May 10 03:05:29 localhost /netbsd: [   1.0000030] ACPI: FACS 0x000000003FFF0200 000040
+May 10 03:05:29 localhost /netbsd: [   1.0000030] ACPI: APIC 0x000000003FFF0240 00005C (v02 VBOX   VBOXAPIC 00000001 ASL  00000061)
+May 10 03:05:29 localhost /netbsd: [   1.0000030] ACPI: SSDT 0x000000003FFF02A0 00036C (v01 VBOX   VBOXCPUT 00000002 INTL 20100528)
+May 10 03:05:29 localhost /netbsd: [   1.0000030] ACPI: 2 ACPI AML tables successfully acquired and loaded
+May 10 03:05:29 localhost /netbsd: [   1.0000030] ioapic0 at mainbus0 apid 2: pa 0xfec00000, version 0x20, 24 pins
+May 10 03:05:29 localhost /netbsd: [   1.0000030] cpu0 at mainbus0 apid 0
+May 10 03:05:29 localhost /netbsd: [   1.0000030] cpu0: AMD Ryzen 7 7700X 8-Core Processor             , id 0xa60f12
+May 10 03:05:29 localhost /netbsd: [   1.0000030] cpu0: package 0, core 0, smt 0
+May 10 03:05:29 localhost /netbsd: [   1.0000030] cpu1 at mainbus0 apid 1
+May 10 03:05:29 localhost /netbsd: [   1.0000030] cpu1: AMD Ryzen 7 7700X 8-Core Processor             , id 0xa60f12
+May 10 03:05:29 localhost /netbsd: [   1.0000030] cpu1: package 0, core 0, smt 1
+May 10 03:05:29 localhost /netbsd: [   1.0000030] acpi0 at mainbus0: Intel ACPICA 20190405
+May 10 03:05:29 localhost /netbsd: [   1.0000030] acpi0: X/RSDT: OemId <VBOX  ,VBOXXSDT,00000001>, AslId <ASL ,00000061>
+May 10 03:05:29 localhost /netbsd: [   1.0000030] acpi0: SCI interrupting at int 9
+May 10 03:05:29 localhost /netbsd: [   1.0000030] acpi0: fixed power button present
+May 10 03:05:29 localhost /netbsd: [   1.0000030] acpi0: fixed sleep button present
+May 10 03:05:29 localhost /netbsd: [   1.0000030] timecounter: Timecounter "ACPI-Safe" frequency 3579545 Hz quality 900
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pckbc1 at acpi0 (PS2K, PNP0303) (kbd port): io 0x60,0x64 irq 1
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pckbc2 at acpi0 (PS2M, PNP0F03) (aux port): irq 12
+May 10 03:05:29 localhost /netbsd: [   1.0459834] attimer1 at acpi0 (TIMR, PNP0100): io 0x40-0x43,0x50-0x53
+May 10 03:05:29 localhost /netbsd: [   1.0459834] acpivga0 at acpi0 (GFX0): ACPI Display Adapter
+May 10 03:05:29 localhost /netbsd: [   1.0459834] acpiout0 at acpivga0 (VGA, 0x0100): ACPI Display Output Device
+May 10 03:05:29 localhost /netbsd: [   1.0459834] acpivga0: connected output devices:
+May 10 03:05:29 localhost /netbsd: [   1.0459834] acpivga0:   0x0100 (acpiout0): VGA Analog Monitor, index 0, port 0, head 0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] acpiacad0 at acpi0 (AC, ACPI0003-0): ACPI AC Adapter
+May 10 03:05:29 localhost /netbsd: [   1.0459834] apm0 at acpi0: Power Management spec V1.2
+May 10 03:05:29 localhost /netbsd: [   1.0459834] ACPI: Enabled 2 GPEs in block 00 to 07
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pckbd0 at pckbc1 (kbd slot)
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pckbc1: using irq 1 for kbd slot
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wskbd0 at pckbd0: console keyboard
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pms0 at pckbc1 (aux slot)
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pckbc1: using irq 12 for aux slot
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wsmouse0 at pms0 mux 0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pci0 at mainbus0 bus 0: configuration mode 1
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pci0: This pci host supports neither MSI nor MSI-X.
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pci0: i/o space, memory space enabled, rd/line, rd/mult, wr/inv ok
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pchb0 at pci0 dev 0 function 0: vendor 8086 product 1237 (rev. 0x02)
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pcib0 at pci0 dev 1 function 0: vendor 8086 product 7000 (rev. 0x00)
+May 10 03:05:29 localhost /netbsd: [   1.0459834] piixide0 at pci0 dev 1 function 1: Intel 82371AB IDE controller (PIIX4) (rev. 0x01)
+May 10 03:05:29 localhost /netbsd: [   1.0459834] piixide0: bus-master DMA support present
+May 10 03:05:29 localhost /netbsd: [   1.0459834] piixide0: primary channel configured to compatibility mode
+May 10 03:05:29 localhost /netbsd: [   1.0459834] piixide0: primary channel interrupting at ioapic0 pin 14
+May 10 03:05:29 localhost /netbsd: [   1.0459834] atabus0 at piixide0 channel 0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] piixide0: secondary channel configured to compatibility mode
+May 10 03:05:29 localhost /netbsd: [   1.0459834] piixide0: secondary channel interrupting at ioapic0 pin 15
+May 10 03:05:29 localhost /netbsd: [   1.0459834] atabus1 at piixide0 channel 1
+May 10 03:05:29 localhost /netbsd: [   1.0459834] vga0 at pci0 dev 2 function 0: vendor 15ad product 0405 (rev. 0x00)
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wsdisplay0 at vga0 kbdmux 1: console (80x25, vt100 emulation), using wskbd0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wsmux1: connecting to wsdisplay0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] drm at vga0 not configured
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wm0 at pci0 dev 3 function 0, 32-bit DMA: Intel i82540EM 1000BASE-T Ethernet (rev. 0x02)
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wm0: interrupting at ioapic0 pin 19
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wm0: 32-bit 33MHz PCI bus
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wm0: 64 words (6 address bits) MicroWire EEPROM
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wm0: Ethernet address 08:00:27:32:d9:e5
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wm0: 0x2<LOCK_EECD>
+May 10 03:05:29 localhost /netbsd: [   1.0459834] makphy0 at wm0 phy 1: Marvell 88E1011 Gigabit PHY, rev. 4
+May 10 03:05:29 localhost /netbsd: [   1.0459834] makphy0: 10baseT, 10baseT-FDX, 100baseTX, 100baseTX-FDX, auto
+May 10 03:05:29 localhost /netbsd: [   1.0459834] wm0: Clear PME# now
+May 10 03:05:29 localhost /netbsd: [   1.0459834] vendor 80ee product cafe (miscellaneous system) at pci0 dev 4 function 0 not configured
+May 10 03:05:29 localhost /netbsd: [   1.0459834] auich0 at pci0 dev 5 function 0: i82801AA (ICH) AC-97 Audio
+May 10 03:05:29 localhost /netbsd: [   1.0459834] auich0: interrupting at ioapic0 pin 21
+May 10 03:05:29 localhost /netbsd: [   1.0459834] auich0: ac97: SigmaTel STAC9700 codec; no 3D stereo
+May 10 03:05:29 localhost /netbsd: [   1.0459834] auich0: ac97: ext id 0x809<AC97_23,VRM,VRA>
+May 10 03:05:29 localhost /netbsd: [   1.0459834] ohci0 at pci0 dev 6 function 0: vendor 106b product 003f (rev. 0x00)
+May 10 03:05:29 localhost /netbsd: [   1.0459834] ohci0: interrupting at ioapic0 pin 22
+May 10 03:05:29 localhost /netbsd: [   1.0459834] ohci0: OHCI version 1.0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] usb0 at ohci0: USB revision 1.0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] piixpm0 at pci0 dev 7 function 0: vendor 8086 product 7113 (rev. 0x08)
+May 10 03:05:29 localhost /netbsd: [   1.0459834] piixpm0: interrupting at ioapic0 pin 23
+May 10 03:05:29 localhost /netbsd: [   1.0459834] iic0 at piixpm0 port 0: I2C bus
+May 10 03:05:29 localhost /netbsd: [   1.0459834] ehci0 at pci0 dev 11 function 0: vendor 8086 product 265c (rev. 0x00)
+May 10 03:05:29 localhost /netbsd: [   1.0459834] ehci0: interrupting at ioapic0 pin 19
+May 10 03:05:29 localhost /netbsd: [   1.0459834] ehci0: EHCI version 1.0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] usb1 at ehci0: USB revision 2.0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] isa0 at pcib0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] pcppi0 at isa0 port 0x61
+May 10 03:05:29 localhost /netbsd: [   1.0459834] midi0 at pcppi0: PC speaker
+May 10 03:05:29 localhost /netbsd: [   1.0459834] sysbeep0 at pcppi0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] isapnp0 at isa0 port 0x279
+May 10 03:05:29 localhost /netbsd: [   1.0459834] attimer1: attached to pcppi0
+May 10 03:05:29 localhost /netbsd: [   1.0459834] isapnp0: no ISA Plug 'n Play devices found
+May 10 03:05:29 localhost /netbsd: [   1.0459834] acpicpu0 at cpu0: ACPI CPU
+May 10 03:05:29 localhost /netbsd: [   1.0459834] acpicpu0: C1: HLT, lat   0 us, pow     0 mW
+May 10 03:05:29 localhost /netbsd: [   1.0459834] acpicpu1 at cpu1: ACPI CPU
+May 10 03:05:29 localhost /netbsd: [   1.0459834] timecounter: Timecounter "clockinterrupt" frequency 100 Hz quality 0
+May 10 03:05:29 localhost /netbsd: [   1.2330955] autoconfiguration error: ERROR: 26718 cycle TSC drift observed
+May 10 03:05:29 localhost /netbsd: [   1.2330955] acpiacad0: AC adapter online.
+May 10 03:05:29 localhost /netbsd: [   1.5841161] auich0: measured ac97 link rate at 47993 Hz, will use 48000 Hz
+May 10 03:05:29 localhost /netbsd: [   1.5841161] audio0 at auich0: playback, capture, full duplex, independent
+May 10 03:05:29 localhost /netbsd: [   1.5841161] audio0: slinear_le:16 2ch 48000Hz, blk 1920 bytes (10ms) for playback
+May 10 03:05:29 localhost /netbsd: [   1.5841161] audio0: slinear_le:16 2ch 48000Hz, blk 1920 bytes (10ms) for recording
+May 10 03:05:29 localhost /netbsd: [   1.6044399] IPsec: Initialized Security Association Processing.
+May 10 03:05:29 localhost /netbsd: [   1.6147518] uhub0 at usb0: NetBSD (0000) OHCI root hub (0000), class 9/0, rev 1.00/1.00, addr 1
+May 10 03:05:29 localhost /netbsd: [   1.6147518] uhub0: 12 ports with 12 removable, self powered
+May 10 03:05:29 localhost /netbsd: [   1.6245840] uhub1 at usb1: NetBSD (0000) EHCI root hub (0000), class 9/0, rev 2.00/1.00, addr 1
+May 10 03:05:29 localhost /netbsd: [   1.6245840] uhub1: 12 ports with 12 removable, self powered
+May 10 03:05:29 localhost /netbsd: [   4.6031218] wd0 at atabus0 drive 0
+May 10 03:05:29 localhost /netbsd: [   4.6031218] wd0: <VBOX HARDDISK>
+May 10 03:05:29 localhost /netbsd: [   4.6031218] wd0: drive supports 128-sector PIO transfers, LBA addressing
+May 10 03:05:29 localhost /netbsd: [   4.6031218] wd0: 16384 MB, 33288 cyl, 16 head, 63 sec, 512 bytes/sect x 33554432 sectors
+May 10 03:05:29 localhost /netbsd: [   4.6140816] wd0: GPT GUID: 82a381b9-4030-422b-85dd-2e3bb28076f1
+May 10 03:05:29 localhost /netbsd: [   4.6140816] dk0 at wd0: "e0aeb59f-708d-459b-8eaf-7856b89940b3", 31457213 blocks at 64, type: ffs
+May 10 03:05:29 localhost /netbsd: [   4.6140816] dk1 at wd0: "9c829486-e5b6-4746-9623-89fb1cafe401", 2097119 blocks at 31457280, type: swap
+May 10 03:05:29 localhost /netbsd: [   4.6257294] wd0: 32-bit data port
+May 10 03:05:29 localhost /netbsd: [   4.6257294] wd0: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+May 10 03:05:29 localhost /netbsd: [   4.6257294] wd0(piixide0:0:0): using PIO mode 4, Ultra-DMA mode 2 (Ultra/33) (using DMA)
+May 10 03:05:29 localhost /netbsd: [   4.6257294] atapibus0 at atabus1: 2 targets
+May 10 03:05:29 localhost /netbsd: [   4.6331952] cd0 at atapibus0 drive 0: <VBOX CD-ROM, VB2-01700376, 1.0> cdrom removable
+May 10 03:05:29 localhost /netbsd: [   4.6331952] cd0: 32-bit data port
+May 10 03:05:29 localhost /netbsd: [   4.6331952] cd0: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+May 10 03:05:29 localhost /netbsd: [   4.6331952] cd0(piixide0:1:0): using PIO mode 4, Ultra-DMA mode 2 (Ultra/33) (using DMA)
+May 10 03:05:29 localhost /netbsd: [   4.6432400] WARNING: 1 error while detecting hardware; check system log.
+May 10 03:05:29 localhost /netbsd: [   4.6535754] boot device: wd0
+May 10 03:05:29 localhost /netbsd: [   4.6535754] root on dk0 dumps on dk1
+May 10 03:05:29 localhost /netbsd: [   4.6535754] root file system type: ffs
+May 10 03:05:29 localhost /netbsd: [   4.6535754] kern.module.path=/stand/i386/9.3/modules
+May 10 03:05:29 localhost /netbsd: [  15.8565912] wsdisplay0: screen 1 added (80x25, vt100 emulation)
+May 10 03:05:29 localhost /netbsd: [  15.8565912] wsdisplay0: screen 2 added (80x25, vt100 emulation)
+May 10 03:05:29 localhost /netbsd: [  15.8565912] wsdisplay0: screen 3 added (80x25, vt100 emulation)
+May 10 03:05:29 localhost /netbsd: [  15.8565912] wsdisplay0: screen 4 added (80x25, vt100 emulation)
+May 10 03:05:32 localhost dhcpcd[214]: wm0: no IPv6 Routers available
+May 10 03:05:37 localhost ntpdate[272]: step time server 44.190.40.123 offset 0.203413 sec
+May 10 03:05:37 localhost savecore: no core dump
+May 10 03:19:46 localhost syslogd[199]: Exiting on signal 15
+May 10 03:20:30 jelly syslogd[235]: restart
+May 10 03:20:30 jelly /netbsd: [   1.0000000] Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
+May 10 03:20:30 jelly /netbsd: [   1.0000000]     2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
+May 10 03:20:30 jelly /netbsd: [   1.0000000]     2018, 2019, 2020, 2021, 2022
+May 10 03:20:30 jelly /netbsd: [   1.0000000]     The NetBSD Foundation, Inc.  All rights reserved.
+May 10 03:20:30 jelly /netbsd: [   1.0000000] Copyright (c) 1982, 1986, 1989, 1991, 1993
+May 10 03:20:30 jelly /netbsd: [   1.0000000]     The Regents of the University of California.  All rights reserved.
+May 10 03:20:30 jelly /netbsd: 
+May 10 03:20:30 jelly /netbsd: [   1.0000000] NetBSD 9.3 (GENERIC) #0: Thu Aug  4 15:30:37 UTC 2022
+May 10 03:20:30 jelly /netbsd: [   1.0000000] 	mkrepro@mkrepro.NetBSD.org:/usr/src/sys/arch/i386/compile/GENERIC
+May 10 03:20:30 jelly /netbsd: [   1.0000000] total memory = 1023 MB
+May 10 03:20:30 jelly /netbsd: [   1.0000000] avail memory = 986 MB
+May 10 03:20:30 jelly /netbsd: [   1.0000000] cpu_rng: RDSEED
+May 10 03:20:30 jelly /netbsd: [   1.0000000] rnd: seeded with 256 bits
+May 10 03:20:30 jelly /netbsd: [   1.0000000] timecounter: Timecounters tick every 10.000 msec
+May 10 03:20:30 jelly /netbsd: [   1.0000000] Kernelized RAIDframe activated
+May 10 03:20:30 jelly /netbsd: [   1.0000000] running cgd selftest aes-xts-256 aes-xts-512 done
+May 10 03:20:30 jelly /netbsd: [   1.0000000] timecounter: Timecounter "i8254" frequency 1193182 Hz quality 100
+May 10 03:20:30 jelly /netbsd: [   1.0000030] innotek GmbH VirtualBox (1.2)
+May 10 03:20:30 jelly /netbsd: [   1.0000030] mainbus0 (root)
+May 10 03:20:30 jelly /netbsd: [   1.0000030] ACPI: RSDP 0x00000000000E0000 000024 (v02 VBOX  )
+May 10 03:20:30 jelly /netbsd: [   1.0000030] ACPI: XSDT 0x000000003FFF0030 00003C (v01 VBOX   VBOXXSDT 00000001 ASL  00000061)
+May 10 03:20:30 jelly /netbsd: [   1.0000030] ACPI: FACP 0x000000003FFF00F0 0000F4 (v04 VBOX   VBOXFACP 00000001 ASL  00000061)
+May 10 03:20:30 jelly /netbsd: [   1.0000030] ACPI: DSDT 0x000000003FFF0610 002353 (v02 VBOX   VBOXBIOS 00000002 INTL 20100528)
+May 10 03:20:30 jelly /netbsd: [   1.0000030] ACPI: FACS 0x000000003FFF0200 000040
+May 10 03:20:30 jelly /netbsd: [   1.0000030] ACPI: APIC 0x000000003FFF0240 00005C (v02 VBOX   VBOXAPIC 00000001 ASL  00000061)
+May 10 03:20:30 jelly /netbsd: [   1.0000030] ACPI: SSDT 0x000000003FFF02A0 00036C (v01 VBOX   VBOXCPUT 00000002 INTL 20100528)
+May 10 03:20:30 jelly /netbsd: [   1.0000030] ACPI: 2 ACPI AML tables successfully acquired and loaded
+May 10 03:20:30 jelly /netbsd: [   1.0000030] ioapic0 at mainbus0 apid 2: pa 0xfec00000, version 0x20, 24 pins
+May 10 03:20:30 jelly /netbsd: [   1.0000030] cpu0 at mainbus0 apid 0
+May 10 03:20:30 jelly /netbsd: [   1.0000030] cpu0: AMD Ryzen 7 7700X 8-Core Processor             , id 0xa60f12
+May 10 03:20:30 jelly /netbsd: [   1.0000030] cpu0: package 0, core 0, smt 0
+May 10 03:20:30 jelly /netbsd: [   1.0000030] cpu1 at mainbus0 apid 1
+May 10 03:20:30 jelly /netbsd: [   1.0000030] cpu1: AMD Ryzen 7 7700X 8-Core Processor             , id 0xa60f12
+May 10 03:20:30 jelly /netbsd: [   1.0000030] cpu1: package 0, core 0, smt 1
+May 10 03:20:30 jelly /netbsd: [   1.0000030] acpi0 at mainbus0: Intel ACPICA 20190405
+May 10 03:20:30 jelly /netbsd: [   1.0000030] acpi0: X/RSDT: OemId <VBOX  ,VBOXXSDT,00000001>, AslId <ASL ,00000061>
+May 10 03:20:30 jelly /netbsd: [   1.0000030] acpi0: SCI interrupting at int 9
+May 10 03:20:30 jelly /netbsd: [   1.0000030] acpi0: fixed power button present
+May 10 03:20:30 jelly /netbsd: [   1.0000030] acpi0: fixed sleep button present
+May 10 03:20:30 jelly /netbsd: [   1.0000030] timecounter: Timecounter "ACPI-Safe" frequency 3579545 Hz quality 900
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pckbc1 at acpi0 (PS2K, PNP0303) (kbd port): io 0x60,0x64 irq 1
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pckbc2 at acpi0 (PS2M, PNP0F03) (aux port): irq 12
+May 10 03:20:30 jelly /netbsd: [   1.0415365] attimer1 at acpi0 (TIMR, PNP0100): io 0x40-0x43,0x50-0x53
+May 10 03:20:30 jelly /netbsd: [   1.0415365] acpivga0 at acpi0 (GFX0): ACPI Display Adapter
+May 10 03:20:30 jelly /netbsd: [   1.0415365] acpiout0 at acpivga0 (VGA, 0x0100): ACPI Display Output Device
+May 10 03:20:30 jelly /netbsd: [   1.0415365] acpivga0: connected output devices:
+May 10 03:20:30 jelly /netbsd: [   1.0415365] acpivga0:   0x0100 (acpiout0): VGA Analog Monitor, index 0, port 0, head 0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] acpiacad0 at acpi0 (AC, ACPI0003-0): ACPI AC Adapter
+May 10 03:20:30 jelly /netbsd: [   1.0415365] apm0 at acpi0: Power Management spec V1.2
+May 10 03:20:30 jelly /netbsd: [   1.0415365] ACPI: Enabled 2 GPEs in block 00 to 07
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pckbd0 at pckbc1 (kbd slot)
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pckbc1: using irq 1 for kbd slot
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wskbd0 at pckbd0: console keyboard
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pms0 at pckbc1 (aux slot)
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pckbc1: using irq 12 for aux slot
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wsmouse0 at pms0 mux 0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pci0 at mainbus0 bus 0: configuration mode 1
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pci0: This pci host supports neither MSI nor MSI-X.
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pci0: i/o space, memory space enabled, rd/line, rd/mult, wr/inv ok
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pchb0 at pci0 dev 0 function 0: vendor 8086 product 1237 (rev. 0x02)
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pcib0 at pci0 dev 1 function 0: vendor 8086 product 7000 (rev. 0x00)
+May 10 03:20:30 jelly /netbsd: [   1.0415365] piixide0 at pci0 dev 1 function 1: Intel 82371AB IDE controller (PIIX4) (rev. 0x01)
+May 10 03:20:30 jelly /netbsd: [   1.0415365] piixide0: bus-master DMA support present
+May 10 03:20:30 jelly /netbsd: [   1.0415365] piixide0: primary channel configured to compatibility mode
+May 10 03:20:30 jelly /netbsd: [   1.0415365] piixide0: primary channel interrupting at ioapic0 pin 14
+May 10 03:20:30 jelly /netbsd: [   1.0415365] atabus0 at piixide0 channel 0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] piixide0: secondary channel configured to compatibility mode
+May 10 03:20:30 jelly /netbsd: [   1.0415365] piixide0: secondary channel interrupting at ioapic0 pin 15
+May 10 03:20:30 jelly /netbsd: [   1.0415365] atabus1 at piixide0 channel 1
+May 10 03:20:30 jelly /netbsd: [   1.0415365] vga0 at pci0 dev 2 function 0: vendor 15ad product 0405 (rev. 0x00)
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wsdisplay0 at vga0 kbdmux 1: console (80x25, vt100 emulation), using wskbd0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wsmux1: connecting to wsdisplay0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] drm at vga0 not configured
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wm0 at pci0 dev 3 function 0, 32-bit DMA: Intel i82540EM 1000BASE-T Ethernet (rev. 0x02)
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wm0: interrupting at ioapic0 pin 19
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wm0: 32-bit 33MHz PCI bus
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wm0: 64 words (6 address bits) MicroWire EEPROM
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wm0: Ethernet address 08:00:27:32:d9:e5
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wm0: 0x2<LOCK_EECD>
+May 10 03:20:30 jelly /netbsd: [   1.0415365] makphy0 at wm0 phy 1: Marvell 88E1011 Gigabit PHY, rev. 4
+May 10 03:20:30 jelly /netbsd: [   1.0415365] makphy0: 10baseT, 10baseT-FDX, 100baseTX, 100baseTX-FDX, auto
+May 10 03:20:30 jelly /netbsd: [   1.0415365] wm0: Clear PME# now
+May 10 03:20:30 jelly /netbsd: [   1.0415365] vendor 80ee product cafe (miscellaneous system) at pci0 dev 4 function 0 not configured
+May 10 03:20:30 jelly /netbsd: [   1.0415365] auich0 at pci0 dev 5 function 0: i82801AA (ICH) AC-97 Audio
+May 10 03:20:30 jelly /netbsd: [   1.0415365] auich0: interrupting at ioapic0 pin 21
+May 10 03:20:30 jelly /netbsd: [   1.0415365] auich0: ac97: SigmaTel STAC9700 codec; no 3D stereo
+May 10 03:20:30 jelly /netbsd: [   1.0415365] auich0: ac97: ext id 0x809<AC97_23,VRM,VRA>
+May 10 03:20:30 jelly /netbsd: [   1.0415365] ohci0 at pci0 dev 6 function 0: vendor 106b product 003f (rev. 0x00)
+May 10 03:20:30 jelly /netbsd: [   1.0415365] ohci0: interrupting at ioapic0 pin 22
+May 10 03:20:30 jelly /netbsd: [   1.0415365] ohci0: OHCI version 1.0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] usb0 at ohci0: USB revision 1.0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] piixpm0 at pci0 dev 7 function 0: vendor 8086 product 7113 (rev. 0x08)
+May 10 03:20:30 jelly /netbsd: [   1.0415365] piixpm0: interrupting at ioapic0 pin 23
+May 10 03:20:30 jelly /netbsd: [   1.0415365] iic0 at piixpm0 port 0: I2C bus
+May 10 03:20:30 jelly /netbsd: [   1.0415365] ehci0 at pci0 dev 11 function 0: vendor 8086 product 265c (rev. 0x00)
+May 10 03:20:30 jelly /netbsd: [   1.0415365] ehci0: interrupting at ioapic0 pin 19
+May 10 03:20:30 jelly /netbsd: [   1.0415365] ehci0: EHCI version 1.0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] usb1 at ehci0: USB revision 2.0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] isa0 at pcib0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] pcppi0 at isa0 port 0x61
+May 10 03:20:30 jelly /netbsd: [   1.0415365] midi0 at pcppi0: PC speaker
+May 10 03:20:30 jelly /netbsd: [   1.0415365] sysbeep0 at pcppi0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] isapnp0 at isa0 port 0x279
+May 10 03:20:30 jelly /netbsd: [   1.0415365] attimer1: attached to pcppi0
+May 10 03:20:30 jelly /netbsd: [   1.0415365] isapnp0: no ISA Plug 'n Play devices found
+May 10 03:20:30 jelly /netbsd: [   1.0415365] acpicpu0 at cpu0: ACPI CPU
+May 10 03:20:30 jelly /netbsd: [   1.0415365] acpicpu0: C1: HLT, lat   0 us, pow     0 mW
+May 10 03:20:30 jelly /netbsd: [   1.0415365] acpicpu1 at cpu1: ACPI CPU
+May 10 03:20:30 jelly /netbsd: [   1.0415365] timecounter: Timecounter "clockinterrupt" frequency 100 Hz quality 0
+May 10 03:20:30 jelly /netbsd: [   2.0699624] autoconfiguration error: ERROR: 23689 cycle TSC drift observed
+May 10 03:20:30 jelly /netbsd: [   2.0806199] acpiacad0: AC adapter online.
+May 10 03:20:30 jelly /netbsd: [   2.4310371] auich0: measured ac97 link rate at 47985 Hz, will use 48000 Hz
+May 10 03:20:30 jelly /netbsd: [   2.4310371] audio0 at auich0: playback, capture, full duplex, independent
+May 10 03:20:30 jelly /netbsd: [   2.4310371] audio0: slinear_le:16 2ch 48000Hz, blk 1920 bytes (10ms) for playback
+May 10 03:20:30 jelly /netbsd: [   2.4310371] audio0: slinear_le:16 2ch 48000Hz, blk 1920 bytes (10ms) for recording
+May 10 03:20:30 jelly /netbsd: [   2.4417829] IPsec: Initialized Security Association Processing.
+May 10 03:20:30 jelly /netbsd: [   2.4511405] uhub0 at usb0: NetBSD (0000) OHCI root hub (0000), class 9/0, rev 1.00/1.00, addr 1
+May 10 03:20:30 jelly /netbsd: [   2.4511405] uhub0: 12 ports with 12 removable, self powered
+May 10 03:20:30 jelly /netbsd: [   2.4612275] uhub1 at usb1: NetBSD (0000) EHCI root hub (0000), class 9/0, rev 2.00/1.00, addr 1
+May 10 03:20:30 jelly /netbsd: [   2.4612275] uhub1: 12 ports with 12 removable, self powered
+May 10 03:20:30 jelly /netbsd: [   5.4401226] wd0 at atabus0 drive 0
+May 10 03:20:30 jelly /netbsd: [   5.4401226] wd0: <VBOX HARDDISK>
+May 10 03:20:30 jelly /netbsd: [   5.4401226] wd0: drive supports 128-sector PIO transfers, LBA addressing
+May 10 03:20:30 jelly /netbsd: [   5.4401226] wd0: 16384 MB, 33288 cyl, 16 head, 63 sec, 512 bytes/sect x 33554432 sectors
+May 10 03:20:30 jelly /netbsd: [   5.4517766] wd0: GPT GUID: 82a381b9-4030-422b-85dd-2e3bb28076f1
+May 10 03:20:30 jelly /netbsd: [   5.4517766] dk0 at wd0: "e0aeb59f-708d-459b-8eaf-7856b89940b3", 31457213 blocks at 64, type: ffs
+May 10 03:20:30 jelly /netbsd: [   5.4517766] dk1 at wd0: "9c829486-e5b6-4746-9623-89fb1cafe401", 2097119 blocks at 31457280, type: swap
+May 10 03:20:30 jelly /netbsd: [   5.4601813] wd0: 32-bit data port
+May 10 03:20:30 jelly /netbsd: [   5.4601813] wd0: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+May 10 03:20:30 jelly /netbsd: [   5.4601813] wd0(piixide0:0:0): using PIO mode 4, Ultra-DMA mode 2 (Ultra/33) (using DMA)
+May 10 03:20:30 jelly /netbsd: [   5.4601813] atapibus0 at atabus1: 2 targets
+May 10 03:20:30 jelly /netbsd: [   5.4701954] cd0 at atapibus0 drive 0: <VBOX CD-ROM, VB2-01700376, 1.0> cdrom removable
+May 10 03:20:30 jelly /netbsd: [   5.4701954] cd0: 32-bit data port
+May 10 03:20:30 jelly /netbsd: [   5.4701954] cd0: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+May 10 03:20:30 jelly /netbsd: [   5.4802501] cd0(piixide0:1:0): using PIO mode 4, Ultra-DMA mode 2 (Ultra/33) (using DMA)
+May 10 03:20:30 jelly /netbsd: [   5.4802501] WARNING: 1 error while detecting hardware; check system log.
+May 10 03:20:30 jelly /netbsd: [   5.4925226] boot device: wd0
+May 10 03:20:30 jelly /netbsd: [   5.4925226] root on dk0 dumps on dk1
+May 10 03:20:30 jelly /netbsd: [   5.4925226] root file system type: ffs
+May 10 03:20:30 jelly /netbsd: [   5.5013251] kern.module.path=/stand/i386/9.3/modules
+May 10 03:20:30 jelly /netbsd: [  16.0019326] wsdisplay0: screen 1 added (80x25, vt100 emulation)
+May 10 03:20:30 jelly /netbsd: [  16.0019326] wsdisplay0: screen 2 added (80x25, vt100 emulation)
+May 10 03:20:30 jelly /netbsd: [  16.0019326] wsdisplay0: screen 3 added (80x25, vt100 emulation)
+May 10 03:20:30 jelly /netbsd: [  16.0019326] wsdisplay0: screen 4 added (80x25, vt100 emulation)
+May 10 03:20:34 jelly dhcpcd[178]: wm0: no IPv6 Routers available
+May 10 03:20:37 jelly ntpdate[270]: step time server 159.89.86.140 offset -0.256010 sec
+May 10 03:20:37 jelly savecore: no core dump
+May 10 03:23:24 jelly syslogd[235]: Exiting on signal 15
+Oct 26 13:54:05 jelly syslogd[244]: restart
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] Copyright (c) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000]     2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000]     2018, 2019, 2020, 2021, 2022
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000]     The NetBSD Foundation, Inc.  All rights reserved.
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] Copyright (c) 1982, 1986, 1989, 1991, 1993
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000]     The Regents of the University of California.  All rights reserved.
+Oct 26 13:54:05 jelly /netbsd: 
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] NetBSD 9.3 (GENERIC) #0: Thu Aug  4 15:30:37 UTC 2022
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] 	mkrepro@mkrepro.NetBSD.org:/usr/src/sys/arch/i386/compile/GENERIC
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] total memory = 1023 MB
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] avail memory = 986 MB
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] cpu_rng: RDSEED
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] rnd: seeded with 256 bits
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] timecounter: Timecounters tick every 10.000 msec
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] Kernelized RAIDframe activated
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] running cgd selftest aes-xts-256 aes-xts-512 done
+Oct 26 13:54:05 jelly /netbsd: [   1.0000000] timecounter: Timecounter "i8254" frequency 1193182 Hz quality 100
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] innotek GmbH VirtualBox (1.2)
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] mainbus0 (root)
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] ACPI: RSDP 0x00000000000E0000 000024 (v02 VBOX  )
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] ACPI: XSDT 0x000000003FFF0030 00003C (v01 VBOX   VBOXXSDT 00000001 ASL  00000061)
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] ACPI: FACP 0x000000003FFF00F0 0000F4 (v04 VBOX   VBOXFACP 00000001 ASL  00000061)
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] ACPI: DSDT 0x000000003FFF0610 002353 (v02 VBOX   VBOXBIOS 00000002 INTL 20100528)
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] ACPI: FACS 0x000000003FFF0200 000040
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] ACPI: APIC 0x000000003FFF0240 00005C (v02 VBOX   VBOXAPIC 00000001 ASL  00000061)
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] ACPI: SSDT 0x000000003FFF02A0 00036C (v01 VBOX   VBOXCPUT 00000002 INTL 20100528)
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] ACPI: 2 ACPI AML tables successfully acquired and loaded
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] ioapic0 at mainbus0 apid 2: pa 0xfec00000, version 0x20, 24 pins
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] cpu0 at mainbus0 apid 0
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] cpu0: AMD Ryzen 7 7700X 8-Core Processor             , id 0xa60f12
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] cpu0: package 0, core 0, smt 0
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] cpu1 at mainbus0 apid 1
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] cpu1: AMD Ryzen 7 7700X 8-Core Processor             , id 0xa60f12
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] cpu1: package 0, core 0, smt 1
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] acpi0 at mainbus0: Intel ACPICA 20190405
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] acpi0: X/RSDT: OemId <VBOX  ,VBOXXSDT,00000001>, AslId <ASL ,00000061>
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] acpi0: SCI interrupting at int 9
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] acpi0: fixed power button present
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] acpi0: fixed sleep button present
+Oct 26 13:54:05 jelly /netbsd: [   1.0000030] timecounter: Timecounter "ACPI-Safe" frequency 3579545 Hz quality 900
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pckbc1 at acpi0 (PS2K, PNP0303) (kbd port): io 0x60,0x64 irq 1
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pckbc2 at acpi0 (PS2M, PNP0F03) (aux port): irq 12
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] attimer1 at acpi0 (TIMR, PNP0100): io 0x40-0x43,0x50-0x53
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] acpivga0 at acpi0 (GFX0): ACPI Display Adapter
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] acpiout0 at acpivga0 (VGA, 0x0100): ACPI Display Output Device
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] acpivga0: connected output devices:
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] acpivga0:   0x0100 (acpiout0): VGA Analog Monitor, index 0, port 0, head 0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] acpiacad0 at acpi0 (AC, ACPI0003-0): ACPI AC Adapter
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] apm0 at acpi0: Power Management spec V1.2
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] ACPI: Enabled 2 GPEs in block 00 to 07
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pckbd0 at pckbc1 (kbd slot)
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pckbc1: using irq 1 for kbd slot
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] wskbd0 at pckbd0: console keyboard
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pms0 at pckbc1 (aux slot)
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pckbc1: using irq 12 for aux slot
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] wsmouse0 at pms0 mux 0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pci0 at mainbus0 bus 0: configuration mode 1
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pci0: This pci host supports neither MSI nor MSI-X.
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pci0: i/o space, memory space enabled, rd/line, rd/mult, wr/inv ok
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pchb0 at pci0 dev 0 function 0: vendor 8086 product 1237 (rev. 0x02)
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pcib0 at pci0 dev 1 function 0: vendor 8086 product 7000 (rev. 0x00)
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] piixide0 at pci0 dev 1 function 1: Intel 82371AB IDE controller (PIIX4) (rev. 0x01)
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] piixide0: bus-master DMA support present
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] piixide0: primary channel configured to compatibility mode
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] piixide0: primary channel interrupting at ioapic0 pin 14
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] atabus0 at piixide0 channel 0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] piixide0: secondary channel configured to compatibility mode
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] piixide0: secondary channel interrupting at ioapic0 pin 15
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] atabus1 at piixide0 channel 1
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] vga0 at pci0 dev 2 function 0: vendor 15ad product 0405 (rev. 0x00)
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] wsdisplay0 at vga0 kbdmux 1: console (80x25, vt100 emulation), using wskbd0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] wsmux1: connecting to wsdisplay0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] drm at vga0 not configured
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] wm0 at pci0 dev 3 function 0, 32-bit DMA: Intel i82540EM 1000BASE-T Ethernet (rev. 0x02)
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] wm0: interrupting at ioapic0 pin 19
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] wm0: 32-bit 33MHz PCI bus
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] wm0: 64 words (6 address bits) MicroWire EEPROM
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] wm0: Ethernet address 08:00:27:32:d9:e5
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] wm0: 0x2<LOCK_EECD>
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] makphy0 at wm0 phy 1: Marvell 88E1011 Gigabit PHY, rev. 4
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] makphy0: 10baseT, 10baseT-FDX, 100baseTX, 100baseTX-FDX, auto
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] vendor 80ee product cafe (miscellaneous system) at pci0 dev 4 function 0 not configured
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] auich0 at pci0 dev 5 function 0: i82801AA (ICH) AC-97 Audio
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] auich0: interrupting at ioapic0 pin 21
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] auich0: ac97: SigmaTel STAC9700 codec; no 3D stereo
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] auich0: ac97: ext id 0x809<AC97_23,VRM,VRA>
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] ohci0 at pci0 dev 6 function 0: vendor 106b product 003f (rev. 0x00)
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] ohci0: interrupting at ioapic0 pin 22
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] ohci0: OHCI version 1.0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] usb0 at ohci0: USB revision 1.0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] piixpm0 at pci0 dev 7 function 0: vendor 8086 product 7113 (rev. 0x08)
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] piixpm0: interrupting at ioapic0 pin 23
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] iic0 at piixpm0 port 0: I2C bus
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] ehci0 at pci0 dev 11 function 0: vendor 8086 product 265c (rev. 0x00)
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] ehci0: interrupting at ioapic0 pin 19
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] ehci0: EHCI version 1.0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] usb1 at ehci0: USB revision 2.0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] isa0 at pcib0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] pcppi0 at isa0 port 0x61
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] midi0 at pcppi0: PC speaker
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] sysbeep0 at pcppi0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] isapnp0 at isa0 port 0x279
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] attimer1: attached to pcppi0
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] isapnp0: no ISA Plug 'n Play devices found
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] acpicpu0 at cpu0: ACPI CPU
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] acpicpu0: C1: HLT, lat   0 us, pow     0 mW
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] acpicpu1 at cpu1: ACPI CPU
+Oct 26 13:54:05 jelly /netbsd: [   1.0494473] timecounter: Timecounter "clockinterrupt" frequency 100 Hz quality 0
+Oct 26 13:54:05 jelly /netbsd: [   1.5841890] autoconfiguration error: ERROR: 74267 cycle TSC drift observed
+Oct 26 13:54:05 jelly /netbsd: [   1.5841890] acpiacad0: AC adapter online.
+Oct 26 13:54:05 jelly /netbsd: [   1.9352042] auich0: measured ac97 link rate at 47882 Hz, will use 48000 Hz
+Oct 26 13:54:05 jelly /netbsd: [   1.9352042] audio0 at auich0: playback, capture, full duplex, independent
+Oct 26 13:54:05 jelly /netbsd: [   1.9352042] audio0: slinear_le:16 2ch 48000Hz, blk 1920 bytes (10ms) for playback
+Oct 26 13:54:05 jelly /netbsd: [   1.9352042] audio0: slinear_le:16 2ch 48000Hz, blk 1920 bytes (10ms) for recording
+Oct 26 13:54:05 jelly /netbsd: [   1.9560851] IPsec: Initialized Security Association Processing.
+Oct 26 13:54:05 jelly /netbsd: [   1.9652419] uhub0 at usb0: NetBSD (0000) OHCI root hub (0000), class 9/0, rev 1.00/1.00, addr 1
+Oct 26 13:54:05 jelly /netbsd: [   1.9652419] uhub0: 12 ports with 12 removable, self powered
+Oct 26 13:54:05 jelly /netbsd: [   1.9652419] uhub1 at usb1: NetBSD (0000) EHCI root hub (0000), class 9/0, rev 2.00/1.00, addr 1
+Oct 26 13:54:05 jelly /netbsd: [   1.9752719] uhub1: 12 ports with 12 removable, self powered
+Oct 26 13:54:05 jelly /netbsd: [   4.9434888] wd0 at atabus0 drive 0
+Oct 26 13:54:05 jelly /netbsd: [   4.9434888] wd0: <VBOX HARDDISK>
+Oct 26 13:54:05 jelly /netbsd: [   4.9434888] wd0: drive supports 128-sector PIO transfers, LBA addressing
+Oct 26 13:54:05 jelly /netbsd: [   4.9434888] wd0: 16384 MB, 33288 cyl, 16 head, 63 sec, 512 bytes/sect x 33554432 sectors
+Oct 26 13:54:05 jelly /netbsd: [   4.9534744] wd0: GPT GUID: 82a381b9-4030-422b-85dd-2e3bb28076f1
+Oct 26 13:54:05 jelly /netbsd: [   4.9534744] dk0 at wd0: "e0aeb59f-708d-459b-8eaf-7856b89940b3", 31457213 blocks at 64, type: ffs
+Oct 26 13:54:05 jelly /netbsd: [   4.9534744] dk1 at wd0: "9c829486-e5b6-4746-9623-89fb1cafe401", 2097119 blocks at 31457280, type: swap
+Oct 26 13:54:05 jelly /netbsd: [   4.9534744] wd0: 32-bit data port
+Oct 26 13:54:05 jelly /netbsd: [   4.9635145] wd0: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+Oct 26 13:54:05 jelly /netbsd: [   4.9635145] wd0(piixide0:0:0): using PIO mode 4, Ultra-DMA mode 2 (Ultra/33) (using DMA)
+Oct 26 13:54:05 jelly /netbsd: [   4.9635145] atapibus0 at atabus1: 2 targets
+Oct 26 13:54:05 jelly /netbsd: [   4.9635145] cd0 at atapibus0 drive 0: <VBOX CD-ROM, VB2-01700376, 1.0> cdrom removable
+Oct 26 13:54:05 jelly /netbsd: [   4.9761215] cd0: 32-bit data port
+Oct 26 13:54:05 jelly /netbsd: [   4.9761215] cd0: drive supports PIO mode 4, DMA mode 2, Ultra-DMA mode 6 (Ultra/133)
+Oct 26 13:54:05 jelly /netbsd: [   4.9761215] cd0(piixide0:1:0): using PIO mode 4, Ultra-DMA mode 2 (Ultra/33) (using DMA)
+Oct 26 13:54:05 jelly /netbsd: [   4.9835565] WARNING: 1 error while detecting hardware; check system log.
+Oct 26 13:54:05 jelly /netbsd: [   4.9835565] boot device: wd0
+Oct 26 13:54:05 jelly /netbsd: [   4.9835565] root on dk0 dumps on dk1
+Oct 26 13:54:05 jelly /netbsd: [   4.9947149] root file system type: ffs
+Oct 26 13:54:05 jelly /netbsd: [   4.9947149] kern.module.path=/stand/i386/9.3/modules
+Oct 26 13:54:05 jelly /netbsd: [   4.9947149] WARNING: clock gained 169 days
+Oct 26 13:54:05 jelly /netbsd: [  17.7387631] wsdisplay0: screen 1 added (80x25, vt100 emulation)
+Oct 26 13:54:05 jelly /netbsd: [  17.7387631] wsdisplay0: screen 2 added (80x25, vt100 emulation)
+Oct 26 13:54:05 jelly /netbsd: [  17.7387631] wsdisplay0: screen 3 added (80x25, vt100 emulation)
+Oct 26 13:54:05 jelly /netbsd: [  17.7488099] wsdisplay0: screen 4 added (80x25, vt100 emulation)
+Oct 26 13:54:06 jelly dhcpcd[171]: wm0: no IPv6 Routers available
+Oct 26 13:54:15 jelly ntpdate[268]: step time server 74.6.168.73 offset 1.649841 sec
+Oct 26 13:54:15 jelly savecore: no core dump

@@ -1,0 +1,30 @@
+May 10 03:04:04 localhost sshd[454]: Server listening on :: port 11502.
+May 10 03:04:04 localhost sshd[454]: Server listening on 192.168.0.0 port 11502.
+May 10 03:04:39 jelly shutdown: reboot by root: 
+May 10 03:05:37 localhost sshd[437]: Server listening on :: port 11502.
+May 10 03:05:37 localhost sshd[437]: Server listening on 192.168.0.0 port 11502.
+May 10 03:10:04 localhost sshd[162]: SSH: Server;Ltype: Kex;Remote: 192.168.0.2-11502;Enc: chacha20-poly1305@openssh.com;MAC: (null);Comp: none [preauth]
+May 10 03:10:06 localhost sshd[162]: SSH: Server;Ltype: Authname;Remote: 192.168.0.2-11502;Name: root [preauth]
+May 10 03:10:07 localhost sshd[162]: error: PAM: Authentication error for root from 192.168.0.2
+May 10 03:10:14 localhost syslogd[199]: last message repeated 2 times
+May 10 03:10:14 localhost sshd[162]: Connection closed by authenticating user root 192.168.0.2 port 11502 [preauth]
+May 10 03:11:39 localhost sshd[437]: Received signal 15; terminating.
+May 10 03:11:39 localhost sshd[425]: Server listening on :: port 11502.
+May 10 03:11:39 localhost sshd[425]: Server listening on 192.168.0.0 port 11502.
+May 10 03:11:43 localhost sshd[607]: SSH: Server;Ltype: Kex;Remote: 192.168.0.2-11502;Enc: chacha20-poly1305@openssh.com;MAC: (null);Comp: none [preauth]
+May 10 03:11:43 localhost sshd[607]: SSH: Server;Ltype: Authname;Remote: 192.168.0.2-11502;Name: root [preauth]
+May 10 03:11:45 localhost sshd[607]: Accepted keyboard-interactive/pam for root from 192.168.0.2 port 11502 ssh2
+May 10 03:14:31 localhost sshd[607]: Received disconnect from 192.168.0.2 port 11502:11: disconnected by user
+May 10 03:14:31 localhost sshd[607]: Disconnected from user root 192.168.0.2 port 11502
+May 10 03:14:32 localhost sshd[925]: SSH: Server;Ltype: Kex;Remote: 192.168.0.2-11502;Enc: chacha20-poly1305@openssh.com;MAC: (null);Comp: none [preauth]
+May 10 03:14:32 localhost sshd[925]: SSH: Server;Ltype: Authname;Remote: 192.168.0.2-11502;Name: root [preauth]
+May 10 03:14:33 localhost sshd[925]: Accepted keyboard-interactive/pam for root from 192.168.0.2 port 11502 ssh2
+May 10 03:19:38 jelly shutdown: reboot by root: 
+May 10 03:20:37 jelly sshd[435]: Server listening on :: port 11502.
+May 10 03:20:37 jelly sshd[435]: Server listening on 192.168.0.0 port 11502.
+May 10 03:20:52 jelly sshd[689]: SSH: Server;Ltype: Kex;Remote: 192.168.0.2-11502;Enc: chacha20-poly1305@openssh.com;MAC: (null);Comp: none [preauth]
+May 10 03:20:52 jelly sshd[689]: SSH: Server;Ltype: Authname;Remote: 192.168.0.2-11502;Name: root [preauth]
+May 10 03:20:54 jelly sshd[689]: Accepted keyboard-interactive/pam for root from 192.168.0.2 port 11502 ssh2
+May 10 03:23:17 jelly shutdown: halt by root: 
+Oct 26 13:54:15 jelly sshd[433]: Server listening on :: port 11502.
+Oct 26 13:54:15 jelly sshd[433]: Server listening on 192.168.0.0 port 11502.

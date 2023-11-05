@@ -1,0 +1,8 @@
+May 10 03:04:04 localhost postfix/postfix-script[751]: starting the Postfix mail system
+May 10 03:04:04 localhost postfix/master[795]: daemon started -- version 3.1.4, configuration /etc/postfix
+May 10 03:05:38 localhost postfix/postfix-script[618]: starting the Postfix mail system
+May 10 03:05:38 localhost postfix/master[555]: daemon started -- version 3.1.4, configuration /etc/postfix
+May 10 03:20:38 jelly postfix/postfix-script[633]: starting the Postfix mail system
+May 10 03:20:38 jelly postfix/master[575]: daemon started -- version 3.1.4, configuration /etc/postfix
+Oct 26 13:54:16 jelly postfix/postfix-script[618]: starting the Postfix mail system
+Oct 26 13:54:16 jelly postfix/master[581]: daemon started -- version 3.1.4, configuration /etc/postfix

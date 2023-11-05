@@ -1,0 +1,31 @@
+Mar 28 14:14:46 crumb dhcpleased[291]: adding 192.168.0.54 to em0 (lease from 192.168.0.1)
+Mar 28 14:14:46 crumb dhcpleased[291]: adding nameservers 192.168.0.1 (lease from 192.168.0.1 on em0)
+Mar 28 14:14:46 crumb resolvd[291]: rebuilding: route proposals
+Mar 28 14:14:53 crumb ntpd[291]: creating new /var/db/ntpd.drift
+Mar 28 14:14:53 crumb ntpd[291]: ntp engine ready
+Mar 28 14:14:58 crumb ntpd[291]: constraint reply from 192.168.0.9: offset 2.17467
+Mar 28 14:14:59 crumb ntpd[291]: cancel settime because offset is negative or close enough
+Mar 28 14:15:00 crumb ntpd[291]: constraint reply from 192.168.0.68: offset 2.17467
+Mar 28 14:15:04 crumb savecore: no core dump
+Mar 28 14:15:18 crumb ntpd[291]: peer 192.168.0.69 now valid
+Mar 28 14:15:18 crumb ntpd[291]: peer 192.168.0.113 now valid
+Mar 28 14:15:18 crumb ntpd[291]: peer 192.168.0.12 now valid
+Mar 28 14:15:20 crumb ntpd[291]: peer 192.168.0.123 now valid
+Mar 28 14:15:22 crumb ntpd[291]: peer 192.168.0.33 now valid
+Mar 28 14:16:41 crumb ntpd[291]: adjusting local clock by 2.796176s
+Mar 28 14:18:12 crumb ntpd[291]: adjusting local clock by 2.336176s
+Mar 28 14:19:17 crumb ntpd[291]: adjusting local clock by 2.010737s
+Mar 28 14:22:58 crumb ntpd[291]: adjusting local clock by 0.908455s
+Mar 28 14:24:00 crumb ntpd[291]: adjusting local clock by 0.597531s
+Mar 28 14:26:37 crumb ntpd[291]: clock is now synced
+Mar 28 14:26:39 crumb ntpd[291]: constraint reply from 192.168.0.9: offset -0.17467
+Mar 28 14:26:40 crumb ntpd[291]: constraint reply from 192.168.0.196: offset -0.17467
+Mar 28 14:45:52 crumb ntpd[291]: adjusting clock frequency by -28.17467 to -28.765321ppm
+Mar 28 14:49:00 crumb ntpd[291]: recvmsg 192.168.0.69: No route to host
+Mar 28 14:49:00 crumb ntpd[291]: peer 192.168.0.69 now invalid
+Mar 28 14:49:51 crumb ntpd[291]: reply from 192.168.0.113: not synced (alarm), next query 3036s
+Mar 28 15:39:50 crumb ntpd[291]: peer 192.168.0.69 now valid
+Mar 28 15:49:32 crumb ntpd[291]: adjusting clock frequency by 0.17467 to -28.034724ppm
+Mar 28 16:00:00 crumb ntpd[291]: recvmsg 192.168.0.123: No route to host
+Mar 28 16:00:00 crumb ntpd[291]: peer 192.168.0.123 now invalid
+Mar 28 16:11:24 crumb ntpd[291]: adjusting clock frequency by -0.17467 to -28.487884ppm

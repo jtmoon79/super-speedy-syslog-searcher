@@ -1,0 +1,604 @@
+
+/dev/rdisk1s1: fsck_apfs started at Fri Sep 15 04:26:54 2023
+/dev/rdisk1s1: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s1: fsck_apfs completed at Fri Sep 15 04:26:54 2023
+
+
+/dev/rdisk1s2: fsck_apfs started at Fri Sep 15 04:26:54 2023
+/dev/rdisk1s2: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s2: fsck_apfs completed at Fri Sep 15 04:26:54 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Fri Sep 15 04:26:54 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Fri Sep 15 04:26:54 2023
+
+
+/dev/rdisk1s4: fsck_apfs started at Fri Sep 15 04:26:54 2023
+/dev/rdisk1s4: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s4: fsck_apfs completed at Fri Sep 15 04:26:54 2023
+
+
+/dev/rdisk1s5: fsck_apfs started at Fri Sep 15 04:26:54 2023
+/dev/rdisk1s5: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5: fsck_apfs completed at Fri Sep 15 04:26:54 2023
+
+
+/dev/rdisk1s6: fsck_apfs started at Fri Sep 15 04:26:54 2023
+/dev/rdisk1s6: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s6: fsck_apfs completed at Fri Sep 15 04:26:54 2023
+
+
+/dev/rdisk1s5s1: fsck_apfs started at Fri Sep 15 04:26:54 2023
+/dev/rdisk1s5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5s1: fsck_apfs completed at Fri Sep 15 04:26:54 2023
+
+
+/dev/rdisk1s1: fsck_apfs started at Fri Sep 15 04:27:55 2023
+/dev/rdisk1s1: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s1: fsck_apfs completed at Fri Sep 15 04:27:55 2023
+
+
+/dev/rdisk1s2: fsck_apfs started at Fri Sep 15 04:27:56 2023
+/dev/rdisk1s2: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s2: fsck_apfs completed at Fri Sep 15 04:27:56 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Fri Sep 15 04:27:56 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Fri Sep 15 04:27:56 2023
+
+
+/dev/rdisk1s4: fsck_apfs started at Fri Sep 15 04:27:56 2023
+/dev/rdisk1s4: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s4: fsck_apfs completed at Fri Sep 15 04:27:56 2023
+
+
+/dev/rdisk1s5: fsck_apfs started at Fri Sep 15 04:27:56 2023
+/dev/rdisk1s5: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5: fsck_apfs completed at Fri Sep 15 04:27:56 2023
+
+
+/dev/rdisk1s6: fsck_apfs started at Fri Sep 15 04:27:56 2023
+/dev/rdisk1s6: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s6: fsck_apfs completed at Fri Sep 15 04:27:56 2023
+
+
+/dev/rdisk1s5s1: fsck_apfs started at Fri Sep 15 04:27:56 2023
+/dev/rdisk1s5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5s1: fsck_apfs completed at Fri Sep 15 04:27:56 2023
+
+
+/dev/rdisk1s1: fsck_apfs started at Fri Sep 15 04:29:02 2023
+/dev/rdisk1s1: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s1: fsck_apfs completed at Fri Sep 15 04:29:02 2023
+
+
+/dev/rdisk1s2: fsck_apfs started at Fri Sep 15 04:29:02 2023
+/dev/rdisk1s2: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s2: fsck_apfs completed at Fri Sep 15 04:29:02 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Fri Sep 15 04:29:02 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Fri Sep 15 04:29:02 2023
+
+
+/dev/rdisk1s4: fsck_apfs started at Fri Sep 15 04:29:02 2023
+/dev/rdisk1s4: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s4: fsck_apfs completed at Fri Sep 15 04:29:02 2023
+
+
+/dev/rdisk1s5: fsck_apfs started at Fri Sep 15 04:29:02 2023
+/dev/rdisk1s5: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5: fsck_apfs completed at Fri Sep 15 04:29:02 2023
+
+
+/dev/rdisk1s6: fsck_apfs started at Fri Sep 15 04:29:02 2023
+/dev/rdisk1s6: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s6: fsck_apfs completed at Fri Sep 15 04:29:02 2023
+
+
+/dev/rdisk1s5s1: fsck_apfs started at Fri Sep 15 04:29:02 2023
+/dev/rdisk1s5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5s1: fsck_apfs completed at Fri Sep 15 04:29:02 2023
+
+
+/dev/rdisk1s1: fsck_apfs started at Fri Sep 15 04:30:08 2023
+/dev/rdisk1s1: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s1: fsck_apfs completed at Fri Sep 15 04:30:08 2023
+
+
+/dev/rdisk1s2: fsck_apfs started at Fri Sep 15 04:30:08 2023
+/dev/rdisk1s2: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s2: fsck_apfs completed at Fri Sep 15 04:30:08 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Fri Sep 15 04:30:08 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Fri Sep 15 04:30:08 2023
+
+
+/dev/rdisk1s4: fsck_apfs started at Fri Sep 15 04:30:08 2023
+/dev/rdisk1s4: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s4: fsck_apfs completed at Fri Sep 15 04:30:08 2023
+
+
+/dev/rdisk1s5: fsck_apfs started at Fri Sep 15 04:30:08 2023
+/dev/rdisk1s5: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5: fsck_apfs completed at Fri Sep 15 04:30:08 2023
+
+
+/dev/rdisk1s6: fsck_apfs started at Fri Sep 15 04:30:08 2023
+/dev/rdisk1s6: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s6: fsck_apfs completed at Fri Sep 15 04:30:08 2023
+
+
+/dev/rdisk1s5s1: fsck_apfs started at Fri Sep 15 04:30:08 2023
+/dev/rdisk1s5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5s1: fsck_apfs completed at Fri Sep 15 04:30:08 2023
+
+
+/dev/rdisk1s1: fsck_apfs started at Thu Sep 21 14:03:03 2023
+/dev/rdisk1s1: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s1: fsck_apfs completed at Thu Sep 21 14:03:03 2023
+
+
+/dev/rdisk1s2: fsck_apfs started at Thu Sep 21 14:03:03 2023
+/dev/rdisk1s2: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s2: fsck_apfs completed at Thu Sep 21 14:03:03 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Thu Sep 21 14:03:03 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Thu Sep 21 14:03:03 2023
+
+
+/dev/rdisk1s4: fsck_apfs started at Thu Sep 21 14:03:03 2023
+/dev/rdisk1s4: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s4: fsck_apfs completed at Thu Sep 21 14:03:03 2023
+
+
+/dev/rdisk1s5: fsck_apfs started at Thu Sep 21 14:03:03 2023
+/dev/rdisk1s5: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5: fsck_apfs completed at Thu Sep 21 14:03:03 2023
+
+
+/dev/rdisk1s6: fsck_apfs started at Thu Sep 21 14:03:03 2023
+/dev/rdisk1s6: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s6: fsck_apfs completed at Thu Sep 21 14:03:03 2023
+
+
+/dev/rdisk1s5s1: fsck_apfs started at Thu Sep 21 14:03:03 2023
+/dev/rdisk1s5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5s1: fsck_apfs completed at Thu Sep 21 14:03:03 2023
+
+
+/dev/rdisk1s1: fsck_apfs started at Thu Sep 21 21:15:45 2023
+/dev/rdisk1s1: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s1: fsck_apfs completed at Thu Sep 21 21:15:45 2023
+
+
+/dev/rdisk1s2: fsck_apfs started at Thu Sep 21 21:15:45 2023
+/dev/rdisk1s2: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s2: fsck_apfs completed at Thu Sep 21 21:15:45 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Thu Sep 21 21:15:46 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Thu Sep 21 21:15:46 2023
+
+
+/dev/rdisk1s4: fsck_apfs started at Thu Sep 21 21:15:46 2023
+/dev/rdisk1s4: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s4: fsck_apfs completed at Thu Sep 21 21:15:46 2023
+
+
+/dev/rdisk1s5: fsck_apfs started at Thu Sep 21 21:15:46 2023
+/dev/rdisk1s5: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5: fsck_apfs completed at Thu Sep 21 21:15:46 2023
+
+
+/dev/rdisk1s6: fsck_apfs started at Thu Sep 21 21:15:46 2023
+/dev/rdisk1s6: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s6: fsck_apfs completed at Thu Sep 21 21:15:46 2023
+
+
+/dev/rdisk1s5s1: fsck_apfs started at Thu Sep 21 21:15:46 2023
+/dev/rdisk1s5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5s1: fsck_apfs completed at Thu Sep 21 21:15:46 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Thu Sep 21 22:50:38 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Thu Sep 21 22:50:38 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Thu Sep 21 22:50:57 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Thu Sep 21 22:50:57 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Thu Sep 21 22:51:12 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Thu Sep 21 22:51:12 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Thu Sep 21 22:51:53 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Thu Sep 21 22:51:53 2023
+
+
+/dev/rdisk3s1: fsck_apfs started at Thu Sep 21 22:53:44 2023
+/dev/rdisk3s1: ** Checking the container superblock.
+/dev/rdisk3s1:    Checking the checkpoint with transaction ID 138.
+/dev/rdisk3s1: ** Checking the object map.
+/dev/rdisk3s1: ** Checking volume /dev/rdisk3s1.
+/dev/rdisk3s1: ** Checking the APFS volume superblock.
+/dev/rdisk3s1:    The volume AppleTVOS 16.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk3s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk3s1: fsck_apfs completed at Thu Sep 21 22:53:44 2023
+
+
+/dev/rdisk3s1: fsck_apfs started at Thu Sep 21 22:53:44 2023
+/dev/rdisk3s1: ** Checking the container superblock.
+/dev/rdisk3s1:    Checking the checkpoint with transaction ID 138.
+/dev/rdisk3s1: ** Checking the object map.
+/dev/rdisk3s1: ** Checking volume /dev/rdisk3s1.
+/dev/rdisk3s1: ** Checking the APFS volume superblock.
+/dev/rdisk3s1:    The volume AppleTVOS 16.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk3s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk3s1: fsck_apfs completed at Thu Sep 21 22:53:44 2023
+
+
+/dev/rdisk3s1: fsck_apfs started at Thu Sep 21 22:53:44 2023
+/dev/rdisk3s1: ** Checking the container superblock.
+/dev/rdisk3s1:    Checking the checkpoint with transaction ID 138.
+/dev/rdisk3s1: ** Checking the object map.
+/dev/rdisk3s1: ** Checking volume /dev/rdisk3s1.
+/dev/rdisk3s1: ** Checking the APFS volume superblock.
+/dev/rdisk3s1:    The volume AppleTVOS 16.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk3s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk3s1: fsck_apfs completed at Thu Sep 21 22:53:44 2023
+
+
+/dev/rdisk3s1: fsck_apfs started at Thu Sep 21 22:53:44 2023
+/dev/rdisk3s1: ** Checking the container superblock.
+/dev/rdisk3s1:    Checking the checkpoint with transaction ID 138.
+/dev/rdisk3s1: ** Checking the object map.
+/dev/rdisk3s1: ** Checking volume /dev/rdisk3s1.
+/dev/rdisk3s1: ** Checking the APFS volume superblock.
+/dev/rdisk3s1:    The volume AppleTVOS 16.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk3s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk3s1: fsck_apfs completed at Thu Sep 21 22:53:44 2023
+
+
+/dev/rdisk5s1: fsck_apfs started at Thu Sep 21 22:55:02 2023
+/dev/rdisk5s1: ** Checking the container superblock.
+/dev/rdisk5s1:    Checking the checkpoint with transaction ID 219.
+/dev/rdisk5s1: ** Checking the object map.
+/dev/rdisk5s1: ** Checking volume /dev/rdisk5s1.
+/dev/rdisk5s1: ** Checking the APFS volume superblock.
+/dev/rdisk5s1:    The volume WatchOS 9.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk5s1: fsck_apfs completed at Thu Sep 21 22:55:02 2023
+
+
+/dev/rdisk5s1: fsck_apfs started at Thu Sep 21 22:55:02 2023
+/dev/rdisk5s1: ** Checking the container superblock.
+/dev/rdisk5s1:    Checking the checkpoint with transaction ID 219.
+/dev/rdisk5s1: ** Checking the object map.
+/dev/rdisk5s1: ** Checking volume /dev/rdisk5s1.
+/dev/rdisk5s1: ** Checking the APFS volume superblock.
+/dev/rdisk5s1:    The volume WatchOS 9.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk5s1: fsck_apfs completed at Thu Sep 21 22:55:03 2023
+
+
+/dev/rdisk5s1: fsck_apfs started at Thu Sep 21 22:55:03 2023
+/dev/rdisk5s1: ** Checking the container superblock.
+/dev/rdisk5s1:    Checking the checkpoint with transaction ID 219.
+/dev/rdisk5s1: ** Checking the object map.
+/dev/rdisk5s1: ** Checking volume /dev/rdisk5s1.
+/dev/rdisk5s1: ** Checking the APFS volume superblock.
+/dev/rdisk5s1:    The volume WatchOS 9.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk5s1: fsck_apfs completed at Thu Sep 21 22:55:03 2023
+
+
+/dev/rdisk5s1: fsck_apfs started at Thu Sep 21 22:55:03 2023
+/dev/rdisk5s1: ** Checking the container superblock.
+/dev/rdisk5s1:    Checking the checkpoint with transaction ID 219.
+/dev/rdisk5s1: ** Checking the object map.
+/dev/rdisk5s1: ** Checking volume /dev/rdisk5s1.
+/dev/rdisk5s1: ** Checking the APFS volume superblock.
+/dev/rdisk5s1:    The volume WatchOS 9.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk5s1: fsck_apfs completed at Thu Sep 21 22:55:03 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Thu Sep 21 22:55:35 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Thu Sep 21 22:55:35 2023
+
+
+/dev/rdisk7s1: fsck_apfs started at Thu Sep 21 22:56:55 2023
+/dev/rdisk7s1: ** Checking the container superblock.
+/dev/rdisk7s1:    Checking the checkpoint with transaction ID 233.
+/dev/rdisk7s1: ** Checking the object map.
+/dev/rdisk7s1: ** Checking volume /dev/rdisk7s1.
+/dev/rdisk7s1: ** Checking the APFS volume superblock.
+/dev/rdisk7s1:    The volume WatchOS 9.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk7s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk7s1: fsck_apfs completed at Thu Sep 21 22:56:55 2023
+
+
+/dev/rdisk7s1: fsck_apfs started at Thu Sep 21 22:56:55 2023
+/dev/rdisk7s1: ** Checking the container superblock.
+/dev/rdisk7s1:    Checking the checkpoint with transaction ID 233.
+/dev/rdisk7s1: ** Checking the object map.
+/dev/rdisk7s1: ** Checking volume /dev/rdisk7s1.
+/dev/rdisk7s1: ** Checking the APFS volume superblock.
+/dev/rdisk7s1:    The volume WatchOS 9.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk7s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk7s1: fsck_apfs completed at Thu Sep 21 22:56:55 2023
+
+
+/dev/rdisk7s1: fsck_apfs started at Thu Sep 21 22:57:12 2023
+/dev/rdisk7s1: ** Checking the container superblock.
+/dev/rdisk7s1:    Checking the checkpoint with transaction ID 233.
+/dev/rdisk7s1: ** Checking the object map.
+/dev/rdisk7s1: ** Checking volume /dev/rdisk7s1.
+/dev/rdisk7s1: ** Checking the APFS volume superblock.
+/dev/rdisk7s1:    The volume WatchOS 9.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk7s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk7s1: fsck_apfs completed at Thu Sep 21 22:57:13 2023
+
+
+/dev/rdisk7s1: fsck_apfs started at Thu Sep 21 22:57:13 2023
+/dev/rdisk7s1: ** Checking the container superblock.
+/dev/rdisk7s1:    Checking the checkpoint with transaction ID 233.
+/dev/rdisk7s1: ** Checking the object map.
+/dev/rdisk7s1: ** Checking volume /dev/rdisk7s1.
+/dev/rdisk7s1: ** Checking the APFS volume superblock.
+/dev/rdisk7s1:    The volume WatchOS 9.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk7s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk7s1: fsck_apfs completed at Thu Sep 21 22:57:13 2023
+
+
+/dev/rdisk9s1: fsck_apfs started at Thu Sep 21 22:58:55 2023
+/dev/rdisk9s1: ** Checking the container superblock.
+/dev/rdisk9s1:    Checking the checkpoint with transaction ID 144.
+/dev/rdisk9s1: ** Checking the object map.
+/dev/rdisk9s1: ** Checking volume /dev/rdisk9s1.
+/dev/rdisk9s1: ** Checking the APFS volume superblock.
+/dev/rdisk9s1:    The volume AppleTVOS 16.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk9s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk9s1: fsck_apfs completed at Thu Sep 21 22:58:55 2023
+
+
+/dev/rdisk9s1: fsck_apfs started at Thu Sep 21 22:58:55 2023
+/dev/rdisk9s1: ** Checking the container superblock.
+/dev/rdisk9s1:    Checking the checkpoint with transaction ID 144.
+/dev/rdisk9s1: ** Checking the object map.
+/dev/rdisk9s1: ** Checking volume /dev/rdisk9s1.
+/dev/rdisk9s1: ** Checking the APFS volume superblock.
+/dev/rdisk9s1:    The volume AppleTVOS 16.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk9s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk9s1: fsck_apfs completed at Thu Sep 21 22:58:55 2023
+
+
+/dev/rdisk9s1: fsck_apfs started at Thu Sep 21 22:58:56 2023
+/dev/rdisk9s1: ** Checking the container superblock.
+/dev/rdisk9s1:    Checking the checkpoint with transaction ID 144.
+/dev/rdisk9s1: ** Checking the object map.
+/dev/rdisk9s1: ** Checking volume /dev/rdisk9s1.
+/dev/rdisk9s1: ** Checking the APFS volume superblock.
+/dev/rdisk9s1:    The volume AppleTVOS 16.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk9s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk9s1: fsck_apfs completed at Thu Sep 21 22:58:56 2023
+
+
+/dev/rdisk9s1: fsck_apfs started at Thu Sep 21 22:58:56 2023
+/dev/rdisk9s1: ** Checking the container superblock.
+/dev/rdisk9s1:    Checking the checkpoint with transaction ID 144.
+/dev/rdisk9s1: ** Checking the object map.
+/dev/rdisk9s1: ** Checking volume /dev/rdisk9s1.
+/dev/rdisk9s1: ** Checking the APFS volume superblock.
+/dev/rdisk9s1:    The volume AppleTVOS 16.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk9s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk9s1: fsck_apfs completed at Thu Sep 21 22:58:56 2023
+
+
+/dev/rdisk1s1: fsck_apfs started at Thu Sep 21 23:05:32 2023
+/dev/rdisk1s1: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s1: fsck_apfs completed at Thu Sep 21 23:05:32 2023
+
+
+/dev/rdisk1s2: fsck_apfs started at Thu Sep 21 23:05:32 2023
+/dev/rdisk1s2: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s2: fsck_apfs completed at Thu Sep 21 23:05:32 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Thu Sep 21 23:05:32 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Thu Sep 21 23:05:32 2023
+
+
+/dev/rdisk1s4: fsck_apfs started at Thu Sep 21 23:05:33 2023
+/dev/rdisk1s4: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s4: fsck_apfs completed at Thu Sep 21 23:05:33 2023
+
+
+/dev/rdisk1s5: fsck_apfs started at Thu Sep 21 23:05:33 2023
+/dev/rdisk1s5: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5: fsck_apfs completed at Thu Sep 21 23:05:33 2023
+
+
+/dev/rdisk1s6: fsck_apfs started at Thu Sep 21 23:05:33 2023
+/dev/rdisk1s6: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s6: fsck_apfs completed at Thu Sep 21 23:05:33 2023
+
+
+/dev/rdisk1s5s1: fsck_apfs started at Thu Sep 21 23:05:33 2023
+/dev/rdisk1s5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5s1: fsck_apfs completed at Thu Sep 21 23:05:33 2023
+
+
+/dev/rdisk3s1: fsck_apfs started at Fri Sep 22 00:01:11 2023
+/dev/rdisk3s1: ** Checking the container superblock.
+/dev/rdisk3s1:    Checking the checkpoint with transaction ID 138.
+/dev/rdisk3s1: ** Checking the object map.
+/dev/rdisk3s1: ** Checking volume /dev/rdisk3s1.
+/dev/rdisk3s1: ** Checking the APFS volume superblock.
+/dev/rdisk3s1:    The volume AppleTVOS 16.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk3s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk3s1: fsck_apfs completed at Fri Sep 22 00:01:11 2023
+
+
+/dev/rdisk3s1: fsck_apfs started at Fri Sep 22 00:01:11 2023
+/dev/rdisk3s1: ** Checking the container superblock.
+/dev/rdisk3s1:    Checking the checkpoint with transaction ID 138.
+/dev/rdisk3s1: ** Checking the object map.
+/dev/rdisk3s1: ** Checking volume /dev/rdisk3s1.
+/dev/rdisk3s1: ** Checking the APFS volume superblock.
+/dev/rdisk3s1:    The volume AppleTVOS 16.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk3s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk3s1: fsck_apfs completed at Fri Sep 22 00:01:11 2023
+
+
+/dev/rdisk5s1: fsck_apfs started at Fri Sep 22 00:01:12 2023
+/dev/rdisk5s1: ** Checking the container superblock.
+/dev/rdisk5s1:    Checking the checkpoint with transaction ID 144.
+/dev/rdisk5s1: ** Checking the object map.
+/dev/rdisk5s1: ** Checking volume /dev/rdisk5s1.
+/dev/rdisk5s1: ** Checking the APFS volume superblock.
+/dev/rdisk5s1:    The volume AppleTVOS 16.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk5s1: fsck_apfs completed at Fri Sep 22 00:01:12 2023
+
+
+/dev/rdisk5s1: fsck_apfs started at Fri Sep 22 00:01:12 2023
+/dev/rdisk5s1: ** Checking the container superblock.
+/dev/rdisk5s1:    Checking the checkpoint with transaction ID 144.
+/dev/rdisk5s1: ** Checking the object map.
+/dev/rdisk5s1: ** Checking volume /dev/rdisk5s1.
+/dev/rdisk5s1: ** Checking the APFS volume superblock.
+/dev/rdisk5s1:    The volume AppleTVOS 16.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk5s1: fsck_apfs completed at Fri Sep 22 00:01:12 2023
+
+
+/dev/rdisk7s1: fsck_apfs started at Fri Sep 22 00:01:12 2023
+/dev/rdisk7s1: ** Checking the container superblock.
+/dev/rdisk7s1:    Checking the checkpoint with transaction ID 219.
+/dev/rdisk7s1: ** Checking the object map.
+/dev/rdisk7s1: ** Checking volume /dev/rdisk7s1.
+/dev/rdisk7s1: ** Checking the APFS volume superblock.
+/dev/rdisk7s1:    The volume WatchOS 9.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk7s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk7s1: fsck_apfs completed at Fri Sep 22 00:01:12 2023
+
+
+/dev/rdisk7s1: fsck_apfs started at Fri Sep 22 00:01:12 2023
+/dev/rdisk7s1: ** Checking the container superblock.
+/dev/rdisk7s1:    Checking the checkpoint with transaction ID 219.
+/dev/rdisk7s1: ** Checking the object map.
+/dev/rdisk7s1: ** Checking volume /dev/rdisk7s1.
+/dev/rdisk7s1: ** Checking the APFS volume superblock.
+/dev/rdisk7s1:    The volume WatchOS 9.0 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk7s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk7s1: fsck_apfs completed at Fri Sep 22 00:01:12 2023
+
+
+/dev/rdisk9s1: fsck_apfs started at Fri Sep 22 00:01:12 2023
+/dev/rdisk9s1: ** Checking the container superblock.
+/dev/rdisk9s1:    Checking the checkpoint with transaction ID 233.
+/dev/rdisk9s1: ** Checking the object map.
+/dev/rdisk9s1: ** Checking volume /dev/rdisk9s1.
+/dev/rdisk9s1: ** Checking the APFS volume superblock.
+/dev/rdisk9s1:    The volume WatchOS 9.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk9s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk9s1: fsck_apfs completed at Fri Sep 22 00:01:13 2023
+
+
+/dev/rdisk9s1: fsck_apfs started at Fri Sep 22 00:01:13 2023
+/dev/rdisk9s1: ** Checking the container superblock.
+/dev/rdisk9s1:    Checking the checkpoint with transaction ID 233.
+/dev/rdisk9s1: ** Checking the object map.
+/dev/rdisk9s1: ** Checking volume /dev/rdisk9s1.
+/dev/rdisk9s1: ** Checking the APFS volume superblock.
+/dev/rdisk9s1:    The volume WatchOS 9.1 Simulator was formatted by newfs_apfs (1677.41.3.100.4) and last modified by apfs_kext (1677.41.3.100.4).
+/dev/rdisk9s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk9s1: fsck_apfs completed at Fri Sep 22 00:01:13 2023
+
+
+/dev/rdisk1s1: fsck_apfs started at Wed Oct 11 15:04:55 2023
+/dev/rdisk1s1: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s1: fsck_apfs completed at Wed Oct 11 15:04:55 2023
+
+
+/dev/rdisk1s2: fsck_apfs started at Wed Oct 11 15:04:55 2023
+/dev/rdisk1s2: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s2: fsck_apfs completed at Wed Oct 11 15:04:55 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Wed Oct 11 15:04:55 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Wed Oct 11 15:04:55 2023
+
+
+/dev/rdisk1s4: fsck_apfs started at Wed Oct 11 15:04:56 2023
+/dev/rdisk1s4: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s4: fsck_apfs completed at Wed Oct 11 15:04:56 2023
+
+
+/dev/rdisk1s5: fsck_apfs started at Wed Oct 11 15:04:56 2023
+/dev/rdisk1s5: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5: fsck_apfs completed at Wed Oct 11 15:04:56 2023
+
+
+/dev/rdisk1s6: fsck_apfs started at Wed Oct 11 15:04:56 2023
+/dev/rdisk1s6: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s6: fsck_apfs completed at Wed Oct 11 15:04:56 2023
+
+
+/dev/rdisk1s5s1: fsck_apfs started at Wed Oct 11 15:04:56 2023
+/dev/rdisk1s5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5s1: fsck_apfs completed at Wed Oct 11 15:04:56 2023
+
+
+/dev/rdisk1s1: fsck_apfs started at Thu Oct 26 16:56:31 2023
+/dev/rdisk1s1: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s1: fsck_apfs completed at Thu Oct 26 16:56:31 2023
+
+
+/dev/rdisk1s2: fsck_apfs started at Thu Oct 26 16:56:31 2023
+/dev/rdisk1s2: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s2: fsck_apfs completed at Thu Oct 26 16:56:31 2023
+
+
+/dev/rdisk1s3: fsck_apfs started at Thu Oct 26 16:56:31 2023
+/dev/rdisk1s3: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s3: fsck_apfs completed at Thu Oct 26 16:56:31 2023
+
+
+/dev/rdisk1s4: fsck_apfs started at Thu Oct 26 16:56:31 2023
+/dev/rdisk1s4: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s4: fsck_apfs completed at Thu Oct 26 16:56:31 2023
+
+
+/dev/rdisk1s5: fsck_apfs started at Thu Oct 26 16:56:31 2023
+/dev/rdisk1s5: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5: fsck_apfs completed at Thu Oct 26 16:56:31 2023
+
+
+/dev/rdisk1s6: fsck_apfs started at Thu Oct 26 16:56:31 2023
+/dev/rdisk1s6: error: container /dev/rdisk1 is mounted with write access; please re-run with -l.
+/dev/rdisk1s6: fsck_apfs completed at Thu Oct 26 16:56:31 2023
+
+
+/dev/rdisk1s5s1: fsck_apfs started at Thu Oct 26 16:56:31 2023
+/dev/rdisk1s5s1: ** QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk1s5s1: fsck_apfs completed at Thu Oct 26 16:56:31 2023
+

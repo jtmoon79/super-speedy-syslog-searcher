@@ -1,0 +1,26 @@
+xdm info (pid 439): Starting xdm 1.1.12
+xdm info (pid 439): Starting X server on :0
+
+X.Org X Server 1.20.5
+X Protocol Version 11, Revision 0
+Build Operating System: NetBSD/i386 9.3 - The NetBSD Foundation, Inc.
+Current Operating System: NetBSD jelly.boo 9.3 NetBSD 9.3 (GENERIC) #0: Thu Aug  4 15:30:37 UTC 2022  mkrepro@mkrepro.NetBSD.org:/usr/src/sys/arch/i386/compile/GENERIC i386
+Build Date: 03 March 2019  07:11:23AM
+ 
+Current version of pixman: 0.38.4
+	Before reporting problems, check http://wiki.x.org
+	to make sure that you have the latest version.
+Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+(==) Log file: "/var/log/Xorg.0.log", Time: Thu Oct 26 13:54:15 2023
+(==) Using default built-in configuration (39 lines)
+The XKEYBOARD keymap compiler (xkbcomp) reports:
+> Error:            Couldn't lookup keysym
+>                   Symbol interpretation ignored
+> Error:            Couldn't lookup keysym
+>                   Symbol interpretation ignored
+Errors from xkbcomp are not fatal to the X server
+xdm info (pid 666): sourcing /etc/X11/xdm/Xsetup_0
+xdm info (pid 666): sourcing /etc/X11/xdm/GiveConsole
+xdm info (pid 40): executing session /etc/X11/xdm/Xsession

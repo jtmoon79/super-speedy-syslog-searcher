@@ -1,0 +1,14 @@
+dev=/dev/rdisk1 uuid=00000000-0000-0000-0000-000000000000 vers=1677.141.3.7.2 default_ans=n result=65 pl=156:1 fp=2 fl=156 repairs=0 time=0 iter=1
+fsck_apfs completed at Tue Oct 31 04:39:41 2023
+dev=/dev/rdisk1 uuid=00000000-0000-0000-0000-000000000000 vers=1677.141.3.7.2 default_ans=n result=65 pl=156:1 fp=2 fl=156 repairs=0 time=0 iter=1
+fsck_apfs completed at Tue Oct 31 04:39:41 2023
+dev= uuid=00000000-0000-0000-0000-000000000000 vers=1677.141.3.7.2 default_ans=n result=0 fp=0 fl=-1 repairs=0 time=0 iter=1
+fsck_apfs completed at Tue Oct 31 04:39:41 2023
+dev=/dev/rdisk1 uuid=00000000-0000-0000-0000-000000000000 vers=1677.141.3.7.2 default_ans=n result=65 pl=156:1 fp=2 fl=156 repairs=0 time=0 iter=1
+fsck_apfs completed at Tue Oct 31 04:39:41 2023
+dev= uuid=00000000-0000-0000-0000-000000000000 vers=1677.141.3.7.2 default_ans=n result=0 fp=0 fl=-1 repairs=0 time=0 iter=1
+fsck_apfs completed at Tue Oct 31 04:39:41 2023
+dev=/dev/rdisk1 uuid=00000000-0000-0000-0000-000000000000 vers=1677.141.3.7.2 default_ans=n result=65 pl=156:1 fp=2 fl=156 repairs=0 time=0 iter=1
+fsck_apfs completed at Tue Oct 31 04:39:41 2023
+dev= uuid=00000000-0000-0000-0000-000000000000 vers=1677.141.3.7.2 default_ans=n result=0 fp=0 fl=-1 repairs=0 time=0 iter=1
+fsck_apfs completed at Tue Oct 31 04:39:42 2023

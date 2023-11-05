@@ -1,0 +1,3 @@
+2023-05-08T20:00:01.778Z crumb newsyslog[48083]: logfile turned over
+Oct 26 10:55:12 crumb sshd[39819]: Server listening on 0.0.0.0 port 22.
+Oct 26 10:55:12 crumb sshd[39819]: Server listening on :: port 22.

@@ -1,0 +1,102 @@
+Oct 31 04:50:01 Mac-1698727197284 syncdefaultsd[1040]: objc[1040]: Class SYDClient is implemented in both /System/Library/PrivateFrameworks/SyncedDefaults.framework/Versions/A/SyncedDefaults and /System/Library/PrivateFrameworks/SyncedDefaults.framework/Support/syncdefaultsd. One of the two will be used. Which one is undefined.
+Oct 31 04:50:01 Mac-1698727197284 syncdefaultsd[1040]: objc[1040]: Class SYDJournal is implemented in both /System/Library/PrivateFrameworks/SyncedDefaults.framework/Versions/A/SyncedDefaults and /System/Library/PrivateFrameworks/SyncedDefaults.framework/Support/syncdefaultsd. One of the two will be used. Which one is undefined.
+Oct 31 04:50:02 Mac-1698727197284 com.apple.BKAgentService[1043]: objc[1043]: Class UfDkPx3UB2zY60 is implemented in both /System/Library/PrivateFrameworks/BookKitFoundation.framework/Versions/A/BookKitFoundation and /System/Library/PrivateFrameworks/BookKit.framework/Versions/A/XPCServices/com.apple.BKAgentService.xpc/Contents/MacOS/com.apple.BKAgentService. One of the two will be used. Which one is undefined.
+Oct 31 04:50:03 Mac-1698727197284 AMPArtworkAgent[1044]: objc[1044]: Class PDFToRasterImageRef is implemented in both /System/Library/PrivateFrameworks/AMPLibrary.framework/Versions/A/AMPLibrary and /System/Library/PrivateFrameworks/AMPLibrary.framework/Versions/A/Support/AMPArtworkAgent. One of the two will be used. Which one is undefined.
+Oct 31 04:50:05 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:50:13 Mac-1698727197284 systemstats[63]: assertion failed: 20G1427: systemstats + 422174 [0685562E-057C-3014-B173-84BB74AFBF85]: 0x0
+Oct 31 04:50:16 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:50:45 --- last message repeated 2 times ---
+Oct 31 04:50:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0E000000-0300-0000-0000-000000000000[1046]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:50:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.06000000-0400-0000-0000-000000000000[1048]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:50:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.08000000-0300-0000-0000-000000000000[1053]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:50:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.10000000-0200-0000-0000-000000000000[1050]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:50:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.07000000-0400-0000-0000-000000000000[1045]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:50:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.03000000-0300-0000-0000-000000000000[1047]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:50:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.09000000-0300-0000-0000-000000000000[1051]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:50:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.05000000-0300-0000-0000-000000000000[1052]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:50:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0F000000-0200-0000-0000-000000000000[1049]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:50:46 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:51:06 --- last message repeated 2 times ---
+Oct 31 04:51:06 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.02000000-0300-0000-0000-000000000000[1054]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:51:16 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:51:39 --- last message repeated 2 times ---
+Oct 31 04:51:39 Mac-1698727197284 mdsync[1070]: objc[1070]: Class MDSPathFilter is implemented in both /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Metadata and /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mdsync. One of the two will be used. Which one is undefined.
+Oct 31 04:51:39 Mac-1698727197284 iCloudNotificationAgent[1069]: objc[1069]: Class INActivity is implemented in both /System/Library/Frameworks/Intents.framework/Versions/A/Intents and /System/Library/PrivateFrameworks/iCloudNotification.framework/iCloudNotificationAgent. One of the two will be used. Which one is undefined.
+Oct 31 04:51:47 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:52:17 --- last message repeated 2 times ---
+Oct 31 04:52:17 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:52:48 --- last message repeated 2 times ---
+Oct 31 04:52:47 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:53:18 --- last message repeated 2 times ---
+Oct 31 04:53:18 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:53:48 --- last message repeated 2 times ---
+Oct 31 04:53:48 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:53:50 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.06000000-0100-0000-0000-000000000000[1081]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:53:58 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:54:29 --- last message repeated 2 times ---
+Oct 31 04:54:29 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:54:59 --- last message repeated 2 times ---
+Oct 31 04:54:59 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:55:05 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.01000000-0100-0000-0000-000000000000[1099]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:55:05 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.05000000-0100-0000-0000-000000000000[1094]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:55:05 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.02000000-0100-0000-0000-000000000000[1097]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:55:05 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.07000000-0100-0000-0000-000000000000[1095]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:55:05 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0A000000-0000-0000-0000-000000000000[1103]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:55:07 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.03000000-0100-0000-0000-000000000000[1098]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:55:07 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.04000000-0100-0000-0000-000000000000[1096]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:55:07 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.08000000-0000-0000-0000-000000000000[1101]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:55:08 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.09000000-0000-0000-0000-000000000000[1102]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:55:08 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.06000000-0200-0000-0000-000000000000[1100]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:55:09 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:55:40 --- last message repeated 2 times ---
+Oct 31 04:55:40 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:56:07 --- last message repeated 2 times ---
+Oct 31 04:56:07 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.02000000-0400-0000-0000-000000000000[1108]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:56:10 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:56:40 --- last message repeated 2 times ---
+Oct 31 04:56:40 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:56:56 --- last message repeated 1 time ---
+Oct 31 04:56:56 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.02000000-0500-0000-0000-000000000000[1116]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:01 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:57:31 --- last message repeated 2 times ---
+Oct 31 04:57:31 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:57:38 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.05000000-0400-0000-0000-000000000000[1133]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:38 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.02000000-0600-0000-0000-000000000000[1131]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:38 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0E000000-0400-0000-0000-000000000000[1143]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:38 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.07000000-0500-0000-0000-000000000000[1142]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:39 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0E000000-0500-0000-0000-000000000000[1149]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:39 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.04000000-0200-0000-0000-000000000000[1128]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:39 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0A000000-0200-0000-0000-000000000000[1134]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:39 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0C000000-0200-0000-0000-000000000000[1136]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:41 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.wifi.WiFiAgent): Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+Oct 31 04:57:42 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0E000000-0600-0000-0000-000000000000[1154]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:42 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.09000000-0400-0000-0000-000000000000[1140]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:42 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0F000000-0300-0000-0000-000000000000[1132]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:42 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0B000000-0200-0000-0000-000000000000[1141]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:42 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.01000000-0200-0000-0000-000000000000[1145]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:43 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0D000000-0200-0000-0000-000000000000[1146]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:43 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.10000000-0300-0000-0000-000000000000[1144]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:43 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0F000000-0400-0000-0000-000000000000[1243]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:43 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.09000000-0500-0000-0000-000000000000[1242]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:44 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0C000000-0300-0000-0000-000000000000[1157]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:44 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.03000000-0400-0000-0000-000000000000[1139]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:44 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.04000000-0300-0000-0000-000000000000[1156]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:44 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0F000000-0500-0000-0000-000000000000[1251]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.09000000-0600-0000-0000-000000000000[1254]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.05000000-0500-0000-0000-000000000000[1148]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.07000000-0600-0000-0000-000000000000[1151]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:45 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0C000000-0400-0000-0000-000000000000[1261]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:46 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.05000000-0600-0000-0000-000000000000[1268]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:46 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.06000000-0500-0000-0000-000000000000[1138]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:46 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0B000000-0300-0000-0000-000000000000[1244]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:46 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0F000000-0600-0000-0000-000000000000[1264]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:47 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.10000000-0400-0000-0000-000000000000[1250]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:47 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.09000000-0700-0000-0000-000000000000[1267]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:47 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0A000000-0300-0000-0000-000000000000[1155]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:47 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.01000000-0300-0000-0000-000000000000[1248]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:48 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0D000000-0300-0000-0000-000000000000[1249]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:48 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.07000000-0700-0000-0000-000000000000[1270]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:48 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.08000000-0400-0000-0000-000000000000[1137]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:48 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0C000000-0500-0000-0000-000000000000[1269]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:49 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.0F000000-0700-0000-0000-000000000000[1299]): Service exited due to SIGKILL | sent by mds[83]
+Oct 31 04:57:49 Mac-1698727197284 com.apple.xpc.launchd[1] (com.apple.mdworker.shared.07000000-0000-0000-0000-000000000000[1373]): Service exited due to SIGKILL | sent by mds[83]

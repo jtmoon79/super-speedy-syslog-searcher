@@ -1,0 +1,113 @@
+DEBUG: Running installation step: auto 
+DEBUG: dialog.subr: DEBUG_SELF_INITIALIZE=[]
+DEBUG: UNAME_S=[FreeBSD] UNAME_P=[amd64] UNAME_R=[13.1-RELEASE]
+DEBUG: common.subr: Successfully loaded.
+DEBUG: f_include: file=[/usr/share/bsdconfig/dialog.subr]
+DEBUG: dialog.subr: loading includes...
+DEBUG: f_include: file=[/usr/share/bsdconfig/strings.subr]
+DEBUG: strings.subr: Successfully loaded.
+DEBUG: f_include: file=[/usr/share/bsdconfig/variable.subr]
+DEBUG: variable.subr: loading includes...
+DEBUG: f_include: file=[/usr/share/bsdconfig/dialog.subr]
+DEBUG: f_include: file=[/usr/share/bsdconfig/strings.subr]
+DEBUG: variable.subr: New variable VAR_CONFIG_FILE -> configFile
+DEBUG: variable.subr: New variable VAR_DEBUG -> debug
+DEBUG: variable.subr: New variable VAR_DEBUG_FILE -> debugFile
+DEBUG: variable.subr: New variable VAR_DIRECTORY_PATH -> _directoryPath
+DEBUG: variable.subr: New variable VAR_DOMAINNAME -> domainname
+DEBUG: variable.subr: New variable VAR_EDITOR -> editor
+DEBUG: variable.subr: New variable VAR_EXTRAS -> ifconfig_
+DEBUG: variable.subr: New variable VAR_FTP_DIR -> ftpDirectory
+DEBUG: variable.subr: New variable VAR_FTP_HOST -> ftpHost
+DEBUG: variable.subr: New variable VAR_FTP_PASS -> ftpPass
+DEBUG: variable.subr: New variable VAR_FTP_PATH -> _ftpPath
+DEBUG: variable.subr: New variable VAR_FTP_PORT -> ftpPort
+DEBUG: variable.subr: New variable VAR_FTP_STATE -> ftpState
+DEBUG: variable.subr: New variable VAR_FTP_USER -> ftpUser
+DEBUG: variable.subr: New variable VAR_GATEWAY -> defaultrouter
+DEBUG: variable.subr: New variable VAR_GROUP -> group
+DEBUG: variable.subr: New variable VAR_GROUP_GID -> groupGid
+DEBUG: variable.subr: New variable VAR_GROUP_MEMBERS -> groupMembers
+DEBUG: variable.subr: New variable VAR_GROUP_PASSWORD -> groupPassword
+DEBUG: variable.subr: New variable VAR_HOSTNAME -> hostname
+DEBUG: variable.subr: New variable VAR_HTTP_DIR -> httpDirectory
+DEBUG: variable.subr: New variable VAR_HTTP_FTP_MODE -> httpFtpMode
+DEBUG: variable.subr: New variable VAR_HTTP_HOST -> httpHost
+DEBUG: variable.subr: New variable VAR_HTTP_PATH -> _httpPath
+DEBUG: variable.subr: New variable VAR_HTTP_PORT -> httpPort
+DEBUG: variable.subr: New variable VAR_HTTP_PROXY -> httpProxy
+DEBUG: variable.subr: New variable VAR_HTTP_PROXY_HOST -> httpProxyHost
+DEBUG: variable.subr: New variable VAR_HTTP_PROXY_PATH -> _httpProxyPath
+DEBUG: variable.subr: New variable VAR_HTTP_PROXY_PORT -> httpProxyPort
+DEBUG: variable.subr: New variable VAR_IFCONFIG -> ifconfig_
+DEBUG: variable.subr: New variable VAR_IPADDR -> ipaddr
+DEBUG: variable.subr: New variable VAR_IPV6ADDR -> ipv6addr
+DEBUG: variable.subr: New variable VAR_IPV6_ENABLE -> ipv6_activate_all_interfaces
+DEBUG: variable.subr: New variable VAR_KEYMAP -> keymap
+DEBUG: variable.subr: New variable VAR_MEDIA_TIMEOUT -> MEDIA_TIMEOUT
+DEBUG: variable.subr: New variable VAR_MEDIA_TYPE -> mediaType
+DEBUG: variable.subr: New variable VAR_NAMESERVER -> nameserver
+DEBUG: variable.subr: New variable VAR_NETINTERACTIVE -> netInteractive
+DEBUG: variable.subr: New variable VAR_NETMASK -> netmask
+DEBUG: variable.subr: New variable VAR_NETWORK_DEVICE -> netDev
+DEBUG: variable.subr: New variable VAR_NFS_HOST -> nfsHost
+DEBUG: variable.subr: New variable VAR_NFS_PATH -> nfsPath
+DEBUG: variable.subr: New variable VAR_NFS_SECURE -> nfs_reserved_port_only
+DEBUG: variable.subr: New variable VAR_NFS_TCP -> nfs_use_tcp
+DEBUG: variable.subr: New variable VAR_NFS_V3 -> nfs_use_v3
+DEBUG: variable.subr: New variable VAR_NONINTERACTIVE -> nonInteractive
+DEBUG: variable.subr: New variable VAR_NO_CONFIRM -> noConfirm
+DEBUG: variable.subr: New variable VAR_NO_ERROR -> noError
+DEBUG: variable.subr: New variable VAR_NO_INET6 -> noInet6
+DEBUG: variable.subr: New variable VAR_PACKAGE -> package
+DEBUG: variable.subr: New variable VAR_PKG_TMPDIR -> PKG_TMPDIR
+DEBUG: variable.subr: New variable VAR_PORTS_PATH -> ports
+DEBUG: variable.subr: New variable VAR_RELNAME -> releaseName
+DEBUG: variable.subr: New variable VAR_SLOW_ETHER -> slowEthernetCard
+DEBUG: variable.subr: New variable VAR_TRY_DHCP -> tryDHCP
+DEBUG: variable.subr: New variable VAR_TRY_RTSOL -> tryRTSOL
+DEBUG: variable.subr: New variable VAR_UFS_PATH -> ufs
+DEBUG: variable.subr: New variable VAR_USER -> user
+DEBUG: variable.subr: New variable VAR_USER_ACCOUNT_EXPIRE -> userAccountExpire
+DEBUG: variable.subr: New variable VAR_USER_DOTFILES_CREATE -> userDotfilesCreate
+DEBUG: variable.subr: New variable VAR_USER_GECOS -> userGecos
+DEBUG: variable.subr: New variable VAR_USER_GID -> userGid
+DEBUG: variable.subr: New variable VAR_USER_GROUPS -> userGroups
+DEBUG: variable.subr: New variable VAR_USER_GROUP_DELETE -> userGroupDelete
+DEBUG: variable.subr: New variable VAR_USER_HOME -> userHome
+DEBUG: variable.subr: New variable VAR_USER_HOME_CREATE -> userHomeCreate
+DEBUG: variable.subr: New variable VAR_USER_HOME_DELETE -> userHomeDelete
+DEBUG: variable.subr: New variable VAR_USER_LOGIN_CLASS -> userLoginClass
+DEBUG: variable.subr: New variable VAR_USER_PASSWORD -> userPassword
+DEBUG: variable.subr: New variable VAR_USER_PASSWORD_EXPIRE -> userPasswordExpire
+DEBUG: variable.subr: New variable VAR_USER_SHELL -> userShell
+DEBUG: variable.subr: New variable VAR_USER_UID -> userUid
+DEBUG: variable.subr: New variable VAR_ZFSINTERACTIVE -> zfsInteractive
+DEBUG: variable.subr: VARIABLE_SELF_INITIALIZE=[1]
+DEBUG: f_variable_set_defaults: Initializing defaults...
+DEBUG: f_getvar: var=[debug] value=[1] r=0
+DEBUG: f_getvar: var=[editor] value=[/usr/bin/ee] r=0
+DEBUG: f_getvar: var=[ftpState] value=[auto] r=0
+DEBUG: f_getvar: var=[ftpUser] value=[ftp] r=0
+DEBUG: f_getvar: var=[hostname] value=[] r=0
+DEBUG: f_getvar: var=[MEDIA_TIMEOUT] value=[300] r=0
+DEBUG: f_getvar: var=[nfs_reserved_port_only] value=[NO] r=0
+DEBUG: f_getvar: var=[nfs_use_tcp] value=[NO] r=0
+DEBUG: f_getvar: var=[nfs_use_v3] value=[YES] r=0
+DEBUG: f_getvar: var=[PKG_TMPDIR] value=[/var/tmp] r=0
+DEBUG: f_getvar: var=[releaseName] value=[13.1-RELEASE] r=0
+DEBUG: f_variable_set_defaults: Defaults initialized.
+DEBUG: variable.subr: Successfully loaded.
+DEBUG: f_include_lang: file=[/usr/libexec/bsdconfig/include/messages.subr] lang=[C.UTF-8]
+DEBUG: dialog.subr: DIALOG_SELF_INITIALIZE=[1]
+DEBUG: f_dialog_init: ARGV=[] GETOPTS_STDARGS=[dD:SX]
+DEBUG: f_dialog_init: SECURE=[] USE_XDIALOG=[]
+DEBUG: f_dialog_init: dialog(1) API initialized.
+DEBUG: dialog.subr: Successfully loaded.
+DEBUG: Began Installation at Wed Mar 15 22:09:26 UTC 2023
+DEBUG: dialog.subr: DEBUG_SELF_INITIALIZE=[]
+DEBUG: UNAME_S=[FreeBSD] UNAME_P=[amd64] UNAME_R=[13.1-RELEASE]
+DEBUG: common.subr: Successfully loaded.
+DEBUG: f_debug_init: ARGV=[keymap] GETOPTS_STDARGS=[dD:]
+DEBUG: f_debug_init: debug=[1] debugFile=[/tmp/bsdinstall_log]
+DEBUG: Running installation step: keymap 

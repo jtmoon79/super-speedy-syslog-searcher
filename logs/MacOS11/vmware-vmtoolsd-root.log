@@ -1,0 +1,771 @@
+[2021-04-26T18:25:36.377Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-26T18:25:36.378Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-26T18:25:36.379Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-26T19:21:56.502Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-26T19:21:56.502Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-26T19:21:56.503Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-26T20:10:44.970Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-26T20:10:45.133Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-26T20:10:45.133Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-26T20:20:19.064Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-26T20:20:19.065Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-26T20:20:19.066Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-27T09:29:19.379Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-27T09:29:19.381Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-27T09:29:19.381Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-27T09:42:21.823Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-27T09:42:21.823Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-27T09:42:21.824Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-27T09:43:22.451Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-27T09:43:22.452Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-27T09:43:22.453Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-27T09:44:44.906Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-27T09:44:44.907Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-27T09:44:44.908Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-27T09:59:41.577Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-27T09:59:41.579Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-27T09:59:41.579Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-27T10:08:30.177Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-27T10:08:30.178Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-27T10:08:30.178Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-28T08:38:20.650Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-28T08:38:20.651Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-28T08:38:20.652Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-04-28T08:40:15.384Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-04-28T08:40:15.384Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-04-28T08:40:15.384Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-03T19:48:36.764Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-03T19:48:36.892Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-03T19:48:36.893Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-03T20:04:16.240Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-03T20:04:16.242Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-03T20:04:16.242Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-03T20:10:49.827Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-03T20:10:49.829Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-03T20:10:49.829Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-03T20:24:11.711Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-03T20:24:11.712Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-03T20:24:11.712Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-04T16:54:50.632Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-04T16:54:50.635Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-04T16:54:50.636Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-04T16:57:41.293Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-04T16:57:41.294Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-04T16:57:41.294Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-06T08:27:33.968Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-06T08:27:33.970Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-06T08:27:33.970Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-06T08:29:25.641Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-06T08:29:25.642Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-06T08:29:25.642Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-24T19:37:28.121Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-24T19:37:28.124Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-24T19:37:28.125Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-24T20:06:14.783Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-24T20:06:14.786Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-24T20:06:14.786Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-24T20:13:12.284Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-24T20:13:12.286Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-24T20:13:12.286Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-05-24T20:28:51.050Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-05-24T20:28:51.050Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-05-24T20:28:51.051Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-07-22T06:36:07.805Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-07-22T06:36:08.077Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-07-22T06:36:08.090Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-07-22T06:57:30.881Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-07-22T06:57:30.882Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-07-22T06:57:30.882Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-07-22T07:04:23.777Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-07-22T07:04:23.779Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-07-22T07:04:23.779Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-07-22T07:17:18.258Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-07-22T07:17:18.259Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-07-22T07:17:18.259Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-07-22T07:17:39.794Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-07-22T07:17:39.795Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-07-22T07:17:39.795Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-07-22T07:20:23.661Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-07-22T07:20:23.662Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-07-22T07:20:23.662Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-08-30T10:09:05.692Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-08-30T10:09:05.694Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-08-30T10:09:05.694Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-08-30T10:24:48.209Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-08-30T10:24:48.210Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-08-30T10:24:48.210Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-08-30T10:30:41.623Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-08-30T10:30:41.624Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-08-30T10:30:41.625Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-08-30T10:44:58.185Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-08-30T10:44:58.186Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-08-30T10:44:58.186Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-08-30T10:45:17.743Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-08-30T10:45:17.744Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-08-30T10:45:17.744Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-09-14T07:23:46.226Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-09-14T07:23:46.227Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-09-14T07:23:46.228Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-09-14T07:43:42.629Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-09-14T07:43:42.749Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-09-14T07:43:42.750Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-09-14T07:50:37.656Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-09-14T07:50:38.379Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-09-14T07:50:38.379Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-09-14T08:32:26.514Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-09-14T08:32:26.515Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-09-14T08:32:26.515Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-09-27T10:17:30.720Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-09-27T10:17:30.726Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-09-27T10:17:30.727Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-09-27T10:24:00.642Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-09-27T10:24:00.643Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-09-27T10:24:00.644Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-10-29T13:02:45.187Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-10-29T13:02:45.188Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-10-29T13:02:45.188Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-10-29T13:24:42.709Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-10-29T13:24:42.710Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-10-29T13:24:42.710Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-10-29T13:31:56.983Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-10-29T13:31:56.984Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-10-29T13:31:56.985Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-10-29T13:47:02.660Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-10-29T13:47:02.661Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-10-29T13:47:02.661Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-11-11T07:36:11.681Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-11-11T07:36:11.683Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-11-11T07:36:11.683Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-11-11T07:39:32.232Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-11-11T07:39:32.233Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-11-11T07:39:32.233Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-12-16T15:03:06.075Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-12-16T15:03:06.076Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-12-16T15:03:06.076Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-12-16T15:28:35.461Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-12-16T15:28:35.462Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-12-16T15:28:35.462Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-12-16T15:35:32.033Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-12-16T15:35:32.963Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-12-16T15:35:32.965Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-12-16T16:51:17.849Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-12-16T16:51:17.850Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-12-16T16:51:17.850Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-12-24T14:28:48.713Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-12-24T14:28:48.715Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-12-24T14:28:48.715Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2021-12-24T14:31:45.914Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2021-12-24T14:31:45.914Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2021-12-24T14:31:45.915Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-01-27T13:59:05.221Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-01-27T13:59:05.223Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-01-27T13:59:05.224Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-01-31T14:50:30.745Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-01-31T14:50:30.863Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-01-31T14:50:30.864Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-01-31T14:59:54.788Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-01-31T14:59:54.789Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-01-31T14:59:54.789Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-01-31T15:08:29.595Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-01-31T15:08:29.597Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-01-31T15:08:29.601Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-01-31T15:20:36.297Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-01-31T15:20:36.298Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-01-31T15:20:36.298Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-01-31T15:20:53.257Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-01-31T15:20:53.260Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-01-31T15:20:53.260Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-01-31T15:24:27.646Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-01-31T15:24:27.680Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-01-31T15:24:27.680Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-04T14:17:56.507Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-04T14:17:56.509Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-04T14:17:56.510Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-04T14:19:53.200Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-04T14:19:53.201Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-04T14:19:53.202Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-04T14:35:22.449Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-04T14:35:22.450Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-04T14:35:22.451Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-04T14:38:31.460Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-04T14:38:31.462Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-04T14:38:31.466Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-11T10:31:55.671Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-11T10:31:55.672Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-11T10:31:55.673Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-11T10:43:13.160Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-11T10:43:13.160Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-11T10:43:13.161Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-17T09:56:56.381Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-17T09:56:56.383Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-17T09:56:56.383Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-17T10:14:10.464Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-17T10:14:10.466Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-17T10:14:10.466Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-17T10:20:47.834Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-17T10:20:47.836Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-17T10:20:47.836Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-17T10:34:22.639Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-17T10:34:22.640Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-17T10:34:22.640Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-17T10:34:49.189Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-17T10:34:49.191Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-17T10:34:49.192Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-17T10:35:35.145Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-17T10:35:35.225Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-17T10:35:35.225Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-25T16:37:35.954Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-25T16:37:36.139Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-25T16:37:36.139Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-27T10:56:27.296Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-27T10:56:27.443Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-27T10:56:27.444Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-02-27T11:00:42.710Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-02-27T11:00:42.712Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-02-27T11:00:42.713Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-03-22T18:04:25.660Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-03-22T18:04:25.695Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-03-22T18:04:25.695Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-03-22T18:22:54.092Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-03-22T18:22:54.093Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-03-22T18:22:54.093Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-03-22T18:29:26.144Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-03-22T18:29:26.145Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-03-22T18:29:26.146Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-03-22T18:43:44.688Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-03-22T18:43:44.688Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-03-22T18:43:44.688Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-03-29T10:49:14.419Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-03-29T10:49:14.422Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-03-29T10:49:14.422Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-03-29T10:51:43.159Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-03-29T10:51:43.159Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-03-29T10:51:43.160Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-03-29T10:52:01.543Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-03-29T10:52:01.545Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-03-29T10:52:01.546Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-03-29T10:54:01.240Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-03-29T10:54:01.240Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-03-29T10:54:01.241Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-03-31T19:39:43.052Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-03-31T19:39:43.053Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-03-31T19:39:43.087Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-03-31T19:41:41.374Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-03-31T19:41:41.376Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-03-31T19:41:41.376Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-08T16:13:07.009Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-08T16:13:07.112Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-08T16:13:07.113Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-08T16:16:03.623Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-08T16:16:03.630Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-08T16:16:03.631Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-12T13:19:29.791Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-12T13:19:29.793Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-12T13:19:29.793Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-12T14:08:29.805Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-12T14:08:29.806Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-12T14:08:29.807Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-12T14:10:33.668Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-12T14:10:33.669Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-12T14:10:33.669Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-12T14:43:04.485Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-12T14:43:04.487Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-12T14:43:04.488Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-12T15:02:55.966Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-12T15:02:55.968Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-12T15:02:55.969Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-12T15:22:04.917Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-12T15:22:04.919Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-12T15:22:04.920Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-12T15:56:52.207Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-12T15:56:52.209Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-12T15:56:52.210Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-12T15:59:21.910Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-12T15:59:21.911Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-12T15:59:21.912Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T09:44:13.453Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T09:44:13.720Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T09:44:13.720Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T09:46:18.883Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T09:46:18.885Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T09:46:18.885Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T11:00:14.541Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T11:00:14.543Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T11:00:14.544Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T11:19:37.006Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T11:19:37.007Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T11:19:37.008Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T11:21:52.508Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T11:21:52.510Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T11:21:52.510Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T11:52:19.193Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T11:52:19.194Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T11:52:19.195Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T11:54:45.895Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T11:54:45.897Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T11:54:45.897Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T12:11:12.808Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T12:11:12.810Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T12:11:12.810Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T12:17:07.824Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T12:17:07.827Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T12:17:07.827Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T12:34:49.917Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T12:34:49.920Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T12:34:49.920Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T12:38:24.650Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T12:38:24.651Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T12:38:24.652Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T12:52:27.595Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T12:52:27.597Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T12:52:27.597Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T13:08:26.780Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T13:08:26.891Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T13:08:26.893Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T13:10:47.870Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T13:10:47.873Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T13:10:47.874Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T13:55:56.906Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T13:55:56.909Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T13:55:56.909Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T13:58:25.688Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T13:58:25.690Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T13:58:25.690Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T14:32:26.177Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T14:32:26.179Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T14:32:26.179Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T14:36:16.435Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T14:36:16.438Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T14:36:16.441Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T15:38:17.109Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T15:38:17.111Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T15:38:17.111Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T15:41:37.908Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T15:41:37.912Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T15:41:37.912Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T16:03:09.377Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T16:03:09.378Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T16:03:09.378Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T16:06:26.781Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T16:06:26.782Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T16:06:26.782Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-04-13T16:27:19.385Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-04-13T16:27:19.388Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-04-13T16:27:19.391Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-18T21:10:48.032Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-18T21:10:48.266Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-18T21:10:48.267Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-23T07:53:07.956Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-23T07:53:08.003Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-23T07:53:08.005Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-23T08:15:43.487Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-23T08:15:43.496Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-23T08:15:43.500Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-23T08:18:54.159Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-23T08:18:54.161Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-23T08:18:54.161Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-23T08:35:41.738Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-23T08:35:41.739Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-23T08:35:41.740Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-23T08:36:08.067Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-23T08:36:08.070Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-23T08:36:08.070Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-23T08:37:23.824Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-23T08:37:23.825Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-23T08:37:23.826Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-23T08:44:33.564Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-23T08:44:33.566Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-23T08:44:33.567Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-23T09:07:50.006Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-23T09:07:50.007Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-23T09:07:50.007Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-30T09:31:28.056Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-30T09:31:28.058Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-30T09:31:28.058Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-05-30T09:32:41.466Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-05-30T09:32:41.467Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-05-30T09:32:41.467Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-01T15:20:03.447Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-01T15:20:03.448Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-01T15:20:03.449Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-01T15:23:25.277Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-01T15:23:25.277Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-01T15:23:25.278Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-01T19:30:53.635Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-01T19:30:53.724Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-01T19:30:53.724Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-01T19:50:37.969Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-01T19:50:37.971Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-01T19:50:37.971Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-01T19:50:55.852Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-01T19:50:55.853Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-01T19:50:55.854Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-01T19:52:37.935Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-01T19:52:37.935Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-01T19:52:37.935Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-01T20:03:07.491Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-01T20:03:07.598Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-01T20:03:07.599Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-21T12:38:11.539Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-21T12:38:11.541Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-21T12:38:11.541Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-21T13:10:54.402Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-21T13:10:54.404Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-21T13:10:54.404Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-21T13:17:37.739Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-21T13:17:37.741Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-21T13:17:37.741Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-21T13:51:26.301Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-21T13:51:26.302Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-21T13:51:26.303Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-07-21T13:56:02.869Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-07-21T13:56:02.872Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-07-21T13:56:02.873Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-08-22T10:00:46.842Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-08-22T10:00:46.844Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-08-22T10:00:46.844Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-08-22T11:53:05.852Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-08-22T11:53:05.853Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-08-22T11:53:05.853Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-09-12T19:43:50.899Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-09-12T19:43:50.981Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-09-12T19:43:50.981Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-09-12T20:04:34.341Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-09-12T20:04:34.421Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-09-12T20:04:34.421Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-09-12T20:11:40.550Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-09-12T20:11:40.551Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-09-12T20:11:40.552Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-09-12T20:25:54.039Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-09-12T20:25:54.039Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-09-12T20:25:54.040Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-09-23T14:56:27.224Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-09-23T14:56:27.226Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-09-23T14:56:27.227Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-09-23T14:57:45.889Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-09-23T14:57:45.889Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-09-23T14:57:45.890Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-10-02T13:04:28.764Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-10-02T13:04:28.767Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-10-02T13:04:28.768Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-10-02T13:05:49.241Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-10-02T13:05:49.244Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-10-02T13:05:49.244Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-10-26T09:39:48.592Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-10-26T09:39:48.593Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-10-26T09:39:48.593Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-10-26T10:00:41.219Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-10-26T10:00:41.491Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-10-26T10:00:41.492Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-10-26T10:07:38.212Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-10-26T10:07:38.213Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-10-26T10:07:38.213Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-10-26T10:30:55.396Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-10-26T10:30:55.397Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-10-26T10:30:55.397Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-10-28T10:30:39.586Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-10-28T10:30:39.794Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-10-28T10:30:39.795Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-10-28T10:34:32.306Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-10-28T10:34:32.306Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-10-28T10:34:32.307Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-11-03T11:17:23.449Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-11-03T11:17:23.451Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-11-03T11:17:23.452Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-11-03T11:21:30.234Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-11-03T11:21:30.234Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-11-03T11:21:30.234Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-11-17T13:49:05.044Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-11-17T13:49:05.046Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-11-17T13:49:05.046Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-11-17T13:49:55.949Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-11-17T13:49:55.952Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-11-17T13:49:55.952Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-12-08T12:08:16.497Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-12-08T12:08:16.499Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-12-08T12:08:16.499Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-12-08T12:33:07.932Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-12-08T12:33:07.932Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-12-08T12:33:07.933Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-12-14T10:12:12.637Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-12-14T10:12:12.639Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-12-14T10:12:12.640Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-12-14T10:23:25.259Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-12-14T10:23:25.260Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-12-14T10:23:25.260Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-12-14T10:29:51.125Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-12-14T10:29:51.127Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-12-14T10:29:51.127Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-12-14T10:51:18.898Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-12-14T10:51:18.899Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-12-14T10:51:18.900Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-12-14T10:58:13.967Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-12-14T10:58:14.935Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-12-14T10:58:14.935Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2022-12-14T11:27:16.431Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2022-12-14T11:27:16.431Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2022-12-14T11:27:16.431Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-01-19T09:28:50.194Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-01-19T09:28:50.196Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-01-19T09:28:50.197Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-01-19T09:30:50.846Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-01-19T09:30:50.847Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-01-19T09:30:50.847Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-01-25T10:37:26.147Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-01-25T10:37:26.155Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-01-25T10:37:26.165Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-01-25T10:55:48.746Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-01-25T10:55:48.946Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-01-25T10:55:48.946Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-01-25T11:05:07.914Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-01-25T11:05:07.916Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-01-25T11:05:07.916Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-01-25T11:20:08.818Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-01-25T11:20:08.819Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-01-25T11:20:08.819Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-01-25T11:21:52.067Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-01-25T11:21:52.088Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-01-25T11:21:52.089Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-01-25T11:23:56.744Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-01-25T11:23:56.744Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-01-25T11:23:56.745Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-02T14:36:31.679Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-02T14:36:31.681Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-02T14:36:31.685Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-02T14:39:44.728Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-02T14:39:44.748Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-02T14:39:44.753Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-13T14:24:21.688Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-13T14:24:21.878Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-13T14:24:21.879Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-13T14:26:12.530Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-13T14:26:12.535Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-13T14:26:12.536Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-14T17:05:22.072Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-14T17:05:22.074Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-14T17:05:22.074Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-14T17:10:19.550Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-14T17:10:19.551Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-14T17:10:19.551Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-14T22:20:20.313Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-14T22:20:20.314Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-14T22:20:20.314Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-14T22:26:13.167Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-14T22:26:13.168Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-14T22:26:13.169Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-16T13:48:22.048Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-16T13:48:22.049Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-16T13:48:22.050Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-16T14:21:13.912Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-16T14:21:13.914Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-16T14:21:13.914Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-16T14:28:18.852Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-16T14:28:18.854Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-16T14:28:18.854Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-16T14:43:56.844Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-16T14:43:56.848Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-16T14:43:56.855Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-16T14:44:25.341Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-16T14:44:25.342Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-16T14:44:25.342Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-16T14:45:30.338Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-16T14:45:30.451Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-16T14:45:30.452Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-23T15:58:36.923Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-23T15:58:37.047Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-23T15:58:37.048Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-23T16:11:13.336Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-23T16:11:13.337Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-23T16:11:13.337Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-23T16:27:06.392Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-23T16:27:06.393Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-23T16:27:06.393Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-02-23T16:30:29.205Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-02-23T16:30:29.206Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-02-23T16:30:29.206Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-03-16T11:34:39.570Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-03-16T11:34:39.571Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-03-16T11:34:39.572Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-03-16T11:35:57.105Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-03-16T11:35:57.105Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-03-16T11:35:57.106Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-03-28T13:55:18.788Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-03-28T13:55:19.351Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-03-28T13:55:19.351Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-03-28T14:15:50.624Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-03-28T14:15:50.661Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-03-28T14:15:50.662Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-03-28T14:22:47.541Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-03-28T14:22:47.542Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-03-28T14:22:47.543Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-03-28T14:43:52.481Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-03-28T14:43:52.490Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-03-28T14:43:52.490Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-03-31T10:46:17.979Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-03-31T10:46:17.982Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-03-31T10:46:17.983Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-03-31T10:48:45.942Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-03-31T10:48:45.943Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-03-31T10:48:45.943Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-08T15:01:33.688Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-08T15:01:33.767Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-08T15:01:33.768Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-08T15:04:16.984Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-08T15:04:16.985Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-08T15:04:16.985Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-08T15:04:36.756Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-08T15:04:36.757Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-08T15:04:36.758Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-08T15:10:18.867Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-08T15:10:18.868Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-08T15:10:18.868Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-11T13:27:43.136Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-11T13:27:43.138Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-11T13:27:43.138Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-11T13:43:11.420Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-11T13:43:11.543Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-11T13:43:11.544Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-11T13:49:51.173Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-11T13:49:51.174Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-11T13:49:51.175Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-11T14:02:03.742Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-11T14:02:03.743Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-11T14:02:03.744Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-11T14:02:30.894Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-11T14:02:30.895Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-11T14:02:30.896Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-11T14:06:00.262Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-11T14:06:00.262Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-11T14:06:00.262Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-27T13:59:08.348Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-27T13:59:08.350Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-27T13:59:08.352Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-04-27T14:07:25.809Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-04-27T14:07:25.810Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-04-27T14:07:25.810Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-05-26T11:17:18.999Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-05-26T11:17:19.258Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-05-26T11:17:19.258Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-05-26T11:40:04.030Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-05-26T11:40:04.152Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-05-26T11:40:04.152Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-05-26T11:47:15.817Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-05-26T11:47:15.818Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-05-26T11:47:15.819Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-05-26T11:59:18.723Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-05-26T11:59:18.724Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-05-26T11:59:18.724Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-06-09T10:09:15.289Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-06-09T10:09:15.290Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-06-09T10:09:15.291Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-06-09T10:24:00.546Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-06-09T10:24:00.546Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-06-09T10:24:00.547Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-06-16T14:26:30.623Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-06-16T14:26:30.624Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-06-16T14:26:30.625Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-06-16T14:29:31.811Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-06-16T14:29:31.811Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-06-16T14:29:31.811Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-06-23T11:55:42.882Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-06-23T11:55:42.884Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-06-23T11:55:42.885Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-06-23T12:21:13.615Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-06-23T12:21:13.697Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-06-23T12:21:13.697Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-06-23T12:29:54.773Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-06-23T12:29:54.774Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-06-23T12:29:54.774Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-06-29T13:15:07.750Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-06-29T13:15:07.877Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-06-29T13:15:07.878Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-06-29T13:17:07.354Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-06-29T13:17:07.355Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-06-29T13:17:07.355Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-07-06T13:52:07.945Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-07-06T13:52:07.946Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-07-06T13:52:07.947Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-07-17T09:59:45.013Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-07-17T09:59:45.050Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-07-17T09:59:45.050Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-07-17T10:00:44.328Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-07-17T10:00:44.329Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-07-17T10:00:44.329Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-07-17T10:02:04.606Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-07-17T10:02:04.607Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-07-17T10:02:04.608Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-07-17T10:05:23.946Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-07-17T10:05:23.946Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-07-17T10:05:23.946Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-07-17T10:05:43.493Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-07-17T10:05:43.494Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-07-17T10:05:43.495Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-07-17T10:07:27.242Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-07-17T10:07:27.245Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-07-17T10:07:27.246Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-07-20T15:53:55.676Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-07-20T15:53:55.678Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-07-20T15:53:55.678Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-07-20T15:56:03.239Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-07-20T15:56:03.240Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-07-20T15:56:03.240Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-08-12T07:31:11.657Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-08-12T07:31:11.660Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-08-12T07:31:11.660Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-08-12T07:35:01.752Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-08-12T07:35:01.752Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-08-12T07:35:01.753Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-08-29T09:51:01.757Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-08-29T09:51:01.794Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-08-29T09:51:01.794Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-08-29T11:12:47.665Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-08-29T11:12:47.667Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-08-29T11:12:47.668Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-08-29T11:19:33.173Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-08-29T11:19:33.174Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-08-29T11:19:33.174Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-08-29T11:32:50.046Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-08-29T11:32:50.046Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-08-29T11:32:50.046Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-08-31T14:34:40.427Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-08-31T14:34:40.428Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-08-31T14:34:40.428Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-08-31T14:37:26.067Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-08-31T14:37:26.068Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-08-31T14:37:26.068Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-09-15T09:43:58.329Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-09-15T09:43:58.332Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-09-15T09:43:58.333Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-09-15T10:05:11.038Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-09-15T10:05:11.276Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-09-15T10:05:11.277Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-09-15T10:11:59.432Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-09-15T10:11:59.434Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-09-15T10:11:59.434Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-09-15T10:36:37.249Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-09-15T10:36:37.250Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-09-15T10:36:37.250Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-09-15T10:47:13.266Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-09-15T10:47:13.273Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-09-15T10:47:13.274Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-09-21T18:04:37.588Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-09-21T18:04:37.697Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-09-21T18:04:37.698Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-09-21T18:06:32.778Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-09-21T18:06:32.778Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-09-21T18:06:32.779Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-09-22T00:10:59.784Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-09-22T00:10:59.786Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-09-22T00:10:59.786Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-09-22T00:30:55.218Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-09-22T00:30:55.220Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-09-22T00:30:55.220Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-09-22T03:02:13.344Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-09-22T03:02:13.346Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-09-22T03:02:13.346Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-10-26T04:27:28.486Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-10-26T04:27:28.487Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-10-26T04:27:28.487Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.
+[2023-10-31T04:39:43.766Z] [ message] [vmtoolsd] Log caching is enabled with maxCacheEntries=4096.
+[2023-10-31T04:39:43.767Z] [ message] [vmtoolsd] Core dump limit set to -1
+[2023-10-31T04:39:43.768Z] [ message] [vmtoolsd] Cannot load message catalog for domain 'vmtoolsd', language 'C', catalog dir '/Library/Application Support/VMware Tools'.

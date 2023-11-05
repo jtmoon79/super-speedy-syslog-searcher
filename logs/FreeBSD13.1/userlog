@@ -1,0 +1,8 @@
+2023-03-17 14:55:58 [root:groupadd] messagebus(556)
+2023-03-17 14:55:58 [root:useradd] messagebus(556):messagebus(556):D-BUS Daemon User:/nonexistent:/usr/sbin/nologin
+2023-03-17 15:26:33 [root:groupadd] git_daemon(964)
+2023-03-17 15:26:33 [root:useradd] git_daemon(964):git_daemon(964):git daemon:/nonexistent:/usr/sbin/nologin
+2023-03-17 20:09:14 [root:groupadd] cyrus(60)
+2023-03-17 20:09:14 [root:useradd] cyrus(60):cyrus(60):the cyrus mail server:/nonexistent:/usr/sbin/nologin
+2023-03-17 20:09:14 [root:groupadd] avahi(558)
+2023-03-17 20:09:15 [root:useradd] avahi(558):avahi(558):Avahi Daemon User:/nonexistent:/usr/sbin/nologin

@@ -1,0 +1,99 @@
+Mar 15 15:15:21 f13b newsyslog[566]: logfile first created
+Mar 15 22:16:42 f13b dhclient[400]: DHCPREQUEST on em0 to 192.168.0.255 port 24583
+Mar 15 22:16:42 f13b dhclient[400]: DHCPNAK from 192.168.0.1
+Mar 15 22:16:42 f13b dhclient[400]: DHCPDISCOVER on em0 to 192.168.0.255 port 24583 interval 4
+Mar 15 22:16:43 f13b dhclient[400]: DHCPOFFER from 192.168.0.1
+Mar 15 22:34:58 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 15 22:34:58 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 15 22:34:58 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 15 22:44:58 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 15 22:44:58 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 15 22:44:58 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 15 22:54:58 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 15 22:54:58 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 15 22:54:58 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 15 23:04:58 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 15 23:04:58 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 15 23:04:58 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 15 23:14:58 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 15 23:14:58 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 15 23:14:58 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 15 23:24:58 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 15 23:24:58 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 15 23:24:58 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 15 23:34:58 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 15 23:34:58 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 15 23:34:58 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 15 23:44:58 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 15 23:44:58 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 15 23:44:58 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 15 23:54:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 15 23:54:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 15 23:54:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 00:04:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 00:04:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 00:04:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 00:14:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 00:14:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 00:14:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 00:24:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 00:24:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 00:24:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 00:34:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 00:34:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 00:34:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 00:44:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 00:44:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 00:44:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 00:54:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 00:54:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 00:54:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 01:04:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 01:04:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 01:04:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 01:14:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 01:14:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 01:14:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 01:24:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 01:24:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 01:24:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 01:34:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 01:34:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 01:34:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 01:44:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 01:44:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 01:44:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 01:54:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 01:54:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 01:54:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 02:04:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 02:04:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 02:04:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 02:14:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 02:14:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 02:14:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 02:24:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 02:24:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 02:24:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 16 02:34:59 f13b dhclient[402]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 16 02:34:59 f13b dhclient[402]: DHCPACK from 192.168.0.1
+Mar 16 02:34:59 f13b dhclient[402]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 18 06:18:12 f13b dhclient[406]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 18 06:18:12 f13b dhclient[406]: DHCPACK from 192.168.0.1
+Mar 18 06:18:12 f13b dhclient[406]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 18 06:28:12 f13b dhclient[406]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 18 06:28:12 f13b dhclient[406]: DHCPACK from 192.168.0.1
+Mar 18 06:28:12 f13b dhclient[406]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 18 06:38:12 f13b dhclient[406]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 18 06:38:12 f13b dhclient[406]: DHCPACK from 192.168.0.1
+Mar 18 06:38:12 f13b dhclient[406]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 18 06:48:12 f13b dhclient[406]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 18 06:48:12 f13b dhclient[406]: DHCPACK from 192.168.0.1
+Mar 18 06:48:12 f13b dhclient[406]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 18 06:58:12 f13b dhclient[406]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 18 06:58:12 f13b dhclient[406]: DHCPACK from 192.168.0.1
+Mar 18 06:58:12 f13b dhclient[406]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 18 07:08:12 f13b dhclient[406]: DHCPREQUEST on em0 to 192.168.0.1 port 24583
+Mar 18 07:08:12 f13b dhclient[406]: DHCPACK from 192.168.0.1
+Mar 18 07:08:12 f13b dhclient[406]: bound to 192.168.0.53 -- renewal in 600 seconds.
+Mar 18 07:18:12 f13b dhclient[406]: DHCPREQUEST on em0 to 192.168.0.1 port 24583

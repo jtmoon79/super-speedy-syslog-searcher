@@ -1,0 +1,518 @@
+[    23.416] 
+X.Org X Server 1.20.5
+X Protocol Version 11, Revision 0
+[    23.416] Build Operating System: NetBSD/i386 9.3 - The NetBSD Foundation, Inc.
+[    23.424] Current Operating System: NetBSD jelly.local 9.3 NetBSD 9.3 (GENERIC) #0: Thu Aug  4 15:30:37 UTC 2022  mkrepro@mkrepro.NetBSD.org:/usr/src/sys/arch/i386/compile/GENERIC i386
+[    23.425] Build Date: 03 March 2019  07:11:23AM
+[    23.425]  
+[    23.426] Current version of pixman: 0.38.4
+[    23.426] 	Before reporting problems, check http://wiki.x.org
+	to make sure that you have the latest version.
+[    23.426] Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+[    23.426] (==) Log file: "/var/log/Xorg.0.log", Time: Wed May 10 03:20:37 2023
+[    23.430] (II) Loader magic: 0xd31e80
+[    23.430] (II) Module ABI versions:
+[    23.430] 	X.Org ANSI C Emulation: 0.4
+[    23.430] 	X.Org Video Driver: 24.0
+[    23.430] 	X.Org XInput driver : 24.1
+[    23.430] 	X.Org Server Extension : 10.0
+[    23.481] (--) PCI:*(0@0:2:0) 15ad:0405:15ad:0405 rev 0, Mem @ 0xe0000000/16777216, 0xf0000000/2097152, I/O @ 0x0000d010/16
+[    23.481] (==) Using default built-in configuration (39 lines)
+[    23.481] (==) --- Start of built-in configuration ---
+[    23.481] 	Section "Device"
+[    23.481] 		Identifier	"Builtin Default vmware Device 0"
+[    23.481] 		Driver	"vmware"
+[    23.481] 	EndSection
+[    23.481] 	Section "Screen"
+[    23.481] 		Identifier	"Builtin Default vmware Screen 0"
+[    23.481] 		Device	"Builtin Default vmware Device 0"
+[    23.481] 	EndSection
+[    23.481] 	Section "Device"
+[    23.481] 		Identifier	"Builtin Default modesetting Device 0"
+[    23.481] 		Driver	"modesetting"
+[    23.481] 	EndSection
+[    23.481] 	Section "Screen"
+[    23.481] 		Identifier	"Builtin Default modesetting Screen 0"
+[    23.481] 		Device	"Builtin Default modesetting Device 0"
+[    23.481] 	EndSection
+[    23.481] 	Section "Device"
+[    23.482] 		Identifier	"Builtin Default vesa Device 0"
+[    23.482] 		Driver	"vesa"
+[    23.482] 	EndSection
+[    23.482] 	Section "Screen"
+[    23.482] 		Identifier	"Builtin Default vesa Screen 0"
+[    23.482] 		Device	"Builtin Default vesa Device 0"
+[    23.482] 	EndSection
+[    23.482] 	Section "Device"
+[    23.482] 		Identifier	"Builtin Default wsfb Device 0"
+[    23.482] 		Driver	"wsfb"
+[    23.482] 	EndSection
+[    23.482] 	Section "Screen"
+[    23.482] 		Identifier	"Builtin Default wsfb Screen 0"
+[    23.482] 		Device	"Builtin Default wsfb Device 0"
+[    23.482] 	EndSection
+[    23.482] 	Section "ServerLayout"
+[    23.482] 		Identifier	"Builtin Default Layout"
+[    23.482] 		Screen	"Builtin Default vmware Screen 0"
+[    23.482] 		Screen	"Builtin Default modesetting Screen 0"
+[    23.482] 		Screen	"Builtin Default vesa Screen 0"
+[    23.482] 		Screen	"Builtin Default wsfb Screen 0"
+[    23.482] 	EndSection
+[    23.482] (==) --- End of built-in configuration ---
+[    23.483] (==) ServerLayout "Builtin Default Layout"
+[    23.483] (**) |-->Screen "Builtin Default vmware Screen 0" (0)
+[    23.483] (**) |   |-->Monitor "<default monitor>"
+[    23.484] (**) |   |-->Device "Builtin Default vmware Device 0"
+[    23.484] (==) No monitor specified for screen "Builtin Default vmware Screen 0".
+	Using a default monitor configuration.
+[    23.484] (**) |-->Screen "Builtin Default modesetting Screen 0" (1)
+[    23.484] (**) |   |-->Monitor "<default monitor>"
+[    23.484] (**) |   |-->Device "Builtin Default modesetting Device 0"
+[    23.484] (==) No monitor specified for screen "Builtin Default modesetting Screen 0".
+	Using a default monitor configuration.
+[    23.484] (**) |-->Screen "Builtin Default vesa Screen 0" (2)
+[    23.484] (**) |   |-->Monitor "<default monitor>"
+[    23.484] (**) |   |-->Device "Builtin Default vesa Device 0"
+[    23.484] (==) No monitor specified for screen "Builtin Default vesa Screen 0".
+	Using a default monitor configuration.
+[    23.484] (**) |-->Screen "Builtin Default wsfb Screen 0" (3)
+[    23.484] (**) |   |-->Monitor "<default monitor>"
+[    23.484] (**) |   |-->Device "Builtin Default wsfb Device 0"
+[    23.484] (==) No monitor specified for screen "Builtin Default wsfb Screen 0".
+	Using a default monitor configuration.
+[    23.484] (==) Not automatically adding devices
+[    23.484] (==) Not automatically enabling devices
+[    23.484] (==) Not automatically adding GPU devices
+[    23.484] (==) Max clients allowed: 256, resource mask: 0x1fffff
+[    23.487] (==) FontPath set to:
+	/usr/X11R7/lib/X11/fonts/misc/,
+	/usr/X11R7/lib/X11/fonts/TTF/,
+	/usr/X11R7/lib/X11/fonts/Type1/,
+	/usr/X11R7/lib/X11/fonts/75dpi/,
+	/usr/X11R7/lib/X11/fonts/100dpi/
+[    23.487] (==) ModulePath set to "/usr/X11R7/lib/modules"
+[    23.488] (==) |-->Input Device "<default pointer>"
+[    23.488] (==) |-->Input Device "<default keyboard>"
+[    23.488] (==) The core pointer device wasn't specified explicitly in the layout.
+	Using the default mouse configuration.
+[    23.488] (==) The core keyboard device wasn't specified explicitly in the layout.
+	Using the default keyboard configuration.
+[    23.488] (II) LoadModule: "glx"
+[    23.491] (II) Loading /usr/X11R7/lib/modules/extensions/libglx.so
+[    23.494] (II) Module glx: vendor="X.Org Foundation"
+[    23.494] 	compiled for 1.20.5, module version = 1.0.0
+[    23.494] 	ABI class: X.Org Server Extension, version 10.0
+[    23.495] (II) LoadModule: "vmware"
+[    23.495] (II) Loading /usr/X11R7/lib/modules/drivers/vmware_drv.so
+[    23.496] (II) Module vmware: vendor="X.Org Foundation"
+[    23.496] 	compiled for 1.20.5, module version = 13.2.1
+[    23.496] 	Module class: X.Org Video Driver
+[    23.496] 	ABI class: X.Org Video Driver, version 24.0
+[    23.497] (II) LoadModule: "modesetting"
+[    23.497] (II) Loading /usr/X11R7/lib/modules/drivers/modesetting_drv.so
+[    23.498] (II) Module modesetting: vendor="X.Org Foundation"
+[    23.498] 	compiled for 1.20.5, module version = 1.20.5
+[    23.498] 	Module class: X.Org Video Driver
+[    23.498] 	ABI class: X.Org Video Driver, version 24.0
+[    23.498] (II) LoadModule: "vesa"
+[    23.499] (II) Loading /usr/X11R7/lib/modules/drivers/vesa_drv.so
+[    23.500] (II) Module vesa: vendor="X.Org Foundation"
+[    23.500] 	compiled for 1.20.5, module version = 2.4.0
+[    23.500] 	Module class: X.Org Video Driver
+[    23.500] 	ABI class: X.Org Video Driver, version 24.0
+[    23.500] (II) LoadModule: "wsfb"
+[    23.500] (II) Loading /usr/X11R7/lib/modules/drivers/wsfb_drv.so
+[    23.501] (II) Module wsfb: vendor="X.Org Foundation"
+[    23.501] 	compiled for 1.20.5, module version = 0.4.0
+[    23.501] 	ABI class: X.Org Video Driver, version 24.0
+[    23.501] (II) LoadModule: "vmmouse"
+[    23.501] (II) Loading /usr/X11R7/lib/modules/drivers/vmmouse_drv.so
+[    23.502] (II) Module vmmouse: vendor="X.Org Foundation"
+[    23.502] 	compiled for 1.20.5, module version = 13.1.0
+[    23.502] 	Module class: X.Org XInput Driver
+[    23.502] 	ABI class: X.Org XInput driver, version 24.1
+[    23.502] (II) VMWARE(0): VMMOUSE module was loaded
+[    23.502] (II) LoadModule: "kbd"
+[    23.502] (II) Loading /usr/X11R7/lib/modules/drivers/kbd_drv.so
+[    23.503] (II) Module kbd: vendor="X.Org Foundation"
+[    23.503] 	compiled for 1.20.5, module version = 1.9.0
+[    23.503] 	Module class: X.Org XInput Driver
+[    23.503] 	ABI class: X.Org XInput driver, version 24.1
+[    23.503] (II) vmware: driver for VMware SVGA: vmware0405, vmware0710
+[    23.503] (II) modesetting: Driver for Modesetting Kernel Drivers: kms
+[    23.503] (II) VESA: driver for VESA chipsets: vesa
+[    23.503] (II) wsfb: driver for wsdisplay framebuffer: wsfb
+[    23.504] (--) Using wscons driver on /dev/ttyE4 in pcvt compatibility mode (version 3.32)
+[    23.504] (--) using VT number 5
+[    23.510] (WW) Falling back to old probe method for modesetting
+[    23.510] (EE) open /dev/dri/card0: Operation not supported by device
+[    23.510] (WW) Falling back to old probe method for wsfb
+[    23.510] (WW) VGA arbiter: cannot open kernel arbiter, no multi-card support
+[    23.510] (II) vmware(0): Driver was compiled without KMS- and 3D support.
+[    23.511] (WW) vmware(0): Disabling 3D support.
+[    23.511] (WW) vmware(0): Disabling Render Acceleration.
+[    23.511] (WW) vmware(0): Disabling RandR12+ support.
+[    23.511] (--) vmware(0): VMware SVGA regs at (0xd010, 0xd011)
+[    23.511] (II) Loading sub module "vgahw"
+[    23.511] (II) LoadModule: "vgahw"
+[    23.513] (II) Loading /usr/X11R7/lib/modules/libvgahw.so
+[    23.514] (II) Module vgahw: vendor="X.Org Foundation"
+[    23.514] 	compiled for 1.20.5, module version = 0.1.0
+[    23.514] 	ABI class: X.Org Video Driver, version 24.0
+[    23.718] (--) vmware(0): caps:  0x01F682E2
+[    23.718] (--) vmware(0): depth: 24
+[    23.718] (--) vmware(0): bpp:   32
+[    23.718] (--) vmware(0): vram:  16777216
+[    23.718] (--) vmware(0): pbase: 0xe0000000
+[    23.718] (--) vmware(0): mwidt: 2048
+[    23.718] (--) vmware(0): mheig: 2048
+[    23.718] (II) vmware(0): Creating default Display subsection in Screen section
+	"Builtin Default vmware Screen 0" for depth/fbbpp 24/32
+[    23.718] (--) vmware(0): depth: 24
+[    23.718] (--) vmware(0): bpp:   32
+[    23.718] (--) vmware(0): w.red: 8
+[    23.718] (--) vmware(0): w.grn: 8
+[    23.718] (--) vmware(0): w.blu: 8
+[    23.718] (--) vmware(0): vis:   4
+[    23.718] (==) vmware(0): Depth 24, (==) framebuffer bpp 32
+[    23.718] (==) vmware(0): RGB weight 888
+[    23.718] (==) vmware(0): Default visual is TrueColor
+[    23.718] (==) vmware(0): Using HW cursor
+[    23.718] (==) vmware(0): Will set up a driver mode with dimensions 800x600.
+[    23.718] (==) vmware(0): Using gamma correction (1.0, 1.0, 1.0)
+[    23.718] (II) vmware(0): Clock range:   0.00 to 400000.00 MHz
+[    23.718] (II) vmware(0): Not using default mode "320x175" (bad mode clock/interlace/doublescan)
+[    23.718] (II) vmware(0): Not using default mode "320x200" (bad mode clock/interlace/doublescan)
+[    23.718] (II) vmware(0): Not using default mode "360x200" (bad mode clock/interlace/doublescan)
+[    23.718] (II) vmware(0): Not using default mode "320x240" (bad mode clock/interlace/doublescan)
+[    23.718] (II) vmware(0): Not using default mode "320x240" (bad mode clock/interlace/doublescan)
+[    23.718] (II) vmware(0): Not using default mode "320x240" (bad mode clock/interlace/doublescan)
+[    23.718] (II) vmware(0): Not using default mode "320x240" (bad mode clock/interlace/doublescan)
+[    23.718] (II) vmware(0): Not using default mode "400x300" (bad mode clock/interlace/doublescan)
+[    23.718] (II) vmware(0): Not using default mode "400x300" (bad mode clock/interlace/doublescan)
+[    23.718] (II) vmware(0): Not using default mode "400x300" (bad mode clock/interlace/doublescan)
+[    23.718] (II) vmware(0): Not using default mode "400x300" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "400x300" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "1024x768i" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "512x384i" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "512x384" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "512x384" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "512x384" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "512x384" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "576x432" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "640x480" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "640x480" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "640x512" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "640x512" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "640x512" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "800x600" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "800x600" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "800x600" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "800x600" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "800x600" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "896x672" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "896x672" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "928x696" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "928x696" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "960x720" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "960x720" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "416x312" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "700x525" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "700x525" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "960x720" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "1024x768" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "1024x768" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "1024x768" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "320x180" (bad mode clock/interlace/doublescan)
+[    23.719] (II) vmware(0): Not using default mode "320x180" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "720x405" (monitor doesn't support reduced blanking)
+[    23.720] (II) vmware(0): Not using default mode "360x202" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "360x202" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "864x486" (monitor doesn't support reduced blanking)
+[    23.720] (II) vmware(0): Not using default mode "432x243" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "432x243" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "960x540" (monitor doesn't support reduced blanking)
+[    23.720] (II) vmware(0): Not using default mode "480x270" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "480x270" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "1024x576" (monitor doesn't support reduced blanking)
+[    23.720] (II) vmware(0): Not using default mode "512x288" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "512x288" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "1280x720" (monitor doesn't support reduced blanking)
+[    23.720] (II) vmware(0): Not using default mode "640x360" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "640x360" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "1368x768" (monitor doesn't support reduced blanking)
+[    23.720] (II) vmware(0): Not using default mode "684x384" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "684x384" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "1600x900" (monitor doesn't support reduced blanking)
+[    23.720] (II) vmware(0): Not using default mode "800x450" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "800x450" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "1920x1080" (monitor doesn't support reduced blanking)
+[    23.720] (II) vmware(0): Not using default mode "960x540" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "960x540" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "2048x1152" (monitor doesn't support reduced blanking)
+[    23.720] (II) vmware(0): Not using default mode "1024x576" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "1024x576" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "2560x1440" (width requires unsupported line pitch)
+[    23.720] (II) vmware(0): Not using default mode "1280x720" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "2560x1440" (width requires unsupported line pitch)
+[    23.720] (II) vmware(0): Not using default mode "1280x720" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "2880x1620" (insufficient memory for mode)
+[    23.720] (II) vmware(0): Not using default mode "1440x810" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "2880x1620" (insufficient memory for mode)
+[    23.720] (II) vmware(0): Not using default mode "1440x810" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "3200x1800" (insufficient memory for mode)
+[    23.720] (II) vmware(0): Not using default mode "1600x900" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "3200x1800" (insufficient memory for mode)
+[    23.720] (II) vmware(0): Not using default mode "1600x900" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "3840x2160" (insufficient memory for mode)
+[    23.720] (II) vmware(0): Not using default mode "1920x1080" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "3840x2160" (insufficient memory for mode)
+[    23.720] (II) vmware(0): Not using default mode "1920x1080" (bad mode clock/interlace/doublescan)
+[    23.720] (II) vmware(0): Not using default mode "4096x2304" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "2048x1152" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "4096x2304" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "2048x1152" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "5120x2880" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "2560x1440" (width requires unsupported line pitch)
+[    23.721] (II) vmware(0): Not using default mode "5120x2880" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "2560x1440" (width requires unsupported line pitch)
+[    23.721] (II) vmware(0): Not using default mode "7680x4320" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "3840x2160" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "7680x4320" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "3840x2160" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "15360x8640" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "7680x4320" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "15360x8640" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "7680x4320" (insufficient memory for mode)
+[    23.721] (II) vmware(0): Not using default mode "1280x800" (monitor doesn't support reduced blanking)
+[    23.721] (II) vmware(0): Not using default mode "640x400" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "640x400" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "1400x900" (monitor doesn't support reduced blanking)
+[    23.721] (II) vmware(0): Not using default mode "700x450" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "700x450" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "1680x1050" (monitor doesn't support reduced blanking)
+[    23.721] (II) vmware(0): Not using default mode "840x525" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "840x525" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "1920x1200" (monitor doesn't support reduced blanking)
+[    23.721] (II) vmware(0): Not using default mode "960x600" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "960x600" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "2560x1600" (width requires unsupported line pitch)
+[    23.721] (II) vmware(0): Not using default mode "1280x800" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Not using default mode "2560x1600" (width requires unsupported line pitch)
+[    23.721] (II) vmware(0): Not using default mode "1280x800" (bad mode clock/interlace/doublescan)
+[    23.721] (II) vmware(0): Virtual size is 800x600 (pitch 2048)
+[    23.721] (**) vmware(0): *Driver mode "vmwlegacy-default-800x600": 36.3 MHz, 36.2 kHz, 60.0 Hz
+[    23.721] (II) vmware(0): Modeline "vmwlegacy-default-800x600"x60.0   36.25  800 801 802 1002  600 601 602 603 (36.2 kHz ez)
+[    23.721] (**) vmware(0):  Default mode "2048x1536": 388.0 MHz, 137.0 kHz, 85.0 Hz
+[    23.721] (II) vmware(0): Modeline "2048x1536"x85.0  388.04  2048 2216 2440 2832  1536 1537 1540 1612 -hsync +vsync (137.0 kHz d)
+[    23.721] (**) vmware(0):  Default mode "2048x1536": 340.5 MHz, 120.2 kHz, 75.0 Hz
+[    23.721] (II) vmware(0): Modeline "2048x1536"x75.0  340.48  2048 2216 2440 2832  1536 1537 1540 1603 -hsync +vsync (120.2 kHz d)
+[    23.721] (**) vmware(0):  Default mode "2048x1536": 266.9 MHz, 95.3 kHz, 60.0 Hz
+[    23.721] (II) vmware(0): Modeline "2048x1536"x60.0  266.95  2048 2200 2424 2800  1536 1537 1540 1589 -hsync +vsync (95.3 kHz d)
+[    23.721] (**) vmware(0):  Default mode "1920x1440": 341.4 MHz, 128.5 kHz, 85.0 Hz
+[    23.721] (II) vmware(0): Modeline "1920x1440"x85.0  341.35  1920 2072 2288 2656  1440 1441 1444 1512 -hsync +vsync (128.5 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1920x1440": 297.0 MHz, 112.5 kHz, 75.0 Hz
+[    23.722] (II) vmware(0): Modeline "1920x1440"x75.0  297.00  1920 2064 2288 2640  1440 1441 1444 1500 -hsync +vsync (112.5 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1920x1440": 234.0 MHz, 90.0 kHz, 60.0 Hz
+[    23.722] (II) vmware(0): Modeline "1920x1440"x60.0  234.00  1920 2048 2256 2600  1440 1441 1444 1500 -hsync +vsync (90.0 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1856x1392": 288.0 MHz, 112.5 kHz, 75.0 Hz
+[    23.722] (II) vmware(0): Modeline "1856x1392"x75.0  288.00  1856 1984 2208 2560  1392 1393 1396 1500 -hsync +vsync (112.5 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1856x1392": 218.3 MHz, 86.4 kHz, 60.0 Hz
+[    23.722] (II) vmware(0): Modeline "1856x1392"x60.0  218.30  1856 1952 2176 2528  1392 1393 1396 1439 -hsync +vsync (86.4 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1792x1344": 261.0 MHz, 106.3 kHz, 75.0 Hz
+[    23.722] (II) vmware(0): Modeline "1792x1344"x75.0  261.00  1792 1888 2104 2456  1344 1345 1348 1417 -hsync +vsync (106.3 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1792x1344": 204.8 MHz, 83.7 kHz, 60.0 Hz
+[    23.722] (II) vmware(0): Modeline "1792x1344"x60.0  204.80  1792 1920 2120 2448  1344 1345 1348 1394 -hsync +vsync (83.7 kHz d)
+[    23.722] (**) vmware(0):  Default mode "2048x1152": 197.0 MHz, 71.6 kHz, 59.9 Hz
+[    23.722] (II) vmware(0): Modeline "2048x1152"x59.9  197.00  2048 2184 2400 2752  1152 1155 1160 1195 -hsync +vsync (71.6 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1920x1200": 193.2 MHz, 74.6 kHz, 59.9 Hz
+[    23.722] (II) vmware(0): Modeline "1920x1200"x59.9  193.25  1920 2056 2256 2592  1200 1203 1209 1245 -hsync +vsync (74.6 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1920x1080": 173.0 MHz, 67.2 kHz, 60.0 Hz
+[    23.722] (II) vmware(0): Modeline "1920x1080"x60.0  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync (67.2 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1600x1200": 229.5 MHz, 106.2 kHz, 85.0 Hz
+[    23.722] (II) vmware(0): Modeline "1600x1200"x85.0  229.50  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (106.2 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1600x1200": 202.5 MHz, 93.8 kHz, 75.0 Hz
+[    23.722] (II) vmware(0): Modeline "1600x1200"x75.0  202.50  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (93.8 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1600x1200": 189.0 MHz, 87.5 kHz, 70.0 Hz
+[    23.722] (II) vmware(0): Modeline "1600x1200"x70.0  189.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (87.5 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1600x1200": 175.5 MHz, 81.2 kHz, 65.0 Hz
+[    23.722] (II) vmware(0): Modeline "1600x1200"x65.0  175.50  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (81.2 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1600x1200": 162.0 MHz, 75.0 kHz, 60.0 Hz
+[    23.722] (II) vmware(0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz d)
+[    23.722] (**) vmware(0):  Default mode "1680x1050": 146.2 MHz, 65.3 kHz, 60.0 Hz
+[    23.722] (II) vmware(0): Modeline "1680x1050"x60.0  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1400x1050": 155.8 MHz, 81.5 kHz, 74.8 Hz
+[    23.723] (II) vmware(0): Modeline "1400x1050"x74.8  155.80  1400 1464 1784 1912  1050 1052 1064 1090 +hsync +vsync (81.5 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1400x1050": 122.0 MHz, 64.9 kHz, 60.0 Hz
+[    23.723] (II) vmware(0): Modeline "1400x1050"x60.0  122.00  1400 1488 1640 1880  1050 1052 1064 1082 +hsync +vsync (64.9 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1600x900": 118.2 MHz, 56.0 kHz, 59.9 Hz
+[    23.723] (II) vmware(0): Modeline "1600x900"x59.9  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync (56.0 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1280x1024": 157.5 MHz, 91.1 kHz, 85.0 Hz
+[    23.723] (II) vmware(0): Modeline "1280x1024"x85.0  157.50  1280 1344 1504 1728  1024 1025 1028 1072 +hsync +vsync (91.1 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1280x1024": 135.0 MHz, 80.0 kHz, 75.0 Hz
+[    23.723] (II) vmware(0): Modeline "1280x1024"x75.0  135.00  1280 1296 1440 1688  1024 1025 1028 1066 +hsync +vsync (80.0 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1280x1024": 108.0 MHz, 64.0 kHz, 60.0 Hz
+[    23.723] (II) vmware(0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1400x900": 103.5 MHz, 56.0 kHz, 60.0 Hz
+[    23.723] (II) vmware(0): Modeline "1400x900"x60.0  103.50  1400 1480 1624 1848  900 903 913 934 -hsync +vsync (56.0 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1280x960": 148.5 MHz, 85.9 kHz, 85.0 Hz
+[    23.723] (II) vmware(0): Modeline "1280x960"x85.0  148.50  1280 1344 1504 1728  960 961 964 1011 +hsync +vsync (85.9 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1280x960": 108.0 MHz, 60.0 kHz, 60.0 Hz
+[    23.723] (II) vmware(0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1368x768": 85.2 MHz, 47.8 kHz, 59.9 Hz
+[    23.723] (II) vmware(0): Modeline "1368x768"x59.9   85.25  1368 1440 1576 1784  768 771 781 798 -hsync +vsync (47.8 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1280x800": 83.5 MHz, 49.7 kHz, 59.8 Hz
+[    23.723] (II) vmware(0): Modeline "1280x800"x59.8   83.50  1280 1352 1480 1680  800 803 809 831 -hsync +vsync (49.7 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1152x864": 108.0 MHz, 67.5 kHz, 75.0 Hz
+[    23.723] (II) vmware(0): Modeline "1152x864"x75.0  108.00  1152 1216 1344 1600  864 865 868 900 +hsync +vsync (67.5 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1280x720": 74.5 MHz, 44.8 kHz, 59.9 Hz
+[    23.723] (II) vmware(0): Modeline "1280x720"x59.9   74.50  1280 1344 1472 1664  720 723 728 748 -hsync +vsync (44.8 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1024x768": 94.5 MHz, 68.7 kHz, 85.0 Hz
+[    23.723] (II) vmware(0): Modeline "1024x768"x85.0   94.50  1024 1072 1168 1376  768 769 772 808 +hsync +vsync (68.7 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1024x768": 78.8 MHz, 60.0 kHz, 75.0 Hz
+[    23.723] (II) vmware(0): Modeline "1024x768"x75.0   78.75  1024 1040 1136 1312  768 769 772 800 +hsync +vsync (60.0 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1024x768": 75.0 MHz, 56.5 kHz, 70.1 Hz
+[    23.723] (II) vmware(0): Modeline "1024x768"x70.1   75.00  1024 1048 1184 1328  768 771 777 806 -hsync -vsync (56.5 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1024x768": 65.0 MHz, 48.4 kHz, 60.0 Hz
+[    23.723] (II) vmware(0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz d)
+[    23.723] (**) vmware(0):  Default mode "1024x576": 46.5 MHz, 35.9 kHz, 59.9 Hz
+[    23.723] (II) vmware(0): Modeline "1024x576"x59.9   46.50  1024 1064 1160 1296  576 579 584 599 -hsync +vsync (35.9 kHz d)
+[    23.723] (**) vmware(0):  Default mode "832x624": 57.3 MHz, 49.7 kHz, 74.6 Hz
+[    23.723] (II) vmware(0): Modeline "832x624"x74.6   57.28  832 864 928 1152  624 625 628 667 -hsync -vsync (49.7 kHz d)
+[    23.723] (**) vmware(0):  Default mode "960x540": 40.8 MHz, 33.5 kHz, 59.6 Hz
+[    23.723] (II) vmware(0): Modeline "960x540"x59.6   40.75  960 992 1088 1216  540 543 548 562 -hsync +vsync (33.5 kHz d)
+[    23.723] (**) vmware(0):  Default mode "800x600": 56.3 MHz, 53.7 kHz, 85.1 Hz
+[    23.723] (II) vmware(0): Modeline "800x600"x85.1   56.30  800 832 896 1048  600 601 604 631 +hsync +vsync (53.7 kHz d)
+[    23.723] (**) vmware(0):  Default mode "800x600": 49.5 MHz, 46.9 kHz, 75.0 Hz
+[    23.724] (II) vmware(0): Modeline "800x600"x75.0   49.50  800 816 896 1056  600 601 604 625 +hsync +vsync (46.9 kHz d)
+[    23.724] (**) vmware(0):  Default mode "800x600": 50.0 MHz, 48.1 kHz, 72.2 Hz
+[    23.724] (II) vmware(0): Modeline "800x600"x72.2   50.00  800 856 976 1040  600 637 643 666 +hsync +vsync (48.1 kHz d)
+[    23.724] (**) vmware(0):  Default mode "800x600": 40.0 MHz, 37.9 kHz, 60.3 Hz
+[    23.724] (II) vmware(0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz d)
+[    23.724] (**) vmware(0):  Default mode "800x600": 36.0 MHz, 35.2 kHz, 56.2 Hz
+[    23.724] (II) vmware(0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz d)
+[    23.724] (**) vmware(0):  Default mode "864x486": 32.5 MHz, 30.3 kHz, 59.9 Hz
+[    23.724] (II) vmware(0): Modeline "864x486"x59.9   32.50  864 888 968 1072  486 489 494 506 -hsync +vsync (30.3 kHz d)
+[    23.724] (**) vmware(0):  Default mode "640x480": 36.0 MHz, 43.3 kHz, 85.0 Hz
+[    23.724] (II) vmware(0): Modeline "640x480"x85.0   36.00  640 696 752 832  480 481 484 509 -hsync -vsync (43.3 kHz d)
+[    23.724] (**) vmware(0):  Default mode "640x480": 31.5 MHz, 37.5 kHz, 75.0 Hz
+[    23.724] (II) vmware(0): Modeline "640x480"x75.0   31.50  640 656 720 840  480 481 484 500 -hsync -vsync (37.5 kHz d)
+[    23.724] (**) vmware(0):  Default mode "640x480": 31.5 MHz, 37.9 kHz, 72.8 Hz
+[    23.724] (II) vmware(0): Modeline "640x480"x72.8   31.50  640 664 704 832  480 489 492 520 -hsync -vsync (37.9 kHz d)
+[    23.724] (**) vmware(0):  Default mode "640x480": 25.2 MHz, 31.5 kHz, 59.9 Hz
+[    23.724] (II) vmware(0): Modeline "640x480"x59.9   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz d)
+[    23.724] (**) vmware(0):  Default mode "720x405": 22.5 MHz, 25.1 kHz, 59.5 Hz
+[    23.724] (II) vmware(0): Modeline "720x405"x59.5   22.50  720 744 808 896  405 408 413 422 -hsync +vsync (25.1 kHz d)
+[    23.724] (**) vmware(0):  Default mode "720x400": 35.5 MHz, 37.9 kHz, 85.0 Hz
+[    23.724] (II) vmware(0): Modeline "720x400"x85.0   35.50  720 756 828 936  400 401 404 446 -hsync +vsync (37.9 kHz d)
+[    23.724] (**) vmware(0):  Default mode "640x400": 31.5 MHz, 37.9 kHz, 85.1 Hz
+[    23.724] (II) vmware(0): Modeline "640x400"x85.1   31.50  640 672 736 832  400 401 404 445 -hsync +vsync (37.9 kHz d)
+[    23.724] (**) vmware(0):  Default mode "640x360": 18.0 MHz, 22.5 kHz, 59.8 Hz
+[    23.724] (II) vmware(0): Modeline "640x360"x59.8   18.00  640 664 720 800  360 363 368 376 -hsync +vsync (22.5 kHz d)
+[    23.724] (**) vmware(0):  Default mode "640x360": 17.8 MHz, 22.2 kHz, 59.3 Hz
+[    23.724] (II) vmware(0): Modeline "640x360"x59.3   17.75  640 688 720 800  360 363 368 374 +hsync -vsync (22.2 kHz d)
+[    23.724] (**) vmware(0):  Default mode "640x350": 31.5 MHz, 37.9 kHz, 85.1 Hz
+[    23.724] (II) vmware(0): Modeline "640x350"x85.1   31.50  640 672 736 832  350 382 385 445 +hsync -vsync (37.9 kHz d)
+[    23.724] (==) vmware(0): DPI set to (96, 96)
+[    23.724] (II) Loading sub module "fb"
+[    23.724] (II) LoadModule: "fb"
+[    23.725] (II) Loading /usr/X11R7/lib/modules/libfb.so
+[    23.726] (II) Module fb: vendor="X.Org Foundation"
+[    23.726] 	compiled for 1.20.5, module version = 1.0.0
+[    23.726] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    23.726] (II) Loading sub module "shadowfb"
+[    23.726] (II) LoadModule: "shadowfb"
+[    23.726] (II) Loading /usr/X11R7/lib/modules/libshadowfb.so
+[    23.727] (II) Module shadowfb: vendor="X.Org Foundation"
+[    23.727] 	compiled for 1.20.5, module version = 1.0.0
+[    23.727] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    23.727] (II) Loading sub module "ramdac"
+[    23.727] (II) LoadModule: "ramdac"
+[    23.727] (II) Module "ramdac" already built-in
+[    23.727] (II) UnloadModule: "modesetting"
+[    23.727] (II) Unloading modesetting
+[    23.727] (II) UnloadModule: "vesa"
+[    23.727] (II) Unloading vesa
+[    23.727] (II) UnloadModule: "wsfb"
+[    23.727] (II) Unloading wsfb
+[    23.727] (II) vmware(0): Initialized VMWARE_CTRL extension version 0.2
+[    23.727] (II) vmware(0): vgaHWGetIOBase: hwp->IOBase is 0x03d0
+[    23.969] (==) vmware(0): Backing store enabled
+[    23.969] (==) vmware(0): Silken mouse enabled
+[    23.983] (II) Initializing extension Generic Event Extension
+[    23.984] (II) Initializing extension SHAPE
+[    23.984] (II) Initializing extension MIT-SHM
+[    23.984] (II) Initializing extension XInputExtension
+[    23.986] (II) Initializing extension XTEST
+[    23.986] (II) Initializing extension BIG-REQUESTS
+[    23.986] (II) Initializing extension SYNC
+[    23.986] (II) Initializing extension XKEYBOARD
+[    23.987] (II) Initializing extension XC-MISC
+[    23.987] (II) Initializing extension SECURITY
+[    23.988] (II) Initializing extension XFIXES
+[    23.989] (II) Initializing extension XFree86-Bigfont
+[    23.989] (II) Initializing extension RENDER
+[    23.989] (II) Initializing extension RANDR
+[    23.989] (II) Initializing extension COMPOSITE
+[    23.990] (II) Initializing extension DAMAGE
+[    23.990] (II) Initializing extension MIT-SCREEN-SAVER
+[    23.990] (II) Initializing extension DOUBLE-BUFFER
+[    23.990] (II) Initializing extension RECORD
+[    23.990] (II) Initializing extension DPMS
+[    23.990] (II) Initializing extension Present
+[    23.991] (II) Initializing extension X-Resource
+[    23.991] (II) Initializing extension XVideo
+[    23.991] (II) Initializing extension XVideo-MotionCompensation
+[    23.991] (II) Initializing extension GLX
+[    23.993] (II) AIGLX: Screen 0 is not DRI2 capable
+[    24.308] (II) IGLX: Loaded and initialized swrast
+[    24.308] (II) GLX: Initialized DRISWRAST GL provider for screen 0
+[    24.308] (II) Initializing extension XFree86-VidModeExtension
+[    24.308] (II) Initializing extension XFree86-DGA
+[    24.309] (II) Initializing extension XFree86-DRI
+[    24.309] (II) Initializing extension DRI2
+[    24.404] (II) Using input driver 'vmmouse' for '<default pointer>'
+[    24.404] (**) Option "CorePointer" "on"
+[    24.404] (**) <default pointer>: always reports core events
+[    24.405] (EE) VMWARE(0): vmmouse enable failed
+[    24.405] (II) LoadModule: "mouse"
+[    24.405] (II) Loading /usr/X11R7/lib/modules/drivers/mouse_drv.so
+[    24.406] (II) Module mouse: vendor="X.Org Foundation"
+[    24.406] 	compiled for 1.20.5, module version = 1.9.2
+[    24.406] 	Module class: X.Org XInput Driver
+[    24.406] 	ABI class: X.Org XInput driver, version 24.1
+[    24.406] (II) Using input driver 'mouse' for '<default pointer>'
+[    24.406] (**) Option "CorePointer" "on"
+[    24.406] (**) <default pointer>: always reports core events
+[    24.406] (**) Option "Protocol" "wsmouse"
+[    24.406] (**) Option "Device" "/dev/wsmouse"
+[    24.406] (**) <default pointer>: auto calibration enabled
+[    24.406] (**) <default pointer>: associated screen: 0
+[    24.406] (**) <default pointer>: Protocol: "wsmouse"
+[    24.406] (**) <default pointer>: always reports core events
+[    24.408] (==) <default pointer>: Emulate3Buttons, Emulate3Timeout: 50
+[    24.408] (**) <default pointer>: ZAxisMapping: buttons 4 and 5
+[    24.408] (**) <default pointer>: Buttons: 9
+[    24.408] (II) XINPUT: Adding extended input device "<default pointer>" (type: MOUSE, id 6)
+[    24.409] (**) <default pointer>: (accel) keeping acceleration scheme 1
+[    24.409] (**) <default pointer>: (accel) acceleration profile 0
+[    24.409] (**) <default pointer>: (accel) acceleration factor: 2.000
+[    24.409] (**) <default pointer>: (accel) acceleration threshold: 4
+[    24.409] (II) XINPUT: Adding extended input device "<default pointer>" (type: UNKNOWN, id 7)
+[    24.409] (EE) Couldn't init device "<default pointer>"
+[    24.409] (II) VMWARE(0): VMMouseUnInit
+[    24.409] (II) UnloadModule: "vmmouse"
+[    24.409] (II) Using input driver 'kbd' for '<default keyboard>'
+[    24.409] (**) Option "CoreKeyboard" "on"
+[    24.410] (**) <default keyboard>: always reports core events
+[    24.410] (**) <default keyboard>: always reports core events
+[    24.410] (**) Option "Protocol" "standard"
+[    24.410] (**) Option "XkbRules" "base"
+[    24.410] (**) Option "XkbModel" "pc105"
+[    24.410] (**) Option "XkbLayout" "us"
+[    24.410] (II) XINPUT: Adding extended input device "<default keyboard>" (type: KEYBOARD, id 7)
+[   185.040] (II) UnloadModule: "kbd"
+[   185.040] (II) UnloadModule: "mouse"
+[   185.144] (II) Server terminated successfully (0). Closing log file.

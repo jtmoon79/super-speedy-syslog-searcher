@@ -1,0 +1,40 @@
+Apr 16 00:00:00 f13b newsyslog[2005]: logfile turned over
+Apr 16 03:01:01 f13b sendmail[2504]: gethostbyaddr(192.168.0.53) failed: 1
+Apr 16 03:01:01 f13b sendmail[2606]: gethostbyaddr(192.168.0.53) failed: 1
+Apr 16 03:26:11 f13b sendmail[2878]: 33GAQBv2002878: from=root, size=1603, class=0, nrcpts=1, msgid=<012345678911.33GAQBv2002878@f13b>, relay=root@localhost
+Apr 16 03:26:11 f13b sendmail[2878]: STARTTLS=client, relay=[192.168.0.1], version=TLSv1.3, verify=FAIL, cipher=TLS_AES_256_GCM_SHA384, bits=256/256
+Apr 16 03:26:11 f13b sm-mta[2964]: STARTTLS=server, relay=localhost [192.168.0.1], version=TLSv1.3, verify=NO, cipher=TLS_AES_256_GCM_SHA384, bits=256/256
+Apr 16 03:26:11 f13b sm-mta[2964]: 33GAQBFu002964: from=<root@f13b>, size=1883, class=0, nrcpts=1, msgid=<012345678911.33GAQBv2002878@f13b>, proto=ESMTPS, daemon=Daemon0, relay=localhost [192.168.0.1]
+Apr 16 03:26:11 f13b sendmail[2878]: 33GAQBv2002878: to=root, ctladdr=root (0/0), delay=00:00:00, xdelay=00:00:00, mailer=relay, pri=15329, relay=[192.168.0.1] [192.168.0.1], dsn=2.0.0, stat=Sent (33GAQBFu002964 Message accepted for delivery)
+Apr 16 03:26:11 f13b sm-mta[2965]: 33GAQBFu002964: to=<root@f13b>, ctladdr=<root@f13b> (0/0), delay=00:00:00, xdelay=00:00:00, mailer=local, pri=15329, relay=local, dsn=2.0.0, stat=Sent
+Apr 16 03:26:11 f13b sendmail[2923]: gethostbyaddr(192.168.0.53) failed: 1
+Apr 16 03:26:11 f13b sendmail[2960]: 33GAQBZj002960: from=root, size=2539, class=0, nrcpts=1, msgid=<012345678911.33GAQBZj002960@f13b>, relay=root@localhost
+Apr 16 03:26:11 f13b sendmail[2960]: STARTTLS=client, relay=[192.168.0.1], version=TLSv1.3, verify=FAIL, cipher=TLS_AES_256_GCM_SHA384, bits=256/256
+Apr 16 03:26:11 f13b sm-mta[2967]: STARTTLS=server, relay=localhost [192.168.0.1], version=TLSv1.3, verify=NO, cipher=TLS_AES_256_GCM_SHA384, bits=256/256
+Apr 16 03:26:11 f13b sm-mta[2967]: 33GAQB3A002967: from=<root@f13b>, size=2819, class=0, nrcpts=1, msgid=<012345678911.33GAQBZj002960@f13b>, proto=ESMTPS, daemon=Daemon0, relay=localhost [192.168.0.1]
+Apr 16 03:26:11 f13b sendmail[2960]: 33GAQBZj002960: to=root, ctladdr=root (0/0), delay=00:00:00, xdelay=00:00:00, mailer=relay, pri=15329, relay=[192.168.0.1] [192.168.0.1], dsn=2.0.0, stat=Sent (33GAQB3A002967 Message accepted for delivery)
+Apr 16 03:26:11 f13b sm-mta[2969]: 33GAQB3A002967: to=<root@f13b>, ctladdr=<root@f13b> (0/0), delay=00:00:00, xdelay=00:00:00, mailer=local, pri=15329, relay=local, dsn=2.0.0, stat=Sent
+Apr 22 12:25:55 f13b sm-mta[825]: gethostbyaddr(192.168.0.53) failed: 1
+Apr 22 12:25:55 f13b sm-mta[826]: starting daemon (8.16.1): SMTP+queueing@00:30:00
+Apr 22 12:25:55 f13b sm-mta[826]: STARTTLS=server: file /etc/mail/certs/dh.param unsafe: No such file or directory
+Apr 22 12:25:55 f13b sm-msp-queue[829]: starting daemon (8.16.1): queueing@00:30:00
+Apr 22 13:07:48 f13b sm-mta[800]: gethostbyaddr(192.168.0.53) failed: 1
+Apr 22 13:07:48 f13b sm-mta[801]: starting daemon (8.16.1): SMTP+queueing@00:30:00
+Apr 22 13:07:48 f13b sm-mta[801]: STARTTLS=server: file /etc/mail/certs/dh.param unsafe: No such file or directory
+Apr 22 13:07:48 f13b sm-msp-queue[804]: starting daemon (8.16.1): queueing@00:30:00
+Apr 22 14:50:43 buzz sm-mta[808]: gethostbyaddr(192.168.0.53) failed: 1
+Apr 22 14:50:43 buzz sm-mta[809]: starting daemon (8.16.1): SMTP+queueing@00:30:00
+Apr 22 14:50:43 buzz sm-mta[809]: STARTTLS=server: file /etc/mail/certs/dh.param unsafe: No such file or directory
+Apr 22 14:50:43 buzz sm-msp-queue[812]: starting daemon (8.16.1): queueing@00:30:00
+May  6 12:06:34 buzz sm-mta[838]: gethostbyaddr(192.168.0.53) failed: 1
+May  6 12:06:34 buzz sm-mta[839]: starting daemon (8.16.1): SMTP+queueing@00:30:00
+May  6 12:06:34 buzz sm-mta[839]: STARTTLS=server: file /etc/mail/certs/dh.param unsafe: No such file or directory
+May  6 12:06:34 buzz sm-msp-queue[842]: starting daemon (8.16.1): queueing@00:30:00
+May  9 21:15:15 buzz sm-mta[811]: gethostbyaddr(192.168.0.53) failed: 1
+May  9 21:15:15 buzz sm-mta[812]: starting daemon (8.16.1): SMTP+queueing@00:30:00
+May  9 21:15:15 buzz sm-mta[812]: STARTTLS=server: file /etc/mail/certs/dh.param unsafe: No such file or directory
+May  9 21:15:15 buzz sm-msp-queue[815]: starting daemon (8.16.1): queueing@00:30:00
+Oct 26 08:41:56 buzz sm-mta[825]: gethostbyaddr(192.168.0.53) failed: 1
+Oct 26 08:41:56 buzz sm-mta[826]: starting daemon (8.16.1): SMTP+queueing@00:30:00
+Oct 26 08:41:56 buzz sm-mta[826]: STARTTLS=server: file /etc/mail/certs/dh.param unsafe: No such file or directory
+Oct 26 08:41:56 buzz sm-msp-queue[829]: starting daemon (8.16.1): queueing@00:30:00

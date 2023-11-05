@@ -1,0 +1,578 @@
+Sep 22 00:01:21 Mac-mini syslogd[108]: ASL Sender Statistics
+Sep 22 00:06:22 Mac-mini halt[78568]: SHUTDOWN_TIME: 1695341182 412865
+Oct 11 15:04:44 localhost bootlog[0]: BOOT_TIME 1697036684 0
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.cdscheduler" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.install" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/asl" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/system.log" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.authd" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.eventmonitor" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.mail" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.performance" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.iokit.power" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.contacts.ContactsAutocomplete" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.mkb" sharing output destination "/private/var/log/keybagd.log" with ASL Module "com.apple.mkb.internal".
+	Output parameters from ASL Module "com.apple.mkb.internal" override any specified in ASL Module "com.apple.mkb".
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.mkb" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.MessageTracer" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 11 15:04:55 localhost Installer Progress[107]: Progress UI App Starting
+Oct 11 15:04:55 localhost syslogd[110]: ASL Sender Statistics
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: 1 Boot windows acquired
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Enable display of the Cinematic Boot windows
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: _ShowUnmanagedSpace: 12603: Showing Unmanaged Space 2
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Hiding the cursor in Progress UI
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Configuration is deferred 0
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: IASGetCurrentInstallPhaseList: Unable to get phases
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: IASGetCurrentInstallPhase: Unable to get the current phase name
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Current phase name wasn't saved, using the first phase in the list, current phase = "(null)"
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: currentPhase = "(null)", phases = (null)
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Progress app is loading…
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Progress app is running with no progress set
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Progress app is running…
+Oct 11 15:05:02 Mac-mini loginwindow[154]: Clearing phase info
+Oct 11 15:05:02 Mac-mini loginwindow[154]: calling progress app remoteObjectProxy
+Oct 11 15:05:02 Mac-mini loginwindow[154]: Creating connection
+Oct 11 15:05:02 Mac-mini loginwindow[154]: Connection = 0x600002948500, callers = (
+	    "<IASUPCaller: 0x600001a402f0>"
+	)
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: caller = /System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Version 2
+Oct 11 15:05:02 Mac-mini loginwindow[154]: version = 2
+Oct 11 15:05:02 Mac-mini loginwindow[154]: isModernOS = 1
+Oct 11 15:05:02 Mac-mini loginwindow[154]: Add phase named "IOKit Boot", progress 1.000000, delayInSeconds 0
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Clearing phase info
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: IASClearInstallProgress: Clearing Registry
+Oct 11 15:05:02 Mac-mini loginwindow[154]: Add phase named "loginwindow Boot", progress 99.000000, delayInSeconds -1
+Oct 11 15:05:02 Mac-mini loginwindow[154]: Connection = 0x600002948500, callers = (
+	    "<IASUPCaller: 0x600001a402f0>",
+	    "<IASUPCaller: 0x600001a4c680>"
+	)
+Oct 11 15:05:02 Mac-mini loginwindow[154]: client 0x600000d53640: phaseName = "loginwindow Boot", registering connection
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: totalPercentage = 0.000000
+Oct 11 15:05:02 Mac-mini loginwindow[154]: client 0x600000d53640: phaseName = "loginwindow Boot" was created
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: currentPhase = "(null)", phases = (
+	    "<IASPPhase: 0x600000b7b920: 'IOKit Boot', percentage 1.0, delay 0>"
+	)
+Oct 11 15:05:02 Mac-mini loginwindow[154]: Connection = 0x600002948500, callers = (
+	    "<IASUPCaller: 0x600001a402f0>",
+	    "<IASUPCaller: 0x600001a4c680>",
+	    "<IASUPCaller: 0x600001a4c6a0>"
+	)
+Oct 11 15:05:02 Mac-mini loginwindow[154]: client 0x600000d532c0: phaseName = "IOKit Boot", registering connection
+Oct 11 15:05:02 Mac-mini loginwindow[154]: client 0x600000d532c0: phaseName = "IOKit Boot" was created
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = 1;
+	        InstallPhasePercentageKey = 1;
+	    }
+	)
+Oct 11 15:05:02 Mac-mini loginwindow[154]: client 0x600000d532c0: phaseName = "IOKit Boot", show progress UI called
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: IASSetCurrentInstallPhase: Current phase name set to "IOKit Boot"
+Oct 11 15:05:02 Mac-mini loginwindow[154]: ISAP: Show progress UI called
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: totalPercentage = 1.000000
+Oct 11 15:05:02 Mac-mini loginwindow[154]: client 0x600000d532c0: phaseName = "IOKit Boot" is done
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: currentPhase = "<IASPPhase: 0x600000b7b920: 'IOKit Boot', percentage 1.0, delay 0>", phases = (
+	    "<IASPPhase: 0x600000b7b920: 'IOKit Boot', percentage 1.0, delay 0>",
+	    "<IASPPhase: 0x600000b7bac0: 'loginwindow Boot', percentage 99.0, delay -1>"
+	)
+Oct 11 15:05:02 Mac-mini loginwindow[154]: ISAP: Done with Phase "IOKit Boot"
+Oct 11 15:05:02 Mac-mini loginwindow[154]: client 0x600000d532c0: phaseName = "IOKit Boot" is being released
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = 1;
+	        InstallPhasePercentageKey = 1;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = 99;
+	        InstallPhasePercentageKey = 99;
+	    }
+	)
+Oct 11 15:05:02 Mac-mini loginwindow[154]: Releasing Connection
+Oct 11 15:05:02 Mac-mini loginwindow[154]: client 0x600000d53640: handler = 0x7ff7b9ad9198
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Register process 154, phaseName loginwindow Boot, uuid 280FA4DB-4C50-473D-86E8-DBD9E3CF938C
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Connected processes {
+	    "280FA4DB-4C50-473D-86E8-DBD9E3CF938C" =     {
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 154;
+	        UUID = "280FA4DB-4C50-473D-86E8-DBD9E3CF938C";
+	    };
+	}
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Saving completion handler for phase loginwindow Boot
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Connected processes {
+	    "280FA4DB-4C50-473D-86E8-DBD9E3CF938C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600002870e10>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 154;
+	        UUID = "280FA4DB-4C50-473D-86E8-DBD9E3CF938C";
+	    };
+	}
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Register process 154, phaseName IOKit Boot, uuid 2832EF46-B90C-4758-9579-C3D58B4FBD4A
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Connected processes {
+	    "280FA4DB-4C50-473D-86E8-DBD9E3CF938C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600002870e10>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 154;
+	        UUID = "280FA4DB-4C50-473D-86E8-DBD9E3CF938C";
+	    };
+	    "2832EF46-B90C-4758-9579-C3D58B4FBD4A" =     {
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 154;
+	        UUID = "2832EF46-B90C-4758-9579-C3D58B4FBD4A";
+	    };
+	}
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Saving completion handler for phase IOKit Boot
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Connected processes {
+	    "280FA4DB-4C50-473D-86E8-DBD9E3CF938C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600002870e10>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 154;
+	        UUID = "280FA4DB-4C50-473D-86E8-DBD9E3CF938C";
+	    };
+	    "2832EF46-B90C-4758-9579-C3D58B4FBD4A" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600002875590>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 154;
+	        UUID = "2832EF46-B90C-4758-9579-C3D58B4FBD4A";
+	    };
+	}
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Progress Updated: currentPhase = "IOKit Boot", phase progress = 100.000, total progress = 1.000
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: IASGetCurrentInstallPhaseList: phases = (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = 1;
+	        InstallPhasePercentageKey = 1;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = 99;
+	        InstallPhasePercentageKey = 99;
+	    }
+	)
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: IASGetCurrentInstallPhase: Current phase name is "IOKit Boot"
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Advance to phase named = "IOKit Boot"
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: currentPhase = "<IASPPhase: 0x600000b7f580: 'IOKit Boot', percentage 1.0, delay 0>", phases = (
+	    "<IASPPhase: 0x600000b7f580: 'IOKit Boot', percentage 1.0, delay 0>",
+	    "<IASPPhase: 0x600000b7f080: 'loginwindow Boot', percentage 99.0, delay -1>"
+	)
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Showing Progress UI
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: HotKeys disabled
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Progress app set to foreground app
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: _LSSetMetaApplicationInformationItem add to frontmost list success
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Showing the windows
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: There are 0 window(s) and 1 display(s), 1 window(s) will be added
+Oct 11 15:05:02 Mac-mini Installer Progress[107]: Created a window at {{0, 0}, {1920, 1080}}
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Adding Apple Logo
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Apple logo view created
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Status is ""
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Alternate status is ""
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: IASPIsUsingFileVault NO
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: IASPGetBootMode Standard
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: no background for progress added because:
+Oct 11 15:05:03 Mac-mini Installer Progress[107]:        and / or NOT booting from EFI loginwindow
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Setting window alpha values to 1.0
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Ordering windows front
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Created CG Shield Window
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Enable the display of progress windows
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Using AppKit display change notification
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Done with phase = "IOKit Boot"
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Progress Updated: currentPhase = "IOKit Boot", phase progress = 100.000, total progress = 1.000
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: IASSetCurrentInstallPhase: Current phase name set to "loginwindow Boot"
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Saving completion handler for phase IOKit Boot
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Connected processes {
+	    "280FA4DB-4C50-473D-86E8-DBD9E3CF938C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600002870e10>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 154;
+	        UUID = "280FA4DB-4C50-473D-86E8-DBD9E3CF938C";
+	    };
+	    "2832EF46-B90C-4758-9579-C3D58B4FBD4A" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000028755e0>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 154;
+	        UUID = "2832EF46-B90C-4758-9579-C3D58B4FBD4A";
+	    };
+	}
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Unregister process 154, phaseName IOKit Boot, uuid 2832EF46-B90C-4758-9579-C3D58B4FBD4A
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Connected processes {
+	    "280FA4DB-4C50-473D-86E8-DBD9E3CF938C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600002870e10>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 154;
+	        UUID = "280FA4DB-4C50-473D-86E8-DBD9E3CF938C";
+	    };
+	}
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 10.000, total progress = 10.900
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 30.000, total progress = 30.700
+Oct 11 15:05:03 Mac-mini Installer Progress[107]: Releasing the boot windows
+Oct 11 15:05:04 Mac-mini Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 55.000, total progress = 55.450
+Oct 11 15:05:04 Mac-mini loginwindow[154]: USER_PROCESS: 154 console
+Oct 11 15:05:04 Mac-mini Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 80.000, total progress = 80.200
+Oct 11 15:05:06 Mac-mini loginwindow[154]: client 0x600000d53640: phaseName = "loginwindow Boot" is done
+Oct 11 15:05:06 Mac-mini loginwindow[154]: ISAP: Done with Phase "loginwindow Boot"
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 100.000, total progress = 100.000
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Done with phase = "loginwindow Boot"
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 100.000, total progress = 100.000
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: IASClearInstallProgress: Clearing Registry
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Ignoring the progress update because "loginwindow Boot" isn't one of the phases (null)
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Setting window alpha values to 1.0
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Calling animation completion handler
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Progress complete, notifying registered clients
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Calling completion handler for phase "loginwindow Boot"
+Oct 11 15:05:06 Mac-mini loginwindow[154]: Calling completion handler for 0x600000d53640
+Oct 11 15:05:06 Mac-mini loginwindow[154]: client 0x600000d53640: phaseName = "loginwindow Boot", hide progress UI called
+Oct 11 15:05:06 Mac-mini loginwindow[154]: ISAP: hide progress UI called
+Oct 11 15:05:06 Mac-mini loginwindow[154]: client 0x600000d53640: phaseName = "loginwindow Boot" is being released
+Oct 11 15:05:06 Mac-mini loginwindow[154]: Releasing Connection
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Hiding Progress UI
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Showing the cursor in Progress UI
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: GUI session is logged in
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Order Out CG Shield Window
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Setting window alpha values to 0.0
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Progress app removed from the frontmost only list
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Progress app set to Background only app
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: HotKeys enabled
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Start quit timer, will attempt to quit in 5 second(s) at 3:05:11 PM
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Saving completion handler for phase loginwindow Boot
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Connected processes {
+	    "280FA4DB-4C50-473D-86E8-DBD9E3CF938C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000028729e0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 154;
+	        UUID = "280FA4DB-4C50-473D-86E8-DBD9E3CF938C";
+	    };
+	}
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Unregister process 154, phaseName loginwindow Boot, uuid 280FA4DB-4C50-473D-86E8-DBD9E3CF938C
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Connected processes {
+	}
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Activated application <NSRunningApplication: 0x600002572680 (com.apple.finder - 434) LSASN:{hi=0x0;lo=0xf00f}>
+Oct 11 15:05:06 Mac-mini Installer Progress[107]: Start quit timer, will attempt to quit in 5 second(s) at 3:05:11 PM
+Oct 11 15:05:07 Mac-mini Installer Progress[107]: Ordering windows out
+Oct 11 15:05:11 Mac-mini Installer Progress[107]: Quitting because there are no phases. There are no connected processes. The UI is not showing.
+Oct 11 15:05:11 Mac-mini Installer Progress[107]: Quitting Progress App
+Oct 11 15:05:11 Mac-mini Installer Progress[107]: Showing the cursor in Progress UI
+Oct 11 15:05:11 Mac-mini Installer Progress[107]: GUI session is logged in
+Oct 11 15:05:11 Mac-mini Installer Progress[107]: Order Out CG Shield Window
+Oct 11 15:05:11 Mac-mini Installer Progress[107]: Setting window alpha values to 0.0
+Oct 11 15:05:11 Mac-mini Installer Progress[107]: Showing the cursor in Progress UI
+Oct 11 15:05:11 Mac-mini loginwindow[154]: The connection was interrupted, calling interruption handlers
+Oct 11 15:06:02 Mac-1697036723204 loginwindow[154]: There is still an active connection
+Oct 11 15:06:37 --- last message repeated 1 time ---
+Oct 11 15:08:08 Mac-1697036723204 halt[1538]: SHUTDOWN_TIME: 1697036888 277138
+Oct 26 16:56:22 localhost bootlog[0]: BOOT_TIME 1698339382 0
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.cdscheduler" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.install" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/asl" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/system.log" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.authd" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.eventmonitor" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.mail" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.performance" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.iokit.power" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.contacts.ContactsAutocomplete" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.mkb" sharing output destination "/private/var/log/keybagd.log" with ASL Module "com.apple.mkb.internal".
+	Output parameters from ASL Module "com.apple.mkb.internal" override any specified in ASL Module "com.apple.mkb".
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.mkb" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 26 16:56:30 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.MessageTracer" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Oct 26 16:56:30 localhost Installer Progress[107]: Progress UI App Starting
+Oct 26 16:56:30 localhost syslogd[110]: ASL Sender Statistics
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: 1 Boot windows acquired
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Enable display of the Cinematic Boot windows
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: _ShowUnmanagedSpace: 12607: Showing Unmanaged Space 2
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Hiding the cursor in Progress UI
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Configuration is deferred 0
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: IASGetCurrentInstallPhaseList: Unable to get phases
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: IASGetCurrentInstallPhase: Unable to get the current phase name
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Current phase name wasn't saved, using the first phase in the list, current phase = "(null)"
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: currentPhase = "(null)", phases = (null)
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Progress app is loading…
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Progress app is running with no progress set
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Progress app is running…
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: Clearing phase info
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: calling progress app remoteObjectProxy
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: Creating connection
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: Connection = 0x6000003e8a00, callers = (
+	    "<IASUPCaller: 0x6000030e8720>"
+	)
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: caller = /System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Version 2
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: version = 2
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: isModernOS = 1
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: Add phase named "IOKit Boot", progress 1.000000, delayInSeconds 0
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Clearing phase info
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: Add phase named "loginwindow Boot", progress 99.000000, delayInSeconds -1
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: IASClearInstallProgress: Clearing Registry
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: Connection = 0x6000003e8a00, callers = (
+	    "<IASUPCaller: 0x6000030e8720>",
+	    "<IASUPCaller: 0x6000030f0b40>"
+	)
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: client 0x6000027c0d00: phaseName = "loginwindow Boot", registering connection
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: client 0x6000027c0d00: phaseName = "loginwindow Boot" was created
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: totalPercentage = 0.000000
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: Connection = 0x6000003e8a00, callers = (
+	    "<IASUPCaller: 0x6000030e8720>",
+	    "<IASUPCaller: 0x6000030f0b40>",
+	    "<IASUPCaller: 0x6000030e6240>"
+	)
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: currentPhase = "(null)", phases = (
+	    "<IASPPhase: 0x600001182e80: 'IOKit Boot', percentage 1.0, delay 0>"
+	)
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: client 0x6000027cf5c0: phaseName = "IOKit Boot", registering connection
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: client 0x6000027cf5c0: phaseName = "IOKit Boot" was created
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = 1;
+	        InstallPhasePercentageKey = 1;
+	    }
+	)
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: client 0x6000027cf5c0: phaseName = "IOKit Boot", show progress UI called
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: ISAP: Show progress UI called
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: client 0x6000027cf5c0: phaseName = "IOKit Boot" is done
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: IASSetCurrentInstallPhase: Current phase name set to "IOKit Boot"
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: ISAP: Done with Phase "IOKit Boot"
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: client 0x6000027cf5c0: phaseName = "IOKit Boot" is being released
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: totalPercentage = 1.000000
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: Releasing Connection
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: currentPhase = "<IASPPhase: 0x600001182e80: 'IOKit Boot', percentage 1.0, delay 0>", phases = (
+	    "<IASPPhase: 0x600001182e80: 'IOKit Boot', percentage 1.0, delay 0>",
+	    "<IASPPhase: 0x600001182260: 'loginwindow Boot', percentage 99.0, delay -1>"
+	)
+Oct 26 16:56:38 Mac-1697036723204 loginwindow[153]: client 0x6000027c0d00: handler = 0x7ff7bdf26198
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = 1;
+	        InstallPhasePercentageKey = 1;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = 99;
+	        InstallPhasePercentageKey = 99;
+	    }
+	)
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Register process 153, phaseName loginwindow Boot, uuid 52F9D80F-0277-4D92-A658-744B431648C8
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Connected processes {
+	    "52F9D80F-0277-4D92-A658-744B431648C8" =     {
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 153;
+	        UUID = "52F9D80F-0277-4D92-A658-744B431648C8";
+	    };
+	}
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Saving completion handler for phase loginwindow Boot
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Connected processes {
+	    "52F9D80F-0277-4D92-A658-744B431648C8" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x60000328d4f0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 153;
+	        UUID = "52F9D80F-0277-4D92-A658-744B431648C8";
+	    };
+	}
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Register process 153, phaseName IOKit Boot, uuid F24EA733-754E-44A1-81FB-49089421A5B2
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Connected processes {
+	    "52F9D80F-0277-4D92-A658-744B431648C8" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x60000328d4f0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 153;
+	        UUID = "52F9D80F-0277-4D92-A658-744B431648C8";
+	    };
+	    "F24EA733-754E-44A1-81FB-49089421A5B2" =     {
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 153;
+	        UUID = "F24EA733-754E-44A1-81FB-49089421A5B2";
+	    };
+	}
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Saving completion handler for phase IOKit Boot
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Connected processes {
+	    "52F9D80F-0277-4D92-A658-744B431648C8" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x60000328d4f0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 153;
+	        UUID = "52F9D80F-0277-4D92-A658-744B431648C8";
+	    };
+	    "F24EA733-754E-44A1-81FB-49089421A5B2" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x60000328d860>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 153;
+	        UUID = "F24EA733-754E-44A1-81FB-49089421A5B2";
+	    };
+	}
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Progress Updated: currentPhase = "IOKit Boot", phase progress = 100.000, total progress = 1.000
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: IASGetCurrentInstallPhaseList: phases = (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = 1;
+	        InstallPhasePercentageKey = 1;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = 99;
+	        InstallPhasePercentageKey = 99;
+	    }
+	)
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: IASGetCurrentInstallPhase: Current phase name is "IOKit Boot"
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Advance to phase named = "IOKit Boot"
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: currentPhase = "<IASPPhase: 0x600001183960: 'IOKit Boot', percentage 1.0, delay 0>", phases = (
+	    "<IASPPhase: 0x600001183960: 'IOKit Boot', percentage 1.0, delay 0>",
+	    "<IASPPhase: 0x600001182e00: 'loginwindow Boot', percentage 99.0, delay -1>"
+	)
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Showing Progress UI
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: HotKeys disabled
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Progress app set to foreground app
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: _LSSetMetaApplicationInformationItem add to frontmost list success
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Showing the windows
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: There are 0 window(s) and 1 display(s), 1 window(s) will be added
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Created a window at {{0, 0}, {1920, 1080}}
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Adding Apple Logo
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Apple logo view created
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Status is ""
+Oct 26 16:56:38 Mac-1697036723204 Installer Progress[107]: Alternate status is ""
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: IASPIsUsingFileVault NO
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: IASPGetBootMode Standard
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: no background for progress added because:
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]:        and / or NOT booting from EFI loginwindow
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Setting window alpha values to 1.0
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Ordering windows front
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Created CG Shield Window
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Enable the display of progress windows
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Using AppKit display change notification
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Done with phase = "IOKit Boot"
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Progress Updated: currentPhase = "IOKit Boot", phase progress = 100.000, total progress = 1.000
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: IASSetCurrentInstallPhase: Current phase name set to "loginwindow Boot"
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Saving completion handler for phase IOKit Boot
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Connected processes {
+	    "52F9D80F-0277-4D92-A658-744B431648C8" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x60000328d4f0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 153;
+	        UUID = "52F9D80F-0277-4D92-A658-744B431648C8";
+	    };
+	    "F24EA733-754E-44A1-81FB-49089421A5B2" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x60000328d9f0>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 153;
+	        UUID = "F24EA733-754E-44A1-81FB-49089421A5B2";
+	    };
+	}
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Unregister process 153, phaseName IOKit Boot, uuid F24EA733-754E-44A1-81FB-49089421A5B2
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Connected processes {
+	    "52F9D80F-0277-4D92-A658-744B431648C8" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x60000328d4f0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 153;
+	        UUID = "52F9D80F-0277-4D92-A658-744B431648C8";
+	    };
+	}
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 10.000, total progress = 10.900
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 30.000, total progress = 30.700
+Oct 26 16:56:39 Mac-1697036723204 Installer Progress[107]: Releasing the boot windows
+Oct 26 16:56:40 Mac-1697036723204 Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 55.000, total progress = 55.450
+Oct 26 16:56:40 Mac-1697036723204 loginwindow[153]: USER_PROCESS: 153 console
+Oct 26 16:56:41 Mac-1697036723204 Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 80.000, total progress = 80.200
+Oct 26 16:56:43 Mac-1697036723204 Installer Progress[107]: Progress Updated: currentPhase = "loginwindow Boot", phase progress = 100.000, total progress = 100.000
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Calling animation completion handler
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Progress complete, notifying registered clients
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Calling completion handler for phase "loginwindow Boot"
+Oct 26 16:56:44 Mac-1697036723204 loginwindow[153]: Calling completion handler for 0x6000027c0d00
+Oct 26 16:56:44 Mac-1697036723204 loginwindow[153]: client 0x6000027c0d00: phaseName = "loginwindow Boot", hide progress UI called
+Oct 26 16:56:44 Mac-1697036723204 loginwindow[153]: ISAP: hide progress UI called
+Oct 26 16:56:44 Mac-1697036723204 loginwindow[153]: client 0x6000027c0d00: phaseName = "loginwindow Boot" is being released
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Hiding Progress UI
+Oct 26 16:56:44 Mac-1697036723204 loginwindow[153]: Releasing Connection
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Showing the cursor in Progress UI
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: GUI session is logged in
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Order Out CG Shield Window
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Setting window alpha values to 0.0
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Progress app removed from the frontmost only list
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Progress app set to Background only app
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: HotKeys enabled
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Start quit timer, will attempt to quit in 5 second(s) at 4:56:49 PM
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Saving completion handler for phase loginwindow Boot
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Connected processes {
+	    "52F9D80F-0277-4D92-A658-744B431648C8" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003284f50>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 153;
+	        UUID = "52F9D80F-0277-4D92-A658-744B431648C8";
+	    };
+	}
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Unregister process 153, phaseName loginwindow Boot, uuid 52F9D80F-0277-4D92-A658-744B431648C8
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Connected processes {
+	}
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Start quit timer, will attempt to quit in 5 second(s) at 4:56:49 PM
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Will attempt to bring the Finder forward
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Activated application <NSRunningApplication: 0x600003f8b980 (com.apple.finder - 436) LSASN:{hi=0x0;lo=0xf00f}>
+Oct 26 16:56:44 Mac-1697036723204 Installer Progress[107]: Ordering windows out
+Oct 26 16:56:49 Mac-1697036723204 Installer Progress[107]: There are still phases. Overall progress has reached 100 percent. The UI is not showing. Quitting.
+Oct 26 16:56:49 Mac-1697036723204 Installer Progress[107]: Quitting Progress App
+Oct 26 16:56:49 Mac-1697036723204 Installer Progress[107]: Showing the cursor in Progress UI
+Oct 26 16:56:49 Mac-1697036723204 Installer Progress[107]: GUI session is logged in
+Oct 26 16:56:49 Mac-1697036723204 Installer Progress[107]: Order Out CG Shield Window
+Oct 26 16:56:49 Mac-1697036723204 Installer Progress[107]: Setting window alpha values to 0.0
+Oct 26 16:56:49 Mac-1697036723204 Installer Progress[107]: Showing the cursor in Progress UI
+Oct 26 16:56:49 Mac-1697036723204 loginwindow[153]: The connection was interrupted, calling interruption handlers
+Oct 26 16:57:38 Mac-1698339417976 loginwindow[153]: There is still an active connection
+Oct 26 16:58:14 --- last message repeated 1 time ---
+Oct 26 17:09:19 Mac-1698339417976 syslogd[110]: ASL Sender Statistics

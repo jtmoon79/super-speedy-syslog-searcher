@@ -1,0 +1,19 @@
+xenodm info (pid 19371): Starting
+xenodm info (pid 19371): Starting X server on :0
+
+X.Org X Server 1.21.1.4
+X Protocol Version 11, Revision 0
+Current Operating System: OpenBSD crumb.local 7.2 GENERIC.MP#404 i386
+ 
+Current version of pixman: 0.40.0
+	Before reporting problems, check http://wiki.x.org
+	to make sure that you have the latest version.
+Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+(==) Log file: "/var/log/Xorg.0.log", Time: Thu Oct 26 10:55:34 2023
+(==) Using system config directory "/usr/X11R6/share/X11/xorg.conf.d"
+xenodm info (pid 25463): consolePath: ttyC4
+xenodm info (pid 25463): sourcing /etc/X11/xenodm/Xsetup_0
+xenodm info (pid 25463): sourcing /etc/X11/xenodm/GiveConsole
+xenodm info (pid 2921): executing session /etc/X11/xenodm/Xsession

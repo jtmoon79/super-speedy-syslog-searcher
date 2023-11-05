@@ -1,0 +1,386 @@
+Mar 28 14:14:45 crumb syslogd[10945]: start
+Mar 28 14:14:45 crumb /bsd: OpenBSD 7.2 (GENERIC.MP) #404: Tue Sep 27 12:54:46 MDT 2022
+Mar 28 14:14:45 crumb /bsd:     deraadt@i386.openbsd.org:/usr/src/sys/arch/i386/compile/GENERIC.MP
+Mar 28 14:14:45 crumb /bsd: real mem  = 1073168384 (1023MB)
+Mar 28 14:14:45 crumb /bsd: avail mem = 1036615680 (988MB)
+Mar 28 14:14:45 crumb /bsd: random: good seed from bootblocks
+Mar 28 14:14:45 crumb /bsd: mpath0 at root
+Mar 28 14:14:45 crumb /bsd: scsibus0 at mpath0: 256 targets
+Mar 28 14:14:45 crumb /bsd: mainbus0 at root
+Mar 28 14:14:45 crumb /bsd: bios0 at mainbus0: date 06/23/99, BIOS32 rev. 0 @ 0xfda00, SMBIOS rev. 2.5 @ 0xe1000 (10 entries)
+Mar 28 14:14:45 crumb /bsd: bios0: vendor innotek GmbH version "VirtualBox" date 12/01/2006
+Mar 28 14:14:45 crumb /bsd: bios0: innotek GmbH VirtualBox
+Mar 28 14:14:45 crumb /bsd: acpi0 at bios0: ACPI 4.0
+Mar 28 14:14:45 crumb /bsd: acpi0: sleep states S0 S5
+Mar 28 14:14:45 crumb /bsd: acpi0: tables DSDT FACP APIC SSDT
+Mar 28 14:14:45 crumb /bsd: acpi0: wakeup devices
+Mar 28 14:14:45 crumb /bsd: acpitimer0 at acpi0: 3579545 Hz, 32 bits
+Mar 28 14:14:45 crumb /bsd: acpimadt0 at acpi0 addr 0xfee00000: PC-AT compat
+Mar 28 14:14:45 crumb /bsd: cpu0 at mainbus0: apid 0 (boot processor)
+Mar 28 14:14:45 crumb /bsd: cpu0: AMD Ryzen 7 7700X 8-Core Processor ("AuthenticAMD" 686-class, 1024KB L2 cache) 4.50 GHz, 19-61-02
+Mar 28 14:14:45 crumb /bsd: cpu0: FPU,V86,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT
+Mar 28 14:14:45 crumb /bsd: mtrr: CPU supports MTRRs but not enabled by BIOS
+Mar 28 14:14:45 crumb /bsd: cpu0: apic clock running at 1000MHz
+Mar 28 14:14:45 crumb /bsd: cpu1 at mainbus0: apid 1 (application processor)
+Mar 28 14:14:45 crumb /bsd: cpu1: AMD Ryzen 7 7700X 8-Core Processor ("AuthenticAMD" 686-class, 1024KB L2 cache) 4.49 GHz, 19-61-02
+Mar 28 14:14:45 crumb /bsd: cpu1: FPU,V86,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT
+Mar 28 14:14:45 crumb /bsd: ioapic0 at mainbus0: apid 2 pa 0xfec00000, version 20, 24 pins, remapped
+Mar 28 14:14:45 crumb /bsd: acpiprt0 at acpi0: bus 0 (PCI0)
+Mar 28 14:14:45 crumb /bsd: "PNP0A03" at acpi0 not configured
+Mar 28 14:14:45 crumb /bsd: acpiac0 at acpi0: AC unit online
+Mar 28 14:14:45 crumb /bsd: acpicpu0 at acpi0: C1(@1 halt!)
+Mar 28 14:14:45 crumb /bsd: acpicpu1 at acpi0: C1(@1 halt!)
+Mar 28 14:14:45 crumb /bsd: acpivideo0 at acpi0: GFX0
+Mar 28 14:14:45 crumb /bsd: bios0: ROM list: 0xc0000/0x8000 0xe2000/0xe000
+Mar 28 14:14:45 crumb /bsd: pci0 at mainbus0 bus 0: configuration mode 1 (bios)
+Mar 28 14:14:45 crumb /bsd: pchb0 at pci0 dev 0 function 0 "Intel 82441FX" rev 0x02
+Mar 28 14:14:45 crumb /bsd: pcib0 at pci0 dev 1 function 0 "Intel 82371SB ISA" rev 0x00
+Mar 28 14:14:45 crumb /bsd: pciide0 at pci0 dev 1 function 1 "Intel 82371AB IDE" rev 0x01: DMA, channel 0 configured to compatibility, channel 1 configured to compatibility
+Mar 28 14:14:45 crumb /bsd: wd0 at pciide0 channel 0 drive 0: <VBOX HARDDISK>
+Mar 28 14:14:45 crumb /bsd: wd0: 128-sector PIO, LBA, 16384MB, 33554432 sectors
+Mar 28 14:14:45 crumb /bsd: wd0(pciide0:0:0): using PIO mode 4, Ultra-DMA mode 2
+Mar 28 14:14:45 crumb /bsd: atapiscsi0 at pciide0 channel 1 drive 0
+Mar 28 14:14:45 crumb /bsd: scsibus1 at atapiscsi0: 2 targets
+Mar 28 14:14:45 crumb /bsd: cd0 at scsibus1 targ 0 lun 0: <VBOX, CD-ROM, 1.0> removable
+Mar 28 14:14:45 crumb /bsd: cd0(pciide0:1:0): using PIO mode 4, Ultra-DMA mode 2
+Mar 28 14:14:45 crumb /bsd: vga1 at pci0 dev 2 function 0 "VMware SVGA II" rev 0x00
+Mar 28 14:14:45 crumb /bsd: wsdisplay0 at vga1 mux 1: console (80x25, vt100 emulation)
+Mar 28 14:14:45 crumb /bsd: wsdisplay0: screen 1-5 added (80x25, vt100 emulation)
+Mar 28 14:14:45 crumb /bsd: em0 at pci0 dev 3 function 0 "Intel 82540EM" rev 0x02: apic 2 int 19, address 08:00:27:21:c9:6d
+Mar 28 14:14:45 crumb /bsd: "InnoTek Guest Service" rev 0x00 at pci0 dev 4 function 0 not configured
+Mar 28 14:14:45 crumb /bsd: auich0 at pci0 dev 5 function 0 "Intel 82801AA AC97" rev 0x01: apic 2 int 21, ICH
+Mar 28 14:14:45 crumb /bsd: ac97: codec id 0x83847600 (SigmaTel STAC9700)
+Mar 28 14:14:45 crumb /bsd: audio0 at auich0
+Mar 28 14:14:45 crumb /bsd: ohci0 at pci0 dev 6 function 0 "Apple Intrepid USB" rev 0x00: apic 2 int 22, version 1.0
+Mar 28 14:14:45 crumb /bsd: piixpm0 at pci0 dev 7 function 0 "Intel 82371AB Power" rev 0x08: apic 2 int 23
+Mar 28 14:14:45 crumb /bsd: iic0 at piixpm0
+Mar 28 14:14:45 crumb /bsd: ehci0 at pci0 dev 11 function 0 "Intel 82801FB USB" rev 0x00: apic 2 int 19
+Mar 28 14:14:45 crumb /bsd: usb0 at ehci0: USB revision 2.0
+Mar 28 14:14:45 crumb /bsd: uhub0 at usb0 configuration 1 interface 0 "Intel EHCI root hub" rev 2.00/1.00 addr 1
+Mar 28 14:14:45 crumb /bsd: isa0 at pcib0
+Mar 28 14:14:45 crumb /bsd: isadma0 at isa0
+Mar 28 14:14:45 crumb /bsd: pckbc0 at isa0 port 0x60/5 irq 1 irq 12
+Mar 28 14:14:45 crumb /bsd: pckbd0 at pckbc0 (kbd slot)
+Mar 28 14:14:45 crumb /bsd: wskbd0 at pckbd0: console keyboard, using wsdisplay0
+Mar 28 14:14:45 crumb /bsd: pms0 at pckbc0 (aux slot)
+Mar 28 14:14:45 crumb /bsd: wsmouse0 at pms0 mux 0
+Mar 28 14:14:45 crumb /bsd: pcppi0 at isa0 port 0x61
+Mar 28 14:14:45 crumb /bsd: spkr0 at pcppi0
+Mar 28 14:14:45 crumb /bsd: npx0 at isa0 port 0xf0/16: reported by CPUID; using exception 16
+Mar 28 14:14:45 crumb /bsd: usb1 at ohci0: USB revision 1.0
+Mar 28 14:14:45 crumb /bsd: uhub1 at usb1 configuration 1 interface 0 "Apple OHCI root hub" rev 1.00/1.00 addr 1
+Mar 28 14:14:45 crumb /bsd: vscsi0 at root
+Mar 28 14:14:45 crumb /bsd: scsibus2 at vscsi0: 256 targets
+Mar 28 14:14:45 crumb /bsd: softraid0 at root
+Mar 28 14:14:45 crumb /bsd: scsibus3 at softraid0: 256 targets
+Mar 28 14:14:45 crumb /bsd: root on wd0a (5889852a1cde9600.a) swap on wd0b dump on wd0b
+Mar 28 14:14:53 crumb ntpd[83717]: creating new /var/db/ntpd.drift
+Mar 28 14:15:04 crumb savecore: no core dump
+Mar 28 14:20:41 crumb reorder_kernel: kernel relinking done
+Mar 28 14:20:58 crumb pkg_add: Added quirks-6.42
+Mar 28 14:21:17 crumb pkg_add: Added libssh2-1.10.0p0
+Mar 28 14:21:21 crumb pkg_add: Added nghttp2-1.49.0
+Mar 28 14:21:37 crumb pkg_add: Added curl-8.0.1
+Mar 28 14:25:04 crumb pkg_add: Added rust-1.63.0p0
+Mar 28 14:49:00 crumb ntpd[30671]: recvmsg 216.229.4.69: No route to host
+Mar 28 15:00:03 crumb syslogd[10945]: restart
+Mar 28 16:00:00 crumb ntpd[30671]: recvmsg 162.159.200.123: No route to host
+Mar 28 19:49:11 crumb pkg_add: Added libffi-3.4.2
+Mar 28 19:49:21 crumb pkg_add: Added pcre-8.44
+Mar 28 19:49:26 crumb pkg_add: Added xz-5.2.5p2
+Mar 28 19:49:34 crumb pkg_add: Added libiconv-1.17
+Mar 28 19:49:43 crumb pkg_add: Added gettext-runtime-0.21p1
+Mar 28 19:49:46 crumb pkg_add: Added bzip2-1.0.8p0
+Mar 28 19:49:59 crumb pkg_add: Added sqlite3-3.39.3
+Mar 28 19:52:03 crumb pkg_add: Added python-3.9.16
+Mar 28 19:52:31 crumb pkg_add: Added glib2-2.72.4p2
+Mar 28 19:52:35 crumb pkg_add: Added desktop-file-utils-0.26
+Mar 28 19:52:38 crumb pkg_add: Added htop-3.2.1
+Mar 28 19:54:23 crumb pkg_add: Added bash-5.1.16
+Mar 28 20:06:50 crumb pkg_add: Added libsodium-1.0.18p1
+Mar 28 20:07:00 crumb pkg_add: Added png-1.6.37p0
+Mar 28 20:07:09 crumb pkg_add: Added lz4-1.9.4
+Mar 28 20:07:15 crumb pkg_add: Added zstd-1.5.2
+Mar 28 20:07:21 crumb pkg_add: Added jpeg-2.1.3v0
+Mar 28 20:07:32 crumb pkg_add: Added tiff-4.4.0p2
+Mar 28 20:07:48 crumb pkg_add: Added libxml-2.10.3
+Mar 28 20:07:57 crumb pkg_add: Added shared-mime-info-2.2
+Mar 28 20:08:10 crumb pkg_add: Added gdk-pixbuf-2.42.9p0
+Mar 28 20:08:19 crumb pkg_add: Added hicolor-icon-theme-0.17
+Mar 28 20:08:22 crumb pkg_add: Added gtk-update-icon-cache-3.24.34
+Mar 28 20:08:30 crumb pkg_add: Added dconf-0.40.0
+Mar 28 20:08:37 crumb pkg_add: Added fribidi-1.0.12
+Mar 28 20:08:45 crumb pkg_add: Added graphite2-1.3.14
+Mar 28 20:08:52 crumb pkg_add: Added lzo2-2.10p2
+Mar 28 20:08:58 crumb pkg_add: Added cairo-1.17.6
+Mar 28 20:09:05 crumb pkg_add: Added harfbuzz-5.2.0
+Mar 28 20:09:12 crumb pkg_add: Added pango-1.50.10
+Mar 28 20:11:13 crumb pkg_add: Added librsvg-2.54.5
+Mar 28 20:11:55 crumb pkg_add: Added adwaita-icon-theme-42.0
+Mar 28 20:12:10 crumb groupadd[30454]: new group added: name=_dbus, gid=572
+Mar 28 20:12:12 crumb useradd[83939]: new user added: name=_dbus, uid=572, gid=572, home=/nonexistent, shell=/sbin/nologin
+Mar 28 20:12:15 crumb pkg_add: Added dbus-1.14.0p0v0
+Mar 28 20:12:23 crumb pkg_add: Added at-spi2-core-2.44.1
+Mar 28 20:12:31 crumb pkg_add: Added atk-2.38.0
+Mar 28 20:12:35 crumb pkg_add: Added at-spi2-atk-2.38.0
+Mar 28 20:14:30 crumb pkg_add: Added gtk+3-3.24.34
+Mar 28 20:15:34 crumb pkg_add: Added vim-9.0.0192-gtk3
+Mar 29 11:24:00 crumb syslogd[10945]: exiting on signal 15
+Apr 22 05:27:42 crumb syslogd[82459]: start
+Apr 22 05:27:42 crumb /bsd: OpenBSD 7.2 (GENERIC.MP) #404: Tue Sep 27 12:54:46 MDT 2022
+Apr 22 05:27:42 crumb /bsd:     deraadt@i386.openbsd.org:/usr/src/sys/arch/i386/compile/GENERIC.MP
+Apr 22 05:27:42 crumb /bsd: real mem  = 1073168384 (1023MB)
+Apr 22 05:27:42 crumb /bsd: avail mem = 1036632064 (988MB)
+Apr 22 05:27:42 crumb /bsd: random: good seed from bootblocks
+Apr 22 05:27:42 crumb /bsd: mpath0 at root
+Apr 22 05:27:42 crumb /bsd: scsibus0 at mpath0: 256 targets
+Apr 22 05:27:42 crumb /bsd: mainbus0 at root
+Apr 22 05:27:42 crumb /bsd: bios0 at mainbus0: date 06/23/99, BIOS32 rev. 0 @ 0xfda00, SMBIOS rev. 2.5 @ 0xe1000 (10 entries)
+Apr 22 05:27:42 crumb /bsd: bios0: vendor innotek GmbH version "VirtualBox" date 12/01/2006
+Apr 22 05:27:42 crumb /bsd: bios0: innotek GmbH VirtualBox
+Apr 22 05:27:42 crumb /bsd: acpi0 at bios0: ACPI 4.0
+Apr 22 05:27:42 crumb /bsd: acpi0: sleep states S0 S5
+Apr 22 05:27:42 crumb /bsd: acpi0: tables DSDT FACP APIC SSDT
+Apr 22 05:27:42 crumb /bsd: acpi0: wakeup devices
+Apr 22 05:27:42 crumb /bsd: acpitimer0 at acpi0: 3579545 Hz, 32 bits
+Apr 22 05:27:42 crumb /bsd: acpimadt0 at acpi0 addr 0xfee00000: PC-AT compat
+Apr 22 05:27:42 crumb /bsd: cpu0 at mainbus0: apid 0 (boot processor)
+Apr 22 05:27:42 crumb /bsd: cpu0: AMD Ryzen 7 7700X 8-Core Processor ("AuthenticAMD" 686-class, 1024KB L2 cache) 4.50 GHz, 19-61-02
+Apr 22 05:27:42 crumb /bsd: cpu0: FPU,V86,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT
+Apr 22 05:27:42 crumb /bsd: mtrr: CPU supports MTRRs but not enabled by BIOS
+Apr 22 05:27:42 crumb /bsd: cpu0: apic clock running at 1000MHz
+Apr 22 05:27:42 crumb /bsd: cpu1 at mainbus0: apid 1 (application processor)
+Apr 22 05:27:42 crumb /bsd: cpu1: AMD Ryzen 7 7700X 8-Core Processor ("AuthenticAMD" 686-class, 1024KB L2 cache) 4.49 GHz, 19-61-02
+Apr 22 05:27:42 crumb /bsd: cpu1: FPU,V86,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT
+Apr 22 05:27:42 crumb /bsd: ioapic0 at mainbus0: apid 2 pa 0xfec00000, version 20, 24 pins, remapped
+Apr 22 05:27:42 crumb /bsd: acpiprt0 at acpi0: bus 0 (PCI0)
+Apr 22 05:27:42 crumb /bsd: "PNP0A03" at acpi0 not configured
+Apr 22 05:27:42 crumb /bsd: acpiac0 at acpi0: AC unit online
+Apr 22 05:27:42 crumb /bsd: acpicpu0 at acpi0: C1(@1 halt!)
+Apr 22 05:27:42 crumb /bsd: acpicpu1 at acpi0: C1(@1 halt!)
+Apr 22 05:27:42 crumb /bsd: acpivideo0 at acpi0: GFX0
+Apr 22 05:27:42 crumb /bsd: bios0: ROM list: 0xc0000/0x8000 0xe2000/0xe000
+Apr 22 05:27:42 crumb /bsd: pci0 at mainbus0 bus 0: configuration mode 1 (bios)
+Apr 22 05:27:42 crumb /bsd: pchb0 at pci0 dev 0 function 0 "Intel 82441FX" rev 0x02
+Apr 22 05:27:42 crumb /bsd: pcib0 at pci0 dev 1 function 0 "Intel 82371SB ISA" rev 0x00
+Apr 22 05:27:42 crumb /bsd: pciide0 at pci0 dev 1 function 1 "Intel 82371AB IDE" rev 0x01: DMA, channel 0 configured to compatibility, channel 1 configured to compatibility
+Apr 22 05:27:42 crumb /bsd: wd0 at pciide0 channel 0 drive 0: <VBOX HARDDISK>
+Apr 22 05:27:42 crumb /bsd: wd0: 128-sector PIO, LBA, 16384MB, 33554432 sectors
+Apr 22 05:27:42 crumb /bsd: wd0(pciide0:0:0): using PIO mode 4, Ultra-DMA mode 2
+Apr 22 05:27:42 crumb /bsd: atapiscsi0 at pciide0 channel 1 drive 0
+Apr 22 05:27:42 crumb /bsd: scsibus1 at atapiscsi0: 2 targets
+Apr 22 05:27:42 crumb /bsd: cd0 at scsibus1 targ 0 lun 0: <VBOX, CD-ROM, 1.0> removable
+Apr 22 05:27:42 crumb /bsd: cd0(pciide0:1:0): using PIO mode 4, Ultra-DMA mode 2
+Apr 22 05:27:42 crumb /bsd: vga1 at pci0 dev 2 function 0 "VMware SVGA II" rev 0x00
+Apr 22 05:27:42 crumb /bsd: wsdisplay0 at vga1 mux 1: console (80x25, vt100 emulation)
+Apr 22 05:27:42 crumb /bsd: wsdisplay0: screen 1-5 added (80x25, vt100 emulation)
+Apr 22 05:27:42 crumb /bsd: em0 at pci0 dev 3 function 0 "Intel 82540EM" rev 0x02: apic 2 int 19, address 08:00:27:21:c9:6d
+Apr 22 05:27:42 crumb /bsd: "InnoTek Guest Service" rev 0x00 at pci0 dev 4 function 0 not configured
+Apr 22 05:27:42 crumb /bsd: auich0 at pci0 dev 5 function 0 "Intel 82801AA AC97" rev 0x01: apic 2 int 21, ICH
+Apr 22 05:27:42 crumb /bsd: ac97: codec id 0x83847600 (SigmaTel STAC9700)
+Apr 22 05:27:42 crumb /bsd: audio0 at auich0
+Apr 22 05:27:42 crumb /bsd: ohci0 at pci0 dev 6 function 0 "Apple Intrepid USB" rev 0x00: apic 2 int 22, version 1.0
+Apr 22 05:27:42 crumb /bsd: piixpm0 at pci0 dev 7 function 0 "Intel 82371AB Power" rev 0x08: apic 2 int 23
+Apr 22 05:27:42 crumb /bsd: iic0 at piixpm0
+Apr 22 05:27:42 crumb /bsd: ehci0 at pci0 dev 11 function 0 "Intel 82801FB USB" rev 0x00: apic 2 int 19
+Apr 22 05:27:42 crumb /bsd: usb0 at ehci0: USB revision 2.0
+Apr 22 05:27:42 crumb /bsd: uhub0 at usb0 configuration 1 interface 0 "Intel EHCI root hub" rev 2.00/1.00 addr 1
+Apr 22 05:27:42 crumb /bsd: isa0 at pcib0
+Apr 22 05:27:42 crumb /bsd: isadma0 at isa0
+Apr 22 05:27:42 crumb /bsd: pckbc0 at isa0 port 0x60/5 irq 1 irq 12
+Apr 22 05:27:42 crumb /bsd: pckbd0 at pckbc0 (kbd slot)
+Apr 22 05:27:42 crumb /bsd: wskbd0 at pckbd0: console keyboard, using wsdisplay0
+Apr 22 05:27:42 crumb /bsd: pms0 at pckbc0 (aux slot)
+Apr 22 05:27:42 crumb /bsd: wsmouse0 at pms0 mux 0
+Apr 22 05:27:42 crumb /bsd: pcppi0 at isa0 port 0x61
+Apr 22 05:27:42 crumb /bsd: spkr0 at pcppi0
+Apr 22 05:27:42 crumb /bsd: npx0 at isa0 port 0xf0/16: reported by CPUID; using exception 16
+Apr 22 05:27:42 crumb /bsd: usb1 at ohci0: USB revision 1.0
+Apr 22 05:27:42 crumb /bsd: uhub1 at usb1 configuration 1 interface 0 "Apple OHCI root hub" rev 1.00/1.00 addr 1
+Apr 22 05:27:42 crumb /bsd: vscsi0 at root
+Apr 22 05:27:42 crumb /bsd: scsibus2 at vscsi0: 256 targets
+Apr 22 05:27:42 crumb /bsd: softraid0 at root
+Apr 22 05:27:42 crumb /bsd: scsibus3 at softraid0: 256 targets
+Apr 22 05:27:42 crumb /bsd: root on wd0a (5889852a1cde9600.a) swap on wd0b dump on wd0b
+Apr 22 05:27:42 crumb /bsd: WARNING: clock gained 23 days
+Apr 22 05:27:42 crumb /bsd: WARNING: CHECK AND RESET THE DATE!
+Apr 22 12:28:00 crumb savecore: no core dump
+Apr 22 12:29:00 crumb ntpd[47924]: recvmsg 216.66.48.42: No route to host
+Apr 22 12:32:08 crumb reorder_kernel: kernel relinking done
+Apr 22 13:00:02 crumb syslogd[82459]: restart
+Apr 22 13:22:00 crumb ntpd[47924]: recvmsg 216.229.4.69: No route to host
+Apr 22 14:55:44 crumb pkg_add: Added p5-Time-TimeDate-2.33
+Apr 22 14:55:48 crumb pkg_add: Added p5-Mail-Tools-2.21p0
+Apr 22 14:55:51 crumb pkg_add: Added p5-Error-0.17029
+Apr 22 14:55:54 crumb pkg_add: Added cvsps-2.1p2
+Apr 22 14:56:38 crumb groupadd[42600]: new group added: name=_gitdaemon, gid=778
+Apr 22 14:56:39 crumb useradd[58207]: new user added: name=_gitdaemon, uid=778, gid=778, home=/nonexistent, shell=/sbin/nologin
+Apr 22 14:56:42 crumb pkg_add: Added git-2.37.3
+Apr 22 23:37:11 crumb syslogd[82459]: exiting on signal 15
+May  6 11:19:47 crumb syslogd[45604]: start
+May  6 11:19:47 crumb /bsd: OpenBSD 7.2 (GENERIC.MP) #404: Tue Sep 27 12:54:46 MDT 2022
+May  6 11:19:47 crumb /bsd:     deraadt@i386.openbsd.org:/usr/src/sys/arch/i386/compile/GENERIC.MP
+May  6 11:19:47 crumb /bsd: real mem  = 1073168384 (1023MB)
+May  6 11:19:47 crumb /bsd: avail mem = 1036623872 (988MB)
+May  6 11:19:47 crumb /bsd: random: good seed from bootblocks
+May  6 11:19:47 crumb /bsd: mpath0 at root
+May  6 11:19:47 crumb /bsd: scsibus0 at mpath0: 256 targets
+May  6 11:19:47 crumb /bsd: mainbus0 at root
+May  6 11:19:47 crumb /bsd: bios0 at mainbus0: date 06/23/99, BIOS32 rev. 0 @ 0xfda00, SMBIOS rev. 2.5 @ 0xe1000 (10 entries)
+May  6 11:19:47 crumb /bsd: bios0: vendor innotek GmbH version "VirtualBox" date 12/01/2006
+May  6 11:19:47 crumb /bsd: bios0: innotek GmbH VirtualBox
+May  6 11:19:47 crumb /bsd: acpi0 at bios0: ACPI 4.0
+May  6 11:19:47 crumb /bsd: acpi0: sleep states S0 S5
+May  6 11:19:47 crumb /bsd: acpi0: tables DSDT FACP APIC SSDT
+May  6 11:19:47 crumb /bsd: acpi0: wakeup devices
+May  6 11:19:47 crumb /bsd: acpitimer0 at acpi0: 3579545 Hz, 32 bits
+May  6 11:19:47 crumb /bsd: acpimadt0 at acpi0 addr 0xfee00000: PC-AT compat
+May  6 11:19:47 crumb /bsd: cpu0 at mainbus0: apid 0 (boot processor)
+May  6 11:19:47 crumb /bsd: cpu0: AMD Ryzen 7 7700X 8-Core Processor ("AuthenticAMD" 686-class, 1024KB L2 cache) 4.49 GHz, 19-61-02
+May  6 11:19:47 crumb /bsd: cpu0: FPU,V86,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT
+May  6 11:19:47 crumb /bsd: mtrr: CPU supports MTRRs but not enabled by BIOS
+May  6 11:19:47 crumb /bsd: cpu0: apic clock running at 1000MHz
+May  6 11:19:47 crumb /bsd: cpu1 at mainbus0: apid 1 (application processor)
+May  6 11:19:47 crumb /bsd: cpu1: AMD Ryzen 7 7700X 8-Core Processor ("AuthenticAMD" 686-class, 1024KB L2 cache) 4.50 GHz, 19-61-02
+May  6 11:19:47 crumb /bsd: cpu1: FPU,V86,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT
+May  6 11:19:47 crumb /bsd: ioapic0 at mainbus0: apid 2 pa 0xfec00000, version 20, 24 pins, remapped
+May  6 11:19:47 crumb /bsd: acpiprt0 at acpi0: bus 0 (PCI0)
+May  6 11:19:47 crumb /bsd: "PNP0A03" at acpi0 not configured
+May  6 11:19:47 crumb /bsd: acpiac0 at acpi0: AC unit online
+May  6 11:19:47 crumb /bsd: acpicpu0 at acpi0: C1(@1 halt!)
+May  6 11:19:47 crumb /bsd: acpicpu1 at acpi0: C1(@1 halt!)
+May  6 11:19:47 crumb /bsd: acpivideo0 at acpi0: GFX0
+May  6 11:19:47 crumb /bsd: bios0: ROM list: 0xc0000/0x8000 0xe2000/0xe000
+May  6 11:19:47 crumb /bsd: pci0 at mainbus0 bus 0: configuration mode 1 (bios)
+May  6 11:19:47 crumb /bsd: pchb0 at pci0 dev 0 function 0 "Intel 82441FX" rev 0x02
+May  6 11:19:47 crumb /bsd: pcib0 at pci0 dev 1 function 0 "Intel 82371SB ISA" rev 0x00
+May  6 11:19:47 crumb /bsd: pciide0 at pci0 dev 1 function 1 "Intel 82371AB IDE" rev 0x01: DMA, channel 0 configured to compatibility, channel 1 configured to compatibility
+May  6 11:19:47 crumb /bsd: wd0 at pciide0 channel 0 drive 0: <VBOX HARDDISK>
+May  6 11:19:47 crumb /bsd: wd0: 128-sector PIO, LBA, 16384MB, 33554432 sectors
+May  6 11:19:47 crumb /bsd: wd0(pciide0:0:0): using PIO mode 4, Ultra-DMA mode 2
+May  6 11:19:47 crumb /bsd: atapiscsi0 at pciide0 channel 1 drive 0
+May  6 11:19:47 crumb /bsd: scsibus1 at atapiscsi0: 2 targets
+May  6 11:19:47 crumb /bsd: cd0 at scsibus1 targ 0 lun 0: <VBOX, CD-ROM, 1.0> removable
+May  6 11:19:47 crumb /bsd: cd0(pciide0:1:0): using PIO mode 4, Ultra-DMA mode 2
+May  6 11:19:47 crumb /bsd: vga1 at pci0 dev 2 function 0 "VMware SVGA II" rev 0x00
+May  6 11:19:47 crumb /bsd: wsdisplay0 at vga1 mux 1: console (80x25, vt100 emulation)
+May  6 11:19:47 crumb /bsd: wsdisplay0: screen 1-5 added (80x25, vt100 emulation)
+May  6 11:19:47 crumb /bsd: em0 at pci0 dev 3 function 0 "Intel 82540EM" rev 0x02: apic 2 int 19, address 08:00:27:21:c9:6d
+May  6 11:19:47 crumb /bsd: "InnoTek Guest Service" rev 0x00 at pci0 dev 4 function 0 not configured
+May  6 11:19:47 crumb /bsd: auich0 at pci0 dev 5 function 0 "Intel 82801AA AC97" rev 0x01: apic 2 int 21, ICH
+May  6 11:19:47 crumb /bsd: ac97: codec id 0x83847600 (SigmaTel STAC9700)
+May  6 11:19:47 crumb /bsd: audio0 at auich0
+May  6 11:19:47 crumb /bsd: ohci0 at pci0 dev 6 function 0 "Apple Intrepid USB" rev 0x00: apic 2 int 22, version 1.0
+May  6 11:19:47 crumb /bsd: piixpm0 at pci0 dev 7 function 0 "Intel 82371AB Power" rev 0x08: apic 2 int 23
+May  6 11:19:47 crumb /bsd: iic0 at piixpm0
+May  6 11:19:47 crumb /bsd: ehci0 at pci0 dev 11 function 0 "Intel 82801FB USB" rev 0x00: apic 2 int 19
+May  6 11:19:47 crumb /bsd: usb0 at ehci0: USB revision 2.0
+May  6 11:19:47 crumb /bsd: uhub0 at usb0 configuration 1 interface 0 "Intel EHCI root hub" rev 2.00/1.00 addr 1
+May  6 11:19:47 crumb /bsd: isa0 at pcib0
+May  6 11:19:47 crumb /bsd: isadma0 at isa0
+May  6 11:19:47 crumb /bsd: pckbc0 at isa0 port 0x60/5 irq 1 irq 12
+May  6 11:19:47 crumb /bsd: pckbd0 at pckbc0 (kbd slot)
+May  6 11:19:47 crumb /bsd: wskbd0 at pckbd0: console keyboard, using wsdisplay0
+May  6 11:19:47 crumb /bsd: pms0 at pckbc0 (aux slot)
+May  6 11:19:47 crumb /bsd: wsmouse0 at pms0 mux 0
+May  6 11:19:47 crumb /bsd: pcppi0 at isa0 port 0x61
+May  6 11:19:47 crumb /bsd: spkr0 at pcppi0
+May  6 11:19:47 crumb /bsd: npx0 at isa0 port 0xf0/16: reported by CPUID; using exception 16
+May  6 11:19:47 crumb /bsd: usb1 at ohci0: USB revision 1.0
+May  6 11:19:47 crumb /bsd: uhub1 at usb1 configuration 1 interface 0 "Apple OHCI root hub" rev 1.00/1.00 addr 1
+May  6 11:19:47 crumb /bsd: vscsi0 at root
+May  6 11:19:47 crumb /bsd: scsibus2 at vscsi0: 256 targets
+May  6 11:19:47 crumb /bsd: softraid0 at root
+May  6 11:19:47 crumb /bsd: scsibus3 at softraid0: 256 targets
+May  6 11:19:47 crumb /bsd: root on wd0a (5889852a1cde9600.a) swap on wd0b dump on wd0b
+May  6 11:19:47 crumb /bsd: WARNING: clock gained 13 days
+May  6 11:19:47 crumb /bsd: WARNING: CHECK AND RESET THE DATE!
+May  6 18:20:06 crumb savecore: no core dump
+May  6 18:24:17 crumb reorder_kernel: kernel relinking done
+May  6 18:25:00 crumb ntpd[48117]: recvmsg 162.159.200.123: No route to host
+May  6 18:44:00 crumb ntpd[48117]: recvmsg 72.46.61.205: No route to host
+May  7 02:00:01 crumb syslogd[45604]: restart
+May  7 23:21:00 crumb ntpd[48117]: recvmsg 198.30.92.2: No route to host
+May  8 01:58:00 crumb ntpd[48117]: recvmsg 209.51.161.238: No route to host
+May  8 13:00:02 crumb syslogd[45604]: restart
+May  8 13:07:27 crumb halt: halted by root
+May  8 13:07:33 crumb syslogd[45604]: exiting on signal 15
+Oct 26 03:53:59 crumb syslogd[45449]: start
+Oct 26 03:53:59 crumb /bsd: OpenBSD 7.2 (GENERIC.MP) #404: Tue Sep 27 12:54:46 MDT 2022
+Oct 26 03:53:59 crumb /bsd:     deraadt@i386.openbsd.org:/usr/src/sys/arch/i386/compile/GENERIC.MP
+Oct 26 03:53:59 crumb /bsd: real mem  = 1073168384 (1023MB)
+Oct 26 03:53:59 crumb /bsd: avail mem = 1036615680 (988MB)
+Oct 26 03:53:59 crumb /bsd: random: good seed from bootblocks
+Oct 26 03:53:59 crumb /bsd: mpath0 at root
+Oct 26 03:53:59 crumb /bsd: scsibus0 at mpath0: 256 targets
+Oct 26 03:53:59 crumb /bsd: mainbus0 at root
+Oct 26 03:53:59 crumb /bsd: bios0 at mainbus0: date 06/23/99, BIOS32 rev. 0 @ 0xfda00, SMBIOS rev. 2.5 @ 0xe1000 (10 entries)
+Oct 26 03:53:59 crumb /bsd: bios0: vendor innotek GmbH version "VirtualBox" date 12/01/2006
+Oct 26 03:53:59 crumb /bsd: bios0: innotek GmbH VirtualBox
+Oct 26 03:53:59 crumb /bsd: acpi0 at bios0: ACPI 4.0
+Oct 26 03:53:59 crumb /bsd: acpi0: sleep states S0 S5
+Oct 26 03:53:59 crumb /bsd: acpi0: tables DSDT FACP APIC SSDT
+Oct 26 03:53:59 crumb /bsd: acpi0: wakeup devices
+Oct 26 03:53:59 crumb /bsd: acpitimer0 at acpi0: 3579545 Hz, 32 bits
+Oct 26 03:53:59 crumb /bsd: acpimadt0 at acpi0 addr 0xfee00000: PC-AT compat
+Oct 26 03:53:59 crumb /bsd: cpu0 at mainbus0: apid 0 (boot processor)
+Oct 26 03:53:59 crumb /bsd: cpu0: AMD Ryzen 7 7700X 8-Core Processor ("AuthenticAMD" 686-class, 1024KB L2 cache) 4.50 GHz, 19-61-02
+Oct 26 03:53:59 crumb /bsd: cpu0: FPU,V86,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT
+Oct 26 03:53:59 crumb /bsd: mtrr: CPU supports MTRRs but not enabled by BIOS
+Oct 26 03:53:59 crumb /bsd: cpu0: apic clock running at 1000MHz
+Oct 26 03:53:59 crumb /bsd: cpu1 at mainbus0: apid 1 (application processor)
+Oct 26 03:53:59 crumb /bsd: cpu1: AMD Ryzen 7 7700X 8-Core Processor ("AuthenticAMD" 686-class, 1024KB L2 cache) 4.49 GHz, 19-61-02
+Oct 26 03:53:59 crumb /bsd: cpu1: FPU,V86,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT
+Oct 26 03:53:59 crumb /bsd: ioapic0 at mainbus0: apid 2 pa 0xfec00000, version 20, 24 pins, remapped
+Oct 26 03:53:59 crumb /bsd: acpiprt0 at acpi0: bus 0 (PCI0)
+Oct 26 03:53:59 crumb /bsd: "PNP0A03" at acpi0 not configured
+Oct 26 03:53:59 crumb /bsd: acpiac0 at acpi0: AC unit online
+Oct 26 03:53:59 crumb /bsd: acpicpu0 at acpi0: C1(@1 halt!)
+Oct 26 03:53:59 crumb /bsd: acpicpu1 at acpi0: C1(@1 halt!)
+Oct 26 03:53:59 crumb /bsd: acpivideo0 at acpi0: GFX0
+Oct 26 03:53:59 crumb /bsd: bios0: ROM list: 0xc0000/0x8000 0xe2000/0xe000
+Oct 26 03:53:59 crumb /bsd: pci0 at mainbus0 bus 0: configuration mode 1 (bios)
+Oct 26 03:53:59 crumb /bsd: pchb0 at pci0 dev 0 function 0 "Intel 82441FX" rev 0x02
+Oct 26 03:53:59 crumb /bsd: pcib0 at pci0 dev 1 function 0 "Intel 82371SB ISA" rev 0x00
+Oct 26 03:53:59 crumb /bsd: pciide0 at pci0 dev 1 function 1 "Intel 82371AB IDE" rev 0x01: DMA, channel 0 configured to compatibility, channel 1 configured to compatibility
+Oct 26 03:53:59 crumb /bsd: wd0 at pciide0 channel 0 drive 0: <VBOX HARDDISK>
+Oct 26 03:53:59 crumb /bsd: wd0: 128-sector PIO, LBA, 16384MB, 33554432 sectors
+Oct 26 03:53:59 crumb /bsd: wd0(pciide0:0:0): using PIO mode 4, Ultra-DMA mode 2
+Oct 26 03:53:59 crumb /bsd: atapiscsi0 at pciide0 channel 1 drive 0
+Oct 26 03:53:59 crumb /bsd: scsibus1 at atapiscsi0: 2 targets
+Oct 26 03:53:59 crumb /bsd: cd0 at scsibus1 targ 0 lun 0: <VBOX, CD-ROM, 1.0> removable
+Oct 26 03:53:59 crumb /bsd: cd0(pciide0:1:0): using PIO mode 4, Ultra-DMA mode 2
+Oct 26 03:53:59 crumb /bsd: vga1 at pci0 dev 2 function 0 "VMware SVGA II" rev 0x00
+Oct 26 03:53:59 crumb /bsd: wsdisplay0 at vga1 mux 1: console (80x25, vt100 emulation)
+Oct 26 03:53:59 crumb /bsd: wsdisplay0: screen 1-5 added (80x25, vt100 emulation)
+Oct 26 03:53:59 crumb /bsd: em0 at pci0 dev 3 function 0 "Intel 82540EM" rev 0x02: apic 2 int 19, address 08:00:27:21:c9:6d
+Oct 26 03:53:59 crumb /bsd: "InnoTek Guest Service" rev 0x00 at pci0 dev 4 function 0 not configured
+Oct 26 03:53:59 crumb /bsd: auich0 at pci0 dev 5 function 0 "Intel 82801AA AC97" rev 0x01: apic 2 int 21, ICH
+Oct 26 03:53:59 crumb /bsd: ac97: codec id 0x83847600 (SigmaTel STAC9700)
+Oct 26 03:53:59 crumb /bsd: audio0 at auich0
+Oct 26 03:53:59 crumb /bsd: ohci0 at pci0 dev 6 function 0 "Apple Intrepid USB" rev 0x00: apic 2 int 22, version 1.0
+Oct 26 03:53:59 crumb /bsd: piixpm0 at pci0 dev 7 function 0 "Intel 82371AB Power" rev 0x08: apic 2 int 23
+Oct 26 03:53:59 crumb /bsd: iic0 at piixpm0
+Oct 26 03:53:59 crumb /bsd: ehci0 at pci0 dev 11 function 0 "Intel 82801FB USB" rev 0x00: apic 2 int 19
+Oct 26 03:53:59 crumb /bsd: usb0 at ehci0: USB revision 2.0
+Oct 26 03:53:59 crumb /bsd: uhub0 at usb0 configuration 1 interface 0 "Intel EHCI root hub" rev 2.00/1.00 addr 1
+Oct 26 03:53:59 crumb /bsd: isa0 at pcib0
+Oct 26 03:53:59 crumb /bsd: isadma0 at isa0
+Oct 26 03:53:59 crumb /bsd: pckbc0 at isa0 port 0x60/5 irq 1 irq 12
+Oct 26 03:53:59 crumb /bsd: pckbd0 at pckbc0 (kbd slot)
+Oct 26 03:53:59 crumb /bsd: wskbd0 at pckbd0: console keyboard, using wsdisplay0
+Oct 26 03:53:59 crumb /bsd: pms0 at pckbc0 (aux slot)
+Oct 26 03:53:59 crumb /bsd: wsmouse0 at pms0 mux 0
+Oct 26 03:53:59 crumb /bsd: pcppi0 at isa0 port 0x61
+Oct 26 03:53:59 crumb /bsd: spkr0 at pcppi0
+Oct 26 03:53:59 crumb /bsd: npx0 at isa0 port 0xf0/16: reported by CPUID; using exception 16
+Oct 26 03:53:59 crumb /bsd: usb1 at ohci0: USB revision 1.0
+Oct 26 03:53:59 crumb /bsd: uhub1 at usb1 configuration 1 interface 0 "Apple OHCI root hub" rev 1.00/1.00 addr 1
+Oct 26 03:53:59 crumb /bsd: vscsi0 at root
+Oct 26 03:53:59 crumb /bsd: scsibus2 at vscsi0: 256 targets
+Oct 26 03:53:59 crumb /bsd: softraid0 at root
+Oct 26 03:53:59 crumb /bsd: scsibus3 at softraid0: 256 targets
+Oct 26 03:53:59 crumb /bsd: root on wd0a (5889852a1cde9600.a) swap on wd0b dump on wd0b
+Oct 26 03:53:59 crumb /bsd: WARNING: clock gained 170 days
+Oct 26 03:53:59 crumb /bsd: WARNING: CHECK AND RESET THE DATE!
+Oct 26 10:54:19 crumb savecore: no core dump

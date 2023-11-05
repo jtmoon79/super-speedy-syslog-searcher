@@ -1,0 +1,112 @@
+
+/dev/rdisk2s2: fsck_hfs started at Thu Sep 21 21:31:05 2023
+/dev/rdisk2s2: /dev/rdisk2s2: ** /dev/rdisk2s2 (NO WRITE)
+/dev/rdisk2s2:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s2: fsck_hfs completed at Thu Sep 21 21:31:05 2023
+
+
+/dev/rdisk2s2: fsck_hfs started at Thu Sep 21 21:31:05 2023
+/dev/rdisk2s2: /dev/rdisk2s2: ** /dev/rdisk2s2 (NO WRITE)
+/dev/rdisk2s2:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s2: fsck_hfs completed at Thu Sep 21 21:31:05 2023
+
+
+/dev/rdisk2s1: fsck_hfs started at Thu Sep 21 21:31:21 2023
+/dev/rdisk2s1: /dev/rdisk2s1: ** /dev/rdisk2s1 (NO WRITE)
+/dev/rdisk2s1:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s1: fsck_hfs completed at Thu Sep 21 21:31:21 2023
+
+
+/dev/rdisk2s1: fsck_hfs started at Thu Sep 21 21:31:21 2023
+/dev/rdisk2s1: /dev/rdisk2s1: ** /dev/rdisk2s1 (NO WRITE)
+/dev/rdisk2s1:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s1: fsck_hfs completed at Thu Sep 21 21:31:21 2023
+
+
+/dev/rdisk2s1: fsck_hfs started at Thu Sep 21 21:31:45 2023
+/dev/rdisk2s1: /dev/rdisk2s1: ** /dev/rdisk2s1 (NO WRITE)
+/dev/rdisk2s1:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s1: fsck_hfs completed at Thu Sep 21 21:31:45 2023
+
+
+/dev/rdisk2s1: fsck_hfs started at Thu Sep 21 21:31:45 2023
+/dev/rdisk2s1: /dev/rdisk2s1: ** /dev/rdisk2s1 (NO WRITE)
+/dev/rdisk2s1:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s1: fsck_hfs completed at Thu Sep 21 21:31:45 2023
+
+
+/dev/rdisk2s1: fsck_hfs started at Thu Sep 21 21:32:23 2023
+/dev/rdisk2s1: /dev/rdisk2s1: ** /dev/rdisk2s1 (NO WRITE)
+/dev/rdisk2s1:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s1: fsck_hfs completed at Thu Sep 21 21:32:23 2023
+
+
+/dev/rdisk2s1: fsck_hfs started at Thu Sep 21 21:32:23 2023
+/dev/rdisk2s1: /dev/rdisk2s1: ** /dev/rdisk2s1 (NO WRITE)
+/dev/rdisk2s1:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s1: fsck_hfs completed at Thu Sep 21 21:32:23 2023
+
+
+/dev/rdisk2s2: fsck_hfs started at Thu Sep 21 23:42:13 2023
+/dev/rdisk2s2: /dev/rdisk2s2: ** /dev/rdisk2s2 (NO WRITE)
+/dev/rdisk2s2:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s2: fsck_hfs completed at Thu Sep 21 23:42:13 2023
+
+
+/dev/rdisk2s2: fsck_hfs started at Thu Sep 21 23:42:13 2023
+/dev/rdisk2s2: /dev/rdisk2s2: ** /dev/rdisk2s2 (NO WRITE)
+/dev/rdisk2s2:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s2: fsck_hfs completed at Thu Sep 21 23:42:13 2023
+
+
+/dev/rdisk2s2: fsck_hfs started at Thu Sep 21 23:45:36 2023
+/dev/rdisk2s2: /dev/rdisk2s2: ** /dev/rdisk2s2 (NO WRITE)
+/dev/rdisk2s2:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s2: fsck_hfs completed at Thu Sep 21 23:45:36 2023
+
+
+/dev/rdisk2s2: fsck_hfs started at Thu Sep 21 23:45:36 2023
+/dev/rdisk2s2: /dev/rdisk2s2: ** /dev/rdisk2s2 (NO WRITE)
+/dev/rdisk2s2:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s2: fsck_hfs completed at Thu Sep 21 23:45:36 2023
+
+
+/dev/rdisk2s2: fsck_hfs started at Thu Sep 21 23:53:26 2023
+/dev/rdisk2s2: /dev/rdisk2s2: ** /dev/rdisk2s2 (NO WRITE)
+/dev/rdisk2s2:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s2: fsck_hfs completed at Thu Sep 21 23:53:26 2023
+
+
+/dev/rdisk2s2: fsck_hfs started at Thu Sep 21 23:53:26 2023
+/dev/rdisk2s2: /dev/rdisk2s2: ** /dev/rdisk2s2 (NO WRITE)
+/dev/rdisk2s2:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s2: fsck_hfs completed at Thu Sep 21 23:53:26 2023
+
+
+/dev/rdisk2s3: fsck_hfs started at Thu Sep 21 23:54:31 2023
+/dev/rdisk2s3: /dev/rdisk2s3: ** /dev/rdisk2s3 (NO WRITE)
+/dev/rdisk2s3:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s3: fsck_hfs completed at Thu Sep 21 23:54:31 2023
+
+
+/dev/rdisk2s3: fsck_hfs started at Thu Sep 21 23:54:31 2023
+/dev/rdisk2s3: /dev/rdisk2s3: ** /dev/rdisk2s3 (NO WRITE)
+/dev/rdisk2s3:    Executing fsck_hfs (version hfs-583.100.10).
+QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s3: fsck_hfs completed at Thu Sep 21 23:54:31 2023
+
