@@ -2497,18 +2497,23 @@ impl BlockReader {
             {
                 self.read_blocks_hit += 1;
                 defo!("blocks_read.contains({})", blockoffset);
-                assert!(
-                    self.blocks
-                        .contains_key(&blockoffset),
-                    "requested block {} is in self.blocks_read but not in self.blocks",
-                    blockoffset
-                );
-                // BUG: during streaming stage, this might panic!
-                let blockp: BlockP = self
+                let blockp: BlockP = match self
                     .blocks
                     .get_mut(&blockoffset)
-                    .unwrap()
-                    .clone();
+                    {
+                        Some(blockp) => blockp.clone(),
+                        None => {
+                            return ResultS3ReadBlock::Err(
+                                Error::new(
+                                    ErrorKind::NotFound,
+                                    format!(
+                                        "requested block {} is in self.blocks_read but not in self.blocks for file {:?}",
+                                        blockoffset, self.path,
+                                    )
+                                ),
+                            )
+                        }
+                    };
                 self.store_block_in_LRU_cache(blockoffset, &blockp);
                 defx!(
                     "return Found(Block); use stored Block[{}] @[{}, {}) len {}",
