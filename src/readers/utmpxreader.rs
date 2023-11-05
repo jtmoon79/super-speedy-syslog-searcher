@@ -48,7 +48,7 @@
 //       https://elixir.bootlin.com/glibc/glibc-2.37/source/bits/utmp.h#L48
 
 
-use crate::de_wrn;
+use crate::{e_err, de_wrn};
 use crate::common::{
     Count,
     FPath,
@@ -205,6 +205,7 @@ pub struct UtmpxReader {
     /// [Clone or Copy `Error`]: https://github.com/rust-lang/rust/issues/24135
     /// [`set_error`]: self::UtmpxReader#method.set_error
     error: Option<String>,
+    error_kind: Option<ErrorKind>,
 }
 
 impl fmt::Debug for UtmpxReader {
@@ -271,6 +272,7 @@ impl UtmpxReader {
                 #[cfg(test)]
                 dropped_entries: SetDroppedEntries::new(),
                 error: None,
+                error_kind: None,
             }
         )
     }
@@ -447,16 +449,36 @@ impl UtmpxReader {
             .collect()
     }
 
+    /// store an `Error` that occurred. For later printing during `--summary`.
+    // XXX: duplicates `SyslogProcessor.set_error`
     fn set_error(
         &mut self,
         error: &Error,
     ) {
         defñ!("{:?}", error);
+        let error_string: String = error.to_string();
+        let error_kind: ErrorKind = error.kind();
+        // print the error but avoid printing the same error more than once
+        // XXX: This is somewhat a hack as it's possible the same error, with the
+        //      the same error message, could occur more than once.
+        //      Considered another way, this function `set_error` may get called
+        //      too often. The responsibility for calling `set_error` is haphazard.
+        match &self.error {
+            Some(err_s) => {
+                if err_s != &error_string && self.error_kind != Some(error_kind) {
+                    e_err!("{}", error);
+                }
+            }
+            None => {
+                e_err!("{}", error);
+            }
+        }
         if let Some(ref _err) = self.error {
             de_wrn!("skip overwrite of previous Error {:?} with Error ({:?})", _err, error);
             return;
         }
-        self.error = Some(error.to_string());
+        self.error = Some(error_string);
+        self.error_kind = Some(error_kind);
     }
 
     /// Store information about a single [`Utmpx`] entry.
