@@ -10,11 +10,13 @@ on:
     paths:
       - .github/**
       - Cargo.toml
+      - Cargo.lock
       - src/**.rs
   pull_request:
     paths:
       - .github/**
       - Cargo.toml
+      - Cargo.lock
       - src/**.rs
       - benches/**
 env:
@@ -22,10 +24,7 @@ env:
   RUST_BACKTRACE: 1
   # default rust version
   # should match first value in matrix.msrv
-  MSRV_UPLOAD: "1.66.0"
-  # rust version for grcov job
-  # should be equal or greater than $MSRV_UPLOAD
-  VERSION_GRCOV: "1.67.0"
+  MSRV_UPLOAD: "1.67.0"
   # rust version for llvm_cov job
   # should be equal or greater than $MSRV_UPLOAD
   VERSION_LLVM_COV: "1.70.0"
@@ -56,7 +55,7 @@ jobs:
         # first `msrv` should match Cargo.toml:[package]:rust-version
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
-        msrv: ["1.66.0", "1.68.0", "1.70.0", "1.72.0"]
+        msrv: ["1.67.0", "1.68.0", "1.70.0", "1.72.0"]
     runs-on: ${{ matrix.os }}
     steps:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
@@ -68,6 +67,7 @@ jobs:
         with:
           profile: minimal
           toolchain: ${{ matrix.msrv }}
+      - run: rustup override set ${{ matrix.msrv }}
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }}
         shell: bash
         run: |
@@ -111,6 +111,7 @@ jobs:
         with:
           profile: minimal
           toolchain: ${{ matrix.rust_version }}
+      - run: rustup override set ${{ matrix.rust_version }}
       - uses: Swatinem/rust-cache@v2
       - name: Build using rust ${{ matrix.rust_version }}
         run: |
@@ -134,6 +135,7 @@ jobs:
         with:
           profile: minimal
           toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Build Debug
         shell: bash
         run: |
@@ -172,6 +174,110 @@ jobs:
       #     chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
       #     "${SCRIPT}"
 
+  job_cross_targets:
+    name: cross ${{ matrix.target }}
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    strategy:
+      matrix:
+        target:
+          # platform targets from
+          # https://doc.rust-lang.org/nightly/rustc/platform-support.html
+          # listings should follow the same order
+          #
+          # XXX: most `aarch64` targets fail due to errors from `uapi` crate, e.g.
+          #         no `__timeval` in `c`
+          #      See Issue #171
+          #
+          # XXX: some targets fail to missing a specific glibc required by
+          #      libserde_derive, the error message reads:
+          #         version `GLIBC_2.25' not found (required by /target/debug/deps/libserde_derive-917db958580e9b6d.so)
+          #
+          # XXX: wasm fails to compile due to
+          # Tier 1
+          # - aarch64-unknown-linux-gnu
+          # - i686-pc-windows-gnu
+          # - i686-pc-windows-msvc
+          # - i686-unknown-linux-gnu
+          # - x86_64-pc-windows-gnu
+          - x86_64-pc-windows-msvc
+          # - x86_64-unknown-linux-gnu  # version `GLIBC_2.25' not found
+          # Tier 2 w host tools
+          # - aarch64-pc-windows-msvc  # version `GLIBC_2.25' not found
+          # - aarch64-unknown-linux-musl
+          # - arm-unknown-linux-gnueabi
+          # - arm-unknown-linux-gnueabihf
+          # - armv7-unknown-linux-gnueabihf  # version `GLIBC_2.25' not found
+          # - loongarch64-unknown-linux-gnu
+          # - powerpc-unknown-linux-gnu  # version `GLIBC_2.25' not found
+          # - powerpc64-unknown-linux-gnu  # version `GLIBC_2.25' not found
+          # - powerpc64le-unknown-linux-gnu  # version `GLIBC_2.25' not found
+          # - riscv64gc-unknown-linux-gnu
+          # - s390x-unknown-linux-gnu  # version `GLIBC_2.25' not found
+          # - x86_64-unknown-freebsd  # version `GLIBC_2.25' not found
+          # - x86_64-unknown-illumos  # fails due to uapi; see Issue #171
+          # - x86_64-unknown-linux-musl
+          # - x86_64-unknown-netbsd
+          # Tier 2 without host tools
+          # just a few chosen
+          # - x86_64-sun-solaris  # fails due to uapi; see Issue #171
+          # - wasm32-unknown-emscripten
+          # - aarch64-linux-android  # fails due to uapi; see Issue #171
+          # - wasm32-unknown-unknown
+          # - wasm32-wasi
+          # - x86_64-linux-android
+          # Tier 3
+          # - i686-unknown-netbsd
+          # - i686-unknown-openbsd
+          # - x86_64-unknown-openbsd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
+      - run: cargo install cross
+      - run: rustup target add ${{ matrix.target }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
+      - uses: Swatinem/rust-cache@v2
+      - run: |
+          set -eux
+          cross --version
+          cross check --lib --bins --target ${{ matrix.target }}
+
+  job_cross_targets_macos:
+    name: cross ${{ matrix.target }} on macos-latest
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    strategy:
+      matrix:
+        target:
+          # Tier 1
+          - x86_64-apple-darwin
+          # Tier 2 w host tools
+          # - aarch64-apple-darwin  # fails due to uapi; see Issue #171
+          # Tier 2 without host tools
+          # - aarch64-apple-ios  # fails due to uapi; see Issue #171
+          # - x86_64-apple-ios  # fails due to uapi; see Issue #171
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
+      - run: cargo install cross
+      - run: rustup target add ${{ matrix.target }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
+      - uses: Swatinem/rust-cache@v2
+      - run: |
+          set -eux
+          cross --version
+          cross check --lib --bins --target ${{ matrix.target }}
+
   job_check:
     # this job downloads and builds dependency crates
     name: check
@@ -180,6 +286,12 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Check
         shell: bash
         # `cargo check` builds dependences and other things but skips
@@ -198,6 +310,12 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }}
+        with:
+          toolchain: ${{ env.MSRV_UPLOAD }}
+          profile: default
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Clippy
         shell: bash
         run: |
@@ -214,6 +332,12 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Bench Dry Run
         shell: bash
         run: |
@@ -229,6 +353,12 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Install libsystemd
         shell: bash
         run: |
@@ -274,6 +404,13 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+          override: true
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: install cargo-binstall
         uses: cargo-bins/cargo-binstall@main
       - name: install nextest binary
@@ -293,6 +430,13 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+          override: true
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: install cargo-binstall
         uses: cargo-bins/cargo-binstall@main
       - name: install nextest binary
@@ -370,6 +514,13 @@ jobs:
       # checkout for the log files
       - name: git checkout
         uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        with:
+          profile: minimal
+          toolchain: ${{ env.MSRV_UPLOAD }}
+          override: true
+      - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: set log file filesystem Modified Time
         shell: bash
         run: |
@@ -499,6 +650,7 @@ jobs:
           profile: minimal
           toolchain: ${{ env.VERSION_LLVM_COV }}
           override: true
+      - run: rustup override set ${{ env.VERSION_LLVM_COV }}
       - name: install cargo-llvm-cov
         uses: actions-rs/cargo@v1
         with:
