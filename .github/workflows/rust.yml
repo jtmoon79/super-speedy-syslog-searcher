@@ -313,7 +313,6 @@ jobs:
       - uses: actions-rs/toolchain@v1
         name: toolchain ${{ env.MSRV_UPLOAD }} minimal
         with:
-          profile: minimal
           toolchain: ${{ env.MSRV_UPLOAD }}
       - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Clippy
