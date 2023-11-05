@@ -182,7 +182,8 @@ jobs:
           #      libserde_derive, the error message reads:
           #         version `GLIBC_2.25' not found (required by /target/debug/deps/libserde_derive-917db958580e9b6d.so)
           #
-          # XXX: wasm fails to compile due to
+          # XXX: wasm fails to compile due to missing tools
+          #
           # Tier 1
           # - aarch64-unknown-linux-gnu
           # - i686-pc-windows-gnu
@@ -258,6 +259,20 @@ jobs:
           set -eux
           cross --version
           cross check --lib --bins --target ${{ matrix.target }}
+
+  job_test_wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: moonrepo/setup-rust@v1
+        with:
+          channel: ${{ env.MSRV_UPLOAD }}
+          bins: cargo-wasi
+          targets: wasm32-wasi
+      - uses: mwilliamson/setup-wasmtime-action@v2
+        with:
+          wasmtime-version: "12.0.1"
+      - run: cargo wasi test --color=always -- --color=always
 
   job_check:
     # this job downloads and builds dependency crates
