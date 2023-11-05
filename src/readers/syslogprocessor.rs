@@ -234,7 +234,6 @@ pub struct SyslogProcessor {
     /// [Clone or Copy `Error`]: https://github.com/rust-lang/rust/issues/24135
     /// [`set_error`]: self::SyslogProcessor#method.set_error
     error: Option<String>,
-    error_kind: Option<ErrorKind>,
 }
 
 impl Debug for SyslogProcessor {
@@ -324,7 +323,10 @@ impl SyslogProcessor {
             return Result::Err(
                 Error::new(
                     ErrorKind::InvalidInput,
-                    format!("BlockSz {0} (0x{0:08X}) is too small, SyslogProcessor has BlockSz minimum {1} (0x{1:08X})", blocksz, SyslogProcessor::BLOCKSZ_MIN)
+                    format!(
+                        "BlockSz {0} (0x{0:08X}) is too small, SyslogProcessor has BlockSz minimum {1} (0x{1:08X}) file {2:?}",
+                        blocksz, SyslogProcessor::BLOCKSZ_MIN, &path,
+                    )
                 )
             );
         }
@@ -332,6 +334,7 @@ impl SyslogProcessor {
         let mut slr = match SyslineReader::new(path, filetype, blocksz, tz_offset) {
             Ok(val) => val,
             Err(err) => {
+                def1x!();
                 return Result::Err(err);
             }
         };
@@ -358,7 +361,6 @@ impl SyslogProcessor {
                 drop_block_last: 0,
                 missing_year: None,
                 error: None,
-                error_kind: None,
             }
         )
     }
@@ -523,9 +525,10 @@ impl SyslogProcessor {
         &mut self,
         error: &Error,
     ) {
-        defñ!("{:?}", error);
-        let error_string: String = error.to_string();
-        let error_kind: ErrorKind = error.kind();
+        def1ñ!("{:?}", error);
+        let mut error_string: String = error.kind().to_string();
+        error_string.push_str(": ");
+        error_string.push_str(error.kind().to_string().as_str());
         // print the error but avoid printing the same error more than once
         // XXX: This is somewhat a hack as it's possible the same error, with the
         //      the same error message, could occur more than once.
@@ -533,7 +536,7 @@ impl SyslogProcessor {
         //      too often. The responsibility for calling `set_error` is haphazard.
         match &self.error {
             Some(err_s) => {
-                if err_s != &error_string && self.error_kind != Some(error_kind) {
+                if err_s != &error_string {
                     e_err!("{}", error);
                 }
             }
@@ -546,7 +549,6 @@ impl SyslogProcessor {
             return;
         }
         self.error = Some(error_string);
-        self.error_kind = Some(error_kind);
     }
 
     /// Syslog files wherein the datetime format that does not include a year
@@ -631,7 +633,7 @@ impl SyslogProcessor {
                 ResultS3SyslineFind::Err(err) => {
                     self.set_error(&err);
                     defx!("return FileErrIo({:?})", err);
-                    return FileProcessingResultBlockZero::FileErrIo(err);
+                    return FileProcessingResultBlockZero::FileErrIoPath(err);
                 }
             };
             // TODO: [2022/07/27] add fn `syslinereader.find_sysline_year_rev` to hide these char offset
@@ -988,7 +990,7 @@ impl SyslogProcessor {
             ResultS3ReadBlock::Err(err) => {
                 self.set_error(&err);
                 defx!("return FileErrIo({:?})", err);
-                return FileProcessingResultBlockZero::FileErrIo(err);
+                return FileProcessingResultBlockZero::FileErrIoPath(err);
             }
         };
         // if the first block is too small then there will not be enough
@@ -1038,7 +1040,7 @@ impl SyslogProcessor {
             ResultS3ReadBlock::Err(err) => {
                 self.set_error(&err);
                 defx!("return FileErrIo({:?})", err);
-                return FileProcessingResultBlockZero::FileErrIo(err);
+                return FileProcessingResultBlockZero::FileErrIoPath(err);
             }
         };
         let blocksz0: BlockSz = (*blockp).len() as BlockSz;
@@ -1076,7 +1078,7 @@ impl SyslogProcessor {
                 (ResultS3LineFind::Err(err), _) => {
                     self.set_error(&err);
                     defx!("return FileErrIo({:?})", err);
-                    return FileProcessingResultBlockZero::FileErrIo(err);
+                    return FileProcessingResultBlockZero::FileErrIoPath(err);
                 }
             };
             if 0 != self
@@ -1123,7 +1125,7 @@ impl SyslogProcessor {
             ResultS3ReadBlock::Err(err) => {
                 self.set_error(&err);
                 defx!("return FileErrIo({:?})", err);
-                return FileProcessingResultBlockZero::FileErrIo(err);
+                return FileProcessingResultBlockZero::FileErrIoPath(err);
             }
         };
         let blocksz0: BlockSz = (*blockp).len() as BlockSz;
@@ -1160,7 +1162,7 @@ impl SyslogProcessor {
                 (ResultS3SyslineFind::Err(err), _) => {
                     self.set_error(&err);
                     defx!("return FileErrIo({:?})", err);
-                    return FileProcessingResultBlockZero::FileErrIo(err);
+                    return FileProcessingResultBlockZero::FileErrIoPath(err);
                 }
             };
         }
@@ -1219,7 +1221,7 @@ impl SyslogProcessor {
                     (ResultS3SyslineFind::Err(err), _) => {
                         self.set_error(&err);
                         defx!("return FileErrIo({:?})", err);
-                        return FileProcessingResultBlockZero::FileErrIo(err);
+                        return FileProcessingResultBlockZero::FileErrIoPath(err);
                     }
                 };
             }

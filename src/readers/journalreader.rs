@@ -455,9 +455,11 @@ pub type ForceErrorRangeOpt = Option<ForceErrorRange>;
 macro_rules! testing_force_error {
     (
         $force_error_range_opt:expr,
+        $func_name:expr,
         $api_calls:expr,
         $api_call_errors:expr,
-        $err_type:expr
+        $err_type:expr,
+        $path:expr
     ) => {
         #[cfg(test)]
         {
@@ -470,8 +472,8 @@ macro_rules! testing_force_error {
                         $api_calls += 1;
                         $api_call_errors += 1;
                         let e = Errno::from_i32(r.abs());
-                        def1o!("sd_journal_enumerate_available_data() FORCE_ERROR_RANGE {}; {:?}", r, e);
-                        let err = JournalReader::Error_from_Errno(r, &e, "sd_journal_enumerate_available_data");
+                        def1o!("{}() FORCE_ERROR_RANGE {}; {:?}", $func_name, r, e);
+                        let err = JournalReader::Error_from_Errno(r, &e, $func_name, $path);
                         return $err_type(err);
                     }
                 }
@@ -1123,7 +1125,10 @@ impl<'a> JournalReader {
                     if r < 0 {
                         let err = Error::new(
                             errno_to_errorkind(&e),
-                            format!("sd_journal_seek_realtime_usec({:?}) returned {}; {:?}", ts, r, e)
+                            format!(
+                                "sd_journal_seek_realtime_usec({:?}) returned {}; {:?} file {:?}",
+                                ts, r, e, self.path
+                            )
                         );
                         def1x!("return {:?}", err);
                         return Err(err);
@@ -1144,7 +1149,10 @@ impl<'a> JournalReader {
                         self.api_call_errors += 1;
                         let err = Error::new(
                             errno_to_errorkind(&e),
-                            format!("sd_journal_seek_head() returned {}; {:?}", r, e)
+                            format!(
+                                "sd_journal_seek_head() returned {}; {:?} file {:?}",
+                                r, e, self.path
+                            )
                         );
                         def1x!("return {:?}", err);
                         return Err(err);
@@ -1164,10 +1172,13 @@ impl<'a> JournalReader {
 
     /// Helper to create an `Error` from an `Errno`.
     #[allow(non_snake_case)]
-    fn Error_from_Errno(r: i32, e: &Errno, funcname: &str) -> Error {
+    fn Error_from_Errno(r: i32, e: &Errno, funcname: &str, path: &FPath) -> Error {
         Error::new(
             errno_to_errorkind(e),
-            format!("{} returned {}; {:?}", funcname, r, e)
+            format!(
+                "{} returned {}; {:?} file {:?}",
+                funcname, r, e, path
+            )
         )
     }
 
@@ -1182,6 +1193,7 @@ impl<'a> JournalReader {
         journal_api_ptr: &mut JournalApiPtr,
         api_calls: &mut Count,
         api_call_errors: &mut Count,
+        path: &FPath,
     ) -> ResultS3<EpochMicroseconds, Error> {
         unsafe {
             def1n!("sd_journal_next(@{:?})", journal_handle_ptr);
@@ -1195,7 +1207,7 @@ impl<'a> JournalReader {
             }
             else if r < 0 {
                 *api_call_errors += 1;
-                let err = Self::Error_from_Errno(r, &e, "sd_journal_next");
+                let err = Self::Error_from_Errno(r, &e, "sd_journal_next", path);
                 def1x!("return {:?}", err);
                 return ResultS3::Err(err);
             }
@@ -1222,6 +1234,7 @@ impl<'a> JournalReader {
         journal_api_ptr: &mut JournalApiPtr,
         api_calls: &mut Count,
         api_call_errors: &mut Count,
+        path: &FPath,
     ) -> Result<EpochMicroseconds> {
         let mut rt: std::os::raw::c_ulonglong = 0;
         unsafe {
@@ -1237,7 +1250,7 @@ impl<'a> JournalReader {
             if r < 0 {
                 *api_call_errors += 1;
                 de_err!("sd_journal_get_realtime_usec() returned {}; {:?}", r, e);
-                let err = Self::Error_from_Errno(r, &e, "sd_journal_get_realtime_usec");
+                let err = Self::Error_from_Errno(r, &e, "sd_journal_get_realtime_usec", path);
                 return Result::Err(err);
             } else {
                 def1o!("sd_journal_get_realtime_usec realtime {}", rt);
@@ -1260,6 +1273,7 @@ impl<'a> JournalReader {
             &mut self.api_calls,
             &mut self.api_call_errors,
             &KEY_SOURCE_REALTIME_TIMESTAMP_CSTR,
+            &self.path,
             #[cfg(test)]
             &self.force_error_range_opt,
         ) {
@@ -1300,10 +1314,11 @@ impl<'a> JournalReader {
         api_calls: &mut Count,
         api_call_errors: &mut Count,
         field: &CString,
+        path: &FPath,
         #[cfg(test)]
         force_error_range: &ForceErrorRangeOpt,
     ) -> Result<&'a [u8]> {
-        testing_force_error!(&force_error_range, (*api_calls), (*api_call_errors), Result::Err);
+        testing_force_error!(&force_error_range, "call_sd_journal_get_data", (*api_calls), (*api_call_errors), Result::Err, path);
         def1n!("(@{:p}, {:?})", journal_handle_ptr, field);
         let data: &[u8];
         let pcfield = field.as_ptr();
@@ -1327,7 +1342,7 @@ impl<'a> JournalReader {
             def1o!("sd_journal_get_data returned {}, {:?}", r, e);
             if r < 0 {
                 *api_call_errors += 1;
-                let err = Self::Error_from_Errno(r, &e, "sd_journal_get_data");
+                let err = Self::Error_from_Errno(r, &e, "sd_journal_get_data", path);
                 def1x!("return Err");
                 return Result::Err(err);
             }
@@ -1349,11 +1364,12 @@ impl<'a> JournalReader {
         journal_api_ptr: &mut JournalApiPtr,
         api_calls: &mut Count,
         api_call_errors: &mut Count,
+        path: &FPath,
         #[cfg(test)]
         force_error_range: &ForceErrorRangeOpt,
     ) -> ResultS3<&'a [u8], Error> {
         def1n!();
-        testing_force_error!(&force_error_range, (*api_calls), (*api_call_errors), ResultS3::Err);
+        testing_force_error!(&force_error_range, "call_sd_journal_enumerate_available_data", (*api_calls), (*api_call_errors), ResultS3::Err, path);
         let data: &[u8];
         unsafe {
             //
@@ -1379,7 +1395,7 @@ impl<'a> JournalReader {
             if r < 0 {
                 *api_call_errors += 1;
                 de_err!("sd_journal_enumerate_available_data() returned {}; {:?}", r, e);
-                let err = Self::Error_from_Errno(r, &e, "sd_journal_enumerate_available_data");
+                let err = Self::Error_from_Errno(r, &e, "sd_journal_enumerate_available_data", path);
                 def1x!("return Err");
                 return ResultS3::Err(err);
             }
@@ -1402,6 +1418,7 @@ impl<'a> JournalReader {
         api_calls: &mut Count,
         api_call_errors: &mut Count,
         boot_id: Option<sd_id128>,
+        path: &FPath,
     ) -> Result<MonotonicMicroseconds> {
         def1n!();
         let monotonic_usec: MonotonicMicroseconds;
@@ -1427,7 +1444,7 @@ impl<'a> JournalReader {
             if r < 0 {
                 *api_call_errors += 1;
                 de_err!("sd_journal_get_monotonic_usec() returned {}; {:?}", r, e);
-                let err = Self::Error_from_Errno(r, &e, "sd_journal_get_monotonic_usec");
+                let err = Self::Error_from_Errno(r, &e, "sd_journal_get_monotonic_usec", path);
                 def1x!("return Err");
                 return Result::Err(err);
             } else {
@@ -1448,6 +1465,7 @@ impl<'a> JournalReader {
         journal_api_ptr: &mut JournalApiPtr,
         api_calls: &mut Count,
         api_call_errors: &mut Count,
+        path: &FPath,
     ) -> Result<sd_id128> {
         def1n!();
         let mut boot_id_id128: sd_id128 = sd_id128 { bytes: [0; 16] };
@@ -1470,7 +1488,7 @@ impl<'a> JournalReader {
             if r < 0 {
                 *api_call_errors += 1;
                 de_err!("sd_journal_get_monotonic_usec() returned {}; {:?}", r, e);
-                let err = Self::Error_from_Errno(r, &e, "sd_journal_get_monotonic_usec");
+                let err = Self::Error_from_Errno(r, &e, "sd_journal_get_monotonic_usec", path);
                 def1x!("return Err");
                 return Result::Err(err);
             } else {
@@ -1529,6 +1547,7 @@ impl<'a> JournalReader {
             &mut self.journal_api_ptr,
             &mut self.api_calls,
             &mut self.api_call_errors,
+            &self.path,
         ) {
             Result::Ok(bid) => Some(bid),
             Result::Err(_err) => {
@@ -1543,6 +1562,7 @@ impl<'a> JournalReader {
             &mut self.api_calls,
             &mut self.api_call_errors,
             boot_id_opt,
+            &self.path,
         ) {
             Result::Ok(mu) => {
                 def1x!("return Some");
@@ -1691,6 +1711,7 @@ impl<'a> JournalReader {
             &mut self.journal_api_ptr,
             &mut self.api_calls,
             &mut self.api_call_errors,
+            &self.path,
         ) {
             ResultS3::Found(_) => {}
             ResultS3::Done => {
@@ -1711,6 +1732,7 @@ impl<'a> JournalReader {
             &mut self.journal_api_ptr,
             &mut self.api_calls,
             &mut self.api_call_errors,
+            &self.path,
         ) {
             Result::Ok(rt) => rt,
             Result::Err(err) => {
@@ -1867,6 +1889,7 @@ impl<'a> JournalReader {
                 &mut self.journal_api_ptr,
                 &mut self.api_calls,
                 &mut self.api_call_errors,
+                &self.path,
                 #[cfg(test)]
                 &self.force_error_range_opt,
             ) {
@@ -2181,6 +2204,7 @@ impl<'a> JournalReader {
                 &mut self.journal_api_ptr,
                 &mut self.api_calls,
                 &mut self.api_call_errors,
+                &self.path,
                 #[cfg(test)]
                 &self.force_error_range_opt,
             ) {
@@ -2416,6 +2440,7 @@ impl<'a> JournalReader {
                 &mut self.journal_api_ptr,
                 &mut self.api_calls,
                 &mut self.api_call_errors,
+                &self.path,
                 #[cfg(test)]
                 &self.force_error_range_opt,
             ) {
@@ -2626,6 +2651,7 @@ impl<'a> JournalReader {
             &mut self.api_calls,
             &mut self.api_call_errors,
             &*KEY_MESSAGE_CSTR,
+            &self.path,
             #[cfg(test)]
             &self.force_error_range_opt,
         ) {

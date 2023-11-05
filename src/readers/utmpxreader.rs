@@ -205,7 +205,6 @@ pub struct UtmpxReader {
     /// [Clone or Copy `Error`]: https://github.com/rust-lang/rust/issues/24135
     /// [`set_error`]: self::UtmpxReader#method.set_error
     error: Option<String>,
-    error_kind: Option<ErrorKind>,
 }
 
 impl fmt::Debug for UtmpxReader {
@@ -272,7 +271,6 @@ impl UtmpxReader {
                 #[cfg(test)]
                 dropped_entries: SetDroppedEntries::new(),
                 error: None,
-                error_kind: None,
             }
         )
     }
@@ -455,9 +453,10 @@ impl UtmpxReader {
         &mut self,
         error: &Error,
     ) {
-        defñ!("{:?}", error);
-        let error_string: String = error.to_string();
-        let error_kind: ErrorKind = error.kind();
+        def1ñ!("{:?}", error);
+        let mut error_string: String = error.kind().to_string();
+        error_string.push_str(": ");
+        error_string.push_str(error.kind().to_string().as_str());
         // print the error but avoid printing the same error more than once
         // XXX: This is somewhat a hack as it's possible the same error, with the
         //      the same error message, could occur more than once.
@@ -465,7 +464,7 @@ impl UtmpxReader {
         //      too often. The responsibility for calling `set_error` is haphazard.
         match &self.error {
             Some(err_s) => {
-                if err_s != &error_string && self.error_kind != Some(error_kind) {
+                if err_s != &error_string {
                     e_err!("{}", error);
                 }
             }
@@ -478,7 +477,6 @@ impl UtmpxReader {
             return;
         }
         self.error = Some(error_string);
-        self.error_kind = Some(error_kind);
     }
 
     /// Store information about a single [`Utmpx`] entry.
@@ -799,7 +797,10 @@ impl UtmpxReader {
         if at != UTMPX_SZ {
             let err = Error::new(
                 ErrorKind::Other,
-                format!("buffer of len {} given too little data {}", buffer.len(), at),
+                format!(
+                    "buffer of len {} given too little data {} for file {:?}",
+                    buffer.len(), at, self.path(),
+                ),
             );
             self.set_error(&err);
             defx!("return ResultS3UtmpxFind::Err({})", err);
@@ -809,7 +810,13 @@ impl UtmpxReader {
         let utmp_: utmpx = match buffer_to_utmpx(&buffer) {
             Some(utmp_) => utmp_,
             None => {
-                let err = Error::new(ErrorKind::Other, "buffer_to_utmpx failed");
+                let err = Error::new(
+                    ErrorKind::Other,
+                    format!(
+                        "buffer_to_utmpx failed for file {:?}",
+                        self.path(),
+                    )
+                );
                 self.set_error(&err);
                 defx!("return ResultS3UtmpxFind::Err({})", err);
                 return ResultS3UtmpxFind::Err(err);

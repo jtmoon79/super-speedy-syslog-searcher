@@ -1654,7 +1654,7 @@ fn exec_syslogprocessor(
             // send `ChanDatum::FileInfo`
             chan_send(
                 &chan_send_dt,
-                ChanDatum::FileInfo(DateTimeLOpt::None, FileProcessingResultBlockZero::FileErrIo(err)),
+                ChanDatum::FileInfo(DateTimeLOpt::None, FileProcessingResultBlockZero::FileErrIoPath(err)),
                 &path
             );
             // send `ChanDatum::FileSummary`
@@ -1670,7 +1670,7 @@ fn exec_syslogprocessor(
                 ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
                 &path
             );
-            defx!("({:?}) return early due to error", path);
+            defx!("({:?}) thread will return early due to error", path);
             return;
         }
     };
@@ -1762,7 +1762,7 @@ fn exec_syslogprocessor(
         }
         ResultS3SyslineFind::Err(err) => {
             deo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, _tname, err);
-            file_err = Some(FileProcessingResultBlockZero::FileErrIo(err));
+            file_err = Some(FileProcessingResultBlockZero::FileErrIoPath(err));
             search_more = false;
         }
     }
@@ -1830,7 +1830,7 @@ fn exec_syslogprocessor(
             ResultS3SyslineFind::Err(err) => {
                 deo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, _tname, err);
                 e_err!("syslogprocessor.find_sysline({}) {} for {:?}", fo1, err, path);
-                file_err = Some(FileProcessingResult::FileErrIo(err));
+                file_err = Some(FileProcessingResult::FileErrIoPath(err));
                 break;
             }
         }
@@ -1889,7 +1889,7 @@ fn exec_utmpprocessor(
                 &chan_send_dt,
                 ChanDatum::FileInfo(
                     DateTimeLOpt::None,
-                    FileProcessingResultBlockZero::FileErrIo(err)
+                    FileProcessingResultBlockZero::FileErrIoPath(err)
                 ),
                 &path
             );
@@ -1906,7 +1906,7 @@ fn exec_utmpprocessor(
                 ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
                 &path
             );
-            defx!("({:?}) return early due to error", path);
+            defx!("({:?}) thread will return early due to error", path);
             return;
         }
     };
@@ -1953,7 +1953,7 @@ fn exec_utmpprocessor(
             ResultS3UtmpxFind::Err(err) => {
                 de_err!("find_entry({}) failed; {} for {:?}", fo, err, path);
                 defo!("ResultS3UtmpxFind::Err({})", err);
-                file_err = Some(FileProcessingResultBlockZero::FileErrIo(err));
+                file_err = Some(FileProcessingResultBlockZero::FileErrIoPath(err));
                 break;
             }
         }
@@ -2019,7 +2019,7 @@ fn exec_evtxprocessor(
                 ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
                 &path
             );
-            defx!("({:?}) return early due to error", path);
+            defx!("({:?}) thread will return early due to error", path);
             return;
         }
     };
@@ -2105,7 +2105,7 @@ fn exec_journalprocessor(
             // send `ChanDatum::FileInfo`
             chan_send(
                 &chan_send_dt,
-                ChanDatum::FileInfo(DateTimeLOpt::None, FileProcessingResultBlockZero::FileErrIo(err)),
+                ChanDatum::FileInfo(DateTimeLOpt::None, FileProcessingResultBlockZero::FileErrIoPath(err)),
                 &path
             );
             // send `ChanDatum::FileSummary`
@@ -2121,7 +2121,7 @@ fn exec_journalprocessor(
                 ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
                 &path
             );
-            defx!("({:?}) return early due to error", path);
+            defx!("({:?}) thread will return early due to error", path);
             return;
         }
     };
@@ -2151,7 +2151,7 @@ fn exec_journalprocessor(
                 &chan_send_dt,
                 ChanDatum::FileSummary(
                     Some(summary),
-                    FileProcessingResult::FileErrIo(err)
+                    FileProcessingResult::FileErrIoPath(err)
                 ),
                 &path
             );
@@ -3030,8 +3030,6 @@ fn processing_loop(
         };
         paths_total += 1;
     }
-    // none of these maps should be empty; sanity check one of them
-    debug_assert!(!map_pathid_received_fileinfo.is_empty());
 
     // shrink to fit
     map_pathid_filetype.shrink_to_fit();
@@ -3056,6 +3054,8 @@ fn processing_loop(
                 e_err!("path does not exist {:?}", path),
             ProcessPathResult::FileErrLoadingLibrary(path, libname, ft) =>
                 e_err!("failed to load library {:?} for {:?} {:?}", libname, ft, path),
+            ProcessPathResult::FileErr(_path, message) =>
+                e_err!("{}", message),
             ProcessPathResult::FileValid(..) => {}
         }
     }
@@ -3110,7 +3110,7 @@ fn processing_loop(
                 }
             },
             None => {
-                panic!("bad pathid {}", pathid);
+                panic!("bad pathid {} for path {:?}", pathid, path);
             }
         };
         let logmessagespecificdata = match filetype {
@@ -3320,7 +3320,6 @@ fn processing_loop(
             // call `recv_many_chan` and wait for any channels (file processing threads) to send
             // a `ChanDatum`.
 
-
             let pathid: PathId;
             let result: RecvResult4;
             // here is the wait on the channels (file processing threads)
@@ -3455,6 +3454,8 @@ fn processing_loop(
                                     e_wrn!("bad path {:?}", path),
                                 FileProcessingResultBlockZero::FileErrIo(err) =>
                                     e_err!("{} for {:?}", err, path),
+                                FileProcessingResultBlockZero::FileErrIoPath(err) =>
+                                    e_err!("{}", err),
                                 FileProcessingResultBlockZero::FileErrChanSend =>
                                     panic!("Should not receive ChannelSend Error {:?}", path),
                                 FileProcessingResultBlockZero::FileOk => {}
@@ -4026,8 +4027,9 @@ fn print_file_about(
                     COLOR_ERROR,
                     Some(*color_choice),
                     match result {
-                        FileProcessingResultBlockZero::FileErrIo(e) =>
-                            format!("FileErrIo: {}", e),
+                        FileProcessingResultBlockZero::FileErrIoPath(err)
+                        | FileProcessingResultBlockZero::FileErrIo(err) =>
+                            format!("{}: {}", err.kind(), err),
                         _ => format!("{:?}", result),
                     }.as_bytes()
                 ) {
@@ -4890,6 +4892,9 @@ fn print_files_processpathresult(
             ProcessPathResult::FileErrLoadingLibrary(path, libname, filetype) => {
                 print_(format!("File: {} {:?} ", path, filetype), color_choice, color_default);
                 print_(format!("(failed to load shared library {:?})", libname), color_choice, color_error);
+            }
+            ProcessPathResult::FileErr(path, message) => {
+                print_(format!("File: {} {}", path, message), color_choice, color_default);
             }
         }
         eprintln!();

@@ -238,7 +238,7 @@ impl Summary {
                 }
             }
             LogMessageType::All => {
-                panic!("LogMessageType::All is not supported");
+                panic!("LogMessageType::All is not supported; path {:?}", path);
             }
         }
     }
@@ -273,7 +273,10 @@ impl Summary {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
                 // `Dummy` can occur for files without adequate read permissions
-                panic!("Summary::blockreader() called on readerdata type SummaryReaderData::Dummy");
+                panic!(
+                    "Summary::blockreader() called on readerdata type SummaryReaderData::Dummy; path {:?}",
+                    self.path
+                );
             },
             SummaryReaderData::Syslog(
                 (
@@ -301,7 +304,10 @@ impl Summary {
     /// chronologically earliest printed datetime in file
     pub fn datetime_first(&self) -> &DateTimeLOpt {
         match &self.readerdata {
-            SummaryReaderData::Dummy => panic!("Summary::datetime_first() called on Summary::Dummy"),
+            SummaryReaderData::Dummy => panic!(
+                "Summary::datetime_first() called on Summary::Dummy; path {:?}",
+                self.path,
+            ),
             SummaryReaderData::Syslog(
                 (
                     _summaryblockreader,
@@ -326,7 +332,10 @@ impl Summary {
     /// chronologically latest printed datetime in file
     pub fn datetime_last(&self) -> &DateTimeLOpt {
         match &self.readerdata {
-            SummaryReaderData::Dummy => panic!("Summary::datetime_last() called on Summary::Dummy"),
+            SummaryReaderData::Dummy => panic!(
+                "Summary::datetime_last() called on Summary::Dummy; path {:?}",
+                self.path,
+            ),
             SummaryReaderData::Syslog(
                 (
                     _summaryblockreader,
@@ -552,7 +561,7 @@ impl fmt::Debug for Summary {
                         .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
                         .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
                         .finish(),
-                    ft => panic!("Unpexected filetype {}", ft),
+                    ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
                 }
             }
             SummaryReaderData::Etvx(summaryevtxreader) => {
@@ -562,7 +571,7 @@ impl fmt::Debug for Summary {
                         .field("evtx events processed", &summaryevtxreader.evtxreader_events_processed)
                         .field("evtx events accepted", &summaryevtxreader.evtxreader_events_accepted)
                         .finish(),
-                    ft => panic!("Unpexected filetype {}", ft),
+                    ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
                 }
             }
             SummaryReaderData::Journal(summaryjournalreader) => {
@@ -572,7 +581,7 @@ impl fmt::Debug for Summary {
                         .field("journal events processed", &summaryjournalreader.journalreader_events_processed)
                         .field("journal events accepted", &summaryjournalreader.journalreader_events_accepted)
                         .finish(),
-                    ft => panic!("Unpexected filetype {}", ft),
+                    ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
                 }
             }
         }

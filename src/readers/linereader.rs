@@ -31,7 +31,7 @@ use ::lru::LruCache;
 use ::mime_guess::MimeGuess;
 use ::more_asserts::debug_assert_ge;
 #[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, def1ñ, den, deo, dex, deñ};
+use ::si_trace_print::{defn, defo, defx, defñ, def1ñ, def1x, den, deo, dex, deñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // LineReader
@@ -208,7 +208,13 @@ impl LineReader {
             CHARSZ_MAX
         );
         debug_assert!(blocksz != 0, "BlockSz is zero");
-        let blockreader = BlockReader::new(path, filetype, blocksz)?;
+        let blockreader = match BlockReader::new(path, filetype, blocksz) {
+            Ok(br) => br,
+            Err(err) => {
+                def1x!();
+                return Err(err);
+            }
+        };
         Ok(LineReader {
             blockreader,
             lines: FoToLine::new(),
@@ -631,8 +637,8 @@ impl LineReader {
                     ResultS3LineFind::Err(_err) => {
                         defx!("Err {}", _err);
                         eprintln!(
-                            "ERROR: unexpected Error store in find_line_lru_cache, fileoffset {}",
-                            fileoffset
+                            "ERROR: unexpected Error store in find_line_lru_cache, fileoffset {}, file {:?}",
+                            fileoffset, self.path(),
                         );
                     }
                 }

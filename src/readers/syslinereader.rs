@@ -1180,6 +1180,7 @@ impl SyslineReader {
         ezcheck12d2_hit: &mut Count,
         ezcheck12d2_miss: &mut Count,
         ezcheck12d2_hit_max: &mut LineIndex,
+        path: &FPath,
     ) -> ResultFindDateTime {
         defn!(
             "(…, …, {:?}, year_opt {:?}, {:?}) line {:?}",
@@ -1193,10 +1194,15 @@ impl SyslineReader {
         // skip an easy case; no possible datetime
         if line.len() < SyslineReader::DATETIME_STR_MIN {
             defx!("return Err(ErrorKind::InvalidInput);");
-            return ResultFindDateTime::Err(Error::new(
-                ErrorKind::InvalidInput,
-                format!("Line (length {}) is too short to hold a datetime", line.len()),
-            ));
+            return ResultFindDateTime::Err(
+                Error::new(
+                    ErrorKind::InvalidInput,
+                    format!(
+                        "Line (length {}) is too short to hold a datetime for file {:?}",
+                        line.len(), path,
+                    ),
+                )
+            );
         }
 
         #[cfg(any(debug_assertions, test))]
@@ -1255,7 +1261,10 @@ impl SyslineReader {
             match line.get_boxptrs(dtpd.range_regex.start as LineIndex, slice_end as LineIndex) {
                 LinePartPtrs::NoPtr => {
                     if cfg!(debug_assertions) || cfg!(test) {
-                        panic!("LinePartPtrs::NoPtr for slice [{}, {});", dtpd.range_regex.start, slice_end);
+                        panic!(
+                            "LinePartPtrs::NoPtr for slice [{}, {}); file {:?}",
+                            dtpd.range_regex.start, slice_end, path,
+                        );
                     }
                     continue;
                 }
@@ -1338,7 +1347,15 @@ impl SyslineReader {
         } // end for(pattern, …)
 
         defx!("return Err(ErrorKind::NotFound); tried {} DateTimeParseInstr", _attempts);
-        ResultFindDateTime::Err(Error::new(ErrorKind::NotFound, "No datetime found in Line!"))
+        ResultFindDateTime::Err(
+            Error::new(
+                ErrorKind::NotFound,
+                format!(
+                    "No datetime found in Line! file {:?}",
+                    path,
+                )
+            )
+        )
     }
 
     /// Update the two statistic `DateTimeL` of
@@ -1394,7 +1411,10 @@ impl SyslineReader {
                 defo!("dt_patterns_counts({:?}) has count {}", index, counter);
             }
             None => {
-                panic!("index {} not present in self.dt_patterns_counts", index);
+                panic!(
+                    "index {} not present in self.dt_patterns_counts; path {:?}",
+                    index, self.path(),
+                );
             }
         }
         defo!("dt_patterns_counts {:?}", self.dt_patterns_counts);
@@ -1647,6 +1667,7 @@ impl SyslineReader {
             &mut self.ezcheck12d2_hit,
             &mut self.ezcheck12d2_miss,
             &mut self.ezcheck12d2_hit_max,
+            &self.linereader.path()
         );
         let data: FindDateTimeData = match result {
             Ok(val) => val,
@@ -1697,9 +1718,10 @@ impl SyslineReader {
                     {
                         Some(val_prev) => {
                             panic!(
-                                "self.parse_datetime_in_line_lru_cache already had key {:?}, value {:?}",
+                                "self.parse_datetime_in_line_lru_cache already had key {:?}, value {:?}; path {:?}",
                                 linep.fileoffset_begin(),
-                                val_prev
+                                val_prev,
+                                self.path(),
                             );
                         }
                         _ => {}
@@ -1762,10 +1784,12 @@ impl SyslineReader {
                         }
                         ResultS3SyslineFind::Err(err) => {
                             defo!("Error {}", err);
-                            eprintln!(
-                                "ERROR: unexpected value store in self._find_line_lru_cache.get({}) error {}",
+                            e_err!(
+                                "unexpected value store in self._find_line_lru_cache.get({}) error {}",
                                 fileoffset, err
                             );
+                            // cache errors can be ignored.. though if an error was
+                            // stored in the cacue then there is other serious problems
                         }
                     }
                 }
@@ -2731,6 +2755,7 @@ impl SyslineReader {
                     );
                 } // end Done
                 ResultS3SyslineFind::Err(_err) => {
+                    // TODO: remind me why this shouldn't be returned!?
                     defo!("SyslineReader.find_sysline(try_fo: {}) returned Err({})", try_fo, _err,);
                     de_err!("{}", _err);
                     break;
@@ -2786,6 +2811,7 @@ impl SyslineReader {
                         break;
                     }
                     ResultS3SyslineFind::Err(_err) => {
+                        // TODO: remind me why this shouldn't be returned!?
                         defo!("SyslineReader.find_sysline(fo_next1: {}) returned Err({})", fo_next, _err,);
                         de_err!("{}", _err);
                         break;

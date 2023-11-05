@@ -232,6 +232,10 @@
 ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log|2000-01-01 16:00:00.2541789060
 ./logs/other/tests/dtf-varying-10.log|2000-01-01 00:00:10.001
 ./logs/other/tests/dt-mix1.log|2019-01-01 00:00:22.9541789060
+./logs/other/tests/empty.log|2000-01-01 12:34:32
+./logs/other/tests/empty.log.gz|2000-01-01 12:34:33
+./logs/other/tests/empty.log.xz|2000-01-01 12:34:34
+./logs/other/tests/empty.tar|2000-01-01 12:34:35
 ./logs/other/tests/gen-1000-3-foobar.log|2000-01-01 08:16:39.9661786750
 ./logs/other/tests/gen-1000-3-foobar.log.gz|2000-01-01 08:16:39
 ./logs/other/tests/gen-100-10-BRAAAP.log|2000-01-01 08:01:39.9581788290
@@ -259,6 +263,10 @@
 ./logs/other/tests/gen-2-1.tar|2000-01-01 00:00:01 -00:00
 ./logs/other/tests/gen-400-4-shamrock.log|2000-01-01 00:06:39
 ./logs/other/tests/gen-99999-1-Motley_Crue.log|2000-01-02 03:46:39.994
+./logs/other/tests/invalid.gz|2023-11-01 00:00:00
+./logs/other/tests/invalid.journal|2023-11-01 00:00:00
+./logs/other/tests/invalid.tar|2023-11-01 00:00:00
+./logs/other/tests/invalid.xz|2023-11-01 00:00:00
 ./logs/other/tests/invalid1a.log|2022-09-02 21:45:36.0501770530
 ./logs/other/tests/invalid1b.log|2022-09-02 21:45:36.0501770530
 ./logs/other/tests/invalid2.log|2000-01-01 00:00:01.0501770530

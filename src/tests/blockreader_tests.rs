@@ -124,8 +124,38 @@ fn test_new_BlockReader_1() {
 #[should_panic]
 fn test_new_BlockReader_2_bad_path_panics() {
     new_BlockReader(
-        &FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"),
+        &FPath::from("THIS/PATH_DOES/NOT/EXIST!!!"),
         FileType::File,
+        1024
+    );
+}
+
+#[test]
+#[should_panic]
+fn test_new_BlockReader_3_Xz_bad_path_panics() {
+    new_BlockReader(
+        &FPath::from("THIS/XZ/PATH_DOES/NOT/EXIST!!!"),
+        FileType::Xz,
+        1024
+    );
+}
+
+#[test]
+#[should_panic]
+fn test_new_BlockReader_4_Gz_bad_path_panics() {
+    new_BlockReader(
+        &FPath::from("THIS/GZ/PATH_DOES/NOT/EXIST!!!"),
+        FileType::Gz,
+        1024
+    );
+}
+
+#[test]
+#[should_panic]
+fn test_new_BlockReader_5_Tar_bad_path_panics() {
+    new_BlockReader(
+        &FPath::from("THIS/TAR/PATH_DOES/NOT/EXIST!!!"),
+        FileType::Tar,
         1024
     );
 }

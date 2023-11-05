@@ -386,6 +386,10 @@ pub enum FileProcessingResult<E> {
     ///
     /// [`Error`]: std::io::Error
     FileErrIo(E),
+    /// Like `FileErrIo` but the message string includes the path of the
+    /// processed file that elicited the error. Later processing of this
+    /// error will not append the path of the processed file.
+    FileErrIoPath(E),
     FileErrWrongType,
     FileErrDecompress,
     /// Do not use this error. Merely a stand-in.
@@ -417,7 +421,7 @@ impl<E> FileProcessingResult<E> {
     /// [`FileErrIo`]: self::FileProcessingResult#variant.FileErrIo
     #[inline(always)]
     pub const fn has_err(&self) -> bool {
-        matches!(*self, FileProcessingResult::FileErrIo(_))
+        matches!(*self, FileProcessingResult::FileErrIo(_) | FileProcessingResult::FileErrIoPath(_))
     }
 }
 
@@ -452,6 +456,9 @@ impl<E> PartialEq for FileProcessingResult<E> {
             }
             FileProcessingResult::FileErrIo(_) => {
                 matches!(*other, FileProcessingResult::FileErrIo(_))
+            }
+            FileProcessingResult::FileErrIoPath(_) => {
+                matches!(*other, FileProcessingResult::FileErrIoPath(_))
             }
             FileProcessingResult::FileErrWrongType => {
                 matches!(*other, FileProcessingResult::FileErrWrongType)

@@ -367,6 +367,7 @@ fn test_find_datetime_in_line() {
                 &mut ezcheck12d2_hit,
                 &mut ezcheck12d2_miss,
                 &mut ezcheck12d2_hit_max,
+                &FPath::from("DUMMY PATH"),
             ) {
                 ResultFindDateTime::Ok((a_actual, b_actual, dt_actual, index)) => {
                     assert_eq!(

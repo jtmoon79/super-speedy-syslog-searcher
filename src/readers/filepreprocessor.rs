@@ -55,6 +55,8 @@ pub enum ProcessPathResult {
     FileErrNotExist(FPath),
     /// Error loading necessary shared libraries
     FileErrLoadingLibrary(FPath, &'static str, FileType),
+    /// All other errors as described in the second parameter message
+    FileErr(FPath, String),
 }
 
 #[cfg(test)]
@@ -645,6 +647,16 @@ pub(crate) fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess)
     path_to_filetype_mimeguess(path_)
 }
 
+/// helper to `process_path_tar`
+fn error_to_string(error: &std::io::Error, path: &FPath) -> String {
+    String::from(
+        format!(
+            "{}: {} for file {:?}",
+            error.kind(), error.to_string(), path,
+        )
+    )
+}
+
 /// Return a `ProcessPathResult` for each parseable file within
 /// the `.tar` file at `path`.
 pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
@@ -654,18 +666,20 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
     let mut archive: tar::Archive<File> = tar::Archive::<File>::new(file);
     let entry_iter: tar::Entries<File> = match archive.entries() {
         Ok(val) => val,
-        Err(_err) => {
-            defx!("Err {:?}", _err);
-            //return Result::Err(err);
-            return vec![];
+        Err(err) => {
+            defx!("return FileErr; {:?}", err);
+            let err_string = error_to_string(&err, path);
+            return vec![ProcessPathResult::FileErr(path.clone(), err_string)];
         }
     };
     let mut results = Vec::<ProcessPathResult>::new();
     for entry_res in entry_iter {
         let entry: tar::Entry<File> = match entry_res {
             Ok(val) => val,
-            Err(_err) => {
-                deo!("entry Err {:?}", _err);
+            Err(err) => {
+                deo!("entry Err {:?}", err);
+                let err_string = error_to_string(&err, path);
+                results.push(ProcessPathResult::FileErr(path.clone(), err_string ));
                 continue;
             }
         };
@@ -678,8 +692,10 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         }
         let subpath: Cow<Path> = match entry.path() {
             Ok(val) => val,
-            Err(_err) => {
-                deo!("entry.path() Err {:?}", _err);
+            Err(err) => {
+                deo!("entry.path() Err {:?}", err);
+                let err_string = error_to_string(&err, path);
+                results.push(ProcessPathResult::FileErr(path.clone(), err_string ));
                 continue;
             }
         };

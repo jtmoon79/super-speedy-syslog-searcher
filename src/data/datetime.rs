@@ -5178,6 +5178,7 @@ fn month_bB_to_month_m_bytes(
 /// [`DateTimeParseInstr::regex_pattern`]: crate::data::datetime::DateTimeParseInstr::regex_pattern
 /// [`DateTimeParseInstr::dt_pattern`]: crate::data::datetime::DateTimeParseInstr::dt_pattern
 /// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#method.parse_from_str
+// TODO: allow returning an `Error` instead of `panic!`
 #[inline(always)]
 pub(crate) fn captures_to_buffer_bytes(
     buffer: &mut [u8],

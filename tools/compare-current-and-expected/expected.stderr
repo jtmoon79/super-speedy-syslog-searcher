@@ -1,4 +1,10 @@
 ERROR: path does not exist "#./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189"
+ERROR: other error: failed to read entire block for file "./logs/other/tests/invalid.tar"
+ERROR: unexpected end of file (GzDecoder.read(…)) file "./logs/other/tests/invalid.gz"
+ERROR: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
+ERROR: failed to fill whole buffer (FileXz stream header magic bytes) file "./logs/other/tests/empty.log.xz"
+ERROR: gzip file size 0 is too small for "./logs/other/tests/empty.log.gz"
+ERROR: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
 
 Files:
 
@@ -4232,6 +4238,111 @@ File: ./logs/other/tests/dt-mix1.log
       process: regex captures attempted                            : 98
   Processing Drops:
 
+File: ./logs/other/tests/empty.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+      Processing Err : FileErrEmpty
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 0 (0x0) (bytes)
+      bytes         : 0 (0x0)
+      bytes total   : 0 (0x0)
+      block size    : 256 (0x100)
+      blocks        : 0
+      blocks total  : 0
+      lines         : 0
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: BlockReader::read_block() blocks                    : hit 0, miss 0,  0.0%, put 0
+      caching: BlockReader::read_block() LRU cache                 : hit 0, miss 0,  0.0%, put 0
+      storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0
+      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
+      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 0,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 0,  0.0%, put 0
+      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 0,  0.0%, put 0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 0,  0.0%, put 0
+      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 0
+  Processing Drops:
+
+File: ./logs/other/tests/empty.log.gz
+  About:
+      filetype       : GZIP
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["application/gzip"])
+      Processing Err : invalid data: gzip file size 0 is too small for "./logs/other/tests/empty.log.gz"
+  Error: gzip file size 0 is too small for "./logs/other/tests/empty.log.gz"
+
+File: ./logs/other/tests/empty.log.xz
+  About:
+      filetype       : XZ
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["application/x-xz"])
+      Processing Err : unexpected end of file: failed to fill whole buffer (FileXz stream header magic bytes) file "./logs/other/tests/empty.log.xz"
+  Error: failed to fill whole buffer (FileXz stream header magic bytes) file "./logs/other/tests/empty.log.xz"
+
+File: ./logs/other/tests/invalid.gz
+  About:
+      filetype       : GZIP
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["application/gzip"])
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size compressed  : 8 (0x8) (bytes)
+      file size uncompressed: 172247372 (0xA44494C) (bytes)
+      bytes         : 0 (0x0)
+      bytes total   : 172247372 (0xA44494C)
+      block size    : 256 (0x100)
+      blocks        : 0
+      blocks total  : 672842
+      lines         : 0
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: BlockReader::read_block() blocks                    : hit 0, miss 2,  0.0%, put 0
+      caching: BlockReader::read_block() LRU cache                 : hit 0, miss 1,  0.0%, put 0
+      storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0
+      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
+      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 0,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 0,  0.0%, put 0
+      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 0,  0.0%, put 0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 0,  0.0%, put 0
+      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 0
+  Processing Drops:
+  Error: unexpected end of file: unexpected end of file
+
+File: ./logs/other/tests/invalid.journal
+  About:
+      filetype       : JOURNAL
+      logmessagetype : journal entries
+      MIME guess     : MimeGuess([])
+      Processing Err : other error: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
+  Error: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
+
+File: ./logs/other/tests/invalid.xz
+  About:
+      filetype       : XZ
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["application/x-xz"])
+      Processing Err : invalid data: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
+  Error: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
+
 File: ./logs/other/tests/invalid1a.log
   About:
       filetype       : TEXT
@@ -4336,6 +4447,78 @@ File: ./logs/other/tests/invalid2.log
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 75,  0.0%, largest skipped 0
       process: regex captures attempted                            : 79
+  Processing Drops:
+
+File: ./logs/other/tests/invalid3.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 335
+      lines         : 2
+      syslines      : 2
+  Processed:
+      file size     : 113 (0x71) (bytes)
+      bytes         : 113 (0x71)
+      bytes total   : 113 (0x71)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1
+      lines         : 2
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: BlockReader::read_block() blocks                    : hit  0, miss  1,  0.0%, put  1
+      caching: BlockReader::read_block() LRU cache                 : hit  4, miss  1, 80.0%, put  1
+      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  3, 40.0%, put  2
+      copying: SyslineReader::get_boxptrs()                        : sgl 79, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  2, 33.3%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 75,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 79
+  Processing Drops:
+
+File: ./logs/other/tests/invalid4.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 331
+      lines         : 2
+      syslines      : 2
+  Processed:
+      file size     : 109 (0x6D) (bytes)
+      bytes         : 109 (0x6D)
+      bytes total   : 109 (0x6D)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1
+      lines         : 2
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: BlockReader::read_block() blocks                    : hit   0, miss   1,  0.0%, put   1
+      caching: BlockReader::read_block() LRU cache                 : hit   4, miss   1, 80.0%, put   1
+      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   2, miss   3, 40.0%, put   2
+      copying: SyslineReader::get_boxptrs()                        : sgl 107, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   2
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   2, 33.3%, put   2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss   2, 33.3%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 102,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 107
   Processing Drops:
 
 File: ./logs/other/tests/unknown
@@ -15546,20 +15729,22 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
   Processing Drops:
 
 File: #./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189 (does not exist)
+File: ./logs/other/tests/invalid.tar other error: failed to read entire block for file "./logs/other/tests/invalid.tar"
+File: ./logs/other/tests/invalid.gz MimeGuess(["application/gzip"]) 
 
 Program Summary:
 
-Paths considered      : 435
-Paths not processed   : 1
-Files processed       : 434
-Files printed         : 396
-Printed bytes         : 11957133
-Printed lines         : 14488
-Printed syslines      : 12053
+Paths considered      : 444
+Paths not processed   : 3
+Files processed       : 441
+Files printed         : 398
+Printed bytes         : 11957817
+Printed lines         : 14492
+Printed syslines      : 12057
 Printed utmpx         : 7
 Printed evtx events   : 227
 Printed journal events: 2081
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 15236
+Channel Receive ok    : 15256
 Channel Receive err   : 0
