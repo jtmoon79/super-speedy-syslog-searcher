@@ -1734,7 +1734,7 @@ impl BlockReader {
         blockoffset: BlockOffset,
         blockp: &BlockP,
     ) {
-        deo!("LRU cache put({}, BlockP@{:p})", blockoffset, blockp);
+        deo!("LRU cache put({})", blockoffset);
         if !self.read_block_lru_cache_enabled {
             return;
         }
@@ -1750,9 +1750,8 @@ impl BlockReader {
         blockp: &BlockP,
     ) {
         defñ!(
-            "blocks.insert({}, BlockP@{:p} (len {}, capacity {}))",
+            "blocks.insert({}, Block (len {}, capacity {}))",
             blockoffset,
-            blockp,
             (*blockp).len(),
             (*blockp).capacity()
         );
@@ -2477,8 +2476,7 @@ impl BlockReader {
                     Some(bp) => {
                         self.read_block_cache_lru_hit += 1;
                         defx!(
-                            "return Found(BlockP@{:p}); hit LRU cache Block[{}] @[{}, {}) len {}",
-                            &*bp,
+                            "return Found(Block); hit LRU cache Block[{}] @[{}, {}) len {}",
                             &blockoffset,
                             BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz),
                             BlockReader::file_offset_at_block_offset(blockoffset + 1, self.blocksz),
@@ -2513,8 +2511,7 @@ impl BlockReader {
                     .clone();
                 self.store_block_in_LRU_cache(blockoffset, &blockp);
                 defx!(
-                    "return Found(BlockP@{:p}); use stored Block[{}] @[{}, {}) len {}",
-                    &*self.blocks[&blockoffset],
+                    "return Found(Block); use stored Block[{}] @[{}, {}) len {}",
                     &blockoffset,
                     BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz),
                     BlockReader::file_offset_at_block_offset(blockoffset + 1, self.blocksz),

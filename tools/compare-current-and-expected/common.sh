@@ -54,8 +54,8 @@ function stderr_clean () {
     #   filesystem.
     # - remove the realpath as it varies depending on the repo. path.
     # - remove warnings as they are printed in an unpredictable order
-    # - XXX: remove `streaming: `, `blocks high:`, `lines high:` "streaming"
-    #        summary. It is a temporary workaround for Issue #213
+    # - remove `streaming: `, `blocks high:`, `lines high:` from the
+    #   "streaming" summary. Explained in Issue #213
     # - remove `DateTimeParseInstr` as it varies due to changes in the
     #   `datetime.rs` as `DateTimeParseInstr` includes a line number.
     if [[ ${#} -ne 1 ]]; then

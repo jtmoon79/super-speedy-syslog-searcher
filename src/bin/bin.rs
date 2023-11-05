@@ -1785,9 +1785,8 @@ fn exec_syslogprocessor(
 
     deo!("{:?}({}): processing stage 3", _tid, _tname);
 
-    // find all proceeding syslines acceptable to the passed filters
+    // start stage 3 - find all proceeding syslines acceptable to the passed filters
     syslogproc.process_stage3_stream_syslines();
-
     // the majority of sysline processing for this file occurs in this loop
     let mut syslinep_last_opt: Option<SyslineP> = None;
     loop {
