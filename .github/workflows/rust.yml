@@ -259,19 +259,20 @@ jobs:
           cross --version
           cross check --lib --bins --target ${{ matrix.target }}
 
-  job_test_wasm:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
-          bins: cargo-wasi
-          targets: wasm32-wasi
-      - uses: mwilliamson/setup-wasmtime-action@v2
-        with:
-          wasmtime-version: "12.0.1"
-      - run: cargo wasi test --color=always -- --color=always
+  # fails due to uapi; see Issue #171
+  #job_test_wasm:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v4
+  #    - uses: moonrepo/setup-rust@v1
+  #      with:
+  #        channel: ${{ env.MSRV_UPLOAD }}
+  #        bins: cargo-wasi
+  #        targets: wasm32-wasi
+  #    - uses: mwilliamson/setup-wasmtime-action@v2
+  #      with:
+  #        wasmtime-version: "12.0.1"
+  #    - run: cargo wasi test --color=always -- --color=always
 
   job_check:
     # this job downloads and builds dependency crates
