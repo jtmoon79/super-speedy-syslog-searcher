@@ -228,7 +228,6 @@ jobs:
           channel: ${{ env.MSRV_UPLOAD }}
           bins: cross
           targets: ${{ matrix.target }}
-      - uses: Swatinem/rust-cache@v2
       - run: |
           set -eux
           cross --version
