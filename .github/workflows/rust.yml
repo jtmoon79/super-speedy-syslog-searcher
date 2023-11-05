@@ -311,9 +311,10 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v3
       - uses: actions-rs/toolchain@v1
-        name: toolchain ${{ env.MSRV_UPLOAD }} minimal
+        name: toolchain ${{ env.MSRV_UPLOAD }}
         with:
           toolchain: ${{ env.MSRV_UPLOAD }}
+          profile: default
       - run: rustup override set ${{ env.MSRV_UPLOAD }}
       - name: Clippy
         shell: bash
