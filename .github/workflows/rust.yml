@@ -622,8 +622,6 @@ jobs:
           cargo llvm-cov show-env
           cargo llvm-cov --lcov --output-path "${COVERALLS_FILE}" &>/dev/null
           ls -l "${COVERALLS_FILE}"
-          ./tools/cargo-llvm-cov-run.sh --output-path "${COVERALLS_FILE}" || true
-          ls -l "${COVERALLS_FILE}"
       - name: upload coveralls
         uses: coverallsapp/github-action@v2
         with:
