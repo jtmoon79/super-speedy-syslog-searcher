@@ -56,8 +56,11 @@ function stderr_clean () {
     # - remove warnings as they are printed in an unpredictable order
     # - remove `streaming: `, `blocks high:`, `lines high:` from the
     #   "streaming" summary. Explained in Issue #213
+    # - remove `ERROR:` because they are sometimes printed by processing threads
+    #   and so the timing of prints may vary
     # - remove `DateTimeParseInstr` as it varies due to changes in the
     #   `datetime.rs` as `DateTimeParseInstr` includes a line number.
+    # - remove `ERROR:` as it varies. See Issue #224
     if [[ ${#} -ne 1 ]]; then
         echo "ERROR function stderr_clean must be passed one file argument" >&2
         exit 1
@@ -74,6 +77,7 @@ function stderr_clean () {
         -e '/^[ ]+streaming: .*$/d' \
         -e '/^[ ]+blocks high[ ]+: .*$/d' \
         -e '/^[ ]+lines high[ ]+: .*$/d' \
+        -e '/^ERROR: .*$/d' \
         -e '0,/^\+ \..*$/d' \
         -e '/.*DateTimeParseInstr:.*/d' \
         "${1}"
