@@ -54,6 +54,7 @@ use crate::tests::common::{
     NTF_3BYTE_FPATH,
     NTF_8BYTE_FPATH,
     NTF_SYSLINE_2_PATH,
+    NTF_SYSLINE_2_SZ,
     NTF_GZ_1BYTE_FPATH,
     NTF_GZ_1BYTE_SYSTEMTIME,
     NTF_GZ_8BYTE_FPATH,
@@ -158,6 +159,52 @@ fn test_new_BlockReader_5_Tar_bad_path_panics() {
         FileType::Tar,
         1024
     );
+}
+
+const BSZ: BlockSz = 64;
+
+/// XXX: assumes files are not more than two blocks in size `BSZ`
+#[test_case(&NTF_SYSLINE_2_PATH, FileType::File, BSZ, Some(*NTF_SYSLINE_2_SZ - BSZ), 1, *NTF_SYSLINE_2_SZ)]
+#[test_case(&NTF_1BYTE_FPATH, FileType::File, 1, None, 0, 1)]
+#[test_case(&NTF_GZ_1BYTE_FPATH, FileType::Gz, 1, None, 0, 1)]
+#[test_case(&NTF_XZ_1BYTE_FPATH, FileType::Xz, 1, None, 0, 1)]
+#[test_case(&NTF_TAR_1BYTE_FILEA_FPATH, FileType::Tar, 1, None, 0, 1)]
+fn test_BlockReader_helpers(
+    path: &FPath,
+    filetype: FileType,
+    blocksz_0: BlockSz,
+    blocksz_1: Option<BlockSz>,
+    last: BlockOffset,
+    filesz: FileSz,
+) {
+    let br = new_BlockReader(
+        path,
+        filetype,
+        BSZ,
+    );
+
+    assert_eq!(br.blocksz_at_blockoffset(&0), blocksz_0, "bad blocksz_0 {:?}", path);
+    match blocksz_1 {
+        Some(b) => {
+            assert_eq!(br.blocksz_at_blockoffset(&1), b, "bad blocksz_1 {:?}", path);
+            assert_eq!(br.file_offset_at_block_offset_self(0), 0, "bad file_offset_at_block_offset_self(0) {:?}", path);
+            assert_eq!(br.file_offset_at_block_offset_self(1), BSZ, "bad file_offset_at_block_offset_self(1) {:?}", path);
+        },
+        None => {
+            assert_eq!(br.file_offset_at_block_offset_self(0), filesz - 1, "bad file_offset_at_block_offset_self(0) {:?}", path);
+        }
+    }
+    assert_eq!(br.blocksz(), BSZ);
+    assert_eq!(br.filesz(), filesz, "bad filesz {:?}", path);
+    let mut fileoffset_last = filesz;
+    if filesz > 0 {
+        fileoffset_last -= 1;
+    }
+    assert_eq!(br.fileoffset_last(), fileoffset_last, "bad fileoffset_last {:?}", path);
+    assert_eq!(br.filetype(), filetype);
+    assert_eq!(br.blockoffset_last(), last, "bad blockoffset_last {:?}", path);
+    assert_eq!(br.path(), path);
+    _ = br.mtime();
 }
 
 // -------------------------------------------------------------------------------------------------

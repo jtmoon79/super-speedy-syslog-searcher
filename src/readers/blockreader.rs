@@ -332,6 +332,9 @@ pub struct BlockReader {
     // XXX: Relates to Issue #7
     // TODO: rename `_subpath` to `subpath`
     _subpath: Option<FPath>,
+    /// Combined `path`, Separator, and `_subpath`. When there is no `_subpath`
+    /// it is only `path`.
+    path_subpath: FPath,
     /// The file handle.
     file: File,
     /// A copy of [`File.metadata()`].
@@ -442,7 +445,7 @@ impl fmt::Debug for BlockReader {
         f: &mut fmt::Formatter,
     ) -> fmt::Result {
         f.debug_struct("BlockReader")
-            .field("path", &self.path)
+            .field("path", self.path())
             .field("file", &self.file)
             .field("mimeguess", &self.mimeguess_)
             .field("filesz", &self.filesz())
@@ -545,6 +548,7 @@ impl BlockReader {
         // shadow passed immutable with local mutable
         let mut path: FPath = path;
         let mut subpath_opt: Option<FPath> = None;
+        let path_subpath: FPath = path.clone();
         if filetype.is_archived() {
             def1o!("filetype.is_archived()");
             let (path_, subpath_) = match path.rsplit_once(SUBPATH_SEP) {
@@ -568,7 +572,12 @@ impl BlockReader {
             };
             subpath_opt = Some(subpath_.to_string());
             path = FPath::from(path_);
+            def1o!("self.path is now {:?}", path);
+            def1o!("self.path_subpath is now {:?}", path_subpath);
         }
+        // shadow mutable variable with immutable
+        // XXX: does the compiler optimize this extra `clone` alloc?
+        let path = path.clone();
         let path_std: &Path = Path::new(&path);
 
         // TODO: Issue #15 pass in `mimeguess`; avoid repeat call of `MimeGuess::from_path`
@@ -1276,6 +1285,7 @@ impl BlockReader {
         Ok(BlockReader {
             path,
             _subpath: subpath_opt,
+            path_subpath,
             file,
             file_metadata,
             file_metadata_modified,
@@ -1312,7 +1322,7 @@ impl BlockReader {
     /// Return a reference to `self.path`.
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
-        &self.path
+        &self.path_subpath
     }
 
     /// Return a copy of `self.mimeguess`.
