@@ -91,7 +91,7 @@ bench = false
 
 [dev-dependencies]
 arraystring = "0.3.0"
-criterion = "0.4.0"
+criterion = "0.5.1"
 filepath = "0.1.2"
 filetime = "0.2.22"
 jetscii = "0.5.3"
