@@ -22,6 +22,7 @@ use crate::tests::common::{
     FO_P8,
     UTMPX_2ENTRY_FILESZ,
     NTF_LOG_EMPTY_FPATH,
+    NTF_NL_1_PATH,
     NTF_UTMPX_1ENTRY_FPATH,
     NTF_UTMPX_2ENTRY_FPATH,
     NTF_UTMPX_3ENTRY_FPATH,
@@ -61,14 +62,13 @@ fn new_UtmpxReader(
 }
 
 #[test]
-fn test_new_UtmpxReader_1() {
+fn test_new_UtmpxReader_1_empty() {
     new_UtmpxReader(&NTF_LOG_EMPTY_FPATH, 1024, *FO_P8);
 }
 
 #[test]
-#[should_panic]
-fn test_new_UtmpxReader_2_bad_path_panics() {
-    new_UtmpxReader(&FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"), 1024, *FO_P8);
+fn test_new_UtmpxReader_2_bad_noerr() {
+    new_UtmpxReader(&NTF_NL_1_PATH, 1024, *FO_P8);
 }
 
 #[test]
