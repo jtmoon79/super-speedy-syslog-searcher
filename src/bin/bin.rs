@@ -2316,6 +2316,7 @@ fn print_datetime_utc_dimmed(dt: &DateTimeL, color_choice_opt: Option<ColorChoic
 type MapPathIdSummaryPrint = BTreeMap<PathId, SummaryPrinted>;
 type MapPathIdSummary = HashMap<PathId, Summary>;
 type MapPathIdToProcessPathResult = HashMap<PathId, ProcessPathResult>;
+type MapPathIdToProcessPathResultOrdered = BTreeMap<PathId, ProcessPathResult>;
 type MapPathIdToFPath = BTreeMap<PathId, FPath>;
 type MapPathIdToColor = HashMap<PathId, Color>;
 type MapPathIdToPrinterLogMessage = HashMap<PathId, PrinterLogMessage>;
@@ -2943,7 +2944,7 @@ fn processing_loop(
     // the valid `map_pathid_results` is used extensively
     let mut map_pathid_results = MapPathIdToProcessPathResult::with_capacity(file_count);
     // `invalid` is used to help summarize why some files were not processed
-    let mut map_pathid_results_invalid = MapPathIdToProcessPathResult::with_capacity(file_count);
+    let mut map_pathid_results_invalid = MapPathIdToProcessPathResultOrdered::new();
     // use `map_pathid_path` for iterating, it is a BTreeMap (which iterates in consistent key order)
     let mut map_pathid_path = MapPathIdToFPath::new();
     // map `PathId` to the last `FileProcessResult
@@ -4851,7 +4852,7 @@ fn print_all_files_summaries(
 ///
 /// Helper function to function `processing_loop`.
 fn print_files_processpathresult(
-    map_pathid_result: &MapPathIdToProcessPathResult,
+    map_pathid_result: &MapPathIdToProcessPathResultOrdered,
     color_choice: &ColorChoice,
     color_default: &Color,
     color_error: &Color,
@@ -4894,7 +4895,8 @@ fn print_files_processpathresult(
                 print_(format!("(failed to load shared library {:?})", libname), color_choice, color_error);
             }
             ProcessPathResult::FileErr(path, message) => {
-                print_(format!("File: {} {}", path, message), color_choice, color_default);
+                print_(format!("File: {} ", path), color_choice, color_default);
+                print_(format!("({})", message), color_choice, color_error);
             }
         }
         eprintln!();
