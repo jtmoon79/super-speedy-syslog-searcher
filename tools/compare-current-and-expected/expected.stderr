@@ -1,10 +1,10 @@
-ERROR: path does not exist "#./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189"
 ERROR: other error: failed to read entire block for file "./logs/other/tests/invalid.tar"
+ERROR: path does not exist "#./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189"
 ERROR: unexpected end of file (GzDecoder.read(…)) file "./logs/other/tests/invalid.gz"
+ERROR: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
 ERROR: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
 ERROR: failed to fill whole buffer (FileXz stream header magic bytes) file "./logs/other/tests/empty.log.xz"
 ERROR: gzip file size 0 is too small for "./logs/other/tests/empty.log.gz"
-ERROR: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
 
 Files:
 
@@ -15728,9 +15728,9 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       process: regex captures attempted                            : 238
   Processing Drops:
 
-File: #./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189 (does not exist)
 File: ./logs/other/tests/invalid.tar other error: failed to read entire block for file "./logs/other/tests/invalid.tar"
 File: ./logs/other/tests/invalid.gz MimeGuess(["application/gzip"]) 
+File: #./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189 (does not exist)
 
 Program Summary:
 
