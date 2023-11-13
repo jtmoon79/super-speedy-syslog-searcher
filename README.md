@@ -316,7 +316,7 @@ Enter _Super Speedy Syslog Searcher_ 🦸 ‼
 `s4` will print log messages from multiple log files in datetime-sorted order.
 A "window" of datetimes may be passed, to constrain the period of printed
 messages. This will assist an engineer that, for example, needs to view all
-syslog messages that occurred two days ago among log files taken from multiple
+log messages that occurred two days ago between 12:00 and 12:05 among log files taken from multiple
 systems.
 
 The ulterior motive for _Super Speedy Syslog Searcher_ was the [primary
