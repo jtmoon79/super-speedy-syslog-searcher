@@ -42,7 +42,7 @@ dlopen2 = "0.6"
 encoding_rs = "0.8.33"
 evtx = { version = "0.8.1", features = ["multithreading"] }
 flate2 = "1.0.27"
-itertools = "0.11.0"
+itertools = "0.12.0"
 lazy_static = "1.4.0"
 lru = "0.12.0"
 lzma-rs = "0.3.0"
