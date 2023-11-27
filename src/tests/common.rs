@@ -14,7 +14,7 @@ use crate::data::datetime::{
     ymdhmsm,
 };
 use crate::data::journal::EpochMicroseconds;
-use crate::data::utmpx::UTMPX_SZ;
+use crate::data::utmpx::linux_gnu::UTMPX_SZ as linux_gnu_UTMPX_SZ;
 use crate::readers::filepreprocessor::MimeGuess;
 use crate::readers::helpers::{fpath_to_path, path_to_fpath};
 use crate::readers::blockreader::{Block, BlockSz, SUBPATH_SEP};
@@ -2348,8 +2348,7 @@ pub const UTMPX_NON_STANDARD: bool = cfg!(target_os = "macos");
 /// - e_exit 1
 /// - tv_sec.tv_usec 1577836800.119284 (2020-01-01T12:00:00.000119284+00:00)
 ///
-#[cfg(not(target_os = "macos"))]
-pub const UTMPX_BUFFER1: [u8; UTMPX_SZ] = [
+pub const UTMPX_BUFFER1: [u8; linux_gnu_UTMPX_SZ] = [
     0x05, 0x00, 0x02, 0x00, 0xb4, 0xa3, 0x00, 0x00, b'p', b't',
     b's', b'/', b'1', 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -2390,9 +2389,6 @@ pub const UTMPX_BUFFER1: [u8; UTMPX_SZ] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
 ];
-/// same as the other `UTMPX_BUFFER1` but 640 bytes
-#[cfg(target_os = "macos")]
-pub const UTMPX_BUFFER1: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
 
 /// two seconds after `UTMPX_BUFFER1`
 ///
@@ -2409,8 +2405,7 @@ pub const UTMPX_BUFFER1: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
 /// - e_exit 3
 /// - tv_sec.tv_usec 1577836802.000123636 (2020-01-01T12:00:02.000123636+00:00)
 ///
-#[cfg(not(target_os = "macos"))]
-pub const UTMPX_BUFFER2: [u8; UTMPX_SZ] = [
+pub const UTMPX_BUFFER2: [u8; linux_gnu_UTMPX_SZ] = [
     0x07, 0x00, 0x00, 0x00, 0xb4, 0x33, 0x00, 0x00, 0x70, 0x74,
     0x73, 0x2f, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -2451,9 +2446,6 @@ pub const UTMPX_BUFFER2: [u8; UTMPX_SZ] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
 ];
-/// same as the other `UTMPX_BUFFER2` but 640 bytes
-#[cfg(target_os = "macos")]
-pub const UTMPX_BUFFER2: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
 
 /// four seconds after `UTMPX_BUFFER1`
 ///
@@ -2470,8 +2462,7 @@ pub const UTMPX_BUFFER2: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
 /// - e_exit 3
 /// - tv_sec.tv_usec 1577836804.000123636 (2020-01-01T12:00:04.000123636+00:00)
 ///
-#[cfg(not(target_os = "macos"))]
-pub const UTMPX_BUFFER3: [u8; UTMPX_SZ] = [
+pub const UTMPX_BUFFER3: [u8; linux_gnu_UTMPX_SZ] = [
     0x07, 0x00, 0x00, 0x00, 0xb4, 0x33, 0x00, 0x00, 0x70, 0x74,
     0x73, 0x2f, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -2512,14 +2503,11 @@ pub const UTMPX_BUFFER3: [u8; UTMPX_SZ] = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
 ];
-/// same as the other `UTMPX_BUFFER3` but 640 bytes
-#[cfg(target_os = "macos")]
-pub const UTMPX_BUFFER3: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
 
-pub const UTMPX_BUFFER_00: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
-pub const UTMPX_BUFFER_55: [u8; UTMPX_SZ] = [0x55; UTMPX_SZ];
-pub const UTMPX_BUFFER_AA: [u8; UTMPX_SZ] = [0xAA; UTMPX_SZ];
-pub const UTMPX_BUFFER_FF: [u8; UTMPX_SZ] = [0xFF; UTMPX_SZ];
+pub const UTMPX_BUFFER_00: [u8; linux_gnu_UTMPX_SZ] = [0; linux_gnu_UTMPX_SZ];
+pub const UTMPX_BUFFER_55: [u8; linux_gnu_UTMPX_SZ] = [0x55; linux_gnu_UTMPX_SZ];
+pub const UTMPX_BUFFER_AA: [u8; linux_gnu_UTMPX_SZ] = [0xAA; linux_gnu_UTMPX_SZ];
+pub const UTMPX_BUFFER_FF: [u8; linux_gnu_UTMPX_SZ] = [0xFF; linux_gnu_UTMPX_SZ];
 
 pub const UTMPX_1ENTRY_FILENAME: &str = "1entry.utmp";
 pub const UTMPX_1ENTRY_FILESZ: FileSz = UTMPX_BUFFER1.len() as FileSz;
@@ -2863,18 +2851,6 @@ pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_CAT: &str =
     "Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n";
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-/// testing helper
-pub fn randomize(v_: &mut Vec<FileOffset>) {
-    // XXX: can also use `rand::shuffle` https://docs.rs/rand/0.8.4/rand/seq/trait.SliceRandom.html#tymethod.shuffle
-    let sz = v_.len();
-    let mut i = 0;
-    while i < sz {
-        let r = rand::random::<usize>() % sz;
-        v_.swap(r, i);
-        i += 1;
-    }
-}
 
 /// testing helper
 pub fn fill(v_: &mut Vec<FileOffset>) {

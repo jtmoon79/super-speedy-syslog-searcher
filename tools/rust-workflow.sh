@@ -39,6 +39,6 @@ cargo doc --locked --release --frozen --no-deps
 cargo publish --dry-run --allow-dirty
 "${S4R}" --color=never "${S4_TEST_FILES[@]}" 2>/dev/null
 "${S4D}" --color=never "${S4_TEST_FILES[@]}" 2>/dev/null
-./tools/compare-current-and-expected.sh
+./tools/compare-current-and-expected/compare.sh
 ./tools/compare-debug-release.sh
 ./tools/compare-grep-sort.sh

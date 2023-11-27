@@ -11,7 +11,6 @@
 use crate::tests::common::{
     eprint_file,
     fill,
-    randomize,
     NTF_NL_1_PATH,
     NTF_NL_2_PATH,
     NTF_NL_3_PATH,
@@ -23,6 +22,7 @@ use crate::tests::common::{
 use crate::common::{Bytes, Count, FPath, FileOffset};
 use crate::readers::blockreader::BlockSz;
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
+use crate::readers::helpers::randomize;
 use crate::data::line::{LineIndex, LineP, LinePartPtrs};
 use crate::readers::linereader::{
     LineReader,

@@ -996,6 +996,7 @@ impl<'a> JournalReader {
     pub const ENTRY_BUFFER_SZ: usize = 0x200 - 1;
 
     /// Create a new `JournalReader`.
+    // NOTE: should not attempt any file reads here, similar to other `*Readers`
     pub fn new(
         path: FPath,
         journal_output: JournalOutput,
@@ -1062,7 +1063,8 @@ impl<'a> JournalReader {
         }
         let fill_buffer: EntryBuffer = EntryBuffer::new();
 
-        def1x!();
+        def1x!("return Ok(JournalReader)");
+
         Result::Ok(
             JournalReader
             {

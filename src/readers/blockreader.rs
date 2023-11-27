@@ -534,6 +534,9 @@ impl BlockReader {
     ///
     /// Opens the file at `path`. Configures settings based on passed
     /// `filetype`.
+    // NOTE: Dissimilar to other `*Readers`, this `new` function may read
+    //       some bytes from the file, e.g. gzip header, e.g. tar header, to
+    //       determine the file type and set other initial values.
     pub fn new(
         path: FPath,
         filetype: FileType,

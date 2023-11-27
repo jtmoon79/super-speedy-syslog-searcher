@@ -310,6 +310,7 @@ impl SyslogProcessor {
     const LRU_CACHE_ENABLE: bool = true;
 
     /// Create a new `SyslogProcessor`.
+    // NOTE: should not attempt any block reads here, similar to other `*Readers`
     pub fn new(
         path: FPath,
         filetype: FileType,
@@ -318,7 +319,7 @@ impl SyslogProcessor {
         filter_dt_after_opt: DateTimeLOpt,
         filter_dt_before_opt: DateTimeLOpt,
     ) -> Result<SyslogProcessor> {
-        def1ñ!("({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
+        def1n!("({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
         if blocksz < SyslogProcessor::BLOCKSZ_MIN {
             return Result::Err(
                 Error::new(
@@ -347,6 +348,8 @@ impl SyslogProcessor {
                 .blockreader
                 .LRU_cache_disable();
         }
+
+        def1x!("return Ok(SyslogProcessor)");
 
         Result::Ok(
             SyslogProcessor {
