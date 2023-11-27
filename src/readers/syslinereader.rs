@@ -462,13 +462,15 @@ impl SyslineReader {
     /// Default state of LRU caches.
     const CACHE_ENABLE_DEFAULT: bool = true;
 
+    /// Create a new `SyslineReader`.
+    // NOTE: should not attempt any block reads here, similar to other `*Readers`
     pub fn new(
         path: FPath,
         filetype: FileType,
         blocksz: BlockSz,
         tz_offset: FixedOffset,
     ) -> Result<SyslineReader> {
-        def1ñ!("({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
+        def1n!("({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
         let lr = match LineReader::new(path, filetype, blocksz) {
             Ok(val) => val,
             Err(err) => {
@@ -483,6 +485,8 @@ impl SyslineReader {
             dt_patterns_indexes.push(index as DateTimeParseInstrsIndex);
             index += 1;
         }
+        def1x!("return Ok(SyslineReader)");
+
         Ok(SyslineReader {
             linereader: lr,
             syslines: Syslines::new(),

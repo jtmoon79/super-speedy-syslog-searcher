@@ -451,7 +451,8 @@ impl PrinterLogMessage {
         &mut self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult {
+    ) -> PrinterLogMessageResult
+    {
         // TODO: [2023/03/23] refactor `print_utmp*` similar to `print_evtx*`
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
             (false, false, false) => self.print_utmpx_(utmpx, buffer),
@@ -548,7 +549,8 @@ impl PrinterLogMessage {
     fn datetime_to_string_utmpx(
         &self,
         utmpx: &Utmpx,
-    ) -> String {
+    ) -> String
+    {
         // write the `utmpx.dt` into a `String` once
         let dt_: DateTimeL = (*utmpx)
             .dt()
@@ -870,7 +872,8 @@ impl PrinterLogMessage {
         &self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult {
+    ) -> PrinterLogMessageResult
+    {
         let mut printed: usize = 0;
         let at = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
@@ -892,7 +895,8 @@ impl PrinterLogMessage {
         &self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult {
+    ) -> PrinterLogMessageResult
+    {
         debug_assert!(!self.prepend_date_format.is_empty());
 
         let mut printed: usize = 0;
@@ -920,7 +924,8 @@ impl PrinterLogMessage {
         &mut self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult {
+    ) -> PrinterLogMessageResult
+    {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
 
         let mut printed: usize = 0;
@@ -950,7 +955,8 @@ impl PrinterLogMessage {
         &mut self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult {
+    ) -> PrinterLogMessageResult
+    {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
         debug_assert!(!self.prepend_date_format.is_empty());
 
@@ -985,7 +991,8 @@ impl PrinterLogMessage {
         &mut self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult {
+    ) -> PrinterLogMessageResult
+    {
         let mut printed: usize = 0;
         let (at, beg, end) = match utmpx.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
@@ -1020,7 +1027,8 @@ impl PrinterLogMessage {
         &mut self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult {
+    ) -> PrinterLogMessageResult
+    {
         let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_utmpx(utmpx);
         let dtb: &[u8] = dt_string.as_bytes();
@@ -1060,7 +1068,8 @@ impl PrinterLogMessage {
         &mut self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult {
+    ) -> PrinterLogMessageResult
+    {
         let mut printed: usize = 0;
         let prepend_file: &[u8] = self
             .prepend_file
@@ -1103,7 +1112,8 @@ impl PrinterLogMessage {
         &mut self,
         utmpx: &Utmpx,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult {
+    ) -> PrinterLogMessageResult
+    {
         let mut printed: usize = 0;
         let dt_string: String = self.datetime_to_string_utmpx(utmpx);
         let dtb: &[u8] = dt_string.as_bytes();

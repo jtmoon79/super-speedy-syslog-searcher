@@ -16,11 +16,13 @@ use crate::data::datetime::{
 use crate::data::utmpx::{
     buffer_to_utmpx,
     convert_tvsec_utvcsec_datetime,
+    determine_type_utmpx,
     InfoAsBytes,
+    linux_gnu::UTMPX_SZ as linux_gnu_UTMPX_SZ,
+    UTMPX_SZ_MAX,
     Utmpx,
-    utmpx,
-    UTMPX_SZ,
-    UTMPX_SZ_FO,
+    UtmpxDynPtr,
+    UtmpxType,
     tv_sec_type,
     tv_usec_type,
 };
@@ -49,18 +51,25 @@ use ::more_asserts::{
     debug_assert_le,
     debug_assert_lt,
 };
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-// arbitrary fileoffset for `UTMPX2`
-const FO2: FileOffset = 40;
+/// arbitrary fileoffset for `UTMPX2`
+const UTMPX2_FO2: FileOffset = linux_gnu_UTMPX_SZ as FileOffset;
 
 lazy_static! {
-    static ref UTMPX2_: utmpx = {
-        buffer_to_utmpx(&UTMPX_BUFFER2).unwrap()
+    static ref UTMPX2_: UtmpxDynPtr = {
+        buffer_to_utmpx(&UTMPX_BUFFER2, Some(UtmpxType::LinuxGnu)).unwrap()
     };
     static ref UTMPX2: Utmpx = {
-        Utmpx::new(FO2, &FO_0, *UTMPX2_)
+        Utmpx::new(UTMPX2_FO2, &FO_0, &UTMPX_BUFFER2, Some(UtmpxType::LinuxGnu)).unwrap()
     };
     static ref UTMPX2_DT: DateTimeL = {
         ymdhmsm(
@@ -80,8 +89,8 @@ lazy_static! {
 }
 
 #[test]
-fn test_UTMPX_SZ() {
-    assert_eq!(UTMPX_SZ, 384);
+fn test_linux_gnu_UTMPX_SZ() {
+    assert_eq!(linux_gnu_UTMPX_SZ, 384);
 }
 
 #[test_case(
@@ -124,7 +133,7 @@ fn test_convert_tvsec_utvcsec_datetime(
 
 #[test]
 fn test_utmpx_new_0() {
-    match buffer_to_utmpx(&[0; UTMPX_SZ]) {
+    match buffer_to_utmpx(&[0; linux_gnu_UTMPX_SZ], Some(UtmpxType::LinuxGnu)) {
         Some(val) => val,
         None => {
             panic!("ERROR: buffer_to_utmpx failed");
@@ -134,15 +143,26 @@ fn test_utmpx_new_0() {
 
 #[test]
 fn test_utmpx_new_toosmall() {
-    if buffer_to_utmpx(&[0; 1]).is_some() {
+    // pass one byte buffer, should return `None`
+    if buffer_to_utmpx(&[0; 1], Some(UtmpxType::LinuxGnu)).is_some() {
         panic!("ERROR: buffer_to_utmpx should have failed")
     }
 }
 
+#[test_case(&UTMPX_BUFFER1, Some(UtmpxType::LinuxGnu))]
+#[test_case(&UTMPX_BUFFER2, Some(UtmpxType::LinuxGnu))]
+fn test_determine_type_utmpx(
+    buffer: &[u8],
+    expected: Option<UtmpxType>,
+) {
+    defo!("buffer len: {}", buffer.len());
+    let utmpx_type = determine_type_utmpx(buffer);
+    assert_eq!(utmpx_type, expected, "determine_type_utmpx");
+}
+
 #[test]
 fn test_Utmpx_new_0() {
-    let utmpx_ = buffer_to_utmpx(&[0; UTMPX_SZ]).unwrap();
-    Utmpx::new(0, &FO_0, utmpx_);
+    Utmpx::new(0, &FO_0, &[0; linux_gnu_UTMPX_SZ], Some(UtmpxType::LinuxGnu));
 }
 
 /// helper to `test_Utmpx_new1`
@@ -173,31 +193,30 @@ fn create_vec_from<T: Copy + Default>(data: &[T], len: usize) -> Vec<T>
 fn test_Utmpx_new1() {
     let utmpx_s = buffer_to_String_noraw(&UTMPX_BUFFER1);
     eprintln!("UTMPX_BUFFER1: {}", utmpx_s);
-    let utmpx_ = buffer_to_utmpx(&UTMPX_BUFFER1).unwrap();
-    let entry = Utmpx::new(0, &FO_0, utmpx_);
+    let entry = Utmpx::new(0, &FO_0, &UTMPX_BUFFER1, Some(UtmpxType::LinuxGnu)).unwrap();
     eprintln!("UTMPX1: {}", entry.to_String_raw());
 
-    assert_eq!(entry.entry.ut_type, 5, "ut_type");
-    assert_eq!(entry.entry.ut_pid, 41908, "ut_pid");
+    assert_eq!(entry.entry.ut_type(), 5, "ut_type");
+    assert_eq!(entry.entry.ut_pid(), 41908, "ut_pid");
 
     let mut ut_line_expect: Vec<i8> = create_vec_from(
         &[b'p' as i8, b't' as i8, b's' as i8, b'/' as i8, b'1' as i8],
-        size_of_val(&entry.entry.ut_line)
+        size_of_val(&entry.entry.ut_line())
     );
-    ut_line_expect.resize_with(size_of_val(&entry.entry.ut_line), || 0);
-    assert_eq!(entry.entry.ut_line, ut_line_expect.as_slice(), "ut_line");
+    ut_line_expect.resize_with(size_of_val(&entry.entry.ut_line()), || 0);
+    assert_eq!(entry.entry.ut_line(), ut_line_expect.as_slice(), "ut_line");
 
     assert_eq!(
-        entry.entry.ut_id,
+        entry.entry.ut_id(),
         [b't' as i8, b's' as i8, b'/' as i8, b'1' as i8],
         "ut_id"
     );
 
     let ut_user_expect: Vec<i8> = create_vec_from(
         &[b'a' as i8, b'd' as i8, b'm' as i8, b'i' as i8, b'n' as i8],
-        size_of_val(&entry.entry.ut_user)
+        size_of_val(&entry.entry.ut_user())
     );
-    assert_eq!(entry.entry.ut_user, ut_user_expect.as_slice(), "ut_user");
+    assert_eq!(entry.entry.ut_user(), ut_user_expect.as_slice(), "ut_user");
 
     let ut_host_expect: Vec<i8> = create_vec_from(
         &[
@@ -213,46 +232,45 @@ fn test_Utmpx_new1() {
             b'.' as i8,
             b'5' as i8,
         ],
-        size_of_val(&entry.entry.ut_host)
+        size_of_val(&entry.entry.ut_host())
     );
-    assert_eq!(entry.entry.ut_host, ut_host_expect.as_slice(), "ut_host");
-    assert_eq!(entry.entry.ut_exit.e_termination, 7, "ut_exit.e_termination");
-    assert_eq!(entry.entry.ut_exit.e_exit, 1, "ut_exit.e_exit");
-    assert_eq!(entry.entry.ut_session, 0, "ut_session");
-    assert_eq!(entry.entry.ut_tv.tv_sec, 1577880000, "ut_tv.tv_sec");
-    assert_eq!(entry.entry.ut_tv.tv_usec, 0, "ut_tv.tv_usec");
-    assert_eq!(entry.entry.ut_addr_v6, [0x2F7CA8D0, 0, 0, 0], "ut_addr_v6");
+    assert_eq!(entry.entry.ut_host(), ut_host_expect.as_slice(), "ut_host");
+    assert_eq!(entry.entry.ut_exit_e_termination(), 7, "ut_exit.e_termination");
+    assert_eq!(entry.entry.ut_exit_e_exit(), 1, "ut_exit.e_exit");
+    assert_eq!(entry.entry.ut_session(), 0, "ut_session");
+    assert_eq!(entry.entry.ut_tv_tv_sec(), 1577880000, "ut_tv.tv_sec");
+    assert_eq!(entry.entry.ut_tv_tv_usec(), 0, "ut_tv.tv_usec");
+    assert_eq!(entry.entry.ut_addr_v6(), [0x2F7CA8D0, 0, 0, 0], "ut_addr_v6");
 }
 
 #[test]
 fn test_Utmpx_new2() {
     let utmpx_s = buffer_to_String_noraw(&UTMPX_BUFFER2);
-    eprintln!("UTMPX_BUFFER1: {}", utmpx_s);
-    let utmpx_ = buffer_to_utmpx(&UTMPX_BUFFER2).unwrap();
-    let entry = Utmpx::new(0, &FO_0, utmpx_);
+    eprintln!("UTMPX_BUFFER2: {}", utmpx_s);
+    let entry = Utmpx::new(0, &FO_0, &UTMPX_BUFFER2, Some(UtmpxType::LinuxGnu)).unwrap();
     eprintln!("UTMPX2: {}", entry.to_String_raw());
 
-    assert_eq!(entry.entry.ut_type, 7, "ut_type");
-    assert_eq!(entry.entry.ut_pid, 13236, "ut_pid");
+    assert_eq!(entry.entry.ut_type(), 7, "ut_type");
+    assert_eq!(entry.entry.ut_pid(), 13236, "ut_pid");
 
     let mut ut_line_expect: Vec<i8> = create_vec_from(
         &[b'p' as i8, b't' as i8, b's' as i8, b'/' as i8, b'0' as i8],
-        size_of_val(&entry.entry.ut_line)
+        size_of_val(&entry.entry.ut_line())
     );
-    ut_line_expect.resize_with(size_of_val(&entry.entry.ut_line), || 0);
-    assert_eq!(entry.entry.ut_line, ut_line_expect.as_slice(), "ut_line");
+    ut_line_expect.resize_with(size_of_val(&entry.entry.ut_line()), || 0);
+    assert_eq!(entry.entry.ut_line(), ut_line_expect.as_slice(), "ut_line");
 
     assert_eq!(
-        entry.entry.ut_id,
+        entry.entry.ut_id(),
         [b't' as i8, b's' as i8, b'/' as i8, b'0' as i8],
         "ut_id"
     );
 
     let ut_user_expect: Vec<i8> = create_vec_from(
         &[b'r' as i8, b'o' as i8, b'o' as i8, b't' as i8],
-        size_of_val(&entry.entry.ut_user)
+        size_of_val(&entry.entry.ut_user())
     );
-    assert_eq!(entry.entry.ut_user, ut_user_expect.as_slice(), "ut_user");
+    assert_eq!(entry.entry.ut_user(), ut_user_expect.as_slice(), "ut_user");
 
     let ut_host_expect: Vec<i8> = create_vec_from(
         &[
@@ -268,15 +286,15 @@ fn test_Utmpx_new2() {
             b'.' as i8,
             b'4' as i8,
         ],
-        size_of_val(&entry.entry.ut_host)
+        size_of_val(&entry.entry.ut_host())
     );
-    assert_eq!(entry.entry.ut_host, ut_host_expect.as_slice(), "ut_host");
-    assert_eq!(entry.entry.ut_exit.e_termination, 7, "ut_exit.e_termination");
-    assert_eq!(entry.entry.ut_exit.e_exit, 3, "ut_exit.e_exit");
-    assert_eq!(entry.entry.ut_session, 5, "ut_session");
-    assert_eq!(entry.entry.ut_tv.tv_sec, 1577880002, "ut_tv.tv_sec");
-    assert_eq!(entry.entry.ut_tv.tv_usec, 123636, "ut_tv.tv_usec");
-    assert_eq!(entry.entry.ut_addr_v6, [0x2F7CA8C0, 0, 0, 0], "ut_addr_v6");
+    assert_eq!(entry.entry.ut_host(), ut_host_expect.as_slice(), "ut_host");
+    assert_eq!(entry.entry.ut_exit_e_termination(), 7, "ut_exit.e_termination");
+    assert_eq!(entry.entry.ut_exit_e_exit(), 3, "ut_exit.e_exit");
+    assert_eq!(entry.entry.ut_session(), 5, "ut_session");
+    assert_eq!(entry.entry.ut_tv_tv_sec(), 1577880002, "ut_tv.tv_sec");
+    assert_eq!(entry.entry.ut_tv_tv_usec(), 123636, "ut_tv.tv_usec");
+    assert_eq!(entry.entry.ut_addr_v6(), [0x2F7CA8C0, 0, 0, 0], "ut_addr_v6");
 }
 
 #[test]
@@ -285,16 +303,17 @@ fn test_Utmpx_helpers() {
     const BSZ_U: usize = BSZ20 as usize;
     assert_eq!(
         UTMPX2.blockoffset_begin(BSZ20),
-        ((FO2 as usize) / BSZ_U) as BlockOffset,
+        ((UTMPX2_FO2 as usize) / BSZ_U) as BlockOffset,
         "blockoffset_begin"
     );
+    let sz_fo: FileOffset = linux_gnu_UTMPX_SZ as FileOffset;
     assert_eq!(
         UTMPX2.blockoffset_end(BSZ20),
-        ((UTMPX_SZ + FO2 as usize) / BSZ_U) as BlockOffset,
+        (((sz_fo + UTMPX2_FO2) as usize) / BSZ_U) as BlockOffset,
         "blockoffset_end"
     );
-    assert_eq!(UTMPX2.fileoffset_begin(), FO2, "fileoffset_begin");
-    assert_eq!(UTMPX2.fileoffset_end(), UTMPX_SZ_FO + FO2, "fileoffset_end");
+    assert_eq!(UTMPX2.fileoffset_begin(), UTMPX2_FO2, "fileoffset_begin");
+    assert_eq!(UTMPX2.fileoffset_end(), sz_fo + UTMPX2_FO2, "fileoffset_end");
 }
 
 #[test]
@@ -305,7 +324,7 @@ fn test_Utmpx_dt() {
 #[test]
 fn test_Utmpx_as_bytes() {
     eprintln!("UTMPX2: {}", *UTMPX2_STRING_NORAW);
-    let mut buffer: [u8; UTMPX_SZ * 2] = [0; UTMPX_SZ * 2];
+    let mut buffer: [u8; UTMPX_SZ_MAX * 2] = [0; UTMPX_SZ_MAX * 2];
     let info: InfoAsBytes = UTMPX2.as_bytes(&mut buffer);
      // make broad approximate asserts on returned values
     match info {

@@ -139,7 +139,7 @@ use ::s4lib::data::journal::{
     JournalEntry,
     datetimelopt_to_realtime_timestamp_opt,
 };
-use ::s4lib::data::utmpx::{UTMPX_SZ, Utmpx};
+use ::s4lib::data::utmpx::{Utmpx, UTMPX_SZ_MAX};
 use ::s4lib::data::sysline::SyslineP;
 use ::s4lib::libload::systemd_dlopen2::{
     LoadLibraryError,
@@ -173,7 +173,12 @@ use ::s4lib::readers::summary::{
 };
 use ::s4lib::readers::syslinereader::{ResultS3SyslineFind, SummarySyslineReader};
 use ::s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
-use ::s4lib::readers::utmpxreader::{ResultS3UtmpxFind, UtmpxReader, SummaryUtmpxReader};
+use ::s4lib::readers::utmpxreader::{
+    ResultS3UtmpxFind,
+    ResultS3UtmpxProcZeroBlock,
+    UtmpxReader,
+    SummaryUtmpxReader,
+};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // command-line parsing
@@ -1921,8 +1926,43 @@ fn exec_utmpprocessor(
         &path
     );
 
-    let mut file_err: Option<FileProcessingResultBlockZero> = None;
+    match utmpreader.process_zeroth_entry(false) {
+        ResultS3UtmpxProcZeroBlock::Found(_) => {
+            defo!("ResultS3UtmpxProcZeroBlock::Found");
+        }
+        ResultS3UtmpxProcZeroBlock::Done => {
+            defo!("ResultS3UtmpxProcZeroBlock::Done");
+            de_wrn!("Done returned by process_zeroth_entry() for {:?};", path);
+            let summary = utmpreader.summary_complete();
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(
+                    Some(summary),
+                    FILEOK,
+                ),
+                &path
+            );
+            return;
+        }
+        ResultS3UtmpxProcZeroBlock::Err(err) => {
+            defo!("ResultS3UtmpxProcZeroBlock::Err");
+            de_err!("process_zeroth_entry() failed; {} for {:?}", err, path);
+            let file_err = FileProcessingResultBlockZero::FileErrIoPath(err);
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(
+                    Some(utmpreader.summary_complete()),
+                    file_err,
+                ),
+                &path
+            );
+            defx!("({:?}) thread will return early due to error", path);
+            return;
+        }
+    }
+
     let mut fo: FileOffset = 0;
+    let mut file_err: Option<FileProcessingResultBlockZero> = None;
     loop {
         let result: ResultS3UtmpxFind = utmpreader.find_entry_between_datetime_filters(
             fo,
@@ -2668,7 +2708,8 @@ impl SummaryPrinted {
         &mut self,
         utmpx: &Utmpx,
         printed: Count,
-    ) {
+    )
+    {
         defñ!();
         debug_assert!(matches!(self.logmessagetype,
             LogMessageType::Utmpx | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
@@ -2757,7 +2798,8 @@ impl SummaryPrinted {
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
         printed: Count,
-    ) {
+    )
+    {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
@@ -3277,7 +3319,7 @@ fn processing_loop(
     let mut _count_since_received_fileinfo: usize = 0;
 
     // buffer to assist printing Utmpx; passed to `Utmpx::as_bytes`
-    let mut buffer_utmp: [u8; UTMPX_SZ * 2] = [0; UTMPX_SZ * 2];
+    let mut buffer_utmp: [u8; UTMPX_SZ_MAX * 2] = [0; UTMPX_SZ_MAX * 2];
 
     loop {
         disconnect.clear();

@@ -4936,7 +4936,7 @@ File: ./logs/programs/utmp/host-entry1.wtmp
       utmpx         : 1
       utmpx high    : 1
   Processing Stores:
-      storage: UtmpxReader::find_entry()                           : hit 1, miss 1, 50.0%
+      storage: UtmpxReader::find_entry()                           : hit 2, miss 0, 100.0%
       storage: BlockReader::read_block() blocks                    : hit 0, miss 2,  0.0%, put 2
       caching: BlockReader::read_block() LRU cache                 : hit 0, miss 2,  0.0%, put 2
   Processing Drops:
@@ -4959,7 +4959,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp
       utmpx         : 6
       utmpx high    : 2
   Processing Stores:
-      storage: UtmpxReader::find_entry()                           : hit 6, miss 6, 50.0%
+      storage: UtmpxReader::find_entry()                           : hit 7, miss 5, 58.3%
       storage: BlockReader::read_block() blocks                    : hit 0, miss 9,  0.0%, put 9
       caching: BlockReader::read_block() LRU cache                 : hit 3, miss 9, 25.0%, put 9
   Processing Drops:

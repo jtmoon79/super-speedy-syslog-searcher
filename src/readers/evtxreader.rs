@@ -304,6 +304,7 @@ pub struct SummaryEvtxReader {
 /// Implement the EvtxReader.
 impl<'a> EvtxReader {
     /// Create a new `EvtxReader`.
+    // NOTE: should not attempt any file reads here, similar to other `*Readers`
     pub fn new(
         path: FPath,
     ) -> Result<EvtxReader> {
@@ -347,7 +348,8 @@ impl<'a> EvtxReader {
                 ));
             }
         };
-        def1x!();
+        def1x!("return Ok(EvtxReader)");
+
         Ok(
             EvtxReader
             {

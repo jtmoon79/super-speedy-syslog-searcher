@@ -11,9 +11,7 @@ use crate::common::{
     NLc,
 };
 use crate::data::common::DtBegEndPairOpt;
-use crate::data::datetime::{
-    DateTimeL,
-};
+use crate::data::datetime::DateTimeL;
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::buffer_to_String_noraw;
 

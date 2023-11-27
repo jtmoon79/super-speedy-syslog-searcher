@@ -31,7 +31,7 @@ use ::lru::LruCache;
 use ::mime_guess::MimeGuess;
 use ::more_asserts::debug_assert_ge;
 #[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, def1ñ, def1x, den, deo, dex, deñ};
+use ::si_trace_print::{defn, defo, defx, defñ, def1n, def1ñ, def1x, den, deo, dex, deñ};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // LineReader
@@ -193,12 +193,13 @@ impl LineReader {
     // If the file has only one block then different considerations apply.
 
     /// Create a new `LineReader`.
+    // NOTE: should not attempt any block reads here, similar to other `*Readers`
     pub fn new(
         path: FPath,
         filetype: FileType,
         blocksz: BlockSz,
     ) -> Result<LineReader> {
-        def1ñ!("({:?}, {:?}, {:?})", path, filetype, blocksz);
+        def1n!("({:?}, {:?}, {:?})", path, filetype, blocksz);
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         debug_assert_ge!(
             blocksz,
@@ -215,6 +216,8 @@ impl LineReader {
                 return Err(err);
             }
         };
+        def1x!("return Ok(LineReader)");
+
         Ok(LineReader {
             blockreader,
             lines: FoToLine::new(),

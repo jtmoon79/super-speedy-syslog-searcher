@@ -48,7 +48,7 @@
 //       https://elixir.bootlin.com/glibc/glibc-2.37/source/bits/utmp.h#L48
 
 
-use crate::{e_err, de_wrn};
+use crate::{e_err, de_err, de_wrn};
 use crate::common::{
     Count,
     FPath,
@@ -71,9 +71,8 @@ use crate::data::datetime::{
 use crate::data::utmpx::{
     buffer_to_utmpx,
     Utmpx,
-    utmpx,
-    UTMPX_SZ,
-    UTMPX_SZ_FO,
+    UtmpxType,
+    UTMPX_SZ_MAX,
 };
 use crate::readers::blockreader::{
     BlockIndex,
@@ -99,6 +98,8 @@ use ::si_trace_print::{
     defx,
     defñ,
     def1ñ,
+    def1n,
+    def1x,
     den,
     deo,
     dex,
@@ -119,6 +120,7 @@ use ::si_trace_print::{
 ///
 /// [`FileOffset`]: crate::common::FileOffset
 /// [`Utmpx`]: crate::data::utmpx::Utmpx
+//pub type FoToEntry<C> = BTreeMap<FileOffset, Utmpx>;
 pub type FoToEntry = BTreeMap<FileOffset, Utmpx>;
 
 /// Map [`FileOffset`] To `FileOffset`
@@ -130,6 +132,8 @@ pub type FoToFo = BTreeMap<FileOffset, FileOffset>;
 ///
 /// [`UtmpxReader.find`*]: self::UtmpxReader#method.find_entry
 pub type ResultS3UtmpxFind = ResultS3<(FileOffset, Utmpx), Error>;
+
+pub type ResultS3UtmpxProcZeroBlock = ResultS3<(), Error>;
 
 #[cfg(test)]
 pub type SetDroppedEntries = HashSet<FileOffset>;
@@ -148,8 +152,11 @@ pub type SetDroppedEntries = HashSet<FileOffset>;
 /// [utmpx]: https://en.wikipedia.org/wiki/Utmp
 /// [`BlockReader`]: crate::readers::blockreader::BlockReader
 /// [`Read`]: std::io::Read
-pub struct UtmpxReader {
+pub struct UtmpxReader
+{
     pub(crate) blockreader: BlockReader,
+    entry_size: Option<usize>,
+    entry_type: Option<UtmpxType>,
     /// Timezone to use for conversions using function
     /// [`convert_tvsec_utvcsec_datetime`].
     ///
@@ -207,7 +214,8 @@ pub struct UtmpxReader {
     error: Option<String>,
 }
 
-impl fmt::Debug for UtmpxReader {
+impl fmt::Debug for UtmpxReader
+{
     fn fmt(
         &self,
         f: &mut fmt::Formatter,
@@ -244,19 +252,25 @@ pub struct SummaryUtmpxReader {
 }
 
 /// Implement the UtmpxReader.
-impl UtmpxReader {
+impl UtmpxReader
+{
     /// Create a new `UtmpxReader`.
+    // NOTE: should not attempt any block reads here, similar to other `*Readers`
     pub fn new(
         path: FPath,
         blocksz: BlockSz,
         tz_offset: FixedOffset,
     ) -> Result<UtmpxReader> {
-        def1ñ!("({:?}, {:?}, {:?})", path, blocksz, tz_offset);
-        let blockreader = BlockReader::new(path, FileType::Utmpx, blocksz)?;
+        def1n!("({:?}, {:?}, {:?})", path, blocksz, tz_offset);
+        let blockreader = BlockReader::new(path.clone(), FileType::Utmpx, blocksz)?;
+        def1x!("return Ok(UtmpxReader)");
+
         Ok(
             UtmpxReader
             {
                 blockreader,
+                entry_size: None,
+                entry_type: None,
                 tz_offset,
                 entries: FoToEntry::new(),
                 entries_stored_highest: 0,
@@ -413,27 +427,25 @@ impl UtmpxReader {
     }
 
     /// Is the passed `Utmpx` the last of the file?
-    pub const fn is_last(
+    //pub const fn is_last(
+    pub fn is_last(
         &self,
+        //entry: &Utmpx<C>,
         entry: &Utmpx,
     ) -> bool {
         self.is_fileoffset_last(entry.fileoffset_end())
-    }
-
-    #[inline(always)]
-    pub const fn utmpsize(&self) -> usize {
-        UTMPX_SZ
     }
 
     /// Return the `FileOffset` that is adjusted to the beginning offset of
     /// a [`utmpx`] entry.
     ///
     /// [`utmpx`]: https://github.com/freebsd/freebsd-src/blob/release/12.4.0/include/utmpx.h#L43-L56
-    pub const fn fileoffset_to_utmpoffset (
+    //pub const fn fileoffset_to_utmpoffset (
+    pub fn fileoffset_to_utmpoffset (
         &self,
         fileoffset: FileOffset,
     ) -> FileOffset {
-        (fileoffset / self.utmpsize() as FileOffset) * self.utmpsize() as FileOffset
+        (fileoffset / self.entry_size() as FileOffset) * self.entry_size() as FileOffset
     }
 
     /// Return all currently stored `FileOffset` in `self.entries`.
@@ -497,11 +509,11 @@ impl UtmpxReader {
             "self.entries already contains key {}",
             fo_beg
         );
+        self.dt_first_last_update(entry.dt());
         self.entries
             .insert(fo_beg, entry);
         self.entries_stored_highest = std::cmp::max(self.entries_stored_highest, self.entries.len());
         self.entries_processed += 1;
-        self.dt_first_last_update(entry.dt());
         defx!();
     }
 
@@ -729,7 +741,95 @@ impl UtmpxReader {
         &mut self,
         fileoffset: FileOffset,
     ) -> ResultS3UtmpxFind {
+        defñ!("({})", fileoffset);
+
         self.find_entry_impl(fileoffset, false)
+    }
+
+    pub fn entry_size(&self) -> usize {
+        match self.entry_size {
+            Some(entry_size_) => entry_size_,
+            None => panic!("entry_size not set"),
+        }
+    }
+
+    pub fn entry_type(&self) -> UtmpxType {
+        match self.entry_type {
+            Some(entry_type_) => entry_type_,
+            None => panic!("entry_type not set"),
+        }
+    }
+
+    /// Process the first [`Utmpx`] entry in the file.
+    ///
+    /// Call this before calling `find_entry` or `find_entry_in_block`.
+    // XXX: `process_zeroth_entry` feels a little hacky and complicates using a
+    //      `UtmpxReader`.
+    //      Maybe `process_zeroth_entry` should be private and called from `new`
+    //      That means `new` will violate the "no block reads" habit... but
+    //      I think that's okay for `UtmpxReader`.
+    pub fn process_zeroth_entry(&mut self, oneblock: bool) -> ResultS3UtmpxProcZeroBlock
+    {
+        def1n!("({})", oneblock);
+        let mut buffer: [u8; UTMPX_SZ_MAX] = [0; UTMPX_SZ_MAX];
+        // this is the first time `find_entry_impl` is called, need to set
+        // `self.entry_size` and `self.entry_type`.
+        defo!("self.entry_type is None; first call to find_entry_impl");
+        // both entry_type and entry_size should be `None`
+        debug_assert!(self.entry_size.is_none(),
+            "entry_type.is_none() but entry_size.is_some()");
+        let fileoffset: FileOffset = 0;
+        // TODO: need to try reading a variety of UTMPX_SZ sizes,
+        //       each known utmpx size and then
+        //       try `buffer_to_utmpx` for each. -or- `buffer_to_utmpx` should
+        //       do this up to the size of the buffer it is given.
+        //       Maybe this if block should get it's own private function.
+        let buffer_read = match self.blockreader.read_data_to_buffer(
+            fileoffset, UTMPX_SZ_MAX as FileOffset, oneblock, &mut buffer
+        ) {
+            ResultReadDataToBuffer::Found(buffer_read) => buffer_read,
+            ResultReadDataToBuffer::Err(err) => {
+                return ResultS3UtmpxProcZeroBlock::Err(err);
+            }
+            ResultReadDataToBuffer::Done => {
+                return ResultS3UtmpxProcZeroBlock::Done;
+            },
+        };
+        let slice_ = &buffer[..buffer_read];
+        let entry = match buffer_to_utmpx(slice_, None) {
+            Some(val) => val,
+            None => {
+                de_err!("buffer_to_utmpx(buf len {}, is_type None); file {:?}",
+                    buffer.len(), self.path());
+                return ResultS3UtmpxProcZeroBlock::Err(
+                    Error::new(
+                        ErrorKind::Other,
+                        format!(
+                            "buffer_to_utmpx(buffer, None) failed, given buffer size {}; file {:?}",
+                            buffer.len(), self.path()
+                        ),
+                    )
+                );
+            }
+        };
+        self.entry_size = Some(entry.size());
+        self.entry_type = Some(entry.entry_type());
+        let utmpx = match Utmpx::from_entry(
+            fileoffset,
+            &self.tz_offset,
+            entry,
+        ) {
+            Ok(utmpx_) => utmpx_,
+            Err(err) => {
+                de_err!("Utmpx::from_entry({}, {:?}, entry) failed; file {:?}",
+                    fileoffset, self.tz_offset, self.path());
+                return ResultS3UtmpxProcZeroBlock::Err(err);
+            }
+        };
+        self.insert_entry(utmpx);
+        def1x!("return Found");
+
+        ResultS3UtmpxProcZeroBlock::Found(())
     }
 
     /// Implementation of `find_entry` and `find_entry_in_block` functions.
@@ -739,45 +839,64 @@ impl UtmpxReader {
         &mut self,
         fileoffset: FileOffset,
         oneblock: bool,
-    ) -> ResultS3UtmpxFind {
+    ) -> ResultS3UtmpxFind
+    {
         defn!("({}, {})", fileoffset, oneblock);
 
-        let filesz: FileSz = self.filesz();
-
         // handle special cases
-        if filesz == 0 {
+        if self.filesz() == 0 {
             defx!("({}): return ResultS3UtmpxFind::Done, None; file is empty", fileoffset);
             return ResultS3UtmpxFind::Done;
-        } else if fileoffset >= filesz {
+        } else if fileoffset >= self.filesz() {
             defx!(
                 "({0}): return ResultS3UtmpxFind::Done(), None; fileoffset {0} is at end of file {1}!",
                 fileoffset,
-                filesz
+                self.filesz()
             );
             return ResultS3UtmpxFind::Done;
         }
 
-        let fileoffset = fileoffset - (fileoffset % UTMPX_SZ_FO);
+        // allocate a buffer on the stack. Somewhat inefficient as it allocates
+        // the largest possible buffer `UTMPX_SZ_MAX` but it's known that
+        // `UTMPX_SZ_MAX` is small enough that overallocating should not be a
+        // problem.
+        let mut buffer: [u8; UTMPX_SZ_MAX] = [0; UTMPX_SZ_MAX];
+
+        if self.entry_type.is_none() {
+            self.process_zeroth_entry(oneblock);
+        }
+        debug_assert!(self.entry_size.is_some(), "!entry_size.is_some()");
+        debug_assert!(self.entry_type.is_some(), "!entry_type.is_some()");
+
+        let csz: usize = self.entry_size();
+        let csz_fo: FileOffset = csz as FileOffset;
+        let fileoffset: FileOffset = fileoffset - (fileoffset % csz_fo);
 
         // check container of `Utmpx`s
         if let Some(utmpx) = self.check_store(fileoffset) {
-            defx!("({}): return ResultS3UtmpxFind::Found(({:?}, …)); check_store found it", fileoffset, utmpx.fileoffset_end());
+            defx!("({}): return ResultS3UtmpxFind::Found(({:?}, …)); check_store found it",
+                fileoffset, utmpx.fileoffset_end());
             return ResultS3UtmpxFind::Found((utmpx.fileoffset_end(), utmpx));
         }
 
         #[cfg(debug_assertions)]
-        if fileoffset % UTMPX_SZ_FO != 0 {
-            de!("WARNING: fileoffset {} not multiple of {}", fileoffset, UTMPX_SZ_FO);
+        if fileoffset % csz_fo != 0 {
+            de_wrn!("UtmpxReader::find_entry_impl: fileoffset {} not multiple of {}",
+                fileoffset, csz_fo);
         }
 
         defo!("searching for utmpx entry …");
 
-        let mut buffer: [u8; UTMPX_SZ] = [0; UTMPX_SZ];
+        // XXX: unsafe `write_bytes` vs. `resize_with`
+        //      `write_bytes` is 1/5 the instructions as `resize_with`.
+        //      https://godbolt.org/z/8TPzq87fa
+        //      https://godbolt.org/#g:!((g:!((g:!((h:codeEditor,i:(filename:'1',fontScale:14,fontUsePx:'0',j:1,lang:rust,selection:(endColumn:1,endLineNumber:21,positionColumn:1,positionLineNumber:21,selectionStartColumn:1,selectionStartLineNumber:21,startColumn:1,startLineNumber:21),source:'use+std::hint::black_box%3B%0A%0Apub+fn+resize(buf:+%26mut+Vec%3Cu8%3E,+csz:+usize)+%7B%0A++++buf.resize_with(csz,+Default::default)%3B%0A%7D%0A%0Apub+fn+write_bytes(buf:+%26mut+Vec%3Cu8%3E,+csz:+usize)+%7B%0A++++unsafe+%7B%0A++++++++let+p+%3D+buf.as_mut_ptr()%3B%0A++++++++std::ptr::write_bytes(p,+0,+csz)%3B%0A++++%7D%0A%7D%0A%0Apub+fn+main()+%7B%0A++++let+csz:+usize+%3D+384%3B%0A++++let+mut+buffer1:+Vec%3Cu8%3E+%3D+Vec::%3Cu8%3E::with_capacity(csz)%3B%0A++++resize(%26mut+buffer1,+csz)%3B%0A++++write_bytes(%26mut+buffer1,+csz)%3B%0A++++black_box(buffer1)%3B%0A%7D%0A'),l:'5',n:'0',o:'Rust+source+%231',t:'0')),k:49.37150837988827,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((g:!((h:compiler,i:(compiler:r1690,filters:(b:'0',binary:'1',binaryObject:'1',commentOnly:'0',debugCalls:'1',demangle:'0',directives:'0',execute:'0',intel:'0',libraryCode:'0',trim:'1'),flagsViewOpen:'1',fontScale:14,fontUsePx:'0',j:1,lang:rust,libs:!(),options:'--edition%3D2021+-O',overrides:!(),selection:(endColumn:1,endLineNumber:1,positionColumn:1,positionLineNumber:1,selectionStartColumn:1,selectionStartLineNumber:1,startColumn:1,startLineNumber:1),source:1),l:'5',n:'0',o:'+rustc+1.69.0+(Editor+%231)',t:'0')),k:53.660992128866916,l:'4',m:69.35276217086209,n:'0',o:'',s:0,t:'0'),(g:!((h:cfg,i:(compilerName:'rustc+1.69.0',editorid:1,j:1,selectedFunction:'alloc::raw_vec::finish_grow:',treeid:0),l:'5',n:'0',o:'CFG+rustc+1.69.0+(Editor+%231,+Compiler+%231)',t:'0')),header:(),l:'4',m:14.341930571848565,n:'0',o:'',s:0,t:'0'),(g:!((h:output,i:(compilerName:'rustc+1.69.0',editorid:1,fontScale:14,fontUsePx:'0',j:1,wrap:'1'),l:'5',n:'0',o:'Output+of+rustc+1.69.0+(Compiler+%231)',t:'0')),l:'4',m:16.305307257289353,n:'0',o:'',s:0,t:'0')),k:50.62849162011174,l:'3',n:'0',o:'',t:'0')),l:'2',n:'0',o:'',t:'0')),version:4
+
         let at: usize = match self.blockreader.read_data_to_buffer(
             fileoffset,
-            fileoffset + UTMPX_SZ_FO,
+            fileoffset + csz_fo,
             oneblock,
-            &mut buffer,
+            &mut buffer[..csz],
         ) {
             ResultReadDataToBuffer::Found(val) => val,
             ResultReadDataToBuffer::Done => {
@@ -791,10 +910,10 @@ impl UtmpxReader {
             }
         };
 
-        debug_assert_eq!(at, UTMPX_SZ, "buffer at {}, expected {}", at, UTMPX_SZ);
-        debug_assert_eq!(buffer.len(), UTMPX_SZ, "buffer len {}, expected {}", buffer.len(), UTMPX_SZ);
+        debug_assert_eq!(at, csz, "buffer at {}, expected {}", at, csz);
+        debug_assert_eq!(buffer.len(), csz, "buffer len {}, expected {}", buffer.len(), csz);
 
-        if at != UTMPX_SZ {
+        if at != csz {
             let err = Error::new(
                 ErrorKind::Other,
                 format!(
@@ -807,22 +926,25 @@ impl UtmpxReader {
             return ResultS3UtmpxFind::Err(err);
         }
 
-        let utmp_: utmpx = match buffer_to_utmpx(&buffer) {
-            Some(utmp_) => utmp_,
+        let utmpx: Utmpx = match Utmpx::new(
+            fileoffset,
+            &self.tz_offset,
+            &buffer,
+            Some(self.entry_type()),
+        ) {
+            Some(val) => val,
             None => {
-                let err = Error::new(
-                    ErrorKind::Other,
-                    format!(
-                        "buffer_to_utmpx failed for file {:?}",
-                        self.path(),
+                return ResultS3UtmpxFind::Err(
+                    Error::new(
+                        ErrorKind::Other,
+                        format!(
+                            "Utmpx::new({}, {}, buffer) failed, given buffer size {}; file {:?}",
+                            fileoffset, &self.tz_offset, buffer.len(), self.path(),
+                        ),
                     )
                 );
-                self.set_error(&err);
-                defx!("return ResultS3UtmpxFind::Err({})", err);
-                return ResultS3UtmpxFind::Err(err);
             }
         };
-        let utmpx: Utmpx = Utmpx::new(fileoffset, &self.tz_offset, utmp_);
         defo!("found utmp entry: {:?}", utmpx);
         self.insert_entry(utmpx.clone());
         let fo_end: FileOffset = utmpx.fileoffset_end();
@@ -844,8 +966,10 @@ impl UtmpxReader {
         dt_filter: &DateTimeLOpt,
     ) -> ResultS3UtmpxFind {
         defn!("({}, {:?})", fileoffset, dt_filter);
+        debug_assert!(self.entry_size.is_some(), "!entry_size.is_some()");
 
-        let fileoffset = fileoffset - (fileoffset % UTMPX_SZ_FO);
+        let fileoffset: FileOffset =
+            fileoffset - (fileoffset % (self.entry_size() as FileOffset));
 
         let dtf = match dt_filter {
             Some(dt_) => dt_,
@@ -937,7 +1061,10 @@ impl UtmpxReader {
     ) -> ResultS3UtmpxFind {
         defn!("({}, {:?}, {:?})", fileoffset, dt_filter_after, dt_filter_before);
 
-        let fileoffset = fileoffset - (fileoffset % UTMPX_SZ_FO);
+        debug_assert!(self.entry_size.is_some(), "!entry_size.is_some()");
+
+        let fileoffset: FileOffset =
+            fileoffset - (fileoffset % (self.entry_size() as FileOffset));
 
         match self.find_entry_at_datetime_filter(fileoffset, dt_filter_after) {
             ResultS3UtmpxFind::Found((fo, entry)) => {
@@ -950,9 +1077,10 @@ impl UtmpxReader {
                     }
                     Result_Filter_DateTime2::BeforeRange => {
                         defo!("entry_pass_filters(…) returned BeforeRange;");
-                        eprintln!("ERROR: entry_pass_filters({:?}, {:?}) returned BeforeRange, however the prior call to find_sysline_at_datetime_filter({}, {:?}) returned Found; this is unexpected.",
-                                  dt_filter_after, dt_filter_before,
-                                  fileoffset, dt_filter_after
+                        e_err!("entry_pass_filters({:?}, {:?}) returned BeforeRange, however the prior call to find_sysline_at_datetime_filter({}, {:?}) returned Found; this is unexpected; file {:?}",
+                               dt_filter_after, dt_filter_before,
+                               fileoffset, dt_filter_after,
+                               self.path(),
                         );
                         defx!("return ResultS3UtmpxFind::Done (not sure what to do here)");
                         return ResultS3UtmpxFind::Done;
@@ -985,6 +1113,7 @@ impl UtmpxReader {
     /// [`datetime::dt_after_or_before`]: crate::data::datetime::dt_after_or_before
     /// [`Utmpx::dt`]: crate::data::utmpx::Utmpx::dt
     pub fn entry_dt_after_or_before(
+        //entry: &Utmpx<C>,
         entry: &Utmpx,
         dt_filter: &DateTimeLOpt,
     ) -> Result_Filter_DateTime1 {
