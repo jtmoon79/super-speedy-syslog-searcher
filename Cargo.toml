@@ -79,7 +79,7 @@ bench = false
 [target.'cfg(not(any(windows)))'.dependencies]
 uapi = "0.2.10"
 [target.'cfg(windows)'.dependencies]
-libc = "0.2.147"
+libc = "0.2.152"
 
 [[bin]]
 name = "s4"
