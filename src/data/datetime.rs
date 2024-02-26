@@ -48,6 +48,7 @@ use std::convert::TryFrom; // for passing array slices as references
 use std::fmt;
 #[doc(hidden)]
 pub use std::time::{SystemTime, UNIX_EPOCH};
+use std::sync::RwLock;
 
 #[doc(hidden)]
 pub use ::chrono::{
@@ -4661,6 +4662,10 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
 //       But either way, after find that rust bug I'm less sure of my original conclusion.
 
 lazy_static! {
+    /// Count of compiled regular expressions from `DateTimeParseData` instances.
+    pub static ref DateTimeParseDatasCompiledCount: RwLock<usize>
+        = RwLock::new(0);
+
     /// Run-time created mapping of compiled [`Regex`].
     ///
     /// This has the same mapping of index values as
@@ -4677,9 +4682,20 @@ lazy_static! {
         let mut datas: DateTimeParseInstrsRegexVec = DateTimeParseInstrsRegexVec::with_capacity(
             DATETIME_PARSE_DATAS_LEN
         );
+        let mut count: usize = 0;
         for (_i, data) in DATETIME_PARSE_DATAS.iter().enumerate() {
             defo!("init RegEx {:?}", _i);
             datas.push(Regex::new(data.regex_pattern).unwrap());
+            count += 1;
+        }
+        // update the global counter
+        match DateTimeParseDatasCompiledCount.write() {
+            Ok(mut w) => {
+                *w += count;
+            }
+            Err(_err) => {
+                de_err!("Failed to write DateTimeParseDatasCompiledCount {:?}", _err);
+            }
         }
         defx!("init DATETIME_PARSE_DATAS_REGEX_VEC");
 

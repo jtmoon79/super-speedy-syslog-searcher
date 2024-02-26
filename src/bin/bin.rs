@@ -110,6 +110,7 @@ use ::s4lib::data::datetime::{
     datetime_parse_from_str_w_tz,
     DateTimeL,
     DateTimeLOpt,
+    DateTimeParseDatasCompiledCount,
     DateTimeParseInstr,
     DateTimePattern_str,
     MAP_TZZ_TO_TZz,
@@ -3917,6 +3918,12 @@ fn processing_loop(
         eprintln!("Printed evtx events   : {}", summaryprinted.evtxentries);
         // TODO: [2023/03/26] eprint count of EVTX files "out of order".
         eprintln!("Printed journal events: {}", summaryprinted.journalentries);
+        let count: isize = match DateTimeParseDatasCompiledCount.read() {
+            Ok(count) => *count as isize,
+            // hacky hint that the count is not available
+            Err(_) => -1,
+        };
+        eprintln!("Regex compiled        : {}", count);
 
         eprint!("Datetime filter -a    :");
         match filter_dt_after_opt {
