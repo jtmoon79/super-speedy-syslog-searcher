@@ -1,0 +1,4 @@
+dietpi   pts/1        Sat Feb 17 13:19:05 2024 - Sat Feb 17 13:19:07 2024  (00:00)     192.168.100.254
+root     pts/0        Sat Feb 17 13:16:51 2024   gone - no logout                      192.168.100.254
+
+wtmp begins Sat Feb 17 13:16:51 2024

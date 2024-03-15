@@ -1,0 +1,8 @@
+root       pts/0    host.net               Fri Feb  2 21:08   still logged in
+root       ttyv0                           Fri Feb  2 13:07   still logged in
+boot time                                  Fri Feb  2 13:07
+shutdown time                              Fri Feb  2 21:05
+root       ttyv0                           Fri Feb  2 13:05 - 21:05  (08:00)
+boot time                                  Fri Feb  2 13:05
+
+/var/log/utx.log begins Fri Feb  2 13:05:04 EST 2024

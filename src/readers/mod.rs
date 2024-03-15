@@ -19,9 +19,10 @@
 //!   significantly improves program performance.
 //! * A `LineReader` does the majority of `u8` to `char` conversions.
 //!
-//! ### Reading [utmpx files]; _user accounting database_ files
+//! ### Reading C-struct record-keeping files; acct, lastlog, utmp, etc.
 //!
-//! * A [`UtmpxReader`] drives a [`BlockReader`] to derive [`Utmpx`s].
+//! * A [`FixedStructReader`] drives a [`BlockReader`] to derive
+//! [`FixedStruct`s].
 //!
 //! <br/>
 //!
@@ -45,7 +46,7 @@
 //!
 //! ---
 //!
-//! The _s4_ binary program uses a [`SyslogProcessor`], a [`UtmpxReader`],
+//! The _s4_ binary program uses a [`SyslogProcessor`], a [`FixedStructReader`],
 //! a [`EvtxReader`], or a [`JournalReader`], instance,
 //! one per file, to drive processing of the file.
 //!
@@ -63,14 +64,13 @@
 //! [`LineReader`]: crate::readers::linereader::LineReader
 //! [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
-//! [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
+//! [`FixedStructReader`]: crate::readers::fixedstructreader::FixedStructReader
 //! [`EvtxReader`]: crate::readers::evtxreader::EvtxReader
 //! [`systemd` journal files]: https://systemd.io/JOURNAL_FILES/
 //! [`JournalReader`]: crate::readers::journalreader::JournalReader
 //! [`JournalApiPtr`]: crate::libload::systemd_dlopen2::JournalApiPtr
 //! [Journal entries]: https://systemd.io/JOURNAL_FILE_FORMAT/
-//! [`Utmpx`s]: crate::data::utmpx::Utmpx
-//! [utmpx files]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143772537#utmpx,_wtmpx_and_btmpx
+//! [`FixedStruct`s]: crate::data::fixedstruct::FixedStruct
 //! [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
 //! [`Evtx`s]: crate::data::evtx::Evtx
 //! [evtx files]: https://en.wikipedia.org/w/index.php?title=Event_Viewer&oldid=1130075772#Windows_Vista
@@ -84,4 +84,4 @@ pub mod linereader;
 pub mod summary;
 pub mod syslinereader;
 pub mod syslogprocessor;
-pub mod utmpxreader;
+pub mod fixedstructreader;

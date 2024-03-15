@@ -1,0 +1,8 @@
+root     ssh:notty    192.168.100.254  Wed Apr 12 22:25 - 22:25  (00:00)
+root     ssh:notty    192.168.100.254  Fri Apr  7 22:06 - 22:06  (00:00)
+root     ssh:notty    192.168.100.254  Thu Apr  6 00:03 - 00:03  (00:00)
+user5    ssh:notty    192.168.100.254  Sun Apr  2 00:09 - 00:09  (00:00)
+user5    ssh:notty    192.168.100.254  Sun Apr  2 00:08 - 00:08  (00:00)
+user5    ssh:notty    192.168.100.254  Sun Apr  2 00:08 - 00:08  (00:00)
+
+btmp.1 begins Sun Apr  2 00:08:47 2023

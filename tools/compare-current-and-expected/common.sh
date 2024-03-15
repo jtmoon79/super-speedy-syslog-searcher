@@ -54,7 +54,7 @@ function stderr_clean () {
     #   filesystem.
     # - remove the realpath as it varies depending on the repo. path.
     # - remove warnings as they are printed in an unpredictable order
-    # - remove `streaming: `, `blocks high:`, `lines high:` from the
+    # - remove `streaming: `, `blocks high:`, `lines high:`, `caching:` from the
     #   "streaming" summary. Explained in Issue #213
     # - remove `ERROR:` because they are sometimes printed by processing threads
     #   and so the timing of prints may vary
@@ -75,6 +75,8 @@ function stderr_clean () {
         -e '/^[ ]+Modified Time [ ]*:.*$/d' \
         -e '/^[ ]+realpath .*$/d' \
         -e '/^[ ]+streaming: .*$/d' \
+        -e '/^[ ]+caching: BlockReader::read_block.*$/d' \
+        -e '/^[ ]+storage: BlockReader::read_block.*$/d' \
         -e '/^[ ]+blocks high[ ]+: .*$/d' \
         -e '/^[ ]+lines high[ ]+: .*$/d' \
         -e '/^ERROR: .*$/d' \

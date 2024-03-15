@@ -8,13 +8,17 @@
 #![allow(non_camel_case_types)]
 use crate::common::{
     FileOffset,
+    FileType,
+    FixedStructFileType,
     FPath,
 };
-use crate::debug::helpers::{create_temp_file,
+use crate::debug::helpers::{
+    create_temp_file,
     ntf_fpath,
     NamedTempFile,
 };
 use crate::data::datetime::FixedOffset;
+use crate::data::fixedstruct::ENTRY_SZ_MAX;
 use crate::printer::printers::{
     Color,
     ColorChoice,
@@ -23,12 +27,17 @@ use crate::printer::printers::{
 use crate::readers::blockreader::BlockSz;
 use crate::readers::evtxreader::EvtxReader;
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
+use crate::readers::fixedstructreader::{
+    FixedStructReader,
+    ResultFixedStructReaderNew,
+    ResultS3FixedStructFind,
+};
 use crate::readers::syslinereader::{ResultS3SyslineFind, SyslineReader};
-use crate::readers::utmpxreader::{ResultS3UtmpxFind, UtmpxReader};
 use crate::tests::common::{
     FO_0,
     FO_P8,
-    NTF_UTMPX_2ENTRY_FPATH,
+    NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH,
+    NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
     EVTX_KPNP_FPATH,
     EVTX_KPNP_EVENT_COUNT,
 };
@@ -164,23 +173,26 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
 
 const FILEU: &str = "foo.utmp";
 
-#[test_case(CCA, CLR, None, None, None; "u_a")]
-#[test_case(CCU, CLR, None, None, None; "u_b")]
-#[test_case(CCN, CLR, None, None, None; "u_c")]
-#[test_case(CCA, CLR, Some(FILEU), None, None; "u_d")]
-#[test_case(CCU, CLR, None, Some(DATE), None; "u_e")]
-#[test_case(CCN, CLR, None, None, Some(*FO_P8); "u_f")]
-#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None; "u_g")]
-#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8); "u_h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8); "u_i")]
-fn test_PrinterLogMessage_print_utmpx(
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, None, None, None; "u_a")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, None, None; "u_b")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, None; "u_c")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), None, None; "u_d")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, Some(DATE), None; "u_e")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, Some(*FO_P8); "u_f")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), Some(DATE), None; "u_g")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8); "u_h")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, Some(DATE), Some(*FO_P8); "u_i")]
+#[test_case(&*NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, 1, CCN, CLR, None, Some(DATE), Some(*FO_P8); "l_i")]
+fn test_PrinterLogMessage_print_fixedstruct(
+    path: &FPath,
+    print_count_expect: usize,
     colorchoice: ColorChoice,
     color: Color,
     prepend_file: Option<&str>,
     prepend_date: Option<&str>,
     prepend_offset: Option<FixedOffset>,
 ) {
-    let mut plm = new_PrinterLogMessage(
+    let mut plm: PrinterLogMessage = new_PrinterLogMessage(
         colorchoice,
         color,
         prepend_file,
@@ -188,37 +200,49 @@ fn test_PrinterLogMessage_print_utmpx(
         prepend_offset,
     );
 
-    let buffer: &mut [u8] = &mut [0; 1024];
-    let mut ur = UtmpxReader::new(
-        NTF_UTMPX_2ENTRY_FPATH.clone(),
-        1024,
+    let mut buffer: &mut [u8] = &mut [0; ENTRY_SZ_MAX];
+    let mut fixedstructreader = match FixedStructReader::new(
+        path.clone(),
+        FileType::FixedStruct{type_: FixedStructFileType::Utmpx},
+        ENTRY_SZ_MAX as BlockSz,
         *FO_P8,
-    ).unwrap();
-    let mut fo: FileOffset = 0;
+        None,
+        None,
+    ) {
+        ResultFixedStructReaderNew::FileOk(val) => val,
+        _ => panic!("ERROR: FixedStructReader::new() failed"),
+    };
+    let mut fo: FileOffset = fixedstructreader.fileoffset_first().unwrap();
     let mut prints: usize = 0;
     loop {
-        let result = ur.find_entry(fo);
-        match result {
-            ResultS3UtmpxFind::Found((fo_, utmpx_)) => {
-                fo = fo_;
-                match plm.print_utmpx(&utmpx_, buffer) {
-                    Ok(_) => {
-                        prints += 1;
-                    }
-                    Err(err) => {
-                        panic!("ERROR: plm.print_utmpx({:?}) returned Err({})", fo_, err);
-                    }
-                }
+        let (fo_next, fs) = match fixedstructreader.process_entry_at(fo, &mut buffer) {
+            ResultS3FixedStructFind::Found((fo_, fixedstruct_)) => {
+                defo!("ResultS3FixedStructFind::Found({}, …)", fo_);
+                (fo_, fixedstruct_)
             }
-            ResultS3UtmpxFind::Done => {
+            ResultS3FixedStructFind::Done => {
+                defo!("ResultS3FixedStructFind::Done");
                 break;
             }
-            ResultS3UtmpxFind::Err(err) => {
-                panic!("ERROR: ur.find_entry({}) returned Err({})", fo, err);
+            ResultS3FixedStructFind::Err((_fo_opt, err)) => {
+                panic!("ResultS3FixedStructFind::Err({})", err);
+            }
+        };
+        fo = fo_next;
+        match plm.print_fixedstruct(&fs, buffer) {
+            Ok(_) => {
+                prints += 1;
+            }
+            Err(err) => {
+                panic!("ERROR: plm.print_fixedstruct({:?}, …) returned Err({})", fs, err);
             }
         }
     }
-    assert_eq!(prints, 2, "Expected 2 prints, got {}", prints);
+
+    assert_eq!(
+        prints, print_count_expect, "Expected {} prints, got {}",
+        print_count_expect, prints,
+    );
 }
 
 #[test_case(CCA, CLR, None, None, None; "u_a")]

@@ -13,7 +13,7 @@ use crate::data::evtx::Evtx;
 use crate::data::journal::JournalEntry;
 use crate::data::line::{LineIndex, LineP};
 use crate::data::sysline::SyslineP;
-use crate::data::utmpx::{InfoAsBytes, Utmpx};
+use crate::data::fixedstruct::{InfoAsBytes, FixedStruct};
 use crate::debug::printers::de_err;
 
 use std::hint::black_box;
@@ -35,6 +35,7 @@ use ::more_asserts::{
 };
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ};
+use ::si_trace_print::printers::debug_print_guard;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // globals and constants
@@ -181,7 +182,7 @@ pub struct PrinterLogMessage {
 /// Macro to write to given stdout. If there is an error then
 /// `return PrinterLogMessageResult::Err`.
 macro_rules! write_or_return {
-    ($stdout:expr, $slice_:expr, $printed:expr) => {
+    ($stdout:expr, $slice_:expr, $printed:expr) => {{
         match $stdout.write_all($slice_) {
             Ok(_) => {
                 $printed += $slice_.len();
@@ -205,7 +206,7 @@ macro_rules! write_or_return {
                 return PrinterLogMessageResult::Err(err);
             }
         }
-    };
+    }};
 }
 
 /// Macro that sets output color, only changed if needed.
@@ -213,7 +214,7 @@ macro_rules! write_or_return {
 /// Unnecessary changes to `set_color` may cause errant formatting bytes to
 /// print to the terminal.
 macro_rules! setcolor_or_return {
-    ($stdout:expr, $color_spec:expr, $color_spec_last:expr) => {
+    ($stdout:expr, $color_spec:expr, $color_spec_last:expr) => {{
         if $color_spec != $color_spec_last {
             if let Err(err) = $stdout.set_color(&$color_spec) {
                 de_err!("{}.set_color({:?}) returned error {}", stringify!($stdout), $color_spec, err);
@@ -221,7 +222,7 @@ macro_rules! setcolor_or_return {
             };
             $color_spec_last = $color_spec.clone();
         }
-    };
+    }};
 }
 
 // XXX: this was a `fn -> PrinterLogMessageResult` but due to mutable and immutable error, it would not compile.
@@ -441,28 +442,28 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Prints the [`Utmpx`] based on `PrinterLogMessage` settings.
+    /// Prints the [`FixedStruct`] based on `PrinterLogMessage` settings.
     ///
     /// Users should call this function.
     ///
-    /// [`Utmpx`]: crate::data::utmpx::Utmpx
+    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
     #[inline(always)]
-    pub fn print_utmpx(
+    pub fn print_fixedstruct(
         &mut self,
-        utmpx: &Utmpx,
+        fixedstruct: &FixedStruct,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult
     {
         // TODO: [2023/03/23] refactor `print_utmp*` similar to `print_evtx*`
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
-            (false, false, false) => self.print_utmpx_(utmpx, buffer),
-            (false, true, false) => self.print_utmpx_prependfile(utmpx, buffer),
-            (false, false, true) => self.print_utmpx_prependdate(utmpx, buffer),
-            (false, true, true) => self.print_utmpx_prependfile_prependdate(utmpx, buffer),
-            (true, false, false) => self.print_utmpx_color(utmpx, buffer),
-            (true, true, false) => self.print_utmpx_prependfile_color(utmpx, buffer),
-            (true, false, true) => self.print_utmpx_prependdate_color(utmpx, buffer),
-            (true, true, true) => self.print_utmpx_prependfile_prependdate_color(utmpx, buffer),
+            (false, false, false) => self.print_fixedstruct_(fixedstruct, buffer),
+            (false, true, false) => self.print_fixedstruct_prependfile(fixedstruct, buffer),
+            (false, false, true) => self.print_fixedstruct_prependdate(fixedstruct, buffer),
+            (false, true, true) => self.print_fixedstruct_prependfile_prependdate(fixedstruct, buffer),
+            (true, false, false) => self.print_fixedstruct_color(fixedstruct, buffer),
+            (true, true, false) => self.print_fixedstruct_prependfile_color(fixedstruct, buffer),
+            (true, false, true) => self.print_fixedstruct_prependdate_color(fixedstruct, buffer),
+            (true, true, true) => self.print_fixedstruct_prependfile_prependdate_color(fixedstruct, buffer),
         }
     }
 
@@ -542,17 +543,17 @@ impl PrinterLogMessage {
         dt_delayedformat.to_string()
     }
 
-    /// Helper function to transform [`utmpx.dt`] to a `String`.
+    /// Helper function to transform [`fixedstruct.dt`] to a `String`.
     ///
-    /// [`utmpx.dt`]: crate::data::utmpx::utmpx#structfield.dt
+    /// [`fixedstruct.dt`]: crate::data::fixedstruct::fixedstruct#structfield.dt
     #[inline(always)]
-    fn datetime_to_string_utmpx(
+    fn datetime_to_string_fixedstruct(
         &self,
-        utmpx: &Utmpx,
+        fixedstruct: &FixedStruct,
     ) -> String
     {
-        // write the `utmpx.dt` into a `String` once
-        let dt_: DateTimeL = (*utmpx)
+        // write the `fixedstruct.dt` into a `String` once
+        let dt_: DateTimeL = (*fixedstruct)
             .dt()
             .with_timezone(&self.prepend_date_offset);
         let dt_delayedformat = dt_.format(
@@ -628,6 +629,11 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut stdout_lock = self.stdout.lock();
+        // TODO: [2023/12/08] adding `stderr.lock()` after all `stdout.lock()`
+        //       and before `_si_lock = debug_print_guard()` results in a deadlock.
+        //           let _stderr_lock = self.stderr.lock();
+        //       Why?
+        let _si_lock = debug_print_guard();
         for linep in (*syslinep).lines.iter() {
             printed += self.print_line(linep, &mut stdout_lock)?;
         }
@@ -651,6 +657,7 @@ impl PrinterLogMessage {
         let dt_string: String = self.datetime_to_string_sysline(syslinep);
         let dtb: &[u8] = dt_string.as_bytes();
         let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         for linep in (*syslinep).lines.iter() {
             write_or_return!(stdout_lock, dtb, printed);
             printed += self.print_line(linep, &mut stdout_lock)?;
@@ -678,6 +685,8 @@ impl PrinterLogMessage {
             .unwrap()
             .as_bytes();
         let mut stdout_lock = self.stdout.lock();
+        //let _stderr_lock = self.stderr.lock();
+        let _si_lock = debug_print_guard();
         for linep in (*syslinep).lines.iter() {
             write_or_return!(stdout_lock, prepend_file, printed);
             printed += self.print_line(linep, &mut stdout_lock)?;
@@ -708,6 +717,7 @@ impl PrinterLogMessage {
             .unwrap()
             .as_bytes();
         let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         for linep in (*syslinep).lines.iter() {
             write_or_return!(stdout_lock, prepend_file, printed);
             write_or_return!(stdout_lock, dtb, printed);
@@ -730,6 +740,7 @@ impl PrinterLogMessage {
         let mut printed: usize = 0;
         let mut line_first = true;
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
         for linep in (*syslinep).lines.iter() {
             if line_first {
@@ -762,6 +773,7 @@ impl PrinterLogMessage {
         let dt_string: String = self.datetime_to_string_sysline(syslinep);
         let dtb: &[u8] = dt_string.as_bytes();
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         for linep in (*syslinep).lines.iter() {
             setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
             write_or_return!(self.stdout_color, dtb, printed);
@@ -799,6 +811,7 @@ impl PrinterLogMessage {
             .unwrap()
             .as_bytes();
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         for linep in (*syslinep).lines.iter() {
             setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
             write_or_return!(self.stdout_color, prepend_file, printed);
@@ -838,6 +851,7 @@ impl PrinterLogMessage {
             .unwrap()
             .as_bytes();
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         for linep in (*syslinep).lines.iter() {
             setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
             write_or_return!(self.stdout_color, prepend_file, printed);
@@ -861,25 +875,26 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok(printed)
     }
 
-    // TODO: [2023/04/04] the series of function `print_utmpx_*`, `print_evtx_*`,
+    // TODO: [2023/04/04] the series of function `print_fixedstruct_*`, `print_evtx_*`,
     //       and `print_journalentry_*` are nearly identical, and could be
     //       be turned into generic functions.
 
-    /// Print a [`Utmpx`] without anything special.
+    /// Print a [`FixedStruct`] without anything special.
     ///
-    /// [`Utmpx`]: crate::data::utmpx::Utmpx
-    fn print_utmpx_(
+    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    fn print_fixedstruct_(
         &self,
-        utmpx: &Utmpx,
+        fixedstruct: &FixedStruct,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult
     {
         let mut printed: usize = 0;
-        let at = match utmpx.as_bytes(buffer) {
+        let at = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
         let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         write_or_return!(stdout_lock, &buffer[..at], printed);
         if let Result::Err(err) = stdout_lock.flush() {
             return PrinterLogMessageResult::Err(err);
@@ -888,26 +903,27 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok(printed)
     }
 
-    /// Print a [`Utmpx`] with prepended datetime.
+    /// Print a [`FixedStruct`] with prepended datetime.
     ///
-    /// [`Utmpx`]: crate::data::utmpx::Utmpx
-    fn print_utmpx_prependdate(
+    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    fn print_fixedstruct_prependdate(
         &self,
-        utmpx: &Utmpx,
+        fixedstruct: &FixedStruct,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult
     {
         debug_assert!(!self.prepend_date_format.is_empty());
 
         let mut printed: usize = 0;
-        let dt_string: String = self.datetime_to_string_utmpx(utmpx);
+        let dt_string: String = self.datetime_to_string_fixedstruct(fixedstruct);
         let dtb: &[u8] = dt_string.as_bytes();
-        let at = match utmpx.as_bytes(buffer) {
+        let at = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
 
         let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         write_or_return!(stdout_lock, dtb, printed);
         write_or_return!(stdout_lock, &buffer[..at], printed);
         if let Result::Err(err) = stdout_lock.flush() {
@@ -917,12 +933,12 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok(printed)
     }
 
-    /// prints [`Utmpx`] with prepended filename.
+    /// prints [`FixedStruct`] with prepended filename.
     ///
-    /// [`Utmpx`]: crate::data::utmpx::Utmpx
-    fn print_utmpx_prependfile(
+    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    fn print_fixedstruct_prependfile(
         &mut self,
-        utmpx: &Utmpx,
+        fixedstruct: &FixedStruct,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult
     {
@@ -934,11 +950,12 @@ impl PrinterLogMessage {
             .as_ref()
             .unwrap()
             .as_bytes();
-        let at = match utmpx.as_bytes(buffer) {
+        let at = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
         let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         write_or_return!(stdout_lock, prepend_file, printed);
         write_or_return!(stdout_lock, &buffer[..at], printed);
         if let Result::Err(err) = stdout_lock.flush() {
@@ -948,12 +965,12 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok(printed)
     }
 
-    /// Print a [`Utmpx`] with prepended filename and datetime.
+    /// Print a [`FixedStruct`] with prepended filename and datetime.
     ///
-    /// [`Utmpx`]: crate::data::utmpx::Utmpx
-    fn print_utmpx_prependfile_prependdate(
+    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    fn print_fixedstruct_prependfile_prependdate(
         &mut self,
-        utmpx: &Utmpx,
+        fixedstruct: &FixedStruct,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult
     {
@@ -961,19 +978,20 @@ impl PrinterLogMessage {
         debug_assert!(!self.prepend_date_format.is_empty());
 
         let mut printed: usize = 0;
-        let dt_string: String = self.datetime_to_string_utmpx(utmpx);
+        let dt_string: String = self.datetime_to_string_fixedstruct(fixedstruct);
         let dtb: &[u8] = dt_string.as_bytes();
         let prepend_file: &[u8] = self
             .prepend_file
             .as_ref()
             .unwrap()
             .as_bytes();
-        let at = match utmpx.as_bytes(buffer) {
+        let at = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
 
         let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         write_or_return!(stdout_lock, dtb, printed);
         write_or_return!(stdout_lock, prepend_file, printed);
         write_or_return!(stdout_lock, &buffer[..at], printed);
@@ -984,17 +1002,17 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok(printed)
     }
 
-    /// Prints [`Utmpx`] in color.
+    /// Prints [`FixedStruct`] in color.
     ///
-    /// [`Utmpx`]: crate::data::utmpx::Utmpx
-    fn print_utmpx_color(
+    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    fn print_fixedstruct_color(
         &mut self,
-        utmpx: &Utmpx,
+        fixedstruct: &FixedStruct,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult
     {
         let mut printed: usize = 0;
-        let (at, beg, end) = match utmpx.as_bytes(buffer) {
+        let (at, beg, end) = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
                 let err = Error::new(
@@ -1005,6 +1023,7 @@ impl PrinterLogMessage {
             }
         };
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
         write_or_return!(self.stdout_color, &buffer[..beg], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_datetime, self.color_spec_last);
@@ -1020,19 +1039,19 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok(printed)
     }
 
-    /// Print a [`Utmpx`] in color and prepended datetime.
+    /// Print a [`FixedStruct`] in color and prepended datetime.
     ///
-    /// [`Utmpx`]: crate::data::utmpx::Utmpx
-    fn print_utmpx_prependdate_color(
+    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    fn print_fixedstruct_prependdate_color(
         &mut self,
-        utmpx: &Utmpx,
+        fixedstruct: &FixedStruct,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult
     {
         let mut printed: usize = 0;
-        let dt_string: String = self.datetime_to_string_utmpx(utmpx);
+        let dt_string: String = self.datetime_to_string_fixedstruct(fixedstruct);
         let dtb: &[u8] = dt_string.as_bytes();
-        let (at, beg, end) = match utmpx.as_bytes(buffer) {
+        let (at, beg, end) = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
                 let err = Error::new(
@@ -1044,6 +1063,7 @@ impl PrinterLogMessage {
         };
 
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         write_or_return!(self.stdout_color, dtb, printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
@@ -1061,12 +1081,12 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok(printed)
     }
 
-    /// Prints [`Utmpx`] in color and prepended filename.
+    /// Prints [`FixedStruct`] in color and prepended filename.
     ///
-    /// [`Utmpx`]: crate::data::utmpx::Utmpx
-    fn print_utmpx_prependfile_color(
+    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    fn print_fixedstruct_prependfile_color(
         &mut self,
-        utmpx: &Utmpx,
+        fixedstruct: &FixedStruct,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult
     {
@@ -1076,7 +1096,7 @@ impl PrinterLogMessage {
             .as_ref()
             .unwrap()
             .as_bytes();
-        let (at, beg, end) = match utmpx.as_bytes(buffer) {
+        let (at, beg, end) = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
                 let err = Error::new(
@@ -1088,6 +1108,7 @@ impl PrinterLogMessage {
         };
 
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         write_or_return!(self.stdout_color, prepend_file, printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
@@ -1105,24 +1126,24 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok(printed)
     }
 
-    /// Print a [`Utmpx`] in color and prepended filename and datetime.
+    /// Print a [`FixedStruct`] in color and prepended filename and datetime.
     ///
-    /// [`Utmpx`]: crate::data::utmpx::Utmpx
-    fn print_utmpx_prependfile_prependdate_color(
+    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    fn print_fixedstruct_prependfile_prependdate_color(
         &mut self,
-        utmpx: &Utmpx,
+        fixedstruct: &FixedStruct,
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult
     {
         let mut printed: usize = 0;
-        let dt_string: String = self.datetime_to_string_utmpx(utmpx);
+        let dt_string: String = self.datetime_to_string_fixedstruct(fixedstruct);
         let dtb: &[u8] = dt_string.as_bytes();
         let prepend_file: &[u8] = self
             .prepend_file
             .as_ref()
             .unwrap()
             .as_bytes();
-        let (at, beg, end) = match utmpx.as_bytes(buffer) {
+        let (at, beg, end) = match fixedstruct.as_bytes(buffer) {
             InfoAsBytes::Ok(at, beg, end) => (at, beg, end),
             InfoAsBytes::Fail(at) => {
                 let err = Error::new(
@@ -1134,6 +1155,7 @@ impl PrinterLogMessage {
         };
 
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         setcolor_or_return!(self.stdout_color, self.color_spec_default, self.color_spec_last);
         write_or_return!(self.stdout_color, prepend_file, printed);
         write_or_return!(self.stdout_color, dtb, printed);
@@ -1162,6 +1184,7 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         write_or_return!(stdout_lock, evtx.as_bytes(), printed);
         if let Result::Err(err) = stdout_lock.flush() {
             return PrinterLogMessageResult::Err(err);
@@ -1201,6 +1224,7 @@ impl PrinterLogMessage {
         let data = evtx.as_bytes();
         let mut a: usize = 0;
         let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         while let Some(b) = data[a..].find_byte(NLu8) {
             let line = &data[a..a + b + CHARSZ];
             a += b + CHARSZ;
@@ -1238,6 +1262,7 @@ impl PrinterLogMessage {
         let mut printed: usize = 0;
         let data = evtx.as_bytes();
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
         write_or_return!(self.stdout_color, &data[..beg], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_datetime, self.color_spec_last);
@@ -1288,6 +1313,7 @@ impl PrinterLogMessage {
         let mut at: usize = 0;
         let mut a: usize = 0;
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         while let Some(b) = data[a..].find_byte(NLu8) {
             let line = &data[a..a + b + CHARSZ];
             a += b + CHARSZ;
@@ -1336,6 +1362,7 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         write_or_return!(stdout_lock, journalentry.as_bytes(), printed);
         if let Result::Err(err) = stdout_lock.flush() {
             return PrinterLogMessageResult::Err(err);
@@ -1375,6 +1402,7 @@ impl PrinterLogMessage {
         let data = journalentry.as_bytes();
         let mut a: usize = 0;
         let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         while let Some(b) = data[a..].find_byte(NLu8) {
             let line = &data[a..a + b + CHARSZ];
             a += b + CHARSZ;
@@ -1412,6 +1440,7 @@ impl PrinterLogMessage {
         let mut printed: usize = 0;
         let data = journalentry.as_bytes();
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         setcolor_or_return!(self.stdout_color, self.color_spec_sysline, self.color_spec_last);
         write_or_return!(self.stdout_color, &data[..beg], printed);
         setcolor_or_return!(self.stdout_color, self.color_spec_datetime, self.color_spec_last);
@@ -1462,6 +1491,7 @@ impl PrinterLogMessage {
         let mut at: usize = 0;
         let mut a: usize = 0;
         let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
         while let Some(b) = data[a..].find_byte(NLu8) {
             let line = &data[a..a + b + CHARSZ];
             a += b + CHARSZ;
@@ -1559,6 +1589,7 @@ pub fn print_colored_stdout(
     let mut stdout = termcolor::StandardStream::stdout(choice);
     let _stdout_lock = std::io::stdout().lock();
     let _stderr_lock = std::io::stderr().lock();
+    let _si_lock = debug_print_guard();
 
     print_colored(color, value, &mut stdout)
 }
@@ -1577,7 +1608,8 @@ pub fn print_colored_stderr(
     };
     let mut stderr = termcolor::StandardStream::stderr(choice);
     let _stdout_lock = std::io::stdout().lock();
-    let _stderr_lock = std::io::stderr().lock();
+    //let _stderr_lock = std::io::stderr().lock();
+    let _si_lock = debug_print_guard();
 
     print_colored(color, value, &mut stderr)
 }
@@ -1586,9 +1618,10 @@ pub fn print_colored_stderr(
 ///
 /// [`StdoutLock`]: std::io::StdoutLock
 pub fn write_stdout(buffer: &[u8]) {
-    let stdout = std::io::stdout();
-    let mut stdout_lock = stdout.lock();
-    let _stderr_lock = std::io::stderr().lock();
+    // TODO: [2023/12/08] compare speed with and without these locks
+    let mut stdout_lock = std::io::stdout().lock();
+    //let mut stderr_lock = std::io::stderr().lock();
+    let _si_lock = debug_print_guard();
     match stdout_lock.write(buffer) {
         Ok(_) => {}
         Err(_err) => {
@@ -1599,7 +1632,7 @@ pub fn write_stdout(buffer: &[u8]) {
         }
     }
     match stdout_lock.flush() {
-        Ok(_) => {}
+        Ok(_) => {},
         Err(_err) => {
             // XXX: this will print when this program stdout is truncated, like to due to `head`
             //          Broken pipe (os error 32)
@@ -1607,14 +1640,16 @@ pub fn write_stdout(buffer: &[u8]) {
             de_err!("stdout_lock.flush() error {}", _err);
         }
     }
+    //_ = stderr_lock.flush();
 }
 
 /// Safely write the `buffer` to stderr with help of [`StderrLock`].
 ///
 /// [`StderrLock`]: std::io::StderrLock
 pub fn write_stderr(buffer: &[u8]) {
+    //let mut stdout_lock = std::io::stdout().lock();
     let mut stderr_lock = std::io::stderr().lock();
-    let mut stdout_lock = std::io::stdout().lock();
+    let _si_lock = debug_print_guard();
     // BUG: this print is shown during `cargo test` yet nearby `eprintln!` are not seen
     //      Would like this to only show when `--no-capture` is passed (this is how
     //      `eprintln!` behaves)
@@ -1628,7 +1663,7 @@ pub fn write_stderr(buffer: &[u8]) {
         }
     }
     match stderr_lock.flush() {
-        Ok(_) => {}
+        Ok(_) => {},
         Err(_err) => {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
@@ -1636,10 +1671,5 @@ pub fn write_stderr(buffer: &[u8]) {
             de_err!("stderr flushing error {}", _err);
         }
     }
-    if cfg!(debug_assertions) {
-        #[allow(clippy::match_single_binding)]
-        match stdout_lock.flush() {
-            _ => {}
-        }
-    }
+    //_ = stdout_lock.flush();
 }

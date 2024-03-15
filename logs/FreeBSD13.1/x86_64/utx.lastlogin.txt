@@ -1,0 +1,3 @@
+root       pts/0    host.net               Fri Feb  2 15:48:37 2024
+user1      pts/0    host.net               Fri Dec  1 16:32:31 2023
+user12345678901234567890 pts/1    host.net               Fri Feb  2 15:59:48 2024

@@ -1,0 +1,675 @@
+00:00:08.203 main.c:1938:check_logging                                     : checking if console messages should be redirected and logged
+00:00:08.203 main.c:1947:check_logging                                     : logging will be enabled!
+00:00:08.203 main.c:2017:initialize_environment                            : source built on Oct 26 2022
+00:00:08.203 main.c:2027:initialize_environment                            : Making sure /run/plymouth exists
+00:00:08.203 main.c:2031:initialize_environment                            : initialized minimal work environment
+00:00:08.203 main.c:1839:attach_to_running_session                         : creating new terminal session
+00:00:08.203 ply-terminal-session.c:220:ply_terminal_session_attach        : ptmx not passed in, creating one
+00:00:08.203 ply-terminal-session.c:178:open_pseudoterminal                : opening device '/dev/ptmx'
+00:00:08.203 ply-terminal-session.c:184:open_pseudoterminal                :  opened device '/dev/ptmx'
+00:00:08.203 ply-terminal-session.c:186:open_pseudoterminal                : unlocking pseudoterminal
+00:00:08.203 ply-terminal-session.c:193:open_pseudoterminal                : unlocked pseudoterminal
+00:00:08.203 ply-terminal-session.c:230:ply_terminal_session_attach        : redirecting system console to terminal device
+00:00:08.203 ply-terminal-session.c:239:ply_terminal_session_attach        : done redirecting system console to terminal device
+00:00:08.203 ply-terminal-session.c:369:ply_terminal_session_start_logging : logging incoming console messages
+00:00:08.203 main.c:1718:tell_systemd_to_print_details                     : telling systemd to start printing details
+00:00:08.203 main.c:700:get_cache_file_for_mode                            : returning cache file '/var/lib/plymouth//boot-duration'
+00:00:08.203 main.c:303:load_settings                                      : Trying to load /etc/plymouth//plymouthd.conf
+00:00:08.203 ply-key-file.c:84:ply_key_file_open_file                      : Failed to open key file /etc/plymouth//plymouthd.conf: No such file or directory
+00:00:08.203 main.c:414:find_system_default_splash                         : failed to load /etc/plymouth//plymouthd.conf
+00:00:08.203 main.c:303:load_settings                                      : Trying to load /run/plymouth/plymouthd.defaults
+00:00:08.203 ply-key-file.c:84:ply_key_file_open_file                      : Failed to open key file /run/plymouth/plymouthd.defaults: No such file or directory
+00:00:08.203 main.c:429:find_distribution_default_splash                   : failed to load /run/plymouth/plymouthd.defaults, trying /usr/share/plymouth//
+00:00:08.203 main.c:303:load_settings                                      : Trying to load /usr/share/plymouth//plymouthd.defaults
+00:00:08.203 ply-key-file.c:175:ply_key_file_load_group                    : trying to load group Daemon
+00:00:08.203 ply-key-file.c:262:ply_key_file_load_groups                   : key file has no more groups
+00:00:08.203 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'ThemeDir'
+00:00:08.203 main.c:285:get_theme_path                                     : Theme /run/plymouth/themes//bgrt/bgrt.plymouth not found
+00:00:08.203 main.c:282:get_theme_path                                     : Theme is /usr/share/plymouth/themes//bgrt/bgrt.plymouth
+00:00:08.203 main.c:321:load_settings                                      : Splash delay is set to 0.000000
+00:00:08.203 main.c:326:load_settings                                      : Device timeout is set to 8.000000
+00:00:08.203 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'DeviceScale'
+00:00:08.203 main.c:437:find_distribution_default_splash                   : Distribution default theme file is '/usr/share/plymouth/themes//bgrt/bgrt.plymouth'
+00:00:08.203 main.c:873:plymouth_should_show_default_splash                : checking if plymouth should show default splash
+00:00:08.203 main.c:906:plymouth_should_show_default_splash                : using default splash because kernel command line has option "splash=silent"
+00:00:08.203 ply-key-file.c:175:ply_key_file_load_group                    : trying to load group NONE
+00:00:08.203 ply-terminal.c:172:ply_terminal_new                           : terminal /dev/tty7 keymap: us
+00:00:08.203 ply-device-manager.c:1001:create_devices_from_terminals       : checking for consoles
+00:00:08.203 ply-device-manager.c:779:add_consoles_from_file               : opening /sys/class/tty/console/active
+00:00:08.203 ply-device-manager.c:787:add_consoles_from_file               : reading file
+00:00:08.203 ply-device-manager.c:825:add_consoles_from_file               : console /dev/tty7 found!
+00:00:08.203 ply-device-manager.c:601:watch_for_udev_events                : watching for udev graphics device add and remove events
+00:00:08.203 ply-device-manager.c:387:create_devices_for_subsystem         : creating objects for drm devices
+00:00:08.203 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/platform/simple-framebuffer.0/drm/card0
+00:00:08.203 ply-device-manager.c:414:create_devices_for_subsystem         : device is initialized
+00:00:08.203 ply-device-manager.c:423:create_devices_for_subsystem         : found node /dev/dri/card0
+00:00:08.203 ply-device-manager.c:317:create_devices_for_udev_device       : device subsystem is drm
+00:00:08.203 ply-device-manager.c:333:create_devices_for_udev_device       : ignoring since we only handle SimpleDRM devices after timeout
+00:00:08.203 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/platform/simple-framebuffer.0/drm/card0/card0-Unknown-1
+00:00:08.207 ply-device-manager.c:414:create_devices_for_subsystem         : device is initialized
+00:00:08.207 main.c:2384:main                                              : entering event loop
+00:00:08.211 ply-device-manager.c:560:on_udev_event                        : got remove event for device /dev/dri/card0
+00:00:08.271 ply-boot-server.c:396:print_connection_process_identity       : connection is from pid 342 (/usr/bin/plymouth show-splash) with parent pid 1 (/init)
+00:00:08.271 ply-boot-server.c:495:ply_boot_connection_on_request          : got show splash request
+00:00:08.271 main.c:841:plymouth_should_ignore_show_splash_calls           : checking if plymouth should be running
+00:00:08.271 main.c:985:on_show_splash                                     : no displays available to show splash on, waiting...
+00:00:08.271 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 9
+00:00:08.423 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/init)
+00:00:08.423 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:08.423 main.c:184:on_update                                          : updating status to 'plymouth-start.service'
+00:00:08.423 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 9
+00:00:08.547 ply-device-manager.c:560:on_udev_event                        : got add event for device /dev/dri/card0
+00:00:08.547 ply-device-manager.c:317:create_devices_for_udev_device       : device subsystem is drm
+00:00:08.547 ply-device-manager.c:336:create_devices_for_udev_device       : found DRM device /dev/dri/card0
+00:00:08.547 ply-device-manager.c:913:create_devices_for_terminal_and_rende: creating devices for /dev/dri/card0 (renderer type: 1) (terminal: /dev/tty7)
+00:00:08.547 ply-renderer.c:236:ply_renderer_open_plugin                   : trying to open renderer plugin /usr/lib64/plymouth/renderers/drm.so
+00:00:08.547 plugin.c:880:create_backend                                   : creating renderer backend for device /dev/dri/card0
+00:00:08.547 plugin.c:960:load_driver                                      : Opening '/dev/dri/card0'
+00:00:08.547 ply-terminal.c:637:ply_terminal_open                          : trying to open terminal '/dev/tty7'
+00:00:08.547 ply-terminal.c:430:ply_terminal_refresh_geometry              : looking up terminal text geometry
+00:00:08.547 ply-terminal.c:442:ply_terminal_refresh_geometry              : terminal is now 160x50 text cells
+00:00:08.547 ply-terminal.c:480:get_active_vt                              : Remembering that initial vt is 1
+00:00:08.547 plugin.c:1386:create_heads_for_active_connectors              : (Re)enumerating all outputs
+00:00:08.547 plugin.c:1060:output_get_controller_info                      : Found already lit monitor on connector 38 using controller 40
+00:00:08.547 plugin.c:1069:output_get_controller_info                      : connector 38 encoder 39 possible controllers 0x00000001/0x00000001
+00:00:08.547 plugin.c:536:ply_renderer_connector_get_properties            : link-status 0
+00:00:08.547 plugin.c:1131:get_preferred_mode                              : Found preferred mode 1280x800 at index 0
+00:00:08.547 plugin.c:1455:create_heads_for_active_connectors              : Using controller 40 for connector 38
+00:00:08.547 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 45
+00:00:08.547 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 52
+00:00:08.547 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 59
+00:00:08.547 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 66
+00:00:08.547 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 73
+00:00:08.547 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 80
+00:00:08.547 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 87
+00:00:08.547 plugin.c:580:ply_renderer_head_add_connector                  : Adding connector with id 38 to 1280x800 head
+00:00:08.547 plugin.c:628:ply_renderer_head_new                            : Creating 1280x800 renderer head
+00:00:08.551 plugin.c:1498:create_heads_for_active_connectors              : outputs changed
+
+00:00:08.551 plugin.c:247:ply_renderer_buffer_new                          : returning 1x1 buffer with stride 4
+00:00:08.551 ply-renderer.c:256:ply_renderer_open_plugin                   : opened renderer plugin /usr/lib64/plymouth/renderers/drm.so
+00:00:08.551 main.c:1033:on_keyboard_added                                 : listening for keystrokes
+00:00:08.551 main.c:1037:on_keyboard_added                                 : listening for escape
+00:00:08.551 main.c:1041:on_keyboard_added                                 : listening for backspace
+00:00:08.551 main.c:1045:on_keyboard_added                                 : listening for enter
+00:00:08.551 ply-device-manager.c:850:create_pixel_displays_for_renderer   : Adding displays for 1 heads
+00:00:08.551 main.c:1087:on_pixel_display_added                            : pixel display added before splash loaded, so loading splash now
+00:00:08.551 main.c:873:plymouth_should_show_default_splash                : checking if plymouth should show default splash
+00:00:08.551 main.c:906:plymouth_should_show_default_splash                : using default splash because kernel command line has option "splash=silent"
+00:00:08.551 main.c:446:show_default_splash                                : Showing splash screen
+00:00:08.551 main.c:460:show_default_splash                                : Trying distribution default splash
+00:00:08.551 main.c:1769:load_theme                                        : Loading boot splash theme '/usr/share/plymouth/themes//bgrt/bgrt.plymouth'
+00:00:08.551 ply-key-file.c:175:ply_key_file_load_group                    : trying to load group Plymouth Theme
+00:00:08.551 ply-key-file.c:175:ply_key_file_load_group                    : trying to load group two-step
+00:00:08.551 ply-key-file.c:175:ply_key_file_load_group                    : trying to load group boot-up
+00:00:08.551 ply-key-file.c:175:ply_key_file_load_group                    : trying to load group shutdown
+00:00:08.551 ply-key-file.c:175:ply_key_file_load_group                    : trying to load group reboot
+00:00:08.551 ply-key-file.c:175:ply_key_file_load_group                    : trying to load group updates
+00:00:08.551 ply-key-file.c:175:ply_key_file_load_group                    : trying to load group system-upgrade
+00:00:08.551 ply-key-file.c:175:ply_key_file_load_group                    : trying to load group firmware-upgrade
+00:00:08.551 ply-key-file.c:262:ply_key_file_load_groups                   : key file has no more groups
+00:00:08.551 plugin.c:1076:create_plugin                                   : Using '/usr/share/plymouth/themes/spinner' as working directory
+00:00:08.551 plugin.c:1103:create_plugin                                   : openSUSE's Watermark path: '/usr/share/pixmaps/distribution-logos/light-inline.png'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'ProgressBarHorizontalAlignment'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'ProgressBarVerticalAlignment'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'SecureBootHorizontalAlignment'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'SecureBootVerticalAlignment'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'ProgressBarWidth'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'ProgressBarHeight'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'SuppressMessages'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'ProgressBarShowPercentComplete'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'UseProgressBar'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'Title'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'SubTitle'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'SuppressMessages'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'ProgressBarShowPercentComplete'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'UseProgressBar'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'Title'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'SubTitle'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'SuppressMessages'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'ProgressBarShowPercentComplete'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'UseProgressBar'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'Title'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'SubTitle'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'UseFirmwareBackground'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'UseFirmwareBackground'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'UseFirmwareBackground'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'ProgressFunction'
+00:00:08.551 ply-key-file.c:359:ply_key_file_get_raw_value                 : key file does not have entry for key 'ShowAnimationPercent'
+00:00:08.551 main.c:1785:load_theme                                        : attaching plugin to event loop
+00:00:08.551 main.c:1788:load_theme                                        : attaching progress to plugin
+00:00:08.551 ply-boot-splash.c:138:ply_boot_splash_add_pixel_display       : adding 1280x800 pixel display
+00:00:08.551 plugin.c:1656:add_pixel_display                               : adding pixel display to plugin
+00:00:08.551 ply-device-manager.c:1164:ply_device_manager_activate_renderer: activating renderers
+00:00:08.551 ply-boot-splash.c:486:ply_boot_splash_show                    : showing splash screen
+00:00:08.551 plugin.c:1712:show_splash_screen                              : loading lock image
+00:00:08.551 plugin.c:1717:show_splash_screen                              : loading box image
+00:00:08.551 plugin.c:1726:show_splash_screen                              : loading corner image
+00:00:08.551 plugin.c:1735:show_splash_screen                              : loading header image
+00:00:08.551 plugin.c:1744:show_splash_screen                              : loading background tile image
+00:00:08.551 plugin.c:1752:show_splash_screen                              : loading background bgrt image
+00:00:08.551 plugin.c:1763:show_splash_screen                              : loading background bgrt fallback image
+00:00:08.551 plugin.c:1771:show_splash_screen                              : loading watermark image
+00:00:08.555 plugin.c:1779:show_splash_screen                              : loading secure boot warning image
+00:00:08.555 plugin.c:643:view_load                                        : using 288x44 watermark centered at 496x725 for 1280x800 screen
+00:00:08.555 plugin.c:660:view_load                                        : loading entry
+00:00:08.555 ply-keymap-icon.c:158:ply_keymap_icon_load                    : loading '/usr/share/plymouth/themes/spinner/keyboard.png': success
+00:00:08.563 ply-keymap-icon.c:165:ply_keymap_icon_load                    : loading '/usr/share/plymouth/themes/spinner/keymap-render.png': success
+00:00:08.563 plugin.c:670:view_load                                        : loading progress animation
+00:00:08.563 ply-progress-animation.c:373:ply_progress_animation_add_frames: could not find any progress animation frames
+00:00:08.563 plugin.c:672:view_load                                        : optional progress animation wouldn't load
+00:00:08.563 plugin.c:681:view_load                                        : loading throbber
+00:00:08.563 plugin.c:1795:show_splash_screen                              : starting boot animations
+00:00:08.563 plugin.c:1419:start_progress_animation                        : starting animation
+00:00:08.563 plugin.c:735:ply_renderer_head_map                            : Creating buffer for 1280x800 renderer head
+00:00:08.563 plugin.c:247:ply_renderer_buffer_new                          : returning 1280x800 buffer with stride 5120
+00:00:08.563 plugin.c:743:ply_renderer_head_map                            : Mapping buffer for 1280x800 renderer head
+00:00:08.631 ply-device-manager.c:1197:ply_device_manager_activate_keyboard: activating keyboards
+00:00:08.631 plugin.c:784:pause_views                                      : pausing views
+00:00:08.631 plugin.c:800:unpause_views                                    : unpausing views
+00:00:08.631 ply-device-manager.c:955:create_devices_for_terminal_and_rende: activating renderer
+00:00:08.631 ply-terminal.c:430:ply_terminal_refresh_geometry              : looking up terminal text geometry
+00:00:08.631 ply-terminal.c:442:ply_terminal_refresh_geometry              : terminal is now 160x50 text cells
+00:00:08.631 ply-device-manager.c:886:create_text_displays_for_terminal    : adding text display for terminal /dev/tty7
+00:00:08.631 main.c:1117:on_text_display_added                             : text display added after splash loaded, so attaching to splash
+00:00:08.631 plugin.c:784:pause_views                                      : pausing views
+00:00:08.631 plugin.c:800:unpause_views                                    : unpausing views
+00:00:08.631 ply-device-manager.c:979:create_devices_for_terminal_and_rende: activating keyboards
+00:00:08.631 ply-device-manager.c:560:on_udev_event                        : got add event for device /dev/fb0
+00:00:08.631 ply-device-manager.c:492:verify_add_or_change                 : ignoring since we only handle subsystem graphics devices after timeout
+00:00:08.631 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:577:on_udev_event                        : ignoring duplicate change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:577:on_udev_event                        : ignoring duplicate change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:577:on_udev_event                        : ignoring duplicate change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:577:on_udev_event                        : ignoring duplicate change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:577:on_udev_event                        : ignoring duplicate change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:577:on_udev_event                        : ignoring duplicate change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:08.631 ply-device-manager.c:577:on_udev_event                        : ignoring duplicate change event for device /dev/dri/card0
+00:00:08.631 plugin.c:1386:create_heads_for_active_connectors              : (Re)enumerating all outputs
+00:00:08.631 plugin.c:1060:output_get_controller_info                      : Found already lit monitor on connector 38 using controller 40
+00:00:08.631 plugin.c:1069:output_get_controller_info                      : connector 38 encoder 39 possible controllers 0x00000001/0x00000001
+00:00:08.631 plugin.c:536:ply_renderer_connector_get_properties            : link-status 0
+00:00:08.631 plugin.c:1131:get_preferred_mode                              : Found preferred mode 1280x800 at index 0
+00:00:08.631 plugin.c:1455:create_heads_for_active_connectors              : Using controller 40 for connector 38
+00:00:08.631 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 45
+00:00:08.631 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 52
+00:00:08.631 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 59
+00:00:08.631 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 66
+00:00:08.631 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 73
+00:00:08.631 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 80
+00:00:08.631 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 87
+00:00:08.631 plugin.c:576:ply_renderer_head_add_connector                  : Head already contains connector with id 38
+00:00:08.631 plugin.c:1498:create_heads_for_active_connectors              : outputs unchanged
+
+00:00:08.631 plugin.c:947:on_active_vt_changed                             : activating on vt change
+00:00:08.631 plugin.c:922:activate                                         : taking master and scanning out
+00:00:08.631 plugin.c:697:ply_renderer_head_set_scan_out_buffer            : Setting scan out buffer of 1280x800 head to our buffer
+00:00:08.703 plugin.c:1708:flush_head                                      : Needed to reset scan out buffer on 1280x800 renderer head
+00:00:08.703 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:08.703 plugin.c:1386:create_heads_for_active_connectors              : (Re)enumerating all outputs
+00:00:08.703 plugin.c:1060:output_get_controller_info                      : Found already lit monitor on connector 38 using controller 40
+00:00:08.703 plugin.c:1069:output_get_controller_info                      : connector 38 encoder 39 possible controllers 0x00000001/0x00000001
+00:00:08.703 plugin.c:536:ply_renderer_connector_get_properties            : link-status 0
+00:00:08.703 plugin.c:1131:get_preferred_mode                              : Found preferred mode 1280x800 at index 0
+00:00:08.703 plugin.c:1455:create_heads_for_active_connectors              : Using controller 40 for connector 38
+00:00:08.703 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 45
+00:00:08.703 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 52
+00:00:08.703 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 59
+00:00:08.703 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 66
+00:00:08.703 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 73
+00:00:08.703 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 80
+00:00:08.703 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 87
+00:00:08.703 plugin.c:576:ply_renderer_head_add_connector                  : Head already contains connector with id 38
+00:00:08.703 plugin.c:1498:create_heads_for_active_connectors              : outputs unchanged
+
+00:00:08.703 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/init)
+00:00:08.703 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:08.703 main.c:184:on_update                                          : updating status to 'run-credentials-systemd\x2dsysctl.service.mount'
+00:00:08.703 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:08.875 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/init)
+00:00:08.875 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:08.875 main.c:184:on_update                                          : updating status to 'dracut-initqueue.service'
+00:00:08.875 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:08.935 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/init)
+00:00:08.935 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:08.935 main.c:184:on_update                                          : updating status to 'systemd-fsck-root.service'
+00:00:08.935 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:08.955 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/init)
+00:00:08.955 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:08.955 main.c:184:on_update                                          : updating status to 'sysroot.mount'
+00:00:08.955 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:08.995 ply-boot-server.c:396:print_connection_process_identity       : connection is from pid 429 (/usr/bin/plymouth update-root-fs --new-root-dir=/sysroot) with parent pid 1 (/init)
+00:00:08.995 ply-boot-server.c:715:ply_boot_connection_on_request          : got newroot request
+00:00:08.995 main.c:658:on_newroot                                         : new root mounted at "/sysroot", switching to it
+00:00:08.995 main.c:700:get_cache_file_for_mode                            : returning cache file '/var/lib/plymouth//boot-duration'
+00:00:09.015 plugin.c:1940:on_root_mounted                                 : root filesystem mounted
+00:00:09.015 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:09.015 ply-utils.c:796:ply_get_process_command_line                  : Could not open /proc/1/cmdline: No such file or directory
+00:00:09.015 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process ((null))
+00:00:09.015 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:09.015 main.c:184:on_update                                          : updating status to 'plymouth-switch-root.service'
+00:00:09.015 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:16.595 ply-device-manager.c:1044:create_devices_from_udev            : Timeout elapsed, looking for devices from udev
+00:00:16.595 ply-device-manager.c:387:create_devices_for_subsystem         : creating objects for drm devices
+00:00:16.595 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/drm/card0
+00:00:16.595 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.595 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-Virtual-1
+00:00:16.595 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.595 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-Virtual-2
+00:00:16.595 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.595 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-Virtual-3
+00:00:16.595 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.595 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-Virtual-4
+00:00:16.595 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.595 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-Virtual-5
+00:00:16.595 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.595 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-Virtual-6
+00:00:16.595 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.595 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-Virtual-7
+00:00:16.595 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.595 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-Virtual-8
+00:00:16.595 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.595 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/drm/renderD128
+00:00:16.595 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.595 ply-device-manager.c:387:create_devices_for_subsystem         : creating objects for frame buffer devices
+00:00:16.596 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/pci0000:00/0000:00:02.0/graphics/fb0
+00:00:16.596 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:16.596 ply-device-manager.c:407:create_devices_for_subsystem         : found device /sys/devices/virtual/graphics/fbcon
+00:00:16.596 ply-device-manager.c:430:create_devices_for_subsystem         : it's not initialized
+00:00:20.107 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:20.107 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:20.107 main.c:184:on_update                                          : updating status to 'run-credentials-systemd\x2dvconsole\x2dsetup.service.mount'
+00:00:20.107 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:23.587 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:23.587 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:23.587 main.c:184:on_update                                          : updating status to 'systemd-journald.service'
+00:00:23.587 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:23.587 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:23.587 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:23.587 main.c:184:on_update                                          : updating status to 'dev-hugepages.mount'
+00:00:23.587 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:23.587 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:23.587 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:23.587 main.c:184:on_update                                          : updating status to 'dev-mqueue.mount'
+00:00:23.587 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:23.587 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:23.587 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:23.587 main.c:184:on_update                                          : updating status to 'sys-kernel-debug.mount'
+00:00:23.587 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:23.587 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:23.587 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:23.587 main.c:184:on_update                                          : updating status to 'sys-kernel-tracing.mount'
+00:00:23.587 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:23.587 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:23.587 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:23.587 main.c:184:on_update                                          : updating status to 'tmp.mount'
+00:00:23.587 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:23.603 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:23.603 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:23.603 main.c:184:on_update                                          : updating status to 'kmod-static-nodes.service'
+00:00:23.603 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:23.611 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:23.611 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:23.611 main.c:184:on_update                                          : updating status to 'lvm2-monitor.service'
+00:00:23.611 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.099 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.099 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.099 main.c:184:on_update                                          : updating status to 'systemd-modules-load.service'
+00:00:24.099 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.147 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.147 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.147 main.c:184:on_update                                          : updating status to 'systemd-remount-fs.service'
+00:00:24.147 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.195 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.195 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.195 main.c:184:on_update                                          : updating status to 'systemd-udev-trigger.service'
+00:00:24.195 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.215 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.215 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.215 main.c:184:on_update                                          : updating status to 'sys-fs-fuse-connections.mount'
+00:00:24.215 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.215 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.215 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.215 main.c:184:on_update                                          : updating status to 'sys-kernel-config.mount'
+00:00:24.215 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.275 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.275 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.275 main.c:184:on_update                                          : updating status to 'kernel-sysctl.service'
+00:00:24.275 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.275 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.275 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.275 main.c:184:on_update                                          : updating status to 'run-credentials-systemd\x2dtmpfiles\x2dsetup\x2ddev.service.mount'
+00:00:24.275 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.295 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.295 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.295 main.c:184:on_update                                          : updating status to 'systemd-tmpfiles-setup-dev.service'
+00:00:24.295 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.323 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.323 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.323 main.c:184:on_update                                          : updating status to 'run-credentials-systemd\x2dsysctl.service.mount'
+00:00:24.323 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.415 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.415 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.415 main.c:184:on_update                                          : updating status to 'systemd-sysctl.service'
+00:00:24.415 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.415 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.415 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.415 main.c:184:on_update                                          : updating status to 'systemd-udevd.service'
+00:00:24.415 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.475 ply-device-manager.c:560:on_udev_event                        : got add event for device /dev/dri/card0
+00:00:24.475 ply-device-manager.c:560:on_udev_event                        : got add event for device /dev/fb0
+00:00:24.475 ply-device-manager.c:317:create_devices_for_udev_device       : device subsystem is graphics
+00:00:24.475 ply-device-manager.c:343:create_devices_for_udev_device       : found frame buffer device /dev/fb0
+00:00:24.475 ply-device-manager.c:235:fb_device_has_drm_device             : trying to find associated drm node for fb device (path: pci-0000:00:02.0)
+00:00:24.475 ply-device-manager.c:353:create_devices_for_udev_device       : ignoring, since there's a DRM device associated with it
+00:00:24.579 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.579 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.579 main.c:184:on_update                                          : updating status to 'opt.mount'
+00:00:24.579 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.599 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.599 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.599 main.c:184:on_update                                          : updating status to 'boot-grub2-x86_64\x2defi.mount'
+00:00:24.599 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.599 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.599 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.599 main.c:184:on_update                                          : updating status to 'srv.mount'
+00:00:24.599 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.599 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.599 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.599 main.c:184:on_update                                          : updating status to 'home.mount'
+00:00:24.599 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.599 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.599 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.599 main.c:184:on_update                                          : updating status to 'var.mount'
+00:00:24.599 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.599 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.599 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.599 main.c:184:on_update                                          : updating status to 'root.mount'
+00:00:24.599 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.599 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.599 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.599 main.c:184:on_update                                          : updating status to 'boot-grub2-i386\x2dpc.mount'
+00:00:24.599 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.599 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.599 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.599 main.c:184:on_update                                          : updating status to 'usr-local.mount'
+00:00:24.599 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.619 ply-boot-server.c:396:print_connection_process_identity       : connection is from pid 534 (/usr/bin/plymouth show-splash) with parent pid 1 (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.619 ply-boot-server.c:495:ply_boot_connection_on_request          : got show splash request
+00:00:24.619 main.c:959:on_show_splash                                     : show splash called while already shown
+00:00:24.619 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.619 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.619 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.619 main.c:184:on_update                                          : updating status to 'plymouth-start.service'
+00:00:24.619 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:24.639 ply-boot-server.c:396:print_connection_process_identity       : connection is from pid 538 (/usr/bin/plymouth update-root-fs --read-write) with parent pid 1 (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.639 ply-boot-server.c:487:ply_boot_connection_on_request          : got system initialized notification
+00:00:24.639 main.c:814:on_system_initialized                              : system now initialized, opening log
+00:00:24.639 main.c:1718:tell_systemd_to_print_details                     : telling systemd to start printing details
+00:00:24.639 main.c:730:get_log_file_for_state                             : returning log file '/var/log/boot.log'
+00:00:24.639 main.c:799:prepare_logging                                    : opening log '/var/log/boot.log'
+00:00:24.639 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.639 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.639 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.639 main.c:184:on_update                                          : updating status to 'plymouth-read-write.service'
+00:00:24.639 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.751 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.751 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.751 main.c:184:on_update                                          : updating status to 'systemd-random-seed.service'
+00:00:24.751 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.875 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.875 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.875 main.c:184:on_update                                          : updating status to 'systemd-journal-flush.service'
+00:00:24.875 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.955 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.955 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.955 main.c:184:on_update                                          : updating status to 'systemd-tmpfiles-setup.service'
+00:00:24.955 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.995 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.995 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.995 main.c:184:on_update                                          : updating status to 'apparmor.service'
+00:00:24.995 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:24.995 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:24.995 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:24.995 main.c:184:on_update                                          : updating status to 'auditd.service'
+00:00:24.995 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.075 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.075 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.075 main.c:184:on_update                                          : updating status to 'systemd-update-utmp.service'
+00:00:25.075 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.075 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.075 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.075 main.c:184:on_update                                          : updating status to 'irqbalance.service'
+00:00:25.075 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.075 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.075 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.075 main.c:184:on_update                                          : updating status to 'vboxadd-service.service'
+00:00:25.075 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.075 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.075 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.075 main.c:184:on_update                                          : updating status to 'vboxclient.service'
+00:00:25.075 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.075 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.075 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.075 main.c:184:on_update                                          : updating status to 'btrfs-trim.service'
+00:00:25.075 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.075 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.075 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.075 main.c:184:on_update                                          : updating status to 'btrfs-scrub.service'
+00:00:25.075 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.075 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.075 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.075 main.c:184:on_update                                          : updating status to 'btrfs-balance.service'
+00:00:25.075 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.095 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.095 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.095 main.c:184:on_update                                          : updating status to 'btrfs-defrag.service'
+00:00:25.095 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.119 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:25.119 plugin.c:1386:create_heads_for_active_connectors              : (Re)enumerating all outputs
+00:00:25.119 plugin.c:1060:output_get_controller_info                      : Found already lit monitor on connector 38 using controller 40
+00:00:25.119 plugin.c:1069:output_get_controller_info                      : connector 38 encoder 39 possible controllers 0x00000001/0x00000001
+00:00:25.119 plugin.c:536:ply_renderer_connector_get_properties            : link-status 0
+00:00:25.119 plugin.c:1131:get_preferred_mode                              : Found preferred mode 800x600 at index 0
+00:00:25.119 plugin.c:1361:check_if_output_has_changed                     : Output for connector 38 changed, removing
+00:00:25.119 plugin.c:758:ply_renderer_head_unmap                          : unmapping 1280x800 renderer head
+00:00:25.119 plugin.c:653:ply_renderer_head_free                           : freeing 1280x800 renderer head
+00:00:25.119 plugin.c:1455:create_heads_for_active_connectors              : Using controller 40 for connector 38
+00:00:25.119 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 45
+00:00:25.119 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 52
+00:00:25.119 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 59
+00:00:25.119 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 66
+00:00:25.119 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 73
+00:00:25.119 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 80
+00:00:25.119 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 87
+00:00:25.119 plugin.c:580:ply_renderer_head_add_connector                  : Adding connector with id 38 to 800x600 head
+00:00:25.119 plugin.c:628:ply_renderer_head_new                            : Creating 800x600 renderer head
+00:00:25.119 plugin.c:1498:create_heads_for_active_connectors              : outputs changed
+
+00:00:25.119 ply-boot-splash.c:156:ply_boot_splash_remove_pixel_display    : removing 1280x800 pixel display
+00:00:25.119 plugin.c:1681:remove_pixel_display                            : removing pixel display from plugin
+00:00:25.119 ply-device-manager.c:850:create_pixel_displays_for_renderer   : Adding displays for 1 heads
+00:00:25.119 main.c:1090:on_pixel_display_added                            : pixel display added after splash loaded, so attaching to splash
+00:00:25.119 ply-boot-splash.c:138:ply_boot_splash_add_pixel_display       : adding 800x600 pixel display
+00:00:25.119 plugin.c:1656:add_pixel_display                               : adding pixel display to plugin
+00:00:25.119 plugin.c:643:view_load                                        : using 288x44 watermark centered at 256x533 for 800x600 screen
+00:00:25.119 plugin.c:660:view_load                                        : loading entry
+00:00:25.119 ply-keymap-icon.c:158:ply_keymap_icon_load                    : loading '/usr/share/plymouth/themes/spinner/keyboard.png': success
+00:00:25.119 ply-keymap-icon.c:165:ply_keymap_icon_load                    : loading '/usr/share/plymouth/themes/spinner/keymap-render.png': success
+00:00:25.119 plugin.c:670:view_load                                        : loading progress animation
+00:00:25.119 ply-progress-animation.c:373:ply_progress_animation_add_frames: could not find any progress animation frames
+00:00:25.119 plugin.c:672:view_load                                        : optional progress animation wouldn't load
+00:00:25.119 plugin.c:681:view_load                                        : loading throbber
+00:00:25.119 plugin.c:735:ply_renderer_head_map                            : Creating buffer for 800x600 renderer head
+00:00:25.119 plugin.c:247:ply_renderer_buffer_new                          : returning 800x600 buffer with stride 3200
+00:00:25.119 plugin.c:743:ply_renderer_head_map                            : Mapping buffer for 800x600 renderer head
+00:00:25.119 plugin.c:697:ply_renderer_head_set_scan_out_buffer            : Setting scan out buffer of 800x600 head to our buffer
+00:00:25.147 plugin.c:1708:flush_head                                      : Needed to reset scan out buffer on 800x600 renderer head
+00:00:25.147 plugin.c:784:pause_views                                      : pausing views
+00:00:25.147 plugin.c:800:unpause_views                                    : unpausing views
+00:00:25.147 ply-device-manager.c:560:on_udev_event                        : got change event for device /dev/dri/card0
+00:00:25.147 plugin.c:1386:create_heads_for_active_connectors              : (Re)enumerating all outputs
+00:00:25.147 plugin.c:1060:output_get_controller_info                      : Found already lit monitor on connector 38 using controller 40
+00:00:25.147 plugin.c:1069:output_get_controller_info                      : connector 38 encoder 39 possible controllers 0x00000001/0x00000001
+00:00:25.147 plugin.c:536:ply_renderer_connector_get_properties            : link-status 0
+00:00:25.147 plugin.c:1131:get_preferred_mode                              : Found preferred mode 800x600 at index 0
+00:00:25.147 plugin.c:1455:create_heads_for_active_connectors              : Using controller 40 for connector 38
+00:00:25.147 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 45
+00:00:25.147 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 52
+00:00:25.147 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 59
+00:00:25.147 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 66
+00:00:25.147 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 73
+00:00:25.147 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 80
+00:00:25.147 plugin.c:1455:create_heads_for_active_connectors              : Using controller 0 for connector 87
+00:00:25.147 plugin.c:576:ply_renderer_head_add_connector                  : Head already contains connector with id 38
+00:00:25.147 plugin.c:1498:create_heads_for_active_connectors              : outputs unchanged
+
+00:00:25.147 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.147 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.147 main.c:184:on_update                                          : updating status to 'dracut-shutdown.service'
+00:00:25.147 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.219 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.219 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.219 main.c:184:on_update                                          : updating status to 'nscd.service'
+00:00:25.219 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.323 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.323 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.323 main.c:184:on_update                                          : updating status to 'alsa-restore.service'
+00:00:25.323 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.323 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.323 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.323 main.c:184:on_update                                          : updating status to 'systemd-logind.service'
+00:00:25.323 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 13
+00:00:25.323 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.323 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.323 main.c:184:on_update                                          : updating status to 'dbus.service'
+00:00:25.323 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 14
+00:00:25.343 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.343 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.343 main.c:184:on_update                                          : updating status to 'augenrules.service'
+00:00:25.343 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.463 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.463 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.463 main.c:184:on_update                                          : updating status to 'kbdsettings.service'
+00:00:25.463 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.623 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.623 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.623 main.c:184:on_update                                          : updating status to 'mnt-Temp.mount'
+00:00:25.623 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.623 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.623 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.623 main.c:184:on_update                                          : updating status to 'run-credentials-systemd\x2dtmpfiles\x2dsetup.service.mount'
+00:00:25.623 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 13
+00:00:25.623 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.623 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.623 main.c:184:on_update                                          : updating status to 'polkit.service'
+00:00:25.623 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:25.623 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:25.623 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:25.623 main.c:184:on_update                                          : updating status to 'avahi-daemon.service'
+00:00:25.623 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:26.255 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:26.255 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:26.255 main.c:184:on_update                                          : updating status to 'ModemManager.service'
+00:00:26.255 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:26.399 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:26.399 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:26.399 main.c:184:on_update                                          : updating status to 'firewalld.service'
+00:00:26.399 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:26.519 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:26.519 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:26.519 main.c:184:on_update                                          : updating status to 'NetworkManager.service'
+00:00:26.519 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:26.599 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:26.599 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:26.599 main.c:184:on_update                                          : updating status to 'systemd-user-sessions.service'
+00:00:26.599 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:26.659 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:26.659 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:26.659 main.c:184:on_update                                          : updating status to 'systemd-hostnamed.service'
+00:00:26.659 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:26.659 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:26.659 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:26.659 main.c:184:on_update                                          : updating status to 'cups.service'
+00:00:26.659 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 12
+00:00:26.715 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:26.715 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:26.715 main.c:184:on_update                                          : updating status to 'NetworkManager-dispatcher.service'
+00:00:26.715 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 13
+00:00:26.802 ply-boot-server.c:396:print_connection_process_identity       : connection is from pid 916 (plymouth quit) with parent pid 901 (/bin/bash /usr/lib/X11/display-manager start)
+00:00:26.802 ply-boot-server.c:533:ply_boot_connection_on_request          : got quit request
+00:00:26.802 main.c:1386:on_quit                                           : quitting (retain splash: false)
+00:00:26.802 main.c:1398:on_quit                                           : system initialized so saving boot-duration file
+00:00:26.802 ply-utils.c:610:ply_create_directory                          : directory '/var/lib/plymouth/' already exists
+00:00:26.802 main.c:700:get_cache_file_for_mode                            : returning cache file '/var/lib/plymouth//boot-duration'
+00:00:26.802 ply-progress.c:217:ply_progress_save_cache                    : saving progress cache to /var/lib/plymouth//boot-duration
+00:00:26.802 main.c:1726:tell_systemd_to_stop_printing_details             : telling systemd to stop printing details
+00:00:26.802 main.c:1412:on_quit                                           : closing log
+00:00:26.802 ply-device-manager.c:1219:ply_device_manager_deactivate_keyboa: deactivating keyboards
+00:00:26.802 ply-event-loop.c:766:ply_event_loop_stop_watching_fd          : stopping watching fd 10
+00:00:26.802 ply-event-loop.c:782:ply_event_loop_stop_watching_fd          : removing destination for fd 10
+00:00:26.802 main.c:1418:on_quit                                           : unloading splash
+00:00:26.802 ply-boot-splash.c:712:ply_boot_splash_become_idle             : telling splash to become idle
+00:00:26.802 plugin.c:1948:become_idle                                     : deactivation requested
+00:00:26.802 plugin.c:1958:become_idle                                     : waiting for plugin to stop
+00:00:26.802 ply-boot-splash.c:688:on_idle                                 : splash now idle
+00:00:26.802 ply-boot-server.c:392:print_connection_process_identity       : connection is from toplevel init process (/usr/lib/systemd/systemd --switched-root --system --deserialize=39)
+00:00:26.802 ply-boot-server.c:447:ply_boot_connection_on_request          : got update request
+00:00:26.802 main.c:184:on_update                                          : updating status to 'sshd.service'
+00:00:26.802 ply-event-loop.c:1143:ply_event_loop_free_destinations_for_sou: freeing destination (1, 0x55e25ae67280, 0x55e25ae6acb0) of fd 11
+00:00:26.822 main.c:1289:on_boot_splash_idle                               : boot splash idle
+00:00:26.822 main.c:1296:on_boot_splash_idle                               : hiding splash
+00:00:26.822 plugin.c:938:deactivate                                       : dropping master
+00:00:26.822 ply-event-loop.c:972:ply_event_loop_stop_watching_for_timeout : no matching timeout found for removal
+00:00:26.822 plugin.c:1906:hide_splash_screen                              : hiding splash
+00:00:26.822 plugin.c:1452:stop_animation                                  : stopping animation
+00:00:26.822 ply-throbber.c:355:ply_throbber_stop                          : throbber already stopped
+00:00:26.822 main.c:1300:on_boot_splash_idle                               : quitting splash
+00:00:26.822 main.c:1166:quit_splash                                       : quitting splash
+00:00:26.822 main.c:1168:quit_splash                                       : freeing splash
+00:00:26.822 ply-boot-splash.c:390:ply_boot_splash_free                    : freeing splash
+00:00:26.822 ply-event-loop.c:972:ply_event_loop_stop_watching_for_timeout : no matching timeout found for removal
+00:00:26.822 ply-boot-splash.c:335:remove_pixel_displays                   : removing pixel displays
+00:00:26.822 ply-boot-splash.c:349:remove_pixel_displays                   : Removing 800x600 pixel display
+00:00:26.822 plugin.c:1681:remove_pixel_display                            : removing pixel display from plugin
+00:00:26.822 plugin.c:1306:destroy_plugin                                  : destroying plugin
+00:00:26.822 plugin.c:1277:free_views                                      : freeing views
+00:00:26.822 ply-device-manager.c:1219:ply_device_manager_deactivate_keyboa: deactivating keyboards
+00:00:26.822 main.c:1177:quit_splash                                       : Not retaining splash, so deallocating VT
+00:00:26.822 ply-terminal.c:996:ply_terminal_deactivate_vt                 : Attempting to set active vt back to 1 from 7
+00:00:26.822 ply-terminal.c:1013:ply_terminal_deactivate_vt                : couldn't deallocate vt 7: Device or resource busy
+00:00:26.822 ply-terminal.c:706:ply_terminal_close                         : restoring color palette
+00:00:26.822 ply-terminal.c:710:ply_terminal_close                         : stop watching tty fd
+00:00:26.822 ply-event-loop.c:766:ply_event_loop_stop_watching_fd          : stopping watching fd 10
+00:00:26.822 ply-event-loop.c:782:ply_event_loop_stop_watching_fd          : removing destination for fd 10
+00:00:26.822 ply-event-loop.c:791:ply_event_loop_stop_watching_fd          : no more destinations remaing for fd 10, removing source
+00:00:26.822 ply-terminal.c:716:ply_terminal_close                         : stop watching SIGWINCH signal
+00:00:26.822 ply-terminal.c:720:ply_terminal_close                         : setting buffered input
+00:00:26.822 main.c:1726:tell_systemd_to_stop_printing_details             : telling systemd to stop printing details
+00:00:26.822 main.c:1889:detach_from_running_session                       : detaching from terminal session
+00:00:26.822 ply-terminal-session.c:256:ply_terminal_session_detach        : stopping terminal logger
+00:00:26.822 ply-terminal-session.c:393:ply_terminal_session_stop_logging  : stopping logging of incoming console messages
+00:00:26.822 ply-event-loop.c:766:ply_event_loop_stop_watching_fd          : stopping watching fd 8
+00:00:26.822 ply-event-loop.c:782:ply_event_loop_stop_watching_fd          : removing destination for fd 8
+00:00:26.822 ply-event-loop.c:791:ply_event_loop_stop_watching_fd          : no more destinations remaing for fd 8, removing source
+00:00:26.822 ply-terminal-session.c:261:ply_terminal_session_detach        : unredirecting console messages
+00:00:26.822 ply-terminal-session.c:266:ply_terminal_session_detach        : ptmx wasn't originally passed in, destroying created one
+00:00:26.822 main.c:1302:on_boot_splash_idle                               : quitting program
+00:00:26.822 main.c:1232:quit_program                                      : cleaning up devices
+00:00:26.822 ply-device-manager.c:738:ply_device_manager_free              : freeing device manager
+00:00:26.822 ply-renderer.c:92:ply_renderer_free                           : Unloading renderer backend plugin
+00:00:26.822 ply-event-loop.c:972:ply_event_loop_stop_watching_for_timeout : no matching timeout found for removal
+00:00:26.822 main.c:1235:quit_program                                      : exiting event loop
+00:00:26.822 ply-boot-server.c:350:ply_boot_connection_on_quit_complete    : quit complete
+00:00:26.822 main.c:2386:main                                              : exited event loop
+00:00:26.822 ply-boot-splash.c:390:ply_boot_splash_free                    : freeing splash
+00:00:26.822 main.c:2396:main                                              : freeing terminal session
+00:00:26.822 ply-terminal-session.c:393:ply_terminal_session_stop_logging  : stopping logging of incoming console messages
+00:00:26.822 main.c:2402:main                                              : exiting with code 0

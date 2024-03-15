@@ -109,7 +109,7 @@ pub type ResultS3SyslineFind_Test = ResultS3<(), std::io::Error>;
 const FOUND: ResultS3SyslineFind_Test = ResultS3SyslineFind_Test::Found(());
 const DONE: ResultS3SyslineFind_Test = ResultS3SyslineFind_Test::Done;
 
-/// helper to wrap the match and panic checks
+/// Helper to wrap the match and panic checks
 fn new_SyslineReader(
     path: &FPath,
     blocksz: BlockSz,
@@ -246,7 +246,7 @@ fn test_find_sysline_A0(
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// helper for common operations in `test_find_datetime_in_line`
+/// Helper for common operations in `test_find_datetime_in_line`
 /// and `test_parse_datetime_in_line_cached__no_cache`
 fn helper_extract_dtpi_info(
     dtpi: &DateTimeParseInstr,
@@ -3801,7 +3801,7 @@ fn test_find_sysline_A1_dt6_128_X9999() {
 
 // -------------------------------------------------------------------------------------------------
 
-/// helper to assert `find_sysline` return enum
+/// Helper to assert `find_sysline` return enum
 fn assert_results4(
     fo: &FileOffset,
     result_expect: &ResultS3SyslineFind_Test,
@@ -5646,6 +5646,8 @@ fn test_ezcheck_slice(
     0;
     "NTF_SYSLINE_2_PATH"
 )]
+// TODO: [2024/03/10] copy design of similar function
+//       `fixedstructreader_tests.rs:test_FixedStructReader_summary`
 fn test_syslinereadersummary(
     path: &FPath,
     blocksz: BlockSz,

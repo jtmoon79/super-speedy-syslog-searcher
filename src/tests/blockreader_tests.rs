@@ -75,9 +75,6 @@ use crate::tests::common::{
     NTF_XZ_1BYTE_FPATH,
     NTF_XZ_8BYTE_FPATH,
     NTF_XZ_EMPTY_FPATH,
-    //NTF_UTMPX_2ENTRY_FPATH,
-    //NTF_UTMPX_2ENTRY_FILETYPE,
-    //UTMPX_2ENTRY_FILESZ,
     LOCAL_NOW,
     UTC_NOW,
 };
@@ -93,7 +90,7 @@ use ::test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// helper wrapper to create a new BlockReader
+/// Helper wrapper to create a new BlockReader
 fn new_BlockReader(
     path: &FPath,
     filetype: FileType,
@@ -1585,6 +1582,8 @@ fn test_BlockReader_summary_empty(
     0
 )]
 /// test `BlockReader.Summary()`
+// TODO: [2024/03/10] copy design of similar function
+//       `fixedstructreader_tests.rs:test_FixedStructReader_summary`
 fn test_SummaryBlockReader(
     path: &FPath,
     filetype: FileType,

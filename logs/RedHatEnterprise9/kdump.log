@@ -1,0 +1,25 @@
++ 2023-04-10 16:58:58 /usr/bin/kdumpctl@673: /sbin/kexec -s -d -p '--command-line=BOOT_IMAGE=(hd0,msdos1)/vmlinuz-5.14.0-162.6.1.el9_1.x86_64 ro resume=/dev/mapper/rhel-swap rhgb irqpoll nr_cpus=1 reset_devices cgroup_disable=memory mce=off numa=off udev.children-max=2 panic=10 acpi_no_memhotplug transparent_hugepage=never nokaslr hest_disable novmcoredd cma=0 hugetlb_cma=0 disable_cpu_apicid=0' --initrd=/boot/initramfs-5.14.0-162.6.1.el9_1.x86_64kdump.img /boot/vmlinuz-5.14.0-162.6.1.el9_1.x86_64
+Try gzip decompression.
+Try LZMA decompression.
++ 2023-04-10 16:58:58 /usr/bin/kdumpctl@677: ret=0
++ 2023-04-10 16:58:58 /usr/bin/kdumpctl@678: set +x
++ 2023-04-22 15:25:49 /usr/bin/kdumpctl@673: /sbin/kexec -s -d -p '--command-line=BOOT_IMAGE=(hd0,msdos1)/vmlinuz-5.14.0-162.6.1.el9_1.x86_64 ro resume=/dev/mapper/rhel-swap rhgb irqpoll nr_cpus=1 reset_devices cgroup_disable=memory mce=off numa=off udev.children-max=2 panic=10 acpi_no_memhotplug transparent_hugepage=never nokaslr hest_disable novmcoredd cma=0 hugetlb_cma=0 disable_cpu_apicid=0' --initrd=/boot/initramfs-5.14.0-162.6.1.el9_1.x86_64kdump.img /boot/vmlinuz-5.14.0-162.6.1.el9_1.x86_64
+Try gzip decompression.
+Try LZMA decompression.
++ 2023-04-22 15:25:49 /usr/bin/kdumpctl@677: ret=0
++ 2023-04-22 15:25:49 /usr/bin/kdumpctl@678: set +x
++ 2023-05-06 21:20:52 /usr/bin/kdumpctl@673: /sbin/kexec -s -d -p '--command-line=BOOT_IMAGE=(hd0,msdos1)/vmlinuz-5.14.0-162.6.1.el9_1.x86_64 ro resume=/dev/mapper/rhel-swap rhgb irqpoll nr_cpus=1 reset_devices cgroup_disable=memory mce=off numa=off udev.children-max=2 panic=10 acpi_no_memhotplug transparent_hugepage=never nokaslr hest_disable novmcoredd cma=0 hugetlb_cma=0 disable_cpu_apicid=0' --initrd=/boot/initramfs-5.14.0-162.6.1.el9_1.x86_64kdump.img /boot/vmlinuz-5.14.0-162.6.1.el9_1.x86_64
+Try gzip decompression.
+Try LZMA decompression.
++ 2023-05-06 21:20:52 /usr/bin/kdumpctl@677: ret=0
++ 2023-05-06 21:20:52 /usr/bin/kdumpctl@678: set +x
++ 2023-05-10 00:14:41 /usr/bin/kdumpctl@673: /sbin/kexec -s -d -p '--command-line=BOOT_IMAGE=(hd0,msdos1)/vmlinuz-5.14.0-162.6.1.el9_1.x86_64 ro resume=/dev/mapper/rhel-swap rhgb irqpoll nr_cpus=1 reset_devices cgroup_disable=memory mce=off numa=off udev.children-max=2 panic=10 acpi_no_memhotplug transparent_hugepage=never nokaslr hest_disable novmcoredd cma=0 hugetlb_cma=0 disable_cpu_apicid=0' --initrd=/boot/initramfs-5.14.0-162.6.1.el9_1.x86_64kdump.img /boot/vmlinuz-5.14.0-162.6.1.el9_1.x86_64
+Try gzip decompression.
+Try LZMA decompression.
++ 2023-05-10 00:14:41 /usr/bin/kdumpctl@677: ret=0
++ 2023-05-10 00:14:41 /usr/bin/kdumpctl@678: set +x
++ 2023-12-15 00:47:35 /usr/bin/kdumpctl@673: /sbin/kexec -s -d -p '--command-line=BOOT_IMAGE=(hd0,msdos1)/vmlinuz-5.14.0-162.6.1.el9_1.x86_64 ro resume=/dev/mapper/rhel-swap rhgb irqpoll nr_cpus=1 reset_devices cgroup_disable=memory mce=off numa=off udev.children-max=2 panic=10 acpi_no_memhotplug transparent_hugepage=never nokaslr hest_disable novmcoredd cma=0 hugetlb_cma=0 disable_cpu_apicid=0' --initrd=/boot/initramfs-5.14.0-162.6.1.el9_1.x86_64kdump.img /boot/vmlinuz-5.14.0-162.6.1.el9_1.x86_64
+Try gzip decompression.
+Try LZMA decompression.
++ 2023-12-15 00:47:35 /usr/bin/kdumpctl@677: ret=0
++ 2023-12-15 00:47:35 /usr/bin/kdumpctl@678: set +x

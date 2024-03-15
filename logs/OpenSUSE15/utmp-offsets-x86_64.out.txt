@@ -1,0 +1,24 @@
+$ uname -a
+Linux huggy 6.2.10-1-default #1 SMP PREEMPT_DYNAMIC Thu Apr  6 10:36:55 UTC 2023 (ba7816e) x86_64 x86_64 x86_64 GNU/Linux
+$ (set -eux; cc utmp-offsets.c -o utmp-offsets; ./utmp-offsets)
++ cc utmp-offsets.c -o utmp-offsets
++ ./utmp-offsets
+sizeof(lastlog) = 292
+offsetof(lastlog.ll_time) = 0
+offsetof(lastlog.ll_line) = 4
+offsetof(lastlog.ll_host) = 36
+sizeof(utmp) = 384
+offsetof(utmp.ut_line) = 8
+offsetof(utmp.ut_name) = 44
+offsetof(utmp.ut_host) = 76
+offsetof(utmp.ut_time) = 340
+utmpx         = 384
+offsetof(utmpx.ut_line) = 8
+offsetof(utmpx.ut_name) = 44
+offsetof(utmpx.ut_host) = 76
+offsetof(utmpx.ut_time) = 340
+offsetof(utmpx.ut_session) = 336
+offsetof(utmpx.ut_tv) = 340
+offsetof(utmpx.ut_tv.tv_sec) = 340
+offsetof(utmpx.ut_tv.tv_usec) = 344
+

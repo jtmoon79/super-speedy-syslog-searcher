@@ -1,0 +1,53 @@
+CPU Architecture x86_32
+
+UT_NAMESIZE 32
+UT_LINESIZE 32
+UT_HOSTSIZE 256
+_PATH_LASTLOG    '/var/log/lastlog'
+lastlog               sizeof 292
+lastlog.ll_time  @  0 sizeof   4
+lastlog.ll_line  @  4 sizeof  32
+lastlog.ll_host  @ 36 sizeof 256
+
+_HAVE_UT_TYPE
+_HAVE_UT_PID
+_HAVE_UT_ID
+_HAVE_UT_TV
+UTMP_FILE         '/var/run/utmp'
+UTMP_FILENAME     '/var/run/utmp'
+_PATH_UTMP        '/var/run/utmp'
+WTMP_FILE         '/var/log/wtmp'
+WTMP_FILENAME     '/var/log/wtmp'
+_PATH_WTMP        '/var/log/wtmp'
+utmp                   sizeof 384
+utmp.ut_line      @  8 sizeof  32
+utmp.ut_name      @ 44 sizeof  32
+utmp.ut_host      @ 76 sizeof 256
+utmp.ut_exit      @332 sizeof   4
+utmp.ut_session   @336 sizeof   4
+utmp.ut_time      @340 sizeof   4
+utmp.ut_xtime     @340 sizeof   4
+utmp.ut_tv        @340 sizeof   8
+utmp.ut_tv.tv_sec @340 sizeof   4
+utmp.ut_tv.tv_usec@344 sizeof   4
+utmp.ut_addr      @348 sizeof   4
+utmp.ut_addr_v6   @348 sizeof  16
+
+utmpx                   sizeof 384
+utmpx.ut_type      @  0 sizeof   2
+utmpx.ut_pid       @  4 sizeof   4
+utmpx.ut_line      @  8 sizeof  32
+utmpx.ut_id        @ 40 sizeof   4
+utmpx.ut_user      @ 44 sizeof  32
+utmpx.ut_name      @ 44 sizeof  32
+utmpx.ut_host      @ 76 sizeof 256
+utmpx.ut_exit      @332 sizeof   4
+utmpx.ut_session   @336 sizeof   4
+utmpx.ut_time      @340 sizeof   4
+utmpx.ut_xtime     @340 sizeof   4
+utmpx.ut_tv        @340 sizeof   8
+utmpx.ut_tv.tv_sec @340 sizeof   4
+utmpx.ut_tv.tv_usec@344 sizeof   4
+utmpx.ut_addr      @348 sizeof   4
+utmpx.ut_addr_v6   @348 sizeof  16
+

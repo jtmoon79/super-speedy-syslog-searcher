@@ -206,7 +206,6 @@ pub fn create_file_bytes_name_in_tmpdir(
     create_dir_in_tmpdir(&pathb_tmp, tempdir);
 
     // create file with the passed `name`
-    #[allow(clippy::for_loops_over_fallibles)]
     #[allow(for_loops_over_fallibles)]
     // XXX: manual inspection shows this code is safe; no risk of "fallible"
     //      changes during the for-loop
@@ -217,7 +216,7 @@ pub fn create_file_bytes_name_in_tmpdir(
     defo!("File::create({:?})", path_file);
     let mut file_ = match File::create(path_file) {
         Ok(f) => f,
-        Err(err) => panic!("Error {:?}", err),
+        Err(err) => panic!("Error {}", err),
     };
     file_.write_all(data).unwrap();
     defx!();

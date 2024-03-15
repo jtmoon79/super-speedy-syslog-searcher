@@ -8,7 +8,13 @@
 //! [`BlockReader`]: crate::readers::blockreader::BlockReader
 
 #[doc(hidden)]
-use crate::common::{Count, FPath, FileOffset, FileSz, FileType};
+use crate::common::{
+    Count,
+    FPath,
+    FileOffset,
+    FileSz,
+    FileType,
+};
 use crate::common::{File, FileMetadata, FileOpenOptions, ResultS3};
 #[cfg(test)]
 use crate::common::Bytes;
@@ -133,7 +139,7 @@ fn err_from_err_path(error: &Error, path: &FPath, mesg: Option<&str>) -> Error
     }
 }
 
-/// helper to create a `ResultS3ReadBlock::Err` with a modified error string
+/// Helper to create a `ResultS3ReadBlock::Err` with a modified error string
 /// that includes the file path
 fn results3err_from_err_path(error: &Error, path: &FPath, mesg: Option<&str>) -> ResultS3ReadBlock
 {
@@ -159,6 +165,7 @@ pub enum ReadDataParts {
 /// - `ReadDataParts` enum
 /// - `BlockIndex` of the first `BlockP` in the `ReadDataParts` enum
 /// - `BlockIndex` of the last `BlockP` in the `ReadDataParts` enum
+// TODO: change to a typed `struct ReadData(...)`
 pub type ReadData = (ReadDataParts, BlockIndex, BlockIndex);
 
 /// A typed [`ResultS3`] for private function `BlockReader::read_data`.
@@ -174,7 +181,7 @@ pub type ResultReadData = ResultS3<ReadData, Error>;
 #[allow(non_upper_case_globals)]
 pub type ResultReadDataToBuffer = ResultS3<usize, Error>;
 
-/// helper to `BlockReader::read_data_to_buffer` to check buffer length.
+/// Helper to `BlockReader::read_data_to_buffer` to check buffer length.
 /// In case of error, return from caller function with
 /// `ResultReadDataToBuffer::Err`.
 macro_rules! read_data_to_buffer_len_check {
@@ -428,6 +435,8 @@ pub struct BlockReader {
     pub(crate) read_blocks_miss: Count,
     /// Internal storage `Count` of calls to `self.blocks.insert`.
     pub(crate) read_blocks_put: Count,
+    /// Internal storage `Count` of previously read block being read again.
+    pub(crate) read_blocks_reread_error: Count,
     /// Internal tracking of "high watermark" of `self.blocks` size
     pub(crate) blocks_highest: usize,
     /// Internal count of `Block`s dropped
@@ -469,7 +478,7 @@ impl fmt::Debug for BlockReader {
 //       fields to `SummaryBlockReader` fields, just store a
 //       `SummaryBlockReader` in `BlockReader` and update directly.
 #[allow(non_snake_case)]
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct SummaryBlockReader {
     pub blockreader_bytes: Count,
     pub blockreader_bytes_total: FileSz,
@@ -484,6 +493,7 @@ pub struct SummaryBlockReader {
     pub blockreader_read_blocks_hit: Count,
     pub blockreader_read_blocks_miss: Count,
     pub blockreader_read_blocks_put: Count,
+    pub blockreader_read_blocks_reread_error: Count,
     pub blockreader_blocks_highest: usize,
     pub blockreader_blocks_dropped_ok: Count,
     pub blockreader_blocks_dropped_err: Count,
@@ -534,9 +544,10 @@ impl BlockReader {
     ///
     /// Opens the file at `path`. Configures settings based on passed
     /// `filetype`.
-    // NOTE: Dissimilar to other `*Readers`, this `new` function may read
-    //       some bytes from the file, e.g. gzip header, e.g. tar header, to
-    //       determine the file type and set other initial values.
+    ///
+    /// **NOTE:** Dissimilar to other `*Readers::new`, this `new` function may
+    /// read some bytes from the file, e.g. gzip header, e.g. tar header, to
+    /// determine the file type and set other initial values.
     pub fn new(
         path: FPath,
         filetype: FileType,
@@ -637,7 +648,7 @@ impl BlockReader {
 
         match filetype {
             FileType::File
-            | FileType::Utmpx
+            | FileType::FixedStruct{..}
             | FileType::Unknown
             => {
                 filesz_actual = filesz;
@@ -685,7 +696,7 @@ impl BlockReader {
                             // TODO: Issue #10 [2022/06] use `ErrorKind::FileTooLarge` when it is stable
                             //       `ErrorKind::FileTooLarge` causes error:
                             //       use of unstable library feature 'io_error_more'
-                            //       see issue #86442 <https://github.com/rust-lang/rust/issues/86442> for more informationrustc(E0658)
+                            // TRACKING: see issue #86442 <https://github.com/rust-lang/rust/issues/86442>
                             ErrorKind::InvalidData,
                             format!("Cannot handle gzip files larger than semi-arbitrary {0} (0x{0:08X}) uncompressed bytes, file is {1} (0x{1:08X}) uncompressed bytes according to gzip header {2:?}", BlockReader::GZ_MAX_SZ, filesz, path),
                         )
@@ -1003,7 +1014,8 @@ impl BlockReader {
                     0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00,
                 ];
                 def1o!("FileXz: stream header magic bytes {:?}", buffer_);
-                if cfg!(debug_assertions) {
+                #[cfg(debug_assertions)]
+                {
                     for (i, b_) in buffer_.iter().enumerate() {
                         let _b_ex = XZ_MAGIC_BYTES[i];
                         let _c_ex: char = _b_ex as char;
@@ -1314,6 +1326,7 @@ impl BlockReader {
             read_blocks_hit: 0,
             read_blocks_miss: 0,
             read_blocks_put,
+            read_blocks_reread_error: 0,
             blocks_highest,
             dropped_blocks_ok: 0,
             dropped_blocks_err: 0,
@@ -1329,6 +1342,9 @@ impl BlockReader {
     }
 
     /// Return a copy of `self.mimeguess`.
+    // TODO: remove `MimeGuess` from `BlockReader` struct and all other
+    //       Reader structs that use it. Restrict use of `MimeGuess` to
+    //       `file_preprocessor.rs`
     #[inline(always)]
     pub const fn mimeguess(&self) -> MimeGuess {
         self.mimeguess_
@@ -1350,7 +1366,7 @@ impl BlockReader {
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
             FileType::File
-            | FileType::Utmpx
+            | FileType::FixedStruct{..}
             | FileType::Unknown
             => self.filesz,
             FileType::Gz
@@ -1403,7 +1419,7 @@ impl BlockReader {
         def1ñ!();
         match self.filetype {
             FileType::File
-            | FileType::Utmpx
+            | FileType::FixedStruct{..}
             | FileType::Unknown
             | FileType::Xz => self.file_metadata_modified,
             FileType::Gz => {
@@ -1699,10 +1715,10 @@ impl BlockReader {
         )
     }
 
-    /// Forcefully `drop` the [`Block`] at [`BlockOffset`].
+    /// Proactively `drop` the [`Block`] at [`BlockOffset`].
     /// For "[streaming stage]".
     ///
-    /// The caller must know what they are doing!
+    /// _The caller must know what they are doing!_
     ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
@@ -1751,7 +1767,12 @@ impl BlockReader {
         match blockp_opt {
             Some(blockp) => match Arc::try_unwrap(blockp) {
                 Ok(_block) => {
-                    deo!("dropped block {} @0x{:p}, len {}", blockoffset, &_block, _block.len());
+                    deo!(
+                        "dropped block {} @0x{:p}, len {}, total span [{}‥{})",
+                        blockoffset, &_block, _block.len(),
+                        blockoffset * self.blocksz,
+                        blockoffset * self.blocksz + (_block.len() as BlockOffset),
+                    );
                     self.dropped_blocks_ok += 1;
                     #[cfg(test)]
                     {
@@ -1856,7 +1877,7 @@ impl BlockReader {
             matches!(
                 self.filetype,
                 FileType::File
-                | FileType::Utmpx
+                | FileType::FixedStruct{..}
             ),
             "wrong FileType {:?} for calling read_block_FILE",
             self.filetype
@@ -2567,32 +2588,40 @@ impl BlockReader {
             {
                 self.read_blocks_hit += 1;
                 defo!("blocks_read.contains({})", blockoffset);
-                let blockp: BlockP = match self
-                    .blocks
-                    .get_mut(&blockoffset)
-                    {
-                        Some(blockp) => blockp.clone(),
-                        None => {
-                            return ResultS3ReadBlock::Err(
-                                Error::new(
-                                    ErrorKind::NotFound,
-                                    format!(
-                                        "requested block {} is in self.blocks_read but not in self.blocks for file {:?}",
-                                        blockoffset, self.path,
-                                    )
-                                ),
-                            )
-                        }
-                    };
-                self.store_block_in_LRU_cache(blockoffset, &blockp);
-                defx!(
-                    "return Found(Block); use stored Block[{}] @[{}, {}) len {}",
-                    &blockoffset,
-                    BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz),
-                    BlockReader::file_offset_at_block_offset(blockoffset + 1, self.blocksz),
-                    self.blocks[&blockoffset].len(),
-                );
-                return ResultS3ReadBlock::Found(blockp);
+                // XXX: `loop` is only here to allow a rare call to `break`
+                #[allow(clippy::never_loop)]
+                loop {
+                    let blockp: BlockP = match self
+                        .blocks
+                        .get_mut(&blockoffset)
+                        {
+                            Some(blockp) => blockp.clone(),
+                            None => {
+                                // BUG: getting here means something is wrong
+                                //      with the internal state of `BlockReader` and likely
+                                //      related to the caller's use of `drop_block`.
+                                //      But we can go ahead and just read the block again though
+                                //      that is inefficient and some day should be fixed.
+                                de_err!(
+                                    "requested block {} is in self.blocks_read but not in self.blocks for file {:?}",
+                                    blockoffset, self.path,
+                                );
+                                self.read_blocks_reread_error += 1;
+                                self.read_blocks_miss += 1;
+                                self.blocks_read.remove(&blockoffset);
+                                break;
+                            }
+                        };
+                    self.store_block_in_LRU_cache(blockoffset, &blockp);
+                    defx!(
+                        "return Found(Block); use stored Block[{}] @[{}, {}) len {}",
+                        &blockoffset,
+                        BlockReader::file_offset_at_block_offset(blockoffset, self.blocksz),
+                        BlockReader::file_offset_at_block_offset(blockoffset + 1, self.blocksz),
+                        self.blocks[&blockoffset].len(),
+                    );
+                    return ResultS3ReadBlock::Found(blockp);
+                }
             } else {
                 self.read_blocks_miss += 1;
                 defo!("blockoffset {} not found in blocks_read", blockoffset);
@@ -2608,7 +2637,7 @@ impl BlockReader {
 
         match self.filetype {
             FileType::File
-            | FileType::Utmpx
+            | FileType::FixedStruct{..}
             | FileType::Unknown
             => self.read_block_File(blockoffset),
             FileType::Gz => self.read_block_FileGz(blockoffset),
@@ -2649,6 +2678,9 @@ impl BlockReader {
     /// to reside within one [`Block`].
     /// If the data is not contained within one `Block` then returns [`Done`].
     ///
+    /// Users that just need some not-too-huge slice of bytes should call
+    /// [`read_data_to_buffer`] instead of this function.
+    ///
     /// [`BlockP`]: BlockP
     /// [`Block`]: Block
     /// [`BlockIndex`s]: BlockIndex
@@ -2664,7 +2696,7 @@ impl BlockReader {
         oneblock: bool,
     ) -> ResultReadData
     {
-        defn!("({}, {}, {})", fileoffset_beg, fileoffset_end, oneblock);
+        defn!("({}, {}, oneblock={})", fileoffset_beg, fileoffset_end, oneblock);
         debug_assert_le!(fileoffset_beg, fileoffset_end);
         let fileoffset_end: FileOffset = std::cmp::min(fileoffset_end, self.filesz());
 
@@ -2808,7 +2840,7 @@ impl BlockReader {
         oneblock: bool,
         buffer: &mut [u8]
     ) -> ResultReadDataToBuffer {
-        defn!("({}, {}, {}, buffer len {})", fileoffset_beg, fileoffset_end, oneblock, buffer.len());
+        defn!("({}, {}, oneblock={}, buffer len {})", fileoffset_beg, fileoffset_end, oneblock, buffer.len());
         read_data_to_buffer_len_check!(buffer.len(), 1, self.path);
         let readdata: ReadData = match self.read_data(
             fileoffset_beg,
@@ -2961,6 +2993,8 @@ impl BlockReader {
             .read_blocks_miss;
         let blockreader_read_blocks_put = self
             .read_blocks_put;
+        let blockreader_read_blocks_reread_error = self
+            .read_blocks_reread_error;
         let blockreader_blocks_highest = self
             .blocks_highest;
         let blockreader_blocks_dropped_ok = self
@@ -2982,6 +3016,7 @@ impl BlockReader {
             blockreader_read_blocks_hit,
             blockreader_read_blocks_miss,
             blockreader_read_blocks_put,
+            blockreader_read_blocks_reread_error,
             blockreader_blocks_highest,
             blockreader_blocks_dropped_ok,
             blockreader_blocks_dropped_err,

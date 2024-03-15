@@ -1,0 +1,6 @@
+Fri Dec 15 00:47:32 2023 [INFO] Starting rhsmcertd...
+Fri Dec 15 00:47:32 2023 [INFO] Auto-attach interval: 1440.0 minutes [86400 seconds]
+Fri Dec 15 00:47:32 2023 [INFO] Cert check interval: 240.0 minutes [14400 seconds]
+Fri Dec 15 00:47:32 2023 [INFO] Waiting 2.0 minutes plus 11340 splay seconds [11460 seconds total] before performing first auto-attach.
+Fri Dec 15 00:47:32 2023 [INFO] Waiting 2.0 minutes plus 1253 splay seconds [1373 seconds total] before performing first cert check.
+Fri Dec 15 01:10:35 2023 [INFO] (Cert Check) Certificates updated.

@@ -1,0 +1,35 @@
+Apr 10 17:55:23 eggbert polkitd[697]: Loading rules from directory /etc/polkit-1/rules.d
+Apr 10 17:55:23 eggbert polkitd[697]: Loading rules from directory /usr/share/polkit-1/rules.d
+Apr 10 17:55:23 eggbert polkitd[697]: Finished loading, compiling and executing 2 rules
+Apr 10 17:55:23 eggbert polkitd[697]: Acquired the name org.freedesktop.PolicyKit1 on the system bus
+Apr 10 17:55:40 eggbert sshd[1032]: Server listening on 0.0.0.0 port 22.
+Apr 10 17:55:40 eggbert sshd[1032]: Server listening on :: port 22.
+Apr 10 18:12:00 eggbert login: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+Apr 10 18:12:00 eggbert login: ROOT LOGIN ON tty1
+Apr 10 18:12:29 eggbert sshd[8237]: Accepted password for root from 192.168.100.254 port 50682 ssh2
+Apr 10 18:12:29 eggbert sshd[8237]: pam_unix(sshd:session): session opened for user root by (uid=0)
+Apr 10 18:15:34 eggbert sshd[8722]: Accepted password for root from 192.168.100.254 port 50688 ssh2
+Apr 10 18:15:34 eggbert sshd[8722]: pam_unix(sshd:session): session opened for user root by (uid=0)
+Apr 10 18:15:34 eggbert sshd[8722]: Received disconnect from 192.168.100.254 port 50688:11: disconnected by user
+Apr 10 18:15:34 eggbert sshd[8722]: Disconnected from 192.168.100.254 port 50688
+Apr 10 18:15:34 eggbert sshd[8722]: pam_unix(sshd:session): session closed for user root
+Apr 22 15:26:51 eggbert polkitd[657]: Loading rules from directory /etc/polkit-1/rules.d
+Apr 22 15:26:51 eggbert polkitd[657]: Loading rules from directory /usr/share/polkit-1/rules.d
+Apr 22 15:26:51 eggbert polkitd[657]: Finished loading, compiling and executing 2 rules
+Apr 22 15:26:51 eggbert polkitd[657]: Acquired the name org.freedesktop.PolicyKit1 on the system bus
+Apr 22 15:27:20 eggbert sshd[1061]: Server listening on 0.0.0.0 port 22.
+Apr 22 15:27:20 eggbert sshd[1061]: Server listening on :: port 22.
+Apr 22 15:44:31 eggbert login: pam_unix(login:auth): check pass; user unknown
+Apr 22 15:44:31 eggbert login: pam_unix(login:auth): authentication failure; logname=LOGIN uid=0 euid=0 tty=tty1 ruser= rhost=
+Apr 22 15:44:33 eggbert login: FAILED LOGIN 1 FROM tty1 FOR (unknown), User not known to the underlying authentication module
+Apr 22 15:45:21 eggbert login: pam_unix(login:auth): check pass; user unknown
+Apr 22 15:45:21 eggbert login: pam_unix(login:auth): authentication failure; logname=LOGIN uid=0 euid=0 tty=tty1 ruser= rhost=
+Apr 22 15:45:23 eggbert login: FAILED LOGIN 2 FROM tty1 FOR (unknown), User not known to the underlying authentication module
+Apr 22 16:02:59 eggbert unix_chkpwd[1723]: password check failed for user (root)
+Apr 22 16:02:59 eggbert login: pam_unix(login:auth): authentication failure; logname=LOGIN uid=0 euid=0 tty=tty1 ruser= rhost=  user=root
+Apr 22 16:02:59 eggbert login: pam_succeed_if(login:auth): requirement "uid >= 1000" not met by user "root"
+Apr 22 16:03:09 eggbert login: FAILED LOGIN 1 FROM tty1 FOR root, Authentication failure
+Apr 22 16:10:10 eggbert login: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+Apr 22 16:10:10 eggbert login: ROOT LOGIN ON tty1
+Apr 22 16:11:23 eggbert sshd[2010]: Accepted password for root from 192.168.100.254 port 50716 ssh2
+Apr 22 16:11:23 eggbert sshd[2010]: pam_unix(sshd:session): session opened for user root by (uid=0)

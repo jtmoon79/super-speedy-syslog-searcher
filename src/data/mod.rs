@@ -1,7 +1,7 @@
 // src/data/mod.rs
 
 //! The `data` module is specialized data containers for
-//! [`Blocks`], [`Line`]s, [`Sysline`]s, [`Utmpx`], [`Evtx`],
+//! [`Blocks`], [`Line`]s, [`Sysline`]s, [`FixedStruct`], [`Evtx`],
 //! and [`JournalEntry`]s.
 //!
 //! ## Definitions of data
@@ -53,13 +53,14 @@
 //! In this project and source code, "syslog" is used loosely; it is not
 //! necessarily referring to an [RFC 5424] compliant log file.
 //!
-//! ### Utmpx
+//! ### FixedStruct
 //!
-//! A [`Utmpx`] is information about a processed [`utmpx`] structure
-//! processed from a file. It is processed by a [`UtmpxReader`]. It uses an
-//! underlying [`BlockReader`] to read from the file.
+//! A [`FixedStruct`] is information about a processed `acct`, `lastlog`,
+//! `lastlogx`, `utmp`, or `utmpx` record-keeping C struct.
+//! It is processed by a [`FixedStructReader`].
+//! It uses an underlying [`BlockReader`] to read from the file.
 //!
-//! A `Utmpx` represents a "log message".
+//! A `FixedStruct` entry represents a "log message".
 //!
 //! ### Evtx
 //!
@@ -89,7 +90,7 @@
 //! [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 //! [`JournalReader`]: crate::readers::journalreader::JournalReader
 //! [`EvtxReader`]: crate::readers::evtxreader::EvtxReader
-//! [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
+//! [`FixedStructReader`]: crate::readers::fixedstructreader::FixedStructReader
 //! [`Block`]: crate::readers::blockreader::Block
 //! [`Blocks`]: crate::readers::blockreader::Block
 //! [`Line`]: crate::data::line::Line
@@ -97,8 +98,7 @@
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 //! [RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424.html
 //! [a certain minimum]: static@crate::readers::syslogprocessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP
-//! [`Utmpx`]: crate::data::utmpx::Utmpx
-//! [`utmpx`]: crate::data::utmpx::utmpx
+//! [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
 //! [`Evtx`]: crate::data::evtx::Evtx
 //! [`evtx`]: crate::data::evtx::SerializedEvtxRecord
 //! [`JournalEntry`]: crate::data::journal::JournalEntry
@@ -108,7 +108,7 @@
 pub mod common;
 pub mod datetime;
 pub mod evtx;
+pub mod fixedstruct;
 pub mod journal;
 pub mod line;
 pub mod sysline;
-pub mod utmpx;

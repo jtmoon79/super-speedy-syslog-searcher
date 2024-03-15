@@ -11,7 +11,7 @@
 //!
 //! For each parseable file found, a file processing thread is created.
 //! Each file processing thread advances through the stages of processing
-//! using a [`SyslogProcessor`] instance, a [`UtmpxReader`] instance,
+//! using a [`SyslogProcessor`] instance, a [`FixedStructReader`] instance,
 //! a [`EvtxReader`] instance, or a [`JournalReader`] instance.
 //!
 //! For a `SyslogProcessor`, during the main processing stage,
@@ -25,8 +25,8 @@
 //! main processing thread that is has completed processing,
 //! or in case of errors, abruptly closes it's [sending channel].
 //!
-//! A `UtmpxReader` follow the same threaded message-passing pattern but
-//! does not have processing stages.
+//! A `FixedStructReader` follow the same threaded message-passing pattern but
+//! has much simpler processing stages.
 //!
 //! A `EvtxReader` follows the same threaded message-passing pattern but
 //! uses underlying [`EvtxParser`].
@@ -44,7 +44,7 @@
 //! [`Sysline`]: s4lib::data::sysline::Sysline
 //! [sending channel]: self::ChanSendDatum
 //! [`SyslogProcessor`]: s4lib::readers::syslogprocessor::SyslogProcessor
-//! [`UtmpxReader`]: s4lib::readers::utmpxreader::UtmpxReader
+//! [`FixedStructReader`]: s4lib::readers::fixedstructreader::FixedStructReader
 //! [`EvtxReader`]: s4lib::readers::evtxreader::EvtxReader
 //! [`JournalReader`]: s4lib::readers::journalreader::JournalReader
 //! [`Summary`]: s4lib::readers::summary::Summary
@@ -78,6 +78,11 @@ use ::const_format::concatcp;
 //       see https://github.com/rust-lang/rust/pull/93563/ and https://releases.rs/docs/1.67.0/
 use ::crossbeam_channel;
 use ::lazy_static::lazy_static;
+// TODO: [2024/03/10] cost-savings: use `::lexical::ToLexical` to add `to_lexical`
+//       function numbers, i.e. `usize`, `u32` etc.
+//       When printing the summary, write numbers to a static buffer then
+//       write that to the console.
+//       https://docs.rs/lexical/latest/lexical/trait.ToLexical.html#tymethod.to_lexical
 use ::mime_guess::MimeGuess;
 use ::regex::Regex;
 use ::si_trace_print::{
@@ -118,30 +123,15 @@ use ::s4lib::data::datetime::{
     DATETIME_PARSE_DATAS,
     systemtime_to_datetime,
 };
-#[allow(unused_imports)]
-use ::s4lib::debug::printers::{de_err, de_wrn, e_err, e_wrn};
-use ::s4lib::printer::printers::{
-    color_rand,
-    print_colored_stderr,
-    write_stderr,
-    write_stdout,
-    // termcolor imports
-    Color,
-    ColorChoice,
-    PrinterLogMessage,
-    //
-    COLOR_DEFAULT,
-    COLOR_ERROR,
-    COLOR_DIMMED,
-};
 use ::s4lib::data::common::LogMessage;
 use ::s4lib::data::evtx::Evtx;
 use ::s4lib::data::journal::{
     JournalEntry,
     datetimelopt_to_realtime_timestamp_opt,
 };
-use ::s4lib::data::utmpx::{Utmpx, UTMPX_SZ_MAX};
+use ::s4lib::data::fixedstruct::{ENTRY_SZ_MAX, FixedStruct};
 use ::s4lib::data::sysline::SyslineP;
+use ::s4lib::debug::printers::{de_err, de_wrn, e_err, e_wrn};
 use ::s4lib::libload::systemd_dlopen2::{
     LoadLibraryError,
     load_library_systemd,
@@ -165,6 +155,12 @@ use ::s4lib::readers::filepreprocessor::{
     ProcessPathResult,
     ProcessPathResults,
 };
+use ::s4lib::readers::fixedstructreader::{
+    FixedStructReader,
+    ResultFixedStructReaderNew,
+    ResultS3FixedStructFind,
+    SummaryFixedStructReader,
+};
 use ::s4lib::readers::helpers::basename;
 use ::s4lib::readers::linereader::SummaryLineReader;
 use ::s4lib::readers::summary::{
@@ -174,11 +170,20 @@ use ::s4lib::readers::summary::{
 };
 use ::s4lib::readers::syslinereader::{ResultS3SyslineFind, SummarySyslineReader};
 use ::s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
-use ::s4lib::readers::utmpxreader::{
-    ResultS3UtmpxFind,
-    ResultS3UtmpxProcZeroBlock,
-    UtmpxReader,
-    SummaryUtmpxReader,
+#[allow(unused_imports)]
+use ::s4lib::printer::printers::{
+    color_rand,
+    print_colored_stderr,
+    write_stderr,
+    write_stdout,
+    // termcolor imports
+    Color,
+    ColorChoice,
+    PrinterLogMessage,
+    //
+    COLOR_DEFAULT,
+    COLOR_ERROR,
+    COLOR_DIMMED,
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -540,7 +545,7 @@ struct CLI_Args {
     dt_before: Option<String>,
 
     /// Default timezone offset for datetimes without a timezone.
-    /// For example, log message "[20200102T120000] Starting service" has a
+    /// For example, log message "_\[20200102T120000\] Starting service_" has a
     /// datetime substring "20200102T120000".
     /// The datetime substring does not have a timezone offset
     /// so the TZ_OFFSET value would be used.
@@ -1527,6 +1532,7 @@ pub enum LogMessageSpecificData {
 /// * optional `DateTimeL` as the _before_ datetime filter
 /// * fallback timezone `FixedOffset` for datetime formats without a timezone
 ///
+// TODO: change to a typed `struct ThreadInitData(...)`
 type ThreadInitData = (
     FPath,
     PathId,
@@ -1545,9 +1551,9 @@ type IsLastLogMessage = bool;
 
 /// The data sent from file processing thread to the main printing thread.
 ///
-/// * optional [`LogMessage`] (`Sysline`/`Utmpx`)
+/// * optional [`LogMessage`] (`Sysline`/`FixedStruct`)
 /// * optional [`Summary`]
-/// * is this the last LogMessage (`Sysline`/`Utmpx`)?
+/// * is this the last LogMessage (`Sysline`/`FixedStruct`)?
 /// * `FileProcessingResult`
 ///
 /// There should never be a `Sysline` and a `Summary` received simultaneously.
@@ -1564,14 +1570,14 @@ type IsLastLogMessage = bool;
     //Ord,
 )]
 enum ChanDatum {
-    /// first data sent from file processing thread to main printing thread
-    /// one should be sent during the entire thread
+    /// first data sent from file processing thread to main printing thread.
+    /// one must be sent first during the entire thread.
     FileInfo(DateTimeLOpt, FileProcessingResultBlockZero),
     /// data sent from file processing thread to main printing thread
-    /// a processed log message for printing
+    /// a processed log message for printing.
     /// zero or more of these are sent during the entire thread
     NewMessage(LogMessage, IsLastLogMessage),
-    /// last data sent from file processing thread to main printing thread
+    /// last data sent from file processing thread to main printing thread.
     /// zero or one should be sent during the entire thread
     ///
     // XXX: Would be ideal to store `FileProcessingResultBlockZero` in the
@@ -1601,7 +1607,7 @@ type ChanRecvDatum = crossbeam_channel::Receiver<ChanDatum>;
 
 type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 
-/// helper to send a [`ChanDatum::NewMessage`] to the main printing thread
+/// Helper to send a [`ChanDatum::NewMessage`] to the main printing thread
 /// and print an error if there was an error sending.
 #[inline(always)]
 fn chan_send(chan_send_dt: &ChanSendDatum, chan_datum: ChanDatum, path: &FPath) {
@@ -1646,7 +1652,7 @@ fn exec_syslogprocessor(
     defn!("({:?})", path);
     debug_assert!(matches!(_logmessagespecificdata, LogMessageSpecificData::None));
 
-    let mut syslogproc = match SyslogProcessor::new(
+    let mut syslogproc: SyslogProcessor = match SyslogProcessor::new(
         path.clone(),
         filetype,
         blocksz,
@@ -1802,7 +1808,7 @@ fn exec_syslogprocessor(
         match result {
             ResultS3SyslineFind::Found((fo, syslinep)) => {
                 let syslinep_tmp = syslinep.clone();
-                let is_last = syslogproc.is_sysline_last(&syslinep);
+                let is_last: IsLastLogMessage = syslogproc.is_sysline_last(&syslinep);
                 chan_send(
                     &chan_send_dt,
                     ChanDatum::NewMessage(
@@ -1860,9 +1866,9 @@ fn exec_syslogprocessor(
     defx!("({:?})", path);
 }
 
-/// This function drives a `UtmpxReader` instance through it's stages and
+/// This function drives a `FixedStructReader` instance through it's stages and
 /// makes the expected "find" calls (and other checks) during each stage.
-fn exec_utmpprocessor(
+fn exec_fixedstructprocessor(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
     _tname: &str,
@@ -1879,17 +1885,27 @@ fn exec_utmpprocessor(
         tz_offset,
     ) = thread_init_data;
     defn!("{:?}({}): ({:?})", _tid, _tname, path);
-    debug_assert!(matches!(filetype, FileType::Utmpx));
+    debug_assert!(matches!(filetype, FileType::FixedStruct{..}));
     debug_assert!(matches!(_logmessagespecificdata, LogMessageSpecificData::None));
+    let logmessagetype: LogMessageType = match filetype {
+        FileType::FixedStruct{..} => LogMessageType::FixedStruct,
+        _ => {
+            e_err!("exec_fixedstructprocessor called with filetype {:?} for path {:?}", filetype, path);
+            return;
+        }
+    };
 
-    let mut utmpreader = match UtmpxReader::new(
+    let mut fixedstructreader: FixedStructReader = match FixedStructReader::new(
         path.clone(),
+        filetype,
         blocksz,
         tz_offset,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
     ) {
-        Ok(val) => val,
-        Err(err) => {
+        ResultFixedStructReaderNew::FileErrIo(err) => {
             let err_string = err.to_string();
+            let _err = err_string.clone();
             // send `ChanDatum::FileInfo`
             chan_send(
                 &chan_send_dt,
@@ -1903,23 +1919,139 @@ fn exec_utmpprocessor(
             let summary = Summary::new_failed(
                 path.clone(),
                 filetype,
-                LogMessageType::Utmpx,
+                logmessagetype,
                 blocksz,
-                Some(err_string)
+                Some(err_string),
             );
             chan_send(
                 &chan_send_dt,
                 ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
                 &path
             );
-            defx!("({:?}) thread will return early due to error", path);
+            defx!("FixedStructReader::new returned FileErrIo for {:?} ({})", path, _err);
             return;
         }
+        ResultFixedStructReaderNew::FileErrEmpty => {
+            // send `ChanDatum::FileInfo`
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileInfo(
+                    DateTimeLOpt::None,
+                    FileProcessingResultBlockZero::FileErrEmpty
+                ),
+                &path
+            );
+            // send `ChanDatum::FileSummary`
+            let summary = Summary::new_failed(
+                path.clone(),
+                filetype,
+                logmessagetype,
+                blocksz,
+                None,
+            );
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(
+                    Some(summary), FileProcessingResultBlockZero::FileErrEmpty
+                ),
+                &path
+            );
+            defx!("FixedStructReader::new returned FileErrEmpty for {:?}", path);
+            return;
+        }
+        ResultFixedStructReaderNew::FileErrTooSmall(err_string) => {
+            // send `ChanDatum::FileInfo`
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileInfo(
+                    DateTimeLOpt::None,
+                    FileProcessingResultBlockZero::FileErrTooSmallS(err_string.clone())
+                ),
+                &path
+            );
+            // send `ChanDatum::FileSummary`
+            let summary = Summary::new_failed(
+                path.clone(),
+                filetype,
+                logmessagetype,
+                blocksz,
+                Some(err_string.clone()),
+            );
+            let _err_s = err_string.clone();
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(
+                    Some(summary), FileProcessingResultBlockZero::FileErrTooSmallS(err_string)
+                ),
+                &path
+            );
+            defx!("FixedStructReader::new returned FileErrTooSmall({}) for {:?}", _err_s, path);
+            return;
+        }
+        ResultFixedStructReaderNew::FileErrNoValidFixedStruct => {
+            // send `ChanDatum::FileInfo`
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileInfo(
+                    DateTimeLOpt::None,
+                    FileProcessingResultBlockZero::FileErrNoValidFixedStruct,
+                ),
+                &path
+            );
+            // send `ChanDatum::FileSummary`
+            let summary = Summary::new_failed(
+                path.clone(),
+                filetype,
+                logmessagetype,
+                blocksz,
+                None,
+            );
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(
+                    Some(summary),
+                    FileProcessingResultBlockZero::FileErrNoValidFixedStruct,
+                ),
+                &path
+            );
+            defx!("FixedStructReader::new returned FileErrNoValidFixedStruct for {:?}", path);
+            return;
+        }
+        ResultFixedStructReaderNew::FileErrNoFixedStructWithinDtFilters => {
+            // send `ChanDatum::FileInfo`
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileInfo(
+                    DateTimeLOpt::None,
+                    FileProcessingResultBlockZero::FileErrNoFixedStructInDtRange,
+                ),
+                &path
+            );
+            // send `ChanDatum::FileSummary`
+            let summary = Summary::new_failed(
+                path.clone(),
+                filetype,
+                logmessagetype,
+                blocksz,
+                None,
+            );
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(
+                    Some(summary),
+                    FileProcessingResultBlockZero::FileErrNoFixedStructInDtRange,
+                ),
+                &path
+            );
+            defx!("FixedStructReader::new returned FileErrNoFixedStructInDtRange for {:?}", path);
+            return;
+        }
+        ResultFixedStructReaderNew::FileOk(val) => val,
     };
-    defo!("{:?}({}): utmpreader {:?}", _tid, _tname, utmpreader);
+    defo!("{:?}({}): fixedstructreader {:?}", _tid, _tname, fixedstructreader);
 
     // send `ChanDatum::FileInfo`
-    let mtime = utmpreader.mtime();
+    let mtime = fixedstructreader.mtime();
     let dt = systemtime_to_datetime(&tz_offset, &mtime);
     chan_send(
         &chan_send_dt,
@@ -1927,81 +2059,68 @@ fn exec_utmpprocessor(
         &path
     );
 
-    match utmpreader.process_zeroth_entry(false) {
-        ResultS3UtmpxProcZeroBlock::Found(_) => {
-            defo!("ResultS3UtmpxProcZeroBlock::Found");
-        }
-        ResultS3UtmpxProcZeroBlock::Done => {
-            defo!("ResultS3UtmpxProcZeroBlock::Done");
-            de_wrn!("Done returned by process_zeroth_entry() for {:?};", path);
-            let summary = utmpreader.summary_complete();
+    let mut file_err: Option<FileProcessingResultBlockZero> = None;
+
+    let mut fo: FileOffset = match fixedstructreader.fileoffset_first() {
+        Some(fo) => fo,
+        None => {
+            de_wrn!("fileoffset_first returned None for {:?}", path);
+
+            // send `ChanDatum::FileSummary`
+            let summary = fixedstructreader.summary_complete();
             chan_send(
                 &chan_send_dt,
                 ChanDatum::FileSummary(
                     Some(summary),
-                    FILEOK,
+                    file_err.unwrap_or(FILEOK),
                 ),
                 &path
             );
-            return;
-        }
-        ResultS3UtmpxProcZeroBlock::Err(err) => {
-            defo!("ResultS3UtmpxProcZeroBlock::Err");
-            de_err!("process_zeroth_entry() failed; {} for {:?}", err, path);
-            let file_err = FileProcessingResultBlockZero::FileErrIoPath(err);
-            chan_send(
-                &chan_send_dt,
-                ChanDatum::FileSummary(
-                    Some(utmpreader.summary_complete()),
-                    file_err,
-                ),
-                &path
-            );
-            defx!("({:?}) thread will return early due to error", path);
-            return;
-        }
-    }
 
-    let mut fo: FileOffset = 0;
-    let mut file_err: Option<FileProcessingResultBlockZero> = None;
+            defx!("({:?})", path);
+            return;
+        },
+    };
+    defo!("starting process_entry_at loop from fileoffset_first {:?}", fo);
+    let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
     loop {
-        let result: ResultS3UtmpxFind = utmpreader.find_entry_between_datetime_filters(
-            fo,
-            &filter_dt_after_opt,
-            &filter_dt_before_opt,
-        );
-        let fo_last: FileOffset;
-        match result {
-            ResultS3UtmpxFind::Found((fo_, utmpx)) => {
-                defo!("ResultS3UtmpxFind::Found(({:?}, ...))", fo_);
-                debug_assert_ne!(fo_, utmpx.fileoffset_begin());
-                fo_last = fo;
-                fo = fo_;
-                let is_last = utmpreader.is_last(&utmpx);
+        let fo_next = match fixedstructreader.process_entry_at(fo, &mut buffer) {
+            ResultS3FixedStructFind::Found((fo_, fixedstruct)) => {
+                defo!("ResultS3FixedStructFind::Found({}, …)", fo_);
+                let is_last = fixedstructreader.is_last(&fixedstruct);
                 chan_send(
                     &chan_send_dt,
                     ChanDatum::NewMessage(
-                        LogMessage::Utmpx(utmpx),
+                        LogMessage::FixedStruct(fixedstruct),
                         is_last,
                     ),
                     &path
                 );
+
+                fo_
             }
-            ResultS3UtmpxFind::Done => {
-                defo!("ResultS3UtmpxFind::Done");
+            ResultS3FixedStructFind::Done => {
+                defo!("ResultS3FixedStructFind::Done");
                 break;
             }
-            ResultS3UtmpxFind::Err(err) => {
-                de_err!("find_entry({}) failed; {} for {:?}", fo, err, path);
-                defo!("ResultS3UtmpxFind::Err({})", err);
+            ResultS3FixedStructFind::Err((fo_opt, err)) => {
+                defo!("ResultS3FixedStructFind::Err({:?}, {:?})", fo_opt, err);
+                de_err!("process_entry_at({}) failed; {} for {:?}", fo, err, path);
                 file_err = Some(FileProcessingResultBlockZero::FileErrIoPath(err));
-                break;
+                match fo_opt {
+                    // an offset within an error signifies a recoverable error
+                    Some(fo_) => fo_,
+                    // `None` signifies an unrecoverable error and no more processing
+                    // should be attempted
+                    None => break,
+                }
             }
-        }
-        utmpreader.drop_entries(fo_last);
+        };
+        fo = fo_next;
     }
 
-    let summary = utmpreader.summary_complete();
+    // send `ChanDatum::FileSummary`
+    let summary = fixedstructreader.summary_complete();
     chan_send(
         &chan_send_dt,
         ChanDatum::FileSummary(
@@ -2034,7 +2153,7 @@ fn exec_evtxprocessor(
     debug_assert!(matches!(filetype, FileType::Evtx));
     debug_assert!(matches!(_logmessagespecificdata, LogMessageSpecificData::None));
 
-    let mut evtxreader = match EvtxReader::new(path.clone()) {
+    let mut evtxreader: EvtxReader = match EvtxReader::new(path.clone()) {
         Ok(val) => val,
         Err(err) => {
             let err_string = err.to_string();
@@ -2051,7 +2170,7 @@ fn exec_evtxprocessor(
             let summary = Summary::new_failed(
                 path.clone(),
                 filetype,
-                LogMessageType::Utmpx,
+                LogMessageType::Evtx,
                 0,
                 Some(err_string)
             );
@@ -2126,7 +2245,7 @@ fn exec_journalprocessor(
     debug_assert!(matches!(filetype, FileType::Journal));
     debug_assert!(matches!(logmessagespecificdata, LogMessageSpecificData::Journal(_)));
 
-    let journal_output = match logmessagespecificdata {
+    let journal_output: JournalOutput = match logmessagespecificdata {
         LogMessageSpecificData::Journal(journal_output) => journal_output,
         _ => {
             e_err!("logmessagespecificdata is not Journal which is unexpected");
@@ -2135,7 +2254,7 @@ fn exec_journalprocessor(
         }
     };
 
-    let mut journalreader = match JournalReader::new(
+    let mut journalreader: JournalReader = match JournalReader::new(
         path.clone(),
         journal_output,
         tz_offset,
@@ -2209,7 +2328,7 @@ fn exec_journalprocessor(
         let result = journalreader.next(&ts_filter_before);
         match result {
             ResultNext::Found(journalentry) => {
-                let is_last = false;
+                let is_last: IsLastLogMessage = false;
                 chan_send(
                     &chan_send_dt,
                     ChanDatum::NewMessage(
@@ -2267,9 +2386,10 @@ fn exec_fileprocessor_thread(
     let tname: &str = "";
 
     match thread_init_data.2 {
-        FileType::Utmpx => exec_utmpprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::FixedStruct{..} => exec_fixedstructprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Evtx => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Journal => exec_journalprocessor(chan_send_dt, thread_init_data, tname, tid),
+        // allow allow all other file types to be processed as a syslog
         _ => exec_syslogprocessor(chan_send_dt, thread_init_data, tname, tid),
     }
 }
@@ -2286,8 +2406,8 @@ pub struct SummaryPrinted {
     pub lines: Count,
     /// count of `Syslines` printed
     pub syslines: Count,
-    /// count of `Utmpx` printed
-    pub utmpentries: Count,
+    /// count of `FixedStruct` printed
+    pub fixedstructentries: Count,
     /// count of `Evtx` printed
     pub evtxentries: Count,
     /// count of `JournalEntry` printed
@@ -2376,7 +2496,7 @@ impl SummaryPrinted {
             logmessagetype,
             lines: 0,
             syslines: 0,
-            utmpentries: 0,
+            fixedstructentries: 0,
             evtxentries: 0,
             journalentries: 0,
             dt_first: None,
@@ -2405,7 +2525,7 @@ impl SummaryPrinted {
             summarylinereader_opt,
             _summarysyslinereader_opt,
             _summarysyslogprocessor_opt,
-            summaryutmpreader_opt,
+            summaryfixedstructreader_opt,
             summaryevtxreader_opt,
             summaryjournalreader_opt,
         ) = match &summary.readerdata {
@@ -2429,10 +2549,10 @@ impl SummaryPrinted {
                     None,
                 )
             }
-            SummaryReaderData::Utmpx(
+            SummaryReaderData::FixedStruct(
                 (
                     summaryblockreader,
-                    summaryutmpreader,
+                    summaryfixedstructreader,
                 )
             ) => {
                 (
@@ -2440,7 +2560,7 @@ impl SummaryPrinted {
                     None,
                     None,
                     None,
-                    Some(summaryutmpreader),
+                    Some(summaryfixedstructreader),
                     None,
                     None,
                 )
@@ -2515,14 +2635,14 @@ impl SummaryPrinted {
             None => {},
         }
 
-        match summaryutmpreader_opt {
-            Some(summaryutmpreader) => {
-                eprint!("{}utmpx         : ", indent2);
-                if self.utmpentries == 0 && summaryutmpreader.utmpxreader_utmp_entries != 0 {
+        match summaryfixedstructreader_opt {
+            Some(summaryfixedstructreader) => {
+                eprint!("{}entries       : ", indent2);
+                if self.fixedstructentries == 0 && summaryfixedstructreader.fixedstructreader_utmp_entries != 0 {
                     match print_colored_stderr(
                         COLOR_ERROR,
                         color_choice_opt,
-                        self.utmpentries
+                        self.fixedstructentries
                             .to_string()
                             .as_bytes(),
                     ) {
@@ -2533,7 +2653,7 @@ impl SummaryPrinted {
                         Ok(_) => eprintln!(),
                     }
                 } else {
-                    eprintln!("{}", self.utmpentries);
+                    eprintln!("{}", self.fixedstructentries);
                 }
             }
             None => {}
@@ -2704,19 +2824,20 @@ impl SummaryPrinted {
         self.summaryprint_update_dt((*syslinep).dt());
     }
 
-    /// Update a `SummaryPrinted` with information from a printed `Utmpx`.
-    fn summaryprint_update_utmpx(
+    /// Update a `SummaryPrinted` with information from a printed `FixedStruct`.
+    fn summaryprint_update_fixedstruct(
         &mut self,
-        utmpx: &Utmpx,
+        entry: &FixedStruct,
         printed: Count,
     )
     {
         defñ!();
         debug_assert!(matches!(self.logmessagetype,
-            LogMessageType::Utmpx | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
-        self.utmpentries += 1;
+            LogMessageType::FixedStruct | LogMessageType::All),
+            "Unexpected LogMessageType {:?}", self.logmessagetype);
+        self.fixedstructentries += 1;
         self.bytes += printed;
-        self.summaryprint_update_dt(utmpx.dt());
+        self.summaryprint_update_dt(entry.dt());
     }
 
     /// Update a `SummaryPrinted` with information from a printed `Evtx`.
@@ -2757,8 +2878,8 @@ impl SummaryPrinted {
             LogMessage::Sysline(syslinep) => {
                 self.summaryprint_update_sysline(syslinep, printed);
             }
-            LogMessage::Utmpx(utmpx) => {
-                self.summaryprint_update_utmpx(utmpx, printed);
+            LogMessage::FixedStruct(entry) => {
+                self.summaryprint_update_fixedstruct(entry, printed);
             }
             LogMessage::Evtx(evtx) => {
                 self.summaryprint_update_evtx(evtx, printed);
@@ -2791,11 +2912,11 @@ impl SummaryPrinted {
         };
     }
 
-    /// Update a mapping of `PathId` to `SummaryPrinted` for a `Utmpx`.
+    /// Update a mapping of `PathId` to `SummaryPrinted` for a `FixedStruct`.
     ///
     /// Helper function to function `processing_loop`.
-    fn summaryprint_map_update_utmpx(
-        utmpx: &Utmpx,
+    fn summaryprint_map_update_fixedstruct(
+        fixedstruct: &FixedStruct,
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
         printed: Count,
@@ -2804,17 +2925,17 @@ impl SummaryPrinted {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
-                sp.summaryprint_update_utmpx(utmpx, printed);
+                sp.summaryprint_update_fixedstruct(fixedstruct, printed);
             }
             None => {
-                let mut sp = SummaryPrinted::new(LogMessageType::Utmpx);
-                sp.summaryprint_update_utmpx(utmpx, printed);
+                let mut sp = SummaryPrinted::new(LogMessageType::FixedStruct);
+                sp.summaryprint_update_fixedstruct(fixedstruct, printed);
                 map_.insert(*pathid, sp);
             }
         };
     }
 
-    /// Update a mapping of `PathId` to `SummaryPrinted` for a `Utmpx`.
+    /// Update a mapping of `PathId` to `SummaryPrinted` for a `FixedStruct`.
     ///
     /// Helper function to function `processing_loop`.
     fn summaryprint_map_update_evtx(
@@ -2869,17 +2990,17 @@ impl SummaryPrinted {
     ) {
         defñ!();
         match logmessage {
-            LogMessage::Sysline(syslinep) => {
-                Self::summaryprint_map_update_sysline(syslinep, pathid, map_, printed)
-            }
-            LogMessage::Utmpx(utmpx) => {
-                Self::summaryprint_map_update_utmpx(utmpx, pathid, map_, printed)
-            }
             LogMessage::Evtx(evtx) => {
                 Self::summaryprint_map_update_evtx(evtx, pathid, map_, printed)
             }
+            LogMessage::FixedStruct(entry) => {
+                Self::summaryprint_map_update_fixedstruct(entry, pathid, map_, printed)
+            }
             LogMessage::Journal(journalentry) => {
                 Self::summaryprint_map_update_journalentry(journalentry, pathid, map_, printed)
+            }
+            LogMessage::Sysline(syslinep) => {
+                Self::summaryprint_map_update_sysline(syslinep, pathid, map_, printed)
             }
         }
     }
@@ -3319,8 +3440,8 @@ fn processing_loop(
     // debug sanity check
     let mut _count_since_received_fileinfo: usize = 0;
 
-    // buffer to assist printing Utmpx; passed to `Utmpx::as_bytes`
-    let mut buffer_utmp: [u8; UTMPX_SZ_MAX * 2] = [0; UTMPX_SZ_MAX * 2];
+    // buffer to assist printing FixedStruct; passed to `FixedStruct::as_bytes`
+    let mut buffer_utmp: [u8; ENTRY_SZ_MAX * 2] = [0; ENTRY_SZ_MAX * 2];
 
     loop {
         disconnect.clear();
@@ -3374,7 +3495,13 @@ fn processing_loop(
             ) {
                 Some(val) => val,
                 None => {
-                    e_err!("BUG: recv_many_chan returned None which is unexpected; break early from processing loop");
+                    // BUG: if `recv_many_chan` returns `None` and this does a `continue`
+                    //      then it will loop forever
+                    //      But if it `break`s then the entire process will shutdown
+                    //      and prematurely end remaining valid processing threads.
+                    //      All processing threads need to return something but this main thread
+                    //      should better handle `None` and not be brittle.
+                    e_err!("BUG: recv_many_chan returned None which is unexpected");
                     break;
                 }
             };
@@ -3437,7 +3564,7 @@ fn processing_loop(
             }
 
             // debug sanity check for infinite loop
-            #[cfg(debug_assertions)]
+            #[cfg(any(debug_assertions, test))]
             {
                 // how long has it been since a `ChanDatum::FileInfo` was received?
                 // was it longer than maximum possible number of file processing threads?
@@ -3459,7 +3586,7 @@ fn processing_loop(
                 defo!("C map_pathid_received_fileinfo.all() are true");
 
                 // debug sanity check
-                #[cfg(debug_assertions)]
+                #[cfg(any(debug_assertions, test))]
                 {
                     for (k, _v) in map_pathid_received_fileinfo.iter()
                     {
@@ -3485,26 +3612,31 @@ fn processing_loop(
                             // later during the `--summary` printing.
                             match &file_processing_result {
                                 FileProcessingResultBlockZero::FileErrTooSmall =>
-                                    e_wrn!("file too small {:?}", path),
+                                    e_err!("file too small {:?}", path),
+                                FileProcessingResultBlockZero::FileErrTooSmallS(s) =>
+                                    e_err!("file too small {}", s),
                                 FileProcessingResultBlockZero::FileErrNullBytes =>
-                                    e_wrn!("file contains too many null bytes {:?}", path),
+                                    e_err!("file contains too many null bytes {:?}", path),
                                 FileProcessingResultBlockZero::FileErrNoLinesFound =>
-                                    e_wrn!("no lines found {:?}", path),
+                                    e_err!("no lines found {:?}", path),
                                 FileProcessingResultBlockZero::FileErrNoSyslinesFound =>
-                                    e_wrn!("no syslines found {:?}", path),
+                                    e_err!("no syslines found {:?}", path),
+                                FileProcessingResultBlockZero::FileErrNoValidFixedStruct =>
+                                    e_err!("no valid fixed struct {:?}", path),
                                 FileProcessingResultBlockZero::FileErrDecompress =>
-                                    e_wrn!("could not decompress {:?}", path),
+                                    e_err!("could not decompress {:?}", path),
                                 FileProcessingResultBlockZero::FileErrWrongType =>
-                                    e_wrn!("bad path {:?}", path),
+                                    e_err!("bad path {:?}", path),
                                 FileProcessingResultBlockZero::FileErrIo(err) =>
                                     e_err!("{} for {:?}", err, path),
                                 FileProcessingResultBlockZero::FileErrIoPath(err) =>
                                     e_err!("{}", err),
                                 FileProcessingResultBlockZero::FileErrChanSend =>
-                                    panic!("Should not receive ChannelSend Error {:?}", path),
+                                    panic!("Should not receive ChannelSend Error {}", path),
                                 FileProcessingResultBlockZero::FileOk => {}
                                 FileProcessingResultBlockZero::FileErrEmpty => {}
                                 FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange => {}
+                                FileProcessingResultBlockZero::FileErrNoFixedStructInDtRange => {}
                                 FileProcessingResultBlockZero::FileErrStub => {}
                             }
                         }
@@ -3525,7 +3657,8 @@ fn processing_loop(
             // no need to call `recv_many_chan` to check for new `ChanDatum`s. Process the data
             // that has been collected from the processing threads (i.e. print a log message).
 
-            if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
+            {
                 for (_i, (_k, _v)) in map_pathid_chanrecvdatum
                     .iter()
                     .enumerate()
@@ -3660,7 +3793,7 @@ fn processing_loop(
             let pathid: &PathId;
             let log_message: &LogMessage;
             // Is last log message of the file?
-            let is_last: bool;
+            let is_last: IsLastLogMessage;
             // select the logmessage with earliest datetime
             (pathid, log_message, is_last) = match map_pathid_datum
                 .iter_mut()
@@ -3683,6 +3816,93 @@ fn processing_loop(
                 .get_mut(pathid)
                 .unwrap();
             match log_message {
+                LogMessage::Evtx(evtx) => {
+                    defo!("A3.3 printing Evtx PathId: {:?}", pathid);
+                    // the most important part of this main thread loop
+                    let mut printed: Count = 0;
+                    match printer.print_evtx(evtx) {
+                        Ok(printed_) => printed = printed_ as Count,
+                        Err(err) => {
+                            // Only print a printing error once.
+                            if !has_print_err {
+                                has_print_err = true;
+                                // BUG: Issue #3 colorization settings in the context of a pipe
+                                e_err!("failed to print {}", err);
+                            }
+                        }
+                    }
+                    if sepb_print {
+                        write_stdout(sepb);
+                        if cli_opt_summary {
+                            summaryprinted.bytes += sepb.len() as Count;
+                        }
+                    }
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        // update the per processing file `SummaryPrinted`
+                        SummaryPrinted::summaryprint_map_update_evtx(evtx, pathid, &mut map_pathid_sumpr, printed);
+                        // update the single total program `SummaryPrinted`
+                        summaryprinted.summaryprint_update_evtx(evtx, printed);
+                    }
+                }
+                LogMessage::FixedStruct(entry) => {
+                    defo!("A3.2 printing FixedStruct PathId: {:?}", pathid);
+                    // the most important part of this main thread loop
+                    let mut printed: Count = 0;
+                    match printer.print_fixedstruct(entry, &mut buffer_utmp) {
+                        Ok(printed_) => printed = printed_ as Count,
+                        Err(err) => {
+                            // Only print a printing error once.
+                            if !has_print_err {
+                                has_print_err = true;
+                                // BUG: Issue #3 colorization settings in the context of a pipe
+                                e_err!("failed to print {}", err);
+                            }
+                        }
+                    }
+                    if sepb_print {
+                        write_stdout(sepb);
+                        if cli_opt_summary {
+                            summaryprinted.bytes += sepb.len() as Count;
+                        }
+                    }
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        // update the per processing file `SummaryPrinted`
+                        SummaryPrinted::summaryprint_map_update_fixedstruct(entry, pathid, &mut map_pathid_sumpr, printed);
+                        // update the single total program `SummaryPrinted`
+                        summaryprinted.summaryprint_update_fixedstruct(entry, printed);
+                    }
+                }
+                LogMessage::Journal(journalentry) => {
+                    defo!("A3.4 printing JournalEntry PathId: {:?}", pathid);
+                    // the most important part of this main thread loop
+                    let mut printed: Count = 0;
+                    match printer.print_journalentry(journalentry) {
+                        Ok(printed_) => printed = printed_ as Count,
+                        Err(err) => {
+                            // Only print a printing error once.
+                            if !has_print_err {
+                                has_print_err = true;
+                                // BUG: Issue #3 colorization settings in the context of a pipe
+                                e_err!("failed to print {}", err);
+                            }
+                        }
+                    }
+                    if sepb_print {
+                        write_stdout(sepb);
+                        if cli_opt_summary {
+                            summaryprinted.bytes += sepb.len() as Count;
+                        }
+                    }
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        // update the per processing file `SummaryPrinted`
+                        SummaryPrinted::summaryprint_map_update_journalentry(journalentry, pathid, &mut map_pathid_sumpr, printed);
+                        // update the single total program `SummaryPrinted`
+                        summaryprinted.summaryprint_update_journalentry(journalentry, printed);
+                    }
+                }
                 LogMessage::Sysline(syslinep) => {
                     //let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
                     defo!(
@@ -3730,93 +3950,6 @@ fn processing_loop(
                         SummaryPrinted::summaryprint_map_update_sysline(syslinep, pathid, &mut map_pathid_sumpr, printed);
                         // update the single total program `SummaryPrinted`
                         summaryprinted.summaryprint_update_sysline(syslinep, printed);
-                    }
-                }
-                LogMessage::Utmpx(utmpx) => {
-                    defo!("A3.2 printing Utmpx PathId: {:?}", pathid);
-                    // the most important part of this main thread loop
-                    let mut printed: Count = 0;
-                    match printer.print_utmpx(utmpx, &mut buffer_utmp) {
-                        Ok(printed_) => printed = printed_ as Count,
-                        Err(err) => {
-                            // Only print a printing error once.
-                            if !has_print_err {
-                                has_print_err = true;
-                                // BUG: Issue #3 colorization settings in the context of a pipe
-                                e_err!("failed to print {}", err);
-                            }
-                        }
-                    }
-                    if sepb_print {
-                        write_stdout(sepb);
-                        if cli_opt_summary {
-                            summaryprinted.bytes += sepb.len() as Count;
-                        }
-                    }
-                    if cli_opt_summary {
-                        paths_printed_logmessages.insert(*pathid);
-                        // update the per processing file `SummaryPrinted`
-                        SummaryPrinted::summaryprint_map_update_utmpx(utmpx, pathid, &mut map_pathid_sumpr, printed);
-                        // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_utmpx(utmpx, printed);
-                    }
-                }
-                LogMessage::Evtx(evtx) => {
-                    defo!("A3.3 printing Evtx PathId: {:?}", pathid);
-                    // the most important part of this main thread loop
-                    let mut printed: Count = 0;
-                    match printer.print_evtx(evtx) {
-                        Ok(printed_) => printed = printed_ as Count,
-                        Err(err) => {
-                            // Only print a printing error once.
-                            if !has_print_err {
-                                has_print_err = true;
-                                // BUG: Issue #3 colorization settings in the context of a pipe
-                                e_err!("failed to print {}", err);
-                            }
-                        }
-                    }
-                    if sepb_print {
-                        write_stdout(sepb);
-                        if cli_opt_summary {
-                            summaryprinted.bytes += sepb.len() as Count;
-                        }
-                    }
-                    if cli_opt_summary {
-                        paths_printed_logmessages.insert(*pathid);
-                        // update the per processing file `SummaryPrinted`
-                        SummaryPrinted::summaryprint_map_update_evtx(evtx, pathid, &mut map_pathid_sumpr, printed);
-                        // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_evtx(evtx, printed);
-                    }
-                }
-                LogMessage::Journal(journalentry) => {
-                    defo!("A3.4 printing JournalEntry PathId: {:?}", pathid);
-                    // the most important part of this main thread loop
-                    let mut printed: Count = 0;
-                    match printer.print_journalentry(journalentry) {
-                        Ok(printed_) => printed = printed_ as Count,
-                        Err(err) => {
-                            // Only print a printing error once.
-                            if !has_print_err {
-                                has_print_err = true;
-                                // BUG: Issue #3 colorization settings in the context of a pipe
-                                e_err!("failed to print {}", err);
-                            }
-                        }
-                    }
-                    if sepb_print {
-                        write_stdout(sepb);
-                        if cli_opt_summary {
-                            summaryprinted.bytes += sepb.len() as Count;
-                        }
-                    }
-                    if cli_opt_summary {
-                        paths_printed_logmessages.insert(*pathid);
-                        // update the per processing file `SummaryPrinted`
-                        SummaryPrinted::summaryprint_map_update_journalentry(journalentry, pathid, &mut map_pathid_sumpr, printed);
-                        // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_journalentry(journalentry, printed);
                     }
                 }
             }
@@ -3914,9 +4047,10 @@ fn processing_loop(
         eprintln!("Printed bytes         : {}", summaryprinted.bytes);
         eprintln!("Printed lines         : {}", summaryprinted.lines);
         eprintln!("Printed syslines      : {}", summaryprinted.syslines);
-        eprintln!("Printed utmpx         : {}", summaryprinted.utmpentries);
         eprintln!("Printed evtx events   : {}", summaryprinted.evtxentries);
         // TODO: [2023/03/26] eprint count of EVTX files "out of order".
+        eprintln!("Printed fixedstruct   : {}", summaryprinted.fixedstructentries);
+        // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
         eprintln!("Printed journal events: {}", summaryprinted.journalentries);
         let count: isize = match DateTimeParseDatasCompiledCount.read() {
             Ok(count) => *count as isize,
@@ -3972,6 +4106,9 @@ fn processing_loop(
                 LOCAL_NOW.second(),
             )
             .unwrap();
+        // BUG: local time prints with middle "T", UTC prints with midle space " "
+        //      e.g. 
+        //           Datetime Now          : 2024-02-07T22:33:50-08:00 (2024-02-08 06:33:50 +00:00)
         eprint!("Datetime Now          : {:?} ", local_now);
         // print UTC now without fractional, and with numeric offset `-00:00`
         // instead of `Z`
@@ -4027,6 +4164,7 @@ fn print_file_about(
     filetype: &FileType,
     logmessagetype: &LogMessageType,
     mimeguess: &MimeGuess,
+    summary_opt: &SummaryOpt,
     color: &Color,
     color_choice: &ColorChoice,
 ) {
@@ -4066,7 +4204,33 @@ fn print_file_about(
         None => {}
     }
     eprintln!("{}filetype       : {}", OPT_SUMMARY_PRINT_INDENT2, filetype);
+    match filetype {
+        FileType::FixedStruct{type_: fixedstructfiletype } => {
+            eprintln!("{}fixedstructtype: {:?}", OPT_SUMMARY_PRINT_INDENT2, fixedstructfiletype);
+        }
+        _ => {}
+    }
     eprintln!("{}logmessagetype : {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
+    match summary_opt {
+        Some(summary) => {
+            match &summary.readerdata {
+                SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => {
+                    match summaryfixedstructreader.fixedstructreader_fixedstructtype_opt {
+                        Some(fst) => {
+                            eprintln!(
+                                "{}fixedstructtype: {:?}",
+                                OPT_SUMMARY_PRINT_INDENT2,
+                                fst,
+                            );
+                        }
+                        None => {}
+                    }
+                }
+                _ => {}
+            }
+        }
+        None => {}
+    }
     eprintln!("{}MIME guess     : {:?}", OPT_SUMMARY_PRINT_INDENT2, mimeguess);
     // print `FileProcessingResult` if it was not okay
     match file_processing_result {
@@ -4077,9 +4241,17 @@ fn print_file_about(
                     COLOR_ERROR,
                     Some(*color_choice),
                     match result {
+                        // only print ErrorKind here
+                        // later the Error message will be printed
                         FileProcessingResultBlockZero::FileErrIoPath(err)
                         | FileProcessingResultBlockZero::FileErrIo(err) =>
-                            format!("{}: {}", err.kind(), err),
+                            format!("{}", err.kind()),
+                        FileProcessingResultBlockZero::FileErrTooSmallS(_) =>
+                            format!("FileErrTooSmall"),
+                        FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange =>
+                            format!("No Syslines in DateTime Range"),
+                        FileProcessingResultBlockZero::FileErrNoFixedStructInDtRange =>
+                            format!("No FixedStruct in DateTime Range"),
                         _ => format!("{:?}", result),
                     }.as_bytes()
                 ) {
@@ -4143,14 +4315,32 @@ fn print_summary_opt_processed(
                 indent2, summarysyslinereader.syslinereader_syslines_stored_highest
             );
         }
-        SummaryReaderData::Utmpx((
+        SummaryReaderData::FixedStruct((
             _summaryblockreader,
-            summaryutmpreader,
+            summaryfixedstructreader,
         )) => {
-            eprintln!("{}utmpx         : {}", indent2, summaryutmpreader.utmpxreader_utmp_entries);
+            eprintln!("{}entries       : {}", indent2, summaryfixedstructreader.fixedstructreader_utmp_entries);
+            eprintln!("{}entry size    : {} (bytes)",
+                indent2, summaryfixedstructreader.fixedstructreader_fixedstruct_size
+            );
+            eprintln!("{}entry hi-score: {}",
+                indent2, summaryfixedstructreader.fixedstructreader_high_score
+            );
+            eprint!("{}first entry   : ",
+                indent2,
+            );
+            eprintln!("@{:?}", summaryfixedstructreader.fixedstructreader_first_entry_fileoffset);
             eprintln!(
-                "{}utmpx high    : {}",
-                indent2, summaryutmpreader.utmpxreader_utmp_entries_max,
+                "{}entry high    : {}",
+                indent2, summaryfixedstructreader.fixedstructreader_utmp_entries_max,
+            );
+            eprintln!(
+                "{}peak map size : {}",
+                indent2, summaryfixedstructreader.fixedstructreader_map_tvpair_fo_max_len
+            );
+            eprintln!(
+                "{}out of order? : {}",
+                indent2, summaryfixedstructreader.fixedstructreader_entries_out_of_order
             );
         }
         SummaryReaderData::Etvx(summaryevtxreader) => {
@@ -4306,7 +4496,7 @@ fn print_summary_opt_processed(
     }
 }
 
-/// helper to `print_summary_opt_processed`
+/// Helper to `print_summary_opt_processed`
 fn print_summary_opt_processed_summaryblockreader(
     summary: &Summary,
     indent: &str,
@@ -4326,7 +4516,7 @@ fn print_summary_opt_processed_summaryblockreader(
     debug_assert_ne!(summary.filetype, FileType::Journal);
     match summary.filetype {
         FileType::File
-        | FileType::Utmpx
+        | FileType::FixedStruct{..}
         | FileType::Unknown
         => {
             eprintln!(
@@ -4426,12 +4616,13 @@ const WIDEP: usize = 4;
 
 fn print_cache_stats_summaryblockreader(
     summaryblockreader: &SummaryBlockReader,
+    color_choice: &ColorChoice,
     indent: &str,
     wide: usize,
 ) {
     // BlockReader::_read_blocks
     let mut percent = percent64(&summaryblockreader.blockreader_read_blocks_hit, &summaryblockreader.blockreader_read_blocks_miss);
-    eprintln!(
+    eprint!(
         "{}storage: BlockReader::read_block() blocks                    : hit {:wide$}, miss {:wide$}, {:widep$.1}%, put {:wide$}",
         indent,
         summaryblockreader.blockreader_read_blocks_hit,
@@ -4441,6 +4632,23 @@ fn print_cache_stats_summaryblockreader(
         wide = wide,
         widep = WIDEP,
     );
+    // append the rereads count, colorize if greater than 0
+    let rereads_err_str = format!(
+        " (rereads {})\n",
+        summaryblockreader.blockreader_read_blocks_reread_error,
+    );
+    if summaryblockreader.blockreader_read_blocks_reread_error > 0 {
+        match print_colored_stderr(
+            COLOR_ERROR, 
+            Some(*color_choice),
+            rereads_err_str.as_bytes()
+        ) {
+            Ok(_) => {}
+            Err(e) => e_err!("print_colored_stderr: {:?}", e)
+        }
+    } else {
+        write_stderr(rereads_err_str.as_bytes());
+    }
     // BlockReader::_read_blocks_cache
     percent = percent64(
         &summaryblockreader.blockreader_read_block_lru_cache_hit,
@@ -4611,20 +4819,20 @@ fn print_cache_stats_summarysyslinereader(
     );
 }
 
-fn print_cache_stats_summaryutmpreader(
-    summaryutmpreader: &SummaryUtmpxReader,
+fn print_cache_stats_summaryfixedstructreader(
+    summaryfixedstructreader: &SummaryFixedStructReader,
     indent: &str,
     wide: usize,
 ) {
     let percent = percent64(
-        &summaryutmpreader.utmpxreader_utmp_entries_hit,
-        &summaryutmpreader.utmpxreader_utmp_entries_miss,
+        &summaryfixedstructreader.fixedstructreader_utmp_entries_hit,
+        &summaryfixedstructreader.fixedstructreader_utmp_entries_miss,
     );
     eprintln!(
-        "{}storage: UtmpxReader::find_entry()                           : hit {:wide$}, miss {:wide$}, {:widep$.1}%",
+        "{}storage: FixedStructReader::find_entry()                     : hit {:wide$}, miss {:wide$}, {:widep$.1}%",
         indent,
-        summaryutmpreader.utmpxreader_utmp_entries_hit,
-        summaryutmpreader.utmpxreader_utmp_entries_miss,
+        summaryfixedstructreader.fixedstructreader_utmp_entries_hit,
+        summaryfixedstructreader.fixedstructreader_utmp_entries_miss,
         percent,
         wide = wide,
         widep = WIDEP,
@@ -4635,7 +4843,7 @@ fn print_cache_stats_summaryutmpreader(
 /// (multiple lines).
 ///
 /// [`Summary`]: s4lib::readers::summary::Summary
-fn print_cache_stats(summary_opt: &SummaryOpt) {
+fn print_cache_stats(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
     if summary_opt.is_none() {
         return;
     }
@@ -4664,6 +4872,7 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
             eprintln!("{}Processing Stores:", OPT_SUMMARY_PRINT_INDENT1);
             print_cache_stats_summaryblockreader(
                 summaryblockreader,
+                color_choice,
                 OPT_SUMMARY_PRINT_INDENT2,
                 wide,
             );
@@ -4678,18 +4887,19 @@ fn print_cache_stats(summary_opt: &SummaryOpt) {
                 wide,
             );
         }
-        SummaryReaderData::Utmpx((
+        SummaryReaderData::FixedStruct((
             summaryblockreader,
-            summaryutmpreader,
+            summaryfixedstructreader,
         )) => {
             eprintln!("{}Processing Stores:", OPT_SUMMARY_PRINT_INDENT1);
-            print_cache_stats_summaryutmpreader(
-                summaryutmpreader,
+            print_cache_stats_summaryfixedstructreader(
+                summaryfixedstructreader,
                 OPT_SUMMARY_PRINT_INDENT2,
                 wide,
             );
             print_cache_stats_summaryblockreader(
                 summaryblockreader,
+                color_choice,
                 OPT_SUMMARY_PRINT_INDENT2,
                 wide,
             );
@@ -4729,7 +4939,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
     match summary.blockreader() {
         Some(summaryblockreader) => {
             eprintln!(
-                    "{}streaming: BlockReader::drop_block()    : Ok {:wide$}, Err {:wide$}",
+                    "{}streaming: BlockReader::drop_block()          : Ok {:wide$}, Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
                 summaryblockreader.blockreader_blocks_dropped_ok,
                 summaryblockreader.blockreader_blocks_dropped_err,
@@ -4762,17 +4972,17 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
                 wide = wide,
             );
         }
-        SummaryReaderData::Utmpx(
+        SummaryReaderData::FixedStruct(
             (
                 _summaryblockreader,
-                summaryutmpreader,
+                summaryfixedstructreader,
             )
         ) => {
             eprintln!(
-                "{}streaming: UtmpxReader::drop_entry()    : Ok {:wide$}, Err {:wide$}",
+                "{}streaming: FixedStructReader::drop_entry()    : Ok {:wide$}, Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
-                summaryutmpreader.utmpxreader_drop_entry_ok,
-                summaryutmpreader.utmpxreader_drop_entry_errors,
+                summaryfixedstructreader.fixedstructreader_drop_entry_ok,
+                summaryfixedstructreader.fixedstructreader_drop_entry_errors,
                 wide = wide,
             );
         }
@@ -4830,11 +5040,21 @@ fn print_file_summary(
 ) {
     eprintln!();
 
-    print_file_about(path, modified_time, file_processing_result, filetype, logmessagetype, mimeguess, color, color_choice);
+    print_file_about(
+        path,
+        modified_time,
+        file_processing_result,
+        filetype,
+        logmessagetype,
+        mimeguess,
+        summary_opt,
+        color,
+        color_choice
+    );
     print_summary_opt_printed(summary_print_opt, summary_opt, color_choice);
     print_summary_opt_processed(summary_opt, color_choice);
     if OPT_SUMMARY_PRINT_CACHE_STATS {
-        print_cache_stats(summary_opt);
+        print_cache_stats(summary_opt, color_choice);
     }
     if OPT_SUMMARY_PRINT_DROP_STATS {
         print_drop_stats(summary_opt);
@@ -5036,7 +5256,7 @@ mod tests {
                 assert_eq!(out_fo, fo, "cli_process_tz_offset returned FixedOffset {:?}, expected {:?}", fo, out_fo);
             }
             Err(err) => {
-                panic!("Error {:?}", err);
+                panic!("Error {}", err);
             }
         }
     }

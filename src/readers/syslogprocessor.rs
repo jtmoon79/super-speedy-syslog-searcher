@@ -12,12 +12,12 @@
 //! 1. each log message has a datetime stamp on the first line
 //! 2. log messages are in chronological order
 //!
-//! Sibling of [`UtmpxReader`]. But far more complicated due to the
+//! Sibling of [`FixedStructReader`]. But far more complicated due to the
 //! ad-hoc nature of log files.
 //! 
 //! This is an _s4lib_ structure used by the binary program _s4_.
 //!
-//! [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
+//! [`FixedStructReader`]: crate::readers::fixedstructreader::FixedStructReader
 //! [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 //! [`SyslogProcessor`]: SyslogProcessor
 
@@ -114,17 +114,20 @@ pub enum ProcessingStage {
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     Stage2FindDt,
     /// Advanced through the syslog file to the end.<br/>
-    /// If passed CLI option `--before` then find the last [`Sysline`] with
-    /// datetime at or before the user-passed [`DateTimeL`].
+    /// If passed CLI option `--before` then process up to 
+    /// the last [`Sysline`] with datetime at or before the user-passed
+    /// [`DateTimeL`]. Otherwise, process all remaining Syslines.
     ///
-    /// While advancing, try to `drop` previously processed data `Block`s,
+    /// While advancing, try to [`drop`] previously processed data `Block`s,
     /// `Line`s, and `Sysline`s to lessen memory allocated.
     /// a.k.a. "_streaming stage_".
+    ///
     /// Also see function [`find_sysline`].
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     /// [`find_sysline`]: self::SyslogProcessor#method.find_sysline
+    /// [`drop`]: self::SyslogProcessor#method.drop_data_try
     Stage3StreamSyslines,
     /// If passed CLI option `--summary` then print a summary of
     /// various information about the processed file.
@@ -196,12 +199,15 @@ lazy_static! {
 ///
 /// During "[streaming stage]", the `SyslogProcessor` will proactively `drop`
 /// data that has been processed and printed. It does so by calling
-/// private function `drop_block` during function [`find_sysline`].
+/// private function [`drop_data_try`] during function [`find_sysline`].
+///
+/// A `SyslogProcessor` presumes syslog messages are in chronological order.
 ///
 /// [`Sysline`s]: crate::data::sysline::Sysline
 /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 /// [`LineReader`]: crate::readers::linereader::LineReader
 /// [`BlockReader`]: crate::readers::blockreader::BlockReader
+/// [`drop_data_try`]: self::SyslogProcessor#method.drop_data_try
 /// [`find_sysline`]: self::SyslogProcessor#method.find_sysline
 /// [streaming stage]: self::ProcessingStage#variant.Stage3StreamSyslines
 pub struct SyslogProcessor {
@@ -233,6 +239,7 @@ pub struct SyslogProcessor {
     /// [`Error`]: std::io::Error
     /// [Clone or Copy `Error`]: https://github.com/rust-lang/rust/issues/24135
     /// [`set_error`]: self::SyslogProcessor#method.set_error
+    // TRACKING: https://github.com/rust-lang/rust/issues/24135
     error: Option<String>,
 }
 
@@ -310,7 +317,9 @@ impl SyslogProcessor {
     const LRU_CACHE_ENABLE: bool = true;
 
     /// Create a new `SyslogProcessor`.
-    // NOTE: should not attempt any block reads here, similar to other `*Readers`
+    ///
+    /// **NOTE:** should not attempt any block reads here,
+    /// similar to other `*Readers::new()`
     pub fn new(
         path: FPath,
         filetype: FileType,
@@ -523,7 +532,7 @@ impl SyslogProcessor {
     }
 
     /// store an `Error` that occurred. For later printing during `--summary`.
-    // XXX: duplicates `UtmpxReader.set_error`
+    // XXX: duplicates `FixedStructReader.set_error`
     fn set_error(
         &mut self,
         error: &Error,
@@ -711,14 +720,15 @@ impl SyslogProcessor {
 
     /// Try to `drop` data associated with the [`Block`] at [`BlockOffset`].
     /// This includes dropping associated [`Sysline`]s and [`Line`]s.
+    /// This calls [`SyslineReader::drop_data`].
     ///
-    /// Caller must know what they are doing!
+    /// _The caller must know what they are doing!_
     ///
-    /// [`BlockOffset`]: crate::common::BlockOffset
+    /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
     /// [`Sysline`]: crate::data::sysline::Sysline
     /// [`Line`]: crate::data::line::Line
-    /// [`Block`]: crate::readers:blockreader::Block
-    fn drop_data(
+    /// [`Block`]: crate::readers::blockreader::Block
+    pub fn drop_data(
         &mut self,
         blockoffset: BlockOffset,
     ) -> bool {
@@ -744,8 +754,10 @@ impl SyslogProcessor {
         false
     }
 
-    /// Call [`drop_data`] for the [`Block`] *preceding* the first block of the
-    /// passed [`Sysline`].
+    /// Call [`drop_data`] for the data assocaited with the [`Block`]
+    /// *preceding* the first block of the passed [`Sysline`].
+    ///
+    /// _The caller must know what they are doing!_
     ///
     /// [`drop_data`]: Self#method.drop_data
     /// [`Block`]: crate::readers::blockreader::Block

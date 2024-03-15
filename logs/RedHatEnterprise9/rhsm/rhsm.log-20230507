@@ -1,0 +1,12 @@
+2023-05-06 21:21:55,596 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-06 21:21:55,596 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-06 21:21:55,596 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-06 21:21:55,596 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-06 21:21:56,306 [WARNING] rhsm-service:2395:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-06 21:21:56,744 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-06 21:21:56,744 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-06 21:21:56,744 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-06 21:21:56,744 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-06 21:21:57,123 [WARNING] rhsm-service:2395:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-06 21:21:57,124 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-06 21:21:57,124 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'

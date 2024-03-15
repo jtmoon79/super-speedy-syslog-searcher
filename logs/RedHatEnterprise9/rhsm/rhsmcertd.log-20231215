@@ -1,0 +1,16 @@
+Sun May  7 00:22:07 2023 [INFO] (Cert Check) Certificates updated.
+Sun May  7 04:22:12 2023 [INFO] (Cert Check) Certificates updated.
+Sun May  7 08:22:08 2023 [WARN] (Cert Check) Update failed (255), retry will occur on next run.
+Sun May  7 11:36:43 2023 [WARN] (Auto-attach) Update failed (255), retry will occur on next run.
+Sun May  7 12:22:09 2023 [WARN] (Cert Check) Update failed (255), retry will occur on next run.
+Sun May  7 16:22:10 2023 [WARN] (Cert Check) Update failed (255), retry will occur on next run.
+Sun May  7 20:22:10 2023 [WARN] (Cert Check) Update failed (255), retry will occur on next run.
+Mon May  8 00:22:11 2023 [WARN] (Cert Check) Update failed (255), retry will occur on next run.
+Mon May  8 03:24:09 2023 [INFO] rhsmcertd is shutting down...
+Wed May 10 00:14:40 2023 [INFO] Starting rhsmcertd...
+Wed May 10 00:14:40 2023 [INFO] Auto-attach interval: 1440.0 minutes [86400 seconds]
+Wed May 10 00:14:40 2023 [INFO] Cert check interval: 240.0 minutes [14400 seconds]
+Wed May 10 00:14:40 2023 [INFO] Waiting 2.0 minutes plus 80948 splay seconds [81068 seconds total] before performing first auto-attach.
+Wed May 10 00:14:40 2023 [INFO] Waiting 2.0 minutes plus 8013 splay seconds [8133 seconds total] before performing first cert check.
+Wed May 10 02:30:22 2023 [INFO] (Cert Check) Certificates updated.
+Wed May 10 02:32:01 2023 [INFO] rhsmcertd is shutting down...

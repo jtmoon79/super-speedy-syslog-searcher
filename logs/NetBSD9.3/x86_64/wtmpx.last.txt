@@ -1,0 +1,5 @@
+root      pts/2    192.168.100.254  Sun Feb 25 2024 03:36:43   still logged in
+reboot    ~                         Sun Feb 25 2024 03:35:54
+shutdown  ~                         Fri Feb 16 2024 23:13:18
+
+wtmpx begins Fri Feb 16 2024 23:13:18

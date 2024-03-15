@@ -1,0 +1,5 @@
+root     pts/0        192.168.100.254  Sat Feb 24 12:39:20 2024   still logged in
+runlevel (to lvl 5)   6.1.78           Sat Feb 24 11:28:27 2024   still running
+reboot   system boot  6.1.78           Sat Feb 24 11:27:57 2024   still running
+
+utmp begins Sat Feb 24 11:27:57 2024

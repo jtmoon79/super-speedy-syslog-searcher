@@ -1,0 +1,22 @@
+Username         Port     From             Latest
+root             pts/0    host.net         Sun Mar  3 02:03:58 -0500 2024
+bin                                        **Never logged in**
+daemon                                     **Never logged in**
+adm                                        **Never logged in**
+lp                                         **Never logged in**
+sync                                       **Never logged in**
+shutdown                                   **Never logged in**
+halt                                       **Never logged in**
+mail                                       **Never logged in**
+operator                                   **Never logged in**
+games                                      **Never logged in**
+ftp                                        **Never logged in**
+nobody                                     **Never logged in**
+systemd-network                            **Never logged in**
+dbus                                       **Never logged in**
+polkitd                                    **Never logged in**
+sshd                                       **Never logged in**
+postfix                                    **Never logged in**
+chrony                                     **Never logged in**
+muser                                      **Never logged in**
+user1            pts/1    localhost        Fri Dec 15 03:10:21 -0500 2023

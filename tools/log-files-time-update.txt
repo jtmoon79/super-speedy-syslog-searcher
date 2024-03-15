@@ -1,20 +1,109 @@
 # file listing, used by log-files-time-update.sh
 #     find ./logs/ -type f -printf '%p|%TY-%Tm-%Td %TH:%TM:%TS -08:00\n'
 #file/path|datetime
+./logs/Alpine3.17/utmp-offsets-x86_64.out.txt|2023-12-15 14:34:48.273228668 -0800
 ./logs/busybox (via rsyslog)/dropbear.log|2023-01-01T15:00:36-08:00
 ./logs/busybox (via rsyslog)/kernel.log|2023-01-01T13:58:25-08:00
 ./logs/busybox (via rsyslog)/netifd.log|2023-01-01T14:21:13-08:00
+./logs/CentOS7/boot.log-20230411|2024-02-16 15:46:20.038456854 -0800
+./logs/CentOS7/boot.log-20230422|2024-02-16 15:46:20.038456854 -0800
+./logs/CentOS7/boot.log|2024-02-16 15:46:20.038456854 -0800
+./logs/CentOS7/grubby_prune_debug|2023-12-15 00:05:39.900097977 -0800
+./logs/CentOS7/pacct|2024-03-02 23:07:30.714805493 -0800
+./logs/CentOS7/secure-20230422|2024-03-10 21:21:11.327950574 -0700
+./logs/CentOS7/secure|2024-03-10 21:21:11.327950574 -0700
+./logs/CentOS7/tuned.log|2023-12-15 00:07:46.773153913 -0800
+./logs/CentOS7/x86_64/btmp|2024-03-02 23:23:58.304677531 -0800
+./logs/CentOS7/x86_64/btmp.utmpdump.txt|2024-03-02 23:23:57.854677585 -0800
+./logs/CentOS7/x86_64/lastlog|2024-03-02 23:23:58.084677562 -0800
+./logs/CentOS7/x86_64/lastlog.txt|2024-03-02 23:23:58.194677544 -0800
+./logs/CentOS7/x86_64/utmp|2024-03-02 23:23:58.524677505 -0800
+./logs/CentOS7/x86_64/utmp-offsets_x86_64_CentOS_7.out.txt|2024-03-02 23:11:28.214775293 -0800
+./logs/CentOS7/x86_64/utmp.utmpdump.txt|2024-03-02 23:23:58.424677520 -0800
+./logs/CentOS7/x86_64/wtmp|2024-03-02 23:23:57.964677572 -0800
+./logs/CentOS7/x86_64/wtmp.utmpdump.txt|2024-03-02 23:23:57.744677598 -0800
 ./logs/CentOS7/yum.log|2022-01-21 13:29:39.003877800 -0800
+./logs/CentOS9/anaconda/anaconda.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/dbus.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/dnf.librepo.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/hawkey.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/journal.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/ks-script-84y6va4v.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/ks-script-j05bv_69.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/ks-script-x38gglfw.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/lorax-packages.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/lvm.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/packaging.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/program.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/anaconda/storage.log|2024-03-10 21:19:31.186332888 -0700
+./logs/CentOS9/anaconda/syslog|2024-03-10 21:19:31.186332888 -0700
+./logs/CentOS9/anaconda/X.log|2024-03-10 21:19:31.186332888 -0700
+./logs/CentOS9/audit/audit.log|2024-03-10 21:19:31.176332890 -0700
+./logs/CentOS9/dnf.log|2023-12-14 21:23:06.618889944 -0800
+./logs/CentOS9/dnf.rpm.log|2023-12-14 21:23:06.618889944 -0800
+./logs/CentOS9/x86_64/btmp|2024-03-10 21:19:50.036390546 -0700
+./logs/CentOS9/x86_64/btmp.utmpdump.txt|2024-03-10 21:19:31.186332888 -0700
+./logs/CentOS9/x86_64/pacct|2024-03-10 21:28:52.267677534 -0700
+./logs/CentOS9/x86_64/utmp-offsets-x86_64.out.txt|2023-12-15 14:34:48.273228668 -0800
+./logs/CentOS9/x86_64/wtmp|2024-03-10 21:19:47.596384042 -0700
+./logs/CentOS9/x86_64/wtmp.utmpdump.txt|2024-03-10 21:19:31.176332890 -0700
 ./logs/cygwin/setup.log|2022/03/23 14:38:51
 ./logs/cygwin/setup.log.full|2022/03/23 14:38:51
+./logs/Debian11/aarch64_ARM64/lastlog|2024-03-10 13:58:29.668531647 -0700
+./logs/Debian11/aarch64_ARM64/lastlog.txt|2024-03-10 13:58:36.509080165 -0700
+./logs/Debian11/aarch64_ARM64/utmp|2024-03-10 14:01:58.943336950 -0700
+./logs/Debian11/aarch64_ARM64/utmp-offsets_aarch64_rockchip64_Debian11-Raspbian_GNU_Linux.out.txt|2024-02-17 13:05:09.332043489 -0800
+./logs/Debian11/aarch64_ARM64/utmp.txt|2024-03-10 14:02:00.143340234 -0700
+./logs/Debian11/aarch64_ARM64/wtmp|2024-03-10 14:02:02.733347318 -0700
+./logs/Debian11/aarch64_ARM64/wtmp.txt|2024-03-10 14:02:05.003300886 -0700
+./logs/Debian11/aarch64_ARMv6/lastlog|2024-03-10 14:06:20.026900132 -0700
+./logs/Debian11/aarch64_ARMv6/lastlog.txt|2024-03-10 14:06:20.026900132 -0700
+./logs/Debian11/aarch64_ARMv6/pacct|2024-03-14 23:53:02.426283060 -0700
+./logs/Debian11/aarch64_ARMv6/utmp|2024-03-10 14:06:20.026900132 -0700
+./logs/Debian11/aarch64_ARMv6/utmp.last.txt|2024-03-10 14:06:20.026900132 -0700
+./logs/Debian11/aarch64_ARMv6/utmp-offsets_aarch64_Debian11-Raspbian_GNU_Linux.out.txt|2024-03-15 00:07:33.796195512 -0700
+./logs/Debian11/aarch64_ARMv6/utmp.utmpdump.txt|2024-03-10 14:06:20.026900132 -0700
+./logs/Debian11/aarch64_ARMv6/wtmp|2024-03-10 14:06:20.026900132 -0700
+./logs/Debian11/aarch64_ARMv6/wtmp.last.txt|2024-03-10 14:06:20.026900132 -0700
+./logs/Debian11/aarch64_ARMv6/wtmp.utmpdump.txt|2024-03-10 14:06:20.026900132 -0700
 ./logs/Debian11/alternatives.log|2022-10-10 23:59:50
 ./logs/Debian11/apache2/access.log|2022/10/11 00:10:56 +0000
 ./logs/Debian11/apache2/error.log|Oct 11 00:02:36.467654 2022
+./logs/Debian11/armv6l_ARMv6/lastlog|2024-03-10 14:07:44.718612688 -0700
+./logs/Debian11/armv6l_ARMv6/lastlog.txt|2024-03-10 14:07:44.718612688 -0700
+./logs/Debian11/armv6l_ARMv6/pacct|2024-03-14 23:56:50.906259952 -0700
+./logs/Debian11/armv6l_ARMv6/utmp|2024-03-10 14:07:44.718612688 -0700
+./logs/Debian11/armv6l_ARMv6/utmp.last.txt|2024-03-10 14:07:44.728612734 -0700
+./logs/Debian11/armv6l_ARMv6/utmp-offsets_Debian11_Raspbian_GNU_Linux6.out.txt|2024-03-15 00:07:14.706197348 -0700
+./logs/Debian11/armv6l_ARMv6/utmp.utmpdump.txt|2024-03-10 14:07:44.728612734 -0700
+./logs/Debian11/armv6l_ARMv6/wtmp|2024-03-10 14:07:44.728612734 -0700
+./logs/Debian11/armv6l_ARMv6/wtmp.last.txt|2024-03-10 14:07:44.728612734 -0700
+./logs/Debian11/armv6l_ARMv6/wtmp.utmpdump.txt|2024-03-10 14:07:44.728612734 -0700
+./logs/Debian11/armv7l_ARMv6/lastlog|2024-03-10 14:08:33.118009030 -0700
+./logs/Debian11/armv7l_ARMv6/lastlog.txt|2024-03-10 14:08:33.118009030 -0700
+./logs/Debian11/armv7l_ARMv6/utmp|2024-03-10 14:08:33.118009030 -0700
+./logs/Debian11/armv7l_ARMv6/utmp-offsets_Debian11_Raspbian_GNU_Linux6.1.out.txt|2024-03-10 14:08:33.118009030 -0700
+./logs/Debian11/armv7l_ARMv6/utmp.utmpdump.txt|2024-03-10 14:08:33.118009030 -0700
+./logs/Debian11/armv7l_ARMv6/wtmp.1-2023010601.backup|2024-03-10 14:08:33.118009100 -0700
+./logs/Debian11/armv7l_ARMv6/wtmp|2024-03-10 14:08:33.118009030 -0700
+./logs/Debian11/armv7l_ARMv6/wtmp.last.txt|2024-03-10 14:08:33.118009030 -0700
+./logs/Debian11/armv7l_ARMv6/wtmp.utmpdump.txt|2024-03-10 14:08:33.118009030 -0700
 ./logs/Debian11/dpkg.log|2022-10-11 00:09:45
 ./logs/Debian11/kern.log|Oct 11 00:02:36 2022
 ./logs/Debian11/messages|Oct 11 00:02:36 2022
 ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log|2022-10-11 00:02:37.377
 ./logs/Debian11/user.log|Oct 11 00:02:36 2022
+./logs/Debian12/aarch64_ARM64/pacct|2024-03-15 00:32:57.266040302 -0700
+./logs/Debian12/aarch64_ARM64/utmp-offsets_Debian12_GNU_Linux_ARM64.out.txt|2024-03-15 00:31:15.016051053 -0700
+./logs/Debian13/RISC-V/lastlog|2024-03-10 14:10:02.119836354 -0700
+./logs/Debian13/RISC-V/lastlog.txt|2024-03-10 14:10:02.119836354 -0700
+./logs/Debian13/RISC-V/utmp|2024-03-10 14:10:02.119836354 -0700
+./logs/Debian13/RISC-V/utmp.last.txt|2024-03-10 14:10:02.119836354 -0700
+./logs/Debian13/RISC-V/utmp-offsets_riscv64_le_Debian_GNU_Linux.out.txt|2024-03-15 00:39:44.995999238 -0700
+./logs/Debian13/RISC-V/utmp.utmpdump.txt|2024-03-10 14:10:02.119836354 -0700
+./logs/Debian13/RISC-V/wtmp|2024-03-10 14:10:02.119836354 -0700
+./logs/Debian13/RISC-V/wtmp.last.txt|2024-03-10 14:10:02.119836354 -0700
+./logs/Debian13/RISC-V/wtmp.utmpdump.txt|2024-03-10 14:10:02.119836354 -0700
 ./logs/Debian9/alternatives.log|2020-02-03 13:57:14
 ./logs/Debian9/apport.log.1|2020-02-20 00:59:59
 ./logs/Debian9/apt/eipp.log|2020-02-25 19:20:24-08:00
@@ -54,76 +143,93 @@
 ./logs/FreeBSD13.1/daemon.log|2023-03-18 07:18:12
 ./logs/FreeBSD13.1/debug.log|2023-03-17 20:09:14 -08:00
 ./logs/FreeBSD13.1/devd.log|2023-03-15 15:15:21 -08:00
+./logs/FreeBSD13.1/dmesg.today|2024-03-10 14:11:19.721717207 -0700
+./logs/FreeBSD13.1/dmesg.yesterday|2024-03-10 14:11:19.721717207 -0700
 ./logs/FreeBSD13.1/lpd-errs|2023-03-15 15:15:21 -08:00
-./logs/FreeBSD13.1/maillog|2023-10-26 08:41:56 -08:00
 ./logs/FreeBSD13.1/maillog.0.bz2|2023-04-16 00:00:00 -08:00
+./logs/FreeBSD13.1/maillog|2023-10-26 08:41:56 -08:00
 ./logs/FreeBSD13.1/messages|2023-10-26 08:46:22 -08:00
+./logs/FreeBSD13.1/mount.today|2024-03-10 14:11:19.721717207 -0700
+./logs/FreeBSD13.1/security|2024-03-10 14:11:19.721717207 -0700
+./logs/FreeBSD13.1/setuid.today|2024-03-10 14:11:19.721717207 -0700
+./logs/FreeBSD13.1/setuid.yesterday|2024-03-10 14:11:19.721717207 -0700
 ./logs/FreeBSD13.1/userlog|2023-03-17 20:09:15 -08:00
-./logs/FreeBSD13.1/utx.lastlogin|2023-10-26 08:46:22 -08:00
-./logs/FreeBSD13.1/utx.log|2023-10-26 08:46:22 -08:00
-./logs/MacOS11/._install.log|2023-10-30 21:47:06 -08:00
-./logs/MacOS11/._powermanagement|2023-10-30 21:45:08 -08:00
-./logs/MacOS11/._system.log|2023-10-30 21:57:49 -08:00
+./logs/FreeBSD13.1/x86_64/utmp-offsets_amd64_FreeBSD13.1.out.txt|2024-03-10 14:11:26.621720050 -0700
+./logs/FreeBSD13.1/x86_64/utx.active|2024-03-10 14:11:26.621720050 -0700
+./logs/FreeBSD13.1/x86_64/utx.active.txt|2024-03-10 14:11:26.621720050 -0700
+./logs/FreeBSD13.1/x86_64/utx.lastlogin|2024-03-10 14:11:26.621720050 -0700
+./logs/FreeBSD13.1/x86_64/utx.lastlogin.txt|2024-03-10 14:11:26.621720050 -0700
+./logs/FreeBSD13.1/x86_64/utx.log|2024-03-10 14:11:26.621720050 -0700
+./logs/FreeBSD13.1/x86_64/utx.log.txt|2024-03-10 14:11:26.621720050 -0700
+./logs/FreeBSD13.1/xferlog|2023-12-01 16:38:59.856736398 -0800
+./logs/FreeBSD14.0/cron|2024-02-02 18:19:42.146979631 -0800
+./logs/FreeBSD14.0/x86_64/utmp-offsets_amd64_FreeBSD14.0.out.txt|2024-03-10 14:12:36.643322638 -0700
+./logs/FreeBSD14.0/x86_64/utx.active|2024-03-10 14:12:36.643322638 -0700
+./logs/FreeBSD14.0/x86_64/utx.active.txt|2024-03-10 14:12:36.643322638 -0700
+./logs/FreeBSD14.0/x86_64/utx.lastlogin|2024-03-10 14:12:36.643322638 -0700
+./logs/FreeBSD14.0/x86_64/utx.lastlogin.txt|2024-03-10 14:12:36.643322638 -0700
+./logs/FreeBSD14.0/x86_64/utx.log|2024-03-10 14:12:36.643322638 -0700
+./logs/FreeBSD14.0/x86_64/utx.log.txt|2024-03-10 14:12:36.643322638 -0700
 ./logs/MacOS11/asl/._2023.10.26.G80.asl|2023-10-25 21:31:26 -08:00
 ./logs/MacOS11/asl/._2023.10.31.G80.asl|2023-10-30 21:57:49 -08:00
 ./logs/MacOS11/asl/._BB.2023.10.31.G80.asl|2022-10-28 03:34:32 -08:00
-./logs/MacOS11/asl/._StoreData|2023-10-30 21:57:49 -08:00
 ./logs/MacOS11/asl/Logs/aslmanager.20231031T044503+00|2023-10-30 21:45:11 -08:00
 ./logs/MacOS11/asl/Logs/aslmanager.20231031T044957+00|2023-10-30 21:49:57 -08:00
+./logs/MacOS11/asl/._StoreData|2023-10-30 21:57:49 -08:00
 ./logs/MacOS11/asl/StoreData|2023-10-30 21:57:49 -08:00
 ./logs/MacOS11/Bluetooth/PacketLoggerBluetoothTraceFile-26-04-2021_11.26.41.pklg|2021-04-26 11:26:41 -08:00
 ./logs/MacOS11/daily.out|2023-10-30 21:47:19 -08:00
 ./logs/MacOS11/DiagnosticMessages/._2023.10.26.asl|2023-10-25 21:31:24 -08:00
-./logs/MacOS11/DiagnosticMessages/._2023.10.31.asl|2023-10-30 21:57:49 -08:00
-./logs/MacOS11/DiagnosticMessages/._StoreData|2023-10-30 21:57:49 -08:00
 ./logs/MacOS11/DiagnosticMessages/2023.10.26.asl|2023-10-25 21:31:24 -08:00
+./logs/MacOS11/DiagnosticMessages/._2023.10.31.asl|2023-10-30 21:57:49 -08:00
 ./logs/MacOS11/DiagnosticMessages/2023.10.31.asl|2023-10-30 21:57:49 -08:00
+./logs/MacOS11/DiagnosticMessages/._StoreData|2023-10-30 21:57:49 -08:00
 ./logs/MacOS11/DiagnosticMessages/StoreData|2023-10-30 21:57:49 -08:00
 ./logs/MacOS11/displaypolicy/displaypolicyd.log|2023-10-30 21:39:33 -08:00
-./logs/MacOS11/displaypolicy/iogdiagnose-last.bin|2023-10-25 21:31:34 -08:00
 ./logs/MacOS11/displaypolicyd.stdout.log|2021-04-26 11:25:31 -08:00
+./logs/MacOS11/displaypolicy/iogdiagnose-last.bin|2023-10-25 21:31:34 -08:00
 ./logs/MacOS11/emond/StoreData|2020-01-01 00:00:00 -08:00
-./logs/MacOS11/fsck_apfs.log|2023-10-30 21:39:42 -08:00
 ./logs/MacOS11/fsck_apfs_error.log|2023-10-30 21:39:42 -08:00
+./logs/MacOS11/fsck_apfs.log|2023-10-30 21:39:42 -08:00
 ./logs/MacOS11/fsck_hfs.log|2023-09-21 21:12:10 -08:00
-./logs/MacOS11/install.log|2023-10-30 21:47:06 -08:00
 ./logs/MacOS11/install.log.0.gz|2022-04-13 04:26:50 -08:00
+./logs/MacOS11/install.log|2023-10-30 21:47:06 -08:00
+./logs/MacOS11/._install.log|2023-10-30 21:47:06 -08:00
 ./logs/MacOS11/monthly.out|2023-10-30 21:47:20 -08:00
 ./logs/MacOS11/powermanagement/._2023.10.26.asl|2023-10-25 21:31:31 -08:00
-./logs/MacOS11/powermanagement/._2023.10.31.asl|2023-10-30 21:56:56 -08:00
-./logs/MacOS11/powermanagement/._StoreData|2023-10-30 21:56:56 -08:00
 ./logs/MacOS11/powermanagement/2023.10.26.asl|2023-10-25 21:31:31 -08:00
+./logs/MacOS11/._powermanagement|2023-10-30 21:45:08 -08:00
+./logs/MacOS11/powermanagement/._2023.10.31.asl|2023-10-30 21:56:56 -08:00
 ./logs/MacOS11/powermanagement/2023.10.31.asl|2023-10-30 21:56:56 -08:00
+./logs/MacOS11/powermanagement/._StoreData|2023-10-30 21:56:56 -08:00
 ./logs/MacOS11/powermanagement/StoreData|2023-10-30 21:56:56 -08:00
 ./logs/MacOS11/shutdown_monitor.log|2021-04-26 12:21:58 -08:00
-./logs/MacOS11/system.log|2023-10-30 21:57:49 -08:00
 ./logs/MacOS11/system.log.0.gz|2023-10-30 21:49:57 -08:00
+./logs/MacOS11/system.log|2023-10-30 21:57:49 -08:00
+./logs/MacOS11/._system.log|2023-10-30 21:57:49 -08:00
 ./logs/MacOS11/vmware-vmsvc-root.log|2023-10-30 21:40:21 -08:00
 ./logs/MacOS11/vmware-vmtoolsd-root.log|2023-10-30 21:39:43 -08:00
 ./logs/MacOS11/weekly.out|2023-10-30 21:47:06 -08:00
-./logs/MacOS11/wifi.log|2023-10-30 21:39:51 -08:00
 ./logs/MacOS11/wifi.log.0.bz2|2023-09-21 17:30:04 -08:00
-./logs/MacOS12.6/._install.log|2023-10-26 10:00:16 -08:00
-./logs/MacOS12.6/._powermanagement|2023-10-26 10:02:00 -08:00
-./logs/MacOS12.6/._system.log|2023-10-26 10:09:19 -08:00
+./logs/MacOS11/wifi.log|2023-10-30 21:39:51 -08:00
 ./logs/MacOS12.6/anka.log|2023-10-26 10:09:37 -08:00
 ./logs/MacOS12.6/asl/._2023.10.26.G80.asl|2023-10-26 10:09:19 -08:00
-./logs/MacOS12.6/asl/._BB.2024.09.30.G80.asl|2023-09-21 17:06:22 -08:00
-./logs/MacOS12.6/asl/._BB.2024.10.31.G80.asl|2023-10-26 09:56:40 -08:00
-./logs/MacOS12.6/asl/._StoreData|2023-10-26 10:09:19 -08:00
 ./logs/MacOS12.6/asl/2023.10.26.G80.asl|2023-10-26 10:09:19 -08:00
+./logs/MacOS12.6/asl/._BB.2024.09.30.G80.asl|2023-09-21 17:06:22 -08:00
 ./logs/MacOS12.6/asl/BB.2024.09.30.G80.asl|2023-09-21 17:06:22 -08:00
+./logs/MacOS12.6/asl/._BB.2024.10.31.G80.asl|2023-10-26 09:56:40 -08:00
 ./logs/MacOS12.6/asl/BB.2024.10.31.G80.asl|2023-10-26 09:56:40 -08:00
 ./logs/MacOS12.6/asl/Logs/aslmanager.20231026T170200+00|2023-10-26 10:02:00 -08:00
+./logs/MacOS12.6/asl/._StoreData|2023-10-26 10:09:19 -08:00
 ./logs/MacOS12.6/asl/StoreData|2023-10-26 10:09:19 -08:00
-./logs/MacOS12.6/com.apple.xpc.launchd/launchd.log|2023-10-26 10:09:37 -08:00
 ./logs/MacOS12.6/com.apple.xpc.launchd/launchd.log.1|2023-10-11 08:08:13 -08:00
+./logs/MacOS12.6/com.apple.xpc.launchd/launchd.log|2023-10-26 10:09:37 -08:00
 ./logs/MacOS12.6/daily.out|2023-09-21 14:10:23 -08:00
 ./logs/MacOS12.6/DiagnosticMessages/._2023.10.11.asl|2023-10-11 08:06:12 -08:00
-./logs/MacOS12.6/DiagnosticMessages/._2023.10.26.asl|2023-10-26 10:09:24 -08:00
-./logs/MacOS12.6/DiagnosticMessages/._StoreData|2023-10-26 10:09:24 -08:00
 ./logs/MacOS12.6/DiagnosticMessages/2023.10.11.asl|2023-10-11 08:06:12 -08:00
+./logs/MacOS12.6/DiagnosticMessages/._2023.10.26.asl|2023-10-26 10:09:24 -08:00
 ./logs/MacOS12.6/DiagnosticMessages/2023.10.26.asl|2023-10-26 10:09:24 -08:00
+./logs/MacOS12.6/DiagnosticMessages/._StoreData|2023-10-26 10:09:24 -08:00
 ./logs/MacOS12.6/DiagnosticMessages/StoreData|2023-10-26 10:09:24 -08:00
 ./logs/MacOS12.6/displaypolicy/displaypolicyd.log|2023-10-26 09:56:32 -08:00
 ./logs/MacOS12.6/displaypolicy/iogdiagnose-last.bin|2023-10-11 08:08:08 -08:00
@@ -131,32 +237,99 @@
 ./logs/MacOS12.6/fsck_apfs.log|2023-10-26 09:56:31 -08:00
 ./logs/MacOS12.6/fsck_hfs.log|2023-09-21 16:54:31 -08:00
 ./logs/MacOS12.6/install.log|2023-10-26 10:00:16 -08:00
+./logs/MacOS12.6/._install.log|2023-10-26 10:00:16 -08:00
+./logs/MacOS12.6/._powermanagement|2023-10-26 10:02:00 -08:00
 ./logs/MacOS12.6/powermanagement/._2023.10.26.asl|2023-10-26 10:01:45 -08:00
-./logs/MacOS12.6/powermanagement/._StoreData|2023-10-26 10:01:45 -08:00
 ./logs/MacOS12.6/powermanagement/2023.10.26.asl|2023-10-26 10:01:45 -08:00
+./logs/MacOS12.6/powermanagement/._StoreData|2023-10-26 10:01:45 -08:00
 ./logs/MacOS12.6/powermanagement/StoreData|2023-10-26 10:01:45 -08:00
 ./logs/MacOS12.6/shutdown_monitor.log|2023-10-11 08:08:13 -08:00
 ./logs/MacOS12.6/system.log|2023-10-26 10:09:19 -08:00
+./logs/MacOS12.6/._system.log|2023-10-26 10:09:19 -08:00
 ./logs/MacOS12.6/weekly.out|2023-09-21 14:12:40 -08:00
 ./logs/MacOS12.6/wifi.log|2023-10-26 09:56:37 -08:00
 ./logs/MinGW64/pacman.log|2018-05-31 12:22
 ./logs/NetBSD9.3/authlog|2023-10-26 13:54:15 -08:00
+./logs/NetBSD9.3/authlog.2|2023-11-30 23:49:02.408384150 -0800
+./logs/NetBSD9.3/cron.1|2023-11-30 23:39:06.462196029 -0800
 ./logs/NetBSD9.3/cron|2023-05-10 00:10:05 -08:00
-./logs/NetBSD9.3/lastlogx|2023-05-10 00:20:54 -08:00
+./logs/NetBSD9.3/maillog.1|2023-11-30 23:44:06.430220557 -0800
 ./logs/NetBSD9.3/maillog|2023-10-26 10:54:40 -08:00
 ./logs/NetBSD9.3/messages|2023-10-26 10:54:37 -08:00
-./logs/NetBSD9.3/wtmpx|2023-10-26 10:54:16 -08:00
+./logs/NetBSD9.3/rc.log|2023-12-01 00:10:42.911940898 -0800
+./logs/NetBSD9.3/x86_32/acct|2024-03-10 15:29:05.039479947 -0700
+./logs/NetBSD9.3/x86_32/acct.lastcomm.txt|2024-03-10 15:29:05.089479937 -0700
+./logs/NetBSD9.3/x86_32/lastlog|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/lastlog.lastlogin.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/lastlogx|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/lastlogx.lastlogin.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/lastlogx-x86_32.zip|2024-03-14 20:38:27.077463518 -0700
+./logs/NetBSD9.3/x86_32/utmp|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/utmp.last.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/utmp-offsets_i386_NetBSD_9.3_.out.txt|2024-03-14 20:41:31.057445170 -0700
+./logs/NetBSD9.3/x86_32/utmpx|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/utmpx.last.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/wtmp|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/wtmp.last.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/wtmp.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/wtmpx.0|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/wtmpx|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/wtmpx.last.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/wtmpx.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/acct|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/acct.lastcomm.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/lastlog|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/lastlog.lastlogin.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/lastlogx|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/lastlogx.lastlogin.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/lastlogx-x86_64.zip|2024-03-14 20:37:58.207466513 -0700
+./logs/NetBSD9.3/x86_64/utmp|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/utmp.last.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/utmp-offsets_x86_64_NetBSD_9.3_.out.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/utmpx|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/utmpx.last.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/wtmp|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/wtmp.last.txt|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/wtmpx|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_64/wtmpx.last.txt|2024-03-10 14:14:03.154600687 -0700
 ./logs/NetBSD9.3/xdm.log|2023-10-26 10:54:40 -08:00
 ./logs/NetBSD9.3/Xorg.0.log|2023-10-26 10:54:40 -08:00
 ./logs/NetBSD9.3/Xorg.0.log.old|2023-05-10 03:23:43 -08:00
 ./logs/OpenBSD7.2/authlog|2023-10-26 10:55:43 -08:00
 ./logs/OpenBSD7.2/daemon|2023-03-28 16:11:24
-./logs/OpenBSD7.2/lastlog|2023-10-26 10:57:43 -08:00
 ./logs/OpenBSD7.2/maillog|2023-10-26 10:55:46 -08:00
 ./logs/OpenBSD7.2/messages|2023-10-26 10:54:50 -08:00
 ./logs/OpenBSD7.2/secure|2023-05-06 18:58:04 -08:00
-./logs/OpenBSD7.2/wtmp|2023-10-26 10:57:43 -08:00
+./logs/OpenBSD7.2/x86_32/lastlog.1|2024-03-10 14:16:32.627579245 -0700
+./logs/OpenBSD7.2/x86_32/lastlog.1.txt|2024-03-10 14:16:32.627579245 -0700
+./logs/OpenBSD7.2/x86_32/lastlog|2024-03-10 14:16:32.627579245 -0700
+./logs/OpenBSD7.2/x86_32/utmp.1|2024-03-10 14:16:32.627579245 -0700
+./logs/OpenBSD7.2/x86_32/utmp.1.txt|2024-03-10 14:16:32.627579245 -0700
+./logs/OpenBSD7.2/x86_32/utmp-offsets_i386_OpenBSD_7.2_.out.txt|2024-03-10 14:16:32.627579245 -0700
+./logs/OpenBSD7.2/x86_32/wtmp.1|2024-03-10 14:16:32.627579245 -0700
+./logs/OpenBSD7.2/x86_32/wtmp.1.txt|2024-03-10 14:16:32.627579245 -0700
+./logs/OpenBSD7.2/x86_32/wtmp|2024-03-10 14:16:32.627579245 -0700
 ./logs/OpenBSD7.2/xenodm.log|2023-11-04 20:35:30 -08:00
+./logs/OpenBSD7.4/messages|2024-02-02 15:06:56.673783642 -0800
+./logs/OpenBSD7.4/x86_64/lastlog|2024-03-10 14:18:26.910741784 -0700
+./logs/OpenBSD7.4/x86_64/lastlog.txt|2024-03-10 14:18:26.910741784 -0700
+./logs/OpenBSD7.4/x86_64/utmp|2024-03-10 14:18:26.910741784 -0700
+./logs/OpenBSD7.4/x86_64/utmp-offsets_amd64_OpenBSD_7.4_.out.txt|2024-03-10 14:18:26.910741784 -0700
+./logs/OpenBSD7.4/x86_64/utmp.txt|2024-03-10 14:18:26.910741784 -0700
+./logs/OpenBSD7.4/x86_64/wtmp|2024-03-10 14:18:26.910741784 -0700
+./logs/OpenBSD7.4/x86_64/wtmp.txt|2024-03-10 14:18:26.910741784 -0700
+./logs/OpenSUSE15/btmp|2024-03-10 21:14:02.178718200 -0700
+./logs/OpenSUSE15/btmp.utmpdump.txt|2024-03-10 21:14:02.178718200 -0700
+./logs/OpenSUSE15/journal/f4e4621cbd954e73a519d0ca3e0d82c3/system@29912846da1c4d1d8d50dd155c553bdc-0000000000005156-00060c85794a2d40.journal|2024-03-10 21:14:59.489366307 -0700
+./logs/OpenSUSE15/journal/f4e4621cbd954e73a519d0ca3e0d82c3/user-1000.journal|2023-12-14 22:06:33.543399695 -0800
+./logs/OpenSUSE15/lastlog|2024-03-10 21:14:38.839172073 -0700
+./logs/OpenSUSE15/lastlog.txt|2024-03-10 21:14:38.839172073 -0700
+./logs/OpenSUSE15/pbl.log|2023-12-14 22:04:49.581015874 -0800
+./logs/OpenSUSE15/plymouth-debug.log|2023-12-14 22:04:22.860088969 -0800
+./logs/OpenSUSE15/snapper.log|2023-12-14 22:09:39.608249464 -0800
+./logs/OpenSUSE15/utmp-offsets-x86_64.out.txt|2023-12-15 14:34:48.263228660 -0800
+./logs/OpenSUSE15/wtmp|2024-03-10 21:14:32.739126642 -0700
+./logs/OpenSUSE15/wtmp.utmpdump.txt|2024-03-10 21:14:24.879134853 -0700
 ./logs/OpenSUSE15/YaST2/y2log|2019-09-17 07:08:12
 ./logs/OpenSUSE15/zypper.log|2019-05-23 16:53:43
 ./logs/OpenSUSE15/zypp/history|2017-09-15 13:48:34
@@ -252,32 +425,35 @@
 ./logs/other/tests/gen-100-4-happyface.log|2000-01-01 00:01:39
 ./logs/other/tests/gen-1-faces.log|2000-01-01 08:00:00
 ./logs/other/tests/gen-200-1-jajaja.log|2000-01-01T08:03:19.9701785970
-./logs/other/tests/gen-20-2-2-faces.log|2000-01-01T00:00:20
 ./logs/other/tests/gen-20-1-faces.log|2000-01-01 00:00:20.9701785970
 ./logs/other/tests/gen-20-1-☺☻.log|2000-01-01 00:00:20
 ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log|2000-01-01 00:00:20
 ./logs/other/tests/gen-20-1-🌚🌛🌜🌝.log|2000-01-01 00:00:20
+./logs/other/tests/gen-20-2-2-faces.log|2000-01-01T00:00:20
 ./logs/other/tests/gen-2-1-faces.log|2000-01-01 00:00:01.434
 ./logs/other/tests/gen-2-1-⚀⚁⚂⚃⚄⚅.log|2000-01-01 00:00:01
 ./logs/other/tests/gen-2-1-🌚🌛🌜🌝.log|2000-01-01 00:00:01.9701785970
 ./logs/other/tests/gen-2-1.tar|2000-01-01 00:00:01 -00:00
 ./logs/other/tests/gen-400-4-shamrock.log|2000-01-01 00:06:39
 ./logs/other/tests/gen-99999-1-Motley_Crue.log|2000-01-02 03:46:39.994
-./logs/other/tests/invalid.gz|2023-11-01 00:00:00
-./logs/other/tests/invalid.journal|2023-11-01 00:00:00
-./logs/other/tests/invalid.tar|2023-11-01 00:00:00
-./logs/other/tests/invalid.xz|2023-11-01 00:00:00
 ./logs/other/tests/invalid1a.log|2022-09-02 21:45:36.0501770530
 ./logs/other/tests/invalid1b.log|2022-09-02 21:45:36.0501770530
 ./logs/other/tests/invalid2.log|2000-01-01 00:00:01.0501770530
 ./logs/other/tests/invalid3.log|2000-01-01 00:00:01.0501770530
 ./logs/other/tests/invalid4.log|2000-01-01 00:00:01
+./logs/other/tests/invalid.gz|2023-11-01 00:00:00
+./logs/other/tests/invalid.journal|2023-11-01 00:00:00
+./logs/other/tests/invalid.tar|2023-11-01 00:00:00
+./logs/other/tests/invalid.xz|2023-11-01 00:00:00
 ./logs/other/tests/ISO8601-a.log|2020-01-02T03:04:10-00:00
 ./logs/other/tests/ISO8601-b.log|2022-10-04 21:14:25.0912793190
 ./logs/other/tests/ISO8601-c.log|2020-01-02 03:04:06-00:00
 ./logs/other/tests/ISO8601-d.log|2020-01-02 03:12:00-00:00
 ./logs/other/tests/ISO8601-e.log|2020-01-02T03:07:00-00:00
 ./logs/other/tests/ISO8601-f.log|2020-01-02 03:07:10-09:00
+./logs/other/tests/numbers1.log|2024-02-07 22:28:41.177616969 -0800
+./logs/other/tests/numbers2.log|2024-02-07 22:30:12.030193838 -0800
+./logs/other/tests/numbers3.log|2024-02-07 22:32:40.654563825 -0800
 ./logs/other/tests/RFC3164-a.log|2022-10-03 22:31:19.0361113360
 ./logs/other/tests/RFC3164-b.log|2022-10-02 23:00:03.0300338180
 ./logs/other/tests/RFC3339-a.log|2022-10-04 21:35:07.9193506520
@@ -305,14 +481,9 @@
 ./logs/other/tests/test.log.tar.gz|2000-01-01 00:00:00 +0000
 ./logs/other/tests/test.tar|2000-01-01 00:00:00 +0000
 ./logs/other/tests/test.tar.gz|2000-01-01 00:00:00 +0000
-./logs/other/tests/zero100.log|2000-01-01 00:00:00 +0000
 ./logs/other/tests/unknown|2021-05-09 19:43:19
+./logs/other/tests/zero100.log|2000-01-01 00:00:00 +0000
 ./logs/other/tests/zero.log|2022-09-02 21:45:36.0501770530
-./logs/programs/digital-ocean-cloud-init/cloud-init.log|2022-10-08 06:22:57 +0000
-./logs/programs/digital-ocean-cloud-init/cloud-init-output.log|2022-10-07 01:15:36 +0000
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx|2023-03-10T03:49:40
-#./logs/programs/ntp/loopstats|???
-#./logs/programs/ntp/peerstats|???
 ./logs/programs/apache/access.log|2020-01-20T21:32:14 -0700
 ./logs/programs/AWS/Amazon Cloudfront/access.log|2019-12-13T22:37:02
 ./logs/programs/AWS/Amazon S3/server.log|2019-02-6T00:01:57 +0000
@@ -321,6 +492,10 @@
 ./logs/programs/AWS/CloudTrail/iam.json
 ./logs/programs/AWS/CloudTrail/insights.json
 ./logs/programs/AWS/elasticloadbalancer.log|2015-05-13T23:39:44
+./logs/programs/CPUID/CT-Log 2023-09-04 05-44-16.csv|2023-09-04 19:01:55.979146947 -0700
+./logs/programs/digital-ocean-cloud-init/cloud-init.log|2022-10-08 06:22:57 +0000
+./logs/programs/digital-ocean-cloud-init/cloud-init-output.log|2022-10-07 01:15:36 +0000
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx|2023-03-10T03:49:40
 ./logs/programs/evtx/NoEvents.evtx|2023-02-01T00:00:00
 ./logs/programs/journal/CentOS_7_system.journal|2023-04-10T15:14:12
 ./logs/programs/journal/RHE_91_system.journal|2023-04-10T15:10:34-0700
@@ -329,15 +504,20 @@
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal|2023-04-02T00:07:01-0700
 ./logs/programs/Microsoft IIS/example.log|2020-03-01T23:58:11
 ./logs/programs/Microsoft IIS/w3c.log|2015-01-01T19:12:42
+#./logs/programs/ntp/loopstats|???
 ./logs/programs/ntp/loopstats
+#./logs/programs/ntp/peerstats|???
 ./logs/programs/ntp/peerstats
 ./logs/programs/pacman/pacman.log|2022-10-07 16:08:00
 ./logs/programs/proftpd/controls.log|2020-10-03 11:26:13
 ./logs/programs/proftpd/proftpd.log|2020-10-03 11:26:13
 ./logs/programs/proftpd/xferlog|2020-10-03 11:26:13
-./logs/programs/tomcat/catalina.out|08-Feb-2023 12:12:48
 ./logs/programs/tomcat/catalina-access.log|2023-02-14 14:30:22 +0000
-./logs/programs/utmp/FreeBSD13_utx.lastlogin.utmp|Apr 23 14:46:46 2023
+./logs/programs/tomcat/catalina.out|08-Feb-2023 12:12:48
+./logs/programs/utmp/1-byte (invalid).utmp|2023-12-01 22:17:14.010644917 -0800
+./logs/programs/utmp/1-byte (invalid).wtmp|2023-12-01 22:17:03.070636456 -0800
+./logs/programs/utmp/1-byte (invalid).wtmpx|2023-12-01 22:17:19.470646642 -0800
+./logs/programs/utmp/1-byte.wtmp|2023-12-01 22:16:01.718925910 -0800
 ./logs/programs/utmp/host-entry1.wtmp|Feb 24 08:40:27 2023
 ./logs/programs/utmp/host-entry6.wtmp|Feb 24 08:52:26 2023
 ./logs/RancherOS-1.5.8/boot/autologin|2022-10-10T20:23:36 -00:00
@@ -354,6 +534,31 @@
 ./logs/RancherOS-1.5.8/syslog|2022-10-10T20:31:24 -00:00
 ./logs/RancherOS-1.5.8/system-docker.log|2022-10-10T20:23:29.278 -00:00
 ./logs/RedHatEnterprise9/audit/audit.log|2023-05-08T06:09:58 -00:00
+./logs/RedHatEnterprise9/dnf.librepo.log|2024-02-16 17:11:08.687794759 -0800
+./logs/RedHatEnterprise9/dnf.log|2024-02-16 17:11:08.777794745 -0800
+./logs/RedHatEnterprise9/dnf.rpm.log|2024-02-16 17:11:08.777794745 -0800
+./logs/RedHatEnterprise9/hawkey.log-20230423|2023-12-14 23:09:05.765069465 -0800
+./logs/RedHatEnterprise9/hawkey.log-20230507|2023-12-14 23:09:05.765069465 -0800
+./logs/RedHatEnterprise9/hawkey.log|2023-12-14 23:08:44.373150904 -0800
+./logs/RedHatEnterprise9/hawkey.log-20231215|2023-12-14 23:09:05.775069497 -0800
+./logs/RedHatEnterprise9/kdump.log|2023-12-14 23:08:05.923190057 -0800
+./logs/RedHatEnterprise9/rhsm/productid.log|2023-12-14 23:11:33.547122831 -0800
+./logs/RedHatEnterprise9/rhsm/rhsmcertd.log-20230423|2023-12-14 23:11:33.527122713 -0800
+./logs/RedHatEnterprise9/rhsm/rhsmcertd.log-20230506|2023-12-14 23:11:33.537122772 -0800
+./logs/RedHatEnterprise9/rhsm/rhsmcertd.log-20230507|2023-12-14 23:11:33.537122772 -0800
+./logs/RedHatEnterprise9/rhsm/rhsmcertd.log|2023-12-14 23:11:33.517122654 -0800
+./logs/RedHatEnterprise9/rhsm/rhsmcertd.log-20231215|2023-12-14 23:11:33.547122831 -0800
+./logs/RedHatEnterprise9/rhsm/rhsm.log-20230422|2023-12-14 23:11:33.527122713 -0800
+./logs/RedHatEnterprise9/rhsm/rhsm.log-20230423|2023-12-14 23:11:33.537122772 -0800
+./logs/RedHatEnterprise9/rhsm/rhsm.log-20230507|2023-12-14 23:11:33.547122831 -0800
+./logs/RedHatEnterprise9/rhsm/rhsm.log|2023-12-14 23:11:33.527122713 -0800
+./logs/RedHatEnterprise9/rhsm/rhsm.log-20231215|2023-12-14 23:11:33.547122831 -0800
+./logs/RedHatEnterprise9/sssd/sssd_kcm.log-20230507.gz|2023-12-14 23:10:47.886297965 -0800
+./logs/RedHatEnterprise9/sssd/sssd_kcm.log|2023-12-14 23:10:47.886297965 -0800
+./logs/RedHatEnterprise9/sssd/sssd_kcm.log-20231215|2023-12-14 23:10:47.886297965 -0800
+./logs/RedHatEnterprise9/x86_64/utmp|2024-03-10 21:31:13.280550015 -0700
+./logs/RedHatEnterprise9/x86_64/utmp-offsets_x86_64_Red_Hat_Enterprise_Linux_9.1.out.txt|2024-02-16 17:12:51.537781822 -0800
+./logs/RedHatEnterprise9/x86_64/utmp.utmpdump.txt|2024-03-10 21:31:05.940579916 -0700
 ./logs/RockyLinux9/cron|2022-10-08T22:07:57 +0000
 ./logs/RockyLinux9/dnf.librepo.log|2022-10-08 22:26:51 -00:00
 ./logs/RockyLinux9/dnf.log|2022-10-08T22:26:52+0000
@@ -369,13 +574,13 @@
 ./logs/standards/ISO8601-Date-Ordinal.log|2018-10-13T22:55:18.912-04:00
 ./logs/standards/ISO8601-Date-Week.log|2018-10-13T22:55:18.912-04:00
 ./logs/standards/ISO8601-YY-MM-DD.log|1999-01-03T00:00:00
-./logs/standards/ISO8601-YYYY-DD-MMTHH-MM-SS.log|2007-04-05T14:30:01
 ./logs/standards/ISO8601-YYYY-DDD.log
-./logs/standards/ISO8601-YYYY-MM-DD.log|1981-04-06T00:00:00
 ./logs/standards/ISO8601-YYYYDDMMTHHMM.log|2007-04-05T14:31:00
+./logs/standards/ISO8601-YYYY-DD-MMTHH-MM-SS.log|2007-04-05T14:30:01
 ./logs/standards/ISO8601-YYYYDDMMTHHMMSS.log|2007-04-05T14:30:01
-./logs/standards/ISO8601-YYYYMM.log|1981-04-01T00:00:00
+./logs/standards/ISO8601-YYYY-MM-DD.log|1981-04-06T00:00:00
 ./logs/standards/ISO8601-YYYYMMDD.log|1981-04-06T00:00:00
+./logs/standards/ISO8601-YYYYMM.log|1981-04-01T00:00:00
 ./logs/standards/Japanese-era.log
 ./logs/standards/RFC-2822.log|2018-11-13T22:55:19
 ./logs/standards/RFC-3164.log|1998-10-11T22:14:16
@@ -581,6 +786,24 @@
 ./logs/synology-DS6/upstart/update-apppriv-remote.log|2018-08-01 14:16:41-0700
 ./logs/synology-DS6/upstart/WDidle3Dis.log|2017-02-23T14:49:29-0800
 ./logs/synology-DS6/usbcopyd.log|2017-06-19 01:19:07-07:00
+./logs/Ubuntu16/6c6ab73d82464b9493892c81fc732b3a/system.journal|2023-12-15 17:31:06.727930237 -0800
+./logs/Ubuntu16/alternatives.log|2024-02-16 16:06:03.778300710 -0800
+./logs/Ubuntu16/bootstrap.log|2023-12-15 17:22:54.166251994 -0800
+./logs/Ubuntu16/installer/hardware-summary|2024-02-16 16:07:42.018286959 -0800
+./logs/Ubuntu16/installer/lsb-release|2024-02-16 16:07:41.968286964 -0800
+./logs/Ubuntu16/installer/partman|2024-02-16 16:07:41.948286967 -0800
+./logs/Ubuntu16/installer/status|2024-02-16 16:07:41.958286968 -0800
+./logs/Ubuntu16/installer/syslog|2024-03-10 21:31:37.901401076 -0700
+./logs/Ubuntu16/kern.log|2023-12-15 00:59:17.523310187 -0800
+./logs/Ubuntu16/vboxpostinstall.log|2023-12-15 17:22:20.505727354 -0800
+./logs/Ubuntu16/x86_32/btmp|2024-03-10 14:19:14.211287833 -0700
+./logs/Ubuntu16/x86_32/btmp.utmpdump.txt|2024-03-10 14:19:14.211287833 -0700
+./logs/Ubuntu16/x86_32/lastlog|2024-03-10 14:19:14.211287833 -0700
+./logs/Ubuntu16/x86_32/lastlog.txt|2024-03-10 14:19:14.211287833 -0700
+./logs/Ubuntu16/x86_32/utmp-offsets_i686_Ubuntu16.04.out.txt|2024-03-10 14:19:14.211287833 -0700
+./logs/Ubuntu16/x86_32/wtmp|2024-03-10 14:19:14.211287833 -0700
+./logs/Ubuntu16/x86_32/wtmp.utmpdump.txt|2024-03-10 14:19:14.211287833 -0700
+./logs/Ubuntu16/x86_64/utmp-offsets-x86_64.out.txt|2024-03-10 14:19:14.211287833 -0700
 ./logs/Ubuntu18/apt/history.log|2020-03-05 11:57:13 -0700
 ./logs/Ubuntu18/apt/term.log|2020-03-05 11:57:11 -0700
 ./logs/Ubuntu18/cups/access_log.1|2020-03-15T00:08:26 -0700
@@ -613,6 +836,9 @@
 ./logs/Ubuntu18/vmware/hostd.log|2019-07-26T10:40:29.682-07:00
 ./logs/Ubuntu18/vmware-installer|2019-05-06 11:24:34.712
 ./logs/Ubuntu18/xrdp.log|20200113 11:14:05
+./logs/Ubuntu20/x86_64/lastlog|2024-03-10 14:20:12.303349299 -0700
+./logs/Ubuntu20/x86_64/lastlog.txt|2024-03-10 14:20:12.303349299 -0700
+./logs/Ubuntu20/x86_64/utmp-offsets_x86_64_Ubuntu20.04.out.txt|2024-03-10 14:20:12.303349299 -0700
 ./logs/Ubuntu22/alternatives.log.1|2022-10-04 06:22:31
 ./logs/Ubuntu22/apport.log.1|2022-09-20 23:24:43.1710455070
 ./logs/Ubuntu22/apt/eipp.log|2022-10-06 21:34:42.417774630 -0700
@@ -635,6 +861,12 @@
 ./logs/Ubuntu22/ubuntu-advantage-timer.log|2022-10-05 19:56:09.566
 ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log|2022-10-04 06:22:35
 ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log|2022-10-04 06:22:28.605
+./logs/Ubuntu22/x86_64/btmp.1|2024-03-10 14:21:33.104904546 -0700
+./logs/Ubuntu22/x86_64/btmp.1.txt|2024-03-10 14:21:33.104904546 -0700
+./logs/Ubuntu22/x86_64/pacct|2024-03-10 14:21:33.114904544 -0700
+./logs/Ubuntu22/x86_64/utmp-offsets_x86_64_Ubuntu22.04.out.txt|2024-03-10 14:21:33.114904544 -0700
+./logs/Ubuntu22/x86_64/wtmp|2024-03-10 14:21:33.114904544 -0700
+./logs/Ubuntu22/x86_64/wtmp.txt|2024-03-10 14:21:33.114904544 -0700
 ./logs/Windows10Pro/CBS/CBS.log|2022-10-12 13:28:23
 ./logs/Windows10Pro/comsetup.log|2020/05/27 12:24:39
 ./logs/Windows10Pro/debug/mrt.log|2021/01/13 00:47:49
@@ -662,3 +894,4 @@
 ./logs/Windows10Pro/System32/NetSetupMig.log|12:21:00
 ./logs/Windows10Pro/System32/wbem/WMIMigration.log|2020/05/27 12:25:43.088
 ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log|2021/05/01 21:39:34.643
+./logs/Windows11Pro/Logs/SIH/SIH.20230422.034724.362.1.etl|2023-04-23 14:46:45.000000000 -0700

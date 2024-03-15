@@ -1,0 +1,67 @@
+user12345678901234567890 pts/1    host.net               Fri Feb  2 15:59 - 16:00  (00:01)
+root       pts/0    host.net               Fri Feb  2 15:48   still logged in
+boot time                                  Fri Feb  2 15:48
+shutdown time                              Sun Jan 28 16:58
+root       pts/0    host.net               Sun Jan 28 15:59 - 16:12  (00:12)
+root       ttyv0                           Sun Jan 28 15:58 - shutdown  (01:00)
+boot time                                  Sun Jan 28 15:57
+shutdown time                              Thu Dec 14 23:20
+root       pts/0    host.net               Thu Dec 14 23:14 - shutdown  (00:06)
+root       ttyv0                           Thu Dec 14 23:14 - shutdown  (00:06)
+boot time                                  Thu Dec 14 21:47
+shutdown time                              Fri Dec  1 17:03
+root       ttyv0                           Fri Dec  1 17:03 - shutdown  (00:00)
+root       pts/0    host.net               Fri Dec  1 16:52 - shutdown  (00:11)
+user12345678901234567890 pts/0    host.net               Fri Dec  1 16:52 - 16:52  (00:00)
+root       pts/0    host.net               Fri Dec  1 16:36 - 16:52  (00:16)
+user1      pts/0    host.net               Fri Dec  1 16:32 - 16:35  (00:03)
+user1      pts/0    host.net               Fri Dec  1 16:30 - 16:32  (00:01)
+root       pts/0    host.net               Fri Dec  1 16:28 - 16:30  (00:01)
+root       ttyv0                           Fri Dec  1 14:05 - 17:03  (02:58)
+boot time                                  Fri Dec  1 14:04
+shutdown time                              Thu Oct 26 10:50
+root       ttyv0                           Thu Oct 26 08:46 - 10:50  (02:04)
+boot time                                  Thu Oct 26 08:41
+shutdown time                              Tue May  9 23:31
+root       pts/0    host.net               Tue May  9 21:25 - shutdown  (02:06)
+root       ttyv0                           Tue May  9 21:15 - shutdown  (02:16)
+boot time                                  Tue May  9 21:15
+shutdown time                              Sat May  6 12:18
+root       ttyv0                           Sat May  6 12:12 - shutdown  (00:06)
+boot time                                  Sat May  6 12:06
+shutdown time                              Sat Apr 22 23:36
+root       pts/0    host.net               Sat Apr 22 14:51 - shutdown  (08:45)
+root       ttyv0                           Sat Apr 22 14:50 - 23:36  (08:46)
+boot time                                  Sat Apr 22 14:50
+shutdown time                              Sat Apr 22 14:49
+root       pts/0    host.net               Sat Apr 22 13:18 - shutdown  (01:31)
+root       ttyv0                           Sat Apr 22 13:18 - 14:49  (01:31)
+boot time                                  Sat Apr 22 13:07
+shutdown time                              Sat Apr 22 13:06
+root       pts/0    host.net               Sat Apr 22 13:06 - shutdown  (00:00)
+root       ttyv0                           Sat Apr 22 12:26 - shutdown  (00:40)
+boot time                                  Sat Apr 22 12:25
+shutdown time                              Sun Apr 16 23:53
+root       pts/0    host.net               Sat Apr 15 22:18 - shutdown (1+01:35)
+root       ttyv0                           Sat Apr 15 22:08 - 23:53 (1+01:45)
+boot time                                  Sat Apr 15 21:49
+shutdown time                              Wed Mar 29 11:24
+root       pts/0    host.net               Tue Mar 28 20:02 - 11:23  (15:21)
+root       pts/0    host.net               Sat Mar 18 03:54 - 20:00 (10+16:05)
+root       ttyv0                           Fri Mar 17 20:25 - 11:24 (11+14:58)
+root       pts/0    host.net               Fri Mar 17 14:58 - 03:49  (12:50)
+boot time                                  Fri Mar 17 14:58
+shutdown time                              Fri Mar 17 14:57
+root       pts/0    host.net               Fri Mar 17 14:52 - shutdown  (00:04)
+boot time                                  Fri Mar 17 14:52
+shutdown time                              Fri Mar 17 14:51
+root       pts/0    host.net               Wed Mar 15 22:25 - shutdown (1+16:26)
+boot time                                  Wed Mar 15 22:25
+shutdown time                              Wed Mar 15 22:24
+root       ttyv0                           Wed Mar 15 22:17 - 22:24  (00:06)
+boot time                                  Wed Mar 15 22:17
+shutdown time                              Wed Mar 15 22:16
+root       ttyv0                           Wed Mar 15 22:15 - 22:16  (00:00)
+boot time                                  Wed Mar 15 22:15
+
+/var/log/utx.log begins Wed Mar 15 22:15:38 PDT 2023

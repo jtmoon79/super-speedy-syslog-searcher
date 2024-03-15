@@ -248,61 +248,61 @@ fn test_JournalReader_new_(path: &FPath, ok: bool) {
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::Short,
-    &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORT;
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORT;
     "RHE91 short"
 )]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::ShortPrecise,
-    &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTPRECISE;
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTPRECISE;
     "RHE91 shortprecise"
 )]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::ShortIso,
-    &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTISO;
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTISO;
     "RHE91 shortiso"
 )]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::ShortIsoPrecise,
-    &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTISOPRECISE;
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTISOPRECISE;
     "RHE91 shortisoprecise"
 )]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::ShortFull,
-    &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTFULL;
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTFULL;
     "RHE91 shortfull"
 )]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::ShortMonotonic,
-    &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTMONOTONIC;
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTMONOTONIC;
     "RHE91 shortmonotonic"
 )]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::ShortUnix,
-    &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTUNIX;
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTUNIX;
     "RHE91 shortunix"
 )]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::Verbose,
-    &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_VERBOSE;
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_VERBOSE;
     "RHE91 verbose"
 )]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::Export,
-    &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_EXPORT;
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_EXPORT;
     "RHE91 export"
 )]
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     JournalOutput::Cat,
-    &*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_CAT;
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_CAT;
     "RHE91 cat"
 )]
 /// test each type of `--journal-output`
