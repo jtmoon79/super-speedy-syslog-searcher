@@ -132,6 +132,11 @@ echo "'grep | sort' output file"
 echo "  Line Count ${gs_lc}"
 echo "  Byte Count ${gs_bc}"
 
+DIFF=diff
+if which colordiff &>/dev/null; then
+    DIFF=colordiff
+fi
+
 # literal output will differ!
 diff --brief "${tmp1}" "${tmp2}" || true
 
@@ -144,7 +149,12 @@ if [[ ${s4_lc} -ne ${gs_lc} ]] || [[ ${s4_bc} -ne ${gs_bc} ]]; then
     echo "Line Count and Byte Count are not the same. (ಠ_ಠ)"
     echo
     echo "Difference Preview:"
-    ((set -x; diff -y --width=${COLUMNS-120} --suppress-common-lines "${tmp1b}" "${tmp2b}") || true) | head -n 20
+    (
+        (
+            set -x;
+            "${DIFF}" -y --width=${COLUMNS-120} --suppress-common-lines "${tmp1b}" "${tmp2b}"
+        ) || true
+    ) | head -n 20
     echo
     if ! ${do_keep}; then
         echo "Pass --keep to keep the temporary files for further analysis"
