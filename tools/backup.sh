@@ -60,6 +60,8 @@ set -x
         ./valgrind \
         ./Notes.txt \
         ./flamegraph.svg* \
+        ./flamegraph*.svg \
+        ./releases \
         ./tests \
         ./.vscode \
         2>/dev/null || true
