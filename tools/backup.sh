@@ -74,8 +74,7 @@ set -x
 "${Zz}" l "${ZIPFILE}"
 )
 
-chmod -w -- "${ZIPFILE}"
-
-echo -e "\n"
+# remove write permissions from the archive file
+chmod -w -- "${ZIPFILE}" || true
 
 ls -lh "${ZIPFILE}"
